@@ -56,7 +56,7 @@ sakai.entity = function(tuid, showSettings){
     var availableStatus_busy = availableStatus + "busy";
     var availableStatus_offline = availableStatus + "offline";
 
-    var entitymodes = ["myprofile", "profile", "space", "content"];
+    var entitymodes = ["myprofile", "profile", "group", "content"];
     var entityconfig = {
         mode: entitymodes[0], // Set the default entity mode
         data: {
@@ -99,6 +99,7 @@ sakai.entity = function(tuid, showSettings){
     var $entity_action_download = $("#entity_action_download", $rootel);
     var $entity_action_upload = $("#entity_action_upload", $rootel);
 
+    var authprofileURL;
 
     ////////////////////
     // UTIL FUNCTIONS //
@@ -134,22 +135,6 @@ sakai.entity = function(tuid, showSettings){
     };
 
     /**
-     * Change the mode for the entity widget
-     * @param {String} mode The mode of how you would like to load the entity widget (entitymodes)
-     */
-    var changeMode = function(mode){
-
-        // Check if the mode value exists and whether it is a valid option
-        if (mode && $.inArray(mode, entitymodes) !== -1) {
-            entityconfig.mode = mode;
-        }
-        else {
-            fluid.log("Entity widget - changeMode - The mode couldn't be changed: '" + mode + "'.");
-        }
-
-    };
-
-    /**
      * Render the main entity template
      */
     var renderTemplate = function(){
@@ -168,8 +153,8 @@ sakai.entity = function(tuid, showSettings){
      */
     var constructProfilePicture = function(profile){
 
-        if (profile.picture && profile["rep:userId"]) {
-            return "/~" + profile["rep:userId"] + "/public/profile/" + $.parseJSON(profile.picture).name;
+        if (profile.basic.elements.picture && profile["rep:userId"]) {
+            return "/~" + profile["rep:userId"] + "/public/profile/" + profile.basic.elements.picture.value.name;
         }
         else {
             return "";
@@ -183,25 +168,18 @@ sakai.entity = function(tuid, showSettings){
      * @param {Function} [callback] A callback function that gets fired after the request
      */
     var changeChatStatus = function(chatstatus){
-        // Set the correct data for the Ajax request
-        var data = {
-            "chatstatus": chatstatus,
-            "_charset_": "utf-8"
-        };
+        sakai.data.me.profile = $.extend(true, sakai.data.me.profile, {"chatstatus": chatstatus});
 
-        // Send the ajax request
-        $.ajax({
-            url: sakai.data.me.profile["jcr:path"],
-            type: "POST",
-            data: data,
-            success: function(data){
-                // Update all other widgets by firing an event
+        if (sakai.data.me.profile.activity)
+            delete sakai.data.me.profile.activity;
+
+        if (sakai.data.me.profile["rep:policy"])
+            delete sakai.data.me.profile["rep:policy"];
+
+        sakai.api.Server.saveJSON(authprofileURL, sakai.data.me.profile, function(success, data) {
+            if (success) {
                 $(window).trigger("chat_status_change", chatstatus);
-            },
-            error: function(xhr, textStatus, thrownError){
-                if (typeof callback === "function") {
-                    callback(false, xhr);
-                }
+            } else {
                 fluid.log("Entity widget - An error occured when sending the status to the server.");
             }
         });
@@ -278,51 +256,40 @@ sakai.entity = function(tuid, showSettings){
             // Get the correct input value from the user
             var inputValue = $entity_profile_status_input.hasClass(entity_profile_status_input_dummy) ? "" : $.trim($entity_profile_status_input.val());
 
-            $.ajax({
-                url: sakai.data.me.profile["jcr:path"],
-                data: {
-                    "_charset_": "utf-8",
-                    "basic": $.toJSON(
+            sakai.data.me.profile = $.extend(true, sakai.data.me.profile, {"status": inputValue});
 
-                        // Merge two objects together
-                        $.extend($.parseJSON(sakai.data.me.profile.basic),{
-                            "status": inputValue
-                        })
+            if (sakai.data.me.profile.activity)
+                delete sakai.data.me.profile.activity;
 
-                    )
-                },
-                type: "POST",
-                success: function(){
+            if (sakai.data.me.profile["rep:policy"])
+                delete sakai.data.me.profile["rep:policy"];
 
-                    // Set the button back to it's original text
-                    $("button span", $entity_profile_status).text(sakai.api.Security.saneHTML(originalText));
+            sakai.api.Server.saveJSON(authprofileURL, sakai.data.me.profile, function(success, data) {
+               if (success) {
+                   // Set the button back to it's original text
+                   $("button span", $entity_profile_status).text(sakai.api.Security.saneHTML(originalText));
 
-                    // Create an activity item for the status update
-                    var nodeUrl = sakai.data.me.profile["jcr:path"];
-                    var activityMsg = "Status: " + inputValue;
+                   // Create an activity item for the status update
+                   var nodeUrl = authprofileURL;
+                   var activityMsg = "Status: " + inputValue;
 
-                    var activityData = {
-                        "sakai:activityMessage": activityMsg
-                    };
-                    sakai.api.Activity.createActivity(nodeUrl, "status", "default", activityData);
+                   var activityData = {
+                       "sakai:activityMessage": activityMsg
+                   };
+                   sakai.api.Activity.createActivity(nodeUrl, "status", "default", activityData);
+               } else {
+                   // Log an error message
+                   fluid.log("Entity widget - the saving of the profile status failed");
 
-                },
-                error: function(){
+                   // Show the message about a saving that failed to the user
+                   $("button span", $entity_profile_status).text(sakai.api.Security.saneHTML($entity_profile_status_input_saving_failed.text()));
 
-                    // Log an error message
-                    fluid.log("Entity widget - the saving of the profile status failed");
-
-                    // Show the message about a saving that failed to the user
-                    $("button span", $entity_profile_status).text(sakai.api.Security.saneHTML($entity_profile_status_input_saving_failed.text()));
-
-                    // Show the origin text after 5 min
-                    window.setTimeout(function(){
-                        $("button span", $entity_profile_status).text(sakai.api.Security.saneHTML(originalText));
-                    }, 5000);
-
-                }
+                   // Show the origin text after 5 min
+                   window.setTimeout(function(){
+                       $("button span", $entity_profile_status).text(sakai.api.Security.saneHTML(originalText));
+                   }, 5000);
+               }
             });
-
         });
 
     };
@@ -412,9 +379,12 @@ sakai.entity = function(tuid, showSettings){
         entityconfig.data.profile.picture = constructProfilePicture(entityconfig.data.profile);
 
         // Set the status for the user you want the information from
-        if (entityconfig.data.profile.basic) {
-            entityconfig.data.profile.status = $.parseJSON(entityconfig.data.profile.basic).status;
+        if (entityconfig.data.profile.basic && entityconfig.data.profile.basic.elements.status) {
+            entityconfig.data.profile.status = entityconfig.data.profile.status;
         }
+
+        // set the url to POST the status updates to
+        authprofileURL = "/~" + entityconfig.data.profile["rep:userId"] + "/public/authprofile";
 
         if (!entityconfig.data.profile.chatstatus) {
             entityconfig.data.profile.chatstatus = "online";
@@ -483,43 +453,12 @@ sakai.entity = function(tuid, showSettings){
     };
 
     /**
-     * Get the number of unread messages for the current user
-     * @param {Object} callback
-     */
-    var getUnreadMessagesCount = function(callback){
-        $.ajax({
-            url: sakai.config.URL.MESSAGE_BOX_SERVICE,
-            data: {
-                box: sakai.config.Messages.Types.inbox
-            },
-            success: function(data){
-
-                // Reset the count
-                entityconfig.data.count.messages_unread = 0;
-
-                // Run over all the messages of the current user and
-                // check whether they are read
-                for (var i = 0; i < data.results.length; i++) {
-                    if (data.results[i]["sakai:read"] === false) {
-                        entityconfig.data.count.messages_unread++;
-                    }
-                }
-            },
-            complete: function(){
-                if (typeof callback === "function") {
-                    callback();
-                }
-            }
-        });
-    };
-
-    /**
      * Get the data for a specific mode
      * @param {String} mode The mode you want to get the data for
      * @param {Object} [data] The data you received from the page that called this (can be undefined)
      * @param {Function} [callback] A callback function that will be fired it is supplied
      */
-    var getData = function(mode, data, callback){
+    var getData = function(mode, data){
         switch (mode) {
             case "profile":
                 entityconfig.data.profile = $.extend(true, {}, data);
@@ -527,47 +466,44 @@ sakai.entity = function(tuid, showSettings){
                 // Set the correct profile data
                 setProfileData();
 
-                // Execute the callback (if there is one)
-                if (typeof callback === "function") {
-                    callback();
-                }
-
                 break;
 
             case "myprofile":
-                getUnreadMessagesCount(function(){
+               
+                // Set the profile for the entity widget to the personal profile information
+                // We need to clone the sakai.data.me.profile object so we don't interfere with it
+                entityconfig.data.profile = $.extend(true, {}, sakai.data.me.profile);
+                entityconfig.data.count.messages_unread = sakai.data.me.messages.unread;
 
-                    // Set the profile for the entity widget to the personal profile information
-                    // We need to clone the sakai.data.me.profile object so we don't interfere with it
-                    entityconfig.data.profile = $.extend(true, {}, sakai.data.me.profile);
-
-                    // Set the correct profile data
-                    setProfileData();
-
-                    // Execute the callback (if there is one)
-                    if (typeof callback === "function") {
-                        callback();
-                    }
-                });
+                // Set the correct profile data
+                setProfileData();
+                
+                break;
+                
+            case "group":
+            
+                entityconfig.data.profile = data;
+                
                 break;
 
             case "content":
+            
                 setContentData(data);
 
-                // Execute the callback (if there is one)
-                if (typeof callback === "function") {
-                    callback();
-                }
-
                 break;
-
-            default:
-                fluid.log("Entity widget - getData - invalid mode");
-                // Execute the callback (if there is one)
-                if (typeof callback === "function") {
-                    callback();
-                }
+                
         }
+        
+        if(entityconfig.mode ==="content" && !data){
+        	return;
+        }
+
+        // Render the main template
+        renderTemplate();
+
+        // Add binding
+        addBinding();
+            
     };
 
 
@@ -588,39 +524,14 @@ sakai.entity = function(tuid, showSettings){
         $entity_container_actions.empty();
 
         // Change the mode for the entity widget
-        changeMode(mode);
+        entityconfig.mode = mode;
 
         // Get the data for the appropriate mode
-        getData(entityconfig.mode, data, function(){
-
-            if(entityconfig.mode ==="content" && !data){
-                return;
-            }
-
-            // Render the main template
-            renderTemplate();
-
-            // Add binding
-            addBinding();
-
-        });
+        getData(entityconfig.mode, data);
 
     };
 
-    // Sometimes the trigger event is fired before it is actually bound
-    // so we keep trying to execute the ready event
-    var triggerReady = function(){
-        if ($(window).data("events") && $(window).data("events").sakai) {
-
-            // Send out an event that says the widget is ready.
-            // This event can be picked up in a page JS code
-            $(window).trigger("sakai.api.UI.entity.ready");
-        }
-        else {
-            setTimeout(triggerReady, 100);
-        }
-    };
-    triggerReady();
+    $(window).trigger("sakai.api.UI.entity.ready", {});
 
     // Add binding to update the chat status
     $(window).bind("chat_status_change", function(event, newChatStatus){

@@ -1,0 +1,12 @@
+{
+    "description":"Listing of the groups I'm a member of.",
+    "i18n": {
+        "default": "/devwidgets/mygroups/bundles/default.json",
+        "en_US": "/devwidgets/mygroups/bundles/en_US.json",
+        "zh_CN": "/devwidgets/mygroups/bundles/zh_CN.json"
+    },
+    "id":"mygroups",
+    "name":"My Groups",
+    "personalportal":true,
+    "url":"/devwidgets/mygroups/mygroups.html"
+}

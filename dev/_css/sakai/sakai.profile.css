@@ -1,92 +1,19 @@
-
-/** CONTAINER **/
-.fixed-container
-{ background: #fff; }
-
-/** PREVIEW/EDIT TABS DEFAULT TO OFF **/
-#profile_tabs 
-{ display:none; }
-
-/** TAB CONTENTS **/
-.profile_preview .profile_container
-{ padding: 0; margin: 0 0 20px 0; color: #454a4f; }
-
-.profile_preview .profile_contents_main
-{ border-left: 3px solid #D3DBDE; border-right: 3px solid #D3DBDE; margin: 0; padding: 10px; }
-
-
-.profile_preview .content_top
-{ background: url('../../_images/content_tr.gif') top right no-repeat; padding: 0 5px 0 0; margin: 0; }
-
-.profile_preview .content_top_inner
-{ background: url('../../_images/content_tl.gif') 0 0 no-repeat; margin: 0; height: 6px; }
-
-.profile_preview .content_bottom
-{ background: url('../../_images/content_br.png') top right no-repeat; padding: 0 5px 0 0; margin: 0; }
-
-.profile_preview .content_bottom_inner
-{ background: url('../../_images/content_bl.png') 0 0 no-repeat; margin: 0; height: 6px; }
-
-
-/** USER INFO **/
-.profile_preview .profile_user_info
-{ padding: 0; }
-
-.profile_preview .profile_user_info .profile_user_pic
-{ padding: 0; height: 110px; width: 110px; }
-
-.profile_preview .profile_user_info .profile_user_name
-{ color: #454a4f; font-size: 2em; font-weight:bold; margin: 0 0 0 120px; position:relative; top: -75px; }
-
-.profile_preview .profile_user_info .profile_user_headline
-{ color: #454a4f; margin: 0 0 0 120px; font-size: 1em; font-weight: normal; position:relative; top: -66px; }
-
-.profile_preview .profile_user_info .profile_user_status_online, .profile_preview .profile_user_info .profile_user_status_busy, .profile_preview .profile_user_info .profile_user_status_online
-{ color: #454a4f; margin: 0 0 0 120px; font-size: 1em; font-weight: normal; position:relative; top: -62px; }
-
-.profile_preview .profile_user_status_online
-{background: url(/devwidgets/topnavigation/images/chat_status_online.png) no-repeat left; width: 64px; height: 15px; position: relative; margin-left: 120px; top: -53px; padding: 2px 0 0 18px; display:none;}
-
-.profile_preview .profile_user_status_busy
-{background: url(/devwidgets/topnavigation/images/chat_status_busy.png) no-repeat left; width: 64px; height: 15px; position: relative; margin-left: 120px; top: -53px; padding: 2px 0 0 18px; display:none;}
-
-.profile_preview .profile_user_status_offline
-{background: url(/devwidgets/topnavigation/images/chat_status_offline.png) no-repeat left; width: 64px; height: 15px; position: relative; margin-left: 120px; top: -53px; padding: 2px 0 0 18px; display:none;}
-
-/* TAB VARIANT */
-
-.profile_preview .s3d-primary-tabs{
-    background: #fff url('../../_images/profile_tab_bg.png') top right no-repeat;
+/* Global */
+.fixed-container {
+    background: #fff;
 }
 
+/* Heading */
+#profile_heading h1 {
+    float:left;
+}
+#profile_heading select {
+    font-weight: normal;
+    margin: 7px 0 0 10px;
+}
 
-/** GENERAL USER INFO RULES **/
-
-.profile_preview .profile_section_body{padding-top: 7px;}
-.profile_preview .profile_section th{text-align: left; font-weight: bold; font-size: 12px; width: 125px; border:0;}
-.profile_preview .profile_section td{text-align: left; font-weight: 100; font-size: 12px; border:0;}
-.profile_preview .profile_section td a{color: #2b9fcd;}
-
-.profile_preview .profile_section .profile_section_header
-{ margin: 0; padding: 0 0 5px 5px; font-weight: normal; font-size: 16px; color: #5a6a7c; border-bottom: 1px solid #ebebeb; }
-
-
-.profile_preview .profile_section .profile_section_body
-{ margin: 0; padding: 5px 0 15px 0; }
-
-.profile_preview .profile_section .entry_label
-{ text-align: right; vertical-align: top; }
-
-.profile_preview .profile_section .multi_entry
-{ padding: 0 0 0 20px; }
-
-.profile_preview .profile_section .multi_entry table div
-{ padding: 5px;    }
-
-
-/** BUTTONS **/
-.profile_preview .grey_button
-{ background:transparent url(../../_images/gray_button_left.png) no-repeat scroll left top; float: left; margin: 0 5px 0 0; }
-
-.profile_preview .grey_button .button
-{ background:transparent url(../../_images/gray_button_right.png) no-repeat scroll right top; border:medium none; color:#FFFFFF; cursor:pointer; font-weight:bold; height:23px; margin:0 -10px 0 0; }
+/* Footer */
+#profile_footer {
+    margin: 30px 0 15px 0;
+    overflow: hidden;
+}

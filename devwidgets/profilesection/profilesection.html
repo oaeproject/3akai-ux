@@ -11,25 +11,21 @@
         <div class="profilesection_generalinfo_header{if i_count === 0} profilesection_generalinfo_header_first{/if}">
             <h2 class="fl-force-left">${i.label}</h2>
 
-            {if mode.value === "viewmy" || mode.value === "edit"}
-                {var _access = sakai.profilewow.profile.data[i_index].access}
+            {if (mode.value === "viewmy" || mode.value === "edit") && config.modifyacl !== false}
+                {var _access = "everybody"}
+                {if sakai.profile.main.data[i_index].access}
+                    {var _access = sakai.profile.main.data[i_index].access}
+                {/if}
                 <div class="profilesection_generalinfo_acl fl-force-right">
                     {if mode.value === "viewmy"}
                         <span>__MSG__WHO_CAN_VIEW_OR_SEARCH_THIS__</span>
-                        <a href="profilewow.html?mode=edit">
-                            {if _access==="public"}__MSG__EVERYBODY__
-                            {elseif _access==="institution"}__MSG__INSTITUTION_ONLY__
-                            {elseif _access==="contacts"}__MSG__CONTACTS_ONLY__
-                            {elseif _access==="noone"}__MSG__ONLY_ME__
-                            {/if}
-                        </a>
+                        <a href="profile.html?mode=edit">${sakai.profile.main.acls.options[_access].label}</a>
                     {else}
                         <label for="profilesection_generalinfo_access_${i_index}">__MSG__WHO_CAN_VIEW_OR_SEARCH_THIS__</label>
-                        <select id="profilesection_generalinfo_access_${i_index}">
-                            <option{if _access==="public"} selected="selected"{/if}>__MSG__EVERYBODY__</option>
-                            <option{if _access==="institution"} selected="selected"{/if}>__MSG__INSTITUTION_ONLY__</option>
-                            <option{if _access==="contacts"} selected="selected"{/if}>__MSG__CONTACTS_ONLY__</option>
-                            <option{if _access==="noone"} selected="selected"{/if}>__MSG__ONLY_ME__</option>
+                        <select id="profilesection_generalinfo_access_${i_index}" name="profilesection_generalinfo_access_${i_index}" class="profilesection_generalinfo_access">
+                            {for ace in sakai.profile.main.acls.options}
+                                <option{if _access === ace_index} selected="selected"{/if}>${ace.label}</option>
+                            {/for}
                         </select>
                     {/if}
                 </div>
@@ -39,7 +35,7 @@
 
         {for element in i.elements}
 
-            {var _elements = sakai.profilewow.profile.data[i_index].elements}
+            {var _elements = sakai.profile.main.data[i_index].elements}
             {var _element = _elements[element_index]}
             {var isarray = $.isArray(_elements)}
 
@@ -62,31 +58,27 @@
 
 <!-- SECTION TEMPLATES -->
 <div id="profilesection_default_template"><!--
-    {var mode = sakai.profilewow.profile.mode}
+    {var mode = sakai.profile.main.mode}
     {if fields}
-        {if config && config.label && data}
+        {if config && config.label}
             <div class="profilesection_generalinfo_header">
                 <h2 class="fl-force-left">${config.label}</h2>
 
-                {if mode.value === "viewmy" || mode.value === "edit"}
-                    {var _access = data.access}
+                {if (mode.value === "viewmy" || mode.value === "edit") && config.modifyacl !== false}
+                        {var _access = "everybody"}
+                    {if data && data.access}
+                        {var _access = data.access}
+                    {/if}
                     <div class="profilesection_generalinfo_acl fl-force-right">
                         {if mode.value === "viewmy"}
                             <span>__MSG__WHO_CAN_VIEW_OR_SEARCH_THIS__</span>
-                            <a href="profilewow.html?mode=edit">
-                                {if _access==="public"}__MSG__EVERYBODY__
-                                {elseif _access==="institution"}__MSG__INSTITUTION_ONLY__
-                                {elseif _access==="contacts"}__MSG__CONTACTS_ONLY__
-                                {elseif _access==="noone"}__MSG__ONLY_ME__
-                                {/if}
-                            </a>
+                            <a href="profile.html?mode=edit">${sakai.profile.main.acls.options[_access].label}</a>
                         {else}
-                            <label for="profilesection_generalinfo_access">__MSG__WHO_CAN_VIEW_OR_SEARCH_THIS__</label>
-                            <select id="profilesection_generalinfo_access">
-                                <option{if _access==="public"} selected="selected"{/if}>__MSG__EVERYBODY__</option>
-                                <option{if _access==="institution"} selected="selected"{/if}>__MSG__INSTITUTION_ONLY__</option>
-                                <option{if _access==="contacts"} selected="selected"{/if}>__MSG__CONTACTS_ONLY__</option>
-                                <option{if _access==="noone"} selected="selected"{/if}>__MSG__ONLY_ME__</option>
+                            <label for="profilesection_generalinfo_access_${currentsection}">__MSG__WHO_CAN_VIEW_OR_SEARCH_THIS__</label>
+                            <select id="profilesection_generalinfo_access_${currentsection}" name="profilesection_generalinfo_access_${currentsection}" class="profilesection_generalinfo_access" title="${currentsection}.access">
+                                {for ace in sakai.profile.main.acls.options}
+                                    <option{if _access === ace_index} selected="selected"{/if} value="${ace_index}">${ace.label}</option>
+                                {/for}
                             </select>
                         {/if}
                     </div>
@@ -98,31 +90,78 @@
     {/if}
 --></div>
 
+<!-- MULTIPLE INSTANCE ADD ANOTHER TEMPLATE -->
+<div id="profilesection_add_section_template"><!--
+    <a href="javascript:;" class="profilesection_add_section" id="profilesection_add_link_${parentid}"><img src="/dev/_images/add_blue_icon.png"/><span>Add another ${config.multipleLabel}</span></a>
+--></div>
+
+<!-- MULTIPLE INSTANCE REMOVE SECTION TEMPLATE -->
+<div id="profilesection_remove_section_template"><!--
+    <a href="javascript:;" class="profilesection_remove_section" id="profilesection_remove_link_${parentid}"><span>Remove this ${config.multipleLabel}</span></a>
+    <hr/>
+--></div>
+
+<!-- MULTIPLE INSTANCE SECTION DIVIDER TEMPLATE -->
+<div id="profilesection_section_divider_template"><!--
+    <hr/>
+--></div>
+
 <!-- FIELD TEMPLATES -->
 <div id="profilesection_field_default_template"><!--
-    {var mode = sakai.profilewow.profile.mode}
+    {var mode = sakai.profile.main.mode}
+    {var stringtypes = ["string", "date", "email"]}
     {if mode.value === "edit"}
-        {if data && config.display}
+        {if data}
             <div class="profilesection_generalinfo_subcontainer">
-                <label class="profilesection_generalinfo_label" for="profilesection_generalinfo">${config.label}:</label>
-                <input type="text" class="profilesection_generalinfo_content" value="${data.value}" id="profilesection_generalinfo" />
+                <label class="profilesection_generalinfo_label" for="profilesection_generalinfo_${path.replace(/\./g,"_")}">${config.label}:</label>
+                {if !config.type || $.inArray(config.type, stringtypes) >= 0}
+                    <input type="text"
+                {elseif config.type === "textarea"}
+                    <textarea
+                {elseif config.type === "select"}
+                    <select
+                {/if}
+                    class="profilesection_generalinfo_content
+                    {if config.required} required{/if}
+                    {if config.validation} ${config.validation}
+                    {elseif config.type} ${config.type}
+                    {/if}"
+                {if !config.type || $.inArray(config.type, stringtypes) >= 0}
+                    value="${data.value}"
+                {/if}
+                    id="profilesection_generalinfo_${path.replace(/\./g,"_")}" name="${config.label}" title="${path}"
+                {if !config.type || $.inArray(config.type, stringtypes) >= 0}
+                    />
+                {elseif config.type === "select"}
+                    >
+                    <option value=""></option>
+                    {for i in config.select_elements}
+                        <option value="${i_index}"{if i_index === data.value} selected="selected"{/if}>${i}</option>
+                    {/for}
+                    </select>
+                {elseif config.type === "textarea"}
+                    >${data.value}</textarea>
+                {/if}
+                {if config.example}
+                    <p class="profilesection_generalinfo_example">
+                        ${config.example}
+                    </p>
+                {/if}
             </div>
         {/if}
     {else}
-        {if data && data.value && config.display}
+        {if data && data.value}
             <div class="profilesection_generalinfo_subcontainer">
                 <span class="profilesection_generalinfo_label">${config.label}:</span>
-                <div class="profilesection_generalinfo_content">${data.value}</div>
+                <div class="profilesection_generalinfo_content">
+                {if config.type !== "select"}
+                    ${data.value}
+                {else}
+                    ${config.select_elements[data.value]}
+                {/if}
+                </div>
             </div>
         {/if}
-    {/if}
---></div>
-<div id="profilesection_field_textarea_template"><!--
-    {if data && data.value && config.display}
-        <div class="profilesection_generalinfo_subcontainer">
-            <span class="profilesection_generalinfo_label">${config.label}:</span>
-            <div class="profilesection_generalinfo_content">${data.value}</div>
-        </div>
     {/if}
 --></div>
 

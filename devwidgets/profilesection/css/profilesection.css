@@ -10,7 +10,7 @@
 #profilesection_generalinfo input[type="text"]:hover, #profilesection_generalinfo input[type="password"]:hover, textarea:hover {
     background: #d3edf5;
 }
-#profilewow_heading a, #profilewow_userinfo a, #profilewow_generalinfo a {
+#profile_heading a, #profile_userinfo a, #profile_generalinfo a {
     color: #3399CC;
     font-weight: bold;
 }
@@ -51,4 +51,50 @@
     padding: 3px 0;
     text-align: right;
     width: 240px;
+}
+#profilesection_generalinfo .profilesection_generalinfo_example {
+    color: #666;
+    display: block;
+    font-size: 11.5px;
+    margin: 0 0 0 243px;
+    padding: 3px;
+}
+#profilesection_generalinfo a.profilesection_add_section {
+    color:#3399CC;
+    font-size:14px;
+    font-weight:bold;
+    float:left;
+    height:30px;
+    margin:10px 0px 0px 240px;
+}
+#profilesection_generalinfo a.profilesection_add_section img {
+    margin-right:5px;
+}
+#profilesection_generalinfo a.profilesection_add_section span {
+    top:1px;
+}
+#profilesection_generalinfo a.profilesection_remove_section {
+    color:#3399CC;
+    font-size:12px;
+    font-weight:bold;
+    margin:5px 0px 5px 245px;
+}
+#profilesection_generalinfo hr {
+    margin:10px 0px 10px 5%;
+    border-bottom:1px solid #999999;
+    color:transparent;
+    height:1px;
+    width:90%;
+}
+/* Validation errors */
+/* Errors */
+#profilesection_generalinfo input.profilesection_validation_error {
+    border: 1px solid #ff0101;
+}
+#profilesection_generalinfo label.profilesection_validation_error {
+    color: #ff0101;
+    display: block;
+    font-weight: bold;
+    margin-left: 243px;
+    padding: 3px;
 }

@@ -40,15 +40,15 @@ sakai.newaccount = function(){
 
     // Input fields
     var username = "username";
-    var firstName = "firstname";
-    var lastName = "lastname";
+    var firstName = "firstName";
+    var lastName = "lastName";
     var email = "email";
     var password = "password";
     var passwordRepeat = "password_repeat";
     var captcha = "uword";
     var usernameField = "#" + username;
-    var firstnameField = "#" + firstName;
-    var lastnameField = "#" + lastName;
+    var firstNameField = "#" + firstName;
+    var lastNameField = "#" + lastName;
     var emailField = "#" + email;
     var passwordField = "#" + password;
     var passwordRepeatField = "#" + passwordRepeat;
@@ -60,8 +60,8 @@ sakai.newaccount = function(){
     var usernameSpaces = usernameField + "_spaces";
     var usernameInvalid = usernameField + "_invalid";
     var usernameEmpty = usernameField + "_empty";
-    var firstnameEmpty = firstnameField + "_empty";
-    var lastnameEmpty = lastnameField + "_empty";
+    var firstNameEmpty = firstNameField + "_empty";
+    var lastNameEmpty = lastNameField + "_empty";
     var emailEmpty = emailField + "_empty";
     var emailInvalid = emailField + "_invalid";
     var passwordEmpty = passwordField + "_empty";
@@ -211,17 +211,24 @@ sakai.newaccount = function(){
      */
     var doCreateUser = function(){
         var values = getFormValues();
+        var profileData = {}; profileData.basic = {}; profileData.basic.elements = {};
+        var keys = ["firstName", "lastName", "email"];
+        $(keys).each(function(i, key) {
+            profileData.basic.elements[key] = {};
+            profileData.basic.elements[key].value = values[key];
+        });
+        profileData.basic.access = "everybody";
         var data = {
-            "firstName": values[firstName],
-            ":create-auth" : "reCAPTCHA.net",
-            "recaptcha-challenge" : values["recaptcha-challenge"],
-            "recaptcha-response" : values["recaptcha-response"],
-            "lastName": values[lastName],
+            ":create-auth": "reCAPTCHA.net",
+            "recaptcha-challenge": values["recaptcha-challenge"],
+            "recaptcha-response": values["recaptcha-response"],
             "email": values[email],
             "pwd": values[password],
             "pwdConfirm": values[password],
             ":name": values[username],
-            "_charset_": "utf-8"};
+            "_charset_": "utf-8",
+            "sakai:authprofile_import": $.toJSON(profileData)
+        };
         $.ajax ({
             url : sakai.config.URL.CREATE_USER_SERVICE,
             type : "POST",
@@ -234,7 +241,7 @@ sakai.newaccount = function(){
                 // Destroy the captcha
                 sakai.captcha.destroy();
             },
-        error: function(xhr, textStatus, thrownError) {
+            error: function(xhr, textStatus, thrownError) {
                 if (xhr.status === 500) {
                     if (xhr.responseText.indexOf("Untrusted request") !== -1) {
                         setError(captchaField, captchaNoMatch, true);
@@ -271,7 +278,7 @@ sakai.newaccount = function(){
 
         resetErrorFields();
 
-        var fields = [{id: firstnameField, error: firstnameEmpty},{id: lastnameField, error: lastnameEmpty},{id: emailField, error: emailEmpty},
+        var fields = [{id: firstNameField, error: firstNameEmpty},{id: lastNameField, error: lastNameEmpty},{id: emailField, error: emailEmpty},
                       {id: usernameField, error: usernameEmpty},{id: passwordField, error: passwordEmpty},
                       {id: passwordRepeatField, error: passwordRepeatEmpty}];
 

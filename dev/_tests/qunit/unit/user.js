@@ -7,15 +7,22 @@ module("User");
 var user_random = "userrandom_" + (new Date()).getTime();
 
 asyncTest("Create a Sakai3 user", function(){
+    var profileData = {}; profileData.basic = {}; profileData.basic.elements = {};
+    profileData.basic.elements["firstName"] = {};
+    profileData.basic.elements["firstName"].value = "User";
+    profileData.basic.elements["lastName"] = {};
+    profileData.basic.elements["lastName"].value = "0";
+    profileData.basic.elements["email"] = {};
+    profileData.basic.elements["email"].value = "user.0@sakatest.edu";
 
-    sakai.api.User.createUser({
-        "firstName": "User",
-        "lastName": "0",
-        "email": "user.0@sakatest.edu",
+    var data = {
         "pwd": "test",
         "pwdConfirm": "test",
-        ":name": user_random
-    }, function(success, data){
+        ":name": user_random,
+        "sakai:authprofile_import": $.toJSON(profileData)
+    };
+
+    sakai.api.User.createUser(data, function(success, data){
         ok(success, "The user has been successfully created");
         start();
     });

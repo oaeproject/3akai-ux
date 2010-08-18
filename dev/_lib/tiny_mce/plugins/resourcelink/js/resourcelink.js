@@ -8,7 +8,7 @@ var ResourceLinkDialog = {
 		
 		$("#linktext").val(tinyMCEPopup.editor.selection.getContent({format : 'text'}));
 		//f.somearg.value = tinyMCEPopup.getWindowArg('some_custom_arg');
-		if ($("#linktext").val().trim() != "") {
+		if ($("#linktext").val().trim() !== "") {
 		  $("#insert").removeAttr('disabled');
 		}
 		
@@ -35,7 +35,7 @@ var ResourceLinkDialog = {
 		
 		// enable the link to be inserted only if there is text to link to
 	  $("#linktext").live('change keyup click', function() {
-	    if ($("#linktext").val().trim() != "") {
+	    if ($("#linktext").val().trim() !== "") {
 	      $("#insert").removeAttr('disabled');
 	    } else {
 	      $("#insert").attr('disabled','disabled');
@@ -44,7 +44,7 @@ var ResourceLinkDialog = {
 	  
 	  // allow clicking on the disabled-by-default url field to enable it
 	  $("#link_url").live('change click keyup', function() { // yeah this doesn't work, event never fires on a disabled input, looking into it
-     if ($("#linktext").val().trim() != "") {
+     if ($("#linktext").val().trim() !== "") {
 	      $("#insert").removeAttr('disabled');
 	    } else {
 	      $("#insert").attr('disabled','disabled');

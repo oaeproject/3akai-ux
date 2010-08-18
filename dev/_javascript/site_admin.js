@@ -1025,7 +1025,7 @@ sakai.site.site_admin = function(){
         if (tinyMCE.activeEditor === null) {
             init_tinyMCE();
         } else {
-            if (tinyMCE.activeEditor.id != "elm1" && didInit == false) {
+            if (tinyMCE.activeEditor.id !== "elm1" && didInit === false) {
               tinyMCE.remove(tinyMCE.activeEditor.id);
               init_tinyMCE();
               didInit = true;
@@ -1993,7 +1993,7 @@ sakai.site.site_admin = function(){
                         name += " - " + datestring;
 
                         if (data.versions[ver]["sakai:savedBy"]) {
-                            name += " - " + data.versions[ver]["sakai:savedBy"].firstName + " " + data.versions[ver]["sakai:savedBy"].lastName;
+                            name += " - " + sakai.api.User.getDisplayName(data.versions[ver]["sakai:savedBy"]);
                         }
                         var id = ver;
                         var option = new Option(name, id);

@@ -1,6 +1,11 @@
 {
 "name": "Discussion",
 "description": "Discussion widget\r\n",
+"ADD_NEW_TOPIC": "Add new topic",
+"ADD_SUBJECT": "Subject",
+"ADD_BODY": "Body",
+"ADD_SUBMIT": "Submit",
+"ADD_CANCEL": "Cancel",
 "WIDGET_TITLE": "Discussion",
 "C_COMPACT_VIEW": "Change to compact view",
 "C_FULL_VIEW": "Change to full view",

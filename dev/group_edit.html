@@ -4,7 +4,7 @@
     <head>
 
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>Sakai 3 R&amp;D - __MSG__PROFILE__</title>
+        <title>Sakai 3 R&amp;D - __MSG__GROUP__</title>
 
         <!-- Sakai Core CSS -->
         <link rel="stylesheet" type="text/css" href="_css/FSS/fss-base.css" />
@@ -13,11 +13,12 @@
         <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
 
         <!-- Sakai Page CSS -->
-        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.profilewow.css" />
+        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.group.css" />
 
         <!-- 3rd party CSS -->
         <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
         <link rel="stylesheet" type="text/css" href="_lib/jquery/plugins/imgareaselect/imgareaselect-default.css" />
+        <link rel="stylesheet" type="text/css" href="/dev/_lib/jquery/plugins/gritter/css/jquery.gritter.css" />
 
         <!-- Sakai Config JS -->
         <script type="text/javascript" src="_configuration/widgets.js"></script>
@@ -38,6 +39,7 @@
         <!-- 3rd party JS -->
         <script type="text/javascript" src="/dev/_lib/sakai_util/trimpath.template.js"></script>
         <script type="text/javascript" src="/dev/_lib/sakai_util/querystring.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/gritter/jquery.gritter.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jqmodal.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.cookie.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.pager.js"></script>
@@ -45,7 +47,7 @@
 
     </head>
 
-    <body class="fl-centered profilewow i18nable">
+    <body class="fl-centered group i18nable">
 
         <!-- NAVIGATION -->
         <div id="widget_topnavigation" class="widget_inline"></div>
@@ -55,69 +57,44 @@
             <div class="fl-fix fl-centered fixed-container">
                 <div class="decor"><!-- --></div>
 
-                <!-- TITLE BAR  -->
-                <div id="profilewow_heading" class="s3d-site-heading fl-force-left"><!-- --></div>
+                <!-- ENTITY WIDGET -->
+                <div id="widget_entity" class="widget_inline"></div>
+
             </div>
         </div>
 
         <!-- HEADER TEMPLATE -->
-        <div id="profilewow_heading_template"><!--
-            {if mode.value==="view"}
-                <h1>__MSG__VIEW_PROFILE__</h1>
-            {elseif mode.value==="viewmy"}
-                <h1>__MSG__VIEW_MY_PROFILE__</h1>
-            {elseif mode.value==="edit"}
-                <h1>__MSG__EDIT_MY_PROFILE__</h1>
-            {/if}
+        <div id="group_heading_template"><!--
         --></div>
 
         <div class="fl-container-flex">
 
+            <!-- GROUPBASICINFO WIDGET -->
+            <div id="group_edit_widget_template" style="display:none"><!--
+                <div id="widget_groupbasicinfo" class="widget_inline"></div>
+            --></div>
+
             <div class="fl-fix fl-centered fixed-container">
 
-                <!-- ENTITY WIDGET -->
-                <div id="widget_entity" class="widget_inline"><!-- --></div>
+                <div id="group_edit_widget_container"></div>
 
-                <!-- ACTIONS -->
-                <div id="profilewow_actions"><!-- --></div>
-
-                <!-- ACTIONS TEMPLATE -->
-                <div id="profilewow_actions_template"><!--
-                    {if mode.value === "viewmy"}
-                        <button id="profilewow_footer_button_edit" type="button" class="s3d-button s3d-button-primary">
-                            <span class="s3d-button-inner">__MSG__EDIT_PROFILE__</span>
+                <div id="group_editing" class="fl-push" style="display:none;">
+                    <div class="fl-force-right">
+                        <button id="group_editing_button_dontupdate" type="button" class="s3d-button">
+                            <span class="s3d-button-inner">__MSG__DONT_UPDATE__</span>
                         </button>
-                    {/if}
-                -->
-
-                <!-- PROFILE SECTION WIDGETS -->
-                <div id="profilewow_sectionwidgets_container"><!-- --></div>
+                        <button id="group_editing_button_update" type="button" class="s3d-button s3d-button-primary">
+                            <span class="s3d-button-inner">__MSG__UPDATE_GROUP__</span>
+                        </button>
+                    </div>
+                </div>
 
                 <!-- FOOTER -->
-                <div id="profilewow_footer" class="fl-push"><!-- --></div>
-
-                <!-- FOOTER TEMPLATE -->
-                <div id="profilewow_footer_template"><!--
-                    <div class="fl-force-right">
-                        {if mode.value === "edit"}
-                            <button id="profilewow_footer_button_dontupdate" type="button" class="s3d-button">
-                                <span class="s3d-button-inner">__MSG__DONT_UPDATE__</span>
-                            </button>
-                            <button id="profilewow_footer_button_update" type="button" class="s3d-button s3d-button-primary">
-                                <span class="s3d-button-inner">__MSG__UPDATE_PROFILE__</span>
-                            </button>
-                        {/if}
-                    </div>
-                --></div>
+                <div id="group_footer" class="fl-push"><!-- --></div>
 
             </div>
 
         </div>
-
-        <!-- SECTION WIDGET TEMPLATE -->
-        <div id="profilewow_sectionwidgets_container_template"><!--
-            <div id="widget_profilesection_${sectionname}" class="widget_inline"></div>
-        --></div>
 
         <!-- FOOTER WIDGET -->
         <div id="widget_footer" class="widget_inline footercontainer"></div>
@@ -125,11 +102,8 @@
         <!-- CHAT -->
         <div id="widget_chat" class="widget_inline"></div>
 
-        <!-- CHANGEPIC WIDGET -->
-        <div id="widget_changepic" class="widget_inline"></div>
-
-        <!-- PROFILEWOW JS -->
-        <script type="text/javascript" src="_javascript/profilewow.js"></script>
+        <!-- GROUP JS -->
+        <script type="text/javascript" src="_javascript/group_edit.js"></script>
 
     </body>
 

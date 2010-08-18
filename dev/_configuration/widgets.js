@@ -45,47 +45,15 @@ var Widgets = {
         }
     },
     "defaults": {
-        "personalportal":{
+        "personalportal": {
             "layout": "dev",
-            "columns": [["sites", "myfriends"], ["myprofile"]]
+            "columns": [["mygroups", "myfriends"], ["myprofile"]]
         },
-        "siteportal":{
+        "siteportal": {
             "layout": "dev",
             "columns": [["sitemembers"], []]
         }
-    },
-    "orders":[
-        {
-            "grouptype":"General",
-            "widgets": ["mycoursesandprojects","messageoftheday","recentactivity"],
-            "id":1,
-            "layout": "twocolumnspecial"
-        },
-        {
-            "grouptype":"Administrators",
-            "widgets": ["mycoursesandprojects","messageoftheday","quickannouncement"],
-            "id":1,
-            "layout": "twocolumn"
-        },
-        {
-            "grouptype":"Lecturers & Supervisors",
-            "widgets":["mycoursesandprojects","recentactivity"],
-            "id":2,
-            "layout": "twocolumnspecial"
-        },
-        {
-            "grouptype":"Researchers",
-            "widgets":["recentactivity","mycoursesandprojects","messageoftheday"],
-            "id":3,
-            "layout": "threecolumn"
-        },
-        {
-            "grouptype":"Students",
-            "widgets":["recentactivity","mycoursesandprojects","quickannouncement","messageoftheday","myrssfeed"],
-            "id":4,
-            "layout": "fourcolumn"
-        }
-    ]
+    }
 };
 
 /**

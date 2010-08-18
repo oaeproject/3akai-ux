@@ -258,7 +258,7 @@ if (!sakai.sendmessage){
          */
         var loadMessageDialog = function(hash) {
             // Fill in the userdata
-            $(messageFieldFrom).text(sakai.api.Security.saneHTML(me.user.properties.firstName + " " + me.user.properties.lastName));
+            $(messageFieldFrom).text(sakai.api.User.getDisplayName(me.profile));
 
             // Depending on the allowOthers variable we show the appropriate input
             if (allowOthers) {

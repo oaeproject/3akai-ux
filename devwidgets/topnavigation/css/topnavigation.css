@@ -41,7 +41,7 @@
 .explore_nav .personal-container { margin-top: 10px; background: url('/dev/_images/topBar_tr.png') top right no-repeat; padding-right: 5px; overflow: hidden; }
 .explore_nav .personal { padding: 4px 0 0 5px; margin: 0; background: url('/dev/_images/topBar_tl.png') top left no-repeat; min-height: 30px; }
 .explore_nav .personal li a { font-size: 9pt; padding:0 5px 0 7px; border-left: 1px solid #666a6d; color: #fff; }
-.explore_nav .personal li .other_logins { border-left: none; }
+.explore_nav .personal li .register { border-left: none; }
 .explore_nav .personal li span { color: #fff; }
 .explore_nav .user_link span { background: url('/dev/_images/white_subnav_arrow.png') bottom right no-repeat; padding-right: 17px; padding-left: 5px; }
 .explore_nav .personal li.last a { border:none; padding-right:0; }

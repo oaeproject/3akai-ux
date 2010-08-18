@@ -91,7 +91,7 @@ sakai.addtocontacts = function(tuid, showSettings){
      */
     var fillInUserInfo = function(user){
         if (user) {
-            $(addToContactsInfoDisplayName).text(sakai.api.Security.saneHTML(user.firstName));
+            $(addToContactsInfoDisplayName).text(sakai.api.User.getProfileBasicElementValue(user, "firstName"));
 
             // Check for picture
             if (user.picture && $.parseJSON(user.picture).name) {
@@ -143,7 +143,7 @@ sakai.addtocontacts = function(tuid, showSettings){
             var personalnote = formValues[addToContactsFormPersonalNote.replace(/#/gi, '')];
 
             // send message to other person
-            var userstring = me.profile.firstName + " " + me.profile.lastName;
+            var userstring = sakai.api.User.getDisplayName(me.profile);
 
             var title = sakai.config.Connections.Invitation.title.replace(/\$\{user\}/gi, userstring);
             var message = sakai.config.Connections.Invitation.body.replace(/\$\{user\}/gi, userstring).replace(/\$\{comment\}/gi, personalnote);
@@ -220,23 +220,11 @@ sakai.addtocontacts = function(tuid, showSettings){
         if (!user.preferences) {
             // This is a uuid. Fetch the info from /rest/me
             $.ajax({
-                url: sakai.data.search.results_people[user]["jcr:path"] + ".json",
+                url: sakai.data.search.results_people[user]["jcr:path"] + ".infinity.json",
                 success: function(data){
 
                     friend = $.extend(data, {}, true);
                     friend.uuid = user;
-
-                    // Doing a rewrite of the me object, because Sling wraps arrays around
-                    // the different fields in the profile object
-                    if (typeof friend.firstName === "object") {
-                        friend.firstName = friend.firstName[0];
-                    }
-                    if (typeof sakai.data.me.profile.lastName === "object") {
-                        friend.lastName = friend.lastName[0];
-                    }
-                    if (typeof sakai.data.me.profile.email === "object") {
-                        friend.email = friend.email[0];
-                    }
 
                     // We have the data, render it.
                     fillInUserInfo(friend);

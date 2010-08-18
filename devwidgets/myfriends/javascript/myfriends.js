@@ -69,9 +69,10 @@ sakai.myfriends = function(tuid,showSettings){
      * @param {String} firstName Firstname of the user
      * @param {String} lastName Lastname of the user
      */
-    var parseName = function(uuid, firstName, lastName){
-        if (firstName && lastName) {
-            return firstName + " " + lastName;
+    var parseName = function(uuid, profile){
+        var displayName = sakai.api.User.getDisplayName(profile);
+        if (displayName) {
+            return displayName;
         }
         else {
             return uuid;
@@ -118,7 +119,7 @@ sakai.myfriends = function(tuid,showSettings){
                     friend.id = friend.target;
 
                     // Parse the name of the friend
-                    friend.name = parseName(friend.target, friend.profile.firstName, friend.profile.lastName);
+                    friend.name = parseName(friend.target, friend.profile);
 
                     // Parse the picture of the friend
                     friend.photo = parsePicture(friend.profile, friend.target);

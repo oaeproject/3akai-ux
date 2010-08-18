@@ -1,7 +1,8 @@
 {
-    "description":"Sakai Hackathon Example",
-    "hasSettings":true,
-    "id":"helloworld",
+    "description":"Hello World",
     "name":"Hello World",
+    "id":"helloworld",
+    "personalportal":true,
+    "hasSettings":true,
     "url":"/devwidgets/helloworld/helloworld.html"
 }

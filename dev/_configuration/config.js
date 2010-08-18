@@ -15,7 +15,6 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
 var sakai = sakai || {};
 
 sakai.config = {
@@ -120,8 +119,201 @@ sakai.config = {
     SakaiDomain: window.location.protocol + "//" + window.location.host,
 
     Profile: {
-        // Fields that cannot be edited and so controlled by LDAP, ...
-        uneditable: ["txt_firstname", "txt_lastname"]
+        /*
+         * This is a collection of profile configuration functions and settings
+         * The structure of the config object is identical to the storage object
+         * When system/me returns profile data for the logged in user the profile_config and profile_data objects could be merged
+         * "label": the internationalizable message for the entry label in HTML
+         * "required": Whether the entry is compulsory or not
+         */
+        configuration: {
+
+            "basic": {
+                "label": "__MSG__PROFILE_BASIC_LABEL__",
+                "required": true,
+                "display": true,
+                "access": "everybody",
+                "elements": {
+                    "firstName": {
+                        "label": "__MSG__PROFILE_BASIC_FIRSTNAME_LABEL__",
+                        "required": true,
+                        "display": true
+                    },
+                    "lastName": {
+                        "label": "__MSG__PROFILE_BASIC_LASTNAME_LABEL__",
+                        "required": true,
+                        "display": true
+                    },
+                    "picture": {
+                        "label": "__MSG__PROFILE_BASIC_PICTURE_LABEL__",
+                        "required": false,
+                        "display": false
+                    },
+                    "preferredName": {
+                        "label": "__MSG__PROFILE_BASIC_PREFERREDNAME_LABEL__",
+                        "required": false,
+                        "display": true
+                    },
+                    "email": {
+                        "label": "__MSG__PROFILE_BASIC_EMAIL_LABEL__",
+                        "required": false,
+                        "display": true,
+                        "type": "email"
+                    },
+                    "status": {
+                        "label": "__MSG__PROFILE_BASIC_STATUS_LABEL__",
+                        "required": false,
+                        "display": false
+                    },
+                    "role": {
+                        "label": "__MSG__PROFILE_BASIC_ROLE_LABEL__",
+                        "required": false,
+                        "display": true,
+                        "type": "select",
+                        "select_elements": {
+                            "undergraduate_student":"__MSG__PROFILE_BASIC_ROLE_UNDERGRADUATE_STUDENT_LABEL__",
+                            "graduate_student":"__MSG__PROFILE_BASIC_ROLE_GRADUATE_STUDENT_LABEL__",
+                            "postgraduate_student":"__MSG__PROFILE_BASIC_ROLE_POSTGRADUATE_STUDENT_LABEL__",
+                            "academic_staff":"__MSG__PROFILE_BASIC_ROLE_ACADEMIC_STAFF_LABEL__",
+                            "academic_related_staff":"__MSG__PROFILE_BASIC_ROLE_ACADEMIC_RELATED_STAFF_LABEL__",
+                            "non_academic_staff":"__MSG__PROFILE_BASIC_ROLE_NON_ACADEMIC_STAFF_LABEL__",
+                            "assistent_staff":"__MSG__PROFILE_BASIC_ROLE_ASSISTENT_STAFF_LABEL__",
+                            "other":"__MSG__PROFILE_BASIC_ROLE_OTHER_LABEL__"
+                        }
+                    },
+                    "department": {
+                        "label": "__MSG__PROFILE_BASIC_DEPARTMENT_LABEL__",
+                        "required": false,
+                        "display": true
+                    },
+                    "college": {
+                        "label": "__MSG__PROFILE_BASIC_COLLEGE_LABEL__",
+                        "required": false,
+                        "display": true
+                    },
+                    "dateofbirth": {
+                        "label": "__MSG__PROFILE_BASIC_DATEOFBIRTH_LABEL__",
+                        "required": false,
+                        "display": true,
+                        "type": "date"
+                    }
+                }
+            },
+            "aboutme": {
+                "label": "__MSG__PROFILE_ABOUTME_LABEL__",
+                "required": true,
+                "display": true,
+                "access": "everybody",
+                "elements": {
+                    "aboutme": {
+                        "label": "__MSG__PROFILE_ABOUTME_LABEL__",
+                        "required": false,
+                        "display": true,
+                        "type": "textarea"
+                    },
+                    "academicinterests": {
+                        "label": "__MSG__PROFILE_ABOUTME_ACADEMICINTERESTS_LABEL__",
+                        "required": false,
+                        "display": true,
+                        "type": "textarea"
+                    },
+                    "personalinterests": {
+                        "label": "__MSG__PROFILE_ABOUTME_PERSONALINTERESTS_LABEL__",
+                        "required": false,
+                        "display": true,
+                        "type": "textarea"
+                    },
+                    "hobbies": {
+                        "label": "__MSG__PROFILE_ABOUTME_HOBBIES_LABEL__",
+                        "required": false,
+                        "display": true
+                    }
+                }
+            },
+            "publications": {
+                "label": "__MSG__PROFILE_PUBLICATIONS_LABEL__",
+                "required": false,
+                "display": true,
+                "access": "everybody",
+                "multiple": true,
+                "multipleLabel": "__MSG__PROFILE_PUBLICATION_LABEL__",
+                //"template": "profile_section_publications_template",
+                "elements": {
+                    "maintitle": {
+                        "label": "__MSG__PROFILE_PUBLICATIONS_MAIN_TITLE__",
+                        "required": false,
+                        "display": true,
+                        "example": "__MSG__PROFILE_PUBLICATIONS_MAIN_TITLE_EXAMPLE__"
+                    },
+                    "mainauthor": {
+                        "label": "__MSG__PROFILE_PUBLICATIONS_MAIN_AUTHOR__",
+                        "required": false,
+                        "display": true
+                    },
+                    "coauthor": {
+                        "label": "__MSG__PROFILE_PUBLICATIONS_CO_AUTHOR__",
+                        "required": false,
+                        "display": true,
+                        "example": "__MSG__PROFILE_PUBLICATIONS_CO_AUTHOR_EXAMPLE__"
+                    },
+                    "publisher": {
+                        "label": "__MSG__PROFILE_PUBLICATIONS_PUBLISHER__",
+                        "required": false,
+                        "display": true
+                    },
+                    "placeofpublication": {
+                        "label": "__MSG__PROFILE_PUBLICATIONS_PLACE_OF_PUBLICATION__",
+                        "required": false,
+                        "display": true
+                    },
+                    "volumetitle": {
+                        "label": "__MSG__PROFILE_PUBLICATIONS_VOLUME_TITLE__",
+                        "required": false,
+                        "display": true
+                    },
+                    "volumeinformation": {
+                        "label": "__MSG__PROFILE_PUBLICATIONS_VOLUME_INFORMATION__",
+                        "required": false,
+                        "display": true,
+                        "example": "__MSG__PROFILE_PUBLICATIONS_VOLUME_INFORMATION_EXAMPLE__"
+                    },
+                    "year": {
+                        "label": "__MSG__PROFILE_PUBLICATIONS_YEAR__",
+                        "required": false,
+                        "display": true
+                    },
+                    "number": {
+                        "label": "__MSG__PROFILE_PUBLICATIONS_NUMBER__",
+                        "required": false,
+                        "display": true
+                    },
+                    "series title": {
+                        "label": "__MSG__PROFILE_PUBLICATIONS_SERIES_TITLE__",
+                        "required": false,
+                        "display": true
+                    },
+                    "url": {
+                        "label": "__MSG__PROFILE_PUBLICATIONS_URL__",
+                        "required": false,
+                        "display": true
+                    }
+                }
+            }
+        },
+        /*
+         * set how the user's name is displayed across the entire system
+         * - values can be compound, like "firstName lastName" or singular like "displayName"
+         */
+        userNameDisplay: "firstName lastName",
+
+        /*
+         * the default, if the user doesn't have the userNameDisplay property set in their
+         * profile, use this one.
+         * Note: the value for userNameDisplay and this value can be the same.
+         *       If neither exists, nothing will show
+         */
+        userNameDefaultDisplay: "firstName lastName"
+
     },
 
     Connections: {
@@ -149,7 +341,7 @@ sakai.config = {
                 URL: "/dev/_skins/camuniversity/camuniversity.html"
             }
         },
-        DefaultMember:"viewers"
+        DefaultMember: "viewers"
     },
 
     Messages: {
@@ -235,8 +427,8 @@ sakai.config = {
     },
 
     notification: {
-        type :{
-            ERROR : {
+        type: {
+            ERROR: {
                 image: "/dev/_images/notifications_exclamation_icon.png",
                 time: 10000
             },

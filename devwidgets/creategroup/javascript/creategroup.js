@@ -68,6 +68,8 @@ sakai.creategroup = function(tuid, showSettings){
     // CSS Classes
     var invalidFieldClass = "invalid";
 
+    // Pages to be added to the group
+    var pagestemplate = "interdisciplinary";
 
     ///////////////////////
     // Utility functions //
@@ -195,7 +197,7 @@ sakai.creategroup = function(tuid, showSettings){
     */
     var doSaveGroup = function(groupid, grouptitle, groupdescription, groupidManagers){
     // Create a group with the managers group
-        
+
         $.ajax({
             url: sakai.config.URL.GROUP_CREATE_SERVICE,
             data: {
@@ -210,8 +212,7 @@ sakai.creategroup = function(tuid, showSettings){
             success: function(data, textStatus){
                 //check if the group exists
                 if (doCheckGroup(groupid)) {
-                    //redirect the user to the group
-                    document.location = "/dev/group.html?id=" + groupid;
+                    createPagesNode(groupid);
                 }
             },
             error: function(xhr, textStatus, thrownError){
@@ -339,6 +340,108 @@ sakai.creategroup = function(tuid, showSettings){
         var entered = replaceCharacters($(this).val());
         $(createGroupAddId).val(entered);
     });
+
+
+    ///////////////////////////////
+    // Page templating functions //
+    ///////////////////////////////
+
+    //Step 1: Create the default node
+    //Step 2: Copy the _pages
+    //Step 3: Copy the _widgets folder
+    //Step 4: Copy the _navigation folder
+    //Step 5: Redirect to group.html page
+
+    /**
+     * Creates the default node underneath the sites node so that
+     * we can start copying pages from the chosen template
+     * @param {String} groupid   The groups group id
+     */
+    var createPagesNode = function(groupid){
+         $.ajax({
+            url: "/~" + groupid + "/sites/default" ,
+            data: {
+                "_charset_":"utf-8"
+            },
+            type: "POST",
+            success: function(data, textStatus){
+                copyPages(groupid);
+            },
+            error: function(xhr, textStatus, thrownError){
+                alert("An error has occured");
+            }
+        });
+    }
+
+    /**
+     * Copy the pages from the template into the group
+     * @param {String} groupid   The groups group id
+     */
+    var copyPages = function(groupid){
+        $.ajax({
+            url: "/var/templates/site/" + pagestemplate,
+            data: {
+                "_charset_":"utf-8",
+                ":operation":"copy",
+                ":applyTo":"_pages",
+                ":dest":"/_group/g/g-/" + groupid + "/sites/default/"
+            },
+            type: "POST",
+            success: function(data, textStatus){
+                copyNavigation(groupid);
+            },
+            error: function(xhr, textStatus, thrownError){
+                alert("An error has occured");
+            }
+        });
+    }
+
+    /**
+     * Copy the content of the sidebar from the template into the group
+     * @param {String} groupid   The groups group id
+     */
+    var copyNavigation = function(groupid){
+        $.ajax({
+            url: "/var/templates/site/" + pagestemplate,
+            data: {
+                "_charset_":"utf-8",
+                ":operation":"copy",
+                ":applyTo":"_navigation",
+                ":dest":"/_group/g/g-/" + groupid + "/sites/default/"
+            },
+            type: "POST",
+            success: function(data, textStatus){
+                copyWidgets(groupid);
+            },
+            error: function(xhr, textStatus, thrownError){
+                alert("An error has occured");
+            }
+        });
+    }
+
+    /**
+     * Copy the default widget settings from the template into the group
+     * @param {Object} groupid   The groups group id
+     */
+    var copyWidgets = function(groupid){
+        $.ajax({
+            url: "/var/templates/site/" + pagestemplate,
+            data: {
+                "_charset_":"utf-8",
+                ":operation":"copy",
+                ":applyTo":"_widgets",
+                ":dest":"/_group/g/g-/" + groupid + "/sites/default/"
+            },
+            type: "POST",
+            success: function(data, textStatus){
+                //redirect the user to the group
+                document.location = "/dev/group_edit.html?id=" + groupid;
+            },
+            error: function(xhr, textStatus, thrownError){
+                alert("An error has occured");
+            }
+        });
+    }
 
 
     /////////////////////////////

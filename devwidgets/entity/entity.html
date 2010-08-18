@@ -12,9 +12,9 @@
         {if mode === "myprofile" || mode === "profile"}
             <div class="fl-force-left">
                 {if data.profile && data.profile.picture}
-                    <img class="entity_picture" id="entity_profile_picture" src="${data.profile.picture}" alt="__MSG__PROFILE_PICTURE_FOR__ ${data.profile.firstName} ${data.profile.lastName}" />
+                    <img class="entity_picture" id="entity_profile_picture" src="${data.profile.picture}" alt="__MSG__PROFILE_PICTURE_FOR__ ${sakai.api.User.getDisplayName(sakai.data.me.profile)}" />
                 {else}
-                    <img class="entity_picture" id="entity_profile_picture" src="/dev/_images/default_profile_picture_96.png" alt="__MSG__PLACEHOLDER_PICTURE_FOR__ ${data.profile.firstName} ${data.profile.lastName}" />
+                    <img class="entity_picture" id="entity_profile_picture" src="/dev/_images/default_profile_picture_96.png" alt="__MSG__PLACEHOLDER_PICTURE_FOR__ ${sakai.api.User.getDisplayName(sakai.data.me.profile)}" />
                 {/if}
                 {if mode === "myprofile"}
                     <br />
@@ -22,7 +22,7 @@
                 {/if}
             </div>
             <h2 class="entity_header">
-                <a href="/dev/profile.html?user=${data.profile["rep:userId"]}">${data.profile.firstName} ${data.profile.lastName}</a>
+                <a href="/dev/profile.html?user=${data.profile["rep:userId"]}">${sakai.api.User.getDisplayName(sakai.data.me.profile)}</a>
             </h2>
             <form method="POST" action="javascript:;">
                 <div>
@@ -76,11 +76,35 @@
                 <p>__MSG__LAST_MODIFIED__ ${data.profile.lastmodified} __MSG__BY__ ${data.profile.lastmodifiedby}</p>
             </div>
         {/if}
+        {if mode === "group"}
+            <div class="fl-force-left">
+                <img class="entity_picture" src="/dev/_images/group_avatar_icon_64x64.png" alt="group name" />
+            </div>
+            <div class="fl-force-left entity_content_information">
+                <h2 class="entity_header">
+                    ${data.profile.authprofile["sakai:group-title"]}
+                </h2>
+                <p>${data.profile.authprofile["sakai:group-description"]}</p>
+                <p class="entity_container_top_margin">
+                    {if data.profile.authprofile["rep:policy"]}
+                        <a href="/dev/group_edit.html?id=${data.profile["sakai:group-id"]}" class="s3d-action">__MSG__EDIT_GROUP_INFORMATION__</a> |
+                    {/if}
+                    <a href="/dev/group.html?id=${data.profile["sakai:group-id"]}" class="s3d-action">__MSG__VIEW_GROUP_PAGES__</a>
+                </p>
+            </div>
+        {/if}
     </div>
     <div class="fl-col entity_container_right s3d-actions">
         {if mode === "myprofile"}
             <strong>__MSG__MESSAGES__:</strong>
             <a href="/dev/inbox.html">${data.count.messages_unread|default:0} __MSG__UNREAD__</a>
+        {/if}
+        {if mode === "group"}
+            <strong>__MSG__MANAGERS__:</strong><a href="#group_edit_managers">0 __MSG__MANAGER__</a><br/>
+            <strong>__MSG__MEMBERS__:</strong><a href="#group_edit_members">0 __MSG__MEMBER__</a><br/>
+            <strong>__MSG__CONTENT__:</strong><a href="#group_edit_content">0 __MSG__ITEMS__</a><br/>
+            <strong>__MSG__LOCATION__:</strong><a href="directory.html">Location 1 >> Location 2</a><br/>
+            <strong>&nbsp;</strong><a href="directory.html">Location A >> Loc B</a><br/>
         {/if}
     </div>
 --></div>
