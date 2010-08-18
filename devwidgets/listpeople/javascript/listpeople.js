@@ -22,12 +22,12 @@
 var sakai = sakai || {};
 
 /**
- * @name sakai.api.UI.listPeople
+ * @name sakai.listPeople
  *
  * @description
  * Public functions for the people lister widget
  */
-sakai.api.UI.listPeople = {};
+sakai.listPeople = {};
 
 /**
  * @name sakai.listpeople
@@ -69,7 +69,7 @@ sakai.listpeople = function(tuid, showSettings){
     sakai.data.listpeople[tuid].selectCount = 0;
 
     // Reset to defaults
-    sakai.api.UI.listPeople.reset(tuid);
+    sakai.listPeople.reset(tuid);
 
     // Send out an event that says the widget is ready to
     // accept a search query to process and display. This event can be picked up
@@ -84,7 +84,7 @@ sakai.listpeople = function(tuid, showSettings){
  * @param tuid {String} Unique id of the widget
  * @returns void
  */
-sakai.api.UI.listPeople.reset = function(tuid) {
+sakai.listPeople.reset = function(tuid) {
 
     $("#" + tuid + " .listpeople_content").html("");
     $("#" + tuid + " .listpeople_count").html("0");
@@ -110,9 +110,9 @@ sakai.api.UI.listPeople.reset = function(tuid) {
  * @param iConfig {Object} Optional config overrides
  * @returns void
  */
-sakai.api.UI.listPeople.render = function(tuid, iSearchQuery, iConfig, objects) {
+sakai.listPeople.render = function(tuid, iSearchQuery, iConfig, objects) {
 
-    sakai.api.UI.listPeople.reset(tuid);
+    sakai.listPeople.reset(tuid);
 
     // Init
     var $pl_container = $("#" + tuid + " .listpeople_content");
@@ -126,7 +126,7 @@ sakai.api.UI.listPeople.render = function(tuid, iSearchQuery, iConfig, objects) 
 
     if(!$.isEmptyObject(objects)){
         // Render list of objects
-        sakai.api.UI.listPeople.addToList(tuid, 0, objects);
+        sakai.listPeople.addToList(tuid, 0, objects);
     }
 };
 
@@ -139,7 +139,7 @@ sakai.api.UI.listPeople.render = function(tuid, iSearchQuery, iConfig, objects) 
  * @objects {Object} An object containing the elements to list
  * @returns void
  */
-sakai.api.UI.listPeople.addToList = function(tuid, pageNumber, objects) {
+sakai.listPeople.addToList = function(tuid, pageNumber, objects) {
 
     var rawData = objects;
 
@@ -150,7 +150,16 @@ sakai.api.UI.listPeople.addToList = function(tuid, pageNumber, objects) {
     // Display empty new container with loading anim
     $pl_container.append($pl_pageContainer);
 
-    for (var i = 0, il = rawData.results.length; i < il; i++) {
+    // Get display name for each user. This should filter out the anonymous user and ignore groups
+    $.each(rawData.results, function(index, resultObject) {
+        if (sakai.api.User.getDisplayName(resultObject)) {
+            rawData.results[index]["displayName"] = sakai.api.User.getDisplayName(resultObject);
+        } else if ( !resultObject.id ) {
+            rawData.total = rawData.total - 1;
+        }
+    });
+
+    /*for (var i = 0, il = rawData.results.length; i < il; i++) {
         var resultObject = rawData.results[i];
 
         // Eval json strings if any
@@ -171,7 +180,7 @@ sakai.api.UI.listPeople.addToList = function(tuid, pageNumber, objects) {
             }
         }
         rawData.results[i]["subNameInfo"] = subNameInfo;
-    }
+    }*/
 
     var json_data = {
         "rawData" : rawData,
@@ -235,7 +244,7 @@ sakai.api.UI.listPeople.addToList = function(tuid, pageNumber, objects) {
     // Wire sorting select dropdown
     $("#" + tuid + " .listpeople_sort_order").bind("click", function(e){
         var sortOrder = $("#" + tuid + " #listpeople_sort_order").val();
-        sakai.api.UI.listPeople.sortList(tuid, pageNumber, sortOrder);
+        sakai.listPeople.sortList(tuid, pageNumber, sortOrder);
     });
 };
 
@@ -248,7 +257,7 @@ sakai.api.UI.listPeople.addToList = function(tuid, pageNumber, objects) {
  * @param sortOrder {String} Order to sort the list by
  * @returns void
  */
-sakai.api.UI.listPeople.sortList = function(tuid, pageNumber, sortOrder) {
+sakai.listPeople.sortList = function(tuid, pageNumber, sortOrder) {
     var mylist = $('#listpeople_page_'+pageNumber);
     var listitems = mylist.children('li').get();
     listitems.sort(function(a, b) {
@@ -269,7 +278,7 @@ sakai.api.UI.listPeople.sortList = function(tuid, pageNumber, sortOrder) {
  * @param tuid {String} The instance ID of a widget
  * @returns array
  */
-sakai.api.UI.listPeople.getSelection = function(tuid) {
+sakai.listPeople.getSelection = function(tuid) {
     return sakai.data.listpeople[tuid]["selected"];
 };
 
@@ -280,7 +289,7 @@ sakai.api.UI.listPeople.getSelection = function(tuid) {
  * @param tuid {String} The instance ID of a widget
  * @returns array
  */
-sakai.api.UI.listPeople.removeFromList = function(tuid, objects) {
+sakai.listPeople.removeFromList = function(tuid, objects) {
 
 };
 

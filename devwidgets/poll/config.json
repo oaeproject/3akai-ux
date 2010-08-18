@@ -1,9 +1,9 @@
 {
-    "ca":true,
     "description":"Poll widget",
     "id":"poll",
     "img":"/devwidgets/poll/images/poll.png",
     "name":"Poll",
     "showinsakaigoodies":true,
+    "groupspages":true,
     "url":"/devwidgets/poll/poll.html"
 }

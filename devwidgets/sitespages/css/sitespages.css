@@ -19,9 +19,11 @@
 .sakai_site .content_page_options #edit_page
 { background: transparent url(/dev/_images/edit_page_18.png) top left no-repeat; padding: 2px 15px 0 20px; border-right: 1px solid #888888; }
 
-.sakai_site .content_page_options #print_page
+.sakai_site .content_page_options .print_page_admin
 { background: transparent url(/dev/_images/printer_18.png) top left no-repeat; padding: 2px 15px 0 20px; border-right: 1px solid #888888; }
 
+.sakai_site .content_page_options .print_page_view
+{ background: transparent url(/dev/_images/printer_18.png) top left no-repeat; padding: 2px 0px 0px 20px; }
 
 /** ADD MORE MENU **/
 .sakai_site .content_page_options .more_link
@@ -206,6 +208,9 @@
 .edit_view .content_bottom_inner
 { background: url('/dev/_images/content_bl.png') 0 0 no-repeat; margin: 0; height: 6px; }
 
+.sakai_site .content p a {
+    text-decoration: underline;
+}
 
 /** --------------------------------------------------------------------------------------------------- **/
 

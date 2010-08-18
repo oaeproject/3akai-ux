@@ -1,5 +1,5 @@
 {
-    "ca":true,
+    "groupspages":true,
     "description":"Discussion widget",
     "id":"discussion",
     "img":"/devwidgets/discussion/images/discussion.png",

@@ -220,7 +220,7 @@ sakai.addtocontacts = function(tuid, showSettings){
         if (!user.preferences) {
             // This is a uuid. Fetch the info from /rest/me
             $.ajax({
-                url: sakai.data.search.results_people[user]["jcr:path"] + ".infinity.json",
+                url: "/~" + user + "/public/authprofile.infinity.json",
                 success: function(data){
 
                     friend = $.extend(data, {}, true);

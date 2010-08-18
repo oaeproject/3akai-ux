@@ -1,6 +1,6 @@
 {
     "description":"Comments",
-    "ca":true,
+    "groupspages":true,
     "hasSettings":true,
     "id":"comments",
     "img":"/devwidgets/comments/images/comments.png",
