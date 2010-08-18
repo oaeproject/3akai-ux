@@ -33,20 +33,20 @@ var sakai = sakai || {};
  * @param {Boolean} showSettings Show the settings of the widget or not
  */
 sakai.sitespages = function(tuid,showSettings){
-    
+
     //////////////////////////
     // CONFIG and HELP VARS //
     //////////////////////////
-    
+
     sakai.sitespages.siteAdminJS = "/devwidgets/sitespages/javascript/sitespages_admin.js";
-    
+
     sakai.sitespages.minHeight = 400;
     sakai.sitespages.autosaveinterval = 17000;
-    
+
     var $li_edit_page_divider = $("#li_edit_page_divider");
     var $li_edit_page = $("#li_edit_page");
     var $add_a_new = $("#add_a_new");
-    
+
     var $page_nav_content = $("#page_nav_content");
     var $pagetitle = $("#pagetitle");
     var $webpage_edit = $("#webpage_edit");
@@ -55,7 +55,10 @@ sakai.sitespages = function(tuid,showSettings){
     var $more_menu = $("#more_menu");
     var $sidebar_content_pages = $("#sidebar-content-pages");
     var $main_content_div = $("#main-content-div");
-    
+    var $more_link = $("#more_link");
+    var $li_more_link = $("#li_more_link");
+    var $print_page = $("#print_page");
+
     sakai.sitespages.site_info = {};
     sakai.sitespages.site_info._pages = {};
     sakai.sitespages.selectedpage = false;
@@ -63,13 +66,13 @@ sakai.sitespages = function(tuid,showSettings){
     sakai.sitespages.pagecontents = {};
     sakai.sitespages.versionHistoryNeedsReset = false;
     sakai.sitespages.selectedpage = false;
-    
+
     //////////////////////////
     // CONFIG and HELP VARS //
     //////////////////////////
-    
+
     var config = {};
-    
+
     sakai.sitespages.doInit = function(basepath, fullpath, url, editMode, homepage, pageEmbedProperty, dashboardEmbedProperty){
         config.basepath = basepath;
         config.startlevel = config.basepath.split("/").length;
@@ -82,7 +85,7 @@ sakai.sitespages = function(tuid,showSettings){
         sakai.sitespages.config = config;
         loadControl();
     }
-    
+
     var loadControl = function(){
         if (config.editMode) {
         	showAdminElements();
@@ -91,25 +94,29 @@ sakai.sitespages = function(tuid,showSettings){
             sakai._isAnonymous = false;
         } else {
             sakai._isAnonymous = true;
+
         }
         // Refresh site_info object
         sakai.sitespages.refreshSiteInfo();
         // Load site navigation
         sakai.sitespages.loadSiteNavigation();
     }
-    
+
     var showAdminElements = function(){
-        
+
         // Show admin elements
         $li_edit_page_divider.show();
         $li_edit_page.show();
+        $li_more_link.show();
+        $print_page.removeClass("print_page_view");
+        $print_page.addClass("print_page_admin")
         $add_a_new.show();
 
         // Load admin part from a separate file
         $.getScript(sakai.sitespages.siteAdminJS);
-        
+
     }
-    
+
     /**
      * Function which (re)-loads the information available on a site (async)
      * @param pageToOpen {String} URL safe title of a page which we want to open after the site info object refresh (optional)
@@ -167,7 +174,7 @@ sakai.sitespages = function(tuid,showSettings){
                         sakai.sitespages.site_info["_pages"][url_safe_name] = response[i];
                     }
                 }
-                
+
                 // Create a helper function which returns the number of pages
                 sakai.sitespages.site_info.number_of_pages = function() {
                     var counter = 0;
@@ -197,7 +204,7 @@ sakai.sitespages = function(tuid,showSettings){
 
         });
     };
-    
+
     /**
      * Creates a unique name based on a URL
      * @param i_url {String} The URL the name is based on
@@ -211,8 +218,8 @@ sakai.sitespages = function(tuid,showSettings){
         }
         return urlName;
     };
-    
-    
+
+
     // Load Navigation
     sakai.sitespages.loadSiteNavigation = function() {
 
@@ -235,7 +242,7 @@ sakai.sitespages = function(tuid,showSettings){
         });
 
     };
-    
+
     /**
      * Open page H
      * @param {String} pageid
@@ -311,64 +318,44 @@ sakai.sitespages = function(tuid,showSettings){
                 sakai.sitespages.pagetypes[sakai.sitespages.selectedpage] = pageType;
             }
 
-            switch (pageType) {
+            $.ajax({
+            	url: sakai.sitespages.site_info._pages[pageUrlName]["jcr:path"] + "/pageContent.infinity.json",
+            	type: "GET",
+            	success: function(data) {
 
-                // is a Dashboard
-                case "dashboard":
+            	    sakai.sitespages.pagecontents[pageUrlName] = data;
 
-                    // Load content of the dashboard page
-                    $.ajax({
-                        url: sakai.sitespages.site_info._pages[pageUrlName]["jcr:path"] + "/pageContent.infinity.json",
-                        type: "GET",
-                        success: function(data) {
-                            sakai.sitespages.pagecontents[pageUrlName] = $.extend(data, {}, true);
-                            displayPage(sakai.sitespages.pagecontents[pageUrlName]["sakai:pagecontent"], true);
-                        },
-                        error: function(xhr, status, e) {
-                            fluid.log("site.js: Could not load page content for dashboard!");
-                        }
-                    });
-                    break;
+                    // TO DO: See if we need to run the content through sakai.site.ensureProperWidgetIDs - would be good if we could skip this step and make sure widget IDs are correct from the beginning
+                    displayPage(sakai.sitespages.pagecontents[pageUrlName]["sakai:pagecontent"], true);
 
-                // is a Webpage
-                case "webpage":
+                    if (pageType === "webpage" && config.editMode) {
+                        $li_edit_page_divider.show();
+                        $li_edit_page.show();
+                    }
 
-                    // Load contents of a webpage
-                    $.ajax({
-                        url: sakai.sitespages.site_info._pages[pageUrlName]["jcr:path"] + "/pageContent.infinity.json",
-                        type: "GET",
-                        success: function(data) {
-
-                            sakai.sitespages.pagecontents[pageUrlName] = data;
-
-                            // TO DO: See if we need to run the content through sakai.site.ensureProperWidgetIDs - would be good if we could skip this step and make sure widget IDs are correct from the beginning
-                            displayPage(sakai.sitespages.pagecontents[pageUrlName]["sakai:pagecontent"], true);
-
-                            if (sakai.sitespages.isCollaborator) {
-                                $li_edit_page_divider.show();
-                                $li_edit_page.show();
-                            }
-
-                        },
-                        error: function(xhr, status, e) {
-                            fluid.log("site.js: Could not load page content for webpage!");
-                        }
-                    });
-                    break;
-            }
+                 },
+                 error: function(xhr, status, e) {
+                 	fluid.log("site.js: Could not load page content for webpage!");
+                 }
+            });
         }
 
     };
-    
+
     /**
      * Opens a page
      * @param {String} pageid
      * @return void
      */
     sakai.sitespages.openPage = function(pageid){
-        document.location = "#" + pageid;
+
+        // If page is not the current page load it
+        if (sakai.sitespages.selectedpage !== pageid) {
+        	History.addBEvent(pageid);
+        }
+
     };
-    
+
     /**
      * Displays a page
      * @param {Object} response
@@ -421,7 +408,7 @@ sakai.sitespages = function(tuid,showSettings){
         }
 
     };
-    
+
     /**
      * Callback function to inform when admin part is loaded
      * @return void
@@ -431,7 +418,7 @@ sakai.sitespages = function(tuid,showSettings){
         sakai.sitespages.site_admin();
 
     };
-    
+
     /**
      * Get document height
      * @param {Object} doc
@@ -457,7 +444,71 @@ sakai.sitespages = function(tuid,showSettings){
 
         return docHt;
     };
+
+    /**
+     * Cretes URL safe page title
+     * @param title {String} The title of a page
+     * @returns {String} URL safe title
+     */
+    sakai.sitespages.createURLSafeTitle = function(title) {
+        var url_safe_title = title.toLowerCase();
+        url_safe_title = url_safe_title.replace(/ /g,"-");
+        url_safe_title = url_safe_title.replace(/'/g,"");
+        url_safe_title = url_safe_title.replace(/"/g,"");
+        url_safe_title = url_safe_title.replace(/[:]/g,"");
+        url_safe_title = url_safe_title.replace(/[?]/g,"");
+        url_safe_title = url_safe_title.replace(/[=]/g,"");
+
+        var regexp = new RegExp("[^a-z0-9_-]", "gi");
+        url_safe_title = url_safe_title.replace(regexp,"-");
+
+        return url_safe_title;
+    };
+
+    $(window).bind("sakai.dashboard.ready", function(e, tuid) {
+        var split = $(sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"]).attr("id").split("_");
+        // make sure the dashboard that said it's ready is the one we just got the data for
+        if (split[2] === tuid) {
+            if (config.editMode) {
+                sakai.dashboard.init(split[3] + "_" + split[4] + tuid + "/dashboardwidgets/", true, config.dashboardEmbedProperty, false);
+                $li_edit_page_divider.hide();
+                $li_edit_page.hide();
+            } else {
+                sakai.dashboard.init(split[3] + "_" + split[4] + tuid + "/dashboardwidgets/", false, config.dashboardEmbedProperty, false);
+            }
+        }
+    });
+
+    /**
+     * Transform a date into more readable date string
+     * @param {Object} day
+     * @param {Object} month
+     * @param {Object} year
+     * @param {Object} hour
+     * @param {Object} minute
+     * @return {String} formatted date string
+     */
+    sakai.sitespages.transformDate = function(day, month, year, hour, minute){
+        var string = "";
+        var months_lookup = {1: "Jan", 2: "Feb", 3: "Mar", 4: "Apr", 5: "May", 6: "Jun", 7: "Jul", 8: "Aug", 9: "Sep", 10: "Oct", 11: "Nov", 12: "Dec"};
+        string += months_lookup[month] + " " + day + ", " + year + " " + ("00" + hour).slice(-2) + ":" + ("00" + minute).slice(-2);
+        return string;
+    };
     
+    /**
+     * Reset version history
+     * @return void
+     */
+    sakai.sitespages.resetVersionHistory = function(){
+
+        if (sakai.sitespages.selectedpage) {
+            $("#revision_history_container").hide();
+            $("#content_page_options").show();
+            $("#" + sakai.sitespages.selectedpage).html(sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"]);
+            sakai.api.Widgets.widgetLoader.insertWidgets(sakai.sitespages.selectedpage, null, config.basepath);
+        }
+
+    };
 
     $(window).trigger("sakai.sitespages.ready");
 
