@@ -1,10 +1,10 @@
 
 .listpeople_container
-{ width: 600px; height: 320px; border: 1px solid #999; }
+{ width: 600px; height: 320px; border: 1px solid #E4E4E4; }
 
 /* HEADER */
 .listpeople_container .listpeople_header
-{ height: 30px; line-height: 30px; border-bottom: 1px solid #999; padding: 0 10px 0 10px; }
+{ height: 30px; line-height: 30px; padding: 5px 10px 5px 10px; background-color: #E4E4E4 }
 
 .listpeople_container .listpeople_header .listpeople_count
 { color: #333; font-size: 14px; font-weight: bold; }
@@ -28,10 +28,10 @@
 { margin: 0; padding: 0; }
 
 .listpeople_container .listpeople_content .listpeople_page li
-{ display: block; list-style: none; clear: both; padding: 5px 0 5px 10px; border-bottom: 1px solid #DBF3FF; overflow: hidden; }
+{ display: block; list-style: none; clear: both; padding: 5px 0 5px 10px; border-bottom: 1px solid #FFFFFF; border-top: 1px solid #FFFFFF; overflow: hidden; }
 
 .listpeople_container .listpeople_content .listpeople_page li:hover
-{ background-color: #99CCFF /*#DBF3FF*/; }
+{ background-color: #99CCFF; }
 
 .listpeople_container .listpeople_content .listpeople_page .selectable
 { cursor: pointer; }

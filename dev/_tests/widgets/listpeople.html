@@ -106,7 +106,7 @@
                     var pl_query = sakai.config.URL.SEARCH_USERS + "?q=*&page=0&items=12&_=" + (Math.random() * 100000000000000000);
                     //var pl_query = "/sites/test.members.json?sort=firstName,asc&start=0&items=10&_=" + (Math.random() * 100000000000000000);
                     var pl_config = {"selectable":true, "subNameInfo": "email", "sortOn": "lastName", "sortOrder": "ascending", "items": 50, "function": "getSelection" };
-                    sakai.api.UI.listPeople.render(ltuid, pl_query, pl_config, json_data);
+                    sakai.listPeople.render(ltuid, pl_query, pl_config, json_data);
                 });
             });
 
