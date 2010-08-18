@@ -48,6 +48,7 @@ sakai.fileupload = function(tuid, showSettings){
     var filesUploaded = false;
     var filesTagged = false;
     var tagsCreated = false;
+    var setPermissions = false;
 
     // Classes
     var multiFileRemove = ".MultiFile-remove";
@@ -60,9 +61,12 @@ sakai.fileupload = function(tuid, showSettings){
     var uploadFileList = "#upload_file_list";
     var fileUploadAddTags = "#fileupload_add_tags";
     var fileUploadProgressId = "#fileupload_upload_progress";
+    var fileUploadPermissionsSelect = "#fileupload_permissions_select";
 
     // Form
     var multiFileForm = "#multifile_form";
+
+    var cancelButton = "#fileupload_cancel";
 
     // Templates
     var fileUploadTaggingTemplate = "#fileupload_tagging_template";
@@ -78,6 +82,21 @@ sakai.fileupload = function(tuid, showSettings){
     var userStoragePrefix = sakai.data.me.user.userStoragePrefix;
     var tagsPath = "/~" + userId + "/public/tags/";
     var tagsPathForLinking = "/_user/" + userStoragePrefix + "public/tags/";
+
+    // i18n
+    var fileupload_files_uploaded = "#fileupload_files_uploaded";
+    var fileupload_files_not_uploaded = "#fileupload_files_not_uploaded";
+    var fileupload_description_name_set= "#fileupload_description_name_set";
+    var fileupload_description_name_not_set = "#fileupload_description_name_not_set";
+    var fileupload_tags_created = "#fileupload_tags_created";
+    var fileupload_tags_not_created = "#fileupload_tags_not_created";
+    var fileupload_files_tagged = "#fileupload_files_tagged";
+    var fileupload_files_not_tagged = "#fileupload_files_not_tagged";
+    var fileupload_permissions_set = "#fileupload_permissions_set";
+    var fileupload_permissions_not_set = "#fileupload_permissions_not_set";
+    var fileupload_files_successfully_uploaded = "#fileupload_files_successfully_uploaded";
+    var fileupload_no_files = "#fileupload_no_files";
+    var fileupload_no_files_were_uploaded = "#fileupload_no_files_were_uploaded";
 
 
     ///////////////////////
@@ -139,24 +158,38 @@ sakai.fileupload = function(tuid, showSettings){
         // Show notification
         var notification = "";
         if (filesUploaded) {
-            notification += "Files uploaded. ";
+            notification += $(fileupload_files_uploaded).html();
+        } else {
+            notification += $(fileupload_files_not_uploaded).html();
         }
         if (setDescriptionandName) {
-            notification += "Description and name set. ";
+            notification += $(fileupload_description_name_set).html();
+        } else{
+            notification += $(fileupload_description_name_not_set).html();
         }
         if (tagsCreated) {
-            notification += "Tags created. ";
+            notification += $(fileupload_tags_created).html();
+        } else {
+            notification += $(fileupload_tags_not_created).html();
         }
         if (filesTagged) {
-            notification += "Files tagged. ";
+            notification += $(fileupload_files_tagged).html();
+        } else {
+            notification += $(fileupload_files_not_tagged).html();
         }
-        sakai.api.Util.notification.show("Files successfully uploaded",notification);
+        if (setPermissions){
+            notification += $(fileupload_permissions_set).html();
+        } else {
+            notification += $(fileupload_permissions_not_set).html();
+        }
+        sakai.api.Util.notification.show($(fileupload_files_successfully_uploaded).html(), notification);
 
         // Reset booleans
         setDescriptionandName = false;
         filesUploaded = false;
         filesTagged = false;
         tagsCreated = false;
+        setPermissions = false;
     };
 
     /**
@@ -228,7 +261,6 @@ sakai.fileupload = function(tuid, showSettings){
             success: function(data){
                 // Files tagged
                 filesTagged = true;
-                resetFields();
             },
             error: function(xhr, textStatus, thrownError){
                 // Files not tagged
@@ -293,6 +325,74 @@ sakai.fileupload = function(tuid, showSettings){
     };
 
     /**
+     * Set permissions on the files that were uploaded
+     */
+    var setFilePermissions = function(){
+        // Get the value from the dropdown list
+        var permissions = $(fileUploadPermissionsSelect).val();
+        // Check which value was selected and fill in the data object accordingly
+        var data = [];
+        for (var k in uploadedFiles) {
+            switch (permissions) {
+                // Logged in only
+                case "everyone":
+                    var item = {
+                        "url" : "/p/" + uploadedFiles[k].hashpath + ".members.html",
+                        "method": "POST",
+                        "parameters" : {
+                            ":viewer": "everyone"
+                        }
+                    };
+                    data[data.length] = item;
+                    break;
+                // Everyone
+                case "anonymous":
+                    var item = {
+                        "url" : "/p/" + uploadedFiles[k].hashpath  + ".members.html",
+                        "method": "POST",
+                        "parameters" : {
+                            ":viewer": "everyone"
+                        }
+                    };
+                    data[data.length] = item;
+                    // Due to a bug in the batch request servlet we have to create 2 seperate requests for the parameters.
+                    // Parameters should be able to have the same name in the future.
+                    var item = {
+                        "url" : "/p/" + uploadedFiles[k].hashpath  + ".members.html",
+                        "method": "POST",
+                        "parameters" : {
+                            ":viewer": "anonymous"
+                        }
+                    };
+                    data[data.length] = item;
+                    break;
+            }
+        }
+        // Execute ajax call if the permissions are not set to private
+        // Private permissions are the default so there is no need for an Ajax call
+        if (permissions !== "private"){
+            $.ajax({
+                url: sakai.config.URL.BATCH,
+                traditional: true,
+                type: "POST",
+                cache: false,
+                data: {
+                    requests: $.toJSON(data)
+                },
+                success: function(data){
+                    setPermissions = true;
+                    resetFields();
+                },
+                error: function(xhr, textStatus, thrownError){
+                    setPermissions = false;
+                }
+            });
+        } else{
+            resetFields();
+        }
+    };
+
+    /**
      * Set the various settings for the fluid uploader component
      */
     var initialiseUploader = function(){
@@ -328,7 +428,7 @@ sakai.fileupload = function(tuid, showSettings){
                         $(fileUploadAddTags)[0].disabled = false;
                         $(fileUploadAddDescription)[0].disabled = false;
                         // Show a notification
-                        sakai.api.Util.notification.show("No files","No files were uploaded. Please select files to upload.");
+                        sakai.api.Util.notification.show($(fileupload_no_files).html(),$(fileupload_no_files_were_uploaded).html());
                     }
                     else {
                         // Files uploaded
@@ -347,6 +447,9 @@ sakai.fileupload = function(tuid, showSettings){
 
                         // Set the description data on the completed uploads
                         batchSetDescriptionAndNameAndPermissions();
+
+                        // Set permissions on the files
+                        setFilePermissions();
 
                         // Link the files to the tags
                         if (tags.length !== 0) {
@@ -379,6 +482,16 @@ sakai.fileupload = function(tuid, showSettings){
         toTop: true,
         onHide: closeUploadBox
     });
+
+    $(cancelButton).live("click", function(){
+        // Clear HTML, Clear file list, remove jqm box
+        $(fileUploadRenderedTagging).html("");
+        // Remove files out of list
+        $(multiFileRemove).each(function(){
+            $(this).click();
+        });
+        $(fileUploadContainer).jqmHide();
+    })
 
     initialiseUploader();
 };
