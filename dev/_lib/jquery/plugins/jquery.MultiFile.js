@@ -295,20 +295,20 @@
         
         // Create label elements
         var
+        
          r = $('<div class="MultiFile-label"></div>'),
          v = String(slave.value || ''/*.attr('value)*/),
-         a = $('<span class="MultiFile-title" title="'+MultiFile.STRING.selected.replace('$file', v)+'">'+MultiFile.STRING.file.replace('$file', v.match(/[^\/\\]+$/gi)[0])+'</span>'),
-         b = $('<a class="MultiFile-remove" href="#'+MultiFile.wrapID+'">'+MultiFile.STRING.remove+'</a>');
-         c = $('<br/><span class="fileupload_file_name">name: <input type="text" id="' + MultiFile.STRING.file.replace('$file', v.match(/[^\/\\]+$/gi)[0]).replace(".", "_") + '"></input></span>')
+         b = $('<a class="MultiFile-remove" href="#'+MultiFile.wrapID+'">'+ 'Remove' +'</a>');
+         c = $('<span class="fileupload_file_name"><input type="text" id="' + MultiFile.STRING.file.replace('$file', v.match(/[^\/\\]+$/gi)[0]).replace(".", "_") + '" value="' + MultiFile.STRING.file.replace('$file', v.match(/[^\/\\]+$/gi)[0]) + '"></input></span>')
+
         
         // Insert label
         MultiFile.list.append(
-         r.append(b, ' ', a, c)
+         r.append(b, c)
         );
         
         b
 								.click(function(){
-         
           //# Trigger Event! onFileRemove
           if(!MultiFile.trigger('onFileRemove', slave, MultiFile)) return false;
           //# End Event!
