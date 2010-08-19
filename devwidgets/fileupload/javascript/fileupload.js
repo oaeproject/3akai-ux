@@ -37,7 +37,7 @@ sakai.fileupload = function(tuid, showSettings){
     // Configuration variables //
     /////////////////////////////
 
-    var rootel = $("#" + tuid);
+    var $rootel = $("#" + tuid);
 
     // Variable used to check if all tags have been created and linking them to the uploaded files can start
     var checkTaggingAgain;
@@ -140,10 +140,10 @@ sakai.fileupload = function(tuid, showSettings){
         // Render the template
         var renderedTemplate = $.TemplateRenderer(fileUploadAddToTemplate, groupContextData).replace(/\r/g, '');
         var renderedDiv = $(document.createElement("div"));
-        $(fileUploadAddToTemplateContainer, rootel).html(renderedTemplate);
+        $(fileUploadAddToTemplateContainer, $rootel).html(renderedTemplate);
 
         // Show lightbox
-        $(fileUploadContainer, rootel).jqmShow();
+        $(fileUploadContainer, $rootel).jqmShow();
     };
 
     /**
@@ -166,7 +166,7 @@ sakai.fileupload = function(tuid, showSettings){
      */
     var closeUploadBox = function(hash){
         // Clear HTML, Clear file list, remove jqm box
-        $(fileUploadRenderedTagging, rootel).html("");
+        $(fileUploadRenderedTagging, $rootel).html("");
         // Remove files out of list
         $(multiFileRemove).each(function(){
             $(this).click();
@@ -184,7 +184,7 @@ sakai.fileupload = function(tuid, showSettings){
         uploadedFiles = []
 
         // Clear HTML, Clear file list
-        $(fileUploadRenderedTagging, rootel).html("");
+        $(fileUploadRenderedTagging, $rootel).html("");
 
         // Close the jqm box
         $(fileUploadContainer).jqmHide();
@@ -192,31 +192,31 @@ sakai.fileupload = function(tuid, showSettings){
         // Show notification
         var notification = "";
         if (filesUploaded) {
-            notification += $(fileupload_files_uploaded, rootel).html();
+            notification += $(fileupload_files_uploaded, $rootel).html();
         } else {
-            notification += $(fileupload_files_not_uploaded, rootel).html();
+            notification += $(fileupload_files_not_uploaded, $rootel).html();
         }
         if (setDescriptionandName) {
-            notification += $(fileupload_description_name_set, rootel).html();
+            notification += $(fileupload_description_name_set, $rootel).html();
         } else{
-            notification += $(fileupload_description_name_not_set, rootel).html();
+            notification += $(fileupload_description_name_not_set, $rootel).html();
         }
         if (tagsCreated) {
-            notification += $(fileupload_tags_created, rootel).html();
+            notification += $(fileupload_tags_created, $rootel).html();
         } else {
-            notification += $(fileupload_tags_not_created, rootel).html();
+            notification += $(fileupload_tags_not_created, $rootel).html();
         }
         if (filesTagged) {
-            notification += $(fileupload_files_tagged, rootel).html();
+            notification += $(fileupload_files_tagged, $rootel).html();
         } else {
-            notification += $(fileupload_files_not_tagged, rootel).html();
+            notification += $(fileupload_files_not_tagged, $rootel).html();
         }
         if (setPermissions){
-            notification += $(fileupload_permissions_set, rootel).html();
+            notification += $(fileupload_permissions_set, $rootel).html();
         } else {
-            notification += $(fileupload_permissions_not_set, rootel).html();
+            notification += $(fileupload_permissions_not_set, $rootel).html();
         }
-        sakai.api.Util.notification.show($(fileupload_files_successfully_uploaded, rootel).html(), notification);
+        sakai.api.Util.notification.show($(fileupload_files_successfully_uploaded, $rootel).html(), notification);
 
         // Reset booleans
         setDescriptionandName = false;
