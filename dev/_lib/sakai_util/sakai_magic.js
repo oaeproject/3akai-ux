@@ -1083,6 +1083,7 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
  * @param {String} i_url The path to the preference which needs to be loaded
  * @param {Function} callback A callback function which is executed at the end
  * of the operation
+ * @param {Object} data The data to pass to the url
  *
  * @returns {Void}
  */
