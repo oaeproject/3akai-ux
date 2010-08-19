@@ -1,8 +1,8 @@
 {
     "description":"A list of my recently updated content",
-    "name":"Content",
-    "id":"content",
+    "name":"My Content",
+    "id":"mycontent",
     "personalportal":true,
     "hasSettings":false,
-    "url":"/devwidgets/content/content.html"
+    "url":"/devwidgets/mycontent/mycontent.html"
 }

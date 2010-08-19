@@ -18,19 +18,19 @@
 /*global $, Config, jQuery, sakai */
 
 /**
- * @name sakai.content
+ * @name sakai.mycontent
  *
- * @class content
+ * @class mycontent
  *
  * @description
- * The Content widget shows the five most recently updated
+ * The 'My Content' widget shows the five most recently updated
  * content items the user manages.
  *
  * @version 0.0.1
  * @param {String} tuid Unique id of the widget
  * @param {Boolean} showSettings Show the settings of the widget or not
  */
-sakai.content = function(tuid, showSettings){
+sakai.mycontent = function(tuid, showSettings){
 
 
     /////////////////////////////
@@ -82,4 +82,4 @@ sakai.content = function(tuid, showSettings){
     init();
 };
 
-sakai.api.Widgets.widgetLoader.informOnLoad("content");
+sakai.api.Widgets.widgetLoader.informOnLoad("mycontent");
