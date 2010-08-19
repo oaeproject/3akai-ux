@@ -32,14 +32,15 @@
  */
 sakai.content = function(tuid, showSettings){
 
+
     /////////////////////////////
     // Configuration variables //
     /////////////////////////////
 
     // DOM identifiers
-	var rootel = $("#" + tuid);
-	var uploadLink = "#upload_link";
-	var uploadcontentContainer = "#uploadcontent_container";
+    var rootel = $("#" + tuid);
+    var uploadLink = "#upload_link";
+    var fileuploadContainer = "#fileupload_container";
 
 
     ///////////////////////
@@ -50,38 +51,35 @@ sakai.content = function(tuid, showSettings){
     ////////////////////
     // Event Handlers //
     ////////////////////
-	
-	// Clicking to upload content
-	$(uploadLink, rootel).click(function(ev){
-		$(uploadcontentContainer).show();
-//		sakai.api.Widgets.widgetLoader.loadWidget("uploadcontent");
-//		sakai.uploadcontent.init();
-        // ? how to properly load a widget & a little more on the structure of
-		//   the sakai.api.Widgets (nesting)
-		return false;
-	});
 
-	
+    // Clicking to upload content
+    $(uploadLink, rootel).click(function(ev){
+        $(fileuploadContainer).show();
+        sakai.fileupload.initialise();
+        return false;
+    });
+
+
     /////////////////////////////
     // Initialization function //
     /////////////////////////////
-	
-	var init = function() {
-		// get list of content items
-		// - JSON file at /var/search/pool/me/manager.json?q=* is empty:
-		// -- {"items":25,"total":0,"results":[],"totals":{"sakai:tags":[]}}
-		// ? where is server-side API documentation/code?
-		
-		// render the list of content items
-		// - thinking about following the mygroups example
-		// ? how does HTML scripting work? -- i.e. <ul> in mygroups.html
-		//
-		// - file link should be: /dev/content_profile.html#content_path=path
-		// ? guessing correct path should come through manager.json
-	};
-	
-	// run init() function when sakai.content object loads
-	init();
+
+    var init = function() {
+        // get list of content items
+        // - JSON file at /var/search/pool/me/manager.json?q=* is empty:
+        // -- {"items":25,"total":0,"results":[],"totals":{"sakai:tags":[]}}
+        // ? where is server-side API documentation/code?
+
+        // render the list of content items
+        // - thinking about following the mygroups example
+        // ? how does HTML scripting work? -- i.e. <ul> in mygroups.html
+        //
+        // - file link should be: /dev/content_profile.html#content_path=path
+        // ? guessing correct path should come through manager.json
+    };
+
+    // run init() function when sakai.content object loads
+    init();
 };
 
 sakai.api.Widgets.widgetLoader.informOnLoad("content");
