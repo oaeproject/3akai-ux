@@ -1,4 +1,4 @@
-        <!-- CSS -->
+<!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/fileupload/css/fileupload.css"/>
 
 <!-- CONTAINER -->
@@ -12,83 +12,89 @@
 
     <div class="dialog_content">
         <div id="new_uploader">
-            <h1>Add content to content I manage</h1>
+            <div id="fileupload_add_to">__MSG__ADD_TO__</div><div id="fileupload_add_to_template_container"></div>
             <!-- This form will be progressively enhanced by the Fluid Uploader component. -->
-            <form method="post" enctype="multipart/form-data" id="multifile_form">
-                <input type="file" name="Filedata" id="multifile_upload"/>
+            <form method="post" enctype="multipart/form-data" id="multifile_form"><input type="file" name="Filedata" id="multifile_upload"/>
                 <p>
                     <div id="upload_file_list">
+                        <p id="fileupload_filename_label">__MSG__FILE_NAME__</p>
                     </div>
                 </p>
                 <div id="fileupload_rendered_tagging"></div>
+                <hr/>
             </form>
         </div>
 
+    <div id="fileupload_add_to_template" style="display:none;"><!--
+        <b>__MSG__MY_CONTENT__</b>{if groupContext} __MSG__AND_SHARE_WITH__<b>${groupName}</b>{/if}
+    --></div>
+
     <div id="fileupload_tagging_template" style="display:none;"><!--
-        <h1>Basic Info</h1>
-        <form id="fileupload_form">
+        <h1>__MSG__BASIC_INFORMATION__</h1>
+        <div id="fileupload_tags">
             <label for="fileupload_add_tags">
-                Tags:
+                __MSG__TAGS__
             </label>
-            <input id="fileupload_add_tags" class="fileupload_add_tags" maxlength="255" type="text" value="" />
+            <textarea cols="50" rows="3" id="fileupload_add_tags" class="fileupload_add_tags" value="" />
             <br/>
+            <hr/>
+        </div>
+        <div id="fileupload_description">
             <label for="fileupload_add_description">
-                Description:
+                __MSG__DESCRIPTION__
             </label>
             <textarea cols="50" rows="3" id="fileupload_add_description" class="fileupload_add_description" value="" />
-
-            <br/>
-            <br/>
-            <button type="submit" class="s3d-button s3d-button-primary">
-                <span class="s3d-button-inner">Add content</span>
+            <hr/>
+        </div>
+        <div id="fileupload_permissions">
+            __MSG__WHO_CAN_SEE_THIS_CONTENT__ 
+            {if groupContext}
+                <select id="fileupload_permissions_select">
+                    <option value="public">__MSG__THE_PUBLIC__</option>
+                    <option value="group">__MSG__THIS_GROUP_ONLY__</option>
+                    <option value="everyone">__MSG__LOGGED_IN_ONLY__</option>
+                </select>
+            {else}
+                <select id="fileupload_permissions_select">
+                    <option value="public">__MSG__THE_PUBLIC__</option>
+                    <option value="private">__MSG__MYSELF_ONLY__</option>
+                    <option value="everyone">__MSG__LOGGED_IN_ONLY__</option>
+                </select>
+            {/if}
+        </div>
+        <div id="fileupload_action_buttons">
+            <button type="button" id="fileupload_cancel" class="s3d-button s3d-button-primary jqmClose dialog_close_image">
+                <span class="s3d-button-inner">__MSG__CANCEL__</span>
             </button>
-            <div id="fileupload_upload_progress"></div>
-            <hr>
-        </form>
-    --></div>
-
-    <!-- USE THIS TEMPLATE WHEN YOU WANT TO TAG EACH FILE INDIVIDUALLY-->
-    <div id="fileupload_multiplefile_tagging_template" style="display:none;"><!--
-        <h1>Tag your uploads.</h1>
-        <p>
-            Tagging your uploads makes them more accessible.
-        </p>
-        <form id="fileupload_form">
-            {for i in uploads}
-                <label for="fileupload_add_tags_${i.filename}">
-                    Tags for ${i.filename}:
-                </label>
-                <input id="fileupload_add_tags_${i.filename}" class="fileupload_add_tags" maxlength="255" type="text" value="" />
-                <br/>
-                <label for="fileupload_add_description_${i.filename}">
-                    Description for ${i.filename}:
-                </label>
-                <textarea cols="50" rows="4" id="fileupload_add_description_${i.filename}" class="fileupload_add_description" value="" />
-                <br/><br/>
-            {/for}
             <button type="submit" class="s3d-button s3d-button-primary">
-                <span class="s3d-button-inner">{if uploads.length > 1}Add files{else}Add file{/if}</span>
+                <span class="s3d-button-inner">__MSG__ADD_CONTENT__</span>
             </button>
-        </form>
+            <div id="fileupload_upload_progress">
+            </div>
+        </div>
+        <hr/>
     --></div>
-    </div>
 
-    <!-- UPLOAD RESULTS TEMPLATE -->
-    <div id="fileupload_results_template" style="display:none;"><!--
-        <h1>Upload results</h1>
-        {if results}
-            <p>Created ${results.createdTags} tags, failed ${results.createTagErrors}</p>
-            <p>Linked ${results.linkedTags} tags to uploads, failed ${results.linkTagErrors}</p>
-            <p>Set ${results.setDescriptions} descriptions on uploads, failed ${results.setDescriptionErrors}</p>
-        {/if}
-    --></div>
+    <!-- i18n -->
+    <div id="fileupload_files_uploaded" style="display:none;">__MSG__FILES_UPLOADED__</div>
+    <div id="fileupload_files_not_uploaded" style="display:none;">__MSG__FILES_NOT_UPLOADED__</div>
+    <div id="fileupload_description_name_set" style="display:none;">__MSG__DESCRIPTION_NAME_SET__</div>
+    <div id="fileupload_description_name_not_set" style="display:none;">__MSG__DESCRIPTION_NAME_NOT_SET__</div>
+    <div id="fileupload_tags_created" style="display:none;">__MSG__TAGS_CREATED__</div>
+    <div id="fileupload_tags_not_created" style="display:none;">__MSG__TAGS_NOT_CREATED__</div>
+    <div id="fileupload_files_tagged" style="display:none;">__MSG__FILES_TAGGED__</div>
+    <div id="fileupload_files_not_tagged" style="display:none;">__MSG__FILES_NOT_TAGGED__</div>
+    <div id="fileupload_permissions_set" style="display:none;">__MSG__PERMISSIONS_SET__</div>
+    <div id="fileupload_permissions_not_set" style="display:none;">__MSG__PERMISSIONS_NOT_SET__</div>
+    <div id="fileupload_files_successfully_uploaded" style="display:none;">__MSG__FILES_SUCCESSFULLY_UPLOADED__</div>
+    <div id="fileupload_no_files" style="display:none;">__MSG__NO_FILES__</div>
+    <div id="fileupload_no_files_were_uploaded" style="display:none;">__MSG__NO_FILES_WERE_UPLOADED__</div>
+</div>
 
     <!-- DIALOG FOOTER -->
     <div class="dialog_footer">
         <div class="dialog_footer_inner"><!-- --></div>
     </div>
-</div>
 
 <!-- JAVASCRIPT -->
-
 <script type="text/javascript" src="/devwidgets/fileupload/javascript/fileupload.js"></script>
