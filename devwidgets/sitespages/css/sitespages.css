@@ -212,6 +212,10 @@
     text-decoration: underline;
 }
 
+.sakai_site .content .inline_class_widget_nofloat a {
+    text-decoration: none;
+}
+
 /** --------------------------------------------------------------------------------------------------- **/
 
 

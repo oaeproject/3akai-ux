@@ -220,8 +220,8 @@ sakai.newaccount = function(){
         profileData.basic.access = "everybody";
         var data = {
             ":create-auth": "reCAPTCHA.net",
-            "recaptcha-challenge": values["recaptcha-challenge"],
-            "recaptcha-response": values["recaptcha-response"],
+            ":recaptcha-challenge": values["recaptcha-challenge"],
+            ":recaptcha-response": values["recaptcha-response"],
             "email": values[email],
             "pwd": values[password],
             "pwdConfirm": values[password],

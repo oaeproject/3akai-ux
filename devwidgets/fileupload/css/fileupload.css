@@ -9,27 +9,40 @@
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
 
-#fileupload_container .fileupload_add_tags {width:350px !important; margin:4px 0 5px; float:right;}
-#fileupload_container .fileupload_add_description {margin:5px 0 7px; width:350px !important; float:right}
+#fileupload_container .fileupload_add_description {margin:5px 150px 7px 0; width:450px !important; float:right}
 
 #fileupload_container #fileupload_rendered_tagging label {float:left; clear:both;}
-#fileupload_container #fileupload_rendered_tagging .s3d-button {float:right !important;}
-#fileupload_container #fileupload_rendered_tagging hr {clear:both; border:none;}
+#fileupload_container hr {clear:both; border:none; margin:0; padding:0;}
 
 #fileupload_container .fileupload_upload_progress {background:url("/dev/_images/ajax_load.gif") no-repeat scroll 0 0 transparent; clear:both; float:right; height:10px; width:80px;}
 
 #fileupload_container .fileupload_file_name {margin-left:10px; margin-top:5px;}
-#fileupload_container .fileupload_file_name input[type="text"] {width:350px; float:right;}
+#fileupload_container .fileupload_file_name input[type="text"] {float:right; margin-bottom:5px; width:450px;}
 
 #fileupload_container h1 {clear:both;}
+#fileupload_container #fileupload_rendered_tagging h1 {margin-top:10px;}
 
-#fileupload_container .MultiFile-label {clear:right; padding-bottom:15px;}
+#fileupload_container #upload_file_list {padding:10px 0 20px 10px; background-color:#eee;}
+#fileupload_container #fileupload_rendered_tagging #fileupload_tags, #fileupload_container #fileupload_rendered_tagging #fileupload_description, #fileupload_container #fileupload_rendered_tagging h1 {padding:10px 0 10px 10px; background-color:#eee;}
+#fileupload_container #fileupload_rendered_tagging #fileupload_tags .fileupload_add_tags {width:450px !important; margin:0 150px 5px 0; float:right;}
+#fileupload_container #fileupload_rendered_tagging #fileupload_permissions {clear:both; padding:10px; background-color:#eee;}
+#fileupload_container #fileupload_rendered_tagging #fileupload_action_buttons {margin-top:10px; float:right;}
 
-#fileupload_container #fileupload_permissions {clear:both;}
+#fileupload_container .MultiFile-label {clear:right; padding-bottom:5px;}
+#fileupload_container .MultiFile-remove {color:#2F88AA; float:right; font-weight:bold; padding-left:10px; margin-right:90px; position:relative;}
+#fileupload_container .MultiFile {margin-bottom:10px;}
+
+#fileupload_container {width:800px !important; left:40% !important;}
+
+#fileupload_filename_label {float:left; clear:both;}
+
+#fileupload_container #fileupload_add_to {float:left; padding-right:20px;}
+#fileupload_container #fileupload_add_to_template_container {padding-bottom:10px;}
+
+.hide_remove_link {visibility:hidden;}
