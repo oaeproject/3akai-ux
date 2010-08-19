@@ -6,17 +6,19 @@
 
     <div class="listpeople_header">
         <span class="listpeople_count">0</span>
-        <span class="listpeople_count_person" style="display: none;"> person</span>
-        <span class="listpeople_count_people" style="display: none;"> people</span>
-        <span class="listpeople_count_of" style="display: none;"> out of</span>
-        <span class="listpeople_count_thousands" style="display: none;"> thousands</span>
+        <span class="listpeople_count_of" style="display: none;"> of</span>
+        <span class="listpeople_count_total" style="display: none;"> 0</span>
+        <span class="listpeople_count_items"> item(s)</span>
+        <span class="listpeople_count_selected" style="display: none;"> selected</span>
 
         <span class="fl-force-right">
-            Sort on:
-            <select class="listpeople_sort_on">
-                <option default="true" value="lastName">Last name</option>
-                <option value="firstName">First name</option>
+            <select id="listpeople_sort_order">
+                <option default="true" value="ascending">Alphabeticly A - Z</option>
+                <option value="descending">Alphabeticly Z - A</option>
             </select>
+            <button type="button" class="s3d-button listpeople_sort_order">
+                <span class="s3d-button-inner">Sort</span>
+            </button>
         <span>
     </div>
 
@@ -25,17 +27,32 @@
     </div>
 
     <div class="listpeople_content_pagetemplate" style="display:none;"><!--
-        {for i in results}
-        <li data-userid="${i['rep:userId']}">
-            {if i.picture}
-                <a href="/dev/profile.html?user=${i['rep:userId']}"><img src="/~${i["rep:userId"]}/public/profile/${i.picture.name}" alt="Profile picture for ${i.firstName} ${i.lastName}" class="listpeople_ppicture"/></a>
-            {else}
-                <a href="/dev/profile.html?user=${i['rep:userId']}"><img src="/dev/_images/person_icon.jpg" alt="Default profile picture" class="listpeople_ppicture"/></a>
+        {for i in rawData.results}
+            {if i.id}
+            <li id="${i.id}">
+                {if selectable}<input type="checkbox" name="selected" value="${i.id}" />{/if}
+                {if i.picture}
+                    <a href="/~${i.id}" target="_blank"><img src="/~${i["rep:userId"]}/public/profile/${i.picture.name}" alt="Group picture for ${i.authprofile['sakai:group-title']}" class="listpeople_ppicture"/></a>
+                {else}
+                    <a href="/~${i.id}" target="_blank"><img src="/dev/_images/group_avatar_icon_32x32.png" alt="Default group picture" class="listpeople_ppicture"/></a>
+                {/if}
+                <a class="listpeople_name" href="/~${i.id}" target="_blank">${i.authprofile['sakai:group-title']}</a>
+                <br />
+                <span class="listpeople_subnameinfo">${i.subNameInfo}</span>
+            </li>
+            {elseif i.displayName}
+            <li id="${i['rep:userId']}">
+                {if selectable}<input type="checkbox" name="selected" value="${i['rep:userId']}" />{/if}
+                {if i.picture}
+                    <a href="/dev/profile.html?user=${i['rep:userId']}" target="_blank"><img src="/~${i["rep:userId"]}/public/profile/${i.picture.name}" alt="Profile picture for ${i.displayName}" class="listpeople_ppicture"/></a>
+                {else}
+                    <a href="/dev/profile.html?user=${i['rep:userId']}" target="_blank"><img src="/dev/_images/user_avatar_icon_32x32.png" alt="Default profile picture" class="listpeople_ppicture"/></a>
+                {/if}
+                <a class="listpeople_name" href="/dev/profile.html?user=${i['rep:userId']}" target="_blank">${i.displayName}</a>
+                <br />
+                <span class="listpeople_subnameinfo">${i.subNameInfo}</span>
+            </li>
             {/if}
-            <a class="listpeople_name" href="/dev/profile.html?user=${i['rep:userId']}">${i.firstName} ${i.lastName}</a>
-            <br />
-            <span class="listpeople_subnameinfo">${i.subNameInfo}</span>
-        </li>
         {/for}
     --></div>
 

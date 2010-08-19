@@ -37,6 +37,8 @@ sakai.fileupload = function(tuid, showSettings){
     // Configuration variables //
     /////////////////////////////
 
+    var rootel = $("#" + tuid);
+
     // Variable used to check if all tags have been created and linking them to the uploaded files can start
     var checkTaggingAgain;
     // All files that need to have been uploaded
@@ -48,6 +50,9 @@ sakai.fileupload = function(tuid, showSettings){
     var filesUploaded = false;
     var filesTagged = false;
     var tagsCreated = false;
+    var setPermissions = false;
+
+    var groupContext = false;
 
     // Classes
     var multiFileRemove = ".MultiFile-remove";
@@ -60,17 +65,22 @@ sakai.fileupload = function(tuid, showSettings){
     var uploadFileList = "#upload_file_list";
     var fileUploadAddTags = "#fileupload_add_tags";
     var fileUploadProgressId = "#fileupload_upload_progress";
+    var fileUploadPermissionsSelect = "#fileupload_permissions_select";
 
     // Form
     var multiFileForm = "#multifile_form";
 
+    var cancelButton = "#fileupload_cancel";
+
     // Templates
     var fileUploadTaggingTemplate = "#fileupload_tagging_template";
     var fileUploadResultsTemplate = "#fileupload_results_template";
+    var fileUploadAddToTemplate = "#fileupload_add_to_template";
 
     // Containers
     var fileUploadRenderedTagging = "#fileupload_rendered_tagging";
     var fileUploadContainer = "#fileupload_container";
+    var fileUploadAddToTemplateContainer = "#fileupload_add_to_template_container";
 
     // Paths
     var uploadPath = "/system/pool/createfile";
@@ -79,10 +89,32 @@ sakai.fileupload = function(tuid, showSettings){
     var tagsPath = "/~" + userId + "/public/tags/";
     var tagsPathForLinking = "/_user/" + userStoragePrefix + "public/tags/";
 
+    // i18n
+    var fileupload_files_uploaded = "#fileupload_files_uploaded";
+    var fileupload_files_not_uploaded = "#fileupload_files_not_uploaded";
+    var fileupload_description_name_set= "#fileupload_description_name_set";
+    var fileupload_description_name_not_set = "#fileupload_description_name_not_set";
+    var fileupload_tags_created = "#fileupload_tags_created";
+    var fileupload_tags_not_created = "#fileupload_tags_not_created";
+    var fileupload_files_tagged = "#fileupload_files_tagged";
+    var fileupload_files_not_tagged = "#fileupload_files_not_tagged";
+    var fileupload_permissions_set = "#fileupload_permissions_set";
+    var fileupload_permissions_not_set = "#fileupload_permissions_not_set";
+    var fileupload_files_successfully_uploaded = "#fileupload_files_successfully_uploaded";
+    var fileupload_no_files = "#fileupload_no_files";
+    var fileupload_no_files_were_uploaded = "#fileupload_no_files_were_uploaded";
+
+    var groupContextData = {};
+
 
     ///////////////////////
     // Utility functions //
     ///////////////////////
+
+    var getGroupId = function(){
+        var qs = new Querystring();
+        return qs.get("id", false);
+    }
 
     /**
      * Public function that can be called from elsewhere
@@ -90,7 +122,28 @@ sakai.fileupload = function(tuid, showSettings){
      * It initializes the fileupload widget and shows the jqmodal (ligthbox)
      */
     sakai.fileupload.initialise = function(){
-        $(fileUploadContainer).jqmShow();
+        // Render template to show title
+        var groupName;
+        // If not name for the group has been set use the original groupname
+        if ($("#groupbasicinfo_generalinfo_group_title").val() !== "") {
+            groupName = $("#groupbasicinfo_generalinfo_group_title").val()
+        }
+        else {
+            groupName = getGroupId();
+        }
+        // Fill the data needed for the group
+        groupContextData = {
+            "groupContext": groupContext,
+            "groupName": groupName,
+            "groupId": getGroupId()
+        };
+        // Render the template
+        var renderedTemplate = $.TemplateRenderer(fileUploadAddToTemplate, groupContextData).replace(/\r/g, '');
+        var renderedDiv = $(document.createElement("div"));
+        $(fileUploadAddToTemplateContainer, rootel).html(renderedTemplate);
+
+        // Show lightbox
+        $(fileUploadContainer, rootel).jqmShow();
     };
 
     /**
@@ -100,7 +153,7 @@ sakai.fileupload = function(tuid, showSettings){
     sakai.fileupload.MultiFileSelected = function(){
         // Render the template that enables tagging of uploads
         if ($(multiFileRemove).length == 0) {
-            var renderedTemplate = $.TemplateRenderer(fileUploadTaggingTemplate, []).replace(/\r/g, '');
+            var renderedTemplate = $.TemplateRenderer(fileUploadTaggingTemplate, groupContextData).replace(/\r/g, '');
             var renderedDiv = $(document.createElement("div"));
             $(fileUploadRenderedTagging).html(renderedTemplate);
         }
@@ -113,7 +166,7 @@ sakai.fileupload = function(tuid, showSettings){
      */
     var closeUploadBox = function(hash){
         // Clear HTML, Clear file list, remove jqm box
-        $(fileUploadRenderedTagging).html("");
+        $(fileUploadRenderedTagging, rootel).html("");
         // Remove files out of list
         $(multiFileRemove).each(function(){
             $(this).click();
@@ -131,7 +184,7 @@ sakai.fileupload = function(tuid, showSettings){
         uploadedFiles = []
 
         // Clear HTML, Clear file list
-        $(fileUploadRenderedTagging).html("");
+        $(fileUploadRenderedTagging, rootel).html("");
 
         // Close the jqm box
         $(fileUploadContainer).jqmHide();
@@ -139,24 +192,38 @@ sakai.fileupload = function(tuid, showSettings){
         // Show notification
         var notification = "";
         if (filesUploaded) {
-            notification += "Files uploaded. ";
+            notification += $(fileupload_files_uploaded, rootel).html();
+        } else {
+            notification += $(fileupload_files_not_uploaded, rootel).html();
         }
         if (setDescriptionandName) {
-            notification += "Description and name set. ";
+            notification += $(fileupload_description_name_set, rootel).html();
+        } else{
+            notification += $(fileupload_description_name_not_set, rootel).html();
         }
         if (tagsCreated) {
-            notification += "Tags created. ";
+            notification += $(fileupload_tags_created, rootel).html();
+        } else {
+            notification += $(fileupload_tags_not_created, rootel).html();
         }
         if (filesTagged) {
-            notification += "Files tagged. ";
+            notification += $(fileupload_files_tagged, rootel).html();
+        } else {
+            notification += $(fileupload_files_not_tagged, rootel).html();
         }
-        sakai.api.Util.notification.show("Files successfully uploaded",notification);
+        if (setPermissions){
+            notification += $(fileupload_permissions_set, rootel).html();
+        } else {
+            notification += $(fileupload_permissions_not_set, rootel).html();
+        }
+        sakai.api.Util.notification.show($(fileupload_files_successfully_uploaded, rootel).html(), notification);
 
         // Reset booleans
         setDescriptionandName = false;
         filesUploaded = false;
         filesTagged = false;
         tagsCreated = false;
+        setPermissions = false;
     };
 
     /**
@@ -171,7 +238,7 @@ sakai.fileupload = function(tuid, showSettings){
                 "method" : "POST",
                 "parameters" : {
                     "sakai:description" : $(fileUploadAddDescription).val(),
-                    "sakai:name" : uploadedFiles[i].name,
+                    "sakai:name" : uploadedFiles[i].name
                 }
             };
             batchDescriptionData[batchDescriptionData.length] = item;
@@ -228,7 +295,6 @@ sakai.fileupload = function(tuid, showSettings){
             success: function(data){
                 // Files tagged
                 filesTagged = true;
-                resetFields();
             },
             error: function(xhr, textStatus, thrownError){
                 // Files not tagged
@@ -293,6 +359,110 @@ sakai.fileupload = function(tuid, showSettings){
     };
 
     /**
+     * Set permissions on the files that were uploaded
+     */
+    var setFilePermissions = function(){
+        // Get the value from the dropdown list
+        var permissions = $(fileUploadPermissionsSelect).val();
+        // Check which value was selected and fill in the data object accordingly
+        var data = [];
+        for (var k in uploadedFiles) {
+            switch (permissions) {
+                // Logged in only
+                case "everyone":
+                    var item = {
+                        "url" : "/p/" + uploadedFiles[k].hashpath + ".members.html",
+                        "method": "POST",
+                        "parameters" : {
+                            ":viewer": "everyone"
+                        }
+                    };
+
+                    data[data.length] = item;
+                    if(groupContext){
+                        var item = {
+                            "url" : "/p/" + uploadedFiles[k].hashpath + ".members.html",
+                            "method": "POST",
+                            "parameters" : {
+                                ":viewer": groupContextData.groupId
+                            }
+                        };
+                        data[data.length] = item;
+                    }
+                    fluid.log("logged in only");
+                    break;
+                // Public
+                case "public":
+                    var item = {
+                        "url" : "/p/" + uploadedFiles[k].hashpath  + ".members.html",
+                        "method": "POST",
+                        "parameters" : {
+                            ":viewer": "everyone"
+                        }
+                    };
+
+                    data[data.length] = item;
+                    // Due to a bug in the batch request servlet we have to create 2 seperate requests for the parameters.
+                    // Parameters should be able to have the same name in the future.
+                    var item = {
+                        "url" : "/p/" + uploadedFiles[k].hashpath  + ".members.html",
+                        "method": "POST",
+                        "parameters" : {
+                            ":viewer": "anonymous"
+                        }
+                    };
+                    data[data.length] = item;
+
+                    if (groupContext) {
+                        var item = {
+                            "url": "/p/" + uploadedFiles[k].hashpath + ".members.html",
+                            "method": "POST",
+                            "parameters": {
+                                ":viewer": groupContextData.groupId
+                            }
+                        };
+                        data[data.length] = item;
+                    }
+                    fluid.log("public");
+                    break;
+                case "group":
+                    var item = {
+                        "url": "/p/" + uploadedFiles[k].hashpath + ".members.html",
+                        "method": "POST",
+                        "parameters": {
+                            ":viewer": groupContextData.groupId
+                        }
+                    };
+                    data[data.length] = item;
+                    fluid.log("group");
+                    break;
+            }
+        }
+        // Execute ajax call if the permissions are not set to private
+        // Private permissions are the default so there is no need for an Ajax call
+        if (permissions !== "private"){
+            $.ajax({
+                url: sakai.config.URL.BATCH,
+                traditional: true,
+                type: "POST",
+                cache: false,
+                data: {
+                    requests: $.toJSON(data)
+                },
+                success: function(data){
+                    setPermissions = true;
+                    resetFields();
+                },
+                error: function(xhr, textStatus, thrownError){
+                    setPermissions = false;
+                }
+            });
+        } else{
+            resetFields();
+        }
+    };
+
+    /**
      * Set the various settings for the fluid uploader component
      */
     var initialiseUploader = function(){
@@ -327,8 +497,12 @@ sakai.fileupload = function(tuid, showSettings){
                         // Disable input fields
                         $(fileUploadAddTags)[0].disabled = false;
                         $(fileUploadAddDescription)[0].disabled = false;
+                        $.each($(".fileupload_file_name input"), function(){
+                            $(this)[0].disabled = false;
+                        })
+                        $(fileUploadPermissionsSelect)[0].disabled = false;
                         // Show a notification
-                        sakai.api.Util.notification.show("No files","No files were uploaded. Please select files to upload.");
+                        sakai.api.Util.notification.show($(fileupload_no_files).html(),$(fileupload_no_files_were_uploaded).html());
                     }
                     else {
                         // Files uploaded
@@ -348,12 +522,12 @@ sakai.fileupload = function(tuid, showSettings){
                         // Set the description data on the completed uploads
                         batchSetDescriptionAndNameAndPermissions();
 
+                        // Set permissions on the files
+                        setFilePermissions();
+
                         // Link the files to the tags
                         if (tags.length !== 0) {
                             batchLinkTagsToContent();
-                        }
-                        else {
-                            resetFields();
                         }
                     }
                 }
@@ -369,6 +543,13 @@ sakai.fileupload = function(tuid, showSettings){
         // Disable input fields
         $(fileUploadAddTags)[0].disabled = true;
         $(fileUploadAddDescription)[0].disabled = true;
+        $.each($(".fileupload_file_name input"), function(){
+            $(this)[0].disabled = true;
+        })
+        $.each($(".MultiFile-remove"), function(){
+            $(this).addClass("hide_remove_link");
+        })
+        $(fileUploadPermissionsSelect)[0].disabled = true;
         // Initiate the tagging process
         formatTags($(fileUploadAddTags).val());
     });
@@ -378,6 +559,30 @@ sakai.fileupload = function(tuid, showSettings){
         overlay: 20,
         toTop: true,
         onHide: closeUploadBox
+    });
+
+    $(cancelButton).live("click", function(){
+        // Clear HTML, Clear file list, remove jqm box
+        $(fileUploadRenderedTagging).html("");
+        // Remove files out of list
+        $(multiFileRemove).each(function(){
+            $(this).click();
+        });
+        $(fileUploadContainer).jqmHide();
+    })
+
+    $('#upload_content').bind("click", function(ev){
+        // Check if the uploads neet to be associated with a group or not
+        if ($('#upload_content').hasClass("group_content")) {
+            groupContext = true;
+            $('#uploadfilescontainer').show();
+            sakai.fileupload.initialise();
+        }
+        else {
+            // Load the fileupload widget.
+            $('#uploadfilescontainer').show();
+            sakai.fileupload.initialise();
+        }
     });
 
     initialiseUploader();

@@ -19,10 +19,12 @@
 
 var sakai = sakai || {};
 
+sakai.currentgroup = sakai.currentgroup || {};
+sakai.currentgroup.id = sakai.currentgroup.id || {};
+sakai.currentgroup.data = sakai.currentgroup.data || {};
+sakai.currentgroup.manager = sakai.currentgroup.manager || false;
+
 sakai.group = function(){
-sakai.group.id = sakai.group.id || {};
-sakai.group.data = sakai.group.data || {};
-sakai.group.manager = sakai.group.data || false;
 
     /////////////////////////////
     // CONFIGURATION VARIABLES //
@@ -62,10 +64,12 @@ sakai.group.manager = sakai.group.data || false;
     });
     
     var loadPagesWidget = function(){
-        var basepath = "/~" + sakai.group.id + "/sites/default/";
-        var editMode = sakai.group.manager;
+        var basepath = "/~" + sakai.currentgroup.id + "/sites/default/";
+        var fullpath = "/_group/g/g-/" + sakai.currentgroup.id + "/sites/default/";
+        var url = "/dev/group.html?id=" + sakai.currentgroup.id;
+        var editMode = sakai.currentgroup.manager;
         var homePage = "";
-        sakai.sitespages.doInit(basepath, editMode, homePage);
+        sakai.sitespages.doInit(basepath, fullpath, url, editMode, homePage, "groupspages", "groupsdashboard");
     }
 
     /**
@@ -83,8 +87,8 @@ sakai.group.manager = sakai.group.data || false;
     
     $(window).bind("sakai.api.UI.entity.ready", function(e){
         readyToRender = true;
-        if (sakai.group.data) {
-            sakai.api.UI.entity.render("group", sakai.group.data);
+        if (sakai.currentgroup.data) {
+            sakai.api.UI.entity.render("group", sakai.currentgroup.data);
             hasRendered = true;
         }
     });
@@ -97,10 +101,10 @@ sakai.group.manager = sakai.group.data || false;
         $.ajax({
             url: "/~" + groupid + "/public.infinity.json",
             success: function(data){
-                sakai.group.id = groupid;
-                sakai.group.data = data;
+                sakai.currentgroup.id = groupid;
+                sakai.currentgroup.data = data;
                 if (data.authprofile['rep:policy']) {
-                    sakai.group.manager = true;
+                    sakai.currentgroup.manager = true;
                 }
                 if (readyToRender && !hasRendered) {
                     sakai.api.UI.entity.render("group", data);

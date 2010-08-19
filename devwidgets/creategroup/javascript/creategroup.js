@@ -206,7 +206,8 @@ sakai.creategroup = function(tuid, showSettings){
                 ":manager": groupidManagers,
                 ":member": groupidManagers,
                 "sakai:group-title" : grouptitle,
-                "sakai:group-description" : groupdescription
+                "sakai:group-description" : groupdescription,
+                "sakai:group-id": groupid
             },
             type: "POST",
             success: function(data, textStatus){
@@ -247,7 +248,8 @@ sakai.creategroup = function(tuid, showSettings){
                 ":viewer": groupidManagers,
                 ":member": sakai.data.me.user.userid,
                 "sakai:group-title" : grouptitleManagers,
-                "sakai:group-description" : groupdescription
+                "sakai:group-description" : groupdescription,
+                "sakai:group-id": groupidManagers
             },
             type: "POST",
             success: function(data, textStatus){

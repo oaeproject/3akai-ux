@@ -1,5 +1,5 @@
 {
-    "ca":true,
+    "groupspages":true,
     "description":"Google maps",
     "i18n": {
         "default": "/devwidgets/googlemaps/bundles/default.json",

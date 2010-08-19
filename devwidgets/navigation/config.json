@@ -1,10 +1,13 @@
 {
-    "ca":true,
+    "groupspages":true,
     "description":"Navigation Widgets",
     "hasSettings": false,
     "id":"navigation",
     "img":"/devwidgets/navigation/images/icon.png",
     "name":"Navigation",
     "showinsidebar":true,
+    "groupsdashboard":true,
+    "groupspages":true,
+    "showinsakaigoodies":true,
     "url":"/devwidgets/navigation/navigation.html"
 }

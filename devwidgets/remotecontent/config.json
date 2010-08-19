@@ -1,5 +1,5 @@
 {
-    "ca":true,
+    "groupspages":true,
     "description":"Remote Content",
     "id":"remotecontent",
     "img":"/devwidgets/remotecontent/images/remotecontent.png",

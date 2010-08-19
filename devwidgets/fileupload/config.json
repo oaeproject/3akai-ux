@@ -1,5 +1,5 @@
 {
-    "description":"File upload",
+    "description":"Add Files",
     "i18n": {
         "default": "/devwidgets/fileupload/bundles/default.json",
         "en_US": "/devwidgets/fileupload/bundles/en_US.json",
