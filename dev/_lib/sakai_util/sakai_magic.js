@@ -1086,7 +1086,7 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
  *
  * @returns {Void}
  */
-sakai.api.Server.loadJSON = function(i_url, callback) {
+sakai.api.Server.loadJSON = function(i_url, callback, data) {
 
     // Argument check
     if (!i_url) {
@@ -1107,6 +1107,7 @@ sakai.api.Server.loadJSON = function(i_url, callback) {
         url: i_url + ".infinity.json",
         cache: false,
         dataType: "json",
+        data: data,
         success: function(data) {
 
             // Remove keys which are created by JCR or Sling
