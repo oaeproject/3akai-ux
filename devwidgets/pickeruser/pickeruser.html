@@ -55,7 +55,7 @@
                 </button>
             </div>
             <div id="pickeruser_footer_options">
-                <button type="button" class="s3d-button" id="pickeruser_close">
+                <button type="button" class="s3d-button" id="pickeruser_close_button">
                     <span class="s3d-button-inner">Cancel</span>
                 </button>
                 <button type="button" class="s3d-button s3d-button-primary fl-force-right" id="pickeruser_add_button">
@@ -84,7 +84,7 @@
                     {else}
                         <img src="/dev/_images/person_icon.jpg" alt="Default profile picture" class="pickeruser_ppicture"/>
                     {/if}
-                    <a class="pickeruser_name" href="/dev/profile.html?user=${i['rep:userId']}">${i.firstName} ${i.lastName}</a>
+                    <a class="pickeruser_name" href="/dev/profile.html?user=${i['rep:userId']}">${sakai.api.User.getDisplayName(i)}</a>
                     <br />
                     <span class="pickeruser_subnameinfo">${i.subNameInfo}</span>
                 </li>

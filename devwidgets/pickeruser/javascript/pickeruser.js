@@ -53,6 +53,7 @@ sakai.pickeruser = function(tuid, showSettings) {
     var $pickeruser_space_name = $("#pickeruser_space_name", $rootel);
     var $pickeruser_search_query = $("#pickeruser_search_query", $rootel);
     var $pickeruser_search_button = $("#pickeruser_search_button", $rootel);
+    var $pickeruser_close_button = $("#pickeruser_close_button", $rootel);
     var $pickeruser_select_all_button = $("#pickeruser_select_all_button", $rootel);
     var $pickeruser_content_search_form = $("#pickeruser_content_search_form", $rootel);
     var $pickeruser_add_button = $("#pickeruser_add_button", $rootel);
@@ -115,16 +116,7 @@ sakai.pickeruser = function(tuid, showSettings) {
             }
         }
 
-        submitSearch = function(){
-            reset(tuid);
-            var searchQuery = $pickeruser_search_query.val();
-            if (!searchQuery) {
-                searchQuery = "*";
-            }
 
-            var pl_query = pickerData["searchIn"] + searchQuery + "&page=0&items=12&_=" + (Math.random() * 100000000000000000);
-            renderSearch(pl_query);
-        };
 
         // display the groups list, bind elements and submit a search
         renderSearchList();
@@ -136,6 +128,22 @@ sakai.pickeruser = function(tuid, showSettings) {
             //$(window).trigger("pickeruser_finished", [tuid]);
         });
         submitSearch();
+    };
+
+    /**
+     * submitSearch
+     * Perform the search based on the value in the $pickeruser_search_query text input box
+     * @returns void
+     */
+    var submitSearch = function(){
+        reset();
+        var searchQuery = $pickeruser_search_query.val();
+        if (!searchQuery) {
+            searchQuery = "*";
+        }
+
+        var pl_query = pickerData["searchIn"] + searchQuery + "&page=0&items=12&_=" + (Math.random() * 100000000000000000);
+        renderSearch(pl_query);
     };
 
     /**
@@ -345,6 +353,7 @@ sakai.pickeruser = function(tuid, showSettings) {
                 } else {
                     // If we know the exact total display it
                     $pickeruser_count.html(rawData.total);
+                    $pickeruser_count.show();
                     if (rawData.total === 1) {
                         $pickeruser_count_person.show();
                     } else {
@@ -401,6 +410,10 @@ sakai.pickeruser = function(tuid, showSettings) {
         $pickeruser_container.jqmShow();
         render(config);
         callback = callbackFn;
+    });
+
+    $pickeruser_close_button.bind("click", function() {
+        $pickeruser_container.jqmHide();
     });
 
     // Create a config object for this instance
