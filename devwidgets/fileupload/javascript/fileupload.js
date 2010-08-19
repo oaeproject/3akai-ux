@@ -37,6 +37,8 @@ sakai.fileupload = function(tuid, showSettings){
     // Configuration variables //
     /////////////////////////////
 
+    var rootel = $("#" + tuid);
+
     // Variable used to check if all tags have been created and linking them to the uploaded files can start
     var checkTaggingAgain;
     // All files that need to have been uploaded
@@ -138,10 +140,10 @@ sakai.fileupload = function(tuid, showSettings){
         // Render the template
         var renderedTemplate = $.TemplateRenderer(fileUploadAddToTemplate, groupContextData).replace(/\r/g, '');
         var renderedDiv = $(document.createElement("div"));
-        $(fileUploadAddToTemplateContainer).html(renderedTemplate);
+        $(fileUploadAddToTemplateContainer, rootel).html(renderedTemplate);
 
         // Show lightbox
-        $(fileUploadContainer).jqmShow();
+        $(fileUploadContainer, rootel).jqmShow();
     };
 
     /**
@@ -164,7 +166,7 @@ sakai.fileupload = function(tuid, showSettings){
      */
     var closeUploadBox = function(hash){
         // Clear HTML, Clear file list, remove jqm box
-        $(fileUploadRenderedTagging).html("");
+        $(fileUploadRenderedTagging, rootel).html("");
         // Remove files out of list
         $(multiFileRemove).each(function(){
             $(this).click();
@@ -182,7 +184,7 @@ sakai.fileupload = function(tuid, showSettings){
         uploadedFiles = []
 
         // Clear HTML, Clear file list
-        $(fileUploadRenderedTagging).html("");
+        $(fileUploadRenderedTagging, rootel).html("");
 
         // Close the jqm box
         $(fileUploadContainer).jqmHide();
@@ -190,31 +192,31 @@ sakai.fileupload = function(tuid, showSettings){
         // Show notification
         var notification = "";
         if (filesUploaded) {
-            notification += $(fileupload_files_uploaded).html();
+            notification += $(fileupload_files_uploaded, rootel).html();
         } else {
-            notification += $(fileupload_files_not_uploaded).html();
+            notification += $(fileupload_files_not_uploaded, rootel).html();
         }
         if (setDescriptionandName) {
-            notification += $(fileupload_description_name_set).html();
+            notification += $(fileupload_description_name_set, rootel).html();
         } else{
-            notification += $(fileupload_description_name_not_set).html();
+            notification += $(fileupload_description_name_not_set, rootel).html();
         }
         if (tagsCreated) {
-            notification += $(fileupload_tags_created).html();
+            notification += $(fileupload_tags_created, rootel).html();
         } else {
-            notification += $(fileupload_tags_not_created).html();
+            notification += $(fileupload_tags_not_created, rootel).html();
         }
         if (filesTagged) {
-            notification += $(fileupload_files_tagged).html();
+            notification += $(fileupload_files_tagged, rootel).html();
         } else {
-            notification += $(fileupload_files_not_tagged).html();
+            notification += $(fileupload_files_not_tagged, rootel).html();
         }
         if (setPermissions){
-            notification += $(fileupload_permissions_set).html();
+            notification += $(fileupload_permissions_set, rootel).html();
         } else {
-            notification += $(fileupload_permissions_not_set).html();
+            notification += $(fileupload_permissions_not_set, rootel).html();
         }
-        sakai.api.Util.notification.show($(fileupload_files_successfully_uploaded).html(), notification);
+        sakai.api.Util.notification.show($(fileupload_files_successfully_uploaded, rootel).html(), notification);
 
         // Reset booleans
         setDescriptionandName = false;
@@ -495,6 +497,10 @@ sakai.fileupload = function(tuid, showSettings){
                         // Disable input fields
                         $(fileUploadAddTags)[0].disabled = false;
                         $(fileUploadAddDescription)[0].disabled = false;
+                        $.each($(".fileupload_file_name input"), function(){
+                            $(this)[0].disabled = false;
+                        })
+                        $(fileUploadPermissionsSelect)[0].disabled = false;
                         // Show a notification
                         sakai.api.Util.notification.show($(fileupload_no_files).html(),$(fileupload_no_files_were_uploaded).html());
                     }
@@ -537,6 +543,13 @@ sakai.fileupload = function(tuid, showSettings){
         // Disable input fields
         $(fileUploadAddTags)[0].disabled = true;
         $(fileUploadAddDescription)[0].disabled = true;
+        $.each($(".fileupload_file_name input"), function(){
+            $(this)[0].disabled = true;
+        })
+        $.each($(".MultiFile-remove"), function(){
+            $(this).addClass("hide_remove_link");
+        })
+        $(fileUploadPermissionsSelect)[0].disabled = true;
         // Initiate the tagging process
         formatTags($(fileUploadAddTags).val());
     });
