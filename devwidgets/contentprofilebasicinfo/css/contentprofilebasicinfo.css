@@ -15,3 +15,11 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
+
+ /* Form */
+.content_profile_basic_info_form_section_header{border-bottom:1px solid #EBEBEB;color:#5A6A7C;font-size:16px;font-weight:normal;margin:20px 0;padding:0 0 5px 5px;}
+.content_profile_basic_info_form_row{margin-bottom:10px;overflow:hidden;}
+#content_profile_basic_info_form label{clear:both;color:#454A4F;display:inline;float:left;font-weight:bold;width:120px;padding:3px;}
+#content_profile_basic_info_form input[type="text"],#content_profile_basic_info_form textarea{border:1px solid #dddddd;display:inline;float:left;width:320px;margin:1px;padding:3px;}
+.content_profile_basic_info_form_info{clear:both;color:#aaa;font-size:.9em;margin:5px 0 0 128px;}
+.content_profile_basic_info_form_buttons{margin-top:20px;}
