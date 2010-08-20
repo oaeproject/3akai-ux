@@ -42,6 +42,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
     var contentProfileBasicInfoFormName = "#content_profile_basic_info_form_name";
     var contentProfileBasicInfoFormTags = "#content_profile_basic_info_form_tags";
     var contentProfileBasicInfoFormDescription = "#content_profile_basic_info_form_description";
+    var contentProfileBasicInfoFormPermissionsSelect = "#content_profile_basic_info_permissions_select";
 
     /**
      * Get the values from the basic information form
@@ -81,6 +82,8 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
             data["sakai:tags"] = "";
         }
 
+        data["jcr:copyright"] = $(contentProfileBasicInfoFormPermissionsSelect)[0].value;
+
         // Set the correct mixintype
         data["jcr:mixinTypes"] = "sakai:propertiesmix";
 
@@ -88,7 +91,18 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
         return data;
     };
 
-/**
+    /**
+     * Enable or disable all fields on the basic info widget
+     */
+    var enableDisableBasicInfoFields = function(bool){
+        $(contentProfileBasicInfoFormPermissionsSelect)[0].disabled = bool;
+        $(contentProfileBasicInfoFormTags)[0].disabled = bool;
+        $(contentProfileBasicInfoFormDescription)[0].disabled = bool;
+        $(contentProfileBasicInfoFormName)[0].disabled = bool;
+        $(contentProfileBasicInfoForm)[0].disabled = bool;
+    };
+
+    /**
      * Add binding to the basic info
      */
     var addBindingBasicinfo = function(){
@@ -96,6 +110,8 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
         $(contentProfileBasicInfoForm).bind("submit", function(){
             // Get all the value for the form
             var data = getFormValues();
+            // Disable basic info fields
+            enableDisableBasicInfoFields(true);
 
             // Send the Ajax request
             $.ajax({
@@ -108,7 +124,8 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                     $(window).trigger('hashchange');
                 },
                 error: function(xhr, textStatus, thrownError){
-                    alert("FAIL");
+                    // Enable basic info fields and show error message
+                    enableDisableBasicInfoFields(false);
                 }
             });
         });

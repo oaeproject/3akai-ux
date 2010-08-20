@@ -8,16 +8,16 @@
         <h4 class="content_profile_basic_info_form_section_header">__MSG__BASIC_INFO__</h4>
         <div class="content_profile_basic_info_form_row">
             <label for="content_profile_basic_info_form_name">
-                __MSG__NAME__:
+                __MSG__NAME__
             </label>
             <input type="text" id="content_profile_basic_info_form_name" {if  data["sakai:name"]}value="${data["sakai:name"]}"{/if}/>
         </div>
         <div class="content_profile_basic_info_form_row">
             <label for="content_profile_basic_info_form_tags">
-                __MSG__TAGS__:
+                __MSG__TAGS__
             </label>
             <textarea id="content_profile_basic_info_form_tags">
-                {if data["sakai:tags"]}${data["sakai:tags"].join(", ")}{/if}
+                {if data["sakai:tags"]}${data["sakai:tags"]}{/if}
             </textarea>
             <br/>
             <div class="content_profile_basic_info_form_info">
@@ -26,52 +26,22 @@
         </div>
         <div class="content_profile_basic_info_form_row">
             <label for="content_profile_basic_info_form_description">
-                __MSG__DESCRIPTION__:
+                __MSG__DESCRIPTION__
             </label>
             <textarea id="content_profile_basic_info_form_description">
                 {if data["sakai:description"]}${data["sakai:description"]}{/if}
             </textarea>
         </div>
-        <div class="content_profile_basic_info_form_row s3d-hidden">
-            <label for="content_profile_basic_info_form_copyright">
-                __MSG__COPYRIGHT__:
+        <div class="content_profile_basic_info_permissions">
+            <label for="content_profile_basic_info_form_description">
+                __MSG__KIND_OF_COPYRIGHT__
             </label>
-            <select id="content_profile_basic_info_form_copyright">
-                <option>Creative Commons License</option>
-                <option>No Copyright</option>
-                <option>Let Others Copy</option>
-            </select>
-        </div>
-        <div class="content_profile_basic_info_form_row s3d-hidden">
-            <label for="content_profile_basic_info_form_copyright_owner">
-                __MSG__COPYRIGHT_OWNER__:
-            </label>
-            <select id="content_profile_basic_info_form_copyright_owner">
-                <option>I am the Owner</option>
-                <option>I have the owners permission</option>
-                <option>I don't have the owners Permission</option>
-            </select>
-        </div>
-        <div class="content_profile_basic_info_form_row s3d-hidden">
-            <label for="content_profile_basic_info_form_manage_content">
-                __MSG__MANAGE_CONTENT__:
-            </label>
-            <textarea id="content_profile_basic_info_form_manage_content" />
-            <select id="content_profile_basic_info_form_manage_content">
-                <option>I am the Owner</option>
-                <option>I have the owners permission</option>
-                <option>I don't have the owners Permission</option>
-            </select>
-        </div>
-        <div class="content_profile_basic_info_form_row s3d-hidden">
-            <label for="content_profile_basic_info_form_see_content">
-                __MSG__SEE_CONTENT__:
-            </label>
-            <textarea id="content_profile_basic_info_form_see_content" />
-            <select id="content_profile_basic_info_form_see_content">
-                <option>I am the Owner</option>
-                <option>I have the owners permission</option>
-                <option>I don't have the owners Permission</option>
+            <select id="content_profile_basic_info_permissions_select">
+                <option value="__MSG__CREATIVE_COMMONS_LICENSE__" {if data["jcr:copyright"] === "__MSG__CREATIVE_COMMONS_LICENSE__"}selected="selected"{/if}>__MSG__CREATIVE_COMMONS_LICENSE__</option>
+                <option value="__MSG__COPYRIGHTED__" {if data["jcr:copyright"] === "__MSG__COPYRIGHTED__"}selected="selected"{/if}>__MSG__COPYRIGHTED__</option>
+                <option value="__MSG__NO_COPYRIGHT__" {if data["jcr:copyright"] === "__MSG__NO_COPYRIGHT__"}selected="selected"{/if}>__MSG__NO_COPYRIGHT__</option>
+                <option value="__MSG__LICENSED__" {if data["jcr:copyright"] === "__MSG__LICENSED__"}selected="selected"{/if}>__MSG__LICENSED__</option>
+                <option value="__MSG__WAIVE_COPYRIGHT__" {if data["jcr:copyright"] === "__MSG__WAIVE_COPYRIGHT__"}selected="selected"{/if}>__MSG__WAIVE_COPYRIGHT__</option>
             </select>
         </div>
         <div class="content_profile_basic_info_form_buttons">
