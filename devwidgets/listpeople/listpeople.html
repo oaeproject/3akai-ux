@@ -27,16 +27,28 @@
     </div>
 
     <div class="listpeople_content_pagetemplate" style="display:none;"><!--
-        {for i in rawData.results}
-            {if i.id}
-            <li id="${i.id}">
-                {if selectable}<input type="checkbox" name="selected" value="${i.id}" />{/if}
+        {for i in userList}
+            {if i.groupid}
+            <li id="${i.groupid}">
+                {if selectable}<input type="checkbox" name="selected" value="${i.groupid}" />{/if}
                 {if i.picture}
-                    <a href="/~${i.id}" target="_blank"><img src="/~${i["rep:userId"]}/public/profile/${i.picture.name}" alt="Group picture for ${i.authprofile['sakai:group-title']}" class="listpeople_ppicture"/></a>
+                    <a href="/~${i.groupid}" target="_blank"><img src="/~${i.groupid}/public/profile/${i.picture.name}" alt="Group picture for ${i['sakai:group-title']}" class="listpeople_ppicture"/></a>
                 {else}
-                    <a href="/~${i.id}" target="_blank"><img src="/dev/_images/group_avatar_icon_32x32.png" alt="Default group picture" class="listpeople_ppicture"/></a>
+                    <a href="/~${i.groupid}" target="_blank"><img src="/dev/_images/group_avatar_icon_32x32.png" alt="Default group picture" class="listpeople_ppicture"/></a>
                 {/if}
-                <a class="listpeople_name" href="/~${i.id}" target="_blank">${i.authprofile['sakai:group-title']}</a>
+                <a class="listpeople_name" href="/~${i.groupid}" target="_blank">${i['sakai:group-title']}</a>
+                <br />
+                <span class="listpeople_subnameinfo">${i.subNameInfo}</span>
+            </li>
+            {elseif i.userid}
+            <li id="${i.userid}">
+                {if selectable}<input type="checkbox" name="selected" value="${i.userid}" />{/if}
+                {if i.picture}
+                    <a href="/dev/profile.html?user=${i.userid}" target="_blank"><img src="/~${i.userid}/public/profile/${i.picture.name}" alt="Profile picture for ${i.displayName}" class="listpeople_ppicture"/></a>
+                {else}
+                    <a href="/dev/profile.html?user=${i.userid}" target="_blank"><img src="/dev/_images/user_avatar_icon_32x32.png" alt="Default profile picture" class="listpeople_ppicture"/></a>
+                {/if}
+                <a class="listpeople_name" href="/dev/profile.html?user=${i.userid}" target="_blank">${i.displayName}</a>
                 <br />
                 <span class="listpeople_subnameinfo">${i.subNameInfo}</span>
             </li>
