@@ -69,7 +69,7 @@ sakai.creategroup = function(tuid, showSettings){
     var invalidFieldClass = "invalid";
 
     // Pages to be added to the group
-    var pagestemplate = "interdisciplinary";
+    var pagestemplate = "defaultgroup";
 
     ///////////////////////
     // Utility functions //
