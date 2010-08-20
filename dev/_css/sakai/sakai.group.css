@@ -17,3 +17,33 @@
     margin: 30px 0 15px 0;
     overflow: hidden;
 }
+
+/* Listpeople widget headings */
+.group_userlist_header {
+    border-bottom: 1px solid #999;
+    margin: 15px 0;
+    overflow: hidden;
+    padding: 7px 0;
+    margin-top: 80px;
+}
+
+.group_userlist_header h2 {
+    color: #333333;
+    font-size: 24px;
+    font-weight: normal;
+    margin-top: 0pt;
+    margin-right: 0pt;
+    margin-bottom: 0pt;
+    margin-left: 0pt;
+    padding-right: 5px;
+    width: 400px;
+}
+
+.group_edit_section_container {
+    margin: 20px 20px 80px 20px;
+}
+
+/* save or cancel buttons */
+.group_editing {
+    margin-top: 20px;
+}
