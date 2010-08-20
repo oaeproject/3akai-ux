@@ -17,7 +17,7 @@
  */
 
 /* Main container */
-#content_profile_basic_info_container {
+#content_profile_basic_info_container, #content_profile_file_details_container {
     background: #ffffff;
     padding-bottom: 20px;
 }

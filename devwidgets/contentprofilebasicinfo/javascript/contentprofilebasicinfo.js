@@ -166,7 +166,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                 }
             });
         }
-    }
+    };
 
     /**
      * Initialize the widget
@@ -183,7 +183,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
         // Since the event is only triggered when the hash changes, we need to trigger
         // the event now, to handle the hash the page may have loaded with.
         $(window).trigger('hashchange');
-    }
+    };
 
     doInit();
 

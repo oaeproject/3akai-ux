@@ -79,7 +79,6 @@ sakai.entity = function(tuid, showSettings){
     var $entity_container = $("#entity_container", $rootel);
     var $entity_container_template = $("#entity_container_template", $rootel);
     var $entity_container_actions = $("#entity_container_actions", $rootel);
-    var $entity_container_actions_template = $("#entity_container_actions_template", $rootel);
 
     // Profile
     var $entity_profile_status;
@@ -93,11 +92,6 @@ sakai.entity = function(tuid, showSettings){
     var entityProfileChatstatus = "#entity_profile_chatstatus";
     var profileChatStatusClass = ".myprofile_chat_status";
     var profileChatStatusID = "#myprofile_chat_status_";
-
-    // Actions
-    var $entity_action_delete = $("#entity_action_delete", $rootel);
-    var $entity_action_download = $("#entity_action_download", $rootel);
-    var $entity_action_upload = $("#entity_action_upload", $rootel);
 
     var authprofileURL;
 
@@ -139,9 +133,7 @@ sakai.entity = function(tuid, showSettings){
      */
     var renderTemplate = function(){
         $.TemplateRenderer($entity_container_template, entityconfig, $entity_container);
-        $.TemplateRenderer($entity_container_actions_template, entityconfig, $entity_container_actions);
         $entity_container.show();
-        $entity_container_actions.show();
     };
 
     /**
@@ -305,48 +297,6 @@ sakai.entity = function(tuid, showSettings){
     };
 
     /**
-     * Add binding to the downlaod button
-     */
-    var addBindingDownload = function(){
-
-        // Reinitialise the jQuery selector
-        $entity_action_download = $($entity_action_download.selector);
-
-        // Open the content in a new window
-        $entity_action_download.bind("click", function(){
-            window.open(entityconfig.data.profile.path);
-        });
-
-    };
-
-    /**
-     * Add binding to the delete button
-     */
-    var addBindingDelete = function(){
-
-        // Reinitialise the jQuery selector
-        $entity_action_delete = $($entity_action_delete.selector);
-
-        // Open the delete content pop-up
-        $entity_action_delete.bind("click", function(){
-            sakai.deletecontent.init(entityconfig.data.profile);
-        });
-    };
-
-    /**
-     * Add binding to the upload buttons
-     */
-    var addBindingUpload = function(){
-        // Reinitialise the jQuery selector
-        $entity_action_upload = $($entity_action_upload.selector);
-
-        // Initialise the uploadcontent widget
-        $entity_action_upload.bind("click", function(){
-            sakai.uploadcontent.init(entityconfig.data.profile);
-        });
-    };
-
-    /**
      * Add binding to various elements on the entity widget
      */
     var addBinding = function(){
@@ -357,17 +307,6 @@ sakai.entity = function(tuid, showSettings){
             // Add binding related to chat status
             addBindingChatStatus();
         }
-        else if(entityconfig.mode === "content"){
-            // Add binding to the download button
-            addBindingDownload();
-
-            // Add binding to the delete button
-            addBindingDelete();
-
-            // Add binding to the upload button
-            addBindingUpload();
-        }
-
     };
 
     /**

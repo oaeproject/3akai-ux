@@ -22,4 +22,4 @@
 #content_profile_basic_info_form label{clear:both;color:#454A4F;display:inline;float:left;font-weight:bold;width:120px;padding:3px;}
 #content_profile_basic_info_form input[type="text"],#content_profile_basic_info_form textarea{border:1px solid #dddddd;display:inline;float:left;width:320px;margin:1px;padding:3px;}
 .content_profile_basic_info_form_info{clear:both;color:#aaa;font-size:.9em;margin:5px 0 0 128px;}
-.content_profile_basic_info_form_buttons{margin-top:20px;}
+.content_profile_basic_info_form_buttons{clear:both; float:left; margin:5px 0 0 330px;}

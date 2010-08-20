@@ -1,0 +1,28 @@
+/*
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+
+#content_profile_file_details_container #content_profile_file_details_details, #content_profile_file_details_container #content_profile_file_details_actions {padding:10px}
+#content_profile_file_details_container #content_profile_file_details_details {background-color:#eef2f5;}
+#content_profile_file_details_container #content_profile_file_details_actions {background-color:#979ba1;}
+#content_profile_file_details_container #content_profile_file_details_details_secondcolumn {}
+#content_profile_file_details_container #content_profile_file_details_details_firstcolumn {float:left; width:400px;}
+#content_profile_file_details_container .content_profile_file_details_title {padding:0 20px 5px 0; font-weight:normal; color:#333333; float:right;}
+#content_profile_file_details_container #content_profile_file_details_titles {float:right;}
+#content_profile_file_details_container #content_profile_file_details_basic_info {float:left; width:260px;}
+#content_profile_file_details_container p {padding:0 0 5px 0; margin:0; font-weight:bold;}
+#content_profile_file_details_container hr {margin-top:20px; visibility:hidden;}
