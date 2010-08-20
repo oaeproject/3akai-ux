@@ -1,0 +1,103 @@
+<!-- STYLESHEET -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/sakai2tools/css/sakai2tools.css" />
+
+<!-- SETTINGS -->
+<div id="basiclti_settings" style="display:none;">
+
+</div>
+
+<!-- The main  settings template -->
+<div id="basiclti_settings_template"><!--
+    <form>
+        <div class="basiclti_settings_subcontainer">
+            <p>
+                <label for="basiclti_settings_lti_virtual_tool_id">Tool:</label>
+                <select id="basiclti_settings_lti_virtual_tool_id" name="lti_virtual_tool_id">
+                    <option value="sakai.announcements">Announcements</option>
+                    <option value="sakai.assignment.grades">Assignments</option>
+                    <option value="sakai.schedule">Calendar</option>
+                    <option value="sakai.summary.calendar">Calendar Summary</option>
+                    <option value="sakai.chat">Chat Room</option>
+                    <option value="sakai.dropbox">Drop Box</option>
+                    <option value="sakai.mailbox">Email Archive</option>
+                    <option value="sakai.forums">Forums</option>
+                    <option value="sakai.gradebook.tool">Gradebook</option>
+                    <option value="sakai.messages">Messages</option>
+                    <option value="sakai.news">News</option>
+                    <option value="sakai.poll">Polls</option>
+                    <option value="sakai.postem">PostEm</option>
+                    <option value="sakai.profile">Profile</option>
+                    <option value="sakai.profile2">Profile2</option>
+                    <option value="sakai.resources">Resources</option>
+                    <option value="sakai.site.roster">Roster</option>
+                    <option value="sakai.rwiki">rWiki</option>
+                    <option value="sakai.singleuser">Single User</option>
+                    <option value="sakai.syllabus">Syllabus</option>
+                    <option value="sakai.samigo">Tests & Quizzes</option>
+                </select>
+            </p>
+            <p>
+                <label class="basiclti_settings_label_head"></label> <span><br class="fl-push" />
+            </p>
+            <div id="basiclti_settings_preview">
+
+            </div>
+            <button type="button" class="s3d-button s3d-button-primary" id="basiclti_settings_advanced_toggle_settings"><span class="s3d-button-inner">Advanced Settings <span id="basiclti_settings_advanced_down">&#8595;</span><span id="basiclti_settings_advanced_up">&#8593;</span></span></button>
+        </div>
+        <div id="basiclti_settings_advanced" style="display:none;">
+            <div class="basiclti_settings_subcontainer">
+                <label class="basiclti_settings_label_head">Size:</label><br />
+                <div class="basiclti_settings_block">
+                    <label for="basiclti_settings_width">Width:</label>
+                    <input type="text" id="basiclti_settings_width" value="${width}" />
+                    <a href="javascript:;" id="basiclti_settings_width_unit_px" class="basiclti_settings_width_unit {if width_unit == "px"} basiclti_settings_width_unit_selected{/if}"> px</a>
+                    <span> or </span>
+                    <a href="javascript:;" id="basiclti_settings_width_unit_percent" class="basiclti_settings_width_unit {if width_unit == "%"} basiclti_settings_width_unit_selected{/if}"> %</a>
+                    <br />
+                    <label for="basiclti_settings_frame_height">Height:</label>
+                    <input type="text" id="basiclti_settings_frame_height" value="${frame_height}" /><span> px</span>
+                    <button type="button" class="s3d-button s3d-button-primary" id="basiclti_settings_reset_size"><span class="s3d-button-inner">Reset to original size</span></button>
+                    <br class="fl-push" />
+                </div>
+            </div>
+
+            <div class="basiclti_settings_subcontainer">
+                <label class="basiclti_settings_label_head">Border:</label><br />
+                <div class="basiclti_settings_block">
+                    <label for="basiclti_settings_borders">Width:</label>
+                    <input type="text" id="basiclti_settings_borders" value="${border_size}" /><span> px</span><br class="fl-push" />
+                    <div id="basiclti_settings_color_container">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dialog_buttons">
+            <button type="button" class="s3d-button s3d-button-primary" id="basiclti_settings_insert"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
+            <button type="button" class="s3d-button" id="basiclti_settings_cancel"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
+        </div>
+    </form>
+--></div>
+
+<!-- Template to show the preview of the iframe -->
+<div id="basiclti_settings_preview_template"><!--
+    <iframe name="${tuidFrame}" id="${tuidFrame}" style="border: ${border_size}px #${border_color} solid" src="${launchDataUrl}" width="${width}${width_unit}" height="${frame_height}px"></iframe>
+--></div>
+
+<!-- Template for choosing the color -->
+<div id="basiclti_settings_color_container_template"><!--
+    <label>Color:</label>
+    <a id="basiclti_settings_color_000000" class="basiclti_settings_color {if border_color == "000000"} basiclti_settings_color_selected{/if}">&nbsp;</a>
+    <a id="basiclti_settings_color_cccccc" class="basiclti_settings_color {if border_color == "cccccc"} basiclti_settings_color_selected{/if}">&nbsp;</a>
+    <a id="basiclti_settings_color_ff0000" class="basiclti_settings_color {if border_color == "ff0000"} basiclti_settings_color_selected{/if}">&nbsp;</a>
+    <a id="basiclti_settings_color_008000" class="basiclti_settings_color {if border_color == "008000"} basiclti_settings_color_selected{/if}">&nbsp;</a>
+    <a id="basiclti_settings_color_0000ff" class="basiclti_settings_color {if border_color == "0000ff"} basiclti_settings_color_selected{/if}">&nbsp;</a>
+    <br class="fl-push" />
+--></div>
+
+<!-- MAIN CONTAINER -->
+<div id="basiclti_main_container" style="display:none;">
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/sakai2tools/javascript/sakai2tools.js" />
