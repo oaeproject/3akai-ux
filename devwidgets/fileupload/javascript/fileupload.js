@@ -497,9 +497,7 @@ sakai.fileupload = function(tuid, showSettings){
                         // Disable input fields
                         $(fileUploadAddTags)[0].disabled = false;
                         $(fileUploadAddDescription)[0].disabled = false;
-                        $.each($(".fileupload_file_name input"), function(){
-                            $(this)[0].disabled = false;
-                        })
+                        $(".fileupload_file_name input").enable(true)
                         $(fileUploadPermissionsSelect)[0].disabled = false;
                         // Show a notification
                         sakai.api.Util.notification.show($(fileupload_no_files).html(),$(fileupload_no_files_were_uploaded).html());
@@ -543,12 +541,8 @@ sakai.fileupload = function(tuid, showSettings){
         // Disable input fields
         $(fileUploadAddTags)[0].disabled = true;
         $(fileUploadAddDescription)[0].disabled = true;
-        $.each($(".fileupload_file_name input"), function(){
-            $(this)[0].disabled = true;
-        })
-        $.each($(".MultiFile-remove"), function(){
-            $(this).addClass("hide_remove_link");
-        })
+        $(".fileupload_file_name input").enable(false)
+        $(".MultiFile-remove").addClass("hide_remove_link");
         $(fileUploadPermissionsSelect)[0].disabled = true;
         // Initiate the tagging process
         formatTags($(fileUploadAddTags).val());
