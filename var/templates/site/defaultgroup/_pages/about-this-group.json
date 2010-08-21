@@ -1,0 +1,8 @@
+{
+	"sling:resourceType": "sakai/page",
+	"pageTitle": "About This Group",
+	"pageType": "webpage", 
+	"pagePosition": 200000,
+	"jcr:mixinTypes": "sakai:propertiesmix",
+    "fullwidth": true
+}

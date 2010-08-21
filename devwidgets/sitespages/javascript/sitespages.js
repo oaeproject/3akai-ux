@@ -243,6 +243,23 @@ sakai.sitespages = function(tuid,showSettings){
 
     };
 
+
+    $("#more_make_full_width").bind("click", function(ev){
+        $("#more_make_full_width").hide();
+        $("#more_make_two_column").show();
+        sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage].fullwidth = true;
+        sakai.sitespages.openPageH(sakai.sitespages.selectedpage);
+        sakai.sitespages.savePage(sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["jcr:path"], sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageType"], sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageTitle"], sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"], sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pagePosition"], "parent", true, function(success, return_data){});
+    });
+
+    $("#more_make_two_column").bind("click", function(ev){
+        $("#more_make_two_column").hide();
+        $("#more_make_full_width").show();
+        sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage].fullwidth = false;
+        sakai.sitespages.openPageH(sakai.sitespages.selectedpage);
+        sakai.sitespages.savePage(sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["jcr:path"], sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageType"], sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageTitle"], sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"], sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pagePosition"], "parent", false, function(success, return_data){});
+    });
+
     /**
      * Open page H
      * @param {String} pageid
@@ -278,6 +295,18 @@ sakai.sitespages = function(tuid,showSettings){
 
         //Store currently selected page
         sakai.sitespages.selectedpage = pageUrlName;
+
+        if (sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage] && sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage].fullwidth){
+            $(".content_container").addClass("sitepages_fullwidth");
+            $("#page_nav_content").hide();
+            $("#more_make_full_width").hide();
+            $("#more_make_two_column").show();
+        } else {
+            $(".content_container").removeClass("sitepages_fullwidth");
+            $("#page_nav_content").show();
+            $("#more_make_full_width").show();
+            $("#more_make_two_column").hide();
+        }
 
         if (sakai.sitespages.site_info._pages[pageUrlName] != undefined) {
           // Get page type
@@ -494,7 +523,7 @@ sakai.sitespages = function(tuid,showSettings){
         string += months_lookup[month] + " " + day + ", " + year + " " + ("00" + hour).slice(-2) + ":" + ("00" + minute).slice(-2);
         return string;
     };
-    
+
     /**
      * Reset version history
      * @return void

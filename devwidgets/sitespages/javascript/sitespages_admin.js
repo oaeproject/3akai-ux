@@ -174,12 +174,13 @@ sakai.sitespages.site_admin = function(){
      * @param callback {Function} Callback function which is executed at the end of the operation (data/xhr,true/false)
      * @returns void
      */
-    sakai.sitespages.savePage = function(i_url, type, title, content, position, acl, callback) {
+    sakai.sitespages.savePage = function(i_url, type, title, content, position, acl, fullwidth, callback) {
 
         var site_data_string = $.toJSON({
             "sling:resourceType": "sakai/page",
             "pageTitle": title,
             "pageType": type,
+            "fullwidth": fullwidth,
             "pagePosition": position,
             "_pages": {},
             "pageContent": {
@@ -825,7 +826,7 @@ sakai.sitespages.site_admin = function(){
                 var newPageUniques = sakai.sitespages.createPageUniqueElements(newpagetitle, sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageFolder"]);
 
                 // Save page and content
-                sakai.sitespages.savePage(newPageUniques.url, "webpage", newpagetitle, content, ("" + (determineHighestPosition() + 100000)), "parent", function(success, return_data){
+                sakai.sitespages.savePage(newPageUniques.url, "webpage", newpagetitle, content, ("" + (determineHighestPosition() + 100000)), "parent", false, function(success, return_data){
 
                     if (success) {
 
@@ -914,7 +915,7 @@ sakai.sitespages.site_admin = function(){
                 sakai.api.Widgets.widgetLoader.insertWidgets(sakai.sitespages.selectedpage,null,sakai.sitespages.config.basepath + "_widgets/");
 
                 // Save page node
-                sakai.sitespages.savePage(sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["jcr:path"], sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageType"], sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageTitle"], sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"], sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pagePosition"], "parent", function(success, return_data){
+                sakai.sitespages.savePage(sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["jcr:path"], sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageType"], sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageTitle"], sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"], sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pagePosition"], "parent", (sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage].fullwidth || false), function(success, return_data){
 
                     if (success) {
 
@@ -1779,7 +1780,7 @@ sakai.sitespages.site_admin = function(){
             sakai.sitespages.pagecontents[pageUniques.urlName]["sakai:pagecontent"] = content;
         }
 
-        sakai.sitespages.savePage(pageUniques.url, "webpage", untitled_page_title, content, (determineHighestPosition() + 100000), "parent", function(success, data){
+        sakai.sitespages.savePage(pageUniques.url, "webpage", untitled_page_title, content, (determineHighestPosition() + 100000), "parent", false, function(success, data){
 
             if (success) {
 
@@ -1840,7 +1841,7 @@ sakai.sitespages.site_admin = function(){
         var defaultDashboardContent = '<div id="widget_dashboard_' + dashboardUID + '_' + sakai.sitespages.config.basepath + "_widgets/" + '" class="widget_inline"></div>';
 
         // Create page node for dashboard page
-        sakai.sitespages.savePage(pageUniques.url, "dashboard", title, defaultDashboardContent, (determineHighestPosition() + 200000), "parent", function(success, data){
+        sakai.sitespages.savePage(pageUniques.url, "dashboard", title, defaultDashboardContent, (determineHighestPosition() + 200000), "parent", false, function(success, data){
 
             // If page save was successful
             if (success) {
@@ -2380,7 +2381,7 @@ sakai.sitespages.site_admin = function(){
                 }
                 sakai.api.Activity.createActivity(nodeUrl, "site", "default", activityData);
                 */
-                
+
                 delete sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage];
                 delete sakai.sitespages.pagecontents[sakai.sitespages.selectedpage];
                 sakai.sitespages.autosavecontent = false;

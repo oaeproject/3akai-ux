@@ -7,20 +7,22 @@
 <div class="sakai_site">
 
 <!-- CONTENT -->
-    <div class="fl-fix fl-centered">
+    <div class="fl-fix fl-centered" style="overflow:hidden">
 
         <!-- MAIN PAGE -->
         <div class="fl-fix fl-col-fixed main_container" id="show_view_container">
+
+
 
             <!-- Page Nav -->
             <div class="fl-col page_nav">
 
                 <div class="add_a_new_container">
-                <a class="add_a_new" id="add_a_new" style="display:none" href="javascript:;">Add a New ...</a>
+                    <a class="add_a_new" id="add_a_new" style="display:none" href="javascript:;">Add a New ...</a>
                 </div>
 
                 <!-- Page navigation -->
-                <div id="page_nav_content" class="pages page_nav_content">
+                <div id="page_nav_content" class="pages page_nav_content" style="display:none">
 
                 </div>
 
@@ -31,7 +33,7 @@
                     <div class="sm_titlebar_inner"><h2 class="sm_title">Site Management</h2></div>
                     </div>
 
-                    
+
 
                     <div class="sm_bottom">
                         <div class="sm_bottom_inner"><!-- --></div>
@@ -50,7 +52,7 @@
             </div>
 
             <!-- MAIN CONTENT -->
-            <div class="fl-col-fixed content_container">
+            <div class="fl-col-fixed content_container sitepages_fullwidth">
 
                 <!-- TOP BORDER -->
                 <div class="content_top"><div class="content_top_inner"><!-- --></div></div>
@@ -202,6 +204,8 @@
                 <li id="more_revision_history" class="more_option" style="border-bottom:1px solid #CCCCCC"><a href="javascript:;">Revision History</a></li>
                 <li id="more_move" class="more_option move_dialog_trigger"><a href="javascript:;">Move</a></li>
                 <li id="more_save_as_template" class="more_option"><a href="javascript:;">Save as Template</a></li>
+                <li id="more_make_full_width" class="more_option"><a href="javascript:;">Make full width</a></li>
+                <li id="more_make_two_column" class="more_option"><a href="javascript:;">Make two column layout</a></li>
                 <li id="more_delete" class="more_option"><a href="javascript:;">Delete</a></li>
             </ul>
         </div>
@@ -500,13 +504,13 @@
                 <div class="dialog_footer_inner"><!-- --></div>
             </div>
         </div>
-       
+
 </div>
 
 <!-- <div class="sm_content">
 	<ul>
 	    <li><a id="site_management_basic_link" href="/dev/site_management_basic_settings.html?siteid=">Site Settings</a></li>
-	    <li><a id="site_management_files_link" href="/dev/content_media.html?siteid=">Site Files</a></li> 
+	    <li><a id="site_management_files_link" href="/dev/content_media.html?siteid=">Site Files</a></li>
 	    <li><a id="site_management_members_link" href="/dev/site_management_members_manage.html?siteid=">Members</a></li>
 	    <li><a id="site_management_appearance_link" href="/dev/site_management_appearance.html?siteid=">Appearance</a></li>
 	    <li><a href="javascript:;" id="edit_sidebar">Edit Sidebar</a></li>
