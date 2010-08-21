@@ -1,1 +1,7 @@
-#fileupload_container {display:none;}
+/*** LAYOUT ***/
+img.mycontent_item_mime {height:16px; width:16px;}
+div.mycontent_item_even {background:#eef2f5;}
+
+/*** TYPOGRAPHY ***/
+p.mycontent_item_title {color:#006d96; font-weight:bold; font-size:1em;}
+p.mycontent_item_meta {font-size:1em;}

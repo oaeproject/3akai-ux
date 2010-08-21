@@ -3,9 +3,28 @@
 
 <div class="mycontent_widget">
     <div class="fl-widget-content">
-        <!-- MAIN VIEW -->
-        <div id="mycontent_main">
-            <p>My content here:</p>
+        <!-- ERRORS -->
+        <div id="mycontent_nocontent" style="display:none;">
+            <p>__MSG__NO_CONTENT__</p>
+        </div>
+
+        <div id="mycontent_list" style="display:none;">
+            <div id="mycontent_list_template"><!--
+                {var i = 0}
+                {for item in items}
+                {eval} i++; {/eval}
+                <div class="mycontent_item{if i % 2 == 0} mycontent_item_even{/if}">
+                    <div class="mycontent_item_img fl-force-left"><img class="mycontent_item_mime"
+                        src="${item.type_img_url}" />
+                    </div>
+                    <div class="mycontent_item_info fl-force-left">
+                        <p class="mycontent_item_title"><a href="/dev/content_profile.html#content_path=${item.path}">${item.name}</a></p>
+                        <p class="mycontent_item_meta">${item.type} (45KB)</p>
+                    </div>
+                </div>
+                <div class="fl-push" />
+                {/for}
+            --></div>
         </div>
     </div>
     <div class="fl-widget-options fl-fix">

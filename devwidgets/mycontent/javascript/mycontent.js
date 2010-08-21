@@ -30,7 +30,7 @@
  * @param {String} tuid Unique id of the widget
  * @param {Boolean} showSettings Show the settings of the widget or not
  */
-sakai.mycontent = function(tuid, showSettings){
+sakai.mycontent = function(tuid, showSettings) {
 
 
     /////////////////////////////
@@ -41,12 +41,91 @@ sakai.mycontent = function(tuid, showSettings){
     var rootel = $("#" + tuid);
     var uploadLink = "#upload_link";
     var fileuploadContainer = "#fileupload_container";
+    var nocontentMsg = "#mycontent_nocontent";
+    var contentList = "#mycontent_list";
+    var listTemplate = "#mycontent_list_template";
 
 
     ///////////////////////
     // Utility functions //
     ///////////////////////
 
+    var parseDataResult = function(result) {
+        // initialize parsed item
+        var item = {
+            name: result["sakai:pooled-content-file-name"],
+            path: "/p/" + result["jcr:name"],
+            type: sakai.config.MimeTypes.other.description,
+            type_img_url: sakai.config.MimeTypes.other.URL
+        };
+
+        // determine mimetype if extension present
+        var file_parts = result["sakai:pooled-content-file-name"].split(".");
+        if (file_parts.length > 1) {
+            // inspect the extension
+            var ext = file_parts[file_parts.length - 1];
+            var type = "";
+            switch (ext.toLowerCase()) {
+                case "doc":
+                case "pdf":
+                    type = "application/" + ext;
+                    break;
+                case "png":
+                case "gif":
+                    type = "image/" + ext;
+                    break;
+                case "jpg":
+                case "jpeg":
+                    type = "image/jpeg";
+                    break;
+                case "txt":
+                    type = "text/plain";
+                    break;
+                case "html":
+                    type = "text/html";
+                    break;
+                default:
+                    type = "other";
+            }
+            item.type = sakai.config.MimeTypes[type].description;
+            item.type_img_url = sakai.config.MimeTypes[type].URL;
+
+            // set file name without the extension
+            var tmp_name = "";
+            for (var i = 0; i < file_parts.length - 1; i++) {
+                tmp_name = tmp_name + file_parts[i] + ".";
+            }
+            item.name = tmp_name.substr(0, tmp_name.length - 1);
+        }
+
+        return item;
+    }
+
+    var handleContentData = function(success, data) {
+        if(success) {
+            // parse & render data
+            if(data.total < 1) {
+                // user manages no content
+                $(nocontentMsg, rootel).show();
+            } else {
+                // build array of up to five items; reverse chronological order
+                var contentjson = {
+                    items: []
+                };
+                for(var i = data.total - 1; i >= data.total - 5 && i >= 0; i--) {
+                    contentjson.items.push(parseDataResult(data.results[i]));
+                }
+                // pass the array to HTML view
+                $(contentList, rootel).html($.TemplateRenderer($(listTemplate), contentjson));
+                $(contentList, rootel).show();
+            }
+        } else {
+            // data load failed - log error
+            alert('data load failed.');
+
+            // display something useful to the user
+        }
+    }
 
     ////////////////////
     // Event Handlers //
@@ -54,7 +133,7 @@ sakai.mycontent = function(tuid, showSettings){
 
     // Clicking to upload content
     $(uploadLink, rootel).click(function(ev){
-        $(fileuploadContainer).show();
+        $(fileuploadContainer, rootel).show();
         sakai.fileupload.initialise();
         return false;
     });
@@ -66,16 +145,9 @@ sakai.mycontent = function(tuid, showSettings){
 
     var init = function() {
         // get list of content items
-        // - JSON file at /var/search/pool/me/manager.json?q=* is empty:
-        // -- {"items":25,"total":0,"results":[],"totals":{"sakai:tags":[]}}
-        // ? where is server-side API documentation/code?
-
-        // render the list of content items
-        // - thinking about following the mygroups example
-        // ? how does HTML scripting work? -- i.e. <ul> in mygroups.html
-        //
-        // - file link should be: /dev/content_profile.html#content_path=path
-        // ? guessing correct path should come through manager.json
+        // - JSON data at /var/search/pool/me/manager.json?q=*
+        sakai.api.Server.loadJSON("/var/search/pool/me/manager.json",
+            handleContentData, {"q": "*"});
     };
 
     // run init() function when sakai.content object loads
