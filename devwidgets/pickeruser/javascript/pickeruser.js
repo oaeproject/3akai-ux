@@ -402,6 +402,31 @@ sakai.pickeruser = function(tuid, showSettings) {
         toTop: true
     });
 
+    var clearAutoSuggest = function() {
+        $("li#as-values-" + tuid).val("");
+    };
+
+    var setupAutoSuggest = function() {
+        $pickeruser_search_query.autoSuggest("",{
+            source: function(query, add) {
+                console.log("source");
+                sakai.api.Server.loadJSON(sakai.config.URL.SEARCH_USERS.replace(".json", ""), function(success, data){
+                    if (success) {
+                        var suggestions = [];
+                        $.each(data.results, function(i) {
+                           suggestions.push({"value": data.results[i].user, "name": sakai.api.User.getDisplayName(data.results[i])});
+                        });
+                        add(suggestions);
+                    } else {
+
+                    }
+                }, {"q": "*" + query + "*"});
+            },
+            asHtmlID: tuid,
+            selectedItemProp: "name",
+            searchObjProps: "name"
+        });
+    };
     ////////////
     // Events //
     ////////////
@@ -414,22 +439,9 @@ sakai.pickeruser = function(tuid, showSettings) {
 
     $pickeruser_close_button.bind("click", function() {
         $pickeruser_container.jqmHide();
+        //$("li#as-values-" + tuid).val();
     });
 
-    // Create a config object for this instance
-    /*
-    sakai.config.widgets.pickeruser = sakai.config.widgets.pickeruser || {};
-    pickerData = default_config;
-    */
-    // Create data object for this instance
-    /*
-    sakai.data.pickeruser = sakai.data.pickeruser || {};
-    sakai.data.pickeruser[tuid] = {};
-    sakai.data.pickeruser[tuid].selected = {};
-    sakai.data.pickeruser[tuid].searchIn = "";
-    sakai.data.pickeruser[tuid].currentElementCount = 0;
-    sakai.data.pickeruser[tuid].selectCount = 0;
-    */
     // Reset to defaults
     reset();
 

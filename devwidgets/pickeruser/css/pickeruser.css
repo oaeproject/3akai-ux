@@ -1,12 +1,12 @@
 #pickeruser_container
-{ width: 637px; height: 490px; padding: 5px; }
+{ width: 637px; height: 490px; padding: 5px; margin-left:-319px;}
 
 #pickeruser_container #pickeruser_container_search
 { width: 595px; height: 400px; border: 1px solid #999; }
 
 /* HEADER */
 #pickeruser_container #pickeruser_header
-{ height: 30px; line-height: 30px; border-bottom: 1px solid #999; padding: 0 10px 0 10px; }
+{ height: 30px; border-bottom: 1px solid #999; padding: 0 10px 0 10px; }
 
 #pickeruser_container .pickeruser_link
 { color: #006E96; font-weight: bold; }
@@ -77,3 +77,7 @@
 
 .loadinganim
 { background: #fff url(../../../dev/_images/ajax_load.gif) center 8px no-repeat; min-height: 50px; }
+
+/* AutoComplete */
+#pickeruser_container_search ul li { list-style:none;}
+#pickeruser_form_container {width:100%;}
