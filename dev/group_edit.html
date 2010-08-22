@@ -75,10 +75,65 @@
             --></div>
 
             <div class="fl-fix fl-centered fixed-container">
+                <div class="group_edit_section_container">
 
-                <div id="group_edit_widget_container"></div>
+                    <div id="group_edit_widget_container"></div>
 
-                <div id="group_editing" class="fl-push" style="display:none;">
+                    <!-- USER LIST TEMPLATE -->
+                    <div id="group_edit_userlist_default_template"><!--
+                        {if mode === "edit"}
+                            {var _access = data.access}
+                            <div class="group_edit_members_acl fl-force-right">
+                                <label for="group_edit_members_access">__MSG__WHO_CAN_VIEW_OR_SEARCH_THIS__</label>
+                                <select id="group_edit_members_access">
+                                    <option{if _access==="public"} selected="selected"{/if}>__MSG__EVERYBODY__</option>
+                                    <option{if _access==="institution"} selected="selected"{/if}>__MSG__INSTITUTION_ONLY__</option>
+                                    <option{if _access==="contacts"} selected="selected"{/if}>__MSG__CONTACTS_ONLY__</option>
+                                    <option{if _access==="noone"} selected="selected"{/if}>__MSG__ONLY_ME__</option>
+                                </select>
+                            </div>
+                        
+                        {/if}
+                    --></div>
+
+                    <div class="group_userlist_header">
+                        <h2 class="fl-force-left">__MSG__MEMBERS_OF_THIS_GROUP__</h2>
+                        <div id="members_list_permission_container"></div>
+                    </div>
+                    <!-- LISTPEOPLE WIDGET TO LIST MEMBERS -->
+                    <div id="widget_listpeople_members" class="widget_inline"></div>
+
+                    <div class="group_editing" class="fl-push" style="display:none;">
+                        <div class="fl-force-right">
+                            <button id="group_editing_remove_members" type="button" class="s3d-button">
+                                <span class="s3d-button-inner">__MSG__REMOVE_SELECTED_MEMBERS__</span>
+                            </button>
+                            <button id="group_editing_add_members" type="button" class="s3d-button s3d-button-primary">
+                                <span class="s3d-button-inner">__MSG__ADD_NEW_MEMBERS__</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="group_userlist_header">
+                        <h2 class="fl-force-left">__MSG__MANAGERS_OF_THIS_GROUP__</h2>
+                        <div id="managers_list_permission_container"></div>
+                    </div>
+                    <!-- LISTPEOPLE WIDGET TO LIST MANAGERS -->
+                    <div id="widget_listpeople_managers" class="widget_inline"></div>
+
+                    <div class="group_editing" class="fl-push" style="display:none;">
+                        <div class="fl-force-right">
+                            <button id="group_editing_remove_managers" type="button" class="s3d-button">
+                                <span class="s3d-button-inner">__MSG__REMOVE_SELECTED_MANAGERS__</span>
+                            </button>
+                            <button id="group_editing_add_managers" type="button" class="s3d-button s3d-button-primary">
+                                <span class="s3d-button-inner">__MSG__ADD_NEW_MANAGERS__</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="group_editing" class="fl-push" style="display:none;">
                     <div class="fl-force-right">
                         <button id="group_editing_button_dontupdate" type="button" class="s3d-button">
                             <span class="s3d-button-inner">__MSG__DONT_UPDATE__</span>
@@ -91,7 +146,7 @@
 
                 <!-- Add content to this group -->
                 <button id="upload_content" type="button" class="group_content s3d-button s3d-button-primary">
-                    <span class="s3d-button-inner">Add content and share it with this group</span>
+                    <span class="s3d-button-inner">__MSG__ADD_CONTENT_AND_SHARE_WITH_GROUP__</span>
                 </button>
                 <!-- CONTAINER FOR THE UPLOAD FILES CONTAINER -->
                 <div id="uploadfilescontainer" style="display:none;">

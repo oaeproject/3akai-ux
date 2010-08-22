@@ -1,0 +1,5 @@
+{
+	"jcr:mixinTypes": "sakai:propertiesmix",
+	"sling:resourceType": "sakai/pagenavigationcontent",
+	"sakai:pagenavigationcontent": "<p><img id=\"widget_navigation_id759008084\" class=\"widget_inline\" style=\"display:block; padding: 10px; margin: 4px\" src=\"/devwidgets/navigation/images/icon.png\" border=\"1\" alt=\"\" /></p>"
+}
