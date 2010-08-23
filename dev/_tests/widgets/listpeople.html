@@ -57,6 +57,9 @@
             <br><br><div id="test_response">pickeruser response:</div><br><br>
             <div id="widget_listpeople" class="widget_inline"></div>
 
+            <button id="listpeople_remove" type="button" class="s3d-button">
+               <span class="s3d-button-inner">Remove selected users</span>
+            </button>
         </div>
 
         <!-- FOOTER WIDGET -->
@@ -87,7 +90,9 @@
                             async: false,
                             success: function(data){
                                 sakai.data.pickeruser[tuid]["selected"][groupid] = data;
-                                sakai.data.pickeruser[tuid]["selected"][groupid].id = groupid;
+                                sakai.data.pickeruser[tuid]["selected"][groupid].groupid = groupid;
+                                sakai.data.pickeruser[tuid]["selected"][groupid]['sakai:group-description'] = data.authprofile['sakai:group-description'];
+                                sakai.data.pickeruser[tuid]["selected"][groupid]['sakai:group-title'] = data.authprofile['sakai:group-title'];
                                 sakai.data.pickeruser[tuid].selectCount += 1;
                             }
                         });
@@ -105,8 +110,13 @@
 
                     var pl_query = sakai.config.URL.SEARCH_USERS + "?q=*&page=0&items=12&_=" + (Math.random() * 100000000000000000);
                     //var pl_query = "/sites/test.members.json?sort=firstName,asc&start=0&items=10&_=" + (Math.random() * 100000000000000000);
-                    var pl_config = {"selectable":true, "subNameInfo": "email", "sortOn": "lastName", "sortOrder": "ascending", "items": 50, "function": "getSelection" };
-                    sakai.listPeople.render(ltuid, pl_query, pl_config, json_data);
+                    var pl_config = {"selectable":true, "subNameInfoUser": "email", "subNameInfoGroup": "sakai:group-description", "sortOn": "lastName", "sortOrder": "ascending", "items": 50, "function": "getSelection" };
+                    sakai.listPeople.render(ltuid, pl_config, json_data);
+
+                    // Bind the remove user button
+                    $("#listpeople_remove").bind("click", function(){
+                        sakai.listPeople.removeFromList('listpeoplecontainer');
+                    });
                 });
             });
 

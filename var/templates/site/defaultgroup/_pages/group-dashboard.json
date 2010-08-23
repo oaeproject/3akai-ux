@@ -1,0 +1,8 @@
+{
+	"pageTitle": "Group Dashboard",
+	"sling:resourceType": "sakai/page",
+	"pageType": "dashboard", 
+	"pagePosition": 100000,
+	"jcr:mixinTypes": "sakai:propertiesmix",
+    "fullwidth": true
+}
