@@ -1,0 +1,6 @@
+{
+	"jcr:primaryType": "nt:folder",
+	"jcr:mixinTypes" : ["sakai:propertiesmix"],
+	"sling:resourceType": "sakai/pagecontent",
+	"sakai:pagecontent": "<p><img id='widget_groupbasicinfo_id4078081' class='widget_inline' style='display:block; padding: 10px; margin: 4px' border='1' src='/devwidgets/groupbasicinfo/images/icon.png' /></p>"
+}

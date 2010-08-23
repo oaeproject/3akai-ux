@@ -63,7 +63,8 @@ sakai.listpeople = function(tuid, showSettings){
     // Create data object for this instance
     sakai.data.listpeople = sakai.data.listpeople || {};
     sakai.data.listpeople[tuid] = {};
-    sakai.data.listpeople[tuid].objects = {};
+    sakai.data.listpeople[tuid].userList = {};
+    sakai.data.listpeople[tuid].total = 0;
     sakai.data.listpeople[tuid].selected = {};
     sakai.data.listpeople[tuid].currentElementCount = 0;
     sakai.data.listpeople[tuid].selectCount = 0;
@@ -106,11 +107,10 @@ sakai.listPeople.reset = function(tuid) {
  * a search query initially, then does the paginating and subsequent requests
  * for data automatically
  * @param tuid {String} Unique id of the widget
- * @param iSearchQuery {String} A Sakai search query
  * @param iConfig {Object} Optional config overrides
  * @returns void
  */
-sakai.listPeople.render = function(tuid, iSearchQuery, iConfig, objects) {
+sakai.listPeople.render = function(tuid, iConfig, objects) {
 
     sakai.listPeople.reset(tuid);
 
@@ -126,21 +126,23 @@ sakai.listPeople.render = function(tuid, iSearchQuery, iConfig, objects) {
 
     if(!$.isEmptyObject(objects)){
         // Render list of objects
-        sakai.listPeople.addToList(tuid, 0, objects);
+        sakai.listPeople.renderList(tuid, 0, objects);
     }
 };
 
 
 /**
- * addToList
+ * renderList
  * Renders the list of objects the user can select from
  * @param tuid {String} The instance ID of a widget
  * @pageNumber {Int} The page we want to load
  * @objects {Object} An object containing the elements to list
  * @returns void
  */
-sakai.listPeople.addToList = function(tuid, pageNumber, objects) {
+sakai.listPeople.renderList = function(tuid, pageNumber, objects) {
 
+    sakai.data.listpeople[tuid].userList = {};
+    sakai.data.listpeople[tuid].total = 0;
     var rawData = objects;
 
     // main container
@@ -150,40 +152,10 @@ sakai.listPeople.addToList = function(tuid, pageNumber, objects) {
     // Display empty new container with loading anim
     $pl_container.append($pl_pageContainer);
 
-    // Get display name for each user. This should filter out the anonymous user and ignore groups
-    $.each(rawData.results, function(index, resultObject) {
-        if (sakai.api.User.getDisplayName(resultObject)) {
-            rawData.results[index]["displayName"] = sakai.api.User.getDisplayName(resultObject);
-        } else if ( !resultObject.id ) {
-            rawData.total = rawData.total - 1;
-        }
-    });
-
-    /*for (var i = 0, il = rawData.results.length; i < il; i++) {
-        var resultObject = rawData.results[i];
-
-        // Eval json strings if any
-        for (var j in resultObject) {
-            if (resultObject.hasOwnProperty(j) && typeof resultObject[j] === "string" && resultObject[j].charAt(0) === "{") {
-                rawData.results[i][j] = $.parseJSON(resultObject[j]);
-            }
-        }
-
-        // Determine what to put under the name. See if specified key exists in main object or under basic profile info
-        var subNameInfo = "";
-        var iSubNameInfo = sakai.config.widgets.listpeople[tuid]["subNameInfo"];
-        if (iSubNameInfo !== "" && typeof iSubNameInfo === "string") {
-            if (rawData.results[i][iSubNameInfo]) {
-                subNameInfo = rawData.results[i][iSubNameInfo];
-            } else if (rawData.results[i]["basic"][iSubNameInfo]) {
-                subNameInfo = rawData.results[i]["basic"][iSubNameInfo];
-            }
-        }
-        rawData.results[i]["subNameInfo"] = subNameInfo;
-    }*/
+    sakai.listPeople.addToList(tuid, rawData, false);
 
     var json_data = {
-        "rawData" : rawData,
+        "userList" : sakai.data.listpeople[tuid].userList,
         "selectable" : sakai.config.widgets.listpeople[tuid].selectable
     };
 
@@ -191,7 +163,7 @@ sakai.listPeople.addToList = function(tuid, pageNumber, objects) {
     var pageHTML = $.TemplateRenderer("#" + tuid + " .listpeople_content_pagetemplate", json_data);
 
     // Display count of items
-    $("#" + tuid + " .listpeople_count").html(rawData.total);
+    $("#" + tuid + " .listpeople_count").html(sakai.data.listpeople[tuid].total);
 
     // Remove loading animation
     $pl_pageContainer.removeClass("loadinganim");
@@ -218,9 +190,9 @@ sakai.listPeople.addToList = function(tuid, pageNumber, objects) {
                     $(this).children("input").attr('checked', true);
                     sakai.data.listpeople[tuid].selectCount += 1;
 
-                    for (var i = 0; i < rawData.total; i++) {
-                        if (rawData.results[$(this).attr("id")]['rep:userId'] == [$(this).attr("id")] || rawData.results[$(this).attr("id")]['id'] == [$(this).attr("id")]) {
-                            sakai.data.listpeople[tuid]["selected"][$(this).attr("id")] = rawData.results[$(this).attr("id")];
+                    for (var i = 0; i < sakai.data.listpeople[tuid].total; i++) {
+                        if (sakai.data.listpeople[tuid].userList[$(this).attr("id")]['rep:userId'] == [$(this).attr("id")] || sakai.data.listpeople[tuid].userList[$(this).attr("id")]['userid'] == [$(this).attr("id")] || sakai.data.listpeople[tuid].userList[$(this).attr("id")]['groupid'] == [$(this).attr("id")]) {
+                            sakai.data.listpeople[tuid]["selected"][$(this).attr("id")] = sakai.data.listpeople[tuid].userList[$(this).attr("id")];
                         }
                     }
                 }
@@ -235,17 +207,20 @@ sakai.listPeople.addToList = function(tuid, pageNumber, objects) {
     }
 
     //Update known total amount of displayed elements
-    sakai.data.listpeople[tuid].currentElementCount += rawData.results.length;
+    sakai.data.listpeople[tuid].currentElementCount += sakai.data.listpeople[tuid].total;
 
     //Set search result count
     // If we know the exact total display it
-    $("#" + tuid + " .listpeople_count_total").html(rawData.total);
+    $("#" + tuid + " .listpeople_count_total").html(sakai.data.listpeople[tuid].total);
 
     // Wire sorting select dropdown
     $("#" + tuid + " .listpeople_sort_order").bind("click", function(e){
         var sortOrder = $("#" + tuid + " #listpeople_sort_order").val();
         sakai.listPeople.sortList(tuid, pageNumber, sortOrder);
     });
+
+    // sort list
+    sakai.listPeople.sortList(tuid, pageNumber, sakai.config.widgets.listpeople[tuid].sortOrder);
 };
 
 
@@ -284,14 +259,73 @@ sakai.listPeople.getSelection = function(tuid) {
 
 
 /**
- * getSelection
- * 
+ * addToList
+ * Takes an object/array of users and adds them to the list to be rendered.
  * @param tuid {String} The instance ID of a widget
- * @returns array
+ * @param object {Object} The object of users to add
+ * @param reRender {boolean} Flag to rerender the list with the new users or not
+ * @returns viod
  */
-sakai.listPeople.removeFromList = function(tuid, objects) {
-
+sakai.listPeople.addToList = function(tuid, object, reRender) {
+    if(!$.isEmptyObject(object)){
+        // Get display name and subName for each user or group and add to the list object. This should also filter out the anonymous user
+        $.each(object.results, function(index, resultObject) {
+            var iSubNameInfoGroup = sakai.config.widgets.listpeople[tuid]["subNameInfoGroup"];
+            var iSubNameInfoUser = sakai.config.widgets.listpeople[tuid]["subNameInfoUser"];
+            if (resultObject.userid) {
+                sakai.data.listpeople[tuid].userList[resultObject.userid] = resultObject
+                sakai.data.listpeople[tuid].total += 1
+                if (sakai.api.User.getDisplayName(resultObject)) {
+                    sakai.data.listpeople[tuid].userList[resultObject.userid]["displayName"] = sakai.api.User.getDisplayName(resultObject);
+                } else {
+                    sakai.data.listpeople[tuid].userList[resultObject.userid]["displayName"] = resultObject.userid;
+                }
+                if (!sakai.data.listpeople[tuid].userList[resultObject.userid]["subNameInfo"]) {
+                    sakai.data.listpeople[tuid].userList[resultObject.userid]["subNameInfo"] = resultObject[iSubNameInfoUser]
+                }
+            } else if (resultObject.groupid) {
+                sakai.data.listpeople[tuid].userList[resultObject.groupid] = resultObject
+                sakai.data.listpeople[tuid].total += 1
+                if (!sakai.data.listpeople[tuid].userList[resultObject.groupid]["subNameInfo"]) {
+                    sakai.data.listpeople[tuid].userList[resultObject.groupid]["subNameInfo"] = resultObject[iSubNameInfoGroup];
+                }
+            } else if (sakai.api.User.getDisplayName(resultObject) && resultObject['rep:userId']) {
+                sakai.data.listpeople[tuid].userList[resultObject['rep:userId']] = resultObject
+                sakai.data.listpeople[tuid].userList[resultObject['rep:userId']]["displayName"] = sakai.api.User.getDisplayName(resultObject);
+                if (!sakai.data.listpeople[tuid].userList[resultObject['rep:userId']]["subNameInfo"]) {
+                    sakai.data.listpeople[tuid].userList[resultObject['rep:userId']]["subNameInfo"] = resultObject[iSubNameInfoUser]
+                }
+                sakai.data.listpeople[tuid].total += 1
+            }
+        });
+        if (reRender) {
+            // Re-render list of objects
+            sakai.listPeople.renderList(tuid, 0, tempList);
+        }
+    }
 };
 
+
+/**
+ * removeFromList
+ * Removes selected items from the list and re-renders list
+ * @param tuid {String} The instance ID of a widget
+ * @returns viod
+ */
+sakai.listPeople.removeFromList = function(tuid) {
+    $.each(sakai.data.listpeople[tuid]["selected"], function(index, resultObject) {
+        delete sakai.data.listpeople[tuid].userList[index];
+    });
+
+    var tempList = {};
+    tempList.results = sakai.data.listpeople[tuid].userList;
+
+    sakai.listPeople.reset(tuid);
+
+    if(!$.isEmptyObject(tempList)){
+        // Re-render list of objects
+        sakai.listPeople.renderList(tuid, 0, tempList);
+    }
+};
 
 sakai.api.Widgets.widgetLoader.informOnLoad("listpeople");
