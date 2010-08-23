@@ -325,17 +325,7 @@ sakai.groupedit = function(){
             };
 
             addUsers(tuid, json_data);
-        }
-
-        // Bind the add members button
-        $("#group_editing_add_members").bind("click", function(){
-            addUsers('members');
-        });
-
-        // Bind the add managers button
-        $("#group_editing_add_managers").bind("click", function(){
-            addUsers('managers');
-        });
+        };
 
     };
 
