@@ -153,6 +153,14 @@ sakai.groupedit = function(){
                 url: "/system/userManager/group/" + groupid + ".members.json",
                 success: function(data){
                     var groupMembers = $.parseJSON(data);
+
+                    // filter out the manager group
+                    $.each(groupMembers, function(index, resultObject) {
+                        if (resultObject['groupid'] === groupid + '-managers') {
+                            groupMembers.splice(index, 1);
+                        }
+                    });
+
                     var json_data_members = {
                         "results" : groupMembers,
                         "total" : groupMembers.length
@@ -176,6 +184,83 @@ sakai.groupedit = function(){
         }
     };
 
+    /**
+     * Remove users
+     * Function that gets the list of selected users from the listpeople widget and removed them from the group
+     * @param {String} tuid Identifier for the widget/type of user we're removing (member or a manager)
+     */
+    var removeUsers = function(tuid) {
+
+        var removeUser;
+        var groupIdRemove = groupid;
+
+        if (tuid = 'managers') {
+            groupIdRemove = groupid + '-managers';
+        }
+
+        $.each(sakai.data.listpeople[tuid]["selected"], function(index, resultObject) {
+            if (resultObject['userid']) {
+                removeUser = resultObject['userid'];
+            } else if (resultObject['groupid']) {
+                removeUser = resultObject['groupid'];
+            } else if (resultObject['rep:userId']) {
+                removeUser = resultObject['rep:userId'];
+            }
+            if (removeUser) {
+                // remove user from group
+                $.ajax({
+                    url: "/system/userManager/group/" + groupIdRemove + ".update.json",
+                    data: {
+                        "_charset_":"utf-8",
+                        ":member@Delete": removeUser
+                    },
+                    type: "POST",
+                    success: function(data){
+                        sakai.listPeople.removeFromList(tuid);
+                    }
+                });
+            }
+        });
+    };
+
+    /**
+     * Add users
+     * Function that gets the list of selected users from the people picker widget and adds them to the group
+     * @param {String} tuid Identifier for the widget/type of user we're removing (member or a manager)
+     */
+    var addUsers = function(tuid, users) {
+
+        var addUser;
+        var groupIdAdd = groupid;
+
+        if (tuid = 'managers') {
+            groupIdAdd = groupid + '-managers';
+        }
+
+        $.each(sakai.data.pcikeruser[tuid]["selected"], function(index, resultObject) {
+            if (resultObject['userid']) {
+                addUser = resultObject['userid'];
+            } else if (resultObject['groupid']) {
+                addUser = resultObject['groupid'];
+            } else if (resultObject['rep:userId']) {
+                addUser = resultObject['rep:userId'];
+            }
+            if (addUser) {
+                // add user to group
+                $.ajax({
+                    url: "/system/userManager/group/" + groupIdAdd + ".update.json",
+                    data: {
+                        "_charset_":"utf-8",
+                        ":member": addUser
+                    },
+                    type: "POST",
+                    success: function(data){
+                        sakai.listPeople.addToList(tuid, sakai.data.pickeruser[tuid]["selected"]);
+                    }
+                });
+            }
+        });
+    };
 
     /**
      * Render Templates
@@ -223,12 +308,33 @@ sakai.groupedit = function(){
 
         // Bind the remove members button
         $("#group_editing_remove_members").bind("click", function(){
-            sakai.listPeople.removeFromList('members');
+            removeUsers('members');
         });
 
         // Bind the remove managers button
         $("#group_editing_remove_managers").bind("click", function(){
-            sakai.listPeople.removeFromList('managers');
+            removeUsers('managers');
+        });
+
+        // Bind the people picker widget when it is ready to return a list of users
+        $(window).bind("pickeruser_finished", function(e, tuid){
+
+            var json_data = {
+                "results" : sakai.data.pickeruser[tuid]["selected"],
+                "total" : sakai.data.pickeruser[tuid].selectCount
+            };
+
+            addUsers(tuid, json_data);
+        }
+
+        // Bind the add members button
+        $("#group_editing_add_members").bind("click", function(){
+            addUsers('members');
+        });
+
+        // Bind the add managers button
+        $("#group_editing_add_managers").bind("click", function(){
+            addUsers('managers');
         });
 
     };
