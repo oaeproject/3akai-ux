@@ -194,7 +194,7 @@ sakai.groupedit = function(){
         var removeUser;
         var groupIdRemove = groupid;
 
-        if (tuid = 'managers') {
+        if (tuid === 'managers') {
             groupIdRemove = groupid + '-managers';
         }
 
@@ -233,7 +233,7 @@ sakai.groupedit = function(){
         var addUser;
         var groupIdAdd = groupid;
 
-        if (tuid = 'managers') {
+        if (tuid === 'managers') {
             groupIdAdd = groupid + '-managers';
         }
 
@@ -317,14 +317,14 @@ sakai.groupedit = function(){
         });
 
         // Bind the people picker widget when it is ready to return a list of users
-        $(window).bind("pickeruser_finished", function(e, tuid){
+        $(window).bind("sakai-pickeruser-finished", function(){
 
             var json_data = {
-                "results" : sakai.data.pickeruser[tuid]["selected"],
-                "total" : sakai.data.pickeruser[tuid].selectCount
+                "results" : pickerData.selected,
+                "total" : pickerData.selectCount
             };
 
-            addUsers(tuid, json_data);
+            addUsers(pickerData.spaceName, json_data);
         });
 
     };
