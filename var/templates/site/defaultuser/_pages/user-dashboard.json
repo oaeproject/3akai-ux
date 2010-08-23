@@ -1,5 +1,5 @@
 {
-	"pageTitle": "Group Dashboard",
+	"pageTitle": "User Dashboard",
 	"sling:resourceType": "sakai/page",
 	"pageType": "dashboard", 
 	"pagePosition": 100000,

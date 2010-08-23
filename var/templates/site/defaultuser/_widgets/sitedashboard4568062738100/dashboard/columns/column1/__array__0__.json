@@ -1,0 +1,6 @@
+{
+	"uid": "id402868778",
+    "visible": "block",
+    "name": "navigation",
+	"jcr:mixinTypes": "sakai:propertiesmix"
+}
