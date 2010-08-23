@@ -29,12 +29,14 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
 
     // path variables
     var contentPath = "";
+    var profileData = [];
 
     // Containers
     var contentProfileFileDetailsContainer = "#content_profile_file_details_container";
 
     // Buttons
     var contentProfileFileDetailsActionDownload= "#content_profile_file_details_action_download";
+    var contentProfileFileDetailsActionDelete= "#content_profile_file_details_action_delete";
 
     var convertToHumanReadableFileSize = function(filesize){
         // Divide the length into its largest unit
@@ -57,25 +59,15 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
         return filesize + " " + lengthunits;
     };
 
-    /**
-     * Add binding to the downlaod button
-     */
-    var addBindingDownload = function(){
-
-        // Reinitialise the jQuery selector
-        $entity_action_download = $($entity_action_download.selector);
-
-        // Open the content in a new window
-        $entity_action_download.bind("click", function(){
-            window.open(entityconfig.data.profile.path);
-        });
-
-    };
-
     var addBinding = function(){
         // Bind the download button
         $(contentProfileFileDetailsActionDownload).bind("click", function(){
             window.open(contentPath);
+        });
+
+        // Open the delete content pop-up
+        $(contentProfileFileDetailsActionDelete).bind("click", function(){
+            sakai.deletecontent.init(profileData);
         });
     };
 
@@ -85,6 +77,7 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
             $.ajax({
                 url: contentPath + ".2.json",
                 success: function(data){
+                    profileData = data;
                     // Construct the JSON object
                     var json = {
                         data: data,
@@ -108,7 +101,7 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
                     addBinding();
                 },
                 error: function(xhr, textStatus, thrownError){
-                    
+                    sakai.api.Util.notification.show("Failed loading data", "Failed to load file information");
                 }
             });
         }
@@ -119,7 +112,6 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
         // loads all the information for the current resource
         $(window).bind('hashchange', function(e){
             contentPath = e.getState("content_path") || "";
-
             loadContentProfile();
         });
 

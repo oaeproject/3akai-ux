@@ -122,10 +122,12 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                 success: function(){
                     // TODO show a valid message to the user instead of reloading the page
                     $(window).trigger('hashchange');
+                    sakai.api.Util.notification.show("Updated basic info.", "The file's basic information has been updated.");
                 },
                 error: function(xhr, textStatus, thrownError){
                     // Enable basic info fields and show error message
                     enableDisableBasicInfoFields(false);
+                    sakai.api.Util.notification.show("Failed updating basic info", "Failed to update the file's basic information.");
                 }
             });
         });
@@ -162,7 +164,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                     addBindingBasicinfo();
                 },
                 error: function(xhr, textStatus, thrownError){
-                    
+                    sakai.api.Util.notification.show("Failed loading data", "Failed to load file information");
                 }
             });
         }
@@ -176,7 +178,6 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
         // loads all the information for the current resource
         $(window).bind('hashchange', function(e){
             contentPath = e.getState("content_path") || "";
-
             loadContentProfile();
         });
 
