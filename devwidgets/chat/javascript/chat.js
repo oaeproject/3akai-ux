@@ -678,7 +678,8 @@ sakai.chat = function(tuid, showSettings){
             json.totalitems = total;
             $(chatOnline).html("<b>(" + total + ")</b>");
         }
-
+        
+        
         json.me = {};
         if (json.me) {
             json.me.name = parseName(sakai.data.me.user.userid, sakai.data.me.profile);
@@ -693,9 +694,9 @@ sakai.chat = function(tuid, showSettings){
                     json.items.push(json.contacts[z]);
                 }
             }
-            var renderedTemplate = $.TemplateRenderer(chatAvailableTemplate, json).replace(/\r/g, '');
-            var renderedDiv = $(document.createElement("div"));
-            renderedDiv.html(renderedTemplate);
+           var renderedTemplate = $.TemplateRenderer(chatAvailableTemplate, json).replace(/\r/g, '');
+           var renderedDiv = $(document.createElement("div"));
+           renderedDiv.html(renderedTemplate);
 
             // We only render the template when it's needed.
             // The main reason we do this is to improve performance.
@@ -913,7 +914,7 @@ sakai.chat = function(tuid, showSettings){
 
                     // Fill in the object with the appropriate data
                     message = createChatMessage(false, "", text, new Date());
-
+                   
                     // Add the chat message to the window
                     addChatMessage($(chatWith + "_" + currentuser + "_content"), message);
 
@@ -1040,7 +1041,7 @@ sakai.chat = function(tuid, showSettings){
             specialjson = activewindows;
             doreload = true;
         }
-
+        
         // Onlineusers is an array containing the uids that are in the specialjson.items
         var onlineUsers = [];
         if (specialjson.items) {
@@ -1068,7 +1069,11 @@ sakai.chat = function(tuid, showSettings){
 
                 // Check if there are any messages inside the JSON object
                 if (data.results) {
-
+                    
+                    //display image of the friend you are talking to
+                    //without this line it takes time to load the image    
+                    showOnlineFriends();
+                   
                     var njson = {};
                     for (var i = data.results.length - 1; i >= 0; i--) {
                         var message = data.results[i];
@@ -1079,6 +1084,7 @@ sakai.chat = function(tuid, showSettings){
                         else {
                             user = message.userFrom[0].userid;
                         }
+                        
                         var isIncluded = true;
                         if (hasNew) {
                             var isIn = false;
