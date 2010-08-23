@@ -113,9 +113,9 @@
                     input.val("");
                     var lastChar = prefill_value.substring(prefill_value.length-1);
                     if(lastChar != ","){ prefill_value = prefill_value+","; }
-                    values_input.val(","+prefill_value);
                     $("li.as-selection-item", selections_holder).addClass("blur").removeClass("selected");
                 }
+                values_input.val(","+prefill_value);
                 input.after(values_input);
                 selections_holder.click(function(){
                     input_focus = true;
@@ -129,7 +129,7 @@
                 
                 // Handle input field events
                 input.focus(function(){         
-                    if($(this).val() == opts.startText && values_input.val() == ""){
+                    if($(this).val() == opts.startText && (values_input.val() == "" || values_input.val() === ",")) {
                         $(this).val("");
                     } else if(input_focus){
                         $("li.as-selection-item", selections_holder).removeClass("blur");

@@ -57,13 +57,13 @@ sakai.pickeruser = function(tuid, showSettings) {
     var $pickeruser_select_all_button = $("#pickeruser_select_all_button", $rootel);
     var $pickeruser_content_search_form = $("#pickeruser_content_search_form", $rootel);
     var $pickeruser_add_button = $("#pickeruser_add_button", $rootel);
-    var $pickeruser_display_as = $("#pickeruser_display_as", $rootel);
     var $pickeruser_sort_on = $("#pickeruser_sort_on", $rootel);
     var $pickeruser_count = $("#pickeruser_count", $rootel);
     var $pickeruser_count_person = $("#pickeruser_count_person", $rootel);
     var $pickeruser_count_people = $("#pickeruser_count_people", $rootel);
     var $pickeruser_count_of = $("#pickeruser_count_of", $rootel);
     var $pickeruser_count_thousands = $("#pickeruser_count_thousands", $rootel);
+
     var $pickeruser_error_template = $("#pickeruser_error_template", $rootel);
     var $pickeruser_content_search_pagetemplate = $("#pickeruser_content_search_pagetemplate", $rootel);
     var $pickeruser_content_search_listtemplate = $("#pickeruser_content_search_listtemplate", $rootel);
@@ -98,7 +98,6 @@ sakai.pickeruser = function(tuid, showSettings) {
         pickerData.selected = {};
         pickerData.currentElementCount = 0;
         pickerData.selectCount = 0;
-
     };
 
     /**
@@ -127,7 +126,7 @@ sakai.pickeruser = function(tuid, showSettings) {
         $pickeruser_add_button.click(function(){
             //$(window).trigger("pickeruser_finished", [tuid]);
         });
-        submitSearch();
+        submitSearch();        
     };
 
     /**
@@ -143,7 +142,7 @@ sakai.pickeruser = function(tuid, showSettings) {
         }
 
         var pl_query = pickerData["searchIn"] + searchQuery + "&page=0&items=12&_=" + (Math.random() * 100000000000000000);
-        renderSearch(pl_query);
+        //renderSearch(pl_query);
     };
 
     /**
@@ -230,8 +229,7 @@ sakai.pickeruser = function(tuid, showSettings) {
         console.log("sakai.pickeruser.addPage", pageNumber, searchQuery);
         // Create new container for the bit we load. This is then appended to the
         // main container
-        var pl_view = $pickeruser_display_as.val();
-        var $pl_pageContainer = $("<ul id=\"pickeruser_page_" + pageNumber + "\" class=\"pickeruser_page pickeruser_page_" + pl_view + " loadinganim\"></ul>");
+        var $pl_pageContainer = $("<ul id=\"pickeruser_page_" + pageNumber + "\" class=\"pickeruser_page pickeruser_page_list loadinganim\"></ul>");
 
         // Aadd relevant config elements to the search query
         searchQuery.page = pageNumber;
@@ -361,13 +359,6 @@ sakai.pickeruser = function(tuid, showSettings) {
                     }
                 }
 
-                // Change result list layout
-                $pickeruser_display_as.bind("change", function(e){
-                    $(pickeruser_page, $rootel).removeClass("pickeruser_page_list");
-                    $(pickeruser_page, $rootel).removeClass("pickeruser_page_thumbnails");
-                    $(pickeruser_page, $rootel).addClass("pickeruser_page_" + $pickeruser_display_as.val());
-                });
-
                 // Wire sorting select dropdown
                 $pickeruser_sort_on.bind("change", function(e){
                     // Reset everything
@@ -409,7 +400,6 @@ sakai.pickeruser = function(tuid, showSettings) {
     var setupAutoSuggest = function() {
         $pickeruser_search_query.autoSuggest("",{
             source: function(query, add) {
-                console.log("source");
                 sakai.api.Server.loadJSON(sakai.config.URL.SEARCH_USERS.replace(".json", ""), function(success, data){
                     if (success) {
                         var suggestions = [];
@@ -427,6 +417,7 @@ sakai.pickeruser = function(tuid, showSettings) {
             searchObjProps: "name"
         });
     };
+    setupAutoSuggest();
     ////////////
     // Events //
     ////////////
@@ -435,6 +426,7 @@ sakai.pickeruser = function(tuid, showSettings) {
         $pickeruser_container.jqmShow();
         render(config);
         callback = callbackFn;
+        
     });
 
     $pickeruser_close_button.bind("click", function() {

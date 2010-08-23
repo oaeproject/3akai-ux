@@ -1,4 +1,5 @@
 {
 "name": "pickeruser",
-"description": "A general widget to pick people on any Sakai page\r\n"
+"description": "A general widget to pick people on any Sakai page\r\n",
+"ADDING_PEOPLE": "Adding people"
 }
