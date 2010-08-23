@@ -50,32 +50,13 @@ sakai.deletecontent = function(tuid, showSettings){
 
     var $deletecontent_action_delete = $("#deletecontent_action_delete", $rootel);
     var $deletecontent_dialog = $("#deletecontent_dialog", $rootel);
-    var $deletecontent_error_container = $("#deletecontent_error_container", $rootel);
     var $deletecontent_error_couldnotdelete = $("#deletecontent_error_couldnotdelete", $rootel);
 
-
-    ////////////////////
-    // Util functions //
-    ////////////////////
-
-    /**
-     * Show an error message to the user
-     * @param {String} input Which error message you need to show
-     */
-    var showError = function(input){
-
-        if (!input) {
-            $deletecontent_error_container.hide();
-            return;
-        }
-
-        if(input === "couldnotdelete"){
-            $.TemplateRenderer($deletecontent_error_couldnotdelete, {},$deletecontent_error_container);
-        }
-
-        $deletecontent_error_container.show();
-
-    };
+    // Messages
+    var $deletecontent_not_successfully_deleted = $("#deletecontent_not_successfully_deleted");
+    var $deletecontent_successfully_deleted = $("#deletecontent_successfully_deleted");
+    var $deletecontent_deleted = $("#deletecontent_deleted");
+    var $deletecontent_not_deleted = $("#deletecontent_not_deleted");
 
 
     /////////////
@@ -98,10 +79,11 @@ sakai.deletecontent = function(tuid, showSettings){
                 success: function(){
                     // TODO - redirect to the global content page
                     // as soon as we have it
+                    sakai.api.Util.notification.show($deletecontent_deleted.html(), $deletecontent_successfully_deleted.html());
                     document.location = "/dev/my_sakai.html";
                 },
                 error: function(){
-                    showError("couldnotdelete");
+                    sakai.api.Util.notification.show($deletecontent_not_deleted.html(), $deletecontent_not_successfully_deleted.html());
                 },
                 type: "POST",
                 data: {
@@ -128,23 +110,9 @@ sakai.deletecontent = function(tuid, showSettings){
      *     });
      */
     sakai.deletecontent.init = function(data){
-
-        // Check for a valid paramter
-        if(!data || typeof data !== "object"){
-
-            // Log a console error message
-            fluid.log("Delete content widget - sakai.deletecontent.init - The supplied parameter data is incorrect: '" + data + "'.");
-
-            // Stop the execution of this function
-            return;
-        }
-
         deletedata = $.extend(true, {}, data);
-
         addBinding();
-
         $deletecontent_dialog.jqmShow();
-
     };
 
     /**

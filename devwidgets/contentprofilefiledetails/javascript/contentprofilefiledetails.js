@@ -77,6 +77,7 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
             $.ajax({
                 url: contentPath + ".2.json",
                 success: function(data){
+                    data.path = contentPath;
                     profileData = data;
                     // Construct the JSON object
                     var json = {

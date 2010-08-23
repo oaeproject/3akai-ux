@@ -183,7 +183,7 @@ sakai.addcontent = function(tuid, showSettings){
         if(location === "myfiles"){
 
             $.ajax({
-                url: "/var/search/pool/me/manager.json",
+                url: "/var/search/pool/me/manager.1.json",
                 data: {
                     q:"*",
                     sortOn:"jcr:created",
