@@ -63,7 +63,7 @@
 
                 <div class="login-box">
                     <div id="page_not_found_error">
-                    	<div class="preview-box">
+                        <div class="preview-box">
                             <span id="error_title">The page you requested was not found.</span>
                             <p>
                                 You may have clicked a broken link or mistyped the web address (some url addresses are case sensitive). It's also possible you don't have permission to access this page.
