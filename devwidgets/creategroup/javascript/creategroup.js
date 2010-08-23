@@ -101,7 +101,7 @@ sakai.creategroup = function(tuid, showSettings){
             $(createGroupAddCancel).hide();
             $(createGroupAddSave).hide();
             $(createGroupAddProcess).show();
-        }else{
+        } else {
             $(createGroupAddProcess).hide();
             $(createGroupAddCancel).show();
             $(createGroupAddSave).show();
