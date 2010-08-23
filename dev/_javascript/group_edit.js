@@ -325,7 +325,7 @@ sakai.groupedit = function(){
             };
 
             addUsers(tuid, json_data);
-        };
+        });
 
     };
 
