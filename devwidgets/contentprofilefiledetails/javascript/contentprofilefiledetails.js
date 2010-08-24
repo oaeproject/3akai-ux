@@ -65,7 +65,7 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
     var addBinding = function(){
         // Bind the download button
         $(contentProfileFileDetailsActionDownload).bind("click", function(){
-            window.open(contentPath);
+            window.open(contentPath + "/" + profileData["sakai:name"]);
         });
 
         // Open the delete content pop-up
@@ -74,10 +74,24 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
         });
     };
 
+    var getFormattedDate = function(date){
+        var months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+        var day = date.getDate();
+        var month = months[date.getMonth()];
+        var year = date.getFullYear();
+        var formattedDate = day + " " + month + " " + year;
+        return formattedDate;
+    }
+
     var renderDetails = function(){
         // Construct the JSON object
+        // Create a readable data to display
+        var lastModified = getFormattedDate(new Date(profileData["jcr:content"]["jcr:lastModified"]));
+        var created = getFormattedDate(new Date(profileData["jcr:created"]));
         var json = {
             data: profileData,
+            lastModified : lastModified,
+            created: created,
             revisions: fileRevisions,
             mode: "content",
             url: contentPath,

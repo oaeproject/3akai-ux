@@ -36,7 +36,7 @@
 #fileupload_container .MultiFile-label {clear:right; padding-bottom:5px;}
 #fileupload_container .MultiFile-remove {color:#2F88AA; float:right; font-weight:bold; padding-left:10px; margin-right:90px; position:relative;}
 #fileupload_container .MultiFile {margin-bottom:10px;}
-#fileupload_container .MultiFile-list {padding:10px 0 20px 10px; background-color:#eee; margin-top:10px;}
+#fileupload_container .MultiFile-list {padding:10px 0 20px 10px; background-color:#eee; margin-top:10px; margin-bottom:10px;}
 
 #fileupload_container {width:800px !important; left:40% !important;}
 

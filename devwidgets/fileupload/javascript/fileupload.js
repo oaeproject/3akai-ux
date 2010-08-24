@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, sakai, document */
+/*global $, Querystring, fluid, sakai */
 
 /**
  * @name sakai.fileupload
@@ -39,12 +39,9 @@ sakai.fileupload = function(tuid, showSettings){
 
     var $rootel = $("#" + tuid);
 
-    // Variable used to check if all tags have been created and linking them to the uploaded files can start
-    var checkTaggingAgain;
     // All files that need to have been uploaded
     var uploadedFiles;
     var tags = [];
-    var fileNames = [];
 
     var setDescriptionandName = false;
     var filesUploaded = false;
@@ -70,6 +67,8 @@ sakai.fileupload = function(tuid, showSettings){
     var fileUploadAddTags = "#fileupload_add_tags";
     var fileUploadProgressId = "#fileupload_upload_progress";
     var fileUploadPermissionsSelect = "#fileupload_permissions_select";
+    var fileUploadWidgetTitle= "#fileupload_widget_title";
+    var fileUploadWidgetTitleNewVersion= "#fileupload_widget_title_new_version";
 
     // Form
     var multiFileForm = "#multifile_form";
@@ -78,7 +77,6 @@ sakai.fileupload = function(tuid, showSettings){
 
     // Templates
     var fileUploadTaggingTemplate = "#fileupload_tagging_template";
-    var fileUploadResultsTemplate = "#fileupload_results_template";
     var fileUploadAddToTemplate = "#fileupload_add_to_template";
     var fileUploadNoLimitToUploadTemplate = "#fileupload_no_limit_to_upload_template";
     var fileUploadLimitToOneUploadTemplate = "#fileupload_limit_to_one_upload_template";
@@ -128,7 +126,7 @@ sakai.fileupload = function(tuid, showSettings){
         $(fileuploadLimitContainer).html(renderedTemplate);
         // Set multiFile on the rendered box
         $("input[type=file].multi").MultiFile();
-    }
+    };
 
     /**
      * The plugin can't cope with giving limits after the input field
@@ -140,7 +138,7 @@ sakai.fileupload = function(tuid, showSettings){
         $(fileuploadLimitContainer).html(renderedTemplate);
         // Set multiFile on the rendered box
         $("input[type=file].multi").MultiFile();
-    }
+    };
 
     /**
      * Gets the group id from the querystring
@@ -148,7 +146,7 @@ sakai.fileupload = function(tuid, showSettings){
     var getGroupId = function(){
         var qs = new Querystring();
         return qs.get("id", false);
-    }
+    };
 
     /**
      * This function will render a group upload. This context needs more data than user or new upload context
@@ -161,7 +159,7 @@ sakai.fileupload = function(tuid, showSettings){
 
         // The group name can be used to add content to
         if ($("#groupbasicinfo_generalinfo_group_title").val() !== "") {
-            groupName = $("#groupbasicinfo_generalinfo_group_title").val()
+            groupName = $("#groupbasicinfo_generalinfo_group_title").val();
         }
         else {
             groupName = getGroupId();
@@ -174,7 +172,6 @@ sakai.fileupload = function(tuid, showSettings){
         };
         // Render the template
         var renderedTemplate = $.TemplateRenderer(fileUploadAddToTemplate, contextData).replace(/\r/g, '');
-        var renderedDiv = $(document.createElement("div"));
         $(fileUploadAddToTemplateContainer, $rootel).html(renderedTemplate);
 
         // Show lightbox
@@ -182,7 +179,7 @@ sakai.fileupload = function(tuid, showSettings){
 
         // Render multifile component
         renderUnlimitedUpload();
-    }
+    };
 
     /**
      * This function checks if the upload box to be rendered is in a user context or a new upload context
@@ -193,11 +190,10 @@ sakai.fileupload = function(tuid, showSettings){
         // Fill the data needed for the group
         // The context variable will be needed to tell the renderer which context to render
         contextData = {
-            "context": context,
+            "context": context
         };
         // Render the template
         var renderedTemplate = $.TemplateRenderer(fileUploadAddToTemplate, contextData).replace(/\r/g, '');
-        var renderedDiv = $(document.createElement("div"));
         $(fileUploadAddToTemplateContainer, $rootel).html(renderedTemplate);
 
         // Show lightbox
@@ -208,7 +204,7 @@ sakai.fileupload = function(tuid, showSettings){
         } else {
             renderUnlimitedUpload();
         }
-    }
+    };
 
     /**
      * Public function that can be called from elsewhere
@@ -217,7 +213,7 @@ sakai.fileupload = function(tuid, showSettings){
      */
     sakai.fileupload.initialise = function(){
         if (groupContext){
-            renderGroupUpload()
+            renderGroupUpload();
         } else if (newVersion){
             renderUserOrNewUpload();
         } else {
@@ -231,14 +227,10 @@ sakai.fileupload = function(tuid, showSettings){
      */
     sakai.fileupload.MultiFileSelected = function(){
         // Render the template that enables tagging of uploads
-        if ($(multiFileRemove).length == 0) {
-            //if (!newVersion) {
-                var renderedTemplate = $.TemplateRenderer(fileUploadTaggingTemplate, contextData).replace(/\r/g, '');
-                var renderedDiv = $(document.createElement("div"));
-                $(fileUploadRenderedTagging).html(renderedTemplate);
-            //}
+        if ($(multiFileRemove).length === 0) {
+            var renderedTemplate = $.TemplateRenderer(fileUploadTaggingTemplate, contextData).replace(/\r/g, '');
+            $(fileUploadRenderedTagging).html(renderedTemplate);
         }
-        var inputId = $(multiFileRemove);
     };
 
     /**
@@ -262,7 +254,7 @@ sakai.fileupload = function(tuid, showSettings){
     var resetFields = function(){
         // Reset some variables
         tags = [];
-        uploadedFiles = []
+        uploadedFiles = [];
 
         // Clear HTML, Clear file list
         $(fileUploadRenderedTagging, $rootel).html("");
@@ -315,25 +307,6 @@ sakai.fileupload = function(tuid, showSettings){
         groupContext = false;
         newVersion = false;
     };
-
-    /**
-     * Set the uploaded file as a new version to an older file
-     */
-    var setAsNewVersion = function(){
-        $.ajax({
-            url: "/p/" + oldVersionPath + ".save.html",
-            type : "POST",
-            success: function(data){
-                sakai.api.Util.notification.show("Version set", "Version successfully set");
-            },
-            error: function(xhr, textStatus, thrownError){
-                sakai.api.Util.notification.show("Failed loading data", "Failed to load file information");
-            },
-            data: {
-                "url": "/p/" + uploadedFiles[0].hashpath
-            }
-        });
-    }
 
     /**
      * Set the description of the uploaded files
@@ -511,18 +484,7 @@ sakai.fileupload = function(tuid, showSettings){
                         "url" : "/p/" + uploadedFiles[k].hashpath  + ".members.html",
                         "method": "POST",
                         "parameters" : {
-                            ":viewer": "everyone"
-                        }
-                    };
-
-                    data[data.length] = item;
-                    // Due to a bug in the batch request servlet we have to create 2 seperate requests for the parameters.
-                    // Parameters should be able to have the same name in the future.
-                    var item = {
-                        "url" : "/p/" + uploadedFiles[k].hashpath  + ".members.html",
-                        "method": "POST",
-                        "parameters" : {
-                            ":viewer": "anonymous"
+                            ":viewer": ["everyone", "anonymous"]
                         }
                     };
                     data[data.length] = item;
@@ -577,6 +539,46 @@ sakai.fileupload = function(tuid, showSettings){
     };
 
     /**
+     * Set the description that the user put in the textarea
+     */
+    var setVersionDescription = function(){
+        $.ajax({
+            url: "/p/" + uploadedFiles[0].hashpath,
+            type: "POST",
+            data: {
+                "sakai:versiondescription": ($("#fileupload_add_version_description")[0].value).replace(/"/g, '')
+            },
+            success: function(data){
+                // Set name on the file
+                batchSetDescriptionAndName();
+                sakai.api.Util.notification.show("New version uploaded", "New version successfully uploaded");
+            },
+            error: function(xhr, textStatus, thrownError){
+                sakai.api.Util.notification.show("Description not set", "New version successfully uploaded but failed to set description");
+            }
+        });
+    };
+
+    /**
+     * Set the uploaded file as a new version to an older file
+     */
+    var setAsNewVersion = function(){
+        $.ajax({
+            url: "/p/" + oldVersionPath + ".save.html",
+            type : "POST",
+            success: function(data){
+                setVersionDescription();
+            },
+            error: function(xhr, textStatus, thrownError){
+                sakai.api.Util.notification.show("Failed setting new version", "Uploading new version failed");
+            },
+            data: {
+                "url": "/p/" + uploadedFiles[0].hashpath
+            }
+        });
+    };
+
+    /**
      * Set the various settings for the fluid uploader component
      */
     var initialiseUploader = function(){
@@ -609,10 +611,12 @@ sakai.fileupload = function(tuid, showSettings){
                         $(multiFileForm + " button").show();
                         $(fileUploadProgressId).removeClass(fileUploadProgress);
                         // Disable input fields
-                        $(fileUploadAddTags)[0].disabled = false;
-                        $(fileUploadAddDescription)[0].disabled = false;
-                        $(".fileupload_file_name input").enable(true)
-                        $(fileUploadPermissionsSelect)[0].disabled = false;
+                        if (context !== "new_version") {
+                            $(fileUploadAddTags)[0].disabled = false;
+                            $(fileUploadAddDescription)[0].disabled = false;
+                            $(fileUploadPermissionsSelect)[0].disabled = false;
+                        }
+                        $(".fileupload_file_name input").enable(true);
                         // Show a notification
                         sakai.api.Util.notification.show($(fileupload_no_files).html(),$(fileupload_no_files_were_uploaded).html());
                     }
@@ -622,7 +626,7 @@ sakai.fileupload = function(tuid, showSettings){
 
                         // Get the values out of the name boxes
                         $(multiFileList + " input").each(function(index){
-                            extractedData[index]["name"] = $(this)[0].value;
+                            extractedData[index].name = $(this)[0].value;
                         });
 
                         // Reset the MultiFile uploader
@@ -636,16 +640,14 @@ sakai.fileupload = function(tuid, showSettings){
                         if (context === "new_version") {
                             // Set this file as new version
                             setAsNewVersion();
-                            // Set name on the file
-                            batchSetDescriptionAndName();
                         }
                         else {
                             // Set the description data on the completed uploads
                             batchSetDescriptionAndName();
-                            
+
                             // Set permissions on the files
                             setFilePermissions();
-                            
+
                             // Link the files to the tags
                             if (tags.length !== 0) {
                                 batchLinkTagsToContent();
@@ -663,13 +665,15 @@ sakai.fileupload = function(tuid, showSettings){
         $(multiFileForm + " button").hide();
         $(fileUploadProgressId).addClass(fileUploadProgress);
         // Disable input fields
-        $(fileUploadAddTags)[0].disabled = true;
-        $(fileUploadAddDescription)[0].disabled = true;
-        $(".fileupload_file_name input").enable(false)
+        if (context !== "new_version") {
+            $(fileUploadAddTags)[0].disabled = true;
+            $(fileUploadAddDescription)[0].disabled = true;
+            $(fileUploadPermissionsSelect)[0].disabled = true;
+            // Initiate the tagging process
+            formatTags($(fileUploadAddTags).val());
+        }
+        $(".fileupload_file_name input").enable(false);
         $(".MultiFile-remove").addClass("hide_remove_link");
-        $(fileUploadPermissionsSelect)[0].disabled = true;
-        // Initiate the tagging process
-        formatTags($(fileUploadAddTags).val());
     });
 
     $(fileUploadContainer).jqm({
@@ -687,7 +691,7 @@ sakai.fileupload = function(tuid, showSettings){
             $(this).click();
         });
         $(fileUploadContainer).jqmHide();
-    })
+    });
 
     $('#upload_content').bind("click", function(ev){
         // Check if the uploads neet to be associated with a group or not
@@ -702,6 +706,8 @@ sakai.fileupload = function(tuid, showSettings){
             if ($('#upload_content').hasClass("new_version")) {
                 // A new version of the file needs to be uploaded
                 newVersion = true;
+                $(fileUploadWidgetTitleNewVersion).show();
+                $(fileUploadWidgetTitle).hide();
                 oldVersionPath = $("#upload_content").data("hashpath").split("contentpath_")[1];
                 context = "new_version";
                 sakai.fileupload.initialise();

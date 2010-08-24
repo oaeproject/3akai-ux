@@ -5,7 +5,8 @@
 <div style="display:none" id="fileupload_container" class="dialog">
     <div class="dialog_header">
         <div class="dialog_header_inner">
-            <h1>__MSG__WIDGET_TITLE__</h1>
+            <h1 id="fileupload_widget_title">__MSG__WIDGET_TITLE__</h1>
+            <h1 id="fileupload_widget_title_new_version" style="display:none;">__MSG__UPLOAD_NEW_VERSION__</h1>
             <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
         </div>
     </div>
@@ -30,7 +31,7 @@
     --></div>
 
     <div id="fileupload_add_to_template" style="display:none;"><!--
-        <b>{if context === "new_version"}new version of the file{else}__MSG__MY_CONTENT__{/if}</b>{if context === "group"} __MSG__AND_SHARE_WITH__<b>${name}</b>{/if}
+        <b>{if context === "new_version"}__MSG__NEW_VERSION_OF_FILE__{else}__MSG__MY_CONTENT__{/if}</b>{if context === "group"} __MSG__AND_SHARE_WITH__<b>${name}</b>{/if}
     --></div>
 
     <div id="fileupload_tagging_template" style="display:none;"><!--
@@ -65,13 +66,18 @@
             </select>
             {/if}
         </div>
+        {else}
+            <label for="fileupload_add_version_description">
+                __MSG__MESSAGE_OTHER_MANAGERS_REASON__
+            </label>
+            <textarea cols="50" rows="3" id="fileupload_add_version_description" value="" />
         {/if}
         <div id="fileupload_action_buttons">
             <button type="button" id="fileupload_cancel" class="s3d-button s3d-button-primary jqmClose dialog_close_image">
                 <span class="s3d-button-inner">__MSG__CANCEL__</span>
             </button>
             <button type="submit" class="s3d-button s3d-button-primary">
-                <span class="s3d-button-inner">__MSG__ADD_CONTENT__</span>
+                <span class="s3d-button-inner">{if context !== "new_version"}__MSG__ADD_CONTENT__{else}__MSG__UPDATE_FILE__{/if}</span>
             </button>
             <div id="fileupload_upload_progress">
             </div>
