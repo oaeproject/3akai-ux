@@ -324,7 +324,7 @@ sakai.groupedit = function(){
                 "total" : pickerData.selectCount
             };
 
-            addUsers(pickerData.spaceName, json_data);
+            addUsers(pickerData.spaceId, json_data);
         });
 
     };
