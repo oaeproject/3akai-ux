@@ -1,0 +1,10 @@
+{
+    "description":"Advanced Search Picker Widget",
+    "hasSettings": false,
+    "id": "pickeradvanced",
+    "i18n": {
+        "default": "/devwidgets/pickeradvanced/bundles/default.json"
+    },
+    "name": "Advanced Search Picker",
+    "url": "/devwidgets/pickeradvanced/pickeradvanced.html"
+}

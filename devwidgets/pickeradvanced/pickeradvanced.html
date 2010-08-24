@@ -1,0 +1,96 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/pickeradvanced/css/pickeradvanced.css" />
+
+<!-- MAIN VIEW -->
+<div id="pickeradvanced_container" style="display:none" class="dialog">
+    <div id="pickeradvanced_container_header" class="dialog_header">
+        <div class="dialog_header_inner">
+            <h1>Search for People to add</h1>
+            <a href="javascript:;" class="dialog_close_image pickeradvanced_close_dialog" title="Close Dialog"></a>
+        </div>
+    </div>
+    <div id="pickeradvanced_container_search" class="dialog_content">
+        <div id="pickeradvanced_header">
+            <span class="fl-force-left">
+                <form id="pickeradvanced_content_search_form" method="post" action="javascript:;">
+                    Search For <input name="pickeradvanced_search_query" id="pickeradvanced_search_query" />
+                    <button type="button" class="s3d-button" id="pickeradvanced_search_button">
+                        <span class="s3d-button-inner">search</span>
+                    </button>
+                </form>
+            </span>
+
+            <span class="fl-force-right">
+                <select class="pickeradvanced_sort_on">
+                    <option default="true" value="lastNameAsc">Last name A-Z</option>
+                    <option value="lastNameDesc">Last name Z-A</option>
+                    <option value="firstNameAsc">First name A-Z</option>
+                    <option value="firstNameDesc">First name Z-A</option>
+                </select>
+            </span>
+        </div>
+
+        <div id="pickeradvanced_content">
+            <div id="pickeradvanced_content_list"></div>
+            <div id="pickeradvanced_content_search"></div>
+        </div>
+
+        <div id="pickeradvanced_footer">
+            <div id="pickeradvanced_footer_select">
+            <span class="fl-force-left">
+                <span id="pickeradvanced_count" style="display: none;">0</span>
+                <span id="pickeradvanced_count_person" style="display: none;"> person</span>
+                <span id="pickeradvanced_count_people" style="display: none;"> people</span>
+                <span id="pickeradvanced_count_of" style="display: none;"> out of</span>
+                <span id="pickeradvanced_count_thousands" style="display: none;"> thousands</span>
+                </span>
+                <button type="button" class="s3d-button fl-force-right" id="pickeradvanced_select_all_button">
+                    <span class="s3d-button-inner">Select All</span>
+                </button>
+            </div>
+            <div id="pickeradvanced_footer_options">
+                <button type="button" class="s3d-button" id="pickeradvanced_close">
+                    <span class="s3d-button-inner">Cancel</span>
+                </button>
+                <button type="button" class="s3d-button s3d-button-primary fl-force-right" id="pickeradvanced_add_button">
+                    <span class="s3d-button-inner">Add to <span id="pickeradvanced_space_name">Space</span></span>
+                </button>
+            </div>
+        </div>
+
+        <div id="pickeradvanced_content_search_pagedefault">
+
+            <div id="pickeradvanced_content_search_listtemplate"><!--
+                <ul id="pickeradvanced_list" class="pickeradvanced_page">
+                {for p in people}
+                    <li id="${p.id}" dataid="${p.id}">
+                        <span class="pickeradvanced_list_name">${p.name}</span>
+                    </li>
+                {/for}
+                </ul>
+            --></div>
+
+            <div id="pickeradvanced_content_search_pagetemplate" style="display:none;"><!--
+                {for i in results}
+                <li data-userid="${i['rep:userId']}" id="${i['rep:userId']}">
+                    {if i.picture}
+                        <img src="/~${i["rep:userId"]}/public/profile/${i.picture.name}" alt="Profile picture for ${i.firstName} ${i.lastName}" class="pickeradvanced_ppicture"/>
+                    {else}
+                        <img src="/dev/_images/person_icon.jpg" alt="Default profile picture" class="pickeradvanced_ppicture"/>
+                    {/if}
+                    <a class="pickeradvanced_name" href="/dev/profile.html?user=${i['rep:userId']}">${sakai.api.User.getDisplayName(i)}</a>
+                    <br />
+                    <span class="pickeradvanced_subnameinfo">${i.subNameInfo}</span>
+                </li>
+                {/for}
+            --></div>
+        </div>
+
+        <div id="pickeradvanced_error_template" style="display:none;">
+            <span>Sorry, could not retrieve the list of users form the server!</span>
+        </div>
+    </div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/pickeradvanced/javascript/pickeradvanced.js"></script>
