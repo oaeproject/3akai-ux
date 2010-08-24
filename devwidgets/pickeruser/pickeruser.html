@@ -7,24 +7,24 @@
     <div id="pickeruser_container_header" class="dialog_header">
         <div class="dialog_header_inner">
             <h1>__MSG__ADDING_PEOPLE__</h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog"></a>
         </div>
     </div>
     <div id="pickeruser_container_search" class="dialog_content">
         <div id="pickeruser_basic">
-			<span class="fl-force-left" id="pickeruser_add_header">Adding Managers to Biology 101</span>
-			<span class="fl-force-left">Type the name of the person/group</span>
+			<span class="fl-force-left" id="pickeruser_add_header">__MSG__ADDING__ <span id="pickeruser_add_header_what"></span> __MSG__TO__ <span id="pickeruser_add_header_where"></span></span>
+			<span class="fl-force-left">__MSG__TYPE_NAME_PERSON_GROUP__ __MSG__OR__ <a href="javascript:;" id="pickeruser_init_search">__MSG__SEARCH__</a></span>
             <span class="fl-force-left" id="pickeruser_form_container">
             	<input name="pickeruser_search_query" id="pickeruser_search_query" type="text" autocomplete="off"/>
             </span>
 			<div id="pickeruser_send_message" class="fl-force-left">
-				<span class="fl-force-left">Send a personal message</span>
+				<span class="fl-force-left">__MSG__SEND_PERSONAL_MESSAGE__</span>
 				<span class="fl-force-left">
 					<textarea id="pickeruser_message"></textarea>
 				</span>
 				<span class="fl-force-left">
 					<input type="checkbox" name="pickeruser_copy_myself" id="pickeruser_copy_myself"/>
-					<label for="pickeruser_copy_myself">Send a copy to myself</label>
+					<label for="pickeruser_copy_myself">__MSG__SEND_COPY_TO_MYSELF__</label>
 				</span>
 			</div>
         </div>
@@ -59,12 +59,12 @@
 	        </div>
 		</div>
 		
-		<div id="pickeruser_footer_options">
-            <button type="button" class="s3d-button" id="pickeruser_close_button">
-                <span class="s3d-button-inner">Cancel</span>
-            </button>
+		<div id="pickeruser_footer_options" class="fl-force-left">
             <button type="button" class="s3d-button s3d-button-primary fl-force-right" id="pickeruser_add_button">
-                <span class="s3d-button-inner">Add to <span id="pickeruser_space_name">Space</span></span>
+                <span class="s3d-button-inner">__MSG__ADD__</span>
+            </button>
+            <button type="button" class="s3d-button fl-force-right" id="pickeruser_close_button">
+                <span class="s3d-button-inner">__MSG__CANCEL__</span>
             </button>
         </div>
 
@@ -100,7 +100,10 @@
             <span>Sorry, could not retrieve the list of users form the server!</span>
         </div>
     </div>
+	<div id="widget_pickeradvanced" class="widget_inline"></div>
 </div>
+
+
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/pickeruser/javascript/pickeruser.js"></script>

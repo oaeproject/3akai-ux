@@ -2,20 +2,26 @@
 { width: 637px; height: 490px; padding: 5px; margin-left:-319px;}
 
 #pickeruser_container #pickeruser_container_search
-{ width: 595px; height: 400px; border: 1px solid #999; }
+{ width: 595px; height: 362px; border: 1px solid #999; }
 
 /* HEADER */
 
-#pickeruser_container #pickeruser_basic span {width:100%; margin-bottom:5px;}
+#pickeruser_container #pickeruser_basic span.fl-force-left {width:100%; margin-bottom:5px;}
 
 #pickeruser_container #pickeruser_basic span#pickeruser_add_header {margin-bottom:30px;}
 
 #pickeruser_container #pickeruser_basic textarea {width:100%;}
 
-#pickeruser_container #pickeruser_basic #pickeruser_send_message {background-color:#D9EAF5; width:96%; padding:2%;}
+#pickeruser_container #pickeruser_basic #pickeruser_send_message {background-color:#D9EAF5; width:96%; padding:2%; margin-top:15px;}
 
 #pickeruser_container .pickeruser_link
 { color: #006E96; font-weight: bold; }
+
+#pickeruser_container #pickeruser_basic span#pickeruser_add_header_what, #pickeruser_container #pickeruser_basic span#pickeruser_add_header_where {font-weight:bold;}
+
+#pickeruser_container ul.as-selections { height:80px;}
+
+#pickeruser_container div.fl-force-left {width:100%;}
 
 /* FOOTER */
 #pickeruser_container #pickeruser_footer
@@ -23,6 +29,8 @@
 
 #pickeruser_footer_select
 { padding-bottom: 40px; }
+
+#pickeruser_container #pickeruser_footer_options {margin-top:15px;}
 
 /* CONTENT */
 

@@ -1,5 +1,9 @@
 {
 "name": "pickeruser",
 "description": "A general widget to pick people on any Sakai page\r\n",
-"ADDING_PEOPLE": "Adding people"
+"ADDING_PEOPLE": "Adding people",
+"ADDING": "Adding",
+"TYPE_NAME_PERSON_GROUP": "Type the name of the person/group",
+"SEND_PERSONAL_MESSAGE": "Send a personal message",
+"SEND_COPY_TO_MYSELF": "Send a copy to myself"
 }

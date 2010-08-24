@@ -76,15 +76,28 @@
 
             // Page code
             $(window).bind("sakai-pickeruser-ready", function(e){
-                var pl_config = {"mode": "search", "type": "people", "spaceName": "Widget Playground", "selectable":true, "subNameInfo": "email", "sortOn": "lastName", "items": 50 };
+                var pl_config = {
+					"mode": "search",
+					"type": "people",
+					"selectable":true,
+					"subNameInfo": "email",
+					"sortOn": "lastName",
+					"items": 50,
+					"what": "Managers",
+					"where": "Biology 101"
+				};
 
                 $("#pick_user_link").bind("click", function() {
                     $(window).trigger("sakai-pickeruser-init", pl_config, function(people) {
                         console.log("people:", people);
                     });
+					$(window).unbind("sakai-pickeruser-finished");
+					$(window).bind("sakai-pickeruser-finished", function(e, peopleList) {
+						console.log("To add: ", peopleList.toAdd);
+					});
                 });
-            });
 
+            });
         </script>
 
     </body>
