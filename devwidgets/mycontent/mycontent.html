@@ -5,7 +5,8 @@
     <div class="fl-widget-content">
         <!-- ERRORS -->
         <div id="mycontent_nocontent" style="display:none;">
-            <p>__MSG__NO_CONTENT__</p>
+            <p id="mycontent_nocontent_msg"
+                class="mycontent_nomargin">__MSG__NO_CONTENT__</p>
         </div>
 
         <div id="mycontent_list" style="display:none;">
@@ -17,12 +18,12 @@
                     <div class="mycontent_item_img fl-force-left"><img class="mycontent_item_mime"
                         src="${item.type_img_url}" />
                     </div>
-                    <div class="mycontent_item_info fl-force-left">
-                        <p class="mycontent_item_title"><a href="/dev/content_profile.html#content_path=${item.path}">${item.name}</a></p>
+                    <div class="mycontent_item_info">
+                        <p class="mycontent_item_title"><a class="mycontent_item_link"
+                            href="/dev/content_profile.html#content_path=${item.path}">${item.name}</a></p>
                         <p class="mycontent_item_meta">${item.type} (45KB)</p>
                     </div>
                 </div>
-                <div class="fl-push" />
                 {/for}
             --></div>
         </div>

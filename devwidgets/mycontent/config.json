@@ -3,7 +3,7 @@
     "name":"My Content",
     "id":"mycontent",
     "i18n": {
-        "default": "/devwidgets/mygroups/bundles/default.json"
+        "default": "/devwidgets/mycontent/bundles/default.json"
     },
     "personalportal":true,
     "hasSettings":false,

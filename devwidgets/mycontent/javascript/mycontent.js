@@ -127,6 +127,7 @@ sakai.mycontent = function(tuid, showSettings) {
         }
     }
 
+
     ////////////////////
     // Event Handlers //
     ////////////////////
@@ -145,7 +146,6 @@ sakai.mycontent = function(tuid, showSettings) {
 
     var init = function() {
         // get list of content items
-        // - JSON data at /var/search/pool/me/manager.json?q=*
         sakai.api.Server.loadJSON("/var/search/pool/me/manager.json",
             handleContentData, {"q": "*"});
     };
