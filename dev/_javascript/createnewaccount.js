@@ -227,7 +227,7 @@ sakai.newaccount = function(){
             "pwdConfirm": values[password],
             ":name": values[username],
             "_charset_": "utf-8",
-            "sakai:authprofile_import": $.toJSON(profileData)
+            ":sakai:profile-import": $.toJSON(profileData)
         };
         $.ajax ({
             url : sakai.config.URL.CREATE_USER_SERVICE,
