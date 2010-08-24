@@ -19,7 +19,7 @@ asyncTest("Create a Sakai3 user", function(){
         "pwd": "test",
         "pwdConfirm": "test",
         ":name": user_random,
-        "sakai:authprofile_import": $.toJSON(profileData)
+        ":sakai:profile-import": $.toJSON(profileData)
     };
 
     sakai.api.User.createUser(data, function(success, data){

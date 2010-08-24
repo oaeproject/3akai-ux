@@ -14,23 +14,27 @@
         <div id="new_uploader">
             <div id="fileupload_add_to">__MSG__ADD_TO__</div><div id="fileupload_add_to_template_container"></div>
             <!-- This form will be progressively enhanced by the Fluid Uploader component. -->
-            <form method="post" enctype="multipart/form-data" id="multifile_form"><input type="file" name="Filedata" id="multifile_upload"/>
-                <p>
-                    <div id="upload_file_list">
-                        <p id="fileupload_filename_label">__MSG__FILE_NAME__</p>
-                    </div>
-                </p>
+            <form method="post" enctype="multipart/form-data" id="multifile_form">
+                <div id="fileupload_limit_container"></div>
                 <div id="fileupload_rendered_tagging"></div>
                 <hr/>
             </form>
         </div>
+
+    <div id="fileupload_limit_to_one_upload_template"><!--
+        <input type="file" name="Filedata" id="multifile_upload" class="multi max-1"/>
+    --></div>
+
+    <div id="fileupload_no_limit_to_upload_template"><!--
+        <input type="file" name="Filedata" id="multifile_upload" class="multi"/>
+    --></div>
 
     <div id="fileupload_add_to_template" style="display:none;"><!--
         <b>{if context === "new_version"}new version of the file{else}__MSG__MY_CONTENT__{/if}</b>{if context === "group"} __MSG__AND_SHARE_WITH__<b>${name}</b>{/if}
     --></div>
 
     <div id="fileupload_tagging_template" style="display:none;"><!--
-        <h1>__MSG__BASIC_INFORMATION__</h1>
+        {if context !== "new_version"}<h1>__MSG__BASIC_INFORMATION__</h1>
         <div id="fileupload_tags">
             <label for="fileupload_add_tags">
                 __MSG__TAGS__
@@ -43,25 +47,25 @@
             <label for="fileupload_add_description">
                 __MSG__DESCRIPTION__
             </label>
-            <textarea cols="50" rows="3" id="fileupload_add_description" class="fileupload_add_description" value="" />
-            <hr/>
+            <textarea cols="50" rows="3" id="fileupload_add_description" class="fileupload_add_description" value="" /><hr/>
         </div>
         <div id="fileupload_permissions">
             __MSG__WHO_CAN_SEE_THIS_CONTENT__ 
             {if context === "group" || context === "new_version"}
-                <select id="fileupload_permissions_select">
-                    <option value="public">__MSG__THE_PUBLIC__</option>
-                    <option value="group">__MSG__THIS_GROUP_ONLY__</option>
-                    <option value="everyone">__MSG__LOGGED_IN_ONLY__</option>
-                </select>
+            <select id="fileupload_permissions_select">
+                <option value="public">__MSG__THE_PUBLIC__</option>
+                <option value="group">__MSG__THIS_GROUP_ONLY__</option>
+                <option value="everyone">__MSG__LOGGED_IN_ONLY__</option>
+            </select>
             {else}
-                <select id="fileupload_permissions_select">
-                    <option value="public">__MSG__THE_PUBLIC__</option>
-                    <option value="private">__MSG__MYSELF_ONLY__</option>
-                    <option value="everyone">__MSG__LOGGED_IN_ONLY__</option>
-                </select>
+            <select id="fileupload_permissions_select">
+                <option value="public">__MSG__THE_PUBLIC__</option>
+                <option value="private">__MSG__MYSELF_ONLY__</option>
+                <option value="everyone">__MSG__LOGGED_IN_ONLY__</option>
+            </select>
             {/if}
         </div>
+        {/if}
         <div id="fileupload_action_buttons">
             <button type="button" id="fileupload_cancel" class="s3d-button s3d-button-primary jqmClose dialog_close_image">
                 <span class="s3d-button-inner">__MSG__CANCEL__</span>
