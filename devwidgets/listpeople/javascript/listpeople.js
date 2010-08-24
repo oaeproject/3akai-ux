@@ -191,7 +191,7 @@ sakai.listPeople.renderList = function(tuid, pageNumber, objects) {
                     sakai.data.listpeople[tuid].selectCount += 1;
 
                     for (var i = 0; i < sakai.data.listpeople[tuid].total; i++) {
-                        if (sakai.data.listpeople[tuid].userList[$(this).attr("id")]['rep:userId'] == [$(this).attr("id")] || sakai.data.listpeople[tuid].userList[$(this).attr("id")]['userid'] == [$(this).attr("id")] || sakai.data.listpeople[tuid].userList[$(this).attr("id")]['groupid'] == [$(this).attr("id")]) {
+                        if (sakai.data.listpeople[tuid].userList[$(this).attr("id")]['rep:userId'] == [$(this).attr("id")] || sakai.data.listpeople[tuid].userList[$(this).attr("id")]['userid'] == [$(this).attr("id")] || sakai.data.listpeople[tuid].userList[$(this).attr("id")]['groupid'] == [$(this).attr("id")] || sakai.data.listpeople[tuid].userList[$(this).attr("id")]['content_path'] == [$(this).attr("id")]) {
                             sakai.data.listpeople[tuid]["selected"][$(this).attr("id")] = sakai.data.listpeople[tuid].userList[$(this).attr("id")];
                         }
                     }
@@ -272,6 +272,7 @@ sakai.listPeople.addToList = function(tuid, object, reRender) {
         $.each(object.results, function(index, resultObject) {
             var iSubNameInfoGroup = sakai.config.widgets.listpeople[tuid]["subNameInfoGroup"];
             var iSubNameInfoUser = sakai.config.widgets.listpeople[tuid]["subNameInfoUser"];
+            var iSubNameInfoContent = Widgets.widgets.listpeople.subNameInfoContent;
             if (resultObject.userid) {
                 sakai.data.listpeople[tuid].userList[resultObject.userid] = resultObject
                 sakai.data.listpeople[tuid].total += 1
@@ -296,6 +297,19 @@ sakai.listPeople.addToList = function(tuid, object, reRender) {
                     sakai.data.listpeople[tuid].userList[resultObject['rep:userId']]["subNameInfo"] = resultObject[iSubNameInfoUser]
                 }
                 sakai.data.listpeople[tuid].total += 1
+            } else if (resultObject.content_path) {
+                sakai.data.listpeople[tuid].userList[resultObject.content_path] = resultObject
+                sakai.data.listpeople[tuid].total += 1
+                if (!sakai.data.listpeople[tuid].userList[resultObject.content_path]["subNameInfo"]) {
+                    sakai.data.listpeople[tuid].userList[resultObject.content_path]["subNameInfo"] = resultObject[iSubNameInfoContent];
+                }
+                if (sakai.config.MimeTypes[resultObject.data["jcr:content"]["jcr:mimeType"]]) {
+                    sakai.data.listpeople[tuid].userList[resultObject.content_path]['avatar'] = sakai.config.MimeTypes[resultObject.data["jcr:content"]["jcr:mimeType"]].URL;
+                    sakai.data.listpeople[tuid].userList[resultObject.content_path]['mimeTypeDescripton'] = sakai.config.MimeTypes[resultObject.data["jcr:content"]["jcr:mimeType"]].description;
+                } else {
+                    sakai.data.listpeople[tuid].userList[resultObject.content_path]['avatar'] = "/dev/_images/mimetypes/empty.png";
+                    sakai.data.listpeople[tuid].userList[resultObject.content_path]['mimeTypeDescripton'] = sakai.config.MimeTypes.other.description;
+                }
             }
         });
         if (reRender) {
