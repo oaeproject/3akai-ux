@@ -23,7 +23,7 @@
         <div id="content_profile_file_details_details_secondcolumn">
             <p><span class="content_profile_file_details_content">${created} by ${data["jcr:createdBy"]}</span></p>
             <p><span class="content_profile_file_details_content">${lastModified} by ${data["jcr:content"]["jcr:lastModifiedBy"]}</span></p>
-            <p><span class="content_profile_file_details_content">{if revisions.length -1 === 0}No revisions{else}${revisions.length -1} View revisions{/if}</span></p>
+            <p><span class="content_profile_file_details_content">{if revisions.length -1 === 0}No revisions{else}${revisions.length -1} <a href="javascript:;" id="content_profile_details_view_revisions">View revisions</a>{/if}</span></p>
             <hr/>
         </div>
     </div>

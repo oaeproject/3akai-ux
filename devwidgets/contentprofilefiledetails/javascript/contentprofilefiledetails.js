@@ -37,6 +37,7 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
     var contentProfileFileDetailsActionDownload= "#content_profile_file_details_action_download";
     var contentProfileFileDetailsActionDelete= "#content_profile_file_details_action_delete";
     var contentProfileFileDetailsActionUpload = "#upload_content";
+    var contentProfileFileDetailsViewRevisions = "#content_profile_details_view_revisions";
 
     var fileRevisions = [];
     var profileData = [];
@@ -164,6 +165,10 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
         $(window).trigger('hashchange');
         loadContentProfile();
     };
+
+    $(contentProfileFileDetailsViewRevisions).live("click",function(){
+        sakai.filerevisions.initialise(profileData);
+    });
 
     doInit();
 };
