@@ -26,7 +26,7 @@
         </div>
 
     <div id="fileupload_add_to_template" style="display:none;"><!--
-        <b>__MSG__MY_CONTENT__</b>{if groupContext} __MSG__AND_SHARE_WITH__<b>${groupName}</b>{/if}
+        <b>{if context === "new_version"}new version of the file{else}__MSG__MY_CONTENT__{/if}</b>{if context === "group"} __MSG__AND_SHARE_WITH__<b>${name}</b>{/if}
     --></div>
 
     <div id="fileupload_tagging_template" style="display:none;"><!--
@@ -48,7 +48,7 @@
         </div>
         <div id="fileupload_permissions">
             __MSG__WHO_CAN_SEE_THIS_CONTENT__ 
-            {if groupContext}
+            {if context === "group" || context === "new_version"}
                 <select id="fileupload_permissions_select">
                     <option value="public">__MSG__THE_PUBLIC__</option>
                     <option value="group">__MSG__THIS_GROUP_ONLY__</option>

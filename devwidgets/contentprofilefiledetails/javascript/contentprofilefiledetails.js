@@ -29,7 +29,6 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
 
     // path variables
     var contentPath = "";
-    var profileData = [];
 
     // Containers
     var contentProfileFileDetailsContainer = "#content_profile_file_details_container";
@@ -37,6 +36,10 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
     // Buttons
     var contentProfileFileDetailsActionDownload= "#content_profile_file_details_action_download";
     var contentProfileFileDetailsActionDelete= "#content_profile_file_details_action_delete";
+    var contentProfileFileDetailsActionUpload = "#upload_content";
+
+    var fileRevisions = [];
+    var profileData = [];
 
     var convertToHumanReadableFileSize = function(filesize){
         // Divide the length into its largest unit
@@ -71,6 +74,52 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
         });
     };
 
+    var renderDetails = function(){
+        // Construct the JSON object
+        var json = {
+            data: profileData,
+            revisions: fileRevisions,
+            mode: "content",
+            url: contentPath,
+            filesize: convertToHumanReadableFileSize(profileData["jcr:content"][":jcr:data"])
+        };
+
+        // Set the global JSON object (we also need this in other functions + don't want to modify this)
+        globalJSON = $.extend(true, {}, json);
+
+        // And render the basic information
+        var renderedTemplate = $.TemplateRenderer("content_profile_file_details_template", json);
+        var renderedDiv = $(document.createElement("div"));
+        renderedDiv.html(renderedTemplate)
+        $("#content_profile_file_details_container").html(renderedDiv);
+        // Show the file details container
+        $("#content_profile_file_details_container").show();
+
+        // Add binding
+        addBinding();
+
+        // Add classes
+        $(contentProfileFileDetailsActionUpload).data("hashpath", "contentpath_" + contentPath.split("/p/")[1]);
+    }
+
+    var loadRevisions = function(){
+        $.ajax({
+            url: contentPath + ".versions.json",
+            success: function(data){
+                for (var i in data["versions"]) {
+                    var item = {
+                        "data" : data["versions"][i]
+                    }
+                    fileRevisions[fileRevisions.length] = item;
+                }
+                renderDetails();
+            },
+            error: function(xhr, textStatus, thrownError){
+                sakai.api.Util.notification.show("Failed loading revisions", "Failed to load file revision information");
+            }
+        });
+    }
+
     var loadContentProfile = function(){
         // Check whether there is actually a content path in the URL
         if (contentPath) {
@@ -79,27 +128,8 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
                 success: function(data){
                     data.path = contentPath;
                     profileData = data;
-                    // Construct the JSON object
-                    var json = {
-                        data: data,
-                        mode: "content",
-                        url: contentPath,
-                        filesize: convertToHumanReadableFileSize(data["jcr:content"][":jcr:data"])
-                    };
-
-                    // Set the global JSON object (we also need this in other functions + don't want to modify this)
-                    globalJSON = $.extend(true, {}, json);
-
-                    // And render the basic information
-                    var renderedTemplate = $.TemplateRenderer("content_profile_file_details_template", json);
-                    var renderedDiv = $(document.createElement("div"));
-                    renderedDiv.html(renderedTemplate)
-                    $("#content_profile_file_details_container").html(renderedDiv);
-                    // Show the file details container
-                    $("#content_profile_file_details_container").show();
-
-                    // Add binding
-                    addBinding();
+                    // Load the revisions of this file
+                    loadRevisions();
                 },
                 error: function(xhr, textStatus, thrownError){
                     sakai.api.Util.notification.show("Failed loading data", "Failed to load file information");
@@ -113,12 +143,12 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
         // loads all the information for the current resource
         $(window).bind('hashchange', function(e){
             contentPath = e.getState("content_path") || "";
-            loadContentProfile();
         });
 
         // Since the event is only triggered when the hash changes, we need to trigger
         // the event now, to handle the hash the page may have loaded with.
         $(window).trigger('hashchange');
+        loadContentProfile();
     };
 
     doInit();

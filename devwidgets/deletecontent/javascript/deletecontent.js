@@ -90,9 +90,7 @@ sakai.deletecontent = function(tuid, showSettings){
                     ":operation" : "delete"
                 }
             });
-
         });
-
     };
 
 

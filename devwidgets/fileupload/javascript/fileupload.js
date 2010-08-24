@@ -53,6 +53,9 @@ sakai.fileupload = function(tuid, showSettings){
     var setPermissions = false;
 
     var groupContext = false;
+    var newVersion = false;
+    var oldVersionPath = "";
+    var context = "";
 
     // Classes
     var multiFileRemove = ".MultiFile-remove";
@@ -104,7 +107,7 @@ sakai.fileupload = function(tuid, showSettings){
     var fileupload_no_files = "#fileupload_no_files";
     var fileupload_no_files_were_uploaded = "#fileupload_no_files_were_uploaded";
 
-    var groupContextData = {};
+    var contextData = {};
 
 
     ///////////////////////
@@ -116,15 +119,11 @@ sakai.fileupload = function(tuid, showSettings){
         return qs.get("id", false);
     }
 
-    /**
-     * Public function that can be called from elsewhere
-     * (e.g. chat and sites widget)
-     * It initializes the fileupload widget and shows the jqmodal (ligthbox)
-     */
-    sakai.fileupload.initialise = function(){
+    var renderGroupUpload = function(){
         // Render template to show title
         var groupName;
-        // If not name for the group has been set use the original groupname
+
+        // The group name can be used to add content to
         if ($("#groupbasicinfo_generalinfo_group_title").val() !== "") {
             groupName = $("#groupbasicinfo_generalinfo_group_title").val()
         }
@@ -132,18 +131,47 @@ sakai.fileupload = function(tuid, showSettings){
             groupName = getGroupId();
         }
         // Fill the data needed for the group
-        groupContextData = {
-            "groupContext": groupContext,
-            "groupName": groupName,
-            "groupId": getGroupId()
+        contextData = {
+            "context": context,
+            "name": groupName,
+            "id": getGroupId()
         };
         // Render the template
-        var renderedTemplate = $.TemplateRenderer(fileUploadAddToTemplate, groupContextData).replace(/\r/g, '');
+        var renderedTemplate = $.TemplateRenderer(fileUploadAddToTemplate, contextData).replace(/\r/g, '');
         var renderedDiv = $(document.createElement("div"));
         $(fileUploadAddToTemplateContainer, $rootel).html(renderedTemplate);
 
         // Show lightbox
         $(fileUploadContainer, $rootel).jqmShow();
+    }
+
+    var renderUserOrNewUpload = function(){
+                // Fill the data needed for the group
+        contextData = {
+            "context": context,
+        };
+        // Render the template
+        var renderedTemplate = $.TemplateRenderer(fileUploadAddToTemplate, contextData).replace(/\r/g, '');
+        var renderedDiv = $(document.createElement("div"));
+        $(fileUploadAddToTemplateContainer, $rootel).html(renderedTemplate);
+
+        // Show lightbox
+        $(fileUploadContainer, $rootel).jqmShow();
+    }
+
+    /**
+     * Public function that can be called from elsewhere
+     * (e.g. chat and sites widget)
+     * It initializes the fileupload widget and shows the jqmodal (ligthbox)
+     */
+    sakai.fileupload.initialise = function(){
+        if (groupContext){
+            renderGroupUpload()
+        } else if (newVersion){
+            renderUserOrNewUpload();
+        } else {
+            renderUserOrNewUpload();
+        }
     };
 
     /**
@@ -153,7 +181,7 @@ sakai.fileupload = function(tuid, showSettings){
     sakai.fileupload.MultiFileSelected = function(){
         // Render the template that enables tagging of uploads
         if ($(multiFileRemove).length == 0) {
-            var renderedTemplate = $.TemplateRenderer(fileUploadTaggingTemplate, groupContextData).replace(/\r/g, '');
+            var renderedTemplate = $.TemplateRenderer(fileUploadTaggingTemplate, contextData).replace(/\r/g, '');
             var renderedDiv = $(document.createElement("div"));
             $(fileUploadRenderedTagging).html(renderedTemplate);
         }
@@ -225,6 +253,22 @@ sakai.fileupload = function(tuid, showSettings){
         tagsCreated = false;
         setPermissions = false;
     };
+
+    var setAsNewVersion = function(){
+        $.ajax({
+            url: "/p/" + oldVersionPath + ".save.html",
+            type : "POST",
+            success: function(data){
+                sakai.api.Util.notification.show("Version set", "Version successfully set");
+            },
+            error: function(xhr, textStatus, thrownError){
+                sakai.api.Util.notification.show("Failed loading data", "Failed to load file information");
+            },
+            data: {
+                "url": "/p/" + uploadedFiles[0].hashpath
+            }
+        });
+    }
 
     /**
      * Set the description of the uploaded files
@@ -384,7 +428,7 @@ sakai.fileupload = function(tuid, showSettings){
                             "url" : "/p/" + uploadedFiles[k].hashpath + ".members.html",
                             "method": "POST",
                             "parameters" : {
-                                ":viewer": groupContextData.groupId
+                                ":viewer": contextData.id
                             }
                         };
                         data[data.length] = item;
@@ -418,7 +462,7 @@ sakai.fileupload = function(tuid, showSettings){
                             "url": "/p/" + uploadedFiles[k].hashpath + ".members.html",
                             "method": "POST",
                             "parameters": {
-                                ":viewer": groupContextData.groupId
+                                ":viewer": contextData.id
                             }
                         };
                         data[data.length] = item;
@@ -430,7 +474,7 @@ sakai.fileupload = function(tuid, showSettings){
                         "url": "/p/" + uploadedFiles[k].hashpath + ".members.html",
                         "method": "POST",
                         "parameters": {
-                            ":viewer": groupContextData.groupId
+                            ":viewer": contextData.id
                         }
                     };
                     data[data.length] = item;
@@ -517,6 +561,11 @@ sakai.fileupload = function(tuid, showSettings){
 
                         uploadedFiles = extractedData;
 
+                        if (context === "new_version"){
+                            // Set this file as new version
+                            setAsNewVersion();
+                        }
+
                         // Set the description data on the completed uploads
                         batchSetDescriptionAndNameAndPermissions();
 
@@ -567,16 +616,27 @@ sakai.fileupload = function(tuid, showSettings){
 
     $('#upload_content').bind("click", function(ev){
         // Check if the uploads neet to be associated with a group or not
+
         if ($('#upload_content').hasClass("group_content")) {
             groupContext = true;
+            context = "group";
             $('#uploadfilescontainer').show();
             sakai.fileupload.initialise();
         }
-        else {
-            // Load the fileupload widget.
-            $('#uploadfilescontainer').show();
-            sakai.fileupload.initialise();
-        }
+        else
+            if ($('#upload_content').hasClass("new_version")) {
+                // A new version of the file needs to be uploaded
+                newVersion = true;
+                oldVersionPath = $("#upload_content").data("hashpath").split("contentpath_")[1];
+                context = "new_version";
+                sakai.fileupload.initialise();
+            }
+            else {
+                // Load the fileupload widget.
+                context = "user";
+                $('#uploadfilescontainer').show();
+                sakai.fileupload.initialise();
+            }
     });
 
     initialiseUploader();

@@ -23,12 +23,12 @@
         <div id="content_profile_file_details_details_secondcolumn">
             <p><span class="content_profile_file_details_content">${data["jcr:created"]} by ${data["jcr:createdBy"]}</span></p>
             <p><span class="content_profile_file_details_content">${data["jcr:content"]["jcr:lastModified"]} by ${data["jcr:content"]["jcr:lastModifiedBy"]}</span></p>
-            <p><span class="content_profile_file_details_content">{if data["jcr:predecessors"].length -1 === 0}No revisions{else}${data["jcr:predecessors"].length} View revisions{/if}</span></p>
-                    <hr/>
+            <p><span class="content_profile_file_details_content">{if revisions.length -1 === 0}No revisions{else}${revisions.length -1} View revisions{/if}</span></p>
+            <hr/>
         </div>
     </div>
     <div id="content_profile_file_details_actions">
-        <button type="button" class="s3d-button s3d-button-primary" id="content_profile_file_details_action_upload">
+        <button type="button" class="s3d-button s3d-button-primary new_version" id="upload_content">
             <span class="s3d-button-inner">__MSG__UPLOAD_NEW_VERSION__</span>
         </button>
         <button type="button" class="s3d-button s3d-button-primary" id="content_profile_file_details_action_download">
