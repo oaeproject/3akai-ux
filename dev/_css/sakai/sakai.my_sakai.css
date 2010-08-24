@@ -7,6 +7,7 @@ strong {color: #000;}
 .sites.fl-widget .fl-widget-titlebar .widget_title {background: url('../../_images/courses_icon.png') 17px 18px no-repeat;}
 .mygroups.fl-widget .fl-widget-titlebar .widget_title {background: url('../../_images/courses_icon.png') 17px 18px no-repeat;}
 .myprofile.fl-widget .fl-widget-titlebar .widget_title {background:transparent url(../../_images/myprofile_icon.png) no-repeat scroll 17px 18px;}
+.mycontent.fl-widget .fl-widget-titlebar .widget_title {background:transparent url(../../_images/mycontent_icon.png) no-repeat scroll 14px 16px;}
 
 /* OPTIONS */
 .mysakai_options {text-align: right; margin: 0 10px 5px 0}
