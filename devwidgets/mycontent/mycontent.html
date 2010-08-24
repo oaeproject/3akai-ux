@@ -5,10 +5,13 @@
     <div class="fl-widget-content">
         <!-- ERRORS -->
         <div id="mycontent_nocontent" style="display:none;">
-            <p id="mycontent_nocontent_msg"
-                class="mycontent_nomargin">__MSG__NO_CONTENT__</p>
+            <p class="mycontent_error_msg">__MSG__NO_CONTENT__</p>
+        </div>
+        <div id="mycontent_data_error" style="display:none;">
+            <p class="mycontent_error_msg">__MSG__DATA_ERROR__</p>
         </div>
 
+        <!-- MAIN CONTENT -->
         <div id="mycontent_list" style="display:none;">
             <div id="mycontent_list_template"><!--
                 {var i = 0}
@@ -28,6 +31,8 @@
             --></div>
         </div>
     </div>
+
+    <!-- WIDGET FOOTER -->
     <div class="fl-widget-options fl-fix">
         <div class="widget-options-inner">
             <ul>

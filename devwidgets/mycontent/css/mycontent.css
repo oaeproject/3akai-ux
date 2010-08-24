@@ -1,5 +1,4 @@
 /*** LAYOUT ***/
-.mycontent_nomargin {margin:0;}
 div.mycontent_item {padding:10px 0;}
 div.mycontent_item:first-child {padding:0 0 10px 0;}
 img.mycontent_item_mime {height:16px; width:16px;}
@@ -9,10 +8,10 @@ div.mycontent_item_info {margin-left:40px;}
 p.mycontent_item_title {margin:0; white-space:nowrap; width:100%;
     overflow:hidden; text-overflow:ellipsis;}
 p.mycontent_item_meta {margin:0;}
-p#mycontent_nocontent_msg {padding-left:15px;}
+p.mycontent_error_msg {margin:0; padding-left:15px;}
 
 /*** TYPOGRAPHY ***/
 a.mycontent_item_link {font-weight:bold; font-size:1.1em; color:#016E97;}
 p.mycontent_item_meta {font-size:0.9em; color:#444444;}
-p#mycontent_nocontent_msg {font-weight:normal; font-size:1em; font-style:italic;
+p.mycontent_error_msg {font-weight:normal; font-size:1em; font-style:italic;
     color:#999999;}

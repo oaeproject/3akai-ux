@@ -41,7 +41,8 @@ sakai.mycontent = function(tuid, showSettings) {
     var rootel = $("#" + tuid);
     var uploadLink = "#upload_link";
     var fileuploadContainer = "#fileupload_container";
-    var nocontentMsg = "#mycontent_nocontent";
+    var noContentMsg = "#mycontent_nocontent";
+    var dataErrorMsg = "#mycontent_data_error";
     var contentList = "#mycontent_list";
     var listTemplate = "#mycontent_list_template";
 
@@ -50,6 +51,14 @@ sakai.mycontent = function(tuid, showSettings) {
     // Utility functions //
     ///////////////////////
 
+    /**
+     * Parses an individual JSON search result (returned from the
+     * /var/search/pool/me/manager.json data feed) to be displayed in
+     * mycontent.html.
+     * @param {Object} result - individual result object from JSON data feed
+     * @return {Object} object containing item.name, item.path, item.type (mimetype)
+     *   and item.type_img_url (URL for mimetype icon) for the given result
+     */
     var parseDataResult = function(result) {
         // initialize parsed item
         var item = {
@@ -99,20 +108,29 @@ sakai.mycontent = function(tuid, showSettings) {
         }
 
         return item;
-    }
+    };
 
+    /**
+     * This AJAX callback function handles the search result data returned from
+     * /var/search/pool/me/manager.json.  If the call was successful, up to 5 of
+     * the most recently created files are presented to the user.
+     * @param {Object} success - indicates the status of the AJAX call
+     * @param {Object} data - JSON data from /var/search/pool/me/manager.json
+     * @return None
+     */
     var handleContentData = function(success, data) {
+        //alert("json returned: " + JSON.stringify(data));
         if(success) {
             // parse & render data
             if(data.total < 1) {
                 // user manages no content
-                $(nocontentMsg, rootel).show();
+                $(noContentMsg, rootel).show();
             } else {
                 // build array of up to five items; reverse chronological order
                 var contentjson = {
                     items: []
                 };
-                for(var i = data.total - 1; i >= data.total - 5 && i >= 0; i--) {
+                for(var i = 0; i < data.total && i < 5; i++) {
                     contentjson.items.push(parseDataResult(data.results[i]));
                 }
                 // pass the array to HTML view
@@ -120,12 +138,10 @@ sakai.mycontent = function(tuid, showSettings) {
                 $(contentList, rootel).show();
             }
         } else {
-            // data load failed - log error
-            alert('data load failed.');
-
             // display something useful to the user
+            $(dataErrorMsg, rootel).show();
         }
-    }
+    };
 
 
     ////////////////////
@@ -144,10 +160,21 @@ sakai.mycontent = function(tuid, showSettings) {
     // Initialization function //
     /////////////////////////////
 
+    /**
+     * Initiates fetching content data to be displayed in the My Content widget
+     * @return None
+     */
     var init = function() {
         // get list of content items
         sakai.api.Server.loadJSON("/var/search/pool/me/manager.json",
-            handleContentData, {"q": "*"});
+            handleContentData, {
+                "q": "*",
+                "sortOn": "jcr:created",
+                "sortOrder": "descending",
+                "page": "0",
+                "items": "5"
+            }
+        );
     };
 
     // run init() function when sakai.content object loads
