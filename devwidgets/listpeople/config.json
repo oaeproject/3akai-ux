@@ -6,5 +6,6 @@
         "default": "/devwidgets/listpeople/bundles/default.json"
     },
     "name": "People Lister",
-    "url": "/devwidgets/listpeople/listpeople.html"
+    "url": "/devwidgets/listpeople/listpeople.html",
+    "subNameInfoContent": "sling:resourceType"
 }
