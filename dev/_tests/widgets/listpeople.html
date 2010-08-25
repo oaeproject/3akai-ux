@@ -54,7 +54,11 @@
         <div class="fl-centered fixed-container" style="background: #fff; min-height: 400px;">
 
             <div id="widget_pickeruser" class="widget_inline"></div>
-            <br><br><div id="test_response">pickeruser response:</div><br><br>
+            <br><br>
+            <button id="listpeople_add_files" type="button" class="s3d-button">
+               <span class="s3d-button-inner">Add test file(s)</span>
+            </button>
+            <div id="test_response">pickeruser response:</div><br><br>
             <div id="widget_listpeople" class="widget_inline"></div>
 
             <button id="listpeople_remove" type="button" class="s3d-button">
@@ -118,6 +122,31 @@
                         sakai.listPeople.removeFromList('listpeoplecontainer');
                     });
                 });
+
+                // Bind the add files button
+                $("#listpeople_add_files").bind("click", function(){
+                    var content_path = '/index.html';
+                    $.ajax({
+                        url: sakai.config.SakaiDomain + content_path + ".2.json",
+                        success: function(data){
+                            // Construct the JSON object
+                            var json = {};
+                            json[content_path] = {
+                                data: data,
+                                mode: "content",
+                                content_path: content_path,
+                                url: sakai.config.SakaiDomain + content_path
+                            };
+                            var json_data = {
+                                "results" : json,
+                                "total" : 1
+                            };
+                            var pl_config = {"selectable":true, "sortOrder": "ascending", "items": 50, "function": "getSelection" };
+                            sakai.listPeople.render(ltuid, pl_config, json_data);
+                        }
+                    });
+                });
+
             });
 
         </script>

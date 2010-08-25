@@ -3,13 +3,14 @@
     <head>
 
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>__MSG__WIDGET_PLAYGROUND__ - Listgeneral</title>
+        <title>__MSG__WIDGET_PLAYGROUND__ - Listpeople</title>
 
         <!-- Sakai Core CSS -->
         <link rel="stylesheet" type="text/css" href="../../_css/FSS/fss-base.css" />
         <link rel="stylesheet" type="text/css" href="../../_css/sakai/sakai.base.css" />
         <link rel="stylesheet" type="text/css" href="../../_css/sakai/sakai.core.2.css" />
         <link rel="stylesheet" type="text/css" href="../../_css/sakai/sakai.3.css" />
+        <link rel="stylesheet" type="text/css" href="/devwidgets/pickeruser/css/autoSuggest.css" />
 
         <!-- Sakai Page CSS -->
         <!-- <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.profile.css" /> -->
@@ -31,7 +32,18 @@
         <script type="text/javascript" src="../../_lib/sakai_util/i18n.js"></script>
 
         <!-- 3rd party JS -->
-        <script type="text/javascript" src="../../_lib/sakai_util/trimpath.template.js"></script>
+        <script type="text/javascript" src="/dev/_lib/sakai_util/trimpath.template.js"></script>
+        <script type="text/javascript" src="/dev/_lib/sakai_util/querystring.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jqmodal.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.cookie.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.pager.js"></script>
+        <script type="text/javascript" src="_lib/jquery/plugins/jquery.threedots.js"></script>
+        <script type="text/javascript" src="_lib/Fluid/ProgressiveEnhancement.js"></script>
+        <script type="text/javascript" src="_lib/jquery/plugins/imgareaselect/jquery.imgareaselect.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.form.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.MultiFile.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/gritter/jquery.gritter.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.autoSuggest.sakai-edited.js"></script>
 
     </head>
 
@@ -44,7 +56,7 @@
 
                 <!-- TITLE BAR  -->
                 <div class="s3d-site-heading fl-force-left">
-                    <h1 id="sitetitle">__MSG__WIDGET_PLAYGROUND__ - Listgeneral</h1>
+                    <h1 id="sitetitle">__MSG__WIDGET_PLAYGROUND__ - Pick User</h1>
                 </div>
             </div>
         </div>
@@ -52,7 +64,8 @@
         <!-- CONTENT -->
         <div class="fl-centered fixed-container" style="background: #fff; min-height: 400px;">
 
-            <div id="widget_listgeneral" class="widget_inline"></div>
+            <div id="widget_pickeruser" class="widget_inline"></div>
+            <div><a href="javascript:;" id="pick_user_link">Pick User</a></div>
 
         </div>
 
@@ -62,25 +75,29 @@
         <script>
 
             // Page code
-            // Bind to the event which signals the listgeneral widget is loaded and ready
-            $(window).bind("listgeneral_ready", function(e, tuid){
+            $(window).bind("sakai-pickeruser-ready", function(e){
+                var pl_config = {
+					"mode": "search",
+					"type": "people",
+					"selectable":true,
+					"subNameInfo": "email",
+					"sortOn": "lastName",
+					"items": 50,
+					"what": "Managers",
+					"where": "Biology 101"
+				};
 
-                // Example/tested queries
-                //var lg_query = ["/var/search/sites.json?q=*&items=10"];
-                //var lg_query = ["/var/search/sitecontent.json?page=0&items=10&q=welcome&sites=*"];
-                var lg_query = ["/var/search/files/allfiles.json?q=*&items=5"];
-                //var lg_query = ["/var/search/users.json?page=0&items=5&q=*&s=sakai:firstName&s=sakai:lastName"];
-
-
-                // type can be one of these: sites, spaces, people, content, mixed
-                // config data will overwrite arguments in the url
-                // it supports an array of queries, but it is not reliable yet
-                var lg_config = {"selectable":true, "type": "people", "items": [100] };
-                // Render list
-                sakai.api.UI.listGeneral.render(tuid, lg_query, lg_config);
+                $("#pick_user_link").bind("click", function() {
+                    $(window).trigger("sakai-pickeruser-init", pl_config, function(people) {
+                        console.log("people:", people);
+                    });
+					$(window).unbind("sakai-pickeruser-finished");
+					$(window).bind("sakai-pickeruser-finished", function(e, peopleList) {
+						console.log("To add: ", peopleList.toAdd);
+					});
+                });
 
             });
-
         </script>
 
     </body>
