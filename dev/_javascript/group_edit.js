@@ -98,6 +98,7 @@ sakai.groupedit = function(){
                 }
                 renderGroupBasicInfo();
                 renderTemplates();
+                addPickUserBinding();
             }
         });
     };
@@ -138,18 +139,18 @@ sakai.groupedit = function(){
      * Render Widgets
      * @param {String} tuid unique identifier of widget
      */
-    var renderUserLists = function(tuid){
+    var renderItemLists = function(tuid){
 
         var listSelectable = false;
         if (sakai.currentgroup.mode === 'edit') {
             listSelectable = true;
         }
-
+        var url;
         var pl_config = {"selectable":listSelectable, "subNameInfoUser": "email", "subNameInfoGroup": "sakai:group-description", "sortOn": "lastName", "sortOrder": "ascending", "items": 50, "function": "getSelection" };
 
         if (tuid === 'members') {
             // get group members
-            $.ajax({
+            /*$.ajax({
                 url: "/system/userManager/group/" + groupid + ".members.json",
                 success: function(data){
                     var groupMembers = $.parseJSON(data);
@@ -167,10 +168,12 @@ sakai.groupedit = function(){
                         };
                     sakai.listPeople.render(tuid, pl_config, json_data_members);
                 }
-            });
+            });*/
+            url = "/system/userManager/group/" + groupid + ".members.json";
+            sakai.listPeople.render(tuid, pl_config, url, groupid);
         } else if (tuid === 'managers') {
             // get group managers
-            $.ajax({
+            /*$.ajax({
                 url: "/system/userManager/group/" + groupid + "-managers.members.json",
                 success: function(data){
                     var groupManagers = $.parseJSON(data);
@@ -180,7 +183,12 @@ sakai.groupedit = function(){
                         };
                     sakai.listPeople.render(tuid, pl_config, json_data_managers);
                 }
-            });
+            });*/
+            url = "/system/userManager/group/" + groupid + "-managers.members.json";
+            sakai.listPeople.render(tuid, pl_config, url, groupid);
+        } else if (tuid === 'content') {
+            url = "/var/search/pool/files?group=" + groupid;
+            sakai.listPeople.render(tuid, pl_config, url, groupid);
         }
     };
 
@@ -237,25 +245,43 @@ sakai.groupedit = function(){
             groupIdAdd = groupid + '-managers';
         }
 
-        $.each(sakai.data.pcikeruser[tuid]["selected"], function(index, resultObject) {
-            if (resultObject['userid']) {
-                addUser = resultObject['userid'];
-            } else if (resultObject['groupid']) {
-                addUser = resultObject['groupid'];
-            } else if (resultObject['rep:userId']) {
-                addUser = resultObject['rep:userId'];
-            }
-            if (addUser) {
+        $.each(users, function(index, member) {
+            if (member) {
                 // add user to group
                 $.ajax({
                     url: "/system/userManager/group/" + groupIdAdd + ".update.json",
                     data: {
                         "_charset_":"utf-8",
-                        ":member": addUser
+                        ":member": member
                     },
                     type: "POST",
                     success: function(data){
-                        sakai.listPeople.addToList(tuid, sakai.data.pickeruser[tuid]["selected"]);
+                        renderItemLists(tuid);
+                    }
+                });
+            }
+        });
+    };
+    
+    /**
+     * Add users
+     * Function that gets the list of selected users from the people picker widget and adds them to the group
+     * @param {String} tuid Identifier for the widget/type of user we're removing (member or a manager)
+     */
+    var addContent = function(contentList) {
+
+        $.each(contentList, function(index, contentId) {
+            if (contentId) {
+                // add content to group
+                $.ajax({
+                    url: "/p/" + contentId + ".members.json",
+                    data: {
+                        "_charset_":"utf-8",
+                        ":viewer": groupid
+                    },
+                    type: "POST",
+                    success: function(data){
+                        renderItemLists('content');
                     }
                 });
             }
@@ -275,10 +301,16 @@ sakai.groupedit = function(){
             "mode" : sakai.currentgroup.mode,
             "data" : data
             };
+        var contentData = {
+            "mode" : sakai.currentgroup.mode,
+            "data" : data
+            };
         var $members_list_container = $("#members_list_permission_container");
         var $managers_list_container = $("#managers_list_permission_container");
+        var $content_list_container = $("#content_list_permission_container");
         $members_list_container.html($.TemplateRenderer("#group_edit_userlist_default_template", membersData));
         $managers_list_container.html($.TemplateRenderer("#group_edit_userlist_default_template", managersData));
+        $content_list_container.html($.TemplateRenderer("#group_edit_userlist_default_template", contentData));
     };
 
 
@@ -293,7 +325,7 @@ sakai.groupedit = function(){
 
         // Bind the listpeople widgets
         $(window).bind("listpeople_ready", function(e, tuid){
-            renderUserLists(tuid);
+            renderItemLists(tuid);
         });
 
         // Bind the update button
@@ -316,19 +348,65 @@ sakai.groupedit = function(){
             removeUsers('managers');
         });
 
-        // Bind the people picker widget when it is ready to return a list of users
-        $(window).bind("sakai-pickeruser-finished", function(){
-
-            var json_data = {
-                "results" : pickerData.selected,
-                "total" : pickerData.selectCount
-            };
-
-            addUsers(pickerData.spaceId, json_data);
+        // Bind the remove content button
+        $("#group_editing_remove_content").bind("click", function(){
+            //removeContent();
         });
 
     };
 
+    /**
+     * Add binding to the pickeruser widget buttons for adding users
+     */
+    var addPickUserBinding = function(){
+        $(window).bind("sakai-pickeruser-ready", function(e){
+            var pl_config = {
+                "mode": "search",
+                "selectable":true,
+                "subNameInfo": "email",
+                "sortOn": "lastName",
+                "items": 50,
+                "what": "Members",
+                "where": sakai.currentgroup.data.authprofile["sakai:group-title"]
+            };
+
+            // Bind the add members button
+            $("#group_editing_add_members").bind("click", function(){
+                pl_config.type = "people";
+                pl_config.what = "Members";
+                $(window).trigger("sakai-pickeruser-init", pl_config, function(people) {
+                });
+                $(window).unbind("sakai-pickeruser-finished");
+                $(window).bind("sakai-pickeruser-finished", function(e, peopleList) {
+                    addUsers('members', peopleList.toAdd);
+                });
+            });
+
+            // Bind the add managers button
+            $("#group_editing_add_managers").bind("click", function(){
+                pl_config.type = "people";
+                pl_config.what = "Managers";
+                $(window).trigger("sakai-pickeruser-init", pl_config, function(people) {
+                });
+                $(window).unbind("sakai-pickeruser-finished");
+                $(window).bind("sakai-pickeruser-finished", function(e, peopleList) {
+                    addUsers('managers', peopleList.toAdd);
+                });
+            });
+
+            // Bind the add content button
+            $("#group_editing_add_content").bind("click", function(){
+                pl_config.type = "content";
+                pl_config.what = "Content";
+                $(window).trigger("sakai-pickeruser-init", pl_config, function(content) {
+                });
+                $(window).unbind("sakai-pickeruser-finished");
+                $(window).bind("sakai-pickeruser-finished", function(e, contentList) {
+                    addContent(contentList.toAdd);
+                });
+            });
+        });
+    };
 
     ////////////////////
     // INITIALISATION //
