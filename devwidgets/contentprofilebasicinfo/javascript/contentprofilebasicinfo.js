@@ -27,6 +27,9 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
     // Variables //
     ///////////////
 
+    // When variable is true user can not change the resource
+    var anon = false;
+
     // Path variables
     var contentPath = "";
     var globalJSON;
@@ -147,7 +150,8 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                     var json = {
                         data: data,
                         mode: "content",
-                        url: contentPath
+                        url: contentPath,
+                        anon : anon
                     };
 
                     // Set the global JSON object (we also need this in other functions + don't want to modify this)
@@ -171,6 +175,38 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
     };
 
     /**
+     * Check if the user is a manager or not and set the anon variable accordingly
+     */
+    var checkFileManager = function(){
+        $.ajax({
+            url: contentPath + ".members.json",
+            success: function(data){
+                var managers = $.parseJSON(data).managers;
+                if (managers.length !== 0) {
+                    for (var i in managers) {
+                        if (managers[i].userid === sakai.data.me.user.userid) {
+                            anon = false;
+                            loadContentProfile();
+                            break;
+                        }
+                        else {
+                            anon = true;
+                        }
+                    }
+                }
+                else {
+                    anon = true;
+                    loadContentProfile();
+                }
+            },
+            error: function(xhr, textStatus, thrownError){
+                anon = true;
+                loadContentProfile();
+            }
+        });
+    };
+
+    /**
      * Initialize the widget
      */
     var doInit = function(){
@@ -178,7 +214,12 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
         // loads all the information for the current resource
         $(window).bind('hashchange', function(e){
             contentPath = e.getState("content_path") || "";
-            loadContentProfile();
+            if (sakai.data.me.user.anon) {
+                anon = true;
+                loadContentProfile();
+            } else {
+                checkFileManager();
+            }
         });
 
         // Since the event is only triggered when the hash changes, we need to trigger

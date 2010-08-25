@@ -28,15 +28,19 @@
         </div>
     </div>
     <div id="content_profile_file_details_actions">
-        <button type="button" class="s3d-button s3d-button-primary new_version" id="upload_content">
-            <span class="s3d-button-inner">__MSG__UPLOAD_NEW_VERSION__</span>
-        </button>
+        {if !anon}
+            <button type="button" class="s3d-button s3d-button-primary new_version" id="upload_content">
+                <span class="s3d-button-inner">__MSG__UPLOAD_NEW_VERSION__</span>
+            </button>
+        {/if}
         <button type="button" class="s3d-button s3d-button-primary" id="content_profile_file_details_action_download">
             <span class="s3d-button-inner">__MSG__DOWNLOAD_FILE__</span>
         </button>
-        <button type="button" class="s3d-button s3d-button-primary" id="content_profile_file_details_action_delete">
-            <span class="s3d-button-inner">__MSG__DELETE_FILE__</span>
-        </button>
+        {if !anon}
+            <button type="button" class="s3d-button s3d-button-primary" id="content_profile_file_details_action_delete">
+                <span class="s3d-button-inner">__MSG__DELETE_FILE__</span>
+            </button>
+        {/if}
     </div>
 --></div>
 

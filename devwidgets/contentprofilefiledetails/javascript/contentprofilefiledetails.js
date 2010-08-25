@@ -27,6 +27,8 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
     // Variables //
     ///////////////
 
+    var anon = false;
+
     // path variables
     var contentPath = "";
 
@@ -96,7 +98,8 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
             revisions: fileRevisions,
             mode: "content",
             url: contentPath,
-            filesize: convertToHumanReadableFileSize(profileData["jcr:content"][":jcr:data"])
+            filesize: convertToHumanReadableFileSize(profileData["jcr:content"][":jcr:data"]),
+            anon : anon
         };
 
         // Set the global JSON object (we also need this in other functions + don't want to modify this)
@@ -121,6 +124,7 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
         $.ajax({
             url: contentPath + ".versions.json",
             success: function(data){
+                fileRevisions = [];
                 for (var i in data["versions"]) {
                     var item = {
                         "data" : data["versions"][i]
@@ -153,17 +157,57 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
         }
     };
 
+    /**
+     * Check if the user is a manager or not and set the anon variable accordingly
+     */
+    var checkFileManager = function(){
+        $.ajax({
+            url: contentPath + ".members.json",
+            success: function(data){
+                var managers = $.parseJSON(data).managers;
+                if (managers.length !== 0) {
+                    for (var i in managers) {
+                        if (managers[i].userid === sakai.data.me.user.userid) {
+                            anon = false;
+                            loadContentProfile();
+                            break;
+                        }
+                        else {
+                            anon = true;
+                        }
+                    }
+                }
+                else {
+                    anon = true;
+                    loadContentProfile();
+                }
+            },
+            error: function(xhr, textStatus, thrownError){
+                anon = true;
+                loadContentProfile();
+            }
+        });
+    };
+
     var doInit = function(){
+        if (sakai.data.me.user.anon) {
+            anon = true;
+        }
         // Bind an event to window.onhashchange that, when the history state changes,
         // loads all the information for the current resource
         $(window).bind('hashchange', function(e){
             contentPath = e.getState("content_path") || "";
+            if (sakai.data.me.user.anon) {
+                anon = true;
+                loadContentProfile();
+            } else {
+                checkFileManager();
+            }
         });
 
         // Since the event is only triggered when the hash changes, we need to trigger
         // the event now, to handle the hash the page may have loaded with.
         $(window).trigger('hashchange');
-        loadContentProfile();
     };
 
     $(contentProfileFileDetailsViewRevisions).live("click",function(){
