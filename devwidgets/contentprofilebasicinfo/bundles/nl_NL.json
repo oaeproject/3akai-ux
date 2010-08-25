@@ -1,0 +1,14 @@
+{
+"NAME": "Naam",
+"TAGS": "Tags",
+"DESCRIPTION": "Beschrijving",
+"BASIC_INFO": "Basis Info",
+"DONT_UPDATE_DETAILS": "Details niet updaten",
+"UPDATE_DETAILS": "Update Details",
+"KIND_OF_COPYRIGHT":"Welke auteursrechten beschermen dit bestand?",
+"CREATIVE_COMMONS_LICENSE":"Creative Commons License",
+"COPYRIGHTED":"Copyrighted",
+"LICENSED":"Licensed",
+"WAIVE_COPYRIGHT":"Waive Copyright",
+"NO_COPYRIGHT":"Geen Copyright"
+}

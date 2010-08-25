@@ -125,7 +125,7 @@ sakai.addcontent = function(tuid, showSettings){
             $addcontent_container_content_box_selected = $($addcontent_container_content_box_selected.selector);
 
             var data ={
-                path: $addcontent_container_content_box_selected.attr("data-sakai_widget_addcontent")
+                path: $addcontent_container_content_box_selected.find("img").attr("src")
             };
 
             // Save the widget data
@@ -183,7 +183,7 @@ sakai.addcontent = function(tuid, showSettings){
         if(location === "myfiles"){
 
             $.ajax({
-                url: "/var/search/files/myfiles.json",
+                url: "/var/search/pool/me/manager.1.json",
                 data: {
                     q:"*",
                     sortOn:"jcr:created",

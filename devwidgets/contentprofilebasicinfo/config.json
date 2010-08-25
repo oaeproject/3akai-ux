@@ -1,0 +1,9 @@
+{
+    "id":"contentprofilebasicinfo",
+    "url":"/devwidgets/contentprofilebasicinfo/contentprofilebasicinfo.html",
+    "i18n": {
+        "default": "/devwidgets/contentprofilebasicinfo/bundles/default.json",
+        "en_GB": "/devwidgets/contentprofilebasicinfo/bundles/en_GB.json",
+        "nl_NL": "/devwidgets/contentprofilebasicinfo/bundles/nl_NL.json"
+    }
+}

@@ -1,0 +1,44 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/contentprofilefiledetails/css/contentprofilefiledetails.css" />
+
+<div id="content_profile_file_details_container" style="display:none;"></div>
+
+<div id="content_profile_file_details_template"><!--
+    <div id="content_profile_file_details_details">
+        <h4 class="content_profile_file_details_form_section_header">File details</h4>
+        <div id="content_profile_file_details_details_firstcolumn">
+            <div id="content_profile_file_details_basic_info">
+                <p>${data["sakai:name"]}</p>
+                <p>${data["jcr:content"]["jcr:mimeType"]}</p>
+                <p>${filesize}</p>
+            </div>
+            <div id="content_profile_file_details_titles">
+                <span class="content_profile_file_details_title">First created:</span>
+                <br/>
+                <span class="content_profile_file_details_title">Last modified:</span>
+                <br/>
+                <span class="content_profile_file_details_title">No. of revisions:</span>
+            </div>
+        </div>
+        <div id="content_profile_file_details_details_secondcolumn">
+            <p><span class="content_profile_file_details_content">${created} by ${data["jcr:createdBy"]}</span></p>
+            <p><span class="content_profile_file_details_content">${lastModified} by ${data["jcr:content"]["jcr:lastModifiedBy"]}</span></p>
+            <p><span class="content_profile_file_details_content">{if revisions.length -1 === 0}No revisions{else}${revisions.length -1} <a href="javascript:;" id="content_profile_details_view_revisions">View revisions</a>{/if}</span></p>
+            <hr/>
+        </div>
+    </div>
+    <div id="content_profile_file_details_actions">
+        <button type="button" class="s3d-button s3d-button-primary new_version" id="upload_content">
+            <span class="s3d-button-inner">__MSG__UPLOAD_NEW_VERSION__</span>
+        </button>
+        <button type="button" class="s3d-button s3d-button-primary" id="content_profile_file_details_action_download">
+            <span class="s3d-button-inner">__MSG__DOWNLOAD_FILE__</span>
+        </button>
+        <button type="button" class="s3d-button s3d-button-primary" id="content_profile_file_details_action_delete">
+            <span class="s3d-button-inner">__MSG__DELETE_FILE__</span>
+        </button>
+    </div>
+--></div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/contentprofilefiledetails/javascript/contentprofilefiledetails.js"></script>
