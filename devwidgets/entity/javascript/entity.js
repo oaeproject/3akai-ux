@@ -158,8 +158,17 @@ sakai.entity = function(tuid, showSettings){
      */
     var constructProfilePicture = function(profile){
 
-        if (profile.basic.elements.picture && profile["rep:userId"]) {
-            return "/~" + profile["rep:userId"] + "/public/profile/" + profile.basic.elements.picture.value.name;
+        // if (profile.basic.elements.picture && profile["rep:userId"]) {
+        // profile.basic.elements object does not have picture information
+        // if there is profile picture and userId
+        // return the picture links
+        if(profile.picture && profile["rep:userId"]) {
+
+            //change string to json object and get name from picture object
+            var picture_name = $.parseJSON(profile.picture).name;
+
+            //return "/~" + profile["rep:userId"] + "/public/profile/" + profile.basic.elements.picture.value.name;
+            return "/~" + profile["rep:userId"] + "/public/profile/" + picture_name;
         }
         else {
             return "";
