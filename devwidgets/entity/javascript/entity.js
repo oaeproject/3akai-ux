@@ -392,8 +392,8 @@ sakai.entity = function(tuid, showSettings){
         }
 
         // Set the filename of the file
-        if(filedata["sakai:name"]){
-            entityconfig.data.profile.name = filedata["sakai:name"];
+        if(filedata["sakai:pooled-content-file-name"]){
+            entityconfig.data.profile.name = filedata["sakai:pooled-content-file-name"];
         }
         // e.g. http://localhost:8080/~admin/private/3739036439_2418af9b4d_o.jpg
         // to 3739036439_2418af9b4d_o.jpg

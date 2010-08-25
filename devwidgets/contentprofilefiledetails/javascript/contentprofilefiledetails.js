@@ -68,7 +68,7 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
     var addBinding = function(){
         // Bind the download button
         $(contentProfileFileDetailsActionDownload).bind("click", function(){
-            window.open(contentPath + "/" + profileData["sakai:name"]);
+            window.open(contentPath + "/" + profileData["sakai:pooled-content-file-name"]);
         });
 
         // Open the delete content pop-up
