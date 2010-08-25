@@ -97,7 +97,15 @@
     <div class="fl-col entity_container_right s3d-actions">
         {if mode === "myprofile"}
             <strong>__MSG__MESSAGES__:</strong>
-            <a href="/dev/inbox.html">${data.count.messages_unread|default:0} __MSG__UNREAD__</a>
+            <a href="/dev/inbox.html">${data.count.messages_unread|default:0} __MSG__UNREAD__</a><br />
+			<strong>__MSG__CONTACTS__:</strong>
+			<a href="/dev/people.html">${data.count.contacts_accepted|default:0} __MSG__CONTACTS__;</a>
+			<a href="/dev/people.html">${data.count.contacts_invited|default:0} __MSG__INVITES__;</a>
+			<a href="/dev/people.html">${data.count.contacts_pending|default:0} __MSG__REQUESTS__</a><br />
+			<strong>__MSG__GROUPS__:</strong>
+			<a href="/dev/group.html">${data.count.groups|default:0} __MSG__GROUPS__</a><br />
+			<strong>__MSG__CONTENT__:</strong>
+			<a href="/dev/group.html">${data.count.contents|default:0} __MSG__ITEMS__</a>
         {/if}
         {if mode === "group"}
             <strong>__MSG__MANAGERS__:</strong><a href="#group_edit_managers">0 __MSG__MANAGER__</a><br/>
