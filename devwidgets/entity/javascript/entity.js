@@ -63,11 +63,11 @@ sakai.entity = function(tuid, showSettings){
             profile: "",
             count: {
                 messages_unread: 0,
-				contacts_accepted: 0,
-				contacts_invited: 0,
-				contacts_pending: 0,
-				groups: 0,
-				contents: 0
+                contacts_accepted: 0,
+                contacts_invited: 0,
+                contacts_pending: 0,
+                groups: 0,
+                contents: 0
             }
         }
     };
@@ -143,7 +143,7 @@ sakai.entity = function(tuid, showSettings){
      * Render the main entity template
      */
     var renderTemplate = function(){
-		$.TemplateRenderer($entity_container_template, entityconfig, $entity_container);
+        $.TemplateRenderer($entity_container_template, entityconfig, $entity_container);
         $.TemplateRenderer($entity_container_actions_template, entityconfig, $entity_container_actions);
         $entity_container.show();
         $entity_container_actions.show();
@@ -279,7 +279,7 @@ sakai.entity = function(tuid, showSettings){
                 delete sakai.data.me.profile["rep:policy"];
 
             //trigger chat_status_message_change to update the status message on chat widget.
-			$(window).trigger("chat_status_message_change", inputValue);
+            $(window).trigger("chat_status_message_change", inputValue);
 
             sakai.api.Server.saveJSON(authprofileURL, sakai.data.me.profile, function(success, data) {
                if (success) {
@@ -477,45 +477,31 @@ sakai.entity = function(tuid, showSettings){
      */
     var getData = function(mode, data){
 
-		switch (mode) {
+        switch (mode) {
             case "profile":
                 entityconfig.data.profile = $.extend(true, {}, data);
-
                 // Set the correct profile data
                 setProfileData();
-
                 break;
-
             case "myprofile":
-
                 // Set the profile for the entity widget to the personal profile information
                 // We need to clone the sakai.data.me.profile object so we don't interfere with it
                 entityconfig.data.profile = $.extend(true, {}, sakai.data.me.profile);
-
-				//get data from sakai.data.me object and set in the entityconfig
-				setData();
-
-				// Set the correct profile data
+                //get data from sakai.data.me object and set in the entityconfig
+                setData();
+                // Set the correct profile data
                 setProfileData();
-
                 break;
-
             case "group":
-
                 entityconfig.data.profile = data;
-
                 break;
-
             case "content":
-
                 setContentData(data);
-
                 break;
-
         }
 
         if(entityconfig.mode ==="content" && !data){
-        	return;
+            return;
         }
 
         // Render the main template
@@ -526,7 +512,7 @@ sakai.entity = function(tuid, showSettings){
 
     };
 
-	/**
+    /**
      * Set data.
      * For example:
      * No. Unread messages
@@ -536,49 +522,49 @@ sakai.entity = function(tuid, showSettings){
      * No. of group
      *
      */
-	var setData = function(){
-		//no. of unread messages
+    var setData = function(){
+        //no. of unread messages
         entityconfig.data.count.messages_unread = sakai.data.me.messages.unread;
 
-		//no. of contacts
+        //no. of contacts
         entityconfig.data.count.contacts_accepted = sakai.data.me.contacts.accepted;
 
-		//no. of contacts invited
+        //no. of contacts invited
         entityconfig.data.count.contacts_invited = sakai.data.me.contacts.invited;
 
-		//no. of pending requests
+        //no. of pending requests
         entityconfig.data.count.contacts_pending = sakai.data.me.contacts.pending;
 
-		//no. of groups user is memeber of
+        //no. of groups user is memeber of
         entityconfig.data.count.groups = sakai.data.me.groups.length;
-	}
+    }
 
-	/**
+    /**
      * Get content data and then call method to get data for the appropriate mode
      * @param {String} mode The mode in which you load the entity widget
      * @param {Object} data A JSON object containing the necessary data - the structure depends on the mode
      * to display Contents: no. Items
      *
      */
-	var getContentData = function(mode, data){
-    	//make an ajax call to get content data
-		$.ajax({
+    var getContentData = function(mode, data){
+        //make an ajax call to get content data
+        $.ajax({
             url: "/var/search/pool/me/manager.json?q=*",
             type: "GET",
             success: function(d, textStatus){
-                entityconfig.data.count.contents = d.items;
+                entityconfig.data.count.contents = d.total;
 
-				// Change the mode for the entity widget
+                // Change the mode for the entity widget
                 entityconfig.mode = mode;
 
-				// Get the data for the appropriate mode
+                // Get the data for the appropriate mode
                 getData(entityconfig.mode, data);
-			},
+            },
             error: function(xhr, textStatus, thrownError){
                 alert("An error has occured");
             }
         });
-	};
+    };
 
     ////////////////////
     // INITIALISATION //
@@ -592,11 +578,11 @@ sakai.entity = function(tuid, showSettings){
 
     sakai.api.UI.entity.render = function(mode, data){
 
-	    // Clear the previous containers
+        // Clear the previous containers
         $entity_container.empty().hide();
         $entity_container_actions.empty();
 
-		//Get the content data
+        //Get the content data
         getContentData(mode, data);
     };
 
