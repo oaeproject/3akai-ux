@@ -67,6 +67,11 @@ sakai.pickeruser = function(tuid, showSettings) {
     var $pickeruser_copy_myself = $("#pickeruser_copy_myself", $rootel);
     var $pickeruser_message = $("#pickeruser_message", $rootel);
     var $pickeruser_init_search = $("#pickeruser_init_search", $rootel);
+    var $pickeruser_people_text = $("#pickeruser_people_text", $rootel);
+    var $pickeruser_content_text = $("#pickeruser_content_text", $rootel);
+    var $pickeruser_instruction = $("#pickeruser_instruction", $rootel);
+    var $pickeruser_send_message = $("#pickeruser_send_message", $rootel);
+    var $pickeruser_init_search = $("#pickeruser_init_search", $rootel);
 
     var $pickeruser_error_template = $("#pickeruser_error_template", $rootel);
     var $pickeruser_content_search_pagetemplate = $("#pickeruser_content_search_pagetemplate", $rootel);
@@ -113,6 +118,7 @@ sakai.pickeruser = function(tuid, showSettings) {
      * @returns void
      */
     var render = function(iConfig) {
+
         clearAutoSuggest();
         // Merge user defined config with defaults
         for (var element in iConfig) {
@@ -122,6 +128,16 @@ sakai.pickeruser = function(tuid, showSettings) {
         }
 
         // bind elements, replace some text
+        if (pickerData.type === 'content') {
+            $pickeruser_instruction.html($pickeruser_content_text.html());
+            $pickeruser_send_message.hide();
+            $pickeruser_init_search.hide();
+        } else {
+            $pickeruser_instruction.html($pickeruser_people_text.html());
+            $pickeruser_send_message.show();
+            $pickeruser_init_search.show();
+        }
+
         $pickeruser_add_header_what.html(pickerData.what);
         $pickeruser_add_header_where.html(pickerData.where);
         $pickeruser_search_query.focus();
@@ -169,11 +185,19 @@ sakai.pickeruser = function(tuid, showSettings) {
     var setupAutoSuggest = function() {
         $pickeruser_search_query.autoSuggest("",{
             source: function(query, add) {
-                sakai.api.Server.loadJSON(sakai.config.URL.SEARCH_USERS.replace(".json", ""), function(success, data){
+                var searchUrl = sakai.config.URL.SEARCH_USERS;
+                if (pickerData.type === 'content') {
+                    searchUrl = sakai.config.URL.POOLED_CONTENT_MANAGER;
+                }
+                sakai.api.Server.loadJSON(searchUrl.replace(".json", ""), function(success, data){
                     if (success) {
                         var suggestions = [];
                         $.each(data.results, function(i) {
-                           suggestions.push({"value": data.results[i].user, "name": sakai.api.User.getDisplayName(data.results[i])});
+                            if (pickerData.type === 'content') {
+                                suggestions.push({"value": data.results[i]['jcr:name'], "name": data.results[i]['sakai:pooled-content-file-name']});
+                            } else {
+                                suggestions.push({"value": data.results[i].user, "name": sakai.api.User.getDisplayName(data.results[i])});
+                            }
                         });
                         add(suggestions);
                     } else {
