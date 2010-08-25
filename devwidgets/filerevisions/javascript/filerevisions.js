@@ -42,8 +42,46 @@ sakai.filerevisions = function(tuid, showSettings){
      */
     var renderRevisionData = function(){
         // And render the basic information
-        var renderedTemplate = $.TemplateRenderer(filerevisionsTemplate, revisions);
+        var renderedTemplate = $.TemplateRenderer(filerevisionsTemplate, baseFileData);
         $(filerevisionsTemplateContainer).html(renderedTemplate)
+    };
+
+    /**
+     * Get detailed information on the files in the revision history
+     * This data contains path, mimetype, description,...
+     */
+    var getRevisionInformationDetails = function(){
+        var revisionInformationDetails = [];
+        for (var i in baseFileData.revisions) {
+            var item = {
+                "url": baseFileData.path + ".version.," + i + ",.json",
+                "method" : "GET"
+            };
+            revisionInformationDetails[revisionInformationDetails.length] = item;
+        }
+        // Do the Batch request
+        $.ajax({
+            url: sakai.config.URL.BATCH,
+
+            type : "POST",
+            dataType: 'json',
+            cache: false,
+            data: {
+                requests: $.toJSON(revisionInformationDetails)
+            },
+            success: function(data){
+                // Get file information out of results
+                var revisionFileDetails = [];
+                for (var i in data.results){
+                    revisionFileDetails[revisionFileDetails.length] = $.parseJSON(data.results[i].body);
+                }
+                baseFileData.revisionFileDetails = revisionFileDetails;
+                renderRevisionData();
+            },
+            error: function(xhr, textStatus, thrownError){
+                
+            }
+        });
     };
 
     /**
@@ -55,7 +93,7 @@ sakai.filerevisions = function(tuid, showSettings){
             type : "GET",
             success: function(data){
                 baseFileData.revisions = data.versions
-                renderRevisionData();
+                getRevisionInformationDetails();
             },
             error: function(){
                 sakai.api.Util.notification.show("Revision information not retrieved", "The revision information for the file could not be retrieved");

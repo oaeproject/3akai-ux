@@ -69,6 +69,7 @@ sakai.fileupload = function(tuid, showSettings){
     var fileUploadPermissionsSelect = "#fileupload_permissions_select";
     var fileUploadWidgetTitle= "#fileupload_widget_title";
     var fileUploadWidgetTitleNewVersion= "#fileupload_widget_title_new_version";
+    var fileUploadAddVersionDescription = "#fileupload_add_version_description";
 
     // Form
     var multiFileForm = "#multifile_form";
@@ -546,7 +547,7 @@ sakai.fileupload = function(tuid, showSettings){
             url: "/p/" + uploadedFiles[0].hashpath,
             type: "POST",
             data: {
-                "sakai:versiondescription": ($("#fileupload_add_version_description")[0].value).replace(/"/g, '')
+                "sakai:versiondescription": ($(fileUploadAddVersionDescription)[0].value).replace(/"/g, '')
             },
             success: function(data){
                 // Set name on the file
@@ -615,6 +616,8 @@ sakai.fileupload = function(tuid, showSettings){
                             $(fileUploadAddTags)[0].disabled = false;
                             $(fileUploadAddDescription)[0].disabled = false;
                             $(fileUploadPermissionsSelect)[0].disabled = false;
+                        } else {
+                            $(fileUploadAddVersionDescription)[0].disabled = false;
                         }
                         $(".fileupload_file_name input").enable(true);
                         // Show a notification
@@ -671,6 +674,8 @@ sakai.fileupload = function(tuid, showSettings){
             $(fileUploadPermissionsSelect)[0].disabled = true;
             // Initiate the tagging process
             formatTags($(fileUploadAddTags).val());
+        } else {
+            $(fileUploadAddVersionDescription)[0].disabled = true;
         }
         $(".fileupload_file_name input").enable(false);
         $(".MultiFile-remove").addClass("hide_remove_link");
