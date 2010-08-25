@@ -1,0 +1,11 @@
+{
+    "description":"A list of my recently updated content",
+    "name":"My Content",
+    "id":"mycontent",
+    "i18n": {
+        "default": "/devwidgets/mycontent/bundles/default.json"
+    },
+    "personalportal":true,
+    "hasSettings":false,
+    "url":"/devwidgets/mycontent/mycontent.html"
+}
