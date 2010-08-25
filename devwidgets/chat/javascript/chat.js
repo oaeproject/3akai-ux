@@ -1288,6 +1288,11 @@ sakai.chat = function(tuid, showSettings){
             currentChatStatus = newChatStatus;
             updateChatStatusElement($(chatAvailableName), newChatStatus)
         });
+
+        //Add a binding to catch event fire by change of status message
+		$(window).bind("chat_status_message_change", function(event, currentChatStatus){
+            checkOnline();
+        });
     };
 
     if (sakai.data.me.user.anon) {

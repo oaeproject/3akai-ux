@@ -269,6 +269,9 @@ sakai.entity = function(tuid, showSettings){
             if (sakai.data.me.profile["rep:policy"])
                 delete sakai.data.me.profile["rep:policy"];
 
+            //trigger chat_status_message_change to update the status message on chat widget.
+			$(window).trigger("chat_status_message_change", inputValue);
+
             sakai.api.Server.saveJSON(authprofileURL, sakai.data.me.profile, function(success, data) {
                if (success) {
                    // Set the button back to it's original text
