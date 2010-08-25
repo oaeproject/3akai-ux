@@ -16,6 +16,7 @@
 
         <!-- Sakai Config JS -->
         <script type="text/javascript" src="../../_configuration/widgets.js"></script>
+        <script type="text/javascript" src="/var/widgets.json?callback=sakai.storeWidgets"></script>
         <script type="text/javascript" src="../../_configuration/config.js"></script>
 
         <!-- Core 3rd-party JS -->
@@ -23,6 +24,7 @@
         <script type="text/javascript" src="../../_lib/jquery/jquery-ui.full.js"></script>
         <script type="text/javascript" src="../../_lib/Fluid/3akai_Infusion.js"></script>
         <script type="text/javascript" src="../../_lib/jquery/plugins/jquery.json.js"></script>
+        <script type="text/javascript" src="/dev/_lib/google/html-sanitizer-minified.js"></script>
 
         <!-- Sakai Core JS -->
         <script type="text/javascript" src="../../_lib/sakai_util/sakai_magic.js"></script>
@@ -64,9 +66,9 @@
             $(window).bind("listgeneral_ready", function(e, tuid){
 
                 // Example/tested queries
-                var lg_query = ["/var/search/sites.json?q=*&items=10"];
+                //var lg_query = ["/var/search/sites.json?q=*&items=10"];
                 //var lg_query = ["/var/search/sitecontent.json?page=0&items=10&q=welcome&sites=*"];
-                //var lg_query = ["/var/search/files/allfiles.json?search=*&items=5"];
+                var lg_query = ["/var/search/files/allfiles.json?q=*&items=5"];
                 //var lg_query = ["/var/search/users.json?page=0&items=5&q=*&s=sakai:firstName&s=sakai:lastName"];
 
 
@@ -74,7 +76,6 @@
                 // config data will overwrite arguments in the url
                 // it supports an array of queries, but it is not reliable yet
                 var lg_config = {"selectable":true, "type": "people", "items": [100] };
-
                 // Render list
                 sakai.api.UI.listGeneral.render(tuid, lg_query, lg_config);
 
