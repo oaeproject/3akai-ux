@@ -66,6 +66,7 @@ sakai.config = {
         ME_SERVICE: "/system/me",
         MESSAGE_BOX_SERVICE: "/var/message/internal/box.json",
         MESSAGE_BOXCATEGORY_SERVICE: "/var/message/boxcategory.json",
+        POOLED_CONTENT_MANAGER: "/var/search/pool/me/manager.json",
         PRESENCE_CONTACTS_SERVICE: "/var/presence.contacts.json",
         PRESENCE_SERVICE: "/var/presence.json",
         PROXY_RSS_SERVICE: "/var/proxy/rss.json?rss=",

@@ -11,6 +11,7 @@
         <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
         <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
         <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
+        <link rel="stylesheet" type="text/css" href="/devwidgets/pickeruser/css/autoSuggest.css" />
 
         <!-- Sakai Page CSS -->
         <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.group.css" />
@@ -44,6 +45,7 @@
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.cookie.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.pager.js"></script>
         <script type="text/javascript" src="_lib/jquery/plugins/imgareaselect/jquery.imgareaselect.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.autoSuggest.sakai-edited.js"></script>
 
     </head>
 
@@ -96,6 +98,9 @@
                         {/if}
                     --></div>
 
+            <!-- PICKERUSER WIDGET -->
+            <div id="widget_pickeruser" class="widget_inline"></div>
+
                     <div class="group_userlist_header">
                         <h2 class="fl-force-left">__MSG__MEMBERS_OF_THIS_GROUP__</h2>
                         <div id="members_list_permission_container"></div>
@@ -128,6 +133,24 @@
                             </button>
                             <button id="group_editing_add_managers" type="button" class="s3d-button s3d-button-primary">
                                 <span class="s3d-button-inner">__MSG__ADD_NEW_MANAGERS__</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="group_userlist_header">
+                        <h2 class="fl-force-left">__MSG__CONTENT_GROUP_CAN_USE__</h2>
+                        <div id="content_list_permission_container"></div>
+                    </div>
+                    <!-- LISTPEOPLE WIDGET TO LIST CONTENT -->
+                    <div id="widget_listpeople_content" class="widget_inline"></div>
+
+                    <div class="group_editing" class="fl-push" style="display:none;">
+                        <div class="fl-force-right">
+                            <button id="group_editing_remove_content" type="button" class="s3d-button">
+                                <span class="s3d-button-inner">__MSG__REMOVE_SELECTED_CONTENT__</span>
+                            </button>
+                            <button id="group_editing_add_content" type="button" class="s3d-button s3d-button-primary">
+                                <span class="s3d-button-inner">__MSG__ADD_CONTENT_AND_SHARE_WITH_GROUP__</span>
                             </button>
                         </div>
                     </div>
