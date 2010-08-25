@@ -77,6 +77,10 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
         });
     };
 
+    /**
+     * Convert given date object to readable date string
+     * @param {Object} date Date object
+     */
     var getFormattedDate = function(date){
         var months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
         var day = date.getDate();

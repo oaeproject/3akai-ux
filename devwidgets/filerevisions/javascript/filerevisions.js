@@ -38,11 +38,26 @@ sakai.filerevisions = function(tuid, showSettings){
     var filerevisionsTemplateContainer = "#filerevisions_template_container";
 
     /**
+     * Convert given date object to readable date string
+     * @param {Object} date Date object
+     */
+    var getFormattedDate = function(date){
+        var months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+        var day = date.getDate();
+        var month = months[date.getMonth()];
+        var year = date.getFullYear();
+        var formattedDate = day + " " + month + " " + year;
+        return formattedDate;
+    }
+
+    /**
      * Render the template that displays all revision information
      */
     var renderRevisionData = function(){
-        // And render the basic information
-        var renderedTemplate = $.TemplateRenderer(filerevisionsTemplate, baseFileData);
+        var data = [];
+        baseFileData.created = getFormattedDate(new Date(baseFileData["jcr:created"]));
+        data.data = baseFileData
+        var renderedTemplate = $.TemplateRenderer(filerevisionsTemplate, data);
         $(filerevisionsTemplateContainer).html(renderedTemplate)
     };
 
@@ -92,6 +107,9 @@ sakai.filerevisions = function(tuid, showSettings){
             url: baseFileData.path + ".versions.json",
             type : "GET",
             success: function(data){
+                for (var i in data.versions){
+                    data.versions[i]["jcr:created"] = getFormattedDate(new Date(data.versions[i]["jcr:created"]));
+                }
                 baseFileData.revisions = data.versions
                 getRevisionInformationDetails();
             },
