@@ -56,6 +56,8 @@ sakai.creategroup = function(tuid, showSettings){
     var createGroupAddProcess = createGroupAdd + "_process";
     var createGroupAddSave = createGroupAdd + "_save";
     var createGroupAddUrl = createGroupAdd + "_url";
+	var createGroupAddUrlLength = createGroupAddUrl + "_length";
+	var createGroupAddUrlMaxLength = createGroupAddUrl + "_max_length";
 
     // Error fields
     var createGroupAddNameEmpty = createGroupAddName + "_empty";
@@ -457,7 +459,25 @@ sakai.creategroup = function(tuid, showSettings){
 
         // Set the text of the span containing the url of the current group
         // e.g. http://celestine.caret.local:8080/~g-
-        $(createGroupAddUrl).text(sakai.api.Security.saneHTML(document.location.protocol + "//" + document.location.host + "/~g-"));
+		//var url = document.location.protocol + "//" + document.location.host;
+		var url = "http://sakai3-demo.uits.indiana.edu:8080";
+
+        //get max length value 30
+		var maxLength = parseInt($(createGroupAddUrlMaxLength).text(),10);
+
+		//get length 14
+		var len = parseInt($(createGroupAddUrlLength).text(),10);
+
+        // if url is too long greater than 30 character
+        // show only first 15 characters +...+ last 15 characters
+        // e.g.http://sakai3-demo.uits.indiana.edu:8080/~g-
+		// it will change to shorter form:
+		// http://sakai3-...diana.edu:8080/~g-
+        if (url.length > maxLength) {
+			url = url.substr(0,len)+ "..."+ url.substr(url.length-len,url.length-1);
+		}
+
+        $(createGroupAddUrl).text(sakai.api.Security.saneHTML(url + "/~g-"));
     };
 
     doInit();
