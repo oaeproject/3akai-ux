@@ -108,9 +108,11 @@ sakai.listPeople.reset = function(tuid) {
  * for data automatically
  * @param tuid {String} Unique id of the widget
  * @param iConfig {Object} Optional config overrides
+ * @param url {String} URL to request data from
+ * @param id {String} Unique id related to the data we're listing
  * @returns void
  */
-sakai.listPeople.render = function(tuid, iConfig, objects) {
+sakai.listPeople.render = function(tuid, iConfig, url, id) {
 
     sakai.listPeople.reset(tuid);
 
@@ -124,10 +126,42 @@ sakai.listPeople.render = function(tuid, iConfig, objects) {
         }
     }
 
-    if(!$.isEmptyObject(objects)){
+    // get data
+    $.ajax({
+        url: url,
+        success: function(data){
+            if (typeof(data) === 'string') {
+                var data = $.parseJSON(data);
+                var itemCount = 0;
+
+                // filter out the manager group if we're listing items for a group
+                $.each(data, function(index, resultObject) {
+                    itemCount++;
+                    if (resultObject['groupid'] === id + '-managers') {
+                        data.splice(index, 1);
+                        itemCount--;
+                    }
+                });
+
+                var json_data = {
+                    "results" : data,
+                    "total" : itemCount
+                };
+            } else {
+                var json_data = data;
+            }
+
+            if (json_data) {
+                // Render list of objects
+                sakai.listPeople.renderList(tuid, 0, json_data);
+            };
+        }
+    });
+
+    /*if(!$.isEmptyObject(objects)){
         // Render list of objects
         sakai.listPeople.renderList(tuid, 0, objects);
-    }
+    }*/
 };
 
 
@@ -191,7 +225,7 @@ sakai.listPeople.renderList = function(tuid, pageNumber, objects) {
                     sakai.data.listpeople[tuid].selectCount += 1;
 
                     for (var i = 0; i < sakai.data.listpeople[tuid].total; i++) {
-                        if (sakai.data.listpeople[tuid].userList[$(this).attr("id")]['rep:userId'] == [$(this).attr("id")] || sakai.data.listpeople[tuid].userList[$(this).attr("id")]['userid'] == [$(this).attr("id")] || sakai.data.listpeople[tuid].userList[$(this).attr("id")]['groupid'] == [$(this).attr("id")] || sakai.data.listpeople[tuid].userList[$(this).attr("id")]['content_path'] == [$(this).attr("id")]) {
+                        if (sakai.data.listpeople[tuid].userList[$(this).attr("id")]['rep:userId'] == [$(this).attr("id")] || sakai.data.listpeople[tuid].userList[$(this).attr("id")]['userid'] == [$(this).attr("id")] || sakai.data.listpeople[tuid].userList[$(this).attr("id")]['groupid'] == [$(this).attr("id")] || sakai.data.listpeople[tuid].userList[$(this).attr("id")]['jcr:name'] == [$(this).attr("id")]) {
                             sakai.data.listpeople[tuid]["selected"][$(this).attr("id")] = sakai.data.listpeople[tuid].userList[$(this).attr("id")];
                         }
                     }
@@ -297,18 +331,18 @@ sakai.listPeople.addToList = function(tuid, object, reRender) {
                     sakai.data.listpeople[tuid].userList[resultObject['rep:userId']]["subNameInfo"] = resultObject[iSubNameInfoUser]
                 }
                 sakai.data.listpeople[tuid].total += 1
-            } else if (resultObject.content_path) {
-                sakai.data.listpeople[tuid].userList[resultObject.content_path] = resultObject
+            } else if (resultObject["jcr:primaryType"] === "sakai:pooled-content" && resultObject["jcr:name"]) {
+                sakai.data.listpeople[tuid].userList[resultObject["jcr:name"]] = resultObject
                 sakai.data.listpeople[tuid].total += 1
-                if (!sakai.data.listpeople[tuid].userList[resultObject.content_path]["subNameInfo"]) {
-                    sakai.data.listpeople[tuid].userList[resultObject.content_path]["subNameInfo"] = resultObject[iSubNameInfoContent];
+                if (!sakai.data.listpeople[tuid].userList[resultObject["jcr:name"]]["subNameInfo"]) {
+                    sakai.data.listpeople[tuid].userList[resultObject["jcr:name"]]["subNameInfo"] = resultObject[iSubNameInfoContent];
                 }
-                if (sakai.config.MimeTypes[resultObject.data["jcr:content"]["jcr:mimeType"]]) {
-                    sakai.data.listpeople[tuid].userList[resultObject.content_path]['avatar'] = sakai.config.MimeTypes[resultObject.data["jcr:content"]["jcr:mimeType"]].URL;
-                    sakai.data.listpeople[tuid].userList[resultObject.content_path]['mimeTypeDescripton'] = sakai.config.MimeTypes[resultObject.data["jcr:content"]["jcr:mimeType"]].description;
+                if (sakai.config.MimeTypes[resultObject["jcr:name"]["jcr:mimeType"]]) {
+                    sakai.data.listpeople[tuid].userList[resultObject["jcr:name"]]['avatar'] = sakai.config.MimeTypes[resultObject["jcr:mimeType"]].URL;
+                    sakai.data.listpeople[tuid].userList[resultObject["jcr:name"]]['mimeTypeDescripton'] = sakai.config.MimeTypes[resultObject.data["jcr:content"]["jcr:mimeType"]].description;
                 } else {
-                    sakai.data.listpeople[tuid].userList[resultObject.content_path]['avatar'] = "/dev/_images/mimetypes/empty.png";
-                    sakai.data.listpeople[tuid].userList[resultObject.content_path]['mimeTypeDescripton'] = sakai.config.MimeTypes.other.description;
+                    sakai.data.listpeople[tuid].userList[resultObject["jcr:name"]]['avatar'] = "/dev/_images/mimetypes/empty.png";
+                    sakai.data.listpeople[tuid].userList[resultObject["jcr:name"]]['mimeTypeDescripton'] = sakai.config.MimeTypes.other.description;
                 }
             }
         });

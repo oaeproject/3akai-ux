@@ -43,9 +43,6 @@
 { background: #006E96; border-bottom: 1px solid #FFFFFF; }
 
 .listpeople_container .listpeople_content .listpeople_page .listpeople_ppicture
-{ float: left; display: block; }
-
-.listpeople_container .listpeople_content .listpeople_page .listpeople_ppicture_content
 { float: left; display: block; height: 32px; width: 32px; }
 
 .listpeople_container .listpeople_content .listpeople_page .listpeople_name

@@ -7,5 +7,5 @@
     },
     "name": "People Lister",
     "url": "/devwidgets/listpeople/listpeople.html",
-    "subNameInfoContent": "url"
+    "subNameInfoContent": "sling:resourceType"
 }

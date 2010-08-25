@@ -64,13 +64,13 @@
                 <br />
                 <span class="listpeople_subnameinfo">${i.subNameInfo}</span>
             </li>
-            {elseif i.content_path}
-            <li id="${i.content_path}">
-                {if selectable}<input type="checkbox" name="selected" value="${i.content_path}" />{/if}
+            {elseif i["jcr:primaryType"] === "sakai:pooled-content"}
+            <li id="${i["jcr:name"]}">
+                {if selectable}<input type="checkbox" name="selected" value="${i["jcr:name"]}" />{/if}
                 {if i.avatar}
-                    <a href="${i.url}" target="_blank"><img src="${i.avatar}" alt="Content picture for ${i.content_path}" class="listpeople_ppicture_content"/></a>
+                    <a href="${i.url}" target="_blank"><img src="${i.avatar}" alt="Content picture for ${i["jcr:name"]}" class="listpeople_ppicture"/></a>
                 {/if}
-                <a class="listpeople_name" href="${i.url}" target="_blank">${i.content_path}</a>
+                <a class="listpeople_name" href="${i.url}" target="_blank">${i["sakai:pooled-content-file-name"]}</a>
                 <br />
                 <span class="listpeople_subnameinfo">${i.subNameInfo}</span>
             </li>
