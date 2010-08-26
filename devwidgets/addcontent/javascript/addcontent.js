@@ -196,7 +196,7 @@ sakai.addcontent = function(tuid, showSettings){
                 sortOn: "jcr:created",
                 sortOrder: "descending"
             }
-            sakai.api.Server.loadJSON("/var/search/pool/me/manager.1.json", filesLoaded, data);
+            sakai.api.Server.loadJSON("/var/search/pool/me/manager.1", filesLoaded, data);
         }
 
     };

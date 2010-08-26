@@ -592,28 +592,16 @@ sakai.fileupload = function(tuid, showSettings){
                 success: function(data){
                     // Create DOM element to extract data from response
                     // Use an object to keep track of the data
-                    var $responseData = $(data);
+                    var $responseData = $.parseJSON(data.replace("<pre>", "").replace("</pre>", ""));
                     var extractedData = [];
 
-                    // Webkit browser get results in a different way
-                    if ($.browser.webkit) {
-                        var json = $.parseJSON($responseData[0].innerHTML);
-                        //loop over nodes to extract data
-                        for (var i in json){
-                            var obj = {};
-                            obj.filename = i;
-                            obj.hashpath = json[i];
-                            extractedData.push(obj);
-                        }
-                    }
-                    else {
-                        //loop over nodes to extract data
-                        $responseData.find(".prop").each(function(){
-                            var obj = {};
-                            obj.filename = $(this).text();
-                            obj.hashpath = $(this).next().text().replace(/"/g, '');
-                            extractedData.push(obj);
-                        });
+                    //loop over nodes to extract data
+                    for (var i in $responseData) {
+                        fluid.log(i);
+                        var obj = {};
+                        obj.filename = i;
+                        obj.hashpath = $responseData[i];
+                        extractedData.push(obj);
                     }
 
                     // Check if there were any files uploaded
@@ -626,12 +614,13 @@ sakai.fileupload = function(tuid, showSettings){
                             $(fileUploadAddTags)[0].disabled = false;
                             $(fileUploadAddDescription)[0].disabled = false;
                             $(fileUploadPermissionsSelect)[0].disabled = false;
-                        } else {
+                        }
+                        else {
                             $(fileUploadAddVersionDescription)[0].disabled = false;
                         }
                         $(".fileupload_file_name input").enable(true);
                         // Show a notification
-                        sakai.api.Util.notification.show($(fileupload_no_files).html(),$(fileupload_no_files_were_uploaded).html());
+                        sakai.api.Util.notification.show($(fileupload_no_files).html(), $(fileupload_no_files_were_uploaded).html());
                     }
                     else {
                         // Files uploaded
