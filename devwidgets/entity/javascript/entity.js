@@ -62,7 +62,12 @@ sakai.entity = function(tuid, showSettings){
         data: {
             profile: "",
             count: {
-                messages_unread: 0
+                messages_unread: 0,
+                contacts_accepted: 0,
+                contacts_invited: 0,
+                contacts_pending: 0,
+                groups: 0,
+                contents: 0
             }
         }
     };
@@ -145,8 +150,17 @@ sakai.entity = function(tuid, showSettings){
      */
     var constructProfilePicture = function(profile){
 
-        if (profile.basic.elements.picture && profile["rep:userId"]) {
-            return "/~" + profile["rep:userId"] + "/public/profile/" + profile.basic.elements.picture.value.name;
+        // if (profile.basic.elements.picture && profile["rep:userId"]) {
+        // profile.basic.elements object does not have picture information
+        // if there is profile picture and userId
+        // return the picture links
+        if(profile.picture && profile["rep:userId"]) {
+
+            //change string to json object and get name from picture object
+            var picture_name = $.parseJSON(profile.picture).name;
+
+            //return "/~" + profile["rep:userId"] + "/public/profile/" + profile.basic.elements.picture.value.name;
+            return "/~" + profile["rep:userId"] + "/public/profile/" + picture_name;
         }
         else {
             return "";
@@ -255,6 +269,9 @@ sakai.entity = function(tuid, showSettings){
 
             if (sakai.data.me.profile["rep:policy"])
                 delete sakai.data.me.profile["rep:policy"];
+
+            //trigger chat_status_message_change to update the status message on chat widget.
+            $(window).trigger("chat_status_message_change", inputValue);
 
             sakai.api.Server.saveJSON(authprofileURL, sakai.data.me.profile, function(success, data) {
                if (success) {
@@ -375,8 +392,8 @@ sakai.entity = function(tuid, showSettings){
         }
 
         // Set the filename of the file
-        if(filedata["sakai:name"]){
-            entityconfig.data.profile.name = filedata["sakai:name"];
+        if(filedata["sakai:pooled-content-file-name"]){
+            entityconfig.data.profile.name = filedata["sakai:pooled-content-file-name"];
         }
         // e.g. http://localhost:8080/~admin/private/3739036439_2418af9b4d_o.jpg
         // to 3739036439_2418af9b4d_o.jpg
@@ -409,43 +426,32 @@ sakai.entity = function(tuid, showSettings){
      * @param {Function} [callback] A callback function that will be fired it is supplied
      */
     var getData = function(mode, data){
+
         switch (mode) {
             case "profile":
                 entityconfig.data.profile = $.extend(true, {}, data);
-
                 // Set the correct profile data
                 setProfileData();
-
                 break;
-
             case "myprofile":
-               
                 // Set the profile for the entity widget to the personal profile information
                 // We need to clone the sakai.data.me.profile object so we don't interfere with it
                 entityconfig.data.profile = $.extend(true, {}, sakai.data.me.profile);
-                entityconfig.data.count.messages_unread = sakai.data.me.messages.unread;
-
+                //get data from sakai.data.me object and set in the entityconfig
+                setData();
                 // Set the correct profile data
                 setProfileData();
-                
                 break;
-                
             case "group":
-            
                 entityconfig.data.profile = data;
-                
                 break;
-
             case "content":
-            
                 setContentData(data);
-
                 break;
-                
         }
-        
+
         if(entityconfig.mode ==="content" && !data){
-        	return;
+            return;
         }
 
         // Render the main template
@@ -453,9 +459,62 @@ sakai.entity = function(tuid, showSettings){
 
         // Add binding
         addBinding();
-            
+
     };
 
+    /**
+     * Set data.
+     * For example:
+     * No. Unread messages
+     * No. of Contacts
+     * No. invited contacts
+     * No. of pending request
+     * No. of group
+     *
+     */
+    var setData = function(){
+        //no. of unread messages
+        entityconfig.data.count.messages_unread = sakai.data.me.messages.unread;
+
+        //no. of contacts
+        entityconfig.data.count.contacts_accepted = sakai.data.me.contacts.accepted;
+
+        //no. of contacts invited
+        entityconfig.data.count.contacts_invited = sakai.data.me.contacts.invited;
+
+        //no. of pending requests
+        entityconfig.data.count.contacts_pending = sakai.data.me.contacts.pending;
+
+        //no. of groups user is memeber of
+        entityconfig.data.count.groups = sakai.data.me.groups.length;
+    }
+
+    /**
+     * Get content data and then call method to get data for the appropriate mode
+     * @param {String} mode The mode in which you load the entity widget
+     * @param {Object} data A JSON object containing the necessary data - the structure depends on the mode
+     * to display Contents: no. Items
+     *
+     */
+    var getContentData = function(mode, data){
+        //make an ajax call to get content data
+        $.ajax({
+            url: "/var/search/pool/me/manager.json?q=*",
+            type: "GET",
+            success: function(d, textStatus){
+                entityconfig.data.count.contents = d.total;
+
+                // Change the mode for the entity widget
+                entityconfig.mode = mode;
+
+                // Get the data for the appropriate mode
+                getData(entityconfig.mode, data);
+            },
+            error: function(xhr, textStatus, thrownError){
+                alert("An error has occured");
+            }
+        });
+    };
 
     ////////////////////
     // INITIALISATION //
@@ -473,12 +532,8 @@ sakai.entity = function(tuid, showSettings){
         $entity_container.empty().hide();
         $entity_container_actions.empty();
 
-        // Change the mode for the entity widget
-        entityconfig.mode = mode;
-
-        // Get the data for the appropriate mode
-        getData(entityconfig.mode, data);
-
+        //Get the content data
+        getContentData(mode, data);
     };
 
     $(window).trigger("sakai.api.UI.entity.ready", {});

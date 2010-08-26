@@ -29,7 +29,7 @@
                 {/if}
             </div>
             <div class="addcontent_container_content_box_info">
-                <span class="addcontent_container_content_box_info_name">{if resource["sakai:name"]}${resource["sakai:name"]}{else}${resource["jcr:name"]}{/if}</span>
+                <span class="addcontent_container_content_box_info_name">{if resource["sakai:pooled-content-file-name"]}${resource["sakai:pooled-content-file-name"]}{else}${resource["jcr:name"]}{/if}</span>
             </div>
         </div>
     {/for}
@@ -50,7 +50,7 @@
                 {/if}
             </div>
             <div class="addcontent_container_show_box_info">
-                <p class="addcontent_container_show_box_info_name">{if data["sakai:name"]}${data["sakai:name"]}{else}${data.name}{/if}</p>
+                <p class="addcontent_container_show_box_info_name">{if data["sakai:pooled-content-file-name"]}${data["sakai:pooled-content-file-name"]}{else}${data.name}{/if}</p>
                 {if data["sakai:tags"]}<p>__MSG__TAGS__: ${data["sakai:tags"].join(", ")}</p>{/if}
                 {if data["sakai:description"]}<p>__MSG__DESCRIPTION__: ${data["sakai:description"]}</p>{/if}
                 <button type="button" class="s3d-button s3d-button-primary" id="addcontent_container_show_box_profile"><span class="s3d-button-inner">__MSG__SHOW_PROFILE__</button>

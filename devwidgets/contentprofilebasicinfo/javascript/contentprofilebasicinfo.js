@@ -55,7 +55,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
         var data = {};
 
         // Set all the different values of the current item
-        data["sakai:name"] = $.trim($(contentProfileBasicInfoFormName).val());
+        data["sakai:pooled-content-file-name"] = $.trim($(contentProfileBasicInfoFormName).val());
         data["sakai:description"] = $.trim($(contentProfileBasicInfoFormDescription).val());
 
         // For tags we need to do something special, since they are comma separated

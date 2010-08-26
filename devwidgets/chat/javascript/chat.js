@@ -1069,6 +1069,10 @@ sakai.chat = function(tuid, showSettings){
                 // Check if there are any messages inside the JSON object
                 if (data.results) {
 
+                    //display image of the friend you are talking to
+                    //without this line it takes time to load the image
+                    showOnlineFriends();
+
                     var njson = {};
                     for (var i = data.results.length - 1; i >= 0; i--) {
                         var message = data.results[i];
@@ -1079,6 +1083,7 @@ sakai.chat = function(tuid, showSettings){
                         else {
                             user = message.userFrom[0].userid;
                         }
+
                         var isIncluded = true;
                         if (hasNew) {
                             var isIn = false;
@@ -1282,6 +1287,11 @@ sakai.chat = function(tuid, showSettings){
         $(window).bind("chat_status_change", function(event, newChatStatus){
             currentChatStatus = newChatStatus;
             updateChatStatusElement($(chatAvailableName), newChatStatus)
+        });
+
+        //Add a binding to catch event fire by change of status message
+		$(window).bind("chat_status_message_change", function(event, currentChatStatus){
+            checkOnline();
         });
     };
 

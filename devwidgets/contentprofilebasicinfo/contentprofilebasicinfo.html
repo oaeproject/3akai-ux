@@ -11,9 +11,9 @@
                 __MSG__NAME__
             </label>
             {if !anon}
-                <input type="text" id="content_profile_basic_info_form_name" {if  data["sakai:name"]}value="${data["sakai:name"]}"{/if}/>
+                <input type="text" id="content_profile_basic_info_form_name" {if  data["sakai:pooled-content-file-name"]}value="${data["sakai:pooled-content-file-name"]}"{/if}/>
             {else}
-                <label class="content_profile_basic_info_form_anon_label">{if  data["sakai:name"]}${data["sakai:name"]}{/if}</label>
+                <label class="content_profile_basic_info_form_anon_label">{if  data["sakai:pooled-content-file-name"]}${data["sakai:pooled-content-file-name"]}{/if}</label>
             {/if}
         </div>
         <div class="content_profile_basic_info_form_row">

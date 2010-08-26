@@ -321,7 +321,7 @@ sakai.fileupload = function(tuid, showSettings){
                 "method" : "POST",
                 "parameters" : {
                     "sakai:description" : $(fileUploadAddDescription).val(),
-                    "sakai:name" : uploadedFiles[i].name
+                    "sakai:pooled-content-file-name" : uploadedFiles[i].name
                 }
             };
             batchDescriptionData[batchDescriptionData.length] = item;

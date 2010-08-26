@@ -17,12 +17,12 @@
  */
 
 /* Global */
-#creategroup_container {width:550px!important;margin-left:-350px!important;}
+#creategroup_container {width:600px!important;margin-left:-350px!important;}
 
 /* Container */
 #creategroup_container input[type="text"] {float:left;margin-top:10px;}
-#creategroup_container #creategroup_add_name {width:320px;}
-#creategroup_container textarea {clear:both;width:320px;}
+#creategroup_container #creategroup_add_name {width:370px;}
+#creategroup_container textarea {clear:both;width:370px;}
 
 /* Add group */
 #creategroup_add_container label {clear:both;color:#000000;float:left;font-weight:bold;margin:12px 10px 0 0;width:160px;text-align:right;}
