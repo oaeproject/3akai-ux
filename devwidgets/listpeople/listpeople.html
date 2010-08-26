@@ -65,10 +65,10 @@
                 <span class="listpeople_subnameinfo">${i.subNameInfo}</span>
             </li>
             {elseif i["jcr:primaryType"] === "sakai:pooled-content"}
-            <li id="${i["jcr:name"]}">
-                {if selectable}<input type="checkbox" name="selected" value="${i["jcr:name"]}" />{/if}
+            <li id="${i.content_id}">
+                {if selectable}<input type="checkbox" name="selected" value="${i.content_id}" />{/if}
                 {if i.avatar}
-                    <a href="${i.url}" target="_blank"><img src="${i.avatar}" alt="Content picture for ${i["jcr:name"]}" class="listpeople_ppicture"/></a>
+                    <a href="${i.url}" target="_blank"><img src="${i.avatar}" alt="Content picture for ${i["sakai:pooled-content-file-name"]}" class="listpeople_ppicture"/></a>
                 {/if}
                 <a class="listpeople_name" href="${i.url}" target="_blank">${i["sakai:pooled-content-file-name"]}</a>
                 <br />

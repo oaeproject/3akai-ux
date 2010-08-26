@@ -186,7 +186,7 @@ sakai.listPeople.renderList = function(tuid, pageNumber, objects) {
     // Display empty new container with loading anim
     $pl_container.append($pl_pageContainer);
 
-    sakai.listPeople.addToList(tuid, rawData, false);
+    sakai.listPeople.addToList(tuid, rawData);
 
     var json_data = {
         "userList" : sakai.data.listpeople[tuid].userList,
@@ -225,7 +225,7 @@ sakai.listPeople.renderList = function(tuid, pageNumber, objects) {
                     sakai.data.listpeople[tuid].selectCount += 1;
 
                     for (var i = 0; i < sakai.data.listpeople[tuid].total; i++) {
-                        if (sakai.data.listpeople[tuid].userList[$(this).attr("id")]['rep:userId'] == [$(this).attr("id")] || sakai.data.listpeople[tuid].userList[$(this).attr("id")]['userid'] == [$(this).attr("id")] || sakai.data.listpeople[tuid].userList[$(this).attr("id")]['groupid'] == [$(this).attr("id")] || sakai.data.listpeople[tuid].userList[$(this).attr("id")]['jcr:name'] == [$(this).attr("id")]) {
+                        if (sakai.data.listpeople[tuid].userList[$(this).attr("id")]['rep:userId'] == [$(this).attr("id")] || sakai.data.listpeople[tuid].userList[$(this).attr("id")]['userid'] == [$(this).attr("id")] || sakai.data.listpeople[tuid].userList[$(this).attr("id")]['groupid'] == [$(this).attr("id")] || sakai.data.listpeople[tuid].userList[$(this).attr("id")]['content_id'] == [$(this).attr("id")]) {
                             sakai.data.listpeople[tuid]["selected"][$(this).attr("id")] = sakai.data.listpeople[tuid].userList[$(this).attr("id")];
                         }
                     }
@@ -267,7 +267,7 @@ sakai.listPeople.renderList = function(tuid, pageNumber, objects) {
  * @returns void
  */
 sakai.listPeople.sortList = function(tuid, pageNumber, sortOrder) {
-    var mylist = $('#listpeople_page_'+pageNumber);
+    var mylist = $("#" + tuid + " #listpeople_page_" + pageNumber);
     var listitems = mylist.children('li').get();
     listitems.sort(function(a, b) {
         var compA = $(a).text().toUpperCase();
@@ -297,10 +297,9 @@ sakai.listPeople.getSelection = function(tuid) {
  * Takes an object/array of users and adds them to the list to be rendered.
  * @param tuid {String} The instance ID of a widget
  * @param object {Object} The object of users to add
- * @param reRender {boolean} Flag to rerender the list with the new users or not
  * @returns viod
  */
-sakai.listPeople.addToList = function(tuid, object, reRender) {
+sakai.listPeople.addToList = function(tuid, object) {
     if(!$.isEmptyObject(object)){
         // Get display name and subName for each user or group and add to the list object. This should also filter out the anonymous user
         $.each(object.results, function(index, resultObject) {
@@ -308,6 +307,7 @@ sakai.listPeople.addToList = function(tuid, object, reRender) {
             var iSubNameInfoUser = sakai.config.widgets.listpeople[tuid]["subNameInfoUser"];
             var iSubNameInfoContent = Widgets.widgets.listpeople.subNameInfoContent;
             if (resultObject.userid) {
+                // get user details
                 sakai.data.listpeople[tuid].userList[resultObject.userid] = resultObject
                 sakai.data.listpeople[tuid].total += 1
                 if (sakai.api.User.getDisplayName(resultObject)) {
@@ -319,12 +319,14 @@ sakai.listPeople.addToList = function(tuid, object, reRender) {
                     sakai.data.listpeople[tuid].userList[resultObject.userid]["subNameInfo"] = resultObject[iSubNameInfoUser]
                 }
             } else if (resultObject.groupid) {
+                // get group details
                 sakai.data.listpeople[tuid].userList[resultObject.groupid] = resultObject
                 sakai.data.listpeople[tuid].total += 1
                 if (!sakai.data.listpeople[tuid].userList[resultObject.groupid]["subNameInfo"]) {
                     sakai.data.listpeople[tuid].userList[resultObject.groupid]["subNameInfo"] = resultObject[iSubNameInfoGroup];
                 }
             } else if (sakai.api.User.getDisplayName(resultObject) && resultObject['rep:userId']) {
+                // get user details
                 sakai.data.listpeople[tuid].userList[resultObject['rep:userId']] = resultObject
                 sakai.data.listpeople[tuid].userList[resultObject['rep:userId']]["displayName"] = sakai.api.User.getDisplayName(resultObject);
                 if (!sakai.data.listpeople[tuid].userList[resultObject['rep:userId']]["subNameInfo"]) {
@@ -332,24 +334,32 @@ sakai.listPeople.addToList = function(tuid, object, reRender) {
                 }
                 sakai.data.listpeople[tuid].total += 1
             } else if (resultObject["jcr:primaryType"] === "sakai:pooled-content" && resultObject["jcr:name"]) {
-                sakai.data.listpeople[tuid].userList[resultObject["jcr:name"]] = resultObject
-                sakai.data.listpeople[tuid].total += 1
-                if (!sakai.data.listpeople[tuid].userList[resultObject["jcr:name"]]["subNameInfo"]) {
-                    sakai.data.listpeople[tuid].userList[resultObject["jcr:name"]]["subNameInfo"] = resultObject[iSubNameInfoContent];
-                }
-                if (sakai.config.MimeTypes[resultObject["jcr:name"]["jcr:mimeType"]]) {
-                    sakai.data.listpeople[tuid].userList[resultObject["jcr:name"]]['avatar'] = sakai.config.MimeTypes[resultObject["jcr:mimeType"]].URL;
-                    sakai.data.listpeople[tuid].userList[resultObject["jcr:name"]]['mimeTypeDescripton'] = sakai.config.MimeTypes[resultObject.data["jcr:content"]["jcr:mimeType"]].description;
-                } else {
-                    sakai.data.listpeople[tuid].userList[resultObject["jcr:name"]]['avatar'] = "/dev/_images/mimetypes/empty.png";
-                    sakai.data.listpeople[tuid].userList[resultObject["jcr:name"]]['mimeTypeDescripton'] = sakai.config.MimeTypes.other.description;
-                }
+                // get content details
+                var content_path = '/p/' + resultObject["jcr:name"];
+
+                $.ajax({
+                    url: sakai.config.SakaiDomain + content_path + ".2.json",
+                    async: false,
+                    success: function(data){
+
+                        sakai.data.listpeople[tuid].userList[resultObject["jcr:name"]] = data
+                        sakai.data.listpeople[tuid].userList[resultObject["jcr:name"]]['content_id'] = resultObject["jcr:name"];
+                        sakai.data.listpeople[tuid].userList[resultObject["jcr:name"]]['url'] = sakai.config.SakaiDomain + content_path;
+                        sakai.data.listpeople[tuid].total += 1
+                        if (sakai.config.MimeTypes[data["jcr:content"]["jcr:mimeType"]]) {
+                            sakai.data.listpeople[tuid].userList[resultObject["jcr:name"]]['avatar'] = sakai.config.MimeTypes[data["jcr:content"]["jcr:mimeType"]].URL;
+                            sakai.data.listpeople[tuid].userList[resultObject["jcr:name"]]['mimeTypeDescripton'] = sakai.config.MimeTypes[data["jcr:content"]["jcr:mimeType"]].description;
+                        } else {
+                            sakai.data.listpeople[tuid].userList[resultObject["jcr:name"]]['avatar'] = "/dev/_images/mimetypes/empty.png";
+                            sakai.data.listpeople[tuid].userList[resultObject["jcr:name"]]['mimeTypeDescripton'] = sakai.config.MimeTypes.other.description;
+                        }
+                        if (!sakai.data.listpeople[tuid].userList[resultObject["jcr:name"]]["subNameInfo"]) {
+                            sakai.data.listpeople[tuid].userList[resultObject["jcr:name"]]["subNameInfo"] = data[iSubNameInfoContent];
+                        }
+                    }
+                });
             }
         });
-        if (reRender) {
-            // Re-render list of objects
-            sakai.listPeople.renderList(tuid, 0, tempList);
-        }
     }
 };
 
@@ -364,7 +374,6 @@ sakai.listPeople.removeFromList = function(tuid) {
     $.each(sakai.data.listpeople[tuid]["selected"], function(index, resultObject) {
         delete sakai.data.listpeople[tuid].userList[index];
     });
-
     var tempList = {};
     tempList.results = sakai.data.listpeople[tuid].userList;
 
