@@ -29,7 +29,7 @@
             <li><span class="filerevisions_lefthand_description">Created</span><span class="filerevisions_list_content">${data["created"]} by: <a href="javascript:;" class="filerevisions_editor_name">${data["jcr:createdBy"]}</a></span></li>
             {for i in data.revisions}
                 {if i["jcr:name"] != "jcr:rootVersion"}
-                    <li class="{if Math.round((i_index % 0.2) * 10) == 2}li_greybg{/if}"><span class="filerevisions_lefthand_description">Revised</span><span class="filerevisions_list_content">${i["jcr:created"]} by: <a href="javascript:;" class="filerevisions_editor_name">${i["sakai:savedBy"].firstName}</a></span></li>
+                    <li class="{if Math.round((i_index % 0.2) * 10) == 2}li_greybg{/if}"><span class="filerevisions_lefthand_description">Revised</span><span class="filerevisions_list_content">${i["jcr:created"]} by: <a href="javascript:;" class="filerevisions_editor_name">${i["sakai:savedBy"].firstName}</a></span><a href="${data.path}.version.,${i["jcr:name"]}," title="Show version ${i["jcr:name"]}" target="_blank" class="filerevisions_download_version">Download</a></li>
                 {/if}
             {/for}
         </ul>

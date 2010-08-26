@@ -201,6 +201,7 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
         // loads all the information for the current resource
         $(window).bind('hashchange', function(e){
             contentPath = e.getState("content_path") || "";
+
             if (sakai.data.me.user.anon) {
                 anon = true;
                 loadContentProfile();
