@@ -597,7 +597,6 @@ sakai.fileupload = function(tuid, showSettings){
 
                     //loop over nodes to extract data
                     for (var i in $responseData) {
-                        fluid.log(i);
                         var obj = {};
                         obj.filename = i;
                         obj.hashpath = $responseData[i];
