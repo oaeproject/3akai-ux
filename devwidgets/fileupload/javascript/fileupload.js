@@ -477,7 +477,6 @@ sakai.fileupload = function(tuid, showSettings){
                         };
                         data[data.length] = item;
                     }
-                    fluid.log("logged in only");
                     break;
                 // Public
                 case "public":
@@ -500,7 +499,6 @@ sakai.fileupload = function(tuid, showSettings){
                         };
                         data[data.length] = item;
                     }
-                    fluid.log("public");
                     break;
                 case "group":
                     var item = {
@@ -511,7 +509,6 @@ sakai.fileupload = function(tuid, showSettings){
                         }
                     };
                     data[data.length] = item;
-                    fluid.log("group");
                     break;
             }
         }
@@ -598,13 +595,26 @@ sakai.fileupload = function(tuid, showSettings){
                     var $responseData = $(data);
                     var extractedData = [];
 
-                    //loop over nodes to extract data
-                    $responseData.find(".prop").each(function(){
-                        var obj = {};
-                        obj.filename = $(this).text();
-                        obj.hashpath = $(this).next().text().replace(/"/g, '');
-                        extractedData.push(obj);
-                    });
+                    // Webkit browser get results in a different way
+                    if ($.browser.webkit) {
+                        var json = $.parseJSON($responseData[0].innerHTML);
+                        //loop over nodes to extract data
+                        for (var i in json){
+                            var obj = {};
+                            obj.filename = i;
+                            obj.hashpath = json[i];
+                            extractedData.push(obj);
+                        }
+                    }
+                    else {
+                        //loop over nodes to extract data
+                        $responseData.find(".prop").each(function(){
+                            var obj = {};
+                            obj.filename = $(this).text();
+                            obj.hashpath = $(this).next().text().replace(/"/g, '');
+                            extractedData.push(obj);
+                        });
+                    }
 
                     // Check if there were any files uploaded
                     if (extractedData.length === 0) {
@@ -698,7 +708,7 @@ sakai.fileupload = function(tuid, showSettings){
         $(fileUploadContainer).jqmHide();
     });
 
-    $('#upload_content').bind("click", function(ev){
+    $('#upload_content').live("click", function(ev){
         // Check if the uploads neet to be associated with a group or not
 
         if ($('#upload_content').hasClass("group_content")) {

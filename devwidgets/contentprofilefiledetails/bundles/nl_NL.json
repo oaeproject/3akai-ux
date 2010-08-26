@@ -11,5 +11,8 @@
 "LICENSED":"Licensed",
 "WAIVE_COPYRIGHT":"Waive Copyright",
 "NO_COPYRIGHT":"Geen Copyright",
-"UPLOAD_NEW_VERSION":"Laad nieuwe versie op"
+"UPLOAD_NEW_VERSION":"Laad nieuwe versie op",
+"FIRST_CREATED":"Gemaakt op",
+"LAST_MODIFIED":"Laatst aangepast",
+"NO_OF_REVISIONS":"Aantal versies"
 }

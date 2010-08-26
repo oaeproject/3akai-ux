@@ -15,7 +15,7 @@
         <div id="new_uploader">
             <div id="fileupload_add_to">__MSG__ADD_TO__</div><div id="fileupload_add_to_template_container"></div>
             <!-- This form will be progressively enhanced by the Fluid Uploader component. -->
-            <form method="post" enctype="multipart/form-data" id="multifile_form">
+            <form method="POST" enctype="multipart/form-data" id="multifile_form">
                 <div id="fileupload_limit_container"></div>
                 <div id="fileupload_rendered_tagging"></div>
                 <hr/>
@@ -23,11 +23,11 @@
         </div>
 
     <div id="fileupload_limit_to_one_upload_template"><!--
-        <input type="file" name="Filedata" id="multifile_upload" class="multi max-1"/>
+        <input name="fileData" id="multifile_upload" type="file" class="multi max-1"/>
     --></div>
 
     <div id="fileupload_no_limit_to_upload_template"><!--
-        <input type="file" name="Filedata" id="multifile_upload" class="multi"/>
+        <input name="fileData" id="multifile_upload" type="file" class="multi"/>
     --></div>
 
     <div id="fileupload_add_to_template" style="display:none;"><!--

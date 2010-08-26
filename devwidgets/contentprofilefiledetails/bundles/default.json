@@ -11,5 +11,8 @@
 "LICENSED":"Licensed",
 "WAIVE_COPYRIGHT":"Waive Copyright",
 "NO_COPYRIGHT":"No Copyright",
-"UPLOAD_NEW_VERSION":"Upload new version"
+"UPLOAD_NEW_VERSION":"Upload new version",
+"FIRST_CREATED":"First created",
+"LAST_MODIFIED":"Last modified",
+"NO_OF_REVISIONS":"No. of revisions"
 }
