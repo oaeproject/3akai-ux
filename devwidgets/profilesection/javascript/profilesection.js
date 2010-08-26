@@ -377,6 +377,10 @@ sakai.profilesection = function(tuid, showSettings){
                     } else {
                         sakai.profile.main.data[title.split(".")[0]].access = $selected_element.val();
                     }
+                } else {
+                    if (prop && $.isPlainObject(prop) && parentProp) {
+                        delete parentProp[prop["jcr:name"]];
+                    }
                 }
 
             }
