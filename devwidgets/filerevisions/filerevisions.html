@@ -31,16 +31,16 @@
             </li>
             <li>
                 <span class="filerevisions_lefthand_description">__MSG__CREATED__</span>
-                <span class="filerevisions_list_content">${data["created"]} by: <a href="javascript:;" class="filerevisions_editor_name">${data["jcr:createdBy"]}</a></span>
+                <span class="filerevisions_list_content">${data["created"]} __MSG__BY__: <a href="javascript:;" class="filerevisions_editor_name">${data["jcr:createdBy"]}</a></span>
             </li>
             {for i in data.revisions}
-            {if i["jcr:name"] != "jcr:rootVersion"}
-            <li class="{if Math.round((i_index % 0.2) * 10) != 2}li_greybg{/if}">
-                <span class="filerevisions_lefthand_description">__MSG__REVISED__</span>
-                <span class="filerevisions_list_content">${i["jcr:created"]} by: <a href="javascript:;" class="filerevisions_editor_name"> ${i["sakai:savedBy"].firstName}</a></span>
-                <a href="${data.path}.version.,${i["jcr:name"]}," title="__MSG__SHOW_VERSION__ ${i["jcr:name"]}" target="_blank" class="filerevisions_download_version"> __MSG__DOWNLOAD__</a>
-            </li>
-            {/if}
+                {if i["jcr:name"] != "jcr:rootVersion"}
+                    <li class="{if Math.round((i_index % 0.2) * 10) != 2}li_greybg{/if}">
+                        <span class="filerevisions_lefthand_description">__MSG__REVISED__</span>
+                        <span class="filerevisions_list_content">${i["jcr:created"]} __MSG__BY__: <a href="javascript:;" class="filerevisions_editor_name"> ${i["sakai:savedBy"]["rep:userId"]}</a></span>
+                        <a href="${data.path}.version.,${i["jcr:name"]}," title="__MSG__SHOW_VERSION__ ${i["jcr:name"]}" target="_blank" class="filerevisions_download_version"> __MSG__DOWNLOAD__</a>
+                    </li>
+                {/if}
             {/for}
             <button type="button" id="filerevisions_close" class="s3d-button s3d-button-primary jqmClose dialog_close_image">
                 <span class="s3d-button-inner">__MSG__CLOSE__</span>
