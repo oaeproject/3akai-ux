@@ -36,6 +36,9 @@ sakai.filerevisions = function(tuid, showSettings){
 
     // Containers
     var filerevisionsTemplateContainer = "#filerevisions_template_container";
+    
+    // Buttons
+    var filerevisionsCloseButton = "#filerevisions_close";
 
     /**
      * Convert given date object to readable date string
@@ -58,7 +61,7 @@ sakai.filerevisions = function(tuid, showSettings){
         baseFileData.created = getFormattedDate(new Date(baseFileData["jcr:created"]));
         data.data = baseFileData
         var renderedTemplate = $.TemplateRenderer(filerevisionsTemplate, data);
-        $(filerevisionsTemplateContainer).html(renderedTemplate)
+        $(filerevisionsTemplateContainer).html(renderedTemplate);
     };
 
     /**
@@ -110,7 +113,7 @@ sakai.filerevisions = function(tuid, showSettings){
                 for (var i in data.versions){
                     data.versions[i]["jcr:created"] = getFormattedDate(new Date(data.versions[i]["jcr:created"]));
                 }
-                baseFileData.revisions = data.versions
+                baseFileData.revisions = data.versions;
                 getRevisionInformationDetails();
             },
             error: function(){
@@ -130,15 +133,15 @@ sakai.filerevisions = function(tuid, showSettings){
         $fileRevisionsDialog.jqmShow();
     };
 
-    var doInit = function(){
-        // This will make the widget popup as a layover.
-        $fileRevisionsDialog.jqm({
-            modal: true,
-            toTop: true
-        });
-    };
+    $fileRevisionsDialog.jqm({
+        modal: true,
+        toTop: true
+    });
 
-    doInit();
+    $(filerevisionsCloseButton).live("click", function(){
+        $(filerevisionsTemplateContainer).html("");
+        $fileRevisionsDialog.jqmHide();
+    });
 
 };
 sakai.api.Widgets.widgetLoader.informOnLoad("filerevisions");

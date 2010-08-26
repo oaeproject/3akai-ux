@@ -161,9 +161,9 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                     var renderedTemplate = $.TemplateRenderer("content_profile_basic_info_template", json);
                     var renderedDiv = $(document.createElement("div"));
                     renderedDiv.html(renderedTemplate)
-                    $("#content_profile_basic_info_container").html(renderedDiv);
+                    $(contentProfileBasicInfoContainer).html(renderedDiv);
                     // Show the basic info container
-                    $("#content_profile_basic_info_container").show();
+                    $(contentProfileBasicInfoContainer).show();
 
                     addBindingBasicinfo();
                 },

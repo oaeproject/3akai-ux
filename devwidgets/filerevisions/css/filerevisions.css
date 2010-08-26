@@ -26,3 +26,5 @@
 #filerevisions_template_container .filerevisions_editor_name {color:#058EC4; font-weight:bold;}
 
 #filerevisions_template_container .filerevisions_download_version {float:right; color:#058EC4; font-weight:bold;}
+#filerevisions_template_container #filerevisions_close {float:right; margin-top:5px;}
+#filerevisions_template_container hr {margin-top:10px; visibility:hidden;}
