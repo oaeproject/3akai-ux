@@ -36,7 +36,7 @@ sakai.filerevisions = function(tuid, showSettings){
 
     // Containers
     var filerevisionsTemplateContainer = "#filerevisions_template_container";
-    
+
     // Buttons
     var filerevisionsCloseButton = "#filerevisions_close";
 
@@ -97,7 +97,7 @@ sakai.filerevisions = function(tuid, showSettings){
                 renderRevisionData();
             },
             error: function(xhr, textStatus, thrownError){
-                
+
             }
         });
     };

@@ -709,8 +709,8 @@ sakai.fileupload = function(tuid, showSettings){
     });
 
     $('#upload_content').live("click", function(ev){
-        // Check if the uploads neet to be associated with a group or not
 
+        // Check if the uploads need to be associated with a group or not
         if ($('#upload_content').hasClass("group_content")) {
             groupContext = true;
             context = "group";
