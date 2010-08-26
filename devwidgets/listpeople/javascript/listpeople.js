@@ -333,8 +333,12 @@ sakai.listPeople.addToList = function(tuid, object) {
                     sakai.data.listpeople[tuid].userList[resultObject['rep:userId']]["subNameInfo"] = resultObject[iSubNameInfoUser]
                 }
                 sakai.data.listpeople[tuid].total += 1
-            } else if (resultObject["jcr:primaryType"] === "sakai:pooled-content" && resultObject["jcr:name"]) {
+            } else if (resultObject["jcr:primaryType"] === "sakai:pooled-content") {
                 // get content details
+                if (!resultObject["jcr:name"] && resultObject["content_id"]) {
+                    resultObject["jcr:name"] = resultObject["content_id"];
+                }
+
                 var content_path = '/p/' + resultObject["jcr:name"];
 
                 $.ajax({
