@@ -112,7 +112,8 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         sakai.currentgroup.data.authprofile["sakai:group-description"] = groupDesc;
 
         $.ajax({
-            url: "/system/userManager/group/" + sakai.currentgroup.id + ".update.json",
+//            url: "/system/userManager/group/" + sakai.currentgroup.id + ".update.json",  // previously used
+            url: "/~" + sakai.currentgroup.id + "/public/authprofile",
             data: {
                 "_charset_":"utf-8",
                 "sakai:group-title" : groupTitle,
