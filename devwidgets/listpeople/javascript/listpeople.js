@@ -151,6 +151,11 @@ sakai.listPeople.render = function(tuid, iConfig, url, id) {
                 var json_data = data;
             }
 
+            // if we're loading authorizables for a content profile we need to check down a level for either viewers or managers
+            if (json_data.results[tuid]) {
+                json_data.results = json_data.results[tuid];
+            }
+
             if (json_data) {
                 // Render list of objects
                 sakai.listPeople.renderList(tuid, 0, json_data);
@@ -312,6 +317,8 @@ sakai.listPeople.addToList = function(tuid, object) {
                 sakai.data.listpeople[tuid].total += 1
                 if (sakai.api.User.getDisplayName(resultObject)) {
                     sakai.data.listpeople[tuid].userList[resultObject.userid]["displayName"] = sakai.api.User.getDisplayName(resultObject);
+                } else if (resultObject["firstName"] && resultObject["lastName"]) {
+                    sakai.data.listpeople[tuid].userList[resultObject.userid]["displayName"] = resultObject["firstName"] + ' ' + resultObject["lastName"];
                 } else {
                     sakai.data.listpeople[tuid].userList[resultObject.userid]["displayName"] = resultObject.userid;
                 }
