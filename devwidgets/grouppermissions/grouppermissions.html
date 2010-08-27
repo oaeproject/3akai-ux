@@ -1,0 +1,36 @@
+<!-- CSS -->
+<link href="/devwidgets/grouppermissions/css/grouppermissions.css" type="text/css" />
+
+<div id="grouppermissions_widget">
+    <div id="grouppermissions_data_error" style="display:none;">
+        <p>__MSG__DATA_ERROR__</p>
+    </div>
+    <div id="grouppermissions_template" style="display:none;"><!--
+        <p class="grouppermissions_input">
+            <label for="grouppermissions_joinable">__MSG__JOINABLE_LABEL__</label>
+            <select id="grouppermissions_joinable">
+                <option{if joinable===sakai.config.Permissions.Groups.joinable.manager_add}
+                    selected="selected"{/if}>__MSG__JOIN_MANAGER_ADD__</option>
+                <option{if joinable===sakai.config.Permissions.Groups.joinable.user_direct}
+                    selected="selected"{/if}>__MSG__JOIN_USER_DIRECT__</option>
+                <option{if joinable===sakai.config.Permissions.Groups.joinable.user_request}
+                    selected="selected"{/if}>__MSG__JOIN_USER_REQUEST__</option>
+            </select>
+        </p>
+        <p class="grouppermissions_input_info">__MSG__JOIN_ADD_INFO__</p>
+        <p class="grouppermissions_input">
+            <label for="grouppermissions_visible">__MSG__VISIBLE_LABEL__</label>
+            <select id="grouppermissions_visible">
+                <option{if visible===sakai.config.Permissions.Groups.visible.members}
+                    selected="selected"{/if}>__MSG__VIS_MEMBERS__</option>
+                <option{if visible===sakai.config.Permissions.Groups.visible.allusers}
+                    selected="selected"{/if}>__MSG__VIS_ALLUSERS__</option>
+                <option{if visible===sakai.config.Permissions.Groups.visible.public}
+                    selected="selected"{/if}>__MSG__VIS_PUBLIC__</option>
+            </select>
+        </p>
+    --></div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/grouppermissions/javascript/grouppermissions.js"></script>
