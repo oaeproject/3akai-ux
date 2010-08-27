@@ -29,6 +29,7 @@ sakai.content_profile = function(){
     var content_path = ""; // The current path of the content
     var globalJSON;
     var ready_event_fired = 0;
+    var list_event_fired = false;
 
 
     ///////////////////
@@ -80,6 +81,12 @@ sakai.content_profile = function(){
                             ready_event_fired++;
                         });
                     }
+
+                    if (!list_event_fired) {
+                        // add binding to listpeople widget and buttons
+                        addListBinding();
+                        list_event_fired = true;
+                    }
                 },
                 error: function(xhr, textStatus, thrownError){
 
@@ -124,6 +131,138 @@ sakai.content_profile = function(){
 
         }
 
+    };
+
+    /**
+     * Load the content authorizables who have access to the content
+     */
+    var loadContentUsers = function(tuid){
+        // Check whether there is actually a content path in the URL
+        if (content_path) {
+            var pl_config = {"selectable":true, "subNameInfoUser": "email", "subNameInfoGroup": "sakai:group-description", "sortOn": "lastName", "sortOrder": "ascending", "items": 50 };
+            var url = sakai.config.SakaiDomain + content_path + ".members.json";
+            $("#content_profile_listpeople_container").show();
+            sakai.listPeople.render(tuid, pl_config, url, content_path);
+        }
+    };
+
+    /**
+     * addRemoveUsers users
+     * Function that adds or removes selected users to/from the content
+     * @param {String} tuid Identifier for the widget/type of user we're adding (viewer or manager)
+     * @param {Object} users List of users we're adding/removing
+     * @param {String} task Operation of either adding or removing
+     */
+    var addRemoveUsers = function(tuid, users, task) {
+        var updateSuccess = false;
+
+        $.each(users, function(index, user) {
+            var data = {
+                "_charset_":"utf-8",
+                ":viewer": user
+            };
+            if (tuid === 'managers' && task === 'add') {
+                data = {
+                    "_charset_":"utf-8",
+                    ":manager": user
+                };
+            } else if (task === 'remove') {
+                if (user['userid']) {
+                    user = user['userid'];
+                } else if (user['groupid']) {
+                    user = user['groupid'];
+                } else if (user['rep:userId']) {
+                    user = user['rep:userId'];
+                }
+                data = {
+                    "_charset_":"utf-8",
+                    ":viewer@Delete": user
+                };
+                if (tuid === 'managers') {
+                    data = {
+                        "_charset_":"utf-8",
+                        ":manager@Delete": user
+                    };
+                }
+            }
+            if (user) {
+                // update user access for the content
+                $.ajax({
+                    url: content_path + ".members.json",
+                    async: false,
+                    data: data,
+                    type: "POST",
+                    success: function(data){
+                        updateSuccess = true;
+                    }
+                });
+            }
+        });
+
+        if (updateSuccess) {
+            loadContentUsers(tuid);
+        }
+    };
+
+
+    ///////////////////////
+    // BINDING FUNCTIONS //
+    ///////////////////////
+
+    /**
+     * Add binding to list elements on the page
+     */
+    var addListBinding = function(){
+
+        $(window).bind("listpeople_ready", function(e, tuid){
+            loadContentUsers(tuid);
+        });
+
+        // Bind the remove viewers button
+        $("#content_profile_remove_viewers").bind("click", function(){
+            addRemoveUsers('viewers', sakai.data.listpeople["viewers"]["selected"], 'remove');
+        });
+
+        // Bind the remove managers button
+        $("#content_profile_remove_managers").bind("click", function(){
+            addRemoveUsers('managers', sakai.data.listpeople["managers"]["selected"], 'remove');
+        });
+
+        // Add binding to the pickeruser widget buttons for adding users
+        $(window).bind("sakai-pickeruser-ready", function(e){
+            var pl_config = {
+                "mode": "search",
+                "selectable":true,
+                "subNameInfo": "email",
+                "sortOn": "lastName",
+                "items": 50,
+                "type": "people",
+                "what": "Viewers",
+                "where": 'Content'
+            };
+
+            // Bind the add viewers button
+            $("#content_profile_add_viewers").bind("click", function(){
+                pl_config.what = "Viewers";
+                $(window).trigger("sakai-pickeruser-init", pl_config, function(people) {
+                });
+                $(window).unbind("sakai-pickeruser-finished");
+                $(window).bind("sakai-pickeruser-finished", function(e, peopleList) {
+                    addRemoveUsers('viewers', peopleList.toAdd, 'add');
+                });
+            });
+
+            // Bind the add managers button
+            $("#content_profile_add_managers").bind("click", function(){
+                pl_config.what = "Managers";
+                $(window).trigger("sakai-pickeruser-init", pl_config, function(people) {
+                });
+                $(window).unbind("sakai-pickeruser-finished");
+                $(window).bind("sakai-pickeruser-finished", function(e, peopleList) {
+                    addRemoveUsers('managers', peopleList.toAdd, 'add');
+                });
+            });
+        });
     };
 
 
