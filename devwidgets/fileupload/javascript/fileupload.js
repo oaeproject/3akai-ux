@@ -73,6 +73,7 @@ sakai.fileupload = function(tuid, showSettings){
 
     // Form
     var multiFileForm = "#multifile_form";
+    var fileUploadSubmit = "#fileupload_submit";
 
     var cancelButton = "#fileupload_cancel";
 
@@ -134,6 +135,7 @@ sakai.fileupload = function(tuid, showSettings){
      * has already been rendered. So created two templates to render accordingly
      */
     var renderLimitedUpload = function(){
+        $(newUploaderForm).attr("action", uploadPath + ".createfile." + oldVersionPath); 
         var obj =[];
         var renderedTemplate = $.TemplateRenderer(fileUploadLimitToOneUploadTemplate, obj).replace(/\r/g, '');
         $(fileuploadLimitContainer).html(renderedTemplate);
@@ -297,6 +299,10 @@ sakai.fileupload = function(tuid, showSettings){
                 notification += $(fileupload_permissions_not_set, $rootel).html();
             }
             sakai.api.Util.notification.show($(fileupload_files_successfully_uploaded, $rootel).html(), notification);
+        } else {
+            if(newVersion){
+                sakai.api.Util.notification.show("New version uploaded", "A new version for the file has been successfully uploaded.");
+            }
         }
 
         // Reset booleans
@@ -537,42 +543,19 @@ sakai.fileupload = function(tuid, showSettings){
     };
 
     /**
-     * Set the description that the user put in the textarea
+     * Set the base file to be overwritten by a new file
      */
-    var setVersionDescription = function(){
+    var saveVersion = function(){
         $.ajax({
-            url: "/p/" + uploadedFiles[0].hashpath,
-            type: "POST",
-            data: {
-                "sakai:versiondescription": ($(fileUploadAddVersionDescription)[0].value).replace(/"/g, '')
-            },
-            success: function(data){
-                // Set name on the file
-                batchSetDescriptionAndName();
-                sakai.api.Util.notification.show("New version uploaded", "New version successfully uploaded");
-            },
-            error: function(xhr, textStatus, thrownError){
-                sakai.api.Util.notification.show("Description not set", "New version successfully uploaded but failed to set description");
-            }
-        });
-    };
-
-    /**
-     * Set the uploaded file as a new version to an older file
-     */
-    var setAsNewVersion = function(){
-        $.ajax({
-            url: "/p/" + oldVersionPath + ".save.html",
+            url: "/p/" + oldVersionPath + ".save.json",
             type : "POST",
             success: function(data){
-                setVersionDescription();
+                newVersion = true;
+                $(multiFileForm).trigger("submit");
             },
             error: function(xhr, textStatus, thrownError){
-                sakai.api.Util.notification.show("Failed setting new version", "Uploading new version failed");
+                sakai.api.Util.notification.show("Failed saving version", "Saving new version failed");
             },
-            data: {
-                "url": "/p/" + uploadedFiles[0].hashpath
-            }
         });
     };
 
@@ -638,11 +621,7 @@ sakai.fileupload = function(tuid, showSettings){
 
                         // If the file is a new version set is as one
                         // Else it is a new file and needs to have a description, permissions, tags, ...
-                        if (context === "new_version") {
-                            // Set this file as new version
-                            setAsNewVersion();
-                        }
-                        else {
+                        if (context !== "new_version") {
                             // Set the description data on the completed uploads
                             batchSetDescriptionAndName();
 
@@ -653,6 +632,8 @@ sakai.fileupload = function(tuid, showSettings){
                             if (tags.length !== 0) {
                                 batchLinkTagsToContent();
                             }
+                        } else {
+                            resetFields();
                         }
                     }
                 }
@@ -696,6 +677,10 @@ sakai.fileupload = function(tuid, showSettings){
         $(fileUploadContainer).jqmHide();
     });
 
+    $(fileUploadSubmit).live("click", function(){
+        saveVersion();
+    });
+
     $('#upload_content').live("click", function(ev){
 
         // Check if the uploads need to be associated with a group or not
@@ -708,7 +693,6 @@ sakai.fileupload = function(tuid, showSettings){
         else
             if ($('#upload_content').hasClass("new_version")) {
                 // A new version of the file needs to be uploaded
-                newVersion = true;
                 $(fileUploadWidgetTitleNewVersion).show();
                 $(fileUploadWidgetTitle).hide();
                 oldVersionPath = $("#upload_content").data("hashpath").split("contentpath_")[1];

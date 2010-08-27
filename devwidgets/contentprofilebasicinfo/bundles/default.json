@@ -10,5 +10,9 @@
 "COPYRIGHTED":"Copyrighted",
 "LICENSED":"Licensed",
 "WAIVE_COPYRIGHT":"Waive Copyright",
-"NO_COPYRIGHT":"No Copyright"
+"NO_COPYRIGHT":"No Copyright",
+"MYSELF_ONLY":"Myself only",
+"LOGGED_IN_ONLY":"Logged in only",
+"THE_PUBLIC":"The public",
+"WHO_CAN_SEE_THIS_CONTENT":"Who can see this Content"
 }

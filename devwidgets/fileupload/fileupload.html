@@ -76,9 +76,15 @@
             <button type="button" id="fileupload_cancel" class="s3d-button s3d-button-primary jqmClose dialog_close_image">
                 <span class="s3d-button-inner">__MSG__CANCEL__</span>
             </button>
-            <button type="submit" class="s3d-button s3d-button-primary">
-                <span class="s3d-button-inner">{if context !== "new_version"}__MSG__ADD_CONTENT__{else}__MSG__UPDATE_FILE__{/if}</span>
-            </button>
+            {if context !== "new_version"}
+                <button type="submit" class="s3d-button s3d-button-primary">
+                    <span class="s3d-button-inner">__MSG__ADD_CONTENT__</span>
+                </button>
+            {else}
+                <button type="button" id="fileupload_submit" class="s3d-button s3d-button-primary">
+                    <span class="s3d-button-inner">__MSG__UPDATE_FILE__</span>
+                </button>
+            {/if}
             <div id="fileupload_upload_progress">
             </div>
         </div>

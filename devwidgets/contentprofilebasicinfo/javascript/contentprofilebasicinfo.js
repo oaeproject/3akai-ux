@@ -45,7 +45,76 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
     var contentProfileBasicInfoFormName = "#content_profile_basic_info_form_name";
     var contentProfileBasicInfoFormTags = "#content_profile_basic_info_form_tags";
     var contentProfileBasicInfoFormDescription = "#content_profile_basic_info_form_description";
-    var contentProfileBasicInfoFormPermissionsSelect = "#content_profile_basic_info_permissions_select";
+    var contentProfileBasicInfoFormCopyrightSelect = "#content_profile_basic_info_copyright_select";
+    var contentProfileBasicInfoFormPermissionsSelect= "#content_profile_basic_info_permissions_select";
+
+
+    ///////////////////
+    // Functionality //
+    ///////////////////
+
+    /**
+     * Set permissions on the files that were uploaded
+     */
+    var setFilePermissions = function(){
+        // Get the value from the dropdown list
+        var permissions = $(contentProfileBasicInfoFormPermissionsSelect).val();
+        // Check which value was selected and fill in the data object accordingly
+        var data = [];
+        switch (permissions) {
+            // Logged in only
+            case "everyone":
+                var item = {
+                    "url": contentPath + ".members.html",
+                    "method": "POST",
+                    "parameters": {
+                        ":viewer": "everyone",
+                        ":viewer@Delete": "anonymous"
+                    }
+                };
+                data[data.length] = item;
+                break;
+            // Public
+            case "public":
+                var item = {
+                    "url": contentPath + ".members.html",
+                    "method": "POST",
+                    "parameters": {
+                        ":viewer": ["everyone", "anonymous"]
+                    }
+                };
+                data[data.length] = item;
+                break;
+            // Myself only
+            case "private":
+                var item = {
+                    "url": contentPath + ".members.html",
+                    "method": "POST",
+                    "parameters": {
+                        ":viewer@Delete": ["anonymous", "everyone"]
+                    }
+                };
+                data[data.length] = item;
+                break;
+        }
+
+        $.ajax({
+            url: sakai.config.URL.BATCH,
+            traditional: true,
+            type: "POST",
+            cache: false,
+            data: {
+                requests: $.toJSON(data)
+            },
+            success: function(data){
+
+            },
+            error: function(xhr, textStatus, thrownError){
+
+            }
+        });
+
+    };
 
     /**
      * Get the values from the basic information form
@@ -85,7 +154,9 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
             data["sakai:tags"] = "";
         }
 
-        data["jcr:copyright"] = $(contentProfileBasicInfoFormPermissionsSelect)[0].value;
+        data["sakai:copyright"] = $(contentProfileBasicInfoFormCopyrightSelect)[0].value;
+
+        data["sakai:permissions"] = $(contentProfileBasicInfoFormPermissionsSelect)[0].value;
 
         // Set the correct mixintype
         data["jcr:mixinTypes"] = "sakai:propertiesmix";
@@ -98,7 +169,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
      * Enable or disable all fields on the basic info widget
      */
     var enableDisableBasicInfoFields = function(bool){
-        $(contentProfileBasicInfoFormPermissionsSelect)[0].disabled = bool;
+        $(contentProfileBasicInfoFormCopyrightSelect)[0].disabled = bool;
         $(contentProfileBasicInfoFormTags)[0].disabled = bool;
         $(contentProfileBasicInfoFormDescription)[0].disabled = bool;
         $(contentProfileBasicInfoFormName)[0].disabled = bool;
@@ -111,8 +182,12 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
     var addBindingBasicinfo = function(){
         // Submitting of the form
         $(contentProfileBasicInfoForm).bind("submit", function(){
+            // Set permissions on the file
+            setFilePermissions();
+
             // Get all the value for the form
             var data = getFormValues();
+
             // Disable basic info fields
             enableDisableBasicInfoFields(true);
 
