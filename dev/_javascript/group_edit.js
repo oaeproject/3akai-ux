@@ -119,9 +119,18 @@ sakai.groupedit = function(){
      */
     $(window).bind("sakai.groupbasicinfo.updateFinished", function(){
         // Show a notification on the screen
-    	sakai.api.Util.notification.show("Group management", "Your group was updated successfully");
+    	sakai.api.Util.notification.show("Group Basic Information", "Updated successfully.");
         // Re-render the Entity Summary widget so the changes are reflected
         sakai.api.UI.entity.render("group", sakai.currentgroup.data);
+    });
+
+    /**
+     * When the Group Permissions widget has finished updating group permissions,
+     * it will come back to this function
+     */
+    $(window).bind("sakai.grouppermissions.updateFinished", function() {
+        // Show notification
+        sakai.api.Util.notification.show("Group Permissions", "Updated successfully.");
     });
 
     /**
@@ -374,6 +383,7 @@ sakai.groupedit = function(){
         // Bind the update button
         $("#group_editing_button_update").bind("click", function(){
             $(window).trigger("sakai.groupbasicinfo.update");
+            $(window).trigger("sakai.grouppermissions.update");
         });
 
         // Bind the don't update button
