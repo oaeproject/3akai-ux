@@ -24,9 +24,7 @@
 
 /* Listpeople widget headings */
 .content_profile_list_header {
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
-    border-bottom-color: #ebebeb;
+    border-bottom: 1px solid #ebebeb;
     color: #5a6a7c;
     font-size: 16px;
     font-weight: normal;
