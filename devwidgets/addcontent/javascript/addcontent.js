@@ -174,35 +174,29 @@ sakai.addcontent = function(tuid, showSettings){
 
     };
 
+    var filesLoaded = function(bool, data){
+        // Render the template for a file
+        renderTemplate(data);
+        
+        // Add binding
+        addBinding();
+        
+        // Show the container
+        $addcontent_container.show();
+    }
+
     /**
      * Load the files from a specific location
      * @param {String} location The location where you want to load the files from
      */
     var loadFiles = function(location){
-
         if(location === "myfiles"){
-
-            $.ajax({
-                url: "/var/search/pool/me/manager.1.json",
-                data: {
-                    q:"*",
-                    sortOn:"jcr:created",
-                    sortOrder:"descending"
-                },
-                success: function(data){
-
-                    // Render the template for a file
-                    renderTemplate(data);
-
-                    // Add binding
-                    addBinding();
-
-                    // Show the container
-                    $addcontent_container.show();
-
-                }
-            });
-
+            var data = {
+                q: "*",
+                sortOn: "jcr:created",
+                sortOrder: "descending"
+            }
+            sakai.api.Server.loadJSON("/var/search/pool/me/manager.1", filesLoaded, data);
         }
 
     };

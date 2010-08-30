@@ -140,6 +140,8 @@ sakai.pickeradvanced = function(tuid, showSettings) {
         var searchQuery = $pickeradvanced_search_query.val();
         if (!searchQuery) {
             searchQuery = "*";
+        } else {
+            searchQuery = "*" + searchQuery + "*";
         }
 
         var pl_query = pickerData["searchIn"] + searchQuery + "&page=0&items=12&_=" + (Math.random() * 100000000000000000);

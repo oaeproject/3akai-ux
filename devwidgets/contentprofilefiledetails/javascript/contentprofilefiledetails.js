@@ -77,6 +77,10 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
         });
     };
 
+    /**
+     * Convert given date object to readable date string
+     * @param {Object} date Date object
+     */
     var getFormattedDate = function(date){
         var months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
         var day = date.getDate();
@@ -197,6 +201,7 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
         // loads all the information for the current resource
         $(window).bind('hashchange', function(e){
             contentPath = e.getState("content_path") || "";
+
             if (sakai.data.me.user.anon) {
                 anon = true;
                 loadContentProfile();

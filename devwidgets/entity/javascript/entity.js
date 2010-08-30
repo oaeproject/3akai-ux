@@ -414,8 +414,8 @@ sakai.entity = function(tuid, showSettings){
 
         
         // Set the copyright of the file
-        if (filedata["jcr:copyright"]) {
-            entityconfig.data.profile.copyright = filedata["jcr:copyright"];
+        if (filedata["sakai:copyright"]) {
+            entityconfig.data.profile.copyright = filedata["sakai:copyright"];
         }
     };
 

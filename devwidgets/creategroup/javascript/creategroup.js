@@ -211,7 +211,10 @@ sakai.creategroup = function(tuid, showSettings){
                 ":member": groupidManagers,
                 "sakai:group-title" : grouptitle,
                 "sakai:group-description" : groupdescription,
-                "sakai:group-id": groupid
+                "sakai:group-id": groupid,
+                "sakai:group-joinable": sakai.config.Permissions.Groups.joinable.manager_add,
+                "sakai:group-visible": sakai.config.Permissions.Groups.visible.members,
+                ":sakai:pages-template": "/var/templates/site/" + pagestemplate
             },
             type: "POST",
             success: function(data, textStatus){
@@ -253,7 +256,9 @@ sakai.creategroup = function(tuid, showSettings){
                 ":member": sakai.data.me.user.userid,
                 "sakai:group-title" : grouptitleManagers,
                 "sakai:group-description" : groupdescription,
-                "sakai:group-id": groupidManagers
+                "sakai:group-id": groupidManagers,
+                "sakai:group-joinable": sakai.config.Permissions.Groups.joinable.manager_add,
+                "sakai:group-visible": sakai.config.Permissions.Groups.visible.members
             },
             type: "POST",
             success: function(data, textStatus){

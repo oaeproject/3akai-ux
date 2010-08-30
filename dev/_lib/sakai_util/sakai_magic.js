@@ -82,9 +82,11 @@ sakai.api = {
 sakai.api.Communication = sakai.api.Communication || {};
 
 /**
- * Sends a Sakai message
+ * Sends a Sakai message to one or more users. If a group id is received, the
+ * message is sent to users that are members of that group.
  *
- * @param {Array|String} to Array with the uuids of the users to post a message to or a String with one user.
+ * @param {Array|String} to Array with the ids of the users or groups to post a
+ *   message to or a String with one user or group id.
  * @param {String} subject The subject for this message
  * @param {String} body The text that this message will contain
  * @param {String} [category="message"] The category for this message
@@ -94,59 +96,188 @@ sakai.api.Communication = sakai.api.Communication || {};
  */
 sakai.api.Communication.sendMessage = function(to, subject, body, category, reply, callback) {
 
-    var toUsers = "";
-    if (typeof(to) === "string") {
-        toUsers = "internal:" + to;
-    }
-    else {
-        toUsers += "internal:" + to.join(",internal:");
-    }
+    /////////////////////////////
+    // CONFIGURATION VARIABLES //
+    /////////////////////////////
 
-    // Basic message details
-    var toSend = {
-        "sakai:type": "internal",
-        "sakai:sendstate": "pending",
-        "sakai:messagebox": "outbox",
-        "sakai:to": toUsers,
-        "sakai:from": sakai.data.me.user.userid,
-        "sakai:subject": subject,
-        "sakai:body":body,
-        "_charset_":"utf-8"
+    var numGroupAJAXRequests = 0;  // tracks AJAX requests for group data
+    var toUsers = "";              // aggregates all message recipients
+    var sendDone = false;          // has the send been issued?
+
+
+    ///////////////////////
+    // UTILITY FUNCTIONS //
+    ///////////////////////
+
+    /**
+     * Initiates an AJAX call to fetch members of a given group.
+     * @param {String} groupid The group's id
+     * @return None
+     */
+    var fetchGroupMembers = function(groupid) {
+        // keep track of AJAX requests
+        numGroupAJAXRequests++;
+
+        // Fetch members
+        $.ajax({
+            url: "/system/userManager/group/" + groupid + ".members.json",
+            type: "GET",
+            success: handleAJAXGroupData,
+            error: function(xhr, textStatus, thrownError) {
+                fluid.log("sakai.api.Communication.sendMessage(): Could not fetch group data for groupid: " + groupid);
+            }
+        });
     };
 
-    // Message category
-    if (category) {
-        toSend["sakai:category"] = category;
-    } else {
-        toSend["sakai:category"] = "message";
-    }
-
-    // See if this is a reply or not
-    if (reply) {
-        toSend["sakai:previousmessage"] = reply;
-    }
-
-    // Send message
-    $.ajax({
-        url: "/~" + sakai.data.me.user.userid + "/message.create.html",
-        type: "POST",
-        data: toSend,
-        success: function(data) {
-
-            if (typeof callback === "function") {
-                callback(true, data);
+    /**
+     * Responds to the AJAX call to fetch members of a given group. Parses data
+     * returned and initiates aggregating list of recipients.
+     * @param {Object} data The data returned from the groupid.members.json AJAX call
+     * @return None
+     */
+    var handleAJAXGroupData = function(data) {
+        // currently, data is being returned as an array with no root object
+        // Not entirely sure, but this may be causing the data not to be read as
+        // JSON directly.
+        // This may be fixed in the future and the following code may break
+        // once JSON is being returned, simply delete the following line
+        data = JSON.parse(data);
+        if(data) {
+            // get user ids
+            var userids = [];
+            for(var i = 1; i < data.length; i++) {
+                if(data[i].userid) {
+                    userids.push(data[i].userid);
+                }
             }
-        },
-        error: function(xhr, textStatus, thrownError) {
+            if(userids.length) {
+                addToUsers(userids);
+            }
+        } else {
+            fluid.log("sakai.api.Communication.sendMessage(): group data is empty");
+        }
 
-            fluid.log("sakai.api.Communication.sendMessage(): Could not send message to " + to);
+        // keep track of AJAX callbacks ("thread" safe?)
+        numGroupAJAXRequests--;
+        if(numGroupAJAXRequests === 0) {
+            // once all AJAX requests have returned, commit the message
+            sendMessageToUsers();
+        }
+    };
 
-            if (typeof callback === "function") {
-                callback(false, xhr);
+    /**
+     * Adds the given userids (String or Array) to the current list of recipients
+     * @param {Array|String} userids Either a single userid (String) or a list
+     * of userids (Array) to be added to the current list of recipients
+     * @return None
+     */
+    var addToUsers = function(userids) {
+        // append comma if the list already exists
+        if(toUsers) {
+            toUsers += ",";
+        }
+        if(typeof(userids) === "string") {
+            toUsers += "internal:" + userids;
+        } else if(typeof(userids) === "object") {
+            toUsers += "internal:" + userids.join(",internal:");
+        }
+    };
+
+    /**
+     * Sets up and initiates an AJAX POST to send this message to its recipients
+     * @param None
+     * @return None
+     */
+    var sendMessageToUsers = function() {
+        // Basic message details
+        var toSend = {
+            "sakai:type": "internal",
+            "sakai:sendstate": "pending",
+            "sakai:messagebox": "outbox",
+            "sakai:to": toUsers,
+            "sakai:from": sakai.data.me.user.userid,
+            "sakai:subject": subject,
+            "sakai:body":body,
+            "_charset_":"utf-8"
+        };
+
+        // Message category
+        if (category) {
+            toSend["sakai:category"] = category;
+        } else {
+            toSend["sakai:category"] = "message";
+        }
+
+        // See if this is a reply or not
+        if (reply) {
+            toSend["sakai:previousmessage"] = reply;
+        }
+
+        // Send message
+        $.ajax({
+            url: "/~" + sakai.data.me.user.userid + "/message.create.html",
+            type: "POST",
+            data: toSend,
+            success: function(data) {
+
+                if (typeof callback === "function") {
+                    callback(true, data);
+                }
+            },
+            error: function(xhr, textStatus, thrownError) {
+
+                fluid.log("sakai.api.Communication.sendMessage(): Could not send message to " + to);
+
+                if (typeof callback === "function") {
+                    callback(false, xhr);
+                }
+            }
+        });
+
+        // the send has been issued
+        sendDone = true;
+    };
+
+
+    //////////////////
+    // MAIN ROUTINE //
+    //////////////////
+
+    // check 'to' argument
+    if (typeof(to) === "string") {
+        // single recipient - is it a group?
+        if(to.indexOf("g-") != -1) {
+            // fetch the members and managers in this group
+            fetchGroupMembers(to);
+        } else {
+            // add single recipient & send
+            toUsers = "internal:" + to;
+            sendMessageToUsers();
+        }
+    } else if(typeof(to) === "object") {
+        // array of recipients
+        for(var i = 0; i < to.length; i++) {
+            // is it a group?
+            if(to[i].indexOf("g-") != -1) {
+                // fetch the members and managers in this group
+                fetchGroupMembers(to[i]);
+            } else {
+                addToUsers(to[i]);
             }
         }
-    });
+    } else {
+        // unrecognized type
+        fluid.log("sakai.api.Communication.sendMessage(): invalid argument ('to' not an Array or String).");
 
+        if (typeof callback === "function") {
+            callback(false, xhr);
+        }
+    }
+
+    // send now if we have only a list of users ("thread" safe?)
+    if(numGroupAJAXRequests === 0 && !sendDone) {
+        sendMessageToUsers();
+    }
 };
 
 /**
@@ -157,7 +288,21 @@ sakai.api.Communication.sendMessage = function(to, subject, body, category, repl
  * @return {Boolean} true or false depending on whether the sending was successful or not
  */
 sakai.api.Communication.sendMessageToGroup = function(groupID, message) {
-
+    /**
+     * SAKIII-599: Unable to currently send a message via:
+     *  - /~userid/message.create.html or
+     *  - /~groupid/message.create.html
+     *
+     * Until backend support is available, sakai.api.Communication.sendMessage
+     * has been modified to support groupids. Any groupids included in the 'to'
+     * list argument will be expanded and messages sent to those users.
+     *
+     * Once backend support to message a group directly is available, it will be
+     * important to complete this function to support posting messages to group
+     * pages directly and to track messages sent to groups as opposed to
+     * individual users (i.e. Message sent to: "user1, user2, group5" instead of
+     * Message sent to: "user1, user2, [list of users in group5]")
+     */
 };
 
 /**
@@ -1775,7 +1920,7 @@ sakai.api.User.getDisplayName = function(profile) {
     return sakai.api.Security.saneHTML($.trim(nameToReturn));
 };
 
-/*
+/**
  * Safely retrieves an element value from the user's profile
  *
  * @param {Object} profile the user's profile (sakai.data.me.profile for the current user)
@@ -1794,7 +1939,7 @@ sakai.api.User.getProfileBasicElementValue = function(profile, eltName) {
     return sakai.api.Security.saneHTML($.trim(ret));
 };
 
-/*
+/**
  * Sets a value to the user's basic profile information
  *
  * @param {Object} profile the user's profile (sakai.data.me.profile for the current user)
@@ -1809,6 +1954,56 @@ sakai.api.User.setProfileBasicElementValue = function(profile, eltName, eltValue
 
         profile.basic.elements[eltName].value = eltValue;
     }
+};
+
+/**
+ * Get a user's short description from their profile
+ * This is based off of the configuration in config.js
+ * Example: "${role} in ${department}" could translate to "Undergraduate Student in Computer Science"
+ *           based on the configuration in config.js and the user's profile information
+ * If the user doesn't have the profile information requested by config.js, the function
+ * will remove the token from the string and any modifiers before the token after the previous token
+ * In the above example, if the user only had a department, the resulting string would be "Computer Science"
+ *
+ * @param {Object} profile The user's profile to get a description from
+ * @return {String} the user's short description
+ */
+sakai.api.User.getShortDescription = function(profile) {
+    var shortDesc = sakai.config.Profile.shortDescription || "";
+    var tokenRegex = /\$\{[A-Za-z]+\}/gi;
+    var tokens = shortDesc.match(tokenRegex);
+    var lastReplacementValue = "";
+    $(tokens).each(function(i, val) {
+        var profileNode = val.match(/[A-Za-z]+/gi)[0];
+        if (profile.basic.elements[profileNode] && $.trim(profile.basic.elements[profileNode].value) !== "") {
+            if (lastReplacementValue === "" && tokens[i-1]) {
+                // replace everything before this and after the last token
+            }
+            if (sakai.config.Profile.configuration.basic.elements[profileNode].type === "select") {
+                lastReplacementValue = profile.basic.elements[profileNode].value;
+                lastReplacementValue = sakai.config.Profile.configuration.basic.elements[profileNode].select_elements[lastReplacementValue];
+                lastReplacementValue = sakai.api.i18n.General.process(lastReplacementValue, sakai.data.i18n.localBundle, sakai.data.i18n.defaultBundle);
+            } else {
+                lastReplacementValue = profile.basic.elements[profileNode].value;
+            }
+
+            shortDesc = shortDesc.replace(val, lastReplacementValue);
+        } else {
+            if (tokens[i-1]) { // this is not the first time through
+                var indexToStart = 0;
+                // if the previous token's replaced value exists
+                if (lastReplacementValue !== "" && shortDesc.indexOf(shortDesc.indexOf(lastReplacementValue)) !== -1) {
+                    // the index to start replacing at is the end of the last replacement
+                    indexToStart = shortDesc.indexOf(shortDesc.indexOf(lastReplacementValue)) + lastReplacementValue.length;
+                }
+                var indexToEnd = shortDesc.indexOf(val) + val.length;
+                shortDesc = $.trim(shortDesc.replace(shortDesc.substring(indexToStart, indexToEnd), ""));
+            } else {
+                shortDesc = $.trim(shortDesc.replace(val, ""));
+            }
+        }
+    });
+    return $.trim(shortDesc);
 };
 
 /**

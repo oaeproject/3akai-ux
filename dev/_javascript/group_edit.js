@@ -119,9 +119,18 @@ sakai.groupedit = function(){
      */
     $(window).bind("sakai.groupbasicinfo.updateFinished", function(){
         // Show a notification on the screen
-    	sakai.api.Util.notification.show("Group management", "Your group was updated successfully");
+    	sakai.api.Util.notification.show("Group Basic Information", "Updated successfully.");
         // Re-render the Entity Summary widget so the changes are reflected
         sakai.api.UI.entity.render("group", sakai.currentgroup.data);
+    });
+
+    /**
+     * When the Group Permissions widget has finished updating group permissions,
+     * it will come back to this function
+     */
+    $(window).bind("sakai.grouppermissions.updateFinished", function() {
+        // Show notification
+        sakai.api.Util.notification.show("Group Permissions", "Updated successfully.");
     });
 
     /**
@@ -232,6 +241,36 @@ sakai.groupedit = function(){
     };
 
     /**
+     * Remove content
+     * Function that gets the list of selected content from the listpeople widget and removes group access
+     * @param {String} tuid Identifier for the widget/type of user we're removing (content)
+     */
+    var removeContent = function(tuid) {
+
+        var removeContent;
+
+        $.each(sakai.data.listpeople[tuid]["selected"], function(index, resultObject) {
+            if (resultObject['content_id']) {
+                removeContent = resultObject['content_id'];
+            }
+            if (removeContent) {
+                // remove group access
+                $.ajax({
+                    url: "/p/" + removeContent + ".members.json",
+                    data: {
+                        "_charset_":"utf-8",
+                        ":viewer@Delete": groupid
+                    },
+                    type: "POST",
+                    success: function(data){
+                        sakai.listPeople.removeFromList(tuid);
+                    }
+                });
+            }
+        });
+    };
+
+    /**
      * Add users
      * Function that gets the list of selected users from the people picker widget and adds them to the group
      * @param {String} tuid Identifier for the widget/type of user we're removing (member or a manager)
@@ -240,6 +279,7 @@ sakai.groupedit = function(){
 
         var addUser;
         var groupIdAdd = groupid;
+        var updateSuccess = false;
 
         if (tuid === 'managers') {
             groupIdAdd = groupid + '-managers';
@@ -250,17 +290,22 @@ sakai.groupedit = function(){
                 // add user to group
                 $.ajax({
                     url: "/system/userManager/group/" + groupIdAdd + ".update.json",
+                    async: false,
                     data: {
                         "_charset_":"utf-8",
                         ":member": member
                     },
                     type: "POST",
                     success: function(data){
-                        renderItemLists(tuid);
+                        updateSuccess = true;
                     }
                 });
             }
         });
+
+        if (updateSuccess) {
+            renderItemLists(tuid);
+        }
     };
     
     /**
@@ -270,22 +315,29 @@ sakai.groupedit = function(){
      */
     var addContent = function(contentList) {
 
+        var updateSuccess = false;
+
         $.each(contentList, function(index, contentId) {
             if (contentId) {
                 // add content to group
                 $.ajax({
                     url: "/p/" + contentId + ".members.json",
+                    async: false,
                     data: {
                         "_charset_":"utf-8",
                         ":viewer": groupid
                     },
                     type: "POST",
                     success: function(data){
-                        renderItemLists('content');
+                        updateSuccess = true;
                     }
                 });
             }
         });
+
+        if (updateSuccess) {
+            renderItemLists('content');
+        }
     };
 
     /**
@@ -331,6 +383,7 @@ sakai.groupedit = function(){
         // Bind the update button
         $("#group_editing_button_update").bind("click", function(){
             $(window).trigger("sakai.groupbasicinfo.update");
+            $(window).trigger("sakai.grouppermissions.update");
         });
 
         // Bind the don't update button
@@ -350,7 +403,7 @@ sakai.groupedit = function(){
 
         // Bind the remove content button
         $("#group_editing_remove_content").bind("click", function(){
-            //removeContent();
+            removeContent('content');
         });
 
     };

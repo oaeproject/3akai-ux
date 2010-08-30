@@ -13,16 +13,16 @@
                 <p>${filesize}</p>
             </div>
             <div id="content_profile_file_details_titles">
-                <span class="content_profile_file_details_title">First created:</span>
+                <span class="content_profile_file_details_title">__MSG__FIRST_CREATED__:</span>
                 <br/>
-                <span class="content_profile_file_details_title">Last modified:</span>
+                <span class="content_profile_file_details_title">__MSG__LAST_MODIFIED__:</span>
                 <br/>
-                <span class="content_profile_file_details_title">No. of revisions:</span>
+                <span class="content_profile_file_details_title">__MSG__NO_OF_REVISIONS__:</span>
             </div>
         </div>
         <div id="content_profile_file_details_details_secondcolumn">
-            <p><span class="content_profile_file_details_content">${created} by ${data["jcr:createdBy"]}</span></p>
-            <p><span class="content_profile_file_details_content">${lastModified} by ${data["jcr:content"]["jcr:lastModifiedBy"]}</span></p>
+            <p><span class="content_profile_file_details_content">${created} by ${data["sakai:pool-content-created-for"]}</span></p>
+            <p><span class="content_profile_file_details_content">${lastModified} by ${data["sakai:pool-content-created-for"]}</span></p>
             <p><span class="content_profile_file_details_content">{if revisions.length -1 === 0}No revisions{else}${revisions.length -1} <a href="javascript:;" id="content_profile_details_view_revisions">View revisions</a>{/if}</span></p>
             <hr/>
         </div>

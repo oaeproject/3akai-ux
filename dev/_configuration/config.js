@@ -119,6 +119,27 @@ sakai.config = {
 
     SakaiDomain: window.location.protocol + "//" + window.location.host,
 
+    Permissions: {
+        /*
+         * A collection of permission keys and range of values to be referenced
+         * for making permissions decisions. The values of properties are only
+         * for reference, may not match designs and are not to be place in the
+         * UI (message bundles should be used to match up-to-date designs).
+         */
+        Groups: {
+            joinable: {
+                "manager_add": "Managers add people",
+                "user_direct": "People can automatically join",
+                "user_request": "People request to join"
+            },
+            visible: {
+                "members": "Group members only",
+                "allusers": "All logged in users",
+                "public": "Anyone on the Internet"
+            }
+        }
+    },
+
     Profile: {
         /*
          * This is a collection of profile configuration functions and settings
@@ -313,7 +334,13 @@ sakai.config = {
          * Note: the value for userNameDisplay and this value can be the same.
          *       If neither exists, nothing will show
          */
-        userNameDefaultDisplay: "firstName lastName"
+        userNameDefaultDisplay: "firstName lastName",
+
+        /*
+         * Set the user's short description to appear underneath their name
+         * in search results
+         */
+        shortDescription: "${role} in ${department} at ${college}"
 
     },
 

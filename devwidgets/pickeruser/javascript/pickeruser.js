@@ -207,7 +207,19 @@ sakai.pickeruser = function(tuid, showSettings) {
             },
             asHtmlID: tuid,
             selectedItemProp: "name",
-            searchObjProps: "name"
+            searchObjProps: "name",
+            formatList: function(data, elem) {
+                // formats each line to be presented in autosuggest list
+                // add the correct image, wrap name in a class
+                var imgSrc = "/dev/_images/user_avatar_icon_32x32.png";
+                if(data.type === "group") {
+                    imgSrc = "/dev/_images/group_avatar_icon_32x32.png";
+                }
+                var line_item = elem.html(
+                    '<img class="sm_suggestion_img" src="' + imgSrc + '" />' +
+                    '<span class="sm_suggestion_name">' + data.name + '</span>');
+                return line_item;
+            }
         });
     };
     setupAutoSuggest();

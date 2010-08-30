@@ -11,6 +11,7 @@
         <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
         <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
         <link rel="stylesheet" type="text/css" href="/dev/_lib/jquery/plugins/gritter/css/jquery.gritter.css">
+        <link rel="stylesheet" type="text/css" href="/devwidgets/pickeruser/css/autoSuggest.css" />
 
         <!-- Sakai Page CSS -->
         <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.content_profile.css" />
@@ -43,6 +44,7 @@
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/gritter/jquery.gritter.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.form.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.MultiFile.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.autoSuggest.sakai-edited.js"></script>
 
     </head>
 
@@ -100,6 +102,39 @@
 
         <!-- VIEW FILE REVISIONS WIDGET -->
         <div id="widget_filerevisions" class="widget_inline"></div>
+
+        <div id="content_profile_listpeople_container" class="testing fl-fix fl-centered fixed-container" style="display:none;">
+            <!-- PICKERUSER WIDGET -->
+            <div id="widget_pickeruser" class="widget_inline"></div>
+
+            <h4 class="content_profile_list_header">__MSG__VIEWERS_OF_THIS_FILE__</h4>
+            <!-- LISTPEOPLE WIDGET TO LIST VIEWERS -->
+            <div id="widget_listpeople_viewers" class="widget_inline"></div>
+            <div class="content_profile_list_buttons" class="fl-push">
+                <div class="fl-force-right">
+                    <button id="content_profile_remove_viewers" type="button" class="s3d-button">
+                        <span class="s3d-button-inner">__MSG__REMOVE_SELECTED_VIEWERS__</span>
+                    </button>
+                    <button id="content_profile_add_viewers" type="button" class="s3d-button s3d-button-primary">
+                        <span class="s3d-button-inner">__MSG__ADD_NEW_VIEWERS__</span>
+                    </button>
+                </div>
+            </div>
+
+            <h4 class="content_profile_list_header">__MSG__MANAGERS_OF_THIS_FILE__</h4>
+            <!-- LISTPEOPLE WIDGET TO LIST MANAGERS -->
+            <div id="widget_listpeople_managers" class="widget_inline"></div>
+            <div class="content_profile_list_buttons" class="fl-push">
+                <div class="fl-force-right">
+                    <button id="content_profile_remove_managers" type="button" class="s3d-button">
+                        <span class="s3d-button-inner">__MSG__REMOVE_SELECTED_MANAGERS__</span>
+                    </button>
+                    <button id="content_profile_add_managers" type="button" class="s3d-button s3d-button-primary">
+                        <span class="s3d-button-inner">__MSG__ADD_NEW_MANAGERS__</span>
+                    </button>
+                </div>
+            </div>
+        </div>
 
         <!-- FOOTER WIDGET -->
         <div id="widget_footer" class="widget_inline footercontainer"></div>

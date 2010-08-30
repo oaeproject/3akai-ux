@@ -1,0 +1,11 @@
+{
+    "description":"Manage permissions for joining and viewing a group.",
+    "name":"Group Permissions",
+    "id":"grouppermissions",
+    "i18n": {
+        "default": "/devwidgets/grouppermissions/bundles/default.json"
+    },
+    "personalportal":false,
+    "hasSettings":false,
+    "url":"/devwidgets/grouppermissions/grouppermissions.html"
+}
