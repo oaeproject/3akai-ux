@@ -334,7 +334,13 @@ sakai.config = {
          * Note: the value for userNameDisplay and this value can be the same.
          *       If neither exists, nothing will show
          */
-        userNameDefaultDisplay: "firstName lastName"
+        userNameDefaultDisplay: "firstName lastName",
+
+        /*
+         * Set the user's short description to appear underneath their name
+         * in search results
+         */
+        shortDescription: "${role} in ${department} at ${college}"
 
     },
 

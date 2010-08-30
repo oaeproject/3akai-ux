@@ -1920,7 +1920,7 @@ sakai.api.User.getDisplayName = function(profile) {
     return sakai.api.Security.saneHTML($.trim(nameToReturn));
 };
 
-/*
+/**
  * Safely retrieves an element value from the user's profile
  *
  * @param {Object} profile the user's profile (sakai.data.me.profile for the current user)
@@ -1939,7 +1939,7 @@ sakai.api.User.getProfileBasicElementValue = function(profile, eltName) {
     return sakai.api.Security.saneHTML($.trim(ret));
 };
 
-/*
+/**
  * Sets a value to the user's basic profile information
  *
  * @param {Object} profile the user's profile (sakai.data.me.profile for the current user)
@@ -1954,6 +1954,56 @@ sakai.api.User.setProfileBasicElementValue = function(profile, eltName, eltValue
 
         profile.basic.elements[eltName].value = eltValue;
     }
+};
+
+/**
+ * Get a user's short description from their profile
+ * This is based off of the configuration in config.js
+ * Example: "${role} in ${department}" could translate to "Undergraduate Student in Computer Science"
+ *           based on the configuration in config.js and the user's profile information
+ * If the user doesn't have the profile information requested by config.js, the function
+ * will remove the token from the string and any modifiers before the token after the previous token
+ * In the above example, if the user only had a department, the resulting string would be "Computer Science"
+ *
+ * @param {Object} profile The user's profile to get a description from
+ * @return {String} the user's short description
+ */
+sakai.api.User.getShortDescription = function(profile) {
+    var shortDesc = sakai.config.Profile.shortDescription || "";
+    var tokenRegex = /\$\{[A-Za-z]+\}/gi;
+    var tokens = shortDesc.match(tokenRegex);
+    var lastReplacementValue = "";
+    $(tokens).each(function(i, val) {
+        var profileNode = val.match(/[A-Za-z]+/gi)[0];
+        if (profile.basic.elements[profileNode] && $.trim(profile.basic.elements[profileNode].value) !== "") {
+            if (lastReplacementValue === "" && tokens[i-1]) {
+                // replace everything before this and after the last token
+            }
+            if (sakai.config.Profile.configuration.basic.elements[profileNode].type === "select") {
+                lastReplacementValue = profile.basic.elements[profileNode].value;
+                lastReplacementValue = sakai.config.Profile.configuration.basic.elements[profileNode].select_elements[lastReplacementValue];
+                lastReplacementValue = sakai.api.i18n.General.process(lastReplacementValue, sakai.data.i18n.localBundle, sakai.data.i18n.defaultBundle);
+            } else {
+                lastReplacementValue = profile.basic.elements[profileNode].value;
+            }
+
+            shortDesc = shortDesc.replace(val, lastReplacementValue);
+        } else {
+            if (tokens[i-1]) { // this is not the first time through
+                var indexToStart = 0;
+                // if the previous token's replaced value exists
+                if (lastReplacementValue !== "" && shortDesc.indexOf(shortDesc.indexOf(lastReplacementValue)) !== -1) {
+                    // the index to start replacing at is the end of the last replacement
+                    indexToStart = shortDesc.indexOf(shortDesc.indexOf(lastReplacementValue)) + lastReplacementValue.length;
+                }
+                var indexToEnd = shortDesc.indexOf(val) + val.length;
+                shortDesc = $.trim(shortDesc.replace(shortDesc.substring(indexToStart, indexToEnd), ""));
+            } else {
+                shortDesc = $.trim(shortDesc.replace(val, ""));
+            }
+        }
+    });
+    return $.trim(shortDesc);
 };
 
 /**
