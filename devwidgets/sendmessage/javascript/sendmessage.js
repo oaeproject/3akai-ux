@@ -330,7 +330,7 @@ if (!sakai.sendmessage){
         var fetchContactsGroups = function() {
             // Get contact data
             $.ajax({
-                url: "/var/contacts/accepted.json",
+                url: sakai.config.URL.CONTACTS_ACCEPTED,
                 data: {
                     "page": 0,
                     "items": 100
@@ -359,7 +359,7 @@ if (!sakai.sendmessage){
 
             // Get group data
             $.ajax({
-                url: "/var/search/groups",
+                url: sakai.config.URL.SEARCH_GROUPS,
                 data: {
                     "q": sakai.data.me.user.userid,
                     "page": 0,
