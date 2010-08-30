@@ -296,17 +296,17 @@ sakai.sitespages = function(tuid,showSettings){
         //Store currently selected page
         sakai.sitespages.selectedpage = pageUrlName;
 
-        if (sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage] && sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage].fullwidth){
-            $(".content_container").addClass("sitepages_fullwidth");
-            $("#page_nav_content").hide();
-            $("#more_make_full_width").hide();
-            $("#more_make_two_column").show();
-        } else {
+        //if (sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage] && sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage].fullwidth){
+        //    $(".content_container").addClass("sitepages_fullwidth");
+        //    $("#page_nav_content").hide();
+        //    $("#more_make_full_width").hide();
+        //    $("#more_make_two_column").show();
+        //} else {
             $(".content_container").removeClass("sitepages_fullwidth");
             $("#page_nav_content").show();
             $("#more_make_full_width").show();
             $("#more_make_two_column").hide();
-        }
+        //}
 
         if (sakai.sitespages.site_info._pages[pageUrlName] != undefined) {
           // Get page type

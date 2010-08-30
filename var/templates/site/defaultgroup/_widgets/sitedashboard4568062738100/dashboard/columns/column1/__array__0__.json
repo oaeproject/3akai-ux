@@ -1,6 +1,6 @@
 {
-	"uid": "id402868778",
+	"uid": "id402868779",
     "visible": "block",
-    "name": "navigation",
+    "name": "rss",
 	"jcr:mixinTypes": "sakai:propertiesmix"
 }

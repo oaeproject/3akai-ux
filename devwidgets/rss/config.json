@@ -6,5 +6,6 @@
     "img":"/devwidgets/rss/images/rss.png",
     "name":"RSS Feed",
     "showinsakaigoodies":true,
+    "groupsdashboard": true,
     "url":"/devwidgets/rss/rss.html"
 }
