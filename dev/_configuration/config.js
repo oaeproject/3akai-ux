@@ -84,11 +84,12 @@ sakai.config = {
         SEARCH_MY_CONTACTS: "/var/search/files/mycontacts.json",
         SEARCH_MY_FILES: "/var/search/files/myfiles.json",
         SEARCH_MY_SITES: "/var/search/files/mysites.json",
-        SEARCH_GROUPS: "/var/search/groups.json".
+        SEARCH_GROUPS: "/var/search/groups.json",
         SEARCH_PAGES: "/var/search/page.json",
         SEARCH_SITES: "/var/search/sites.json",
         SEARCH_USERS_ACCEPTED: "/var/contacts/find.json?s=",
         SEARCH_USERS: "/var/search/users.json",
+        SEARCH_USERS_GROUPS: "/var/search/usersgroups.json",
         SITE_ADD_MEMBERS_SERVICE: "/_rest/site/members/add/__SITE__",
         SITE_CONFIGFOLDER: "/sites/__SITEID__",
         SITE_CREATE_SERVICE: "/sites.createsite.json",
