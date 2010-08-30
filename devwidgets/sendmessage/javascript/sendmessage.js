@@ -343,8 +343,7 @@ if (!sakai.sendmessage){
                             var contact = {
                                 type: "contact",
                                 id: data.results[i].target,
-                                name: data.results[i].profile.basic.elements.firstName.value +
-                                    " " + data.results[i].profile.basic.elements.lastName.value
+                                name: sakai.api.User.getDisplayName(data.results[i].profile)
                             };
                             contacts.push(contact);
                         }
