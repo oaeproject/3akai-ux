@@ -31,32 +31,33 @@
         </div>
 
         <div id="pickeradvanced_content">
-            <div id="pickeradvanced_content_list"></div>
-            <div id="pickeradvanced_content_search"></div>
+            <div id="pickeradvanced_content_list" class="fl-force-left">
+                <ul id="pickeradvanced_people_filters">
+                    <li><a href="javascript:;" id="pickeradvanced_search_contacts" class="pickeradvanced_search_filter">All Contacts</li>
+                    <li><a href="javascript:;" id="pickeradvanced_search_users" class="pickeradvanced_search_filter">All Users</li>
+                    <li><a href="javascript:;" id="pickeradvanced_search_groups" class="pickeradvanced_search_filter">All Groups</li>
+                </ul>
+                <ul id="pickeradvanced_group_filters">
+                    <li><a href="javascript:;" id="pickeradvanced_search_groups_member" class="pickeradvanced_search_filter">Groups I can see</li>
+                    <li><a href="javascript:;" id="pickeradvanced_search_groups_manager" class="pickeradvanced_search_filter">Groups I manage</li>
+                </ul>
+                <ul id="pickeradvanced_group_specific_filters">
+                </ul>
+            </div>
+            <div id="pickeradvanced_content_search" class="fl-force-left"></div>
+            <div id="pickeradvanced_footer">
+                <div id="pickeradvanced_footer_options">
+                    <button type="button" class="s3d-button s3d-button-primary fl-force-right" disabled="disabled" id="pickeradvanced_add_button">
+                        <span class="s3d-button-inner">__MSG__ADD_SELECTED__</span></span>
+                    </button>
+                    <button type="button" class="s3d-button fl-force-right" id="pickeradvanced_close">
+                        <span class="s3d-button-inner">Cancel</span>
+                    </button>
+                </div>
+            </div>
         </div>
 
-        <div id="pickeradvanced_footer">
-            <div id="pickeradvanced_footer_select">
-            <span class="fl-force-left">
-                <span id="pickeradvanced_count" style="display: none;">0</span>
-                <span id="pickeradvanced_count_person" style="display: none;"> person</span>
-                <span id="pickeradvanced_count_people" style="display: none;"> people</span>
-                <span id="pickeradvanced_count_of" style="display: none;"> out of</span>
-                <span id="pickeradvanced_count_thousands" style="display: none;"> thousands</span>
-                </span>
-                <button type="button" class="s3d-button fl-force-right" id="pickeradvanced_select_all_button">
-                    <span class="s3d-button-inner">Select All</span>
-                </button>
-            </div>
-            <div id="pickeradvanced_footer_options">
-                <button type="button" class="s3d-button" id="pickeradvanced_close">
-                    <span class="s3d-button-inner">Cancel</span>
-                </button>
-                <button type="button" class="s3d-button s3d-button-primary fl-force-right" id="pickeradvanced_add_button">
-                    <span class="s3d-button-inner">Add to <span id="pickeradvanced_space_name">Space</span></span>
-                </button>
-            </div>
-        </div>
+
 
         <div id="pickeradvanced_content_search_pagedefault">
 
@@ -78,9 +79,9 @@
                     {else}
                         <img src="/dev/_images/person_icon.jpg" alt="Default profile picture" class="pickeradvanced_ppicture"/>
                     {/if}
-                    <a class="pickeradvanced_name" href="/dev/profile.html?user=${i['rep:userId']}">${sakai.api.User.getDisplayName(i)}</a>
+                    <a class="pickeradvanced_name" href="/dev/profile.html?user=${i['rep:userId']}" target="_blank">${sakai.api.User.getDisplayName(i)}</a>
                     <br />
-                    <span class="pickeradvanced_subnameinfo">${i.subNameInfo}</span>
+                    <span class="pickeradvanced_subnameinfo">${sakai.api.User.getShortDescription(i)}</span>
                 </li>
                 {/for}
             --></div>
