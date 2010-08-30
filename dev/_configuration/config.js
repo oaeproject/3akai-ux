@@ -87,7 +87,7 @@ sakai.config = {
         SEARCH_GROUPS: "/var/search/groups.json",
         SEARCH_PAGES: "/var/search/page.json",
         SEARCH_SITES: "/var/search/sites.json",
-        SEARCH_USERS_ACCEPTED: "/var/contacts/find.json?s=",
+        SEARCH_USERS_ACCEPTED: "/var/contacts/find.json",
         SEARCH_USERS: "/var/search/users.json",
         SEARCH_USERS_GROUPS: "/var/search/usersgroups.json",
         SITE_ADD_MEMBERS_SERVICE: "/_rest/site/members/add/__SITE__",

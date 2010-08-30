@@ -309,7 +309,7 @@ sakai.search = function() {
             var searchURL;
             
             if(searchWhere === "mycontacts") {
-                searchURL = sakai.config.URL.SEARCH_USERS_ACCEPTED + urlsearchterm;
+                searchURL = sakai.config.URL.SEARCH_USERS_ACCEPTED + "&q=" + urlsearchterm;
             }  else {
                 searchURL = sakai.config.URL.SEARCH_USERS + "?page=" + (currentpage - 1) + "&items=" + resultsToDisplay + "&q=" + urlsearchterm + "&sortOn=sakai:firstName&sortOrder=ascending";
             }
