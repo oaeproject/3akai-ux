@@ -64,8 +64,8 @@ sakai.group = function(){
     });
     
     var loadPagesWidget = function(){
-        var basepath = "/~" + sakai.currentgroup.id + "/sites/default/";
-        var fullpath = "/_group/g/g-/" + sakai.currentgroup.id + "/sites/default/";
+        var basepath = "/~" + sakai.currentgroup.id + "/pages/";
+        var fullpath = "/_group/g/g-/" + sakai.currentgroup.id + "/pages/";
         var url = "/dev/group.html?id=" + sakai.currentgroup.id;
         var editMode = sakai.currentgroup.manager;
         var homePage = "";

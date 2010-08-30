@@ -213,7 +213,8 @@ sakai.creategroup = function(tuid, showSettings){
                 "sakai:group-description" : groupdescription,
                 "sakai:group-id": groupid,
                 "sakai:group-joinable": sakai.config.Permissions.Groups.joinable.manager_add,
-                "sakai:group-visible": sakai.config.Permissions.Groups.visible.members
+                "sakai:group-visible": sakai.config.Permissions.Groups.visible.members,
+                ":sakai:pages-template": "/var/templates/site/" + pagestemplate
             },
             type: "POST",
             success: function(data, textStatus){
