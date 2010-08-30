@@ -36,6 +36,7 @@ ul.as-selections li.as-selection-item {
 	box-shadow: 0 1px 1px #e4edf2;
 	-webkit-box-shadow: 0 1px 1px #e4edf2;
 	-moz-box-shadow: 0 1px 1px #e4edf2;
+    list-style: none outside none;  /** sakai addition **/
 }
 
 ul.as-selections li.as-selection-item:last-child {
@@ -96,6 +97,7 @@ ul.as-selections li.as-selection-item a:active.as-close {
 
 ul.as-selections li.as-original {
 	margin-left: 0;
+    list-style: none outside none;  /** sakai addition **/
 }
 
 ul.as-selections li.as-original input {
@@ -136,6 +138,7 @@ li.as-result-item, li.as-message {
 	border-radius: 5px;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
+    list-style: none outside none;  /** sakai addition **/
 }
 
 li:first-child.as-result-item {
