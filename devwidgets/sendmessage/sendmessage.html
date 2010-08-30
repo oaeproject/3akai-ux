@@ -2,10 +2,10 @@
 <link rel="stylesheet" type="text/css" href="/devwidgets/sendmessage/css/sendmessage.css"></link>
 
 <!-- ERROR MESSAGES -->
-<span id="sendmessage_message_ok" style="display:none;">__MSG__THE_MESSAGE_HAS_BEEN_SENT__.</span>
-<span id="sendmessage_message_error" style="display:none;">The message could not be sent.</span>
-<span id="sendmessage_friends_error" style="display:none;">Failed to retrieve your friends.</span>
-<span id="sendmessage_fields_error" style="display:none;">Please fill in all the fields.</span>
+<span id="sendmessage_message_ok" style="display:none;">__MSG__MESSAGE_HAS_BEEN_SENT__.</span>
+<span id="sendmessage_message_error" style="display:none;">__MSG__MESSAGE_COULD_NOT_BE_SENT__.</span>
+<span id="sendmessage_data_error" style="display:none;">__MSG__FAILED_TO_RETRIEVE_DATA__</span>
+<span id="sendmessage_fields_error" style="display:none;">__MSG__PLEASE_FILL_IN_ALL_FIELDS__.</span>
 
 <div class="dialog" id="message_dialog">
 
@@ -30,19 +30,13 @@
                 <div>From: <span id="message_from"></span></div>
 
                 <!-- TO -->
-                <div id="sendmessage_fixed_to_user">To: <span id="message_to"></span></div>
+                <div id="sendmessage_fixed_to_user" style="display:none;">To: <span id="message_to"></span></div>
 
                 <!-- MULTIPLE RECIPIENTS -->
-                <div id="sendmessage_multiple_to_container" style="display:none;">
-
-                    <label for="sendmessage_multiple_to">To</label>
-                    <br />
-                    <div id="sendmessage_multiple_to_input_container">
-                        <input type="text" id="sendmessage_multiple_to" />
-                    </div>
-
-                    <div id="sendmessage_multiple_to_what" style="display:none;">Type the name of a contact.</div>
-
+                <div id="sendmessage_to_container" style="display:none;">
+                    <label id="sendmessage_to_autoSuggest_label"
+                        for="sendmessage_to_autoSuggest">__MSG__ADDITIONAL_RECIPIENTS__</label>
+                    <input type="text" id="sendmessage_to_autoSuggest" />
                 </div>
 
                 <!-- SUBJECT -->
@@ -73,13 +67,6 @@
         <div class="dialog_footer_inner"></div>
     </div>
 </div>
-
-<!-- TEMPLATE FOR THE MULTPLE TO LIST -->
-<div id="sendmessage_box_template"><!--
-    <span class="sendmessage_multipleBox_result" id="sendmessage_to_result_${uid}"> ${name}
-        <img src="/dev/_images/close_icon.png" alt="X" width="15" height="15" class="sendmessage_multipleBox_delete" id="sendmessage_to_result_img_${uid}" />
-    </span>
---></div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/sendmessage/javascript/sendmessage.js"></script>
