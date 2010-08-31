@@ -781,90 +781,6 @@ sakai.api.i18n.General.getValueForKey = function(key) {
 sakai.api.i18n.Widgets = sakai.api.i18n.Widgets || {};
 
 /**
- * Loads up language bundle for the widget, and exchanges messages found in content.
- * If no language bundle found, it attempts to load the default language bundle for the widget, and use that for i18n
- * @example sakai.api.i18n.Widgets.process(
- *     "myfriends",
- *     "&lt;div&gt;__MSG__YOU_CURRENTLY_HAVE_NO_CONTACTS__&lt;/div&gt;"
- * );
- * @param widgetname {String} The name of the widget
- * @param widget_html_content {String} The content html of the widget which contains the messages
- * @returns {String} The translated content html
- */
-sakai.api.i18n.Widgets.process = function(widgetname, widget_html_content) {
-
-    var translated_content = "";
-    var current_locale_string = false;
-    if (typeof sakai.data.me.user.locale === "object") {
-        current_locale_string = sakai.data.me.user.locale.language + "_" + sakai.data.me.user.locale.country;
-    }
-
-    // If there is no i18n defined in Widgets, run standard i18n on content
-    if (typeof Widgets.widgets[widgetname].i18n !== "object") {
-        translated_content = sakai.api.i18n.General.process(widget_html_content, sakai.data.i18n.localBundle, sakai.data.i18n.defaultBundle);
-        return translated_content;
-    }
-
-    // Load default language bundle for the widget if exists
-    if (Widgets.widgets[widgetname].i18n["default"]) {
-
-        $.ajax({
-            url: Widgets.widgets[widgetname].i18n["default"],
-            async: false,
-            success: function(messages_raw){
-
-                sakai.data.i18n.widgets[widgetname] = sakai.data.i18n.widgets[widgetname] || {};
-                sakai.data.i18n.widgets[widgetname]["default"] = messages_raw;
-
-            },
-            error: function(xhr, textStatus, thrownError){
-                //alert("Could not load default language bundle for widget: " + widgetname);
-            }
-        });
-
-    }
-
-    // Load current language bundle for the widget if exists
-    if (Widgets.widgets[widgetname].i18n[current_locale_string]) {
-
-        $.ajax({
-            url: Widgets.widgets[widgetname].i18n[current_locale_string],
-            async: false,
-            success: function(messages_raw){
-
-                sakai.data.i18n.widgets[widgetname] = sakai.data.i18n.widgets[widgetname] || {};
-                sakai.data.i18n.widgets[widgetname][current_locale_string] = messages_raw;
-            },
-            error: function(xhr, textStatus, thrownError){
-                //alert("Could not load default language bundle " + current_locale_string + "for widget: " + widgetname);
-            }
-        });
-    }
-
-    // Translate widget name and description
-    if ((typeof sakai.data.i18n.widgets[widgetname][current_locale_string] === "object") && (typeof sakai.data.i18n.widgets[widgetname][current_locale_string].name === "string")) {
-        Widgets.widgets[widgetname].name = sakai.data.i18n.widgets[widgetname][current_locale_string].name;
-    }
-    if ((typeof sakai.data.i18n.widgets[widgetname][current_locale_string] === "String") && (typeof sakai.data.i18n.widgets[widgetname][current_locale_string].description === "string")) {
-        Widgets.widgets[widgetname].name = sakai.data.i18n.widgets[widgetname][current_locale_string].description;
-    }
-
-    // Change messages
-    var expression = new RegExp("__MSG__(.*?)__", "gm");
-    var lastend = 0;
-    while (expression.test(widget_html_content)) {
-        var replace = RegExp.lastMatch;
-        var lastParen = RegExp.lastParen;
-        var toreplace = sakai.api.i18n.Widgets.getValueForKey(widgetname, current_locale_string, lastParen);
-        translated_content += widget_html_content.substring(lastend, expression.lastIndex - replace.length) + toreplace;
-        lastend = expression.lastIndex;
-    }
-    translated_content += widget_html_content.substring(lastend);
-
-    return translated_content;
-};
-
-/**
  * Get the value for a specific key in a specific widget.
  * @example sakai.api.i18n.Widgets.getValueForKey("myprofile", "en_US", "PREVIEW_PROFILE");
  * @param {String} widgetname The name of the widget
@@ -959,9 +875,9 @@ sakai.api.Security = sakai.api.Security || {};
 /**
  * Encodes the HTML characters inside a string so that the HTML characters (e.g. <, >, ...)
  * are treated as text and not as HTML entities
- * 
+ *
  * @param {String} inputString  String of which the HTML characters have to be encoded
- * 
+ *
  * @returns {String} HTML Encoded string
  */
 sakai.api.Security.escapeHTML = function(inputString){
@@ -2737,11 +2653,6 @@ sakai.api.Widgets.widgetLoader = {
                             var jsonpath = requestedURLsResults[i].url;
                             var widgetname = batchWidgets[jsonpath];
 
-                            // Do i18n on widget content
-                            //var translated_content = sakai.api.i18n.Widgets.process(widgetname, data[i].body);
-
-                            //sethtmlover(translated_content, widgets, widgetname);
-
                             if (typeof Widgets.widgets[widgetname].i18n === "object") {
                                 if (Widgets.widgets[widgetname].i18n["default"]){
                                     var item = {
@@ -2780,10 +2691,10 @@ sakai.api.Widgets.widgetLoader = {
                                             hasBundles = true;
                                             if(data.results[ii].url.split("/")[4].split(".")[0] === "default"){
                                                 sakai.data.i18n.widgets[widgetName] = sakai.data.i18n.widgets[widgetName] || {};
-                                                sakai.data.i18n.widgets[widgetName]["default"] = data.results[ii].body;
+                                                sakai.data.i18n.widgets[widgetName]["default"] = $.parseJSON(data.results[ii].body);
                                             } else {
                                                 sakai.data.i18n.widgets[widgetName] = sakai.data.i18n.widgets[widgetName] || {};
-                                                sakai.data.i18n.widgets[widgetName][current_locale_string] = data.results[ii].body;
+                                                sakai.data.i18n.widgets[widgetName][current_locale_string] = $.parseJSON(data.results[ii].body);
                                             }
                                         }
                                     }
@@ -2869,7 +2780,7 @@ sakai.api.Widgets.widgetLoader = {
 
                     // Add the HTML for to the iframe widget container
                     $("#" + widgetid + "_container").html(html).addClass("fl-widget-content").parent().append('<div class="fl-widget-no-options fl-fix"><div class="widget-no-options-inner"><!-- --></div></div>');
-                    
+
                 }
 
                 // The widget isn't an iframe widget
