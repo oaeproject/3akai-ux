@@ -2659,14 +2659,14 @@ sakai.api.Widgets.widgetLoader = {
                                         "url" : Widgets.widgets[widgetname].i18n["default"],
                                         "method" : "GET"
                                     }
-                                    bundles[bundles.length] = item;
+                                    bundles.push(item);
                                 }
                                 if (Widgets.widgets[widgetname].i18n[current_locale_string]) {
                                     var item = {
                                         "url" : Widgets.widgets[widgetname].i18n[current_locale_string],
                                         "method" : "GET"
                                     }
-                                    bundles[bundles.length] = item;
+                                    bundles.push(item);
                                 }
                             }
                         }
