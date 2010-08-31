@@ -33,5 +33,8 @@
 "MY_CONTENT":"My content",
 "MESSAGE_OTHER_MANAGERS_REASON":"Message other managers/reason",
 "UPDATE_FILE":"Update file",
-"UPLOAD_NEW_VERSION":"Upload new version"
+"UPLOAD_NEW_VERSION":"Upload new version",
+"VALIDATE_LINK":"Validate link",
+"ADD_A_LINK":"To add a link, enter a URL",
+"OR_UPLOAD_FILES":"Or select files to upload"
 }

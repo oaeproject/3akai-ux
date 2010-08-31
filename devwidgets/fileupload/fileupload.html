@@ -14,8 +14,18 @@
     <div class="dialog_content">
         <div id="new_uploader">
             <div id="fileupload_add_to">__MSG__ADD_TO__</div><div id="fileupload_add_to_template_container"></div>
+            <div id="fileupload_link_box">
+                <p>
+                    __MSG__ADD_A_LINK__
+                </p>
+                <input id="fileupload_link_box_input" type="text"/>
+                <button type="button" class="s3d-button s3d-button-primary">
+                    <span class="s3d-button-inner">__MSG__VALIDATE_LINK__</span>
+                </button>
+            </div>
             <!-- This form will be progressively enhanced by the Fluid Uploader component. -->
             <form method="POST" enctype="multipart/form-data" id="multifile_form">
+                <p>__MSG__OR_UPLOAD_FILES__</p>
                 <div id="fileupload_limit_container"></div>
                 <div id="fileupload_rendered_tagging"></div>
                 <hr/>
