@@ -165,6 +165,7 @@ sakai.chat = function(tuid, showSettings){
     var hasOpenChatWindow = false; // Does the current user has open chat windows
     var personIconUrl = sakai.config.URL.USER_DEFAULT_ICON_URL;
     var pulltime = "2100-10-10T10:10:10.000Z";
+    var initialtime = "2100-10-10T10:10:10.000Z";
     var time = [];
     var sendMessages = []; // Array containing the id's of all the send messages
 
@@ -940,6 +941,15 @@ sakai.chat = function(tuid, showSettings){
                             // Add the id to the send messages object
                             // We need to do this because otherwise the user who
                             // sends the message, will see it 2 times
+                            if (sendMessages.length == 0) {
+                                var temptime = data.message["sakai:created"];
+                                var temp = temptime.indexOf("+");
+                                initialtime = temptime.substring(0,temp)+".000"+temptime.substring(temp,temptime.length);
+                            }
+
+                            // Add the id to the send messages object
+                            // We need to do this because otherwise the user who
+                            // sends the message, will see it 2 times
                             addToSendMessages(data.id);
                         },
                         error: function(xhr, textStatus, thrownError){
@@ -1049,6 +1059,16 @@ sakai.chat = function(tuid, showSettings){
             }
         }
 
+        var retrievaltime = "2100-10-10T10:10:10.000Z";
+
+        // if window is jused opened, use initial time
+        // to retrieve all previous messagess
+        if(initial)
+            retrievaltime = initialtime;
+        else    
+            retrievaltime = pulltime;
+
+
         // Combine all the online users with a comma
         var tosend = onlineUsers.join(",");
 
@@ -1058,7 +1078,7 @@ sakai.chat = function(tuid, showSettings){
             data: {
                 "_from": tosend,
                 "items": 1000,
-                "t": pulltime,
+                "t": retrievaltime,
                 "sortOn": "sakai:created",
                 "sortOrder": "descending"
             },
@@ -1115,7 +1135,7 @@ sakai.chat = function(tuid, showSettings){
                             if ($(chatWith + "_" + k).length > 0) {
 
                                 // We check if the message is in the sendMessages array
-                                if ($.inArray(njson[k].messages[0].id, sendMessages) !== -1) {
+                                if ($.inArray(njson[k].messages[0].id, sendMessages) !== -1 && !initial) {
                                     continue;
                                 }
 
