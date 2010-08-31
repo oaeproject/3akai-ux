@@ -2647,7 +2647,10 @@ sakai.api.Widgets.widgetLoader = {
                     },
                     success: function(data){
                         requestedURLsResults = data.results;
-                        var current_locale_string = sakai.data.me.user.locale.language + "_" + sakai.data.me.user.locale.country;
+                        var current_locale_string = false;
+                        if (typeof sakai.data.me.user.locale === "object") {
+                            current_locale_string = sakai.data.me.user.locale.language + "_" + sakai.data.me.user.locale.country;
+                        }
                         var bundles = [];
                         for (var i = 0, j = requestedURLsResults.length; i<j; i++) {
                             var jsonpath = requestedURLsResults[i].url;
