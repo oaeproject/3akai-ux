@@ -2709,6 +2709,7 @@ sakai.api.Widgets.widgetLoader = {
          */
         var loadWidgetFiles = function(widgets, batchWidgets){
             var urls = [];
+            var requestedURLsResults = [];
 
             for(var k in batchWidgets){
                 if(batchWidgets.hasOwnProperty(k)){
@@ -2729,16 +2730,84 @@ sakai.api.Widgets.widgetLoader = {
                         requests: $.toJSON(urls)
                     },
                     success: function(data){
-                        data = data.results;
-                        for (var i = 0, j = data.length; i<j; i++) {
-                            var jsonpath = data[i].url;
+                        requestedURLsResults = data.results;
+                        var current_locale_string = sakai.data.me.user.locale.language + "_" + sakai.data.me.user.locale.country;
+                        var bundles = [];
+                        for (var i = 0, j = requestedURLsResults.length; i<j; i++) {
+                            var jsonpath = requestedURLsResults[i].url;
                             var widgetname = batchWidgets[jsonpath];
 
                             // Do i18n on widget content
-                            var translated_content = sakai.api.i18n.Widgets.process(widgetname, data[i].body);
+                            //var translated_content = sakai.api.i18n.Widgets.process(widgetname, data[i].body);
 
-                            sethtmlover(translated_content, widgets, widgetname);
+                            //sethtmlover(translated_content, widgets, widgetname);
+
+                            if (typeof Widgets.widgets[widgetname].i18n === "object") {
+                                if (Widgets.widgets[widgetname].i18n["default"]){
+                                    var item = {
+                                        "url" : Widgets.widgets[widgetname].i18n["default"],
+                                        "method" : "GET"
+                                    }
+                                    bundles[bundles.length] = item;
+                                }
+                                if (Widgets.widgets[widgetname].i18n[current_locale_string]) {
+                                    var item = {
+                                        "url" : Widgets.widgets[widgetname].i18n[current_locale_string],
+                                        "method" : "GET"
+                                    }
+                                    bundles[bundles.length] = item;
+                                }
+                            }
                         }
+                        $.ajax({
+                            url: sakai.config.URL.BATCH,
+                            traditional: true,
+                            cache: false,
+                            data: {
+                                requests: $.toJSON(bundles)
+                            },
+                            success: function(data){
+                                for (var i = 0, j = requestedURLsResults.length; i < j; i++) {
+                                    // Current widget name
+                                    var widgetName = requestedURLsResults[i].url.split("/")[2];
+                                    // Check if widget has bundles
+                                    var hasBundles = false;
+                                    // Array containing language bundles
+                                    var bundleArr = [];
+                                    // Local and default bundle
+                                    for (var ii = 0, jj = data.results.length; ii < jj; ii++) {
+                                        if (widgetName === data.results[ii].url.split("/")[2]){
+                                            hasBundles = true;
+                                            if(data.results[ii].url.split("/")[4].split(".")[0] === "default"){
+                                                sakai.data.i18n.widgets[widgetName] = sakai.data.i18n.widgets[widgetName] || {};
+                                                sakai.data.i18n.widgets[widgetName]["default"] = data.results[ii].body;
+                                            } else {
+                                                sakai.data.i18n.widgets[widgetName] = sakai.data.i18n.widgets[widgetName] || {};
+                                                sakai.data.i18n.widgets[widgetName][current_locale_string] = data.results[ii].body;
+                                            }
+                                        }
+                                    }
+
+                                    // Change messages
+                                    if (hasBundles) {
+                                        var expression = new RegExp("__MSG__(.*?)__", "gm");
+                                        var lastend = 0;
+                                        var translated_content = "";
+                                        while (expression.test(requestedURLsResults[i].body)) {
+                                            var replace = RegExp.lastMatch;
+                                            var lastParen = RegExp.lastParen;
+                                            var toreplace = sakai.api.i18n.Widgets.getValueForKey(widgetName, current_locale_string, lastParen);
+                                            translated_content += requestedURLsResults[i].body.substring(lastend, expression.lastIndex - replace.length) + toreplace;
+                                            lastend = expression.lastIndex;
+                                        }
+                                        translated_content += requestedURLsResults[i].body.substring(lastend);
+                                    } else {
+                                        translated_content = sakai.api.i18n.General.process(requestedURLsResults[i].body, sakai.data.i18n.localBundle, sakai.data.i18n.defaultBundle);
+                                    }
+                                    sethtmlover(translated_content, widgets, widgetName);
+                                }
+                            }
+                        });
                     }
                 });
             }
