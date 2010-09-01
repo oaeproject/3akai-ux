@@ -131,17 +131,7 @@ sakai.listPeople.render = function(tuid, iConfig, url, id) {
         url: url,
         success: function(data){
             if (typeof(data) === 'string') {
-                var data = $.parseJSON(data);
-                var itemCount = 0;
-
-                // filter out the manager group if we're listing items for a group
-                $.each(data, function(index, resultObject) {
-                    itemCount++;
-                    if (resultObject['groupid'] === id + '-managers') {
-                        data.splice(index, 1);
-                        itemCount--;
-                    }
-                });
+                data = $.parseJSON(data);
 
                 var json_data = {
                     "results" : data,
@@ -157,6 +147,19 @@ sakai.listPeople.render = function(tuid, iConfig, url, id) {
             }
 
             if (json_data) {
+                var itemCount = 0;
+
+                // filter out the manager group if we're listing items for a group, the everyone group and the anonymous user
+                json_data.results = $.grep(json_data.results, function(resultObject, index){
+                        if ((resultObject['groupid'] !== id + '-managers') && (resultObject['groupid'] !== 'everyone') && (resultObject['userid'] !== 'anonymous')) {
+                            itemCount++;
+                            return true;
+                        }
+                        return false;
+                });
+
+                json_data.total = itemCount;
+
                 // Render list of objects
                 sakai.listPeople.renderList(tuid, 0, json_data);
             };
