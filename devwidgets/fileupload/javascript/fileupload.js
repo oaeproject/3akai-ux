@@ -1,4 +1,4 @@
-/*
+/* 
  * Licensed to the Sakai Foundation (SF) under one
  * or more contributor license agreements. See the NOTICE file
  * distributed with this work for additional information
@@ -659,6 +659,21 @@ sakai.fileupload = function(tuid, showSettings){
         $(".fileupload_file_name input").enable(false);
         $(".MultiFile-remove").addClass("hide_remove_link");
     });
+
+     $("#link_form").live("submit",function(){
+        var xhReq = new XMLHttpRequest();
+        xhReq.open("POST", "/system/pool/createfile", false);
+        xhReq.setRequestHeader("Content-type", "multipart/form-data; boundary=AAAAA");
+        
+        var body = "--AAAAA\r\n"
+        body = body + "Content-Disposition: form-data; name=\"*\"; filename=\"MyNewLink.lnk\" \r\n";
+        body = body + "Content-Type: x-sakai/link \r\n";
+        body = body + "Content-Transfer-Encoding: binary\r\n\r\n";
+        body = body + $("#fileupload_link_box_input").val() + "\r\n";
+        body = body + "--AAAAA--\r\n";
+        xhReq.send(body);
+        return false;
+    })
 
     $(fileUploadContainer).jqm({
         modal: true,
