@@ -1,0 +1,6 @@
+{
+	"jcr:primaryType": "nt:folder",
+	"jcr:mixinTypes" : ["sakai:propertiesmix"],
+	"sling:resourceType": "sakai/pagecontent",
+	"sakai:pagecontent": "<div id='widget_userprofile' class='widget_inline'></div>"
+}

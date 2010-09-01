@@ -1,0 +1,7 @@
+{
+	"pageTitle": "Profile",
+	"sling:resourceType": "sakai/page",
+	"pageType": "profile", 
+	"pagePosition": 100001,
+	"jcr:mixinTypes": "sakai:propertiesmix"
+}

@@ -3,6 +3,5 @@
 	"pageTitle": "About This Group",
 	"pageType": "webpage", 
 	"pagePosition": 200000,
-	"jcr:mixinTypes": "sakai:propertiesmix",
-    "fullwidth": true
+	"jcr:mixinTypes": "sakai:propertiesmix"
 }

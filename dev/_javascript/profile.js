@@ -19,13 +19,11 @@
 
 var sakai = sakai || {};
 
-sakai.profile = function(){
-
+sakai.profile = function() {
 
     /////////////////////////////
     // CONFIGURATION VARIABLES //
     /////////////////////////////
-
     sakai.profile.main = {
         chatstatus: "",
         config: sakai.config.Profile.configuration,
@@ -45,91 +43,23 @@ sakai.profile = function(){
     var userprofile;
     var querystring; // Variable that will contain the querystring object of the page
     var authprofileURL;
-    var readySections = []; // Profile sections that have saved their data to sakai.profile.main
 
     ///////////////////
     // CSS SELECTORS //
     ///////////////////
 
-    var profile_class = ".profile";
-    var $profile_actions = $("#profile_actions", profile_class);
-    var $profile_actions_button_edit = $("#profile_actions_button_edit", profile_class);
-    var $profile_actions_template = $("#profile_actions_template", profile_class);
-    var $profile_error = $("#profile_error", profile_class);
-    var $profile_error_form_error_server = $("#profile_error_form_error_server", $profile_error);
-    var $profile_error_form_errors = $("#profile_error_form_errors", $profile_error);
-    var $profile_field_default_template = $("#profile_field_default_template", profile_class);
-    var $profile_form = $("#profile_form", profile_class);
-    var $profile_footer = $("#profile_footer", profile_class);
-    var $profile_footer_button_update = $("#profile_footer_button_update", profile_class);
-    var $profile_footer_button_dontupdate = $("#profile_footer_button_dontupdate", profile_class);
-    var $profile_footer_template = $("#profile_footer_template", profile_class);
-    var $profile_heading = $("#profile_heading", profile_class);
-    var $profile_heading_template = $("#profile_heading_template", profile_class);
-    var $profile_message = $("#profile_message", profile_class);
-    var $profile_message_form_successful = $("#profile_message_form_successful", $profile_message);
-    var $profile_sectionwidgets_container = $("#profile_sectionwidgets_container", profile_class);
-    var $profile_sectionwidgets_container_template = $("#profile_sectionwidgets_container_template", profile_class);
-
-
-    ////////////////////
-    // UTIL FUNCTIONS //
-    ////////////////////
 
     /**
-     * Change the mode of the current profile
-     * @param {String} mode The mode for the profile (view | viewmy | edit)
+     * Load Pages Widget into the profile page
      */
-    var setProfileMode = function(mode){
-
-        // Check the mode parameter
-        if ($.inArray(mode, sakai.profile.main.mode.options) !== -1) {
-
-            // Set the correct profile mode
-            sakai.profile.main.mode.value = mode;
-
-        }
-        else {
-
-            // Use the standard profile mode
-            sakai.profile.main.mode.value = sakai.profile.main.mode.options[0];
-
-            // Print a log message that the supplied mode isn't valid
-            fluid.log("profile - changeProfileMode - the supplied mode '" + mode + "' is not a valid profile mode. Using the default mode instead");
-
-        }
-
-    };
-
-    /**
-     * Get the profile mode from the querystring
-     */
-    var getProfileMode = function(){
-
-        if (querystring.contains("mode")) {
-            return querystring.get("mode");
-        }
-        return false;
-
-    };
-
-    /**
-     * Change the profile mode
-     * This will fire a redirect
-     * @param {String} mode The mode you want to change to
-     */
-    var changeProfileMode = function(mode){
-
-         // Check the mode parameter
-        if ($.inArray(mode, sakai.profile.main.mode.options) !== -1) {
-
-            // Perform the redirect
-            window.location = window.location.pathname + "?mode=" + mode; // TODO fix this, jquery.bbq it, and do not force a refresh
-
-        }
-
-    };
-
+    var loadPagesWidget = function() {
+        var basepath = "/~" + sakai.profile.main.data["rep:userId"] + "/pages/";
+        var fullpath = "/_user" + sakai.profile.main.data.path + "/pages/";
+        var url = "/dev/profile.html?user=" + sakai.profile.main.data["rep:userId"];
+        var editMode = sakai.profile.main.isme;
+        var homePage = "";
+        sakai.sitespages.doInit(basepath, fullpath, url, editMode, homePage, "userpages", "userdashboard");
+    }
 
     /**
      * Check whether the user is editing/looking at it's own profile or not
@@ -141,92 +71,12 @@ sakai.profile = function(){
         // if so, check whether the userid is not the same as the user parameter
         if (querystring.contains("user") && querystring.get("user") !== sakai.data.me.user.userid) {
             sakai.profile.main.isme = false;
-            currentuser = querystring.get("user");
+            sakai.profile.main.currentuser = querystring.get("user");
         }
         else {
             sakai.profile.main.isme = true;
-            currentuser = sakai.data.me.user.userid;
+            sakai.profile.main.currentuser = sakai.data.me.user.userid;
         }
-
-    };
-
-    /**
-     * Construct the ACL list
-     */
-    var constructACL = function(){
-
-        sakai.profile.main.acls = {
-            "options": {
-                "everybody": {
-                    "label": "__MSG__EVERYBODY__",
-                    "postparams": [{
-                        "principalId": "anonymous",
-                        "privilege@jcr:read": "granted"
-                    }, {
-                        "principalId": "everyone",
-                        "privilege@jcr:read": "granted"
-                    }, {
-                        "principalId": "g-contacts-" + currentuser,
-                        "privilege@jcr:read": "granted"
-                    }, {
-                        "principalId": currentuser,
-                        "privilege@jcr:read": "granted",
-                        "privilege@jcr:write": "granted"
-                    }]
-                },
-                "institution": {
-                    "label": "__MSG__INSTITUTION_ONLY__",
-                    "postparams": [{
-                        "principalId": "anonymous",
-                        "privilege@jcr:read": "denied"
-                    }, {
-                        "principalId": "everyone",
-                        "privilege@jcr:read": "granted"
-                    }, {
-                        "principalId": "g-contacts-" + currentuser,
-                        "privilege@jcr:read": "none"
-                    }, {
-                        "principalId": currentuser,
-                        "privilege@jcr:read": "granted",
-                        "privilege@jcr:write": "granted"
-                    }]
-                },
-                "contacts": {
-                    "label": "__MSG__CONTACTS_ONLY__",
-                    "postparams": [{
-                        "principalId": "anonymous",
-                        "privilege@jcr:read": "denied"
-                    }, {
-                        "principalId": "everyone",
-                        "privilege@jcr:read": "denied"
-                    }, {
-                        "principalId": "g-contacts-" + currentuser,
-                        "privilege@jcr:read": "granted"
-                    }, {
-                        "principalId": currentuser,
-                        "privilege@jcr:read": "granted",
-                        "privilege@jcr:write": "granted"
-                    }]
-                },
-                "onlyme": {
-                    "label": "__MSG__ONLY_ME__",
-                    "postparams": [{
-                        "principalId": "anonymous",
-                        "privilege@jcr:read": "denied"
-                    }, {
-                        "principalId": "everyone",
-                        "privilege@jcr:read": "denied"
-                    }, {
-                        "principalId": "g-contacts-" + currentuser,
-                        "privilege@jcr:read": "denied"
-                    }, {
-                        "principalId": currentuser,
-                        "privilege@jcr:read": "granted",
-                        "privilege@jcr:write": "granted"
-                    }]
-                }
-            }
-        };
 
     };
 
@@ -238,14 +88,12 @@ sakai.profile = function(){
      * Will be an empty string if there is no picture
      */
     var constructProfilePicture = function(profile){
-
         if (profile.basic.elements.picture && profile.basic.elements.picture.value && profile["rep:userId"]) {
             return "/~" + profile["rep:userId"] + "/public/profile/" + profile.basic.elements.picture.value.name;
         }
         else {
             return "";
         }
-
     };
 
     /**
@@ -304,7 +152,7 @@ sakai.profile = function(){
 
                 },
                 error: function(){
-                    fluid.log("setProfilePicture: Could not find the user");
+                    fluid.log("setProfileData: Could not find the user");
                 },
                 complete: function(data){
 
@@ -320,374 +168,11 @@ sakai.profile = function(){
 
     };
 
-    /**
-     * Filter some JCR properties, we need to do this because some properties
-     * can not be used by the import operation in Slin
-     * @param {Object} i_object The object you want to filter
-     */
-    var filterJCRProperties = function(i_object){
-
-        // Remove the "rep:policy" property
-        if (i_object["rep:policy"]) {
-            delete i_object["rep:policy"];
-        }
-
-        // Also run over the other objects within this object
-        for (var i in i_object) {
-            if (i_object.hasOwnProperty(i) && $.isPlainObject(i_object[i])) {
-              filterJCRProperties(i_object[i]);
-            }
-        }
-
-    };
-
-
-    /**
-     * Save the Access control list for the profile
-     */
-    var saveProfileACL = function(){
-
-        var requests = []; // Variable used to contain all the information we need to send to the batch post
-
-        // Remove the ACL's on the authprofile URL
-        requests[requests.length] = {
-            // Construct the right URL
-            "url": authprofileURL + ".deleteAce.html",
-            "method": "POST",
-            "parameters": {
-                ":applyTo": [currentuser, "anonymous", "everyone"]
-            }
-        };
-
-        // Run over all the elements in the config file
-        for (var i in sakai.profile.main.config) {
-            if (sakai.profile.main.config.hasOwnProperty(i) && $.isPlainObject(sakai.profile.main.config[i])) {
-
-                // Create a sectionobject for caching purposes
-                var sectionObject = sakai.profile.main.data[i];
-
-                // Check whether it is also in the data object
-                if (sakai.profile.main.data[i] && $.isPlainObject(sakai.profile.main.data[i])) {
-
-                    // Array containing the postparams for the specific access property
-                    var aclArray = sakai.profile.main.acls.options[sectionObject.access].postparams;
-
-                    // Run over all the elements in the array
-                    for (var j = 0, jl = aclArray.length; j < jl; j++) {
-
-                        // Add the object to the requests array
-                        requests[requests.length] = {
-                            // Construct the right URL
-                            "url": authprofileURL + "/" + i + ".modifyACE.json", // Todo change to JSON
-                            "method": "POST",
-                            "parameters": aclArray[j]
-                        };
-
-                    }
-
-                }
-
-            }
-        }
-
-        /*for(var k = 0, kl = requests.length; k < kl; k++){
-
-            $.ajax({
-                url: requests[k].url,
-                traditional: true,
-                type: requests[k].method,
-                data: requests[k].parameters,
-                async: false,
-                success: function(){
-
-                    if(k === requests.length-1){
-                        alert("ok");
-                    }
-
-                }
-            });
-
-        }*/
-
-
-        // Send the Ajax request to the batch servlet
-        // depends on KERN-909
-        $.ajax({
-            url: sakai.config.URL.BATCH,
-            traditional: true,
-            type: "POST",
-            data: {
-                requests: $.toJSON(requests)
-            },
-            success: function(data){
-
-                // Show a successful notification to the user
-                sakai.api.Util.notification.show("", $profile_message_form_successful.text() , sakai.api.Util.notification.type.INFORMATION);
-
-                // Wait for 2 seconds
-                setTimeout(
-
-                    function(){
-
-                        // Change the profile mode if the save was successful
-                        changeProfileMode("viewmy");
-
-                    }
-
-                , 2000);
-
-            },
-            error: function(xhr, textStatus, thrownError){
-
-                // Show an error message to the user
-                sakai.api.Util.notification.show("", $profile_error_form_error_server.text() , sakai.api.Util.notification.type.ERROR);
-
-                // Log an error message
-                fluid.log("sakai.profile - saveProfileACL - the profile ACL's couldn't be saved successfully");
-
-            }
-        });
-
-    };
-
-    /**
-     * Save the current profile data to the repository
-     */
-    var saveProfileData = function(){
-
-        // Trigger the profile save method, this is event is bound in every sakai section
-        $(window).trigger("sakai-profile-save");
-
-    };
-
-    $(window).bind("sakai-profile-data-ready", function(e, sectionName) {
-
-        // keep track of all the sections that are ready
-        if ($.inArray(sectionName, readySections) < 0) {
-            readySections.push(sectionName);
-        }
-
-        // if all sections are ready, we'll pass over this loop. otherwise, return and wait
-        for (var i in sakai.profile.main.config) {
-            if (sakai.profile.main.config.hasOwnProperty(i)) {
-                if ($.inArray(i, readySections) < 0) {
-                    return;
-                }
-            }
-        }
-
-        // Filter some JCR properties
-        filterJCRProperties(sakai.profile.main.data);
-
-        // Save the profile properties
-        sakai.api.Server.saveJSON(authprofileURL, sakai.profile.main.data, function(success, data){
-
-            // Check whether is was successful
-            if (success) {
-
-                // Save the profile acl
-                saveProfileACL();
-
-            }
-            else {
-
-                // Show an error message to the user
-                sakai.api.Util.notification.show("", $profile_error_form_error_server.text() , sakai.api.Util.notification.type.ERROR);
-
-                // Log an error message
-                fluid.log("sakai.profile - saveProfileData - the profile data couldn't be saved successfully");
-
-            }
-
-        });
-    });
-
-
-    ///////////////////////
-    // BINDING FUNCTIONS //
-    ///////////////////////
-
-    /**
-     * Add binding to the footer elements
-     */
-    var addBindingFooter = function(){
-
-        // Reinitialise jQuery objects
-        $profile_footer_button_dontupdate = $($profile_footer_button_dontupdate.selector);
-        //$profile_footer_button_update = $($profile_footer_button_update.selector);
-
-        // Bind the don't update
-        $profile_footer_button_dontupdate.bind("click", function(){
-
-            // Change the profile mode
-            changeProfileMode("viewmy");
-
-        });
-
-    };
-
-    /**
-     * Add binding to the action elements
-     */
-    var addBindingActions = function(){
-
-        // Reinitialise jQuery objects
-        $profile_actions_button_edit = $($profile_actions_button_edit.selector);
-
-        // Bind the edit button
-        $profile_actions_button_edit.bind("click", function(){
-
-            // Change the profile mode
-            changeProfileMode("edit");
-
-        });
-
-    };
-
-    /**
-     * Add binding to the profile form
-     */
-    var addBindingForm = function(){
-
-        // Reinitialize the jQuery form selector
-        $profile_form = $($profile_form.selector);
-
-        // Initialize the validate plug-in
-        $profile_form.validate({
-            debug: true,
-            messages: {
-                required: "test"
-            },
-            submitHandler: saveProfileData,
-            invalidHandler: function(form, validator){
-
-                // Remove all the current notifications
-                sakai.api.Util.notification.removeAll();
-
-                // Show a notification which states that you have errors
-                sakai.api.Util.notification.show("", $profile_error_form_errors.text(), sakai.api.Util.notification.type.ERROR);
-            },
-            ignore: ".profile_validation_ignore", // Class
-            errorClass: "profilesection_validation_error",
-            validClass: "profilesection_validation_valid",
-            ignoreTitle: true // Ignore the title attribute, this can be removed as soon as we use the data-path attribute
-        });
-
-    };
-
-    /**
-     * Add binding to all the elements on the page
-     */
-    var addBinding = function(){
-
-        // Add binding to the actions elements
-        addBindingActions();
-
-        // Add binding to the profile form
-        addBindingForm();
-
-        // Add binding to footer elements
-        addBindingFooter();
-
-    };
-
-
-    ////////////////////////
-    // TEMPLATE FUNCTIONS //
-    ////////////////////////
-
-    /**
-     * Render the profile site heading
-     */
-    var renderTemplateSiteHeading = function(){
-
-        // Render the profile site heading
-        $.TemplateRenderer($profile_heading_template, sakai.profile.main, $profile_heading);
-
-    };
-
-    var renderTemplateActions = function(){
-
-        // Render the actions for the profile
-        $.TemplateRenderer($profile_actions_template, sakai.profile.main, $profile_actions);
-
-    };
-
-    /**
-     * Insert a profile section widget
-     * @param {String} sectionname The name of the section e.g. basic/talks/aboutme
-     */
-    var insertProfileSectionWidget = function(sectionname) {
-
-        // Create a JSON object to pass the sectionname along
-        // Trimpath needs an object to be passed (not only a variable)
-        var sectionobject = {
-            "sectionname": "profilesection-" + sectionname
-        };
-
-        // Construct the html for the widget
-        var toAppend = $.TemplateRenderer($profile_sectionwidgets_container_template, sectionobject);
-        $profile_sectionwidgets_container.append(toAppend);
-
-        // Bind a global event that can be triggered by the profilesection widgets
-        $(window).bind("sakai-" + sectionobject.sectionname, function(eventtype, callback){
-
-            if(callback && typeof callback === "function"){
-                callback(sectionname);
-            }
-
-        });
-
-    };
-
-    /**
-     * Insert the profile section widgets
-     */
-    var insertProfileSectionWidgets = function(){
-
-        for(var i in sakai.profile.main.config){
-            if(sakai.profile.main.config.hasOwnProperty(i)){
-
-                // Insert a separate widget for each profile section widget
-                insertProfileSectionWidget(i);
-
-            }
-        }
-
-    };
-
-    /**
-     * Render the footer for profile
-     */
-    var renderTemplateFooter = function(){
-
-        // Render the profile footer
-        $profile_footer.html($.TemplateRenderer($profile_footer_template, sakai.profile.main));
-
-    };
-
-    /**
-     * Parse and render all the templates on the page
-     */
-    var renderTemplates = function(){
-
-        // Render the site heading
-        renderTemplateSiteHeading();
-
-        // Render the profile actions
-        renderTemplateActions();
-
-        // Render the footer buttons
-        renderTemplateFooter();
-
-    };
-
 
     ////////////////////
     // INITIALISATION //
     ////////////////////
-
-    var doInit = function(){
+    var doInit = function() {
 
         // Set the querystring object variable
         // We use the following parameters:
@@ -695,50 +180,36 @@ sakai.profile = function(){
         //    user -> the id of the user for which you want to see the profile
         querystring = new Querystring();
 
-        // Get and set the profile mode
-        var profilemode = getProfileMode();
-        if (profilemode) {
-            setProfileMode(profilemode);
-        }
-
         // Check if you are looking at the logged-in user
         setIsMe();
 
         // Construct the authprofile URL
-        authprofileURL = "/~" + currentuser + "/public/authprofile";
-
-        // Construct the ACL list
-        constructACL();
+        authprofileURL = "/~" + sakai.profile.main.currentuser + "/public/authprofile";
 
         // Set the profile data
-        setProfileData(function(){
+        setProfileData(function() {
 
             // Initialise the entity widget
-            $(window).bind("sakai.api.UI.entity.ready", function(e){
+            $(window).bind("sakai.api.UI.entity.ready", function(e) {
 
                 // Check whether we need to load the myprofile or the profile mode
-                var whichprofile = sakai.profile.main.isme ? "myprofile" : "profile";
+                var whichprofile = sakai.profile.main.isme ? "myprofile": "profile";
 
                 // Check which data we need to send
-                var data = sakai.profile.main.isme ? false : userprofile;
+                var data = sakai.profile.main.isme ? false: userprofile;
 
                 // Render the entity widget
                 sakai.api.UI.entity.render(whichprofile, data);
 
             });
 
-            // Render all the templates
-            renderTemplates();
-
-            // Insert the profile section widgets
-            insertProfileSectionWidgets();
-
-            // Add binding to all the elements
-            addBinding();
-
         });
 
     };
+
+    $(window).bind("sakai.sitespages.ready", function(e) {
+       loadPagesWidget();
+    });
 
     doInit();
 };

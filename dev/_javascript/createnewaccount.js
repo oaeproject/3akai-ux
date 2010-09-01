@@ -32,6 +32,7 @@ sakai.newaccount = function(){
     /////////////////////////////
 
     var defaultUserType = "default";
+    var pagestemplate = "defaultuser";
 
     // Links and labels
     var checkUserNameLink = "#checkUserName ";
@@ -227,7 +228,8 @@ sakai.newaccount = function(){
             "pwdConfirm": values[password],
             ":name": values[username],
             "_charset_": "utf-8",
-            ":sakai:profile-import": $.toJSON(profileData)
+            ":sakai:profile-import": $.toJSON(profileData),
+            ":sakai:pages-template": "/var/templates/site/" + pagestemplate
         };
         $.ajax ({
             url : sakai.config.URL.CREATE_USER_SERVICE,
