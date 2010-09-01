@@ -1,0 +1,11 @@
+{
+    "CREATE_PAGE": "Create page",
+    "DELETE_PAGE": "Delete page",
+    "PAGES": "Pages",
+    "SETTINGS": "Settings",
+    "VIS_EVERYONE": "Everyone",
+    "VIS_ALL_LOGGED_IN_USERS": "All logged in users",
+    "VIS_MANAGERS_ONLY": "Managers only",
+    "VIS_MANAGERS_AND_MEMBERS": "Managers and Members",
+    "WHO_WOULD_YOU_LIKE_TO_SEE": "Who would you like to see the pages for"
+}
