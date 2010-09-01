@@ -1,0 +1,12 @@
+{
+        "sakai:is-site-template": "true",
+        "description": "This is the default user template",
+        "id": "defaultuser",
+        "sakai:site-template": "/templates/defaultuser",
+        "sakai:skin": "/dev/_skins/original/original.html",
+        "sling:resourceType": "sakai/template",
+        "jcr:primaryType": "nt:unstructured",
+        "jcr:mixinTypes": ["rep:AccessControllable"],
+        "status": "online",
+        "name": "defaultuser"
+}

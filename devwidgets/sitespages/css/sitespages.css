@@ -7,8 +7,11 @@
 }
 
 /** TOP RIGHT MENU **/
+.sakai_site #content_page_options_container 
+{ height:25px; display:block; margin: 20px 10px 0 0;  }
+
 .sakai_site .content_page_options
-{ background: #fff url('/dev/_images/tab_bg_right.png') top right no-repeat; height: 25px; border: none;  padding: 0 10px 0 0; display: block; margin: 20px 10px 0 0; }
+{ background: #fff url('/dev/_images/tab_bg_right.png') top right no-repeat; height: 25px; border: none;  padding: 0 10px 0 0; display: block; }
 
 .sakai_site .content_page_options ul
 { padding: 7px 0 0 20px; background: #fff url('/dev/_images/tab_bg_left.png') top left no-repeat; }

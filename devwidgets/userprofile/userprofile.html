@@ -1,0 +1,49 @@
+<link rel="stylesheet" type="text/css" href="/devwidgets/userprofile/css/userprofile.css"></link>
+
+<div id="userprofile_container">
+    <!-- PROFILE FORM -->
+    
+    
+    <!-- ACTIONS -->
+    <div id="userprofile_actions"><!-- --></div>
+
+    <!-- ACTIONS TEMPLATE -->
+    <div id="userprofile_actions_template"><!--
+        {if mode.value === "viewmy"}
+            <button id="userprofile_actions_button_edit" type="button" class="s3d-button s3d-button-primary">
+                <span class="s3d-button-inner">__MSG__EDIT_PROFILE__</span>
+            </button>
+        {/if}
+    --></div>
+    
+    <form id="userprofile_form" method="post" action="javascript:;">
+
+        <!-- PROFILE SECTION WIDGETS -->
+        <div id="userprofile_sectionwidgets_container"><!-- --></div>
+
+        <!-- FOOTER -->
+        <div id="userprofile_footer" class="fl-push"><!-- --></div>
+
+        <!-- FOOTER TEMPLATE -->
+        <div id="userprofile_footer_template"><!--
+            <div class="fl-force-right">
+                {if mode.value === "edit"}
+                    <button id="userprofile_footer_button_dontupdate" type="button" class="s3d-button profile_validation_ignore">
+                        <span class="s3d-button-inner">__MSG__DONT_UPDATE__</span>
+                    </button>
+                    <button id="userprofile_footer_button_update" type="submit" class="s3d-button s3d-button-primary">
+                        <span class="s3d-button-inner">__MSG__UPDATE_PROFILE__</span>
+                    </button>
+                {/if}
+            </div>
+        --></div>
+
+    </form>
+    
+    <!-- SECTION WIDGET TEMPLATE -->
+    <div id="userprofile_sectionwidgets_container_template"><!--
+        <div id="widget_profilesection_${sectionname}" class="widget_inline"></div>
+    --></div>
+</div>
+
+<script type="text/javascript" src="/devwidgets/userprofile/javascript/userprofile.js"></script>

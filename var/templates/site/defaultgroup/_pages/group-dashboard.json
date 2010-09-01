@@ -3,6 +3,5 @@
 	"sling:resourceType": "sakai/page",
 	"pageType": "dashboard", 
 	"pagePosition": 100000,
-	"jcr:mixinTypes": "sakai:propertiesmix",
-    "fullwidth": true
+	"jcr:mixinTypes": "sakai:propertiesmix"
 }

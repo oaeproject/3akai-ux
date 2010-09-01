@@ -49,6 +49,7 @@ sakai.pickeradvanced = function(tuid, showSettings) {
 
     var $pickeradvanced_container = $("#pickeradvanced_container", $rootel);
     var $pickeradvanced_content_search = $("#pickeradvanced_content_search", $rootel);
+    var $pickeradvanced_content_list = $("#pickeradvanced_content_list", $rootel);
     var $pickeradvanced_search_query = $("#pickeradvanced_search_query", $rootel);
     var $pickeradvanced_search_button = $("#pickeradvanced_search_button", $rootel);
     var $pickeradvanced_close_button = $("#pickeradvanced_close_button", $rootel);
@@ -66,6 +67,7 @@ sakai.pickeradvanced = function(tuid, showSettings) {
     var $pickeradvanced_copy_myself = $("#pickeradvanced_copy_myself", $rootel);
     var $pickeradvanced_message = $("#pickeradvanced_message", $rootel);
     var $pickeradvanced_close_dialog = $(".pickeradvanced_close_dialog", $rootel);
+    var $pickeradvanced_search_filter = $(".pickeradvanced_search_filter", $rootel);
 
     var $pickeradvanced_error_template = $("#pickeradvanced_error_template", $rootel);
     var $pickeradvanced_content_search_pagetemplate = $("#pickeradvanced_content_search_pagetemplate", $rootel);
@@ -119,7 +121,7 @@ sakai.pickeradvanced = function(tuid, showSettings) {
         }
 
         // display the groups list, bind elements and submit a search
-        renderSearchList();      
+        pickerData["searchIn"] = sakai.config.URL.CONTACTS_ACCEPTED + "?page=0&items=12&_=&q=";
         $pickeradvanced_search_query.focus();
         $pickeradvanced_search_button.click(submitSearch);
         $pickeradvanced_content_search_form.submit(submitSearch);
@@ -146,45 +148,6 @@ sakai.pickeradvanced = function(tuid, showSettings) {
 
         var pl_query = pickerData["searchIn"] + searchQuery + "&page=0&items=12&_=" + (Math.random() * 100000000000000000);
         renderSearch(pl_query);
-    };
-
-    /**
-     * renderSearchList
-     * Renders the people picker list to limit search to a specific groups
-     * @returns void
-     */
-    var renderSearchList = function() {
-        var $pl_listContainer = $("<ul id=\"pickeradvanced_list\" class=\"pickeradvanced_list loadinganim\"></ul>");
-
-        // Display empty new container with loading anim
-        $pickeradvanced_content_search.append($pl_listContainer);
-
-        // Elements to display in the list
-        var listData = {
-            people : [ { name: "All Contacts", id: sakai.config.URL.SEARCH_USERS + "?page=0&items=12&_=&q=" },
-                       { name: "Everyone", id: sakai.config.URL.SEARCH_USERS + "?page=0&items=12&_=&q=" }]
-        };
-
-        // Render the results data template
-        var pageHTML = $.TemplateRenderer($pickeradvanced_content_search_listtemplate, listData);
-
-        // Remove loading animation
-        $pl_listContainer.removeClass("loadinganim");
-
-        // Inject results into DOM
-        $pl_listContainer.html(pageHTML);
-
-        // Make All Contacts selected by default
-    //    $('[data-id='+sakai.config.URL.SEARCH_USERS_ACCEPTED+']').addClass("pickeradvanced_selected_list");
-        pickerData["searchIn"] = sakai.config.URL.SEARCH_USERS + "?page=0&items=12&_=&q=";
-
-        // Bind the list and submit the search
-        $("#" + tuid + " .pickeradvanced_list li").live("click", function(e){
-            $(".pickeradvanced_selected_list").removeClass("pickeradvanced_selected_list");
-            $(this).addClass("pickeradvanced_selected_list");
-            pickerData["searchIn"] = $(this).attr("id");
-            submitSearch();
-        });
     };
 
     /**
@@ -255,27 +218,9 @@ sakai.pickeradvanced = function(tuid, showSettings) {
             success: function(rawData) {
                 // Eval profile data for now and extend it with additional info
                 for (var i = 0, il = rawData.results.length; i < il; i++) {
-                    var resultObject = rawData.results[i];
-
-                    // Eval json strings if any
-                    // is this useful anymore?
-                    for (var j in resultObject) {
-                        if (resultObject.hasOwnProperty(j) && typeof resultObject[j] === "string" && resultObject[j].charAt(0) === "{") {
-                            rawData.results[i][j] = $.parseJSON(resultObject[j]);
-                        }
+                    if (rawData.results[i].profile) {
+                        rawData.results[i] = rawData.results[i].profile;
                     }
-
-                    // Determine what to put under the name. See if specified key exists in main object or under basic profile info
-                    var subNameInfo = "";
-                    var iSubNameInfo = pickerData["subNameInfo"];
-                    if (iSubNameInfo !== "" && typeof iSubNameInfo === "string") {
-                        if (rawData.results[i][iSubNameInfo]) {
-                            subNameInfo = rawData.results[i][iSubNameInfo];
-                        } else if (rawData.results[i]["basic"][iSubNameInfo]) {
-                            subNameInfo = rawData.results[i]["basic"][iSubNameInfo];
-                        }
-                    }
-                    rawData.results[i]["subNameInfo"] = subNameInfo;
                 }
 
                 // Render the results data template
@@ -427,6 +372,30 @@ sakai.pickeradvanced = function(tuid, showSettings) {
 
     $pickeradvanced_close_button.bind("click", function() {
         $pickeradvanced_container.jqmHide();
+    });
+
+    $pickeradvanced_search_filter.bind("click", function() {
+       var searchType = $(this).attr("id").split("pickeradvanced_search_")[1];
+       var searchURL = false;
+       switch (searchType) {
+           case "contacts":
+               searchURL = sakai.config.URL.SEARCH_USERS_ACCEPTED;
+               break;
+           case "users":
+               searchURL = sakai.config.URL.SEARCH_USERS;
+               break;
+           case "groups":
+               searchURL = sakai.config.URL.SEARCH_GROUPS;
+               break;
+           case "groups_member":
+               searchURL = sakai.config.URL.SEARCH_GROUPS;
+               break;
+           case "groups_manager":
+               searchURL = sakai.config.URL.SEARCH_GROUPS;
+               break;
+       }
+       pickerData["searchIn"] = searchURL + "?page=0&items=12&_=&q=";
+       submitSearch();
     });
 
     // Reset to defaults

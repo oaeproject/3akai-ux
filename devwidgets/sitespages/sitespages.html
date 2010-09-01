@@ -22,7 +22,7 @@
                 </div>
 
                 <!-- Page navigation -->
-                <div id="page_nav_content" class="pages page_nav_content" style="display:none">
+                <div id="page_nav_content" class="pages page_nav_content">
 
                 </div>
 
@@ -43,16 +43,17 @@
             </div>
 
             <!-- TOP RIGHT MENU -->
-            <div class="content_page_options" id="content_page_options">
-                <ul class="fl-force-right">
-                    <li id="li_edit_page" style="display:none"><a href="javascript:;" id="edit_page">__MSG__EDIT_PAGE__</a></li>
-                    <li><a href="javascript:;" id="print_page" class="print_page_view">Print page</a></li>
-                    <li id="li_more_link" style="display:none"><a href="javascript:;" id="more_link">More</a></li>
-                </ul>
+            <div id="content_page_options_container">
+                <div class="content_page_options" id="content_page_options" style="display:none">
+                    <ul class="fl-force-right">
+                        <li id="li_edit_page" style="display:none"><a href="javascript:;" id="edit_page">__MSG__EDIT_PAGE__</a></li>
+                        <li><a href="javascript:;" id="print_page" class="print_page_view">Print page</a></li>
+                        <li id="li_more_link" style="display:none"><a href="javascript:;" id="more_link">More</a></li>
+                    </ul>
+                </div>
             </div>
-
             <!-- MAIN CONTENT -->
-            <div class="fl-col-fixed content_container sitepages_fullwidth">
+            <div class="fl-col-fixed content_container">
 
                 <!-- TOP BORDER -->
                 <div class="content_top"><div class="content_top_inner"><!-- --></div></div>
@@ -204,8 +205,8 @@
                 <li id="more_revision_history" class="more_option" style="border-bottom:1px solid #CCCCCC"><a href="javascript:;">Revision History</a></li>
                 <li id="more_move" class="more_option move_dialog_trigger"><a href="javascript:;">Move</a></li>
                 <li id="more_save_as_template" class="more_option"><a href="javascript:;">Save as Template</a></li>
-                <li id="more_make_full_width" class="more_option"><a href="javascript:;">Make full width</a></li>
-                <li id="more_make_two_column" class="more_option"><a href="javascript:;">Make two column layout</a></li>
+                <!--<li id="more_make_full_width" class="more_option"><a href="javascript:;">Make full width</a></li>-->
+                <!--><li id="more_make_two_column" class="more_option"><a href="javascript:;">Make two column layout</a></li>-->
                 <li id="more_delete" class="more_option"><a href="javascript:;">Delete</a></li>
             </ul>
         </div>

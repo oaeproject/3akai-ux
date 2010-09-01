@@ -58,6 +58,7 @@ sakai.sitespages = function(tuid,showSettings){
     var $more_link = $("#more_link");
     var $li_more_link = $("#li_more_link");
     var $print_page = $("#print_page");
+    var $content_page_options = $("#content_page_options");
 
     sakai.sitespages.site_info = {};
     sakai.sitespages.site_info._pages = {};
@@ -88,7 +89,7 @@ sakai.sitespages = function(tuid,showSettings){
 
     var loadControl = function(){
         if (config.editMode) {
-        	showAdminElements();
+            showAdminElements();
         }
         if (sakai.data.me.user.userid){
             sakai._isAnonymous = false;
@@ -106,7 +107,6 @@ sakai.sitespages = function(tuid,showSettings){
 
         // Show admin elements
         $li_edit_page_divider.show();
-        $li_edit_page.show();
         $li_more_link.show();
         $print_page.removeClass("print_page_view");
         $print_page.addClass("print_page_admin")
@@ -243,7 +243,7 @@ sakai.sitespages = function(tuid,showSettings){
 
     };
 
-
+/*
     $("#more_make_full_width").bind("click", function(ev){
         $("#more_make_full_width").hide();
         $("#more_make_two_column").show();
@@ -259,7 +259,7 @@ sakai.sitespages = function(tuid,showSettings){
         sakai.sitespages.openPageH(sakai.sitespages.selectedpage);
         sakai.sitespages.savePage(sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["jcr:path"], sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageType"], sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageTitle"], sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"], sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pagePosition"], "parent", false, function(success, return_data){});
     });
-
+*/
     /**
      * Open page H
      * @param {String} pageid
@@ -296,17 +296,20 @@ sakai.sitespages = function(tuid,showSettings){
         //Store currently selected page
         sakai.sitespages.selectedpage = pageUrlName;
 
-        //if (sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage] && sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage].fullwidth){
-        //    $(".content_container").addClass("sitepages_fullwidth");
-        //    $("#page_nav_content").hide();
-        //    $("#more_make_full_width").hide();
-        //    $("#more_make_two_column").show();
-        //} else {
+        /* Full Width handling
+         * Taken out for now, put back in once we have a design and implementation of a full width pages widget
+        if (sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage] && sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage].fullwidth){
+            $(".content_container").addClass("sitepages_fullwidth");
+            $("#page_nav_content").hide();
+            $("#more_make_full_width").hide();
+            $("#more_make_two_column").show();
+        } else {
             $(".content_container").removeClass("sitepages_fullwidth");
             $("#page_nav_content").show();
             $("#more_make_full_width").show();
             $("#more_make_two_column").hide();
-        //}
+        }
+        */
 
         if (sakai.sitespages.site_info._pages[pageUrlName] != undefined) {
           // Get page type
@@ -348,25 +351,34 @@ sakai.sitespages = function(tuid,showSettings){
             }
 
             $.ajax({
-            	url: sakai.sitespages.site_info._pages[pageUrlName]["jcr:path"] + "/pageContent.infinity.json",
-            	type: "GET",
-            	success: function(data) {
+                url: sakai.sitespages.site_info._pages[pageUrlName]["jcr:path"] + "/pageContent.infinity.json",
+                type: "GET",
+                success: function(data) {
 
-            	    sakai.sitespages.pagecontents[pageUrlName] = data;
+                    sakai.sitespages.pagecontents[pageUrlName] = data;
 
                     // TO DO: See if we need to run the content through sakai.site.ensureProperWidgetIDs - would be good if we could skip this step and make sure widget IDs are correct from the beginning
                     displayPage(sakai.sitespages.pagecontents[pageUrlName]["sakai:pagecontent"], true);
 
-                    if (pageType === "webpage" && config.editMode) {
-                        $li_edit_page_divider.show();
-                        $li_edit_page.show();
-                    }
-
                  },
                  error: function(xhr, status, e) {
-                 	fluid.log("site.js: Could not load page content for webpage!");
+                    fluid.log("site.js: Could not load page content for webpage!");
                  }
             });
+        }
+
+        if (pageType === "webpage" && config.editMode) {
+            $content_page_options.show();
+            $li_edit_page_divider.show();
+            $li_edit_page.show();
+        } else if (pageType === "dashboard") {
+            $content_page_options.show();
+            $li_edit_page_divider.hide();
+            $li_edit_page.hide();
+        } else if (pageType === "profile") {
+            $content_page_options.hide();
+            $li_edit_page_divider.hide();
+            $li_edit_page.hide();
         }
 
     };
@@ -380,7 +392,7 @@ sakai.sitespages = function(tuid,showSettings){
 
         // If page is not the current page load it
         if (sakai.sitespages.selectedpage !== pageid) {
-        	History.addBEvent(pageid);
+            History.addBEvent(pageid);
         }
 
     };
@@ -496,14 +508,18 @@ sakai.sitespages = function(tuid,showSettings){
 
     $(window).bind("sakai.dashboard.ready", function(e, tuid) {
         var split = $(sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"]).attr("id").split("_");
+        var entityID = false;
+        if (sakai.currentgroup) {
+            entityID = sakai.currentgroup.id;
+        } else if (sakai.profile.main.data["rep:userId"]) {
+            entityID = sakai.profile.main.data["rep:userId"];
+        }
         // make sure the dashboard that said it's ready is the one we just got the data for
         if (split[2] === tuid) {
             if (config.editMode) {
-                sakai.dashboard.init(split[3] + "_" + split[4] + tuid + "/dashboardwidgets/", true, config.dashboardEmbedProperty, false);
-                $li_edit_page_divider.hide();
-                $li_edit_page.hide();
+                sakai.dashboard.init("/~" + entityID + "/" + sakai.sitespages.selectedpage + "/" + tuid + "/dashboardwidgets/", true, config.dashboardEmbedProperty, false);
             } else {
-                sakai.dashboard.init(split[3] + "_" + split[4] + tuid + "/dashboardwidgets/", false, config.dashboardEmbedProperty, false);
+                sakai.dashboard.init("/~" + entityID + "/" + sakai.sitespages.selectedpage + "/" + tuid + "/dashboardwidgets/", false, config.dashboardEmbedProperty, false);
             }
         }
     });
@@ -532,7 +548,7 @@ sakai.sitespages = function(tuid,showSettings){
 
         if (sakai.sitespages.selectedpage) {
             $("#revision_history_container").hide();
-            $("#content_page_options").show();
+            $content_page_options.show();
             $("#" + sakai.sitespages.selectedpage).html(sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"]);
             sakai.api.Widgets.widgetLoader.insertWidgets(sakai.sitespages.selectedpage, null, config.basepath);
         }

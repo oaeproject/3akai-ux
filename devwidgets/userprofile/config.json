@@ -1,0 +1,10 @@
+{
+    "description":"User Profile",
+    "ca":false,
+    "hasSettings":false,
+    "id":"sitespages",
+    "name":"User Profile",
+    "showinsakaigoodies":false,
+    "siteportal":false,
+    "url":"/devwidgets/userprofile/userprofile.html"
+}

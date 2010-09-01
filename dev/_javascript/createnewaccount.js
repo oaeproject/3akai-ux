@@ -492,4 +492,4 @@ sakai.newaccount = function(){
     initValidation();
 };
 
-sakai.api.Widgets.Container.registerForLoad("sakai.newaccount");
+sakai.api.Widgets.Container.registerForLoad("sakai.newaccount");

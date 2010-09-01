@@ -29,6 +29,7 @@ sakai.config = {
         MY_DASHBOARD_URL: "/dev/my_sakai.html",
         PEOPLE_URL: "/dev/people.html",
         PROFILE_URL: "/dev/profile.html",
+        PROFILE_EDIT_URL: "/dev/profile_edit.html",
         PUBLIC_CONTENT_MEDIA_URL: "/dev/public_content_media.html",
         PUBLIC_COURSES_SITES_URL: "/dev/public_courses_sites.html",
         PUBLIC_INSTITUTIONAL_LOGIN_URL: "/dev/i_index.html",
