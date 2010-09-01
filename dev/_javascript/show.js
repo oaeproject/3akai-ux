@@ -197,6 +197,7 @@ sakai.show = function() {
                 break;            
             case "group":
                 if (sakai.currentgroup.data.authprofile['rep:policy']) {
+                    sakai.currentgroup.manager = true;
                     canEdit = true;
                 }
                 break;
@@ -252,7 +253,7 @@ sakai.show = function() {
         var url = "/dev/show.html?id=" + entityID + "&type=" + entityType;
         var editMode = sakai.currentgroup.manager || sakai.profile.main.isme;
         var homePage = "";
-        sakai.sitespages.doInit(basepath, fullpath, url, editMode, homePage, entityType+"pages", entityType+"dashboard");
+        sakai.sitespages.doInit(basepath, fullpath, url, canEdit, homePage, entityType+"pages", entityType+"dashboard");
     }
 
     $(window).bind("sakai.api.UI.entity.ready", function(e){
