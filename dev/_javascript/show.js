@@ -61,11 +61,13 @@ sakai.show = function() {
      */
     var setEntityInfo = function(){
         var querystring = new Querystring();
-        if (querystring.contains("id")) {
-            entityID = querystring.get("id");
-        }
         if (querystring.contains("type")) {
             entityType = querystring.get("type");
+        }
+        if (querystring.contains("id")) {
+            entityID = querystring.get("id");
+        } else if (entityType === "user") { // if there's no ID, assume its meant for you
+            entityID = sakai.data.me.user.userid;
         }
         switch (entityType) {
             case "user":
