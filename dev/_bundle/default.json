@@ -125,6 +125,7 @@
 "DENY_SITEJOIN": "Deny",
 "DEPARTMENT": "Department",
 "DESCRIPTION": "Description",
+"DIRECTORY":"Directory",
 "DONT_ADD_CONTENT": "Don't Add Content",
 "DONT_ADD_RESOURCE": "Don't Add Resource",
 "DONT_UPDATE": "Don't Update",
