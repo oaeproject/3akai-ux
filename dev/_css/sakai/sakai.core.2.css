@@ -133,7 +133,7 @@
 /* GENERAL WIDGET CSS */
 .fl-widget {padding: 0;}
 .fl-widget .fl-widget-titlebar h2 {padding-left:3px}
-.fl-widget .fl-widget-titlebar {background: url(../../_images/block_tr.png) top right no-repeat; padding: 0 4px 0 0; width: auto; cursor: move}
+.fl-widget .fl-widget-titlebar {background: url(../../_images/block_tr.png) top right no-repeat; padding: 0 4px 0 0; width: auto;}
 .fl-widget .fl-widget-titlebar .widget-titlebar-inner {background: url(../../_images/block_tl.png) top left no-repeat; height: 50px}
 .fl-widget .fl-widget-titlebar .widget_title {color: #878a8c; font-size: 1.0em; float: left; padding-left: 43px; line-height: 50px}
 .fl-widget .fl-widget-titlebar .settings {background-image: url(../../_images/edit_icon_widget.png); position: relative; height: 18px; background-repeat: no-repeat; margin-top: 15px}
@@ -170,7 +170,7 @@
 }
 
 /* D&D Classes */
-.orderable-hover {cursor:move;}
+.ui-draggable, .orderable-hover {cursor:move;}
 .orderable-dragging {opacity:0.2; width:auto;}
 .orderable-selected {}
 .orderable-avatar {background-color:#666666; border:1px solid #666666; height:25px; width:50px; z-index:65535;}
