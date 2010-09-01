@@ -474,8 +474,9 @@ sakai.newaccount = function(){
     //$(".create_account_input").hover(function(ev) { $(ev.target).addClass(inputFieldHoverClass); }, function(ev) { $(ev.target).removeClass(inputFieldHoverClass); });
     // so we use this for now:
 
-    $(inputFields).bind("mouseover", function(ev) { $(ev.target).addClass(inputFieldHoverClass); });
-    $(inputFields).bind("mouseout", function(ev) { $(ev.target).removeClass(inputFieldHoverClass); });
+    // ev.target add inputFieldHoverClass to label in IE if clicking on textbox and then drap on label.
+    $(inputFields).bind("mouseover", function(ev) { $(this).addClass(inputFieldHoverClass); });
+    $(inputFields).bind("mouseout", function(ev) { $(this).removeClass(inputFieldHoverClass); });
 
     // Hide success message
     $(successMessage).hide();
