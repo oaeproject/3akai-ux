@@ -61,11 +61,14 @@ sakai.newaccount = function(){
     var usernameInvalid = usernameField + "_invalid";
     var usernameEmpty = usernameField + "_empty";
     var firstNameEmpty = firstNameField + "_empty";
+    var firstNameInvalid = firstNameField + "_invalid";
     var lastNameEmpty = lastNameField + "_empty";
+    var lastNameInvalid = lastNameField + "_invalid";
     var emailEmpty = emailField + "_empty";
     var emailInvalid = emailField + "_invalid";
     var passwordEmpty = passwordField + "_empty";
     var passwordShort = passwordField + "_short";
+    var passwordSpaces = passwordField + "_spaces";
     var passwordRepeatEmpty = passwordRepeatField + "_empty";
     var passwordRepeatNoMatch = passwordRepeatField + "_nomatch";
     var captchaEmpty = captchaField + "_empty";
@@ -76,7 +79,7 @@ sakai.newaccount = function(){
     var usernameAvailable = "#username_available";
 
     //CSS Classes
-    var invalidFieldClass = "invalid";
+    var invalidFieldClass = "invalid_field";
     var formContainer = "#create_account_form";
     var inputFieldHoverClass = "input_field_hover";
 
@@ -264,7 +267,12 @@ sakai.newaccount = function(){
 
         // Check whether the username contains illegal characters
         $.validator.addMethod("invalid",function(value){
-            return value.match(/^([a-zA-Z0-9\_\-]+)$/) && (value.substr(0,2) !== 'g-');
+            return value.match(/^([\w\-\@]+)$/) && value.match(/^(?=.*[\w]).*$/) && (value.substr(0,2) !== 'g-');
+        });
+
+        // Check whether the value contains at least one alphabet
+        $.validator.addMethod("containAlphabet",function(value) {
+            return value.match(/^(?=.*[\a-zA-Z]).*$/);            
         });
 
         // define rules and messages
@@ -280,12 +288,12 @@ sakai.newaccount = function(){
 
             // if there is an error, highlight the textbox
             highlight: function(element, errorClass) {
-                $(element).addClass(errorClass);
+                $(element).addClass(invalidFieldClass);
             },
 
             // remove highlight once value becomes valid
             unhighlight: function(element, errorClass) {
-                $(element).removeClass(errorClass);
+                $(element).removeClass(invalidFieldClass);
             },
 
             // add error class to div tag which display error
@@ -294,11 +302,17 @@ sakai.newaccount = function(){
             // define validation rules
             rules: {
 
-                // first name must not be empty
-                firstName: "required",
+                // first name must not be empty and must contain at least one alphabet
+                firstName: {
+                    required: true,
+                    containAlphabet: "required"
+                },
 
-                // last name must not be empty
-                lastName: "required",
+                // last name must not be empty and must contain at least one alphabet
+                lastName: {
+                    required: true,
+                    containAlphabet: "required"
+                },
 
                 // email validation rules
                 email: {
@@ -334,6 +348,9 @@ sakai.newaccount = function(){
                     // password must not be empty
                     required: true,
 
+                    // password should not contain space
+                    noSpace: "required",
+
                     // the length of password must be at least 4 characters
                     minlength: 4
                 },
@@ -354,11 +371,18 @@ sakai.newaccount = function(){
 
                 // if firt name is empty, display message
                 // Please enter your first name
-                firstName: $(firstNameEmpty).text(),
+                firstName: {
+                    "required": $(firstNameEmpty).text(),
+                    "containAlphabet": $(firstNameInvalid).text(),
+                },
 
-                // if last name is empty, display message
-                // Please enter your last name
-                lastName: $(lastNameEmpty).text(),
+                lastName: {
+                    // if last name is empty, display message
+                    // Please enter your last name
+                    "required": $(lastNameEmpty).text(),
+                    "containAlphabet": $(lastNameInvalid).text()
+                },
+
                 email: {
 
                     // if last name is empty, display message
@@ -392,6 +416,10 @@ sakai.newaccount = function(){
                     // if username contain spaces, display
                     // Please repeat your password
                     required: $(passwordEmpty).text(),
+
+                    // if username contain spaces, display
+                    // The username shouldn't contain spaces
+                    noSpace: $(passwordSpaces).text(),
 
                     // if password is less than 4 characters
                     // Your password should be 4 characters long

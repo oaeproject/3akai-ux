@@ -504,6 +504,8 @@
 "THERE_WAS_AN_ERROR_TRYING_TO_SAVE_YOUR_DATA_ON_THE_SERVER": "There was an error when trying to save your data on the server",
 "THIS_DOES_NOT_MATCH": "This does not match the displayed words",
 "THIS_IS_AN_INVALID_EMAIL_ADDRESS": "This is an invalid email address",
+"THIS_IS_AN_INVALID_FIRST_NAME": "This is an invalid first name",
+"THIS_IS_AN_INVALID_LAST_NAME": "This is an invalid last name",
 "THIS_OPERATION_IS_NOT_REVERSIBLE": "This operation is not reversible",
 "THIS_PASSWORD_DOES_NOT_MATCH_THE_FIRST_ONE": "This password does not match the first one",
 "THIS_USERNAME_HAS_ALREADY_BEEN_TAKEN": "This username has already been taken",
@@ -582,5 +584,6 @@
 "YOULL_FIND_PAGES_AND_SITES_OF_YOUR_INTEREST_AND_PEOPLE_WITH_WHO_YOU_CAN_CONNECT": "You'll find pages and sites of your interest, and people with who you can connect",
 "YOUR_MESSAGE_HAS_BEEN_SENT": "Your message has been sent",
 "YOUR_PASSWORD_SHOULD_BE_FOUR_CHARACTERS_LONG": "Your password should be 4 characters long",
+"YOUR_PASSWORD_SHOULDNT_CONTAIN_SPACES": "Your password shouldn't contain spaces",
 "YOUR_PROFILE_INFORMATION_HAS_BEEN_UPDATED": "Your profile information has been updated"
 }
