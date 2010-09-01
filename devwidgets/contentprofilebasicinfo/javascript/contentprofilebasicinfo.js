@@ -158,9 +158,6 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
 
         data["sakai:permissions"] = $(contentProfileBasicInfoFormPermissionsSelect)[0].value;
 
-        // Set the correct mixintype
-        data["jcr:mixinTypes"] = "sakai:propertiesmix";
-
         // Return the data object
         return data;
     };
