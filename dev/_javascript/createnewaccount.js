@@ -373,7 +373,7 @@ sakai.newaccount = function(){
                 // Please enter your first name
                 firstName: {
                     "required": $(firstNameEmpty).text(),
-                    "containAlphabet": $(firstNameInvalid).text(),
+                    "containAlphabet": $(firstNameInvalid).text()
                 },
 
                 lastName: {
@@ -474,8 +474,10 @@ sakai.newaccount = function(){
     //$(".create_account_input").hover(function(ev) { $(ev.target).addClass(inputFieldHoverClass); }, function(ev) { $(ev.target).removeClass(inputFieldHoverClass); });
     // so we use this for now:
 
-    $(inputFields).bind("mouseover", function(ev) { $(ev.target).addClass(inputFieldHoverClass); });
-    $(inputFields).bind("mouseout", function(ev) { $(ev.target).removeClass(inputFieldHoverClass); });
+    // Using ev.target add inputFieldHoverClass to the label in IE7 and IE8 
+    // if clicking on the text box and then drag on label. 
+    $(inputFields).bind("mouseover", function(ev) { $(this).addClass(inputFieldHoverClass); });
+    $(inputFields).bind("mouseout", function(ev) { $(this).removeClass(inputFieldHoverClass); });
 
     // Hide success message
     $(successMessage).hide();
