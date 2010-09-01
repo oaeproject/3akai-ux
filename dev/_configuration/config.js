@@ -112,7 +112,11 @@ sakai.config = {
         TWITTER_POST_URL: "/var/proxy/twitter/update_status.json",
         USER_CHANGELOCALE_SERVICE: "/rest/user/changelocale/__USERID__",
         USER_CHANGEPASS_SERVICE: "/system/userManager/user/__USERID__.changePassword.html",
-        USER_EXISTENCE_SERVICE: "/system/userManager/user/__USERID__.json"
+        USER_EXISTENCE_SERVICE: "/system/userManager/user/__USERID__.json",
+
+        // PREFIXES
+        GROUP_PREFIX: "/_group/g/g-/",
+        USER_PREFIX: "/_user"
 
     },
 
