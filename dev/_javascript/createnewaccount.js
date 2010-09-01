@@ -373,7 +373,7 @@ sakai.newaccount = function(){
                 // Please enter your first name
                 firstName: {
                     "required": $(firstNameEmpty).text(),
-                    "containAlphabet": $(firstNameInvalid).text(),
+                    "containAlphabet": $(firstNameInvalid).text()
                 },
 
                 lastName: {
