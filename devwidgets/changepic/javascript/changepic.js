@@ -173,17 +173,18 @@ sakai.changepic = function(tuid, showSettings){
     });
 
     sakai.changepic.doInit = function(newpic){
+        picture = false;
+
         // If the image is freshly uploaded then reset the imageareaobject to reset all values on init
         if (newpic) {
             resetUploadField();
             imageareaobject = null;
+            picture = {"_name":"profilepicture"};
         }
 
         // Check whether there is a base picture at all
         me = sakai.data.me;
         var json = me.profile;
-
-        picture = false;
 
         $(picForm).attr("action", "/~" + sakai.data.me.user.userid + "/public/profile");
 
