@@ -1,11 +1,14 @@
 {
-    "groupspages":true,
-    "description":"Navigation Widgets",
-    "hasSettings": false,
-    "id":"navigation",
-    "img":"/devwidgets/navigation/images/icon.png",
-    "name":"Navigation",
-    "showinsidebar":true,
-    "showinsakaigoodies":true,
-    "url":"/devwidgets/navigation/navigation.html"
+    "description": "Navigate all the pages contained within this group or site",
+    "groupspages": true,
+    "hasSettings": true,
+    "i18n": {
+        "default": "/devwidgets/navigation/bundles/default.json"
+    },
+    "id": "navigation",
+    "img": "/devwidgets/navigation/images/icon.png",
+    "name": "Pages",
+    "showinsidebar": true,
+    "showinsakaigoodies": true,
+    "url": "/devwidgets/navigation/navigation.html"
 }
