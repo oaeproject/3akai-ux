@@ -54,7 +54,13 @@
                 <label class="groupbasicinfo_generalinfo_label" for="groupbasicinfo_generalinfo">__MSG__DESCRIPTION__:</label>
                 <textarea class="groupbasicinfo_generalinfo_content" id="groupbasicinfo_generalinfo_group_description">${data['sakai:group-description']}</textarea>
             </div>
-
+            <div class="groupbasicinfo_generalinfo_subcontainer">
+                <label class="groupbasicinfo_generalinfo_label" for="groupbasicinfo_generalinfo">__MSG__WHERE_GROUP_FOUND_IN_DIRECTORY__:</label>
+                <select class="groupbasicinfo_generalinfo_content" id="groupbasicinfo_generalinfo_group_directory_location">
+                    <option value="personal">test</option>
+                </select>
+            </div>
+            
             <div id="groupbasicinfo_editing" class="fl-push" style="display:none;">
             	<div class="fl-force-right">
                 	<button id="groupbasicinfo_editing_button_dontupdate" type="button" class="s3d-button">
