@@ -48,6 +48,14 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
     var contentProfileBasicInfoFormCopyrightSelect = "#content_profile_basic_info_copyright_select";
     var contentProfileBasicInfoFormPermissionsSelect= "#content_profile_basic_info_permissions_select";
 
+    // i18n
+    var contentProfileBasicInfoUpdatedBasicInfo = "#contentprofilebasicinfo_updated_basic_info";
+    var contentProfileBasicInfoFileBasicInfoUpdated = "#contentprofilebasicinfo_file_basic_info_been_updated";
+    var contentProfileBasicInfoFailedUpdatingBasicInfo = "#contentprofilebasicinfo_failed_updating_basic_info";
+    var contentProfileBasicInfoFileBasicInfoNotUpdated = "#contentprofilebasicinfo_file_basic_info_not_updated";
+    var contentProfileBasicInfoFailedLoadingData = "#contentprofilebasicinfo_failed_loading_data";
+    var contentProfileBasicInfoFailedLoadingFileData = "#contentprofilebasicinfo_failed_loading_file_data";
+
 
     ///////////////////
     // Functionality //
@@ -158,9 +166,6 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
 
         data["sakai:permissions"] = $(contentProfileBasicInfoFormPermissionsSelect)[0].value;
 
-        // Set the correct mixintype
-        data["jcr:mixinTypes"] = "sakai:propertiesmix";
-
         // Return the data object
         return data;
     };
@@ -200,12 +205,12 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                 success: function(){
                     // TODO show a valid message to the user instead of reloading the page
                     $(window).trigger('hashchange');
-                    sakai.api.Util.notification.show("Updated basic info.", "The file's basic information has been updated.");
+                    sakai.api.Util.notification.show($(contentProfileBasicInfoUpdatedBasicInfo).html(), $(contentProfileBasicInfoFileBasicInfoUpdated).html());
                 },
                 error: function(xhr, textStatus, thrownError){
                     // Enable basic info fields and show error message
                     enableDisableBasicInfoFields(false);
-                    sakai.api.Util.notification.show("Failed updating basic info", "Failed to update the file's basic information.");
+                    sakai.api.Util.notification.show($(contentProfileBasicInfoFailedUpdatingBasicInfo).html(), $(contentProfileBasicInfoFileBasicInfoNotUpdated).html());
                 }
             });
         });
@@ -243,7 +248,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                     addBindingBasicinfo();
                 },
                 error: function(xhr, textStatus, thrownError){
-                    sakai.api.Util.notification.show("Failed loading data", "Failed to load file information");
+                    sakai.api.Util.notification.show($(contentProfileBasicInfoFailedLoadingData).html(), $(contentProfileBasicInfoFailedLoadingFileData).html());
                 }
             });
         }
