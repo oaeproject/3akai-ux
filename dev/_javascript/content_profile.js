@@ -68,7 +68,8 @@ sakai.content_profile = function(){
                     var json = {
                         data: data,
                         mode: "content",
-                        url: sakai.config.SakaiDomain + content_path
+                        url: sakai.config.SakaiDomain + content_path,
+                        contentpath: content_path
                     };
 
                     // The request was successful so initialise the entity widget

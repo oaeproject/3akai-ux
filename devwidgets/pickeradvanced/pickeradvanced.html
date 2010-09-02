@@ -73,16 +73,29 @@
 
             <div id="pickeradvanced_content_search_pagetemplate" style="display:none;"><!--
                 {for i in results}
-                <li id="${i['rep:userId']}">
-                    {if i.picture}
-                        <img src="/~${i["rep:userId"]}/public/profile/${i.picture.name}" alt="Profile picture for ${i.firstName} ${i.lastName}" class="pickeradvanced_ppicture"/>
-                    {else}
-                        <img src="/dev/_images/person_icon.jpg" alt="Default profile picture" class="pickeradvanced_ppicture"/>
-                    {/if}
-                    <a class="pickeradvanced_name" href="/dev/profile.html?user=${i['rep:userId']}" target="_blank">${sakai.api.User.getDisplayName(i)}</a>
-                    <br />
-                    <span class="pickeradvanced_subnameinfo">${sakai.api.User.getShortDescription(i)}</span>
-                </li>
+                    {if i['rep:userId']}
+                    <li id="${i['rep:userId']}">
+                        {if i.picture}
+                            <img src="/~${i["rep:userId"]}/public/profile/${i.picture.name}" alt="Profile picture for ${i.firstName} ${i.lastName}" class="pickeradvanced_ppicture"/>
+                        {else}
+                            <img src="/dev/_images/person_icon.jpg" alt="Default profile picture" class="pickeradvanced_ppicture"/>
+                        {/if}
+                        <a class="pickeradvanced_name" href="/dev/show.html?type=user&amp;id=${i['rep:userId']}" target="_blank">${sakai.api.User.getDisplayName(i)}</a>
+                        <br />
+                        <span class="pickeradvanced_subnameinfo">${sakai.api.User.getShortDescription(i)}</span>
+                    </li>
+                    {else if i['sakai:group-id']}
+                    <li id="${i['sakai:group-id']}">
+                        {if i.picture}
+                            <img src="/~${i["sakai:group-id"]}/public/profile/${i.picture.name}" alt="Profile picture for ${i["sakai:group-title"]}" class="pickeradvanced_ppicture"/>
+                        {else}
+                            <img src="/dev/_images/person_icon.jpg" alt="Default profile picture" class="pickeradvanced_ppicture"/>
+                        {/if}
+                        <a class="pickeradvanced_name" href="/dev/show.html?type=group&amp;id=${i["sakai:group-id"]}" target="_blank">${i["sakai:group-title"]}</a>
+                        <br />
+                        <span class="pickeradvanced_subnameinfo">${i["sakai:group-description"]}</span>
+                    </li>
+                {/if}
                 {/for}
             --></div>
         </div>

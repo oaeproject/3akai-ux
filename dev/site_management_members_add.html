@@ -164,7 +164,7 @@
                                                     {/if}
                                                     <a href="javascript:;" style="margin-top: 0px;" class="sitemember-label" data-userid="${i.userid}">${i.firstName} ${i.lastName}</a><div class="member-title"></div>
                                                     <span>${i.role}</span><div class="member-title"></div>
-                                                    <a href="profile.html?user=${i.userid}" target="_blank" class="member-label" style="color:#006E96; font-weight: normal; font-size: 0.9em; width: 150px;">__MSG__VIEW_PROFILE__</a>
+                                                    <a href="show.html?type=user&amp;id=${i.userid}" target="_blank" class="member-label" style="color:#006E96; font-weight: normal; font-size: 0.9em; width: 150px;">__MSG__VIEW_PROFILE__</a>
 
                                                     {else}
                                                     <a href="javascript:;">
@@ -176,7 +176,7 @@
                                                     </a>
 
                                                     <a href="javascript:;" class="member-label" data-userid="${i.userid}">${i.firstName} ${i.lastName}</a><div class="member-title"></div>
-                                                    <a href="profile.html?user=${i.userid}" target="_blank" class="member-label view-profile-label" style="color:#006E96; font-weight: normal; font-size: 0.9em; width: 150px;">__MSG__VIEW_PROFILE__</a>
+                                                    <a href="show.html?type=user&amp;id=${i.userid}" target="_blank" class="member-label view-profile-label" style="color:#006E96; font-weight: normal; font-size: 0.9em; width: 150px;">__MSG__VIEW_PROFILE__</a>
                                                     {/if}
                                                 </li>
                                             {forelse}
