@@ -3,6 +3,6 @@
 	"sling:resourceType": "sakai/page",
 	"pageType": "dashboard", 
 	"pagePosition": 100000,
-	"deletable": false.
+	"deletable": false,
 	"jcr:mixinTypes": "sakai:propertiesmix"
 }
