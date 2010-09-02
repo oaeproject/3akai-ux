@@ -1,31 +1,59 @@
-/* LOCKED */
-.tree-classic .locked li a { color:gray; }
-/* DOTS */
-.tree-classic ul { background-position:6px 1px; background-repeat:repeat-y; background-image:url(data:image/gif;base64,R0lGODlhAgACAIAAAB4dGf///yH5BAEAAAEALAAAAAACAAIAAAICRF4AOw==); _background-image:url("dot_for_ie.gif"); *background-image:url("dot_for_ie.gif"); }
-.tree-classic li { background-position:-64px -16px; background-repeat:no-repeat; background-image:url("icons.png"); }
-/* NO DOTS */
-.tree-classic .no_dots, .tree-classic .no_dots ul { background:transparent; }
-.tree-classic .no_dots li.leaf { background-image:none; background-color:transparent; }
-/* OPEN or CLOSED */
-.tree-classic li.open { background:url("icons.png") -32px -48px no-repeat; }
-.tree-classic li.closed, #jstree-dragged.tree-classic li li.open { background:url("icons.png") -48px -32px no-repeat; }
-#jstree-marker { background-image:url("icons.png"); }
-/* DEFAULT, HOVER, CLICKED, LOADING STATES */
-.tree-classic li a:hover, .tree-classic li a.hover, .tree-classic li span { /*background: #e7f4f9; border:1px solid #d8f0fa; padding:0px 3px 0px 3px;*/ }
-.tree-classic li a.clicked, .tree-classic li a.clicked:hover, .tree-classic li span.clicked { background: navy; border:1px solid navy; color:white; padding:0px 3px 0px 3px; }
-/* ICONS */
-.tree-classic ins { background-image:url("icons.png"); background-position:0 0; background-repeat:no-repeat; }
-.tree-classic ul li a.loading ins { background-image:url("throbber.gif") !important; background-position:0 0 !important; } /* UL is added to make selector stronger */
-.tree-classic li.closed a ins, .tree-classic li.leaf a ins { background-position:0 0px; } /* UL is added to make selector stronger */
-.tree-classic ul li a.loading ins { background-image:url("throbber.gif"); background-position:0 0; } /* UL is added to make selector stronger */
-.tree-classic li a ins.forbidden { background-position:-16px -16px; }
-.tree-classic .locked li a ins { background-position:0 -48px; }
-.tree-classic li span ins { background-position:-16px 0; }
-#jstree-dragged.tree-classic ins { background:url("icons.png") -16px -32px no-repeat; }
-#jstree-dragged.tree-classic ins.forbidden { background:url("icons.png") -16px -16px no-repeat; }
+/*
+ * jsTree classic theme 1.0
+ * Supported features: dots/no-dots, icons/no-icons, focused, loading
+ * Supported plugins: ui (hovered, clicked), checkbox, contextmenu, search
+ */
 
-/* CONTEXT MENU */
-.tree-classic-context a ins { background-image:url("icons.png"); background-repeat:no-repeat; background-position:-64px -64px; }
-.tree-classic-context a ins.create { background-position:0 -16px; }
-.tree-classic-context a ins.rename { background-position:-16px 0px; }
-.tree-classic-context a ins.remove { background-position:-32px -16px; }
+.jstree-classic li, 
+.jstree-classic ins { background-image:url("d.png"); background-repeat:no-repeat; background-color:transparent; }
+.jstree-classic li { background-position:-90px 0; background-repeat:repeat-y;  }
+.jstree-classic li.jstree-last { background:transparent; }
+.jstree-classic .jstree-open > ins { background-position:-72px 0; }
+.jstree-classic .jstree-closed > ins { background-position:-54px 0; }
+.jstree-classic .jstree-leaf > ins { background-position:-36px 0; }
+
+.jstree-classic .jstree-hovered { background:#e7f4f9; border:1px solid #e7f4f9; padding:0 2px 0 1px; }
+.jstree-classic .jstree-clicked { background:navy; border:1px solid navy; padding:0 2px 0 1px; color:white; }
+.jstree-classic a .jstree-icon { background-position:-56px -19px; }
+.jstree-classic .jstree-open > a .jstree-icon { background-position:-56px -36px; }
+.jstree-classic a.jstree-loading .jstree-icon { background:url("throbber.gif") center center no-repeat !important; }
+
+.jstree-classic.jstree-focused { background:white; }
+
+.jstree-classic .jstree-no-dots li, 
+.jstree-classic .jstree-no-dots .jstree-leaf > ins { background:transparent; }
+.jstree-classic .jstree-no-dots .jstree-open > ins { background-position:-18px 0; }
+.jstree-classic .jstree-no-dots .jstree-closed > ins { background-position:0 0; }
+
+.jstree-classic .jstree-no-icons a .jstree-icon { display:none; }
+
+.jstree-classic .jstree-search { font-style:italic; }
+
+.jstree-classic .jstree-no-icons .jstree-checkbox { display:inline-block; }
+.jstree-classic .jstree-no-checkboxes .jstree-checkbox { display:none !important; }
+.jstree-classic .jstree-checked > a > .jstree-checkbox { background-position:-38px -19px; }
+.jstree-classic .jstree-unchecked > a > .jstree-checkbox { background-position:-2px -19px; }
+.jstree-classic .jstree-undetermined > a > .jstree-checkbox { background-position:-20px -19px; }
+.jstree-classic .jstree-checked > a > .jstree-checkbox:hover { background-position:-38px -37px; }
+.jstree-classic .jstree-unchecked > a > .jstree-checkbox:hover { background-position:-2px -37px; }
+.jstree-classic .jstree-undetermined > a > .jstree-checkbox:hover { background-position:-20px -37px; }
+
+#vakata-dragged.jstree-classic ins { background:transparent !important; }
+#vakata-dragged.jstree-classic .jstree-ok { background:url("d.png") -2px -53px no-repeat !important; }
+#vakata-dragged.jstree-classic .jstree-invalid { background:url("d.png") -18px -53px no-repeat !important; }
+#jstree-marker.jstree-classic { background:url("d.png") -41px -57px no-repeat !important; }
+
+.jstree-classic a.jstree-search { color:aqua; }
+
+#vakata-contextmenu.jstree-classic-context, 
+#vakata-contextmenu.jstree-classic-context li ul { background:#f0f0f0; border:1px solid #979797; -moz-box-shadow: 1px 1px 2px #999; -webkit-box-shadow: 1px 1px 2px #999; box-shadow: 1px 1px 2px #999; }
+#vakata-contextmenu.jstree-classic-context li { }
+#vakata-contextmenu.jstree-classic-context a { color:black; }
+#vakata-contextmenu.jstree-classic-context a:hover, 
+#vakata-contextmenu.jstree-classic-context .vakata-hover > a { padding:0 5px; background:#e8eff7; border:1px solid #aecff7; color:black; -moz-border-radius:2px; -webkit-border-radius:2px; border-radius:2px; }
+#vakata-contextmenu.jstree-classic-context li.jstree-contextmenu-disabled a, 
+#vakata-contextmenu.jstree-classic-context li.jstree-contextmenu-disabled a:hover { color:silver; background:transparent; border:0; padding:1px 4px; }
+#vakata-contextmenu.jstree-classic-context li.vakata-separator { background:white; border-top:1px solid #e0e0e0; margin:0; }
+#vakata-contextmenu.jstree-classic-context li ul { margin-left:-4px; }
+
+/* TODO: IE6 support - the `>` selectors */
