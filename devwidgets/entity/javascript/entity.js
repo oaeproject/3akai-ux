@@ -72,7 +72,6 @@ sakai.entity = function(tuid, showSettings){
         }
     };
     var profile_dummy_status;
-//console.log(entityconfig);
 
     ///////////////////
     // CSS SELECTORS //
