@@ -80,11 +80,11 @@
                 {for i in directory}
                     <div class="directory_jumpbox_box_hierarchybox">
                         <p>
-                            <a href="javascript:;" class="directory_level_three_link directory_level_two_header">${i.name}</a>
+                            <a href="#${i.name}" class="directory_level_three_link directory_level_two_header">${i.name}</a>
                         </p>
                         {for j in i.secondlevels}
                             <p>
-                                <a href="javascript:;" class="directory_level_three_link">${j.name}</a>
+                                <a href="#${i.name}${j.name}" class="directory_level_three_link">${j.name}</a>
                             </p>
                         {/for}
                     </div>
@@ -93,13 +93,13 @@
             </div>
         </div>
         {for i in directory}
-            <h1 class="directory_level_one_header">${i.name}</h1>
+            <a href="/dev/search.html#q=${escape(escape(i.name))}" name="${i.name}"><h1 class="directory_level_one_header">${i.name}</h1></a>
             {for j in i.secondlevels}
                 <div class="directory_block">
-                    <h2 class="directory_level_two_header">${j.name}</h2>
+                    <a href="/dev/search.html#q=${escape(escape(i.name) + ":" + escape(j.name))}" name="${i.name}${j.name}"><h2 class="directory_level_two_header" name="${j.name}">${j.name}</h2></a>
                     {for k in j.thirdlevels}
                     <p>
-                        <a href="javascript:;" class="directory_level_three_link">${k.name}</a>
+                        <a href="/dev/search.html#q=${escape(escape(i.name) + ":" + escape(j.name) + ":" + escape(k.name))}" class="directory_level_three_link">${k.name}</a>
                     </p>
                     {/for}
                 </div>
