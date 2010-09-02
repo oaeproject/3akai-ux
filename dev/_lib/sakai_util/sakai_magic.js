@@ -122,6 +122,7 @@ sakai.api.Communication.sendMessage = function(to, subject, body, category, repl
         $.ajax({
             url: "/system/userManager/group/" + groupid + ".members.json",
             type: "GET",
+            dataType: "json",
             success: handleAJAXGroupData,
             error: function(xhr, textStatus, thrownError) {
                 fluid.log("sakai.api.Communication.sendMessage(): Could not fetch group data for groupid: " + groupid);
@@ -136,12 +137,6 @@ sakai.api.Communication.sendMessage = function(to, subject, body, category, repl
      * @return None
      */
     var handleAJAXGroupData = function(data) {
-        // currently, data is being returned as an array with no root object
-        // Not entirely sure, but this may be causing the data not to be read as
-        // JSON directly.
-        // This may be fixed in the future and the following code may break
-        // once JSON is being returned, simply delete the following line
-        data = JSON.parse(data);
         if(data) {
             // get user ids
             var userids = [];
