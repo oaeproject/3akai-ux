@@ -17,8 +17,10 @@
  */
 
 /* General */
-.entity_header {font-size: 1.7em; margin: 10px 0 17px 0; padding: 0}
-.entity_picture {margin: 0 20px 5px 0; width:96px}
+.entity_header {margin: 10px 0 17px 0; padding: 0}
+.entity_header_text {font-weight: bold; font-size: 1.7em; margin-right: 15px;}
+.entity_picture {margin: 0 20px 5px 0;}
+.entity_picture img {width:96px}
 
 /* Container */
 #entity_container {margin: 19px 0 15px 7px; overflow: hidden;}
@@ -27,15 +29,29 @@
 #entity_container form button{margin-left: 5px}
 #entity_container form input[type="text"]{width: 14em}
 #entity_container input[type="text"] {border: 1px solid #ddd;padding: 3px}
-.entity_container_left {border-right: 1px solid #ddd; width: 450px}
-.entity_container_right {margin-top: 10px; padding-left: 20px; width: 410px}
+.entity_container_left {width: 550px}
+.entity_container_right {margin-top: 10px; padding-left: 20px; width: 310px}
 .entity_container_right strong {clear: both;: block;float:left;overflow:hidden;width: 90px}
 .entity_container_top_margin {margin-top:15px;}
 
 /* Content */
-.entity_content_information {width: 330px}
-.entity_content_information p {margin-bottom: 0.4em}
+.entity_content_about {margin-top: 10px;}
 #entity_container h1 {margin:0;}
 
 /* Actions */
 .entity_actions {margin-top:10px; overflow:hidden;}
+.entity_action_button {margin-bottom: 10px;}
+
+/* List box for tags and locations */
+#entity_tags_link, #entity_locations_link {padding: 5px 5px 5px 5px;}
+.entity_tags_link, .entity_locations_link {border: 1px solid #fff;}
+.entity_tags_link:hover, .entity_locations_link:hover {border: 1px solid #ddd;}
+.entity_list_open {border: 1px solid #ddd !important;}
+#entity_tags_link span, #entity_locations_link span {background: url('/dev/_images/arrow_down_sm2.png') center right no-repeat; padding: 0 17px 0 5px;}
+#entity_tags_link_menu, #entity_locations_link_menu {background-color: #FFFFFF; position: absolute; z-index:400; width: 300px; border: 1px solid #ddd;}
+#entity_tags_link_menu .entity_tags_link_menu_list, #entity_locations_link_menu .entity_locations_link_menu_list {padding: 5px;}
+.entity_locations_list {padding-top: 20px;}
+.entity_location {margin: 20px 0 0 10px;}
+.entity_location_divider {color: #006e96; font-weight: bold; font-size: 13px;}
+.entity_location_show_all {padding:0px;margin:0px;}
+
