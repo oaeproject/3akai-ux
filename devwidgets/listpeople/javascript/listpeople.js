@@ -151,7 +151,7 @@ sakai.listPeople.render = function(tuid, iConfig, url, id) {
 
                 // filter out the manager group if we're listing items for a group, the everyone group and the anonymous user
                 json_data.results = $.grep(json_data.results, function(resultObject, index){
-                        if ((resultObject['groupid'] !== id + '-managers') && (resultObject['groupid'] !== 'everyone') && (resultObject['userid'] !== 'anonymous')) {
+                        if ((resultObject['groupid'] !== id + '-managers') && (resultObject['groupid'] !== 'everyone') && (resultObject['userid'] !== 'everyone') && (resultObject['userid'] !== 'anonymous')) {
                             itemCount++;
                             return true;
                         }
