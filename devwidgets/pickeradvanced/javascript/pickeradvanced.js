@@ -267,14 +267,25 @@ sakai.pickeradvanced = function(tuid, showSettings) {
                                         pickerData.selectCount -= 1;
                                     }
                                 }
+                                if (pickerData.selectCount < 1) {
+                                    $pickeradvanced_add_button.attr("disabled", "disabled");
+                                }
                             } else {
                                 // Add to selected list
                                 $(this).addClass("pickeradvanced_selected_user");
                                 for (var j = 0; j < rawData.results.length; j++) {
-                                    if (rawData.results[j]['rep:userId'] == [$(this).attr("id")]) {
+                                    if (rawData.results[j]['rep:userId'] && rawData.results[j]['rep:userId'] == [$(this).attr("id")]) {
                                         pickerData.selectCount += 1;
                                         pickerData["selected"][$(this).attr("id")] = rawData.results[j];
+                                        pickerData["selected"][$(this).attr("id")].entityType = "user";
+                                    } else if (rawData.results[j]['sakai:group-id'] && rawData.results[j]['sakai:group-id'] == [$(this).attr("id")]) {
+                                        pickerData.selectCount += 1;
+                                        pickerData["selected"][$(this).attr("id")] = rawData.results[j];
+                                        pickerData["selected"][$(this).attr("id")].entityType = "group";
                                     }
+                                }
+                                if ($pickeradvanced_add_button.is(":disabled")) {
+                                    $pickeradvanced_add_button.attr("disabled", "");
                                 }
                             }
                         }
@@ -341,17 +352,11 @@ sakai.pickeradvanced = function(tuid, showSettings) {
     
     var addPeople = function() {
       //sakai.api.Communication.sendMessage = function(to, subject, body, category, reply, callback) {  
-      var userList = $("#as-values-" + tuid).val();
+
       // this value is a comma-delimited list
       // split it and get rid of any empty values in the array
-      userList = userList.split(",");
-      $(userList).each(function(i, val) {
-         if (val === "") {
-             userList.splice(i, 1);
-         } 
-      });
       $pickeradvanced_container.jqmHide();
-      $(window).trigger("sakai-pickeradvanced-finished", {"toAdd":userList});
+      $(window).trigger("sakai-pickeradvanced-finished", {"toAdd":pickerData["selected"]});
     };
 
 

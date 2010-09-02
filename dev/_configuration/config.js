@@ -347,7 +347,8 @@ sakai.config = {
          * Set the user's short description to appear underneath their name
          * in search results
          */
-        shortDescription: "${role} in ${department} at ${college}"
+        userShortDescription: "${role} in ${department} at ${college}",
+        groupShortDescription: "asdf"
 
     },
 
