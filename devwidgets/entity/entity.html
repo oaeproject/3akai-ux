@@ -22,7 +22,7 @@
                 {/if}
             </div>
             <h2 class="entity_header">
-                <a href="/dev/profile.html?user=${data.profile["rep:userId"]}">${sakai.api.User.getDisplayName(sakai.data.me.profile)}</a>
+                <a href="/dev/show.html?type=user&amp;id=${data.profile["rep:userId"]}">${sakai.api.User.getDisplayName(sakai.data.me.profile)}</a>
             </h2>
             <form method="POST" action="javascript:;">
                 <div>
@@ -85,9 +85,9 @@
                 <p>${data.profile.authprofile["sakai:group-description"]}</p>
                 <p class="entity_container_top_margin">
                     {if data.profile.authprofile["rep:policy"]}
-                        <a href="/dev/group_edit.html?id=${data.profile["sakai:group-id"]}" class="s3d-action">__MSG__EDIT_GROUP_INFORMATION__</a> |
+                        <a href="/dev/group_edit.html?id=${data.profile.authprofile["sakai:group-id"]}" class="s3d-action">__MSG__EDIT_GROUP_INFORMATION__</a> |
                     {/if}
-                    <a href="/dev/group.html?id=${data.profile["sakai:group-id"]}" class="s3d-action">__MSG__VIEW_GROUP_PAGES__</a>
+                    <a href="/dev/show.html?type=group&amp;id=${data.profile.authprofile["sakai:group-id"]}" class="s3d-action">__MSG__VIEW_GROUP_PAGES__</a>
                 </p>
             </div>
         {/if}

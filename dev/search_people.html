@@ -121,11 +121,11 @@
                                 {for i in items}
                                     <div class="fl-container fl-fix search_result_person">
                                         {if ! i.picture}
-                                        <a href="/dev/profile.html?user=${i.userid}" class="fl-icon search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"></a>
+                                        <a href="/dev/show.html?type=user&amp;id=${i.userid}" class="fl-icon search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"></a>
                                         {else}
-                                        <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"><img alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" src="${i.picture}" width="60px" height="60px"/></a>
+                                        <a href="/dev/show.html?type=user&amp;id=${i.userid}" class="search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"><img alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" src="${i.picture}" width="60px" height="60px"/></a>
                                         {/if}
-                                        <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_name">${i.name}</a>
+                                        <a href="/dev/show.html?type=user&amp;id=${i.userid}" class="search_result_person_name">${i.name}</a>
                                         {if i.extra}
                                         <a href="javascript:;" class="search_result_person_dept">${i.extra}</a>
                                         {else}

@@ -36,7 +36,7 @@ var History = {
 
 $(function() {
   var cache = {
-    '': $(".sakai_site")
+    '': $(".show")
   };
   
   $(window).bind('hashchange', function(e) {

@@ -28,7 +28,7 @@ sakai.config = {
         LOGOUT_URL: "/dev/logout.html",
         MY_DASHBOARD_URL: "/dev/my_sakai.html",
         PEOPLE_URL: "/dev/people.html",
-        PROFILE_URL: "/dev/profile.html",
+        PROFILE_URL: "/dev/show.html?type=user&amp;",
         PROFILE_EDIT_URL: "/dev/profile_edit.html",
         PUBLIC_CONTENT_MEDIA_URL: "/dev/public_content_media.html",
         PUBLIC_COURSES_SITES_URL: "/dev/public_courses_sites.html",
@@ -112,7 +112,11 @@ sakai.config = {
         TWITTER_POST_URL: "/var/proxy/twitter/update_status.json",
         USER_CHANGELOCALE_SERVICE: "/rest/user/changelocale/__USERID__",
         USER_CHANGEPASS_SERVICE: "/system/userManager/user/__USERID__.changePassword.html",
-        USER_EXISTENCE_SERVICE: "/system/userManager/user/__USERID__.json"
+        USER_EXISTENCE_SERVICE: "/system/userManager/user/__USERID__.json",
+
+        // PREFIXES
+        GROUP_PREFIX: "/_group/g/g-/",
+        USER_PREFIX: "/_user"
 
     },
 

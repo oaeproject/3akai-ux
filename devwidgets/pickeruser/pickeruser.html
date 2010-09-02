@@ -90,7 +90,7 @@
                     {else}
                         <img src="/dev/_images/person_icon.jpg" alt="Default profile picture" class="pickeruser_ppicture"/>
                     {/if}
-                    <a class="pickeruser_name" href="/dev/profile.html?user=${i['rep:userId']}">${sakai.api.User.getDisplayName(i)}</a>
+                    <a class="pickeruser_name" href="/dev/show.html?type=user&amp;id=${i['rep:userId']}">${sakai.api.User.getDisplayName(i)}</a>
                     <br />
                     <span class="pickeruser_subnameinfo">${i.subNameInfo}</span>
                 </li>
