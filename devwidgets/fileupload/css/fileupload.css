@@ -45,4 +45,7 @@
 #fileupload_container #fileupload_add_to {float:left; padding-right:20px;}
 #fileupload_container #fileupload_add_to_template_container {padding-bottom:10px;}
 
-.hide_remove_link {visibility:hidden;}
+#fileupload_container .hide_remove_link {visibility:hidden;}
+
+#fileupload_container #multifile_form {margin-top:10px;}
+#fileupload_container #fileupload_link_box input[type="text"]{width:300px;}
