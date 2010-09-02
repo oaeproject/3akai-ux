@@ -173,21 +173,21 @@
                                             {if m.userTo}
                                                 <td>
                                                 {for toUser in m.userTo}
-                                                    <a class="inbox_inbox_message_from" href="/dev/profile.html?user=${toUser.userid}">${toUser.firstName} ${toUser.lastName}</a>
+                                                    <a class="inbox_inbox_message_from" href="/dev/show.html?type=user&amp;id=${toUser.userid}">${toUser.firstName} ${toUser.lastName}</a>
                                                 {/for}
                                                 </td>
                                             {else}
-                                                <td><a class="inbox_inbox_message_from" href="/dev/profile.html?user=${m['sakai:to']}">${m['sakai:to']}</a></td>
+                                                <td><a class="inbox_inbox_message_from" href="/dev/show.html?type=user&amp;id=${m['sakai:to']}">${m['sakai:to']}</a></td>
                                             {/if}
                                         {else}
                                             {if m.userFrom}
                                                 <td>
                                                 {for fromUser in m.userFrom}
-                                                    <a class="inbox_inbox_message_from" href="/dev/profile.html?user=${fromUser.userid}">${fromUser.firstName} ${fromUser.lastName}</a></td>
+                                                    <a class="inbox_inbox_message_from" href="/dev/show.html?type=user&amp;id=${fromUser.userid}">${fromUser.firstName} ${fromUser.lastName}</a></td>
                                                 {/for}
                                                 </td>
                                             {else}
-                                                <td><a class="inbox_inbox_message_from" href="/dev/profile.html?user=${m['sakai:from']}">${m['sakai:to']}</a></td>
+                                                <td><a class="inbox_inbox_message_from" href="/dev/show.html?type=user&amp;id=${m['sakai:from']}">${m['sakai:to']}</a></td>
                                             {/if}
                                         {/if}
                                         <td id="inbox_table_subject_${m.id}"><a href="javascript:;" class="inbox_inbox_message" id="inbox_inbox_message_${m['jcr:name']}">${m.subject}</a></td>
@@ -283,7 +283,7 @@
                                 </span>
                                 <div class="inbox_message_user">
                                     {for fromUser in r.userFrom}
-                                        <a href="/dev/profile.html?user=${r["sakai:from"]}" class="sender-name" id="inbox_message_from">${fromUser.firstName} ${fromUser.lastName}</a><br />
+                                        <a href="/dev/show.html?type=user&amp;id=${r["sakai:from"]}" class="sender-name" id="inbox_message_from">${fromUser.firstName} ${fromUser.lastName}</a><br />
                                     {/for}
                                     <div class="sender-timestamp">Sent this on <span id="inbox_message_date">${r.date}</span></div>
                                 </div>

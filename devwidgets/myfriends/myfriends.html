@@ -8,8 +8,8 @@
     <div id="myfriends_list_template" style="display:none"><!--
         {for i in items}
             <div class="myfriends_list_contact">
-                <a href="/dev/profile.html?user=${i.id}" class="myfriends_list_contact_picture"><img src="${i.photo}" alt="person icon" /></a>
-                <a href="/dev/profile.html?user=${i.id}" class="myfriends_list_contact_name">${i.name}</a>
+                <a href="/dev/show.html?type=user&amp;id=${i.id}" class="myfriends_list_contact_picture"><img src="${i.photo}" alt="person icon" /></a>
+                <a href="/dev/show.html?type=user&amp;id=${i.id}" class="myfriends_list_contact_name">${i.name}</a>
             </div>
         {forelse}
             <span id="myfriends_nocontacts">__MSG__YOU_CURRENTLY_HAVE_NO_CONTACTS__</span>
@@ -17,8 +17,8 @@
     --></div>
 <!--
 <div class="myfriends_list_contact">
-                <a href="/dev/profile.html?user=${i.id}" class="myfriends_list_contact_picture"><img src="${i.photo}" /></a>
-                <a href="/dev/profile.html?user=${i.id}" class="myfriends_list_contact_name">${i.name}</a>
+                <a href="/dev/show.html?type=user&amp;id=${i.id}" class="myfriends_list_contact_picture"><img src="${i.photo}" /></a>
+                <a href="/dev/show.html?type=user&amp;id=${i.id}" class="myfriends_list_contact_name">${i.name}</a>
             </div>
 -->
 
