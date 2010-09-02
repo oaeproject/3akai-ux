@@ -268,6 +268,14 @@ sakai.navigation = function(tuid, showSettings){
         });
     };
 
+    $navigationTree.bind("select_node.jstree", function(e, data) {
+        var selectedPageUrl = $(data.rslt.obj[0]).attr("id").replace("nav_","");
+        // If page is not the current page load it
+        if (sakai.sitespages.selectedpage !== selectedPageUrl) {
+            History.addBEvent(selectedPageUrl);
+        }
+    });
+
     /**
      * Function that is available to other functions and called by site.js
      * It fires the event to render the navigation
@@ -277,7 +285,6 @@ sakai.navigation = function(tuid, showSettings){
      * @param {Object[]} site_info_object Contains an array with all the pages, each page is an object.
      */
     sakai.sitespages.navigation.renderNavigation = function(selectedPageUrlName, site_info_object) {
-
         // Create navigation data object
 
         var full_array_of_urls = fullURLs(site_info_object);
@@ -288,33 +295,24 @@ sakai.navigation = function(tuid, showSettings){
         //alert("data: " + JSON.stringify(sakai.sitespages.navigation.navigationData));
         //alert("url: nav_" + selectedPageUrlName);
 
-        $navigationTree
-            .bind("select_node.jstree", function (ev, data) {
-                // alert("sel: " + data.args[0]);
-                var selectedPageUrl = data.args[0].replace("#nav_","");
-console.log("looking for page: " + selectedPageUrl);
-                // If page is not the current page load it
-                if (sakai.sitespages.selectedpage !== selectedPageUrl) {
-                    History.addBEvent(selectedPageUrl);
-                }
-            })
-            .jstree({
-                "core": {
-                    "animation": 0
-                },
-                "json_data": {
-                    "data": sakai.sitespages.navigation.navigationData
-                },
-                "themes": {
-                    "dots": false,
-                    "icons": true
-                },
-                "ui": {
-                    "select_limit": 1,
-                    "initially_select": ["nav_" + selectedPageUrlName]
-                },
-                "plugins" : [ "themes", "json_data", "ui", "dnd", "cookies" ]
-            });
+
+        $navigationTree.jstree({
+            "core": {
+                "animation": 0,
+            },
+            "json_data": {
+                "data": sakai.sitespages.navigation.navigationData
+            },
+            "themes": {
+                "dots": false,
+                "icons": true
+            },
+            "ui": {
+                "select_limit": 1,
+                "initially_select": ["nav_" + selectedPageUrlName],
+            },
+            "plugins" : [ "themes", "json_data", "ui", "dnd", "cookies" ]
+        });
 /*
         var tree_type = {
             renameable: false,

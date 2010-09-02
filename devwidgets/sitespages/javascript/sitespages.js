@@ -186,7 +186,7 @@ sakai.sitespages = function(tuid,showSettings){
 
                 // Refresh navigation
                 if (sakai.sitespages.navigation) {
-                    sakai.sitespages.navigation.renderNavigation(sakai.sitespages.selectedpage, sakai.sitespages.site_info._pages);
+//                    sakai.sitespages.navigation.renderNavigation(sakai.sitespages.selectedpage, sakai.sitespages.site_info._pages);
                 }
 
                 // Open page if necessary
@@ -336,7 +336,7 @@ sakai.sitespages = function(tuid,showSettings){
 
             // Re-render Site Navigation to reflect changes if navigation widget is already loaded
             if (sakai.sitespages.navigation) {
-                sakai.sitespages.navigation.renderNavigation(sakai.sitespages.selectedpage, sakai.sitespages.site_info._pages);
+//                sakai.sitespages.navigation.renderNavigation(sakai.sitespages.selectedpage, sakai.sitespages.site_info._pages);
             }
         }
         else {
@@ -433,7 +433,7 @@ sakai.sitespages = function(tuid,showSettings){
 
             // (Re)-Render Navigation widget
             if (sakai.sitespages.navigation) {
-                sakai.sitespages.navigation.renderNavigation(sakai.sitespages.selectedpage, sakai.sitespages.site_info._pages);
+//                sakai.sitespages.navigation.renderNavigation(sakai.sitespages.selectedpage, sakai.sitespages.site_info._pages);
             }
 
         }

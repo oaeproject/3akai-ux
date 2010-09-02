@@ -393,7 +393,7 @@ sakai.site = function(){
 
                 // Refresh navigation
                 if (sakai.site.navigation) {
-                    sakai.site.navigation.renderNavigation(sakai.site.selectedpage, sakai.site.site_info._pages);
+                    //sakai.site.navigation.renderNavigation(sakai.site.selectedpage, sakai.site.site_info._pages);
                 }
 
                 // Open page if necessary
@@ -534,7 +534,7 @@ sakai.site = function(){
 
             // Re-render Site Navigation to reflect changes if navigation widget is already loaded
             if (sakai.site.navigation) {
-                sakai.site.navigation.renderNavigation(sakai.site.selectedpage, sakai.site.site_info._pages);
+//                sakai.site.navigation.renderNavigation(sakai.site.selectedpage, sakai.site.site_info._pages);
             }
         }
         else {
@@ -659,7 +659,7 @@ sakai.site = function(){
 
             // (Re)-Render Navigation widget
             if (sakai.site.navigation) {
-                sakai.site.navigation.renderNavigation(sakai.site.selectedpage, sakai.site.site_info._pages);
+//                sakai.site.navigation.renderNavigation(sakai.site.selectedpage, sakai.site.site_info._pages);
             }
 
         }
