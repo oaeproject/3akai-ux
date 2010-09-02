@@ -64,7 +64,7 @@ sakai.navigation = function(tuid, showSettings){
 
     // trimpath Templates
     var $navigationSettingsTemplate = $("#navigation_settings_template", $rootel);
-
+/*
     $navigationTree.jstree({
         "json_data" : {
             "data" : [
@@ -83,6 +83,190 @@ sakai.navigation = function(tuid, showSettings){
         },
         "plugins" : [ "themes", "json_data" ]
     });
+*/
+
+    ///////////////////////
+    // Utility functions //
+    ///////////////////////
+
+    /**
+    * Get the level of a page id
+    * e.g. when the level of the page is main/test/hey, it will return 3
+    * @param {String} pageId The id of the page
+    * @return {Integer} The level of the page (0,1,...)
+    */
+    var getLevel = function(pageId) {
+        return pageId.split(/\//g).length - 1;
+    };
+
+
+    ///////////////////////
+    // Render navigation //
+    ///////////////////////
+
+    var sortByURL = function(a,b){
+        if (a.path > b.path){
+            return 1;
+        } else if (a.path < b.path){
+            return -1;
+        } else {
+            return 0;
+        }
+    };
+
+    // Create arrays of full URL elements
+    var fullURLs = function(site_object) {
+
+        var full_urls = [];
+
+        for (var current_url_title in site_object) {
+
+            if (site_object[current_url_title]["jcr:path"]) {
+
+                var raw_path_elements = site_object[current_url_title]["jcr:path"].split("/");
+                var path_elements = [];
+                var raw_path_element = "";
+
+                for (var j=1; j<sakai.sitespages.config.startlevel; j++) {
+                    raw_path_element += "/" + raw_path_elements[j];
+                }
+
+                // Consider only elements below the start level, and discard "_pages" or empty entries
+                for (var i=sakai.sitespages.config.startlevel , current_level = raw_path_elements.length; i<current_level; i++) {
+                    raw_path_element += "/" + raw_path_elements[i];
+                    if ((raw_path_elements[i] !== "_pages") && (raw_path_elements[i] !== "")) {
+                        path_elements.push(raw_path_element);
+                    }
+                }
+
+                full_urls.push(path_elements);
+            }
+        }
+        return full_urls.sort();
+    };
+
+    // Get a page object by it's jcr path
+    var getPageInfoByLastURLElement = function(i_jcr_path) {
+        var return_object = {};
+        for (var i in sakai.sitespages.site_info._pages) {
+            if (sakai.sitespages.site_info._pages[i]["jcr:path"]) {
+                var jcr_path = sakai.sitespages.site_info._pages[i]["jcr:path"];
+            } else {
+                continue;
+            }
+            if (jcr_path === i_jcr_path) {
+                return_object = sakai.sitespages.site_info._pages[i];
+            }
+        }
+        return return_object;
+    };
+
+    // Converts array of URL elements to a hierarchical structure
+    var convertToHierarchy = function(url_array) {
+        var item, path;
+
+        // Discard duplicates and set up parent/child relationships
+        var children = {};
+        var hasParent = {};
+        for (var i = 0, j = url_array.length; i<j; i++) {
+            var path = url_array[i];
+            var parent = null;
+            for (var k = 0, l = path.length; k<l; k++)
+            {
+                var item = path[k];
+                if (!children[item]) {
+                    children[item] = {};
+                }
+                if (parent) {
+                    children[parent][item] = true; /* dummy value */
+                    hasParent[item] = true;
+                }
+                parent = item;
+            }
+        }
+
+        // Now build the hierarchy
+        var result = [];
+        for (item in children) {
+            if (!hasParent[item]) {
+                result.push(buildNodeRecursive(item, children));
+            }
+        }
+        return result;
+    }
+
+    // Recursive helper to create URL hierarchy
+    var buildNodeRecursive = function(url_fragment, children) {
+
+        var page_info = getPageInfoByLastURLElement(url_fragment);
+
+        // Navigation node data
+        var p_title = "";
+        var p_id = "";
+        var p_pagePosition;
+        if (page_info["pageTitle"]) {
+            p_title = sakai.api.Security.saneHTML(page_info["pageTitle"]);
+            p_id = "nav_" + page_info["pageURLName"];
+            p_pagePosition = parseInt(page_info.pagePosition, 10);
+        }
+
+        var node = {
+            attr: { id: p_id },
+            data: {title: p_title, attr: { "href": "javascript:;" }},
+            children:[]
+        };
+        for (var child in children[url_fragment]) {
+            node.children.push(buildNodeRecursive(child, children));
+        }
+        return node;
+    };
+
+
+    /**
+    * This function will sort the pages based on pagePosition
+    * @param {Object} site_objects, the page array
+    */
+    var sortOnPagePosition = function(site_objects){
+
+        // Bublesort to srt the pages
+        for (var x = 0,l = site_objects.length ; x < l; x++) {
+            for (y = 0; y < (l - 1); y++) {
+                if (parseFloat(site_objects[y].data.pagePosition,10) > parseFloat(site_objects[y + 1].data.pagePosition ,10)) {
+                    holder = site_objects[y + 1];
+                    site_objects[y + 1] = site_objects[y];
+                    site_objects[y] = holder;
+                }
+            }
+        }
+        return site_objects;
+    };
+
+
+    var updatePagePosition = function (pagesArray){
+        ajaxArray = [];
+        $(pagesArray).each(function(){
+            var ajaxObject = {
+                "url": this['jcr:path'],
+                "method": "POST",
+                "parameters": {
+                    'pagePosition':this.pagePosition
+                }
+            };
+            ajaxArray.push(ajaxObject);
+        });
+        $.ajax({
+            url: sakai.config.URL.BATCH,
+            traditional: true,
+            type : "POST",
+            cache: false,
+            data: {
+                requests: $.toJSON(ajaxArray),
+                ":replace": true,
+                ":replaceProperties": true
+            },
+            success: function(data){}
+        });
+    };
 
     /**
      * Function that is available to other functions and called by site.js
@@ -93,7 +277,7 @@ sakai.navigation = function(tuid, showSettings){
      * @param {Object[]} site_info_object Contains an array with all the pages, each page is an object.
      */
     sakai.sitespages.navigation.renderNavigation = function(selectedPageUrlName, site_info_object) {
-/*
+
         // Create navigation data object
 
         var full_array_of_urls = fullURLs(site_info_object);
@@ -101,6 +285,37 @@ sakai.navigation = function(tuid, showSettings){
         sakai.sitespages.navigation.navigationData = convertToHierarchy(full_array_of_urls);
         sortOnPagePosition(sakai.sitespages.navigation.navigationData);
 
+        //alert("data: " + JSON.stringify(sakai.sitespages.navigation.navigationData));
+        //alert("url: nav_" + selectedPageUrlName);
+
+        $navigationTree
+            .bind("select_node.jstree", function (ev, data) {
+                // alert("sel: " + data.args[0]);
+                var selectedPageUrl = data.args[0].replace("#nav_","");
+console.log("looking for page: " + selectedPageUrl);
+                // If page is not the current page load it
+                if (sakai.sitespages.selectedpage !== selectedPageUrl) {
+                    History.addBEvent(selectedPageUrl);
+                }
+            })
+            .jstree({
+                "core": {
+                    "animation": 0
+                },
+                "json_data": {
+                    "data": sakai.sitespages.navigation.navigationData
+                },
+                "themes": {
+                    "dots": false,
+                    "icons": true
+                },
+                "ui": {
+                    "select_limit": 1,
+                    "initially_select": ["nav_" + selectedPageUrlName]
+                },
+                "plugins" : [ "themes", "json_data", "ui", "dnd", "cookies" ]
+            });
+/*
         var tree_type = {
             renameable: false,
             deletable: false,

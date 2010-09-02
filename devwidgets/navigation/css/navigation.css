@@ -16,5 +16,11 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/* LAYOUT */
+/* NAVIGATION TREE STYLES */
+
+
+/* BACKGROUND IMAGES */
 #navigation_title {background:transparent url(/dev/_images/pages_icon.png) no-repeat scroll 16px 17px;}
+#navigation_create_page {padding-left:15px; background:transparent url(/dev/_images/add_action_icon.png) no-repeat scroll 3px 3px;}
+#navigation_delete_page {padding-left:15px; background:transparent url(/dev/_images/delete_action_icon.png) no-repeat scroll 3px 3px;}
+
