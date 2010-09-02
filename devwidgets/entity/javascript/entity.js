@@ -266,7 +266,7 @@ sakai.entity = function(tuid, showSettings){
             url: "/system/userManager/group/" + entityconfig.data.profile["sakai:group-id"] + ".members.json",
             async: false,
             success: function(data){
-                var groupMembers = $.parseJSON(data);
+                var groupMembers = data;
                 entityconfig.data.profile["memberCount"] = groupMembers.length
             }
         });

@@ -152,17 +152,22 @@ sakai.pickeruser = function(tuid, showSettings) {
         overlay: 20
     });
 
+    var getSelectedList = function() {
+        var list = $("#as-values-" + tuid).val();
+        // this value is a comma-delimited list
+        // split it and get rid of any empty values in the array
+        list = list.split(",");
+        $(list).each(function(i, val) {
+           if (val === "") {
+               list.splice(i, 1);
+           }
+        });
+        return list;
+    };
+
     var addPeople = function() {
 
-      var userList = $("#as-values-" + tuid).val();
-      // this value is a comma-delimited list
-      // split it and get rid of any empty values in the array
-      userList = userList.split(",");
-      $(userList).each(function(i, val) {
-         if (val === "") {
-             userList.splice(i, 1);
-         }
-      });
+      var userList = getSelectedList();
 
       // send the message if its not empty
       var messageText = $.trim($pickeruser_message.val());
@@ -259,8 +264,8 @@ sakai.pickeruser = function(tuid, showSettings) {
     });
 
     $pickeruser_init_search.bind("click", function() {
-       $(window).trigger("sakai-pickeradvanced-init", null, function(e, users) {
-       });
+        var currentSelections = getSelectedList();
+       $(window).trigger("sakai-pickeradvanced-init", {"list":currentSelections, "config": null});
     });
 
     $pickeruser_close_button.bind("click", function() {

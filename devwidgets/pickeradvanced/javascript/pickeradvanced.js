@@ -75,7 +75,7 @@ sakai.pickeradvanced = function(tuid, showSettings) {
 
     var pickeradvanced_page = ".pickeradvanced_page";
 
-    var callback = false;
+    var pickerlist = false;
 
     var pickerData = {
       "selected": {},
@@ -217,11 +217,21 @@ sakai.pickeradvanced = function(tuid, showSettings) {
             dataType: "json",
             success: function(rawData) {
                 // Eval profile data for now and extend it with additional info
+                var alreadyPicked = false;
+                var newData = [];
                 for (var i = 0, il = rawData.results.length; i < il; i++) {
+                    alreadyPicked = false;
+                    if ($.inArray(rawData.results[i].user, pickerlist) !== -1) {
+                        alreadyPicked = true;
+                    }
                     if (rawData.results[i].profile) {
                         rawData.results[i] = rawData.results[i].profile;
                     }
+                    if (!alreadyPicked)
+                        newData.push(rawData.results[i]);
                 }
+                rawData.results = newData;
+                rawData.total = newData.length;
 
                 // Render the results data template
                 var pageHTML = $.TemplateRenderer($pickeradvanced_content_search_pagetemplate, rawData);
@@ -315,15 +325,15 @@ sakai.pickeradvanced = function(tuid, showSettings) {
                         $pickeradvanced_count_people.show();
                     }
                 }
-
                 // Wire sorting select dropdown
+                $pickeradvanced_sort_on.unbind("change");
                 $pickeradvanced_sort_on.bind("change", function(e){
                     // Reset everything
                     reset();
 
                     // Set config to new sort key
-                    pickerData["sortOn"] = $(this).val();
-
+                    pickerData["sortOn"] = $(this).val().split("_")[0];
+                    pickerData["sortOrder"] = $(this).val().split("_")[1];
                     // Start from scratch
                     addPage(0, searchQuery);
 
@@ -343,6 +353,8 @@ sakai.pickeradvanced = function(tuid, showSettings) {
             }
         });
     };
+
+
 
     $pickeradvanced_container.jqm({
         modal: true,
@@ -365,10 +377,10 @@ sakai.pickeradvanced = function(tuid, showSettings) {
     ////////////
     
     $(window).unbind("sakai-pickeradvanced-init");
-    $(window).bind("sakai-pickeradvanced-init", function(e, config, callbackFn) {
+    $(window).bind("sakai-pickeradvanced-init", function(e, config) {
         $pickeradvanced_container.jqmShow();
-        render(config);
-        callback = callbackFn;
+        pickerlist = config.list;
+        render(config.config);
     });
     
     $pickeradvanced_close_dialog.bind("click", function() {
@@ -381,6 +393,8 @@ sakai.pickeradvanced = function(tuid, showSettings) {
 
     $pickeradvanced_search_filter.bind("click", function() {
        var searchType = $(this).attr("id").split("pickeradvanced_search_")[1];
+       $(".pickeradvanced_selected_list").removeClass("pickeradvanced_selected_list");
+       $(this).parent("li").addClass("pickeradvanced_selected_list");
        var searchURL = false;
        switch (searchType) {
            case "contacts":

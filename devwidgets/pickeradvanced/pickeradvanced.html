@@ -13,33 +13,34 @@
         <div id="pickeradvanced_header">
             <span class="fl-force-left">
                 <form id="pickeradvanced_content_search_form" method="post" action="javascript:;">
-                    Search For <input name="pickeradvanced_search_query" id="pickeradvanced_search_query" />
+                    __MSG__SEARCH_FOR__ <input name="pickeradvanced_search_query" id="pickeradvanced_search_query" />
                     <button type="button" class="s3d-button" id="pickeradvanced_search_button">
-                        <span class="s3d-button-inner">search</span>
+                        <span class="s3d-button-inner">__MSG__SEARCH__</span>
                     </button>
                 </form>
             </span>
 
             <span class="fl-force-right">
-                <select class="pickeradvanced_sort_on">
-                    <option default="true" value="lastNameAsc">Last name A-Z</option>
-                    <option value="lastNameDesc">Last name Z-A</option>
-                    <option value="firstNameAsc">First name A-Z</option>
-                    <option value="firstNameDesc">First name Z-A</option>
+                <select id="pickeradvanced_sort_on">
+                    <option default="true" value="lastName_ascending">Last name A-Z</option>
+                    <option value="lastName_descending">Last name Z-A</option>
+                    <option value="firstName_ascending">First name A-Z</option>
+                    <option value="firstName_descending">First name Z-A</option>
                 </select>
             </span>
         </div>
 
         <div id="pickeradvanced_content">
+            <div id="pickeradvanced_results_header" class="fl-force-left"><span><a href="javascript:;" class="s3d-action">Select All</a></span></div>
             <div id="pickeradvanced_content_list" class="fl-force-left">
                 <ul id="pickeradvanced_people_filters">
-                    <li><a href="javascript:;" id="pickeradvanced_search_contacts" class="pickeradvanced_search_filter">All Contacts</li>
-                    <li><a href="javascript:;" id="pickeradvanced_search_users" class="pickeradvanced_search_filter">All Users</li>
-                    <li><a href="javascript:;" id="pickeradvanced_search_groups" class="pickeradvanced_search_filter">All Groups</li>
+                    <li><a href="javascript:;" id="pickeradvanced_search_contacts" class="pickeradvanced_search_filter s3d-action">All Contacts</a></li>
+                    <li><a href="javascript:;" id="pickeradvanced_search_users" class="pickeradvanced_search_filter s3d-action">All Users</a></li>
+                    <li><a href="javascript:;" id="pickeradvanced_search_groups" class="pickeradvanced_search_filter s3d-action">All Groups</a></li>
                 </ul>
                 <ul id="pickeradvanced_group_filters">
-                    <li><a href="javascript:;" id="pickeradvanced_search_groups_member" class="pickeradvanced_search_filter">Groups I can see</li>
-                    <li><a href="javascript:;" id="pickeradvanced_search_groups_manager" class="pickeradvanced_search_filter">Groups I manage</li>
+                    <li><a href="javascript:;" id="pickeradvanced_search_groups_member" class="pickeradvanced_search_filter s3d-action">Groups I can see</a></li>
+                    <li><a href="javascript:;" id="pickeradvanced_search_groups_manager" class="pickeradvanced_search_filter s3d-action">Groups I manage</a></li>
                 </ul>
                 <ul id="pickeradvanced_group_specific_filters">
                 </ul>
