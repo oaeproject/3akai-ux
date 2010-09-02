@@ -243,7 +243,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         if($(groupBasicInfoDirectoryLvlOne, $rootel).selected().val() !== "no_value" && $(groupBasicInfoDirectoryLvlTwo, $rootel).selected().val() !== "no_value" && $(groupBasicInfoDirectoryLvlThree, $rootel).selected().val() !== "no_value"){
             updateGroup();
         } else{
-            alert("Check values.");
+            sakai.api.Util.notification.show("Select level", "Select all three levels before updating");
         }
     });
 

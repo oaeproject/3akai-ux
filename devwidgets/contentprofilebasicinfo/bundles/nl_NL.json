@@ -20,5 +20,6 @@
 "FAILED_UPDATING_BASIC_INFO":"Basis informatie niet geupdate",
 "FILE_BASIC_INFO_NOT_UPDATED":"De basis informatie van het bestand kon niet worden geupdate",
 "FAILED_LOADING_DATA":"Data niet ingeladen",
-"FAILED_LOADING_FILE_DATA":"De data voor het bestand kon niet ingeladen worden"
+"FAILED_LOADING_FILE_DATA":"De data voor het bestand kon niet ingeladen worden",
+"WHERE_CONTENT_FOUND_IN_DIRECTORY":"Waar kan deze inhoud gevonden worden"
 }
