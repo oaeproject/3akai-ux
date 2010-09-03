@@ -149,10 +149,10 @@ sakai.sitespages.site_admin = function(){
                 });
 
                 // Refresh site info
-                sakai.sitespages.refreshSiteInfo(tgt_urlsafe_name);
+                sakai.sitespages.refreshSiteInfo(tgt_urlsafe_name, false);
 
                 // Call callback function
-                callback();
+                callback(tgt_urlsafe_name);
             },
             error: function(xhr, text, thrown_error) {
                 fluid.log("sitespages_admin.js/movePage(): Failed to move page node!");
@@ -572,7 +572,7 @@ sakai.sitespages.site_admin = function(){
         }
 
         // Refresh site_info object
-        sakai.sitespages.refreshSiteInfo();
+        sakai.sitespages.refreshSiteInfo("", false);
 
         // Get title
         pagetitle = sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageTitle"];
@@ -840,6 +840,7 @@ sakai.sitespages.site_admin = function(){
                             url: newPageUniques.url + "/pageContent.save.html",
                             type: "POST"
                         });
+                        sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"] = getContent();
 
                         // Create an activity item for the new page
                         /* var nodeUrl = newPageUniques.url;
@@ -870,8 +871,7 @@ sakai.sitespages.site_admin = function(){
                                 },
                                 success: function(data) {
                                     // Refresh site info
-                                    sakai.sitespages.refreshSiteInfo(newPageUniques.urlName);
-
+                                    sakai.sitespages.refreshSiteInfo(newPageUniques.urlName, false);
                                     // Switch back to view mode
                                     $("#edit_view_container").hide();
                                     $("#show_view_container").show();
@@ -880,7 +880,7 @@ sakai.sitespages.site_admin = function(){
                         } else {
 
                             // Refresh site info
-                            sakai.sitespages.refreshSiteInfo(newPageUniques.urlName);
+                            sakai.sitespages.refreshSiteInfo(newPageUniques.urlName, false);
 
                             // Switch back to view mode
                             $("#edit_view_container").hide();
@@ -897,7 +897,6 @@ sakai.sitespages.site_admin = function(){
 
             }
             else {
-
                 // We are editing an existing page
                 if (sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageType"] === "webpage") {
                     $("#webpage_edit").show();
@@ -906,21 +905,17 @@ sakai.sitespages.site_admin = function(){
                 // Store page contents
                 sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"] = getContent();
 
-                // Put page contents into html
-                $("#" + sakai.sitespages.selectedpage).html(sakai.api.Security.saneHTML(sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"]));
-
                 // Switch back to view mode
                 $("#edit_view_container").hide();
                 $("#show_view_container").show();
 
-                $("#" + sakai.sitespages.selectedpage).show();
                 sakai.api.Widgets.widgetLoader.insertWidgets(sakai.sitespages.selectedpage,null,sakai.sitespages.config.basepath + "_widgets/");
 
                 // Save page node
                 sakai.sitespages.savePage(sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["jcr:path"], sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageType"], sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageTitle"], sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"], sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pagePosition"], "parent", (sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage].fullwidth || false), function(success, return_data){
 
                     if (success) {
-
+                        History.addBEvent(sakai.sitespages.selectedpage);
                         //Update title in HTML
                         $("#pagetitle").html(sakai.api.Security.saneHTML(sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageTitle"]));
 
@@ -1779,9 +1774,9 @@ sakai.sitespages.site_admin = function(){
             sakai.sitespages.pagecontents[pageUniques.urlName] = {};
             sakai.sitespages.pagecontents[pageUniques.urlName]["sakai:pagecontent"] = content;
         }
-
+        var newPosition = determineHighestPosition() + 100000;
         sakai.sitespages.savePage(pageUniques.url, "webpage", pageTitle,
-            content, (determineHighestPosition() + 100000), "parent", false,
+            content, newPosition, "parent", false,
             function(success, data){
 
             if (success) {
@@ -1789,6 +1784,8 @@ sakai.sitespages.site_admin = function(){
                 // Store page selected and old IDs
                 sakai.sitespages.oldSelectedPage = sakai.sitespages.selectedpage;
                 sakai.sitespages.selectedpage = pageUniques.urlName;
+
+                sakai.sitespages.navigation.addNode(sakai.sitespages.selectedpage, pageTitle, newPosition);
 
                 // Init tinyMCE if needed
                 if (tinyMCE.activeEditor === null) { // Probably a more robust checking will be necessary
@@ -1835,7 +1832,8 @@ sakai.sitespages.site_admin = function(){
         var defaultDashboardContent = '<div id="widget_dashboard_' + dashboardUID + '_' + sakai.sitespages.config.basepath + "_widgets/" + '" class="widget_inline"></div>';
 
         // Create page node for dashboard page
-        sakai.sitespages.savePage(pageUniques.url, "dashboard", title, defaultDashboardContent, (determineHighestPosition() + 200000), "parent", false, function(success, data){
+        var newPosition = determineHighestPosition() + 200000;
+        sakai.sitespages.savePage(pageUniques.url, "dashboard", title, defaultDashboardContent, newPosition, "parent", false, function(success, data){
 
             // If page save was successful
             if (success) {
@@ -1846,8 +1844,8 @@ sakai.sitespages.site_admin = function(){
                 $("#createpage_container").jqmHide();
 
                 // Refresh site_info object and open page
-                sakai.sitespages.refreshSiteInfo(pageUniques.urlName);
-
+                sakai.sitespages.refreshSiteInfo(pageUniques.urlName, false);
+                sakai.sitespages.navigation.addNode(sakai.sitespages.selectedpage, title, newPosition);
                 // Check in new page content to revision history
                 $.ajax({
                     url: pageUniques.url + "/pageContent.save.html",
@@ -2227,13 +2225,12 @@ sakai.sitespages.site_admin = function(){
                 }
                 sakai.api.Activity.createActivity(nodeUrl, "site", "default", activityData);
                 */
-
+                sakai.sitespages.navigation.deleteNode(sakai.sitespages.selectedpage);
                 delete sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage];
                 delete sakai.sitespages.pagecontents[sakai.sitespages.selectedpage];
                 sakai.sitespages.autosavecontent = false;
                 updatePagePositions(selectedPage);
-                document.location = sakai.sitespages.config.url;
-
+                $('#delete_dialog').jqmHide();
             },
             error: function(xhr, textStatus, thrownError) {
 

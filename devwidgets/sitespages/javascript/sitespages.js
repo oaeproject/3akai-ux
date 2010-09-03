@@ -116,7 +116,11 @@ sakai.sitespages = function(tuid,showSettings){
      * @param pageToOpen {String} URL safe title of a page which we want to open after the site info object refresh (optional)
      * @return void
      */
-    sakai.sitespages.refreshSiteInfo = function(pageToOpen) {
+    sakai.sitespages.refreshSiteInfo = function(pageToOpen, loadNav) {
+        var doLoadNav = true;
+        if (loadNav !== undefined) {
+            doLoadNav = loadNav;
+        }
 
         // Load site information
         $.ajax({
@@ -179,14 +183,16 @@ sakai.sitespages = function(tuid,showSettings){
                 };
 
                 // Open page if necessary
-                if (pageToOpen){
+                if (pageToOpen && pageToOpen !== "") {
                     sakai.sitespages.openPage(pageToOpen);
                 }
 
                 // Load page templates
                 sakai.sitespages.loadTemplates();
                 // Load site navigation
-                sakai.sitespages.loadSiteNavigation();
+                if (doLoadNav) {
+                    sakai.sitespages.loadSiteNavigation();
+                }
             },
             error: function(xhr, textStatus, thrownError) {
                 sakai.site.site_info = {};

@@ -281,12 +281,19 @@ sakai.navigation = function(tuid, showSettings){
     // EVENT HANDLING //
     ////////////////////
 
+    var firstTime = true;
     // When a page is selected in the navigation tree, show it
     $navigationTree.bind("select_node.jstree", function(e, data) {
         var selectedPageUrl = $(data.rslt.obj[0]).attr("id").replace("nav_","");
         // If page is not the current page load it
         if (sakai.sitespages.selectedpage !== selectedPageUrl) {
-            History.addBEvent(selectedPageUrl);
+            if (!firstTime) { // otherwise this fires on page load, which we don't want it to
+                History.addBEvent(selectedPageUrl);
+            } else { // lets fire the correct event, and select the node
+               $navigationTree.jstree("deselect_node", $navigationTree.jstree("get_selected"));
+               $navigationTree.jstree("select_node", $("#nav_"+sakai.sitespages.selectedpage));
+               firstTime = false;
+            }
         }
     });
 
@@ -328,8 +335,12 @@ sakai.navigation = function(tuid, showSettings){
         // If there is a depth difference or putting a node inside another the move is a move within a hierarchy
         if ((src_url_depth !== ref_url_depth) || (position === "inside")) {
             // Move page
-            sakai.sitespages.movePage(src_url, tgt_url, function(){
-                // Do nothing for now
+            sakai.sitespages.movePage(src_url, tgt_url, function(newName){
+                // update reference to the page in the nav
+                var newID = "nav_" + newName;
+                $moved_node.attr("id", newID);
+                $navigationTree.jstree("open_node", $reference_node);
+                $navigationTree.jstree("select_node", $moved_node);
             });
 
         } else if((position ==='before') ||(position ==='after')){
@@ -427,10 +438,10 @@ sakai.navigation = function(tuid, showSettings){
 
     // Show the settings menu icon when the user hovers over the widget
     $navigationWidget.hover(
-        hoverIn = function () {
+        function () {
             $settingsIcon.show();
         },
-        hoverOut = function () {
+        function () {
             $settingsIcon.hide();
         }
     );
@@ -473,8 +484,6 @@ sakai.navigation = function(tuid, showSettings){
      * @param {Object} site_info_object Contains an array with all the pages, each page is an object.
      */
     sakai.sitespages.navigation.renderNavigation = function(selectedPageUrlName, site_info_object) {
-        console.log("render called");
-        console.trace();
         // TODO error checking on args (esp. in case there are no objects in
         // site_info_object)
 
@@ -508,6 +517,33 @@ sakai.navigation = function(tuid, showSettings){
             },
             "plugins" : [ "themes", "json_data", "ui", "dnd", "cookies" ]
         });
+    };
+
+    sakai.sitespages.navigation.addNode = function(nodeID, nodeTitle, nodePosition) {
+        var newNode = {
+          "children": [],
+          "data": {
+              "attr": {
+                  "href": "javascript;"
+              },
+              "pagePosition": nodePosition,
+              "title": nodeTitle
+          },
+          "attr": {
+              "id": "nav_" + nodeID
+          }
+        };
+        var $lastNode = $navigationTree.find("ul.jstree-no-dots > li").last();
+        $navigationTree.jstree("create_node", $lastNode, "after", newNode, function(e){
+            $lastNode = $navigationTree.find("ul.jstree-no-dots > li").last();
+            $navigationTree.jstree("deselect_node", $navigationTree.jstree("get_selected"));
+            $navigationTree.jstree("select_node", $lastNode);
+        });
+    };
+
+    sakai.sitespages.navigation.deleteNode = function(nodeID) {
+        var $nodeToDelete = $navigationTree.find("#nav_" + nodeID);
+        $navigationTree.jstree("delete_node", $nodeToDelete);
     };
 
     ///////////////////////
