@@ -569,7 +569,7 @@ sakai.fileupload = function(tuid, showSettings){
      * Execute checks to see if this link is a revision or not
      */
     var uploadLink = function(){
-        var body = "--AAAAA\r\n"
+        var body = "--AAAAA\r\n";
         body = body + "Content-Disposition: form-data; name=\"*\"; filename=\"" + $(fileUploadLinkBoxInput).val() + ".lnk\" \r\n";
         body = body + "Content-Type: x-sakai/link \r\n";
         body = body + "Content-Transfer-Encoding: binary\r\n\r\n";
@@ -580,7 +580,7 @@ sakai.fileupload = function(tuid, showSettings){
         if (newVersionIsLink){
             path = oldVersionPath;
         } else {
-            path = uploadPath
+            path = uploadPath;
         }
         $.ajax({
             url: path,
