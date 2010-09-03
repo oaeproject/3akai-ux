@@ -199,7 +199,7 @@ sakai.creategroup = function(tuid, showSettings){
      * @param {String} groupdescription the description of the group that's being created
      * @param {String} groupidManagers the id of the managers group for the group that's being created
     */
-    var doSaveGroup = function(groupid, grouptitle, groupdescription, groupidManagers){
+    var doSaveGroup = function(groupid, grouptitle, groupdescription){
     // Create a group with the managers group
 
         $.ajax({
@@ -207,8 +207,7 @@ sakai.creategroup = function(tuid, showSettings){
             data: {
                 "_charset_":"utf-8",
                 ":name": groupid,
-                ":manager": groupidManagers,
-                ":member": groupidManagers,
+                ":sakai:manager": sakai.data.me.user.userid,
                 "sakai:group-title" : grouptitle,
                 "sakai:group-description" : groupdescription,
                 "sakai:group-id": groupid,
@@ -235,50 +234,6 @@ sakai.creategroup = function(tuid, showSettings){
         });
     };
 
-    /**
-     * Create the managers group.
-     * @param {String} groupid the id of the group that's being created
-     * @param {String} grouptitle the title of the group that's being created
-     * @param {String} groupdescription the description of the group that's being created
-    */
-    var doSaveGroupManagers = function(groupid, grouptitle, groupdescription){
-    // Create the groups
-        var groupidManagers = groupid + "-managers";
-        var grouptitleManagers = grouptitle + " Managers";
-
-        $.ajax({
-            url: sakai.config.URL.GROUP_CREATE_SERVICE,
-            data: {
-                "_charset_":"utf-8",
-                ":name": groupidManagers,
-                ":manager": groupidManagers,
-                ":viewer": groupidManagers,
-                ":member": sakai.data.me.user.userid,
-                "sakai:group-title" : grouptitleManagers,
-                "sakai:group-description" : groupdescription,
-                "sakai:group-id": groupidManagers,
-                "sakai:group-joinable": sakai.config.Permissions.Groups.joinable.manager_add,
-                "sakai:group-visible": sakai.config.Permissions.Groups.visible.members
-            },
-            type: "POST",
-            success: function(data, textStatus){
-                // check if the managers group exists proceed
-                if (doCheckGroup(groupidManagers)) {
-                    // create the actual group
-                    doSaveGroup(groupid, grouptitle, groupdescription, groupidManagers);
-                }
-            },
-            error: function(xhr, textStatus, thrownError){
-                var groupCheck = doCheckGroup(groupid);
-                if (groupCheck){
-                    setError(createGroupAddId,createGroupAddIdTaken,true);
-                } else {
-                    fluid.log("An error has occurred: " + xhr.status + " " + xhr.statusText);
-                }
-                showProcess(false);
-            }
-        });
-    };
 
     var saveGroup = function(){
         resetErrorFields();
@@ -316,7 +271,7 @@ sakai.creategroup = function(tuid, showSettings){
             // Hide the buttons and show the process status
             showProcess(true);
             groupid = 'g-' + groupid;
-            doSaveGroupManagers(groupid, grouptitle, groupdescription);
+            doSaveGroup(groupid, grouptitle, groupdescription);
         }
     };
 

@@ -5,7 +5,7 @@
 <div id="pickeradvanced_container" style="display:none" class="dialog">
     <div id="pickeradvanced_container_header" class="dialog_header">
         <div class="dialog_header_inner">
-            <h1>Search for People to add</h1>
+            <h1>__MSG__SEARCH_FOR_PEOPLE_TO_ADD__</h1>
             <a href="javascript:;" class="dialog_close_image pickeradvanced_close_dialog" title="Close Dialog"></a>
         </div>
     </div>
@@ -13,35 +13,36 @@
         <div id="pickeradvanced_header">
             <span class="fl-force-left">
                 <form id="pickeradvanced_content_search_form" method="post" action="javascript:;">
-                    Search For <input name="pickeradvanced_search_query" id="pickeradvanced_search_query" />
+                    __MSG__SEARCH_FOR__ <input name="pickeradvanced_search_query" id="pickeradvanced_search_query" />
                     <button type="button" class="s3d-button" id="pickeradvanced_search_button">
-                        <span class="s3d-button-inner">search</span>
+                        <span class="s3d-button-inner">__MSG__SEARCH__</span>
                     </button>
                 </form>
             </span>
 
             <span class="fl-force-right">
-                <select class="pickeradvanced_sort_on">
-                    <option default="true" value="lastNameAsc">Last name A-Z</option>
-                    <option value="lastNameDesc">Last name Z-A</option>
-                    <option value="firstNameAsc">First name A-Z</option>
-                    <option value="firstNameDesc">First name Z-A</option>
+                <select id="pickeradvanced_sort_on">
+                    <option default="true" value="lastName_ascending">__MSG__LAST_NAME__ __MSG__A_Z__</option>
+                    <option value="lastName_descending">__MSG__LAST_NAME__ __MSG__Z_A__</option>
+                    <option value="firstName_ascending">__MSG__FIRST_NAME__ __MSG__A_Z__</option>
+                    <option value="firstName_descending">__MSG__FIRST_NAME__ __MSG__Z_A__</option>
                 </select>
             </span>
         </div>
 
         <div id="pickeradvanced_content">
+            <div id="pickeradvanced_results_header" class="fl-force-left"><span><a href="javascript:;" id="pickeradvanced_select_all_button" class="s3d-action">__MSG__SELECT_ALL__</a></span></div>
             <div id="pickeradvanced_content_list" class="fl-force-left">
                 <ul id="pickeradvanced_people_filters">
-                    <li><a href="javascript:;" id="pickeradvanced_search_contacts" class="pickeradvanced_search_filter">All Contacts</li>
-                    <li><a href="javascript:;" id="pickeradvanced_search_users" class="pickeradvanced_search_filter">All Users</li>
-                    <li><a href="javascript:;" id="pickeradvanced_search_groups" class="pickeradvanced_search_filter">All Groups</li>
+                    <li><a href="javascript:;" id="pickeradvanced_search_contacts" class="pickeradvanced_search_filter s3d-action">__MSG__ALL_CONTACTS__</a></li>
+                    <li><a href="javascript:;" id="pickeradvanced_search_users" class="pickeradvanced_search_filter s3d-action">__MSG__ALL_USERS__</a></li>
+                    <li><a href="javascript:;" id="pickeradvanced_search_groups" class="pickeradvanced_search_filter s3d-action">__MSG__ALL_GROUPS__</a></li>
                 </ul>
                 <ul id="pickeradvanced_group_filters">
-                    <li><a href="javascript:;" id="pickeradvanced_search_groups_member" class="pickeradvanced_search_filter">Groups I can see</li>
-                    <li><a href="javascript:;" id="pickeradvanced_search_groups_manager" class="pickeradvanced_search_filter">Groups I manage</li>
+                    <li><a href="javascript:;" id="pickeradvanced_search_groups_member" class="pickeradvanced_search_filter s3d-action">__MSG__GROUPS_I_CAN_SEE__</a></li>
+                    <li><a href="javascript:;" id="pickeradvanced_search_groups_manager" class="pickeradvanced_search_filter s3d-action">__MSG__GROUPS_I_MANAGE__</a></li>
                 </ul>
-                <ul id="pickeradvanced_group_specific_filters">
+                <ul id="pickeradvanced_group_specific_filters" class="last">
                 </ul>
             </div>
             <div id="pickeradvanced_content_search" class="fl-force-left"></div>
@@ -51,7 +52,7 @@
                         <span class="s3d-button-inner">__MSG__ADD_SELECTED__</span></span>
                     </button>
                     <button type="button" class="s3d-button fl-force-right" id="pickeradvanced_close">
-                        <span class="s3d-button-inner">Cancel</span>
+                        <span class="s3d-button-inner">__MSG__CANCEL__</span>
                     </button>
                 </div>
             </div>
@@ -100,8 +101,12 @@
             --></div>
         </div>
 
+        <div id="pickeradvanced_group_search_template" style="display:none"><!--
+            <li><a href="javascript:;" id="pickeradvanced_search_groups_${data.groupid}" class="pickeradvanced_search_filter s3d-action">${data["sakai:group-title"]}</a></li>
+        --></div>
+
         <div id="pickeradvanced_error_template" style="display:none;">
-            <span>Sorry, could not retrieve the list of users form the server!</span>
+            <span>__MSG__ERROR_MSG__</span>
         </div>
     </div>
 </div>
