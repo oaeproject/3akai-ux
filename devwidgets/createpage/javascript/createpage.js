@@ -60,8 +60,8 @@ sakai.createpage = function(tuid, showSettings){
     ///////////////////////
 
     /**
-     * Remove any error notices, reset values for select and text inputs and
-     * hide templates
+     * This function is called before the jqModal hides. It removes any error
+     * notices, resets values for select and text inputs and hides templates
      */
     var resetModalDialog = function (hash) {
         // hide the overlay

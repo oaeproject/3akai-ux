@@ -60,8 +60,12 @@ sakai.navigation = function(tuid, showSettings){
     var $mainView = $("#navigation_main", $rootel);
     var $settingsView = $("#navigation_settings", $rootel);
     var $settingsIcon = $("#navigation_settings_icon", $rootel);
+    var $pageCount = $("#navigation_page_count", $rootel);
     var $navigationTree = $("#navigation_tree", $rootel);
     var $createPageLink = $("#navigation_create_page", $rootel);
+    var $deletePageLink = $("#navigation_delete_page", $rootel);
+    var $deleteDialog = $("#delete_dialog");  // careful! coming from sitespages.html
+    var $deleteConfirmPageTitle = $("#sitespages_delete_confirm_page_title");  // careful! coming from sitespages.html
 
     // trimpath Templates
     var $navigationSettingsTemplate = $("#navigation_settings_template", $rootel);
@@ -415,44 +419,10 @@ sakai.navigation = function(tuid, showSettings){
             }
         }
     });
-    /**
-     * Function that is available to other functions and called by site.js
-     * It fires the event to render the navigation
-     * @param {Boolean|String} selected_page_id
-     *     false: if there is no page selected
-     *     pageid: when you select a page
-     * @param {Object[]} site_info_object Contains an array with all the pages, each page is an object.
-     */
-    sakai.sitespages.navigation.renderNavigation = function(selectedPageUrlName, site_info_object) {
-        // Create navigation data object
-        var full_array_of_urls = fullURLs(site_info_object);
-        sakai.sitespages.navigation.navigationData = [];
-        sakai.sitespages.navigation.navigationData = convertToHierarchy(full_array_of_urls);
-        sortOnPagePosition(sakai.sitespages.navigation.navigationData);
-
-        console.log("render called");
-        $navigationTree.jstree({
-            "core": {
-                "animation": 0,
-            },
-            "json_data": {
-                "data": sakai.sitespages.navigation.navigationData
-            },
-            "themes": {
-                "dots": false,
-                "icons": true
-            },
-            "ui": {
-                "select_limit": 1,
-                "initially_select": ["nav_" + selectedPageUrlName],
-            },
-            "plugins" : [ "themes", "json_data", "ui", "dnd", "cookies" ]
-        });
-    };
 
 
     ///////////////////////
-    // BINDINGS          //
+    // EVENT BINDINGS    //
     ///////////////////////
 
     // Show the settings menu icon when the user hovers over the widget
@@ -474,6 +444,66 @@ sakai.navigation = function(tuid, showSettings){
     $createPageLink.click(function () {
         sakai.createpage.initialise();
     });
+
+    // Show the Delete confirmation window when the user clicks 'Delete page'
+    $deletePageLink.click(function () {
+        var pageTitle = sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage].pageTitle;
+        if(pageTitle) {
+            $deleteConfirmPageTitle.html("&quot;" + pageTitle + "&quot;");
+        } else {
+            $deleteConfirmPageTitle.html("this page");
+        }
+        $deleteDialog.jqmShow();
+    });
+
+
+    //////////////////////////////
+    // Initialization Functions //
+    //////////////////////////////
+
+    /**
+     * Function that is available to other functions and called by site.js
+     * It fires the event to render the navigation
+     * @param {String} selectedPageUrlName id of the page to select upon initial
+     *   load of the navigation tree. If null, a default page is selected.
+     * @param {Object} site_info_object Contains an array with all the pages, each page is an object.
+     */
+    sakai.sitespages.navigation.renderNavigation = function(selectedPageUrlName, site_info_object) {
+        console.log("render called");
+        // TODO error checking on args (esp. in case there are no objects in
+        // site_info_object)
+
+        // set the number of pages we have
+        $pageCount.html(sakai.sitespages.site_info.number_of_pages());
+
+        // Create navigation data object
+        var full_array_of_urls = fullURLs(site_info_object);
+        var navigationData = convertToHierarchy(full_array_of_urls);
+        sortOnPagePosition(navigationData);
+
+        // determine which page to initially select
+        var initiallySelect = navigationData[0].attr.id;
+        if(selectedPageUrlName) {
+            initiallySelect = "nav_" + selectedPageUrlName;
+        }
+        $navigationTree.jstree({
+            "core": {
+                "animation": 0,
+            },
+            "json_data": {
+                "data": navigationData
+            },
+            "themes": {
+                "dots": false,
+                "icons": true
+            },
+            "ui": {
+                "select_limit": 1,
+                "initially_select": [initiallySelect.toString()],
+            },
+            "plugins" : [ "themes", "json_data", "ui", "dnd", "cookies" ]
+        });
+    };
 
     ///////////////////////
     // Initial functions //
