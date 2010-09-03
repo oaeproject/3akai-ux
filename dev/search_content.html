@@ -67,7 +67,7 @@
                         <li><a id="tab_search_all" href="search.html#">__MSG__ALL__</a></li>
                         <li class="fl-tabs-active search_tab_selected"><a href="search_content.html#" id="tab_search_content">__MSG__CONTENT_AND_MEDIA__</a></li>
                         <li><a href="search_people.html#" id="tab_search_people">__MSG__PEOPLE__</a></li>
-                        <li><a href="search_sites.html#" id="tab_search_sites">__MSG__COURSES_AND_SITES__</a></li>
+                        <li><a href="search_groups.html#" id="tab_search_sites">__MSG__GROUPS__</a></li>
                     </ul>
                 </div>
 
@@ -105,6 +105,7 @@
                                 --></div>
                             </div>
                         </div>
+
                         <div class="fl-left fl-container search_result_title" id="search_results_header">
                             __MSG__FOUND__ <strong id="search_numberFound">0</strong>
                             __MSG__RESULTS_MATCHING_YOUR_SEARCH_FOR__
@@ -113,8 +114,45 @@
                         <!-- TEMPORARY SEARCH TEXT -->
                         <span id="search_result_temp" style="display:none;"><b>__MSG__SEARCHING__ ...</b></span>
 
+                        <div class="fl-container fl-fix search_results">
+
+                        <div class="search_results_faceted">
+                            <!-- CONTAINER FOR FACETED -->
+                            <div id="search_faceted_container"></div>
+
+                            <!-- TEMPLATE CONTAINING THE FACETED -->
+                            <div id="search_faceted_template"><!--
+                                <div class="search_faceted">
+                                    <div class="search_faceted_title">
+                                        ${title}
+                                    </div>
+                                    <div class="search_faceted_back" style="display:none;">
+                                        <a href="javascript:;" class="search_faceted_back_link">Back</a>
+                                    </div>
+                                    <div class="search_faceted_list">
+                                        <div class="search_faceted_value">
+                                            ${value}
+                                        </div>
+                                        {for t in categories}
+                                            {if t_index > 9}
+                                                <div class="search_faceted_list_expanded" style="display:none;"><span class="search_faceted_category"><a href="javascript:;" id="${t.split(' ').join('')}">${t}</a></span></div>
+                                            {else}
+                                                <span class="search_faceted_category"><a href="javascript:;" id="${t.split(' ').join('')}">${t}</a></span>
+                                            {/if}
+                                        {/for}
+                                        {if categories.length > 9}
+                                            <a href="javascript:;" id="search_faceted_listall">List All</a>
+                                        {/if}
+                                    </div>
+                                    <div class="search_faceted_back" style="display:none;">
+                                        <a href="javascript:;" class="search_faceted_back_link">Back</a>
+                                    </div>
+                                </div>
+                            --></div>
+                        </div>
+
                         <!-- SEARCH RESULTS -->
-                        <div id="search_results_page1" class="fl-container fl-fix search_results_container">
+                        <div id="search_results_page1" class="search_results_container search_results_container_sub">
                             <div class="search_top_rounded"><div class="search_top_rounded_inner"><!-- --></div></div>
 
                             <!-- CONTENT -->
@@ -163,7 +201,9 @@
 
                             <div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"><!-- --></div></div>
                         </div>
+                        </div>
                     </div>
+
                     <div class="search_tab_content_bottom">
                         <div class="search_tab_content_bottom_inner"><!-- --></div>
                     </div>
