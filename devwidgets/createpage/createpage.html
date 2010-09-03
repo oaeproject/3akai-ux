@@ -1,0 +1,66 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/createpage/css/createpage.css" />
+
+<!-- CONTAINER -->
+<div style="display:none" id="createpage_container" class="dialog">
+    <div class="dialog_header">
+        <div class="dialog_header_inner">
+            <h1>__MSG__WIDGET_TITLE__</h1>
+            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+        </div>
+    </div>
+
+    <div class="dialog_content">
+        <form id="createpage_form" method="post" action="javascript:;">
+            <p><label for="createpage_page_type" class="createpage_form_label">__MSG__PAGE_TYPE__:</label>
+                <select id="createpage_page_type">
+                    <option value="blank">__MSG__BLANK_PAGE__</option>
+                    <option value="template">__MSG__TEMPLATE_PAGE__</option>
+                    <option value="dashboard">__MSG__DASHBOARD_PAGE__</option>
+                </select>
+            </p>
+            <div id="createpage_templates" style="display:none">
+                <div id="createpage_templates_template"><!--
+                {if templates.length === 0}
+                    <p id="createpage_notemplates_msg">__MSG__NO_TEMPLATES__</p>
+                {else}
+                    <p>__MSG__TEMPLATES_AVAILABLE__:</p>
+                    <ul id="createpage_templates_list">
+                    {for t in templates}
+                        <li><input id="createpagetemplate_${t.id}" type="radio"
+                            name="template_choice" class="createpagetemplate_radio"
+                            value="${t.id}">
+                            <label for="createpagetemplate_${t.id}"><span
+                                class="createpagetemplate_name">${t.name}</span><span
+                                class="createpagetemplate_desc">${t.desc}</span></label>
+                            (<a id="createpagedeletetemplate_${t.id}"
+                                class="createpage_delete_template_link"
+                                href="javascript:;">__MSG__DELETE__</a>)
+                        </li>
+                    {/for}
+                    </ul>
+                {/if}
+                --></div>
+            </div>
+            <p><label for="createpage_title" class="createpage_form_label">__MSG__PAGE_TITLE__:</label>
+                <input id="createpage_title" maxlength="255" type="text" value="" />
+                <p class="createpage_error_msg"
+                    style="display:none;">__MSG__ENTER_PAGE_NAME__</p>
+            </p>
+
+            <div class="dialog_buttons">
+                <span id="createpage_processing" style="display:none">__MSG__PROCESSING__ ...</span>
+                <button type="submit" class="s3d-button s3d-button-primary" id="createpage_save"><span class="s3d-button-inner">__MSG__CREATE_PAGE__</span></button>
+                <button type="button" class="s3d-button s3d-button jqmClose" id="createpage_cancel"><span class="s3d-button-inner">__MSG__DONT_CREATE__</span></button>
+            </div>
+        </form>
+    </div>
+
+    <!-- DIALOG FOOTER -->
+    <div class="dialog_footer">
+        <div class="dialog_footer_inner"><!-- --></div>
+    </div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/createpage/javascript/createpage.js"></script>

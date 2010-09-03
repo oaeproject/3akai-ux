@@ -17,7 +17,7 @@
  */
 
 /* NAVIGATION TREE STYLES */
-
+#navigation_tree ul.jstree-no-dots li.jstree-leaf {margin:4px 0;}
 
 /* BACKGROUND IMAGES */
 #navigation_title {background:transparent url(/dev/_images/pages_icon.png) no-repeat scroll 16px 17px;}
