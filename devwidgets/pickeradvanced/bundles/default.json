@@ -2,6 +2,17 @@
 "ADD_SELECTED": "Add Selected",
 "SEARCH": "Search",
 "SEARCH_FOR": "Search for",
+"SEARCH_FOR_PEOPLE_TO_ADD": "Search for People to add",
 "LAST_NAME": "Last name",
-"FISRT_NAME": "First name"
+"FISRT_NAME": "First name",
+"A_Z": "A-Z",
+"Z_A": "Z-A",
+"ALL_CONTACTS": "All Contacts",
+"ALL_USERS": "All Users",
+"ALL_GROUPS": "All Groups",
+"GROUPS_I_CAN_SEE": "Groups I can see",
+"GROUPS_I_MANAGE": "Groups I manage",
+"GROUPS_I_MEMBER_OF": "Groups I'm a member of",
+"SELECT_ALL": "Select All",
+"ERROR_MSG": "Sorry, could not retrieve the list of users form the server!"
 }
