@@ -94,11 +94,23 @@
 .search_content_main .search_bar {
     width: auto;
 }
+.search_content_main .search_results {
+    display: block;
+}
+.search_content_main .search_results_faceted {
+    float: left;
+    width: 20%;
+}
 .search_content_main .search_results_container {
     background-color: #EEF2F5;
     padding: 0;
     margin: 0 0 10px 0;
     display: none;
+    float: left;
+    width: 100%;
+}
+.search_content_main .search_results_container_sub {
+    width: 80% !important;
 }
 .search_top_rounded {
     background: transparent url(../../_images/search_results_tl.png) top left no-repeat;

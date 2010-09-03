@@ -16,15 +16,15 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config, History */
+/*global $, Config, History, mainSearch, sakai */
 
-var sakai = sakai || {};
+
 sakai.search = function() {
 
 
-    //////////////////////
-    // Config variables //
-    //////////////////////
+    //////////////////////////
+    //    Config variables    //
+    //////////////////////////
 
     var resultsToDisplay = 10;
     var searchterm = "";
@@ -32,20 +32,13 @@ sakai.search = function() {
 
     // Search URL mapping
     var searchURLmap = {
-        allfiles : sakai.config.URL.SEARCH_ALL_FILES_SERVICE,
-        mybookmarks : sakai.config.URL.SEARCH_MY_BOOKMARKS,
-        mycontacts : sakai.config.URL.SEARCH_MY_CONTACTS,
-        myfiles : sakai.config.URL.SEARCH_MY_FILES,
-        mysites : sakai.config.URL.SEARCH_MY_SITES,
-        pooledcontentmanager: sakai.config.URL.POOLED_CONTENT_MANAGER,
-        pooledcontentviewer: sakai.config.URL.POOLED_CONTENT_VIEWER
+        visiblegroups : sakai.config.URL.SEARCH_GROUPS,
+        managergroups : sakai.config.URL.SEARCH_GROUPS,
+        membergroups : sakai.config.URL.SEARCH_GROUPS
     };
 
     // CSS IDs
     var search = "#search";
-
-    var searchSiteSelect = $(search + "_site_select");
-    var searchSiteSelectTemplate = "search_site_select_template";
 
     var searchConfig = {
         search : "#search",
@@ -104,7 +97,7 @@ sakai.search = function() {
 
 
     //////////////////////////
-    // Search Functionality //
+    // Search Functionality    //
     //////////////////////////
 
     /**
@@ -113,19 +106,20 @@ sakai.search = function() {
      * using the back and forward button.
      * @param {Integer} page The page you are on (optional / default = 1.)
      * @param {String} searchquery The searchterm you want to look for (optional / default = input box value.)
+     * @param {String} searchwhere The subset of sites you want to search in
      */
     var doHSearch = function(page, searchquery, searchwhere) {
         if (!page) {
             page = 1;
         }
         if (!searchquery) {
-            searchquery = $(searchConfig.global.text).val();
+            searchquery = $(searchConfig.global.text).val().toLowerCase();
         }
         if (!searchwhere) {
             searchwhere = mainSearch.getSearchWhereSites();
         }
-        currentpage = page;
 
+        currentpage = page;
         // This will invoke the sakai._search.doSearch function and change the url.
         History.addBEvent(page, encodeURIComponent(searchquery), searchwhere);
     };
@@ -149,7 +143,7 @@ sakai.search = function() {
     var renderResults = function(results, success) {
         var finaljson = {};
         finaljson.items = [];
-        if (success) {
+            if (success) {
 
             // Adjust display global total
             // If number is higher than a configurable threshold show a word instead conveying ther uncountable volume -- TO DO: i18n this
@@ -170,12 +164,37 @@ sakai.search = function() {
 
             // If we have results we add them to the object.
             if (results && results.results) {
-                finaljson = mainSearch.prepareCMforRendering(results.results, finaljson, searchterm);
+                finaljson.items = results.results;
+                for (var group in finaljson.items){
+                    if (finaljson.items.hasOwnProperty(group)) {
+                        finaljson.items[group]["sakai:group-title"] = sakai.api.Security.escapeHTML(finaljson.items[group]["sakai:group-title"]);
+                    }
+                }
+
+                // If result is page content set up page path
+                for (var i=0, j=finaljson.items.length; i<j; i++ ) {
+                    var full_path = finaljson.items[i]["path"];
+                    var site_path = finaljson.items[i]["sakai:group-id"];
+                    var page_path = site_path;
+
+                    if (finaljson.items[i]["excerpt"]) {
+                        var stripped_excerpt = $(""+finaljson.items[i]["excerpt"] + "").text().replace(/<[^>]*>/g, "");
+                        finaljson.items[i]["excerpt"] = stripped_excerpt;
+                    }
+                    if (finaljson.items[i]["type"] === "sakai/pagecontent") {
+                        page_path = full_path.replace(/\/_pages/g, "");
+                        page_path = page_path.replace(/\/pageContent/g, "");
+                        page_path = page_path.replace(/\//g,"");
+                        page_path = site_path + "#" + page_path;
+
+                    }
+                    finaljson.items[i]["pagepath"] = page_path;
+                }
             }
 
-            // We hide the pager if we don't have any results or
-            // they are less then the number we should display
-            if (results.total < resultsToDisplay) {
+            // If we don't have any results or they are less then the number we should display
+            // we hide the pager
+            if ((results.total < resultsToDisplay) || (results.results.length <= 0)) {
                 $(searchConfig.global.pagerClass).hide();
             }
             else {
@@ -190,24 +209,24 @@ sakai.search = function() {
         $(searchConfig.results.container).html($.TemplateRenderer(searchConfig.results.template, finaljson));
         $(".search_results_container").show();
 
-        var facetedContentConfig = {
+        var facetedGroupConfig = {
             title: "Refine your search",
-            value: "Content",
-            categories: ["Content I manage", "My content", "Content I can see"],
-            searchurls: [searchURLmap.pooledcontentmanager, searchURLmap.mysites, searchURLmap.pooledcontentviewer]
+            value: "Groups",
+            categories: ["Groups I can see", "Groups I manage", "Groups I'm a member of"],
+            searchurls: [searchURLmap.visiblegroups, searchURLmap.managergroups, searchURLmap.membergroups]
         };
 
         // Render the faceted.
-        $("#search_faceted_container").html($.TemplateRenderer("#search_faceted_template", facetedContentConfig));
+        $("#search_faceted_container").html($.TemplateRenderer("#search_faceted_template", facetedGroupConfig));
         $("#search_faceted_container").show();
 
         // bind faceted elements
         // loop through each faceted category and bind the link
-        $.each(facetedContentConfig.categories, function(index, category) {
+        $.each(facetedGroupConfig.categories, function(index, category) {
             $("#" + category.split(' ').join('')).bind("click", function() {
                 var searchquery = $(searchConfig.global.text).val();
                 var searchwhere = mainSearch.getSearchWhereSites();
-                sakai._search.doSearch(1, searchquery, searchwhere, facetedContentConfig.searchurls[index]);
+                sakai._search.doSearch(1, searchquery, searchwhere, facetedGroupConfig.searchurls[index]);
             });
         });
         // bind faceted list all
@@ -223,15 +242,15 @@ sakai.search = function() {
     };
 
 
-
     ///////////////////////
     // _search Functions //
     ///////////////////////
 
     /*
      * These are functions that are defined in search_history.js .
-     * We override these with our owm implementation.
+     * We override these with our own implementation.
      */
+
 
     /**
      * This function gets called everytime the page loads and a new searchterm is entered.
@@ -245,78 +264,47 @@ sakai.search = function() {
      */
     sakai._search.doSearch = function(page, searchquery, searchwhere, facetedurl) {
 
-        // Check if the searchquery is empty
-        if(searchquery === ""){
-
-            // If there is nothing in the search query, remove the html and hide some divs
-            $(searchConfig.results.container).html();
-            $(".search_results_container").hide();
-            $(searchConfig.results.header).hide();
-            $(searchConfig.global.pagerClass).hide();
-            return;
-        }
-
         currentpage = parseInt(page,  10);
 
         // Set all the input fields and paging correct.
         mainSearch.fillInElements(page, searchquery, searchwhere);
 
-        var dd = $("#search_filter").get(0);
-        if (dd && dd.options) {
-          for (var i = 0, j = dd.options.length; i<j; i++){
-              if (dd.options[i].value == searchwhere){
-                  dd.selectedIndex = i;
-              }
-          }
-        }
-
         // Get the search term out of the input box.
         // If we were redirected to this page it will be added previously already.
-        searchterm = $(searchConfig.global.text).val();
+        searchterm = $(searchConfig.global.text).val().toLowerCase();
 
         // Rebind everything
         mainSearch.addEventListeners(searchterm, searchwhere);
 
         if (searchterm) {
+
             // Show and hide the correct elements.
             showSearchContent();
 
-            // Sites Search
+            // Set off the AJAX request
+
+            // sites Search
             var searchWhere = mainSearch.getSearchWhereSites();
 
-            // What are we looking for?
-            var urlsearchterm = mainSearch.prepSearchTermForURL(searchterm);
-
-            var url = "";
-            var usedIn = [];
-
-            // Check if there is a site defined, if so we need to change the url to all files
-            if(searchWhere === "mysites"){
-                url = searchURLmap[searchWhere];
+            var urlsearchterm = "";
+            var splitted = searchterm.split(" ");
+            for (var i = 0; i < splitted.length; i++) {
+                urlsearchterm += splitted[i] + "~" + " " + splitted[i] + "*" + " ";
             }
-            else if(searchWhere === "*"){
-                url = searchURLmap.allfiles;
-            }else {
-                url = searchURLmap.allfiles;
-                usedIn = searchWhere;
-            }
-            
+
+            var searchURL = sakai.config.URL.SEARCH_GROUPS + "?page=" + (currentpage - 1) + "&items=" + resultsToDisplay + "&q=" + urlsearchterm + "&sites=" + searchWhere;
+
             // Check if we want to search using a faceted link
             if (facetedurl)
-                url = facetedurl;
+                searchURL = facetedurl + "?page=" + (currentpage - 1) + "&items=" + resultsToDisplay + "&q=" + urlsearchterm + "&sites=" + searchWhere;
 
             $.ajax({
-                url: url,
-                data: {
-                    "q" : urlsearchterm,
-                    "page" : (currentpage - 1),
-                    "items" : resultsToDisplay,
-                    "usedin" : usedIn
-                },
+                url: searchURL,
+                cache: false,
                 success: function(data) {
                     renderResults(data, true);
                 },
-                error: function(xhr, textStatus, thrownError) {
+                onFail: function(status) {
                     var json = {};
                     renderResults(json, false);
                 }
@@ -336,9 +324,9 @@ sakai.search = function() {
     };
 
 
-    //////////////////////
-    // init function    //
-    //////////////////////
+    ///////////////////
+    // Init Function //
+    ///////////////////
 
     /**
      * Will fetch the sites and add a new item to the history list.
@@ -346,26 +334,13 @@ sakai.search = function() {
     var doInit = function() {
         // Make sure that we are still logged in.
         if (mainSearch.isLoggedIn()) {
-
-            $.ajax({
-                url: sakai.config.URL.SITES_SERVICE,
-                cache: false,
-                success: function(data){
-                    data = data.results;
-                    var sites = {
-                        "sites" : data
-                    };
-                    searchSiteSelect.html($.TemplateRenderer(searchSiteSelectTemplate, sites));
-
-                    // Get my sites
-                    mainSearch.getMySites();
-                }
-            });
+            // Get my sites
+            mainSearch.getMySites();
+            // Add the bindings
+            mainSearch.addEventListeners();
         }
-        // Add the bindings
-        mainSearch.addEventListeners();
-        
     };
+
 
     var thisFunctionality = {
         "doHSearch" : doHSearch
@@ -374,6 +349,7 @@ sakai.search = function() {
     var mainSearch = sakai._search(searchConfig, thisFunctionality);
 
     doInit();
+
 };
 
 sakai.api.Widgets.Container.registerForLoad("sakai.search");

@@ -213,7 +213,7 @@ sakai._search = function(config, callback) {
             finaljson.items[i] = results[i];
 
             // Only modify the description if there is one
-            if (finaljson.items[i]["sakai:description"]) {
+            if (finaljson.items[i]["sakai:description"] && finaljson.items[i]["excerpt"]) {
 
                 // Strip HTML from the description
                 var content = finaljson.items[i]["excerpt"].replace(/<\/?[^>]+(>|$)/g, " ");
