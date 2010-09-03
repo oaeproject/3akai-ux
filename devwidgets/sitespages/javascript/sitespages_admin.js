@@ -2250,6 +2250,12 @@ sakai.sitespages.site_admin = function(){
         toTop: true
     });
 
+    $("#no_delete_dialog").jqm({
+        modal: true,
+        overlay: 20,
+        toTop: true
+    });
+
     // Bind delete page click event
     $("#more_delete").bind("click", function(){
         $('#delete_dialog').jqmShow();

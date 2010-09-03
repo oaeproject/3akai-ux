@@ -327,20 +327,43 @@
         <div id="delete_dialog" class="dialog" style="width:400px; margin-left: -200px">
             <div class="dialog_header">
                 <div class="dialog_header_inner">
-                <h1>Delete a page</h1>
-                <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+                <h1>__MSG__DELETE_A_PAGE__</h1>
+                <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">__MSG__CLOSE_DIALOG__</a>
                 </div>
             </div>
 
             <div class="dialog_content">
 
-                <h4>Are you sure you want to delete <span id="sitespages_delete_confirm_page_title"></span>?</h4>
+                <h4>__MSG__ARE_YOU_SURE_YOU_WANT_TO_DELETE__ <span class="sitespages_delete_confirm_page_title"></span>?</h4>
 
-                <p>Note: by deleting this page you will also delete all of its child pages</p>
+                <p>__MSG__THIS_WILL_DELETE_CHILD_PAGES__</p>
 
                 <div class="dialog_buttons">
                     <button type="button" class="s3d-button s3d-button-primary" id="delete_confirm"><span class="s3d-button-inner">__MSG__YES__</span></button>
                     <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__NO__</span></button>
+                </div>
+            </div>
+
+            <!-- DIALOG FOOTER -->
+            <div class="dialog_footer">
+                <div class="dialog_footer_inner"><!-- --></div>
+            </div>
+        </div>
+
+        <div id="no_delete_dialog" class="dialog" style="width:400px; margin-left: -200px">
+            <div class="dialog_header">
+                <div class="dialog_header_inner">
+                <h1>__MSG__DELETE_A_PAGE__</h1>
+                <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">__MSG__CLOSE_DIALOG__</a>
+                </div>
+            </div>
+
+            <div class="dialog_content">
+
+                <h4>__MSG__NOT_ALLOWED_TO_DELETE__ <span class="sitespages_delete_confirm_page_title"></span></h4>
+
+                <div class="dialog_buttons">
+                    <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__OK__</span></button>
                 </div>
             </div>
 

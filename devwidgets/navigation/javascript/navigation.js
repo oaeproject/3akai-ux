@@ -65,7 +65,8 @@ sakai.navigation = function(tuid, showSettings){
     var $createPageLink = $("#navigation_create_page", $rootel);
     var $deletePageLink = $("#navigation_delete_page", $rootel);
     var $deleteDialog = $("#delete_dialog");  // careful! coming from sitespages.html
-    var $deleteConfirmPageTitle = $("#sitespages_delete_confirm_page_title");  // careful! coming from sitespages.html
+    var $nodeleteDialog = $("#no_delete_dialog"); // ^^
+    var $deleteConfirmPageTitle = $(".sitespages_delete_confirm_page_title");  // careful! coming from sitespages.html
 
     // trimpath Templates
     var $navigationSettingsTemplate = $("#navigation_settings_template", $rootel);
@@ -452,7 +453,11 @@ sakai.navigation = function(tuid, showSettings){
         } else {
             $deleteConfirmPageTitle.html("this page");
         }
-        $deleteDialog.jqmShow();
+        if (sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage].deletable === false) {
+            $nodeleteDialog.jqmShow();
+        } else {
+            $deleteDialog.jqmShow();
+        }
     });
 
 
@@ -469,6 +474,7 @@ sakai.navigation = function(tuid, showSettings){
      */
     sakai.sitespages.navigation.renderNavigation = function(selectedPageUrlName, site_info_object) {
         console.log("render called");
+        console.trace();
         // TODO error checking on args (esp. in case there are no objects in
         // site_info_object)
 
