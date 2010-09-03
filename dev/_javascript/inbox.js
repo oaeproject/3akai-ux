@@ -802,7 +802,8 @@ sakai.inbox = function() {
 
             // Fill in this message values.
             $(inboxSpecificMessageSubject).text(sakai.api.Security.saneHTML(message["sakai:subject"]));
-            $(inboxSpecificMessageBody).html(sakai.api.Security.saneHTML(message["sakai:body"].replace(/\n/gi, "<br />")));
+            var messageBody = ""+message["sakai:body"]; // coerce to string in case the body is all numbers
+            $(inboxSpecificMessageBody).html(sakai.api.Security.saneHTML(messageBody.replace(/\n/gi, "<br />")));
             $(inboxSpecificMessageDate).text(sakai.api.Security.saneHTML(message.date));
 
             if (message.userFrom) {
