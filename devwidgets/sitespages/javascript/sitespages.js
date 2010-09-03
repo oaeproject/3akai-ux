@@ -95,12 +95,9 @@ sakai.sitespages = function(tuid,showSettings){
             sakai._isAnonymous = false;
         } else {
             sakai._isAnonymous = true;
-
         }
         // Refresh site_info object
         sakai.sitespages.refreshSiteInfo();
-        // Load site navigation
-        sakai.sitespages.loadSiteNavigation();
     }
 
     var showAdminElements = function(){
@@ -184,16 +181,15 @@ sakai.sitespages = function(tuid,showSettings){
                     return counter;
                 };
 
-                // Refresh navigation
-                if (sakai.sitespages.navigation) {
-//                    sakai.sitespages.navigation.renderNavigation(sakai.sitespages.selectedpage, sakai.sitespages.site_info._pages);
-                }
-
                 // Open page if necessary
                 if (pageToOpen){
                     sakai.sitespages.openPage(pageToOpen);
                 }
 
+                // Load page templates
+                sakai.sitespages.loadTemplates();
+                // Load site navigation
+                sakai.sitespages.loadSiteNavigation();
 
             },
             error: function(xhr, textStatus, thrownError) {
