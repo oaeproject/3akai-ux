@@ -100,10 +100,8 @@ sakai.api.Communication.sendMessage = function(to, subject, body, category, repl
     // CONFIGURATION VARIABLES //
     /////////////////////////////
 
-    var numGroupAJAXRequests = 0;  // tracks AJAX requests for group data
     var toUsers = "";              // aggregates all message recipients
     var sendDone = false;          // has the send been issued?
-
 
     ///////////////////////
     // UTILITY FUNCTIONS //
@@ -115,15 +113,30 @@ sakai.api.Communication.sendMessage = function(to, subject, body, category, repl
      * @return None
      */
     var fetchGroupMembers = function(groupid) {
-        // keep track of AJAX requests
-        numGroupAJAXRequests++;
-
         // Fetch members
         $.ajax({
             url: "/system/userManager/group/" + groupid + ".members.json",
             type: "GET",
             dataType: "json",
-            success: handleAJAXGroupData,
+            success: function(data){
+                handleAJAXGroupData(data, false);
+                fetchGroupManagers(groupid);
+            },
+            error: function(xhr, textStatus, thrownError) {
+                fluid.log("sakai.api.Communication.sendMessage(): Could not fetch group data for groupid: " + groupid);
+            }
+        });
+    };
+
+    var fetchGroupManagers = function(groupid) {
+        // Fetch managers
+        $.ajax({
+            url: "/system/userManager/group/" + groupid + ".managers.json",
+            type: "GET",
+            dataType: "json",
+            success: function(data) {
+                handleAJAXGroupData(data, true);
+            },
             error: function(xhr, textStatus, thrownError) {
                 fluid.log("sakai.api.Communication.sendMessage(): Could not fetch group data for groupid: " + groupid);
             }
@@ -136,11 +149,11 @@ sakai.api.Communication.sendMessage = function(to, subject, body, category, repl
      * @param {Object} data The data returned from the groupid.members.json AJAX call
      * @return None
      */
-    var handleAJAXGroupData = function(data) {
-        if(data) {
+    var handleAJAXGroupData = function(data, complete) {
+        if(data && data.length) {
             // get user ids
             var userids = [];
-            for(var i = 1; i < data.length; i++) {
+            for(var i = 0; i < data.length; i++) {
                 if(data[i].userid) {
                     userids.push(data[i].userid);
                 }
@@ -152,9 +165,7 @@ sakai.api.Communication.sendMessage = function(to, subject, body, category, repl
             fluid.log("sakai.api.Communication.sendMessage(): group data is empty");
         }
 
-        // keep track of AJAX callbacks ("thread" safe?)
-        numGroupAJAXRequests--;
-        if(numGroupAJAXRequests === 0) {
+        if(complete) {
             // once all AJAX requests have returned, commit the message
             sendMessageToUsers();
         }
