@@ -45,7 +45,6 @@ sakai.sitespages = function(tuid,showSettings){
 
     var $li_edit_page_divider = $("#li_edit_page_divider");
     var $li_edit_page = $("#li_edit_page");
-    var $add_a_new = $("#add_a_new");
 
     var $page_nav_content = $("#page_nav_content");
     var $pagetitle = $("#pagetitle");
@@ -107,7 +106,6 @@ sakai.sitespages = function(tuid,showSettings){
         $li_more_link.show();
         $print_page.removeClass("print_page_view");
         $print_page.addClass("print_page_admin")
-        $add_a_new.show();
 
         // Load admin part from a separate file
         $.getScript(sakai.sitespages.siteAdminJS);

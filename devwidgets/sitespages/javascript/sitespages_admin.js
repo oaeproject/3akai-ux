@@ -1009,12 +1009,6 @@ sakai.sitespages.site_admin = function(){
         sakai.sitespages.isEditingNewPage = false;
         sakai.sitespages.inEditView = true;
 
-        // Hide Add a New menu if open
-        if (sakai.sitespages.isShowingDropdown) {
-            $("#add_new_menu").hide();
-            sakai.sitespages.isShowingDropdown = false;
-        }
-
         //Check if tinyMCE has been loaded before - probably a more robust check will be needed
         if (tinyMCE.activeEditor === null) {
             init_tinyMCE();
@@ -1775,10 +1769,6 @@ sakai.sitespages.site_admin = function(){
             sakai.sitespages.isEditingNewPage = false;
         }
 
-        // UI Setup
-        $("#add_new_menu").hide();
-        sakai.sitespages.isShowingDropdown = false;
-
         // Create unique page items
         var pageUniques = sakai.sitespages.createPageUniqueElements(pageTitle.toLowerCase(), sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageFolder"]);
 
@@ -1822,26 +1812,6 @@ sakai.sitespages.site_admin = function(){
 
         });
     };
-
-
-    // Bind Add a blank page click event
-    $("#option_blank_page").bind("click", function(ev){
-        if (sakai.sitespages.versionHistoryNeedsReset) {
-            sakai.sitespages.resetVersionHistory();
-            sakai.sitespages.versionHistoryNeedsReset = false;
-        }
-        sakai.sitespages.createNewPage("");
-    });
-
-    // Bind Add a new blank page hover event
-    $("#option_blank_page").hover(
-        function(over){
-            $("#option_blank_page").addClass("selected_option");
-        },
-        function(out){
-            $("#option_blank_page").removeClass("selected_option");
-        }
-    );
 
 
     /////////////////////////////
@@ -1910,66 +1880,6 @@ sakai.sitespages.site_admin = function(){
 
         });
     };
-
-    /**
-     * We add the submit event on the form, so the function is also
-     */
-    $("#dashboard_addpage_dialog form").bind('submit', function(){
-        var title = $("#dashboard_addpage_title").val();
-        if (title !== "") {
-            sakai.sitespages.addDashboardPage(title);
-        } else{
-            alert("Please enter a valid title for your dashboard page.");
-        }
-
-        // Do not reload the page (don't send an HTTP POST request)
-        return false;
-    });
-
-    var renderAddDashboardPage = function(hash){
-        $("#add_new_menu").hide();
-        hash.w.show();
-    };
-
-    $("#dashboard_addpage_dialog").jqm({
-        modal: true,
-        trigger: $("#option_page_dashboard"),
-        overlay: 20,
-        toTop: true,
-        onShow: renderAddDashboardPage
-    });
-
-    // Bind Add a new page dashboard hover event
-    $("#option_page_dashboard").hover(function(over){
-        $("#option_page_dashboard").addClass("selected_option");
-    }, function(out){
-        $("#option_page_dashboard").removeClass("selected_option");
-    });
-
-
-
-
-    /////////////////////////////
-    // ADD NEW: GENERAL
-    /////////////////////////////
-
-    // Bind Add a new... click event
-    $("#add_a_new").bind("click", function(ev){
-        if (sakai.sitespages.isShowingDropdown){
-            $("#add_new_menu").hide();
-            sakai.sitespages.isShowingDropdown = false;
-        } else {
-            $("#add_new_menu").show();
-            sakai.sitespages.isShowingDropdown = true;
-            var dropdown_pos = $("#add_a_new").offset();
-            $("#add_new_menu").css({"left": (dropdown_pos.left + 7)+"px", "top": (dropdown_pos.top + 22) + "px"});
-        }
-    });
-
-
-
-
-
 
 
     //--------------------------------------------------------------------------------------------------------------
@@ -2149,22 +2059,6 @@ sakai.sitespages.site_admin = function(){
     });
 
 
-    //////////////////////////////////
-    // ADD NEW: PAGE FROM TEMPLATE
-    //////////////////////////////////
-
-    // Bind Add a new page from template hover event
-    $("#option_page_from_template").hover(
-        function(over){
-            $("#option_page_from_template").addClass("selected_option");
-        },
-        function(out){
-            $("#option_page_from_template").removeClass("selected_option");
-        }
-    );
-
-
-
     /////////////////////////////////
     // MORE: SAVE PAGE AS TEMPLATE //
     /////////////////////////////////
@@ -2176,8 +2070,6 @@ sakai.sitespages.site_admin = function(){
      */
     var startSaveAsTemplate = function(hash){
         $("#more_menu").hide();
-        $("#add_new_menu").hide();
-        sakai.sitespages.isShowingDropdown = false;
         hash.w.show();
     };
 
@@ -2260,9 +2152,6 @@ sakai.sitespages.site_admin = function(){
             sakai.sitespages.versionHistoryNeedsReset = false;
         }
 
-        $("#add_new_menu").hide();
-        sakai.sitespages.isShowingDropdown = false;
-
         // Load template configuration file
         sakai.api.Server.loadJSON("/~" + sakai.data.me.user.userid + "/private/templates", function(success, pref_data){
             if (success) {
@@ -2274,80 +2163,6 @@ sakai.sitespages.site_admin = function(){
 
     };
 
-    /**
-     * Render Templates
-     * @param {Object} hash jqModal object
-     * @return void
-     */
-    var renderTemplates = function(hash){
-        var templates = sakai.sitespages.mytemplates;
-        var finaljson = {};
-        finaljson.items = [];
-
-        // Filter valid templates data
-        for (var i in templates){
-
-            if ((templates[i].name) && (templates[i]["pageContent"])) {
-                var obj = {};
-                obj.id = i;
-                obj.name = templates[i].name;
-                obj.description = templates[i].description;
-                obj.content = templates[i]["pageContent"]["sakai:pagecontent"];
-                finaljson.items[finaljson.items.length] = obj;
-            }
-        }
-
-        finaljson.size = finaljson.items.length;
-
-        $("#list_container").hide().html($.TemplateRenderer("list_container_template",finaljson));
-
-        if ($("#list_container").height() > 250){
-            $("#list_container").css("height","250px");
-        }
-
-        // show the templates
-        $("#list_container").show();
-        hash.w.show();
-
-        // Wire delete button
-        $(".template_delete").bind("click", function(ev){
-            var todelete = this.id.split("_")[2];
-
-            var newobj = {};
-            for (var i in sakai.sitespages.mytemplates){
-                if (i !== todelete){
-                    newobj[i] = sakai.sitespages.mytemplates[i];
-                }
-            }
-
-            // Save updated template preferences
-            sakai.api.Server.saveJSON("/~" + sakai.data.me.user.userid + "/private/templates", newobj, function(success, response) {
-                if (success) {
-
-                } else {
-                    fluid.log("site_admin.js: Failed to delete template!");
-                }
-            });
-
-            renderTemplates(newobj);
-        });
-
-        // Wire selection button
-        $(".page_template_selection").bind("click", function(ev){
-            var toload = this.id.split("_")[3];
-            $("#select_template_for_page").jqmHide();
-            sakai.sitespages.createNewPage(sakai.sitespages.mytemplates[toload]["pageContent"]["sakai:pagecontent"]);
-        });
-    };
-
-    // Init Template selection modal
-    $("#select_template_for_page").jqm({
-        modal: true,
-        trigger: $('#option_page_from_template'),
-        overlay: 20,
-        toTop: true,
-        onShow: renderTemplates
-    });
 
     ///////////////////////
     // MORE: DELETE PAGE //
@@ -2501,10 +2316,6 @@ sakai.sitespages.site_admin = function(){
     $(document).bind("click", function(e){
         var $clicked = $(e.target);
         // Check if one of the parents is the element container
-        if(!$clicked.parents().is(".add_a_new_container")){
-            $("#add_new_menu").hide();
-            sakai.sitespages.isShowingDropdown = false;
-        }
         if(!$clicked.is("#more_link")){
             showHideMoreMenu(true);
         }
@@ -2520,12 +2331,6 @@ sakai.sitespages.site_admin = function(){
 
     // Bind edit sidebar click
     $("#edit_sidebar").bind("click", function(ev){
-        // Hide Add a New menu if open
-        if (sakai.sitespages.isShowingDropdown) {
-            $("#add_new_menu").hide();
-            sakai.sitespages.isShowingDropdown = false;
-        }
-
         // Init tinyMCE if needed
         if (tinyMCE.activeEditor === null) { // Probably a more robust checking will be necessary
             sakai.sitespages.isEditingNavigation = true;
