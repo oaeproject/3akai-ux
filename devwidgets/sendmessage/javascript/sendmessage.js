@@ -280,12 +280,11 @@ if (!sakai.sendmessage){
          * @return None
          */
         var autoSuggestContactsGroups = function(contactsGroupsList) {
-            $("#sendmessage_to_autoSuggest").autoSuggest(contactsGroupsList, {
+            $("#sendmessage_to_autoSuggest").autoSuggest("", {
                 asHtmlID: "sendmessage_to_autoSuggest",
                 startText: "Enter contact or group names",
                 searchObjProps: "name",
                 selectedItemProp: "name",
-                selectedValuesProp: "id",
                 keyDelay: "200",
                 formatList: function(data, elem) {
                     // formats each line to be presented in autosuggest list
@@ -298,95 +297,29 @@ if (!sakai.sendmessage){
                         '<img class="sm_suggestion_img" src="' + imgSrc + '" />' +
                         '<span class="sm_suggestion_name">' + data.name + '</span>');
                     return line_item;
-                }
-            });
-        };
-
-        /**
-         * Aggregates a list of contacts and groups to be loaded into the 'To'
-         * field autoSuggest plugin
-         * @param {Object} list Array containing JSON objects for contacts or
-         * groups that should be added to the current list of contacts & groups.
-         * @return None
-         */
-        var aggregateContactsGroups = function(list) {
-            // concatenate lists of contacts and groups
-            contactsGroups = contactsGroups.concat(list);
-
-            // keep track of AJAX callbacks ("thread" safe?)
-            dataCallbackCount--;
-            if(dataCallbackCount === 0) {
-                // two callbacks have been received, data is complete
-                dataCallbackCount = 2;
-                autoSuggestContactsGroups(contactsGroups);
-            }
-        };
-
-        /**
-         * Fetches this user's contacts and groups using AJAX calls
-         * @param None
-         * @return None
-         */
-        var fetchContactsGroups = function() {
-            // Get contact data
-            $.ajax({
-                url: sakai.config.URL.CONTACTS_ACCEPTED,
-                data: {
-                    "page": 0,
-                    "items": 100
                 },
-                success: function(data){
-                    var contacts = [];
-                    if (data.results) {
-                        for (var i = 0; i < data.results.length; i++) {
-                            // Add each contact to the array
-                            var contact = {
-                                type: "contact",
-                                id: data.results[i].target,
-                                name: sakai.api.User.getDisplayName(data.results[i].profile)
-                            };
-                            contacts.push(contact);
+                source: function(query, add) {
+                    var searchUrl = sakai.config.URL.SEARCH_USERS_GROUPS;
+                    sakai.api.Server.loadJSON(searchUrl.replace(".json", ""), function(success, data){
+                        if (success) {
+                            var suggestions = [];
+                            $.each(data.results, function(i) {
+                                if (data.results[i]["rep:userId"]) {
+                                    suggestions.push({"value": data.results[i]["rep:userId"], "name": sakai.api.User.getDisplayName(data.results[i]), "type": "user"});
+                                } else if (data.results[i]["sakai:group-id"]) {
+                                    console.log(data.results[i]);
+                                    suggestions.push({"value": data.results[i]["sakai:group-id"], "name": data.results[i]["sakai:group-title"], "type": "group"});
+                                }
+                            });
+                            add(suggestions);
+                        } else {
+
                         }
-                        // merge these contacts with groups
-                        aggregateContactsGroups(contacts);
-                    }
-                },
-                error: function(xhr, textStatus, thrownError){
-                    fluid.log("sendmessage widget- ERROR fetching contacts data: " + textStatus);
-                    showGeneralMessage(messageDone, $(messageErrorData).text(), true, 0);
-                }
-            });
-
-            // Get group data
-            $.ajax({
-                url: sakai.config.URL.SEARCH_GROUPS,
-                data: {
-                    "q": sakai.data.me.user.userid,
-                    "page": 0,
-                    "items": 100
-                },
-                success: function(data){
-                    var groups = [];
-                    if (data.results) {
-                        for (var i = 0; i < data.results.length; i++) {
-                            // Add each group to the array
-                            var group = {
-                                type: "group",
-                                id: data.results[i]["sakai:group-id"],
-                                name: data.results[i]["sakai:group-title"]
-                            };
-                            groups.push(group);
-                        }
-                        // merge these groups with contacts
-                        aggregateContactsGroups(groups);
-                    }
-                },
-                error: function(xhr, textStatus, thrownError){
-                    fluid.log("sendmessage widget- ERROR fetching group data: " + textStatus);
-                    showGeneralMessage(messageDone, $(messageErrorData).text(), true, 0);
+                    }, {"q": "*" + query + "*"});
                 }
             });
         };
+
 
         /**
          * Shows the lightbox and fills in the from and to field.
@@ -412,7 +345,7 @@ if (!sakai.sendmessage){
 
                 // fetch user's contacts and associated groups and set up
                 // autoSuggest field with this content
-                fetchContactsGroups();
+                autoSuggestContactsGroups();
             }
             else {
                 // We send this to a specific user.
