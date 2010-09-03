@@ -496,12 +496,58 @@ sakai.config = {
             "label" : "COURSES_AND_SITES"
         },
         {
+            "url" : "/dev/directory.html",
+            "label" : "DIRECTORY"
+        },
+        {
             "url" : "javascript:;",
             "label" : "CALENDAR"
         }
     ],
 
     displayDebugInfo: true,
+
+    Directory: {
+        "College of Engineering": {
+            "First Year Courses": [
+                "Chemistry 101",
+                "AutoCAD for dummies",
+                "Hierarchy 3",
+                "Hierarchy 3",
+                "Hierarchy 3",
+            ],
+            "Second Year Courses": [
+                "Google Sketchup, 3D is pretty easy",
+                "Theory of Circuitry",
+                "Hierarchy 3",
+                "Hierarchy 3",
+                "Hierarchy 3",
+            ],
+            "Third Year Courses": [
+                "Google Sketchup, 3D is pretty easy",
+                "Theory of Circuitry",
+                "Hierarchy 3",
+                "Hierarchy 3",
+                "Hierarchy 3",
+            ],
+            "Fourth Year Courses": [
+                "Google Sketchup, 3D is pretty easy",
+                "Theory of Circuitry",
+                "Hierarchy 3",
+                "Hierarchy 3",
+                "Hierarchy 3",
+            ]
+        },
+        "College of Liberal Arts": {
+            "First Year Courses": [
+                "Shakespeare in Translation",
+                "Constructing Derrida",
+                "Hierarchy 3",
+                "Hierarchy 3",
+                "Hierarchy 3",
+            ]
+        }
+    },
 
     widgets: {}
 };
