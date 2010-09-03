@@ -155,7 +155,7 @@ sakai.sitespages.site_admin = function(){
                 callback();
             },
             error: function(xhr, text, thrown_error) {
-                fluid.log("site_admin.js/movePage(): Failed to move page node!");
+                fluid.log("sitespages_admin.js/movePage(): Failed to move page node!");
             }
         });
     };

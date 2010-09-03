@@ -312,9 +312,8 @@ sakai.navigation = function(tuid, showSettings){
         // Construct target URL
         var ref_url_elements = ref_url.split("/");
 
-        // If we are moving a page inside a page which does not have child pages yet add a "_pages" element to the url
-        // We check agains the number of child objects for now but probably a better solution will be needed
-        if ((position === "inside") && ($reference_node.children().length < 3)) {
+        // If we are moving a page inside a page add a "_pages" element to the url
+        if (position === "inside")  {
             ref_url_elements.push("_pages");
         } else {
             ref_url_elements.pop();
