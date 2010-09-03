@@ -1843,8 +1843,7 @@ sakai.sitespages.site_admin = function(){
                 // Close this popup and show the new page.
                 //sakai.sitespages.selectedpage = pageUniques.urlName;
 
-                $("#dashboard_addpage_dialog").jqmHide();
-                $("#dashboard_addpage_title").val("");
+                $("#createpage_container").jqmHide();
 
                 // Refresh site_info object and open page
                 sakai.sitespages.refreshSiteInfo(pageUniques.urlName);
