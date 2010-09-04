@@ -67,6 +67,7 @@ sakai.navigation = function(tuid, showSettings){
     var $deleteDialog = $("#delete_dialog");  // careful! coming from sitespages.html
     var $nodeleteDialog = $("#no_delete_dialog"); // ^^
     var $deleteConfirmPageTitle = $(".sitespages_delete_confirm_page_title");  // careful! coming from sitespages.html
+    var $navigation_admin_options = $("#navigation_admin_options", $rootel);
 
     // trimpath Templates
     var $navigationSettingsTemplate = $("#navigation_settings_template", $rootel);
@@ -517,6 +518,13 @@ sakai.navigation = function(tuid, showSettings){
             },
             "plugins" : [ "themes", "json_data", "ui", "dnd", "cookies" ]
         });
+
+        // show/hide edit controls based on if this user can edit the page
+        if (sakai.sitespages.config.editMode) {
+            $navigation_admin_options.show();
+        } else {
+            $settingsIcon.remove();
+        }
     };
 
     sakai.sitespages.navigation.addNode = function(nodeID, nodeTitle, nodePosition) {

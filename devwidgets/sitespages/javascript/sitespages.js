@@ -188,7 +188,9 @@ sakai.sitespages = function(tuid,showSettings){
                 }
 
                 // Load page templates
-                sakai.sitespages.loadTemplates();
+                if (config.editMode) {
+                    sakai.sitespages.loadTemplates();
+                }
                 // Load site navigation
                 if (doLoadNav) {
                     sakai.sitespages.loadSiteNavigation();
