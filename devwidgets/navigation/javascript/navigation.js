@@ -522,6 +522,7 @@ sakai.navigation = function(tuid, showSettings){
         // show/hide edit controls based on if this user can edit the page
         if (sakai.sitespages.config.editMode) {
             $navigation_admin_options.show();
+            $settingsIcon.remove(); // just for now, pull this out once we have a working settings menu
         } else {
             $settingsIcon.remove();
         }
