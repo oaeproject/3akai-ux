@@ -131,7 +131,7 @@
 
 /** TABS VARIANT **/
 .edit_view .s3d-primary-tabs {
-    background: #fff url('/dev/_images/site_edit_tab_bg.png') top right no-repeat;
+     background: #FFFFFF url(/dev/_images/edit_toolbar_bg.png) top left repeat-x; border-left: 3px solid #D3DBDE; border-right: 3px solid #D3DBDE; height:40px;
 }
 
 /** Autosave message **/
@@ -143,8 +143,7 @@
 { border-left: 3px solid #D3DBDE; border-right: 3px solid #D3DBDE; padding: 0 0 0 0; margin: 0; background: transparent; height: 40px; border:none; }
 
 .edit_view .toolbar
-{ border-left: 3px solid #D3DBDE; border-right: 3px solid #D3DBDE; margin: 0; padding: 5px 0 10px 7px; background: transparent; height: 35px; vertical-align: middle; background: #FFFFFF url(/dev/_images/edit_toolbar_bg.png) top left repeat-x; }
-
+{ border-left: 3px solid #D3DBDE; border-right: 3px solid #D3DBDE; margin: 0; padding: 5px 0 10px 7px; background: transparent; height: 35px; vertical-align: middle; }
 
 /** Title **/
 .edit_view .title_input_container
@@ -182,7 +181,7 @@
 { border-left: 3px solid #D3DBDE; border-right: 3px solid #D3DBDE; margin: 0; padding: 0 10px 10px 10px; }
 
 .edit_view .content_top
-{ background: url('/dev/_images/content_tr.gif') top right no-repeat; padding: 0 5px 0 0; margin: 0; }
+{ background: url('/dev/_images/content_tr_flip.png') top right no-repeat; padding: 0 5px 0 0; margin: 0; }
 
 .edit_view .content_top_inner
 { background: url('/dev/_images/content_tl.gif') 0 0 no-repeat; margin: 0; height: 6px; }
@@ -192,6 +191,9 @@
 
 .edit_view .content_bottom_inner
 { background: url('/dev/_images/content_bl.png') 0 0 no-repeat; margin: 0; height: 6px; }
+
+.edit_view .sitespages_add_button
+{ background: url('/dev/_images/add_button_bg.png') no-repeat top left; padding:5px; cursor:pointer; margin-top:-4px;}
 
 .sakai_site .content p a {
     text-decoration: underline;
@@ -213,10 +215,6 @@
 
 .sakai_site .sakai_logo
 { float: left; }
-
-
-
-
 
 
 /** DASHBOARD PAGE
