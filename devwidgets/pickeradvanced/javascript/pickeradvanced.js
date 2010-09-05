@@ -72,10 +72,12 @@ sakai.pickeradvanced = function(tuid, showSettings) {
     var $pickeradvanced_error_template = $("#pickeradvanced_error_template", $rootel);
     var $pickeradvanced_content_search_pagetemplate = $("#pickeradvanced_content_search_pagetemplate", $rootel);
     var $pickeradvanced_content_search_listtemplate = $("#pickeradvanced_content_search_listtemplate", $rootel);
+    var $pickeradvanced_group_search_template = $("#pickeradvanced_group_search_template", $rootel);
+    var $pickeradvanced_group_specific_filters = $("#pickeradvanced_group_specific_filters", $rootel);
 
     var pickeradvanced_page = ".pickeradvanced_page";
 
-    var callback = false;
+    var pickerlist = false;
 
     var pickerData = {
       "selected": {},
@@ -122,6 +124,10 @@ sakai.pickeradvanced = function(tuid, showSettings) {
 
         // display the groups list, bind elements and submit a search
         pickerData["searchIn"] = sakai.config.URL.CONTACTS_ACCEPTED + "?page=0&items=12&_=&q=";
+        if (pickerData["type"] === "people") {
+            $("#pickeradvanced_search_contacts", $rootel).parent("li").addClass("pickeradvanced_selected_list");
+            getGroups();
+        }
         $pickeradvanced_search_query.focus();
         $pickeradvanced_search_button.click(submitSearch);
         $pickeradvanced_content_search_form.submit(submitSearch);
@@ -130,6 +136,17 @@ sakai.pickeradvanced = function(tuid, showSettings) {
             addPeople();
         });
         submitSearch();
+    };
+
+    /**
+     * get groups for this user to search on
+     */
+    var getGroups = function() {
+        $pickeradvanced_group_specific_filters.html('');
+        $(sakai.data.me.groups).each(function(i,val) {
+            var groupItem = $.TemplateRenderer($pickeradvanced_group_search_template, {"data":val});
+            $pickeradvanced_group_specific_filters.append(groupItem);
+        });
     };
 
     /**
@@ -217,11 +234,25 @@ sakai.pickeradvanced = function(tuid, showSettings) {
             dataType: "json",
             success: function(rawData) {
                 // Eval profile data for now and extend it with additional info
+                var doAdd = true;
+                var newData = [];
                 for (var i = 0, il = rawData.results.length; i < il; i++) {
+                    doAdd = true;
                     if (rawData.results[i].profile) {
                         rawData.results[i] = rawData.results[i].profile;
                     }
+                    if ($.inArray(rawData.results[i].user, pickerlist) !== -1) {
+                        doAdd = false;
+                    }
+                    if (rawData.results[i]['rep:userId'] && (rawData.results[i]['rep:userId'] === "admin" || rawData.results[i]['rep:userId'] === "anonymous")) {
+                        doAdd = false;
+                    }
+                    if (doAdd) {
+                        newData.push(rawData.results[i]);
+                    }
                 }
+                rawData.results = newData;
+                rawData.total = newData.length;
 
                 // Render the results data template
                 var pageHTML = $.TemplateRenderer($pickeradvanced_content_search_pagetemplate, rawData);
@@ -244,16 +275,24 @@ sakai.pickeradvanced = function(tuid, showSettings) {
 
                 // Wire item selection
                 if (pickerData.selectable) {
-
+                    $pickeradvanced_select_all_button.unbind("click");
                     $pickeradvanced_select_all_button.click(function(){
                         pickerData.selectCount = 0;
-                        $('.pickeradvanced_content_search ul li').each(function(index) {
+                        $('#pickeradvanced_content_search ul li').each(function(i) {
                             $(this).addClass("pickeradvanced_selected_user");
                             pickerData.selectCount += 1;
                             pickerData["selected"][$(this).attr("id")] = rawData.results[i];
+                            if (rawData.results[i]['rep:userId']) {
+                                pickerData["selected"][$(this).attr("id")].entityType = "user";
+                            } else if (rawData.results[i]['sakai:group-id']) {
+                                pickerData["selected"][$(this).attr("id")].entityType = "group";
+                            }
+                            if ($pickeradvanced_add_button.is(":disabled")) {
+                                $pickeradvanced_add_button.attr("disabled", "");
+                            }
                         });
                     });
-
+                    $("#pickeradvanced_page_" + pageNumber + " li", $rootel).unbind("click");
                     $("#pickeradvanced_page_" + pageNumber + " li", $rootel).bind("click", function(e){
                         // Check if user click on top of a link
                         if (e.target.tagName.toLowerCase() !== "a") {
@@ -267,14 +306,25 @@ sakai.pickeradvanced = function(tuid, showSettings) {
                                         pickerData.selectCount -= 1;
                                     }
                                 }
+                                if (pickerData.selectCount < 1) {
+                                    $pickeradvanced_add_button.attr("disabled", "disabled");
+                                }
                             } else {
                                 // Add to selected list
                                 $(this).addClass("pickeradvanced_selected_user");
                                 for (var j = 0; j < rawData.results.length; j++) {
-                                    if (rawData.results[j]['rep:userId'] == [$(this).attr("id")]) {
+                                    if (rawData.results[j]['rep:userId'] && rawData.results[j]['rep:userId'] == [$(this).attr("id")]) {
                                         pickerData.selectCount += 1;
                                         pickerData["selected"][$(this).attr("id")] = rawData.results[j];
+                                        pickerData["selected"][$(this).attr("id")].entityType = "user";
+                                    } else if (rawData.results[j]['sakai:group-id'] && rawData.results[j]['sakai:group-id'] == [$(this).attr("id")]) {
+                                        pickerData.selectCount += 1;
+                                        pickerData["selected"][$(this).attr("id")] = rawData.results[j];
+                                        pickerData["selected"][$(this).attr("id")].entityType = "group";
                                     }
+                                }
+                                if ($pickeradvanced_add_button.is(":disabled")) {
+                                    $pickeradvanced_add_button.attr("disabled", "");
                                 }
                             }
                         }
@@ -304,15 +354,15 @@ sakai.pickeradvanced = function(tuid, showSettings) {
                         $pickeradvanced_count_people.show();
                     }
                 }
-
                 // Wire sorting select dropdown
+                $pickeradvanced_sort_on.unbind("change");
                 $pickeradvanced_sort_on.bind("change", function(e){
                     // Reset everything
                     reset();
 
                     // Set config to new sort key
-                    pickerData["sortOn"] = $(this).val();
-
+                    pickerData["sortOn"] = $(this).val().split("_")[0];
+                    pickerData["sortOrder"] = $(this).val().split("_")[1];
                     // Start from scratch
                     addPage(0, searchQuery);
 
@@ -341,17 +391,11 @@ sakai.pickeradvanced = function(tuid, showSettings) {
     
     var addPeople = function() {
       //sakai.api.Communication.sendMessage = function(to, subject, body, category, reply, callback) {  
-      var userList = $("#as-values-" + tuid).val();
+
       // this value is a comma-delimited list
       // split it and get rid of any empty values in the array
-      userList = userList.split(",");
-      $(userList).each(function(i, val) {
-         if (val === "") {
-             userList.splice(i, 1);
-         } 
-      });
       $pickeradvanced_container.jqmHide();
-      $(window).trigger("sakai-pickeradvanced-finished", {"toAdd":userList});
+      $(window).trigger("sakai-pickeradvanced-finished", {"toAdd":pickerData["selected"]});
     };
 
 
@@ -360,10 +404,10 @@ sakai.pickeradvanced = function(tuid, showSettings) {
     ////////////
     
     $(window).unbind("sakai-pickeradvanced-init");
-    $(window).bind("sakai-pickeradvanced-init", function(e, config, callbackFn) {
+    $(window).bind("sakai-pickeradvanced-init", function(e, config) {
         $pickeradvanced_container.jqmShow();
-        render(config);
-        callback = callbackFn;
+        pickerlist = config.list;
+        render(config.config);
     });
     
     $pickeradvanced_close_dialog.bind("click", function() {
@@ -376,6 +420,8 @@ sakai.pickeradvanced = function(tuid, showSettings) {
 
     $pickeradvanced_search_filter.bind("click", function() {
        var searchType = $(this).attr("id").split("pickeradvanced_search_")[1];
+       $(".pickeradvanced_selected_list").removeClass("pickeradvanced_selected_list");
+       $(this).parent("li").addClass("pickeradvanced_selected_list");
        var searchURL = false;
        switch (searchType) {
            case "contacts":

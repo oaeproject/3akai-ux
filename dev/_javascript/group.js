@@ -66,7 +66,7 @@ sakai.group = function(){
     var loadPagesWidget = function(){
         var basepath = "/~" + sakai.currentgroup.id + "/pages/";
         var fullpath = "/_group/g/g-/" + sakai.currentgroup.id + "/pages/";
-        var url = "/dev/group.html?id=" + sakai.currentgroup.id;
+        var url = "/dev/show.html?type=group&amp;id=" + sakai.currentgroup.id;
         var editMode = sakai.currentgroup.manager;
         var homePage = "";
         sakai.sitespages.doInit(basepath, fullpath, url, editMode, homePage, "groupspages", "groupsdashboard");

@@ -30,8 +30,18 @@
 "FILE_NAME":"File name",
 "AND_SHARE_WITH":" and share with ",
 "NEW_VERSION_OF_FILE":"New version of the file",
-"MY_CONTENT":"My content",
 "MESSAGE_OTHER_MANAGERS_REASON":"Message other managers/reason",
 "UPDATE_FILE":"Update file",
-"UPLOAD_NEW_VERSION":"Upload new version"
+"UPLOAD_NEW_VERSION":"Upload new version",
+"FAILED_SAVING_VERSION":"Failed saving version",
+"SAVING_NEW_VERSION_FAILED":"Saving new version failed",
+"NEW_VERSION_UPLOADED":"New version uploaded",
+"NEW_VERSION_FOR_FILE_UPLOADED":"A new version for the file has been successfully uploaded",
+"VALIDATE_LINK":"Validate link",
+"ADD_A_LINK":"To add a link, enter a URL",
+"LINK_UPLOADED":"Link uploaded",
+"LINK_SUCCESSFULLY_UPLOADED":"The link was successfully uploaded",
+"OR_UPLOAD_FILES":"Or select files to upload",
+"CHECK_URL":"Check URL",
+"ENTER_VALID_URL":"Enter a valid URL. e.g. http://www.google.co.uk/"
 }

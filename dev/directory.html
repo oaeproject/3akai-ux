@@ -1,0 +1,120 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Sakai 3 R&amp;D - __MSG__DIRECTORY__</title>
+
+        <!-- Sakai Core CSS -->
+        <link rel="stylesheet" type="text/css" href="_css/FSS/fss-base.css" />
+        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
+        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
+        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
+        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.directory.css" />
+
+        <!-- 3rd party CSS -->
+        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
+        <link rel="stylesheet" type="text/css" href="_lib/jquery/plugins/imgareaselect/imgareaselect-default.css" />
+        <link rel="stylesheet" type="text/css" href="_lib/JsTree/tree_component.css" />
+
+        <!-- Sakai Config JS -->
+        <script type="text/javascript" src="_configuration/widgets.js"></script>
+        <script type="text/javascript" src="/var/widgets.json?callback=sakai.storeWidgets"></script>
+        <script type="text/javascript" src="_configuration/config.js"></script>
+
+        <!-- Core 3rd-party JS -->
+        <script type="text/javascript" src="_lib/jquery/jquery.js"></script>
+        <script type="text/javascript" src="_lib/jquery/jquery-ui.full.js"></script>
+        <script type="text/javascript" src="_lib/Fluid/3akai_Infusion.js"></script>
+        <script type="text/javascript" src="_lib/jquery/plugins/jquery.json.js"></script>
+        <script type="text/javascript" src="/dev/_lib/google/html-sanitizer-minified.js"></script>
+
+        <!-- Sakai Core JS -->
+        <script type="text/javascript" src="_lib/sakai_util/sakai_magic.js"></script>
+        <script type="text/javascript" src="_lib/sakai_util/i18n.js"></script>
+        <script type="text/javascript" src="_lib/sakai_util/site_authz.js"></script>
+
+        <!-- 3rd party JS -->
+        <script type="text/javascript" src="/dev/_lib/sakai_util/trimpath.template.js"></script>
+        <script type="text/javascript" src="/dev/_lib/sakai_util/querystring.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jqmodal.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.cookie.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.pager.js"></script>
+        <script type="text/javascript" src="_lib/sakai_util/SHA.js"></script>
+        <script type="text/javascript" src="_lib/JsTree/tree_component.min.js"></script>
+        <script type="text/javascript" src="_lib/JsTree/css.js"></script>
+        <script type="text/javascript" src="_lib/Fluid/ProgressiveEnhancement.js"></script>
+
+    </head>
+
+    <body id="root" class="fl-centered fl-container i18nable directory-container">
+
+        <!-- NAVIGATION -->
+        <div id="widget_topnavigation" class="widget_inline">
+        </div>
+
+        <!-- CONTENT -->
+        <div class="fl-container-flex header">
+            <div class="fl-fix fl-centered fixed-container">
+                <div class="decor">
+                </div>
+                <!-- TITLE BAR  -->
+                <div class="s3d-site-heading">
+                    <h1>__MSG__DIRECTORY__</h1>
+                </div>
+                <!-- CONTENT -->
+                <div class="fl-fix fl-centered main-container">
+                    <div id="directory_template_container">
+                        <!--
+                        -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TEMPLATES -->
+        <div id="directory_template" style="display:none;"><!--
+        <div id="directory_jumpbox">
+            <h2 id="directory_jump_to_header">Jump to:</h2>
+            <div class="directory_jumpbox_box">
+                {for i in directory}
+                    <div class="directory_jumpbox_box_hierarchybox">
+                        <p>
+                            <a href="#${i.name}" class="directory_level_three_link directory_level_two_header">${i.name}</a>
+                        </p>
+                        {for j in i.secondlevels}
+                            <p>
+                                <a href="#${i.name}${j.name}" class="directory_level_three_link">${j.name}</a>
+                            </p>
+                        {/for}
+                    </div>
+                {/for}
+                <hr/>
+            </div>
+        </div>
+        {for i in directory}
+            <a href="/dev/search.html#q=${escape(escape(i.name))}" name="${i.name}"><h1 class="directory_level_one_header">${i.name}</h1></a>
+            {for j in i.secondlevels}
+                <div class="directory_block">
+                    <a href="/dev/search.html#q=${escape(escape(i.name) + ":" + escape(j.name))}" name="${i.name}${j.name}"><h2 class="directory_level_two_header" name="${j.name}">${j.name}</h2></a>
+                    {for k in j.thirdlevels}
+                    <p>
+                        <a href="/dev/search.html#q=${escape(escape(i.name) + ":" + escape(j.name) + ":" + escape(k.name))}" class="directory_level_three_link">${k.name}</a>
+                    </p>
+                    {/for}
+                </div>
+            {/for}
+        {/for}
+        --></div>
+
+        <!-- FOOTER WIDGET -->
+        <div id="widget_footer" class="widget_inline footercontainer"></div>
+
+        <!-- CHAT -->
+        <div id="widget_chat" class="widget_inline"></div>
+
+        <!-- JAVASCRIPT -->
+        <script type="text/javascript" src="_javascript/directory.js"></script>
+
+    </body>
+</html>

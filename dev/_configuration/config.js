@@ -28,7 +28,7 @@ sakai.config = {
         LOGOUT_URL: "/dev/logout.html",
         MY_DASHBOARD_URL: "/dev/my_sakai.html",
         PEOPLE_URL: "/dev/people.html",
-        PROFILE_URL: "/dev/profile.html",
+        PROFILE_URL: "/dev/show.html?type=user",
         PROFILE_EDIT_URL: "/dev/profile_edit.html",
         PUBLIC_CONTENT_MEDIA_URL: "/dev/public_content_media.html",
         PUBLIC_COURSES_SITES_URL: "/dev/public_courses_sites.html",
@@ -53,7 +53,9 @@ sakai.config = {
         CHAT_GET_SERVICE: "/var/message/chat/__KIND__.json",
         CHAT_UPDATE_SERVICE: "/var/message.chatupdate.json",
         CONTACTS_ACCEPTED: "/var/contacts/accepted.json",
+        CONTACTS_ALL: "/var/contacts/all.json",
         CONTACTS_INVITED: "/var/contacts/invited.json",
+        CONTACTS_PENDING: "/var/contacts/pending.json",
         CREATE_USER_SERVICE: "/system/userManager/user.create.html",
         DISCUSSION_GETPOSTS_THREADED: "/var/search/discussions/threaded.json?path=__PATH__&marker=__MARKER__",
         DISCUSSION_INITIALPOSTS_SERVICE: "/var/search/discussions/initialdiscussionposts.json?path=__PATH__&items=__ITEMS__&page=__PAGE__",
@@ -68,6 +70,7 @@ sakai.config = {
         MESSAGE_BOX_SERVICE: "/var/message/internal/box.json",
         MESSAGE_BOXCATEGORY_SERVICE: "/var/message/boxcategory.json",
         POOLED_CONTENT_MANAGER: "/var/search/pool/me/manager.json",
+        POOLED_CONTENT_VIEWER: "/var/search/pool/me/viewer.json",
         PRESENCE_CONTACTS_SERVICE: "/var/presence.contacts.json",
         PRESENCE_SERVICE: "/var/presence.json",
         PROXY_RSS_SERVICE: "/var/proxy/rss.json?rss=",
@@ -112,7 +115,11 @@ sakai.config = {
         TWITTER_POST_URL: "/var/proxy/twitter/update_status.json",
         USER_CHANGELOCALE_SERVICE: "/rest/user/changelocale/__USERID__",
         USER_CHANGEPASS_SERVICE: "/system/userManager/user/__USERID__.changePassword.html",
-        USER_EXISTENCE_SERVICE: "/system/userManager/user/__USERID__.json"
+        USER_EXISTENCE_SERVICE: "/system/userManager/user/__USERID__.json",
+
+        // PREFIXES
+        GROUP_PREFIX: "/_group/g/g-/",
+        USER_PREFIX: "/_user"
 
     },
 
@@ -343,7 +350,8 @@ sakai.config = {
          * Set the user's short description to appear underneath their name
          * in search results
          */
-        shortDescription: "${role} in ${department} at ${college}"
+        userShortDescription: "${role} in ${department} at ${college}",
+        groupShortDescription: "asdf"
 
     },
 
@@ -488,12 +496,58 @@ sakai.config = {
             "label" : "COURSES_AND_SITES"
         },
         {
+            "url" : "/dev/directory.html",
+            "label" : "DIRECTORY"
+        },
+        {
             "url" : "javascript:;",
             "label" : "CALENDAR"
         }
     ],
 
     displayDebugInfo: true,
+
+    Directory: {
+        "College of Engineering": {
+            "First Year Courses": [
+                "Chemistry 101",
+                "AutoCAD for dummies",
+                "Hierarchy 3",
+                "Hierarchy 3",
+                "Hierarchy 3",
+            ],
+            "Second Year Courses": [
+                "Google Sketchup, 3D is pretty easy",
+                "Theory of Circuitry",
+                "Hierarchy 3",
+                "Hierarchy 3",
+                "Hierarchy 3",
+            ],
+            "Third Year Courses": [
+                "Google Sketchup, 3D is pretty easy",
+                "Theory of Circuitry",
+                "Hierarchy 3",
+                "Hierarchy 3",
+                "Hierarchy 3",
+            ],
+            "Fourth Year Courses": [
+                "Google Sketchup, 3D is pretty easy",
+                "Theory of Circuitry",
+                "Hierarchy 3",
+                "Hierarchy 3",
+                "Hierarchy 3",
+            ]
+        },
+        "College of Liberal Arts": {
+            "First Year Courses": [
+                "Shakespeare in Translation",
+                "Constructing Derrida",
+                "Hierarchy 3",
+                "Hierarchy 3",
+                "Hierarchy 3",
+            ]
+        }
+    },
 
     widgets: {}
 };

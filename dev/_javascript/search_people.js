@@ -34,6 +34,13 @@ sakai.search = function() {
     var mainSearch = false;
     var max_items = 2000;
 
+    // Search URL mapping
+    var searchURLmap = {
+        allcontacts : sakai.config.URL.CONTACTS_ALL,
+        invitedcontacts : sakai.config.URL.CONTACTS_INVITED,
+        pendingcontacts : sakai.config.URL.CONTACTS_PENDING,
+        onlinecontacts : sakai.config.URL.PRESENCE_CONTACTS_SERVICE
+    };
 
     //    CSS IDs
 
@@ -255,6 +262,37 @@ sakai.search = function() {
         //    Render the results.
         $(searchConfig.results.container).html($.TemplateRenderer(searchConfig.results.template, finaljson));
         $("#search_results_page1").show();
+
+        var facetedPeopleConfig = {
+            title: "Refine your search",
+            value: "People",
+            categories: ["My Contacts", "Online Now", "Invited", "Requested", "Not known"],
+            searchurls: [searchURLmap.allcontacts, searchURLmap.onlinecontacts, searchURLmap.invitedcontacts, searchURLmap.pendingcontacts, '']
+        };
+
+        // Render the faceted.
+        $("#search_faceted_container").html($.TemplateRenderer("#search_faceted_template", facetedPeopleConfig));
+        $("#search_faceted_container").show();
+
+        // bind faceted elements
+        // loop through each faceted category and bind the link
+        $.each(facetedPeopleConfig.categories, function(index, category) {
+            $("#" + category.split(' ').join('')).bind("click", function() {
+                var searchquery = $(searchConfig.global.text).val();
+                var searchwhere = mainSearch.getSearchWhereSites();
+                sakai._search.doSearch(1, searchquery, searchwhere, facetedPeopleConfig.searchurls[index]);
+            });
+        });
+        // bind faceted list all
+        $("#search_faceted_listall").bind("click", function() {
+            $(".search_faceted_list_expanded").show();
+            $(".search_faceted_back").show();
+        });
+        // bind faceted back link
+        $(".search_faceted_back_link").bind("click", function() {
+            $(".search_faceted_list_expanded").hide();
+            $(".search_faceted_back").hide();
+        });
     };
 
 
@@ -278,7 +316,7 @@ sakai.search = function() {
      *  * = entire community
      *  my contacts = the site the user is registered on
      */
-    sakai._search.doSearch = function(page, searchquery, searchwhere) {
+    sakai._search.doSearch = function(page, searchquery, searchwhere, facetedurl) {
 
         currentpage = parseInt(page,  10);
 
@@ -314,6 +352,10 @@ sakai.search = function() {
                 searchURL = sakai.config.URL.SEARCH_USERS + "?page=" + (currentpage - 1) + "&items=" + resultsToDisplay + "&q=" + urlsearchterm + "&sortOn=sakai:firstName&sortOrder=ascending";
             }
 
+            // Check if we want to search using a faceted link
+            if (facetedurl)
+                searchURL = facetedurl + "?page=" + (currentpage - 1) + "&items=" + resultsToDisplay + "&q=" + urlsearchterm + "&sortOn=sakai:firstName&sortOrder=ascending";
+
             $.ajax({
                 cache: false,
                 url: searchURL,
@@ -321,8 +363,15 @@ sakai.search = function() {
 
                     // Store found people in data cache
                     sakai.data.search.results_people = {};
-                    for (var i = 0, j = data.results.length; i < j; i++) {
-                        sakai.data.search.results_people[data.results[i]["rep:userId"]] = data.results[i];
+                    
+                    if (searchURL !== searchURLmap.onlinecontacts) {
+                        for (var i = 0, j = data.results.length; i < j; i++) {
+                            sakai.data.search.results_people[data.results[i]["rep:userId"]] = data.results[i];
+                        }
+                    } else {
+                        for (var i = 0, j = data.results.length; i < j; i++) {
+                            sakai.data.search.results_people[data.contacts[i]["rep:userId"]] = data.results[i];
+                        }
                     }
 
                     renderResults(data, true);

@@ -130,7 +130,7 @@ sakai.profile = function(){
                     window.location = sakai.config.URL.PROFILE_EDIT_URL + "?user=" + sakai.profile.main.currentuser;
                     break;
                 case "view":
-                    window.location = sakai.config.URL.PROFILE_URL + "?user=" + sakai.profile.main.currentuser;
+                    window.location = sakai.config.URL.PROFILE_URL + "&id=" + sakai.profile.main.currentuser;
                     break;
             }
         }

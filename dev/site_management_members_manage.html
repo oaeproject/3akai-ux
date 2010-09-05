@@ -178,7 +178,7 @@
                                                 <a href="javascript:;" class="member-label">${i['rep:userId']}</a><div class="member-title"></div>
                                                 {/if}
                                                 <span class="siteManage_person_roleView">${i.role}</span>
-                                                <a href="profile.html?user=${i['rep:userId']}" target="_blank" class="member-label view-profile-label" style="color:#006E96; font-weight: normal; font-size: 0.9em; width: 150px;">__MSG__VIEW_PROFILE__</a>
+                                                <a href="show.html?type=user&amp;id=${i['rep:userId']}" target="_blank" class="member-label view-profile-label" style="color:#006E96; font-weight: normal; font-size: 0.9em; width: 150px;">__MSG__VIEW_PROFILE__</a>
 
                                             </li>
                                         {/for}
@@ -205,7 +205,7 @@
                                                     {else}
                                                     <a href="javascript:;" class="member-label">${i['jcr:name']}</a><div class="member-title"></div>
                                                     {/if}
-                                                    <a href="profile.html?user=${i['jcr:name']}" target="_blank" class="member-label view-profile-label sitejoin-link">__MSG__VIEW_PROFILE__</a>
+                                                    <a href="show.html?type=user&amp;id=${i['jcr:name']}" target="_blank" class="member-label view-profile-label sitejoin-link">__MSG__VIEW_PROFILE__</a>
                                                     <a href="javascript:;" id="accept_link_${i['jcr:name']}" class="member-label accept-sitejoin sitejoin-link">__MSG__ACCEPT_SITEJOIN__</a>
                                                     <a href="javascript:;" id="deny_link_${i['jcr:name']}"class="member-label deny-sitejoin sitejoin-link">__MSG__DENY_SITEJOIN__</a>
 
@@ -261,4 +261,4 @@
 
     </body>
 
-</html>
+</html>

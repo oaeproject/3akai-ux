@@ -130,8 +130,8 @@
                 {/if}
                 {if i.listgeneral.resultType === "people"}
                     <li class="listgeneral_result">
-                        <a class="listgeneral_avatarcontainer" href="/dev/profile.html?user=${i['rep:userId']}"><img src="${i.listgeneral.avatar}" alt="Profile picture" class="listgeneral_avatar"/></a>
-                        <a class="listgeneral_name" href="/dev/profile.html?user=${i['rep:userId']}">${i.firstName} ${i.lastName}</a>{if i.listgeneral.role !== ""}, <span class="listgeneral_role">${i.listgeneral.role}</span>{/if}
+                        <a class="listgeneral_avatarcontainer" href="/dev/show.html?type=user&amp;id=${i['rep:userId']}"><img src="${i.listgeneral.avatar}" alt="Profile picture" class="listgeneral_avatar"/></a>
+                        <a class="listgeneral_name" href="/dev/show.html?type=user&amp;id=${i['rep:userId']}">${i.firstName} ${i.lastName}</a>{if i.listgeneral.role !== ""}, <span class="listgeneral_role">${i.listgeneral.role}</span>{/if}
                         <p class="listgeneral_description">${i.listgeneral.description}</p>
                     </li>
                 {/if}

@@ -45,7 +45,6 @@ sakai.sitespages = function(tuid,showSettings){
 
     var $li_edit_page_divider = $("#li_edit_page_divider");
     var $li_edit_page = $("#li_edit_page");
-    var $add_a_new = $("#add_a_new");
 
     var $page_nav_content = $("#page_nav_content");
     var $pagetitle = $("#pagetitle");
@@ -66,7 +65,6 @@ sakai.sitespages = function(tuid,showSettings){
     sakai.sitespages.pagetypes = {};
     sakai.sitespages.pagecontents = {};
     sakai.sitespages.versionHistoryNeedsReset = false;
-    sakai.sitespages.selectedpage = false;
 
     //////////////////////////
     // CONFIG and HELP VARS //
@@ -95,12 +93,9 @@ sakai.sitespages = function(tuid,showSettings){
             sakai._isAnonymous = false;
         } else {
             sakai._isAnonymous = true;
-
         }
         // Refresh site_info object
         sakai.sitespages.refreshSiteInfo();
-        // Load site navigation
-        sakai.sitespages.loadSiteNavigation();
     }
 
     var showAdminElements = function(){
@@ -110,7 +105,6 @@ sakai.sitespages = function(tuid,showSettings){
         $li_more_link.show();
         $print_page.removeClass("print_page_view");
         $print_page.addClass("print_page_admin")
-        $add_a_new.show();
 
         // Load admin part from a separate file
         $.getScript(sakai.sitespages.siteAdminJS);
@@ -122,7 +116,11 @@ sakai.sitespages = function(tuid,showSettings){
      * @param pageToOpen {String} URL safe title of a page which we want to open after the site info object refresh (optional)
      * @return void
      */
-    sakai.sitespages.refreshSiteInfo = function(pageToOpen) {
+    sakai.sitespages.refreshSiteInfo = function(pageToOpen, loadNav) {
+        var doLoadNav = true;
+        if (loadNav !== undefined) {
+            doLoadNav = loadNav;
+        }
 
         // Load site information
         $.ajax({
@@ -184,17 +182,19 @@ sakai.sitespages = function(tuid,showSettings){
                     return counter;
                 };
 
-                // Refresh navigation
-                if (sakai.sitespages.navigation) {
-                    sakai.sitespages.navigation.renderNavigation(sakai.sitespages.selectedpage, sakai.sitespages.site_info._pages);
-                }
-
                 // Open page if necessary
-                if (pageToOpen){
+                if (pageToOpen && pageToOpen !== "") {
                     sakai.sitespages.openPage(pageToOpen);
                 }
 
-
+                // Load page templates
+                if (config.editMode) {
+                    sakai.sitespages.loadTemplates();
+                }
+                // Load site navigation
+                if (doLoadNav) {
+                    sakai.sitespages.loadSiteNavigation();
+                }
             },
             error: function(xhr, textStatus, thrownError) {
                 sakai.site.site_info = {};
@@ -219,7 +219,6 @@ sakai.sitespages = function(tuid,showSettings){
         return urlName;
     };
 
-
     // Load Navigation
     sakai.sitespages.loadSiteNavigation = function() {
 
@@ -236,8 +235,7 @@ sakai.sitespages = function(tuid,showSettings){
             },
             error: function(xhr, textStatus, thrownError) {
               $(window).trigger('hashchange');
-              console.log(sakai.site.urls.SITE_NAVIGATION_CONTENT());
-              alert("site.js: Could not load site navigation content. \n HTTP status code: " + xhr.status);
+              fluid.log("sitespages.js: Could not load site navigation content. \n HTTP status code: " + xhr.status);
             }
         });
 
@@ -292,8 +290,7 @@ sakai.sitespages = function(tuid,showSettings){
             }
         }
 
-
-        //Store currently selected page
+        // Store currently selected page
         sakai.sitespages.selectedpage = pageUrlName;
 
         /* Full Width handling
@@ -336,7 +333,7 @@ sakai.sitespages = function(tuid,showSettings){
 
             // Re-render Site Navigation to reflect changes if navigation widget is already loaded
             if (sakai.sitespages.navigation) {
-                sakai.sitespages.navigation.renderNavigation(sakai.sitespages.selectedpage, sakai.sitespages.site_info._pages);
+//                sakai.sitespages.navigation.renderNavigation(sakai.sitespages.selectedpage, sakai.sitespages.site_info._pages);
             }
         }
         else {
@@ -392,6 +389,7 @@ sakai.sitespages = function(tuid,showSettings){
 
         // If page is not the current page load it
         if (sakai.sitespages.selectedpage !== pageid) {
+            sakai.sitespages.selectedpage = pageid;
             History.addBEvent(pageid);
         }
 
@@ -433,7 +431,7 @@ sakai.sitespages = function(tuid,showSettings){
 
             // (Re)-Render Navigation widget
             if (sakai.sitespages.navigation) {
-                sakai.sitespages.navigation.renderNavigation(sakai.sitespages.selectedpage, sakai.sitespages.site_info._pages);
+//                sakai.sitespages.navigation.renderNavigation(sakai.sitespages.selectedpage, sakai.sitespages.site_info._pages);
             }
 
         }

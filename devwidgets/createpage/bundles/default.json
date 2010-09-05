@@ -1,0 +1,15 @@
+{
+"BLANK_PAGE": "Blank Page",
+"CREATE_PAGE": "Create page",
+"DASHBOARD_PAGE": "Dashboard Page",
+"DELETE": "delete",
+"DONT_CREATE": "Don't create",
+"ENTER_PAGE_NAME": "Please enter a page name.",
+"NO_TEMPLATES": "No templates available.",
+"PAGE_TITLE": "Page title",
+"PAGE_TYPE": "Type of page",
+"PROCESSING": "Processing",
+"TEMPLATE_PAGE": "Page from Template",
+"TEMPLATES_AVAILABLE": "Templates available",
+"WIDGET_TITLE": "Create a new page"
+}

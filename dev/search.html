@@ -66,7 +66,7 @@
                         <li class="fl-tabs-active"><a id="tab_search_all" href="search.html#">__MSG__ALL__</a></li>
                         <li><a href="search_content.html#" id="tab_search_content">__MSG__CONTENT_AND_MEDIA__</a></li>
                         <li><a href="search_people.html#" id="tab_search_people">__MSG__PEOPLE__</a></li>
-                        <li><a href="search_sites.html#" id="tab_search_sites">__MSG__COURSES_AND_SITES__</a></li>
+                        <li><a href="search_groups.html#" id="tab_search_sites">__MSG__GROUPS__</a></li>
                     </ul>
                 </div>
 
@@ -101,6 +101,7 @@
                         <span id="search_result_temp" style="display:none;"><b>__MSG__SEARCHING__ ...</b></span>
 
                         <!-- SEARCH RESULTS -->
+                        <div class="fl-container fl-fix search_results">
 
                         <!-- CONTENT / MEDIA PART -->
                         <div class="fl-container fl-fix search_results_container" style="display:none" id="cm_header">
@@ -160,11 +161,11 @@
                                     {if !i.isAnonymous}
                                         <div class="fl-container fl-fix search_result_person">
                                             {if ! i.picture}
-                                                <a href="/dev/profile.html?user=${i.userid}" class="fl-icon search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"></a>
+                                                <a href="/dev/show.html?type=user&amp;id=${i.userid}" class="fl-icon search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"></a>
                                             {else}
-                                                <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"><img src="${i.picture}" alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" width="60px" height="60px"/></a>
+                                                <a href="/dev/show.html?type=user&amp;id=${i.userid}" class="search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"><img src="${i.picture}" alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" width="60px" height="60px"/></a>
                                             {/if}
-                                            <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_name">${i.name}</a>
+                                            <a href="/dev/show.html?type=user&amp;id=${i.userid}" class="search_result_person_name">${i.name}</a>
                                             {if i.extra}
                                                 <a href="javascript:;" class="search_result_person_dept">${i.extra}</a>
                                             {else}
@@ -208,6 +209,7 @@
                                 --></div>
                             </div>
                             <div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"><!-- --></div></div>
+                        </div>
                         </div>
                     </div>
 

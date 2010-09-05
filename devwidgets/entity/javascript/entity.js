@@ -73,7 +73,6 @@ sakai.entity = function(tuid, showSettings){
     };
     var profile_dummy_status;
 
-
     ///////////////////
     // CSS SELECTORS //
     ///////////////////
@@ -98,11 +97,65 @@ sakai.entity = function(tuid, showSettings){
     var profileChatStatusClass = ".myprofile_chat_status";
     var profileChatStatusID = "#myprofile_chat_status_";
 
+    // Tags Link
+    var tagsLink = "#entity_tags_link";
+    var tagsLinkMenu = tagsLink + "_menu";
+    //var tagsLinkMenuLink = tagsLink + "_menu" + " a";
+
+    // Locations Link
+    var locationsLink = "#entity_locations_link";
+    var locationsLinkMenu = locationsLink + "_menu";
+    //var locationsLinkMenuLink = locationsLink + "_menu" + " a";
+
+    // Group buttons
+    var entityGroup = "#entity_group";
+    var entityGroupLeave = entityGroup + "_leave";
+    var entityGroupJoin = entityGroup + "_join";
+    var entityGroupJoinRequest = entityGroupJoin + '_request';
+
+    // Content buttons
+    var entityContentDownload = "#entity_content_download";
+
     var authprofileURL;
 
     ////////////////////
     // UTIL FUNCTIONS //
     ////////////////////
+
+    /**
+     * Removes the seperated and the add contacts link
+     * @param {Object} user The user object we get from the addcontact widget.
+     */
+    var removeAddContactLinks = function(user) {
+         $('#entity_add_to_contacts').hide();
+    };
+
+    /**
+     * Show or hide the tags link menu
+     * @param {String} menuBox menu box we want to display
+     * @param {String} menuLink link the user clicked to display the menu box
+     * @param {Boolean} hideOnly
+     *  true: Hide the menu only
+     *  false: Show or hide the menu depending if it's already visible
+     */
+    var showHideListLinkMenu = function(menuBox, menuLink, hideOnly){
+        if ($(menuBox).is(":visible") || hideOnly) {
+            $(menuBox).hide();
+            $(menuLink).removeClass("entity_list_open");
+        } else {
+            if ($(tagsLinkMenu).is(":visible") || $(locationsLinkMenu).is(":visible")) {
+                // hide other menus if they are open
+                $(tagsLinkMenu).hide();
+                $(tagsLink).removeClass("entity_list_open");
+                $(locationsLinkMenu).hide();
+                $(locationsLink).removeClass("entity_list_open");
+            }
+            $(menuBox).css("left", Math.round($(menuLink).offset().left) + "px");
+            $(menuBox).css("top", (Math.round($(menuLink).offset().top) + $(menuLink).height() + 11) + "px");
+            $(menuLink).addClass("entity_list_open");
+            $(menuBox).show();
+        }
+    };
 
     /**
      * Convert a file size to a human readable format (4 MB)
@@ -202,7 +255,85 @@ sakai.entity = function(tuid, showSettings){
                 break;
             }
         }
-    }
+    };
+
+    /**
+     * Gets the number of members in a group
+     * @return {String}
+     */
+    var getGroupMemberCount = function(){
+        $.ajax({
+            url: "/system/userManager/group/" + entityconfig.data.profile["sakai:group-id"] + ".members.json",
+            async: false,
+            success: function(data){
+                var groupMembers = data;
+                entityconfig.data.profile["memberCount"] = groupMembers.length
+            }
+        });
+    };
+
+    /**
+     * Joins the specific group as a member
+     * @param {String} Type tells us which button to show
+     */
+    var showGroupMembershipButton = function(type){
+        if (type === 'join') {
+            if (entityconfig.data.profile.authprofile["sakai:group-joinable"] === "People can automatically join")
+                $(entityGroupJoin).show();
+            else if (entityconfig.data.profile.authprofile["sakai:group-joinable"] === "People request to join")
+                $(entityGroupJoinRequest).show();
+            $(entityGroupLeave).hide();
+        } else if (type === 'leave') {
+            $(entityGroupJoin).hide();
+            $(entityGroupJoinRequest).hide();
+            $(entityGroupLeave).show();
+        }
+    };
+
+    /**
+     * Sends a request to the group managers for the user to join as a member
+     */
+    requestJoinGroup = function(){
+        // todo
+    };
+
+    /**
+     * Joins the specific group as a member
+     */
+    var joinGroup = function(){
+        // add user to group
+        $.ajax({
+            url: "/system/userManager/group/" + entityconfig.data.profile["sakai:group-id"] + ".update.json",
+            data: {
+                "_charset_":"utf-8",
+                ":member": sakai.data.me.user.userid
+            },
+            type: "POST",
+            success: function(data){
+    	        sakai.api.Util.notification.show("Group Membership", "You have been added successfully to the Group.");
+                showGroupMembershipButton('leave');
+            }
+        });
+    };
+
+    /**
+     * Leaves the specific group as a member
+     */
+    var leaveGroup = function(){
+        // remove user from group
+        $.ajax({
+            url: "/system/userManager/group/" + entityconfig.data.profile["sakai:group-id"] + ".update.json",
+            data: {
+                "_charset_":"utf-8",
+                ":member@Delete": sakai.data.me.user.userid
+            },
+            type: "POST",
+            success: function(data){
+    	        sakai.api.Util.notification.show("Group Membership", "You have been successfully removed from the Group.");
+                showGroupMembershipButton('join');
+            }
+        });
+    };
 
     /////////////
     // BINDING //
@@ -314,6 +445,69 @@ sakai.entity = function(tuid, showSettings){
     };
 
     /**
+     * Add binding to elements related to tag drop down
+     */
+    var addBindingTagsLink = function(){
+        // Add the click event to the tagsLink link
+        $(tagsLink).bind("click", function(){
+            showHideListLinkMenu(tagsLinkMenu, tagsLink, false);
+        });
+    };
+
+    /**
+     * Add binding to elements related to locations drop down
+     */
+    var addBindingLocationsLink = function(){
+        // Add the click event to the locationsLink link
+        $(locationsLink).bind("click", function(){
+            showHideListLinkMenu(locationsLinkMenu, locationsLink, false);
+        });
+    };
+
+    /**
+     * Remove contact button after contact request is sent
+     */
+    var removeAddContactLinks = function(user){
+        $('#entity_add_to_contacts').hide();
+    };
+
+    /**
+     * Add binding to add contact button
+     */
+    var addBindingAddContact = function(){
+        // A user want to make a new friend
+        $('#entity_add_to_contacts').live("click", function() {
+            var contactclicked = entityconfig.data.profile["rep:userId"];
+            sakai.addtocontacts.initialise(contactclicked, sakai.entity.removeAddContactLinks);
+        });
+    };
+
+    /**
+     * Add binding to elements related to tag drop down
+     */
+    var addBindingGroup = function(){
+        // Add the click event to the leave group button
+        $(entityGroupLeave).bind("click", function(){
+            leaveGroup();
+        });
+
+        // Add the click event to the join group button
+        $(entityGroupJoin).bind("click", function(){
+            joinGroup();
+        });
+
+        // Add the click event to the join group request button
+        $(entityGroupJoinRequest).bind("click", function(){
+            requestJoinGroup();
+        });
+
+        if (entityconfig.data.profile.role === "member")
+            showGroupMembershipButton('leave');
+        else if (entityconfig.data.profile.role !== "manager")
+            showGroupMembershipButton('join');
+    };
+
+    /**
      * Add binding to various elements on the entity widget
      */
     var addBinding = function(){
@@ -324,6 +518,37 @@ sakai.entity = function(tuid, showSettings){
             // Add binding related to chat status
             addBindingChatStatus();
         }
+
+        if(entityconfig.mode === "profile"){
+            // Add binding to add contact button
+            addBindingAddContact();
+
+            // Add binding to available to chat link
+            $('#entity_available_to_chat').live("click", function() {
+                // todo
+            });
+        }
+
+        if(entityconfig.mode === "group"){
+            // Add binding to group related buttons
+            addBindingGroup();
+
+            // Add binding to locations box
+            addBindingLocationsLink();
+        }
+
+        if(entityconfig.mode === "content"){
+            // Add binding to content related buttons
+            $(entityContentDownload).bind("click", function(){
+                window.open(entityconfig.data.profile.contentpath + "/" + entityconfig.data.profile.name);
+            });
+
+            // Add binding to locations box
+            addBindingLocationsLink();
+        }
+
+        // Add binding to elements related to tag drop down
+        addBindingTagsLink();
     };
 
     /**
@@ -359,6 +584,7 @@ sakai.entity = function(tuid, showSettings){
 
         var filedata = data.data;
         var jcr_content = filedata["jcr:content"];
+        var jcr_access = filedata["rep:policy"];
 
         entityconfig.data.profile = {};
 
@@ -381,6 +607,19 @@ sakai.entity = function(tuid, showSettings){
             if (jcr_content["jcr:mimeType"]) {
                 entityconfig.data.profile.mimetype = jcr_content["jcr:mimeType"];
             }
+        }
+
+        // Check if user is a manager or viewer
+        entityconfig.data.profile["role"] = "viewer";
+        if (jcr_access) {
+            // check if user is a manager
+            $.each(jcr_access, function(index, resultObject) {
+                if (resultObject["rep:principalName"] === sakai.data.me.user.userid) {
+                    if ($.inArray("jcr:all", resultObject["rep:privileges"]) != 1) {
+                        entityconfig.data.profile["role"] = 'manager';
+                    }; 
+                }
+            });
         }
 
         // Set the created by and created (date) variables
@@ -406,13 +645,21 @@ sakai.entity = function(tuid, showSettings){
         if(data.url){
             entityconfig.data.profile.path = data.url;
         }
+        // Set the contentpath of the resource
+        if(data.url){
+            entityconfig.data.profile.contentpath = data.contentpath;
+        }
 
         // Set the description of the resource
         if (filedata["sakai:description"]) {
             entityconfig.data.profile.description = filedata["sakai:description"];
         }
 
-        
+        // Set the tags of the resource
+        if (filedata["sakai:tags"]) {
+            entityconfig.data.profile['sakai:tags'] = filedata["sakai:tags"].toString();
+        }
+
         // Set the copyright of the file
         if (filedata["sakai:copyright"]) {
             entityconfig.data.profile.copyright = filedata["sakai:copyright"];
@@ -444,6 +691,24 @@ sakai.entity = function(tuid, showSettings){
                 break;
             case "group":
                 entityconfig.data.profile = data;
+                // determine if user has access to the manager group
+                var groups = sakai.data.me.groups;
+                var manager = false;
+                var member = false;
+                for (var i = 0, il = groups.length; i < il; i++) {
+                    if (groups[i].groupid === entityconfig.data.profile["sakai:group-id"] + '-managers') {
+                        manager = true;
+                    } else if (groups[i].groupid === entityconfig.data.profile["sakai:group-id"]) {
+                        member = true;
+                    }
+                }
+                if (manager) {
+                    entityconfig.data.profile["role"] = "manager";
+                } else if (member) {
+                    entityconfig.data.profile["role"] = "member";
+                }
+                // get number of groups
+                var numberOfMembers = getGroupMemberCount();
                 break;
             case "content":
                 setContentData(data);

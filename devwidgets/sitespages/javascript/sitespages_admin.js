@@ -83,7 +83,6 @@ sakai.sitespages.site_admin = function(){
         var title = i_title;
         var base_folder = i_base_folder || sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageFolder"];
 
-
         // Generate new page id
         var new_urlsafe_name = false;
         var urlsafe_title = sakai.sitespages.createURLSafeTitle(title);
@@ -133,7 +132,6 @@ sakai.sitespages.site_admin = function(){
                 ":dest" : new_tgt_url
             },
             success: function(data) {
-
                 var movedPageTitle = sakai.sitespages.site_info._pages[src_urlsafe_name]["pageTitle"];
 
                 // Remove content html tags
@@ -151,13 +149,13 @@ sakai.sitespages.site_admin = function(){
                 });
 
                 // Refresh site info
-                sakai.sitespages.refreshSiteInfo(tgt_urlsafe_name);
+                sakai.sitespages.refreshSiteInfo(tgt_urlsafe_name, false);
 
                 // Call callback function
-                callback();
+                callback(tgt_urlsafe_name);
             },
             error: function(xhr, text, thrown_error) {
-                fluid.log("site_admin.js/movePage(): Failed to move page node!");
+                fluid.log("sitespages_admin.js/movePage(): Failed to move page node!");
             }
         });
     };
@@ -176,13 +174,13 @@ sakai.sitespages.site_admin = function(){
      */
     sakai.sitespages.savePage = function(i_url, type, title, content, position, acl, fullwidth, callback) {
 
-        var site_data_string = $.toJSON({
+        var page_data = $.toJSON({
             "sling:resourceType": "sakai/page",
             "pageTitle": title,
             "pageType": type,
             "fullwidth": fullwidth,
             "pagePosition": position,
-            "_pages": {},
+            "_pages": {},  // child pages
             "pageContent": {
                 "sling:resourceType": "sakai/pagecontent",
                 "sakai:pagecontent": content
@@ -194,7 +192,7 @@ sakai.sitespages.site_admin = function(){
             type: "POST",
             data: {
                 ":operation": "createTree",
-                "tree": site_data_string,
+                "tree": page_data,
                 ":replace": "true",
                 "_charset_":"utf-8"
             },
@@ -574,7 +572,7 @@ sakai.sitespages.site_admin = function(){
         }
 
         // Refresh site_info object
-        sakai.sitespages.refreshSiteInfo();
+        sakai.sitespages.refreshSiteInfo("", false);
 
         // Get title
         pagetitle = sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageTitle"];
@@ -686,7 +684,7 @@ sakai.sitespages.site_admin = function(){
 
                     // Re-render Site Navigation to reflect changes
                     if (sakai.sitespages.navigation) {
-                        sakai.sitespages.navigation.renderNavigation(sakai.sitespages.selectedpage, sakai.sitespages.site_info._pages);
+//                        sakai.sitespages.navigation.renderNavigation(sakai.sitespages.selectedpage, sakai.sitespages.site_info._pages);
                     }
 
                     // Switch back view
@@ -822,11 +820,15 @@ sakai.sitespages.site_admin = function(){
             // See if we are editing a completely new page
             if (sakai.sitespages.isEditingNewPage) {
 
-                // Cretae unique elements for the new page
-                var newPageUniques = sakai.sitespages.createPageUniqueElements(newpagetitle, sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageFolder"]);
+                // Create unique elements for the new page
+                var newPageUniques = sakai.sitespages.createPageUniqueElements(
+                    newpagetitle, sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageFolder"]
+                );
 
                 // Save page and content
-                sakai.sitespages.savePage(newPageUniques.url, "webpage", newpagetitle, content, ("" + (determineHighestPosition() + 100000)), "parent", false, function(success, return_data){
+                sakai.sitespages.savePage(newPageUniques.url, "webpage",
+                    newpagetitle, content, ("" + (determineHighestPosition() + 100000)),
+                    "parent", false, function (success, return_data) {
 
                     if (success) {
 
@@ -838,6 +840,7 @@ sakai.sitespages.site_admin = function(){
                             url: newPageUniques.url + "/pageContent.save.html",
                             type: "POST"
                         });
+                        sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"] = getContent();
 
                         // Create an activity item for the new page
                         /* var nodeUrl = newPageUniques.url;
@@ -868,8 +871,7 @@ sakai.sitespages.site_admin = function(){
                                 },
                                 success: function(data) {
                                     // Refresh site info
-                                    sakai.sitespages.refreshSiteInfo(newPageUniques.urlName);
-
+                                    sakai.sitespages.refreshSiteInfo(newPageUniques.urlName, false);
                                     // Switch back to view mode
                                     $("#edit_view_container").hide();
                                     $("#show_view_container").show();
@@ -878,7 +880,7 @@ sakai.sitespages.site_admin = function(){
                         } else {
 
                             // Refresh site info
-                            sakai.sitespages.refreshSiteInfo(newPageUniques.urlName);
+                            sakai.sitespages.refreshSiteInfo(newPageUniques.urlName, false);
 
                             // Switch back to view mode
                             $("#edit_view_container").hide();
@@ -895,7 +897,6 @@ sakai.sitespages.site_admin = function(){
 
             }
             else {
-
                 // We are editing an existing page
                 if (sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageType"] === "webpage") {
                     $("#webpage_edit").show();
@@ -904,21 +905,17 @@ sakai.sitespages.site_admin = function(){
                 // Store page contents
                 sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"] = getContent();
 
-                // Put page contents into html
-                $("#" + sakai.sitespages.selectedpage).html(sakai.api.Security.saneHTML(sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"]));
-
                 // Switch back to view mode
                 $("#edit_view_container").hide();
                 $("#show_view_container").show();
 
-                $("#" + sakai.sitespages.selectedpage).show();
                 sakai.api.Widgets.widgetLoader.insertWidgets(sakai.sitespages.selectedpage,null,sakai.sitespages.config.basepath + "_widgets/");
 
                 // Save page node
                 sakai.sitespages.savePage(sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["jcr:path"], sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageType"], sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageTitle"], sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"], sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pagePosition"], "parent", (sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage].fullwidth || false), function(success, return_data){
 
                     if (success) {
-
+                        History.addBEvent(sakai.sitespages.selectedpage);
                         //Update title in HTML
                         $("#pagetitle").html(sakai.api.Security.saneHTML(sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageTitle"]));
 
@@ -958,7 +955,7 @@ sakai.sitespages.site_admin = function(){
 
         // Re-render Site Navigation to reflect changes
         if (sakai.sitespages.navigation) {
-            sakai.sitespages.navigation.renderNavigation(sakai.sitespages.selectedpage, sakai.sitespages.site_info._pages);
+//            sakai.sitespages.navigation.renderNavigation(sakai.sitespages.selectedpage, sakai.sitespages.site_info._pages);
         }
 
         sakai.sitespages.inEditView = false;
@@ -1006,12 +1003,6 @@ sakai.sitespages.site_admin = function(){
     $("#edit_page").bind("click", function(ev){
         sakai.sitespages.isEditingNewPage = false;
         sakai.sitespages.inEditView = true;
-
-        // Hide Add a New menu if open
-        if (sakai.sitespages.isShowingDropdown) {
-            $("#add_new_menu").hide();
-            sakai.sitespages.isShowingDropdown = false;
-        }
 
         //Check if tinyMCE has been loaded before - probably a more robust check will be needed
         if (tinyMCE.activeEditor === null) {
@@ -1756,21 +1747,25 @@ sakai.sitespages.site_admin = function(){
 
 
     /**
-     * Create a new page
+     * Create a new page, with an optional title
      * @param {Object} content
+     * @param {Function} [callback] Optional callback function once the page is
+     *   created. One argument, success, is sent to the callback function -
+     *   true if the page was created successfully, false otherwise
+     * @param {String} [title] Optional title of the new page.
      * @return void
      */
-    var createNewPage = function(content){
-
-        // UI Setup
-        $("#add_new_menu").hide();
-        sakai.sitespages.isShowingDropdown = false;
-
-        // Set new page flag
-        sakai.sitespages.isEditingNewPage = true;
+    sakai.sitespages.createNewPage = function(content, callback, title) {
+        var pageTitle = untitled_page_title;       // default title: "Untitled"
+        sakai.sitespages.isEditingNewPage = true;  // default new page flag
+        // if we have a title, set it and treat this as an existing page
+        if (title && typeof(title) === "string") {
+            pageTitle = sakai.api.Security.saneHTML(title);
+            sakai.sitespages.isEditingNewPage = false;
+        }
 
         // Create unique page items
-        var pageUniques = sakai.sitespages.createPageUniqueElements(untitled_page_title.toLowerCase(), sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageFolder"]);
+        var pageUniques = sakai.sitespages.createPageUniqueElements(pageTitle.toLowerCase(), sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageFolder"]);
 
         // Assign the empty content to the sakai.sitespages.pagecontents array
         if (sakai.sitespages.pagecontents[pageUniques.urlName]) {
@@ -1779,14 +1774,18 @@ sakai.sitespages.site_admin = function(){
             sakai.sitespages.pagecontents[pageUniques.urlName] = {};
             sakai.sitespages.pagecontents[pageUniques.urlName]["sakai:pagecontent"] = content;
         }
-
-        sakai.sitespages.savePage(pageUniques.url, "webpage", untitled_page_title, content, (determineHighestPosition() + 100000), "parent", false, function(success, data){
+        var newPosition = determineHighestPosition() + 100000;
+        sakai.sitespages.savePage(pageUniques.url, "webpage", pageTitle,
+            content, newPosition, "parent", false,
+            function(success, data){
 
             if (success) {
 
                 // Store page selected and old IDs
                 sakai.sitespages.oldSelectedPage = sakai.sitespages.selectedpage;
                 sakai.sitespages.selectedpage = pageUniques.urlName;
+
+                sakai.sitespages.navigation.addNode(sakai.sitespages.selectedpage, pageTitle, newPosition);
 
                 // Init tinyMCE if needed
                 if (tinyMCE.activeEditor === null) { // Probably a more robust checking will be necessary
@@ -1795,32 +1794,21 @@ sakai.sitespages.site_admin = function(){
                     editPage(pageUniques.urlName);
                 }
 
+                // run callback
+                if(typeof(callback) === "function") {
+                    callback(true);
+                }
+
             } else {
-                fluid.log("site_admin.js/createNewPage(): Could not create page node for page!");
+                fluid.log("site_admin.js/sakai.sitespages.createNewPage(): Could not create page node for page!");
+                // run callback
+                if(typeof(callback) === "function") {
+                    callback(false);
+                }
             }
 
         });
     };
-
-
-    // Bind Add a blank page click event
-    $("#option_blank_page").bind("click", function(ev){
-        if (sakai.sitespages.versionHistoryNeedsReset) {
-            sakai.sitespages.resetVersionHistory();
-            sakai.sitespages.versionHistoryNeedsReset = false;
-        }
-        createNewPage("");
-    });
-
-    // Bind Add a new blank page hover event
-    $("#option_blank_page").hover(
-        function(over){
-            $("#option_blank_page").addClass("selected_option");
-        },
-        function(out){
-            $("#option_blank_page").removeClass("selected_option");
-        }
-    );
 
 
     /////////////////////////////
@@ -1828,10 +1816,13 @@ sakai.sitespages.site_admin = function(){
     /////////////////////////////
 
     /**
-    * Adds a dashboard page to the site.
-    * @param {Object} title
-    */
-    var addDashboardPage = function(title){
+     * Adds a dashboard page to the site.
+     * @param {Object} title
+     * @param {Function} [callback] Optional callback function once the page is
+     *   created. One argument, success, is sent to the callback function -
+     *   true if the page was created successfully, false otherwise
+     */
+    sakai.sitespages.addDashboardPage = function(title, callback){
 
         // Create unique page elements
         var pageUniques = sakai.sitespages.createPageUniqueElements(title, sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageFolder"]);
@@ -1841,7 +1832,8 @@ sakai.sitespages.site_admin = function(){
         var defaultDashboardContent = '<div id="widget_dashboard_' + dashboardUID + '_' + sakai.sitespages.config.basepath + "_widgets/" + '" class="widget_inline"></div>';
 
         // Create page node for dashboard page
-        sakai.sitespages.savePage(pageUniques.url, "dashboard", title, defaultDashboardContent, (determineHighestPosition() + 200000), "parent", false, function(success, data){
+        var newPosition = determineHighestPosition() + 200000;
+        sakai.sitespages.savePage(pageUniques.url, "dashboard", title, defaultDashboardContent, newPosition, "parent", false, function(success, data){
 
             // If page save was successful
             if (success) {
@@ -1849,17 +1841,21 @@ sakai.sitespages.site_admin = function(){
                 // Close this popup and show the new page.
                 //sakai.sitespages.selectedpage = pageUniques.urlName;
 
-                $("#dashboard_addpage_dialog").jqmHide();
-                $("#dashboard_addpage_title").val("");
+                $("#createpage_container").jqmHide();
 
                 // Refresh site_info object and open page
-                sakai.sitespages.refreshSiteInfo(pageUniques.urlName);
-
+                sakai.sitespages.refreshSiteInfo(pageUniques.urlName, false);
+                sakai.sitespages.navigation.addNode(sakai.sitespages.selectedpage, title, newPosition);
                 // Check in new page content to revision history
                 $.ajax({
                     url: pageUniques.url + "/pageContent.save.html",
                     type: "POST"
                 });
+
+                // run callback
+                if(typeof(callback) === "function") {
+                    callback(true);
+                }
 
                 // Create an activity item for the page edit
                 /* var nodeUrl = pageUniques.url;
@@ -1871,71 +1867,16 @@ sakai.sitespages.site_admin = function(){
                 sakai.api.Activity.createActivity(nodeUrl, "site", "default", activityData); */
 
             } else {
-                fluid.log("site_admin.js/addDashboardPage(): Could not create page node for dashboard page!");
+                fluid.log("site_admin.js/sakai.sitespages.addDashboardPage(): Could not create page node for dashboard page!");
+
+                // run callback
+                if(typeof(callback) === "function") {
+                    callback(false);
+                }
             }
 
         });
     };
-
-    /**
-     * We add the submit event on the form, so the function is also
-     */
-    $("#dashboard_addpage_dialog form").bind('submit', function(){
-        var title = $("#dashboard_addpage_title").val();
-        if (title !== "") {
-            addDashboardPage(title);
-        } else{
-            alert("Please enter a valid title for your dashboard page.");
-        }
-
-        // Do not reload the page (don't send an HTTP POST request)
-        return false;
-    });
-
-    var renderAddDashboardPage = function(hash){
-        $("#add_new_menu").hide();
-        hash.w.show();
-    };
-
-    $("#dashboard_addpage_dialog").jqm({
-        modal: true,
-        trigger: $("#option_page_dashboard"),
-        overlay: 20,
-        toTop: true,
-        onShow: renderAddDashboardPage
-    });
-
-    // Bind Add a new page dashboard hover event
-    $("#option_page_dashboard").hover(function(over){
-        $("#option_page_dashboard").addClass("selected_option");
-    }, function(out){
-        $("#option_page_dashboard").removeClass("selected_option");
-    });
-
-
-
-
-    /////////////////////////////
-    // ADD NEW: GENERAL
-    /////////////////////////////
-
-    // Bind Add a new... click event
-    $("#add_a_new").bind("click", function(ev){
-        if (sakai.sitespages.isShowingDropdown){
-            $("#add_new_menu").hide();
-            sakai.sitespages.isShowingDropdown = false;
-        } else {
-            $("#add_new_menu").show();
-            sakai.sitespages.isShowingDropdown = true;
-            var dropdown_pos = $("#add_a_new").offset();
-            $("#add_new_menu").css({"left": (dropdown_pos.left + 7)+"px", "top": (dropdown_pos.top + 22) + "px"});
-        }
-    });
-
-
-
-
-
 
 
     //--------------------------------------------------------------------------------------------------------------
@@ -2115,22 +2056,6 @@ sakai.sitespages.site_admin = function(){
     });
 
 
-    //////////////////////////////////
-    // ADD NEW: PAGE FROM TEMPLATE
-    //////////////////////////////////
-
-    // Bind Add a new page from template hover event
-    $("#option_page_from_template").hover(
-        function(over){
-            $("#option_page_from_template").addClass("selected_option");
-        },
-        function(out){
-            $("#option_page_from_template").removeClass("selected_option");
-        }
-    );
-
-
-
     /////////////////////////////////
     // MORE: SAVE PAGE AS TEMPLATE //
     /////////////////////////////////
@@ -2142,8 +2067,6 @@ sakai.sitespages.site_admin = function(){
      */
     var startSaveAsTemplate = function(hash){
         $("#more_menu").hide();
-        $("#add_new_menu").hide();
-        sakai.sitespages.isShowingDropdown = false;
         hash.w.show();
     };
 
@@ -2215,107 +2138,28 @@ sakai.sitespages.site_admin = function(){
     };
 
     /**
-     * Load Templates
-     * @param {Object} hash
+     * Load Templates. This function is no longer used within this js file. It
+     * is global and used by outside scripts. This, along with a number of other
+     * functions from this file should probably be moved into a Page-related api
      * @return void
      */
-    var loadTemplates = function(hash){
+    sakai.sitespages.loadTemplates = function() {
         if (sakai.sitespages.versionHistoryNeedsReset) {
             sakai.sitespages.resetVersionHistory();
             sakai.sitespages.versionHistoryNeedsReset = false;
         }
 
-        $("#add_new_menu").hide();
-        sakai.sitespages.isShowingDropdown = false;
-
         // Load template configuration file
         sakai.api.Server.loadJSON("/~" + sakai.data.me.user.userid + "/private/templates", function(success, pref_data){
             if (success) {
-                renderTemplates(pref_data);
+                sakai.sitespages.mytemplates = pref_data;
             } else {
-                var empty_templates = {};
-                renderTemplates(empty_templates);
+                sakai.sitespages.mytemplates = {};
             }
         });
 
-        hash.w.show();
     };
 
-    /**
-     * Render Templates
-     * @param {Object} templates
-     * @return void
-     */
-    var renderTemplates = function(templates){
-
-        sakai.sitespages.mytemplates = templates;
-
-        var finaljson = {};
-        finaljson.items = [];
-
-        // Filter valid templates data
-        for (var i in templates){
-
-            if ((templates[i].name) && (templates[i]["pageContent"])) {
-                var obj = {};
-                obj.id = i;
-                obj.name = templates[i].name;
-                obj.description = templates[i].description;
-                obj.content = templates[i]["pageContent"]["sakai:pagecontent"];
-                finaljson.items[finaljson.items.length] = obj;
-            }
-        }
-
-        finaljson.size = finaljson.items.length;
-
-        $("#list_container").hide().html($.TemplateRenderer("list_container_template",finaljson));
-
-        if ($("#list_container").height() > 250){
-            $("#list_container").css("height","250px");
-        }
-
-        $("#list_container").show();
-
-
-        // Wire delete button
-        $(".template_delete").bind("click", function(ev){
-            var todelete = this.id.split("_")[2];
-
-            var newobj = {};
-            for (var i in sakai.sitespages.mytemplates){
-                if (i !== todelete){
-                    newobj[i] = sakai.sitespages.mytemplates[i];
-                }
-            }
-
-            // Save updated template preferences
-            sakai.api.Server.saveJSON("/~" + sakai.data.me.user.userid + "/private/templates", newobj, function(success, response) {
-                if (success) {
-
-                } else {
-                    fluid.log("site_admin.js: Failed to delete template!");
-                }
-            });
-
-            renderTemplates(newobj);
-        });
-
-        // Wire selection button
-        $(".page_template_selection").bind("click", function(ev){
-            var toload = this.id.split("_")[3];
-            $("#select_template_for_page").jqmHide();
-            createNewPage(sakai.sitespages.mytemplates[toload]["pageContent"]["sakai:pagecontent"]);
-        });
-    };
-
-    // Init Template selection modal
-    $("#select_template_for_page").jqm({
-        modal: true,
-        trigger: $('#option_page_from_template'),
-        overlay: 20,
-        toTop: true,
-        onShow: loadTemplates
-    });
 
     ///////////////////////
     // MORE: DELETE PAGE //
@@ -2381,13 +2225,12 @@ sakai.sitespages.site_admin = function(){
                 }
                 sakai.api.Activity.createActivity(nodeUrl, "site", "default", activityData);
                 */
-
+                sakai.sitespages.navigation.deleteNode(sakai.sitespages.selectedpage);
                 delete sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage];
                 delete sakai.sitespages.pagecontents[sakai.sitespages.selectedpage];
                 sakai.sitespages.autosavecontent = false;
                 updatePagePositions(selectedPage);
-                document.location = sakai.sitespages.config.url;
-
+                $('#delete_dialog').jqmHide();
             },
             error: function(xhr, textStatus, thrownError) {
 
@@ -2400,6 +2243,12 @@ sakai.sitespages.site_admin = function(){
     $('#delete_dialog').jqm({
         modal: true,
         trigger: $('.delete_dialog'),
+        overlay: 20,
+        toTop: true
+    });
+
+    $("#no_delete_dialog").jqm({
+        modal: true,
         overlay: 20,
         toTop: true
     });
@@ -2469,10 +2318,6 @@ sakai.sitespages.site_admin = function(){
     $(document).bind("click", function(e){
         var $clicked = $(e.target);
         // Check if one of the parents is the element container
-        if(!$clicked.parents().is(".add_a_new_container")){
-            $("#add_new_menu").hide();
-            sakai.sitespages.isShowingDropdown = false;
-        }
         if(!$clicked.is("#more_link")){
             showHideMoreMenu(true);
         }
@@ -2488,12 +2333,6 @@ sakai.sitespages.site_admin = function(){
 
     // Bind edit sidebar click
     $("#edit_sidebar").bind("click", function(ev){
-        // Hide Add a New menu if open
-        if (sakai.sitespages.isShowingDropdown) {
-            $("#add_new_menu").hide();
-            sakai.sitespages.isShowingDropdown = false;
-        }
-
         // Init tinyMCE if needed
         if (tinyMCE.activeEditor === null) { // Probably a more robust checking will be necessary
             sakai.sitespages.isEditingNavigation = true;

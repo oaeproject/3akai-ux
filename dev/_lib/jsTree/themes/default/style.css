@@ -1,30 +1,73 @@
-/* LOCKED */
-.tree-default .locked li a { color:gray; }
-/* DOTS */
-.tree-default ul { background-position:6px 1px; background-repeat:repeat-y; background-image:url(data:image/gif;base64,R0lGODlhAgACAIAAAB4dGf///yH5BAEAAAEALAAAAAACAAIAAAICRF4AOw==); _background-image:url("dot_for_ie.gif"); *background-image:url("dot_for_ie.gif"); }
-.tree-default li { background-position:-64px -16px; background-repeat:no-repeat; background-image:url("icons.png"); }
-/* NO DOTS */
-.tree-default .no_dots, .tree-default .no_dots ul { background:transparent; }
-.tree-default .no_dots li.leaf { background-image:none; background-color:transparent; }
-/* OPEN or CLOSED */
-.tree-default li.open { background:url("icons.png") -32px -45px no-repeat; }
-.tree-default li.closed, #jstree-dragged.tree-default li li.open { background:url("icons.png") -48px -29px no-repeat; }
-#jstree-marker { background-image:url("icons.png"); }
-/* DEFAULT, HOVER, CLICKED, LOADING STATES */
-.tree-default li a, .tree-default li span { padding:5px 10px 5px 0px; border-radius:5px; -moz-border-radius: 5px; -webkit-border-radius: 6px; color:#058EC4; font-weight:normal; }
-.tree-default li a:hover, .tree-default li a.hover, .tree-default li span { background: #e7f4f9; }
-.tree-default li a.clicked, .tree-default li a.clicked:hover, .tree-default li span.clicked { font-weight: bold; border:1px solid #999; padding:5px 10px 5px 5px; }
-/* ICONS */
-.tree-default ins { background-image:url("icons.png"); background-position:0 0; background-repeat:no-repeat; }
-.tree-default ul li a.loading ins { background-image:url("throbber.gif") !important; background-position:0 0 !important; } /* UL is added to make selector stronger */
-.tree-default li a ins.forbidden { background-position:-16px -16px; }
-.tree-default .locked li a ins { background-position:0 -45px; }
-.tree-default li span ins { background-position:-16px 0; }
-#jstree-dragged.tree-default ins { background:url("icons.png") -16px -32px no-repeat; }
-#jstree-dragged.tree-default ins.forbidden { background:url("icons.png") -16px -16px no-repeat; }
+/*
+ * jsTree default theme 1.0
+ * Supported features: dots/no-dots, icons/no-icons, focused, loading
+ * Supported plugins: ui (hovered, clicked), checkbox, contextmenu, search
+ */
 
-/* CONTEXT MENU */
-.tree-default-context a ins { background-image:url("icons.png"); background-repeat:no-repeat; background-position:-64px -64px; }
-.tree-default-context a ins.create { background-position:0 -16px; }
-.tree-default-context a ins.rename { background-position:-16px 0px; }
-.tree-default-context a ins.remove { background-position:0 -32px; }
+.jstree-default li, 
+.jstree-default ins { background-image:url("d.png"); background-repeat:no-repeat; background-color:transparent; }
+.jstree-default li { background-position:-90px 0; background-repeat:repeat-y; }
+.jstree-default li.jstree-last { background:transparent; }
+.jstree-default .jstree-open > ins { background-position:-72px 0; }
+.jstree-default .jstree-closed > ins { background-position:-54px 0; }
+.jstree-default .jstree-leaf > ins { background-position:-36px 0; }
+
+.jstree-default .jstree-hovered { background:#e7f4f9; border:1px solid #d8f0fa; padding:0 2px 0 1px; }
+.jstree-default .jstree-clicked { background:#beebff; border:1px solid #99defd; padding:0 2px 0 1px; }
+.jstree-default a .jstree-icon { background-position:-56px -19px; }
+.jstree-default a.jstree-loading .jstree-icon { background:url("throbber.gif") center center no-repeat !important; }
+
+.jstree-default.jstree-focused { background:#ffffee; }
+
+.jstree-default .jstree-no-dots li, 
+.jstree-default .jstree-no-dots .jstree-leaf > ins { background:transparent; }
+.jstree-default .jstree-no-dots .jstree-open > ins { background-position:-18px 0; }
+.jstree-default .jstree-no-dots .jstree-closed > ins { background-position:0 0; }
+
+.jstree-default .jstree-no-icons a .jstree-icon { display:none; }
+
+.jstree-default .jstree-search { font-style:italic; }
+
+.jstree-default .jstree-no-icons .jstree-checkbox { display:inline-block; }
+.jstree-default .jstree-no-checkboxes .jstree-checkbox { display:none !important; }
+.jstree-default .jstree-checked > a > .jstree-checkbox { background-position:-38px -19px; }
+.jstree-default .jstree-unchecked > a > .jstree-checkbox { background-position:-2px -19px; }
+.jstree-default .jstree-undetermined > a > .jstree-checkbox { background-position:-20px -19px; }
+.jstree-default .jstree-checked > a > .jstree-checkbox:hover { background-position:-38px -37px; }
+.jstree-default .jstree-unchecked > a > .jstree-checkbox:hover { background-position:-2px -37px; }
+.jstree-default .jstree-undetermined > a > .jstree-checkbox:hover { background-position:-20px -37px; }
+
+#vakata-dragged.jstree-default ins { background:transparent !important; }
+#vakata-dragged.jstree-default .jstree-ok { background:url("d.png") -2px -53px no-repeat !important; }
+#vakata-dragged.jstree-default .jstree-invalid { background:url("d.png") -18px -53px no-repeat !important; }
+#jstree-marker.jstree-default { background:url("d.png") -41px -57px no-repeat !important; }
+
+.jstree-default a.jstree-search { color:aqua; }
+
+#vakata-contextmenu.jstree-default-context, 
+#vakata-contextmenu.jstree-default-context li ul { background:#f0f0f0; border:1px solid #979797; -moz-box-shadow: 1px 1px 2px #999; -webkit-box-shadow: 1px 1px 2px #999; box-shadow: 1px 1px 2px #999; }
+#vakata-contextmenu.jstree-default-context li { }
+#vakata-contextmenu.jstree-default-context a { color:black; }
+#vakata-contextmenu.jstree-default-context a:hover, 
+#vakata-contextmenu.jstree-default-context .vakata-hover > a { padding:0 5px; background:#e8eff7; border:1px solid #aecff7; color:black; -moz-border-radius:2px; -webkit-border-radius:2px; border-radius:2px; }
+#vakata-contextmenu.jstree-default-context li.jstree-contextmenu-disabled a, 
+#vakata-contextmenu.jstree-default-context li.jstree-contextmenu-disabled a:hover { color:silver; background:transparent; border:0; padding:1px 4px; }
+#vakata-contextmenu.jstree-default-context li.vakata-separator { background:white; border-top:1px solid #e0e0e0; margin:0; }
+#vakata-contextmenu.jstree-default-context li ul { margin-left:-4px; }
+
+/* IE6 BEGIN */
+.jstree-default li, 
+.jstree-default ins,
+#vakata-dragged.jstree-default .jstree-invalid, 
+#vakata-dragged.jstree-default .jstree-ok, 
+#jstree-marker.jstree-default { _background-image:url("d.gif"); }
+.jstree-default .jstree-open ins { _background-position:-72px 0; }
+.jstree-default .jstree-closed ins { _background-position:-54px 0; }
+.jstree-default .jstree-leaf ins { _background-position:-36px 0; }
+.jstree-default a ins.jstree-icon { _background-position:-56px -19px; }
+#vakata-contextmenu.jstree-default-context ins { _display:none; }
+#vakata-contextmenu.jstree-default-context li { _zoom:1; }
+.jstree-default .jstree-undetermined a .jstree-checkbox { _background-position:-20px -19px; }
+.jstree-default .jstree-checked a .jstree-checkbox { _background-position:-38px -19px; }
+.jstree-default .jstree-unchecked a .jstree-checkbox { _background-position:-2px -19px; }
+/* IE6 END */

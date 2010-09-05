@@ -36,7 +36,9 @@ sakai.search = function() {
         mybookmarks : sakai.config.URL.SEARCH_MY_BOOKMARKS,
         mycontacts : sakai.config.URL.SEARCH_MY_CONTACTS,
         myfiles : sakai.config.URL.SEARCH_MY_FILES,
-        mysites : sakai.config.URL.SEARCH_MY_SITES
+        mysites : sakai.config.URL.SEARCH_MY_SITES,
+        pooledcontentmanager: sakai.config.URL.POOLED_CONTENT_MANAGER,
+        pooledcontentviewer: sakai.config.URL.POOLED_CONTENT_VIEWER
     };
 
     // CSS IDs
@@ -187,6 +189,37 @@ sakai.search = function() {
         // Render the results.
         $(searchConfig.results.container).html($.TemplateRenderer(searchConfig.results.template, finaljson));
         $(".search_results_container").show();
+
+        var facetedContentConfig = {
+            title: "Refine your search",
+            value: "Content",
+            categories: ["Content I manage", "My content", "Content I can see"],
+            searchurls: [searchURLmap.pooledcontentmanager, searchURLmap.mysites, searchURLmap.pooledcontentviewer]
+        };
+
+        // Render the faceted.
+        $("#search_faceted_container").html($.TemplateRenderer("#search_faceted_template", facetedContentConfig));
+        $("#search_faceted_container").show();
+
+        // bind faceted elements
+        // loop through each faceted category and bind the link
+        $.each(facetedContentConfig.categories, function(index, category) {
+            $("#" + category.split(' ').join('')).bind("click", function() {
+                var searchquery = $(searchConfig.global.text).val();
+                var searchwhere = mainSearch.getSearchWhereSites();
+                sakai._search.doSearch(1, searchquery, searchwhere, facetedContentConfig.searchurls[index]);
+            });
+        });
+        // bind faceted list all
+        $("#search_faceted_listall").bind("click", function() {
+            $(".search_faceted_list_expanded").show();
+            $(".search_faceted_back").show();
+        });
+        // bind faceted back link
+        $(".search_faceted_back_link").bind("click", function() {
+            $(".search_faceted_list_expanded").hide();
+            $(".search_faceted_back").hide();
+        });
     };
 
 
@@ -210,7 +243,7 @@ sakai.search = function() {
      *  mysites = the site the user is registered on
      *  /a-site-of-mine = specific site from the user
      */
-    sakai._search.doSearch = function(page, searchquery, searchwhere) {
+    sakai._search.doSearch = function(page, searchquery, searchwhere, facetedurl) {
 
         // Check if the searchquery is empty
         if(searchquery === ""){
@@ -267,6 +300,10 @@ sakai.search = function() {
                 url = searchURLmap.allfiles;
                 usedIn = searchWhere;
             }
+            
+            // Check if we want to search using a faceted link
+            if (facetedurl)
+                url = facetedurl;
 
             $.ajax({
                 url: url,

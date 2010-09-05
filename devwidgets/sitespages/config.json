@@ -2,6 +2,9 @@
     "description":"Sites Pages",
     "ca":false,
     "hasSettings":false,
+    "i18n": {
+        "default": "/devwidgets/sitespages/bundles/default.json",
+    },
     "id":"sitespages",
     "name":"Sites Pages",
     "showinsakaigoodies":false,

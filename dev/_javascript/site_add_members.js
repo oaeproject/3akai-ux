@@ -378,7 +378,7 @@ sakai.site_add_members = function() {
                             var activityMsg = "New members were added to the site \"" + siteJson.name + "\": <br/>";
 
                             for (var i = 0, il = newMembers.length; i < il; i++) {
-                                activityMsg += "<a href=\"/dev/profile.html?user=" + newMembers[i] + "\">" + $("a[data-userid='" + newMembers[i] + "']").html()+"</a> ";
+                                activityMsg += "<a href=\"/dev/show.html?type=user&amp;id=" + newMembers[i] + "\">" + $("a[data-userid='" + newMembers[i] + "']").html()+"</a> ";
                             }
                             activityMsg += "<br /> as " + $("#manage_members_role_rbts input:checked").val()+"(s)";
 

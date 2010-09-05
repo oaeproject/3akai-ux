@@ -78,25 +78,7 @@
 .sakai_site .page_nav
 { width: 230px; padding: 0; margin: 0; }
 
-/** ADD NEW MENU **/
-
-.sakai_site .add_a_new_container
-{ min-height: 25px; margin: 15px 0 5px 15px; position: relative; width: 170px; }
-
-.sakai_site .add_a_new
-{ background: transparent url(/dev/_images/create_dropdown_bg.png) no-repeat scroll left 0; color:#FFFFFF; display:block; font-weight:bold; height:22px; padding:3px 0 0 19px; }
-
-.sakai_site .add_new_menu
-{ background-color:#FFFFFF; border:1px solid #454A4F; margin: 0; padding:0; width: 128px; position: absolute; left: 0; top: 0; }
-
-.sakai_site .add_menu_spacer
-{ height: 35px; }
-
-.sakai_site .add_new_menu ul
-{ margin:0; }
-
-.sakai_site .add_new_menu ul li
-{ padding: 5px 10px 5px 10px; list-style-type: none; }
+#page_nav_content {margin-top:45px;}
 
 /** REVISION HISTORY **/
 .sakai_site .revision_history

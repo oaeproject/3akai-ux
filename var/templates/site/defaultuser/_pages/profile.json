@@ -2,6 +2,7 @@
 	"pageTitle": "Profile",
 	"sling:resourceType": "sakai/page",
 	"pageType": "profile", 
-	"pagePosition": 100001,
+	"pagePosition": 100000,
+	"deletable": false,
 	"jcr:mixinTypes": "sakai:propertiesmix"
 }

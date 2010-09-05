@@ -125,7 +125,7 @@ sakai.userprofile = function(tuid,showSettings){
                     window.location = sakai.config.URL.PROFILE_EDIT_URL + "?user=" + sakai.profile.main.currentuser;
                     break;
                 case "view":
-                    window.location = sakai.config.URL.PROFILE_URL + "?user=" + sakai.profile.main.currentuser;
+                    window.location = sakai.config.URL.PROFILE_URL + "&id=" + sakai.profile.main.currentuser;
                     break;
             }
         }
@@ -478,7 +478,7 @@ sakai.userprofile = function(tuid,showSettings){
      * Add binding to the profile form
      */
     var addBindingForm = function(){
-
+/*
         // Reinitialize the jQuery form selector
         $profile_form = $($profile_form.selector);
 
@@ -502,7 +502,7 @@ sakai.userprofile = function(tuid,showSettings){
             validClass: "profilesection_validation_valid",
             ignoreTitle: true // Ignore the title attribute, this can be removed as soon as we use the data-path attribute
         });
-
+*/
     };
 
     /**

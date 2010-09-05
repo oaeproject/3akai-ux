@@ -10,5 +10,16 @@
 "COPYRIGHTED":"Copyrighted",
 "LICENSED":"Licensed",
 "WAIVE_COPYRIGHT":"Waive Copyright",
-"NO_COPYRIGHT":"Geen Copyright"
+"NO_COPYRIGHT":"Geen Copyright",
+"MYSELF_ONLY":"Enkel mezelf",
+"LOGGED_IN_ONLY":"Alleen ingelogd",
+"THE_PUBLIC":"Iedereen",
+"WHO_CAN_SEE_THIS_CONTENT":"Wie kan dit bestand zien",
+"UPDATED_BASIC_INFO":"basis informatie geupdate",
+"FILE_BASIC_INFO_BEEN_UPDATED":"De basis informatie van het bestand werd geupdate",
+"FAILED_UPDATING_BASIC_INFO":"Basis informatie niet geupdate",
+"FILE_BASIC_INFO_NOT_UPDATED":"De basis informatie van het bestand kon niet worden geupdate",
+"FAILED_LOADING_DATA":"Data niet ingeladen",
+"FAILED_LOADING_FILE_DATA":"De data voor het bestand kon niet ingeladen worden",
+"WHERE_CONTENT_FOUND_IN_DIRECTORY":"Waar kan deze inhoud gevonden worden"
 }

@@ -166,7 +166,7 @@
                                 last = last[last.length - 2];
                                 selections_holder.children().not(org_li.prev()).removeClass("selected");
                                 if(org_li.prev().hasClass("selected")){
-                                    values_input.val(values_input.val().replace(","+last+",",","));
+                                    values_input.val(values_input.val().replace(last+",",""));
                                     opts.selectionRemoved.call(this, org_li.prev());
                                 } else {
                                     opts.selectionClick.call(this, org_li.prev());
@@ -282,7 +282,7 @@
                         }
                         if(str){
                             if (!opts.matchCase){ str = str.toLowerCase(); }                
-                            if(str.search(query) != -1 && values_input.val().search(","+data[num][opts.selectedValuesProp]+",") == -1){
+                            if(str.search(query) != -1 && values_input.val().search(data[num][opts.selectedValuesProp]+",") == -1){
                                 forward = true;
                             }   
                         }

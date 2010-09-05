@@ -48,10 +48,79 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
     var contentProfileBasicInfoFormCopyrightSelect = "#content_profile_basic_info_copyright_select";
     var contentProfileBasicInfoFormPermissionsSelect= "#content_profile_basic_info_permissions_select";
 
+    // i18n
+    var contentProfileBasicInfoUpdatedBasicInfo = "#contentprofilebasicinfo_updated_basic_info";
+    var contentProfileBasicInfoFileBasicInfoUpdated = "#contentprofilebasicinfo_file_basic_info_been_updated";
+    var contentProfileBasicInfoFailedUpdatingBasicInfo = "#contentprofilebasicinfo_failed_updating_basic_info";
+    var contentProfileBasicInfoFileBasicInfoNotUpdated = "#contentprofilebasicinfo_file_basic_info_not_updated";
+    var contentProfileBasicInfoFailedLoadingData = "#contentprofilebasicinfo_failed_loading_data";
+    var contentProfileBasicInfoFailedLoadingFileData = "#contentprofilebasicinfo_failed_loading_file_data";
+
+    var directoryJSON = [];
+
+    var contentProfileBasicInfoDirectoryLvlOne = "#content_profile_basic_info_directory_lvlone";
+    var contentProfileBasicInfoDirectoryLvlTwo = "#content_profile_basic_info_directory_lvltwo";
+    var contentProfileBasicInfoDirectoryLvlThree = "#content_profile_basic_info_directory_lvlthree";
+
+    var contentProfileBasicInfoThirdLevelTemplateContainer = "#content_profile_basic_info_thirdlevel_template_container";
+    var contentProfileBasicInfoSecondLevelTemplateContainer = "#content_profile_basic_info_secondlevel_template_container";
+
+    var contentProfileBasicInfoSecondLevelTemplate = "#content_profile_basic_info_secondlevel_template";
+    var contentProfileBasicInfoThirdLevelTemplate = "#content_profile_basic_info_thirdlevel_template";
+
 
     ///////////////////
     // Functionality //
     ///////////////////
+
+    /**
+     * Get a list of nodes representing the directory structure to be rendered
+     */
+    var getDirectoryStructure = function(){
+        // Get directory structure from config file
+        for(var i in sakai.config.Directory){
+            // Create first level of content
+            var temp = new Object();
+            temp.name = i;
+
+            // Create second level of content
+            temp.secondlevels = [];
+            for(var j in sakai.config.Directory[i]){
+                var secondlevel = new Object();
+                secondlevel.name = j;
+
+                // Create third level of content
+                secondlevel.thirdlevels = []
+                for (var k in sakai.config.Directory[i][j]){
+                    var thirdlevel = new Object();
+                    thirdlevel.name = sakai.config.Directory[i][j][k];
+                    secondlevel.thirdlevels.push(thirdlevel);
+                }
+
+                temp.secondlevels.push(secondlevel);
+            }
+            directoryJSON.push(temp);
+        }
+    };
+
+    /**
+     * Update the select boxes on the stage
+     * @param {String} select Containing ID to check which box value has been changed
+     * @param {String} changedboxvalue Containing selected value
+     * @param {String} firstlevelvalue Containing value of first select box
+     */
+    var updateDirectoryDisplay = function(select, changedboxvalue, firstlevelvalue){
+        var obj = {
+            "firstlevelvalue":firstlevelvalue,
+            "changedboxvalue" : changedboxvalue,
+            "directory": directoryJSON,
+        }
+        if(select === contentProfileBasicInfoDirectoryLvlTwo){
+            $(contentProfileBasicInfoSecondLevelTemplateContainer).html($.TemplateRenderer(contentProfileBasicInfoSecondLevelTemplate, obj));
+        }else{
+            $(contentProfileBasicInfoThirdLevelTemplateContainer).html($.TemplateRenderer(contentProfileBasicInfoThirdLevelTemplate, obj));
+        }
+    };
 
     /**
      * Set permissions on the files that were uploaded
@@ -127,6 +196,8 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
         data["sakai:pooled-content-file-name"] = $.trim($(contentProfileBasicInfoFormName).val());
         data["sakai:description"] = $.trim($(contentProfileBasicInfoFormDescription).val());
 
+        data["sakai:directory"] = $(contentProfileBasicInfoDirectoryLvlOne).selected().val() + ":" + $(contentProfileBasicInfoDirectoryLvlTwo).selected().val() + ":" + $(contentProfileBasicInfoDirectoryLvlThree).selected().val();
+
         // For tags we need to do something special, since they are comma separated
         data["sakai:tags"] = "";
 
@@ -158,9 +229,6 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
 
         data["sakai:permissions"] = $(contentProfileBasicInfoFormPermissionsSelect)[0].value;
 
-        // Set the correct mixintype
-        data["jcr:mixinTypes"] = "sakai:propertiesmix";
-
         // Return the data object
         return data;
     };
@@ -176,38 +244,47 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
         $(contentProfileBasicInfoForm)[0].disabled = bool;
     };
 
+    var updateBasicInfo = function(){
+        // Set permissions on the file
+        setFilePermissions();
+
+        // Get all the value for the form
+        var data = getFormValues();
+
+        // Disable basic info fields
+        enableDisableBasicInfoFields(true);
+
+        // Send the Ajax request
+        $.ajax({
+            url: globalJSON.url,
+            data: data,
+            traditional: true,
+            type: "post",
+            success: function(){
+                // TODO show a valid message to the user instead of reloading the page
+                $(window).trigger('hashchange');
+                sakai.api.Util.notification.show($(contentProfileBasicInfoUpdatedBasicInfo).html(), $(contentProfileBasicInfoFileBasicInfoUpdated).html());
+            },
+            error: function(xhr, textStatus, thrownError){
+                // Enable basic info fields and show error message
+                enableDisableBasicInfoFields(false);
+                sakai.api.Util.notification.show($(contentProfileBasicInfoFailedUpdatingBasicInfo).html(), $(contentProfileBasicInfoFileBasicInfoNotUpdated).html());
+            }
+        });
+    }
+
     /**
      * Add binding to the basic info
      */
     var addBindingBasicinfo = function(){
         // Submitting of the form
         $(contentProfileBasicInfoForm).bind("submit", function(){
-            // Set permissions on the file
-            setFilePermissions();
-
-            // Get all the value for the form
-            var data = getFormValues();
-
-            // Disable basic info fields
-            enableDisableBasicInfoFields(true);
-
-            // Send the Ajax request
-            $.ajax({
-                url: globalJSON.url,
-                data: data,
-                traditional: true,
-                type:"post",
-                success: function(){
-                    // TODO show a valid message to the user instead of reloading the page
-                    $(window).trigger('hashchange');
-                    sakai.api.Util.notification.show("Updated basic info.", "The file's basic information has been updated.");
-                },
-                error: function(xhr, textStatus, thrownError){
-                    // Enable basic info fields and show error message
-                    enableDisableBasicInfoFields(false);
-                    sakai.api.Util.notification.show("Failed updating basic info", "Failed to update the file's basic information.");
-                }
-            });
+            if ($(contentProfileBasicInfoDirectoryLvlOne).selected().val() !== "no_value" && $(contentProfileBasicInfoDirectoryLvlTwo).selected().val() !== "no_value" && $(contentProfileBasicInfoDirectoryLvlThree).selected().val() !== "no_value") {
+                updateBasicInfo();
+            }
+            else {
+                sakai.api.Util.notification.show("Select level", "Select all three levels before updating");
+            }
         });
     };
 
@@ -226,7 +303,9 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                         data: data,
                         mode: "content",
                         url: contentPath,
-                        anon : anon
+                        anon: anon,
+                        directory : directoryJSON,
+                        saveddirectory : (data["sakai:directory"]).split(":")
                     };
 
                     // Set the global JSON object (we also need this in other functions + don't want to modify this)
@@ -243,7 +322,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                     addBindingBasicinfo();
                 },
                 error: function(xhr, textStatus, thrownError){
-                    sakai.api.Util.notification.show("Failed loading data", "Failed to load file information");
+                    sakai.api.Util.notification.show($(contentProfileBasicInfoFailedLoadingData).html(), $(contentProfileBasicInfoFailedLoadingFileData).html());
                 }
             });
         }
@@ -282,9 +361,34 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
     };
 
     /**
+     * Bind the widget's internal Cancel and Save Settings button
+     */
+    var addBinding = function(){
+        $(contentProfileBasicInfoDirectoryLvlOne).live("change", function(){
+            $(contentProfileBasicInfoThirdLevelTemplateContainer).html("");
+            $(contentProfileBasicInfoDirectoryLvlOne + " option[value='no_value']").remove();
+            updateDirectoryDisplay(contentProfileBasicInfoDirectoryLvlTwo, $(contentProfileBasicInfoDirectoryLvlOne).selected().val(), $(contentProfileBasicInfoDirectoryLvlOne).selected().val());
+        });
+
+        $(contentProfileBasicInfoDirectoryLvlTwo).live("change", function(){
+            $(contentProfileBasicInfoDirectoryLvlTwo + " option[value='no_value']").remove();
+            updateDirectoryDisplay(contentProfileBasicInfoDirectoryLvlThree, $(contentProfileBasicInfoDirectoryLvlTwo).selected().val(), $(contentProfileBasicInfoDirectoryLvlOne).selected().val());
+        });
+
+        $(contentProfileBasicInfoDirectoryLvlThree).live("change", function(){
+            $(contentProfileBasicInfoDirectoryLvlThree + " option[value='no_value']").remove();
+        });
+    };
+
+    /**
      * Initialize the widget
      */
     var doInit = function(){
+
+        addBinding();
+
+        getDirectoryStructure();
+
         // Bind an event to window.onhashchange that, when the history state changes,
         // loads all the information for the current resource
         $(window).bind('hashchange', function(e){

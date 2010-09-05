@@ -53,6 +53,48 @@ sakai.groupbasicinfo = function(tuid, showSettings){
     var groupBasicInfoGroupTags = groupBasicInfoGroup + "_tags";
     var groupBasicInfoGroupDesc = groupBasicInfoGroup + "_description";
 
+    var directoryJSON = [];
+
+    var groupBasicInfoDirectoryLvlOne = "#groupbasicinfo_generalinfo_group_directory_lvlone";
+    var groupBasicInfoDirectoryLvlTwo = "#groupbasicinfo_generalinfo_group_directory_lvltwo";
+    var groupBasicInfoDirectoryLvlThree = "#groupbasicinfo_generalinfo_group_directory_lvlthree";
+
+    var groupBasicInfoThirdLevelTemplateContainer = "#groupbasicinfo_thirdlevel_template_container";
+    var groupBasicInfoSecondLevelTemplateContainer = "#groupbasicinfo_secondlevel_template_container";
+
+    var groupBasicInfoSecondLevelTemplate = "#groupbasicinfo_secondlevel_template";
+    var groupBasicInfoThirdLevelTemplate = "#groupbasicinfo_thirdlevel_template";
+
+    /**
+     * Get a list of nodes representing the directory structure to be rendered
+     */
+    var getDirectoryStructure = function(){
+        // Get directory structure from config file
+        for(var i in sakai.config.Directory){
+            // Create first level of content
+            var temp = new Object();
+            temp.name = i;
+
+            // Create second level of content
+            temp.secondlevels = [];
+            for(var j in sakai.config.Directory[i]){
+                var secondlevel = new Object();
+                secondlevel.name = j;
+
+                // Create third level of content
+                secondlevel.thirdlevels = []
+                for (var k in sakai.config.Directory[i][j]){
+                    var thirdlevel = new Object();
+                    thirdlevel.name = sakai.config.Directory[i][j][k];
+                    secondlevel.thirdlevels.push(thirdlevel);
+                }
+
+                temp.secondlevels.push(secondlevel);
+            }
+            directoryJSON.push(temp);
+        }
+    };
+
 
     //////////////////////
     // Render functions //
@@ -68,13 +110,15 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         if (showSettings) {
             mode = 'edit';
         }
-
+        var directory = sakai.currentgroup.data.authprofile["sakai:directory"] ? sakai.currentgroup.data.authprofile["sakai:directory"].split(":") : [];
         // Get the group information out of the global group info object
         var json_config = {
             "groupid" : sakai.currentgroup.id,
             "url" : document.location.protocol + "//" + document.location.host + "/~" + sakai.currentgroup.id,
             "data" : sakai.currentgroup.data.authprofile,
-            "mode" : mode
+            "mode" : mode,
+            "directory" : directoryJSON,
+            "saveddirectory" : directory
         };
 
         $groupbasicinfo_generalinfo.html($.TemplateRenderer("#groupbasicinfo_default_template", json_config));
@@ -85,7 +129,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
             $(groupbasicinfo_buttons, $rootel).show();
         }
 
-        addButtonBinding();
+        addBinding();
 
     };
 
@@ -104,12 +148,14 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         var groupKind = $(groupBasicInfoGroupKind, $rootel).val();
         var groupTags = $(groupBasicInfoGroupTags, $rootel).val();
         var groupDesc = $(groupBasicInfoGroupDesc, $rootel).val();
+        var directory = $(groupBasicInfoDirectoryLvlOne, $rootel).selected().val() + ":" + $(groupBasicInfoDirectoryLvlTwo, $rootel).selected().val() + ":" + $(groupBasicInfoDirectoryLvlThree, $rootel).selected().val();
 
         // Update the group object
         sakai.currentgroup.data.authprofile["sakai:group-title"] = groupTitle;
         sakai.currentgroup.data.authprofile["sakai:group-kind"] = groupKind;
         sakai.currentgroup.data.authprofile["sakai:group-tags"] = groupTags;
         sakai.currentgroup.data.authprofile["sakai:group-description"] = groupDesc;
+        sakai.currentgroup.data.authprofile["sakai:directory"] = directory;
 
         $.ajax({
 //            url: "/system/userManager/group/" + sakai.currentgroup.id + ".update.json",  // previously used
@@ -119,7 +165,8 @@ sakai.groupbasicinfo = function(tuid, showSettings){
                 "sakai:group-title" : groupTitle,
                 "sakai:group-kind" : groupKind,
                 "sakai:group-tags" : groupTags,
-                "sakai:group-description" : groupDesc
+                "sakai:group-description" : groupDesc,
+                "sakai:directory":directory
             },
             type: "POST",
             success: function(data, textStatus){
@@ -133,6 +180,25 @@ sakai.groupbasicinfo = function(tuid, showSettings){
 
     }
 
+    /**
+     * Update the select boxes on the stage
+     * @param {String} select Containing ID to check which box value has been changed
+     * @param {String} changedboxvalue Containing selected value
+     * @param {String} firstlevelvalue Containing value of first select box
+     */
+    var updateDirectoryDisplay = function(select, changedboxvalue, firstlevelvalue){
+        var obj = {
+            "firstlevelvalue":firstlevelvalue,
+            "changedboxvalue" : changedboxvalue,
+            "directory": directoryJSON,
+        }
+        if(select === groupBasicInfoDirectoryLvlTwo){
+            $(groupBasicInfoSecondLevelTemplateContainer).html($.TemplateRenderer(groupBasicInfoSecondLevelTemplate, obj));
+        }else{
+            $(groupBasicInfoThirdLevelTemplateContainer).html($.TemplateRenderer(groupBasicInfoThirdLevelTemplate, obj));
+        }
+    };
+
 
     //////////////
     // Bindings //
@@ -141,7 +207,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
     /**
      * Bind the widget's internal Cancel and Save Settings button
      */
-    var addButtonBinding = function(){
+    var addBinding = function(){
 
         $(groupbasicinfo_dontupdate, $rootel).bind("click", function(){
             sakai.api.Widgets.Container.informCancel(tuid, "groupbasicinfo");
@@ -149,7 +215,22 @@ sakai.groupbasicinfo = function(tuid, showSettings){
 
         $(groupbasicinfo_update, $rootel).bind("click", function(){
             $(window).trigger("sakai.groupbasicinfo.update");
-        });;
+        });
+
+        $(groupBasicInfoDirectoryLvlOne, $rootel).bind("change", function(){
+            $(groupBasicInfoThirdLevelTemplateContainer).html("");
+            $(groupBasicInfoDirectoryLvlOne + " option[value='no_value']", $rootel).remove();
+            updateDirectoryDisplay(groupBasicInfoDirectoryLvlTwo, $(groupBasicInfoDirectoryLvlOne, $rootel).selected().val(), $(groupBasicInfoDirectoryLvlOne, $rootel).selected().val());
+        });
+
+        $(groupBasicInfoDirectoryLvlTwo, $rootel).live("change", function(){
+            $(groupBasicInfoDirectoryLvlTwo + " option[value='no_value']", $rootel).remove();
+            updateDirectoryDisplay(groupBasicInfoDirectoryLvlThree, $(groupBasicInfoDirectoryLvlTwo, $rootel).selected().val(), $(groupBasicInfoDirectoryLvlOne, $rootel).selected().val());
+        });
+
+        $(groupBasicInfoDirectoryLvlThree, $rootel).live("change", function(){
+            $(groupBasicInfoDirectoryLvlThree + " option[value='no_value']", $rootel).remove();
+        });
 
     }
 
@@ -158,7 +239,12 @@ sakai.groupbasicinfo = function(tuid, showSettings){
      * wants to save the new profile data
      */
     $(window).bind("sakai.groupbasicinfo.update", function(){
-        updateGroup();
+        // Check if directory data is valid
+        if($(groupBasicInfoDirectoryLvlOne, $rootel).selected().val() !== "no_value" && $(groupBasicInfoDirectoryLvlTwo, $rootel).selected().val() !== "no_value" && $(groupBasicInfoDirectoryLvlThree, $rootel).selected().val() !== "no_value"){
+            updateGroup();
+        } else{
+            sakai.api.Util.notification.show("Select level", "Select all three levels before updating");
+        }
     });
 
     ////////////////////
@@ -174,6 +260,8 @@ sakai.groupbasicinfo = function(tuid, showSettings){
 
     // Indicate that the widget has finished loading
     $(window).trigger("sakai.api.UI.groupbasicinfo.ready", {});
+
+    getDirectoryStructure();
 
     renderTemplateBasicInfo();
 

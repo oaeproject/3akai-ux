@@ -55,7 +55,7 @@
                                 <img alt="avatar" class="discussion_avatar" src="/dev/_images2/person_icon.jpg    " />
                             {/if}
                             <p class="discussion_content_subject" id="discussion_content_subject_${o.post["sakai:id"]}">${o.post["sakai:subject"]}</p>
-                            <a href="/dev/profile.html?user=${o.post["sakai:from"]}"><span class="discussion_username">${o.post.profile.fullName}</span></a>
+                            <a href="/dev/show.html?type=user&amp;id=${o.post["sakai:from"]}"><span class="discussion_username">${o.post.profile.fullName}</span></a>
                             <span class="discussion_date">posted this on ${o.post.date}</span>
                         {else}
                             <span class="discussion_posted_container">
@@ -64,7 +64,7 @@
                          {/if}
                         {if o.post.editters !== undefined}
                             <br />
-                            <a href="/dev/profile.html?user=${o.post.editedByUserid}"><span class="discussion_username_edited">${o.post.editedByName}</span></a>
+                            <a href="/dev/show.html?type=user&amp;id=${o.post.editedByUserid}"><span class="discussion_username_edited">${o.post.editedByName}</span></a>
                             <span class="discussion_date">edited this on ${o.post.editedByDate}</span>
                          {/if}
                     </div>
@@ -132,7 +132,7 @@
                             <img alt="avatar" class="discussion_avatar" src="/dev/_images2/person_icon.jpg    " />
                         {/if}
                         <p class="discussion_content_subject" id="discussion_content_subject_${o.post["sakai:id"]}">${o.post["sakai:subject"]}</p>
-                        <a href="/dev/profile.html?user=${o.post["sakai:from"]}"><span class="discussion_username">${o.post.profile.fullName}</span></a>
+                        <a href="/dev/show.html?type=user&amp;id=${o.post["sakai:from"]}"><span class="discussion_username">${o.post.profile.fullName}</span></a>
                         <span class="discussion_date">posted this on ${o.post.date}</span>
                     {else}
                         <span class="discussion_posted_container">
@@ -141,7 +141,7 @@
                      {/if}
                     {if o.post.editters !== undefined}
                         <br />
-                        <a href="/dev/profile.html?user=${o.post.editedByUserid}"><span class="discussion_username_edited">${o.post.editedByName}</span></a>
+                        <a href="/dev/show.html?type=user&amp;id=${o.post.editedByUserid}"><span class="discussion_username_edited">${o.post.editedByName}</span></a>
                         <span class="discussion_date">edited this on ${o.post.editedByDate}</span>
                      {/if}
                 </div>

@@ -14,5 +14,12 @@
 "MYSELF_ONLY":"Myself only",
 "LOGGED_IN_ONLY":"Logged in only",
 "THE_PUBLIC":"The public",
-"WHO_CAN_SEE_THIS_CONTENT":"Who can see this Content"
+"WHO_CAN_SEE_THIS_CONTENT":"Who can see this Content",
+"UPDATED_BASIC_INFO":"Updated basic info",
+"FILE_BASIC_INFO_BEEN_UPDATED":"The file's basic information has been updated",
+"FAILED_UPDATING_BASIC_INFO":"Failed updating basic info",
+"FILE_BASIC_INFO_NOT_UPDATED":"Failed to update the file's basic information",
+"FAILED_LOADING_DATA":"Failed loading data",
+"FAILED_LOADING_FILE_DATA":"Failed to load file data",
+"WHERE_CONTENT_FOUND_IN_DIRECTORY":"Where can this Content be found in the directory"
 }
