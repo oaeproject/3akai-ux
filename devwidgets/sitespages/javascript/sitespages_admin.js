@@ -255,10 +255,10 @@ sakai.sitespages.site_admin = function(){
             elements : "elm1",
             theme: "advanced",
             // For a built-in list of plugins with doc: http://wiki.moxiecode.com/index.php/TinyMCE:Plugins
-            plugins: "embedresource,resourcelink,safari,advhr,inlinepopups,preview,noneditable,nonbreaking,xhtmlxtras,template",
+            plugins: "safari,advhr,inlinepopups,preview,noneditable,nonbreaking,xhtmlxtras,template",
 
             // Context Menu
-            theme_advanced_buttons1: "formatselect,fontselect,fontsizeselect,bold,italic,underline,|,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,|,image,resourcelink",
+            theme_advanced_buttons1: "formatselect,fontselect,fontsizeselect,bold,italic,underline,|,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,|,image,link",
             theme_advanced_toolbar_location: "external",
             theme_advanced_toolbar_align: "left",
             theme_advanced_statusbar_location: "none",
@@ -593,7 +593,7 @@ sakai.sitespages.site_admin = function(){
             content = sakai.sitespages.pagecontents[pageUrlName]["sakai:pagecontent"];
         }
 
-        tinyMCE.get("elm1").setContent(content);
+        tinyMCE.get("elm1").setContent(content, {format : 'raw'});
 
         $("#messageInformation").hide();
 
@@ -754,7 +754,7 @@ sakai.sitespages.site_admin = function(){
      * Get the content inside the TinyMCE editor
      */
     var getContent = function(){
-        return tinyMCE.get("elm1").getContent().replace(/src="..\/devwidgets\//g, 'src="/devwidgets/');
+        return tinyMCE.get("elm1").getContent({format : 'raw'}).replace(/src="..\/devwidgets\//g, 'src="/devwidgets/');
     };
 
     var saveEdit = function() {
@@ -841,7 +841,8 @@ sakai.sitespages.site_admin = function(){
                             type: "POST"
                         });
                         sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"] = getContent();
-
+                        $("#" + sakai.sitespages.selectedpage).html(sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"]);
+                        $("#" + sakai.sitespages.selectedpage).show();
                         // Create an activity item for the new page
                         /* var nodeUrl = newPageUniques.url;
                         var activityData = {
@@ -915,6 +916,8 @@ sakai.sitespages.site_admin = function(){
                 sakai.sitespages.savePage(sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["jcr:path"], sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageType"], sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageTitle"], sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"], sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pagePosition"], "parent", (sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage].fullwidth || false), function(success, return_data){
 
                     if (success) {
+                        $("#" + sakai.sitespages.selectedpage).html(sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"]);
+                        $("#" + sakai.sitespages.selectedpage).show();
                         History.addBEvent(sakai.sitespages.selectedpage);
                         //Update title in HTML
                         $("#pagetitle").html(sakai.api.Security.saneHTML(sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageTitle"]));
@@ -1150,7 +1153,7 @@ sakai.sitespages.site_admin = function(){
 
     // Bind autosave click
     $("#autosave_revert").bind("click", function(ev){
-        tinyMCE.get("elm1").setContent(sakai.sitespages.autosavecontent);
+        tinyMCE.get("elm1").setContent(sakai.sitespages.autosavecontent, {format : 'raw'});
         $('#autosave_dialog').jqmHide();
     });
 
@@ -1387,7 +1390,7 @@ sakai.sitespages.site_admin = function(){
             switchtab("preview","Preview","text_editor","Text Editor");
         } else if (sakai.sitespages.currentEditView === "html"){
             var value = $("#html-editor-content").val();
-            tinyMCE.get("elm1").setContent(value);
+            tinyMCE.get("elm1").setContent(value, {format : 'raw'});
             $("#html-editor").hide();
             switchtab("html","HTML","text_editor","Text Editor");
         }
@@ -1444,12 +1447,19 @@ sakai.sitespages.site_admin = function(){
             switchtab("text_editor","Text Editor","preview","Preview");
         } else if (sakai.sitespages.currentEditView === "html"){
             var value = sakai.api.Security.saneHTML($("#html-editor-content").val());
-            tinyMCE.get("elm1").setContent(value);
+            tinyMCE.get("elm1").setContent(value, {format : 'raw'});
             switchtab("html","HTML","preview","Preview");
         }
         $("#page_preview_content").html(sakai.api.Security.saneHTML("<h1 style='padding-bottom:10px'>" + $("#title-input").val() + "</h1>" + getContent()));
         sakai.api.Widgets.widgetLoader.insertWidgets("page_preview_content",null,sakai.sitespages.config.basepath + "_widgets/");
         sakai.sitespages.currentEditView = "preview";
+    });
+
+
+    $(window).bind("sakai-embedcontent-ready", function(e) {
+        $("#sitespages_embed_content_button").live("click", function(e) {
+            $(window).trigger('sakai-embedcontent-init', sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageTitle"]);
+        });
     });
 
 
@@ -1467,8 +1477,8 @@ sakai.sitespages.site_admin = function(){
      * @return void
      */
     var switchtab = function(inactiveid, inactivetext, activeid, activetext){
-        $("#tab_" + inactiveid).removeClass("fl-tabs-active").html(sakai.api.Security.saneHTML('<a href="javascript:;">' + inactivetext + '</a>'));
-        $("#tab_" + activeid).addClass("fl-tabs-active").html(sakai.api.Security.saneHTML('<a href="javascript:;">' + activetext + '</a>'));
+        $("#tab_" + inactiveid + " button").removeClass("s3d-button-primary");
+        $("#tab_" + activeid + " button").addClass("s3d-button-primary");
     };
 
 

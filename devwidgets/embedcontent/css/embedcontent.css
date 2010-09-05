@@ -1,0 +1,17 @@
+#embedcontent_dialog.dialog {width:700px; margin-left:-350px;}
+#embedcontent_header h2 {margin:0;}
+#embedcontent_header {margin-bottom:10px;}
+
+.embedcontent_line {padding:10px;margin:10px 0px;}
+.embedcontent_line_even {background-color:#EFF2F4;}
+.embedcontent_left_label {width:170px;}
+.embedcontent_right_input {width:440px;margin-left:20px;}
+.embedcontent_right_input input {width:98%;}
+.embedcontent_left_label p.label_header {font-weight:bold;}
+
+#embedcontent_choose {height:94px;}
+#embedcontent_display_options {height:24px;}
+#embedcontent_alternative_display_name {height:110px;}
+#embedcontent_description {height:85px;}
+
+#embedcontent_footer {height:24px;}
