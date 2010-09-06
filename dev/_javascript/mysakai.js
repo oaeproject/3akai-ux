@@ -33,6 +33,12 @@ sakai.mysakai = function(){
      */
     var init = function(){
 
+        // if user is not logged in, redirect straight to log in page
+        // rather than showing anonymous page.
+        if(sakai.data.me.user.anon){
+            document.location = sakai.config.URL.GATEWAY_URL;
+        }
+
         // Initialise the entity widget
         $(window).bind("sakai.api.UI.entity.ready", function(e){
             sakai.api.UI.entity.render("myprofile", false);
