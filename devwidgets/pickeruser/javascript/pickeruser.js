@@ -149,7 +149,9 @@ sakai.pickeruser = function(tuid, showSettings) {
 
     $pickeruser_container.jqm({
         modal: true,
-        overlay: 20
+        overlay: 20,
+        toTop: true,
+        zIndex: 3000
     });
 
     var getSelectedList = function() {
