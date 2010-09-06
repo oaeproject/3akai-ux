@@ -238,7 +238,7 @@ sakai.search = function() {
 
         if (foundSites.total > sitesToSearch) {
             $(searchConfig.sites.displayMore).show();
-            $(searchConfig.sites.displayMore).attr("href", "search_sites.html#1|" + searchterm);
+            $(searchConfig.sites.displayMore).attr("href", "search_groups.html#1|" + searchterm);
         }
 
         if (foundSites && foundSites.results) {

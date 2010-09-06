@@ -62,6 +62,8 @@ sakai.config = {
         FRIEND_ACCEPTED_SERVICE: "/var/contacts/accepted.json",
         GOOGLE_CHARTS_API: "http://chart.apis.google.com/chart",
         GROUP_CREATE_SERVICE: "/system/userManager/group.create.json",
+        GROUPS_MANAGER: "/system/me/managedgroups.json",
+        GROUPS_MEMBER: "/system/me/groups.json",
         HEADER_SERVICE: "/var/proxy/header.json",
         IMAGE_SERVICE: "/var/image/cropit",
         LOGIN_SERVICE: "/system/sling/formlogin",

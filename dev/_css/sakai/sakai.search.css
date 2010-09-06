@@ -270,39 +270,3 @@ strong {
 
 }
 
-
-/* search faceted */
-#search_faceted_container {
-    display: none;
-}
-.search_faceted {
-    background-color: #333333;
-    margin: 0 10px 10px 10px;
-    padding: 10px;
-}
-.search_faceted .search_faceted_title {
-    color: #FFFFFF;
-    font-weight: bold;
-}
-.search_faceted .search_faceted_back {
-    background-color: #d3dbde;
-    padding: 5px;
-    margin-top: 10px;
-}
-.search_faceted .search_faceted_list {
-    background-color: #d3dbde;
-    padding: 5px;
-    margin-top: 10px;
-}
-.search_faceted .search_faceted_value {
-    color: #CC6600;
-    font-weight: bold;
-}
-.search_faceted .search_faceted_category a {
-    display: block;
-    color: #333333;
-    text-decoration: none;
-}
-.search_faceted .search_faceted_category a:hover {
-    text-decoration: underline;
-}
