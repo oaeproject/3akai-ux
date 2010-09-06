@@ -299,13 +299,14 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                 url: contentPath + ".2.json",
                 success: function(data){
                     // Construct the JSON object
+                    var directory = data["sakai:directory"] ? data["sakai:directory"].split(":") : "";
                     var json = {
                         data: data,
                         mode: "content",
                         url: contentPath,
                         anon: anon,
                         directory : directoryJSON,
-                        saveddirectory : (data["sakai:directory"]).split(":")
+                        saveddirectory : directory
                     };
 
                     // Set the global JSON object (we also need this in other functions + don't want to modify this)
