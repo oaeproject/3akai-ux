@@ -179,7 +179,7 @@ sakai.mycontent = function(tuid, showSettings) {
         );
     };
 
-    $(document).bind("uploadprocess_completed", function(){
+    $(window).bind("sakai-fileupload-complete", function(){
         init();
     })
 

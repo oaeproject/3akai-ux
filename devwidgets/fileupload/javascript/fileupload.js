@@ -335,9 +335,6 @@ sakai.fileupload = function(tuid, showSettings){
         groupContext = false;
         newVersion = false;
         uploadedLink = false;
-
-        // Send an event that states the end of the upload process
-        $(document).trigger("uploadprocess_completed");
     };
 
     /**
