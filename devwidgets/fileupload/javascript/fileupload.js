@@ -99,8 +99,8 @@ sakai.fileupload = function(tuid, showSettings){
     var uploadPath = "/system/pool/createfile";
     var userId = sakai.data.me.user.userid;
     var userStoragePrefix = sakai.data.me.user.userStoragePrefix;
-    var tagsPath = "/tags/";
-    var tagsPathForLinking = "/tags/";
+    var tagsPath = "/~" + userId + "/public/tags/";
+    var tagsPathForLinking = "/_user/" + userStoragePrefix + "public/tags/";
 
     // i18n
     var fileUploadFilesUploaded = "#fileupload_files_uploaded";
