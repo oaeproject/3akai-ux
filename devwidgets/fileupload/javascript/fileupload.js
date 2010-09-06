@@ -631,14 +631,14 @@ sakai.fileupload = function(tuid, showSettings){
         $(fileUploadProgressId).removeClass(fileUploadProgress);
         // Disable input fields
         if (context !== "new_version") {
-            $(fileUploadAddTags).attr("disabled", false);
-            $(fileUploadAddDescription).attr("disabled", false);
-            $(fileUploadPermissionsSelect).attr("disabled", false);
-            $(fileUploadLinkBoxInput).attr("disabled", false);
-            $(fileUploadAddLinkButton).attr("disabled", false);
+            $(fileUploadAddTags).removeAttr("disabled");
+            $(fileUploadAddDescription).removeAttr("disabled");
+            $(fileUploadPermissionsSelect).removeAttr("disabled");
+            $(fileUploadLinkBoxInput).removeAttr("disabled");
+            $(fileUploadAddLinkButton).removeAttr("disabled");
         }
         else {
-            $(fileUploadAddVersionDescription).attr("disabled", false);
+            $(fileUploadAddVersionDescription).removeAttr("disabled");
         }
         $(".fileupload_file_name input").enable(true);
         // Show a notification
