@@ -291,11 +291,25 @@ sakai.chat = function(tuid, showSettings){
      */
     var parseName = function(uuid, profile){
         var displayName = sakai.api.User.getDisplayName(profile);
+
+        // if display name/uuid is 14 character
+        // display name/uuid
+        // otherwise display name/uuid[11]...
         if (displayName) {
-            return sakai.api.Util.shortenString(displayName, 11);
+            if (displayName.lengt > 14) {
+                return sakai.api.Util.shortenString(displayName, 11);
+            }
+            else {
+                return displayName;
+            }
         }
         else {
-            return sakai.api.Util.shortenString(uuid, 11);
+            if (uuid.length > 14) {
+                return sakai.api.Util.shortenString(uuid, 11);
+            }
+            else {
+                return uuid;
+            }
         }
     };
 
@@ -1065,7 +1079,7 @@ sakai.chat = function(tuid, showSettings){
         // to retrieve all previous messagess
         if(initial)
             retrievaltime = initialtime;
-        else    
+        else
             retrievaltime = pulltime;
 
 
