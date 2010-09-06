@@ -15,7 +15,7 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-/*global $ */
+/*global $, document, addBinding, window, fluid */
 
 var sakai = sakai || {};
 
@@ -71,27 +71,33 @@ sakai.groupbasicinfo = function(tuid, showSettings){
     var getDirectoryStructure = function(){
         // Get directory structure from config file
         for(var i in sakai.config.Directory){
-            // Create first level of content
-            var temp = new Object();
-            temp.name = i;
+            if (sakai.config.Directory.hasOwnProperty(i)) {
+                // Create first level of content
+                var temp = {};
+                temp.name = i;
 
-            // Create second level of content
-            temp.secondlevels = [];
-            for(var j in sakai.config.Directory[i]){
-                var secondlevel = new Object();
-                secondlevel.name = j;
+                // Create second level of content
+                temp.secondlevels = [];
+                for (var j in sakai.config.Directory[i]) {
+                    if (sakai.config.Directory[i].hasOwnProperty(j)) {
+                        var secondlevel = {};
+                        secondlevel.name = j;
 
-                // Create third level of content
-                secondlevel.thirdlevels = []
-                for (var k in sakai.config.Directory[i][j]){
-                    var thirdlevel = new Object();
-                    thirdlevel.name = sakai.config.Directory[i][j][k];
-                    secondlevel.thirdlevels.push(thirdlevel);
+                        // Create third level of content
+                        secondlevel.thirdlevels = [];
+                        for (var k in sakai.config.Directory[i][j]) {
+                            if (sakai.config.Directory[i][j].hasOwnProperty(k)) {
+                                var thirdlevel = {};
+                                thirdlevel.name = sakai.config.Directory[i][j][k];
+                                secondlevel.thirdlevels.push(thirdlevel);
+                            }
+                        }
+
+                        temp.secondlevels.push(secondlevel);
+                    }
                 }
-
-                temp.secondlevels.push(secondlevel);
+                directoryJSON.push(temp);
             }
-            directoryJSON.push(temp);
         }
     };
 
@@ -191,8 +197,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
                 fluid.log("An error has occurred: " + xhr.status + " " + xhr.statusText);
             }
         });
-
-    }
+    };
 
     /**
      * Update the select boxes on the stage
@@ -204,8 +209,8 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         var obj = {
             "firstlevelvalue":firstlevelvalue,
             "changedboxvalue" : changedboxvalue,
-            "directory": directoryJSON,
-        }
+            "directory": directoryJSON
+        };
         if(select === groupBasicInfoDirectoryLvlTwo){
             $(groupBasicInfoSecondLevelTemplateContainer).html($.TemplateRenderer(groupBasicInfoSecondLevelTemplate, obj));
         }else{
@@ -246,19 +251,14 @@ sakai.groupbasicinfo = function(tuid, showSettings){
             $(groupBasicInfoDirectoryLvlThree + " option[value='no_value']", $rootel).remove();
         });
 
-    }
+    };
 
     /**
      * This function will be called when the widget or the container
      * wants to save the new profile data
      */
     $(window).bind("sakai.groupbasicinfo.update", function(){
-        // Check if directory data is valid
-        //if($(groupBasicInfoDirectoryLvlOne, $rootel).selected().val() !== "no_value" && $(groupBasicInfoDirectoryLvlTwo, $rootel).selected().val() !== "no_value" && $(groupBasicInfoDirectoryLvlThree, $rootel).selected().val() !== "no_value"){
-            updateGroup();
-        //} else{
-         //   sakai.api.Util.notification.show("Select level", "Select all three levels before updating");
-        //}
+        updateGroup();
     });
 
     ////////////////////
