@@ -130,9 +130,15 @@ sakai.listPeople.render = function(tuid, iConfig, url, id) {
     $.ajax({
         url: url,
         success: function(data){
+
             if (typeof(data) === 'string') {
                 data = $.parseJSON(data);
 
+                var json_data = {
+                    "results" : data,
+                    "total" : itemCount
+                };
+            } else if (!data.results) {
                 var json_data = {
                     "results" : data,
                     "total" : itemCount
