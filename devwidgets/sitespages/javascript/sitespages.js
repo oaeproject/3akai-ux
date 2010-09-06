@@ -43,6 +43,8 @@ sakai.sitespages = function(tuid,showSettings){
     sakai.sitespages.minHeight = 400;
     sakai.sitespages.autosaveinterval = 17000;
 
+    var $rootel = $("#" + tuid);
+
     var $li_edit_page_divider = $("#li_edit_page_divider");
     var $li_edit_page = $("#li_edit_page");
 
@@ -82,6 +84,7 @@ sakai.sitespages = function(tuid,showSettings){
         config.pageEmbedProperty = pageEmbedProperty;
         config.dashboardEmbedProperty = dashboardEmbedProperty;
         sakai.sitespages.config = config;
+        sakai.api.Widgets.widgetLoader.insertWidgets("#"+tuid);
         loadControl();
     }
 

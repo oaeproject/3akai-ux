@@ -1,0 +1,9 @@
+{
+    "description":"Embed Content on a Page",
+    "id":"embedcontent",
+    "i18n": {
+        "default": "/devwidgets/embedcontent/bundles/default.json"
+    },
+    "name":"Embed Content",
+    "url":"/devwidgets/embedcontent/embedcontent.html"
+}

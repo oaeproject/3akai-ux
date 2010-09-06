@@ -97,19 +97,24 @@
             </div>
 
             <!-- TAB NAVIGATION -->
-            <div class="s3d-primary-tabs">
-                <ul class="fl-tabs fl-tabs-right">
-                    <li class="fl-tabs-active" id="tab_text_editor"><a href="javascript">Text Editor</a></li>
-                    <li id="tab_html"><a href="javascript:;">HTML</a></li>
-                    <li id="tab_preview"><a href="javascript:;">Preview</a></li>
-                </ul>
-            </div>
 
             <!-- TAB CONTENT -->
             <div class="fl-centered fl-container fl-tab-content edit_container">
 
                 <!-- TOP BORDER -->
                 <div class="content_top"><div class="content_top_inner"><!-- --></div></div>
+
+                <div class="s3d-primary-tabs">
+                    <ul class="fl-tabs fl-tabs-left">
+                        <li id="sitespages_embed_content_button" class="sitespages_add_button"><img src="/dev/_images/add_image.png"/ ></li>
+                        <!--><li id="embed_video" class="add_button"><img src="/dev/_images/add_video.png"/ ></li>-->
+                    </ul>
+                    <ul class="fl-tabs fl-tabs-right">
+                        <li id="tab_text_editor"><button class="s3d-button s3d-button-primary"><span class="s3d-button-inner">Text Editor</span></button></li>
+                        <li id="tab_html"><button class="s3d-button"><span class="s3d-button-inner">HTML</span></button></li>
+                        <li id="tab_preview"><button class="s3d-button"><span class="s3d-button-inner">Preview</span></button></li>
+                    </ul>
+                </div>
 
                 <!-- TOOLBAR -->
                 <div class="toolbar toolbar-placeholder" id="toolbarplaceholder"></div>
@@ -515,6 +520,9 @@
                 <div class="dialog_footer_inner"><!-- --></div>
             </div>
         </div>
+
+        <!-- EMBED CONTENT -->
+        <div id="widget_embedcontent" class="widget_inline"></div>
 
 </div>
 

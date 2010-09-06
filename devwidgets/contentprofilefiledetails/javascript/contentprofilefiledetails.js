@@ -44,27 +44,6 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
     var fileRevisions = [];
     var profileData = [];
 
-    var convertToHumanReadableFileSize = function(filesize){
-        // Divide the length into its largest unit
-        var units = [[1024 * 1024 * 1024, 'GB'], [1024 * 1024, 'MB'], [1024, 'KB'], [1, 'bytes']];
-        var lengthunits;
-        for (var i = 0, j=units.length; i < j; i++) {
-
-            var unitsize = units[i][0];
-            var unittext = units[i][1];
-
-            if (filesize >= unitsize) {
-                filesize = filesize / unitsize;
-                // 1 decimal place
-                filesize = Math.ceil(filesize * 10) / 10;
-                lengthunits = unittext;
-                break;
-            }
-        }
-        // Return the human readable filesize
-        return filesize + " " + lengthunits;
-    };
-
     var addBinding = function(){
         // Bind the download button
         $(contentProfileFileDetailsActionDownload).bind("click", function(){
@@ -102,7 +81,7 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
             revisions: fileRevisions,
             mode: "content",
             url: contentPath,
-            filesize: convertToHumanReadableFileSize(profileData["jcr:content"][":jcr:data"]),
+            filesize: sakai.api.Util.convertToHumanReadableFileSize(profileData["jcr:content"][":jcr:data"]),
             anon : anon
         };
 
