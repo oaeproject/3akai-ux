@@ -110,7 +110,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         if (showSettings) {
             mode = 'edit';
         }
-
+        var directory = sakai.currentgroup.data.authprofile["sakai:directory"] ? sakai.currentgroup.data.authprofile["sakai:directory"].split(":") : [];
         // Get the group information out of the global group info object
         var json_config = {
             "groupid" : sakai.currentgroup.id,
@@ -118,7 +118,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
             "data" : sakai.currentgroup.data.authprofile,
             "mode" : mode,
             "directory" : directoryJSON,
-            "saveddirectory" : (sakai.currentgroup.data.authprofile["sakai:directory"]).split(":")
+            "saveddirectory" : directory
         };
 
         $groupbasicinfo_generalinfo.html($.TemplateRenderer("#groupbasicinfo_default_template", json_config));

@@ -1,0 +1,18 @@
+{
+"ADD_CONTENT": "Add Content",
+"EMBED_CONTENT": "Embed Content",
+"PLACING_CONTENT_ON_PAGE": "Placing Content on page",
+"PLACE_CONTENT": "Place Content",
+"SEARCH_FOR_CONTENT": "Search for content",
+"TYPE_NAME_OF_EXISTING_ITEM": "Type the name of an existing content item. Matches will be shown as you type.",
+"LEFT_QUOTE": "&ldquo;",
+"RIGHT_QUOTE": "&rdquo;",
+"SHOW_CONTENT_ONLY": "Show Content Only",
+"SHOW_CONTENT_AND_DESCRIPTION": "Show Content and Description",
+"SHOW_CONTENT_AND_METADATA": "Show Content and Metadata",
+"DISPLAY_OPTIONS": "Display options",
+"ALTERNATIVE_DISPLAY_NAME": "Alternative display name (for this page only)",
+"ENTER_NEW_DISPLAY_NAME": "Enter a new display name for the item if the original name is not apporpriate for this placement.",
+"DESCRIPTION": "Description",
+"ENTER_A_DESCRIPTION": "Enter a description to display with this content."
+}

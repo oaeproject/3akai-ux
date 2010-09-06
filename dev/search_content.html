@@ -40,7 +40,7 @@
         <!-- 3rd party JS -->
         <script type="text/javascript" src="/dev/_lib/sakai_util/trimpath.template.js"></script>
         <script type="text/javascript" src="/dev/_lib/sakai_util/querystring.js"></script>
-        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jqmodal.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jqmodal.sakai-edited.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.cookie.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.pager.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.ba-bbq.js"></script>
@@ -118,42 +118,14 @@
 
                         <div class="search_results_faceted">
                             <!-- CONTAINER FOR FACETED -->
-                            <div id="search_faceted_container"></div>
+                            <div id="faceted_container"></div>
 
-                            <!-- TEMPLATE CONTAINING THE FACETED -->
-                            <div id="search_faceted_template"><!--
-                                <div class="search_faceted">
-                                    <div class="search_faceted_title">
-                                        ${title}
-                                    </div>
-                                    <div class="search_faceted_back" style="display:none;">
-                                        <a href="javascript:;" class="search_faceted_back_link">Back</a>
-                                    </div>
-                                    <div class="search_faceted_list">
-                                        <div class="search_faceted_value">
-                                            ${value}
-                                        </div>
-                                        {for t in categories}
-                                            {if t_index > 9}
-                                                <div class="search_faceted_list_expanded" style="display:none;"><span class="search_faceted_category"><a href="javascript:;" id="${t.split(' ').join('')}">${t}</a></span></div>
-                                            {else}
-                                                <span class="search_faceted_category"><a href="javascript:;" id="${t.split(' ').join('')}">${t}</a></span>
-                                            {/if}
-                                        {/for}
-                                        {if categories.length > 9}
-                                            <a href="javascript:;" id="search_faceted_listall">List All</a>
-                                        {/if}
-                                    </div>
-                                    <div class="search_faceted_back" style="display:none;">
-                                        <a href="javascript:;" class="search_faceted_back_link">Back</a>
-                                    </div>
-                                </div>
-                            --></div>
+                            <!-- FACETED WIDGET -->
+                            <div id="widget_faceted" class="widget_inline"></div>
                         </div>
 
                         <!-- SEARCH RESULTS -->
                         <div id="search_results_page1" class="search_results_container search_results_container_sub">
-                            <div class="search_top_rounded"><div class="search_top_rounded_inner"><!-- --></div></div>
 
                             <!-- CONTENT -->
                             <div class="fl-container fl-fix search_results_part">

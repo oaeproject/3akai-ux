@@ -281,7 +281,7 @@ sakai.api.Communication.sendMessage = function(to, subject, body, category, repl
     }
 
     // send now if we have only a list of users ("thread" safe?)
-    if(numGroupAJAXRequests === 0 && !sendDone) {
+    if (!sendDone) {
         sendMessageToUsers();
     }
 };
@@ -919,7 +919,14 @@ sakai.api.Security.saneHTML = function(inputHTML) {
 
     };
 
-
+    html4.ELEMENTS["video"] = 0;
+    html4.ATTRIBS["video::src"] = 0;
+    html4.ATTRIBS["video::class"] = 0;
+    html4.ATTRIBS["video::autoplay"] = 0;
+    html4.ELEMENTS["embed"] = 0;
+    html4.ATTRIBS["embed::src"] = 0;
+    html4.ATTRIBS["embed::class"] = 0;
+    html4.ATTRIBS["embed::autostart"] = 0;
     // A slightly modified version of Caja's sanitize_html function to allow style="display:none;"
     var sakaiHtmlSanitize = function(htmlText, opt_urlPolicy, opt_nmTokenPolicy) {
         var out = [];
@@ -2001,6 +2008,31 @@ sakai.api.Util.createSakaiDate = function(date, format, offset) {
         str = date.getTime();
     }
     return str;
+};
+
+/**
+ * make a doc for this
+ */
+
+sakai.api.Util.convertToHumanReadableFileSize = function(filesize) {
+    // Divide the length into its largest unit
+    var units = [[1024 * 1024 * 1024, 'GB'], [1024 * 1024, 'MB'], [1024, 'KB'], [1, 'bytes']];
+    var lengthunits;
+    for (var i = 0, j=units.length; i < j; i++) {
+
+        var unitsize = units[i][0];
+        var unittext = units[i][1];
+
+        if (filesize >= unitsize) {
+            filesize = filesize / unitsize;
+            // 1 decimal place
+            filesize = Math.ceil(filesize * 10) / 10;
+            lengthunits = unittext;
+            break;
+        }
+    }
+    // Return the human readable filesize
+    return filesize + " " + lengthunits;
 };
 
 

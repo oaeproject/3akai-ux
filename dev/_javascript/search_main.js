@@ -394,6 +394,25 @@ sakai._search = function(config, callback) {
         return urlterm;
     };
 
+    /**
+     * Adds the faceted panel to the page if a search is performed
+     */
+    var addFacetedPanel = function() {
+        $(window).bind("sakai.api.UI.faceted.ready", function(e){
+            sakai.api.UI.faceted.render(searchConfig.facetedConfig);
+
+            // bind faceted search elements
+            // loop through each faceted category and bind the link to trigger a search
+            $.each(searchConfig.facetedConfig.categories, function(index, category) {
+                $("#" + category.replace(/[^a-zA-Z0-9]+/g,'')).bind("click", function() {
+                    var searchquery = $(searchConfig.global.text).val();
+                    var searchwhere = getSearchWhereSites();
+                    sakai._search.doSearch(1, searchquery, searchwhere, searchConfig.facetedConfig.searchurls[index]);
+                });
+            });
+        });
+    };
+
     return {
         'getMySites': getMySites,
         'fetchMyFriends': fetchMyFriends,
@@ -406,7 +425,8 @@ sakai._search = function(config, callback) {
         'removeAddContactLinks': removeAddContactLinks,
         'prepSearchTermForURL': prepSearchTermForURL,
         'preparePeopleForRender': preparePeopleForRender,
-        'prepareCMforRendering': prepareCMforRendering
+        'prepareCMforRendering': prepareCMforRendering,
+        'addFacetedPanel': addFacetedPanel
 
     };
 };

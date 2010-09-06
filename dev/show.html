@@ -14,12 +14,14 @@
 
         <!-- Sakai Page CSS -->
         <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.group.css" />
+        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.show.css" />
 
         <!-- 3rd party CSS -->
         <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.treeview.css" />
         <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.components.jq_pager.css" />
         <link rel="stylesheet" type="text/css" href="/dev/_lib/jquery/plugins/gritter/css/jquery.gritter.css" />
         <link rel="stylesheet" type="text/css" href="_lib/jquery/plugins/imgareaselect/imgareaselect-default.css" />
+        <link rel="stylesheet" type="text/css" href="/dev/_css/lib/jquery.autoSuggest.css" />
 
         <!-- Sakai Config JS -->
         <script type="text/javascript" src="_configuration/widgets.js"></script>
@@ -40,22 +42,27 @@
         <!-- 3rd party JS -->
         <script type="text/javascript" src="/dev/_lib/sakai_util/trimpath.template.js"></script>
         <script type="text/javascript" src="/dev/_lib/sakai_util/querystring.js"></script>
-        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jqmodal.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jqmodal.sakai-edited.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.cookie.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.pager.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.ba-bbq.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.threedots.js"></script>
         <script type="text/javascript" src="/dev/_javascript/_history/site_history.js"></script>
-        <script type="text/javascript" src="/dev/_lib/jsTree/jquery.jstree.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jsTree/jquery.jstree.sakai-edit.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jqScrollPane.js"></script>
-        <script type="text/javascript" src="/dev/_lib/AutoComplete/jquery.autocomplete.min.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.autoSuggest.sakai-edited.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/gritter/jquery.gritter.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.form.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.MultiFile.js"></script>
         <script type="text/javascript" src="_lib/jquery/plugins/imgareaselect/jquery.imgareaselect.js"></script>
     </head>
     <body class="fl-centered show i18nable">
 
         <!-- NAVIGATION -->
         <div id="widget_topnavigation" class="widget_inline"></div>
+
+        <!-- CREATEPAGE WIDGET MODAL DIALOG -->
+        <div id="widget_createpage" class="widget_inline"></div>
 
         <!-- HEADER -->
         <div class="fl-container-flex header">

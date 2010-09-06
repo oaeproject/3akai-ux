@@ -2207,8 +2207,9 @@
 		$.vakata.css.add_sheet({ str : css_string });
 		m = $("<div>").attr({ id : "jstree-marker" }).hide().appendTo("body");
 		$(document).bind("drag_start.vakata", function (e, data) {
-			if(data.data.jstree) { 
-				m.show(); 
+			if(data.data.jstree) {
+                m = $("#jstree-marker").addClass('jstree-default');
+                m.show();
 			}
 		});
 		$(document).bind("drag_stop.vakata", function (e, data) {

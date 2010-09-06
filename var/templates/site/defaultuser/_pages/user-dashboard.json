@@ -2,7 +2,7 @@
 	"pageTitle": "User Dashboard",
 	"sling:resourceType": "sakai/page",
 	"pageType": "dashboard", 
-	"pagePosition": 100000,
+	"pagePosition": 200000,
 	"deletable": false,
 	"jcr:mixinTypes": "sakai:propertiesmix"
 }

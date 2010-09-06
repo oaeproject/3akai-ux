@@ -1,0 +1,165 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/embedcontent/css/embedcontent.css" />
+
+<!-- MAIN VIEW -->
+<div class="dialog" id="embedcontent_dialog">
+    <div class="dialog_header">
+        <div class="dialog_header_inner">
+        <h1>__MSG__EMBED_CONTENT__</h1>
+        <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+        </div>
+    </div>
+
+    <div class="dialog_content">
+        <div id="embedcontent_main_container">
+            <div id="embedcontent_header">
+                <h2>__MSG__PLACING_CONTENT_ON_PAGE__: <span id="embedcontent_page_name"></span></h2>
+            </div>
+            <div id="embedcontent_choose" class="embedcontent_line">
+                <div class="embedcontent_left_label fl-force-left fl-container">
+                    <p>__MSG__TYPE_NAME_OF_EXISTING_ITEM__</p>
+                    <p><a href="javascript:;" class="s3d-action" id="embedcontent_search_for_content">__MSG__SEARCH_FOR_CONTENT__</a> __MSG__OR__ <a href="javascript:;" class="s3d-action" id="embedcontent_add_content">__MSG__ADD_CONTENT__</a></p>
+                </div>
+                <div class="embedcontent_right_input fl-force-left fl-container">
+                    <input type="text" id="embedcontent_content_input"/>
+                </div>
+            </div>
+            <div id="embedcontent_display_options" class="embedcontent_line embedcontent_line_even" style="display:none">
+                <div class="embedcontent_left_label fl-force-left fl-container">
+                    <p class="label_header">__MSG__DISPLAY_OPTIONS__</p>
+                </div>
+                <div class="embedcontent_right_input fl-force-left fl-container">
+                    <select id="embedcontent_display_options_select">
+                        <option value="show_content_only" selected="selected">__MSG__SHOW_CONTENT_ONLY__</option>
+                        <option value="show_content_and_metadata">__MSG__SHOW_CONTENT_AND_METADATA__</option>
+                        <option value="show_content_and_description">__MSG__SHOW_CONTENT_AND_DESCRIPTION__</option>
+                    </select>
+                </div>
+            </div>
+            <div id="embedcontent_metadata_container" style="display:none">
+                <div id="embedcontent_alternative_display_name" class="embedcontent_line">
+                    <div class="embedcontent_left_label fl-force-left fl-container">
+                        <p class="label_header">__MSG__ALTERNATIVE_DISPLAY_NAME__</p>
+                        <p>__MSG__ENTER_NEW_DISPLAY_NAME__</p>
+                    </div>
+                    <div class="embedcontent_right_input fl-force-left fl-container">
+                        <input type="text" id="embedcontent_alternative_display_name_value"/>
+                    </div>
+                </div>
+                <div id="embedcontent_description" class="embedcontent_line embedcontent_line_even">
+                    <div class="embedcontent_left_label fl-force-left fl-container">
+                        <p class="label_header">__MSG__DESCRIPTION__</p>
+                        <p>__MSG__ENTER_A_DESCRIPTION__</p>
+                    </div>
+                    <div class="embedcontent_right_input fl-force-left fl-container">
+                        <textarea id="embedcontent_description_value"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div id="embedcontent_footer">
+                <div class="fl-force-right">
+                    <button class="s3d-button" id="embedcontent_cancel"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
+                    <button class="s3d-button s3d-button-primary" id="embedcontent_place_content"><span class="s3d-button-inner">__MSG__PLACE_CONTENT__</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DIALOG FOOTER -->
+    <div class="dialog_footer">
+        <div class="dialog_footer_inner"><!-- --></div>
+    </div>
+    <div id="embedcontent_page_name_template" style="display:none"><!--
+        __MSG__LEFT_QUOTE__${name}__MSG__RIGHT_QUOTE__
+    --></div>
+    
+    <div id="embedcontent_content_html_template"><!--
+    {if embedmethod == "show_content_only"}
+    <div class="show_content_only">
+        {for item in items}
+        <div class="content_item{if (item.filetype === "image" || item.filetype === "video")}_image_full{/if}">
+            <div class="item_image">
+            {if item.mimetype =="image/jpg" || item.mimetype =="image/jpeg" || item.mimetype =="image/png" || item.mimetype =="image/gif" || item.mimetype =="image/bmp" }
+                <img src="${item.link}" alt="${sakai.config.MimeTypes[item.mimetype].description}" class="embed_image_full_size"/>
+            </div>
+            {elseif item.filetype === "video"}
+                <embed src="${item.link}" autostart="false" class="embedcontent_video"/>
+            {elseif sakai.config.MimeTypes[item.mimetype]}
+                <img src="${sakai.config.MimeTypes[item.mimetype].URL}" alt="${sakai.config.MimeTypes[item.mimetype].description}" class="embed_image_thumbnail_size"/>
+            </div>
+            <div class="item_description">
+                <h3><a href="/dev/content_profile.html#content_path=${item.path}" class="s3d-action">${item.name} (${item.mimetype.split("/")[1]})</a></h3>
+                {if item.description}<p class="embedcontent_actual_description">${item.description}</p>{/if}
+                <p class="embedcontent_download_link"><a href="${item.link}" class="s3d-action">Download</a></p>
+            </div>
+            {else}
+                <img src="${sakai.config.MimeTypes["other"].URL}" alt="${sakai.config.MimeTypes["other"].description}" class="embed_image_thumbnail_size"/>
+            </div>
+            <div class="item_description">
+                <h3><a href="/dev/content_profile.html#content_path=${item.path}" class="s3d-action">${item.name} (${item.mimetype.split("/")[1]})</a></h3>
+                {if item.description}<p class="embedcontent_actual_description">${item.description}</p>{/if}
+                <p class="embedcontent_download_link"><a href="${item.link}" class="s3d-action">Download</a></p>
+            </div>
+            {/if}
+        </div>
+        {/for}
+    </div>
+    {elseif embedmethod == "show_content_and_metadata"}
+        {for item in items}
+        <div class="content_item{if (item.filetype === "image" || item.filetype === "video")}_image{/if}">
+            <div class="item_image">
+            {if item.mimetype =="image/jpg" || item.mimetype =="image/jpeg" || item.mimetype =="image/png" || item.mimetype =="image/gif" || item.mimetype =="image/bmp" }
+                <img src="${item.link}" alt="${sakai.config.MimeTypes[item.mimetype].description}" class="embed_image_full_size"/>
+            {elseif item.filetype === "video"}
+                <embed src="${item.link}" autostart="false" class="embedcontent_video"/>
+            {elseif sakai.config.MimeTypes[item.mimetype]}
+                <img src="${sakai.config.MimeTypes[item.mimetype].URL}" alt="${sakai.config.MimeTypes[item.mimetype].description}" class="embed_image_thumbnail_size"/>
+            {else}
+                <img src="${sakai.config.MimeTypes["other"].URL}" alt="${sakai.config.MimeTypes["other"].description}" class="embed_image_thumbnail_size"/>
+            {/if}
+            </div>
+            <div class="item_description">
+                <h3><a href="/dev/content_profile.html#content_path=${item.path}" class="s3d-action">${item.name} (${item.mimetype.split("/")[1]})</a></h3>
+                {if item.description}<p class="embedcontent_actual_description">${item.description}</p>{/if}
+                <p class="embedcontent_download_link"><a href="${item.link}" class="s3d-action">Download</a></p>
+            </div>
+        </div>
+        {/for}
+    {elseif embedmethod == "show_content_and_description"}
+        <div class="show_content_and_description">
+            <h2>${title}</h2>
+            <p>${description}</p>
+            {for item in items}
+            <div class="content_item{if (item.filetype === "image" || item.filetype === "video")}_image{/if}">
+                <div class="item_image">
+                {if item.mimetype =="image/jpg" || item.mimetype =="image/jpeg" || item.mimetype =="image/png" || item.mimetype =="image/gif" || item.mimetype =="image/bmp" }
+                    <img src="${item.link}" alt="${sakai.config.MimeTypes[item.mimetype].description}" class="embed_image_thumbnail_size"/>
+                {elseif item.filetype === "video"}
+                    <embed src="${item.link}" autostart="false" class="embedcontent_video"/>
+                {elseif sakai.config.MimeTypes[item.mimetype]}
+                    <img src="${sakai.config.MimeTypes[item.mimetype].URL}" alt="${sakai.config.MimeTypes[item.mimetype].description}" class="embed_image_thumbnail_size"/>
+                {else}
+                    <img src="${sakai.config.MimeTypes["other"].URL}" alt="${sakai.config.MimeTypes["other"].description}" class="embed_image_thumbnail_size"/>
+                {/if}
+                </div>
+                <div class="item_description">
+                    <h3><a href="/dev/content_profile.html#content_path=${item.path}" class="s3d-action">${item.name} (${item.mimetype.split("/")[1]})</a></h3>
+                    {if item.description}<p class="embedcontent_actual_description">${item.description}</p>{/if}
+                    <p class="embedcontent_download_link"><a href="${item.link}" class="s3d-action">Download</a></p>
+                </div>
+            </div>
+            {/for}
+        </div>
+    {/if}
+    --></div>
+
+    <div id="embedcontent_new_item_template"><!--
+        <li id="as-selection-${value}" class="as-selection-item"><a class="as-close">×</a>${name}</li>
+    --></div>
+
+    <div id="widget_fileupload" class="widget_inline"></div>
+    <div id="widget_pickeradvanced" class="widget_inline"></div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/embedcontent/javascript/embedcontent.js"></script>

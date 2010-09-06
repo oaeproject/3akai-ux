@@ -2,7 +2,7 @@
 <link rel="stylesheet" type="text/css" href="/devwidgets/pickeradvanced/css/pickeradvanced.css" />
 
 <!-- MAIN VIEW -->
-<div id="pickeradvanced_container" style="display:none" class="dialog">
+<div id="pickeradvanced_container" class="dialog">
     <div id="pickeradvanced_container_header" class="dialog_header">
         <div class="dialog_header_inner">
             <h1>__MSG__SEARCH_FOR_PEOPLE_TO_ADD__</h1>
@@ -33,16 +33,20 @@
         <div id="pickeradvanced_content">
             <div id="pickeradvanced_results_header" class="fl-force-left"><span><a href="javascript:;" id="pickeradvanced_select_all_button" class="s3d-action">__MSG__SELECT_ALL__</a></span></div>
             <div id="pickeradvanced_content_list" class="fl-force-left">
-                <ul id="pickeradvanced_people_filters">
+                <ul id="pickeradvanced_file_filters" style="display:none" class="pickeradvanced_search_files">
+                    <li><a href="javascript:;" id="pickeradvanced_search_files_mine" class="pickeradvanced_search_filter s3d-action">__MSG__MY_CONTENT__</a></li>
+                    <li><a href="javascript:;" id="pickeradvanced_search_files_view" class="pickeradvanced_search_filter s3d-action">__MSG__CONTENT_I_CAN_SEE__</a></li>
+                </ul>
+                <ul id="pickeradvanced_people_filters" style="display:none" class="pickeradvanced_search_people">
                     <li><a href="javascript:;" id="pickeradvanced_search_contacts" class="pickeradvanced_search_filter s3d-action">__MSG__ALL_CONTACTS__</a></li>
                     <li><a href="javascript:;" id="pickeradvanced_search_users" class="pickeradvanced_search_filter s3d-action">__MSG__ALL_USERS__</a></li>
                     <li><a href="javascript:;" id="pickeradvanced_search_groups" class="pickeradvanced_search_filter s3d-action">__MSG__ALL_GROUPS__</a></li>
                 </ul>
-                <ul id="pickeradvanced_group_filters">
+                <ul id="pickeradvanced_group_filters" style="display:none" class="pickeradvanced_search_people">
                     <li><a href="javascript:;" id="pickeradvanced_search_groups_member" class="pickeradvanced_search_filter s3d-action">__MSG__GROUPS_I_CAN_SEE__</a></li>
                     <li><a href="javascript:;" id="pickeradvanced_search_groups_manager" class="pickeradvanced_search_filter s3d-action">__MSG__GROUPS_I_MANAGE__</a></li>
                 </ul>
-                <ul id="pickeradvanced_group_specific_filters" class="last">
+                <ul id="pickeradvanced_group_specific_filters" class="last" style="display:none" class="pickeradvanced_search_people">
                 </ul>
             </div>
             <div id="pickeradvanced_content_search" class="fl-force-left"></div>
@@ -85,7 +89,7 @@
                         <br />
                         <span class="pickeradvanced_subnameinfo">${sakai.api.User.getShortDescription(i)}</span>
                     </li>
-                    {else if i['sakai:group-id']}
+                    {elseif i['sakai:group-id']}
                     <li id="${i['sakai:group-id']}">
                         {if i.picture}
                             <img src="/~${i["sakai:group-id"]}/public/profile/${i.picture.name}" alt="Profile picture for ${i["sakai:group-title"]}" class="pickeradvanced_ppicture"/>
@@ -96,7 +100,21 @@
                         <br />
                         <span class="pickeradvanced_subnameinfo">${i["sakai:group-description"]}</span>
                     </li>
-                {/if}
+                    {elseif i["sakai:pooled-content-file-name"]}
+                    <li id="${i["jcr:name"]}">
+                        {var mimetype = i["jcr:content"]["jcr:mimeType"]}
+                        {if mimetype == "image/jpg" || mimetype == "image/jpeg" || mimetype == "image/png" || mimetype == "image/gif" || mimetype == "image/bmp" }
+                            <img src="/p/${i["jcr:name"]}/${i["sakai:pooled-content-file-name"]}" alt="${sakai.config.MimeTypes[mimetype].description}" class="pickeradvanced_ppicture"/>
+                        {elseif sakai.config.MimeTypes[mimetype]}
+                            <img src="${sakai.config.MimeTypes[mimetype].URL}" alt="${sakai.config.MimeTypes[mimetype].description}" class="pickeradvanced_ppicture"/>
+                        {else}
+                            <img src="${sakai.config.MimeTypes["other"].URL}" alt="${sakai.config.MimeTypes["other"].description}" class="pickeradvanced_ppicture"/>
+                        {/if}
+                        <a class="pickeradvanced_name" href="/dev/content_profile.html#content_path=/p/${i["jcr:name"]}" target="_blank">${i["sakai:pooled-content-file-name"]}</a>
+                        <br />
+                        <span class="pickeradvanced_subnameinfo">${i["sakai:description"]}</span>
+                    </li>
+                    {/if}
                 {/for}
             --></div>
         </div>
@@ -108,6 +126,10 @@
         <div id="pickeradvanced_error_template" style="display:none;">
             <span>__MSG__ERROR_MSG__</span>
         </div>
+    </div>
+    <!-- DIALOG FOOTER -->
+    <div class="dialog_footer">
+        <div class="dialog_footer_inner"><!-- --></div>
     </div>
 </div>
 

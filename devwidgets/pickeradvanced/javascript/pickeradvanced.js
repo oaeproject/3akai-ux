@@ -115,7 +115,9 @@ sakai.pickeradvanced = function(tuid, showSettings) {
      * @returns void
      */
     var render = function(iConfig) {
-        // Merge user defined config with defaults
+        pickerData["searchIn"] = sakai.config.URL.CONTACTS_ACCEPTED + "?page=0&items=12&_=&q=";
+
+        // Merge user defined config with default
         for (var element in iConfig) {
             if (iConfig.hasOwnProperty(element) && pickerData.hasOwnProperty(element)) {
                 pickerData[element] = iConfig[element];
@@ -123,11 +125,14 @@ sakai.pickeradvanced = function(tuid, showSettings) {
         }
 
         // display the groups list, bind elements and submit a search
-        pickerData["searchIn"] = sakai.config.URL.CONTACTS_ACCEPTED + "?page=0&items=12&_=&q=";
         if (pickerData["type"] === "people") {
             $("#pickeradvanced_search_contacts", $rootel).parent("li").addClass("pickeradvanced_selected_list");
             getGroups();
+            $pickeradvanced_sort_on.show();
+        } if (pickerData["type"] === "files") {
+            $pickeradvanced_sort_on.hide();
         }
+        $("ul.pickeradvanced_search_" + pickerData["type"]).show();
         $pickeradvanced_search_query.focus();
         $pickeradvanced_search_button.click(submitSearch);
         $pickeradvanced_content_search_form.submit(submitSearch);
@@ -213,8 +218,10 @@ sakai.pickeradvanced = function(tuid, showSettings) {
 
         // Aadd relevant config elements to the search query
         searchQuery.page = pageNumber;
-        searchQuery.sortOn = pickerData["sortOn"];
-        searchQuery.sortOrder = pickerData["sortOrder"];
+        if (pickerData["type"] === "people") {
+            searchQuery.sortOn = pickerData["sortOn"];
+            searchQuery.sortOrder = pickerData["sortOrder"];
+        }
 
         // Construct search query
         var sq = searchQuery.url + "?";
@@ -286,26 +293,23 @@ sakai.pickeradvanced = function(tuid, showSettings) {
                                 pickerData["selected"][$(this).attr("id")].entityType = "user";
                             } else if (rawData.results[i]['sakai:group-id']) {
                                 pickerData["selected"][$(this).attr("id")].entityType = "group";
+                            } else if (rawData.results[i]['jcr:name']) {
+                                pickerData["selected"][$(this).attr("id")].entityType = "file";
                             }
                             if ($pickeradvanced_add_button.is(":disabled")) {
                                 $pickeradvanced_add_button.attr("disabled", "");
                             }
                         });
                     });
-                    $("#pickeradvanced_page_" + pageNumber + " li", $rootel).unbind("click");
-                    $("#pickeradvanced_page_" + pageNumber + " li", $rootel).bind("click", function(e){
+                    $("#pickeradvanced_page_" + pageNumber + " li").unbind("click");
+                    $("#pickeradvanced_page_" + pageNumber + " li").bind("click", function(e){
                         // Check if user click on top of a link
                         if (e.target.tagName.toLowerCase() !== "a") {
                             // Remove from selected list
                             if ($(this).hasClass("pickeradvanced_selected_user")) {
                                 $(this).removeClass("pickeradvanced_selected_user");
                                 delete pickerData["selected"][$(this).attr("id")];
-                                for (var i = 0; i < rawData.results.length; i++) {
-                                    if (rawData.results[i]['rep:userId'] == [$(this).attr("id")]) {
-                                        delete pickerData["selected"][$(this).attr("id")];
-                                        pickerData.selectCount -= 1;
-                                    }
-                                }
+                                pickerData.selectCount -= 1;
                                 if (pickerData.selectCount < 1) {
                                     $pickeradvanced_add_button.attr("disabled", "disabled");
                                 }
@@ -321,6 +325,10 @@ sakai.pickeradvanced = function(tuid, showSettings) {
                                         pickerData.selectCount += 1;
                                         pickerData["selected"][$(this).attr("id")] = rawData.results[j];
                                         pickerData["selected"][$(this).attr("id")].entityType = "group";
+                                    } else if (rawData.results[j]['jcr:name'] && rawData.results[j]['jcr:name'] == [$(this).attr("id")]) {
+                                        pickerData.selectCount += 1;
+                                        pickerData["selected"][$(this).attr("id")] = rawData.results[j];
+                                        pickerData["selected"][$(this).attr("id")].entityType = "file";
                                     }
                                 }
                                 if ($pickeradvanced_add_button.is(":disabled")) {
@@ -386,12 +394,11 @@ sakai.pickeradvanced = function(tuid, showSettings) {
     $pickeradvanced_container.jqm({
         modal: true,
         overlay: 20,
-        zIndex: 4000
+        zIndex: 4000,
+        toTop: true
     });
     
     var addPeople = function() {
-      //sakai.api.Communication.sendMessage = function(to, subject, body, category, reply, callback) {  
-
       // this value is a comma-delimited list
       // split it and get rid of any empty values in the array
       $pickeradvanced_container.jqmHide();
@@ -438,6 +445,12 @@ sakai.pickeradvanced = function(tuid, showSettings) {
                break;
            case "groups_manager":
                searchURL = sakai.config.URL.SEARCH_GROUPS;
+               break;
+           case "files_mine":
+               searchURL = sakai.config.URL.POOLED_CONTENT_MANAGER.replace(".json", ".infinity.json");
+               break;
+           case "files_view":
+               searchURL = sakai.config.URL.POOLED_CONTENT_VIEWER.replace(".json", ".infinity.json");
                break;
        }
        pickerData["searchIn"] = searchURL + "?page=0&items=12&_=&q=";

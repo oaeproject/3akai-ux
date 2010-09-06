@@ -1,0 +1,37 @@
+<!-- CSS -->
+<link href="/devwidgets/faceted/css/faceted.css" type="text/css" />
+
+<!-- TEMPLATE CONTAINING THE FACETED -->
+<div id="faceted_default_template"><!--
+    <div class="faceted">
+        <div class="faceted_content s3d-action">
+            <div class="faceted_title">
+                ${title}
+            </div>
+            <div class="faceted_back" style="display:none;">
+                <a href="javascript:;" class="faceted_back_link">Back</a>
+            </div>
+            <div class="faceted_list">
+                <div class="faceted_value">
+                    <span>${value}</span>
+                    {if categories.length > 9}
+                    <a href="javascript:;" id="faceted_listall">List All</a>
+                    {/if}
+                </div>
+                {for t in categories}
+                    {if t_index > 9}
+                        <div class="faceted_list_expanded" style="display:none;"><span class="faceted_category"><a href="javascript:;" id="${t.replace(/[^a-zA-Z0-9]+/g,'')}">${t}</a></span></div>
+                    {else}
+                        <span class="faceted_category"><a href="javascript:;" id="${t.replace(/[^a-zA-Z0-9]+/g,'')}">${t}</a></span>
+                    {/if}
+                {/for}
+                </div>
+            <div class="faceted_back" style="display:none;">
+                <a href="javascript:;" class="faceted_back_link">Back</a>
+            </div>
+        </div>
+    </div>
+--></div>
+
+<!-- JAVASCRIPT -->
+<script src="/devwidgets/faceted/javascript/faceted.js" language="JavaScript" type="text/javascript"></script>

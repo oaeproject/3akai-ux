@@ -17,7 +17,13 @@
  */
 
 /* NAVIGATION TREE STYLES */
-
+#navigation_tree ul.jstree-no-dots li.jstree-leaf {margin:4px 0;}
+#navigation_tree ul.jstree-no-dots li.jstree-leaf a, #navigation_tree ul.jstree-no-dots li.jstree-closed a, #navigation_tree ul.jstree-no-dots li.jstree-open a{color:#006E96;}
+#navigation_tree ul.jstree-no-dots li.jstree-open > ul li.jstree-leaf {margin-left:18px;}
+#navigation_tree ul.jstree-no-dots li.jstree-closed a, #navigation_tree ul.jstree-no-dots li.jstree-open a {font-weight:bold;}
+#navigation_tree ul.jstree-no-dots li.jstree-leaf a {font-weight:normal;}
+#navigation_tree.jstree-default.jstree-focused {background-color:#fff;}
+#navigation_tree.jstree-default a .jstree-icon {background:url("/dev/_images/page_18.png") top left no-repeat;}
 
 /* BACKGROUND IMAGES */
 #navigation_title {background:transparent url(/dev/_images/pages_icon.png) no-repeat scroll 16px 17px;}
