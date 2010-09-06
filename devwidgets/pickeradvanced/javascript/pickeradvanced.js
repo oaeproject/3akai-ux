@@ -399,8 +399,6 @@ sakai.pickeradvanced = function(tuid, showSettings) {
     });
     
     var addPeople = function() {
-      //sakai.api.Communication.sendMessage = function(to, subject, body, category, reply, callback) {  
-
       // this value is a comma-delimited list
       // split it and get rid of any empty values in the array
       $pickeradvanced_container.jqmHide();
