@@ -8,11 +8,14 @@ div.content_item div.item_description p {word-wrap:break-word; width:230px; marg
 div.content_item img.embed_image_thumbnail_size {max-width:60px; max-height:60px}
 
 div.content_item_image {width:312px; margin-right:10px; float:left; display:inline;}
-div.content_item_image img.embed_image_full_size {max-width:312px;}
+div.content_item_image img.embed_image_full_size,
+div.content_item_image embed {max-width:312px;}
 div.content_item_image div.item_description h3,
 div.content_item_image div.item_description p {word-wrap:break-word; width:312px; margin-left:10px; margin:0; margin-bottom:5px; padding:0;}
 
 div.content_item_image_full {width:644px; float:left; display:inline;}
-div.content_item_image_full img.embed_image_full_size {max-width:644px;}
+div.content_item_image_full img.embed_image_full_size,
+div.content_item_image_full embed  {max-width:644px;}
 
 a.embedcontent_download_link, p.embedcontent_actual_description {font-size:11px;}
+

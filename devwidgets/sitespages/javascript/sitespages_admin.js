@@ -301,6 +301,7 @@ sakai.sitespages.site_admin = function(){
                 "colgroup[align|bgcolor|char|charoff|span|valign|width],"+
                 "comment[],"+
                 "em[],"+
+                "embed[src|class|id|autostart]"+
                 "font[color|face|font-weight|point-size|size],"+
                 "h1[align|clear|height|width],"+
                 "h2[align|clear|height|width],"+
@@ -339,7 +340,8 @@ sakai.sitespages.site_admin = function(){
                    "height|nowrap|valign],"+
                 "tt[],"+
                 "u[],"+
-                "ul[align|clear|height|start|type|width]"
+                "ul[align|clear|height|start|type|width]"+
+                "video[src|class|autoplay|controls|height|width|preload|loop]"
         });
     }
 

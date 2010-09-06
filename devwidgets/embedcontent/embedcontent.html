@@ -77,11 +77,13 @@
     {if embedmethod == "show_content_only"}
     <div class="show_content_only">
         {for item in items}
-        <div class="content_item{if item.filetype === "image"}_image_full{/if}">
+        <div class="content_item{if (item.filetype === "image" || item.filetype === "video")}_image_full{/if}">
             <div class="item_image">
             {if item.mimetype =="image/jpg" || item.mimetype =="image/jpeg" || item.mimetype =="image/png" || item.mimetype =="image/gif" || item.mimetype =="image/bmp" }
                 <img src="${item.link}" alt="${sakai.config.MimeTypes[item.mimetype].description}" class="embed_image_full_size"/>
             </div>
+            {elseif item.filetype === "video"}
+                <embed src="${item.link}" autostart="false" class="embedcontent_video"/>
             {elseif sakai.config.MimeTypes[item.mimetype]}
                 <img src="${sakai.config.MimeTypes[item.mimetype].URL}" alt="${sakai.config.MimeTypes[item.mimetype].description}" class="embed_image_thumbnail_size"/>
             </div>
@@ -104,10 +106,12 @@
     </div>
     {elseif embedmethod == "show_content_and_metadata"}
         {for item in items}
-        <div class="content_item{if item.filetype === "image"}_image{/if}">
+        <div class="content_item{if (item.filetype === "image" || item.filetype === "video")}_image{/if}">
             <div class="item_image">
             {if item.mimetype =="image/jpg" || item.mimetype =="image/jpeg" || item.mimetype =="image/png" || item.mimetype =="image/gif" || item.mimetype =="image/bmp" }
                 <img src="${item.link}" alt="${sakai.config.MimeTypes[item.mimetype].description}" class="embed_image_full_size"/>
+            {elseif item.filetype === "video"}
+                <embed src="${item.link}" autostart="false" class="embedcontent_video"/>
             {elseif sakai.config.MimeTypes[item.mimetype]}
                 <img src="${sakai.config.MimeTypes[item.mimetype].URL}" alt="${sakai.config.MimeTypes[item.mimetype].description}" class="embed_image_thumbnail_size"/>
             {else}
@@ -126,10 +130,12 @@
             <h2>${title}</h2>
             <p>${description}</p>
             {for item in items}
-            <div class="content_item{if item.filetype === "image"}_image{/if}">
+            <div class="content_item{if (item.filetype === "image" || item.filetype === "video")}_image{/if}">
                 <div class="item_image">
                 {if item.mimetype =="image/jpg" || item.mimetype =="image/jpeg" || item.mimetype =="image/png" || item.mimetype =="image/gif" || item.mimetype =="image/bmp" }
                     <img src="${item.link}" alt="${sakai.config.MimeTypes[item.mimetype].description}" class="embed_image_thumbnail_size"/>
+                {elseif item.filetype === "video"}
+                    <embed src="${item.link}" autostart="false" class="embedcontent_video"/>
                 {elseif sakai.config.MimeTypes[item.mimetype]}
                     <img src="${sakai.config.MimeTypes[item.mimetype].URL}" alt="${sakai.config.MimeTypes[item.mimetype].description}" class="embed_image_thumbnail_size"/>
                 {else}

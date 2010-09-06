@@ -171,7 +171,6 @@ sakai.embedcontent = function(tuid, showSettings) {
 
     $(window).bind("sakai-embedcontent-init", function(e, name) {
         render(name);
-        console.log('here');
         $embedcontent_dialog.jqmShow();
     });
 
