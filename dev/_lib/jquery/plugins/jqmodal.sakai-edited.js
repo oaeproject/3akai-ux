@@ -23,7 +23,8 @@ modal: F,
 toTop: F,
 onShow: F,
 onHide: F,
-onLoad: F
+onLoad: F,
+zIndex: F
 };
 return this.each(function(){if(this._jqm)return H[this._jqm].c=$.extend({},H[this._jqm].c,o);s++;this._jqm=s;
 H[s]={c:$.extend(p,$.jqm.params,o),a:F,w:$(this).addClass('jqmID'+s),s:s};
@@ -37,7 +38,7 @@ $.fn.jqmHide=function(t){return this.each(function(){t=t||window.event;$.jqm.clo
 
 $.jqm = {
 hash:{},
-open:function(s,t){var h=H[s],c=h.c,cc='.'+c.closeClass,z=(parseInt(h.w.css('z-index'))),z=(z>0)?z:3000,o=$('<div></div>').css({height:'100%',width:'100%',position:'fixed',left:0,top:0,'z-index':z-1,opacity:c.overlay/100});if(h.a)return F;h.t=t;h.a=true;h.w.css('z-index',z);
+open:function(s,t){var h=H[s],c=h.c,cc='.'+c.closeClass,z=(parseInt(h.w.css('z-index'))),z=(z>0)?z:3000,z=c.zIndex||z,o=$('<div></div>').css({height:'100%',width:'100%',position:'fixed',left:0,top:0,'z-index':z-1,opacity:c.overlay/100});if(h.a)return F;h.t=t;h.a=true;h.w.css('z-index',z);
  if(c.modal) {if(!A[0])L('bind');A.push(s);}
  else if(c.overlay > 0)h.w.jqmAddClose(o);
  else o=F;
