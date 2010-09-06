@@ -41,7 +41,7 @@
         <!-- 3rd party JS -->
         <script type="text/javascript" src="/dev/_lib/sakai_util/trimpath.template.js"></script>
         <script type="text/javascript" src="/dev/_lib/sakai_util/querystring.js"></script>
-        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jqmodal.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jqmodal.sakai-edited.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.cookie.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.pager.js"></script>
 
