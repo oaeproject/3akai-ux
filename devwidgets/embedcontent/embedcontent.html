@@ -90,7 +90,7 @@
             <div class="item_description">
                 <h3><a href="/dev/content_profile.html#content_path=${item.path}" class="s3d-action">${item.name} (${item.mimetype.split("/")[1]})</a></h3>
                 {if item.description}<p class="embedcontent_actual_description">${item.description}</p>{/if}
-                <p class="embedcontent_download_link"><a href="${item.link}">Download</a></p>
+                <p class="embedcontent_download_link"><a href="${item.link}" class="s3d-action">Download</a></p>
             </div>
             {else}
                 <img src="${sakai.config.MimeTypes["other"].URL}" alt="${sakai.config.MimeTypes["other"].description}" class="embed_image_thumbnail_size"/>
@@ -152,6 +152,13 @@
         </div>
     {/if}
     --></div>
+
+    <div id="embedcontent_new_item_template"><!--
+        <li id="as-selection-${value}" class="as-selection-item"><a class="as-close">×</a>${name}</li>
+    --></div>
+
+    <div id="widget_fileupload" class="widget_inline"></div>
+    <div id="widget_pickeradvanced" class="widget_inline"></div>
 </div>
 
 <!-- JAVASCRIPT -->

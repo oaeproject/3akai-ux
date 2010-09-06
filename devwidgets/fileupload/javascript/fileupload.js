@@ -42,6 +42,7 @@ sakai.fileupload = function(tuid, showSettings){
     // All files that need to have been uploaded
     var uploadedFiles;
     var tags = [];
+    var dataResponse = false;
 
     var setDescriptionandName = false;
     var filesUploaded = false;
@@ -99,8 +100,8 @@ sakai.fileupload = function(tuid, showSettings){
     var uploadPath = "/system/pool/createfile";
     var userId = sakai.data.me.user.userid;
     var userStoragePrefix = sakai.data.me.user.userStoragePrefix;
-    var tagsPath = "/tags/";
-    var tagsPathForLinking = "/tags/";
+    var tagsPath = "/~" + userId + "/public/tags/";
+    var tagsPathForLinking = "/_user/" + userStoragePrefix + "public/tags/";
 
     // i18n
     var fileUploadFilesUploaded = "#fileupload_files_uploaded";
@@ -279,7 +280,7 @@ sakai.fileupload = function(tuid, showSettings){
 
         // Close the jqm box
         $(fileUploadContainer).jqmHide();
-
+        $(window).trigger("sakai-fileupload-complete", {"files": dataResponse});
         // Show notification
         if (context !== "new_version") {
             if (uploadedLink) {
@@ -364,6 +365,7 @@ sakai.fileupload = function(tuid, showSettings){
                 requests: $.toJSON(batchDescriptionData)
             },
             success: function(data){
+                dataResponse = batchDescriptionData;
                 // Description and name set
                 setDescriptionandName = true;
                 // When this is a new revision of a file no more operations are executed
@@ -586,10 +588,12 @@ sakai.fileupload = function(tuid, showSettings){
             url: path,
             data: body,
             type: "POST",
+            dataType: "json",
             beforeSend : function(xmlReq){
                 xmlReq.setRequestHeader("Content-type", "multipart/form-data; boundary=AAAAA");
             },
             success: function(data){
+                dataResponse = data;
                 newVersionIsLink = false;
                 uploadedLink = true;
                 resetFields();
@@ -631,14 +635,14 @@ sakai.fileupload = function(tuid, showSettings){
         $(fileUploadProgressId).removeClass(fileUploadProgress);
         // Disable input fields
         if (context !== "new_version") {
-            $(fileUploadAddTags).attr("disabled", false);
-            $(fileUploadAddDescription).attr("disabled", false);
-            $(fileUploadPermissionsSelect).attr("disabled", false);
-            $(fileUploadLinkBoxInput).attr("disabled", false);
-            $(fileUploadAddLinkButton).attr("disabled", false);
+            $(fileUploadAddTags).removeAttr("disabled");
+            $(fileUploadAddDescription).removeAttr("disabled");
+            $(fileUploadPermissionsSelect).removeAttr("disabled");
+            $(fileUploadLinkBoxInput).removeAttr("disabled");
+            $(fileUploadAddLinkButton).removeAttr("disabled");
         }
         else {
-            $(fileUploadAddVersionDescription).attr("disabled", false);
+            $(fileUploadAddVersionDescription).removeAttr("disabled");
         }
         $(".fileupload_file_name input").enable(true);
         // Show a notification
@@ -723,17 +727,17 @@ sakai.fileupload = function(tuid, showSettings){
         $(fileUploadProgressId).addClass(fileUploadProgress);
         // Disable input fields
         if (context !== "new_version") {
-            $(fileUploadAddTags).attr("disabled", true);
-            $(fileUploadAddDescription).attr("disabled", true);
-            $(fileUploadPermissionsSelect).attr("disabled", true);
-            $(fileUploadLinkBoxInput).attr("disabled", true);
-            $(fileUploadAddLinkButton).attr("disabled", true);
+            $(fileUploadAddTags).attr("disabled", "disabled");
+            $(fileUploadAddDescription).attr("disabled", "disabled");
+            $(fileUploadPermissionsSelect).attr("disabled", "disabled");
+            $(fileUploadLinkBoxInput).attr("disabled", "disabled");
+            $(fileUploadAddLinkButton).attr("disabled", "disabled");
             // Initiate the tagging process
             formatTags($(fileUploadAddTags).val());
         } else {
-            $(fileUploadAddVersionDescription).attr("disabled", true);
+            $(fileUploadAddVersionDescription).attr("disabled", "disabled");
         }
-        $(".fileupload_file_name input").attr("disabled", true);
+        $(".fileupload_file_name input").attr("disabled", "disabled");
         $(".MultiFile-remove").addClass("hide_remove_link");
     });
 
@@ -757,6 +761,7 @@ sakai.fileupload = function(tuid, showSettings){
     $(fileUploadContainer).jqm({
         modal: true,
         overlay: 20,
+        zIndex: 4000,
         toTop: true,
         onHide: closeUploadBox
     });
