@@ -148,19 +148,19 @@ sakai.embedcontent = function(tuid, showSettings) {
         selectedItems = newItems;
     };
 
-    var addChoicesFromPickeradvanced = function(data) {
-      $.each(data, function(i,val) {
-
-          var itemHTML = '<li id="as-selection-' + id + '" class="as-selection-item"><a class="as-close">×</a>' + name + '</li>';
-          itemHTML = sakai.api.Security.saneHTML(itemHTML);
-          $("#as-values-" + tuid).val(id + "," + $("#as-values-" + tuid).val());
-          $("#as-original-" + tuid).before(itemHTML);
+    var addChoicesFromPickeradvanced = function(files) {
+      $.each(files, function(i,val) {
+          var newObj = createDataObject(val, val["jcr:name"]);
+           selectedItems.push(newObj);
+           var itemHTML = $.TemplateRenderer($embedcontent_new_item_template, {"name": newObj.name, "value": newObj.value});
+           $("#as-values-" + tuid).val(newObj.value + "," + $("#as-values-" + tuid).val());
+           $("#as-original-" + tuid).before(itemHTML);
       });
       $("input#" + tuid).val('').focus();
     };
 
-    var addChoicesFromFileUpload = function(data) {
-      $.each(data, function(i,val) {
+    var addChoicesFromFileUpload = function(files) {
+      $.each(files, function(i,val) {
           $.ajax({
              url: val.url + ".infinity.json",
              success: function(data) {
@@ -197,19 +197,8 @@ sakai.embedcontent = function(tuid, showSettings) {
         $embedcontent_dialog.jqmHide();
     });
 
-    $embedcontent_search_for_content.bind("click", function() {
-
-    });
-
     $embedcontent_add_content.bind("click", function() {
         sakai.fileupload.initialise();
-    });
-
-    $(window).bind("sakai-fileupload-complete", function(e, data) {
-        console.log(data);
-        var files = data.files;
-        addChoicesFromFileUpload(files);
-        $embedcontent_display_options.show();
     });
 
     $embedcontent_display_options_select.bind("change", function(e) {
@@ -220,9 +209,30 @@ sakai.embedcontent = function(tuid, showSettings) {
         }
     });
 
+    $(window).bind("sakai-fileupload-complete", function(e, data) {
+        var files = data.files;
+        addChoicesFromFileUpload(files);
+        $embedcontent_display_options.show();
+    });
+
+    $(window).bind("sakai-pickeradvanced-finished", function(e, data) {
+        addChoicesFromPickeradvanced(data.toAdd);
+        $embedcontent_display_options.show();
+    });
+
     $(window).bind("sakai-embedcontent-init", function(e, name) {
         render(name);
         $embedcontent_dialog.jqmShow();
+    });
+
+    $(window).bind("sakai-pickeradvanced-ready", function(e) {
+        $embedcontent_search_for_content.bind("click", function() {
+            var pickerConfig = {
+                "type": "files",
+                "searchIn": sakai.config.URL.POOLED_CONTENT_MANAGER.replace(".json", ".infinity.json") + "?q="
+            };
+            $(window).trigger("sakai-pickeradvanced-init", {"config": pickerConfig});
+        });
     });
 
     $embedcontent_dialog.jqm({
@@ -231,7 +241,6 @@ sakai.embedcontent = function(tuid, showSettings) {
         zIndex: 3000,
         toTop: true
     });
-
 
     var doInit = function() {
         $(window).trigger("sakai-embedcontent-ready");
