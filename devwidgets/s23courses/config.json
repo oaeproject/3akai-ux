@@ -1,0 +1,7 @@
+{
+    "description":"Your courses &amp; sites for Sakai2",
+    "id":"s23courses",
+    "name":"Sakai 2 Courses &amp; Projects",
+    "personalportal":true,
+    "url":"/devwidgets/s23courses/s23courses.html"
+}
