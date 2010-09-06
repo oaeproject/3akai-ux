@@ -71,6 +71,7 @@ sakai.topnavigation = function(tuid, showSettings){
     var $general_search_form = $("#general_search_container form");
     var $general_search_input = $("#general_search_input");
     var $general_search_default_value = $("#general_search_default_value");
+    var generalSearchSubmitButton = "#general_search_submit_button";
     var searchFocus = false;
 
     // Containers
@@ -248,14 +249,14 @@ sakai.topnavigation = function(tuid, showSettings){
     var doSearch = function(){
         var tosearch = $general_search_input.val();
         // Disable search button
-        $("#general_search_submit_button").attr("disabled", true);
+        $(generalSearchSubmitButton).attr("disabled", true);
         if (tosearch) {
             // Redirecting back to the general search page. This expects the URL to be
             // in a format like this one: page.html#pageid|searchstring
             document.location = sakai.config.URL.SEARCH_GENERAL_URL + "#q=" + tosearch;
             // Only enable button if the location is the search page
             if (window.location.pathname.split("/")[2] === "search.html") {
-                $("#general_search_submit_button").attr("disabled", false);
+                $(generalSearchSubmitButton).attr("disabled", false);
             }
         }
     };
