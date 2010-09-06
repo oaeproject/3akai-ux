@@ -146,16 +146,31 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         // need to validate data
         var groupTitle = $(groupBasicInfoGroupTitle, $rootel).val();
         var groupKind = $(groupBasicInfoGroupKind, $rootel).val();
-        var groupTags = $(groupBasicInfoGroupTags, $rootel).val();
+
+        var tagArray = [];
+        if ($(groupBasicInfoDirectoryLvlOne).selected().val().length && $(groupBasicInfoDirectoryLvlOne).selected().val() !== "no_value") {
+            tagArray.push($(groupBasicInfoDirectoryLvlOne).selected().val());
+
+            if ($(groupBasicInfoDirectoryLvlTwo).selected().val().length && $(groupBasicInfoDirectoryLvlTwo).selected().val() !== "no_value") {
+                tagArray.push($(groupBasicInfoDirectoryLvlTwo).selected().val());
+
+                if ($(groupBasicInfoDirectoryLvlThree).selected().val() && $(groupBasicInfoDirectoryLvlThree).selected().val() !== "no_value") {
+                    tagArray.push($(groupBasicInfoDirectoryLvlThree).selected().val());
+                }
+
+            }
+
+        }
+
+        tagArray.push($(groupBasicInfoGroupTags, $rootel).val().split(","));
+
         var groupDesc = $(groupBasicInfoGroupDesc, $rootel).val();
-        var directory = $(groupBasicInfoDirectoryLvlOne, $rootel).selected().val() + ":" + $(groupBasicInfoDirectoryLvlTwo, $rootel).selected().val() + ":" + $(groupBasicInfoDirectoryLvlThree, $rootel).selected().val();
 
         // Update the group object
         sakai.currentgroup.data.authprofile["sakai:group-title"] = groupTitle;
         sakai.currentgroup.data.authprofile["sakai:group-kind"] = groupKind;
-        sakai.currentgroup.data.authprofile["sakai:group-tags"] = groupTags;
+        sakai.currentgroup.data.authprofile["sakai:group-tags"] = tagArray.toString();
         sakai.currentgroup.data.authprofile["sakai:group-description"] = groupDesc;
-        sakai.currentgroup.data.authprofile["sakai:directory"] = directory;
 
         $.ajax({
 //            url: "/system/userManager/group/" + sakai.currentgroup.id + ".update.json",  // previously used
@@ -164,9 +179,8 @@ sakai.groupbasicinfo = function(tuid, showSettings){
                 "_charset_":"utf-8",
                 "sakai:group-title" : groupTitle,
                 "sakai:group-kind" : groupKind,
-                "sakai:group-tags" : groupTags,
-                "sakai:group-description" : groupDesc,
-                "sakai:directory":directory
+                "sakai:group-tags" : tagArray.toString(),
+                "sakai:group-description" : groupDesc
             },
             type: "POST",
             success: function(data, textStatus){
@@ -240,11 +254,11 @@ sakai.groupbasicinfo = function(tuid, showSettings){
      */
     $(window).bind("sakai.groupbasicinfo.update", function(){
         // Check if directory data is valid
-        if($(groupBasicInfoDirectoryLvlOne, $rootel).selected().val() !== "no_value" && $(groupBasicInfoDirectoryLvlTwo, $rootel).selected().val() !== "no_value" && $(groupBasicInfoDirectoryLvlThree, $rootel).selected().val() !== "no_value"){
+        //if($(groupBasicInfoDirectoryLvlOne, $rootel).selected().val() !== "no_value" && $(groupBasicInfoDirectoryLvlTwo, $rootel).selected().val() !== "no_value" && $(groupBasicInfoDirectoryLvlThree, $rootel).selected().val() !== "no_value"){
             updateGroup();
-        } else{
-            sakai.api.Util.notification.show("Select level", "Select all three levels before updating");
-        }
+        //} else{
+         //   sakai.api.Util.notification.show("Select level", "Select all three levels before updating");
+        //}
     });
 
     ////////////////////

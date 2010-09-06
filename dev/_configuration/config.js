@@ -230,6 +230,12 @@ sakai.config = {
                         "required": false,
                         "display": true,
                         "type": "date"
+                    },
+                    "tags": {
+                        "label": "__MSG__TAGS__",
+                        "required": false,
+                        "display": true,
+                        "type": "textarea"
                     }
                 }
             },

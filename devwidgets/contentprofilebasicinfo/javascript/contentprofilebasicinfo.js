@@ -196,18 +196,15 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
         data["sakai:pooled-content-file-name"] = $.trim($(contentProfileBasicInfoFormName).val());
         data["sakai:description"] = $.trim($(contentProfileBasicInfoFormDescription).val());
 
-        data["sakai:directory"] = $(contentProfileBasicInfoDirectoryLvlOne).selected().val() + ":" + $(contentProfileBasicInfoDirectoryLvlTwo).selected().val() + ":" + $(contentProfileBasicInfoDirectoryLvlThree).selected().val();
-
         // For tags we need to do something special, since they are comma separated
         data["sakai:tags"] = "";
 
         // Get all the tags
         var tagValues = $.trim($(contentProfileBasicInfoFormTags).val());
+        // Temporary array of tags
+        var tagArray = [];
         if (tagValues) {
             data["sakai:tags"] = tagValues.split(",");
-
-            // Temporary array of tags
-            var tagArray = [];
 
             // Remove all the begin and end spaces in the tags
             // Also remove the empty tags
@@ -218,12 +215,28 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                 }
             }
 
-            // Set the tags property to the temporary tag array
-            data["sakai:tags"] = tagArray;
         }
         else {
             data["sakai:tags"] = "";
         }
+
+
+        if ($(contentProfileBasicInfoDirectoryLvlOne).selected().val().length && $(contentProfileBasicInfoDirectoryLvlOne).selected().val() !== "no_value") {
+            tagArray.push($(contentProfileBasicInfoDirectoryLvlOne).selected().val());
+
+            if ($(contentProfileBasicInfoDirectoryLvlTwo).selected().val().length && $(contentProfileBasicInfoDirectoryLvlTwo).selected().val() !== "no_value") {
+                tagArray.push($(contentProfileBasicInfoDirectoryLvlTwo).selected().val());
+
+                if ($(contentProfileBasicInfoDirectoryLvlThree).selected().val() && $(contentProfileBasicInfoDirectoryLvlThree).selected().val() !== "no_value") {
+                    tagArray.push($(contentProfileBasicInfoDirectoryLvlThree).selected().val());
+                }
+
+            }
+
+        }
+
+        // Set the tags property to the temporary tag array
+        data["sakai:tags"] = tagArray;
 
         data["sakai:copyright"] = $(contentProfileBasicInfoFormCopyrightSelect)[0].value;
 
@@ -279,12 +292,12 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
     var addBindingBasicinfo = function(){
         // Submitting of the form
         $(contentProfileBasicInfoForm).bind("submit", function(){
-            if ($(contentProfileBasicInfoDirectoryLvlOne).selected().val() !== "no_value" && $(contentProfileBasicInfoDirectoryLvlTwo).selected().val() !== "no_value" && $(contentProfileBasicInfoDirectoryLvlThree).selected().val() !== "no_value") {
+            //if ($(contentProfileBasicInfoDirectoryLvlOne).selected().val() !== "no_value" && $(contentProfileBasicInfoDirectoryLvlTwo).selected().val() !== "no_value" && $(contentProfileBasicInfoDirectoryLvlThree).selected().val() !== "no_value") {
                 updateBasicInfo();
-            }
-            else {
-                sakai.api.Util.notification.show("Select level", "Select all three levels before updating");
-            }
+            //}
+            //else {
+            //    sakai.api.Util.notification.show("Select level", "Select all three levels before updating");
+            //}
         });
     };
 
