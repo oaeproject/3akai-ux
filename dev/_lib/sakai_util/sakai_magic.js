@@ -281,7 +281,7 @@ sakai.api.Communication.sendMessage = function(to, subject, body, category, repl
     }
 
     // send now if we have only a list of users ("thread" safe?)
-    if(numGroupAJAXRequests === 0 && !sendDone) {
+    if (!sendDone) {
         sendMessageToUsers();
     }
 };
