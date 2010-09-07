@@ -36,7 +36,7 @@ sakai.search = function() {
 
     // Search URL mapping
     var searchURLmap = {
-        allcontacts : sakai.config.URL.CONTACTS_ALL,
+        mycontacts : sakai.config.URL.CONTACTS_ACCEPTED,
         invitedcontacts : sakai.config.URL.CONTACTS_INVITED,
         pendingcontacts : sakai.config.URL.CONTACTS_PENDING,
         onlinecontacts : sakai.config.URL.PRESENCE_CONTACTS_SERVICE
@@ -114,7 +114,7 @@ sakai.search = function() {
             title : "Refine your search",
             value : "People",
             categories : ["My Contacts", "Online Now", "Invited", "Requested", "Not known"],
-            searchurls : [searchURLmap.allcontacts, searchURLmap.onlinecontacts, searchURLmap.invitedcontacts, searchURLmap.pendingcontacts, '']
+            searchurls : [searchURLmap.mycontacts, searchURLmap.onlinecontacts, searchURLmap.invitedcontacts, searchURLmap.pendingcontacts, '']
         }
     };
 
@@ -340,10 +340,25 @@ sakai.search = function() {
                     sakai.data.search.results_people = {};
 
                     // if results are returned in a different format
-                    if (!data.results && data.contacts) {
-                        var resultCount = 0;
-                        var resultsTemp = { results : data.contacts };
+                    if (!data.results && data.contacts && facetedurl === sakai.config.URL.PRESENCE_CONTACTS_SERVICE) {
+                        var resultsTemp = { results : [] };
+                        $.each(data.contacts, function(i, val) {
+                            if (val.profile && val["sakai:status"] === "online") {
+                                resultsTemp.results[i] = val.profile;
+                            }
+                        });
                         data = resultsTemp;
+                    } else if (data.results) {
+                        var resultsTemp = { results : [] };
+                        var updateData = false;
+                        $.each(data.results, function(i, val) {
+                            if (val.profile) {
+                                resultsTemp.results[i] = val.profile;
+                                updateData = true;
+                            }
+                        });
+                        if (updateData)
+                            data = resultsTemp;
                     }
 
                     for (var i = 0, j = data.results.length; i < j; i++) {
