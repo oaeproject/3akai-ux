@@ -198,6 +198,10 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
         sakai.filerevisions.initialise(profileData);
     });
 
+    $(window).bind("sakai-fileupload-complete", function(){
+        doInit();
+    })
+
     doInit();
 };
 sakai.api.Widgets.widgetLoader.informOnLoad("contentprofilefiledetails");

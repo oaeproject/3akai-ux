@@ -238,10 +238,10 @@ sakai.newaccount = function(){
             success : function(data) {
                 // This will hide the Create and Cancel button and offer a link back to the login page
                 $(buttonsContainer).hide();
-                $(successMessage).show();
-                
                 // Destroy the captcha
                 sakai.captcha.destroy();
+                // Redirect the user to the login page
+                document.location = sakai.config.URL.GATEWAY_URL;
             },
             error: function(xhr, textStatus, thrownError) {
                 if (xhr.status === 500) {

@@ -142,8 +142,9 @@
     font-weight: bold;
 }
 
+/* 1px padding to avoid scroll bar in older Webkit browsers */
 .search_results_part {
-    padding: 0 10px;
+    padding: 1px 10px;
 }
 
 .search_results_part_header {

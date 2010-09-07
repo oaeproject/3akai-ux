@@ -2694,7 +2694,7 @@ sakai.api.Widgets.widgetLoader = {
                             var jsonpath = requestedURLsResults[i].url;
                             var widgetname = batchWidgets[jsonpath];
 
-                            if (typeof Widgets.widgets[widgetname].i18n === "object") {
+                            if (jQuery.isPlainObject(Widgets.widgets[widgetname].i18n)) {
                                 if (Widgets.widgets[widgetname].i18n["default"]){
                                     var item = {
                                         "url" : Widgets.widgets[widgetname].i18n["default"],

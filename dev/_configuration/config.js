@@ -230,6 +230,12 @@ sakai.config = {
                         "required": false,
                         "display": true,
                         "type": "date"
+                    },
+                    "tags": {
+                        "label": "__MSG__TAGS__",
+                        "required": false,
+                        "display": true,
+                        "type": "textarea"
                     }
                 }
             },
@@ -275,13 +281,13 @@ sakai.config = {
                 "elements": {
                     "maintitle": {
                         "label": "__MSG__PROFILE_PUBLICATIONS_MAIN_TITLE__",
-                        "required": false,
+                        "required": true,
                         "display": true,
                         "example": "__MSG__PROFILE_PUBLICATIONS_MAIN_TITLE_EXAMPLE__"
                     },
                     "mainauthor": {
                         "label": "__MSG__PROFILE_PUBLICATIONS_MAIN_AUTHOR__",
-                        "required": false,
+                        "required": true,
                         "display": true
                     },
                     "coauthor": {
@@ -292,12 +298,12 @@ sakai.config = {
                     },
                     "publisher": {
                         "label": "__MSG__PROFILE_PUBLICATIONS_PUBLISHER__",
-                        "required": false,
+                        "required": true,
                         "display": true
                     },
                     "placeofpublication": {
                         "label": "__MSG__PROFILE_PUBLICATIONS_PLACE_OF_PUBLICATION__",
-                        "required": false,
+                        "required": true,
                         "display": true
                     },
                     "volumetitle": {
@@ -313,7 +319,7 @@ sakai.config = {
                     },
                     "year": {
                         "label": "__MSG__PROFILE_PUBLICATIONS_YEAR__",
-                        "required": false,
+                        "required": true,
                         "display": true
                     },
                     "number": {

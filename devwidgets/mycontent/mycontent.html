@@ -12,14 +12,15 @@
         </div>
 
         <!-- MAIN CONTENT -->
-        <div id="mycontent_list" style="display:none;">
-            <div id="mycontent_list_template"><!--
-                {var i = 0}
-                {for item in items}
+        <div id="mycontent_list" style="display:none;"><!-- TEMPLATE GOES HERE --></div>
+
+        <div id="mycontent_list_template"><!--
+            {var i = 0}
+            {for item in items}
                 {eval} i++; {/eval}
                 <div class="mycontent_item{if i % 2 == 0} mycontent_item_even{/if}">
-                    <div class="mycontent_item_img fl-force-left"><img class="mycontent_item_mime"
-                        src="${item.type_img_url}" />
+                    <div class="mycontent_item_img fl-force-left">
+                        <img class="mycontent_item_mime" src="${item.type_img_url}" />
                     </div>
                     <div class="mycontent_item_info">
                         <p class="mycontent_item_title">
@@ -33,9 +34,8 @@
                         <p class="mycontent_item_meta">${item.type} (45KB)</p>
                     </div>
                 </div>
-                {/for}
-            --></div>
-        </div>
+            {/for}
+        --></div>
     </div>
 
     <!-- WIDGET FOOTER -->

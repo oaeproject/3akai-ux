@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config, fluid, window */
+/*global $, Config, fluid, window, document */
 
 var sakai = sakai || {};
 
@@ -36,9 +36,6 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
 
     // Containers
     var contentProfileBasicInfoContainer = "#content_profile_basic_info_container";
-
-    // Templates
-    var contentProfileBasicInfoContainerTemplate = "content_profile_basic_info_template";
 
     // Form
     var contentProfileBasicInfoForm = "#content_profile_basic_info_form";
@@ -79,27 +76,33 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
     var getDirectoryStructure = function(){
         // Get directory structure from config file
         for(var i in sakai.config.Directory){
-            // Create first level of content
-            var temp = new Object();
-            temp.name = i;
+            if (sakai.config.Directory.hasOwnProperty(i)) {
+                // Create first level of content
+                var temp = {};
+                temp.name = i;
 
-            // Create second level of content
-            temp.secondlevels = [];
-            for(var j in sakai.config.Directory[i]){
-                var secondlevel = new Object();
-                secondlevel.name = j;
+                // Create second level of content
+                temp.secondlevels = [];
+                for (var j in sakai.config.Directory[i]) {
+                    if (sakai.config.Directory[i].hasOwnProperty(j)) {
+                        var secondlevel = {};
+                        secondlevel.name = j;
 
-                // Create third level of content
-                secondlevel.thirdlevels = []
-                for (var k in sakai.config.Directory[i][j]){
-                    var thirdlevel = new Object();
-                    thirdlevel.name = sakai.config.Directory[i][j][k];
-                    secondlevel.thirdlevels.push(thirdlevel);
+                        // Create third level of content
+                        secondlevel.thirdlevels = [];
+                        for (var k in sakai.config.Directory[i][j]) {
+                            if (sakai.config.Directory[i][j].hasOwnProperty(k)) {
+                                var thirdlevel = {};
+                                thirdlevel.name = sakai.config.Directory[i][j][k];
+                                secondlevel.thirdlevels.push(thirdlevel);
+                            }
+                        }
+
+                        temp.secondlevels.push(secondlevel);
+                    }
                 }
-
-                temp.secondlevels.push(secondlevel);
+                directoryJSON.push(temp);
             }
-            directoryJSON.push(temp);
         }
     };
 
@@ -113,8 +116,8 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
         var obj = {
             "firstlevelvalue":firstlevelvalue,
             "changedboxvalue" : changedboxvalue,
-            "directory": directoryJSON,
-        }
+            "directory": directoryJSON
+        };
         if(select === contentProfileBasicInfoDirectoryLvlTwo){
             $(contentProfileBasicInfoSecondLevelTemplateContainer).html($.TemplateRenderer(contentProfileBasicInfoSecondLevelTemplate, obj));
         }else{
@@ -196,34 +199,41 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
         data["sakai:pooled-content-file-name"] = $.trim($(contentProfileBasicInfoFormName).val());
         data["sakai:description"] = $.trim($(contentProfileBasicInfoFormDescription).val());
 
-        data["sakai:directory"] = $(contentProfileBasicInfoDirectoryLvlOne).selected().val() + ":" + $(contentProfileBasicInfoDirectoryLvlTwo).selected().val() + ":" + $(contentProfileBasicInfoDirectoryLvlThree).selected().val();
-
         // For tags we need to do something special, since they are comma separated
         data["sakai:tags"] = "";
 
         // Get all the tags
         var tagValues = $.trim($(contentProfileBasicInfoFormTags).val());
-        if (tagValues) {
-            data["sakai:tags"] = tagValues.split(",");
+        // Temporary array of tags
+        var tagArray = [];
+        data["sakai:tags"] = tagValues.split(",");
 
-            // Temporary array of tags
-            var tagArray = [];
+        // Remove all the begin and end spaces in the tags
+        // Also remove the empty tags
+        for (var i = 0, il = data["sakai:tags"].length; i < il; i++) {
+            var tagValue = $.trim(data["sakai:tags"][i]);
+            if (tagValue) {
+                tagArray.push(tagValue);
+            }
+        }
 
-            // Remove all the begin and end spaces in the tags
-            // Also remove the empty tags
-            for (var i = 0, il = data["sakai:tags"].length; i < il; i++) {
-                var tagValue = $.trim(data["sakai:tags"][i]);
-                if (tagValue) {
-                    tagArray.push(tagValue);
+
+        if ($(contentProfileBasicInfoDirectoryLvlOne).selected().val().length && $(contentProfileBasicInfoDirectoryLvlOne).selected().val() !== "no_value") {
+            tagArray.push($(contentProfileBasicInfoDirectoryLvlOne).selected().val());
+
+            if ($(contentProfileBasicInfoDirectoryLvlTwo).selected().val().length && $(contentProfileBasicInfoDirectoryLvlTwo).selected().val() !== "no_value") {
+                tagArray.push($(contentProfileBasicInfoDirectoryLvlTwo).selected().val());
+
+                if ($(contentProfileBasicInfoDirectoryLvlThree).selected().val() && $(contentProfileBasicInfoDirectoryLvlThree).selected().val() !== "no_value") {
+                    tagArray.push($(contentProfileBasicInfoDirectoryLvlThree).selected().val());
                 }
+
             }
 
-            // Set the tags property to the temporary tag array
-            data["sakai:tags"] = tagArray;
         }
-        else {
-            data["sakai:tags"] = "";
-        }
+
+        // Set the tags property to the temporary tag array
+        data["sakai:tags"] = tagArray;
 
         data["sakai:copyright"] = $(contentProfileBasicInfoFormCopyrightSelect)[0].value;
 
@@ -271,7 +281,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                 sakai.api.Util.notification.show($(contentProfileBasicInfoFailedUpdatingBasicInfo).html(), $(contentProfileBasicInfoFileBasicInfoNotUpdated).html());
             }
         });
-    }
+    };
 
     /**
      * Add binding to the basic info
@@ -279,12 +289,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
     var addBindingBasicinfo = function(){
         // Submitting of the form
         $(contentProfileBasicInfoForm).bind("submit", function(){
-            if ($(contentProfileBasicInfoDirectoryLvlOne).selected().val() !== "no_value" && $(contentProfileBasicInfoDirectoryLvlTwo).selected().val() !== "no_value" && $(contentProfileBasicInfoDirectoryLvlThree).selected().val() !== "no_value") {
-                updateBasicInfo();
-            }
-            else {
-                sakai.api.Util.notification.show("Select level", "Select all three levels before updating");
-            }
+            updateBasicInfo();
         });
     };
 
@@ -315,7 +320,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                     // And render the basic information
                     var renderedTemplate = $.TemplateRenderer("content_profile_basic_info_template", json);
                     var renderedDiv = $(document.createElement("div"));
-                    renderedDiv.html(renderedTemplate)
+                    renderedDiv.html(renderedTemplate);
                     $(contentProfileBasicInfoContainer).html(renderedDiv);
                     // Show the basic info container
                     $(contentProfileBasicInfoContainer).show();

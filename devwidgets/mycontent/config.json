@@ -7,5 +7,6 @@
     },
     "personalportal":true,
     "hasSettings":false,
-    "url":"/devwidgets/mycontent/mycontent.html"
+    "url":"/devwidgets/mycontent/mycontent.html",
+    "deletable":"false"
 }

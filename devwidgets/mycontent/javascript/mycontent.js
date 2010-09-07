@@ -127,6 +127,8 @@ sakai.mycontent = function(tuid, showSettings) {
                 // user manages no content
                 $(noContentMsg, rootel).show();
             } else {
+                // user manages content
+                $(noContentMsg, rootel).hide();
                 // build array of up to five items; reverse chronological order
                 var contentjson = {
                     items: []
@@ -160,10 +162,16 @@ sakai.mycontent = function(tuid, showSettings) {
     ////////////////////
 
     // Clicking to upload content
-    $(uploadLink, rootel).click(function(ev){
+    $(uploadLink, rootel).click(function(ev) {
         $(fileuploadContainer, rootel).show();
         sakai.fileupload.initialise();
         return false;
+    });
+
+    // Listen for sakai-fileupload-complete event (from the fileupload widget)
+    // to refresh this widget's file listing
+    $(window).bind("sakai-fileupload-complete", function() {
+        init();
     });
 
 
