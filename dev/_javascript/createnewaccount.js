@@ -59,7 +59,7 @@ sakai.newaccount = function(){
     var usernameTaken = usernameField + "_taken";
     var usernameShort = usernameField + "_short";
     var usernameSpaces = usernameField + "_spaces";
-    var usernameInvalid = usernameField + "_invalid";
+    var usernameNoGroup = usernameField + "_no_group";
     var usernameEmpty = usernameField + "_empty";
     var firstNameEmpty = firstNameField + "_empty";
     var lastNameEmpty = lastNameField + "_empty";
@@ -360,7 +360,7 @@ sakai.newaccount = function(){
 
         // Check whether the username contains illegal characters
         if (usernameEntered.substr(0,2) === 'g-'){
-            setError(usernameField,usernameInvalid);
+            setError(usernameField,usernameNoGroup);
             return false;
         }
 
