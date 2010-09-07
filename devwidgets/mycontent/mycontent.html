@@ -12,8 +12,8 @@
         </div>
 
         <!-- MAIN CONTENT -->
-        <div id="mycontent_list" style="display:none;"><!-- --></div>
-        
+        <div id="mycontent_list" style="display:none;"><!-- TEMPLATE GOES HERE --></div>
+
         <div id="mycontent_list_template"><!--
             {var i = 0}
             {for item in items}
@@ -24,11 +24,14 @@
                     </div>
                     <div class="mycontent_item_info">
                         <p class="mycontent_item_title">
-                            <a class="mycontent_item_link" href="/dev/content_profile.html#content_path=${item.path}">${item.name}</a>
+                            <a class="mycontent_item_link"
+                                href="/dev/content_profile.html#content_path=${item.path}">
+                                <div class="mycontent_ellipsis_container">
+                                    <span class="mycontent_ellipsis_text">${item.name}</span>
+                                </div>
+                            </a>
                         </p>
-                        <p class="mycontent_item_meta">
-                            ${item.type} (45KB)
-                        </p>
+                        <p class="mycontent_item_meta">${item.type} (45KB)</p>
                     </div>
                 </div>
             {/for}

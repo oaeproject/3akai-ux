@@ -45,6 +45,7 @@ sakai.mycontent = function(tuid, showSettings) {
     var dataErrorMsg = "#mycontent_data_error";
     var contentList = "#mycontent_list";
     var listTemplate = "#mycontent_list_template";
+    var ellipsisContainer = ".mycontent_ellipsis_container";
 
 
     ///////////////////////
@@ -138,6 +139,16 @@ sakai.mycontent = function(tuid, showSettings) {
                 // pass the array to HTML view
                 $(contentList, rootel).html($.TemplateRenderer($(listTemplate), contentjson));
                 $(contentList, rootel).show();
+
+                // make sure the newly added content is properly styled with
+                // threedots truncation
+                $(ellipsisContainer, rootel).ThreeDots({
+                    max_rows: 1,
+                    text_span_class: "mycontent_ellipsis_text",
+                    e_span_class: "mycontent_e_span_class",
+                    whole_word: false,
+                    alt_text_t: true
+                });
             }
         } else {
             // display something useful to the user
@@ -151,10 +162,16 @@ sakai.mycontent = function(tuid, showSettings) {
     ////////////////////
 
     // Clicking to upload content
-    $(uploadLink, rootel).click(function(ev){
+    $(uploadLink, rootel).click(function(ev) {
         $(fileuploadContainer, rootel).show();
         sakai.fileupload.initialise();
         return false;
+    });
+
+    // Listen for sakai-fileupload-complete event (from the fileupload widget)
+    // to refresh this widget's file listing
+    $(window).bind("sakai-fileupload-complete", function() {
+        init();
     });
 
 
@@ -178,10 +195,6 @@ sakai.mycontent = function(tuid, showSettings) {
             }
         );
     };
-
-    $(window).bind("sakai-fileupload-complete", function(){
-        init();
-    })
 
     // run init() function when sakai.content object loads
     init();
