@@ -369,7 +369,7 @@ sakai.profilesection = function(tuid, showSettings){
                     } else if (prop) { // it exists, just change its value
                         if ($.isPlainObject(prop)) {
                             // Set the correct value
-                            prop.value = $selected_element.val();
+                            prop.value = escape($selected_element.val());
                         } else {
                             // This is an access attribute
                             sakai.profile.main.data[title.split(".")[0]].access = $selected_element.val();

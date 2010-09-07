@@ -89,19 +89,19 @@ sakai.sitespages = function(tuid,showSettings){
     }
 
     var loadControl = function(){
-        if (config.editMode) {
-            showAdminElements();
-        }
         if (sakai.data.me.user.userid){
             sakai._isAnonymous = false;
         } else {
             sakai._isAnonymous = true;
         }
-        // Refresh site_info object
-        sakai.sitespages.refreshSiteInfo();
+        if (config.editMode) {
+            showAdminElements(sakai.sitespages.refreshSiteInfo);
+        } else {
+            sakai.sitespages.refreshSiteInfo();
+        }
     }
 
-    var showAdminElements = function(){
+    var showAdminElements = function(callback){
 
         // Show admin elements
         $li_edit_page_divider.show();
@@ -110,7 +110,11 @@ sakai.sitespages = function(tuid,showSettings){
         $print_page.addClass("print_page_admin")
 
         // Load admin part from a separate file
-        $.getScript(sakai.sitespages.siteAdminJS);
+        $.getScript(sakai.sitespages.siteAdminJS, function(e){
+            if ($.isFunction(callback)) {
+                callback();
+            }
+        });
 
     }
 
