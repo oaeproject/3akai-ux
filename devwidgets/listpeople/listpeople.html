@@ -44,11 +44,11 @@
             <li id="${i.userid}">
                 {if selectable}<input type="checkbox" name="selected" value="${i.userid}" />{/if}
                 {if i.picture}
-                    <a href="/dev/show.html?type=user&amp;id=${i.userid}" target="_blank"><img src="/~${i.userid}/public/profile/${i.picture.name}" alt="Profile picture for ${i.displayName}" class="listpeople_ppicture"/></a>
+                    <a href="/dev/show.html?type=user&amp;id=${i.userid}" target="_blank"><img src="/~${i.userid}/public/profile/${i.picture.name}" alt="Profile picture for ${unescape(i.displayName)}" class="listpeople_ppicture"/></a>
                 {else}
                     <a href="/dev/show.html?type=user&amp;id=${i.userid}" target="_blank"><img src="/dev/_images/user_avatar_icon_32x32.png" alt="Default profile picture" class="listpeople_ppicture"/></a>
                 {/if}
-                <a class="listpeople_name" href="/dev/show.html?type=user&amp;id=${i.userid}" target="_blank">${i.displayName}</a>
+                <a class="listpeople_name" href="/dev/show.html?type=user&amp;id=${i.userid}" target="_blank">${unescape(i.displayName)}</a>
                 <br />
                 <span class="listpeople_subnameinfo">${i.subNameInfo}</span>
             </li>
@@ -56,11 +56,11 @@
             <li id="${i['rep:userId']}">
                 {if selectable}<input type="checkbox" name="selected" value="${i['rep:userId']}" />{/if}
                 {if i.picture}
-                    <a href="/dev/show.html?type=user&amp;id=${i['rep:userId']}" target="_blank"><img src="/~${i["rep:userId"]}/public/profile/${i.picture.name}" alt="Profile picture for ${i.displayName}" class="listpeople_ppicture"/></a>
+                    <a href="/dev/show.html?type=user&amp;id=${i['rep:userId']}" target="_blank"><img src="/~${i["rep:userId"]}/public/profile/${i.picture.name}" alt="Profile picture for ${unescape(i.displayName)}" class="listpeople_ppicture"/></a>
                 {else}
                     <a href="/dev/show.html?type=user&amp;id=${i['rep:userId']}" target="_blank"><img src="/dev/_images/user_avatar_icon_32x32.png" alt="Default profile picture" class="listpeople_ppicture"/></a>
                 {/if}
-                <a class="listpeople_name" href="/dev/show.html?type=user&amp;id=${i['rep:userId']}" target="_blank">${i.displayName}</a>
+                <a class="listpeople_name" href="/dev/show.html?type=user&amp;id=${i['rep:userId']}" target="_blank">${unescape(i.displayName)}</a>
                 <br />
                 <span class="listpeople_subnameinfo">${i.subNameInfo}</span>
             </li>

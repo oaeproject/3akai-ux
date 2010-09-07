@@ -23,7 +23,7 @@
                 {/if}
             </div>
             <div class="entity_header">
-                <a class="entity_header_text" href="/dev/show.html?type=user&amp;id=${data.profile["rep:userId"]}">${sakai.api.User.getDisplayName(sakai.data.me.profile)}</a>
+                <a class="entity_header_text" href="/dev/show.html?type=user&amp;id=${unescape(data.profile["rep:userId"])}">${unescape(sakai.api.User.getDisplayName(sakai.data.me.profile))}</a>
                 {if mode === "myprofile"}
                     <a class="s3d-action" href="/dev/profile_edit.html">__MSG__EDIT_PROFILE__</a>
                 {else}
