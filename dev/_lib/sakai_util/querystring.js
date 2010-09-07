@@ -18,7 +18,7 @@ function Querystring(qs) { // optionally pass a querystring to parse
 	
 // split out each name=value pair
 	for (var i = 0; i < args.length; i++) {
-		var pair = args[i].split('=');
+		var pair = unescape(args[i].split('=')).split(",");
 		var name = decodeURIComponent(pair[0]);
 		
 		var value = (pair.length==2)
