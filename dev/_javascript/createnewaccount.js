@@ -359,7 +359,7 @@ sakai.newaccount = function(){
         }
 
         // Check whether the username contains illegal characters
-        if (!usernameEntered.match(/^([a-zA-Z0-9\_\-]+)$/) || (usernameEntered.substr(0,2) === 'g-')){
+        if (usernameEntered.substr(0,2) === 'g-'){
             setError(usernameField,usernameInvalid);
             return false;
         }
