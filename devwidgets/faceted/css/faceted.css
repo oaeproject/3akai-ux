@@ -1,0 +1,33 @@
+/* search faceted */
+.faceted {
+    background-color: #EEF2F5;
+    margin: 0 10px 10px 10px;
+    padding: 15px 5px;
+}
+.faceted .faceted_title {
+    color: #333333;
+    font-size: 1.15em;
+    font-weight: bold;
+    padding: 5px 10px;
+}
+.faceted #faceted_listall {
+    float: right;
+}
+.faceted .faceted_back {
+    background-color: #FFFFFF;
+    padding: 5px 10px;
+    margin-top: 10px;
+}
+.faceted .faceted_list {
+    background-color: #FFFFFF;
+    padding: 5px 10px;
+    margin-top: 10px;
+}
+.faceted .faceted_value span {
+    color: #333333;
+    font-size: 1.15em;
+    font-weight: bold;
+}
+.faceted .faceted_category a {
+    display: block;
+}

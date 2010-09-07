@@ -36,7 +36,7 @@ sakai.search = function() {
 
     // Search URL mapping
     var searchURLmap = {
-        allcontacts : sakai.config.URL.CONTACTS_ALL,
+        mycontacts : sakai.config.URL.CONTACTS_ACCEPTED,
         invitedcontacts : sakai.config.URL.CONTACTS_INVITED,
         pendingcontacts : sakai.config.URL.CONTACTS_PENDING,
         onlinecontacts : sakai.config.URL.PRESENCE_CONTACTS_SERVICE
@@ -109,6 +109,12 @@ sakai.search = function() {
             container : search + '_results_container',
             header : search + '_results_header',
             template : 'search_results_template'
+        },
+        facetedConfig : {
+            title : "Refine your search",
+            value : "People",
+            categories : ["My Contacts", "Online Now", "Invited", "Requested", "Not known"],
+            searchurls : [searchURLmap.mycontacts, searchURLmap.onlinecontacts, searchURLmap.invitedcontacts, searchURLmap.pendingcontacts, '']
         }
     };
 
@@ -262,37 +268,6 @@ sakai.search = function() {
         //    Render the results.
         $(searchConfig.results.container).html($.TemplateRenderer(searchConfig.results.template, finaljson));
         $("#search_results_page1").show();
-
-        var facetedPeopleConfig = {
-            title: "Refine your search",
-            value: "People",
-            categories: ["My Contacts", "Online Now", "Invited", "Requested", "Not known"],
-            searchurls: [searchURLmap.allcontacts, searchURLmap.onlinecontacts, searchURLmap.invitedcontacts, searchURLmap.pendingcontacts, '']
-        };
-
-        // Render the faceted.
-        $("#search_faceted_container").html($.TemplateRenderer("#search_faceted_template", facetedPeopleConfig));
-        $("#search_faceted_container").show();
-
-        // bind faceted elements
-        // loop through each faceted category and bind the link
-        $.each(facetedPeopleConfig.categories, function(index, category) {
-            $("#" + category.split(' ').join('')).bind("click", function() {
-                var searchquery = $(searchConfig.global.text).val();
-                var searchwhere = mainSearch.getSearchWhereSites();
-                sakai._search.doSearch(1, searchquery, searchwhere, facetedPeopleConfig.searchurls[index]);
-            });
-        });
-        // bind faceted list all
-        $("#search_faceted_listall").bind("click", function() {
-            $(".search_faceted_list_expanded").show();
-            $(".search_faceted_back").show();
-        });
-        // bind faceted back link
-        $(".search_faceted_back_link").bind("click", function() {
-            $(".search_faceted_list_expanded").hide();
-            $(".search_faceted_back").hide();
-        });
     };
 
 
@@ -363,15 +338,31 @@ sakai.search = function() {
 
                     // Store found people in data cache
                     sakai.data.search.results_people = {};
-                    
-                    if (searchURL !== searchURLmap.onlinecontacts) {
-                        for (var i = 0, j = data.results.length; i < j; i++) {
-                            sakai.data.search.results_people[data.results[i]["rep:userId"]] = data.results[i];
-                        }
-                    } else {
-                        for (var i = 0, j = data.results.length; i < j; i++) {
-                            sakai.data.search.results_people[data.contacts[i]["rep:userId"]] = data.results[i];
-                        }
+
+                    // if results are returned in a different format
+                    if (!data.results && data.contacts && facetedurl === sakai.config.URL.PRESENCE_CONTACTS_SERVICE) {
+                        var resultsTemp = { results : [] };
+                        $.each(data.contacts, function(i, val) {
+                            if (val.profile && val["sakai:status"] === "online") {
+                                resultsTemp.results[i] = val.profile;
+                            }
+                        });
+                        data = resultsTemp;
+                    } else if (data.results) {
+                        var resultsTemp = { results : [] };
+                        var updateData = false;
+                        $.each(data.results, function(i, val) {
+                            if (val.profile) {
+                                resultsTemp.results[i] = val.profile;
+                                updateData = true;
+                            }
+                        });
+                        if (updateData)
+                            data = resultsTemp;
+                    }
+
+                    for (var i = 0, j = data.results.length; i < j; i++) {
+                        sakai.data.search.results_people[data.results[i]["rep:userId"]] = data.results[i];
                     }
 
                     renderResults(data, true);
@@ -472,6 +463,9 @@ sakai.search = function() {
             mainSearch.fetchMyFriends();
             //    add the bindings
             mainSearch.addEventListeners();
+
+            // display faceted panel
+            mainSearch.addFacetedPanel();
         }
     };
     doInit();

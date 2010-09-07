@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Querystring, fluid, sakai */
+/*global $, Querystring, fluid, sakai, window */
 
 /**
  * @name sakai.fileupload
@@ -344,16 +344,18 @@ sakai.fileupload = function(tuid, showSettings){
         // Batch link the files with the tags
         var batchDescriptionData = [];
         for (var i in uploadedFiles) {
-            var item = {
-                "url": "/p/" + uploadedFiles[i].hashpath,
-                "method" : "POST",
-                "parameters" : {
-                    "sakai:description" : $(fileUploadAddDescription).val(),
-                    "sakai:pooled-content-file-name" : uploadedFiles[i].name,
-                    "sakai:directory" : "default"
-                }
-            };
-            batchDescriptionData[batchDescriptionData.length] = item;
+            if (uploadedFiles.hasOwnProperty(i)) {
+                var item = {
+                    "url": "/p/" + uploadedFiles[i].hashpath,
+                    "method": "POST",
+                    "parameters": {
+                        "sakai:description": $(fileUploadAddDescription).val(),
+                        "sakai:pooled-content-file-name": uploadedFiles[i].name,
+                        "sakai:directory": "default"
+                    }
+                };
+                batchDescriptionData[batchDescriptionData.length] = item;
+            }
         }
         // Do the Batch request
         $.ajax({
@@ -389,16 +391,20 @@ sakai.fileupload = function(tuid, showSettings){
         // Batch link the files with the tags
         var batchLinkTagsToContentData = [];
         for (var k in uploadedFiles) {
-            for (var i in tags) {
-                var item = {
-                    "url" : "/p/" + uploadedFiles[k].hashpath,
-                    "method": "POST",
-                    "parameters": {
-                        "key": tagsPathForLinking + tags[i].trim(),
-                        ":operation": "tag"
+            if (uploadedFiles.hasOwnProperty(k)) {
+                for (var i in tags) {
+                    if (tags.hasOwnProperty(i)) {
+                        var item = {
+                            "url": "/p/" + uploadedFiles[k].hashpath,
+                            "method": "POST",
+                            "parameters": {
+                                "key": tagsPathForLinking + tags[i].trim(),
+                                ":operation": "tag"
+                            }
+                        };
+                        batchLinkTagsToContentData[batchLinkTagsToContentData.length] = item;
                     }
-                };
-                batchLinkTagsToContentData[batchLinkTagsToContentData.length] = item;
+                }
             }
         }
         // Do the Batch request
@@ -429,17 +435,19 @@ sakai.fileupload = function(tuid, showSettings){
         // Create the data to send with the batch request
         var batchCreateTagsData = [];
         for (var i in tags) {
-            var item = {
-                "url": tagsPath + tags[i].trim(),
-                "method": "POST",
-                "parameters": {
-                    "./jcr:primaryType": "nt:folder",
-                    "./jcr:mixinTypes": "sakai:propertiesmix",
-                    "./sakai:tag-name": tags[i].trim(),
-                    "./sling:resourceType": "sakai/tag"
-                }
-            };
-            batchCreateTagsData[batchCreateTagsData.length] = item;
+            if (tags.hasOwnProperty(i)) {
+                var item = {
+                    "url": tagsPath + tags[i].trim(),
+                    "method": "POST",
+                    "parameters": {
+                        "./jcr:primaryType": "nt:folder",
+                        "./jcr:mixinTypes": "sakai:propertiesmix",
+                        "./sakai:tag-name": tags[i].trim(),
+                        "./sling:resourceType": "sakai/tag"
+                    }
+                };
+                batchCreateTagsData[batchCreateTagsData.length] = item;
+            }
         }
         // Do the Batch request
         $.ajax({
@@ -485,41 +493,53 @@ sakai.fileupload = function(tuid, showSettings){
         // Check which value was selected and fill in the data object accordingly
         var data = [];
         for (var k in uploadedFiles) {
-            switch (permissions) {
-                // Logged in only
-                case "everyone":
-                    var item = {
-                        "url" : "/p/" + uploadedFiles[k].hashpath + ".members.html",
-                        "method": "POST",
-                        "parameters" : {
-                            ":viewer": "everyone"
-                        }
-                    };
-
-                    data[data.length] = item;
-                    if(groupContext){
+            if (uploadedFiles.hasOwnProperty(k)) {
+                switch (permissions) {
+                    // Logged in only
+                    case "everyone":
                         var item = {
-                            "url" : "/p/" + uploadedFiles[k].hashpath + ".members.html",
+                            "url": "/p/" + uploadedFiles[k].hashpath + ".members.html",
                             "method": "POST",
-                            "parameters" : {
-                                ":viewer": contextData.id
+                            "parameters": {
+                                ":viewer": "everyone"
+                            }
+                        };
+
+                        data[data.length] = item;
+                        if (groupContext) {
+                            var item = {
+                                "url": "/p/" + uploadedFiles[k].hashpath + ".members.html",
+                                "method": "POST",
+                                "parameters": {
+                                    ":viewer": contextData.id
+                                }
+                            };
+                            data[data.length] = item;
+                        }
+                        break;
+                    // Public
+                    case "public":
+                        var item = {
+                            "url": "/p/" + uploadedFiles[k].hashpath + ".members.html",
+                            "method": "POST",
+                            "parameters": {
+                                ":viewer": ["everyone", "anonymous"]
                             }
                         };
                         data[data.length] = item;
-                    }
-                    break;
-                // Public
-                case "public":
-                    var item = {
-                        "url" : "/p/" + uploadedFiles[k].hashpath  + ".members.html",
-                        "method": "POST",
-                        "parameters" : {
-                            ":viewer": ["everyone", "anonymous"]
-                        }
-                    };
-                    data[data.length] = item;
 
-                    if (groupContext) {
+                        if (groupContext) {
+                            var item = {
+                                "url": "/p/" + uploadedFiles[k].hashpath + ".members.html",
+                                "method": "POST",
+                                "parameters": {
+                                    ":viewer": contextData.id
+                                }
+                            };
+                            data[data.length] = item;
+                        }
+                        break;
+                    case "group":
                         var item = {
                             "url": "/p/" + uploadedFiles[k].hashpath + ".members.html",
                             "method": "POST",
@@ -528,18 +548,8 @@ sakai.fileupload = function(tuid, showSettings){
                             }
                         };
                         data[data.length] = item;
-                    }
-                    break;
-                case "group":
-                    var item = {
-                        "url": "/p/" + uploadedFiles[k].hashpath + ".members.html",
-                        "method": "POST",
-                        "parameters": {
-                            ":viewer": contextData.id
-                        }
-                    };
-                    data[data.length] = item;
-                    break;
+                        break;
+                }
             }
         }
         // Execute ajax call if the permissions are not set to private
@@ -599,7 +609,7 @@ sakai.fileupload = function(tuid, showSettings){
                 resetFields();
             },
             error : function(err){
-                sakai.api.Util.notification.show($(fileUploadLi).html(), $(fileUploadEnterValidURL).html());
+                sakai.api.Util.notification.show($(fileUploadCheckURL).html(), $(fileUploadEnterValidURL).html());
             }
         });
     };
@@ -621,7 +631,7 @@ sakai.fileupload = function(tuid, showSettings){
             },
             error: function(xhr, textStatus, thrownError){
                 sakai.api.Util.notification.show($(fileUploadFailedSavingVersion).html(), $(fileUploadSavingNewVersionFailed).html());
-            },
+            }
         });
     };
 
@@ -670,10 +680,12 @@ sakai.fileupload = function(tuid, showSettings){
 
                     //loop over nodes to extract data
                     for (var i in $responseData) {
-                        var obj = {};
-                        obj.filename = i;
-                        obj.hashpath = $responseData[i];
-                        extractedData.push(obj);
+                        if ($responseData.hasOwnProperty(i)) {
+                            var obj = {};
+                            obj.filename = i;
+                            obj.hashpath = $responseData[i];
+                            extractedData.push(obj);
+                        }
                     }
 
                     // Check if there were any files uploaded

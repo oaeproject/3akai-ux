@@ -281,7 +281,7 @@ sakai.api.Communication.sendMessage = function(to, subject, body, category, repl
     }
 
     // send now if we have only a list of users ("thread" safe?)
-    if(numGroupAJAXRequests === 0 && !sendDone) {
+    if (!sendDone) {
         sendMessageToUsers();
     }
 };
@@ -2694,7 +2694,7 @@ sakai.api.Widgets.widgetLoader = {
                             var jsonpath = requestedURLsResults[i].url;
                             var widgetname = batchWidgets[jsonpath];
 
-                            if (typeof Widgets.widgets[widgetname].i18n === "object") {
+                            if (jQuery.isPlainObject(Widgets.widgets[widgetname].i18n)) {
                                 if (Widgets.widgets[widgetname].i18n["default"]){
                                     var item = {
                                         "url" : Widgets.widgets[widgetname].i18n["default"],

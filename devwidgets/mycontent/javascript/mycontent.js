@@ -126,6 +126,8 @@ sakai.mycontent = function(tuid, showSettings) {
                 // user manages no content
                 $(noContentMsg, rootel).show();
             } else {
+                // user manages content
+                $(noContentMsg, rootel).hide();
                 // build array of up to five items; reverse chronological order
                 var contentjson = {
                     items: []
@@ -176,6 +178,10 @@ sakai.mycontent = function(tuid, showSettings) {
             }
         );
     };
+
+    $(window).bind("sakai-fileupload-complete", function(){
+        init();
+    })
 
     // run init() function when sakai.content object loads
     init();
