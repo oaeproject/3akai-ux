@@ -122,12 +122,14 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         }
         // Extract tags that start with "directory:"
         var directory = [];
-        $(sakai.currentgroup.data.authprofile["sakai:group-tags"].split(",")).each(function(i){
-            if (sakai.currentgroup.data.authprofile["sakai:group-tags"].split(",")[i].split(":")[0] === "directory") {
-                var item = [sakai.currentgroup.data.authprofile["sakai:group-tags"].split(",")[i].split(":")[1], sakai.currentgroup.data.authprofile["sakai:group-tags"].split(",")[i].split(":")[2], sakai.currentgroup.data.authprofile["sakai:group-tags"].split(",")[i].split(":")[3]]
-                directory.push(item);
-            }
-        });
+        if (sakai.currentgroup.data.authprofile["sakai:group-tags"]) {
+            $(sakai.currentgroup.data.authprofile["sakai:group-tags"].split(",")).each(function(i){
+                if (sakai.currentgroup.data.authprofile["sakai:group-tags"].split(",")[i].split(":")[0] === "directory") {
+                    var item = [sakai.currentgroup.data.authprofile["sakai:group-tags"].split(",")[i].split(":")[1], sakai.currentgroup.data.authprofile["sakai:group-tags"].split(",")[i].split(":")[2], sakai.currentgroup.data.authprofile["sakai:group-tags"].split(",")[i].split(":")[3]]
+                    directory.push(item);
+                }
+            });
+        }
         // Get the group information out of the global group info object
         json = {
             "groupid" : sakai.currentgroup.id,
