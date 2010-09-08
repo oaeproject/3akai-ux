@@ -253,11 +253,9 @@ sakai.search = function() {
             // we hide the pager
             if ((results.total < resultsToDisplay) || (results.results.length <= 0)) {
                 $(searchConfig.global.pagerClass).hide();
-                $("#create_site_these_people").hide();
             }
             else {
                 $(searchConfig.global.pagerClass).show();
-                $("#create_site_these_people").show();
             }
 
         }
