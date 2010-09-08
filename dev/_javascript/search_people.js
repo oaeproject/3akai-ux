@@ -346,9 +346,11 @@ sakai.search = function() {
                     // if results are returned in a different format
                     if (!data.results && data.contacts && facetedurl === sakai.config.URL.PRESENCE_CONTACTS_SERVICE) {
                         var resultsTemp = { results : [] };
+                        var j = 0;
                         $.each(data.contacts, function(i, val) {
                             if (val.profile && val["sakai:status"] === "online") {
-                                resultsTemp.results[i] = val.profile;
+                                resultsTemp.results[j] = val.profile;
+                                j++;
                             }
                         });
                         data = resultsTemp;
