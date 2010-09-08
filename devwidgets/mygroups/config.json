@@ -1,5 +1,5 @@
 {
-    "description":"Listing of the groups I'm a member of.",
+    "description":"A list of the groups I'm a member of",
     "i18n": {
         "default": "/devwidgets/mygroups/bundles/default.json",
         "en_US": "/devwidgets/mygroups/bundles/en_US.json",
