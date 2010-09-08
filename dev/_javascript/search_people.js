@@ -36,7 +36,7 @@ sakai.search = function() {
 
     // Search URL mapping
     var searchURLmap = {
-        mycontacts : sakai.config.URL.CONTACTS_ACCEPTED,
+        mycontacts : sakai.config.URL.SEARCH_USERS_ACCEPTED,
         invitedcontacts : sakai.config.URL.CONTACTS_INVITED,
         pendingcontacts : sakai.config.URL.CONTACTS_PENDING,
         onlinecontacts : sakai.config.URL.PRESENCE_CONTACTS_SERVICE
