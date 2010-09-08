@@ -83,6 +83,7 @@ sakai.config = {
         SDATA_FETCH_URL: "/sites/__PLACEMENT__/__TUID__/__NAME__",
         SDATA_FETCH: "/",
         // --
+        SEARCH_ALL_FILES: "/var/search/pool/all.json",
         SEARCH_ALL_FILES_SERVICE: "/var/search/files/allfiles.json",
         SEARCH_CONTENT_COMPREHENSIVE_SERVICE: "/var/search/sitecontent.json",
         SEARCH_CONTENT_SERVICE: "/var/search/content.json",
@@ -90,6 +91,7 @@ sakai.config = {
         SEARCH_MY_CONTACTS: "/var/search/files/mycontacts.json",
         SEARCH_MY_FILES: "/var/search/files/myfiles.json",
         SEARCH_MY_SITES: "/var/search/files/mysites.json",
+        SEARCH_GROUP_MEMBERS: "/var/search/groupmembers.json",
         SEARCH_GROUPS: "/var/search/groups.json",
         SEARCH_PAGES: "/var/search/page.json",
         SEARCH_SITES: "/var/search/sites.json",
