@@ -160,6 +160,8 @@ sakai.chat = function(tuid, showSettings){
     // Configuration variables //
     /////////////////////////////
 
+    var MAX_NO_OF_WINDOWS = 5; // maximum number of chat conversations open
+
     var currentChatStatus = "";
 
     var hasOpenChatWindow = false; // Does the current user has open chat windows
@@ -185,6 +187,8 @@ sakai.chat = function(tuid, showSettings){
     var pictureHolder = "#picture_holder";
     var showOnlineLink = "#show_online";
     var userIdLabel = "#userid";
+    var next = "#next";
+    var prev = "#prev";
 
     // Chat
     var chatAvailable = "#chat_available";
@@ -551,6 +555,16 @@ sakai.chat = function(tuid, showSettings){
             activewindows.items[index].status = user.status;
             activewindows.items[index].statusmessage = user.statusmessage;
             activewindows.items[index].chatstatus = user.chatstatus;
+
+            // if there are more than 5 chat conversation open
+            // hide the new chat conversation
+            if (activewindows.items.length > MAX_NO_OF_WINDOWS) {
+                activewindows.items[index].windowstatus = false;
+            }
+            else {
+                // show new chat conversation
+                activewindows.items[index].windowstatus = true;
+            }
         }
         else {
             alert("An error has occured");
@@ -858,6 +872,8 @@ sakai.chat = function(tuid, showSettings){
         }
 
         enableDisableOnline();
+        // show/hide next/previous
+        checkPaging();
 
         if (clicked) {
             hideOnline();
@@ -894,8 +910,14 @@ sakai.chat = function(tuid, showSettings){
                     toremove = i;
                 }
             }
+            // show one hidden chat window
+            showChatWindow();
+
             activewindows.items.splice(toremove, 1);
 
+            // show/hide next/previous
+            checkPaging();
+            $(onlineButton + "_" + selected).parent().remove();
             $(onlineButton + "_" + selected).remove();
             $(chatWith + "_" + selected).remove();
 
@@ -1245,6 +1267,142 @@ sakai.chat = function(tuid, showSettings){
     };
 
     /**
+     * This function will check if there are more than 5 open conversations.
+     * If so, show previous/next icon
+     */
+    var checkPaging = function(){
+        // all the open chat conversation
+        var chatWindow = $('.active_window');
+        // all the visible chat conversation
+        var chatWindowVisible = $('.active_window:visible');
+
+        // if open chat conversations are more than 5
+        if (chatWindow.length >= MAX_NO_OF_WINDOWS) {
+            // if there are more hidden chat conversation after the last visible window
+            if($(chatWindow[(chatWindow.index($(chatWindowVisible[(chatWindowVisible.length-1)]))) + 1]).length){
+                // show next >> link
+                $(next).show();
+            }else{
+                // hide next >> link
+                $(next).hide();
+            }
+
+            // if there are more hidden chat conversation before firt visible window
+            if($(chatWindow[(chatWindow.index($(chatWindowVisible[0]))) - 1]).length){
+                // show previous << link
+                $(prev).show();
+            }else{
+                // show previous << link
+                $(prev).hide();
+            }
+        // there is no more than 5 chat conversations
+        }else{
+            // hide next >> link
+            $(next).hide();
+            // hide previous << link
+            $(prev).hide();
+        }
+    };
+
+    /**
+     * This function will check if there are more chat conversation hidden after last
+     * visible chat window. If so, show the hidden chat conversation after last one and
+     * hide the first visible chat conversation
+     */
+    var showNextChat = function(){
+        // all the open chat conversation
+        var chatWindow = $('.active_window');
+        // all the visible chat conversation
+        var chatWindowVisible = $('.active_window:visible');
+
+        // the index of last visible chat window
+        var lastVisibleIndex = chatWindow.index($(chatWindowVisible[(chatWindowVisible.length-1)]));
+        // if there are more chat conversation hidden after last visible window
+        if (chatWindow.length - 1 > lastVisibleIndex) {
+            // show next chat conversation after last window
+            $(chatWindow[(lastVisibleIndex+1)]).removeClass("hidden");
+            // set window status in activewindows
+            activewindows.items[(lastVisibleIndex+1)].windowstatus = true;
+
+            // get the index of first visible chat window
+            var firstVisibleIndex = chatWindow.index($(chatWindowVisible[0]));
+            // hide the first visible window
+            $(chatWindow[firstVisibleIndex]).addClass("hidden");
+            // set window status in actviewindows
+            activewindows.items[firstVisibleIndex].windowstatus = false;
+        }
+        // show/hide prev/next icon
+        checkPaging();
+    };
+
+    /**
+     * This function will check if there are more chat conversation hidden before first
+     * visible chat window. If so, show the hidden chat conversation before first one and
+     * hide the last visible chat conversation
+     */
+    var showPreviousChat = function(){
+        // all the open chat conversation
+        var chatWindow = $('.active_window');
+        // all the visible chat conversation
+        var chatWindowVisible = $('.active_window:visible');
+
+        // get the index of first visible chat window
+        var firstVisibleIndex = chatWindow.index((chatWindowVisible[0]));
+
+        // if there are more chat conversation hidden before first visible window
+        if (firstVisibleIndex > 0) {
+            // show previous chat conversation before first visible window
+            $(chatWindow[(firstVisibleIndex-1)]).removeClass("hidden");
+            // set window status in activewindows
+            activewindows.items[(firstVisibleIndex-1)].windowstatus = true;
+
+            // the index of last visible chat window
+            var lastVisibleIndex = chatWindow.index($(chatWindowVisible[(chatWindowVisible.length-1)]));
+            // hide the last visible window
+            $(chatWindow[lastVisibleIndex]).addClass("hidden");
+            // set window status in actviewindows
+            activewindows.items[lastVisibleIndex].windowstatus = false;
+        }
+        // show/hide prev/next icon
+        checkPaging();
+    };
+
+    /**
+     * This function show the next available hidden chat conversation.
+     * @param {int} toRemoveIndex
+     *  The index of the closed chat window.
+     */
+    var showChatWindow = function(toRemoveIndex){
+        // all the open chat conversation
+        var chatWindow = $('.active_window');
+        // all the visible chat conversation
+        var chatWindowVisible = $('.active_window:visible');
+
+        // get the index of first visible chat window
+        var firstVisibleIndex = chatWindow.index((chatWindowVisible[0]));
+        // the index of last visible chat window
+        var lastVisibleIndex = chatWindow.index($(chatWindowVisible[(chatWindowVisible.length-1)]));
+
+        // if there are windows after last visible window show the next available one
+        if (lastVisibleIndex < chatWindow.length - 1) {
+            // show next chat conversation after last window
+            $(chatWindow[(lastVisibleIndex+1)]).removeClass("hidden");
+            // set window status in activewindows
+            activewindows.items[(lastVisibleIndex+1)].windowstatus = true;
+        }
+        // if there are window before first visible window shoe the previous available one
+        else if(firstVisibleIndex > 0) {
+            // show previous chat conversation before first visible window
+            $(chatWindow[(firstVisibleIndex-1)]).removeClass("hidden");
+            // set window status in activewindows
+            activewindows.items[(firstVisibleIndex-1)].windowstatus = true;
+        }
+
+        // show/hide prev/next icon
+        checkPaging();
+    };
+
+    /**
      * Check if there were any windows open during the last visit
      * and load the initial chat windows
      */
@@ -1315,6 +1473,10 @@ sakai.chat = function(tuid, showSettings){
     var doInit = function(){
         currentChatStatus = sakai.data.me.profile.chatstatus
 
+        // define next/prev events
+        $(next).bind("click",showNextChat);
+        $(prev).bind("click",showPreviousChat);
+
         $(chatMainContainer).show();
 
         // Add binding to catch event fire by a chat status change
@@ -1324,7 +1486,7 @@ sakai.chat = function(tuid, showSettings){
         });
 
         //Add a binding to catch event fire by change of status message
-		$(window).bind("chat_status_message_change", function(event, currentChatStatus){
+        $(window).bind("chat_status_message_change", function(event, currentChatStatus){
             checkOnline();
         });
     };

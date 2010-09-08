@@ -62,17 +62,33 @@
     {for i in items}
         {if special != false}
             {if special == 0}
-            <span class="user_chat_first">
+                {if i.windowstatus}
+                <span class="user_chat_first active_window">
+                {else}
+                <span class="user_chat_first active_window hidden">
+                {/if}
             {else}
-            <span>
+                {if i.windowstatus}
+                <span class="active_window">
+                {else}
+                <span class="active_window hidden">
+                {/if}
             {/if}
             <span id="online_button_${i.userid}" class="user_chat">
 
         {else}
             {if index == 0}
-            <span class="user_chat_first">
+                {if i.windowstatus}
+                <span class="user_chat_first active_window">
+                {else}
+                <span class="user_chat_first active_window hidden">
+                {/if}
             {else}
-            <span>
+                {if i.windowstatus}
+                <span class="active_window">
+                {else}
+                <span class="active_window hidden">
+                {/if}
             {/if}
             <span id="online_button_${i.userid}" class="user_chat">
         {/if}
@@ -139,7 +155,9 @@
     <div id="chat_container" style="height:30px">
         <table class="chat_main_table" summary="Chat">
             <tr>
+                <td id="previous"><a href="javascript:;" id="prev" class="hidden"><img src="/devwidgets/chat/images/prev.png"  alt="Prev"></a></td>
                 <td id="chat_windows"></td>
+                <td id="more"><a href="javascript:;" id="next" class="hidden"><img src="/devwidgets/chat/images/more.png"  alt="Next"></a></td>
                 <td id="chat_online_connections_link">
                     <span id="online_button">
                         <img src="/devwidgets/chat/images/people.png" width="16px" class="chat_people_icon" alt="Online"/>
