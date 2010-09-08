@@ -155,6 +155,7 @@ sakai._search = function(config, callback) {
         $(searchConfig.global.text).bind("keypress", function(ev) {
             if (ev.keyCode === 13) {
                 callback.doHSearch();
+                $(".faceted_category").removeClass("faceted_category_selected");
             }
         });
 
@@ -162,6 +163,7 @@ sakai._search = function(config, callback) {
         $(searchConfig.global.button).unbind("click");
         $(searchConfig.global.button).bind("click", function(ev) {
             callback.doHSearch();
+            $(".faceted_category").removeClass("faceted_category_selected");
         });
     };
 
