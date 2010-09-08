@@ -1,0 +1,20 @@
+{
+  "jcr:primaryType":"sling:Folder",
+  "sakai:description":"Holder for shared tags",
+  "security:acl" : [
+    {
+      "principal" : "everyone",
+      "granted" : [
+        "jcr:addChildNodes",
+        "jcr:modifyProperties"
+      ]
+    },
+    {
+      "principal" : "anonymous",
+      "denied" : [
+        "jcr:addChildNodes",
+        "jcr:modifyProperties"
+      ]
+    }
+  ]
+}
