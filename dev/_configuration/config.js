@@ -83,6 +83,7 @@ sakai.config = {
         SDATA_FETCH_URL: "/sites/__PLACEMENT__/__TUID__/__NAME__",
         SDATA_FETCH: "/",
         // --
+        SEARCH_ALL_FILES: "/var/search/pool/all.json",
         SEARCH_ALL_FILES_SERVICE: "/var/search/files/allfiles.json",
         SEARCH_CONTENT_COMPREHENSIVE_SERVICE: "/var/search/sitecontent.json",
         SEARCH_CONTENT_SERVICE: "/var/search/content.json",
@@ -90,6 +91,7 @@ sakai.config = {
         SEARCH_MY_CONTACTS: "/var/search/files/mycontacts.json",
         SEARCH_MY_FILES: "/var/search/files/myfiles.json",
         SEARCH_MY_SITES: "/var/search/files/mysites.json",
+        SEARCH_GROUP_MEMBERS: "/var/search/groupmembers.json",
         SEARCH_GROUPS: "/var/search/groups.json",
         SEARCH_PAGES: "/var/search/page.json",
         SEARCH_SITES: "/var/search/sites.json",
@@ -281,13 +283,13 @@ sakai.config = {
                 "elements": {
                     "maintitle": {
                         "label": "__MSG__PROFILE_PUBLICATIONS_MAIN_TITLE__",
-                        "required": false,
+                        "required": true,
                         "display": true,
                         "example": "__MSG__PROFILE_PUBLICATIONS_MAIN_TITLE_EXAMPLE__"
                     },
                     "mainauthor": {
                         "label": "__MSG__PROFILE_PUBLICATIONS_MAIN_AUTHOR__",
-                        "required": false,
+                        "required": true,
                         "display": true
                     },
                     "coauthor": {
@@ -298,12 +300,12 @@ sakai.config = {
                     },
                     "publisher": {
                         "label": "__MSG__PROFILE_PUBLICATIONS_PUBLISHER__",
-                        "required": false,
+                        "required": true,
                         "display": true
                     },
                     "placeofpublication": {
                         "label": "__MSG__PROFILE_PUBLICATIONS_PLACE_OF_PUBLICATION__",
-                        "required": false,
+                        "required": true,
                         "display": true
                     },
                     "volumetitle": {
@@ -319,7 +321,7 @@ sakai.config = {
                     },
                     "year": {
                         "label": "__MSG__PROFILE_PUBLICATIONS_YEAR__",
-                        "required": false,
+                        "required": true,
                         "display": true
                     },
                     "number": {

@@ -1846,7 +1846,7 @@ sakai.api.User.getDisplayName = function(profile) {
         idx++;
     }
 
-    return sakai.api.Security.saneHTML($.trim(nameToReturn));
+    return unescape(sakai.api.Security.saneHTML($.trim(nameToReturn)));
 };
 
 /**

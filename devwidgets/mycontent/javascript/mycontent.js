@@ -45,6 +45,7 @@ sakai.mycontent = function(tuid, showSettings) {
     var dataErrorMsg = "#mycontent_data_error";
     var contentList = "#mycontent_list";
     var listTemplate = "#mycontent_list_template";
+    var ellipsisContainer = ".mycontent_ellipsis_container";
 
 
     ///////////////////////
@@ -60,51 +61,36 @@ sakai.mycontent = function(tuid, showSettings) {
      *   and item.type_img_url (URL for mimetype icon) for the given result
      */
     var parseDataResult = function(result) {
-        // initialize parsed item
+        // initialize parsed item with default values
         var item = {
             name: result["sakai:pooled-content-file-name"],
             path: "/p/" + result["jcr:name"],
             type: sakai.config.MimeTypes.other.description,
-            type_img_url: sakai.config.MimeTypes.other.URL
+            type_img_url: sakai.config.MimeTypes.other.URL,
+            size: ""
         };
 
-        // determine mimetype if extension present
-        var file_parts = result["sakai:pooled-content-file-name"].split(".");
-        if (file_parts.length > 1) {
-            // inspect the extension
-            var ext = file_parts[file_parts.length - 1];
-            var type = "";
-            switch (ext.toLowerCase()) {
-                case "doc":
-                case "pdf":
-                    type = "application/" + ext;
-                    break;
-                case "png":
-                case "gif":
-                    type = "image/" + ext;
-                    break;
-                case "jpg":
-                case "jpeg":
-                    type = "image/jpeg";
-                    break;
-                case "txt":
-                    type = "text/plain";
-                    break;
-                case "html":
-                    type = "text/html";
-                    break;
-                default:
-                    type = "other";
-            }
+        // set file name without the extension
+        var lastDotIndex = result["sakai:pooled-content-file-name"].lastIndexOf(".");
+        if(lastDotIndex !== -1) {
+            // extension found
+            item.name = result["sakai:pooled-content-file-name"].slice(0, lastDotIndex);
+        }
+
+        // set the mimetype and corresponding image
+        var type = result["jcr:content"]["jcr:mimeType"];
+        if(sakai.config.MimeTypes[type]) {
+            // we have a recognized file type - set the description and img URL
             item.type = sakai.config.MimeTypes[type].description;
             item.type_img_url = sakai.config.MimeTypes[type].URL;
+        }
 
-            // set file name without the extension
-            var tmp_name = "";
-            for (var i = 0; i < file_parts.length - 1; i++) {
-                tmp_name = tmp_name + file_parts[i] + ".";
-            }
-            item.name = tmp_name.substr(0, tmp_name.length - 1);
+        // set the file size
+        var size = result["jcr:content"]["jcr:data"];
+        if(size && size.indexOf("binary-length:") !== -1) {
+            // the value exists and contains a binary length that we can turn
+            // into a human readable file size
+            item.size = "(" + sakai.api.Util.convertToHumanReadableFileSize(size.split(":")[1]) + ")";
         }
 
         return item;
@@ -119,7 +105,6 @@ sakai.mycontent = function(tuid, showSettings) {
      * @return None
      */
     var handleContentData = function(success, data) {
-        //alert("json returned: " + JSON.stringify(data));
         if(success) {
             // parse & render data
             if(data.total < 1) {
@@ -138,6 +123,16 @@ sakai.mycontent = function(tuid, showSettings) {
                 // pass the array to HTML view
                 $(contentList, rootel).html($.TemplateRenderer($(listTemplate), contentjson));
                 $(contentList, rootel).show();
+
+                // make sure the newly added content is properly styled with
+                // threedots truncation
+                $(ellipsisContainer, rootel).ThreeDots({
+                    max_rows: 1,
+                    text_span_class: "mycontent_ellipsis_text",
+                    e_span_class: "mycontent_e_span_class",
+                    whole_word: false,
+                    alt_text_t: true
+                });
             }
         } else {
             // display something useful to the user
@@ -151,10 +146,16 @@ sakai.mycontent = function(tuid, showSettings) {
     ////////////////////
 
     // Clicking to upload content
-    $(uploadLink, rootel).click(function(ev){
+    $(uploadLink, rootel).click(function(ev) {
         $(fileuploadContainer, rootel).show();
         sakai.fileupload.initialise();
         return false;
+    });
+
+    // Listen for sakai-fileupload-complete event (from the fileupload widget)
+    // to refresh this widget's file listing
+    $(window).bind("sakai-fileupload-complete", function() {
+        init();
     });
 
 
@@ -168,7 +169,7 @@ sakai.mycontent = function(tuid, showSettings) {
      */
     var init = function() {
         // get list of content items
-        sakai.api.Server.loadJSON("/var/search/pool/me/manager.json",
+        sakai.api.Server.loadJSON("/var/search/pool/me/manager.1.json",
             handleContentData, {
                 "q": "*",
                 "sortOn": "jcr:created",
@@ -178,10 +179,6 @@ sakai.mycontent = function(tuid, showSettings) {
             }
         );
     };
-
-    $(window).bind("sakai-fileupload-complete", function(){
-        init();
-    })
 
     // run init() function when sakai.content object loads
     init();

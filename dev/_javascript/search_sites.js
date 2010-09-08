@@ -227,6 +227,10 @@ sakai.search = function() {
      */
     sakai._search.doSearch = function(page, searchquery, searchwhere) {
 
+        if (isNaN(page)){
+            page = 1;
+        }
+
         currentpage = parseInt(page,  10);
 
         // Set all the input fields and paging correct.

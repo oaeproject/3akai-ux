@@ -58,7 +58,7 @@ sakai.newaccount = function(){
     var usernameTaken = usernameField + "_taken";
     var usernameShort = usernameField + "_short";
     var usernameSpaces = usernameField + "_spaces";
-    var usernameInvalid = usernameField + "_invalid";
+    var usernameNoGroup = usernameField + "_no_group";
     var usernameEmpty = usernameField + "_empty";
     var firstNameEmpty = firstNameField + "_empty";
     var firstNameInvalid = firstNameField + "_invalid";
@@ -83,6 +83,8 @@ sakai.newaccount = function(){
     var formContainer = "#create_account_form";
     var inputFieldHoverClass = "input_field_hover";
 
+    // Contains executable errors
+    var errObj = [];
 
     ///////////////////////
     // Utility functions //
@@ -129,9 +131,6 @@ sakai.newaccount = function(){
      *  fiels valid again first
      */
     var setError = function(field,errorField, noReset){
-        if (!noReset) {
-            resetErrorFields();
-        }
         $(field).addClass(invalidFieldClass);
         $(errorField).show();
     };
@@ -176,6 +175,8 @@ sakai.newaccount = function(){
 
                 // Destroy the captcha
                 sakai.captcha.destroy();
+                // Redirect the user to the login page
+                document.location = sakai.config.URL.GATEWAY_URL;
             },
             error: function(xhr, textStatus, thrownError) {
                 if (xhr.status === 500) {
@@ -233,25 +234,32 @@ sakai.newaccount = function(){
         // If we reach this point, we have a username in a valid format. We then go and check
         // on the server whether this eid is already taken or not. We expect a 200 if it already
         // exists and a 401 if it doesn't exist yet.
-        $.ajax({
-            // Replace the preliminary parameter in the service URL by the real username entered
-            url: sakai.config.URL.USER_EXISTENCE_SERVICE.replace(/__USERID__/g,values[username]),
-            cache : false,
-            success: function(data){
-                setError(usernameField,usernameTaken);
-            },
-            error: function(xhr, textStatus, thrownError) {
-                if (checkingOnly){
-                    resetErrorFields();
-                    $(usernameAvailable).show();
-                } else {
-                    doCreateUser();
+        if (errObj.length === 0) {
+            $.ajax({
+                // Replace the preliminary parameter in the service URL by the real username entered
+                url: sakai.config.URL.USER_EXISTENCE_SERVICE.replace(/__USERID__/g, values[username]),
+                cache: false,
+                success: function(data){
+                    setError(usernameField, usernameTaken);
+                },
+                error: function(xhr, textStatus, thrownError){
+                    if (checkingOnly) {
+                        resetErrorFields();
+                        $(usernameAvailable).show();
+                    }
+                    else {
+                        doCreateUser();
+                    }
                 }
+            });
+        } else{
+            for(var i = 0; i < errObj.length; i++){
+                errObj[i]();
             }
-        });
+        }
 
-        return false;
-
+        // Reset error Object
+        errObj = [];
     };
 
     /**
@@ -439,6 +447,8 @@ sakai.newaccount = function(){
         });
     }
 
+=======
+>>>>>>> 2ed45550dc8a860391a2863153972b93cc122612
     var initCaptcha = function() {
         sakai.api.Widgets.widgetLoader.insertWidgets("captcha_box", false);
     };

@@ -1,5 +1,6 @@
 {
     "ca":true,
+    "groupspages":true,
     "description":"Sakai 2 Tools",
     "id":"sakai2tools",
     "img":"/devwidgets/sakai2tools/images/sakai2tools.png",

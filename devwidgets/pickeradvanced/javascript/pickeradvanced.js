@@ -67,7 +67,7 @@ sakai.pickeradvanced = function(tuid, showSettings) {
     var $pickeradvanced_copy_myself = $("#pickeradvanced_copy_myself", $rootel);
     var $pickeradvanced_message = $("#pickeradvanced_message", $rootel);
     var $pickeradvanced_close_dialog = $(".pickeradvanced_close_dialog", $rootel);
-    var $pickeradvanced_search_filter = $(".pickeradvanced_search_filter", $rootel);
+    var $pickeradvanced_search_filter = $(".pickeradvanced_search_filter");
 
     var $pickeradvanced_error_template = $("#pickeradvanced_error_template", $rootel);
     var $pickeradvanced_content_search_pagetemplate = $("#pickeradvanced_content_search_pagetemplate", $rootel);
@@ -425,11 +425,12 @@ sakai.pickeradvanced = function(tuid, showSettings) {
         $pickeradvanced_container.jqmHide();
     });
 
-    $pickeradvanced_search_filter.bind("click", function() {
+    $pickeradvanced_search_filter.live("click", function() {
        var searchType = $(this).attr("id").split("pickeradvanced_search_")[1];
        $(".pickeradvanced_selected_list").removeClass("pickeradvanced_selected_list");
        $(this).parent("li").addClass("pickeradvanced_selected_list");
        var searchURL = false;
+       var searchingInGroup = false;
        switch (searchType) {
            case "contacts":
                searchURL = sakai.config.URL.SEARCH_USERS_ACCEPTED;
@@ -452,8 +453,16 @@ sakai.pickeradvanced = function(tuid, showSettings) {
            case "files_view":
                searchURL = sakai.config.URL.POOLED_CONTENT_VIEWER.replace(".json", ".infinity.json");
                break;
+           default: // should be any group specific search
+               searchURL = sakai.config.URL.SEARCH_GROUP_MEMBERS.replace(".json", ".3.json");
+               searchingInGroup = true;
+               break;
        }
-       pickerData["searchIn"] = searchURL + "?page=0&items=12&_=&q=";
+       if (!searchingInGroup) {
+           pickerData["searchIn"] = searchURL + "?page=0&items=12&_=&q=";
+       } else {
+           pickerData["searchIn"] = searchURL + "?group=" + searchType.split("groups_")[1] + "&q=";
+       }
        submitSearch();
     });
 

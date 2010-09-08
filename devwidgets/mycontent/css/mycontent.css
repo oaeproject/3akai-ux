@@ -5,10 +5,8 @@ img.mycontent_item_mime {height:16px; width:16px;}
 div.mycontent_item_even {background:#eef2f5;}
 div.mycontent_item_img {margin:6px 0 0 12px;}
 div.mycontent_item_info {margin-left:40px;}
-p.mycontent_item_title {margin:0; white-space:nowrap; width:100%;
-    overflow:hidden; text-overflow:ellipsis;}
-p.mycontent_item_meta {margin:0;}
-p.mycontent_error_msg {margin:0; padding-left:15px;}
+p.mycontent_item_title, p.mycontent_item_meta, p.mycontent_error_msg {margin:0;}
+p.mycontent_error_msg {padding-left:15px;}
 
 /*** TYPOGRAPHY ***/
 a.mycontent_item_link {font-weight:bold; font-size:1.1em; color:#016E97;}
