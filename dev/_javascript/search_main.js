@@ -34,6 +34,7 @@ sakai._search = function(config, callback) {
     var myfriends = {};
     var nrOfCharactersAroundTerm = 300;
     var usernameLengthStrip = 40;
+    var mainFacetedUrl = "";
 
 
     /////////////////////////
@@ -129,6 +130,13 @@ sakai._search = function(config, callback) {
     };
 
     /**
+     * Getter for the facetedurl var
+     */
+    var getFacetedUrl = function() {
+        return mainFacetedUrl;
+    };
+
+    /**
      * Will add all the event listeners
      */
     var addEventListeners = function(searchterm, searchwhere) {
@@ -155,7 +163,6 @@ sakai._search = function(config, callback) {
         $(searchConfig.global.text).bind("keypress", function(ev) {
             if (ev.keyCode === 13) {
                 callback.doHSearch();
-                $(".faceted_category").removeClass("faceted_category_selected");
             }
         });
 
@@ -163,7 +170,6 @@ sakai._search = function(config, callback) {
         $(searchConfig.global.button).unbind("click");
         $(searchConfig.global.button).bind("click", function(ev) {
             callback.doHSearch();
-            $(".faceted_category").removeClass("faceted_category_selected");
         });
     };
 
@@ -402,6 +408,7 @@ sakai._search = function(config, callback) {
     var addFacetedPanel = function() {
         $(window).bind("sakai.api.UI.faceted.ready", function(e){
             sakai.api.UI.faceted.render(searchConfig.facetedConfig);
+            $(".faceted_category:first").addClass("faceted_category_selected");
 
             // bind faceted search elements
             // loop through each faceted category and bind the link to trigger a search
@@ -409,7 +416,8 @@ sakai._search = function(config, callback) {
                 $("#" + category.replace(/[^a-zA-Z0-9]+/g,'')).bind("click", function() {
                     var searchquery = $(searchConfig.global.text).val();
                     var searchwhere = getSearchWhereSites();
-                    sakai._search.doSearch(1, searchquery, searchwhere, searchConfig.facetedConfig.searchurls[index]);
+                    mainFacetedUrl = searchConfig.facetedConfig.searchurls[index];
+                    sakai._search.doSearch(1, searchquery, searchwhere);
                 });
             });
         });
@@ -417,6 +425,7 @@ sakai._search = function(config, callback) {
 
     return {
         'getMySites': getMySites,
+        'getFacetedUrl': getFacetedUrl,
         'fetchMyFriends': fetchMyFriends,
         'getMyFriends': getMyFriends,
         'getSearchWhereUsers': getSearchWhereUsers,

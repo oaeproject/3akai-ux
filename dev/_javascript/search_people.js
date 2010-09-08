@@ -36,6 +36,7 @@ sakai.search = function() {
 
     // Search URL mapping
     var searchURLmap = {
+        allusers : sakai.config.URL.SEARCH_USERS,
         mycontacts : sakai.config.URL.SEARCH_USERS_ACCEPTED,
         invitedcontacts : sakai.config.URL.CONTACTS_INVITED,
         pendingcontacts : sakai.config.URL.CONTACTS_PENDING,
@@ -113,8 +114,8 @@ sakai.search = function() {
         facetedConfig : {
             title : "Refine your search",
             value : "People",
-            categories : ["My Contacts", "Online Now", "Invited", "Requested", "Not known"],
-            searchurls : [searchURLmap.mycontacts, searchURLmap.onlinecontacts, searchURLmap.invitedcontacts, searchURLmap.pendingcontacts, '']
+            categories : ["All Users", "My Contacts", "Online Now", "Invited", "Requested", "Not known"],
+            searchurls : [searchURLmap.allusers, searchURLmap.mycontacts, searchURLmap.onlinecontacts, searchURLmap.invitedcontacts, searchURLmap.pendingcontacts, '']
         }
     };
 
@@ -289,7 +290,9 @@ sakai.search = function() {
      *  * = entire community
      *  my contacts = the site the user is registered on
      */
-    sakai._search.doSearch = function(page, searchquery, searchwhere, facetedurl) {
+    sakai._search.doSearch = function(page, searchquery, searchwhere) {
+
+        facetedurl = mainSearch.getFacetedUrl();
 
         if (isNaN(page)){
             page = 1;
