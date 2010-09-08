@@ -55,49 +55,42 @@
                 <textarea class="groupbasicinfo_generalinfo_content" id="groupbasicinfo_generalinfo_group_description">${data['sakai:group-description']}</textarea>
             </div>
             <div class="groupbasicinfo_generalinfo_subcontainer">
-                <label class="groupbasicinfo_generalinfo_label" for="groupbasicinfo_generalinfo">__MSG__WHERE_GROUP_FOUND_IN_DIRECTORY__:</label>
-                {if saveddirectory.length !== 3}
-                    <select class="groupbasicinfo_generalinfo_content groupbasicinfo_hierarchy_select" id="groupbasicinfo_generalinfo_group_directory_lvlone">
-                        <option value="no_value">Select hierarchy 1</option>
-                        {for i in directory}
-                            <option value="${i.name}">${i.name}</option>
-                        {/for}
-                    </select>
-                    <div id="groupbasicinfo_secondlevel_template_container"></div>
-                    <div id="groupbasicinfo_thirdlevel_template_container"></div>
-                {else}
-                    <select class="groupbasicinfo_generalinfo_content groupbasicinfo_hierarchy_select" id="groupbasicinfo_generalinfo_group_directory_lvlone">
-                        {for i in directory}
-                            <option value="${i.name}" {if i.name === saveddirectory[0]}selected="selected"{/if}>${i.name}</option>
-                        {/for}
-                    </select>
-                    <div id="groupbasicinfo_secondlevel_template_container">
-                        <select class="groupbasicinfo_generalinfo_content groupbasicinfo_hierarchy_select" id="groupbasicinfo_generalinfo_group_directory_lvltwo">
-                            {for i in directory}
-                                {if i.name === saveddirectory[0]}
-                                    {for j in i.secondlevels}
-                                        <option value="${j.name}" {if j.name === saveddirectory[1]}selected="selected"{/if}>${j.name}</option>
+                <label class="groupbasicinfo_generalinfo_label" for="groupbasicinfo_generalinfo">
+                __MSG__WHERE_GROUP_FOUND_IN_DIRECTORY__:
+                </label>
+                <div id="groupbasicinfo_content_directory_contents">
+                    {if saveddirectory.length === 0}
+                        <div id="groupbasicinfo_add_another_container">
+                            <div class="groupbasicinfo_added_directory">
+                                <select class="groupbasicinfo_content groupbasicinfo_hierarchy_select" id="groupbasicinfo_generalinfo_group_directory_lvlone">
+                                    <option value="no_value">Select hierarchy 1</option>
+                                    {for i in directory}
+                                        <option value="${i.name}">${i.name}</option>
                                     {/for}
-                                {/if}
+                                </select>
+                                <div id="groupbasicinfo_secondlevel_template_container"></div>
+                                <div id="groupbasicinfo_thirdlevel_template_container"></div>
+                                <a href="javascript:;" class="groupbasicinfo_remove_new_location" title="Remove location">Remove location</a>
+                            </div>
+                        </div>
+                        <p id="groupbasicinfo_add_another_location">
+                            <a href="javascript:;" title="Add another location">Add another location</a>
+                        </p>
+                    {else}
+                        <ul class="groupbasicinfo_saveddirectory">
+                            {for savedDir in saveddirectory}
+                                <li>
+                                    ${savedDir.toString().replace(/,/g, " >> ")}
+                                    <a href="javascript:;" class="groupbasicinfo_remove_location" title="Remove location">Remove location</a>
+                                </li>
                             {/for}
-                        </select>
-                    </div>
-                    <div id="groupbasicinfo_thirdlevel_template_container">
-                        <select class="groupbasicinfo_generalinfo_content groupbasicinfo_hierarchy_select" id="groupbasicinfo_generalinfo_group_directory_lvlthree">
-                            {for i in directory}
-                                {if i.name === saveddirectory[0]}
-                                    {for j in i.secondlevels}
-                                        {if j.name === saveddirectory[1]}
-                                            {for k in j.thirdlevels}
-                                                <option value="${k.name}" {if k.name === saveddirectory[2]}selected="selected"{/if}>${k.name}</option>
-                                            {/for}
-                                        {/if}
-                                    {/for}
-                                {/if}
-                            {/for}
-                        </select>
-                    </div>
-                {/if}
+                        </ul>
+                        <div id="groupbasicinfo_add_another_container"></div>
+                        <p id="groupbasicinfo_add_another_location">
+                            <a href="javascript:;" title="Add another location">Add another location</a>
+                        </p>
+                    {/if}
+                </div>
             </div>
 
             <div id="groupbasicinfo_editing" class="fl-push">
@@ -158,8 +151,21 @@
 
 --></div>
 
+    <div id="groupbasicinfo_firstlevel_template"><!--
+        <select class="groupbasicinfo_content groupbasicinfo_hierarchy_select" id="groupbasicinfo_generalinfo_group_directory_lvlone">
+            <option value="no_value">Select hierarchy 1</option>
+            {for i in directory}
+                <option value="${i.name}">${i.name}</option>
+            {/for}
+        </select>
+        <div id="groupbasicinfo_secondlevel_template_container"></div>
+        <div id="groupbasicinfo_thirdlevel_template_container"></div>
+        <a href="javascript:;" class="groupbasicinfo_remove_new_location" title="Remove location">Remove location</a>
+    --></div>
+
     <div id="groupbasicinfo_secondlevel_template" style="display:none;"><!--
-        <select class="groupbasicinfo_generalinfo_content groupbasicinfo_hierarchy_select" id="groupbasicinfo_generalinfo_group_directory_lvltwo">
+        <span class="groupbasicinfo_select_seperator"> &gt;&gt; </span>
+        <select class="groupbasicinfo_content groupbasicinfo_hierarchy_select" id="groupbasicinfo_generalinfo_group_directory_lvltwo">
             <option value="no_value">Select hierarchy 2</option>
             {for i in directory}
                 {if i.name === changedboxvalue}
@@ -172,7 +178,8 @@
     --></div>
 
     <div id="groupbasicinfo_thirdlevel_template" style="display:none;"><!--
-        <select class="groupbasicinfo_generalinfo_content groupbasicinfo_hierarchy_select" id="groupbasicinfo_generalinfo_group_directory_lvlthree">
+        <span class="groupbasicinfo_select_seperator"> &gt;&gt; </span>
+        <select class="groupbasicinfo_content groupbasicinfo_hierarchy_select" id="groupbasicinfo_generalinfo_group_directory_lvlthree">
             <option value="no_value">Select hierarchy 3</option>
             {for i in directory}
                 {if i.name === firstlevelvalue}

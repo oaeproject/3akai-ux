@@ -56,8 +56,19 @@
 .groupbasicinfo_generalinfo_subcontainer p {
     color: #999999;
     font-size: 0.9em;
-    margin: 0 0 15px 248px;
+    margin: 0 0 15px;
     width: 400px;
 }
 
 .groupbasicinfo_hierarchy_select {float:left;}
+
+.groupbasicinfo_saveddirectory {margin:0}
+.groupbasicinfo_saveddirectory li {padding-bottom:5px; list-style:none;}
+
+#groupbasicinfo_add_another_location a{color:#006E96; font-size:13px; font-weight:bold; background: url("/dev/_images/add_blue_icon.png") left no-repeat; padding-left:25px; height:16px; padding-top:5px;}
+#groupbasicinfo_add_another_location {clear:both; padding-top:7px;}
+.groupbasicinfo_remove_location, .groupbasicinfo_remove_new_location {float:right; color:#006E96; font-size:13px; font-weight:bold; background: url("/dev/_images/remove.png") left no-repeat; padding-left:25px; margin-right:10px; height:16px;}
+
+.groupbasicinfo_added_directory {clear:both; padding-top:3px;}
+#groupbasicinfo_content_directory_contents {overflow:hidden;}
+.groupbasicinfo_select_seperator {float:left; padding:0 5px;}
