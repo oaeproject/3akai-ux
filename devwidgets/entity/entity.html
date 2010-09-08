@@ -12,9 +12,9 @@
         {if mode === "myprofile" || mode === "profile"}
             <div class="fl-force-left entity_picture">
                 {if data.profile && data.profile.picture}
-                    <img id="entity_profile_picture" src="${data.profile.picture}" alt="__MSG__PROFILE_PICTURE_FOR__ ${sakai.api.User.getDisplayName(sakai.data.me.profile)}" />
+                    <img id="entity_profile_picture" src="${data.profile.picture}" alt="__MSG__PROFILE_PICTURE_FOR__ ${sakai.api.User.getDisplayName(data.profile)}" />
                 {else}
-                    <img id="entity_profile_picture" src="/dev/_images/default_profile_picture_96.png" alt="__MSG__PLACEHOLDER_PICTURE_FOR__ ${sakai.api.User.getDisplayName(sakai.data.me.profile)}" />
+                    <img id="entity_profile_picture" src="/dev/_images/default_profile_picture_96.png" alt="__MSG__PLACEHOLDER_PICTURE_FOR__ ${sakai.api.User.getDisplayName(data.profile)}" />
                 {/if}
                 {if mode === "myprofile"}
                     <div class="fl-text-align-center">
@@ -23,7 +23,7 @@
                 {/if}
             </div>
             <div class="entity_header">
-                <a class="entity_header_text" href="/dev/show.html?type=user&amp;id=${unescape(data.profile["rep:userId"])}">${unescape(sakai.api.User.getDisplayName(sakai.data.me.profile))}</a>
+                <a class="entity_header_text" href="/dev/show.html?type=user&amp;id=${unescape(data.profile["rep:userId"])}">${unescape(sakai.api.User.getDisplayName(data.profile))}</a>
                 {if mode === "myprofile"}
                     <a class="s3d-action" href="/dev/profile_edit.html">__MSG__EDIT_PROFILE__</a>
                 {else}

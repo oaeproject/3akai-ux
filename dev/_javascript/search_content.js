@@ -88,8 +88,8 @@ sakai.search = function() {
         facetedConfig : {
             title : "Refine your search",
             value : "Content",
-            categories : ["Content I manage", "My content", "Content I can see"],
-            searchurls : [searchURLmap.pooledcontentmanager, searchURLmap.mysites, searchURLmap.pooledcontentviewer]
+            categories : ["All Files", "Content I manage", "My content", "Content I can see"],
+            searchurls : [searchURLmap.allfiles, searchURLmap.pooledcontentmanager, searchURLmap.myfiles, searchURLmap.pooledcontentviewer]
         }
     };
 
@@ -218,7 +218,9 @@ sakai.search = function() {
      *  mysites = the site the user is registered on
      *  /a-site-of-mine = specific site from the user
      */
-    sakai._search.doSearch = function(page, searchquery, searchwhere, facetedurl) {
+    sakai._search.doSearch = function(page, searchquery, searchwhere) {
+
+        facetedurl = mainSearch.getFacetedUrl();
 
         // Check if the searchquery is empty
         if(searchquery === ""){

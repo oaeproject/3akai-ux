@@ -31,3 +31,6 @@
 .faceted .faceted_category a {
     display: block;
 }
+.faceted .faceted_category_selected {
+    font-weight: bold;
+}

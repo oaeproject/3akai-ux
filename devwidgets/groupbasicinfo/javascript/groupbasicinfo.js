@@ -54,6 +54,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
     var groupBasicInfoGroupDesc = groupBasicInfoGroup + "_description";
 
     var directoryJSON = [];
+    var json = {};
 
     var groupBasicInfoDirectoryLvlOne = "#groupbasicinfo_generalinfo_group_directory_lvlone";
     var groupBasicInfoDirectoryLvlTwo = "#groupbasicinfo_generalinfo_group_directory_lvltwo";
@@ -64,6 +65,9 @@ sakai.groupbasicinfo = function(tuid, showSettings){
 
     var groupBasicInfoSecondLevelTemplate = "#groupbasicinfo_secondlevel_template";
     var groupBasicInfoThirdLevelTemplate = "#groupbasicinfo_thirdlevel_template";
+    var groupBasicInfoAddAnotherLocation = "#groupbasicinfo_add_another_location";
+    var groupBasicInfoRemoveNewLocation = ".groupbasicinfo_remove_new_location";
+    var groupBasicInfoRemoveLocation = ".groupbasicinfo_remove_location";
 
     /**
      * Get a list of nodes representing the directory structure to be rendered
@@ -116,9 +120,18 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         if (showSettings) {
             mode = 'edit';
         }
-        var directory = sakai.currentgroup.data.authprofile["sakai:directory"] ? sakai.currentgroup.data.authprofile["sakai:directory"].split(":") : [];
+        // Extract tags that start with "directory:"
+        var directory = [];
+        if (sakai.currentgroup.data.authprofile["sakai:group-tags"]) {
+            $(sakai.currentgroup.data.authprofile["sakai:group-tags"].split(",")).each(function(i){
+                if (sakai.currentgroup.data.authprofile["sakai:group-tags"].split(",")[i].split(":")[0] === "directory") {
+                    var item = [sakai.currentgroup.data.authprofile["sakai:group-tags"].split(",")[i].split(":")[1], sakai.currentgroup.data.authprofile["sakai:group-tags"].split(",")[i].split(":")[2], sakai.currentgroup.data.authprofile["sakai:group-tags"].split(",")[i].split(":")[3]]
+                    directory.push(item);
+                }
+            });
+        }
         // Get the group information out of the global group info object
-        var json_config = {
+        json = {
             "groupid" : sakai.currentgroup.id,
             "url" : document.location.protocol + "//" + document.location.host + "/~" + sakai.currentgroup.id,
             "data" : sakai.currentgroup.data.authprofile,
@@ -127,7 +140,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
             "saveddirectory" : directory
         };
 
-        $groupbasicinfo_generalinfo.html($.TemplateRenderer("#groupbasicinfo_default_template", json_config));
+        $groupbasicinfo_generalinfo.html($.TemplateRenderer("#groupbasicinfo_default_template", json));
 
         // If this widget is not shown on the group profile (i.e. when rendered inside a page)
         // we show the widget's own update button
@@ -154,21 +167,23 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         var groupKind = $(groupBasicInfoGroupKind, $rootel).val();
 
         var tagArray = [];
-        if ($(groupBasicInfoDirectoryLvlOne).selected().val().length && $(groupBasicInfoDirectoryLvlOne).selected().val() !== "no_value") {
-            tagArray.push($(groupBasicInfoDirectoryLvlOne).selected().val());
+        tagArray= $(groupBasicInfoGroupTags, $rootel).val().split(",");
+        // Create tags for the directory structure
+        // For every groupbasicinfo_added_directory we create tags
+        $(".groupbasicinfo_added_directory").each(function(){
+            var directoryString = "directory:";
+            tagArray.push($(this).find(groupBasicInfoDirectoryLvlOne).selected().val());
+            directoryString += $(this).find(groupBasicInfoDirectoryLvlOne).selected().val();
 
-            if ($(groupBasicInfoDirectoryLvlTwo).selected().val().length && $(groupBasicInfoDirectoryLvlTwo).selected().val() !== "no_value") {
-                tagArray.push($(groupBasicInfoDirectoryLvlTwo).selected().val());
+            tagArray.push($(this).find(groupBasicInfoDirectoryLvlTwo).selected().val());
+            directoryString += ":" + $(this).find(groupBasicInfoDirectoryLvlTwo).selected().val();
 
-                if ($(groupBasicInfoDirectoryLvlThree).selected().val() && $(groupBasicInfoDirectoryLvlThree).selected().val() !== "no_value") {
-                    tagArray.push($(groupBasicInfoDirectoryLvlThree).selected().val());
-                }
+            tagArray.push($(this).find(groupBasicInfoDirectoryLvlThree).selected().val());
+            directoryString += ":" + $(this).find(groupBasicInfoDirectoryLvlThree).selected().val();
 
-            }
-
-        }
-
-        tagArray.push($(groupBasicInfoGroupTags, $rootel).val().split(","));
+            // Add string for all levels to tag array
+            tagArray.push(directoryString);
+        });
 
         var groupDesc = $(groupBasicInfoGroupDesc, $rootel).val();
 
@@ -199,6 +214,15 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         });
     };
 
+    var addAnotherLocation = function(){
+        var renderedTemplate = $.TemplateRenderer("groupbasicinfo_firstlevel_template", json);
+        var renderedDiv = $(document.createElement("div"));
+        renderedDiv.html(renderedTemplate);
+        $("#groupbasicinfo_add_another_container").append(renderedDiv);
+        // Apply style to the rendered div
+        $(renderedDiv).addClass("groupbasicinfo_added_directory");
+    }
+
     /**
      * Update the select boxes on the stage
      * @param {String} select Containing ID to check which box value has been changed
@@ -207,16 +231,32 @@ sakai.groupbasicinfo = function(tuid, showSettings){
      */
     var updateDirectoryDisplay = function(select, changedboxvalue, firstlevelvalue){
         var obj = {
-            "firstlevelvalue":firstlevelvalue,
-            "changedboxvalue" : changedboxvalue,
+            "firstlevelvalue":firstlevelvalue.selected().val(),
+            "changedboxvalue" : changedboxvalue.selected().val(),
             "directory": directoryJSON
         };
         if(select === groupBasicInfoDirectoryLvlTwo){
-            $(groupBasicInfoSecondLevelTemplateContainer).html($.TemplateRenderer(groupBasicInfoSecondLevelTemplate, obj));
+            $(firstlevelvalue.parent().children("#groupbasicinfo_secondlevel_template_container")).html($.TemplateRenderer(groupBasicInfoSecondLevelTemplate, obj));
         }else{
-            $(groupBasicInfoThirdLevelTemplateContainer).html($.TemplateRenderer(groupBasicInfoThirdLevelTemplate, obj));
+            $(firstlevelvalue.parent().children("#groupbasicinfo_thirdlevel_template_container")).html($.TemplateRenderer(groupBasicInfoThirdLevelTemplate, obj));
         }
     };
+
+    var removeDirectoryLocation = function(clickedParent){
+        // Send the Ajax request
+        $.ajax({
+            url: "URL",
+            data: "DATA",
+            traditional: true,
+            type: "POST",
+            success: function(){
+                clickedParent.remove();
+            },
+            error: function(xhr, textStatus, thrownError){
+                sakai.api.Util.notification.show("Location not removed", "The location in the directory could not be removed.");
+            }
+        });
+    }
 
 
     //////////////
@@ -236,19 +276,31 @@ sakai.groupbasicinfo = function(tuid, showSettings){
             $(window).trigger("sakai.groupbasicinfo.update");
         });
 
-        $(groupBasicInfoDirectoryLvlOne, $rootel).bind("change", function(){
-            $(groupBasicInfoThirdLevelTemplateContainer).html("");
-            $(groupBasicInfoDirectoryLvlOne + " option[value='no_value']", $rootel).remove();
-            updateDirectoryDisplay(groupBasicInfoDirectoryLvlTwo, $(groupBasicInfoDirectoryLvlOne, $rootel).selected().val(), $(groupBasicInfoDirectoryLvlOne, $rootel).selected().val());
+        $(groupBasicInfoDirectoryLvlOne).live("change", function(){
+            $(this).parent().children(groupBasicInfoThirdLevelTemplateContainer).html("");
+            $(this).parent().children(groupBasicInfoDirectoryLvlOne + " option[value='no_value']").remove();
+            updateDirectoryDisplay(groupBasicInfoDirectoryLvlTwo, $($(this).parent()).children(groupBasicInfoDirectoryLvlOne), $($(this).parent()).children(groupBasicInfoDirectoryLvlOne));
         });
 
-        $(groupBasicInfoDirectoryLvlTwo, $rootel).live("change", function(){
-            $(groupBasicInfoDirectoryLvlTwo + " option[value='no_value']", $rootel).remove();
-            updateDirectoryDisplay(groupBasicInfoDirectoryLvlThree, $(groupBasicInfoDirectoryLvlTwo, $rootel).selected().val(), $(groupBasicInfoDirectoryLvlOne, $rootel).selected().val());
+        $(groupBasicInfoDirectoryLvlTwo).live("change", function(){
+            $(this).parent().children(groupBasicInfoDirectoryLvlTwo + " option[value='no_value']").remove();
+            updateDirectoryDisplay(groupBasicInfoDirectoryLvlThree, $($(this).parent()).children(groupBasicInfoDirectoryLvlTwo), $($(this).parent().parent()).children(groupBasicInfoDirectoryLvlOne));
         });
 
-        $(groupBasicInfoDirectoryLvlThree, $rootel).live("change", function(){
-            $(groupBasicInfoDirectoryLvlThree + " option[value='no_value']", $rootel).remove();
+        $(groupBasicInfoDirectoryLvlThree).live("change", function(){
+            $(groupBasicInfoDirectoryLvlThree + " option[value='no_value']").remove();
+        });
+
+        $(groupBasicInfoAddAnotherLocation).live("click", function(){
+            addAnotherLocation();
+        });
+
+        $(groupBasicInfoRemoveLocation).live("click", function(){
+            removeDirectoryLocation($(this).parent());
+        });
+
+        $(groupBasicInfoRemoveNewLocation).live("click", function(){
+            $(this).parent().remove();
         });
 
     };
@@ -258,7 +310,19 @@ sakai.groupbasicinfo = function(tuid, showSettings){
      * wants to save the new profile data
      */
     $(window).bind("sakai.groupbasicinfo.update", function(){
-        updateGroup();
+        // Check if there are any faulty values in directory selection
+            var valueSelected = true;
+            $(".groupbasicinfo_added_directory select").each(function(){
+                if($(this).selected().val() === "no_value"){
+                    valueSelected = false;
+                }
+            });
+            // If all values are selected execute the update
+            if (valueSelected) {
+                updateGroup();
+            } else {
+                sakai.api.Util.notification.show("Select directory location", "Select the location in the directory. If you do not want to add a location at this time remove the input fields.");
+            }
     });
 
     ////////////////////

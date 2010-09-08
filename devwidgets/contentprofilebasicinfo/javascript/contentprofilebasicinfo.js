@@ -34,6 +34,9 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
     var contentPath = "";
     var globalJSON;
 
+    // JSON
+    var json = {};
+
     // Containers
     var contentProfileBasicInfoContainer = "#content_profile_basic_info_container";
 
@@ -64,7 +67,9 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
 
     var contentProfileBasicInfoSecondLevelTemplate = "#content_profile_basic_info_secondlevel_template";
     var contentProfileBasicInfoThirdLevelTemplate = "#content_profile_basic_info_thirdlevel_template";
-
+    var contentProfileBasicInfoAddAnotherLocation = "#content_profile_basic_info_add_another_location";
+    var contentProfileBasicInfoRemoveNewLocation = ".content_profile_basic_info_remove_new_location";
+    var contentProfileBasicInfoRemoveLocation = ".content_profile_basic_info_remove_location";
 
     ///////////////////
     // Functionality //
@@ -103,25 +108,6 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                 }
                 directoryJSON.push(temp);
             }
-        }
-    };
-
-    /**
-     * Update the select boxes on the stage
-     * @param {String} select Containing ID to check which box value has been changed
-     * @param {String} changedboxvalue Containing selected value
-     * @param {String} firstlevelvalue Containing value of first select box
-     */
-    var updateDirectoryDisplay = function(select, changedboxvalue, firstlevelvalue){
-        var obj = {
-            "firstlevelvalue":firstlevelvalue,
-            "changedboxvalue" : changedboxvalue,
-            "directory": directoryJSON
-        };
-        if(select === contentProfileBasicInfoDirectoryLvlTwo){
-            $(contentProfileBasicInfoSecondLevelTemplateContainer).html($.TemplateRenderer(contentProfileBasicInfoSecondLevelTemplate, obj));
-        }else{
-            $(contentProfileBasicInfoThirdLevelTemplateContainer).html($.TemplateRenderer(contentProfileBasicInfoThirdLevelTemplate, obj));
         }
     };
 
@@ -217,20 +203,22 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
             }
         }
 
+        // Create tags for the directory structure
+        // For every content_profile_basic_info_added_directory we create tags
+        $(".content_profile_basic_info_added_directory").each(function(){
+            var directoryString = "directory:";
+            tagArray.push($(this).find(contentProfileBasicInfoDirectoryLvlOne).selected().val());
+            directoryString += $(this).find(contentProfileBasicInfoDirectoryLvlOne).selected().val();
 
-        if ($(contentProfileBasicInfoDirectoryLvlOne).selected().val().length && $(contentProfileBasicInfoDirectoryLvlOne).selected().val() !== "no_value") {
-            tagArray.push($(contentProfileBasicInfoDirectoryLvlOne).selected().val());
+            tagArray.push($(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val());
+            directoryString += ":" + $(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val();
 
-            if ($(contentProfileBasicInfoDirectoryLvlTwo).selected().val().length && $(contentProfileBasicInfoDirectoryLvlTwo).selected().val() !== "no_value") {
-                tagArray.push($(contentProfileBasicInfoDirectoryLvlTwo).selected().val());
+            tagArray.push($(this).find(contentProfileBasicInfoDirectoryLvlThree).selected().val());
+            directoryString += ":" + $(this).find(contentProfileBasicInfoDirectoryLvlThree).selected().val();
 
-                if ($(contentProfileBasicInfoDirectoryLvlThree).selected().val() && $(contentProfileBasicInfoDirectoryLvlThree).selected().val() !== "no_value") {
-                    tagArray.push($(contentProfileBasicInfoDirectoryLvlThree).selected().val());
-                }
-
-            }
-
-        }
+            // Add string for all levels to tag array
+            tagArray.push(directoryString);
+        });
 
         // Set the tags property to the temporary tag array
         data["sakai:tags"] = tagArray;
@@ -289,7 +277,19 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
     var addBindingBasicinfo = function(){
         // Submitting of the form
         $(contentProfileBasicInfoForm).bind("submit", function(){
-            updateBasicInfo();
+            // Check if there are any faulty values in directory selection
+            var valueSelected = true;
+            $(".content_profile_basic_info_added_directory select").each(function(){
+                if($(this).selected().val() === "no_value"){
+                    valueSelected = false;
+                }
+            });
+            // If all values are selected execute the update
+            if (valueSelected) {
+                updateBasicInfo();
+            } else {
+                sakai.api.Util.notification.show("Select directory location", "Select the location in the directory. If you do not want to add a location at this time remove the input fields.");
+            }
         });
     };
 
@@ -304,8 +304,16 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                 url: contentPath + ".2.json",
                 success: function(data){
                     // Construct the JSON object
-                    var directory = data["sakai:directory"] ? data["sakai:directory"].split(":") : "";
-                    var json = {
+                    // Extract tags that start with "directory:"
+                    var directory = [];
+                    $(data["sakai:tags"]).each(function(i){
+                        if(data["sakai:tags"][i].split(":")[0] === "directory"){
+                            var item = [data["sakai:tags"][i].split(":")[1], data["sakai:tags"][i].split(":")[2], data["sakai:tags"][i].split(":")[3]]
+                            directory.push(item);
+                        }
+                    });
+
+                    json = {
                         data: data,
                         mode: "content",
                         url: contentPath,
@@ -366,24 +374,82 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
         });
     };
 
+    var addAnotherLocation = function(){
+        var renderedTemplate = $.TemplateRenderer("content_profile_basic_info_firstlevel_template", json);
+        var renderedDiv = $(document.createElement("div"));
+        renderedDiv.html(renderedTemplate);
+        $("#content_profile_basic_info_add_another_container").append(renderedDiv);
+        // Apply style to the rendered div
+        $(renderedDiv).addClass("content_profile_basic_info_added_directory");
+    }
+
+    /**
+     * Update the select boxes on the stage
+     * @param {String} select Containing ID to check which box value has been changed
+     * @param {String} changedboxvalue Containing selected value
+     * @param {String} firstlevelvalue Containing value of first select box
+     */
+    var updateDirectoryDisplay = function(select, changedboxvalue, firstlevelvalue){
+        var obj = {
+            "firstlevelvalue":firstlevelvalue.selected().val(),
+            "changedboxvalue" : changedboxvalue.selected().val(),
+            "directory": directoryJSON
+        };
+        if(select === contentProfileBasicInfoDirectoryLvlTwo){
+            $(firstlevelvalue.parent().children("#content_profile_basic_info_secondlevel_template_container")).html($.TemplateRenderer(contentProfileBasicInfoSecondLevelTemplate, obj));
+        }else{
+            $(firstlevelvalue.parent().children("#content_profile_basic_info_thirdlevel_template_container")).html($.TemplateRenderer(contentProfileBasicInfoThirdLevelTemplate, obj));
+        }
+    };
+
+    var removeDirectoryLocation = function(clickedParent){
+        // Send the Ajax request
+        $.ajax({
+            url: "URL",
+            data: "DATA",
+            traditional: true,
+            type: "POST",
+            success: function(){
+                clickedParent.remove();
+            },
+            error: function(xhr, textStatus, thrownError){
+                sakai.api.Util.notification.show("Location not removed", "The location in the directory could not be removed.");
+            }
+        });
+    }
+
     /**
      * Bind the widget's internal Cancel and Save Settings button
      */
     var addBinding = function(){
+
         $(contentProfileBasicInfoDirectoryLvlOne).live("change", function(){
-            $(contentProfileBasicInfoThirdLevelTemplateContainer).html("");
-            $(contentProfileBasicInfoDirectoryLvlOne + " option[value='no_value']").remove();
-            updateDirectoryDisplay(contentProfileBasicInfoDirectoryLvlTwo, $(contentProfileBasicInfoDirectoryLvlOne).selected().val(), $(contentProfileBasicInfoDirectoryLvlOne).selected().val());
+            $(this).parent().children(contentProfileBasicInfoThirdLevelTemplateContainer).html("");
+            $(this).parent().children(contentProfileBasicInfoDirectoryLvlOne + " option[value='no_value']").remove();
+            updateDirectoryDisplay(contentProfileBasicInfoDirectoryLvlTwo, $($(this).parent()).children(contentProfileBasicInfoDirectoryLvlOne), $($(this).parent()).children(contentProfileBasicInfoDirectoryLvlOne));
         });
 
         $(contentProfileBasicInfoDirectoryLvlTwo).live("change", function(){
-            $(contentProfileBasicInfoDirectoryLvlTwo + " option[value='no_value']").remove();
-            updateDirectoryDisplay(contentProfileBasicInfoDirectoryLvlThree, $(contentProfileBasicInfoDirectoryLvlTwo).selected().val(), $(contentProfileBasicInfoDirectoryLvlOne).selected().val());
+            $(this).parent().children(contentProfileBasicInfoDirectoryLvlTwo + " option[value='no_value']").remove();
+            updateDirectoryDisplay(contentProfileBasicInfoDirectoryLvlThree, $($(this).parent()).children(contentProfileBasicInfoDirectoryLvlTwo), $($(this).parent().parent()).children(contentProfileBasicInfoDirectoryLvlOne));
         });
 
         $(contentProfileBasicInfoDirectoryLvlThree).live("change", function(){
             $(contentProfileBasicInfoDirectoryLvlThree + " option[value='no_value']").remove();
         });
+
+        $(contentProfileBasicInfoAddAnotherLocation).live("click", function(){
+            addAnotherLocation();
+        });
+
+        $(contentProfileBasicInfoRemoveLocation).live("click", function(){
+            removeDirectoryLocation($(this).parent());
+        });
+
+        $(contentProfileBasicInfoRemoveNewLocation).live("click", function(){
+            $(this).parent().remove();
+        });
+
     };
 
     /**

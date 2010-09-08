@@ -32,6 +32,7 @@ sakai.search = function() {
 
     // Search URL mapping
     var searchURLmap = {
+        allgroups : sakai.config.URL.SEARCH_GROUPS,
         visiblegroups : sakai.config.URL.SEARCH_GROUPS,
         managergroups : sakai.config.URL.GROUPS_MANAGER,
         membergroups : sakai.config.URL.GROUPS_MEMBER
@@ -81,8 +82,8 @@ sakai.search = function() {
         facetedConfig : {
             title : "Refine your search",
             value : "Groups",
-            categories : ["Groups I can see", "Groups I manage", "Groups I'm a member of"],
-            searchurls : [searchURLmap.visiblegroups, searchURLmap.managergroups, searchURLmap.membergroups]
+            categories : ["All Groups", "Groups I can see", "Groups I manage", "Groups I'm a member of"],
+            searchurls : [searchURLmap.allgroups, searchURLmap.visiblegroups, searchURLmap.managergroups, searchURLmap.membergroups]
         }
     };
 
@@ -246,7 +247,9 @@ sakai.search = function() {
      *  mysites = the site the user is registered on
      *  /a-site-of-mine = specific site from the user
      */
-    sakai._search.doSearch = function(page, searchquery, searchwhere, facetedurl) {
+    sakai._search.doSearch = function(page, searchquery, searchwhere) {
+
+        facetedurl = mainSearch.getFacetedUrl();
 
         if (isNaN(page)){
             page = 1;

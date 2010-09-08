@@ -36,7 +36,8 @@ sakai.search = function() {
 
     // Search URL mapping
     var searchURLmap = {
-        mycontacts : sakai.config.URL.CONTACTS_ACCEPTED,
+        allusers : sakai.config.URL.SEARCH_USERS,
+        mycontacts : sakai.config.URL.SEARCH_USERS_ACCEPTED,
         invitedcontacts : sakai.config.URL.CONTACTS_INVITED,
         pendingcontacts : sakai.config.URL.CONTACTS_PENDING,
         onlinecontacts : sakai.config.URL.PRESENCE_CONTACTS_SERVICE
@@ -113,8 +114,8 @@ sakai.search = function() {
         facetedConfig : {
             title : "Refine your search",
             value : "People",
-            categories : ["My Contacts", "Online Now", "Invited", "Requested", "Not known"],
-            searchurls : [searchURLmap.mycontacts, searchURLmap.onlinecontacts, searchURLmap.invitedcontacts, searchURLmap.pendingcontacts, '']
+            categories : ["All Users", "My Contacts", "Online Now", "Invited", "Requested", "Not known"],
+            searchurls : [searchURLmap.allusers, searchURLmap.mycontacts, searchURLmap.onlinecontacts, searchURLmap.invitedcontacts, searchURLmap.pendingcontacts, '']
         }
     };
 
@@ -253,11 +254,9 @@ sakai.search = function() {
             // we hide the pager
             if ((results.total < resultsToDisplay) || (results.results.length <= 0)) {
                 $(searchConfig.global.pagerClass).hide();
-                $("#create_site_these_people").hide();
             }
             else {
                 $(searchConfig.global.pagerClass).show();
-                $("#create_site_these_people").show();
             }
 
         }
@@ -291,7 +290,9 @@ sakai.search = function() {
      *  * = entire community
      *  my contacts = the site the user is registered on
      */
-    sakai._search.doSearch = function(page, searchquery, searchwhere, facetedurl) {
+    sakai._search.doSearch = function(page, searchquery, searchwhere) {
+
+        facetedurl = mainSearch.getFacetedUrl();
 
         if (isNaN(page)){
             page = 1;
@@ -346,9 +347,11 @@ sakai.search = function() {
                     // if results are returned in a different format
                     if (!data.results && data.contacts && facetedurl === sakai.config.URL.PRESENCE_CONTACTS_SERVICE) {
                         var resultsTemp = { results : [] };
+                        var j = 0;
                         $.each(data.contacts, function(i, val) {
                             if (val.profile && val["sakai:status"] === "online") {
-                                resultsTemp.results[i] = val.profile;
+                                resultsTemp.results[j] = val.profile;
+                                j++;
                             }
                         });
                         data = resultsTemp;

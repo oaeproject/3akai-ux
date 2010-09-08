@@ -57,7 +57,7 @@ sakai.faceted = function(tuid){
         // Render the faceted.
         $(facetedContainer).html($.TemplateRenderer(facetedDefaultTemplate, facetedConfig));
 
-        addBinding(facetedConfig);
+        addBinding();
     };
 
 
@@ -66,9 +66,9 @@ sakai.faceted = function(tuid){
     //////////////
 
     /**
-     * Bind the widget's internal Cancel and Save Settings button
+     * Bind the widget's links
      */
-    var addBinding = function(facetedConfig){
+    var addBinding = function(){
         // bind faceted list all
         $(facetedListall).bind("click", function() {
             $(".faceted_list_expanded").show();
@@ -80,6 +80,11 @@ sakai.faceted = function(tuid){
             $(facetedListall).show();
             $(".faceted_list_expanded").hide();
             $(".faceted_back").hide();
+        });
+        // bind category links
+        $(".faceted_category").bind("click", function() {
+            $(".faceted_category").removeClass("faceted_category_selected");
+            $(this).addClass("faceted_category_selected");
         });
     }
 
