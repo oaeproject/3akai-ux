@@ -81,20 +81,6 @@
                         <!-- SEARCH BAR -->
                         <div class="fl-left fl-container fl-fix search_bar">
                             <div id="search_form" >
-                                <div id="search_site_select"></div>
-                                <div id="search_site_select_template"><!--
-                                    <select class="skinned_select" id="search_filter" title="__MSG__SELECT_SITE_TO_SEARCH__">
-                                        <option value="entire_community" id="search_filter_community">__MSG__ENTIRE_COMMUNITY__</option>
-                                        <option value="all_my_sites" id="search_filter_all_my_sites">__MSG__ALL_MY_SITES__</option>
-                                        {if sites.length > 0}
-                                            <optgroup id="search_filter_my_sites" label="__MSG__CHOOSE_A_SPECIFIC_SITE_WHERE_YOU_WANT_TO_SEARCH_IN__.">
-                                                {for i in sites}
-                                                    <option value="${i.siteref}" id="search_filter_my_sites_${i.siteref}">${i.site.name}</option>
-                                                {/for}
-                                            </optgroup>
-                                        {/if}
-                                    </select>
-                                --></div>
                                 <input type="text" maxlength="255" id="search_text" class="input" value="__MSG__ENTER_A_SEARCHTERM__" title="__MSG__ENTER_A_SEARCHTERM__" />
                                 <button id="search_button" class="s3d-search-button s3d-button s3d-button-primary"><span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span></button>
                                 <!-- SITEs TEMPLATE -->
