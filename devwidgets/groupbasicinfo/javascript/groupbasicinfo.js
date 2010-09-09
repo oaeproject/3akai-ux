@@ -137,7 +137,12 @@ sakai.groupbasicinfo = function(tuid, showSettings){
             "data" : sakai.currentgroup.data.authprofile,
             "mode" : mode,
             "directory" : directoryJSON,
-            "saveddirectory" : directory
+            "saveddirectory" : directory,
+            /* the following perSectionPermissions switch is used to turn off
+               the "Who can view or search this?" permissions dropdown for now.
+               The dropdown will need to be enabled and fully implemented later
+               on and the following switch can be removed. */
+            "perSectionPermissions" : false
         };
 
         $groupbasicinfo_generalinfo.html($.TemplateRenderer("#groupbasicinfo_default_template", json));
