@@ -81,8 +81,8 @@
                         <!-- SEARCH BAR -->
                         <div class="fl-left fl-container fl-fix search_bar">
                             <div class="fl-left fl-container" id="introduction_text">
-                                <h4>__MSG__FIND_CONTENT_MEDIA_SITES_AND_PEOPLE_ON_SAKAI_3__</h4>
-                                <p> __MSG__SAKAI_3_MAKES_IT_EASY_FOR_YOU_TO_FIND_CONTENT_MEDIA_SITES_AND_PEOPLE__. <br/>
+                                <h4>__MSG__FIND_CONTENT_MEDIA_GROUPS_AND_PEOPLE_ON_SAKAI_3__</h4>
+                                <p> __MSG__SAKAI_3_MAKES_IT_EASY_FOR_YOU_TO_FIND_CONTENT_MEDIA_GROUPS_AND_PEOPLE__. <br/>
                                     __MSG__YOULL_FIND_PAGES_AND_SITES_OF_YOUR_INTEREST_AND_PEOPLE_WITH_WHO_YOU_CAN_CONNECT__. </p>
                             </div>
                             <div id="search_form" >
@@ -190,21 +190,21 @@
                             <div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"><!-- --></div></div>
                         </div>
 
-                        <!-- COURSES / SITES -->
+                        <!-- GROUPS -->
                         <div class="fl-container fl-fix search_results_container" style="display:none" id="sites_header">
                             <div class="search_top_rounded"><div class="search_top_rounded_inner"><!-- --></div></div>
                             <div class="fl-container fl-fix search_results_part">
-                                <div class="fl-container fl-fix search_results_part_header"> <a href="#" class="search_results_part_title">__MSG__COURSES_AND_SITES__</a> <a href="#" class="fl-force-right display_more_link" id="display_more_sites" style="display:none"><small>__MSG__VIEW_MORE_COURSES_AND_SITES_RESULT__ &raquo;</small></a> </div>
+                                <div class="fl-container fl-fix search_results_part_header"> <a href="#" class="search_results_part_title">__MSG__GROUPS__</a> <a href="#" class="fl-force-right display_more_link" id="display_more_sites" style="display:none"><small>__MSG__VIEW_MORE_GROUP_RESULT__ &raquo;</small></a> </div>
                                 <div id="sites_search_result"> </div>
                                 <div id="sites_search_result_template"><!--
                                     {for i in items}
                                         <div class="fl-container fl-fix search_result_course_site">
-                                            <div class="search_result_course_site_title"><a href="${i.pagepath}">${i.site.name}</a></div>
-                                            <div class="search_result_course_site_url"><a href="${i.pagepath}">${i.pagepath}</a></div>
-                                            <div class="search_result_course_site_excerpt">${i.excerpt}</div>
+                                            <div class="search_result_course_site_title"><a href="/dev/show.html?type=group&amp;id=${i.pagepath}">${i["sakai:group-title"]}</a></div>
+                                            <div class="search_result_course_site_url"><a href="/dev/show.html?type=group&amp;id=${i.pagepath}">${i.pagepath}</a></div>
+                                            <div class="search_result_course_site_excerpt">${i["sakai:group-description"]}</div>
                                         </div>
                                     {forelse}
-                                        __MSG__NO_COURSES_AND_SITES_FOUND__.
+                                        __MSG__NO_GROUPS_FOUND__.
                                     {/for}
                                 --></div>
                             </div>
