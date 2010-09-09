@@ -54,7 +54,7 @@ sakai.changepic = function(tuid, showSettings){
 
 
     //////////////
-    // CSS IDS    //
+    // CSS IDS  //
     //////////////
 
     var containerTrigger = '#changepic_container_trigger'; // This is the id that will trigger this widget.
@@ -70,6 +70,10 @@ sakai.changepic = function(tuid, showSettings){
     // others
     var container = "#changepic_container";
     var picForm = "#changepic_form";
+    var picInput = "#profilepicture";
+    var picInputError = "#changepic_nofile_error";
+    var uploadProcessing = "#changepic_processing_msg";
+    var uploadNewButtons = "#changepic_uploadnew_buttons";
     var pictureMeasurer = "#picture_measurer";
     var pictureMeasurerImage = "#picture_measurer_image";
     var saveNewSelection = "#save_new_selection";
@@ -163,13 +167,37 @@ sakai.changepic = function(tuid, showSettings){
      * Empty upload field by resetting the form
      */
     var resetUploadField = function(){
-        $("#profilepicture").val("");
+        $(picInput).val("");
+        $(picInputError).hide();
+        $(uploadProcessing).hide();
+        $(uploadNewButtons).show();
     };
 
     // Add click event to all cancel buttons in the overlay
     // Since file upload form is reset every time overlay closes do this in init function
     $("#changepic_container .jqmClose").click(function(){
         resetUploadField();
+    });
+
+    /**
+     * On changepic form submit, check that a file has been selected
+     * and submit the form.
+     */
+    $(picForm).submit(function () {
+        // validate args
+        if($(picInput).val()) {
+            $(picInputError).hide();
+            $(uploadNewButtons).hide();
+            $(uploadProcessing).show();
+            return AIM.submit(this, {
+                'onStart' : sakai.changepic.startCallback,
+                'onComplete' : sakai.changepic.completeCallback
+            });
+        } else {
+            // no input, show error
+            $(picInputError).show();
+            return false;
+        }
     });
 
     sakai.changepic.doInit = function(newpic){
