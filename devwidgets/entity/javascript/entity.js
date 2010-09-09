@@ -258,16 +258,41 @@ sakai.entity = function(tuid, showSettings){
     };
 
     /**
+     * Gets the number of managers in a group
+     * @return {String}
+     */
+    var getGroupManagers = function(){
+        $.ajax({
+            url: "/system/userManager/group/" + entityconfig.data.profile["sakai:group-id"] + "-managers.members.json",
+            async: false,
+            success: function(data){
+                var groupManagers = data;
+                entityconfig.data.profile["managerCount"] = groupManagers.length;
+                $.each(groupManagers, function(i, val) {
+                    if (val["userid"] === sakai.data.me.user.userid) {
+                        entityconfig.data.profile["role"] = "manager";
+                    }
+                });
+            }
+        });
+    };
+    
+    /**
      * Gets the number of members in a group
      * @return {String}
      */
-    var getGroupMemberCount = function(){
+    var getGroupMembers = function(){
         $.ajax({
             url: "/system/userManager/group/" + entityconfig.data.profile["sakai:group-id"] + ".members.json",
             async: false,
             success: function(data){
                 var groupMembers = data;
-                entityconfig.data.profile["memberCount"] = groupMembers.length
+                entityconfig.data.profile["memberCount"] = groupMembers.length;
+                $.each(groupMembers, function(i, val) {
+                    if (val["userid"] === sakai.data.me.user.userid) {
+                        entityconfig.data.profile["role"] = "member";
+                    }
+                });
             }
         });
     };
@@ -691,24 +716,10 @@ sakai.entity = function(tuid, showSettings){
                 break;
             case "group":
                 entityconfig.data.profile = data;
-                // determine if user has access to the manager group
-                var groups = sakai.data.me.groups;
-                var manager = false;
-                var member = false;
-                for (var i = 0, il = groups.length; i < il; i++) {
-                    if (groups[i].groupid === entityconfig.data.profile["sakai:group-id"] + '-managers') {
-                        manager = true;
-                    } else if (groups[i].groupid === entityconfig.data.profile["sakai:group-id"]) {
-                        member = true;
-                    }
-                }
-                if (manager) {
-                    entityconfig.data.profile["role"] = "manager";
-                } else if (member) {
-                    entityconfig.data.profile["role"] = "member";
-                }
-                // get number of groups
-                var numberOfMembers = getGroupMemberCount();
+                // determine if user has access to the group and get the count of members
+                getGroupMembers();
+                // determine if user has access to the manager group and get the count of managers
+                getGroupManagers();
                 break;
             case "content":
                 setContentData(data);
