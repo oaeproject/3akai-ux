@@ -21,42 +21,42 @@
 var sakai = sakai || {};
 
 /**
- * @name sakai.myfriends
+ * @name sakai.mycontacts
  *
- * @class myfriends
+ * @class mycontacts
  *
  * @description
- * Initialize the myfriends widget
+ * Initialize the mycontacts widget
  *
  * @version 0.0.1
  * @param {String} tuid Unique id of the widget
  * @param {Boolean} showSettings Show the settings of the widget or not
  */
-sakai.myfriends = function(tuid,showSettings){
+sakai.mycontacts = function(tuid,showSettings){
 
     /////////////////////////////
     // Configuration variables //
     /////////////////////////////
 
     var rootel = $("#" + tuid);
-    var numberFriends = 5; // The number of friends that will be shown
+    var numberFriends = 5; // The number of contacts that will be shown
 
     // - ID
-    var myfriends = "#myfriends";
+    var mycontacts = "#mycontacts";
 
     // Contact request
-    var myfriendsRequests = myfriends + "_requests";
+    var mycontactsRequests = mycontacts + "_requests";
 
     // Error
-    var myfriendsError = myfriends + "_error";
-    var myfriendsErrorContactserver = myfriendsError + "_contactserver";
+    var mycontactsError = mycontacts + "_error";
+    var mycontactsErrorContactserver = mycontactsError + "_contactserver";
 
     // List
-    var myfriendsList = myfriends + "_list";
+    var mycontactsList = mycontacts + "_list";
 
     // Templates
-    var myfriendsListTemplate = "myfriends_list_template";
-    var myfriendsRequestsTemplate = "myfriends_requests_template";
+    var mycontactsListTemplate = "mycontacts_list_template";
+    var mycontactsRequestsTemplate = "mycontacts_requests_template";
 
 
     ///////////////////////
@@ -96,24 +96,24 @@ sakai.myfriends = function(tuid,showSettings){
 
 
     ///////////////////////////
-    // Get & process friends //
+    // Get & process contacts //
     ///////////////////////////
 
     /**
      * Process the information for each friend
-     * @param {Object} friends JSON object containing all the friends the current user
+     * @param {Object} contacts JSON object containing all the contacts the current user
      */
-    var doProcessing = function(friends){
+    var doProcessing = function(contacts){
         var jsonFriends = {};
 
-        // Array that will contain a specified number of friends of the current user
+        // Array that will contain a specified number of contacts of the current user
         jsonFriends.items = [];
 
-        if (friends.results) {
+        if (contacts.results) {
             // Run process each friend
-            for (var i = 0, j = friends.results.length; i < j; i++) {
+            for (var i = 0, j = contacts.results.length; i < j; i++) {
                 if (i <= numberFriends) {
-                    var friend = friends.results[i];
+                    var friend = contacts.results[i];
                     
                     // Set the id of the friend
                     friend.id = friend.target;
@@ -129,15 +129,15 @@ sakai.myfriends = function(tuid,showSettings){
                 }
             }
         }
-        // Render the template with the friends
-        $(myfriendsList).html($.TemplateRenderer(myfriendsListTemplate, jsonFriends));
+        // Render the template with the contacts
+        $(mycontactsList).html($.TemplateRenderer(mycontactsListTemplate, jsonFriends));
     };
 
 
     /**
-     * Get all the friends for the current user.
-     * It only gets the friends that have an accepted status
-     * and the request is ordered by the first and last name of the friends
+     * Get all the contacts for the current user.
+     * It only gets the contacts that have an accepted status
+     * and the request is ordered by the first and last name of the contacts
      */
     var getFriends = function(){
         $.ajax({
@@ -145,13 +145,13 @@ sakai.myfriends = function(tuid,showSettings){
             cache: false,
             success: function(data){
 
-                // Process the friends: username, picture, ...
+                // Process the contacts: username, picture, ...
                 doProcessing(data);
             },
             error: function(xhr, textStatus, thrownError) {
 
                 // Show the contact error
-                $(myfriendsErrorContactserver, rootel).show();
+                $(mycontactsErrorContactserver, rootel).show();
             }
         });
     };
@@ -166,7 +166,7 @@ sakai.myfriends = function(tuid,showSettings){
      * them on the page.
      */
     var getContactRequests = function(){
-        $(myfriendsRequests).html($.TemplateRenderer(myfriendsRequestsTemplate, sakai.data.me.contacts));
+        $(mycontactsRequests).html($.TemplateRenderer(mycontactsRequestsTemplate, sakai.data.me.contacts));
     };
 
 
@@ -187,4 +187,4 @@ sakai.myfriends = function(tuid,showSettings){
 
 };
 
-sakai.api.Widgets.widgetLoader.informOnLoad("myfriends");
+sakai.api.Widgets.widgetLoader.informOnLoad("mycontacts");

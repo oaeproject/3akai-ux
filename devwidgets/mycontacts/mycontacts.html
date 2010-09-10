@@ -1,28 +1,28 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/mycontacts/css/mycontacts.css" />
 
-<div class="myfriends_widget">
+<div class="mycontacts_widget">
 
-    <div class="fl-widget-content" id="myfriends_list"></div>
+    <div class="fl-widget-content" id="mycontacts_list"></div>
 
-    <div id="myfriends_list_template" style="display:none"><!--
+    <div id="mycontacts_list_template" style="display:none"><!--
         {for i in items}
-            <div class="myfriends_list_contact">
-                <a href="/dev/show.html?type=user&amp;id=${i.id}" class="myfriends_list_contact_picture"><img src="${i.photo}" alt="person icon" /></a>
-                <a href="/dev/show.html?type=user&amp;id=${i.id}" class="myfriends_list_contact_name">${i.name}</a>
+            <div class="mycontacts_list_contact">
+                <a href="/dev/show.html?type=user&amp;id=${i.id}" class="mycontacts_list_contact_picture"><img src="${i.photo}" alt="person icon" /></a>
+                <a href="/dev/show.html?type=user&amp;id=${i.id}" class="mycontacts_list_contact_name">${i.name}</a>
             </div>
         {forelse}
-            <span id="myfriends_nocontacts">__MSG__YOU_CURRENTLY_HAVE_NO_CONTACTS__</span>
+            <span id="mycontacts_nocontacts">__MSG__YOU_CURRENTLY_HAVE_NO_CONTACTS__</span>
         {/for}
     --></div>
 <!--
-<div class="myfriends_list_contact">
-                <a href="/dev/show.html?type=user&amp;id=${i.id}" class="myfriends_list_contact_picture"><img src="${i.photo}" /></a>
-                <a href="/dev/show.html?type=user&amp;id=${i.id}" class="myfriends_list_contact_name">${i.name}</a>
+<div class="mycontacts_list_contact">
+                <a href="/dev/show.html?type=user&amp;id=${i.id}" class="mycontacts_list_contact_picture"><img src="${i.photo}" /></a>
+                <a href="/dev/show.html?type=user&amp;id=${i.id}" class="mycontacts_list_contact_name">${i.name}</a>
             </div>
 -->
 
-    <div id="myfriends_requests_template"><!--
+    <div id="mycontacts_requests_template"><!--
         {if ((invited > 0) && (invited < 1000))}
             <span>
                 ${invited}
@@ -36,7 +36,7 @@
     --></div>
 
     <!-- ERROR MESSAGES -->
-    <span id="myfriends_error_contactserver" style="display:none;">__MSG__UNABLE_TO_CONTACT_THE_SERVER_PLEASE_TRY_AGAIN_LATER__.</span>
+    <span id="mycontacts_error_contactserver" style="display:none;">__MSG__UNABLE_TO_CONTACT_THE_SERVER_PLEASE_TRY_AGAIN_LATER__.</span>
 
     <!-- FOOTER LINKS -->
     <div class="fl-widget-options fl-fix" style="overflow:hidden;">
@@ -45,7 +45,7 @@
                 <li><a href="people.html">__MSG__VIEW_AND_EDIT_CONTACTS__</a></li>
                 <li><span class="pipe_divider">|</span></li>
                 <li><a href="search_people.html">__MSG__FIND_PEOPLE__</a></li>
-                <li><a href="people.html" class="myfriends_requests" id="myfriends_requests"></a></li>
+                <li><a href="people.html" class="mycontacts_requests" id="mycontacts_requests"></a></li>
             </ul>
 
         </div>
