@@ -144,6 +144,7 @@ sakai.inbox = function() {
     var inboxComposeNewContainer = inboxComposeNew + "_container";
 
     var inboxComposeNewPanel = inboxComposeNew + "_panel";
+    var inboxComposeForm = ".compose-form";
 
     // Errors and messages
     var inboxGeneralMessages = inboxID + "_generalmessages";
@@ -1264,6 +1265,10 @@ sakai.inbox = function() {
     $(inboxSpecificMessageComposeCancel).click(function() {
         // Clear all the input fields
         clearInputFields();
+    });
+
+    $(inboxComposeForm).bind("submit", function() {
+        return false;
     });
 
     $(inboxSpecificMessageComposeSend).click(function() {
