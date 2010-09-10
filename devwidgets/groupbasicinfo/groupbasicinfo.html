@@ -61,20 +61,9 @@
                 <div id="groupbasicinfo_content_directory_contents">
                     {if saveddirectory.length === 0}
                         <div id="groupbasicinfo_add_another_container">
-                            <div class="groupbasicinfo_added_directory">
-                                <select class="groupbasicinfo_content groupbasicinfo_hierarchy_select" id="groupbasicinfo_generalinfo_group_directory_lvlone">
-                                    <option value="no_value">Select hierarchy 1</option>
-                                    {for i in directory}
-                                        <option value="${i.name}">${i.name}</option>
-                                    {/for}
-                                </select>
-                                <div id="groupbasicinfo_secondlevel_template_container"></div>
-                                <div id="groupbasicinfo_thirdlevel_template_container"></div>
-                                <a href="javascript:;" class="groupbasicinfo_remove_new_location" title="Remove location">Remove location</a>
-                            </div>
                         </div>
                         <p id="groupbasicinfo_add_another_location">
-                            <a href="javascript:;" title="Add another location">Add another location</a>
+                            <a href="javascript:;" title="Add a location"><span id="groupbasicinfo_add_another_location_link">Add a location</span></a>
                         </p>
                     {else}
                         <ul class="groupbasicinfo_saveddirectory">

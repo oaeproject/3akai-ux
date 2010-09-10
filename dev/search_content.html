@@ -150,14 +150,14 @@
                                             <img src="${sakai.config.MimeTypes["other"].URL}" alt="${mimeTypeDescription}" />
                                         {/if}
                                         <div class="search_result_right">
-                                            <div class="search_result_header"><a href="{if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}{else}${i['jcr:path']}{/if}">{if i['sakai:pooled-content-file-name']}${i['sakai:pooled-content-file-name']}{elseif i['jcr:name']}${i['jcr:name']}{/if}</a></div>
+                                            <div class="search_result_header"><a href="/dev/content_profile.html#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}{else}${i['jcr:path']}{/if}">{if i['sakai:pooled-content-file-name']}${i['sakai:pooled-content-file-name']}{elseif i['jcr:name']}${i['jcr:name']}{/if}</a></div>
                                             {if i["sakai:description"]}<div class="search_result_description">${i["sakai:description"]}</div>{/if}
                                             {if i["sakai:tags"] && i["sakai:tags"].length > 0}
                                                 <div class="search_result_tags">__MSG__TAGS__:
                                                     {for t in i["sakai:tags"]}{if t_index > 0},{/if} ${t}{/for}
                                                 </div>
                                             {/if}
-                                            {if mimeTypeDescription}<div class="search_result_type"><a href="{if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}{else}${i['jcr:path']}{/if}">${mimeTypeDescription}</a></div>{/if}
+                                            {if mimeTypeDescription}<div class="search_result_type"><a href="/dev/content_profile.html#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}{else}${i['jcr:path']}{/if}">${mimeTypeDescription}</a></div>{/if}
                                         </div>
                                     </div>
                                 {forelse}

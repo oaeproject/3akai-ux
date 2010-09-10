@@ -115,10 +115,9 @@
                     <a class="entity_header_text" href="/dev/show.html?type=group&amp;id=${data.profile.authprofile["sakai:group-id"]}">${data.profile.authprofile["sakai:group-title"]} (${data.profile["memberCount"]+data.profile["managerCount"]})</a>
                 {/if}
                 {if data.profile.role === "manager"}
-                    <a class="s3d-action" href="/dev/group_edit.html?id=${data.profile.authprofile["sakai:group-id"]}">__MSG__EDIT_PROFILE__</a>
-                {else}
-                    <a class="s3d-action" href="/dev/show.html?type=group&amp;id=${data.profile.authprofile["sakai:group-id"]}">__MSG__MORE_INFO__</a>
+                    <a class="s3d-action entity_group_edit" href="/dev/group_edit.html?id=${data.profile.authprofile["sakai:group-id"]}">__MSG__EDIT_PROFILE__</a>
                 {/if}
+                <a class="s3d-action" href="/dev/show.html?type=group&amp;id=${data.profile.authprofile["sakai:group-id"]}">__MSG__MORE_INFO__</a>
             </div>
             <div class="fl-force-left">
                 {if data.profile.authprofile["sakai:group-description"] && data.profile.authprofile["sakai:group-description"].length > 115}

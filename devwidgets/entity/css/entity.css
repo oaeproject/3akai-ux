@@ -37,6 +37,7 @@
 /* Content */
 .entity_content_about {margin-top: 10px;}
 #entity_container h1 {margin:0;}
+.entity_group_edit {padding-right: 5px;}
 
 /* Actions */
 .entity_actions {margin-top:10px; overflow:hidden;}
