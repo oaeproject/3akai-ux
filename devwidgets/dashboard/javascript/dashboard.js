@@ -339,8 +339,8 @@ sakai.dashboard = function(tuid, showSettings) {
                       } else {
                           $("#settings_settings", $rootel).hide();
                       }
-
-                      if (Widgets.widgets[widgetId] && !Widgets.widgets[widgetId].deletable) {
+                      if (Widgets.widgets[widgetId] &&
+                          (Widgets.widgets[widgetId].deletable === true || Widgets.widgets[widgetId].deletable === undefined)) {
                           $("#settings_remove", $rootel).show();
                       } else {
                           $("#settings_remove", $rootel).hide();
