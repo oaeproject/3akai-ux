@@ -32,7 +32,7 @@ sakai.search = function() {
 
     // Search URL mapping
     var searchURLmap = {
-        allfiles : sakai.config.URL.SEARCH_ALL_FILES_SERVICE,
+        allfiles : sakai.config.URL.SEARCH_ALL_FILES,
         mybookmarks : sakai.config.URL.SEARCH_MY_BOOKMARKS,
         mycontacts : sakai.config.URL.SEARCH_MY_CONTACTS,
         myfiles : sakai.config.URL.SEARCH_MY_FILES,
