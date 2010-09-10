@@ -376,7 +376,7 @@ if (!sakai.sendmessage){
          * Initializes the sendmessage widget, optionally preloading the message
          * with a recipient, subject and body. By default, the widget appears as
          * a modal dialog. This function can be called from other widgets or pages.
-         * @param {Object} userObj The user object containing the nescecary information {uuid:  "user1", firstName: "foo", lastName: "bar"}
+         * @param {Object} userObj The user object containing the nescecary information {uuid:  "user1", firstName: "foo", lastName: "bar"}, or a user profile
          * @param {Boolean} allowOtherReceivers If the user can add other users, default = false
          * @param {String} insertInId Insert the HTML into another element instead of showing it as a popup
          * @param {Object} callback When the message is sent this function will be called. If no callback is provided a standard message will be shown that fades out.
@@ -387,7 +387,14 @@ if (!sakai.sendmessage){
             resetView();
 
             // The user we are sending a message to.
-            toUser = userObj;
+            if (userObj.firstName) {
+                toUser = userObj;
+            } else {
+                toUser = {};
+                toUser.firstName = sakai.api.User.getProfileBasicElementValue(userObj, "firstName");
+                toUser.lastName = sakai.api.User.getProfileBasicElementValue(userObj, "lastName");
+                toUser.uuid = userObj["rep:userId"];
+            }
 
             // Maybe this message can be sent to multiple people.
             allowOthers = false;
@@ -472,17 +479,20 @@ if (!sakai.sendmessage){
          * call to the server for the selected recipients.
          */
         $(buttonSendMessage).bind("click", function(ev) {
-            // fetch list of selected recipients
-            var recipientsString = $(autoSuggestValues).val();
-            // autoSuggest adds unnecessary commas to the beginning and end
-            // of the values string; remove them
-            if(recipientsString[0] === ",") {
-                recipientsString = recipientsString.slice(1);
+            var recipients = [];
+            if (allowOthers) {
+                // fetch list of selected recipients
+                var recipientsString = $(autoSuggestValues).val();
+                // autoSuggest adds unnecessary commas to the beginning and end
+                // of the values string; remove them
+                if(recipientsString[0] === ",") {
+                    recipientsString = recipientsString.slice(1);
+                }
+                if(recipientsString[recipientsString.length - 1] === ",") {
+                    recipientsString = recipientsString.slice(0, -1);
+                }
+                recipients = recipientsString.split(",");
             }
-            if(recipientsString[recipientsString.length - 1] === ",") {
-                recipientsString = recipientsString.slice(0, -1);
-            }
-            var recipients = recipientsString.split(",");
 
             // Check if toUser has been defined
             if(toUser) {

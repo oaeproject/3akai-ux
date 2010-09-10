@@ -21,11 +21,13 @@
 #changepic_container .fl-tabs li a {bottom:3px!important;#bottom:5px!important;/* override for Microsoft Internet Explorer browsers*/ background-color:#EEE;color:#000!important;margin-left:-1px;position:relative;border-color:#EEE #EEE #DDD;border-style:solid;border-width:1px;padding:6px 20px;}
 #changepic_container .fl-tabs .fl-tabs-active a {background-color:#FFF!important;color:#000!important;font-weight:400!important;border-color:#DDD #DDD #EEE;border-style:solid;border-width:1px;}
 #changepic_form {padding-top:10px;}
-#changepic_fullpicture {float:left;margin-right:10px;}
+#changepic_fullpicture {cursor:crosshair;}
 #changepic_selectpicture {padding-top:10px;padding-left:10px;}
 #changepic_uploadnew {padding-top:10px;padding-left:10px;}
 #picture_measurer {left:-100000px; top: -100000px; position:absolute; }
 #thumbnail {position:relative;}
-#thumbnail_container {float:left;position:relative;overflow:hidden;width:100px;height:100px;}
-
+#thumbnail_container {position:relative;overflow:hidden;width:100px;height:100px;}
+#changepic_nofile_error {color:#9f3333; font-weight:bold; margin-top:-10px;}
 .dailog_changepic h4 {margin-bottom:10px;}
+#changepic_select_table td {vertical-align:top;}
+#changepic_uploaded_picture {margin-right:25px;}

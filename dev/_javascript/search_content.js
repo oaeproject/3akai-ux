@@ -44,9 +44,6 @@ sakai.search = function() {
     // CSS IDs
     var search = "#search";
 
-    var searchSiteSelect = $(search + "_site_select");
-    var searchSiteSelectTemplate = "search_site_select_template";
-
     var searchConfig = {
         search : "#search",
         global : {
@@ -285,7 +282,7 @@ sakai.search = function() {
             
             // Check if we want to search using a faceted link
             if (facetedurl)
-                url = facetedurl;
+                url = facetedurl.replace(".json", ".infinity.json");
 
             $.ajax({
                 url: url,
@@ -337,8 +334,6 @@ sakai.search = function() {
                     var sites = {
                         "sites" : data
                     };
-                    searchSiteSelect.html($.TemplateRenderer(searchSiteSelectTemplate, sites));
-
                     // Get my sites
                     mainSearch.getMySites();
                 }

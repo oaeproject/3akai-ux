@@ -18,6 +18,7 @@
 
         <!-- 3rd party CSS -->
         <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
+        <link rel="stylesheet" type="text/css" href="/dev/_css/lib/jquery.autoSuggest.css" />
 
 
         <!-- Sakai Config JS -->
@@ -45,6 +46,7 @@
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.pager.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.ba-bbq.js"></script>
         <script type="text/javascript" src="_javascript/_history/search_history.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.autoSuggest.sakai-edited.js"></script>
 
     </head>
 
@@ -81,20 +83,6 @@
                         <!-- SEARCH BAR -->
                         <div class="fl-left fl-container fl-fix search_bar">
                             <div id="search_form" >
-                                <div id="search_site_select"></div>
-                                <div id="search_site_select_template"><!--
-                                    <select class="skinned_select" id="search_filter" title="__MSG__SELECT_SITE_TO_SEARCH__">
-                                        <option value="entire_community" id="search_filter_community">__MSG__ENTIRE_COMMUNITY__</option>
-                                        <option value="all_my_sites" id="search_filter_all_my_sites">__MSG__ALL_MY_SITES__</option>
-                                        {if sites.length > 0}
-                                            <optgroup id="search_filter_my_sites" label="__MSG__CHOOSE_A_SPECIFIC_SITE_WHERE_YOU_WANT_TO_SEARCH_IN__.">
-                                                {for i in sites}
-                                                    <option value="${i.siteref}" id="search_filter_my_sites_${i.siteref}">${i.site.name}</option>
-                                                {/for}
-                                            </optgroup>
-                                        {/if}
-                                    </select>
-                                --></div>
                                 <input type="text" maxlength="255" id="search_text" class="input" value="__MSG__ENTER_A_SEARCHTERM__" title="__MSG__ENTER_A_SEARCHTERM__" />
                                 <button id="search_button" class="s3d-search-button s3d-button s3d-button-primary"><span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span></button>
                                 <!-- SITEs TEMPLATE -->
@@ -138,16 +126,22 @@
                             <div id="search_results_template"><!--
                                 {for i in items}
                                     <div class="fl-container fl-fix search_result">
-                                        {if i['sakai:mimeType']}
-                                            {var mimeType = i['sakai:mimeType']}
-                                        {elseif i.file && i.file['sakai:mimeType']}
-                                            {var mimeType = i.file['sakai:mimeType']}
+                                        {if i['jcr:mimeType']}
+                                            {var mimeType = i['jcr:mimeType']}
+                                        {elseif i.file && i.file['jcr:mimeType']}
+                                            {var mimeType = i.file['jcr:mimeType']}
+                                        {elseif i['jcr:content'] && i['jcr:content']['jcr:mimeType']}
+                                            {var mimeType = i['jcr:content']['jcr:mimeType']}
                                         {elseif i['jcr:primaryType'] === "sling:Folder"}
                                             {var mimeType = 'folder'}
                                         {/if}
                                         {if mimeType=="image/jpg" || mimeType=="image/png" || mimeType=="image/gif" || mimeType=="image/bmp"}
                                             {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
-                                            <img src="${i.path}" alt="${mimeTypeDescription}" />
+                                            {if i['jcr:primaryType'] && i['jcr:primaryType'] === "sakai:pooled-content"}
+                                                <img src="/p/${i['jcr:name']}" alt="${mimeTypeDescription}" />
+                                            {else}
+                                                <img src="${i['jcr:path']}" alt="${mimeTypeDescription}" />
+                                            {/if}
                                         {elseif sakai.config.MimeTypes[mimeType]}
                                             {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
                                             <img src="${sakai.config.MimeTypes[mimeType].URL}" alt="${mimeTypeDescription}" />
@@ -156,14 +150,14 @@
                                             <img src="${sakai.config.MimeTypes["other"].URL}" alt="${mimeTypeDescription}" />
                                         {/if}
                                         <div class="search_result_right">
-                                            <div class="search_result_header"><a href="${i.path}">{if i.name}${i.name}{else}${i["sakai:filename"]}{/if}</a></div>
+                                            <div class="search_result_header"><a href="{if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}{else}${i['jcr:path']}{/if}">{if i['sakai:pooled-content-file-name']}${i['sakai:pooled-content-file-name']}{elseif i['jcr:name']}${i['jcr:name']}{/if}</a></div>
                                             {if i["sakai:description"]}<div class="search_result_description">${i["sakai:description"]}</div>{/if}
                                             {if i["sakai:tags"] && i["sakai:tags"].length > 0}
                                                 <div class="search_result_tags">__MSG__TAGS__:
                                                     {for t in i["sakai:tags"]}{if t_index > 0},{/if} ${t}{/for}
                                                 </div>
                                             {/if}
-                                            {if mimeTypeDescription}<div class="search_result_type"><a href="${i.path}">${mimeTypeDescription}</a></div>{/if}
+                                            {if mimeTypeDescription}<div class="search_result_type"><a href="{if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}{else}${i['jcr:path']}{/if}">${mimeTypeDescription}</a></div>{/if}
                                         </div>
                                     </div>
                                 {forelse}

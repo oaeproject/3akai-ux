@@ -126,7 +126,7 @@ sakai.pickeradvanced = function(tuid, showSettings) {
 
         // display the groups list, bind elements and submit a search
         if (pickerData["type"] === "people") {
-            $("#pickeradvanced_search_contacts", $rootel).parent("li").addClass("pickeradvanced_selected_list");
+            $("#pickeradvanced_search_contacts").parent("li").addClass("pickeradvanced_selected_list");
             getGroups();
             $pickeradvanced_sort_on.show();
         } if (pickerData["type"] === "files") {

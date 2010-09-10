@@ -19,6 +19,7 @@
         <!-- 3rd party CSS -->
         <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
         <link rel="stylesheet" type="text/css" href="/dev/_lib/jquery/plugins/gritter/css/jquery.gritter.css"/>
+        <link rel="stylesheet" type="text/css" href="/dev/_css/lib/jquery.autoSuggest.css" />
 
         <!-- Sakai Config JS -->
         <script type="text/javascript" src="_configuration/widgets.js"></script>
@@ -44,7 +45,7 @@
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.pager.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.ba-bbq.js"></script>
         <script type="text/javascript" src="_javascript/_history/search_history.js"></script>
-        <script type="text/javascript" src="_lib/AutoComplete/jquery.autocomplete.min.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.autoSuggest.sakai-edited.js"></script>
 
     </head>
 
@@ -81,8 +82,8 @@
                         <!-- SEARCH BAR -->
                         <div class="fl-left fl-container fl-fix search_bar">
                             <div class="fl-left fl-container" id="introduction_text">
-                                <h4>__MSG__FIND_CONTENT_MEDIA_SITES_AND_PEOPLE_ON_SAKAI_3__</h4>
-                                <p> __MSG__SAKAI_3_MAKES_IT_EASY_FOR_YOU_TO_FIND_CONTENT_MEDIA_SITES_AND_PEOPLE__. <br/>
+                                <h4>__MSG__FIND_CONTENT_MEDIA_GROUPS_AND_PEOPLE_ON_SAKAI_3__</h4>
+                                <p> __MSG__SAKAI_3_MAKES_IT_EASY_FOR_YOU_TO_FIND_CONTENT_MEDIA_GROUPS_AND_PEOPLE__. <br/>
                                     __MSG__YOULL_FIND_PAGES_AND_SITES_OF_YOUR_INTEREST_AND_PEOPLE_WITH_WHO_YOU_CAN_CONNECT__. </p>
                             </div>
                             <div id="search_form" >
@@ -112,16 +113,22 @@
                                 <div id="cm_search_result_template"><!--
                                 {for i in items}
                                     <div class="fl-container fl-fix search_result">
-                                        {if i['sakai:mimeType']}
-                                            {var mimeType = i['sakai:mimeType']}
-                                        {elseif i.file && i.file['sakai:mimeType']}
-                                            {var mimeType = i.file['sakai:mimeType']}
+                                        {if i['jcr:mimeType']}
+                                            {var mimeType = i['jcr:mimeType']}
+                                        {elseif i.file && i.file['jcr:mimeType']}
+                                            {var mimeType = i.file['jcr:mimeType']}
+                                        {elseif i['jcr:content'] && i['jcr:content']['jcr:mimeType']}
+                                            {var mimeType = i['jcr:content']['jcr:mimeType']}
                                         {elseif i['jcr:primaryType'] === "sling:Folder"}
                                             {var mimeType = 'folder'}
                                         {/if}
                                         {if mimeType=="image/jpg" || mimeType=="image/png" || mimeType=="image/gif" || mimeType=="image/bmp"}
                                             {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
-                                            <img src="${i.path}" alt="${mimeTypeDescription}" />
+                                            {if i['jcr:primaryType'] && i['jcr:primaryType'] === "sakai:pooled-content"}
+                                                <img src="/p/${i['jcr:name']}" alt="${mimeTypeDescription}" />
+                                            {else}
+                                                <img src="${i['jcr:path']}" alt="${mimeTypeDescription}" />
+                                            {/if}
                                         {elseif sakai.config.MimeTypes[mimeType]}
                                             {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
                                             <img src="${sakai.config.MimeTypes[mimeType].URL}" alt="${mimeTypeDescription}" />
@@ -130,14 +137,14 @@
                                             <img src="${sakai.config.MimeTypes["other"].URL}" alt="${mimeTypeDescription}" />
                                         {/if}
                                         <div class="search_result_right">
-                                            <div class="search_result_header"><a href="${i.path}">{if i.name}${i.name}{else}${i["sakai:filename"]}{/if}</a></div>
+                                            <div class="search_result_header"><a href="{if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}{else}${i['jcr:path']}{/if}">{if i['sakai:pooled-content-file-name']}${i['sakai:pooled-content-file-name']}{elseif i['jcr:name']}${i['jcr:name']}{/if}</a></div>
                                             {if i["sakai:description"]}<div class="search_result_description">${i["sakai:description"]}</div>{/if}
                                             {if i["sakai:tags"] && i["sakai:tags"].length > 0}
                                                 <div class="search_result_tags">__MSG__TAGS__:
                                                     {for t in i["sakai:tags"]}{if t_index > 0},{/if} ${t}{/for}
                                                 </div>
                                             {/if}
-                                            {if mimeTypeDescription}<div class="search_result_type"><a href="${i.path}">${mimeTypeDescription}</a></div>{/if}
+                                            {if mimeTypeDescription}<div class="search_result_type"><a href="{if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}{else}${i['jcr:path']}{/if}">${mimeTypeDescription}</a></div>{/if}
                                         </div>
                                     </div>
                                 {forelse}
@@ -190,21 +197,21 @@
                             <div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"><!-- --></div></div>
                         </div>
 
-                        <!-- COURSES / SITES -->
+                        <!-- GROUPS -->
                         <div class="fl-container fl-fix search_results_container" style="display:none" id="sites_header">
                             <div class="search_top_rounded"><div class="search_top_rounded_inner"><!-- --></div></div>
                             <div class="fl-container fl-fix search_results_part">
-                                <div class="fl-container fl-fix search_results_part_header"> <a href="#" class="search_results_part_title">__MSG__COURSES_AND_SITES__</a> <a href="#" class="fl-force-right display_more_link" id="display_more_sites" style="display:none"><small>__MSG__VIEW_MORE_COURSES_AND_SITES_RESULT__ &raquo;</small></a> </div>
+                                <div class="fl-container fl-fix search_results_part_header"> <a href="#" class="search_results_part_title">__MSG__GROUPS__</a> <a href="#" class="fl-force-right display_more_link" id="display_more_sites" style="display:none"><small>__MSG__VIEW_MORE_GROUP_RESULT__ &raquo;</small></a> </div>
                                 <div id="sites_search_result"> </div>
                                 <div id="sites_search_result_template"><!--
                                     {for i in items}
                                         <div class="fl-container fl-fix search_result_course_site">
-                                            <div class="search_result_course_site_title"><a href="${i.pagepath}">${i.site.name}</a></div>
-                                            <div class="search_result_course_site_url"><a href="${i.pagepath}">${i.pagepath}</a></div>
-                                            <div class="search_result_course_site_excerpt">${i.excerpt}</div>
+                                            <div class="search_result_course_site_title"><a href="/dev/show.html?type=group&amp;id=${i.pagepath}">${i["sakai:group-title"]}</a></div>
+                                            <div class="search_result_course_site_url"><a href="/dev/show.html?type=group&amp;id=${i.pagepath}">${i.pagepath}</a></div>
+                                            <div class="search_result_course_site_excerpt">${i["sakai:group-description"]}</div>
                                         </div>
                                     {forelse}
-                                        __MSG__NO_COURSES_AND_SITES_FOUND__.
+                                        __MSG__NO_GROUPS_FOUND__.
                                     {/for}
                                 --></div>
                             </div>

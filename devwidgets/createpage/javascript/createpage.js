@@ -124,9 +124,9 @@ sakai.createpage = function(tuid, showSettings){
     var toggleProcessing = function(){
         if($createpageProcessing.is(":visible")) {
             $createpageProcessing.hide();
-            $("." + buttonClass).show();
+            $("#createpage_container " + "." + buttonClass).show();
         } else {
-            $("." + buttonClass).hide();
+            $("#createpage_container " + "." + buttonClass).hide();
             $createpageProcessing.show();
         }
     };

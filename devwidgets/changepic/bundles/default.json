@@ -8,6 +8,11 @@
 "UPLOAD_A_NEW_PICTURE": "Upload a new picture",
 "CANCEL": "Cancel",
 "UPLOAD": "Upload",
-"SELECT_THE_AREA_YOU_WANT": "Select the area you want to use as your profile picture",
-"SAVE_NEW_SELECTION": "Save new selection"
+"SELECT_THE_AREA_YOU_WANT": "Select the area you want to use as your profile picture by creating a box in your uploaded picture",
+"SAVE_NEW_SELECTION": "Save new selection",
+"PLEASE_SELECT_A_FILE": "Please select a picture to upload.",
+"PROCESSING": "Processing...",
+"YOUR_UPLOADED_PICTURE": "Your uploaded picture",
+"YOUR_PROFILE_PICTURE": "Your profile picture preview",
+"SELECT_AN_AREA_TO_CREATE": "Select an area to create a profile picture"
 }

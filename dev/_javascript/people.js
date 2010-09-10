@@ -89,8 +89,8 @@ sakai.search = function(){
                         var picture = $.parseJSON(person.picture);
                         finaljson.items[index].picture = "/~" + person["rep:userId"] + "/public/profile/" + picture.name;
                     }
-                    if (sakai.api.User.getDisplayName(finaljson.items[index]) !== "") {
-                        finaljson.items[index].name = sakai.api.User.getDisplayName(finaljson.items[index]);
+                    if (sakai.api.User.getDisplayName(person) !== "") {
+                        finaljson.items[index].name = sakai.api.User.getDisplayName(person);
                     }
                     else {
                         finaljson.items[index].name = finaljson.items[index].userid;
