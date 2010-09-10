@@ -2011,7 +2011,11 @@ sakai.api.Util.createSakaiDate = function(date, format, offset) {
 };
 
 /**
- * make a doc for this
+ * Convert a file's size to a human readable size
+ * example: 2301 = 2.301kB
+ *
+ * @param (Integer) filesize The file's size to convert
+ * @return (String) the file's size in human readable format
  */
 
 sakai.api.Util.convertToHumanReadableFileSize = function(filesize) {
@@ -2033,6 +2037,56 @@ sakai.api.Util.convertToHumanReadableFileSize = function(filesize) {
     }
     // Return the human readable filesize
     return filesize + " " + lengthunits;
+};
+
+/**
+ * Tag a given entity
+ *
+ * @param (String) entity the URL to the entity, ie. (~userid or ~g-groupid)
+ * @param (Array) tags Array of tags to tag the entity with
+ * @param (Function) callback The callback function
+ */
+
+sakai.api.Util.setTagsOnEntity = function(entity, tags, callback) {
+    $(tags).each(function(i,val) {
+        if ($.trim(val) !== "") {
+            $.ajax({
+                url: "/tags/" + val,
+                data: {
+                    "sakai:tag-name": val,
+                    "sling:resourceType": "sakai/tag"
+                },
+                type: "POST",
+                success: function(data) {
+                    $.ajax({
+                        url: "/" + entity + "/public",
+                        data: {
+                            "key": "/tags/" + val,
+                            ":operation": "tag"
+                        },
+                        type: "POST",
+                        success: function(data) {
+                            if ($.isFunction(callback)) {
+                                callback();
+                            }
+                        },
+                        error: function(xhr, response) {
+                            fluid.log(entity + " failed to be tagged as " + val);
+                            if ($.isFunction(callback)) {
+                                callback();
+                            }
+                        }
+                    });
+                },
+                error: function(xhr, response) {
+                    fluid.log(val + " failed to be created");
+                    if ($.isFunction(callback)) {
+                        callback();
+                    }
+                }
+            });
+        }
+    });
 };
 
 

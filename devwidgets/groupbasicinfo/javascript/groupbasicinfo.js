@@ -123,10 +123,10 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         }
         // Extract tags that start with "directory:"
         var directory = [];
-        if (sakai.currentgroup.data.authprofile["sakai:group-tags"]) {
-            $(sakai.currentgroup.data.authprofile["sakai:group-tags"].split(",")).each(function(i){
-                if (sakai.currentgroup.data.authprofile["sakai:group-tags"].split(",")[i].split(":")[0] === "directory") {
-                    var item = [sakai.currentgroup.data.authprofile["sakai:group-tags"].split(",")[i].split(":")[1], sakai.currentgroup.data.authprofile["sakai:group-tags"].split(",")[i].split(":")[2], sakai.currentgroup.data.authprofile["sakai:group-tags"].split(",")[i].split(":")[3]]
+        if (sakai.currentgroup.data["sakai:tags"]) {
+            $(sakai.currentgroup.data["sakai:tags"]).each(function(i, val){
+                if (val.split("/")[0] === "directory") {
+                    var item = [val.split("/")[1], val.split("/")[2], val.split("/")[3]]
                     directory.push(item);
                 }
             });
@@ -177,16 +177,10 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         // Create tags for the directory structure
         // For every groupbasicinfo_added_directory we create tags
         $(".groupbasicinfo_added_directory").each(function(){
-            var directoryString = "directory:";
-            tagArray.push($(this).find(groupBasicInfoDirectoryLvlOne).selected().val());
+            var directoryString = "directory/";
             directoryString += $(this).find(groupBasicInfoDirectoryLvlOne).selected().val();
-
-            tagArray.push($(this).find(groupBasicInfoDirectoryLvlTwo).selected().val());
-            directoryString += ":" + $(this).find(groupBasicInfoDirectoryLvlTwo).selected().val();
-
-            tagArray.push($(this).find(groupBasicInfoDirectoryLvlThree).selected().val());
-            directoryString += ":" + $(this).find(groupBasicInfoDirectoryLvlThree).selected().val();
-
+            directoryString += "/" + $(this).find(groupBasicInfoDirectoryLvlTwo).selected().val();
+            directoryString += "/" + $(this).find(groupBasicInfoDirectoryLvlThree).selected().val();
             // Add string for all levels to tag array
             tagArray.push(directoryString);
         });
@@ -196,7 +190,6 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         // Update the group object
         sakai.currentgroup.data.authprofile["sakai:group-title"] = groupTitle;
         sakai.currentgroup.data.authprofile["sakai:group-kind"] = groupKind;
-        sakai.currentgroup.data.authprofile["sakai:group-tags"] = tagArray.toString();
         sakai.currentgroup.data.authprofile["sakai:group-description"] = groupDesc;
 
         $.ajax({
@@ -206,13 +199,14 @@ sakai.groupbasicinfo = function(tuid, showSettings){
                 "_charset_":"utf-8",
                 "sakai:group-title" : groupTitle,
                 "sakai:group-kind" : groupKind,
-                "sakai:group-tags" : tagArray.toString(),
                 "sakai:group-description" : groupDesc
             },
             type: "POST",
             success: function(data, textStatus){
-                sakai.api.Widgets.Container.informFinish(tuid, "groupbasicinfo");
-                $(window).trigger("sakai.groupbasicinfo.updateFinished");
+                sakai.api.Util.setTagsOnEntity("~" + sakai.currentgroup.id, tagArray, function(){
+                    sakai.api.Widgets.Container.informFinish(tuid, "groupbasicinfo");
+                    $(window).trigger("sakai.groupbasicinfo.updateFinished");
+                });
             },
             error: function(xhr, textStatus, thrownError){
                 fluid.log("An error has occurred: " + xhr.status + " " + xhr.statusText);
