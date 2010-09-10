@@ -498,7 +498,7 @@ sakai.config = {
             "label" : "MY_SAKAI"
         },
         {
-            "url" : "javascript:;",
+            "url" : "/dev/search_content.html#q=*&facet=manage",
             "label" : "CONTENT_AND_MEDIA"
         },
         {
@@ -506,16 +506,12 @@ sakai.config = {
             "label" : "PEOPLE"
         },
         {
-            "url" : "javascript:;",
-            "label" : "COURSES_AND_SITES"
+            "url" : "/dev/search_groups.html#q=*&facet=see",
+            "label" : "GROUPS"
         },
         {
             "url" : "/dev/directory.html",
             "label" : "DIRECTORY"
-        },
-        {
-            "url" : "javascript:;",
-            "label" : "CALENDAR"
         }
     ],
 
