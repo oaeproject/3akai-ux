@@ -87,7 +87,7 @@
                         </div>
 
                         <!-- TEMPORARY SEARCH TEXT -->
-                        <span id="search_result_temp" style="display:none;"><b>__MSG__SEARCHING__ ...</b></span>
+                        <div id="search_result_temp" style="display:none;"><div class="search_padded_content"><b>__MSG__SEARCHING__ ...</b></div></div>
 
                         <div class="fl-container fl-fix search_results">
 
@@ -108,14 +108,16 @@
                             </div>
 
                             <div class="search_top_rounded"><div class="search_top_rounded_inner"><!-- --></div></div>
-                            <div class="search_result_title" id="search_results_header">
-                                __MSG__FOUND__ <strong id="search_numberFound">0</strong>
-                                __MSG__RESULTS_MATCHING_YOUR_SEARCH_FOR__
-                                <span class="keyword" id="search_mysearchterm"></span>
-                            </div>
+                            
 
                             <!-- CONTENT -->
                             <div class="fl-container fl-fix search_results_part">
+
+                                <div class="search_result_title" id="search_results_header">
+                                    __MSG__FOUND__ <strong id="search_numberFound">0</strong>
+                                    __MSG__RESULTS_MATCHING_YOUR_SEARCH_FOR__
+                                    <span class="keyword" id="search_mysearchterm"></span>
+                                </div>
 
                                 <!-- CONTAINER FOR THE RESULTS -->
                                 <div id="search_results_container"></div>

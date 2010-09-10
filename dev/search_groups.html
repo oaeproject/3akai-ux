@@ -86,10 +86,9 @@
                                 <button id="search_button" class="s3d-search-button s3d-button s3d-button-primary"><span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span></button>
                             </div>
                         </div>
-                        <div class="fl-left fl-container search_result_title" id="search_results_header"> __MSG__FOUND__ <strong id="search_numberFound">0</strong> __MSG__RESULTS_MATCHING_YOUR_SEARCH_FOR__ <span class="keyword" id="search_mysearchterm"></span> </div>
-
+                        
                         <!-- TEMPORARY SEARCH TEXT -->
-                        <span id="search_result_temp" style="display:none;"><b>__MSG__SEARCHING__ ...</b></span>
+                        <div id="search_result_temp" style="display:none;"><b>__MSG__SEARCHING__ ...</b></div>
 
                         <div class="fl-container fl-fix search_results">
 
@@ -104,12 +103,15 @@
                         <!-- SEARCH RESULTS -->
                         <div id="search_results_page1" class="search_results_container search_results_container_sub">
                             <div class="search_top_rounded"><div class="search_top_rounded_inner"><!-- --></div></div>
-
+                            
+                            
                             <!-- CONTENT -->
-                            <div class="fl-container fl-fix search_results_part" style="padding-bottom: 10px !important;">
+                            <div class="fl-container fl-fix search_results_part">
+
+                                <div class="fl-left fl-container search_result_title" id="search_results_header"> __MSG__FOUND__ <strong id="search_numberFound">0</strong> __MSG__RESULTS_MATCHING_YOUR_SEARCH_FOR__ <span class="keyword" id="search_mysearchterm"></span> </div>
 
                                 <!-- CONTAINER FOR THE RESULTS -->
-                                <div id="search_results_container"></div>
+                                <div id="search_results_container" class="search_padded_groups"></div>
 
                             </div>
 

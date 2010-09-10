@@ -13,17 +13,19 @@
             </div>
             <div class="faceted_list">
                 <div class="faceted_value">
-                    <span>${value}</span>
-                    {if categories.length > 9}
+                    <span style="display:none">${value}</span>
+                    {if facets.length > 9}
                     <a href="javascript:;" id="faceted_listall">List All</a>
                     {/if}
                 </div>
-                {for t in categories}
-                    {if t_index > 9}
-                        <div class="faceted_list_expanded" style="display:none;"><span class="faceted_category"><a href="javascript:;" id="${t.replace(/[^a-zA-Z0-9]+/g,'')}">${t}</a></span></div>
+                {var facet_index = 0}
+                {for f in facets}
+                    {if facet_index > 9}
+                        <div class="faceted_list_expanded" style="display:none;"><span class="faceted_category"><a href="javascript:;" id="${f.category.replace(/[^a-zA-Z0-9]+/g,'')}">${f.category}</a></span></div>
                     {else}
-                        <span class="faceted_category"><a href="javascript:;" id="${t.replace(/[^a-zA-Z0-9]+/g,'')}">${t}</a></span>
+                        <span class="faceted_category" id="${f_index.replace(/[^a-zA-Z0-9]+/g,'')}"><a href="javascript:;">${f.category}</a></span>
                     {/if}
+                    ${facet_index++|eat}
                 {/for}
                 </div>
             <div class="faceted_back" style="display:none;">

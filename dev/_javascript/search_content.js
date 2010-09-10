@@ -85,8 +85,20 @@ sakai.search = function() {
         facetedConfig : {
             title : "Refine your search",
             value : "Content",
-            categories : ["All Files", "Files I manage", "Files I'm a Member of"],
-            searchurls : [searchURLmap.allfiles, searchURLmap.pooledcontentmanager, searchURLmap.pooledcontentviewer]
+            facets : {
+                "all" : {
+                    "category": "All Files",
+                    "searchurl": searchURLmap.allfiles
+                },
+                "manage" : {
+                    "category": "Files I manage",
+                    "searchurl": searchURLmap.pooledcontentmanager
+                },
+                "member" : {
+                    "category": "Files I'm a Member of",
+                    "searchurl": searchURLmap.pooledcontentviewer
+                }
+            }
         }
     };
 
@@ -117,7 +129,8 @@ sakai.search = function() {
      * @param {Integer} page The page you are on (optional / default = 1.)
      * @param {String} searchquery The searchterm you want to look for (optional / default = input box value.)
      */
-    var doHSearch = function(page, searchquery, searchwhere) {
+    sakai._search.doHSearch = function(page, searchquery, searchwhere, facet) {
+        
         if (!page) {
             page = 1;
         }
@@ -127,10 +140,13 @@ sakai.search = function() {
         if (!searchwhere) {
             searchwhere = mainSearch.getSearchWhereSites();
         }
+        if (!facet){
+            facet = $.bbq.getState('facet');
+        }
         currentpage = page;
 
         // This will invoke the sakai._search.doSearch function and change the url.
-        History.addBEvent(page, encodeURIComponent(searchquery), searchwhere);
+        History.addBEvent(page, encodeURIComponent(searchquery), searchwhere, facet);
     };
 
     /**
@@ -141,7 +157,7 @@ sakai.search = function() {
         currentpage = pageclickednumber;
 
         // Redo the search
-        doHSearch(currentpage, searchterm);
+        doHSearch(currentpage, searchterm, null, $.bbq.getState('facet'));
     };
 
     /**
@@ -215,10 +231,21 @@ sakai.search = function() {
      *  mysites = the site the user is registered on
      *  /a-site-of-mine = specific site from the user
      */
-    sakai._search.doSearch = function(page, searchquery, searchwhere) {
+    sakai._search.doSearch = function(page, searchquery, searchwhere, facet) {
 
         facetedurl = mainSearch.getFacetedUrl();
-
+        
+        if (facet){
+            facetedurl = searchConfig.facetedConfig.facets[facet].searchurl;
+        }
+        
+        $(".faceted_category").removeClass("faceted_category_selected");
+        if (facet) {
+            $("#" + facet).addClass("faceted_category_selected");
+        } else {
+            $(".faceted_category:first").addClass("faceted_category_selected");
+        }
+        
         // Check if the searchquery is empty
         if(searchquery === ""){
 
@@ -347,7 +374,7 @@ sakai.search = function() {
     };
 
     var thisFunctionality = {
-        "doHSearch" : doHSearch
+        "doHSearch" : sakai._search.doHSearch
     };
 
     var mainSearch = sakai._search(searchConfig, thisFunctionality);

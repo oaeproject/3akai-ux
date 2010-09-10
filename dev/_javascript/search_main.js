@@ -145,6 +145,7 @@ sakai._search = function(config, callback) {
             var url = $(this).attr("href").split("#")[0] + "#";
             var frag = $.deparam.fragment();
             frag["filter"] = ""; // clear the filter
+            frag["facet"] = ""; // clear the facet
             url = $.param.fragment(url, frag);
             $(this).attr("href", url);
             return true;
@@ -408,18 +409,25 @@ sakai._search = function(config, callback) {
     var addFacetedPanel = function() {
         $(window).bind("sakai.api.UI.faceted.ready", function(e){
             sakai.api.UI.faceted.render(searchConfig.facetedConfig);
-            $(".faceted_category:first").addClass("faceted_category_selected");
+            
+            var currentfacet = $.bbq.getState('facet');
+            if (currentfacet) {
+                $("#" + currentfacet).addClass("faceted_category_selected");
+            } else {
+                $(".faceted_category:first").addClass("faceted_category_selected");
+            }          
 
             // bind faceted search elements
             // loop through each faceted category and bind the link to trigger a search
-            $.each(searchConfig.facetedConfig.categories, function(index, category) {
-                $("#" + category.replace(/[^a-zA-Z0-9]+/g,'')).bind("click", function() {
-                    var searchquery = $(searchConfig.global.text).val();
-                    var searchwhere = getSearchWhereSites();
-                    mainFacetedUrl = searchConfig.facetedConfig.searchurls[index];
-                    sakai._search.doSearch(1, searchquery, searchwhere);
-                });
+            
+            $(".faceted_category").bind("click", function(ev){
+                var facet = $(this).attr("id");
+                var searchquery = $(searchConfig.global.text).val();
+                var searchwhere = getSearchWhereSites();
+                mainFacetedUrl = searchConfig.facetedConfig.facets[facet].searchurl;
+                sakai._search.doHSearch(1, searchquery, searchwhere, facet);
             });
+            
         });
     };
 
