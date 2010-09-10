@@ -2,7 +2,7 @@ var sakai = sakai || {};
 
 var Widgets = {
     "relationships": [
-        {"name": "Classmate", "definition": "My Classmate"},
+        {"name": "Classmate", "definition": "is my classmate"},
         {"name": "Supervisor", "inverse": "Supervised", "definition": "is my supervisor"},
         {"name": "Supervised", "inverse": "Supervisor", "definition": "is being supervised by me"},
         {"name": "Lecturer", "inverse": "Student", "definition": "is my lecturer"},

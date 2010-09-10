@@ -26,6 +26,7 @@
         <script type="text/javascript" src="_lib/jquery/jquery-ui.full.js"></script>
         <script type="text/javascript" src="_lib/Fluid/3akai_Infusion.js"></script>
         <script type="text/javascript" src="_lib/jquery/plugins/jquery.json.js"></script>
+        <script type="text/javascript" src="_lib/jquery/plugins/jquery.validate.js"></script>
         <script type="text/javascript" src="/dev/_lib/google/html-sanitizer-minified.js"></script>
 
         <!-- Sakai Core JS -->
@@ -86,6 +87,7 @@
                             <tr>
                                 <td></td>
                                 <td><div id="firstName_empty" class="create_account_error_msg">__MSG__PLEASE_ENTER_YOUR_FIRST_NAME__!</div></td>
+                                <td><div id="firstName_invalid" class="create_account_error_msg">__MSG__THIS_IS_AN_INVALID_FIRST_NAME__!</div></td>
                             </tr>
 
                             <!-- LAST NAME -->
@@ -96,12 +98,13 @@
                             <tr>
                                 <td></td>
                                 <td><div id="lastName_empty" class="create_account_error_msg">__MSG__PLEASE_ENTER_YOUR_LAST_NAME__!</div></td>
+                                <td><div id="lastName_invalid" class="create_account_error_msg">__MSG__THIS_IS_AN_INVALID_LAST_NAME__!</div></td>
                             </tr>
 
                             <!-- EMAIL -->
                             <tr>
                                 <td class="label_container"><label for="email">__MSG__EMAIL__:</label></td>
-                                <td><input type="text" maxlength="255" id="email" name="email" class="create_account_input" /></td>
+                                <td><input type="text" id="email" name="email" class="create_account_input" /></td>
                             </tr>
                             <tr>
                                 <td></td>
@@ -140,6 +143,7 @@
                                 <td></td>
                                 <td>
                                     <div id="password_empty" class="create_account_error_msg">__MSG__PLEASE_ENTER_YOUR_PASSWORD__!</div>
+                                    <div id="password_spaces" class="create_account_error_msg">__MSG__YOUR_PASSWORD_SHOULDNT_CONTAIN_SPACES__!</div>
                                     <div id="password_short" class="create_account_error_msg">__MSG__YOUR_PASSWORD_SHOULD_BE_FOUR_CHARACTERS_LONG__!</div>
                                 </td>
                             </tr>

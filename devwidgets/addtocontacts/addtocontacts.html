@@ -22,15 +22,19 @@
             <form id="addtocontacts_form" method="post" action="javascript:;">
                 <!-- All the elements with the addtocontacts_displayname class will contain the username of the user -->
                 <h4>__MSG__INVITE__ <span class="addtocontacts_displayname addtocontacts_bold" /> __MSG__TO_CONNECT_THROUGH_SAKAI__</h4>
-                <span class="addtocontacts_displayname addtocontacts_bold" />
                 <table class="addcontact" summary="Profile picture">
                     <tr>
-                           <td class="addtocontacts_piccol">
-                            <img id="addtocontacts_profilepicture" src="" width="60" height="60" alt="Profile picture" />
-                           </td>
+                        <td>
+                            <span class="addtocontacts_displayname addtocontacts_bold" />
+                        </td>            
                         <!-- The following container will contain all the different content types that are available -->
-                        <td id="addtocontacts_types"></td>
-                       </tr>
+                        <td id="addtocontacts_types" rowspan='2'></td>
+                    </tr>
+                    <tr>
+                        <td class="addtocontacts_piccol">
+                            <img id="addtocontacts_profilepicture" src="" width="60" height="60" alt="Profile picture" />
+                        </td>
+                    </tr>
                 </table>
                 <label for="addtocontacts_form_personalnote">__MSG__ADD_A_PERSONAL_NOTE_TO_THE_INVITATION__:</label>
                 <textarea cols="75" rows="3" id="addtocontacts_form_personalnote" name="addtocontacts_form_personalnote"></textarea>

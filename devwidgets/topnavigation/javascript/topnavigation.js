@@ -133,7 +133,7 @@ sakai.topnavigation = function(tuid, showSettings){
         };
 
         $.ajax({
-            url: sakai.data.me.profile["jcr:path"],
+            url: "/~" + sakai.data.me.profile["rep:userId"] + "/public/authprofile",
             type: "POST",
             data: data,
             success: function(data){
@@ -312,7 +312,14 @@ sakai.topnavigation = function(tuid, showSettings){
 
         // Show anonymous elements
         $("#other_logins_button_container").show();
-        $("#register_button_container").show();
+
+        // if config.js is set to external, register link is hidden
+        if(sakai.config.Authentication.external) {
+            $("#register_button_container").hide();    
+        }
+        else {
+            $("#register_button_container").show();
+        }        
         $("#login_button_container").show();
 
         // Set up public nav links

@@ -89,6 +89,7 @@ sakai.search = function(){
                         var picture = $.parseJSON(person.picture);
                         finaljson.items[index].picture = "/~" + person["rep:userId"] + "/public/profile/" + picture.name;
                     }
+                    console.log(person);
                     if (sakai.api.User.getDisplayName(person) !== "") {
                         finaljson.items[index].name = sakai.api.User.getDisplayName(person);
                     }
@@ -119,10 +120,11 @@ sakai.search = function(){
             }
         }
 
-        if (finaljson.items.length === 0){
-            $(".jq_pager").hide();
-        } else {
+        // if there is more than one page show the pager
+        if (Math.ceil(_currentTotal/peopleToSearch) > 1) {
             $(".jq_pager").show();
+        } else {
+            $(".jq_pager").hide();
         }
 
         $("#contacts_search_result").html($.TemplateRenderer("contacts_search_result_template", finaljson));
@@ -200,8 +202,8 @@ sakai.search = function(){
                         var picture = $.parseJSON(person.picture);
                         finaljson.items[index].picture = "/~" + person["rep:userId"] + "/public/profile/" + picture.name;
                     }
-                    if (sakai.api.User.getDisplayName(finaljson.items[index]) !== "") {
-                        finaljson.items[index].name = sakai.api.User.getDisplayName(finaljson.items[index]);
+                    if (sakai.api.User.getDisplayName(person) !== "") {
+                        finaljson.items[index].name = sakai.api.User.getDisplayName(person);
                     }
                     else {
                         finaljson.items[index].name = finaljson.items[index].userid;
@@ -293,8 +295,8 @@ sakai.search = function(){
                         var picture = $.parseJSON(person.picture);
                         finaljson.items[index].picture = "/~" + person["rep:userId"] + "/public/profile/" + picture.name;
                     }
-                    if (sakai.api.User.getDisplayName(finaljson.items[index]) !== "") {
-                        finaljson.items[index].name = sakai.api.User.getDisplayName(finaljson.items[index]);
+                    if (sakai.api.User.getDisplayName(person) !== "") {
+                        finaljson.items[index].name = sakai.api.User.getDisplayName(person);
                     }
                     else {
                         finaljson.items[index].name = finaljson.items[index].userid;
@@ -323,4 +325,4 @@ sakai.search = function(){
 
 };
 
-sakai.api.Widgets.Container.registerForLoad("sakai.search");
+sakai.api.Widgets.Container.registerForLoad("sakai.search");

@@ -659,6 +659,9 @@ sakai.dashboard = function(tuid, showSettings) {
             newjson.selected = selected;
             currentlySelectedLayout = selected;
             $("#layouts_list", $rootelClass).html($.TemplateRenderer("layouts_template", newjson));
+            // once template is render, it loses the event handling
+            // so need to call again
+            bindLayoutPickerEventHandlers();
         });
     };
 

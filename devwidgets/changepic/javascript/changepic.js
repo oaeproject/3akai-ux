@@ -151,8 +151,8 @@ sakai.changepic = function(tuid, showSettings){
         userSelection = selection;
 
         // How much has the user scaled down the image?
-        var scaleX = thumbnailWidth / selection.width;
-        var scaleY = thumbnailHeight / selection.height;
+        var scaleX = thumbnailWidth / (selection.width || 1);
+        var scaleY = thumbnailHeight / (selection.height || 1);
 
         // Change the thumbnail according to the user his selection via CSS.
         $(thumbnail).css({
@@ -201,17 +201,18 @@ sakai.changepic = function(tuid, showSettings){
     });
 
     sakai.changepic.doInit = function(newpic){
+        picture = false;
+
         // If the image is freshly uploaded then reset the imageareaobject to reset all values on init
         if (newpic) {
             resetUploadField();
             imageareaobject = null;
+            picture = {"_name":"profilepicture"};
         }
 
         // Check whether there is a base picture at all
         me = sakai.data.me;
         var json = me.profile;
-
-        picture = false;
 
         $(picForm).attr("action", "/~" + sakai.data.me.user.userid + "/public/profile");
 
@@ -465,32 +466,8 @@ sakai.changepic.startCallback = function(){
  */
 sakai.changepic.completeCallback = function(response){
 
-    var tosave = {
-        "_name": "profilepicture"
-    };
-
-    // We edit the profile.json file with the new profile picture.
-    var stringtosave = $.toJSON(tosave);
-
-    // We edit the me object.
-    // This saves a request and will be checked in the doInit function later on.
-    sakai.data.me.profile.picture = stringtosave;
-
-    // the object we wish to insert into the profile.json file.
-    var data = {"picture":stringtosave,"_charset_":"utf-8"};
-
-    $.ajax({
-        url: "/~" + sakai.data.me.user.userid + "/public/authprofile.json",
-        type : "POST",
-        data : data,
-        success : function(data) {
-            // we have saved the profile, now do the widgets other stuff.
-            sakai.changepic.doInit(true);
-        },
-        error: function(xhr, textStatus, thrownError) {
-            alert("An error has occured");
-        }
-    });
+    // we have saved the profile, now do the widgets other stuff.
+    sakai.changepic.doInit(true);
 };
 
 
