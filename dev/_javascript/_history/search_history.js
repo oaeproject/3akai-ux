@@ -10,7 +10,7 @@ var History = {
                   sakai._search.doSearch($.bbq.getState('page'), $.bbq.getState('q'), $.bbq.getState('filter'));
                   History.prev_url = url;
                 } else { // is hasn't loaded in yet, so lets try every 10ms, using the jQuery animate version of setTimeout
-                  $('html').animate({ opacity:1},10, function() { 
+                  $('html').animate({ borderWidth:0},10, function() { 
                     $(window).trigger('hashchange');
                   });
                 }
@@ -19,7 +19,7 @@ var History = {
                   sakai._search.reset();
                   History.prev_url = url;
                 } else { 
-                  $('html').animate({ opacity:1},10, function() { 
+                  $('html').animate({ borderWidth:0},10, function() { 
                     $(window).trigger('hashchange');
                   }); 
                 }
