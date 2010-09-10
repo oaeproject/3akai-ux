@@ -8,7 +8,7 @@ sakai.notepaper = function(tuid, showSettinds) {
     var notepaperTemplate = notepaper + "_template";
     var notepaperArea = notepaper + "_area";
     var orignHeight = $(notepaper).height();
-    var extraSpace = 16;
+    var lineHeight = 16;
     
     var loadData = function() {
         $.ajax({
@@ -40,8 +40,8 @@ sakai.notepaper = function(tuid, showSettinds) {
             },
             success: function(data) {
                 var json = jQuery.parseJSON(data);
-                // $("#time").html(json.modifyTime);
-                $("#time").html(getCurrentTime());
+                $("#time").html(json.modifyTime);
+                // $("#time").html(getCurrentTime());
                 $("#timeDIV").show();
             },
             error: function() {
@@ -63,9 +63,14 @@ sakai.notepaper = function(tuid, showSettinds) {
     }
     
     var resize = function(){
-        $(notepaperArea).height(orignHeight);
-        $(notepaperArea).scrollTop(1000);
-        $(notepaperArea).height($(notepaperArea).height() + $(notepaperArea).scrollTop() + extraSpace);
+        while($(notepaperArea).scrollTop() == 0){
+            $(notepaperArea).height($(notepaperArea).height() - 1);
+            $(notepaperArea).scrollTop(1000);
+        }
+        // \$(notepaperArea).height(orignHeight);
+        // \$(notepaperArea).scrollTop(1000);
+
+        $(notepaperArea).height($(notepaperArea).height() + $(notepaperArea).scrollTop() + lineHeight);
     }
     
     var init = function() {
