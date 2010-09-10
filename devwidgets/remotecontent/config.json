@@ -1,5 +1,8 @@
 {
-    "groupspages":true,
+    "userpages": true,
+    "userdashboard": true,
+    "grouppages": true,
+    "groupdashboard": true,
     "description":"Remote Content",
     "id":"remotecontent",
     "img":"/devwidgets/remotecontent/images/remotecontent.png",

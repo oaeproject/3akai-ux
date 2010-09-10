@@ -2,8 +2,6 @@
     "description":"Hello World",
     "name":"Hello World",
     "id":"helloworld",
-    "personalportal":true,
     "hasSettings":true,
-    "groupsdashboard":true,
     "url":"/devwidgets/helloworld/helloworld.html"
 }

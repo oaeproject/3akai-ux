@@ -1,6 +1,6 @@
 {
     "description": "Navigate all the pages contained within this group or site",
-    "groupspages": true,
+    //"grouppages": true,
     "hasSettings": true,
     "i18n": {
         "default": "/devwidgets/navigation/bundles/default.json"

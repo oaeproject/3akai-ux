@@ -1,6 +1,9 @@
 {
     "description":"Comments",
-    "groupspages":true,
+    "userpages": true,
+    "userdashboard": true,
+    "grouppages": true,
+    "groupdashboard": true,
     "hasSettings":true,
     "id":"comments",
     "img":"/devwidgets/comments/images/comments.png",
