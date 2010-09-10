@@ -32,6 +32,7 @@ sakai.newaccount = function(){
     /////////////////////////////
 
     var defaultUserType = "default";
+    var pagestemplate = "defaultuser";
 
     // Links and labels
     var checkUserNameLink = "#checkUserName ";
@@ -40,15 +41,15 @@ sakai.newaccount = function(){
 
     // Input fields
     var username = "username";
-    var firstName = "firstname";
-    var lastName = "lastname";
+    var firstName = "firstName";
+    var lastName = "lastName";
     var email = "email";
     var password = "password";
     var passwordRepeat = "password_repeat";
     var captcha = "uword";
     var usernameField = "#" + username;
-    var firstnameField = "#" + firstName;
-    var lastnameField = "#" + lastName;
+    var firstNameField = "#" + firstName;
+    var lastNameField = "#" + lastName;
     var emailField = "#" + email;
     var passwordField = "#" + password;
     var passwordRepeatField = "#" + passwordRepeat;
@@ -58,10 +59,10 @@ sakai.newaccount = function(){
     var usernameTaken = usernameField + "_taken";
     var usernameShort = usernameField + "_short";
     var usernameSpaces = usernameField + "_spaces";
-    var usernameInvalid = usernameField + "_invalid";
+    var usernameNoGroup = usernameField + "_no_group";
     var usernameEmpty = usernameField + "_empty";
-    var firstnameEmpty = firstnameField + "_empty";
-    var lastnameEmpty = lastnameField + "_empty";
+    var firstNameEmpty = firstNameField + "_empty";
+    var lastNameEmpty = lastNameField + "_empty";
     var emailEmpty = emailField + "_empty";
     var emailInvalid = emailField + "_invalid";
     var passwordEmpty = passwordField + "_empty";
@@ -80,6 +81,8 @@ sakai.newaccount = function(){
     var formContainer = "#create_account_form";
     var inputFieldHoverClass = "input_field_hover";
 
+    // Contains executable errors
+    var errObj = [];
 
     ///////////////////////
     // Utility functions //
@@ -161,7 +164,7 @@ sakai.newaccount = function(){
         // Get the values from the form.
         var values = sakai.api.UI.Forms.form2json($(formContainer));
 
-        // Get the values from the captcha form.       
+        // Get the values from the captcha form.
         var captchaValues = sakai.captcha.getProperties();
 
         // Add them to the form values.
@@ -193,9 +196,6 @@ sakai.newaccount = function(){
      *  fiels valid again first
      */
     var setError = function(field,errorField, noReset){
-        if (!noReset) {
-            resetErrorFields();
-        }
         $(field).addClass(invalidFieldClass);
         $(errorField).show();
     };
@@ -211,17 +211,25 @@ sakai.newaccount = function(){
      */
     var doCreateUser = function(){
         var values = getFormValues();
+        var profileData = {}; profileData.basic = {}; profileData.basic.elements = {};
+        var keys = ["firstName", "lastName", "email"];
+        $(keys).each(function(i, key) {
+            profileData.basic.elements[key] = {};
+            profileData.basic.elements[key].value = values[key];
+        });
+        profileData.basic.access = "everybody";
         var data = {
-            "firstName": values[firstName],
-            ":create-auth" : "reCAPTCHA.net",
-            "recaptcha-challenge" : values["recaptcha-challenge"],
-            "recaptcha-response" : values["recaptcha-response"],
-            "lastName": values[lastName],
+            ":create-auth": "reCAPTCHA.net",
+            ":recaptcha-challenge": values["recaptcha-challenge"],
+            ":recaptcha-response": values["recaptcha-response"],
             "email": values[email],
             "pwd": values[password],
             "pwdConfirm": values[password],
             ":name": values[username],
-            "_charset_": "utf-8"};
+            "_charset_": "utf-8",
+            ":sakai:profile-import": $.toJSON(profileData),
+            ":sakai:pages-template": "/var/templates/site/" + pagestemplate
+        };
         $.ajax ({
             url : sakai.config.URL.CREATE_USER_SERVICE,
             type : "POST",
@@ -229,12 +237,12 @@ sakai.newaccount = function(){
             success : function(data) {
                 // This will hide the Create and Cancel button and offer a link back to the login page
                 $(buttonsContainer).hide();
-                $(successMessage).show();
-                
                 // Destroy the captcha
                 sakai.captcha.destroy();
+                // Redirect the user to the login page
+                document.location = sakai.config.URL.GATEWAY_URL;
             },
-        error: function(xhr, textStatus, thrownError) {
+            error: function(xhr, textStatus, thrownError) {
                 if (xhr.status === 500) {
                     if (xhr.responseText.indexOf("Untrusted request") !== -1) {
                         setError(captchaField, captchaNoMatch, true);
@@ -253,14 +261,11 @@ sakai.newaccount = function(){
      *  [{id: "#field1", error: "#field1_error"},{id: "#field2", error: "#field2_error"},...]
      */
     var checkAllFieldsForEmpty = function(fields){
-        var totalEmpty = 0;
         for (var i = 0, j = fields.length; i < j; i++){
             if (checkEmpty(fields[i].id)){
-                totalEmpty++;
                 setError(fields[i].id,fields[i].error,true);
             }
         }
-        return totalEmpty;
     };
 
     /*
@@ -271,41 +276,34 @@ sakai.newaccount = function(){
 
         resetErrorFields();
 
-        var fields = [{id: firstnameField, error: firstnameEmpty},{id: lastnameField, error: lastnameEmpty},{id: emailField, error: emailEmpty},
+        var fields = [{id: firstNameField, error: firstNameEmpty},{id: lastNameField, error: lastNameEmpty},{id: emailField, error: emailEmpty},
                       {id: usernameField, error: usernameEmpty},{id: passwordField, error: passwordEmpty},
                       {id: passwordRepeatField, error: passwordRepeatEmpty}];
 
-        var totalEmpty = checkAllFieldsForEmpty(fields);
-        // If totalEmpty is higher than 0, that means we have at least 1 field that is empty so we need to stop
-        // executing the code.
-        if (totalEmpty > 0){
-            return false;
-        }
+        checkAllFieldsForEmpty(fields);
 
         // Check whether the entered email address has a valid format
         if (!echeck($(emailField).val())){
-            setError(emailField, emailInvalid, true);
-            return false;
+            errObj.push(function(){
+                setError(emailField, emailInvalid)
+            });
         }
 
         // Check whether the length of the password is at least 4, which is the minimum expected by the backend
         var pass = $(passwordField).val();
         if (pass.length < 4){
-            setError(passwordField, passwordShort, true);
-            return false;
+            errObj.push(function(){
+                setError(passwordField, passwordShort)
+            });
         }
 
         // Check whether the 2 entered passwords match
         var pass2 = $(passwordRepeatField).val();
         if (pass !== pass2){
-            setError(passwordRepeatField, passwordRepeatNoMatch, true);
-            return false;
+            errObj.push(function(){
+                setError(passwordRepeatField, passwordRepeatNoMatch)
+            });
         }
-
-        // Everything is valid. Now go and check whether the username already exists in the system
-        //if (!checkUserName()){
-        //    return false;
-        //}
 
         checkUserName();
 
@@ -330,55 +328,67 @@ sakai.newaccount = function(){
 
         var values = getFormValues();
         var usernameEntered = values[username];
+
         // Check whether the username is an empty string or contains of spaces only
         if (checkEmpty(usernameField)){
-            setError(usernameField,usernameEmpty);
-            return false;
+            errObj.push(function(){
+                setError(usernameField, usernameEmpty)
+            });
         }
 
         // Check whether the username contains spaces
         if (usernameEntered.indexOf(" ") !== -1){
-            setError(usernameField,usernameSpaces);
-            return false;
+            errObj.push(function(){
+                setError(usernameField, usernameSpaces)
+            });
         }
 
         // Check whether the length of the username is at least 3, which is the minimum length
         // required by the backend
         if (usernameEntered.length < 3){
-            setError(usernameField,usernameShort);
-            return false;
+            errObj.push(function(){
+                setError(usernameField, usernameShort)
+            });
         }
 
         // Check whether the username contains illegal characters
-        if (!usernameEntered.match(/^([a-zA-Z0-9\_\-]+)$/) || (usernameEntered.substr(0,2) === 'g-')){
-            setError(usernameField,usernameInvalid);
-            return false;
+        if (usernameEntered.substr(0,2) === 'g-'){
+            errObj.push(function(){
+                setError(usernameField, usernameNoGroup)
+            });
         }
 
         // If we reach this point, we have a username in a valid format. We then go and check
         // on the server whether this eid is already taken or not. We expect a 200 if it already
         // exists and a 401 if it doesn't exist yet.
-        $.ajax({
-            // Replace the preliminary parameter in the service URL by the real username entered
-            url: sakai.config.URL.USER_EXISTENCE_SERVICE.replace(/__USERID__/g,values[username]),
-            cache : false,
-            success: function(data){
-                setError(usernameField,usernameTaken);
-            },
-            error: function(xhr, textStatus, thrownError) {
-                if (checkingOnly){
-                    resetErrorFields();
-                    $(usernameAvailable).show();
-                } else {
-                    doCreateUser();
+        if (errObj.length === 0) {
+            $.ajax({
+                // Replace the preliminary parameter in the service URL by the real username entered
+                url: sakai.config.URL.USER_EXISTENCE_SERVICE.replace(/__USERID__/g, values[username]),
+                cache: false,
+                success: function(data){
+                    setError(usernameField, usernameTaken);
+                },
+                error: function(xhr, textStatus, thrownError){
+                    if (checkingOnly) {
+                        resetErrorFields();
+                        $(usernameAvailable).show();
+                    }
+                    else {
+                        doCreateUser();
+                    }
                 }
+            });
+        } else{
+            for(var i = 0; i < errObj.length; i++){
+                errObj[i]();
             }
-        });
+        }
 
-        return false;
-
+        // Reset error Object
+        errObj = [];
     };
-    
+
     var initCaptcha = function() {
         sakai.api.Widgets.widgetLoader.insertWidgets("captcha_box", false);
     };
@@ -422,7 +432,7 @@ sakai.newaccount = function(){
 
     // Hide username available message
     $(usernameAvailable).hide();
-    
+
     // Initialize the captcha widget.
     initCaptcha();
 };
