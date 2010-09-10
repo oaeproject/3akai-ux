@@ -393,11 +393,11 @@ sakai._search = function(config, callback) {
         if (splitted.length > 1) {
             //urlterm += splitted[0] + "~"
             for (var i = 0; i < splitted.length; i++) {
-                urlterm += splitted[i] + "* ";
+                urlterm += "*" + splitted[i] + "* ";
             }
         }
         else {
-            urlterm = term + "*";
+            urlterm = "*" + term + "*";
         }
         return urlterm;
     };

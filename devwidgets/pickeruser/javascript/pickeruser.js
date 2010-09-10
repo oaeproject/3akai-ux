@@ -174,7 +174,7 @@ sakai.pickeruser = function(tuid, showSettings) {
       // send the message if its not empty
       var messageText = $.trim($pickeruser_message.val());
       if (messageText !== "") {
-          var messageList = userList;
+          var messageList = getSelectedList();
           if ($pickeruser_copy_myself.is(':checked')) {
             messageList.push(sakai.data.me.profile["rep:userId"]);
           }

@@ -32,7 +32,7 @@ sakai.search = function() {
 
     // Search URL mapping
     var searchURLmap = {
-        allfiles : sakai.config.URL.SEARCH_ALL_FILES_SERVICE,
+        allfiles : sakai.config.URL.SEARCH_ALL_FILES,
         mybookmarks : sakai.config.URL.SEARCH_MY_BOOKMARKS,
         mycontacts : sakai.config.URL.SEARCH_MY_CONTACTS,
         myfiles : sakai.config.URL.SEARCH_MY_FILES,
@@ -85,8 +85,8 @@ sakai.search = function() {
         facetedConfig : {
             title : "Refine your search",
             value : "Content",
-            categories : ["All Files", "Content I manage", "My content", "Content I can see"],
-            searchurls : [searchURLmap.allfiles, searchURLmap.pooledcontentmanager, searchURLmap.myfiles, searchURLmap.pooledcontentviewer]
+            categories : ["All Files", "Files I manage", "Files I'm a Member of"],
+            searchurls : [searchURLmap.allfiles, searchURLmap.pooledcontentmanager, searchURLmap.pooledcontentviewer]
         }
     };
 

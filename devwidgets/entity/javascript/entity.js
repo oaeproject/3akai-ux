@@ -263,7 +263,7 @@ sakai.entity = function(tuid, showSettings){
      */
     var getGroupManagers = function(){
         $.ajax({
-            url: "/system/userManager/group/" + entityconfig.data.profile["sakai:group-id"] + "-managers.members.json",
+            url: "/system/userManager/group/" + entityconfig.data.profile.authprofile["sakai:group-id"] + "-managers.members.json",
             async: false,
             success: function(data){
                 var groupManagers = data;
@@ -283,7 +283,7 @@ sakai.entity = function(tuid, showSettings){
      */
     var getGroupMembers = function(){
         $.ajax({
-            url: "/system/userManager/group/" + entityconfig.data.profile["sakai:group-id"] + ".members.json",
+            url: "/system/userManager/group/" + entityconfig.data.profile.authprofile["sakai:group-id"] + ".members.json",
             async: false,
             success: function(data){
                 var groupMembers = data;
@@ -328,7 +328,7 @@ sakai.entity = function(tuid, showSettings){
     var joinGroup = function(){
         // add user to group
         $.ajax({
-            url: "/system/userManager/group/" + entityconfig.data.profile["sakai:group-id"] + ".update.json",
+            url: "/system/userManager/group/" + entityconfig.data.profile.authprofile["sakai:group-id"] + ".update.json",
             data: {
                 "_charset_":"utf-8",
                 ":member": sakai.data.me.user.userid
@@ -347,7 +347,7 @@ sakai.entity = function(tuid, showSettings){
     var leaveGroup = function(){
         // remove user from group
         $.ajax({
-            url: "/system/userManager/group/" + entityconfig.data.profile["sakai:group-id"] + ".update.json",
+            url: "/system/userManager/group/" + entityconfig.data.profile.authprofile["sakai:group-id"] + ".update.json",
             data: {
                 "_charset_":"utf-8",
                 ":member@Delete": sakai.data.me.user.userid
@@ -565,7 +565,7 @@ sakai.entity = function(tuid, showSettings){
         if(entityconfig.mode === "content"){
             // Add binding to content related buttons
             $(entityContentDownload).bind("click", function(){
-                window.open(entityconfig.data.profile.contentpath + "/" + entityconfig.data.profile.name);
+                window.open(entityconfig.data.profile.path);
             });
 
             // Add binding to locations box

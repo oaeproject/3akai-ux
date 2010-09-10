@@ -114,7 +114,7 @@ sakai.search = function() {
         facetedConfig : {
             title : "Refine your search",
             value : "People",
-            categories : ["All Users", "My Contacts", "Online Now", "Invited", "Requested", "Not known"],
+            categories : ["All Users", "My Contacts", "Contact Currently Online", "Invited", "Requested", "Not known"],
             searchurls : [searchURLmap.allusers, searchURLmap.mycontacts, searchURLmap.onlinecontacts, searchURLmap.invitedcontacts, searchURLmap.pendingcontacts, '']
         }
     };
