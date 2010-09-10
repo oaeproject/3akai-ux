@@ -2011,7 +2011,11 @@ sakai.api.Util.createSakaiDate = function(date, format, offset) {
 };
 
 /**
- * make a doc for this
+ * Convert a file's size to a human readable size
+ * example: 2301 = 2.301kB
+ *
+ * @param (Integer) filesize The file's size to convert
+ * @return (String) the file's size in human readable format
  */
 
 sakai.api.Util.convertToHumanReadableFileSize = function(filesize) {
