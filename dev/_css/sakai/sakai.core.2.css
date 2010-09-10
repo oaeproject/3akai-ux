@@ -197,7 +197,7 @@ div .orderable-drop-marker {background-color:#FA7019; height:10px !important;}
 #add_goodies_dialog {width:520px; height: 374px; margin-left: -260px;}
 .add_goodies .s3d-button {margin: 0px}
 .add_goodies .dialog_body {border:1px solid #E5E5E5; height:307px; overflow:auto; position:relative; width:471px;}
-.add_goodies .dialog_body table {width: 454px;}
+.add_goodies .dialog_body table {width: 454px; margin-bottom:0;}
 .add_goodies .dialog_body td {border-style:none none solid; border-color: #E5E5E5;}
 .add_goodies .dialog_body .dialog_add_goodies_description {color:#666;font-size:12px;font-weight:100;}
 .add_goodies .dialog_body .dialog_remove_goodies_title {color:#999;font-size:14px;font-weight:700;}
