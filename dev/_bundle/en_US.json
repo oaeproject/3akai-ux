@@ -95,7 +95,6 @@
 "LANGUAGE": "Language",
 "LASTNAME": "Lastname",
 "locale": "default",
-"LOGIN_FAILED": "Login failed! NOTE: Every time this server is being redeployed, data is being trashed and you will need to recreate your user account",
 "LOGIN": "Login",
 "MARCH": "March",
 "MAY": "May",
