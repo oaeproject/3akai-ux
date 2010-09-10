@@ -40,15 +40,15 @@ sakai.newaccount = function(){
 
     // Input fields
     var username = "username";
-    var firstName = "firstName";
-    var lastName = "lastName";
+    var firstName = "firstname";
+    var lastName = "lastname";
     var email = "email";
     var password = "password";
     var passwordRepeat = "password_repeat";
     var captcha = "uword";
     var usernameField = "#" + username;
-    var firstNameField = "#" + firstName;
-    var lastNameField = "#" + lastName;
+    var firstnameField = "#" + firstName;
+    var lastnameField = "#" + lastName;
     var emailField = "#" + email;
     var passwordField = "#" + password;
     var passwordRepeatField = "#" + passwordRepeat;
@@ -58,17 +58,14 @@ sakai.newaccount = function(){
     var usernameTaken = usernameField + "_taken";
     var usernameShort = usernameField + "_short";
     var usernameSpaces = usernameField + "_spaces";
-    var usernameNoGroup = usernameField + "_no_group";
+    var usernameInvalid = usernameField + "_invalid";
     var usernameEmpty = usernameField + "_empty";
-    var firstNameEmpty = firstNameField + "_empty";
-    var firstNameInvalid = firstNameField + "_invalid";
-    var lastNameEmpty = lastNameField + "_empty";
-    var lastNameInvalid = lastNameField + "_invalid";
+    var firstnameEmpty = firstnameField + "_empty";
+    var lastnameEmpty = lastnameField + "_empty";
     var emailEmpty = emailField + "_empty";
     var emailInvalid = emailField + "_invalid";
     var passwordEmpty = passwordField + "_empty";
     var passwordShort = passwordField + "_short";
-    var passwordSpaces = passwordField + "_spaces";
     var passwordRepeatEmpty = passwordRepeatField + "_empty";
     var passwordRepeatNoMatch = passwordRepeatField + "_nomatch";
     var captchaEmpty = captchaField + "_empty";
@@ -79,16 +76,81 @@ sakai.newaccount = function(){
     var usernameAvailable = "#username_available";
 
     //CSS Classes
-    var invalidFieldClass = "invalid_field";
+    var invalidFieldClass = "invalid";
     var formContainer = "#create_account_form";
     var inputFieldHoverClass = "input_field_hover";
 
-    // Contains executable errors
-    var errObj = [];
 
     ///////////////////////
     // Utility functions //
     ///////////////////////
+
+    /**
+     * Function that will check whether an email address is valid
+     * @param String email
+     *  The email address we want to check
+     * @return boolean
+     *  true:  the email address is valid.
+     *  false: the email address is invalid.
+     */
+    var echeck = function(email) {
+        var at="@";
+        var dot=".";
+        var lat=email.indexOf(at);
+        var lstr=email.length;
+        var ldot=email.indexOf(dot);
+
+        // Check whether there is an @ sign in the email address, whether the first letter
+        // is an @ sign or whether the last character of the email address is an @ sign
+        if (email.indexOf(at)===-1 || email.indexOf(at)===0 || email.indexOf(at)===lstr){
+           return false;
+        }
+
+        // Check whether there is a . sign in the email address, whether the first letter
+        // is a . sign or whether the last character of the email address is a . sign
+        if (email.indexOf(dot)===-1 || email.indexOf(dot)===0 || email.indexOf(dot)===lstr){
+            return false;
+        }
+
+        // Check whether there is only 1 @ sign
+        if (email.indexOf(at,(lat+1))!==-1){
+            return false;
+        }
+
+        // Check whether there is no . directly behind the @ sign
+        if (email.substring(lat-1,lat)===dot || email.substring(lat+1,lat+2)===dot){
+            return false;
+        }
+
+        // Check whether there is a . sign behind the @ sign somewhere
+        if (email.indexOf(dot,(lat+2))===-1){
+            return false;
+        }
+
+        // Check whether there are no spaces in the email address
+        if (email.indexOf(" ")!==-1){
+            return false;
+         }
+
+         return true;
+    };
+
+    /**
+     * Function that will check whether a field is empty or contains spaces only
+     * @param String field
+     *  ID of the field we would like to check
+     * @return boolean
+     *  true:  the field is empty or contains spaces only
+     *  false: the field contains real input
+     */
+    var checkEmpty = function(field){
+        var value = $(field).val();
+        if (!value || value.replace(/ /g,"") === ""){
+            return true;
+        } else {
+            return false;
+        }
+    };
 
     /**
      * Get all of the values out of the form fields. This will return
@@ -99,7 +161,7 @@ sakai.newaccount = function(){
         // Get the values from the form.
         var values = sakai.api.UI.Forms.form2json($(formContainer));
 
-        // Get the values from the captcha form.
+        // Get the values from the captcha form.       
         var captchaValues = sakai.captcha.getProperties();
 
         // Add them to the form values.
@@ -131,6 +193,9 @@ sakai.newaccount = function(){
      *  fiels valid again first
      */
     var setError = function(field,errorField, noReset){
+        if (!noReset) {
+            resetErrorFields();
+        }
         $(field).addClass(invalidFieldClass);
         $(errorField).show();
     };
@@ -146,24 +211,17 @@ sakai.newaccount = function(){
      */
     var doCreateUser = function(){
         var values = getFormValues();
-        var profileData = {}; profileData.basic = {}; profileData.basic.elements = {};
-        var keys = ["firstName", "lastName", "email"];
-        $(keys).each(function(i, key) {
-            profileData.basic.elements[key] = {};
-            profileData.basic.elements[key].value = values[key];
-        });
-        profileData.basic.access = "everybody";
         var data = {
-            ":create-auth": "reCAPTCHA.net",
-            ":recaptcha-challenge": values["recaptcha-challenge"],
-            ":recaptcha-response": values["recaptcha-response"],
+            "firstName": values[firstName],
+            ":create-auth" : "reCAPTCHA.net",
+            "recaptcha-challenge" : values["recaptcha-challenge"],
+            "recaptcha-response" : values["recaptcha-response"],
+            "lastName": values[lastName],
             "email": values[email],
             "pwd": values[password],
             "pwdConfirm": values[password],
             ":name": values[username],
-            "_charset_": "utf-8",
-            ":sakai:profile-import": $.toJSON(profileData)
-        };
+            "_charset_": "utf-8"};
         $.ajax ({
             url : sakai.config.URL.CREATE_USER_SERVICE,
             type : "POST",
@@ -172,13 +230,11 @@ sakai.newaccount = function(){
                 // This will hide the Create and Cancel button and offer a link back to the login page
                 $(buttonsContainer).hide();
                 $(successMessage).show();
-
+                
                 // Destroy the captcha
                 sakai.captcha.destroy();
-                // Redirect the user to the login page
-                document.location = sakai.config.URL.GATEWAY_URL;
             },
-            error: function(xhr, textStatus, thrownError) {
+        error: function(xhr, textStatus, thrownError) {
                 if (xhr.status === 500) {
                     if (xhr.responseText.indexOf("Untrusted request") !== -1) {
                         setError(captchaField, captchaNoMatch, true);
@@ -189,6 +245,24 @@ sakai.newaccount = function(){
 
     };
 
+    /**
+     * Function that will take in a bunch of input fields and will check whether they
+     * are empty. For all of those that are empty, we'll set the appropriate visual warning
+     * @param Array fields
+     *  Array of input fields we want to check in the form of
+     *  [{id: "#field1", error: "#field1_error"},{id: "#field2", error: "#field2_error"},...]
+     */
+    var checkAllFieldsForEmpty = function(fields){
+        var totalEmpty = 0;
+        for (var i = 0, j = fields.length; i < j; i++){
+            if (checkEmpty(fields[i].id)){
+                totalEmpty++;
+                setError(fields[i].id,fields[i].error,true);
+            }
+        }
+        return totalEmpty;
+    };
+
     /*
      * Validate whether all of the fields have been filled out correctly
      * (Empty, non matching fields, length, ...)
@@ -197,11 +271,43 @@ sakai.newaccount = function(){
 
         resetErrorFields();
 
-        // if all fields in form is valid
-        // check if user name is valid
-        if ($("#create_account_form").valid()) {
-            checkUserName();
+        var fields = [{id: firstnameField, error: firstnameEmpty},{id: lastnameField, error: lastnameEmpty},{id: emailField, error: emailEmpty},
+                      {id: usernameField, error: usernameEmpty},{id: passwordField, error: passwordEmpty},
+                      {id: passwordRepeatField, error: passwordRepeatEmpty}];
+
+        var totalEmpty = checkAllFieldsForEmpty(fields);
+        // If totalEmpty is higher than 0, that means we have at least 1 field that is empty so we need to stop
+        // executing the code.
+        if (totalEmpty > 0){
+            return false;
         }
+
+        // Check whether the entered email address has a valid format
+        if (!echeck($(emailField).val())){
+            setError(emailField, emailInvalid, true);
+            return false;
+        }
+
+        // Check whether the length of the password is at least 4, which is the minimum expected by the backend
+        var pass = $(passwordField).val();
+        if (pass.length < 4){
+            setError(passwordField, passwordShort, true);
+            return false;
+        }
+
+        // Check whether the 2 entered passwords match
+        var pass2 = $(passwordRepeatField).val();
+        if (pass !== pass2){
+            setError(passwordRepeatField, passwordRepeatNoMatch, true);
+            return false;
+        }
+
+        // Everything is valid. Now go and check whether the username already exists in the system
+        //if (!checkUserName()){
+        //    return false;
+        //}
+
+        checkUserName();
 
         return false;
 
@@ -224,231 +330,55 @@ sakai.newaccount = function(){
 
         var values = getFormValues();
         var usernameEntered = values[username];
+        // Check whether the username is an empty string or contains of spaces only
+        if (checkEmpty(usernameField)){
+            setError(usernameField,usernameEmpty);
+            return false;
+        }
 
-        // if user name is not valid format
-        // do not check user name
-        if (!$("#username").valid()) {
+        // Check whether the username contains spaces
+        if (usernameEntered.indexOf(" ") !== -1){
+            setError(usernameField,usernameSpaces);
+            return false;
+        }
+
+        // Check whether the length of the username is at least 3, which is the minimum length
+        // required by the backend
+        if (usernameEntered.length < 3){
+            setError(usernameField,usernameShort);
+            return false;
+        }
+
+        // Check whether the username contains illegal characters
+        if (!usernameEntered.match(/^([a-zA-Z0-9\_\-]+)$/) || (usernameEntered.substr(0,2) === 'g-')){
+            setError(usernameField,usernameInvalid);
             return false;
         }
 
         // If we reach this point, we have a username in a valid format. We then go and check
         // on the server whether this eid is already taken or not. We expect a 200 if it already
         // exists and a 401 if it doesn't exist yet.
-        if (errObj.length === 0) {
-            $.ajax({
-                // Replace the preliminary parameter in the service URL by the real username entered
-                url: sakai.config.URL.USER_EXISTENCE_SERVICE.replace(/__USERID__/g, values[username]),
-                cache: false,
-                success: function(data){
-                    setError(usernameField, usernameTaken);
-                },
-                error: function(xhr, textStatus, thrownError){
-                    if (checkingOnly) {
-                        resetErrorFields();
-                        $(usernameAvailable).show();
-                    }
-                    else {
-                        doCreateUser();
-                    }
+        $.ajax({
+            // Replace the preliminary parameter in the service URL by the real username entered
+            url: sakai.config.URL.USER_EXISTENCE_SERVICE.replace(/__USERID__/g,values[username]),
+            cache : false,
+            success: function(data){
+                setError(usernameField,usernameTaken);
+            },
+            error: function(xhr, textStatus, thrownError) {
+                if (checkingOnly){
+                    resetErrorFields();
+                    $(usernameAvailable).show();
+                } else {
+                    doCreateUser();
                 }
-            });
-        } else{
-            for(var i = 0; i < errObj.length; i++){
-                errObj[i]();
             }
-        }
+        });
 
-        // Reset error Object
-        errObj = [];
+        return false;
+
     };
-
-    /**
-     * Use jquery validation plugin to define rules and message to display if error occur.
-     *
-     */
-    var initValidation = function(){
-
-        // Check if there are spaces in user name
-        $.validator.addMethod("noSpace",function(value){
-            return value.indexOf(" ") === -1;
-        });
-
-        // Check whether the username contains illegal characters
-        $.validator.addMethod("invalid",function(value){
-            return value.match(/^([\w\-\@]+)$/) && value.match(/^(?=.*[\w]).*$/) && (value.substr(0,2) !== 'g-');
-        });
-
-        // Check whether the value contains at least one alphabet
-        $.validator.addMethod("containAlphabet",function(value) {
-            return value.match(/^(?=.*[\a-zA-Z]).*$/);            
-        });
-
-        // define rules and messages
-        $("#create_account_form").validate({
-
-            // set error element to div tag
-            errorElement: "div",
-
-            // place error div in next row and second column of error element
-            errorPlacement: function(error, element) {
-               error.appendTo( element.parents("tr").next("tr").children("td").get(1) );
-            },
-
-            // if there is an error, highlight the textbox
-            highlight: function(element, errorClass) {
-                $(element).addClass(invalidFieldClass);
-            },
-
-            // remove highlight once value becomes valid
-            unhighlight: function(element, errorClass) {
-                $(element).removeClass(invalidFieldClass);
-            },
-
-            // add error class to div tag which display error
-            errorClass:"create_account_error_msg",
-
-            // define validation rules
-            rules: {
-
-                // first name must not be empty and must contain at least one alphabet
-                firstName: {
-                    required: true,
-                    containAlphabet: "required"
-                },
-
-                // last name must not be empty and must contain at least one alphabet
-                lastName: {
-                    required: true,
-                    containAlphabet: "required"
-                },
-
-                // email validation rules
-                email: {
-
-                    // email must not be empty
-                    required: true,
-
-                    // validate email format
-                    email: true
-                },
-
-                // define user name validation rules
-                username: {
-
-                    // user name must not be empty
-                    required: true,
-
-                    // the length of user name must be at least 3
-                    minlength: 3,
-
-                    // user name must not contain spaces
-                    // use of custom method
-                    noSpace: "required",
-
-                    // user name must not contain illegal characters
-                    // use of custom method
-                    invalid: "required"
-                },
-
-                // define password validation rules
-                password: {
-
-                    // password must not be empty
-                    required: true,
-
-                    // password should not contain space
-                    noSpace: "required",
-
-                    // the length of password must be at least 4 characters
-                    minlength: 4
-                },
-
-                // define confirm password validation rules
-                password_repeat: {
-
-                    // confirm password must not be empty
-                    required: true,
-
-                    // confirm passwrod must equal to password
-                    equalTo : "#password"
-                }
-
-            },
-            // define messages to display if values are invalid
-            messages: {
-
-                // if firt name is empty, display message
-                // Please enter your first name
-                firstName: {
-                    "required": $(firstNameEmpty).text(),
-                    "containAlphabet": $(firstNameInvalid).text()
-                },
-
-                lastName: {
-                    // if last name is empty, display message
-                    // Please enter your last name
-                    "required": $(lastNameEmpty).text(),
-                    "containAlphabet": $(lastNameInvalid).text()
-                },
-
-                email: {
-
-                    // if last name is empty, display message
-                    // Please enter your email address
-                    required: $(emailEmpty).text(),
-
-                    // if email is empty, display message
-                    // This is an invalid email address
-                    email: $(emailInvalid).text()
-                },
-                username: {
-
-                    // if user name is empty display message
-                    // Please enter your username
-                    required: $(usernameEmpty).text(),
-
-                    // if length of user name is less than 3 characters, display
-                    // The username should be at least 3 characters long
-                    minlength: $(usernameShort).text(),
-
-                    // if username contain spaces, display
-                    // The username shouldn't contain spaces
-                    noSpace: $(usernameSpaces).text(),
-
-                    // if username contain spaces, display
-                    // The username contains invalid characters
-                    invalid: $(usernameInvalid).text()
-                },
-                password: {
-
-                    // if username contain spaces, display
-                    // Please repeat your password
-                    required: $(passwordEmpty).text(),
-
-                    // if username contain spaces, display
-                    // The username shouldn't contain spaces
-                    noSpace: $(passwordSpaces).text(),
-
-                    // if password is less than 4 characters
-                    // Your password should be 4 characters long
-                    minlength: $(passwordShort).text()
-                },
-                password_repeat: {
-
-                    // if confirm password is empty, display
-                    // Please repeat your password
-                    required: $(passwordRepeatEmpty).text(),
-
-                    // if confirm password is not equal to password, display
-                    // This password does not match the first one
-                    equalTo: $(passwordRepeatNoMatch).text()
-                }
-            }
-        });
-    }
-
-=======
->>>>>>> 2ed45550dc8a860391a2863153972b93cc122612
+    
     var initCaptcha = function() {
         sakai.api.Widgets.widgetLoader.insertWidgets("captcha_box", false);
     };
@@ -484,23 +414,17 @@ sakai.newaccount = function(){
     //$(".create_account_input").hover(function(ev) { $(ev.target).addClass(inputFieldHoverClass); }, function(ev) { $(ev.target).removeClass(inputFieldHoverClass); });
     // so we use this for now:
 
-    // ev.target add inputFieldHoverClass to label in IE if clicking on textbox and then drap on label.
-    $(inputFields).bind("mouseover", function(ev) { $(this).addClass(inputFieldHoverClass); });
-    $(inputFields).bind("mouseout", function(ev) { $(this).removeClass(inputFieldHoverClass); });
+    $(inputFields).bind("mouseover", function(ev) { $(ev.target).addClass(inputFieldHoverClass); });
+    $(inputFields).bind("mouseout", function(ev) { $(ev.target).removeClass(inputFieldHoverClass); });
 
     // Hide success message
     $(successMessage).hide();
 
     // Hide username available message
     $(usernameAvailable).hide();
-
+    
     // Initialize the captcha widget.
     initCaptcha();
-
-    // Validate the form when submitted
-    // define validation rules for elements in the form
-    // also define messages to be displayed when value is not valid
-    initValidation();
 };
 
 sakai.api.Widgets.Container.registerForLoad("sakai.newaccount");
