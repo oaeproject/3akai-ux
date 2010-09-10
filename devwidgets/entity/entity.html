@@ -46,14 +46,10 @@
                 </div>
             </form>
             <div class="entity_content_about">
-                {if data.profile.aboutme}
-                    {if data.profile.aboutme.elements.aboutme}
-                        {if data.profile.aboutme.elements.aboutme.value.length > 115}
-                            ${data.profile.aboutme.elements.aboutme.value.substring(0, 115)}...
-                        {else}
-                            ${data.profile.aboutme.elements.aboutme.value}
-                        {/if}
-                    {/if}
+                {if sakai.api.User.getShortDescription(data.profile).length > 115}
+                    ${sakai.api.User.getShortDescription(data.profile).substring(0, 115)}...
+                {else}
+                    ${sakai.api.User.getShortDescription(data.profile)}
                 {/if}
             </div>
         {/if}
@@ -130,11 +126,11 @@
     </div>
     <div class="fl-col entity_container_right s3d-actions">
         {if mode === "myprofile"}
-            {if data.profile["sakai:tags"] && data.profile["sakai:tags"].split(",").length > 0}
+            {if data.profile.basic && data.profile.basic.elements && data.profile.basic.elements.tags && data.profile.basic.elements.tags.value && data.profile.basic.elements.tags.value.split(",").length > 0}
                 <div class="entity_tags">
                     <a id="entity_tags_link" class="entity_tags_link" href="javascript:;">
-                        <span>${data.profile["sakai:tags"].split(",").length}
-                        {if data.profile["sakai:tags"].split(",").length > 1}
+                        <span>${data.profile.basic.elements.tags.value.split(",").length}
+                        {if data.profile.basic.elements.tags.value.split(",").length > 1}
                             __MSG__TAGS__
                         {else}
                             __MSG__TAG__
@@ -143,7 +139,7 @@
                     </a>
                     <div class="entity_tags_link_menu_border" id="entity_tags_link_menu" style="display:none;">
                         <div class="entity_tags_link_menu_list">
-                            {for t in data.profile['sakai:tags'].split(",")}{if t_index > 0},{/if} <a href="/dev/search.html#q=${t}" class="s3d-action">${t}</a>{/for}
+                            {for t in data.profile.basic.elements.tags.value.split(",")}{if t_index > 0},{/if} <a href="/dev/search.html#q=${t}" class="s3d-action">${t}</a>{/for}
                         </div>
                         <div class="entity_tags_link_menu_list">
                             <a href="/dev/show.html?type=user&amp;id=${data.profile["rep:userId"]}">__MSG__SHOW_ALL__</a>
@@ -154,11 +150,11 @@
         {/if}
         {if mode === "profile"}
             <button id="entity_add_to_contacts" class="s3d-button entity_action_button"><span class="s3d-button-inner">__MSG__ADD_TO_CONTACTS__</span></button>
-            {if data.profile["sakai:tags"] && data.profile["sakai:tags"].split(",").length > 0}
+            {if data.profile.basic && data.profile.basic.elements && data.profile.basic.elements.tags && data.profile.basic.elements.tags.value && data.profile.basic.elements.tags.value.split(",").length > 0}
                 <div class="entity_tags">
                     <a id="entity_tags_link" class="entity_tags_link" href="javascript:;">
-                        <span>${data.profile["sakai:tags"].split(",").length}
-                        {if data.profile["sakai:tags"].split(",").length > 1}
+                        <span>${data.profile.basic.elements.tags.value.split(",").length}
+                        {if data.profile.basic.elements.tags.value.split(",").length > 1}
                             __MSG__TAGS__
                         {else}
                             __MSG__TAG__
@@ -167,7 +163,7 @@
                     </a>
                     <div class="entity_tags_link_menu_border" id="entity_tags_link_menu" style="display:none;">
                         <div class="entity_tags_link_menu_list">
-                            {for t in data.profile['sakai:tags'].split(",")}{if t_index > 0},{/if} <a href="/dev/search.html#q=${t}" class="s3d-action">${t}</a>{/for}
+                            {for t in data.profile.basic.elements.tags.value.split(",")}{if t_index > 0},{/if} <a href="/dev/search.html#q=${t}" class="s3d-action">${t}</a>{/for}
                         </div>
                         <div class="entity_tags_link_menu_list">
                             <a href="/dev/show.html?type=user&amp;id=${data.profile["rep:userId"]}">__MSG__SHOW_ALL__</a>
