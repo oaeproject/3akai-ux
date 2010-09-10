@@ -331,6 +331,9 @@ sakai.listPeople.addToList = function(tuid, object) {
                 } else {
                     sakai.data.listpeople[tuid].userList[resultObject.userid]["displayName"] = resultObject.userid;
                 }
+                if (resultObject.picture && typeof(resultObject.picture) === 'string') {
+                    sakai.data.listpeople[tuid].userList[resultObject.userid]["picture"] = $.parseJSON(resultObject.picture);
+                }
                 if (!sakai.data.listpeople[tuid].userList[resultObject.userid]["subNameInfo"]) {
                     sakai.data.listpeople[tuid].userList[resultObject.userid]["subNameInfo"] = resultObject[iSubNameInfoUser]
                 }
