@@ -1176,7 +1176,7 @@ sakai.chat = function(tuid, showSettings){
                                 }
 
                                 var el = $(chatWith + "_" + k + "_content");
-                                var chatwithusername = parseName(k, njson[k].messages[0].userFrom[0]);
+                                var chatwithusername = njson[k].messages[0].userFrom[0].firstName+njson[k].messages[0].userFrom[0].lastName;
 
                                 // Create a message object
                                 var chatmessage = {};
