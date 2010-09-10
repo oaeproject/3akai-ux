@@ -161,6 +161,9 @@ sakai.config = {
          * When system/me returns profile data for the logged in user the profile_config and profile_data objects could be merged
          * "label": the internationalizable message for the entry label in HTML
          * "required": Whether the entry is compulsory or not
+         * 
+         * For a date entry field use "date" as the type for MM/dd/yyyy and "dateITA" as the type for dd/MM/yyyy
+         * 
          */
         configuration: {
 
@@ -231,7 +234,8 @@ sakai.config = {
                         "label": "__MSG__PROFILE_BASIC_DATEOFBIRTH_LABEL__",
                         "required": false,
                         "display": true,
-                        "type": "date"
+                        "type": "dateITA"
+                        //"type": "date"
                     },
                     "tags": {
                         "label": "__MSG__TAGS__",
