@@ -1,0 +1,8 @@
+.notepaper_widget .fl-widget-content {padding: 10px 20px;}
+
+textarea {
+    width: 100%;
+    height: 66px;
+    border: 0px;
+    background: #F0F0F0;
+}
