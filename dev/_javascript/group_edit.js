@@ -97,7 +97,9 @@ sakai.groupedit = function(){
                     sakai.api.UI.entity.render("group", sakai.currentgroup.data);
                 }
                 renderGroupBasicInfo();
-                renderTemplates();
+                // per section permissions to be fully implemented later; hiding
+                // the "Who can view or search this?" dropdowns for now
+                // renderTemplates();
                 addPickUserBinding();
             }
         });
@@ -341,7 +343,9 @@ sakai.groupedit = function(){
     };
 
     /**
-     * Render Templates
+     * Render Templates for per section permissions dropdowns. This functionality
+     * is currently disabled (renderTemplates should not be called), but the code
+     * remains to be continued at a later time.
      */
     var renderTemplates = function(){
         var data = { "access" : 'public' };
