@@ -1,0 +1,13 @@
+{
+    "description":"My Note",
+    "name":"My Note",
+    "id":"notepaper",
+    "personalportal":true,
+    "groupsdashboard":true,
+    "i18n": {
+        "default": "/devwidgets/notepaper/bundles/default.json",
+        "en_US": "/devwidgets/notepaper/bundles/en_US.json",
+        "zh_CN": "/devwidgets/notepaper/bundles/zh_CN.json"
+    },
+    "url":"/devwidgets/notepaper/notepaper.html"
+}
