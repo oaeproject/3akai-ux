@@ -130,9 +130,13 @@ sakai.groupedit = function(){
      * When the Group Permissions widget has finished updating group permissions,
      * it will come back to this function
      */
-    $(window).bind("sakai.grouppermissions.updateFinished", function() {
+    $(window).bind("sakai.grouppermissions.updateFinished", function(ev, success, errorMessage) {
         // Show notification
-        sakai.api.Util.notification.show("Group Permissions", "Updated successfully.");
+        if(success) {
+            sakai.api.Util.notification.show("Group Permissions", "Updated successfully.");
+        } else {
+            sakai.api.Util.notification.show("Group Permissions", "Update failed. Please try again later or contact your administrator if the issue persists.  (Error status: " + errorMessage + ")");
+        }
     });
 
     /**

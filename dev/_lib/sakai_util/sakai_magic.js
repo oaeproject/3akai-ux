@@ -435,6 +435,148 @@ sakai.api.Groups = sakai.api.Groups || {};
 
 
 /**
+ * Public function used to set joinability and visibility permissions for a
+ * group with groupid.  Currently, visibility is only partially complete
+ * (see SAKIII-853, depends on KERN-1064) and joinability is not implemented
+ * at all (depends on KERN-1019).
+ * @param {String} groupid The id of the group that needs permissions set
+ * @param {String} joinable The joinable state for the group (from sakai.config.Permissions.Groups)
+ * @param {String} visible The visibile state for the group (from sakai.config.Permissions.Groups)
+ * @param {Function} callback Function to be called on complete - callback
+ *   args: (success, errorMessage)
+ * @return None
+ */
+sakai.api.Groups.setPermissions = function (groupid, joinable, visible, callback) {
+    if(groupid && typeof(groupid) === "string" &&
+       sakai.api.Security.isValidPermissionsProperty(sakai.config.Permissions.Groups.joinable, joinable) &&
+       sakai.api.Security.isValidPermissionsProperty(sakai.config.Permissions.Groups.visible, visible)) {
+
+        // issue a BATCH POST to update Jackrabbit group & Home Folder group
+        var batchRequests = [];
+        var jackrabbitUrl = "/system/userManager/group/" + groupid + ".update.html";
+        var homeFolderUrl = "/~" + groupid + ".modifyAce.html";
+
+        // determine visibility state (joinability needs to be checked later, depends on KERN-1019)
+        if(visible == sakai.config.Permissions.Groups.visible.members) {
+            // visible to members only
+            batchRequests.push({
+                "url": jackrabbitUrl,
+                "method": "POST",
+                "parameters": {
+                    ":viewer": groupid,
+                    "sakai:group-visible": visible,
+                    "sakai:group-joinable": joinable
+                }
+            });
+            batchRequests.push({
+                "url": homeFolderUrl,
+                "method": "POST",
+                "parameters": {
+                    "principalId": "everyone",
+                    "privilege@jcr:read": "denied"
+                }
+            });
+            batchRequests.push({
+                "url": homeFolderUrl,
+                "method": "POST",
+                "parameters": {
+                    "principalId": "anonymous",
+                    "privilege@jcr:read": "denied"
+                }
+            });
+        } else if(visible == sakai.config.Permissions.Groups.visible.allusers) {
+            // visible to all logged in users
+            // --Jackrabbit support for this specific option not availble yet (see KERN-1064)
+            batchRequests.push({
+                "url": jackrabbitUrl,
+                "method": "POST",
+                "parameters": {
+                    //":viewer": ?,
+                    "sakai:group-visible": visible,
+                    "sakai:group-joinable": joinable
+                }
+            });
+            batchRequests.push({
+                "url": homeFolderUrl,
+                "method": "POST",
+                "parameters": {
+                    "principalId": "everyone",
+                    "privilege@jcr:read": "granted"
+                }
+            });
+            batchRequests.push({
+                "url": homeFolderUrl,
+                "method": "POST",
+                "parameters": {
+                    "principalId": "anonymous",
+                    "privilege@jcr:read": "denied"
+                }
+            });
+        } else {
+            // visible to the public
+            batchRequests.push({
+                "url": jackrabbitUrl,
+                "method": "POST",
+                "parameters": {
+                    "rep:group-viewers@Delete": "",
+                    "sakai:group-visible": visible,
+                    "sakai:group-joinable": joinable
+                }
+            });
+            batchRequests.push({
+                "url": homeFolderUrl,
+                "method": "POST",
+                "parameters": {
+                    "principalId": "everyone",
+                    "privilege@jcr:read": "granted"
+                }
+            });
+            batchRequests.push({
+                "url": homeFolderUrl,
+                "method": "POST",
+                "parameters": {
+                    "principalId": "anonymous",
+                    "privilege@jcr:read": "granted"
+                }
+            });
+        }
+
+        // issue the BATCH POST
+        $.ajax({
+            url: sakai.config.URL.BATCH,
+            traditional: true,
+            type: "POST",
+            data: {
+                requests: $.toJSON(batchRequests)
+            },
+            success: function(data){
+                // update group context and call callback
+                if(sakai.currentgroup && sakai.currentgroup.data && sakai.currentgroup.data.authprofile) {
+                    sakai.currentgroup.data.authprofile["sakai:group-joinable"] = joinable;
+                    sakai.currentgroup.data.authprofile["sakai:group-visible"] = visible;
+                }
+                if(typeof(callback) === "function") {
+                    callback(true, null);
+                }
+            },
+            error: function(xhr, textStatus, thrownError){
+                // Log an error message
+                fluid.log("sakai.grouppermissions.setPermissions - batch post failed");
+
+                if(typeof(callback) === "function") {
+                    callback(false, textStatus);
+                }
+            }
+        });
+    } else {
+        if(typeof(callback) === "function") {
+            callback(false, "Invalid arguments sent to sakai.api.Groups.setPermissions");
+        }
+    }
+};
+
+
+/**
  * Adds logged in user to a specified group
  *
  * @param {String} groupID The ID of the group we would like the user to become
@@ -983,6 +1125,34 @@ sakai.api.Security.saneHTML = function(inputHTML) {
     // Call a slightly modified version of Caja's sanitizer
     return sakaiHtmlSanitize(inputHTML, filterUrl, filterNameIdClass);
 
+};
+
+
+/**
+ * Checks whether the given value is valid as defined by the given
+ * permissionsProperty.
+ *
+ * @param {Object} permissionsProperty Permissions property object
+ *   (i.e. sakai.config.Permissions.Groups.joinable) with valid values to check
+ *   against
+ * @param {Object} value Value to investigate
+ * @return true if the value has a valid property value, false otherwise
+ */
+sakai.api.Security.isValidPermissionsProperty = function(permissionsProperty, value) {
+    if(!value || value === "") {
+        // value is empty - not valid
+        return false;
+    }
+    for(index in permissionsProperty) {
+        if(permissionsProperty.hasOwnProperty(index)) {
+            if(value === permissionsProperty[index]) {
+                // value is valid
+                return true;
+            }
+        }
+    }
+    // value is not valid
+    return false;
 };
 
 

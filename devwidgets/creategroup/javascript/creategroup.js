@@ -211,15 +211,24 @@ sakai.creategroup = function(tuid, showSettings){
                 "sakai:group-title" : grouptitle,
                 "sakai:group-description" : groupdescription,
                 "sakai:group-id": groupid,
-                "sakai:group-joinable": sakai.config.Permissions.Groups.joinable.manager_add,
-                "sakai:group-visible": sakai.config.Permissions.Groups.visible.members,
                 ":sakai:pages-template": "/var/templates/site/" + pagestemplate
             },
             type: "POST",
             success: function(data, textStatus){
-                //check if the group exists
+                // check if the group exists
                 if (doCheckGroup(groupid)) {
-                    document.location = "/dev/group_edit.html?id=" + groupid;
+                    // set default permissions for this group
+                    sakai.api.Groups.setPermissions(groupid,
+                        sakai.config.Permissions.Groups.joinable.manager_add,
+                        sakai.config.Permissions.Groups.visible.public,
+                        function (success, errorMessage) {
+                            if(success) {
+                                // show the group
+                                document.location = "/dev/group_edit.html?id=" + groupid;
+                            } else {
+                                fluid.log("creategroup.js doSaveGroup failed to set group permissions: " + errorMessage);
+                            }
+                        });
                 }
             },
             error: function(xhr, textStatus, thrownError){

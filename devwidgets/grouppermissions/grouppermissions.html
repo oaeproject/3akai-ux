@@ -21,12 +21,12 @@
         <p class="grouppermissions_input">
             <label for="grouppermissions_visible">__MSG__VISIBLE_LABEL__</label>
             <select id="grouppermissions_visible">
-                <option{if visible===sakai.config.Permissions.Groups.visible.members}
-                    selected="selected"{/if}>__MSG__VIS_MEMBERS__</option>
-                <option{if visible===sakai.config.Permissions.Groups.visible.allusers}
-                    selected="selected"{/if}>__MSG__VIS_ALLUSERS__</option>
                 <option{if visible===sakai.config.Permissions.Groups.visible.public}
                     selected="selected"{/if}>__MSG__VIS_PUBLIC__</option>
+                <option{if visible===sakai.config.Permissions.Groups.visible.allusers}
+                    selected="selected"{/if}>__MSG__VIS_ALLUSERS__</option>
+                <option{if visible===sakai.config.Permissions.Groups.visible.members}
+                    selected="selected"{/if}>__MSG__VIS_MEMBERS__</option>
             </select>
         </p>
     --></div>
