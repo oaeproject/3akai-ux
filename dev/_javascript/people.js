@@ -120,10 +120,11 @@ sakai.search = function(){
             }
         }
 
-        if (finaljson.items.length === 0){
-            $(".jq_pager").hide();
-        } else {
+        // if there is more than one page show the pager
+        if (Math.ceil(_currentTotal/peopleToSearch) > 1) {
             $(".jq_pager").show();
+        } else {
+            $(".jq_pager").hide();
         }
 
         $("#contacts_search_result").html($.TemplateRenderer("contacts_search_result_template", finaljson));
