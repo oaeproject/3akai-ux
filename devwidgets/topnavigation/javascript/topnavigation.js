@@ -133,7 +133,7 @@ sakai.topnavigation = function(tuid, showSettings){
         };
 
         $.ajax({
-            url: sakai.data.me.profile["jcr:path"],
+            url: "/~" + sakai.data.me.profile["rep:userId"] + "/public/authprofile",
             type: "POST",
             data: data,
             success: function(data){
