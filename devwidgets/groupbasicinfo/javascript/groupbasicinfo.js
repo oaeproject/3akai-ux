@@ -123,11 +123,14 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         }
         // Extract tags that start with "directory:"
         var directory = [];
-        if (sakai.currentgroup.data["sakai:tags"]) {
-            $(sakai.currentgroup.data["sakai:tags"]).each(function(i, val){
+        var tags = [];
+        if (sakai.currentgroup.data.authprofile["sakai:tags"]) {
+            $(sakai.currentgroup.data.authprofile["sakai:tags"]).each(function(i, val){
                 if (val.split("/")[0] === "directory") {
                     var item = [val.split("/")[1], val.split("/")[2], val.split("/")[3]]
                     directory.push(item);
+                } else {
+                    tags.push(val);
                 }
             });
         }
@@ -137,6 +140,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
             "url" : document.location.protocol + "//" + document.location.host + "/~" + sakai.currentgroup.id,
             "data" : sakai.currentgroup.data.authprofile,
             "mode" : mode,
+            "tags" : tags,
             "directory" : directoryJSON,
             "saveddirectory" : directory,
             /* the following perSectionPermissions switch is used to turn off
@@ -184,17 +188,31 @@ sakai.groupbasicinfo = function(tuid, showSettings){
             // Add string for all levels to tag array
             tagArray.push(directoryString);
         });
-
+        var tagsToAdd = [];
+        var tagsToDelete = [];
+        var currentTags = sakai.currentgroup.data.authprofile["sakai:tags"];
+        // determine which tags to add and which to delete
+        $(tagArray).each(function(i,val) {
+            val = $.trim(val);
+            if ($.inArray(val,currentTags) == -1) {
+                tagsToAdd.push(val);
+            }
+        });
+        $(currentTags).each(function(i,val) {
+            val = $.trim(val);
+            if (val.split("/")[0] !== "directory" && $.inArray(val,tagArray) == -1) { // dont delete directory tags this way, we do that another way
+                tagsToDelete.push(val);
+            }
+        });
         var groupDesc = $(groupBasicInfoGroupDesc, $rootel).val();
 
         // Update the group object
         sakai.currentgroup.data.authprofile["sakai:group-title"] = groupTitle;
         sakai.currentgroup.data.authprofile["sakai:group-kind"] = groupKind;
         sakai.currentgroup.data.authprofile["sakai:group-description"] = groupDesc;
-
+        var groupProfileURL = "/~" + sakai.currentgroup.id + "/public/authprofile"
         $.ajax({
-//            url: "/system/userManager/group/" + sakai.currentgroup.id + ".update.json",  // previously used
-            url: "/~" + sakai.currentgroup.id + "/public/authprofile",
+            url: groupProfileURL,
             data: {
                 "_charset_":"utf-8",
                 "sakai:group-title" : groupTitle,
@@ -203,9 +221,12 @@ sakai.groupbasicinfo = function(tuid, showSettings){
             },
             type: "POST",
             success: function(data, textStatus){
-                sakai.api.Util.setTagsOnEntity("~" + sakai.currentgroup.id, tagArray, function(){
-                    sakai.api.Widgets.Container.informFinish(tuid, "groupbasicinfo");
-                    $(window).trigger("sakai.groupbasicinfo.updateFinished");
+                sakai.api.Util.deleteTags(groupProfileURL, tagsToDelete, function(){
+                    sakai.api.Util.setTags(groupProfileURL, tagsToAdd, function(){
+                        sakai.currentgroup.data.authprofile["sakai:tags"] = tagArray;
+                        sakai.api.Widgets.Container.informFinish(tuid, "groupbasicinfo");
+                        $(window).trigger("sakai.groupbasicinfo.updateFinished");
+                    });
                 });
             },
             error: function(xhr, textStatus, thrownError){

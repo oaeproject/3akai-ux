@@ -2040,55 +2040,108 @@ sakai.api.Util.convertToHumanReadableFileSize = function(filesize) {
 };
 
 /**
- * Tag a given entity
+ * Tag a given entity node
  *
- * @param (String) entity the URL to the entity, ie. (~userid or ~g-groupid)
+ * @param (String) tagLocation the URL to the tag, ie. (~userid/public/authprofile)
  * @param (Array) tags Array of tags to tag the entity with
  * @param (Function) callback The callback function
  */
 
-sakai.api.Util.setTagsOnEntity = function(entity, tags, callback) {
-    $(tags).each(function(i,val) {
-        if ($.trim(val) !== "") {
+sakai.api.Util.setTags = function(tagLocation, tags, callback) {
+    if (tags.length) {
+        $(tags).each(function(i,val) {
+            if ($.trim(val) !== "") {
+                val = $.trim(val);
+                // check to see that the tag exists
+                $.ajax({
+                    url: "/tags/" + val + ".tagged.json",
+                    success: function(data) {
+                        doSetTag(val);
+                    },
+                    // if it doesn't exist, create the tag before setting it
+                    error: function(data) {
+                        $.ajax({
+                            url: "/tags/" + val,
+                            data: {
+                                "sakai:tag-name": val,
+                                "sling:resourceType": "sakai/tag"
+                            },
+                            type: "POST",
+                            success: function(data) {
+                                doSetTag(val);
+                            },
+                            error: function(xhr, response) {
+                                fluid.log(val + " failed to be created");
+                                if ($.isFunction(callback)) {
+                                    callback();
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    } else {
+        if ($.isFunction(callback)) {
+            callback();
+        }
+    }
+
+    // set the tag on the entity
+    var doSetTag = function(val) {
+        $.ajax({
+            url: tagLocation,
+            data: {
+                "key": "/tags/" + val,
+                ":operation": "tag"
+            },
+            type: "POST",
+            error: function(xhr, response) {
+                fluid.log(tagLocation + " failed to be tagged as " + val);
+            },
+            complete: function() {
+                if ($.isFunction(callback)) {
+                    callback();
+                }
+            }
+        });
+    };
+};
+
+/**
+ * Delete tags on a given node
+ *
+ * @param (String) tagLocation the URL to the tag, ie. (~userid/public/authprofile)
+ * @param (Array) tags Array of tags to be deleted from the entity
+ * @param (Function) callback The callback function
+ */
+
+sakai.api.Util.deleteTags = function(tagLocation, tags, callback) {
+    if (tags.length) {
+        $(tags).each(function(i,val) {
             $.ajax({
-                url: "/tags/" + val,
+                url: "/" + tagLocation,
                 data: {
-                    "sakai:tag-name": val,
-                    "sling:resourceType": "sakai/tag"
+                    "key": "/tags/" + val,
+                    ":operation": "deletetag"
                 },
                 type: "POST",
-                success: function(data) {
-                    $.ajax({
-                        url: "/" + entity + "/public",
-                        data: {
-                            "key": "/tags/" + val,
-                            ":operation": "tag"
-                        },
-                        type: "POST",
-                        success: function(data) {
-                            if ($.isFunction(callback)) {
-                                callback();
-                            }
-                        },
-                        error: function(xhr, response) {
-                            fluid.log(entity + " failed to be tagged as " + val);
-                            if ($.isFunction(callback)) {
-                                callback();
-                            }
-                        }
-                    });
-                },
                 error: function(xhr, response) {
-                    fluid.log(val + " failed to be created");
+                    fluid.log(val + " tag failed to be removed from " + tagLocation);
+                },
+                complete: function() {
                     if ($.isFunction(callback)) {
                         callback();
                     }
                 }
             });
+        });
+    } else {
+        if ($.isFunction(callback)) {
+            callback();
         }
-    });
+    }
 };
-
 
 /**
  * @class notification
