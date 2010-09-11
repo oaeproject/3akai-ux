@@ -127,11 +127,11 @@ sakai.footer = function(tuid,showSettings){
         // Display debug info if set in config
         if (sakai.config.displayDebugInfo === true) {
 
-            // Render the debug info
-            renderDebugInfo($footer_debug_info);
-
             // Add binding to the image
             $footer_logo.toggle(function(){
+
+                // Render the debug info
+                renderDebugInfo($footer_debug_info);
 
                 // Show the debug info
                 $footer_debug_info.show();
