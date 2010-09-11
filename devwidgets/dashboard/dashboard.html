@@ -80,6 +80,15 @@
               <table>
               {for i in items}
                   {if i.deletable === false}
+                      <tr id="row_compulsary_${i.id}" class="compulsary" style="display:none">
+                          <td></td>
+                          <td>
+                              <div class="dialog_add_goodies_title">${i.title}</div>
+                              <div class="dialog_add_goodies_description">
+                              ${i.description}
+                              </div>
+                          </td>
+                      </tr>
                   {else}
                       {if i.alreadyIn}
                       <tr class="add" id="row_add_${i.id}" style="display:none">
