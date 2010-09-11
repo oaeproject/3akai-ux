@@ -1,5 +1,8 @@
 {
-    "groupspages":true,
+    "userpages": true,
+    "userdashboard": true,
+    "grouppages": true,
+    "groupdashboard": true,
     "description":"Video",
     "hasSettings":true,
     "id":"video",

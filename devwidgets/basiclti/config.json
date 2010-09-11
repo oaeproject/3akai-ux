@@ -1,10 +1,10 @@
 {
     "ca":true,
-    "groupspages":true,
+    //"grouppages":true,
     "description":"Basic LTI Widget",
     "id":"basiclti",
     "img":"/devwidgets/basiclti/images/basiclti.png",
     "name":"Basic LTI",
-    "showinsakaigoodies":true,
+    //"showinsakaigoodies":true,
     "url":"/devwidgets/basiclti/basiclti.html"
 }

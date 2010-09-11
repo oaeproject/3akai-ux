@@ -2181,7 +2181,11 @@ sakai.api.Util.createSakaiDate = function(date, format, offset) {
 };
 
 /**
- * make a doc for this
+ * Convert a file's size to a human readable size
+ * example: 2301 = 2.301kB
+ *
+ * @param (Integer) filesize The file's size to convert
+ * @return (String) the file's size in human readable format
  */
 
 sakai.api.Util.convertToHumanReadableFileSize = function(filesize) {
@@ -2205,6 +2209,109 @@ sakai.api.Util.convertToHumanReadableFileSize = function(filesize) {
     return filesize + " " + lengthunits;
 };
 
+/**
+ * Tag a given entity node
+ *
+ * @param (String) tagLocation the URL to the tag, ie. (~userid/public/authprofile)
+ * @param (Array) tags Array of tags to tag the entity with
+ * @param (Function) callback The callback function
+ */
+
+sakai.api.Util.setTags = function(tagLocation, tags, callback) {
+    if (tags.length) {
+        $(tags).each(function(i,val) {
+            if ($.trim(val) !== "") {
+                val = $.trim(val);
+                // check to see that the tag exists
+                $.ajax({
+                    url: "/tags/" + val + ".tagged.json",
+                    success: function(data) {
+                        doSetTag(val);
+                    },
+                    // if it doesn't exist, create the tag before setting it
+                    error: function(data) {
+                        $.ajax({
+                            url: "/tags/" + val,
+                            data: {
+                                "sakai:tag-name": val,
+                                "sling:resourceType": "sakai/tag"
+                            },
+                            type: "POST",
+                            success: function(data) {
+                                doSetTag(val);
+                            },
+                            error: function(xhr, response) {
+                                fluid.log(val + " failed to be created");
+                                if ($.isFunction(callback)) {
+                                    callback();
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    } else {
+        if ($.isFunction(callback)) {
+            callback();
+        }
+    }
+
+    // set the tag on the entity
+    var doSetTag = function(val) {
+        $.ajax({
+            url: tagLocation,
+            data: {
+                "key": "/tags/" + val,
+                ":operation": "tag"
+            },
+            type: "POST",
+            error: function(xhr, response) {
+                fluid.log(tagLocation + " failed to be tagged as " + val);
+            },
+            complete: function() {
+                if ($.isFunction(callback)) {
+                    callback();
+                }
+            }
+        });
+    };
+};
+
+/**
+ * Delete tags on a given node
+ *
+ * @param (String) tagLocation the URL to the tag, ie. (~userid/public/authprofile)
+ * @param (Array) tags Array of tags to be deleted from the entity
+ * @param (Function) callback The callback function
+ */
+
+sakai.api.Util.deleteTags = function(tagLocation, tags, callback) {
+    if (tags.length) {
+        $(tags).each(function(i,val) {
+            $.ajax({
+                url: "/" + tagLocation,
+                data: {
+                    "key": "/tags/" + val,
+                    ":operation": "deletetag"
+                },
+                type: "POST",
+                error: function(xhr, response) {
+                    fluid.log(val + " tag failed to be removed from " + tagLocation);
+                },
+                complete: function() {
+                    if ($.isFunction(callback)) {
+                        callback();
+                    }
+                }
+            });
+        });
+    } else {
+        if ($.isFunction(callback)) {
+            callback();
+        }
+    }
+};
 
 /**
  * @class notification

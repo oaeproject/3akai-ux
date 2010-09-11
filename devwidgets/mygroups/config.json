@@ -8,5 +8,6 @@
     "id":"mygroups",
     "name":"My Groups",
     "personalportal":true,
+    "deletable": false,
     "url":"/devwidgets/mygroups/mygroups.html"
 }

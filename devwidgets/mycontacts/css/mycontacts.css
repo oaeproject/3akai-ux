@@ -17,16 +17,16 @@
  */
 
 
-.myfriends_widget #myfriends_list {padding: 10px 20px;}
+.mycontacts_widget #mycontacts_list {padding: 10px 20px;}
 
 /* Friends list */
-.myfriends_list_contact {float:left;margin-right:10px;overflow:hidden;padding:0 20px 5px 0;width:70px;}
-.myfriends_list_contact .myfriends_list_contact_picture {margin:0;padding:0;display: block;}
-.myfriends_list_contact .myfriends_list_contact_picture img {height:50px;width:50px;}
-.myfriends_list_contact .myfriends_list_contact_name {color:#39C;font-size:0.95em;font-weight:bold;}
+.mycontacts_list_contact {float:left;margin-right:10px;overflow:hidden;padding:0 20px 5px 0;width:70px;}
+.mycontacts_list_contact .mycontacts_list_contact_picture {margin:0;padding:0;display: block;}
+.mycontacts_list_contact .mycontacts_list_contact_picture img {height:50px;width:50px;}
+.mycontacts_list_contact .mycontacts_list_contact_name {color:#39C;font-size:0.95em;font-weight:bold;}
 
 /* Contact requests */
-.myfriends_requests {font-size:0.85em; color:#666; padding-left: 20px; }
+.mycontacts_requests {font-size:0.85em; color:#666; padding-left: 20px; }
 
 /* No contacts */
-.myfriends_widget #myfriends_nocontacts {font-size:0.95em;}
+.mycontacts_widget #mycontacts_nocontacts {font-size:0.95em;}

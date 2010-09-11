@@ -82,16 +82,23 @@ sakai.footer = function(tuid,showSettings){
      * @param {Object} container jQuery selector where you want the debug info to appear in
      */
     var renderDebugInfo = function(container) {
+        
+        $.ajax({
+            url: "/var/scm-version.json",
+            type: "GET",
+            dataType: "json",
+            success: function(data){
+                // Construct debug info | TODO: get current running kernel version from a service, maybe svn version of UX as well
+                var debug_text = "DEBUG:";
+                debug_text += " Nakamura Version: " + data["sakai:nakamura-version"];
+                debug_text += " | UX Code Timestamp: " + data["jcr:created"];
+                debug_text += "<br/>DOC mod date: " + document.lastModified;
+                debug_text += " | PLACE: " + (doc_name || "index.html");
 
-        // Construct debug info | TODO: get current running kernel version from a service, maybe svn version of UX as well
-        var debug_text = "DEBUG:";
-        debug_text += " UX git: <a href='http://github.com/oszkarnagy/3akai-ux/tree/v_0.4.0_release'>v_0.4.0_release</a>";
-        debug_text += " | KERNEL git: <a href='http://github.com/ieb/open-experiments/tree/0.5' target='_blank'>0.5</a>";
-        debug_text += " | DOC mod date: " + document.lastModified;
-        debug_text += " | PLACE: " + doc_name;
-
-        // Put text into holding tag
-        container.html(sakai.api.Security.saneHTML(debug_text));
+                // Put text into holding tag
+                container.html(sakai.api.Security.saneHTML(debug_text));
+            }
+        });
 
     };
 

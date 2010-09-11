@@ -1,0 +1,13 @@
+{
+    "description":"A list of my contacts",
+    "id":"mycontacts",
+    "multipleinstance": false,
+    "i18n": {
+        "default": "/devwidgets/mycontacts/bundles/default.json",
+        "en_US": "/devwidgets/mycontacts/bundles/en_US.json",
+        "zh_CN": "/devwidgets/mycontacts/bundles/zh_CN.json"
+    },
+    "name":"My Contacts",
+    "personalportal":true,
+    "url":"/devwidgets/mycontacts/mycontacts.html"
+}
