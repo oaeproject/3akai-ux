@@ -45,6 +45,21 @@
                     {/if}
                 </div>
             </form>
+            <form id="entity_profile_status" method="POST" action="javascript:;">
+                {if mode === "myprofile"}
+                <div>
+                    <input id="entity_profile_status_input" title="__MSG__WHAT_ARE_YOU_DOING_NOW__" maxlength="255" type="text" {if !data.profile.status}class="entity_profile_status_input_dummy" value="__MSG__WHAT_ARE_YOU_DOING_NOW__"{else}value="${data.profile.status}"{/if} />
+                    <span id="entity_profile_status_input_dummy" style="display:none;">__MSG__WHAT_ARE_YOU_DOING_NOW__</span>
+                    <button type="submit" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">__MSG__UPDATE__</span></button>
+                    <span id="entity_profile_status_input_saving" style="display:none;">__MSG__SAVING__...</span>
+                    <span id="entity_profile_status_input_saving_failed" style="display:none;">__MSG__SAVING_FAILED__</span>
+                </div>
+                {else}
+                    {if data.profile.status}
+                        ${data.profile.status}
+                    {/if}
+                {/if}
+            </form>
             <div class="entity_content_about">
                 {if sakai.api.User.getShortDescription(data.profile).length > 115}
                     ${sakai.api.User.getShortDescription(data.profile).substring(0, 115)}...
