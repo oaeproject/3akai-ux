@@ -4,6 +4,9 @@
     "img":"/devwidgets/poll/images/poll.png",
     "name":"Poll",
     "showinsakaigoodies":true,
-    "groupspages":true,
+    "userpages": true,
+    "userdashboard": true,
+    "grouppages": true,
+    "groupdashboard": true,
     "url":"/devwidgets/poll/poll.html"
 }

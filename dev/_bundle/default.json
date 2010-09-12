@@ -235,7 +235,7 @@
 "LOADING_PLEASE_HOLD_ON": "Loading, please hold on",
 "LOCATION": "Location",
 "LOCATIONS": "Locations",
-"LOGIN_FAILED": "Login failed! NOTE: Every time this server is being redeployed, data is being trashed and you will need to recreate your user account",
+"LOGIN_FAILED": "The username or password you entered is incorrect",
 "LOGIN": "Login",
 "LOGGING_OUT": "Logging out",
 "MAKE_SELECTED_PEOPLE": "Make selected people",

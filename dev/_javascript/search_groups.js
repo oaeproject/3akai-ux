@@ -29,6 +29,7 @@ sakai.search = function() {
     var resultsToDisplay = 10;
     var searchterm = "";
     var currentpage = 0;
+    var currentfacet = "";
 
     // Search URL mapping
     var searchURLmap = {
@@ -82,8 +83,24 @@ sakai.search = function() {
         facetedConfig : {
             title : "Refine your search",
             value : "Groups",
-            categories : ["All Groups", "Groups I can see", "Groups I manage", "Groups I'm a member of"],
-            searchurls : [searchURLmap.allgroups, searchURLmap.visiblegroups, searchURLmap.managergroups, searchURLmap.membergroups]
+            facets: {
+                "all": {
+                    "category": "All Groups",
+                    "searchurl": searchURLmap.allgroups
+                },
+                "see": {
+                    "category": "Groups I can see",
+                    "searchurl": searchURLmap.visiblegroups
+                }, 
+                "manage": {
+                    "category": "Groups I manage",
+                    "searchurl": searchURLmap.managergroups
+                },
+                "member": {
+                    "category": "Groups I'm a member of",
+                    "searchurl": searchURLmap.membergroups
+                }
+            }
         }
     };
 
@@ -115,7 +132,7 @@ sakai.search = function() {
      * @param {String} searchquery The searchterm you want to look for (optional / default = input box value.)
      * @param {String} searchwhere The subset of sites you want to search in
      */
-    var doHSearch = function(page, searchquery, searchwhere) {
+    sakai._search.doHSearch = function(page, searchquery, searchwhere, facet) {
         if (!page) {
             page = 1;
         }
@@ -125,10 +142,13 @@ sakai.search = function() {
         if (!searchwhere) {
             searchwhere = mainSearch.getSearchWhereSites();
         }
+        if (!facet){
+            facet = $.bbq.getState('facet');
+        }
 
         currentpage = page;
         // This will invoke the sakai._search.doSearch function and change the url.
-        History.addBEvent(page, encodeURIComponent(searchquery), searchwhere);
+        History.addBEvent(page, encodeURIComponent(searchquery), searchwhere, facet);
     };
 
     /**
@@ -139,7 +159,7 @@ sakai.search = function() {
         currentpage = pageclickednumber;
 
         // Redo the search
-        doHSearch(currentpage, searchterm);
+        doHSearch(currentpage, searchterm, null, $.bbq.getState('facet'));
     };
 
     /**
@@ -247,9 +267,22 @@ sakai.search = function() {
      *  mysites = the site the user is registered on
      *  /a-site-of-mine = specific site from the user
      */
-    sakai._search.doSearch = function(page, searchquery, searchwhere) {
+    sakai._search.doSearch = function(page, searchquery, searchwhere, facet) {
 
         facetedurl = mainSearch.getFacetedUrl();
+
+        if (facet){
+            facetedurl = searchConfig.facetedConfig.facets[facet].searchurl;
+        } else {
+            facet = "";
+        }
+        
+        $(".faceted_category").removeClass("faceted_category_selected");
+        if (facet) {
+            $("#" + facet).addClass("faceted_category_selected");
+        } else {
+            $(".faceted_category:first").addClass("faceted_category_selected");
+        }
 
         if (isNaN(page)){
             page = 1;
@@ -292,7 +325,7 @@ sakai.search = function() {
                     urlsearchterm = searchterm
                 }
                 
-                searchURL = facetedurl + "?page=" + (currentpage - 1) + "&items=" + resultsToDisplay + "&q=" + urlsearchterm + "&sites=" + searchWhere;
+                searchURL = facetedurl + "?page=" + (currentpage - 1) + "&items=" + resultsToDisplay + "&q=" + urlsearchterm + "&sites=" + searchWhere + "&facet=" + facet;
             }
 
             $.ajax({
@@ -343,7 +376,7 @@ sakai.search = function() {
 
 
     var thisFunctionality = {
-        "doHSearch" : doHSearch
+        "doHSearch" : sakai._search.doHSearch
     };
 
     var mainSearch = sakai._search(searchConfig, thisFunctionality);

@@ -1,11 +1,14 @@
 {
-    "groupspages":true,
+    "userpages": true,
+    "userdashboard": true,
+    "grouppages": true,
+    "groupdashboard": true,
     "description":"RSS Feed Reader",
     "hasSettings":true,
     "id":"rss",
     "img":"/devwidgets/rss/images/rss.png",
-    "name":"RSS Feed",
+    "name":"RSS Feed Reader",
     "showinsakaigoodies":true,
-    "groupsdashboard": true,
+    "groupdashboard": true,
     "url":"/devwidgets/rss/rss.html"
 }

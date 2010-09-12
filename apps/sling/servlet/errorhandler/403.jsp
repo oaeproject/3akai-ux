@@ -77,7 +77,11 @@
                             </ul>
                         </div>
                         <div class="login-container">
-                            <a href="/dev/index.html" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">Sign In</span></a>
+                            <a href="/dev/index.html">
+                            	<button class="s3d-button s3d-button-primary" type="submit">
+                            		<span class="s3d-button-inner">Sign In</span>
+                            	</button>
+                            </a>
                             <p>
                                 Sign in to an account that has the right permissions to view this page with the button above.
                             </p>

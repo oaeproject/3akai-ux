@@ -10,7 +10,7 @@
         <div class="groupbasicinfo_generalinfo_header">
             <h2 class="fl-force-left">__MSG__BASIC_INFORMATION__</h2>
 
-            {if mode === "edit"}
+            {if mode === "edit" && perSectionPermissions}
                 {var _access = data.access}
                 <div class="groupbasicinfo_generalinfo_acl fl-force-right">
                     <label for="groupbasicinfo_generalinfo_access">__MSG__WHO_CAN_VIEW_OR_SEARCH_THIS__</label>
@@ -47,7 +47,7 @@
             </div>
             <div class="groupbasicinfo_generalinfo_subcontainer">
                 <label class="groupbasicinfo_generalinfo_label" for="groupbasicinfo_generalinfo">__MSG__TAGS__:</label>
-                <textarea class="groupbasicinfo_generalinfo_content" id="groupbasicinfo_generalinfo_group_tags">${data['sakai:group-tags']}</textarea>
+                <textarea class="groupbasicinfo_generalinfo_content" id="groupbasicinfo_generalinfo_group_tags">${tags}</textarea>
                 <p>__MSG__THIS_WILL_HELP_OTHERS_FIND_THIS_GROUP__</p>
             </div>
             <div class="groupbasicinfo_generalinfo_subcontainer">

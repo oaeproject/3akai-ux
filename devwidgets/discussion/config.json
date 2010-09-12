@@ -1,5 +1,8 @@
 {
-    "groupspages":true,
+    "userpages": true,
+    "userdashboard": true,
+    "grouppages": true,
+    "groupdashboard": true,
     "description":"Discussion widget",
     "id":"discussion",
     "img":"/devwidgets/discussion/images/discussion.png",

@@ -161,6 +161,9 @@ sakai.config = {
          * When system/me returns profile data for the logged in user the profile_config and profile_data objects could be merged
          * "label": the internationalizable message for the entry label in HTML
          * "required": Whether the entry is compulsory or not
+         * 
+         * For a date entry field use "date" as the type for MM/dd/yyyy and "dateITA" as the type for dd/MM/yyyy
+         * 
          */
         configuration: {
 
@@ -231,7 +234,8 @@ sakai.config = {
                         "label": "__MSG__PROFILE_BASIC_DATEOFBIRTH_LABEL__",
                         "required": false,
                         "display": true,
-                        "type": "date"
+                        "type": "dateITA"
+                        //"type": "date"
                     },
                     "tags": {
                         "label": "__MSG__TAGS__",
@@ -494,7 +498,7 @@ sakai.config = {
             "label" : "MY_SAKAI"
         },
         {
-            "url" : "javascript:;",
+            "url" : "/dev/search_content.html#q=*&facet=manage",
             "label" : "CONTENT_AND_MEDIA"
         },
         {
@@ -502,16 +506,12 @@ sakai.config = {
             "label" : "PEOPLE"
         },
         {
-            "url" : "javascript:;",
-            "label" : "COURSES_AND_SITES"
+            "url" : "/dev/search_groups.html#q=*&facet=see",
+            "label" : "GROUPS"
         },
         {
             "url" : "/dev/directory.html",
             "label" : "DIRECTORY"
-        },
-        {
-            "url" : "javascript:;",
-            "label" : "CALENDAR"
         }
     ],
 
