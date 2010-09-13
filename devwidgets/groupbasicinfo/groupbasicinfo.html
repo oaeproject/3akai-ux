@@ -69,8 +69,8 @@
                         <ul class="groupbasicinfo_saveddirectory">
                             {for savedDir in saveddirectory}
                                 <li>
-                                    ${savedDir.toString().replace(/,/g, " >> ")}
-                                    <a href="javascript:;" class="groupbasicinfo_remove_location" title="Remove location">Remove location</a>
+                                    ${savedDir.toString().replace(/,/g, " &nbsp;&nbsp;&nbsp;&raquo;&nbsp;&nbsp;&nbsp; ")}
+                                    <a href="javascript:;" class="groupbasicinfo_remove_location" title="Remove">Remove</a>
                                 </li>
                             {/for}
                         </ul>
@@ -149,11 +149,11 @@
         </select>
         <div id="groupbasicinfo_secondlevel_template_container"></div>
         <div id="groupbasicinfo_thirdlevel_template_container"></div>
-        <a href="javascript:;" class="groupbasicinfo_remove_new_location" title="Remove location">Remove location</a>
+        <a href="javascript:;" class="groupbasicinfo_remove_new_location" title="Remove location">Remove</a>
     --></div>
 
     <div id="groupbasicinfo_secondlevel_template" style="display:none;"><!--
-        <span class="groupbasicinfo_select_seperator"> &gt;&gt; </span>
+        <span class="groupbasicinfo_select_seperator"> &raquo; </span>
         <select class="groupbasicinfo_content groupbasicinfo_hierarchy_select" id="groupbasicinfo_generalinfo_group_directory_lvltwo">
             <option value="no_value"> </option>
             {for i in directory}
@@ -167,7 +167,7 @@
     --></div>
 
     <div id="groupbasicinfo_thirdlevel_template" style="display:none;"><!--
-        <span class="groupbasicinfo_select_seperator"> &gt;&gt; </span>
+        <span class="groupbasicinfo_select_seperator"> &raquo; </span>
         <select class="groupbasicinfo_content groupbasicinfo_hierarchy_select" id="groupbasicinfo_generalinfo_group_directory_lvlthree">
             <option value="no_value"> </option>
             {for i in directory}
