@@ -86,6 +86,7 @@ sakai.footer = function(tuid,showSettings){
         $.ajax({
             url: "/var/scm-version.json",
             type: "GET",
+            cache: false,
             dataType: "json",
             success: function(data){
                 // Construct debug info | TODO: get current running kernel version from a service, maybe svn version of UX as well
