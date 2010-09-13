@@ -130,9 +130,13 @@ sakai.groupedit = function(){
      * When the Group Permissions widget has finished updating group permissions,
      * it will come back to this function
      */
-    $(window).bind("sakai.grouppermissions.updateFinished", function() {
+    $(window).bind("sakai.grouppermissions.updateFinished", function(ev, success, errorMessage) {
         // Show notification
-        sakai.api.Util.notification.show("Group Permissions", "Updated successfully.");
+        if(success) {
+            sakai.api.Util.notification.show("Group Permissions", "Updated successfully.");
+        } else {
+            sakai.api.Util.notification.show("Group Permissions", "Update failed. Please try again later or contact your administrator if the issue persists.  (Error status: " + errorMessage + ")");
+        }
     });
 
     /**
@@ -499,11 +503,18 @@ sakai.groupedit = function(){
 
         // Get the group ID and retrieve data
         groupid = getGroupId();
-        if (groupid) {
-            getGroupData(groupid);
-        }
 
-        addBinding();
+        // check to see whether this user is authorized to see this page
+        if (sakai.api.Groups.isCurrentUserAManager(groupid)) {
+            if (groupid) {
+                getGroupData(groupid);
+            }
+            addBinding();
+        } else {
+            // force the user to go back to their previous page
+            alert("Sorry, you are not allowed to view this page.");
+            window.history.back();
+        }
     };
 
     doInit();
