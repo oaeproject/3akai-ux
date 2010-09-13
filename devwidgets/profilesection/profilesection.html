@@ -154,7 +154,12 @@
             <div class="profilesection_generalinfo_subcontainer">
                 <span class="profilesection_generalinfo_label">${config.label}:</span>
                 <div class="profilesection_generalinfo_content">
-                {if config.type !== "select"}
+                {if config.tagField}
+                    {var tagsArray = data.value.split(",")}
+                    {for tag in tagsArray}
+                        <a href="/dev/search.html#tag=/tags/${escape(tag)}" class="s3d-action">${tag}</a>{if tag_index < tagsArray.length-1},{/if}
+                    {/for}
+                {elseif config.type !== "select"}
                     ${data.value}
                 {else}
                     ${config.select_elements[data.value]}
