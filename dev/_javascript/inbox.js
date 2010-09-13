@@ -1256,7 +1256,7 @@ sakai.inbox = function() {
             harddelete = true;
         }
         // Delete the message
-        deleteMessages([selectedMessage.pathToMessage], harddelete);
+        deleteMessages([selectedMessage["jcr:path"]], harddelete);
 
         // Show the inbox
         showPane(inboxPaneInbox);
