@@ -428,17 +428,17 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
 
         $(contentProfileBasicInfoDirectoryLvlOne).live("change", function(){
             $(this).parent().children(contentProfileBasicInfoThirdLevelTemplateContainer).html("");
-            $(this).parent().children(contentProfileBasicInfoDirectoryLvlOne + " option[value='no_value']").remove();
+            $(this).children("option[value='no_value']").remove();
             updateDirectoryDisplay(contentProfileBasicInfoDirectoryLvlTwo, $($(this).parent()).children(contentProfileBasicInfoDirectoryLvlOne), $($(this).parent()).children(contentProfileBasicInfoDirectoryLvlOne));
         });
 
         $(contentProfileBasicInfoDirectoryLvlTwo).live("change", function(){
-            $(this).parent().children(contentProfileBasicInfoDirectoryLvlTwo + " option[value='no_value']").remove();
+            $(this).children("option[value='no_value']").remove();
             updateDirectoryDisplay(contentProfileBasicInfoDirectoryLvlThree, $($(this).parent()).children(contentProfileBasicInfoDirectoryLvlTwo), $($(this).parent().parent()).children(contentProfileBasicInfoDirectoryLvlOne));
         });
 
         $(contentProfileBasicInfoDirectoryLvlThree).live("change", function(){
-            $(contentProfileBasicInfoDirectoryLvlThree + " option[value='no_value']").remove();
+            $(this).children("option[value='no_value']").remove();
         });
 
         $(contentProfileBasicInfoAddAnotherLocation).live("click", function(){

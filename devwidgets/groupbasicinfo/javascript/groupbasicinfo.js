@@ -300,17 +300,17 @@ sakai.groupbasicinfo = function(tuid, showSettings){
 
         $(groupBasicInfoDirectoryLvlOne).live("change", function(){
             $(this).parent().children(groupBasicInfoThirdLevelTemplateContainer).html("");
-            $(this).parent().children(groupBasicInfoDirectoryLvlOne + " option[value='no_value']").remove();
+            $(this).children("option[value='no_value']").remove();
             updateDirectoryDisplay(groupBasicInfoDirectoryLvlTwo, $($(this).parent()).children(groupBasicInfoDirectoryLvlOne), $($(this).parent()).children(groupBasicInfoDirectoryLvlOne));
         });
 
         $(groupBasicInfoDirectoryLvlTwo).live("change", function(){
-            $(this).parent().children(groupBasicInfoDirectoryLvlTwo + " option[value='no_value']").remove();
+            $(this).children("option[value='no_value']").remove();
             updateDirectoryDisplay(groupBasicInfoDirectoryLvlThree, $($(this).parent()).children(groupBasicInfoDirectoryLvlTwo), $($(this).parent().parent()).children(groupBasicInfoDirectoryLvlOne));
         });
 
         $(groupBasicInfoDirectoryLvlThree).live("change", function(){
-            $(groupBasicInfoDirectoryLvlThree + " option[value='no_value']").remove();
+            $(this).children("option[value='no_value']").remove();
         });
 
         $(groupBasicInfoAddAnotherLocation).live("click", function(){
