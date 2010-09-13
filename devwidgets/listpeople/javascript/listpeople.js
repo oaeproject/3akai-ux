@@ -367,7 +367,6 @@ sakai.listPeople.addToList = function(tuid, object) {
 
                         sakai.data.listpeople[tuid].userList[resultObject["jcr:name"]] = data
                         sakai.data.listpeople[tuid].userList[resultObject["jcr:name"]]['content_id'] = resultObject["jcr:name"];
-                        sakai.data.listpeople[tuid].userList[resultObject["jcr:name"]]['url'] = sakai.config.SakaiDomain + content_path;
                         sakai.data.listpeople[tuid].total += 1
                         if (sakai.config.MimeTypes[data["jcr:content"]["jcr:mimeType"]]) {
                             sakai.data.listpeople[tuid].userList[resultObject["jcr:name"]]['avatar'] = sakai.config.MimeTypes[data["jcr:content"]["jcr:mimeType"]].URL;
