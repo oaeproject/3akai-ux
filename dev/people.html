@@ -100,9 +100,9 @@
                                             {/if}
                                             <a href="/dev/show.html?type=user&amp;id=${i.userid}" class="search_result_person_name">${i.name}</a>
                                             {if i.extra}
-                                                <a href="javascript:;" class="search_result_person_dept">${i.extra}</a>
+                                                <label class="search_result_person_dept">${i.extra}</label>
                                             {else}
-                                                <a href="javascript:;" class="search_result_person_dept">&nbsp;</a>
+                                                <label class="search_result_person_dept">&nbsp;</label>
                                             {/if}
                                             {if ! i.isMe}
                                                 {if ! i.connected}
@@ -150,9 +150,9 @@
                                             {/if}
                                             <a href="/dev/show.html?type=user&amp;id=${i.userid}" class="search_result_person_name">${i.name}</a>
                                             {if i.extra}
-                                                <a href="javascript:;" class="search_result_person_dept">${i.extra}</a>
+                                                <label class="search_result_person_dept">${i.extra}</label>
                                             {else}
-                                                <a href="javascript:;" class="search_result_person_dept">&nbsp;</a>
+                                                <label class="search_result_person_dept">&nbsp;</label>
                                             {/if}
                                             {if ! i.isMe}
                                                 <a href="javascript:;" class="search_result_person_link link_accept_contact" id="link_accept_contact_${i.userid}">__MSG__ACCEPT_INVITATION__</a>
@@ -190,9 +190,9 @@
                                             {/if}
                                             <a href="/dev/show.html?type=user&amp;id=${i.userid}" class="search_result_person_name">${i.name}</a>
                                             {if i.extra}
-                                                <a href="javascript:;" class="search_result_person_dept">${i.extra}</a>
+                                                <label class="search_result_person_dept">${i.extra}</label>
                                             {else}
-                                                <a href="javascript:;" class="search_result_person_dept">&nbsp;</a>
+                                                <label class="search_result_person_dept">&nbsp;</label>
                                             {/if}
                                             {if ! i.isMe}
                                                 <a href="javascript:;" class="search_result_person_link person_message_link" id="person_message_link_${i.userid}">__MSG__MESSAGE__</a>
