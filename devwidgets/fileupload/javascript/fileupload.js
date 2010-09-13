@@ -165,11 +165,11 @@ sakai.fileupload = function(tuid, showSettings){
         var groupName;
 
         // The group name can be used to add content to
-        if ($("#groupbasicinfo_generalinfo_group_title").val() !== "") {
+        if ($("#groupbasicinfo_generalinfo_group_title").val() !== "" && $("#groupbasicinfo_generalinfo_group_title").val() !== undefined) {
             groupName = $("#groupbasicinfo_generalinfo_group_title").val();
         }
         else {
-            groupName = getGroupId();
+            groupName = getGroupId().replace("g-", "");
         }
         // Fill the data needed for the group
         contextData = {
