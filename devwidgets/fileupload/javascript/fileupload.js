@@ -270,10 +270,6 @@ sakai.fileupload = function(tuid, showSettings){
      * Only reset the lists, don't close the jqm box
      */
     var resetFields = function(){
-        // Reset some variables
-        tags = [];
-        uploadedFiles = [];
-
         // Clear HTML, Clear file list
         $(fileUploadRenderedTagging, $rootel).html("");
         $(fileUploadLinkBoxInput).val("");
@@ -461,6 +457,7 @@ sakai.fileupload = function(tuid, showSettings){
             success: function(data){
                 // Tags created
                 tagsCreated = true;
+                batchLinkTagsToContent();
             },
             error: function(xhr, textStatus, thrownError){
                 // Tags not created
@@ -673,6 +670,10 @@ sakai.fileupload = function(tuid, showSettings){
 
             $(multiFileForm).ajaxForm({
                 success: function(data){
+                    // Reset some variables
+                    tags = [];
+                    uploadedFiles = [];
+
                     // Create DOM element to extract data from response
                     // Use an object to keep track of the data
                     var $responseData = $.parseJSON(data.replace("<pre>", "").replace("</pre>", ""));
@@ -715,11 +716,6 @@ sakai.fileupload = function(tuid, showSettings){
 
                             // Set permissions on the files
                             setFilePermissions();
-
-                            // Link the files to the tags
-                            if (tags.length !== 0) {
-                                batchLinkTagsToContent();
-                            }
                         } else {
                             resetFields();
                         }
