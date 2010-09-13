@@ -542,6 +542,7 @@ sakai.fileupload = function(tuid, showSettings){
                 dataResponse = data;
                 newVersionIsLink = false;
                 uploadedLink = true;
+                filesUploaded = true;
                 resetFields();
             },
             error : function(err){
