@@ -1900,11 +1900,13 @@ sakai.sitespages.site_admin = function(){
     ////////////////////////////////////////
     // MORE: PERMISSIONS
     ////////////////////////////////////////
+    /**
+     * Not included as part of Q1 - see http://jira.sakaiproject.org/browse/SAKIII-717
     $("#more_permissions").bind("click", function(e) {
         $("#more_menu").hide();
         sakai.api.Util.notification.show("Page permissions", "This feature is not implemented yet!", sakai.api.Util.notification.type.ERROR);
     });
-
+    */
 
 
     ////////////////////////////////////////
