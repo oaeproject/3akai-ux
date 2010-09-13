@@ -154,7 +154,7 @@
                     </a>
                     <div class="entity_tags_link_menu_border" id="entity_tags_link_menu" style="display:none;">
                         <div class="entity_tags_link_menu_list">
-                            {for t in data.profile.basic.elements.tags.value.split(",")}{if t_index > 0},{/if} <a href="/dev/search.html#q=${t}" class="s3d-action">${t}</a>{/for}
+                            {for t in data.profile.basic.elements.tags.value.split(",")}{if t_index > 0},{/if} <a href="/dev/search.html#q=${t}" class="s3d-action">${unescape(t)}</a>{/for}
                         </div>
                         <div class="entity_tags_link_menu_list">
                             <a href="/dev/show.html?type=user&amp;id=${data.profile["rep:userId"]}">__MSG__SHOW_ALL__</a>

@@ -131,6 +131,7 @@ sakai.profilesection = function(tuid, showSettings){
                 sakai.profile.main.data[currentsection].elements &&
                 sakai.profile.main.data[currentsection].elements[fieldName]) {
 
+                sakai.profile.main.data[currentsection].elements[fieldName].value = unescape(sakai.profile.main.data[currentsection].elements[fieldName].value)
                 json_config.data = sakai.profile.main.data[currentsection].elements[fieldName];
             }
             json_config.path = currentsection + ".elements." + fieldName;
@@ -365,17 +366,17 @@ sakai.profilesection = function(tuid, showSettings){
                     // add the property in if it doesn't already exist
                     if (parentProp && parentProp["jcr:name"] == "elements" && prop === undefined) {
                         parentProp[propName] = {};
-                        parentProp[propName].value = $selected_element.val();
+                        parentProp[propName].value = escape($selected_element.val());
                     } else if (prop) { // it exists, just change its value
                         if ($.isPlainObject(prop)) {
                             // Set the correct value
-                            prop.value = sakai.api.Security.saneHTML($selected_element.val());
+                            prop.value = sakai.api.Security.saneHTML(escape($selected_element.val()));
                         } else {
                             // This is an access attribute
                             sakai.profile.main.data[title.split(".")[0]].access = $selected_element.val();
                         }
                     } else {
-                        sakai.profile.main.data[title.split(".")[0]].access = $selected_element.val();
+                        sakai.profile.main.data[title.split(".")[0]].access = escape($selected_element.val());
                     }
                 } else {
                     if (prop && $.isPlainObject(prop) && parentProp) {
