@@ -962,7 +962,6 @@ sakai.inbox = function() {
      */
     var sendMessageFinished = function(success, data) {
 
-        showGeneralMessage($(inboxGeneralMessagesSent).text(), false);
         clearInputFields();
 
         // Show the sent inbox pane.
