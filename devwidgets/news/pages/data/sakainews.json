@@ -1,0 +1,116 @@
+{
+    "newslist": [
+        {
+            "id":"001",
+            "title": "google.com放置丝带纪念 911事件9周年",
+            "created":"2010-09-12 13:23",
+            "author":"admin user",
+            "sakai:resourceType":"sakai/news",
+            "body":"原始图片 url：http://www.google.com/images/icons/hpcg/ribbon_us-a_42.png"
+        },
+        {
+            "id":"002",
+            "title": "只关注首个搜索结果，掩盖了Google搜索相关性的问题",
+            "created":"2010-09-12 13:23",
+            "author":"meikidd",
+            "sakai:resourceType":"sakai/news",
+            "body":"原始图片 url：http://www.google.com/images/icons/hpcg/ribbon_us-a_42.png"
+        },
+        {
+            "id":"003",
+            "title": "用SeeTheStats在网站显示Google Analytics访问统计图标",
+            "created":"2010-09-12 13:23",
+            "author":"dandan",
+            "sakai:resourceType":"sakai/news",
+            "body":"原始图片 url：http://www.google.com/images/icons/hpcg/ribbon_us-a_42.png"
+        },
+        {
+            "id":"002",
+            "title": "只关注首个搜索结果，掩盖了Google搜索相关性的问题",
+            "created":"2010-09-12 13:23",
+            "author":"meikidd",
+            "sakai:resourceType":"sakai/news",
+            "body":"原始图片 url：http://www.google.com/images/icons/hpcg/ribbon_us-a_42.png"
+        },
+        {
+            "id":"006",
+            "title": "Google 开始在搜索结果里显示相关网站",
+            "created":"2010-09-12 13:23",
+            "author":"admin user",
+            "sakai:resourceType":"sakai/news",
+            "body":"原始图片 url：http://www.google.com/images/icons/hpcg/ribbon_us-a_42.png"
+        },
+        {
+            "id":"003",
+            "title": "用SeeTheStats在网站显示Google Analytics访问统计图标",
+            "created":"2010-09-12 13:23",
+            "author":"dandan",
+            "sakai:resourceType":"sakai/news",
+            "body":"原始图片 url：http://www.google.com/images/icons/hpcg/ribbon_us-a_42.png"
+        },
+        {
+            "id":"006",
+            "title": "Google 开始在搜索结果里显示相关网站",
+            "created":"2010-09-12 13:23",
+            "author":"admin user",
+            "sakai:resourceType":"sakai/news",
+            "body":"原始图片 url：http://www.google.com/images/icons/hpcg/ribbon_us-a_42.png"
+        },
+        {
+            "id":"002",
+            "title": "只关注首个搜索结果，掩盖了Google搜索相关性的问题",
+            "created":"2010-09-12 13:23",
+            "author":"meikidd",
+            "sakai:resourceType":"sakai/news",
+            "body":"原始图片 url：http://www.google.com/images/icons/hpcg/ribbon_us-a_42.png"
+        },
+        {
+            "id":"003",
+            "title": "用SeeTheStats在网站显示Google Analytics访问统计图标",
+            "created":"2010-09-12 13:23",
+            "author":"dandan",
+            "sakai:resourceType":"sakai/news",
+            "body":"原始图片 url：http://www.google.com/images/icons/hpcg/ribbon_us-a_42.png"
+        },
+        {
+            "id":"004",
+            "title": "Google 40%的广告都是非文字形式",
+            "created":"2010-09-12 13:23",
+            "author":"xiaoxiancai",
+            "sakai:resourceType":"sakai/news",
+            "body":"原始图片 url：http://www.google.com/images/icons/hpcg/ribbon_us-a_42.png"
+        },
+        {
+            "id":"005",
+            "title": "谷奥Chrome纪念品抽奖活动获奖名单公布",
+            "created":"2010-09-12 13:23",
+            "author":"maomaochong",
+            "sakai:resourceType":"sakai/news",
+            "body":"原始图片 url：http://www.google.com/images/icons/hpcg/ribbon_us-a_42.png"
+        },
+        {
+            "id":"006",
+            "title": "Google 开始在搜索结果里显示相关网站",
+            "created":"2010-09-12 13:23",
+            "author":"admin user",
+            "sakai:resourceType":"sakai/news",
+            "body":"原始图片 url：http://www.google.com/images/icons/hpcg/ribbon_us-a_42.png"
+        },
+        {
+            "id":"006",
+            "title": "Google 开始在搜索结果里显示相关网站",
+            "created":"2010-09-12 13:23",
+            "author":"admin user",
+            "sakai:resourceType":"sakai/news",
+            "body":"原始图片 url：http://www.google.com/images/icons/hpcg/ribbon_us-a_42.png"
+        },
+        {
+            "id":"007",
+            "title": "运营商毁了Google的Nexus One纯免费手机之梦",
+            "created":"2010-09-12 13:23",
+            "author":"maomaochong",
+            "sakai:resourceType":"sakai/news",
+            "body":"原始图片 url：http://www.google.com/images/icons/hpcg/ribbon_us-a_42.png"
+        }
+    ]
+}

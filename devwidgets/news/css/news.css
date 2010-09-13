@@ -1,0 +1,24 @@
+.widget_title {
+    background: url("/devwidgets/news/img/news_icon.png") no-repeat scroll 12px 18px transparent;
+}
+
+/* Container text */
+#news_list ul li {
+    color: #333;
+}
+
+/* List items */
+#news_list ul li {
+    border-bottom: 1px solid #ccc;
+    list-style: none;
+    padding: 5px 15px;
+    margin: 0;
+}
+#news_list ul li a {
+    color: #006e96;
+    font-size: 1em;
+    font-weight: bold;
+}
+#news_list .news_list_alterrow {
+    background-color: #f5f6f6;
+}

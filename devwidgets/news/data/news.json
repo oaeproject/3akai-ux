@@ -1,0 +1,32 @@
+{
+    "newslist": [
+        {
+            "title": "google.com 放置丝带纪念 911 事件9周年",
+            "id":"001"
+        },
+        {
+            "title": "只关注首个搜索结果，掩盖了 Google 搜索相关性的问题",
+            "id":"002"
+        },
+        {
+            "title": "用 SeeTheStats 在网站显示 Google Analytics 访问统计图标",
+            "id":"003"
+        },
+        {
+            "title": "Google 40% 的广告都是非文字形式",
+            "id":"004"
+        },
+        {
+            "title": "谷奥 Chrome 纪念品抽奖活动获奖名单公布",
+            "id":"005"
+        },
+        {
+            "title": "Google 开始在搜索结果里显示相关网站",
+            "id":"006"
+        },
+        {
+            "title": "运营商毁了 Google 的 Nexus One 纯免费手机之梦",
+            "id":"007"
+        }
+    ]
+}
