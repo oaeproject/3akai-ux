@@ -1,0 +1,32 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/news/css/news.css" />
+
+<!-- WIDGET  -->
+<div class="news_widget">
+    <div class="fl-widget-content">
+        <div id="news_list" style="display:none"></div>
+    </div>
+    <!-- Template -->
+    <div id="news_list_template"><!--
+        <ul>
+            {for news in newslist}
+                <li {if news_index % 2} class="news_list_alterrow" {/if} >
+                    <a href="/devwidgets/news/pages/sakai.news.html?news=${news.id}">${news.title}</a>
+                </li>
+            {/for}
+        </ul>
+    --></div>
+    
+    <div class="fl-widget-options fl-fix">
+        <div class="widget-options-inner">
+            <ul>
+                <li>
+                    <a href="/devwidgets/news/pages/sakai.news.html">__MSG__MORE__</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/news/javascript/news.js"></script>

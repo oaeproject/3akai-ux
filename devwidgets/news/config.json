@@ -1,0 +1,13 @@
+{
+    "description":"News",
+    "name":"News",
+    "id":"news",
+    "i18n": {
+        "default": "/devwidgets/news/bundles/default.json",
+        "en_US": "/devwidgets/news/bundles/en_US.json",
+        "zh_CN": "/devwidgets/news/bundles/zh_CN.json"
+    },
+    "personalportal":true,
+    "groupsdashboard":true,
+    "url":"/devwidgets/news/news.html"
+}
