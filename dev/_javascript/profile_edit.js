@@ -312,8 +312,22 @@ sakai.profile = function(){
     };
 
     /**
+     * Filter some the tags properties, as they cannot be imported into Sling this way
+     * @param {Object} i_object The object you want to filter
+     */
+    var filterTagsProperties = function(i_object) {
+        // filter out the tags, they don't save this way
+        if (i_object["sakai:tags"]) {
+            delete i_object["sakai:tags"];
+        }
+        if (i_object["sakai:tag-uuid"]) {
+            delete i_object["sakai:tag-uuid"];
+        }
+    };
+
+    /**
      * Filter some JCR properties, we need to do this because some properties
-     * can not be used by the import operation in Slin
+     * can not be used by the import operation in Sling
      * @param {Object} i_object The object you want to filter
      */
     var filterJCRProperties = function(i_object){
@@ -469,6 +483,9 @@ sakai.profile = function(){
 
         // Filter some JCR properties
         filterJCRProperties(sakai.profile.main.data);
+
+        // Filter out the tags
+        filterTagsProperties(sakai.profile.main.data);
 
         // Save the profile properties
         sakai.api.Server.saveJSON(authprofileURL, sakai.profile.main.data, function(success, data){
