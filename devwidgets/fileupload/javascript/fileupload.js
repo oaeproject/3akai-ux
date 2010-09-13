@@ -394,7 +394,7 @@ sakai.fileupload = function(tuid, showSettings){
                             "url": "/p/" + uploadedFiles[k].hashpath,
                             "method": "POST",
                             "parameters": {
-                                "key": tagsPathForLinking + tags[i].trim(),
+                                "key": tagsPathForLinking + $.trim(tags[i]),
                                 ":operation": "tag"
                             }
                         };
@@ -433,12 +433,12 @@ sakai.fileupload = function(tuid, showSettings){
         for (var i in tags) {
             if (tags.hasOwnProperty(i)) {
                 var item = {
-                    "url": tagsPath + tags[i].trim(),
+                    "url": tagsPath + $.trim(tags[i]),
                     "method": "POST",
                     "parameters": {
                         "./jcr:primaryType": "nt:folder",
                         "./jcr:mixinTypes": "sakai:propertiesmix",
-                        "./sakai:tag-name": tags[i].trim(),
+                        "./sakai:tag-name": $.trim(tags[i]),
                         "./sling:resourceType": "sakai/tag"
                     }
                 };
@@ -473,7 +473,7 @@ sakai.fileupload = function(tuid, showSettings){
      * @param {Object} tags Unformatted string of tags put in by a user
      */
     var formatTags = function(inputTags){
-        if (inputTags.trim() !== "") {
+        if ($.trim(inputTags) !== "") {
             // Split up tags
             tags = inputTags.split(",");
             // Create tags
@@ -670,6 +670,10 @@ sakai.fileupload = function(tuid, showSettings){
 
             $(multiFileForm).ajaxForm({
                 success: function(data){
+                    // reset some variables
+                    uploadedFiles = [];
+                    tags = [];
+
                     // Create DOM element to extract data from response
                     // Use an object to keep track of the data
                     var $responseData = $.parseJSON(data.replace("<pre>", "").replace("</pre>", ""));
