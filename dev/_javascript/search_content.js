@@ -301,9 +301,9 @@ sakai.search = function() {
                 url = searchURLmap[searchWhere];
             }
             else if(searchWhere === "*"){
-                url = searchURLmap.allfiles;
+                url = searchURLmap.allfiles.replace(".json", ".infinity.json");
             }else {
-                url = searchURLmap.allfiles;
+                url = searchURLmap.allfiles.replace(".json", ".infinity.json");
                 usedIn = searchWhere;
             }
             

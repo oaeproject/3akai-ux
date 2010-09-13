@@ -351,7 +351,7 @@ sakai.search = function() {
             // Set off the 3 AJAX requests
             // Content & Media Search
             $.ajax({
-                url: sakai.config.URL.SEARCH_ALL_FILES,
+                url: sakai.config.URL.SEARCH_ALL_FILES.replace(".json", ".infinity.json"),
                 data: {
                     "q" : urlsearchterm,
                     "items" : cmToSearch
