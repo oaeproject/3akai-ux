@@ -336,7 +336,7 @@ if (!sakai.sendmessage){
                 $(messageMultipleToContainer).show();
 
                 // Check if a recipient has already been set
-                if (toUser !== null) {
+                if (toUser !== false) {
                     $(messageSingleToContainer).show();
                     addRecipient(toUser.firstName + " " + toUser.lastName, toUser.uuid);
                 } else {
@@ -387,13 +387,15 @@ if (!sakai.sendmessage){
             resetView();
 
             // The user we are sending a message to.
-            if (userObj.firstName) {
+            if (userObj && userObj.firstName) {
                 toUser = userObj;
-            } else {
+            } else if (userObj) {
                 toUser = {};
                 toUser.firstName = sakai.api.User.getProfileBasicElementValue(userObj, "firstName");
                 toUser.lastName = sakai.api.User.getProfileBasicElementValue(userObj, "lastName");
                 toUser.uuid = userObj["rep:userId"];
+            } else {
+                toUser = false;
             }
 
             // Maybe this message can be sent to multiple people.
