@@ -185,7 +185,23 @@ sakai.changepic = function(tuid, showSettings){
      */
     $(picForm).submit(function () {
         // validate args
-        if($(picInput).val()) {
+        // file extension allow for image
+        var extensionArray = new Array(".png", ".jpg", ".jpeg",".gif");
+        // get file name
+        var fileName = $(picInput).val();
+        // get extension from the file name.
+        var extension = fileName.slice(fileName.indexOf(".")).toLowerCase();
+        var allowSubmit = false;
+
+        for (var i = 0; i < extensionArray.length; i++) {
+             // extension is acceptable image format
+             if (extensionArray[i] === extension) {
+                allowSubmit = true;
+                break;
+             }
+        }
+        // if image format is acceptable
+        if(allowSubmit) {
             $(picInputError).hide();
             $(uploadNewButtons).hide();
             $(uploadProcessing).show();
