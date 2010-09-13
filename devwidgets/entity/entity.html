@@ -45,6 +45,21 @@
                     {/if}
                 </div>
             </form>
+            <form id="entity_profile_status" method="POST" action="javascript:;">
+                {if mode === "myprofile"}
+                <div>
+                    <input id="entity_profile_status_input" title="__MSG__WHAT_ARE_YOU_DOING_NOW__" maxlength="255" type="text" {if !data.profile.status}class="entity_profile_status_input_dummy" value="__MSG__WHAT_ARE_YOU_DOING_NOW__"{else}value="${data.profile.status}"{/if} />
+                    <span id="entity_profile_status_input_dummy" style="display:none;">__MSG__WHAT_ARE_YOU_DOING_NOW__</span>
+                    <button type="submit" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">__MSG__UPDATE__</span></button>
+                    <span id="entity_profile_status_input_saving" style="display:none;">__MSG__SAVING__...</span>
+                    <span id="entity_profile_status_input_saving_failed" style="display:none;">__MSG__SAVING_FAILED__</span>
+                </div>
+                {else}
+                    {if data.profile.status}
+                        ${data.profile.status}
+                    {/if}
+                {/if}
+            </form>
             <div class="entity_content_about">
                 {if sakai.api.User.getShortDescription(data.profile).length > 115}
                     ${sakai.api.User.getShortDescription(data.profile).substring(0, 115)}...
@@ -70,14 +85,14 @@
                     </div>
                 </div>
                 <div class="fl-force-left entity_header">
-                    <a class="entity_header_text" href="${data.profile.path}">${data.profile.name} ${data.profile.mimetype} (${data.profile.filesize})</a>
+                    <a class="entity_header_text" href="${data.profile.path}">${data.profile.name}</a><span class="entity_content_filetype">(${data.profile.mimetype} ${data.profile.filesize})</span>
                     {if data.profile.role === "manager"}
                         <a class="s3d-action" href="/dev/content_profile.html#content_path=${data.profile.contentpath}">__MSG__EDIT_PROFILE__</a>
                     {else}
                         <a class="s3d-action" href="/dev/content_profile.html#content_path=${data.profile.contentpath}">__MSG__MORE_INFO__</a>
                     {/if}
                 </div>
-                <div class="fl-force-left">
+                <div class="fl-force-left entity_description">
                     {if data.profile.description}
                         {if data.profile.description > 115}
                             <p>${data.profile.description.substring(0, 115)}...</p>
@@ -115,7 +130,7 @@
                 {/if}
                 <a class="s3d-action" href="/dev/show.html?type=group&amp;id=${data.profile.authprofile["sakai:group-id"]}">__MSG__MORE_INFO__</a>
             </div>
-            <div class="fl-force-left">
+            <div class="fl-force-left entity_description">
                 {if data.profile.authprofile["sakai:group-description"] && data.profile.authprofile["sakai:group-description"].length > 115}
                     <p>${data.profile.authprofile["sakai:group-description"].substring(0, 115)}...</p>
                 {elseif data.profile.authprofile["sakai:group-description"]}
@@ -139,7 +154,7 @@
                     </a>
                     <div class="entity_tags_link_menu_border" id="entity_tags_link_menu" style="display:none;">
                         <div class="entity_tags_link_menu_list">
-                            {for t in data.profile.basic.elements.tags.value.split(",")}{if t_index > 0},{/if} <a href="/dev/search.html#q=${t}" class="s3d-action">${t}</a>{/for}
+                            {for t in data.profile.basic.elements.tags.value.split(",")}{if t_index > 0},{/if} <a href="/dev/search.html#q=${t}" class="s3d-action">${unescape(t)}</a>{/for}
                         </div>
                         <div class="entity_tags_link_menu_list">
                             <a href="/dev/show.html?type=user&amp;id=${data.profile["rep:userId"]}">__MSG__SHOW_ALL__</a>

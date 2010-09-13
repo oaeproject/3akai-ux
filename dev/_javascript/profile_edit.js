@@ -285,45 +285,28 @@ sakai.profile = function(){
 
         }
         else {
+            sakai.api.Server.loadJSON(authprofileURL, function(success, data) {
+                if (success && data) {
+                    // Set the correct userprofile data
+                    userprofile = $.extend(true, {}, data);
 
-            // We need to fire an Ajax GET request to get the profile data for the user
-            $.ajax({
-                url: authprofileURL + ".3.json",
-                success: function(data){
+                    // Set the profile picture
+                    sakai.profile.main.picture = constructProfilePicture(userprofile);
 
-                    // Check whether there are any results
-                    if(data){
-
-                        // Set the correct userprofile data
-                        userprofile = $.extend(true, {}, data);
-
-                        // Set the profile picture
-                        sakai.profile.main.picture = constructProfilePicture(userprofile);
-
-                        // Set the status for the user you want the information from
-                        if(userprofile.basic && userprofile.basic.elements.status){
-                            sakai.profile.main.status = userprofile.basic.elements.status.value;
-                        }
-
-                        // Set the profile data object
-                        sakai.profile.main.data = $.extend(true, {}, userprofile);
-
+                    // Set the status for the user you want the information from
+                    if(userprofile.basic && userprofile.basic.elements.status){
+                        sakai.profile.main.status = userprofile.basic.elements.status.value;
                     }
 
-                },
-                error: function(){
-                    fluid.log("setProfilePicture: Could not find the user");
-                },
-                complete: function(data){
-
-                    // Execute the callback function
-                    if (callback && typeof callback === "function") {
-                        callback();
-                    }
-
+                    // Set the profile data object
+                    sakai.profile.main.data = $.extend(true, {}, userprofile);
+                } else {
+                    fluid.log("setProfileData: Could not find the user's profile");
+                }
+                if (callback && typeof callback === "function") {
+                    callback();
                 }
             });
-
         }
 
     };
@@ -386,7 +369,7 @@ sakai.profile = function(){
                         // Add the object to the requests array
                         requests[requests.length] = {
                             // Construct the right URL
-                            "url": authprofileURL + "/" + i + ".modifyACE.json", // Todo change to JSON
+                            "url": authprofileURL + "/" + i + ".modifyAce.json", // Todo change to JSON
                             "method": "POST",
                             "parameters": aclArray[j]
                         };

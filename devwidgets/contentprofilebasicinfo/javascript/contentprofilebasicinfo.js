@@ -68,6 +68,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
     var contentProfileBasicInfoSecondLevelTemplate = "#content_profile_basic_info_secondlevel_template";
     var contentProfileBasicInfoThirdLevelTemplate = "#content_profile_basic_info_thirdlevel_template";
     var contentProfileBasicInfoAddAnotherLocation = "#content_profile_basic_info_add_another_location";
+    var contentProfileBasicInfoAddAnotherLocationLink = contentProfileBasicInfoAddAnotherLocation + "_link";
     var contentProfileBasicInfoRemoveNewLocation = ".content_profile_basic_info_remove_new_location";
     var contentProfileBasicInfoRemoveLocation = ".content_profile_basic_info_remove_location";
 
@@ -223,9 +224,9 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
         // Set the tags property to the temporary tag array
         data["sakai:tags"] = tagArray;
 
-        data["sakai:copyright"] = $(contentProfileBasicInfoFormCopyrightSelect)[0].value;
+        data["sakai:copyright"] = $(contentProfileBasicInfoFormCopyrightSelect).val();
 
-        data["sakai:permissions"] = $(contentProfileBasicInfoFormPermissionsSelect)[0].value;
+        data["sakai:permissions"] = $(contentProfileBasicInfoFormPermissionsSelect).val();
 
         // Return the data object
         return data;
@@ -236,6 +237,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
      */
     var enableDisableBasicInfoFields = function(bool){
         $(contentProfileBasicInfoFormCopyrightSelect)[0].disabled = bool;
+        $(contentProfileBasicInfoFormPermissionsSelect)[0].disabled = bool;
         $(contentProfileBasicInfoFormTags)[0].disabled = bool;
         $(contentProfileBasicInfoFormDescription)[0].disabled = bool;
         $(contentProfileBasicInfoFormName)[0].disabled = bool;
@@ -381,6 +383,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
         $("#content_profile_basic_info_add_another_container").append(renderedDiv);
         // Apply style to the rendered div
         $(renderedDiv).addClass("content_profile_basic_info_added_directory");
+        $(contentProfileBasicInfoAddAnotherLocationLink).text("Add another location");
     }
 
     /**
@@ -425,17 +428,17 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
 
         $(contentProfileBasicInfoDirectoryLvlOne).live("change", function(){
             $(this).parent().children(contentProfileBasicInfoThirdLevelTemplateContainer).html("");
-            $(this).parent().children(contentProfileBasicInfoDirectoryLvlOne + " option[value='no_value']").remove();
+            $(this).children("option[value='no_value']").remove();
             updateDirectoryDisplay(contentProfileBasicInfoDirectoryLvlTwo, $($(this).parent()).children(contentProfileBasicInfoDirectoryLvlOne), $($(this).parent()).children(contentProfileBasicInfoDirectoryLvlOne));
         });
 
         $(contentProfileBasicInfoDirectoryLvlTwo).live("change", function(){
-            $(this).parent().children(contentProfileBasicInfoDirectoryLvlTwo + " option[value='no_value']").remove();
+            $(this).children("option[value='no_value']").remove();
             updateDirectoryDisplay(contentProfileBasicInfoDirectoryLvlThree, $($(this).parent()).children(contentProfileBasicInfoDirectoryLvlTwo), $($(this).parent().parent()).children(contentProfileBasicInfoDirectoryLvlOne));
         });
 
         $(contentProfileBasicInfoDirectoryLvlThree).live("change", function(){
-            $(contentProfileBasicInfoDirectoryLvlThree + " option[value='no_value']").remove();
+            $(this).children("option[value='no_value']").remove();
         });
 
         $(contentProfileBasicInfoAddAnotherLocation).live("click", function(){

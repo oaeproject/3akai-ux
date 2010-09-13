@@ -89,7 +89,6 @@ sakai.search = function(){
                         var picture = $.parseJSON(person.picture);
                         finaljson.items[index].picture = "/~" + person["rep:userId"] + "/public/profile/" + picture.name;
                     }
-                    console.log(person);
                     if (sakai.api.User.getDisplayName(person) !== "") {
                         finaljson.items[index].name = sakai.api.User.getDisplayName(person);
                     }
@@ -100,17 +99,6 @@ sakai.search = function(){
                     var relationships = connection["sakai:types"];
                     if (relationships) {
                         finaljson.items[index].extra = relationships;
-                    } else if (person.basic) {
-                        var basic = $.parseJSON(person.basic);
-                        if (basic.unirole) {
-                            finaljson.items[index].extra = basic.unirole;
-                        }
-                        else if (basic.unicollege) {
-                            finaljson.items[index].extra = basic.unicollege;
-                        }
-                        else if (basic.unidepartment) {
-                            finaljson.items[index].extra = basic.unidepartment;
-                        }
                     }
                     finaljson.items[index].connected = true;
                     if (finaljson.items[index].userid == sakai.data.me.user.userid){
@@ -192,6 +180,7 @@ sakai.search = function(){
             for (var i = 0; i < foundInvitations.results.length; i++) {
                 var item = foundInvitations.results[i];
                 var person = item.profile;
+                var connection = item.details;
                 if (person) {
                     var index = finaljson.items.length;
                     profiles[item.target] = item;
@@ -208,6 +197,12 @@ sakai.search = function(){
                     else {
                         finaljson.items[index].name = finaljson.items[index].userid;
                     }
+                    var relationships = connection["sakai:types"];
+                    if (relationships) {
+                        finaljson.items[index].extra = relationships;
+                    }
+                    finaljson.items[index].connected = true;
+
                     if (finaljson.items[index].userid == sakai.data.me.user.userid){
                         finaljson.items[index].isMe = true;
                     }
@@ -285,6 +280,7 @@ sakai.search = function(){
             for (var i = 0; i < foundPending.results.length; i++) {
                 var item = foundPending.results[i];
                 var person = item.profile;
+                var connection = item.details;
                 if (person) {
                     var index = finaljson.items.length;
                     profiles[item.target] = item;
@@ -301,6 +297,12 @@ sakai.search = function(){
                     else {
                         finaljson.items[index].name = finaljson.items[index].userid;
                     }
+                    var relationships = connection["sakai:types"];
+                    if (relationships) {
+                        finaljson.items[index].extra = relationships;
+                    }
+                    finaljson.items[index].connected = true;
+
                     if (finaljson.items[index].userid == sakai.data.me.user.userid){
                         finaljson.items[index].isMe = true;
                     }

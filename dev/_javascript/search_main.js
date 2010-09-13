@@ -390,11 +390,15 @@ sakai._search = function(config, callback) {
      */
     var prepSearchTermForURL = function(term) {
         var urlterm = "";
-        var splitted = term.split(" ");
+        var splitted = $.trim(term).split(/\s/);
         if (splitted.length > 1) {
-            //urlterm += splitted[0] + "~"
             for (var i = 0; i < splitted.length; i++) {
-                urlterm += "*" + splitted[i] + "* ";
+                if (splitted[i]) {
+                    urlterm += "*" + splitted[i] + "* "
+                    if (i < splitted.length - 1) {
+                        urlterm += "OR ";
+                    }
+                }
             }
         }
         else {

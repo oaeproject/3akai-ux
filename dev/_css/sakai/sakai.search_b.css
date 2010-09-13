@@ -155,6 +155,10 @@
     padding: 0px 10px;
 }
 
+.search_no_groups{
+    padding: 10px 0px;
+}
+
 .search_results_part_header {
     font-weight: normal;
     font-size: 1.2em;
@@ -249,7 +253,7 @@ a.search_results_part_title {
 }
 
 .search_result_course_site {
-    padding: 5px 0 10px 0;
+    padding: 5px 0 10px 10px;
 }
 
 .search_result_course_site_title a {

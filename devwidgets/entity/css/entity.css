@@ -17,10 +17,11 @@
  */
 
 /* General */
-.entity_header {margin: 10px 0 17px 0; padding: 0}
+.entity_header {margin: 10px 0 17px 0; padding: 0; width: 430px;}
 .entity_header_text {font-weight: bold; font-size: 1.7em; margin-right: 15px;}
 .entity_picture {margin: 0 20px 5px 0;}
 .entity_picture img {width:96px}
+.entity_description {width:430px;}
 
 /* Container */
 #entity_container {margin: 19px 0 15px 7px; overflow: hidden;}
@@ -38,6 +39,7 @@
 .entity_content_about {margin-top: 10px;}
 #entity_container h1 {margin:0;}
 .entity_group_edit {padding-right: 5px;}
+.entity_content_filetype {color: #aaaaaa; padding-right: 5px;}
 
 /* Actions */
 .entity_actions {margin-top:10px; overflow:hidden;}
