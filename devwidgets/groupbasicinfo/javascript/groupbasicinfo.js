@@ -188,22 +188,6 @@ sakai.groupbasicinfo = function(tuid, showSettings){
             // Add string for all levels to tag array
             tagArray.push(directoryString);
         });
-        var tagsToAdd = [];
-        var tagsToDelete = [];
-        var currentTags = sakai.currentgroup.data.authprofile["sakai:tags"];
-        // determine which tags to add and which to delete
-        $(tagArray).each(function(i,val) {
-            val = $.trim(val);
-            if ($.inArray(val,currentTags) == -1) {
-                tagsToAdd.push(val);
-            }
-        });
-        $(currentTags).each(function(i,val) {
-            val = $.trim(val);
-            if (val.split("/")[0] !== "directory" && $.inArray(val,tagArray) == -1) { // dont delete directory tags this way, we do that another way
-                tagsToDelete.push(val);
-            }
-        });
         var groupDesc = $(groupBasicInfoGroupDesc, $rootel).val();
 
         // Update the group object
@@ -221,12 +205,11 @@ sakai.groupbasicinfo = function(tuid, showSettings){
             },
             type: "POST",
             success: function(data, textStatus){
-                sakai.api.Util.deleteTags(groupProfileURL, tagsToDelete, function(){
-                    sakai.api.Util.setTags(groupProfileURL, tagsToAdd, function(){
-                        sakai.currentgroup.data.authprofile["sakai:tags"] = tagArray;
-                        sakai.api.Widgets.Container.informFinish(tuid, "groupbasicinfo");
-                        $(window).trigger("sakai.groupbasicinfo.updateFinished");
-                    });
+                var currentTags = sakai.currentgroup.data.authprofile["sakai:tags"];
+                sakai.api.Util.tagEntity(groupProfileURL, tagsArray, currentTags, function() {
+                    sakai.currentgroup.data.authprofile["sakai:tags"] = tagArray;
+                    sakai.api.Widgets.Container.informFinish(tuid, "groupbasicinfo");
+                    $(window).trigger("sakai.groupbasicinfo.updateFinished");
                 });
             },
             error: function(xhr, textStatus, thrownError){

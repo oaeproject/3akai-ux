@@ -10,9 +10,15 @@
         <!-- NAVIGATION TEMPLATE -->
         <div id="navigation_template" style="display:none"><!--
             {for i in links}
-                <li class="{if i.firstlink}navigation_first_link{else}navigation_link{/if} {if i.url === window.location.pathname}explore_nav_selected{/if}">
-                    <a class="{if i.url === "javascript:;"}navigation_grey_link{else}navigation_normal_link{/if}" href="${i.url}" title="${i.label}">${i.label}</a>
-                </li>
+                {if i.cleanurl === window.location.pathname}
+                    <li class="{if i.firstlink}navigation_first_link{else}navigation_link{/if} explore_nav_selected">
+                        <span class="navigation_normal_link" title="${i.label}">${i.label}</a>
+                    </li>
+                {else}
+                    <li class="{if i.firstlink}navigation_first_link{else}navigation_link{/if}">
+                        <a class="{if i.url === "javascript:;"}navigation_grey_link{else}navigation_normal_link{/if}" href="${i.url}" title="${i.label}">${i.label}</a>
+                    </li>
+                {/if}
             {/for}
         --></div>
 

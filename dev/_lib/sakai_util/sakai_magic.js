@@ -2250,6 +2250,27 @@ sakai.api.Util.convertToHumanReadableFileSize = function(filesize) {
     return filesize + " " + lengthunits;
 };
 
+sakai.api.Util.tagEntity = function(tagLocation, newTags, currentTags, callback) {
+    var tagsToAdd = [];
+    var tagsToDelete = [];
+    // determine which tags to add and which to delete
+    $(newTags).each(function(i,val) {
+        val = $.trim(val);
+        if ($.inArray(val,currentTags) == -1) {
+            tagsToAdd.push(val);
+        }
+    });
+    $(currentTags).each(function(i,val) {
+        val = $.trim(val);
+        if (val.split("/")[0] !== "directory" && $.inArray(val,newTags) == -1) { // dont delete directory tags this way, we do that another way
+            tagsToDelete.push(val);
+        }
+    });
+    sakai.api.Util.deleteTags(tagLocation, tagsToDelete, function() {
+        sakai.api.Util.setTags(tagLocation, tagsToAdd);
+    });
+};
+
 /**
  * Tag a given entity node
  *
