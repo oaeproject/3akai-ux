@@ -143,7 +143,7 @@ sakai.pickeruser = function(tuid, showSettings) {
         $pickeruser_search_query.focus();
         $pickeruser_add_button.unbind("click");
         $pickeruser_add_button.bind("click", function(){
-            addPeople();
+            addPeople(iConfig);
         });
     };
 
@@ -167,7 +167,7 @@ sakai.pickeruser = function(tuid, showSettings) {
         return list;
     };
 
-    var addPeople = function() {
+    var addPeople = function(iConfig) {
 
       var userList = getSelectedList();
 
@@ -178,7 +178,7 @@ sakai.pickeruser = function(tuid, showSettings) {
           if ($pickeruser_copy_myself.is(':checked')) {
             messageList.push(sakai.data.me.profile["rep:userId"]);
           }
-          sakai.api.Communication.sendMessage(messageList, "Subject", messageText);
+          sakai.api.Communication.sendMessage(messageList, "You have been added to " + iConfig.where, messageText);
       }
       $pickeruser_container.jqmHide();
       $(window).trigger("sakai-pickeruser-finished", {"toAdd":userList});
