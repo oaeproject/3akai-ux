@@ -552,6 +552,9 @@ sakai.inbox = function() {
         // Add them to the DOM
         $(inboxTable).children("tbody").append($.TemplateRenderer(inboxTableMessagesTemplate, tplData));
 
+        messagesForTypeCat = response.total;
+        pageMessages(currentPage+1);
+
         // do checkboxes
         tickMessages();
     };
@@ -989,6 +992,7 @@ sakai.inbox = function() {
 
             // Repage the inbox
             currentPage = currentPage + 1;
+            messagesForTypeCat--;
             showPage(currentPage);
 
             var txt = "";
@@ -1299,8 +1303,6 @@ sakai.inbox = function() {
         else {
             // We are logged in. Do all the nescecary stuff.
             // load the list of messages.
-            //getCount("all");
-            getAllMessages();
             showUnreadMessages();
 
             var qs = new Querystring();
@@ -1309,7 +1311,6 @@ sakai.inbox = function() {
             if (qs_messageid) {
 
                 var callback = function(){displayMessage(qs_messageid);};
-
                 getAllMessages(callback);
 
             } else {
