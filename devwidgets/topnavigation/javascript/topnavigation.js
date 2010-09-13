@@ -250,12 +250,9 @@ sakai.topnavigation = function(tuid, showSettings){
         var tosearch = $general_search_input.val();
         // Disable search button
         $(generalSearchSubmitButton).attr("disabled", true);
-        if (!tosearch || tosearch === $general_search_default_value.text()){
-            tosearch = "*";
-        }
         // Check whether the search term is different than the default text. If not,
         // we do a search for *
-        if (tosearch === $general_search_default_value.text()){
+        if (!tosearch || tosearch === $general_search_default_value.text()){
             tosearch = "*";
         }
         // Redirecting back to the general search page. This expects the URL to be
