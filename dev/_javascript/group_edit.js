@@ -482,11 +482,18 @@ sakai.groupedit = function(){
 
         // Get the group ID and retrieve data
         groupid = getGroupId();
-        if (groupid) {
-            getGroupData(groupid);
-        }
 
-        addBinding();
+        // check to see whether this user is authorized to see this page
+        if (sakai.api.Groups.isCurrentUserAManager(groupid)) {
+            if (groupid) {
+                getGroupData(groupid);
+            }
+            addBinding();
+        } else {
+            // force the user to go back to their previous page
+            alert("Sorry, you are not allowed to view this page.");
+            window.history.back();
+        }
     };
 
     doInit();

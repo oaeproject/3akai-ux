@@ -577,6 +577,47 @@ sakai.api.Groups.setPermissions = function (groupid, joinable, visible, callback
 
 
 /**
+ * Determines whether the current user is a manager of the given group.
+ *
+ * @param groupid {String} id of the group to check
+ * @return true if the current user is a manager, false otherwise
+ */
+sakai.api.Groups.isCurrentUserAManager = function (groupid) {
+    if(!groupid || typeof(groupid) !== "string") {
+        return false;
+    }
+
+    var managersGroupId = groupid + "-managers";
+    if($.inArray(managersGroupId, sakai.data.me.user.subjects) !== -1) {
+        // current user is a group manager
+        return true;
+    } else {
+        return false;
+    }
+};
+
+
+/**
+ * Determines whether the current user is a member of the given group.
+ *
+ * @param groupid {String} id of the group to check
+ * @return true if the current user is a member, false otherwise
+ */
+sakai.api.Groups.isCurrentUserAMember = function (groupid) {
+    if(!groupid || typeof(groupid) !== "string") {
+        return false;
+    }
+
+    if($.inArray(groupid, sakai.data.me.user.subjects) !== -1) {
+        // current user is a group member
+        return true;
+    } else {
+        return false;
+    }
+};
+
+
+/**
  * Adds logged in user to a specified group
  *
  * @param {String} groupID The ID of the group we would like the user to become
