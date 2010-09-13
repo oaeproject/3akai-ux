@@ -706,6 +706,7 @@ sakai.chat = function(tuid, showSettings){
         else {
             json.totalitems = total;
             $(chatOnline).html("<b>(" + total + ")</b>");
+            sakai.chat.setTimeout();
         }
 
         json.me = {};
@@ -1056,12 +1057,32 @@ sakai.chat = function(tuid, showSettings){
                         sakai.chat.loadChatTextInitial(false);
                     }
                     else {
-                        setTimeout(sakai.chat.checkNewMessages, 5000);
+                        sakai.chat.setTimeout();
                     }
                 }
             });
         }
     };
+
+   /**
+     * This method check few factors and set the interval for settimeout according to those factors.
+     * If there is no friends at all, do not need to check new messages
+     * If there is no friends online, check every 1 min
+     * If there is one or more friends online, check every 5 sec.
+     */
+    sakai.chat.setTimeout = function(){
+        // if there is friends only then check if there are new messages
+        if (sakai.data.me.contacts.accepted > 0) {
+            // if friends are online check every 5 sec
+            if (online.totalitems > 0) {
+                setTimeout(sakai.chat.checkNewMessages, 5000);
+            }
+            // if no friend is online check every 1 min.
+            else {
+                setTimeout(sakai.chat.checkNewMessages, 60000);
+            }
+        }
+    }
 
     /**
      * Load the chat windows
@@ -1253,7 +1274,8 @@ sakai.chat = function(tuid, showSettings){
                 }
 
                 if (doreload) {
-                    setTimeout(sakai.chat.checkNewMessages, 5000);
+                    //setTimeout(sakai.chat.checkNewMessages, 5000);
+                    sakai.chat.setTimeout();
                 }
             },
 
