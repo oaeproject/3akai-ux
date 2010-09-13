@@ -241,7 +241,8 @@ sakai.config = {
                         "label": "__MSG__TAGS__",
                         "required": false,
                         "display": true,
-                        "type": "textarea"
+                        "type": "textarea",
+                        "tagField": true
                     }
                 }
             },
