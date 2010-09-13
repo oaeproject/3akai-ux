@@ -44,7 +44,6 @@ sakai.embedcontent = function(tuid, showSettings) {
     var $embedcontent_display_options_select = $("#embedcontent_display_options_select", $rootel);
     var $embedcontent_metadata_container = $("#embedcontent_metadata_container", $rootel);
     var $embedcontent_search_for_content = $("#embedcontent_search_for_content", $rootel);
-    var $embedcontent_add_content = $("#embedcontent_add_content", $rootel);
 
     var $embedcontent_alternative_display_name_value = $("#embedcontent_alternative_display_name_value", $rootel);
     var $embedcontent_description_value = $("#embedcontent_description_value", $rootel);
@@ -195,10 +194,6 @@ sakai.embedcontent = function(tuid, showSettings) {
 
     $embedcontent_cancel.bind("click", function() {
         $embedcontent_dialog.jqmHide();
-    });
-
-    $embedcontent_add_content.bind("click", function() {
-        sakai.fileupload.initialise();
     });
 
     $embedcontent_display_options_select.bind("change", function(e) {
