@@ -224,9 +224,9 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
         // Set the tags property to the temporary tag array
         data["sakai:tags"] = tagArray;
 
-        data["sakai:copyright"] = $(contentProfileBasicInfoFormCopyrightSelect)[0].value;
+        data["sakai:copyright"] = $(contentProfileBasicInfoFormCopyrightSelect).val();
 
-        data["sakai:permissions"] = $(contentProfileBasicInfoFormPermissionsSelect)[0].value;
+        data["sakai:permissions"] = $(contentProfileBasicInfoFormPermissionsSelect).val();
 
         // Return the data object
         return data;
@@ -237,6 +237,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
      */
     var enableDisableBasicInfoFields = function(bool){
         $(contentProfileBasicInfoFormCopyrightSelect)[0].disabled = bool;
+        $(contentProfileBasicInfoFormPermissionsSelect)[0].disabled = bool;
         $(contentProfileBasicInfoFormTags)[0].disabled = bool;
         $(contentProfileBasicInfoFormDescription)[0].disabled = bool;
         $(contentProfileBasicInfoFormName)[0].disabled = bool;

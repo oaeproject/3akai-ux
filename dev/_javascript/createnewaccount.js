@@ -164,6 +164,10 @@ sakai.newaccount = function(){
         // Get the values from the form.
         var values = sakai.api.UI.Forms.form2json($(formContainer));
 
+        for (var i in values){
+            values[i] = escape(values[i]);
+        };
+
         // Get the values from the captcha form.
         var captchaValues = sakai.captcha.getProperties();
 
