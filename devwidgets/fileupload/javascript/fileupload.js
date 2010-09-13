@@ -670,10 +670,6 @@ sakai.fileupload = function(tuid, showSettings){
 
             $(multiFileForm).ajaxForm({
                 success: function(data){
-                    // Reset some variables
-                    tags = [];
-                    uploadedFiles = [];
-
                     // Create DOM element to extract data from response
                     // Use an object to keep track of the data
                     var $responseData = $.parseJSON(data.replace("<pre>", "").replace("</pre>", ""));
@@ -696,6 +692,9 @@ sakai.fileupload = function(tuid, showSettings){
                     else {
                         // Files uploaded
                         filesUploaded = true;
+
+                        // Initiate the tagging process
+                        formatTags($(fileUploadAddTags).val());
 
                         // Get the values out of the name boxes
                         $(multiFileList + " input").each(function(index){
@@ -740,8 +739,6 @@ sakai.fileupload = function(tuid, showSettings){
             $(fileUploadPermissionsSelect).attr("disabled", "disabled");
             $(fileUploadLinkBoxInput).attr("disabled", "disabled");
             $(fileUploadAddLinkButton).attr("disabled", "disabled");
-            // Initiate the tagging process
-            formatTags($(fileUploadAddTags).val());
         } else {
             $(fileUploadAddVersionDescription).attr("disabled", "disabled");
         }
