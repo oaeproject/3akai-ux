@@ -155,7 +155,7 @@ sakai.content_profile = function(){
      * @param {String} task Operation of either adding or removing
      */
     var addRemoveUsers = function(tuid, users, task) {
-        var updateSuccess = false;
+        var userCount = 0;
 
         $.each(users, function(index, user) {
             var data = {
@@ -194,14 +194,26 @@ sakai.content_profile = function(){
                     data: data,
                     type: "POST",
                     success: function(data){
-                        updateSuccess = true;
+                        userCount++;
                     }
                 });
             }
         });
 
-        if (updateSuccess) {
+        if (userCount > 1) {
             loadContentUsers(tuid);
+            if (task === 'add') {
+                sakai.api.Util.notification.show("Content Profile", "Users have been added.");
+            } else {
+                sakai.api.Util.notification.show("Content Profile", "Users have been removed.");
+            }
+        } else if (userCount > 0) {
+            loadContentUsers(tuid);
+            if (task === 'add') {
+                sakai.api.Util.notification.show("Content Profile", "User has been added.");
+            } else {
+                sakai.api.Util.notification.show("Content Profile", "User has been removed.");
+            }
         }
     };
 
