@@ -322,17 +322,6 @@ sakai.search = function(){
                     var relationships = connection["sakai:types"];
                     if (relationships) {
                         finaljson.items[index].extra = relationships;
-                    } else if (person.basic) {
-                        var basic = $.parseJSON(person.basic);
-                        if (basic.unirole) {
-                            finaljson.items[index].extra = basic.unirole;
-                        }
-                        else if (basic.unicollege) {
-                            finaljson.items[index].extra = basic.unicollege;
-                        }
-                        else if (basic.unidepartment) {
-                            finaljson.items[index].extra = basic.unidepartment;
-                        }
                     }
                     finaljson.items[index].connected = true;
 
