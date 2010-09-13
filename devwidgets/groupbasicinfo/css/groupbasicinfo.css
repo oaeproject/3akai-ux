@@ -71,4 +71,6 @@
 
 .groupbasicinfo_added_directory {clear:both; padding-top:3px;}
 #groupbasicinfo_content_directory_contents {overflow:hidden;}
+
 .groupbasicinfo_select_seperator {float:left; padding:0 5px;}
+.groupbasicinfo_selected_and_saved_seperator {padding:0 5px;}
