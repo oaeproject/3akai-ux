@@ -250,14 +250,20 @@ sakai.topnavigation = function(tuid, showSettings){
         var tosearch = $general_search_input.val();
         // Disable search button
         $(generalSearchSubmitButton).attr("disabled", true);
-        if (tosearch) {
-            // Redirecting back to the general search page. This expects the URL to be
-            // in a format like this one: page.html#pageid|searchstring
-            document.location = sakai.config.URL.SEARCH_GENERAL_URL + "#q=" + tosearch;
-            // Only enable button if the location is the search page
-            if (window.location.pathname.split("/")[2] === "search.html") {
-                $(generalSearchSubmitButton).attr("disabled", false);
-            }
+        if (!tosearch || tosearch === $general_search_default_value.text()){
+            tosearch = "*";
+        }
+        // Check whether the search term is different than the default text. If not,
+        // we do a search for *
+        if (tosearch === $general_search_default_value.text()){
+            tosearch = "*";
+        }
+        // Redirecting back to the general search page. This expects the URL to be
+        // in a format like this one: page.html#pageid|searchstring
+        document.location = sakai.config.URL.SEARCH_GENERAL_URL + "#q=" + tosearch;
+        // Only enable button if the location is the search page
+        if (window.location.pathname.split("/")[2] === "search.html") {
+            $(generalSearchSubmitButton).attr("disabled", false);
         }
     };
 
