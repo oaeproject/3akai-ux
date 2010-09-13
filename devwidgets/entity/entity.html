@@ -70,14 +70,14 @@
                     </div>
                 </div>
                 <div class="fl-force-left entity_header">
-                    <a class="entity_header_text" href="${data.profile.path}">${data.profile.name} ${data.profile.mimetype} (${data.profile.filesize})</a>
+                    <a class="entity_header_text" href="${data.profile.path}">${data.profile.name}</a><span class="entity_content_filetype">(${data.profile.mimetype} ${data.profile.filesize})</span>
                     {if data.profile.role === "manager"}
                         <a class="s3d-action" href="/dev/content_profile.html#content_path=${data.profile.contentpath}">__MSG__EDIT_PROFILE__</a>
                     {else}
                         <a class="s3d-action" href="/dev/content_profile.html#content_path=${data.profile.contentpath}">__MSG__MORE_INFO__</a>
                     {/if}
                 </div>
-                <div class="fl-force-left">
+                <div class="fl-force-left entity_description">
                     {if data.profile.description}
                         {if data.profile.description > 115}
                             <p>${data.profile.description.substring(0, 115)}...</p>
@@ -115,7 +115,7 @@
                 {/if}
                 <a class="s3d-action" href="/dev/show.html?type=group&amp;id=${data.profile.authprofile["sakai:group-id"]}">__MSG__MORE_INFO__</a>
             </div>
-            <div class="fl-force-left">
+            <div class="fl-force-left entity_description">
                 {if data.profile.authprofile["sakai:group-description"] && data.profile.authprofile["sakai:group-description"].length > 115}
                     <p>${data.profile.authprofile["sakai:group-description"].substring(0, 115)}...</p>
                 {elseif data.profile.authprofile["sakai:group-description"]}
