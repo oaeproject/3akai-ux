@@ -173,7 +173,7 @@
                                             {if m.userTo}
                                                 <td>
                                                 {for toUser in m.userTo}
-                                                    <a class="inbox_inbox_message_from" href="/dev/show.html?type=user&amp;id=${toUser.userid}">${toUser.firstName} ${toUser.lastName}</a>
+                                                    <a class="inbox_inbox_message_from" href="/dev/show.html?type=user&amp;id=${toUser.userid}">${sakai.api.User.getDisplayName(toUser)}</a>
                                                 {/for}
                                                 </td>
                                             {else}
@@ -183,7 +183,7 @@
                                             {if m.userFrom}
                                                 <td>
                                                 {for fromUser in m.userFrom}
-                                                    <a class="inbox_inbox_message_from" href="/dev/show.html?type=user&amp;id=${fromUser.userid}">${fromUser.firstName} ${fromUser.lastName}</a></td>
+                                                    <a class="inbox_inbox_message_from" href="/dev/show.html?type=user&amp;id=${fromUser.userid}">${sakai.api.User.getDisplayName(fromUser)}</a></td>
                                                 {/for}
                                                 </td>
                                             {else}
@@ -283,7 +283,7 @@
                                 </span>
                                 <div class="inbox_message_user">
                                     {for fromUser in r.userFrom}
-                                        <a href="/dev/show.html?type=user&amp;id=${r["sakai:from"]}" class="sender-name" id="inbox_message_from">${fromUser.firstName} ${fromUser.lastName}</a><br />
+                                        <a href="/dev/show.html?type=user&amp;id=${r["sakai:from"]}" class="sender-name" id="inbox_message_from">${sakai.api.User.getDisplayName(fromUser)}</a><br />
                                     {/for}
                                     <div class="sender-timestamp">Sent this on <span id="inbox_message_date">${r.date}</span></div>
                                 </div>
@@ -316,7 +316,7 @@
                                 {for r in replies}
                                     ${r.date} -
                                     {for fromUser in r.userFrom}
-                                        ${sakai.api.User.getDisplayName(fromUser.profile)}
+                                        ${sakai.api.User.getDisplayName(fromUser)}
                                     {/for}
                                     : ${r.bodyText}<br />
                                 {/for}
