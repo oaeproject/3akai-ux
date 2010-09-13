@@ -89,20 +89,9 @@
             <div id="content_profile_basic_info_content_directory_contents">
                 {if saveddirectory.length === 0}
                     <div id="content_profile_basic_info_add_another_container">
-                        <div class="content_profile_basic_info_added_directory">
-                            <select class="content_profile_basic_info_content content_profile_basic_info_hierarchy_select" id="content_profile_basic_info_directory_lvlone">
-                                <option value="no_value">Select hierarchy 1</option>
-                                {for i in directory}
-                                    <option value="${i.name}">${i.name}</option>
-                                {/for}
-                            </select>
-                            <div id="content_profile_basic_info_secondlevel_template_container"></div>
-                            <div id="content_profile_basic_info_thirdlevel_template_container"></div>
-                            <a href="javascript:;" class="content_profile_basic_info_remove_new_location" title="Remove location">Remove location</a>
-                        </div>
                     </div>
                     <p id="content_profile_basic_info_add_another_location">
-                        <a href="javascript:;" title="Add another location">Add another location</a>
+                        <a href="javascript:;" title="Add a location"><span id="content_profile_basic_info_add_another_location_link">Add a location</span></a>
                     </p>
                 {else}
                     <ul class="content_profile_basic_info_saveddirectory">

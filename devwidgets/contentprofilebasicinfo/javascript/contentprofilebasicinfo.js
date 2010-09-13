@@ -68,6 +68,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
     var contentProfileBasicInfoSecondLevelTemplate = "#content_profile_basic_info_secondlevel_template";
     var contentProfileBasicInfoThirdLevelTemplate = "#content_profile_basic_info_thirdlevel_template";
     var contentProfileBasicInfoAddAnotherLocation = "#content_profile_basic_info_add_another_location";
+    var contentProfileBasicInfoAddAnotherLocationLink = contentProfileBasicInfoAddAnotherLocation + "_link";
     var contentProfileBasicInfoRemoveNewLocation = ".content_profile_basic_info_remove_new_location";
     var contentProfileBasicInfoRemoveLocation = ".content_profile_basic_info_remove_location";
 
@@ -381,6 +382,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
         $("#content_profile_basic_info_add_another_container").append(renderedDiv);
         // Apply style to the rendered div
         $(renderedDiv).addClass("content_profile_basic_info_added_directory");
+        $(contentProfileBasicInfoAddAnotherLocationLink).text("Add another location");
     }
 
     /**
