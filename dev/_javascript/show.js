@@ -139,41 +139,27 @@ sakai.show = function() {
 
         }
         else {
+            sakai.api.Server.loadJSON("/~" + entityID + "/public/authprofile", function(success, data) {
+                if (success && data) {
+                    // Set the correct userprofile data
+                    userprofile = $.extend(true, {}, data);
 
-            // We need to fire an Ajax GET request to get the profile data for the user
-            $.ajax({
-                url: "/~" + entityID + "/public/authprofile.3.json",
-                success: function(data){
+                    // Set the profile picture
+                    sakai.profile.main.picture = constructProfilePicture(userprofile);
 
-                    // Check whether there are any results
-                    if(data){
-
-                        // Set the correct userprofile data
-                        userprofile = $.extend(true, {}, data);
-
-                        // Set the profile picture
-                        sakai.profile.main.picture = constructProfilePicture(userprofile);
-
-                        // Set the status for the user you want the information from
-                        if(userprofile.basic && userprofile.basic.elements.status){
-                            sakai.profile.main.status = userprofile.basic.elements.status.value;
-                        }
-
-                        // Set the profile data object
-                        sakai.profile.main.data = $.extend(true, {}, userprofile);
+                    // Set the status for the user you want the information from
+                    if(userprofile.basic && userprofile.basic.elements.status){
+                        sakai.profile.main.status = userprofile.basic.elements.status.value;
                     }
 
-                },
-                error: function(){
+                    // Set the profile data object
+                    sakai.profile.main.data = $.extend(true, {}, userprofile);
+                } else {
                     fluid.log("getUserData: Could not find the user");
-                },
-                complete: function(data){
-                    postDataRetrieval();
                 }
+                postDataRetrieval();
             });
-
         }
-
     };
 
     var getEntityData = function() {
