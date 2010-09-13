@@ -398,6 +398,13 @@ sakai.topnavigation = function(tuid, showSettings){
             var temp = new Object();
             temp.url = sakai.config.Navigation[i].url;
             temp.label = sakai.api.i18n.General.getValueForKey(sakai.config.Navigation[i].label);
+            temp.cleanurl = temp.url;
+            if (temp.cleanurl.indexOf('?') && temp.cleanurl.indexOf('?') > 0) {
+                temp.cleanurl = temp.cleanurl.substring(0, temp.cleanurl.indexOf('?'));
+            }
+            if (temp.cleanurl.indexOf('#') && temp.cleanurl.indexOf('#') > 0) {
+                temp.cleanurl = temp.cleanurl.substring(0, temp.cleanurl.indexOf('#'));
+            }
             if (i == 0) {
                 temp.firstlink = true;
             }
