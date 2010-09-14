@@ -82,6 +82,9 @@ if (!sakai.sendmessage){
         var dialogHeaderClass = ".dialog_header";
         var dialogClass = ".dialog";
 
+        var notificationSuccess = "#sendmessage_message_sent";
+        var notificationError = "#sendmessage_message_error";
+
         var messageOK = "#sendmessage_message_ok";
         var messageError = "#sendmessage_message_error";
         var messageErrorData = "#sendmessage_data_error";
@@ -232,7 +235,7 @@ if (!sakai.sendmessage){
          * Called when the request to the server has been answered
          * @param {Boolean} succes    If the request failed or succeeded.
          */
-        var showMessageSent = function(succes) {
+        var showMessageSent = function(success) {
             // Clear the subject and body input fields
             $(messageFieldSubject).val("");
             $(messageFieldBody).val("");
@@ -247,19 +250,23 @@ if (!sakai.sendmessage){
             $(messageDone).removeClass(normalClass);
 
             // Depending on success we add the correct class and show the appropriate message.
-            if (succes) {
+            if (success) {
                 $(messageDone).addClass(normalClass);
                 $(messageDone).text(sakai.api.Security.saneHTML($(messageOK).text()));
+                var successMsg = $(notificationSuccess).text();
+                sakai.api.Util.notification.show("", successMsg, sakai.api.Util.notification.type.INFORMATION);
             }
             else {
                 $(messageDone).addClass(errorClass);
                 $(messageDone).text(sakai.api.Security.saneHTML($(messageError).text()));
+                var errorMsg = $(notificationError).text();
+                sakai.api.Util.notification.show("", errorMsg, sakai.api.Util.notification.type.ERROR);
             }
 
             // If we have a valid callback function we call that
             // and dont show the message
             // If we dont have a callback we show a default message and fade out the layover.
-            if (succes && callbackWhenDone !== null) {
+            if (success && callbackWhenDone !== null) {
                 callbackWhenDone({"response" : "OK"});
             }
             else {

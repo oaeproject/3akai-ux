@@ -31,8 +31,8 @@
 #send_message {font-weight:bold}
 
 /* AutoSuggest Styles */
-ul.as-selections {margin:5px 3px 0px; width:500px;}
-ul.as-list {margin:-2px 0 0 3px;}
-#sendmessage_to_container {margin-bottom:10px;}
-img.sm_suggestion_img {height:16px; width:16px; margin-right:5px;}
-input#sendmessage_to_autoSuggest {width:175px;}
+.send_message ul.as-selections {margin:5px 3px 0px; width:500px;}
+.send_message ul.as-list {margin:-2px 0 0 3px;}
+.send_message #sendmessage_to_container {margin-bottom:10px;}
+.send_message img.sm_suggestion_img {height:16px; width:16px; margin-right:5px;}
+.send_message input#sendmessage_to_autoSuggest {width:175px;}
