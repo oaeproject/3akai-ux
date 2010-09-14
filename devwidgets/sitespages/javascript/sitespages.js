@@ -60,6 +60,8 @@ sakai.sitespages = function(tuid,showSettings){
     var $li_more_link = $("#li_more_link");
     var $print_page = $("#print_page");
     var $content_page_options = $("#content_page_options");
+    var $more_revision_history = $("#more_revision_history");
+    var $more_save_as_template = $("#more_save_as_template");
 
     sakai.sitespages.site_info = {};
     sakai.sitespages.site_info._pages = {};
@@ -375,10 +377,14 @@ sakai.sitespages = function(tuid,showSettings){
             $content_page_options.show();
             $li_edit_page_divider.show();
             $li_edit_page.show();
+            $more_revision_history.show();
+            $more_save_as_template.show();
         } else if (pageType === "dashboard") {
+            $more_revision_history.hide();
             $content_page_options.show();
             $li_edit_page_divider.hide();
             $li_edit_page.hide();
+            $more_save_as_template.hide();
         } else if (pageType === "profile") {
             $content_page_options.hide();
             $li_edit_page_divider.hide();
