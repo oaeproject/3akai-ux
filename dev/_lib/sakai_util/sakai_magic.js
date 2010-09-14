@@ -2285,7 +2285,11 @@ sakai.api.Util.tagEntity = function(tagLocation, newTags, currentTags, callback)
         }
     });
     sakai.api.Util.deleteTags(tagLocation, tagsToDelete, function() {
-        sakai.api.Util.setTags(tagLocation, tagsToAdd);
+        sakai.api.Util.setTags(tagLocation, tagsToAdd, function() {
+            if ($.isFunction(callback)) {
+                callback();
+            }
+        });
     });
 };
 
@@ -2368,23 +2372,32 @@ sakai.api.Util.setTags = function(tagLocation, tags, callback) {
 
 sakai.api.Util.deleteTags = function(tagLocation, tags, callback) {
     if (tags.length) {
+        var requests = [];
         $(tags).each(function(i,val) {
-            $.ajax({
-                url: "/" + tagLocation,
-                data: {
+            requests.push({
+                "url": tagLocation,
+                "method": "POST",
+                "parameters": {
                     "key": "/tags/" + val,
                     ":operation": "deletetag"
-                },
-                type: "POST",
-                error: function(xhr, response) {
-                    fluid.log(val + " tag failed to be removed from " + tagLocation);
-                },
-                complete: function() {
-                    if ($.isFunction(callback)) {
-                        callback();
-                    }
                 }
             });
+        });
+        $.ajax({
+            url: sakai.config.URL.BATCH,
+            traditional: true,
+            type: "POST",
+            data: {
+                requests: $.toJSON(requests)
+            },
+            error: function(xhr, response) {
+                fluid.log(val + " tag failed to be removed from " + tagLocation);
+            },
+            complete: function() {
+                if ($.isFunction(callback)) {
+                    callback();
+                }
+            }
         });
     } else {
         if ($.isFunction(callback)) {
