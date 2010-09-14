@@ -177,6 +177,26 @@
                                             {else}
                                                 <td><a class="inbox_inbox_message_from" href="/dev/show.html?type=user&amp;id=${m['sakai:to']}">${m['sakai:to']}</a></td>
                                             {/if}
+                                        {elseif m.messagebox === "trash"}
+                                            {var toMe = false}
+                                            {for toUser in m.userTo}
+                                                {if toUser.userid == sakai.data.me.user.userid }
+                                                    {var toMe = true}
+                                                {/if}
+                                            {/for}
+                                            {if toMe}
+                                                <td>
+                                                {for fromUser in m.userFrom}
+                                                    <a class="inbox_inbox_message_from" href="/dev/show.html?type=user&amp;id=${fromUser.userid}">__MSG__FROM__:  ${sakai.api.User.getDisplayName(fromUser)}</a></td>
+                                                {/for}
+                                                </td>
+                                            {else}
+                                                <td>
+                                                {for toUser in m.userTo}
+                                                    <a class="inbox_inbox_message_from" href="/dev/show.html?type=user&amp;id=${toUser.userid}">__MSG__TO__: ${sakai.api.User.getDisplayName(toUser)}</a>
+                                                {/for}
+                                                </td>
+                                            {/if}
                                         {else}
                                             {if m.userFrom}
                                                 <td>
