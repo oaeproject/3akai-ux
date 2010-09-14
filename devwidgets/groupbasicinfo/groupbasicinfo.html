@@ -8,7 +8,7 @@
 <div id="groupbasicinfo_default_template"><!--
     {if url && data}
         <div class="groupbasicinfo_generalinfo_header">
-            <h2 class="fl-force-left">__MSG__BASIC_INFORMATION__</h2>
+            <h2>__MSG__BASIC_INFORMATION__</h2>
 
             {if mode === "edit" && perSectionPermissions}
                 {var _access = data.access}
@@ -84,11 +84,8 @@
 
             <div id="groupbasicinfo_editing" class="fl-push">
                 <div class="fl-force-right">
-                    <button id="groupbasicinfo_editing_button_dontupdate" type="button" class="s3d-button">
-                        <span class="s3d-button-inner">__MSG__CANCEL__</span>
-                    </button>
                     <button id="groupbasicinfo_editing_button_update" type="button" class="s3d-button s3d-button-primary">
-                        <span class="s3d-button-inner">__MSG__SAVE_SETTINGS__</span>
+                        <span class="s3d-button-inner">__MSG__UPDATE_DETAILS__</span>
                     </button>
                 </div>
             </div>
@@ -139,6 +136,13 @@
     {/if}
 
 --></div>
+
+    <!--
+        <button id="groupbasicinfo_editing_button_dontupdate" type="button" class="s3d-button">
+        	<span class="s3d-button-inner">__MSG__CANCEL__</span>
+        </button>
+                    
+    -->
 
     <div id="groupbasicinfo_firstlevel_template"><!--
         <select class="groupbasicinfo_content groupbasicinfo_hierarchy_select" id="groupbasicinfo_generalinfo_group_directory_lvlone">

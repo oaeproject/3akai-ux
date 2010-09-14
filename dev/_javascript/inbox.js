@@ -101,6 +101,7 @@ sakai.inbox = function() {
     var inboxSubfolderChats = inboxSubfolder + "_chats";
     var inboxSubfolderMessages = inboxSubfolder + "_messages";
     var inboxSubfolderInvitations = inboxSubfolder + "_invitations";
+    var inboxSubfolderAnnouncements = inboxSubfolder + "_announcements";
 
     var inboxInbox = inboxID + "_inbox";
     var inboxInboxClass = inboxClass + "_inbox";
@@ -1184,6 +1185,8 @@ sakai.inbox = function() {
     });
     $(inboxFilterAnnouncements).click(function() {
         filterMessages(sakai.config.Messages.Types.inbox, sakai.config.Messages.Categories.announcement, "all", inboxFilterAnnouncements);
+        $(inboxSubfolderClass).hide();
+        $(inboxSubfolderAnnouncements).show();
     });
     $(inboxFilterChats).click(function() {
         filterMessages(sakai.config.Messages.Types.inbox, sakai.config.Messages.Categories.chat, "all", inboxFilterChats);
