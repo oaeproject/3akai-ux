@@ -60,7 +60,7 @@
     width: 400px;
 }
 
-.groupbasicinfo_hierarchy_select {float:left; width:200px; margin-bottom:5px;}
+.groupbasicinfo_hierarchy_select {float:left; width:160px; margin-bottom:5px;}
 
 .groupbasicinfo_saveddirectory {margin:0}
 .groupbasicinfo_saveddirectory li {padding-bottom:10px; list-style:none;}
