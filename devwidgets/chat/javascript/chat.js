@@ -229,6 +229,7 @@ sakai.chat = function(tuid, showSettings){
     var chatAvailableTemplate = "chat_available_template";
     var chatContentTemplate = "chat_content_template";
     var chatWindowsTemplate = "chat_windows_template";
+    var timer = false;
 
     ///////////////////////
     // Utility functions //
@@ -702,10 +703,17 @@ sakai.chat = function(tuid, showSettings){
             json.items = [];
             json.totalitems = total;
             $(chatOnline).html("(0)");
+            timer = false;
         }
         else {
             json.totalitems = total;
             $(chatOnline).html("<b>(" + total + ")</b>");
+
+            if(!timer) {
+                timer = true;
+                sakai.chat.checkNewMessages();
+
+            }
         }
 
         json.me = {};
@@ -1056,7 +1064,10 @@ sakai.chat = function(tuid, showSettings){
                         sakai.chat.loadChatTextInitial(false);
                     }
                     else {
-                        setTimeout(sakai.chat.checkNewMessages, 5000);
+                        if(timer) {
+                            setTimeout(sakai.chat.checkNewMessages, 5000);
+                        }
+
                     }
                 }
             });
@@ -1099,12 +1110,10 @@ sakai.chat = function(tuid, showSettings){
 
         // if window is jused opened, use initial time
         // to retrieve all previous messagess
-        if(initial)
+        if(initial && !hasNew)
             retrievaltime = initialtime;
         else
             retrievaltime = pulltime;
-
-
         // Combine all the online users with a comma
         var tosend = onlineUsers.join(",");
 
@@ -1254,7 +1263,9 @@ sakai.chat = function(tuid, showSettings){
                 }
 
                 if (doreload) {
-                    setTimeout(sakai.chat.checkNewMessages, 5000);
+                    if(timer) {
+                        setTimeout(sakai.chat.checkNewMessages, 5000);
+                    }
                 }
             },
 
