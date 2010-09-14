@@ -7,7 +7,7 @@ var History = {
         if (url != History.prev_url){ // should be checking individual params, not just the string composition
             if (url){
                 if (sakai._search.doSearch) {
-                  sakai._search.doSearch($.bbq.getState('page'), $.bbq.getState('q'), $.bbq.getState('filter'), $.bbq.getState('facet'));
+                  sakai._search.doSearch($.bbq.getState('page'), $.bbq.getState('q'), $.bbq.getState('filter'), $.bbq.getState('facet'), $.bbq.getState('tag'));
                   History.prev_url = url;
                 } else { // is hasn't loaded in yet, so lets try every 10ms, using the jQuery animate version of setTimeout
                   $('html').animate({ borderWidth:0},10, function() { 
@@ -27,9 +27,10 @@ var History = {
         }
     },
     
-    addBEvent : function(page, query, filter, facet) {
+    addBEvent : function(page, query, filter, facet, tag) {
       var state = {};
       state['q'] = query;
+      state['tag'] = tag;
       state['filter'] = filter || "";
       state['facet'] = facet || "";
       state['page'] = page || "1";

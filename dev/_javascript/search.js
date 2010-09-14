@@ -36,6 +36,7 @@ sakai.search = function() {
 
     var foundPeople = false;
     var searchterm = "";
+    var tagterm = "";
 
     var totalItemsFound = 0;
 
@@ -54,6 +55,7 @@ sakai.search = function() {
             text : ".search_content_main " + search + '_text',
             numberFound : search + '_numberFound',
             searchTerm : search + "_mysearchterm",
+            tagTerm : search + "_mytagterm",
             searchBarSelectedClass : "search_bar_selected",
             pagerClass : ".jq_pager",
             messageClass : ".search_result_person_link_message",
@@ -61,7 +63,8 @@ sakai.search = function() {
             addToContactsLink : ".link_add_to_contacts",
             addToContactsDialog : '#add_to_contacts_dialog',
             sendmessageContainer : "#sendmessagecontainer",
-            resultTitle : "#search_result_title"
+            resultTitle : "#search_result_title",
+            resultTagTitle : "#search_result_tag_title"
         },
         people : {
             displayMore : "#display_more_people",
@@ -130,6 +133,7 @@ sakai.search = function() {
     var showSearchContent = function() {
         // Set searching messages
         $(searchConfig.global.searchTerm).text(sakai.api.Security.saneHTML(searchterm));
+        $(searchConfig.global.tagTerm).text(sakai.api.Security.saneHTML(tagterm));
         $(searchConfig.global.numberFound).text("0");
 
         $(searchConfig.cm.displayMoreNumber).text("0");
@@ -145,6 +149,7 @@ sakai.search = function() {
         $(searchConfig.people.header).show();
         $(searchConfig.sites.header).show();
 
+        $(searchConfig.global.resultTagTitle).hide();
         $(searchConfig.global.introductionText).hide();
         $(searchConfig.cm.displayMore).hide();
         $(searchConfig.sites.displayMore).hide();
@@ -244,9 +249,9 @@ sakai.search = function() {
         if (foundSites && foundSites.results) {
 
             finaljson.items = foundSites.results;
-            
+
             for (var group in finaljson.items){
-                if (finaljson.items.hasOwnProperty(group)) {
+                if (finaljson.items.hasOwnProperty(group) && finaljson.items[group]["sakai:group-title"]) {
                     finaljson.items[group]["sakai:group-title"] = sakai.api.Security.escapeHTML(finaljson.items[group]["sakai:group-title"]);
                 }
             }
@@ -321,8 +326,11 @@ sakai.search = function() {
      */
     sakai._search.doSearch = function(page, searchquery, searchwhere) {
 
+        // Get the tag if present.
+        tagterm = mainSearch.getSearchTags();
+
         // Check if the searchquery is empty
-        if(searchquery === "" || searchquery == undefined){
+        if((searchquery === "" || searchquery == undefined) && (tagterm === "" || tagterm == undefined)){
 
             // If there is nothing in the search query, remove the html and hide some divs
             $(".search_results_container").hide();
@@ -340,7 +348,7 @@ sakai.search = function() {
         // Rebind everything
         mainSearch.addEventListeners(searchterm);
 
-        if (searchterm) {
+        if (searchterm && searchterm !== $(searchConfig.global.text).attr("title").toLowerCase() + " ...") {
             // Show and hide the correct elements.
             showSearchContent();
 
@@ -399,8 +407,40 @@ sakai.search = function() {
                     renderSites({});
                 }
             });
-        }
-        else {
+        } else if (tagterm) {
+            // Show and hide the correct elements.
+            showSearchContent();
+            $(searchConfig.global.resultTitle).hide();
+            $(searchConfig.global.resultTagTitle).show();
+
+            // Search based on tags and render each search section
+            $.ajax({
+                url: tagterm + ".tagged.5.json",
+                cache: false,
+                success: function(data) {
+
+                    var json = {};
+                    if (typeof(data) === 'string') {
+                        data = $.parseJSON(data);
+                    }
+                    json.results = data;
+                    json.items = json.results.length;
+
+                    renderSites(json);
+                    renderCM(json);
+
+                    // Store found people in data cache
+                    sakai.data.search.results_people = {};
+                    for (var i = 0, j = json.results.length; i < j; i++) {
+                        sakai.data.search.results_people[json.results[i]["rep:userId"]] = json.results[i];
+                    }
+                    renderPeople(json);
+                },
+                error: function(xhr, textStatus, thrownError) {
+                    renderCM({});
+                }
+            });
+        } else {
             // There was no search term provided.
             // Reset the whole thing
             sakai._search.reset();
