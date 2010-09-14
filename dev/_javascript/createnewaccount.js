@@ -164,8 +164,9 @@ sakai.newaccount = function(){
         // Get the values from the form.
         var values = sakai.api.UI.Forms.form2json($(formContainer));
 
+        var nonEscaped = ["password", "username", "password_repeat", "recaptcha_response_field"];
         for (var i in values){
-            if (i !== "password" && i !== "username" && i !== "password_repeat" && i !== "recaptcha_response_field") {
+            if ($.inArray(i, nonEscaped) < 0) {
                 values[i] = escape(values[i]);
             }
         };
