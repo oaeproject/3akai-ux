@@ -82,6 +82,9 @@ sakai.createpage = function(tuid, showSettings){
         
         // hide templates
         $createpageTemplates.hide();
+
+        // hide processing message
+        hideProcessing();
     };
 
     /**
@@ -121,23 +124,26 @@ sakai.createpage = function(tuid, showSettings){
         // select the first item
         $("input:radio:first", $createpageContainer).attr("checked","checked");
 
-        // if no templates, hide the create button
+        // if no templates, disable the create button
         if(json.templates.length === 0) {
-            $createpageSubmit.hide();
+            $createpageSubmit.attr("disabled","disabled");
         }
     };
 
     /**
-     * Toggle between showing or hiding the "Processing..." message to the user
+     * Show the "Processing..." message to the user
      */
-    var toggleProcessing = function(){
-        if($createpageProcessing.is(":visible")) {
-            $createpageProcessing.hide();
-            $("#createpage_container " + "." + buttonClass).show();
-        } else {
-            $("#createpage_container " + "." + buttonClass).hide();
-            $createpageProcessing.show();
-        }
+    var showProcessing = function () {
+        $("#createpage_container " + "." + buttonClass).hide();
+        $createpageProcessing.show();
+    };
+
+    /**
+     * Hide the "Processing..." message to the user
+     */
+    var hideProcessing = function () {
+        $createpageProcessing.hide();
+        $("#createpage_container " + "." + buttonClass).show();
     };
 
 
@@ -155,7 +161,7 @@ sakai.createpage = function(tuid, showSettings){
             showPageTitleError();
         } else {
             // we've got a valid title
-            toggleProcessing();  // display "Processing..."
+            showProcessing();  // display "Processing..."
             var pageType = $selectPageType.val();
             if(pageType === "blank") {
                 sakai.sitespages.createNewPage("", handleNewPageCreation, pageTitle);
@@ -177,7 +183,7 @@ sakai.createpage = function(tuid, showSettings){
      * @param {Boolean} success true if the call succeeded, false otherwise
      */
     var handleNewPageCreation = function (success) { 
-        toggleProcessing();  // hide "Processing..."
+        hideProcessing();
         if(success) {
             // hide the modal
             $createpageContainer.jqmHide();
@@ -200,7 +206,7 @@ sakai.createpage = function(tuid, showSettings){
         } else {
             // hide templates, ensure submit button is visible
             $createpageTemplates.hide();
-            $createpageSubmit.show();
+            $createpageSubmit.removeAttr("disabled");
         }
         $inputPageTitle.focus();
     });
