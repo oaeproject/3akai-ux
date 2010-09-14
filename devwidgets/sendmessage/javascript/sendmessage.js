@@ -314,7 +314,6 @@ if (!sakai.sendmessage){
                                 if (data.results[i]["rep:userId"]) {
                                     suggestions.push({"value": data.results[i]["rep:userId"], "name": sakai.api.Security.saneHTML(sakai.api.User.getDisplayName(data.results[i])), "type": "user"});
                                 } else if (data.results[i]["sakai:group-id"]) {
-                                    console.log(data.results[i]);
                                     suggestions.push({"value": data.results[i]["sakai:group-id"], "name": data.results[i]["sakai:group-title"], "type": "group"});
                                 }
                             });
