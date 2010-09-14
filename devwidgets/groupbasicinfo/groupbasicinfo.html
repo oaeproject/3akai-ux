@@ -141,7 +141,7 @@
 --></div>
 
     <div id="groupbasicinfo_firstlevel_template"><!--
-        <select class="groupbasicinfo_content groupbasicinfo_hierarchy_select" id="groupbasicinfo_generalinfo_group_directory_lvlone">
+        <select class="groupbasicinfo_content groupbasicinfo_hierarchy_select groupbasicinfo_generalinfo_group_directory_lvlone">
             <option value="no_value"> </option>
             {for i in directory}
                 <option value="${i.name}">${i.name}</option>
@@ -154,7 +154,7 @@
 
     <div id="groupbasicinfo_secondlevel_template" style="display:none;"><!--
         <span class="groupbasicinfo_select_seperator"> &raquo; </span>
-        <select class="groupbasicinfo_content groupbasicinfo_hierarchy_select" id="groupbasicinfo_generalinfo_group_directory_lvltwo">
+        <select class="groupbasicinfo_content groupbasicinfo_hierarchy_select groupbasicinfo_generalinfo_group_directory_lvltwo">
             <option value="no_value"> </option>
             {for i in directory}
                 {if i.name === changedboxvalue}
@@ -168,7 +168,7 @@
 
     <div id="groupbasicinfo_thirdlevel_template" style="display:none;"><!--
         <span class="groupbasicinfo_select_seperator"> &raquo; </span>
-        <select class="groupbasicinfo_content groupbasicinfo_hierarchy_select" id="groupbasicinfo_generalinfo_group_directory_lvlthree">
+        <select class="groupbasicinfo_content groupbasicinfo_hierarchy_select groupbasicinfo_generalinfo_group_directory_lvlthree">
             <option value="no_value"> </option>
             {for i in directory}
                 {if i.name === firstlevelvalue}
