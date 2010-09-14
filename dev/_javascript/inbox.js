@@ -666,6 +666,7 @@ sakai.inbox = function() {
 
                     // Render the messages
                     renderMessages(data);
+                    showUnreadMessages();
                 }
                 if (typeof callback !== "undefined") {
                     callback();
@@ -718,8 +719,10 @@ sakai.inbox = function() {
 
         if (unreadMessages > 0){
             $("#inbox_unread_nr_messages").text(sakai.api.Security.saneHTML("(" + unreadMessages + ")"));
+            $(chatUnreadMessages).html(sakai.api.Security.saneHTML(unreadMessages));
         } else {
             $("#inbox_unread_nr_messages").text("");
+            $(chatUnreadMessages).html("0");
         }
 
         if (unreadAnnouncements > 0){
@@ -791,9 +794,6 @@ sakai.inbox = function() {
                 }
 
                 updateUnreadNumbers();
-
-                // Mark message in navigationchat as read
-                $(chatUnreadMessages).html(sakai.api.Security.saneHTML((parseInt($(chatUnreadMessages).text(),10) - 1)));
 
             },
             error: function(xhr, textStatus, thrownError) {
