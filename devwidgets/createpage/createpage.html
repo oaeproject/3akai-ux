@@ -19,30 +19,29 @@
                     <option value="dashboard">__MSG__DASHBOARD_PAGE__</option>
                 </select>
             </p>
-            <div id="createpage_templates" style="display:none">
-                <div id="createpage_templates_template"><!--
-                {if templates.length === 0}
-                    <p id="createpage_notemplates_msg">__MSG__NO_TEMPLATES__</p>
-                {else}
-                    <p>__MSG__TEMPLATES_AVAILABLE__:</p>
-                    <ul id="createpage_templates_list">
-                    {for t in templates}
-                        <li><input id="createpagetemplate_${t.id}" type="radio"
-                            name="template_choice" class="createpagetemplate_radio"
-                            value="${t.id}">
-                            <label for="createpagetemplate_${t.id}"><span
-                                class="createpagetemplate_name">${t.name}</span><span
-                                class="createpagetemplate_desc">${t.desc}</span></label>
-                            (<a id="createpagedeletetemplate_${t.id}"
-                                class="createpage_delete_template_link"
-                                href="javascript:;">__MSG__DELETE__</a>)
-                        </li>
-                    {/for}
-                    </ul>
-                {/if}
-                --></div>
-            </div>
-            <p><label for="createpage_title" class="createpage_form_label">__MSG__PAGE_TITLE__:</label>
+            <div id="createpage_templates" style="display:none"></div>
+            <div id="createpage_templates_template"><!--
+            {if templates.length === 0}
+                <p id="createpage_notemplates_msg">__MSG__NO_TEMPLATES__</p>
+            {else}
+                <p>__MSG__TEMPLATES_AVAILABLE__:</p>
+                <ul id="createpage_templates_list">
+                {for t in templates}
+                    <li><input id="createpagetemplate_${t.id}" type="radio"
+                        name="template_choice" class="createpagetemplate_radio"
+                        value="${t.id}">
+                        <label for="createpagetemplate_${t.id}"><span
+                            class="createpagetemplate_name">${t.name}</span><span
+                            class="createpagetemplate_desc">${t.desc}</span></label>
+                        (<a id="createpagedeletetemplate_${t.id}"
+                            class="createpage_delete_template_link"
+                            href="javascript:;">__MSG__DELETE__</a>)
+                    </li>
+                {/for}
+                </ul>
+            {/if}
+            --></div>
+            <p id="createpage_title_container"><label for="createpage_title" class="createpage_form_label">__MSG__PAGE_TITLE__:</label>
                 <input id="createpage_title" maxlength="255" type="text" value="" />
                 <p class="createpage_error_msg"
                     style="display:none;">__MSG__ENTER_PAGE_NAME__</p>

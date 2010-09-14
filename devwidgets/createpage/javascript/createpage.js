@@ -42,8 +42,10 @@ sakai.createpage = function(tuid, showSettings){
     var $rootel = $("#" + tuid);
     var $createpageContainer = $("#createpage_container", $rootel);
     var $selectPageType = $("#createpage_page_type", $rootel);
+    var $inputPageTitleContainer = $("#createpage_title_container", $rootel);
     var $inputPageTitle = $("#createpage_title", $rootel);
     var $createpageForm = $("#createpage_form", $rootel);
+    var $createpageSubmit = $("#createpage_save", $rootel);
     var $createpageCancel = $("#createpage_cancel", $rootel);
     var $createpageProcessing = $("#createpage_processing", $rootel);
     var $createpageTemplates = $("#createpage_templates", $rootel);
@@ -98,15 +100,17 @@ sakai.createpage = function(tuid, showSettings){
         var json = {
             templates: []
         };
-        // create a custom list of templates with just the info we care about
-        for(t in sakai.sitespages.mytemplates) {
-            if(sakai.sitespages.mytemplates.hasOwnProperty(t)) {
-                var template = {
-                    "id": t,
-                    "name": sakai.sitespages.mytemplates[t].name,
-                    "desc": sakai.sitespages.mytemplates[t].description
-                };
-                json.templates.push(template);
+        if(sakai.sitespages && sakai.sitespages.mytemplates) {
+            // create a custom list of templates with just the info we care about
+            for(t in sakai.sitespages.mytemplates) {
+                if(sakai.sitespages.mytemplates.hasOwnProperty(t)) {
+                    var template = {
+                        "id": t,
+                        "name": sakai.sitespages.mytemplates[t].name,
+                        "desc": sakai.sitespages.mytemplates[t].description
+                    };
+                    json.templates.push(template);
+                }
             }
         }
         // pass the array to HTML view
@@ -116,6 +120,11 @@ sakai.createpage = function(tuid, showSettings){
 
         // select the first item
         $("input:radio:first", $createpageContainer).attr("checked","checked");
+
+        // if no templates, hide the create button
+        if(json.templates.length === 0) {
+            $createpageSubmit.hide();
+        }
     };
 
     /**
@@ -189,8 +198,9 @@ sakai.createpage = function(tuid, showSettings){
             // display templates
             showTemplates();
         } else {
-            // hide templates
+            // hide templates, ensure submit button is visible
             $createpageTemplates.hide();
+            $createpageSubmit.show();
         }
         $inputPageTitle.focus();
     });
