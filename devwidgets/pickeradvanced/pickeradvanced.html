@@ -116,6 +116,8 @@
                         <span class="pickeradvanced_subnameinfo">${i["sakai:description"]}</span>
                     </li>
                     {/if}
+                {forelse}
+                    <span id="pickeradvanced_no_results">__MSG__NO_RESULTS__</span>
                 {/for}
             --></div>
         </div>

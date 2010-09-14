@@ -223,8 +223,7 @@ sakai.embedcontent = function(tuid, showSettings) {
     $(window).bind("sakai-pickeradvanced-ready", function(e) {
         $embedcontent_search_for_content.bind("click", function() {
             var pickerConfig = {
-                "type": "files",
-                "searchIn": sakai.config.URL.POOLED_CONTENT_MANAGER.replace(".json", ".infinity.json") + "?q="
+                "type": "content"
             };
             $(window).trigger("sakai-pickeradvanced-init", {"config": pickerConfig});
         });
