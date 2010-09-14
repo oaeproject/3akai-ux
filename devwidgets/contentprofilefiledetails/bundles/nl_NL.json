@@ -14,5 +14,9 @@
 "UPLOAD_NEW_VERSION":"Laad nieuwe versie op",
 "FIRST_CREATED":"Gemaakt op",
 "LAST_MODIFIED":"Laatst aangepast",
-"NO_OF_REVISIONS":"Aantal versies"
+"NO_OF_REVISIONS":"Aantal versies",
+"FILE_DETAILS":"Bestands details",
+"LINK_DETAILS":"Link details",
+"VIEW_REVISIONS":"Bekijk versies",
+"DELETE_LINK":"Verwijder Link"
 }

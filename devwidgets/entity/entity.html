@@ -85,7 +85,11 @@
                     </div>
                 </div>
                 <div class="fl-force-left entity_header">
-                    <a class="entity_header_text" href="${data.profile.path}">${data.profile.name}</a><span class="entity_content_filetype">(${data.profile.mimetype} ${data.profile.filesize})</span>
+                    {if data.profile.mimetype === "x-sakai/link"}
+                        <a class="entity_header_text" href="${data.profile.name}">${data.profile.name}</a><span class="entity_content_filetype">(${data.profile.mimetype} ${data.profile.filesize})</span>
+                    {else}
+                        <a class="entity_header_text" href="${data.profile.path}">${data.profile.name}</a><span class="entity_content_filetype">(${data.profile.mimetype} ${data.profile.filesize})</span>
+                    {/if}
                     {if data.profile.role === "manager"}
                         <a class="s3d-action" href="/dev/content_profile.html#content_path=${data.profile.contentpath}">__MSG__EDIT_PROFILE__</a>
                     {else}
@@ -201,7 +205,15 @@
             {/if}
         {/if}
         {if mode === "content"}
-            <button id="entity_content_download" class="s3d-button entity_action_button"><span class="s3d-button-inner">__MSG__DOWNLOAD_FILE__</span></button>
+            <button id="entity_content_download" class="s3d-button entity_action_button">
+                <span class="s3d-button-inner">
+                    {if data.profile.mimetype === "x-sakai/link"}
+                        __MSG__LINK_TO_CONTENT__
+                    {else}
+                        __MSG__DOWNLOAD_FILE__
+                    {/if}
+                </span>
+            </button>
             {if data.profile["sakai:tags"] && data.profile["sakai:tags"].split(",").length > 0}
                 <div class="entity_tags">
                     <a id="entity_tags_link" class="entity_tags_link" href="javascript:;">
