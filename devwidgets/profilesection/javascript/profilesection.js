@@ -406,10 +406,12 @@ sakai.profilesection = function(tuid, showSettings){
 
     // temporary tag fix, revisit this when we do directory tagging for users
     var setTags = function() {
-        if (!sakai.profile.main.data.basic.elements.tags) {
-            sakai.profile.main.data.basic.elements.tags = {};
+        if (sakai.profile.main.data["sakai:tags"]) {
+            if (!sakai.profile.main.data.basic.elements.tags) {
+                sakai.profile.main.data.basic.elements.tags = {};
+            }
+            sakai.profile.main.data.basic.elements.tags.value = sakai.profile.main.data["sakai:tags"];
         }
-        sakai.profile.main.data.basic.elements.tags.value = sakai.profile.main.data["sakai:tags"];
     };
 
     ////////////////////
