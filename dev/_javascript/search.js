@@ -133,7 +133,7 @@ sakai.search = function() {
     var showSearchContent = function() {
         // Set searching messages
         $(searchConfig.global.searchTerm).text(sakai.api.Security.saneHTML(searchterm));
-        $(searchConfig.global.tagTerm).text(sakai.api.Security.saneHTML(tagterm));
+        $(searchConfig.global.tagTerm).text(sakai.api.Security.saneHTML(tagterm.replace("/tags/", "").replace("directory/", "")));
         $(searchConfig.global.numberFound).text("0");
 
         $(searchConfig.cm.displayMoreNumber).text("0");
