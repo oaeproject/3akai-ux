@@ -229,6 +229,7 @@ sakai.chat = function(tuid, showSettings){
     var chatAvailableTemplate = "chat_available_template";
     var chatContentTemplate = "chat_content_template";
     var chatWindowsTemplate = "chat_windows_template";
+    var timer = false;
 
     ///////////////////////
     // Utility functions //
@@ -702,11 +703,17 @@ sakai.chat = function(tuid, showSettings){
             json.items = [];
             json.totalitems = total;
             $(chatOnline).html("(0)");
+            timer = false;
         }
         else {
             json.totalitems = total;
             $(chatOnline).html("<b>(" + total + ")</b>");
-            sakai.chat.setTimeout();
+
+            if(!timer) {
+                timer = true;
+                sakai.chat.checkNewMessages();
+
+            }
         }
 
         json.me = {};
@@ -1057,32 +1064,15 @@ sakai.chat = function(tuid, showSettings){
                         sakai.chat.loadChatTextInitial(false);
                     }
                     else {
-                        sakai.chat.setTimeout();
+                        if(timer) {
+                            setTimeout(sakai.chat.checkNewMessages, 5000);
+                        }
+
                     }
                 }
             });
         }
     };
-
-   /**
-     * This method check few factors and set the interval for settimeout according to those factors.
-     * If there is no friends at all, do not need to check new messages
-     * If there is no friends online, check every 1 min
-     * If there is one or more friends online, check every 5 sec.
-     */
-    sakai.chat.setTimeout = function(){
-        // if there is friends only then check if there are new messages
-        if (sakai.data.me.contacts.accepted > 0) {
-            // if friends are online check every 5 sec
-            if (online.totalitems > 0) {
-                setTimeout(sakai.chat.checkNewMessages, 5000);
-            }
-            // if no friend is online check every 1 min.
-            else {
-                setTimeout(sakai.chat.checkNewMessages, 60000);
-            }
-        }
-    }
 
     /**
      * Load the chat windows
@@ -1120,12 +1110,10 @@ sakai.chat = function(tuid, showSettings){
 
         // if window is jused opened, use initial time
         // to retrieve all previous messagess
-        if(initial)
+        if(initial && !hasNew)
             retrievaltime = initialtime;
         else
             retrievaltime = pulltime;
-
-
         // Combine all the online users with a comma
         var tosend = onlineUsers.join(",");
 
@@ -1234,6 +1222,7 @@ sakai.chat = function(tuid, showSettings){
                                 activewindows.items[index].photo = parsePicture(friendProfile, k);
                                 activewindows.items[index].statusmessage = parseStatusMessage(friendProfile.status);
                                 activewindows.items[index].chatstatus = parseChatStatus(friendProfile.chatstatus);
+                                activewindows.items[index].windowstatus = true;
 
                                 var togo = true;
                                 // Togo will be false if the userid is in the activewindows and it's window is active
@@ -1274,8 +1263,9 @@ sakai.chat = function(tuid, showSettings){
                 }
 
                 if (doreload) {
-                    //setTimeout(sakai.chat.checkNewMessages, 5000);
-                    sakai.chat.setTimeout();
+                    if(timer) {
+                        setTimeout(sakai.chat.checkNewMessages, 5000);
+                    }
                 }
             },
 
