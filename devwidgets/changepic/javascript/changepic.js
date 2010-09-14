@@ -385,7 +385,7 @@ sakai.changepic = function(tuid, showSettings){
                     "selectedx1" : userSelection.x1,
                     "selectedy1" : userSelection.y1,
                     "selectedx2" : userSelection.width + userSelection.x1,
-                    "selectedy2" : userSelection.height + userSelection.y1,
+                    "selectedy2" : userSelection.height + userSelection.y1
                 };
 
                 var stringtosave = $.toJSON(tosave);
