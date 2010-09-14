@@ -649,10 +649,17 @@ sakai.inbox = function() {
             case "date":
                 sortBy = "sakai:created";
                 break;
-            case "sakai:created":
+            case "type":
+                sortBy = "sakai:type"
                 break;
-            default:
-                sortBy = "sakai:" + sortBy;
+            case "to":
+                sortBy = "sakai:to";
+                break;
+            case "from":
+                sortBy = "sakai:from";
+                break;
+            case "subject":
+                sortBy = "sakai:subject";
                 break;
         }
 
