@@ -14,6 +14,7 @@
 "MYSELF_ONLY":"Enkel mezelf",
 "LOGGED_IN_ONLY":"Alleen ingelogd",
 "THE_PUBLIC":"Iedereen",
+"VIEWERS_AND_MANAGERS_ONLY":"Enkel lezers en beheerders",
 "WHO_CAN_SEE_THIS_CONTENT":"Wie kan dit bestand zien",
 "UPDATED_BASIC_INFO":"basis informatie geupdate",
 "FILE_BASIC_INFO_BEEN_UPDATED":"De basis informatie van het bestand werd geupdate",
@@ -21,5 +22,7 @@
 "FILE_BASIC_INFO_NOT_UPDATED":"De basis informatie van het bestand kon niet worden geupdate",
 "FAILED_LOADING_DATA":"Data niet ingeladen",
 "FAILED_LOADING_FILE_DATA":"De data voor het bestand kon niet ingeladen worden",
-"WHERE_CONTENT_FOUND_IN_DIRECTORY":"Waar kan deze inhoud gevonden worden"
+"WHERE_CONTENT_FOUND_IN_DIRECTORY":"Waar kan deze inhoud gevonden worden",
+"SELECT_AT_LEAST_ONE_DIRECTORY":"Selecteer ten minste een locatie waar deze inhoud kan worden teruggevonden",
+"SELECT_DIRECTORY":"Selecteer locatie"
 }

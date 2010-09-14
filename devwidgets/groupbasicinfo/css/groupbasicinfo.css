@@ -54,8 +54,9 @@
     margin: 0 0 15px;
     width: 400px;
 }
+
 .groupbasicinfo_info {clear:both;color:#aaa;font-size:.9em;margin:5px 0 0 245px;}
-.groupbasicinfo_hierarchy_select {float:left; width:200px; margin-bottom:5px;}
+.groupbasicinfo_hierarchy_select {float:left; width:160px; margin-bottom:5px;}
 
 .groupbasicinfo_saveddirectory {margin:0}
 .groupbasicinfo_saveddirectory li {padding-bottom:10px; list-style:none;}

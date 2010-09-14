@@ -5,5 +5,10 @@
     "name":"Group Basic Information",
     "id":"groupbasicinfo",
     "img":"/devwidgets/groupbasicinfo/images/icon.png",
-    "url":"/devwidgets/groupbasicinfo/groupbasicinfo.html"
+    "url":"/devwidgets/groupbasicinfo/groupbasicinfo.html",
+    "i18n": {
+        "default": "/devwidgets/groupbasicinfo/bundles/default.json",
+        "en_GB": "/devwidgets/groupbasicinfo/bundles/en_GB.json",
+        "nl_NL": "/devwidgets/groupbasicinfo/bundles/nl_NL.json"
+    },
 }

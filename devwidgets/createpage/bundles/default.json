@@ -5,7 +5,7 @@
 "DELETE": "delete",
 "DONT_CREATE": "Don't create",
 "ENTER_PAGE_NAME": "Please enter a page name.",
-"NO_TEMPLATES": "No templates available.",
+"NO_TEMPLATES": "No templates available. In order to create one, go to the page you would like to use as a template, click the 'More' menu and select 'Save as Template'.",
 "PAGE_TITLE": "Page title",
 "PAGE_TYPE": "Type of page",
 "PROCESSING": "Processing",

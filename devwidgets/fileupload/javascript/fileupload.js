@@ -310,7 +310,8 @@ sakai.fileupload = function(tuid, showSettings){
                         "sakai:description": $(fileUploadAddDescription).val(),
                         "sakai:pooled-content-file-name": uploadedFiles[i].name,
                         "sakai:directory": "default",
-                        "sakai:permissions" : $(fileUploadPermissionsSelect).val()
+                        "sakai:permissions" : $(fileUploadPermissionsSelect).val(),
+                        "sakai:groupresource" : true
                     }
                 };
                 batchDescriptionData[batchDescriptionData.length] = item;

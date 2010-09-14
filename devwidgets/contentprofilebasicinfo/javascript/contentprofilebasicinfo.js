@@ -55,12 +55,14 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
     var contentProfileBasicInfoFileBasicInfoNotUpdated = "#contentprofilebasicinfo_file_basic_info_not_updated";
     var contentProfileBasicInfoFailedLoadingData = "#contentprofilebasicinfo_failed_loading_data";
     var contentProfileBasicInfoFailedLoadingFileData = "#contentprofilebasicinfo_failed_loading_file_data";
+    var contentProfileBasicInfoSelectDirectory = "#contentprofilebasicinfo_select_directory";
+    var contentProfileBasicInfoSelectAtLeastOneDirectory = "#contentprofilebasicinfo_select_at_least_one_directory";
 
     var directoryJSON = [];
 
-    var contentProfileBasicInfoDirectoryLvlOne = "#content_profile_basic_info_directory_lvlone";
-    var contentProfileBasicInfoDirectoryLvlTwo = "#content_profile_basic_info_directory_lvltwo";
-    var contentProfileBasicInfoDirectoryLvlThree = "#content_profile_basic_info_directory_lvlthree";
+    var contentProfileBasicInfoDirectoryLvlOne = ".content_profile_basic_info_directory_lvlone";
+    var contentProfileBasicInfoDirectoryLvlTwo = ".content_profile_basic_info_directory_lvltwo";
+    var contentProfileBasicInfoDirectoryLvlThree = ".content_profile_basic_info_directory_lvlthree";
 
     var contentProfileBasicInfoThirdLevelTemplateContainer = "#content_profile_basic_info_thirdlevel_template_container";
     var contentProfileBasicInfoSecondLevelTemplateContainer = "#content_profile_basic_info_secondlevel_template_container";
@@ -155,6 +157,16 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                 };
                 data[data.length] = item;
                 break;
+            case "group":
+                var item = {
+                    "url": contentPath + ".members.html",
+                    "method": "POST",
+                    "parameters": {
+                        ":viewer@Delete": ["anonymous", "everyone"]
+                    }
+                };
+                data[data.length] = item;
+                break;
         }
 
         $.ajax({
@@ -211,12 +223,16 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
             tagArray.push($(this).find(contentProfileBasicInfoDirectoryLvlOne).selected().val());
             directoryString += $(this).find(contentProfileBasicInfoDirectoryLvlOne).selected().val();
 
-            tagArray.push($(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val());
-            directoryString += ":" + $(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val();
+            if ($(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val() !== "no_value") {
+                tagArray.push($(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val());
+                directoryString += ":" + $(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val();
 
-            tagArray.push($(this).find(contentProfileBasicInfoDirectoryLvlThree).selected().val());
-            directoryString += ":" + $(this).find(contentProfileBasicInfoDirectoryLvlThree).selected().val();
+                if ($(this).find(contentProfileBasicInfoDirectoryLvlThree).selected().val() !== "no_value") {
+                    tagArray.push($(this).find(contentProfileBasicInfoDirectoryLvlThree).selected().val());
+                    directoryString += ":" + $(this).find(contentProfileBasicInfoDirectoryLvlThree).selected().val();
+                }
 
+            }
             // Add string for all levels to tag array
             tagArray.push(directoryString);
         });
@@ -283,14 +299,16 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
             var valueSelected = true;
             $(".content_profile_basic_info_added_directory select").each(function(){
                 if($(this).selected().val() === "no_value"){
-                    valueSelected = false;
+                    if($(this).hasClass("content_profile_basic_info_directory_lvlone")){
+                        valueSelected = false;
+                    }
                 }
             });
             // If all values are selected execute the update
             if (valueSelected) {
                 updateBasicInfo();
             } else {
-                sakai.api.Util.notification.show("Select directory location", "Select the location in the directory. If you do not want to add a location at this time remove the input fields.");
+                sakai.api.Util.notification.show($(contentProfileBasicInfoSelectDirectory).html(), $(contentProfileBasicInfoSelectAtLeastOneDirectory).html());
             }
         });
     };
@@ -309,8 +327,14 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                     // Extract tags that start with "directory:"
                     var directory = [];
                     $(data["sakai:tags"]).each(function(i){
-                        if(data["sakai:tags"][i].split(":")[0] === "directory"){
-                            var item = [data["sakai:tags"][i].split(":")[1], data["sakai:tags"][i].split(":")[2], data["sakai:tags"][i].split(":")[3]]
+                        var splitDir = data["sakai:tags"][i].split(":");
+                        if(splitDir[0] === "directory"){
+                            var item = [];
+                            for(var i in splitDir){
+                                if (splitDir[i] !== "directory") {
+                                    item.push(splitDir[i]);
+                                }
+                            }
                             directory.push(item);
                         }
                     });
