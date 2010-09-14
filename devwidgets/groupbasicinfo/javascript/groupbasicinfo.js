@@ -70,6 +70,9 @@ sakai.groupbasicinfo = function(tuid, showSettings){
     var groupBasicInfoRemoveNewLocation = ".groupbasicinfo_remove_new_location";
     var groupBasicInfoRemoveLocation = ".groupbasicinfo_remove_location";
 
+    var groupbasicinfoSelectDirectory = "#groupbasicinfo_select_directory";
+    var groupbasicinfoSelectAtLeastOneDirectory = "#groupbasicinfo_select_at_least_one_directory";
+
     /**
      * Get a list of nodes representing the directory structure to be rendered
      */
@@ -338,7 +341,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
             if (valueSelected) {
                 updateGroup();
             } else {
-                sakai.api.Util.notification.show("Select directory location", "Select at least the first level in the directory where this resource can be found.");
+                sakai.api.Util.notification.show($(groupbasicinfoSelectDirectory).html(), $(groupbasicinfoSelectAtLeastOneDirectory).html());
             }
     });
 

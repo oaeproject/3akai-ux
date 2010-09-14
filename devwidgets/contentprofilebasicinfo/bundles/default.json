@@ -22,5 +22,7 @@
 "FILE_BASIC_INFO_NOT_UPDATED":"Failed to update the file's basic information",
 "FAILED_LOADING_DATA":"Failed loading data",
 "FAILED_LOADING_FILE_DATA":"Failed to load file data",
-"WHERE_CONTENT_FOUND_IN_DIRECTORY":"Where can this Content be found in the directory"
+"WHERE_CONTENT_FOUND_IN_DIRECTORY":"Where can this Content be found in the directory",
+"SELECT_AT_LEAST_ONE_DIRECTORY":"Select at least the first level in the directory where this resource can be found",
+"SELECT_DIRECTORY":"Select directory location"
 }

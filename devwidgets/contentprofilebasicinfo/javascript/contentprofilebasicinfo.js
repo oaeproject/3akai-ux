@@ -55,6 +55,8 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
     var contentProfileBasicInfoFileBasicInfoNotUpdated = "#contentprofilebasicinfo_file_basic_info_not_updated";
     var contentProfileBasicInfoFailedLoadingData = "#contentprofilebasicinfo_failed_loading_data";
     var contentProfileBasicInfoFailedLoadingFileData = "#contentprofilebasicinfo_failed_loading_file_data";
+    var contentProfileBasicInfoSelectDirectory = "#contentprofilebasicinfo_select_directory";
+    var contentProfileBasicInfoSelectAtLeastOneDirectory = "#contentprofilebasicinfo_select_at_least_one_directory";
 
     var directoryJSON = [];
 
@@ -306,7 +308,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
             if (valueSelected) {
                 updateBasicInfo();
             } else {
-                sakai.api.Util.notification.show("Select directory location", "Select at least the first level in the directory where this resource can be found.");
+                sakai.api.Util.notification.show($(contentProfileBasicInfoSelectDirectory).html(), $(contentProfileBasicInfoSelectAtLeastOneDirectory).html());
             }
         });
     };
