@@ -67,12 +67,12 @@
             {if !anon}
                 <select id="content_profile_basic_info_permissions_select">
                     <option value="public" {if data["sakai:permissions"] === "public"}selected="selected"{/if}>__MSG__THE_PUBLIC__</option>
+                    <option value="everyone" {if data["sakai:permissions"] === "everyone"}selected="selected"{/if}>__MSG__LOGGED_IN_ONLY__</option>
                     {if data["sakai:groupresource"] === "true"}
                         <option value="group" {if data["sakai:permissions"] === "group"}selected="selected"{/if}>__MSG__VIEWERS_AND_MANAGERS_ONLY__</option>
                     {else}
                         <option value="private" {if data["sakai:permissions"] === "private"}selected="selected"{/if}>__MSG__MYSELF_ONLY__</option>
                     {/if}
-                    <option value="everyone" {if data["sakai:permissions"] === "everyone"}selected="selected"{/if}>__MSG__LOGGED_IN_ONLY__</option>
                 </select>
             {else}
                 <label class="content_profile_basic_info_form_anon_label">

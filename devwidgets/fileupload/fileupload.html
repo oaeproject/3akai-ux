@@ -67,14 +67,14 @@
             {if context === "group" || context === "new_version"}
             <select id="fileupload_permissions_select">
                 <option value="public">__MSG__THE_PUBLIC__</option>
-                <option value="group">__MSG__THIS_GROUP_ONLY__</option>
                 <option value="everyone">__MSG__LOGGED_IN_ONLY__</option>
+                <option value="group">__MSG__THIS_GROUP_ONLY__</option>
             </select>
             {else}
             <select id="fileupload_permissions_select">
                 <option value="public">__MSG__THE_PUBLIC__</option>
-                <option value="group">__MSG__MYSELF_ONLY__</option>
                 <option value="everyone">__MSG__LOGGED_IN_ONLY__</option>
+                <option value="group">__MSG__MYSELF_ONLY__</option>
             </select>
             {/if}
         </div>
