@@ -108,23 +108,25 @@
                                         <table class="news-table" id="students-page">
                                             <thead>
                                                 <tr class="different">
-                                                    <th>作者</td>
-                                                    <th>标题</td>
-                                                    <th>时间</td>
+                                                    <th>作者</th>
+                                                    <th>标题</th>
+                                                    <th>时间</th>
+                                                    <th>操作</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="body-template">
-                                                <tr rsf:id="row:">
+                                                <tr rsf:id="row:" class="news_tr">
                                                     <td>
                                                         <a class="news_news_message_from" href="/dev/show.html" rsf:id="author"></a>
                                                     </td>
-                                                    <td>
+                                                    <td id="news_title_td">
                                                         <a href="javascript:;" class="news_title" rsf:id="title"></a>
                                                     </td>
                                                     <td rsf:id="created"></td>
+                                                    <td><a id="delete">删除</a></td>
                                                 </tr>
                                                 <tr rsf:id="scr=ignore">
-                                                    <td colspan="3">没有任何新闻</td>
+                                                    <td colspan="4">没有任何新闻</td>
                                                 </tr>
                                             </tbody>
                                         </table>

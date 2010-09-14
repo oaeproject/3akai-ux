@@ -19,6 +19,10 @@ sakai.news = function(){
     var newsDetailContent = newsDetail + "_content";
     var newsDetailContentTemplate = newsDetailContent + "_template";
     
+    ///////////////////////////
+    // Load and display news //
+    ///////////////////////////
+    
     // Gets a specific news from the JCR and display
     var loadNewsByID = function(newsid) {
         $.ajax({
@@ -50,6 +54,25 @@ sakai.news = function(){
             error: function(xhr, textStatus, thrownError) {
                 showGeneralMessage($(inboxGeneralMessagesErrorGeneral).text());
                 $(inboxResults).html(sakai.api.Security.saneHTML($(inboxGeneralMessagesErrorGeneral).text()));
+            }
+        });
+    };
+    
+    /////////////////
+    // Delete news //
+    /////////////////
+    var deleteNews = function(newsid){
+        $.ajax({
+            url: "/devwidgets/news/pages/data/onenews.json",
+            type: "POST",
+            data: {
+                "action": "delete",
+                "id": newsid
+            },
+            success: function(data) {
+            },
+            error: function(xhr, textStatus, thrownError) {
+                alert("Cann't delete the news!");
             }
         });
     };
@@ -93,6 +116,14 @@ sakai.news = function(){
     // Show news list
     $("#news_detail_backto_news_list").live("click", function(e){
         showContainer("list");
+    });
+    
+    // Delete a news
+    $("#delete").live("click", function(){
+        $(this).parent().parent().remove();
+        var title = $(this).parent().siblings("#news_title_td").children()[0].text;
+        var id = getIDByTitle(title);
+        deleteNews(id);
     });
     
     //////////////////////////////////////////////
