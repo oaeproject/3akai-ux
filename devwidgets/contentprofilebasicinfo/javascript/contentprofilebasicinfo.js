@@ -155,6 +155,16 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                 };
                 data[data.length] = item;
                 break;
+            case "group":
+                var item = {
+                    "url": contentPath + ".members.html",
+                    "method": "POST",
+                    "parameters": {
+                        ":viewer@Delete": ["anonymous", "everyone"]
+                    }
+                };
+                data[data.length] = item;
+                break;
         }
 
         $.ajax({
