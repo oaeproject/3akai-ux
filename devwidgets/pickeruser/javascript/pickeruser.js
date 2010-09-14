@@ -212,7 +212,7 @@ sakai.pickeruser = function(tuid, showSettings) {
                             if (pickerData.type === 'content') {
                                 suggestions.push({"value": data.results[i]['jcr:name'], "name": data.results[i]['sakai:pooled-content-file-name'], "type": "file"});
                             } else if (data.results[i]["rep:userId"]) {
-                                suggestions.push({"value": data.results[i]["rep:userId"], "name": sakai.api.User.getDisplayName(data.results[i]), "type": "user"});
+                                suggestions.push({"value": data.results[i]["rep:userId"], "name": sakai.api.Security.saneHTML(sakai.api.User.getDisplayName(data.results[i])), "type": "user"});
                             } else if (data.results[i]["sakai:group-id"]) {
                                 suggestions.push({"value": data.results[i]["sakai:group-id"], "name": data.results[i]["sakai:group-title"], "type": "group"});
                             }

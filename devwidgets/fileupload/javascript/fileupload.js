@@ -521,7 +521,7 @@ sakai.fileupload = function(tuid, showSettings){
      */
     var uploadLink = function(){
         var body = "--AAAAA\r\n";
-        body = body + "Content-Disposition: form-data; name=\"*\"; filename=\"" + $(fileUploadLinkBoxInput).val() + ".lnk\" \r\n";
+        body = body + "Content-Disposition: form-data; name=\"*\"; filename=\"" + $(fileUploadLinkBoxInput).val() + "\" \r\n";
         body = body + "Content-Type: x-sakai/link \r\n";
         body = body + "Content-Transfer-Encoding: binary\r\n\r\n";
         body = body + $(fileUploadLinkBoxInput).val() + "\r\n";
