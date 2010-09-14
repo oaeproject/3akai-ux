@@ -154,8 +154,10 @@ sakai.api.Communication.sendMessage = function(to, subject, body, category, repl
             // get user ids
             var userids = [];
             for(var i = 0; i < data.length; i++) {
-                if(data[i].userid) {
-                    userids.push(data[i].userid);
+                if(data[i].userid && data[i].userid !== "") {
+                    if ($.inArray(data[i].userid, userids) == -1) { // don't duplicate sends
+                        userids.push(data[i].userid);
+                    }
                 }
             }
             if(userids.length) {
