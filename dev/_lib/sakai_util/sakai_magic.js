@@ -1207,7 +1207,23 @@ sakai.api.Security.getPermissions = function(target, type, permissions_object) {
 
 };
 
+/**
+ * Function that can be called by pages that can't find the content they are supposed to
+ * show.
+ */
+sakai.api.Security.send404 = function(){
+    var redurl = window.location.pathname + window.location.hash;
+    document.location = "/dev/404.html?redurl=" + window.location.pathname + window.location.hash;
+}
 
+/**
+ * Function that can be called by pages that don't have the permission to show the content
+ * they should be showing
+ */
+sakai.api.Security.send403 = function(){
+    var redurl = window.location.pathname + window.location.hash;
+    document.location = "/dev/403.html?redurl=" + window.location.pathname + window.location.hash;
+}
 
 
 
