@@ -528,6 +528,7 @@ if (!sakai.sendmessage){
             toTop: true,
             onShow: loadMessageDialog
         });
+        $(window).trigger("sakai-sendmessage-ready");
     };
 }
 
