@@ -141,7 +141,7 @@ sakai.profilesection = function(tuid, showSettings){
     };
 
     /**
-     * Render the template for the sectino
+     * Render the template for the section
      * @param {Object} sectionTemplate jQuery object that contains the template you want to render for the section
      * @param {Object} sectionObject The object you need to pass into the template
      */
@@ -183,7 +183,7 @@ sakai.profilesection = function(tuid, showSettings){
                             var fieldTemplate = sectionObject.elements[j].template ? $("#" + sectionObject.elements[j].template, $rootel) : $profilesection_field_default_template;
 
                             // Render the template field
-                            sections += renderTemplateField(fieldTemplate, j, true, sectionObject.elements.id.value);
+                            sections += unescape(renderTemplateField(fieldTemplate, j, true, sectionObject.elements.id.value));
                         }
                     }
 
