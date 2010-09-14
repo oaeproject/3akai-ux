@@ -75,6 +75,10 @@ sakai.pickeradvanced = function(tuid, showSettings) {
     var $pickeradvanced_group_search_template = $("#pickeradvanced_group_search_template", $rootel);
     var $pickeradvanced_group_specific_filters = $("#pickeradvanced_group_specific_filters", $rootel);
 
+    var $pickeradvanced_search_titles = $(".pickeradvanced_search_titles", $rootel);
+    var $pickeradvanced_search_people = $("#pickeradvanced_search_people", $rootel);
+    var $pickeradvanced_search_files = $("#pickeradvanced_search_files", $rootel);
+
     var pickeradvanced_page = ".pickeradvanced_page";
 
     var pickerlist = false;
@@ -125,12 +129,16 @@ sakai.pickeradvanced = function(tuid, showSettings) {
         }
 
         // display the groups list, bind elements and submit a search
+        $pickeradvanced_search_titles.hide();
         if (pickerData["type"] === "people") {
             $("#pickeradvanced_search_contacts").parent("li").addClass("pickeradvanced_selected_list");
             getGroups();
             $pickeradvanced_sort_on.show();
-        } if (pickerData["type"] === "files") {
+            $pickeradvanced_search_people.show();
+        } else if (pickerData["type"] === "content") {
             $pickeradvanced_sort_on.hide();
+            $pickeradvanced_search_files.show();
+            pickerData["searchIn"] = sakai.config.URL.POOLED_CONTENT_MANAGER.replace(".json", ".infinity.json") + "?page=0&items=12&_=&q=";
         }
         $("ul.pickeradvanced_search_" + pickerData["type"]).show();
         $pickeradvanced_search_query.focus();
@@ -412,9 +420,9 @@ sakai.pickeradvanced = function(tuid, showSettings) {
     
     $(window).unbind("sakai-pickeradvanced-init");
     $(window).bind("sakai-pickeradvanced-init", function(e, config) {
+        render(config.config);
         $pickeradvanced_container.jqmShow();
         pickerlist = config.list;
-        render(config.config);
     });
     
     $pickeradvanced_close_dialog.bind("click", function() {
