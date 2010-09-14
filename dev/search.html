@@ -97,6 +97,7 @@
                             </div>
                         </div>
                         <div class="fl-left fl-container search_result_title" id="search_result_title" style="display:none">__MSG__FOUND__ <strong id="search_numberFound">0</strong> __MSG__RESULTS_MATCHING_YOUR_SEARCH_FOR__ <span class="keyword"><strong id="search_mysearchterm"></strong></span></div>
+                        <div class="fl-left fl-container search_result_title" id="search_result_tag_title" style="display:none">__MSG__RESULTS_TAGGED_UNDER__ <span class="keyword"><strong id="search_mytagterm"></strong></span></div>
 
                         <!-- TEMPORARY SEARCH TEXT -->
                         <span id="search_result_temp" style="display:none;"><b>__MSG__SEARCHING__ ...</b></span>
@@ -112,6 +113,8 @@
                                 <div id="cm_search_result"></div>
                                 <div id="cm_search_result_template"><!--
                                 {for i in items}
+                                    {if i['sakai:pooled-content-file-name']}
+                                    {var contentFound = true}
                                     <div class="fl-container fl-fix search_result">
                                         {if i['jcr:mimeType']}
                                             {var mimeType = i['jcr:mimeType']}
@@ -147,9 +150,11 @@
                                             {if mimeTypeDescription}<div class="search_result_type"><a href="/dev/content_profile.html#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}{else}${i['jcr:path']}{/if}">${mimeTypeDescription}</a></div>{/if}
                                         </div>
                                     </div>
-                                {forelse}
-                                    __MSG__NO_CONTENT_AND_MEDIA_FOUND__.
+                                    {/if}
                                 {/for}
+                                {if !contentFound}
+                                    __MSG__NO_CONTENT_AND_MEDIA_FOUND__.
+                                {/if}
                                 --></div>
                                 <div class="search_results_part_footer"><!-- --></div>
                             </div>
@@ -165,7 +170,8 @@
                                 <div id="people_search_result"> </div>
                                 <div id="people_search_result_template"><!--
                                 {for i in items}
-                                    {if !i.isAnonymous}
+                                    {if !i.isAnonymous && i.userid}
+                                    {var peopleFound = true}
                                         <div class="fl-container fl-fix search_result_person">
                                             {if ! i.picture}
                                                 <a href="/dev/show.html?type=user&amp;id=${i.userid}" class="fl-icon search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"></a>
@@ -189,9 +195,10 @@
                                             {/if}
                                         </div>
                                     {/if}
-                                {forelse}
-                                    __MSG__NO_PEOPLE_FOUND__.
                                 {/for}
+                                {if !peopleFound}
+                                    __MSG__NO_PEOPLE_FOUND__.
+                                {/if}
                                 --></div>
                             </div>
                             <div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"><!-- --></div></div>

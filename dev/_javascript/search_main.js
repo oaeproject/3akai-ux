@@ -357,6 +357,16 @@ sakai._search = function(config, callback) {
         return searchWhere;
     };
 
+    /**
+     * Returns the tag value
+     */
+    var getSearchTags = function() {
+        if ($.bbq.getState('tag')) {
+            return $.bbq.getState('tag');
+        }
+        return null;
+    };
+
 
     /**
      * Checks if the user is logged in.
@@ -443,6 +453,7 @@ sakai._search = function(config, callback) {
         'getSearchWhereUsers': getSearchWhereUsers,
         'addEventListeners': addEventListeners,
         'getSearchWhereSites': getSearchWhereSites,
+        'getSearchTags': getSearchTags,
         'fillInElements': fillInElements,
         'isLoggedIn': isLoggedIn,
         'removeAddContactLinks': removeAddContactLinks,

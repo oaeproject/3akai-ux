@@ -28,6 +28,7 @@ sakai.search = function() {
 
     var resultsToDisplay = 10;
     var searchterm = "";
+    var tagterm = "";
     var currentpage = 0;
 
     // Search URL mapping
@@ -52,6 +53,7 @@ sakai.search = function() {
             text  :search + '_text',
             numberFound : search + '_numberFound',
             searchTerm : search + "_mysearchterm",
+            tagTerm : search + "_mytagterm",
             searchBarSelectedClass : "search_bar_selected",
             pagerClass : ".jq_pager"
         },
@@ -80,6 +82,7 @@ sakai.search = function() {
         results : {
             container : search + '_results_container',
             header : search + '_results_header',
+            tagHeader : search +  '_results_tag_header',
             template : 'search_results_template'
         },
         facetedConfig : {
@@ -112,8 +115,10 @@ sakai.search = function() {
      */
     var showSearchContent = function() {
         $(searchConfig.global.searchTerm).text(sakai.api.Security.saneHTML(searchterm));
+        $(searchConfig.global.tagTerm).text(sakai.api.Security.saneHTML(tagterm));
         $(searchConfig.global.numberFound).text("0");
         $(searchConfig.results.header).show();
+        $(searchConfig.results.tagHeader).hide();
         $(searchConfig.results.container).html($(searchConfig.global.resultTemp).html());
     };
 
@@ -233,6 +238,9 @@ sakai.search = function() {
      */
     sakai._search.doSearch = function(page, searchquery, searchwhere, facet) {
 
+        // Get the tag if present.
+        tagterm = mainSearch.getSearchTags();
+
         facetedurl = mainSearch.getFacetedUrl();
         
         if (facet){
@@ -247,7 +255,7 @@ sakai.search = function() {
         }
         
         // Check if the searchquery is empty
-        if(searchquery === ""){
+        if(searchquery === "" && tagterm === ""){
 
             // If there is nothing in the search query, remove the html and hide some divs
             $(searchConfig.results.container).html();
@@ -283,7 +291,7 @@ sakai.search = function() {
         // Rebind everything
         mainSearch.addEventListeners(searchterm, searchwhere);
 
-        if (searchterm) {
+        if (searchterm && searchterm !== $(searchConfig.global.text).attr("title")) {
             // Show and hide the correct elements.
             showSearchContent();
 
@@ -301,9 +309,9 @@ sakai.search = function() {
                 url = searchURLmap[searchWhere];
             }
             else if(searchWhere === "*"){
-                url = searchURLmap.allfiles;
+                url = searchURLmap.allfiles.replace(".json", ".infinity.json");
             }else {
-                url = searchURLmap.allfiles;
+                url = searchURLmap.allfiles.replace(".json", ".infinity.json");
                 usedIn = searchWhere;
             }
             
@@ -328,8 +336,33 @@ sakai.search = function() {
                 }
             });
 
-        }
-        else {
+        } else if (tagterm) {
+            // Show and hide the correct elements.
+            showSearchContent();
+            $(searchConfig.results.header).hide();
+            $(searchConfig.results.tagHeader).show();
+
+            // Search based on tags and render each search section
+            $.ajax({
+                url: tagterm + ".tagged.5.json",
+                cache: false,
+                success: function(data) {
+
+                    var json = {};
+                    if (typeof(data) === 'string') {
+                        data = $.parseJSON(data);
+                    }
+                    json.results = data;
+                    json.items = json.results.length;
+
+                    renderResults(json, true);
+                },
+                error: function(xhr, textStatus, thrownError) {
+                    var json = {};
+                    renderResults(json, false);
+                }
+            });
+        } else {
             sakai._search.reset();
         }
     };

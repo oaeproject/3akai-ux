@@ -121,10 +121,26 @@
             </div>
             <div class="entity_header">
                 {if data.profile.authprofile["sakai:group-title"] && data.profile.authprofile["sakai:group-title"].length > 115}
-                    <a class="entity_header_text" href="/dev/show.html?type=group&amp;id=${data.profile.authprofile["sakai:group-id"]}" title="${data.profile.authprofile["sakai:group-title"]}">${data.profile.authprofile["sakai:group-title"].substring(0, 115)} (${data.profile["memberCount"]+data.profile["managerCount"]})...</a>
+                    <a class="entity_header_text" href="/dev/show.html?type=group&amp;id=${data.profile.authprofile["sakai:group-id"]}" title="${data.profile.authprofile["sakai:group-title"]}">
+                        ${data.profile.authprofile["sakai:group-title"].substring(0, 115)}
+                        {if data.profile["managerCount"] && data.profile["memberCount"]}
+                            (${data.profile["memberCount"]+data.profile["managerCount"]})
+                        {elseif data.profile["memberCount"]}
+                            (${data.profile["memberCount"]})
+                        {/if}
+                        ...
+                    </a>
                 {elseif data.profile.authprofile["sakai:group-title"]}
-                    <a class="entity_header_text" href="/dev/show.html?type=group&amp;id=${data.profile.authprofile["sakai:group-id"]}">${data.profile.authprofile["sakai:group-title"]} (${data.profile["memberCount"]+data.profile["managerCount"]})</a>
+                    <a class="entity_header_text" href="/dev/show.html?type=group&amp;id=${data.profile.authprofile["sakai:group-id"]}">
+                        ${data.profile.authprofile["sakai:group-title"]} 
+                        {if data.profile["managerCount"] && data.profile["memberCount"]}
+                            (${data.profile["memberCount"]+data.profile["managerCount"]})
+                        {elseif data.profile["memberCount"]}
+                            (${data.profile["memberCount"]})
+                        {/if}
+                    </a>
                 {/if}
+
                 {if data.profile.role === "manager"}
                     <a class="s3d-action entity_group_edit" href="/dev/group_edit.html?id=${data.profile.authprofile["sakai:group-id"]}">__MSG__EDIT_PROFILE__</a>
                 {/if}

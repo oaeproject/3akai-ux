@@ -118,6 +118,10 @@
                                     __MSG__RESULTS_MATCHING_YOUR_SEARCH_FOR__
                                     <span class="keyword" id="search_mysearchterm"></span>
                                 </div>
+                                <div class="search_result_title" id="search_results_tag_header">
+                                    __MSG__RESULTS_TAGGED_UNDER__
+                                    <span class="keyword" id="search_mytagterm"></span> 
+                                </div>
 
                                 <!-- CONTAINER FOR THE RESULTS -->
                                 <div id="search_results_container"></div>
@@ -126,6 +130,8 @@
                             <!-- TEMPLATE CONTAINING THE RESULTS -->
                             <div id="search_results_template"><!--
                                 {for i in items}
+                                    {if i.userid}
+                                    {var peopleFound = true}
                                     <div class="fl-container fl-fix search_result_person">
                                         {if ! i.picture}
                                         <a href="/dev/show.html?type=user&amp;id=${i.userid}" class="fl-icon search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"></a>
@@ -149,9 +155,11 @@
                                         {/if}
                                         </div>
                                     </div>
-                                {forelse}
-                                    <div class="search_no_results">__MSG__NO_PEOPLE_FOUND__.</span>
+                                    {/if}
                                 {/for}
+                                {if !peopleFound}
+                                    <div class="search_no_results">__MSG__NO_PEOPLE_FOUND__.</span>
+                                {/if}
                             --></div>
                               <div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"><!-- --></div></div>
                         </div>
