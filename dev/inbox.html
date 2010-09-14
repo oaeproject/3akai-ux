@@ -74,15 +74,7 @@
                 <div class="fl-col fl-fix side_panel">
 
                     <!-- DROP DOWN -->
-                    <div class="drop-menu" id="inbox_compose_new">
-                        <a class="compose_new_link" href="javascript:;">__MSG__COMPOSE_A_NEW__ ...</a>
-                        <div class="drop-box" id="inbox_compose_new_panel" style="display:none;">
-                            <ul>
-                                <li id="inbox_compose_message"><a href="javascript:;">__MSG__MESSAGE__</a></li>
-                                <li id="inbox_compose_announcement"><a href="javascript:;">__MSG__ANNOUNCEMENT__</a></li>
-                            </ul>
-                        </div>
-                    </div>
+                    <button id="inbox_compose_message" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">__MSG__COMPOSE_A_NEW_MESSAGE__</span></button>
 
                     <!-- FOLDERS -->
 
@@ -96,8 +88,7 @@
                             <div class="tab"><div><a href="javascript:;" class="inbox_filter" id="inbox_filter_inbox">__MSG__INBOX__</a></div></div>
 
                             <ul>
-                                <li><a href="javascript:;" class="inbox_filter" id="inbox_filter_messages">__MSG__MESSAGE__</a> <span id="inbox_unread_nr_messages"></span></li>
-                                <li><a href="javascript:;" class="inbox_filter" id="inbox_filter_announcements">__MSG__ANNOUNCEMENTS__</a> <span id="inbox_unread_nr_announcements"></span></li>
+                                <li><a href="javascript:;" class="inbox_filter" id="inbox_filter_messages">__MSG__MESSAGES__</a> <span id="inbox_unread_nr_messages"></span></li>
                                 <li><a href="javascript:;" class="inbox_filter" id="inbox_filter_chats">__MSG__CHATS__</a> <span id="inbox_unread_nr_chats"></span></li>
                                 <li><a href="javascript:;" class="inbox_filter" id="inbox_filter_invitations">__MSG__INVITATIONS__</a> <span id="inbox_unread_nr_invitations"></span></li>
                             </ul>
@@ -138,7 +129,12 @@
                             <div class="top_decor">
 
                                 <!-- Header -->
-                                <div class="inbox-heading inbox_inbox_header" id="inbox_inbox">__MSG__INBOX__</div>
+                                <div class="inbox-heading inbox_inbox_header" id="inbox_inbox">
+                                    __MSG__INBOX__
+                                    <span id="inbox_subfolder_messages" class="inbox_subfolder" style="display:none">&gt; __MSG__MESSAGES__</span>
+                                    <span id="inbox_subfolder_chats" class="inbox_subfolder" style="display:none">&gt; __MSG__CHATS__</span>
+                                    <span id="inbox_subfolder_invitations" class="inbox_subfolder" style="display:none">&gt; __MSG__INVITATIONS__</span>
+                                </div>
                                 <div class="inbox-heading inbox_inbox_header" id="inbox_sent" style="display:none;">__MSG__SENT_MESSAGES__</div>
                                 <div class="inbox-heading inbox_inbox_header" id="inbox_trash" style="display:none;">__MSG__TRASH__</div>
                             </div>

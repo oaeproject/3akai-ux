@@ -68,9 +68,9 @@
             <li id="${i.content_id}">
                 {if selectable}<input type="checkbox" name="selected" value="${i.content_id}" />{/if}
                 {if i.avatar}
-                    <a href="${i.url}" target="_blank"><img src="${i.avatar}" alt="Content picture for ${i["sakai:pooled-content-file-name"]}" class="listpeople_ppicture"/></a>
+                    <a href="/dev/content_profile.html#content_path=/p/${i.content_id}" target="_blank"><img src="${i.avatar}" alt="Content picture for ${i["sakai:pooled-content-file-name"]}" class="listpeople_ppicture"/></a>
                 {/if}
-                <a class="listpeople_name" href="${i.url}" target="_blank">${i["sakai:pooled-content-file-name"]}</a>
+                <a class="listpeople_name" href="/dev/content_profile.html#content_path=/p/${i.content_id}" target="_blank">${i["sakai:pooled-content-file-name"]}</a>
                 <br />
                 <span class="listpeople_subnameinfo">${i.subNameInfo}</span>
             </li>

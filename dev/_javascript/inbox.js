@@ -95,6 +95,13 @@ sakai.inbox = function() {
     var inboxTablesubjectReadClass = 'inbox-subject-read';
     var inboxTablesubjectUnreadClass = 'inbox-subject-unread';
 
+    // subfolder labels
+    var inboxSubfolderClass = ".inbox_subfolder";
+    var inboxSubfolder = inboxID + "_subfolder";
+    var inboxSubfolderChats = inboxSubfolder + "_chats";
+    var inboxSubfolderMessages = inboxSubfolder + "_messages";
+    var inboxSubfolderInvitations = inboxSubfolder + "_invitations";
+
     var inboxInbox = inboxID + "_inbox";
     var inboxInboxClass = inboxClass + "_inbox";
 
@@ -1172,21 +1179,29 @@ sakai.inbox = function() {
 
     $(inboxFilterMessages).click(function() {
         filterMessages(sakai.config.Messages.Types.inbox, sakai.config.Messages.Categories.message, "all", inboxFilterMessages);
+        $(inboxSubfolderClass).hide();
+        $(inboxSubfolderMessages).show();
     });
     $(inboxFilterAnnouncements).click(function() {
         filterMessages(sakai.config.Messages.Types.inbox, sakai.config.Messages.Categories.announcement, "all", inboxFilterAnnouncements);
     });
     $(inboxFilterChats).click(function() {
         filterMessages(sakai.config.Messages.Types.inbox, sakai.config.Messages.Categories.chat, "all", inboxFilterChats);
+        $(inboxSubfolderClass).hide();
+        $(inboxSubfolderChats).show();
     });
     $(inboxFilterInvitations).click(function() {
         filterMessages(sakai.config.Messages.Types.inbox, sakai.config.Messages.Categories.invitation, "all", inboxFilterInvitations);
+        $(inboxSubfolderClass).hide();
+        $(inboxSubfolderInvitations).show();
     });
     $(inboxFilterInbox).click(function() {
+        $(inboxSubfolderClass).hide();
         filterMessages(sakai.config.Messages.Types.inbox, "", "all", inboxFilterInbox);
     });
 
     $(inboxFilterSent).click(function() {
+        $(inboxSubfolderClass).hide();
         filterMessages(sakai.config.Messages.Types.sent, "", "all", inboxFilterSent);
 
         //    Change header to 'to' instead of 'from'
@@ -1194,6 +1209,7 @@ sakai.inbox = function() {
     });
 
     $(inboxFilterTrash).click(function() {
+        $(inboxSubfolderClass).hide();
         filterMessages(sakai.config.Messages.Types.trash, "", "all", inboxFilterTrash);
         $(inboxTableHeaderFromContent).text("From/To");
     });

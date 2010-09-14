@@ -1,5 +1,6 @@
 #pickeruser_container{width:637px;height:490px;padding:5px;margin-left:-319px;}
 #pickeruser_container #pickeruser_container_search{width:591px;height:362px;}
+#pickeruser_container #pickeruser_container_search.no_message{height:200px;}
 /* HEADER */
 #pickeruser_container #pickeruser_basic span.fl-force-left{width:100%;margin-bottom:5px;}
 #pickeruser_container #pickeruser_basic span#pickeruser_add_header{margin-bottom:30px;}

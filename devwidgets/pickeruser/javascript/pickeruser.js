@@ -49,6 +49,7 @@ sakai.pickeruser = function(tuid, showSettings) {
     var $rootel = $("#" + tuid);
 
     var $pickeruser_container = $("#pickeruser_container", $rootel);
+    var $pickeruser_container_search = $("#pickeruser_container_search", $rootel);
     var $pickeruser_content_search = $("#pickeruser_content_search", $rootel);
     var $pickeruser_search_query = $("#pickeruser_search_query", $rootel);
     var $pickeruser_search_button = $("#pickeruser_search_button", $rootel);
@@ -76,6 +77,10 @@ sakai.pickeruser = function(tuid, showSettings) {
     var $pickeruser_error_template = $("#pickeruser_error_template", $rootel);
     var $pickeruser_content_search_pagetemplate = $("#pickeruser_content_search_pagetemplate", $rootel);
     var $pickeruser_content_search_listtemplate = $("#pickeruser_content_search_listtemplate", $rootel);
+
+    var $pickeruser_adding_titles = $(".pickeruser_adding_titles", $rootel);
+    var $pickeruser_adding_people = $("#pickeruser_adding_people", $rootel);
+    var $pickeruser_adding_files = $("#pickeruser_adding_files", $rootel);
 
     var pickeruser_page = ".pickeruser_page";
 
@@ -128,14 +133,18 @@ sakai.pickeruser = function(tuid, showSettings) {
         }
 
         // bind elements, replace some text
+        $pickeruser_adding_titles.hide();
         if (pickerData.type === 'content') {
             $pickeruser_instruction.html($pickeruser_content_text.html());
             $pickeruser_send_message.hide();
-            $pickeruser_init_search.hide();
+            $pickeruser_container_search.addClass("no_message");
+            $pickeruser_adding_files.show();
         } else {
             $pickeruser_instruction.html($pickeruser_people_text.html());
             $pickeruser_send_message.show();
             $pickeruser_init_search.show();
+            $pickeruser_adding_people.show();
+            $pickeruser_container_search.removeClass("no_message");
         }
 
         $pickeruser_add_header_what.html(pickerData.what);
@@ -245,6 +254,9 @@ sakai.pickeruser = function(tuid, showSettings) {
           } else if (val.entityType == "user") {
               name = sakai.api.User.getDisplayName(val);
               id = val["rep:userId"]
+          } else if (val.entityType == "file") {
+              name = val["sakai:pooled-content-file-name"];
+              id = val["jcr:name"];
           }
           var itemHTML = '<li id="as-selection-' + id + '" class="as-selection-item"><a class="as-close">×</a>' + name + '</li>';
           itemHTML = sakai.api.Security.saneHTML(itemHTML);
@@ -267,7 +279,7 @@ sakai.pickeruser = function(tuid, showSettings) {
 
     $pickeruser_init_search.bind("click", function() {
         var currentSelections = getSelectedList();
-       $(window).trigger("sakai-pickeradvanced-init", {"list":currentSelections, "config": null});
+       $(window).trigger("sakai-pickeradvanced-init", {"list":currentSelections, "config": {"type": pickerData["type"]}});
     });
 
     $pickeruser_close_button.bind("click", function() {
