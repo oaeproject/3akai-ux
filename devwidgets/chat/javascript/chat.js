@@ -1213,6 +1213,7 @@ sakai.chat = function(tuid, showSettings){
                                 activewindows.items[index].photo = parsePicture(friendProfile, k);
                                 activewindows.items[index].statusmessage = parseStatusMessage(friendProfile.status);
                                 activewindows.items[index].chatstatus = parseChatStatus(friendProfile.chatstatus);
+                                activewindows.items[index].windowstatus = true;
 
                                 var togo = true;
                                 // Togo will be false if the userid is in the activewindows and it's window is active
