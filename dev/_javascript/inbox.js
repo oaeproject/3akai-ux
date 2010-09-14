@@ -645,6 +645,17 @@ sakai.inbox = function() {
             url = sakai.config.URL.MESSAGE_BOXCATEGORY_SERVICE + "?box=" + box + "&category=" + cats + "&items=" + messagesPerPage + "&page=" + currentPage;
         }
 
+        switch(sortBy) {
+            case "date":
+                sortBy = "sakai:created";
+                break;
+            case "sakai:created":
+                break;
+            default:
+                sortBy = "sakai:" + sortBy;
+                break;
+        }
+
         url += "&sortOn=" + sortBy + "&sortOrder=" + sortOrder;
 
         $.ajax({
