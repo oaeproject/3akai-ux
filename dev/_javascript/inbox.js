@@ -637,6 +637,8 @@ sakai.inbox = function() {
             url = sakai.config.URL.MESSAGE_BOXCATEGORY_SERVICE + "?box=" + box + "&category=" + cats + "&items=" + messagesPerPage + "&page=" + currentPage;
         }
 
+        url += "&sortOn=" + sortBy + "&sortOrder=" + sortOrder;
+
         $.ajax({
             url: url,
             cache: false,
@@ -1016,18 +1018,29 @@ sakai.inbox = function() {
      * @param {int} index The index of the array that needs to be deleted.
      */
     var hardDeleteMessage = function(pathToMessages) {
+        var requests = [];
+        $(pathToMessages).each(function(i,val) {
+            var req = {
+                "url": val,
+                "method": "POST",
+                "parameters": {
+                    ":operation": "delete"
+                }
+            };
+            requests.push(req);
+        });
         $.ajax({
-            url: "/system/batch/delete",
+            url: sakai.config.URL.BATCH,
+            traditional: true,
             type: "POST",
+            data: {
+                requests: $.toJSON(requests)
+            },
             success: function(data) {
-            deleteMessagesFinished(pathToMessages, true);
+                deleteMessagesFinished(pathToMessages, true);
             },
             error: function(xhr, textStatus, thrownError) {
                deleteMessagesFinished(pathToMessages, false);
-            },
-            data : {
-                "resources": pathToMessages,
-                "_charset_": "utf-8"
             }
         });
     };
@@ -1219,7 +1232,7 @@ sakai.inbox = function() {
         $(inboxTable + " " + inboxArrow).remove();
     });
     $(inboxTableHeaderSort).bind("click", function() {
-        sortBy = $(this).attr("id").replace(/inbox_tableHeader_/gi, "");
+        sortBy = $(this).attr("id").replace(/inbox_table_header_/gi, "");
         sortOrder = (sortOrder === "descending") ? "ascending" : "descending";
 
         getAllMessages();
