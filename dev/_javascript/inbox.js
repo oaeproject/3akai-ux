@@ -1018,18 +1018,29 @@ sakai.inbox = function() {
      * @param {int} index The index of the array that needs to be deleted.
      */
     var hardDeleteMessage = function(pathToMessages) {
+        var requests = [];
+        $(pathToMessages).each(function(i,val) {
+            var req = {
+                "url": val,
+                "method": "POST",
+                "parameters": {
+                    ":operation": "delete"
+                }
+            };
+            requests.push(req);
+        });
         $.ajax({
-            url: "/system/batch/delete",
+            url: sakai.config.URL.BATCH,
+            traditional: true,
             type: "POST",
+            data: {
+                requests: $.toJSON(requests)
+            },
             success: function(data) {
-            deleteMessagesFinished(pathToMessages, true);
+                deleteMessagesFinished(pathToMessages, true);
             },
             error: function(xhr, textStatus, thrownError) {
                deleteMessagesFinished(pathToMessages, false);
-            },
-            data : {
-                "resources": pathToMessages,
-                "_charset_": "utf-8"
             }
         });
     };
