@@ -97,13 +97,30 @@ sakai.filerevisions = function(tuid, showSettings){
                     }
                 }
                 baseFileData.revisionFileDetails = revisionFileDetails;
-                renderRevisionData();
+                getUserProfile(baseFileData["sakai:savedBy"]);
             },
             error: function(xhr, textStatus, thrownError){
 
             }
         });
     };
+
+    /**
+     * Get userprofile with the userid provided
+     * @param {Object} userid
+     */
+    var getUserProfile = function(userid){
+        $.ajax({
+            url: "/~" + userid + "/public/authprofile.infinity.json",
+            success: function(profile){
+                baseFileData["sakai:savedByFull"] = sakai.api.User.getDisplayName(profile);
+                renderRevisionData();
+            },
+            error: function(xhr, textStatus, thrownError){
+                sakai.api.Util.notification.show("Failed loading profile", "Failed to load file profile information");
+            }
+        });
+    }
 
     /**
      * Get the revision information on the specified file

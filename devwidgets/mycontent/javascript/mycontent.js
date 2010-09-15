@@ -74,7 +74,7 @@ sakai.mycontent = function(tuid, showSettings) {
         var lastDotIndex = result["sakai:pooled-content-file-name"].lastIndexOf(".");
         if(lastDotIndex !== -1) {
             // extension found
-            item.name = result["sakai:pooled-content-file-name"].slice(0, lastDotIndex);
+            item.name = result["sakai:pooled-content-file-name"];
         }
 
         // set the mimetype and corresponding image

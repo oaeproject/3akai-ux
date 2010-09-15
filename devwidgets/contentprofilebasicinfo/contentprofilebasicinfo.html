@@ -21,9 +21,7 @@
                 __MSG__TAGS__:
             </label>
             {if !anon}
-            <textarea id="content_profile_basic_info_form_tags">
-                {if data["sakai:tags"]}${data["sakai:tags"]}{/if}
-            </textarea>
+            <textarea id="content_profile_basic_info_form_tags">{if data["sakai:tags"]}${data["sakai:tags"]}{/if}</textarea>
             <br/>
             <div class="content_profile_basic_info_form_info">
                 (__MSG__COMMA_SEPARATED__)
@@ -37,9 +35,7 @@
                 __MSG__DESCRIPTION__:
             </label>
             {if !anon}
-            <textarea id="content_profile_basic_info_form_description">
-                {if data["sakai:description"]}${data["sakai:description"]}{/if}
-            </textarea>
+            <textarea id="content_profile_basic_info_form_description">{if data["sakai:description"]}${data["sakai:description"]}{/if}</textarea>
             {else}
                 <label class="content_profile_basic_info_form_anon_label">{if data["sakai:description"]}${data["sakai:description"]}{/if}</label>
             {/if}

@@ -36,5 +36,5 @@
 
 .content_profile_basic_info_added_directory {clear:both; padding-top:3px;}
 #content_profile_basic_info_content_directory_contents {overflow:auto;}
-.content_profile_basic_info_select_seperator {float:left; padding:0 5px;}
-.content_profile_basic_info_selected_and_saved_seperator {padding:0 5px;}
+.content_profile_basic_info_select_seperator {float:left; padding:0 10px;}
+.content_profile_basic_info_selected_and_saved_seperator {padding:0 3px;}

@@ -53,6 +53,8 @@ sakai.fileupload = function(tuid, showSettings){
     var oldVersionPath = "";
     var context = "";
 
+    var numberOfSelectedFiles = 0;
+
     // Classes
     var multiFileRemove = ".MultiFile-remove";
     var fileUploadProgress = "fileupload_upload_progress";
@@ -122,6 +124,39 @@ sakai.fileupload = function(tuid, showSettings){
     ///////////////////////
     // Utility functions //
     ///////////////////////
+
+    /**
+     * Check if the input fields for description, name,... for uploads should be displayed
+     * If the fields are displayed the input field for a link and the submit button are disabled
+     */
+    var checkSelectedFiles = function(){
+        if (numberOfSelectedFiles !== 0) {
+            $(fileUploadLinkForm).children().attr("disabled","disabled");
+            var renderedTemplate = $.TemplateRenderer(fileUploadTaggingTemplate, contextData).replace(/\r/g, '');
+            $(fileUploadRenderedTagging).html(renderedTemplate);
+        } else {
+            $(fileUploadLinkForm).children().removeAttr("disabled");
+            $(fileUploadRenderedTagging).html("");
+        }
+    }
+
+    /**
+     * Increase the number of selected files
+     * Check if the detailed information should be displayed
+     */
+    sakai.fileupload.increaseSelectedFiles = function(){
+        numberOfSelectedFiles++;
+        checkSelectedFiles();
+    }
+
+    /**
+     * Decrease the number of selected files
+     * Check if the detailed information should be displayed
+     */
+    sakai.fileupload.decreaseSelectedFiles = function(){
+        numberOfSelectedFiles--;
+        checkSelectedFiles();
+    }
 
     /**
      * The plugin can't cope with giving limits after the input field
@@ -226,18 +261,6 @@ sakai.fileupload = function(tuid, showSettings){
             renderUserOrNewUpload();
         } else {
             renderUserOrNewUpload();
-        }
-    };
-
-    /**
-     * Executed when the Multifile filebrowser has a file selected
-     * @param {Object} extractedData Data that comes in containing the files to be uploaded
-     */
-    sakai.fileupload.MultiFileSelected = function(){
-        // Render the template that enables tagging of uploads
-        if ($(multiFileRemove).length === 0) {
-            var renderedTemplate = $.TemplateRenderer(fileUploadTaggingTemplate, contextData).replace(/\r/g, '');
-            $(fileUploadRenderedTagging).html(renderedTemplate);
         }
     };
 
@@ -516,6 +539,50 @@ sakai.fileupload = function(tuid, showSettings){
     };
 
     /**
+     * After uploading the link and if the context is 'group' the resource should be set as a group resource
+     * @param {Object} data response from creating the link on the server
+     */
+    var setLinkAsGroupResource = function(results){
+        // Create batch data
+        var data = [];
+        var permissions = {
+            "url": "/p/" + results[$(fileUploadLinkBoxInput).val()] + ".members.json",
+            "method": "POST",
+            "parameters": {
+                ":viewer": contextData.id
+            }
+        };
+        data[data.length] = permissions;
+
+        var properties = {
+            "url": "/p/" + results[$(fileUploadLinkBoxInput).val()],
+            "method": "POST",
+            "parameters": {
+                "sakai:groupresource" : true,
+                "sakai:directory": "default",
+                "sakai:permissions": "group"
+            }
+        }
+        data[data.length] = properties;
+
+        $.ajax({
+            url: sakai.config.URL.BATCH,
+            traditional: true,
+            type: "POST",
+            cache: false,
+            data: {
+                requests: $.toJSON(data)
+            },
+            success: function(data){
+                resetFields();
+            },
+            error: function(){
+                sakai.api.Util.notification.show("Not linked", "Link could not be added to the group");
+            }
+        });
+    }
+
+    /**
      * Upload the validated link to a file
      * Execute checks to see if this link is a revision or not
      */
@@ -533,8 +600,12 @@ sakai.fileupload = function(tuid, showSettings){
         } else {
             path = uploadPath;
         }
+        var url = path;
+        if (context === "new_version"){
+            url ="/p/" + path;
+        }
         $.ajax({
-            url: path,
+            url: url,
             data: body,
             type: "POST",
             dataType: "json",
@@ -546,7 +617,12 @@ sakai.fileupload = function(tuid, showSettings){
                 newVersionIsLink = false;
                 uploadedLink = true;
                 filesUploaded = true;
-                resetFields();
+                if (context === "group") {
+                    setLinkAsGroupResource(dataResponse);
+                }else {
+                    resetFields();
+                }
+
             },
             error : function(err){
                 sakai.api.Util.notification.show($(fileUploadCheckURL).html(), $(fileUploadEnterValidURL).html());
@@ -619,7 +695,12 @@ sakai.fileupload = function(tuid, showSettings){
 
                     // Create DOM element to extract data from response
                     // Use an object to keep track of the data
-                    var $responseData = $.parseJSON(data.replace("<pre>", "").replace("</pre>", ""));
+                    if (jQuery.browser.webkit) {
+                        var $responseData = $.parseJSON(data.split(">")[1].split("<")[0]);
+                    }
+                    else {
+                        var $responseData = $.parseJSON(data.replace("<pre>", "").replace("</pre>", ""));
+                    }
                     var extractedData = [];
 
                     //loop over nodes to extract data

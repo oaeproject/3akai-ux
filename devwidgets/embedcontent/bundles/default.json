@@ -1,8 +1,8 @@
 {
 "ADD_CONTENT": "Add Content",
-"EMBED_CONTENT": "Embed Content",
 "PLACING_CONTENT_ON_PAGE": "Placing Content on page",
 "PLACE_CONTENT": "Place Content",
+"DONT_PLACE": "Don't place",
 "SEARCH_FOR_CONTENT": "Search for content",
 "TYPE_NAME_OF_EXISTING_ITEM": "Type the name of an existing content item. Matches will be shown as you type.",
 "LEFT_QUOTE": "&ldquo;",
