@@ -516,6 +516,50 @@ sakai.fileupload = function(tuid, showSettings){
     };
 
     /**
+     * After uploading the link and if the context is 'group' the resource should be set as a group resource
+     * @param {Object} data response from creating the link on the server
+     */
+    var setLinkAsGroupResource = function(results){
+        // Create batch data
+        var data = [];
+        var permissions = {
+            "url": "/p/" + results[$(fileUploadLinkBoxInput).val()] + ".members.json",
+            "method": "POST",
+            "parameters": {
+                ":viewer": contextData.id
+            }
+        };
+        data[data.length] = permissions;
+
+        var properties = {
+            "url": "/p/" + results[$(fileUploadLinkBoxInput).val()],
+            "method": "POST",
+            "parameters": {
+                "sakai:groupresource" : true,
+                "sakai:directory": "default",
+                "sakai:permissions": "group"
+            }
+        }
+        data[data.length] = properties;
+
+        $.ajax({
+            url: sakai.config.URL.BATCH,
+            traditional: true,
+            type: "POST",
+            cache: false,
+            data: {
+                requests: $.toJSON(data)
+            },
+            success: function(data){
+                resetFields();
+            },
+            error: function(){
+                sakai.api.Util.notification.show("Not linked", "Link could not be added to the group");
+            }
+        });
+    }
+
+    /**
      * Upload the validated link to a file
      * Execute checks to see if this link is a revision or not
      */
@@ -546,7 +590,12 @@ sakai.fileupload = function(tuid, showSettings){
                 newVersionIsLink = false;
                 uploadedLink = true;
                 filesUploaded = true;
-                resetFields();
+                if (context === "group") {
+                    setLinkAsGroupResource(dataResponse);
+                }else {
+                    resetFields();
+                }
+
             },
             error : function(err){
                 sakai.api.Util.notification.show($(fileUploadCheckURL).html(), $(fileUploadEnterValidURL).html());
