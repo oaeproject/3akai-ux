@@ -16,7 +16,7 @@
 #pickeruser_container #pickeruser_footer_options{margin-top:15px;}
 /* CONTENT */
 #pickeruser_container #pickeruser_content{height:280px;width:600px;overflow:auto;}
-/* AutoComplete */
+/* AUTOSUGGEST */
 #pickeruser_container_search ul li{list-style:none;}
 #pickeruser_form_container{width:100%;}
 img.sm_suggestion_img{height:16px;width:16px;margin-right:5px;}
