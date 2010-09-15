@@ -600,8 +600,12 @@ sakai.fileupload = function(tuid, showSettings){
         } else {
             path = uploadPath;
         }
+        var url = path;
+        if (context === "new_version"){
+            url ="/p/" + path;
+        }
         $.ajax({
-            url: "/p/" + path,
+            url: url,
             data: body,
             type: "POST",
             dataType: "json",
