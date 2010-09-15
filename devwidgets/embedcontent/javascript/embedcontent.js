@@ -58,9 +58,16 @@ sakai.embedcontent = function(tuid, showSettings) {
     var selectedItems = [];
     var firstTime = true;
 
-    var render = function(pageName) {
+    var embedConfig = {
+        "mode": "embed", // can be 'embed' or 'picker'
+        "name": "Page",
+        "limit": false,
+        "filter": false
+    };
+
+    var render = function() {
         selectedItems = [];        
-        $.TemplateRenderer($embedcontent_page_name_template, {"name": sakai.api.Security.saneHTML(pageName)}, $embedcontent_page_name);
+        $.TemplateRenderer($embedcontent_page_name_template, {"name": embedConfig.name}, $embedcontent_page_name);
         if (firstTime) {
             setupAutoSuggest();
             firstTime = false;
@@ -111,7 +118,15 @@ sakai.embedcontent = function(tuid, showSettings) {
                         var suggestions = [];
                         $.each(data.results, function(i) {
                             var dataObj = createDataObject(data.results[i]);
-                            suggestions.push(dataObj);
+                            var doAdd = true;
+                            if (embedConfig.filter) {
+                                if (dataObj.filetype !== embedConfig.filter) {
+                                    doAdd = false;
+                                }
+                            }
+                            if (doAdd) {
+                                suggestions.push(dataObj);
+                            }
                         });
                         add(suggestions);
                     } else {
@@ -122,9 +137,10 @@ sakai.embedcontent = function(tuid, showSettings) {
             asHtmlID: tuid,
             selectedItemProp: "name",
             searchObjProps: "name",
+            selectionLimit: embedConfig.limit,
             resultClick: function(data) {
                 selectedItems.push(data.attributes);
-                $embedcontent_display_options.show();
+                showDisplayOptions();
             },
             selectionRemoved: function(elem) {
                 removeItemFromSelected(elem.html().split("</a>")[1]); // get filename
@@ -148,14 +164,23 @@ sakai.embedcontent = function(tuid, showSettings) {
     };
 
     var addChoicesFromPickeradvanced = function(files) {
-      $.each(files, function(i,val) {
-          var newObj = createDataObject(val, val["jcr:name"]);
-           selectedItems.push(newObj);
-           var itemHTML = $.TemplateRenderer($embedcontent_new_item_template, {"name": newObj.name, "value": newObj.value});
-           $("#as-values-" + tuid).val(newObj.value + "," + $("#as-values-" + tuid).val());
-           $("#as-original-" + tuid).before(itemHTML);
-      });
-      $("input#" + tuid).val('').focus();
+        var filesPicked = 0;
+        $.each(files, function(i,val) {
+            filesPicked++;
+        });
+        // revisit this next conditional -- right now it'll clear out all selections, not just add up to the limit
+        if (embedConfig.limit && filesPicked && ($(".as-selection-item").length + filesPicked) > embedConfig.limit) { 
+            $("#as-values-" + tuid).val('');
+            $(".as-selection-item").remove();
+        }
+        $.each(files, function(i,val) {
+            var newObj = createDataObject(val, val["jcr:name"]);
+             selectedItems.push(newObj);
+             var itemHTML = $.TemplateRenderer($embedcontent_new_item_template, {"name": newObj.name, "value": newObj.value});
+             $("#as-values-" + tuid).val(newObj.value + "," + $("#as-values-" + tuid).val());
+             $("#as-original-" + tuid).before(itemHTML);
+        });
+        $("input#" + tuid).val('').focus();
     };
 
     var addChoicesFromFileUpload = function(files) {
@@ -174,6 +199,12 @@ sakai.embedcontent = function(tuid, showSettings) {
       $("input#" + tuid).val('').focus();
     };
 
+    var showDisplayOptions = function() {
+        if (embedConfig.mode === "embed") {
+            $embedcontent_display_options.show();
+        }
+    };
+
     var doEmbed = function() {
         var embedContentHTML = "";
         var objectData = {
@@ -182,8 +213,12 @@ sakai.embedcontent = function(tuid, showSettings) {
             "description": $embedcontent_description_value.val(),
             "items": selectedItems
         };
-        embedContentHTML = $.TemplateRenderer($embedcontent_content_html_template, objectData);
-        tinyMCE.get('elm1').execCommand("mceInsertContent", true, embedContentHTML);
+        if (embedConfig.mode === "embed") {
+            embedContentHTML = $.TemplateRenderer($embedcontent_content_html_template, objectData);
+            tinyMCE.get('elm1').execCommand("mceInsertContent", true, embedContentHTML);
+        } else if (embedConfig.mode === "picker") {
+            $(window).trigger("sakai-embedcontent-picker-finished", {"items": selectedItems});
+        }
     };
 
     // Bind Events
@@ -204,27 +239,35 @@ sakai.embedcontent = function(tuid, showSettings) {
         }
     });
 
+    $(window).unbind("sakai-fileupload-complete");
     $(window).bind("sakai-fileupload-complete", function(e, data) {
         var files = data.files;
         addChoicesFromFileUpload(files);
-        $embedcontent_display_options.show();
+        showDisplayOptions();
     });
 
+    $(window).unbind("sakai-pickeradvanced-finished");
     $(window).bind("sakai-pickeradvanced-finished", function(e, data) {
         addChoicesFromPickeradvanced(data.toAdd);
-        $embedcontent_display_options.show();
+        showDisplayOptions();
     });
 
-    $(window).bind("sakai-embedcontent-init", function(e, name) {
-        render(name);
+    $(window).unbind("sakai-embedcontent-init");
+    $(window).bind("sakai-embedcontent-init", function(e, config) {
+        embedConfig = $.extend(true, {}, config);
+        render();
         $embedcontent_dialog.jqmShow();
     });
 
+    $(window).unbind("sakai-pickeradvanced-ready");
     $(window).bind("sakai-pickeradvanced-ready", function(e) {
         $embedcontent_search_for_content.bind("click", function() {
             var pickerConfig = {
                 "type": "content"
             };
+            if (embedConfig.limit) {
+                pickerConfig.limit = embedConfig.limit;
+            }
             $(window).trigger("sakai-pickeradvanced-init", {"config": pickerConfig});
         });
     });
