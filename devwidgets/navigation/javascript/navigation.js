@@ -57,9 +57,9 @@ sakai.navigation = function(tuid, showSettings){
     // DOM jQuery objects
     var $rootel = $("#" + tuid);
     var $navigationWidget = $(".navigation_widget", $rootel);
+
+    // Main view
     var $mainView = $("#navigation_main", $rootel);
-    var $settingsView = $("#navigation_settings", $rootel);
-    var $settingsIcon = $("#navigation_settings_icon", $rootel);
     var $pageCount = $("#navigation_page_count", $rootel);
     var $navigationTree = $("#navigation_tree", $rootel);
     var $createPageLink = $("#navigation_create_page", $rootel);
@@ -69,28 +69,22 @@ sakai.navigation = function(tuid, showSettings){
     var $deleteConfirmPageTitle = $(".sitespages_delete_confirm_page_title");  // careful! coming from sitespages.html
     var $navigation_admin_options = $("#navigation_admin_options", $rootel);
 
+    // Settings view
+    var $settingsView = $("#navigation_settings", $rootel);
+    var $settingsIcon = $("#navigation_settings_icon", $rootel);
+    var $settingsLink = $("#settings_settings_link", $rootel);
+    var $settingsMenu = $("#widget_settings_menu", $rootel);
+    var $settingsForm = $("#navigation_settings_form", $rootel);
+    var $settingsCancel = $("#navigation_settings_cancel", $rootel);
+
+    // Errors
+    var $navigationNoPages = $("#navigation_no_pages", $rootel);
+    var $navigationNotAllowed = $("#navigation_not_allowed", $rootel);
+    var $navigationError = $("#navigation_error", $rootel);
+
     // trimpath Templates
     var $navigationSettingsTemplate = $("#navigation_settings_template", $rootel);
-/*
-    $navigationTree.jstree({
-        "json_data" : {
-            "data" : [
-            {
-                "data" : "A node",
-                "children" : [ "Child 1", "Child 2" ]
-            },
-            {
-                "attr" : { "id" : "li.node.id" },
-                "data" : {
-                    "title" : "Long format demo",
-                    "attr" : { "href" : "#" }
-                }
-            }
-            ]
-        },
-        "plugins" : [ "themes", "json_data" ]
-    });
-*/
+
 
     ///////////////////////
     // Utility functions //
@@ -200,7 +194,7 @@ sakai.navigation = function(tuid, showSettings){
             }
         }
         return result;
-    }
+    };
 
     // Recursive helper to create URL hierarchy
     var buildNodeRecursive = function(url_fragment, children) {
@@ -432,26 +426,6 @@ sakai.navigation = function(tuid, showSettings){
         }
     });
 
-
-    ///////////////////////
-    // EVENT BINDINGS    //
-    ///////////////////////
-
-    // Show the settings menu icon when the user hovers over the widget
-    $navigationWidget.hover(
-        function () {
-            $settingsIcon.show();
-        },
-        function () {
-            $settingsIcon.hide();
-        }
-    );
-
-    // Show the settings menu when the user clicks on the settings menu icon
-    $settingsIcon.click(function () {
-        $settingsMenu.show();
-    });
-
     // Show the Create Page widget overlay when the user clicks 'Create page'
     $createPageLink.click(function () {
         sakai.createpage.initialise();
@@ -473,27 +447,165 @@ sakai.navigation = function(tuid, showSettings){
     });
 
 
+    //////////////////////////
+    // MANAGING SETTINGS    //
+    //////////////////////////
+
+
+    /**
+     * Switches from the Settings view to the Main view
+     */
+    var showMainView = function () {
+        $settingsView.hide();
+        $mainView.show();
+        $navigation_admin_options.show();
+    };
+
+
+    /**
+     * Switches from the Main view to the Settings view
+     */
+    var showSettingsView = function () {
+        // set up the template with data from current group's context
+        var json = {
+            groupname: sakai.currentgroup.data.authprofile["sakai:group-title"],
+            visible: sakai.currentgroup.data.authprofile["sakai:pages-visible"]
+        };
+        $settingsView.html($.TemplateRenderer($navigationSettingsTemplate, json));
+        $mainView.hide();
+        $settingsMenu.hide();
+        $settingsIcon.hide();
+        $navigation_admin_options.hide();
+        $settingsView.show();
+    };
+
+    /*** Settings-related Events ***/
+
+    // Show the settings menu icon when the user hovers over the widget
+    $navigationWidget.hover(
+        function () {
+            $settingsIcon.show();
+        },
+        function () {
+            // only hide icon if menu is also hidden
+            if($settingsMenu.is(":hidden")) {
+                $settingsIcon.hide();
+            }
+        }
+    );
+
+    // Toggle the settings menu when the user clicks on the settings menu icon
+    $settingsIcon.click(function () {
+        if($settingsMenu.is(":visible")) {
+            $settingsMenu.hide();
+        } else {
+            $settingsMenu.show();
+        }
+    });
+
+    // Toggle settings view when the user clicks 'Settings' in settings menu
+    $settingsLink.click(function () {
+        showSettingsView();
+    });
+
+    // Update group settings when the settings form is submit
+    $settingsForm.live("submit", function () {
+        // manual selector necessary since this is a templated field
+        var selectedValue = $("#navigation_pages_visibility").val();
+
+        // only update if value has changed
+        if(selectedValue !== sakai.currentgroup.data.authprofile["sakai:pages-visible"]) {
+            sakai.currentgroup.data.authprofile["sakai:pages-visible"] = selectedValue;
+            // update group on the server
+            $.ajax({
+                url: "/system/userManager/group/" + sakai.currentgroup.id + ".update.html",
+                data: {
+                    "sakai:pages-visible": selectedValue
+                },
+                type: "POST",
+                error: function(xhr, textStatus, thrownError) {
+                    fluid.log("ERROR-navigation.js settings update: " + xhr.status + " " + xhr.statusText);
+                }
+            });
+        }
+
+        // settings are up to date, back to main view
+        showMainView();
+
+        // prevent any further form processing
+        return false;
+    });
+
+    // Back to main view if cancel button clicked in settings view
+    $settingsCancel.live("click", function () {
+        showMainView();
+    });
+
+
     //////////////////////////////
     // Initialization Functions //
     //////////////////////////////
 
-    /**
-     * Function that is available to other functions and called by site.js
-     * It fires the event to render the navigation
-     * @param {String} selectedPageUrlName id of the page to select upon initial
-     *   load of the navigation tree. If null, a default page is selected.
-     * @param {Object} site_info_object Contains an array with all the pages, each page is an object.
-     */
-    sakai.sitespages.navigation.renderNavigation = function(selectedPageUrlName, site_info_object) {
-        // TODO error checking on args (esp. in case there are no objects in
-        // site_info_object)
 
-        // set the number of pages we have
+    /**
+     * Removes all UI elements and functionality related to editing within the
+     * navigation widget (create, delete, settings).
+     */
+    var disableEditing = function () {
+        $navigation_admin_options.remove();
+        $settingsIcon.remove();
+        $settingsMenu.remove();
+        $navigationWidget.unbind();
+    };
+
+
+    /**
+     * Renders no pages in the navigation widget along with a message explaining
+     * why no pages are viewable.
+     *
+     * @param {Boolean} error true if pages are not visible due to an error in
+     * loading pages, false if pages are not visible because the current user
+     * has insufficient privileges
+     * @return None
+     */
+    var renderNoPages = function (error) {
+        if(error) {
+            $navigationError.show();
+        } else {
+            $navigationNotAllowed.show();
+        }
+        disableEditing();
+        $navigationNoPages.show();
+        $mainView.show();
+    };
+
+
+    var renderReadOnlyPages = function (selectedPageUrlName, site_info_object) {
+        // disable editing and render tree without drag-n-drop
+        disableEditing();
+        renderPages(selectedPageUrlName, site_info_object, false);
+    };
+
+
+    var renderReadWritePages = function (selectedPageUrlName, site_info_object) {
+        // render tree with drag-n-drop
+        renderPages(selectedPageUrlName, site_info_object, true);
+
+        // Hide or show the settings
+        if (showSettings) {
+            showSettingsView();
+        } else {
+            showMainView();
+        }
+    };
+
+
+    var renderPages = function (selectedPageUrlName, site_info_object, allowDnd) {
+        // set the number of pages in the group
         $pageCount.html(sakai.sitespages.site_info.number_of_pages());
 
         // Create navigation data object
-        var full_array_of_urls = fullURLs(site_info_object);
-        var navigationData = convertToHierarchy(full_array_of_urls);
+        var navigationData = convertToHierarchy(fullURLs(site_info_object));
         sortOnPagePosition(navigationData);
 
         // determine which page to initially select
@@ -501,6 +613,11 @@ sakai.navigation = function(tuid, showSettings){
         if(selectedPageUrlName) {
             initiallySelect = "nav_" + selectedPageUrlName;
         }
+
+        // set up jstree navigation tree
+        var pluginArray = allowDnd ?
+            [ "themes", "json_data", "ui", "dnd", "cookies" ] :
+            [ "themes", "json_data", "ui", "cookies" ];
         $navigationTree.jstree({
             "core": {
                 "animation": 0,
@@ -516,15 +633,43 @@ sakai.navigation = function(tuid, showSettings){
                 "select_limit": 1,
                 "initially_select": [initiallySelect.toString()],
             },
-            "plugins" : [ "themes", "json_data", "ui", "dnd", "cookies" ]
+            "plugins" : pluginArray
         });
+    };
 
-        // show/hide edit controls based on if this user can edit the page
-        if (sakai.sitespages.config.editMode) {
-            $navigation_admin_options.show();
-            $settingsIcon.remove(); // just for now, pull this out once we have a working settings menu
-        } else {
-            $settingsIcon.remove();
+
+    /**
+     * Function that is available to other functions and called by site.js
+     * It fires the event to render the navigation
+     * @param {String} selectedPageUrlName id of the page to select upon initial
+     *   load of the navigation tree. If null, a default page is selected.
+     * @param {Object} site_info_object Contains an array with all the pages, each page is an object.
+     */
+    sakai.sitespages.navigation.renderNavigation = function(selectedPageUrlName, site_info_object) {
+        // check arguments
+        if(!site_info_object || site_info_object.length === 0) {
+            renderNoPages(true);
+            return;
+        }
+
+        // determine what the current user is allowed to see
+        // only managers are allowed to edit pages
+        var pagesVisibility = sakai.currentgroup.data.authprofile["sakai:pages-visible"];
+        if(sakai.api.Groups.isCurrentUserAManager(sakai.currentgroup.id)) {
+            // current user is a manager
+            renderReadWritePages(selectedPageUrlName, site_info_object);
+        }
+        
+        else if(pagesVisibility === sakai.config.Permissions.Groups.visible.public ||
+            (pagesVisibility === sakai.config.Permissions.Groups.visible.allusers && !sakai.data.me.user.anon) ||
+            (pagesVisibility === sakai.config.Permissions.Groups.visible.members && sakai.api.Groups.isCurrentUserAMember(sakai.currentgroup.id))) {
+            // we have a non-manager that can only view pages, not edit
+            renderReadOnlyPages(selectedPageUrlName, site_info_object);
+        }
+        
+        else {
+            // we have a non-manager that is not allowed to view pages
+            renderNoPages(false);
         }
     };
 
@@ -555,23 +700,16 @@ sakai.navigation = function(tuid, showSettings){
         $navigationTree.jstree("delete_node", $nodeToDelete);
     };
 
+
     ///////////////////////
     // Initial functions //
     ///////////////////////
-
-    // Hide or show the settings
-    if (showSettings) {
-        $mainView.hide();
-        $settingsView.show();
-    } else {
-        $settingsView.hide();
-        $mainView.show();
-    }
 
     // Render navigation when navigation widget is loaded
     if (sakai.sitespages.navigation) {
         sakai.sitespages.navigation.renderNavigation(sakai.sitespages.selectedpage, sakai.sitespages.site_info._pages);
     }
+
 };
 
 sakai.api.Widgets.widgetLoader.informOnLoad("navigation");

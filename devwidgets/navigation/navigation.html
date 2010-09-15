@@ -9,7 +9,7 @@
             <h2 id="navigation_title" class="widget_title">__MSG__PAGES__
                 (<span id="navigation_page_count"></span>)</h2>
             <a id="navigation_settings_icon" class="fl-force-right fl-icon settings"
-                href="javascript:;" style="display: none;">__MSG__SETTINGS__</a>
+                href="javascript:;" title="__MSG__SETTINGS__" style="display:none;">__MSG__SETTINGS__</a>
         </div>
     </div>
 
@@ -18,34 +18,46 @@
 
         <!-- MAIN VIEW -->
         <div id="navigation_main" style="display:none;">
-            <div id="navigation_tree"></div>
+            <div id="navigation_tree" style="display:none;"></div>
+            <div id="navigation_no_pages" style="display:none;">
+                <p id="navigation_not_allowed" style="display:none;">__MSG__NOT_ALLOWED__<span id="navigation_no_pages_unless_member"
+                    style="display:none;"> __MSG__OR_A_MEMBER__</span><span id="navigation_no_pages_unless_loggedin"
+                    style="display:none;"> __MSG__OR_LOGGED_IN__</span></p>
+                <p id="navigation_error" style="display:none;">__MSG__THERE_WAS_AN_ERROR__</p>
+            </div>
         </div>
 
         <!-- SETTINGS VIEW -->
-        <div id="navigation_settings" style="display:none;">
-            <p>__MSG__WHO_WOULD_YOU_LIKE_TO_SEE__
-                <span id="navigation_site_name">&lt;this site&gt;</span>?
-            </p>
-            <select id="navigation_visibility_settings">
-                <option>__MSG__VIS_EVERYONE__</option>
-                <option>__MSG__VIS_ALL_LOGGED_IN_USERS__</option>
-                <option>__MSG__VIS_MANAGERS_ONLY__</option>
-                <option>__MSG__VIS_MANAGERS_AND_MEMBERS__</option>
-            </select>
-            <div id="navigation_settings_template"><!--
-                <p>__MSG__WHO_WOULD_YOU_LIKE_TO_SEE__ ${sitename}?</p>
-                <select id="pages_visibility_settings">
-                    <option{if visible===sakai.config.Permissions.Groups.visible.members}
-                        selected="selected"{/if}>__MSG__VIS_MEMBERS__</option>
-                    <option{if visible===sakai.config.Permissions.Groups.visible.members}
-                        selected="selected"{/if}>__MSG__VIS_MEMBERS__</option>
-                    <option{if visible===sakai.config.Permissions.Groups.visible.allusers}
-                        selected="selected"{/if}>__MSG__VIS_ALLUSERS__</option>
-                    <option{if visible===sakai.config.Permissions.Groups.visible.public}
-                        selected="selected"{/if}>__MSG__VIS_PUBLIC__</option>
-                </select>
-            --></div>
-        </div>
+        <div id="navigation_settings" style="display:none;"><!-- TEMPLATE HERE --></div>
+        <div id="navigation_settings_template"><!--
+            <form id="navigation_settings_form" method="post" action="javascript:;">
+                <p>__MSG__WHO_WOULD_YOU_LIKE_TO_SEE__ <span id="navigation_groupname">${groupname}</span>?</p>
+                <p><select id="navigation_pages_visibility">
+                        <option{if visible===sakai.config.Permissions.Groups.visible.public}
+                            selected="selected"{/if} value="${sakai.config.Permissions.Groups.visible.public}">
+                            __MSG__VIS_ANYONE_ON_THE_INTERNET__
+                        </option>
+                        <option{if visible===sakai.config.Permissions.Groups.visible.allusers}
+                            selected="selected"{/if} value="${sakai.config.Permissions.Groups.visible.allusers}">
+                            __MSG__VIS_ALL_LOGGED_IN_USERS__
+                        </option>
+                        <option{if visible===sakai.config.Permissions.Groups.visible.managers}
+                            selected="selected"{/if} value="${sakai.config.Permissions.Groups.visible.managers}">
+                            __MSG__VIS_MANAGERS_ONLY__
+                        </option>
+                        <option{if visible===sakai.config.Permissions.Groups.visible.members}
+                            selected="selected"{/if} value="${sakai.config.Permissions.Groups.visible.members}">
+                            __MSG__VIS_MANAGERS_MEMBERS__
+                        </option>
+                    </select>
+                </p>
+                <div class="dialog_buttons">
+                    <button type="button" class="s3d-button" id="navigation_settings_cancel"><span class="s3d-button-inner">__MSG__DONT_CHANGE__</span></button>
+                    <button type="submit" class="s3d-button s3d-button-primary s3d-button" id="navigation_settings_submit"><span class="s3d-button-inner">__MSG__CHANGE__</span></button>
+                </div>
+            </form>
+        --></div>
+
     </div>
 
     <!-- WIDGET FOOTER -->
@@ -63,6 +75,14 @@
             </div>
         </div>
     </div>
+        
+    <!-- WIDGET SETTINGS MENU -->
+    <div id="widget_settings_menu" style="left:319px; top:329px; display:none;">
+        <ul>
+            <li id="settings_settings" class="more_option"><a id="settings_settings_link" href="javascript:;">__MSG__SETTINGS__</a></li>
+        </ul>
+    </div>
+
 </div>
 
 <!-- JAVASCRIPT -->
