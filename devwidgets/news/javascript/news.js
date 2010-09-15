@@ -28,10 +28,6 @@ sakai.news = function(tuid, showSettings){
           });
     }
     
-    $(".news_add_link").live("click", function(e){
-        $("#createnews_container").jqmShow();
-    });
-    
     var loadData = function(){
         $.ajax({
             url: "/devwidgets/news/data/news.json",
@@ -47,7 +43,7 @@ sakai.news = function(tuid, showSettings){
         });
     };
     
-    $("#create_news").live("click", function(ev){
+    $("#create_news_link").live("click", function(ev){
         // $("#creategroupcontainer").show();
         // Load the creategroup widget.
         // sakai.createnews.initialise();

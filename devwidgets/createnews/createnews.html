@@ -5,7 +5,7 @@
 <div style="display:none" id="createnews_container" class="dialog">
     <div class="dialog_header">
         <div class="dialog_header_inner">
-            <h1>__MSG__WIDGET_TITLE__</h1>
+            <h1>Create news</h1>
             <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
         </div>
     </div>
@@ -15,25 +15,28 @@
         <!-- NONCOURSE -->
         <div id="createnews_add_container">
             <p>__MSG__NOW_YOU_ARE_CREATING_A_SIMPLE_NEW__</p>
-            <label for="createnews_add_name">__MSG__NEW_TITLE__:</label>
-            <input id="createnews_add_name" maxlength="255" type="text" value="" />
+            <label for="createnews_add_title">Title:</label>
+            <input id="createnews_add_title" maxlength="255" type="text" value="" ></input>
+<!--
             <div id="createnews_add_name_empty" class="createnews_error_msg">__MSG__ENTER_NEW_NAME__</div>
             <div id="createnews_add_name_short" class="createnews_error_msg">__MSG__NEW_NAME_SHORT__</div>
-
             <label for="createnews_add_id">__MSG__NEW_URL_ADDRESS__:</label>
             <span id="createnews_add_url"></span>
             <input id="createnews_add_id" type="text" maxlength="255" value="" />
             <div id="createnews_add_id_taken" class="createnews_error_msg">__MSG__URL_ALREADY_TAKEN__</div>
             <div id="createnews_add_id_empty" class="createnews_error_msg">__MSG__ENTER_GROUP_URL__</div>
             <div id="createnews_add_id_short" class="createnews_error_msg">__MSG__GROUP_URL_SHORT__</div>
-
-            <label for="createnews_add_description" class="description_fields">__MSG__DESCRIPTION__:</label>
-            <textarea id="createnews_add_description" rows="1" cols="10" class="description_fields"></textarea>
+-->
+            <label for="createnews_add_content" class="content_fields">Content:</label>
+            <textarea id="createnews_add_content" rows="1" cols="10" class="content_fields"></textarea>
 
             <div class="dialog_buttons">
                 <span id="createnews_add_process" style="display:none">__MSG__PROCESSING__ ...</span>
-                <button type="button" class="s3d-button s3d-button-primary" id="createnews_add_save"><span class="s3d-button-inner">__MSG__CREATE_GROUP__</span></button>
-                <button type="button" class="s3d-button s3d-button jqmClose" id="createnews_add_cancel"><span class="s3d-button-inner">__MSG__DONT_CREATE__</span></button>
+                <button type="button" class="s3d-button s3d-button-primary" id="createnews_add_save"><span class="s3d-button-inner">Save</span></button>
+                <button type="button" class="s3d-button s3d-button jqmClose" id="createnews_add_cancel"><span class="s3d-button-inner">Cancel</span></button>
+                
+                <button type="button" class="s3d-button s3d-button-primary" id="createnews_add_save1"><span class="s3d-button-inner">Save</span></button>
+                <button type="button" class="s3d-button s3d-button jqmClose" id="createnews_add_cancel"><span class="s3d-button-inner">Cancel</span></button>
             </div>
         </div>
     </div>

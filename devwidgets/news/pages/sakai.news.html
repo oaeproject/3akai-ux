@@ -37,13 +37,11 @@
         <script type="text/javascript" src="/dev/_lib/Fluid/3akai_Infusion.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.json.js"></script>
         <script type="text/javascript" src="/dev/_lib/google/html-sanitizer-minified.js"></script>
-        <!-- ?????????????????????????? -->
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.validate.js"></script>
 
         <!-- Sakai Core JS -->
         <script type="text/javascript" src="/dev/_lib/sakai_util/sakai_magic.js"></script>
         <script type="text/javascript" src="/dev/_lib/sakai_util/i18n.js"></script>
-        <!-- ?????????????????????????? -->
         <script type="text/javascript" src="/dev/_lib/sakai_util/site_authz.js"></script>
         <script type="text/javascript" src="/var/widgets.json?callback=sakai.storeWidgets"></script>
 
@@ -55,19 +53,7 @@
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.pager.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/gritter/jquery.gritter.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.autoSuggest.sakai-edited.js"></script>
-<<<<<<< HEAD
-        <!-- ?????????????????????????? -->
-        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jqmodal.sakai-edited.js"></script>
-        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.threedots.js"></script>
-        <script type="text/javascript" src="/dev/_lib/Fluid/ProgressiveEnhancement.js"></script>
-        <script type="text/javascript" src="/dev/_lib/AutoComplete/jquery.autocomplete.min.js"></script>
-        <script type="text/javascript" src="/dev/_lib/jquery/plugins/imgareaselect/jquery.imgareaselect.js"></script>
-        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.form.js"></script>
-        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.MultiFile.js"></script>
-        
-        
-=======
-        
+       
         <!-- Fluid Pager JS -->
         <script type="text/javascript" src="/devwidgets/news/pages/javascript/lib/Fluid.js"></script>
         <script type="text/javascript" src="/devwidgets/news/pages/javascript/lib/DataBinding.js"></script>
@@ -76,17 +62,13 @@
         <script type="text/javascript" src="/devwidgets/news/pages/javascript/lib/fluidRenderer.js"></script>
         <script type="text/javascript" src="/devwidgets/news/pages/javascript/lib/Pager.js"></script>
         <script type="text/javascript" src="/devwidgets/news/pages/javascript/pager.js"></script>
->>>>>>> meikidd/news
+
         
 
     </head>
     
     <body class="fl-centered news_main news_detail i18nable">
-<<<<<<< HEAD
-      
-=======
-        
->>>>>>> meikidd/news
+
         <!-- NAVIGATION -->
         <div id="widget_topnavigation" class="widget_inline"></div>
 
@@ -121,8 +103,9 @@
                             </div>
 
                             <!-- NEWS -->
+                            <!--
                             <div class="main_content_container">
-<<<<<<< HEAD
+
                                 <table class="news-table" id="news_table" summary="All your messages.">
                                     <tr class="different">
                                         <th class="news_news_table_header_sort" id="news_table_header_from"><span>作者</span></th>
@@ -132,16 +115,14 @@
                                     </tr>
                                 </table>
                             </div>
-
+                             
                             <div class="bottom_decor">
                               <div class="fl-force-right sender-options">
                                 <a href="javascript:;" id="news_operation_add">发布新闻</a>
                               </div>
                             </div>
-                            
-
-=======
-                                
+                            -->
+                             
                                 <!-- Pager div -->
                                 <div id="news_pager">
                                     <form action="#">
@@ -165,7 +146,10 @@
                                                         <a href="javascript:;" class="news_title" rsf:id="title"></a>
                                                     </td>
                                                     <td rsf:id="created"></td>
-                                                    <td><a id="delete">删除</a></td>
+                                                    <td class="news_operation">
+                                                      <a style="display:none;" class="news_operation_icon_edit" href="javascript:;"></a>
+                                                      <a style="display:none;" class="news_operation_icon_delete" href="javascript:;"></a>
+                                                    </td>
                                                 </tr>
                                                 <tr rsf:id="scr=ignore">
                                                     <td colspan="4">没有任何新闻</td>
@@ -202,17 +186,17 @@
                                   </form>
                                 </div>
                                 
-                                
+                            <div class="bottom_decor">
+                              <div class="fl-force-right sender-options">
+                                <a href="javascript:;" id="create_news_link">发布新闻</a>
+                              </div>
                             </div>
 
-                            <div class="bottom_decor">
-                            </div>
->>>>>>> meikidd/news
 
                             <div id="news_news_sort_up" style="display:none;"><img src="_images/arrow_up_inbox.png" alt="__MSG__UP__" class="news_arrow" /></div>
                             <div id="news_news_sort_down" style="display:none;"><img src="_images/arrow_down_inbox.png" alt="__MSG__DOWN__" class="news_arrow" /></div>
 
-<<<<<<< HEAD
+
                             <div id="news_news_template" title=""><!--
                             {for m in news}
                                 <tr class="news_tr" id="">
@@ -234,8 +218,7 @@
                                 </tr>
                             {/for}
                             --></div>
-=======
->>>>>>> meikidd/news
+
 
                             <div id="news_table_preloader"><!--
                                 <tr class="news_tr">
@@ -283,10 +266,9 @@
                                 <div id="news_detail_body">${body}</div>
                             </div>
                         --></div>
-
+                        
                         <div class="bottom_decor">
                         </div>
-
                     </div>
 
                     <!-- NEW MESSAGE -->
@@ -320,18 +302,18 @@
             </div>
         </div>
         
+        <!-- CONTAINER FOR THE CREATENEWS CONTAINER -->
+        <div id="createnewscontainer" style="">
+            <!-- We need this container to show the pop-up where you can add a news -->
+            <div id="widget_createnews" class="widget_inline">
+            </div>
+        </div>
+        
         <!-- FOOTER WIDGET -->
         <div id="widget_footer" class="widget_inline footercontainer"></div>
 
         <!-- CHAT -->
         <div id="widget_chat" class="widget_inline"></div>
-        
-        <!-- CONTAINER FOR THE CREATENEWS CONTAINER -->
-        <div id="createnewscontainer" style="display:none;">
-            <!-- We need this container to show the pop-up where you can add a news -->
-            <div id="widget_createnews" class="widget_inline">
-            </div>
-        </div>
 
         <!-- ERRORS AND MESSAGES -->
         <div id="news_generalmessages_error_general" style="display:none;"><b>__MSG__AN_ERROR_HAS_OCCURRED__.</b> __MSG__PLEASE_TRY_AGAIN_LATER__.</div>
@@ -342,14 +324,7 @@
         <span id="news_generalmessages_deleted_failed" style="display:none;">__MSG__UNABLE_TO_DELETE_MESSAGES__.</span>
         <div id="news_generalmessages_nr_new_messages" style="display:none;"> <span class="news_bold news_filter_nrMessages">(__NR__)</span></div>
         <span id="news_generalmessages_notice" style="display:none;">__MSG__YOUR_MESSAGE_HAS_BEEN_SENT__.</span>
-<<<<<<< HEAD
- 
-        <script type="text/javascript" src="/devwidgets/createnews/javascript/createnews.js"></script>
-=======
 
-        
-
->>>>>>> meikidd/news
         <script type="text/javascript" src="/devwidgets/news/pages/javascript/sakai.news.js"></script>
 
     </body>

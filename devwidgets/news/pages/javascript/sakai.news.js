@@ -1,39 +1,15 @@
 var sakai = sakai || {};
 
-sakai.news = function(tuid){
-  var rootel = $("#" + tuid);
-  
-    var box = "";
-    var newsPerPage = 8; // The number of messages per page.
-    var currentPage = 0;
-    var selectedType = "news";
-    var cats = "";
-    var selectedCategory = "";
-    var allNews = []; // Array that will hold all the messages.
-    
+sakai.news = function(){
+    var allNews = [];
     var news = "news";
     var newsClass = ".news";
     var newsID = "#news";
     
     var newsTable = newsID + "_table";
-    var newsTableTR = newsClass + "_tr";//newsTableMessage
+    var newsTableTR = newsClass + "_tr";
     var newsListContainer = newsID + "_list_container";
-    
-    var newsOperation = newsClass + "_operation";
-    var newsOperationIconEdit = newsOperation + "_icon_edit";//newsOperationIconEdit
-    var newsOperationIconDelete = newsOperation + "_icon_delete";//newsOperationIconDelete
-    
-//    var createGroupContainer = "#createnewscontainer";//ssss    
-//    var createnews = "#createnews";
-//    var createnewsAddTemplate = "#noncourse_template_container";//sssss
-//    var createnewsAdd = createnews + "_add";//sssss
-//    var createnewsAddName = createnewsAdd + "_name";//sssss
-//    var createnewsAddDescription = createnewsAdd + "_description";
-//    var createnewsAddId = createnewsAdd + "_id";
-//    var createnewsContainer = createnews + "_container";
-    
-    
-    var newsTableTemplate = news + "_" + news + "_template";//inboxTableMessagesTemplate
+    var newsTableTemplate = news + "_" + news + "_template";
     
     var newsTitle = newsClass + "_title";
     var newsDetail = newsID + "_detail";
@@ -43,56 +19,40 @@ sakai.news = function(tuid){
     var newsDetailContent = newsDetail + "_content";
     var newsDetailContentTemplate = newsDetailContent + "_template";
     
-    // Display a specific news
-    var displayNews = function(news) {
-
-        if (typeof news !== "undefined") {
-            $(newsDetailContent).html($.TemplateRenderer(newsDetailContentTemplate, news));
-            $(newsDetailContent).show();
-        }
-
-    };
+    var newsOperation = newsClass + "_operation";
+    var newsOperationIconEdit = newsOperation + "_icon_edit";//newsOperationIconEdit
+    var newsOperationIconDelete = newsOperation + "_icon_delete";//newsOperationIconDelete
     
-    // Display the news list
-    var displayList = function(JSON) {
-        
-        // for (var j = 0, l = JSON.results.length; j < l; j++) {
-        //     // temporary internal id.
-        //     // Use the name for the id.
-        //     JSON.results[j].nr = j;
-        //     JSON.results[j].subject = JSON.results[j]["sakai:subject"];
-        //     JSON.results[j].body = JSON.results[j]["sakai:body"];
-        //     JSON.results[j].messagebox = JSON.results[j]["sakai:messagebox"];
-        //     JSON.results[j] = formatMessage(JSON.results[j]);
-        // }
-
-        // Show news
-        var tplData = {
-            "news": JSON.newslist
-        };
-        
-        // remove previous news
-        removeAllNewsOutDOM();
-
-        // Add them to the DOM
-        $(newsTable).children("tbody").append($.TemplateRenderer(newsTableTemplate, tplData));
-        
-    };
+    ///////////////////////////
+    // Load and display news //
+    ///////////////////////////
     
-    // Removes all the messages out of the DOM.
-    var removeAllNewsOutDOM = function() {
-        $(newsTableTR).remove();
+    // Gets a specific news from the JCR and display
+    var loadNewsByID = function(newsid) {
+        $.ajax({
+            url: "/devwidgets/news/pages/data/onenews.json",
+            type: "GET",
+            success: function(data) {
+                $(newsDetailContent).html($.TemplateRenderer(newsDetailContentTemplate, data));
+                $(newsDetailContent).show();
+            },
+            error: function(xhr, textStatus, thrownError) {
+                showGeneralMessage($(inboxGeneralMessagesErrorGeneral).text());
+                $(inboxResults).html(sakai.api.Security.saneHTML($(inboxGeneralMessagesErrorGeneral).text()));
+            }
+        });
     };
     
     // Gets all the news from the JCR.
-    var loadNews = function() {
+    var loadNewsList = function() {
+
         $.ajax({
             url: "/devwidgets/news/pages/data/sakainews.json",
             type: "GET",
             success: function(data) {
                 if (data.newslist) {
+                    initPager(data.newslist);
                     allNews = data.newslist;
-                    displayList(data);
                 }
             },
             error: function(xhr, textStatus, thrownError) {
@@ -102,16 +62,25 @@ sakai.news = function(tuid){
         });
     };
     
-    var getNewsByID = function(id) {
-        for(var i = 0; i < allNews.length; i++) {
-            if(allNews[i].id === id){
-                return allNews[i];
+    /////////////////
+    // Delete news //
+    /////////////////
+    var deleteNews = function(newsid){
+        $.ajax({
+            url: "/devwidgets/news/pages/data/onenews.json",
+            type: "POST",
+            data: {
+                "action": "delete",
+                "id": newsid
+            },
+            success: function(data) {
+            },
+            error: function(xhr, textStatus, thrownError) {
+                alert("Cann't delete the news!");
             }
-        }
-        return false;
+        });
     };
     
-    //add the edit and delete icon????????
     var newsOperationAction = function(){
         $(newsTableTR).live("mouseover", function(e){
            $(this).children(newsOperation).children(newsOperationIconEdit).show();
@@ -123,14 +92,14 @@ sakai.news = function(tuid){
          })
     }
     
+    // Switch to the list or a specific news
     var showContainer = function(type) {
-        if(type === "undefine"){return;}
+        if(type === "undefined"){return;}
         if(type === "list"){
             $(newsDetailContainer).hide();
             $(newsListContainer).show();
             newsOperationAction();
-        }
-        if(type === "detail"){
+        }else if(type === "detail"){
             $(newsDetailContainer).show();
             $(newsListContainer).hide();
         }
@@ -141,21 +110,53 @@ sakai.news = function(tuid){
         document.location = sakai.config.URL.GATEWAY_URL;
     };
     
-    /*
-    var createNewGroup = function(){
-        $(createGroupContainer).show();
+    var getIDByTitle = function(title){
+        for(var i = 0; i < allNews.length ; i++){
+            if(allNews[i].title === title){
+                return allNews[i].id;
+            }
+        }
     };
-    */
     
     ////////////////////
     // Event Handling //
     ////////////////////
+    //add the edit and delete icon
+    
+    //edit a news
+    $(".news_operation_icon_edit").live("click", function(ev){
+        // $("#creategroupcontainer").show();
+        // Load the creategroup widget.
+        // sakai.createnews.initialise();
+      $("#createnews_container").jqmShow();
+        
+        $.ajax({
+            url: "/devwidgets/news/pages/data/onenews.json",
+            type: "GET",
+            success: function(data) {
+                $("#createnews_add_title").val(data.title);
+                $("#createnews_add_content").val(data.body);
+            },
+            error: function(xhr, textStatus, thrownError) {
+                alert("error");
+            }
+        });
+        
+    });
+    
+    //add a news
+    $("#create_news_link").live("click", function(ev){
+        // $("#creategroupcontainer").show();
+        // Load the creategroup widget.
+        // sakai.createnews.initialise();
+        $("#createnews_container").jqmShow();
+    });
     
     // Show a specific news
     $(newsTitle).live("click", function(e){
         showContainer("detail");
-        var id = e.target.id;
-        displayNews(getNewsByID(id));
+        var id = getIDByTitle(e.target.text);
+        loadNewsByID(id);
     });
     
     // Show news list
@@ -163,38 +164,65 @@ sakai.news = function(tuid){
         showContainer("list");
     });
     
-    $("#news_operation_add").live("click", function(e){
-        $("#createnews_container").jqmShow();
+    // Delete a news
+    $(".news_operation_icon_delete").live("click", function(){
+        $(this).parent().parent().remove();
+        var title = $(this).parent().siblings("#news_title_td").children()[0].text;
+        var id = getIDByTitle(title);
+        deleteNews(id);
     });
     
-    /*
-    $(mygroupsCreateNewGroup).bind("click", function(ev){      
-        createNewGroup();       
-    });
-    */
+    //////////////////////////////////////////////
+    // Fluid Pager and News List Initialization //
+    //////////////////////////////////////////////
+    var initPager = function (userTable) {
+        
+        var options = {
+            dataModel: userTable,
+            columnDefs: "explode",
+            bodyRenderer: {
+              type: "fluid.pager.selfRender",
+              options: {
+                selectors: {
+                    root: "#body-template"
+                },
+                row: "row:"
+              }
+            },
+            pagerBar: {type: "fluid.pager.pagerBar", options: {
+              pageList: {type: "fluid.pager.renderedPageList",
+                options: { 
+                  linkBody: "a"
+                }
+              }
+            }}
+        };
+        
+        fluid.pager("#news_pager", options);
+    };
     
-    // Init
+    // Initialization
     var init = function(){
+        
         // Check if we are logged in or out.
         var person = sakai.data.me;
         var uuid = person.user.userid;
         if (!uuid || person.user.anon) {
             redirectToLoginPage();
         }else {
-            loadNews();
+            loadNewsList();
             var qs = new Querystring();
-            var qs_newsid = qs.get("news");
-            if (!qs_newsid) {
-                showContainer("list");
-            } else {
+            var newsid = qs.get("news");
+            if (newsid) {
                 showContainer("detail");
-                var id = qs_newsid+"";
-                displayNews(getNewsByID(qs_newsid));
-            }  
+                loadNewsByID(newsid);
+            } else {
+                showContainer("list");
+            }
         }
-        
     };
     init();
 };
+
 
 sakai.api.Widgets.Container.registerForLoad("sakai.news");

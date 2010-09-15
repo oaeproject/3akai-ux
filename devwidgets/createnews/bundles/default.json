@@ -1,8 +1,8 @@
 {
-"name": "Creategroup",
-"description": "Creategroup widget\r\n",
-"WIDGET_TITLE": "Create a new group",
-"NOW_YOU_ARE_CREATING_A_SIMPLE_GROUP": "Now you are creating a simple group. You can set details on the group's profile page. Groups can also be more advanced and have webpages and content. By default only managers can edit group webpages, but all members can add content.",
+"name": "Createnews",
+"description": "Createnews widget\r\n",
+"WIDGET_TITLE": "Create a new news",
+"NOW_YOU_ARE_CREATING_A_SIMPLE_NEW": "Now you are creating a news.",
 "REQUIRED_INFORMATION": "Required Information",
 "GROUP_NAME": "Group name",
 "GROUP_URL_ADDRESS": "Group URL address",
