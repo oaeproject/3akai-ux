@@ -38,7 +38,7 @@ test("Script Attacks", function() {
     htmlString = sakai.api.Security.saneHTML(htmlString);
     equals(htmlString.indexOf("script"), -1, "Strip script tag");
 
-    htmlString = "BODY onload!#$%&()*~+-_.,:;?@[/|\\]^`=alert(\"XSS\")>";
+    htmlString = "<BODY onload!#$%&()*~+-_.,:;?@[/|\\]^`=alert(\"XSS\")>";
     htmlString = sakai.api.Security.saneHTML(htmlString);
     equals(htmlString.indexOf("onload"), -1, "Strip onload");
 
