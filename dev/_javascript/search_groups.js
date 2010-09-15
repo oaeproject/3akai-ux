@@ -394,16 +394,15 @@ sakai.search = function() {
      * Will fetch the sites and add a new item to the history list.
      */
     var doInit = function() {
-        // Make sure that we are still logged in.
-        if (mainSearch.isLoggedIn()) {
-            // Get my sites
-            mainSearch.getMySites();
-            // Add the bindings
-            mainSearch.addEventListeners();
 
-            // display faceted panel
-            mainSearch.addFacetedPanel();
-        }
+        // Get my sites
+        mainSearch.getMySites();
+        // Add the bindings
+        mainSearch.addEventListeners();
+
+        // display faceted panel
+        mainSearch.addFacetedPanel();
+
     };
 
 

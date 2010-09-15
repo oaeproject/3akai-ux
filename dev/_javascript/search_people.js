@@ -531,16 +531,13 @@ sakai.search = function() {
      */
     var doInit = function() {
         mainSearch = sakai._search(searchConfig, thisFunctionality);
-        //    Make sure that we are still logged in.
-        if (mainSearch.isLoggedIn()) {
-            //    Get my friends
-            mainSearch.fetchMyFriends();
-            //    add the bindings
-            mainSearch.addEventListeners();
+        // Get my friends
+        mainSearch.fetchMyFriends();
+        // add the bindings
+        mainSearch.addEventListeners();
 
-            // display faceted panel
-            mainSearch.addFacetedPanel();
-        }
+        // display faceted panel
+        mainSearch.addFacetedPanel();
     };
     doInit();
 };
