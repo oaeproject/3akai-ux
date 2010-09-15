@@ -1,4 +1,3 @@
-var sakai = sakai || {};
 
 /**
  * @name sakai.news
@@ -14,6 +13,7 @@ var sakai = sakai || {};
  */
 sakai.news = function(tuid, showSettings){
     var $newsList = $("#news_list");
+    var $newsListError = $("#news_list_error");
     var $newsListTemplate = $("#news_list_template");
     var $newTitle = $(".news_title");
     var maxTextNumber = 27;
@@ -42,10 +42,17 @@ sakai.news = function(tuid, showSettings){
                 newsTitleShowLimite();
             },
             error: function(){
-                
+                $newsListError.show();
             }
         });
     };
+    
+    $("#create_news").live("click", function(ev){
+        // $("#creategroupcontainer").show();
+        // Load the creategroup widget.
+        // sakai.createnews.initialise();
+        $("#createnews_container").jqmShow();
+    });
     
     var init = function(){
       loadData();    

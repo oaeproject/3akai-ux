@@ -1,5 +1,7 @@
 {
     "name": "News",
     "description": "News",
-    "MORE": "More"
+    "MORE": "More",
+    "ADD_A_NEWS":"Add a news",
+    "ERROR":"Data Error!"
 }

@@ -128,7 +128,7 @@
 
 /** List **/
 .news_main .news-table th
-{ color: #333;  text-align: left; height: 26px; border: none; }
+{ color: #666666;  text-align: left; height: 26px; border: none; border-left: 1px solid #D4DADE; }
 
 .news_main .news-table tr
 { color: #666; }
