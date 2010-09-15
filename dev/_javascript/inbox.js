@@ -541,7 +541,7 @@ sakai.inbox = function() {
             // temporary internal id.
             // Use the name for the id.
             response.results[j].nr = j;
-            response.results[j].subject = response.results[j]["sakai:subject"];
+            response.results[j].subject = sakai.api.Security.escapeHTML(response.results[j]["sakai:subject"]);
             response.results[j].body = response.results[j]["sakai:body"];
             response.results[j].messagebox = response.results[j]["sakai:messagebox"];
             response.results[j] = formatMessage(response.results[j]);
