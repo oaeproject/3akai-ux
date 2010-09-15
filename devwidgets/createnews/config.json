@@ -1,0 +1,10 @@
+{
+    "description":"Create News",
+    "name":"Create News",
+    "id":"createnews",
+    "i18n": {
+        "default": "/devwidgets/createnews/bundles/default.json",
+        "en_US": "/devwidgets/createnews/bundles/en_US.json"
+    },
+    "url":"/devwidgets/createnews/createnews.html"
+}

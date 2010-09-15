@@ -1,0 +1,9 @@
+{
+    "description":"Hello Sakai",
+    "name":"News",
+    "id":"hellosakai",
+    "personalportal":true,
+    "hasSettings":true,
+    "groupsdashboard":true,
+    "url":"/devwidgets/hellosakai/hellosakai.html"
+}

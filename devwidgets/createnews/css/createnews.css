@@ -1,0 +1,38 @@
+/*
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+
+/* Global */
+#createnews_container {width:600px!important;margin-left:-350px!important;}
+
+/* Container */
+#createnews_container input[type="text"] {float:left;margin-top:10px;}
+#createnews_container #createnews_add_name {width:370px;}
+#createnews_container textarea {clear:both;width:370px;}
+
+/* Add group */
+#createnews_add_container label {clear:both;color:#000000;float:left;font-weight:bold;margin:12px 10px 0 0;width:160px;text-align:right;}
+#createnews_add_container .dialog_buttons {text-align:right;}
+#createnews_add_description {margin:5px 0;}
+#createnews_add_template_container {float:left;margin-top:4px;}
+#createnews_add_template_container label {clear:none;float:left;font-weight:normal;margin:9px 0 0 5px; width: 280px;}
+#createnews_add_name {width:280px;}
+#createnews_add_url {float:left;margin:12px 5px 0 0;max-width: 200px;}
+
+/* Errors */
+#createnews_container .invalid {border:1px solid #9f3333;background:#ffdede;}
+#createnews_container .createnews_error_msg {float:left;color:#9f3333;font-weight:bold;padding:0 0 10px 15px;margin:9px 0 0 160px;}
