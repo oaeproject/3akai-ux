@@ -20,11 +20,13 @@
  *    GLOBAL RULES
  * ----------------------------------------------------------------------------
  */
-html {
+.requireUser {
     background: #75ADD7 url('../../_images/body_bg.jpg') top left repeat-x;
     font-family: Arial, Helvetica, sans-serif;
     line-height: 120%;
 }
+
+.requireAnon { background: #093b52 url(../../_images/page_bg_water.jpg) top left repeat-x; }
 
 /* adding a visible outline on focus for accessibility */
 *:focus {

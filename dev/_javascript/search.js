@@ -133,7 +133,7 @@ sakai.search = function() {
     var showSearchContent = function() {
         // Set searching messages
         $(searchConfig.global.searchTerm).text(sakai.api.Security.saneHTML(searchterm));
-        $(searchConfig.global.tagTerm).text(sakai.api.Security.saneHTML(tagterm));
+        $(searchConfig.global.tagTerm).text(sakai.api.Security.saneHTML(tagterm.replace("/tags/", "").replace("directory/", "")));
         $(searchConfig.global.numberFound).text("0");
 
         $(searchConfig.cm.displayMoreNumber).text("0");
@@ -248,11 +248,14 @@ sakai.search = function() {
 
         if (foundSites && foundSites.results) {
 
-            finaljson.items = foundSites.results;
+            finaljson.items = [];
 
-            for (var group in finaljson.items){
-                if (finaljson.items.hasOwnProperty(group) && finaljson.items[group]["sakai:group-title"]) {
-                    finaljson.items[group]["sakai:group-title"] = sakai.api.Security.escapeHTML(finaljson.items[group]["sakai:group-title"]);
+            for (var group in foundSites.results){
+                if (foundSites.results.hasOwnProperty(group) && foundSites.results[group]["sling:resourceType"] === "sakai/group-profile") {
+                    if (foundSites.results[group]["sakai:group-title"]) {
+                        foundSites.results[group]["sakai:group-title"] = sakai.api.Security.escapeHTML(foundSites.results[group]["sakai:group-title"]);
+                    }
+                    finaljson.items.push(foundSites.results[group]);
                 }
             }
 
@@ -417,6 +420,7 @@ sakai.search = function() {
             $.ajax({
                 url: tagterm + ".tagged.5.json",
                 cache: false,
+                dataType: "json",
                 success: function(data) {
 
                     var json = {};

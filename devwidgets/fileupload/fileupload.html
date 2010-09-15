@@ -7,7 +7,7 @@
         <div class="dialog_header_inner">
             <h1 id="fileupload_widget_title">__MSG__WIDGET_TITLE__</h1>
             <h1 id="fileupload_widget_title_new_version" style="display:none;">__MSG__UPLOAD_NEW_VERSION__</h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+            <a href="javascript:;" class="dialog_close_image" id="fileupload_close_dialog" title="Close Dialog">Close Dialog</a>
         </div>
     </div>
 
@@ -85,8 +85,8 @@
             <textarea cols="50" rows="3" id="fileupload_add_version_description" value="" />
         {/if}
         <div id="fileupload_action_buttons">
-            <button type="button" id="fileupload_cancel" class="s3d-button s3d-button-primary jqmClose dialog_close_image">
-                <span class="s3d-button-inner">__MSG__CANCEL__</span>
+            <button type="button" id="fileupload_cancel" class="s3d-button jqmClose dialog_close_image">
+                <span class="s3d-button-inner">__MSG__DONT_ADD__</span>
             </button>
             {if context !== "new_version"}
                 <button type="submit" class="s3d-button s3d-button-primary">

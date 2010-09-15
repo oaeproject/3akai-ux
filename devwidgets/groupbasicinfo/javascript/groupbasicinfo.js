@@ -137,6 +137,8 @@ sakai.groupbasicinfo = function(tuid, showSettings){
                     }
                 }
                 directory.push(item);
+            } else {
+                tags.push(sakai.currentgroup.data.authprofile["sakai:tags"][i]);
             }
         });
         // Get the group information out of the global group info object

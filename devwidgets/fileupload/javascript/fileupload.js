@@ -113,6 +113,7 @@ sakai.fileupload = function(tuid, showSettings){
     var fileUploadFilesUploaded = "#fileupload_files_uploaded";
     var fileUploadFilesNotUploaded = "#fileupload_files_not_uploaded";
     var fileUploadFilesSuccessfullyUploaded = "#fileupload_files_successfully_uploaded";
+    var fileUploadCloseDialog = "#fileupload_close_dialog";
 
 
     var contextData = {};
@@ -729,6 +730,10 @@ sakai.fileupload = function(tuid, showSettings){
 
     $(fileUploadSubmit).live("click", function(){
         saveVersion();
+    });
+
+    $(fileUploadCloseDialog).live("click", function() {
+        $(fileUploadContainer).jqmHide();
     });
 
     $(fileUploadUploadContent).live("click", function(ev){

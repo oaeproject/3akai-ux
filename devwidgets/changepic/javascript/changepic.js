@@ -80,6 +80,8 @@ sakai.changepic = function(tuid, showSettings){
     var fullPicture = '#changepic_fullpicture';
     var thumbnail = "#thumbnail";
     var thumbnailContainer = "#thumbnail_container";
+    var profilePicture = "#profilepicture";
+    var fileName = false;
 
     // An array with selectors pointing to images that need to be changed.
     var imagesToChange = ["#picture_holder img", "#entity_profile_picture", "#myprofile_pic", "#chat_available_me .chat_available_image img", "#profile_userinfo_picture"];
@@ -188,7 +190,7 @@ sakai.changepic = function(tuid, showSettings){
         // file extension allow for image
         var extensionArray = new Array(".png", ".jpg", ".jpeg",".gif");
         // get file name
-        var fileName = $(picInput).val();
+        fileName = $(picInput).val();
         // get extension from the file name.
         var extension = fileName.slice(fileName.indexOf(".")).toLowerCase();
         var allowSubmit = false;
@@ -205,6 +207,7 @@ sakai.changepic = function(tuid, showSettings){
             $(picInputError).hide();
             $(uploadNewButtons).hide();
             $(uploadProcessing).show();
+            $(profilePicture).attr("name",fileName);
             return AIM.submit(this, {
                 'onStart' : sakai.changepic.startCallback,
                 'onComplete' : sakai.changepic.completeCallback
@@ -219,16 +222,21 @@ sakai.changepic = function(tuid, showSettings){
     sakai.changepic.doInit = function(newpic){
         picture = false;
 
+        // Check whether there is a base picture at all
+        me = sakai.data.me;
+        var json = me.profile;
+
         // If the image is freshly uploaded then reset the imageareaobject to reset all values on init
         if (newpic) {
             resetUploadField();
             imageareaobject = null;
-            picture = {"_name":"profilepicture"};
+            picture = {
+                "_name": fileName
+            };
         }
-
-        // Check whether there is a base picture at all
-        me = sakai.data.me;
-        var json = me.profile;
+        else if (json.picture) {
+            picture = $.parseJSON(json.picture);
+        }
 
         $(picForm).attr("action", "/~" + sakai.data.me.user.userid + "/public/profile");
 
@@ -239,10 +247,6 @@ sakai.changepic = function(tuid, showSettings){
         // Make sure we don't have 0
         thumbnailWidth  = (prefThumbWidth > 0) ? prefThumbWidth : thumbnailWidth;
         thumbnailHeight  = (prefThumbHeight > 0) ? prefThumbHeight : thumbnailHeight;
-
-        if (json.picture) {
-            picture = $.parseJSON(json.picture);
-        }
 
         if (picture && picture._name) {
             // The user has already uploaded a picture.
@@ -385,7 +389,7 @@ sakai.changepic = function(tuid, showSettings){
                     "selectedx1" : userSelection.x1,
                     "selectedy1" : userSelection.y1,
                     "selectedx2" : userSelection.width + userSelection.x1,
-                    "selectedy2" : userSelection.height + userSelection.y1,
+                    "selectedy2" : userSelection.height + userSelection.y1
                 };
 
                 var stringtosave = $.toJSON(tosave);

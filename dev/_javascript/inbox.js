@@ -645,6 +645,24 @@ sakai.inbox = function() {
             url = sakai.config.URL.MESSAGE_BOXCATEGORY_SERVICE + "?box=" + box + "&category=" + cats + "&items=" + messagesPerPage + "&page=" + currentPage;
         }
 
+        switch(sortBy) {
+            case "date":
+                sortBy = "sakai:created";
+                break;
+            case "type":
+                sortBy = "sakai:type"
+                break;
+            case "to":
+                sortBy = "sakai:to";
+                break;
+            case "from":
+                sortBy = "sakai:from";
+                break;
+            case "subject":
+                sortBy = "sakai:subject";
+                break;
+        }
+
         url += "&sortOn=" + sortBy + "&sortOrder=" + sortOrder;
 
         $.ajax({
@@ -655,6 +673,7 @@ sakai.inbox = function() {
 
                     // Render the messages
                     renderMessages(data);
+                    showUnreadMessages();
                 }
                 if (typeof callback !== "undefined") {
                     callback();
@@ -707,8 +726,10 @@ sakai.inbox = function() {
 
         if (unreadMessages > 0){
             $("#inbox_unread_nr_messages").text(sakai.api.Security.saneHTML("(" + unreadMessages + ")"));
+            $(chatUnreadMessages).html(sakai.api.Security.saneHTML(unreadMessages));
         } else {
             $("#inbox_unread_nr_messages").text("");
+            $(chatUnreadMessages).html("0");
         }
 
         if (unreadAnnouncements > 0){
@@ -781,9 +802,6 @@ sakai.inbox = function() {
 
                 updateUnreadNumbers();
 
-                // Mark message in navigationchat as read
-                $(chatUnreadMessages).html(sakai.api.Security.saneHTML((parseInt($(chatUnreadMessages).text(),10) - 1)));
-
             },
             error: function(xhr, textStatus, thrownError) {
                 showGeneralMessage($(inboxGeneralMessagesErrorReadFail).text());
@@ -822,9 +840,10 @@ sakai.inbox = function() {
 
             if (message.userFrom) {
                 for (var i = 0, j = message.userFrom.length; i < j; i++) {
+                    $(inboxSpecificMessageFrom).attr("href", sakai.config.URL.PROFILE_URL + "&id=" + message.userFrom[i].userid)
                     $(inboxSpecificMessageFrom).text(sakai.api.User.getDisplayName(message.userFrom[i]));
                     if (message.userFrom[i].photo) {
-                        $(inboxSpecificMessagePicture).attr("src", "/~" + message.userFrom[i]["rep:userId"] + "/public/profile/" + message.userFrom[i].photo);
+                        $(inboxSpecificMessagePicture).attr("src", "/~" + message.userFrom[i]["userid"] + "/public/profile/" + message.userFrom[i].photo);
                     }
                     else {
                         $(inboxSpecificMessagePicture).attr("src", sakai.config.URL.USER_DEFAULT_ICON_URL);
@@ -974,13 +993,9 @@ sakai.inbox = function() {
      * @param {Object} data A JSON object that contains the response from the server.
      */
     var sendMessageFinished = function(success, data) {
-
         clearInputFields();
-
         // Show the sent inbox pane.
-        filterMessages(sakai.config.Messages.Types.sent, "", "all", inboxFilterSent);
-        $(inboxTableHeaderFromContent).text("To");
-
+        $.bbq.pushState({"box": "sent"},2);
     };
 
 
@@ -1127,7 +1142,7 @@ sakai.inbox = function() {
      *
      */
 
-
+/*
     // Compose a new message.
     $(inboxComposeNew).click(function() {
         //    show the selector
@@ -1139,20 +1154,17 @@ sakai.inbox = function() {
             inboxComposeNewPanelOpen = true;
         }
     });
+*/
     $(inboxComposeMessage).click(function() {
-        showPane(inboxPaneCompose);
-
-        // initialise the sendmessage widget
-        // we tell it to show it in our id and NOT as a layover.
-        sakai.sendmessage.initialise(null, true, inboxComposeNewContainer, sendMessageFinished);
+        $.bbq.pushState({"action":"composenew"},2);
     });
 
     //    This is the widget id!
     $(inboxComposeCancel).live("click", function() {
         //    Jump back to inbox
-        showPane(inboxPaneInbox);
+        $.bbq.pushState({"box":"inbox"},2);
     });
-
+/*
     // Bind click event to hide menus
     $(document).bind("click", function(e){
         var $clicked = $(e.target);
@@ -1162,7 +1174,7 @@ sakai.inbox = function() {
             inboxComposeNewPanelOpen = false;
         }
     });
-
+*/
     /**
      *
      * Show a specific message
@@ -1173,48 +1185,31 @@ sakai.inbox = function() {
 
         var id = e.target.id;
         id = id.split('_');
-        displayMessage(id[id.length - 1]);
+        $.bbq.pushState({"message":id[id.length - 1]},2);
     });
 
     /* Filter the messages. */
 
     $(inboxFilterMessages).click(function() {
-        filterMessages(sakai.config.Messages.Types.inbox, sakai.config.Messages.Categories.message, "all", inboxFilterMessages);
-        $(inboxSubfolderClass).hide();
-        $(inboxSubfolderMessages).show();
+        $.bbq.pushState({"box": "messages"},2);
     });
     $(inboxFilterAnnouncements).click(function() {
-        filterMessages(sakai.config.Messages.Types.inbox, sakai.config.Messages.Categories.announcement, "all", inboxFilterAnnouncements);
-        $(inboxSubfolderClass).hide();
-        $(inboxSubfolderAnnouncements).show();
+        $.bbq.pushState({"box": "announcements"},2);
     });
     $(inboxFilterChats).click(function() {
-        filterMessages(sakai.config.Messages.Types.inbox, sakai.config.Messages.Categories.chat, "all", inboxFilterChats);
-        $(inboxSubfolderClass).hide();
-        $(inboxSubfolderChats).show();
+        $.bbq.pushState({"box": "chats"},2);
     });
     $(inboxFilterInvitations).click(function() {
-        filterMessages(sakai.config.Messages.Types.inbox, sakai.config.Messages.Categories.invitation, "all", inboxFilterInvitations);
-        $(inboxSubfolderClass).hide();
-        $(inboxSubfolderInvitations).show();
+        $.bbq.pushState({"box": "invitations"},2);
     });
     $(inboxFilterInbox).click(function() {
-        $(inboxSubfolderClass).hide();
-        filterMessages(sakai.config.Messages.Types.inbox, "", "all", inboxFilterInbox);
+        $.bbq.pushState({"box": "inbox"},2);
     });
-
     $(inboxFilterSent).click(function() {
-        $(inboxSubfolderClass).hide();
-        filterMessages(sakai.config.Messages.Types.sent, "", "all", inboxFilterSent);
-
-        //    Change header to 'to' instead of 'from'
-        $(inboxTableHeaderFromContent).text("To");
+        $.bbq.pushState({"box": "sent"},2);
     });
-
     $(inboxFilterTrash).click(function() {
-        $(inboxSubfolderClass).hide();
-        filterMessages(sakai.config.Messages.Types.trash, "", "all", inboxFilterTrash);
-        $(inboxTableHeaderFromContent).text("From/To");
+        $.bbq.pushState({"box": "trash"},2);
     });
 
 
@@ -1317,6 +1312,64 @@ sakai.inbox = function() {
         clearInputFields();
     });
 
+    $(window).bind('hashchange', function(e) {
+        var box = $.bbq.getState("box");
+        var msg = $.bbq.getState("message");
+        var action = $.bbq.getState("action");
+        if (action) {
+            switch(action) {
+                case "composenew":
+                    showPane(inboxPaneCompose);
+                    // initialise the sendmessage widget
+                    // we tell it to show it in our id and NOT as a layover.
+                    sakai.sendmessage.initialise(null, true, inboxComposeNewContainer, sendMessageFinished);
+                    break;
+            }
+        } else if (msg) {
+            displayMessage(msg);
+        } else if (box) {
+            switch (box) {
+                case "inbox":
+                    $(inboxSubfolderClass).hide();
+                    filterMessages(sakai.config.Messages.Types.inbox, "", "all", inboxFilterInbox);
+                    break;
+                case "messages":
+                    $(inboxSubfolderClass).hide();
+                    filterMessages(sakai.config.Messages.Types.inbox, sakai.config.Messages.Categories.message, "all", inboxFilterMessages);
+                    $(inboxSubfolderMessages).show();
+                    break;
+                case "sent":
+                    $(inboxSubfolderClass).hide();
+                    filterMessages(sakai.config.Messages.Types.sent, "", "all", inboxFilterSent);
+                    $(inboxTableHeaderFromContent).text("To");
+                    break;
+                case "announcements":
+                    $(inboxSubfolderClass).hide();
+                    filterMessages(sakai.config.Messages.Types.inbox, sakai.config.Messages.Categories.announcement, "all", inboxFilterAnnouncements);                    
+                    $(inboxSubfolderAnnouncements).show();
+                    break;
+                case "chats":
+                    $(inboxSubfolderClass).hide();
+                    filterMessages(sakai.config.Messages.Types.inbox, sakai.config.Messages.Categories.chat, "all", inboxFilterChats);
+                    $(inboxSubfolderChats).show();
+                    break;
+                case "trash":
+                    $(inboxSubfolderClass).hide();
+                    filterMessages(sakai.config.Messages.Types.trash, "", "all", inboxFilterTrash);
+                    $(inboxTableHeaderFromContent).text("From/To");
+                    break;
+                case "invitations":
+                    filterMessages(sakai.config.Messages.Types.inbox, sakai.config.Messages.Categories.invitation, "all", inboxFilterInvitations);
+                    $(inboxSubfolderClass).hide();
+                    $(inboxSubfolderInvitations).show();
+                    break;
+            }
+        } else { // show the inbox
+            $(inboxSubfolderClass).hide();
+            filterMessages(sakai.config.Messages.Types.inbox, "", "all", inboxFilterInbox);
+        }
+    });
+
 
     /**
      *
@@ -1336,24 +1389,21 @@ sakai.inbox = function() {
             // We are logged in. Do all the nescecary stuff.
             // load the list of messages.
             showUnreadMessages();
-
-            var qs = new Querystring();
-            var qs_messageid = qs.get("message");
-
-            if (qs_messageid) {
-
-                var callback = function(){displayMessage(qs_messageid);};
-                getAllMessages(callback);
-
-            } else {
-
-                // Show messages by default (as if click on "Inbox")
-                filterMessages(sakai.config.Messages.Types.inbox, "", "all", inboxFilterInbox);
-            }
-
+            var getMsgsReady = false;
+            var sendMsgReady = false;
+            getAllMessages(function() {
+                getMsgsReady = true;
+                if (getMsgsReady && sendMsgReady)
+                    $(window).trigger("hashchange");
+            });
+            $(window).bind("sakai-sendmessage-ready", function() {
+                sendMsgReady = true;
+                if (getMsgsReady && sendMsgReady)
+                    $(window).trigger("hashchange");
+            });
         }
-
     };
+
 
     doInit();
 };

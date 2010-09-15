@@ -183,16 +183,14 @@
                             }
                             break;
                         case 9: case 188:  // tab or comma
-                            tab_press = true;
-                            var i_input = input.val().replace(/(,)/g, "");
-                            if(i_input != "" && values_input.val().search(","+i_input+",") < 0 && i_input.length >= opts.minChars){ 
+                            tab_press = false;
+                            var active = $("li.active:first", results_holder);
+                            if(active.length > 0){
+                                active.click();
+                                results_holder.hide();
+                            }
+                            if(opts.neverSubmit || active.length > 0){
                                 e.preventDefault();
-                                var n_data = {};
-                                n_data[opts.selectedItemProp] = i_input;
-                                n_data[opts.selectedValuesProp] = i_input;                                                                              
-                                var lis = $("li", selections_holder).length;
-                                add_selected_item(n_data, "00"+(lis+1));
-                                input.val("");
                             }
                             break;
                         case 13: // return
@@ -297,6 +295,7 @@
                                         prev = "";
                                         add_selected_item(data, number);
                                         opts.resultClick.call(this, raw_data);
+                                        $("li", results_ul).removeClass("active");
                                         results_holder.hide();
                                     }
                                     tab_press = false;

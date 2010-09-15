@@ -154,8 +154,10 @@ sakai.api.Communication.sendMessage = function(to, subject, body, category, repl
             // get user ids
             var userids = [];
             for(var i = 0; i < data.length; i++) {
-                if(data[i].userid) {
-                    userids.push(data[i].userid);
+                if(data[i].userid && data[i].userid !== "") {
+                    if ($.inArray(data[i].userid, userids) == -1) { // don't duplicate sends
+                        userids.push(data[i].userid);
+                    }
                 }
             }
             if(userids.length) {
@@ -772,7 +774,21 @@ sakai.api.i18n.init = function(){
      * and load them into the document
      */
     var finishI18N = function(){
-        $i18nable.show();
+        var currentPage = window.location.pathname;
+        if (sakai.data.me.user.anon) {
+            if ($.inArray(currentPage, sakai.config.requireUser) > -1){
+                sakai.api.Security.sendToLogin();
+                return false;
+            }
+        } else {
+            if ($.inArray(currentPage, sakai.config.requireAnonymous) > -1){
+                document.location = sakai.config.URL.MY_DASHBOARD_URL;
+                return false;
+            }
+        }
+        //if ($.inArray(currentPage, sakai.config.requireProcessing) === -1){
+            sakai.api.Security.showPage();
+        //}
         sakai.api.Widgets.Container.setReadyToLoad(true);
         sakai.api.Widgets.widgetLoader.insertWidgets(null, false);
     };
@@ -1207,9 +1223,45 @@ sakai.api.Security.getPermissions = function(target, type, permissions_object) {
 
 };
 
+/**
+ * Function that can be called by pages that can't find the content they are supposed to
+ * show.
+ */
+sakai.api.Security.send404 = function(){
+    var redurl = window.location.pathname + window.location.hash;
+    document.location = "/dev/404.html?redurl=" + window.location.pathname + window.location.hash;
+    return false;
+}
 
+/**
+ * Function that can be called by pages that don't have the permission to show the content
+ * they should be showing
+ */
+sakai.api.Security.send403 = function(){
+    var redurl = window.location.pathname + window.location.hash;
+    document.location = "/dev/403.html?redurl=" + window.location.pathname + window.location.hash;
+    return false;
+}
 
+/**
+ * Function that can be called by pages that require a login first
+ */
+sakai.api.Security.sendToLogin = function(){
+    var redurl = window.location.pathname + window.location.hash;
+    document.location = sakai.config.URL.GATEWAY_URL + "?url=" + window.location.pathname + window.location.hash;
+    return false;
+}
 
+sakai.api.Security.showPage = function(){
+    // Show the background images used on anonymous user pages
+    if ($.inArray(window.location.pathname, sakai.config.requireAnonymous) > -1){
+        $('html').addClass("requireAnon");
+    // Show the normal background
+    } else {
+        $('html').addClass("requireUser");
+    }
+    $('body').show();
+}
 
 
 /**
@@ -2267,7 +2319,11 @@ sakai.api.Util.tagEntity = function(tagLocation, newTags, currentTags, callback)
         }
     });
     sakai.api.Util.deleteTags(tagLocation, tagsToDelete, function() {
-        sakai.api.Util.setTags(tagLocation, tagsToAdd);
+        sakai.api.Util.setTags(tagLocation, tagsToAdd, function() {
+            if ($.isFunction(callback)) {
+                callback();
+            }
+        });
     });
 };
 
@@ -2350,23 +2406,32 @@ sakai.api.Util.setTags = function(tagLocation, tags, callback) {
 
 sakai.api.Util.deleteTags = function(tagLocation, tags, callback) {
     if (tags.length) {
+        var requests = [];
         $(tags).each(function(i,val) {
-            $.ajax({
-                url: "/" + tagLocation,
-                data: {
+            requests.push({
+                "url": tagLocation,
+                "method": "POST",
+                "parameters": {
                     "key": "/tags/" + val,
                     ":operation": "deletetag"
-                },
-                type: "POST",
-                error: function(xhr, response) {
-                    fluid.log(val + " tag failed to be removed from " + tagLocation);
-                },
-                complete: function() {
-                    if ($.isFunction(callback)) {
-                        callback();
-                    }
                 }
             });
+        });
+        $.ajax({
+            url: sakai.config.URL.BATCH,
+            traditional: true,
+            type: "POST",
+            data: {
+                requests: $.toJSON(requests)
+            },
+            error: function(xhr, response) {
+                fluid.log(val + " tag failed to be removed from " + tagLocation);
+            },
+            complete: function() {
+                if ($.isFunction(callback)) {
+                    callback();
+                }
+            }
         });
     } else {
         if ($.isFunction(callback)) {

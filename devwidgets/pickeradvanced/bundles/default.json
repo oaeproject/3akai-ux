@@ -15,6 +15,7 @@
 "GROUPS_I_MANAGE": "Groups I manage",
 "GROUPS_I_MEMBER_OF": "Groups I'm a member of",
 "SELECT_ALL": "Select All",
-"ERROR_MSG": "Sorry, could not retrieve the list of users form the server!",
+"NO_RESULTS": "Sorry, your search didn't return any matches.",
+"ERROR_MSG": "Sorry, could not retrieve the list from the server!",
 "CONTENT_I_CAN_SEE": "Content I Can See"
 }
