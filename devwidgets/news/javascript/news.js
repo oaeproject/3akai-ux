@@ -15,6 +15,22 @@ var sakai = sakai || {};
 sakai.news = function(tuid, showSettings){
     var $newsList = $("#news_list");
     var $newsListTemplate = $("#news_list_template");
+    var $newTitle = $(".news_title");
+    var maxTextNumber = 27;
+    
+    // limite the text number of each title of news
+    var newsTitleShowLimite = function(){
+      $(".news_title").each(function () {
+          if ($(this).text().length > maxTextNumber) {
+            $(this).text($(this).text().substring(0, maxTextNumber));
+            $(this).text($(this).text() + "...");
+            }
+          });
+    }
+    
+    $(".news_add_link").live("click", function(e){
+        $("#createnews_container").jqmShow();
+    });
     
     var loadData = function(){
         $.ajax({
@@ -23,6 +39,7 @@ sakai.news = function(tuid, showSettings){
             success: function(data){
                 $newsList.html($.TemplateRenderer($newsListTemplate, data));
                 $newsList.show();
+                newsTitleShowLimite();
             },
             error: function(){
                 
@@ -31,9 +48,9 @@ sakai.news = function(tuid, showSettings){
     };
     
     var init = function(){
-        loadData();
+      loadData();    
     };
-    
+     
     init();
 };
 

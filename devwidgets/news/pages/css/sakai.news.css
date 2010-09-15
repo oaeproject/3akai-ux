@@ -325,6 +325,9 @@
 
 .news_main #news_compose_new img { border:none;}
 
+.news_operation_icon_edit { background: url(../../img/icon_edit.png) no-repeat ;width:16px;height:16px;display:block;float:left;}
+
+.news_operation_icon_delete { background: url(../../img/icon_delete.png) no-repeat;width:16px;height:16px;display:block;float:left;margin-left:8px;}
 
 
 
