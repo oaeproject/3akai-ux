@@ -668,7 +668,12 @@ sakai.fileupload = function(tuid, showSettings){
 
                     // Create DOM element to extract data from response
                     // Use an object to keep track of the data
-                    var $responseData = $.parseJSON(data.replace("<pre>", "").replace("</pre>", ""));
+                    if (jQuery.browser.webkit) {
+                        var $responseData = $.parseJSON(data.split(">")[1].split("<")[0]);
+                    }
+                    else {
+                        var $responseData = $.parseJSON(data.replace("<pre>", "").replace("</pre>", ""));
+                    }
                     var extractedData = [];
 
                     //loop over nodes to extract data
