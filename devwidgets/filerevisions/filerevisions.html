@@ -31,7 +31,7 @@
             </li>
             <li>
                 <span class="filerevisions_lefthand_description">__MSG__CREATED__</span>
-                <span class="filerevisions_list_content">${data["created"]} __MSG__BY__: <a href="/dev/show.html?type=user&id=${data["jcr:createdBy"]}" class="filerevisions_editor_name">${data["jcr:createdBy"]}</a></span>
+                <span class="filerevisions_list_content">${data["created"]} __MSG__BY__: <a href="/dev/show.html?type=user&id=${data["sakai:savedBy"]}" class="filerevisions_editor_name"> ${data["sakai:savedBy"]}</a></span>
             </li>
             {for i in data.revisions}
                 {if i["jcr:name"] != "jcr:rootVersion"}
