@@ -53,6 +53,8 @@ sakai.fileupload = function(tuid, showSettings){
     var oldVersionPath = "";
     var context = "";
 
+    var numberOfSelectedFiles = 0;
+
     // Classes
     var multiFileRemove = ".MultiFile-remove";
     var fileUploadProgress = "fileupload_upload_progress";
@@ -122,6 +124,39 @@ sakai.fileupload = function(tuid, showSettings){
     ///////////////////////
     // Utility functions //
     ///////////////////////
+
+    /**
+     * Check if the input fields for description, name,... for uploads should be displayed
+     * If the fields are displayed the input field for a link and the submit button are disabled
+     */
+    var checkSelectedFiles = function(){
+        if (numberOfSelectedFiles !== 0) {
+            $(fileUploadLinkForm).children().attr("disabled","disabled");
+            var renderedTemplate = $.TemplateRenderer(fileUploadTaggingTemplate, contextData).replace(/\r/g, '');
+            $(fileUploadRenderedTagging).html(renderedTemplate);
+        } else {
+            $(fileUploadLinkForm).children().removeAttr("disabled");
+            $(fileUploadRenderedTagging).html("");
+        }
+    }
+
+    /**
+     * Increase the number of selected files
+     * Check if the detailed information should be displayed
+     */
+    sakai.fileupload.increaseSelectedFiles = function(){
+        numberOfSelectedFiles++;
+        checkSelectedFiles();
+    }
+
+    /**
+     * Decrease the number of selected files
+     * Check if the detailed information should be displayed
+     */
+    sakai.fileupload.decreaseSelectedFiles = function(){
+        numberOfSelectedFiles--;
+        checkSelectedFiles();
+    }
 
     /**
      * The plugin can't cope with giving limits after the input field
@@ -226,18 +261,6 @@ sakai.fileupload = function(tuid, showSettings){
             renderUserOrNewUpload();
         } else {
             renderUserOrNewUpload();
-        }
-    };
-
-    /**
-     * Executed when the Multifile filebrowser has a file selected
-     * @param {Object} extractedData Data that comes in containing the files to be uploaded
-     */
-    sakai.fileupload.MultiFileSelected = function(){
-        // Render the template that enables tagging of uploads
-        if ($(multiFileRemove).length === 0) {
-            var renderedTemplate = $.TemplateRenderer(fileUploadTaggingTemplate, contextData).replace(/\r/g, '');
-            $(fileUploadRenderedTagging).html(renderedTemplate);
         }
     };
 
