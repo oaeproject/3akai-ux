@@ -457,6 +457,7 @@ sakai.navigation = function(tuid, showSettings){
      */
     var showMainView = function () {
         $settingsView.hide();
+        $navigationTree.show();
         $mainView.show();
         $navigation_admin_options.show();
     };
@@ -573,6 +574,18 @@ sakai.navigation = function(tuid, showSettings){
             $navigationError.show();
         } else {
             $navigationNotAllowed.show();
+            // show the message with the lowest level of security
+            switch(sakai.currentgroup.data.authprofile["sakai:pages-visible"]) {
+                case sakai.config.Permissions.Groups.visible.allusers:
+                    $("#navigation_no_pages_unless_loggedin", $rootel).show();
+                    break;
+                case sakai.config.Permissions.Groups.visible.members:
+                    $("#navigation_no_pages_unless_member", $rootel).show();
+                    break;
+                default:
+                    $("#navigation_no_pages_unless_manager", $rootel).show();
+                    break;
+            }
         }
         disableEditing();
         $navigationNoPages.show();
@@ -584,6 +597,8 @@ sakai.navigation = function(tuid, showSettings){
         // disable editing and render tree without drag-n-drop
         disableEditing();
         renderPages(selectedPageUrlName, site_info_object, false);
+        $navigationTree.show();
+        $mainView.show();
     };
 
 
@@ -602,7 +617,7 @@ sakai.navigation = function(tuid, showSettings){
 
     var renderPages = function (selectedPageUrlName, site_info_object, allowDnd) {
         // set the number of pages in the group
-        $pageCount.html(sakai.sitespages.site_info.number_of_pages());
+        $pageCount.html("(" + sakai.sitespages.site_info.number_of_pages() + ")");
 
         // Create navigation data object
         var navigationData = convertToHierarchy(fullURLs(site_info_object));
