@@ -786,9 +786,9 @@ sakai.api.i18n.init = function(){
                 return false;
             }
         }
-        //if ($.inArray(currentPage, sakai.config.requireProcessing) === -1){
+        if ($.inArray(currentPage, sakai.config.requireProcessing) === -1){
             sakai.api.Security.showPage();
-        //}
+        }
         sakai.api.Widgets.Container.setReadyToLoad(true);
         sakai.api.Widgets.widgetLoader.insertWidgets(null, false);
     };
@@ -1229,7 +1229,7 @@ sakai.api.Security.getPermissions = function(target, type, permissions_object) {
  */
 sakai.api.Security.send404 = function(){
     var redurl = window.location.pathname + window.location.hash;
-    document.location = "/dev/404.html?redurl=" + window.location.pathname + window.location.hash;
+    document.location = "/dev/404.html?redurl=" + escape(window.location.pathname + window.location.search + window.location.hash);
     return false;
 }
 
@@ -1239,7 +1239,7 @@ sakai.api.Security.send404 = function(){
  */
 sakai.api.Security.send403 = function(){
     var redurl = window.location.pathname + window.location.hash;
-    document.location = "/dev/403.html?redurl=" + window.location.pathname + window.location.hash;
+    document.location = "/dev/403.html?redurl=" + escape(window.location.pathname + window.location.search + window.location.hash);
     return false;
 }
 
@@ -1248,7 +1248,7 @@ sakai.api.Security.send403 = function(){
  */
 sakai.api.Security.sendToLogin = function(){
     var redurl = window.location.pathname + window.location.hash;
-    document.location = sakai.config.URL.GATEWAY_URL + "?url=" + window.location.pathname + window.location.hash;
+    document.location = sakai.config.URL.GATEWAY_URL + "?url=" + escape(window.location.pathname + window.location.search + window.location.hash);
     return false;
 }
 

@@ -78,7 +78,8 @@ sakai.show = function() {
                 break;
         }
         if (!(entityID && entityType)) {
-            fluid.log("Shouldn't be rendering");
+            // Not enough parameters given
+            sakai.api.Security.send404();
         } 
     };
 
@@ -108,6 +109,16 @@ sakai.show = function() {
                 sakai.currentgroup.id = entityID;
                 sakai.currentgroup.data = data;
                 postDataRetrieval();
+                sakai.api.Security.showPage();
+            },
+            error: function(xhr, textStatus, thrownError){
+
+	            if (xhr.status === 401 || xhr.status === 403){
+                    sakai.api.Security.send403();
+                } else {
+                    sakai.api.Security.send404();
+                }
+
             }
         });
     };
@@ -136,6 +147,7 @@ sakai.show = function() {
                 delete sakai.profile.main.data.activity;
 
             postDataRetrieval();
+            sakai.api.Security.showPage();
 
         }
         else {
@@ -154,8 +166,10 @@ sakai.show = function() {
 
                     // Set the profile data object
                     sakai.profile.main.data = $.extend(true, {}, userprofile);
+                    sakai.api.Security.showPage();
                 } else {
-                    fluid.log("getUserData: Could not find the user");
+                    sakai.api.Security.send404();
+                    return false;
                 }
                 postDataRetrieval();
             });
