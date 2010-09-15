@@ -206,9 +206,6 @@
 
         // Triggered when a file is selected
         slave.change(function(){
-            if (sakai.fileupload){
-                sakai.fileupload.MultiFileSelected();
-            }
 
           //if(window.console) console.log('MultiFile.slave.change',slave_count);
 
