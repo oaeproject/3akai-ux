@@ -515,6 +515,40 @@ sakai.config = {
             "label" : "DIRECTORY"
         }
     ],
+    
+    /*
+     * List of pages that require a logged in user
+     */
+    requireUser: [
+        "/dev/my_sakai.html",
+        "/dev/account_preferences.html",
+        "/dev/group_edit.html",
+        "/dev/inbox.html",
+        "/dev/people.html",
+        "/dev/profile_edit.html"
+    ],
+    
+    /*
+     * List of pages that require an anonymous user
+     */
+    requireAnonymous: [
+        "/dev/index.html",
+        "/dev/create_new_account.html",
+        "/dev/",
+        "/dev"
+    ],
+    
+    /*
+     * List op pages that require additional processing to determine
+     * whether the page can be shown to the current user. These pages
+     * are then required to call the sakai.api.Security.showPage
+     * themselves
+     */
+    requireProcessing: [
+        "/dev/content_profile.html",
+        "/dev/group_edit.html",
+        "/dev/show.html"
+    ],
 
     displayDebugInfo: true,
 
@@ -525,28 +559,28 @@ sakai.config = {
                 "AutoCAD for dummies",
                 "Hierarchy 3",
                 "Hierarchy 3",
-                "Hierarchy 3",
+                "Hierarchy 3"
             ],
             "Second Year Courses": [
                 "Google Sketchup, 3D is pretty easy",
                 "Theory of Circuitry",
                 "Hierarchy 3",
                 "Hierarchy 3",
-                "Hierarchy 3",
+                "Hierarchy 3"
             ],
             "Third Year Courses": [
                 "Google Sketchup, 3D is pretty easy",
                 "Theory of Circuitry",
                 "Hierarchy 3",
                 "Hierarchy 3",
-                "Hierarchy 3",
+                "Hierarchy 3"
             ],
             "Fourth Year Courses": [
                 "Google Sketchup, 3D is pretty easy",
                 "Theory of Circuitry",
                 "Hierarchy 3",
                 "Hierarchy 3",
-                "Hierarchy 3",
+                "Hierarchy 3"
             ]
         },
         "College of Liberal Arts": {
@@ -555,7 +589,7 @@ sakai.config = {
                 "Constructing Derrida",
                 "Hierarchy 3",
                 "Hierarchy 3",
-                "Hierarchy 3",
+                "Hierarchy 3"
             ]
         }
     },

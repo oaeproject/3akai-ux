@@ -772,7 +772,21 @@ sakai.api.i18n.init = function(){
      * and load them into the document
      */
     var finishI18N = function(){
-        $i18nable.show();
+        var currentPage = window.location.pathname;
+        if (sakai.data.me.user.anon) {
+            if ($.inArray(currentPage, sakai.config.requireUser) > -1){
+                sakai.api.Security.sendToLogin();
+                return false;
+            }
+        } else {
+            if ($.inArray(currentPage, sakai.config.requireAnonymous) > -1){
+                document.location = sakai.config.URL.MY_DASHBOARD_URL;
+                return false;
+            }
+        }
+        if ($.inArray(currentPage, sakai.config.requireProcessing) === -1){
+            sakai.api.Security.showPage();
+        }
         sakai.api.Widgets.Container.setReadyToLoad(true);
         sakai.api.Widgets.widgetLoader.insertWidgets(null, false);
     };
@@ -1214,6 +1228,7 @@ sakai.api.Security.getPermissions = function(target, type, permissions_object) {
 sakai.api.Security.send404 = function(){
     var redurl = window.location.pathname + window.location.hash;
     document.location = "/dev/404.html?redurl=" + window.location.pathname + window.location.hash;
+    return false;
 }
 
 /**
@@ -1223,9 +1238,28 @@ sakai.api.Security.send404 = function(){
 sakai.api.Security.send403 = function(){
     var redurl = window.location.pathname + window.location.hash;
     document.location = "/dev/403.html?redurl=" + window.location.pathname + window.location.hash;
+    return false;
 }
 
+/**
+ * Function that can be called by pages that require a login first
+ */
+sakai.api.Security.sendToLogin = function(){
+    var redurl = window.location.pathname + window.location.hash;
+    document.location = sakai.config.URL.GATEWAY_URL + "?url=" + window.location.pathname + window.location.hash;
+    return false;
+}
 
+sakai.api.Security.showPage = function(){
+    // Show the background images used on anonymous user pages
+    if ($.inArray(window.location.pathname, sakai.config.requireAnonymous) > -1){
+        $('html').addClass("requireAnon");
+    // Show the normal background
+    } else {
+        $('html').addClass("requireUser");
+    }
+    $('body').show();
+}
 
 
 /**
