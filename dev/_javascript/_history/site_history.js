@@ -14,7 +14,7 @@ var History = {
                   
                   History.prev_url = url;
                 } else { // is hasn't loaded in yet, so lets try every 10ms, using the jQuery animate version of setTimeout
-                  $('html').animate({ opacity:1},10, function() { 
+                  $('html').animate({ borderWidth:0},10, function() {
                     $(window).trigger('hashchange');
                   });
                 }
