@@ -24,12 +24,12 @@ div {word-wrap:break-word;}
 #collections_header_select_layout ul li.selected {font-weight:bold;}
 #collections_header div span#choose_layout span#chosen_layout {font-size:11px;}
 /* Map Layout */
-#collections_map{background:url(../images/floorplan2.gif) no-repeat top left;width:640px;height:472px;position:relative;}
+#collections_map{background:url(/devwidgets/collections/images/floorplan2.gif) no-repeat top left;width:640px;height:472px;position:relative;}
 #collections_map div{position:absolute;}
 #collections_map div a{display:block;}
 #collections_map div a.roomLink{color:#3355BB;font-weight:bold;}
 #collections_map div a.roomLink.addLink{color:#000;font-weight:normal;}
-#collections_map div a:hover{background:url(../images/transparentBlue.png) top left;}
+#collections_map div a:hover{background:url(/devwidgets/collections/images/transparentBlue.png) top left;}
 #collections_map div span{text-align:center;position:absolute;top:0;left:0;z-index:500;}
 #collections_map div img{width:100%;height:100%;position:absolute;top:0;left:0;z-index:1;}
 #collections_map #mpLink1{left:14px;top:127px;width:152px;height:87px;}
@@ -85,7 +85,7 @@ div {word-wrap:break-word;}
 span#room_edit_links{width:100%;float:left;position:relative;}
 span#room_edit_links a{float:left;position:relative;color:#AB4500;margin:0 1em 0 0;}
 div.room_categories span{width:100%;float:left;position:relative;}
-.return_to_floorplan_link{background:url("../images/returnto.png") no-repeat scroll left bottom transparent;padding-left:22px;}
+.return_to_floorplan_link{background:url(/devwidgets/collections/images/returnto.png) no-repeat scroll left bottom transparent;padding-left:22px;}
 /* Show Content */
 a.content_link{font-size:1.5em;font-weight:bold;text-decoration:underline;}
 img.content_image {max-width:300px; max-height:200px;}
@@ -202,9 +202,9 @@ img.content_image {max-width:300px; max-height:200px;}
 #browse_resource_files #embedresource_settings{float:left;position:relative;display:none;width:100%;}
 #browse_resource_files .embed_settings{float:left;position:relative;display:none;width:100%;display:none;}
 /* Overwrite sakai.base.css to fix paths and HTML styling */
-#browse_resource_files .s3d-search-button .s3d-button-icon-right{background-image:url("/dev/_images/icon-search-white.png");}
-#browse_resource_files .s3d-button .s3d-button-inner{background:url("/dev/_images/button-sprite-5state.png") no-repeat scroll left top transparent;}
-#browse_resource_files .s3d-button{background:url("/dev/_images/button-sprite-5state.png") no-repeat scroll right -40px transparent;}
+#browse_resource_files .s3d-search-button .s3d-button-icon-right{background-image:url(/dev/_images/icon-search-white.png);}
+#browse_resource_files .s3d-button .s3d-button-inner{background:url(/dev/_images/button-sprite-5state.png) no-repeat scroll left top transparent;}
+#browse_resource_files .s3d-button{background:url(/dev/_images/button-sprite-5state.png) no-repeat scroll right -40px transparent;}
 #browse_resource_files textarea,#browse_resource_files input[type="text"]{width:500px;height:auto;}
 /* All Album View */
 #collections_albums{float:left;padding-left:0;padding-top:22px;position:relative;}
