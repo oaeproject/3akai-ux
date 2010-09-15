@@ -230,8 +230,6 @@ strong {
 .search_result_person_picture {
     float: left;
     display: block;
-    background-image: url(../../_images/person_icon.png);
-    background-repeat: no-repeat;
     width: 60px;
     height: 60px;
     padding: 0;

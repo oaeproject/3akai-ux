@@ -56,7 +56,7 @@ sakai.groupedit = function(){
         if (querystring.contains("id")) {
             return querystring.get("id");
         }
-        return false;
+        sakai.api.Security.send404();
     };
 
     var readyToRender = false;
@@ -101,6 +101,17 @@ sakai.groupedit = function(){
                 // the "Who can view or search this?" dropdowns for now
                 // renderTemplates();
                 addPickUserBinding();
+                // Show the page content
+                sakai.api.Security.showPage();
+            },
+            error: function(xhr, textStatus, thrownError){
+
+	            if (xhr.status === 401 || xhr.status === 403){
+                    sakai.api.Security.send403();
+                } else {
+                    sakai.api.Security.send404();
+                }
+                
             }
         });
     };
@@ -511,9 +522,10 @@ sakai.groupedit = function(){
             }
             addBinding();
         } else {
-            // force the user to go back to their previous page
-            alert("Sorry, you are not allowed to view this page.");
-            window.history.back();
+            
+            // The user is not a manager of the group
+            sakai.api.Security.send403();
+            
         }
     };
 

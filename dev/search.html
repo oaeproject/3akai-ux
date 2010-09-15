@@ -176,7 +176,7 @@
                                             {if ! i.picture}
                                                 <a href="/dev/show.html?type=user&amp;id=${i.userid}" class="fl-icon search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"></a>
                                             {else}
-                                                <a href="/dev/show.html?type=user&amp;id=${i.userid}" class="search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"><img src="${i.picture}" alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" width="60px" height="60px"/></a>
+                                                <a href="/dev/show.html?type=user&amp;id=${i.userid}" class="search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"><img src="{if i.picture}${i.picture}{else}/dev/_images/person_icon.jpg{/if}" alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" width="60px" height="60px"/></a>
                                             {/if}
                                             <a href="/dev/show.html?type=user&amp;id=${i.userid}" class="search_result_person_name">${i.name}</a>
                                             {if i.extra}

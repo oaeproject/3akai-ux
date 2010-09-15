@@ -96,6 +96,10 @@ sakai.s23_site = function(){
 
                 // Render the tools of the site and add them to the page container
                 s23SiteIframeContainer.append($.TemplateRenderer(s23SiteIframeContainerTemplate, page));
+                for (var tool in page.tools){
+                    $("#Main" + page.tools[tool].xid).attr("src", sakai.config.SakaiDomain + "/portal/tool/" + page.tools[tool].url + "?panel=Main");
+                }
+                
             }
         }
     };

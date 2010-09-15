@@ -26,11 +26,19 @@ sakai.nopermissions = function(tuid, showSettings) {
 
     var doInit = function(){
         if (sakai.data.me.user.anon){
+            $('html').addClass("requireAnon");
             // the user is anonymous and should be able to log in
             var renderedTemplate = $.TemplateRenderer(pageNotFoundErrorLoggedOutTemplate, sakai.data.me.user).replace(/\r/g, '');
             $(pageNotFoundError).append(renderedTemplate);
             // Set the link for the sign in button
-            $(".login-container a").attr("href", gatewayURL + "?url=" + window.location.pathname + window.location.hash);
+            var querystring = new Querystring();
+            var redurl = window.location.pathname + window.location.hash;
+            // Parameter that indicates which page to redirect to. This should be present when
+            // the static 403.html and 404.html page are loaded
+            if (querystring.contains("redurl")){
+                redurl = querystring.get("redurl");
+            }
+            $(".login-container a").attr("href", gatewayURL + "?url=" + escape(redurl));
         } else {
             // Remove the sakai.index stylesheet as it would mess up the design
             $("LINK[href*='/dev/_css/sakai/sakai.index.css']").remove();

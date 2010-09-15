@@ -98,7 +98,11 @@
             <div class="item_description">
                 <h3><a href="/dev/content_profile.html#content_path=${item.path}" class="s3d-action">${item.name} (${item.mimetype.split("/")[1]})</a></h3>
                 {if item.description}<p class="embedcontent_actual_description">${item.description}</p>{/if}
-                <p class="embedcontent_download_link"><a href="${item.link}" class="s3d-action">Download</a></p>
+                {if item.mimetype.split("/")[1] === "link"}
+                    <p class="embedcontent_download_link"><a href="${item.name}" class="s3d-action">Link to content</a></p>
+                {else}
+                    <p class="embedcontent_download_link"><a href="${item.link}" class="s3d-action">Download</a></p>
+                {/if}
             </div>
             {/if}
         </div>

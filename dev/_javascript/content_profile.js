@@ -88,47 +88,24 @@ sakai.content_profile = function(){
                         addListBinding();
                         list_event_fired = true;
                     }
+                    
+                    sakai.api.Security.showPage();
+                    
                 },
                 error: function(xhr, textStatus, thrownError){
 
-                    // Show an appropriate error message
-                    showError("invalid_url");
-
-                    // Log a more descriptive message to the console
-                    fluid.log("sakai.content_profile - loadContentProfile - Loading the content for the following path: '" + this.url + "' failed.");
-
-                    // Render the entity widget
-                    if (ready_event_fired > 0) {
-                        sakai.api.UI.entity.render("content", false);
-                    }
-                    else {
-                        $("body").bind("sakai.api.UI.entity.ready", function(e){
-                            sakai.api.UI.entity.render("content", false);
-                            ready_event_fired++;
-                        });
+                    if (xhr.status === 401 || xhr.status === 403){
+                        sakai.api.Security.send403();
+                    } else {
+                        sakai.api.Security.send404();
                     }
 
                 }
             });
 
-        }else{
+        } else {
 
-            // Show an appropriate error message
-            showError("invalid_query");
-
-            // Also log an error message to the console
-            fluid.log("sakai.content_profile - loadContentProfile - The content_path variable is invalid: '" + content_path + "'.");
-
-            // Render the entity widget
-            if (ready_event_fired > 0) {
-                sakai.api.UI.entity.render("content", false);
-            }
-            else {
-                $("body").bind("sakai.api.UI.entity.ready", function(e){
-                    sakai.api.UI.entity.render("content", false);
-                    ready_event_fired++;
-                });
-            }
+            sakai.api.Security.send404();
 
         }
 

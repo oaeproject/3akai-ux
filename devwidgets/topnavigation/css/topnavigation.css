@@ -54,7 +54,7 @@
 
 /* User Link Dropdown */
 #user_link_container {position:relative; text-align: left; min-width: 50px; max-width: 195px; }
-#user_link_menu {background-color:#868a8d; font-size:9pt; line-height:16px; position:absolute; top:30px;z-index:500; padding:0 0 6px;}
+#user_link_menu {background-color:#868a8d; font-size:9pt; line-height:16px; position:absolute; top:30px;z-index:500; padding:0 0 6px; min-width: 100px;}
 #user_link_menu div { margin-top: 5px; }
 .user_link_menu_border {border-bottom:1px solid #777; }
 #user_link_menu ul {margin:0;padding:0}

@@ -565,7 +565,12 @@ sakai.entity = function(tuid, showSettings){
         if(entityconfig.mode === "content"){
             // Add binding to content related buttons
             $(entityContentDownload).bind("click", function(){
-                window.open(entityconfig.data.profile.path);
+                if (entityconfig.data.profile.mimetype === "x-sakai/link") {
+                    window.open(entityconfig.data.profile.name);
+                }
+                else {
+                    window.open(entityconfig.data.profile.path);
+                }
             });
 
             // Add binding to locations box
