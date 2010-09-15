@@ -1,5 +1,7 @@
 {
     "name": "News",
     "description": "News",
-    "MORE": "更多"
-    }
+    "MORE": "查看全部新闻",
+    "ADD_A_NEWS":"发布新闻",
+    "ERROR":"数据连接失败！"
+}
