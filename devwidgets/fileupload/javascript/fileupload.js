@@ -578,7 +578,7 @@ sakai.fileupload = function(tuid, showSettings){
             path = uploadPath;
         }
         $.ajax({
-            url: path,
+            url: "/p/" + path,
             data: body,
             type: "POST",
             dataType: "json",
