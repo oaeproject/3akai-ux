@@ -26,6 +26,7 @@ sakai.nopermissions = function(tuid, showSettings) {
 
     var doInit = function(){
         if (sakai.data.me.user.anon){
+            $('html').addClass("requireAnon");
             // the user is anonymous and should be able to log in
             var renderedTemplate = $.TemplateRenderer(permissionsErrorLoggedOutTemplate, sakai.data.me.user).replace(/\r/g, '');
             $(permissionsError).append(renderedTemplate);
@@ -37,7 +38,7 @@ sakai.nopermissions = function(tuid, showSettings) {
                 redurl = querystring.get("redurl");
             }
             // Set the link for the sign in button
-            $(".login-container a").attr("href", gatewayURL + "?url=" + redurl);
+            $(".login-container a").attr("href", gatewayURL + "?url=" + escape(redurl));
         } else {
             // Remove the sakai.index stylesheet as it would mess up the design
             $("LINK[href*='/dev/_css/sakai/sakai.index.css']").remove();
