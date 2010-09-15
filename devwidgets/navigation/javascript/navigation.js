@@ -593,6 +593,14 @@ sakai.navigation = function(tuid, showSettings){
     };
 
 
+    /**
+     * Initiates rendering pages in read-only view in the navigation widget
+     *
+     * @param {String} selectedPageUrlName id of the page to select upon initial
+     *   load of the navigation tree. If null, a default page is selected.
+     * @param {Object} site_info_object Contains an array with all the pages, each page is an object.
+     * @return None
+     */
     var renderReadOnlyPages = function (selectedPageUrlName, site_info_object) {
         // disable editing and render tree without drag-n-drop
         disableEditing();
@@ -602,6 +610,14 @@ sakai.navigation = function(tuid, showSettings){
     };
 
 
+    /**
+     * Initiates rendering pages that are both viewable and editable in the navigation widget
+     *
+     * @param {String} selectedPageUrlName id of the page to select upon initial
+     *   load of the navigation tree. If null, a default page is selected.
+     * @param {Object} site_info_object Contains an array with all the pages, each page is an object.
+     * @return None
+     */
     var renderReadWritePages = function (selectedPageUrlName, site_info_object) {
         // render tree with drag-n-drop
         renderPages(selectedPageUrlName, site_info_object, true);
@@ -615,6 +631,16 @@ sakai.navigation = function(tuid, showSettings){
     };
 
 
+    /**
+     * Renders the pages navigation tree that is the core of the navigation widget
+     *
+     * @param {String} selectedPageUrlName id of the page to select upon initial
+     *   load of the navigation tree. If null, a default page is selected.
+     * @param {Object} site_info_object Contains an array with all the pages, each page is an object.
+     * @param {Boolean} allowDnd true if drag-and-drop editing should be enabled,
+     *   false if it should be disabled.
+     * @return None
+     */
     var renderPages = function (selectedPageUrlName, site_info_object, allowDnd) {
         // set the number of pages in the group
         $pageCount.html("(" + sakai.sitespages.site_info.number_of_pages() + ")");
