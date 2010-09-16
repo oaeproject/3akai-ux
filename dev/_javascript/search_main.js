@@ -121,6 +121,8 @@ sakai._search = function(config, callback) {
             }
         });
     };
+    
+    fetchMyFriends();
 
     /**
      * Getter for the myFriends var
@@ -372,6 +374,7 @@ sakai._search = function(config, callback) {
      * @param {Object} user The user object we get from the addcontact widget.
      */
     var removeAddContactLinks = function(user) {
+         fetchMyFriends();
          $(searchConfig.addFriend.addToContacts.replace(/\{USERID\}/gi, user.uuid)).hide();
          $(searchConfig.addFriend.addToContactsDivider.replace(/\{USERID\}/gi, user.uuid)).hide();
     };

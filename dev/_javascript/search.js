@@ -510,8 +510,6 @@ sakai.search = function() {
 
     var doInit = function() {
         mainSearch = sakai._search(searchConfig, thisFunctionality);
-        // Get my friends
-        mainSearch.fetchMyFriends();
         // add the bindings
         mainSearch.addEventListeners();
     };
