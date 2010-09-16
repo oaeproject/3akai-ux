@@ -72,6 +72,7 @@ sakai.fileupload = function(tuid, showSettings){
     var fileUploadWidgetTitleNewVersion= "#fileupload_widget_title_new_version";
     var fileUploadAddVersionDescription = "#fileupload_add_version_description";
 
+    var fileUploadLinkBox = "#fileupload_link_box";
     var fileUploadLinkBoxInput= "#fileupload_link_box_input";
     var fileUploadLinkForm = "#link_form";
     var fileUploadAddLinkButton = "#fileupload_add_link_button";
@@ -322,23 +323,50 @@ sakai.fileupload = function(tuid, showSettings){
     /**
      * Set the description of the uploaded files
      */
-    var batchSetDescriptionAndName = function(){
+    var batchSetDescriptionAndName = function(dataResponse){
         // Batch link the files with the tags
         var batchDescriptionData = [];
-        for (var i in uploadedFiles) {
-            if (uploadedFiles.hasOwnProperty(i)) {
+        // Check if it's a link that's been uploaded
+        if (uploadedLink) {
+            if (newVersionIsLink) {
                 var item = {
-                    "url": "/p/" + uploadedFiles[i].hashpath,
+                    "url": "/p/" + oldVersionPath,
                     "method": "POST",
                     "parameters": {
-                        "sakai:description": $(fileUploadAddDescription).val(),
-                        "sakai:pooled-content-file-name": uploadedFiles[i].name,
-                        "sakai:directory": "default",
-                        "sakai:permissions" : $(fileUploadPermissionsSelect).val(),
-                        "sakai:groupresource" : true
+                        "sakai:pooled-content-revurl": $(fileUploadLinkBoxInput).val(),
                     }
                 };
                 batchDescriptionData[batchDescriptionData.length] = item;
+            }
+            else {
+                var item = {
+                    "url": "/p/" + dataResponse[$(fileUploadLinkBoxInput).val() + ".lnk"],
+                    "method": "POST",
+                    "parameters": {
+                        "sakai:pooled-content-url": $(fileUploadLinkBoxInput).val(),
+                        "sakai:pooled-content-revurl": $(fileUploadLinkBoxInput).val(),
+                        "sakai:directory": "default",
+                        "sakai:groupresource": true
+                    }
+                };
+            }
+            batchDescriptionData[batchDescriptionData.length] = item;
+        }else{
+            for (var i in uploadedFiles) {
+                if (uploadedFiles.hasOwnProperty(i)) {
+                    var item = {
+                        "url": "/p/" + uploadedFiles[i].hashpath,
+                        "method": "POST",
+                        "parameters": {
+                            "sakai:description": $(fileUploadAddDescription).val(),
+                            "sakai:pooled-content-file-name": uploadedFiles[i].name,
+                            "sakai:directory": "default",
+                            "sakai:permissions": $(fileUploadPermissionsSelect).val(),
+                            "sakai:groupresource": true
+                        }
+                    };
+                    batchDescriptionData[batchDescriptionData.length] = item;
+                }
             }
         }
         // Do the Batch request
@@ -588,8 +616,9 @@ sakai.fileupload = function(tuid, showSettings){
      */
     var uploadLink = function(){
         var body = "--AAAAA\r\n";
-        body = body + "Content-Disposition: form-data; name=\"*\"; filename=\"" + $(fileUploadLinkBoxInput).val() + "\" \r\n";
+        body = body + "Content-Disposition: form-data; name=\"*\"; filename=\"" + $(fileUploadLinkBoxInput).val() + ".lnk\" \r\n";
         body = body + "Content-Type: x-sakai/link \r\n";
+        body = body + "sakai:pooled-content-url: " + $(fileUploadLinkBoxInput).val() + " \r\n";
         body = body + "Content-Transfer-Encoding: binary\r\n\r\n";
         body = body + $(fileUploadLinkBoxInput).val() + "\r\n";
         body = body + "--AAAAA--\r\n";
@@ -614,15 +643,14 @@ sakai.fileupload = function(tuid, showSettings){
             },
             success: function(data){
                 dataResponse = data;
-                newVersionIsLink = false;
                 uploadedLink = true;
                 filesUploaded = true;
                 if (context === "group") {
                     setLinkAsGroupResource(dataResponse);
-                }else {
-                    resetFields();
                 }
-
+                batchSetDescriptionAndName(dataResponse);
+                newVersionIsLink = false;
+                resetFields();
             },
             error : function(err){
                 sakai.api.Util.notification.show($(fileUploadCheckURL).html(), $(fileUploadEnterValidURL).html());
@@ -827,6 +855,14 @@ sakai.fileupload = function(tuid, showSettings){
         }
         else
             if ($(fileUploadUploadContent).hasClass("new_version")) {
+                // If the base version is a link then only a new link can be uploaded
+                // If the base version is a file then only a new file can be uploaded
+                if($(fileUploadUploadContent).hasClass("new_link")){
+                    $(multiFileForm).hide();
+                } else{
+                    $(multiFileForm + " p").hide();
+                    $(fileUploadLinkBox).hide();
+                }
                 // A new version of the file needs to be uploaded
                 $(fileUploadWidgetTitleNewVersion).show();
                 $(fileUploadWidgetTitle).hide();

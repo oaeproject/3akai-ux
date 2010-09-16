@@ -18,7 +18,7 @@
 
 /* General */
 .entity_header {margin: 10px 0 17px 0; padding: 0; width: 430px;}
-.entity_header_text {font-weight: bold; font-size: 1.7em; margin-right: 15px;}
+.entity_header_text {font-size:22px; font-weight:bold; line-height:24px; margin-right:15px;}
 .entity_picture {margin: 0 20px 5px 0;}
 .entity_picture img {width:96px}
 .entity_description {width:430px;}

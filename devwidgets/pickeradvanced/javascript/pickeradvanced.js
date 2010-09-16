@@ -96,7 +96,8 @@ sakai.pickeradvanced = function(tuid, showSettings) {
       "sortOn": "lastName",
       "sortOrder": "ascending",
       "what": "People",
-      "where": "Group"
+      "where": "Group",
+      "limit": false
     };
 
     /**
@@ -322,21 +323,23 @@ sakai.pickeradvanced = function(tuid, showSettings) {
                                     $pickeradvanced_add_button.attr("disabled", "disabled");
                                 }
                             } else {
-                                // Add to selected list
-                                $(this).addClass("pickeradvanced_selected_user");
-                                for (var j = 0; j < rawData.results.length; j++) {
-                                    if (rawData.results[j]['rep:userId'] && rawData.results[j]['rep:userId'] == [$(this).attr("id")]) {
-                                        pickerData.selectCount += 1;
-                                        pickerData["selected"][$(this).attr("id")] = rawData.results[j];
-                                        pickerData["selected"][$(this).attr("id")].entityType = "user";
-                                    } else if (rawData.results[j]['sakai:group-id'] && rawData.results[j]['sakai:group-id'] == [$(this).attr("id")]) {
-                                        pickerData.selectCount += 1;
-                                        pickerData["selected"][$(this).attr("id")] = rawData.results[j];
-                                        pickerData["selected"][$(this).attr("id")].entityType = "group";
-                                    } else if (rawData.results[j]['jcr:name'] && rawData.results[j]['jcr:name'] == [$(this).attr("id")]) {
-                                        pickerData.selectCount += 1;
-                                        pickerData["selected"][$(this).attr("id")] = rawData.results[j];
-                                        pickerData["selected"][$(this).attr("id")].entityType = "file";
+                                if ((pickerData.limit && pickerData.selectCount < pickerData.limit) || !pickerData.limit) {
+                                    // Add to selected list
+                                    $(this).addClass("pickeradvanced_selected_user");
+                                    for (var j = 0; j < rawData.results.length; j++) {
+                                        if (rawData.results[j]['rep:userId'] && rawData.results[j]['rep:userId'] == [$(this).attr("id")]) {
+                                            pickerData.selectCount += 1;
+                                            pickerData["selected"][$(this).attr("id")] = rawData.results[j];
+                                            pickerData["selected"][$(this).attr("id")].entityType = "user";
+                                        } else if (rawData.results[j]['sakai:group-id'] && rawData.results[j]['sakai:group-id'] == [$(this).attr("id")]) {
+                                            pickerData.selectCount += 1;
+                                            pickerData["selected"][$(this).attr("id")] = rawData.results[j];
+                                            pickerData["selected"][$(this).attr("id")].entityType = "group";
+                                        } else if (rawData.results[j]['jcr:name'] && rawData.results[j]['jcr:name'] == [$(this).attr("id")]) {
+                                            pickerData.selectCount += 1;
+                                            pickerData["selected"][$(this).attr("id")] = rawData.results[j];
+                                            pickerData["selected"][$(this).attr("id")].entityType = "file";
+                                        }
                                     }
                                 }
                                 if ($pickeradvanced_add_button.is(":disabled")) {

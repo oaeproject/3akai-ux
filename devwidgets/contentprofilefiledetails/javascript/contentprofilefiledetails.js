@@ -77,7 +77,7 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
         $.ajax({
             url: "/~" + userid + "/public/authprofile.infinity.json",
             success: function(profile){
-                profileData["sakai:pool-content-created-for"] = sakai.api.User.getDisplayName(profile);
+                profileData["sakai:pool-content-created-for-full"] = sakai.api.User.getDisplayName(profile);
                 renderDetails();
             },
             error: function(xhr, textStatus, thrownError){
