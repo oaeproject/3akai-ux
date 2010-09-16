@@ -276,7 +276,7 @@ sakai.entity = function(tuid, showSettings){
             }
         });
     };
-    
+
     /**
      * Gets the number of members in a group
      * @return {String}
@@ -607,7 +607,7 @@ sakai.entity = function(tuid, showSettings){
      * @param {Object} data The data we need to parse
      */
     var setContentData = function(data){
-        if(!data){
+        if (!data) {
             fluid.log("Entity widget - setContentData - the data parameter is invalid:'" + data + "'");
             return;
         }
@@ -643,11 +643,11 @@ sakai.entity = function(tuid, showSettings){
         entityconfig.data.profile["role"] = "viewer";
         if (jcr_access) {
             // check if user is a manager
-            $.each(jcr_access, function(index, resultObject) {
+            $.each(jcr_access, function(index, resultObject){
                 if (resultObject["rep:principalName"] === sakai.data.me.user.userid) {
                     if ($.inArray("jcr:all", resultObject["rep:privileges"]) != 1) {
                         entityconfig.data.profile["role"] = 'manager';
-                    }; 
+                    };
                 }
             });
         }
@@ -656,14 +656,15 @@ sakai.entity = function(tuid, showSettings){
         if (filedata["jcr:createdBy"]) {
             entityconfig.data.profile.createdby = filedata["jcr:createdBy"];
         }
+
         if (filedata["jcr:created"]) {
             entityconfig.data.profile.created = $.timeago(new Date(filedata["jcr:created"]));
         }
 
-        // Set the filename of the file
-        if(filedata["sakai:pooled-content-file-name"]){
+        if (filedata["sakai:pooled-content-file-name"]) {
             entityconfig.data.profile.name = filedata["sakai:pooled-content-file-name"];
         }
+
         // If it's a URL then set the URL
         if(filedata["sakai:pooled-content-url"]){
             entityconfig.data.profile.url = filedata["sakai:pooled-content-url"];
@@ -672,13 +673,6 @@ sakai.entity = function(tuid, showSettings){
         // If it's a URL then set the URL
         if(filedata["sakai:pooled-content-url"]){
             entityconfig.data.profile.revurl = filedata["sakai:pooled-content-revurl"];
-        }
-
-        // e.g. http://localhost:8080/~admin/private/3739036439_2418af9b4d_o.jpg
-        // to 3739036439_2418af9b4d_o.jpg
-        else if(data.url){
-            var splitslash = data.url.split("/");
-            entityconfig.data.profile.name = splitslash[splitslash.length -1];
         }
 
         // Set the path of the resource

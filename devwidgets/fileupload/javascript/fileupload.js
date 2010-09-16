@@ -313,6 +313,10 @@ sakai.fileupload = function(tuid, showSettings){
             }
         }
 
+        // Reset the MultiFile uploader
+        $(multiFileUpload).MultiFile('reset');
+        $(multiFileUpload).val('');
+
         // Reset booleans
         filesUploaded = false;
         groupContext = false;
@@ -345,6 +349,7 @@ sakai.fileupload = function(tuid, showSettings){
                     "parameters": {
                         "sakai:pooled-content-url": $(fileUploadLinkBoxInput).val(),
                         "sakai:pooled-content-revurl": $(fileUploadLinkBoxInput).val(),
+                        "sakai:pooled-content-file-name": $(fileUploadLinkBoxInput).val(),
                         "sakai:directory": "default",
                         "sakai:groupresource": true
                     }
@@ -624,21 +629,22 @@ sakai.fileupload = function(tuid, showSettings){
         body = body + "--AAAAA--\r\n";
 
         var path = "";
-        if (newVersionIsLink){
+        if (newVersionIsLink) {
             path = oldVersionPath;
-        } else {
+        }
+        else {
             path = uploadPath;
         }
         var url = path;
-        if (context === "new_version"){
-            url ="/p/" + path;
+        if (context === "new_version") {
+            url = "/p/" + path;
         }
         $.ajax({
             url: url,
             data: body,
             type: "POST",
             dataType: "json",
-            beforeSend : function(xmlReq){
+            beforeSend: function(xmlReq){
                 xmlReq.setRequestHeader("Content-type", "multipart/form-data; boundary=AAAAA");
             },
             success: function(data){
@@ -652,7 +658,7 @@ sakai.fileupload = function(tuid, showSettings){
                 newVersionIsLink = false;
                 resetFields();
             },
-            error : function(err){
+            error: function(err){
                 sakai.api.Util.notification.show($(fileUploadCheckURL).html(), $(fileUploadEnterValidURL).html());
             }
         });
@@ -756,10 +762,6 @@ sakai.fileupload = function(tuid, showSettings){
                         $(multiFileList + " input").each(function(index){
                             extractedData[index].name = $(this)[0].value;
                         });
-
-                        // Reset the MultiFile uploader
-                        $(multiFileUpload).MultiFile('reset');
-                        $(multiFileUpload).val('');
 
                         uploadedFiles = extractedData;
 
