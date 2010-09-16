@@ -7,7 +7,7 @@ sakai.search = function(){
         Config variables
      */
 
-    var peopleToSearch = 5;
+    var peopleToSearch = 6;
 
     var meObj = false;
     var foundContacts = false;
@@ -20,10 +20,7 @@ sakai.search = function(){
     var doInit = function(){
 
         meObj = sakai.data.me;
-        if (! meObj.user.userid){
-            document.location = "/dev/index.html?url=/dev/people.html";
-        }
-
+        
         loadContacts(1);
         loadInvitations();
         loadPending();
@@ -68,7 +65,7 @@ sakai.search = function(){
         var finaljson = {};
         finaljson.items = [];
 
-        _currentTotal = foundContacts.results.length;
+        _currentTotal = foundContacts.total;
 
         // Pager Init
         $(".jq_pager").pager({ pagenumber: currentpage, pagecount: Math.ceil(_currentTotal/peopleToSearch), buttonClickCallback: pager_click_handler });
