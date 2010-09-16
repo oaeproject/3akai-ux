@@ -284,7 +284,7 @@ sakai.api.Communication.sendMessage = function(to, subject, body, category, repl
            // array of recipients
            for(var i = 0; i < to.length; i++) {
                // is it a group?
-               if($.parseJSON(data.results[i].body)["sakai:group-title"]) {
+               if($.parseJSON(data.results[i].body) && $.parseJSON(data.results[i].body)["sakai:group-title"]) {
                    // fetch the members and managers in this group
                    fetchGroupMembers(to[i]);
                } else {
@@ -1362,7 +1362,7 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
         for(var i in obj){
 
             // Check if the element is an array, whether it is empty and if it contains any elements
-            if (obj.hasOwnProperty(i) && $.isArray(obj[i]) && obj[i].length > 0 && $.isPlainObject(obj[i][0])) {
+            if (obj.hasOwnProperty(i) && $.isArray(obj[i]) && obj[i].length > 0) {
 
                 // Deep copy the array
                 var arrayCopy = $.extend(true, [], obj[i]);
@@ -3311,16 +3311,6 @@ sakai.api.Widgets.widgetLoader = {
 };
 
 
-
-
-
-
-
-
-
-
-
-
 /**
  * Save the preference settings or data for a widget
  *
@@ -3356,16 +3346,18 @@ sakai.api.Widgets.removeWidgetData = function(id, callback) {
 
 };
 
-
-
-
+/**
+ * Change the given widget's title
+ *
+ * @param {String} tuid The tuid of the widget
+ * @param {String} title The title to change to
+ */
+sakai.api.Widgets.changeWidgetTitle = function(tuid, title) {
+    $("#"+tuid).parent("div").siblings("div.fl-widget-titlebar").find("h2.widget_title").text(title);
+};
 
 
 })();
-
-
-
-
 
 
 
