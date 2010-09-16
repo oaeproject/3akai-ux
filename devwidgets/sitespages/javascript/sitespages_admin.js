@@ -1460,7 +1460,7 @@ sakai.sitespages.site_admin = function(){
 
     $(window).bind("sakai-embedcontent-ready", function(e) {
         $("#sitespages_embed_content_button").live("click", function(e) {
-            $(window).trigger('sakai-embedcontent-init', sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageTitle"]);
+            $(window).trigger('sakai-embedcontent-init', {"name":sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageTitle"]});
         });
     });
 
