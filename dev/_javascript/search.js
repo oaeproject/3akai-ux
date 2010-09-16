@@ -29,7 +29,7 @@ sakai.search = function() {
     var mainSearch = false;
     var contactclicked = false;
 
-    var peopleToSearch = 5;
+    var peopleToSearch = 6;
     var cmToSearch = 5;
     var nrOfCharactersAroundTerm = 300;
     var sitesToSearch = 5;
