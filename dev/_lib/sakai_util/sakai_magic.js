@@ -1362,7 +1362,7 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
         for(var i in obj){
 
             // Check if the element is an array, whether it is empty and if it contains any elements
-            if (obj.hasOwnProperty(i) && $.isArray(obj[i]) && obj[i].length > 0 && $.isPlainObject(obj[i][0])) {
+            if (obj.hasOwnProperty(i) && $.isArray(obj[i]) && obj[i].length > 0) {
 
                 // Deep copy the array
                 var arrayCopy = $.extend(true, [], obj[i]);
