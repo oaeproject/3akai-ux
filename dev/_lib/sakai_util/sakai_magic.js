@@ -284,7 +284,7 @@ sakai.api.Communication.sendMessage = function(to, subject, body, category, repl
            // array of recipients
            for(var i = 0; i < to.length; i++) {
                // is it a group?
-               if($.parseJSON(data.results[i].body)["sakai:group-title"]) {
+               if($.parseJSON(data.results[i].body) && $.parseJSON(data.results[i].body)["sakai:group-title"]) {
                    // fetch the members and managers in this group
                    fetchGroupMembers(to[i]);
                } else {
