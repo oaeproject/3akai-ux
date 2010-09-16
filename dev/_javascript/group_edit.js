@@ -130,7 +130,9 @@ sakai.groupedit = function(){
      * When the Basic Group Info widget has finished updating the group details, it will come
      * back to this function
      */
-    $(window).bind("sakai.groupbasicinfo.updateFinished", function(){
+    $(window).bind("sakai.groupbasicinfo.updateFinished", function () {
+        // enable group basic info input elements
+        sakai.api.UI.groupbasicinfo.enableInputElements();
         // Show a notification on the screen
     	sakai.api.Util.notification.show("Group Basic Information", "Updated successfully.");
         // Re-render the Entity Summary widget so the changes are reflected
