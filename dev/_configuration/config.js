@@ -503,12 +503,12 @@ sakai.config = {
             "label" : "CONTENT_AND_MEDIA"
         },
         {
-            "url" : "/dev/people.html",
-            "label" : "PEOPLE"
-        },
-        {
             "url" : "/dev/search_groups.html#q=*&facet=see",
             "label" : "GROUPS"
+        },
+        {
+            "url" : "/dev/people.html",
+            "label" : "PEOPLE"
         },
         {
             "url" : "/dev/directory.html",

@@ -35,17 +35,17 @@
 
 
 /* Selected Nav element */
-.explore_nav .explore .explore_nav_selected { background:url("/dev/_images/arrow_down_grey.png") no-repeat scroll center 32px transparent; padding-bottom:12px; }
-.explore_nav .explore .explore_nav_selected a, .explore_nav .explore .explore_nav_selected span { background-color: #666A6E; height:16px;}
+.explore_nav .explore .explore_nav_selected { padding-bottom:12px; }
+.explore_nav .explore .explore_nav_selected a, .explore_nav .explore .explore_nav_selected span { background: url('/dev/_images/topnav_hover_bg.gif') repeat; height:16px;}
 
 
 /*** Top Right Navbar ***/
-.explore_nav .personal-container { margin-top: 10px; background: url('/dev/_images/topBar_tr.png') top right no-repeat; padding-right: 5px; overflow: hidden; }
-.explore_nav .personal { padding: 4px 0 0 5px; margin: 0; background: url('/dev/_images/topBar_tl.png') top left no-repeat; min-height: 30px; }
-.explore_nav .personal li a { font-size: 9pt; padding:0 5px 0 7px; border-right: 1px solid #666a6d; color: #fff; }
+.explore_nav .personal-container { margin-top: 5px; padding-right: 5px; overflow: hidden; }
+.explore_nav .personal { padding: 4px 0 0 5px; margin: 0; min-height: 30px; }
+.explore_nav .personal li a { font-size: 8.5pt; padding:0 7px 0 7px; border-right: 1px solid #878a8c; color: #fff; }
 .explore_nav .personal li .help_none { border-right: none; }
 .explore_nav .personal li span { color: #fff; }
-.explore_nav .user_link span { background: url('/dev/_images/white_subnav_arrow.png') bottom right no-repeat; padding-right: 17px; padding-left: 5px; }
+.explore_nav .user_link span { background: url('/dev/_images/white_subnav_arrow.png') bottom right no-repeat; padding-right: 17px; padding-left: 8px; }
 .explore_nav .personal li.last a { border:none; padding-right:0; }
 .personal img { vertical-align: middle;}
 .explore_nav .personal .sign_out { border: none;}
