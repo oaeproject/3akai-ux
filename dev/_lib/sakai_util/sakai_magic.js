@@ -9,7 +9,7 @@
  * with the License. You may obtain a copy of the License at
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ *g
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -250,27 +250,19 @@ sakai.api.Communication.sendMessage = function(to, subject, body, category, repl
     //////////////////
     // MAIN ROUTINE //
     //////////////////
-
-    // check 'to' argument
+    
+    var reqs = [];
     if (typeof(to) === "string") {
-        // single recipient - is it a group?
-        if(to.indexOf("g-") != -1) {
-            // fetch the members and managers in this group
-            fetchGroupMembers(to);
-        } else {
-            // add single recipient & send
-            toUsers = "internal:" + to;
-            sendMessageToUsers();
-        }
-    } else if(typeof(to) === "object") {
-        // array of recipients
-        for(var i = 0; i < to.length; i++) {
-            // is it a group?
-            if(to[i].indexOf("g-") != -1) {
-                // fetch the members and managers in this group
-                fetchGroupMembers(to[i]);
-            } else {
-                addToUsers(to[i]);
+        var id = to;
+        to = [];
+        to[0] = id;
+    }
+    
+    if (typeof(to) === "object") {
+        for (var i = 0; i < to.length; i++) {
+            reqs[reqs.length] = {
+                "url": "/~" + to[i] + "/public/authprofile.json",
+                "method": "GET"
             }
         }
     } else {
@@ -280,12 +272,32 @@ sakai.api.Communication.sendMessage = function(to, subject, body, category, repl
         if (typeof callback === "function") {
             callback(false, xhr);
         }
-    }
+    } 
+    
+    $.ajax({
+       url: "/system/batch",
+       method: "POST",
+       data: {
+           "requests": $.toJSON(reqs)
+       },
+       success: function(data){
+           // array of recipients
+           for(var i = 0; i < to.length; i++) {
+               // is it a group?
+               if($.parseJSON(data.results[i].body)["sakai:group-title"]) {
+                   // fetch the members and managers in this group
+                   fetchGroupMembers(to[i]);
+               } else {
+                   addToUsers(to[i]);
+               }
+           }
+           // send now if we have only a list of users ("thread" safe?)
+           if (!sendDone) {
+               sendMessageToUsers();
+           }
+       } 
+    });
 
-    // send now if we have only a list of users ("thread" safe?)
-    if (!sendDone) {
-        sendMessageToUsers();
-    }
 };
 
 /**
@@ -1086,7 +1098,11 @@ sakai.api.Security = sakai.api.Security || {};
  * @returns {String} HTML Encoded string
  */
 sakai.api.Security.escapeHTML = function(inputString){
-    return $("<div/>").text(inputString).html();
+    if (inputString) {
+        return $("<div/>").text(inputString).html();
+    } else {
+        return "";
+    }
 }
 
 /**

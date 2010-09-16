@@ -122,7 +122,7 @@ sakai.config = {
         USER_EXISTENCE_SERVICE: "/system/userManager/user/__USERID__.json",
 
         // PREFIXES
-        GROUP_PREFIX: "/_group/g/g-/",
+        GROUP_PREFIX: "/_group",
         USER_PREFIX: "/_user"
 
     },
