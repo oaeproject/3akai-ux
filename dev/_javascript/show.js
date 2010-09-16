@@ -200,7 +200,7 @@ sakai.show = function() {
                 }
                 break;            
             case "group":
-                if (sakai.currentgroup.data.authprofile['rep:policy']) {
+                if (sakai.api.Groups.isCurrentUserAManager(sakai.currentgroup.id)) {
                     sakai.currentgroup.manager = true;
                     canEdit = true;
                 }
