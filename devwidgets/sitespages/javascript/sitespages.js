@@ -528,10 +528,10 @@ sakai.sitespages = function(tuid,showSettings){
     $(window).bind("sakai.dashboard.ready", function(e, tuid) {
         var split = $(sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"]).attr("id").split("_");
         var entityID = false;
-        if (sakai.currentgroup) {
-            entityID = sakai.currentgroup.id;
-        } else if (sakai.profile.main.data["rep:userId"]) {
+        if (sakai.profile.main.data["rep:userId"]) {
             entityID = sakai.profile.main.data["rep:userId"];
+        } else if (sakai.currentgroup && sakai.currentgroup.id && sakai.currentgroup.id !== "") {
+            entityID = sakai.currentgroup.id;
         }
         // make sure the dashboard that said it's ready is the one we just got the data for
         if (split[2] === tuid) {
