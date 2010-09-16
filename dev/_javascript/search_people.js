@@ -26,7 +26,7 @@ sakai.search = function() {
     //    Config variables    //
     //////////////////////////
 
-    var resultsToDisplay = 12;
+    var resultsToDisplay = 10;
     var searchterm = "";
     var tagterm = "";
     var currentpage = 0;
@@ -244,7 +244,7 @@ sakai.search = function() {
     var pager_click_handler = function(pageclickednumber) {
         currentpage = pageclickednumber;
         //    Redo the search
-        doHSearch(currentpage, searchterm, null, $.bbq.getState('facet'));
+        sakai._search.doHSearch(currentpage, searchterm, null, $.bbq.getState('facet'));
     };
 
     /**
