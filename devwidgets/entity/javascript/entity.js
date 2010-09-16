@@ -566,7 +566,7 @@ sakai.entity = function(tuid, showSettings){
             // Add binding to content related buttons
             $(entityContentDownload).bind("click", function(){
                 if (entityconfig.data.profile.mimetype === "x-sakai/link") {
-                    window.open(entityconfig.data.profile.name);
+                    window.open(entityconfig.data.profile.revurl);
                 }
                 else {
                     window.open(entityconfig.data.profile.path);
@@ -664,6 +664,16 @@ sakai.entity = function(tuid, showSettings){
         if(filedata["sakai:pooled-content-file-name"]){
             entityconfig.data.profile.name = filedata["sakai:pooled-content-file-name"];
         }
+        // If it's a URL then set the URL
+        if(filedata["sakai:pooled-content-url"]){
+            entityconfig.data.profile.url = filedata["sakai:pooled-content-url"];
+        }
+
+        // If it's a URL then set the URL
+        if(filedata["sakai:pooled-content-url"]){
+            entityconfig.data.profile.revurl = filedata["sakai:pooled-content-revurl"];
+        }
+
         // e.g. http://localhost:8080/~admin/private/3739036439_2418af9b4d_o.jpg
         // to 3739036439_2418af9b4d_o.jpg
         else if(data.url){

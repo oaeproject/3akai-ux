@@ -82,7 +82,7 @@ sakai.deletecontent = function(tuid, showSettings){
                     // Wait for 2 seconds
                     setTimeout(function(){
                         // Relocate to the my sakai page
-                        document.location = "/dev/my_sakai.html";
+                        document.location = sakai.config.URL.MY_DASHBOARD_URL;
                     }, 2000);
                 },
                 error: function(){

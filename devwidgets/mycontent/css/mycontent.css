@@ -1,6 +1,6 @@
 /*** LAYOUT ***/
-div.mycontent_item {padding:10px 0;}
-div.mycontent_item:first-child {padding:0 0 10px 0;}
+div.mycontent_item {padding:10px 10px 10px 0}
+div.mycontent_item:first-child {padding:0 10px 10px 0;}
 img.mycontent_item_mime {height:16px; width:16px;}
 div.mycontent_item_even {background:#eef2f5;}
 div.mycontent_item_img {margin:6px 0 0 12px;}

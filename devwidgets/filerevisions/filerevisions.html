@@ -6,7 +6,7 @@
     <!-- HEADER -->
     <div class="dialog_header">
         <div class="dialog_header_inner">
-            <h1>__MSG__FILE_REVISIONS__</h1>
+            <h1 id="filerevision_header_text"></h1>
             <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
         </div>
     </div>
@@ -22,25 +22,31 @@
     </div>
 </div>
 
+    <div id="filerevision_header_text_template"><!--
+        {if linkrevision}__MSG__LINK_REVISIONS__{else}__MSG__FILE_REVISIONS__{/if}
+    --></div>
+
     <!-- REVISION TEMPLATE -->
     <div id="filerevisions_template"><!--
         <ul>
             <li class="li_greybg">
-                <span class="filerevisions_lefthand_description">__MSG__FILE__</span>
+                <span class="filerevisions_lefthand_description">{if linkrevision}__MSG__LINK__{else}__MSG__FILE__{/if}</span>
                 <span class="filerevisions_list_content filerevision_list_content_basefilename">${data["sakai:pooled-content-file-name"]}</span>
             </li>
             <li>
                 <span class="filerevisions_lefthand_description">__MSG__CREATED__</span>
                 <span class="filerevisions_list_content">${data["created"]} __MSG__BY__: <a href="/dev/show.html?type=user&id=${data["sakai:savedBy"]}" class="filerevisions_editor_name"> ${data["sakai:savedByFull"]}</a></span>
             </li>
+            {var count = 0}
             {for i in data.revisions}
                 {if i["jcr:name"] != "jcr:rootVersion"}
                     <li class="{if Math.round((i_index % 0.2) * 10) != 2}li_greybg{/if}">
                         <span class="filerevisions_lefthand_description">__MSG__REVISED__</span>
                         <span class="filerevisions_list_content">${i["jcr:created"]} __MSG__BY__: <a href="/dev/show.html?type=user&id=${i["sakai:savedBy"]["rep:userId"]}" class="filerevisions_editor_name"> ${sakai.api.User.getDisplayName(i["sakai:savedBy"])}</a></span>
-                        <a href="${data.path}.version.,${i["jcr:name"]}," title="__MSG__SHOW_VERSION__ ${i["jcr:name"]}" target="_blank" class="filerevisions_download_version"> __MSG__DOWNLOAD__</a>
+                        <a href="${data.revisionFileDetails[count]["sakai:pooled-content-revurl"]}" title="__MSG__SHOW_VERSION__ ${i["jcr:name"]}" target="_blank" class="filerevisions_download_version">{if linkrevision} __MSG__OPEN_THIS_LINK__{else} __MSG__DOWNLOAD__{/if}</a>
                     </li>
                 {/if}
+                {var count = count + 1}
             {/for}
             <button type="button" id="filerevisions_close" class="s3d-button s3d-button-primary jqmClose dialog_close_image">
                 <span class="s3d-button-inner">__MSG__CLOSE__</span>

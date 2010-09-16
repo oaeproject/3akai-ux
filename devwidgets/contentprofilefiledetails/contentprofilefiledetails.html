@@ -9,7 +9,7 @@
         <div id="content_profile_file_details_details_firstcolumn">
             <div id="content_profile_file_details_basic_info">
                 {if data["jcr:content"]["jcr:mimeType"] === "x-sakai/link"}
-                    <p><a href="${data["sakai:pooled-content-file-name"]}" title="${data["sakai:pooled-content-file-name"]}" class="s3d-action">${data["sakai:pooled-content-file-name"]}</a></p>
+                    <p><a href="${data["sakai:pooled-content-revurl"]}" title="${data["sakai:pooled-content-file-name"]}" class="s3d-action">${data["sakai:pooled-content-file-name"]}</a></p>
                 {else}
                 <p>${data["sakai:pooled-content-file-name"]}</p>
                 {/if}
@@ -25,15 +25,15 @@
             </div>
         </div>
         <div id="content_profile_file_details_details_secondcolumn">
-            <p><span class="content_profile_file_details_content">${created} by ${data["sakai:pool-content-created-for"]}</span></p>
-            <p><span class="content_profile_file_details_content">${lastModified} by ${data["sakai:pool-content-created-for"]}</span></p>
-            <p><span class="content_profile_file_details_content">{if revisions.length -1 === 0}No revisions{else}${revisions.length -1} <a href="javascript:;" id="content_profile_details_view_revisions">__MSG__VIEW_REVISIONS__</a>{/if}</span></p>
+            <p><span class="content_profile_file_details_content">${created} by <a href="/dev/show.html?type=user&id=${data["sakai:pool-content-created-for"]}" class="s3d-action">${data["sakai:pool-content-created-for-full"]}</a></span></p>
+            <p><span class="content_profile_file_details_content">${lastModified} by <a href="/dev/show.html?type=user&id=${data["sakai:pool-content-created-for"]}" class="s3d-action">${data["sakai:pool-content-created-for-full"]}<a/></span></p>
+            <p><span class="content_profile_file_details_content">{if revisions.length -1 === 0}No revisions{else}${revisions.length -1} <a href="javascript:;" id="content_profile_details_view_revisions" {if data["jcr:content"]["jcr:mimeType"] === "x-sakai/link"}class="link_revision"{/if}>__MSG__VIEW_REVISIONS__</a>{/if}</span></p>
             <hr/>
         </div>
     </div>
     <div id="content_profile_file_details_actions">
         {if !anon}
-            <button type="button" class="s3d-button s3d-button-primary new_version" id="upload_content">
+            <button type="button" {if data["jcr:content"]["jcr:mimeType"] === "x-sakai/link"}class="s3d-button s3d-button-primary new_version new_link"{else}class="s3d-button s3d-button-primary new_version"{/if} id="upload_content">
                 <span class="s3d-button-inner">__MSG__UPLOAD_NEW_VERSION__</span>
             </button>
         {/if}

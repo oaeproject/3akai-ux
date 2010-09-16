@@ -86,7 +86,7 @@
                 </div>
                 <div class="fl-force-left entity_header">
                     {if data.profile.mimetype === "x-sakai/link"}
-                        <a class="entity_header_text" href="${data.profile.name}">${data.profile.name}</a><span class="entity_content_filetype">(${data.profile.mimetype} ${data.profile.filesize})</span>
+                        <a class="entity_header_text" href="${data.profile.revurl}">${data.profile.name}</a><span class="entity_content_filetype">(${data.profile.mimetype} ${data.profile.filesize})</span>
                     {else}
                         <a class="entity_header_text" href="${data.profile.path}">${data.profile.name}</a><span class="entity_content_filetype">(${data.profile.mimetype} ${data.profile.filesize})</span>
                     {/if}
@@ -208,7 +208,7 @@
             <button id="entity_content_download" class="s3d-button entity_action_button">
                 <span class="s3d-button-inner">
                     {if data.profile.mimetype === "x-sakai/link"}
-                        __MSG__LINK_TO_CONTENT__
+                        __MSG__OPEN_THIS_LINK__
                     {else}
                         __MSG__DOWNLOAD_FILE__
                     {/if}
