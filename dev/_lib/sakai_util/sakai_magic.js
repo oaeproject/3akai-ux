@@ -2324,18 +2324,18 @@ sakai.api.Util.tagEntity = function(tagLocation, newTags, currentTags, callback)
     // determine which tags to add and which to delete
     $(newTags).each(function(i,val) {
         val = $.trim(val);
-        if ($.inArray(val,currentTags) == -1) {
+        if ($.inArray(val,currentTags) == -1 && val !== "") {
             tagsToAdd.push(val);
         }
     });
     $(currentTags).each(function(i,val) {
         val = $.trim(val);
-        if (val.split("/")[0] !== "directory" && $.inArray(val,newTags) == -1) { // dont delete directory tags this way, we do that another way
+        if (val.split("/")[0] !== "directory" && $.inArray(val,newTags) == -1 && val !== "") { // dont delete directory tags this way, we do that another way
             tagsToDelete.push(val);
         }
     });
-    sakai.api.Util.deleteTags(tagLocation, tagsToDelete, function() {
-        sakai.api.Util.setTags(tagLocation, tagsToAdd, function() {
+    deleteTags(tagLocation, tagsToDelete, function() {
+        setTags(tagLocation, tagsToAdd, function() {
             if ($.isFunction(callback)) {
                 callback();
             }
@@ -2343,19 +2343,17 @@ sakai.api.Util.tagEntity = function(tagLocation, newTags, currentTags, callback)
     });
 };
 
-/**
- * Tag a given entity node
- *
- * @param (String) tagLocation the URL to the tag, ie. (~userid/public/authprofile)
- * @param (Array) tags Array of tags to tag the entity with
- * @param (Function) callback The callback function
- */
+    /**
+     * Tag a given entity node
+     *
+     * @param (String) tagLocation the URL to the tag, ie. (~userid/public/authprofile)
+     * @param (Array) tags Array of tags to tag the entity with
+     * @param (Function) callback The callback function
+     */
 
-sakai.api.Util.setTags = function(tagLocation, tags, callback) {
-    if (tags.length) {
-        $(tags).each(function(i,val) {
-            if ($.trim(val) !== "") {
-                val = $.trim(val);
+    var setTags = function(tagLocation, tags, callback) {
+        if (tags.length) {
+            $(tags).each(function(i,val) {
                 // check to see that the tag exists
                 $.ajax({
                     url: "/tags/" + val + ".tagged.json",
@@ -2383,78 +2381,77 @@ sakai.api.Util.setTags = function(tagLocation, tags, callback) {
                         });
                     }
                 });
+            });
+        } else {
+            if ($.isFunction(callback)) {
+                callback();
             }
-        });
-    } else {
-        if ($.isFunction(callback)) {
-            callback();
         }
-    }
 
-    // set the tag on the entity
-    var doSetTag = function(val) {
-        $.ajax({
-            url: tagLocation,
-            data: {
-                "key": "/tags/" + val,
-                ":operation": "tag"
-            },
-            type: "POST",
-            error: function(xhr, response) {
-                fluid.log(tagLocation + " failed to be tagged as " + val);
-            },
-            complete: function() {
-                if ($.isFunction(callback)) {
-                    callback();
-                }
-            }
-        });
-    };
-};
-
-/**
- * Delete tags on a given node
- *
- * @param (String) tagLocation the URL to the tag, ie. (~userid/public/authprofile)
- * @param (Array) tags Array of tags to be deleted from the entity
- * @param (Function) callback The callback function
- */
-
-sakai.api.Util.deleteTags = function(tagLocation, tags, callback) {
-    if (tags.length) {
-        var requests = [];
-        $(tags).each(function(i,val) {
-            requests.push({
-                "url": tagLocation,
-                "method": "POST",
-                "parameters": {
+        // set the tag on the entity
+        var doSetTag = function(val) {
+            $.ajax({
+                url: tagLocation,
+                data: {
                     "key": "/tags/" + val,
-                    ":operation": "deletetag"
+                    ":operation": "tag"
+                },
+                type: "POST",
+                error: function(xhr, response) {
+                    fluid.log(tagLocation + " failed to be tagged as " + val);
+                },
+                complete: function() {
+                    if ($.isFunction(callback)) {
+                        callback();
+                    }
                 }
             });
-        });
-        $.ajax({
-            url: sakai.config.URL.BATCH,
-            traditional: true,
-            type: "POST",
-            data: {
-                requests: $.toJSON(requests)
-            },
-            error: function(xhr, response) {
-                fluid.log(val + " tag failed to be removed from " + tagLocation);
-            },
-            complete: function() {
-                if ($.isFunction(callback)) {
-                    callback();
+        };
+    };
+
+    /**
+     * Delete tags on a given node
+     *
+     * @param (String) tagLocation the URL to the tag, ie. (~userid/public/authprofile)
+     * @param (Array) tags Array of tags to be deleted from the entity
+     * @param (Function) callback The callback function
+     */
+
+    var deleteTags = function(tagLocation, tags, callback) {
+        if (tags.length) {
+            var requests = [];
+            $(tags).each(function(i,val) {
+                requests.push({
+                    "url": tagLocation,
+                    "method": "POST",
+                    "parameters": {
+                        "key": "/tags/" + val,
+                        ":operation": "deletetag"
+                    }
+                });
+            });
+            $.ajax({
+                url: sakai.config.URL.BATCH,
+                traditional: true,
+                type: "POST",
+                data: {
+                    requests: $.toJSON(requests)
+                },
+                error: function(xhr, response) {
+                    fluid.log(val + " tag failed to be removed from " + tagLocation);
+                },
+                complete: function() {
+                    if ($.isFunction(callback)) {
+                        callback();
+                    }
                 }
+            });
+        } else {
+            if ($.isFunction(callback)) {
+                callback();
             }
-        });
-    } else {
-        if ($.isFunction(callback)) {
-            callback();
         }
-    }
-};
+    };
 
 /**
  * @class notification
