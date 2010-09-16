@@ -311,11 +311,12 @@ sakai.topnavigation = function(tuid, showSettings){
         // Hide things which are irrelvant for Anonymous user
         $(".personal .mail").hide();
         $(".personal .sign_out").hide();
+        $(".help").hide();
         $("#user_link_container").hide();
 
         // Show anonymous elements
         $("#other_logins_button_container").show();
-        $(".help").addClass("help_none"); 
+        $(".log_in").addClass("help_none"); 
 
         // if config.js is set to external, register link is hidden
         if(!sakai.config.Authentication.internal) {

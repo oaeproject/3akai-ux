@@ -41,6 +41,7 @@ sakai.inbox = function() {
     var box = "";
     var cats = "";
     var inboxComposeNewPanelOpen = false;
+    var getAll = true;
 
 
     /**
@@ -528,13 +529,17 @@ sakai.inbox = function() {
      */
     var renderMessages = function(response) {
 
-        for (var i = 0, k = response.results.length; i < k; i++) {
+        if (!getAll) {
+            for (var i = 0, k = response.results.length; i < k; i++) {
 
-            if (box === "inbox" && cats === "" && response.results[i]["sakai:category"] === "chat") {
-                response.results.splice(i, 1);
-                // We are modifying the array we are iterating. We need to adjust the length otherwise we end up with undefined array elements
-                k--;
+                if (box === "inbox" && cats === "" && response.results[i]["sakai:category"] === "chat") {
+                    response.results.splice(i, 1);
+                    // We are modifying the array we are iterating. We need to adjust the length otherwise we end up with undefined array elements
+                    k--;
+                }
             }
+        } else {
+            getAll = false;
         }
 
         for (var j = 0, l = response.results.length; j < l; j++) {
@@ -1391,6 +1396,7 @@ sakai.inbox = function() {
             showUnreadMessages();
             var getMsgsReady = false;
             var sendMsgReady = false;
+            getAll = true;
             getAllMessages(function() {
                 getMsgsReady = true;
                 if (getMsgsReady && sendMsgReady)
