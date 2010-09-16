@@ -45,10 +45,35 @@ sakai.s23_site = function(){
     var s23SiteIframeContainerTemplate = "s23_site_iframe_container_template";
     var s23SiteMenuContainerTemplate = "s23_site_menu_container_template";
 
+    // see: http://www.ietf.org/rfc/rfc2396.txt Appendix B
+    var urlRegExp = new RegExp("^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?");
 
     ///////////////////////
     // General functions //
     ///////////////////////
+
+    /**
+     * Check to see if both URLs are in the same origin. See: http://en.wikipedia.org/wiki/Same_origin_policy.
+     * @param {String} url1
+     * @param {String} url2
+     * @return {Boolean}
+     *     true: in the same origin policy
+     *     false: NOT in the same origin policy
+     */
+    var isSameOriginPolicy = function(url1, url2){
+        if(url1 == url2) {
+            return true;
+        }
+        // console.log(isUrl(url1) + ": " + url1 + "=" + urlRegExp.exec(url1)[4]);
+        // console.log(isUrl(url2) + ": " + url2 + "=" + urlRegExp.exec(url2)[4]);
+        // i.e. protocol, domain (and optional port numbers) must match
+        if((urlRegExp.exec(url1)[2] == urlRegExp.exec(url2)[2]) &&
+           (urlRegExp.exec(url1)[4] == urlRegExp.exec(url2)[4])){
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     /**
      * Get all the information about a certain page
@@ -97,7 +122,14 @@ sakai.s23_site = function(){
                 // Render the tools of the site and add them to the page container
                 s23SiteIframeContainer.append($.TemplateRenderer(s23SiteIframeContainerTemplate, page));
                 for (var tool in page.tools){
-                    $("#Main" + page.tools[tool].xid).attr("src", sakai.config.SakaiDomain + "/portal/tool/" + page.tools[tool].url + "?panel=Main");
+                    var iframe = $("#Main" + page.tools[tool].xid);
+                    var srcUrl = sakai.config.SakaiDomain + "/portal/tool/" + page.tools[tool].url + "?panel=Main";
+                    if(isSameOriginPolicy(window.location.href, srcUrl)) {
+                        iframe.load(function() {
+                            $(this).height($(this).contents().find("body").height() + 15); // add 10px for IE and 5px more for Gradebook weirdness
+                        });
+                    }
+                    iframe.attr("src", srcUrl);
                 }
                 
             }
