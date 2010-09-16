@@ -30,7 +30,7 @@ sakai.content_profile = function(){
     var globalJSON;
     var ready_event_fired = 0;
     var list_event_fired = false;
-
+    var initted = false;
 
     ///////////////////
     // CSS Selectors //
@@ -268,8 +268,11 @@ sakai.content_profile = function(){
         // Bind an event to window.onhashchange that, when the history state changes,
         // loads all the information for the current resource
         $(window).bind('hashchange', function(e){
-            content_path = e.getState("content_path") || "";
-            loadContentProfile();
+            if (!initted) {
+                content_path = e.getState("content_path") || "";
+                loadContentProfile();
+                initted = true;
+            }
         });
 
         // Since the event is only triggered when the hash changes, we need to trigger
