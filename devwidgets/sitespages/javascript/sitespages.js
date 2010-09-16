@@ -373,22 +373,30 @@ sakai.sitespages = function(tuid,showSettings){
             });
         }
 
-        if (pageType === "webpage" && config.editMode) {
-            $content_page_options.show();
-            $li_edit_page_divider.show();
-            $li_edit_page.show();
-            $more_revision_history.show();
-            $more_save_as_template.show();
-        } else if (pageType === "dashboard") {
-            $more_revision_history.hide();
-            $content_page_options.show();
-            $li_edit_page_divider.hide();
-            $li_edit_page.hide();
-            $more_save_as_template.hide();
-        } else if (pageType === "profile") {
+        if (!config.editMode) {
             $content_page_options.hide();
-            $li_edit_page_divider.hide();
-            $li_edit_page.hide();
+            $(".sakai_site .content_top").addClass("content_top_rounded");
+        } else {
+            if (pageType === "webpage") {
+                $(".sakai_site .content_top").removeClass("content_top_rounded");
+                $content_page_options.show();
+                $li_edit_page_divider.show();
+                $li_edit_page.show();
+                $more_revision_history.show();
+                $more_save_as_template.show();
+            } else if (pageType === "dashboard") {
+                $(".sakai_site .content_top").removeClass("content_top_rounded");
+                $more_revision_history.hide();
+                $content_page_options.show();
+                $li_edit_page_divider.hide();
+                $li_edit_page.hide();
+                $more_save_as_template.hide();
+            } else if (pageType === "profile") {
+                $(".sakai_site .content_top").addClass("content_top_rounded");
+                $content_page_options.hide();
+                $li_edit_page_divider.hide();
+                $li_edit_page.hide();
+            }
         }
 
     };
