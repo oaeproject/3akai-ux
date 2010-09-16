@@ -185,10 +185,10 @@
 
 .news_main .compose-cancel
 {padding-left: 7px;}
-
+/*
 .news_main .dialog_content
 { border: none; }
-
+*/
 #sendmessage_dialog_footer
 { display: none; }
 

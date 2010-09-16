@@ -129,18 +129,21 @@ sakai.news = function(){
         // Load the creategroup widget.
         // sakai.createnews.initialise();
       $("#createnews_container").jqmShow();
+      
+      $("#createnews_add_cancel1").show(); 
+      $("#createnews_add_save1").show();     
         
-        $.ajax({
-            url: "/devwidgets/news/pages/data/onenews.json",
-            type: "GET",
-            success: function(data) {
-                $("#createnews_add_title").val(data.title);
-                $("#createnews_add_content").val(data.body);
-            },
-            error: function(xhr, textStatus, thrownError) {
-                alert("error");
-            }
-        });
+      $.ajax({
+          url: "/devwidgets/news/pages/data/onenews.json",
+          type: "GET",
+          success: function(data) {
+              $("#createnews_add_title").val(data.title);
+              $("#createnews_add_content").val(data.body);
+          },
+          error: function(xhr, textStatus, thrownError) {
+              alert("error");
+          }
+      });
         
     });
     
@@ -150,6 +153,10 @@ sakai.news = function(){
         // Load the creategroup widget.
         // sakai.createnews.initialise();
         $("#createnews_container").jqmShow();
+        
+        $("#createnews_add_title").val("");
+        $("#createnews_add_content").val("");
+        
     });
     
     // Show a specific news
@@ -176,7 +183,6 @@ sakai.news = function(){
     // Fluid Pager and News List Initialization //
     //////////////////////////////////////////////
     var initPager = function (userTable) {
-        
         var options = {
             dataModel: userTable,
             columnDefs: "explode",

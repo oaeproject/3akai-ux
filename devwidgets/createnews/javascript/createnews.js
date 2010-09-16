@@ -49,14 +49,13 @@ sakai.createnews = function(tuid, showSettings){
     var createnewsAdd = createnews + "_add";    
     var createnewsAddContent = createnewsAdd + "_content";    
     var createnewsAddTitle = createnewsAdd + "_title";
-    var createnewsAddProcess = createnewsAdd + "_process";    
+    var createnewsAddProcess = createnewsAdd + "_process"; 
+       
     var createnewsAddSave = createnewsAdd + "_save";
     var createnewsEditSave = createnewsAdd + "_save1";
     
     // CSS Classes
     var invalidFieldClass = "invalid";
-    // Pages to be added to the group
-    var pagestemplate = "defaultgroup";
 
     ///////////////////////
     // Utility functions //
@@ -153,7 +152,7 @@ sakai.createnews = function(tuid, showSettings){
     });
     
     $(createnewsEditSave).live("click", function(ev){
-        saveEditNews(id,title,content);
+        saveEditNews();
     });
 
     /////////////////////////////
