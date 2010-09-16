@@ -3311,16 +3311,6 @@ sakai.api.Widgets.widgetLoader = {
 };
 
 
-
-
-
-
-
-
-
-
-
-
 /**
  * Save the preference settings or data for a widget
  *
@@ -3362,10 +3352,6 @@ sakai.api.Widgets.removeWidgetData = function(id, callback) {
 
 
 })();
-
-
-
-
 
 
 
