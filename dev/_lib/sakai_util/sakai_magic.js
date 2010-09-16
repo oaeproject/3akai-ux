@@ -3346,9 +3346,15 @@ sakai.api.Widgets.removeWidgetData = function(id, callback) {
 
 };
 
-
-
-
+/**
+ * Change the given widget's title
+ *
+ * @param {String} tuid The tuid of the widget
+ * @param {String} title The title to change to
+ */
+sakai.api.Widgets.changeWidgetTitle = function(tuid, title) {
+    $("#"+tuid).parent("div").siblings("div.fl-widget-titlebar").find("h2.widget_title").text(title);
+};
 
 
 })();
