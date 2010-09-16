@@ -367,24 +367,6 @@ sakai._search = function(config, callback) {
         return null;
     };
 
-
-    /**
-     * Checks if the user is logged in.
-     * If he is not he will be redirected to /dev/index.html
-     * If he is this function will return true.
-     */
-    var isLoggedIn = function() {
-        var person = sakai.data.me;
-        var uuid = person.user.userid;
-        if (!uuid || person.user.anon) {
-            document.location = "/dev/index.html";
-            return false;
-        }
-        else {
-            return true;
-        }
-    };
-
     /**
      * Removes the seperated and the add contacts link
      * @param {Object} user The user object we get from the addcontact widget.
@@ -455,7 +437,6 @@ sakai._search = function(config, callback) {
         'getSearchWhereSites': getSearchWhereSites,
         'getSearchTags': getSearchTags,
         'fillInElements': fillInElements,
-        'isLoggedIn': isLoggedIn,
         'removeAddContactLinks': removeAddContactLinks,
         'prepSearchTermForURL': prepSearchTermForURL,
         'preparePeopleForRender': preparePeopleForRender,

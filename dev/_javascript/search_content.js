@@ -384,21 +384,18 @@ sakai.search = function() {
      */
     var doInit = function() {
         // Make sure that we are still logged in.
-        if (mainSearch.isLoggedIn()) {
-
-            $.ajax({
-                url: sakai.config.URL.SITES_SERVICE,
-                cache: false,
-                success: function(data){
-                    data = data.results;
-                    var sites = {
-                        "sites" : data
-                    };
-                    // Get my sites
-                    mainSearch.getMySites();
-                }
-            });
-        }
+        $.ajax({
+            url: sakai.config.URL.SITES_SERVICE,
+            cache: false,
+            success: function(data){
+                data = data.results;
+                var sites = {
+                    "sites" : data
+                };
+                // Get my sites
+                mainSearch.getMySites();
+            }
+        });
         // Add the bindings
         mainSearch.addEventListeners();
 

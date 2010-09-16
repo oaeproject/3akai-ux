@@ -133,7 +133,9 @@ sakai.search = function() {
     var showSearchContent = function() {
         // Set searching messages
         $(searchConfig.global.searchTerm).text(sakai.api.Security.saneHTML(searchterm));
-        $(searchConfig.global.tagTerm).text(sakai.api.Security.saneHTML(tagterm.replace("/tags/", "").replace("directory/", "")));
+        if (tagterm) {
+            $(searchConfig.global.tagTerm).text(sakai.api.Security.saneHTML(tagterm.replace("/tags/", "").replace("directory/", "")));
+        }
         $(searchConfig.global.numberFound).text("0");
 
         $(searchConfig.cm.displayMoreNumber).text("0");
@@ -508,13 +510,10 @@ sakai.search = function() {
 
     var doInit = function() {
         mainSearch = sakai._search(searchConfig, thisFunctionality);
-        // Make sure that we are still logged in.
-        if (mainSearch.isLoggedIn()) {
-            // Get my friends
-            mainSearch.fetchMyFriends();
-            // add the bindings
-            mainSearch.addEventListeners();
-        }
+        // Get my friends
+        mainSearch.fetchMyFriends();
+        // add the bindings
+        mainSearch.addEventListeners();
     };
     doInit();
 };

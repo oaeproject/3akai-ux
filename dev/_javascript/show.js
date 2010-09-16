@@ -83,6 +83,10 @@ sakai.show = function() {
         } 
     };
 
+    sakai.show.canEdit = function() {
+        return canEdit;
+    };
+
     /**
      * Check whether there is a valid picture for the user
      * @param {Object} profile The profile object that could contain the profile picture
