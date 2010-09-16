@@ -121,8 +121,10 @@
             <div class="groupbasicinfo_generalinfo_subcontainer">
                 <span class="groupbasicinfo_generalinfo_label">__MSG__TAGS__:</span>
                 <div class="groupbasicinfo_generalinfo_content">
-                    {if data['sakai:group-tags'] && data['sakai:group-tags'].length > 0}
-                        {for t in data['sakai:group-tags'].split(",")}{if t_index > 0},{/if} <a href="/dev/search.html#q=${t}" class="s3d-action">${t}</a>{/for}
+                    {if tags && tags.length > 0}
+                        {for tag in tags}
+                            <a href="/dev/search.html#tag=/tags/${tag}" class="s3d-action">${tag}</a>{if tag_index < tags.length-1}, {/if}
+                        {/for}
                     {/if}
                 </div>
             </div>
