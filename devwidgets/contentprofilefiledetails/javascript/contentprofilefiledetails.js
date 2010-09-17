@@ -69,6 +69,23 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
         return formattedDate;
     }
 
+    /**
+     * Get userprofile with the userid provided
+     * @param {Object} userid
+     */
+    var getUserProfile = function(userid){
+        $.ajax({
+            url: "/~" + userid + "/public/authprofile.infinity.json",
+            success: function(profile){
+                profileData["sakai:pool-content-created-for-full"] = sakai.api.User.getDisplayName(profile);
+                renderDetails();
+            },
+            error: function(xhr, textStatus, thrownError){
+                sakai.api.Util.notification.show("Failed loading profile", "Failed to load file profile information");
+            }
+        });
+    }
+
     var renderDetails = function(){
         // Construct the JSON object
         // Create a readable data to display
@@ -114,7 +131,7 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
                     }
                     fileRevisions[fileRevisions.length] = item;
                 }
-                renderDetails();
+                getUserProfile(profileData["sakai:pool-content-created-for"]);
             },
             error: function(xhr, textStatus, thrownError){
                 sakai.api.Util.notification.show("Failed loading revisions", "Failed to load file revision information");
@@ -152,7 +169,6 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
                     for (var i in managers) {
                         if (managers[i].userid === sakai.data.me.user.userid) {
                             anon = false;
-                            loadContentProfile();
                             break;
                         }
                         else {
@@ -162,8 +178,8 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
                 }
                 else {
                     anon = true;
-                    loadContentProfile();
                 }
+                loadContentProfile();
             },
             error: function(xhr, textStatus, thrownError){
                 anon = true;

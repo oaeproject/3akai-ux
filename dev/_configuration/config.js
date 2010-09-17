@@ -459,6 +459,10 @@ sakai.config = {
             URL: "/dev/_images/mimetypes/kmultiple.png",
             description: "Folder"
         },
+        "x-sakai/link": {
+            URL: "/dev/_images/mimetypes/html.png",
+            description: "URL Link"
+        },
         other: {
             URL: "/dev/_images/mimetypes/unknown.png",
             description: "Other document"

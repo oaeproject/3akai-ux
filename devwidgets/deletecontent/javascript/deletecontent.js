@@ -77,10 +77,13 @@ sakai.deletecontent = function(tuid, showSettings){
             $.ajax({
                 url: deletedata.path,
                 success: function(){
-                    // TODO - redirect to the global content page
-                    // as soon as we have it
+                    // Show message
                     sakai.api.Util.notification.show($deletecontent_deleted.html(), $deletecontent_successfully_deleted.html());
-                    document.location = "/dev/my_sakai.html";
+                    // Wait for 2 seconds
+                    setTimeout(function(){
+                        // Relocate to the my sakai page
+                        document.location = sakai.config.URL.MY_DASHBOARD_URL;
+                    }, 2000);
                 },
                 error: function(){
                     sakai.api.Util.notification.show($deletecontent_not_deleted.html(), $deletecontent_not_successfully_deleted.html());

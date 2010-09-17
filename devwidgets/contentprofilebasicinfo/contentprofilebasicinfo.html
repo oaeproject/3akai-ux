@@ -21,15 +21,15 @@
                 __MSG__TAGS__:
             </label>
             {if !anon}
-            <textarea id="content_profile_basic_info_form_tags">
-                {if data["sakai:tags"]}${data["sakai:tags"]}{/if}
-            </textarea>
-            <br/>
-            <div class="content_profile_basic_info_form_info">
-                (__MSG__COMMA_SEPARATED__)
-            </div>
+                <textarea id="content_profile_basic_info_form_tags">{if data["sakai:tags"]}{for tag in data["sakai:tags"]}{if tag.split(":")[0] !== "directory"}{if tag_index > 0},{/if}${tag}{/if}{/for}{/if}</textarea>
+                <br/>
+                <div class="content_profile_basic_info_form_info">
+                    (__MSG__COMMA_SEPARATED__)
+                </div>
             {else}
-                <label class="content_profile_basic_info_form_anon_label">{if data["sakai:tags"]}${data["sakai:tags"]}{/if}</label>
+            <div id="content_profile_basic_info_tags_viewlist">
+                {for tag in data["sakai:tags"]}{if tag.split(":")[0] !== "directory"}{if tag_index > 0},{/if} <a href="/dev/search.html#q=${tag}" class="s3d-action" title="Search content tagged with '${tag}'"">${tag}</a>{/if}{/for}
+            </div>
             {/if}
         </div>
         <div class="content_profile_basic_info_form_row">
@@ -37,9 +37,7 @@
                 __MSG__DESCRIPTION__:
             </label>
             {if !anon}
-            <textarea id="content_profile_basic_info_form_description">
-                {if data["sakai:description"]}${data["sakai:description"]}{/if}
-            </textarea>
+            <textarea id="content_profile_basic_info_form_description">{if data["sakai:description"]}${data["sakai:description"]}{/if}</textarea>
             {else}
                 <label class="content_profile_basic_info_form_anon_label">{if data["sakai:description"]}${data["sakai:description"]}{/if}</label>
             {/if}
@@ -60,11 +58,11 @@
                 <label class="content_profile_basic_info_form_anon_label">{if data["sakai:copyright"]}${data["sakai:copyright"]}{/if}</label>
             {/if}
         </div>
+        {if !anon}
         <div class="content_profile_basic_info_form_row">
             <label for="content_profile_basic_info_permissions_select">
                 __MSG__WHO_CAN_SEE_THIS_CONTENT__:
             </label>
-            {if !anon}
                 <select id="content_profile_basic_info_permissions_select">
                     <option value="public" {if data["sakai:permissions"] === "public"}selected="selected"{/if}>__MSG__THE_PUBLIC__</option>
                     <option value="everyone" {if data["sakai:permissions"] === "everyone"}selected="selected"{/if}>__MSG__LOGGED_IN_ONLY__</option>
@@ -74,24 +72,13 @@
                         <option value="private" {if data["sakai:permissions"] === "private"}selected="selected"{/if}>__MSG__MYSELF_ONLY__</option>
                     {/if}
                 </select>
-            {else}
-                <label class="content_profile_basic_info_form_anon_label">
-                    {if data["sakai:permissions"] === "public"}
-                        __MSG__THE_PUBLIC__
-                    {elseif data["sakai:permissions"] === "private"}
-                        __MSG__MYSELF_ONLY__
-                    {elseif data["sakai:permissions"] === "group"}
-                        __MSG__VIEWERS_AND_MANAGERS_ONLY__
-                    {else}
-                        __MSG__LOGGED_IN_ONLY__
-                    {/if}
-                </label>
-            {/if}
         </div>
+        {/if}
         <div class="content_profile_basic_info_form_row">
             <label class="content_profile_basic_info_label" for="content_profile_basic_info">
                 __MSG__WHERE_CONTENT_FOUND_IN_DIRECTORY__:
             </label>
+            {if !anon}
             <div id="content_profile_basic_info_content_directory_contents">
                 {if saveddirectory.length === 0}
                     <div id="content_profile_basic_info_add_another_container">
@@ -114,6 +101,20 @@
                     </p>
                 {/if}
             </div>
+            {else}
+                {if saveddirectory.length === 0}
+                    <label class="content_profile_basic_info_form_anon_label">No locations added</label>
+                {else}
+                    <ul class="content_profile_basic_info_saveddirectory">
+                        {for savedDir in saveddirectory}
+                            <li><a href="/dev/search.html#q=${savedDir.toString().replace(/,/g, ' ')}" class="s3d-action" title="Search content located at ${savedDir.toString().replace(/,/g, ' ')}">
+                                    ${savedDir.toString().replace(/,/g, " <span class='content_profile_basic_info_selected_and_saved_seperator'>&raquo;</span> ")}
+                                </a>
+                            </li>
+                        {/for}
+                    </ul>
+                {/if}
+            {/if}
         </div>
         {if !anon}
         <div class="content_profile_basic_info_form_buttons">

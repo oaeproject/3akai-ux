@@ -16,4 +16,6 @@
 
 #embedcontent_footer {height:24px;}
 
-#embedcontent_main_container ul.as-selections {width:98%;}
+#embedcontent_main_container ul.as-selections {width:98%; height:80px;}
+
+#embedcontent_search_for_content {display:block;}

@@ -396,6 +396,7 @@ sakai.search = function() {
                                 j++;
                             }
                         });
+                        resultsTemp.total = data.total;
                         data = resultsTemp;
                     } else if (data.results) {
                         var resultsTemp = { results : [] };
@@ -406,8 +407,10 @@ sakai.search = function() {
                                 updateData = true;
                             }
                         });
-                        if (updateData)
+                        resultsTemp.total = data.total;
+                        if (updateData) {
                             data = resultsTemp;
+                        }
                     }
 
                     for (var i = 0, j = data.results.length; i < j; i++) {

@@ -21,6 +21,8 @@
 // Namespaces
 var sakai = sakai || {};
 
+var anon = false;
+
 /**
  * @name sakai.listPeople
  *
@@ -134,6 +136,28 @@ sakai.listPeople.render = function(tuid, iConfig, url, id) {
             if (typeof(data) === 'string') {
                 data = $.parseJSON(data);
 
+                // Variable to check if the logged in user is a manager of the file or not
+                // If not we handel him like an anonymous user (not giving any editting possibilities in the UX)
+                if (data.managers.length !== 0) {
+                    for (var i in data.managers) {
+                        if (data.managers[i].userid === sakai.data.me.user.userid) {
+                            anon = false;
+                            break;
+                        }
+                        else {
+                            anon = true;
+                        }
+                    }
+                }
+                else {
+                    anon = true;
+                }
+
+                // Check to set the buttons visible or invisible according to logged in user
+                if(!anon){
+                    $(".content_profile_list_buttons").show();
+                }
+
                 var json_data = {
                     "results" : data,
                     "total" : itemCount
@@ -206,6 +230,12 @@ sakai.listPeople.renderList = function(tuid, pageNumber, objects) {
         "userList" : sakai.data.listpeople[tuid].userList,
         "selectable" : sakai.config.widgets.listpeople[tuid].selectable
     };
+
+    // Override selectable property if needed
+    // This should be overridden when a user is not a manager of the content and set to false
+    if (anon){
+        json_data.selectable = false;
+    }
 
     // Render the results data template
     var pageHTML = $.TemplateRenderer("#" + tuid + " .listpeople_content_pagetemplate", json_data);

@@ -353,6 +353,7 @@ sakai.search = function() {
                         data = $.parseJSON(data);
                     }
                     json.results = data;
+                    json.total = data.total;
                     json.items = json.results.length;
 
                     renderResults(json, true);

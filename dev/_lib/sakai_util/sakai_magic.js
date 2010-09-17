@@ -2144,7 +2144,7 @@ sakai.api.User.getProfileBasicElementValue = function(profile, eltName) {
         profile.basic.elements[eltName].value !== undefined) {
             ret = profile.basic.elements[eltName].value;
         }
-    return sakai.api.Security.saneHTML($.trim(ret));
+    return unescape(sakai.api.Security.saneHTML($.trim(ret)));
 };
 
 /**
