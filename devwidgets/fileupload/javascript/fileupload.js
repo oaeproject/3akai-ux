@@ -850,7 +850,7 @@ sakai.fileupload = function(tuid, showSettings){
 
     $(fileUploadUploadContent).live("click", function(ev){
         // Check if the uploads need to be associated with a group or not
-        if ($(fileUploadUploadContent).hasClass("group_content")) {
+        if (sakai.currentgroup && sakai.currentgroup.id && sakai.currentgroup.id !== "") {
             groupContext = true;
             context = "group";
             $('#uploadfilescontainer').show();
