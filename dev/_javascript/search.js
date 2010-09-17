@@ -167,6 +167,7 @@ sakai.search = function() {
      * @param {Object} searchquery The searchterm
      */
     var doHSearch = function() {
+        totalItemsFound = 0;
         History.addBEvent("1", encodeURIComponent($(searchConfig.global.text).val()));
     };
 
