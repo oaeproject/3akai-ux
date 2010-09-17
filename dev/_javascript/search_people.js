@@ -26,7 +26,7 @@ sakai.search = function() {
     //    Config variables    //
     //////////////////////////
 
-    var resultsToDisplay = 12;
+    var resultsToDisplay = 10;
     var searchterm = "";
     var tagterm = "";
     var currentpage = 0;
@@ -244,7 +244,7 @@ sakai.search = function() {
     var pager_click_handler = function(pageclickednumber) {
         currentpage = pageclickednumber;
         //    Redo the search
-        doHSearch(currentpage, searchterm, null, $.bbq.getState('facet'));
+        sakai._search.doHSearch(currentpage, searchterm, null, $.bbq.getState('facet'));
     };
 
     /**
@@ -396,6 +396,7 @@ sakai.search = function() {
                                 j++;
                             }
                         });
+                        resultsTemp.total = data.total;
                         data = resultsTemp;
                     } else if (data.results) {
                         var resultsTemp = { results : [] };
@@ -406,8 +407,10 @@ sakai.search = function() {
                                 updateData = true;
                             }
                         });
-                        if (updateData)
+                        resultsTemp.total = data.total;
+                        if (updateData) {
                             data = resultsTemp;
+                        }
                     }
 
                     for (var i = 0, j = data.results.length; i < j; i++) {
@@ -461,31 +464,6 @@ sakai.search = function() {
     };
 
 
-    ///////////////////////////////////
-    // Create site with found people //
-    ///////////////////////////////////
-
-    $("#create_site_these_people_link").bind("click", function(ev){
-        var searchterm = $(searchConfig.global.text).val().toLowerCase();
-        var urlsearchterm = mainSearch.prepSearchTermForURL(searchterm);
-        var url = sakai.config.URL.SEARCH_USERS + "?page=" + 0 + "&items=" + results.total + "&q=" + urlsearchterm;
-        $.ajax({
-            cache: false,
-            url: url,
-            success: function(data) {
-                var finaljson = {};
-                finaljson.items = [];
-                finaljson = mainSearch.preparePeopleForRender(data.results, finaljson);
-                sakai.createsite.initialise(finaljson);
-            },
-            error: function(xhr, textStatus, thrownError) {
-                alert(sakai.api.i18n.Widgets.getValueForKey("__MSG__AN_ERROR_HAS_OCCURED__"));
-            }
-        });
-    });
-
-
-
     //////////////////////
     //    Event binding    //
     //////////////////////
@@ -530,14 +508,15 @@ sakai.search = function() {
      * Will fetch the sites and add a new item to the history list.
      */
     var doInit = function() {
+
         mainSearch = sakai._search(searchConfig, thisFunctionality);
-        // Get my friends
-        mainSearch.fetchMyFriends();
+        
         // add the bindings
         mainSearch.addEventListeners();
 
         // display faceted panel
         mainSearch.addFacetedPanel();
+        
     };
     doInit();
 };

@@ -373,22 +373,30 @@ sakai.sitespages = function(tuid,showSettings){
             });
         }
 
-        if (pageType === "webpage" && config.editMode) {
-            $content_page_options.show();
-            $li_edit_page_divider.show();
-            $li_edit_page.show();
-            $more_revision_history.show();
-            $more_save_as_template.show();
-        } else if (pageType === "dashboard") {
-            $more_revision_history.hide();
-            $content_page_options.show();
-            $li_edit_page_divider.hide();
-            $li_edit_page.hide();
-            $more_save_as_template.hide();
-        } else if (pageType === "profile") {
+        if (!config.editMode) {
             $content_page_options.hide();
-            $li_edit_page_divider.hide();
-            $li_edit_page.hide();
+            $(".sakai_site .content_top").addClass("content_top_rounded");
+        } else {
+            if (pageType === "webpage") {
+                $(".sakai_site .content_top").removeClass("content_top_rounded");
+                $content_page_options.show();
+                $li_edit_page_divider.show();
+                $li_edit_page.show();
+                $more_revision_history.show();
+                $more_save_as_template.show();
+            } else if (pageType === "dashboard") {
+                $(".sakai_site .content_top").removeClass("content_top_rounded");
+                $more_revision_history.hide();
+                $content_page_options.show();
+                $li_edit_page_divider.hide();
+                $li_edit_page.hide();
+                $more_save_as_template.hide();
+            } else if (pageType === "profile") {
+                $(".sakai_site .content_top").addClass("content_top_rounded");
+                $content_page_options.hide();
+                $li_edit_page_divider.hide();
+                $li_edit_page.hide();
+            }
         }
 
     };
@@ -520,17 +528,17 @@ sakai.sitespages = function(tuid,showSettings){
     $(window).bind("sakai.dashboard.ready", function(e, tuid) {
         var split = $(sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"]).attr("id").split("_");
         var entityID = false;
-        if (sakai.currentgroup) {
-            entityID = sakai.currentgroup.id;
-        } else if (sakai.profile.main.data["rep:userId"]) {
+        if (sakai.profile.main.data["rep:userId"]) {
             entityID = sakai.profile.main.data["rep:userId"];
+        } else if (sakai.currentgroup && sakai.currentgroup.id && sakai.currentgroup.id !== "") {
+            entityID = sakai.currentgroup.id;
         }
         // make sure the dashboard that said it's ready is the one we just got the data for
         if (split[2] === tuid) {
             if (config.editMode) {
-                sakai.dashboard.init("/~" + entityID + "/" + sakai.sitespages.selectedpage + "/" + tuid + "/dashboardwidgets/", true, config.dashboardEmbedProperty, false);
+                sakai.dashboard.init(sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["jcr:path"] + "/_widgets/", true, config.dashboardEmbedProperty, false);
             } else {
-                sakai.dashboard.init("/~" + entityID + "/" + sakai.sitespages.selectedpage + "/" + tuid + "/dashboardwidgets/", false, config.dashboardEmbedProperty, false);
+                sakai.dashboard.init(sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["jcr:path"] + "/_widgets/", false, config.dashboardEmbedProperty, false);
             }
         }
     });

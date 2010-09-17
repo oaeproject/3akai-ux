@@ -59,7 +59,6 @@ sakai.newaccount = function(){
     var usernameTaken = usernameField + "_taken";
     var usernameShort = usernameField + "_short";
     var usernameSpaces = usernameField + "_spaces";
-    var usernameNoGroup = usernameField + "_no_group";
     var usernameEmpty = usernameField + "_empty";
     var firstNameEmpty = firstNameField + "_empty";
     var lastNameEmpty = lastNameField + "_empty";
@@ -355,13 +354,6 @@ sakai.newaccount = function(){
         if (usernameEntered.length < 3){
             errObj.push(function(){
                 setError(usernameField, usernameShort)
-            });
-        }
-
-        // Check whether the username contains illegal characters
-        if (usernameEntered.substr(0,2) === 'g-'){
-            errObj.push(function(){
-                setError(usernameField, usernameNoGroup)
             });
         }
 

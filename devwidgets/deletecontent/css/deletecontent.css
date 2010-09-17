@@ -16,5 +16,6 @@
  * specific language governing permissions and limitations under the License.
  */
 
-#deletecontent_error_container {margin-bottom:30px}
-#deletecontent_form h4 {margin-bottom: 30px}
+#deletecontent_error_container {margin-bottom:20px}
+#deletecontent_form h4 {margin-bottom: 20px}
+.deletecontent_buttons {padding-top:20px; text-align:right;}

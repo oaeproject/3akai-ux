@@ -206,7 +206,7 @@ sakai.fileupload = function(tuid, showSettings){
             groupName = $("#groupbasicinfo_generalinfo_group_title").val();
         }
         else {
-            groupName = getGroupId().replace("g-", "");
+            groupName = getGroupId();
         }
         // Fill the data needed for the group
         contextData = {

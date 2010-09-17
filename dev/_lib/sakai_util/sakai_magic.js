@@ -9,7 +9,7 @@
  * with the License. You may obtain a copy of the License at
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ *g
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -250,27 +250,19 @@ sakai.api.Communication.sendMessage = function(to, subject, body, category, repl
     //////////////////
     // MAIN ROUTINE //
     //////////////////
-
-    // check 'to' argument
+    
+    var reqs = [];
     if (typeof(to) === "string") {
-        // single recipient - is it a group?
-        if(to.indexOf("g-") != -1) {
-            // fetch the members and managers in this group
-            fetchGroupMembers(to);
-        } else {
-            // add single recipient & send
-            toUsers = "internal:" + to;
-            sendMessageToUsers();
-        }
-    } else if(typeof(to) === "object") {
-        // array of recipients
-        for(var i = 0; i < to.length; i++) {
-            // is it a group?
-            if(to[i].indexOf("g-") != -1) {
-                // fetch the members and managers in this group
-                fetchGroupMembers(to[i]);
-            } else {
-                addToUsers(to[i]);
+        var id = to;
+        to = [];
+        to[0] = id;
+    }
+    
+    if (typeof(to) === "object") {
+        for (var i = 0; i < to.length; i++) {
+            reqs[reqs.length] = {
+                "url": "/~" + to[i] + "/public/authprofile.json",
+                "method": "GET"
             }
         }
     } else {
@@ -280,12 +272,32 @@ sakai.api.Communication.sendMessage = function(to, subject, body, category, repl
         if (typeof callback === "function") {
             callback(false, xhr);
         }
-    }
+    } 
+    
+    $.ajax({
+       url: "/system/batch",
+       method: "POST",
+       data: {
+           "requests": $.toJSON(reqs)
+       },
+       success: function(data){
+           // array of recipients
+           for(var i = 0; i < to.length; i++) {
+               // is it a group?
+               if($.parseJSON(data.results[i].body) && $.parseJSON(data.results[i].body)["sakai:group-title"]) {
+                   // fetch the members and managers in this group
+                   fetchGroupMembers(to[i]);
+               } else {
+                   addToUsers(to[i]);
+               }
+           }
+           // send now if we have only a list of users ("thread" safe?)
+           if (!sendDone) {
+               sendMessageToUsers();
+           }
+       } 
+    });
 
-    // send now if we have only a list of users ("thread" safe?)
-    if (!sendDone) {
-        sendMessageToUsers();
-    }
 };
 
 /**
@@ -1086,7 +1098,11 @@ sakai.api.Security = sakai.api.Security || {};
  * @returns {String} HTML Encoded string
  */
 sakai.api.Security.escapeHTML = function(inputString){
-    return $("<div/>").text(inputString).html();
+    if (inputString) {
+        return $("<div/>").text(inputString).html();
+    } else {
+        return "";
+    }
 }
 
 /**
@@ -1346,7 +1362,7 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
         for(var i in obj){
 
             // Check if the element is an array, whether it is empty and if it contains any elements
-            if (obj.hasOwnProperty(i) && $.isArray(obj[i]) && obj[i].length > 0 && $.isPlainObject(obj[i][0])) {
+            if (obj.hasOwnProperty(i) && $.isArray(obj[i]) && obj[i].length > 0) {
 
                 // Deep copy the array
                 var arrayCopy = $.extend(true, [], obj[i]);
@@ -2128,7 +2144,7 @@ sakai.api.User.getProfileBasicElementValue = function(profile, eltName) {
         profile.basic.elements[eltName].value !== undefined) {
             ret = profile.basic.elements[eltName].value;
         }
-    return sakai.api.Security.saneHTML($.trim(ret));
+    return unescape(sakai.api.Security.saneHTML($.trim(ret)));
 };
 
 /**
@@ -2308,18 +2324,18 @@ sakai.api.Util.tagEntity = function(tagLocation, newTags, currentTags, callback)
     // determine which tags to add and which to delete
     $(newTags).each(function(i,val) {
         val = $.trim(val);
-        if ($.inArray(val,currentTags) == -1) {
+        if ($.inArray(val,currentTags) == -1 && val !== "") {
             tagsToAdd.push(val);
         }
     });
     $(currentTags).each(function(i,val) {
         val = $.trim(val);
-        if (val.split("/")[0] !== "directory" && $.inArray(val,newTags) == -1) { // dont delete directory tags this way, we do that another way
+        if (val.split("/")[0] !== "directory" && $.inArray(val,newTags) == -1 && val !== "") { // dont delete directory tags this way, we do that another way
             tagsToDelete.push(val);
         }
     });
-    sakai.api.Util.deleteTags(tagLocation, tagsToDelete, function() {
-        sakai.api.Util.setTags(tagLocation, tagsToAdd, function() {
+    deleteTags(tagLocation, tagsToDelete, function() {
+        setTags(tagLocation, tagsToAdd, function() {
             if ($.isFunction(callback)) {
                 callback();
             }
@@ -2327,19 +2343,17 @@ sakai.api.Util.tagEntity = function(tagLocation, newTags, currentTags, callback)
     });
 };
 
-/**
- * Tag a given entity node
- *
- * @param (String) tagLocation the URL to the tag, ie. (~userid/public/authprofile)
- * @param (Array) tags Array of tags to tag the entity with
- * @param (Function) callback The callback function
- */
+    /**
+     * Tag a given entity node
+     *
+     * @param (String) tagLocation the URL to the tag, ie. (~userid/public/authprofile)
+     * @param (Array) tags Array of tags to tag the entity with
+     * @param (Function) callback The callback function
+     */
 
-sakai.api.Util.setTags = function(tagLocation, tags, callback) {
-    if (tags.length) {
-        $(tags).each(function(i,val) {
-            if ($.trim(val) !== "") {
-                val = $.trim(val);
+    var setTags = function(tagLocation, tags, callback) {
+        if (tags.length) {
+            $(tags).each(function(i,val) {
                 // check to see that the tag exists
                 $.ajax({
                     url: "/tags/" + val + ".tagged.json",
@@ -2367,78 +2381,77 @@ sakai.api.Util.setTags = function(tagLocation, tags, callback) {
                         });
                     }
                 });
+            });
+        } else {
+            if ($.isFunction(callback)) {
+                callback();
             }
-        });
-    } else {
-        if ($.isFunction(callback)) {
-            callback();
         }
-    }
 
-    // set the tag on the entity
-    var doSetTag = function(val) {
-        $.ajax({
-            url: tagLocation,
-            data: {
-                "key": "/tags/" + val,
-                ":operation": "tag"
-            },
-            type: "POST",
-            error: function(xhr, response) {
-                fluid.log(tagLocation + " failed to be tagged as " + val);
-            },
-            complete: function() {
-                if ($.isFunction(callback)) {
-                    callback();
-                }
-            }
-        });
-    };
-};
-
-/**
- * Delete tags on a given node
- *
- * @param (String) tagLocation the URL to the tag, ie. (~userid/public/authprofile)
- * @param (Array) tags Array of tags to be deleted from the entity
- * @param (Function) callback The callback function
- */
-
-sakai.api.Util.deleteTags = function(tagLocation, tags, callback) {
-    if (tags.length) {
-        var requests = [];
-        $(tags).each(function(i,val) {
-            requests.push({
-                "url": tagLocation,
-                "method": "POST",
-                "parameters": {
+        // set the tag on the entity
+        var doSetTag = function(val) {
+            $.ajax({
+                url: tagLocation,
+                data: {
                     "key": "/tags/" + val,
-                    ":operation": "deletetag"
+                    ":operation": "tag"
+                },
+                type: "POST",
+                error: function(xhr, response) {
+                    fluid.log(tagLocation + " failed to be tagged as " + val);
+                },
+                complete: function() {
+                    if ($.isFunction(callback)) {
+                        callback();
+                    }
                 }
             });
-        });
-        $.ajax({
-            url: sakai.config.URL.BATCH,
-            traditional: true,
-            type: "POST",
-            data: {
-                requests: $.toJSON(requests)
-            },
-            error: function(xhr, response) {
-                fluid.log(val + " tag failed to be removed from " + tagLocation);
-            },
-            complete: function() {
-                if ($.isFunction(callback)) {
-                    callback();
+        };
+    };
+
+    /**
+     * Delete tags on a given node
+     *
+     * @param (String) tagLocation the URL to the tag, ie. (~userid/public/authprofile)
+     * @param (Array) tags Array of tags to be deleted from the entity
+     * @param (Function) callback The callback function
+     */
+
+    var deleteTags = function(tagLocation, tags, callback) {
+        if (tags.length) {
+            var requests = [];
+            $(tags).each(function(i,val) {
+                requests.push({
+                    "url": tagLocation,
+                    "method": "POST",
+                    "parameters": {
+                        "key": "/tags/" + val,
+                        ":operation": "deletetag"
+                    }
+                });
+            });
+            $.ajax({
+                url: sakai.config.URL.BATCH,
+                traditional: true,
+                type: "POST",
+                data: {
+                    requests: $.toJSON(requests)
+                },
+                error: function(xhr, response) {
+                    fluid.log(val + " tag failed to be removed from " + tagLocation);
+                },
+                complete: function() {
+                    if ($.isFunction(callback)) {
+                        callback();
+                    }
                 }
+            });
+        } else {
+            if ($.isFunction(callback)) {
+                callback();
             }
-        });
-    } else {
-        if ($.isFunction(callback)) {
-            callback();
         }
-    }
-};
+    };
 
 /**
  * @class notification
@@ -3298,16 +3311,6 @@ sakai.api.Widgets.widgetLoader = {
 };
 
 
-
-
-
-
-
-
-
-
-
-
 /**
  * Save the preference settings or data for a widget
  *
@@ -3343,16 +3346,18 @@ sakai.api.Widgets.removeWidgetData = function(id, callback) {
 
 };
 
-
-
-
+/**
+ * Change the given widget's title
+ *
+ * @param {String} tuid The tuid of the widget
+ * @param {String} title The title to change to
+ */
+sakai.api.Widgets.changeWidgetTitle = function(tuid, title) {
+    $("#"+tuid).parent("div").siblings("div.fl-widget-titlebar").find("h2.widget_title").text(title);
+};
 
 
 })();
-
-
-
-
 
 
 

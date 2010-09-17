@@ -122,7 +122,7 @@ sakai.config = {
         USER_EXISTENCE_SERVICE: "/system/userManager/user/__USERID__.json",
 
         // PREFIXES
-        GROUP_PREFIX: "/_group/g/g-/",
+        GROUP_PREFIX: "/_group",
         USER_PREFIX: "/_user"
 
     },
@@ -507,12 +507,12 @@ sakai.config = {
             "label" : "CONTENT_AND_MEDIA"
         },
         {
-            "url" : "/dev/people.html",
-            "label" : "PEOPLE"
-        },
-        {
             "url" : "/dev/search_groups.html#q=*&facet=see",
             "label" : "GROUPS"
+        },
+        {
+            "url" : "/dev/people.html",
+            "label" : "PEOPLE"
         },
         {
             "url" : "/dev/directory.html",

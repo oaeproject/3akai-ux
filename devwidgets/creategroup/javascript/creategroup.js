@@ -279,7 +279,6 @@ sakai.creategroup = function(tuid, showSettings){
         {
             // Hide the buttons and show the process status
             showProcess(true);
-            groupid = 'g-' + groupid;
             doSaveGroup(groupid, grouptitle, groupdescription);
         }
     };
@@ -327,9 +326,9 @@ sakai.creategroup = function(tuid, showSettings){
         $(errorFields).hide();
 
         // Set the text of the span containing the url of the current group
-        // e.g. http://celestine.caret.local:8080/~g-
+        // e.g. http://celestine.caret.local:8080/~
         var url = document.location.protocol + "//" + document.location.host;
-        url += "/~g-";
+        url += "/~";
         // get max length value
         var maxLength = parseInt(MAX_LENGTH,10);
 
@@ -337,9 +336,9 @@ sakai.creategroup = function(tuid, showSettings){
 
         // if url is too long greater than 30 character
         // show only first 15 characters +...+ last 15 characters
-        // e.g.http://sakai3-demo.uits.indiana.edu:8080/~g-
+        // e.g.http://sakai3-demo.uits.indiana.edu:8080/~
         // it will change to shorter form:
-        // http://sakai3-...diana.edu:8080/~g-
+        // http://sakai3-...diana.edu:8080/~
         if (url.length > maxLength) {
             url = url.substr(0,15)+ "..."+ url.substr(url.length-15,url.length-1);
         }

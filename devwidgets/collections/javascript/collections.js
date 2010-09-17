@@ -267,7 +267,6 @@ sakai.collections = function(tuid, showSettings) {
         });
     };
 
-
     var parseState = function() {
 
         var collection = $.bbq.getState("collection");
@@ -1685,9 +1684,6 @@ sakai.collections = function(tuid, showSettings) {
             });
         });
     };
-
-
-
 
     /**
      * Startup

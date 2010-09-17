@@ -162,7 +162,7 @@ sakai.search = function() {
         currentpage = pageclickednumber;
 
         // Redo the search
-        doHSearch(currentpage, searchterm, null, $.bbq.getState('facet'));
+        sakai._search.doHSearch(currentpage, searchterm, null, $.bbq.getState('facet'));
     };
 
     /**
@@ -353,6 +353,7 @@ sakai.search = function() {
                         data = $.parseJSON(data);
                     }
                     json.results = data;
+                    json.total = data.total;
                     json.items = json.results.length;
 
                     renderResults(json, true);

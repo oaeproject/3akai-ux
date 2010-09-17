@@ -29,7 +29,7 @@ sakai.search = function() {
     var mainSearch = false;
     var contactclicked = false;
 
-    var peopleToSearch = 5;
+    var peopleToSearch = 6;
     var cmToSearch = 5;
     var nrOfCharactersAroundTerm = 300;
     var sitesToSearch = 5;
@@ -167,6 +167,7 @@ sakai.search = function() {
      * @param {Object} searchquery The searchterm
      */
     var doHSearch = function() {
+        totalItemsFound = 0;
         History.addBEvent("1", encodeURIComponent($(searchConfig.global.text).val()));
     };
 
@@ -510,8 +511,6 @@ sakai.search = function() {
 
     var doInit = function() {
         mainSearch = sakai._search(searchConfig, thisFunctionality);
-        // Get my friends
-        mainSearch.fetchMyFriends();
         // add the bindings
         mainSearch.addEventListeners();
     };

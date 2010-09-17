@@ -9,6 +9,5 @@
     "img":"/devwidgets/rss/images/rss.png",
     "name":"RSS Feed Reader",
     "showinsakaigoodies":true,
-    "groupdashboard": true,
     "url":"/devwidgets/rss/rss.html"
 }
