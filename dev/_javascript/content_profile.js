@@ -56,7 +56,7 @@ sakai.content_profile = function(){
     /**
      * Load the content profile for the current content path
      */
-    var loadContentProfile = function(){
+    loadContentProfile = function(){
         // Check whether there is actually a content path in the URL
         if (content_path) {
 

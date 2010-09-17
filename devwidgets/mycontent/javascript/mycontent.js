@@ -70,19 +70,22 @@ sakai.mycontent = function(tuid, showSettings) {
             size: ""
         };
 
-        // set file name without the extension
-        var lastDotIndex = result["sakai:pooled-content-file-name"].lastIndexOf(".");
-        if(lastDotIndex !== -1) {
-            // extension found
-            item.name = result["sakai:pooled-content-file-name"].slice(0, lastDotIndex);
-        }
-
         // set the mimetype and corresponding image
         var type = result["jcr:content"]["jcr:mimeType"];
         if(sakai.config.MimeTypes[type]) {
             // we have a recognized file type - set the description and img URL
             item.type = sakai.config.MimeTypes[type].description;
             item.type_img_url = sakai.config.MimeTypes[type].URL;
+        }
+
+        // set file name without the extension
+        // be aware that links don't have an extension
+        var lastDotIndex = result["sakai:pooled-content-file-name"].lastIndexOf(".");
+        if(lastDotIndex !== -1) {
+            if (type !== "x-sakai/link") {
+                // extension found
+                item.name = result["sakai:pooled-content-file-name"].slice(0, lastDotIndex);
+            }
         }
 
         // set the file size

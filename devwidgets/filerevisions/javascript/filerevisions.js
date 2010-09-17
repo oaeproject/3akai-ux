@@ -59,8 +59,30 @@ sakai.filerevisions = function(tuid, showSettings){
         var data = [];
         baseFileData.created = getFormattedDate(new Date(baseFileData["jcr:created"]));
         data.data = baseFileData;
+        data.linkrevision = $("#content_profile_details_view_revisions").hasClass("link_revision");
+
         var renderedTemplate = $.TemplateRenderer(filerevisionsTemplate, data);
         $(filerevisionsTemplateContainer).html(renderedTemplate);
+
+        var renderedTemplate = $.TemplateRenderer("#filerevision_header_text_template", data);
+        $("#filerevision_header_text").html(renderedTemplate);
+    };
+
+    /**
+     * Get userprofile with the userid provided
+     * @param {Object} userid
+     */
+    var getUserProfile = function(userid){
+        $.ajax({
+            url: "/~" + userid + "/public/authprofile.infinity.json",
+            success: function(profile){
+                baseFileData["sakai:savedByFull"] = sakai.api.User.getDisplayName(profile);
+                renderRevisionData();
+            },
+            error: function(xhr, textStatus, thrownError){
+                sakai.api.Util.notification.show("Failed loading profile", "Failed to load file profile information");
+            }
+        });
     };
 
     /**
@@ -97,7 +119,7 @@ sakai.filerevisions = function(tuid, showSettings){
                     }
                 }
                 baseFileData.revisionFileDetails = revisionFileDetails;
-                renderRevisionData();
+                getUserProfile(baseFileData["sakai:savedBy"]);
             },
             error: function(xhr, textStatus, thrownError){
 
