@@ -536,9 +536,9 @@ sakai.sitespages = function(tuid,showSettings){
         // make sure the dashboard that said it's ready is the one we just got the data for
         if (split[2] === tuid) {
             if (config.editMode) {
-                sakai.dashboard.init("/~" + entityID + "/" + sakai.sitespages.selectedpage + "/" + tuid + "/dashboardwidgets/", true, config.dashboardEmbedProperty, false);
+                sakai.dashboard.init(sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["jcr:path"] + "/_widgets/", true, config.dashboardEmbedProperty, false);
             } else {
-                sakai.dashboard.init("/~" + entityID + "/" + sakai.sitespages.selectedpage + "/" + tuid + "/dashboardwidgets/", false, config.dashboardEmbedProperty, false);
+                sakai.dashboard.init(sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["jcr:path"] + "/_widgets/", false, config.dashboardEmbedProperty, false);
             }
         }
     });
