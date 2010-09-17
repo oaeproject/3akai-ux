@@ -7,7 +7,7 @@ Ray Davis - r...@media.berkeley.edu
 D. Stuart Freeman - stuart.freeman@et.gatech.edu
 Khin Soe Soe Kyaw - kkyaw@csu.edu.au
 Nicolaas Matthijs - nicolaas.matthijs@caret.cam.ac.uk
-Bert Pareyn - bert.pareyn@howest.be
+Bert Pareyn - bp323@caret.cam.ac.uk
 Chris Roby - christopher.roby@gmail.com
 James Sloane - jsloane@csu.edu.au
 
