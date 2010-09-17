@@ -916,7 +916,7 @@ sakai.sitespages.site_admin = function(){
                 var thisPage = sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage];
 
                 sakai.sitespages.savePage(thisPage["jcr:path"], thisPage["pageType"], thisPage["pageTitle"],
-                    thisPage["sakai:pagecontent"], thisPage["pagePosition"], "parent", (thisPage.fullwidth || false),
+                    sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"], thisPage["pagePosition"], "parent", (thisPage.fullwidth || false),
                     function(success, return_data){
 
                     if (success) {
