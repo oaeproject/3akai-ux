@@ -169,7 +169,6 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
                     for (var i in managers) {
                         if (managers[i].userid === sakai.data.me.user.userid) {
                             anon = false;
-                            loadContentProfile();
                             break;
                         }
                         else {
@@ -179,8 +178,8 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
                 }
                 else {
                     anon = true;
-                    loadContentProfile();
                 }
+                loadContentProfile();
             },
             error: function(xhr, textStatus, thrownError){
                 anon = true;
