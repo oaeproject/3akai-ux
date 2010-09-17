@@ -327,7 +327,7 @@ sakai.fileupload = function(tuid, showSettings){
     /**
      * Set the description of the uploaded files
      */
-    var batchSetDescriptionAndName = function(dataResponse){
+    var batchSetDescriptionAndName = function(data){
         // Batch link the files with the tags
         var batchDescriptionData = [];
         // Check if it's a link that's been uploaded
@@ -344,7 +344,7 @@ sakai.fileupload = function(tuid, showSettings){
             }
             else {
                 var item = {
-                    "url": "/p/" + dataResponse[$(fileUploadLinkBoxInput).val() + ".lnk"],
+                    "url": "/p/" + data[$(fileUploadLinkBoxInput).val() + ".lnk"],
                     "method": "POST",
                     "parameters": {
                         "sakai:pooled-content-url": $(fileUploadLinkBoxInput).val(),
@@ -654,9 +654,9 @@ sakai.fileupload = function(tuid, showSettings){
                 uploadedLink = true;
                 filesUploaded = true;
                 if (context === "group") {
-                    setLinkAsGroupResource(dataResponse);
+                    setLinkAsGroupResource(data);
                 }
-                batchSetDescriptionAndName(dataResponse);
+                batchSetDescriptionAndName(data);
                 newVersionIsLink = false;
                 resetFields();
             },
@@ -766,7 +766,6 @@ sakai.fileupload = function(tuid, showSettings){
                         });
 
                         uploadedFiles = extractedData;
-
                         // If the file is a new version set is as one
                         // Else it is a new file and needs to have a description, permissions, tags, ...
                         if (context !== "new_version") {

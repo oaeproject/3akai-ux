@@ -254,7 +254,7 @@ sakai.embedcontent = function(tuid, showSettings) {
 
     $(window).unbind("sakai-embedcontent-init");
     $(window).bind("sakai-embedcontent-init", function(e, config) {
-        embedConfig = $.extend(true, {}, config);
+        embedConfig = $.extend(true, embedConfig, config);
         render();
         $embedcontent_dialog.jqmShow();
     });
