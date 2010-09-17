@@ -1,0 +1,50 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/lists/css/lists.css" />
+
+<div class="lists_widget">
+    <div class="fl-widget-content">
+        <div id="lists_title" style="display:none">
+            <h1>Lists</h1>
+        </div>
+        <!-- MAIN VIEW -->
+        <div id="lists_main" style="display:none">
+        </div>
+        <!-- SETTINGS VIEW -->
+        <div id="lists_settings" style="display:none;">
+            <div id="lists_list_of_lists"></div>
+            <button id="lists_save" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">Save</span></button>
+            <button id="lists_cancel" class="s3d-button"><span class="s3d-button-inner">Cancel</span></button>
+        </div>
+    </div>
+    <div class="fl-widget-options fl-fix">
+        <div class="widget-options-inner">
+        </div>
+    </div>
+    <div id="lists_list_edit_template"><!--
+        <div id="${escape(data.Label)}" class="list_parent_${escape(parentLabel)} list_container">
+            <label for="list_select_${escape(data.Label)}">${data.Label}</label>
+            <select name="list_select_${escape(data.Label)}" class="list_select{if !hasLists} list_final{/if}" id="list_select_${escape(data.Label)}"{if data.multiple} multiple="true"{/if}>
+                {if !data.multiple}<option></option>{/if}
+                {for opt in data.list}
+                    {if opt.Label}
+                        <option value="${escape(opt.Label)}"{if opt.selected} selected="selected"{/if}>${opt.Label}</option>
+                    {else}
+                        <option value="${escape(opt)}"{if opt.selected} selected="selected"{/if}>${opt}</option>
+                    {/if}
+                {/for}
+            </select>
+        </div>
+    --></div>
+
+    <div id="lists_list_display_template"><!--
+        <ul>
+        {for item in data}
+            <li>${item}</li>
+        {/for}
+        </ul>
+    -->
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/lists/listsconfig.js"></script>
+<script type="text/javascript" src="/devwidgets/lists/javascript/lists.js"></script>

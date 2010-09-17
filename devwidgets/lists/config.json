@@ -1,0 +1,13 @@
+{
+    "description":"Lists",
+    "name":"Lists",
+    "id":"lists",
+    "hasSettings":true,
+    "userpages": true,
+    "userdashboard": true,
+    "grouppages": true,
+    "groupdashboard": true,
+    "showinsakaigoodies":true,
+    "url":"/devwidgets/lists/lists.html",
+    "img":"/devwidgets/lists/images/lists.png"
+}
