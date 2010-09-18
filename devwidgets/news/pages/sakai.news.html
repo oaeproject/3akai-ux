@@ -57,16 +57,6 @@
         
         <!--Dialog JS-->
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jqmodal.sakai-edited.js"></script>
-        
-        <!--
-        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.pager.js"></script>
-        <script type="text/javascript" src="_lib/Fluid/ProgressiveEnhancement.js"></script>
-        <script type="text/javascript" src="_lib/AutoComplete/jquery.autocomplete.min.js"></script>
-        <script type="text/javascript" src="_lib/jquery/plugins/imgareaselect/jquery.imgareaselect.js"></script>
-        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.form.js"></script>
-        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.MultiFile.js"></script>
-        -->
-       
         <!-- Fluid Pager JS -->
         <script type="text/javascript" src="/devwidgets/news/pages/javascript/lib/Fluid.js"></script>
         <script type="text/javascript" src="/devwidgets/news/pages/javascript/lib/DataBinding.js"></script>
@@ -75,8 +65,6 @@
         <script type="text/javascript" src="/devwidgets/news/pages/javascript/lib/fluidRenderer.js"></script>
         <script type="text/javascript" src="/devwidgets/news/pages/javascript/lib/Pager.js"></script>
         <script type="text/javascript" src="/devwidgets/news/pages/javascript/pager.js"></script>
-
-        
 
     </head>
     
@@ -121,10 +109,10 @@
 
                                 <table class="news-table" id="news_table" summary="All your messages.">
                                     <tr class="different">
-                                        <th class="news_news_table_header_sort" id="news_table_header_from"><span>作者</span></th>
-                                        <th class="news_news_table_header_sort" id="news_table_header_subject"><span>标题</span></th>
-                                        <th class="news_news_table_header_sort" id="news_table_header_date"><span>时间</span></th>
-                                        <th class="news_news_table_header_sort" id="news_table_header_date"><span>操作</span></th>
+                                        <th width="15%" class="news_news_table_header_sort" id="news_table_header_from"><span>作者</span></th>
+                                        <th width="50%" class="news_news_table_header_sort" id="news_table_header_subject"><span>标题</span></th>
+                                        <th width="20%" class="news_news_table_header_sort" id="news_table_header_date"><span>时间</span></th>
+                                        <th width="15%" class="news_news_table_header_sort" id="news_table_header_date"><span>操作</span></th>
                                     </tr>
                                 </table>
                             </div>
@@ -135,7 +123,7 @@
                               </div>
                             </div>
                             -->
-                             
+                            <div class="main_content_container"> 
                                 <!-- Pager div -->
                                 <div id="news_pager">
                                     <form action="#">
@@ -144,10 +132,13 @@
                                         <table class="news-table" id="students-page">
                                             <thead>
                                                 <tr class="different">
-                                                    <th>作者</th>
-                                                    <th>标题</th>
-                                                    <th>时间</th>
-                                                    <th>操作</th>
+                                                  <!--
+                                                    <th width="15%">作者</th>
+                                                  -->
+                                                  <th width="15%">作者</th>
+                                                  <th width="55%">标题</th>
+                                                  <th width="20%">时间</th>
+                                                  <th width="10%">操作</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="body-template">
@@ -158,7 +149,7 @@
                                                     <td id="news_title_td">
                                                         <a href="javascript:;" class="news_title" rsf:id="title"></a>
                                                     </td>
-                                                    <td rsf:id="created"></td>
+                                                    <td rsf:id="createTime"></td>
                                                     <td class="news_operation">
                                                       <a style="display:none;" class="news_operation_icon_edit" href="javascript:;"></a>
                                                       <a style="display:none;" class="news_operation_icon_delete" href="javascript:;"></a>
@@ -198,10 +189,10 @@
                                         
                                   </form>
                                 </div>
-                                
+                            </div>    
                             <div class="bottom_decor">
                               <div class="fl-force-right sender-options">
-                                <a href="javascript:;" id="create_news_link">发布新闻</a>
+                                <a href="javascript:;" id="createnews_link">发布新闻</a>
                               </div>
                             </div>
 
@@ -270,13 +261,13 @@
                                 <div class="inbox_message_user">
                                     <a href="javascript:;" class="sender-name" id="inbox_message_from">${author}</a>
                                     <br />
-                                    <div class="sender-timestamp">发布时间<span id="inbox_message_date">${created}</span></div>
+                                    <div class="sender-timestamp">发布时间<span id="inbox_message_date">${createTime}</span></div>
                                 </div>
                             </div>
 
                             <div id="news_detail">
                                 <div class="news-header" id="news_detail_title">${title}</div>
-                                <div id="news_detail_body">${body}</div>
+                                <div id="news_detail_body">${content}</div>
                             </div>
                         --></div>
                         

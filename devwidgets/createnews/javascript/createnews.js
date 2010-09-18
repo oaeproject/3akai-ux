@@ -49,10 +49,12 @@ sakai.createnews = function(tuid, showSettings){
     var createnewsAdd = createnews + "_add";    
     var createnewsAddContent = createnewsAdd + "_content";    
     var createnewsAddTitle = createnewsAdd + "_title";
-    var createnewsAddProcess = createnewsAdd + "_process"; 
+    var createnewsAddProcess = createnewsAdd + "_process";
+    var createnewsAddSuccess = createnewsAdd + "_success";
        
     var createnewsAddSave = createnewsAdd + "_save";
-    var createnewsEditSave = createnewsAdd + "_save1";
+    var createnewsAddSaveNew = createnewsAddSave + "_new";
+    var createnewsAddSaveCancel = createnewsAddSave + "_cancel";
     
     // CSS Classes
     var invalidFieldClass = "invalid";
@@ -69,38 +71,57 @@ sakai.createnews = function(tuid, showSettings){
     sakai.createnews.initialise = function(){
         $(createnewsContainer).jqmShow();
     };
-
+    
+    var showProcess = function(show){
+        if(show){
+            $(createnewsAddSaveNew).hide();
+            $(createnewsAddSaveCancel).hide();
+            $(createnewsAddProcess).show();
+        } else {
+            $(createnewsAddProcess).hide();
+            $(createnewsAddSaveNew).show();
+            $(createnewsAddSaveCancel).show();
+        }
+    };
+    
+    var showSuccess = function(show){
+        if(show){
+            $(createnewsAddSuccess).show();
+        } else {
+            $(createnewsAddSuccess).hide();
+        }
+    };
+    
     var myClose = function(hash) {
         hash.o.remove();
         hash.w.hide();
+        showSuccess(false);
+        showProcess(false);
     };
-    
+
     var setNull = function(){
-      $(createnewsAddDescription).html("");
-      $(createnewsAddTitle).html("");
+      $(createnewsAddContent).val("");
+      $(createnewsAddTitle).val("");
     }
 
     ///////////////////
     // Create a news//
     ///////////////////
-    /**
-     * Create the group.
-     * @param {String} groupid the id of the group that's being created
-     * @param {String} grouptitle the title of the group that's being created
-     * @param {String} groupdescription the description of the group that's being created
-     * @param {String} groupidManagers the id of the managers group for the group that's being created
-    */
-    
-    var saveNewNews = function(){
+    var saveNewNews = function(title,content,pictureURI){
         $.ajax({
-            url: "",
+            url: "/system/news",
             data: {
-                "action":"add"
+                "action":"add",
+                "title":title,
+                "content":content,
+                "pictureURI":pictureURI,
             },
             type: "POST",
             success: function(data){
-                if(data.success == true){
-                  $("#createnews_add_process").html("save ok!");
+                showProcess(false);
+                if(data.success === true){
+                   showSuccess(true);
+                   window.location.reload();
                 }
             },
             error: function(data){
@@ -109,25 +130,6 @@ sakai.createnews = function(tuid, showSettings){
         });
     };
     
-    var saveEditNews = function(){
-        $.ajax({
-            url: "",
-            data: {
-                "action":"edit",
-            },
-            type: "POST",
-            success: function(data){
-                if(data.success == true)
-                {
-                  $("#createnews_add_process").html("save ok!");
-                }
-            },
-            error: function(data){
-                alert("error");
-            },
-        });
-    };
-
     ////////////////////
     // Event Handlers //
     ////////////////////
@@ -147,12 +149,13 @@ sakai.createnews = function(tuid, showSettings){
     /*
      * Add binding to the save button (create the group when you click on it)
      */
-    $(createnewsAddSave).live("click", function(ev){
-        saveNewNews();
-    });
-    
-    $(createnewsEditSave).live("click", function(ev){
-        saveEditNews();
+    $(createnewsAddSaveNew).live("click", function(ev){
+        var newTitle = $(createnewsAddTitle).val();
+        var newContent = $(createnewsAddContent).val();
+        var pictureURI = "";
+        showProcess(true);
+        saveNewNews(newTitle,newContent,pictureURI);
+        setNull();
     });
 
     /////////////////////////////
@@ -162,7 +165,6 @@ sakai.createnews = function(tuid, showSettings){
     var doInit = function(){
         setNull();
     };
-    
     doInit();
 };
 

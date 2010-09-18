@@ -20,12 +20,12 @@
 #createnews_container {width:600px!important;margin-left:-350px!important;}
 
 /* Container */
-#createnews_container input[type="text"] {float:left;margin-top:10px;}
+#createnews_container input[type="text"] {float:left;margin-top:10px;width:460px;}
 #createnews_container #createnews_add_name {width:370px;}
-#createnews_container textarea {clear:both;width:370px;}
+#createnews_container textarea {clear:both;width:460px;height:250px;margin-top:10px;}
 
 /* Add group */
-#createnews_add_container label {clear:both;color:#000000;float:left;font-weight:bold;margin:12px 10px 0 0;width:160px;text-align:right;}
+#createnews_add_container label {clear:both;color:#000000;float:left;font-weight:bold;margin:12px 10px 0 0;width:80px;text-align:right;}
 #createnews_add_container .dialog_buttons {text-align:right;}
 #createnews_add_description {margin:5px 0;}
 #createnews_add_template_container {float:left;margin-top:4px;}

@@ -13,9 +13,18 @@
  */
 sakai.news = function(tuid, showSettings){
     var $newsList = $("#news_list");
+    var $newTitle = $(".news_title");
     var $newsListError = $("#news_list_error");
     var $newsListTemplate = $("#news_list_template");
-    var $newTitle = $(".news_title");
+    var $createnewsAddSaveEdit = $("#createnews_add_save_edit");
+    var $createnewsAddSaveNew = $("#createnews_add_save_new"); 
+    var $createnewsAddSaveCancel = $("#createnews_add_save_cancel");
+    var $createnewsLink = $("#create_news_link");
+    var $createnewsContainer = $("#createnews_container");
+    var $createNewsTipNew = $("#createnews_tip_new");
+    var $createNewsTipEdit = $("#createnews_tip_edit");
+    
+    
     var maxTextNumber = 27;
     
     // limite the text number of each title of news
@@ -30,12 +39,18 @@ sakai.news = function(tuid, showSettings){
     
     var loadData = function(){
         $.ajax({
-            url: "/devwidgets/news/data/news.json",
+//          url: "/devwidgets/news/data/news.json",
+            url: "/system/news",
+            data:{
+              "action":"indexList"
+            },
             type: "GET",
             success: function(data){
+              if(data.success === true){
                 $newsList.html($.TemplateRenderer($newsListTemplate, data));
                 $newsList.show();
                 newsTitleShowLimite();
+              }
             },
             error: function(){
                 $newsListError.show();
@@ -43,11 +58,17 @@ sakai.news = function(tuid, showSettings){
         });
     };
     
-    $("#create_news_link").live("click", function(ev){
+    $createnewsLink.live("click", function(ev){
         // $("#creategroupcontainer").show();
         // Load the creategroup widget.
         // sakai.createnews.initialise();
-        $("#createnews_container").jqmShow();
+        $createnewsContainer.jqmShow();
+        $createNewsTipEdit.hide();
+        $createNewsTipNew.show(); 
+        $createnewsAddSaveEdit.hide(); 
+        $createnewsAddSaveNew.show(); 
+        $createnewsAddSaveCancel.show(); 
+        
     });
     
     var init = function(){

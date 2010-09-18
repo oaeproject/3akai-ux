@@ -3,5 +3,5 @@
     "description": "News",
     "MORE": "查看全部新闻",
     "ADD_A_NEWS":"发布新闻",
-    "ERROR":"数据连接失败！"
+    "ERROR":"数据连接失败！",
 }

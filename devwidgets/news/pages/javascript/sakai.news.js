@@ -1,6 +1,7 @@
 var sakai = sakai || {};
 
 sakai.news = function(){
+    var newsEditID = "";
     var allNews = [];
     var news = "news";
     var newsClass = ".news";
@@ -10,6 +11,7 @@ sakai.news = function(){
     var newsTableTR = newsClass + "_tr";
     var newsListContainer = newsID + "_list_container";
     var newsTableTemplate = news + "_" + news + "_template";
+    var newsDetailBacktoList = newsID + "_detail_backto_news_list";
     
     var newsTitle = newsClass + "_title";
     var newsDetail = newsID + "_detail";
@@ -23,37 +25,84 @@ sakai.news = function(){
     var newsOperationIconEdit = newsOperation + "_icon_edit";//newsOperationIconEdit
     var newsOperationIconDelete = newsOperation + "_icon_delete";//newsOperationIconDelete
     
+    var createNews =  "#createnews";
+    var createNewsLink = createNews + "_link";
+    var createNewsContainer = createNews + "_container";
+    var createNewsAdd = createNews + "_add";
+    var createNewsAddTitle = createNewsAdd + "_title";
+    var createNewsAddContent = createNewsAdd + "_content";
+    
+    var createnewsAddSuccess = createNewsAdd + "_success";
+    var createnewsAddProcess = createNewsAdd + "_process";
+    
+    var createNewsTipNew = createNews + "_tip_new";
+    var createNewsTipEdit = createNews + "_tip_edit";
+    var createNewsAddSave = createNewsAdd + "_save";
+    var createnewsAddSaveNew = createNewsAddSave + "_new";
+    var createnewsAddSaveEdit = createNewsAddSave + "_edit";
+    var createnewsAddSaveCancel = createNewsAddSave + "_cancel";
+    
     ///////////////////////////
     // Load and display news //
     ///////////////////////////
+    var showProcess = function(show){
+        if(show){
+            $(createnewsAddSaveNew).hide();
+            $(createnewsAddSaveCancel).hide();
+            $(createnewsAddProcess).show();
+        } else {
+            $(createnewsAddProcess).hide();
+            $(createnewsAddSaveNew).show();
+            $(createnewsAddSaveCancel).show();
+        }
+    };
+    var showSuccess = function(show){
+        if(show){
+            $(createnewsAddSuccess).show();
+        } else {
+            $(createnewsAddSuccess).hide();
+        }
+    };
     
     // Gets a specific news from the JCR and display
     var loadNewsByID = function(newsid) {
         $.ajax({
-            url: "/devwidgets/news/pages/data/onenews.json",
+//          url: "/devwidgets/news/pages/data/onenews.json",
+            url: "/system/news",
             type: "GET",
+            data:{
+              "action":"get",
+              "id":newsid,
+            },
             success: function(data) {
-                $(newsDetailContent).html($.TemplateRenderer(newsDetailContentTemplate, data));
+              var news = data.news;
+              if(data.success === true){
+                $(newsDetailContent).html($.TemplateRenderer(newsDetailContentTemplate, news));
                 $(newsDetailContent).show();
+              } 
             },
             error: function(xhr, textStatus, thrownError) {
-                showGeneralMessage($(inboxGeneralMessagesErrorGeneral).text());
-                $(inboxResults).html(sakai.api.Security.saneHTML($(inboxGeneralMessagesErrorGeneral).text()));
+              alert("error");
             }
         });
     };
     
     // Gets all the news from the JCR.
     var loadNewsList = function() {
-
         $.ajax({
-            url: "/devwidgets/news/pages/data/sakainews.json",
+//            url: "/devwidgets/news/pages/data/sakainews.json",
+            url: "/system/news",
             type: "GET",
+            data:{
+              "action":"allList"
+            },
             success: function(data) {
-                if (data.newslist) {
-                    initPager(data.newslist);
-                    allNews = data.newslist;
+              if(data.success === true){
+                if (data.newsList) {
+                    initPager(data.newsList);
+                    allNews = data.newsList;
                 }
+              }
             },
             error: function(xhr, textStatus, thrownError) {
                 showGeneralMessage($(inboxGeneralMessagesErrorGeneral).text());
@@ -62,18 +111,70 @@ sakai.news = function(){
         });
     };
     
+    var getEditNews = function(id){
+        $.ajax({
+//          url: "/devwidgets/news/pages/data/onenews.json",
+            url: "/system/news",
+            data: {
+                "action":"get",
+                "id":id,
+            },
+            type: "GET",
+            success: function(data){
+                if(data.success == true)
+                {
+                  var news = data.news;
+                  $(createNewsAddTitle).val(news.title);
+                  $(createNewsAddContent).val(news.content);
+                }
+            },
+            error: function(data){
+                alert("error");
+            },
+        });
+    };
+    
+    var saveEditNews = function(id,title,content,pictureURI){
+        $.ajax({
+            url: "/system/news",
+            data: {
+                "action":"update",
+                "id":id,
+                "title":title,
+                "content":content,
+                "pictureURI":pictureURI,
+            },
+            type: "POST",
+            success: function(data){
+              if(data.success === true)
+                {
+                  showSuccess(true);
+                  window.location.reload();
+                }
+            },
+            error: function(data){
+                alert("error");
+            },
+        });
+    };
     /////////////////
     // Delete news //
     /////////////////
     var deleteNews = function(newsid){
         $.ajax({
-            url: "/devwidgets/news/pages/data/onenews.json",
+//          url: "/devwidgets/news/pages/data/onenews.json",
+            url: "/system/news",
             type: "POST",
             data: {
                 "action": "delete",
                 "id": newsid
             },
             success: function(data) {
+              if(data.success === true)
+                {
+                  alert("ok");
+                  window.location.reload();
+                }
             },
             error: function(xhr, textStatus, thrownError) {
                 alert("Cann't delete the news!");
@@ -124,38 +225,45 @@ sakai.news = function(){
     //add the edit and delete icon
     
     //edit a news
-    $(".news_operation_icon_edit").live("click", function(ev){
+    $(newsOperationIconEdit).live("click", function(ev){
         // $("#creategroupcontainer").show();
         // Load the creategroup widget.
         // sakai.createnews.initialise();
-      $("#createnews_container").jqmShow();
+
+      $(createNewsContainer).jqmShow();
+      $(createNewsTipNew).hide();
+      $(createNewsTipEdit).show(); 
+      showProcess(false);
       
-      $("#createnews_add_cancel1").show(); 
-      $("#createnews_add_save1").show();     
-        
-      $.ajax({
-          url: "/devwidgets/news/pages/data/onenews.json",
-          type: "GET",
-          success: function(data) {
-              $("#createnews_add_title").val(data.title);
-              $("#createnews_add_content").val(data.body);
-          },
-          error: function(xhr, textStatus, thrownError) {
-              alert("error");
-          }
+      var title = $(this).parent().siblings("#news_title_td").children()[0].text;
+      var id = getIDByTitle(title);
+      getEditNews(id); 
+      
+      $(createnewsAddSaveEdit).live("click", function(ev){
+          var Title = $(createNewsAddTitle).val();
+          var Content = $(createNewsAddContent).val();
+          var pictureURI = "";
+          showProcess(true);
+          saveEditNews(id,Title,Content,pictureURI);
+          showSuccess(false);
       });
         
     });
     
     //add a news
-    $("#create_news_link").live("click", function(ev){
+    $(createNewsLink).live("click", function(ev){
         // $("#creategroupcontainer").show();
         // Load the creategroup widget.
         // sakai.createnews.initialise();
-        $("#createnews_container").jqmShow();
+        $(createNewsContainer).jqmShow();
+        $(createNewsTipEdit).hide();
+        $(createnewsAddSaveEdit).hide();
+        $(createNewsTipNew).show(); 
+        $(createnewsAddSaveCancel).show(); 
+        $(createnewsAddSaveNew).show(); 
         
-        $("#createnews_add_title").val("");
-        $("#createnews_add_content").val("");
+        $(createNewsAddTitle).val("");
+        $(createNewsAddContent).val("");
         
     });
     
@@ -167,12 +275,12 @@ sakai.news = function(){
     });
     
     // Show news list
-    $("#news_detail_backto_news_list").live("click", function(e){
+    $(newsDetailBacktoList).live("click", function(e){
         showContainer("list");
     });
     
     // Delete a news
-    $(".news_operation_icon_delete").live("click", function(){
+    $(newsOperationIconDelete).live("click", function(){
         $(this).parent().parent().remove();
         var title = $(this).parent().siblings("#news_title_td").children()[0].text;
         var id = getIDByTitle(title);

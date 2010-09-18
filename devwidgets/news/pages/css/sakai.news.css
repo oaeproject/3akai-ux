@@ -328,18 +328,27 @@
 .news_operation_icon_edit { background: url(../../img/icon_edit.png) no-repeat ;width:16px;height:16px;display:block;float:left;}
 
 .news_operation_icon_delete { background: url(../../img/icon_delete.png) no-repeat;width:16px;height:16px;display:block;float:left;margin-left:8px;}
+/*
+.inbox_detail .message-body
+.main_content_container
+*/
+#news_detail
+{ padding: 20px 37px 30px; color:#333; font-size: 13px; }
 
+#news_detail #news_detail_body
+{ margin: 10px 0 0 0;line-height:20px; }
+/*
+#news_detail .message-header
+{ font-weight: bold; font-size: 15px; padding-bottom: 5px; }
 
+.inbox_detail .message-options
+{ padding: 15px 15px 0 0; }
 
+.inbox_detail .message-options a
+{ color:#058ec4; font-weight: bold; }
 
-
-
-
-
+.news_detail_body
+{ margin: 15px 15px 0 0; }
+*/
 /** ---------------------**/
-
-
-
-
-
 /* TABLE COLUMN WIDTHS */
