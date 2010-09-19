@@ -912,14 +912,17 @@ sakai.sitespages.site_admin = function(){
                 $("#edit_view_container").hide();
                 $("#show_view_container").show();
 
-                sakai.api.Widgets.widgetLoader.insertWidgets(sakai.sitespages.selectedpage,null,sakai.sitespages.config.basepath + "_widgets/");
-
                 // Save page node
-                sakai.sitespages.savePage(sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["jcr:path"], sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageType"], sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageTitle"], sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"], sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pagePosition"], "parent", (sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage].fullwidth || false), function(success, return_data){
+                var thisPage = sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage];
+
+                sakai.sitespages.savePage(thisPage["jcr:path"], thisPage["pageType"], thisPage["pageTitle"],
+                    sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"], thisPage["pagePosition"], "parent", (thisPage.fullwidth || false),
+                    function(success, return_data){
 
                     if (success) {
                         $("#" + sakai.sitespages.selectedpage).html(sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"]);
                         $("#" + sakai.sitespages.selectedpage).show();
+                        sakai.api.Widgets.widgetLoader.insertWidgets(sakai.sitespages.selectedpage,null,sakai.sitespages.config.basepath + "_widgets/");
                         History.addBEvent(sakai.sitespages.selectedpage);
                         //Update title in HTML
                         $("#pagetitle").html(sakai.api.Security.saneHTML(sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageTitle"]));
@@ -1457,11 +1460,8 @@ sakai.sitespages.site_admin = function(){
         sakai.sitespages.currentEditView = "preview";
     });
 
-
-    $(window).bind("sakai-embedcontent-ready", function(e) {
-        $("#sitespages_embed_content_button").live("click", function(e) {
-            $(window).trigger('sakai-embedcontent-init', {"name":sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageTitle"]});
-        });
+    $("#sitespages_embed_content_button").live("click", function(e) {
+        $(window).trigger('sakai-embedcontent-init', {"name":sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageTitle"]});
     });
 
 

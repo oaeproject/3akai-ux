@@ -3357,6 +3357,21 @@ sakai.api.Widgets.changeWidgetTitle = function(tuid, title) {
 };
 
 
+/**
+ * Check if a widget is on a dashboard
+ *
+ * @param {String} tuid The tuid of the widget
+ * @return {Boolean} true if on a dashboard, false if not (for example, on a page)
+ */
+sakai.api.Widgets.isOnDashboard = function(tuid) {
+    if ($("#"+tuid).parent("div").siblings("div.fl-widget-titlebar").find("h2.widget_title").length > 0) {
+        return true;
+    } else {
+        return false;
+    }
+};
+
+
 })();
 
 
