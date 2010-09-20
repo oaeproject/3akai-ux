@@ -72,6 +72,7 @@ sakai.entity = function(tuid, showSettings){
         }
     };
     var profile_dummy_status;
+    var profile_status_value;
 
     ///////////////////
     // CSS SELECTORS //
@@ -412,49 +413,52 @@ sakai.entity = function(tuid, showSettings){
         // Add the submit event to the status form
         $entity_profile_status.bind("submit", function(){
 
-            var originalText = $("button span", $entity_profile_status).text();
-            $("button span", $entity_profile_status).text(sakai.api.Security.saneHTML($entity_profile_status_input_saving.text()));
-
             // Get the correct input value from the user
             var inputValue = $entity_profile_status_input.hasClass(entity_profile_status_input_dummy) ? "" : $.trim($entity_profile_status_input.val());
 
-            sakai.data.me.profile = $.extend(true, sakai.data.me.profile, {"status": inputValue});
+            if (profile_status_value !== inputValue) {
+                profile_status_value = inputValue;
 
-            if (sakai.data.me.profile.activity)
-                delete sakai.data.me.profile.activity;
+                sakai.data.me.profile = $.extend(true, sakai.data.me.profile, {"status": inputValue});
 
-            if (sakai.data.me.profile["rep:policy"])
-                delete sakai.data.me.profile["rep:policy"];
+                if (sakai.data.me.profile.activity)
+                    delete sakai.data.me.profile.activity;
 
-            //trigger chat_status_message_change to update the status message on chat widget.
-            $(window).trigger("chat_status_message_change", inputValue);
+                if (sakai.data.me.profile["rep:policy"])
+                    delete sakai.data.me.profile["rep:policy"];
 
-            sakai.api.Server.saveJSON(authprofileURL, sakai.data.me.profile, function(success, data) {
-               if (success) {
-                   // Set the button back to it's original text
-                   $("button span", $entity_profile_status).text(sakai.api.Security.saneHTML(originalText));
+                var originalText = $("button span", $entity_profile_status).text();
+                $("button span", $entity_profile_status).text(sakai.api.Security.saneHTML($entity_profile_status_input_saving.text()));
 
-                   // Create an activity item for the status update
-                   var nodeUrl = authprofileURL;
-                   var activityMsg = "Status: " + inputValue;
+                //trigger chat_status_message_change to update the status message on chat widget.
+                $(window).trigger("chat_status_message_change", inputValue);
+                sakai.api.Server.saveJSON(authprofileURL, sakai.data.me.profile, function(success, data) {
+                    if (success) {
+                        // Set the button back to it's original text
+                        $("button span", $entity_profile_status).text(sakai.api.Security.saneHTML(originalText));
 
-                   var activityData = {
-                       "sakai:activityMessage": activityMsg
-                   };
-                   sakai.api.Activity.createActivity(nodeUrl, "status", "default", activityData);
-               } else {
-                   // Log an error message
-                   fluid.log("Entity widget - the saving of the profile status failed");
+                        // Create an activity item for the status update
+                        var nodeUrl = authprofileURL;
+                        var activityMsg = "Status: " + inputValue;
 
-                   // Show the message about a saving that failed to the user
-                   $("button span", $entity_profile_status).text(sakai.api.Security.saneHTML($entity_profile_status_input_saving_failed.text()));
+                        var activityData = {
+                            "sakai:activityMessage": activityMsg
+                        };
+                        sakai.api.Activity.createActivity(nodeUrl, "status", "default", activityData);
+                    } else {
+                        // Log an error message
+                        fluid.log("Entity widget - the saving of the profile status failed");
 
-                   // Show the origin text after 5 min
-                   window.setTimeout(function(){
-                       $("button span", $entity_profile_status).text(sakai.api.Security.saneHTML(originalText));
-                   }, 5000);
-               }
-            });
+                        // Show the message about a saving that failed to the user
+                        $("button span", $entity_profile_status).text(sakai.api.Security.saneHTML($entity_profile_status_input_saving_failed.text()));
+
+                        // Show the origin text after 5 min
+                        window.setTimeout(function(){
+                            $("button span", $entity_profile_status).text(sakai.api.Security.saneHTML(originalText));
+                        }, 5000);
+                    }
+                });
+            }
         });
 
     };

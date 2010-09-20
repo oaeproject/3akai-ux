@@ -41,6 +41,7 @@ sakai.myprofile = function (tuid, showSettings) {
     var rootel = $("#" + tuid);
     var me = sakai.data.me;
     var json = me.profile;
+    var tempChatStatus;
 
 
     //    IDs
@@ -105,26 +106,30 @@ sakai.myprofile = function (tuid, showSettings) {
      * @param {Object} status
      */
     var changeStatus = function (chatstatus) {
-        $(profileStatusContainer).toggle();
+        if (tempChatStatus !== chatstatus){
+            tempChatStatus = chatstatus;
 
-        sakai.data.me.profile = $.extend(true, sakai.data.me.profile, {"chatstatus": chatstatus});
+            $(profileStatusContainer).toggle();
 
-        if (sakai.data.me.profile.activity)
-            delete sakai.data.me.profile.activity;
+            sakai.data.me.profile = $.extend(true, sakai.data.me.profile, {"chatstatus": chatstatus});
 
-        if (sakai.data.me.profile["rep:policy"])
-            delete sakai.data.me.profile["rep:policy"];
+            if (sakai.data.me.profile.activity)
+                delete sakai.data.me.profile.activity;
 
-        sakai.api.Server.saveJSON(authprofileURL, sakai.data.me.profile, function(success, data) {
-            if (success) {
-                updateChatStatus(status);
-            } else {
-                if (typeof callback === "function") {
-                    callback(false, xhr);
+            if (sakai.data.me.profile["rep:policy"])
+                delete sakai.data.me.profile["rep:policy"];
+
+            sakai.api.Server.saveJSON(authprofileURL, sakai.data.me.profile, function(success, data) {
+                if (success) {
+                    updateChatStatus(status);
+                } else {
+                    if (typeof callback === "function") {
+                        callback(false, xhr);
+                    }
+                    fluid.log("Entity widget - An error occured when sending the status to the server.");
                 }
-                fluid.log("Entity widget - An error occured when sending the status to the server.");
-            }
-        });
+            });
+        }
     };
 
 
@@ -173,6 +178,7 @@ sakai.myprofile = function (tuid, showSettings) {
         // Get the user his chatstatus
         if (me.profile.chatstatus) {
             chatstatus = me.profile.chatstatus;
+            tempChatStatus = me.profile.chatstatus;
         }
 
         // Set the status in front of the user his name/

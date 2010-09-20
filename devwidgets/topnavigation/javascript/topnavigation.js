@@ -125,24 +125,26 @@ sakai.topnavigation = function(tuid, showSettings){
      * online/offline or busy
      */
     var sendChatStatus = function(chatstatus){
-        currentChatStatus = chatstatus;
+        if (currentChatStatus !== chatstatus){
+            currentChatStatus = chatstatus;
 
-        var data = {
-            "chatstatus": chatstatus,
-            "_charset_": "utf-8"
-        };
+            var data = {
+                "chatstatus": chatstatus,
+                "_charset_": "utf-8"
+            };
 
-        $.ajax({
-            url: "/~" + sakai.data.me.profile["rep:userId"] + "/public/authprofile",
-            type: "POST",
-            data: data,
-            success: function(data){
-                updateChatStatus();
-            },
-            error: function(xhr, textStatus, thrownError){
-                alert("An error occurend when sending the status to the server.");
-            }
-        });
+            $.ajax({
+                url: "/~" + sakai.data.me.profile["rep:userId"] + "/public/authprofile",
+                type: "POST",
+                data: data,
+                success: function(data){
+                    updateChatStatus();
+                },
+                error: function(xhr, textStatus, thrownError){
+                    alert("An error occurend when sending the status to the server.");
+                }
+            });
+        }
     };
 
     /**
@@ -255,12 +257,16 @@ sakai.topnavigation = function(tuid, showSettings){
         if (!tosearch || tosearch === $general_search_default_value.text()){
             tosearch = "*";
         }
-        // Redirecting back to the general search page. This expects the URL to be
-        // in a format like this one: page.html#pageid|searchstring
-        document.location = sakai.config.URL.SEARCH_GENERAL_URL + "#q=" + tosearch;
+
         // Only enable button if the location is the search page
         if (window.location.pathname.split("/")[2] === "search.html") {
             $(generalSearchSubmitButton).attr("disabled", false);
+            // if user is on the search page use the history event to perform the search
+            History.addBEvent("1", encodeURIComponent(tosearch));
+        } else {
+            // Redirecting back to the general search page. This expects the URL to be
+            // in a format like this one: page.html#pageid|searchstring
+            document.location = sakai.config.URL.SEARCH_GENERAL_URL + "#q=" + tosearch;
         }
     };
 

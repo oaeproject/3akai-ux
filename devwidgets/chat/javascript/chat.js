@@ -1515,6 +1515,7 @@ sakai.chat = function(tuid, showSettings){
         checkOnline();
         doInit();
     }
+    
 };
 
 sakai.api.Widgets.widgetLoader.informOnLoad("chat");
