@@ -18,3 +18,6 @@
 
 /* Main */
 .helloworld_widget .fl-widget-content {padding: 10px 20px;}
+
+/* Widget icon */
+.helloworld.fl-widget .fl-widget-titlebar .widget_title {background: url('/devwidgets/helloworld/images/helloworld_icon.png') 17px 18px no-repeat;}
