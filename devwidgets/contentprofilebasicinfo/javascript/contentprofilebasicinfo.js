@@ -33,6 +33,10 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
     // Path variables
     var contentPath = "";
     var globalJSON;
+    var userId = sakai.data.me.user.userid;
+    var userStoragePrefix = sakai.data.me.user.userStoragePrefix;
+    var tagsPath = "/~" + userId + "/public/tags/";
+    var tagsPathForLinking = "/_user/" + userStoragePrefix + "public/tags/";
 
     // JSON
     var json = {};
@@ -46,7 +50,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
     var contentProfileBasicInfoFormTags = "#content_profile_basic_info_form_tags";
     var contentProfileBasicInfoFormDescription = "#content_profile_basic_info_form_description";
     var contentProfileBasicInfoFormCopyrightSelect = "#content_profile_basic_info_copyright_select";
-    var contentProfileBasicInfoFormPermissionsSelect= "#content_profile_basic_info_permissions_select";
+    var contentProfileBasicInfoFormPermissionsSelect = "#content_profile_basic_info_permissions_select";
 
     // i18n
     var contentProfileBasicInfoUpdatedBasicInfo = "#contentprofilebasicinfo_updated_basic_info";
@@ -83,7 +87,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
      */
     var getDirectoryStructure = function(){
         // Get directory structure from config file
-        for(var i in sakai.config.Directory){
+        for (var i in sakai.config.Directory) {
             if (sakai.config.Directory.hasOwnProperty(i)) {
                 // Create first level of content
                 var temp = {};
@@ -188,6 +192,80 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
     };
 
     /**
+     * Link the tags to the uploaded content
+     * @param {Object} tags Array of tags
+     */
+    var batchLinkTagsToContent = function(tags){
+        // Batch link the files with the tags
+        var batchLinkTagsToContentData = [];
+        for (var i in tags) {
+            if (tags.hasOwnProperty(i)) {
+                var item = {
+                    "url": contentPath,
+                    "method": "POST",
+                    "parameters": {
+                        "key": tagsPathForLinking + $.trim(tags[i]),
+                        ":operation": "tag"
+                    }
+                };
+                batchLinkTagsToContentData.push(item);
+            }
+        }
+        // Do the Batch request
+        $.ajax({
+            url: sakai.config.URL.BATCH,
+            traditional: true,
+            type: "POST",
+            cache: false,
+            data: {
+                requests: $.toJSON(batchLinkTagsToContentData)
+            }, success : function(){
+                // TODO show a valid message to the user instead of reloading the page
+                $(window).trigger('hashchange');
+                sakai.api.Util.notification.show($(contentProfileBasicInfoUpdatedBasicInfo).html(), $(contentProfileBasicInfoFileBasicInfoUpdated).html());
+            }
+        });
+    };
+
+    /**
+     * Create the tags before linking them to the uploads
+     * @param {Object} tags array of tags to be created
+     */
+    var batchCreateTags = function(tags){
+        // Create the data to send with the batch request
+        var batchCreateTagsData = [];
+        for (var i in tags) {
+            if (tags.hasOwnProperty(i)) {
+                var item = {
+                    "url": tagsPath + $.trim(tags[i]),
+                    "method": "POST",
+                    "parameters": {
+                        "./jcr:primaryType": "nt:folder",
+                        "./jcr:mixinTypes": "sakai:propertiesmix",
+                        "./sakai:tag-name": $.trim(tags[i]),
+                        "./sling:resourceType": "sakai/tag"
+                    }
+                };
+                batchCreateTagsData.push(item);
+            }
+        }
+        // Do the Batch request
+        $.ajax({
+            url: sakai.config.URL.BATCH,
+            traditional: true,
+            type: "POST",
+            cache: false,
+            data: {
+                requests: $.toJSON(batchCreateTagsData)
+            },
+            success: function(data){
+                // Tags created
+                batchLinkTagsToContent(tags);
+            }
+        });
+    };
+
+    /**
      * Get the values from the basic information form
      */
     var getFormValues = function(){
@@ -218,18 +296,19 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
 
         // Create tags for the directory structure
         // For every content_profile_basic_info_added_directory we create tags
+        // Filter out ',' since that causes unwanted behaviour when rendering
         $(".content_profile_basic_info_added_directory").each(function(){
-            var directoryString = "directory:";
-            tagArray.push($(this).find(contentProfileBasicInfoDirectoryLvlOne).selected().val());
-            directoryString += $(this).find(contentProfileBasicInfoDirectoryLvlOne).selected().val();
+            var directoryString = "directory-";
+            tagArray.push($(this).find(contentProfileBasicInfoDirectoryLvlOne).selected().val().replace(/,/g,""));
+            directoryString += $(this).find(contentProfileBasicInfoDirectoryLvlOne).selected().val().replace(/,/g,"");
 
             if ($(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val() !== "no_value") {
-                tagArray.push($(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val());
-                directoryString += ":" + $(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val();
+                tagArray.push($(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g,""));
+                directoryString += "-" + $(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g,"");
 
                 if ($(this).find(contentProfileBasicInfoDirectoryLvlThree).selected().val() !== "no_value") {
-                    tagArray.push($(this).find(contentProfileBasicInfoDirectoryLvlThree).selected().val());
-                    directoryString += ":" + $(this).find(contentProfileBasicInfoDirectoryLvlThree).selected().val();
+                    tagArray.push($(this).find(contentProfileBasicInfoDirectoryLvlThree).selected().val().replace(/,/g,""));
+                    directoryString += "-" + $(this).find(contentProfileBasicInfoDirectoryLvlThree).selected().val().replace(/,/g,"");
                 }
 
             }
@@ -238,7 +317,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
         });
 
         // Set the tags property to the temporary tag array
-        data["sakai:tags"] = tagArray;
+        batchCreateTags(tagArray);
 
         data["sakai:copyright"] = $(contentProfileBasicInfoFormCopyrightSelect).val();
 
@@ -276,11 +355,6 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
             data: data,
             traditional: true,
             type: "post",
-            success: function(){
-                // TODO show a valid message to the user instead of reloading the page
-                $(window).trigger('hashchange');
-                sakai.api.Util.notification.show($(contentProfileBasicInfoUpdatedBasicInfo).html(), $(contentProfileBasicInfoFileBasicInfoUpdated).html());
-            },
             error: function(xhr, textStatus, thrownError){
                 // Enable basic info fields and show error message
                 enableDisableBasicInfoFields(false);
@@ -327,7 +401,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                     // Extract tags that start with "directory:"
                     var directory = [];
                     $(data["sakai:tags"]).each(function(i){
-                        var splitDir = data["sakai:tags"][i].split(":");
+                        var splitDir = data["sakai:tags"][i].split("-");
                         if(splitDir[0] === "directory"){
                             var item = [];
                             for(var i in splitDir){
@@ -429,14 +503,36 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
     };
 
     var removeDirectoryLocation = function(clickedParent){
+        // Extract tags from clickedParent
+        var tags = []
+        tags = clickedParent[0].className.split(",");
+        tags.push("directory-" + tags.toString().replace(/,/g,"-"));
+
+        // Create batch data
+        var batchItems = [];
+        for (t in tags) {
+            var item = {
+                "url": contentPath,
+                "method": "POST",
+                "parameters": {
+                    "key": tagsPathForLinking + tags[t],
+                    ":operation": "deletetag"
+                }
+            };
+            batchItems.push(item);
+        }
+
         // Send the Ajax request
         $.ajax({
-            url: "URL",
-            data: "DATA",
+            url : sakai.config.URL.BATCH,
             traditional: true,
             type: "POST",
-            success: function(){
-                clickedParent.remove();
+            cache: false,
+            data: {
+                requests: $.toJSON(batchItems)
+            },
+            success: function(data){
+                $(window).trigger('hashchange');
             },
             error: function(xhr, textStatus, thrownError){
                 sakai.api.Util.notification.show("Location not removed", "The location in the directory could not be removed.");

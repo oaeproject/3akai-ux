@@ -599,6 +599,9 @@ sakai.config = {
                 "Hierarchy 3",
                 "Hierarchy 3"
             ]
+        },
+        "caret": {
+            "employees": ["bert", "oszkar", "nicolaas"]
         }
     },
 

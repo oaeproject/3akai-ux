@@ -89,7 +89,7 @@
                 {else}
                     <ul class="content_profile_basic_info_saveddirectory">
                         {for savedDir in saveddirectory}
-                            <li>
+                            <li class="${savedDir}">
                                 ${savedDir.toString().replace(/,/g, " <span class='content_profile_basic_info_selected_and_saved_seperator'>&raquo;</span> ")}
                                 <a href="javascript:;" class="content_profile_basic_info_remove_location" title="Remove location">Remove</a>
                             </li>

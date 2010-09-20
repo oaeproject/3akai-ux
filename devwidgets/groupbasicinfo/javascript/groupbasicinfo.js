@@ -73,6 +73,12 @@ sakai.groupbasicinfo = function(tuid, showSettings){
     var groupbasicinfoSelectDirectory = "#groupbasicinfo_select_directory";
     var groupbasicinfoSelectAtLeastOneDirectory = "#groupbasicinfo_select_at_least_one_directory";
 
+    var groupId = sakai.currentgroup.id;
+    var groupStoragePrefix = sakai.currentgroup.data.authprofile.path;
+    var tagsPath = "/~" + groupId + "/public/tags/";
+    var tagsPathForLinking = "/_group" + groupStoragePrefix + "/public/tags/";
+    var groupProfileURL = "";
+
     /**
      * Get a list of nodes representing the directory structure to be rendered
      */
@@ -128,7 +134,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         var directory = [];
         var tags = [];
         $(sakai.currentgroup.data.authprofile["sakai:tags"]).each(function(i){
-            var splitDir = sakai.currentgroup.data.authprofile["sakai:tags"][i].split("/");
+            var splitDir = sakai.currentgroup.data.authprofile["sakai:tags"][i].split("_");
             if (splitDir[0] === "directory") {
                 var item = [];
                 for (var i in splitDir) {
@@ -175,6 +181,80 @@ sakai.groupbasicinfo = function(tuid, showSettings){
     //////////////////////////////
 
     /**
+     * Link the tags to the uploaded content
+     * @param {Object} tags Array of tags
+     */
+    var batchLinkTagsToContent = function(tags){
+        // Batch link the files with the tags
+        var batchLinkTagsToContentData = [];
+        for (var i in tags) {
+            if (tags.hasOwnProperty(i)) {
+                var item = {
+                    "url": groupProfileURL,
+                    "method": "POST",
+                    "parameters": {
+                        "key": tagsPathForLinking + $.trim(tags[i]),
+                        ":operation": "tag"
+                    }
+                };
+                batchLinkTagsToContentData.push(item);
+            }
+        }
+        // Do the Batch request
+        $.ajax({
+            url: sakai.config.URL.BATCH,
+            traditional: true,
+            type: "POST",
+            cache: false,
+            data: {
+                requests: $.toJSON(batchLinkTagsToContentData)
+            }, success : function(){
+                // TODO show a valid message to the user instead of reloading the page
+                $(window).trigger('hashchange');
+                sakai.api.Util.notification.show("Basic info updated", "The basic information has been ");
+            }
+        });
+    };
+
+    /**
+     * Create the tags before linking them to the uploads
+     * @param {Object} tags array of tags to be created
+     */
+    var batchCreateTags = function(tags){
+        // Create the data to send with the batch request
+        var batchCreateTagsData = [];
+        for (var i in tags) {
+            if (tags.hasOwnProperty(i)) {
+                var item = {
+                    "url": "/~" + sakai.currentgroup.id + "/public/tags/" + $.trim(tags[i]),
+                    "method": "POST",
+                    "parameters": {
+                        "./jcr:primaryType": "nt:folder",
+                        "./jcr:mixinTypes": "sakai:propertiesmix",
+                        "./sakai:tag-name": $.trim(tags[i]),
+                        "./sling:resourceType": "sakai/tag"
+                    }
+                };
+                batchCreateTagsData.push(item);
+            }
+        }
+        // Do the Batch request
+        $.ajax({
+            url: sakai.config.URL.BATCH,
+            traditional: true,
+            type: "POST",
+            cache: false,
+            data: {
+                requests: $.toJSON(batchCreateTagsData)
+            },
+            success: function(data){
+                // Tags created
+                batchLinkTagsToContent(tags);
+            }
+        });
+    };
+
+    /**
      * Update group data
      */
     var updateGroup = function(){
@@ -188,14 +268,17 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         // Create tags for the directory structure
         // For every groupbasicinfo_added_directory we create tags
         $(".groupbasicinfo_added_directory").each(function(){
-            var directoryString = "directory/";
-            directoryString += $(this).find(groupBasicInfoDirectoryLvlOne).selected().val();
+            var directoryString = "directory_";
+            tagArray.push($(this).find(groupBasicInfoDirectoryLvlOne).selected().val().replace(/,/g,""));
+            directoryString += $(this).find(groupBasicInfoDirectoryLvlOne).selected().val().replace(/,/g,"");
 
             if ($(this).find(groupBasicInfoDirectoryLvlTwo).selected().val() !== "no_value") {
-                directoryString += "/" + $(this).find(groupBasicInfoDirectoryLvlTwo).selected().val();
+                tagArray.push($(this).find(groupBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g,""));
+                directoryString += "_" + $(this).find(groupBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g,"");
 
                 if ($(this).find(groupBasicInfoDirectoryLvlThree).selected().val() !== "no_value") {
-                    directoryString += "/" + $(this).find(groupBasicInfoDirectoryLvlThree).selected().val();
+                    tagArray.push($(this).find(groupBasicInfoDirectoryLvlThree).selected().val().replace(/,/g,""));
+                    directoryString += "_" + $(this).find(groupBasicInfoDirectoryLvlThree).selected().val().replace(/,/g,"");
                 }
 
             }
@@ -203,13 +286,17 @@ sakai.groupbasicinfo = function(tuid, showSettings){
             // Add string for all levels to tag array
             tagArray.push(directoryString);
         });
+
         var groupDesc = $(groupBasicInfoGroupDesc, $rootel).val();
 
         // Update the group object
         sakai.currentgroup.data.authprofile["sakai:group-title"] = groupTitle;
         sakai.currentgroup.data.authprofile["sakai:group-kind"] = groupKind;
         sakai.currentgroup.data.authprofile["sakai:group-description"] = groupDesc;
-        var groupProfileURL = "/~" + sakai.currentgroup.id + "/public/authprofile"
+        groupProfileURL = "/~" + sakai.currentgroup.id + "/public/authprofile"
+
+        batchCreateTags(tagArray);
+
         $.ajax({
             url: groupProfileURL,
             data: {
@@ -226,6 +313,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
                     sakai.api.Widgets.Container.informFinish(tuid, "groupbasicinfo");
                     $(window).trigger("sakai.groupbasicinfo.updateFinished");
                 });
+                renderTemplateBasicInfo();
             },
             error: function(xhr, textStatus, thrownError){
                 fluid.log("An error has occurred: " + xhr.status + " " + xhr.statusText);
@@ -263,14 +351,36 @@ sakai.groupbasicinfo = function(tuid, showSettings){
     };
 
     var removeDirectoryLocation = function(clickedParent){
+        // Extract tags from clickedParent
+        var tags = []
+        tags = clickedParent[0].className.split(",");
+        tags.push("directory_" + tags.toString().replace(/,/g,"_"));
+
+        // Create batch data
+        var batchItems = [];
+        for (t in tags) {
+            var item = {
+                "url": "/~" + sakai.currentgroup.id + "/public/authprofile/",
+                "method": "POST",
+                "parameters": {
+                    "key": tagsPathForLinking + tags[t],
+                    ":operation": "deletetag"
+                }
+            };
+            batchItems.push(item);
+        }
+
         // Send the Ajax request
         $.ajax({
-            url: "URL",
-            data: "DATA",
+            url : sakai.config.URL.BATCH,
             traditional: true,
             type: "POST",
-            success: function(){
-                clickedParent.remove();
+            cache: false,
+            data: {
+                requests: $.toJSON(batchItems)
+            },
+            success: function(data){
+                $(window).trigger('hashchange');
             },
             error: function(xhr, textStatus, thrownError){
                 sakai.api.Util.notification.show("Location not removed", "The location in the directory could not be removed.");
