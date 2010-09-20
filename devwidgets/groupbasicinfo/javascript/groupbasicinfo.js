@@ -181,85 +181,6 @@ sakai.groupbasicinfo = function(tuid, showSettings){
     //////////////////////////////
 
     /**
-     * Link the tags to the uploaded content
-     * @param {Object} tags Array of tags
-     */
-    var batchLinkTagsToContent = function(tags){
-        // Batch link the files with the tags
-        var batchLinkTagsToContentData = [];
-        for (var i in tags) {
-            if (tags.hasOwnProperty(i)) {
-                var item = {
-                    "url": groupProfileURL,
-                    "method": "POST",
-                    "parameters": {
-                        "key": tagsPathForLinking + $.trim(tags[i]),
-                        ":operation": "tag"
-                    }
-                };
-                batchLinkTagsToContentData.push(item);
-            }
-        }
-        // Do the Batch request
-        $.ajax({
-            url: sakai.config.URL.BATCH,
-            traditional: true,
-            type: "POST",
-            cache: false,
-            data: {
-                requests: $.toJSON(batchLinkTagsToContentData)
-            }, success : function(){
-                // TODO show a valid message to the user instead of reloading the page
-                $(window).trigger('hashchange');
-                sakai.api.Util.notification.show("Basic info updated", "The basic information has been ");
-            }
-        });
-    };
-
-    /**
-     * Create the tags before linking them to the uploads
-     * @param {Object} tags array of tags to be created
-     */
-    var batchCreateTags = function(tags){
-        // Create the data to send with the batch request
-        var batchCreateTagsData = [];
-        for (var i in tags) {
-            if (tags.hasOwnProperty(i)) {
-                var item = {
-                    "url": "/~" + sakai.currentgroup.id + "/public/tags/" + $.trim(tags[i]),
-                    "method": "POST",
-                    "parameters": {
-                        "./jcr:primaryType": "nt:folder",
-                        "./jcr:mixinTypes": "sakai:propertiesmix",
-                        "./sakai:tag-name": $.trim(tags[i]),
-                        "./sling:resourceType": "sakai/tag"
-                    }
-                };
-                batchCreateTagsData.push(item);
-            }
-        }
-        if (batchCreateTagsData.length) {
-            // Do the Batch request
-            $.ajax({
-                url: sakai.config.URL.BATCH,
-                traditional: true,
-                type: "POST",
-                cache: false,
-                data: {
-                    requests: $.toJSON(batchCreateTagsData)
-                },
-                success: function(data){
-                    // Tags created
-                    batchLinkTagsToContent(tags);
-                }
-            });
-        } else {
-            $(window).trigger('hashchange');
-            sakai.api.Util.notification.show("Basic info updated", "The basic information has been ");
-        }
-    };
-
-    /**
      * Update group data
      */
     var updateGroup = function(){
@@ -309,7 +230,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         sakai.currentgroup.data.authprofile["sakai:group-description"] = groupDesc;
         groupProfileURL = "/~" + sakai.currentgroup.id + "/public/authprofile"
 
-        batchCreateTags(tagArray);
+        //batchCreateTags(tagArray);
 
         $.ajax({
             url: groupProfileURL,
