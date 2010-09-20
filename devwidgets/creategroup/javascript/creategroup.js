@@ -212,7 +212,8 @@ sakai.creategroup = function(tuid, showSettings){
                 "sakai:group-description" : groupdescription,
                 "sakai:group-id": groupid,
                 "sling:resourceType": "sakai/group-home",
-                ":sakai:pages-template": "/var/templates/site/" + pagestemplate
+                ":sakai:pages-template": "/var/templates/site/" + pagestemplate,
+                "sakai:pages-visible": sakai.config.Permissions.Groups.visible["public"]
             },
             type: "POST",
             success: function(data, textStatus){
@@ -221,7 +222,7 @@ sakai.creategroup = function(tuid, showSettings){
                     // set default permissions for this group
                     sakai.api.Groups.setPermissions(groupid,
                         sakai.config.Permissions.Groups.joinable.manager_add,
-                        sakai.config.Permissions.Groups.visible.public,
+                        sakai.config.Permissions.Groups.visible["public"],
                         function (success, errorMessage) {
                             if(success) {
                                 // show the group

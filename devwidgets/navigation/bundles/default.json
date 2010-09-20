@@ -1,11 +1,17 @@
 {
+    "CHANGE": "Change",
     "CREATE_PAGE": "Create page",
     "DELETE_PAGE": "Delete page",
+    "DONT_CHANGE": "Don't change",
     "PAGES": "Pages",
     "SETTINGS": "Settings",
-    "VIS_EVERYONE": "Everyone",
+    "VIS_ANYONE_ON_THE_INTERNET": "Anyone on the Internet",
     "VIS_ALL_LOGGED_IN_USERS": "All logged in users",
     "VIS_MANAGERS_ONLY": "Managers only",
-    "VIS_MANAGERS_AND_MEMBERS": "Managers and Members",
+    "VIS_MANAGERS_MEMBERS": "Managers and Members",
+    "OR_A_MANAGER": "a group Manager",
+    "OR_A_MEMBER": "a group Member",
+    "OR_LOGGED_IN": "logged in",
+    "NOT_ALLOWED": "You cannot view the pages unless you are",
     "WHO_WOULD_YOU_LIKE_TO_SEE": "Who would you like to see the pages for"
 }
