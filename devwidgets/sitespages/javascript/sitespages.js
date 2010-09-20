@@ -126,6 +126,7 @@ sakai.sitespages = function(tuid,showSettings){
      * @return void
      */
     sakai.sitespages.refreshSiteInfo = function(pageToOpen, loadNav) {
+        console.log("refreshing site info");
         var doLoadNav = true;
         if (loadNav !== undefined) {
             doLoadNav = loadNav;
@@ -288,13 +289,14 @@ sakai.sitespages = function(tuid,showSettings){
         sakai.sitespages.inEditView = false;
 
 
-        // If no pageUrlName is supplied, default to the first available page
+        // If no pageUrlName is supplied, default to the about page
         if (!pageUrlName) {
-            var lowest = false;
             for (var i in sakai.sitespages.site_info._pages) {
-                if (lowest === false || parseInt(sakai.sitespages.site_info._pages[i]["pagePosition"], 10) < lowest){
-                    pageUrlName = i;
-                    lowest = parseInt(sakai.sitespages.site_info._pages[i]["pagePosition"], 10);
+                if (sakai.sitespages.site_info._pages.hasOwnProperty(i)) {
+                    if (sakai.sitespages.site_info._pages[i]["pageURLTitle"] === "about-this-group") {
+                        pageUrlName = i;
+                        break;
+                    }
                 }
             }
         }
@@ -339,11 +341,6 @@ sakai.sitespages = function(tuid,showSettings){
 
             // Show page
             $("#" + sakai.sitespages.selectedpage).show();
-
-            // Re-render Site Navigation to reflect changes if navigation widget is already loaded
-            if (sakai.sitespages.navigation) {
-//                sakai.sitespages.navigation.renderNavigation(sakai.sitespages.selectedpage, sakai.sitespages.site_info._pages);
-            }
         }
         else {
 
@@ -449,11 +446,6 @@ sakai.sitespages = function(tuid,showSettings){
 
             // Insert widgets
             sakai.api.Widgets.widgetLoader.insertWidgets(sakai.sitespages.selectedpage,null, config.basepath + "_widgets/");
-
-            // (Re)-Render Navigation widget
-            if (sakai.sitespages.navigation) {
-//                sakai.sitespages.navigation.renderNavigation(sakai.sitespages.selectedpage, sakai.sitespages.site_info._pages);
-            }
 
         }
         else {
