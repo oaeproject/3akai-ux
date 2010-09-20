@@ -416,16 +416,16 @@ sakai.entity = function(tuid, showSettings){
             // Get the correct input value from the user
             var inputValue = $entity_profile_status_input.hasClass(entity_profile_status_input_dummy) ? "" : $.trim($entity_profile_status_input.val());
 
-            sakai.data.me.profile = $.extend(true, sakai.data.me.profile, {"status": inputValue});
-
-            if (sakai.data.me.profile.activity)
-                delete sakai.data.me.profile.activity;
-
-            if (sakai.data.me.profile["rep:policy"])
-                delete sakai.data.me.profile["rep:policy"];
-
             if (profile_status_value !== inputValue) {
                 profile_status_value = inputValue;
+
+                sakai.data.me.profile = $.extend(true, sakai.data.me.profile, {"status": inputValue});
+
+                if (sakai.data.me.profile.activity)
+                    delete sakai.data.me.profile.activity;
+
+                if (sakai.data.me.profile["rep:policy"])
+                    delete sakai.data.me.profile["rep:policy"];
 
                 var originalText = $("button span", $entity_profile_status).text();
                 $("button span", $entity_profile_status).text(sakai.api.Security.saneHTML($entity_profile_status_input_saving.text()));
