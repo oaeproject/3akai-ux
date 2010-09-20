@@ -2330,7 +2330,7 @@ sakai.api.Util.tagEntity = function(tagLocation, newTags, currentTags, callback)
     });
     $(currentTags).each(function(i,val) {
         val = $.trim(val);
-        if (val && val.split("/")[0] !== "directory" && $.inArray(val,newTags) == -1) { // dont delete directory tags this way, we do that another way
+        if (val && $.inArray(val,newTags) == -1) {
             tagsToDelete.push(val);
         }
     });
