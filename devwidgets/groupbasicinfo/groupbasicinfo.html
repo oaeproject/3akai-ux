@@ -68,7 +68,7 @@
                     {else}
                         <ul class="groupbasicinfo_saveddirectory">
                             {for savedDir in saveddirectory}
-                                <li>
+                                <li class="${savedDir}">
                                     ${savedDir.toString().replace(/,/g, " <span class='groupbasicinfo_selected_and_saved_seperator'>&raquo;</span> ")}
                                     <a href="javascript:;" class="groupbasicinfo_remove_location" title="Remove">Remove</a>
                                 </li>
