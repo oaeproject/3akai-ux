@@ -19,7 +19,7 @@
                 </td>
                 <td>
                     <span class="chat_available_name chat_available_status_${me.chatstatus}">${me.name}</span><br />
-                    <span class="chat_available_statusmessage">${me.statusmessage}</span>
+                    <span id="chat_mystatusmessage" class="chat_available_statusmessage">${me.statusmessage}</span>
                 </td>
                 {/if}
             </tr>
@@ -40,7 +40,7 @@
                             </td>
                             <td>
                                 <a href="javascript:;" class="chat_available_status_${i.chatstatus} initiate_chat_window" id="initiate_chat_window_${i.user}">${i.name}</a><br />
-                                <span class="chat_available_statusmessage">${i.statusmessage}</span>
+                                <span id="chat_mystatusmessage" class="chat_available_statusmessage">${i.statusmessage}</span>
                             </td>
                         </tr>
                     {/if}
@@ -96,7 +96,7 @@
         </span>
         </span>
 
-        ${index++|eat}
+        <span style="display:none">${index++}</span>
     {/for}
 --></div>
 
@@ -138,7 +138,7 @@
                 <input id="chat_with_${i.userid}_txt" class="chat_with_txt" type="text" title="Please input the chat text" />
             </div>
 
-        ${index++|eat}
+        <span style="display:none">${index++}</span>
     {/for}
 --></div>
 
@@ -155,9 +155,9 @@
     <div id="chat_container" style="height:30px">
         <table class="chat_main_table" summary="Chat">
             <tr>
-                <td id="previous"><a href="javascript:;" id="prev" class="hidden"><img src="/devwidgets/chat/images/prev.png"  alt="Prev"></a></td>
+                <td id="previous"><a href="javascript:;" id="prev" style="display:none"><img src="/devwidgets/chat/images/prev.png"  alt="Prev"></a></td>
                 <td id="chat_windows"></td>
-                <td id="more"><a href="javascript:;" id="next" class="hidden"><img src="/devwidgets/chat/images/more.png"  alt="Next"></a></td>
+                <td id="more"><a href="javascript:;" id="next" style="display:none"><img src="/devwidgets/chat/images/more.png"  alt="Next"></a></td>
                 <td id="chat_online_connections_link">
                     <span id="online_button">
                         <img src="/devwidgets/chat/images/people.png" width="16px" class="chat_people_icon" alt="Online"/>

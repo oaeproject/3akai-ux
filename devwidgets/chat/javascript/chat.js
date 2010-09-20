@@ -229,7 +229,7 @@ sakai.chat = function(tuid, showSettings){
     var chatAvailableTemplate = "chat_available_template";
     var chatContentTemplate = "chat_content_template";
     var chatWindowsTemplate = "chat_windows_template";
-    var timer = false;
+    //var timer = false;
 
     ///////////////////////
     // Utility functions //
@@ -679,6 +679,7 @@ sakai.chat = function(tuid, showSettings){
         var total = 0; //Total online friends
         allFriends = {};
         allFriends.users = [];
+        onlineFriends = [];
         if (json.contacts !== undefined) {
             for (var i = 0, j = json.contacts.length; i < j; i++) {
                 if (typeof json.contacts[i].profile === "string") {
@@ -703,17 +704,17 @@ sakai.chat = function(tuid, showSettings){
             json.items = [];
             json.totalitems = total;
             $(chatOnline).html("(0)");
-            timer = false;
+            //timer = false;
         }
         else {
             json.totalitems = total;
             $(chatOnline).html("<b>(" + total + ")</b>");
 
-            if(!timer) {
-                timer = true;
-                sakai.chat.checkNewMessages();
-
-            }
+            //if(!timer) {
+            //    timer = true;
+            //    sakai.chat.checkNewMessages();
+            //}
+            
         }
 
         json.me = {};
@@ -1064,13 +1065,12 @@ sakai.chat = function(tuid, showSettings){
                         sakai.chat.loadChatTextInitial(false);
                     }
                     else {
-                        if(timer) {
-                            setTimeout(sakai.chat.checkNewMessages, 5000);
-                        }
-
+                        setTimeout(sakai.chat.checkNewMessages, 5000);
                     }
                 }
             });
+        } else {
+            setTimeout(sakai.chat.checkNewMessages, 5000);
         }
     };
 
@@ -1261,20 +1261,21 @@ sakai.chat = function(tuid, showSettings){
                         }
                     }
                 }
-
-                if (doreload) {
-                    if(timer) {
-                        setTimeout(sakai.chat.checkNewMessages, 5000);
-                    }
-                }
-            },
-
-            error: function(xhr, textStatus, thrownError){
+                
+                //if (initial){
+                //    alert("Starting polling");
+                    // Start polling for messages
+                    sakai.chat.checkNewMessages();
+                ///}
 
                 //if (doreload) {
-                // setTimeout("sakai.chat.loadChatTextInitial('" + false +"')", 5000);
+                //    if(timer) {
+                //        alert("Here");
+                //        setTimeout(sakai.chat.checkNewMessages, 5000);
+                //    }
                 //}
             }
+            
         });
     };
 
@@ -1289,7 +1290,7 @@ sakai.chat = function(tuid, showSettings){
         var chatWindowVisible = $('.active_window:visible');
 
         // if open chat conversations are more than 5
-        if (chatWindow.length >= MAX_NO_OF_WINDOWS) {
+        if (chatWindow && chatWindow.length >= MAX_NO_OF_WINDOWS) {
             // if there are more hidden chat conversation after the last visible window
             if($(chatWindow[(chatWindow.index($(chatWindowVisible[(chatWindowVisible.length-1)]))) + 1]).length){
                 // show next >> link
@@ -1498,8 +1499,10 @@ sakai.chat = function(tuid, showSettings){
         });
 
         //Add a binding to catch event fire by change of status message
-        $(window).bind("chat_status_message_change", function(event, currentChatStatus){
-            showOnlineFriends();
+        $(window).bind("chat_status_message_change", function(event, statusmessage){
+            // Update the status message in the contacts pull-up
+            statusmessage = parseStatusMessage(statusmessage);
+            $("#chat_mystatusmessage").text(statusmessage);
         });
     };
 
@@ -1512,6 +1515,7 @@ sakai.chat = function(tuid, showSettings){
         checkOnline();
         doInit();
     }
+    
 };
 
 sakai.api.Widgets.widgetLoader.informOnLoad("chat");

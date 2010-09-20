@@ -338,6 +338,8 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         });
 
         $(groupbasicinfo_update, $rootel).bind("click", function(){
+            // disable all basic info input elements while update is processed
+            sakai.api.UI.groupbasicinfo.disableInputElements();
             $(window).trigger("sakai.groupbasicinfo.update");
         });
 
@@ -391,6 +393,40 @@ sakai.groupbasicinfo = function(tuid, showSettings){
                 sakai.api.Util.notification.show($(groupbasicinfoSelectDirectory).html(), $(groupbasicinfoSelectAtLeastOneDirectory).html());
             }
     });
+
+
+    //////////////////////
+    // Public Functions //
+    //////////////////////
+
+    /**
+     * Disable all Group Basic Info input elements (i.e. while processing an update)
+     */
+    sakai.api.UI.groupbasicinfo.disableInputElements = function () {
+        // disable all input elements
+        $("#groupbasicinfo_generalinfo input", $rootel).attr("disabled","disabled");
+        // disable all textarea elements
+        $("#groupbasicinfo_generalinfo textarea", $rootel).attr("disabled","disabled");
+        // disable all select dropdowns
+        $("#groupbasicinfo_generalinfo select", $rootel).attr("disabled","disabled");
+        // disable all buttons
+        $("#groupbasicinfo_generalinfo button", $rootel).attr("disabled","disabled");
+    };
+
+    /**
+     * Enable all Group Basic Info input elements (i.e. after processing an update)
+     */
+    sakai.api.UI.groupbasicinfo.enableInputElements = function () {
+        // enable all input elements
+        $("#groupbasicinfo_generalinfo input", $rootel).removeAttr("disabled");
+        // enable all textarea elements
+        $("#groupbasicinfo_generalinfo textarea", $rootel).removeAttr("disabled");
+        // enable all select dropdowns
+        $("#groupbasicinfo_generalinfo select", $rootel).removeAttr("disabled");
+        // enable all buttons
+        $("#groupbasicinfo_generalinfo button", $rootel).removeAttr("disabled");
+    };
+
 
     ////////////////////
     // Initialization //

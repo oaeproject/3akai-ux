@@ -16,6 +16,13 @@
  * specific language governing permissions and limitations under the License.
  */
 
+/* LAYOUT */
+#navigation_settings {padding:10px;}
+#navigation_no_pages {padding:20px 30px;}
+
+/* TYPOGRAPHY */
+#navigation_groupname {font-weight:bold;}
+
 /* NAVIGATION TREE STYLES */
 #navigation_tree ul.jstree-no-dots li.jstree-leaf {margin:4px 0;}
 #navigation_tree ul.jstree-no-dots li.jstree-leaf a, #navigation_tree ul.jstree-no-dots li.jstree-closed a, #navigation_tree ul.jstree-no-dots li.jstree-open a{color:#006E96;}
