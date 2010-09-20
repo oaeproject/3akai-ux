@@ -238,20 +238,25 @@ sakai.groupbasicinfo = function(tuid, showSettings){
                 batchCreateTagsData.push(item);
             }
         }
-        // Do the Batch request
-        $.ajax({
-            url: sakai.config.URL.BATCH,
-            traditional: true,
-            type: "POST",
-            cache: false,
-            data: {
-                requests: $.toJSON(batchCreateTagsData)
-            },
-            success: function(data){
-                // Tags created
-                batchLinkTagsToContent(tags);
-            }
-        });
+        if (batchCreateTagsData.length) {
+            // Do the Batch request
+            $.ajax({
+                url: sakai.config.URL.BATCH,
+                traditional: true,
+                type: "POST",
+                cache: false,
+                data: {
+                    requests: $.toJSON(batchCreateTagsData)
+                },
+                success: function(data){
+                    // Tags created
+                    batchLinkTagsToContent(tags);
+                }
+            });
+        } else {
+            $(window).trigger('hashchange');
+            sakai.api.Util.notification.show("Basic info updated", "The basic information has been ");
+        }
     };
 
     /**
@@ -264,7 +269,16 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         var groupKind = $(groupBasicInfoGroupKind, $rootel).val();
 
         var tagArray = [];
-        tagArray= $(groupBasicInfoGroupTags, $rootel).val().split(",");
+        // Get all the tags
+        var tagValues = $.trim($(groupBasicInfoGroupTags).val());
+        var trimmedTags = [];
+        $(tagValues.split(",")).each(function(index){
+            if($.trim($(tagValues.split(","))[index]).length){
+                trimmedTags.push($.trim($(tagValues.split(","))[index]));
+            }
+        });
+        tagArray = trimmedTags;
+
         // Create tags for the directory structure
         // For every groupbasicinfo_added_directory we create tags
         $(".groupbasicinfo_added_directory").each(function(){

@@ -249,20 +249,25 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                 batchCreateTagsData.push(item);
             }
         }
-        // Do the Batch request
-        $.ajax({
-            url: sakai.config.URL.BATCH,
-            traditional: true,
-            type: "POST",
-            cache: false,
-            data: {
-                requests: $.toJSON(batchCreateTagsData)
-            },
-            success: function(data){
-                // Tags created
-                batchLinkTagsToContent(tags);
-            }
-        });
+        if (batchCreateTagsData.length) {
+            // Do the Batch request
+            $.ajax({
+                url: sakai.config.URL.BATCH,
+                traditional: true,
+                type: "POST",
+                cache: false,
+                data: {
+                    requests: $.toJSON(batchCreateTagsData)
+                },
+                success: function(data){
+                    // Tags created
+                    batchLinkTagsToContent(tags);
+                }
+            });
+        } else{
+            $(window).trigger('hashchange');
+            sakai.api.Util.notification.show($(contentProfileBasicInfoUpdatedBasicInfo).html(), $(contentProfileBasicInfoFileBasicInfoUpdated).html());
+        }
     };
 
     /**
@@ -283,7 +288,13 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
         var tagValues = $.trim($(contentProfileBasicInfoFormTags).val());
         // Temporary array of tags
         var tagArray = [];
-        data["sakai:tags"] = tagValues.split(",");
+        var trimmedTags = [];
+        $(tagValues.split(",")).each(function(index){
+            if($.trim($(tagValues.split(","))[index]).length){
+                trimmedTags.push($.trim($(tagValues.split(","))[index]));
+            }
+        });
+        data["sakai:tags"] = trimmedTags;
 
         // Remove all the begin and end spaces in the tags
         // Also remove the empty tags
