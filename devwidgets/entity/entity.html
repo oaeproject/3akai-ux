@@ -134,6 +134,8 @@
                         ${data.profile.authprofile["sakai:group-title"]} 
                         {if data.profile["managerCount"] && data.profile["memberCount"]}
                             (${data.profile["memberCount"]+data.profile["managerCount"]})
+                        {elseif data.profile["managerCount"]}
+                            (${data.profile["managerCount"]})
                         {elseif data.profile["memberCount"]}
                             (${data.profile["memberCount"]})
                         {/if}

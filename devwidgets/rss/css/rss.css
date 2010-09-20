@@ -43,3 +43,6 @@
 
 /* Sendmessage widget*/
 #rss_sendmessagecontainer, #widget_sendmessage {width:100%;}
+
+/* Widget icon */
+.rss.fl-widget .fl-widget-titlebar .widget_title {background: url('/devwidgets/rss/images/rss_icon.png') 17px 18px no-repeat;}

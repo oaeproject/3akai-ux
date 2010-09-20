@@ -30,3 +30,6 @@
 
 /* No contacts */
 .mycontacts_widget #mycontacts_nocontacts {font-size:0.95em;}
+
+/* Widget icon */
+.mycontacts.fl-widget .fl-widget-titlebar .widget_title {background: url('/devwidgets/mycontacts/images/contacts_icon.png') 17px 18px no-repeat;}

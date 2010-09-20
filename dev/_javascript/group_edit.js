@@ -356,7 +356,8 @@ sakai.groupedit = function(){
 
         var updateSuccess = false;
 
-        $.each(contentList, function(index, contentId) {
+        $(contentList).each(function(i, content) {
+            var contentId = content["value"];
             if (contentId) {
                 // add content to group
                 $.ajax({
@@ -491,13 +492,12 @@ sakai.groupedit = function(){
 
             // Bind the add content button
             $("#group_editing_add_content").bind("click", function(){
-                pl_config.type = "content";
-                pl_config.what = "Content";
-                $(window).trigger("sakai-pickeruser-init", pl_config, function(content) {
-                });
-                $(window).unbind("sakai-pickeruser-finished");
-                $(window).bind("sakai-pickeruser-finished", function(e, contentList) {
-                    addContent(contentList.toAdd);
+                $(window).trigger('sakai-embedcontent-init', {"name":"Item", "mode": "picker", "limit": false, "filter": false});
+                $(window).unbind("sakai-embedcontent-picker-finished");
+                $(window).bind("sakai-embedcontent-picker-finished", function(e, fileList) {
+                    if (fileList.items.length) {
+                        addContent(fileList.items);
+                    }
                 });
             });
         });

@@ -207,6 +207,7 @@ sakai.changepic = function(tuid, showSettings){
             $(picInputError).hide();
             $(uploadNewButtons).hide();
             $(uploadProcessing).show();
+            fileName = "tmp" + new Date().getTime() + ".jpg";
             $(profilePicture).attr("name",fileName);
             return AIM.submit(this, {
                 'onStart' : sakai.changepic.startCallback,

@@ -45,6 +45,7 @@ sakai.nopermissions = function(tuid, showSettings) {
             // the user is logged in and should get a page in Sakai itself
             var renderedTemplate = $.TemplateRenderer(permissionsErrorLoggedInTemplate, sakai.data.me.user).replace(/\r/g, '');
             $(permissionsError).append(renderedTemplate);
+            $("#permission_error").addClass("error_page_bringdown");
         }
     }
 

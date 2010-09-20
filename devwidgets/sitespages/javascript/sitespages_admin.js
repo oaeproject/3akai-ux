@@ -1355,11 +1355,8 @@ sakai.sitespages.site_admin = function(){
         sakai.sitespages.currentEditView = "preview";
     });
 
-
-    $(window).bind("sakai-embedcontent-ready", function(e) {
-        $("#sitespages_embed_content_button").live("click", function(e) {
-            $(window).trigger('sakai-embedcontent-init', {"name":sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageTitle"]});
-        });
+    $("#sitespages_embed_content_button").live("click", function(e) {
+        $(window).trigger('sakai-embedcontent-init', {"name":sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageTitle"]});
     });
 
 

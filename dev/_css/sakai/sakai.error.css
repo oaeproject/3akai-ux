@@ -11,5 +11,6 @@
 #page_not_found_error #error_title {background:url(/dev/_images/404_exclamation.png) no-repeat;}
 
 .decor {padding-bottom:14px;}
+.error_page_bringdown {padding-top: 12px;}
 
 .header .fixed-container {height:300px;}

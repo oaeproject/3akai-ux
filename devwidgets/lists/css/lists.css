@@ -15,9 +15,14 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
+.fl-widget .lists_widget .fl-widget-content {padding: 10px 20px;}
+#lists_main ul {margin-left:35px;}
+#lists_main ul li {}
 
-/* Main */
-.helloworld_widget .fl-widget-content {padding: 10px 20px;}
+#lists_settings label {float:left;width:100%;}
+#lists_settings select {float:left; width:100%; margin-bottom:10px;}
 
-/* Widget icon */
-.helloworld.fl-widget .fl-widget-titlebar .widget_title {background: url('/devwidgets/helloworld/images/helloworld_icon.png') 17px 18px no-repeat;}
+.lists_widget.on_page {border:3px solid #D6DBDF;-moz-border-radius:7px;-webkit-border-radius:7px;border-radius:7px;width:300px;}
+.inline_class_widget_leftfloat .lists_widget.on_page {margin-right:6px;}
+.lists_widget.on_page #lists_title {background:url("/dev/_images/block_tl.png") no-repeat scroll -10px -10px transparent;height:46px;}
+.lists_widget.on_page #lists_title h1 {margin:10px 0px 0px 10px;}

@@ -211,8 +211,9 @@ sakai.creategroup = function(tuid, showSettings){
                 "sakai:group-title" : grouptitle,
                 "sakai:group-description" : groupdescription,
                 "sakai:group-id": groupid,
+                "sling:resourceType": "sakai/group-home",
                 ":sakai:pages-template": "/var/templates/site/" + pagestemplate,
-                "sakai:pages-visible": sakai.config.Permissions.Groups.visible.public
+                "sakai:pages-visible": sakai.config.Permissions.Groups.visible["public"]
             },
             type: "POST",
             success: function(data, textStatus){
@@ -221,11 +222,11 @@ sakai.creategroup = function(tuid, showSettings){
                     // set default permissions for this group
                     sakai.api.Groups.setPermissions(groupid,
                         sakai.config.Permissions.Groups.joinable.manager_add,
-                        sakai.config.Permissions.Groups.visible.public,
+                        sakai.config.Permissions.Groups.visible["public"],
                         function (success, errorMessage) {
                             if(success) {
                                 // show the group
-                                document.location = "/dev/group_edit.html?id=" + groupid;
+                                document.location = "/dev/show.html?type=group&id=" + groupid;
                             } else {
                                 fluid.log("creategroup.js doSaveGroup failed to set group permissions: " + errorMessage);
                             }
