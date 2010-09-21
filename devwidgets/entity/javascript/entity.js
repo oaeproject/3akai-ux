@@ -304,13 +304,17 @@ sakai.entity = function(tuid, showSettings){
      * @param {String} Type tells us which button to show
      */
     var showGroupMembershipButton = function(type){
-        if (type === 'join') {
-            if (entityconfig.data.profile.authprofile["sakai:group-joinable"] === "People can automatically join")
+        if (type === "join") {
+            if (entityconfig.data.profile.authprofile["sakai:group-joinable"] ===
+                sakai.config.Permissions.Groups.joinable.user_direct) {
                 $(entityGroupJoin).show();
-            else if (entityconfig.data.profile.authprofile["sakai:group-joinable"] === "People request to join")
+            }
+            else if (entityconfig.data.profile.authprofile["sakai:group-joinable"] ===
+                sakai.config.Permissions.Groups.joinable.user_request) {
                 $(entityGroupJoinRequest).show();
+            }
             $(entityGroupLeave).hide();
-        } else if (type === 'leave') {
+        } else if (type === "leave") {
             $(entityGroupJoin).hide();
             $(entityGroupJoinRequest).hide();
             $(entityGroupLeave).show();
