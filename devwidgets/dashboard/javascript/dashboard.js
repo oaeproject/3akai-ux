@@ -389,8 +389,10 @@ sakai.dashboard = function(tuid, showSettings) {
 
                   var el = $("#" + currentSettingsOpen.split("_")[1] + "_container", $rootel);
                   if (el.css('display') == "none") {
+                      el.parent().find(".fl-widget-titlebar").removeClass("hiddenwidget");
                       el.show();
                   } else {
+                      el.parent().find(".fl-widget-titlebar").addClass("hiddenwidget");
                       el.hide();
                   }
                   saveState();
