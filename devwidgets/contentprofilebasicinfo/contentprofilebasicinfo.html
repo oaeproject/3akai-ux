@@ -48,11 +48,11 @@
             </label>
             {if !anon}
                 <select id="content_profile_basic_info_copyright_select">
-                    <option value="__MSG__CREATIVE_COMMONS_LICENSE__" {if data["sakai:copyright"] === "__MSG__CREATIVE_COMMONS_LICENSE__"}selected="selected"{/if}>__MSG__CREATIVE_COMMONS_LICENSE__</option>
-                    <option value="__MSG__COPYRIGHTED__" {if data["sakai:copyright"] === "__MSG__COPYRIGHTED__"}selected="selected"{/if}>__MSG__COPYRIGHTED__</option>
-                    <option value="__MSG__NO_COPYRIGHT__" {if data["sakai:copyright"] === "__MSG__NO_COPYRIGHT__"}selected="selected"{/if}>__MSG__NO_COPYRIGHT__</option>
-                    <option value="__MSG__LICENSED__" {if data["sakai:copyright"] === "__MSG__LICENSED__"}selected="selected"{/if}>__MSG__LICENSED__</option>
-                    <option value="__MSG__WAIVE_COPYRIGHT__" {if data["sakai:copyright"] === "__MSG__WAIVE_COPYRIGHT__"}selected="selected"{/if}>__MSG__WAIVE_COPYRIGHT__</option>
+                    <option value="creativecommons" {if data["sakai:copyright"] === "creativecommons"}selected="selected"{/if}>__MSG__CREATIVE_COMMONS_LICENSE__</option>
+                    <option value="copyrighted" {if data["sakai:copyright"] === "copyrighted"}selected="selected"{/if}>__MSG__COPYRIGHTED__</option>
+                    <option value="nocopyright" {if data["sakai:copyright"] === "nocopyright"}selected="selected"{/if}>__MSG__NO_COPYRIGHT__</option>
+                    <option value="licensed" {if data["sakai:copyright"] === "licensed"}selected="selected"{/if}>__MSG__LICENSED__</option>
+                    <option value="waivecopyright" {if data["sakai:copyright"] === "waivecopyright"}selected="selected"{/if}>__MSG__WAIVE_COPYRIGHT__</option>
                 </select>
             {else}
                 <label class="content_profile_basic_info_form_anon_label">{if data["sakai:copyright"]}${data["sakai:copyright"]}{/if}</label>

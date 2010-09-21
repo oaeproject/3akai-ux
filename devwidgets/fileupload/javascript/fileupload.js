@@ -352,7 +352,7 @@ sakai.fileupload = function(tuid, showSettings){
                         "sakai:pooled-content-file-name": $(fileUploadLinkBoxInput).val(),
                         "sakai:directory": "default",
                         "sakai:groupresource": true,
-                        "sakai:copyright": "Creative Commons License"
+                        "sakai:copyright": "creativecommons"
                     }
                 };
             }
@@ -369,7 +369,7 @@ sakai.fileupload = function(tuid, showSettings){
                             "sakai:directory": "default",
                             "sakai:permissions": $(fileUploadPermissionsSelect).val(),
                             "sakai:groupresource": true,
-                            "sakai:copyright": "Creative Commons License"
+                            "sakai:copyright": "creativecommons"
                         }
                     };
                     batchDescriptionData[batchDescriptionData.length] = item;
