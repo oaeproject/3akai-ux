@@ -2352,6 +2352,8 @@ sakai.api.Util.tagEntity = function(tagLocation, newTags, currentTags, callback)
      */
 
     var setTags = function(tagLocation, tags, callback) {
+    
+        var setTags = function(tagLocation, tags, callback) {
         if (tags.length) {
             $(tags).each(function(i,val) {
                 // check to see that the tag exists
@@ -2452,6 +2454,31 @@ sakai.api.Util.tagEntity = function(tagLocation, newTags, currentTags, callback)
             }
         }
     };
+    
+    var tagsToAdd = [];
+    var tagsToDelete = [];
+    // determine which tags to add and which to delete
+    $(newTags).each(function(i,val) {
+        val = $.trim(val);
+        if (val && $.inArray(val,currentTags) == -1) {
+            tagsToAdd.push(val);
+        }
+    });
+    $(currentTags).each(function(i,val) {
+        val = $.trim(val);
+        if (val && $.inArray(val,newTags) == -1) {
+            tagsToDelete.push(val);
+        }
+    });
+    deleteTags(tagLocation, tagsToDelete, function() {
+        setTags(tagLocation, tagsToAdd, function() {
+            if ($.isFunction(callback)) {
+                callback();
+            }
+        });
+    });
+
+};
 
 /**
  * @class notification
