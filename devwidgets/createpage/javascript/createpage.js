@@ -164,13 +164,13 @@ sakai.createpage = function(tuid, showSettings){
             showProcessing();  // display "Processing..."
             var pageType = $selectPageType.val();
             if(pageType === "blank") {
-                sakai.sitespages.createNewPage("", handleNewPageCreation, pageTitle);
+                sakai.sitespages.createNewPage(pageTitle, "", handleNewPageCreation);
             } else if(pageType === "template") {
                 // fetch the selected template and its content to create a new page
                 var selectedTemplate = $("input:radio:checked", $createpageContainer).val();
-                sakai.sitespages.createNewPage(
+                sakai.sitespages.createNewPage(pageTitle,
                     sakai.sitespages.mytemplates[selectedTemplate]["pageContent"]["sakai:pagecontent"],
-                    handleNewPageCreation, pageTitle);
+                    handleNewPageCreation);
             } else {
                 sakai.sitespages.addDashboardPage(pageTitle, handleNewPageCreation);
             }
