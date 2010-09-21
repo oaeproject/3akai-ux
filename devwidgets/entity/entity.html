@@ -2,7 +2,7 @@
 <link rel="stylesheet" type="text/css" href="/devwidgets/entity/css/entity.css" />
 
 <!-- CONTAINER -->
-<div id="entity_container" class="fl-container-900" style="display:none"><!-- --></div>
+<div id="entity_container" class="fl-container-550" style="display:none"><!-- --></div>
 
 <!-- ACTIONS CONTAINER -->
 <div id="entity_container_actions" style="display:none"><!-- --></div>
@@ -14,7 +14,7 @@
                 {if data.profile && data.profile.picture}
                     <img id="entity_profile_picture" src="${data.profile.picture}" alt="__MSG__PROFILE_PICTURE_FOR__ ${sakai.api.User.getDisplayName(data.profile)}" />
                 {else}
-                    <img id="entity_profile_picture" src="/dev/_images/default_profile_picture_96.png" alt="__MSG__PLACEHOLDER_PICTURE_FOR__ ${sakai.api.User.getDisplayName(data.profile)}" />
+                    <img id="entity_profile_picture" src="/dev/_images/default_profile_picture_64.png" alt="__MSG__PLACEHOLDER_PICTURE_FOR__ ${sakai.api.User.getDisplayName(data.profile)}" />
                 {/if}
                 {if mode === "myprofile"}
                     <div class="fl-text-align-center">

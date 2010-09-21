@@ -1,3 +1,8 @@
+div#sitespages_page_options {width:330px; padding:10px; float:right; display:inline;}
+div#sitespages_page_options button {float:right;}
+div#sitespages_page_options #page_options {float:right;}
+div#sitespages_page_options #page_save_options {float:right;margin-top:100px;}
+div#page_save_options_bottom, div#page_save_options_bottom button {float:right;}
 div.show_content_and_description {padding:10px; background-color:#EFF2F4; float:left; display:inline; width:97%;}
 div.content_item {height:120px; width:312px; margin-right:10px; float:left; display:inline;}
 
@@ -19,3 +24,5 @@ div.content_item_image_full embed  {max-width:644px;}
 
 a.embedcontent_download_link, p.embedcontent_actual_description {font-size:11px;}
 
+.messageInformation {float:right; margin-right:10px;}
+.messageInformation #realtime {font-weight:bold;color:#000;}

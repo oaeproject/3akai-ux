@@ -42,8 +42,7 @@
             <div id="content_page_options_container">
                 <div class="content_page_options" id="content_page_options" style="display:none">
                     <ul class="fl-force-right">
-                        <li id="li_edit_page" style="display:none"><a href="javascript:;" id="edit_page">__MSG__EDIT_PAGE__</a></li>
-                        <li id="li_more_link" style="display:none"><a href="javascript:;" id="more_link">More</a></li>
+                        <li id="li_edit_page"><a href="javascript:;" id="edit_page">__MSG__EDIT__</a></li>
                     </ul>
                 </div>
             </div>
@@ -89,13 +88,21 @@
             <span id="edit_untitled_page" style="display:none">__MSG__UNTITLED_PAGE__</span>
 
             <!--//desNote: row of buttons need to coexist horizontally with tabs,hence the //-->
-            <div>
-                <button class="s3d-button s3d-button-primary save_button"><span class="s3d-button-inner">Save</span></button>
-                <button class="s3d-button cancel-button"><span class="s3d-button-inner">Cancel</span></button>
+            <div id="edit_page_action_buttons_template"><!--
+                <button class="s3d-button s3d-button-primary save_button"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
+                <button class="s3d-button cancel-button"><span class="s3d-button-inner">__MSG__DONT_SAVE__</span></button>
                 <span class="messageInformation" id="messageInformation" style="display:none">Auto saved at <span id="realtime"></span></span>
-            </div>
+            --></div>
 
-            <!-- TAB NAVIGATION -->
+
+            <!-- TOP RIGHT MENU -->
+            <div id="content_page_options_container">
+                <div class="content_page_options" id="content_edit_page_options">
+                    <ul class="fl-force-right">
+                        <li id="li_edit_page"><a href="javascript:;" id="edit_page_revert">__MSG__EDIT__</a></li>
+                    </ul>
+                </div>
+            </div>
 
             <!-- TAB CONTENT -->
             <div class="fl-centered fl-container fl-tab-content edit_container">
@@ -109,9 +116,9 @@
                         <!--><li id="embed_video" class="add_button"><img src="/dev/_images/add_video.png"/ ></li>-->
                     </ul>
                     <ul class="fl-tabs fl-tabs-right">
-                        <li id="tab_text_editor"><button class="s3d-button s3d-button-primary"><span class="s3d-button-inner">Text Editor</span></button></li>
-                        <li id="tab_html"><button class="s3d-button"><span class="s3d-button-inner">HTML</span></button></li>
-                        <li id="tab_preview"><button class="s3d-button"><span class="s3d-button-inner">Preview</span></button></li>
+                        <li id="tab_text_editor"><button class="s3d-button s3d-button-tab"><span class="s3d-button-inner">Text Editor</span></button></li>
+                        <li id="tab_html"><button class="s3d-button s3d-button-tab"><span class="s3d-button-inner">HTML</span></button></li>
+                        <li id="tab_preview"><button class="s3d-button s3d-button-tab"><span class="s3d-button-inner">Preview</span></button></li>
                     </ul>
                 </div>
 
@@ -151,14 +158,14 @@
 
                 </div>
 
-                <div>
-                    <button class="s3d-button s3d-button-primary save_button"><span class="s3d-button-inner">Save</span></button>
-                    <button class="s3d-button cancel-button"><span class="s3d-button-inner">Cancel</span></button>
+                <div id="page_save_options_bottom">
+                    <button class="s3d-button s3d-button-primary save_button"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
+                    <button class="s3d-button cancel-button"><span class="s3d-button-inner">__MSG__DONT_SAVE__</span></button>
                 </div>
 
                 </div>
 
-                <div class="content_bottom"><div class="content_bottom_inner"><!-- --></div></div>
+                <div class="content_bottom content_bottom_edit"><div class="content_bottom_inner"><!-- --></div></div>
 
             </div>
         </div>
@@ -189,17 +196,23 @@
 
         --></div>
 
-        <!-- ADD MORE MENU -->
-        <div class="add_more_menu" id="more_menu" style="display:none">
-            <ul>
-                <!-- <li id="more_permissions" class="more_option"><a href="javascript:;">Permissions</a></li> -->
-                <li id="more_revision_history" class="more_option" style="border-bottom:1px solid #CCCCCC"><a href="javascript:;">Revision History</a></li>
-                <li id="more_save_as_template" class="more_option"><a href="javascript:;">Save as Template</a></li>
-                <!--<li id="more_make_full_width" class="more_option"><a href="javascript:;">Make full width</a></li>-->
-                <!--><li id="more_make_two_column" class="more_option"><a href="javascript:;">Make two column layout</a></li>-->
-                <li id="more_delete" class="more_option"><a href="javascript:;">Delete</a></li>
-            </ul>
-        </div>
+        <div id="sitespages_page_options_container" style="display:none"><!--
+            <button class="s3d-button s3d-button-inline" id="more_link">
+                <span class="s3d-button-inner">
+                    <span class="s3d-button-icon-left"></span>
+                    <span class="s3d-button-inner-text">Page options</span>
+                    <span class="s3d-button-icon-right"></span>
+                </span>
+            </button>
+
+            <div class="add_more_menu" id="more_menu" style="display:none">
+                <ul>
+                    <li id="more_revision_history" class="more_option"><a href="javascript:;" class="s3d-action">Revision History</a></li>
+                    <li id="more_save_as_template" class="more_option"><a href="javascript:;" class="s3d-action">Save as Template</a></li>
+                    <li id="more_delete" class="more_option option_last"><a href="javascript:;" class="s3d-action">Delete</a></li>
+                </ul>
+            </div>
+        --></div>
 
 
         <!-- INSERT MORE MENU -->
