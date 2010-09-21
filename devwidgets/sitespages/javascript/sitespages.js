@@ -530,7 +530,7 @@ sakai.sitespages = function(tuid,showSettings){
         var entityID = false;
         if (sakai.profile.main.data["rep:userId"]) {
             entityID = sakai.profile.main.data["rep:userId"];
-        } else if (sakai.currentgroup && sakai.currentgroup.id && sakai.currentgroup.id !== "") {
+        } else if (sakai.currentgroup && sakai.currentgroup.id && !$.isEmptyObject(sakai.currentgroup.id)) {
             entityID = sakai.currentgroup.id;
         }
         // make sure the dashboard that said it's ready is the one we just got the data for
