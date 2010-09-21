@@ -5,7 +5,7 @@
         "en_US": "/devwidgets/recentmessages/bundles/en_US.json"
     },
     "id":"recentmessages",
-    "name":"Recent Messages",
+    "name":"My recent messages",
     "personalportal":true,
     "url":"/devwidgets/recentmessages/recentmessages.html"
 }
