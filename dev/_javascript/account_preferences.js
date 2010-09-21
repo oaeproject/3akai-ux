@@ -251,6 +251,32 @@ sakai.account_preferences = function(){
     };
 
     /**
+     * Initialise form validation
+     */
+    var initValidation = function(){
+        $(accountPreferencesPasswordChange).validate({
+            errorClass: "account_preferences_error",
+            errorElement:"div",
+            rules:{
+                curr_pass:{
+                    required: true,
+                    minlength: 4
+                },
+                new_pass:{
+                    required: true,
+                    minlength: 4
+                },
+                retype_pass:{
+                    required: true,
+                    minlength: 4
+                }
+            },
+            debug:true
+
+        });        
+    }
+
+    /**
      * Disable or enable elements
      * can take a single or multivalue jQuery obj
      */
@@ -272,8 +298,8 @@ sakai.account_preferences = function(){
     /** Binds the submit function on the password change form **/
     $(accountPreferencesPasswordChange).submit(function(){
 
-        // check if the user didn't just fill in some spaces
-        if (checkIfInputValid()) {
+        // check if the user enter valid data for old and new passwords
+        if ($(accountPreferencesPasswordChange).valid()) {
 
             // change the password
             changePass();
@@ -314,6 +340,7 @@ sakai.account_preferences = function(){
             disableElements($(saveNewPass));
             selectTimezone(me.user.locale.timezone);
             getLanguages();
+            initValidation();
         }
     };
 
