@@ -26,9 +26,8 @@ sakai.captcha = function(tuid, showSettings) {
     
     var $rootel = $("#" + tuid);
     
-    
     /**
-     *@returns {Object} Data that should be used in a request to send to a captcha validator.
+     * @returns {Object} Data that should be used in a request to send to a captcha validator.
      */
     sakai.captcha.getProperties = function() {
         var values = {};
@@ -38,7 +37,7 @@ sakai.captcha = function(tuid, showSettings) {
     };
     
     /**
-     *Invalidates the current captcha
+     * Invalidates the current captcha
      */
     sakai.captcha.destroy = function() {
       Recaptcha.destroy();  
