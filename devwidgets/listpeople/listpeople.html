@@ -30,11 +30,11 @@
             <li id="${i.groupid}">
                 {if selectable}<input type="checkbox" name="selected" value="${i.groupid}" />{/if}
                 {if i.picture}
-                    <a href="/~${i.groupid}" target="_blank"><img src="/~${i.groupid}/public/profile/${i.picture.name}" alt="Group picture for ${i['sakai:group-title']}" class="listpeople_ppicture"/></a>
+                    <a href="/dev/show.html?type=group&amp;id=${i.groupid}" target="_blank"><img src="/~${i.groupid}/public/profile/${i.picture.name}" alt="Group picture for ${i['sakai:group-title']}" class="listpeople_ppicture"/></a>
                 {else}
-                    <a href="/~${i.groupid}" target="_blank"><img src="/dev/_images/group_avatar_icon_32x32.png" alt="Default group picture" class="listpeople_ppicture"/></a>
+                    <a href="/dev/show.html?type=group&amp;id=${i.groupid}" target="_blank"><img src="/dev/_images/group_avatar_icon_32x32.png" alt="Default group picture" class="listpeople_ppicture"/></a>
                 {/if}
-                <a class="listpeople_name" href="/~${i.groupid}" target="_blank">${i['sakai:group-title']}</a>
+                <a class="listpeople_name" href="/dev/show.html?type=group&amp;id=${i.groupid}" target="_blank">${i['sakai:group-title']}</a>
                 <br />
                 <span class="listpeople_subnameinfo">${i.subNameInfo}</span>
             </li>
