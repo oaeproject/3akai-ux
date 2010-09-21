@@ -175,6 +175,8 @@ sakai.pickeradvanced = function(tuid, showSettings) {
         if (!searchQuery) {
             searchQuery = "*";
         } else {
+            searchQuery = $.trim(searchQuery);
+            searchQuery = searchQuery.replace(/\s+/g, "* OR *");
             searchQuery = "*" + searchQuery + "*";
         }
 

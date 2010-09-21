@@ -133,7 +133,7 @@ sakai.embedcontent = function(tuid, showSettings) {
                     } else {
 
                     }
-                }, {"q": "*" + query + "*"});
+                }, {"q": "*" + query.replace(/\s+/g, "* OR *") + "*"});
             },
             asHtmlID: tuid,
             selectedItemProp: "name",
