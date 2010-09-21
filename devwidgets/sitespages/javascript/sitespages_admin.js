@@ -1719,6 +1719,8 @@ sakai.sitespages.site_admin = function(){
                 // Init tinyMCE if needed
                 if (tinyMCE.activeEditor === null) { // Probably a more robust checking will be necessary
                     init_tinyMCE();
+                    $("#sitespages_page_options #page_options").hide();
+                    $("#sitespages_page_options #page_save_options").show().html($.TemplateRenderer("#edit_page_action_buttons_template", {}));
                 } else {
                     editPage(pageUniques.urlName);
                 }
@@ -2277,7 +2279,7 @@ sakai.sitespages.site_admin = function(){
     var registerWidgetFunctions = function(){
         sakai.api.Widgets.Container.registerFinishFunction(sakai.sitespages.widgetFinish);
         sakai.api.Widgets.Container.registerCancelFunction(sakai.sitespages.widgetCancel);
-    }
+    };
 
     /**
      * Initialise Admin part
