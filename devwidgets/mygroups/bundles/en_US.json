@@ -2,6 +2,6 @@
 "name": "My Groups",
 "description": "My Groups widget\r\n",
 "WIDGET_TITLE": "MyGroups",
-"YOU_ARENT_A_MEMBER_OF_ANY_GROUPS": "You aren't a member of any groups yet",
+"YOU_ARE_NOT_CURRENTLY_A_MEMBER_OF_ANY_GROUPS": "You are not currently a member of any groups",
 "NO_SETTINGS_AVAILABLE": "No settings available"
 }

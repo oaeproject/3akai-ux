@@ -155,6 +155,8 @@ sakai.account_preferences = function(){
 
                     // update the user of the successful password change
                     showGeneralMessage($(messagePassChanged).html(), false, saveNewPass, generalMessagePass);
+                    // show successful password change message through gritter
+                    sakai.api.Util.notification.show($(messagePassChanged).html(), $(messagePassChanged).html());
                     // clear all the fields
                     clearPassFields();
                 },
@@ -162,6 +164,8 @@ sakai.account_preferences = function(){
 
                     showGeneralMessage($(errorFailChangePass).html(), true, saveNewPass, generalMessagePass);
 
+                    // show error message through gritter
+                    sakai.api.Util.notification.show($(errorFailChangePass).html(), $(errorFailChangePass).html());
                     // clear all the fields
                     clearPassFields();
                 }
@@ -241,14 +245,44 @@ sakai.account_preferences = function(){
                 }else{
                     // Update the user of the successful regional settings change
                     showGeneralMessage($(messageChangeLang).html(), false, saveRegional, generalMessageReg);
+                    // Show successful regional setting change through gritter
+                    sakai.api.Util.notification.show($(messageChangeLang).html(), $(messageChangeLang).html());
                 }
 
             },
             error: function(xhr, textStatus, thrownError) {
                 showGeneralMessage($(errorFailChangeLang).html(), true, saveRegional, generalMessageReg);
+                // show regional setting error message through gritter
+                sakai.api.Util.notification.show($(errorFailChangeLang).html(), $(errorFailChangeLang).html());
             }
         });
     };
+
+    /**
+     * Initialise form validation
+     */
+    var initValidation = function(){
+        $(accountPreferencesPasswordChange).validate({
+            errorClass: "account_preferences_error",
+            errorElement:"div",
+            rules:{
+                curr_pass:{
+                    required: true,
+                    minlength: 4
+                },
+                new_pass:{
+                    required: true,
+                    minlength: 4
+                },
+                retype_pass:{
+                    required: true,
+                    minlength: 4
+                }
+            },
+            debug:true
+
+        });        
+    }
 
     /**
      * Disable or enable elements
@@ -272,8 +306,8 @@ sakai.account_preferences = function(){
     /** Binds the submit function on the password change form **/
     $(accountPreferencesPasswordChange).submit(function(){
 
-        // check if the user didn't just fill in some spaces
-        if (checkIfInputValid()) {
+        // check if the user enter valid data for old and new passwords
+        if ($(accountPreferencesPasswordChange).valid()) {
 
             // change the password
             changePass();
@@ -314,6 +348,7 @@ sakai.account_preferences = function(){
             disableElements($(saveNewPass));
             selectTimezone(me.user.locale.timezone);
             getLanguages();
+            initValidation();
         }
     };
 
