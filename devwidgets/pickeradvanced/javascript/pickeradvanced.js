@@ -274,6 +274,7 @@ sakai.pickeradvanced = function(tuid, showSettings) {
                 var pageHTML = $.TemplateRenderer($pickeradvanced_content_search_pagetemplate, rawData);
 
                 // Remove loading animation
+                $pl_pageContainer = $(".pickeradvanced_page.pickeradvanced_page_list.loadinganim");
                 $pl_pageContainer.removeClass("loadinganim");
 
                 // Inject results into DOM
@@ -428,14 +429,17 @@ sakai.pickeradvanced = function(tuid, showSettings) {
         pickerlist = config.list;
     });
     
+    $pickeradvanced_close_dialog.unbind("click");
     $pickeradvanced_close_dialog.bind("click", function() {
         $pickeradvanced_container.jqmHide();
     });
 
+    $pickeradvanced_close_button.unbind("click");
     $pickeradvanced_close_button.bind("click", function() {
         $pickeradvanced_container.jqmHide();
     });
 
+    $pickeradvanced_search_filter.die("click");
     $pickeradvanced_search_filter.live("click", function() {
        var searchType = $(this).attr("id").split("pickeradvanced_search_")[1];
        $(".pickeradvanced_selected_list").removeClass("pickeradvanced_selected_list");
