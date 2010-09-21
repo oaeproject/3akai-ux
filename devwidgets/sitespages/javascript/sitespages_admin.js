@@ -551,6 +551,8 @@ sakai.sitespages.site_admin = function(){
      */
     var editPage = function(pageUrlName){
 
+        registerWidgetFunctions();
+
         // Init
         var hasopened = false;
         var pagetitle = "";
@@ -647,6 +649,8 @@ sakai.sitespages.site_admin = function(){
     var cancelEdit = function() {
 
         clearInterval(sakai.sitespages.timeoutid);
+
+        $(window).trigger("sakai_sitespages_exitedit");
 
         $insert_more_menu.hide();
         $context_menu.hide();
@@ -769,6 +773,8 @@ sakai.sitespages.site_admin = function(){
 
         // Remove autosave
         removeAutoSaveFile();
+        
+        $(window).trigger("sakai_sitespages_exitedit");
 
         $("#sitespages_page_options #page_save_options").hide();
         $("#sitespages_page_options #page_options").show().html($.TemplateRenderer("#sitespages_page_options_container", {}));
@@ -1692,6 +1698,7 @@ sakai.sitespages.site_admin = function(){
      * @return void
      */
     sakai.sitespages.widgetFinish = function(tuid){
+        alert(tuid);
         // Add widget to the editor
         $("#insert_screen2_preview").html("");
         tinyMCE.get("elm1").execCommand('mceInsertContent', false, '<img src="' + Widgets.widgets[sakai.sitespages.newwidget_id].img + '" id="' + sakai.sitespages.newwidget_uid + '" class="widget_inline" style="display:block; padding: 10px; margin: 4px" border="1"/>');
@@ -2366,12 +2373,18 @@ sakai.sitespages.site_admin = function(){
     //--------------------------------------------------------------------------------------------------------------
 
     /**
+     * Register the appropriate widget cancel and save functions
+     */
+    var registerWidgetFunctions = function(){
+        sakai.api.Widgets.Container.registerFinishFunction(sakai.sitespages.widgetFinish);
+        sakai.api.Widgets.Container.registerCancelFunction(sakai.sitespages.widgetCancel);
+    }
+
+    /**
      * Initialise Admin part
      * @return void
      */
     var admin_init = function() {
-        sakai.api.Widgets.Container.registerFinishFunction(sakai.sitespages.widgetFinish);
-        sakai.api.Widgets.Container.registerCancelFunction(sakai.sitespages.widgetCancel);
         fillInsertMoreDropdown();
     };
 

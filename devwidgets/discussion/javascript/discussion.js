@@ -48,8 +48,31 @@ sakai.discussion = function(tuid, showSettings){
     // Each post gets a marker which is basicly the widget ID.
     // If we are using another discussion this marker will be the ID of that widget.
     var marker = tuid;
-    var currentSite = sakai.site.currentsite.id;
-    var store = "/sites/" + currentSite + "/store/";
+    var widgeturl = sakai.api.Widgets.widgetLoader.widgets[tuid] ? sakai.api.Widgets.widgetLoader.widgets[tuid].placement : false;
+    if (widgeturl) {
+        $.ajax({
+            url: widgeturl,
+            type: "GET",
+            dataType: "json",
+            success: function(data){
+                // no op
+            },
+            error: function(xhr, textStatus, thrownError) {
+                if (xhr.status == 404) {
+                    // we need to create the initial message store
+                    $.post(widgeturl, { "jcr:primaryType": "nt:unstructured" } );
+                }
+            }
+        });
+    }
+    var currentSite = "";
+    var store = "";
+    if (sakai.currentgroup && typeof sakai.currentgroup.id === "string") {
+        currentSite = sakai.currentgroup.id;
+    } else {
+        currentSite = sakai.profile.main.data["rep:userId"];
+    }
+    store = "/~" + currentSite + "/message";
     var widgetSettings = {};
     var allDiscussions = [];
     var initialPost = false;
@@ -526,7 +549,7 @@ sakai.discussion = function(tuid, showSettings){
         else {
             jsonPosts.loggedIn = true;
         }
-
+        if (jsonPosts.posts[0]) {
         var firstPostSubject = jsonPosts.posts[0].post['sakai:subject'];
         $('#discussion_widget_title', rootel).html(sakai.api.Security.saneHTML(firstPostSubject));
 
@@ -579,6 +602,7 @@ sakai.discussion = function(tuid, showSettings){
                 $('#discussion_container', rootel).hide();
                 $('#li_divider', rootel).hide();
             }
+        }
     };
 
     /**
@@ -605,7 +629,7 @@ sakai.discussion = function(tuid, showSettings){
      * Get the id of the dicussion widget and show the post including replies
      */
     var getPostsFromJCR = function(){
-        var s = store.substring(0, store.length - 1);
+        var s = store;
         var url = sakai.config.URL.DISCUSSION_GETPOSTS_THREADED.replace(/__PATH__/, s).replace(/__MARKER__/, marker);
         $.ajax({
             url: url,
@@ -692,17 +716,21 @@ sakai.discussion = function(tuid, showSettings){
         var body = $(discussionReplyBody, rootel).val();
         if (subject.replace(/ /g, "") !== "" && body.replace(/ /g, "") !== "") {
 
-            var data = {
+            var object = {
                 'sakai:subject': subject,
                 'sakai:body': body,
                 'sakai:marker': marker,
                 'sakai:type': 'discussion',
+                'sling:resourceType': 'sakai/message',
                 'sakai:replyon': id,
                 'sakai:messagebox': 'outbox',
                 'sakai:sendstate': 'pending',
-                'sakai:to': "discussion:s-" + currentSite
+                'sakai:to': "discussion:" + currentSite
             };
-            var url = sakai.site.currentsite["jcr:path"] + "/store.create.html";
+/*            sakai.api.Widgets.saveWidgetData(tuid, object, function(success, data){
+                alert("I seem to have saved a discussion topic.");
+            });*/
+            var url = store + ".create.html";
             $.ajax({
                 url: url,
                 type: 'POST',
@@ -720,7 +748,7 @@ sakai.discussion = function(tuid, showSettings){
                         alert("Failed to add a reply.");
                     }
                 },
-                data: data
+                data: object
             });
         }
         else {
@@ -798,19 +826,23 @@ sakai.discussion = function(tuid, showSettings){
         var body = $(discussionAddTopicBody, rootel).val();
         if (subject.replace(/ /g, "") !== "" && body.replace(/ /g, "") !== "") {
 
-            var data = {
+            var object = {
                 'sakai:subject': subject,
                 'sakai:body': body,
                 'sakai:marker': marker,
                 'sakai:type': 'discussion',
+                'sling:resourceType': 'sakai/message',
                 'sakai:writeto': store,
                 'sakai:marker': tuid,
                 'sakai:initialpost': true,
                 'sakai:messagebox': 'outbox',
                 'sakai:sendstate': 'pending',
-                'sakai:to': "discussion:s-" + currentSite
+                'sakai:to': "discussion:" + currentSite
             };
-            var url = sakai.site.currentsite["jcr:path"] + "/store.create.html";
+/*            sakai.api.Widgets.saveWidgetData(tuid, object, function(success, data){
+                alert("I seem to have saved a discussion topic.");
+            });*/
+            var url = store + ".create.html";
             $.ajax({
                 url: url,
                 type: 'POST',
@@ -828,7 +860,7 @@ sakai.discussion = function(tuid, showSettings){
                         alert("Failed to add a reply.");
                     }
                 },
-                data: data
+                data: object
             });
         }
         else {
@@ -867,7 +899,8 @@ sakai.discussion = function(tuid, showSettings){
     var createPostObject = function(){
         var post = {};
         post["sakai:type"] = "discussion";
-        post["sakai:to"] = "discussion:s-" + currentSite;
+        post["sling:resourceType"] = "sakai/message";
+        post["sakai:to"] = "discussion:" + currentSite;
         post['sakai:subject'] = $(discussionSettingsNewSubject, rootel).val();
         post['sakai:body'] = $(discussionSettingsNewBody, rootel).val();
         post['sakai:initialpost'] = true;
