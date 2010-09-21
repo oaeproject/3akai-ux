@@ -146,9 +146,9 @@ sakai.groupedit = function(){
     $(window).bind("sakai.grouppermissions.updateFinished", function(ev, success, errorMessage) {
         // Show notification
         if(success) {
-            sakai.api.Util.notification.show("Group Permissions", "Updated successfully.");
+            sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_permissions_text").text()), sakai.api.Security.saneHTML($("#group_edit_updated_successfully_text").text()));
         } else {
-            sakai.api.Util.notification.show("Group Permissions", "Update failed. Please try again later or contact your administrator if the issue persists.  (Error status: " + errorMessage + ")");
+            sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_permissions_text").text()), "Update failed. Please try again later or contact your administrator if the issue persists.  (Error status: " + errorMessage + ")");
         }
     });
 
@@ -262,9 +262,9 @@ sakai.groupedit = function(){
         });
 
         if (userCount > 1) {
-            sakai.api.Util.notification.show("Group Membership", "Selected users have been removed from the group.");
-        } else if (userCount > 0) {
-            sakai.api.Util.notification.show("Group Membership", "Selected user has been removed from the group.");
+            sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_users_removed_text").text()));
+        } else if (userCount == 1) {
+            sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_user_removed_text").text()));
         }
     };
 
@@ -301,7 +301,7 @@ sakai.groupedit = function(){
         });
 
         if (contentRemoved) {
-            sakai.api.Util.notification.show("Group Content", "Selected content has been removed from the group.");
+            sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_content_removed_text").text()));
         }
     };
 
@@ -340,10 +340,10 @@ sakai.groupedit = function(){
 
         if (userCount > 1) {
             renderItemLists(tuid);
-            sakai.api.Util.notification.show("Group Membership", "Users have been added to the group.");
-        } else if (userCount > 0) {
+            sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_users_added_text").text()));
+        } else if (userCount == 1) {
             renderItemLists(tuid);
-            sakai.api.Util.notification.show("Group Membership", "User has been added to the group.");
+            sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_user_added_text").text()));
         }
     };
     
