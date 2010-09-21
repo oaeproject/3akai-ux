@@ -20,6 +20,12 @@
                     <div class="fl-text-align-center">
                         <a href="javascript:;" class="s3d-action" id="changepic_container_trigger">__MSG__CHANGE__</a>
                     </div>
+                {else}
+                    <div class="fl-text-align-center entity_status">
+                        {if data.profile.chatstatus === "online"}<a class="s3d-action chat_available_status_online" id="entity_available_to_chat" href="javascript:;">__MSG__AVAILABLE_TO_CHAT__</a>{/if}
+                        {if data.profile.chatstatus === "busy"}<a class="chat_available_status_busy">__MSG__BUSY__</a>{/if}
+                        {if data.profile.chatstatus === "offline"}<a class="chat_available_status_offline">__MSG__OFFLINE__</a>{/if}
+                    </div>
                 {/if}
             </div>
             <div class="entity_header">
@@ -38,28 +44,14 @@
                             <option value="busy" {if data.profile.chatstatus === "busy"}selected="selected"{/if}>__MSG__BUSY__</option>
                             <option value="offline" {if data.profile.chatstatus === "offline"}selected="selected"{/if}>__MSG__OFFLINE__</option>
                         </select>
-                    {else}
-                        {if data.profile.chatstatus === "online"}<a class="s3d-action id="entity_available_to_chat" href="javascript:;">__MSG__AVAILABLE_TO_CHAT__</a>{/if}
-                        {if data.profile.chatstatus === "busy"}__MSG__BUSY__{/if}
-                        {if data.profile.chatstatus === "offline"}>__MSG__OFFLINE__{/if}
-                    {/if}
+                   {/if}
                 </div>
             </form>
-            <form id="entity_profile_status" method="POST" action="javascript:;">
-                {if mode === "myprofile"}
-                <div>
-                    <input id="entity_profile_status_input" title="__MSG__WHAT_ARE_YOU_DOING_NOW__" maxlength="255" type="text" {if !data.profile.status}class="entity_profile_status_input_dummy" value="__MSG__WHAT_ARE_YOU_DOING_NOW__"{else}value="${data.profile.status}"{/if} />
-                    <span id="entity_profile_status_input_dummy" style="display:none;">__MSG__WHAT_ARE_YOU_DOING_NOW__</span>
-                    <button type="submit" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">__MSG__UPDATE__</span></button>
-                    <span id="entity_profile_status_input_saving" style="display:none;">__MSG__SAVING__...</span>
-                    <span id="entity_profile_status_input_saving_failed" style="display:none;">__MSG__SAVING_FAILED__</span>
-                </div>
-                {else}
-                    {if data.profile.status}
-                        ${data.profile.status}
-                    {/if}
+            {if mode !== "myprofile"}
+                {if data.profile.status}
+                    ${data.profile.status}
                 {/if}
-            </form>
+            {/if}
             <div class="entity_content_about">
                 {if sakai.api.User.getShortDescription(data.profile).length > 115}
                     ${sakai.api.User.getShortDescription(data.profile).substring(0, 115)}...
@@ -158,6 +150,15 @@
     </div>
     <div class="fl-col entity_container_right s3d-actions">
         {if mode === "myprofile"}
+            <form id="entity_profile_status" method="POST" action="javascript:;">
+                <div>
+                    <input id="entity_profile_status_input" title="__MSG__WHAT_ARE_YOU_DOING_NOW__" maxlength="255" type="text" {if !data.profile.status}class="entity_profile_status_input_dummy" value="__MSG__WHAT_ARE_YOU_DOING_NOW__"{else}value="${data.profile.status}"{/if} />
+                    <span id="entity_profile_status_input_dummy" style="display:none;">__MSG__WHAT_ARE_YOU_DOING_NOW__</span>
+                    <button type="submit" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">__MSG__UPDATE__</span></button>
+                    <span id="entity_profile_status_input_saving" style="display:none;">__MSG__SAVING__...</span>
+                    <span id="entity_profile_status_input_saving_failed" style="display:none;">__MSG__SAVING_FAILED__</span>
+                </div>
+            </form>
             {if data.profile.basic && data.profile["sakai:tags"] && data.profile["sakai:tags"].length > 0}
                 <div class="entity_tags">
                     <div class="entity_tags_link_menu_border" id="entity_tags_link_menu" style="display:none;">
