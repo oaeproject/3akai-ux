@@ -120,7 +120,7 @@ sakai.pickeradvanced = function(tuid, showSettings) {
      * @returns void
      */
     var render = function(iConfig) {
-        pickerData["searchIn"] = sakai.config.URL.CONTACTS_ACCEPTED + "?page=0&items=12&_=&q=";
+        pickerData["searchIn"] = sakai.config.URL.SEARCH_USERS_ACCEPTED + "?page=0&items=12&_=&q=";
 
         // Merge user defined config with default
         for (var element in iConfig) {
@@ -452,27 +452,35 @@ sakai.pickeradvanced = function(tuid, showSettings) {
        switch (searchType) {
            case "contacts":
                searchURL = sakai.config.URL.SEARCH_USERS_ACCEPTED;
+               $pickeradvanced_sort_on.show();
                break;
            case "users":
                searchURL = sakai.config.URL.SEARCH_USERS;
+               $pickeradvanced_sort_on.show();
                break;
            case "groups":
                searchURL = sakai.config.URL.SEARCH_GROUPS;
+               $pickeradvanced_sort_on.hide();
                break;
            case "groups_member":
                searchURL = sakai.config.URL.SEARCH_GROUPS;
+               $pickeradvanced_sort_on.hide();
                break;
            case "groups_manager":
                searchURL = sakai.config.URL.SEARCH_GROUPS;
+               $pickeradvanced_sort_on.hide();
                break;
            case "files_mine":
                searchURL = sakai.config.URL.POOLED_CONTENT_MANAGER.replace(".json", ".infinity.json");
+               $pickeradvanced_sort_on.hide();
                break;
            case "files_view":
                searchURL = sakai.config.URL.POOLED_CONTENT_VIEWER.replace(".json", ".infinity.json");
+               $pickeradvanced_sort_on.hide();
                break;
            default: // should be any group specific search
                searchURL = sakai.config.URL.SEARCH_GROUP_MEMBERS.replace(".json", ".3.json");
+               $pickeradvanced_sort_on.hide();
                searchingInGroup = true;
                break;
        }

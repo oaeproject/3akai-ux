@@ -220,7 +220,7 @@ sakai.pickeruser = function(tuid, showSettings) {
                     } else {
 
                     }
-                }, {"q": "*" + query + "*"});
+                }, {"q": "*" + query.replace(/\s+/g, "* OR *") + "*"});
             },
             asHtmlID: tuid,
             selectedItemProp: "name",
@@ -236,6 +236,15 @@ sakai.pickeruser = function(tuid, showSettings) {
                     '<img class="sm_suggestion_img" src="' + imgSrc + '" />' +
                     '<span class="sm_suggestion_name">' + data.name + '</span>');
                 return line_item;
+            },
+            resultClick: function(data) {
+                $pickeruser_add_button.removeAttr("disabled");
+            },
+            selectionRemoved: function(elem) {
+                elem.remove();
+                if ($(".as-selection-item").length === 0) {
+                    $pickeruser_add_button.attr("disabled", "disabled");
+                }
             }
         });
     };
@@ -261,6 +270,7 @@ sakai.pickeruser = function(tuid, showSettings) {
           itemHTML = sakai.api.Security.saneHTML(itemHTML);
           $("#as-values-" + tuid).val(id + "," + $("#as-values-" + tuid).val());
           $("#as-original-" + tuid).before(itemHTML);
+          $pickeruser_add_button.removeAttr("disabled");
       });
       $("input#" + tuid).val('').focus();
     };
