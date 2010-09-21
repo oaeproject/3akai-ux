@@ -109,12 +109,10 @@ a:hover {
  */
 .inline_class_widget_rightfloat {
     float: right;
-    padding: 5px;
 }
 
 .inline_class_widget_leftfloat {
     float: left;
-    padding: 5px;
 }
 
 /* ACTIONS
@@ -251,7 +249,59 @@ html > body .s3d-button .s3d-button-inner {
 .s3d-search-button .s3d-button-icon-right {
      background-image: url("../../_images/icon-search-white.png");
 }
+.s3d-button.s3d-button-inline {
+    background-image:none;
+    background-color:#fff;
+    padding-right:4px;
+}
+.s3d-button.s3d-button-inline:hover {
+    background: url("../../_images/page-options-button-sprite.png") no-repeat scroll right -20px transparent;
+}
+.s3d-button.s3d-button-inline.clicked {
+    background: url("../../_images/page-options-button-sprite.png") no-repeat scroll right -60px transparent;
+}
+.s3d-button.s3d-button-inline .s3d-button-inner span {
+    float:left;
+    display:inline;
+}
+.s3d-button.s3d-button-inline .s3d-button-inner {
+    background-image:none;
+    background-color:#fff;
+    color:#454A4F;
+    height:28px;
+    line-height:26px;
+    padding:0px 0px 0px 4px;
+    font-size:11px;
+}
+.s3d-button.s3d-button-inline:hover .s3d-button-inner {
+    background: url("../../_images/page-options-button-sprite.png") no-repeat scroll left -20px transparent;
+}
+.s3d-button.s3d-button-inline.clicked .s3d-button-inner {
+    background: url("../../_images/page-options-button-sprite.png") no-repeat scroll left -60px transparent;
+    color:#fff;
+}
+.s3d-button.s3d-button-inline .s3d-button-inner .s3d-button-inner-text {
+    margin-left:2px;
+}
+.s3d-button.s3d-button-inline .s3d-button-inner .s3d-button-icon-left {
+    width:15px;
+    padding:0;
+    height:15px;
+    margin:7px 0px 0px 5px;
+}
+.s3d-button.s3d-button-inline .s3d-button-inner .s3d-button-icon-right {
+    padding:0;
+    height:15px;
+    width:15px;
+    margin:8px 0px 0px 5px;
+}
+.s3d-button.s3d-button-inline.clicked .s3d-button-inner .s3d-button-icon-right {
+    margin:6px 0px 0px 5px;
+}
 
+.s3d-button.s3d-button-tab { background: url("/dev/_images/tab_button_bg.png") no-repeat scroll right -25px transparent; }
+.s3d-button.s3d-button-tab .s3d-button-inner { background: url("/dev/_images/tab_button_bg.png") no-repeat scroll left top transparent; }
+.s3d-button.s3d-button-tab .s3d-button-inner { font-size:11px; }
 /* ----------------------------------------------------------------------------
  *    CONTENT AREA TOP TABS
  * ----------------------------------------------------------------------------

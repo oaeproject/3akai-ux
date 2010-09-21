@@ -180,16 +180,16 @@ sakai.content_profile = function(){
         if (userCount > 1) {
             loadContentUsers(tuid);
             if (task === 'add') {
-                sakai.api.Util.notification.show("Content Profile", "Users have been added.");
+                sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_added_text").text()));
             } else {
-                sakai.api.Util.notification.show("Content Profile", "Users have been removed.");
+                sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_removed_text").text()));
             }
-        } else if (userCount > 0) {
+        } else if (userCount == 1) {
             loadContentUsers(tuid);
             if (task === 'add') {
-                sakai.api.Util.notification.show("Content Profile", "User has been added.");
+                sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_user_added_text").text()));
             } else {
-                sakai.api.Util.notification.show("Content Profile", "User has been removed.");
+                sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_user_removed_text").text()));
             }
         }
     };

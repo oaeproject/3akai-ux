@@ -259,39 +259,40 @@ sakai.entity = function(tuid, showSettings){
     };
 
     /**
-     * Gets the number of managers in a group
-     * @return {String}
+     * Gets the number of members and managers in a group and determines users role
      */
-    var getGroupManagers = function(){
-        $.ajax({
-            url: "/system/userManager/group/" + entityconfig.data.profile.authprofile["sakai:group-id"] + "-managers.members.json",
-            async: false,
-            success: function(data){
-                var groupManagers = data;
-                entityconfig.data.profile["managerCount"] = groupManagers.length;
-                $.each(groupManagers, function(i, val) {
-                    if (val["userid"] === sakai.data.me.user.userid) {
-                        entityconfig.data.profile["role"] = "manager";
-                    }
-                });
-            }
-        });
-    };
+    var getGroupMembersManagers = function(){
+        var requests = []; // Array used to contain all the information we need to send to the batch post
+        requests[0] = {
+                "url": "/system/userManager/group/" + entityconfig.data.profile.authprofile["sakai:group-id"] + ".members.json",
+                "method": "GET"
+            };
+        requests[1] = {
+                "url": "/system/userManager/group/" + entityconfig.data.profile.authprofile["sakai:group-id"] + "-managers.members.json",
+                "method": "GET"
+            };
 
-    /**
-     * Gets the number of members in a group
-     * @return {String}
-     */
-    var getGroupMembers = function(){
         $.ajax({
-            url: "/system/userManager/group/" + entityconfig.data.profile.authprofile["sakai:group-id"] + ".members.json",
+            url: sakai.config.URL.BATCH,
+            traditional: true,
+            type: "POST",
+            data: {
+                requests: $.toJSON(requests)
+            },
             async: false,
             success: function(data){
-                var groupMembers = data;
+                var groupMembers = $.parseJSON(data.results[0].body);
                 entityconfig.data.profile["memberCount"] = groupMembers.length;
                 $.each(groupMembers, function(i, val) {
                     if (val["userid"] === sakai.data.me.user.userid) {
                         entityconfig.data.profile["role"] = "member";
+                    }
+                });
+                var groupManagers = $.parseJSON(data.results[1].body);
+                entityconfig.data.profile["managerCount"] = groupManagers.length;
+                $.each(groupManagers, function(i, val) {
+                    if (val["userid"] === sakai.data.me.user.userid) {
+                        entityconfig.data.profile["role"] = "manager";
                     }
                 });
             }
@@ -729,10 +730,8 @@ sakai.entity = function(tuid, showSettings){
                 break;
             case "group":
                 entityconfig.data.profile = data;
-                // determine if user has access to the group and get the count of members
-                getGroupMembers();
-                // determine if user has access to the manager group and get the count of managers
-                getGroupManagers();
+                // determine users role and get the count of members and managers
+                getGroupMembersManagers()
                 break;
             case "content":
                 setContentData(data);

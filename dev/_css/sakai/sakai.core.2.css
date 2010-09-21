@@ -117,11 +117,11 @@
     font-style:normal;
 }
 /* overrides for standard fl-col */
-.fl-col-fixed .content_container { margin-left: 230px; }
+.fl-col-fixed .content_container { margin-left: 230px; padding-right:0px;}
 
 .messageInformation{
     color:#666;
-    font-size:0.85em
+    font-size:0.85em;
 }
 
 /* CONTENT */

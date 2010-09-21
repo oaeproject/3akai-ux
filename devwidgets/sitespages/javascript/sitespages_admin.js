@@ -555,7 +555,8 @@ sakai.sitespages.site_admin = function(){
         var hasopened = false;
         var pagetitle = "";
         sakai.sitespages.inEditView = true;
-
+        $("#sitespages_page_options #page_options").hide();
+        $("#sitespages_page_options #page_save_options").show().html($.TemplateRenderer("#edit_page_action_buttons_template", {}));
         // Edit page title
         document.title = document.title.replace("Site View", "Page Edit");
 
@@ -654,7 +655,8 @@ sakai.sitespages.site_admin = function(){
 
         // Edit page title
         document.title = document.title.replace("Page Edit", "Site View");
-
+        $("#sitespages_page_options #page_save_options").hide();
+        $("#sitespages_page_options #page_options").show().html($.TemplateRenderer("#sitespages_page_options_container", {}));
         if (sakai.sitespages.isEditingNewPage) {
 
             // Display previous page content
@@ -768,6 +770,8 @@ sakai.sitespages.site_admin = function(){
         // Remove autosave
         removeAutoSaveFile();
 
+        $("#sitespages_page_options #page_save_options").hide();
+        $("#sitespages_page_options #page_options").show().html($.TemplateRenderer("#sitespages_page_options_container", {}));
         // Edit page title
         document.title = document.title.replace("Page Edit", "Site View");
 
@@ -1029,12 +1033,12 @@ sakai.sitespages.site_admin = function(){
 
 
     // Bind cancel button click
-    $(".cancel-button").bind("click", function(ev){
+    $(".cancel-button").live("click", function(ev){
         cancelEdit();
     });
 
     // Bind Save button click
-    $(".save_button").bind("click", function(ev){
+    $(".save_button").live("click", function(ev){
         saveEdit();
     });
 
@@ -1577,25 +1581,32 @@ sakai.sitespages.site_admin = function(){
     var showHideMoreMenu = function(hideOnly){
         var el = $("#more_menu");
         if (el.css("display").toLowerCase() !== "none" || hideOnly) {
+            $("#more_link").removeClass("clicked");
             el.hide();
         } else {
+            $("#more_link").addClass("clicked");
             var x = $("#more_link").position().left;
             var y = $("#more_link").position().top;
-            el.css({"top": y + 22+ "px", "left": x - el.width() + $("#more_link").width() + 56 + "px"}).show();
+            el.css(
+                    {
+                      "top": y + 28 + "px",
+                      "left": x + 2 + "px"
+                    }
+                ).show();
         }
     };
 
     // Bind Insert Link click event
-    $("#more_link").html("More");
-    $("#more_link").attr("href","javascript:;");
-    $("#more_link").addClass("more_link");
-    $("#more_link").bind("click", function(ev){
+    $("#more_link").live("click", function(ev){
         showHideMoreMenu(false);
     });
-
-
-
-
+    // Bind mousedown and mouseup to give an optional clicking effect via css
+    $("#more_link").live("mousedown", function(e) {
+        $("#more_link").addClass("clicking");
+    });
+    $("#more_link").live("mouseup", function(e) {
+        $("#more_link").removeClass("clicking");
+    });
 
     /////////////////////////////
     // INSERT MORE: ADD HORIZONTAL LINE
@@ -1914,7 +1925,7 @@ sakai.sitespages.site_admin = function(){
     ////////////////////////////////////////
 
     // Bind Revision history click event
-    $("#more_revision_history").bind("click", function(ev){
+    $("#more_revision_history").live("click", function(ev){
         // UI Setup
         $("#content_page_options").hide();
         $("#revision_history_container").show();
@@ -2063,7 +2074,7 @@ sakai.sitespages.site_admin = function(){
     // MORE: MOVE
     /////////////////////////////
 
-    $("#more_move").bind("click", function() {
+    $("#more_move").live("click", function() {
 
         $("#more_menu").hide();
         sakai.api.Util.notification.show("Page move", "To move a page just drag&drop in the page navigation widget!", sakai.api.Util.notification.type.INFORMATION);
@@ -2087,10 +2098,13 @@ sakai.sitespages.site_admin = function(){
     // Init Save as Template modal
     $("#save_as_template_container").jqm({
         modal: true,
-        trigger: $('#more_save_as_template'),
         overlay: 20,
         toTop: true,
         onShow: startSaveAsTemplate
+    });
+
+    $('#more_save_as_template').live("click", function(){
+        $("#save_as_template_container").jqmShow();
     });
 
     // Bind Save as Template click event
@@ -2268,7 +2282,7 @@ sakai.sitespages.site_admin = function(){
     });
 
     // Bind delete page click event
-    $("#more_delete").bind("click", function(){
+    $("#more_delete").live("click", function(){
         $('#delete_dialog').jqmShow();
     });
 
@@ -2276,21 +2290,6 @@ sakai.sitespages.site_admin = function(){
     $("#delete_confirm").bind("click", function(){
         deletePage();
     });
-
-
-    ///////////////////
-    // MORE: GENERAL //
-    ///////////////////
-
-    // Bind Insert more hover event
-    $(".more_option").hover(
-        function(over){
-            $(this).addClass("selected_option");
-        },
-        function(out){
-            $(this).removeClass("selected_option");
-        }
-    );
 
 
     //--------------------------------------------------------------------------------------------------------------
@@ -2329,7 +2328,7 @@ sakai.sitespages.site_admin = function(){
     });
 
     // Bind click event to hide menus
-    $(document).bind("click", function(e){
+    $("html").bind("click", function(e){
         var $clicked = $(e.target);
         // Check if one of the parents is the element container
         if(!$clicked.is("#more_link")){

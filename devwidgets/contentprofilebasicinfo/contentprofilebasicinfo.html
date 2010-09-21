@@ -78,13 +78,14 @@
             <label class="content_profile_basic_info_label" for="content_profile_basic_info">
                 __MSG__WHERE_CONTENT_FOUND_IN_DIRECTORY__:
             </label>
+            <span style="display:none;" id="content_profile_basic_info_add_another_text">__MSG__ADD_ANOTHER_LOCATION__</span>
             {if !anon}
             <div id="content_profile_basic_info_content_directory_contents">
                 {if saveddirectory.length === 0}
                     <div id="content_profile_basic_info_add_another_container">
                     </div>
                     <p id="content_profile_basic_info_add_another_location">
-                        <a href="javascript:;" title="Add a location"><span id="content_profile_basic_info_add_another_location_link">Add a location</span></a>
+                        <a href="javascript:;" title="__MSG__ADD_A_LOCATION__"><span id="content_profile_basic_info_add_another_location_link">__MSG__ADD_A_LOCATION__</span></a>
                     </p>
                 {else}
                     <ul class="content_profile_basic_info_saveddirectory">
@@ -97,7 +98,7 @@
                     </ul>
                     <div id="content_profile_basic_info_add_another_container"></div>
                     <p id="content_profile_basic_info_add_another_location">
-                        <a href="javascript:;" title="Add another location">Add another location</a>
+                        <a href="javascript:;" title="__MSG__ADD_ANOTHER_LOCATION__">__MSG__ADD_ANOTHER_LOCATION__</a>
                     </p>
                 {/if}
             </div>
