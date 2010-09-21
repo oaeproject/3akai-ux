@@ -138,8 +138,8 @@
 .fl-widget .fl-widget-titlebar .widget_title {color: #878a8c; font-size: 1.0em; float: left; padding-left: 43px; line-height: 50px}
 .fl-widget .fl-widget-titlebar .settings {background-image: url(../../_images/edit_icon_widget.png); position: relative; height: 18px; background-repeat: no-repeat; margin-top: 15px}
 
-.fl-widget .fl-widget-options {margin: 0;background: url(../../_images/block_br.png) top right no-repeat; padding: 0 8px 0 0}
-.fl-widget .fl-widget-options .widget-options-inner {background: url(../../_images/block_bl.png) top left no-repeat; height: 40px; width: auto; padding: 0 0 0 14px}
+.fl-widget .fl-widget-options {margin: 0;background-image:url("../../_images/block_br.png"), url(../../_images/block_footer_br.png); background-repeat:no-repeat; background-position:right top, right bottom; background-color:#d5dbdf; padding: 0 8px 0 0}
+.fl-widget .fl-widget-options .widget-options-inner {background-image: url(../../_images/block_bl.png), url(../../_images/block_footer_bl.png); background-repeat:no-repeat; background-position:left top, left bottom; width: auto; padding: 0 0 7px 14px}
 .fl-widget .fl-widget-options ul {margin: 0; padding: 0}
 .fl-widget .fl-widget-options ul li {float: left; margin: 0; padding: 16px 6px 0 6px}
 .fl-widget .fl-widget-options ul li a {color: #666; font-size: .85em; font-weight: bold}
