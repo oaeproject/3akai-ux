@@ -408,3 +408,7 @@ html > body .s3d-button .s3d-button-inner {
 /* Dialog footer */
 .dialog_footer{background:url(/dev/_images/dialog_br.png) top right no-repeat;padding:0 8px 0 0;}
 .dialog_footer_inner{background:url(/dev/_images/dialog_bl.png) top left no-repeat;height:6px;}
+
+
+/* AutoSuggest */
+ul.as-selections.loading {background:#fff url(../../../dev/_images/ajax_load.gif) center center no-repeat;min-height:50px;}
