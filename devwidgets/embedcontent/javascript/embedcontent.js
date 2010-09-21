@@ -43,6 +43,7 @@ sakai.embedcontent = function(tuid, showSettings) {
     var $embedcontent_display_options = $("#embedcontent_display_options", $rootel);
     var $embedcontent_display_options_select = $("#embedcontent_display_options_select", $rootel);
     var $embedcontent_metadata_container = $("#embedcontent_metadata_container", $rootel);
+    var $embedcontent_metadata = $("#embedcontent_metadata", $rootel);
     var $embedcontent_search_for_content = $("#embedcontent_search_for_content", $rootel);
 
     var $embedcontent_alternative_display_name_value = $("#embedcontent_alternative_display_name_value", $rootel);
@@ -214,17 +215,30 @@ sakai.embedcontent = function(tuid, showSettings) {
             "items": selectedItems
         };
         if (embedConfig.mode === "embed") {
-            embedContentHTML = $.TemplateRenderer($embedcontent_content_html_template, objectData);
-            tinyMCE.get('elm1').execCommand("mceInsertContent", true, embedContentHTML);
+            if ($embedcontent_metadata_container.is(":visible")) {
+                var isValid = $embedcontent_metadata.valid();
+                if (isValid) {
+                    embedContentHTML = $.TemplateRenderer($embedcontent_content_html_template, objectData);
+                    tinyMCE.get('elm1').execCommand("mceInsertContent", true, embedContentHTML);
+                    return true;
+                }
+            } else {
+                embedContentHTML = $.TemplateRenderer($embedcontent_content_html_template, objectData);
+                tinyMCE.get('elm1').execCommand("mceInsertContent", true, embedContentHTML);
+                return true;
+            }
         } else if (embedConfig.mode === "picker") {
             $(window).trigger("sakai-embedcontent-picker-finished", {"items": selectedItems});
+            return true;
         }
+        return false;
     };
 
     // Bind Events
     $embedcontent_place_content.bind("click", function() {
-        doEmbed();
-        $embedcontent_dialog.jqmHide();
+        if (doEmbed()) {
+            $embedcontent_dialog.jqmHide();
+        }
     });
 
     $embedcontent_cancel.bind("click", function() {
@@ -279,11 +293,13 @@ sakai.embedcontent = function(tuid, showSettings) {
         toTop: true
     });
 
+    $embedcontent_metadata.validate();
+
     var doInit = function() {
         $(window).trigger("sakai-embedcontent-ready");
         sakai.api.Widgets.widgetLoader.insertWidgets("#"+tuid);
     };
 
     doInit();
-}
+};
 sakai.api.Widgets.widgetLoader.informOnLoad("embedcontent");
