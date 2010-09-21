@@ -163,7 +163,7 @@
 { border-left: 3px solid #D3DBDE; border-right: 3px solid #D3DBDE; padding: 0 0 0 0; margin: 0; background: transparent; height: 40px; border:none; }
 
 .edit_view .toolbar
-{ border-left: 3px solid #D3DBDE; border-right: 3px solid #D3DBDE; margin: 0; padding: 5px 0 10px 7px; background: transparent; height: 35px; vertical-align: middle; }
+{ border-left: 3px solid #D3DBDE; border-right: 3px solid #D3DBDE; margin: 0; padding: 5px 0 10px 7px; background: transparent; height: 35px; vertical-align: middle; background-color: #fff;}
 
 /** Title **/
 .edit_view .title_input_container
@@ -182,6 +182,10 @@
 /** Move **/
 .edit_view .new_page_path
 { height: 23px; line-height:23px; margin-bottom: 20px; float:left;}
+
+/** Delete page **/
+.delete_page_buttons { text-align: right; }
+.delete_page_text {padding-top: 15px; }
 
 /** Insert links **/
 #insert_links_availablelinks
