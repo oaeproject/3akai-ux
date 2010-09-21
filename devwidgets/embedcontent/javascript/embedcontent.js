@@ -75,6 +75,9 @@ sakai.embedcontent = function(tuid, showSettings) {
         } else {
             doReset();
         }
+        console.log("render");
+        $("#as-values-" + tuid).val("");
+        $(".as-selection-item").remove();
     };
 
     var doReset = function() {
@@ -142,11 +145,13 @@ sakai.embedcontent = function(tuid, showSettings) {
             resultClick: function(data) {
                 selectedItems.push(data.attributes);
                 showDisplayOptions();
+                $embedcontent_place_content.removeAttr("disabled");
             },
             selectionRemoved: function(elem) {
                 removeItemFromSelected(elem.html().split("</a>")[1]); // get filename
                 elem.remove();
                 if (selectedItems.length === 0) {
+                    $embedcontent_place_content.attr("disabled", "disabled");
                     $embedcontent_display_options.hide();
                     $embedcontent_metadata_container.hide();
                 }
@@ -173,6 +178,9 @@ sakai.embedcontent = function(tuid, showSettings) {
         if (embedConfig.limit && filesPicked && ($(".as-selection-item").length + filesPicked) > embedConfig.limit) { 
             $("#as-values-" + tuid).val('');
             $(".as-selection-item").remove();
+        }
+        if (filesPicked > 0) {
+            $embedcontent_place_content.removeAttr("disabled");
         }
         $.each(files, function(i,val) {
             var newObj = createDataObject(val, val["jcr:name"]);
