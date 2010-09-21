@@ -720,30 +720,52 @@ sakai.navigation = function(tuid, showSettings){
     };
 
     sakai.sitespages.navigation.addNode = function(nodeID, nodeTitle, nodePosition) {
-        var newNode = {
-          "children": [],
-          "data": {
-              "attr": {
-                  "href": "javascript;"
-              },
-              "pagePosition": nodePosition,
-              "title": nodeTitle
-          },
-          "attr": {
-              "id": "nav_" + nodeID
-          }
-        };
-        var $lastNode = $navigationTree.find("ul.jstree-no-dots > li").last();
-        $navigationTree.jstree("create_node", $lastNode, "after", newNode, function(e){
-            $lastNode = $navigationTree.find("ul.jstree-no-dots > li").last();
-            $navigationTree.jstree("deselect_node", $navigationTree.jstree("get_selected"));
-            $navigationTree.jstree("select_node", $lastNode);
-        });
+        if (nodeID && nodeTitle && nodePosition) {
+            var newNode = {
+                "children": [],
+                "data": {
+                    "attr": {
+                        "href": "javascript;"
+                    },
+                    "pagePosition": nodePosition,
+                    "title": nodeTitle
+                },
+                "attr": {
+                    "id": "nav_" + nodeID
+                }
+            };
+            var $lastNode = $navigationTree.find("ul.jstree-no-dots > li").last();
+            $navigationTree.jstree("create_node", $lastNode, "after", newNode, function(e){
+                $lastNode = $navigationTree.find("ul.jstree-no-dots > li").last();
+                $navigationTree.jstree("deselect_node", $navigationTree.jstree("get_selected"));
+                $navigationTree.jstree("select_node", $lastNode);
+            });
+        }
     };
 
     sakai.sitespages.navigation.deleteNode = function(nodeID) {
-        var $nodeToDelete = $navigationTree.find("#nav_" + nodeID);
-        $navigationTree.jstree("delete_node", $nodeToDelete);
+        if (nodeID) {
+            var $nodeToDelete = $navigationTree.find("#nav_" + nodeID);
+            $navigationTree.jstree("delete_node", $nodeToDelete);
+        }
+    };
+
+    sakai.sitespages.navigation.renameNode = function(nodeID, newLabel) {
+        if (nodeID && newLabel) {
+            var $nodeToRename = $navigationTree.find("#nav_" + nodeID);
+            $navigationTree.jstree("rename_node", $nodeToRename, newLabel);
+        }
+    };
+
+    sakai.sitespages.navigation.selectNode = function(nodeID) {
+        if (nodeID) {
+            var $nodeToSelect = $navigationTree.find("#nav_" + nodeID);
+            $navigationTree.jstree("select_node", $nodeToSelect);
+        }
+    };
+
+    sakai.sitespages.navigation.deselectCurrentNode = function() {
+        $navigationTree.jstree("deselect_node", $navigationTree.jstree("get_selected"));
     };
 
 

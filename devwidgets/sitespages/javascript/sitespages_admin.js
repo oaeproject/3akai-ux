@@ -698,11 +698,13 @@ sakai.sitespages.site_admin = function(){
                         delete sakai.sitespages.pagecontents[sakai.sitespages.selectedpage];
                     }
 
-                    // Adjust selected page back to the old page
-                    sakai.sitespages.selectedpage = sakai.sitespages.oldSelectedPage;
+                    // Delete page from navigation widget
+                    sakai.sitespages.navigation.deleteNode(sakai.sitespages.selectedpage);
 
-                    // refresh navigation tree
-                    sakai.sitespages.navigation.renderNavigation(sakai.sitespages.selectedpage, sakai.sitespages.site_info._pages);
+                    // Adjust selected page back to the old page
+                    sakai.sitespages.navigation.deselectCurrentNode();
+                    sakai.sitespages.selectedpage = sakai.sitespages.oldSelectedPage;
+                    sakai.sitespages.navigation.selectNode(sakai.sitespages.selectedpage);
 
                     // Switch back to view
                     viewSelectedPage();
@@ -853,7 +855,7 @@ sakai.sitespages.site_admin = function(){
 
                 // if title has changed, refresh the navigation tree
                 if (titleChanged) {
-                    sakai.sitespages.navigation.renderNavigation(sakai.sitespages.selectedpage, sakai.sitespages.site_info._pages);
+                    sakai.sitespages.navigation.renameNode(sakai.sitespages.selectedpage, newpagetitle);
                 }
             } else {
                 // nothing has changed, switch back to viewing
