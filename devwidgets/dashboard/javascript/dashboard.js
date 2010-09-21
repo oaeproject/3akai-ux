@@ -885,6 +885,10 @@ sakai.dashboard = function(tuid, showSettings) {
         sakai.api.Widgets.loadWidgetData(tuid, decideExists);
     };
 
+    /**
+     * Send out an event to indicate that the dashboard widget has been
+     * loaded successfully
+     */
     var init = function() {
         $(window).trigger("sakai.dashboard.ready", tuid);
     };
