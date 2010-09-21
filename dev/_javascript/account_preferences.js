@@ -155,6 +155,8 @@ sakai.account_preferences = function(){
 
                     // update the user of the successful password change
                     showGeneralMessage($(messagePassChanged).html(), false, saveNewPass, generalMessagePass);
+                    // show successful password change message through gritter
+                    sakai.api.Util.notification.show($(messagePassChanged).html(), $(messagePassChanged).html());
                     // clear all the fields
                     clearPassFields();
                 },
@@ -162,6 +164,8 @@ sakai.account_preferences = function(){
 
                     showGeneralMessage($(errorFailChangePass).html(), true, saveNewPass, generalMessagePass);
 
+                    // show error message through gritter
+                    sakai.api.Util.notification.show($(errorFailChangePass).html(), $(errorFailChangePass).html());
                     // clear all the fields
                     clearPassFields();
                 }
@@ -241,11 +245,15 @@ sakai.account_preferences = function(){
                 }else{
                     // Update the user of the successful regional settings change
                     showGeneralMessage($(messageChangeLang).html(), false, saveRegional, generalMessageReg);
+                    // Show successful regional setting change through gritter
+                    sakai.api.Util.notification.show($(messageChangeLang).html(), $(messageChangeLang).html());
                 }
 
             },
             error: function(xhr, textStatus, thrownError) {
                 showGeneralMessage($(errorFailChangeLang).html(), true, saveRegional, generalMessageReg);
+                // show regional setting error message through gritter
+                sakai.api.Util.notification.show($(errorFailChangeLang).html(), $(errorFailChangeLang).html());
             }
         });
     };
