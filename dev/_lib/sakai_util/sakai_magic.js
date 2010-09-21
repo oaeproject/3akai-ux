@@ -478,6 +478,7 @@ sakai.api.Groups.setPermissions = function (groupid, joinable, visible, callback
                 "method": "POST",
                 "parameters": {
                     ":viewer": groupid,
+                    ":viewer@Delete": "everyone",
                     "sakai:group-visible": visible,
                     "sakai:group-joinable": joinable
                 }
@@ -500,12 +501,11 @@ sakai.api.Groups.setPermissions = function (groupid, joinable, visible, callback
             });
         } else if(visible == sakai.config.Permissions.Groups.visible.allusers) {
             // visible to all logged in users
-            // --Jackrabbit support for this specific option not availble yet (see KERN-1064)
             batchRequests.push({
                 "url": jackrabbitUrl,
                 "method": "POST",
                 "parameters": {
-                    //":viewer": ?,
+                    ":viewer": "everyone",
                     "sakai:group-visible": visible,
                     "sakai:group-joinable": joinable
                 }
