@@ -62,7 +62,9 @@ sakai.account_preferences = function(){
     var errorPassNotEqual = accountPreferencesID + "_error_passNotEqual";
     var errorIncorrectPass = accountPreferencesID + "_error_incorrectPass";
     var errorFailChangePass = accountPreferencesID + "_error_failChangePass";
+    var errorFailChangePassBody = accountPreferencesID + "_error_failChangePassBody";
     var messagePassChanged = accountPreferencesID + "_message_passChanged";
+    var messagePassChangedBody = accountPreferencesID + "_message_passChangedBody";
     var errorInvalidPass = accountPreferencesID + "_error_invalidPass";
     var errorFailChangeLang = accountPreferencesID + "_error_failChangeLang";
     var messageChangeLang = accountPreferencesID + "_message_ChangeLang";
@@ -140,7 +142,6 @@ sakai.account_preferences = function(){
         var newPass1 = $(newPassTxt).val();
         var newPass2 = $(newRetypePassTxt).val();
 
-        if(newPass1 === newPass2){
             /*
              * oldPassword : the original password
              * password : the new password
@@ -153,30 +154,20 @@ sakai.account_preferences = function(){
                 data : requestbody,
                 success : function(data) {
 
-                    // update the user of the successful password change
-                    showGeneralMessage($(messagePassChanged).html(), false, saveNewPass, generalMessagePass);
                     // show successful password change message through gritter
-                    sakai.api.Util.notification.show($(messagePassChanged).html(), $(messagePassChanged).html());
+                    sakai.api.Util.notification.show($(messagePassChanged).html(), $(messagePassChangedBody).html());
                     // clear all the fields
                     clearPassFields();
                 },
                 error: function(xhr, textStatus, thrownError) {
 
-                    showGeneralMessage($(errorFailChangePass).html(), true, saveNewPass, generalMessagePass);
-
                     // show error message through gritter
-                    sakai.api.Util.notification.show($(errorFailChangePass).html(), $(errorFailChangePass).html());
+                    sakai.api.Util.notification.show($(errorFailChangePass).html(), $(errorFailChangePassBody).html());
                     // clear all the fields
                     clearPassFields();
                 }
             });
-        }
-        else{
-            // check if the passwords are equal
-            showGeneralMessage($(errorPassNotEqual).html(), true, saveNewPass, generalMessagePass);
-            // clear all the fields
-            clearPassFields();
-        }
+            
     };
 
 
@@ -276,7 +267,8 @@ sakai.account_preferences = function(){
                 },
                 retype_pass:{
                     required: true,
-                    minlength: 4
+                    minlength: 4,
+                    equalTo: "#new_pass"
                 }
             },
             debug:true
