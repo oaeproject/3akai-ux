@@ -17,11 +17,10 @@
  */
 
 /* General */
-.entity_header {margin: 10px 0 17px 0; padding: 0; width: 430px;}
+.entity_header {margin: 10px 0 17px 0; padding: 0; width: 420px;}
 .entity_header_text {font-size:22px; font-weight:bold; line-height:24px; margin-right:15px;}
 .entity_picture {margin: 0 20px 5px 0;}
-.entity_picture img {width:96px}
-.entity_description {width:430px;}
+.entity_description {width:200px;}
 
 /* Container */
 #entity_container {margin: 19px 0 15px 7px; overflow: hidden;}
@@ -30,8 +29,8 @@
 #entity_container form button{margin-left: 5px}
 #entity_container form input[type="text"]{width: 14em}
 #entity_container input[type="text"] {border: 1px solid #ddd;padding: 3px}
-.entity_container_left {width: 550px}
-.entity_container_right {margin-top: 10px; padding-left: 20px; width: 310px}
+.entity_container_left {width: 300px}
+.entity_container_right {margin-top: 10px; padding-left: 0px; width: 250px}
 .entity_container_right strong {clear: both;: block;float:left;overflow:hidden;width: 90px}
 .entity_container_top_margin {margin-top:15px;}
 
