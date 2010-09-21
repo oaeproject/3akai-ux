@@ -131,6 +131,7 @@ sakai.pickeradvanced = function(tuid, showSettings) {
 
         // display the groups list, bind elements and submit a search
         $pickeradvanced_search_titles.hide();
+        $(".pickeradvanced_selected_list").removeClass("pickeradvanced_selected_list"); // deselect anything that was selected
         if (pickerData["type"] === "people") {
             $("#pickeradvanced_search_contacts").parent("li").addClass("pickeradvanced_selected_list");
             getGroups();
