@@ -107,8 +107,16 @@ sakai.dashboard = function(tuid, showSettings) {
         sakai.api.Widgets.widgetLoader.insertWidgets(newel.parentNode.id, false);
     };
 
-    sakai.api.Widgets.Container.registerFinishFunction(sakai.dashboard.finishEditSettings);
-    sakai.api.Widgets.Container.registerCancelFunction(sakai.dashboard.finishEditSettings);
+    var registerWidgetFunctions = function(){
+        sakai.api.Widgets.Container.registerFinishFunction(sakai.dashboard.finishEditSettings);
+        sakai.api.Widgets.Container.registerCancelFunction(sakai.dashboard.finishEditSettings);
+    }
+    
+    $(window).bind("sakai_sitespages_exitedit", function(ev){
+        registerWidgetFunctions();
+    });
+
+    registerWidgetFunctions();
 
     var showInit = function() {
 
