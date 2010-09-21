@@ -491,7 +491,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
         $("#content_profile_basic_info_add_another_container").append(renderedDiv);
         // Apply style to the rendered div
         $(renderedDiv).addClass("content_profile_basic_info_added_directory");
-        $(contentProfileBasicInfoAddAnotherLocationLink).text("Add another location");
+        $(contentProfileBasicInfoAddAnotherLocationLink).text(sakai.api.Security.saneHTML($("#content_profile_basic_info_add_another_text").text()));
     }
 
     /**
