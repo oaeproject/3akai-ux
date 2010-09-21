@@ -2317,19 +2317,6 @@ sakai.api.Util.convertToHumanReadableFileSize = function(filesize) {
     // Return the human readable filesize
     return filesize + " " + lengthunits;
 };
-/**
- * Add and delete tags from an entity
- * The two arrays, newTags and currentTags, represent the state of tags on the entity
- * newTags should be the tags that you want on the entity, the whole set
- * currentTags should be the set of tags the entity had before the user modified it
- * tagEntity will delete any tags in currentTags but not in newTags, and add any in
- * newTags that aren't in currentTags
- *
- * @param (String) tagLocation the URL to the tag, ie. (~userid/public/authprofile)
- * @param (Array) newTags The set of tags you wish to be on the entity
- * @param (Array) currentTags The set of tags on the current entity
- * @param (Function) callback The callback function
- */
 
 sakai.api.Util.tagEntity = function(tagLocation, newTags, currentTags, callback) {
     var tagsToAdd = [];
@@ -2354,6 +2341,15 @@ sakai.api.Util.tagEntity = function(tagLocation, newTags, currentTags, callback)
             }
         });
     });
+};
+
+    /**
+     * Tag a given entity node
+     *
+     * @param (String) tagLocation the URL to the tag, ie. (~userid/public/authprofile)
+     * @param (Array) tags Array of tags to tag the entity with
+     * @param (Function) callback The callback function
+     */
 
     var setTags = function(tagLocation, tags, callback) {
         if (tags.length) {
@@ -2456,7 +2452,6 @@ sakai.api.Util.tagEntity = function(tagLocation, newTags, currentTags, callback)
             }
         }
     };
-};
 
 /**
  * @class notification

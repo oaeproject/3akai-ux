@@ -44,6 +44,9 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
     // Containers
     var contentProfileBasicInfoContainer = "#content_profile_basic_info_container";
 
+    // Tag variables
+    var currentTags = [];
+
     // Form
     var contentProfileBasicInfoForm = "#content_profile_basic_info_form";
     var contentProfileBasicInfoFormName = "#content_profile_basic_info_form_name";
@@ -192,85 +195,6 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
     };
 
     /**
-     * Link the tags to the uploaded content
-     * @param {Object} tags Array of tags
-     */
-    var batchLinkTagsToContent = function(tags){
-        // Batch link the files with the tags
-        var batchLinkTagsToContentData = [];
-        for (var i in tags) {
-            if (tags.hasOwnProperty(i)) {
-                var item = {
-                    "url": contentPath,
-                    "method": "POST",
-                    "parameters": {
-                        "key": tagsPathForLinking + $.trim(tags[i]),
-                        ":operation": "tag"
-                    }
-                };
-                batchLinkTagsToContentData.push(item);
-            }
-        }
-        // Do the Batch request
-        $.ajax({
-            url: sakai.config.URL.BATCH,
-            traditional: true,
-            type: "POST",
-            cache: false,
-            data: {
-                requests: $.toJSON(batchLinkTagsToContentData)
-            }, success : function(){
-                // TODO show a valid message to the user instead of reloading the page
-                $(window).trigger('hashchange');
-                sakai.api.Util.notification.show($(contentProfileBasicInfoUpdatedBasicInfo).html(), $(contentProfileBasicInfoFileBasicInfoUpdated).html());
-            }
-        });
-    };
-
-    /**
-     * Create the tags before linking them to the uploads
-     * @param {Object} tags array of tags to be created
-     */
-    var batchCreateTags = function(tags){
-        // Create the data to send with the batch request
-        var batchCreateTagsData = [];
-        for (var i in tags) {
-            if (tags.hasOwnProperty(i)) {
-                var item = {
-                    "url": tagsPath + $.trim(tags[i]),
-                    "method": "POST",
-                    "parameters": {
-                        "./jcr:primaryType": "nt:folder",
-                        "./jcr:mixinTypes": "sakai:propertiesmix",
-                        "./sakai:tag-name": $.trim(tags[i]),
-                        "./sling:resourceType": "sakai/tag"
-                    }
-                };
-                batchCreateTagsData.push(item);
-            }
-        }
-        if (batchCreateTagsData.length) {
-            // Do the Batch request
-            $.ajax({
-                url: sakai.config.URL.BATCH,
-                traditional: true,
-                type: "POST",
-                cache: false,
-                data: {
-                    requests: $.toJSON(batchCreateTagsData)
-                },
-                success: function(data){
-                    // Tags created
-                    batchLinkTagsToContent(tags);
-                }
-            });
-        } else{
-            $(window).trigger('hashchange');
-            sakai.api.Util.notification.show($(contentProfileBasicInfoUpdatedBasicInfo).html(), $(contentProfileBasicInfoFileBasicInfoUpdated).html());
-        }
-    };
-
-    /**
      * Get the values from the basic information form
      */
     var getFormValues = function(){
@@ -309,17 +233,17 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
         // For every content_profile_basic_info_added_directory we create tags
         // Filter out ',' since that causes unwanted behaviour when rendering
         $(".content_profile_basic_info_added_directory").each(function(){
-            var directoryString = "directory-";
+            var directoryString = "directory/";
             tagArray.push($(this).find(contentProfileBasicInfoDirectoryLvlOne).selected().val().replace(/,/g,""));
             directoryString += $(this).find(contentProfileBasicInfoDirectoryLvlOne).selected().val().replace(/,/g,"");
 
             if ($(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val() !== "no_value") {
                 tagArray.push($(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g,""));
-                directoryString += "-" + $(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g,"");
+                directoryString += "/" + $(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g,"");
 
                 if ($(this).find(contentProfileBasicInfoDirectoryLvlThree).selected().val() !== "no_value") {
                     tagArray.push($(this).find(contentProfileBasicInfoDirectoryLvlThree).selected().val().replace(/,/g,""));
-                    directoryString += "-" + $(this).find(contentProfileBasicInfoDirectoryLvlThree).selected().val().replace(/,/g,"");
+                    directoryString += "/" + $(this).find(contentProfileBasicInfoDirectoryLvlThree).selected().val().replace(/,/g,"");
                 }
 
             }
@@ -327,8 +251,13 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
             tagArray.push(directoryString);
         });
 
-        // Set the tags property to the temporary tag array
-        batchCreateTags(tagArray);
+        // Set the tags
+        sakai.api.Util.tagEntity(contentPath, tagArray, currentTags, function(){
+            currentTags = tagArray;
+            // TODO show a valid message to the user instead of reloading the page
+            $(window).trigger('hashchange');
+            sakai.api.Util.notification.show($(contentProfileBasicInfoUpdatedBasicInfo).html(), $(contentProfileBasicInfoFileBasicInfoUpdated).html());
+        });
 
         data["sakai:copyright"] = $(contentProfileBasicInfoFormCopyrightSelect).val();
 
@@ -409,10 +338,11 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                 url: contentPath + ".2.json",
                 success: function(data){
                     // Construct the JSON object
-                    // Extract tags that start with "directory:"
+                    // Extract tags that start with "directory/"
                     var directory = [];
+                    currentTags = data["sakai:tags"];
                     $(data["sakai:tags"]).each(function(i){
-                        var splitDir = data["sakai:tags"][i].split("-");
+                        var splitDir = data["sakai:tags"][i].split("/");
                         if(splitDir[0] === "directory"){
                             var item = [];
                             for(var i in splitDir){
@@ -517,38 +447,20 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
         // Extract tags from clickedParent
         var tags = []
         tags = clickedParent[0].className.split(",");
-        tags.push("directory-" + tags.toString().replace(/,/g,"-"));
+        tags.push("directory/" + tags.toString().replace(/,/g,"/"));
 
-        // Create batch data
-        var batchItems = [];
-        for (t in tags) {
-            var item = {
-                "url": contentPath,
-                "method": "POST",
-                "parameters": {
-                    "key": tagsPathForLinking + tags[t],
-                    ":operation": "deletetag"
-                }
-            };
-            batchItems.push(item);
+        var tagsAfterDeletion = currentTags.slice(0);
+        for (var tag = 0 in tags){
+            if(jQuery.inArray(tags[tag],tagsAfterDeletion) > -1){
+                tagsAfterDeletion.splice(jQuery.inArray(tags[tag],tagsAfterDeletion), 1);
+            }
         }
 
-        // Send the Ajax request
-        $.ajax({
-            url : sakai.config.URL.BATCH,
-            traditional: true,
-            type: "POST",
-            cache: false,
-            data: {
-                requests: $.toJSON(batchItems)
-            },
-            success: function(data){
-                $(window).trigger('hashchange');
-            },
-            error: function(xhr, textStatus, thrownError){
-                sakai.api.Util.notification.show("Location not removed", "The location in the directory could not be removed.");
-            }
-        });
+        sakai.api.Util.tagEntity(contentPath, tagsAfterDeletion, currentTags, function(){
+            currentTags = currentTags.splice(tags);
+            // TODO show a valid message to the user instead of reloading the page
+            $(window).trigger('hashchange');
+            sakai.api.Util.notification.show($(contentProfileBasicInfoUpdatedBasicInfo).html(), $(contentProfileBasicInfoFileBasicInfoUpdated).html());});
     }
 
     /**

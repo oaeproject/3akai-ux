@@ -70,6 +70,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
     var groupBasicInfoRemoveNewLocation = ".groupbasicinfo_remove_new_location";
     var groupBasicInfoRemoveLocation = ".groupbasicinfo_remove_location";
 
+    var groupBasicInfoSavedInfo = ".groupbasicinfo_saveddirectory";
     var groupbasicinfoSelectDirectory = "#groupbasicinfo_select_directory";
     var groupbasicinfoSelectAtLeastOneDirectory = "#groupbasicinfo_select_at_least_one_directory";
 
@@ -134,7 +135,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         var directory = [];
         var tags = [];
         $(sakai.currentgroup.data.authprofile["sakai:tags"]).each(function(i){
-            var splitDir = sakai.currentgroup.data.authprofile["sakai:tags"][i].split("_");
+            var splitDir = sakai.currentgroup.data.authprofile["sakai:tags"][i].split("/");
             if (splitDir[0] === "directory") {
                 var item = [];
                 for (var i in splitDir) {
@@ -203,23 +204,28 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         // Create tags for the directory structure
         // For every groupbasicinfo_added_directory we create tags
         $(".groupbasicinfo_added_directory").each(function(){
-            var directoryString = "directory_";
+            var directoryString = "directory/";
             tagArray.push($(this).find(groupBasicInfoDirectoryLvlOne).selected().val().replace(/,/g,""));
             directoryString += $(this).find(groupBasicInfoDirectoryLvlOne).selected().val().replace(/,/g,"");
 
             if ($(this).find(groupBasicInfoDirectoryLvlTwo).selected().val() !== "no_value") {
                 tagArray.push($(this).find(groupBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g,""));
-                directoryString += "_" + $(this).find(groupBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g,"");
+                directoryString += "/" + $(this).find(groupBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g,"");
 
                 if ($(this).find(groupBasicInfoDirectoryLvlThree).selected().val() !== "no_value") {
                     tagArray.push($(this).find(groupBasicInfoDirectoryLvlThree).selected().val().replace(/,/g,""));
-                    directoryString += "_" + $(this).find(groupBasicInfoDirectoryLvlThree).selected().val().replace(/,/g,"");
+                    directoryString += "/" + $(this).find(groupBasicInfoDirectoryLvlThree).selected().val().replace(/,/g,"");
                 }
 
             }
 
             // Add string for all levels to tag array
             tagArray.push(directoryString);
+        });
+
+        // Add the directory tags to the array that were already saved
+        $(groupBasicInfoSavedInfo + " li").each(function(){
+            tagArray.push("directory/" + this.className.split(",")[0] + "/" + this.className.split(",")[1] + "/" + this.className.split(",")[2]);
         });
 
         var groupDesc = $(groupBasicInfoGroupDesc, $rootel).val();
@@ -286,41 +292,26 @@ sakai.groupbasicinfo = function(tuid, showSettings){
     };
 
     var removeDirectoryLocation = function(clickedParent){
+        // Look for group profile path
+        groupProfileURL = "/~" + sakai.currentgroup.id + "/public/authprofile"
         // Extract tags from clickedParent
         var tags = []
         tags = clickedParent[0].className.split(",");
-        tags.push("directory_" + tags.toString().replace(/,/g,"_"));
+        tags.push("directory/" + tags.toString().replace(/,/g,"/"));
 
-        // Create batch data
-        var batchItems = [];
-        for (t in tags) {
-            var item = {
-                "url": "/~" + sakai.currentgroup.id + "/public/authprofile/",
-                "method": "POST",
-                "parameters": {
-                    "key": tagsPathForLinking + tags[t],
-                    ":operation": "deletetag"
-                }
-            };
-            batchItems.push(item);
+        var tagsAfterDeletion = sakai.currentgroup.data.authprofile["sakai:tags"].slice(0);
+        for (var tag = 0 in tags){
+            if(jQuery.inArray(tags[tag],tagsAfterDeletion) > -1){
+                tagsAfterDeletion.splice(jQuery.inArray(tags[tag],tagsAfterDeletion), 1);
+            }
         }
 
-        // Send the Ajax request
-        $.ajax({
-            url : sakai.config.URL.BATCH,
-            traditional: true,
-            type: "POST",
-            cache: false,
-            data: {
-                requests: $.toJSON(batchItems)
-            },
-            success: function(data){
-                $(window).trigger('hashchange');
-            },
-            error: function(xhr, textStatus, thrownError){
-                sakai.api.Util.notification.show("Location not removed", "The location in the directory could not be removed.");
-            }
+        sakai.api.Util.tagEntity(groupProfileURL, tagsAfterDeletion, sakai.currentgroup.data.authprofile["sakai:tags"], function(){
+            sakai.currentgroup.data.authprofile["sakai:tags"] = sakai.currentgroup.data.authprofile["sakai:tags"].splice(tags);
+            sakai.api.Widgets.Container.informFinish(tuid, "groupbasicinfo");
+            $(window).trigger("sakai.groupbasicinfo.updateFinished");
         });
+
     }
 
 

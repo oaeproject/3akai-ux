@@ -21,14 +21,14 @@
                 __MSG__TAGS__:
             </label>
             {if !anon}
-                <textarea id="content_profile_basic_info_form_tags">{if data["sakai:tags"]}{for tag in data["sakai:tags"]}{if tag.split(":")[0] !== "directory"}{if tag_index > 0},{/if}${tag}{/if}{/for}{/if}</textarea>
+                <textarea id="content_profile_basic_info_form_tags">{if data["sakai:tags"]}{for tag in data["sakai:tags"]}{if tag.split("/")[0] !== "directory"}{if tag_index > 0},{/if}${tag}{/if}{/for}{/if}</textarea>
                 <br/>
                 <div class="content_profile_basic_info_form_info">
                     (__MSG__COMMA_SEPARATED__)
                 </div>
             {else}
             <div id="content_profile_basic_info_tags_viewlist">
-                {for tag in data["sakai:tags"]}{if tag.split(":")[0] !== "directory"}{if tag_index > 0},{/if} <a href="/dev/search.html#q=${tag}" class="s3d-action" title="Search content tagged with '${tag}'"">${tag}</a>{/if}{/for}
+                {for tag in data["sakai:tags"]}{if tag.split("/")[0] !== "directory"}{if tag_index > 0},{/if} <a href="/dev/search.html#q=${tag}" class="s3d-action" title="Search content tagged with '${tag}'"">${tag}</a>{/if}{/for}
             </div>
             {/if}
         </div>
