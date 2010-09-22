@@ -74,6 +74,8 @@ sakai.account_preferences = function(){
     // templates
     var languagesTemplate = accountPreferences + "_languagesTemplate";
 
+    var regionalSetting;
+    var languageSetting;
 
     ///////////////////////
     // Utility functions //
@@ -233,29 +235,35 @@ sakai.account_preferences = function(){
         var language = $(languagesContainer).val();
         var locale = {"locale" : language, "timezone" : $(timezonesContainer).val(), "_charset_":"utf-8"};
 
-        $.ajax({
-            data : locale,
-            url : "/system/userManager/user/" + me.user.userid + ".update.html",
-            type : "POST",
-            success : function(data) {
-
-                if(language !== me.user.locale.language+"_"+me.user.locale.country){
-                    // Reload the page if the language for a user has changed
-                    document.location.reload();
-                }else{
-                    // Update the user of the successful regional settings change
-                    showGeneralMessage($(messageChangeLang).html(), false, saveRegional, generalMessageReg);
-                    // Show successful regional setting change through gritter
-                    sakai.api.Util.notification.show($(messageChangeLang).html(), $(messageChangeLang).html());
+        // if regional Setting and langauge is changed only then save the changes
+        if (regionalSetting !== $(timezonesContainer).val() || language !== languageSetting) {
+            regionalSetting = $(timezonesContainer).val();
+            languageSetting = language;
+            $.ajax({
+                data: locale,
+                url: "/system/userManager/user/" + me.user.userid + ".update.html",
+                type: "POST",
+                success: function(data){
+                
+                    if (language !== me.user.locale.language + "_" + me.user.locale.country) {
+                        // Reload the page if the language for a user has changed
+                        document.location.reload();
+                    }
+                    else {
+                        // Update the user of the successful regional settings change
+                        showGeneralMessage($(messageChangeLang).html(), false, saveRegional, generalMessageReg);
+                        // Show successful regional setting change through gritter
+                        sakai.api.Util.notification.show($(messageChangeLang).html(), $(messageChangeLang).html());
+                    }
+                    
+                },
+                error: function(xhr, textStatus, thrownError){
+                    showGeneralMessage($(errorFailChangeLang).html(), true, saveRegional, generalMessageReg);
+                    // show regional setting error message through gritter
+                    sakai.api.Util.notification.show($(errorFailChangeLang).html(), $(errorFailChangeLang).html());
                 }
-
-            },
-            error: function(xhr, textStatus, thrownError) {
-                showGeneralMessage($(errorFailChangeLang).html(), true, saveRegional, generalMessageReg);
-                // show regional setting error message through gritter
-                sakai.api.Util.notification.show($(errorFailChangeLang).html(), $(errorFailChangeLang).html());
-            }
-        });
+            });
+        }
     };
 
     /**
