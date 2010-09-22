@@ -353,7 +353,7 @@ sakai.listPeople.addToList = function(tuid, object) {
             if (resultObject.userid) {
                 // get user details
                 sakai.data.listpeople[tuid].userList[resultObject.userid] = resultObject
-                sakai.data.listpeople[tuid].total += 1
+                sakai.data.listpeople[tuid].total += 1;
                 if (sakai.api.User.getDisplayName(resultObject)) {
                     sakai.data.listpeople[tuid].userList[resultObject.userid]["displayName"] = sakai.api.User.getDisplayName(resultObject);
                 } else if (resultObject["firstName"] && resultObject["lastName"]) {
@@ -370,7 +370,10 @@ sakai.listPeople.addToList = function(tuid, object) {
             } else if (resultObject.groupid) {
                 // get group details
                 sakai.data.listpeople[tuid].userList[resultObject.groupid] = resultObject
-                sakai.data.listpeople[tuid].total += 1
+                sakai.data.listpeople[tuid].total += 1;
+                if (resultObject.picture && typeof(resultObject.picture) === 'string') {
+                    sakai.data.listpeople[tuid].userList[resultObject.userid]["picture"] = $.parseJSON(resultObject.picture);
+                }
                 if (!sakai.data.listpeople[tuid].userList[resultObject.groupid]["subNameInfo"]) {
                     sakai.data.listpeople[tuid].userList[resultObject.groupid]["subNameInfo"] = resultObject[iSubNameInfoGroup];
                 }
@@ -381,7 +384,7 @@ sakai.listPeople.addToList = function(tuid, object) {
                 if (!sakai.data.listpeople[tuid].userList[resultObject['rep:userId']]["subNameInfo"]) {
                     sakai.data.listpeople[tuid].userList[resultObject['rep:userId']]["subNameInfo"] = resultObject[iSubNameInfoUser]
                 }
-                sakai.data.listpeople[tuid].total += 1
+                sakai.data.listpeople[tuid].total += 1;
             } else if (resultObject["jcr:primaryType"] === "sakai:pooled-content") {
                 // get content details
                 if (!resultObject["jcr:name"] && resultObject["content_id"]) {
@@ -397,7 +400,7 @@ sakai.listPeople.addToList = function(tuid, object) {
 
                         sakai.data.listpeople[tuid].userList[resultObject["jcr:name"]] = data
                         sakai.data.listpeople[tuid].userList[resultObject["jcr:name"]]['content_id'] = resultObject["jcr:name"];
-                        sakai.data.listpeople[tuid].total += 1
+                        sakai.data.listpeople[tuid].total += 1;
                         if (sakai.config.MimeTypes[data["jcr:content"]["jcr:mimeType"]]) {
                             sakai.data.listpeople[tuid].userList[resultObject["jcr:name"]]['avatar'] = sakai.config.MimeTypes[data["jcr:content"]["jcr:mimeType"]].URL;
                             sakai.data.listpeople[tuid].userList[resultObject["jcr:name"]]['mimeTypeDescripton'] = sakai.config.MimeTypes[data["jcr:content"]["jcr:mimeType"]].description;

@@ -15,6 +15,7 @@ div.content_item img.embed_image_thumbnail_size {max-width:60px; max-height:60px
 div.content_item_image {width:312px; margin-right:10px; float:left; display:inline;}
 div.content_item_image img.embed_image_full_size,
 div.content_item_image embed {max-width:312px;}
+div.content_item_image img.embed_image_thumbnail_size {max-width:60px; max-height:60px}
 div.content_item_image div.item_description h3,
 div.content_item_image div.item_description p {word-wrap:break-word; width:312px; margin-left:10px; margin:0; margin-bottom:5px; padding:0;}
 

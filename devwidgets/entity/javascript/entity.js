@@ -208,13 +208,19 @@ sakai.entity = function(tuid, showSettings){
         // profile.basic.elements object does not have picture information
         // if there is profile picture and userId
         // return the picture links
-        if(profile.picture && profile["rep:userId"]) {
+        if(profile.picture && (profile["rep:userId"] || profile["sakai:group-id"])) {
 
+            var id = null;
+            if (profile["rep:userId"]){
+                id = profile["rep:userId"];            
+            } else if (profile["sakai:group-id"]){
+                id = profile["sakai:group-id"];            
+            }
             //change string to json object and get name from picture object
             var picture_name = $.parseJSON(profile.picture).name;
 
             //return "/~" + profile["rep:userId"] + "/public/profile/" + profile.basic.elements.picture.value.name;
-            return "/~" + profile["rep:userId"] + "/public/profile/" + picture_name;
+            return "/~" + id + "/public/profile/" + picture_name;
         }
         else {
             return "";
@@ -264,11 +270,11 @@ sakai.entity = function(tuid, showSettings){
     var getGroupMembersManagers = function(){
         var requests = []; // Array used to contain all the information we need to send to the batch post
         requests[0] = {
-                "url": "/system/userManager/group/" + entityconfig.data.profile.authprofile["sakai:group-id"] + ".members.json",
+                "url": "/system/userManager/group/" + entityconfig.data.profile["sakai:group-id"] + ".members.json",
                 "method": "GET"
             };
         requests[1] = {
-                "url": "/system/userManager/group/" + entityconfig.data.profile.authprofile["sakai:group-id"] + "-managers.members.json",
+                "url": "/system/userManager/group/" + entityconfig.data.profile["sakai:group-id"] + "-managers.members.json",
                 "method": "GET"
             };
 
@@ -305,9 +311,9 @@ sakai.entity = function(tuid, showSettings){
      */
     var showGroupMembershipButton = function(type){
         if (type === 'join') {
-            if (entityconfig.data.profile.authprofile["sakai:group-joinable"] === "People can automatically join")
+            if (entityconfig.data.profile["sakai:group-joinable"] === "People can automatically join")
                 $(entityGroupJoin).show();
-            else if (entityconfig.data.profile.authprofile["sakai:group-joinable"] === "People request to join")
+            else if (entityconfig.data.profile["sakai:group-joinable"] === "People request to join")
                 $(entityGroupJoinRequest).show();
             $(entityGroupLeave).hide();
         } else if (type === 'leave') {
@@ -330,7 +336,7 @@ sakai.entity = function(tuid, showSettings){
     var joinGroup = function(){
         // add user to group
         $.ajax({
-            url: "/system/userManager/group/" + entityconfig.data.profile.authprofile["sakai:group-id"] + ".update.json",
+            url: "/system/userManager/group/" + entityconfig.data.profile["sakai:group-id"] + ".update.json",
             data: {
                 "_charset_":"utf-8",
                 ":member": sakai.data.me.user.userid
@@ -349,7 +355,7 @@ sakai.entity = function(tuid, showSettings){
     var leaveGroup = function(){
         // remove user from group
         $.ajax({
-            url: "/system/userManager/group/" + entityconfig.data.profile.authprofile["sakai:group-id"] + ".update.json",
+            url: "/system/userManager/group/" + entityconfig.data.profile["sakai:group-id"] + ".update.json",
             data: {
                 "_charset_":"utf-8",
                 ":member@Delete": sakai.data.me.user.userid
@@ -608,6 +614,23 @@ sakai.entity = function(tuid, showSettings){
     };
 
     /**
+     * Set the profile group data such as the users role, member count and profile picture
+     */
+    var setGroupData = function(){
+        // Set the profile picture for the group you are looking at
+        entityconfig.data.profile.picture = constructProfilePicture(entityconfig.data.profile)
+
+        // determine users role and get the count of members and managers
+        getGroupMembersManagers()
+
+        // configure the changepic widget to look at the group profile image
+        if (sakai.api.UI.changepic){
+            sakai.api.UI.changepic["mode"] = "group";
+            sakai.api.UI.changepic["id"] = entityconfig.data.profile["sakai:group-id"];
+        }
+    }
+
+    /**
      * Set the data for the content object information
      * @param {Object} data The data we need to parse
      */
@@ -729,9 +752,10 @@ sakai.entity = function(tuid, showSettings){
                 setProfileData();
                 break;
             case "group":
-                entityconfig.data.profile = data;
-                // determine users role and get the count of members and managers
-                getGroupMembersManagers()
+                // Set the profile for the entity widget to the group authprofile
+                entityconfig.data.profile = $.extend(true, {}, data.authprofile);
+                // Set the correct group profile data
+                setGroupData();
                 break;
             case "content":
                 setContentData(data);
