@@ -237,6 +237,7 @@ sakai.embedcontent = function(tuid, showSettings) {
           });
       });
       $("input#" + tuid).val('').focus();
+      $embedcontent_place_content.removeAttr("disabled");
     };
 
     /**
