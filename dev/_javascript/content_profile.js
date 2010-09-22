@@ -19,6 +19,9 @@
 
 var sakai = sakai || {};
 
+sakai.content_profile = sakai.content_profile || {};
+sakai.content_profile.content_data = sakai.content_profile.content_data || {};
+
 sakai.content_profile = function(){
 
 
@@ -56,41 +59,42 @@ sakai.content_profile = function(){
     /**
      * Load the content profile for the current content path
      */
-    loadContentProfile = function(){
+    sakai.content_profile.loadContentProfile = function(callback){
         // Check whether there is actually a content path in the URL
         if (content_path) {
-
             $.ajax({
                 url: sakai.config.SakaiDomain + content_path + ".2.json",
                 success: function(data){
 
-                    // Construct the JSON object
-                    var json = {
+                    var directory = [];
+                    currentTags = data["sakai:tags"];
+                    $(data["sakai:tags"]).each(function(i){
+                        var splitDir = data["sakai:tags"][i].split("/");
+                        if(splitDir[0] === "directory"){
+                            var item = [];
+                            for(var j in splitDir){
+                                if (splitDir[j] !== "directory") {
+                                    item.push(splitDir[j]);
+                                }
+                            }
+                            directory.push(item);
+                        }
+                    });
+
+                    json = {
                         data: data,
                         mode: "content",
                         url: sakai.config.SakaiDomain + content_path,
-                        contentpath: content_path
+                        contentpath: content_path,
+                        path: content_path,
+                        saveddirectory : directory
                     };
 
-                    // The request was successful so initialise the entity widget
-                    if (ready_event_fired > 0) {
-                        sakai.api.UI.entity.render("content", json);
-                    }
-                    else {
-                        $(window).bind("sakai.api.UI.entity.ready", function(e){
-                            sakai.api.UI.entity.render("content", json);
-                            ready_event_fired++;
-                        });
-                    }
+                    sakai.content_profile.content_data = json;
 
-                    if (!list_event_fired) {
-                        // add binding to listpeople widget and buttons
-                        addListBinding();
-                        list_event_fired = true;
+                    if ($.isFunction(callback)) {
+                        callback(true);
                     }
-                    
-                    sakai.api.Security.showPage();
-                    
                 },
                 error: function(xhr, textStatus, thrownError){
 
@@ -98,6 +102,9 @@ sakai.content_profile = function(){
                         sakai.api.Security.send403();
                     } else {
                         sakai.api.Security.send404();
+                    }
+                    if ($.isFunction(callback)) {
+                        callback(false);
                     }
 
                 }
@@ -255,6 +262,29 @@ sakai.content_profile = function(){
         });
     };
 
+    var handleHashChange = function() {
+        content_path = $.bbq.getState("content_path") || "";
+        sakai.content_profile.loadContentProfile(function() {
+            // The request was successful so initialise the entity widget
+            if (ready_event_fired > 0) {
+                sakai.api.UI.entity.render("content", sakai.content_profile.content_data);
+            }
+            else {
+                $(window).bind("sakai.api.UI.entity.ready", function(e){
+                    sakai.api.UI.entity.render("content", sakai.content_profile.content_data);
+                    ready_event_fired++;
+                });
+            }
+
+            if (!list_event_fired) {
+                // add binding to listpeople widget and buttons
+                addListBinding();
+                list_event_fired = true;
+            }
+
+            sakai.api.Security.showPage();
+        });
+    };
 
     ////////////////////
     // Initialisation //
@@ -264,18 +294,12 @@ sakai.content_profile = function(){
      * Initialise the content profile page
      */
     var init = function(){
-
         // Bind an event to window.onhashchange that, when the history state changes,
         // loads all the information for the current resource
-        $(window).bind('hashchange', function(e){
-            content_path = e.getState("content_path") || "";
-            loadContentProfile();
+        $(window).bind('hashchange', function(){
+            handleHashChange();
         });
-
-        // Since the event is only triggered when the hash changes, we need to trigger
-        // the event now, to handle the hash the page may have loaded with.
-        $(window).trigger('hashchange');
-
+        handleHashChange();
     };
 
     // Initialise the content profile page

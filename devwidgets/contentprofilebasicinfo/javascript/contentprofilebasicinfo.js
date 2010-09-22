@@ -335,55 +335,35 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
      * Load the content profile for the current content path
      */
     var loadContentProfile = function(){
-        // Check whether there is actually a content path in the URL
-        if (contentPath) {
-            $.ajax({
-                url: contentPath + ".2.json",
-                success: function(data){
-                    // Construct the JSON object
-                    // Extract tags that start with "directory/"
-                    var directory = [];
-                    currentTags = data["sakai:tags"];
-                    $(data["sakai:tags"]).each(function(i){
-                        var splitDir = data["sakai:tags"][i].split("/");
-                        if(splitDir[0] === "directory"){
-                            var item = [];
-                            for(var i in splitDir){
-                                if (splitDir[i] !== "directory") {
-                                    item.push(splitDir[i]);
-                                }
-                            }
-                            directory.push(item);
-                        }
-                    });
-
-                    json = {
-                        data: data,
-                        mode: "content",
-                        url: contentPath,
-                        anon: anon,
-                        directory : directoryJSON,
-                        saveddirectory : directory
-                    };
-
-                    // Set the global JSON object (we also need this in other functions + don't want to modify this)
-                    globalJSON = $.extend(true, {}, json);
-
-                    // And render the basic information
-                    var renderedTemplate = $.TemplateRenderer("content_profile_basic_info_template", json);
-                    var renderedDiv = $(document.createElement("div"));
-                    renderedDiv.html(renderedTemplate);
-                    $(contentProfileBasicInfoContainer).html(renderedDiv);
-                    // Show the basic info container
-                    $(contentProfileBasicInfoContainer).show();
-
-                    addBindingBasicinfo();
-                },
-                error: function(xhr, textStatus, thrownError){
+        if (sakai.content_profile.content_data && sakai.content_profile.content_data.data) {
+            sakai.content_profile.content_data.anon = anon;
+            sakai.content_profile.content_data.directory = directoryJSON;
+            globalJSON = $.extend(true, {}, sakai.content_profile.content_data);
+            postLoadContentData();
+        } else {
+            sakai.content_profile.loadContentProfile(function(success) {
+                if (success) {
+                    sakai.content_profile.content_data.anon = anon;
+                    sakai.content_profile.content_data.directory = directoryJSON;
+                    globalJSON = $.extend(true, {}, sakai.content_profile.content_data);
+                    postLoadContentData();
+                } else {
                     sakai.api.Util.notification.show($(contentProfileBasicInfoFailedLoadingData).html(), $(contentProfileBasicInfoFailedLoadingFileData).html());
                 }
             });
         }
+    };
+
+    var postLoadContentData = function() {
+        // And render the basic information
+        var renderedTemplate = $.TemplateRenderer("content_profile_basic_info_template", sakai.content_profile.content_data);
+        var renderedDiv = $(document.createElement("div"));
+        renderedDiv.html(renderedTemplate);
+        $(contentProfileBasicInfoContainer).html(renderedDiv);
+        // Show the basic info container
+        $(contentProfileBasicInfoContainer).show();
+
+        addBindingBasicinfo();
     };
 
     /**
@@ -511,20 +491,22 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
 
         // Bind an event to window.onhashchange that, when the history state changes,
         // loads all the information for the current resource
-        $(window).bind('hashchange', function(e){
-            contentPath = e.getState("content_path") || "";
-
-            if (sakai.data.me.user.anon) {
-                anon = true;
-                loadContentProfile();
-            }
-            else {
-                checkFileManager();
-            }
+        $(window).bind('hashchange', function(){
+            handleHashChange();
         });
-        // Since the event is only triggered when the hash changes, we need to trigger
-        // the event now, to handle the hash the page may have loaded with.
-        $(window).trigger('hashchange');
+        handleHashChange();
+    };
+
+    var handleHashChange = function() {
+        contentPath = $.bbq.getState("content_path") || "";
+
+        if (sakai.data.me.user.anon) {
+            anon = true;
+            loadContentProfile();
+        }
+        else {
+            checkFileManager();
+        }
     };
 
     doInit();
