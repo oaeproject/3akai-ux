@@ -83,6 +83,7 @@ sakai.newaccount = function(){
     // Contains executable errors
     var errObj = [];
 
+    var currentUserName;
     ///////////////////////
     // Utility functions //
     ///////////////////////
@@ -412,8 +413,11 @@ sakai.newaccount = function(){
     });
 
     $(checkUserNameLink).bind("click", function(){
-        resetErrorFields();
-        checkUserName(true);
+        if(currentUserName !== $("#username").val()) {
+            currentUserName = $("#username").val();
+            resetErrorFields();
+            checkUserName(true);
+        }
     });
 
     // Hide error fields at start
