@@ -150,7 +150,7 @@ sakai.config = {
                 "members": "members",
                 "allusers": "everyone",
                 "public": "public",
-                "managers": "Group managers only"
+                "group": "group"
             }
         }
     },

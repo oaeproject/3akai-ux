@@ -70,6 +70,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
     var contentProfileBasicInfoDirectoryLvlOne = ".content_profile_basic_info_directory_lvlone";
     var contentProfileBasicInfoDirectoryLvlTwo = ".content_profile_basic_info_directory_lvltwo";
     var contentProfileBasicInfoDirectoryLvlThree = ".content_profile_basic_info_directory_lvlthree";
+    var contentProfileBasicInfoSavedDirectory = ".content_profile_basic_info_saveddirectory";
 
     var contentProfileBasicInfoThirdLevelTemplateContainer = "#content_profile_basic_info_thirdlevel_template_container";
     var contentProfileBasicInfoSecondLevelTemplateContainer = "#content_profile_basic_info_secondlevel_template_container";
@@ -153,7 +154,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                 };
                 data[data.length] = item;
                 break;
-            // Myself only
+            // Myself only or Members and Managers
             case "private":
                 var item = {
                     "url": contentPath + ".members.html",
@@ -170,6 +171,21 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                     "method": "POST",
                     "parameters": {
                         ":viewer@Delete": ["anonymous", "everyone"]
+                    }
+                };
+                data[data.length] = item;
+                break;
+            // Delete all viewers of the file and keep the managers
+            case "managers":
+                var viewers = [];
+                for(var viewer in sakai.data.listpeople["viewers"]["userList"]){
+                    viewers.push(viewer);
+                }
+                var item = {
+                    "url": contentPath + ".members.html",
+                    "method": "POST",
+                    "parameters": {
+                        ":viewer@Delete": viewers
                     }
                 };
                 data[data.length] = item;
@@ -231,6 +247,11 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
             }
             // Add string for all levels to tag array
             data["sakai:tags"].push(directoryString);
+        });
+
+        // Add the directory tags to the array that were already saved
+        $(contentProfileBasicInfoSavedDirectory + " li").each(function(){
+            data["sakai:tags"].push("directory/" + this.className.split(",")[0] + "/" + this.className.split(",")[1] + "/" + this.className.split(",")[2]);
         });
 
         // Set the tags

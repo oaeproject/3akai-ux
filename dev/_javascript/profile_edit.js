@@ -165,7 +165,7 @@ sakai.profile = function(){
         sakai.profile.main.acls = {
             "options": {
                 "everybody": {
-                    "label": "__MSG__EVERYBODY__",
+                    "label": "__MSG__PUBLIC__",
                     "postparams": [{
                         "principalId": "anonymous",
                         "privilege@jcr:read": "granted"
@@ -182,7 +182,7 @@ sakai.profile = function(){
                     }]
                 },
                 "institution": {
-                    "label": "__MSG__INSTITUTION_ONLY__",
+                    "label": "__MSG__LOGGED_IN_USERS__",
                     "postparams": [{
                         "principalId": "anonymous",
                         "privilege@jcr:read": "denied"
@@ -199,7 +199,7 @@ sakai.profile = function(){
                     }]
                 },
                 "contacts": {
-                    "label": "__MSG__CONTACTS_ONLY__",
+                    "label": "__MSG__MY_CONTACTS__",
                     "postparams": [{
                         "principalId": "anonymous",
                         "privilege@jcr:read": "denied"
