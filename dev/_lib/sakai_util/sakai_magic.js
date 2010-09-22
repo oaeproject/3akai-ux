@@ -2083,6 +2083,10 @@ sakai.api.User.loadMeData = function(callback) {
 
             // Log error
             fluid.log("sakai.api.User.loadMeData: Could not load logged in user data from the me service!");
+            
+            if (xhr.status === 500 && window.location.pathname !== "/dev/500.html"){
+                document.location = "/dev/500.html";
+            }
 
             // Call callback function if set
             if (typeof callback === "function") {
@@ -3551,25 +3555,6 @@ sakai.api.Widgets.isOnDashboard = function(tuid) {
 
             }
 
-            if(requestStatus === 500){
-                var decideLoggedIn = function(response, exists){
-                    var originalURL = document.location;
-                    originalURL = $.URLEncode(originalURL.pathname + originalURL.search + originalURL.hash);
-                    var redirecturl = sakai.config.URL.GATEWAY_URL + "?url=" + originalURL;
-                    if (exists && response.preferences && (response.preferences.uuid === "anonymous" || !response.preferences.uuid)) {
-                        document.location = redirecturl;
-                    }
-                };
-
-                $.ajax({
-                    url: sakai.config.URL.ME_SERVICE,
-                    cache: false,
-                    success: function(data){
-                        decideLoggedIn(data, true);
-                    }
-                });
-
-            }
         // Handle HTTP conflicts thrown back by K2 (409) (for example when somebody tries to write to the same node at the very same time)
         // We do this by re-sending the original request with the data transparently, behind the curtains, until it succeeds.
         // This still does not eliminate a possibility of another conflict, but greatly reduces
