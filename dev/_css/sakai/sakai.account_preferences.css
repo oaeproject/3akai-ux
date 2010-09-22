@@ -69,3 +69,8 @@
     height: 21px;
     width: 300px;
 }
+div.account_preferences_error {
+    margin-left: 170px;
+    color:#9f3333;
+    font-weight:bold;
+}

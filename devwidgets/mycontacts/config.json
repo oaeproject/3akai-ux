@@ -7,7 +7,7 @@
         "en_US": "/devwidgets/mycontacts/bundles/en_US.json",
         "zh_CN": "/devwidgets/mycontacts/bundles/zh_CN.json"
     },
-    "name":"My Contacts",
+    "name":"My recent contacts",
     "personalportal":true,
     "url":"/devwidgets/mycontacts/mycontacts.html"
 }

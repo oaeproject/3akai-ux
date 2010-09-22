@@ -47,7 +47,7 @@
 
 /** TAB VARIANT **/
 .content_search .s3d-primary-tabs {
-    background: url('../../_images/search_tab_bg.png') top right no-repeat;
+    background: url('../../_images/site_tab_bg.png') top right no-repeat;
 }
 
 .search_content_wrapper {
@@ -59,6 +59,7 @@
     border-right: 3px solid #D3DBDE;
     margin: 0;
     padding: 10px;
+    min-height: 350px;
 }
 .search_tab_content_top {
     background: url('../../_images/content_tr.gif') top right no-repeat;

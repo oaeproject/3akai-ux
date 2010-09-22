@@ -40,6 +40,7 @@
 .rss_output_order {margin-left:10px;margin-bottom:5px;}
 #rss_output .rss_output_entry {background-color:#eeeeee;margin-top:3px;padding:10px;padding-left:15px;padding-right:15px;overflow:auto;}
 #rss_output .rss_output_header {border-bottom-color:#eeeeee;border-bottom-style:solid;border-bottom-width:1px;margin-bottom:10px;overflow:hidden;}
+#rss_no_feeds {padding-left:15px;}
 
 /* Sendmessage widget*/
 #rss_sendmessagecontainer, #widget_sendmessage {width:100%;}

@@ -20,53 +20,42 @@
                     <div class="fl-text-align-center">
                         <a href="javascript:;" class="s3d-action" id="changepic_container_trigger">__MSG__CHANGE__</a>
                     </div>
+                {else}
+                    <div class="fl-text-align-center entity_status">
+                        {if data.profile.chatstatus === "online"}<a class="s3d-action chat_available_status_online" id="entity_available_to_chat" href="javascript:;">__MSG__ONLINE__</a>{/if}
+                        {if data.profile.chatstatus === "busy"}<a class="chat_available_status_busy">__MSG__BUSY__</a>{/if}
+                        {if data.profile.chatstatus === "offline"}<a class="chat_available_status_offline">__MSG__OFFLINE__</a>{/if}
+                    </div>
                 {/if}
             </div>
             <div class="entity_header">
                 <a class="entity_header_text" href="/dev/show.html?type=user&amp;id=${unescape(data.profile["rep:userId"])}">${unescape(sakai.api.User.getDisplayName(data.profile))}</a>
-                {if mode === "myprofile"}
+                {if mode === "myprofile" && (!sakai.profile || sakai.profile.main.mode.value === "view")}
                     <a class="s3d-action" href="/dev/profile_edit.html">__MSG__EDIT_PROFILE__</a>
                 {else}
                     <a class="s3d-action" href="/dev/show.html?type=user&amp;id=${data.profile["rep:userId"]}">__MSG__MORE_INFO__</a>
                 {/if}
             </div>
-            <form method="POST" action="javascript:;">
-                <div>
+            <div>
                     {if mode === "myprofile"}
-                        <select id="entity_profile_chatstatus" title="__MSG__CHAT_STATUS__">
-                            <option value="online" {if data.profile.chatstatus === "online"}selected="selected"{/if}>__MSG__AVAILABLE_TO_CHAT__</option>
-                            <option value="busy" {if data.profile.chatstatus === "busy"}selected="selected"{/if}>__MSG__BUSY__</option>
-                            <option value="offline" {if data.profile.chatstatus === "offline"}selected="selected"{/if}>__MSG__OFFLINE__</option>
-                        </select>
-                    {else}
-                        {if data.profile.chatstatus === "online"}<a class="s3d-action id="entity_available_to_chat" href="javascript:;">__MSG__AVAILABLE_TO_CHAT__</a>{/if}
-                        {if data.profile.chatstatus === "busy"}__MSG__BUSY__{/if}
-                        {if data.profile.chatstatus === "offline"}>__MSG__OFFLINE__{/if}
-                    {/if}
-                </div>
-            </form>
-            <form id="entity_profile_status" method="POST" action="javascript:;">
-                {if mode === "myprofile"}
-                <div>
-                    <input id="entity_profile_status_input" title="__MSG__WHAT_ARE_YOU_DOING_NOW__" maxlength="255" type="text" {if !data.profile.status}class="entity_profile_status_input_dummy" value="__MSG__WHAT_ARE_YOU_DOING_NOW__"{else}value="${data.profile.status}"{/if} />
-                    <span id="entity_profile_status_input_dummy" style="display:none;">__MSG__WHAT_ARE_YOU_DOING_NOW__</span>
-                    <button type="submit" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">__MSG__UPDATE__</span></button>
-                    <span id="entity_profile_status_input_saving" style="display:none;">__MSG__SAVING__...</span>
-                    <span id="entity_profile_status_input_saving_failed" style="display:none;">__MSG__SAVING_FAILED__</span>
-                </div>
-                {else}
+                       <form id="entity_profile_status" method="POST" action="javascript:;">
+                            <div>
+                                <input id="entity_profile_status_input" title="__MSG__WHAT_ARE_YOU_DOING_NOW__" maxlength="255" type="text" {if !data.profile.status}class="entity_profile_status_input_dummy" value="__MSG__WHAT_ARE_YOU_DOING_NOW__"{else}value="${data.profile.status}"{/if} />
+                                <span id="entity_profile_status_input_dummy" style="display:none;">__MSG__WHAT_ARE_YOU_DOING_NOW__</span>
+                                <button type="submit" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">__MSG__UPDATE__</span></button>
+                                <span id="entity_profile_status_input_saving" style="display:none;">__MSG__SAVING__...</span>
+                                <span id="entity_profile_status_input_saving_failed" style="display:none;">__MSG__SAVING_FAILED__</span>
+                            </div>
+                        </form> 
+                   {/if}
+            </div>
+            {if mode !== "myprofile"}
+                <div class="entity_content_about">
                     {if data.profile.status}
                         ${data.profile.status}
                     {/if}
-                {/if}
-            </form>
-            <div class="entity_content_about">
-                {if sakai.api.User.getShortDescription(data.profile).length > 115}
-                    ${sakai.api.User.getShortDescription(data.profile).substring(0, 115)}...
-                {else}
-                    ${sakai.api.User.getShortDescription(data.profile)}
-                {/if}
-            </div>
+                </div>
+            {/if}
         {/if}
         {if mode === "content"}
             {if data.profile}
@@ -80,7 +69,7 @@
                     {/if}
                     <div class="fl-text-align-center">
                         {if data.profile.role === "manager"}
-                            <div><span class="entity_manage"><span class="entity_picture_text">&nbsp;&nbsp;__MSG__I_MANAGE_ENTITY__&nbsp;</span></span><span class="entity_manage_end">&nbsp;&nbsp;</span></div>
+                            <div class="entity_picture_div"><span class="entity_manage"><span class="entity_picture_text">&nbsp;&nbsp;__MSG__I_MANAGE_ENTITY__&nbsp;</span></span><span class="entity_manage_end">&nbsp;&nbsp;</span></div>
                         {/if}
                     </div>
                 </div>
@@ -94,7 +83,7 @@
                 <div class="fl-force-left entity_description">
                     {if data.profile.description}
                         {if data.profile.description > 115}
-                            <p>${data.profile.description.substring(0, 115)}...</p>
+                            <p>${data.profile.description.substring(0, 115)} ...</p>
                         {else}
                             <p>${data.profile.description}</p>
                         {/if}
@@ -111,10 +100,10 @@
                 {/if}
                 <div class="fl-text-align-center">
                     {if data.profile.role === "manager"}
-                        <div><span class="entity_manage"><span class="entity_picture_text">&nbsp;&nbsp;__MSG__I_MANAGE_ENTITY__&nbsp;</span></span><span class="entity_manage_end">&nbsp;&nbsp;</span></div>
+                        <div class="entity_picture_div"><span class="entity_manage"><span class="entity_picture_text">&nbsp;&nbsp;__MSG__I_MANAGE_ENTITY__&nbsp;</span></span><span class="entity_manage_end">&nbsp;&nbsp;</span></div>
                         <a href="javascript:;" class="s3d-action" id="changepic_container_trigger">__MSG__CHANGE__</a>
                     {elseif data.profile.role === "member"}
-                        <div><span class="entity_member"><span class="entity_picture_text">&nbsp;&nbsp;__MSG__MEMBER_ENTITY__&nbsp;</span></span><span class="entity_member_end">&nbsp;&nbsp;</span></div>
+                        <div class="entity_picture_div"><span class="entity_member"><span class="entity_picture_text">&nbsp;&nbsp;__MSG__MEMBER_ENTITY__&nbsp;</span></span><span class="entity_member_end">&nbsp;&nbsp;</span></div>
                     {/if}
                 </div>
             </div>
@@ -158,6 +147,13 @@
     </div>
     <div class="fl-col entity_container_right s3d-actions">
         {if mode === "myprofile"}
+            <form method="POST" action="javascript:;">
+                <select id="entity_profile_chatstatus" title="__MSG__CHAT_STATUS__">
+            	    <option value="online" {if data.profile.chatstatus === "online"}selected="selected"{/if}>__MSG__AVAILABLE_TO_CHAT__</option>
+            	    <option value="busy" {if data.profile.chatstatus === "busy"}selected="selected"{/if}>__MSG__BUSY__</option>
+                    <option value="offline" {if data.profile.chatstatus === "offline"}selected="selected"{/if}>__MSG__OFFLINE__</option>
+                </select>
+            </form>
             {if data.profile.basic && data.profile["sakai:tags"] && data.profile["sakai:tags"].length > 0}
                 <div class="entity_tags">
                     <div class="entity_tags_link_menu_border" id="entity_tags_link_menu" style="display:none;">
@@ -179,15 +175,18 @@
             {/if}
         {/if}
         {if mode === "profile"}
-            <button id="entity_add_to_contacts" class="s3d-button entity_action_button"><span class="s3d-button-inner">__MSG__ADD_TO_CONTACTS__</span></button>
-            {if data.profile.basic && data.profile.basic.elements && data.profile.basic.elements.tags && data.profile.basic.elements.tags.value && data.profile.basic.elements.tags.value.split(",").length > 0}
+            {if !sakai.data.me.user.anon}
+                <button style="display:none" id="entity_add_to_contacts" class="s3d-button entity_action_button"><span class="s3d-button-inner">__MSG__ADD_TO_CONTACTS__</span></button>
+                <span style="display:none" id="entity_contact_pending" class="entity_contact_span">__MSG__THIS_PERSON_HAS_BEEN_INVITED_AS_CONTACT__</span>
+                <span style="display:none" id="entity_contact_accepted" class="entity_contact_span">__MSG__THIS PERSON IS A CONTACT__</span>
+                <a href="javascript:;" style="display:none" id="entity_contact_invited">__MSG__ACCEPT_INVITATION__</a>
+            {/if}
+            {if data.profile.basic && data.profile["sakai:tags"] && data.profile["sakai:tags"].length > 0}
                 <div class="entity_tags">
                     <div class="entity_tags_link_menu_border" id="entity_tags_link_menu" style="display:none;">
                         <div class="entity_tags_link_menu_list">
                             {var count = 0}
-                            {for t in data.profile.basic.elements.tags.value.split(",")}{if t.split(":")[0] !== "directory"}{var count = count +1}{if t_index > 0},{/if} <a href="/dev/search.html#q=${t}" class="s3d-action">${t}</a>{/if}{/for}
-                        </div>
-                        <div class="entity_tags_link_menu_list">
+                            {for t in data.profile["sakai:tags"]}{if t.split(":")[0] !== "directory"}{var count = count +1}{if t_index > 0},{/if} <a href="/dev/search.html#tag=/tags/${escape(t)}" class="s3d-action">${unescape(t)}</a>{/if}{/for}
                         </div>
                     </div>
                     <a id="entity_tags_link" class="entity_tags_link" href="javascript:;">
@@ -233,171 +232,29 @@
                     </a>
                 </div>
             {/if}
-            {if data.profile["sakai:directory"]}
-                {if data.profile["sakai:directory"].length > 0 && data.profile["sakai:directory"].length < 3}
-                    <div class="entity_location">
-                        <strong>__MSG__LOCATION__:</strong>
-                        {for t in data.profile['sakai:directory']}
-                            {if t_index < 2}
-                                {if t_index > 0}<br><strong>&nbsp;</strong>{/if}
-                                {for u in t.split(":")}
-                                    {if t.length > 40}
-                                        {if u_index > 0} <span class="entity_location_divider">:</span> {/if}
-                                        <a href="directory.html" class="s3d-action" title="${t}">
-                                            {if u_index < 1}
-                                                ${u.substring(0, 12)}...
-                                            {elseif u_index < t.split(":").length - 1}
-                                                ...
-                                            {else}
-                                                ${u}
-                                            {/if}
-                                        </a>
-                                    {else}
-                                        {if u_index > 0} <span class="entity_location_divider">:</span> {/if}
-                                        <a href="directory.html" class="s3d-action" title="${t}">${u}</a>
-                                    {/if}
-                                {/for}
-                            {/if}
-                        {/for}
-                        {if data.profile['sakai:directory'].length > 2}
-                            <div><br><strong>&nbsp;</strong><a href="directory.html" class="s3d-action" id="entity_location_show_all">__MSG__SHOW_ALL__</a></div>
-                        {/if}
-                    </div>
-                {elseif data.profile["sakai:directory"].length > 2}
-                    <div class="entity_locations_list">
-                        <a id="entity_locations_link" class="entity_locations_link" href="javascript:;">
-                            <span>${data.profile["sakai:directory"].length}
-                            {if data.profile["sakai:directory"].length > 1}
-                                __MSG__LOCATIONS__
-                            {else}
-                                __MSG__LOCATION__
-                            {/if}
-                            </span>
-                        </a>
-                        <div class="entity_locations_link_menu_border" id="entity_locations_link_menu" style="display:none;">
-                            <div class="entity_locations_link_menu_list">
-                                {for t in data.profile['sakai:directory']}
-                                    {if t_index > 0}<br>{/if}
-                                    {for u in t.split(":")}
-                                        {if t.length > 40}
-                                            {if u_index > 0} <span class="entity_location_divider">:</span> {/if}
-                                            <a href="directory.html" class="s3d-action" title="${t}">
-                                                {if u_index < 1}
-                                                    ${u.substring(0, 12)}...
-                                                {elseif u_index < t.split(":").length - 1}
-                                                    ...
-                                                {else}
-                                                    ${u}
-                                                {/if}
-                                            </a>
-                                        {else}
-                                            {if u_index > 0} <span class="entity_location_divider">:</span> {/if}
-                                            <a href="directory.html" class="s3d-action" title="${t}">${u}</a>
-                                        {/if}
-                                    {/for}
-                                {/for}
-                            </div>
-                            <div class="entity_locations_link_menu_list">
-                            </div>
-                        </div>
-                    </div>
-                {/if}
-            {/if}
         {/if}
         {if mode === "group"}
             <button id="entity_group_leave" class="s3d-button entity_action_button" style="display:none;"><span class="s3d-button-inner">__MSG__LEAVE_GROUP__</span></button>
             <button id="entity_group_join" class="s3d-button entity_action_button" style="display:none;"><span class="s3d-button-inner">__MSG__JOIN_GROUP__</span></button>
             <button id="entity_group_join_request" class="s3d-button entity_action_button" style="display:none;"><span class="s3d-button-inner">__MSG__REQUEST_TO_JOIN__</span></button>
-            {if data.profile["sakai:group-tags"] && data.profile["sakai:group-tags"].split(",").length > 0}
-                <div class="entity_tags">
+            {if data.profile && data.profile["sakai:tags"] && data.profile["sakai:tags"].length > 0}
+                <div class="entity_tags entity_tags_group">
+                    <div class="entity_tags_link_menu_border" id="entity_tags_link_menu" style="display:none;">
+                        <div class="entity_tags_link_menu_list">
+                            {var count = 0}
+                            {for t in data.profile["sakai:tags"]}{if t.split(":")[0] !== "directory"}{var count = count +1}{if t_index > 0},{/if} <a href="/dev/search.html#tag=/tags/${escape(t)}" class="s3d-action">${unescape(t)}</a>{/if}{/for}
+                        </div>
+                    </div>
                     <a id="entity_tags_link" class="entity_tags_link" href="javascript:;">
-                        <span>${data.profile["sakai:group-tags"].split(",").length}
-                        {if data.profile["sakai:group-tags"].split(",").length > 1}
+                        <span>${count}
+                        {if count > 1}
                             __MSG__TAGS__
                         {else}
                             __MSG__TAG__
                         {/if}
                         </span>
                     </a>
-                    <div class="entity_tags_link_menu_border" id="entity_tags_link_menu" style="display:none;">
-                        <div class="entity_tags_link_menu_list">
-                            {for t in data.profile['sakai:group-tags'].split(",")}{if t_index > 0},{/if} <a href="/dev/search.html#q=${t}" class="s3d-action">${t}</a>{/for}
-                        </div>
-                        <div class="entity_tags_link_menu_list">
-                        </div>
-                    </div>
                 </div>
-            {/if}
-            {if data.profile["sakai:directory"]}
-                {if data.profile["sakai:directory"].length > 0 && data.profile["sakai:directory"].length < 3}
-                    <div class="entity_location">
-                        <strong>__MSG__LOCATION__:</strong>
-                        {for t in data.profile['sakai:directory']}
-                            {if t_index < 2}
-                                {if t_index > 0}<br><strong>&nbsp;</strong>{/if}
-                                {for u in t.split(":")}
-                                    {if t.length > 40}
-                                        {if u_index > 0} <span class="entity_location_divider">:</span> {/if}
-                                        <a href="directory.html" class="s3d-action" title="${t}">
-                                            {if u_index < 1}
-                                                ${u.substring(0, 12)}...
-                                            {elseif u_index < t.split(":").length - 1}
-                                                ...
-                                            {else}
-                                                ${u}
-                                            {/if}
-                                        </a>
-                                    {else}
-                                        {if u_index > 0} <span class="entity_location_divider">:</span> {/if}
-                                        <a href="directory.html" class="s3d-action" title="${t}">${u}</a>
-                                    {/if}
-                                {/for}
-                            {/if}
-                        {/for}
-                        {if data.profile['sakai:directory'].length > 2}
-                            <div><br><strong>&nbsp;</strong><a href="directory.html" class="s3d-action" id="entity_location_show_all">__MSG__SHOW_ALL__</a></div>
-                        {/if}
-                    </div>
-                {elseif data.profile["sakai:directory"].length > 2}
-                    <div class="entity_locations_list">
-                        <a id="entity_locations_link" class="entity_locations_link" href="javascript:;">
-                            <span>${data.profile["sakai:directory"].length}
-                            {if data.profile["sakai:directory"].length > 1}
-                                __MSG__LOCATIONS__
-                            {else}
-                                __MSG__LOCATION__
-                            {/if}
-                            </span>
-                        </a>
-                        <div class="entity_locations_link_menu_border" id="entity_locations_link_menu" style="display:none;">
-                            <div class="entity_locations_link_menu_list">
-                                {for t in data.profile['sakai:directory']}
-                                    {if t_index > 0}<br>{/if}
-                                    {for u in t.split(":")}
-                                        {if t.length > 40}
-                                            {if u_index > 0} <span class="entity_location_divider">:</span> {/if}
-                                            <a href="directory.html" class="s3d-action" title="${t}">
-                                                {if u_index < 1}
-                                                    ${u.substring(0, 12)}...
-                                                {elseif u_index < t.split(":").length - 1}
-                                                    ...
-                                                {else}
-                                                    ${u}
-                                                {/if}
-                                            </a>
-                                        {else}
-                                            {if u_index > 0} <span class="entity_location_divider">:</span> {/if}
-                                            <a href="directory.html" class="s3d-action" title="${t}">${u}</a>
-                                        {/if}
-                                    {/for}
-                                {/for}
-                            </div>
-                            <div class="entity_locations_link_menu_list">
-                                <a href="/dev/show.html?type=group&amp;id=${data.profile["sakai:group-id"]}">__MSG__SHOW_ALL__</a>
-                            </div>
-                        </div>
-                    </div>
-                {/if}
             {/if}
         {/if}
     </div>

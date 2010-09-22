@@ -227,44 +227,48 @@ sakai.groupedit = function(){
      */
     var removeUsers = function(tuid) {
 
-        var removeUser;
-        var groupIdRemove = groupid;
-        var userCount = 0;
+        if (sakai.data.listpeople[tuid].selectCount === sakai.data.listpeople[tuid].currentElementCount) {
+            sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_cannot_remove_everyone").text()), sakai.api.Util.notification.type.ERROR);
+        } else {
+            var removeUser;
+            var groupIdRemove = groupid;
+            var userCount = 0;
 
-        if (tuid === 'managers') {
-            groupIdRemove = groupid + '-managers';
-        }
-
-        $.each(sakai.data.listpeople[tuid]["selected"], function(index, resultObject) {
-            if (resultObject['userid']) {
-                removeUser = resultObject['userid'];
-            } else if (resultObject['groupid']) {
-                removeUser = resultObject['groupid'];
-            } else if (resultObject['rep:userId']) {
-                removeUser = resultObject['rep:userId'];
+            if (tuid === 'managers') {
+                groupIdRemove = groupid + '-managers';
             }
-            if (removeUser) {
-                // remove user from group
-                $.ajax({
-                    url: "/system/userManager/group/" + groupIdRemove + ".update.json",
-                    async: false,
-                    data: {
-                        "_charset_":"utf-8",
-                        ":member@Delete": removeUser
-                    },
-                    type: "POST",
-                    success: function(data){
-                        sakai.listPeople.removeFromList(tuid);
-                        userCount++;
-                    }
-                });
-            }
-        });
 
-        if (userCount > 1) {
-            sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_users_removed_text").text()));
-        } else if (userCount == 1) {
-            sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_user_removed_text").text()));
+            $.each(sakai.data.listpeople[tuid]["selected"], function(index, resultObject) {
+                if (resultObject['userid']) {
+                    removeUser = resultObject['userid'];
+                } else if (resultObject['groupid']) {
+                    removeUser = resultObject['groupid'];
+                } else if (resultObject['rep:userId']) {
+                    removeUser = resultObject['rep:userId'];
+                }
+                if (removeUser) {
+                    // remove user from group
+                    $.ajax({
+                        url: "/system/userManager/group/" + groupIdRemove + ".update.json",
+                        async: false,
+                        data: {
+                            "_charset_":"utf-8",
+                            ":member@Delete": removeUser
+                        },
+                        type: "POST",
+                        success: function(data){
+                            sakai.listPeople.removeFromList(tuid);
+                            userCount++;
+                        }
+                    });
+                }
+            });
+
+            if (userCount > 1) {
+                sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_users_removed_text").text()));
+            } else if (userCount == 1) {
+                sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_user_removed_text").text()));
+            }
         }
     };
 

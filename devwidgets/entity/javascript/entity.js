@@ -124,14 +124,6 @@ sakai.entity = function(tuid, showSettings){
     ////////////////////
 
     /**
-     * Removes the seperated and the add contacts link
-     * @param {Object} user The user object we get from the addcontact widget.
-     */
-    var removeAddContactLinks = function(user) {
-         $('#entity_add_to_contacts').hide();
-    };
-
-    /**
      * Show or hide the tags link menu
      * @param {String} menuBox menu box we want to display
      * @param {String} menuLink link the user clicked to display the menu box
@@ -367,6 +359,78 @@ sakai.entity = function(tuid, showSettings){
             }
         });
     };
+    
+    //////////////
+    // CONTACTS //
+    //////////////
+    
+    /**
+     * Check whether a user is already a contact, invited or pending
+     * @param {String} userid    the user's userid
+     */
+    var checkContact = function(userid){
+        // Do a batch request to get contacts, invited and pending
+        var reqs = [
+            {
+                "url" : "/var/contacts/accepted.json?page=0&items=100",
+                "method" : "GET"
+            },
+            {
+                "url" : "/var/contacts/invited.json?page=0&items=100",
+                "method" : "GET"
+            },
+            {
+                "url" : "/var/contacts/pending.json?page=0&items=100",
+                "method" : "GET"
+            }
+        ]
+        $.ajax({
+            url: "/system/batch",
+            type: "POST",
+            data: {
+                "requests": $.toJSON(reqs)
+            },
+            success: function(data){
+                var contacts = $.parseJSON(data.results[0].body);
+                for (var i in contacts.results){
+                    if (contacts.results[i].target === userid){
+                        $("#entity_contact_accepted").show();
+                        return true;
+                    }
+                }
+                var invited = $.parseJSON(data.results[1].body);
+                for (var i in invited.results){
+                    if (invited.results[i].target === userid){
+                        $("#entity_contact_invited").show();
+                        return true;
+                    }
+                }
+                var pending = $.parseJSON(data.results[2].body);
+                for (var i in pending.results){
+                    if (pending.results[i].target === userid){
+                        $("#entity_contact_pending").show();
+                        return true;
+                    }
+                }
+                $("#entity_add_to_contacts").show();
+            }
+        });
+    }
+
+    /**
+     * Accept a contact invitation
+     */
+    var acceptInvitation = function(userid){
+        $.ajax({
+            url: "/~" + sakai.data.me.user.userid + "/contacts.accept.html",
+            type: "POST",
+            data : {"targetUserId":userid},
+            success: function(data){
+                $("#entity_contact_invited").hide();
+                $("#entity_contact_accepted").show();
+            }
+        });
+    }
 
     /////////////
     // BINDING //
@@ -503,8 +567,9 @@ sakai.entity = function(tuid, showSettings){
     /**
      * Remove contact button after contact request is sent
      */
-    var removeAddContactLinks = function(user){
+    sakai.entity.removeAddContactLinks = function(user){
         $('#entity_add_to_contacts').hide();
+        $('#entity_contact_pending').show();
     };
 
     /**
@@ -562,6 +627,10 @@ sakai.entity = function(tuid, showSettings){
             // Add binding to available to chat link
             $('#entity_available_to_chat').live("click", function() {
                 // todo
+            });
+            
+            $("#entity_contact_invited").live("click", function(){
+               acceptInvitation(entityconfig.data.profile["rep:userId"]); 
             });
         }
 
@@ -768,6 +837,11 @@ sakai.entity = function(tuid, showSettings){
 
         // Render the main template
         renderTemplate();
+        
+        // Should we show the Add To Contacts button or not
+        if (mode === "profile" && !sakai.data.me.user.anon){
+            checkContact(entityconfig.data.profile["rep:userId"]);
+        }
 
         // Add binding
         addBinding();
