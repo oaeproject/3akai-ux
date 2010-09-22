@@ -173,9 +173,9 @@
                                                 <td>
                                                 {for toUser in m.userTo}
                                                     {if toUser["sakai:group-title"]}
-                                                    <a class="inbox_inbox_message_from" href="/dev/show.html?type=group&amp;id=${toUser.groupid}">${toUser["sakai:group-title"]}</a>
+                                                    <a class="inbox_inbox_message_from" href="/dev/show.html?type=group&amp;id=${toUser.groupid}">${toUser["sakai:group-title"]}</a>{if toUser_index < m.userTo.length - 1},{/if}
                                                     {else}
-                                                    <a class="inbox_inbox_message_from" href="/dev/show.html?type=user&amp;id=${toUser.userid}">${sakai.api.User.getDisplayName(toUser)}</a>
+                                                    <a class="inbox_inbox_message_from" href="/dev/show.html?type=user&amp;id=${toUser.userid}">${sakai.api.User.getDisplayName(toUser)}</a>{if toUser_index < m.userTo.length - 1},{/if}
                                                     {/if}
                                                 {/for}
                                                 </td>
@@ -199,9 +199,9 @@
                                                 <td>
                                                 {for toUser in m.userTo}
                                                     {if toUser["sakai:group-title"]}
-                                                    <a class="inbox_inbox_message_from" href="/dev/show.html?type=group&amp;id=${toUser.groupid}">__MSG__TO__: ${toUser["sakai:group-title"]}</a>
+                                                    <a class="inbox_inbox_message_from" href="/dev/show.html?type=group&amp;id=${toUser.groupid}">__MSG__TO__: ${toUser["sakai:group-title"]}</a>{if toUser_index < m.userTo.length - 1},{/if}
                                                     {else}
-                                                    <a class="inbox_inbox_message_from" href="/dev/show.html?type=user&amp;id=${toUser.userid}">__MSG__TO__: ${sakai.api.User.getDisplayName(toUser)}</a>
+                                                    <a class="inbox_inbox_message_from" href="/dev/show.html?type=user&amp;id=${toUser.userid}">__MSG__TO__: ${sakai.api.User.getDisplayName(toUser)}</a>{if toUser_index < m.userTo.length - 1},{/if}
                                                     {/if}
                                                 {/for}
                                                 </td>
