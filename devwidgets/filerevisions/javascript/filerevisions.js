@@ -137,7 +137,11 @@ sakai.filerevisions = function(tuid, showSettings){
             success: function(data){
                 for (var i in data.versions){
                     if (data.versions.hasOwnProperty(i)) {
-                        data.versions[i]["jcr:created"] = getFormattedDate(new Date(data.versions[i]["jcr:created"]));
+                        if (!$.browser.webkit) {
+                            data.versions[i]["jcr:created"] = getFormattedDate(new Date(data.versions[i]["jcr:created"]));
+                        }else{
+                            data.versions[i]["jcr:created"] = getFormattedDate(new Date(data.versions[i]["jcr:created"].split("T")[0]));
+                        }
                     }
                 }
                 baseFileData.revisions = data.versions;

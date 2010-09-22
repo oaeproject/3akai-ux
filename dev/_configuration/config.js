@@ -142,15 +142,15 @@ sakai.config = {
          */
         Groups: {
             joinable: {
-                "manager_add": "Managers add people",
-                "user_direct": "People can automatically join",
-                "user_request": "People request to join"
+                "manager_add": "no",        // Managers add people
+                "user_direct": "yes",       // People can automatically join
+                "user_request": "withauth"  // People request to join
             },
             visible: {
-                "members": "Group members only (includes managers)",
-                "allusers": "All logged in users",
-                "public": "Anyone on the Internet",
-                "managers": "Group managers only"
+                "members": "members-only",     // Group members only (includes managers)
+                "allusers": "logged-in-only",  // All logged in users
+                "public": "public",            // Anyone on the Internet
+                "managers": "managers-only"    // Group managers only
             }
         }
     },

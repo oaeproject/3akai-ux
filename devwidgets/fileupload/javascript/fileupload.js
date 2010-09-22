@@ -351,8 +351,7 @@ sakai.fileupload = function(tuid, showSettings){
                         "sakai:pooled-content-revurl": $(fileUploadLinkBoxInput).val(),
                         "sakai:pooled-content-file-name": $(fileUploadLinkBoxInput).val(),
                         "sakai:directory": "default",
-                        "sakai:groupresource": true,
-                        "sakai:copyright": "Creative Commons License"
+                        "sakai:copyright": "creativecommons"
                     }
                 };
             }
@@ -368,8 +367,7 @@ sakai.fileupload = function(tuid, showSettings){
                             "sakai:pooled-content-file-name": uploadedFiles[i].name,
                             "sakai:directory": "default",
                             "sakai:permissions": $(fileUploadPermissionsSelect).val(),
-                            "sakai:groupresource": true,
-                            "sakai:copyright": "Creative Commons License"
+                            "sakai:copyright": "creativecommons"
                         }
                     };
                     batchDescriptionData[batchDescriptionData.length] = item;
@@ -394,95 +392,6 @@ sakai.fileupload = function(tuid, showSettings){
                 }
             }
         });
-    };
-
-    /**
-     * Link the tags to the uploaded content
-     * @param {Object} tags Array of tags
-     */
-    var batchLinkTagsToContent = function(){
-        // Batch link the files with the tags
-        var batchLinkTagsToContentData = [];
-        for (var k in uploadedFiles) {
-            if (uploadedFiles.hasOwnProperty(k)) {
-                for (var i in tags) {
-                    if (tags.hasOwnProperty(i)) {
-                        var item = {
-                            "url": "/p/" + uploadedFiles[k].hashpath,
-                            "method": "POST",
-                            "parameters": {
-                                "key": tagsPathForLinking + $.trim(tags[i]),
-                                ":operation": "tag"
-                            }
-                        };
-                        batchLinkTagsToContentData[batchLinkTagsToContentData.length] = item;
-                    }
-                }
-            }
-        }
-        // Do the Batch request
-        $.ajax({
-            url: sakai.config.URL.BATCH,
-            traditional: true,
-            type : "POST",
-            cache: false,
-            data: {
-                requests: $.toJSON(batchLinkTagsToContentData)
-            }
-        });
-    };
-
-    /**
-     * Create the tags before linking them to the uploads
-     * @param {Object} tags array of tags to be created
-     */
-    var batchCreateTags = function(){
-        // Create the data to send with the batch request
-        var batchCreateTagsData = [];
-        for (var i in tags) {
-            if (tags.hasOwnProperty(i)) {
-                var item = {
-                    "url": tagsPath + $.trim(tags[i]),
-                    "method": "POST",
-                    "parameters": {
-                        "./jcr:primaryType": "nt:folder",
-                        "./jcr:mixinTypes": "sakai:propertiesmix",
-                        "./sakai:tag-name": $.trim(tags[i]),
-                        "./sling:resourceType": "sakai/tag"
-                    }
-                };
-                batchCreateTagsData[batchCreateTagsData.length] = item;
-            }
-        }
-        // Do the Batch request
-        $.ajax({
-            url: sakai.config.URL.BATCH,
-            traditional: true,
-            type : "POST",
-            cache: false,
-            data: {
-                requests: $.toJSON(batchCreateTagsData)
-            },
-            success: function(data){
-                // Tags created
-                batchLinkTagsToContent();
-            }
-        });
-    };
-
-    /**
-     * Format tags so that they can be created
-     * Remove spaces and split up in an array
-     * Call createTags to create the tags
-     * @param {Object} tags Unformatted string of tags put in by a user
-     */
-    var formatTags = function(inputTags){
-        if ($.trim(inputTags) !== "") {
-            // Split up tags
-            tags = inputTags.split(",");
-            // Create tags
-            batchCreateTags();
-        }
     };
 
     /**
@@ -772,15 +681,22 @@ sakai.fileupload = function(tuid, showSettings){
                         // Files uploaded
                         filesUploaded = true;
 
-                        // Initiate the tagging process
-                        formatTags($(fileUploadAddTags).val());
-
                         // Get the values out of the name boxes
                         $(multiFileList + " input").each(function(index){
                             extractedData[index].name = $(this)[0].value;
                         });
 
                         uploadedFiles = extractedData;
+
+                        // Initiate the tagging process
+                        var tags = sakai.api.Util.formatTags($(fileUploadAddTags).val());
+                        for (var file in uploadedFiles) {
+                            if (uploadedFiles.hasOwnProperty(file)) {
+                                sakai.api.Util.tagEntity("/p/" + uploadedFiles[file].hashpath, tags, [], function(){
+                                });
+                            }
+                        }
+
                         // If the file is a new version set is as one
                         // Else it is a new file and needs to have a description, permissions, tags, ...
                         if (context !== "new_version") {
@@ -874,7 +790,6 @@ sakai.fileupload = function(tuid, showSettings){
         else
             if ($(fileUploadUploadContent).hasClass("new_version")) {
                 // If the base version is a link then only a new link can be uploaded
-                // If the base version is a file then only a new file can be uploaded
                 if($(fileUploadUploadContent).hasClass("new_link")){
                     $(multiFileForm).hide();
                 } else{
