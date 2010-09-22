@@ -90,10 +90,6 @@ sakai.search = function() {
                 "all": {
                     "category": "All Groups",
                     "searchurl": searchURLmap.allgroups
-                },
-                "see": {
-                    "category": "Groups I can see",
-                    "searchurl": searchURLmap.visiblegroups
                 }, 
                 "manage": {
                     "category": "Groups I manage",
