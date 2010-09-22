@@ -411,4 +411,4 @@ html > body .s3d-button .s3d-button-inner {
 
 
 /* AutoSuggest */
-ul.as-selections.loading {background:#fff url(../../../dev/_images/ajax_load.gif) center center no-repeat;min-height:50px;}
+ul.as-selections.loading {background:#fff url(../../../dev/_images/ajax_load.gif) center center no-repeat;}
