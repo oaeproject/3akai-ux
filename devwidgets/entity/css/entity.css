@@ -19,8 +19,13 @@
 /* General */
 .entity_header {margin: 10px 0 17px 0; padding: 0; width: 420px;}
 .entity_header_text {font-size:22px; font-weight:bold; line-height:24px; margin-right:15px;}
-.entity_picture {margin: 0 20px 5px 0;}
+.entity_picture {margin: 0 20px 5px 0; font-size: 10px; color: #FFFFFF; line-height: 11px;}
 .entity_picture img {width:64px;}
+.entity_picture a {line-height:20px;}
+.entity_picture .entity_manage{background:url(/dev/_images/group_avatar_badge_orange_left_128.png) no-repeat;}
+.entity_picture .entity_manage_end{background:url(/dev/_images/group_avatar_badge_orange_right_128.png) no-repeat;}
+.entity_picture .entity_member{background:url(/dev/_images/group_avatar_badge_blue_left_128.png) no-repeat;}
+.entity_picture .entity_member_end{background:url(/dev/_images/group_avatar_badge_blue_right_128.png) no-repeat;}
 .entity_description {width:200px;}
 
 /* Container */

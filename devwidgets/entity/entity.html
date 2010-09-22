@@ -80,7 +80,7 @@
                     {/if}
                     <div class="fl-text-align-center">
                         {if data.profile.role === "manager"}
-                            <div>__MSG__I_MANAGE__</div>
+                            <div><span class="entity_manage"><span class="entity_picture_text">&nbsp;&nbsp;__MSG__I_MANAGE_ENTITY__&nbsp;</span></span><span class="entity_manage_end">&nbsp;&nbsp;</span></div>
                         {/if}
                     </div>
                 </div>
@@ -111,10 +111,10 @@
                 {/if}
                 <div class="fl-text-align-center">
                     {if data.profile.role === "manager"}
-                        <div>__MSG__I_MANAGE__</div>
+                        <div><span class="entity_manage"><span class="entity_picture_text">&nbsp;&nbsp;__MSG__I_MANAGE_ENTITY__&nbsp;</span></span><span class="entity_manage_end">&nbsp;&nbsp;</span></div>
                         <a href="javascript:;" class="s3d-action" id="changepic_container_trigger">__MSG__CHANGE__</a>
                     {elseif data.profile.role === "member"}
-                        <div>__MSG__MEMBER_ENTITY__</div>
+                        <div><span class="entity_member"><span class="entity_picture_text">&nbsp;&nbsp;__MSG__MEMBER_ENTITY__&nbsp;</span></span><span class="entity_member_end">&nbsp;&nbsp;</span></div>
                     {/if}
                 </div>
             </div>
