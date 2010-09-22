@@ -139,12 +139,14 @@
 .fl-widget .fl-widget-titlebar .settings {background-image: url(../../_images/edit_icon_widget.png); position: relative; height: 18px; background-repeat: no-repeat; margin-top: 15px}
 
 .hiddenwidget {border-bottom: 3px solid #D5DBDF;}
-.fl-widget .fl-widget-options {margin: 0;background-image:url("../../_images/block_br.png"), url(../../_images/block_footer_br.png); background-repeat:no-repeat; background-position:right top, right bottom; background-color:#d5dbdf; padding: 0 8px 0 0}
-.fl-widget .fl-widget-options .widget-options-inner {background-image: url(../../_images/block_bl.png), url(../../_images/block_footer_bl.png); background-repeat:no-repeat; background-position:left top, left bottom; width: auto; padding: 0 0 7px 14px}
+.fl-widget .fl-widget-options {margin: 0;background-image:url("../../_images/block_br.png"); background-repeat:no-repeat; background-position:right top; background-color:#d5dbdf; padding: 0 8px 0 0; clear:both;}
+.fl-widget .fl-widget-options .widget-options-inner {background-image: url(../../_images/block_bl.png); background-repeat:no-repeat; background-position:left top; width: auto; padding: 0 0 7px 14px}
 .fl-widget .fl-widget-options ul {margin: 0; padding: 0}
 .fl-widget .fl-widget-options ul li {float: left; margin: 0; padding: 16px 6px 0 6px}
 .fl-widget .fl-widget-options ul li a {color: #666; font-size: .85em; font-weight: bold}
 .fl-widget .fl-widget-options .pipe_divider {font-size: .85em}
+.fl-widget .fl-widget-options-footer-left {background-image:url("../../_images/block_footer_bl.png");background-position:left bottom;background-repeat:no-repeat;height:16px;margin-top:-16px;}
+.fl-widget .fl-widget-options-footer-right {background-image:url("../../_images/block_footer_br.png");background-position:right bottom;background-repeat:no-repeat;height:16px;margin-right:-8px;margin-top:-16px;}
 
 .fl-widget .fl-widget-no-options { background: url('../../_images/content_br.png') top right no-repeat; padding: 0 5px 0 0; margin: 0; }
 .fl-widget .fl-widget-no-options .widget-no-options-inner { background: url('../../_images/content_bl.png') 0 0 no-repeat; margin: 0; height: 6px; }

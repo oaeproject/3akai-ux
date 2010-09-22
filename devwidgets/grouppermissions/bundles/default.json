@@ -6,7 +6,8 @@
     "JOIN_USER_DIRECT": "People can automatically join",
     "JOIN_USER_REQUEST": "People request to join",
     "VISIBLE_LABEL": "Who can see this group:",
-    "VIS_ALLUSERS": "Logged in only",
-    "VIS_MEMBERS": "Viewers and managers only",
-    "VIS_PUBLIC": "The public"
+    "LOGGED_IN_USERS": "Logged in users",
+    "MANAGERS_AND_MEMBERS": "Managers and members",
+    "PUBLIC": "Public",
+    "MANAGERS_ONLY": "Managers only"
 }
