@@ -20,6 +20,7 @@
 
 var sakai = sakai || {};
 
+sakai.api.UI.changepic = sakai.api.UI.changepic || {};
 /**
  * @name sakai.changepic
  *
@@ -46,6 +47,8 @@ sakai.changepic = function(tuid, showSettings){
     var userSelection = null; // The object returned by imgAreaSelect that contains the user his choice.
     var me = null;
     var imageareaobject;
+    var id = null;
+    var mode = null;
 
     // These values are just in case there are no css values specified.
     // If you want to change the size of a thumbnail please do this in the CSS.
@@ -223,9 +226,30 @@ sakai.changepic = function(tuid, showSettings){
     sakai.changepic.doInit = function(newpic){
         picture = false;
 
-        // Check whether there is a base picture at all
-        me = sakai.data.me;
-        var json = me.profile;
+        if (sakai.api.UI.changepic.mode && sakai.api.UI.changepic.id) {
+            id = sakai.api.UI.changepic.id;
+            mode = sakai.api.UI.changepic.mode;
+        } else {
+            id = sakai.data.me.user.userid;
+        }
+
+        var json;
+
+        if (mode === "group") {
+            // fetch group data to check if it has a picture
+            $.ajax({
+                url: "/~" + id + "/public.infinity.json",
+                async: false,
+                success: function(data){
+                    json = data.authprofile;
+                }
+            });
+        } else {
+            // Check whether there is a base picture at all
+            me = sakai.data.me;
+            //var json = me.profile;
+            json = me.profile;
+        }
 
         // If the image is freshly uploaded then reset the imageareaobject to reset all values on init
         if (newpic) {
@@ -239,7 +263,7 @@ sakai.changepic = function(tuid, showSettings){
             picture = $.parseJSON(json.picture);
         }
 
-        $(picForm).attr("action", "/~" + sakai.data.me.user.userid + "/public/profile");
+        $(picForm).attr("action", "/~" + id + "/public/profile");
 
         // Get the preferred size for the thumbnail.
         var prefThumbWidth = parseInt($(thumbnailContainer).css("width").replace(/px/gi,""), 10);
@@ -256,7 +280,7 @@ sakai.changepic = function(tuid, showSettings){
             $(tabSelect).show();
 
             // Set the unvisible image to the full blown image. (make sure to filter the # out)
-            $(pictureMeasurer).html(sakai.api.Security.saneHTML("<img src='" + "/~" + sakai.data.me.user.userid + "/public/profile/" + picture._name + "?sid=" + Math.random() + "' id='" + pictureMeasurerImage.replace(/#/gi, '') + "' />"));
+            $(pictureMeasurer).html(sakai.api.Security.saneHTML("<img src='" + "/~" + id + "/public/profile/" + picture._name + "?sid=" + Math.random() + "' id='" + pictureMeasurerImage.replace(/#/gi, '') + "' />"));
 
             // Check the current picture's size
             $(pictureMeasurerImage).bind("load", function(ev){
@@ -266,8 +290,8 @@ sakai.changepic = function(tuid, showSettings){
                 realh = $(pictureMeasurerImage).height();
 
                 // Set the images
-                $(fullPicture).attr("src", "/~" + sakai.data.me.user.userid + "/public/profile/" + picture._name + "?sid=" + Math.random());
-                $(thumbnail).attr("src", "/~" + sakai.data.me.user.userid + "/public/profile/" + picture._name + "?sid=" + Math.random());
+                $(fullPicture).attr("src", "/~" + id + "/public/profile/" + picture._name + "?sid=" + Math.random());
+                $(thumbnail).attr("src", "/~" + id + "/public/profile/" + picture._name + "?sid=" + Math.random());
 
                 // Reset ratio
                 ratio = 1;
@@ -359,8 +383,8 @@ sakai.changepic = function(tuid, showSettings){
 
         // The parameters for the cropit service.
         var data = {
-            img: "/~" + sakai.data.me.user.userid + "/public/profile/" + picture._name,
-            save: "/~" + sakai.data.me.user.userid + "/public/profile",
+            img: "/~" + id + "/public/profile/" + picture._name,
+            save: "/~" + id + "/public/profile",
             x: Math.floor(userSelection.x1 * ratio),
             y: Math.floor(userSelection.y1 * ratio),
             width: Math.floor(userSelection.width * ratio),
@@ -399,7 +423,7 @@ sakai.changepic = function(tuid, showSettings){
 
                 // Do a patch request to the profile info so that it gets updated with the new information.
                 $.ajax({
-                    url: "/~" + sakai.data.me.user.userid + "/public/authprofile.json",
+                    url: "/~" + id + "/public/authprofile.json",
                     type : "POST",
                     data : {
                         "picture" : $.toJSON(tosave),
@@ -409,7 +433,7 @@ sakai.changepic = function(tuid, showSettings){
                         // Change the picture in the page. (This is for my_sakai.html)
                         // Math.random is for cache issues.
                         for (var i = 0; i < imagesToChange.length;i++) {
-                            $(imagesToChange[i]).attr("src", "/~" + sakai.data.me.user.userid + "/public/profile/" + tosave.name + "?sid=" + Math.random());
+                            $(imagesToChange[i]).attr("src", "/~" + id + "/public/profile/" + tosave.name + "?sid=" + Math.random());
                         }
 
                         // Hide the layover.
