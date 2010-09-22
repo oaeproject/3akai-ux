@@ -108,78 +108,12 @@ sakai.api.Communication.sendMessage = function(to, subject, body, category, repl
     ///////////////////////
 
     /**
-     * Initiates an AJAX call to fetch members of a given group.
-     * @param {String} groupid The group's id
-     * @return None
-     */
-    var fetchGroupMembers = function(groupid) {
-        // Fetch members
-        $.ajax({
-            url: "/system/userManager/group/" + groupid + ".members.json",
-            type: "GET",
-            dataType: "json",
-            success: function(data){
-                handleAJAXGroupData(data, false);
-                fetchGroupManagers(groupid);
-            },
-            error: function(xhr, textStatus, thrownError) {
-                fluid.log("sakai.api.Communication.sendMessage(): Could not fetch group data for groupid: " + groupid);
-            }
-        });
-    };
-
-    var fetchGroupManagers = function(groupid) {
-        // Fetch managers
-        $.ajax({
-            url: "/system/userManager/group/" + groupid + ".managers.json",
-            type: "GET",
-            dataType: "json",
-            success: function(data) {
-                handleAJAXGroupData(data, true);
-            },
-            error: function(xhr, textStatus, thrownError) {
-                fluid.log("sakai.api.Communication.sendMessage(): Could not fetch group data for groupid: " + groupid);
-            }
-        });
-    };
-
-    /**
-     * Responds to the AJAX call to fetch members of a given group. Parses data
-     * returned and initiates aggregating list of recipients.
-     * @param {Object} data The data returned from the groupid.members.json AJAX call
-     * @return None
-     */
-    var handleAJAXGroupData = function(data, complete) {
-        if(data && data.length) {
-            // get user ids
-            var userids = [];
-            for(var i = 0; i < data.length; i++) {
-                if(data[i].userid && data[i].userid !== "") {
-                    if ($.inArray(data[i].userid, userids) == -1) { // don't duplicate sends
-                        userids.push(data[i].userid);
-                    }
-                }
-            }
-            if(userids.length) {
-                addToUsers(userids);
-            }
-        } else {
-            fluid.log("sakai.api.Communication.sendMessage(): group data is empty");
-        }
-
-        if(complete) {
-            // once all AJAX requests have returned, commit the message
-            sendMessageToUsers();
-        }
-    };
-
-    /**
      * Adds the given userids (String or Array) to the current list of recipients
      * @param {Array|String} userids Either a single userid (String) or a list
      * of userids (Array) to be added to the current list of recipients
      * @return None
      */
-    var addToUsers = function(userids) {
+    var addRecipient = function(userids) {
         // append comma if the list already exists
         if(toUsers) {
             toUsers += ",";
@@ -196,7 +130,7 @@ sakai.api.Communication.sendMessage = function(to, subject, body, category, repl
      * @param None
      * @return None
      */
-    var sendMessageToUsers = function() {
+    var doSendMessage = function() {
         // Basic message details
         var toSend = {
             "sakai:type": "internal",
@@ -282,18 +216,10 @@ sakai.api.Communication.sendMessage = function(to, subject, body, category, repl
        },
        success: function(data){
            // array of recipients
-           for(var i = 0; i < to.length; i++) {
-               // is it a group?
-               if($.parseJSON(data.results[i].body) && $.parseJSON(data.results[i].body)["sakai:group-title"]) {
-                   // fetch the members and managers in this group
-                   fetchGroupMembers(to[i]);
-               } else {
-                   addToUsers(to[i]);
-               }
-           }
+           addRecipient(to);
            // send now if we have only a list of users ("thread" safe?)
            if (!sendDone) {
-               sendMessageToUsers();
+               doSendMessage();
            }
        } 
     });
