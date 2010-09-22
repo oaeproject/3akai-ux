@@ -191,6 +191,7 @@
 "GRADUATE_STUDENT": "Graduate Student",
 "GROUP": "Group",
 "GROUPS": "Groups",
+"GROUP_CANNOT_REMOVE_ALL_MANAGERS": "You cannot remove all the managers of this group. A group must have at least one manager.",
 "GROUP_KIND": "What kind of Group is this",
 "GROUP_NAME": "Group name",
 "GROUP_URL_ADDRESS": "Group URL address",
