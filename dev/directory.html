@@ -93,10 +93,10 @@
             </div>
         </div>
         {for i in directory}
-            <a href="/dev/search.html#q=${escape(escape(i.name))}" name="${i.name}"><h1 class="directory_level_one_header">${i.name}</h1></a>
+            <h1 class="directory_level_one_header"><a href="/dev/search.html#q=${escape(escape(i.name))}" name="${i.name}">${i.name}</a></h1>
             {for j in i.secondlevels}
                 <div class="directory_block">
-                    <a href="/dev/search.html#q=${escape(escape(i.name) + escape(" ") + escape(j.name))}" name="${i.name}${j.name}"><h2 class="directory_level_two_header" name="${j.name}">${j.name}</h2></a>
+                    <h2 class="directory_level_two_header" name="${j.name}"><a href="/dev/search.html#q=${escape(escape(i.name) + escape(" ") + escape(j.name))}" name="${i.name}${j.name}">${j.name}</a></h2>
                     {for k in j.thirdlevels}
                     <p>
                         <a href="/dev/search.html#q=${escape(escape(i.name) + escape(" ") + escape(j.name) + escape(" ") + escape(k.name))}" class="directory_level_three_link">${k.name}</a>

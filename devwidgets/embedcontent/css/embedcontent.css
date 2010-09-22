@@ -12,10 +12,13 @@
 #embedcontent_choose {height:94px;}
 #embedcontent_display_options {height:24px;}
 #embedcontent_alternative_display_name {height:110px;}
-#embedcontent_description {height:85px;}
+#embedcontent_description {height:100px;}
 
 #embedcontent_footer {height:24px;}
 
 #embedcontent_main_container ul.as-selections {width:98%; height:80px;}
 
 #embedcontent_search_for_content {display:block;}
+
+.embedcontent_right_input input.error, .embedcontent_right_input textarea.error { border:2px solid red;}
+.embedcontent_right_input label.error {font-weight:bold; float:left; color:red;}

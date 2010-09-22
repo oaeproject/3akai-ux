@@ -36,6 +36,8 @@
 }
 #profilesection_generalinfo div.profilesection_generalinfo_content {
     padding: 3px 0;
+    width:400px;
+    float:left;
 }
 #profilesection_generalinfo .profilesection_generalinfo_subcontainer {
     clear: both;
