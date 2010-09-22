@@ -241,15 +241,12 @@ sakai.account_preferences = function(){
                         document.location.reload();
                     }
                     else {
-                        // Update the user of the successful regional settings change
-                        showGeneralMessage($(messageChangeLang).html(), false, saveRegional, generalMessageReg);
                         // Show successful regional setting change through gritter
                         sakai.api.Util.notification.show($(messageChangeLang).html(), $(messageChangeLang).html());
                     }
                     
                 },
                 error: function(xhr, textStatus, thrownError){
-                    showGeneralMessage($(errorFailChangeLang).html(), true, saveRegional, generalMessageReg);
                     // show regional setting error message through gritter
                     sakai.api.Util.notification.show($(errorFailChangeLang).html(), $(errorFailChangeLang).html());
                 }
