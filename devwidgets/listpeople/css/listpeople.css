@@ -14,7 +14,7 @@
 .listpeople_container .listpeople_header .listpeople_count_selected,
 .listpeople_container .listpeople_header .listpeople_count_of,
 .listpeople_container .listpeople_header .listpeople_count
-{ color: #333;  font-size: 14px; float:left;}
+{ color: #333;  font-size: 14px; float:left; margin-right:3px;}
 
 .listpeople_container .listpeople_header .listpeople_sort_on
 { margin: 6px 0 0 0; }
