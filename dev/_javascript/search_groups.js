@@ -320,7 +320,7 @@ sakai.search = function() {
                 urlsearchterm += splitted[i] + "~" + " " + splitted[i] + "*" + " ";
             }
 
-            var searchURL = sakai.config.URL.SEARCH_GROUPS + "?page=" + (currentpage - 1) + "&items=" + resultsToDisplay + "&q=" + urlsearchterm + "&sites=" + searchWhere;
+            var searchURL = sakai.config.URL.SEARCH_GROUPS + "?page=" + (currentpage - 1) + "&items=" + resultsToDisplay + "&q=" + urlsearchterm;
 
             // Check if we want to search using a faceted link
             if (facetedurl) {
@@ -329,7 +329,7 @@ sakai.search = function() {
                     urlsearchterm = searchterm
                 }
                 
-                searchURL = facetedurl + "?page=" + (currentpage - 1) + "&items=" + resultsToDisplay + "&q=" + urlsearchterm + "&sites=" + searchWhere + "&facet=" + facet;
+                searchURL = facetedurl + "?page=" + (currentpage - 1) + "&items=" + resultsToDisplay + "&q=" + urlsearchterm + "&facet=" + facet;
             }
 
             $.ajax({
