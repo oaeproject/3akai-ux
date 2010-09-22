@@ -189,43 +189,36 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         // need to validate data
         var groupTitle = $(groupBasicInfoGroupTitle, $rootel).val();
         var groupKind = $(groupBasicInfoGroupKind, $rootel).val();
+        var currentTags = sakai.currentgroup.data.authprofile["sakai:tags"];
 
-        var tagArray = [];
         // Get all the tags
-        var tagValues = $.trim($(groupBasicInfoGroupTags).val());
-        var trimmedTags = [];
-        $(tagValues.split(",")).each(function(index){
-            if($.trim($(tagValues.split(","))[index]).length){
-                trimmedTags.push($.trim($(tagValues.split(","))[index]));
-            }
-        });
-        tagArray = trimmedTags;
+        sakai.currentgroup.data.authprofile["sakai:tags"] = sakai.api.Util.formatTags($(groupBasicInfoGroupTags).val());
 
         // Create tags for the directory structure
         // For every groupbasicinfo_added_directory we create tags
         $(".groupbasicinfo_added_directory").each(function(){
             var directoryString = "directory/";
-            tagArray.push($(this).find(groupBasicInfoDirectoryLvlOne).selected().val().replace(/,/g,""));
+            sakai.currentgroup.data.authprofile["sakai:tags"].push($(this).find(groupBasicInfoDirectoryLvlOne).selected().val().replace(/,/g,""));
             directoryString += $(this).find(groupBasicInfoDirectoryLvlOne).selected().val().replace(/,/g,"");
 
             if ($(this).find(groupBasicInfoDirectoryLvlTwo).selected().val() !== "no_value") {
-                tagArray.push($(this).find(groupBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g,""));
+                sakai.currentgroup.data.authprofile["sakai:tags"].push($(this).find(groupBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g,""));
                 directoryString += "/" + $(this).find(groupBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g,"");
 
                 if ($(this).find(groupBasicInfoDirectoryLvlThree).selected().val() !== "no_value") {
-                    tagArray.push($(this).find(groupBasicInfoDirectoryLvlThree).selected().val().replace(/,/g,""));
+                    sakai.currentgroup.data.authprofile["sakai:tags"].push($(this).find(groupBasicInfoDirectoryLvlThree).selected().val().replace(/,/g,""));
                     directoryString += "/" + $(this).find(groupBasicInfoDirectoryLvlThree).selected().val().replace(/,/g,"");
                 }
 
             }
 
             // Add string for all levels to tag array
-            tagArray.push(directoryString);
+            sakai.currentgroup.data.authprofile["sakai:tags"].push(directoryString);
         });
 
         // Add the directory tags to the array that were already saved
         $(groupBasicInfoSavedInfo + " li").each(function(){
-            tagArray.push("directory/" + this.className.split(",")[0] + "/" + this.className.split(",")[1] + "/" + this.className.split(",")[2]);
+            sakai.currentgroup.data.authprofile["sakai:tags"].push("directory/" + this.className.split(",")[0] + "/" + this.className.split(",")[1] + "/" + this.className.split(",")[2]);
         });
 
         var groupDesc = $(groupBasicInfoGroupDesc, $rootel).val();
@@ -235,8 +228,6 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         sakai.currentgroup.data.authprofile["sakai:group-kind"] = groupKind;
         sakai.currentgroup.data.authprofile["sakai:group-description"] = groupDesc;
         groupProfileURL = "/~" + sakai.currentgroup.id + "/public/authprofile"
-
-        //batchCreateTags(tagArray);
 
         $.ajax({
             url: groupProfileURL,
@@ -248,9 +239,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
             },
             type: "POST",
             success: function(data, textStatus){
-                var currentTags = sakai.currentgroup.data.authprofile["sakai:tags"];
-                sakai.api.Util.tagEntity(groupProfileURL, tagArray, currentTags, function() {
-                    sakai.currentgroup.data.authprofile["sakai:tags"] = tagArray;
+                sakai.api.Util.tagEntity(groupProfileURL, sakai.currentgroup.data.authprofile["sakai:tags"], currentTags, function() {
                     sakai.api.Widgets.Container.informFinish(tuid, "groupbasicinfo");
                     $(window).trigger("sakai.groupbasicinfo.updateFinished");
                 });
@@ -355,6 +344,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
 
         $(groupBasicInfoRemoveLocation).live("click", function(){
             removeDirectoryLocation($(this).parent());
+            $(this).remove();
         });
 
         $(groupBasicInfoRemoveNewLocation).live("click", function(){

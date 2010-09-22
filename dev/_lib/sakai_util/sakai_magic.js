@@ -2317,6 +2317,33 @@ sakai.api.Util.convertToHumanReadableFileSize = function(filesize) {
     // Return the human readable filesize
     return filesize + " " + lengthunits;
 };
+
+/**
+ * Formats a comma separated string of text to an array of usable tags
+ * Filters out unwanted tags (eg empty tags)
+ * Returns the array of tags, if no tags were provided or none were valid an empty array is returned
+ *
+ * Example: inputTags = "tag1, tag2, , , tag3, , tag4" returns ["tag1","tag2","tag3","tag4"]
+ *
+ * @param {String} inputTags Unformatted, comma separated, string of tags put in by a user
+ * @return {Array} Array of formatted tags
+ */
+sakai.api.Util.formatTags = function(inputTags){
+    if ($.trim(inputTags) !== "") {
+        var tags = [];
+        var splitTags = $(inputTags.split(","));
+        splitTags.each(function(index){
+            if ($.trim(splitTags[index]).length) {
+                tags.push($.trim(splitTags[index]));
+            }
+        });
+        return tags;
+    }
+    else {
+        return [];
+    }
+}
+
 /**
  * Add and delete tags from an entity
  * The two arrays, newTags and currentTags, represent the state of tags on the entity

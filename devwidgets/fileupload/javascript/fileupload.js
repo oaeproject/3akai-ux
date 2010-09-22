@@ -397,29 +397,6 @@ sakai.fileupload = function(tuid, showSettings){
     };
 
     /**
-     * Format tags so that they can be created
-     * Remove spaces and split up in an array
-     * Call createTags to create the tags
-     * @param {Object} tags Unformatted, comma separated, string of tags put in by a user
-     */
-    var formatTags = function(inputTags){
-        if ($.trim(inputTags) !== "") {
-            // Split up tags and push them in an array
-            var tags = [];
-            // Check for empty tags
-            $(inputTags.split(",")).each(function(index){
-                if ($.trim($(inputTags.split(","))[index]).length) {
-                    tags.push($.trim($(inputTags.split(","))[index]));
-                }
-            });
-            return tags;
-        } else {
-            // No tags provided by the user
-            return [];
-        }
-    };
-
-    /**
      * Set permissions on the files that were uploaded
      */
     var setFilePermissions = function(){
@@ -714,7 +691,7 @@ sakai.fileupload = function(tuid, showSettings){
                         uploadedFiles = extractedData;
 
                         // Initiate the tagging process
-                        var tags = formatTags($(fileUploadAddTags).val());
+                        var tags = sakai.api.Util.formatTags($(fileUploadAddTags).val());
                         for (var file in uploadedFiles) {
                             if (uploadedFiles.hasOwnProperty(file)) {
                                 sakai.api.Util.tagEntity("/p/" + uploadedFiles[file].hashpath, tags, [], function(){
