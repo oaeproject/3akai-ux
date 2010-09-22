@@ -191,6 +191,13 @@ sakai.topnavigation = function(tuid, showSettings){
         $(window).bind("chat_status_change", function(event, currentChatStatus){
             updateChatStatusElement($(userLink), currentChatStatus);
         });
+
+        $(window).bind("click", function(e){
+            // if menu is visible and the target element clicked is not menu hide dropdown
+            if ($(userLinkMenu).is(":visible") && !$(e.target).parents().is(userLink)){
+                showHideUserLinkMenu(true);
+            }
+        });
     };
 
     ////////////////
