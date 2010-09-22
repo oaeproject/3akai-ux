@@ -42,6 +42,8 @@ sakai.index = function(){
     var loginExternalButton = loginExternal + "-button";
     var loginForm = "#login-container";
 
+    var currentUserName; 
+    var currentPassword;
 
     /////////////////////
     // Login functions //
@@ -124,19 +126,23 @@ sakai.index = function(){
 
         var values = sakai.api.UI.Forms.form2json($(loginForm));
 
-        $(failMessage).hide();
-        $(loginButton).hide();
-        $(registerLink).hide();
-        $(loadingMessage).show();
-
-        var data = {
-            "username": values[usernameField],
-            "password": values[passwordField]
-        };
-
-        // Perform the login operation
-        sakai.api.User.login(data, checkLogInSuccess);
-
+        if (currentUserName !== values[usernameField] || currentPassword !== values[passwordField]) {
+            currentUserName = values[usernameField];
+            currentPassword = values[passwordField];
+            
+            $(failMessage).hide();
+            $(loginButton).hide();
+            $(registerLink).hide();
+            $(loadingMessage).show();
+            var data = {
+                "username": values[usernameField],
+                "password": values[passwordField]
+            };
+            
+            // Perform the login operation
+            sakai.api.User.login(data, checkLogInSuccess);
+            
+        }
         return false;
 
     };

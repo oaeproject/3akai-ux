@@ -119,7 +119,7 @@ sakai.search = function() {
             value : "People",
             facets: {
                 "all" : {
-                    "category": "All Users",
+                    "category": "All People",
                     "searchurl": searchURLmap.allusers
                 }, 
                 "contacts" : {
