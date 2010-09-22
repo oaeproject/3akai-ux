@@ -321,7 +321,7 @@ if (!sakai.sendmessage){
                         } else {
 
                         }
-                    }, {"q": "*" + query.replace(/\s/g, "*") + "*"});
+                    }, {"q": "*" + query.replace(/\s+/g, "* OR *") + "*"});
                 }
             });
         };

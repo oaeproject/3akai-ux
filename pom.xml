@@ -138,7 +138,7 @@
             <Sling-Initial-Content>
                 SLING-INF/content/dev;path:=/dev;ignoreImportProviders:="xml,json,html,jar,zip";overwrite:=true,
                 SLING-INF/content/devwidgets;path:=/devwidgets;ignoreImportProviders:="xml,json,html,jar,zip";overwrite:=true,
-                SLING-INF/content/var;path:=/var,
+                SLING-INF/content/var/templates;path:=/var/templates;overwrite:=true,
                 SLING-INF/content/apps;path:=/apps;overwrite:=true,
                 SLING-INF/content/root;path:=/
             </Sling-Initial-Content>

@@ -14,6 +14,7 @@
         <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.account_preferences.css" />
 
         <!-- 3rd party CSS -->
+        <link rel="stylesheet" type="text/css" href="/dev/_lib/jquery/plugins/gritter/css/jquery.gritter.css" />
 
         <!-- Sakai Config JS -->
         <script type="text/javascript" src="_configuration/widgets.js"></script>
@@ -37,6 +38,8 @@
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jqmodal.sakai-edited.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.cookie.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.pager.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.validate.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/gritter/jquery.gritter.js"></script>
     </head>
 
     <body class="fl-centered account_preferences i18nable">
@@ -45,7 +48,9 @@
         <span id="account_preferences_error_passNotEqual" style="display:none;">__MSG__NEW_PASSWORDS_ARENT_EQUAL__.</span>
         <span id="account_preferences_error_incorrectPass" style="display:none;">__MSG__YOU_FILLED_IN_AN_INCORRECT_PASSWORD__.</span>
         <span id="account_preferences_error_failChangePass" style="display:none;">__MSG__CHANGING_PASSWORD_FAILED__.</span>
+        <span id="account_preferences_error_failChangePassBody" style="display:none;">__MSG__CHANGING_PASSWORD_FAILED_BODY__.</span>
         <span id="account_preferences_message_passChanged" style="display:none;">__MSG__PASSWORD_CHANGED__.</span>
+        <span id="account_preferences_message_passChangedBody" style="display:none;">__MSG__PASSWORD_CHANGED_BODY__.</span>
         <span id="account_preferences_error_invalidPass" style="display:none;">__MSG__PASSWORD_SHOULD_BE_AT_LEAST_FIVE_CHARACTERS_LONG__.</span>
         <span id="account_preferences_error_failChangeLang" style="display:none;">__MSG__CHANGING_REGIONAL_SETTINGS_FAILED__.</span>
         <span id="account_preferences_message_ChangeLang" style="display:none;">__MSG__REGIONAL_SETTINGS_CHANGED__.</span>
@@ -80,15 +85,15 @@
                         <form id="account_preferences_password_change" class="preferences-form" method="POST" action="javascript:;">
                             <div class="form-item">
                                 <label for="curr_pass">__MSG__CURRENT_PASSWORD__:</label>
-                                <input maxlength="255" type="password" id="curr_pass" class="password-preferences-input" />
+                                <input maxlength="255" type="password" id="curr_pass" name="curr_pass" class="password-preferences-input" />
                             </div>
                             <div class="form-item">
                                 <label for="new_pass">__MSG__NEW_PASSWORD__:</label>
-                                <input maxlength="255" type="password" id="new_pass" class="password-preferences-input" />
+                                <input maxlength="255" type="password" id="new_pass" name="new_pass" class="password-preferences-input" />
                             </div>
                             <div class="form-item">
                                 <label for="retype_pass">__MSG__RETYPE_NEW_PASSWORD__:</label>
-                                <input maxlength="255" type="password" id="retype_pass" class="password-preferences-input" />
+                                <input maxlength="255" type="password" id="retype_pass" name="retype_pass" class="password-preferences-input" />
                             </div>
                             <div class="save-preferences">
                                 <button id="account_preferences_saveNewPass" class="s3d-button s3d-button-primary" type="submit"><span class="s3d-button-inner">__MSG__SAVE_CHANGES__</span></button>

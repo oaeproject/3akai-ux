@@ -120,7 +120,7 @@ sakai.pickeradvanced = function(tuid, showSettings) {
      * @returns void
      */
     var render = function(iConfig) {
-        pickerData["searchIn"] = sakai.config.URL.CONTACTS_ACCEPTED + "?page=0&items=12&_=&q=";
+        pickerData["searchIn"] = sakai.config.URL.SEARCH_USERS_ACCEPTED + "?page=0&items=12&_=&q=";
 
         // Merge user defined config with default
         for (var element in iConfig) {
@@ -131,6 +131,7 @@ sakai.pickeradvanced = function(tuid, showSettings) {
 
         // display the groups list, bind elements and submit a search
         $pickeradvanced_search_titles.hide();
+        $(".pickeradvanced_selected_list").removeClass("pickeradvanced_selected_list"); // deselect anything that was selected
         if (pickerData["type"] === "people") {
             $("#pickeradvanced_search_contacts").parent("li").addClass("pickeradvanced_selected_list");
             getGroups();
@@ -174,6 +175,8 @@ sakai.pickeradvanced = function(tuid, showSettings) {
         if (!searchQuery) {
             searchQuery = "*";
         } else {
+            searchQuery = $.trim(searchQuery);
+            searchQuery = searchQuery.replace(/\s+/g, "* OR *");
             searchQuery = "*" + searchQuery + "*";
         }
 
@@ -274,6 +277,7 @@ sakai.pickeradvanced = function(tuid, showSettings) {
                 var pageHTML = $.TemplateRenderer($pickeradvanced_content_search_pagetemplate, rawData);
 
                 // Remove loading animation
+                $pl_pageContainer = $(".pickeradvanced_page.pickeradvanced_page_list.loadinganim");
                 $pl_pageContainer.removeClass("loadinganim");
 
                 // Inject results into DOM
@@ -428,14 +432,17 @@ sakai.pickeradvanced = function(tuid, showSettings) {
         pickerlist = config.list;
     });
     
+    $pickeradvanced_close_dialog.unbind("click");
     $pickeradvanced_close_dialog.bind("click", function() {
         $pickeradvanced_container.jqmHide();
     });
 
+    $pickeradvanced_close_button.unbind("click");
     $pickeradvanced_close_button.bind("click", function() {
         $pickeradvanced_container.jqmHide();
     });
 
+    $pickeradvanced_search_filter.die("click");
     $pickeradvanced_search_filter.live("click", function() {
        var searchType = $(this).attr("id").split("pickeradvanced_search_")[1];
        $(".pickeradvanced_selected_list").removeClass("pickeradvanced_selected_list");
@@ -445,27 +452,35 @@ sakai.pickeradvanced = function(tuid, showSettings) {
        switch (searchType) {
            case "contacts":
                searchURL = sakai.config.URL.SEARCH_USERS_ACCEPTED;
+               $pickeradvanced_sort_on.show();
                break;
            case "users":
                searchURL = sakai.config.URL.SEARCH_USERS;
+               $pickeradvanced_sort_on.show();
                break;
            case "groups":
                searchURL = sakai.config.URL.SEARCH_GROUPS;
+               $pickeradvanced_sort_on.hide();
                break;
            case "groups_member":
                searchURL = sakai.config.URL.SEARCH_GROUPS;
+               $pickeradvanced_sort_on.hide();
                break;
            case "groups_manager":
                searchURL = sakai.config.URL.SEARCH_GROUPS;
+               $pickeradvanced_sort_on.hide();
                break;
            case "files_mine":
                searchURL = sakai.config.URL.POOLED_CONTENT_MANAGER.replace(".json", ".infinity.json");
+               $pickeradvanced_sort_on.hide();
                break;
            case "files_view":
                searchURL = sakai.config.URL.POOLED_CONTENT_VIEWER.replace(".json", ".infinity.json");
+               $pickeradvanced_sort_on.hide();
                break;
            default: // should be any group specific search
                searchURL = sakai.config.URL.SEARCH_GROUP_MEMBERS.replace(".json", ".3.json");
+               $pickeradvanced_sort_on.hide();
                searchingInGroup = true;
                break;
        }

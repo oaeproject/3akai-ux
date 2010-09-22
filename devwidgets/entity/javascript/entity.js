@@ -124,14 +124,6 @@ sakai.entity = function(tuid, showSettings){
     ////////////////////
 
     /**
-     * Removes the seperated and the add contacts link
-     * @param {Object} user The user object we get from the addcontact widget.
-     */
-    var removeAddContactLinks = function(user) {
-         $('#entity_add_to_contacts').hide();
-    };
-
-    /**
      * Show or hide the tags link menu
      * @param {String} menuBox menu box we want to display
      * @param {String} menuLink link the user clicked to display the menu box
@@ -208,13 +200,19 @@ sakai.entity = function(tuid, showSettings){
         // profile.basic.elements object does not have picture information
         // if there is profile picture and userId
         // return the picture links
-        if(profile.picture && profile["rep:userId"]) {
+        if(profile.picture && (profile["rep:userId"] || profile["sakai:group-id"])) {
 
+            var id = null;
+            if (profile["rep:userId"]){
+                id = profile["rep:userId"];            
+            } else if (profile["sakai:group-id"]){
+                id = profile["sakai:group-id"];            
+            }
             //change string to json object and get name from picture object
             var picture_name = $.parseJSON(profile.picture).name;
 
             //return "/~" + profile["rep:userId"] + "/public/profile/" + profile.basic.elements.picture.value.name;
-            return "/~" + profile["rep:userId"] + "/public/profile/" + picture_name;
+            return "/~" + id + "/public/profile/" + picture_name;
         }
         else {
             return "";
@@ -264,11 +262,11 @@ sakai.entity = function(tuid, showSettings){
     var getGroupMembersManagers = function(){
         var requests = []; // Array used to contain all the information we need to send to the batch post
         requests[0] = {
-                "url": "/system/userManager/group/" + entityconfig.data.profile.authprofile["sakai:group-id"] + ".members.json",
+                "url": "/system/userManager/group/" + entityconfig.data.profile["sakai:group-id"] + ".members.json",
                 "method": "GET"
             };
         requests[1] = {
-                "url": "/system/userManager/group/" + entityconfig.data.profile.authprofile["sakai:group-id"] + "-managers.members.json",
+                "url": "/system/userManager/group/" + entityconfig.data.profile["sakai:group-id"] + "-managers.members.json",
                 "method": "GET"
             };
 
@@ -334,7 +332,7 @@ sakai.entity = function(tuid, showSettings){
     var joinGroup = function(){
         // add user to group
         $.ajax({
-            url: "/system/userManager/group/" + entityconfig.data.profile.authprofile["sakai:group-id"] + ".update.json",
+            url: "/system/userManager/group/" + entityconfig.data.profile["sakai:group-id"] + ".update.json",
             data: {
                 "_charset_":"utf-8",
                 ":member": sakai.data.me.user.userid
@@ -353,7 +351,7 @@ sakai.entity = function(tuid, showSettings){
     var leaveGroup = function(){
         // remove user from group
         $.ajax({
-            url: "/system/userManager/group/" + entityconfig.data.profile.authprofile["sakai:group-id"] + ".update.json",
+            url: "/system/userManager/group/" + entityconfig.data.profile["sakai:group-id"] + ".update.json",
             data: {
                 "_charset_":"utf-8",
                 ":member@Delete": sakai.data.me.user.userid
@@ -365,6 +363,78 @@ sakai.entity = function(tuid, showSettings){
             }
         });
     };
+    
+    //////////////
+    // CONTACTS //
+    //////////////
+    
+    /**
+     * Check whether a user is already a contact, invited or pending
+     * @param {String} userid    the user's userid
+     */
+    var checkContact = function(userid){
+        // Do a batch request to get contacts, invited and pending
+        var reqs = [
+            {
+                "url" : "/var/contacts/accepted.json?page=0&items=100",
+                "method" : "GET"
+            },
+            {
+                "url" : "/var/contacts/invited.json?page=0&items=100",
+                "method" : "GET"
+            },
+            {
+                "url" : "/var/contacts/pending.json?page=0&items=100",
+                "method" : "GET"
+            }
+        ]
+        $.ajax({
+            url: "/system/batch",
+            type: "POST",
+            data: {
+                "requests": $.toJSON(reqs)
+            },
+            success: function(data){
+                var contacts = $.parseJSON(data.results[0].body);
+                for (var i in contacts.results){
+                    if (contacts.results[i].target === userid){
+                        $("#entity_contact_accepted").show();
+                        return true;
+                    }
+                }
+                var invited = $.parseJSON(data.results[1].body);
+                for (var i in invited.results){
+                    if (invited.results[i].target === userid){
+                        $("#entity_contact_invited").show();
+                        return true;
+                    }
+                }
+                var pending = $.parseJSON(data.results[2].body);
+                for (var i in pending.results){
+                    if (pending.results[i].target === userid){
+                        $("#entity_contact_pending").show();
+                        return true;
+                    }
+                }
+                $("#entity_add_to_contacts").show();
+            }
+        });
+    }
+
+    /**
+     * Accept a contact invitation
+     */
+    var acceptInvitation = function(userid){
+        $.ajax({
+            url: "/~" + sakai.data.me.user.userid + "/contacts.accept.html",
+            type: "POST",
+            data : {"targetUserId":userid},
+            success: function(data){
+                $("#entity_contact_invited").hide();
+                $("#entity_contact_accepted").show();
+            }
+        });
+    }
 
     /////////////
     // BINDING //
@@ -501,8 +571,9 @@ sakai.entity = function(tuid, showSettings){
     /**
      * Remove contact button after contact request is sent
      */
-    var removeAddContactLinks = function(user){
+    sakai.entity.removeAddContactLinks = function(user){
         $('#entity_add_to_contacts').hide();
+        $('#entity_contact_pending').show();
     };
 
     /**
@@ -561,6 +632,10 @@ sakai.entity = function(tuid, showSettings){
             $('#entity_available_to_chat').live("click", function() {
                 // todo
             });
+            
+            $("#entity_contact_invited").live("click", function(){
+               acceptInvitation(entityconfig.data.profile["rep:userId"]); 
+            });
         }
 
         if(entityconfig.mode === "group"){
@@ -610,6 +685,23 @@ sakai.entity = function(tuid, showSettings){
             entityconfig.data.profile.chatstatus = "online";
         }
     };
+
+    /**
+     * Set the profile group data such as the users role, member count and profile picture
+     */
+    var setGroupData = function(){
+        // Set the profile picture for the group you are looking at
+        entityconfig.data.profile.picture = constructProfilePicture(entityconfig.data.profile)
+
+        // determine users role and get the count of members and managers
+        getGroupMembersManagers()
+
+        // configure the changepic widget to look at the group profile image
+        if (sakai.api.UI.changepic){
+            sakai.api.UI.changepic["mode"] = "group";
+            sakai.api.UI.changepic["id"] = entityconfig.data.profile["sakai:group-id"];
+        }
+    }
 
     /**
      * Set the data for the content object information
@@ -733,9 +825,10 @@ sakai.entity = function(tuid, showSettings){
                 setProfileData();
                 break;
             case "group":
-                entityconfig.data.profile = data;
-                // determine users role and get the count of members and managers
-                getGroupMembersManagers()
+                // Set the profile for the entity widget to the group authprofile
+                entityconfig.data.profile = $.extend(true, {}, data.authprofile);
+                // Set the correct group profile data
+                setGroupData();
                 break;
             case "content":
                 setContentData(data);
@@ -748,6 +841,11 @@ sakai.entity = function(tuid, showSettings){
 
         // Render the main template
         renderTemplate();
+        
+        // Should we show the Add To Contacts button or not
+        if (mode === "profile" && !sakai.data.me.user.anon){
+            checkContact(entityconfig.data.profile["rep:userId"]);
+        }
 
         // Add binding
         addBinding();
