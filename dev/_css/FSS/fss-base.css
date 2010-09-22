@@ -184,7 +184,7 @@ input.fl-icon{padding-left:16px;}
 .fl-widget .fl-widget-options ul{margin:0;padding:0;overflow:hidden;zoom:1;}
 .fl-widget .fl-widget-options li{list-style-type:none;float:left;display:inline;padding:0 5px 0 5px;margin-left:-5px;}
 .fl-widget .fl-widget-options a{margin-right:5px;}
-.fl-widget .fl-widget-content{zoom:1;margin:5px 0 0 0;overflow:auto;}
+.fl-widget .fl-widget-content{zoom:1;margin:5px 0 0 0;}
 .fl-widget .empty *{padding-top:10px;margin-left:auto;margin-right:auto;text-align:center;}
 .fl-widget .menu{margin:0;}
 .fl-widget .toggle{width:32px;}

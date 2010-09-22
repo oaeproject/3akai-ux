@@ -980,7 +980,7 @@ sakai.sitespages.site_admin = function(){
      */
     var showPageLocation = function(){
 
-        $("#new_page_path").html(sakai.api.Security.saneHTML("<span>Page location: </span>" + sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["jcr:path"]));
+        $("#new_page_path").html(sakai.api.Security.saneHTML("<span>Page location: </span>" + window.location.host + sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["jcr:path"]));
 
     };
 

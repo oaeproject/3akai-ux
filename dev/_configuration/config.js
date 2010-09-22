@@ -147,9 +147,9 @@ sakai.config = {
                 "user_request": "People request to join"
             },
             visible: {
-                "members": "Group members only (includes managers)",
-                "allusers": "All logged in users",
-                "public": "Anyone on the Internet",
+                "members": "members",
+                "allusers": "everyone",
+                "public": "public",
                 "managers": "Group managers only"
             }
         }
