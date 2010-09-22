@@ -263,7 +263,7 @@ sakai.api.Communication.sendMessage = function(to, subject, body, category, repl
             reqs[reqs.length] = {
                 "url": "/~" + to[i] + "/public/authprofile.json",
                 "method": "GET"
-            }
+            };
         }
     } else {
         // unrecognized type
@@ -803,6 +803,7 @@ sakai.api.i18n.init = function(){
         }
         sakai.api.Widgets.Container.setReadyToLoad(true);
         sakai.api.Widgets.widgetLoader.insertWidgets(null, false);
+        return true;
     };
 
     /**
@@ -981,8 +982,8 @@ sakai.api.i18n.General.getValueForKey = function(key) {
     // If none of the about found something, log an error message
     else {
         fluid.log("sakai.api.i18n.General.getValueForKey: Not in local & default file. Key: " + key);
+        return false;
     }
-
 };
 
 
@@ -1023,10 +1024,6 @@ sakai.api.i18n.Widgets.getValueForKey = function(widgetname, locale, key) {
     }
 
 };
-
-
-
-
 
 
 /**
@@ -1103,7 +1100,7 @@ sakai.api.Security.escapeHTML = function(inputString){
     } else {
         return "";
     }
-}
+};
 
 /**
  * Sanitizes HTML content. All untrusted (user) content should be run through
@@ -1193,7 +1190,7 @@ sakai.api.Security.saneHTML = function(inputHTML) {
                 return attribs;
             })(htmlText, out);
         return out.join('');
-    }
+    };
 
     // Call a slightly modified version of Caja's sanitizer
     return sakaiHtmlSanitize(inputHTML, filterUrl, filterNameIdClass);
@@ -1247,7 +1244,7 @@ sakai.api.Security.send404 = function(){
     var redurl = window.location.pathname + window.location.hash;
     document.location = "/dev/404.html?redurl=" + escape(window.location.pathname + window.location.search + window.location.hash);
     return false;
-}
+};
 
 /**
  * Function that can be called by pages that don't have the permission to show the content
@@ -1257,7 +1254,7 @@ sakai.api.Security.send403 = function(){
     var redurl = window.location.pathname + window.location.hash;
     document.location = "/dev/403.html?redurl=" + escape(window.location.pathname + window.location.search + window.location.hash);
     return false;
-}
+};
 
 /**
  * Function that can be called by pages that require a login first
@@ -1266,7 +1263,7 @@ sakai.api.Security.sendToLogin = function(){
     var redurl = window.location.pathname + window.location.hash;
     document.location = sakai.config.URL.GATEWAY_URL + "?url=" + escape(window.location.pathname + window.location.search + window.location.hash);
     return false;
-}
+};
 
 sakai.api.Security.showPage = function(){
     // Show the background images used on anonymous user pages
@@ -1277,7 +1274,7 @@ sakai.api.Security.showPage = function(){
         $('html').addClass("requireUser");
     }
     $('body').show();
-}
+};
 
 
 /**
@@ -2529,7 +2526,7 @@ sakai.api.Util.notification.removeAll = function(){
     // We don't use the $.gritter.removeAll method since that causes pop-ups to flicker
     $('#gritter-notice-wrapper').remove();
 
-}
+};
 
 
 /**
@@ -3127,15 +3124,15 @@ sakai.api.Widgets.widgetLoader = {
                                     var item = {
                                         "url" : Widgets.widgets[widgetname].i18n["default"],
                                         "method" : "GET"
-                                    }
+                                    };
                                     bundles.push(item);
                                 }
                                 if (Widgets.widgets[widgetname].i18n[current_locale_string]) {
-                                    var item = {
+                                    var item1 = {
                                         "url" : Widgets.widgets[widgetname].i18n[current_locale_string],
                                         "method" : "GET"
-                                    }
-                                    bundles.push(item);
+                                    };
+                                    bundles.push(item1);
                                 }
                             }
                         }
