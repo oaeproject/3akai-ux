@@ -6,6 +6,7 @@
 /* Heading */
 #profile_heading h1 {
     float:left;
+    padding-bottom: 10px;
 }
 #profile_heading select {
     font-weight: normal;
