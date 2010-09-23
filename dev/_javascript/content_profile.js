@@ -293,6 +293,9 @@ sakai.content_profile = function(){
                 // add binding to listpeople widget and buttons
                 addListBinding();
                 list_event_fired = true;
+            } else {
+                loadContentUsers("viewers");
+                loadContentUsers("managers");
             }
             sakai.api.Security.showPage();
 
