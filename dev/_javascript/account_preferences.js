@@ -169,7 +169,7 @@ sakai.account_preferences = function(){
                     clearPassFields();
                 }
             });
-            
+
     };
 
 
@@ -235,7 +235,7 @@ sakai.account_preferences = function(){
                 url: "/system/userManager/user/" + me.user.userid + ".update.html",
                 type: "POST",
                 success: function(data){
-                
+
                     if (language !== me.user.locale.language + "_" + me.user.locale.country) {
                         // Reload the page if the language for a user has changed
                         document.location.reload();
@@ -244,7 +244,7 @@ sakai.account_preferences = function(){
                         // Show successful regional setting change through gritter
                         sakai.api.Util.notification.show($(messageChangeLang).html(), $(messageChangeLang).html());
                     }
-                    
+
                 },
                 error: function(xhr, textStatus, thrownError){
                     // show regional setting error message through gritter
@@ -278,7 +278,7 @@ sakai.account_preferences = function(){
             },
             debug:true
 
-        });        
+        });
     }
 
     /**
@@ -309,6 +309,12 @@ sakai.account_preferences = function(){
             // change the password
             changePass();
         }
+    });
+
+    /** Binds all the regional settings select box change **/
+    $("#time_zone, #pass_language").change(function(e){
+        // enable the change regional setting button
+        enableElements($(saveRegional));
     });
 
     /** Binds all the password boxes (keyup) **/
@@ -343,6 +349,7 @@ sakai.account_preferences = function(){
             document.location = sakai.config.URL.GATEWAY_URL;
         } else {
             disableElements($(saveNewPass));
+            disableElements($(saveRegional));
             selectTimezone(me.user.locale.timezone);
             getLanguages();
             initValidation();
