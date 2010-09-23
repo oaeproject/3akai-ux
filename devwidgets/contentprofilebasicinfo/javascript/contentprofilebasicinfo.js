@@ -154,7 +154,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                 };
                 data[data.length] = item;
                 break;
-            // Myself only or Members and Managers
+            // Myself only
             case "private":
                 var item = {
                     "url": contentPath + ".members.html",
