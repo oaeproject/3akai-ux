@@ -366,19 +366,19 @@ sakai.listpeople = function(tuid, showSettings){
                     var content_path = '/p/' + resultObject["jcr:name"];
 
                     $.ajax({
-                        url: sakai.sakai.listpeople.config[tuid].SakaiDomain + content_path + ".2.json",
+                        url: sakai.config.SakaiDomain + content_path + ".2.json",
                         async: false,
                         success: function(data){
 
                             sakai.listpeople.data[tuid].userList[resultObject["jcr:name"]] = data;
                             sakai.listpeople.data[tuid].userList[resultObject["jcr:name"]]['content_id'] = resultObject["jcr:name"];
                             sakai.listpeople.data[tuid].total += 1;
-                            if (sakai.sakai.listpeople.config[tuid].MimeTypes[data["jcr:content"]["jcr:mimeType"]]) {
-                                sakai.listpeople.data[tuid].userList[resultObject["jcr:name"]]['avatar'] = sakai.sakai.listpeople.config[tuid].MimeTypes[data["jcr:content"]["jcr:mimeType"]].URL;
-                                sakai.listpeople.data[tuid].userList[resultObject["jcr:name"]]['mimeTypeDescripton'] = sakai.sakai.listpeople.config[tuid].MimeTypes[data["jcr:content"]["jcr:mimeType"]].description;
+                            if (sakai.config.MimeTypes[data["jcr:content"]["jcr:mimeType"]]) {
+                                sakai.listpeople.data[tuid].userList[resultObject["jcr:name"]]['avatar'] = sakai.config.MimeTypes[data["jcr:content"]["jcr:mimeType"]].URL;
+                                sakai.listpeople.data[tuid].userList[resultObject["jcr:name"]]['mimeTypeDescripton'] = sakai.config.MimeTypes[data["jcr:content"]["jcr:mimeType"]].description;
                             } else {
                                 sakai.listpeople.data[tuid].userList[resultObject["jcr:name"]]['avatar'] = "/dev/_images/mimetypes/empty.png";
-                                sakai.listpeople.data[tuid].userList[resultObject["jcr:name"]]['mimeTypeDescripton'] = sakai.sakai.listpeople.config[tuid].MimeTypes.other.description;
+                                sakai.listpeople.data[tuid].userList[resultObject["jcr:name"]]['mimeTypeDescripton'] = sakai.config.MimeTypes.other.description;
                             }
                             if (!sakai.listpeople.data[tuid].userList[resultObject["jcr:name"]]["subNameInfo"]) {
                                 sakai.listpeople.data[tuid].userList[resultObject["jcr:name"]]["subNameInfo"] = data[iSubNameInfoContent];
