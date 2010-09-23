@@ -37,29 +37,31 @@
                 </div>
             </div>
             <div id="embedcontent_metadata_container" style="display:none">
-                <div id="embedcontent_alternative_display_name" class="embedcontent_line">
-                    <div class="embedcontent_left_label fl-force-left fl-container">
-                        <p class="label_header">__MSG__ALTERNATIVE_DISPLAY_NAME__</p>
-                        <p>__MSG__ENTER_NEW_DISPLAY_NAME__</p>
+                <form id="embedcontent_metadata">
+                    <div id="embedcontent_alternative_display_name" class="embedcontent_line">
+                        <div class="embedcontent_left_label fl-force-left fl-container">
+                            <p class="label_header">__MSG__ALTERNATIVE_DISPLAY_NAME__</p>
+                            <p>__MSG__ENTER_NEW_DISPLAY_NAME__</p>
+                        </div>
+                        <div class="embedcontent_right_input fl-force-left fl-container">
+                            <input type="text" name="alternative_display_name" id="embedcontent_alternative_display_name_value" class="required"/>
+                        </div>
                     </div>
-                    <div class="embedcontent_right_input fl-force-left fl-container">
-                        <input type="text" id="embedcontent_alternative_display_name_value"/>
+                    <div id="embedcontent_description" class="embedcontent_line embedcontent_line_even">
+                        <div class="embedcontent_left_label fl-force-left fl-container">
+                            <p class="label_header">__MSG__DESCRIPTION__</p>
+                            <p>__MSG__ENTER_A_DESCRIPTION__</p>
+                        </div>
+                        <div class="embedcontent_right_input fl-force-left fl-container">
+                            <textarea id="embedcontent_description_value" name="description"></textarea>
+                        </div>
                     </div>
-                </div>
-                <div id="embedcontent_description" class="embedcontent_line embedcontent_line_even">
-                    <div class="embedcontent_left_label fl-force-left fl-container">
-                        <p class="label_header">__MSG__DESCRIPTION__</p>
-                        <p>__MSG__ENTER_A_DESCRIPTION__</p>
-                    </div>
-                    <div class="embedcontent_right_input fl-force-left fl-container">
-                        <textarea id="embedcontent_description_value"></textarea>
-                    </div>
-                </div>
+                </form>
             </div>
             <div id="embedcontent_footer">
                 <div class="fl-force-right">
                     <button class="s3d-button" id="embedcontent_cancel"><span class="s3d-button-inner">__MSG__DONT_PLACE__</span></button>
-                    <button class="s3d-button s3d-button-primary" id="embedcontent_place_content"><span class="s3d-button-inner">__MSG__PLACE_CONTENT__</span></button>
+                    <button class="s3d-button s3d-button-primary" id="embedcontent_place_content" disabled="disabled"><span class="s3d-button-inner">__MSG__PLACE_CONTENT__</span></button>
                 </div>
             </div>
         </div>

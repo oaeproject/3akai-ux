@@ -23,10 +23,10 @@
 
             <span class="fl-force-right">
                 <select id="pickeradvanced_sort_on">
-                    <option default="true" value="lastName_ascending">__MSG__LAST_NAME__ __MSG__A_Z__</option>
-                    <option value="lastName_descending">__MSG__LAST_NAME__ __MSG__Z_A__</option>
-                    <option value="firstName_ascending">__MSG__FIRST_NAME__ __MSG__A_Z__</option>
-                    <option value="firstName_descending">__MSG__FIRST_NAME__ __MSG__Z_A__</option>
+                    <option default="true" value="basic/elements/lastName/@value_ascending">__MSG__LAST_NAME__ __MSG__A_Z__</option>
+                    <option value="basic/elements/lastName/@value_descending">__MSG__LAST_NAME__ __MSG__Z_A__</option>
+                    <option value="basic/elements/firstName/@value_ascending">__MSG__FIRST_NAME__ __MSG__A_Z__</option>
+                    <option value="basic/elements/firstName/@value_descending">__MSG__FIRST_NAME__ __MSG__Z_A__</option>
                 </select>
             </span>
         </div>
@@ -82,24 +82,34 @@
                     {if i['rep:userId']}
                     <li id="${i['rep:userId']}">
                         {if i.picture}
-                            <img src="/~${i["rep:userId"]}/public/profile/${i.picture.name}" alt="Profile picture for ${i.firstName} ${i.lastName}" class="pickeradvanced_ppicture"/>
+                            <img src="/~${i["rep:userId"]}/public/profile/${$.parseJSON(i.picture).name}" alt="Profile picture for ${i.firstName} ${i.lastName}" class="pickeradvanced_ppicture"/>
                         {else}
                             <img src="/dev/_images/person_icon.jpg" alt="Default profile picture" class="pickeradvanced_ppicture"/>
                         {/if}
                         <a class="pickeradvanced_name" href="/dev/show.html?type=user&amp;id=${i['rep:userId']}" target="_blank">${sakai.api.User.getDisplayName(i)}</a>
                         <br />
-                        <span class="pickeradvanced_subnameinfo">${sakai.api.User.getShortDescription(i)}</span>
+                        {if sakai.api.User.getShortDescription(i).length > 125}
+                            <span class="pickeradvanced_subnameinfo">${sakai.api.User.getShortDescription(i).substring(0, 125)}...</span>
+                        {else}
+                            <span class="pickeradvanced_subnameinfo">${sakai.api.User.getShortDescription(i)}</span>
+                        {/if}
                     </li>
                     {elseif i['sakai:group-id']}
                     <li id="${i['sakai:group-id']}">
                         {if i.picture}
-                            <img src="/~${i["sakai:group-id"]}/public/profile/${i.picture.name}" alt="Profile picture for ${i["sakai:group-title"]}" class="pickeradvanced_ppicture"/>
+                            <img src="/~${i["sakai:group-id"]}/public/profile/${$.parseJSON(i.picture).name}" alt="Profile picture for ${i["sakai:group-title"]}" class="pickeradvanced_ppicture"/>
                         {else}
-                            <img src="/dev/_images/person_icon.jpg" alt="Default profile picture" class="pickeradvanced_ppicture"/>
+                            <img src="/dev/_images/group_avatar_icon_64x64.png" alt="Default group picture" class="pickeradvanced_ppicture"/>
                         {/if}
                         <a class="pickeradvanced_name" href="/dev/show.html?type=group&amp;id=${i["sakai:group-id"]}" target="_blank">${i["sakai:group-title"]}</a>
                         <br />
-                        <span class="pickeradvanced_subnameinfo">${i["sakai:group-description"]}</span>
+                        {if i["sakai:group-description"]}
+                            {if i["sakai:group-description"].length > 125}
+                                <span class="pickeradvanced_subnameinfo">${i["sakai:group-description"].substring(0, 125)}...</span>
+                            {else}
+                                <span class="pickeradvanced_subnameinfo">${i["sakai:group-description"]}</span>
+                            {/if}
+                        {/if}
                     </li>
                     {elseif i["sakai:pooled-content-file-name"]}
                     <li id="${i["jcr:name"]}">
@@ -113,7 +123,13 @@
                         {/if}
                         <a class="pickeradvanced_name" href="/dev/content_profile.html#content_path=/p/${i["jcr:name"]}" target="_blank">${i["sakai:pooled-content-file-name"]}</a>
                         <br />
-                        <span class="pickeradvanced_subnameinfo">${i["sakai:description"]}</span>
+                        {if i["sakai:description"]}
+                            {if i["sakai:description"].length > 125}
+                                <span class="pickeradvanced_subnameinfo">${i["sakai:description"].substring(0, 125)}...</span>
+                            {else}
+                                <span class="pickeradvanced_subnameinfo">${i["sakai:description"]}</span>
+                            {/if}
+                        {/if}
                     </li>
                     {/if}
                 {forelse}

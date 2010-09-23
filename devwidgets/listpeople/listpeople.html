@@ -36,7 +36,11 @@
                 {/if}
                 <a class="listpeople_name" href="/dev/show.html?type=group&amp;id=${i.groupid}" target="_blank">${i['sakai:group-title']}</a>
                 <br />
-                <span class="listpeople_subnameinfo">${i.subNameInfo}</span>
+                {if i.subNameInfo && i.subNameInfo.length > 115}
+                    <span class="listpeople_subnameinfo">${i.subNameInfo.substring(0, 115)}...</span>
+                {else}
+                    <span class="listpeople_subnameinfo">${i.subNameInfo}</span>
+                {/if}
             </li>
             {elseif i.userid}
             <li id="${i.userid}">
@@ -48,7 +52,11 @@
                 {/if}
                 <a class="listpeople_name" href="/dev/show.html?type=user&amp;id=${i.userid}" target="_blank">${unescape(i.displayName)}</a>
                 <br />
-                <span class="listpeople_subnameinfo">${i.subNameInfo}</span>
+                {if i.subNameInfo && i.subNameInfo.length > 115}
+                    <span class="listpeople_subnameinfo">${i.subNameInfo.substring(0, 115)}...</span>
+                {else}
+                    <span class="listpeople_subnameinfo">${i.subNameInfo}</span>
+                {/if}
             </li>
             {elseif i.displayName}
             <li id="${i['rep:userId']}">
@@ -60,7 +68,11 @@
                 {/if}
                 <a class="listpeople_name" href="/dev/show.html?type=user&amp;id=${i['rep:userId']}" target="_blank">${unescape(i.displayName)}</a>
                 <br />
-                <span class="listpeople_subnameinfo">${i.subNameInfo}</span>
+                {if i.subNameInfo && i.subNameInfo.length > 115}
+                    <span class="listpeople_subnameinfo">${i.subNameInfo.substring(0, 115)}...</span>
+                {else}
+                    <span class="listpeople_subnameinfo">${i.subNameInfo}</span>
+                {/if}
             </li>
             {elseif i["jcr:primaryType"] === "sakai:pooled-content"}
             <li id="${i.content_id}">
@@ -70,7 +82,11 @@
                 {/if}
                 <a class="listpeople_name" href="/dev/content_profile.html#content_path=/p/${i.content_id}" target="_blank">${i["sakai:pooled-content-file-name"]}</a>
                 <br />
-                <span class="listpeople_subnameinfo">${i.subNameInfo}</span>
+                {if i.subNameInfo && i.subNameInfo.length > 115}
+                    <span class="listpeople_subnameinfo">${i.subNameInfo.substring(0, 115)}...</span>
+                {else}
+                    <span class="listpeople_subnameinfo">${i.subNameInfo}</span>
+                {/if}
             </li>
             {/if}
         {/for}

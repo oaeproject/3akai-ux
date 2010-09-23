@@ -43,6 +43,7 @@ sakai.embedcontent = function(tuid, showSettings) {
     var $embedcontent_display_options = $("#embedcontent_display_options", $rootel);
     var $embedcontent_display_options_select = $("#embedcontent_display_options_select", $rootel);
     var $embedcontent_metadata_container = $("#embedcontent_metadata_container", $rootel);
+    var $embedcontent_metadata = $("#embedcontent_metadata", $rootel);
     var $embedcontent_search_for_content = $("#embedcontent_search_for_content", $rootel);
 
     var $embedcontent_alternative_display_name_value = $("#embedcontent_alternative_display_name_value", $rootel);
@@ -65,6 +66,9 @@ sakai.embedcontent = function(tuid, showSettings) {
         "filter": false
     };
 
+    /**
+     * Render the embed screen
+     */
     var render = function() {
         selectedItems = [];        
         $.TemplateRenderer($embedcontent_page_name_template, {"name": embedConfig.name}, $embedcontent_page_name);
@@ -74,8 +78,14 @@ sakai.embedcontent = function(tuid, showSettings) {
         } else {
             doReset();
         }
+        console.log("render");
+        $("#as-values-" + tuid).val("");
+        $(".as-selection-item").remove();
     };
 
+    /**
+     * Do a reset of the embed screen
+     */
     var doReset = function() {
         $("#as-values-" + tuid).val("");
         $(".as-selection-item").remove();
@@ -87,12 +97,22 @@ sakai.embedcontent = function(tuid, showSettings) {
         $embedcontent_description_value.val('');
     };
 
+    /**
+     * Get the mimetype of a provided file
+     * @param {Object} file File provided to get mimetype of
+     */
     var getMimeType = function(file) {
         var mimetype = "";
         mimetype = file["jcr:content"] ? file["jcr:content"]["jcr:mimeType"] : "";
         return mimetype;
     };
 
+    /**
+     * Creates an object out of results provided
+     * This object contains valuable information about the file like path, name, type,...
+     * @param {Object} result results provided (eg through a search)
+     * @param {Object} name optional name provided
+     */
     var createDataObject = function(result, name) {
         var mimetype = getMimeType(result);
         var dataObj = {
@@ -109,6 +129,9 @@ sakai.embedcontent = function(tuid, showSettings) {
         return dataObj;
     };
 
+    /**
+     * When typing in the suggest box this function is executed to provide the user with a list of possible autocompletions
+     */
     var setupAutoSuggest = function() {
         $embedcontent_content_input.autoSuggest("",{
             source: function(query, add) {
@@ -132,7 +155,7 @@ sakai.embedcontent = function(tuid, showSettings) {
                     } else {
 
                     }
-                }, {"q": "*" + query + "*"});
+                }, {"q": "*" + query.replace(/\s+/g, "* OR *") + "*"});
             },
             asHtmlID: tuid,
             selectedItemProp: "name",
@@ -141,11 +164,13 @@ sakai.embedcontent = function(tuid, showSettings) {
             resultClick: function(data) {
                 selectedItems.push(data.attributes);
                 showDisplayOptions();
+                $embedcontent_place_content.removeAttr("disabled");
             },
             selectionRemoved: function(elem) {
                 removeItemFromSelected(elem.html().split("</a>")[1]); // get filename
                 elem.remove();
                 if (selectedItems.length === 0) {
+                    $embedcontent_place_content.attr("disabled", "disabled");
                     $embedcontent_display_options.hide();
                     $embedcontent_metadata_container.hide();
                 }
@@ -153,6 +178,10 @@ sakai.embedcontent = function(tuid, showSettings) {
         });
     };
 
+    /**
+     * Removes a previously selected item from the list of selected items
+     * @param {Object} fileName name of the selected item to be removed from the list
+     */
     var removeItemFromSelected = function(fileName) {
         var newItems = [];
         $(selectedItems).each(function(i, val) {
@@ -163,6 +192,10 @@ sakai.embedcontent = function(tuid, showSettings) {
         selectedItems = newItems;
     };
 
+    /**
+     * Called when file(s) are selected in the picker advanced widget and need to be added to the list of files that will be embedded.
+     * @param {Object} files Array of files selected in the picker advanced widget
+     */
     var addChoicesFromPickeradvanced = function(files) {
         var filesPicked = 0;
         $.each(files, function(i,val) {
@@ -172,6 +205,9 @@ sakai.embedcontent = function(tuid, showSettings) {
         if (embedConfig.limit && filesPicked && ($(".as-selection-item").length + filesPicked) > embedConfig.limit) { 
             $("#as-values-" + tuid).val('');
             $(".as-selection-item").remove();
+        }
+        if (filesPicked > 0) {
+            $embedcontent_place_content.removeAttr("disabled");
         }
         $.each(files, function(i,val) {
             var newObj = createDataObject(val, val["jcr:name"]);
@@ -183,6 +219,10 @@ sakai.embedcontent = function(tuid, showSettings) {
         $("input#" + tuid).val('').focus();
     };
 
+    /**
+     * Called when newly uploaded files need to be added to the list of files that will be embedded
+     * @param {Object} files Array containing a list of files
+     */
     var addChoicesFromFileUpload = function(files) {
       $.each(files, function(i,val) {
           $.ajax({
@@ -197,14 +237,51 @@ sakai.embedcontent = function(tuid, showSettings) {
           });
       });
       $("input#" + tuid).val('').focus();
+      $embedcontent_place_content.removeAttr("disabled");
     };
 
+    /**
+     * Shows the options the user has for displaying the content
+     */
     var showDisplayOptions = function() {
         if (embedConfig.mode === "embed") {
             $embedcontent_display_options.show();
         }
     };
 
+    /**
+     * Once the content has been placed on the page it has to be associated with the group
+     * The group is set as a viewer of the content
+     * @param {Object} embeddedItems Array of object containing information about the selected items. Only the path variable is used.
+     */
+    var associatedEmbeddedItemsWithGroup = function(embeddedItems){
+        var data = [];
+        for (var embeddedItem in embeddedItems) {
+            var item = {
+                "url": embeddedItems[embeddedItem].path + ".members.json",
+                "method": "POST",
+                "parameters": {
+                    ":viewer": sakai.currentgroup.id
+                }
+            };
+            data[data.length] = item;
+        }
+
+        $.ajax({
+            url: sakai.config.URL.BATCH,
+            traditional: true,
+            type: "POST",
+            cache: false,
+            data: {
+                requests: $.toJSON(data)
+            }
+        });
+    };
+
+    /**
+     * Embed the selected content on the page,
+     * Call the function that associates the content with this group
+     */
     var doEmbed = function() {
         var embedContentHTML = "";
         var objectData = {
@@ -213,18 +290,35 @@ sakai.embedcontent = function(tuid, showSettings) {
             "description": $embedcontent_description_value.val(),
             "items": selectedItems
         };
+
+        // Associate embedded items with the group
+        associatedEmbeddedItemsWithGroup(selectedItems);
+
         if (embedConfig.mode === "embed") {
-            embedContentHTML = $.TemplateRenderer($embedcontent_content_html_template, objectData);
-            tinyMCE.get('elm1').execCommand("mceInsertContent", true, embedContentHTML);
+            if ($embedcontent_metadata_container.is(":visible")) {
+                var isValid = $embedcontent_metadata.valid();
+                if (isValid) {
+                    embedContentHTML = $.TemplateRenderer($embedcontent_content_html_template, objectData);
+                    tinyMCE.get('elm1').execCommand("mceInsertContent", true, embedContentHTML);
+                    return true;
+                }
+            } else {
+                embedContentHTML = $.TemplateRenderer($embedcontent_content_html_template, objectData);
+                tinyMCE.get('elm1').execCommand("mceInsertContent", true, embedContentHTML);
+                return true;
+            }
         } else if (embedConfig.mode === "picker") {
             $(window).trigger("sakai-embedcontent-picker-finished", {"items": selectedItems});
+            return true;
         }
+        return false;
     };
 
     // Bind Events
     $embedcontent_place_content.bind("click", function() {
-        doEmbed();
-        $embedcontent_dialog.jqmHide();
+        if (doEmbed()) {
+            $embedcontent_dialog.jqmHide();
+        }
     });
 
     $embedcontent_cancel.bind("click", function() {
@@ -279,11 +373,13 @@ sakai.embedcontent = function(tuid, showSettings) {
         toTop: true
     });
 
+    $embedcontent_metadata.validate();
+
     var doInit = function() {
         $(window).trigger("sakai-embedcontent-ready");
         sakai.api.Widgets.widgetLoader.insertWidgets("#"+tuid);
     };
 
     doInit();
-}
+};
 sakai.api.Widgets.widgetLoader.informOnLoad("embedcontent");

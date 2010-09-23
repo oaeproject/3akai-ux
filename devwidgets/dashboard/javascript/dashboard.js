@@ -46,6 +46,7 @@ sakai.dashboard = function(tuid, showSettings) {
     var savePath = false;
     var settings = false;
     var widgetPropertyName = false;
+    var tempSettings;
 
     var rootel = "#" + tuid;
     var $rootel = $(rootel);
@@ -397,8 +398,10 @@ sakai.dashboard = function(tuid, showSettings) {
 
                   var el = $("#" + currentSettingsOpen.split("_")[1] + "_container", $rootel);
                   if (el.css('display') == "none") {
+                      el.parent().find(".fl-widget-titlebar").removeClass("hiddenwidget");
                       el.show();
                   } else {
+                      el.parent().find(".fl-widget-titlebar").addClass("hiddenwidget");
                       el.hide();
                   }
                   saveState();
@@ -549,8 +552,10 @@ sakai.dashboard = function(tuid, showSettings) {
             }
         }
 
-        sakai.api.Widgets.saveWidgetData(tuid, settings, checkSuccess);
+        if ($.toJSON(tempSettings) !== $.toJSON(settings))
+            sakai.api.Widgets.saveWidgetData(tuid, settings, checkSuccess);
 
+        tempSettings = settings;
     };
 
     var checkSuccess = function(success) {

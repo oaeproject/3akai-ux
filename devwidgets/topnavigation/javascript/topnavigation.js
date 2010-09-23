@@ -63,6 +63,7 @@ sakai.topnavigation = function(tuid, showSettings){
     var navMySakaiLink = "#nav_my_sakai_link";
     var navCalendarLink = "#nav_calendar_link";
     var navSelectedNavItemClass = "explore_nav_selected";
+    var topNavigationBar = "#top_navigation";
 
     // Messages
     var chatUnreadMessages = "#chat_unreadMessages";
@@ -179,6 +180,12 @@ sakai.topnavigation = function(tuid, showSettings){
             sendChatStatus(clicked);
         });
 
+        $.each($(topNavigationBar + " a"), function(){
+            if (window.location.pathname === $(this).attr("href")){
+                $(this).attr("href", "javascript:;");
+            }
+        });
+
         $(document).bind("click", function(e){
             var $clicked = $(e.target);
 
@@ -190,6 +197,13 @@ sakai.topnavigation = function(tuid, showSettings){
 
         $(window).bind("chat_status_change", function(event, currentChatStatus){
             updateChatStatusElement($(userLink), currentChatStatus);
+        });
+
+        $(window).bind("click", function(e){
+            // if menu is visible and the target element clicked is not menu hide dropdown
+            if ($(userLinkMenu).is(":visible") && !$(e.target).parents().is(userLink)){
+                showHideUserLinkMenu(true);
+            }
         });
     };
 

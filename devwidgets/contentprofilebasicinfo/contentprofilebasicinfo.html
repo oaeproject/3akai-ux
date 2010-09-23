@@ -21,14 +21,14 @@
                 __MSG__TAGS__:
             </label>
             {if !anon}
-                <textarea id="content_profile_basic_info_form_tags">{if data["sakai:tags"]}{for tag in data["sakai:tags"]}{if tag.split(":")[0] !== "directory"}{if tag_index > 0},{/if}${tag}{/if}{/for}{/if}</textarea>
+                <textarea id="content_profile_basic_info_form_tags">{if data["sakai:tags"]}{for tag in data["sakai:tags"]}{if tag.split("/")[0] !== "directory"}{if tag_index > 0},{/if}${tag}{/if}{/for}{/if}</textarea>
                 <br/>
                 <div class="content_profile_basic_info_form_info">
-                    (__MSG__COMMA_SEPARATED__)
+                    __MSG__THIS_WILL_HELP_YOU_AND_OTHERS_FIND_THIS_CONTENT__
                 </div>
             {else}
             <div id="content_profile_basic_info_tags_viewlist">
-                {for tag in data["sakai:tags"]}{if tag.split(":")[0] !== "directory"}{if tag_index > 0},{/if} <a href="/dev/search.html#q=${tag}" class="s3d-action" title="Search content tagged with '${tag}'"">${tag}</a>{/if}{/for}
+                {for tag in data["sakai:tags"]}{if tag.split("/")[0] !== "directory"}{if tag_index > 0},{/if} <a href="/dev/search.html#q=${tag}" class="s3d-action" title="Search content tagged with '${tag}'"">${tag}</a>{/if}{/for}
             </div>
             {/if}
         </div>
@@ -48,11 +48,11 @@
             </label>
             {if !anon}
                 <select id="content_profile_basic_info_copyright_select">
-                    <option value="__MSG__CREATIVE_COMMONS_LICENSE__" {if data["sakai:copyright"] === "__MSG__CREATIVE_COMMONS_LICENSE__"}selected="selected"{/if}>__MSG__CREATIVE_COMMONS_LICENSE__</option>
-                    <option value="__MSG__COPYRIGHTED__" {if data["sakai:copyright"] === "__MSG__COPYRIGHTED__"}selected="selected"{/if}>__MSG__COPYRIGHTED__</option>
-                    <option value="__MSG__NO_COPYRIGHT__" {if data["sakai:copyright"] === "__MSG__NO_COPYRIGHT__"}selected="selected"{/if}>__MSG__NO_COPYRIGHT__</option>
-                    <option value="__MSG__LICENSED__" {if data["sakai:copyright"] === "__MSG__LICENSED__"}selected="selected"{/if}>__MSG__LICENSED__</option>
-                    <option value="__MSG__WAIVE_COPYRIGHT__" {if data["sakai:copyright"] === "__MSG__WAIVE_COPYRIGHT__"}selected="selected"{/if}>__MSG__WAIVE_COPYRIGHT__</option>
+                    <option value="creativecommons" {if data["sakai:copyright"] === "creativecommons"}selected="selected"{/if}>__MSG__CREATIVE_COMMONS_LICENSE__</option>
+                    <option value="copyrighted" {if data["sakai:copyright"] === "copyrighted"}selected="selected"{/if}>__MSG__COPYRIGHTED__</option>
+                    <option value="nocopyright" {if data["sakai:copyright"] === "nocopyright"}selected="selected"{/if}>__MSG__NO_COPYRIGHT__</option>
+                    <option value="licensed" {if data["sakai:copyright"] === "licensed"}selected="selected"{/if}>__MSG__LICENSED__</option>
+                    <option value="waivecopyright" {if data["sakai:copyright"] === "waivecopyright"}selected="selected"{/if}>__MSG__WAIVE_COPYRIGHT__</option>
                 </select>
             {else}
                 <label class="content_profile_basic_info_form_anon_label">{if data["sakai:copyright"]}${data["sakai:copyright"]}{/if}</label>
@@ -64,13 +64,11 @@
                 __MSG__WHO_CAN_SEE_THIS_CONTENT__:
             </label>
                 <select id="content_profile_basic_info_permissions_select">
-                    <option value="public" {if data["sakai:permissions"] === "public"}selected="selected"{/if}>__MSG__THE_PUBLIC__</option>
-                    <option value="everyone" {if data["sakai:permissions"] === "everyone"}selected="selected"{/if}>__MSG__LOGGED_IN_ONLY__</option>
-                    {if data["sakai:groupresource"] === "true"}
-                        <option value="group" {if data["sakai:permissions"] === "group"}selected="selected"{/if}>__MSG__VIEWERS_AND_MANAGERS_ONLY__</option>
-                    {else}
-                        <option value="private" {if data["sakai:permissions"] === "private"}selected="selected"{/if}>__MSG__MYSELF_ONLY__</option>
-                    {/if}
+                    <option value="public" {if data["sakai:permissions"] === "public"}selected="selected"{/if}>__MSG__PUBLIC__</option>
+                    <option value="everyone" {if data["sakai:permissions"] === "everyone"}selected="selected"{/if}>__MSG__LOGGED_IN_USERS__</option>
+                    <option value="managers" {if data["sakai:permissions"] === "managers"}selected="selected"{/if}>__MSG__MANAGERS__</option>
+                    <option value="group" {if data["sakai:permissions"] === "group"}selected="selected"{/if}>__MSG__MANAGERS_AND_MEMBERS__</option>
+                    <option value="private" {if data["sakai:permissions"] === "private"}selected="selected"{/if}>__MSG__ONLY_ME__</option>
                 </select>
         </div>
         {/if}
@@ -91,7 +89,7 @@
                     <ul class="content_profile_basic_info_saveddirectory">
                         {for savedDir in saveddirectory}
                             <li class="${savedDir}">
-                                ${savedDir.toString().replace(/,/g, " <span class='content_profile_basic_info_selected_and_saved_seperator'>&raquo;</span> ")}
+                                <span class="content_profile_basic_info_saveddirectory_information">${savedDir.toString().replace(/,/g, " <span class='content_profile_basic_info_selected_and_saved_seperator'>&raquo;</span> ")}</span>
                                 <a href="javascript:;" class="content_profile_basic_info_remove_location" title="Remove location">Remove</a>
                             </li>
                         {/for}

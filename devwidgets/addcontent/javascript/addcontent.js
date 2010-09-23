@@ -183,7 +183,7 @@ sakai.addcontent = function(tuid, showSettings){
         
         // Show the container
         $addcontent_container.show();
-    }
+    };
 
     /**
      * Load the files from a specific location
@@ -195,7 +195,7 @@ sakai.addcontent = function(tuid, showSettings){
                 q: "*",
                 sortOn: "jcr:created",
                 sortOrder: "descending"
-            }
+            };
             sakai.api.Server.loadJSON("/var/search/pool/me/manager.1", filesLoaded, data);
         }
 
@@ -212,36 +212,31 @@ sakai.addcontent = function(tuid, showSettings){
             // Only do something on success
             // TODO show a valid error message if something goes wrong
             if(success && data.path){
+                if (sakai.content_profile.content_data && sakai.content_profile.content_data.data) {
+                    json = sakai.content_profile.content_data;
+                    var splitslash = sakai.content_profile.content_data.contentpath.split("/");
+                    json.data.name = splitslash[splitslash.length -1];
+                    // Render the show template
+                    renderTemplateShow(json);
 
-                // Get the latest information about the file
-                $.ajax({
-                    url: data.path + ".2.json",
-                    success: function(requestdata){
+                    // Add binding to the show container
+                    addBindingShow(json);
+                } else {
+                    sakai.content_profile.loadContentProfile(function(success) {
+                        if (success) {
+                            json = sakai.content_profile.content_data;
+                            var splitslash = sakai.content_profile.content_data.contentpath.split("/");
+                            json.data.name = splitslash[splitslash.length -1];
+                            // Render the show template
+                            renderTemplateShow(json);
 
-                        // Construct the JSON object
-                        var json = {
-                            data: requestdata,
-                            url: data.path
-                        };
-
-                        // Set the correct name
-                        var splitslash = data.path.split("/");
-                        json.data.name = splitslash[splitslash.length -1];
-
-                        // Render the show template
-                        renderTemplateShow(json);
-
-                        // Add binding to the show container
-                        addBindingShow(json);
-
-                    }
-
-                });
-
+                            // Add binding to the show container
+                            addBindingShow(json);
+                        }
+                    });
+                }
             }
-
         });
-
     };
 
 

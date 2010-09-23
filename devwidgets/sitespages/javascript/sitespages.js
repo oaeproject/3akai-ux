@@ -291,7 +291,9 @@ sakai.sitespages = function(tuid,showSettings){
         if (!pageUrlName) {
             for (var i in sakai.sitespages.site_info._pages) {
                 if (sakai.sitespages.site_info._pages.hasOwnProperty(i)) {
-                    if (sakai.sitespages.site_info._pages[i]["pageURLTitle"] === "about-this-group") {
+                    // TODO should make these next two based on config rather than hard coded
+                    if (sakai.sitespages.site_info._pages[i]["pageURLTitle"] === "about-this-group" || // default group page
+                        sakai.sitespages.site_info._pages[i]["pageURLTitle"] === "profile") { // defualt user page
                         pageUrlName = i;
                         break;
                     }
@@ -374,13 +376,15 @@ sakai.sitespages = function(tuid,showSettings){
         } else {
             $("#sitespages_page_options #page_save_options").hide();
             $("#sitespages_page_options #page_options").show().html($.TemplateRenderer("#sitespages_page_options_container", {})); // todo don't do this
+            $more_revision_history = $($more_revision_history.selector);
+            $more_save_as_template = $($more_save_as_template.selector);
             if (pageType === "webpage") {
                 $(".sakai_site .content_top").removeClass("content_top_rounded");
                 $content_page_options.show();
                 $li_edit_page_divider.show();
+                $sitespages_page_options.show();
                 $more_revision_history.show();
                 $more_save_as_template.show();
-                $sitespages_page_options.show();
             } else if (pageType === "dashboard") {
                 $(".sakai_site .content_top").addClass("content_top_rounded");
                 $sitespages_page_options.show();

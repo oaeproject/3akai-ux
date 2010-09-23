@@ -278,7 +278,7 @@ sakai.sitespages.site_admin = function(){
             plugins: "safari,advhr,inlinepopups,preview,noneditable,nonbreaking,xhtmlxtras,template",
 
             // Context Menu
-            theme_advanced_buttons1: "formatselect,fontselect,fontsizeselect,bold,italic,underline,|,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,|,image,link",
+            theme_advanced_buttons1: "formatselect,fontselect,fontsizeselect,bold,italic,underline,|,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,|,link",
             theme_advanced_toolbar_location: "external",
             theme_advanced_toolbar_align: "left",
             theme_advanced_statusbar_location: "none",
@@ -979,8 +979,8 @@ sakai.sitespages.site_admin = function(){
      * @return void
      */
     var showPageLocation = function(){
-
-        $("#new_page_path").html(sakai.api.Security.saneHTML("<span>Page location: </span>" + sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["jcr:path"]));
+        //http://localhost:8080/~resources#page=resourcespagesthird-page
+        $("#new_page_path").html(sakai.api.Security.saneHTML("<span>Page location: </span>" + sakai.config.SakaiDomain + "/~" + sakai.currentgroup.id + "#page=" + sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage].pageURLName));
 
     };
 
@@ -1598,7 +1598,6 @@ sakai.sitespages.site_admin = function(){
      * @return void
      */
     sakai.sitespages.widgetFinish = function(tuid){
-        alert(tuid);
         // Add widget to the editor
         $("#insert_screen2_preview").html("");
         tinyMCE.get("elm1").execCommand('mceInsertContent', false, '<img src="' + Widgets.widgets[sakai.sitespages.newwidget_id].img + '" id="' + sakai.sitespages.newwidget_uid + '" class="widget_inline" style="display:block; padding: 10px; margin: 4px" border="1"/>');
@@ -1719,6 +1718,8 @@ sakai.sitespages.site_admin = function(){
                 // Init tinyMCE if needed
                 if (tinyMCE.activeEditor === null) { // Probably a more robust checking will be necessary
                     init_tinyMCE();
+                    $("#sitespages_page_options #page_options").hide();
+                    $("#sitespages_page_options #page_save_options").show().html($.TemplateRenderer("#edit_page_action_buttons_template", {}));
                 } else {
                     editPage(pageUniques.urlName);
                 }
@@ -2277,7 +2278,7 @@ sakai.sitespages.site_admin = function(){
     var registerWidgetFunctions = function(){
         sakai.api.Widgets.Container.registerFinishFunction(sakai.sitespages.widgetFinish);
         sakai.api.Widgets.Container.registerCancelFunction(sakai.sitespages.widgetCancel);
-    }
+    };
 
     /**
      * Initialise Admin part

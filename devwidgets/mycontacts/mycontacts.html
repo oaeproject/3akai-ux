@@ -3,24 +3,39 @@
 
 <div class="mycontacts_widget">
 
-    <div class="fl-widget-content" id="mycontacts_list"></div>
+    <div class="fl-widget-content" id="mycontacts_list"><!-- --></div>
 
+    <!-- ERROR MESSAGES -->
+    <span id="mycontacts_error_contactserver" style="display:none;">__MSG__UNABLE_TO_CONTACT_THE_SERVER_PLEASE_TRY_AGAIN_LATER__.</span>
+
+    <!-- FOOTER LINKS -->
+    <div class="fl-widget-options fl-fix" style="overflow:hidden;">
+        <div class="widget-options-inner">
+            <ul>
+                <li><a href="people.html">__MSG__VIEW_AND_EDIT_ALL_MY_CONTACTS__</a></li>
+                <li><span class="pipe_divider">|</span></li>
+                <li><a href="search_people.html#q=*&page=1">__MSG__FIND_PEOPLE__</a></li>
+                <li><a href="people.html" class="mycontacts_requests" id="mycontacts_requests"></a></li>
+            </ul>
+
+        </div>
+        <div class="fl-widget-options-footer-left">
+            <div class="fl-widget-options-footer-right">
+            </div>
+        </div>
+    </div>
+    
     <div id="mycontacts_list_template" style="display:none"><!--
         {for i in items}
             <div class="mycontacts_list_contact">
-                <a href="/dev/show.html?type=user&amp;id=${i.id}" class="mycontacts_list_contact_picture"><img src="${i.photo}" alt="person icon" /></a>
+                <a href="/dev/show.html?type=user&amp;id=${i.id}" class="mycontacts_list_contact_picture"><img src="${i.photo}" alt="person icon"/></a>
                 <a href="/dev/show.html?type=user&amp;id=${i.id}" class="mycontacts_list_contact_name">${i.name}</a>
             </div>
         {forelse}
             <span id="mycontacts_nocontacts">__MSG__YOU_CURRENTLY_HAVE_NO_CONTACTS__</span>
         {/for}
+        <hr class="fl-push fl-hidden"/>
     --></div>
-<!--
-<div class="mycontacts_list_contact">
-                <a href="/dev/show.html?type=user&amp;id=${i.id}" class="mycontacts_list_contact_picture"><img src="${i.photo}" /></a>
-                <a href="/dev/show.html?type=user&amp;id=${i.id}" class="mycontacts_list_contact_name">${i.name}</a>
-            </div>
--->
 
     <div id="mycontacts_requests_template"><!--
         {if ((invited > 0) && (invited < 1000))}
@@ -34,22 +49,7 @@
             </span>
         {/if}
     --></div>
-
-    <!-- ERROR MESSAGES -->
-    <span id="mycontacts_error_contactserver" style="display:none;">__MSG__UNABLE_TO_CONTACT_THE_SERVER_PLEASE_TRY_AGAIN_LATER__.</span>
-
-    <!-- FOOTER LINKS -->
-    <div class="fl-widget-options fl-fix" style="overflow:hidden;">
-        <div class="widget-options-inner">
-            <ul>
-                <li><a href="people.html">__MSG__VIEW_AND_EDIT_CONTACTS__</a></li>
-                <li><span class="pipe_divider">|</span></li>
-                <li><a href="search_people.html#q=*&page=1">__MSG__FIND_PEOPLE__</a></li>
-                <li><a href="people.html" class="mycontacts_requests" id="mycontacts_requests"></a></li>
-            </ul>
-
-        </div>
-    </div>
+    
 </div>
 
 <!-- JAVASCRIPT -->

@@ -172,7 +172,11 @@
                                             {if m.userTo}
                                                 <td>
                                                 {for toUser in m.userTo}
-                                                    <a class="inbox_inbox_message_from" href="/dev/show.html?type=user&amp;id=${toUser.userid}">${sakai.api.User.getDisplayName(toUser)}</a>
+                                                    {if toUser["sakai:group-title"]}
+                                                    <a class="inbox_inbox_message_from" href="/dev/show.html?type=group&amp;id=${toUser.groupid}">${toUser["sakai:group-title"]}</a>{if toUser_index < m.userTo.length - 1},{/if}
+                                                    {else}
+                                                    <a class="inbox_inbox_message_from" href="/dev/show.html?type=user&amp;id=${toUser.userid}">${sakai.api.User.getDisplayName(toUser)}</a>{if toUser_index < m.userTo.length - 1},{/if}
+                                                    {/if}
                                                 {/for}
                                                 </td>
                                             {else}
@@ -194,7 +198,11 @@
                                             {else}
                                                 <td>
                                                 {for toUser in m.userTo}
-                                                    <a class="inbox_inbox_message_from" href="/dev/show.html?type=user&amp;id=${toUser.userid}">__MSG__TO__: ${sakai.api.User.getDisplayName(toUser)}</a>
+                                                    {if toUser["sakai:group-title"]}
+                                                    <a class="inbox_inbox_message_from" href="/dev/show.html?type=group&amp;id=${toUser.groupid}">__MSG__TO__: ${toUser["sakai:group-title"]}</a>{if toUser_index < m.userTo.length - 1},{/if}
+                                                    {else}
+                                                    <a class="inbox_inbox_message_from" href="/dev/show.html?type=user&amp;id=${toUser.userid}">__MSG__TO__: ${sakai.api.User.getDisplayName(toUser)}</a>{if toUser_index < m.userTo.length - 1},{/if}
+                                                    {/if}
                                                 {/for}
                                                 </td>
                                             {/if}
@@ -291,15 +299,15 @@
                             <div id="inbox_message_replies"></div>
                             <div id="inbox_message_replies_template"><!--
                             {macro showReply(r)}
-                            <div style="padding: 10px 0px;">
-                                <span style="float:left;">
+                            <div class="sender_details">
+                                <div class="sender_picture_container">
                                     <a href="javascript:;" title="__MSG__TO_SEE_THE_PERSON_PROFILE__">
                                     {if r.userFrom[0].picture}
                                         <img src="/~${r.userFrom[0]["userid"]}/public/profile/${r.userFrom[0].photo}" alt="__MSG__TO_SEE_THE_USERS_PROFILE_INFORMATION__" class="sender-picture" id="inbox_message_picture" />
                                     {else}
                                         <img src="/dev/_images/person_icon.jpg" class="sender-picture" alt="__MSG__TO_SEE_THE_USERS_PROFILE_INFORMATION__" id="inbox_message_picture" />
                                     {/if}
-                                </span>
+                                </div>
                                 <div class="inbox_message_user">
                                     {for fromUser in r.userFrom}
                                         <a href="/dev/show.html?type=user&amp;id=${r["sakai:from"]}" class="sender-name" id="inbox_message_from">${sakai.api.User.getDisplayName(fromUser)}</a><br />

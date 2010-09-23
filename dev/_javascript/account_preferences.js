@@ -62,7 +62,9 @@ sakai.account_preferences = function(){
     var errorPassNotEqual = accountPreferencesID + "_error_passNotEqual";
     var errorIncorrectPass = accountPreferencesID + "_error_incorrectPass";
     var errorFailChangePass = accountPreferencesID + "_error_failChangePass";
+    var errorFailChangePassBody = accountPreferencesID + "_error_failChangePassBody";
     var messagePassChanged = accountPreferencesID + "_message_passChanged";
+    var messagePassChangedBody = accountPreferencesID + "_message_passChangedBody";
     var errorInvalidPass = accountPreferencesID + "_error_invalidPass";
     var errorFailChangeLang = accountPreferencesID + "_error_failChangeLang";
     var messageChangeLang = accountPreferencesID + "_message_ChangeLang";
@@ -74,6 +76,8 @@ sakai.account_preferences = function(){
     // templates
     var languagesTemplate = accountPreferences + "_languagesTemplate";
 
+    var regionalSetting;
+    var languageSetting;
 
     ///////////////////////
     // Utility functions //
@@ -140,7 +144,6 @@ sakai.account_preferences = function(){
         var newPass1 = $(newPassTxt).val();
         var newPass2 = $(newRetypePassTxt).val();
 
-        if(newPass1 === newPass2){
             /*
              * oldPassword : the original password
              * password : the new password
@@ -153,26 +156,20 @@ sakai.account_preferences = function(){
                 data : requestbody,
                 success : function(data) {
 
-                    // update the user of the successful password change
-                    showGeneralMessage($(messagePassChanged).html(), false, saveNewPass, generalMessagePass);
+                    // show successful password change message through gritter
+                    sakai.api.Util.notification.show($(messagePassChanged).html(), $(messagePassChangedBody).html());
                     // clear all the fields
                     clearPassFields();
                 },
                 error: function(xhr, textStatus, thrownError) {
 
-                    showGeneralMessage($(errorFailChangePass).html(), true, saveNewPass, generalMessagePass);
-
+                    // show error message through gritter
+                    sakai.api.Util.notification.show($(errorFailChangePass).html(), $(errorFailChangePassBody).html());
                     // clear all the fields
                     clearPassFields();
                 }
             });
-        }
-        else{
-            // check if the passwords are equal
-            showGeneralMessage($(errorPassNotEqual).html(), true, saveNewPass, generalMessagePass);
-            // clear all the fields
-            clearPassFields();
-        }
+
     };
 
 
@@ -229,26 +226,60 @@ sakai.account_preferences = function(){
         var language = $(languagesContainer).val();
         var locale = {"locale" : language, "timezone" : $(timezonesContainer).val(), "_charset_":"utf-8"};
 
-        $.ajax({
-            data : locale,
-            url : "/system/userManager/user/" + me.user.userid + ".update.html",
-            type : "POST",
-            success : function(data) {
+        // if regional Setting and langauge is changed only then save the changes
+        if (regionalSetting !== $(timezonesContainer).val() || language !== languageSetting) {
+            regionalSetting = $(timezonesContainer).val();
+            languageSetting = language;
+            $.ajax({
+                data: locale,
+                url: "/system/userManager/user/" + me.user.userid + ".update.html",
+                type: "POST",
+                success: function(data){
 
-                if(language !== me.user.locale.language+"_"+me.user.locale.country){
-                    // Reload the page if the language for a user has changed
-                    document.location.reload();
-                }else{
-                    // Update the user of the successful regional settings change
-                    showGeneralMessage($(messageChangeLang).html(), false, saveRegional, generalMessageReg);
+                    if (language !== me.user.locale.language + "_" + me.user.locale.country) {
+                        // Reload the page if the language for a user has changed
+                        document.location.reload();
+                    }
+                    else {
+                        // Show successful regional setting change through gritter
+                        sakai.api.Util.notification.show($(messageChangeLang).html(), $(messageChangeLang).html());
+                    }
+
+                },
+                error: function(xhr, textStatus, thrownError){
+                    // show regional setting error message through gritter
+                    sakai.api.Util.notification.show($(errorFailChangeLang).html(), $(errorFailChangeLang).html());
                 }
-
-            },
-            error: function(xhr, textStatus, thrownError) {
-                showGeneralMessage($(errorFailChangeLang).html(), true, saveRegional, generalMessageReg);
-            }
-        });
+            });
+        }
     };
+
+    /**
+     * Initialise form validation
+     */
+    var initValidation = function(){
+        $(accountPreferencesPasswordChange).validate({
+            errorClass: "account_preferences_error",
+            errorElement:"div",
+            rules:{
+                curr_pass:{
+                    required: true,
+                    minlength: 4
+                },
+                new_pass:{
+                    required: true,
+                    minlength: 4
+                },
+                retype_pass:{
+                    required: true,
+                    minlength: 4,
+                    equalTo: "#new_pass"
+                }
+            },
+            debug:true
+
+        });
+    }
 
     /**
      * Disable or enable elements
@@ -272,12 +303,18 @@ sakai.account_preferences = function(){
     /** Binds the submit function on the password change form **/
     $(accountPreferencesPasswordChange).submit(function(){
 
-        // check if the user didn't just fill in some spaces
-        if (checkIfInputValid()) {
+        // check if the user enter valid data for old and new passwords
+        if ($(accountPreferencesPasswordChange).valid()) {
 
             // change the password
             changePass();
         }
+    });
+
+    /** Binds all the regional settings select box change **/
+    $("#time_zone, #pass_language").change(function(e){
+        // enable the change regional setting button
+        enableElements($(saveRegional));
     });
 
     /** Binds all the password boxes (keyup) **/
@@ -312,8 +349,10 @@ sakai.account_preferences = function(){
             document.location = sakai.config.URL.GATEWAY_URL;
         } else {
             disableElements($(saveNewPass));
+            disableElements($(saveRegional));
             selectTimezone(me.user.locale.timezone);
             getLanguages();
+            initValidation();
         }
     };
 

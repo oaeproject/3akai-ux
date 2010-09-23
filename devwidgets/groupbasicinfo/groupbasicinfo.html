@@ -9,19 +9,6 @@
     {if url && data}
         <div class="groupbasicinfo_generalinfo_header">
             <h2>__MSG__BASIC_INFORMATION__</h2>
-
-            {if mode === "edit" && perSectionPermissions}
-                {var _access = data.access}
-                <div class="groupbasicinfo_generalinfo_acl fl-force-right">
-                    <label for="groupbasicinfo_generalinfo_access">__MSG__WHO_CAN_VIEW_OR_SEARCH_THIS__</label>
-                    <select id="groupbasicinfo_generalinfo_access">
-                        <option{if _access==="public"} selected="selected"{/if}>__MSG__EVERYBODY__</option>
-                        <option{if _access==="institution"} selected="selected"{/if}>__MSG__INSTITUTION_ONLY__</option>
-                        <option{if _access==="contacts"} selected="selected"{/if}>__MSG__CONTACTS_ONLY__</option>
-                        <option{if _access==="noone"} selected="selected"{/if}>__MSG__ONLY_ME__</option>
-                    </select>
-                </div>
-            {/if}
         </div>
 
         {if mode === "edit"}
@@ -69,7 +56,7 @@
                         <ul class="groupbasicinfo_saveddirectory">
                             {for savedDir in saveddirectory}
                                 <li class="${savedDir}">
-                                    ${savedDir.toString().replace(/,/g, " <span class='groupbasicinfo_selected_and_saved_seperator'>&raquo;</span> ")}
+                                    <span class="groupbasicinfo_saveddirectory_information">${savedDir.toString().replace(/,/g, " <span class='groupbasicinfo_selected_and_saved_seperator'>&raquo;</span> ")}</span>
                                     <a href="javascript:;" class="groupbasicinfo_remove_location" title="Remove">Remove</a>
                                 </li>
                             {/for}

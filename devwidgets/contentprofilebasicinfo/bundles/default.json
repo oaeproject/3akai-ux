@@ -13,10 +13,12 @@
 "LICENSED":"Licensed",
 "WAIVE_COPYRIGHT":"Waive Copyright",
 "NO_COPYRIGHT":"No Copyright",
-"MYSELF_ONLY":"Myself only",
-"LOGGED_IN_ONLY":"Logged in only",
-"THE_PUBLIC":"The public",
-"VIEWERS_AND_MANAGERS_ONLY":"Viewers and Managers only",
+"ONLY_ME":"Only me",
+"MANAGERS":"Managers only",
+"LOGGED_IN_USERS":"Logged in users",
+"PUBLIC":"Public",
+"MANAGERS_AND_MEMBERS":"Managers and members",
+"MY_CONTACTS":"My contacts",
 "WHO_CAN_SEE_THIS_CONTENT":"Who can see this Content",
 "UPDATED_BASIC_INFO":"Updated basic info",
 "FILE_BASIC_INFO_BEEN_UPDATED":"The file's basic information has been updated",
@@ -26,5 +28,6 @@
 "FAILED_LOADING_FILE_DATA":"Failed to load file data",
 "WHERE_CONTENT_FOUND_IN_DIRECTORY":"Where can this Content be found in the directory",
 "SELECT_AT_LEAST_ONE_DIRECTORY":"Select at least the first level in the directory where this resource can be found",
-"SELECT_DIRECTORY":"Select directory location"
+"SELECT_DIRECTORY":"Select directory location",
+"THIS_WILL_HELP_YOU_AND_OTHERS_FIND_THIS_CONTENT":"These tags will help you and others find this content. Tags need to be separated by commas."
 }

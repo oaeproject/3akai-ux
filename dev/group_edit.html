@@ -45,6 +45,7 @@
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.cookie.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.pager.js"></script>
         <script type="text/javascript" src="_lib/jquery/plugins/imgareaselect/jquery.imgareaselect.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.validate.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.autoSuggest.sakai-edited.js"></script>
 
     </head>
@@ -91,8 +92,8 @@
                             <div class="group_edit_members_acl fl-force-right">
                                 <label for="group_edit_members_access">__MSG__WHO_CAN_VIEW_OR_SEARCH_THIS__</label>
                                 <select id="group_edit_members_access">
-                                    <option{if _access==="public"} selected="selected"{/if}>__MSG__EVERYBODY__</option>
-                                    <option{if _access==="institution"} selected="selected"{/if}>__MSG__INSTITUTION_ONLY__</option>
+                                    <option{if _access==="public"} selected="selected"{/if}>__MSG__PUBLIC__</option>
+                                    <option{if _access==="institution"} selected="selected"{/if}>__MSG__LOGGED_IN_USERS__</option>
                                     <option{if _access==="contacts"} selected="selected"{/if}>__MSG__CONTACTS_ONLY__</option>
                                     <option{if _access==="noone"} selected="selected"{/if}>__MSG__ONLY_ME__</option>
                                 </select>
@@ -112,6 +113,7 @@
                     <span style="display:none;" id="group_edit_user_removed_text">__MSG__SELECTED_USER_HAS_BEEN_REMOVED_FROM_THE_GROUP__</span>
                     <span style="display:none;" id="group_edit_users_removed_text">__MSG__SELECTED_USERS_HAVE_BEEN_REMOVED_FROM_THE_GROUP__</span>
                     <span style="display:none;" id="group_edit_content_removed_text">__MSG__SELECTED_CONTENT_HAS_BEEN_REMOVED_FROM_THE_GROUP__</span>
+                    <span style="display:none;" id="group_edit_cannot_remove_everyone">__MSG__GROUP_CANNOT_REMOVE_ALL_MANAGERS__</span>
 
                     <div class="group_userlist_header">
                         <h2>__MSG__MEMBERS_OF_THIS_GROUP__</h2>
