@@ -20,5 +20,4 @@
 
 #embedcontent_search_for_content {display:block;}
 
-.embedcontent_right_input input.error, .embedcontent_right_input textarea.error { border:2px solid red;}
 .embedcontent_right_input label.error {font-weight:bold; float:left; color:red;}

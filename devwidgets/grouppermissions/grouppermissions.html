@@ -10,11 +10,17 @@
             <label for="grouppermissions_joinable">__MSG__JOINABLE_LABEL__</label>
             <select id="grouppermissions_joinable">
                 <option{if joinable===sakai.config.Permissions.Groups.joinable.manager_add}
-                    selected="selected"{/if}>__MSG__JOIN_MANAGER_ADD__</option>
+                    selected="selected"{/if} value="${sakai.config.Permissions.Groups.joinable.manager_add}">
+                    __MSG__JOIN_MANAGER_ADD__
+                </option>
                 <option{if joinable===sakai.config.Permissions.Groups.joinable.user_direct}
-                    selected="selected"{/if}>__MSG__JOIN_USER_DIRECT__</option>
+                    selected="selected"{/if} value="${sakai.config.Permissions.Groups.joinable.user_direct}">
+                    __MSG__JOIN_USER_DIRECT__
+                </option>
                 <option{if joinable===sakai.config.Permissions.Groups.joinable.user_request}
-                    selected="selected"{/if}>__MSG__JOIN_USER_REQUEST__</option>
+                    selected="selected"{/if} value="${sakai.config.Permissions.Groups.joinable.user_request}">
+                    __MSG__JOIN_USER_REQUEST__
+                </option>
             </select>
         </p>
         <p class="grouppermissions_input_info">__MSG__JOIN_ADD_INFO__</p>
@@ -22,13 +28,17 @@
             <label for="grouppermissions_visible">__MSG__VISIBLE_LABEL__</label>
             <select id="grouppermissions_visible">
                 <option{if visible===sakai.config.Permissions.Groups.visible.public}
-                    selected="selected"{/if} value="public">__MSG__PUBLIC__</option>
+                    selected="selected"{/if} value="${sakai.config.Permissions.Groups.visible.public}">
+                    __MSG__VIS_PUBLIC__
+                </option>
                 <option{if visible===sakai.config.Permissions.Groups.visible.allusers}
-                    selected="selected"{/if} value="everyone">__MSG__LOGGED_IN_USERS__</option>
+                    selected="selected"{/if} value="${sakai.config.Permissions.Groups.visible.allusers}">
+                    __MSG__VIS_ALLUSERS__
+                </option>
                 <option{if visible===sakai.config.Permissions.Groups.visible.members}
-                    selected="selected"{/if} value="members">__MSG__MANAGERS_ONLY__</option>
-                <option{if visible===sakai.config.Permissions.Groups.visible.group}
-                    selected="selected"{/if} value="group">__MSG__MANAGERS_AND_MEMBERS__</option>
+                    selected="selected"{/if} value="${sakai.config.Permissions.Groups.visible.members}">
+                    __MSG__VIS_MEMBERS__
+                </option>
             </select>
         </p>
     --></div>

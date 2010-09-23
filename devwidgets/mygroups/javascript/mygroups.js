@@ -84,7 +84,6 @@ sakai.mygroups = function(tuid){
             if (group.groupid === "everyone") {
                 return false;
             } else {
-                //alert(group.groupid);
                 return true;
             }
         }

@@ -140,17 +140,15 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
     }
 
     var loadContentProfile = function(){
-        // Check whether there is actually a content path in the URL
-        if (contentPath) {
-            $.ajax({
-                url: contentPath + ".2.json",
-                success: function(data){
-                    data.path = contentPath;
-                    profileData = data;
-                    // Load the revisions of this file
+        if (sakai.content_profile.content_data && sakai.content_profile.content_data.data) {
+            profileData = sakai.content_profile.content_data.data;
+            loadRevisions();
+        } else {
+            sakai.content_profile.loadContentProfile(function(success) {
+                if (success) {
+                    profileData = sakai.content_profile.content_data.data;
                     loadRevisions();
-                },
-                error: function(xhr, textStatus, thrownError){
+                } else {
                     sakai.api.Util.notification.show("Failed loading data", "Failed to load file information");
                 }
             });
@@ -192,22 +190,24 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
         if (sakai.data.me.user.anon) {
             anon = true;
         }
+
         // Bind an event to window.onhashchange that, when the history state changes,
         // loads all the information for the current resource
         $(window).bind('hashchange', function(e){
-            contentPath = e.getState("content_path") || "";
-
-            if (sakai.data.me.user.anon) {
-                anon = true;
-                loadContentProfile();
-            } else {
-                checkFileManager();
-            }
+            handleHashChange();
         });
+        handleHashChange();
+    };
 
-        // Since the event is only triggered when the hash changes, we need to trigger
-        // the event now, to handle the hash the page may have loaded with.
-        $(window).trigger('hashchange');
+    var handleHashChange = function() {
+        contentPath = $.bbq.getState("content_path") || "";
+
+        if (sakai.data.me.user.anon) {
+            anon = true;
+            loadContentProfile();
+        } else {
+            checkFileManager();
+        }
     };
 
     $(contentProfileFileDetailsViewRevisions).live("click",function(){
@@ -216,8 +216,14 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
 
     $(window).bind("sakai-fileupload-complete", function(){
         doInit();
-    })
+    });
 
-    doInit();
+    if (sakai.content_profile.content_data && sakai.content_profile.content_data.data) {
+        doInit();
+    } else {
+        $(window).bind("sakai-contentprofile-ready", function() {
+            doInit();
+        });
+    }
 };
 sakai.api.Widgets.widgetLoader.informOnLoad("contentprofilefiledetails");

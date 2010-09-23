@@ -113,7 +113,7 @@
 /** Table **/
 
 .inbox_main .main_content_container
-{ width: 670px; border-left: 3px solid #d5dbdf; border-right: 3px solid #d5dbdf; min-height: 400px; }
+{ width: 670px; border-left: 3px solid #d5dbdf; border-right: 3px solid #d5dbdf; min-height: 400px; padding-bottom: 10px; }
 
 .inbox_main .inbox-table
 { width: 670px; margin: 0; }
@@ -283,7 +283,7 @@
 { margin: 0 0 0 38px; }
 
 .inbox_detail #inbox_message_replies
-{ margin: 0 0 0 38px; background: #f4f4f4; }
+{ margin: 10px 38px 0 38px; background: #f4f4f4; }
 
 .inbox_detail #inbox_compose_replies_template_chats
 { margin: 0 0 0 38px; background: #f4f4f4; }

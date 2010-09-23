@@ -31,7 +31,9 @@
     margin-bottom: 5px;
 }
 #groupbasicinfo_generalinfo div.groupbasicinfo_generalinfo_content {
-    padding: 3px 0;
+    float:left;
+    padding:3px 0;
+    width:400px;
 }
 #groupbasicinfo_generalinfo .groupbasicinfo_generalinfo_subcontainer {
     clear: both;

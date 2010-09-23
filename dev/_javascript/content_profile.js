@@ -19,6 +19,9 @@
 
 var sakai = sakai || {};
 
+sakai.content_profile = sakai.content_profile || {};
+sakai.content_profile.content_data = sakai.content_profile.content_data || {};
+
 sakai.content_profile = function(){
 
 
@@ -56,41 +59,42 @@ sakai.content_profile = function(){
     /**
      * Load the content profile for the current content path
      */
-    loadContentProfile = function(){
+    sakai.content_profile.loadContentProfile = function(callback){
         // Check whether there is actually a content path in the URL
         if (content_path) {
-
             $.ajax({
                 url: sakai.config.SakaiDomain + content_path + ".2.json",
                 success: function(data){
 
-                    // Construct the JSON object
-                    var json = {
+                    var directory = [];
+                    currentTags = data["sakai:tags"];
+                    $(data["sakai:tags"]).each(function(i){
+                        var splitDir = data["sakai:tags"][i].split("/");
+                        if(splitDir[0] === "directory"){
+                            var item = [];
+                            for(var j in splitDir){
+                                if (splitDir[j] !== "directory") {
+                                    item.push(splitDir[j]);
+                                }
+                            }
+                            directory.push(item);
+                        }
+                    });
+
+                    json = {
                         data: data,
                         mode: "content",
                         url: sakai.config.SakaiDomain + content_path,
-                        contentpath: content_path
+                        contentpath: content_path,
+                        path: content_path,
+                        saveddirectory : directory
                     };
 
-                    // The request was successful so initialise the entity widget
-                    if (ready_event_fired > 0) {
-                        sakai.api.UI.entity.render("content", json);
+                    sakai.content_profile.content_data = json;
+                    $(window).trigger("sakai-contentprofile-ready");
+                    if ($.isFunction(callback)) {
+                        callback(true);
                     }
-                    else {
-                        $(window).bind("sakai.api.UI.entity.ready", function(e){
-                            sakai.api.UI.entity.render("content", json);
-                            ready_event_fired++;
-                        });
-                    }
-
-                    if (!list_event_fired) {
-                        // add binding to listpeople widget and buttons
-                        addListBinding();
-                        list_event_fired = true;
-                    }
-                    
-                    sakai.api.Security.showPage();
-                    
                 },
                 error: function(xhr, textStatus, thrownError){
 
@@ -98,6 +102,9 @@ sakai.content_profile = function(){
                         sakai.api.Security.send403();
                     } else {
                         sakai.api.Security.send404();
+                    }
+                    if ($.isFunction(callback)) {
+                        callback(false);
                     }
 
                 }
@@ -120,7 +127,7 @@ sakai.content_profile = function(){
             var pl_config = {"selectable":true, "subNameInfoUser": "email", "subNameInfoGroup": "sakai:group-description", "sortOn": "lastName", "sortOrder": "ascending", "items": 50 };
             var url = sakai.config.SakaiDomain + content_path + ".members.json";
             $("#content_profile_listpeople_container").show();
-            sakai.listPeople.render(tuid, pl_config, url, content_path);
+            $(window).trigger("sakai-listpeople-render", {"tuid": tuid, "pl_config": pl_config, "url": url, "id": content_path});
         }
     };
 
@@ -203,58 +210,94 @@ sakai.content_profile = function(){
      * Add binding to list elements on the page
      */
     var addListBinding = function(){
+        if (sakai.listpeople && sakai.listpeople.isReady) {
+            loadContentUsers("viewers");
+            loadContentUsers("managers");
+        } else {
+            $(window).bind("sakai-listpeople-ready", function(e, tuid){
+                loadContentUsers(tuid);
+            });
+        }
 
-        $(window).bind("listpeople_ready", function(e, tuid){
-            loadContentUsers(tuid);
-        });
 
         // Bind the remove viewers button
         $("#content_profile_remove_viewers").bind("click", function(){
-            addRemoveUsers('viewers', sakai.data.listpeople["viewers"]["selected"], 'remove');
+            addRemoveUsers('viewers', sakai.listpeople.data["viewers"]["selected"], 'remove');
         });
 
         // Bind the remove managers button
         $("#content_profile_remove_managers").bind("click", function(){
-            addRemoveUsers('managers', sakai.data.listpeople["managers"]["selected"], 'remove');
+            addRemoveUsers('managers', sakai.listpeople.data["managers"]["selected"], 'remove');
         });
 
-        // Add binding to the pickeruser widget buttons for adding users
-        $(window).bind("sakai-pickeruser-ready", function(e){
-            var pl_config = {
-                "mode": "search",
-                "selectable":true,
-                "subNameInfo": "email",
-                "sortOn": "lastName",
-                "items": 50,
-                "type": "people",
-                "what": "Viewers",
-                "where": 'Content'
-            };
-
-            // Bind the add viewers button
-            $("#content_profile_add_viewers").bind("click", function(){
-                pl_config.what = "Viewers";
-                $(window).trigger("sakai-pickeruser-init", pl_config, function(people) {
-                });
-                $(window).unbind("sakai-pickeruser-finished");
-                $(window).bind("sakai-pickeruser-finished", function(e, peopleList) {
-                    addRemoveUsers('viewers', peopleList.toAdd, 'add');
-                });
+        if (sakai.pickeruser && sakai.pickeruser.isReady) {
+            doPickerUserBindings();
+        } else {
+            // Add binding to the pickeruser widget buttons for adding users
+            $(window).bind("sakai-pickeruser-ready", function(e){
+                doPickerUserBindings();
             });
+        }
+    };
 
-            // Bind the add managers button
-            $("#content_profile_add_managers").bind("click", function(){
-                pl_config.what = "Managers";
-                $(window).trigger("sakai-pickeruser-init", pl_config, function(people) {
-                });
-                $(window).unbind("sakai-pickeruser-finished");
-                $(window).bind("sakai-pickeruser-finished", function(e, peopleList) {
-                    addRemoveUsers('managers', peopleList.toAdd, 'add');
-                });
+    var doPickerUserBindings = function() {
+        var pl_config = {
+            "mode": "search",
+            "selectable":true,
+            "subNameInfo": "email",
+            "sortOn": "lastName",
+            "items": 50,
+            "type": "people",
+            "what": "Viewers",
+            "where": 'Content'
+        };
+
+        // Bind the add viewers button
+        $("#content_profile_add_viewers").bind("click", function(){
+            pl_config.what = "Viewers";
+            $(window).trigger("sakai-pickeruser-init", pl_config, function(people) {
+            });
+            $(window).unbind("sakai-pickeruser-finished");
+            $(window).bind("sakai-pickeruser-finished", function(e, peopleList) {
+                addRemoveUsers('viewers', peopleList.toAdd, 'add');
+            });
+        });
+
+        // Bind the add managers button
+        $("#content_profile_add_managers").bind("click", function(){
+            pl_config.what = "Managers";
+            $(window).trigger("sakai-pickeruser-init", pl_config, function(people) {
+            });
+            $(window).unbind("sakai-pickeruser-finished");
+            $(window).bind("sakai-pickeruser-finished", function(e, peopleList) {
+                addRemoveUsers('managers', peopleList.toAdd, 'add');
             });
         });
     };
 
+    var handleHashChange = function() {
+        content_path = $.bbq.getState("content_path") || "";
+        sakai.content_profile.loadContentProfile(function() {
+            // The request was successful so initialise the entity widget
+            if (sakai.entity && sakai.entity.isReady) {
+                sakai.api.UI.entity.render("content", sakai.content_profile.content_data);
+            }
+            else {
+                $(window).bind("sakai.api.UI.entity.ready", function(e){
+                    sakai.api.UI.entity.render("content", sakai.content_profile.content_data);
+                    ready_event_fired++;
+                });
+            }
+
+            if (!list_event_fired) {
+                // add binding to listpeople widget and buttons
+                addListBinding();
+                list_event_fired = true;
+            }
+            sakai.api.Security.showPage();
+
+        });
+    };
 
     ////////////////////
     // Initialisation //
@@ -264,18 +307,12 @@ sakai.content_profile = function(){
      * Initialise the content profile page
      */
     var init = function(){
-
         // Bind an event to window.onhashchange that, when the history state changes,
         // loads all the information for the current resource
-        $(window).bind('hashchange', function(e){
-            content_path = e.getState("content_path") || "";
-            loadContentProfile();
+        $(window).bind('hashchange', function(){
+            handleHashChange();
         });
-
-        // Since the event is only triggered when the hash changes, we need to trigger
-        // the event now, to handle the hash the page may have loaded with.
-        $(window).trigger('hashchange');
-
+        handleHashChange();
     };
 
     // Initialise the content profile page

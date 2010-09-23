@@ -278,7 +278,7 @@ sakai.sitespages.site_admin = function(){
             plugins: "safari,advhr,inlinepopups,preview,noneditable,nonbreaking,xhtmlxtras,template",
 
             // Context Menu
-            theme_advanced_buttons1: "formatselect,fontselect,fontsizeselect,bold,italic,underline,|,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,|,image,link",
+            theme_advanced_buttons1: "formatselect,fontselect,fontsizeselect,bold,italic,underline,|,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,|,link",
             theme_advanced_toolbar_location: "external",
             theme_advanced_toolbar_align: "left",
             theme_advanced_statusbar_location: "none",
@@ -1598,7 +1598,6 @@ sakai.sitespages.site_admin = function(){
      * @return void
      */
     sakai.sitespages.widgetFinish = function(tuid){
-        alert(tuid);
         // Add widget to the editor
         $("#insert_screen2_preview").html("");
         tinyMCE.get("elm1").execCommand('mceInsertContent', false, '<img src="' + Widgets.widgets[sakai.sitespages.newwidget_id].img + '" id="' + sakai.sitespages.newwidget_uid + '" class="widget_inline" style="display:block; padding: 10px; margin: 4px" border="1"/>');
