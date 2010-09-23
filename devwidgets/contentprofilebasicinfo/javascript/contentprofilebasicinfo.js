@@ -39,7 +39,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
     var tagsPathForLinking = "/_user/" + userStoragePrefix + "public/tags/";
 
     // JSON
-    var json = {};
+    var data = {};
 
     // Containers
     var contentProfileBasicInfoContainer = "#content_profile_basic_info_container";
@@ -213,9 +213,9 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
     /**
      * Get the values from the basic information form
      */
-    var getFormValues = function(){
-        // Create a data object
-        var data = {};
+    var getFormValues = function(init){
+        // initialize a data object
+        data = {};
 
         // Set all the different values of the current item
         data["sakai:pooled-content-file-name"] = $.trim($(contentProfileBasicInfoFormName).val());
@@ -254,13 +254,15 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
             data["sakai:tags"].push("directory/" + this.className.split(",")[0] + "/" + this.className.split(",")[1] + "/" + this.className.split(",")[2]);
         });
 
-        // Set the tags
-        sakai.api.Util.tagEntity(contentPath, data["sakai:tags"], currentTags, function(){
-            currentTags = data["sakai:tags"];
-            // TODO show a valid message to the user instead of reloading the page
-            $(window).trigger('hashchange');
-            sakai.api.Util.notification.show($(contentProfileBasicInfoUpdatedBasicInfo).html(), $(contentProfileBasicInfoFileBasicInfoUpdated).html());
-        });
+        if (!init) {
+            // Set the tags
+            sakai.api.Util.tagEntity(contentPath, data["sakai:tags"], currentTags, function(){
+                currentTags = data["sakai:tags"];
+                // TODO show a valid message to the user instead of reloading the page
+                $(window).trigger('hashchange');
+                sakai.api.Util.notification.show($(contentProfileBasicInfoUpdatedBasicInfo).html(), $(contentProfileBasicInfoFileBasicInfoUpdated).html());
+            });
+        }
 
         data["sakai:copyright"] = $(contentProfileBasicInfoFormCopyrightSelect).val();
 
@@ -287,7 +289,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
         setFilePermissions();
 
         // Get all the value for the form
-        var data = getFormValues();
+        data = getFormValues();
 
         // Disable basic info fields
         enableDisableBasicInfoFields(true);
@@ -364,6 +366,10 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
         $(contentProfileBasicInfoContainer).show();
 
         addBindingBasicinfo();
+
+        // Data needs to be populated with the initial saved data
+        // A value of 'true' is sent to make clear this is init functionality
+        data = getFormValues(true);
     };
 
     /**
@@ -398,7 +404,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
     };
 
     var addAnotherLocation = function(){
-        var renderedTemplate = $.TemplateRenderer("content_profile_basic_info_firstlevel_template", json);
+        var renderedTemplate = $.TemplateRenderer("content_profile_basic_info_firstlevel_template", sakai.content_profile.content_data);
         var renderedDiv = $(document.createElement("div"));
         renderedDiv.html(renderedTemplate);
         $("#content_profile_basic_info_add_another_container").append(renderedDiv);
@@ -427,6 +433,8 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
     };
 
     var removeDirectoryLocation = function(clickedParent){
+        // Get current tags up to date
+        currentTags = data["sakai:tags"];
         // Extract tags from clickedParent
         var tags = []
         tags = clickedParent[0].className.split(",");
@@ -494,6 +502,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
         $(window).bind('hashchange', function(){
             handleHashChange();
         });
+
         handleHashChange();
     };
 
