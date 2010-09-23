@@ -52,7 +52,7 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
 
         // Open the delete content pop-up
         $(contentProfileFileDetailsActionDelete).bind("click", function(){
-            sakai.deletecontent.init(profileData);
+            sakai.deletecontent.init(sakai.content_profile.content_data);
         });
     };
 
