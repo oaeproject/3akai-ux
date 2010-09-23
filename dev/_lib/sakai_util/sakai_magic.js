@@ -2405,7 +2405,9 @@ sakai.api.Util.tagEntity = function(tagLocation, newTags, currentTags, callback)
         val = $.trim(val);
         if (val && $.inArray(val,currentTags) == -1) {
             if (sakai.api.Security.escapeHTML(val) === val) {
-                tagsToAdd.push(val);
+                if ($.inArray(val, tagsToAdd) < 0) {
+                    tagsToAdd.push(val);
+                }
             }
         }
     });
@@ -2413,7 +2415,9 @@ sakai.api.Util.tagEntity = function(tagLocation, newTags, currentTags, callback)
         val = $.trim(val);
         if (val && $.inArray(val,newTags) == -1) {
             if (sakai.api.Security.escapeHTML(val) === val) {
-                tagsToDelete.push(val);
+                if ($.inArray(val, tagsToDelete) < 0) {
+                    tagsToDelete.push(val);
+                }
             }
         }
     });
