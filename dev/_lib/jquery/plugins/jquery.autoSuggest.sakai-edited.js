@@ -187,8 +187,10 @@
                             var active = $("li.active:first", results_holder);
                             if(active.length > 0){
                                 active.click();
-                                results_holder.hide();
+                            } else {
+                                input.val('');
                             }
+                            results_holder.hide();
                             if(opts.neverSubmit || active.length > 0){
                                 e.preventDefault();
                             }
@@ -198,8 +200,10 @@
                             var active = $("li.active:first", results_holder);
                             if(active.length > 0){
                                 active.click();
-                                results_holder.hide();
+                            } else {
+                                input.val('');
                             }
+                            results_holder.hide();
                             if(opts.neverSubmit || active.length > 0){
                                 e.preventDefault();
                             }
