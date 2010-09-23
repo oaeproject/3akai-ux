@@ -37,7 +37,7 @@ sakai.mycontacts = function(tuid,showSettings){
     /////////////////////////////
     // Configuration variables //
     /////////////////////////////
-    
+
     var rootel = $("#" + tuid);
     var numberFriends = 5; // The number of contacts that will be shown
 
@@ -114,7 +114,7 @@ sakai.mycontacts = function(tuid,showSettings){
             for (var i = 0, j = contacts.results.length; i < j; i++) {
                 if (i <= numberFriends) {
                     var friend = contacts.results[i];
-                    
+
                     // Set the id of the friend
                     friend.id = friend.target;
 
@@ -123,7 +123,7 @@ sakai.mycontacts = function(tuid,showSettings){
 
                     // Parse the picture of the friend
                     friend.photo = parsePicture(friend.profile, friend.target);
-                    
+
                     // Add the friend to the array
                     jsonFriends.items.push(friend);
                 }
