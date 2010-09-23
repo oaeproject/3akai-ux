@@ -91,7 +91,7 @@ sakai.content_profile = function(){
                     };
 
                     sakai.content_profile.content_data = json;
-
+                    $(window).trigger("sakai-contentprofile-ready");
                     if ($.isFunction(callback)) {
                         callback(true);
                     }
@@ -127,7 +127,7 @@ sakai.content_profile = function(){
             var pl_config = {"selectable":true, "subNameInfoUser": "email", "subNameInfoGroup": "sakai:group-description", "sortOn": "lastName", "sortOrder": "ascending", "items": 50 };
             var url = sakai.config.SakaiDomain + content_path + ".members.json";
             $("#content_profile_listpeople_container").show();
-            sakai.listPeople.render(tuid, pl_config, url, content_path);
+            $(window).trigger("sakai-listpeople-render", {"tuid": tuid, "pl_config": pl_config, "url": url, "id": content_path});
         }
     };
 
@@ -210,54 +210,67 @@ sakai.content_profile = function(){
      * Add binding to list elements on the page
      */
     var addListBinding = function(){
+        if (sakai.listpeople && sakai.listpeople.isReady) {
+            loadContentUsers("viewers");
+            loadContentUsers("managers");
+        } else {
+            $(window).bind("sakai-listpeople-ready", function(e, tuid){
+                loadContentUsers(tuid);
+            });
+        }
 
-        $(window).bind("listpeople_ready", function(e, tuid){
-            loadContentUsers(tuid);
-        });
 
         // Bind the remove viewers button
         $("#content_profile_remove_viewers").bind("click", function(){
-            addRemoveUsers('viewers', sakai.data.listpeople["viewers"]["selected"], 'remove');
+            addRemoveUsers('viewers', sakai.listpeople.data["viewers"]["selected"], 'remove');
         });
 
         // Bind the remove managers button
         $("#content_profile_remove_managers").bind("click", function(){
-            addRemoveUsers('managers', sakai.data.listpeople["managers"]["selected"], 'remove');
+            addRemoveUsers('managers', sakai.listpeople.data["managers"]["selected"], 'remove');
         });
 
-        // Add binding to the pickeruser widget buttons for adding users
-        $(window).bind("sakai-pickeruser-ready", function(e){
-            var pl_config = {
-                "mode": "search",
-                "selectable":true,
-                "subNameInfo": "email",
-                "sortOn": "lastName",
-                "items": 50,
-                "type": "people",
-                "what": "Viewers",
-                "where": 'Content'
-            };
-
-            // Bind the add viewers button
-            $("#content_profile_add_viewers").bind("click", function(){
-                pl_config.what = "Viewers";
-                $(window).trigger("sakai-pickeruser-init", pl_config, function(people) {
-                });
-                $(window).unbind("sakai-pickeruser-finished");
-                $(window).bind("sakai-pickeruser-finished", function(e, peopleList) {
-                    addRemoveUsers('viewers', peopleList.toAdd, 'add');
-                });
+        if (sakai.pickeruser && sakai.pickeruser.isReady) {
+            doPickerUserBindings();
+        } else {
+            // Add binding to the pickeruser widget buttons for adding users
+            $(window).bind("sakai-pickeruser-ready", function(e){
+                doPickerUserBindings();
             });
+        }
+    };
 
-            // Bind the add managers button
-            $("#content_profile_add_managers").bind("click", function(){
-                pl_config.what = "Managers";
-                $(window).trigger("sakai-pickeruser-init", pl_config, function(people) {
-                });
-                $(window).unbind("sakai-pickeruser-finished");
-                $(window).bind("sakai-pickeruser-finished", function(e, peopleList) {
-                    addRemoveUsers('managers', peopleList.toAdd, 'add');
-                });
+    var doPickerUserBindings = function() {
+        var pl_config = {
+            "mode": "search",
+            "selectable":true,
+            "subNameInfo": "email",
+            "sortOn": "lastName",
+            "items": 50,
+            "type": "people",
+            "what": "Viewers",
+            "where": 'Content'
+        };
+
+        // Bind the add viewers button
+        $("#content_profile_add_viewers").bind("click", function(){
+            pl_config.what = "Viewers";
+            $(window).trigger("sakai-pickeruser-init", pl_config, function(people) {
+            });
+            $(window).unbind("sakai-pickeruser-finished");
+            $(window).bind("sakai-pickeruser-finished", function(e, peopleList) {
+                addRemoveUsers('viewers', peopleList.toAdd, 'add');
+            });
+        });
+
+        // Bind the add managers button
+        $("#content_profile_add_managers").bind("click", function(){
+            pl_config.what = "Managers";
+            $(window).trigger("sakai-pickeruser-init", pl_config, function(people) {
+            });
+            $(window).unbind("sakai-pickeruser-finished");
+            $(window).bind("sakai-pickeruser-finished", function(e, peopleList) {
+                addRemoveUsers('managers', peopleList.toAdd, 'add');
             });
         });
     };
@@ -266,7 +279,7 @@ sakai.content_profile = function(){
         content_path = $.bbq.getState("content_path") || "";
         sakai.content_profile.loadContentProfile(function() {
             // The request was successful so initialise the entity widget
-            if (ready_event_fired > 0) {
+            if (sakai.entity && sakai.entity.isReady) {
                 sakai.api.UI.entity.render("content", sakai.content_profile.content_data);
             }
             else {
@@ -281,8 +294,8 @@ sakai.content_profile = function(){
                 addListBinding();
                 list_event_fired = true;
             }
-
             sakai.api.Security.showPage();
+
         });
     };
 

@@ -216,8 +216,14 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
 
     $(window).bind("sakai-fileupload-complete", function(){
         doInit();
-    })
+    });
 
-    doInit();
+    if (sakai.content_profile.content_data && sakai.content_profile.content_data.data) {
+        doInit();
+    } else {
+        $(window).bind("sakai-contentprofile-ready", function() {
+            doInit();
+        });
+    }
 };
 sakai.api.Widgets.widgetLoader.informOnLoad("contentprofilefiledetails");

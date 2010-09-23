@@ -198,7 +198,7 @@ sakai.groupedit = function(){
                 }
             });*/
             url = "/system/userManager/group/" + groupid + ".members.json";
-            sakai.listPeople.render(tuid, pl_config, url, groupid);
+            $(window).trigger("sakai-listpeople-render", {"tuid": tuid, "pl_config": pl_config, "url": url, "id": groupid});
         } else if (tuid === 'managers') {
             // get group managers
             /*$.ajax({
@@ -213,10 +213,10 @@ sakai.groupedit = function(){
                 }
             });*/
             url = "/system/userManager/group/" + groupid + "-managers.members.json";
-            sakai.listPeople.render(tuid, pl_config, url, groupid);
+            $(window).trigger("sakai-listpeople-render", {"tuid": tuid, "pl_config": pl_config, "url": url, "id": groupid});
         } else if (tuid === 'content') {
             url = "/var/search/pool/files?group=" + groupid;
-            sakai.listPeople.render(tuid, pl_config, url, groupid);
+            $(window).trigger("sakai-listpeople-render", {"tuid": tuid, "pl_config": pl_config, "url": url, "id": groupid});
         }
     };
 
@@ -227,7 +227,7 @@ sakai.groupedit = function(){
      */
     var removeUsers = function(tuid) {
 
-        if (sakai.data.listpeople[tuid].selectCount === sakai.data.listpeople[tuid].currentElementCount) {
+        if (sakai.listpeople.data[tuid].selectCount === sakai.listpeople.data[tuid].currentElementCount) {
             sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_cannot_remove_everyone").text()), sakai.api.Util.notification.type.ERROR);
         } else {
             var removeUser;
@@ -238,7 +238,7 @@ sakai.groupedit = function(){
                 groupIdRemove = groupid + '-managers';
             }
 
-            $.each(sakai.data.listpeople[tuid]["selected"], function(index, resultObject) {
+            $.each(sakai.listpeople.data[tuid]["selected"], function(index, resultObject) {
                 if (resultObject['userid']) {
                     removeUser = resultObject['userid'];
                 } else if (resultObject['groupid']) {
@@ -282,7 +282,7 @@ sakai.groupedit = function(){
         var removeContent;
         var contentRemoved = false;
 
-        $.each(sakai.data.listpeople[tuid]["selected"], function(index, resultObject) {
+        $.each(sakai.listpeople.data[tuid]["selected"], function(index, resultObject) {
             if (resultObject['content_id']) {
                 removeContent = resultObject['content_id'];
             }
@@ -423,7 +423,7 @@ sakai.groupedit = function(){
     var addBinding = function(){
 
         // Bind the listpeople widgets
-        $(window).bind("listpeople_ready", function(e, tuid){
+        $(window).bind("sakai-listpeople-ready", function(e, tuid){
             renderItemLists(tuid);
         });
 

@@ -178,7 +178,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
             // Delete all viewers of the file and keep the managers
             case "managers":
                 var viewers = [];
-                for(var viewer in sakai.data.listpeople["viewers"]["userList"]){
+                for(var viewer in sakai.listpeople.data["viewers"]["userList"]){
                     viewers.push(viewer);
                 }
                 var item = {
@@ -499,7 +499,6 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
 
     var handleHashChange = function() {
         contentPath = $.bbq.getState("content_path") || "";
-
         if (sakai.data.me.user.anon) {
             anon = true;
             loadContentProfile();
@@ -509,7 +508,13 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
         }
     };
 
-    doInit();
+    if (sakai.content_profile.content_data && sakai.content_profile.content_data.data) {
+        doInit();
+    } else {
+        $(window).bind("sakai-contentprofile-ready", function() {
+            doInit();
+        });
+    }
 
 };
 sakai.api.Widgets.widgetLoader.informOnLoad("contentprofilebasicinfo");
