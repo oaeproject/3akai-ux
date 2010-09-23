@@ -211,7 +211,6 @@ sakai.creategroup = function(tuid, showSettings){
                 "sakai:group-title" : grouptitle,
                 "sakai:group-description" : groupdescription,
                 "sakai:group-id": groupid,
-                "sling:resourceType": "sakai/group-home",
                 ":sakai:pages-template": "/var/templates/site/" + pagestemplate,
                 "sakai:pages-visible": sakai.config.Permissions.Groups.visible["public"]
             },
