@@ -103,10 +103,12 @@
                         {/if}
                         <a class="pickeradvanced_name" href="/dev/show.html?type=group&amp;id=${i["sakai:group-id"]}" target="_blank">${i["sakai:group-title"]}</a>
                         <br />
-                        {if i["sakai:group-description"].length > 125}
-                            <span class="pickeradvanced_subnameinfo">${i["sakai:group-description"].substring(0, 125)}...</span>
-                        {else}
-                            <span class="pickeradvanced_subnameinfo">${i["sakai:group-description"]}</span>
+                        {if i["sakai:group-description"]}
+                            {if i["sakai:group-description"].length > 125}
+                                <span class="pickeradvanced_subnameinfo">${i["sakai:group-description"].substring(0, 125)}...</span>
+                            {else}
+                                <span class="pickeradvanced_subnameinfo">${i["sakai:group-description"]}</span>
+                            {/if}
                         {/if}
                     </li>
                     {elseif i["sakai:pooled-content-file-name"]}
@@ -121,10 +123,12 @@
                         {/if}
                         <a class="pickeradvanced_name" href="/dev/content_profile.html#content_path=/p/${i["jcr:name"]}" target="_blank">${i["sakai:pooled-content-file-name"]}</a>
                         <br />
-                        {if i["sakai:description"].length > 125}
-                            <span class="pickeradvanced_subnameinfo">${i["sakai:description"].substring(0, 125)}...</span>
-                        {else}
-                            <span class="pickeradvanced_subnameinfo">${i["sakai:description"]}</span>
+                        {if i["sakai:description"]}
+                            {if i["sakai:description"].length > 125}
+                                <span class="pickeradvanced_subnameinfo">${i["sakai:description"].substring(0, 125)}...</span>
+                            {else}
+                                <span class="pickeradvanced_subnameinfo">${i["sakai:description"]}</span>
+                            {/if}
                         {/if}
                     </li>
                     {/if}
