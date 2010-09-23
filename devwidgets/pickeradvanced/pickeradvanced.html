@@ -88,7 +88,11 @@
                         {/if}
                         <a class="pickeradvanced_name" href="/dev/show.html?type=user&amp;id=${i['rep:userId']}" target="_blank">${sakai.api.User.getDisplayName(i)}</a>
                         <br />
-                        <span class="pickeradvanced_subnameinfo">${sakai.api.User.getShortDescription(i)}</span>
+                        {if sakai.api.User.getShortDescription(i).length > 125}
+                            <span class="pickeradvanced_subnameinfo">${sakai.api.User.getShortDescription(i).substring(0, 125)}...</span>
+                        {else}
+                            <span class="pickeradvanced_subnameinfo">${sakai.api.User.getShortDescription(i)}</span>
+                        {/if}
                     </li>
                     {elseif i['sakai:group-id']}
                     <li id="${i['sakai:group-id']}">
@@ -99,7 +103,11 @@
                         {/if}
                         <a class="pickeradvanced_name" href="/dev/show.html?type=group&amp;id=${i["sakai:group-id"]}" target="_blank">${i["sakai:group-title"]}</a>
                         <br />
-                        <span class="pickeradvanced_subnameinfo">${i["sakai:group-description"]}</span>
+                        {if i["sakai:group-description"].length > 125}
+                            <span class="pickeradvanced_subnameinfo">${i["sakai:group-description"].substring(0, 125)}...</span>
+                        {else}
+                            <span class="pickeradvanced_subnameinfo">${i["sakai:group-description"]}</span>
+                        {/if}
                     </li>
                     {elseif i["sakai:pooled-content-file-name"]}
                     <li id="${i["jcr:name"]}">
@@ -113,7 +121,11 @@
                         {/if}
                         <a class="pickeradvanced_name" href="/dev/content_profile.html#content_path=/p/${i["jcr:name"]}" target="_blank">${i["sakai:pooled-content-file-name"]}</a>
                         <br />
-                        <span class="pickeradvanced_subnameinfo">${i["sakai:description"]}</span>
+                        {if i["sakai:description"].length > 125}
+                            <span class="pickeradvanced_subnameinfo">${i["sakai:description"].substring(0, 125)}...</span>
+                        {else}
+                            <span class="pickeradvanced_subnameinfo">${i["sakai:description"]}</span>
+                        {/if}
                     </li>
                     {/if}
                 {forelse}
