@@ -172,8 +172,6 @@ sakai.groupbasicinfo = function(tuid, showSettings){
             $(groupbasicinfo_buttons, $rootel).show();
         }
 
-        addBinding();
-
     };
 
 
@@ -243,6 +241,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
                     sakai.api.Widgets.Container.informFinish(tuid, "groupbasicinfo");
                     $(window).trigger("sakai.groupbasicinfo.updateFinished");
                 });
+
                 renderTemplateBasicInfo();
             },
             error: function(xhr, textStatus, thrownError){
@@ -313,11 +312,11 @@ sakai.groupbasicinfo = function(tuid, showSettings){
      */
     var addBinding = function(){
 
-        $(groupbasicinfo_dontupdate, $rootel).bind("click", function(){
+        $(groupbasicinfo_dontupdate, $rootel).live("click", function(){
             sakai.api.Widgets.Container.informCancel(tuid, "groupbasicinfo");
         });
 
-        $(groupbasicinfo_update, $rootel).bind("click", function(){
+        $(groupbasicinfo_update, $rootel).live("click", function(){
             // disable all basic info input elements while update is processed
             sakai.api.UI.groupbasicinfo.disableInputElements();
             $(window).trigger("sakai.groupbasicinfo.update");
@@ -428,6 +427,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
 
     renderTemplateBasicInfo();
 
+    addBinding();
 };
 
 sakai.api.Widgets.widgetLoader.informOnLoad("groupbasicinfo");
