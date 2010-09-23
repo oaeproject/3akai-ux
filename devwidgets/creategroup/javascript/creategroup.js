@@ -305,6 +305,8 @@ sakai.creategroup = function(tuid, showSettings){
      * Add binding to the save button (create the group when you click on it)
      */
     $(createGroupAddSave).click(function(){
+        var entered = replaceCharacters($(createGroupAddId).val());
+        $(createGroupAddId).val(entered);
         saveGroup();
     });
 
@@ -312,7 +314,7 @@ sakai.creategroup = function(tuid, showSettings){
      * When you change something in the name of the group, it first removes the bad characters
      * and then it shows the edited url in the span
      */
-    $(createGroupAddName).bind("change", function(ev){
+    $(createGroupAddName + "," + createGroupAddId).bind("keyup", function(ev){
         var entered = replaceCharacters($(this).val());
         $(createGroupAddId).val(entered);
     });

@@ -119,7 +119,7 @@ sakai.filerevisions = function(tuid, showSettings){
                     }
                 }
                 baseFileData.revisionFileDetails = revisionFileDetails;
-                getUserProfile(baseFileData["sakai:savedBy"]);
+                getUserProfile(baseFileData.data["sakai:savedBy"]);
             },
             error: function(xhr, textStatus, thrownError){
 

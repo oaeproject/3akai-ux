@@ -82,6 +82,7 @@ sakai.pickeradvanced = function(tuid, showSettings) {
     var pickeradvanced_page = ".pickeradvanced_page";
 
     var pickerlist = false;
+    var firstTime = true;
 
     var pickerData = {
       "selected": {},
@@ -93,7 +94,7 @@ sakai.pickeradvanced = function(tuid, showSettings) {
       "spaceName": "Space",
       "items": 50,
       "selectable": true,
-      "sortOn": "lastName",
+      "sortOn": "basic/elements/lastName/@value",
       "sortOrder": "ascending",
       "what": "People",
       "where": "Group",
@@ -230,9 +231,10 @@ sakai.pickeradvanced = function(tuid, showSettings) {
 
         // Aadd relevant config elements to the search query
         searchQuery.page = pageNumber;
-        if (pickerData["type"] === "people") {
+        if ((pickerData["type"] === "people" && $pickeradvanced_sort_on.is(":visible")) || firstTime) {
             searchQuery.sortOn = pickerData["sortOn"];
             searchQuery.sortOrder = pickerData["sortOrder"];
+            if (firstTime) firstTime = false;
         }
 
         // Construct search query
@@ -427,6 +429,7 @@ sakai.pickeradvanced = function(tuid, showSettings) {
     
     $(window).unbind("sakai-pickeradvanced-init");
     $(window).bind("sakai-pickeradvanced-init", function(e, config) {
+        firstTime = true;
         render(config.config);
         $pickeradvanced_container.jqmShow();
         pickerlist = config.list;
