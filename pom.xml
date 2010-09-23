@@ -138,8 +138,12 @@
             <Sling-Initial-Content>
                 SLING-INF/content/dev;path:=/dev;ignoreImportProviders:="xml,json,html,jar,zip";overwrite:=true,
                 SLING-INF/content/devwidgets;path:=/devwidgets;ignoreImportProviders:="xml,json,html,jar,zip";overwrite:=true,
-                SLING-INF/content/var/templates;path:=/var/templates;overwrite:=true;uninstall:=false,
-                SLING-INF/content/apps;path:=/apps;overwrite:=true;uninstall:=false,
+                SLING-INF/content/var/templates/site/defaultgroup;path:=/var/templates/site/defaultgroup;overwrite:=true;uninstall:=false,
+                SLING-INF/content/var/templates/site/defaultuser;path:=/var/templates/site/defaultuser;overwrite:=true;uninstall:=false,
+                SLING-INF/content/var/templates/site/interdisciplinary;path:=/var/templates/site/interdisciplinary;overwrite:=true;uninstall:=false,
+                SLING-INF/content/var/templates/site/portfolio;path:=/var/templates/site/portfolio;overwrite:=true;uninstall:=false,
+                SLING-INF/content/var/templates/site/template;path:=/var/templates/site/template;overwrite:=true;uninstall:=false,
+                SLING-INF/content/apps/sling/servlet/errorhandler;path:=/apps/sling/servlet/errorhandler;overwrite:=true;uninstall:=false,
                 SLING-INF/content/root;path:=/
             </Sling-Initial-Content>
           </instructions>
