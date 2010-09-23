@@ -180,16 +180,9 @@ sakai.topnavigation = function(tuid, showSettings){
             sendChatStatus(clicked);
         });
 
-        $(topNavigationBar).bind("click", function(e){
-            // get the target element clicked
-            var $clicked = $(e.target);
-            // get the current page location
-            var loc = $(location).attr("href");
-            var currentLocation = loc.substring(loc.lastIndexOf('/dev'),loc.length);
-
-            // if current page is same is the target page do nothing
-            if(currentLocation === $clicked.attr("href")){
-                return false;
+        $.each($(topNavigationBar + " a"), function(){
+            if (window.location.pathname === $(this).attr("href")){
+                $(this).attr("href", "javascript:;");
             }
         });
 
