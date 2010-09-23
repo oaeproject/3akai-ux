@@ -655,7 +655,7 @@ sakai.inbox = function() {
                 sortBy = "sakai:created";
                 break;
             case "type":
-                sortBy = "sakai:type"
+                sortBy = "sakai:type";
                 break;
             case "to":
                 sortBy = "sakai:to";
@@ -845,7 +845,7 @@ sakai.inbox = function() {
 
             if (message.userFrom) {
                 for (var i = 0, j = message.userFrom.length; i < j; i++) {
-                    $(inboxSpecificMessageFrom).attr("href", sakai.config.URL.PROFILE_URL + "&id=" + message.userFrom[i].userid)
+                    $(inboxSpecificMessageFrom).attr("href", sakai.config.URL.PROFILE_URL + "&id=" + message.userFrom[i].userid);
                     $(inboxSpecificMessageFrom).text(sakai.api.User.getDisplayName(message.userFrom[i]));
                     if (message.userFrom[i].photo) {
                         $(inboxSpecificMessagePicture).attr("src", "/~" + message.userFrom[i]["userid"] + "/public/profile/" + message.userFrom[i].photo);
@@ -1312,8 +1312,8 @@ sakai.inbox = function() {
         var body = $(inboxSpecificMessageComposeBody).val();
 
         sakai.api.Communication.sendMessage(selectedMessage["sakai:from"], subject, body, "message", selectedMessage["sakai:id"], sendMessageFinished);
-
-        // Clear all the input fields
+        showGeneralMessage($(inboxGeneralMessagesSent).text());
+        // Clear all the input fieldst
         clearInputFields();
     });
 
