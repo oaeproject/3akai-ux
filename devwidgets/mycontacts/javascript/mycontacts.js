@@ -37,7 +37,7 @@ sakai.mycontacts = function(tuid,showSettings){
     /////////////////////////////
     // Configuration variables //
     /////////////////////////////
-
+    
     var rootel = $("#" + tuid);
     var numberFriends = 5; // The number of contacts that will be shown
 
