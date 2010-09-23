@@ -508,7 +508,7 @@ sakai.config = {
             "label" : "CONTENT_AND_MEDIA"
         },
         {
-            "url" : "/dev/search_groups.html#q=*&facet=see",
+            "url" : "/dev/search_groups.html#q=*&facet=all",
             "label" : "GROUPS"
         },
         {

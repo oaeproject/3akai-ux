@@ -275,7 +275,7 @@ sakai.search = function() {
 
         facetedurl = mainSearch.getFacetedUrl();
 
-        if (facet){
+        if (facet && searchConfig.facetedConfig.facets[facet]){
             facetedurl = searchConfig.facetedConfig.facets[facet].searchurl;
         } else {
             facet = "";
