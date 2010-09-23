@@ -218,14 +218,19 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
         data = {};
 
         // Set all the different values of the current item
-        data["sakai:pooled-content-file-name"] = $.trim($(contentProfileBasicInfoFormName).val());
-        data["sakai:description"] = $.trim($(contentProfileBasicInfoFormDescription).val());
+        data["sakai:pooled-content-file-name"] = sakai.api.Security.escapeHTML($.trim($(contentProfileBasicInfoFormName).val()));
+        data["sakai:description"] = sakai.api.Security.escapeHTML($.trim($(contentProfileBasicInfoFormDescription).val()));
 
         // For tags we need to do something special, since they are comma separated
-        data["sakai:tags"] = "";
+        data["sakai:tags"] = [];
 
         // Get all the tags
-        data["sakai:tags"] = sakai.api.Util.formatTags($(contentProfileBasicInfoFormTags).val());
+        var tags = $(contentProfileBasicInfoFormTags).val().split(",");
+        $(tags).each(function(i, tag){
+            if (sakai.api.Security.escapeHTML(tag) === tag) {
+                data["sakai:tags"].push(tag);
+            }
+        })
 
         // Create tags for the directory structure
         // For every content_profile_basic_info_added_directory we create tags

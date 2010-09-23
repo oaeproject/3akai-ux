@@ -190,7 +190,13 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         var currentTags = sakai.currentgroup.data.authprofile["sakai:tags"];
 
         // Get all the tags
-        sakai.currentgroup.data.authprofile["sakai:tags"] = sakai.api.Util.formatTags($(groupBasicInfoGroupTags).val());
+        sakai.currentgroup.data.authprofile["sakai:tags"] = [];
+        var tags = $(groupBasicInfoGroupTags).val().split(",");
+        $(tags).each(function(i, tag){
+            if (sakai.api.Security.escapeHTML(tag) === tag) {
+                sakai.currentgroup.data.authprofile["sakai:tags"].push(tag);
+            }
+        })
 
         // Create tags for the directory structure
         // For every groupbasicinfo_added_directory we create tags
@@ -222,9 +228,9 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         var groupDesc = $(groupBasicInfoGroupDesc, $rootel).val();
 
         // Update the group object
-        sakai.currentgroup.data.authprofile["sakai:group-title"] = groupTitle;
+        sakai.currentgroup.data.authprofile["sakai:group-title"] = sakai.api.Security.escapeHTML(groupTitle);
         sakai.currentgroup.data.authprofile["sakai:group-kind"] = groupKind;
-        sakai.currentgroup.data.authprofile["sakai:group-description"] = groupDesc;
+        sakai.currentgroup.data.authprofile["sakai:group-description"] = sakai.api.Security.escapeHTML(groupDesc);
         groupProfileURL = "/~" + sakai.currentgroup.id + "/public/authprofile"
 
         $.ajax({

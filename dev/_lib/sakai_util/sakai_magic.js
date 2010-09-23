@@ -1022,7 +1022,7 @@ sakai.api.Security = sakai.api.Security || {};
  */
 sakai.api.Security.escapeHTML = function(inputString){
     if (inputString) {
-        return $("<div/>").text(inputString).html();
+        return $("<div/>").text(inputString).html().replace(/"/g,"&quot;");
     } else {
         return "";
     }
@@ -2286,11 +2286,10 @@ sakai.api.Util.formatTags = function(inputTags){
  */
 
 sakai.api.Util.tagEntity = function(tagLocation, newTags, currentTags, callback) {
-    
         var setTags = function(tagLocation, tags, callback) {
         if (tags.length) {
             var requests = [];
-            $(tags).each(function(i,val) {
+            $(tags).each(function(i, val){
                 requests.push({
                     "url": "/tags/" + val,
                     "method": "POST",
@@ -2405,13 +2404,17 @@ sakai.api.Util.tagEntity = function(tagLocation, newTags, currentTags, callback)
     $(newTags).each(function(i,val) {
         val = $.trim(val);
         if (val && $.inArray(val,currentTags) == -1) {
-            tagsToAdd.push(val);
+            if (sakai.api.Security.escapeHTML(val) === val) {
+                tagsToAdd.push(val);
+            }
         }
     });
     $(currentTags).each(function(i,val) {
         val = $.trim(val);
         if (val && $.inArray(val,newTags) == -1) {
-            tagsToDelete.push(val);
+            if (sakai.api.Security.escapeHTML(val) === val) {
+                tagsToDelete.push(val);
+            }
         }
     });
     deleteTags(tagLocation, tagsToDelete, function() {
