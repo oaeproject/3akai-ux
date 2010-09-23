@@ -613,9 +613,11 @@ sakai.api.Groups.isCurrentUserAManager = function (groupid) {
 
 /**
  * Determines whether the current user is a member of the given group.
+ * Managers are considered members of a group. If the current user is a manager
+ * of the group, this function will return true.
  *
  * @param groupid {String} id of the group to check
- * @return true if the current user is a member, false otherwise
+ * @return true if the current user is a member or manager, false otherwise
  */
 sakai.api.Groups.isCurrentUserAMember = function (groupid) {
     if(!groupid || typeof(groupid) !== "string") {
@@ -632,33 +634,97 @@ sakai.api.Groups.isCurrentUserAMember = function (groupid) {
 
 
 /**
- * Adds logged in user to a specified group
+ * Adds the specified user to a specified group
  *
- * @param {String} groupID The ID of the group we would like the user to become
- * a member of
+ * @param {String} userID The ID of the user to add to the group
+ * @param {String} groupID The ID of the group to add the user to
  * @param {Function} callback Callback function executed at the end of the
- * operation
- * @returns true or false
- * @type Boolean
+ * operation - callback args:
+ * -- {Boolean} success true if the operation succeeded, false if it failed
+ * -- {Object} data data returned on successful operation, xhr on failed operation
  */
-sakai.api.Groups.addToGroup = function(groupID, callback) {
-
+sakai.api.Groups.addToGroup = function(userID, groupID, callback) {
+    if (userID && groupID) {
+        // add user to group
+        $.ajax({
+            url: "/system/userManager/group/" + groupID + ".update.json",
+            data: {
+                "_charset_":"utf-8",
+                ":member": userID
+            },
+            type: "POST",
+            success: function (data) {
+                if (typeof(callback) === "function") {
+                    callback(true, data);
+                }
+            },
+            error: function (xhr, textStatus, thrownError) {
+                if (xhr.status === 500) {
+                    // even though the server returns 500, the user has been added
+                    fluid.log("sakai.api.Groups.addToGroup() WARNING: 500 returned when trying to add member: " +
+                        userID + " to groupid: " + groupID);
+                    if (typeof(callback) === "function") {
+                        callback(true, xhr);
+                    }
+                } else {
+                    if (typeof(callback) === "function") {
+                        callback(false, xhr);
+                    }
+                }
+            }
+        });
+    } else {
+        if (typeof(callback) === "function") {
+            callback(false, {"textStatus": "Invalid arguments sent to sakai.api.Groups.addToGroup()"});
+        }
+    }
 };
 
 
 /**
- * Removes logged in user from a specified group
+ * Removes the specified user from a specified group
  *
- * @param {String} groupID The ID of the group we would like the user to be
- * removed from
+ * @param {String} userID The ID of the user to remove from the group
+ * @param {String} groupID The ID of the group to remove the user from
  * @param {Function} callback Callback function executed at the end of the
- * operation
- *
- * @returns true or false
- * @type Boolean
+ * operation - callback args:
+ * -- {Boolean} success true if the operation succeeded, false if it failed
+ * -- {Object} data data returned on successful operation, xhr on failed operation
  */
-sakai.api.Groups.removeFromGroup = function(groupID, callback) {
-
+sakai.api.Groups.removeFromGroup = function(userid, groupid, callback) {
+    if (userID && groupID) {
+        $.ajax({
+            url: "/system/userManager/group/" + groupID + ".update.json",
+            data: {
+                "_charset_":"utf-8",
+                ":member@Delete": userID
+            },
+            type: "POST",
+            success: function (data) {
+    	        if (typeof(callback) === "function") {
+                    callback(true, data);
+                }
+            },
+            error: function (xhr, textStatus, thrownError) {
+                if (xhr.status === 500) {
+                    // even though the server returns 500, the user has been removed
+                    fluid.log("sakai.api.Groups.removeFromGroup() WARNING: 500 returned when trying to remove member: " +
+                        userID + " from groupid: " + groupID);
+                    if (typeof(callback) === "function") {
+                        callback(true, xhr);
+                    }
+                } else {
+                    if (typeof(callback) === "function") {
+                        callback(false, xhr);
+                    }
+                }
+            }
+        });
+    } else {
+        if (typeof(callback) === "function") {
+            callback(false, {"textStatus": "Invalid arguments sent to sakai.api.Groups.removeFromGroup()"});
+        }
+    }
 };
 
 /**

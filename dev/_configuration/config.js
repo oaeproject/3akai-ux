@@ -137,7 +137,7 @@ sakai.config = {
         /*
          * A collection of permission keys and range of values to be referenced
          * for making permissions decisions. The values of properties are only
-         * for reference, may not match designs and are not to be place in the
+         * for reference, may not match designs and are not to be placed in the
          * UI (message bundles should be used to match up-to-date designs).
          */
         Groups: {

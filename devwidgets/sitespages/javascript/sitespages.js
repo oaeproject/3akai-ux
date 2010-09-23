@@ -125,7 +125,6 @@ sakai.sitespages = function(tuid,showSettings){
      * @return void
      */
     sakai.sitespages.refreshSiteInfo = function(pageToOpen, loadNav) {
-        console.log("refreshing site info");
         var doLoadNav = true;
         if (loadNav !== undefined) {
             doLoadNav = loadNav;

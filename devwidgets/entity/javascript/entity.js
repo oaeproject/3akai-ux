@@ -113,6 +113,7 @@ sakai.entity = function(tuid, showSettings){
     var entityGroupLeave = entityGroup + "_leave";
     var entityGroupJoin = entityGroup + "_join";
     var entityGroupJoinRequest = entityGroupJoin + '_request';
+    var entityGroupJoinRequestPending = entityGroupJoin + '_request_pending';
 
     // Content buttons
     var entityContentDownload = "#entity_content_download";
@@ -263,14 +264,15 @@ sakai.entity = function(tuid, showSettings){
      */
     var getGroupMembersManagers = function(){
         var requests = []; // Array used to contain all the information we need to send to the batch post
+        var groupid = entityconfig.data.profile.authprofile["sakai:group-id"];
         requests[0] = {
-                "url": "/system/userManager/group/" + entityconfig.data.profile.authprofile["sakai:group-id"] + ".members.json",
-                "method": "GET"
-            };
+            "url": "/system/userManager/group/" + groupid + ".members.json",
+            "method": "GET"
+        };
         requests[1] = {
-                "url": "/system/userManager/group/" + entityconfig.data.profile.authprofile["sakai:group-id"] + "-managers.members.json",
-                "method": "GET"
-            };
+            "url": "/system/userManager/group/" + groupid + "-managers.members.json",
+            "method": "GET"
+        };
 
         $.ajax({
             url: sakai.config.URL.BATCH,
@@ -280,88 +282,155 @@ sakai.entity = function(tuid, showSettings){
                 requests: $.toJSON(requests)
             },
             async: false,
-            success: function(data){
+            success: function (data) {
                 var groupMembers = $.parseJSON(data.results[0].body);
-                entityconfig.data.profile["memberCount"] = groupMembers.length;
-                $.each(groupMembers, function(i, val) {
-                    if (val["userid"] === sakai.data.me.user.userid) {
-                        entityconfig.data.profile["role"] = "member";
-                    }
-                });
                 var groupManagers = $.parseJSON(data.results[1].body);
+
+                // set the number of members and managers in this group
+                entityconfig.data.profile["memberCount"] = groupMembers.length;
                 entityconfig.data.profile["managerCount"] = groupManagers.length;
-                $.each(groupManagers, function(i, val) {
-                    if (val["userid"] === sakai.data.me.user.userid) {
-                        entityconfig.data.profile["role"] = "manager";
+
+                // set whether the current user's role
+                if (sakai.api.Groups.isCurrentUserAManager(groupid)) {
+                    // current user is a manager
+                    entityconfig.data.profile["role"] = "manager";
+                } else if (sakai.api.Groups.isCurrentUserAMember(groupid)) {
+                    // current user must be a member and not a manager
+                    // because of the structure of the if/else if
+                    entityconfig.data.profile["role"] = "member";
+                } else {
+                    // current user is either anonymous or a logged-in non-member
+                    if (sakai.data.me.user.anon) {
+                        entityconfig.data.profile["role"] = "anon";
+                    } else {
+                        entityconfig.data.profile["role"] = "non-member";
                     }
-                });
+                }
             }
         });
     };
 
+
     /**
-     * Joins the specific group as a member
-     * @param {String} Type tells us which button to show
+     * Displays the specific type of group membership button
+     * @param {String} type specifies which button to show. Options are:
+     *  - join: "Join Group" button
+     *  - leave: "Leave Group" button
+     *  - request: "Request to join group" button
+     *  - pending: "Join request pending" button
+     * @return None
      */
-    var showGroupMembershipButton = function(type){
-        if (type === "join") {
-            if (entityconfig.data.profile.authprofile["sakai:group-joinable"] ===
-                sakai.config.Permissions.Groups.joinable.user_direct) {
-                $(entityGroupJoin).show();
+    var showGroupMembershipButton = function (type) {
+        hideGroupMembershipButton();
+        if (type && typeof(type) === "string") {
+            switch(type) {
+                case "join":
+                    $(entityGroupJoin, $rootel).show();
+                    break;
+                case "leave":
+                    $(entityGroupLeave, $rootel).show();
+                    break;
+                case "request":
+                    $(entityGroupJoinRequest, $rootel).show();
+                    break;
+                case "pending":
+                    $(entityGroupJoinRequestPending, $rootel).show();
+                    break;
             }
-            else if (entityconfig.data.profile.authprofile["sakai:group-joinable"] ===
-                sakai.config.Permissions.Groups.joinable.user_request) {
-                $(entityGroupJoinRequest).show();
-            }
-            $(entityGroupLeave).hide();
-        } else if (type === "leave") {
-            $(entityGroupJoin).hide();
-            $(entityGroupJoinRequest).hide();
-            $(entityGroupLeave).show();
         }
     };
+
+
+    /**
+     * Hides any showing group membership button
+     */
+    var hideGroupMembershipButton = function () {
+        $("button.entity_action_button", $rootel).hide();
+    };
+
 
     /**
      * Sends a request to the group managers for the user to join as a member
      */
-    requestJoinGroup = function(){
-        // todo
+    requestJoinGroup = function () {
+        // get the current list of join requests for this group
+        var joinrequests;
+        if (entityconfig.data.profile.authprofile["sakai:group-joinrequests"] &&
+            entityconfig.data.profile.authprofile["sakai:group-joinrequests"].length) {
+            // we have an existing array of join requests
+            joinrequests = entityconfig.data.profile.authprofile["sakai:group-joinrequests"];
+        } else {
+            // we need to create a new array of join requests
+            joinrequests = [];
+        }
+
+        // add this user to the list of join requests for this group
+        joinrequests.push({
+            userid: sakai.data.me.user.userid,
+            firstName: sakai.data.me.user.firstName,
+            lastName: sakai.data.me.user.lastName,
+            requestTime: new Date()
+        });
+        var groupid = entityconfig.data.profile.authprofile["sakai:group-id"];
+        $.ajax({
+            url: "/system/userManager/group/" + groupid + ".update.html",
+            data: {
+                "sakai:group-joinrequests": $.toJSON(joinrequests)
+            },
+            type: "POST",
+            success: function (data) {
+    	        // send a join request message to all group managers
+            },
+            error: function (xhr, textStatus, thrownError) {
+                fluid.log("entity.js/requestJoinGroup() ERROR: Could not process join request for: " +
+                    sakai.data.me.user.userid + " for groupid: " +
+                    entityconfig.data.profile.authprofile["sakai:group-id"] +
+                    " - error status: " + textStatus);
+            }
+        });
     };
 
     /**
      * Joins the specific group as a member
      */
-    var joinGroup = function(){
+    var joinGroup = function () {
         // add user to group
-        $.ajax({
-            url: "/system/userManager/group/" + entityconfig.data.profile.authprofile["sakai:group-id"] + ".update.json",
-            data: {
-                "_charset_":"utf-8",
-                ":member": sakai.data.me.user.userid
-            },
-            type: "POST",
-            success: function(data){
-    	        sakai.api.Util.notification.show("Group Membership", "You have been added successfully to the Group.");
-                showGroupMembershipButton('leave');
+        sakai.api.Groups.addToGroup(sakai.data.me.user.userid, 
+            entityconfig.data.profile.authprofile["sakai:group-id"], function (success, data) {
+            if (success) {
+                sakai.api.Util.notification.show("Group Membership", "You have successfully been added to the Group.");
+                showGroupMembershipButton("leave");
+            } else {
+                fluid.log("entity.js/joinGroup() ERROR: Could not add member: " +
+                    sakai.data.me.user.userid + " to groupid: " +
+                    entityconfig.data.profile.authprofile["sakai:group-id"] +
+                    " - error status: " + data.textStatus);
             }
-        });
+        });        
     };
 
     /**
      * Leaves the specific group as a member
      */
-    var leaveGroup = function(){
+    var leaveGroup = function () {
+        // if this user is a manager, we need to remove them from the manager group
+        var groupid = entityconfig.data.profile.authprofile["sakai:group-id"];
+        if (entityconfig.data.profile.role === "manager") {
+            groupid = groupid + "-managers";
+        }
+
         // remove user from group
-        $.ajax({
-            url: "/system/userManager/group/" + entityconfig.data.profile.authprofile["sakai:group-id"] + ".update.json",
-            data: {
-                "_charset_":"utf-8",
-                ":member@Delete": sakai.data.me.user.userid
-            },
-            type: "POST",
-            success: function(data){
-    	        sakai.api.Util.notification.show("Group Membership", "You have been successfully removed from the Group.");
-                showGroupMembershipButton('join');
+        sakai.api.Groups.removeFromGroup(sakai.data.me.user.userid, groupid,
+        function (success, data) {
+            if (success) {
+                // because the user has left the group, they may not be allowed to
+                // view the current page - refresh the page to check visibility
+                alert("You have successfully been removed from the Group.");
+                window.location.reload();
+            } else {
+                fluid.log("entity.js/leaveGroup() ERROR: Could not remove member: " +
+                    sakai.data.me.user.userid + " from groupid: " + groupid +
+                    " - error status: " + data.textStatus);
             }
         });
     };
@@ -521,7 +590,7 @@ sakai.entity = function(tuid, showSettings){
      */
     var addBindingGroup = function(){
         // Add the click event to the leave group button
-        $(entityGroupLeave).bind("click", function(){
+        $(entityGroupLeave).bind("click", function () {
             leaveGroup();
         });
 
@@ -535,10 +604,53 @@ sakai.entity = function(tuid, showSettings){
             requestJoinGroup();
         });
 
-        if (entityconfig.data.profile.role === "member")
-            showGroupMembershipButton('leave');
-        else if (entityconfig.data.profile.role !== "manager")
-            showGroupMembershipButton('join');
+        // determine which button to display to the current user
+        var groupid = entityconfig.data.profile.authprofile["sakai:group-id"];
+        var joinability = entityconfig.data.profile.authprofile["sakai:group-joinable"];
+        var role = entityconfig.data.profile.role;
+
+        if (role === "member" || (role === "manager" && entityconfig.data.profile.managerCount > 1)) {
+            // we have either a group member or manager, but not the last group manager
+            showGroupMembershipButton("leave");
+        }
+        else if ((role === "manager" && entityconfig.data.profile.managerCount === 1) ||
+            (role === "non-member" && joinability ===
+                sakai.config.Permissions.Groups.joinable.manager_add) || role === "anon") {
+            // we have either the last group manager or a non-member with
+            // joinability set to 'only managers can add' or an anonymous user
+            hideGroupMembershipButton();
+        }
+        else if (role === "non-member" &&
+            joinability === sakai.config.Permissions.Groups.joinable.user_direct) {
+            // we have a non-member with joinability set to 'users can join directly'
+            showGroupMembershipButton("join");
+        }
+        else if (role === "non-member" &&
+            joinability === sakai.config.Permissions.Groups.joinable.user_request) {
+            // we have a non-member with joinability set to 'users must request to join'
+
+            // has this user already requested to join the group? Search the list of join requests
+            if (entityconfig.data.profile.authprofile["sakai:group-joinrequests"]) {
+                var joinrequests = entityconfig.data.profile.authprofile["sakai:group-joinrequests"];
+                if (joinrequests.length) {
+                    for (user in joinrequests) {
+                        if (joinrequests.hasOwnProperty(user) &&
+                            user.userid === sakai.data.me.user.userid) {
+                            // this user has a pending join request for this group
+                            showGroupMembershipButton("pending");
+                            break;
+                        }
+                    }
+                }
+            } else {
+                // this user does not have a pending join request for this group
+                showGroupMembershipButton("request");
+            }
+        }
+        else {
+            // unrecognized combination of user and joinability setting
+            hideGroupMembershipButton();
+        }
     };
 
     /**
@@ -735,7 +847,7 @@ sakai.entity = function(tuid, showSettings){
             case "group":
                 entityconfig.data.profile = data;
                 // determine users role and get the count of members and managers
-                getGroupMembersManagers()
+                getGroupMembersManagers();
                 break;
             case "content":
                 setContentData(data);

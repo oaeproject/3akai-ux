@@ -1,0 +1,32 @@
+/*
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+
+/* LAYOUT */
+div.joinrequests_joinrequest {background-color:#EFF2F4; height:55px;
+    margin:5px 8px 10px; padding:10px; width:220px;}
+a.joinrequests_userpicture {margin:0; padding:0; height:32px; width:32px;
+    background-image:url("../../../dev/_images/default_profile_picture_32.png");}
+div.joinrequests_details {margin-left:10px;}
+p.joinrequests_username, p.joinrequests_actions {margin:0;}
+p.joinrequests_request_age {margin-bottom:6px;}
+a.joinrequests_add_link {margin-right:5px;}
+a.joinrequests_ignore_link {margin-left:5px;}
+
+/* TYPOGRAPHY */
+div.joinrequests_joinrequest a {color:#006E96; font-weight:bold;}
+p.joinrequests_request_age {color:#666666;}

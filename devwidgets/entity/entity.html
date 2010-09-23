@@ -2,7 +2,7 @@
 <link rel="stylesheet" type="text/css" href="/devwidgets/entity/css/entity.css" />
 
 <!-- CONTAINER -->
-<div id="entity_container" class="fl-container-550" style="display:none"><!-- --></div>
+<div id="entity_container" style="display:none"><!-- --></div>
 
 <!-- ACTIONS CONTAINER -->
 <div id="entity_container_actions" style="display:none"><!-- --></div>
@@ -22,7 +22,7 @@
                     </div>
                 {/if}
             </div>
-            <div class="entity_header">
+            <div class="fl-force-left entity_header">
                 <a class="entity_header_text" href="/dev/show.html?type=user&amp;id=${unescape(data.profile["rep:userId"])}">${unescape(sakai.api.User.getDisplayName(data.profile))}</a>
                 {if mode === "myprofile"}
                     <a class="s3d-action" href="/dev/profile_edit.html">__MSG__EDIT_PROFILE__</a>
@@ -90,13 +90,11 @@
                     {else}
                         <a class="entity_header_text" href="${data.profile.path}">${data.profile.name}</a><span class="entity_content_filetype">(${data.profile.mimetype} ${data.profile.filesize})</span>
                     {/if}
-                </div>
-                <div class="fl-force-left entity_description">
                     {if data.profile.description}
                         {if data.profile.description > 115}
-                            <p>${data.profile.description.substring(0, 115)}...</p>
+                            <p class="entity_description">${data.profile.description.substring(0, 115)}...</p>
                         {else}
-                            <p>${data.profile.description}</p>
+                            <p class="entity_description">${data.profile.description}</p>
                         {/if}
                     {/if}
                 </div>
@@ -118,40 +116,33 @@
                     {/if}
                 </div>
             </div>
-            <div class="entity_header">
+            <div class="fl-force-left entity_header">
                 {if data.profile.authprofile["sakai:group-title"] && data.profile.authprofile["sakai:group-title"].length > 115}
-                    <a class="entity_header_text" href="/dev/show.html?type=group&amp;id=${data.profile.authprofile["sakai:group-id"]}" title="${data.profile.authprofile["sakai:group-title"]}">
-                        ${data.profile.authprofile["sakai:group-title"].substring(0, 115)}
+                    <a class="entity_header_text" href="/dev/show.html?type=group&amp;id=${data.profile.authprofile["sakai:group-id"]}"
+                        title="${data.profile.authprofile["sakai:group-title"]}">${data.profile.authprofile["sakai:group-title"].substring(0, 115)}
                         {if data.profile["managerCount"] && data.profile["memberCount"]}
                             (${data.profile["memberCount"]+data.profile["managerCount"]})
                         {elseif data.profile["memberCount"]}
                             (${data.profile["memberCount"]})
                         {/if}
-                        ...
-                    </a>
+                        ...</a>
                 {elseif data.profile.authprofile["sakai:group-title"]}
-                    <a class="entity_header_text" href="/dev/show.html?type=group&amp;id=${data.profile.authprofile["sakai:group-id"]}">
-                        ${data.profile.authprofile["sakai:group-title"]} 
+                    <a class="entity_header_text"
+                        href="/dev/show.html?type=group&amp;id=${data.profile.authprofile["sakai:group-id"]}">${data.profile.authprofile["sakai:group-title"]} 
                         {if data.profile["managerCount"] && data.profile["memberCount"]}
-                            (${data.profile["memberCount"]+data.profile["managerCount"]})
-                        {elseif data.profile["managerCount"]}
-                            (${data.profile["managerCount"]})
-                        {elseif data.profile["memberCount"]}
-                            (${data.profile["memberCount"]})
-                        {/if}
-                    </a>
+                            (${data.profile["memberCount"]+data.profile["managerCount"]}){elseif data.profile["managerCount"]}
+                            (${data.profile["managerCount"]}){elseif data.profile["memberCount"]}
+                            (${data.profile["memberCount"]}){/if}</a>
                 {/if}
 
                 {if data.profile.role === "manager"}
                     <a class="s3d-action entity_group_edit" href="/dev/group_edit.html?id=${data.profile.authprofile["sakai:group-id"]}">__MSG__EDIT_PROFILE__</a>
                 {/if}
                 <a class="s3d-action" href="/dev/show.html?type=group&amp;id=${data.profile.authprofile["sakai:group-id"]}">__MSG__MORE_INFO__</a>
-            </div>
-            <div class="fl-force-left entity_description">
                 {if data.profile.authprofile["sakai:group-description"] && data.profile.authprofile["sakai:group-description"].length > 115}
-                    <p>${data.profile.authprofile["sakai:group-description"].substring(0, 115)}...</p>
+                    <p class="entity_description">${data.profile.authprofile["sakai:group-description"].substring(0, 115)}...</p>
                 {elseif data.profile.authprofile["sakai:group-description"]}
-                    <p>${data.profile.authprofile["sakai:group-description"]}</p>
+                    <p class="entity_description">${data.profile.authprofile["sakai:group-description"]}</p>
                 {/if}
             </div>
         {/if}
@@ -308,6 +299,7 @@
             <button id="entity_group_leave" class="s3d-button entity_action_button" style="display:none;"><span class="s3d-button-inner">__MSG__LEAVE_GROUP__</span></button>
             <button id="entity_group_join" class="s3d-button entity_action_button" style="display:none;"><span class="s3d-button-inner">__MSG__JOIN_GROUP__</span></button>
             <button id="entity_group_join_request" class="s3d-button entity_action_button" style="display:none;"><span class="s3d-button-inner">__MSG__REQUEST_TO_JOIN__</span></button>
+            <button id="entity_group_join_request_pending" class="s3d-button entity_action_button" style="display:none;" disabled="disabled"><span class="s3d-button-inner">__MSG__REQUEST_PENDING__</span></button>
             {if data.profile.authprofile["sakai:group-tags"] && data.profile.authprofile["sakai:group-tags"].split(",").length > 0}
                 <div class="entity_tags">
                     <a id="entity_tags_link" class="entity_tags_link" href="javascript:;">

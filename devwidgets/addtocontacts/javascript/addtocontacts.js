@@ -212,7 +212,7 @@ sakai.addtocontacts = function(tuid, showSettings){
     /**
      * People should call this function if they want to initiate the widget
      * @param {Object} user The userid or the /rest/me info for this user.
-     * @param {Function} user The callback function that will be executed after the request.
+     * @param {Function} callback The callback function that will be executed after the request.
      */
     sakai.addtocontacts.initialise = function(user, callback){
         callbackWhenDone = callback;
