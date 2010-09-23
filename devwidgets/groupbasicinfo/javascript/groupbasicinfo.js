@@ -371,6 +371,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
             if (valueSelected) {
                 updateGroup();
             } else {
+                sakai.api.UI.groupbasicinfo.enableInputElements();
                 sakai.api.Util.notification.show($(groupbasicinfoSelectDirectory).html(), $(groupbasicinfoSelectAtLeastOneDirectory).html());
             }
     });
