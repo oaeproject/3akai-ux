@@ -927,7 +927,7 @@ sakai.entity = function(tuid, showSettings){
     };
 
     $(window).trigger("sakai.api.UI.entity.ready", {});
-
+    sakai.entity.isReady = true;
     // Add binding to update the chat status
     $(window).bind("chat_status_change", function(event, newChatStatus){
         updateChatStatusElement(newChatStatus)

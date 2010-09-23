@@ -312,6 +312,7 @@ sakai.pickeruser = function(tuid, showSettings) {
     // in a page JS code
 
     $(window).trigger("sakai-pickeruser-ready");
+    sakai.pickeruser.isReady = true;
 
 };
 
