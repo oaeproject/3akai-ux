@@ -396,8 +396,36 @@ sakai.api.Groups.setPermissions = function (groupid, joinable, visible, callback
         var jackrabbitUrl = "/system/userManager/group/" + groupid + ".update.html";
         var homeFolderUrl = "/~" + groupid + ".modifyAce.html";
 
-        // determine visibility state (joinability needs to be checked later, depends on KERN-1019)
-        if(visible == sakai.config.Permissions.Groups.visible.members) {
+        // determine visibility state
+        if(visible == sakai.config.Permissions.Groups.visible.managers) {
+            // visible to managers only
+            batchRequests.push({
+                "url": jackrabbitUrl,
+                "method": "POST",
+                "parameters": {
+                    ":viewer": groupid + "-managers",
+                    ":viewer@Delete": "everyone",
+                    "sakai:group-visible": visible,
+                    "sakai:group-joinable": joinable
+                }
+            });
+            batchRequests.push({
+                "url": homeFolderUrl,
+                "method": "POST",
+                "parameters": {
+                    "principalId": "everyone",
+                    "privilege@jcr:read": "denied"
+                }
+            });
+            batchRequests.push({
+                "url": homeFolderUrl,
+                "method": "POST",
+                "parameters": {
+                    "principalId": "anonymous",
+                    "privilege@jcr:read": "denied"
+                }
+            });
+        } else if(visible == sakai.config.Permissions.Groups.visible.members) {
             // visible to members only
             batchRequests.push({
                 "url": jackrabbitUrl,
@@ -585,17 +613,8 @@ sakai.api.Groups.addToGroup = function(userID, groupID, callback) {
                 }
             },
             error: function (xhr, textStatus, thrownError) {
-                if (xhr.status === 500) {
-                    // even though the server returns 500, the user has been added
-                    fluid.log("sakai.api.Groups.addToGroup() WARNING: 500 returned when trying to add member: " +
-                        userID + " to groupid: " + groupID);
-                    if (typeof(callback) === "function") {
-                        callback(true, xhr);
-                    }
-                } else {
-                    if (typeof(callback) === "function") {
-                        callback(false, xhr);
-                    }
+                if (typeof(callback) === "function") {
+                    callback(false, xhr);
                 }
             }
         });
@@ -617,7 +636,7 @@ sakai.api.Groups.addToGroup = function(userID, groupID, callback) {
  * -- {Boolean} success true if the operation succeeded, false if it failed
  * -- {Object} data data returned on successful operation, xhr on failed operation
  */
-sakai.api.Groups.removeFromGroup = function(userid, groupid, callback) {
+sakai.api.Groups.removeFromGroup = function(userID, groupID, callback) {
     if (userID && groupID) {
         $.ajax({
             url: "/system/userManager/group/" + groupID + ".update.json",
@@ -632,17 +651,8 @@ sakai.api.Groups.removeFromGroup = function(userid, groupid, callback) {
                 }
             },
             error: function (xhr, textStatus, thrownError) {
-                if (xhr.status === 500) {
-                    // even though the server returns 500, the user has been removed
-                    fluid.log("sakai.api.Groups.removeFromGroup() WARNING: 500 returned when trying to remove member: " +
-                        userID + " from groupid: " + groupID);
-                    if (typeof(callback) === "function") {
-                        callback(true, xhr);
-                    }
-                } else {
-                    if (typeof(callback) === "function") {
-                        callback(false, xhr);
-                    }
+                if (typeof(callback) === "function") {
+                    callback(false, xhr);
                 }
             }
         });

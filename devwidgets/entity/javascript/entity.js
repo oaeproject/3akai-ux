@@ -285,23 +285,23 @@ sakai.entity = function(tuid, showSettings){
                 var groupManagers = $.parseJSON(data.results[1].body);
 
                 // set the number of members and managers in this group
-                entityconfig.data["memberCount"] = groupMembers.length;
-                entityconfig.data["managerCount"] = groupManagers.length;
+                entityconfig.data.profile["memberCount"] = groupMembers.length;
+                entityconfig.data.profile["managerCount"] = groupManagers.length;
 
                 // set whether the current user's role
                 if (sakai.api.Groups.isCurrentUserAManager(groupid)) {
                     // current user is a manager
-                    entityconfig.data["role"] = "manager";
+                    entityconfig.data.profile["role"] = "manager";
                 } else if (sakai.api.Groups.isCurrentUserAMember(groupid)) {
                     // current user must be a member and not a manager
                     // because of the structure of the if/else if
-                    entityconfig.data["role"] = "member";
+                    entityconfig.data.profile["role"] = "member";
                 } else {
                     // current user is either anonymous or a logged-in non-member
                     if (sakai.data.me.user.anon) {
-                        entityconfig.data["role"] = "anon";
+                        entityconfig.data.profile["role"] = "anon";
                     } else {
-                        entityconfig.data["role"] = "non-member";
+                        entityconfig.data.profile["role"] = "non-member";
                     }
                 }
             }
@@ -413,7 +413,7 @@ sakai.entity = function(tuid, showSettings){
     var leaveGroup = function () {
         // if this user is a manager, we need to remove them from the manager group
         var groupid = entityconfig.data.profile["sakai:group-id"];
-        if (entityconfig.data.role === "manager") {
+        if (entityconfig.data.profile.role === "manager") {
             groupid = groupid + "-managers";
         }
 
@@ -678,13 +678,13 @@ sakai.entity = function(tuid, showSettings){
         // determine which button to display to the current user
         var groupid = entityconfig.data.profile["sakai:group-id"];
         var joinability = entityconfig.data.profile["sakai:group-joinable"];
-        var role = entityconfig.data.role;
+        var role = entityconfig.data.profile.role;
 
-        if (role === "member" || (role === "manager" && entityconfig.data.managerCount > 1)) {
+        if (role === "member" || (role === "manager" && entityconfig.data.profile.managerCount > 1)) {
             // we have either a group member or manager, but not the last group manager
             showGroupMembershipButton("leave");
         }
-        else if ((role === "manager" && entityconfig.data.managerCount === 1) ||
+        else if ((role === "manager" && entityconfig.data.profile.managerCount === 1) ||
             (role === "non-member" && joinability ===
                 sakai.config.Permissions.Groups.joinable.manager_add) || role === "anon") {
             // we have either the last group manager or a non-member with

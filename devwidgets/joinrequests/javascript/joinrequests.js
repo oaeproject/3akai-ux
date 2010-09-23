@@ -59,7 +59,9 @@ sakai.joinrequests = function (tuid, showSettings) {
 
     var getJoinRequestsData = function () {
         // create server request (fake data for now)
-        return [{
+        return null;
+        
+        /* dummy data [{
             "userid": "userx",
             "firstName": "Gaurav",
             "lastName": "Bhatnagar",
@@ -70,7 +72,7 @@ sakai.joinrequests = function (tuid, showSettings) {
             "firstName": "Cedric",
             "lastName": "Diggory",
             "request_age": "55 minutes ago"
-        }];
+        }];*/
     };
 
 

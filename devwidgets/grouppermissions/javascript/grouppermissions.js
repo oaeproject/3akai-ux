@@ -75,6 +75,7 @@ sakai.grouppermissions = function(tuid, showSettings){
         }
     };
 
+
     /**
      * Updates the group permissions that have been set by the user only if the
      * values have been changed.
