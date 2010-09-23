@@ -46,6 +46,7 @@ sakai.dashboard = function(tuid, showSettings) {
     var savePath = false;
     var settings = false;
     var widgetPropertyName = false;
+    var tempSettings;
 
     var rootel = "#" + tuid;
     var $rootel = $(rootel);
@@ -551,8 +552,10 @@ sakai.dashboard = function(tuid, showSettings) {
             }
         }
 
-        sakai.api.Widgets.saveWidgetData(tuid, settings, checkSuccess);
+        if ($.toJSON(tempSettings) !== $.toJSON(settings))
+            sakai.api.Widgets.saveWidgetData(tuid, settings, checkSuccess);
 
+        tempSettings = settings;
     };
 
     var checkSuccess = function(success) {
