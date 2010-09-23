@@ -2289,34 +2289,33 @@ sakai.api.Util.tagEntity = function(tagLocation, newTags, currentTags, callback)
     
         var setTags = function(tagLocation, tags, callback) {
         if (tags.length) {
+            var requests = [];
             $(tags).each(function(i,val) {
-                // check to see that the tag exists
-                $.ajax({
-                    url: "/tags/" + val + ".tagged.json",
-                    success: function(data) {
-                        doSetTag(val);
-                    },
-                    // if it doesn't exist, create the tag before setting it
-                    error: function(data) {
-                        $.ajax({
-                            url: "/tags/" + val,
-                            data: {
-                                "sakai:tag-name": val,
-                                "sling:resourceType": "sakai/tag"
-                            },
-                            type: "POST",
-                            success: function(data) {
-                                doSetTag(val);
-                            },
-                            error: function(xhr, response) {
-                                fluid.log(val + " failed to be created");
-                                if ($.isFunction(callback)) {
-                                    callback();
-                                }
-                            }
-                        });
+                requests.push({
+                    "url": "/tags/" + val,
+                    "method": "POST",
+                    "parameters": {
+                        "sakai:tag-name": val,
+                        "sling:resourceType": "sakai/tag"
                     }
                 });
+            });
+            $.ajax({
+                url: sakai.config.URL.BATCH,
+                traditional: true,
+                type: "POST",
+                data: {
+                    requests: $.toJSON(requests)
+                },
+                success: function() {
+                    doSetTags(tags);
+                },
+                error: function(xhr, response){
+                    fluid.log(val + " failed to be created");
+                    if ($.isFunction(callback)) {
+                        callback();
+                    }
+                }
             });
         } else {
             if ($.isFunction(callback)) {
@@ -2325,21 +2324,32 @@ sakai.api.Util.tagEntity = function(tagLocation, newTags, currentTags, callback)
         }
 
         // set the tag on the entity
-        var doSetTag = function(val) {
+        var doSetTags = function(tags) {
+            var requests = [];
+            $(tags).each(function(i,val) {
+                requests.push({
+                    "url": tagLocation,
+                    "method": "POST",
+                    "parameters": {
+                        "key": "/tags/" + val,
+                        ":operation": "tag"
+                    }
+                });
+            });
             $.ajax({
-                url: tagLocation,
-                data: {
-                    "key": "/tags/" + val,
-                    ":operation": "tag"
-                },
+                url: sakai.config.URL.BATCH,
+                traditional: true,
                 type: "POST",
-                error: function(xhr, response) {
-                    fluid.log(tagLocation + " failed to be tagged as " + val);
+                data: {
+                    requests: $.toJSON(requests)
                 },
-                complete: function() {
+                success: function() {
                     if ($.isFunction(callback)) {
                         callback();
                     }
+                },
+                error: function(xhr, response){
+                    fluid.log(tagLocation + " failed to be tagged as " + val);
                 }
             });
         };
