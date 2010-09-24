@@ -227,7 +227,6 @@ sakai.groupedit = function(){
                         },
                         type: "POST",
                         success: function(data){
-                            sakai.listPeople.removeFromList(tuid);
                             userCount++;
                         }
                     });
@@ -239,6 +238,7 @@ sakai.groupedit = function(){
             } else if (userCount == 1) {
                 sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_user_removed_text").text()));
             }
+            renderItemLists(tuid);
         }
     };
 
