@@ -220,8 +220,9 @@ sakai.pickeruser = function(tuid, showSettings) {
                     } else {
 
                     }
-                }, {"q": "*" + query.replace(/\s+/g, "* OR *") + "*"});
+                }, {"q": "*" + query.replace(/\s+/g, "* OR *") + "*", "page": 0, "items": 15});
             },
+            retrieveLimit: 10,
             asHtmlID: tuid,
             selectedItemProp: "name",
             searchObjProps: "name",

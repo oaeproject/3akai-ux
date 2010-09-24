@@ -293,6 +293,7 @@ if (!sakai.sendmessage){
                 searchObjProps: "name",
                 selectedItemProp: "name",
                 keyDelay: "200",
+                retrieveLimit: 10,
                 formatList: function(data, elem) {
                     // formats each line to be presented in autosuggest list
                     // add the correct image, wrap name in a class
@@ -323,7 +324,7 @@ if (!sakai.sendmessage){
                         } else {
 
                         }
-                    }, {"q": "*" + query.replace(/\s+/g, "* OR *") + "*"});
+                    }, {"q": "*" + query.replace(/\s+/g, "* OR *") + "*", "page": 0, "items": 15});
                 }
             });
         };
