@@ -70,7 +70,7 @@
                 <select id="content_profile_basic_info_permissions_select">
                     <option value="public" {if data["sakai:permissions"] === "public"}selected="selected"{/if}>__MSG__PUBLIC__</option>
                     <option value="everyone" {if data["sakai:permissions"] === "everyone"}selected="selected"{/if}>__MSG__LOGGED_IN_USERS__</option>
-                    <option value="private" {if data["sakai:permissions"] === "private"}selected="selected"{/if}>__MSG__ONLY_ME__</option>
+                    <option value="private" {if data["sakai:permissions"] === "private" || data["sakai:permissions"] === "group"}selected="selected"{/if}>__MSG__MANAGERS_AND_MEMBERS__</option>
                 </select>
         </div>
         {/if}
