@@ -419,25 +419,30 @@ sakai.topnavigation = function(tuid, showSettings){
         var menulinks = [];
 
         for (var i in sakai.config.Navigation) {
-            var temp = new Object();
-            temp.url = sakai.config.Navigation[i].url;
-            temp.label = sakai.api.i18n.General.getValueForKey(sakai.config.Navigation[i].label);
-            temp.cleanurl = temp.url || "";
-            if (temp.cleanurl) {
-                if (temp.cleanurl.indexOf('?') && temp.cleanurl.indexOf('?') > 0) {
-                    temp.cleanurl = temp.cleanurl.substring(0, temp.cleanurl.indexOf('?'));
+
+            // We need to add the hasOwnProperty to pass to JSLint and it is also a security issue
+            if (sakai.config.Navigation.hasOwnProperty(i)) {
+            
+                var temp = new Object();
+                temp.url = sakai.config.Navigation[i].url;
+                temp.label = sakai.api.i18n.General.getValueForKey(sakai.config.Navigation[i].label);
+                temp.cleanurl = temp.url || "";
+                if (temp.cleanurl) {
+                    if (temp.cleanurl.indexOf('?') && temp.cleanurl.indexOf('?') > 0) {
+                        temp.cleanurl = temp.cleanurl.substring(0, temp.cleanurl.indexOf('?'));
+                    }
+                    if (temp.cleanurl.indexOf('#') && temp.cleanurl.indexOf('#') > 0) {
+                        temp.cleanurl = temp.cleanurl.substring(0, temp.cleanurl.indexOf('#'));
+                    }
                 }
-                if (temp.cleanurl.indexOf('#') && temp.cleanurl.indexOf('#') > 0) {
-                    temp.cleanurl = temp.cleanurl.substring(0, temp.cleanurl.indexOf('#'));
+                if (i == 0) {
+                    temp.firstlink = true;
                 }
+                else {
+                    temp.firstlink = false;
+                }
+                menulinks.push(temp);
             }
-            if (i == 0) {
-                temp.firstlink = true;
-            }
-            else {
-                temp.firstlink = false;
-            }
-            menulinks.push(temp);
         }
         obj.links = menulinks;
         // Get navigation and render menu template
