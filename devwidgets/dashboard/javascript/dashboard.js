@@ -195,6 +195,7 @@ sakai.dashboard = function(tuid, showSettings) {
     }
 
     var showDashboard = function() {
+        tempSettings = settings;
 
         if (!Widgets.layouts[settings.layout]) {
 
@@ -489,7 +490,7 @@ sakai.dashboard = function(tuid, showSettings) {
 
     var saveState = function() {
 
-        var serString = '{"columns":{';
+        var serString = '{"layout":"' + settings.layout + '","columns":{';
 
         var columns = $(".groupWrapper", $rootel);
         for (var i = 0, j = columns.length; i < j; i++) {
@@ -526,7 +527,7 @@ sakai.dashboard = function(tuid, showSettings) {
                         if (iii !== 0) {
                             serString += ",";
                         }
-                        serString += '{"name":"' + node.id.split("_")[0] + '","visible":"' + widgetdisplay + '","uid":"' + uid + '"}';
+                        serString += '{"uid":"' + uid + '","visible":"' + widgetdisplay + '","name":"' + node.id.split("_")[0] + '"}';
 
                     }
                 } catch(err) {
@@ -539,7 +540,8 @@ sakai.dashboard = function(tuid, showSettings) {
 
         }
 
-        serString += '},"layout":"' + settings.layout + '"}';
+        //serString += '},"layout":"' + settings.layout + '"}';
+        serString += '}}';
 
         settings = $.parseJSON(serString);
 
