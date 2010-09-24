@@ -563,10 +563,11 @@ sakai.fileupload = function(tuid, showSettings){
                 filesUploaded = true;
                 if (context === "group") {
                     setLinkAsGroupResource(data);
+                } else {
+                    resetFields();
                 }
                 batchSetDescriptionAndName(data);
                 newVersionIsLink = false;
-                resetFields();
             },
             error: function(err){
                 sakai.api.Util.notification.show($(fileUploadCheckURL).html(), $(fileUploadEnterValidURL).html());

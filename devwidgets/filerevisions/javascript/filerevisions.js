@@ -57,7 +57,7 @@ sakai.filerevisions = function(tuid, showSettings){
      */
     var renderRevisionData = function(){
         var data = [];
-        baseFileData.created = getFormattedDate(new Date(baseFileData["jcr:created"]));
+        baseFileData.created = getFormattedDate(new Date(baseFileData.data["jcr:created"]));
         data.data = baseFileData;
         data.linkrevision = $("#content_profile_details_view_revisions").hasClass("link_revision");
 
@@ -137,11 +137,8 @@ sakai.filerevisions = function(tuid, showSettings){
             success: function(data){
                 for (var i in data.versions){
                     if (data.versions.hasOwnProperty(i)) {
-                        if (!$.browser.webkit) {
-                            data.versions[i]["jcr:created"] = getFormattedDate(new Date(data.versions[i]["jcr:created"]));
-                        }else{
-                            data.versions[i]["jcr:created"] = getFormattedDate(new Date(data.versions[i]["jcr:created"].split("T")[0]));
-                        }
+                        var splittedDate = data.versions[i]["jcr:created"].split("T")[0].split("-");
+                        data.versions[i]["jcr:created"] = getFormattedDate(new Date(splittedDate[0],splittedDate[1]-1,splittedDate[2]));
                     }
                 }
                 baseFileData.revisions = data.versions;

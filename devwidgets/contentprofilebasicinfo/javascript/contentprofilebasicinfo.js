@@ -227,38 +227,57 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
         // Get all the tags
         var tags = $(contentProfileBasicInfoFormTags).val().split(",");
         $(tags).each(function(i, tag){
-            if (sakai.api.Security.escapeHTML(tag) === tag) {
+            tag = $.trim(tag);
+            if (sakai.api.Security.escapeHTML(tag) === tag && tag.replace(/\\/g,"").length) {
                 if ($.inArray(tag, data["sakai:tags"]) < 0) {
-                    data["sakai:tags"].push(tag);
+                    data["sakai:tags"].push(tag.replace(/\\/g,""));
                 }
             }
         })
 
         // Create tags for the directory structure
         // For every content_profile_basic_info_added_directory we create tags
-        // Filter out ',' since that causes unwanted behaviour when rendering
+        // Filter out ',' since that causes unwanted behavior when rendering
         $(".content_profile_basic_info_added_directory").each(function(){
             var directoryString = "directory/";
-            data["sakai:tags"].push($(this).find(contentProfileBasicInfoDirectoryLvlOne).selected().val().replace(/,/g,""));
+             if ($.inArray($(this).find(contentProfileBasicInfoDirectoryLvlOne).selected().val().replace(/,/g, ""), data["sakai:tags"]) < 0) {
+                 data["sakai:tags"].push($(this).find(contentProfileBasicInfoDirectoryLvlOne).selected().val().replace(/,/g, ""));
+             }
             directoryString += $(this).find(contentProfileBasicInfoDirectoryLvlOne).selected().val().replace(/,/g,"");
 
             if ($(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val() !== "no_value") {
-                data["sakai:tags"].push($(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g,""));
+                if ($.inArray($(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g, ""), data["sakai:tags"]) < 0) {
+                    data["sakai:tags"].push($(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g, ""));
+                }
                 directoryString += "/" + $(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g,"");
 
                 if ($(this).find(contentProfileBasicInfoDirectoryLvlThree).selected().val() !== "no_value") {
-                    data["sakai:tags"].push($(this).find(contentProfileBasicInfoDirectoryLvlThree).selected().val().replace(/,/g,""));
+                    if ($.inArray($(this).find(contentProfileBasicInfoDirectoryLvlThree).selected().val().replace(/,/g, ""), data["sakai:tags"]) < 0) {
+                        data["sakai:tags"].push($(this).find(contentProfileBasicInfoDirectoryLvlThree).selected().val().replace(/,/g, ""));
+                    }
                     directoryString += "/" + $(this).find(contentProfileBasicInfoDirectoryLvlThree).selected().val().replace(/,/g,"");
                 }
 
             }
             // Add string for all levels to tag array
-            data["sakai:tags"].push(directoryString);
+            if ($.inArray(directoryString, data["sakai:tags"]) < 0) {
+                data["sakai:tags"].push(directoryString);
+            }
         });
 
         // Add the directory tags to the array that were already saved
         $(contentProfileBasicInfoSavedDirectory + " li").each(function(){
-            data["sakai:tags"].push("directory/" + this.className.split(",")[0] + "/" + this.className.split(",")[1] + "/" + this.className.split(",")[2]);
+            var splitValues = this.className.split(",");
+            var savedDirString = "directory/" + splitValues[0];
+            if(splitValues.length > 1){
+                savedDirString += "/" + splitValues[1];
+                if(splitValues.length > 2){
+                    savedDirString += "/" + splitValues[2];
+                }
+            }
+            if ($.inArray(savedDirString, data["sakai:tags"]) < 0) {
+                data["sakai:tags"].push(savedDirString);
+            }
         });
 
         if (!init) {
@@ -292,6 +311,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
     };
 
     var updateBasicInfo = function(){
+
         // Set permissions on the file
         setFilePermissions();
 
@@ -348,6 +368,12 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
             sakai.content_profile.content_data.anon = anon;
             sakai.content_profile.content_data.directory = directoryJSON;
             globalJSON = $.extend(true, {}, sakai.content_profile.content_data);
+            if($(contentProfileBasicInfoFormCopyrightSelect).val()){
+                sakai.content_profile.content_data.data["sakai:copyright"] = $(contentProfileBasicInfoFormCopyrightSelect).val();
+            }
+            if($(contentProfileBasicInfoFormPermissionsSelect).val()){
+                sakai.content_profile.content_data.data["sakai:permissions"] = $(contentProfileBasicInfoFormPermissionsSelect).val();
+            }
             postLoadContentData();
         } else {
             sakai.content_profile.loadContentProfile(function(success) {
@@ -458,7 +484,8 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
             currentTags = currentTags.splice(tags);
             // TODO show a valid message to the user instead of reloading the page
             $(window).trigger('hashchange');
-            sakai.api.Util.notification.show($(contentProfileBasicInfoUpdatedBasicInfo).html(), $(contentProfileBasicInfoFileBasicInfoUpdated).html());});
+            sakai.api.Util.notification.show($(contentProfileBasicInfoUpdatedBasicInfo).html(), $(contentProfileBasicInfoFileBasicInfoUpdated).html());
+        });
     }
 
     /**
