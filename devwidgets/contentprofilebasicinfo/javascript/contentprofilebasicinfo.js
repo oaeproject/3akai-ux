@@ -228,9 +228,9 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
         var tags = $(contentProfileBasicInfoFormTags).val().split(",");
         $(tags).each(function(i, tag){
             tag = $.trim(tag);
-            if (sakai.api.Security.escapeHTML(tag) === tag && tag.length) {
+            if (sakai.api.Security.escapeHTML(tag) === tag && tag.replace(/\\/g,"").length) {
                 if ($.inArray(tag, data["sakai:tags"]) < 0) {
-                    data["sakai:tags"].push(tag);
+                    data["sakai:tags"].push(tag.replace(/\\/g,""));
                 }
             }
         })

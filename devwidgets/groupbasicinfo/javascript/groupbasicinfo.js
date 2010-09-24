@@ -194,9 +194,9 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         var tags = $(groupBasicInfoGroupTags).val().split(",");
         $(tags).each(function(i, tag){
             tag = $.trim(tag);
-            if (sakai.api.Security.escapeHTML(tag) === tag && tag.length) {
+            if (sakai.api.Security.escapeHTML(tag) === tag && tag.replace(/\\/g,"").length) {
                 if ($.inArray(tag, sakai.currentgroup.data.authprofile["sakai:tags"]) < 0) {
-                    sakai.currentgroup.data.authprofile["sakai:tags"].push(tag);
+                    sakai.currentgroup.data.authprofile["sakai:tags"].push(tag.replace(/\\/g,""));
                 }
             }
         })
