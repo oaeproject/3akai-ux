@@ -20,6 +20,7 @@
 .rss_quote {font-style:italic;}
 .rss_title {font-weight:bold;}
 #rss_settings_numEntries {width:30px;}
+#rss_settings {padding:2px 10px 0;}
 
 .rss_settings_form input[type=text] {width:100%;border-style:solid;border-width:1.5px;padding-top:5px;padding-bottom:5px;border-color:#DEDEDE;background-color:#f4f4f4;font-size:14px; display: block; }
 .rss_settings_form input[type=checkbox] {margin:10px 10px 0px 0px;}
@@ -30,9 +31,11 @@
 #rss_settings_rssFeedList div .rss_setting_listRight {float:right;background-color:#ffffff;margin-right:5px;margin-top:5px;}
 #rss_settings_rssFeedList {margin-top:30px;width:100%;height:200px;overflow:auto;overflow-x:hidden;border-color:#f4f4f4;border-style:solid;border-width:1.5px;background-color:#f4f4f4;}
 
+.dialog_buttons {float:right; clear:both;}
+
 
 /* Output */
-#rss_output h1 {font-size:14px;float:left;margin-top:12px;}
+#rss_output h1 {font-size:14px;float:left;margin-top:12px;padding-left:14px;}
 #rss_output h2 {font-size:14px;}
 #rss_output p {font-size:12px;}
 #rss_output {padding-top:10px;}
@@ -41,6 +44,7 @@
 #rss_output .rss_output_entry {background-color:#eeeeee;margin-top:3px;padding:10px;padding-left:15px;padding-right:15px;overflow:auto;}
 #rss_output .rss_output_header {border-bottom-color:#eeeeee;border-bottom-style:solid;border-bottom-width:1px;margin-bottom:10px;overflow:hidden;}
 #rss_no_feeds {padding-left:15px;}
+.rss_jq_pager {margin-top:7px;}
 
 /* Sendmessage widget*/
 #rss_sendmessagecontainer, #widget_sendmessage {width:100%;}
