@@ -29,7 +29,11 @@
                 {/if}
             </div>
             <div class="entity_header">
-                <a class="entity_header_text" href="/dev/show.html?type=user&amp;id=${unescape(data.profile["rep:userId"])}">${unescape(sakai.api.User.getDisplayName(data.profile))}</a>
+                {if data["link_name"]}
+                    <a class="entity_header_text" href="/dev/show.html?type=user&amp;id=${unescape(data.profile["rep:userId"])}">${unescape(sakai.api.User.getDisplayName(data.profile))}</a>
+                {else}
+                    <span class="entity_header_text">${unescape(sakai.api.User.getDisplayName(data.profile))}</span>
+                {/if}
                 {if mode === "myprofile" && (!sakai.profile || sakai.profile.main.mode.value === "view")}
                     <a class="s3d-action" href="/dev/profile_edit.html">__MSG__EDIT_PROFILE__</a>
                 {else}
@@ -74,11 +78,16 @@
                     </div>
                 </div>
                 <div class="fl-force-left entity_header">
-                    {if data.profile.mimetype === "x-sakai/link"}
-                        <a class="entity_header_text" href="${data.profile.revurl}">${data.profile.name}</a><span class="entity_content_filetype">(${data.profile.mimetype} ${data.profile.filesize})</span>
+                    {if data["link_name"]}
+                        {if data.profile.mimetype === "x-sakai/link"}
+                            <a class="entity_header_text" href="${data.profile.revurl}">${data.profile.name}</a>
+                        {else}
+                            <a class="entity_header_text" href="${data.profile.path}">${data.profile.name}</a>
+                        {/if}
                     {else}
-                        <a class="entity_header_text" href="${data.profile.path}">${data.profile.name}</a><span class="entity_content_filetype">(${data.profile.mimetype} ${data.profile.filesize})</span>
+                        <span class="entity_header_text">${data.profile.name}</span>
                     {/if}
+                    <span class="entity_content_filetype">(${data.profile.mimetype} ${data.profile.filesize})</span>
                 </div>
                 <div class="fl-force-left entity_description">
                     {if data.profile.description}
@@ -109,7 +118,11 @@
             </div>
             <div class="entity_header">
                 {if data.profile["sakai:group-title"] && data.profile["sakai:group-title"].length > 115}
-                    <a class="entity_header_text" href="/dev/show.html?type=group&amp;id=${data.profile["sakai:group-id"]}" title="${data.profile["sakai:group-title"]}">
+                    {if data["link_name"]}
+                        <a class="entity_header_text" href="/dev/show.html?type=group&amp;id=${data.profile["sakai:group-id"]}" title="${data.profile["sakai:group-title"]}">
+                    {else}
+                        <span class="entity_header_text" title="${data.profile["sakai:group-title"]}">
+                    {/if}
                         ${data.profile["sakai:group-title"].substring(0, 115)}
                         {if data.profile["managerCount"] && data.profile["memberCount"]}
                             (${data.profile["memberCount"]+data.profile["managerCount"]})
@@ -117,9 +130,17 @@
                             (${data.profile["memberCount"]})
                         {/if}
                         ...
-                    </a>
+                    {if data["link_name"]}
+                        </a>
+                    {else}
+                        </span>
+                    {/if}
                 {elseif data.profile["sakai:group-title"]}
-                    <a class="entity_header_text" href="/dev/show.html?type=group&amp;id=${data.profile["sakai:group-id"]}">
+                    {if data["link_name"]}
+                        <a class="entity_header_text" href="/dev/show.html?type=group&amp;id=${data.profile["sakai:group-id"]}">
+                    {else}
+                        <span class="entity_header_text">
+                    {/if}
                         ${data.profile["sakai:group-title"]} 
                         {if data.profile["managerCount"] && data.profile["memberCount"]}
                             (${data.profile["memberCount"]+data.profile["managerCount"]})
@@ -128,9 +149,12 @@
                         {elseif data.profile["memberCount"]}
                             (${data.profile["memberCount"]})
                         {/if}
-                    </a>
+                    {if data["link_name"]}
+                        </a>
+                    {else}
+                        </span>
+                    {/if}
                 {/if}
-
                 {if data.profile.role === "manager"}
                     <a class="s3d-action entity_group_edit" href="/dev/group_edit.html?id=${data.profile["sakai:group-id"]}">__MSG__EDIT_PROFILE__</a>
                 {/if}
