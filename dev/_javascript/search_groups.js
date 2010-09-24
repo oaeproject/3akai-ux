@@ -231,7 +231,7 @@ sakai.search = function() {
 
             // If we don't have any results or they are less then the number we should display
             // we hide the pager
-            if ((results.total < resultsToDisplay) || (results.results.length <= 0)) {
+            if ((results.total <= resultsToDisplay) || (results.results.length <= 0)) {
                 $(searchConfig.global.pagerClass).hide();
             }
             else {
