@@ -124,8 +124,8 @@ sakai.content_profile = function(){
     var loadContentUsers = function(tuid){
         // Check whether there is actually a content path in the URL
         if (content_path) {
-            var pl_config = {"selectable":true, "subNameInfoUser": "email", "subNameInfoGroup": "sakai:group-description", "sortOn": "lastName", "sortOrder": "ascending", "items": 50 };
-            var url = sakai.config.SakaiDomain + content_path + ".members.json";
+            var pl_config = {"selectable":true, "subNameInfoUser": "", "subNameInfoGroup": "sakai:group-description", "sortOn": "lastName", "sortOrder": "ascending", "items": 50 };
+            var url = sakai.config.SakaiDomain + content_path + ".members.detailed.json";
             $("#content_profile_listpeople_container").show();
             $(window).trigger("sakai-listpeople-render", {"tuid": tuid, "pl_config": pl_config, "url": url, "id": content_path});
         }
