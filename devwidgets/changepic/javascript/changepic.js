@@ -256,7 +256,11 @@ sakai.changepic = function(tuid, showSettings){
             resetUploadField();
             imageareaobject = null;
             picture = {
-                "_name": fileName
+                "_name": fileName,
+                "selectedx1":0,
+                "selectedy1":0,
+                "selectedx2":64,
+                "selectedy2":64
             };
         }
         else if (json.picture) {
@@ -352,16 +356,14 @@ sakai.changepic = function(tuid, showSettings){
                     onSelectChange: preview
                 });
 
+                // Check if the imageareaobject exists
+                // After init this structure will show the selection overlay
+                if (imageareaobject){
+                    imageareaobject.setSelection(picture.selectedx1, picture.selectedy1, picture.selectedx2, picture.selectedy2);
+                    imageareaobject.setOptions({show: true});
+                    imageareaobject.update();
+                }
             });
-
-            // Check if the imageareaobject exists
-            // After init this structure will show the selection overlay
-            if (imageareaobject){
-                imageareaobject.setSelection(picture.selectedx1, picture.selectedy1, picture.selectedx2, picture.selectedy2);
-                imageareaobject.setOptions({show: true});
-                imageareaobject.update();
-            }
-
             showSelectTab();
 
         }

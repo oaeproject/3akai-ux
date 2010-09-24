@@ -68,6 +68,8 @@ sakai.navigation = function(tuid, showSettings){
     var $nodeleteDialog = $("#no_delete_dialog"); // ^^
     var $deleteConfirmPageTitle = $(".sitespages_delete_confirm_page_title");  // careful! coming from sitespages.html
     var $navigation_admin_options = $("#navigation_admin_options", $rootel);
+    var $navigation_footer_edit = $("#navigation_footer_edit", $rootel);
+    var $navigation_footer_noedit = $("#navigation_footer_noedit", $rootel);
 
     // Settings view
     var $settingsView = $("#navigation_settings", $rootel);
@@ -309,7 +311,8 @@ sakai.navigation = function(tuid, showSettings){
         $settingsView.hide();
         $navigationTree.show();
         $mainView.show();
-        $navigation_admin_options.show();
+        $navigation_footer_edit.show();
+        $navigation_footer_noedit.hide();
     };
 
 
@@ -326,7 +329,8 @@ sakai.navigation = function(tuid, showSettings){
         $mainView.hide();
         $settingsMenu.hide();
         $settingsIcon.hide();
-        $navigation_admin_options.hide();
+        $navigation_footer_edit.hide();
+        $navigation_footer_noedit.show();
         $settingsView.show();
     };
 
@@ -344,13 +348,37 @@ sakai.navigation = function(tuid, showSettings){
             }
         }
     );
+    // don't want to stop propogation, just in case something else needs the click event
+    // so instead we'll use this justShown variable to locally control propogation
+    var justShown = false;
 
     // Toggle the settings menu when the user clicks on the settings menu icon
     $settingsIcon.click(function () {
         if($settingsMenu.is(":visible")) {
             $settingsMenu.hide();
         } else {
-            $settingsMenu.show();
+            var x = $("#navigation_settings_icon").position().left;
+            var y = $("#navigation_settings_icon").position().top;
+            $settingsMenu.css(
+                {
+                  "top": y + 12 + "px",
+                  "left": x + 4 + "px"
+                }
+            ).show();
+            justShown = true;
+        }
+    });
+
+
+    $(document).bind("click", function(e) {
+        if (!justShown) {
+            var $clicked = $(e.target);
+            // Check if one of the parents is the element container
+            if(!$clicked.is($settingsMenu.selector) && $settingsMenu.is(":visible")){
+                $settingsMenu.hide();
+            }
+        } else {
+            justShown = false;
         }
     });
 
@@ -403,7 +431,8 @@ sakai.navigation = function(tuid, showSettings){
      * navigation widget (create, delete, settings).
      */
     var disableEditing = function () {
-        $navigation_admin_options.remove();
+        $navigation_footer_edit.remove();
+        $navigation_footer_noedit.show();
         $settingsIcon.remove();
         $settingsMenu.remove();
         $navigationWidget.unbind();
@@ -471,7 +500,8 @@ sakai.navigation = function(tuid, showSettings){
     var renderReadWritePages = function (selectedPageUrlName, site_info_object) {
         // render tree with drag-n-drop
         renderPages(selectedPageUrlName, site_info_object, true);
-
+        $navigation_footer_edit.show();
+        $navigation_footer_noedit.hide();
         // Hide or show the settings
         if (showSettings) {
             showSettingsView();
@@ -700,20 +730,22 @@ sakai.navigation = function(tuid, showSettings){
 
         // determine what the current user is allowed to see
         // only managers are allowed to edit pages
-        var pagesVisibility = sakai.currentgroup.data.authprofile["sakai:pages-visible"];
-        if(sakai.api.Groups.isCurrentUserAManager(sakai.currentgroup.id)) {
+        var pagesVisibility;
+        if ($.isEmptyObject(sakai.currentgroup.data)) {
+            pagesVisibility = sakai.config.Permissions.Groups.visible["public"];
+        } else {
+            pagesVisibility = sakai.currentgroup.data.authprofile["sakai:pages-visible"];
+        }
+
+        if (sakai.show.canEdit() === true) {
             // current user is a manager
             renderReadWritePages(selectedPageUrlName, site_info_object);
-        }
-        
-        else if(pagesVisibility === sakai.config.Permissions.Groups.visible.public ||
+        } else if(pagesVisibility === sakai.config.Permissions.Groups.visible["public"] ||
             (pagesVisibility === sakai.config.Permissions.Groups.visible.allusers && !sakai.data.me.user.anon) ||
             (pagesVisibility === sakai.config.Permissions.Groups.visible.members && sakai.api.Groups.isCurrentUserAMember(sakai.currentgroup.id))) {
             // we have a non-manager that can only view pages, not edit
             renderReadOnlyPages(selectedPageUrlName, site_info_object);
-        }
-        
-        else {
+        } else {
             // we have a non-manager that is not allowed to view pages
             renderNoPages(false);
         }

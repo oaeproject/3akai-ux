@@ -532,22 +532,13 @@ sakai.fileupload = function(tuid, showSettings){
      */
     var uploadLink = function(){
         var body = "";
-        if ($.browser.webkit) {
-            body = "--bound4441320830955\r\n";
-            body = body + "Content-Disposition: form-data; name=\"" + $(fileUploadLinkBoxInput).val() + ".lnk\" filename=\"" + $(fileUploadLinkBoxInput).val() + ".lnk\"\r\n";
-            body = body + "Content-Type: x-sakai/link\r\n\r\n";
-            body = body + $(fileUploadLinkBoxInput).val() + "\r\n";
-            body = body + "--bound4441320830955--";
-        }
-        else {
-            body = "--AAAAA\r\n";
-            body = body + "Content-Disposition: form-data; name=\"*\"; filename=\"" + $(fileUploadLinkBoxInput).val() + ".lnk\"\r\n";
-            body = body + "Content-Type: x-sakai/link\r\n";
-            body = body + "sakai:pooled-content-url: " + $(fileUploadLinkBoxInput).val() + "\r\n";
-            body = body + "Content-Transfer-Encoding: binary\r\n\r\n";
-            body = body + $(fileUploadLinkBoxInput).val() + "\r\n";
-            body = body + "--AAAAA--\r\n";
-        }
+        body = "--AAAAA\r\n";
+        body = body + "Content-Disposition: form-data; name=\"*\"; filename=\"" + $(fileUploadLinkBoxInput).val() + ".lnk\"\r\n";
+        body = body + "Content-Type: x-sakai/link\r\n";
+        body = body + "sakai:pooled-content-url: " + $(fileUploadLinkBoxInput).val() + "\r\n";
+        body = body + "Content-transfer-encoding: binary\r\n\r\n";
+        body = body + $(fileUploadLinkBoxInput).val() + "\r\n";
+        body = body + "--AAAAA--\r\n";
 
         var path = "";
         if (newVersionIsLink) {
@@ -565,14 +556,7 @@ sakai.fileupload = function(tuid, showSettings){
             data: body,
             type: "POST",
             dataType: "json",
-            beforeSend: function(xmlReq){
-                if ($.browser.webkit) {
-                    xmlReq.setRequestHeader("Content-type", "multipart/form-data; boundary=bound4441320830955");
-                }
-                else {
-                    xmlReq.setRequestHeader("Content-type", "multipart/form-data; boundary=AAAAA");
-                }
-            },
+            contentType: "multipart/form-data; boundary=AAAAA",
             success: function(data){
                 dataResponse = data;
                 uploadedLink = true;

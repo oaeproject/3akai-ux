@@ -174,45 +174,15 @@ sakai.groupedit = function(){
             listSelectable = true;
         }
         var url;
-        var pl_config = {"selectable":listSelectable, "subNameInfoUser": "email", "subNameInfoGroup": "sakai:group-description", "sortOn": "lastName", "sortOrder": "ascending", "items": 50, "function": "getSelection" };
+        var pl_config = {"selectable":listSelectable, "subNameInfoUser": "", "subNameInfoGroup": "sakai:group-description", "sortOn": "lastName", "sortOrder": "ascending", "items": 50, "function": "getSelection" };
 
         if (tuid === 'members') {
             // get group members
-            /*$.ajax({
-                url: "/system/userManager/group/" + groupid + ".members.json",
-                success: function(data){
-                    var groupMembers = $.parseJSON(data);
-
-                    // filter out the manager group
-                    $.each(groupMembers, function(index, resultObject) {
-                        if (resultObject['groupid'] === groupid + '-managers') {
-                            groupMembers.splice(index, 1);
-                        }
-                    });
-
-                    var json_data_members = {
-                        "results" : groupMembers,
-                        "total" : groupMembers.length
-                        };
-                    sakai.listPeople.render(tuid, pl_config, json_data_members);
-                }
-            });*/
-            url = "/system/userManager/group/" + groupid + ".members.json";
+            url = "/system/userManager/group/" + groupid + ".members.detailed.json";
             $(window).trigger("sakai-listpeople-render", {"tuid": tuid, "pl_config": pl_config, "url": url, "id": groupid});
         } else if (tuid === 'managers') {
             // get group managers
-            /*$.ajax({
-                url: "/system/userManager/group/" + groupid + "-managers.members.json",
-                success: function(data){
-                    var groupManagers = $.parseJSON(data);
-                    var json_data_managers = {
-                        "results" : groupManagers,
-                        "total" : groupManagers.length
-                        };
-                    sakai.listPeople.render(tuid, pl_config, json_data_managers);
-                }
-            });*/
-            url = "/system/userManager/group/" + groupid + "-managers.members.json";
+            url = "/system/userManager/group/" + groupid + "-managers.members.detailed.json";
             $(window).trigger("sakai-listpeople-render", {"tuid": tuid, "pl_config": pl_config, "url": url, "id": groupid});
         } else if (tuid === 'content') {
             url = "/var/search/pool/files?group=" + groupid;
@@ -257,7 +227,6 @@ sakai.groupedit = function(){
                         },
                         type: "POST",
                         success: function(data){
-                            sakai.listPeople.removeFromList(tuid);
                             userCount++;
                         }
                     });
@@ -269,6 +238,8 @@ sakai.groupedit = function(){
             } else if (userCount == 1) {
                 sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_user_removed_text").text()));
             }
+            renderItemLists(tuid);
+            $("#entity_member_count").text(sakai.api.Security.saneHTML(parseInt($("#entity_member_count").text()) - userCount));
         }
     };
 
@@ -349,6 +320,7 @@ sakai.groupedit = function(){
             renderItemLists(tuid);
             sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_user_added_text").text()));
         }
+        $("#entity_member_count").text(sakai.api.Security.saneHTML(parseInt($("#entity_member_count").text()) + userCount));
     };
     
     /**

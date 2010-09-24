@@ -684,6 +684,12 @@ sakai.entity = function(tuid, showSettings){
         if (!entityconfig.data.profile.chatstatus) {
             entityconfig.data.profile.chatstatus = "online";
         }
+
+        if (document.location.pathname === "/dev/show.html" || document.location.pathname === "/dev/profile_edit.html"){
+            entityconfig.data["link_name"] = false;
+        } else {
+            entityconfig.data["link_name"] = true;
+        }
     };
 
     /**
@@ -700,6 +706,12 @@ sakai.entity = function(tuid, showSettings){
         if (sakai.api.UI.changepic){
             sakai.api.UI.changepic["mode"] = "group";
             sakai.api.UI.changepic["id"] = entityconfig.data.profile["sakai:group-id"];
+        }
+
+        if (document.location.pathname === "/dev/show.html" || document.location.pathname === "/dev/group_edit.html"){
+            entityconfig.data["link_name"] = false;
+        } else {
+            entityconfig.data["link_name"] = true;
         }
     }
 
@@ -798,6 +810,12 @@ sakai.entity = function(tuid, showSettings){
         // Set the copyright of the file
         if (filedata["sakai:copyright"]) {
             entityconfig.data.profile.copyright = filedata["sakai:copyright"];
+        }
+
+        if (document.location.pathname === "/dev/content_profile.html"){
+            entityconfig.data["link_name"] = false;
+        } else {
+            entityconfig.data["link_name"] = true;
         }
     };
 

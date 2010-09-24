@@ -42,6 +42,22 @@
                     <span class="listpeople_subnameinfo">${i.subNameInfo}</span>
                 {/if}
             </li>
+            {elseif i['sakai:group-id']}
+            <li id="${i['sakai:group-id']}">
+                {if selectable}<input type="checkbox" name="selected" value="${i['sakai:group-id']}" />{/if}
+                {if i.picture}
+                    <a href="/dev/show.html?type=group&amp;id=${i['sakai:group-id']}" target="_blank"><img src="/~${i['sakai:group-id']}/public/profile/${i.picture.name}" alt="Group picture for ${i['sakai:group-title']}" class="listpeople_ppicture"/></a>
+                {else}
+                    <a href="/dev/show.html?type=group&amp;id=${i['sakai:group-id']}" target="_blank"><img src="/dev/_images/group_avatar_icon_32x32.png" alt="Default group picture" class="listpeople_ppicture"/></a>
+                {/if}
+                <a class="listpeople_name" href="/dev/show.html?type=group&amp;id=${i['sakai:group-id']}" target="_blank">${i['sakai:group-title']}</a>
+                <br />
+                {if i.subNameInfo && i.subNameInfo.length > 115}
+                    <span class="listpeople_subnameinfo">${i.subNameInfo.substring(0, 115)}...</span>
+                {else}
+                    <span class="listpeople_subnameinfo">${i.subNameInfo}</span>
+                {/if}
+            </li>
             {elseif i.userid}
             <li id="${i.userid}">
                 {if selectable}<input type="checkbox" name="selected" value="${i.userid}" />{/if}

@@ -23,10 +23,10 @@
 
             <span class="fl-force-right">
                 <select id="pickeradvanced_sort_on">
-                    <option default="true" value="lastName_ascending">__MSG__LAST_NAME__ __MSG__A_Z__</option>
-                    <option value="lastName_descending">__MSG__LAST_NAME__ __MSG__Z_A__</option>
-                    <option value="firstName_ascending">__MSG__FIRST_NAME__ __MSG__A_Z__</option>
-                    <option value="firstName_descending">__MSG__FIRST_NAME__ __MSG__Z_A__</option>
+                    <option default="true" value="basic/elements/lastName/@value_ascending">__MSG__LAST_NAME__ __MSG__A_Z__</option>
+                    <option value="basic/elements/lastName/@value_descending">__MSG__LAST_NAME__ __MSG__Z_A__</option>
+                    <option value="basic/elements/firstName/@value_ascending">__MSG__FIRST_NAME__ __MSG__A_Z__</option>
+                    <option value="basic/elements/firstName/@value_descending">__MSG__FIRST_NAME__ __MSG__Z_A__</option>
                 </select>
             </span>
         </div>
@@ -103,10 +103,12 @@
                         {/if}
                         <a class="pickeradvanced_name" href="/dev/show.html?type=group&amp;id=${i["sakai:group-id"]}" target="_blank">${i["sakai:group-title"]}</a>
                         <br />
-                        {if i["sakai:group-description"].length > 125}
-                            <span class="pickeradvanced_subnameinfo">${i["sakai:group-description"].substring(0, 125)}...</span>
-                        {else}
-                            <span class="pickeradvanced_subnameinfo">${i["sakai:group-description"]}</span>
+                        {if i["sakai:group-description"]}
+                            {if i["sakai:group-description"].length > 125}
+                                <span class="pickeradvanced_subnameinfo">${i["sakai:group-description"].substring(0, 125)}...</span>
+                            {else}
+                                <span class="pickeradvanced_subnameinfo">${i["sakai:group-description"]}</span>
+                            {/if}
                         {/if}
                     </li>
                     {elseif i["sakai:pooled-content-file-name"]}
@@ -121,10 +123,12 @@
                         {/if}
                         <a class="pickeradvanced_name" href="/dev/content_profile.html#content_path=/p/${i["jcr:name"]}" target="_blank">${i["sakai:pooled-content-file-name"]}</a>
                         <br />
-                        {if i["sakai:description"].length > 125}
-                            <span class="pickeradvanced_subnameinfo">${i["sakai:description"].substring(0, 125)}...</span>
-                        {else}
-                            <span class="pickeradvanced_subnameinfo">${i["sakai:description"]}</span>
+                        {if i["sakai:description"]}
+                            {if i["sakai:description"].length > 125}
+                                <span class="pickeradvanced_subnameinfo">${i["sakai:description"].substring(0, 125)}...</span>
+                            {else}
+                                <span class="pickeradvanced_subnameinfo">${i["sakai:description"]}</span>
+                            {/if}
                         {/if}
                     </li>
                     {/if}

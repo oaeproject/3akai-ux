@@ -28,5 +28,6 @@
 "FAILED_LOADING_FILE_DATA":"Failed to load file data",
 "WHERE_CONTENT_FOUND_IN_DIRECTORY":"Where can this Content be found in the directory",
 "SELECT_AT_LEAST_ONE_DIRECTORY":"Select at least the first level in the directory where this resource can be found",
-"SELECT_DIRECTORY":"Select directory location"
+"SELECT_DIRECTORY":"Select directory location",
+"THIS_WILL_HELP_YOU_AND_OTHERS_FIND_THIS_CONTENT":"These tags will help you and others find this content. Tags need to be separated by commas."
 }
