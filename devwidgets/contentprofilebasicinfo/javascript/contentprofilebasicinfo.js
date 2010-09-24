@@ -227,7 +227,8 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
         // Get all the tags
         var tags = $(contentProfileBasicInfoFormTags).val().split(",");
         $(tags).each(function(i, tag){
-            if (sakai.api.Security.escapeHTML(tag) === tag) {
+            tag = $.trim(tag);
+            if (sakai.api.Security.escapeHTML(tag) === tag && tag.length) {
                 if ($.inArray(tag, data["sakai:tags"]) < 0) {
                     data["sakai:tags"].push(tag);
                 }
@@ -292,6 +293,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
     };
 
     var updateBasicInfo = function(){
+
         // Set permissions on the file
         setFilePermissions();
 
@@ -348,6 +350,12 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
             sakai.content_profile.content_data.anon = anon;
             sakai.content_profile.content_data.directory = directoryJSON;
             globalJSON = $.extend(true, {}, sakai.content_profile.content_data);
+            if($(contentProfileBasicInfoFormCopyrightSelect).val()){
+                sakai.content_profile.content_data.data["sakai:copyright"] = $(contentProfileBasicInfoFormCopyrightSelect).val();
+            }
+            if($(contentProfileBasicInfoFormPermissionsSelect).val()){
+                sakai.content_profile.content_data.data["sakai:permissions"] = $(contentProfileBasicInfoFormPermissionsSelect).val();
+            }
             postLoadContentData();
         } else {
             sakai.content_profile.loadContentProfile(function(success) {

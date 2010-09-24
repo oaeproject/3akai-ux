@@ -2404,7 +2404,7 @@ sakai.api.Util.tagEntity = function(tagLocation, newTags, currentTags, callback)
     $(newTags).each(function(i,val) {
         val = $.trim(val);
         if (val && $.inArray(val,currentTags) == -1) {
-            if (sakai.api.Security.escapeHTML(val) === val) {
+            if (sakai.api.Security.escapeHTML(val) === val && val.length) {
                 if ($.inArray(val, tagsToAdd) < 0) {
                     tagsToAdd.push(val);
                 }
@@ -2414,7 +2414,7 @@ sakai.api.Util.tagEntity = function(tagLocation, newTags, currentTags, callback)
     $(currentTags).each(function(i,val) {
         val = $.trim(val);
         if (val && $.inArray(val,newTags) == -1) {
-            if (sakai.api.Security.escapeHTML(val) === val) {
+            if (sakai.api.Security.escapeHTML(val) === val && val.length) {
                 if ($.inArray(val, tagsToDelete) < 0) {
                     tagsToDelete.push(val);
                 }
