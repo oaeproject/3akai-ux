@@ -15,7 +15,7 @@
 
             <div class="groupbasicinfo_generalinfo_subcontainer">
                 <label class="groupbasicinfo_generalinfo_label" for="groupbasicinfo_generalinfo">__MSG__GROUP_NAME__:</label>
-                <input type="text" class="groupbasicinfo_generalinfo_content" value="${data['sakai:group-title']}" id="groupbasicinfo_generalinfo_group_title" />
+                <input type="text" class="groupbasicinfo_generalinfo_content" value="${data['sakai:group-title'].replace(/\"/g, "&quot;")}" id="groupbasicinfo_generalinfo_group_title" />
             </div>
             <div class="groupbasicinfo_generalinfo_subcontainer">
                 <span class="groupbasicinfo_generalinfo_label">__MSG__GROUP_URL_ADDRESS__:</span>
