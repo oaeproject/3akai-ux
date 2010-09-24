@@ -125,9 +125,11 @@
                     {/if}
                         ${data.profile["sakai:group-title"].substring(0, 115)}
                         {if data.profile["managerCount"] && data.profile["memberCount"]}
-                            (${data.profile["memberCount"]+data.profile["managerCount"]})
+                            (<span id="entity_member_count">${data.profile["memberCount"]+data.profile["managerCount"]}</span>)
+                        {elseif data.profile["managerCount"]}
+                            (<span id="entity_member_count">${data.profile["managerCount"]}</span>)
                         {elseif data.profile["memberCount"]}
-                            (${data.profile["memberCount"]})
+                            (<span id="entity_member_count">${data.profile["memberCount"]}</span>)
                         {/if}
                         ...
                     {if data["link_name"]}
@@ -143,11 +145,11 @@
                     {/if}
                         ${data.profile["sakai:group-title"]} 
                         {if data.profile["managerCount"] && data.profile["memberCount"]}
-                            (${data.profile["memberCount"]+data.profile["managerCount"]})
+                            (<span id="entity_member_count">${data.profile["memberCount"]+data.profile["managerCount"]}</span>)
                         {elseif data.profile["managerCount"]}
-                            (${data.profile["managerCount"]})
+                            (<span id="entity_member_count">${data.profile["managerCount"]}</span>)
                         {elseif data.profile["memberCount"]}
-                            (${data.profile["memberCount"]})
+                            (<span id="entity_member_count">${data.profile["memberCount"]}</span>)
                         {/if}
                     {if data["link_name"]}
                         </a>

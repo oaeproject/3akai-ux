@@ -239,6 +239,7 @@ sakai.groupedit = function(){
                 sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_user_removed_text").text()));
             }
             renderItemLists(tuid);
+            $("#entity_member_count").text(sakai.api.Security.saneHTML(parseInt($("#entity_member_count").text()) - userCount));
         }
     };
 
@@ -319,6 +320,7 @@ sakai.groupedit = function(){
             renderItemLists(tuid);
             sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_user_added_text").text()));
         }
+        $("#entity_member_count").text(sakai.api.Security.saneHTML(parseInt($("#entity_member_count").text()) + userCount));
     };
     
     /**
