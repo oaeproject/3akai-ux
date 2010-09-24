@@ -51,8 +51,8 @@
     </head>
 
     <body class="fl-centered index i18nable">
-        <div class="index-container fl-centered page_not_found_error">
-            <div id="page_not_found_error_logged_out_template" style="display:none"><!--
+        <div class="index-container fl-centered page_not_found_error"><span style="display:none;"><br /></span>
+            <div id="page_not_found_error_logged_out_template" style="display:none;"><!--
                 <div class="header-title">
                     <img src="/dev/_images/sakai_logo_index.png" alt="__MSG__INSTANCE_NAME__" />
                 </div>
@@ -85,9 +85,7 @@
                             </p>
                         </div>
                         <div class="login-container">
-							<a href="/dev/index.html">
-                            	<button class="s3d-button s3d-button-primary" type="submit"><span class="s3d-button-inner">Sign In</span></button>
-							</a>
+                            <button class="s3d-button s3d-button-primary" type="submit"><span class="s3d-button-inner">Sign In</span></button>
                             <p>
                                 If you have an account, you may wish to sign in to search available pages.
                             </p>

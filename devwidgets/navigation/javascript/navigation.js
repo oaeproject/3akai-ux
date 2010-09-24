@@ -311,7 +311,8 @@ sakai.navigation = function(tuid, showSettings){
         $settingsView.hide();
         $navigationTree.show();
         $mainView.show();
-        $navigation_admin_options.show();
+        $navigation_footer_edit.show();
+        $navigation_footer_noedit.hide();
     };
 
 
@@ -328,7 +329,8 @@ sakai.navigation = function(tuid, showSettings){
         $mainView.hide();
         $settingsMenu.hide();
         $settingsIcon.hide();
-        $navigation_admin_options.hide();
+        $navigation_footer_edit.hide();
+        $navigation_footer_noedit.show();
         $settingsView.show();
     };
 
@@ -346,13 +348,37 @@ sakai.navigation = function(tuid, showSettings){
             }
         }
     );
+    // don't want to stop propogation, just in case something else needs the click event
+    // so instead we'll use this justShown variable to locally control propogation
+    var justShown = false;
 
     // Toggle the settings menu when the user clicks on the settings menu icon
     $settingsIcon.click(function () {
         if($settingsMenu.is(":visible")) {
             $settingsMenu.hide();
         } else {
-            $settingsMenu.show();
+            var x = $("#navigation_settings_icon").position().left;
+            var y = $("#navigation_settings_icon").position().top;
+            $settingsMenu.css(
+                {
+                  "top": y + 12 + "px",
+                  "left": x + 4 + "px"
+                }
+            ).show();
+            justShown = true;
+        }
+    });
+
+
+    $(document).bind("click", function(e) {
+        if (!justShown) {
+            var $clicked = $(e.target);
+            // Check if one of the parents is the element container
+            if(!$clicked.is($settingsMenu.selector) && $settingsMenu.is(":visible")){
+                $settingsMenu.hide();
+            }
+        } else {
+            justShown = false;
         }
     });
 
@@ -475,7 +501,7 @@ sakai.navigation = function(tuid, showSettings){
         // render tree with drag-n-drop
         renderPages(selectedPageUrlName, site_info_object, true);
         $navigation_footer_edit.show();
-        $navigation_footer_noedit.remove();
+        $navigation_footer_noedit.hide();
         // Hide or show the settings
         if (showSettings) {
             showSettingsView();

@@ -349,10 +349,23 @@ sakai.listpeople = function(tuid, showSettings){
                     if (!sakai.listpeople.data[tuid].userList[resultObject.groupid]["subNameInfo"]) {
                         sakai.listpeople.data[tuid].userList[resultObject.groupid]["subNameInfo"] = resultObject[iSubNameInfoGroup];
                     }
+                } else if (resultObject['sakai:group-id']) {
+                    // get group details
+                    sakai.listpeople.data[tuid].userList[resultObject['sakai:group-id']] = resultObject;
+                    sakai.listpeople.data[tuid].total += 1;
+                    if (resultObject.picture && typeof(resultObject.picture) === 'string') {
+                        sakai.listpeople.data[tuid].userList[resultObject['sakai:group-id']]["picture"] = $.parseJSON(resultObject.picture);
+                    }
+                    if (!sakai.listpeople.data[tuid].userList[resultObject['sakai:group-id']]["subNameInfo"]) {
+                        sakai.listpeople.data[tuid].userList[resultObject['sakai:group-id']]["subNameInfo"] = resultObject[iSubNameInfoGroup];
+                    }
                 } else if (sakai.api.User.getDisplayName(resultObject) && resultObject['rep:userId']) {
                     // get user details
                     sakai.listpeople.data[tuid].userList[resultObject['rep:userId']] = resultObject;
                     sakai.listpeople.data[tuid].userList[resultObject['rep:userId']]["displayName"] = sakai.api.User.getDisplayName(resultObject);
+                    if (resultObject.picture && typeof(resultObject.picture) === 'string') {
+                        sakai.listpeople.data[tuid].userList[resultObject['rep:userId']]["picture"] = $.parseJSON(resultObject.picture);
+                    }
                     if (!sakai.listpeople.data[tuid].userList[resultObject['rep:userId']]["subNameInfo"]) {
                         sakai.listpeople.data[tuid].userList[resultObject['rep:userId']]["subNameInfo"] = resultObject[iSubNameInfoUser];
                     }

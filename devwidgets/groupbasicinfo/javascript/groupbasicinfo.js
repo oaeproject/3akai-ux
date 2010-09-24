@@ -172,8 +172,6 @@ sakai.groupbasicinfo = function(tuid, showSettings){
             $(groupbasicinfo_buttons, $rootel).show();
         }
 
-        addBinding();
-
     };
 
 
@@ -192,7 +190,15 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         var currentTags = sakai.currentgroup.data.authprofile["sakai:tags"];
 
         // Get all the tags
-        sakai.currentgroup.data.authprofile["sakai:tags"] = sakai.api.Util.formatTags($(groupBasicInfoGroupTags).val());
+        sakai.currentgroup.data.authprofile["sakai:tags"] = [];
+        var tags = $(groupBasicInfoGroupTags).val().split(",");
+        $(tags).each(function(i, tag){
+            if (sakai.api.Security.escapeHTML(tag) === tag) {
+                if ($.inArray(tag, sakai.currentgroup.data.authprofile["sakai:tags"]) < 0) {
+                    sakai.currentgroup.data.authprofile["sakai:tags"].push(tag);
+                }
+            }
+        })
 
         // Create tags for the directory structure
         // For every groupbasicinfo_added_directory we create tags
@@ -224,9 +230,9 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         var groupDesc = $(groupBasicInfoGroupDesc, $rootel).val();
 
         // Update the group object
-        sakai.currentgroup.data.authprofile["sakai:group-title"] = groupTitle;
+        sakai.currentgroup.data.authprofile["sakai:group-title"] = sakai.api.Security.escapeHTML(groupTitle);
         sakai.currentgroup.data.authprofile["sakai:group-kind"] = groupKind;
-        sakai.currentgroup.data.authprofile["sakai:group-description"] = groupDesc;
+        sakai.currentgroup.data.authprofile["sakai:group-description"] = sakai.api.Security.escapeHTML(groupDesc);
         groupProfileURL = "/~" + sakai.currentgroup.id + "/public/authprofile"
 
         $.ajax({
@@ -243,6 +249,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
                     sakai.api.Widgets.Container.informFinish(tuid, "groupbasicinfo");
                     $(window).trigger("sakai.groupbasicinfo.updateFinished");
                 });
+
                 renderTemplateBasicInfo();
             },
             error: function(xhr, textStatus, thrownError){
@@ -313,11 +320,11 @@ sakai.groupbasicinfo = function(tuid, showSettings){
      */
     var addBinding = function(){
 
-        $(groupbasicinfo_dontupdate, $rootel).bind("click", function(){
+        $(groupbasicinfo_dontupdate, $rootel).live("click", function(){
             sakai.api.Widgets.Container.informCancel(tuid, "groupbasicinfo");
         });
 
-        $(groupbasicinfo_update, $rootel).bind("click", function(){
+        $(groupbasicinfo_update, $rootel).live("click", function(){
             // disable all basic info input elements while update is processed
             sakai.api.UI.groupbasicinfo.disableInputElements();
             $(window).trigger("sakai.groupbasicinfo.update");
@@ -371,6 +378,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
             if (valueSelected) {
                 updateGroup();
             } else {
+                sakai.api.UI.groupbasicinfo.enableInputElements();
                 sakai.api.Util.notification.show($(groupbasicinfoSelectDirectory).html(), $(groupbasicinfoSelectAtLeastOneDirectory).html());
             }
     });
@@ -427,6 +435,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
 
     renderTemplateBasicInfo();
 
+    addBinding();
 };
 
 sakai.api.Widgets.widgetLoader.informOnLoad("groupbasicinfo");

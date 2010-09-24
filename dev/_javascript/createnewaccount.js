@@ -232,7 +232,6 @@ sakai.newaccount = function(){
             "email": values[email],
             "pwd": values[password],
             "pwdConfirm": values[password],
-            "sling:resourceType": "sakai/user-home",
             ":name": values[username],
             "_charset_": "utf-8",
             ":sakai:profile-import": $.toJSON(profileData),

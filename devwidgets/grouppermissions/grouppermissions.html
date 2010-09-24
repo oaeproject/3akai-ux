@@ -35,10 +35,6 @@
                     selected="selected"{/if} value="${sakai.config.Permissions.Groups.visible.allusers}">
                     __MSG__LOGGED_IN_USERS__
                 </option>
-                <option{if visible===sakai.config.Permissions.Groups.visible.managers}
-                    selected="selected"{/if} value="${sakai.config.Permissions.Groups.visible.managers}">
-                    __MSG__MANAGERS_ONLY__
-                </option>
                 <option{if visible===sakai.config.Permissions.Groups.visible.members}
                     selected="selected"{/if} value="${sakai.config.Permissions.Groups.visible.members}">
                     __MSG__MANAGERS_AND_MEMBERS__

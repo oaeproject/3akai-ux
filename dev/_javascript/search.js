@@ -254,7 +254,7 @@ sakai.search = function() {
             finaljson.items = [];
 
             for (var group in foundSites.results){
-                if (foundSites.results.hasOwnProperty(group) && foundSites.results[group]["sling:resourceType"] === "sakai/group-profile") {
+                if (foundSites.results.hasOwnProperty(group) && foundSites.results[group]["sling:resourceType"] === "sakai/group-home") {
                     if (foundSites.results[group]["sakai:group-title"]) {
                         foundSites.results[group]["sakai:group-title"] = sakai.api.Security.escapeHTML(foundSites.results[group]["sakai:group-title"]);
                     }

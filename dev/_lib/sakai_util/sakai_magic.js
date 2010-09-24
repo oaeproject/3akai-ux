@@ -1098,7 +1098,7 @@ sakai.api.Security = sakai.api.Security || {};
  */
 sakai.api.Security.escapeHTML = function(inputString){
     if (inputString) {
-        return $("<div/>").text(inputString).html();
+        return $("<div/>").text(inputString).html().replace(/"/g,"&quot;");
     } else {
         return "";
     }
@@ -2362,37 +2362,35 @@ sakai.api.Util.formatTags = function(inputTags){
  */
 
 sakai.api.Util.tagEntity = function(tagLocation, newTags, currentTags, callback) {
-    
         var setTags = function(tagLocation, tags, callback) {
         if (tags.length) {
-            $(tags).each(function(i,val) {
-                // check to see that the tag exists
-                $.ajax({
-                    url: "/tags/" + val + ".tagged.json",
-                    success: function(data) {
-                        doSetTag(val);
-                    },
-                    // if it doesn't exist, create the tag before setting it
-                    error: function(data) {
-                        $.ajax({
-                            url: "/tags/" + val,
-                            data: {
-                                "sakai:tag-name": val,
-                                "sling:resourceType": "sakai/tag"
-                            },
-                            type: "POST",
-                            success: function(data) {
-                                doSetTag(val);
-                            },
-                            error: function(xhr, response) {
-                                fluid.log(val + " failed to be created");
-                                if ($.isFunction(callback)) {
-                                    callback();
-                                }
-                            }
-                        });
+            var requests = [];
+            $(tags).each(function(i, val){
+                requests.push({
+                    "url": "/tags/" + val,
+                    "method": "POST",
+                    "parameters": {
+                        "sakai:tag-name": val,
+                        "sling:resourceType": "sakai/tag"
                     }
                 });
+            });
+            $.ajax({
+                url: sakai.config.URL.BATCH,
+                traditional: true,
+                type: "POST",
+                data: {
+                    requests: $.toJSON(requests)
+                },
+                success: function() {
+                    doSetTags(tags);
+                },
+                error: function(xhr, response){
+                    fluid.log(val + " failed to be created");
+                    if ($.isFunction(callback)) {
+                        callback();
+                    }
+                }
             });
         } else {
             if ($.isFunction(callback)) {
@@ -2401,21 +2399,32 @@ sakai.api.Util.tagEntity = function(tagLocation, newTags, currentTags, callback)
         }
 
         // set the tag on the entity
-        var doSetTag = function(val) {
+        var doSetTags = function(tags) {
+            var requests = [];
+            $(tags).each(function(i,val) {
+                requests.push({
+                    "url": tagLocation,
+                    "method": "POST",
+                    "parameters": {
+                        "key": "/tags/" + val,
+                        ":operation": "tag"
+                    }
+                });
+            });
             $.ajax({
-                url: tagLocation,
-                data: {
-                    "key": "/tags/" + val,
-                    ":operation": "tag"
-                },
+                url: sakai.config.URL.BATCH,
+                traditional: true,
                 type: "POST",
-                error: function(xhr, response) {
-                    fluid.log(tagLocation + " failed to be tagged as " + val);
+                data: {
+                    requests: $.toJSON(requests)
                 },
-                complete: function() {
+                success: function() {
                     if ($.isFunction(callback)) {
                         callback();
                     }
+                },
+                error: function(xhr, response){
+                    fluid.log(tagLocation + " failed to be tagged as " + val);
                 }
             });
         };
@@ -2471,13 +2480,21 @@ sakai.api.Util.tagEntity = function(tagLocation, newTags, currentTags, callback)
     $(newTags).each(function(i,val) {
         val = $.trim(val);
         if (val && $.inArray(val,currentTags) == -1) {
-            tagsToAdd.push(val);
+            if (sakai.api.Security.escapeHTML(val) === val) {
+                if ($.inArray(val, tagsToAdd) < 0) {
+                    tagsToAdd.push(val);
+                }
+            }
         }
     });
     $(currentTags).each(function(i,val) {
         val = $.trim(val);
         if (val && $.inArray(val,newTags) == -1) {
-            tagsToDelete.push(val);
+            if (sakai.api.Security.escapeHTML(val) === val) {
+                if ($.inArray(val, tagsToDelete) < 0) {
+                    tagsToDelete.push(val);
+                }
+            }
         }
     });
     deleteTags(tagLocation, tagsToDelete, function() {

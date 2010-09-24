@@ -127,7 +127,7 @@
                     {elseif config.type} ${config.type}
                     {/if}"
                 {if !config.type || $.inArray(config.type, stringtypes) >= 0}
-                    value="${data.value}"
+                    value="{if data.value}${data.value.replace(/\"/g, "&quot;")}{/if}"
                 {/if}
                     id="profilesection_generalinfo_${path.replace(/\./g,"_")}" name="${config.label}" title="${path}"
                 {if !config.type || $.inArray(config.type, stringtypes) >= 0}
