@@ -35,7 +35,7 @@
             </li>
             <li>
                 <span class="filerevisions_lefthand_description">__MSG__CREATED__</span>
-                <span class="filerevisions_list_content">${data["created"]} __MSG__BY__: <a href="/dev/show.html?type=user&id=${data["sakai:savedBy"]}" class="filerevisions_editor_name"> ${data["sakai:savedByFull"]}</a></span>
+                <span class="filerevisions_list_content">${sakai.filerevisions.getFormattedDate(data.data["jcr:created"])} __MSG__BY__: <a href="/dev/show.html?type=user&id=${data.data["sakai:pool-content-created-for"]}" class="filerevisions_editor_name"> ${data.data["sakai:pool-content-created-for"]}</a></span>
             </li>
             {var count = 0}
             {for i in data.revisions}
