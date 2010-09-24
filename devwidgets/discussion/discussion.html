@@ -3,10 +3,12 @@
 
 <!-- MAIN VIEW -->
 <div id="discussion_main_container" style="display:none">
-
+<div class="fl-widget-content">
     <div id="discussion_widget_header_wrapper">
         <div id="discussion_widget_title_wrapper"><h3 id="discussion_widget_header">__MSG__WIDGET_TITLE__</h3>
-        <button id="discussion_add_newtopic" type="button">__MSG__ADD_NEW_TOPIC__</button>
+        <button id="discussion_add_newtopic" class="s3d-button" type="button">
+            <span class="s3d-button-inner">__MSG__ADD_NEW_TOPIC__</span>
+        </button>
         <div class="discussion_view_options fl-force-right">
             <a id="discussion_compact_link" title="Click to view a compact version of this discussion" href="javascript:;">__MSG__C_COMPACT_VIEW__</a>
             <a id="discussion_full_link" title="Click to view the expanded version of this discussion" href="javascript:;">__MSG__C_FULL_VIEW__</a>
@@ -117,7 +119,10 @@
     {else}
         ${displayPost(posts[0], true, curr)}
      {/if}
---></div>
+--></div></div>
+    <div class="fl-widget-no-options fl-fix">
+        <div class="widget-no-options-inner"></div>
+    </div>
 
     <div id="discussion_container_template" style="display:none"><!--
     {macro displayPost(o, first, current)}
