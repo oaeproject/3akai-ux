@@ -148,6 +148,7 @@ sakai._search = function(config, callback) {
             var frag = $.deparam.fragment();
             frag["filter"] = ""; // clear the filter
             frag["facet"] = ""; // clear the facet
+            frag["page"] = "1";
             url = $.param.fragment(url, frag);
             $(this).attr("href", url);
             return true;
