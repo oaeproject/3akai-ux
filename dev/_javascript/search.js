@@ -242,18 +242,18 @@ sakai.search = function() {
 
         // Adjust total search result count
         if (foundSites.results) {
-        
+
             updateTotalHitCount(foundSites.results.length);
-        
+
             if (foundSites.total > sitesToSearch) {
                 $(searchConfig.sites.displayMore).show();
                 $(searchConfig.sites.displayMore).attr("href", "search_groups.html#1|" + searchterm);
             }
-    
+
             if (foundSites && foundSites.results) {
-    
+
                 finaljson.items = [];
-    
+
                 for (var group in foundSites.results){
                     if (foundSites.results.hasOwnProperty(group)) {
                         if (foundSites.results[group]["sakai:group-title"]) {
@@ -262,12 +262,12 @@ sakai.search = function() {
                         finaljson.items.push(foundSites.results[group]);
                     }
                 }
-    
+
                 // If result is page content set up page path
                 for (var i=0, j=finaljson.items.length; i<j; i++ ) {
-    
+
                     //console.log(finaljson.items[i], finaljson.items[i]["jcr:path"], finaljson.items[i]["site"]["jcr:path"]);
-    
+
                     var full_path = finaljson.items[i]["path"];
                     var site_path = finaljson.items[i]["sakai:group-id"];
                     var page_path = site_path;
@@ -275,7 +275,7 @@ sakai.search = function() {
                         var stripped_excerpt = $(""+finaljson.items[i]["excerpt"] + "").text().replace(/<[^>]*>/g, "");
                         finaljson.items[i]["excerpt"] = stripped_excerpt;
                     }
-    
+
                     if (finaljson.items[i]["type"] === "sakai/pagecontent") {
                         page_path = full_path.replace(/\/_pages/g, "");
                         page_path = page_path.replace(/\/pageContent/g, "");
@@ -283,7 +283,7 @@ sakai.search = function() {
                         page_path = site_path + "#" + page_path;
                     }
                     finaljson.items[i]["pagepath"] = page_path;
-    
+
                 }
             }
         }
