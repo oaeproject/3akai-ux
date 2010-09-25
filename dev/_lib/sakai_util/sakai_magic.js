@@ -598,7 +598,8 @@ sakai.api.Groups.isCurrentUserAMember = function (groupid) {
  * -- {Object} data data returned on successful operation, xhr on failed operation
  */
 sakai.api.Groups.addToGroup = function(userID, groupID, callback) {
-    if (userID && groupID) {
+    if (userID && typeof(userID) === "string" &&
+        groupID && typeof(groupID) === "string") {
         // add user to group
         $.ajax({
             url: "/system/userManager/group/" + groupID + ".update.json",
@@ -637,7 +638,8 @@ sakai.api.Groups.addToGroup = function(userID, groupID, callback) {
  * -- {Object} data data returned on successful operation, xhr on failed operation
  */
 sakai.api.Groups.removeFromGroup = function(userID, groupID, callback) {
-    if (userID && groupID) {
+    if (userID && typeof(userID) === "string" &&
+        groupID && typeof(groupID) === "string") {
         $.ajax({
             url: "/system/userManager/group/" + groupID + ".update.json",
             data: {
@@ -662,6 +664,109 @@ sakai.api.Groups.removeFromGroup = function(userID, groupID, callback) {
         }
     }
 };
+
+
+/**
+ * Creates a join request for the given user for the specified group
+ *
+ * @param {String} userID ID of the user that wants to join the group
+ * @param {String} groupID ID of the group to the user wants to join
+ * @param {Function} callback Callback function executed at the end of the
+ * operation - callback args:
+ *  -- {Boolean} success True if operation succeeded, false otherwise
+ *  -- {Object} error null if successful, xhr data otherwise
+ */
+sakai.api.Groups.addJoinRequest = function (userID, groupID, callback) {
+    if (userID && typeof(userID) === "string" &&
+        groupID && typeof(groupID) === "string") {
+        $.ajax({
+            url: "/~" + groupID + "/joinrequests.create.html?userid=" + userID,
+            type: "POST",
+            success: function (data) {
+                if (typeof(callback) === "function") {
+                    callback(true, null);
+                }
+            },
+            error: function (xhr, textStatus, thrownError) {
+                if (typeof(callback) === "function") {
+                    callback(false, xhr);
+                }
+            }
+        });
+    } else {
+        if (typeof(callback) === "function") {
+            callback(false, {"textStatus": "Invalid arguments sent to sakai.api.Groups.addJoinRequest()"});
+        }
+    }
+};
+
+
+sakai.api.Groups.removeJoinRequest = function (userID, groupID, callback) {
+    if (userID && typeof(userID) === "string" &&
+        groupID && typeof(groupID) === "string") {
+        $.ajax({
+            url: "/~" + groupID + "/joinrequests/" + userID,
+            data: {
+                ":operation": "delete"
+            },
+            type: "POST",
+            success: function (data) {
+                if (typeof(callback) === "function") {
+                    callback(true, null);
+                }
+            },
+            error: function (xhr, textStatus, thrownError) {
+                if (typeof(callback) === "function") {
+                    callback(false, xhr);
+                }
+            }
+        });
+    } else {
+        if (typeof(callback) === "function") {
+            callback(false, {"textStatus": "Invalid arguments sent to sakai.api.Groups.removeJoinRequest()"});
+        }
+    }
+};
+
+
+/**
+ * Returns all join requests for the specified group
+ *
+ * @param {String} groupID ID of the group to fetch join requests for
+ * @param {Function} callback Callback function executed at the end of the
+ * @param {Boolean} async Optional argument to set whether this operation is
+ *   asynchronous or not. Default is true.
+ * operation - callback args:
+ *  -- {Boolean} success true if operation succeeded, false otherwise
+ *  -- {Object} joinrequest data if successful, xhr data otherwise
+ */
+sakai.api.Groups.getJoinRequests = function (groupID, callback, async) {
+    if (groupID && typeof(groupID) === "string") {
+        if (async == null) {
+            async = true;
+        }
+        $.ajax({
+            url: "/var/joinrequests/list.json?groupId=" + groupID,
+            type: "GET",
+            async: async,
+            success: function (data) {
+                if (typeof(callback) === "function") {
+                    callback(true, data);
+                }
+            },
+            error: function (xhr, textStatus, thrownError) {
+                if (typeof(callback) === "function") {
+                    callback(false, xhr);
+                }
+            }
+        });
+    } else {
+        if (typeof(callback) === "function") {
+            callback(false, {"textStatus": "Invalid arguments sent to sakai.api.Groups.getJoinRequests()"});
+        }
+    }
+};
+
 
 /**
  * Returns all the users who are member of a certain group

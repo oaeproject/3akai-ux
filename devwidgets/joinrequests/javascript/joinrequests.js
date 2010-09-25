@@ -38,6 +38,8 @@ sakai.joinrequests = function (tuid, showSettings) {
     // Configuration variables //
     /////////////////////////////
 
+    var numJoinrequests = 0;  // keeps track of the total number of requests
+
     // DOM elements
     var $rootel = $("#" + tuid);
     var $joinrequestsWidget = $(".joinrequests_widget", $rootel);
@@ -47,42 +49,155 @@ sakai.joinrequests = function (tuid, showSettings) {
     var $ignoreLink = $("a.joinrequests_ignore_link", $rootel);
 
 
+    /**
+     * Renders the joinrequests widget with the given joinrequests array
+     *
+     * @param {Array} joinrequests Array of joinrequest Objects to display,
+     * formatted for the UI.  Each joinrequest Object should contain:
+     * {
+     *    "userid": <userid>,
+     *    "firstName": <user's first name>,
+     *    "lastName": <user's last name>,
+     *    "request_age": <request create-date, JS Date.toLocaleString() value>
+     * }
+     */
     var renderJoinRequests = function (joinrequests) {
-        // populate template with data
-        var json = {
-            "joinrequests": joinrequests
-        };
-        $joinrequests.html($.TemplateRenderer($joinrequestsTemplate, json));
-        $joinrequestsWidget.show();
+        if (joinrequests) {
+            // populate template with data
+            var json = {
+                "joinrequests": joinrequests
+            };
+            $joinrequests.html($.TemplateRenderer($joinrequestsTemplate, json));
+            $("abbr.joinrequests_timeago", $joinrequests).timeago();
+            $joinrequestsWidget.show();
+        }
     };
 
 
+    /**
+     * Returns a human readable date and time based on the given jcr:created
+     * timestamp.
+     *
+     * @param {String} jcr_created jcr:created timestamp to convert
+     * @return {String} human readable date
+     */
+    var getReadableRequestAge = function (jcr_created) {
+        if (jcr_created && typeof(jcr_created) === "string") {
+            var date = new Date(jcr_created);
+            return date.toLocaleString();
+        } else {
+            // not sure what this is - just send it back
+            return jcr_created;
+        }
+    };
+
+
+    /**
+     * Fetches join requests from the server
+     */
     var getJoinRequestsData = function () {
-        // create server request (fake data for now)
-        return null;
-        
-        /* dummy data [{
-            "userid": "userx",
-            "firstName": "Gaurav",
-            "lastName": "Bhatnagar",
-            "request_age": "1 day ago"
-        },
-        {
-            "userid": "usery",
-            "firstName": "Cedric",
-            "lastName": "Diggory",
-            "request_age": "55 minutes ago"
-        }];*/
+        // get join requests from server
+        sakai.api.Groups.getJoinRequests(sakai.currentgroup.id, function (success, data) {
+            if (success) {
+                // process joinrequest data for UI
+                if (data && data.total && data.total > 0) {
+                    numJoinrequests = data.total;
+                    var joinrequests = [];
+                    for (var i in data.results) {
+                        if (data.results.hasOwnProperty(i)) {
+                            var jr = data.results[i];
+                            joinrequests.push({
+                                "userid": jr.userid,
+                                "firstName": jr.basic.elements.firstName.value,
+                                "lastName": jr.basic.elements.lastName.value,
+                                "request_age": getReadableRequestAge(jr["jcr:created"])
+                            });
+                        }
+                    }
+                    renderJoinRequests(joinrequests);
+                }
+            } else {
+                // log error
+                fluid.log("joinrequests.js/getJoinRequestsData() ERROR: Could not get join requests for group: " +
+                    sakai.currentgroup.id + " - error status: " + data.textStatus);
+            }
+        });
     };
 
 
+    /**
+     * Adds a user to the current group
+     *
+     * @param {String} userid The ID of the user to add to the current group
+     */
     var addUser = function (userid) {
-        // TODO
+        // add user to group
+        sakai.api.Groups.addToGroup(userid, sakai.currentgroup.id,
+        function (success, data) {
+            if (success) {
+                // show notification
+                sakai.api.Util.notification.show("Group Membership", "The user has successfully been added to the group.");
+
+                // trigger the member list on group_edit.html to refresh
+                $(window).trigger("sakai-listpeople-ready", "members");
+
+                // remove join request from UI and server
+                removeJoinRequest(userid);
+            } else {
+                fluid.log("joinrequests.js/addUser() ERROR: Could not add member: " +
+                    userid + " to groupid: " + sakai.currentgroup.id +
+                    " - error status: " + data.textStatus);
+                sakai.api.Util.notification.show("Group Membership", "Sorry, there was a problem while adding the user to the group. We've notified system administrators. Please try again later or contact an administrator if the issue persists.");
+            }
+        });
     };
 
 
-    var ignoreUser = function (userid) {
-        // TODO
+    /**
+     * Removes a join request from the UI and the server
+     *
+     * @param {String} userid The ID of the user whose join request to remove
+     */
+    var removeJoinRequest = function (userid) {
+        // remove join request from server
+        sakai.api.Groups.removeJoinRequest(userid, sakai.currentgroup.id,
+        function (success, data) {
+            if (success) {
+                // remove the UI joinrequest element
+                $("#joinrequests_joinrequest_" + userid, $rootel).remove();
+                if (--numJoinrequests === 0) {
+                    $joinrequestsWidget.hide();
+                }
+            } else {
+                fluid.log("joinrequests.js/ignoreUser() ERROR: Could not remove join request for: " +
+                    userid + " from groupid: " + sakai.currentgroup.id +
+                    " - error status: " + data.textStatus);
+                sakai.api.Util.notification.show("Group Membership", "Sorry, there was a problem while ignoring the join request. We've notified system administrators. Please try again later or contact an administrator if the issue persists.");
+                hideSpinner(userid);
+            }
+        });
+    };
+
+
+    /**
+     * Shows an AJAX loading spinner while the user's join request is processed
+     *
+     * @param {String} userid The ID of the user whose join request is being processed
+     */
+    var showSpinner = function (userid) {
+        $("#joinrequests_actions_" + userid).hide();
+        $("#joinrequests_loading_" + userid).show();
+    };
+
+
+    /**
+     * Hides the AJAX loading spinner once the user's join request is processed
+     *
+     * @param {String} userid The ID of the user whose join request has been processed
+     */
+    var hideSpinner = function (userid) {
+        $("#joinrequests_loading_" + userid).hide();
+        $("#joinrequests_actions_" + userid).show();
     };
 
 
@@ -91,15 +206,17 @@ sakai.joinrequests = function (tuid, showSettings) {
     /////////////////////////////
 
     // Add the specific user when the 'Add as a member' link is clicked
-    $addLink.click(function () {
+    $addLink.live("click", function () {
         var userid = this.id.split("_")[2];
+        showSpinner(userid);
         addUser(userid);
     });
 
     // Ignore the specific user when the 'Ignore' link is clicked
-    $ignoreLink.click(function () {
+    $ignoreLink.live("click", function () {
         var userid = this.id.split("_")[2];
-        ignoreUser(userid);
+        showSpinner(userid);
+        removeJoinRequest(userid);
     });
 
 
@@ -112,11 +229,7 @@ sakai.joinrequests = function (tuid, showSettings) {
      */
     var init = function () {
         // get join request data
-        var joinrequests = getJoinRequestsData();
-        if (joinrequests && joinrequests.length) {
-            // we have join requests to render
-            renderJoinRequests(joinrequests);
-        }
+        getJoinRequestsData();
     };
 
     init();

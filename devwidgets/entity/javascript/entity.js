@@ -312,8 +312,8 @@ sakai.entity = function(tuid, showSettings){
     /**
      * Displays the specific type of group membership button
      * @param {String} type specifies which button to show. Options are:
-     *  - join: "Join Group" button
-     *  - leave: "Leave Group" button
+     *  - join: "Join group" button
+     *  - leave: "Leave group" button
      *  - request: "Request to join group" button
      *  - pending: "Join request pending" button
      * @return None
@@ -350,40 +350,53 @@ sakai.entity = function(tuid, showSettings){
     /**
      * Sends a request to the group managers for the user to join as a member
      */
-    requestJoinGroup = function () {
-        // get the current list of join requests for this group
-        var joinrequests;
-        if (entityconfig.data.profile["sakai:group-joinrequests"] &&
-            entityconfig.data.profile["sakai:group-joinrequests"].length) {
-            // we have an existing array of join requests
-            joinrequests = entityconfig.data.profile["sakai:group-joinrequests"];
-        } else {
-            // we need to create a new array of join requests
-            joinrequests = [];
-        }
-
+    var requestJoinGroup = function () {
         // add this user to the list of join requests for this group
-        joinrequests.push({
-            userid: sakai.data.me.user.userid,
-            firstName: sakai.data.me.user.firstName,
-            lastName: sakai.data.me.user.lastName,
-            requestTime: new Date()
-        });
         var groupid = entityconfig.data.profile["sakai:group-id"];
-        $.ajax({
-            url: "/system/userManager/group/" + groupid + ".update.html",
-            data: {
-                "sakai:group-joinrequests": $.toJSON(joinrequests)
-            },
-            type: "POST",
-            success: function (data) {
-    	        // send a join request message to all group managers
-            },
-            error: function (xhr, textStatus, thrownError) {
+        sakai.api.Groups.addJoinRequest(sakai.data.me.user.userid, groupid,
+        function (success, error) {
+            if (success) {
+                // send a join request message to all group managers
+                /*
+                 * ... to be fully implemented in Q2 ...
+                 *
+
+                // set up message values
+                var username = sakai.data.me.profile.basic.elements.firstName.value +
+                    " " + sakai.data.me.profile.basic.elements.lastName.value;
+                var groupname = entityconfig.data.profile["sakai:group-title"];
+                var subject = sakai.config.Groups.JoinRequest.title.replace(/\$\{user\}/gi, username);
+                subject = subject.replace(/\$\{group\}/gi, groupname);
+                var body = sakai.config.Groups.JoinRequest.body.replace(/\$\{user\}/gi, username);
+                body = body.replace(/\$\{group\}/gi, groupname);
+                var groupmanagers = groupid + "-managers";
+
+                // send message
+                sakai.api.Communication.sendMessage(groupmanagers,
+                    subject, body, "message", null, function (success, data) {
+                        if (success) {
+                            // show a notification and change the button
+                            sakai.api.Util.notification.show("Group Membership", "Your request has successfully been sent to the group's managers.");
+                            showGroupMembershipButton("pending");
+                        } else {
+                            // show a notification and do not change the button
+                            fluid.log("entity.js/requestJoinGroup() ERROR: Could not send join request messages for: " +
+                                sakai.data.me.user.userid + " for groupid: " + groupid +
+                                " to manager group: " + groupmanagers +
+                                " - error status: " + data.textStatus);
+                            sakai.api.Util.notification.show("Group Membership", "Sorry, there was a problem sending your request. We've notified system administrators. Please try again later or contact an administrator if the issue persists.");
+                        }
+                    });
+                */
+
+                // show a notification and change the button
+                sakai.api.Util.notification.show("Group Membership", "Your request has successfully been sent to the group's managers.");
+                showGroupMembershipButton("pending");
+            } else {
                 fluid.log("entity.js/requestJoinGroup() ERROR: Could not process join request for: " +
-                    sakai.data.me.user.userid + " for groupid: " +
-                    entityconfig.data.profile["sakai:group-id"] +
-                    " - error status: " + textStatus);
+                    sakai.data.me.user.userid + " for groupid: " + groupid +
+                    " - error status: " + error.textStatus);
+                sakai.api.Util.notification.show("Group Membership", "Sorry, there was a problem sending your request. We've notified system administrators. Please try again later or contact an administrator if the issue persists.");
             }
         });
     };
@@ -396,15 +409,16 @@ sakai.entity = function(tuid, showSettings){
         sakai.api.Groups.addToGroup(sakai.data.me.user.userid, 
             entityconfig.data.profile["sakai:group-id"], function (success, data) {
             if (success) {
-                sakai.api.Util.notification.show("Group Membership", "You have successfully been added to the Group.");
+                sakai.api.Util.notification.show("Group Membership", "You have successfully been added to the group.");
                 showGroupMembershipButton("leave");
             } else {
                 fluid.log("entity.js/joinGroup() ERROR: Could not add member: " +
                     sakai.data.me.user.userid + " to groupid: " +
                     entityconfig.data.profile["sakai:group-id"] +
                     " - error status: " + data.textStatus);
+                sakai.api.Util.notification.show("Group Membership", "Sorry, there was a problem while adding you to the group. We've notified system administrators. Please try again later or contact an administrator if the issue persists.");
             }
-        });        
+        });
     };
 
     /**
@@ -423,12 +437,13 @@ sakai.entity = function(tuid, showSettings){
             if (success) {
                 // because the user has left the group, they may not be allowed to
                 // view the current page - refresh the page to check visibility
-                alert("You have successfully been removed from the Group.");
+                alert("You have successfully been removed from the group.");
                 window.location.reload();
             } else {
                 fluid.log("entity.js/leaveGroup() ERROR: Could not remove member: " +
                     sakai.data.me.user.userid + " from groupid: " + groupid +
                     " - error status: " + data.textStatus);
+                sakai.api.Util.notification.show("Group Membership", "Sorry, there was a problem while removing you from the group. We've notified system administrators. Please try again later or contact an administrator if the issue persists.");
             }
         });
     };
@@ -701,22 +716,37 @@ sakai.entity = function(tuid, showSettings){
             // we have a non-member with joinability set to 'users must request to join'
 
             // has this user already requested to join the group? Search the list of join requests
-            if (entityconfig.data.profile["sakai:group-joinrequests"]) {
-                var joinrequests = entityconfig.data.profile["sakai:group-joinrequests"];
-                if (joinrequests.length) {
-                    for (user in joinrequests) {
-                        if (joinrequests.hasOwnProperty(user) &&
-                            user.userid === sakai.data.me.user.userid) {
-                            // this user has a pending join request for this group
-                            showGroupMembershipButton("pending");
-                            break;
+            sakai.api.Groups.getJoinRequests(groupid, function (success, data) {
+                if (success) {
+                    // search data
+                    var foundRequest = false;
+                    if (data && data.total && data.total > 0) {
+                        for (var i in data.results) {
+                            if (data.results.hasOwnProperty(i) &&
+                                data.results[i].userid === sakai.data.me.user.userid) {
+                                // this user has a pending join request for this group
+                                foundRequest = true;
+                                break;
+                            }
                         }
                     }
+                    if (foundRequest) {
+                        // user has a pending join request
+                        showGroupMembershipButton("pending");
+                    } else {
+                        // user has not requested to join
+                        showGroupMembershipButton("request");
+                    }
+                } else {
+                    // log error
+                    fluid.log("entity.js/addBindingGroup() ERROR: Could not get join requests for group: " +
+                        groupid + " - error status: " + data.textStatus);
+
+                    // not sure if this user has requested, show request button
+                    showGroupMembershipButton("request");
                 }
-            } else {
-                // this user does not have a pending join request for this group
-                showGroupMembershipButton("request");
-            }
+            },
+            false);  // this is an non-async call
         }
         else {
             // unrecognized combination of user and joinability setting

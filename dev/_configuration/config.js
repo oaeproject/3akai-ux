@@ -371,6 +371,19 @@ sakai.config = {
 
     },
 
+    Groups: {
+        /*
+         * Email message that will be sent to group managers when a user requests
+         * to join their group.
+         * ${user} will be replaced by the name of the requesting user and ${group}
+         * will be replaced with the group name.
+         */
+        JoinRequest: {
+            title: "${user} has requested to join your group: ${group}",
+            body: "Hi, \n\n ${user} has requested to join your group: ${group}. Use the links below to respond to this request. \n\n Kind regards,\n\nThe Sakai Team"
+        }
+    },
+
     Connections: {
         /*
          * Email message that will be sent when inviting someone to become a connection.
