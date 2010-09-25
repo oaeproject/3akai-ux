@@ -43,7 +43,8 @@ sakai.filerevisions = function(tuid, showSettings){
      * Convert given date object to readable date string
      * @param {Object} date Date object
      */
-    var getFormattedDate = function(date){
+    sakai.filerevisions.getFormattedDate = function(date){
+        date = new Date(date);
         var months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
         var day = date.getDate();
         var month = months[date.getMonth()];
@@ -57,14 +58,14 @@ sakai.filerevisions = function(tuid, showSettings){
      */
     var renderRevisionData = function(){
         var data = [];
-        baseFileData.created = getFormattedDate(new Date(baseFileData["jcr:created"]));
+        baseFileData.created = sakai.filerevisions.getFormattedDate(new Date(baseFileData["jcr:created"]));
         data.data = baseFileData;
         data.linkrevision = $("#content_profile_details_view_revisions").hasClass("link_revision");
 
         var renderedTemplate = $.TemplateRenderer(filerevisionsTemplate, data);
         $(filerevisionsTemplateContainer).html(renderedTemplate);
 
-        var renderedTemplate = $.TemplateRenderer("#filerevision_header_text_template", data);
+        renderedTemplate = $.TemplateRenderer("#filerevision_header_text_template", data);
         $("#filerevision_header_text").html(renderedTemplate);
     };
 
@@ -119,7 +120,11 @@ sakai.filerevisions = function(tuid, showSettings){
                     }
                 }
                 baseFileData.revisionFileDetails = revisionFileDetails;
-                getUserProfile(baseFileData.data["sakai:savedBy"]);
+                if (baseFileData.data["sakai:savedBy"]) {
+                    getUserProfile(baseFileData.data["sakai:savedBy"]);
+                } else {
+                    getUserProfile(baseFileData.data["sakai:pool-content-created-for"]);
+                }
             },
             error: function(xhr, textStatus, thrownError){
 
@@ -138,9 +143,9 @@ sakai.filerevisions = function(tuid, showSettings){
                 for (var i in data.versions){
                     if (data.versions.hasOwnProperty(i)) {
                         if (!$.browser.webkit) {
-                            data.versions[i]["jcr:created"] = getFormattedDate(new Date(data.versions[i]["jcr:created"]));
+                            data.versions[i]["jcr:created"] = sakai.filerevisions.getFormattedDate(new Date(data.versions[i]["jcr:created"]));
                         }else{
-                            data.versions[i]["jcr:created"] = getFormattedDate(new Date(data.versions[i]["jcr:created"].split("T")[0]));
+                            data.versions[i]["jcr:created"] = sakai.filerevisions.getFormattedDate(new Date(data.versions[i]["jcr:created"].split("T")[0]));
                         }
                     }
                 }

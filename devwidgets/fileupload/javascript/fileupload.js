@@ -337,7 +337,7 @@ sakai.fileupload = function(tuid, showSettings){
                     "url": "/p/" + oldVersionPath,
                     "method": "POST",
                     "parameters": {
-                        "sakai:pooled-content-revurl": $(fileUploadLinkBoxInput).val(),
+                        "sakai:pooled-content-revurl": $(fileUploadLinkBoxInput).val()
                     }
                 };
                 batchDescriptionData[batchDescriptionData.length] = item;

@@ -3581,10 +3581,15 @@ sakai.api.Widgets.isOnDashboard = function(tuid) {
     * @param {String|Object} templateElement The name of the template HTML ID or a jQuery selection object.
     * @param {Object} templateData JSON object containing the template data
     * @param {Object} outputElement (Optional) jQuery element in which the template needs to be rendered
+    * @param {Boolean} doSanitize (Optional) perform html sanitization. Defaults to true
     */
-    $.TemplateRenderer = function (templateElement, templateData, outputElement) {
+    $.TemplateRenderer = function (templateElement, templateData, outputElement, doSanitize) {
 
         var templateName;
+        var sanitize = true;
+        if (doSanitize !== undefined) {
+            sanitize = doSanitize;
+        }
 
         // The template name and the context object should be defined
         if(!templateElement || !templateData){
@@ -3627,7 +3632,9 @@ sakai.api.Widgets.isOnDashboard = function(tuid) {
         var render = templateCache[templateName].process(templateData);
 
         // Run the rendered html through the sanitizer
-        render = sakai.api.Security.saneHTML(render);
+        if (sanitize) {
+            render = sakai.api.Security.saneHTML(render);
+        }
 
         // Check it there was an output element defined
         // If so, put the rendered template in there

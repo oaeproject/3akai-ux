@@ -330,6 +330,15 @@ sakai.changepic = function(tuid, showSettings){
                     }
                 }
 
+                var selectionObj = {
+                    width : picture.selectedx2 - picture.selectedx1,
+                    height :picture.selectedy2 - picture.selectedy1,
+                    x1 : picture.selectedx1,
+                    y1 : picture.selectedy1,
+                    x2 : picture.selectedx2,
+                    y2 : picture.selectedy2
+                };
+
                 // Set the imgAreaSelect to a function so we can access it later on
                 imageareaobject = $(fullPicture).imgAreaSelect({
                     aspectRatio: "1:1",
@@ -342,15 +351,6 @@ sakai.changepic = function(tuid, showSettings){
                         imageareaobject.setSelection(picture.selectedx1,picture.selectedy1,picture.selectedx2,picture.selectedy2);
                         imageareaobject.setOptions({ show: true });
                         imageareaobject.update();
-                        // Make sure the thumbnail is already viewable on init
-                        var selectionObj = {
-                            width : picture.selectedx2 - picture.selectedx1,
-                            height :picture.selectedy2 - picture.selectedy1,
-                            x1 : picture.selectedx1,
-                            y1 : picture.selectedy1,
-                            x2 : picture.selectedx2,
-                            y2 : picture.selectedy2
-                        };
                         preview($("img" + fullPicture)[0], selectionObj)
                     },
                     onSelectChange: preview
@@ -358,10 +358,11 @@ sakai.changepic = function(tuid, showSettings){
 
                 // Check if the imageareaobject exists
                 // After init this structure will show the selection overlay
-                if (imageareaobject){
+                if (imageareaobject) {
                     imageareaobject.setSelection(picture.selectedx1, picture.selectedy1, picture.selectedx2, picture.selectedy2);
                     imageareaobject.setOptions({show: true});
                     imageareaobject.update();
+                    preview($("img" + fullPicture)[0], selectionObj);
                 }
             });
             showSelectTab();

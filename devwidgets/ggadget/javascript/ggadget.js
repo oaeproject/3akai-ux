@@ -127,7 +127,7 @@ sakai.ggadget = function(tuid, showSettings){
             jsonDefaultSize.width = defaultWidth;
             jsonDefaultSize.width_unit = defaultWidthUnit;
             jsonDefaultSize.height = defaultHeight;
-            $(remotecontentSettingsPreview).html($.TemplateRenderer($remotecontentSettingsPreviewTemplate, json));
+            $(remotecontentSettingsPreview).html($.TemplateRenderer($remotecontentSettingsPreviewTemplate, json, null, false));
         }
         else {
             $(remotecontentSettingsPreviewFrame).attr("style", "border: " + json.border_size + "px #" + json.border_color + " solid");
@@ -139,7 +139,7 @@ sakai.ggadget = function(tuid, showSettings){
      */
     var renderIframe = function(){
         if (json) {
-            $(remotecontentMainContainer, rootel).html($.TemplateRenderer($remotecontentSettingsPreviewTemplate, json));
+            $(remotecontentMainContainer, rootel).html($.TemplateRenderer($remotecontentSettingsPreviewTemplate, json, null, false));
 
             // SAKIII-314 We need to show the container, otherwise the second item won't be shown.
             $(remotecontentMainContainer, rootel).show();

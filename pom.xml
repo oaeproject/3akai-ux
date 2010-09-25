@@ -136,11 +136,11 @@
         <configuration>
           <instructions>
             <Sling-Initial-Content>
-                SLING-INF/content/dev;path:=/dev;ignoreImportProviders:="xml,json,html,jar,zip";overwrite:=true,
-                SLING-INF/content/devwidgets;path:=/devwidgets;ignoreImportProviders:="xml,json,html,jar,zip";overwrite:=true,
-                SLING-INF/content/var/templates/site;path:=/var/templates/site;overwrite:=true;uninstall:=false,
-                SLING-INF/content/apps;path:=/apps;overwrite:=true;uninstall:=false,
-                SLING-INF/content/root;path:=/
+                SLING-INF/content/dev;path:=/dev;ignoreImportProviders:="xml,json,html,jar,zip";uninstall:=false,
+                SLING-INF/content/devwidgets;path:=/devwidgets;ignoreImportProviders:="xml,json,html,jar,zip";uninstall:=false,
+                SLING-INF/content/var/templates/site;path:=/var/templates/site;uninstall:=false,
+                SLING-INF/content/apps;path:=/apps;uninstall:=false,
+                SLING-INF/content/root;path:=/;uninstall:=false
             </Sling-Initial-Content>
           </instructions>
         </configuration>

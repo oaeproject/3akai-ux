@@ -8,5 +8,6 @@
     "img":"/devwidgets/remotecontent/images/remotecontent.png",
     "name":"Remote Content",
     "showinsakaigoodies":true,
+    "hasSettings": true,
     "url":"/devwidgets/remotecontent/remotecontent.html"
 }
