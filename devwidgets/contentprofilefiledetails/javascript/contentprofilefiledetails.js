@@ -215,7 +215,7 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
     });
 
     $(window).bind("sakai-fileupload-complete", function(){
-        doInit();
+        handleHashChange();
     });
 
     if (sakai.content_profile.content_data && sakai.content_profile.content_data.data) {
