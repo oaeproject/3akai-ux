@@ -4,18 +4,17 @@
 <!-- SETTINGS VIEW -->
 <div id="rss_settings" class="fl-widget-content" style="display:none">
     <p>
-        Fill in the form below to add news from other sources to your page, the only thing you need to know is the URL to the rss feed,
-        the url looks simular to "<span class="rss_quote">http://www.website.com/rss.xml</span>"
+        __MSG__FILL_IN_FORM_BELOW__ "<span class="rss_quote">__MSG__EXAMPLE_RSS_SITE__</span>"
     </p>
     <form class="rss_settings_form" method="post">
-        <label for="rss_settings_txtTitle">Title:</label>
+        <label for="rss_settings_txtTitle">__MSG__TITLE__:</label>
         <p>
         <input type="text" id="rss_settings_txtTitle" />
         </p>
-        <label for="rss_settings_txtUrl">RSS feed url:</label><br />
+        <label for="rss_settings_txtUrl">__MSG__RSS_FEED_URL__:</label><br />
         <input type="text" id="rss_settings_txtUrl" />
         <br/>
-        <button type="button" class="s3d-button s3d-button-primary rss_settings_btnAddUrl"><span class="s3d-button-inner">Add url</span></button>
+        <button type="button" class="s3d-button s3d-button-primary rss_settings_btnAddUrl"><span class="s3d-button-inner">__MSG__ADD_URL__</span></button>
         <br />
 
         <div id="rss_settings_rssFeedList">
@@ -40,21 +39,22 @@
         --></div>
         <p>
             <br />
-            <span>Show the latest </span><input type="text" id="rss_settings_numEntries"/><span> entries.</span><br />
-            <input type="checkbox" id="rss_setting_displaySource" /><label class="rss_setting_label" for="rss_setting_displaySource">Display source</label><br />
-            <input type="checkbox" id="rss_setting_displayHeadlines" /><label class="rss_setting_label"  for="rss_setting_displayHeadlines">Display headlines only</label><br />
+            <span>__MSG__NUMBER_OF_ITEMS_TO_DISPLAY__ </span><input type="text" id="rss_settings_numEntries" value="25"/><span></span><br />
+            <input type="checkbox" id="rss_setting_displaySource" /><label class="rss_setting_label" for="rss_setting_displaySource">__MSG__DISPLAY_SOURCE__</label><br />
+            <input type="checkbox" id="rss_setting_displayHeadlines" /><label class="rss_setting_label"  for="rss_setting_displayHeadlines">__MSG__DISPLAY_HEADLINES_ONLY__</label><br />
         </p>
         <div class="dialog_buttons">
-            <button type="button" class="s3d-button s3d-button-primary" id="rss_setting_finish"><span class="s3d-button-inner">Finish</span></button>
-            <button type="button" class="s3d-button" id="rss_setting_cancel"><span class="s3d-button-inner">Cancel</span></button>
+            <button type="button" class="s3d-button" id="rss_setting_cancel"><span class="s3d-button-inner">__MSG__DONT_ADD__</span></button>
+            <button type="button" class="s3d-button s3d-button-primary" id="rss_setting_finish"><span class="s3d-button-inner">__MSG__ADD_RSS_FEED__</span></button>
         </div>
     </form>
+    <hr class='fl-hidden fl-push'>
 </div>
 <!-- MAIN VIEW -->
 <div id="rss_output" class="fl-widget-content" style="display:none">
 <!-- in this container all the entries of the feeds will be shown-->
     <div id="rss_no_feeds" style="display:none">
-        No feeds set
+        __MSG__NO_FEEDS_SET__
     </div>
 </div>
 
@@ -64,8 +64,8 @@
 <div id="rss_output_template" style="display:none"><!--
         <div class="rss_output_header">
             <h1>${title}</h1>
-            <button type="button" class="s3d-button s3d-button-primary rss_output_order fl-force-right" id="rss_output_order_date"><span class="s3d-button-inner">Sort by date</span></button>
-            <button type="button" class="s3d-button s3d-button-primary rss_output_order fl-force-right" id="rss_output_order_source"><span class="s3d-button-inner">Sort by source</span></button>
+            <button type="button" class="s3d-button s3d-button-primary rss_output_order fl-force-right" id="rss_output_order_date"><span class="s3d-button-inner">__MSG__SORT_BY_DATE__</span></button>
+            <button type="button" class="s3d-button s3d-button-primary rss_output_order fl-force-right" id="rss_output_order_source"><span class="s3d-button-inner">__MSG__SORT_BY_SOURCE__</span></button>
         </div>
 
         {for i in shownEntries}
@@ -76,7 +76,7 @@
                     <div class="fl-push"></div>
                     <p>${i.description}
                         {if i.link != ""}
-                            <a href="${i.link}" target="_blank">read more</a>
+                            <a href="${i.link}" target="_blank">__MSG__READ_MORE__</a>
                         {/if}
                     </p>
                 {else}
@@ -88,9 +88,9 @@
                     {/if}
                 {/if}
                 {if displaySource}
-                    <span class="fl-force-left"><span class="rss_title">Source: </span><a href="${i.feed.id}">${i.feed.title}</a></span>
+                    <span class="fl-force-left"><span class="rss_title">__MSG__SOURCE__: </span><a href="${i.feed.id}">${i.feed.title}</a></span>
                 {/if}
-                <a class="rss_sendToFriend fl-force-right" id="rss_sendToFriend${shownEntries.indexOf(i)}" href="javascript:;">Send article to a friend</a>
+                <a class="rss_sendToFriend fl-force-right" id="rss_sendToFriend${shownEntries.indexOf(i)}" href="javascript:;">__MSG__SEND_ARTICLE_TO_A_FRIEND__</a>
 
             </div>
         {/for}
@@ -100,6 +100,17 @@
 <div id="rss_sendmessagecontainer" style="display:none;">
     <div id="widget_sendmessage" class="widget_inline"></div>
 </div>
+
+<!-- MESSAGES -->
+<div id="rss_cannot_connect_to_rss_feed" style="display:none;">__MSG__ERROR_CAN_NOT_CONNECT_TO_RSS_FEED__</div>
+<div id="rss_feed_already_entered" style="display:none;">__MSG__ERROR_RSS_FEED_ALREADY_ENTERED__</div>
+<div id="rss_paste_valid_rss_address" style="display:none;">__MSG__ERROR_PASTE_VALID_RSS_ADDRESS__</div>
+<div id="rss_unable_to_connect" style="display:none;">__MSG__ERROR_UNABLE_TO_CONNECT__</div>
+<div id="rss_incorrect_rss_feed" style="display:none;">__MSG__ERROR_INCORRECT_RSS_FEED__</div>
+<div id="rss_feed_already_added" style="display:none;">__MSG__ERROR_FEED_ALREADY_ADDED__</div>
+<div id="rss_number_of_items_should_be_number" style="display:none;">__MSG__ERROR_NUMBER_OF_ITEMS_SHOULD_BE_NUMBER__</div>
+<div id="rss_pages_should_be_bigger_than" style="display:none;">__MSG__ERROR_PAGES_SHOULD_BE_BIGGER_THAN__</div>
+<div id="rss_added_no_feeds" style="display:none;">__MSG__ERROR_ADDED_NO_FEEDS__</div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/rss/javascript/rss.js" />
