@@ -29,7 +29,7 @@ var History = {
     
     addBEvent : function(page, query, filter, facet, tag) {
       var state = {};
-      state['q'] = query;
+      state['q'] = query || "*";
       state['tag'] = tag;
       state['filter'] = filter || "";
       state['facet'] = facet || "";
