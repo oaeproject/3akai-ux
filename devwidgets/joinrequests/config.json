@@ -1,0 +1,11 @@
+{
+    "description":"Manage join requests for a specific group.",
+    "name":"Join Requests",
+    "id":"joinrequests",
+    "i18n": {
+        "default": "/devwidgets/joinrequests/bundles/default.json"
+    },
+    "personalportal":false,
+    "hasSettings":false,
+    "url":"/devwidgets/joinrequests/joinrequests.html"
+}

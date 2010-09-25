@@ -137,7 +137,7 @@ sakai.config = {
         /*
          * A collection of permission keys and range of values to be referenced
          * for making permissions decisions. The values of properties are only
-         * for reference, may not match designs and are not to be place in the
+         * for reference, may not match designs and are not to be placed in the
          * UI (message bundles should be used to match up-to-date designs).
          */
         Groups: {
@@ -369,6 +369,19 @@ sakai.config = {
         userShortDescription: "${role} in ${department} at ${college}",
         groupShortDescription: "asdf"
 
+    },
+
+    Groups: {
+        /*
+         * Email message that will be sent to group managers when a user requests
+         * to join their group.
+         * ${user} will be replaced by the name of the requesting user and ${group}
+         * will be replaced with the group name.
+         */
+        JoinRequest: {
+            title: "${user} has requested to join your group: ${group}",
+            body: "Hi, \n\n ${user} has requested to join your group: ${group}. Use the links below to respond to this request. \n\n Kind regards,\n\nThe Sakai Team"
+        }
     },
 
     Connections: {
