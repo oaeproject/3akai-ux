@@ -214,7 +214,7 @@ sakai.search = function() {
 
         if (foundCM.total > cmToSearch) {
             $(searchConfig.cm.displayMore).show();
-            $(searchConfig.cm.displayMore).attr("href", "search_content.html#1|" + searchterm);
+            $(searchConfig.cm.displayMore).attr("href", "search_content.html#q=" + searchterm);
         }
 
         if (foundCM && foundCM.results) {
@@ -247,7 +247,7 @@ sakai.search = function() {
 
             if (foundSites.total > sitesToSearch) {
                 $(searchConfig.sites.displayMore).show();
-                $(searchConfig.sites.displayMore).attr("href", "search_groups.html#1|" + searchterm);
+                $(searchConfig.sites.displayMore).attr("href", "search_groups.html#q=" + searchterm);
             }
 
             if (foundSites && foundSites.results) {
