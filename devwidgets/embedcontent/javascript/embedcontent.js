@@ -78,7 +78,6 @@ sakai.embedcontent = function(tuid, showSettings) {
         } else {
             doReset();
         }
-        console.log("render");
         $("#as-values-" + tuid).val("");
         $(".as-selection-item").remove();
     };

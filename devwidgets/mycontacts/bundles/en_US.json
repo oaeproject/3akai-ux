@@ -3,6 +3,5 @@
 "description": "My Contacts widget\r\n",
 "WIDGET_TITLE": "My Contacts",
 "YOU_CURRENTLY_HAVE_NO_CONTACTS": "You currently have no contacts",
-"UNABLE_TO_CONTACT_THE_SERVER_PLEASE_TRY_AGAIN_LATER": "Unable to contact the server. Please try again later",
-"VIEW_AND_EDIT_CONTACTS": "View &amp; Edit Contacts"
+"UNABLE_TO_CONTACT_THE_SERVER_PLEASE_TRY_AGAIN_LATER": "Unable to contact the server. Please try again later"
 }
