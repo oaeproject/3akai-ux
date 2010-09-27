@@ -71,6 +71,7 @@ sakai.rss = function(tuid, showSettings){
 
     // Paging
     var rssPager = rssClass + "_jq_pager";
+    var pageClicked = 1;
 
     // Buttons
     var rssAddUrl = rssClass + "_settings_btnAddUrl";
@@ -96,6 +97,72 @@ sakai.rss = function(tuid, showSettings){
     var rssNumberOfItemsShouldBeNumber = "#rss_number_of_items_should_be_number";
     var rssPagesShouldBeBiggerThan = "#rss_pages_should_be_bigger_than";
     var rssAddedNoFeeds = "#rss_added_no_feeds";
+
+
+    ////////////////////
+    // Event Handlers //
+    ////////////////////
+    var addBinding = function(){
+        $(rssAddUrl,rootel).bind("click", function(e, ui){
+            addRssFeed();
+        });
+        $(rssTxtUrl, rootel).bind("keydown", function(e, ui) {
+            if (e.keyCode === 13) {
+                addRssFeed();
+            }
+        });
+        $(rssCancel, rootel).bind("click",function(e,ui){
+            sakai.api.Widgets.Container.informCancel(tuid, "rss");
+        });
+        $(rssSubmit, rootel).bind("click",function(e,ui){
+            var object = getSettingsObject();
+            if(object !== false){
+                sakai.api.Widgets.saveWidgetData(tuid, object, function(success, data){
+                    if ($(".sakai_dashboard_page").is(":visible")) {
+                        showSettings = false;
+                        showHideSettings(showSettings);
+                    }
+                    else {
+                        sakai.api.Widgets.Container.informFinish(tuid, "rss");
+                    }
+                });
+            }
+        });
+
+        $(rssSendToFriend, rootel).bind("click", function(e, ui){
+            var index = parseInt(e.target.id.replace(rssSendToFriendNoDot, ""), 10);
+            // retrieve the title and body of the entry
+            var subject = resultJSON.entries[((pageClicked - 1) * 3) + index].title;
+            var body = resultJSON.entries[((pageClicked - 1) * 3) + index].description + "\n";
+            body += "read more: " + resultJSON.entries[((pageClicked - 1) * 3) + index].link;
+            // initialize the sendmessage-widget
+            var o = sakai.sendmessage.initialise(null, true, false);
+            o.setSubject(subject);
+            o.setBody(body);
+        });
+
+        $(rootel + " " + rssOrderBySource).bind("click", function(e, ui){
+            if (currentSort === "sourceD") {
+                currentSort = "sourceA";
+            }
+            else {
+                currentSort = "sourceD";
+            }
+            resultJSON.entries.sort(sortBySourcefunction);
+            pagerClickHandler(1);
+        });
+        $(rootel + " " + rssOrderByDate).bind("click", function(e, ui){
+            if (currentSort === "dateD") {
+                currentSort = "dateA";
+            }
+            else {
+                currentSort = "dateD";
+            }
+            resultJSON.entries.sort(sortByDatefunction);
+            pagerClickHandler(1);
+        });
+    }
+
 
     ////////////////////////
     // Utility  functions //
@@ -212,7 +279,7 @@ sakai.rss = function(tuid, showSettings){
     var currentSort = "dateA";
 
     /**
-     * sorts an array of feeds on the pubDate, this can be used with the javascript sort function
+     * sorts an array of feeds on the pubDate, this can be used with the JavaScript sort function
      * @param {Object} a
      * @param {Object} b
      */
@@ -273,10 +340,11 @@ sakai.rss = function(tuid, showSettings){
             else{
                 $(rssFeedListContainer, rootel).html($.TemplateRenderer(rssFeedListTemplate, resultJSON));
                 $(rootel + " " + rssRemove).bind("click", function(e,ui){
-                var index = parseInt(e.target.parentNode.id.replace(rssRemoveNoDot, ""),10);
-                resultJSON.feeds.splice(index,1);
-                $(rssRemoveFeed + index).parent().remove()
-            });
+                    var index = parseInt(e.target.parentNode.id.replace(rssRemoveNoDot, ""),10);
+                    resultJSON.feeds.splice(index,1);
+                    $(rssRemoveFeed + index).parent().remove()
+                });
+                addBinding();
             }
         });
     };
@@ -307,17 +375,19 @@ sakai.rss = function(tuid, showSettings){
      * and connects the pager again
      * @param {Object} pageClicked
      */
-    var pagerClickHandler = function(pageClicked){
+    var pagerClickHandler = function(clicked){
+        pageClicked = parseInt(clicked);
         // first get the entries that need to be shown on this page
-        resultJSON.shownEntries = getShownEntries(pageClicked);
+        resultJSON.shownEntries = getShownEntries(clicked);
         // render these entries
         $(rssOutput, rootel).html($.TemplateRenderer(rssOutputTemplate, resultJSON));
         // change the pageNumeber
         $(rssPager,rootel).pager({
-            pagenumber: pageClicked,
+            pagenumber: clicked,
             pagecount: Math.ceil(resultJSON.entries.length / 3),
             buttonClickCallback: pagerClickHandler
         });
+        addBinding();
     };
 
     /**
@@ -447,70 +517,6 @@ sakai.rss = function(tuid, showSettings){
         resultJSON.feeds = [];
         return resultJSON;
     };
-
-
-    ////////////////////
-    // Event Handlers //
-    ////////////////////
-
-    $(rssAddUrl,rootel).bind("click", function(e, ui){
-        addRssFeed();
-    });
-    $(rssTxtUrl, rootel).bind("keydown", function(e, ui) {
-        if (e.keyCode === 13) {
-            addRssFeed();
-        }
-    });
-    $(rssCancel, rootel).bind("click",function(e,ui){
-        sakai.api.Widgets.Container.informCancel(tuid, "rss");
-    });
-    $(rssSubmit, rootel).bind("click",function(e,ui){
-        var object = getSettingsObject();
-        if(object !== false){
-            sakai.api.Widgets.saveWidgetData(tuid, object, function(success, data){
-                if ($(".sakai_dashboard_page").is(":visible")) {
-                    showSettings = false;
-                    showHideSettings(showSettings);
-                }
-                else {
-                    sakai.api.Widgets.Container.informFinish(tuid, "rss");
-                }
-            });
-        }
-    });
-
-    $(rssSendToFriend, rootel).live("click", function(e, ui){
-        var index = parseInt(e.target.id.replace(rssSendToFriendNoDot, ""), 10);
-        // retrieve the title and body of the entry
-        var subject = resultJSON.entries[index].title;
-        var body = resultJSON.entries[index].description + "\n";
-        body += "read more: " + resultJSON.entries[index].link;
-        // Show the sendmessage widget
-        //$(rssSendMessage).show();
-        // initialize the sendmessage-widget
-        var o = sakai.sendmessage.initialise(null, true, false);
-        o.setSubject(subject);
-        o.setBody(body);
-    });
-
-    $(rootel + " " + rssOrderBySource).bind("click", function(e,ui){
-        if (currentSort === "sourceD"){
-            currentSort = "sourceA";
-        } else {
-            currentSort = "sourceD";
-        }
-        resultJSON.entries.sort(sortBySourcefunction);
-        pagerClickHandler(1);
-    });
-    $(rootel + " " + rssOrderByDate).bind("click", function(e,ui){
-        if (currentSort === "dateD"){
-            currentSort = "dateA";
-        } else {
-            currentSort = "dateD";
-        }
-        resultJSON.entries.sort(sortByDatefunction);
-        pagerClickHandler(1);
-    });
 
 
     /////////////////////////////
