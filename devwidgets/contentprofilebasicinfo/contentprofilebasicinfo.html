@@ -55,7 +55,11 @@
                     <option value="waivecopyright" {if data["sakai:copyright"] === "waivecopyright"}selected="selected"{/if}>__MSG__WAIVE_COPYRIGHT__</option>
                 </select>
             {else}
-                <label class="content_profile_basic_info_form_anon_label">{if data["sakai:copyright"]}${data["sakai:copyright"]}{/if}</label>
+                {if data["sakai:copyright"] === "creativecommons"}__MSG__CREATIVE_COMMONS_LICENSE__{/if}
+                {if data["sakai:copyright"] === "copyrighted"}__MSG__COPYRIGHTED__{/if}
+                {if data["sakai:copyright"] === "nocopyright"}__MSG__NO_COPYRIGHT__{/if}
+                {if data["sakai:copyright"] === "licensed"}__MSG__LICENSED__{/if}
+                {if data["sakai:copyright"] === "waivecopyright"}__MSG__WAIVE_COPYRIGHT__{/if}
             {/if}
         </div>
         {if !anon}
@@ -66,7 +70,7 @@
                 <select id="content_profile_basic_info_permissions_select">
                     <option value="public" {if data["sakai:permissions"] === "public"}selected="selected"{/if}>__MSG__PUBLIC__</option>
                     <option value="everyone" {if data["sakai:permissions"] === "everyone"}selected="selected"{/if}>__MSG__LOGGED_IN_USERS__</option>
-                    <option value="private" {if data["sakai:permissions"] === "private"}selected="selected"{/if}>__MSG__ONLY_ME__</option>
+                    <option value="private" {if data["sakai:permissions"] === "private" || data["sakai:permissions"] === "group"}selected="selected"{/if}>__MSG__MANAGERS_AND_MEMBERS__</option>
                 </select>
         </div>
         {/if}

@@ -120,8 +120,8 @@
                             <div id="search_results_template"><!--
                                 {for i in items}
                                     <div class="fl-container fl-fix search_result_course_site">
-                                        <div class="search_result_course_site_title"><a href="/dev/show.html?type=group&amp;id=${i.pagepath}">${i["sakai:group-title"]}</a></div>
-                                        <div class="search_result_course_site_url"><a href="/dev/show.html?type=group&amp;id=${i.pagepath}">${i.pagepath}</a></div>
+                                        <div class="search_result_course_site_title"><a href="/~${i.pagepath}">${i["sakai:group-title"]}</a></div>
+                                        <div class="search_result_course_site_url"><a href="/~${i.pagepath}">${i.pagepath}</a></div>
                                         <div class="search_result_course_site_excerpt">${i["sakai:group-description"]}</div>
                                     </div>
                                 {forelse}

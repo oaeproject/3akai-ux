@@ -1,0 +1,45 @@
+<!-- CSS -->
+<link href="/devwidgets/joinrequests/css/joinrequests.css" type="text/css" />
+
+<div class="joinrequests_widget" style="display:none;">
+    <div class="group_userlist_header">  <!-- relies on group_edit.html css -->
+        <h2>__MSG__PENDING_REQUESTS_TO_JOIN__</h2>
+    </div>
+
+    <div id="joinrequests_joinrequests"><!-- TEMPLATE HERE --></div>
+
+    <div id="joinrequests_template" class="fl-push"><!--
+    {for jr in joinrequests}
+        <div id="joinrequests_joinrequest_${jr.userid}"
+            class="joinrequests_joinrequest fl-force-left fl-fix">
+            <div class="fl-force-left">
+                <a href="/~${jr.userid}"
+                    class="fl-icon joinrequests_userpicture"
+                    title="View profile"></a>
+            </div>
+            <div class="fl-force-left joinrequests_details">
+                <p class="joinrequests_username">
+                    <a href="/~${jr.userid}"
+                    class="joinrequests_username_link">${jr.firstName} ${jr.lastName}</a>
+                </p>
+                <p class="joinrequests_request_age">
+                    <abbr class="joinrequests_timeago"
+                    title="${jr.request_age}">${jr.request_age}</abbr>
+                </p>
+                <p id="joinrequests_actions_${jr.userid}" class="joinrequests_actions">
+                    <a href="javascript:;" class="joinrequests_add_link"
+                        id="joinrequests_add_${jr.userid}">__MSG__ADD_AS_A_MEMBER__</a>
+                    |
+                    <a href="javascript:;" class="joinrequests_ignore_link"
+                        id="joinrequests_ignore_${jr.userid}">__MSG__IGNORE__</a>
+                </p>
+                <p id="joinrequests_loading_${jr.userid}"
+                    class="joinrequests_loading" style="display:none;"></p>
+            </div>
+        </div>
+    {/for}
+    --></div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/joinrequests/javascript/joinrequests.js"></script>

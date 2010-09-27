@@ -9,5 +9,10 @@
     "img":"/devwidgets/rss/images/rss.png",
     "name":"RSS Feed Reader",
     "showinsakaigoodies":true,
-    "url":"/devwidgets/rss/rss.html"
+    "url":"/devwidgets/rss/rss.html",
+    "i18n": {
+        "default": "/devwidgets/rss/bundles/default.json",
+        "en_US": "/devwidgets/rss/bundles/en_US.json",
+        "nl_NL": "/devwidgets/rss/bundles/nl_NL.json"
+    }
 }

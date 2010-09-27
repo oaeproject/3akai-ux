@@ -14,7 +14,7 @@
             <ul>
                 <li><a href="people.html">__MSG__VIEW_AND_EDIT_ALL_MY_CONTACTS__</a></li>
                 <li><span class="pipe_divider">|</span></li>
-                <li><a href="search_people.html#q=*&page=1">__MSG__FIND_PEOPLE__</a></li>
+                <li><a href="search_people.html#q=*&page=1">__MSG__SEARCH_PEOPLE__</a></li>
                 <li><a href="people.html" class="mycontacts_requests" id="mycontacts_requests"></a></li>
             </ul>
 
@@ -28,8 +28,8 @@
     <div id="mycontacts_list_template" style="display:none"><!--
         {for i in items}
             <div class="mycontacts_list_contact">
-                <a href="/dev/show.html?type=user&amp;id=${i.id}" class="mycontacts_list_contact_picture"><img src="${i.photo}" alt="person icon"/></a>
-                <a href="/dev/show.html?type=user&amp;id=${i.id}" class="mycontacts_list_contact_name">${i.name}</a>
+                <a href="/~${i.id}" class="mycontacts_list_contact_picture"><img src="${i.photo}" alt="person icon"/></a>
+                <a href="/~${i.id}" class="mycontacts_list_contact_name">${i.name}</a>
             </div>
         {forelse}
             <span id="mycontacts_nocontacts">__MSG__YOU_CURRENTLY_HAVE_NO_CONTACTS__</span>

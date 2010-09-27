@@ -81,10 +81,20 @@ sakai.rss = function(tuid, showSettings){
     var rssOrderByDate = rssId + "_output_order_date";
     var rssSendToFriend = rssClass + "_sendToFriend";
 
-    //Buttons (no dot)
+    // Buttons (no dot)
     var rssRemoveNoDot = rssName + "_settings_removeFeed";
     var rssSendToFriendNoDot = rssName + "_sendToFriend";
 
+    // Messages
+    var rssCannotConnectToRssFeed = "#rss_cannot_connect_to_rss_feed";
+    var rssFeedAlreadyEntered = "#rss_feed_already_entered";
+    var rssPasteValidRssAddress = "#rss_paste_valid_rss_address";
+    var rssIncorrectRssFeed = "#rss_incorrect_rss_feed";
+    var rssUnableToConnect = "#rss_unable_to_connect";
+    var rssFeedAlreadyAdded = "#rss_feed_already_added";
+    var rssNumberOfItemsShouldBeNumber = "#rss_number_of_items_should_be_number";
+    var rssPagesShouldBeBiggerThan = "#rss_pages_should_be_bigger_than";
+    var rssAddedNoFeeds = "#rss_added_no_feeds";
 
     ////////////////////////
     // Utility  functions //
@@ -156,7 +166,7 @@ sakai.rss = function(tuid, showSettings){
           return rss;
         }
         catch(ex){
-            alert("Incorrect rss-feed");
+            sakai.api.Util.notification.show($(rssIncorrectRssFeed).html(), $(rssPasteValidRssAddress).html());
         }
         // return false if some kind of error occured
         // this will be mostly rss format errors and will also work as a tester to see if the rss format is correct
@@ -185,7 +195,7 @@ sakai.rss = function(tuid, showSettings){
                    onResponse(printFeed(data));
            },
            error: function(xhr, textStatus, thrownError) {
-                   alert("Unable to connect to the rss feed.");
+               sakai.api.Util.notification.show($(rssUnableToConnect).html(), $(rssCannotConnectToRssFeed).html());
            }
         });
     };
@@ -398,7 +408,7 @@ sakai.rss = function(tuid, showSettings){
             getFeed(rssURL, getFeedResponse);
         }
         else{
-            alert("This rss-feed is already added to the widget");
+            sakai.api.Util.notification.show($(rssFeedAlreadyAdded).html(), $(rssFeedAlreadyEntered).html());
         }
         $(rssTxtUrl,rootel).val("");
     };
@@ -409,17 +419,17 @@ sakai.rss = function(tuid, showSettings){
     var getSettingsObject = function(){
         resultJSON.feeds = resultJSON.feeds || [];
         if(resultJSON.feeds.length === 0){
-            alert("You haven't added any feeds");
+            sakai.api.Util.notification.show("", $(rssAddedNoFeeds).html());
             return false;
         }
         resultJSON.title = $(rssTxtTitle,rootel).val();
         resultJSON.numEntries = parseInt($(rssNumEntries,rootel).val(),10);
         if((resultJSON.numEntries + "") === "NaN"){
-            alert("Number of entries should be a number");
+            sakai.api.Util.notification.show("", $(rssNumberOfItemsShouldBeNumber).html());
             return false;
         }
         else if(resultJSON.numEntries < 1){
-            alert("Pages should be bigger then 0");
+            sakai.api.Util.notification.show("", $(rssPagesShouldBeBiggerThan).html() + resultJSON.numEntries);
             return false;
         }
         resultJSON.displaySource =  $(rssDisplaySource, rootel).attr("checked");

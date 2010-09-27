@@ -162,6 +162,27 @@
                             <div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"><!-- --></div></div>
                         </div>
 
+                        <!-- GROUPS -->
+                        <div class="fl-container fl-fix search_results_container" style="display:none" id="sites_header">
+                            <div class="search_top_rounded"><div class="search_top_rounded_inner"><!-- --></div></div>
+                            <div class="fl-container fl-fix search_results_part">
+                                <div class="fl-container fl-fix search_results_part_header"> <a href="#" class="search_results_part_title">__MSG__GROUPS__</a> <a href="#" class="fl-force-right display_more_link" id="display_more_sites" style="display:none"><small>__MSG__VIEW_MORE_GROUP_RESULT__ &raquo;</small></a> </div>
+                                <div id="sites_search_result"> </div>
+                                <div id="sites_search_result_template"><!--
+                                    {for i in items}
+                                        <div class="fl-container fl-fix search_result_course_site">
+                                            <div class="search_result_course_site_title"><a href="/~${i.pagepath}">${i["sakai:group-title"]}</a></div>
+                                            <div class="search_result_course_site_url"><a href="/~${i.pagepath}">${i.pagepath}</a></div>
+                                            <div class="search_result_course_site_excerpt">${i["sakai:group-description"]}</div>
+                                        </div>
+                                    {forelse}
+                                        __MSG__NO_GROUPS_FOUND__.
+                                    {/for}
+                                --></div>
+                            </div>
+                            <div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"><!-- --></div></div>
+                        </div>
+
                         <!-- PEOPLE PART -->
                         <div class="fl-container fl-fix search_results_container" style="display:none" id="people_header">
                         <div class="search_top_rounded"><div class="search_top_rounded_inner"><!-- --></div></div>
@@ -174,11 +195,11 @@
                                     {var peopleFound = true}
                                         <div class="fl-container fl-fix search_result_person">
                                             {if ! i.picture}
-                                                <a href="/dev/show.html?type=user&amp;id=${i.userid}" class="fl-icon search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"></a>
+                                                <a href="/~${i.userid}" class="fl-icon search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"></a>
                                             {else}
-                                                <a href="/dev/show.html?type=user&amp;id=${i.userid}" class="search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"><img src="{if i.picture}${i.picture}{else}/dev/_images/person_icon.jpg{/if}" alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" width="60px" height="60px"/></a>
+                                                <a href="/~${i.userid}" class="search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"><img src="{if i.picture}${i.picture}{else}/dev/_images/person_icon.jpg{/if}" alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" width="60px" height="60px"/></a>
                                             {/if}
-                                            <a href="/dev/show.html?type=user&amp;id=${i.userid}" class="search_result_person_name">${i.name}</a>
+                                            <a href="/~${i.userid}" class="search_result_person_name">${i.name}</a>
                                             {if i.extra}
                                                 <a href="javascript:;" class="search_result_person_dept">${i.extra}</a>
                                             {else}
@@ -204,26 +225,6 @@
                             <div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"><!-- --></div></div>
                         </div>
 
-                        <!-- GROUPS -->
-                        <div class="fl-container fl-fix search_results_container" style="display:none" id="sites_header">
-                            <div class="search_top_rounded"><div class="search_top_rounded_inner"><!-- --></div></div>
-                            <div class="fl-container fl-fix search_results_part">
-                                <div class="fl-container fl-fix search_results_part_header"> <a href="#" class="search_results_part_title">__MSG__GROUPS__</a> <a href="#" class="fl-force-right display_more_link" id="display_more_sites" style="display:none"><small>__MSG__VIEW_MORE_GROUP_RESULT__ &raquo;</small></a> </div>
-                                <div id="sites_search_result"> </div>
-                                <div id="sites_search_result_template"><!--
-                                    {for i in items}
-                                        <div class="fl-container fl-fix search_result_course_site">
-                                            <div class="search_result_course_site_title"><a href="/dev/show.html?type=group&amp;id=${i.pagepath}">${i["sakai:group-title"]}</a></div>
-                                            <div class="search_result_course_site_url"><a href="/dev/show.html?type=group&amp;id=${i.pagepath}">${i.pagepath}</a></div>
-                                            <div class="search_result_course_site_excerpt">${i["sakai:group-description"]}</div>
-                                        </div>
-                                    {forelse}
-                                        __MSG__NO_GROUPS_FOUND__.
-                                    {/for}
-                                --></div>
-                            </div>
-                            <div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"><!-- --></div></div>
-                        </div>
                         </div>
                     </div>
 

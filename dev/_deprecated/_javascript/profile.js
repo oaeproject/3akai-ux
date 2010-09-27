@@ -55,7 +55,7 @@ sakai.profile = function() {
     var loadPagesWidget = function() {
         var basepath = "/~" + sakai.profile.main.data["rep:userId"] + "/pages/";
         var fullpath = "/_user" + sakai.profile.main.data.path + "/pages/";
-        var url = "/dev/show.html?type=user&amp;id=" + sakai.profile.main.data["rep:userId"];
+        var url = "/~" + sakai.profile.main.data["rep:userId"];
         var editMode = sakai.profile.main.isme;
         var homePage = "";
         sakai.sitespages.doInit(basepath, fullpath, url, editMode, homePage, "userpages", "userdashboard");
