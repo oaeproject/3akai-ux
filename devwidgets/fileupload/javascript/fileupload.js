@@ -185,34 +185,19 @@ sakai.fileupload = function(tuid, showSettings){
     };
 
     /**
-     * Gets the group id from the querystring
-     */
-    var getGroupId = function(){
-        var qs = new Querystring();
-        return qs.get("id", false);
-    };
-
-    /**
      * This function will render a group upload. This context needs more data than user or new upload context
      * The title of the group is retrieved from the url on initialisation of the widget
      * This context will add the user as a manager, the group as viewer and, depending on the settings, other users as viewers.
      */
     var renderGroupUpload = function(){
         // Render template to show title
-        var groupName;
+        var groupName = sakai.currentgroup.data.authprofile["sakai:group-title"];
 
-        // The group name can be used to add content to
-        if ($("#groupbasicinfo_generalinfo_group_title").val() !== "" && $("#groupbasicinfo_generalinfo_group_title").val() !== undefined) {
-            groupName = $("#groupbasicinfo_generalinfo_group_title").val();
-        }
-        else {
-            groupName = getGroupId();
-        }
         // Fill the data needed for the group
         contextData = {
             "context": context,
             "name": groupName,
-            "id": getGroupId()
+            "id": sakai.currentgroup.id
         };
         // Render the template
         var renderedTemplate = $.TemplateRenderer(fileUploadAddToTemplate, contextData).replace(/\r/g, '');
