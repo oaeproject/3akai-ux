@@ -905,7 +905,7 @@ sakai.api.i18n.init = function(){
                 return false;
             }
         }
-        if ($.inArray(currentPage, sakai.config.requireProcessing) === -1){
+        if ($.inArray(currentPage, sakai.config.requireProcessing) === -1 && window.location.pathname.substring(0, 2) !== "/~"){
             sakai.api.Security.showPage();
         }
         sakai.api.Widgets.Container.setReadyToLoad(true);

@@ -31,14 +31,18 @@
             
             <div class="entity_header">
                 {if data["link_name"]}
-                    <a class="entity_header_text" href="/dev/show.html?type=user&amp;id=${unescape(data.profile["rep:userId"])}">${unescape(sakai.api.User.getDisplayName(data.profile))}</a>
+                    <a class="entity_header_text" href="/~${unescape(data.profile["rep:userId"])}">${unescape(sakai.api.User.getDisplayName(data.profile))}</a>
                 {else}
                     <span class="entity_header_text">${unescape(sakai.api.User.getDisplayName(data.profile))}</span>
                 {/if}
-                {if mode === "myprofile" && (!sakai.profile || sakai.profile.main.mode.value === "view")}
+                {if mode === "myprofile" && (!sakai.profile)}
                     <a class="s3d-action" href="/dev/profile_edit.html">__MSG__EDIT_PROFILE__</a>
-                {else}
-                    <a class="s3d-action" href="/dev/show.html?type=user&amp;id=${data.profile["rep:userId"]}">__MSG__MORE_INFO__</a>
+                    |
+                    <a class="s3d-action" href="/~${unescape(data.profile["rep:userId"])}">__MSG__MY_PERSONAL_PAGES__</a>
+                {elseif mode === "myprofile" && (sakai.profile.main.mode.value === "view")}
+                    <a class="s3d-action" href="/dev/profile_edit.html">__MSG__EDIT_PROFILE__</a>
+                {elseif mode === "myprofile"}
+                    <a class="s3d-action" href="/~${data.profile["rep:userId"]}">__MSG__MY_PERSONAL_PAGES__</a>
                 {/if}
             </div>
             <div>
@@ -119,12 +123,8 @@
             </div>
             <div class="entity_header">
                 {if data.profile["sakai:group-title"] && data.profile["sakai:group-title"].length > 115}
-                    {if data["link_name"]}
-                        <a class="entity_header_text" href="/dev/show.html?type=group&amp;id=${data.profile["sakai:group-id"]}" title="${data.profile["sakai:group-title"]}">
-                    {else}
-                        <span class="entity_header_text" title="${data.profile["sakai:group-title"]}">
-                    {/if}
-                        ${data.profile["sakai:group-title"].substring(0, 115)}
+                    <a class="entity_header_text" href="/~${data.profile["sakai:group-id"]}" title="${data.profile["sakai:group-title"]}">${data.profile["sakai:group-title"].substring(0, 115)}
+                    
                         {if data.profile["managerCount"] && data.profile["memberCount"]}
                             (<span id="entity_member_count">${data.profile["memberCount"]+data.profile["managerCount"]}</span>)
                         {elseif data.profile["managerCount"]}
@@ -132,43 +132,27 @@
                         {elseif data.profile["memberCount"]}
                             (<span id="entity_member_count">${data.profile["memberCount"]}</span>)
                         {/if}
-                        ...
-                    {if data["link_name"]}
-                        </a>
-                    {else}
-                        </span>
-                    {/if}
+                        ...</a>
+
                 {elseif data.profile["sakai:group-title"]}
-                    <a class="entity_header_text" href="/dev/show.html?type=group&amp;id=${data.profile["sakai:group-id"]}">
-                        ${data.profile["sakai:group-title"]}
-                        {if data.profile["managerCount"] && data.profile["memberCount"]}
-                            (${data.profile["memberCount"]+data.profile["managerCount"]}){elseif data.profile["managerCount"]}
-                            (${data.profile["managerCount"]}){elseif data.profile["memberCount"]}
-                            (${data.profile["memberCount"]}){/if}</a>
-                    {if data["link_name"]}
-                        <a class="entity_header_text" href="/dev/show.html?type=group&amp;id=${data.profile["sakai:group-id"]}">
-                    {else}
-                        <span class="entity_header_text">
-                    {/if}
-                        ${data.profile["sakai:group-title"]} 
+                    <a class="entity_header_text" href="/~${data.profile["sakai:group-id"]}">${data.profile["sakai:group-title"]}
                         {if data.profile["managerCount"] && data.profile["memberCount"]}
                             (<span id="entity_member_count">${data.profile["memberCount"]+data.profile["managerCount"]}</span>)
                         {elseif data.profile["managerCount"]}
                             (<span id="entity_member_count">${data.profile["managerCount"]}</span>)
                         {elseif data.profile["memberCount"]}
                             (<span id="entity_member_count">${data.profile["memberCount"]}</span>)
-                        {/if}
-                    {if data["link_name"]}
-                        </a>
-                    {else}
-                        </span>
-                    {/if}
+                        {/if}</a>
+                    
                 {/if}
                 {if data.profile.role === "manager"}
-                    <a class="s3d-action entity_group_edit" href="/dev/group_edit.html?id=${data.profile["sakai:group-id"]}">__MSG__EDIT_PROFILE__</a>
+                    {if sakai.profile.main.mode.value === "view"}
+                        <a class="s3d-action entity_group_edit" href="/dev/group_edit.html?id=${data.profile["sakai:group-id"]}">__MSG__EDIT_PROFILE__</a>
+                    {/if}
                 {/if}
-
-                <a class="s3d-action" href="/dev/show.html?type=group&amp;id=${data.profile["sakai:group-id"]}">__MSG__MORE_INFO__</a>
+                {if sakai.profile.main.mode.value === "edit"}
+                    <a class="s3d-action" href="/~${data.profile["sakai:group-id"]}">__MSG__GROUP_PAGES__</a>
+                {/if}
             </div>
             <div class="fl-force-left entity_description">
                 {if data.profile["sakai:group-description"] && data.profile["sakai:group-description"].length > 115}

@@ -49,6 +49,7 @@ sakai.nopermissions = function(tuid, showSettings) {
             $(permissionsError).append(renderedTemplate);
             $("#permission_error").addClass("error_page_bringdown");
         }
+        sakai.api.Security.showPage();
     }
 
     doInit();

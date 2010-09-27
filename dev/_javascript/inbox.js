@@ -845,7 +845,7 @@ sakai.inbox = function() {
 
             if (message.userFrom) {
                 for (var i = 0, j = message.userFrom.length; i < j; i++) {
-                    $(inboxSpecificMessageFrom).attr("href", sakai.config.URL.PROFILE_URL + "&id=" + message.userFrom[i].userid);
+                    $(inboxSpecificMessageFrom).attr("href", "/~" + message.userFrom[i].userid);
                     $(inboxSpecificMessageFrom).text(sakai.api.User.getDisplayName(message.userFrom[i]));
                     if (message.userFrom[i].photo) {
                         $(inboxSpecificMessagePicture).attr("src", "/~" + message.userFrom[i]["userid"] + "/public/profile/" + message.userFrom[i].photo);

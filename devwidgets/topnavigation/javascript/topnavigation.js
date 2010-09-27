@@ -64,6 +64,7 @@ sakai.topnavigation = function(tuid, showSettings){
     var navCalendarLink = "#nav_calendar_link";
     var navSelectedNavItemClass = "explore_nav_selected";
     var topNavigationBar = "#top_navigation";
+    var navMyProfile = "#topnavigation_my_profile";
 
     // Messages
     var chatUnreadMessages = "#chat_unreadMessages";
@@ -415,6 +416,9 @@ sakai.topnavigation = function(tuid, showSettings){
      * executed on the initial load of the page
      */
     var doInit = function(){
+        
+        $(navMyProfile).attr("href", "/~" + sakai.data.me.user.userid);
+        
         var obj = {};
         var menulinks = [];
 

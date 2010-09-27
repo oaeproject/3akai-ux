@@ -76,7 +76,7 @@
                     <img src="/dev/_images/person_icon.jpg" alt="Profile picture" />
                 {/if}
 
-                <a href="/dev/show.html?type=user&amp;id=${m.userid}">${m.firstName} ${m.lastName}</a><br />
+                <a href="/~${m.userid}">${m.firstName} ${m.lastName}</a><br />
                 <span class="sitemembers_normal_result_department">
                 {if m.basic && m.basic.unidepartment}
                     ${m.basic.unidepartment}

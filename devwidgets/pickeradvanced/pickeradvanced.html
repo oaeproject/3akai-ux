@@ -86,7 +86,7 @@
                         {else}
                             <img src="/dev/_images/person_icon.jpg" alt="Default profile picture" class="pickeradvanced_ppicture"/>
                         {/if}
-                        <a class="pickeradvanced_name" href="/dev/show.html?type=user&amp;id=${i['rep:userId']}" target="_blank">${sakai.api.User.getDisplayName(i)}</a>
+                        <a class="pickeradvanced_name" href="/~${i['rep:userId']}" target="_blank">${sakai.api.User.getDisplayName(i)}</a>
                         <br />
                         {if sakai.api.User.getShortDescription(i).length > 125}
                             <span class="pickeradvanced_subnameinfo">${sakai.api.User.getShortDescription(i).substring(0, 125)}...</span>
@@ -101,7 +101,7 @@
                         {else}
                             <img src="/dev/_images/group_avatar_icon_64x64.png" alt="Default group picture" class="pickeradvanced_ppicture"/>
                         {/if}
-                        <a class="pickeradvanced_name" href="/dev/show.html?type=group&amp;id=${i["sakai:group-id"]}" target="_blank">${i["sakai:group-title"]}</a>
+                        <a class="pickeradvanced_name" href="/~${i["sakai:group-id"]}" target="_blank">${i["sakai:group-title"]}</a>
                         <br />
                         {if i["sakai:group-description"]}
                             {if i["sakai:group-description"].length > 125}
