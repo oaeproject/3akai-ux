@@ -1,14 +1,16 @@
 /* 403 and 404 error*/
-#permission_error #error_title, #page_not_found_error #error_title{padding-left:20px; color:#f00001; font-size:12pt; font-weight:bold;}
-#permission_error .preview-box, #page_not_found_error .preview-box {margin: 0 30px 0 0;}
-#permission_error p, #page_not_found_error p {margin-top:20px; margin-bottom:12px;}
-#permission_error ul, #page_not_found_error ul {margin:2px 0 14px 12px;}
-#permission_error .login-container, #page_not_found_error .login-container {width:310px;}
-#permission_error a, #page_not_found_error a {text-decoration:none;}
+#permission_error #error_title, #page_not_found_error #error_title, #internal_user_error #error_title {padding-left:20px; color:#f00001; font-size:12pt; font-weight:bold;}
+#permission_error .preview-box, #page_not_found_error .preview-box, #internal_user_error .preview-box {margin: 0 30px 0 0;}
+#permission_error p, #page_not_found_error p, #internal_user_error p {margin-top:20px; margin-bottom:12px;}
+#permission_error ul, #page_not_found_error ul, #internal_user_error ul  {margin:2px 0 14px 12px;}
+#permission_error .login-container, #page_not_found_error .login-container, #internal_user_error .login-container {width:310px;}
+#permission_error a, #page_not_found_error a, #internal_user_error a {text-decoration:none;}
 
 #permission_error #error_title {background:url(/dev/_images/403_slash.png) no-repeat;}
 
 #page_not_found_error #error_title {background:url(/dev/_images/404_exclamation.png) no-repeat;}
+
+#internal_user_error #error_title {background:url(/dev/_images/500_exclamation.png) no-repeat;}
 
 .decor {padding-bottom:14px;}
 .error_page_bringdown {padding-top: 12px;}
