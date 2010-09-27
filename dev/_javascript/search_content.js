@@ -291,7 +291,7 @@ sakai.search = function() {
         // Rebind everything
         mainSearch.addEventListeners(searchterm, searchwhere);
 
-        if (searchterm && searchterm !== $(searchConfig.global.text).attr("title")) {
+        if (searchquery && searchterm && searchterm !== $(searchConfig.global.text).attr("title")) {
             // Show and hide the correct elements.
             showSearchContent();
 
