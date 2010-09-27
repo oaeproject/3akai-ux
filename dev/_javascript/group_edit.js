@@ -27,6 +27,23 @@ sakai.currentgroup.data = sakai.currentgroup.data || {};
 sakai.currentgroup.mode = sakai.currentgroup.mode || {};
 sakai.currentgroup.profileView = true;
 
+sakai.profile = sakai.profile || {};
+sakai.profile.main = {
+    chatstatus: "",
+    config: sakai.config.Profile.configuration,
+    data: {},
+    isme: false,
+    currentuser: "",
+    mode: {
+        options: ["view", "view", "edit"],
+        value: "edit"
+    },
+    acls: {},
+    picture: "",
+    status: "",
+    validation: {}
+};
+
 sakai.groupedit = function(){
 
     /////////////////////////////
