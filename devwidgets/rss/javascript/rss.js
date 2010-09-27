@@ -80,6 +80,7 @@ sakai.rss = function(tuid, showSettings){
     var rssOrderBySource = rssId + "_output_order_source";
     var rssOrderByDate = rssId + "_output_order_date";
     var rssSendToFriend = rssClass + "_sendToFriend";
+    var rssRemoveFeed = "#rss_settings_removeFeed";
 
     // Buttons (no dot)
     var rssRemoveNoDot = rssName + "_settings_removeFeed";
@@ -271,6 +272,11 @@ sakai.rss = function(tuid, showSettings){
             // if all the feed are retrieved render the rss
             else{
                 $(rssFeedListContainer, rootel).html($.TemplateRenderer(rssFeedListTemplate, resultJSON));
+                $(rootel + " " + rssRemove).bind("click", function(e,ui){
+                var index = parseInt(e.target.parentNode.id.replace(rssRemoveNoDot, ""),10);
+                resultJSON.feeds.splice(index,1);
+                $(rssRemoveFeed + index).parent().remove()
+            });
             }
         });
     };
@@ -360,8 +366,8 @@ sakai.rss = function(tuid, showSettings){
             resultJSON.feeds = resultJSON.feeds || [];
             $(rssTxtTitle,rootel).val(resultJSON.title);
             $(rssNumEntries,rootel).val(resultJSON.numEntries);
-             $(rssDisplaySource, rootel).attr("checked", resultJSON.displaySource);
-             $(rssDisplayHeadlines, rootel).attr("checked", resultJSON.displayHeadlines);
+            $(rssDisplaySource, rootel).attr("checked", resultJSON.displaySource);
+            $(rssDisplayHeadlines, rootel).attr("checked", resultJSON.displayHeadlines);
             resultJSON.feeds = [];
             fillRssFeed(resultJSON.urlFeeds);
         }
@@ -376,7 +382,7 @@ sakai.rss = function(tuid, showSettings){
     var checkIfRssAlreadyAdded = function(rssFeedUrl){
         resultJSON.feeds = resultJSON.feeds || [];
         for(var i = 0; i < resultJSON.feeds.length; i++){
-            if($.trim(resultJSON.feeds[i].id) === $.trim(rssFeedUrl)){
+            if($.trim(resultJSON.feeds[i].id).replace("http://", "") === $.trim(rssFeedUrl)){
                 return true;
             }
         }
@@ -394,7 +400,7 @@ sakai.rss = function(tuid, showSettings){
             $(rootel + " " + rssRemove).bind("click", function(e,ui){
                 var index = parseInt(e.target.parentNode.id.replace(rssRemoveNoDot, ""),10);
                 resultJSON.feeds.splice(index,1);
-                $(rssFeedListContainer, rootel).html($.TemplateRenderer(rssFeedListTemplate, resultJSON));
+                $(rssRemoveFeed + index).parent().remove()
             });
         }
     };
@@ -419,7 +425,7 @@ sakai.rss = function(tuid, showSettings){
     var getSettingsObject = function(){
         resultJSON.feeds = resultJSON.feeds || [];
         if(resultJSON.feeds.length === 0){
-            sakai.api.Util.notification.show("", $(rssAddedNoFeeds).html());
+            sakai.api.Util.notification.show("", $(rssPasteValidRssAddress).html());
             return false;
         }
         resultJSON.title = $(rssTxtTitle,rootel).val();
