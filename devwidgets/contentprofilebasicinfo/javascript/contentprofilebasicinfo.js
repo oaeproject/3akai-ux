@@ -227,45 +227,47 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
         data["sakai:tags"] = [];
 
         // Get all the tags
-        var tags = $(contentProfileBasicInfoFormTags).val().split(",");
-        $(tags).each(function(i, tag){
-            tag = $.trim(tag);
-            if (sakai.api.Security.escapeHTML(tag) === tag && tag.replace(/\\/g,"").length) {
-                if ($.inArray(tag, data["sakai:tags"]) < 0) {
-                    data["sakai:tags"].push(tag.replace(/\\/g,""));
-                }
-            }
-        })
-
-        // Create tags for the directory structure
-        // For every content_profile_basic_info_added_directory we create tags
-        // Filter out ',' since that causes unwanted behavior when rendering
-        $(".content_profile_basic_info_added_directory").each(function(){
-            var directoryString = "directory/";
-             if ($.inArray($(this).find(contentProfileBasicInfoDirectoryLvlOne).selected().val().replace(/,/g, ""), data["sakai:tags"]) < 0) {
-                 data["sakai:tags"].push($(this).find(contentProfileBasicInfoDirectoryLvlOne).selected().val().replace(/,/g, ""));
-             }
-            directoryString += $(this).find(contentProfileBasicInfoDirectoryLvlOne).selected().val().replace(/,/g,"");
-
-            if ($(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val() !== "no_value") {
-                if ($.inArray($(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g, ""), data["sakai:tags"]) < 0) {
-                    data["sakai:tags"].push($(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g, ""));
-                }
-                directoryString += "/" + $(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g,"");
-
-                if ($(this).find(contentProfileBasicInfoDirectoryLvlThree).selected().val() !== "no_value") {
-                    if ($.inArray($(this).find(contentProfileBasicInfoDirectoryLvlThree).selected().val().replace(/,/g, ""), data["sakai:tags"]) < 0) {
-                        data["sakai:tags"].push($(this).find(contentProfileBasicInfoDirectoryLvlThree).selected().val().replace(/,/g, ""));
+        if ($(contentProfileBasicInfoFormTags).length) {
+            var tags = $(contentProfileBasicInfoFormTags).val().split(",");
+            $(tags).each(function(i, tag){
+                tag = $.trim(tag);
+                if (sakai.api.Security.escapeHTML(tag) === tag && tag.replace(/\\/g, "").length) {
+                    if ($.inArray(tag, data["sakai:tags"]) < 0) {
+                        data["sakai:tags"].push(tag.replace(/\\/g, ""));
                     }
-                    directoryString += "/" + $(this).find(contentProfileBasicInfoDirectoryLvlThree).selected().val().replace(/,/g,"");
                 }
+            })
 
-            }
-            // Add string for all levels to tag array
-            if ($.inArray(directoryString, data["sakai:tags"]) < 0) {
-                data["sakai:tags"].push(directoryString);
-            }
-        });
+            // Create tags for the directory structure
+            // For every content_profile_basic_info_added_directory we create tags
+            // Filter out ',' since that causes unwanted behavior when rendering
+            $(".content_profile_basic_info_added_directory").each(function(){
+                var directoryString = "directory/";
+                if ($.inArray($(this).find(contentProfileBasicInfoDirectoryLvlOne).selected().val().replace(/,/g, ""), data["sakai:tags"]) < 0) {
+                    data["sakai:tags"].push($(this).find(contentProfileBasicInfoDirectoryLvlOne).selected().val().replace(/,/g, ""));
+                }
+                directoryString += $(this).find(contentProfileBasicInfoDirectoryLvlOne).selected().val().replace(/,/g, "");
+
+                if ($(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val() !== "no_value") {
+                    if ($.inArray($(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g, ""), data["sakai:tags"]) < 0) {
+                        data["sakai:tags"].push($(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g, ""));
+                    }
+                    directoryString += "/" + $(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g, "");
+
+                    if ($(this).find(contentProfileBasicInfoDirectoryLvlThree).selected().val() !== "no_value") {
+                        if ($.inArray($(this).find(contentProfileBasicInfoDirectoryLvlThree).selected().val().replace(/,/g, ""), data["sakai:tags"]) < 0) {
+                            data["sakai:tags"].push($(this).find(contentProfileBasicInfoDirectoryLvlThree).selected().val().replace(/,/g, ""));
+                        }
+                        directoryString += "/" + $(this).find(contentProfileBasicInfoDirectoryLvlThree).selected().val().replace(/,/g, "");
+                    }
+
+                }
+                // Add string for all levels to tag array
+                if ($.inArray(directoryString, data["sakai:tags"]) < 0) {
+                    data["sakai:tags"].push(directoryString);
+                }
+            });
+        }
 
         // Add the directory tags to the array that were already saved
         $(contentProfileBasicInfoSavedDirectory + " li").each(function(){
