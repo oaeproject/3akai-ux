@@ -342,7 +342,10 @@ sakai.profilesection = function(tuid, showSettings){
 
             if (title === "basic.elements.tags") { // tags are special, we save them differently than the rest of the data
                 var currentTags = sakai.profile.main.data["sakai:tags"] || [];
-                var tagsArray = $selected_element.val().split(",");
+                var tagsArray = [];
+                $($selected_element.val().split(",")).each(function(i, tag){
+                    tagsArray.push(tag.replace(/\\/g,""));
+                });
                 var profileURL = "/~" + sakai.profile.main.data["rep:userId"] + "/public/authprofile";
                 sakai.api.Util.tagEntity(profileURL, tagsArray, currentTags, function() {
                     fluid.log("user tags saved");
