@@ -142,6 +142,24 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                     }
                 };
                 data[data.length] = item;
+                var item = {
+                    "url": contentPath + ".modifyAce.html",
+                    "method": "POST",
+                    "parameters": {
+                        "principalId": "everyone",
+                        "privilege@jcr:read": "granted"
+                    }
+                };
+                data[data.length] = item;
+                var item = {
+                    "url": contentPath + ".modifyAce.html",
+                    "method": "POST",
+                    "parameters": {
+                        "principalId": "anonymous",
+                        "privilege@jcr:read": "denied"
+                    }
+                };
+                data[data.length] = item;
                 break;
             // Public
             case "public":
@@ -154,7 +172,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                 };
                 data[data.length] = item;
                 break;
-            // Myself only
+            // Managers and viewers only
             case "private":
                 var item = {
                     "url": contentPath + ".members.html",
@@ -164,28 +182,12 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                     }
                 };
                 data[data.length] = item;
-                break;
-            case "group":
                 var item = {
-                    "url": contentPath + ".members.html",
+                    "url": contentPath + ".modifyAce.html",
                     "method": "POST",
                     "parameters": {
-                        ":viewer@Delete": ["anonymous", "everyone"]
-                    }
-                };
-                data[data.length] = item;
-                break;
-            // Delete all viewers of the file and keep the managers
-            case "managers":
-                var viewers = [];
-                for(var viewer in sakai.listpeople.data["viewers"]["userList"]){
-                    viewers.push(viewer);
-                }
-                var item = {
-                    "url": contentPath + ".members.html",
-                    "method": "POST",
-                    "parameters": {
-                        ":viewer@Delete": viewers
+                        "principalId": ["everyone", "anonymous"],
+                        "privilege@jcr:read": "denied"
                     }
                 };
                 data[data.length] = item;

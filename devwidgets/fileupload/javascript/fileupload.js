@@ -411,21 +411,29 @@ sakai.fileupload = function(tuid, showSettings){
                             "url": "/p/" + uploadedFiles[k].hashpath + ".members.html",
                             "method": "POST",
                             "parameters": {
-                                ":viewer": "everyone"
+                                ":viewer": "everyone",
+                                ":viewer@Delete": "anonymous"
                             }
                         };
-
                         data[data.length] = item;
-                        if (groupContext) {
-                            var item = {
-                                "url": "/p/" + uploadedFiles[k].hashpath + ".members.html",
-                                "method": "POST",
-                                "parameters": {
-                                    ":viewer": contextData.id
-                                }
-                            };
-                            data[data.length] = item;
-                        }
+                        var item = {
+                            "url": "/p/" + uploadedFiles[k].hashpath + ".modifyAce.html",
+                            "method": "POST",
+                            "parameters": {
+                                "principalId": "everyone",
+                                "privilege@jcr:read": "granted"
+                            }
+                        };
+                        data[data.length] = item;
+                        var item = {
+                            "url": "/p/" + uploadedFiles[k].hashpath + ".modifyAce.html",
+                            "method": "POST",
+                            "parameters": {
+                                "principalId": "anonymous",
+                                "privilege@jcr:read": "denied"
+                            }
+                        };
+                        data[data.length] = item;
                         break;
                     // Public
                     case "public":
@@ -437,17 +445,26 @@ sakai.fileupload = function(tuid, showSettings){
                             }
                         };
                         data[data.length] = item;
-
-                        if (groupContext) {
-                            var item = {
-                                "url": "/p/" + uploadedFiles[k].hashpath + ".members.html",
-                                "method": "POST",
-                                "parameters": {
-                                    ":viewer": contextData.id
-                                }
-                            };
-                            data[data.length] = item;
-                        }
+                        break;
+                    // Managers and viewers only
+                    case "private":
+                        var item = {
+                            "url": "/p/" + uploadedFiles[k].hashpath + ".members.html",
+                            "method": "POST",
+                            "parameters": {
+                                ":viewer@Delete": ["anonymous", "everyone"]
+                            }
+                        };
+                        data[data.length] = item;
+                        var item = {
+                            "url": "/p/" + uploadedFiles[k].hashpath + ".modifyAce.html",
+                            "method": "POST",
+                            "parameters": {
+                                "principalId": ["everyone", "anonymous"],
+                                "privilege@jcr:read": "denied"
+                            }
+                        };
+                        data[data.length] = item;
                         break;
                     case "group":
                         var item = {
@@ -455,6 +472,15 @@ sakai.fileupload = function(tuid, showSettings){
                             "method": "POST",
                             "parameters": {
                                 ":viewer": contextData.id
+                            }
+                        };
+                        data[data.length] = item;
+                        var item = {
+                            "url": "/p/" + uploadedFiles[k].hashpath + ".modifyAce.html",
+                            "method": "POST",
+                            "parameters": {
+                                "principalId": ["everyone", "anonymous"],
+                                "privilege@jcr:read": "denied"
                             }
                         };
                         data[data.length] = item;
