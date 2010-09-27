@@ -320,6 +320,8 @@ sakai.entity = function(tuid, showSettings){
      */
     var showGroupMembershipButton = function (type) {
         hideGroupMembershipButton();
+        $entity_container.addClass('joinable');
+        $("div#sitespages_page_options").addClass('joinable');
         if (type && typeof(type) === "string") {
             switch(type) {
                 case "join":
@@ -343,6 +345,8 @@ sakai.entity = function(tuid, showSettings){
      * Hides any showing group membership button
      */
     var hideGroupMembershipButton = function () {
+        $entity_container.removeClass('joinable');
+        $("div#sitespages_page_options").removeClass('joinable');
         $("button.entity_action_button", $rootel).hide();
     };
 

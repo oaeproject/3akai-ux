@@ -556,7 +556,9 @@ sakai.config = {
         "/dev/index.html",
         "/dev/create_new_account.html",
         "/dev/",
-        "/dev"
+        "/dev",
+        "/",
+        "/index.html"
     ],
     
     /*
