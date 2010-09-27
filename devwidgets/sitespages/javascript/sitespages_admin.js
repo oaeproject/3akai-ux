@@ -536,6 +536,13 @@ sakai.sitespages.site_admin = function(){
         }
     };
 
+    // hide the context menu when it is shown and a click happens elsewhere on the document
+    $("html").live("click", function(e) {
+        if ($context_menu.is(":visible") && $(e.target).parents($context_menu.selector).length === 0) {
+            $context_menu.hide();
+        }
+    });
+
 
     /**
      * Toggle Insert more dropdown
