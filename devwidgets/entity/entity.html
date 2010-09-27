@@ -139,12 +139,6 @@
                         </span>
                     {/if}
                 {elseif data.profile["sakai:group-title"]}
-                    <a class="entity_header_text" href="/~${data.profile["sakai:group-id"]}">
-                        ${data.profile["sakai:group-title"]}
-                        {if data.profile["managerCount"] && data.profile["memberCount"]}
-                            (${data.profile["memberCount"]+data.profile["managerCount"]}){elseif data.profile["managerCount"]}
-                            (${data.profile["managerCount"]}){elseif data.profile["memberCount"]}
-                            (${data.profile["memberCount"]}){/if}</a>
                     {if data["link_name"]}
                         <a class="entity_header_text" href="/~${data.profile["sakai:group-id"]}">
                     {else}
