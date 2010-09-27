@@ -238,6 +238,7 @@ sakai.account_preferences = function(){
                     else {
                         // Show successful regional setting change through gritter
                         sakai.api.Util.notification.show($(messageChangeLang).html(), $(messageChangeLang).html());
+                        me.user.locale.timezone.name = $(timezonesContainer).val();
                     }
 
                 },
