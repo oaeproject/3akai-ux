@@ -532,7 +532,7 @@ sakai.sitespages.site_admin = function(){
                 $context_settings.hide();
             }
             var pos = tinymce.DOM.getPos(selected);
-            $context_menu.css({"top": pos.y + $("#elm1_ifr").position().top + 15 + "px", "left": pos.x + $("#elm1_ifr").position().left + 15 + "px"}).show();
+            $context_menu.css({"top": pos.y + $("#elm1_ifr").position().top + 15 + "px", "left": pos.x + $("#elm1_ifr").position().left + 15 + "px", "position": "absolute"}).show();
         }
     };
 
