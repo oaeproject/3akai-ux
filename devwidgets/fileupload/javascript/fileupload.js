@@ -324,10 +324,12 @@ sakai.fileupload = function(tuid, showSettings){
         uploadedLink = false;
     };
 
+    var batchSetDescriptionDataReturned = false;
     /**
      * Set the description of the uploaded files
      */
     var batchSetDescriptionAndName = function(data){
+        batchSetDescriptionDataReturned = false;
         // Batch link the files with the tags
         var batchDescriptionData = [];
         // Check if it's a link that's been uploaded
@@ -374,6 +376,7 @@ sakai.fileupload = function(tuid, showSettings){
                 }
             }
         }
+        dataResponse = batchDescriptionData;
         // Do the Batch request
         $.ajax({
             url: sakai.config.URL.BATCH,
@@ -384,7 +387,7 @@ sakai.fileupload = function(tuid, showSettings){
                 requests: $.toJSON(batchDescriptionData)
             },
             success: function(data){
-                dataResponse = batchDescriptionData;
+                batchSetDescriptionDataReturned = true;
                 // When this is a new revision of a file no more operations are executed
                 // So close the lightbox and show the appropriate message
                 if (context === "new_version"){
@@ -397,7 +400,7 @@ sakai.fileupload = function(tuid, showSettings){
     /**
      * Set permissions on the files that were uploaded
      */
-    var setFilePermissions = function(){
+    var setFilePermissions = function(wait){
         // Get the value from the dropdown list
         var permissions = $(fileUploadPermissionsSelect).val();
         // Check which value was selected and fill in the data object accordingly
@@ -474,7 +477,10 @@ sakai.fileupload = function(tuid, showSettings){
                     requests: $.toJSON(data)
                 },
                 success: function(data){
-                    resetFields();
+                    if (wait && batchSetDescriptionDataReturned) {
+                        resetFields();
+                        batchSetDescriptionDataReturned = false;
+                    }
                 }
             });
         } else{
@@ -689,7 +695,7 @@ sakai.fileupload = function(tuid, showSettings){
                             batchSetDescriptionAndName();
 
                             // Set permissions on the files
-                            setFilePermissions();
+                            setFilePermissions(true);
                         } else {
                             resetFields();
                         }

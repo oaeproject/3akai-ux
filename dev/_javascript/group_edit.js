@@ -214,7 +214,7 @@ sakai.groupedit = function(){
      */
     var removeUsers = function(tuid) {
 
-        if (sakai.listpeople.data[tuid].selectCount === sakai.listpeople.data[tuid].currentElementCount) {
+        if (sakai.listpeople.data[tuid].selectCount === sakai.listpeople.data[tuid].currentElementCount && tuid === "managers") {
             sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_cannot_remove_everyone").text()), sakai.api.Util.notification.type.ERROR);
         } else {
             var removeUser;
@@ -285,7 +285,7 @@ sakai.groupedit = function(){
                     },
                     type: "POST",
                     success: function(data){
-                        sakai.listPeople.removeFromList(tuid);
+                        sakai.listpeople.removeFromList(tuid);
                         contentRemoved = true;
                     }
                 });

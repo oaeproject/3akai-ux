@@ -820,23 +820,22 @@ sakai.inbox = function() {
      */
     var displayMessage = function(id) {
 
-        $(".message-options").show();
-        $("#inbox_message_previous_messages").hide();
-        $("#inbox_message_replies").html("");
-
-        // Hide invitation links
-        $("#inbox-invitation-accept").hide();
-        $("#inbox-invitation-already").hide();
-        $("#inbox-sitejoin-accept").hide();
-        $("#inbox-sitejoin-deny").hide();
-        $("#inbox-sitejoin-already").hide();
-
-        showPane(inboxPaneMessage);
         var message = getMessageWithId(id);
 
         selectedMessage = message;
-        if (typeof message !== "undefined") {
+        if (typeof message !== "undefined" && !$.isEmptyObject(message)) {
+            $(".message-options").show();
+            $("#inbox_message_previous_messages").hide();
+            $("#inbox_message_replies").html("");
 
+            // Hide invitation links
+            $("#inbox-invitation-accept").hide();
+            $("#inbox-invitation-already").hide();
+            $("#inbox-sitejoin-accept").hide();
+            $("#inbox-sitejoin-deny").hide();
+            $("#inbox-sitejoin-already").hide();
+
+            showPane(inboxPaneMessage);
             // Fill in this message values.
             $(inboxSpecificMessageSubject).text(sakai.api.Security.saneHTML(message["sakai:subject"]));
             var messageBody = ""+message["sakai:body"]; // coerce to string in case the body is all numbers
@@ -921,6 +920,8 @@ sakai.inbox = function() {
                 // We haven't read this message yet. Mark it as read.
                 markMessageRead(message, id);
             }
+        } else {
+            $.bbq.removeState("message");
         }
 
     };
@@ -1114,6 +1115,7 @@ sakai.inbox = function() {
             unreadAnnouncements -= deletedUnreadAnnouncements;
             unreadInvitations -= deletedUnreadInvitations;
             updateUnreadNumbers();
+            $.bbq.removeState("message");
 
             for (var d = 0, e = pathToMessages.length; d < e; d++) {
                 $.ajax({
