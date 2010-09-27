@@ -1,4 +1,5 @@
-div#sitespages_page_options {width:150px; padding:10px; float:right; display:inline;}
+div#sitespages_page_options {width:330px; padding:10px; float:right; display:inline;}
+div#sitespages_page_options.joinable {display:none;}
 div#sitespages_page_options button {float:right;}
 div#sitespages_page_options #page_options {float:right;}
 div#sitespages_page_options #page_save_options {float:right;margin-top:100px;}
@@ -27,3 +28,9 @@ a.embedcontent_download_link, p.embedcontent_actual_description {font-size:11px;
 
 .messageInformation {float:right; margin-right:10px;}
 .messageInformation #realtime {font-weight:bold;color:#000;}
+
+.context_menu{left:18px;padding:0;position:absolute;top:124px;}
+.context_menu img{border:1px solid #555;border-bottom:none;}
+.context_menu ul{margin:0;margin-top:-3px;background-color:#eee;border:1px solid #555;}
+.context_menu ul li{list-style-type:none;}
+.context_menu ul li a{color:#666;font-size:0.95em;display:block;padding:2px 20px 2px 4px;}

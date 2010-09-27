@@ -285,7 +285,7 @@ sakai.groupedit = function(){
                     },
                     type: "POST",
                     success: function(data){
-                        sakai.listPeople.removeFromList(tuid);
+                        sakai.listpeople.removeFromList(tuid);
                         contentRemoved = true;
                     }
                 });
