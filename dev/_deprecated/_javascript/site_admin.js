@@ -1578,12 +1578,14 @@ sakai.site.site_admin = function(){
      */
     var showHideMoreMenu = function(hideOnly){
         var el = $("#more_menu");
-        if (el.css("display").toLowerCase() !== "none" || hideOnly) {
-            el.hide();
-        } else {
-            var x = $("#more_link").position().left;
-            var y = $("#more_link").position().top;
-            el.css({"top": y + 22+ "px", "left": x - el.width() + $("#more_link").width() + 56 + "px"}).show();
+        if (el) {
+            if (el.css("display").toLowerCase() !== "none" || hideOnly) {
+                el.hide();
+            } else {
+                var x = $("#more_link").position().left;
+                var y = $("#more_link").position().top;
+                el.css({"top": y + 22+ "px", "left": x - el.width() + $("#more_link").width() + 56 + "px"}).show();
+            }
         }
     };
 
