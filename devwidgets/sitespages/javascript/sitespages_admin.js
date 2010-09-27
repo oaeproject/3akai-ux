@@ -629,13 +629,13 @@ sakai.sitespages.site_admin = function(){
 
         $("#messageInformation").hide();
 
-        // Setup tinyMCE Toolbar
-        setupToolbar();
-        sakai.sitespages.toolbarSetupReady = true;
-
         // Switch to edit view
         $("#show_view_container").hide();
         $("#edit_view_container").show();
+
+        // Setup tinyMCE Toolbar
+        setupToolbar();
+        sakai.sitespages.toolbarSetupReady = true;
 
         if (sakai.sitespages.isEditingNavigation){
             $("#insert_more_media").hide();
