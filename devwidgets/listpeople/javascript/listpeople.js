@@ -110,7 +110,7 @@ sakai.listpeople = function(tuid, showSettings){
                     // If not we handel him like an anonymous user (not giving any editting possibilities in the UX)
                     if (data.managers.length !== 0) {
                         for (var i in data.managers) {
-                            if (data.managers[i].userid === sakai.data.me.user.userid) {
+                            if (data.managers[i]["rep:userId"] === sakai.data.me.user.userid) {
                                 sakai.listpeople.config[tuid].anon = false;
                                 break;
                             }
@@ -154,8 +154,8 @@ sakai.listpeople = function(tuid, showSettings){
                     json_data.results = $.grep(json_data.results, function(resultObject, index){
                             if (resultObject['groupid'] !== id + '-managers' &&
                                 resultObject['groupid'] !== 'everyone' &&
-                                resultObject['userid'] !== 'everyone' &&
-                                resultObject['userid'] !== 'anonymous') {
+                                resultObject['rep:userId'] !== 'everyone' &&
+                                resultObject['rep:userId'] !== 'anonymous') {
 
                                 itemCount++;
                                 return true;
