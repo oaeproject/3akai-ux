@@ -62,6 +62,7 @@ sakai.ggadget = function(tuid, showSettings){
     var remotecontentSettingsPreview = remotecontentSettings + "_preview";
     var remotecontentSettingsPreviewFrame = remotecontentSettingsPreview + "_frame";
     var remotecontentSettingsUrl = remotecontentSettings + "_url";
+    var remotecontentSettingsUrlError = remotecontentSettingsUrl + "_error";
     var remotecontentSettingsWidth = remotecontentSettings + "_width";
 
     // Containers
@@ -75,7 +76,6 @@ sakai.ggadget = function(tuid, showSettings){
     var $remotecontentSettingsColorContainerTemplate = $("#remotecontent_settings_color_container_template", rootel);
     var $remotecontentSettingsTemplate = $("#remotecontent_settings_template", rootel);
     var $remotecontentSettingsPreviewTemplate = $("#remotecontent_settings_preview_template", rootel);
-
 
     ///////////////////////
     // Utility functions //
@@ -191,7 +191,8 @@ sakai.ggadget = function(tuid, showSettings){
             sakai.api.Widgets.saveWidgetData(tuid, json, savedDataToJCR);
         }
         else {
-            alert("Please specify a URL");
+            $(remotecontentSettingsUrl).addClass("invalid");
+            $(remotecontentSettingsUrlError).show();
         }
     };
 
