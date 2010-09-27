@@ -225,7 +225,7 @@ sakai.creategroup = function(tuid, showSettings){
                         function (success, errorMessage) {
                             if(success) {
                                 // show the group
-                                document.location = "/dev/show.html?type=group&id=" + groupid;
+                                document.location = "/~" + groupid;
                             } else {
                                 fluid.log("creategroup.js doSaveGroup failed to set group permissions: " + errorMessage);
                             }

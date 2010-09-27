@@ -407,7 +407,7 @@ sakai.groupedit = function(){
 
         // Bind the don't update button
         $("#group_editing_button_dontupdate").bind("click", function(){
-           window.location = "show.html?type=group&amp;id=" + sakai.currentgroup.id;
+           window.location = "/~" + sakai.currentgroup.id;
         });
 
         // Bind the remove members button

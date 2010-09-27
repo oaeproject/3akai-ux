@@ -282,7 +282,7 @@ sakai.comments = function(tuid, showSettings){
                     user.picture = "/~" + profile["rep:userId"] + "/public/profile/" + $.parseJSON(profile.picture).name;
                 }
                 user.uid = profile["userid"][0];
-                user.profile = sakai.config.URL.PROFILE_URL + "&id=" + user.uid;
+                user.profile = "/~" + user.uid;
             }
             else {
                 // This is an anonymous user.

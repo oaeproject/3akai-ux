@@ -64,6 +64,8 @@ sakai.myprofile = function (tuid, showSettings) {
     var availableStatus_online = availableStatus + "online";
     var availableStatus_busy = availableStatus + "busy";
     var availableStatus_offline = availableStatus + "offline";
+    
+    var profilePreviewLink = "#myprofile_preview_profile";
 
     var headerChatUserId = "#user_link"; // The username in the chat bar.
 
@@ -139,10 +141,12 @@ sakai.myprofile = function (tuid, showSettings) {
 
     var doInit = function () {
 
+        $(profilePreviewLink, rootel).attr("href", "/~" + sakai.data.me.user.userid);
+
         // Check if we have a first and last name
         if (sakai.api.User.getDisplayName(json) !== "") {
             $(profileNameID, rootel).text(sakai.api.User.getDisplayName(json));
-            $(profileNameID, rootel).attr("href", sakai.config.URL.PROFILE_URL.replace("&amp;", ""));
+            $(profileNameID, rootel).attr("href", "/~" + sakai.data.me.user.userid);
         }
         else {
             $(profileNameID, rootel).text(sakai.api.Security.saneHTML(me.user.userid));
