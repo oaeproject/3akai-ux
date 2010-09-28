@@ -39,7 +39,7 @@
             {/if}
             {if data["jcr:content"]["jcr:mimeType"] !== "x-sakai/link"}
                 <button type="button" class="s3d-button s3d-button-primary" id="content_profile_file_details_action_download">
-                    <span class="s3d-button-inner">__MSG__DOWNLOAD_FILE__</span>
+                    <a class="s3d-button-inner" href="${url}/${data["sakai:pooled-content-file-name"]}">__MSG__DOWNLOAD_FILE__</span>
                 </button>
             {/if}
             {if !anon}
