@@ -113,9 +113,13 @@ sakai.sitespages = function(tuid,showSettings){
         // Load admin part from a separate file
         $.getScript(sakai.sitespages.siteAdminJS, function(e){
             if ($.isFunction(callback)) {
-                $(window).bind("sakai-sitespages-admin-ready", function() {
+                if (sakai.sitespages.adminReady === false) {
+                    $(window).bind("sakai-sitespages-admin-ready", function() {
+                        callback();
+                    });
+                } else {
                     callback();
-                });
+                }
             }
         });
 
