@@ -426,6 +426,8 @@ sakai.profilesection = function(tuid, showSettings){
      */
     var init = function() {
 
+        $("#profile_form").validate();
+
         currentsection = $rootel.selector.replace("#", "").replace("profilesection-", "");
 
         // Trigger the profile section event, so we let the container know that the widget is loaded

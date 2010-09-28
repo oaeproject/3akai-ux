@@ -324,7 +324,7 @@ sakai.fileupload = function(tuid, showSettings){
                     "url": "/p/" + oldVersionPath,
                     "method": "POST",
                     "parameters": {
-                        "sakai:pooled-content-revurl": $(fileUploadLinkBoxInput).val()
+                        "sakai:pooled-content-revurl": $(fileUploadLinkBoxInput).val(),
                     }
                 };
                 batchDescriptionData[batchDescriptionData.length] = item;
@@ -578,13 +578,13 @@ sakai.fileupload = function(tuid, showSettings){
                 dataResponse = data;
                 uploadedLink = true;
                 filesUploaded = true;
+                batchSetDescriptionAndName(data);
+                newVersionIsLink = false;
                 if (context === "group") {
                     setLinkAsGroupResource(data);
                 } else {
                     resetFields();
                 }
-                batchSetDescriptionAndName(data);
-                newVersionIsLink = false;
                 $(fileUploadLinkForm).children().removeAttr("disabled");
             },
             error: function(err){
