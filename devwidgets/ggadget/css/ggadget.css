@@ -20,7 +20,6 @@
 
 /* Settings */
 #remotecontent_settings input[type="text"] {background-color:#f1f1f1;border:1px solid #d6d6d6;margin-top:3px;padding:3px;width:99%;}
-.invalid {border:1px solid #9f3333!important;background:#ffdede!important;}
 #remotecontent_settings_url_error {color:#9f3333;font-weight:bold;padding:0 0 10px 15px;}
 .remotecontent_settings_error {color:red;}
 .remotecontent_settings_label_head {font-weight:bold;}
