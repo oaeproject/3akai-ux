@@ -384,6 +384,7 @@ sakai.ggadget = function(tuid, showSettings){
         addBinding(); // Add binding to the various elements
         changeAdvancedSettingsArrow();
         $(remotecontentSettings).show(); // Show the remotecontent settings
+        $(remotecontentSettingsUrl).focus();
     };
 
     /*
