@@ -36,7 +36,6 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
     var contentProfileFileDetailsContainer = "#content_profile_file_details_container";
 
     // Buttons
-    var contentProfileFileDetailsActionDownload= "#content_profile_file_details_action_download";
     var contentProfileFileDetailsActionDelete= "#content_profile_file_details_action_delete";
     var contentProfileFileDetailsActionUpload = "#upload_content";
     var contentProfileFileDetailsViewRevisions = "#content_profile_details_view_revisions";
@@ -45,11 +44,6 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
     var profileData = [];
 
     var addBinding = function(){
-        // Bind the download button
-        $(contentProfileFileDetailsActionDownload).bind("click", function(){
-            window.open(contentPath + "/" + profileData["sakai:pooled-content-file-name"]);
-        });
-
         // Open the delete content pop-up
         $(contentProfileFileDetailsActionDelete).bind("click", function(){
             sakai.deletecontent.init(sakai.content_profile.content_data);

@@ -90,7 +90,7 @@ sakai.search = function() {
                 "all": {
                     "category": "All Groups",
                     "searchurl": searchURLmap.allgroups
-                }, 
+                },
                 "manage": {
                     "category": "Groups I manage",
                     "searchurl": searchURLmap.managergroups
@@ -178,7 +178,7 @@ sakai.search = function() {
                     $.each(results, function(index, resultObject) {
                         resultCount++;
                     });
-                    var resultsTemp = {results : results, total : resultCount}; 
+                    var resultsTemp = {results : results, total : resultCount};
                     results = resultsTemp;
                 }
 
@@ -229,13 +229,20 @@ sakai.search = function() {
                 }
             }
 
-            // If we don't have any results or they are less then the number we should display
-            // we hide the pager
-            if ((results.total <= resultsToDisplay) || (results.results.length <= 0)) {
-                $(searchConfig.global.pagerClass).hide();
-            }
-            else {
-                $(searchConfig.global.pagerClass).show();
+            if (currentpage == 1) {
+                // If we get a negative number (-100) the pager should always be shown
+                if ((Math.abs(results.total) != results.total)) {
+                    $(searchConfig.global.pagerClass).show();
+                    // If the number is between 0 and 10 the pager should not be shown
+                }
+                else
+                    if ((results.total > 0) && (results.total <= 10)) {
+                        $(searchConfig.global.pagerClass).hide();
+                    // Else the number is between 10 and 100 and the pager should be shown
+                    }
+                    else {
+                        $(searchConfig.global.pagerClass).show();
+                    }
             }
         }
         else {
@@ -280,7 +287,7 @@ sakai.search = function() {
         } else {
             facet = "";
         }
-        
+
         $(".faceted_category").removeClass("faceted_category_selected");
         if (facet) {
             $("#" + facet).addClass("faceted_category_selected");
@@ -328,7 +335,7 @@ sakai.search = function() {
                 if (facetedurl === sakai.config.URL.GROUPS_MANAGER || facetedurl === sakai.config.URL.GROUPS_MEMBER) {
                     urlsearchterm = searchterm
                 }
-                
+
                 searchURL = facetedurl + "?page=" + (currentpage - 1) + "&items=" + resultsToDisplay + "&q=" + urlsearchterm + "&facet=" + facet;
             }
 

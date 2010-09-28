@@ -220,15 +220,19 @@
             {/if}
         {/if}
         {if mode === "content"}
-            <button id="entity_content_download" class="s3d-button entity_action_button">
-                <span class="s3d-button-inner">
-                    {if data.profile.mimetype === "x-sakai/link"}
+            {if data.profile.mimetype === "x-sakai/link"}
+                <a href="${data.profile.revurl}" id="content_profile_file_details_action_download" class="s3d-button entity_action_button" target="_blank">
+                    <span class="s3d-button-inner">
                         __MSG__OPEN_THIS_LINK__
-                    {else}
+                    </span>
+                </a>
+            {else}
+                <a href="${data.profile.contentpath}/${data.profile.name}" id="content_profile_file_details_action_download" class="s3d-button entity_action_button" target="_blank">
+                    <span class="s3d-button-inner">
                         __MSG__DOWNLOAD_FILE__
-                    {/if}
-                </span>
-            </button>
+                    </span>
+                </a>
+            {/if}
             {if data.profile["sakai:tags"] && data.profile["sakai:tags"].split(",").length > 0}
                 <div class="entity_tags">
                     <div class="entity_tags_link_menu_border" id="entity_tags_link_menu" style="display:none;">

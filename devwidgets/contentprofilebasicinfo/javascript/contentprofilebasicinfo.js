@@ -142,6 +142,24 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                     }
                 };
                 data[data.length] = item;
+                var item = {
+                    "url": contentPath + ".modifyAce.html",
+                    "method": "POST",
+                    "parameters": {
+                        "principalId": "everyone",
+                        "privilege@jcr:read": "granted"
+                    }
+                };
+                data[data.length] = item;
+                var item = {
+                    "url": contentPath + ".modifyAce.html",
+                    "method": "POST",
+                    "parameters": {
+                        "principalId": "anonymous",
+                        "privilege@jcr:read": "denied"
+                    }
+                };
+                data[data.length] = item;
                 break;
             // Public
             case "public":
@@ -154,7 +172,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                 };
                 data[data.length] = item;
                 break;
-            // Myself only
+            // Managers and viewers only
             case "private":
                 var item = {
                     "url": contentPath + ".members.html",
@@ -164,28 +182,12 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                     }
                 };
                 data[data.length] = item;
-                break;
-            case "group":
                 var item = {
-                    "url": contentPath + ".members.html",
+                    "url": contentPath + ".modifyAce.html",
                     "method": "POST",
                     "parameters": {
-                        ":viewer@Delete": ["anonymous", "everyone"]
-                    }
-                };
-                data[data.length] = item;
-                break;
-            // Delete all viewers of the file and keep the managers
-            case "managers":
-                var viewers = [];
-                for(var viewer in sakai.listpeople.data["viewers"]["userList"]){
-                    viewers.push(viewer);
-                }
-                var item = {
-                    "url": contentPath + ".members.html",
-                    "method": "POST",
-                    "parameters": {
-                        ":viewer@Delete": viewers
+                        "principalId": ["everyone", "anonymous"],
+                        "privilege@jcr:read": "denied"
                     }
                 };
                 data[data.length] = item;
@@ -225,45 +227,47 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
         data["sakai:tags"] = [];
 
         // Get all the tags
-        var tags = $(contentProfileBasicInfoFormTags).val().split(",");
-        $(tags).each(function(i, tag){
-            tag = $.trim(tag);
-            if (sakai.api.Security.escapeHTML(tag) === tag && tag.replace(/\\/g,"").length) {
-                if ($.inArray(tag, data["sakai:tags"]) < 0) {
-                    data["sakai:tags"].push(tag.replace(/\\/g,""));
-                }
-            }
-        })
-
-        // Create tags for the directory structure
-        // For every content_profile_basic_info_added_directory we create tags
-        // Filter out ',' since that causes unwanted behavior when rendering
-        $(".content_profile_basic_info_added_directory").each(function(){
-            var directoryString = "directory/";
-             if ($.inArray($(this).find(contentProfileBasicInfoDirectoryLvlOne).selected().val().replace(/,/g, ""), data["sakai:tags"]) < 0) {
-                 data["sakai:tags"].push($(this).find(contentProfileBasicInfoDirectoryLvlOne).selected().val().replace(/,/g, ""));
-             }
-            directoryString += $(this).find(contentProfileBasicInfoDirectoryLvlOne).selected().val().replace(/,/g,"");
-
-            if ($(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val() !== "no_value") {
-                if ($.inArray($(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g, ""), data["sakai:tags"]) < 0) {
-                    data["sakai:tags"].push($(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g, ""));
-                }
-                directoryString += "/" + $(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g,"");
-
-                if ($(this).find(contentProfileBasicInfoDirectoryLvlThree).selected().val() !== "no_value") {
-                    if ($.inArray($(this).find(contentProfileBasicInfoDirectoryLvlThree).selected().val().replace(/,/g, ""), data["sakai:tags"]) < 0) {
-                        data["sakai:tags"].push($(this).find(contentProfileBasicInfoDirectoryLvlThree).selected().val().replace(/,/g, ""));
+        if ($(contentProfileBasicInfoFormTags).length) {
+            var tags = $(contentProfileBasicInfoFormTags).val().split(",");
+            $(tags).each(function(i, tag){
+                tag = $.trim(tag);
+                if (sakai.api.Security.escapeHTML(tag) === tag && tag.replace(/\\/g, "").length) {
+                    if ($.inArray(tag, data["sakai:tags"]) < 0) {
+                        data["sakai:tags"].push(tag.replace(/\\/g, ""));
                     }
-                    directoryString += "/" + $(this).find(contentProfileBasicInfoDirectoryLvlThree).selected().val().replace(/,/g,"");
                 }
+            })
 
-            }
-            // Add string for all levels to tag array
-            if ($.inArray(directoryString, data["sakai:tags"]) < 0) {
-                data["sakai:tags"].push(directoryString);
-            }
-        });
+            // Create tags for the directory structure
+            // For every content_profile_basic_info_added_directory we create tags
+            // Filter out ',' since that causes unwanted behavior when rendering
+            $(".content_profile_basic_info_added_directory").each(function(){
+                var directoryString = "directory/";
+                if ($.inArray($(this).find(contentProfileBasicInfoDirectoryLvlOne).selected().val().replace(/,/g, ""), data["sakai:tags"]) < 0) {
+                    data["sakai:tags"].push($(this).find(contentProfileBasicInfoDirectoryLvlOne).selected().val().replace(/,/g, ""));
+                }
+                directoryString += $(this).find(contentProfileBasicInfoDirectoryLvlOne).selected().val().replace(/,/g, "");
+
+                if ($(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val() !== "no_value") {
+                    if ($.inArray($(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g, ""), data["sakai:tags"]) < 0) {
+                        data["sakai:tags"].push($(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g, ""));
+                    }
+                    directoryString += "/" + $(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g, "");
+
+                    if ($(this).find(contentProfileBasicInfoDirectoryLvlThree).selected().val() !== "no_value") {
+                        if ($.inArray($(this).find(contentProfileBasicInfoDirectoryLvlThree).selected().val().replace(/,/g, ""), data["sakai:tags"]) < 0) {
+                            data["sakai:tags"].push($(this).find(contentProfileBasicInfoDirectoryLvlThree).selected().val().replace(/,/g, ""));
+                        }
+                        directoryString += "/" + $(this).find(contentProfileBasicInfoDirectoryLvlThree).selected().val().replace(/,/g, "");
+                    }
+
+                }
+                // Add string for all levels to tag array
+                if ($.inArray(directoryString, data["sakai:tags"]) < 0) {
+                    data["sakai:tags"].push(directoryString);
+                }
+            });
+        }
 
         // Add the directory tags to the array that were already saved
         $(contentProfileBasicInfoSavedDirectory + " li").each(function(){

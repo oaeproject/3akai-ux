@@ -45,27 +45,33 @@ sakai.directory = function(){
     var getDirectoryStructure = function(){
         // Get directory structure from config file
         for(var i in sakai.config.Directory){
-            // Create first level of content
-            var temp = new Object();
-            temp.name = i;
+            if (sakai.config.Directory.hasOwnProperty(i)) {
+                // Create first level of content
+                var temp = new Object();
+                temp.name = i;
 
-            // Create second level of content
-            temp.secondlevels = [];
-            for(var j in sakai.config.Directory[i]){
-                var secondlevel = new Object();
-                secondlevel.name = j;
+                // Create second level of content
+                temp.secondlevels = [];
+                for (var j in sakai.config.Directory[i]) {
+                    if (sakai.config.Directory[i].hasOwnProperty(j)) {
+                        var secondlevel = new Object();
+                        secondlevel.name = j;
 
-                // Create third level of content
-                secondlevel.thirdlevels = []
-                for (var k in sakai.config.Directory[i][j]){
-                    var thirdlevel = new Object();
-                    thirdlevel.name = sakai.config.Directory[i][j][k];
-                    secondlevel.thirdlevels.push(thirdlevel);
+                        // Create third level of content
+                        secondlevel.thirdlevels = []
+                        for (var k in sakai.config.Directory[i][j]) {
+                            if (sakai.config.Directory[i][j].hasOwnProperty(k)) {
+                                var thirdlevel = new Object();
+                                thirdlevel.name = sakai.config.Directory[i][j][k];
+                                secondlevel.thirdlevels.push(thirdlevel);
+                            }
+                        }
+
+                        temp.secondlevels.push(secondlevel);
+                    }
                 }
-
-                temp.secondlevels.push(secondlevel);
+                directoryJSON.push(temp);
             }
-            directoryJSON.push(temp);
         }
         // Render template with retrieved structure
         renderDirectoryStructure();
