@@ -339,6 +339,7 @@ sakai.groupedit = function(){
             sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_user_added_text").text()));
         }
         $("#entity_member_count").text(sakai.api.Security.saneHTML(parseInt($("#entity_member_count").text(), 10) + userCount));
+        $("#group_editing_add_" + tuid).focus();
     };
     
     /**
@@ -373,6 +374,7 @@ sakai.groupedit = function(){
             renderItemLists('content');
             sakai.api.Util.notification.show("Group Content", "Content has been added to the group.");
         }
+        $("#group_editing_add_content").focus();
     };
 
     /**
@@ -524,6 +526,7 @@ sakai.groupedit = function(){
                 pl_config.type = "people";
                 pl_config.what = "Members";
                 pl_config.excludeList = getMembersAndManagers();
+                $(window).scrollTop(0);
                 $(window).trigger("sakai-pickeruser-init", pl_config, function(people) {
                 });
                 $(window).unbind("sakai-pickeruser-finished");
@@ -538,6 +541,7 @@ sakai.groupedit = function(){
                 pl_config.type = "people";
                 pl_config.what = "Managers";
                 pl_config.excludeList = getMembersAndManagers();
+                $(window).scrollTop(0);
                 $(window).trigger("sakai-pickeruser-init", pl_config, function(people) {
                 });
                 $(window).unbind("sakai-pickeruser-finished");
@@ -549,6 +553,7 @@ sakai.groupedit = function(){
 
             // Bind the add content button
             $("#group_editing_add_content").bind("click", function(){
+                $(window).scrollTop(0);
                 $(window).trigger('sakai-embedcontent-init', {"name":"Item", "mode": "picker", "limit": false, "filter": false});
                 $(window).unbind("sakai-embedcontent-picker-finished");
                 $(window).bind("sakai-embedcontent-picker-finished", function(e, fileList) {
