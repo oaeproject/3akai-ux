@@ -19,7 +19,7 @@
 /* Header */
 .acknowledgements h1 { font-size:1.4em; font-weight:bold; margin:0 0 0; padding:0; }
 .acknowledgements h1.title { color:#006E96;}
-.acknowledgement_information h2{ margin: 10px 0 0 0; font-weight:bold; }
+.acknowledgement_information h2{ margin: 10px 0 2px 0; font-weight:bold; font-size: 15px; }
 .acknowledgements .header{ height:110px; }
 
 /* Content */
