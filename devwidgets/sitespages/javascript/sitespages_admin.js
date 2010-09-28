@@ -1500,19 +1500,21 @@ sakai.sitespages.site_admin = function(){
      */
     var showHideMoreMenu = function(hideOnly){
         var el = $("#more_menu");
-        if (el.css("display").toLowerCase() !== "none" || hideOnly) {
-            $("#more_link").removeClass("clicked");
-            el.hide();
-        } else {
-            $("#more_link").addClass("clicked");
-            var x = $("#more_link").position().left;
-            var y = $("#more_link").position().top;
-            el.css(
-                    {
-                      "top": y + 28 + "px",
-                      "left": x + 2 + "px"
-                    }
-                ).show();
+        if (el) {
+            if (el.css("display").toLowerCase() !== "none" || hideOnly) {
+                $("#more_link").removeClass("clicked");
+                el.hide();
+            } else {
+                $("#more_link").addClass("clicked");
+                var x = $("#more_link").position().left;
+                var y = $("#more_link").position().top;
+                el.css(
+                        {
+                          "top": y + 28 + "px",
+                          "left": x + 2 + "px"
+                        }
+                    ).show();
+            }
         }
     };
 
