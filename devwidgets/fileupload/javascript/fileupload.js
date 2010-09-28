@@ -585,8 +585,10 @@ sakai.fileupload = function(tuid, showSettings){
                 }
                 batchSetDescriptionAndName(data);
                 newVersionIsLink = false;
+                $(fileUploadLinkForm).children().removeAttr("disabled");
             },
             error: function(err){
+                $(fileUploadLinkForm).children().removeAttr("disabled");
                 sakai.api.Util.notification.show($(fileUploadCheckURL).html(), $(fileUploadEnterValidURL).html());
             }
         });
@@ -739,6 +741,7 @@ sakai.fileupload = function(tuid, showSettings){
     });
 
      $(fileUploadLinkForm).live("submit",function(){
+         $(fileUploadLinkForm).children().attr("disabled", "disabled");
          // Test if the link is valid before saving it
         var regEx = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
         if (regEx.test($(fileUploadLinkBoxInput).val())){
@@ -750,6 +753,7 @@ sakai.fileupload = function(tuid, showSettings){
             }
         }else{
             // Show a notification
+            $(fileUploadLinkForm).children().removeAttr("disabled");
             sakai.api.Util.notification.show($(fileUploadCheckURL).html(), $(fileUploadEnterValidURL).html());
         }
         return false;
