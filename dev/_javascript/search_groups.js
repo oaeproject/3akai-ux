@@ -304,7 +304,7 @@ sakai.search = function() {
         // Rebind everything
         mainSearch.addEventListeners(searchterm, searchwhere);
 
-        if (searchterm && searchterm !== $(searchConfig.global.text).attr("title").toLowerCase()) {
+        if (searchquery && searchterm && searchterm !== $(searchConfig.global.text).attr("title").toLowerCase()) {
 
             // Show and hide the correct elements.
             showSearchContent();
@@ -338,7 +338,7 @@ sakai.search = function() {
                 success: function(data) {
                     renderResults(data, true);
                 },
-                onFail: function(status) {
+                error: function(status) {
                     var json = {};
                     renderResults(json, false);
                 }

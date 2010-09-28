@@ -275,10 +275,10 @@ sakai.sitespages.site_admin = function(){
             elements : "elm1",
             theme: "advanced",
             // For a built-in list of plugins with doc: http://wiki.moxiecode.com/index.php/TinyMCE:Plugins
-            plugins: "safari,advhr,inlinepopups,preview,noneditable,nonbreaking,xhtmlxtras,template",
+            plugins: "safari,advhr,inlinepopups,preview,noneditable,nonbreaking,xhtmlxtras,template,table",
 
             // Context Menu
-            theme_advanced_buttons1: "formatselect,fontselect,fontsizeselect,bold,italic,underline,|,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,|,link",
+            theme_advanced_buttons1: "formatselect,fontselect,fontsizeselect,bold,italic,underline,|,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,|,table,link",
             theme_advanced_toolbar_location: "external",
             theme_advanced_toolbar_align: "left",
             theme_advanced_statusbar_location: "none",
@@ -536,6 +536,13 @@ sakai.sitespages.site_admin = function(){
         }
     };
 
+    // hide the context menu when it is shown and a click happens elsewhere on the document
+    $("html").live("click", function(e) {
+        if ($context_menu.is(":visible") && $(e.target).parents($context_menu.selector).length === 0) {
+            $context_menu.hide();
+        }
+    });
+
 
     /**
      * Toggle Insert more dropdown
@@ -622,13 +629,13 @@ sakai.sitespages.site_admin = function(){
 
         $("#messageInformation").hide();
 
-        // Setup tinyMCE Toolbar
-        setupToolbar();
-        sakai.sitespages.toolbarSetupReady = true;
-
         // Switch to edit view
         $("#show_view_container").hide();
         $("#edit_view_container").show();
+
+        // Setup tinyMCE Toolbar
+        setupToolbar();
+        sakai.sitespages.toolbarSetupReady = true;
 
         if (sakai.sitespages.isEditingNavigation){
             $("#insert_more_media").hide();
@@ -1227,21 +1234,28 @@ sakai.sitespages.site_admin = function(){
         }
     };
 
+    var setNewStyleClass = function(classToAdd) {
+        var ed = tinyMCE.get('elm1');
+        var $selected = $(ed.selection.getNode());
+        $selected.removeClass("block_image").removeClass("block_image_right").removeClass("block_image_left");
+        $selected.addClass(classToAdd);
+    };
+
     // Bind wrapping_no click event
     $("#wrapping_no").bind("click",function(ev){
-        createNewStyle("display:block;");
+        setNewStyleClass("block_image");
         $('#wrapping_dialog').jqmHide();
     });
 
     // Bind wrapping left click event
     $("#wrapping_left").bind("click",function(ev){
-        createNewStyle("display:block;float:left;");
+        setNewStyleClass("block_image_left");
         $('#wrapping_dialog').jqmHide();
     });
 
     // Bind wrapping right click event
     $("#wrapping_right").bind("click",function(ev){
-        createNewStyle("display:block;float:right;");
+        setNewStyleClass("block_image_right");
         $('#wrapping_dialog').jqmHide();
     });
 
