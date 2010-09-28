@@ -126,7 +126,7 @@ sakai.creategroup = function(tuid, showSettings){
         input = input.toLowerCase().replace(/'/g,"");
         input = input.toLowerCase().replace(/"/g,"");
 
-        var regexp = new RegExp("[^a-z0-9_-]", "gi");
+        var regexp = new RegExp("[^a-z0-9]", "gi");
         input = input.replace(regexp,"_");
 
         return input;

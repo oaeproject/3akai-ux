@@ -249,12 +249,7 @@ sakai.entity = function(tuid, showSettings){
      * @param {Object} chatstatus status which has to come up in the dropdown list
      */
     var updateChatStatusElement = function(chatstatus){
-        for (var i in $(entityProfileChatstatus)[0].options){
-            if ($(entityProfileChatstatus)[0].options[i].value === chatstatus){
-                $(entityProfileChatstatus)[0].selectedIndex = i;
-                break;
-            }
-        }
+        $(entityProfileChatstatus).val(chatstatus);
     };
 
     /**
@@ -320,6 +315,8 @@ sakai.entity = function(tuid, showSettings){
      */
     var showGroupMembershipButton = function (type) {
         hideGroupMembershipButton();
+        $entity_container.addClass('joinable');
+        $("div#sitespages_page_options").addClass('joinable');
         if (type && typeof(type) === "string") {
             switch(type) {
                 case "join":
@@ -343,6 +340,8 @@ sakai.entity = function(tuid, showSettings){
      * Hides any showing group membership button
      */
     var hideGroupMembershipButton = function () {
+        $entity_container.removeClass('joinable');
+        $("div#sitespages_page_options").removeClass('joinable');
         $("button.entity_action_button", $rootel).hide();
     };
 
@@ -437,8 +436,11 @@ sakai.entity = function(tuid, showSettings){
             if (success) {
                 // because the user has left the group, they may not be allowed to
                 // view the current page - refresh the page to check visibility
-                alert("You have successfully been removed from the group.");
-                window.location.reload();
+                sakai.api.Util.notification.show("Group Membership", "You have successfully been removed from the group.");
+                // wait for two seconds and then redirect
+                setTimeout(function () {
+                    window.location.reload();
+                }, 2000);
             } else {
                 fluid.log("entity.js/leaveGroup() ERROR: Could not remove member: " +
                     sakai.data.me.user.userid + " from groupid: " + groupid +

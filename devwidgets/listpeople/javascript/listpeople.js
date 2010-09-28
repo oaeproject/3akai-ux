@@ -409,7 +409,7 @@ sakai.listpeople = function(tuid, showSettings){
      * Removes selected items from the list and re-renders list
      * @returns viod
      */
-    var removeFromList = function() {
+    sakai.listpeople.removeFromList = function() {
         $.each(sakai.listpeople.data[tuid]["selected"], function(index, resultObject) {
             delete sakai.listpeople.data[tuid].userList[index];
         });

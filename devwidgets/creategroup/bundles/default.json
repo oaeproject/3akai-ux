@@ -16,5 +16,6 @@
 "GROUP_URL_SHORT": "The group URL must be at least 3 characters.",
 "GROUP_NAME_SHORT": "The group name must be at least 3 characters.",
 "URL_ALREADY_TAKEN": "This URL address is already taken. Please use another one.",
+"GROUP_URL_MESSAGE": "The group web address can only contain letters, numbers and dashes.",
 "SUGGESTIONS": "Suggestions"
 }

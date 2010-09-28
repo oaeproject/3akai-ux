@@ -98,7 +98,8 @@ sakai.pickeruser = function(tuid, showSettings) {
       "sortOn": "lastName",
       "sortOrder": "ascending",
       "what": "People",
-      "where": "Group"
+      "where": "Group",
+      "excludeList": []
     };
 
     /**
@@ -207,13 +208,23 @@ sakai.pickeruser = function(tuid, showSettings) {
                 sakai.api.Server.loadJSON(searchUrl.replace(".json", ""), function(success, data){
                     if (success) {
                         var suggestions = [];
+                        var name, value, type;
                         $.each(data.results, function(i) {
                             if (pickerData.type === 'content') {
-                                suggestions.push({"value": data.results[i]['jcr:name'], "name": data.results[i]['sakai:pooled-content-file-name'], "type": "file"});
+                                name = data.results[i]['sakai:pooled-content-file-name'];
+                                value = data.results[i]['jcr:name'];
+                                type = "file";
                             } else if (data.results[i]["rep:userId"]) {
-                                suggestions.push({"value": data.results[i]["rep:userId"], "name": sakai.api.Security.saneHTML(sakai.api.User.getDisplayName(data.results[i])), "type": "user"});
+                                name = sakai.api.Security.saneHTML(sakai.api.User.getDisplayName(data.results[i]));
+                                value = data.results[i]["rep:userId"];
+                                type = "user";
                             } else if (data.results[i]["sakai:group-id"]) {
-                                suggestions.push({"value": data.results[i]["sakai:group-id"], "name": data.results[i]["sakai:group-title"], "type": "group"});
+                                name = data.results[i]["sakai:group-title"];
+                                value = data.results[i]["sakai:group-id"];
+                                type = "group";
+                            }
+                            if (pickerData.excludeList.length === 0 || $.inArray(value, pickerData.excludeList) === -1) {
+                                suggestions.push({"value": value, "name": name, "type": type});
                             }
                         });
                         add(suggestions);

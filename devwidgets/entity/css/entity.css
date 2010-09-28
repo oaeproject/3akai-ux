@@ -30,7 +30,8 @@
 .entity_picture_div {padding-bottom: 3px;}
 
 /* Container */
-#entity_container {margin: 19px 0 15px 7px; overflow: hidden;width:700px;}
+#entity_container {margin: 19px 0 15px 7px; overflow: hidden;width:670px;}
+#entity_container.joinable {width:700px;}
 #entity_container .entity_profile_status_input_dummy {color: #aaa}
 #entity_container form#entity_profile_status {margin-top: 5px;}
 #entity_container form button{margin-left: 5px}

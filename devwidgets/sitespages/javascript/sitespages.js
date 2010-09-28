@@ -289,16 +289,7 @@ sakai.sitespages = function(tuid,showSettings){
 
         // If no pageUrlName is supplied, default to the about page
         if (!pageUrlName) {
-            for (var i in sakai.sitespages.site_info._pages) {
-                if (sakai.sitespages.site_info._pages.hasOwnProperty(i)) {
-                    // TODO should make these next two based on config rather than hard coded
-                    if (sakai.sitespages.site_info._pages[i]["pageURLTitle"] === "about-this-group" || // default group page
-                        sakai.sitespages.site_info._pages[i]["pageURLTitle"] === "profile") { // defualt user page
-                        pageUrlName = i;
-                        break;
-                    }
-                }
-            }
+            pageUrlName = determineLowestPositionPage();
         }
 
         // Store currently selected page
@@ -473,6 +464,18 @@ sakai.sitespages = function(tuid,showSettings){
         // Init site admin
         sakai.sitespages.site_admin();
 
+    };
+
+    var determineLowestPositionPage = function(){
+        var lowest = 9999999999999999;
+        var ret = false;
+        for (var i in sakai.sitespages.site_info._pages){
+            if (sakai.sitespages.site_info._pages.hasOwnProperty(i) && sakai.sitespages.site_info._pages[i]["pagePosition"] && parseInt(sakai.sitespages.site_info._pages[i]["pagePosition"], 10) < lowest) {
+                lowest = parseInt(sakai.sitespages.site_info._pages[i]["pagePosition"], 10);
+                ret = i;
+            }
+        }
+        return ret;
     };
 
     /**

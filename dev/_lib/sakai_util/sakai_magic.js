@@ -118,10 +118,12 @@ sakai.api.Communication.sendMessage = function(to, subject, body, category, repl
         if(toUsers) {
             toUsers += ",";
         }
-        if(typeof(userids) === "string") {
+        if(typeof(userids) === "string" && $.trim(userids) !== "") {
+            userids = $.trim(userids);
             toUsers += "internal:" + userids;
         } else if(typeof(userids) === "object") {
             toUsers += "internal:" + userids.join(",internal:");
+            toUsers = toUsers.replace(/internal\:\,/g, "");
         }
     };
 
@@ -2450,7 +2452,7 @@ sakai.api.Util.formatTags = function(inputTags){
     else {
         return [];
     }
-}
+};
 
 /**
  * Add and delete tags from an entity
@@ -2467,7 +2469,7 @@ sakai.api.Util.formatTags = function(inputTags){
  */
 
 sakai.api.Util.tagEntity = function(tagLocation, newTags, currentTags, callback) {
-        var setTags = function(tagLocation, tags, callback) {
+    var setTags = function(tagLocation, tags, callback) {
         if (tags.length) {
             var requests = [];
             $(tags).each(function(i, val){
