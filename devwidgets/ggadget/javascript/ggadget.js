@@ -63,6 +63,7 @@ sakai.ggadget = function(tuid, showSettings){
     var remotecontentSettingsPreviewFrame = remotecontentSettingsPreview + "_frame";
     var remotecontentSettingsUrl = remotecontentSettings + "_url";
     var remotecontentSettingsUrlError = remotecontentSettingsUrl + "_error";
+    var remotecontentSettingsUrlErrorTitle = remotecontentSettingsUrlError + "_title";
     var remotecontentSettingsWidth = remotecontentSettings + "_width";
 
     // Containers
@@ -191,8 +192,7 @@ sakai.ggadget = function(tuid, showSettings){
             sakai.api.Widgets.saveWidgetData(tuid, json, savedDataToJCR);
         }
         else {
-            $(remotecontentSettingsUrl).addClass("invalid");
-            $(remotecontentSettingsUrlError).show();
+            sakai.api.Util.notification.show($(remotecontentSettingsUrlErrorTitle).html(), $(remotecontentSettingsUrlError).html());
         }
     };
 
@@ -405,7 +405,6 @@ sakai.ggadget = function(tuid, showSettings){
     var getRemoteContent = function(){
 
         sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
-
             if (success) {
                 // Get a JSON string that contains the necessary information.
                 var parameters = data;
