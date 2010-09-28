@@ -76,9 +76,6 @@ sakai.account_preferences = function(){
     // templates
     var languagesTemplate = accountPreferences + "_languagesTemplate";
 
-    var regionalSetting;
-    var languageSetting;
-
     ///////////////////////
     // Utility functions //
     ///////////////////////
@@ -227,9 +224,7 @@ sakai.account_preferences = function(){
         var locale = {"locale" : language, "timezone" : $(timezonesContainer).val(), "_charset_":"utf-8"};
 
         // if regional Setting and langauge is changed only then save the changes
-        if (regionalSetting !== $(timezonesContainer).val() || language !== languageSetting) {
-            regionalSetting = $(timezonesContainer).val();
-            languageSetting = language;
+        if (me.user.locale.timezone.name !== $(timezonesContainer).val() || language !== me.user.locale.language+"_"+me.user.locale.country) {
             $.ajax({
                 data: locale,
                 url: "/system/userManager/user/" + me.user.userid + ".update.html",
@@ -243,6 +238,7 @@ sakai.account_preferences = function(){
                     else {
                         // Show successful regional setting change through gritter
                         sakai.api.Util.notification.show($(messageChangeLang).html(), $(messageChangeLang).html());
+                        me.user.locale.timezone.name = $(timezonesContainer).val();
                     }
 
                 },

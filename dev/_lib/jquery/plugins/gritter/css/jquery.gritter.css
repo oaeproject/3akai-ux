@@ -51,6 +51,10 @@
     margin: 0;
 }
 
+.gritter-item a {
+    color: #EEEEEE;
+}
+
 .gritter-close {
     position: absolute;
     top: 5px;

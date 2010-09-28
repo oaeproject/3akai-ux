@@ -249,12 +249,7 @@ sakai.entity = function(tuid, showSettings){
      * @param {Object} chatstatus status which has to come up in the dropdown list
      */
     var updateChatStatusElement = function(chatstatus){
-        for (var i in $(entityProfileChatstatus)[0].options){
-            if ($(entityProfileChatstatus)[0].options[i].value === chatstatus){
-                $(entityProfileChatstatus)[0].selectedIndex = i;
-                break;
-            }
-        }
+        $(entityProfileChatstatus).val(chatstatus);
     };
 
     /**
