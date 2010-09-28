@@ -448,6 +448,10 @@ sakai.config = {
             URL: "/dev/_images/mimetypes/pdf.png",
             description: "PDF document"
         },
+        "application/x-pdf": {
+            URL: "/dev/_images/mimetypes/pdf.png",
+            description: "PDF document"
+        },
         "text/plain": {
             URL: "/dev/_images/mimetypes/txt.png",
             description: "Text document"
