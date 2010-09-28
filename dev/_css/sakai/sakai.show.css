@@ -2,7 +2,7 @@ div#sitespages_page_options {width:220px; padding:10px; float:right; display:inl
 div#sitespages_page_options.joinable {display:none;}
 div#sitespages_page_options button {float:right;}
 div#sitespages_page_options #page_options {float:right;}
-div#sitespages_page_options #page_save_options {float:right;margin-top:100px;}
+div#sitespages_page_options #page_save_options {float:right;margin-top:64px;}
 div#page_save_options_bottom, div#page_save_options_bottom button {float:right;}
 div.show_content_and_description {padding:10px; background-color:#EFF2F4; float:left; display:inline; width:97%;}
 div.content_item {height:120px; width:312px; margin-right:10px; float:left; display:inline;}
