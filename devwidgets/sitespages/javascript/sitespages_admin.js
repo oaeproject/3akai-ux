@@ -191,10 +191,12 @@ sakai.sitespages.site_admin = function(){
             url: i_url,
             type: "POST",
             data: {
-                ":operation": "createTree",
-                "tree": page_data,
-                ":replace": "true",
-                "_charset_":"utf-8"
+                ":operation": "import",
+                ":contentType": "json",
+                ":content": page_data,
+                ":replace": true,
+                ":replaceProperties": true,
+                "_charset_": "utf-8"
             },
             success: function(data) {
 
@@ -222,8 +224,12 @@ sakai.sitespages.site_admin = function(){
             url: url,
             type: "POST",
             data: {
-                ":operation": "createTree",
-                "tree": jsonString
+                ":operation": "import",
+                ":contentType": "json",
+                ":content": jsonString,
+                ":replace": true,
+                ":replaceProperties": true,
+                "_charset_": "utf-8"
             },
             success: function(data) {
 
@@ -1019,8 +1025,12 @@ sakai.sitespages.site_admin = function(){
             url: sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["jcr:path"],
             type: "POST",
             data: {
-                ":operation": "createTree",
-                "tree": jsonString
+                ":operation": "import",
+                ":contentType": "json",
+                ":content": jsonString,
+                ":replace": true,
+                ":replaceProperties": true,
+                "_charset_": "utf-8"
             },
             success: function(data) {
                 sakai.sitespages.autosavecontent = tosave;

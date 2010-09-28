@@ -68,7 +68,21 @@ sakai.joinrequests = function (tuid, showSettings) {
                 "joinrequests": joinrequests
             };
             $joinrequests.html($.TemplateRenderer($joinrequestsTemplate, json));
-            $("abbr.joinrequests_timeago", $joinrequests).timeago();
+            // set images for users that have a profile picture
+            for (var i in joinrequests) {
+                if (joinrequests.hasOwnProperty(i)) {
+                    var pic_src = "/dev/_images/default_profile_picture_64.png";
+                    if (joinrequests[i].pic_src) {
+                        var pic_src_json = $.parseJSON(joinrequests[i].pic_src);
+                        pic_src = "/~" + joinrequests[i].userid +
+                            "/public/profile/" + pic_src_json.name;
+                    }
+                    $("#joinrequests_userpicture_" + joinrequests[i].userid).attr(
+                        "src", pic_src
+                    );
+                }
+            }
+            // show the widget
             $joinrequestsWidget.show();
         }
     };
@@ -76,7 +90,7 @@ sakai.joinrequests = function (tuid, showSettings) {
 
     /**
      * Returns a human readable date and time based on the given jcr:created
-     * timestamp.
+     * timestamp. WARNING--THIS FUNCTION IS NOT SAFE TO USE IN ALL BROWSERS
      *
      * @param {String} jcr_created jcr:created timestamp to convert
      * @return {String} human readable date
@@ -84,7 +98,11 @@ sakai.joinrequests = function (tuid, showSettings) {
     var getReadableRequestAge = function (jcr_created) {
         if (jcr_created && typeof(jcr_created) === "string") {
             var date = new Date(jcr_created);
-            return date.toLocaleString();
+            if (date) {
+                return date.toLocaleString();
+            } else {
+                return jcr_created;
+            }
         } else {
             // not sure what this is - just send it back
             return jcr_created;
@@ -110,7 +128,8 @@ sakai.joinrequests = function (tuid, showSettings) {
                                 "userid": jr.userid,
                                 "firstName": jr.basic.elements.firstName.value,
                                 "lastName": jr.basic.elements.lastName.value,
-                                "request_age": getReadableRequestAge(jr["jcr:created"])
+                                "request_age": $.timeago(jr["jcr:created"]),
+                                "pic_src": jr.picture
                             });
                         }
                     }
@@ -136,7 +155,9 @@ sakai.joinrequests = function (tuid, showSettings) {
         function (success, data) {
             if (success) {
                 // show notification
-                sakai.api.Util.notification.show("Group Membership", "The user has successfully been added to the group.");
+                sakai.api.Util.notification.show("Group Membership",
+                    $("#joinrequests_username_link_" + userid).html() +
+                    " has successfully been added to the group.");
 
                 // trigger the member list on group_edit.html to refresh
                 $(window).trigger("sakai-listpeople-ready", "members");
