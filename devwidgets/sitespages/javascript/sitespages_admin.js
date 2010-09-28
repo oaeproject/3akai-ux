@@ -1244,21 +1244,28 @@ sakai.sitespages.site_admin = function(){
         }
     };
 
+    var setNewStyleClass = function(classToAdd) {
+        var ed = tinyMCE.get('elm1');
+        var $selected = $(ed.selection.getNode());
+        $selected.removeClass("block_image").removeClass("block_image_right").removeClass("block_image_left");
+        $selected.addClass(classToAdd);
+    };
+
     // Bind wrapping_no click event
     $("#wrapping_no").bind("click",function(ev){
-        createNewStyle("display:block;");
+        setNewStyleClass("block_image");
         $('#wrapping_dialog').jqmHide();
     });
 
     // Bind wrapping left click event
     $("#wrapping_left").bind("click",function(ev){
-        createNewStyle("display:block;float:left;");
+        setNewStyleClass("block_image_left");
         $('#wrapping_dialog').jqmHide();
     });
 
     // Bind wrapping right click event
     $("#wrapping_right").bind("click",function(ev){
-        createNewStyle("display:block;float:right;");
+        setNewStyleClass("block_image_right");
         $('#wrapping_dialog').jqmHide();
     });
 

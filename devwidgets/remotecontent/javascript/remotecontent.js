@@ -62,6 +62,7 @@ sakai.remotecontent = function(tuid, showSettings){
     var remotecontentSettingsPreview = remotecontentSettings + "_preview";
     var remotecontentSettingsPreviewFrame = remotecontentSettingsPreview + "_frame";
     var remotecontentSettingsUrl = remotecontentSettings + "_url";
+    var remotecontentSettingsUrlError = remotecontentSettingsUrl + "_error";
     var remotecontentSettingsWidth = remotecontentSettings + "_width";
 
     // Containers
@@ -182,11 +183,11 @@ sakai.remotecontent = function(tuid, showSettings){
      * Save the remotecontent to the jcr
      */
     var saveRemoteContent = function(){
-        if (json.url !== "") {
+        if (json.url !== "" && json.url !== 'http://') {
             sakai.api.Widgets.saveWidgetData(tuid, json, savedDataToJCR);
         }
         else {
-            alert("Please specify a URL");
+            $(remotecontentSettingsUrlError).show();
         }
     };
 
@@ -291,11 +292,13 @@ sakai.remotecontent = function(tuid, showSettings){
 
         // When you push the save button..
         $(remotecontentSettingsInsert).click(function(){
+            $(remotecontentSettingsUrlError).hide();
             saveRemoteContent();
         });
 
         // Cancel it
         $(remotecontentSettingsCancel).click(function(){
+            $(remotecontentSettingsUrlError).hide();
             sakai.api.Widgets.Container.informCancel(tuid, "remotecontent");
         });
 

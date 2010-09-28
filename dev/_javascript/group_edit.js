@@ -74,6 +74,7 @@ sakai.groupedit = function(){
             return querystring.get("id");
         }
         sakai.api.Security.send404();
+        return false;
     };
 
     var readyToRender = false;
@@ -141,7 +142,7 @@ sakai.groupedit = function(){
     var renderGroupBasicInfo = function(){
         $("#" + groupBasicInfoContainer).html($.TemplateRenderer("#" + groupBasicInfoTemplate, {}));
         sakai.api.Widgets.widgetLoader.insertWidgets(groupBasicInfoContainer, true);
-    }
+    };
 
     /**
      * When the Basic Group Info widget has finished updating the group details, it will come
@@ -256,7 +257,7 @@ sakai.groupedit = function(){
                 sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_user_removed_text").text()));
             }
             renderItemLists(tuid);
-            $("#entity_member_count").text(sakai.api.Security.saneHTML(parseInt($("#entity_member_count").text()) - userCount));
+            $("#entity_member_count").text(sakai.api.Security.saneHTML(parseInt($("#entity_member_count").text(), 10) - userCount));
         }
     };
 
@@ -337,7 +338,7 @@ sakai.groupedit = function(){
             renderItemLists(tuid);
             sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_user_added_text").text()));
         }
-        $("#entity_member_count").text(sakai.api.Security.saneHTML(parseInt($("#entity_member_count").text()) + userCount));
+        $("#entity_member_count").text(sakai.api.Security.saneHTML(parseInt($("#entity_member_count").text(), 10) + userCount));
     };
     
     /**
@@ -401,6 +402,65 @@ sakai.groupedit = function(){
         $content_list_container.html($.TemplateRenderer("#group_edit_userlist_default_template", contentData));
     };
 
+    /**
+     * Filter Users
+     * Given a list of users, filter them against the current managers and members
+     * This is used to make sure users or groups aren't added twice to a group
+     *
+     * @param {Array} peopleList The list of people to filter against
+     * @return {Array} The filtered list of people
+     */
+    var filterUsers = function(peopleList) {
+        var peopleToAdd = [];
+        $(peopleList).each(function(i,val) {
+            var reason = "";
+            for (var j in sakai.listpeople.data["managers"]["userList"]) {
+                if (sakai.listpeople.data["managers"]["userList"].hasOwnProperty(j) && j === val) {
+                    reason = "manager";
+                }
+            }
+            for (var k in sakai.listpeople.data["members"]["userList"]) {
+                if (sakai.listpeople.data["members"]["userList"].hasOwnProperty(k) && k === val) {
+                    reason = "member";
+                }
+            }
+            if (reason === "") {
+                peopleToAdd.push(val);
+            } else if (reason === "manager") {
+                $(".group_edit_cannot_add_user").text(val);
+                sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()),
+                                                 sakai.api.Security.saneHTML($("#group_edit_cannot_add_user_as_manager").text()),
+                                                 sakai.api.Util.notification.type.ERROR);
+                // show notification saying you can't add this user because they're already a member/manager of the group
+            } else if (reason === "member") {
+                $(".group_edit_cannot_add_user").text(val);
+                sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()),
+                                                 sakai.api.Security.saneHTML($("#group_edit_cannot_add_user_as_member").text()),
+                                                 sakai.api.Util.notification.type.ERROR);
+            }
+        });
+        return peopleToAdd;
+    };
+
+    /**
+     * Retrieve the union of the members and managers lists
+     *
+     * @return {Array} the list of members and managers
+     */
+    var getMembersAndManagers = function() {
+        var list = [];
+        for (var j in sakai.listpeople.data["managers"]["userList"]) {
+            if (sakai.listpeople.data["managers"]["userList"].hasOwnProperty(j)) {
+                list.push(j);
+            }
+        }
+        for (var k in sakai.listpeople.data["members"]["userList"]) {
+            if (sakai.listpeople.data["members"]["userList"].hasOwnProperty(k)) {
+                list.push(k);
+            }
+        }
+        return list;
+    };
 
     ///////////////////////
     // BINDING FUNCTIONS //
@@ -463,11 +523,13 @@ sakai.groupedit = function(){
             $("#group_editing_add_members").bind("click", function(){
                 pl_config.type = "people";
                 pl_config.what = "Members";
+                pl_config.excludeList = getMembersAndManagers();
                 $(window).trigger("sakai-pickeruser-init", pl_config, function(people) {
                 });
                 $(window).unbind("sakai-pickeruser-finished");
                 $(window).bind("sakai-pickeruser-finished", function(e, peopleList) {
-                    addUsers('members', peopleList.toAdd);
+                    var peopleToAdd = filterUsers(peopleList.toAdd);
+                    addUsers('members', peopleToAdd);
                 });
             });
 
@@ -475,11 +537,13 @@ sakai.groupedit = function(){
             $("#group_editing_add_managers").bind("click", function(){
                 pl_config.type = "people";
                 pl_config.what = "Managers";
+                pl_config.excludeList = getMembersAndManagers();
                 $(window).trigger("sakai-pickeruser-init", pl_config, function(people) {
                 });
                 $(window).unbind("sakai-pickeruser-finished");
                 $(window).bind("sakai-pickeruser-finished", function(e, peopleList) {
-                    addUsers('managers', peopleList.toAdd);
+                    var peopleToAdd = filterUsers(peopleList.toAdd);
+                    addUsers('managers', peopleToAdd);
                 });
             });
 
