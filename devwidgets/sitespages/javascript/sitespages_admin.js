@@ -936,15 +936,19 @@ sakai.sitespages.site_admin = function(){
         sakai.sitespages.inEditView = true;
 
         //Check if tinyMCE has been loaded before - probably a more robust check will be needed
-        if (tinyMCE.activeEditor === null) {
-            init_tinyMCE();
+        if (sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageType"] === "dashboard") {
+            sakai.dashboard.showAddWidgetDialog();
         } else {
-            if (tinyMCE.activeEditor.id !== "elm1" && didInit === false) {
-              tinyMCE.remove(tinyMCE.activeEditor.id);
-              init_tinyMCE();
-              didInit = true;
+            if (tinyMCE.activeEditor === null) {
+                init_tinyMCE();
+            } else {
+                if (tinyMCE.activeEditor.id !== "elm1" && didInit === false) {
+                  tinyMCE.remove(tinyMCE.activeEditor.id);
+                  init_tinyMCE();
+                  didInit = true;
+                }
+                editPage(sakai.sitespages.selectedpage);
             }
-            editPage(sakai.sitespages.selectedpage);
         }
 
         return false;
@@ -2011,6 +2015,10 @@ sakai.sitespages.site_admin = function(){
 
         $("#more_menu").hide();
         sakai.api.Util.notification.show("Page move", "To move a page just drag&drop in the page navigation widget!", sakai.api.Util.notification.type.INFORMATION);
+    });
+
+    $('#more_change_layout').live("click", function(){
+        sakai.dashboard.changeLayout();
     });
 
 

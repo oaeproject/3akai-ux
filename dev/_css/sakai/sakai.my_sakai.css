@@ -12,3 +12,55 @@ strong {color: #000;}
 /* WIDGET CONTAINER */
 #widgetscontainer {background-color: #fff; padding-top: 1px; padding-bottom: 20px;}
 #widgetscontainer .fl-widget {margin-top: 1px}
+
+#mysakai_edit_page { float:right; padding:10px; width:220px; }
+
+#mysakai_edit_page #mysakai_edit_page_container {float:right;}
+
+/* Inline Button */
+.s3d-button.s3d-button-inline .s3d-button-inner .s3d-button-icon-left {
+    background: url("/dev/_images/page-options-button-sprite.png") no-repeat left top transparent;
+}
+.s3d-button.s3d-button-inline:hover .s3d-button-inner .s3d-button-icon-left {
+    background-position:-20px top;
+}
+.s3d-button.s3d-button-inline.clicked .s3d-button-inner .s3d-button-icon-left {
+    background-position:-40px top;
+}
+.s3d-button.s3d-button-inline .s3d-button-inner .s3d-button-icon-right {
+    background: url("/dev/_images/page-options-button-sprite.png") no-repeat -60px top transparent;
+}
+.s3d-button.s3d-button-inline.clicked .s3d-button-inner .s3d-button-icon-right {
+    background: url("/dev/_images/white_subnav_arrow.png") no-repeat right center transparent;
+}
+
+/** EDIT PAGE MENU **/
+#mysakai_edit_page .content_page_options .more_link
+{ background: transparent url(/dev/_images/more_bg_18.png) top left no-repeat; padding: 1px 21px 2px 12px; }
+
+#mysakai_edit_page .add_more_menu
+{ background-color: #FFF; padding: 0; position: absolute; left: 0; top: 0; display: block; width: 106px; margin: 0; }
+
+#mysakai_edit_page .add_more_menu ul
+{ margin:0; border:1px solid #cbd0d4; -moz-border-radius:4px; -webkit-border-radius:4px; border-radius:4px; }
+
+#mysakai_edit_page .nav_small_spacer
+{ height: 20px; }
+
+#mysakai_edit_page .add_more_menu ul li
+{ padding: 5px 0px 5px 9px; list-style-type: none; }
+
+#mysakai_edit_page .add_more_menu ul li.more_option
+{ border-bottom:1px solid #cbd0d4;}
+
+#mysakai_edit_page .add_more_menu ul li.more_option.option_last
+{ border-bottom:0px;}
+
+#mysakai_edit_page .add_more_menu ul li:hover
+{ background-color:#dbeefc; cursor:pointer;}
+
+#mysakai_edit_page .add_more_menu ul li a
+{ font-weight:normal; font-size:12px;}
+
+#mysakai_edit_page .add_more_menu ul li a:hover
+{ text-decoration:none; }
