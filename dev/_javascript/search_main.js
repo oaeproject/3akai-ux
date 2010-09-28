@@ -239,7 +239,8 @@ sakai._search = function(config, callback) {
                 for(var k = 0, l = finaljson.items[i]["sakai:tags"].length; k < l; k++){
 
                     // If the searchterm occures in the tags, make it bold
-                    finaljson.items[i]["sakai:tags"][k] = convertTermToBold(finaljson.items[i]["sakai:tags"][k], searchterm);
+                    if (finaljson.items[i]["sakai:tags"][k])
+                        finaljson.items[i]["sakai:tags"][k] = convertTermToBold(finaljson.items[i]["sakai:tags"][k], searchterm);
                 }
             }
         }

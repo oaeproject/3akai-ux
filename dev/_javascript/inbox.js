@@ -731,10 +731,8 @@ sakai.inbox = function() {
 
         if (unreadMessages > 0){
             $("#inbox_unread_nr_messages").text(sakai.api.Security.saneHTML("(" + unreadMessages + ")"));
-            $(chatUnreadMessages).html(sakai.api.Security.saneHTML(unreadMessages));
         } else {
             $("#inbox_unread_nr_messages").text("");
-            $(chatUnreadMessages).html("0");
         }
 
         if (unreadAnnouncements > 0){
@@ -749,6 +747,8 @@ sakai.inbox = function() {
             $("#inbox_unread_nr_invitations").text("");
         }
 
+        var totalUnread = 0 + unreadMessages + unreadInvitations + unreadAnnouncements;
+        $(chatUnreadMessages).text(sakai.api.Security.saneHTML(totalUnread));
     };
 
     /**

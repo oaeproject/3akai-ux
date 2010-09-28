@@ -10,9 +10,8 @@
 <div id="remotecontent_settings_template"><!--
     <form>
         <div class="remotecontent_settings_subcontainer">
-            <p>
-                <input type="text" id="remotecontent_settings_url" value="${url}" /><br />
-            </p>
+            <div class="remotecontent_settings_url_input"><label class="remotecontent_settings_label_head">Remote content web address (URL):</label> <input type="text" id="remotecontent_settings_url" value="${url}" title="Please paste or enter the address of the remote content you would like to embed into this page" /></div>
+            <div class="remotecontent_settings_error" id="remotecontent_settings_url_error" style="display:none;">Please enter or paste a valid web address.</div>
             <p>
                 <label class="remotecontent_settings_label_head">Preview:</label> <span> (size doesn't change in preview mode)<br class="fl-push" />
             </p>
@@ -50,8 +49,10 @@
         </div>
 
         <div class="dialog_buttons">
-            <button type="button" class="s3d-button s3d-button-primary" id="remotecontent_settings_insert"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
-            <button type="button" class="s3d-button" id="remotecontent_settings_cancel"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
+            <div class="remotecontent_buttons">
+                <button type="button" class="s3d-button" id="remotecontent_settings_cancel"><span class="s3d-button-inner">__MSG__DONT_SAVE__</span></button>
+                <button type="button" class="s3d-button s3d-button-primary" id="remotecontent_settings_insert"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
+            </div>
         </div>
     </form>
 --></div>
