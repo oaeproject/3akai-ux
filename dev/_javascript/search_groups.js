@@ -338,7 +338,7 @@ sakai.search = function() {
                 success: function(data) {
                     renderResults(data, true);
                 },
-                onFail: function(status) {
+                error: function(status) {
                     var json = {};
                     renderResults(json, false);
                 }

@@ -520,7 +520,7 @@ sakai.config = {
             "label" : "CONTENT_AND_MEDIA"
         },
         {
-            "url" : "/dev/search_groups.html#q=*&facet=all",
+            "url" : "/dev/search_groups.html#q=*&facet=manage",
             "label" : "GROUPS"
         },
         {
