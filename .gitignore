@@ -4,3 +4,4 @@
 *.kpf
 nginx.*
 /dev-i
+.DS_Store
