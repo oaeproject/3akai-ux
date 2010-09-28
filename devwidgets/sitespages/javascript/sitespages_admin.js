@@ -2305,7 +2305,7 @@ sakai.sitespages.site_admin = function(){
     };
 
     admin_init();
-
+    $(window).trigger("sakai-sitespages-admin-ready");
 };
 
 sakai.sitespages.onAdminLoaded();
