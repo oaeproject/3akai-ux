@@ -687,7 +687,14 @@ sakai.fileupload = function(tuid, showSettings){
 
                         // Get the values out of the name boxes
                         $(multiFileList + " input").each(function(index){
-                            extractedData[index].name = $(this)[0].value;
+                            for (var i in extractedData){
+                                if (extractedData.hasOwnProperty(i)) {
+                                    if ($(this)[0].id === extractedData[i].filename.replace(/\./g, "_")) {
+                                        extractedData[i].name = $(this)[0].value;
+                                        break;
+                                    }
+                                }
+                            }
                         });
 
                         uploadedFiles = extractedData;
