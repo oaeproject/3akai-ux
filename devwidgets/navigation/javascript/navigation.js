@@ -544,7 +544,7 @@ sakai.navigation = function(tuid, showSettings){
             [ "themes", "json_data", "ui" ];
         $navigationTree.jstree({
             "core": {
-                "animation": 0,
+                "animation": 0
             },
             "json_data": {
                 "data": navigationData
@@ -555,7 +555,7 @@ sakai.navigation = function(tuid, showSettings){
             },
             "ui": {
                 "select_limit": 1,
-                "initially_select": [initiallySelect.toString()],
+                "initially_select": [initiallySelect.toString()]
             },
             "plugins" : pluginArray
         });
@@ -643,7 +643,7 @@ sakai.navigation = function(tuid, showSettings){
                                 // These are in fact the nodes that are in front of the reference node
                                 if ((nodePage > currentNodePage) && (nodePage < referenceNodePage)) {
                                     sakai.sitespages.site_info._pages[c].pagePosition = nodePage - 200000;
-                                    toUpdatePages.push(sakai.sitespages.site_info._pages[c])
+                                    toUpdatePages.push(sakai.sitespages.site_info._pages[c]);
                                 }
                                 // IF this is not the case this means that the node will be after the reference node and it just has to be parsed
                                 else {
@@ -667,7 +667,7 @@ sakai.navigation = function(tuid, showSettings){
                             var nodePage = parseFloat(sakai.sitespages.site_info._pages[c].pagePosition,10);
                             if(nodePage >= parseFloat(sakai.sitespages.site_info._pages[src_url_name].pagePosition,10)&&(sakai.sitespages.site_info._pages[c].pageTitle !==sakai.sitespages.site_info._pages[src_url_name].pageTitle )){
                                 sakai.sitespages.site_info._pages[c].pagePosition = nodePage + 200000;
-                                toUpdatePages.push(sakai.sitespages.site_info._pages[c])
+                                toUpdatePages.push(sakai.sitespages.site_info._pages[c]);
                             }
                         }
                         updatePagePosition(toUpdatePages);

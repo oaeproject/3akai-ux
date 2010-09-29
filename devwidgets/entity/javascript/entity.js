@@ -185,11 +185,13 @@ sakai.entity = function(tuid, showSettings){
         $entity_container.show();
         // make sure the newly added content is properly styled with
         // threedots truncation
-        $(".entity_threedots").ThreeDots({
-            max_rows: 1,
-            text_span_class: "threedots",
-            alt_text_t: true
-        });
+        if ($(".entity_threedots").length) {
+            $(".entity_threedots").ThreeDots({
+                max_rows: 1,
+                text_span_class: "threedots",
+                alt_text_t: true
+            });
+        }
     };
 
     /**
@@ -477,7 +479,7 @@ sakai.entity = function(tuid, showSettings){
                 "url" : "/var/contacts/pending.json?page=0&items=100",
                 "method" : "GET"
             }
-        ]
+        ];
         $.ajax({
             url: "/system/batch",
             type: "POST",
@@ -493,23 +495,24 @@ sakai.entity = function(tuid, showSettings){
                     }
                 }
                 var invited = $.parseJSON(data.results[1].body);
-                for (var i in invited.results){
-                    if (invited.results[i].target === userid){
+                for (var j in invited.results){
+                    if (invited.results[j].target === userid){
                         $("#entity_contact_invited").show();
                         return true;
                     }
                 }
                 var pending = $.parseJSON(data.results[2].body);
-                for (var i in pending.results){
-                    if (pending.results[i].target === userid){
+                for (var k in pending.results){
+                    if (pending.results[k].target === userid){
                         $("#entity_contact_pending").show();
                         return true;
                     }
                 }
                 $("#entity_add_to_contacts").show();
+                return true;
             }
         });
-    }
+    };
 
     /**
      * Accept a contact invitation
@@ -524,7 +527,7 @@ sakai.entity = function(tuid, showSettings){
                 $("#entity_contact_accepted").show();
             }
         });
-    }
+    };
 
     /////////////
     // BINDING //
@@ -830,7 +833,7 @@ sakai.entity = function(tuid, showSettings){
      */
     var setGroupData = function(){
         // Set the profile picture for the group you are looking at
-        entityconfig.data.profile.picture = constructProfilePicture(entityconfig.data.profile)
+        entityconfig.data.profile.picture = constructProfilePicture(entityconfig.data.profile);
 
         // determine users role and get the count of members and managers
         getGroupMembersManagers();
@@ -841,7 +844,7 @@ sakai.entity = function(tuid, showSettings){
             sakai.api.UI.changepic["id"] = entityconfig.data.profile["sakai:group-id"];
         }
 
-    }
+    };
 
     /**
      * Set the data for the content object information
@@ -1023,7 +1026,7 @@ sakai.entity = function(tuid, showSettings){
 
         //no. of groups user is memeber of
         entityconfig.data.count.groups = sakai.data.me.groups.length;
-    }
+    };
 
     /**
      * Get content data and then call method to get data for the appropriate mode
@@ -1076,7 +1079,7 @@ sakai.entity = function(tuid, showSettings){
     sakai.entity.isReady = true;
     // Add binding to update the chat status
     $(window).bind("chat_status_change", function(event, newChatStatus){
-        updateChatStatusElement(newChatStatus)
+        updateChatStatusElement(newChatStatus);
     });
 
 };
