@@ -172,6 +172,7 @@ sakai.config = {
                 "required": true,
                 "display": true,
                 "access": "everybody",
+                "modifyacl": false,
                 "elements": {
                     "firstName": {
                         "label": "__MSG__PROFILE_BASIC_FIRSTNAME_LABEL__",
@@ -251,6 +252,7 @@ sakai.config = {
                 "required": true,
                 "display": true,
                 "access": "everybody",
+                "modifyacl": true,
                 "elements": {
                     "aboutme": {
                         "label": "__MSG__PROFILE_ABOUTME_LABEL__",
@@ -282,6 +284,7 @@ sakai.config = {
                 "required": false,
                 "display": true,
                 "access": "everybody",
+                "modifyacl": true,
                 "multiple": true,
                 "multipleLabel": "__MSG__PROFILE_PUBLICATION_LABEL__",
                 //"template": "profile_section_publications_template",
