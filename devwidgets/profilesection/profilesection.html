@@ -75,7 +75,7 @@
                             <a href="profile_edit.html">${sakai.profile.main.acls.options[_access].label}</a>
                         {else}
                             <label for="profilesection_generalinfo_access_${currentsection}">__MSG__WHO_CAN_VIEW_OR_SEARCH_THIS__</label>
-                            <select id="profilesection_generalinfo_access_${currentsection}" name="profilesection_generalinfo_access_${currentsection}" class="profilesection_generalinfo_access" title="${currentsection}.access">
+                            <select id="profilesection_generalinfo_${currentsection}_access" name="profilesection_generalinfo_access_${currentsection}" class="profilesection_generalinfo_access">
                                 {for ace in sakai.profile.main.acls.options}
                                     <option{if _access === ace_index} selected="selected"{/if} value="${ace_index}">${ace.label}</option>
                                 {/for}
@@ -129,7 +129,7 @@
                 {if !config.type || $.inArray(config.type, stringtypes) >= 0}
                     value="{if data.value}${data.value.replace(/\"/g, "&quot;")}{/if}"
                 {/if}
-                    id="profilesection_generalinfo_${path.replace(/\./g,"_")}" name="${config.label}" title="${path}"
+                    id="profilesection_generalinfo_${path.replace(/\./g,"_")}" name="${config.label}" title="${config.label}"
                 {if !config.type || $.inArray(config.type, stringtypes) >= 0}
                     />
                 {elseif config.type === "select"}

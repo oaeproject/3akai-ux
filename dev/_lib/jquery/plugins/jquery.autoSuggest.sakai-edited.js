@@ -90,7 +90,7 @@
                         var v_data = {};
                         v_data[opts.selectedValuesProp] = vals[i];
                         if(vals[i] != ""){
-                            add_selected_item(v_data, "000"+i); 
+                            $.fn.autoSuggest.add_selected_item(v_data, "000"+i);
                         }       
                     }
                     prefill_value = opts.preFill;
@@ -104,7 +104,7 @@
                             if(new_v == undefined){ new_v = ""; }
                             prefill_value = prefill_value+new_v+",";
                             if(new_v != ""){
-                                add_selected_item(opts.preFill[i], "000"+i);    
+                                $.fn.autoSuggest.add_selected_item(opts.preFill[i], "000"+i);
                             }       
                         }
                     }
@@ -297,7 +297,7 @@
                                         var data = raw_data.attributes;
                                         input.val("").focus();
                                         prev = "";
-                                        add_selected_item(data, number);
+                                        $.fn.autoSuggest.add_selected_item(data, number);
                                         opts.resultClick.call(this, raw_data);
                                         $("li", results_ul).removeClass("active");
                                         results_holder.hide();
@@ -337,7 +337,7 @@
                     opts.resultsComplete.call(this);
                 }
                 
-                function add_selected_item(data, num){
+                $.fn.autoSuggest.add_selected_item = function(data, num){
                     values_input.val(values_input.val()+data[opts.selectedValuesProp]+",");
                     var item = $('<li class="as-selection-item" id="as-selection-'+num+'"></li>').click(function(){
                             opts.selectionClick.call(this, $(this));
