@@ -188,7 +188,7 @@ sakai.search = function() {
             // Reset the pager.
             $(searchConfig.global.pagerClass).pager({
                 pagenumber: currentpage,
-                pagecount: Math.ceil(results.total / resultsToDisplay),
+                pagecount: Math.ceil(Math.abs(results.total) / resultsToDisplay),
                 buttonClickCallback: pager_click_handler
             });
 
@@ -197,20 +197,14 @@ sakai.search = function() {
                 finaljson = mainSearch.prepareCMforRendering(results.results, finaljson, searchterm);
             }
 
-            if (currentpage == 1) {
-                // If we get a negative number (-100) the pager should always be shown
-                if ((Math.abs(results.total) != results.total)) {
-                    $(searchConfig.global.pagerClass).show();
-                // If the number is between 0 and 10 the pager should not be shown
-                }
-                else
-                    if ((results.total > 0) && (results.total <= 10)) {
-                        $(searchConfig.global.pagerClass).hide();
-                    // Else the number is between 10 and 100 and the pager should be shown
-                    }
-                    else {
-                        $(searchConfig.global.pagerClass).show();
-                    }
+            // We hide the pager if we don't have any results or
+            // they are less then the number we should display
+            results.total = Math.abs(results.total);
+            if (results.total <= resultsToDisplay) {
+                $(searchConfig.global.pagerClass).hide();
+            }
+            else {
+                $(searchConfig.global.pagerClass).show();
             }
         }
         else {

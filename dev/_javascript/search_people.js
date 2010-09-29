@@ -121,7 +121,7 @@ sakai.search = function() {
                 "all" : {
                     "category": "All People",
                     "searchurl": searchURLmap.allusers
-                }, 
+                },
                 "contacts" : {
                     "category": "My Contacts",
                     "searchurl": searchURLmap.mycontacts
@@ -129,7 +129,7 @@ sakai.search = function() {
                 "onlinecontacts" : {
                     "category": "Contacts Currently Online",
                     "searchurl": searchURLmap.onlinecontacts
-                }, 
+                },
                 "invited" : {
                     "category": "My Contact Invitations",
                     "searchurl": searchURLmap.invitedcontacts
@@ -278,21 +278,15 @@ sakai.search = function() {
                 finaljson = mainSearch.preparePeopleForRender(results.results, finaljson);
             }
 
-                if (currentpage == 1) {
-                    // If we get a negative number (-100) the pager should always be shown
-                    if ((Math.abs(results.total) != results.total)) {
-                        $(searchConfig.global.pagerClass).show();
-                    // If the number is between 0 and 10 the pager should not be shown
-                    }
-                    else
-                        if ((results.total > 0) && (results.total <= 10)) {
-                            $(searchConfig.global.pagerClass).hide();
-                        // Else the number is between 10 and 100 and the pager should be shown
-                        }
-                        else {
-                            $(searchConfig.global.pagerClass).show();
-                        }
-                }
+            // We hide the pager if we don't have any results or
+            // they are less then the number we should display
+            results.total = Math.abs(results.total);
+            if (results.total <= resultsToDisplay) {
+                $(searchConfig.global.pagerClass).hide();
+            }
+            else {
+                $(searchConfig.global.pagerClass).show();
+            }
 
         }
         else {
@@ -335,14 +329,14 @@ sakai.search = function() {
         if (facet){
             facetedurl = searchConfig.facetedConfig.facets[facet].searchurl;
         }
-        
+
         $(".faceted_category").removeClass("faceted_category_selected");
         if (facet) {
             $("#" + facet).addClass("faceted_category_selected");
         } else {
             $(".faceted_category:first").addClass("faceted_category_selected");
         }
-    
+
         if (isNaN(page)){
             page = 1;
         }
@@ -374,7 +368,7 @@ sakai.search = function() {
 
             // The search URL depends on the searchWhere variable
             var searchURL;
-            
+
             if(searchWhere === "mycontacts") {
                 searchURL = sakai.config.URL.SEARCH_USERS_ACCEPTED + "&q=" + urlsearchterm;
             }  else {
@@ -517,13 +511,13 @@ sakai.search = function() {
     var doInit = function() {
 
         mainSearch = sakai._search(searchConfig, thisFunctionality);
-        
+
         // add the bindings
         mainSearch.addEventListeners();
 
         // display faceted panel
         mainSearch.addFacetedPanel();
-        
+
     };
     doInit();
 };
