@@ -265,7 +265,7 @@ sakai.show = function() {
         var editMode = sakai.currentgroup.manager || sakai.profile.main.isme;
         var homePage = "";
         sakai.sitespages.doInit(basepath, fullpath, url, canEdit, homePage, entityType+"pages", entityType+"dashboard");
-    }
+    };
 
     $(window).bind("sakai.api.UI.entity.ready", function(e){
         entityWidgetReady = true;
@@ -290,6 +290,6 @@ sakai.show = function() {
     };
 
     doInit();
-}
+};
 
 sakai.api.Widgets.Container.registerForLoad("sakai.show");

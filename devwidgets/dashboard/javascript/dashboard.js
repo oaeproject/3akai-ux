@@ -430,7 +430,7 @@ sakai.dashboard = function(tuid, showSettings) {
               /**
              * Bind the document on click event
              */
-              $(document).unbind('click').click(function(e) {
+              $(document).click(function(e) {
                   var $clicked = $(e.target);
 
                   // Check if one of the parents is the chatstatuscontainer
@@ -909,11 +909,9 @@ sakai.dashboard = function(tuid, showSettings) {
      * Send out an event to indicate that the dashboard widget has been
      * loaded successfully
      */
-    var init = function() {
-        $(window).trigger("sakai.dashboard.ready", tuid);
-    };
 
-    init();
+    $(window).trigger("sakai.dashboard.ready", tuid);
+    sakai.dashboard.isReady = true;
 };
 
 sakai.api.Widgets.widgetLoader.informOnLoad("dashboard");
