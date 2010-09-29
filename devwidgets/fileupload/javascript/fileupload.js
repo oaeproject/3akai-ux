@@ -750,8 +750,11 @@ sakai.fileupload = function(tuid, showSettings){
      $(fileUploadLinkForm).live("submit",function(){
          $(fileUploadLinkForm).children().attr("disabled", "disabled");
          // Test if the link is valid before saving it
-        var regEx = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+        var regEx = /(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
         if (regEx.test($(fileUploadLinkBoxInput).val())){
+            if($(fileUploadLinkBoxInput).val().substring(0,7) !== "http://"){
+                $(fileUploadLinkBoxInput).val("http://" + $(fileUploadLinkBoxInput).val());
+            }
             if (context !== "new_version") {
                 uploadLink();
             }else{
