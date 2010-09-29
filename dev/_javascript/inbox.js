@@ -1239,30 +1239,17 @@ sakai.inbox = function() {
 
     });
 
-
-    // Sorters for the inbox.
-    $(inboxTableHeaderSort).bind("mouseenter", function() {
-        if (sortOrder === 'descending') {
-            $(this).append(sakai.api.Security.saneHTML($(inboxInboxSortUp).html()));
-        }
-        else {
-            $(this).append(sakai.api.Security.saneHTML($(inboxInboxSortDown).html()));
-        }
-    });
-    $(inboxTableHeaderSort).bind("mouseout", function() {
-        $(inboxTable + " " + inboxArrow).remove();
-    });
     $(inboxTableHeaderSort).bind("click", function() {
+        $(inboxTable + " " + inboxArrow).remove();
         sortBy = $(this).attr("id").replace(/inbox_table_header_/gi, "");
         sortOrder = (sortOrder === "descending") ? "ascending" : "descending";
-
+        if (sortOrder === "descending") {
+            $(this).append(sakai.api.Security.saneHTML($(inboxInboxSortDown).html()));
+        } else {
+            $(this).append(sakai.api.Security.saneHTML($(inboxInboxSortUp).html()));
+        }
         getAllMessages();
     });
-
-
-
-
-
 
     /**
      *
@@ -1320,6 +1307,8 @@ sakai.inbox = function() {
     });
 
     $(window).bind('hashchange', function(e) {
+        $(inboxTable + " " + inboxArrow).remove();
+        $("#inbox_table_header_date").append(sakai.api.Security.saneHTML($(inboxInboxSortDown).html()));
         var box = $.bbq.getState("box");
         var msg = $.bbq.getState("message");
         var action = $.bbq.getState("action");

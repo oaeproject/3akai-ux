@@ -335,14 +335,17 @@ sakai.profilesection = function(tuid, showSettings){
             var $selected_element = $(element);
 
             // Get the attribute that contains the path
-            var title = $selected_element.attr("title");
+            var title = $selected_element.attr("id").split("profilesection_generalinfo_")[1].replace(/\_/g,".");
 
             // Check whether the element has a correct attribute
             // TODO replace title by data-path as soon as the sanitizer allows it SAKIII-543
 
             if (title === "basic.elements.tags") { // tags are special, we save them differently than the rest of the data
                 var currentTags = sakai.profile.main.data["sakai:tags"] || [];
-                var tagsArray = $selected_element.val().split(",");
+                var tagsArray = [];
+                $($selected_element.val().split(",")).each(function(i, tag){
+                    tagsArray.push(tag.replace(/\\/g,""));
+                });
                 var profileURL = "/~" + sakai.profile.main.data["rep:userId"] + "/public/authprofile";
                 sakai.api.Util.tagEntity(profileURL, tagsArray, currentTags, function() {
                     fluid.log("user tags saved");
@@ -422,6 +425,8 @@ sakai.profilesection = function(tuid, showSettings){
      * Initialization function
      */
     var init = function() {
+
+        $("#profile_form").validate();
 
         currentsection = $rootel.selector.replace("#", "").replace("profilesection-", "");
 

@@ -28,6 +28,54 @@ sakai.mysakai = function(){
     // Initialisation function //
     /////////////////////////////
 
+    var showHideMoreMenu = function(hideOnly){
+        var el = $("#more_menu");
+        if (el) {
+            if (el.css("display").toLowerCase() !== "none" || hideOnly) {
+                $("#more_link").removeClass("clicked");
+                el.hide();
+            } else {
+                $("#more_link").addClass("clicked");
+                var x = $("#more_link").position().left;
+                var y = $("#more_link").position().top;
+                el.css(
+                        {
+                          "top": y + 28 + "px",
+                          "left": x + 2 + "px"
+                        }
+                    ).show();
+            }
+        }
+    };
+
+    // Bind Insert Link click event
+    $("#more_link").live("click", function(ev){
+        showHideMoreMenu(false);
+    });
+    // Bind mousedown and mouseup to give an optional clicking effect via css
+    $("#more_link").live("mousedown", function(e) {
+        $("#more_link").addClass("clicking");
+    });
+    $("#more_link").live("mouseup", function(e) {
+        $("#more_link").removeClass("clicking");
+    });
+
+    $("#more_customize_page").live("click", function() {
+        sakai.dashboard.showAddWidgetDialog();
+        showHideMoreMenu(true);
+    });
+
+    $("#more_change_layout").live("click", function() {
+        sakai.dashboard.changeLayout();
+        showHideMoreMenu(true);
+    });
+
+    $("html").live("click", function(e) {
+        if (!($(e.target).is("#more_menu") || $(e.target).parents("#more_menu").length || $(e.target).is("#more_link") || $(e.target).parents("#more_link").length)) {
+            showHideMoreMenu(true);
+        }
+    });
+
     /**
      * Init function for the mysakai page
      */

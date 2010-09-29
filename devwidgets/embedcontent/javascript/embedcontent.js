@@ -211,10 +211,8 @@ sakai.embedcontent = function(tuid, showSettings) {
         }
         $.each(files, function(i,val) {
             var newObj = createDataObject(val, val["jcr:name"]);
-             selectedItems.push(newObj);
-             var itemHTML = $.TemplateRenderer($embedcontent_new_item_template, {"name": newObj.name, "value": newObj.value});
-             $("#as-values-" + tuid).val(newObj.value + "," + $("#as-values-" + tuid).val());
-             $("#as-original-" + tuid).before(itemHTML);
+            selectedItems.push(newObj);
+            $embedcontent_content_input.autoSuggest.add_selected_item(newObj, newObj.value);
         });
         $("input#" + tuid).val('').focus();
     };
@@ -230,9 +228,7 @@ sakai.embedcontent = function(tuid, showSettings) {
              success: function(data) {
                  var newObj = createDataObject(data, val.url.split("/p/")[1]);
                  selectedItems.push(newObj);
-                 var itemHTML = $.TemplateRenderer($embedcontent_new_item_template, {"name": newObj.name, "value": newObj.value});
-                 $("#as-values-" + tuid).val(newObj.value + "," + $("#as-values-" + tuid).val());
-                 $("#as-original-" + tuid).before(itemHTML);
+                 $embedcontent_content_input.autoSuggest.add_selected_item(newObj, newObj.value);
              }
           });
       });

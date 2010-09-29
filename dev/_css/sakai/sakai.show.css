@@ -2,7 +2,7 @@ div#sitespages_page_options {width:220px; padding:10px; float:right; display:inl
 div#sitespages_page_options.joinable {display:none;}
 div#sitespages_page_options button {float:right;}
 div#sitespages_page_options #page_options {float:right;}
-div#sitespages_page_options #page_save_options {float:right;margin-top:100px;}
+div#sitespages_page_options #page_save_options {float:right;margin-top:64px;}
 div#page_save_options_bottom, div#page_save_options_bottom button {float:right;}
 div.show_content_and_description {padding:10px; background-color:#EFF2F4; float:left; display:inline; width:97%;}
 div.content_item {height:120px; width:312px; margin-right:10px; float:left; display:inline;}
@@ -28,12 +28,6 @@ a.embedcontent_download_link, p.embedcontent_actual_description {font-size:11px;
 
 .messageInformation {float:right; margin-right:10px;}
 .messageInformation #realtime {font-weight:bold;color:#000;}
-
-.context_menu{left:18px;padding:0;position:absolute;top:124px;}
-.context_menu img{border:1px solid #555;border-bottom:none;}
-.context_menu ul{margin:0;margin-top:-3px;background-color:#eee;border:1px solid #555;}
-.context_menu ul li{list-style-type:none;}
-.context_menu ul li a{color:#666;font-size:0.95em;display:block;padding:2px 20px 2px 4px;}
 
 .block_image{display:block;}
 .block_image_right{display:block;float:right;}

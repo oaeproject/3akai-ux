@@ -209,6 +209,7 @@
                 <ul>
                     <li id="more_revision_history" class="more_option"><a href="javascript:;" class="s3d-action">Revision History</a></li>
                     <li id="more_save_as_template" class="more_option"><a href="javascript:;" class="s3d-action">Save as Template</a></li>
+                    <li id="more_change_layout" class="more_option"><a href="javascript:;" class="s3d-action">Change Layout</a></li>
                     <li id="more_delete" class="more_option option_last"><a href="javascript:;" class="s3d-action">Delete</a></li>
                 </ul>
             </div>
@@ -419,13 +420,22 @@
         </div>
 
         <div class="context_menu" id="context_menu" style="display:none">
-            <img src="/dev/_images/edit_icon.png" width="20px" height="20px" alt="Edit Widget"/>
-            <br />
-            <ul>
-                <li id="context_settings"><a href="javascript:;">Settings</a></li>
-                <li id="context_remove"><a href="javascript:;">Remove</a></li>
-                <li id="context_appearance"><a href="javascript:;" id="context_appearance_trigger">Wrapping</a></li>
-            </ul>
+            <button class="s3d-button s3d-button-inline" id="more_link">
+                <span class="s3d-button-inner"><span class="s3d-button-icon-left"></span><span class="s3d-button-inner-text">Widget options</span><span class="s3d-button-icon-right"></span></span>
+            </button>
+            <div class="context_more">
+                <ul>
+                    <li id="context_settings" class="more_option">
+                        <a href="javascript:;" class="s3d-action">Settings</a>
+                    </li>
+                    <li id="context_remove" class="more_option">
+                        <a href="javascript:;" class="s3d-action">Remove</a>
+                    </li>
+                    <li id="context_appearance_trigger" class="more_option option_last">
+                        <a href="javascript:;" class="s3d-action">Wrapping</a>
+                    </li>
+                </ul>
+            </div>
         </div>
 
 

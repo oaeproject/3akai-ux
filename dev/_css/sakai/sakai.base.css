@@ -192,12 +192,6 @@ a.s3d-action, .s3d-actions a {
 html > body .s3d-button .s3d-button-inner {
     white-space: normal; /* only do the white-space fix on IE6 */
 }
-@media screen and (-webkit-min-device-pixel-ratio:0) {
-    /* Safari and Google Chrome only - fix margins */
-    .s3d-button .s3d-button-inner {
-        margin-top: -1px;
-    }
-}
 
 .s3d-button-primary {
     background-position: right -200px;
@@ -255,10 +249,10 @@ html > body .s3d-button .s3d-button-inner {
     padding-right:4px;
 }
 .s3d-button.s3d-button-inline:hover {
-    background: url("../../_images/page-options-button-sprite.png") no-repeat scroll right -20px transparent;
+    background: url("../../_images/page-options-button-sprite.png") no-repeat scroll right -49px transparent;
 }
 .s3d-button.s3d-button-inline.clicked {
-    background: url("../../_images/page-options-button-sprite.png") no-repeat scroll right -60px transparent;
+    background: url("../../_images/page-options-button-sprite.png") no-repeat scroll right -107px transparent;
 }
 .s3d-button.s3d-button-inline .s3d-button-inner span {
     float:left;
@@ -277,7 +271,7 @@ html > body .s3d-button .s3d-button-inner {
     background: url("../../_images/page-options-button-sprite.png") no-repeat scroll left -20px transparent;
 }
 .s3d-button.s3d-button-inline.clicked .s3d-button-inner {
-    background: url("../../_images/page-options-button-sprite.png") no-repeat scroll left -60px transparent;
+    background: url("../../_images/page-options-button-sprite.png") no-repeat scroll left -78px transparent;
     color:#fff;
 }
 .s3d-button.s3d-button-inline .s3d-button-inner .s3d-button-inner-text {
@@ -302,6 +296,16 @@ html > body .s3d-button .s3d-button-inner {
 .s3d-button.s3d-button-tab { background: url("/dev/_images/tab_button_bg.png") no-repeat scroll right -25px transparent; }
 .s3d-button.s3d-button-tab .s3d-button-inner { background: url("/dev/_images/tab_button_bg.png") no-repeat scroll left top transparent; }
 .s3d-button.s3d-button-tab .s3d-button-inner { font-size:11px; }
+
+/*
+ * Context Menu for Dropdowns
+ */
+.context_menu{left:18px;padding:0;position:absolute;top:124px;}
+.context_menu img{border:1px solid #555;border-bottom:none;}
+.context_menu ul{margin:0;margin-top:-3px;background-color:#eee;border:1px solid #555;}
+.context_menu ul li{list-style-type:none;}
+.context_menu ul li a{color:#666;font-size:0.95em;display:block;padding:2px 20px 2px 4px;}
+
 /* ----------------------------------------------------------------------------
  *    CONTENT AREA TOP TABS
  * ----------------------------------------------------------------------------
