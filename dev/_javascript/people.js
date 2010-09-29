@@ -47,7 +47,7 @@ sakai.search = function(){
 
         $.ajax({
             url: "/var/contacts/accepted.json?page=" + (page - 1) + "&items=" + peopleToSearch,
-            cache:false,
+            cache: false,
             success: function(data){
                 foundContacts = $.extend(data, {}, true);
                 renderContacts();
@@ -160,7 +160,7 @@ sakai.search = function(){
 
         $.ajax({
             url: "/var/contacts/invited.json?page=0&items=100",
-            cache:false,
+            cache: false,
             success: function(data){
                 foundInvitations = $.extend(data, {}, true);
                 renderInvitations();
