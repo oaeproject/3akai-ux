@@ -115,9 +115,6 @@ sakai.entity = function(tuid, showSettings){
     var entityGroupJoinRequest = entityGroupJoin + '_request';
     var entityGroupJoinRequestPending = entityGroupJoin + '_request_pending';
 
-    // Content buttons
-    var entityContentDownload = "#entity_content_download";
-
     var authprofileURL;
 
     ////////////////////
@@ -186,6 +183,13 @@ sakai.entity = function(tuid, showSettings){
     var renderTemplate = function(){
         $.TemplateRenderer($entity_container_template, entityconfig, $entity_container);
         $entity_container.show();
+        // make sure the newly added content is properly styled with
+        // threedots truncation
+        $(".entity_threedots").ThreeDots({
+            max_rows: 1,
+            text_span_class: "threedots",
+            alt_text_t: true
+        });
     };
 
     /**
@@ -791,16 +795,6 @@ sakai.entity = function(tuid, showSettings){
         }
 
         if(entityconfig.mode === "content"){
-            // Add binding to content related buttons
-            $(entityContentDownload).bind("click", function(){
-                if (entityconfig.data.profile.mimetype === "x-sakai/link") {
-                    window.open(entityconfig.data.profile.revurl);
-                }
-                else {
-                    window.open(entityconfig.data.profile.path);
-                }
-            });
-
             // Add binding to locations box
             addBindingLocationsLink();
         }

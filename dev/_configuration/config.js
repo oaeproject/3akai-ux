@@ -342,7 +342,8 @@ sakai.config = {
                     "url": {
                         "label": "__MSG__PROFILE_PUBLICATIONS_URL__",
                         "required": false,
-                        "display": true
+                        "display": true,
+                        "validation":"url"
                     }
                 }
             }
@@ -443,11 +444,39 @@ sakai.config = {
             URL: "/dev/_images/mimetypes/doc.png",
             description: "Word document"
         },
+        "application/msword": {
+            URL: "/dev/_images/mimetypes/doc.png",
+            description: "Word document"
+        },
         "application/pdf": {
             URL: "/dev/_images/mimetypes/pdf.png",
             description: "PDF document"
         },
+        "application/x-pdf": {
+            URL: "/dev/_images/mimetypes/pdf.png",
+            description: "PDF document"
+        },
+        "application/vnd.ms-powerpoint": {
+            URL: "/dev/_images/mimetypes/pps.png",
+            description: "PowerPoint document"
+        },
+        "application/vnd.oasis.opendocument.text": {
+            URL: "/dev/_images/mimetypes/doc.png",
+            description: "Open Office document"
+        },
+        "application/x-shockwave-flash": {
+            URL: "/dev/_images/mimetypes/swf.png",
+            description: "Flash player file"
+        },
+        "application/zip": {
+            URL: "/dev/_images/mimetypes/zip.png",
+            description: "Archive file"
+        },
         "text/plain": {
+            URL: "/dev/_images/mimetypes/txt.png",
+            description: "Text document"
+        },
+        "text/rtf": {
             URL: "/dev/_images/mimetypes/txt.png",
             description: "Text document"
         },
@@ -466,6 +495,10 @@ sakai.config = {
         "text/html": {
             URL: "/dev/_images/mimetypes/html.png",
             description: "HTML document"
+        },
+        "video/x-msvideo": {
+            URL: "/dev/_images/mimetypes/video.png",
+            description: "Video file"
         },
         folder: {
             URL: "/dev/_images/mimetypes/kmultiple.png",

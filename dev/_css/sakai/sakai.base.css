@@ -192,12 +192,6 @@ a.s3d-action, .s3d-actions a {
 html > body .s3d-button .s3d-button-inner {
     white-space: normal; /* only do the white-space fix on IE6 */
 }
-@media screen and (-webkit-min-device-pixel-ratio:0) {
-    /* Safari and Google Chrome only - fix margins */
-    .s3d-button .s3d-button-inner {
-        margin-top: -1px;
-    }
-}
 
 .s3d-button-primary {
     background-position: right -200px;

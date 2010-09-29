@@ -20,12 +20,15 @@
 #content_profile_file_details_container #content_profile_file_details_details {background-color:#eef2f5;}
 #content_profile_file_details_container #content_profile_file_details_actions {background-color:#979ba1;}
 #content_profile_file_details_container #content_profile_file_details_action_delete {float:right !important;}
-#content_profile_file_details_container #content_profile_file_details_actions button{float:left;}
+#content_profile_file_details_container #content_profile_file_details_actions button, #content_profile_file_details_container #content_profile_file_details_actions span{float:left;}
 #content_profile_file_details_container #content_profile_file_details_details_secondcolumn {}
 #content_profile_file_details_container #content_profile_file_details_details_firstcolumn {float:left; width:400px;}
 #content_profile_file_details_container .content_profile_file_details_title {padding:0 20px 5px 0; font-weight:normal; color:#333333; float:right;}
 #content_profile_file_details_container #content_profile_file_details_titles {float:right;}
 #content_profile_file_details_container #content_profile_file_details_basic_info {float:left; width:260px;}
 #content_profile_file_details_container p {padding:0 0 5px 0; margin:0; font-weight:bold;}
-#content_profile_file_details_container hr {margin-top:20px; visibility:hidden;}
 #content_profile_file_details_container .content_profile_file_details_form_section_header {color:#5A6A7C; font-size:16px; font-weight:normal; margin:20px 0; padding:0 0 5px 5px;}
+#content_profile_file_details_container a#content_profile_file_details_action_download:hover {text-decoration:none;}
+
+#content_profile_file_details_container .threedots_a {color:#006E96; font-size:13px; font-weight:bold;}
+#content_profile_file_details_container .ellipsis_text {word-wrap:break-word;}

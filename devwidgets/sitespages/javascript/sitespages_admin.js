@@ -538,7 +538,7 @@ sakai.sitespages.site_admin = function(){
                 $context_settings.hide();
             }
             var pos = tinymce.DOM.getPos(selected);
-            $context_menu.css({"top": pos.y + $("#elm1_ifr").position().top + 15 + "px", "left": pos.x + $("#elm1_ifr").position().left + 15 + "px"}).show();
+            $context_menu.css({"top": pos.y + $("#elm1_ifr").position().top + 15 + "px", "left": pos.x + $("#elm1_ifr").position().left + 15 + "px", "position": "absolute"}).show();
         }
     };
 
@@ -954,17 +954,17 @@ sakai.sitespages.site_admin = function(){
         return false;
     });
 
+    var addEditPageBinding = function(){
+        // Bind cancel button click
+        $(".cancel-button").live("click", function(ev){
+            cancelEdit();
+        });
 
-    // Bind cancel button click
-    $(".cancel-button").live("click", function(ev){
-        cancelEdit();
-    });
-
-    // Bind Save button click
-    $(".save_button").live("click", function(ev){
-        saveEdit();
-    });
-
+        // Bind Save button click
+        $(".save_button").live("click", function(ev){
+            saveEdit();
+        });
+    }
 
     /**
      * Callback function to trigger editPage() when tinyMCE is initialised
@@ -978,7 +978,8 @@ sakai.sitespages.site_admin = function(){
                 editPage("_navigation");
             } else {
                 editPage(sakai.sitespages.selectedpage);
-            }
+        }
+        addEditPageBinding();
 
     };
 
