@@ -140,7 +140,23 @@
                                             <img src="${sakai.config.MimeTypes["other"].URL}" alt="${mimeTypeDescription}" />
                                         {/if}
                                         <div class="search_result_right">
-                                            <div class="search_result_header"><a href="/dev/content_profile.html#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}{else}${i['jcr:path']}{/if}">{if i['sakai:pooled-content-file-name']}${i['sakai:pooled-content-file-name']}{elseif i['jcr:name']}${i['jcr:name']}{/if}</a></div>
+                                            <div class="search_result_header">
+                                                <a href="/dev/content_profile.html#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}{else}${i['jcr:path']}{/if}">
+                                                    {if i['sakai:pooled-content-file-name']}
+                                                        {if i['sakai:pooled-content-file-name'].length > 60}
+                                                            ${i['sakai:pooled-content-file-name'].substring(0, 60)}...
+                                                        {else}
+                                                            ${i['sakai:pooled-content-file-name']}
+                                                        {/if}
+                                                    {elseif i['jcr:name']}
+                                                        {if i['jcr:name'].length > 60}
+                                                            ${i['jcr:name'].substring(0, 60)}...
+                                                        {else}
+                                                            ${i['jcr:name']}
+                                                        {/if}
+                                                    {/if}
+                                                </a>
+                                            </div>
                                             {if i["sakai:description"]}<div class="search_result_description">${i["sakai:description"]}</div>{/if}
                                             {if i["sakai:tags"] && i["sakai:tags"].length > 0}
                                                 <div class="search_result_tags">__MSG__TAGS__:
