@@ -560,7 +560,7 @@ sakai.config = {
             "label" : "GROUPS"
         },
         {
-            "url" : "/dev/people.html",
+            "url" : "/dev/search_people.html#q=*&facet=contacts",
             "label" : "PEOPLE"
         },
         {
