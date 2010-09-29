@@ -42,7 +42,7 @@
 
 #fileupload_filename_label {float:left; clear:both;}
 
-#fileupload_container #fileupload_add_to {float:left; padding-right:20px;}
+#fileupload_container #fileupload_add_to {float:left; padding-right:3px;}
 #fileupload_container #fileupload_add_to_template_container {padding-bottom:10px;}
 
 #fileupload_container .hide_remove_link {visibility:hidden;}

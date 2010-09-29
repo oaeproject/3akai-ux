@@ -259,7 +259,7 @@ sakai.newaccount = function(){
  
             },
             error: function(xhr, textStatus, thrownError) {
-                if (xhr.status === 500) {
+                if (xhr.status === 500 || xhr.status === 401) {
                     if (xhr.responseText.indexOf("Untrusted request") !== -1) {
                         setError(captchaField, captchaNoMatch, true);
                     }

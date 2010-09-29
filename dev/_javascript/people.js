@@ -159,7 +159,7 @@ sakai.search = function(){
         $("#invited_search_result").html("<b>Loading ...</b>");
 
         $.ajax({
-            url: "/var/contacts/invited.json?page=0&items=100",
+            url: "/var/contacts/invited.infinity.json?page=0&items=100",
             cache: false,
             success: function(data){
                 foundInvitations = $.extend(data, {}, true);
@@ -263,7 +263,7 @@ sakai.search = function(){
         $("#invited_search_result").html("<b>Loading ...</b>");
 
         $.ajax({
-            url: "/var/contacts/pending.json?page=0&items=100",
+            url: "/var/contacts/pending.infinity.json?page=0&items=100",
             cache: false,
             success: function(data){
                 foundPending = $.extend(data, {}, true);

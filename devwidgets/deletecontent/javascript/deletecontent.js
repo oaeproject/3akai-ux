@@ -74,6 +74,9 @@ sakai.deletecontent = function(tuid, showSettings){
         // Add binding to the delete button
         $deletecontent_action_delete.unbind("click").bind("click", function(){
 
+            // Close the box
+            $deletecontent_dialog.jqmHide();
+
             $.ajax({
                 url: deletedata.path,
                 success: function(){

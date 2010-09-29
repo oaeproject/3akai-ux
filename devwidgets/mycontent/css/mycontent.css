@@ -14,3 +14,5 @@ p.mycontent_item_meta {font-size:0.9em; color:#444444;}
    
 /* Widget icon */
 .mycontent.fl-widget .fl-widget-titlebar .widget_title {background:transparent url(/devwidgets/mycontent/images/mycontent_icon.png) no-repeat scroll 14px 16px;}
+
+.mycontent_ellipsis_text {word-wrap:break-word;}

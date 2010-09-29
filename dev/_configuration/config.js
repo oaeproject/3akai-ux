@@ -51,10 +51,10 @@ sakai.config = {
         CAPTCHA_SERVICE: "/system/captcha",
         CHAT_GET_SERVICE: "/var/message/chat/__KIND__.json",
         CHAT_UPDATE_SERVICE: "/var/message.chatupdate.json",
-        CONTACTS_ACCEPTED: "/var/contacts/accepted.json",
+        CONTACTS_ACCEPTED: "/var/contacts/accepted.infinity.json",
         CONTACTS_ALL: "/var/contacts/all.json",
-        CONTACTS_INVITED: "/var/contacts/invited.json",
-        CONTACTS_PENDING: "/var/contacts/pending.json",
+        CONTACTS_INVITED: "/var/contacts/invited.infinity.json",
+        CONTACTS_PENDING: "/var/contacts/pending.infinity.json",
         CREATE_USER_SERVICE: "/system/userManager/user.create.html",
         DISCUSSION_GETPOSTS_THREADED: "/var/search/discussions/threaded.json?path=__PATH__&marker=__MARKER__",
         DISCUSSION_INITIALPOSTS_SERVICE: "/var/search/discussions/initialdiscussionposts.json?path=__PATH__&items=__ITEMS__&page=__PAGE__",
@@ -118,7 +118,7 @@ sakai.config = {
         TWITTER_POST_URL: "/var/proxy/twitter/update_status.json",
         USER_CHANGELOCALE_SERVICE: "/rest/user/changelocale/__USERID__",
         USER_CHANGEPASS_SERVICE: "/system/userManager/user/__USERID__.changePassword.html",
-        USER_EXISTENCE_SERVICE: "/system/userManager/user/__USERID__.json",
+        USER_EXISTENCE_SERVICE: "/system/userManager/user.exists.html?userid=__USERID__",
 
         // PREFIXES
         GROUP_PREFIX: "/_group",
@@ -160,8 +160,9 @@ sakai.config = {
          * The structure of the config object is identical to the storage object
          * When system/me returns profile data for the logged in user the profile_config and profile_data objects could be merged
          * "label": the internationalizable message for the entry label in HTML
-         * "required": Whether the entry is compulsory or not
-         * 
+         * "required": {Boolean} Whether the entry is compulsory or not
+         * "display": {Boolean} Show the entry in the profile or not
+         * "editable": {Boolean} Whether or not the entry is editable
          * For a date entry field use "date" as the type for MM/dd/yyyy and "dateITA" as the type for dd/MM/yyyy
          * 
          */
@@ -172,6 +173,7 @@ sakai.config = {
                 "required": true,
                 "display": true,
                 "access": "everybody",
+                "modifyacl": false,
                 "elements": {
                     "firstName": {
                         "label": "__MSG__PROFILE_BASIC_FIRSTNAME_LABEL__",
@@ -251,6 +253,7 @@ sakai.config = {
                 "required": true,
                 "display": true,
                 "access": "everybody",
+                "modifyacl": true,
                 "elements": {
                     "aboutme": {
                         "label": "__MSG__PROFILE_ABOUTME_LABEL__",
@@ -282,6 +285,7 @@ sakai.config = {
                 "required": false,
                 "display": true,
                 "access": "everybody",
+                "modifyacl": true,
                 "multiple": true,
                 "multipleLabel": "__MSG__PROFILE_PUBLICATION_LABEL__",
                 //"template": "profile_section_publications_template",
@@ -342,7 +346,8 @@ sakai.config = {
                     "url": {
                         "label": "__MSG__PROFILE_PUBLICATIONS_URL__",
                         "required": false,
-                        "display": true
+                        "display": true,
+                        "validation":"url"
                     }
                 }
             }
@@ -443,11 +448,39 @@ sakai.config = {
             URL: "/dev/_images/mimetypes/doc.png",
             description: "Word document"
         },
+        "application/msword": {
+            URL: "/dev/_images/mimetypes/doc.png",
+            description: "Word document"
+        },
         "application/pdf": {
             URL: "/dev/_images/mimetypes/pdf.png",
             description: "PDF document"
         },
+        "application/x-pdf": {
+            URL: "/dev/_images/mimetypes/pdf.png",
+            description: "PDF document"
+        },
+        "application/vnd.ms-powerpoint": {
+            URL: "/dev/_images/mimetypes/pps.png",
+            description: "PowerPoint document"
+        },
+        "application/vnd.oasis.opendocument.text": {
+            URL: "/dev/_images/mimetypes/doc.png",
+            description: "Open Office document"
+        },
+        "application/x-shockwave-flash": {
+            URL: "/dev/_images/mimetypes/swf.png",
+            description: "Flash player file"
+        },
+        "application/zip": {
+            URL: "/dev/_images/mimetypes/zip.png",
+            description: "Archive file"
+        },
         "text/plain": {
+            URL: "/dev/_images/mimetypes/txt.png",
+            description: "Text document"
+        },
+        "text/rtf": {
             URL: "/dev/_images/mimetypes/txt.png",
             description: "Text document"
         },
@@ -466,6 +499,10 @@ sakai.config = {
         "text/html": {
             URL: "/dev/_images/mimetypes/html.png",
             description: "HTML document"
+        },
+        "video/x-msvideo": {
+            URL: "/dev/_images/mimetypes/video.png",
+            description: "Video file"
         },
         folder: {
             URL: "/dev/_images/mimetypes/kmultiple.png",
@@ -524,7 +561,7 @@ sakai.config = {
             "label" : "GROUPS"
         },
         {
-            "url" : "/dev/people.html",
+            "url" : "/dev/search_people.html#q=*&facet=contacts",
             "label" : "PEOPLE"
         },
         {

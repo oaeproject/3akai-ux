@@ -9,9 +9,9 @@
         <div id="content_profile_file_details_details_firstcolumn">
             <div id="content_profile_file_details_basic_info">
                 {if data["jcr:content"]["jcr:mimeType"] === "x-sakai/link"}
-                    <p><a href="${data["sakai:pooled-content-revurl"]}" title="${data["sakai:pooled-content-file-name"]}" class="s3d-action">${data["sakai:pooled-content-file-name"]}</a></p>
+                    <p class="content_profile_file_details_file_name_threedots"><a href="${data["sakai:pooled-content-revurl"]}" title="${data["sakai:pooled-content-file-name"]}" class="s3d-action threedots ellipsis_text">${data["sakai:pooled-content-file-name"]}</a></p>
                 {else}
-                <p>${data["sakai:pooled-content-file-name"]}</p>
+                    <p class="content_profile_file_details_file_name_threedots"><span class="threedots ellipsis_text">${data["sakai:pooled-content-file-name"]}</span></p>
                 {/if}
                 <p>${data["jcr:content"]["jcr:mimeType"]}</p>
                 <p>${filesize}</p>
@@ -28,7 +28,7 @@
             <p><span class="content_profile_file_details_content">${created} by <a href="/~${data["sakai:pool-content-created-for"]}" class="s3d-action">${data["sakai:pool-content-created-for-full"]}</a></span></p>
             <p><span class="content_profile_file_details_content">${lastModified} by <a href="/~${data["sakai:pool-content-created-for"]}" class="s3d-action">${data["sakai:pool-content-created-for-full"]}<a/></span></p>
             <p><span class="content_profile_file_details_content">{if revisions.length -1 === 0}No revisions{else}${revisions.length -1} <a href="javascript:;" id="content_profile_details_view_revisions" {if data["jcr:content"]["jcr:mimeType"] === "x-sakai/link"}class="link_revision s3d-action"{else}class="s3d-action"{/if}>__MSG__VIEW_REVISIONS__</a>{/if}</span></p>
-            <hr/>
+            <hr class="fl-push fl-hidden"/>
         </div>
     </div>
         <div {if data["jcr:content"]["jcr:mimeType"] === "x-sakai/link" && anon} id="content_profile_file_details_actions_anonlink" {else} id="content_profile_file_details_actions" {/if}>
@@ -38,16 +38,18 @@
                 </button>
             {/if}
             {if data["jcr:content"]["jcr:mimeType"] !== "x-sakai/link"}
-                <button type="button" class="s3d-button s3d-button-primary" id="content_profile_file_details_action_download">
-                    <span class="s3d-button-inner">__MSG__DOWNLOAD_FILE__</span>
-                </button>
+                <a href="${url}/${data["sakai:pooled-content-file-name"]}" id="content_profile_file_details_action_download" class="s3d-button s3d-button-primary" target="_blank">
+                    <span class="s3d-button-inner">
+                        __MSG__DOWNLOAD_FILE__
+                    </span>
+                </a>
             {/if}
             {if !anon}
                 <button type="button" class="s3d-button s3d-button-primary" id="content_profile_file_details_action_delete">
                     <span class="s3d-button-inner">{if data["jcr:content"]["jcr:mimeType"] === "x-sakai/link"}__MSG__DELETE_LINK__{else}__MSG__DELETE_FILE__{/if}</span>
                 </button>
             {/if}
-            <hr/>
+            <hr class="fl-push fl-hidden"/>
         </div>
 --></div>
 

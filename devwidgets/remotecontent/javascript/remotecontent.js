@@ -49,6 +49,7 @@ sakai.remotecontent = function(tuid, showSettings){
 
     // Links and labels
     var remotecontent = "#remotecontent";
+    var remotecontentTitle = remotecontent + "_title";
     var remotecontentSettings = remotecontent + "_settings";
     var remotecontentSettingsAdvanced = remotecontentSettings + "_advanced";
     var remotecontentSettingsAdvancedDown = remotecontentSettingsAdvanced + "_down";
@@ -63,6 +64,7 @@ sakai.remotecontent = function(tuid, showSettings){
     var remotecontentSettingsPreviewFrame = remotecontentSettingsPreview + "_frame";
     var remotecontentSettingsUrl = remotecontentSettings + "_url";
     var remotecontentSettingsUrlError = remotecontentSettingsUrl + "_error";
+    var remotecontentSettingsUrlBlank = remotecontentSettingsUrl + "_blank";
     var remotecontentSettingsWidth = remotecontentSettings + "_width";
 
     // Containers
@@ -94,7 +96,7 @@ sakai.remotecontent = function(tuid, showSettings){
     };
 
     /**
-     * Check if the input url is in fact an url or not
+     * Check if the input url is missing http/s or not
      * @param {String} url Url that needs to be tested
      * @return {Boolean}
      *     true: is an url
@@ -102,6 +104,18 @@ sakai.remotecontent = function(tuid, showSettings){
      */
     var isUrl = function(url){
         return (/^http\:\/\/|^https\:\/\//i).test(url);
+    };
+
+    /**
+     * Check if the input url is in fact a complete url or not
+     * @param {String} url Url that needs to be tested
+     * @return {Boolean}
+     *     true: is an url
+     *     false: is not an url
+     */
+    var isCompleteUrl = function(url){
+        var regEx = /^(?:ftp|https?):\/\/(?:(?:[\w\.\-\+%!$&'\(\)*\+,;=]+:)*[\w\.\-\+%!$&'\(\)*\+,;=]+@)?(?:[a-z0-9\-\.%]+)(?::[0-9]+)?(?:[\/|\?][\w#!:\.\?\+=&%@!$'~*,;\/\(\)\[\]\-]*)?$/
+        return regEx.test(url);
     };
 
     /**
@@ -183,11 +197,14 @@ sakai.remotecontent = function(tuid, showSettings){
      * Save the remotecontent to the jcr
      */
     var saveRemoteContent = function(){
-        if (json.url !== "" && json.url !== 'http://') {
+        if (json.url === "" || json.url === 'http://'){
+            // Show a notification
+            sakai.api.Util.notification.show($(remotecontentTitle).html(), $(remotecontentSettingsUrlBlank).html());
+        } else if (isCompleteUrl(json.url)){
             sakai.api.Widgets.saveWidgetData(tuid, json, savedDataToJCR);
-        }
-        else {
-            $(remotecontentSettingsUrlError).show();
+        } else {
+            // Show a notification
+            sakai.api.Util.notification.show($(remotecontentTitle).html(), $(remotecontentSettingsUrlError).html());
         }
     };
 
@@ -230,13 +247,16 @@ sakai.remotecontent = function(tuid, showSettings){
         // Change the url for the iFrame
         $(remotecontentSettingsUrl).change(function(){
             var urlValue = $(this).val();
+            json.url = urlValue;
             if (urlValue !== "") {
                 // Check if someone already wrote http inside the url
                 if (!isUrl(urlValue)) {
                     urlValue = 'http://' + urlValue;
                 }
-                json.url = urlValue;
-                renderIframeSettings(true);
+                if (isCompleteUrl(urlValue) && urlValue !== 'http://') {
+                    json.url = urlValue;
+                    renderIframeSettings(true);
+                }
             }
         });
 
@@ -292,13 +312,11 @@ sakai.remotecontent = function(tuid, showSettings){
 
         // When you push the save button..
         $(remotecontentSettingsInsert).click(function(){
-            $(remotecontentSettingsUrlError).hide();
             saveRemoteContent();
         });
 
         // Cancel it
         $(remotecontentSettingsCancel).click(function(){
-            $(remotecontentSettingsUrlError).hide();
             sakai.api.Widgets.Container.informCancel(tuid, "remotecontent");
         });
 

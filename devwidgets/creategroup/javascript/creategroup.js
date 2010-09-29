@@ -187,6 +187,9 @@ sakai.creategroup = function(tuid, showSettings){
             async: false,
             success: function(data, textStatus){
                 groupExists = true;
+            },
+            error: function(xhr, textStatus, thrownError){
+                groupExists = true;
             }
         });
         return groupExists;

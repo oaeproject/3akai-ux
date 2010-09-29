@@ -70,14 +70,14 @@
                 <div id="login-default" style="display:none;">
                     <form class="login-container" id="login-container" method="post" action="javascript:;">
                         <label for="username">__MSG__USERNAME__:</label><br/>
-                        <input type="text" alt="__MSG__USERNAME__" maxlength="255" id="username" name="username" class="login-container-textfield" /><br/>
+                        <input type="text" alt="__MSG__USERNAME__" maxlength="255" id="username" name="username" class="login-container-textfield" tabindex="1"/><br/>
                         <label for="password">__MSG__PASSWORD__:</label><br/>
-                        <input type="password" alt="__MSG__PASSWORD__" maxlength="255" id="password" name="password" class="login-container-textfield" />
+                        <input type="password" alt="__MSG__PASSWORD__" maxlength="255" id="password" name="password" class="login-container-textfield" tabindex="2" />
 
                         <div id="login-failed">__MSG__LOGIN_FAILED__!<br/></div>
 
                         <div class="login-container-button">
-                            <button id="loginbutton" type="submit" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">__MSG__SIGN_IN__</span></button>
+                            <button id="loginbutton" type="submit" class="s3d-button s3d-button-primary" tabindex="3"><span class="s3d-button-inner">__MSG__SIGN_IN__</span></button>
 
                           <span id="login-loader">__MSG__SIGNING_IN__</span>
                       </div>

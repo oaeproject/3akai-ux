@@ -10,8 +10,13 @@
 <div id="remotecontent_settings_template"><!--
     <form>
         <div class="remotecontent_settings_subcontainer">
-            <div class="remotecontent_settings_url_input"><label class="remotecontent_settings_label_head">Remote content web address (URL):</label> <input type="text" id="remotecontent_settings_url" value="${url}" title="Please paste or enter the address of the remote content you would like to embed into this page" /></div>
-            <div class="remotecontent_settings_error" id="remotecontent_settings_url_error" style="display:none;">Please enter or paste a valid web address.</div>
+            <div class="remotecontent_settings_url_input">
+                <label class="remotecontent_settings_label_head">Remote content web address (URL):</label> <input type="text" id="remotecontent_settings_url" value="${url}" />
+                <span class="remotecontent_settings_url_help">Please paste or enter the address of the remote content you would like to embed into this page</span>
+            </div>
+            <span class="remotecontent_settings_error" id="remotecontent_settings_url_blank" style="display:none;">You haven't entered an address. Please enter a valid web address for the remote content.</span>
+            <span id="remotecontent_settings_url_error" style="display:none;">The web address you entered is not valid. Please enter or paste a valid web address.</span>
+            <span id="remotecontent_title" style="display:none;">Remote Content</span>
             <p>
                 <label class="remotecontent_settings_label_head">Preview:</label> <span> (size doesn't change in preview mode)<br class="fl-push" />
             </p>

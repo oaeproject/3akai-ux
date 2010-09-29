@@ -108,7 +108,7 @@ sakai.groupedit = function(){
                 sakai.currentgroup.id = groupid;
                 sakai.currentgroup.data = data;
                 sakai.currentgroup.data["sakai:group-id"] = groupid;
-                if (data.authprofile['rep:policy']) {
+                if (sakai.api.Groups.isCurrentUserAManager(groupid)) {
                     triggerEditable(true);
                 }
                 if (readyToRender && !hasRendered) {

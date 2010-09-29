@@ -38,31 +38,35 @@
 #sitespages_page_options .content_page_options .more_link
 { background: transparent url(/dev/_images/more_bg_18.png) top left no-repeat; padding: 1px 21px 2px 12px; }
 
-#sitespages_page_options .add_more_menu
+#sitespages_page_options .add_more_menu, .context_menu .context_more
 { background-color: #FFF; padding: 0; position: absolute; left: 0; top: 0; display: block; width: 123px; margin: 0; }
 
-#sitespages_page_options .add_more_menu ul
+.context_menu .context_more {
+    margin-top:30px;
+}
+
+#sitespages_page_options .add_more_menu ul, .context_menu .context_more ul
 { margin:0; border:1px solid #cbd0d4; -moz-border-radius:4px; -webkit-border-radius:4px; border-radius:4px; }
 
 #sitespages_page_options .nav_small_spacer
 { height: 20px; }
 
-#sitespages_page_options .add_more_menu ul li
+#sitespages_page_options .add_more_menu ul li, .context_menu .context_more ul li
 { padding: 5px 10px 5px 15px; list-style-type: none; }
 
-#sitespages_page_options .add_more_menu ul li.more_option
+#sitespages_page_options .add_more_menu ul li.more_option, .context_menu .more_option
 { border-bottom:1px solid #cbd0d4;}
 
-#sitespages_page_options .add_more_menu ul li.more_option.option_last
+#sitespages_page_options .add_more_menu ul li.more_option.option_last, .context_menu .more_option ul li.more_option.option_last
 { border-bottom:0px;}
 
-#sitespages_page_options .add_more_menu ul li:hover
+#sitespages_page_options .add_more_menu ul li:hover, .context_menu ul li:hover
 { background-color:#dbeefc; cursor:pointer;}
 
-#sitespages_page_options .add_more_menu ul li a
+#sitespages_page_options .add_more_menu ul li a, .context_menu ul li a
 { font-weight:normal; font-size:12px;}
 
-#sitespages_page_options .add_more_menu ul li a:hover
+#sitespages_page_options .add_more_menu ul li a:hover, .context_menu ul li a:hover
 { text-decoration:none; }
 
 /** MAIN CONTENTS **/
@@ -266,7 +270,7 @@
 }
 
 /* Change layout */
-.layout_container {float:left;  padding-left:25px;  padding-right:13px;    }
+.layout_container {float:left;  padding-left:25px;  padding-right:13px;}
 .layout_picker_item {width:114px; height: 62px; border: 2px solid #3399CC; border-right: 2px solid #3399CC; background-color: #EEFFFF;}
 .layout_picker_item_column {border-right: 1px solid #3399CC;}
 .layout_picker_item_radio {margin-left:50px; margin-top:10px;}
@@ -280,6 +284,10 @@
 .sitepages_fullwidth { margin-left: 0px !important;}
 
 /* Page Options Dialog */
+.s3d-button.s3d-button-inline {width:144px; height:28px;}
+.s3d-button.s3d-button-inline .s3d-button-inner {float:left;display:inline;}
+.s3d-button.s3d-button-inline .s3d-button-inner .s3d-button-inner-text {width:90px;}
+
 .s3d-button.s3d-button-inline .s3d-button-inner .s3d-button-icon-left {
     background: url("/dev/_images/page-options-button-sprite.png") no-repeat left top transparent;
 }

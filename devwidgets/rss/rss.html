@@ -64,8 +64,8 @@
 <div id="rss_output_template" style="display:none"><!--
         <div class="rss_output_header">
             <h1>${title}</h1>
-            <button type="button" class="s3d-button s3d-button-primary rss_output_order fl-force-right" id="rss_output_order_date"><span class="s3d-button-inner">__MSG__SORT_BY_DATE__</span></button>
-            <button type="button" class="s3d-button s3d-button-primary rss_output_order fl-force-right" id="rss_output_order_source"><span class="s3d-button-inner">__MSG__SORT_BY_SOURCE__</span></button>
+            <button type="button" class="s3d-button s3d-button-secondary rss_output_order fl-force-right" id="rss_output_order_date"><span class="s3d-button-inner">__MSG__SORT_BY_DATE__</span></button>
+            <button type="button" class="s3d-button s3d-button-secondary rss_output_order fl-force-right" id="rss_output_order_source"><span class="s3d-button-inner">__MSG__SORT_BY_SOURCE__</span></button>
         </div>
 
         {for i in shownEntries}
@@ -90,7 +90,7 @@
                 {if displaySource}
                     <span class="fl-force-left"><span class="rss_title">__MSG__SOURCE__: </span><a href="${i.feed.id}">${i.feed.title}</a></span>
                 {/if}
-                <a class="rss_sendToFriend fl-force-right" id="rss_sendToFriend${shownEntries.indexOf(i)}" href="javascript:;">__MSG__SEND_ARTICLE_TO_A_FRIEND__</a>
+                <a class="rss_sendToFriend fl-force-right" id="rss_sendToFriend${i_index}" href="javascript:;">__MSG__SEND_ARTICLE_TO_A_FRIEND__</a>
 
             </div>
         {/for}

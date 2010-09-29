@@ -131,7 +131,7 @@ sakai.profilesection = function(tuid, showSettings){
                 sakai.profile.main.data[currentsection].elements &&
                 sakai.profile.main.data[currentsection].elements[fieldName]) {
 
-                sakai.profile.main.data[currentsection].elements[fieldName].value = unescape(sakai.profile.main.data[currentsection].elements[fieldName].value)
+                sakai.profile.main.data[currentsection].elements[fieldName].value = unescape(sakai.profile.main.data[currentsection].elements[fieldName].value);
                 json_config.data = sakai.profile.main.data[currentsection].elements[fieldName];
             }
             json_config.path = currentsection + ".elements." + fieldName;
@@ -173,7 +173,7 @@ sakai.profilesection = function(tuid, showSettings){
                     }
                     sections += "<div class='profilesection_section' id='profilesection_section_" + elts.id.value + "'>";
                     // merge config with the data
-                    // NOTE: it must extend in this way (sectionObject.elements, elts and not elts, sectionObject.elements)
+                    // NOTE: it must extend in this way (sectionObject.elements, elts) and not (elts, sectionObject.elements)
                     //       or else the order will be unreliable
                     $.extend(true, sectionObject.elements, elts);
                     for(var j in sectionObject.elements){
@@ -240,8 +240,11 @@ sakai.profilesection = function(tuid, showSettings){
         // Set the section template, if there is no template defined, user the default one
         var sectionTemplate = sakai.profile.main.config[currentsection].template ? $("#" + sakai.profile.main.config[currentsection].template, $rootel) : $profilesection_default_template;
 
+        // Copy the config so we don't write into it ever
+        var sectionConfig = $.extend(true, {}, sakai.profile.main.config[currentsection]);
+
         // Render the template section
-        generalinfo += renderTemplateSection(sectionTemplate, sakai.profile.main.config[currentsection]);
+        generalinfo += renderTemplateSection(sectionTemplate, sectionConfig);
 
         // Render the General info
         $profilesection_generalinfo.html(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, null, null)));
@@ -342,7 +345,10 @@ sakai.profilesection = function(tuid, showSettings){
 
             if (title === "basic.elements.tags") { // tags are special, we save them differently than the rest of the data
                 var currentTags = sakai.profile.main.data["sakai:tags"] || [];
-                var tagsArray = $selected_element.val().split(",");
+                var tagsArray = [];
+                $($selected_element.val().split(",")).each(function(i, tag){
+                    tagsArray.push(tag.replace(/\\/g,""));
+                });
                 var profileURL = "/~" + sakai.profile.main.data["rep:userId"] + "/public/authprofile";
                 sakai.api.Util.tagEntity(profileURL, tagsArray, currentTags, function() {
                     fluid.log("user tags saved");
@@ -422,6 +428,8 @@ sakai.profilesection = function(tuid, showSettings){
      * Initialization function
      */
     var init = function() {
+
+        $("#profile_form").validate();
 
         currentsection = $rootel.selector.replace("#", "").replace("profilesection-", "");
 
