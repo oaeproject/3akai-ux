@@ -182,13 +182,13 @@ sakai.search = function() {
             } else if (results.results.length <= 0) {
                 $(searchConfig.global.numberFound).text(0);
             } else {
-                $(searchConfig.global.numberFound).text("thousands");
+                $(searchConfig.global.numberFound).text("more than 100");
             }
 
             // Reset the pager.
             $(searchConfig.global.pagerClass).pager({
                 pagenumber: currentpage,
-                pagecount: Math.ceil(results.total / resultsToDisplay),
+                pagecount: Math.ceil(Math.abs(results.total) / resultsToDisplay),
                 buttonClickCallback: pager_click_handler
             });
 
@@ -199,6 +199,7 @@ sakai.search = function() {
 
             // We hide the pager if we don't have any results or
             // they are less then the number we should display
+            results.total = Math.abs(results.total);
             if (results.total <= resultsToDisplay) {
                 $(searchConfig.global.pagerClass).hide();
             }

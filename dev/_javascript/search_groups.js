@@ -90,7 +90,7 @@ sakai.search = function() {
                 "all": {
                     "category": "All Groups",
                     "searchurl": searchURLmap.allgroups
-                }, 
+                },
                 "manage": {
                     "category": "Groups I manage",
                     "searchurl": searchURLmap.managergroups
@@ -178,7 +178,7 @@ sakai.search = function() {
                     $.each(results, function(index, resultObject) {
                         resultCount++;
                     });
-                    var resultsTemp = {results : results, total : resultCount}; 
+                    var resultsTemp = {results : results, total : resultCount};
                     results = resultsTemp;
                 }
 
@@ -189,13 +189,13 @@ sakai.search = function() {
             } else if (results.results.length <= 0) {
                 $(searchConfig.global.numberFound).text(0);
             } else {
-                $(searchConfig.global.numberFound).text("thousands");
+                $(searchConfig.global.numberFound).text("more than 100");
             }
 
             // Reset the pager.
             $(searchConfig.global.pagerClass).pager({
                 pagenumber: currentpage,
-                pagecount: Math.ceil(results.total / resultsToDisplay),
+                pagecount: Math.ceil(Math.abs(results.total) / resultsToDisplay),
                 buttonClickCallback: pager_click_handler
             });
 
@@ -229,14 +229,16 @@ sakai.search = function() {
                 }
             }
 
-            // If we don't have any results or they are less then the number we should display
-            // we hide the pager
-            if ((results.total <= resultsToDisplay) || (results.results.length <= 0)) {
+            // We hide the pager if we don't have any results or
+            // they are less then the number we should display
+            results.total = Math.abs(results.total);
+            if (results.total <= resultsToDisplay) {
                 $(searchConfig.global.pagerClass).hide();
             }
             else {
                 $(searchConfig.global.pagerClass).show();
             }
+
         }
         else {
             $(searchConfig.global.pagerClass).hide();
@@ -280,7 +282,7 @@ sakai.search = function() {
         } else {
             facet = "";
         }
-        
+
         $(".faceted_category").removeClass("faceted_category_selected");
         if (facet) {
             $("#" + facet).addClass("faceted_category_selected");
@@ -328,7 +330,7 @@ sakai.search = function() {
                 if (facetedurl === sakai.config.URL.GROUPS_MANAGER || facetedurl === sakai.config.URL.GROUPS_MEMBER) {
                     urlsearchterm = searchterm
                 }
-                
+
                 searchURL = facetedurl + "?page=" + (currentpage - 1) + "&items=" + resultsToDisplay + "&q=" + urlsearchterm + "&facet=" + facet;
             }
 
