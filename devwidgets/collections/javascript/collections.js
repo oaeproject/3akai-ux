@@ -511,7 +511,7 @@ sakai.collections = function(tuid, showSettings) {
     });
 
     // Hide the layout dropdown if anywhere else is clicked
-    $("html").live("click", function(e) {
+    $(document).bind("click", function(e) {
         if ($("#collections_header_select_layout").is(":visible")) {
             var $clicked = $(e.target);
             if (!$clicked.parents().is("#collections_header_select_layout") && !$clicked.parents().is("#choose_layout") && !$clicked.is("#choose_layout") && !$clicked.is("#collections_header_select_layout")) {
@@ -1110,7 +1110,7 @@ sakai.collections = function(tuid, showSettings) {
         }
     });
 
-    $("html").live("mouseup", function() {
+    $(document).bind("mouseup", function() {
         if ($(this).attr("id").split("_")[0] != "album") {
             clickedCollectionID = -1;
         }

@@ -18,6 +18,10 @@ strong {color: #000;}
 #mysakai_edit_page #mysakai_edit_page_container {float:right;}
 
 /* Inline Button */
+.s3d-button.s3d-button-inline {width:110px; height:28px;}
+.s3d-button.s3d-button-inline .s3d-button-inner {float:left;display:inline;}
+.s3d-button.s3d-button-inline .s3d-button-inner .s3d-button-inner-text {width:60px;}
+
 .s3d-button.s3d-button-inline .s3d-button-inner .s3d-button-icon-left {
     background: url("/dev/_images/page-options-button-sprite.png") no-repeat left top transparent;
 }

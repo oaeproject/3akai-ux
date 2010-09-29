@@ -543,7 +543,7 @@ sakai.sitespages.site_admin = function(){
     };
 
     // hide the context menu when it is shown and a click happens elsewhere on the document
-    $("html").live("click", function(e) {
+    $(document).bind("click", function(e) {
         if ($context_menu.is(":visible") && $(e.target).parents($context_menu.selector).length === 0) {
             $context_menu.hide();
         }
@@ -2269,7 +2269,7 @@ sakai.sitespages.site_admin = function(){
     });
 
     // Bind click event to hide menus
-    $("html").bind("click", function(e){
+    $(document).bind("click", function(e){
         var $clicked = $(e.target);
         // Check if one of the parents is the element container
         if(!$clicked.is("#more_link")){

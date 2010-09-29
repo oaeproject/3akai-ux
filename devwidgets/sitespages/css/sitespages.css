@@ -266,7 +266,7 @@
 }
 
 /* Change layout */
-.layout_container {float:left;  padding-left:25px;  padding-right:13px;    }
+.layout_container {float:left;  padding-left:25px;  padding-right:13px;}
 .layout_picker_item {width:114px; height: 62px; border: 2px solid #3399CC; border-right: 2px solid #3399CC; background-color: #EEFFFF;}
 .layout_picker_item_column {border-right: 1px solid #3399CC;}
 .layout_picker_item_radio {margin-left:50px; margin-top:10px;}
@@ -280,6 +280,10 @@
 .sitepages_fullwidth { margin-left: 0px !important;}
 
 /* Page Options Dialog */
+.s3d-button.s3d-button-inline {width:144px; height:28px;}
+.s3d-button.s3d-button-inline .s3d-button-inner {float:left;display:inline;}
+.s3d-button.s3d-button-inline .s3d-button-inner .s3d-button-inner-text {width:90px;}
+
 .s3d-button.s3d-button-inline .s3d-button-inner .s3d-button-icon-left {
     background: url("/dev/_images/page-options-button-sprite.png") no-repeat left top transparent;
 }
