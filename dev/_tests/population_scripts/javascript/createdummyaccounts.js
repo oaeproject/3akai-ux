@@ -31,15 +31,21 @@ sakai.createdummyaccounts = function(){
 
         var userCount = parseInt($("#num_of_accounts").val(), 10);
         var list = [];
+        var pagestemplate = "defaultuser";
 
         for (var i = 0, il = userCount; i < il; i++) {
+            var profileData = {}; profileData.basic = {}; profileData.basic.elements = {};
+            profileData.basic.elements["firstName"] = "Test";
+            profileData.basic.elements["lastName"] = "User" + i;
+            profileData.basic.elements["email"] = "user." + i + "@sakatest.edu";
             var currentObject = {
-                "firstName": "User",
-                "lastName": "" + i,
                 "email": "user." + i + "@sakatest.edu",
                 "pwd": "test",
                 "pwdConfirm": "test",
-                ":name": "user" + i
+                ":name": "user" + i,
+                "_charset_": "utf-8",
+                ":sakai:profile-import": $.toJSON(profileData),
+                ":sakai:pages-template": "/var/templates/site/" + pagestemplate
             };
 
             list.push(currentObject);
