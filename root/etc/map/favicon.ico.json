@@ -1,0 +1,4 @@
+{
+  'sling:match': '^[^/]+/[^/]+/favicon.ico',
+  'sling:internalRedirect': '/dev/favicon.ico'
+}
