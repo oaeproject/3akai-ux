@@ -764,11 +764,14 @@ sakai.dashboard = function(tuid, showSettings) {
 
     $(changeLayoutDialog, $rootel).jqm({
         modal: true,
-        trigger: $('#edit-layout', $rootel),
         overlay: 20,
         toTop: true,
         onShow: renderLayouts
     });
+
+    sakai.dashboard.changeLayout = function() {
+        $(changeLayoutDialog, $rootel).jqmShow();
+    };
 
     ///////////////////////
     // Add Sakai Goodies //
@@ -859,11 +862,14 @@ sakai.dashboard = function(tuid, showSettings) {
     */
      $(addGoodiesDialog, $rootel).jqm({
          modal: true,
-         trigger: $(addGoodiesTrigger, $rootel),
          overlay: 20,
          toTop: true,
          onShow: renderGoodies
      });
+
+     sakai.dashboard.showAddWidgetDialog = function() {
+         $(addGoodiesDialog, $rootel).jqmShow();
+     };
 
     /**
    * Initialize the Dashboard Widget

@@ -335,7 +335,7 @@ sakai.profilesection = function(tuid, showSettings){
             var $selected_element = $(element);
 
             // Get the attribute that contains the path
-            var title = $selected_element.attr("title");
+            var title = $selected_element.attr("id").split("profilesection_generalinfo_")[1].replace(/\_/g,".");
 
             // Check whether the element has a correct attribute
             // TODO replace title by data-path as soon as the sanitizer allows it SAKIII-543

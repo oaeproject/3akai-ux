@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" class="requireAnon">
 
     <head>
 
@@ -18,109 +18,50 @@
         <!-- Sakai Page CSS -->
         <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.index.css" />
 
-        <!-- Sakai Config JS -->
-        <script type="text/javascript" src="/dev/_configuration/widgets.js"></script>
-        <script type="text/javascript" src="/var/widgets.json?callback=sakai.storeWidgets"></script>
-        <script type="text/javascript" src="/dev/_configuration/config.js"></script>
-
-        <!-- Core 3rd-party JS -->
-        <script type="text/javascript" src="/dev/_lib/jquery/jquery.js"></script>
-        <script type="text/javascript" src="/dev/_lib/jquery/jquery-ui.full.js"></script>
-        <script type="text/javascript" src="/dev/_lib/Fluid/3akai_Infusion.js"></script>
-        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.json.js"></script>
-        <script type="text/javascript" src="/dev/_lib/google/html-sanitizer-minified.js"></script>
-
-        <!-- Sakai Core JS -->
-        <script type="text/javascript" src="/dev/_lib/sakai_util/sakai_magic.js"></script>
-        <script type="text/javascript" src="/dev/_lib/sakai_util/i18n.js"></script>
-
-        <!-- 3rd party JS -->
-        <script type="text/javascript" src="/dev/_lib/sakai_util/trimpath.template.js"></script>
-        <script type="text/javascript" src="/dev/_lib/sakai_util/querystring.js"></script>
-        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jqmodal.sakai-edited.js"></script>
-        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.cookie.js"></script>
-        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.pager.js"></script>
-
-        <!-- 403 JS -->
-        <script type="text/javascript" src="/dev/_javascript/sakai.500.js"></script>
-
     </head>
 
-    <body class="fl-centered index i18nable">
+    <body class="fl-centered index i18nable" style="display: block;">
         <div class="index-container fl-centered permissions_error">
-            <div id="permission_error_logged_out_template" style="display:none"><!--
-                <div class="header-title">
-                    <img src="/dev/_images/sakai_logo_index.png" alt="__MSG__INSTANCE_NAME__"/>
-                </div>
-    
-                <div class="header-byline">
-                    __MSG__HEADER_BYLINE__
-                </div>
-    
-                <div class="login-box">
-                    <div id="permission_error">
-                        <div class="preview-box">
-                            <span id="error_title">The user account you are trying to access does not exist in the system</span>
-                            <p>
-                                You tried to sign in or view an account which does not exists in the system.
-                            </p>
-                            You can
-                            <ul>
-                                <li>
-                                    sign in to Sakai with a different account
-                                </li>
-                                <li>
-                                    notify helpdesk or your system administrator about this problem
-                                </li>
-                                <li>
-                                    try again later in case the account is scheduled to be ready by a later date
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="login-container">
-                            <a href="/dev/index.html">
-                            	<button class="s3d-button s3d-button-primary" type="submit">
-                            		<span class="s3d-button-inner">Go to the sign in page</span>
-                            	</button>
-                            </a>
-                            <p>
-                                Use the button above to go to the main sign in page where you can try signing in with a different account.
-                            </p>
-                        </div>
+            <div class="header-title">
+                <img src="/dev/_images/sakai_logo_index.png" alt="__MSG__INSTANCE_NAME__"/>
+            </div>
+
+            <div class="header-byline">
+                Open Source Collaborative Learning. Designed by educators, for educators.
+            </div>
+
+            <div class="login-box">
+                <div id="internal_user_error">
+                    <div class="preview-box">
+                        <span id="error_title">The user account you are trying to access does not exist in the system</span>
+                        <p>
+                            You tried to sign in or view an account which does not exists in the system.
+                        </p>
+                        You can
+                        <ul>
+                            <li>
+                                sign in to Sakai with a different account
+                            </li>
+                            <li>
+                                notify helpdesk or your system administrator about this problem
+                            </li>
+                            <li>
+                                try again later in case the account is scheduled to be ready by a later date
+                            </li>
+                        </ul>
                     </div>
-                </div>--></div>
-                <div id="permission_error_logged_in_template" style="display:none;"><!--
-                <div id="widget_topnavigation" class="widget_inline">
-                </div>
-                <div class="fl-container-flex header">
-                    <div class="fl-fix fl-centered fixed-container">
-                        <div class="decor">
-                        </div>
-                        <div id="permission_error">
-                            <span id="error_title">The user account you are trying to access does not exist in the system</span>
-                            <p>
-                                You tried to sign in or view an account which does not exist in the system.
-                            </p>
-                            You can
-                            <ul>
-                                <li>
-                                    sign in to Sakai with a different account
-                                </li>
-                                <li>
-                                    notify helpdesk or your system administrator about this problem
-                                </li>
-                                <li>
-                                    try again later in case the account is schedulred to be ready by a later date.
-                                </li>
-                            </ul>
-                        </div>
+                    <div class="login-container">
+                        <a href="/dev/logout.html">
+                            <button class="s3d-button s3d-button-primary" type="submit">
+                                <span class="s3d-button-inner">Go to the sign in page</span>
+                            </button>
+                        </a>
+                        <p>
+                            Use the button above to go to the main sign in page where you can try signing in with a different account.
+                        </p>
                     </div>
                 </div>
-
-                <div id="widget_footer" class="widget_inline footercontainer"></div>
-
-                <div id="widget_chat" class="widget_inline"></div>
-                --></div>
+            </div>
         </div>
     </body>
 </html>

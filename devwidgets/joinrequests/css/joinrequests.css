@@ -17,19 +17,21 @@
  */
 
 /* LAYOUT */
-div.joinrequests_joinrequest {background-color:#EFF2F4; height:55px;
-    margin:5px 8px 10px; padding:10px; width:220px;}
-a.joinrequests_userpicture {margin:0; padding:0; height:32px; width:32px;
-    background-image:url("../../../dev/_images/default_profile_picture_32.png");}
+div.joinrequests_joinrequest {background-color:#EFF2F4; height:60px;
+    margin:5px 8px 10px; padding:10px; width:250px; overflow:hidden;}
+img.joinrequests_userpicture, a.joinrequests_userpicture_link {margin:0;
+    padding:0; height:60px; width:60px;}
 div.joinrequests_details {margin-left:10px;}
 p.joinrequests_username, p.joinrequests_actions, p.joinrequests_loading {margin:0;}
-p.joinrequests_request_age {margin-bottom:6px;}
+p.joinrequests_username {margin-top:4px;}
+p.joinrequests_request_age {margin-bottom:8px;}
 a.joinrequests_add_link {margin-right:5px;}
 a.joinrequests_ignore_link {margin-left:5px;}
 
 /* TYPOGRAPHY */
-div.joinrequests_joinrequest a {color:#006E96; font-weight:bold;}
-p.joinrequests_request_age {color:#666666;}
+p.joinrequests_request_age, p.joinrequests_actions {font-size:0.85em; color:#666666;}
+p.joinrequests_actions a {color:#006E96;}
+a.joinrequests_username_link {font-weight:bold; color:#000;}
 
 /* IMAGES */
 p.joinrequests_loading {height:10px; margin-top:12px;

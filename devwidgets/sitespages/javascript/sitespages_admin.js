@@ -191,10 +191,12 @@ sakai.sitespages.site_admin = function(){
             url: i_url,
             type: "POST",
             data: {
-                ":operation": "createTree",
-                "tree": page_data,
-                ":replace": "true",
-                "_charset_":"utf-8"
+                ":operation": "import",
+                ":contentType": "json",
+                ":content": page_data,
+                ":replace": true,
+                ":replaceProperties": true,
+                "_charset_": "utf-8"
             },
             success: function(data) {
 
@@ -222,8 +224,12 @@ sakai.sitespages.site_admin = function(){
             url: url,
             type: "POST",
             data: {
-                ":operation": "createTree",
-                "tree": jsonString
+                ":operation": "import",
+                ":contentType": "json",
+                ":content": jsonString,
+                ":replace": true,
+                ":replaceProperties": true,
+                "_charset_": "utf-8"
             },
             success: function(data) {
 
@@ -930,15 +936,19 @@ sakai.sitespages.site_admin = function(){
         sakai.sitespages.inEditView = true;
 
         //Check if tinyMCE has been loaded before - probably a more robust check will be needed
-        if (tinyMCE.activeEditor === null) {
-            init_tinyMCE();
+        if (sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageType"] === "dashboard") {
+            sakai.dashboard.showAddWidgetDialog();
         } else {
-            if (tinyMCE.activeEditor.id !== "elm1" && didInit === false) {
-              tinyMCE.remove(tinyMCE.activeEditor.id);
-              init_tinyMCE();
-              didInit = true;
+            if (tinyMCE.activeEditor === null) {
+                init_tinyMCE();
+            } else {
+                if (tinyMCE.activeEditor.id !== "elm1" && didInit === false) {
+                  tinyMCE.remove(tinyMCE.activeEditor.id);
+                  init_tinyMCE();
+                  didInit = true;
+                }
+                editPage(sakai.sitespages.selectedpage);
             }
-            editPage(sakai.sitespages.selectedpage);
         }
 
         return false;
@@ -1019,8 +1029,12 @@ sakai.sitespages.site_admin = function(){
             url: sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["jcr:path"],
             type: "POST",
             data: {
-                ":operation": "createTree",
-                "tree": jsonString
+                ":operation": "import",
+                ":contentType": "json",
+                ":content": jsonString,
+                ":replace": true,
+                ":replaceProperties": true,
+                "_charset_": "utf-8"
             },
             success: function(data) {
                 sakai.sitespages.autosavecontent = tosave;
@@ -1500,19 +1514,21 @@ sakai.sitespages.site_admin = function(){
      */
     var showHideMoreMenu = function(hideOnly){
         var el = $("#more_menu");
-        if (el.css("display").toLowerCase() !== "none" || hideOnly) {
-            $("#more_link").removeClass("clicked");
-            el.hide();
-        } else {
-            $("#more_link").addClass("clicked");
-            var x = $("#more_link").position().left;
-            var y = $("#more_link").position().top;
-            el.css(
-                    {
-                      "top": y + 28 + "px",
-                      "left": x + 2 + "px"
-                    }
-                ).show();
+        if (el) {
+            if (el.css("display").toLowerCase() !== "none" || hideOnly) {
+                $("#more_link").removeClass("clicked");
+                el.hide();
+            } else {
+                $("#more_link").addClass("clicked");
+                var x = $("#more_link").position().left;
+                var y = $("#more_link").position().top;
+                el.css(
+                        {
+                          "top": y + 28 + "px",
+                          "left": x + 2 + "px"
+                        }
+                    ).show();
+            }
         }
     };
 
@@ -2001,6 +2017,10 @@ sakai.sitespages.site_admin = function(){
         sakai.api.Util.notification.show("Page move", "To move a page just drag&drop in the page navigation widget!", sakai.api.Util.notification.type.INFORMATION);
     });
 
+    $('#more_change_layout').live("click", function(){
+        sakai.dashboard.changeLayout();
+    });
+
 
     /////////////////////////////////
     // MORE: SAVE PAGE AS TEMPLATE //
@@ -2303,7 +2323,8 @@ sakai.sitespages.site_admin = function(){
     };
 
     admin_init();
-
+    $(window).trigger("sakai-sitespages-admin-ready");
+    sakai.sitespages.adminReady = true;
 };
 
 sakai.sitespages.onAdminLoaded();

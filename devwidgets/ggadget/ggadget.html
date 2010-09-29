@@ -8,13 +8,14 @@
 
 <!-- The main  settings template -->
 <div id="remotecontent_settings_template"><!--
-    <form>
         <div class="remotecontent_settings_subcontainer">
             <p>
                 Please insert the gadget's embed code here:
             </p>
             <p>
                 <input type="text" id="remotecontent_settings_url" value="${url}" /><br />
+                <span id="remotecontent_settings_url_error" style="display:none;">Please enter a valid Google Gadget embed code available from Google's Gadgets page at <a href="http://www.google.com/webmasters/gadgets">http://www.google.com/webmasters/gadgets</a></span>
+                <span id="remotecontent_settings_url_error_title" style="display:none;">Incorrect URL</span>
             </p>
             <div class="fl-force-right">
                 <button class="ggadget_preview_button s3d-button s3d-button-primary">
@@ -61,7 +62,6 @@
             <button type="button" class="s3d-button s3d-button-primary" id="remotecontent_settings_insert"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
             <button type="button" class="s3d-button" id="remotecontent_settings_cancel"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
         </div>
-    </form>
 --></div>
 
 <!-- Template to show the preview of the iframe -->

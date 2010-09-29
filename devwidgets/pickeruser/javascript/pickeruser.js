@@ -264,11 +264,9 @@ sakai.pickeruser = function(tuid, showSettings) {
 
     var addChoicesFromPickeradvanced = function(data) {
       $.each(data, function(i,val) {
-          var imgSrc = "/dev/_images/user_avatar_icon_32x32.png";
           var name = "";
           var id = "";
           if (val.entityType == "group") {
-              imgSrc = "/dev/_images/group_avatar_icon_32x32.png";
               name = val["sakai:group-title"];
               id = val["sakai:group-id"];
           } else if (val.entityType == "user") {
@@ -278,10 +276,7 @@ sakai.pickeruser = function(tuid, showSettings) {
               name = val["sakai:pooled-content-file-name"];
               id = val["jcr:name"];
           }
-          var itemHTML = '<li id="as-selection-' + id + '" class="as-selection-item"><a class="as-close">×</a>' + name + '</li>';
-          itemHTML = sakai.api.Security.saneHTML(itemHTML);
-          $("#as-values-" + tuid).val(id + "," + $("#as-values-" + tuid).val());
-          $("#as-original-" + tuid).before(itemHTML);
+          $pickeruser_search_query.autoSuggest.add_selected_item({"name": name, "value": id}, id);
           $pickeruser_add_button.removeAttr("disabled");
       });
       $("input#" + tuid).val('').focus();
