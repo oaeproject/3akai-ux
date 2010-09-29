@@ -112,6 +112,16 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
 
         // Add classes
         $(contentProfileFileDetailsActionUpload).data("hashpath", "contentpath_" + contentPath.split("/p/")[1]);
+
+        // make sure the newly added content is properly styled with
+        // threedots truncation
+        $(".content_profile_file_details_file_name_threedots").ThreeDots({
+            max_rows: 1,
+            text_span_class: "threedots",
+            e_span_class: "threedots_a",
+            whole_word: false,
+            alt_text_t: true
+        });
     }
 
     var loadRevisions = function(){

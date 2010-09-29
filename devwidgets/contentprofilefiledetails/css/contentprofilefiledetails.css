@@ -29,3 +29,6 @@
 #content_profile_file_details_container p {padding:0 0 5px 0; margin:0; font-weight:bold;}
 #content_profile_file_details_container .content_profile_file_details_form_section_header {color:#5A6A7C; font-size:16px; font-weight:normal; margin:20px 0; padding:0 0 5px 5px;}
 #content_profile_file_details_container a#content_profile_file_details_action_download:hover {text-decoration:none;}
+
+#content_profile_file_details_container .threedots_a {color:#006E96; font-size:13px; font-weight:bold;}
+#content_profile_file_details_container .ellipsis_text {word-wrap:break-word;}

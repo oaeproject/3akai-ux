@@ -90,7 +90,9 @@
                             <a class="entity_header_text" href="${data.profile.path}">${data.profile.name}</a>
                         {/if}
                     {else}
-                        <span class="entity_header_text">${data.profile.name}</span>
+                        <span class="entity_threedots entity_header_text">
+                            <span class="threedots ellipsis_text">${data.profile.name}</span>
+                        </span>
                     {/if}
                     <span class="entity_content_filetype">(${data.profile.mimetype} ${data.profile.filesize})</span>
                 </div>

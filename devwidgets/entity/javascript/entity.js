@@ -183,6 +183,13 @@ sakai.entity = function(tuid, showSettings){
     var renderTemplate = function(){
         $.TemplateRenderer($entity_container_template, entityconfig, $entity_container);
         $entity_container.show();
+        // make sure the newly added content is properly styled with
+        // threedots truncation
+        $(".entity_threedots").ThreeDots({
+            max_rows: 1,
+            text_span_class: "threedots",
+            alt_text_t: true
+        });
     };
 
     /**

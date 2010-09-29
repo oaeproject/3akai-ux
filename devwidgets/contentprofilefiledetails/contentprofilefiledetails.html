@@ -9,9 +9,9 @@
         <div id="content_profile_file_details_details_firstcolumn">
             <div id="content_profile_file_details_basic_info">
                 {if data["jcr:content"]["jcr:mimeType"] === "x-sakai/link"}
-                    <p><a href="${data["sakai:pooled-content-revurl"]}" title="${data["sakai:pooled-content-file-name"]}" class="s3d-action">${data["sakai:pooled-content-file-name"]}</a></p>
+                    <p class="content_profile_file_details_file_name_threedots"><a href="${data["sakai:pooled-content-revurl"]}" title="${data["sakai:pooled-content-file-name"]}" class="s3d-action threedots ellipsis_text">${data["sakai:pooled-content-file-name"]}</a></p>
                 {else}
-                <p>${data["sakai:pooled-content-file-name"]}</p>
+                    <p class="content_profile_file_details_file_name_threedots"><span class="threedots ellipsis_text">${data["sakai:pooled-content-file-name"]}</span></p>
                 {/if}
                 <p>${data["jcr:content"]["jcr:mimeType"]}</p>
                 <p>${filesize}</p>
