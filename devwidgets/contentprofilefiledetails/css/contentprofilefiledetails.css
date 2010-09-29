@@ -23,7 +23,7 @@
 #content_profile_file_details_container #content_profile_file_details_actions button, #content_profile_file_details_container #content_profile_file_details_actions span{float:left;}
 #content_profile_file_details_container #content_profile_file_details_details_secondcolumn {}
 #content_profile_file_details_container #content_profile_file_details_details_firstcolumn {float:left; width:400px;}
-#content_profile_file_details_container .content_profile_file_details_title {padding:0 20px 5px 0; font-weight:normal; color:#333333; float:right;}
+#content_profile_file_details_container .content_profile_file_details_title {padding:0 20px 5px 0; font-weight:normal; color:#333333; text-align:right;}
 #content_profile_file_details_container #content_profile_file_details_titles {float:right;}
 #content_profile_file_details_container #content_profile_file_details_basic_info {float:left; width:260px;}
 #content_profile_file_details_container p {padding:0 0 5px 0; margin:0; font-weight:bold;}

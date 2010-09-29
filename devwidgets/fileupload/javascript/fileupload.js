@@ -74,7 +74,6 @@ sakai.fileupload = function(tuid, showSettings){
 
     var fileUploadLinkBox = "#fileupload_link_box";
     var fileUploadLinkBoxInput= "#fileupload_link_box_input";
-    var fileUploadLinkForm = "#link_form";
     var fileUploadAddLinkButton = "#fileupload_add_link_button";
 
     // Form
@@ -132,11 +131,13 @@ sakai.fileupload = function(tuid, showSettings){
      */
     var checkSelectedFiles = function(){
         if (numberOfSelectedFiles !== 0) {
-            $(fileUploadLinkForm).children().attr("disabled","disabled");
+            $(fileUploadAddLinkButton).attr("disabled", "disabled");
+            $(fileUploadLinkBoxInput).attr("disabled", "disabled");
             var renderedTemplate = $.TemplateRenderer(fileUploadTaggingTemplate, contextData).replace(/\r/g, '');
             $(fileUploadRenderedTagging).html(renderedTemplate);
         } else {
-            $(fileUploadLinkForm).children().removeAttr("disabled");
+            $(fileUploadAddLinkButton).removeAttr("disabled");
+            $(fileUploadLinkBoxInput).removeAttr("disabled");
             $(fileUploadRenderedTagging).html("");
         }
     }
@@ -585,10 +586,12 @@ sakai.fileupload = function(tuid, showSettings){
                 } else {
                     resetFields();
                 }
-                $(fileUploadLinkForm).children().removeAttr("disabled");
+                $(fileUploadAddLinkButton).removeAttr("disabled");
+                $(fileUploadLinkBoxInput).removeAttr("disabled");
             },
             error: function(err){
-                $(fileUploadLinkForm).children().removeAttr("disabled");
+                $(fileUploadAddLinkButton).removeAttr("disabled");
+                $(fileUploadLinkBoxInput).removeAttr("disabled");
                 sakai.api.Util.notification.show($(fileUploadCheckURL).html(), $(fileUploadEnterValidURL).html());
             }
         });
@@ -663,7 +666,7 @@ sakai.fileupload = function(tuid, showSettings){
                         var $responseData = $.parseJSON(data.split(">")[1].split("<")[0]);
                     }
                     else {
-                        var $responseData = $.parseJSON(data.replace("<pre>", "").replace("</pre>", ""));
+                        var $responseData = $.parseJSON(data.replace(/<pre>/i, "").replace(/<\/pre>/i, ""));
                     }
                     var extractedData = [];
 
@@ -747,8 +750,9 @@ sakai.fileupload = function(tuid, showSettings){
         $(".MultiFile-remove").addClass("hide_remove_link");
     });
 
-     $(fileUploadLinkForm).live("submit",function(){
-         $(fileUploadLinkForm).children().attr("disabled", "disabled");
+     $(fileUploadAddLinkButton).live("click",function(){
+         $(fileUploadAddLinkButton).attr("disabled", "disabled");
+         $(fileUploadLinkBoxInput).attr("disabled", "disabled");
          // Test if the link is valid before saving it
         var regEx = /(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
         if (regEx.test($(fileUploadLinkBoxInput).val())){
@@ -763,7 +767,8 @@ sakai.fileupload = function(tuid, showSettings){
             }
         }else{
             // Show a notification
-            $(fileUploadLinkForm).children().removeAttr("disabled");
+            $(fileUploadAddLinkButton).removeAttr("disabled");
+            $(fileUploadLinkBoxInput).removeAttr("disabled");
             sakai.api.Util.notification.show($(fileUploadCheckURL).html(), $(fileUploadEnterValidURL).html());
         }
         return false;
