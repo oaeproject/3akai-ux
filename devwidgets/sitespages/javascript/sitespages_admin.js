@@ -964,7 +964,7 @@ sakai.sitespages.site_admin = function(){
         $(".save_button").live("click", function(ev){
             saveEdit();
         });
-    }
+    };
 
     /**
      * Callback function to trigger editPage() when tinyMCE is initialised
@@ -2273,7 +2273,7 @@ sakai.sitespages.site_admin = function(){
     $(document).bind("click", function(e){
         var $clicked = $(e.target);
         // Check if one of the parents is the element container
-        if(!$clicked.is("#more_link")){
+        if(!$clicked.is("#more_link") && $clicked.parents("#more_link").length === 0){
             showHideMoreMenu(true);
         }
         if(!$clicked.is(".insert_more_dropdown_activator")){
