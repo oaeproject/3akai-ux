@@ -15,6 +15,7 @@
         <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.create_new_account.css" />
 
         <!-- 3rd party CSS -->
+        <link rel="stylesheet" type="text/css" href="/dev/_lib/jquery/plugins/gritter/css/jquery.gritter.css" />
 
         <!-- Sakai Config JS -->
         <script type="text/javascript" src="_configuration/widgets.js"></script>
@@ -34,6 +35,7 @@
         
         <!-- reCAPTCHA js -->
         <script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/gritter/jquery.gritter.js"></script>
 
 
     </head>
@@ -182,8 +184,8 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td></td>
-                                <td><div id="success_message" class="success_message">__MSG__ACCOUNT_SUCCESSFULLY_CREATED__. <a href="index.html">__MSG__CLICK_HERE_TO_LOGIN__.</a></div></td>
+                                <td><span id="success_message_title" style="display:none;">Account Created</span></td>
+                                <td><div id="success_message" class="success_message"><span id="success_message_value">__MSG__ACCOUNT_SUCCESSFULLY_CREATED__.</span> <a href="index.html">__MSG__CLICK_HERE_TO_LOGIN__.</a></div></td>
                             </tr>
 
                         </table>
