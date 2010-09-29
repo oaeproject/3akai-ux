@@ -141,7 +141,7 @@
                                         {/if}
                                         <div class="search_result_right">
                                             <div class="search_result_header">
-                                                <a href="/dev/content_profile.html#content_path=/p/{if i['sakai:pooled-content-file-name']}${i['jcr:name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['jcr:path']}" title="${i['jcr:name']}"{/if}>
+                                                <a href="/dev/content_profile.html#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['jcr:path']}" title="${i['jcr:name']}"{/if}>
                                                     {if i['sakai:pooled-content-file-name']}
                                                         {if i['sakai:pooled-content-file-name'].length > 60}
                                                             ${i['sakai:pooled-content-file-name'].substring(0, 60)}...
