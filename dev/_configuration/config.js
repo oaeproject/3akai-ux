@@ -160,8 +160,9 @@ sakai.config = {
          * The structure of the config object is identical to the storage object
          * When system/me returns profile data for the logged in user the profile_config and profile_data objects could be merged
          * "label": the internationalizable message for the entry label in HTML
-         * "required": Whether the entry is compulsory or not
-         * 
+         * "required": {Boolean} Whether the entry is compulsory or not
+         * "display": {Boolean} Show the entry in the profile or not
+         * "editable": {Boolean} Whether or not the entry is editable
          * For a date entry field use "date" as the type for MM/dd/yyyy and "dateITA" as the type for dd/MM/yyyy
          * 
          */
