@@ -344,7 +344,6 @@ sakai.rss = function(tuid, showSettings){
                     resultJSON.feeds.splice(index,1);
                     $(rssRemoveFeed + index).parent().remove()
                 });
-                addBinding();
             }
         });
     };
@@ -559,6 +558,8 @@ sakai.rss = function(tuid, showSettings){
     };
 
     showHideSettings(showSettings);
+
+    addBinding();
 
     // Inserts the sendmessage-widget
     sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
