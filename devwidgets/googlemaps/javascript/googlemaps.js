@@ -157,6 +157,7 @@ sakai.googlemaps = function(tuid, showSettings){
 
                 // Set the initial value of search keyword input textbox
                 $("#googlemaps_input_text_location", rootel).val(json.mapinput);
+                
             } else {
                 // Show the search input textfield and save, search, cancel buttons
                 $("#googlemaps_form_search", rootel).show();
@@ -190,8 +191,10 @@ sakai.googlemaps = function(tuid, showSettings){
                 $("#googlemaps_cancel", rootel).bind("click", function(e, ui) {
                     sakai.api.Widgets.Container.informCancel(tuid, "googlemaps");
                 });
+                
             }
-
+            // Set focus in location text box
+            $("#googlemaps_input_text_location").focus();
         });
     };
 
