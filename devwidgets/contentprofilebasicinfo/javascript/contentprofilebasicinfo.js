@@ -198,8 +198,6 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
             // Set the tags
             sakai.api.Util.tagEntity(contentPath, data["sakai:tags"], currentTags, function(){
                 currentTags = data["sakai:tags"];
-                // TODO show a valid message to the user instead of reloading the page
-                $(window).trigger('hashchange');
                 sakai.api.Util.notification.show($(contentProfileBasicInfoUpdatedBasicInfo).html(), $(contentProfileBasicInfoFileBasicInfoUpdated).html());
             });
         }
@@ -236,7 +234,6 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
 
         // Set permissions on the files
         sakai.api.Util.setFilePermissions(data["sakai:permissions"], [obj], function(permissionsSet){
-            resetFields();
         });
 
         // Disable basic info fields
@@ -252,6 +249,12 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                 // Enable basic info fields and show error message
                 enableDisableBasicInfoFields(false);
                 sakai.api.Util.notification.show($(contentProfileBasicInfoFailedUpdatingBasicInfo).html(), $(contentProfileBasicInfoFileBasicInfoNotUpdated).html());
+            },
+            success : function(){
+                sakai.content_profile.loadContentProfile(function(){
+                    removeBinding();
+                    handleHashChange();
+                });
             }
         });
     };
@@ -404,7 +407,10 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
         sakai.api.Util.tagEntity(contentPath, tagsAfterDeletion, currentTags, function(){
             currentTags = currentTags.splice(tags);
             // TODO show a valid message to the user instead of reloading the page
-            $(window).trigger('hashchange');
+            sakai.content_profile.loadContentProfile(function(){
+                    removeBinding();
+                    $(window).trigger('hashchange');
+            });
             sakai.api.Util.notification.show($(contentProfileBasicInfoUpdatedBasicInfo).html(), $(contentProfileBasicInfoFileBasicInfoUpdated).html());
         });
     }
@@ -441,6 +447,18 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
             $(this).parent().remove();
         });
 
+    };
+
+    /**
+     * Bind the widget's internal Cancel and Save Settings button
+     */
+    var removeBinding = function(){
+        $(contentProfileBasicInfoDirectoryLvlOne).die("change", function(){});
+        $(contentProfileBasicInfoDirectoryLvlTwo).die("change", function(){});
+        $(contentProfileBasicInfoDirectoryLvlThree).die("change", function(){});
+        $(contentProfileBasicInfoAddAnotherLocation).die("click", function(){});
+        $(contentProfileBasicInfoRemoveLocation).die("click", function(){});
+        $(contentProfileBasicInfoRemoveNewLocation).die("click", function(){});
     };
 
     /**
