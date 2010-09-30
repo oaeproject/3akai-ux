@@ -25,7 +25,7 @@
 /* send_message_lightbox.html */
 .send_message .compose-form input, .send_message .compose-form textarea {font-weight:normal;}
 .send_message .compose-form #message_from, .send_message .compose-form #message_to {font-weight:bold; padding-left:4px;}
-.send_message .compose-form div {padding-bottom:10px;}
+.send_message .compose-form div {padding:0px 10px 10px 0px;}
 .send_message .compose-form .compose-subject {width:500px;}
 .send_message .compose-form .compose-body {height:150px; width:500px;}
 #send_message {font-weight:bold}

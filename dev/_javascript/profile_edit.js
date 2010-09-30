@@ -114,31 +114,6 @@ sakai.profile = function(){
     };
 
     /**
-     * Change the profile mode
-     * This will fire a redirect
-     * @param {String} mode The mode you want to change to
-     */
-    var changeProfileMode = function(mode){
-
-         // Check the mode parameter
-        if ($.inArray(mode, sakai.profile.main.mode.options) !== -1) {
-
-            // Perform the redirect
-            //window.location = window.location.pathname + "?mode=" + mode; // TODO fix this, jquery.bbq it, and do not force a refresh
-            switch (mode) {
-                case "edit":
-                    window.location = sakai.config.URL.PROFILE_EDIT_URL + "?user=" + sakai.profile.main.currentuser;
-                    break;
-                case "view":
-                    window.location = "/~" + sakai.profile.main.currentuser;
-                    break;
-            }
-        }
-
-    };
-
-
-    /**
      * Check whether the user is editing/looking at it's own profile or not
      * We do this because if it is the current user, we don't need to perform an extra search
      */
@@ -429,18 +404,6 @@ sakai.profile = function(){
                 // Show a successful notification to the user
                 sakai.api.Util.notification.show("", $profile_message_form_successful.text() , sakai.api.Util.notification.type.INFORMATION);
 
-                // Wait for 2 seconds
-                setTimeout(
-
-                    function(){
-
-                        // Change the profile mode if the save was successful
-                        changeProfileMode("view");
-
-                    }
-
-                , 2000);
-
             },
             error: function(xhr, textStatus, thrownError){
 
@@ -528,7 +491,7 @@ sakai.profile = function(){
         $profile_footer_button_dontupdate.bind("click", function(){
 
             // Change the profile mode
-            changeProfileMode("view");
+            window.location.reload();
 
         });
 
