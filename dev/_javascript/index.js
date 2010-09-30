@@ -69,6 +69,8 @@ sakai.index = function(){
                 if (data) {
                     $(failMessage).show();
                 }
+                // Set the cursor in the username field
+                $("#" + usernameField).focus();
             } else {
                 // loop through and render each external authentication system
                 $.each(sakai.config.Authentication.external, function(index, value) {
@@ -192,8 +194,6 @@ sakai.index = function(){
             redirectUrl = $.URLDecode(red);
         }
 
-        // Set the cursor in the username field
-        $("#" + usernameField).focus();
         // Check whether we are already logged in
         decideLoggedIn();
     };

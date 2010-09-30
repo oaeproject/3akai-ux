@@ -112,7 +112,7 @@ sakai.search = function() {
      * This method will show all the appropriate elements for when a search is executed.
      */
     var showSearchContent = function() {
-        $(searchConfig.global.searchTerm).text(sakai.api.Security.saneHTML(searchterm));
+        $(searchConfig.global.searchTerm).html(sakai.api.Security.saneHTML(sakai.api.Security.escapeHTML(searchterm)));
         $(searchConfig.global.tagTerm).text(sakai.api.Security.saneHTML(tagterm));
         $(searchConfig.global.numberFound).text("0");
         $(searchConfig.results.header).show();
@@ -322,7 +322,12 @@ sakai.search = function() {
                 urlsearchterm += splitted[i] + "~" + " " + splitted[i] + "*" + " ";
             }
 
-            var searchURL = sakai.config.URL.SEARCH_GROUPS + "?page=" + (currentpage - 1) + "&items=" + resultsToDisplay + "&q=" + urlsearchterm;
+            var searchURL = sakai.config.URL.SEARCH_GROUPS;
+            var params = {
+                page: (currentpage - 1),
+                items: resultsToDisplay,
+                q: urlsearchterm
+            }
 
             // Check if we want to search using a faceted link
             if (facetedurl) {
@@ -331,11 +336,18 @@ sakai.search = function() {
                     urlsearchterm = searchterm
                 }
 
-                searchURL = facetedurl + "?page=" + (currentpage - 1) + "&items=" + resultsToDisplay + "&q=" + urlsearchterm + "&facet=" + facet;
+                searchURL = facetedurl;
+                params = {
+                    page: (currentpage - 1),
+                    items: resultsToDisplay,
+                    q: urlsearchterm,
+                    facet: facet
+                }
             }
 
             $.ajax({
                 url: searchURL,
+                data: params,
                 cache: false,
                 success: function(data) {
                     renderResults(data, true);
