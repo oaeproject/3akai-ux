@@ -32,8 +32,8 @@
 #navigation_tree ul.jstree-no-dots li.jstree-open a,
 #navigation_tree ul.jstree-no-dots li.jstree-closed a
     {font-weight:normal; color:#006E96; white-space:normal; display:inline; padding:4px; line-height:19px;}
-#navigation_tree ul.jstree-no-dots li.jstree-open a,
-#navigation_tree ul.jstree-no-dots li.jstree-closed a
+#navigation_tree ul.jstree-no-dots li.jstree-open > a,
+#navigation_tree ul.jstree-no-dots li.jstree-closed > a
     {font-weight:bold;}
 #navigation_tree ul.jstree-no-dots li.jstree-leaf a.jstree-clicked,
 #navigation_tree ul.jstree-no-dots li.jstree-open a.jstree-clicked,
