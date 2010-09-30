@@ -140,6 +140,7 @@ sakai.content_profile = function(){
      */
     var addRemoveUsers = function(tuid, users, task) {
         var userCount = 0;
+        var notificationType = sakai.api.Security.saneHTML($("#content_profile_viewers_text").text())
 
         $.each(users, function(index, user) {
             var data = {
@@ -147,6 +148,7 @@ sakai.content_profile = function(){
                 ":viewer": user
             };
             if (tuid === 'managers' && task === 'add') {
+                notificationType = sakai.api.Security.saneHTML($("#content_profile_managers_text").text())
                 data = {
                     "_charset_":"utf-8",
                     ":manager": user
@@ -164,6 +166,7 @@ sakai.content_profile = function(){
                     ":viewer@Delete": user
                 };
                 if (tuid === 'managers') {
+                    notificationType = sakai.api.Security.saneHTML($("#content_profile_managers_text").text())
                     data = {
                         "_charset_":"utf-8",
                         ":manager@Delete": user
@@ -184,19 +187,12 @@ sakai.content_profile = function(){
             }
         });
 
-        if (userCount > 1) {
+        if (userCount > 0) {
             loadContentUsers(tuid);
             if (task === 'add') {
-                sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_added_text").text()));
+                sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_added_text").text() + " " + notificationType));
             } else {
-                sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_removed_text").text()));
-            }
-        } else if (userCount == 1) {
-            loadContentUsers(tuid);
-            if (task === 'add') {
-                sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_user_added_text").text()));
-            } else {
-                sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_user_removed_text").text()));
+                sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_removed_text").text() + " " + notificationType));
             }
         }
     };
