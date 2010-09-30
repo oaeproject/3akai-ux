@@ -24,13 +24,28 @@
 #navigation_groupname {font-weight:bold;}
 
 /* NAVIGATION TREE STYLES */
-#navigation_tree ul.jstree-no-dots li.jstree-leaf {margin:4px 0;}
-#navigation_tree ul.jstree-no-dots li.jstree-leaf a, #navigation_tree ul.jstree-no-dots li.jstree-closed a, #navigation_tree ul.jstree-no-dots li.jstree-open a{color:#006E96;}
-#navigation_tree ul.jstree-no-dots li.jstree-open > ul li.jstree-leaf {margin-left:18px;}
-#navigation_tree ul.jstree-no-dots li.jstree-closed a, #navigation_tree ul.jstree-no-dots li.jstree-open a {font-weight:bold;}
-#navigation_tree ul.jstree-no-dots li.jstree-leaf a {font-weight:normal;}
+#navigation_tree ul.jstree-no-dots li.jstree-leaf,
+#navigation_tree ul.jstree-no-dots li.jstree-open,
+#navigation_tree ul.jstree-no-dots li.jstree-closed
+    {padding:4px 4px;}
+#navigation_tree ul.jstree-no-dots li.jstree-leaf a,
+#navigation_tree ul.jstree-no-dots li.jstree-open a,
+#navigation_tree ul.jstree-no-dots li.jstree-closed a
+    {font-weight:normal; color:#006E96; white-space:normal; display:inline; padding:4px; line-height:19px;}
+#navigation_tree ul.jstree-no-dots li.jstree-open a,
+#navigation_tree ul.jstree-no-dots li.jstree-closed a
+    {font-weight:bold;}
+#navigation_tree ul.jstree-no-dots li.jstree-leaf a.jstree-clicked,
+#navigation_tree ul.jstree-no-dots li.jstree-open a.jstree-clicked,
+#navigation_tree ul.jstree-no-dots li.jstree-closed a.jstree-clicked
+    {color:#FFFFFF; font-weight:bold; background-color:#006E96; border:none;}
+#navigation_tree ul.jstree-no-dots li.jstree-leaf a.jstree-hovered,
+#navigation_tree ul.jstree-no-dots li.jstree-open a.jstree-hovered,
+#navigation_tree ul.jstree-no-dots li.jstree-closed a.jstree-hovered
+    {color:#006E96; background-color:#D3EDF5; border:none;}
 #navigation_tree.jstree-default.jstree-focused {background-color:#fff;}
-#navigation_tree.jstree-default a .jstree-icon {background:url("/dev/_images/page_18.png") top left no-repeat;}
+#navigation_tree.jstree-default a .jstree-icon {background:url("/dev/_images/page_icon_small_blue.png") 0px 0px no-repeat;}
+#navigation_tree.jstree-default a .jstree-icon:hover {cursor:move;}
 
 /* BACKGROUND IMAGES */
 #navigation_title {background:transparent url(/dev/_images/pages_icon.png) no-repeat scroll 16px 17px;}
