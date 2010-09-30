@@ -134,6 +134,9 @@ sakai.show = function() {
     var getGroupData = function() {
         sakai.currentgroup.id = entityID;
         sakai.currentgroup.data = entityData;
+        if (sakai.currentgroup.data.authprofile["sakai:customStyle"]) {
+            $.Load.requireCSS(sakai.currentgroup.data.authprofile["sakai:customStyle"]);
+        }
         postDataRetrieval();
         sakai.api.Security.showPage();
     };
@@ -161,6 +164,10 @@ sakai.show = function() {
             if (sakai.profile.main.data.activity)
                 delete sakai.profile.main.data.activity;
 
+            if (sakai.profile.main.data.authprofile["sakai:customStyle"]) {
+                $.Load.requireCSS(sakai.profile.main.data.authprofile["sakai:customStyle"]);
+            }
+
             postDataRetrieval();
             sakai.api.Security.showPage();
 
@@ -179,10 +186,13 @@ sakai.show = function() {
 
             // Set the profile data object
             sakai.profile.main.data = $.extend(true, {}, userprofile);
-            sakai.api.Security.showPage();
+
+            if (sakai.profile.main.data["sakai:customStyle"]) {
+                $.Load.requireCSS(sakai.profile.main.data["sakai:customStyle"]);
+            }
 
             postDataRetrieval();
-
+            sakai.api.Security.showPage();
         }
     };
 
@@ -192,7 +202,6 @@ sakai.show = function() {
                 getUserData();
                 break;
             case "group":
-
                 getGroupData();
                 break;
         }

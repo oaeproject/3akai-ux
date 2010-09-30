@@ -656,6 +656,8 @@ sakai.config = {
             "employees": ["bert", "oszkar", "nicolaas"]
         }
     },
+    // Array of css files to load in each page
+    skinCSS: [],
 
     widgets: {}
 };
