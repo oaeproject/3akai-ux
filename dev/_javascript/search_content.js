@@ -114,7 +114,7 @@ sakai.search = function() {
      * This method will show all the appropriate elements for when a search is executed.
      */
     var showSearchContent = function() {
-        $(searchConfig.global.searchTerm).text(sakai.api.Security.saneHTML(searchterm));
+        $(searchConfig.global.searchTerm).html(sakai.api.Security.saneHTML(sakai.api.Security.escapeHTML(searchterm)));
         $(searchConfig.global.tagTerm).text(sakai.api.Security.saneHTML(tagterm));
         $(searchConfig.global.numberFound).text("0");
         $(searchConfig.results.header).show();
@@ -317,8 +317,9 @@ sakai.search = function() {
             }
             
             // Check if we want to search using a faceted link
-            if (facetedurl)
+            if (facetedurl) {
                 url = facetedurl.replace(".json", ".infinity.json");
+            };
 
             $.ajax({
                 url: url,

@@ -155,7 +155,7 @@ sakai.search = function() {
      * This method will show all the appropriate elements for when a search is executed.
      */
     var showSearchContent = function() {
-        $(searchConfig.global.searchTerm).text(sakai.api.Security.saneHTML(searchterm));
+        $(searchConfig.global.searchTerm).html(sakai.api.Security.saneHTML(sakai.api.Security.escapeHTML(searchterm)));
         $(searchConfig.global.tagTerm).text(sakai.api.Security.saneHTML(tagterm));
         $(searchConfig.global.numberFound).text("0");
         $(searchConfig.results.header).show();
@@ -369,20 +369,40 @@ sakai.search = function() {
 
             // The search URL depends on the searchWhere variable
             var searchURL;
+            var params = {};
 
             if(searchWhere === "mycontacts") {
-                searchURL = sakai.config.URL.SEARCH_USERS_ACCEPTED + "&q=" + urlsearchterm;
+                searchURL = sakai.config.URL.SEARCH_USERS_ACCEPTED;
+                params = {
+                    q: urlsearchterm
+                }
             }  else {
-                searchURL = sakai.config.URL.SEARCH_USERS + "?page=" + (currentpage - 1) + "&items=" + resultsToDisplay + "&q=" + urlsearchterm + "&sortOn=sakai:firstName&sortOrder=ascending";
+                searchURL = sakai.config.URL.SEARCH_USERS;
+                params = {
+                    page: (currentpage - 1),
+                    items: resultsToDisplay,
+                    q: urlsearchterm,
+                    sortOn: "sakai:firstName",
+                    sortOrder: "ascending"
+                }
             }
 
             // Check if we want to search using a faceted link
-            if (facetedurl)
-                searchURL = facetedurl + "?page=" + (currentpage - 1) + "&items=" + resultsToDisplay + "&q=" + urlsearchterm + "&sortOn=sakai:firstName&sortOrder=ascending";
+            if (facetedurl){
+               searchURL = facetedurl;
+               params = {
+                    page: (currentpage - 1),
+                    items: resultsToDisplay,
+                    q: urlsearchterm,
+                    sortOn: "sakai:firstName",
+                    sortOrder: "ascending"
+                }
+            }
 
             $.ajax({
                 cache: false,
                 url: searchURL,
+                data: params,
                 success: function(data) {
 
                     // Store found people in data cache
