@@ -42,6 +42,8 @@ sakai.inbox = function() {
     var cats = "";
     var inboxComposeNewPanelOpen = false;
     var getAll = true;
+    
+    var openedBox = false;
 
 
     /**
@@ -1001,7 +1003,7 @@ sakai.inbox = function() {
     var sendMessageFinished = function(success, data) {
         clearInputFields();
         // Show the sent inbox pane.
-        $.bbq.pushState({"box": "sent"},2);
+        $.bbq.pushState({"box": openedBox},2);
     };
 
 
@@ -1169,7 +1171,7 @@ sakai.inbox = function() {
     //    This is the widget id!
     $(inboxComposeCancel).live("click", function() {
         //    Jump back to inbox
-        $.bbq.pushState({"box":"inbox"},2);
+        $.bbq.pushState({"box": openedBox},2);
     });
 /*
     // Bind click event to hide menus
@@ -1198,24 +1200,31 @@ sakai.inbox = function() {
     /* Filter the messages. */
 
     $(inboxFilterMessages).click(function() {
+        openedBox = "messages";
         $.bbq.pushState({"box": "messages"},2);
     });
     $(inboxFilterAnnouncements).click(function() {
+        openedBox = "announcements";
         $.bbq.pushState({"box": "announcements"},2);
     });
     $(inboxFilterChats).click(function() {
+        openedBox = "chats";
         $.bbq.pushState({"box": "chats"},2);
     });
     $(inboxFilterInvitations).click(function() {
+        openedBox = "invitations";
         $.bbq.pushState({"box": "invitations"},2);
     });
     $(inboxFilterInbox).click(function() {
+        openedBox = "inbox";
         $.bbq.pushState({"box": "inbox"},2);
     });
     $(inboxFilterSent).click(function() {
+        openedBox = "sent";
         $.bbq.pushState({"box": "sent"},2);
     });
     $(inboxFilterTrash).click(function() {
+        openedBox = "trash";
         $.bbq.pushState({"box": "trash"},2);
     });
 
@@ -1310,6 +1319,11 @@ sakai.inbox = function() {
         $(inboxTable + " " + inboxArrow).remove();
         $("#inbox_table_header_date").append(sakai.api.Security.saneHTML($(inboxInboxSortDown).html()));
         var box = $.bbq.getState("box");
+        if (box){
+            openedBox = box;
+        } else if (!openedBox) {
+            openedBox = "inbox";
+        }
         var msg = $.bbq.getState("message");
         var action = $.bbq.getState("action");
         if (action) {
