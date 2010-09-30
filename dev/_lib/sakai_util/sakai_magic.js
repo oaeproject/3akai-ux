@@ -788,7 +788,25 @@ sakai.api.Groups.getMembers = function(groupID, callback) {
 
 
 
+/**
+ * @class Skinning
+ *
+ * @description
+ * <p>Skinning support for Sakai</p>
+ */
+sakai.api.Skinning = sakai.api.Skinning || {};
 
+/**
+ * loadSkins
+ * Loads in any skins defined in sakai.config.skinCSS
+ */
+sakai.api.Skinning.loadSkinsFromConfig = function() {
+    if (sakai.config.skinCSS && sakai.config.skinCSS.length) {
+        $(sakai.config.skinCSS).each(function(i,val) {
+            $.Load.requireCSS(val);
+        });
+    }
+};
 
 /**
  * @class i18n
@@ -1382,6 +1400,7 @@ sakai.api.Security.showPage = function(){
     } else {
         $('html').addClass("requireUser");
     }
+    sakai.api.Skinning.loadSkinsFromConfig();
     $('body').show();
 };
 
