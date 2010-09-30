@@ -32,6 +32,10 @@ sakai.search = function() {
     var currentpage = 0;
     var currentfacet = "";
 
+    // Add Group Button links
+    var createGroupContainer = "#creategroupcontainer";
+    var searchAddGroupButton = ".search_add_group_button";
+
     // Search URL mapping
     var searchURLmap = {
         allgroups : sakai.config.URL.SEARCH_GROUPS,
@@ -383,6 +387,16 @@ sakai.search = function() {
         $(searchConfig.results.header).hide();
     };
 
+    /**
+     * Show the popup to create a new group.
+     */
+    var createNewGroup = function(){
+        $(createGroupContainer).show();
+
+        // Load the creategroup widget.
+        sakai.creategroup.initialise();
+    };
+
 
     ///////////////////
     // Init Function //
@@ -402,6 +416,14 @@ sakai.search = function() {
         mainSearch.addFacetedPanel();
 
     };
+
+    ////////////////////
+    // Event Handlers //
+    ////////////////////
+
+    $(searchAddGroupButton).bind("click", function(ev){
+        createNewGroup();
+    });
 
 
     var thisFunctionality = {

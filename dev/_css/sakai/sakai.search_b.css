@@ -45,6 +45,11 @@
     top: -15px;
 }
 
+/* Button */
+.search_add_content_button, .search_add_group_button {
+    float:right;
+}
+
 /** TAB VARIANT **/
 .content_search .s3d-primary-tabs {
     background: url('../../_images/site_tab_bg.png') top right no-repeat;
