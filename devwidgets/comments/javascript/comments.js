@@ -46,8 +46,8 @@ sakai.comments = function(tuid, showSettings){
     var start = 0; // Start fetching from the first comment.
     var clickedPage = 1;
     var defaultPostsPerPage = 10;
-    var currentSite = sakai.site.currentsite.id;
-    var store = "/sites/" + currentSite + "/store/";
+    var currentSite = "";
+    var store = "";
 
     // Main Ids
     var comments = "#comments";
@@ -351,7 +351,7 @@ sakai.comments = function(tuid, showSettings){
             items = widgetSettings.perPage;
         }
 
-        var url = "/var/search/comments/flat.json?sortOn=" + sortOn + "&sortOrder=" + sortOrder + "&page=" + (clickedPage - 1) + "&items=" + items + "&marker=" + tuid + "&path=" + store.substring(0, store.length - 1);
+        var url = "/var/search/comments/flat.json?sortOn=" + sortOn + "&sortOrder=" + sortOrder + "&page=" + (clickedPage - 1) + "&items=" + items + "&marker=" + tuid + "&path=" + store;
         $.ajax({
             url: url,
             cache: false,
@@ -414,8 +414,8 @@ sakai.comments = function(tuid, showSettings){
             alert("Anonymous users are not allowed to post comments. Please register or log in to add your comment.");
         }
 
-        var subject = 'Comment on sites/' + sakai.site.currentsite.id;
-        var to = "internal:s-" + currentSite;
+        var subject = 'Comment on /~' + currentSite;
+        var to = "comment:" + currentSite;
 
         if (allowPost) {
             var body = $(commentsMessageTxt, rootel).val();
@@ -431,7 +431,7 @@ sakai.comments = function(tuid, showSettings){
             };
 
 
-            var url = "/~" + sakai.data.me.user.userid + "/message.create.html";
+            var url = store + ".create.html";
             $.ajax({
                 url: url,
                 type: "POST",
@@ -793,6 +793,12 @@ sakai.comments = function(tuid, showSettings){
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
     var doInit = function(){
+        if (sakai.currentgroup && !$.isEmptyObject(sakai.currentgroup.id)) {
+            currentSite = sakai.currentgroup.id;
+        } else {
+            currentSite = sakai.profile.main.data["rep:userId"];
+        }
+        store = "/~" + currentSite + "/message";
         if (!showSettings) {
             // Show the main view.
             $(commentsSettingsContainer, rootel).hide();

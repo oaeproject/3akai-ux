@@ -197,8 +197,9 @@ sakai.topnavigation = function(tuid, showSettings){
             }
         });
 
-        $(window).bind("chat_status_change", function(event, currentChatStatus){
-            updateChatStatusElement($(userLink), currentChatStatus);
+        $(window).bind("chat_status_change", function(event, chatstatus){
+            currentChatStatus = chatstatus;
+            updateChatStatusElement($(userLink), chatstatus);
         });
 
         $(window).bind("click", function(e){

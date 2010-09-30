@@ -133,7 +133,7 @@ sakai.search = function() {
 
     var showSearchContent = function() {
         // Set searching messages
-        $(searchConfig.global.searchTerm).text(sakai.api.Security.saneHTML(searchterm));
+        $(searchConfig.global.searchTerm).html(sakai.api.Security.saneHTML(sakai.api.Security.escapeHTML(searchterm)));
         if (tagterm) {
             $(searchConfig.global.tagTerm).text(sakai.api.Security.saneHTML(tagterm.replace("/tags/", "").replace("directory/", "")));
         }
@@ -384,7 +384,14 @@ sakai.search = function() {
             // People Search
             $.ajax({
                 cache: false,
-                url: sakai.config.URL.SEARCH_USERS + "?page=0&items=" + peopleToSearch + "&q=" + urlsearchterm + "&sortOn=sakai:firstName&sortOrder=ascending",
+                url: sakai.config.URL.SEARCH_USERS,
+                data: {
+                    page: 0,
+                    items: peopleToSearch,
+                    q: urlsearchterm,
+                    sortOn: "sakai:firstName",
+                    sortOrder: "ascending"
+                },
                 cache: false,
                 success: function(data) {
 
@@ -407,7 +414,12 @@ sakai.search = function() {
             // Sites search
             $.ajax({
                 cache: false,
-                url: sakai.config.URL.SEARCH_GROUPS + "?page=0&items=5&q=" + urlsearchterm,
+                url: sakai.config.URL.SEARCH_GROUPS,
+                data: {
+                     page: 0,
+                     items: 5,
+                     q: urlsearchterm  
+                },
                 success: function(data) {
                     renderSites(data);
                 },
@@ -415,6 +427,7 @@ sakai.search = function() {
                     renderSites({});
                 }
             });
+
         } else if (tagterm) {
             // Show and hide the correct elements.
             showSearchContent();

@@ -3863,10 +3863,40 @@ sakai.api.Widgets.isOnDashboard = function(tuid) {
     };
 
     /**
+     * Check to see if the tag+attributes combination currently exists in the DOM
+     *
+     * @param {Object} tagname
+     *  Name of the tag we want to insert. This is supposed to be "link" or "script".
+     * @param {Object} attributes
+     *  A JSON object that contains all of the attributes we want to attach to the tag we're
+     *  inserting. The keys in this object are the attribute names, the values in the object
+     *  are the attribute values
+     * @return {jQuery|Boolean} returns the selected objects if found, otherwise returns false
+     */
+    var checkForTag = function(tagname, attributes) {
+        var selector = tagname;
+        for (var i in attributes) {
+            if (i && attributes.hasOwnProperty(i)) {
+                selector += "[" + i + "*=" + attributes[i] + "]";
+            }
+        }
+        if ($(selector).length) return $(selector);
+        else return false;
+    };
+
+    /**
      * Load a JavaScript file into the document
      * @param {String} URL of the JavaScript file relative to the parent dom.
      */
     $.Load.requireJS = function(url) {
+        var attributes = {"src": url, "type": "text/javascript"};
+        var existingScript = checkForTag("script", attributes);
+        if (existingScript) {
+            // Remove the existing script so we can place in a new one
+            // We need to do this otherwise the init functions that need to be called
+            // at the end of widgets never get called again
+            existingScript.remove();
+        }
         insertTag("script", {"src" : url, "type" : "text/javascript"});
     };
 
@@ -3875,7 +3905,12 @@ sakai.api.Widgets.isOnDashboard = function(tuid) {
      * @param {String} URL of the CSS file relative to the parent dom.
      */
     $.Load.requireCSS = function(url) {
-        insertTag("link", {"href" : url, "type" : "text/css", "rel" : "stylesheet"});
+        var attributes = {"href" : url, "type" : "text/css", "rel" : "stylesheet"};
+        var existingStylesheet = checkForTag("link", attributes);
+        // if the stylesheet already exists, don't add it again
+        if (!existingStylesheet) {
+            insertTag("link", attributes);
+        }
     };
 
 })(jQuery);
