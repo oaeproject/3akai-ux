@@ -250,6 +250,11 @@ sakai.content_profile = function(){
 
         // Bind the add viewers button
         $("#content_profile_add_viewers").bind("click", function(){
+
+            // position the dialog box above the content list
+            var pos = $("#content_profile_add_viewers").offset();  
+            $(".dialog").css( { "top":pos.top - 420 + "px" } );
+
             pl_config.what = "Viewers";
             $(window).trigger("sakai-pickeruser-init", pl_config, function(people) {
             });
@@ -261,6 +266,11 @@ sakai.content_profile = function(){
 
         // Bind the add managers button
         $("#content_profile_add_managers").bind("click", function(){
+
+            // position the dialog box above the content list
+            var pos = $("#content_profile_add_managers").offset();  
+            $(".dialog").css( { "top":pos.top - 420 + "px" } );
+
             pl_config.what = "Managers";
             $(window).trigger("sakai-pickeruser-init", pl_config, function(people) {
             });
