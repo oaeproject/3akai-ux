@@ -1,0 +1,10 @@
+{
+    "grouppages": true,
+    "showinsakaigoodies": true,
+    "description":"Group lister",
+    "hasSettings": true,
+    "id": "listpeoplewrappergroup",
+    "img":"/devwidgets/listpeoplewrappergroup/images/icon.png",
+    "name": "Group lister",
+    "url": "/devwidgets/listpeoplewrappergroup/listpeoplewrappergroup.html"
+}
