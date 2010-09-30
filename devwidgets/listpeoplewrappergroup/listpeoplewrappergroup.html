@@ -1,0 +1,25 @@
+<!-- MAIN VIEW -->
+<div id="listpeoplewrappergroup_container" class="fl-widget-content">
+</div>
+
+<!-- TEMPLATE CONTAINING THE LISTPEOPLE WIDGET -->
+<div id="listpeoplewrappergroup_default_template"><!--
+    <div id="widget_listpeople_${tuid}" class="widget_inline"></div>
+--></div>
+
+<!-- SETTINGS VIEW -->
+<div id="listpeoplewrappergroup_settings" class="fl-widget-content" style="display:none">
+    __MSG__SELECT_TYPE_OF_ITEM_TO_LIST__:
+    <select id="listpeoplewrappergroup_settings_select">
+        <option value="members">__MSG__MEMBERS__</option>
+        <option value="managers">__MSG__MANAGERS__</option>
+        <option value="content">__MSG__CONTENT__</option>
+    </select>
+    <div class="dialog_buttons">
+        <button type="button" class="s3d-button" id="listpeoplewrappergroup_settings_cancel"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
+        <button type="button" class="s3d-button s3d-button-primary" id="listpeoplewrappergroup_settings_finish"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
+    </div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script src="/devwidgets/listpeoplewrappergroup/javascript/listpeoplewrappergroup.js" language="JavaScript" type="text/javascript"></script>
