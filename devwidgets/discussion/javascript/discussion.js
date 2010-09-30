@@ -317,7 +317,7 @@ sakai.discussion = function(tuid, showSettings){
         };
 
         $.ajax({
-            url: store + shardedId(id),
+            url: store + "/" + shardedId(id),
             cache: false,
             success: function(data){
                 if (showSettings) {
@@ -796,7 +796,7 @@ sakai.discussion = function(tuid, showSettings){
      * @param {boolean} deleteValue true = delete, false = undelete
      */
     var deletePost = function(id, deleteValue){
-        var url = store + shardedId(id);
+        var url = store + "/" + shardedId(id);
         var data = {
             "sakai:deleted": deleteValue
         };
