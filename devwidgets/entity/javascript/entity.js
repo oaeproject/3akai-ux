@@ -211,9 +211,9 @@ sakai.entity = function(tuid, showSettings){
 
             var id = null;
             if (profile["rep:userId"]){
-                id = profile["rep:userId"];            
+                id = profile["rep:userId"];
             } else if (profile["sakai:group-id"]){
-                id = profile["sakai:group-id"];            
+                id = profile["sakai:group-id"];
             }
             //change string to json object and get name from picture object
             var picture_name = $.parseJSON(profile.picture).name;
@@ -235,19 +235,23 @@ sakai.entity = function(tuid, showSettings){
     var changeChatStatus = function(chatstatus){
         sakai.data.me.profile = $.extend(true, sakai.data.me.profile, {"chatstatus": chatstatus});
 
-        if (sakai.data.me.profile.activity)
-            delete sakai.data.me.profile.activity;
+        var data = {
+        	"chatstatus": chatstatus,
+        	"_charset_": "utf-8"
+        };
 
-        if (sakai.data.me.profile["rep:policy"])
-            delete sakai.data.me.profile["rep:policy"];
-
-        sakai.api.Server.saveJSON(authprofileURL, sakai.data.me.profile, function(success, data) {
-            if (success) {
+        $.ajax({
+            url: "/~" + sakai.data.me.profile["rep:userId"] + "/public/authprofile",
+            type: "POST",
+            data: data,
+            success: function(data){
                 $(window).trigger("chat_status_change", chatstatus);
-            } else {
+            },
+            error: function(xhr, textStatus, thrownError){
                 fluid.log("Entity widget - An error occured when sending the status to the server.");
             }
-        });
+         });
+
     };
 
     /**
@@ -411,7 +415,7 @@ sakai.entity = function(tuid, showSettings){
      */
     var joinGroup = function () {
         // add user to group
-        sakai.api.Groups.addToGroup(sakai.data.me.user.userid, 
+        sakai.api.Groups.addToGroup(sakai.data.me.user.userid,
             entityconfig.data.profile["sakai:group-id"], function (success, data) {
             if (success) {
                 sakai.api.Util.notification.show("Group Membership", "You have successfully been added to the group.");
@@ -455,11 +459,11 @@ sakai.entity = function(tuid, showSettings){
             }
         });
     };
-    
+
     //////////////
     // CONTACTS //
     //////////////
-    
+
     /**
      * Check whether a user is already a contact, invited or pending
      * @param {String} userid    the user's userid
@@ -783,9 +787,9 @@ sakai.entity = function(tuid, showSettings){
             $('#entity_available_to_chat').live("click", function() {
                 // todo
             });
-            
+
             $("#entity_contact_invited").live("click", function(){
-               acceptInvitation(entityconfig.data.profile["rep:userId"]); 
+               acceptInvitation(entityconfig.data.profile["rep:userId"]);
             });
         }
 
@@ -990,7 +994,7 @@ sakai.entity = function(tuid, showSettings){
 
         // Render the main template
         renderTemplate();
-        
+
         // Should we show the Add To Contacts button or not
         if (mode === "profile" && !sakai.data.me.user.anon){
             checkContact(entityconfig.data.profile["rep:userId"]);
