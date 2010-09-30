@@ -183,6 +183,7 @@ sakai.fileupload = function(tuid, showSettings){
         $(fileuploadLimitContainer).html(renderedTemplate);
         // Set multiFile on the rendered box
         $("input[type=file].multi").MultiFile();
+        $(multiFileList).hide();
     };
 
     /**
