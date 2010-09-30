@@ -70,6 +70,7 @@ sakai.topnavigation = function(tuid, showSettings){
     var chatUnreadMessages = "#chat_unreadMessages";
 
     // Search
+    var $general_search_container = $("#general_search_container");
     var $general_search_form = $("#general_search_container form");
     var $general_search_input = $("#general_search_input");
     var $general_search_default_value = $("#general_search_default_value");
@@ -335,6 +336,9 @@ sakai.topnavigation = function(tuid, showSettings){
         $(".help").hide();
         $("#user_link_container").hide();
 
+        // Hide search bar
+        $general_search_container.hide();
+        
         // Show anonymous elements
         $("#other_logins_button_container").show();
         $(".log_in").addClass("help_none"); 
