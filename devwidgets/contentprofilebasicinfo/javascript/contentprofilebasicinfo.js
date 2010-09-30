@@ -123,96 +123,6 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
     };
 
     /**
-     * Set permissions on the files that were uploaded
-     */
-    var setFilePermissions = function(){
-        // Get the value from the dropdown list
-        var permissions = $(contentProfileBasicInfoFormPermissionsSelect).val();
-        // Check which value was selected and fill in the data object accordingly
-        var data = [];
-        switch (permissions) {
-            // Logged in only
-            case "everyone":
-                var item = {
-                    "url": contentPath + ".members.html",
-                    "method": "POST",
-                    "parameters": {
-                        ":viewer": "everyone",
-                        ":viewer@Delete": "anonymous"
-                    }
-                };
-                data[data.length] = item;
-                var item = {
-                    "url": contentPath + ".modifyAce.html",
-                    "method": "POST",
-                    "parameters": {
-                        "principalId": "everyone",
-                        "privilege@jcr:read": "granted"
-                    }
-                };
-                data[data.length] = item;
-                var item = {
-                    "url": contentPath + ".modifyAce.html",
-                    "method": "POST",
-                    "parameters": {
-                        "principalId": "anonymous",
-                        "privilege@jcr:read": "denied"
-                    }
-                };
-                data[data.length] = item;
-                break;
-            // Public
-            case "public":
-                var item = {
-                    "url": contentPath + ".members.html",
-                    "method": "POST",
-                    "parameters": {
-                        ":viewer": ["everyone", "anonymous"]
-                    }
-                };
-                data[data.length] = item;
-                break;
-            // Managers and viewers only
-            case "private":
-                var item = {
-                    "url": contentPath + ".members.html",
-                    "method": "POST",
-                    "parameters": {
-                        ":viewer@Delete": ["anonymous", "everyone"]
-                    }
-                };
-                data[data.length] = item;
-                var item = {
-                    "url": contentPath + ".modifyAce.html",
-                    "method": "POST",
-                    "parameters": {
-                        "principalId": ["everyone", "anonymous"],
-                        "privilege@jcr:read": "denied"
-                    }
-                };
-                data[data.length] = item;
-                break;
-        }
-
-        $.ajax({
-            url: sakai.config.URL.BATCH,
-            traditional: true,
-            type: "POST",
-            cache: false,
-            data: {
-                requests: $.toJSON(data)
-            },
-            success: function(data){
-
-            },
-            error: function(xhr, textStatus, thrownError){
-
-            }
-        });
-
-    };
-
-    /**
      * Get the values from the basic information form
      */
     var getFormValues = function(init){
@@ -316,11 +226,18 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
 
     var updateBasicInfo = function(){
 
-        // Set permissions on the file
-        setFilePermissions();
-
         // Get all the value for the form
         data = getFormValues();
+
+        // Create object of file to be updated
+        var obj = {
+            "hashpath": contentPath.replace("/p/","")
+        }
+
+        // Set permissions on the files
+        sakai.api.Util.setFilePermissions(data["sakai:permissions"], [obj], function(permissionsSet){
+            resetFields();
+        });
 
         // Disable basic info fields
         enableDisableBasicInfoFields(true);

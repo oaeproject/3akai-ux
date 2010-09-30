@@ -310,12 +310,10 @@ sakai.fileupload = function(tuid, showSettings){
         uploadedLink = false;
     };
 
-    var batchSetDescriptionDataReturned = false;
     /**
      * Set the description of the uploaded files
      */
     var batchSetDescriptionAndName = function(data){
-        batchSetDescriptionDataReturned = false;
         // Batch link the files with the tags
         var batchDescriptionData = [];
         // Check if it's a link that's been uploaded
@@ -373,7 +371,6 @@ sakai.fileupload = function(tuid, showSettings){
                 requests: $.toJSON(batchDescriptionData)
             },
             success: function(data){
-                batchSetDescriptionDataReturned = true;
                 // When this is a new revision of a file no more operations are executed
                 // So close the lightbox and show the appropriate message
                 if (context === "new_version"){
@@ -381,123 +378,6 @@ sakai.fileupload = function(tuid, showSettings){
                 }
             }
         });
-    };
-
-    /**
-     * Set permissions on the files that were uploaded
-     */
-    var setFilePermissions = function(wait){
-        // Get the value from the dropdown list
-        var permissions = $(fileUploadPermissionsSelect).val();
-        // Check which value was selected and fill in the data object accordingly
-        var data = [];
-        for (var k in uploadedFiles) {
-            if (uploadedFiles.hasOwnProperty(k)) {
-                switch (permissions) {
-                    // Logged in only
-                    case "everyone":
-                        var item = {
-                            "url": "/p/" + uploadedFiles[k].hashpath + ".members.html",
-                            "method": "POST",
-                            "parameters": {
-                                ":viewer": "everyone",
-                                ":viewer@Delete": "anonymous"
-                            }
-                        };
-                        data[data.length] = item;
-                        var item = {
-                            "url": "/p/" + uploadedFiles[k].hashpath + ".modifyAce.html",
-                            "method": "POST",
-                            "parameters": {
-                                "principalId": "everyone",
-                                "privilege@jcr:read": "granted"
-                            }
-                        };
-                        data[data.length] = item;
-                        var item = {
-                            "url": "/p/" + uploadedFiles[k].hashpath + ".modifyAce.html",
-                            "method": "POST",
-                            "parameters": {
-                                "principalId": "anonymous",
-                                "privilege@jcr:read": "denied"
-                            }
-                        };
-                        data[data.length] = item;
-                        break;
-                    // Public
-                    case "public":
-                        var item = {
-                            "url": "/p/" + uploadedFiles[k].hashpath + ".members.html",
-                            "method": "POST",
-                            "parameters": {
-                                ":viewer": ["everyone", "anonymous"]
-                            }
-                        };
-                        data[data.length] = item;
-                        break;
-                    // Managers and viewers only
-                    case "private":
-                        var item = {
-                            "url": "/p/" + uploadedFiles[k].hashpath + ".members.html",
-                            "method": "POST",
-                            "parameters": {
-                                ":viewer@Delete": ["anonymous", "everyone"]
-                            }
-                        };
-                        data[data.length] = item;
-                        var item = {
-                            "url": "/p/" + uploadedFiles[k].hashpath + ".modifyAce.html",
-                            "method": "POST",
-                            "parameters": {
-                                "principalId": ["everyone", "anonymous"],
-                                "privilege@jcr:read": "denied"
-                            }
-                        };
-                        data[data.length] = item;
-                        break;
-                    case "group":
-                        var item = {
-                            "url": "/p/" + uploadedFiles[k].hashpath + ".members.html",
-                            "method": "POST",
-                            "parameters": {
-                                ":viewer": contextData.id
-                            }
-                        };
-                        data[data.length] = item;
-                        var item = {
-                            "url": "/p/" + uploadedFiles[k].hashpath + ".modifyAce.html",
-                            "method": "POST",
-                            "parameters": {
-                                "principalId": ["everyone", "anonymous"],
-                                "privilege@jcr:read": "denied"
-                            }
-                        };
-                        data[data.length] = item;
-                        break;
-                }
-            }
-        }
-        // Execute ajax call if the permissions are not set to private
-        // Private permissions are the default so there is no need for an Ajax call
-        if (permissions !== "private"){
-            $.ajax({
-                url: sakai.config.URL.BATCH,
-                traditional: true,
-                type: "POST",
-                cache: false,
-                data: {
-                    requests: $.toJSON(data)
-                },
-                success: function(data){
-                    if (wait && batchSetDescriptionDataReturned) {
-                        resetFields();
-                        batchSetDescriptionDataReturned = false;
-                    }
-                }
-            });
-        } else{
-            resetFields();
-        }
     };
 
     /**
@@ -576,16 +456,34 @@ sakai.fileupload = function(tuid, showSettings){
             dataType: "json",
             contentType: "multipart/form-data; boundary=AAAAA",
             success: function(data){
+                //loop over node to extract data
+                var linkArray = [];
+                for (var i in data) {
+                    if (data.hasOwnProperty(i)) {
+                        var obj = {};
+                        obj.filename = i;
+                        obj.hashpath = data[i];
+                        linkArray.push(obj);
+                    }
+                }
                 dataResponse = data;
+
                 uploadedLink = true;
                 filesUploaded = true;
+
                 batchSetDescriptionAndName(data);
+
                 newVersionIsLink = false;
+
                 if (context === "group") {
                     setLinkAsGroupResource(data);
                 } else {
-                    resetFields();
+                    // Set permissions on the files
+                    sakai.api.Util.setFilePermissions("public", linkArray, function(permissionsSet){
+                        resetFields();
+                    });
                 }
+
                 $(fileUploadAddLinkButton).removeAttr("disabled");
                 $(fileUploadLinkBoxInput).removeAttr("disabled");
             },
@@ -718,7 +616,10 @@ sakai.fileupload = function(tuid, showSettings){
                             batchSetDescriptionAndName();
 
                             // Set permissions on the files
-                            setFilePermissions(true);
+                            sakai.api.Util.setFilePermissions($(fileUploadPermissionsSelect).val(), uploadedFiles, function(permissionsSet){
+                                resetFields();
+                            });
+
                         } else {
                             resetFields();
                         }
