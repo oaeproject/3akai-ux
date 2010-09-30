@@ -24,8 +24,11 @@
 .listpeople_container .listpeople_content
 { height: 289px; overflow: auto; }
 
-.listpeople_sort_order, #listpeople_sort_order
-{ float:right; margin-top:5px;}
+.listpeople_sort_order
+{ margin: 4px 0 0 0; float:right; }
+
+#listpeople_sort_order
+{ margin: 7px 5px 0 0; float:right; }
 
 .listpeople_container .listpeople_content .listpeople_page
 { margin: 0; padding: 0; }
