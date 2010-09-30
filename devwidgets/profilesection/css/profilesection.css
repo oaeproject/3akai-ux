@@ -39,6 +39,11 @@
     width:400px;
     float:left;
 }
+#profilesection_generalinfo span.profilesection_generalinfo_content {
+    float:left;
+    display:inline;
+    margin-top:3px;
+}
 #profilesection_generalinfo .profilesection_generalinfo_subcontainer {
     clear: both;
     margin: 4px 0;

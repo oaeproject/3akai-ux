@@ -19,7 +19,8 @@
         <!-- Sakai Config JS -->
         <script type="text/javascript" src="_configuration/widgets.js"></script>
         <script type="text/javascript" src="/var/widgets.json?callback=sakai.storeWidgets"></script>
-        <script type="text/javascript" src="_configuration/config.js"></script>
+        <script type="text/javascript" src="/dev/_configuration/config.js"></script>
+        <script type="text/javascript" src="/dev/_configuration/config_custom.js"></script>
 
         <!-- Core 3rd-party JS -->
         <script type="text/javascript" src="_lib/jquery/jquery.js"></script>
@@ -43,6 +44,9 @@
     </head>
 
     <body class="fl-centered account_preferences i18nable">
+
+        <!-- TOP BANNER -->
+        <div id="top_banner"><!-- --></div>
 
         <!-- ERRORS AND MESSAGES -->
         <span id="account_preferences_error_passNotEqual" style="display:none;">__MSG__NEW_PASSWORDS_ARENT_EQUAL__.</span>

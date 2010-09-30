@@ -29,15 +29,15 @@ sakai.mysakai = function(){
     /////////////////////////////
 
     var showHideMoreMenu = function(hideOnly){
-        var el = $("#more_menu");
+        var el = $("#mysakai_more_menu");
         if (el) {
             if (el.css("display").toLowerCase() !== "none" || hideOnly) {
-                $("#more_link").removeClass("clicked");
+                $("#mysakai_more_link").removeClass("clicked");
                 el.hide();
             } else {
-                $("#more_link").addClass("clicked");
-                var x = $("#more_link").position().left;
-                var y = $("#more_link").position().top;
+                $("#mysakai_more_link").addClass("clicked");
+                var x = $("#mysakai_more_link").position().left;
+                var y = $("#mysakai_more_link").position().top;
                 el.css(
                         {
                           "top": y + 28 + "px",
@@ -48,33 +48,41 @@ sakai.mysakai = function(){
         }
     };
 
-    // Bind Insert Link click event
-    $("#more_link").live("click", function(ev){
-        showHideMoreMenu(false);
-    });
-    // Bind mousedown and mouseup to give an optional clicking effect via css
-    $("#more_link").live("mousedown", function(e) {
-        $("#more_link").addClass("clicking");
-    });
-    $("#more_link").live("mouseup", function(e) {
-        $("#more_link").removeClass("clicking");
-    });
+    var addBindings = function() {
+        // Bind Insert Link click event
+        $("#mysakai_more_link").live("click", function(ev){
+            showHideMoreMenu(false);
+        });
+        // Bind mousedown and mouseup to give an optional clicking effect via css
+        $("#mysakai_more_link").live("mousedown", function(e) {
+            $("#mysakai_more_link").addClass("clicking");
+        });
+        $("#mysakai_more_link").live("mouseup", function(e) {
+            $("#mysakai_more_link").removeClass("clicking");
+        });
 
-    $("#more_customize_page").live("click", function() {
-        sakai.dashboard.showAddWidgetDialog();
-        showHideMoreMenu(true);
-    });
-
-    $("#more_change_layout").live("click", function() {
-        sakai.dashboard.changeLayout();
-        showHideMoreMenu(true);
-    });
-
-    $("html").live("click", function(e) {
-        if (!($(e.target).is("#more_menu") || $(e.target).parents("#more_menu").length || $(e.target).is("#more_link") || $(e.target).parents("#more_link").length)) {
+        $("#mysakai_more_customize_page").live("click", function() {
+            sakai.dashboard.showAddWidgetDialog();
             showHideMoreMenu(true);
-        }
-    });
+        });
+
+        $("#mysakai_more_change_layout").live("click", function() {
+            sakai.dashboard.changeLayout();
+            showHideMoreMenu(true);
+        });
+
+        $(document).bind("click", function(e) {
+            if (!($(e.target).is("#mysakai_more_menu") || $(e.target).parents("#mysakai_more_menu").length || $(e.target).is("#mysakai_more_link") || $(e.target).parents("#mysakai_more_link").length)) {
+                showHideMoreMenu(true);
+            }
+        });
+    };
+
+    var initDashboard = function() {
+        sakai.dashboard.init("/~" + sakai.data.me.user.userid + "/dashboardwidgets/", true, "personalportal", true);
+        $("#mysakai_edit_page").show();
+        addBindings();
+    };
 
     /**
      * Init function for the mysakai page
@@ -90,16 +98,18 @@ sakai.mysakai = function(){
         // of insertWidgets to reduce HTTP requests
         $("#widget_changepic").before(sakai.api.Security.saneHTML("<div id='widget_dashboard_mysakaidashboard_/~" + sakai.data.me.user.userid + "/dashboard/' class='widget_inline'></div>"));
 
-        $(window).bind("sakai.dashboard.ready", function(e, tuid) {
-            sakai.dashboard.init("/~" + sakai.data.me.user.userid + "/dashboardwidgets/", true, "personalportal", true);
-        });
-
+        if (sakai.dashboard && sakai.dashboard.isReady) {
+            initDashboard();
+        } else {
+            $(window).bind("sakai.dashboard.ready", function(e, tuid) {
+                initDashboard();
+            });
+        }
         // If the user isn't logged in, redirect them to do so, as the dashboard is relevant
         // only when you're logged in
         $(window).bind("sakai.dashboard.notLoggedIn sakai.dashboard.notUsersDashboard", function(e) {
             document.location = sakai.config.URL.GATEWAY_URL;
         });
-
     };
 
     init();

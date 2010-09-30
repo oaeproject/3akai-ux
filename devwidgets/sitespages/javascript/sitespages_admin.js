@@ -543,7 +543,7 @@ sakai.sitespages.site_admin = function(){
     };
 
     // hide the context menu when it is shown and a click happens elsewhere on the document
-    $("html").live("click", function(e) {
+    $(document).bind("click", function(e) {
         if ($context_menu.is(":visible") && $(e.target).parents($context_menu.selector).length === 0) {
             $context_menu.hide();
         }
@@ -964,7 +964,7 @@ sakai.sitespages.site_admin = function(){
         $(".save_button").live("click", function(ev){
             saveEdit();
         });
-    }
+    };
 
     /**
      * Callback function to trigger editPage() when tinyMCE is initialised
@@ -1784,10 +1784,19 @@ sakai.sitespages.site_admin = function(){
      *   true if the page was created successfully, false otherwise
      */
     sakai.sitespages.addDashboardPage = function(title, callback){
+        var pageTitle = (title && typeof(title) === "string") ?
+            sakai.api.Security.saneHTML(title) : untitled_page_title;
 
         // Create unique page elements
-        var pageUniques = sakai.sitespages.createPageUniqueElements(title, sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageFolder"]);
+        var pageUniques = sakai.sitespages.createPageUniqueElements(pageTitle.toLowerCase(), sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageFolder"]);
 
+        // Assign the content to the sakai.sitespages.pagecontents array
+        if (sakai.sitespages.pagecontents[pageUniques.urlName]) {
+            sakai.sitespages.pagecontents[pageUniques.urlName]["sakai:pagecontent"] = content;
+        } else {
+            sakai.sitespages.pagecontents[pageUniques.urlName] = {};
+            sakai.sitespages.pagecontents[pageUniques.urlName]["sakai:pagecontent"] = content;
+        }
         // Default dasboard content
         var dashboardUID = 'sitedashboard' + Math.round(Math.random() * 10000000000000);
         var defaultDashboardContent = '<div id="widget_dashboard_' + dashboardUID + '_' + sakai.sitespages.config.basepath + "_widgets/" + '" class="widget_inline"></div>';
@@ -2270,10 +2279,10 @@ sakai.sitespages.site_admin = function(){
     });
 
     // Bind click event to hide menus
-    $("html").bind("click", function(e){
+    $(document).bind("click", function(e){
         var $clicked = $(e.target);
         // Check if one of the parents is the element container
-        if(!$clicked.is("#more_link")){
+        if(!$clicked.is("#more_link") && $clicked.parents("#more_link").length === 0){
             showHideMoreMenu(true);
         }
         if(!$clicked.is(".insert_more_dropdown_activator")){

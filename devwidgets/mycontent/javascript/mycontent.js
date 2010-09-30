@@ -129,6 +129,7 @@ sakai.mycontent = function(tuid, showSettings) {
 
                 // make sure the newly added content is properly styled with
                 // threedots truncation
+                $(ellipsisContainer).css("width", $(ellipsisContainer).width() + "px");
                 $(ellipsisContainer, rootel).ThreeDots({
                     max_rows: 1,
                     text_span_class: "mycontent_ellipsis_text",

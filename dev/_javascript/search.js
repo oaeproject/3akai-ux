@@ -61,6 +61,7 @@ sakai.search = function() {
             messageClass : ".search_result_person_link_message",
             messageID : "search_result_person_link_message_",
             addToContactsLink : ".link_add_to_contacts",
+            addToContactsFiller : "link_add_to_contacts_",
             addToContactsDialog : '#add_to_contacts_dialog',
             sendmessageContainer : "#sendmessagecontainer",
             resultTitle : "#search_result_title",
@@ -212,7 +213,7 @@ sakai.search = function() {
         updateTotalHitCount(foundCM.results.length);
 
 
-        if (foundCM.total > cmToSearch) {
+        if (Math.abs(foundCM.total) > cmToSearch) {
             $(searchConfig.cm.displayMore).show();
             $(searchConfig.cm.displayMore).attr("href", "search_content.html#q=" + searchterm);
         }
@@ -245,7 +246,7 @@ sakai.search = function() {
 
             updateTotalHitCount(foundSites.results.length);
 
-            if (foundSites.total > sitesToSearch) {
+            if (Math.abs(foundSites.total) > sitesToSearch) {
                 $(searchConfig.sites.displayMore).show();
                 $(searchConfig.sites.displayMore).attr("href", "search_groups.html#q=" + searchterm);
             }
@@ -310,7 +311,7 @@ sakai.search = function() {
         // Adjust total search result count
         updateTotalHitCount(results.results.length);
 
-        if ((results.total > peopleToSearch) && (results.results.length > 0)) {
+        if ((Math.abs(results.total) > peopleToSearch) && (results.results.length > 0)) {
             $(searchConfig.people.displayMore).attr("href", "search_people.html#q=" + searchterm).show();
         }
 
@@ -497,7 +498,7 @@ sakai.search = function() {
 
     /** A user want to make a new friend */
     $(searchConfig.global.addToContactsLink).live("click", function(ev) {
-        contactclicked = this.id.split("_")[4];
+        contactclicked = (this.id.substring(searchConfig.global.addToContactsFiller.length));
         sakai.addtocontacts.initialise(contactclicked, mainSearch.removeAddContactLinks);
     });
 

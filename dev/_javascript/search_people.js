@@ -63,6 +63,7 @@ sakai.search = function() {
             messageClass : ".search_result_person_link_message",
             messageID : "search_result_person_link_message_",
             addToContactsLink : ".link_add_to_contacts",
+            addToContactsFiller : "link_add_to_contacts_",
             addToContactsDialog : '#add_to_contacts_dialog',
             sendmessageContainer : "#sendmessagecontainer"
         },
@@ -264,7 +265,7 @@ sakai.search = function() {
             } else if (results.results.length <= 0) {
                 $(searchConfig.global.numberFound).text(0);
             } else {
-                $(searchConfig.global.numberFound).text("thousands");
+                $(searchConfig.global.numberFound).text("more than 100");
             }
 
             // Reset the pager.
@@ -490,7 +491,7 @@ sakai.search = function() {
 
     /** A user want to make a new friend. */
     $(searchConfig.global.addToContactsLink).live("click", function(ev) {
-        contactclicked = this.id.split("_")[4];
+        contactclicked = (this.id.substring(searchConfig.global.addToContactsFiller.length));
         sakai.addtocontacts.initialise(contactclicked, mainSearch.removeAddContactLinks);
     });
 
