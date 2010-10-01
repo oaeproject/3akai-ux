@@ -158,6 +158,8 @@
      background: #FFFFFF url(/dev/_images/edit_toolbar_bg.png) top left repeat-x; border-left: 3px solid #D3DBDE; border-right: 3px solid #D3DBDE; height:40px;
 }
 
+.edit_view .s3d-primary-tabs ul.fl-tabs { background:none; }
+
 /** Autosave message **/
 .edit_view .messageInformation
 { height: 23px; line-height: 23px; }

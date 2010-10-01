@@ -317,18 +317,25 @@ html > body .s3d-button .s3d-button-inner {
  *  background-attachment: scroll;
  *  background-position: left -80px;
  */
+
+.s3d-primary-tabs {
+    background:url("/dev/_images/tab_bg.png") no-repeat scroll right -30px transparent;
+}
+
 .s3d-primary-tabs, .s3d-primary-tabs-inner {
     height: 25px;
     border: none;
-    padding: 3px 10px 0 0;
+    padding: 2px 10px 0 0;
     display: block;
 }
 
-.s3d-primary-tabs ul {
+.s3d-primary-tabs ul.fl-tabs {
     border: none;
     padding: 0;
     margin: 0;
     float: right;
+    background:url("/dev/_images/tab_bg.png") no-repeat scroll left top transparent;
+    padding-left:20px;
 }
 
 .s3d-primary-tabs ul.fl-tabs-left {
@@ -338,6 +345,7 @@ html > body .s3d-button .s3d-button-inner {
 
 .s3d-primary-tabs ul li {
     margin: 0;
+    margin-top:2px;
     padding: 0;
     background: transparent;
     border: none;

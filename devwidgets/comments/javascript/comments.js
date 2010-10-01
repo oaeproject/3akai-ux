@@ -46,6 +46,7 @@ sakai.comments = function(tuid, showSettings){
     var start = 0; // Start fetching from the first comment.
     var clickedPage = 1;
     var defaultPostsPerPage = 10;
+    var widgeturl = sakai.api.Widgets.widgetLoader.widgets[tuid] ? sakai.api.Widgets.widgetLoader.widgets[tuid].placement : false;
     var currentSite = "";
     var store = "";
 
@@ -253,10 +254,10 @@ sakai.comments = function(tuid, showSettings){
             catch (ex) {
                 comment.date = tempDate;
             }
-            
+
             comment.timeAgo = "about " + getTimeAgo(comment.date) + " ago";
             comment.formatDate = formatDate(comment.date);
-            comment.messageTxt = comment["sakai:body"];            
+            comment.messageTxt = comment["sakai:body"];
             comment.message = tidyInput(comment["sakai:body"]);
             // weird json bug.
             comment["sakai:deleted"] = (comment["sakai:deleted"] && (comment["sakai:deleted"] === "true" || comment["sakai:deleted"] === true)) ? true : false;
@@ -793,6 +794,22 @@ sakai.comments = function(tuid, showSettings){
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
     var doInit = function(){
+        if (widgeturl) {
+            $.ajax({
+                url: widgeturl + ".infinity.json",
+                type: "GET",
+                dataType: "json",
+                success: function(data){
+                    // no op
+                },
+                error: function(xhr, textStatus, thrownError) {
+                    if (xhr.status == 404) {
+                        // we need to create the initial message store
+                        $.post(widgeturl, { "jcr:primaryType": "nt:unstructured" } );
+                    }
+                }
+            });
+        }
         if (sakai.currentgroup && !$.isEmptyObject(sakai.currentgroup.id)) {
             currentSite = sakai.currentgroup.id;
         } else {

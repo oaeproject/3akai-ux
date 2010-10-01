@@ -28,7 +28,7 @@
                 </div>
             {else}
             <div id="content_profile_basic_info_tags_viewlist">
-                {for tag in data["sakai:tags"]}{if tag.split("/")[0] !== "directory"}{if tag_index > 0},{/if} <a href="/dev/search.html#q=${tag}" class="s3d-action" title="Search content tagged with '${tag}'"">${tag}</a>{/if}{/for}
+                {for tag in data["sakai:tags"]}{if tag.split("/")[0] !== "directory"}{if tag_index > 0},{/if} <a href="/dev/search.html#tag=/tags/${tag}" class="s3d-action" title="Search content tagged with '${tag}'"">${tag}</a>{/if}{/for}
             </div>
             {/if}
         </div>
@@ -108,7 +108,7 @@
                 {else}
                     <ul class="content_profile_basic_info_saveddirectory">
                         {for savedDir in saveddirectory}
-                            <li><a href="/dev/search.html#q=${savedDir.toString().replace(/,/g, ' ')}" class="s3d-action" title="Search content located at ${savedDir.toString().replace(/,/g, ' ')}">
+                            <li><a href="/dev/search.html#tag=/tags/directory/${savedDir.toString().replace(/,/g, '/')}" class="s3d-action" title="Search content located at ${savedDir.toString().replace(/,/g, ' ')}">
                                     ${savedDir.toString().replace(/,/g, " <span class='content_profile_basic_info_selected_and_saved_seperator'>&raquo;</span> ")}
                                 </a>
                             </li>

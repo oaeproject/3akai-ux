@@ -70,11 +70,13 @@ sakai.content_profile = function(){
                     currentTags = data["sakai:tags"];
                     $(data["sakai:tags"]).each(function(i){
                         var splitDir = data["sakai:tags"][i].split("/");
-                        if(splitDir[0] === "directory"){
+                        if (splitDir[0] === "directory") {
                             var item = [];
-                            for(var j in splitDir){
-                                if (splitDir[j] !== "directory") {
-                                    item.push(splitDir[j]);
+                            for (var j in splitDir) {
+                                if (splitDir.hasOwnProperty(j)) {
+                                    if (splitDir[j] !== "directory") {
+                                        item.push(splitDir[j]);
+                                    }
                                 }
                             }
                             directory.push(item);
@@ -195,6 +197,7 @@ sakai.content_profile = function(){
                 sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_removed_text").text() + " " + notificationType));
             }
         }
+        $("#content_profile_add_" + tuid).focus();
     };
 
 
@@ -250,11 +253,7 @@ sakai.content_profile = function(){
 
         // Bind the add viewers button
         $("#content_profile_add_viewers").bind("click", function(){
-
-            // position the dialog box above the content list
-            var pos = $("#content_profile_add_viewers").offset();  
-            $(".dialog").css( { "top":pos.top - 420 + "px" } );
-
+            $(window).scrollTop(0);
             pl_config.what = "Viewers";
             $(window).trigger("sakai-pickeruser-init", pl_config, function(people) {
             });
@@ -266,11 +265,7 @@ sakai.content_profile = function(){
 
         // Bind the add managers button
         $("#content_profile_add_managers").bind("click", function(){
-
-            // position the dialog box above the content list
-            var pos = $("#content_profile_add_managers").offset();  
-            $(".dialog").css( { "top":pos.top - 420 + "px" } );
-
+            $(window).scrollTop(0);
             pl_config.what = "Managers";
             $(window).trigger("sakai-pickeruser-init", pl_config, function(people) {
             });

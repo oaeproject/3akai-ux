@@ -186,14 +186,14 @@ sakai.api.Communication.sendMessage = function(to, subject, body, category, repl
     //////////////////
     // MAIN ROUTINE //
     //////////////////
-    
+
     var reqs = [];
     if (typeof(to) === "string") {
         var id = to;
         to = [];
         to[0] = id;
     }
-    
+
     if (typeof(to) === "object") {
         for (var i = 0; i < to.length; i++) {
             reqs[reqs.length] = {
@@ -208,8 +208,8 @@ sakai.api.Communication.sendMessage = function(to, subject, body, category, repl
         if (typeof callback === "function") {
             callback(false, xhr);
         }
-    } 
-    
+    }
+
     $.ajax({
        url: "/system/batch",
        method: "POST",
@@ -223,7 +223,7 @@ sakai.api.Communication.sendMessage = function(to, subject, body, category, repl
            if (!sendDone) {
                doSendMessage();
            }
-       } 
+       }
     });
 
 };
@@ -2208,7 +2208,7 @@ sakai.api.User.loadMeData = function(callback) {
 
             // Log error
             fluid.log("sakai.api.User.loadMeData: Could not load logged in user data from the me service!");
-            
+
             if (xhr.status === 500 && window.location.pathname !== "/dev/500.html"){
                 document.location = "/dev/500.html";
             }
@@ -2448,6 +2448,129 @@ sakai.api.Util.convertToHumanReadableFileSize = function(filesize) {
 };
 
 /**
+ * Set the permissions for an array of uploaded files or links
+ * @param {String} permissionValue either 'public', 'everyone', 'group' or 'private'
+ * @param {Array} filesArray Array of files containing the 'hashpath' property per file. This hashpath is the resourceID of the file
+ * @param {Function} callback Function to call when the permissions have been saved or failed to save.
+ *                   The callback function is provided with a Boolean. True = permissions successfully set, False = permissions not set (error)
+ */
+sakai.api.Util.setFilePermissions = function(permissionValue, filesArray, callback){
+    // Check which value was selected and fill in the data object accordingly
+    var data = [];
+    for (var file in filesArray) {
+        if (filesArray.hasOwnProperty(file)) {
+            var contentPath = "/p/" + filesArray[file].hashpath;
+            switch (permissionValue) {
+                // Logged in only
+                case "everyone":
+                    var item = {
+                        "url": contentPath + ".members.html",
+                        "method": "POST",
+                        "parameters": {
+                            ":viewer": "everyone",
+                            ":viewer@Delete": "anonymous"
+                        }
+                    };
+                    data[data.length] = item;
+                    var item = {
+                        "url": contentPath + ".modifyAce.html",
+                        "method": "POST",
+                        "parameters": {
+                            "principalId": "everyone",
+                            "privilege@jcr:read": "granted"
+                        }
+                    };
+                    data[data.length] = item;
+                    var item = {
+                        "url": contentPath + ".modifyAce.html",
+                        "method": "POST",
+                        "parameters": {
+                            "principalId": "anonymous",
+                            "privilege@jcr:read": "denied"
+                        }
+                    };
+                    data[data.length] = item;
+                    break;
+                // Public
+                case "public":
+                    var item = {
+                        "url": contentPath + ".members.html",
+                        "method": "POST",
+                        "parameters": {
+                            ":viewer": ["everyone", "anonymous"]
+                        }
+                    };
+                    data[data.length] = item;
+                    var item = {
+                        "url": contentPath + ".modifyAce.html",
+                        "method": "POST",
+                        "parameters": {
+                            "principalId": ["everyone", "anonymous"],
+                            "privilege@jcr:read": "granted"
+                        }
+                    };
+                    data[data.length] = item;
+                    break;
+                // Managers and viewers only
+                case "private":
+                    var item = {
+                        "url": contentPath + ".members.html",
+                        "method": "POST",
+                        "parameters": {
+                            ":viewer@Delete": ["anonymous", "everyone"]
+                        }
+                    };
+                    data[data.length] = item;
+                    var item = {
+                        "url": contentPath + ".modifyAce.html",
+                        "method": "POST",
+                        "parameters": {
+                            "principalId": ["everyone", "anonymous"],
+                            "privilege@jcr:read": "denied"
+                        }
+                    };
+                    data[data.length] = item;
+                    break;
+                case "group":
+                    var item = {
+                        "url": "/p/" + uploadedFiles[k].hashpath + ".members.html",
+                        "method": "POST",
+                        "parameters": {
+                            ":viewer": contextData.id
+                        }
+                    };
+                    data[data.length] = item;
+                    var item = {
+                        "url": "/p/" + uploadedFiles[k].hashpath + ".modifyAce.html",
+                        "method": "POST",
+                        "parameters": {
+                            "principalId": ["everyone", "anonymous"],
+                            "privilege@jcr:read": "denied"
+                        }
+                    };
+                    data[data.length] = item;
+                    break;
+            }
+        }
+    }
+    $.ajax({
+        url: sakai.config.URL.BATCH,
+        traditional: true,
+        type: "POST",
+        cache: false,
+        data: {
+            requests: $.toJSON(data)
+        },
+        success: function(data){
+            callback(true);
+        },
+        error: function(xhr, textStatus, thrownError){
+            callback(false);
+        }
+    });
+}
+
+/**
  * Formats a comma separated string of text to an array of usable tags
  * Filters out unwanted tags (eg empty tags)
  * Returns the array of tags, if no tags were provided or none were valid an empty array is returned
@@ -2599,7 +2722,7 @@ sakai.api.Util.tagEntity = function(tagLocation, newTags, currentTags, callback)
             }
         }
     };
-    
+
     var tagsToAdd = [];
     var tagsToDelete = [];
     // determine which tags to add and which to delete
