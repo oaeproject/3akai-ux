@@ -42,13 +42,6 @@ sakai.video = function(tuid, showSettings) {
         allowFullScreen: "true"
     };
 
-    var FlashPlayerParams = {
-        menu: "false",
-        allowScriptAccess: "always",
-        scale: "noscale",
-        allowFullScreen: "true"
-    };
-
     /////////////////////////////
     // Configuration variables //
     /////////////////////////////
@@ -56,7 +49,7 @@ sakai.video = function(tuid, showSettings) {
     var json = false; // Variable used to recieve information by json
     var me = sakai.data.me; // Contains information about the current user
     var rootel = $("#" + tuid); // Get the main div used by the widget
-   var youtubeUrl = "www.youtube.com";
+    var youtubeUrl = "www.youtube.com";
 
     // Main-ids
     var videoID = "#video";
@@ -380,7 +373,7 @@ sakai.video = function(tuid, showSettings) {
      */
     if (showSettings) {
 
-        sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
+        sakai.api.Widgets.loadWidgetData(tuid, function (success, data) {
 
             if (success) {
                 showSettingsScreen(data, true);
@@ -394,7 +387,7 @@ sakai.video = function(tuid, showSettings) {
         $(videoSettings, rootel).hide();
         $(videoOutput, rootel).show();
 
-        sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
+        sakai.api.Widgets.loadWidgetData(tuid, function (success, data) {
 
             if (success) {
                 showVideos(data, true);
