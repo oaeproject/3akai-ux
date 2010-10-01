@@ -45,11 +45,6 @@
     top: -15px;
 }
 
-/** TAB VARIANT **/
-.content_search .s3d-primary-tabs {
-    background: url('../../_images/site_tab_bg.png') top right no-repeat;
-}
-
 .search_content_wrapper {
     padding: 0;
     margin: 0 0 20px 0;

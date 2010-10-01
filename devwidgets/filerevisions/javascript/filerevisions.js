@@ -92,15 +92,14 @@ sakai.filerevisions = function(tuid, showSettings){
      */
     var getRevisionInformationDetails = function(){
         var revisionInformationDetails = [];
-        for (var i in baseFileData.revisions) {
-            if (baseFileData.revisions.hasOwnProperty(i)) {
-                var item = {
-                    "url": baseFileData.path + ".version.," + i + ",.json",
-                    "method": "GET"
-                };
-                revisionInformationDetails[revisionInformationDetails.length] = item;
-            }
+        for (i in baseFileData.revisions) {
+            var item = {
+                "url": baseFileData.path + ".version.," + baseFileData.revisions[i]["jcr:name"] + ",.json",
+                "method": "GET"
+            };
+            revisionInformationDetails[revisionInformationDetails.length] = item;
         }
+        baseFileData.numberOfRevisions = revisionInformationDetails.length;
         // Do the Batch request
         $.ajax({
             url: sakai.config.URL.BATCH,
@@ -116,7 +115,7 @@ sakai.filerevisions = function(tuid, showSettings){
                 var revisionFileDetails = [];
                 for (var i in data.results){
                     if (data.results.hasOwnProperty(i)) {
-                        revisionFileDetails[revisionFileDetails.length] = $.parseJSON(data.results[i].body);
+                        revisionFileDetails.push($.parseJSON(data.results[i].body));
                     }
                 }
                 baseFileData.revisionFileDetails = revisionFileDetails;
@@ -140,13 +139,16 @@ sakai.filerevisions = function(tuid, showSettings){
             url: baseFileData.path + ".versions.json",
             type : "GET",
             success: function(data){
+                var versions = [];
                 for (var i in data.versions){
                     if (data.versions.hasOwnProperty(i)) {
                         var splittedDate = data.versions[i]["jcr:created"].split("T")[0].split("-");
                         data.versions[i]["jcr:created"] = sakai.filerevisions.getFormattedDate(new Date(splittedDate[0],splittedDate[1]-1,splittedDate[2]));
+                        versions.push(data.versions[i]);
                     }
                 }
-                baseFileData.revisions = data.versions;
+
+                baseFileData.revisions = versions.reverse();
                 getRevisionInformationDetails();
             },
             error: function(){

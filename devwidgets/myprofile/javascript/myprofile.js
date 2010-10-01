@@ -41,9 +41,7 @@ sakai.myprofile = function (tuid, showSettings) {
     var rootel = $("#" + tuid);
     var me = sakai.data.me;
     var json = me.profile;
-    var tempChatStatus;
-
-
+    
     //    IDs
     var myprofileId = "#myprofile";
     var myprofileClass = ".myprofile";
@@ -108,29 +106,33 @@ sakai.myprofile = function (tuid, showSettings) {
      * @param {Object} status
      */
     var changeStatus = function (chatstatus) {
-        if (tempChatStatus !== chatstatus){
+        if (chatStatus !== chatstatus){
             tempChatStatus = chatstatus;
 
             $(profileStatusContainer).toggle();
+            
+            var data = {
+                "chatstatus": chatstatus,
+                "_charset_": "utf-8"
+            };
 
-            sakai.data.me.profile = $.extend(true, sakai.data.me.profile, {"chatstatus": chatstatus});
-
-            if (sakai.data.me.profile.activity)
-                delete sakai.data.me.profile.activity;
-
-            if (sakai.data.me.profile["rep:policy"])
-                delete sakai.data.me.profile["rep:policy"];
-
-            sakai.api.Server.saveJSON(authprofileURL, sakai.data.me.profile, function(success, data) {
-                if (success) {
+            $.ajax({
+                url: "/~" + sakai.data.me.profile["rep:userId"] + "/public/authprofile",
+                type: "POST",
+                data: data,
+                success: function(data){
                     updateChatStatus(status);
-                } else {
+                },
+                error: function(xhr, textStatus, thrownError){
                     if (typeof callback === "function") {
                         callback(false, xhr);
                     }
                     fluid.log("Entity widget - An error occured when sending the status to the server.");
                 }
             });
+
+            sakai.data.me.profile = $.extend(true, sakai.data.me.profile, {"chatstatus": chatstatus});
+
         }
     };
 
@@ -179,10 +181,11 @@ sakai.myprofile = function (tuid, showSettings) {
         }
 
         var chatstatus = "online";
+        chatStatus = "online";
         // Get the user his chatstatus
         if (me.profile.chatstatus) {
             chatstatus = me.profile.chatstatus;
-            tempChatStatus = me.profile.chatstatus;
+            chatStatus = me.profile.chatstatus;
         }
 
         // Set the status in front of the user his name/
@@ -256,13 +259,14 @@ sakai.myprofile = function (tuid, showSettings) {
     // A user selects his status
     $(profileChatStatusPicker).live("click", function (ev) {
         var statusChosen = this.id.split("_")[this.id.split("_").length - 1];
-        chatStatus = statusChosen;
         changeStatus(statusChosen);
+        chatStatus = statusChosen;
     });
 
     // Add binding to set the status
     $(window).bind("chat_status_change", function(event, currentChatStatus){
         updateChatStatusElement($(profileNameID), currentChatStatus);
+        chatStatus = currentChatStatus;
         $(profileChatStatusClass).hide();
         $(profileChatStatusID + currentChatStatus).show();
     });
