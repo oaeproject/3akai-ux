@@ -252,7 +252,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                     // Load content profile
                     sakai.content_profile.loadContentProfile(function(){
                         removeBinding();
-                        handleHashChange();
+                        $(window).trigger('hashchange');
                     });
                 });
             }

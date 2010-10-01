@@ -1081,6 +1081,9 @@ sakai.entity = function(tuid, showSettings){
     $(window).bind("chat_status_change", function(event, newChatStatus){
         updateChatStatusElement(newChatStatus);
     });
+    $(window).bind("sakai-fileupload-complete", function(){
+        sakai.api.UI.entity.render("content", sakai.content_profile.content_data);
+    });
 
 };
 sakai.api.Widgets.widgetLoader.informOnLoad("entity");

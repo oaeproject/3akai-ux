@@ -499,6 +499,17 @@ sakai.fileupload = function(tuid, showSettings){
         });
     };
 
+    var getVersionDetails = function(){
+        $.ajax({
+            url: "/p/" + dataResponse[0].hashpath + ".2.json",
+            type : "GET",
+            success: function(data){
+                sakai.content_profile.content_data.data = data;
+                resetFields();
+            }
+        });
+    }
+
     /**
      * Set the base file to be overwritten by a new file
      */
@@ -581,6 +592,7 @@ sakai.fileupload = function(tuid, showSettings){
                             extractedData.push(obj);
                         }
                     }
+                    dataResponse = extractedData;
 
                     // Check if there were any files uploaded
                     if (extractedData.length === 0) {
@@ -625,7 +637,9 @@ sakai.fileupload = function(tuid, showSettings){
                             });
 
                         } else {
-                            resetFields();
+                            // Get the version details in order to update the GUI
+                            getVersionDetails();
+                            //resetFields();
                         }
                     }
                 },
