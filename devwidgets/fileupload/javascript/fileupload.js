@@ -133,8 +133,11 @@ sakai.fileupload = function(tuid, showSettings){
         if (numberOfSelectedFiles !== 0) {
             $(fileUploadAddLinkButton).attr("disabled", "disabled");
             $(fileUploadLinkBoxInput).attr("disabled", "disabled");
-            var renderedTemplate = $.TemplateRenderer(fileUploadTaggingTemplate, contextData).replace(/\r/g, '');
-            $(fileUploadRenderedTagging).html(renderedTemplate);
+            // Check to see if it's already rendered
+            if ($(fileUploadRenderedTagging).html() === "") {
+                var renderedTemplate = $.TemplateRenderer(fileUploadTaggingTemplate, contextData).replace(/\r/g, '');
+                $(fileUploadRenderedTagging).html(renderedTemplate);
+            }
         } else {
             $(fileUploadAddLinkButton).removeAttr("disabled");
             $(fileUploadLinkBoxInput).removeAttr("disabled");
