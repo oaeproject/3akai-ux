@@ -101,18 +101,6 @@ sakai.video = function(tuid, showSettings) {
     ////////////////////////
 
     /**
-     * This function will clone any JSON-object
-     * @param {Object} the cloned JSON-object
-     */
-    var cloneObject = function(object) {
-        return $.extend(true,{}, object);
-    };
-
-    //////////////////////
-    // Shared functions //
-    //////////////////////
-
-    /**
      * Shows the video in the sakaiplayer
      * @param {String} video: the url to the video
      * @param {String} container: the container where the video should be placed (settings or output)
