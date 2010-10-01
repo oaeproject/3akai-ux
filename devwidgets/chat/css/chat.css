@@ -29,8 +29,8 @@
 .chat_top_container .chat_available_image img {height:40px;width:40px;}
 .chat_available_friend img {height:32px;width:32px;}
 #chat_available_others .chat_available_image {width:32px;}
-.chat_top_container .chat_available_name, #chat_available_others .initiate_chat_window {color:#666;font-weight:bold;padding-left:13px;}
-#chat_available_others .initiate_chat_window {color:#058ec4;}
+.chat_top_container .chat_available_name, #chat_available_others .chat_friend_name {color:#666;font-weight:bold;padding-left:13px;}
+#chat_available_others .chat_friend_name {color:#058ec4;}
 .chat_available_statusmessage {color:#999;font-size:90%;}
 .chat_available_others_nooverflow {background:#fff;}
 .chat_available_others_nooverflow table {background:#fff;width:215px;}
@@ -91,7 +91,7 @@
 .show_online_visible a {color: #666;}
 
 /* MAIN */
-.initiate_chat_window,.chat_straight_link {color:#fff;cursor:pointer;font-size:90%;}
+.chat_friend_name,.chat_straight_link {color:#fff;cursor:pointer;font-size:90%;}
 .dropdown .dropdown_contacts .dropdown_person_name,.dropdown ul li a {color:#006e96;font-weight:700;}
 #people_dropdown_main .button, #mysites_dropdown_main .button {float:none;display:inline;}
 #people_dropdown_my_contacts_list {padding-bottom: 10px;}

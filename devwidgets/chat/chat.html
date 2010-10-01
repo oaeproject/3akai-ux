@@ -30,8 +30,8 @@
             <tbody>
                 {for i in items}
                     {if i['sakai:status'] == "online" && i.chatstatus != "offline"}
-                        <tr class="chat_available_friend">
-                            <td class="chat_available_image">
+                        <tr class="chat_available_friend initiate_chat_window" id="initiate_chat_window_${i.user}">
+                            <td class="chat_available_image ">
                                 {if i.photo}
                                     <img src="${i.photo}" alt="The photo of the user" />
                                 {else}
@@ -39,7 +39,7 @@
                                 {/if}
                             </td>
                             <td>
-                                <a href="javascript:;" class="chat_available_status_${i.chatstatus} initiate_chat_window" id="initiate_chat_window_${i.user}">${i.name}</a><br />
+                                <a href="javascript:;" class="chat_available_status_${i.chatstatus} chat_friend_name" id="initiate_chat_window_${i.user}">${i.name}</a><br />
                                 <span id="chat_mystatusmessage" class="chat_available_statusmessage">${i.statusmessage}</span>
                             </td>
                         </tr>
