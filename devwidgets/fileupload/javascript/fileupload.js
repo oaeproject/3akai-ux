@@ -337,7 +337,7 @@ sakai.fileupload = function(tuid, showSettings){
                 for (var k in data) {
                     if (data.hasOwnProperty(k)) {
                         pathHash = data[k];
-                        url = k.replace(".lnk", "");
+                        url = k.substring(0,k.length-4); // remove .lnk from the end of it
                         break;
                     }
                 }
@@ -675,24 +675,25 @@ sakai.fileupload = function(tuid, showSettings){
         invalidHandler: function(form, validator) {
             if($(fileUploadLinkBoxInput).val().substring(0,7) !== "http://" && $(fileUploadLinkBoxInput).val().substring(0,6) !== "ftp://" && $(fileUploadLinkBoxInput).val().substring(0,8) !== "https://" && $.trim($(fileUploadLinkBoxInput).val()) !== ""){
                 $(fileUploadLinkBoxInput).val("http://" + $(fileUploadLinkBoxInput).val());
-                $("#fileupload_link_box form button").trigger("submit");
                 invalidSubmit = 1;
+                $("#fileupload_link_box form button").trigger("submit");
             }
         }
     });
 
      $("#fileupload_link_box form").live("submit",function(){
-         if (invalidSubmit === 2) {
-             invalidSubmit = 0;
-             return false;
-         }
-         if (invalidSubmit === 1) {
-             invalidSubmit = 2;
-         }
+
          $(fileUploadAddLinkButton).attr("disabled", "disabled");
          $(fileUploadLinkBoxInput).attr("disabled", "disabled");
 
          if ($("#fileupload_link_box form").valid() && !($.trim(fileUploadLinkBoxInput) === "")) {
+             if (invalidSubmit === 2) {
+                 invalidSubmit = 0;
+                 return false;
+             }
+             if (invalidSubmit === 1) {
+                 invalidSubmit = 2;
+             }
             if (context !== "new_version") {
                 uploadLink();
             } else {
