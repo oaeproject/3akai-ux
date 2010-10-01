@@ -706,7 +706,7 @@ sakai.discussion = function(tuid, showSettings){
                 'sakai:replyon': id,
                 'sakai:messagebox': 'outbox',
                 'sakai:sendstate': 'pending',
-                'sakai:to': "discussion:" + currentSite
+                'sakai:to': "discussion:w-" + store
             };
 /*            sakai.api.Widgets.saveWidgetData(tuid, object, function(success, data){
                 alert("I seem to have saved a discussion topic.");
@@ -818,7 +818,7 @@ sakai.discussion = function(tuid, showSettings){
                 'sakai:initialpost': true,
                 'sakai:messagebox': 'outbox',
                 'sakai:sendstate': 'pending',
-                'sakai:to': "discussion:" + currentSite
+                'sakai:to': "discussion:w-" + store
             };
 /*            sakai.api.Widgets.saveWidgetData(tuid, object, function(success, data){
                 alert("I seem to have saved a discussion topic.");
@@ -881,7 +881,7 @@ sakai.discussion = function(tuid, showSettings){
         var post = {};
         post["sakai:type"] = "discussion";
         post["sling:resourceType"] = "sakai/message";
-        post["sakai:to"] = "discussion:" + currentSite;
+        post["sakai:to"] = "discussion:w-" + store;
         post['sakai:subject'] = $(discussionSettingsNewSubject, rootel).val();
         post['sakai:body'] = $(discussionSettingsNewBody, rootel).val();
         post['sakai:initialpost'] = true;
@@ -1074,7 +1074,9 @@ sakai.discussion = function(tuid, showSettings){
         sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
 
             if (success) {
-
+                if (!data.message) {
+                    sakai.api.Widgets.saveWidgetData(tuid, {"message":{"sling:resourceType":"sakai/messagestore"}}, null);
+                }
                 widgetSettings = $.extend(data, {}, true);
                 if (widgetSettings.marker !== undefined) {
                     marker = widgetSettings.marker;
@@ -1282,7 +1284,7 @@ sakai.discussion = function(tuid, showSettings){
         } else {
             currentSite = sakai.profile.main.data["rep:userId"];
         }
-        store = "/~" + currentSite + "/message";
+        store = widgeturl + "/message";
         getWidgetSettings();
         if (showSettings) {
             $(discussionMainContainer, rootel).hide();
