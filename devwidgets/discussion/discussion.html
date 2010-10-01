@@ -3,58 +3,138 @@
 
 <!-- MAIN VIEW -->
 <div id="discussion_main_container" style="display:none">
-<div class="fl-widget-content">
-    <div id="discussion_widget_header_wrapper">
-        <div id="discussion_widget_title_wrapper"><h3 id="discussion_widget_header">__MSG__WIDGET_TITLE__</h3>
-        <button id="discussion_add_newtopic" class="s3d-button" type="button">
-            <span class="s3d-button-inner">__MSG__ADD_NEW_TOPIC__</span>
-        </button>
-        <div class="discussion_view_options fl-force-right">
-            <a id="discussion_compact_link" title="Click to view a compact version of this discussion" href="javascript:;">__MSG__C_COMPACT_VIEW__</a>
-            <a id="discussion_full_link" title="Click to view the expanded version of this discussion" href="javascript:;">__MSG__C_FULL_VIEW__</a>
-            <a id="discussion_expand_link" title="Click to expand this discussion" href="javascript:;">__MSG__SHOW_ALL__</a>
-            <a id="discussion_collapse_link" title="Click to collapse this discussion" href="javascript:;">__MSG__HIDE_ALL__</a>
-        </div>
-
-        <h3 id="discussion_widget_title"></h3>
-
-        </div>
-        <!-- ADD TOPIC CONTAINER -->
-        <div id="discussion_add_container" style="display:none;">
-            <form>
-                <label for="discussion_add_subject">__MSG__ADD_SUBJECT__</label>
-                <input type="text" id="discussion_add_subject" /><br />
-                <label for="discussion_add_body">__MSG__ADD_BODY__</label>
-                <textarea id="discussion_add_body"></textarea><br />
-
-                <div class="dialog_buttons">
-                    <a class="button-default submit_button" href="javascript:;" id="discussion_add_submit">__MSG__ADD_SUBMIT__</a>
-                    <a class="button cancel-button" href="javascript:;" id="discussion_add_cancel">__MSG__ADD_CANCEL__</a>
+    <div class="fl-widget-content">
+        <div id="discussion_widget_header_wrapper">
+            <div id="discussion_widget_title_wrapper">
+                <h3 id="discussion_widget_header">__MSG__WIDGET_TITLE__</h3>
+                <button id="discussion_add_newtopic" class="s3d-button s3d-button-primary" type="button">
+                    <span class="s3d-button-inner">__MSG__ADD_NEW_TOPIC__</span>
+                </button>
+                <div class="discussion_view_options fl-force-right">
+                    <a id="discussion_compact_link" title="__MSG__COMPACT_VIEW_ALT__" href="javascript:;" class="s3d-action">__MSG__C_COMPACT_VIEW__</a>
+                    <a id="discussion_full_link" title="__MSG__FULL_VIEW_ALT__" href="javascript:;" class="s3d-action">__MSG__C_FULL_VIEW__</a>
+                    <a id="discussion_expand_link" title="__MSG__SHOW_ALL_ALT__" href="javascript:;" class="s3d-action">__MSG__SHOW_ALL__</a>
+                    <a id="discussion_collapse_link" title="__MSG__HIDE_ALL_ALT__" href="javascript:;" class="s3d-action">__MSG__HIDE_ALL__</a>
                 </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- MAIN CONTAINER FOR DISCUSSIONS -->
-    <div id="discussion_container">
-
-    </div>
-
-    <!-- COMPACT DISCUSSION TEMPLATE -->
-    <div id="discussion_compact_container_template" style="display:none"><!--
-    {macro displayPost(o, first, current)}
-            <div class="discussion_compact_post_link">
-                <a href="#" id="post_${o.post["sakai:id"]}" title="Click to expand this post"><span class="discussion_content_compact_subject">${o.post["sakai:subject"]}</span></a> - <span>by ${o.post.profile.fullName}</span> on <span>${o.post.date}</span>
             </div>
+            <!-- ADD TOPIC CONTAINER -->
+            <div id="discussion_add_container" style="display:none;">
+                <form>
+                    <label for="discussion_add_subject">__MSG__ADD_SUBJECT__</label>
+                    <input type="text" id="discussion_add_subject" class="required" /><br />
+                    <label for="discussion_add_body">__MSG__MESSAGE_TEXT__</label>
+                    <textarea id="discussion_add_body" class="required"></textarea><br />
 
-            <div class="discussion_post discussion_compact_post" id="discussion_post${o.post["sakai:id"]}">
+                    <div class="dialog_buttons">
+                        <button class="s3d-button s3d-button-primary submit_button" id="discussion_add_submit"><span class="s3d-button-inner">__MSG__ADD_TOPIC__</span></button>
+                        <button class="s3d-button cancel-button" id="discussion_add_cancel"><span class="s3d-button-inner">__MSG__DONT_ADD__</span></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- MAIN CONTAINER FOR DISCUSSIONS -->
+        <div id="discussion_container">
+
+        </div>
+
+        <!-- COMPACT DISCUSSION TEMPLATE -->
+        <div id="discussion_compact_container_template" style="display:none"><!--
+        {macro displayPost(o, first, current)}
+                <div class="discussion_compact_post_link">
+                    <a href="#" id="post_${o.post["sakai:id"]}" title="Click to expand this post"><span class="discussion_content_compact_subject">${o.post["sakai:subject"]}</span></a> - <span>by ${o.post.profile.fullName}</span> on <span>${o.post.date}</span>
+                </div>
+
+                <div class="discussion_post discussion_compact_post" id="discussion_post${o.post["sakai:id"]}">
+                    <div class="discussion_header">
+                        <div class="discussion_left">
+                            {if loggedIn}
+                                {if o.post.profile.picture !== ""}
+                                    <img alt="avatar" class="discussion_avatar" src="${o.post.profile.picture}" />
+                                {else}
+                                    <img alt="avatar" class="discussion_avatar" src="user_avatar_icon_32x32.png" />
+                                {/if}
+                                <p class="discussion_content_subject" id="discussion_content_subject_${o.post["sakai:id"]}">${o.post["sakai:subject"]}</p>
+                                <a href="/~${o.post["sakai:from"]}"><span class="discussion_username">${o.post.profile.fullName}</span></a>
+                                <span class="discussion_date">posted this on ${o.post.date}</span>
+                            {else}
+                                <span class="discussion_posted_container">
+                                    <span class="discussion_date">Posted on ${o.post.date}</span>
+                                </span>
+                             {/if}
+                            {if o.post.editters !== undefined}
+                                <br />
+                                <a href="/~${o.post.editedByUserid}"><span class="discussion_username_edited">${o.post.editedByName}</span></a>
+                                <span class="discussion_date">edited this on ${o.post.editedByDate}</span>
+                             {/if}
+                        </div>
+                     </div>
+                    <div class="discussion_content">
+                        <div id="discussion_content_container_${o.post["sakai:id"]}">
+                            {if o.post["sakai:deleted"] && o.post["sakai:deleted"] === true}
+                                <p class="discussion_content_infoDeleted">
+                                {if o.post["sakai:from"] === current.user.userid}
+                                    You have deleted your post.
+                                {else}
+                                    This post has been deleted. Only site collaborators can see this post.
+                                {/if}
+                                {if o.post.canDelete && o.post.canDelete === true}
+                                    <br />You can return it by clicking the undelete link.
+                                {/if}
+                                </p>
+                            {/if}
+                            <div id="discussion_content_message_${o.post["sakai:id"]}">${o.post["sakai:body"]}</div>
+                        </div>
+                        {if loggedIn}
+                            <div id="discussion_content_actions_${o.post["sakai:id"]}" class="discussion_content_actions link">
+                                <ul>
+                                    <li class="discussion_content_no_border"><a id="discussion_content_reply_${o.post["sakai:id"]}" class="discussion_content_reply" href="javascript:;">Reply</a></li>
+                                    {if o.post.canEdit}
+                                        <li><a id="discussion_content_edit_${o.post["sakai:id"]}" class="discussion_content_edit" href="javascript:;">Edit</a></li>
+                                    {/if}
+                                    {if o.post.canDelete && first !== true && o.post["sakai:initialpost"] !== true}
+                                        {if o.post["sakai:deleted"]}
+                                            <li><a id="discussion_content_undelete_${o.post["sakai:id"]}" class="discussion_content_undelete" href="javascript:;">Undelete</a></li>
+                                        {else}
+                                             <li><a id="discussion_content_delete_${o.post["sakai:id"]}" class="discussion_content_delete" href="javascript:;">Delete</a></li>
+                                        {/if}
+                                    {/if}
+                                </ul>
+                            </div>
+                        {/if}
+                    </div>
+                </div>
+
+                <div class="discussion_posts" id="discussion_posts${o.post["sakai:id"]}">
+                    {for reply in o.replies}
+                        ${displayPost(reply, false, current)}
+                    {/for}
+                 </div>
+        {/macro}
+
+        {if posts.length == 0}
+            No posts yet.
+        {else}
+            {for post in posts}
+                ${displayPost(post, true, curr)}
+            {/for}
+        {/if}
+    --></div></div>
+        <div class="fl-widget-no-options fl-fix">
+            <div class="widget-no-options-inner"></div>
+        </div>
+
+        <div id="discussion_container_template" style="display:none"><!--
+        {macro displayPost(o, first, current)}
+
+            <div class="discussion_post" id="discussion_post${o.post["sakai:id"]}">
                 <div class="discussion_header">
                     <div class="discussion_left">
                         {if loggedIn}
                             {if o.post.profile.picture !== ""}
                                 <img alt="avatar" class="discussion_avatar" src="${o.post.profile.picture}" />
                             {else}
-                                <img alt="avatar" class="discussion_avatar" src="/dev/_images2/person_icon.jpg    " />
+                                <img alt="avatar" class="discussion_avatar" src="user_avatar_icon_32x32.png" />
                             {/if}
                             <p class="discussion_content_subject" id="discussion_content_subject_${o.post["sakai:id"]}">${o.post["sakai:subject"]}</p>
                             <a href="/~${o.post["sakai:from"]}"><span class="discussion_username">${o.post.profile.fullName}</span></a>
@@ -70,6 +150,22 @@
                             <span class="discussion_date">edited this on ${o.post.editedByDate}</span>
                          {/if}
                     </div>
+                    <span class="discussion_right">
+                        <span class="discussion_totalReplies">${o.post.nrOfReplies}</span>
+                        {if o.post.nrOfReplies == "1"}
+                            <span class="discussion_countReplies"> reply </span>
+                        {else}
+                            <span class="discussion_countReplies"> replies </span>
+                        {/if}
+                        {if o.post.nrOfReplies != "0"}
+                            <span class="discussion_showAllContainer">
+                            (<a class="discussion_toggle_showhideall" id="discussion_toggle_showhideall_${o.post["sakai:id"]}" href="javascript:;">
+                                <span class="discussion_toggle_showhideall_text${o.post["sakai:id"]}">Hide all</span>
+                                <span class="discussion_toggle_showhideall_text${o.post["sakai:id"]}" style="display:none;">Show all</span>
+                            </a>)
+                            </span>
+                        {/if}
+                    </span>
                  </div>
                 <div class="discussion_content">
                     <div id="discussion_content_container_${o.post["sakai:id"]}">
@@ -112,121 +208,25 @@
                     ${displayPost(reply, false, current)}
                 {/for}
              </div>
-    {/macro}
+        {/macro}
 
-    {if posts.length == 0}
-        No posts yet.
-    {else}
-        ${displayPost(posts[0], true, curr)}
-     {/if}
---></div></div>
-    <div class="fl-widget-no-options fl-fix">
-        <div class="widget-no-options-inner"></div>
-    </div>
-
-    <div id="discussion_container_template" style="display:none"><!--
-    {macro displayPost(o, first, current)}
-
-        <div class="discussion_post" id="discussion_post${o.post["sakai:id"]}">
-            <div class="discussion_header">
-                <div class="discussion_left">
-                    {if loggedIn}
-                        {if o.post.profile.picture !== ""}
-                            <img alt="avatar" class="discussion_avatar" src="${o.post.profile.picture}" />
-                        {else}
-                            <img alt="avatar" class="discussion_avatar" src="/dev/_images2/person_icon.jpg    " />
-                        {/if}
-                        <p class="discussion_content_subject" id="discussion_content_subject_${o.post["sakai:id"]}">${o.post["sakai:subject"]}</p>
-                        <a href="/~${o.post["sakai:from"]}"><span class="discussion_username">${o.post.profile.fullName}</span></a>
-                        <span class="discussion_date">posted this on ${o.post.date}</span>
-                    {else}
-                        <span class="discussion_posted_container">
-                            <span class="discussion_date">Posted on ${o.post.date}</span>
-                        </span>
-                     {/if}
-                    {if o.post.editters !== undefined}
-                        <br />
-                        <a href="/~${o.post.editedByUserid}"><span class="discussion_username_edited">${o.post.editedByName}</span></a>
-                        <span class="discussion_date">edited this on ${o.post.editedByDate}</span>
-                     {/if}
-                </div>
-                <span class="discussion_right">
-                    <span class="discussion_totalReplies">${o.post.nrOfReplies}</span>
-                    {if o.post.nrOfReplies == "1"}
-                        <span class="discussion_countReplies"> reply </span>
-                    {else}
-                        <span class="discussion_countReplies"> replies </span>
-                    {/if}
-                    {if o.post.nrOfReplies != "0"}
-                        <span class="discussion_showAllContainer">
-                        (<a class="discussion_toggle_showhideall" id="discussion_toggle_showhideall_${o.post["sakai:id"]}" href="javascript:;">
-                            <span class="discussion_toggle_showhideall_text${o.post["sakai:id"]}">Hide all</span>
-                            <span class="discussion_toggle_showhideall_text${o.post["sakai:id"]}" style="display:none;">Show all</span>
-                        </a>)
-                        </span>
-                    {/if}
-                </span>
-             </div>
-            <div class="discussion_content">
-                <div id="discussion_content_container_${o.post["sakai:id"]}">
-                    {if o.post["sakai:deleted"] && o.post["sakai:deleted"] === true}
-                        <p class="discussion_content_infoDeleted">
-                        {if o.post["sakai:from"] === current.user.userid}
-                            You have deleted your post.
-                        {else}
-                            This post has been deleted. Only site collaborators can see this post.
-                        {/if}
-                        {if o.post.canDelete && o.post.canDelete === true}
-                            <br />You can return it by clicking the undelete link.
-                        {/if}
-                        </p>
-                    {/if}
-                    <div id="discussion_content_message_${o.post["sakai:id"]}">${o.post["sakai:body"]}</div>
-                </div>
-                {if loggedIn}
-                    <div id="discussion_content_actions_${o.post["sakai:id"]}" class="discussion_content_actions link">
-                        <ul>
-                            <li class="discussion_content_no_border"><a id="discussion_content_reply_${o.post["sakai:id"]}" class="discussion_content_reply" href="javascript:;">Reply</a></li>
-                            {if o.post.canEdit}
-                                <li><a id="discussion_content_edit_${o.post["sakai:id"]}" class="discussion_content_edit" href="javascript:;">Edit</a></li>
-                            {/if}
-                            {if o.post.canDelete && first !== true && o.post["sakai:initialpost"] !== true}
-                                {if o.post["sakai:deleted"]}
-                                    <li><a id="discussion_content_undelete_${o.post["sakai:id"]}" class="discussion_content_undelete" href="javascript:;">Undelete</a></li>
-                                {else}
-                                     <li><a id="discussion_content_delete_${o.post["sakai:id"]}" class="discussion_content_delete" href="javascript:;">Delete</a></li>
-                                {/if}
-                            {/if}
-                        </ul>
-                    </div>
-                {/if}
-            </div>
-        </div>
-
-        <div class="discussion_posts" id="discussion_posts${o.post["sakai:id"]}">
-            {for reply in o.replies}
-                ${displayPost(reply, false, current)}
+        {if posts.length == 0}
+            No posts yet.
+        {else}
+            {for post in posts}
+                ${displayPost(post, true, curr)}
             {/for}
-         </div>
-    {/macro}
-
-    {if posts.length == 0}
-        No posts yet.
-    {else}
-        {for post in posts}
-            ${displayPost(post, true, curr)}
-        {/for}
-     {/if}
---></div>
+         {/if}
+    --></div>
 
     <!-- EDIT CONTAINER -->
     <div id="discussion_edit_container" style="display:none;">
         <form>
-            <input type="text" id="discussion_edit_subject" /><br />
-            <textarea id="discussion_edit_message" rows="0" cols="0"></textarea><br />
+            <input type="text" id="discussion_edit_subject" class="required"/><br />
+            <textarea id="discussion_edit_message" class="required"></textarea><br />
             <div class="dialog_buttons">
                 <button type="button" class="s3d-button s3d-button-primary" id="discussion_edit_save"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
-                <button type="button" class="s3d-button" id="discussion_edit_cancel"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
+                <button type="button" class="s3d-button" id="discussion_edit_cancel"><span class="s3d-button-inner">__MSG__DONT_SAVE__</span></button>
             </div>
         </form>
     </div>
@@ -234,14 +234,14 @@
     <!-- REPLY CONTAINER -->
     <div id="discussion_reply_container" style="display:none;">
         <form>
-            <label for="discussion_reply_subject">Subject</label>
-            <input type="text" id="discussion_reply_subject" /><br />
-            <label for="discussion_reply_body">Body</label>
-            <textarea id="discussion_reply_body"></textarea><br />
+            <label for="discussion_reply_subject">__MSG__SUBJECT__</label>
+            <input type="text" id="discussion_reply_subject" class="required"/><br />
+            <label for="discussion_reply_body">__MSG__MESSAGE_TEXT__</label>
+            <textarea id="discussion_reply_body" class="required"></textarea><br />
 
             <div class="dialog_buttons">
                 <button type="button" class="s3d-button s3d-button-primary" id="discussion_reply_submit"><span class="s3d-button-inner">__MSG__REPLY__</span></button>
-                <button type="button" class="s3d-button" id="discussion_reply_cancel"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
+                <button type="button" class="s3d-button" id="discussion_reply_cancel"><span class="s3d-button-inner">__MSG__DONT_REPLY__</span></button>
             </div>
         </form>
     </div>
@@ -249,56 +249,64 @@
 
 <!-- SETTINGS VIEW -->
 <div id="discussion_settings" style="display:none">
-    <form>
-        <ul class="discussion_settings_tabs">
-            <li>
-                <a class="discussion_settings_tab_selected" href="javascript:;" id="discussion_settings_new_tab">Post New</a>
-            </li>
-            <li>
-                <a class="discussion_settings_tab" href="javascript:;" id="discussion_settings_existing_tab">Insert Existing</a>
-            </li>
-            <li>
-                <a class="discussion_settings_tab" href="javascript:;" id="discussion_settings_display_options_tab">Display Options</a>
-            </li>
-        </ul>
-
-        <div id="discussion_settings_new_container" class="discussion_settings_container">
-            <form>
-                <label for="discussion_settings_new_subject">Subject</label><br />
-                <input type="text" id="discussion_settings_new_subject" /><br />
-
-                <label for="discussion_settings_new_body">Body</label><br />
-                <textarea id="discussion_settings_new_body"></textarea><br />
-            </form>
-        </div>
-        <div id="discussion_settings_existing_container" class="discussion_settings_container" style="display:none;">
-            <div id="discussion_no_discussions">
-                You don't have any discussions yet.
+    <div class="fl-widget-content">
+        <form>
+            <div class="s3d-primary-tabs">
+                <ul class="fl-tabs fl-tabs-right">
+                    <li class="fl-tabs-active"><a class="discussion_settings_tab_selected" href="javascript:;" id="discussion_settings_new_tab">__MSG__POST_NEW__</a></li>
+                    <li><a class="discussion_settings_tab" href="javascript:;" id="discussion_settings_existing_tab">__MSG__INSERT_EXISTING__</a></li>
+                    <li><a class="discussion_settings_tab" href="javascript:;" id="discussion_settings_display_options_tab">__MSG__DISPLAY_OPTIONS__</a></li>
+                </ul>
             </div>
-        </div>
-        <div id="discussion_settings_existing_container_template" ><!--
-            <label>Select existing discussion</label>
-            {if results.length == 0}
-                <span>You don't have any discussions yet.</span>
-            {else}
-            <div class="discussion_settings_list">
-                {for i in results}
-                    <div id="discussion_settings_list_item_${i['sakai:id']}" class="discussion_settings_list_item">
-                        ${i['sakai:subject']}
+            <div id="discussion_tab_content_top">
+                <div id="discussion_tab_content_top_inner"><!-- --></div>
+            </div>
+            <div id="discussion_tab_content">
+                <div id="discussion_settings_new_container" class="discussion_settings_container">
+
+                        <label for="discussion_settings_new_subject">__MSG__SUBJECT__</label><br />
+                        <input type="text" id="discussion_settings_new_subject" /><br />
+
+                        <label for="discussion_settings_new_body">__MSG__MESSAGE_TEXT__</label><br />
+                        <textarea id="discussion_settings_new_body"></textarea><br />
+
+                </div>
+                <div id="discussion_settings_existing_container" class="discussion_settings_container" style="display:none;">
+                    <div id="discussion_no_discussions">
+                        __MSG__NO_DISCUSSIONS_YET__
                     </div>
-                {/for}
+                </div>
+                <div id="discussion_settings_existing_container_template" ><!--
+                    <label>Select existing discussion</label>
+                    {if results.length == 0}
+                        <span>You don't have any discussions yet.</span>
+                    {else}
+                    <div class="discussion_settings_list">
+                        {for i in results}
+                            <div id="discussion_settings_list_item_${i['sakai:id']}" class="discussion_settings_list_item">
+                                ${i['sakai:subject']}
+                            </div>
+                        {/for}
+                    </div>
+                    {/if}
+                --></div>
+                <div id="discussion_settings_display_options_container" class="discussion_settings_container" style="display:none;">
+                    <p><input id="discussion_settings_link_display_button" type="radio" name="discussion_display_option" /><label for="discussion_settings_link_display_button">Minimal view - saving space on the page by collapsing Discussions by default</label></p>
+                    <p><input id="discussion_settings_inline_display_button" type="radio" name="discussion_display_option" checked="checked" /><label for="discussion_settings_inline_display_button">Full view - displaying all replies by default</label></p>
+                </div>
+                <div class="dialog_buttons">
+                    <button type="button" class="s3d-button s3d-button-primary" id="discussion_settings_submit"><span class="s3d-button-inner">__MSG__SUBMIT__</span></button>
+                    <button type="button" class="s3d-button" id="discussion_settings_cancel"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
+                </div>
             </div>
-            {/if}
-        --></div>
-        <div id="discussion_settings_display_options_container" class="discussion_settings_container" style="display:none;">
-            <p><input id="discussion_settings_link_display_button" type="radio" name="discussion_display_option" /><label for="discussion_settings_link_display_button">Minimal view - saving space on the page by collapsing Discussions by default</label></p>
-            <p><input id="discussion_settings_inline_display_button" type="radio" name="discussion_display_option" checked="checked" /><label for="discussion_settings_inline_display_button">Full view - displaying all replies by default</label></p>
-        </div>
-        <div class="dialog_buttons">
-            <button type="button" class="s3d-button s3d-button-primary" id="discussion_settings_submit"><span class="s3d-button-inner">__MSG__SUBMIT__</span></button>
-            <button type="button" class="s3d-button" id="discussion_settings_cancel"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
-        </div>
-    </form>
+            <div id="discussion_tab_content_bottom">
+                <div id="discussion_tab_content_bottom_inner"><!-- --></div>
+            </div>
+        </form>
+    </div>
+    <div class="fl-widget-no-options fl-fix">
+        <div class="widget-no-options-inner"></div>
+    </div>
 </div>
 
 <!-- JAVASCRIPT -->

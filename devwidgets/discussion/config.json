@@ -13,5 +13,6 @@
     },
     "name":"Discussion",
     "showinsakaigoodies":true,
+    "hasSettings": true,
     "url":"/devwidgets/discussion/discussion.html"
 }
