@@ -18,10 +18,13 @@
                 <p>
                     __MSG__ADD_A_LINK__
                 </p>
-                <input id="fileupload_link_box_input" type="text" name="fileupload_link_box_input"/>
-                <button type="button" class="s3d-button s3d-button-primary" id="fileupload_add_link_button">
-                    <span class="s3d-button-inner">__MSG__ADD_LINK__</span>
-                </button>
+                <form>
+                    <input id="fileupload_link_box_input" type="text" name="fileupload_link_box_input" class="url required"/>
+                    <button type="submit" class="s3d-button s3d-button-primary" id="fileupload_add_link_button">
+                        <span class="s3d-button-inner">__MSG__ADD_LINK__</span>
+                    </button>
+                    <div id="error_msg_container"></div>
+                </form>
             </div>
             <!-- This form will be progressively enhanced by the Fluid Uploader component. -->
             <form method="POST" enctype="multipart/form-data" id="multifile_form">
