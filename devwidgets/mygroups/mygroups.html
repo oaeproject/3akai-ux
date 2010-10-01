@@ -14,7 +14,7 @@
     <div id="mygroups_list_template"><!--
         <ul>
             {for group in entry}
-                <li><a href="/~${group.groupid}">${group["sakai:group-title"]}</a></li>
+                <li><a href="/~${group.groupid}"><div class="mygroups_ellipsis_container"><span class="mygroups_ellipsis_text">${group["sakai:group-title"]}</span></div></a></li>
             {/for}
         </ul>
     --></div>
