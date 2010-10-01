@@ -399,8 +399,8 @@ ul.as-selections.loading {background:#fff url(../../../dev/_images/ajax_load.gif
 
 
 /* Validation */
-input.error {border:2px solid red;}
-label.error {color:red;}
+input.error, textarea.error {border-color:#9f3333;background-color:#ffdede;}
+label.error {color:#9f3333;}
 
 /*
 
