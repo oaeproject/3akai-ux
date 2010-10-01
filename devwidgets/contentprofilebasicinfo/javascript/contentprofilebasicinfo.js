@@ -232,10 +232,6 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
             "hashpath": contentPath.replace("/p/","")
         }
 
-        // Set permissions on the files
-        sakai.api.Util.setFilePermissions(data["sakai:permissions"], [obj], function(permissionsSet){
-        });
-
         // Disable basic info fields
         enableDisableBasicInfoFields(true);
 
@@ -251,9 +247,13 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                 sakai.api.Util.notification.show($(contentProfileBasicInfoFailedUpdatingBasicInfo).html(), $(contentProfileBasicInfoFileBasicInfoNotUpdated).html());
             },
             success : function(){
-                sakai.content_profile.loadContentProfile(function(){
-                    removeBinding();
-                    handleHashChange();
+                // Set permissions on the files
+                sakai.api.Util.setFilePermissions(data["sakai:permissions"], [obj], function(permissionsSet){
+                    // Load content profile
+                    sakai.content_profile.loadContentProfile(function(){
+                        removeBinding();
+                        handleHashChange();
+                    });
                 });
             }
         });
