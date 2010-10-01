@@ -41,6 +41,8 @@
 #discussion_settings h2 {margin-bottom:10px;}
 #discussion_settings_display_options_container input {margin-right:10px;}
 #discussion_settings_display_options_container label {font-weight: normal;}
+#discussion_settings .dialog_buttons {height:30px;}
+#discussion_settings .dialog_buttons button {float:right;}
 
 /* Posts */
 .discussion_posts {border-left:1px dashed #ddd; margin-left:15px; padding: 0 0 0 5px;}
