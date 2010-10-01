@@ -496,6 +496,10 @@ sakai.config = {
             URL: "/dev/_images/mimetypes/images.png",
             description: "Jpg image"
         },
+        "image/pjpeg": {
+            URL: "/dev/_images/mimetypes/images.png",
+            description: "Jpg image"
+        },
         "text/html": {
             URL: "/dev/_images/mimetypes/html.png",
             description: "HTML document"
