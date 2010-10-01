@@ -139,8 +139,10 @@ sakai.groupbasicinfo = function(tuid, showSettings){
             if (splitDir[0] === "directory") {
                 var item = [];
                 for (var i in splitDir) {
-                    if (splitDir[i] !== "directory") {
-                        item.push(splitDir[i]);
+                    if (splitDir.hasOwnProperty(i)) {
+                        if (splitDir[i] !== "directory") {
+                            item.push(splitDir[i]);
+                        }
                     }
                 }
                 directory.push(item);

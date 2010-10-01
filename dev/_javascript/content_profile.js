@@ -70,11 +70,13 @@ sakai.content_profile = function(){
                     currentTags = data["sakai:tags"];
                     $(data["sakai:tags"]).each(function(i){
                         var splitDir = data["sakai:tags"][i].split("/");
-                        if(splitDir[0] === "directory"){
+                        if (splitDir[0] === "directory") {
                             var item = [];
-                            for(var j in splitDir){
-                                if (splitDir[j] !== "directory") {
-                                    item.push(splitDir[j]);
+                            for (var j in splitDir) {
+                                if (splitDir.hasOwnProperty(j)) {
+                                    if (splitDir[j] !== "directory") {
+                                        item.push(splitDir[j]);
+                                    }
                                 }
                             }
                             directory.push(item);

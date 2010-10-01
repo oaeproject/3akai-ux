@@ -63,23 +63,6 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
         return formattedDate;
     }
 
-    /**
-     * Get userprofile with the userid provided
-     * @param {Object} userid
-     */
-    var getUserProfile = function(userid){
-        $.ajax({
-            url: "/~" + userid + "/public/authprofile.infinity.json",
-            success: function(profile){
-                profileData["sakai:pool-content-created-for-full"] = sakai.api.User.getDisplayName(profile);
-                renderDetails();
-            },
-            error: function(xhr, textStatus, thrownError){
-                sakai.api.Util.notification.show("Failed loading profile", "Failed to load file profile information");
-            }
-        });
-    }
-
     var renderDetails = function(){
         // Construct the JSON object
         // Create a readable data to display
@@ -99,7 +82,7 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
         // Set the global JSON object (we also need this in other functions + don't want to modify this)
         globalJSON = $.extend(true, {}, json);
 
-        // And render the basic information
+        // And render the detailed information
         var renderedTemplate = $.TemplateRenderer("content_profile_file_details_template", json);
         var renderedDiv = $(document.createElement("div"));
         renderedDiv.html(renderedTemplate)
@@ -121,6 +104,23 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
             e_span_class: "threedots_a",
             whole_word: false,
             alt_text_t: true
+        });
+    }
+
+    /**
+     * Get userprofile with the userid provided
+     * @param {Object} userid
+     */
+    var getUserProfile = function(userid){
+        $.ajax({
+            url: "/~" + userid + "/public/authprofile.infinity.json",
+            success: function(profile){
+                profileData["sakai:pool-content-created-for-full"] = sakai.api.User.getDisplayName(profile);
+                renderDetails();
+            },
+            error: function(xhr, textStatus, thrownError){
+                renderDetails();
+            }
         });
     }
 

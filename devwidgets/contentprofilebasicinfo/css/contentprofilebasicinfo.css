@@ -28,7 +28,7 @@
 .content_profile_directory_row {float:left;}
 .content_profile_basic_info_saveddirectory {margin:0; overflow:hidden;}
 .content_profile_basic_info_saveddirectory li {list-style:none; font-weight:bold;}
-.content_profile_basic_info_saveddirectory_information {float:left; padding-bottom:10px; clear:both;}
+.content_profile_basic_info_saveddirectory_information {float:left; padding:5px 0; clear:both;}
 #content_profile_basic_info_tags_viewlist {overflow:hidden; margin:0}
 #content_profile_basic_info_form input,#content_profile_basic_info_form textarea, #content_profile_basic_info_form select {font-weight:bold;}
 
