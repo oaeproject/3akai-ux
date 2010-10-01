@@ -152,7 +152,7 @@
 .fl-widget .fl-widget-no-options .widget-no-options-inner { background: url('../../_images/content_bl.png') 0 0 no-repeat; margin: 0; height: 6px; }
 
 .fl-widget .fl-widget-content {background-color: #fff; padding: 10px 0 10px 0; margin: 0; border-left: 3px solid #D4DADE; border-right: 3px solid #D4DADE; }
-.fl-widget .fl-widget-content ul {margin: 0; padding: 0}
+.fl-widget .fl-widget-content ul {margin: 0;}
 
 #widget_settings_menu {
     position: absolute;
