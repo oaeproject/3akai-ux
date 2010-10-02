@@ -161,11 +161,14 @@ sakai.groupedit = function(){
      * Trigger edit buttons
      * @param {Boolean} show Flag to either show or hide update or edit buttons
      */
-    var triggerEditable = function(show){
-
-        sakai.currentgroup.mode = 'edit';
-        $(".group_editing").show();
-
+    var triggerEditable = function (show) {
+        if (show) {
+            sakai.currentgroup.mode = 'edit';
+            $(".group_editing").show();
+        } else {
+            sakai.currentgroup.mode = 'view';
+            $(".group_editing").hide();
+        }
     };
 
     /**
