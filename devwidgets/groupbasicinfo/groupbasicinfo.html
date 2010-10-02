@@ -42,6 +42,41 @@
                 <textarea class="groupbasicinfo_generalinfo_content" id="groupbasicinfo_generalinfo_group_description">${data['sakai:group-description']}</textarea>
             </div>
             <div class="groupbasicinfo_generalinfo_subcontainer">
+                <label class="groupbasicinfo_generalinfo_label" for="groupbasicinfo_generalinfo_group_joinable">__MSG__JOINABLE_LABEL__:</label>
+                <select class="groupbasicinfo_generalinfo_content" id="groupbasicinfo_generalinfo_group_joinable">
+                    <option{if data["sakai:group-joinable"] === sakai.config.Permissions.Groups.joinable.manager_add}
+                        selected="selected"{/if} value="${sakai.config.Permissions.Groups.joinable.manager_add}">
+                        __MSG__JOIN_MANAGER_ADD__
+                    </option>
+                    <option{if data["sakai:group-joinable"] === sakai.config.Permissions.Groups.joinable.user_direct}
+                        selected="selected"{/if} value="${sakai.config.Permissions.Groups.joinable.user_direct}">
+                        __MSG__JOIN_USER_DIRECT__
+                    </option>
+                    <option{if data["sakai:group-joinable"] === sakai.config.Permissions.Groups.joinable.user_request}
+                        selected="selected"{/if} value="${sakai.config.Permissions.Groups.joinable.user_request}">
+                        __MSG__JOIN_USER_REQUEST__
+                    </option>
+                </select>
+                <div class="groupbasicinfo_info">__MSG__JOIN_ADD_INFO__</div>
+            </div>
+            <div class="groupbasicinfo_generalinfo_subcontainer">
+                <label class="groupbasicinfo_generalinfo_label" for="groupbasicinfo_generalinfo_group_visible">__MSG__VISIBLE_LABEL__:</label>
+                <select class="groupbasicinfo_generalinfo_content" id="groupbasicinfo_generalinfo_group_visible">
+                    <option{if data["sakai:group-visible"] === sakai.config.Permissions.Groups.visible.public}
+                        selected="selected"{/if} value="${sakai.config.Permissions.Groups.visible.public}">
+                        __MSG__PUBLIC__
+                    </option>
+                    <option{if data["sakai:group-visible"] === sakai.config.Permissions.Groups.visible.allusers}
+                        selected="selected"{/if} value="${sakai.config.Permissions.Groups.visible.allusers}">
+                        __MSG__LOGGED_IN_USERS__
+                    </option>
+                    <option{if data["sakai:group-visible"] === sakai.config.Permissions.Groups.visible.members}
+                        selected="selected"{/if} value="${sakai.config.Permissions.Groups.visible.members}">
+                        __MSG__MANAGERS_AND_MEMBERS__
+                    </option>
+                </select>
+            </div>
+            <div class="groupbasicinfo_generalinfo_subcontainer">
                 <label class="groupbasicinfo_generalinfo_label" for="groupbasicinfo_generalinfo">
                 __MSG__WHERE_GROUP_FOUND_IN_DIRECTORY__:
                 </label>
@@ -118,6 +153,30 @@
             <div class="groupbasicinfo_generalinfo_subcontainer">
                 <span class="groupbasicinfo_generalinfo_label">__MSG__DESCRIPTION__:</span>
                 <div class="groupbasicinfo_generalinfo_content">${data['sakai:group-description']}</div>
+            </div>
+            <div class="groupbasicinfo_generalinfo_subcontainer">
+                <span class="groupbasicinfo_generalinfo_label">__MSG__JOINABLE_LABEL__:</span>
+                <div class="groupbasicinfo_generalinfo_content">
+                    {if data["sakai:group-joinable"] === sakai.config.Permissions.Groups.joinable.manager_add}
+                        __MSG__JOIN_MANAGER_ADD__
+                    {elseif data["sakai:group-joinable"] === sakai.config.Permissions.Groups.joinable.user_direct}
+                        __MSG__JOIN_USER_DIRECT__
+                    {elseif data["sakai:group-joinable"] === sakai.config.Permissions.Groups.joinable.user_request}
+                        __MSG__JOIN_USER_REQUEST__
+                    {/if}
+                </div>
+            </div>
+            <div class="groupbasicinfo_generalinfo_subcontainer">
+                <span class="groupbasicinfo_generalinfo_label">__MSG__VISIBLE_LABEL__:</span>
+                <div class="groupbasicinfo_generalinfo_content">
+                    {if data["sakai:group-visible"] === sakai.config.Permissions.Groups.visible.public}
+                        __MSG__PUBLIC__
+                    {elseif data["sakai:group-visible"] === sakai.config.Permissions.Groups.visible.allusers}
+                        __MSG__LOGGED_IN_USERS__
+                    {elseif data["sakai:group-visible"] === sakai.config.Permissions.Groups.visible.members}
+                        __MSG__MANAGERS_AND_MEMBERS__
+                    {/if}
+                </div>
             </div>
 
         {/if}
