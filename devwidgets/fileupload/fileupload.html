@@ -49,6 +49,12 @@
 
     <div id="fileupload_tagging_template" style="display:none;"><!--
         {if context !== "new_version"}<h1>__MSG__BASIC_INFORMATION__</h1>
+        <div id="fileupload_description">
+            <label for="fileupload_add_description">
+                __MSG__DESCRIPTION__
+            </label>
+            <textarea cols="50" rows="3" id="fileupload_add_description" class="fileupload_add_description" value="" /><hr/>
+        </div>
         <div id="fileupload_tags">
             <label for="fileupload_add_tags">
                 __MSG__TAGS__
@@ -56,12 +62,6 @@
             <textarea cols="50" rows="3" id="fileupload_add_tags" class="fileupload_add_tags" value="" />
             <br/>
             <hr/>
-        </div>
-        <div id="fileupload_description">
-            <label for="fileupload_add_description">
-                __MSG__DESCRIPTION__
-            </label>
-            <textarea cols="50" rows="3" id="fileupload_add_description" class="fileupload_add_description" value="" /><hr/>
         </div>
         <div id="fileupload_permissions">
             __MSG__WHO_CAN_SEE_THIS_CONTENT__
