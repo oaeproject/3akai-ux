@@ -31,7 +31,7 @@
             <hr class="fl-push fl-hidden"/>
         </div>
     </div>
-        <div {if data["jcr:content"]["jcr:mimeType"] === "x-sakai/link" && anon} id="content_profile_file_details_actions_anonlink" {else} id="content_profile_file_details_actions" {/if}>
+        <div id="content_profile_file_details_actions">
             {if !anon}
                 <button type="button" class="s3d-button s3d-button-primary" id="content_profile_file_details_action_delete">
                     <span class="s3d-button-inner">{if data["jcr:content"]["jcr:mimeType"] === "x-sakai/link"}__MSG__DELETE_LINK__{else}__MSG__DELETE_FILE__{/if}</span>
