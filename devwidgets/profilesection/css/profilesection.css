@@ -95,13 +95,8 @@
 }
 /* Validation errors */
 /* Errors */
-#profilesection_generalinfo input.profilesection_validation_error {
-    border: 1px solid #ff0101;
-}
-#profilesection_generalinfo label.profilesection_validation_error {
-    color: #ff0101;
+#profilesection_generalinfo label.error {
     display: block;
-    font-weight: bold;
     margin-left: 243px;
     padding: 3px;
 }
