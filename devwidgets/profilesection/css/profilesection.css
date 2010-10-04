@@ -17,8 +17,12 @@
 #profilesection_generalinfo .profilesection_generalinfo_header {
     border-bottom:1px solid #999;
     margin:15px 0;
-    overflow:hidden;
     padding:7px 0;
+    width:100%;
+    float:left;
+    display:inline;
+    height:18px;
+    clear:both;
 }
 #profilesection_generalinfo .profilesection_generalinfo_header_first {
     padding-top: 0;
@@ -29,7 +33,7 @@
     font-weight:normal;
     margin: 0;
     padding-right: 5px;
-    width: 400px;
+    width: 100%;
 }
 #profilesection_generalinfo .profilesection_generalinfo_content {
     font-weight: bold;
@@ -38,6 +42,7 @@
     padding: 3px 0;
     width:400px;
     float:left;
+    display:inline;
 }
 #profilesection_generalinfo span.profilesection_generalinfo_content {
     float:left;
@@ -47,8 +52,10 @@
 #profilesection_generalinfo .profilesection_generalinfo_subcontainer {
     clear: both;
     margin: 4px 0;
-    overflow: auto;
     padding: 1px 0;
+    width:100%;
+    float:left;
+    display:inline;
 }
 #profilesection_generalinfo .profilesection_generalinfo_label, .profilesection_generalinfo label {
     color: #666;
