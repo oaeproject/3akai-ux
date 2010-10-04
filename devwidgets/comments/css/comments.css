@@ -36,9 +36,9 @@
 .comments_posterDataName,.comments_posterData a {color:#058EC4;font-size:1.1em;text-decoration:none;font-weight:400;margin:0;}
 .comments_posterData {float:left;padding-left:15px;height:35px;}
 .comments_posterData a:hover {text-decoration:underline;}
-.comments_commentMessage {width:100%;background-color:#eee;color:#333;padding:10px;float:left;margin-bottom:20px;}
+.comments_commentMessage {width:100%;background-color:#eee;color:#333;padding:10px;margin-bottom:20px;}
 .comments_commentMessage ul {float:right;margin-top:5px;margin-bottom:1px;}
-.comments_message {width:79%; float:left;}
+.comments_message {width:79%;}
 #comments_prevPage {float:right;margin-right:10px;display:none;}
 .comments_commentLinks {overflow:auto;width:20%;float:right;}
 .comments_commentMessage ul li {display:inline;color:#BBB;}
