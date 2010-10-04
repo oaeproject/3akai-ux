@@ -1,7 +1,7 @@
 {
   "description":"Collections Tool",
-  "userpages": true,
-  "grouppages": true,
+  "userpages": false,
+  "grouppages": false,
   "hasSettings":true,
   "showinsakaigoodies":true,
   "id":"collections",
