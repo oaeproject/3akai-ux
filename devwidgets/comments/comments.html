@@ -21,17 +21,9 @@
 
         {for i in comments}
             <div class="comments_topCommentBar">
-                {if i['sakai:from'] === 'anonymous'}
-                    <img alt="avatar" class="comments_avatar" src="/dev/_images/person_icon.jpg" />
-                {else}
-                    <img alt="avatar" class="comments_avatar" src="${i.user.picture}" />
-                {/if}
+                <img alt="avatar" class="comments_avatar" src="${i.user.picture}" />
                 <div class="comments_posterData">
-                    {if i['sakai:from'] === 'anonymous'}
-                        <span class="comments_posterDataName"><a href="mailto:${i.profile.email}">${i.profile.fullName}</a></span><br />
-                    {else}
-                        <span class="comments_posterDataName"><a href="${i.user.profile}">${i.user.fullName}</a></span><br />
-                    {/if}
+                    <span class="comments_posterDataName"><a href="/~${i.user.uid}">${i.user.fullName}</a></span><br />
                     ${i.timeAgo} <span class="comments_dateComment">(${i.formatDate})</span>
                 </div>
             </div>
@@ -62,12 +54,12 @@
                         {/if}
                         </p>
                     {/if}
-                <div id="comments_message_${i['sakai:id']}">
-                    ${i.message}
+                <div id="comments_message_${i['sakai:id']}" class="comments_message">
+                    <p>${i.message}</p>
                 </div>
                 <div id="comments_message_editContainer_${i['sakai:id']}" style="display:none;">
                     <textarea id="comments_editComment_txt_${i['sakai:id']}" rows="7" cols="50">${i.messageTxt}</textarea><br />
-                    <div class="dialog_buttons">
+                    <div class="dialog_buttons right">
                         <button type="button" class="s3d-button s3d-button-primary comments_editComment_save" id="comments_editComment_save${i['sakai:id']}"><span class="s3d-button-inner">Edit comment</span></button>
                         <button type="button" class="s3d-button comments_editComment_cancel" id="comments_editComment_cancel${i['sakai:id']}"><span class="s3d-button-inner">Cancel</span></button>
                     </div>
@@ -102,7 +94,7 @@
         <label for="comments_txtMessage">Your comment:</label>
         <textarea id="comments_txtMessage" class="comments_inputFields" rows="7" cols="50"></textarea><br />
 
-        <div class="dialog_buttons">
+        <div class="dialog_buttons right">
             <button type="button" class="s3d-button s3d-button-primary comment_postCommentTopBottom" id="comments_postComment"><span class="s3d-button-inner">Submit comment</span></button>
             <button type="button" class="s3d-button comment_postCommentTopBottom" id="comments_cancelComment"><span class="s3d-button-inner">Cancel</span></button>
         </div>
@@ -168,7 +160,7 @@
             <ul><li><input type="checkbox" id="comments_SendMail"><label for="comments_SendMail" class="video_source_rbtLabel"> Email me when there is a new comment</label></input></li></ul>
         </div>
 
-        <div class="dialog_buttons">
+        <div class="dialog_buttons right">
             <button type="button" class="s3d-button s3d-button-primary" id="comments_submit"><span class="s3d-button-inner">Save</span></button>
             <button type="button" class="s3d-button" id="comments_cancel"><span class="s3d-button-inner">Cancel</span></button>
         </div>

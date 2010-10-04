@@ -18,11 +18,12 @@
                 <p>
                     __MSG__ADD_A_LINK__
                 </p>
-                <form method="POST" enctype="multipart/form-data" id="link_form">
-                    <input id="fileupload_link_box_input" type="text" name="fileupload_link_box_input"/>
+                <form>
+                    <input id="fileupload_link_box_input" type="text" name="fileupload_link_box_input" class="url required"/>
                     <button type="submit" class="s3d-button s3d-button-primary" id="fileupload_add_link_button">
                         <span class="s3d-button-inner">__MSG__ADD_LINK__</span>
                     </button>
+                    <div id="error_msg_container"></div>
                 </form>
             </div>
             <!-- This form will be progressively enhanced by the Fluid Uploader component. -->
@@ -48,6 +49,12 @@
 
     <div id="fileupload_tagging_template" style="display:none;"><!--
         {if context !== "new_version"}<h1>__MSG__BASIC_INFORMATION__</h1>
+        <div id="fileupload_description">
+            <label for="fileupload_add_description">
+                __MSG__DESCRIPTION__
+            </label>
+            <textarea cols="50" rows="3" id="fileupload_add_description" class="fileupload_add_description" value="" /><hr/>
+        </div>
         <div id="fileupload_tags">
             <label for="fileupload_add_tags">
                 __MSG__TAGS__
@@ -55,12 +62,6 @@
             <textarea cols="50" rows="3" id="fileupload_add_tags" class="fileupload_add_tags" value="" />
             <br/>
             <hr/>
-        </div>
-        <div id="fileupload_description">
-            <label for="fileupload_add_description">
-                __MSG__DESCRIPTION__
-            </label>
-            <textarea cols="50" rows="3" id="fileupload_add_description" class="fileupload_add_description" value="" /><hr/>
         </div>
         <div id="fileupload_permissions">
             __MSG__WHO_CAN_SEE_THIS_CONTENT__

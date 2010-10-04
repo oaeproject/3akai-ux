@@ -3,45 +3,57 @@
 
 <!-- MAIN VIEW -->
 <div id="video_maincontainer" style="display:none">
-    <div id="video_ShowMain">
-        <!-- Shows the video (output) -->
-    </div>
-    <div id="video_MainTemplate" ><!--
-        <div class="video_containerInTemplate">
-            <div id="video_tempYoutubeVideoMain">
-                <div id="${videoContainer}"/>
-            </div>
-            {if source != ""}
-                <a href="${URL}" >${source}</a>
-            {/if}
+    <div class="fl-widget-content">
+        <div id="video_ShowMain">
+            <!-- Shows the video (output) -->
         </div>
-        --></div>
+        <div id="video_MainTemplate" ><!--
+            <div class="video_containerInTemplate">
+                <div id="video_tempYoutubeVideoMain">
+                    <div id="${videoContainer}"/>
+                </div>
+                {if source != ""}
+                    <a href="${URL}" >${source}</a>
+                    <hr class="fl-hidden fl-push"/>
+                {/if}
+            </div>
+            --></div>
+    </div>
+    <div class="fl-widget-no-options fl-fix">
+        <div class="widget-no-options-inner">
+        </div>
+    </div>
 </div>
 
 <!-- SETTINGS VIEW -->
 <div id="video_settings" style="display:none">
-    <div id="video_fillInfo" class="video_settingsStep">
-        <div class="fl-push"></div>
-        <label for="video_txtURL">URL:</label><br />
-        <input type="text" id="video_txtURL" class="video_longtxt"></input>
-        <label>Source:</label><br />
-        <br />
-        <div>
-            <input type="radio" name="video_source" value="video_noSource" id="video_source_nosource"><label for="video_source_nosource" class="video_source_rbtLabel">Don't show any source.</label></input><br />
-            <input type="radio" name="video_source" value="video_guess" id="video_source_guessURL" checked="checked"><label for="video_source_guessURL" class="video_source_rbtLabel">Guess source from URL</label></input><br />
-            <input type="radio" name="video_source" value="video_txt"  id="video_source_inputSource"><label for="video_source_inputSource" class="video_source_rbtLabel">
-                    Use this as source:
-                    <input type="text" id="video_txtSource"></input>
-                </label
-            </input><br />
-
+    <div class="fl-widget-content">
+        <div id="video_fillInfo" class="video_settingsStep">
+            <div class="fl-push"></div>
+            <label for="video_txtURL">URL:</label><br />
+            <input type="text" id="video_txtURL" class="video_longtxt"></input>
+            <label>Source:</label><br />
+            <br />
+            <div>
+                <input type="radio" name="video_source" value="video_noSource" id="video_source_nosource"><label for="video_source_nosource" class="video_source_rbtLabel">Don't show any source.</label></input><br />
+                <input type="radio" name="video_source" value="video_guess" id="video_source_guessURL" checked="checked"><label for="video_source_guessURL" class="video_source_rbtLabel">Guess source from URL</label></input><br />
+                <input type="radio" name="video_source" value="video_txt"  id="video_source_inputSource"><label for="video_source_inputSource" class="video_source_rbtLabel">
+                        Use this as source:
+                        <input type="text" id="video_txtSource"></input>
+                    </label
+                </input><br />
+            </div>
+        </div>
+        <div class="dialog_buttons">
+            <button type="button" class="s3d-button s3d-button-primary" id="video_btnInsertWidget"><span class="s3d-button-inner">Insert the widget</span></button>
+            <button type="button" class="s3d-button s3d-button-primary" id="video_insertPlaceHolder" style="display:none;"><span class="s3d-button-inner">Insert a quick placeholder</span></button>
+            <button type="button" class="s3d-button s3d-button-primary" id="video_btnPreview" style="display:none;">><span class="s3d-button-inner">Preview</span></button>
+            <button type="button" class="s3d-button" id="video_btnBack"><span class="s3d-button-inner">__MSG__BACK__</span></button>
         </div>
     </div>
-    <div class="dialog_buttons">
-        <button type="button" class="s3d-button s3d-button-primary" id="video_btnInsertWidget"><span class="s3d-button-inner">Insert the widget</span></button>
-        <button type="button" class="s3d-button s3d-button-primary" id="video_insertPlaceHolder" style="display:none;"><span class="s3d-button-inner">Insert a quick placeholder</span></button>
-        <button type="button" class="s3d-button s3d-button-primary" id="video_btnPreview" style="display:none;">><span class="s3d-button-inner">Preview</span></button>
-        <button type="button" class="s3d-button" id="video_btnBack"><span class="s3d-button-inner">__MSG__BACK__</span></button>
+    <div class="fl-widget-no-options fl-fix">
+        <div class="widget-no-options-inner">
+        </div>
     </div>
 </div>
 

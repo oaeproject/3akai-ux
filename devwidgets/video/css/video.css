@@ -17,11 +17,11 @@
  */
 
 #video_maincontainer h3, #video_settings h3 {font-weight:normal;}
-.video_containerInTemplate {width:470px;}
 .video_containerInTemplate a {float:right;}
 
+#video_maincontainer .fl-widget-content , #video_settings .fl-widget-content {padding:10px;}
+
 /*Settings*/
-#video_settings {padding:10px;}
 #video_settings .video_longtxt {width: 100%;border-style:solid;border-width:1.5px;padding: 5px 0px 5px 0px;border-color:#DEDEDE;background-color:#f4f4f4;font-size:14px;}
 #video_settings input[type=radio] {vertical-align:middle;margin-left:20px;height:35px;padding-top:5px;padding-bottom:5px;}
 #video_settings input[type=checkbox] {vertical-align:middle;height:35px;padding-top:5px;padding-bottom:5px;}

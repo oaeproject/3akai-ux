@@ -123,96 +123,6 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
     };
 
     /**
-     * Set permissions on the files that were uploaded
-     */
-    var setFilePermissions = function(){
-        // Get the value from the dropdown list
-        var permissions = $(contentProfileBasicInfoFormPermissionsSelect).val();
-        // Check which value was selected and fill in the data object accordingly
-        var data = [];
-        switch (permissions) {
-            // Logged in only
-            case "everyone":
-                var item = {
-                    "url": contentPath + ".members.html",
-                    "method": "POST",
-                    "parameters": {
-                        ":viewer": "everyone",
-                        ":viewer@Delete": "anonymous"
-                    }
-                };
-                data[data.length] = item;
-                var item = {
-                    "url": contentPath + ".modifyAce.html",
-                    "method": "POST",
-                    "parameters": {
-                        "principalId": "everyone",
-                        "privilege@jcr:read": "granted"
-                    }
-                };
-                data[data.length] = item;
-                var item = {
-                    "url": contentPath + ".modifyAce.html",
-                    "method": "POST",
-                    "parameters": {
-                        "principalId": "anonymous",
-                        "privilege@jcr:read": "denied"
-                    }
-                };
-                data[data.length] = item;
-                break;
-            // Public
-            case "public":
-                var item = {
-                    "url": contentPath + ".members.html",
-                    "method": "POST",
-                    "parameters": {
-                        ":viewer": ["everyone", "anonymous"]
-                    }
-                };
-                data[data.length] = item;
-                break;
-            // Managers and viewers only
-            case "private":
-                var item = {
-                    "url": contentPath + ".members.html",
-                    "method": "POST",
-                    "parameters": {
-                        ":viewer@Delete": ["anonymous", "everyone"]
-                    }
-                };
-                data[data.length] = item;
-                var item = {
-                    "url": contentPath + ".modifyAce.html",
-                    "method": "POST",
-                    "parameters": {
-                        "principalId": ["everyone", "anonymous"],
-                        "privilege@jcr:read": "denied"
-                    }
-                };
-                data[data.length] = item;
-                break;
-        }
-
-        $.ajax({
-            url: sakai.config.URL.BATCH,
-            traditional: true,
-            type: "POST",
-            cache: false,
-            data: {
-                requests: $.toJSON(data)
-            },
-            success: function(data){
-
-            },
-            error: function(xhr, textStatus, thrownError){
-
-            }
-        });
-
-    };
-
-    /**
      * Get the values from the basic information form
      */
     var getFormValues = function(init){
@@ -288,8 +198,6 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
             // Set the tags
             sakai.api.Util.tagEntity(contentPath, data["sakai:tags"], currentTags, function(){
                 currentTags = data["sakai:tags"];
-                // TODO show a valid message to the user instead of reloading the page
-                $(window).trigger('hashchange');
                 sakai.api.Util.notification.show($(contentProfileBasicInfoUpdatedBasicInfo).html(), $(contentProfileBasicInfoFileBasicInfoUpdated).html());
             });
         }
@@ -316,11 +224,13 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
 
     var updateBasicInfo = function(){
 
-        // Set permissions on the file
-        setFilePermissions();
-
         // Get all the value for the form
         data = getFormValues();
+
+        // Create object of file to be updated
+        var obj = {
+            "hashpath": contentPath.replace("/p/","")
+        }
 
         // Disable basic info fields
         enableDisableBasicInfoFields(true);
@@ -335,6 +245,16 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                 // Enable basic info fields and show error message
                 enableDisableBasicInfoFields(false);
                 sakai.api.Util.notification.show($(contentProfileBasicInfoFailedUpdatingBasicInfo).html(), $(contentProfileBasicInfoFileBasicInfoNotUpdated).html());
+            },
+            success : function(){
+                // Set permissions on the files
+                sakai.api.Util.setFilePermissions(data["sakai:permissions"], [obj], function(permissionsSet){
+                    // Load content profile
+                    sakai.content_profile.loadContentProfile(function(){
+                        removeBinding();
+                        handleHashChange();
+                    });
+                });
             }
         });
     };
@@ -487,7 +407,10 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
         sakai.api.Util.tagEntity(contentPath, tagsAfterDeletion, currentTags, function(){
             currentTags = currentTags.splice(tags);
             // TODO show a valid message to the user instead of reloading the page
-            $(window).trigger('hashchange');
+            sakai.content_profile.loadContentProfile(function(){
+                    removeBinding();
+                    $(window).trigger('hashchange');
+            });
             sakai.api.Util.notification.show($(contentProfileBasicInfoUpdatedBasicInfo).html(), $(contentProfileBasicInfoFileBasicInfoUpdated).html());
         });
     }
@@ -524,6 +447,18 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
             $(this).parent().remove();
         });
 
+    };
+
+    /**
+     * Bind the widget's internal Cancel and Save Settings button
+     */
+    var removeBinding = function(){
+        $(contentProfileBasicInfoDirectoryLvlOne).die("change", function(){});
+        $(contentProfileBasicInfoDirectoryLvlTwo).die("change", function(){});
+        $(contentProfileBasicInfoDirectoryLvlThree).die("change", function(){});
+        $(contentProfileBasicInfoAddAnotherLocation).die("click", function(){});
+        $(contentProfileBasicInfoRemoveLocation).die("click", function(){});
+        $(contentProfileBasicInfoRemoveNewLocation).die("click", function(){});
     };
 
     /**

@@ -17,6 +17,7 @@
  */
 
 /* Googlemaps CSS */
+#googlemaps_select_container .fl-widget-content {padding:10px;}
 #googlemaps_form_search { margin: 5px 0; }
 
 #googlemaps_input_text_location { width: 85%; }

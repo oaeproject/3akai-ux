@@ -152,8 +152,8 @@ sakai.listpeople = function(tuid, showSettings){
 
                     // filter out the manager group if we're listing items for a group, the everyone group and the anonymous user
                     json_data.results = $.grep(json_data.results, function(resultObject, index){
-                            if (resultObject['groupid'] !== id + '-managers' &&
-                                resultObject['groupid'] !== 'everyone' &&
+                            if (resultObject['sakai:group-id'] !== id + '-managers' &&
+                                resultObject['sakai:group-id'] !== 'everyone' &&
                                 resultObject['rep:userId'] !== 'everyone' &&
                                 resultObject['rep:userId'] !== 'anonymous') {
 
@@ -242,7 +242,7 @@ sakai.listpeople = function(tuid, showSettings){
                         sakai.listpeople.data[tuid].selectCount += 1;
 
                         for (var i = 0; i < sakai.listpeople.data[tuid].total; i++) {
-                            if (sakai.listpeople.data[tuid].userList[$(this).attr("id")]['rep:userId'] == [$(this).attr("id")] || sakai.listpeople.data[tuid].userList[$(this).attr("id")]['userid'] == [$(this).attr("id")] || sakai.listpeople.data[tuid].userList[$(this).attr("id")]['groupid'] == [$(this).attr("id")] || sakai.listpeople.data[tuid].userList[$(this).attr("id")]['content_id'] == [$(this).attr("id")]) {
+                            if (sakai.listpeople.data[tuid].userList[$(this).attr("id")]['rep:userId'] == [$(this).attr("id")] || sakai.listpeople.data[tuid].userList[$(this).attr("id")]['userid'] == [$(this).attr("id")] || sakai.listpeople.data[tuid].userList[$(this).attr("id")]['sakai:group-id'] == [$(this).attr("id")] || sakai.listpeople.data[tuid].userList[$(this).attr("id")]['content_id'] == [$(this).attr("id")]) {
                                 sakai.listpeople.data[tuid]["selected"][$(this).attr("id")] = sakai.listpeople.data[tuid].userList[$(this).attr("id")];
                             }
                         }

@@ -3,7 +3,9 @@
 
 <!-- MAIN VIEW -->
 <div id="googlemaps_select_container">
-    <form id="googlemaps_form_search" style="display:none;">
+    <div class="fl-widget-content">
+        <form id="googlemaps_form_search" style="display:none;">
+
 
         <label for="googlemaps_input_text_location">__MSG__LOCATION__:</label><br/>
 
@@ -18,8 +20,8 @@
         <p id="googlemaps_location_help">__MSG__LOCATION_HELP__</p>
     </form>
 
-    <!-- The map iframe -->
-    <iframe id="googlemaps_iframe_map" class="fl-fix" src="/devwidgets/googlemaps/map.html" frameborder="0"></iframe>
+        <!-- The map iframe -->
+        <iframe id="googlemaps_iframe_map" class="fl-fix" src="/devwidgets/googlemaps/map.html" frameborder="0"></iframe>
 
     <!-- The small and large radio button -->
     <label for="googlemaps_radio_small">__MSG__MAP_SIZE_ON_PAGE__:</label>

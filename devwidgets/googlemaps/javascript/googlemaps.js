@@ -159,25 +159,30 @@ sakai.googlemaps = function(tuid, showSettings){
                 $("#googlemaps_input_text_location", rootel).val(json.mapinput);
                 
             } else {
-                // Show the search input textfield and save, search, cancel buttons
-                $("#googlemaps_form_search", rootel).show();
-                $("#googlemaps_save_cancel_container", rootel).show();
+                if (showSettings) {
+                    // Show the search input textfield and save, search, cancel buttons
+                    $("#googlemaps_form_search", rootel).show();
+                    $("#googlemaps_save_cancel_container", rootel).show();
 
-                // If the googlemaps is opened for the first time, the "large" radio button should be default checked
-                $("#googlemaps_radio_large", rootel).attr("checked", "checked");
 
-                // Add a submit listener so that the search function can be executed
-                $("#googlemaps_form_search", rootel).submit(function() {
-                    var input = $("#googlemaps_input_text_location", rootel).val();
-                    if (input) {
+                    // If the googlemaps is opened for the first time, the "large" radio button should be default checked
+                    $("#googlemaps_radio_large", rootel).attr("checked", "checked");
 
-                        // Quick hack so that searches are more local - this will need to be done via the Google API
-                        if (input.indexOf(",") === -1) {
-                            $("#googlemaps_input_text_location", rootel).val(input + ", " + sakai.data.me.user.locale.displayCountry);
-                            iframeContentWindow.search(input, sakai.data.me.user.locale.displayCountry);
-                        } else {
-                            iframeContentWindow.search(input, "");
+
+                    // Add a submit listener so that the search function can be executed
+                    $("#googlemaps_form_search", rootel).submit(function() {
+                        var input = $("#googlemaps_input_text_location", rootel).val();
+                        if (input) {
+
+                            // Quick hack so that searches are more local - this will need to be done via the Google API
+                            if (input.indexOf(",") === -1) {
+                                $("#googlemaps_input_text_location", rootel).val(input + ", " + sakai.data.me.user.locale.displayCountry);
+                                iframeContentWindow.search(input, sakai.data.me.user.locale.displayCountry);
+                            } else {
+                                iframeContentWindow.search(input, "");
+                            }
                         }
+<<<<<<< HEAD
                     }
                     return false;
                 });
@@ -192,6 +197,21 @@ sakai.googlemaps = function(tuid, showSettings){
                     sakai.api.Widgets.Container.informCancel(tuid, "googlemaps");
                 });
                 
+=======
+                        return false;
+                    });
+
+                    // Add listener to save button
+                    $("#googlemaps_save", rootel).bind("click", function(e, ui) {
+                        saveToJCR();
+                    });
+
+                    // Add listerner to cancel button
+                    $("#googlemaps_cancel", rootel).bind("click", function(e, ui) {
+                        sakai.api.Widgets.Container.informCancel(tuid, "googlemaps");
+                    });
+                }
+>>>>>>> 4d43713b33002f4ad98ee8963c9f87a1abb6d096
             }
             // Set focus in location text box
             $("#googlemaps_input_text_location").focus();
