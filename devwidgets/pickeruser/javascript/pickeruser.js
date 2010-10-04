@@ -187,7 +187,10 @@ sakai.pickeruser = function(tuid, showSettings) {
           if ($pickeruser_copy_myself.is(':checked')) {
             messageList.push(sakai.data.me.profile["rep:userId"]);
           }
-          sakai.api.Communication.sendMessage(messageList, sakai.api.Security.saneHTML($("#pickeruser_subject_text").text()) + iConfig.where, messageText);
+          if (iConfig.URL){
+              messageText = messageText + "\n\n" + "<a href='" + iConfig.URL + "'>" + iConfig.URL + "</a>";
+          }
+          sakai.api.Communication.sendMessage(messageList, sakai.api.Security.saneHTML($("#pickeruser_subject_text").text()) + " " + iConfig.where, messageText);
       }
       $pickeruser_container.jqmHide();
       $(window).trigger("sakai-pickeruser-finished", {"toAdd":userList});

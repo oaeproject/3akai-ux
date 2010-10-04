@@ -264,7 +264,7 @@
 .inbox_detail .message-options
 { padding: 15px 15px 0 0; }
 
-.inbox_detail .message-options a
+.inbox_detail .message-options a, #inbox_message_body a
 { color:#058ec4; font-weight: bold; }
 
 .inbox_detail .pipe-divider

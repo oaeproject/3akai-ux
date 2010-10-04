@@ -248,7 +248,8 @@ sakai.content_profile = function(){
             "items": 50,
             "type": "people",
             "what": "Viewers",
-            "where": 'Content'
+            "where": sakai.content_profile.content_data.data["sakai:pooled-content-file-name"],
+            "URL": sakai.content_profile.content_data.url + "/" + sakai.content_profile.content_data.data["sakai:pooled-content-file-name"]
         };
 
         // Bind the add viewers button

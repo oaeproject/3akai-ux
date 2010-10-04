@@ -518,7 +518,8 @@ sakai.groupedit = function(){
                 "sortOn": "lastName",
                 "items": 50,
                 "what": "Members",
-                "where": sakai.currentgroup.data.authprofile["sakai:group-title"]
+                "where": sakai.currentgroup.data.authprofile["sakai:group-title"],
+                "URL": window.location.protocol + "//" + window.location.host + "/~" + sakai.currentgroup.data.authprofile["sakai:group-id"]
             };
 
             // Bind the add members button
