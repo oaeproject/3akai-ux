@@ -229,8 +229,8 @@ sakai.groupedit = function(){
             $.each(sakai.listpeople.data[tuid]["selected"], function(index, resultObject) {
                 if (resultObject['userid']) {
                     removeUser = resultObject['userid'];
-                } else if (resultObject['groupid']) {
-                    removeUser = resultObject['groupid'];
+                } else if (resultObject['sakai:group-id']) {
+                    removeUser = resultObject['sakai:group-id'];
                 } else if (resultObject['rep:userId']) {
                     removeUser = resultObject['rep:userId'];
                 }
