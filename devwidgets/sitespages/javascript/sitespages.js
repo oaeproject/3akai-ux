@@ -584,7 +584,7 @@ sakai.sitespages = function(tuid,showSettings){
     };
 
     $(window).trigger("sakai.sitespages.ready");
-
+    sakai.sitespages.isReady = true;
 };
 
 sakai.api.Widgets.widgetLoader.informOnLoad("sitespages");
