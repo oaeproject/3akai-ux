@@ -802,7 +802,7 @@ sakai.discussion = function(tuid, showSettings){
      * Add a new topic.
      * @param {String} id
      */
-    var addNewTopic = function(id){
+    var addNewTopic = function(){
         var subject = $(discussionAddTopicSubject, rootel).val();
         var body = $(discussionAddTopicBody, rootel).val();
         if ((""+subject).replace(/ /g, "") !== "" && (""+body).replace(/ /g, "") !== "") {
@@ -1163,10 +1163,11 @@ sakai.discussion = function(tuid, showSettings){
         });
 
         // Bind the add topic submit
-        $(discussionAddTopicSubmit, rootel).bind("click", function(e, ui){
+        $(discussionAddContainer + " form", rootel).bind("submit", function(e, ui){
             if ($(discussionAddContainer + " form").valid()) {
-                addNewTopic($(this).attr("id").split("_")[$(this).attr("id").split("_").length - 1]);
+                addNewTopic();
             }
+            return false;
         });
 
         // Bind the add topic cancel
@@ -1249,7 +1250,7 @@ sakai.discussion = function(tuid, showSettings){
             e.target.className = discussionSettingsListItemClass;
         });
 
-    }
+    };
 
     //////////////////////
     // Initial function //
@@ -1291,7 +1292,7 @@ sakai.discussion = function(tuid, showSettings){
             $(discussionMainContainer, rootel).show();
             $(discussionSettings, rootel).hide();
         }
-    }
+    };
 
     init();
 };

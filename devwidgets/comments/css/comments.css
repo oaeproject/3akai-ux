@@ -28,7 +28,7 @@
 /* Main container */
 #comments_mainContainer.fl-widget-content, #comments_settings.fl-widget-content {padding:10px;}
 .comments_commentMessage p.comments_infoDeleted { font-size:0.9em;text-align:right;}
-.comments_nextButtons {overflow:hidden;width:auto;}
+.comments_nextButtons {width:100%;}
 #comments_titlebar {overflow:auto;width:auto;height:20px;border-bottom-style:solid;border-bottom-width:1px;color:#BBB;border-color:#DEDEDE;}
 #comments_titlebar .comments_titleLeft {float:left;font-size:1.25em;font-weight:700;color:#333;}
 #comments_titlebar .comments_titleRight {float:right;}
@@ -36,17 +36,17 @@
 .comments_posterDataName,.comments_posterData a {color:#058EC4;font-size:1.1em;text-decoration:none;font-weight:400;margin:0;}
 .comments_posterData {float:left;padding-left:15px;height:35px;}
 .comments_posterData a:hover {text-decoration:underline;}
-.comments_commentMessage {width:100%;background-color:#eee;color:#333;padding:10px;}
+.comments_commentMessage {width:100%;background-color:#eee;color:#333;padding:10px;float:left;margin-bottom:20px;}
 .comments_commentMessage ul {float:right;margin-top:5px;margin-bottom:1px;}
+.comments_message {width:79%; float:left;}
 #comments_prevPage {float:right;margin-right:10px;display:none;}
-.comments_commentLinks {overflow:auto;width:auto;}
+.comments_commentLinks {overflow:auto;width:20%;float:right;}
 .comments_commentMessage ul li {display:inline;color:#BBB;}
 .comments_commentMessage ul li a {color:#058EC4;}
 .comments_arrowUp {height:10px;background:#fff url(../images/comments_arrowup.jpg) no-repeat bottom left;}
 .comments_avatar {height:35px;float:left;}
 .comments_dateComment {color:#BBB;}
 .comments_topCommentBar {margin-top:25px;overflow:auto;}
-.comments_fillInCommentTopContainer {margin-bottom:80px;}
 .comments_fillInCommentTopContainer input[type=text] {width:350px;}
 #comments_txtMessage {height:100px;width:auto;}
 .commentsTable {width:95%;}

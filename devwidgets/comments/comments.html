@@ -21,17 +21,9 @@
 
         {for i in comments}
             <div class="comments_topCommentBar">
-                {if i['sakai:from'] === 'anonymous'}
-                    <img alt="avatar" class="comments_avatar" src="/dev/_images/person_icon.jpg" />
-                {else}
-                    <img alt="avatar" class="comments_avatar" src="${i.user.picture}" />
-                {/if}
+                <img alt="avatar" class="comments_avatar" src="${i.user.picture}" />
                 <div class="comments_posterData">
-                    {if i['sakai:from'] === 'anonymous'}
-                        <span class="comments_posterDataName"><a href="mailto:${i.profile.email}">${i.profile.fullName}</a></span><br />
-                    {else}
-                        <span class="comments_posterDataName"><a href="${i.user.profile}">${i.user.fullName}</a></span><br />
-                    {/if}
+                    <span class="comments_posterDataName"><a href="/~${i.user.uid}">${i.user.fullName}</a></span><br />
                     ${i.timeAgo} <span class="comments_dateComment">(${i.formatDate})</span>
                 </div>
             </div>
