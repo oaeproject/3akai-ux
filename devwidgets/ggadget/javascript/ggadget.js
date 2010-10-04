@@ -265,7 +265,7 @@ sakai.ggadget = function(tuid, showSettings){
 
                 renderIframeSettings(true);
             }
-    }
+    };
 
 
     /*
@@ -418,9 +418,11 @@ sakai.ggadget = function(tuid, showSettings){
                 }
             }
             else {
-                // When the request isn't successful, it means that  there was no existing remotecontent
-                // so we show the basic settings.
-                displaySettings(null, false);
+                if (showSettings) {
+                    // When the request isn't successful, it means that  there was no existing remotecontent
+                    // so we show the basic settings.
+                    displaySettings(null, false);
+                }
             }
         });
     };

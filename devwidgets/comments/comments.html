@@ -62,8 +62,8 @@
                         {/if}
                         </p>
                     {/if}
-                <div id="comments_message_${i['sakai:id']}">
-                    ${i.message}
+                <div id="comments_message_${i['sakai:id']}" class="comments_message">
+                    <p>${i.message}</p>
                 </div>
                 <div id="comments_message_editContainer_${i['sakai:id']}" style="display:none;">
                     <textarea id="comments_editComment_txt_${i['sakai:id']}" rows="7" cols="50">${i.messageTxt}</textarea><br />

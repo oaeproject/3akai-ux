@@ -3,31 +3,37 @@
 
 <!-- MAIN VIEW -->
 <div id="googlemaps_select_container">
-    <form id="googlemaps_form_search" style="display:none;">
+    <div class="fl-widget-content">
+        <form id="googlemaps_form_search" style="display:none;">
 
-        <!-- The small and large radio button -->
-        <label for="googlemaps_radio_small">__MSG__SIZE__:</label>
-        <input id="googlemaps_radio_large" name="googlemaps_radio" type="radio" value="Large" /><label for="googlemaps_radio_large">__MSG__LARGE__</label><br/>
-        <input id="googlemaps_radio_small" name="googlemaps_radio" type="radio" value="Small" /><label for="googlemaps_radio_small">__MSG__SMALL__</label><br/>
-        <label for="googlemaps_input_text_location">__MSG__LOCATION__:</label><br/>
+            <!-- The small and large radio button -->
+            <label for="googlemaps_radio_small">__MSG__SIZE__:</label>
+            <input id="googlemaps_radio_large" name="googlemaps_radio" type="radio" value="Large" /><label for="googlemaps_radio_large">__MSG__LARGE__</label><br/>
+            <input id="googlemaps_radio_small" name="googlemaps_radio" type="radio" value="Small" /><label for="googlemaps_radio_small">__MSG__SMALL__</label><br/>
+            <label for="googlemaps_input_text_location">__MSG__LOCATION__:</label><br/>
 
-        <!-- The search input textfield -->
-        <input type="text" id="googlemaps_input_text_location" />
+            <!-- The search input textfield -->
+            <input type="text" id="googlemaps_input_text_location" />
 
-        <!-- The search button -->
-        <div class="dialog_buttons" id="googlemaps_search_container">
-            <button class="s3d-button s3d-button-primary" type="submit" id="googlemaps_button_search"><span class="s3d-button-inner">__MSG__SEARCH__</span></button>
+            <!-- The search button -->
+            <div class="dialog_buttons" id="googlemaps_search_container">
+                <button class="s3d-button s3d-button-primary" type="submit" id="googlemaps_button_search"><span class="s3d-button-inner">__MSG__SEARCH__</span></button>
+            </div>
+
+        </form>
+
+        <!-- The map iframe -->
+        <iframe id="googlemaps_iframe_map" class="fl-fix" src="/devwidgets/googlemaps/map.html" frameborder="0"></iframe>
+
+        <!-- The submit and cancel button -->
+        <div class="dialog_buttons" id="googlemaps_save_cancel_container" style="display:none;">
+            <button type="button" class="s3d-button s3d-button-primary" id="googlemaps_save"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
+            <button type="button" class="s3d-button" id="googlemaps_cancel"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
         </div>
-
-    </form>
-
-    <!-- The map iframe -->
-    <iframe id="googlemaps_iframe_map" class="fl-fix" src="/devwidgets/googlemaps/map.html" frameborder="0"></iframe>
-
-    <!-- The submit and cancel button -->
-    <div class="dialog_buttons" id="googlemaps_save_cancel_container" style="display:none;">
-        <button type="button" class="s3d-button s3d-button-primary" id="googlemaps_save"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
-        <button type="button" class="s3d-button" id="googlemaps_cancel"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
+    </div>
+    <div class="fl-widget-no-options fl-fix">
+        <div class="widget-no-options-inner">
+        </div>
     </div>
 </div>
 
