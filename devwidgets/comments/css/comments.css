@@ -17,16 +17,16 @@
  */
 
 /* Settings */
-#comments_settings { padding:5px;}
-#comments_settings input[type=text],#comments_fillInComment input[type=text],#comments_fillInComment textarea,.comments_inputFields {height:20px;padding-left:0;padding-right:0;border-color:#747779;border-style:solid;border-width:1px;margin:5px 0;}
-#comments_mainContainer textarea { height:100px; width:auto; padding-left:0;padding-right:0;border-color:#747779;border-style:solid;border-width:1px;margin:5px 0;}
 .comments_settingsPart {padding:10px 0px 10px 0px;}
 .comments_settingsPart h3 { margin:0px;}
 .comments_settingsPart ul { margin:3px 0px 0px 2em;}
 .comments_settingsPart ul li {list-style:none;}
 #comments_txtPage {width:30px;padding:2px;height:16px;}
+#comments_settings .dialog_buttons {padding: 6px; height:30px;}
+#comments_settings .dialog_buttons.right button {float:right;}
 
 /* Main container */
+#comments_mainContainer.fl-widget-content, #comments_settings.fl-widget-content {padding:10px;}
 .comments_commentMessage p.comments_infoDeleted { font-size:0.9em;text-align:right;}
 .comments_nextButtons {overflow:hidden;width:auto;}
 #comments_titlebar {overflow:auto;width:auto;height:20px;border-bottom-style:solid;border-bottom-width:1px;color:#BBB;border-color:#DEDEDE;}
@@ -52,3 +52,11 @@
 .commentsTable {width:95%;}
 #comments_fillInComment {background-color:#EBEFF1;margin-top:15px;padding:0px 15px 10px 15px;}
 #comments_fillInComment label { font-weight:bold;margin-top:20px;display:block;}
+#comments_mainContainer .dialog_buttons {padding: 6px; height:30px;}
+#comments_mainContainer .dialog_buttons.right button {float:right;}
+
+#comments_mainContainer textarea, #comments_settings textarea {margin:5px 0;width:100%;height:140px;border:#D9D9D9 solid 1px; resize:none;}
+#comments_mainContainer input[type=text].error,
+#comments_settings input[type=text].error,
+#comments_mainContainer textarea.error,
+#comments_settings textarea.error {border-color:#9f3333;background-color:#ffdede;}
