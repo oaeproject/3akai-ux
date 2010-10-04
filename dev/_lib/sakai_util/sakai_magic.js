@@ -2454,7 +2454,7 @@ sakai.api.Util.convertToHumanReadableFileSize = function(filesize) {
  * @param {Function} callback Function to call when the permissions have been saved or failed to save.
  *                   The callback function is provided with a Boolean. True = permissions successfully set, False = permissions not set (error)
  */
-sakai.api.Util.setFilePermissions = function(permissionValue, filesArray, callback){
+sakai.api.Util.setFilePermissions = function(permissionValue, filesArray, callback, groupID){
     // Check which value was selected and fill in the data object accordingly
     var data = [];
     for (var file in filesArray) {
@@ -2533,15 +2533,15 @@ sakai.api.Util.setFilePermissions = function(permissionValue, filesArray, callba
                     break;
                 case "group":
                     var item = {
-                        "url": "/p/" + uploadedFiles[k].hashpath + ".members.html",
+                        "url": contentPath + ".members.html",
                         "method": "POST",
                         "parameters": {
-                            ":viewer": contextData.id
+                            ":viewer": groupID
                         }
                     };
                     data[data.length] = item;
                     var item = {
-                        "url": "/p/" + uploadedFiles[k].hashpath + ".modifyAce.html",
+                        "url": contentPath + ".modifyAce.html",
                         "method": "POST",
                         "parameters": {
                             "principalId": ["everyone", "anonymous"],

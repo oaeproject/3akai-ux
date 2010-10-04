@@ -385,9 +385,7 @@ sakai.fileupload = function(tuid, showSettings){
             success: function(data){
                 // When this is a new revision of a file no more operations are executed
                 // So close the lightbox and show the appropriate message
-                if (context === "new_version"){
-                    resetFields();
-                }
+                resetFields();
             }
         });
     };
@@ -428,7 +426,7 @@ sakai.fileupload = function(tuid, showSettings){
                 requests: $.toJSON(data)
             },
             success: function(data){
-                resetFields();
+                batchSetDescriptionAndName();
             },
             error: function(){
                 sakai.api.Util.notification.show("Not linked", "Link could not be added to the group");
@@ -492,7 +490,8 @@ sakai.fileupload = function(tuid, showSettings){
                 } else {
                     // Set permissions on the files
                     sakai.api.Util.setFilePermissions("public", linkArray, function(permissionsSet){
-                        resetFields();
+                        batchSetDescriptionAndName();
+                        //resetFields();
                     });
                 }
 
@@ -638,17 +637,15 @@ sakai.fileupload = function(tuid, showSettings){
                         // Else it is a new file and needs to have a description, permissions, tags, ...
                         if (context !== "new_version") {
                             // Set the description data on the completed uploads
-                            batchSetDescriptionAndName();
 
                             // Set permissions on the files
                             sakai.api.Util.setFilePermissions($(fileUploadPermissionsSelect).val(), uploadedFiles, function(permissionsSet){
-                                resetFields();
-                            });
+                                batchSetDescriptionAndName();
+                            }, contextData.id);
 
                         } else {
                             // Get the version details in order to update the GUI
                             getVersionDetails();
-                            //resetFields();
                         }
                     }
                 },
