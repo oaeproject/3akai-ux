@@ -1074,9 +1074,6 @@ sakai.discussion = function(tuid, showSettings){
         sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
 
             if (success) {
-                if (!data.message) {
-                    sakai.api.Widgets.saveWidgetData(tuid, {"message":{"sling:resourceType":"sakai/messagestore"}}, null);
-                }
                 widgetSettings = $.extend(data, {}, true);
                 if (widgetSettings.marker !== undefined) {
                     marker = widgetSettings.marker;
@@ -1263,6 +1260,7 @@ sakai.discussion = function(tuid, showSettings){
         addBindings();
 
         if (widgeturl) {
+            store = widgeturl + "/message";
             $.ajax({
                 url: widgeturl + ".infinity.json",
                 type: "GET",
@@ -1273,7 +1271,7 @@ sakai.discussion = function(tuid, showSettings){
                 error: function(xhr, textStatus, thrownError) {
                     if (xhr.status == 404) {
                         // we need to create the initial message store
-                        $.post(widgeturl, { "jcr:primaryType": "nt:unstructured" } );
+                        $.post(store, {"sling:resourceType":"sakai/messagestore"} );
                     }
                 }
             });
@@ -1284,7 +1282,6 @@ sakai.discussion = function(tuid, showSettings){
         } else {
             currentSite = sakai.profile.main.data["rep:userId"];
         }
-        store = widgeturl + "/message";
         getWidgetSettings();
         if (showSettings) {
             $(discussionMainContainer, rootel).hide();

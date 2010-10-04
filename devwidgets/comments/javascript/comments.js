@@ -798,6 +798,7 @@ sakai.comments = function(tuid, showSettings){
      */
     var doInit = function(){
         if (widgeturl) {
+            store = widgeturl + "/message";
             $.ajax({
                 url: widgeturl + ".infinity.json",
                 type: "GET",
@@ -808,7 +809,7 @@ sakai.comments = function(tuid, showSettings){
                 error: function(xhr, textStatus, thrownError) {
                     if (xhr.status == 404) {
                         // we need to create the initial message store
-                        $.post(widgeturl, { "jcr:primaryType": "nt:unstructured" } );
+                        $.post(store, {"sling:resourceType":"sakai/messagestore"} );
                     }
                 }
             });
@@ -818,7 +819,6 @@ sakai.comments = function(tuid, showSettings){
         } else {
             currentSite = sakai.profile.main.data["rep:userId"];
         }
-        store = widgeturl + "/message";
         if (!showSettings) {
             // Show the main view.
             $(commentsSettingsContainer, rootel).hide();
