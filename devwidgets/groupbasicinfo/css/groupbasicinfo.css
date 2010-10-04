@@ -58,7 +58,7 @@
 }
 
 .groupbasicinfo_info {clear:both;color:#aaa;font-size:.9em;margin:5px 0 0 245px;}
-.groupbasicinfo_hierarchy_select {float:left; width:160px; margin-bottom:5px;}
+.groupbasicinfo_hierarchy_select {float:left; width:160px; margin-bottom:5px; font-weight:bold;}
 
 .groupbasicinfo_saveddirectory {margin:0}
 .groupbasicinfo_saveddirectory li {list-style:none; font-weight:bold;}
