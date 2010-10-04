@@ -30,11 +30,6 @@
 { background: #fff url('../../_images/arrow_left_sm2_blue.gif') center left no-repeat; padding: 0 0 0 10px; }
 
 
-/** TAB VARIANT **/
-.basic_appearance .s3d-primary-tabs {
-    background: #fff url('../../_images/site_appearance_tab_bg.gif') top left no-repeat;
-}
-
 /** TAB CONTENTS **/
 .basic_appearance .site_appearance_container
 { padding: 0; margin: 0 0 20px 0; border: none; margin-top: 0; color: #454a4f; }

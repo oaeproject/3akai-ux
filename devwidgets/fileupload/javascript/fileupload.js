@@ -143,7 +143,7 @@ sakai.fileupload = function(tuid, showSettings){
             $(fileUploadLinkBoxInput).removeAttr("disabled");
             $(fileUploadRenderedTagging).html("");
         }
-    }
+    };
 
     /**
      * Increase the number of selected files
@@ -152,7 +152,7 @@ sakai.fileupload = function(tuid, showSettings){
     sakai.fileupload.increaseSelectedFiles = function(){
         numberOfSelectedFiles++;
         checkSelectedFiles();
-    }
+    };
 
     /**
      * Decrease the number of selected files
@@ -161,7 +161,7 @@ sakai.fileupload = function(tuid, showSettings){
     sakai.fileupload.decreaseSelectedFiles = function(){
         numberOfSelectedFiles--;
         checkSelectedFiles();
-    }
+    };
 
     /**
      * The plugin can't cope with giving limits after the input field
@@ -333,23 +333,31 @@ sakai.fileupload = function(tuid, showSettings){
                 batchDescriptionData[batchDescriptionData.length] = item;
             }
             else {
-                var item = {
-                    "url": "/p/" + data[$(fileUploadLinkBoxInput).val() + ".lnk"],
+                var pathHash, url;
+                for (var k in data) {
+                    if (data.hasOwnProperty(k)) {
+                        pathHash = data[k];
+                        url = k.substring(0,k.length-4); // remove .lnk from the end of it
+                        break;
+                    }
+                }
+                var item2 = {
+                    "url": "/p/" + pathHash,
                     "method": "POST",
                     "parameters": {
-                        "sakai:pooled-content-url": $(fileUploadLinkBoxInput).val(),
-                        "sakai:pooled-content-revurl": $(fileUploadLinkBoxInput).val(),
-                        "sakai:pooled-content-file-name": $(fileUploadLinkBoxInput).val(),
+                        "sakai:pooled-content-url": url,
+                        "sakai:pooled-content-revurl": url,
+                        "sakai:pooled-content-file-name": url,
                         "sakai:directory": "default",
                         "sakai:copyright": "creativecommons"
                     }
                 };
+                batchDescriptionData[batchDescriptionData.length] = item2;
             }
-            batchDescriptionData[batchDescriptionData.length] = item;
-        }else{
+        } else {
             for (var i in uploadedFiles) {
                 if (uploadedFiles.hasOwnProperty(i)) {
-                    var item = {
+                    var item3 = {
                         "url": "/p/" + uploadedFiles[i].hashpath,
                         "method": "POST",
                         "parameters": {
@@ -360,7 +368,7 @@ sakai.fileupload = function(tuid, showSettings){
                             "sakai:copyright": "creativecommons"
                         }
                     };
-                    batchDescriptionData[batchDescriptionData.length] = item;
+                    batchDescriptionData[batchDescriptionData.length] = item3;
                 }
             }
         }
@@ -408,7 +416,7 @@ sakai.fileupload = function(tuid, showSettings){
                 "sakai:directory": "default",
                 "sakai:permissions": "group"
             }
-        }
+        };
         data[data.length] = properties;
 
         $.ajax({
@@ -426,7 +434,7 @@ sakai.fileupload = function(tuid, showSettings){
                 sakai.api.Util.notification.show("Not linked", "Link could not be added to the group");
             }
         });
-    }
+    };
 
     /**
      * Upload the validated link to a file
@@ -575,20 +583,21 @@ sakai.fileupload = function(tuid, showSettings){
 
                     // Create DOM element to extract data from response
                     // Use an object to keep track of the data
+                    var responseData = {};
                     if (jQuery.browser.webkit) {
-                        var $responseData = $.parseJSON(data.split(">")[1].split("<")[0]);
+                        responseData = $.parseJSON(data.split(">")[1].split("<")[0]);
                     }
                     else {
-                        var $responseData = $.parseJSON(data.replace(/<pre>/i, "").replace(/<\/pre>/i, ""));
+                        responseData = $.parseJSON(data.replace(/<pre>/i, "").replace(/<\/pre>/i, ""));
                     }
                     var extractedData = [];
 
                     //loop over nodes to extract data
-                    for (var i in $responseData) {
-                        if ($responseData.hasOwnProperty(i)) {
+                    for (var i in responseData) {
+                        if (responseData.hasOwnProperty(i)) {
                             var obj = {};
                             obj.filename = i;
-                            obj.hashpath = $responseData[i];
+                            obj.hashpath = responseData[i];
                             extractedData.push(obj);
                         }
                     }
@@ -669,27 +678,50 @@ sakai.fileupload = function(tuid, showSettings){
         $(".MultiFile-remove").addClass("hide_remove_link");
     });
 
-     $(fileUploadAddLinkButton).live("click",function(){
+    var performedSubmit = false;
+    var invalidSubmit = 0;
+
+    $("#fileupload_link_box form").validate({
+        errorLabelContainer: "#error_msg_container",
+        onclick:false,
+        onkeyup:false,
+        onfocusout:false,
+        invalidHandler: function(form, validator) {
+            if($(fileUploadLinkBoxInput).val().substring(0,7) !== "http://" && $(fileUploadLinkBoxInput).val().substring(0,6) !== "ftp://" && $(fileUploadLinkBoxInput).val().substring(0,8) !== "https://" && $.trim($(fileUploadLinkBoxInput).val()) !== ""){
+                $(fileUploadLinkBoxInput).val("http://" + $(fileUploadLinkBoxInput).val());
+                invalidSubmit = 1;
+                $("#fileupload_link_box form button").trigger("submit");
+            }
+        }
+    });
+
+     $("#fileupload_link_box form").live("submit",function(){
+
          $(fileUploadAddLinkButton).attr("disabled", "disabled");
          $(fileUploadLinkBoxInput).attr("disabled", "disabled");
-         // Test if the link is valid before saving it
-        var regEx = /(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
-        if (regEx.test($(fileUploadLinkBoxInput).val())){
-            if($(fileUploadLinkBoxInput).val().substring(0,7) !== "http://"){
-                $(fileUploadLinkBoxInput).val("http://" + $(fileUploadLinkBoxInput).val());
-            }
+
+         if ($("#fileupload_link_box form").valid() && !($.trim(fileUploadLinkBoxInput) === "")) {
+             if (invalidSubmit === 2) {
+                 invalidSubmit = 0;
+                 return false;
+             }
+             if (invalidSubmit === 1) {
+                 invalidSubmit = 2;
+             }
             if (context !== "new_version") {
                 uploadLink();
-            }else{
+            } else {
                 newVersionIsLink = true;
                 saveVersion();
             }
-        }else{
+        } else {
             // Show a notification
             $(fileUploadAddLinkButton).removeAttr("disabled");
             $(fileUploadLinkBoxInput).removeAttr("disabled");
+            performedSubmit = false;
             sakai.api.Util.notification.show($(fileUploadCheckURL).html(), $(fileUploadEnterValidURL).html());
         }
+
         return false;
     });
 

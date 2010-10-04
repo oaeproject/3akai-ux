@@ -28,11 +28,6 @@ width:70px;}
 .content-management .secondary_title a { float: right; display: block; font-size: 0.6em; font-weight: bold; margin: 5px 0; padding: 0;}
 
 
-/** TABS **/
-.content-management .s3d-primary-tabs {
-    background: url('../../_images/site_appearance_tab_bg.gif') top left no-repeat;
-}
-
 /* CONTENT CONTAINER */
 
 .management_content_wrapper {

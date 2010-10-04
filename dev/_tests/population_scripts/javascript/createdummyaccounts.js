@@ -35,9 +35,12 @@ sakai.createdummyaccounts = function(){
 
         for (var i = 0, il = userCount; i < il; i++) {
             var profileData = {}; profileData.basic = {}; profileData.basic.elements = {};
-            profileData.basic.elements["firstName"] = "Test";
-            profileData.basic.elements["lastName"] = "User" + i;
-            profileData.basic.elements["email"] = "user." + i + "@sakatest.edu";
+            profileData.basic.elements["firstName"] = {};
+            profileData.basic.elements["firstName"]["value"] = "Test";
+            profileData.basic.elements["lastName"] = {}; 
+            profileData.basic.elements["lastName"]["value"] = "User" + i;
+            profileData.basic.elements["email"] = {}; 
+            profileData.basic.elements["email"]["value"] = "user." + i + "@sakatest.edu";
             var currentObject = {
                 "email": "user." + i + "@sakatest.edu",
                 "pwd": "test",
