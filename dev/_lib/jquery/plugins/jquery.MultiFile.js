@@ -256,11 +256,18 @@
             return false;
           };
 
-          // Hide this element (NB: display:none is evil!)
-          $(this).css({ position:'absolute', top: '-3000px' });
+          // Check if max uploads equals 1. 
+          // If it does than this is a new version upload and the box shouldn't be hidden
+          if (parseInt(o.max.toString()) < 1) {
+              // Hide this element (NB: display:none is evil!)
+              $(this).css({
+                  position: 'absolute',
+                  top: '-3000px'
+              });
 
-          // Add new element to the form
-          slave.after(newEle);
+              // Add new element to the form
+            slave.after(newEle);
+        }
 
           // Update list
           MultiFile.addToList( this, slave_count );
