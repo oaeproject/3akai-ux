@@ -620,6 +620,7 @@ sakai.entity = function(tuid, showSettings){
                     } else {
                         // Log an error message
                         fluid.log("Entity widget - the saving of the profile status failed");
+                        profile_status_value = "";
 
                         // Show the message about a saving that failed to the user
                         $("button span", $entity_profile_status).text(sakai.api.Security.saneHTML($entity_profile_status_input_saving_failed.text()));
