@@ -1173,6 +1173,10 @@ sakai.inbox = function() {
         //    Jump back to inbox
         $.bbq.pushState({"box": openedBox},2);
     });
+    
+    $("#top_navigation .mail").live("click", function(){
+        $.bbq.pushState({"box": "inbox"},2);
+    });
 /*
     // Bind click event to hide menus
     $(document).bind("click", function(e){
