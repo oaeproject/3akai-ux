@@ -143,52 +143,54 @@ sakai.content_profile = function(){
     var addRemoveUsers = function(tuid, users, task) {
         var userCount = 0;
         var notificationType = sakai.api.Security.saneHTML($("#content_profile_viewers_text").text());
-
-        $.each(users, function(index, user) {
-            var data = {
-                "_charset_":"utf-8",
-                ":viewer": user
-            };
-            if (tuid === 'managers' && task === 'add') {
-                notificationType = sakai.api.Security.saneHTML($("#content_profile_managers_text").text());
-                data = {
+        if (sakai.listpeople.data[tuid].selectCount === sakai.listpeople.data[tuid].currentElementCount && tuid === "managers" && task === 'remove') {
+            sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_cannot_remove_everyone").text()), sakai.api.Util.notification.type.ERROR);
+        } else {
+            $.each(users, function(index, user) {
+                var data = {
                     "_charset_":"utf-8",
-                    ":manager": user
+                    ":viewer": user
                 };
-            } else if (task === 'remove') {
-                if (user['userid']) {
-                    user = user['userid'];
-                } else if (user['sakai:group-id']) {
-                    user = user['sakai:group-id'];
-                } else if (user['rep:userId']) {
-                    user = user['rep:userId'];
-                }
-                data = {
-                    "_charset_":"utf-8",
-                    ":viewer@Delete": user
-                };
-                if (tuid === 'managers') {
+                if (tuid === 'managers' && task === 'add') {
                     notificationType = sakai.api.Security.saneHTML($("#content_profile_managers_text").text());
                     data = {
                         "_charset_":"utf-8",
-                        ":manager@Delete": user
+                        ":manager": user
                     };
-                }
-            }
-            if (user) {
-                // update user access for the content
-                $.ajax({
-                    url: content_path + ".members.json",
-                    async: false,
-                    data: data,
-                    type: "POST",
-                    success: function(data){
-                        userCount++;
+                } else if (task === 'remove') {
+                    if (user['userid']) {
+                        user = user['userid'];
+                    } else if (user['sakai:group-id']) {
+                        user = user['sakai:group-id'];
+                    } else if (user['rep:userId']) {
+                        user = user['rep:userId'];
                     }
-                });
-            }
-        });
-
+                    data = {
+                        "_charset_":"utf-8",
+                        ":viewer@Delete": user
+                    };
+                    if (tuid === 'managers') {
+                        notificationType = sakai.api.Security.saneHTML($("#content_profile_managers_text").text());
+                        data = {
+                            "_charset_":"utf-8",
+                            ":manager@Delete": user
+                        };
+                    }
+                }
+                if (user) {
+                    // update user access for the content
+                    $.ajax({
+                        url: content_path + ".members.json",
+                        async: false,
+                        data: data,
+                        type: "POST",
+                        success: function(data){
+                            userCount++;
+                        }
+                    });
+                }
+            });
+        }
         if (userCount > 0) {
             loadContentUsers(tuid);
             if (task === 'add') {
