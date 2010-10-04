@@ -2204,9 +2204,9 @@ sakai.sitespages.site_admin = function(){
                 }
                 sakai.api.Activity.createActivity(nodeUrl, "site", "default", activityData);
                 */
-                sakai.sitespages.navigation.deleteNode(sakai.sitespages.selectedpage);
                 delete sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage];
                 delete sakai.sitespages.pagecontents[sakai.sitespages.selectedpage];
+                sakai.sitespages.navigation.deleteNode(sakai.sitespages.selectedpage);
                 sakai.sitespages.autosavecontent = false;
                 updatePagePositions(selectedPage);
                 $('#delete_dialog').jqmHide();
