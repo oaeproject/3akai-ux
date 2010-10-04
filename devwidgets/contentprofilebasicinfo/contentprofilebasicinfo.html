@@ -28,7 +28,11 @@
                 </div>
             {else}
             <div id="content_profile_basic_info_tags_viewlist">
-                {for tag in data["sakai:tags"]}{if tag.split("/")[0] !== "directory"}{if tag_index > 0},{/if} <a href="/dev/search.html#tag=/tags/${tag}" class="s3d-action" title="Search content tagged with '${tag}'"">${tag}</a>{/if}{/for}
+                {if data["sakai:tags"]}
+                    {for tag in data["sakai:tags"]}{if tag.split("/")[0] !== "directory"}{if tag_index > 0},{/if} <a href="/dev/search.html#tag=/tags/${tag}" class="s3d-action" title="Search content tagged with '${tag}'"">${tag}</a>{/if}{/for}
+                {else}
+                    <label class="content_profile_basic_info_form_anon_label">__MSG__NONE__</label>
+                {/if}
             </div>
             {/if}
         </div>
@@ -37,9 +41,9 @@
                 __MSG__DESCRIPTION__:
             </label>
             {if !anon}
-            <textarea name="Content description" id="content_profile_basic_info_form_description">{if data["sakai:description"]}${data["sakai:description"]}{/if}</textarea>
+                <textarea name="Content description" id="content_profile_basic_info_form_description">{if data["sakai:description"]}${data["sakai:description"]}{/if}</textarea>
             {else}
-                <label class="content_profile_basic_info_form_anon_label">{if data["sakai:description"]}${data["sakai:description"]}{/if}</label>
+                <label class="content_profile_basic_info_form_anon_label">{if data["sakai:description"]}${data["sakai:description"]}{else}__MSG__NONE__{/if}</label>
             {/if}
         </div>
         <div class="content_profile_basic_info_form_row">
@@ -55,11 +59,13 @@
                     <option value="waivecopyright" {if data["sakai:copyright"] === "waivecopyright"}selected="selected"{/if}>__MSG__WAIVE_COPYRIGHT__</option>
                 </select>
             {else}
-                {if data["sakai:copyright"] === "creativecommons"}__MSG__CREATIVE_COMMONS_LICENSE__{/if}
-                {if data["sakai:copyright"] === "copyrighted"}__MSG__COPYRIGHTED__{/if}
-                {if data["sakai:copyright"] === "nocopyright"}__MSG__NO_COPYRIGHT__{/if}
-                {if data["sakai:copyright"] === "licensed"}__MSG__LICENSED__{/if}
-                {if data["sakai:copyright"] === "waivecopyright"}__MSG__WAIVE_COPYRIGHT__{/if}
+                <label class="content_profile_basic_info_form_anon_label">
+                    {if data["sakai:copyright"] === "creativecommons"}__MSG__CREATIVE_COMMONS_LICENSE__{/if}
+                    {if data["sakai:copyright"] === "copyrighted"}__MSG__COPYRIGHTED__{/if}
+                    {if data["sakai:copyright"] === "nocopyright"}__MSG__NO_COPYRIGHT__{/if}
+                    {if data["sakai:copyright"] === "licensed"}__MSG__LICENSED__{/if}
+                    {if data["sakai:copyright"] === "waivecopyright"}__MSG__WAIVE_COPYRIGHT__{/if}
+                </label>
             {/if}
         </div>
         {if !anon}
