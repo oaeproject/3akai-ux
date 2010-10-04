@@ -416,7 +416,7 @@ sakai.comments = function(tuid, showSettings){
         }
 
         var subject = 'Comment on /~' + currentSite;
-        var to = "comment:" + currentSite;
+        var to = "internal:w-" + widgeturl + "/message";
 
         if (allowPost) {
             var body = $(commentsMessageTxt, rootel).val();
@@ -432,7 +432,7 @@ sakai.comments = function(tuid, showSettings){
             };
 
 
-            var url = store + ".create.html";
+            var url = widgeturl + "/message.create.html";
             $.ajax({
                 url: url,
                 type: "POST",
@@ -570,6 +570,9 @@ sakai.comments = function(tuid, showSettings){
 
         sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
             if (success) {
+                if (!data.message) {
+                    sakai.api.Widgets.saveWidgetData(tuid, {"message":{"sling:resourceType":"sakai/messagestore"}}, null);
+                }
                 widgetSettings = data;
                 // Clean up some values so that true is really true and not "true" or 1 ...
                 var keysToClean = ['sakai:forcename', 'sakai:forcemail', 'notification', 'sakai:allowanonymous'];
@@ -815,7 +818,7 @@ sakai.comments = function(tuid, showSettings){
         } else {
             currentSite = sakai.profile.main.data["rep:userId"];
         }
-        store = "/~" + currentSite + "/message";
+        store = widgeturl + "/message";
         if (!showSettings) {
             // Show the main view.
             $(commentsSettingsContainer, rootel).hide();
