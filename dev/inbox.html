@@ -326,7 +326,7 @@
                                 <div class="sender-message">
                                     <div class="message-body" style="padding-top:0px">
                                         <div class="message-header" id="inbox_message_subject">${r["sakai:subject"]}</div>
-                                        <div id="inbox_message_body">${r["sakai:body"]}</div>
+                                        <div id="inbox_message_body">${r["sakai:body"].replace(/\n/gi, "<br />")}</div>
                                         <div class="message-options" style="display:none">
                                             <a href="javascript:;" id="inbox_message_option_reply_${r["sakai:id"]}">__MSG__REPLY__</a>
                                         </div>
