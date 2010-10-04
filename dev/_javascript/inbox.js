@@ -1272,7 +1272,7 @@ sakai.inbox = function() {
 
     $(inboxSpecificMessageBackToInbox).click(function() {
         // Show the inbox.
-        showPane(inboxPaneInbox);
+        $.bbq.pushState({"box": openedBox},2);
 
         // Clear all the input fields
         clearInputFields();
