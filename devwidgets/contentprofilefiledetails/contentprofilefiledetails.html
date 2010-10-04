@@ -13,8 +13,10 @@
                 {else}
                     <p class="content_profile_file_details_file_name_threedots"><span class="threedots ellipsis_text">${data["sakai:pooled-content-file-name"]}</span></p>
                 {/if}
-                <p>${data["jcr:content"]["jcr:mimeType"]}</p>
-                <p>${filesize}</p>
+                {if data["jcr:content"]["jcr:mimeType"] !== "x-sakai/link"}
+                    <p>${data["jcr:content"]["jcr:mimeType"]}</p>
+                    <p>${filesize}</p>
+                {/if}
             </div>
             <div id="content_profile_file_details_titles">
                 <p class="content_profile_file_details_title">__MSG__FIRST_CREATED__:</p>
