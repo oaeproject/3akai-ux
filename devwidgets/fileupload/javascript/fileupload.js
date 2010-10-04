@@ -383,8 +383,6 @@ sakai.fileupload = function(tuid, showSettings){
                 requests: $.toJSON(batchDescriptionData)
             },
             success: function(data){
-                // When this is a new revision of a file no more operations are executed
-                // So close the lightbox and show the appropriate message
                 resetFields();
             }
         });

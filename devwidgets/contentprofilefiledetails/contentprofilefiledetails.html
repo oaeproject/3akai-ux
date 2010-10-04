@@ -41,6 +41,12 @@
                         __MSG__DOWNLOAD_FILE__
                     </span>
                 </a>
+            {else}
+                <a href="${data["sakai:pooled-content-revurl"]}" id="content_profile_file_details_action_download" class="s3d-button s3d-button-primary" target="_blank">
+                    <span class="s3d-button-inner">
+                        __MSG__OPEN_THIS_LINK__
+                    </span>
+                </a>
             {/if}
             {if !anon}
                 <button type="button" class="s3d-button s3d-button-primary" id="content_profile_file_details_action_delete">
