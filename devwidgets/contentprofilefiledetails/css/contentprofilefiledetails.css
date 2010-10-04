@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-#content_profile_file_details_container #content_profile_file_details_details, #content_profile_file_details_container #content_profile_file_details_actions {padding:10px}
+#content_profile_file_details_container #content_profile_file_details_details, #content_profile_file_details_container #content_profile_file_details_actions {padding:10px 10px 0;}
 #content_profile_file_details_container #content_profile_file_details_details {background-color:#eef2f5;}
 #content_profile_file_details_container #content_profile_file_details_actions {background-color:#979ba1;}
 #content_profile_file_details_container #content_profile_file_details_action_delete {float:right !important;}
