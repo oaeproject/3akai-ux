@@ -120,7 +120,7 @@
                     {if !config.type || $.inArray(config.type, stringtypes) >= 0}
                         <input type="text"
                     {elseif config.type === "textarea"}
-                        <textarea
+                        <textarea rows="3" 
                     {elseif config.type === "select"}
                         <select
                     {/if}
