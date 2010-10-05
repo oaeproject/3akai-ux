@@ -31,7 +31,7 @@
                                 </div>
                             </a>
                         </p>
-                        <p class="mycontent_item_meta">${item.type}{if item.size} ${item.size}{/if}</p>
+                        <p class="mycontent_item_meta">${item.type}{if item.type !== "URL Link"}{if item.size} ${item.size}{/if}{/if}</p>
                     </div>
                 </div>
             {/for}

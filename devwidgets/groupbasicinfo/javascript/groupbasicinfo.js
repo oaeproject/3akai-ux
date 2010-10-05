@@ -52,6 +52,8 @@ sakai.groupbasicinfo = function(tuid, showSettings){
     var groupBasicInfoGroupKind = groupBasicInfoGroup + "_kind";
     var groupBasicInfoGroupTags = groupBasicInfoGroup + "_tags";
     var groupBasicInfoGroupDesc = groupBasicInfoGroup + "_description";
+    var groupBasicInfoGroupJoinable = groupBasicInfoGroup + "_joinable";
+    var groupBasicInfoGroupVisible = groupBasicInfoGroup + "_visible";
 
     var directoryJSON = [];
     var json = {};
@@ -195,7 +197,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         sakai.currentgroup.data.authprofile["sakai:tags"] = [];
         var tags = $(groupBasicInfoGroupTags).val().split(",");
         $(tags).each(function(i, tag){
-            tag = $.trim(tag);
+            tag = $.trim(tag).replace(/#/g,"");
             if (sakai.api.Security.escapeHTML(tag) === tag && tag.replace(/\\/g,"").length) {
                 if ($.inArray(tag, sakai.currentgroup.data.authprofile["sakai:tags"]) < 0) {
                     sakai.currentgroup.data.authprofile["sakai:tags"].push(tag.replace(/\\/g,""));
@@ -250,6 +252,24 @@ sakai.groupbasicinfo = function(tuid, showSettings){
 
         var groupDesc = $(groupBasicInfoGroupDesc, $rootel).val();
 
+        // check permissions settings
+        var joinable = $(groupBasicInfoGroupJoinable, $rootel).val();
+        var visible = $(groupBasicInfoGroupVisible, $rootel).val();
+        if(joinable !== sakai.currentgroup.data.authprofile["sakai:group-joinable"] ||
+            visible !== sakai.currentgroup.data.authprofile["sakai:group-visible"]) {
+            // only POST if user has changed values
+            // set new group permissions
+            sakai.currentgroup.data.authprofile["sakai:group-joinable"] = joinable;
+            sakai.currentgroup.data.authprofile["sakai:group-visible"] = visible;
+            sakai.api.Groups.setPermissions(sakai.currentgroup.id, joinable, visible,
+                function (success, errorMessage) {
+                    if (!success) {
+                        fluid.log("ERROR: groupbasicinfo.js/updateGroup() unable to set group permissions: " + errorMessage);
+                    }
+                }
+            );
+        }
+
         // Update the group object
         sakai.currentgroup.data.authprofile["sakai:group-title"] = sakai.api.Security.escapeHTML(groupTitle);
         sakai.currentgroup.data.authprofile["sakai:group-kind"] = groupKind;
@@ -275,7 +295,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
                 renderTemplateBasicInfo();
             },
             error: function(xhr, textStatus, thrownError){
-                fluid.log("An error has occurred: " + xhr.status + " " + xhr.statusText);
+                fluid.log("ERROR: groupbasicinfo.js/updateGroup() unable to set group information. Status: " + xhr.status + " - " + xhr.statusText);
             }
         });
     };
@@ -388,21 +408,21 @@ sakai.groupbasicinfo = function(tuid, showSettings){
      */
     $(window).bind("sakai.groupbasicinfo.update", function(){
         // Check if there are any faulty values in directory selection
-            var valueSelected = true;
-            $(".groupbasicinfo_added_directory select").each(function(){
-                if($(this).selected().val() === "no_value"){
-                    if($(this).hasClass("groupbasicinfo_generalinfo_group_directory_lvlone")){
-                        valueSelected = false;
-                    }
+        var valueSelected = true;
+        $(".groupbasicinfo_added_directory select").each(function(){
+            if($(this).selected().val() === "no_value"){
+                if($(this).hasClass("groupbasicinfo_generalinfo_group_directory_lvlone")){
+                    valueSelected = false;
                 }
-            });
-            // If all values are selected execute the update
-            if (valueSelected) {
-                updateGroup();
-            } else {
-                sakai.api.UI.groupbasicinfo.enableInputElements();
-                sakai.api.Util.notification.show($(groupbasicinfoSelectDirectory).html(), $(groupbasicinfoSelectAtLeastOneDirectory).html());
             }
+        });
+        // If all values are selected execute the update
+        if (valueSelected) {
+            updateGroup();
+        } else {
+            sakai.api.UI.groupbasicinfo.enableInputElements();
+            sakai.api.Util.notification.show($(groupbasicinfoSelectDirectory).html(), $(groupbasicinfoSelectAtLeastOneDirectory).html());
+        }
     });
 
 

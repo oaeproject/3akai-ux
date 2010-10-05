@@ -140,7 +140,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
         if ($(contentProfileBasicInfoFormTags).length) {
             var tags = $(contentProfileBasicInfoFormTags).val().split(",");
             $(tags).each(function(i, tag){
-                tag = $.trim(tag);
+                tag = $.trim(tag).replace(/#/g,"");
                 if (sakai.api.Security.escapeHTML(tag) === tag && tag.replace(/\\/g, "").length) {
                     if ($.inArray(tag, data["sakai:tags"]) < 0) {
                         data["sakai:tags"].push(tag.replace(/\\/g, ""));
@@ -252,7 +252,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                     // Load content profile
                     sakai.content_profile.loadContentProfile(function(){
                         removeBinding();
-                        handleHashChange();
+                        $(window).trigger('hashchange');
                     });
                 });
             }
@@ -263,23 +263,34 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
      * Add binding to the basic info
      */
     var addBindingBasicinfo = function(){
-        // Submitting of the form
-        $(contentProfileBasicInfoForm).bind("submit", function(){
-            // Check if there are any faulty values in directory selection
-            var valueSelected = true;
-            $(".content_profile_basic_info_added_directory select").each(function(){
-                if($(this).selected().val() === "no_value"){
-                    if($(this).hasClass("content_profile_basic_info_directory_lvlone")){
-                        valueSelected = false;
+        $(contentProfileBasicInfoForm).validate({
+            debug: true,
+            submitHandler: function(){
+                // Check if there are any faulty values in directory selection
+                var valueSelected = true;
+                $(".content_profile_basic_info_added_directory select").each(function(){
+                    if ($(this).selected().val() === "no_value") {
+                        if ($(this).hasClass("content_profile_basic_info_directory_lvlone")) {
+                            valueSelected = false;
+                        }
                     }
+                });
+                // If all values are selected execute the update
+                if (valueSelected) {
+                    updateBasicInfo();
                 }
-            });
-            // If all values are selected execute the update
-            if (valueSelected) {
-                updateBasicInfo();
-            } else {
-                sakai.api.Util.notification.show($(contentProfileBasicInfoSelectDirectory).html(), $(contentProfileBasicInfoSelectAtLeastOneDirectory).html());
-            }
+                else {
+                    sakai.api.Util.notification.show($(contentProfileBasicInfoSelectDirectory).html(), $(contentProfileBasicInfoSelectAtLeastOneDirectory).html());
+                }
+            },
+            invalidHandler: function(form, validator){
+                // Remove all the current notifications
+                sakai.api.Util.notification.removeAll();
+                // Show a notification which states that you have errors
+                sakai.api.Util.notification.show("", "Fill in all required fields.", sakai.api.Util.notification.type.ERROR);
+            },
+            errorClass: "infosection_validation_error",
+            validClass: "infosection_validation_valid",
         });
     };
 
@@ -446,7 +457,6 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
         $(contentProfileBasicInfoRemoveNewLocation).live("click", function(){
             $(this).parent().remove();
         });
-
     };
 
     /**

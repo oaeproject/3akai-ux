@@ -378,9 +378,8 @@ sakai.api.Groups = sakai.api.Groups || {};
 
 /**
  * Public function used to set joinability and visibility permissions for a
- * group with groupid.  Currently, visibility is only partially complete
- * (see SAKIII-853, depends on KERN-1064) and joinability is not implemented
- * at all (depends on KERN-1019).
+ * group with groupid.
+ *
  * @param {String} groupid The id of the group that needs permissions set
  * @param {String} joinable The joinable state for the group (from sakai.config.Permissions.Groups)
  * @param {String} visible The visibile state for the group (from sakai.config.Permissions.Groups)
@@ -2454,7 +2453,7 @@ sakai.api.Util.convertToHumanReadableFileSize = function(filesize) {
  * @param {Function} callback Function to call when the permissions have been saved or failed to save.
  *                   The callback function is provided with a Boolean. True = permissions successfully set, False = permissions not set (error)
  */
-sakai.api.Util.setFilePermissions = function(permissionValue, filesArray, callback){
+sakai.api.Util.setFilePermissions = function(permissionValue, filesArray, callback, groupID){
     // Check which value was selected and fill in the data object accordingly
     var data = [];
     for (var file in filesArray) {
@@ -2533,15 +2532,15 @@ sakai.api.Util.setFilePermissions = function(permissionValue, filesArray, callba
                     break;
                 case "group":
                     var item = {
-                        "url": "/p/" + uploadedFiles[k].hashpath + ".members.html",
+                        "url": contentPath + ".members.html",
                         "method": "POST",
                         "parameters": {
-                            ":viewer": contextData.id
+                            ":viewer": groupID
                         }
                     };
                     data[data.length] = item;
                     var item = {
-                        "url": "/p/" + uploadedFiles[k].hashpath + ".modifyAce.html",
+                        "url": contentPath + ".modifyAce.html",
                         "method": "POST",
                         "parameters": {
                             "principalId": ["everyone", "anonymous"],
@@ -2727,7 +2726,7 @@ sakai.api.Util.tagEntity = function(tagLocation, newTags, currentTags, callback)
     var tagsToDelete = [];
     // determine which tags to add and which to delete
     $(newTags).each(function(i,val) {
-        val = $.trim(val);
+        val = $.trim(val).replace(/#/g,"");
         if (val && $.inArray(val,currentTags) == -1) {
             if (sakai.api.Security.escapeHTML(val) === val && val.length) {
                 if ($.inArray(val, tagsToAdd) < 0) {
@@ -2737,7 +2736,7 @@ sakai.api.Util.tagEntity = function(tagLocation, newTags, currentTags, callback)
         }
     });
     $(currentTags).each(function(i,val) {
-        val = $.trim(val);
+        val = $.trim(val).replace(/#/g,"");
         if (val && $.inArray(val,newTags) == -1) {
             if (sakai.api.Security.escapeHTML(val) === val && val.length) {
                 if ($.inArray(val, tagsToDelete) < 0) {
@@ -3012,6 +3011,22 @@ sakai.api.Util.stripTags = function(s) {
 
 
 };
+
+/**
+ * Shorten a string if it is too long, otherwise return the string as is
+ * @param {Object} s    String to shorten
+ * @param {Object} maxSize    Maximum length the string can have
+ */
+sakai.api.Util.shortenString = function(s, maxSize){
+    if (s && typeof s === "string"){
+        if (s.length > maxSize){
+            return s.substring(0, maxSize - 3) + "...";
+        } else {
+            return s;
+        }
+    }
+    return s;
+}
 
 
 /**
@@ -3656,7 +3671,12 @@ sakai.api.Widgets.removeWidgetData = function(id, callback) {
  * @param {String} title The title to change to
  */
 sakai.api.Widgets.changeWidgetTitle = function(tuid, title) {
-    $("#"+tuid).parent("div").siblings("div.fl-widget-titlebar").find("h2.widget_title").text(title);
+    if ($("#"+tuid).parent("div").siblings("div.fl-widget-titlebar").find("h2.widget_title").length) {
+        $("#"+tuid).parent("div").siblings("div.fl-widget-titlebar").find("h2.widget_title").text(title);
+        return true;
+    } else {
+        return false;
+    }
 };
 
 

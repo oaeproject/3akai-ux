@@ -90,15 +90,15 @@ sakai.search = function() {
             value : "Content",
             facets : {
                 "all" : {
-                    "category": "All Files",
+                    "category": "All Content",
                     "searchurl": searchURLmap.allfiles
                 },
                 "manage" : {
-                    "category": "Files I manage",
+                    "category": "Content I manage",
                     "searchurl": searchURLmap.pooledcontentmanager
                 },
                 "member" : {
-                    "category": "Files I'm a Member of",
+                    "category": "Content I'm a viewer of",
                     "searchurl": searchURLmap.pooledcontentviewer
                 }
             }
