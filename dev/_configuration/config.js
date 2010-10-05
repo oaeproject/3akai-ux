@@ -236,7 +236,7 @@ sakai.config = {
                         "label": "__MSG__PROFILE_BASIC_DATEOFBIRTH_LABEL__",
                         "required": false,
                         "display": true,
-                        "type": "dateITA"
+                        "type": "oldDateITA"
                         //"type": "date"
                     },
                     "tags": {
