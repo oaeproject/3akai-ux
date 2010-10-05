@@ -1,5 +1,14 @@
 {
-"SELECT_AT_LEAST_ONE_DIRECTORY":"Select at least the first level in the directory where this resource can be found",
-"SELECT_DIRECTORY":"Select directory location",
-"PLEASE_SELECT":"Please select"
+    "JOINABLE_LABEL": "How do people join",
+    "JOIN_ADD_INFO": "Managers can add members at any time regardless of how people can join.",
+    "JOIN_MANAGER_ADD": "Managers add people",
+    "JOIN_USER_DIRECT": "People can automatically join",
+    "JOIN_USER_REQUEST": "People request to join",
+    "VISIBLE_LABEL": "Who can see this group",
+    "LOGGED_IN_USERS": "Logged in users",
+    "MANAGERS_AND_MEMBERS": "Managers and members",
+    "PLEASE_SELECT":"Please select",
+    "PUBLIC": "Public",
+    "SELECT_AT_LEAST_ONE_DIRECTORY":"Select at least the first level in the directory where this resource can be found",
+    "SELECT_DIRECTORY":"Select directory location"
 }

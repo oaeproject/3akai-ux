@@ -561,15 +561,17 @@ sakai.navigation = function(tuid, showSettings){
         });
 
         // set up new jstree event bindings
-        addJstreeBindings(true);
+        addJstreeBindings();
     };
 
 
     /**
      * Add event bindings for the jstree pages navigation tree
      */
-    var addJstreeBindings = function (isInitialLoad) {
-        // When a page is selected in the navigation tree, show it
+    var addJstreeBindings = function () {
+        /**
+         * When a page is selected in the navigation tree, show it
+         */
         $navigationTree.bind("select_node.jstree", function(e, data) {
             var selectedPageUrl = $(data.rslt.obj[0]).attr("id").replace("nav_","");
             // If page is not the current page load it
@@ -578,7 +580,10 @@ sakai.navigation = function(tuid, showSettings){
             }
         });
 
-        // When a page is moved, update its position
+
+        /**
+         * When a page is moved, update its position
+         */
         $navigationTree.bind("move_node.jstree", function (e, data) {
             var $moved_node = $(data.rslt.o[0]);      // the moved node
             var $reference_node = $(data.rslt.r[0]);  // the node moved next to
@@ -711,6 +716,8 @@ sakai.navigation = function(tuid, showSettings){
                     }
                 }
             }
+            $navigationTree.jstree("deselect_all");
+            $navigationTree.jstree("select_node", $moved_node);
         });
     };
 

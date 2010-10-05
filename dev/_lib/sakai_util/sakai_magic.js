@@ -378,9 +378,8 @@ sakai.api.Groups = sakai.api.Groups || {};
 
 /**
  * Public function used to set joinability and visibility permissions for a
- * group with groupid.  Currently, visibility is only partially complete
- * (see SAKIII-853, depends on KERN-1064) and joinability is not implemented
- * at all (depends on KERN-1019).
+ * group with groupid.
+ *
  * @param {String} groupid The id of the group that needs permissions set
  * @param {String} joinable The joinable state for the group (from sakai.config.Permissions.Groups)
  * @param {String} visible The visibile state for the group (from sakai.config.Permissions.Groups)

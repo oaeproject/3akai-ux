@@ -158,27 +158,17 @@ sakai.groupedit = function(){
     });
 
     /**
-     * When the Group Permissions widget has finished updating group permissions,
-     * it will come back to this function
-     */
-    $(window).bind("sakai.grouppermissions.updateFinished", function(ev, success, errorMessage) {
-        // Show notification
-        if(success) {
-            sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_permissions_text").text()), sakai.api.Security.saneHTML($("#group_edit_updated_successfully_text").text()));
-        } else {
-            sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_permissions_text").text()), "Update failed. Please try again later or contact your administrator if the issue persists.  (Error status: " + errorMessage + ")");
-        }
-    });
-
-    /**
      * Trigger edit buttons
      * @param {Boolean} show Flag to either show or hide update or edit buttons
      */
-    var triggerEditable = function(show){
-
-        sakai.currentgroup.mode = 'edit';
-        $(".group_editing").show();
-
+    var triggerEditable = function (show) {
+        if (show) {
+            sakai.currentgroup.mode = 'edit';
+            $(".group_editing").show();
+        } else {
+            sakai.currentgroup.mode = 'view';
+            $(".group_editing").hide();
+        }
     };
 
     /**
@@ -479,7 +469,6 @@ sakai.groupedit = function(){
         // Bind the update button
         $("#group_editing_button_update").bind("click", function(){
             $(window).trigger("sakai.groupbasicinfo.update");
-            $(window).trigger("sakai.grouppermissions.update");
         });
 
         // Bind the don't update button
