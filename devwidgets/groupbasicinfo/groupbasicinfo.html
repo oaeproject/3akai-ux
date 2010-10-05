@@ -15,7 +15,7 @@
 
             <div class="groupbasicinfo_generalinfo_subcontainer">
                 <label class="groupbasicinfo_generalinfo_label" for="groupbasicinfo_generalinfo">__MSG__GROUP_NAME__:</label>
-                <input type="text" class="groupbasicinfo_generalinfo_content" value="${data['sakai:group-title'].replace(/\"/g, "&quot;")}" id="groupbasicinfo_generalinfo_group_title" />
+                <input type="text" class="groupbasicinfo_generalinfo_content" value="{if data['sakai:group-title']}${data['sakai:group-title'].replace(/\"/g, "&quot;")}{/if}" id="groupbasicinfo_generalinfo_group_title" />
             </div>
             <div class="groupbasicinfo_generalinfo_subcontainer">
                 <span class="groupbasicinfo_generalinfo_label">__MSG__GROUP_URL_ADDRESS__:</span>
@@ -79,46 +79,56 @@
 
         {else}
 
-            <div class="groupbasicinfo_generalinfo_subcontainer">
-                <span class="groupbasicinfo_generalinfo_label">__MSG__GROUP_NAME__:</span>
-                <div class="groupbasicinfo_generalinfo_content">${data['sakai:group-title']}</div>
-            </div>
-            <div class="groupbasicinfo_generalinfo_subcontainer">
-                <span class="groupbasicinfo_generalinfo_label">__MSG__GROUP_URL_ADDRESS__:</span>
-                <div class="groupbasicinfo_generalinfo_content">${url}</div>
-            </div>
-            <div class="groupbasicinfo_generalinfo_subcontainer">
-                <span class="groupbasicinfo_generalinfo_label">__MSG__GROUP_KIND__:</span>
-                <div class="groupbasicinfo_generalinfo_content">
-                    {if data['sakai:group-kind']==="personal"}
-                        __MSG__GROUP_PERSONAL__
-                    {elseif data['sakai:group-kind']==="course"}
-                        __MSG__GROUP_COURSE__
-                    {elseif data['sakai:group-kind']==="student"}
-                        __MSG__GROUP_STUDENT__
-                    {elseif data['sakai:group-kind']==="research"}
-                        __MSG__GROUP_RESEARCH__
-                    {elseif data['sakai:group-kind']==="institution"}
-                        __MSG__GROUP_INSTITUTION__
-                    {elseif data['sakai:group-kind']==="library"}
-                        __MSG__GROUP_LIBRARY__
-                    {/if}
+            {if data['sakai:group-title']}
+                <div class="groupbasicinfo_generalinfo_subcontainer">
+                    <span class="groupbasicinfo_generalinfo_label">__MSG__GROUP_NAME__:</span>
+                    <div class="groupbasicinfo_generalinfo_content">${data['sakai:group-title']}</div>
                 </div>
-            </div>
-            <div class="groupbasicinfo_generalinfo_subcontainer">
-                <span class="groupbasicinfo_generalinfo_label">__MSG__TAGS__:</span>
-                <div class="groupbasicinfo_generalinfo_content">
-                    {if tags && tags.length > 0}
-                        {for tag in tags}
-                            <a href="/dev/search.html#tag=/tags/${tag}" class="s3d-action">${tag}</a>{if tag_index < tags.length-1}, {/if}
-                        {/for}
-                    {/if}
+            {/if}
+            {if url}
+                <div class="groupbasicinfo_generalinfo_subcontainer">
+                    <span class="groupbasicinfo_generalinfo_label">__MSG__GROUP_URL_ADDRESS__:</span>
+                    <div class="groupbasicinfo_generalinfo_content">${url}</div>
                 </div>
-            </div>
-            <div class="groupbasicinfo_generalinfo_subcontainer">
-                <span class="groupbasicinfo_generalinfo_label">__MSG__DESCRIPTION__:</span>
-                <div class="groupbasicinfo_generalinfo_content">${data['sakai:group-description']}</div>
-            </div>
+            {/if}
+            {if data['sakai:group-kind']}
+                <div class="groupbasicinfo_generalinfo_subcontainer">
+                    <span class="groupbasicinfo_generalinfo_label">__MSG__GROUP_KIND__:</span>
+                    <div class="groupbasicinfo_generalinfo_content">
+                        {if data['sakai:group-kind']==="personal"}
+                            __MSG__GROUP_PERSONAL__
+                        {elseif data['sakai:group-kind']==="course"}
+                            __MSG__GROUP_COURSE__
+                        {elseif data['sakai:group-kind']==="student"}
+                            __MSG__GROUP_STUDENT__
+                        {elseif data['sakai:group-kind']==="research"}
+                            __MSG__GROUP_RESEARCH__
+                        {elseif data['sakai:group-kind']==="institution"}
+                            __MSG__GROUP_INSTITUTION__
+                        {elseif data['sakai:group-kind']==="library"}
+                            __MSG__GROUP_LIBRARY__
+                        {/if}
+                    </div>
+                </div>
+            {/if}
+            {if tags && tags.length > 0}
+                <div class="groupbasicinfo_generalinfo_subcontainer">
+                    <span class="groupbasicinfo_generalinfo_label">__MSG__TAGS__:</span>
+                    <div class="groupbasicinfo_generalinfo_content">
+                        {if tags && tags.length > 0}
+                            {for tag in tags}
+                                <a href="/dev/search.html#tag=/tags/${tag}" class="s3d-action">${tag}</a>{if tag_index < tags.length-1}, {/if}
+                            {/for}
+                        {/if}
+                    </div>
+                </div>
+            {/if}
+            {if data['sakai:group-description']}
+                <div class="groupbasicinfo_generalinfo_subcontainer">
+                    <span class="groupbasicinfo_generalinfo_label">__MSG__DESCRIPTION__:</span>
+                    <div class="groupbasicinfo_generalinfo_content">${data['sakai:group-description']}</div>
+                </div>
+            {/if}
 
         {/if}
 
