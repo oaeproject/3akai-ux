@@ -642,6 +642,9 @@ sakai.discussion = function(tuid, showSettings){
         // JCR properties are not necessary.
         delete data["jcr:primaryType"];
 
+        // don't save messages this way
+        delete data["message"];        
+
         sakai.api.Widgets.saveWidgetData(tuid, data, callback);
     };
 
@@ -652,7 +655,7 @@ sakai.discussion = function(tuid, showSettings){
     var createInitialPost = function(post){
         // Use the local store for creating the initial posts.
         $.ajax({
-            url: "/~" + sakai.data.me.user.userid + "/message.create.html",
+            url: store + ".create.html",
             cache: false,
             type: 'POST',
             success: function(data){
@@ -1277,9 +1280,10 @@ sakai.discussion = function(tuid, showSettings){
                 }
             });
         }
-
+        var isGroup = false;
         if (sakai.currentgroup && typeof sakai.currentgroup.id === "string") {
             currentSite = sakai.currentgroup.id;
+            isGroup = true;
         } else {
             currentSite = sakai.profile.main.data["rep:userId"];
         }
@@ -1287,10 +1291,38 @@ sakai.discussion = function(tuid, showSettings){
         if (showSettings) {
             $(discussionMainContainer, rootel).hide();
             $(discussionSettings, rootel).show();
+            if (isGroup) {
+                $("#discussion_settings_visibility_group", rootel).show();
+            } else {
+                $("#discussion_settings_visibility_user", rootel).show();
+            }
         }
         else {
             $(discussionMainContainer, rootel).show();
             $(discussionSettings, rootel).hide();
+
+            var canAddTopics = false;
+            if (isGroup) {
+                if (sakai.api.Groups.isCurrentUserAManager(currentSite) || sakai.api.Groups.isCurrentUserAMember(currentSite)) {
+                    canAddTopics = true;
+                }
+            } else {
+                if (sakai.data.me.user.userid === currentSite) {
+                    canAddTopics = true;
+                } else {
+                    console.log("checking if connected");
+                    canAddTopics = sakai.api.User.checkIfConnected(currentSite);
+                    console.log(canAddTopics);
+                }
+            }
+
+            if (canAddTopics) {
+                $(discussionAddNewTopic).show();
+            }
+            
+            if (!sakai.api.Widgets.isOnDashboard(tuid)) {
+                $("#discussion_widget_header", rootel).show();
+            }
         }
     };
 

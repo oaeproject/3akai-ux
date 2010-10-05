@@ -6,15 +6,17 @@
     <div class="fl-widget-content">
         <div id="discussion_widget_header_wrapper">
             <div id="discussion_widget_title_wrapper">
-                <h3 id="discussion_widget_header">__MSG__WIDGET_TITLE__</h3>
-                <button id="discussion_add_newtopic" class="s3d-button s3d-button-primary" type="button">
-                    <span class="s3d-button-inner">__MSG__ADD_NEW_TOPIC__</span>
-                </button>
-                <div class="discussion_view_options fl-force-right">
-                    <a id="discussion_compact_link" title="__MSG__COMPACT_VIEW_ALT__" href="javascript:;" class="s3d-action">__MSG__C_COMPACT_VIEW__</a>
-                    <a id="discussion_full_link" title="__MSG__FULL_VIEW_ALT__" href="javascript:;" class="s3d-action">__MSG__C_FULL_VIEW__</a>
-                    <a id="discussion_expand_link" title="__MSG__SHOW_ALL_ALT__" href="javascript:;" class="s3d-action">__MSG__SHOW_ALL__</a>
-                    <a id="discussion_collapse_link" title="__MSG__HIDE_ALL_ALT__" href="javascript:;" class="s3d-action">__MSG__HIDE_ALL__</a>
+                <h3 id="discussion_widget_header" style="display:none">__MSG__WIDGET_TITLE__</h3>
+                <div id="discussion_widget_options_container">
+                    <button id="discussion_add_newtopic" class="s3d-button s3d-button-primary" type="button" style="display:none">
+                        <span class="s3d-button-inner">__MSG__ADD_NEW_TOPIC__</span>
+                    </button>
+                    <div class="discussion_view_options fl-force-right">
+                        <a id="discussion_compact_link" title="__MSG__COMPACT_VIEW_ALT__" href="javascript:;" class="s3d-action">__MSG__C_COMPACT_VIEW__</a>
+                        <a id="discussion_full_link" title="__MSG__FULL_VIEW_ALT__" href="javascript:;" class="s3d-action">__MSG__C_FULL_VIEW__</a>
+                        <a id="discussion_expand_link" title="__MSG__SHOW_ALL_ALT__" href="javascript:;" class="s3d-action">__MSG__SHOW_ALL__</a>
+                        <a id="discussion_collapse_link" title="__MSG__HIDE_ALL_ALT__" href="javascript:;" class="s3d-action">__MSG__HIDE_ALL__</a>
+                    </div>
                 </div>
             </div>
             <!-- ADD TOPIC CONTAINER -->
@@ -48,20 +50,14 @@
                 <div class="discussion_post discussion_compact_post" id="discussion_post${o.post["sakai:id"]}">
                     <div class="discussion_header">
                         <div class="discussion_left">
-                            {if loggedIn}
-                                {if o.post.profile.picture !== ""}
-                                    <img alt="avatar" class="discussion_avatar" src="${o.post.profile.picture}" />
-                                {else}
-                                    <img alt="avatar" class="discussion_avatar" src="user_avatar_icon_32x32.png" />
-                                {/if}
-                                <p class="discussion_content_subject" id="discussion_content_subject_${o.post["sakai:id"]}">${o.post["sakai:subject"]}</p>
-                                <a href="/~${o.post["sakai:from"]}"><span class="discussion_username">${o.post.profile.fullName}</span></a>
-                                <span class="discussion_date">posted this on ${o.post.date}</span>
+                            {if o.post.profile.picture !== ""}
+                                <img alt="avatar" class="discussion_avatar" src="${o.post.profile.picture}" />
                             {else}
-                                <span class="discussion_posted_container">
-                                    <span class="discussion_date">Posted on ${o.post.date}</span>
-                                </span>
-                             {/if}
+                                <img alt="avatar" class="discussion_avatar" src="user_avatar_icon_32x32.png" />
+                            {/if}
+                            <p class="discussion_content_subject" id="discussion_content_subject_${o.post["sakai:id"]}">${o.post["sakai:subject"]}</p>
+                            <a href="/~${o.post["sakai:from"]}"><span class="discussion_username">${o.post.profile.fullName}</span></a>
+                            <span class="discussion_date">posted this on ${o.post.date}</span>
                             {if o.post.editters !== undefined}
                                 <br />
                                 <a href="/~${o.post.editedByUserid}"><span class="discussion_username_edited">${o.post.editedByName}</span></a>
@@ -130,20 +126,14 @@
             <div class="discussion_post" id="discussion_post${o.post["sakai:id"]}">
                 <div class="discussion_header">
                     <div class="discussion_left">
-                        {if loggedIn}
-                            {if o.post.profile.picture !== ""}
-                                <img alt="avatar" class="discussion_avatar" src="${o.post.profile.picture}" />
-                            {else}
-                                <img alt="avatar" class="discussion_avatar" src="user_avatar_icon_32x32.png" />
-                            {/if}
-                            <p class="discussion_content_subject" id="discussion_content_subject_${o.post["sakai:id"]}">${o.post["sakai:subject"]}</p>
-                            <a href="/~${o.post["sakai:from"]}"><span class="discussion_username">${o.post.profile.fullName}</span></a>
-                            <span class="discussion_date">posted this on ${o.post.date}</span>
+                        {if o.post.profile.picture !== ""}
+                            <img alt="avatar" class="discussion_avatar" src="${o.post.profile.picture}" />
                         {else}
-                            <span class="discussion_posted_container">
-                                <span class="discussion_date">Posted on ${o.post.date}</span>
-                            </span>
-                         {/if}
+                            <img alt="avatar" class="discussion_avatar" src="user_avatar_icon_32x32.png" />
+                        {/if}
+                        <p class="discussion_content_subject" id="discussion_content_subject_${o.post["sakai:id"]}">${o.post["sakai:subject"]}</p>
+                        <a href="/~${o.post["sakai:from"]}"><span class="discussion_username">${o.post.profile.fullName}</span></a>
+                        <span class="discussion_date">posted this on ${o.post.date}</span>
                         {if o.post.editters !== undefined}
                             <br />
                             <a href="/~${o.post.editedByUserid}"><span class="discussion_username_edited">${o.post.editedByName}</span></a>
@@ -294,9 +284,13 @@
                     <p><input id="discussion_settings_link_display_button" type="radio" name="discussion_display_option" /><label for="discussion_settings_link_display_button">Minimal view - saving space on the page by collapsing Discussions by default</label></p>
                     <p><input id="discussion_settings_inline_display_button" type="radio" name="discussion_display_option" checked="checked" /><label for="discussion_settings_inline_display_button">Full view - displaying all replies by default</label></p>
                 </div>
+                <div id="discussion_settings_visibility">
+                    <div id="discussion_settings_visibility_user" style="display:none"><p>__MSG__USER_VISIBILITY__</p></div>
+                    <div id="discussion_settings_visibility_group" style="display:none"><p>__MSG__GROUP_VISIBILITY__</p></div>
+                </div>
                 <div class="dialog_buttons">
                     <button type="button" class="s3d-button s3d-button-primary" id="discussion_settings_submit"><span class="s3d-button-inner">__MSG__SAVE_SETTINGS__</span></button>
-                    <button type="button" class="s3d-button" id="discussion_settings_cancel"><span class="s3d-button-inner">__MSG__DONT_SAVE_SETTINGS__</span></button>
+                    <button type="button" class="s3d-button" id="discussion_settings_cancel"><span class="s3d-button-inner">__MSG__DONT_SAVE__</span></button>
                 </div>
             </div>
             <div id="discussion_tab_content_bottom">
