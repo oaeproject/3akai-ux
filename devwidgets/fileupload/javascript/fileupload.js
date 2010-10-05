@@ -673,7 +673,6 @@ sakai.fileupload = function(tuid, showSettings){
         $(".MultiFile-remove").addClass("hide_remove_link");
     });
 
-    var performedSubmit = false;
     var invalidSubmit = 0;
 
     $("#fileupload_link_box form").validate({
@@ -682,10 +681,13 @@ sakai.fileupload = function(tuid, showSettings){
         onkeyup:false,
         onfocusout:false,
         invalidHandler: function(form, validator) {
-            if($(fileUploadLinkBoxInput).val().substring(0,7) !== "http://" && $(fileUploadLinkBoxInput).val().substring(0,6) !== "ftp://" && $(fileUploadLinkBoxInput).val().substring(0,8) !== "https://" && $.trim($(fileUploadLinkBoxInput).val()) !== ""){
+            if($(fileUploadLinkBoxInput).val().substring(0,7) !== "http://" &&
+            $(fileUploadLinkBoxInput).val().substring(0,6) !== "ftp://" &&
+            $(fileUploadLinkBoxInput).val().substring(0,8) !== "https://" &&
+            $.trim($(fileUploadLinkBoxInput).val()) !== "") {
                 $(fileUploadLinkBoxInput).val("http://" + $(fileUploadLinkBoxInput).val());
                 invalidSubmit = 1;
-                $("#fileupload_link_box form button").trigger("submit");
+                $("#fileupload_link_box form").trigger("submit");
             }
         }
     });

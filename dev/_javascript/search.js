@@ -212,7 +212,7 @@ sakai.search = function() {
         // Adjust total search result count
         updateTotalHitCount(foundCM.results.length);
 
-
+        $("#search_content_title").attr("href", "search_content.html#q=" + searchterm);
         if (Math.abs(foundCM.total) > cmToSearch) {
             $(searchConfig.cm.displayMore).show();
             $(searchConfig.cm.displayMore).attr("href", "search_content.html#q=" + searchterm);
@@ -246,6 +246,7 @@ sakai.search = function() {
 
             updateTotalHitCount(foundSites.results.length);
 
+            $("#search_groups_title").attr("href", "search_groups.html#q=" + searchterm);
             if (Math.abs(foundSites.total) > sitesToSearch) {
                 $(searchConfig.sites.displayMore).show();
                 $(searchConfig.sites.displayMore).attr("href", "search_groups.html#q=" + searchterm);
@@ -311,6 +312,7 @@ sakai.search = function() {
         // Adjust total search result count
         updateTotalHitCount(results.results.length);
 
+        $("#search_people_title").attr("href", "search_people.html#q=" + searchterm);
         if ((Math.abs(results.total) > peopleToSearch) && (results.results.length > 0)) {
             $(searchConfig.people.displayMore).attr("href", "search_people.html#q=" + searchterm).show();
         }
@@ -460,6 +462,9 @@ sakai.search = function() {
                 },
                 error: function(xhr, textStatus, thrownError) {
                     renderCM({});
+                    sakai.data.search.results_people = {};
+                    renderPeople({});
+                    renderSites({});
                 }
             });
         } else {

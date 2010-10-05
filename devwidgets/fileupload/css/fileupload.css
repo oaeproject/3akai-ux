@@ -50,3 +50,4 @@
 
 #fileupload_container #multifile_form {margin-top:10px;}
 #fileupload_container #fileupload_link_box input[type="text"]{width:300px;}
+#fileupload_rendered_tagging textarea {height: 60px;}

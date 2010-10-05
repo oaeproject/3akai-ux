@@ -109,7 +109,7 @@
 <!-- FIELD TEMPLATES -->
 <div id="profilesection_field_default_template"><!--
     {var mode = sakai.profile.main.mode}
-    {var stringtypes = ["string", "date", "dateITA", "email"]}
+    {var stringtypes = ["string", "date", "dateITA", "email", "oldDateITA", "oldDate"]}
     {if mode.value === "edit"}
         {if data}
             <div class="profilesection_generalinfo_subcontainer">
@@ -120,7 +120,7 @@
                     {if !config.type || $.inArray(config.type, stringtypes) >= 0}
                         <input type="text"
                     {elseif config.type === "textarea"}
-                        <textarea
+                        <textarea rows="3" 
                     {elseif config.type === "select"}
                         <select
                     {/if}

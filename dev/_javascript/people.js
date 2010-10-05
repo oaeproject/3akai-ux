@@ -118,7 +118,7 @@ sakai.search = function(){
         $("#contacts_search_result").html($.TemplateRenderer("contacts_search_result_template", finaljson));
 
         $(".link_remove_contact").bind("click", function(ev){
-            var user = this.id.split("_")[this.id.split("_").length - 1];
+            var user = this.id.substring(20);
 
             $.ajax({
                 url: "/~" + sakai.data.me.user.userid + "/contacts.remove.html",
@@ -217,7 +217,7 @@ sakai.search = function(){
         $("#invited_search_result").html($.TemplateRenderer("invited_search_result_template", finaljson));
 
         $(".link_accept_contact").bind("click", function(ev){
-            var user = this.id.split("_")[this.id.split("_").length - 1];
+            var user = this.id.substring(20);
 
             $.ajax({
                 url: "/~" + sakai.data.me.user.userid + "/contacts.accept.html",
