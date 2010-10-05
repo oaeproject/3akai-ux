@@ -17,6 +17,7 @@
  */
 
 #video_maincontainer h3, #video_settings h3 {font-weight:normal;}
+.video_containerInTemplate {max-width:470px;}
 .video_containerInTemplate a {float:right;}
 
 #video_maincontainer .fl-widget-content , #video_settings .fl-widget-content {padding:10px;}
