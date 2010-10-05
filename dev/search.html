@@ -129,7 +129,7 @@
                                         {elseif i['jcr:primaryType'] === "sling:Folder"}
                                             {var mimeType = 'folder'}
                                         {/if}
-                                        {if mimeType=="image/jpg" || mimeType=="image/png" || mimeType=="image/gif" || mimeType=="image/bmp"}
+                                        {if (mimeType=="image/jpg" || mimeType=="image/png" || mimeType=="image/gif" || mimeType=="image/bmp") && sakai.config.MimeTypes[mimeType]}
                                             {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
                                             {if i['jcr:primaryType'] && i['jcr:primaryType'] === "sakai:pooled-content"}
                                                 <img src="/p/${i['jcr:name']}" alt="${mimeTypeDescription}" />
