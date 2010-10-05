@@ -66,7 +66,7 @@
             {if data.profile}
                 <div class="fl-force-left entity_picture">
                     {if data.profile.mimetype === "image/pjpeg" || data.profile.mimetype === "image/jpeg" || data.profile.mimetype === "image/png" || data.profile.mimetype === "image/gif"}
-                        <img id="entity_profile_picture" src="${data.profile.path}" alt="${sakai.config.MimeTypes[data.profile.mimetype].description}"/>
+                        <img id="entity_profile_picture" src="${data.profile.path}?${Math.ceil(Math.random()*999999)}" alt="${sakai.config.MimeTypes[data.profile.mimetype].description}"/>
                     {elseif sakai.config.MimeTypes[data.profile.mimetype]}
                         <img id="entity_profile_picture" src="${sakai.config.MimeTypes[data.profile.mimetype].URL}" alt="${sakai.config.MimeTypes[data.profile.mimetype].description}"/>
                     {else}

@@ -41,6 +41,7 @@
 #fileupload_container {width:800px !important; left:40% !important;}
 
 #fileupload_filename_label {float:left; clear:both;}
+#fileupload_add_version_description_label {margin-top:10px;}
 
 #fileupload_container #fileupload_add_to {float:left; padding-right:3px;}
 #fileupload_container #fileupload_add_to_template_container {padding-bottom:10px;}
