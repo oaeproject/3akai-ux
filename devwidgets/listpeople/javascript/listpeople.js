@@ -108,18 +108,22 @@ sakai.listpeople = function(tuid, showSettings){
 
                     // Variable to check if the logged in user is a manager of the file or not
                     // If not we handel him like an anonymous user (not giving any editting possibilities in the UX)
-                    if (data.managers.length !== 0) {
-                        for (var i in data.managers) {
-                            if (data.managers[i]["rep:userId"] === sakai.data.me.user.userid) {
-                                sakai.listpeople.config[tuid].anon = false;
-                                break;
-                            }
-                            else {
-                                sakai.listpeople.config[tuid].anon = true;
+                    if (typeof sakai.data.me.user.userid !== "undefined") {
+                        if (data.managers.length !== 0) {
+                            for (var i in data.managers) {
+                                if (data.managers[i]["rep:userId"] === sakai.data.me.user.userid) {
+                                    sakai.listpeople.config[tuid].anon = false;
+                                    break;
+                                }
+                                else {
+                                    sakai.listpeople.config[tuid].anon = true;
+                                }
                             }
                         }
-                    }
-                    else {
+                        else {
+                            sakai.listpeople.config[tuid].anon = true;
+                        }
+                    } else {
                         sakai.listpeople.config[tuid].anon = true;
                     }
 
