@@ -508,6 +508,10 @@ sakai.config = {
             URL: "/dev/_images/mimetypes/video.png",
             description: "Video file"
         },
+        "video/mp4": {
+            URL: "/dev/_images/mimetypes/video.png",
+            description: "Video file"
+        },
         folder: {
             URL: "/dev/_images/mimetypes/kmultiple.png",
             description: "Folder"
