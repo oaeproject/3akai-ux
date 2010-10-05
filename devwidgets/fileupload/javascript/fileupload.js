@@ -488,8 +488,6 @@ sakai.fileupload = function(tuid, showSettings){
                 } else {
                     // Set permissions on the files
                     sakai.api.Util.setFilePermissions("public", linkArray, function(permissionsSet){
-                        batchSetDescriptionAndName();
-                        //resetFields();
                     });
                 }
 
