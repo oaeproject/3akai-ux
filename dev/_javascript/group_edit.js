@@ -173,9 +173,9 @@ sakai.groupedit = function(){
 
     /**
      * Render Widgets
-     * @param {String} tuid unique identifier of widget
+     * @param {String} listType The type of the widget's contents
      */
-    var renderItemLists = function(tuid){
+    var renderItemLists = function(listType){
 
         var listSelectable = false;
         if (sakai.currentgroup.mode === 'edit') {
@@ -184,39 +184,37 @@ sakai.groupedit = function(){
         var url;
         var pl_config = {"selectable":listSelectable, "subNameInfoUser": "", "subNameInfoGroup": "sakai:group-description", "sortOn": "lastName", "sortOrder": "ascending", "items": 50, "function": "getSelection" };
 
-        if (tuid === 'members') {
+        if (listType === 'members') {
             // get group members
             url = "/system/userManager/group/" + groupid + ".members.detailed.json";
-            $(window).trigger("sakai-listpeople-render", {"tuid": tuid, "pl_config": pl_config, "url": url, "id": groupid});
-        } else if (tuid === 'managers') {
+        } else if (listType === 'managers') {
             // get group managers
             url = "/system/userManager/group/" + groupid + "-managers.members.detailed.json";
-            $(window).trigger("sakai-listpeople-render", {"tuid": tuid, "pl_config": pl_config, "url": url, "id": groupid});
-        } else if (tuid === 'content') {
+        } else if (listType === 'content') {
             url = "/var/search/pool/files?group=" + groupid;
-            $(window).trigger("sakai-listpeople-render", {"tuid": tuid, "pl_config": pl_config, "url": url, "id": groupid});
         }
+        $(window).trigger("sakai-listpeople-render", {"tuid": listType, "listType": listType, "pl_config": pl_config, "url": url, "id": groupid});
     };
 
     /**
      * Remove users
      * Function that gets the list of selected users from the listpeople widget and removed them from the group
-     * @param {String} tuid Identifier for the widget/type of user we're removing (member or a manager)
+     * @param {String} listType Identifier for the widget/type of user we're removing (member or a manager)
      */
-    var removeUsers = function(tuid) {
+    var removeUsers = function(listType) {
 
-        if (sakai.listpeople.data[tuid].selectCount === sakai.listpeople.data[tuid].currentElementCount && tuid === "managers") {
+        if (sakai.data.listpeople[listType].selectCount === sakai.data.listpeople[listType].currentElementCount && listType === "managers") {
             sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_cannot_remove_everyone").text()), sakai.api.Util.notification.type.ERROR);
         } else {
             var removeUser;
             var groupIdRemove = groupid;
             var userCount = 0;
 
-            if (tuid === 'managers') {
+            if (listType === 'managers') {
                 groupIdRemove = groupid + '-managers';
             }
 
-            $.each(sakai.listpeople.data[tuid]["selected"], function(index, resultObject) {
+            $.each(sakai.data.listpeople[listType]["selected"], function(index, resultObject) {
                 if (resultObject['userid']) {
                     removeUser = resultObject['userid'];
                 } else if (resultObject['sakai:group-id']) {
@@ -246,7 +244,7 @@ sakai.groupedit = function(){
             } else if (userCount == 1) {
                 sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_user_removed_text").text()));
             }
-            renderItemLists(tuid);
+            renderItemLists(listType);
             $("#entity_member_count").text(sakai.api.Security.saneHTML(parseInt($("#entity_member_count").text(), 10) - userCount));
         }
     };
@@ -254,14 +252,14 @@ sakai.groupedit = function(){
     /**
      * Remove content
      * Function that gets the list of selected content from the listpeople widget and removes group access
-     * @param {String} tuid Identifier for the widget/type of user we're removing (content)
+     * @param {String} listType Identifier for the widget/type of user we're removing (content)
      */
-    var removeContent = function(tuid) {
+    var removeContent = function(listType) {
 
         var removeContent;
         var contentRemoved = false;
 
-        $.each(sakai.listpeople.data[tuid]["selected"], function(index, resultObject) {
+        $.each(sakai.data.listpeople[listType]["selected"], function(index, resultObject) {
             if (resultObject['content_id']) {
                 removeContent = resultObject['content_id'];
             }
@@ -276,7 +274,7 @@ sakai.groupedit = function(){
                     },
                     type: "POST",
                     success: function(data){
-                        sakai.listpeople.removeFromList(tuid);
+                        sakai.listpeople.removeFromList(listType);
                         contentRemoved = true;
                     }
                 });
@@ -291,15 +289,15 @@ sakai.groupedit = function(){
     /**
      * Add users
      * Function that gets the list of selected users from the people picker widget and adds them to the group
-     * @param {String} tuid Identifier for the widget/type of user we're removing (member or a manager)
+     * @param {String} listType Identifier for the widget/type of user we're removing (member or a manager)
      */
-    var addUsers = function(tuid, users) {
+    var addUsers = function(listType, users) {
 
         var addUser;
         var groupIdAdd = groupid;
         var userCount = 0;
 
-        if (tuid === 'managers') {
+        if (listType === 'managers') {
             groupIdAdd = groupid + '-managers';
         }
 
@@ -322,14 +320,14 @@ sakai.groupedit = function(){
         });
 
         if (userCount > 1) {
-            renderItemLists(tuid);
+            renderItemLists(listType);
             sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_users_added_text").text()));
         } else if (userCount == 1) {
-            renderItemLists(tuid);
+            renderItemLists(listType);
             sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_user_added_text").text()));
         }
         $("#entity_member_count").text(sakai.api.Security.saneHTML(parseInt($("#entity_member_count").text(), 10) + userCount));
-        $("#group_editing_add_" + tuid).focus();
+        $("#group_editing_add_" + listType).focus();
     };
     
     /**
@@ -406,13 +404,13 @@ sakai.groupedit = function(){
         var peopleToAdd = [];
         $(peopleList).each(function(i,val) {
             var reason = "";
-            for (var j in sakai.listpeople.data["managers"]["userList"]) {
-                if (sakai.listpeople.data["managers"]["userList"].hasOwnProperty(j) && j === val) {
+            for (var j in sakai.data.listpeople["managers"]["userList"]) {
+                if (sakai.data.listpeople["managers"]["userList"].hasOwnProperty(j) && j === val) {
                     reason = "manager";
                 }
             }
-            for (var k in sakai.listpeople.data["members"]["userList"]) {
-                if (sakai.listpeople.data["members"]["userList"].hasOwnProperty(k) && k === val) {
+            for (var k in sakai.data.listpeople["members"]["userList"]) {
+                if (sakai.data.listpeople["members"]["userList"].hasOwnProperty(k) && k === val) {
                     reason = "member";
                 }
             }
@@ -441,13 +439,13 @@ sakai.groupedit = function(){
      */
     var getMembersAndManagers = function() {
         var list = [];
-        for (var j in sakai.listpeople.data["managers"]["userList"]) {
-            if (sakai.listpeople.data["managers"]["userList"].hasOwnProperty(j)) {
+        for (var j in sakai.data.listpeople["managers"]["userList"]) {
+            if (sakai.data.listpeople["managers"]["userList"].hasOwnProperty(j)) {
                 list.push(j);
             }
         }
-        for (var k in sakai.listpeople.data["members"]["userList"]) {
-            if (sakai.listpeople.data["members"]["userList"].hasOwnProperty(k)) {
+        for (var k in sakai.data.listpeople["members"]["userList"]) {
+            if (sakai.data.listpeople["members"]["userList"].hasOwnProperty(k)) {
                 list.push(k);
             }
         }
