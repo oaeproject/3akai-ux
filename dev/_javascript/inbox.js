@@ -501,7 +501,7 @@ sakai.inbox = function() {
         }
 
         // A chat message doesn't really have subject, only a body.
-        if(message["sakai:type"] === "chat"){
+        if(message["sakai:category"] === "chat"){
             message.subject = "Chat message";
         }
 
@@ -657,7 +657,7 @@ sakai.inbox = function() {
                 sortBy = "sakai:created";
                 break;
             case "type":
-                sortBy = "sakai:type";
+                sortBy = "sakai:category";
                 break;
             case "to":
                 sortBy = "sakai:to";
