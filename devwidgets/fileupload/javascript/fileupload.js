@@ -59,6 +59,7 @@ sakai.fileupload = function(tuid, showSettings){
     var multiFileRemove = ".MultiFile-remove";
     var fileUploadProgress = "fileupload_upload_progress";
     var multiFileList = ".MultiFile-list";
+    var fileUploadFillInName = "fileupload_fill_in_file_name_input";
 
     // ID
     var fileUploadAddDescription = "#fileupload_add_description";
@@ -651,6 +652,25 @@ sakai.fileupload = function(tuid, showSettings){
             });
         });
     };
+
+    $("#fileupload_form_submit").live("click", function(){
+        $(".fileupload_file_name input").removeClass(fileUploadFillInName);
+        var nameError = false;
+        $(multiFileList + " input").each(function(index){
+            if($.trim($(this)[0].value).length == 0){
+                $(this).addClass(fileUploadFillInName);
+                $(this).val($(this)[0].defaultValue);
+                nameError = true;
+            }
+        });
+        if (!nameError){
+            $(multiFileForm).submit();
+        }
+    });
+
+    $(".fileupload_file_name input").live("focus", function(){
+        $(".fileupload_file_name input").removeClass(fileUploadFillInName);
+    });
 
     // Bind submit form for file upload
     $(multiFileForm).live("submit", function(){
