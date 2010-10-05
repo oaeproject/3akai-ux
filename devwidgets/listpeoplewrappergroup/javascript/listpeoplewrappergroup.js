@@ -67,7 +67,7 @@ sakai.listpeoplewrappergroup = function(tuid, showSettings){
      * Render Widget with group data
      */
     var loadGroupElements = function(){
-        var pl_config = {"selectable":false, "subNameInfoUser": "", "subNameInfoGroup": "sakai:group-description", "sortOn": "lastName", "sortOrder": "ascending", "items": 50, "function": "getSelection" };
+        var pl_config = {"selectable":false, "subNameInfoUser": "", "subNameInfoGroup": "sakai:group-description", "sortOn": "lastName", "sortOrder": "ascending", "items": 1000, "function": "getSelection" };
 
         if (listType === "members") {
             // get group members

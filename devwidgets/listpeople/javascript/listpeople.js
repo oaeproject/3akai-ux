@@ -85,7 +85,7 @@ sakai.listpeople = function(tuid, showSettings) {
                 "userList": {}
             };
             sakai.config.listpeople[listType] = {
-                "items": 25,
+                "items": 1000,
                 "selectable": false,
                 "sortOn": "lastName",
                 "sortOrder": "ascending",
@@ -114,6 +114,14 @@ sakai.listpeople = function(tuid, showSettings) {
         for (var element in iConfig) {
             if (iConfig.hasOwnProperty(element)) {
                 sakai.config.listpeople[listType][element] = iConfig[element];
+            }
+        }
+
+        if (sakai.config.listpeople[listType].items) {
+            if (url.indexOf("?", 0) > 0) {
+                url = url + "&items=" + sakai.config.listpeople[listType].items;
+            } else {
+                url = url + "?items=" + sakai.config.listpeople[listType].items;
             }
         }
 
