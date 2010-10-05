@@ -52,7 +52,6 @@ sakai.listpeople = function(tuid, showSettings) {
     var $listpeople_count_of = $(".listpeople_count_of", $rootel);
     var $listpeople_count_total = $(".listpeople_count_total", $rootel);
     var $listpeople_count_selected = $(".listpeople_count_selected", $rootel);
-    var $listpeople_sort_order = $("#listpeople_sort_order", $rootel);
 
     // Template Selectors
     var $listpeople_content_pagetemplate = $(".listpeople_content_pagetemplate", $rootel);
@@ -73,7 +72,6 @@ sakai.listpeople = function(tuid, showSettings) {
         $listpeople_count_total.hide();
         $listpeople_count_selected.hide();
         $listpeople_content.unbind("scroll");
-        $listpeople_sort_order.unbind("click");
         if (listType) {
             sakai.data.listpeople[listType] = sakai.data.listpeople[listType] || {};
             sakai.config.listpeople[listType] = sakai.config.listpeople[listType] || {};
@@ -287,12 +285,6 @@ sakai.listpeople = function(tuid, showSettings) {
         //Set search result count
         // If we know the exact total display it
         $listpeople_count_total.html(sakai.data.listpeople[listType].total);
-
-        // Wire sorting select dropdown
-        $listpeople_sort_order.bind("click", function(e){
-            var sortOrder = $listpeople_sort_order.val();
-            sortList(pageNumber, sortOrder);
-        });
 
         // sort list
         sortList(pageNumber, sakai.config.listpeople[listType].sortOrder);
