@@ -58,7 +58,9 @@ sakai.listpeoplewrappergroup = function(tuid, showSettings){
         var listTitle = listType.charAt(0).toUpperCase() + listType.substring(1,listType.length);
         $(listpeoplewrappergroupContainer, rootel).html($.TemplateRenderer(listpeoplewrappergroupDefaultTemplate, {listType: listType, tuid: tuid, listTitle: listTitle}));
         var newTitle = $(".listpeoplewrappergroup_header", rootel).text();
-        if (!sakai.api.Widgets.changeWidgetTitle(tuid, newTitle)) {
+        if (sakai.api.Widgets.isOnDashboard(tuid)) {
+            sakai.api.Widgets.changeWidgetTitle(tuid, newTitle);
+        } else {
             $(".listpeoplewrappergroup_header", rootel).show();
         }
     };
