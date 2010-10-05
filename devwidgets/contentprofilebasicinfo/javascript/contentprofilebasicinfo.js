@@ -140,7 +140,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
         if ($(contentProfileBasicInfoFormTags).length) {
             var tags = $(contentProfileBasicInfoFormTags).val().split(",");
             $(tags).each(function(i, tag){
-                tag = $.trim(tag);
+                tag = $.trim(tag).replace(/#/g,"");
                 if (sakai.api.Security.escapeHTML(tag) === tag && tag.replace(/\\/g, "").length) {
                     if ($.inArray(tag, data["sakai:tags"]) < 0) {
                         data["sakai:tags"].push(tag.replace(/\\/g, ""));

@@ -1087,7 +1087,7 @@ sakai.entity = function(tuid, showSettings){
         updateChatStatusElement(newChatStatus);
     });
     $(window).bind("sakai-fileupload-complete", function(){
-        if (sakai.hasOwnProperty(["content_profile"])) {
+        if (sakai.hasOwnProperty("content_profile")) {
             sakai.api.UI.entity.render("content", sakai.content_profile.content_data);
         }
     });
