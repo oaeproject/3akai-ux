@@ -123,6 +123,8 @@
 "CURRENT_PASSWORD": "Current Password",
 "DATE_ARRIVED": "Date Arrived",
 "DATE_OF_BIRTH": "Date of birth",
+"DATE_OF_BIRTH_EXAMPLE": "Please enter your date of birth in MM/DD/YYYY format.",
+"DATE_OF_BIRTH_ITA_EXAMPLE": "Please enter your date of birth in DD/MM/YYYY format.",
 "DATE": "Date",
 "DECEMBER": "December",
 "DELETE_FILE": "Delete file",
