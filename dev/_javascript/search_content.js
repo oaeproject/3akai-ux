@@ -98,7 +98,7 @@ sakai.search = function() {
                     "searchurl": searchURLmap.pooledcontentmanager
                 },
                 "member" : {
-                    "category": "Content I'm a Viewer of",
+                    "category": "Content I'm a viewer of",
                     "searchurl": searchURLmap.pooledcontentviewer
                 }
             }
