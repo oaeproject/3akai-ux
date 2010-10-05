@@ -79,7 +79,7 @@ sakai.fileupload = function(tuid, showSettings){
 
     // Form
     var multiFileForm = "#multifile_form";
-    var fileUploadSubmit = "#fileupload_submit";
+    var fileUploadUpdateSubmit = "#fileupload_update_submit";
 
     var cancelButton = "#fileupload_cancel";
 
@@ -363,6 +363,7 @@ sakai.fileupload = function(tuid, showSettings){
                         "method": "POST",
                         "parameters": {
                             "sakai:description": $(fileUploadAddDescription).val(),
+                            "sakai:fileextension": uploadedFiles[i].filename.substring(uploadedFiles[i].filename.lastIndexOf("."), uploadedFiles[i].filename.length),
                             "sakai:pooled-content-file-name": uploadedFiles[i].name,
                             "sakai:directory": "default",
                             "sakai:permissions": $(fileUploadPermissionsSelect).val(),
@@ -526,7 +527,7 @@ sakai.fileupload = function(tuid, showSettings){
                 if (newVersionIsLink){
                     uploadLink();
                 }else {
-                    $(multiFileForm).trigger("submit");
+                    $(multiFileForm).submit();
                 }
             },
             error: function(xhr, textStatus, thrownError){
@@ -558,6 +559,28 @@ sakai.fileupload = function(tuid, showSettings){
         // Show a notification
         sakai.api.Util.notification.show($(fileUploadNoFiles).html(), $(fileUploadNoFilesWereUploaded).html());
     };
+
+    /**
+     * Set the file extension of the newly uploaded file
+     * @param {String} extension eg '.jpg'
+     */
+    var setFileExtension = function(extension){
+        $.ajax({
+            url: "/p/" + oldVersionPath + ".json",
+            type: "POST",
+            data: {
+                "sakai:fileextension": extension
+            },
+            success: function(data){
+                // Get the version details in order to update the GUI
+                getVersionDetails();
+            },
+            error: function(xhr, textStatus, thrownError){
+                // Get the version details in order to update the GUI
+                getVersionDetails();
+            }
+        });
+    }
 
     /**
      * Set the various settings for the fluid uploader component
@@ -641,8 +664,8 @@ sakai.fileupload = function(tuid, showSettings){
                             }, contextData.id);
 
                         } else {
-                            // Get the version details in order to update the GUI
-                            getVersionDetails();
+                            // Set the new file extension
+                            setFileExtension(uploadedFiles[0].filename.substring(uploadedFiles[0].filename.lastIndexOf("."), uploadedFiles[0].filename.length));
                         }
                     }
                 },
@@ -758,7 +781,7 @@ sakai.fileupload = function(tuid, showSettings){
         $(fileUploadContainer).jqmHide();
     });
 
-    $(fileUploadSubmit).live("click", function(){
+    $(fileUploadUpdateSubmit).live("click", function(){
         saveVersion();
     });
 

@@ -221,7 +221,7 @@
                     </span>
                 </a>
             {else}
-                <a href="${data.profile.contentpath}/${data.profile.name}" id="content_profile_file_details_action_download" class="s3d-button entity_action_button" target="_blank">
+                <a href="${data.profile.contentpath}/${data.profile.name}{if data.profile.name.substring(data.profile.name.lastIndexOf("."), data.profile.name.length) !== data.profile.extension}${data.profile.extension}{/if}" id="content_profile_file_details_action_download" class="s3d-button entity_action_button" target="_blank">
                     <span class="s3d-button-inner">
                         __MSG__DOWNLOAD_FILE__
                     </span>

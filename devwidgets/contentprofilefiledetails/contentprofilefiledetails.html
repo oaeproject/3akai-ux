@@ -43,7 +43,7 @@
                 </button>
             {/if}
             {if data["jcr:content"]["jcr:mimeType"] !== "x-sakai/link"}
-                <a href="${url}/${data["sakai:pooled-content-file-name"]}" id="content_profile_file_details_action_download" class="s3d-button s3d-button-primary" target="_blank">
+                <a href="${url}/${data["sakai:pooled-content-file-name"]}{if data["sakai:pooled-content-file-name"].substring(data["sakai:pooled-content-file-name"].lastIndexOf("."), data["sakai:pooled-content-file-name"].length) !== data["sakai:fileextension"]}${data["sakai:fileextension"]}{/if}" id="content_profile_file_details_action_download" class="s3d-button s3d-button-primary" target="_blank">
                     <span class="s3d-button-inner">
                         __MSG__DOWNLOAD_FILE__
                     </span>
