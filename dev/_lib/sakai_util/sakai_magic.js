@@ -3672,12 +3672,7 @@ sakai.api.Widgets.removeWidgetData = function(id, callback) {
  * @param {String} title The title to change to
  */
 sakai.api.Widgets.changeWidgetTitle = function(tuid, title) {
-    if ($("#"+tuid).parent("div").siblings("div.fl-widget-titlebar").find("h2.widget_title").length) {
-        $("#"+tuid).parent("div").siblings("div.fl-widget-titlebar").find("h2.widget_title").text(title);
-        return true;
-    } else {
-        return false;
-    }
+    $("#"+tuid).parent("div").siblings("div.fl-widget-titlebar").find("h2.widget_title").text(title);
 };
 
 
