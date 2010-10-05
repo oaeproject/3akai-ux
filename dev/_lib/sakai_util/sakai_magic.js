@@ -2727,7 +2727,7 @@ sakai.api.Util.tagEntity = function(tagLocation, newTags, currentTags, callback)
     var tagsToDelete = [];
     // determine which tags to add and which to delete
     $(newTags).each(function(i,val) {
-        val = $.trim(val);
+        val = $.trim(val).replace(/#/g,"");
         if (val && $.inArray(val,currentTags) == -1) {
             if (sakai.api.Security.escapeHTML(val) === val && val.length) {
                 if ($.inArray(val, tagsToAdd) < 0) {
@@ -2737,7 +2737,7 @@ sakai.api.Util.tagEntity = function(tagLocation, newTags, currentTags, callback)
         }
     });
     $(currentTags).each(function(i,val) {
-        val = $.trim(val);
+        val = $.trim(val).replace(/#/g,"");
         if (val && $.inArray(val,newTags) == -1) {
             if (sakai.api.Security.escapeHTML(val) === val && val.length) {
                 if ($.inArray(val, tagsToDelete) < 0) {
