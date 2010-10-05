@@ -1182,6 +1182,52 @@ jQuery.validator.addMethod(
 		} else
 			check = false;
 		return this.optional(element) || check;
-	}, 
+	},
 	"Please enter a correct date (e.g. 25/12/1975)."
+);
+
+jQuery.validator.addMethod(
+	"oldDateITA",
+	function(value, element) {
+		var check = false;
+		var re = /^\d{1,2}\/\d{1,2}\/\d{4}$/;
+		if( re.test(value)){
+			var adata = value.split('/');
+			var gg = parseInt(adata[0],10);
+			var mm = parseInt(adata[1],10);
+			var aaaa = parseInt(adata[2],10);
+			var xdata = new Date(aaaa,mm-1,gg);
+			var today = new Date();
+			if ( ( xdata.getFullYear() == aaaa ) && ( xdata.getMonth () == mm - 1 ) && ( xdata.getDate() == gg ) && (xdata.getTime() < today.getTime()))
+				check = true;
+			else
+				check = false;
+		} else
+			check = false;
+		return this.optional(element) || check;
+	},
+	"Please enter a correct date in the past (e.g. 25/12/1975)."
+);
+
+jQuery.validator.addMethod(
+	"oldDate",
+	function(value, element) {
+		var check = false;
+		var re = /^\d{1,2}\/\d{1,2}\/\d{4}$/;
+		if( re.test(value)){
+			var adata = value.split('/');
+			var gg = parseInt(adata[1],10);
+			var mm = parseInt(adata[0],10);
+			var aaaa = parseInt(adata[2],10);
+			var xdata = new Date(aaaa,mm-1,gg);
+			var today = new Date();
+			if ( ( xdata.getFullYear() == aaaa ) && ( xdata.getMonth () == mm - 1 ) && ( xdata.getDate() == gg ) && (xdata.getTime() < today.getTime()))
+				check = true;
+			else
+				check = false;
+		} else
+			check = false;
+		return this.optional(element) || check;
+	},
+	"Please enter a correct date in the past (e.g. 12/25/1975)."
 );

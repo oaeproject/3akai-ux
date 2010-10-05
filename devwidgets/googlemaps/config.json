@@ -3,6 +3,7 @@
     "userdashboard": true,
     "grouppages": true,
     "groupdashboard": true,
+    "hasSettings": true,
     "description":"Google maps",
     "i18n": {
         "default": "/devwidgets/googlemaps/bundles/default.json",

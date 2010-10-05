@@ -462,6 +462,9 @@ sakai.search = function() {
                 },
                 error: function(xhr, textStatus, thrownError) {
                     renderCM({});
+                    sakai.data.search.results_people = {};
+                    renderPeople({});
+                    renderSites({});
                 }
             });
         } else {

@@ -106,6 +106,7 @@
 "CONTACTS_ONLY": "Contacts only",
 "CONTENT":"Content",
 "CONTENT_AND_MEDIA": "Content",
+"CONTENT_CANNOT_REMOVE_ALL_MANAGERS": "You cannot remove all the managers of this content. Each piece of content must have at least one manager.",
 "CONTENT_GROUP_CAN_USE": "Content that the group can use",
 "CONTENT_PROFILE": "Content Profile",
 "COPYRIGHT": "Copyright",

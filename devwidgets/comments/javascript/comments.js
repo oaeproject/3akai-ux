@@ -268,21 +268,14 @@ sakai.comments = function(tuid, showSettings){
             // Puts the userinformation in a better structure for trimpath
             // if (comment.profile["sling:resourceType"] === "sakai/user-profile") { // no longer in use, it seems
             if (comment.profile) {
-                   var profile = comment.profile[0];
-                var fullName = "";
-                if (profile.firstName) {
-                    fullName = profile.firstName;
-                }
-                if (profile.lastName) {
-                    fullName += " " + profile.lastName;
-                }
-                user.fullName = fullName;
+                var profile = comment.profile[0];
+                user.fullName = sakai.api.User.getDisplayName(profile);
                 user.picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
                 // Check if the user has a picture
                 if (profile.picture && $.parseJSON(profile.picture).name) {
-                    user.picture = "/~" + profile["rep:userId"] + "/public/profile/" + $.parseJSON(profile.picture).name;
+                    user.picture = "/~" + profile["userid"] + "/public/profile/" + $.parseJSON(profile.picture).name;
                 }
-                user.uid = profile["userid"][0];
+                user.uid = profile["userid"];
                 user.profile = "/~" + user.uid;
             }
             else {
@@ -798,6 +791,7 @@ sakai.comments = function(tuid, showSettings){
      */
     var doInit = function(){
         if (widgeturl) {
+            store = widgeturl + "/message";
             $.ajax({
                 url: widgeturl + ".infinity.json",
                 type: "GET",
@@ -808,7 +802,7 @@ sakai.comments = function(tuid, showSettings){
                 error: function(xhr, textStatus, thrownError) {
                     if (xhr.status == 404) {
                         // we need to create the initial message store
-                        $.post(widgeturl, { "jcr:primaryType": "nt:unstructured" } );
+                        $.post(store, {"sling:resourceType":"sakai/messagestore"} );
                     }
                 }
             });
@@ -818,7 +812,6 @@ sakai.comments = function(tuid, showSettings){
         } else {
             currentSite = sakai.profile.main.data["rep:userId"];
         }
-        store = widgeturl + "/message";
         if (!showSettings) {
             // Show the main view.
             $(commentsSettingsContainer, rootel).hide();
