@@ -3013,6 +3013,22 @@ sakai.api.Util.stripTags = function(s) {
 
 };
 
+/**
+ * Shorten a string if it is too long, otherwise return the string as is
+ * @param {Object} s    String to shorten
+ * @param {Object} maxSize    Maximum length the string can have
+ */
+sakai.api.Util.shortenString = function(s, maxSize){
+    if (s && typeof s === "string"){
+        if (s.length > maxSize){
+            return s.substring(0, maxSize - 3) + "...";
+        } else {
+            return s;
+        }
+    }
+    return s;
+}
+
 
 /**
  * @class Sorting
