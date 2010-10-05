@@ -2343,6 +2343,41 @@ sakai.api.User.getShortDescription = function(profile) {
     return $.trim(shortDesc);
 };
 
+sakai.api.User.getContacts = function(callback) {
+    if (sakai.data.me.mycontacts) {
+        if ($.isFunction(callback)) {
+            callback();
+        }
+    } else {
+        // has to be synchronous
+        $.ajax({
+            url: sakai.config.URL.SEARCH_USERS_ACCEPTED,
+            data: {"q": "*"},
+            async: false,
+            success: function(data) {
+                sakai.data.me.mycontacts = data.results;
+                if ($.isFunction(callback)) {
+                    callback();
+                }
+            }
+        });
+    }
+};
+
+sakai.api.User.checkIfConnected = function(userid) {
+    var ret = false;
+    sakai.api.User.getContacts(function() {
+        for (var i in sakai.data.me.mycontacts) {
+            if (i && sakai.data.me.mycontacts.hasOwnProperty(i)) {
+                if (sakai.data.me.mycontacts[i].user === userid) {
+                    ret = true;
+                }
+            }
+        }
+    });
+    return ret;
+};
+
 /**
  * @class Util
  *
