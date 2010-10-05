@@ -418,22 +418,6 @@ sakai.profile = function(){
 
     };
 
-    /**
-     * Save the current profile data to the repository
-     */
-    var invalidSubmit = 0;
-    var saveProfileData = function(){
-        if (invalidSubmit === 2) {
-            invalidSubmit = 0;
-            return;
-        }
-        if (invalidSubmit === 1) {
-            invalidSubmit = 2;
-        }
-        // Trigger the profile save method, this is event is bound in every sakai section
-        $(window).trigger("sakai-profile-save");
-
-    };
 
     $(window).bind("sakai-profile-data-ready", function(e, sectionName) {
 
@@ -522,6 +506,7 @@ sakai.profile = function(){
 
     };
 
+    var invalidSubmit = 0;
     /**
      * Add binding to the profile form
      */
@@ -536,7 +521,17 @@ sakai.profile = function(){
             messages: {
                 required: "test"
             },
-            submitHandler: saveProfileData,
+            submitHandler: function(form, validator) {
+                if (invalidSubmit === 2) {
+                    invalidSubmit = 0;
+                    return;
+                }
+                if (invalidSubmit === 1) {
+                    invalidSubmit = 2;
+                }
+                // Trigger the profile save method, this is event is bound in every sakai section
+                $(window).trigger("sakai-profile-save");
+            },
             onclick:false,
             onkeyup:false,
             onfocusout:false,
