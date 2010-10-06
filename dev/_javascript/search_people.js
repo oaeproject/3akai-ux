@@ -156,7 +156,9 @@ sakai.search = function() {
      */
     var showSearchContent = function() {
         $(searchConfig.global.searchTerm).html(sakai.api.Security.saneHTML(sakai.api.Security.escapeHTML(searchterm)));
-        $(searchConfig.global.tagTerm).text(sakai.api.Security.saneHTML(tagterm.replace("/tags/", "").replace("directory/", "")));
+        if (tagterm) {
+            $(searchConfig.global.tagTerm).text(sakai.api.Security.saneHTML(tagterm.replace("/tags/", "").replace("directory/", "")));
+        }
         $(searchConfig.global.numberFound).text("0");
         $(searchConfig.results.header).show();
         $(searchConfig.results.tagHeader).hide();
