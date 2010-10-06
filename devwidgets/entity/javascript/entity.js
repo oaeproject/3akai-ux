@@ -588,6 +588,9 @@ sakai.entity = function(tuid, showSettings){
             // Get the correct input value from the user
             var inputValue = $entity_profile_status_input.hasClass(entity_profile_status_input_dummy) ? "" : $.trim($entity_profile_status_input.val());
 
+            // Escape html
+            inputValue = sakai.api.Security.escapeHTML(inputValue);
+
             if (profile_status_value !== inputValue) {
                 profile_status_value = inputValue;
 
