@@ -18,7 +18,7 @@
 
 /* General */
 .entity_header {margin: 3px 0 10px 0px; padding: 0; width: 340px; overflow:hidden;}
-.entity_header_text {font-size:22px; font-weight:bold; line-height:24px; margin-right:10px;color:#444;}
+.entity_header_text {font-size:22px; font-weight:bold; line-height:28px; margin-right:10px;color:#444;}
 .entity_picture {margin: 0 20px 5px 0; font-size: 10px; color: #FFFFFF; line-height: 11px;}
 .entity_description {width:340px; }
 .entity_status {font-size:12px;}
