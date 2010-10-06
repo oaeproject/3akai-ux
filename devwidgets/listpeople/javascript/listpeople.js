@@ -74,25 +74,10 @@ sakai.listpeople = function(tuid, showSettings) {
         $listpeople_count_selected.hide();
         $listpeople_content.unbind("scroll");
         $listpeople_sort_order.unbind("click");
-        if (listType) {
-            sakai.data.listpeople[listType] = sakai.data.listpeople[listType] || {};
-            sakai.config.listpeople[listType] = sakai.config.listpeople[listType] || {};
-            sakai.data.listpeople[listType] = {
-                "selected": {},
-                "currentElementCount": 0,
-                "selectCount": 0,
-                "total": 0,
-                "userList": {}
-            };
-            sakai.config.listpeople[listType] = {
-                "items": 25,
-                "selectable": false,
-                "sortOn": "lastName",
-                "sortOrder": "ascending",
-                "function": "getSelection",
-                "anon": false
-            };
-        }
+
+        sakai.data.listpeople[listType].selected = {};
+        sakai.data.listpeople[listType].currentElementCount = 0;
+        sakai.data.listpeople[listType].selectCount = 0;
     };
 
     /**
@@ -106,7 +91,6 @@ sakai.listpeople = function(tuid, showSettings) {
      * @returns void
      */
     var render = function(iTuid, iConfig, url, id) {
-
         if (iTuid !== tuid) return;
         reset();
 
@@ -188,7 +172,6 @@ sakai.listpeople = function(tuid, showSettings) {
                     });
 
                     json_data.total = itemCount;
-
                     // Render list of objects
                     renderList(0, json_data);
                 };
@@ -210,7 +193,6 @@ sakai.listpeople = function(tuid, showSettings) {
      * @returns void
      */
     var renderList = function(pageNumber, objects) {
-
         sakai.data.listpeople[listType].userList = {};
         sakai.data.listpeople[listType].total = 0;
         var rawData = objects;
@@ -452,8 +434,25 @@ sakai.listpeople = function(tuid, showSettings) {
         // accept a search query to process and display. This event can be picked up
         // in a page JS code
         $(window).bind("sakai-listpeople-render", function(e, data) {
-            listType = data.listType;
-            render(data.tuid, data.pl_config, data.url, data.id);
+            if (data.tuid === tuid) {
+                listType = data.listType;
+                sakai.data.listpeople[listType] = {
+                    "selected": {},
+                    "currentElementCount": 0,
+                    "selectCount": 0,
+                    "total": 0,
+                    "userList": {}
+                };
+                sakai.config.listpeople[listType] = {
+                    "items": 25,
+                    "selectable": false,
+                    "sortOn": "lastName",
+                    "sortOrder": "ascending",
+                    "function": "getSelection",
+                    "anon": false
+                };
+                render(data.tuid, data.pl_config, data.url, data.id);
+            }
         });
         $(window).trigger("sakai-listpeople-ready", tuid);
         sakai.listpeople.isReady = true;
