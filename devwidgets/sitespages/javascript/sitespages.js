@@ -127,6 +127,29 @@ sakai.sitespages = function(tuid,showSettings){
     };
 
     /**
+     * Load Templates. This function is no longer used within this js file. It
+     * is global and used by outside scripts. This, along with a number of other
+     * functions from this file should probably be moved into a Page-related api
+     * @return void
+     */
+    sakai.sitespages.loadTemplates = function() {
+        if (sakai.sitespages.versionHistoryNeedsReset) {
+            sakai.sitespages.resetVersionHistory();
+            sakai.sitespages.versionHistoryNeedsReset = false;
+        }
+
+        // Load template configuration file
+        sakai.api.Server.loadJSON("/~" + sakai.data.me.user.userid + "/private/templates", function(success, pref_data){
+            if (success) {
+                sakai.sitespages.mytemplates = pref_data;
+            } else {
+                sakai.sitespages.mytemplates = {};
+            }
+        });
+
+    };
+
+    /**
      * Function which (re)-loads the information available on a site (async)
      * @param pageToOpen {String} URL safe title of a page which we want to open after the site info object refresh (optional)
      * @return void
@@ -202,10 +225,6 @@ sakai.sitespages = function(tuid,showSettings){
                     sakai.sitespages.openPage(pageToOpen);
                 }
 
-                // Load page templates
-                if (config.editMode) {
-                    sakai.sitespages.loadTemplates();
-                }
                 // Load site navigation
                 if (doLoadNav) {
                     sakai.sitespages.loadSiteNavigation();

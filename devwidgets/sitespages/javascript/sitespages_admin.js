@@ -1687,12 +1687,6 @@ sakai.sitespages.site_admin = function(){
         });
     };
 
-
-
-
-
-
-
     //--------------------------------------------------------------------------------------------------------------
     //
     // ADD NEW...
@@ -2112,29 +2106,6 @@ sakai.sitespages.site_admin = function(){
                 fluid.log("site_admin.js/updateTemplates(): Could not save page template!");
             }
 
-        });
-
-    };
-
-    /**
-     * Load Templates. This function is no longer used within this js file. It
-     * is global and used by outside scripts. This, along with a number of other
-     * functions from this file should probably be moved into a Page-related api
-     * @return void
-     */
-    sakai.sitespages.loadTemplates = function() {
-        if (sakai.sitespages.versionHistoryNeedsReset) {
-            sakai.sitespages.resetVersionHistory();
-            sakai.sitespages.versionHistoryNeedsReset = false;
-        }
-
-        // Load template configuration file
-        sakai.api.Server.loadJSON("/~" + sakai.data.me.user.userid + "/private/templates", function(success, pref_data){
-            if (success) {
-                sakai.sitespages.mytemplates = pref_data;
-            } else {
-                sakai.sitespages.mytemplates = {};
-            }
         });
 
     };

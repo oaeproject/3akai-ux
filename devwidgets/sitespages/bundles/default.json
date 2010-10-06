@@ -4,5 +4,6 @@
 "ARE_YOU_SURE_YOU_WANT_TO_DELETE": "Are you sure you want to delete",
 "THIS_WILL_DELETE_CHILD_PAGES": "Note: by deleting this page you will also delete all of its child pages",
 "NOT_ALLOWED_TO_DELETE": "You are not allowed to delete ",
-"OK": "Ok"
+"OK": "Ok",
+"ACCESSIBILITY_HELP": "Accessibility help"
 }

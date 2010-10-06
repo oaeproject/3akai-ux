@@ -248,6 +248,9 @@ sakai.createpage = function(tuid, showSettings){
         })
         .jqmAddClose($createpageCancel);
         
+        // Load page templates
+        sakai.sitespages.loadTemplates();
+        $createpageSubmit.removeAttr("disabled");
         // show container
         $createpageContainer.jqmShow();
         $inputPageTitle.focus();
