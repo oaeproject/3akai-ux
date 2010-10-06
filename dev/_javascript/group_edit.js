@@ -513,6 +513,7 @@ sakai.groupedit = function(){
             $("#group_editing_add_members").bind("click", function(){
                 pl_config.type = "people";
                 pl_config.what = "Members";
+                pl_config.excludeList = getMembersAndManagers();
                 $(window).scrollTop(0);
                 $(window).trigger("sakai-pickeruser-init", pl_config, function(people) {
                 });

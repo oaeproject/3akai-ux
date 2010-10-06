@@ -22,5 +22,7 @@
 "POST_NEW": "Post new",
 "INSERT_EXISTING": "Insert existing",
 "DISPLAY_OPTIONS": "Display options",
-"NO_DISCUSSIONS_YET": "You don't have any discussions yet."
+"NO_DISCUSSIONS_YET": "You don't have any discussions yet.",
+"USER_VISIBILITY": "Signed in users, your contacts and you can post comments<br/>Your contacts and you can create new topics",
+"GROUP_VISIBILITY": "Signed in users, members and managers of this group can post comments<br/>Managers of this group can create new topics"
 }
