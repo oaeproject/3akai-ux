@@ -1310,9 +1310,7 @@ sakai.discussion = function(tuid, showSettings){
                 if (sakai.data.me.user.userid === currentSite) {
                     canAddTopics = true;
                 } else {
-                    console.log("checking if connected");
                     canAddTopics = sakai.api.User.checkIfConnected(currentSite);
-                    console.log(canAddTopics);
                 }
             }
 
