@@ -488,6 +488,10 @@ sakai.config = {
             URL: "/dev/_images/mimetypes/images.png",
             description: "Png image"
         },
+        "image/bmp": {
+            URL: "/dev/_images/mimetypes/images.png",
+            description: "Bmp image"
+        },
         "image/gif": {
             URL: "/dev/_images/mimetypes/images.png",
             description: "Gif image"
