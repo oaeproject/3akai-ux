@@ -123,7 +123,8 @@ sakai.embedcontent = function(tuid, showSettings) {
             "description": result["sakai:description"] || "",
             "path": "/p/" + (name || result['jcr:name']),
             "fileSize": sakai.api.Util.convertToHumanReadableFileSize(result["jcr:content"][":jcr:data"]),
-            "link": "/p/" + (name || result['jcr:name']) + "/" + result['sakai:pooled-content-file-name']
+            "link": "/p/" + (name || result['jcr:name']) + "/" + result['sakai:pooled-content-file-name'],
+            "extension": result['sakai:fileextension']
         };
         return dataObj;
     };
@@ -274,6 +275,18 @@ sakai.embedcontent = function(tuid, showSettings) {
         });
     };
 
+        var registerVideo = function(videoBatchData){
+            $.ajax({
+                url: sakai.config.URL.BATCH,
+                traditional: true,
+                type: "POST",
+                cache: false,
+                data: {
+                    requests: $.toJSON(videoBatchData)
+                }
+            });
+        }
+
     /**
      * Embed the selected content on the page,
      * Call the function that associates the content with this group
@@ -287,8 +300,34 @@ sakai.embedcontent = function(tuid, showSettings) {
             "items": selectedItems
         };
 
+        var videoBatchData = [];
+        for (var i in objectData.items){
+            if(objectData.items.hasOwnProperty(i)){
+                if(objectData.items[i].filetype === "video"){
+                    // Set random ID to the video
+                    objectData.items[i].uId = Math.ceil(Math.random() * 999999999);
+                    // Create batch request data for the video
+                    var item = {
+                        "url": "/~" + sakai.currentgroup.data.authprofile["sakai:group-title"] + "/pages/_widgets/id" + objectData.items[i].uId + "/video",
+                        "method": "POST",
+                        "parameters": {
+                            "uid": sakai.data.me.user.userid,
+                            "source": " ",
+                            "URL": sakai.config.SakaiDomain + objectData.items[i].link + objectData.items[i].extension,
+                            "selectedvalue": "video_noSource",
+                            "isYoutube": false,
+                            "isSakaiVideoPlayer": false,
+                        }
+                    }
+                    videoBatchData.push(item);
+                }
+            }
+        }
+
         // Associate embedded items with the group
         associatedEmbeddedItemsWithGroup(selectedItems);
+
+        registerVideo(videoBatchData);
 
         if (embedConfig.mode === "embed") {
             if ($embedcontent_metadata_container.is(":visible")) {
