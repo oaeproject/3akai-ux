@@ -73,18 +73,21 @@ sakai.googlemaps = function(tuid, showSettings){
      */
     var setMapSize = function(callback) {
         if(!showSettings) {
+            $("#googlemaps_size_options").hide();
             if (json && json.mapsize == "SMALL") {
 
                 // Set the size of map according to the data stored on the backend server
                 $("#googlemaps_iframe_map", rootel).width("50%");
-                $("#googlemaps_iframe_map", rootel).css({"float": "right"});
+                //$("#googlemaps_iframe_map", rootel).css({"float": "right"});
             }
             else {
                 $("#googlemaps_iframe_map", rootel).width("95%");
             }
         }
         else {
-
+        
+            $("#googlemaps_size_options").show();
+    
             // Show the search input textfield and save, search, cancel buttons
             $("#googlemaps_form_search", rootel).show();
             $("#googlemaps_save_cancel_container", rootel).show();
@@ -157,6 +160,7 @@ sakai.googlemaps = function(tuid, showSettings){
 
                 // Set the initial value of search keyword input textbox
                 $("#googlemaps_input_text_location", rootel).val(json.mapinput);
+                
             } else {
                 if (showSettings) {
                     // Show the search input textfield and save, search, cancel buttons
@@ -194,8 +198,10 @@ sakai.googlemaps = function(tuid, showSettings){
                         sakai.api.Widgets.Container.informCancel(tuid, "googlemaps");
                     });
                 }
-            }
 
+            }
+            // Set focus in location text box
+            $("#googlemaps_input_text_location").focus();
         });
     };
 

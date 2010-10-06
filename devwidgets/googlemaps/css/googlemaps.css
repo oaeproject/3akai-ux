@@ -20,10 +20,17 @@
 #googlemaps_select_container .fl-widget-content {padding:10px;}
 #googlemaps_form_search { margin: 5px 0; }
 
+#googlemaps_input_text_location { width: 85%; }
+#googlemaps_search_container { width : 15%; display:inline;}
+#googlemaps_location_help { color:#666666; display:block; font-size:11px;  }
+
 #googlemaps_iframe_map { width: 100%; height: 370px; border: none; margin: 10px 0; }
-#googlemaps_input_text_location { width: 99%; }
 
 #googlemaps_radio_large { margin: 0 5px 5px 5px; }
 #googlemaps_radio_small { margin: 0 5px 5px 37px; }
 
 #googlemaps_search_container { margin: 10px 0; text-align: right; }
+
+#googlemaps_save_cancel_container { display:none; text-align:right;}
+
+

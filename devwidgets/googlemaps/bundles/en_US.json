@@ -3,10 +3,11 @@
 "description": "Googlemaps widget\r\n",
 "WIDGET_TITLE": "Googlemaps",
 "SEARCH": "Search",
-"SAVE": "Save",
-"CANCEL": "Cancel",
+"ADD_MAP": "Add map",
+"DONT_ADD": "Don't add",
 "SIZE": "Size",
 "SMALL": "Small",
 "LARGE": "Large",
-"LOCATION": "Location"
+"LOCATION": "Location",
+"LOCATION_HELP": "You can enter a city, postcode or full address. You can also specify different countries after a comma: London, UK"
 }
