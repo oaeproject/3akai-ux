@@ -86,6 +86,7 @@
                         <!-- SEARCH BAR -->
                         <div class="fl-left fl-container fl-fix search_bar">
                             <div id="search_form">
+                                <button class="s3d-button s3d-button-primary search_add_group_button"><span class="s3d-button-inner">__MSG__CREATE_A_GROUP__</span></button>
                                 <input maxlength="255" type="text" id="search_text" class="input" value="__MSG__ENTER_A_SEARCHTERM__" title="__MSG__ENTER_A_SEARCHTERM__" />
                                 <button id="search_button" class="s3d-search-button s3d-button s3d-button-primary"><span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span></button>
                             </div>
@@ -150,6 +151,12 @@
             </div>
 
         </div>
+
+        <!-- CONTAINER FOR THE CREATEGROUP CONTAINER -->
+        <div id="creategroupcontainer" style="display:none;">
+            <!-- We need this container to show the pop-up where you can add a group -->
+            <div id="widget_creategroup" class="widget_inline"></div>
+ 	    </div>
 
         <!-- FOOTER WIDGET -->
         <div id="widget_footer" class="widget_inline footercontainer"></div>

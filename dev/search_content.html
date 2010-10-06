@@ -19,6 +19,7 @@
         <!-- 3rd party CSS -->
         <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
         <link rel="stylesheet" type="text/css" href="/dev/_css/lib/jquery.autoSuggest.css" />
+        <link rel="stylesheet" type="text/css" href="/dev/_lib/jquery/plugins/gritter/css/jquery.gritter.css" />
 
 
         <!-- Sakai Config JS -->
@@ -48,6 +49,10 @@
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.ba-bbq.js"></script>
         <script type="text/javascript" src="_javascript/_history/search_history.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.autoSuggest.sakai-edited.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.form.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.MultiFile.js"></script>
+        <script type="text/javascript" src="_lib/jquery/plugins/jquery.validate.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/gritter/jquery.gritter.js"></script>
 
     </head>
 
@@ -87,6 +92,7 @@
                         <!-- SEARCH BAR -->
                         <div class="fl-left fl-container fl-fix search_bar">
                             <div id="search_form" >
+                                <button class="s3d-button s3d-button-primary search_add_content_button" id="upload_content"><span class="s3d-button-inner">__MSG__ADD_NEW_CONTENT__</span></button>
                                 <input type="text" maxlength="255" id="search_text" class="input" value="__MSG__ENTER_A_SEARCHTERM__" title="__MSG__ENTER_A_SEARCHTERM__" />
                                 <button id="search_button" class="s3d-search-button s3d-button s3d-button-primary"><span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span></button>
                                 <!-- SITEs TEMPLATE -->
@@ -207,6 +213,9 @@
                 <div class="jq_pager"><!-- --></div>
             </div>
         </div>
+        
+        <!-- Upload Content Widget Container -->
+        <div id="widget_fileupload" class="widget_inline"></div>
 
         <!-- FOOTER WIDGET -->
         <div id="widget_footer" class="widget_inline footercontainer"></div>
