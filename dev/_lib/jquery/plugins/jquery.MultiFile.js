@@ -306,7 +306,7 @@
          r = $('<div class="MultiFile-label"></div>'),
          v = String(slave.value || ''/*.attr('value)*/),
          b = $('<a class="MultiFile-remove" href="#'+MultiFile.wrapID+'">'+ 'Remove' +'</a>');
-         c = $('<span class="fileupload_file_name"><input type="text" id="' + MultiFile.STRING.file.replace('$file', v.match(/[^\/\\]+$/gi)[0]).replace(".", "_") + '" value="' + MultiFile.STRING.file.replace('$file', v.match(/[^\/\\]+$/gi)[0]) + '"></input></span>')
+         c = $('<span class="fileupload_file_name"><input type="text" id="' + MultiFile.STRING.file.replace('$file', v.match(/[^\/\\]+$/gi)[0]).replace(".", "_") + '" value="' + MultiFile.STRING.file.replace('$file', v.match(/[^\/\\]+$/gi)[0]) + '"></input></span><div class="fileupload_name_error" style="display:none;"></div>')
 
 
         // Insert label

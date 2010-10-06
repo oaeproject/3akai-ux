@@ -59,7 +59,7 @@ sakai.fileupload = function(tuid, showSettings){
     var multiFileRemove = ".MultiFile-remove";
     var fileUploadProgress = "fileupload_upload_progress";
     var multiFileList = ".MultiFile-list";
-    var fileUploadFillInName = "fileupload_fill_in_file_name_input";
+    var fileUploadNameError = ".fileupload_name_error";
 
     // ID
     var fileUploadAddDescription = "#fileupload_add_description";
@@ -117,6 +117,7 @@ sakai.fileupload = function(tuid, showSettings){
     var fileUploadFilesNotUploaded = "#fileupload_files_not_uploaded";
     var fileUploadFilesSuccessfullyUploaded = "#fileupload_files_successfully_uploaded";
     var fileUploadCloseDialog = "#fileupload_close_dialog";
+    var fileUploadEnterNameFor = "#fileupload_enter_name_for";
 
 
     var contextData = {};
@@ -677,12 +678,13 @@ sakai.fileupload = function(tuid, showSettings){
     };
 
     $("#fileupload_form_submit").live("click", function(){
-        $(".fileupload_file_name input").removeClass(fileUploadFillInName);
         var nameError = false;
+        $(fileUploadNameError).hide();
         $(multiFileList + " input").each(function(index){
             if($.trim($(this)[0].value).length == 0){
-                $(this).addClass(fileUploadFillInName);
-                $(this).val($(this)[0].defaultValue);
+                var errorLabel = $(this).parent().next();
+                errorLabel.css("display", "block")
+                errorLabel.html($(fileUploadEnterNameFor).html() + " \"" + $(this)[0].defaultValue + "\"");
                 nameError = true;
             }
         });
@@ -691,12 +693,9 @@ sakai.fileupload = function(tuid, showSettings){
         }
     });
 
-    $(".fileupload_file_name input").live("focus", function(){
-        $(".fileupload_file_name input").removeClass(fileUploadFillInName);
-    });
-
     // Bind submit form for file upload
     $(multiFileForm).live("submit", function(){
+        $(fileUploadNameError).hide();
         // Remove the button from the form and set loader class
         $(multiFileForm + " button").hide();
         $(fileUploadProgressId).addClass(fileUploadProgress);
