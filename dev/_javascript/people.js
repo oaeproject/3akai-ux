@@ -47,6 +47,7 @@ sakai.search = function(){
 
         $.ajax({
             url: "/var/contacts/accepted.infinity.json?page=" + (page - 1) + "&items=" + peopleToSearch,
+            cache: false,
             success: function(data){
                 foundContacts = $.extend(data, {}, true);
                 renderContacts();
