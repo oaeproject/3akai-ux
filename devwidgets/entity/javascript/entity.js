@@ -900,6 +900,9 @@ sakai.entity = function(tuid, showSettings){
             }
         }
 
+        // Set file extension
+        entityconfig.data.profile.extension = filedata["sakai:fileextension"];
+
         // Check if user is a manager or viewer
         entityconfig.data.profile["role"] = "viewer";
         if (jcr_access) {

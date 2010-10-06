@@ -85,7 +85,7 @@
                 <img src="${item.link}" alt="${sakai.config.MimeTypes[item.mimetype].description}" class="embed_image_full_size"/>
             </div>
             {elseif item.filetype === "video"}
-                <embed src="${item.link}" autostart="false" class="embedcontent_video"/>
+                <img border="1" style="display: block; padding: 10px; margin: 4px;" class="widget_inline" id="widget_video_id${item.uId}" src="/devwidgets/video/images/video.png">
             {elseif sakai.config.MimeTypes[item.mimetype]}
                 <img src="${sakai.config.MimeTypes[item.mimetype].URL}" alt="${sakai.config.MimeTypes[item.mimetype].description}" class="embed_image_thumbnail_size"/>
             </div>
@@ -117,7 +117,7 @@
             {if item.mimetype =="image/jpg" || item.mimetype =="image/jpeg" || item.mimetype =="image/png" || item.mimetype =="image/gif" || item.mimetype =="image/bmp" }
                 <img src="${item.link}" alt="${sakai.config.MimeTypes[item.mimetype].description}" class="embed_image_full_size"/>
             {elseif item.filetype === "video"}
-                <embed src="${item.link}" autostart="false" class="embedcontent_video"/>
+                <img border="1" style="display: block; padding: 10px; margin: 4px;" class="widget_inline" id="widget_video_id${item.uId}" src="/devwidgets/video/images/video.png">
             {elseif sakai.config.MimeTypes[item.mimetype]}
                 <img src="${sakai.config.MimeTypes[item.mimetype].URL}" alt="${sakai.config.MimeTypes[item.mimetype].description}" class="embed_image_thumbnail_size"/>
             {else}
@@ -141,7 +141,7 @@
                 {if item.mimetype =="image/jpg" || item.mimetype =="image/jpeg" || item.mimetype =="image/png" || item.mimetype =="image/gif" || item.mimetype =="image/bmp" }
                     <img src="${item.link}" alt="${sakai.config.MimeTypes[item.mimetype].description}" class="embed_image_thumbnail_size"/>
                 {elseif item.filetype === "video"}
-                    <embed src="${item.link}" autostart="false" class="embedcontent_video"/>
+                    <img border="1" style="display: block; padding: 10px; margin: 4px;" class="widget_inline" id="widget_video_id${item.uId}" src="/devwidgets/video/images/video.png">
                 {elseif sakai.config.MimeTypes[item.mimetype]}
                     <img src="${sakai.config.MimeTypes[item.mimetype].URL}" alt="${sakai.config.MimeTypes[item.mimetype].description}" class="embed_image_thumbnail_size"/>
                 {else}

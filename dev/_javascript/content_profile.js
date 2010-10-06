@@ -69,7 +69,7 @@ sakai.content_profile = function(){
                     var directory = [];
                     // When only one tag is put in this will not be an array but a string
                     // We need an array to parse and display the results
-                    if (!(data["sakai:tags"] instanceof Array) && data["sakai:tags"]){
+                    if (!(typeof(data["sakai:tags"]) == "object") && data["sakai:tags"]){
                         data["sakai:tags"] = [data["sakai:tags"]];
                     }
                     currentTags = data["sakai:tags"];

@@ -59,6 +59,7 @@ sakai.fileupload = function(tuid, showSettings){
     var multiFileRemove = ".MultiFile-remove";
     var fileUploadProgress = "fileupload_upload_progress";
     var multiFileList = ".MultiFile-list";
+    var fileUploadNameError = ".fileupload_name_error";
 
     // ID
     var fileUploadAddDescription = "#fileupload_add_description";
@@ -78,7 +79,7 @@ sakai.fileupload = function(tuid, showSettings){
 
     // Form
     var multiFileForm = "#multifile_form";
-    var fileUploadSubmit = "#fileupload_submit";
+    var fileUploadUpdateSubmit = "#fileupload_update_submit";
 
     var cancelButton = "#fileupload_cancel";
 
@@ -116,6 +117,7 @@ sakai.fileupload = function(tuid, showSettings){
     var fileUploadFilesNotUploaded = "#fileupload_files_not_uploaded";
     var fileUploadFilesSuccessfullyUploaded = "#fileupload_files_successfully_uploaded";
     var fileUploadCloseDialog = "#fileupload_close_dialog";
+    var fileUploadEnterNameFor = "#fileupload_enter_name_for";
 
 
     var contextData = {};
@@ -362,6 +364,7 @@ sakai.fileupload = function(tuid, showSettings){
                         "method": "POST",
                         "parameters": {
                             "sakai:description": $(fileUploadAddDescription).val(),
+                            "sakai:fileextension": uploadedFiles[i].filename.substring(uploadedFiles[i].filename.lastIndexOf("."), uploadedFiles[i].filename.length),
                             "sakai:pooled-content-file-name": uploadedFiles[i].name,
                             "sakai:directory": "default",
                             "sakai:permissions": $(fileUploadPermissionsSelect).val(),
@@ -525,7 +528,7 @@ sakai.fileupload = function(tuid, showSettings){
                 if (newVersionIsLink){
                     uploadLink();
                 }else {
-                    $(multiFileForm).trigger("submit");
+                    $(multiFileForm).submit();
                 }
             },
             error: function(xhr, textStatus, thrownError){
@@ -557,6 +560,28 @@ sakai.fileupload = function(tuid, showSettings){
         // Show a notification
         sakai.api.Util.notification.show($(fileUploadNoFiles).html(), $(fileUploadNoFilesWereUploaded).html());
     };
+
+    /**
+     * Set the file extension of the newly uploaded file
+     * @param {String} extension eg '.jpg'
+     */
+    var setFileExtension = function(extension){
+        $.ajax({
+            url: "/p/" + oldVersionPath + ".json",
+            type: "POST",
+            data: {
+                "sakai:fileextension": extension
+            },
+            success: function(data){
+                // Get the version details in order to update the GUI
+                getVersionDetails();
+            },
+            error: function(xhr, textStatus, thrownError){
+                // Get the version details in order to update the GUI
+                getVersionDetails();
+            }
+        });
+    }
 
     /**
      * Set the various settings for the fluid uploader component
@@ -640,8 +665,8 @@ sakai.fileupload = function(tuid, showSettings){
                             }, contextData.id);
 
                         } else {
-                            // Get the version details in order to update the GUI
-                            getVersionDetails();
+                            // Set the new file extension
+                            setFileExtension(uploadedFiles[0].filename.substring(uploadedFiles[0].filename.lastIndexOf("."), uploadedFiles[0].filename.length));
                         }
                     }
                 },
@@ -652,8 +677,25 @@ sakai.fileupload = function(tuid, showSettings){
         });
     };
 
+    $("#fileupload_form_submit").live("click", function(){
+        var nameError = false;
+        $(fileUploadNameError).hide();
+        $(multiFileList + " input").each(function(index){
+            if($.trim($(this)[0].value).length == 0){
+                var errorLabel = $(this).parent().next();
+                errorLabel.css("display", "block")
+                errorLabel.html($(fileUploadEnterNameFor).html() + " \"" + $(this)[0].defaultValue + "\"");
+                nameError = true;
+            }
+        });
+        if (!nameError){
+            $(multiFileForm).submit();
+        }
+    });
+
     // Bind submit form for file upload
     $(multiFileForm).live("submit", function(){
+        $(fileUploadNameError).hide();
         // Remove the button from the form and set loader class
         $(multiFileForm + " button").hide();
         $(fileUploadProgressId).addClass(fileUploadProgress);
@@ -738,7 +780,7 @@ sakai.fileupload = function(tuid, showSettings){
         $(fileUploadContainer).jqmHide();
     });
 
-    $(fileUploadSubmit).live("click", function(){
+    $(fileUploadUpdateSubmit).live("click", function(){
         saveVersion();
     });
 
