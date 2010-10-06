@@ -435,6 +435,7 @@ sakai.profile = function(){
             }
         }
 
+        readySections = [];
         // Filter some JCR properties
         filterJCRProperties(sakai.profile.main.data);
 
