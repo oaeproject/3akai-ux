@@ -658,6 +658,15 @@ sakai.entity = function(tuid, showSettings){
             showHideListLinkMenu(tagsLinkMenu, tagsLink, false);
         });
     };
+    
+    // Add the click listener to the document
+ 	$(document).click(function(e){
+ 	    var $clicked = $(e.target);
+ 	    // if element clicked is not tag Link only then hide the menu.
+ 	    if (!$clicked.parents().is(tagsLink)) {
+ 	        showHideListLinkMenu(tagsLinkMenu, tagsLink, true);
+ 	    }
+ 	});
 
     /**
      * Add binding to elements related to locations drop down
