@@ -454,6 +454,10 @@ sakai.config = {
             URL: "/dev/_images/mimetypes/doc.png",
             description: "Word document"
         },
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document": {
+            URL: "/dev/_images/mimetypes/doc.png",
+            description: "Word document"
+        },
         "application/pdf": {
             URL: "/dev/_images/mimetypes/pdf.png",
             description: "PDF document"
@@ -463,6 +467,10 @@ sakai.config = {
             description: "PDF document"
         },
         "application/vnd.ms-powerpoint": {
+            URL: "/dev/_images/mimetypes/pps.png",
+            description: "PowerPoint document"
+        },
+        "application/vnd.openxmlformats-officedocument.presentationml.presentation": {
             URL: "/dev/_images/mimetypes/pps.png",
             description: "PowerPoint document"
         },
@@ -477,6 +485,10 @@ sakai.config = {
         "application/zip": {
             URL: "/dev/_images/mimetypes/zip.png",
             description: "Archive file"
+        },
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {
+            URL: "/dev/_images/mimetypes/spreadsheet.png",
+            description: "Spreadsheet document"
         },
         "text/plain": {
             URL: "/dev/_images/mimetypes/txt.png",
