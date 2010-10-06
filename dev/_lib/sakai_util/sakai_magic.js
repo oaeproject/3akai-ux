@@ -1281,7 +1281,10 @@ sakai.api.Security.saneHTML = function(inputHTML) {
                         switch (atype) {
                             case html4.atype.SCRIPT:
                             case html4.atype.STYLE:
-                                if ((value === "display: none;") || (value === "display:none;") || (value === "display: none") || (value === "display:none") || (value.split(":")[0] === "background-color") || (value.split(":")[0] === "background") || (value.split(":")[0] === "font-size")) {
+                                if ((value === "display: none;") || (value === "display:none;") || (value === "display: none") || 
+                                    (value === "display:none") || (value.split(":")[0] === "background-color") || 
+                                    (value.split(":")[0] === "color") || (value.split(":")[0] === "font-size") ||
+                                    (value.split(":")[0] === "font-weight") || (value.split(":")[0] === "font-style")) {
                                     value = value;
                                 } else {
                                     value = null;
