@@ -38,6 +38,8 @@ sakai.newaccount = function(){
     var checkUserNameLink = "#checkUserName ";
     var buttonsContainer = ".create_account_button_bar";
     var successMessage = "#success_message";
+    var successMessageTitle = "#success_message_title";
+    var successMessageValue = "#success_message_value";
 
     // Input fields
     var username = "username";
@@ -246,8 +248,15 @@ sakai.newaccount = function(){
                 $(buttonsContainer).hide();
                 // Destroy the captcha
                 sakai.captcha.destroy();
-                // Redirect the user to the login page
-                document.location = sakai.config.URL.GATEWAY_URL;
+                
+                sakai.api.Util.notification.show($(successMessageTitle).html(), $(successMessageValue).html());
+                
+                // Wait for 2 seconds
+                setTimeout(function(){
+                    // Relocate to the my log in page
+                    document.location = sakai.config.URL.GATEWAY_URL;
+                }, 2000);
+ 
             },
             error: function(xhr, textStatus, thrownError) {
                 if (xhr.status === 500 || xhr.status === 401) {
