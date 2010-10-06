@@ -134,7 +134,7 @@ sakai.content_profile = function(){
             var pl_config = {"selectable":true, "subNameInfoUser": "", "subNameInfoGroup": "sakai:group-description", "sortOn": "lastName", "sortOrder": "ascending", "items": 1000 };
             var url = sakai.config.SakaiDomain + content_path + ".members.detailed.json";
             $("#content_profile_listpeople_container").show();
-            $(window).trigger("sakai-listpeople-render", {"tuid": tuid, "pl_config": pl_config, "url": url, "id": content_path});
+            $(window).trigger("sakai-listpeople-render", {"tuid": tuid, "listType": tuid, "pl_config": pl_config, "url": url, "id": content_path});
         }
     };
 

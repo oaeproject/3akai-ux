@@ -123,19 +123,19 @@ sakai.listpeople = function(tuid, showSettings) {
                         if (data.managers.length !== 0) {
                             for (var i in data.managers) {
                                 if (data.managers[i]["rep:userId"] === sakai.data.me.user.userid) {
-                                    sakai.listpeople.config[listType].anon = false;
+                                    sakai.config.listpeople[listType].anon = false;
                                     break;
                                 }
                                 else {
-                                    sakai.listpeople.config[listType].anon = true;
+                                    sakai.config.listpeople[listType].anon = true;
                                 }
                             }
                         }
                         else {
-                            sakai.listpeople.config[listType].anon = true;
+                            sakai.config.listpeople[listType].anon = true;
                         }
                     } else {
-                        sakai.listpeople.config[listType].anon = true;
+                        sakai.config.listpeople[listType].anon = true;
 
                     }
 
@@ -148,6 +148,7 @@ sakai.listpeople = function(tuid, showSettings) {
                         "results" : data,
                         "total" : itemCount
                     };
+
                 } else if (!data.results) {
                     json_data = {
                         "results" : data,
