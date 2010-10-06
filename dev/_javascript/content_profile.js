@@ -131,10 +131,10 @@ sakai.content_profile = function(){
     var loadContentUsers = function(tuid){
         // Check whether there is actually a content path in the URL
         if (content_path) {
-            var pl_config = {"selectable":true, "subNameInfoUser": "", "subNameInfoGroup": "sakai:group-description", "sortOn": "lastName", "sortOrder": "ascending", "items": 50 };
+            var pl_config = {"selectable":true, "subNameInfoUser": "", "subNameInfoGroup": "sakai:group-description", "sortOn": "lastName", "sortOrder": "ascending", "items": 1000 };
             var url = sakai.config.SakaiDomain + content_path + ".members.detailed.json";
             $("#content_profile_listpeople_container").show();
-            $(window).trigger("sakai-listpeople-render", {"tuid": tuid, "pl_config": pl_config, "url": url, "id": content_path});
+            $(window).trigger("sakai-listpeople-render", {"tuid": tuid, "listType": tuid, "pl_config": pl_config, "url": url, "id": content_path});
         }
     };
 
@@ -148,7 +148,7 @@ sakai.content_profile = function(){
     var addRemoveUsers = function(tuid, users, task) {
         var userCount = 0;
         var notificationType = sakai.api.Security.saneHTML($("#content_profile_viewers_text").text());
-        if (sakai.listpeople.data[tuid].selectCount === sakai.listpeople.data[tuid].currentElementCount && tuid === "managers" && task === 'remove') {
+        if (sakai.data.listpeople[tuid].selectCount === sakai.data.listpeople[tuid].currentElementCount && tuid === "managers" && task === 'remove') {
             sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_cannot_remove_everyone").text()), sakai.api.Util.notification.type.ERROR);
         } else {
             $.each(users, function(index, user) {
@@ -228,12 +228,12 @@ sakai.content_profile = function(){
 
         // Bind the remove viewers button
         $("#content_profile_remove_viewers").bind("click", function(){
-            addRemoveUsers('viewers', sakai.listpeople.data["viewers"]["selected"], 'remove');
+            addRemoveUsers('viewers', sakai.data.listpeople["viewers"]["selected"], 'remove');
         });
 
         // Bind the remove managers button
         $("#content_profile_remove_managers").bind("click", function(){
-            addRemoveUsers('managers', sakai.listpeople.data["managers"]["selected"], 'remove');
+            addRemoveUsers('managers', sakai.data.listpeople["managers"]["selected"], 'remove');
         });
 
         if (sakai.pickeruser && sakai.pickeruser.isReady) {

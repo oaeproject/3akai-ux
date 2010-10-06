@@ -236,8 +236,10 @@ sakai.config = {
                         "label": "__MSG__PROFILE_BASIC_DATEOFBIRTH_LABEL__",
                         "required": false,
                         "display": true,
-                        "type": "oldDateITA"
-                        //"type": "date"
+                        "type": "oldDateITA",
+                        "example": "__MSG__DATE_OF_BIRTH_ITA_EXAMPLE__"
+                        //"type": "oldDate",
+                        //"example": "__MSG__DATE_OF_BIRTH_EXAMPLE__"
                     },
                     "tags": {
                         "label": "__MSG__TAGS__",
@@ -488,6 +490,10 @@ sakai.config = {
             URL: "/dev/_images/mimetypes/images.png",
             description: "Png image"
         },
+        "image/bmp": {
+            URL: "/dev/_images/mimetypes/images.png",
+            description: "Bmp image"
+        },
         "image/gif": {
             URL: "/dev/_images/mimetypes/images.png",
             description: "Gif image"
@@ -505,6 +511,10 @@ sakai.config = {
             description: "HTML document"
         },
         "video/x-msvideo": {
+            URL: "/dev/_images/mimetypes/video.png",
+            description: "Video file"
+        },
+        "video/mp4": {
             URL: "/dev/_images/mimetypes/video.png",
             description: "Video file"
         },

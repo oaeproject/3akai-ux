@@ -98,7 +98,7 @@ sakai.search = function() {
                     "searchurl": searchURLmap.pooledcontentmanager
                 },
                 "member" : {
-                    "category": "Content I'm a Viewer of",
+                    "category": "Content I'm a viewer of",
                     "searchurl": searchURLmap.pooledcontentviewer
                 }
             }
@@ -115,7 +115,9 @@ sakai.search = function() {
      */
     var showSearchContent = function() {
         $(searchConfig.global.searchTerm).html(sakai.api.Security.saneHTML(sakai.api.Security.escapeHTML(searchterm)));
-        $(searchConfig.global.tagTerm).text(sakai.api.Security.saneHTML(tagterm));
+        if (tagterm) {
+            $(searchConfig.global.tagTerm).text(sakai.api.Security.saneHTML(tagterm.replace("/tags/", "").replace("directory/", "")));
+        }
         $(searchConfig.global.numberFound).text("0");
         $(searchConfig.results.header).show();
         $(searchConfig.results.tagHeader).hide();
@@ -195,6 +197,11 @@ sakai.search = function() {
             // If we have results we add them to the object.
             if (results && results.results) {
                 finaljson = mainSearch.prepareCMforRendering(results.results, finaljson, searchterm);
+            }
+
+            // if we're searching tags we need to hide the pager since it doesnt work too well
+            if (!results.total) {
+                results.total = resultsToDisplay;
             }
 
             // We hide the pager if we don't have any results or

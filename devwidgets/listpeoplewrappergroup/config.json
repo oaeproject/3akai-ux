@@ -1,6 +1,7 @@
 {
     "grouppages": true,
     "showinsakaigoodies": true,
+    "groupdashboard": true,
     "description":"Group lister",
     "hasSettings": true,
     "id": "listpeoplewrappergroup",

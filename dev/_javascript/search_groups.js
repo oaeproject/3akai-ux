@@ -113,7 +113,9 @@ sakai.search = function() {
      */
     var showSearchContent = function() {
         $(searchConfig.global.searchTerm).html(sakai.api.Security.saneHTML(sakai.api.Security.escapeHTML(searchterm)));
-        $(searchConfig.global.tagTerm).text(sakai.api.Security.saneHTML(tagterm));
+        if (tagterm) {
+            $(searchConfig.global.tagTerm).text(sakai.api.Security.saneHTML(tagterm.replace("/tags/", "").replace("directory/", "")));
+        }
         $(searchConfig.global.numberFound).text("0");
         $(searchConfig.results.header).show();
         $(searchConfig.results.tagHeader).hide();
@@ -227,6 +229,11 @@ sakai.search = function() {
                     }
                     finaljson.items[i]["pagepath"] = page_path;
                 }
+            }
+
+            // if we're searching tags we need to hide the pager since it doesnt work too well
+            if (!results.total) {
+                results.total = resultsToDisplay;
             }
 
             // We hide the pager if we don't have any results or

@@ -120,16 +120,20 @@
                             <!-- TEMPLATE CONTAINING THE RESULTS -->
                             <div id="search_results_template"><!--
                                 {for i in items}
+                                    {if i['sakai:group-id']}
+                                    {var groupsFound = true}
                                     <div class="fl-container fl-fix search_result_course_site">
                                         <div class="search_result_course_site_title"><a href="/~${i.pagepath}">${i["sakai:group-title"]}</a></div>
                                         <div class="search_result_course_site_url"><a href="/~${i.pagepath}">${i.pagepath}</a></div>
                                         <div class="search_result_course_site_excerpt">${i["sakai:group-description"]}</div>
                                     </div>
-                                {forelse}
+                                    {/if}
+                                {/for}
+                                {if !groupsFound}
                                     <div class="search_no_groups">
                                         __MSG__NO_GROUPS_FOUND__
                                     </div>
-                                {/for}
+                                {/if}
                             --></div>
                             <div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"><!-- --></div></div>
                         </div>
