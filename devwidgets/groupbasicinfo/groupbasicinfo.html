@@ -166,31 +166,6 @@
                     <div class="groupbasicinfo_generalinfo_content">${data['sakai:group-description']}</div>
                 </div>
             {/if}
-            <div class="groupbasicinfo_generalinfo_subcontainer">
-                <span class="groupbasicinfo_generalinfo_label">__MSG__JOINABLE_LABEL__:</span>
-                <div class="groupbasicinfo_generalinfo_content">
-                    {if data["sakai:group-joinable"] === sakai.config.Permissions.Groups.joinable.manager_add}
-                        __MSG__JOIN_MANAGER_ADD__
-                    {elseif data["sakai:group-joinable"] === sakai.config.Permissions.Groups.joinable.user_direct}
-                        __MSG__JOIN_USER_DIRECT__
-                    {elseif data["sakai:group-joinable"] === sakai.config.Permissions.Groups.joinable.user_request}
-                        __MSG__JOIN_USER_REQUEST__
-                    {/if}
-                </div>
-            </div>
-            <div class="groupbasicinfo_generalinfo_subcontainer">
-                <span class="groupbasicinfo_generalinfo_label">__MSG__VISIBLE_LABEL__:</span>
-                <div class="groupbasicinfo_generalinfo_content">
-                    {if data["sakai:group-visible"] === sakai.config.Permissions.Groups.visible.public}
-                        __MSG__PUBLIC__
-                    {elseif data["sakai:group-visible"] === sakai.config.Permissions.Groups.visible.allusers}
-                        __MSG__LOGGED_IN_USERS__
-                    {elseif data["sakai:group-visible"] === sakai.config.Permissions.Groups.visible.members}
-                        __MSG__MANAGERS_AND_MEMBERS__
-                    {/if}
-                </div>
-            </div>
-
         {/if}
 
     {/if}
