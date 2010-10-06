@@ -44,6 +44,7 @@ sakai.mygroups = function(tuid){
     var mygroupsErrorNoSettings = "#mygroups_error_nosettings";
     var mygroupsCreateNewGroup = "#create_new_group_link";
     var createGroupContainer = "#creategroupcontainer";
+    var ellipsisContainer = ".mygroups_ellipsis_container";
 
     var mygroups_error_class = "mygroups_error";
 
@@ -118,6 +119,18 @@ sakai.mygroups = function(tuid){
                 }
             }
             $(mygroupsList, rootel).html($.TemplateRenderer(mygroupsListTemplate.replace(/#/, ''), newjson));
+            
+            // make sure the newly added content is properly styled with
+ 	        // threedots truncation
+ 	        $(ellipsisContainer).css("width", $(ellipsisContainer).width() + "px");
+ 	        $(ellipsisContainer, rootel).ThreeDots({
+ 	            max_rows: 1,
+         	    text_span_class: "mygroups_ellipsis_text",
+ 	            e_span_class: "mygroups_e_span_class",
+ 	            whole_word: false,
+ 	            alt_text_t: true
+            });
+            
         }
     };
 

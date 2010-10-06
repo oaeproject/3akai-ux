@@ -26,3 +26,5 @@
 
 /* Widget icon */
 .mygroups.fl-widget .fl-widget-titlebar .widget_title {background: url('/devwidgets/mygroups/images/mygroups_headericon.png') 17px 15px no-repeat;}
+
+.mygroups_ellipsis_container {word-wrap:break-word;}
