@@ -148,7 +148,6 @@ sakai.listpeople = function(tuid, showSettings) {
                         "results" : data,
                         "total" : itemCount
                     };
-
                 } else if (!data.results) {
                     json_data = {
                         "results" : data,
