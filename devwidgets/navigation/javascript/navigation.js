@@ -540,11 +540,14 @@ sakai.navigation = function(tuid, showSettings){
 
         // set up new jstree navigation tree
         var pluginArray = allowDnd ?
-            [ "themes", "json_data", "ui", "dnd" ] :
-            [ "themes", "json_data", "ui" ];
+            [ "themes", "json_data", "ui", "cookies", "dnd" ] :
+            [ "themes", "json_data", "ui", "cookies" ];
         $navigationTree.jstree({
             "core": {
                 "animation": 0
+            },
+            "cookies": {
+                "save_selected": false
             },
             "json_data": {
                 "data": navigationData
