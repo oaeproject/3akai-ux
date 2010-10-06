@@ -230,7 +230,7 @@ sakai.show = function() {
                 entityPath = entityPrefix + sakai.profile.main.data.path;
                 break;
             case "group":
-                entityPath = entityPrefix + "/" + entityID.substring(0,1) + "/" + entityID.substring(0,2) + "/" + entityID;
+                entityPath = entityPrefix + sakai.currentgroup.data.authprofile.path;
                 break;
         }
     };
