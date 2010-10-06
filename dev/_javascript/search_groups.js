@@ -229,6 +229,11 @@ sakai.search = function() {
                 }
             }
 
+            // if we're searching tags we need to hide the pager since it doesnt work too well
+            if (!results.total) {
+                results.total = resultsToDisplay;
+            }
+
             // We hide the pager if we don't have any results or
             // they are less then the number we should display
             results.total = Math.abs(results.total);
