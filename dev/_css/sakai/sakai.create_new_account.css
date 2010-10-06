@@ -74,14 +74,8 @@ body { margin-bottom: 50px !important; }
 .create_account .create_account_form .input_field_hover
 { border: 1px solid #454a4f; background: #dceffd; }
 
-.create_account .create_account_form .invalid_field
-{ border: 1px solid #9f3333; background: #ffdede; width: 400px; height: 26px; font-weight: bold; font-size: 20px; padding: 2px 5px 0 5px;  }
-
-.create_account .create_account_form .create_account_error_msg
-{ color: #9f3333; font-weight: bold; padding: 0 0 10px 15px; margin: -5px 0; }
-
 .create_account .create_account_form .username_available
-{ color: #7aa722; font-weight: bold; padding: 0 0 10px 15px; margin: -5px 0; }
+{ color: #7aa722; font-weight: bold; padding: 0; margin: -5px 0; }
 
 .create_account .success_message
 { font-size: 1.1em; color: #454A4F; padding: 15px 0 0 0; }
