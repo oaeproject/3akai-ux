@@ -126,7 +126,8 @@ sakai.newaccount = function(){
      * will try to create the new user
      */
     var doCreateUser = function(){
-        $(buttonsContainer).hide();
+        $("button").attr("disabled", "disabled");
+        $("input").attr("disabled", "disabled");
         var values = getFormValues();
         var profileData = {}; profileData.basic = {}; profileData.basic.elements = {};
         var keys = ["firstName", "lastName", "email"];
@@ -166,7 +167,8 @@ sakai.newaccount = function(){
                 }, 2000);
             },
             error: function(xhr, textStatus, thrownError) {
-                $(buttonsContainer).show();
+                $("button").removeAttr("disabled");
+                $("input").removeAttr("disabled");
                 if (xhr.status === 500 || xhr.status === 401) {
                     if (xhr.responseText.indexOf("Untrusted request") !== -1) {
                         $(captchaNoMatch).show();
