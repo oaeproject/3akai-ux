@@ -26,12 +26,11 @@
 #video_settings p.video_input_help {font-size:0.9em; color:#999999;}
 
 /* LAYOUT */
-.video_containerInTemplate {width:470px;}
-.video_containerInTemplate a {float:right;}
 #video_settings .video_nomargin {margin:0; padding:0;}
-#video_settings .video_stdmargin,
 #video_settings .video_input_help {padding:0; margin:0 0 13px 0;}
 #video_settings div.dialog_buttons {text-align:right;}
+#video_source_display {margin: 0.5em 5px 0 0; padding:0; text-align:right;}
+#video_source_display a {color:#006E96;}
 
 /* Settings */
 #video_settings {padding:10px;}

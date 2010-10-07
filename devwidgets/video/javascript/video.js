@@ -46,9 +46,7 @@ sakai.video = function(tuid, showSettings) {
     // Configuration variables //
     /////////////////////////////
 
-    var json = false; // Variable used to recieve information by json
-    var me = sakai.data.me; // Contains information about the current user
-    var rootel = $("#" + tuid); // Get the main div used by the widget
+    var rootel = $("#" + tuid);  // Get the main div used by the widget
     var youtubeUrl = "www.youtube.com";
 
     // Main-ids
@@ -63,7 +61,7 @@ sakai.video = function(tuid, showSettings) {
     var choosePlayerContainer = videoID + "_choosePlayerContainer";
     var videoPreviewContainer = videoID + "_previewContainer";
     var videoShowPreview = videoID + "_ShowPreview";
-    var videoFillInfo = videoID + "_fillInfo";
+    var videoForm = videoID + "_form";
 
     // Textboxes
     var videoUrl = videoID + "_txtURL";
@@ -96,9 +94,9 @@ sakai.video = function(tuid, showSettings) {
     var videoBack = videoID + "_btnBack";
 
 
-    ////////////////////////
-    // Utility  functions //
-    ////////////////////////
+    ///////////////////////
+    // Utility functions //
+    ///////////////////////
 
     /**
      * Shows the video in the sakaiplayer
@@ -143,11 +141,12 @@ sakai.video = function(tuid, showSettings) {
               video.videoContainer = tuid + "_video_container";
               $(container, rootel).html($.TemplateRenderer(videoTemplate, video));
 
-              var so = new SWFObject('/devwidgets/video/jwplayer/player-licensed.swf','ply','100%','320px','9','#ffffff');
+              var videoWidth = rootel.width() - 6 + "px";
+              var so = new SWFObject('/devwidgets/video/jwplayer/player-licensed.swf','ply', videoWidth, '100%','9','#ffffff');
               so.addParam('allowfullscreen','true');
               so.addParam('allowscriptaccess','always');
               so.addParam('wmode','opaque');
-              so.addVariable('file',video.URL);
+              so.addVariable('file', video.URL);
               so.write(video.videoContainer);
 
         } catch(err) {
@@ -183,15 +182,13 @@ sakai.video = function(tuid, showSettings) {
      */
     var showSettingsScreen = function(response, exists) {
         if (exists) {
-            // Fill in the info
-            json = response;
-            $(videoTitle, rootel).val(json.title);
-            $(videoUrl, rootel).val(json.URL);
-            $("input[name=" + videoSourceRbt + "][value=" + json.selectedvalue + "]", rootel).attr("checked", true);
-            $(videoTrackViews, rootel).attr("checked", json.checkviews);
-            if (json.selectedvalue === videoSourceRbtTxt) {
-                $(videoSource, rootel).val(json.source);
-            }
+            // Fill in video info
+            $(videoUrl, rootel).val(response.URL);
+            $(videoSource, rootel).val(response.source);
+        } else {
+            // Fill in video defaults
+            $(videoUrl, rootel).val("http://");
+            $(videoSource, rootel).val("");
         }
         $(videoOutput, rootel).hide();
         $(videoSettings, rootel).show();
@@ -200,44 +197,16 @@ sakai.video = function(tuid, showSettings) {
     /**
      * returns a Json-object of the video-settings
      */
-    var getVideoJson = function() {
-        var title = $(videoTitle, rootel).val();
-        var selectedValue = $("input[name=" + videoSourceRbt + "]:checked", rootel).val();
-        var URL = $(videoUrl, rootel).val();
-        var source = "";
-
-        // If the source is checked on guess, then we need to show a proper source
-        if (selectedValue === videoSourceRbtGuess) {
-            source = URL.substring(URL.indexOf("://") + 3);
-            source = source.substring(0, source.indexOf("/"));
-        }
-        // If the source is put to txt, then the user filled in a source himself
-        else if (selectedValue === videoSourceRbtTxt) {
-            source = $(videoSource, rootel).val();
-        }
+    var getVideoJson = function () {
+        var URL = $.trim($(videoUrl, rootel).val());
+        var source = $.trim($(videoSource, rootel).val());
 
         var video = {
-            "uid": me.user.userid,
-            "title": title,
+            "userid": sakai.data.me.user.userid,
             "source": source,
-            "URL": URL,
-            "selectedvalue": selectedValue,
-            "checkviews": $(videoTrackViews, rootel).attr('checked')
+            "URL": URL
         };
-        // Fill in the JSON post object
-        video.isYoutube = (video.URL.search(youtubeUrl) !== -1);
-        video.isSakaiVideoPlayer = ($("input[name=" + videoChoosePlayer + "]:checked", rootel).val() === videoChoosePlayerSakai);
 
-        // Show the choose-player on the preview screen
-        // Because we can't show muliple youtube-videos in the sakai-player on the same page
-        // we give the user the possibility to choose between the YouTube-player or the Sakai-player
-        // if the url is a youtube url
-        if (video.isYoutube) {
-            $(choosePlayerContainer, rootel).show();
-        }
-        else {
-            $(choosePlayerContainer, rootel).hide();
-        }
         return video;
     };
 
@@ -278,7 +247,44 @@ sakai.video = function(tuid, showSettings) {
     // Event Handlers //
     ////////////////////
 
-    /** Bind the insert placeholder button */
+    /** Add validation to the form */
+    $(videoForm, rootel).validate();
+    $(videoUrl, rootel).rules( "add", {
+        required: true,
+        url: true,
+        messages: {
+            url: "Please enter a valid URL, i.e. http://www.youtube.com/watch?v=xyz"
+        }
+    });
+
+    /** Auto-suggest source display */
+    $(videoUrl, rootel).blur(function () {
+        if ($(videoUrl, rootel).valid()) {
+            var source = $.trim($(videoUrl, rootel).val()).split("/")[2];
+            if (sakai.config.Domain.Labels[source]) {
+                $(videoSource, rootel).val(sakai.config.Domain.Labels[source]);
+            } else {
+                $(videoSource, rootel).val(source);
+            }
+        }
+    });
+
+    /** Bind the 'Add Video' button */
+    $(videoForm, rootel).bind("submit",
+    function(e, ui) {
+        if ($(videoForm, rootel).valid()) {
+            addVideo(getVideoJson());
+        }
+    });
+
+    /** Bind the 'Don't Add' button */
+    $(videoBack, rootel).bind("click",
+    function(e, ui) {
+        $(videoSettings, rootel).hide();
+        $(videoOutput, rootel).show();
+    });
+
+    /** Bind the insert placeholder button -- NOT FOR Q1
     $(videoPlaceholder, rootel).bind("click",
     function(e, ui) {
         // When adding a placeholder we just add an empty video-object
@@ -292,13 +298,9 @@ sakai.video = function(tuid, showSettings) {
             "isSakaiVideoPlayer": true
         }; // Fill in the JSON post object
         addVideo(video);
-    });
-    /** Bind the inset widget button */
-    $(videoSubmit, rootel).bind("click",
-    function(e, ui) {
-        addVideo(getVideoJson());
-    });
-    /** Bind the Preview button */
+    }); */
+
+    /** Bind the Preview button -- NOT FOR Q1
     $(videoPreview, rootel).bind("click",
     function(e, ui) {
         if ($(videoUrl, rootel).val() !== "") {
@@ -320,35 +322,7 @@ sakai.video = function(tuid, showSettings) {
             alert("Please fill in a URL.");
         }
 
-    });
-    /** Bind the back button */
-    $(videoBack, rootel).bind("click",
-    function(e, ui) {
-        // Show and hide screens and buttons
-        $(videoPreview, rootel).show();
-        $(videoSubmit, rootel).hide();
-        $(videoBack, rootel).hide();
-        $(videoShowPreview, rootel).hide();
-        $(videoFillInfo, rootel).show();
-    });
-    /** Bind the source radiobuttons */
-    $("input[name=" + videoSourceRbt + "][value=" + videoSourceRbtTxt + "]", rootel).bind("click",
-    function(e, ui) {
-        // If the txt-radiobutton is selected you should give focus to the textbox
-        $(videoSource, rootel).focus();
-    });
-    /** Bind the choose videoplayer radiobuttons */
-    $("input[name=" + videoChoosePlayer + "]", rootel).bind("change",
-    function(e, ui) {
-        var selectedValue = $("input[name=" + videoChoosePlayer + "]:checked", rootel).val();
-        if (selectedValue === videoChoosePlayerSakai) {
-            showVideo(getVideoJson(), videoPreviewContainer, true);
-        }
-        else {
-            showVideo(getVideoJson(), videoPreviewContainer, false);
-        }
-
-    });
+    }); */
 
 
     /////////////////////////////
@@ -359,32 +333,28 @@ sakai.video = function(tuid, showSettings) {
      * Switch between main and settings page
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    if (showSettings) {
+    sakai.api.Widgets.loadWidgetData(tuid, function (success, data) {
 
-        sakai.api.Widgets.loadWidgetData(tuid, function (success, data) {
-
-            if (success) {
+        if (success) {
+            // we have a video set
+            ShowVideoSakaiPlayer(data, videoShowMain);
+            if (showSettings) {
                 showSettingsScreen(data, true);
             } else {
+                $(videoSettings, rootel).hide();
+                $(videoOutput, rootel).show();
+            }
+        } else {
+            // no video set
+            if (showSettings) {
                 showSettingsScreen(data.status, false);
-            }
-
-        });
-
-    } else {
-        $(videoSettings, rootel).hide();
-        $(videoOutput, rootel).show();
-
-        sakai.api.Widgets.loadWidgetData(tuid, function (success, data) {
-
-            if (success) {
-                showVideos(data, true);
             } else {
-                showVideos(data.status, false);
+                $(videoSettings, rootel).hide();
+                $(videoOutput, rootel).show();
             }
+        }
 
-        });
-    }
+    });
 
 };
 sakai.api.Widgets.widgetLoader.informOnLoad("video");

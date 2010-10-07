@@ -5,6 +5,7 @@
     "EDIT_VIDEO_SETTINGS": "Edit video settings to add a video",
     "PLEASE_ENTER_WEB_ADDRESS": "Please paste or enter the web address of the video you would like to insert",
     "SOURCE_DISPLAY": "Source display",
-    "SOURCE_DISPLAY_HELP": "Where your video is from. Displayed as a link to your video",
+    "SOURCE_DISPLAY_HELP": "Optional source information. If entered, it will be displayed as a link pointing to the original video",
+    "VIEW_VIDEO_SOURCE": "View video source",
     "VIDEO_WEB_ADDRESS": "Video web address (URL)"
 }

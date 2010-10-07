@@ -18,7 +18,7 @@
                         <div id="${videoContainer}"/>
                     </div>
                     {if source}
-                        <a href="${URL}">${source}</a>
+                        <p id="video_source_display">Source: <a href="${URL}" target="_blank" title="__MSG__VIEW_VIDEO_SOURCE__">${source}</a></p>
                     {/if}
                 </div>
             --></div>
@@ -26,7 +26,7 @@
 
         <!-- SETTINGS VIEW -->
         <div id="video_settings" style="display:none">
-            <div id="video_fillInfo" class="video_settingsStep">
+            <form id="video_form" method="post" action="javascript:;">
                 <p class="video_nomargin">
                     <label for="video_txtURL">__MSG__VIDEO_WEB_ADDRESS__:</label>
                 </p>
@@ -44,18 +44,13 @@
                         class="video_input_text" />
                 </p>
                 <p class="video_input_help">__MSG__SOURCE_DISPLAY_HELP__.</p>
-
-                <p class="video_stdmargin">
-                    <input type="checkbox" id="video_source_nosource" />
-                    <label for="video_source_nosource">__MSG__DONT_DISPLAY_SOURCE__.</label>
-                </p>
-            </div>
-            <div class="dialog_buttons">
-                <button type="button" class="s3d-button" id="video_btnBack"><span class="s3d-button-inner">__MSG__DONT_ADD__</span></button>
-                <button type="button" class="s3d-button s3d-button-primary" id="video_btnInsertWidget"><span class="s3d-button-inner">__MSG__ADD_VIDEO__</span></button>
-                <button type="button" class="s3d-button s3d-button-primary" id="video_insertPlaceHolder" style="display:none;"><span class="s3d-button-inner">Insert a quick placeholder</span></button>
-                <button type="button" class="s3d-button s3d-button-primary" id="video_btnPreview" style="display:none;"><span class="s3d-button-inner">Preview</span></button>
-            </div>
+                <div class="dialog_buttons">
+                    <button type="button" class="s3d-button" id="video_btnBack"><span class="s3d-button-inner">__MSG__DONT_ADD__</span></button>
+                    <button type="submit" class="s3d-button s3d-button-primary" id="video_btnInsertWidget"><span class="s3d-button-inner">__MSG__ADD_VIDEO__</span></button>
+                    <!-- Not needed for Q1> <button type="button" class="s3d-button s3d-button-primary" id="video_insertPlaceHolder" style="display:none;"><span class="s3d-button-inner">Insert a quick placeholder</span></button>
+                    <button type="button" class="s3d-button s3d-button-primary" id="video_btnPreview" style="display:none;"><span class="s3d-button-inner">Preview</span></button> <-->
+                </div>
+            </form>
         </div>
     </div>
 
