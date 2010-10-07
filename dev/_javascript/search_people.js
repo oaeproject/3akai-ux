@@ -394,7 +394,7 @@ sakai.search = function() {
                     page: (currentpage - 1),
                     items: resultsToDisplay,
                     q: urlsearchterm,
-                    sortOn: "sakai:firstName",
+                    sortOn: "basic/elements/firstName/@value",
                     sortOrder: "ascending"
                 }
             }
@@ -406,7 +406,7 @@ sakai.search = function() {
                     page: (currentpage - 1),
                     items: resultsToDisplay,
                     q: urlsearchterm,
-                    sortOn: "sakai:firstName",
+                    sortOn: "basic/elements/firstName/@value",
                     sortOrder: "ascending"
                 }
             }
