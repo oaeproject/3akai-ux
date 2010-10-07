@@ -731,7 +731,7 @@ sakai.fileupload = function(tuid, showSettings){
         onfocusout:false
     });
 
-     $("#fileupload_link_box form").live("submit",function(){
+     $("#fileupload_link_box form").bind("submit",function(e){
 
          $(fileUploadAddLinkButton).attr("disabled", "disabled");
          $(fileUploadLinkBoxInput).attr("disabled", "disabled");
@@ -751,7 +751,7 @@ sakai.fileupload = function(tuid, showSettings){
             performedSubmit = false;
             sakai.api.Util.notification.show($(fileUploadCheckURL).html(), $(fileUploadEnterValidURL).html());
         }
-
+        e.stopImmediatePropagation();
         return false;
     });
 
