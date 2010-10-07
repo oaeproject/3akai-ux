@@ -512,7 +512,15 @@ sakai.profile = function(){
 
     };
 
-    var invalidSubmit = 0;
+    jQuery.validator.addMethod("appendhttp", function(value, element) {
+        if(value.substring(0,7) !== "http://" &&
+        value.substring(0,6) !== "ftp://" &&
+        value.substring(0,8) !== "https://" &&
+        $.trim(value) !== "") {
+            $(element).val("http://" + value);
+        }
+        return true;
+    }, "No error message, this is just an appender");
     /**
      * Add binding to the profile form
      */
@@ -523,18 +531,7 @@ sakai.profile = function(){
 
         // Initialize the validate plug-in
         $profile_form.validate({
-            debug: true,
-            messages: {
-                required: "test"
-            },
             submitHandler: function(form, validator) {
-                if (invalidSubmit === 2) {
-                    invalidSubmit = 0;
-                    return;
-                }
-                if (invalidSubmit === 1) {
-                    invalidSubmit = 2;
-                }
                 // Trigger the profile save method, this is event is bound in every sakai section
                 $(window).trigger("sakai-profile-save");
             },
@@ -542,27 +539,11 @@ sakai.profile = function(){
             onkeyup:false,
             onfocusout:false,
             invalidHandler: function(form, validator){
-                var urls = $profile_form.find("input.url");
-                var resubmit = false;
-                $(urls).each(function(i,val) {
-                    if($(val).val().substring(0,7) !== "http://" &&
-                    $(val).val().substring(0,6) !== "ftp://" &&
-                    $(val).val().substring(0,8) !== "https://" &&
-                    $.trim($(val).val()) !== "") {
-                        $(val).val("http://" + $(val).val());
-                        invalidSubmit = 1;
-                        resubmit = true;
-                    }
-                });
-                if (resubmit) {
-                    $profile_form.trigger("submit");
-                } else {
-                    // Remove all the current notifications
-                    sakai.api.Util.notification.removeAll();
+                // Remove all the current notifications
+                sakai.api.Util.notification.removeAll();
 
-                    // Show a notification which states that you have errors
-                    sakai.api.Util.notification.show("", $profile_error_form_errors.text(), sakai.api.Util.notification.type.ERROR);
-                }
+                // Show a notification which states that you have errors
+                sakai.api.Util.notification.show("", $profile_error_form_errors.text(), sakai.api.Util.notification.type.ERROR);
             },
             ignore: ".profile_validation_ignore", // Class
             validClass: "profilesection_validation_valid",

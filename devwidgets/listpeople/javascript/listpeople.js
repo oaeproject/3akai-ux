@@ -59,7 +59,7 @@ sakai.listpeople = function(tuid, showSettings) {
 
     // Variables
     var listType = "";
-
+    
     /**
      * Reset
      * Resets the people lister to a default state
@@ -73,7 +73,7 @@ sakai.listpeople = function(tuid, showSettings) {
         $listpeople_count_total.hide();
         $listpeople_count_selected.hide();
         $listpeople_content.unbind("scroll");
-        $listpeople_sort_order.unbind("click");
+        $listpeople_sort_order.unbind("change");
 
         sakai.data.listpeople[listType].selected = {};
         sakai.data.listpeople[listType].currentElementCount = 0;
@@ -279,7 +279,7 @@ sakai.listpeople = function(tuid, showSettings) {
         $listpeople_count_total.html(sakai.data.listpeople[listType].total);
 
         // Wire sorting select dropdown
-        $listpeople_sort_order.bind("click", function(e){
+        $listpeople_sort_order.bind("change", function(e){
             var sortOrder = $listpeople_sort_order.val();
             sortList(pageNumber, sortOrder);
         });

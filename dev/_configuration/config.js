@@ -368,7 +368,7 @@ sakai.config = {
                         "label": "__MSG__PROFILE_PUBLICATIONS_URL__",
                         "required": false,
                         "display": true,
-                        "validation":"url"
+                        "validation":"appendhttp url"
                     }
                 }
             }

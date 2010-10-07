@@ -127,10 +127,10 @@ sakai.search = function() {
                     "category": "My Contacts",
                     "searchurl": searchURLmap.mycontacts
                 },
-                "onlinecontacts" : {
-                    "category": "Contacts Currently Online",
-                    "searchurl": searchURLmap.onlinecontacts
-                },
+                //"onlinecontacts" : {
+                //    "category": "Contacts Currently Online",
+                //    "searchurl": searchURLmap.onlinecontacts
+                //},
                 "invited" : {
                     "category": "My Contact Invitations",
                     "searchurl": searchURLmap.invitedcontacts
@@ -394,7 +394,7 @@ sakai.search = function() {
                     page: (currentpage - 1),
                     items: resultsToDisplay,
                     q: urlsearchterm,
-                    sortOn: "sakai:firstName",
+                    sortOn: "basic/elements/firstName/@value",
                     sortOrder: "ascending"
                 }
             }
@@ -406,7 +406,7 @@ sakai.search = function() {
                     page: (currentpage - 1),
                     items: resultsToDisplay,
                     q: urlsearchterm,
-                    sortOn: "sakai:firstName",
+                    sortOn: "basic/elements/firstName/@value",
                     sortOrder: "ascending"
                 }
             }
