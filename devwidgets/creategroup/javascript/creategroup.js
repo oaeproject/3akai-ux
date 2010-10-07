@@ -321,6 +321,14 @@ sakai.creategroup = function(tuid, showSettings){
         $(createGroupAddId).val(entered);
     });
 
+    /*
+     *  When user change the group url address, reset error fields.
+     */
+    $(createGroupAddId).bind("keyup",function(ev){
+        // reset error field.
+        resetErrorFields(); 
+    });
+
 
     /////////////////////////////
     // Initialisation function //
