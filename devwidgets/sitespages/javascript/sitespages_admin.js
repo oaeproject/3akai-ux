@@ -998,7 +998,11 @@ sakai.sitespages.site_admin = function(){
      */
     var showPageLocation = function(){
         //http://localhost:8080/~resources#page=resourcespagesthird-page
-        $("#new_page_path").html(sakai.api.Security.saneHTML("<span>Page location: </span>" + sakai.config.SakaiDomain + "/~" + sakai.currentgroup.id + "#page=" + sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage].pageURLName));
+        if (!$.isEmptyObject(sakai.currentgroup.id)){
+            $("#new_page_path").html(sakai.api.Security.saneHTML("<span>Page location: </span>" + sakai.config.SakaiDomain + "/~" + sakai.currentgroup.id + "#page=" + sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage].pageURLName));
+        } else {
+            $("#new_page_path").html(sakai.api.Security.saneHTML("<span>Page location: </span>" + sakai.config.SakaiDomain + "/~" + sakai.data.me.user.userid + "#page=" + sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage].pageURLName));
+        }
 
     };
 
