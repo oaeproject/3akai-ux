@@ -312,6 +312,11 @@ sakai.profile = function(){
             delete i_object["rep:policy"];
         }
 
+        // Remove the jcr:path property
+        if (i_object["jcr:path"]) {
+            delete i_object["jcr:path"];
+        }
+
         // Also run over the other objects within this object
         for (var i in i_object) {
             if (i_object.hasOwnProperty(i) && $.isPlainObject(i_object[i])) {
