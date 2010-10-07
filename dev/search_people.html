@@ -46,6 +46,7 @@
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.pager.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.ba-bbq.js"></script>
         <script type="text/javascript" src="_javascript/_history/search_history.js"></script>
+        <script type="text/javascript" src="_lib/jquery/plugins/jquery.threedots.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.autoSuggest.sakai-edited.js"></script>
 
     </head>
@@ -141,7 +142,7 @@
                                         {else}
                                         <a href="/~${i.userid}" class="search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"><img alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" src="${i.picture}" width="60px" height="60px"/></a>
                                         {/if}
-                                        <a href="/~${i.userid}" class="search_result_person_name">${i.name}</a>
+                                        <a href="/~${i.userid}" class="search_result_person_name"><span class="search_result_person_threedots search_result_header_text"><span class="threedots ellipsis_text">${i.name}</span></span></a>
                                         {if i.extra}
                                         <a href="javascript:;" class="search_result_person_dept">${i.extra}</a>
                                         {else}

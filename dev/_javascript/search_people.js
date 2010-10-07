@@ -306,9 +306,17 @@ sakai.search = function() {
             $(searchConfig.global.pagerClass).hide();
         }
         foundPeople = finaljson.items;
+        
         //    Render the results.
         $(searchConfig.results.container).html($.TemplateRenderer(searchConfig.results.template, finaljson));
         $("#search_results_page1").show();
+        
+        
+        $(".search_result_person_threedots").ThreeDots({
+            max_rows: 1,
+            text_span_class: "threedots",
+            alt_text_t: true
+        });
     };
 
 

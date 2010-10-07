@@ -229,6 +229,13 @@ sakai.search = function() {
 
         }
         $(searchConfig.cm.searchResult).html($.TemplateRenderer(searchConfig.cm.searchResultTemplate, finaljson));
+        
+        $(".search_result_person_threedots").ThreeDots({
+            max_rows: 1,
+            text_span_class: "threedots",
+            alt_text_t: true
+        });
+
     };
 
     /**
