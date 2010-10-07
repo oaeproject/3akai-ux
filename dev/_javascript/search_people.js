@@ -127,10 +127,10 @@ sakai.search = function() {
                     "category": "My Contacts",
                     "searchurl": searchURLmap.mycontacts
                 },
-                "onlinecontacts" : {
-                    "category": "Contacts Currently Online",
-                    "searchurl": searchURLmap.onlinecontacts
-                },
+                //"onlinecontacts" : {
+                //    "category": "Contacts Currently Online",
+                //    "searchurl": searchURLmap.onlinecontacts
+                //},
                 "invited" : {
                     "category": "My Contact Invitations",
                     "searchurl": searchURLmap.invitedcontacts
