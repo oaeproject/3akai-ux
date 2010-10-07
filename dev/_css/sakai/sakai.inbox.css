@@ -50,7 +50,7 @@
 { background:transparent url(/dev/_images/block_tl.png) no-repeat scroll left top; padding: 18px 0 0 17px; height:50px; }
 
 .inbox_main .inbox-folders .if_title
-{ background:transparent url(/dev/_images/recent_activity_icon.png) no-repeat scroll left top; color:#878A8C; font-size:1em; padding-left: 25px; margin:0;}
+{ background:transparent url(/dev/_images/mail_icon_16x16.png) no-repeat scroll left top; color:#878A8C; font-size:1em; padding-left: 25px; margin:0;}
 
 
 .inbox_main .inbox-folders .if_content
@@ -264,7 +264,7 @@
 .inbox_detail .message-options
 { padding: 15px 15px 0 0; }
 
-.inbox_detail .message-options a
+.inbox_detail .message-options a, #inbox_message_body a
 { color:#058ec4; font-weight: bold; }
 
 .inbox_detail .pipe-divider

@@ -642,6 +642,9 @@ sakai.discussion = function(tuid, showSettings){
         // JCR properties are not necessary.
         delete data["jcr:primaryType"];
 
+        // don't save messages this way
+        delete data["message"];        
+
         sakai.api.Widgets.saveWidgetData(tuid, data, callback);
     };
 
@@ -652,7 +655,7 @@ sakai.discussion = function(tuid, showSettings){
     var createInitialPost = function(post){
         // Use the local store for creating the initial posts.
         $.ajax({
-            url: "/~" + sakai.data.me.user.userid + "/message.create.html",
+            url: store + ".create.html",
             cache: false,
             type: 'POST',
             success: function(data){
@@ -706,7 +709,7 @@ sakai.discussion = function(tuid, showSettings){
                 'sakai:replyon': id,
                 'sakai:messagebox': 'outbox',
                 'sakai:sendstate': 'pending',
-                'sakai:to': "discussion:" + currentSite
+                'sakai:to': "discussion:w-" + store
             };
 /*            sakai.api.Widgets.saveWidgetData(tuid, object, function(success, data){
                 alert("I seem to have saved a discussion topic.");
@@ -802,7 +805,7 @@ sakai.discussion = function(tuid, showSettings){
      * Add a new topic.
      * @param {String} id
      */
-    var addNewTopic = function(id){
+    var addNewTopic = function(){
         var subject = $(discussionAddTopicSubject, rootel).val();
         var body = $(discussionAddTopicBody, rootel).val();
         if ((""+subject).replace(/ /g, "") !== "" && (""+body).replace(/ /g, "") !== "") {
@@ -818,7 +821,7 @@ sakai.discussion = function(tuid, showSettings){
                 'sakai:initialpost': true,
                 'sakai:messagebox': 'outbox',
                 'sakai:sendstate': 'pending',
-                'sakai:to': "discussion:" + currentSite
+                'sakai:to': "discussion:w-" + store
             };
 /*            sakai.api.Widgets.saveWidgetData(tuid, object, function(success, data){
                 alert("I seem to have saved a discussion topic.");
@@ -881,7 +884,7 @@ sakai.discussion = function(tuid, showSettings){
         var post = {};
         post["sakai:type"] = "discussion";
         post["sling:resourceType"] = "sakai/message";
-        post["sakai:to"] = "discussion:" + currentSite;
+        post["sakai:to"] = "discussion:w-" + store;
         post['sakai:subject'] = $(discussionSettingsNewSubject, rootel).val();
         post['sakai:body'] = $(discussionSettingsNewBody, rootel).val();
         post['sakai:initialpost'] = true;
@@ -1074,7 +1077,6 @@ sakai.discussion = function(tuid, showSettings){
         sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
 
             if (success) {
-
                 widgetSettings = $.extend(data, {}, true);
                 if (widgetSettings.marker !== undefined) {
                     marker = widgetSettings.marker;
@@ -1164,10 +1166,11 @@ sakai.discussion = function(tuid, showSettings){
         });
 
         // Bind the add topic submit
-        $(discussionAddTopicSubmit, rootel).bind("click", function(e, ui){
+        $(discussionAddContainer + " form", rootel).bind("submit", function(e, ui){
             if ($(discussionAddContainer + " form").valid()) {
-                addNewTopic($(this).attr("id").split("_")[$(this).attr("id").split("_").length - 1]);
+                addNewTopic();
             }
+            return false;
         });
 
         // Bind the add topic cancel
@@ -1250,7 +1253,7 @@ sakai.discussion = function(tuid, showSettings){
             e.target.className = discussionSettingsListItemClass;
         });
 
-    }
+    };
 
     //////////////////////
     // Initial function //
@@ -1261,6 +1264,7 @@ sakai.discussion = function(tuid, showSettings){
         addBindings();
 
         if (widgeturl) {
+            store = widgeturl + "/message";
             $.ajax({
                 url: widgeturl + ".infinity.json",
                 type: "GET",
@@ -1271,28 +1275,54 @@ sakai.discussion = function(tuid, showSettings){
                 error: function(xhr, textStatus, thrownError) {
                     if (xhr.status == 404) {
                         // we need to create the initial message store
-                        $.post(widgeturl, { "jcr:primaryType": "nt:unstructured" } );
+                        $.post(store, {"sling:resourceType":"sakai/messagestore"} );
                     }
                 }
             });
         }
-
+        var isGroup = false;
         if (sakai.currentgroup && typeof sakai.currentgroup.id === "string") {
             currentSite = sakai.currentgroup.id;
+            isGroup = true;
         } else {
             currentSite = sakai.profile.main.data["rep:userId"];
         }
-        store = "/~" + currentSite + "/message";
         getWidgetSettings();
         if (showSettings) {
             $(discussionMainContainer, rootel).hide();
             $(discussionSettings, rootel).show();
+            if (isGroup) {
+                $("#discussion_settings_visibility_group", rootel).show();
+            } else {
+                $("#discussion_settings_visibility_user", rootel).show();
+            }
         }
         else {
             $(discussionMainContainer, rootel).show();
             $(discussionSettings, rootel).hide();
+
+            var canAddTopics = false;
+            if (isGroup) {
+                if (sakai.api.Groups.isCurrentUserAManager(currentSite) || sakai.api.Groups.isCurrentUserAMember(currentSite)) {
+                    canAddTopics = true;
+                }
+            } else {
+                if (sakai.data.me.user.userid === currentSite) {
+                    canAddTopics = true;
+                } else {
+                    canAddTopics = sakai.api.User.checkIfConnected(currentSite);
+                }
+            }
+
+            if (canAddTopics) {
+                $(discussionAddNewTopic).show();
+            }
+            
+            if (!sakai.api.Widgets.isOnDashboard(tuid)) {
+                $("#discussion_widget_header", rootel).show();
+            }
         }
-    }
+    };
 
     init();
 };

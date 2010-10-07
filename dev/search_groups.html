@@ -86,6 +86,7 @@
                         <!-- SEARCH BAR -->
                         <div class="fl-left fl-container fl-fix search_bar">
                             <div id="search_form">
+                                <button class="s3d-button s3d-button-primary search_add_group_button"><span class="s3d-button-inner">__MSG__CREATE_A_GROUP__</span></button>
                                 <input maxlength="255" type="text" id="search_text" class="input" value="__MSG__ENTER_A_SEARCHTERM__" title="__MSG__ENTER_A_SEARCHTERM__" />
                                 <button id="search_button" class="s3d-search-button s3d-button s3d-button-primary"><span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span></button>
                             </div>
@@ -110,7 +111,10 @@
                             <div class="fl-container fl-fix search_results_part">
 
                                 <div class="fl-left fl-container search_result_title" id="search_results_header"> __MSG__FOUND__ <strong id="search_numberFound">0</strong> __MSG__RESULTS_MATCHING_YOUR_SEARCH_FOR__ <span class="keyword" id="search_mysearchterm"></span> </div>
-                                <div class="fl-left fl-container search_result_title" id="search_results_tag_header"> __MSG__RESULTS_TAGGED_UNDER__ <span class="keyword" id="search_mytagterm"></span> </div>
+                                <div class="fl-left fl-container search_result_title" id="search_results_tag_header"><span class="keyword" id="search_mytagterm"></span> </div>
+
+                                <div id="search_result_results_tagged_under" style="display:none;"><span style="font-weight:normal">__MSG__RESULTS_TAGGED_UNDER__</span></div>
+                                <div id="search_result_results_located_in" style="display:none;"><span style="font-weight:normal">__MSG__RESULTS_LOCATED_IN__</span></div>
 
                                 <!-- CONTAINER FOR THE RESULTS -->
                                 <div id="search_results_container" class="search_padded_groups"></div>
@@ -120,16 +124,20 @@
                             <!-- TEMPLATE CONTAINING THE RESULTS -->
                             <div id="search_results_template"><!--
                                 {for i in items}
+                                    {if i['sakai:group-id']}
+                                    {var groupsFound = true}
                                     <div class="fl-container fl-fix search_result_course_site">
                                         <div class="search_result_course_site_title"><a href="/~${i.pagepath}">${i["sakai:group-title"]}</a></div>
                                         <div class="search_result_course_site_url"><a href="/~${i.pagepath}">${i.pagepath}</a></div>
                                         <div class="search_result_course_site_excerpt">${i["sakai:group-description"]}</div>
                                     </div>
-                                {forelse}
+                                    {/if}
+                                {/for}
+                                {if !groupsFound}
                                     <div class="search_no_groups">
                                         __MSG__NO_GROUPS_FOUND__
                                     </div>
-                                {/for}
+                                {/if}
                             --></div>
                             <div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"><!-- --></div></div>
                         </div>
@@ -146,6 +154,12 @@
             </div>
 
         </div>
+
+        <!-- CONTAINER FOR THE CREATEGROUP CONTAINER -->
+        <div id="creategroupcontainer" style="display:none;">
+            <!-- We need this container to show the pop-up where you can add a group -->
+            <div id="widget_creategroup" class="widget_inline"></div>
+ 	    </div>
 
         <!-- FOOTER WIDGET -->
         <div id="widget_footer" class="widget_inline footercontainer"></div>

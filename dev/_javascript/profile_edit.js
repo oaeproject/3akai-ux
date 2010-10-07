@@ -312,6 +312,11 @@ sakai.profile = function(){
             delete i_object["rep:policy"];
         }
 
+        // Remove the jcr:path property
+        if (i_object["jcr:path"]) {
+            delete i_object["jcr:path"];
+        }
+
         // Also run over the other objects within this object
         for (var i in i_object) {
             if (i_object.hasOwnProperty(i) && $.isPlainObject(i_object[i])) {
@@ -418,15 +423,6 @@ sakai.profile = function(){
 
     };
 
-    /**
-     * Save the current profile data to the repository
-     */
-    var saveProfileData = function(){
-
-        // Trigger the profile save method, this is event is bound in every sakai section
-        $(window).trigger("sakai-profile-save");
-
-    };
 
     $(window).bind("sakai-profile-data-ready", function(e, sectionName) {
 
@@ -444,6 +440,7 @@ sakai.profile = function(){
             }
         }
 
+        readySections = [];
         // Filter some JCR properties
         filterJCRProperties(sakai.profile.main.data);
 
@@ -515,6 +512,7 @@ sakai.profile = function(){
 
     };
 
+    var invalidSubmit = 0;
     /**
      * Add binding to the profile form
      */
@@ -529,17 +527,44 @@ sakai.profile = function(){
             messages: {
                 required: "test"
             },
-            submitHandler: saveProfileData,
+            submitHandler: function(form, validator) {
+                if (invalidSubmit === 2) {
+                    invalidSubmit = 0;
+                    return;
+                }
+                if (invalidSubmit === 1) {
+                    invalidSubmit = 2;
+                }
+                // Trigger the profile save method, this is event is bound in every sakai section
+                $(window).trigger("sakai-profile-save");
+            },
+            onclick:false,
+            onkeyup:false,
+            onfocusout:false,
             invalidHandler: function(form, validator){
+                var urls = $profile_form.find("input.url");
+                var resubmit = false;
+                $(urls).each(function(i,val) {
+                    if($(val).val().substring(0,7) !== "http://" &&
+                    $(val).val().substring(0,6) !== "ftp://" &&
+                    $(val).val().substring(0,8) !== "https://" &&
+                    $.trim($(val).val()) !== "") {
+                        $(val).val("http://" + $(val).val());
+                        invalidSubmit = 1;
+                        resubmit = true;
+                    }
+                });
+                if (resubmit) {
+                    $profile_form.trigger("submit");
+                } else {
+                    // Remove all the current notifications
+                    sakai.api.Util.notification.removeAll();
 
-                // Remove all the current notifications
-                sakai.api.Util.notification.removeAll();
-
-                // Show a notification which states that you have errors
-                sakai.api.Util.notification.show("", $profile_error_form_errors.text(), sakai.api.Util.notification.type.ERROR);
+                    // Show a notification which states that you have errors
+                    sakai.api.Util.notification.show("", $profile_error_form_errors.text(), sakai.api.Util.notification.type.ERROR);
+                }
             },
             ignore: ".profile_validation_ignore", // Class
-            errorClass: "profilesection_validation_error",
             validClass: "profilesection_validation_valid",
             ignoreTitle: true // Ignore the title attribute, this can be removed as soon as we use the data-path attribute
         });

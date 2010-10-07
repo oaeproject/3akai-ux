@@ -11,9 +11,9 @@
                 __MSG__NAME__:
             </label>
             {if !anon}
-                <input type="text" id="content_profile_basic_info_form_name" {if  data["sakai:pooled-content-file-name"]}value="${data["sakai:pooled-content-file-name"]}"{/if}/>
+                <input type="text" id="content_profile_basic_info_form_name" {if data["sakai:pooled-content-file-name"]}value="${data["sakai:pooled-content-file-name"]}"{/if} class="required" name="Content name"/>
             {else}
-                <label class="content_profile_basic_info_form_anon_label">{if  data["sakai:pooled-content-file-name"]}${data["sakai:pooled-content-file-name"]}{/if}</label>
+                <label class="content_profile_basic_info_form_anon_label">{if data["sakai:pooled-content-file-name"]}${data["sakai:pooled-content-file-name"]}{/if}</label>
             {/if}
         </div>
         <div class="content_profile_basic_info_form_row">
@@ -21,14 +21,18 @@
                 __MSG__TAGS__:
             </label>
             {if !anon}
-                <textarea id="content_profile_basic_info_form_tags">{if data["sakai:tags"]}{for tag in data["sakai:tags"]}{if tag.split("/")[0] !== "directory"}{if tag_index > 0},{/if}${tag}{/if}{/for}{/if}</textarea>
+                <textarea rows="3" name="Content tags" id="content_profile_basic_info_form_tags">{if data["sakai:tags"]}{for tag in data["sakai:tags"]}{if tag.split("/")[0] !== "directory"}{if tag_index > 0},{/if}${tag}{/if}{/for}{/if}</textarea>
                 <br/>
                 <div class="content_profile_basic_info_form_info">
                     __MSG__THIS_WILL_HELP_YOU_AND_OTHERS_FIND_THIS_CONTENT__
                 </div>
             {else}
             <div id="content_profile_basic_info_tags_viewlist">
-                {for tag in data["sakai:tags"]}{if tag.split("/")[0] !== "directory"}{if tag_index > 0},{/if} <a href="/dev/search.html#tag=/tags/${tag}" class="s3d-action" title="Search content tagged with '${tag}'"">${tag}</a>{/if}{/for}
+                {if data["sakai:tags"]}
+                    {for tag in data["sakai:tags"]}{if tag.split("/")[0] !== "directory"}{if tag_index > 0},{/if} <a href="/dev/search.html#tag=/tags/${tag}" class="s3d-action" title="Search content tagged with '${tag}'"">${tag}</a>{/if}{/for}
+                {else}
+                    <label class="content_profile_basic_info_form_anon_label">__MSG__NONE__</label>
+                {/if}
             </div>
             {/if}
         </div>
@@ -37,9 +41,9 @@
                 __MSG__DESCRIPTION__:
             </label>
             {if !anon}
-            <textarea id="content_profile_basic_info_form_description">{if data["sakai:description"]}${data["sakai:description"]}{/if}</textarea>
+                <textarea rows="3" name="Content description" id="content_profile_basic_info_form_description">{if data["sakai:description"]}${data["sakai:description"]}{/if}</textarea>
             {else}
-                <label class="content_profile_basic_info_form_anon_label">{if data["sakai:description"]}${data["sakai:description"]}{/if}</label>
+                <label class="content_profile_basic_info_form_anon_label">{if data["sakai:description"]}${data["sakai:description"]}{else}__MSG__NONE__{/if}</label>
             {/if}
         </div>
         <div class="content_profile_basic_info_form_row">
@@ -47,7 +51,7 @@
                 __MSG__KIND_OF_COPYRIGHT__:
             </label>
             {if !anon}
-                <select id="content_profile_basic_info_copyright_select">
+                <select id="content_profile_basic_info_copyright_select" name="Content copyright">
                     <option value="creativecommons" {if data["sakai:copyright"] === "creativecommons"}selected="selected"{/if}>__MSG__CREATIVE_COMMONS_LICENSE__</option>
                     <option value="copyrighted" {if data["sakai:copyright"] === "copyrighted"}selected="selected"{/if}>__MSG__COPYRIGHTED__</option>
                     <option value="nocopyright" {if data["sakai:copyright"] === "nocopyright"}selected="selected"{/if}>__MSG__NO_COPYRIGHT__</option>
@@ -55,11 +59,13 @@
                     <option value="waivecopyright" {if data["sakai:copyright"] === "waivecopyright"}selected="selected"{/if}>__MSG__WAIVE_COPYRIGHT__</option>
                 </select>
             {else}
-                {if data["sakai:copyright"] === "creativecommons"}__MSG__CREATIVE_COMMONS_LICENSE__{/if}
-                {if data["sakai:copyright"] === "copyrighted"}__MSG__COPYRIGHTED__{/if}
-                {if data["sakai:copyright"] === "nocopyright"}__MSG__NO_COPYRIGHT__{/if}
-                {if data["sakai:copyright"] === "licensed"}__MSG__LICENSED__{/if}
-                {if data["sakai:copyright"] === "waivecopyright"}__MSG__WAIVE_COPYRIGHT__{/if}
+                <label class="content_profile_basic_info_form_anon_label">
+                    {if data["sakai:copyright"] === "creativecommons"}__MSG__CREATIVE_COMMONS_LICENSE__{/if}
+                    {if data["sakai:copyright"] === "copyrighted"}__MSG__COPYRIGHTED__{/if}
+                    {if data["sakai:copyright"] === "nocopyright"}__MSG__NO_COPYRIGHT__{/if}
+                    {if data["sakai:copyright"] === "licensed"}__MSG__LICENSED__{/if}
+                    {if data["sakai:copyright"] === "waivecopyright"}__MSG__WAIVE_COPYRIGHT__{/if}
+                </label>
             {/if}
         </div>
         {if !anon}
@@ -67,7 +73,7 @@
             <label for="content_profile_basic_info_permissions_select">
                 __MSG__WHO_CAN_SEE_THIS_CONTENT__:
             </label>
-                <select id="content_profile_basic_info_permissions_select">
+                <select id="content_profile_basic_info_permissions_select" name="Content permissions">
                     <option value="public" {if data["sakai:permissions"] === "public"}selected="selected"{/if}>__MSG__PUBLIC__</option>
                     <option value="everyone" {if data["sakai:permissions"] === "everyone"}selected="selected"{/if}>__MSG__LOGGED_IN_USERS__</option>
                     <option value="private" {if data["sakai:permissions"] === "private" || data["sakai:permissions"] === "group"}selected="selected"{/if}>__MSG__MANAGERS_AND_MEMBERS__</option>
@@ -119,7 +125,7 @@
         </div>
         {if !anon}
         <div class="content_profile_basic_info_form_buttons">
-            <button type="submit" class="s3d-button s3d-button-primary" id="uploadcontent_action_addcontent">
+            <button type="submit" class="s3d-button s3d-button-primary" id="uploadcontent_action_addcontent" name="submit_button">
                 <span class="s3d-button-inner">__MSG__UPDATE_DETAILS__</span>
             </button>
         </div>
@@ -128,8 +134,8 @@
 --></div>
 
     <div id="content_profile_basic_info_firstlevel_template"><!--
-        <select class="content_profile_basic_info_content content_profile_basic_info_hierarchy_select content_profile_basic_info_directory_lvlone">
-            <option value="no_value"> </option>
+        <select class="content_profile_basic_info_content content_profile_basic_info_hierarchy_select content_profile_basic_info_directory_lvlone required" name="content_profile_basic_info_directory_lvlone">
+            <option value="no_value">__MSG__PLEASE_SELECT__</option>
             {for i in directory}
                 <option value="${i.name}">${i.name}</option>
             {/for}
@@ -141,8 +147,8 @@
 
     <div id="content_profile_basic_info_secondlevel_template" style="display:none;"><!--
         <span class="content_profile_basic_info_select_seperator"> &raquo; </span>
-        <select class="content_profile_basic_info_content content_profile_basic_info_hierarchy_select content_profile_basic_info_directory_lvltwo">
-            <option value="no_value"> </option>
+        <select class="content_profile_basic_info_content content_profile_basic_info_hierarchy_select content_profile_basic_info_directory_lvltwo" name="Content directory location">
+            <option value="no_value">__MSG__PLEASE_SELECT__</option>
             {for i in directory}
                 {if i.name === changedboxvalue}
                     {for j in i.secondlevels}
@@ -155,8 +161,8 @@
 
     <div id="content_profile_basic_info_thirdlevel_template" style="display:none;"><!--
         <span class="content_profile_basic_info_select_seperator"> &raquo; </span>
-        <select class="content_profile_basic_info_content content_profile_basic_info_hierarchy_select content_profile_basic_info_directory_lvlthree">
-            <option value="no_value"> </option>
+        <select class="content_profile_basic_info_content content_profile_basic_info_hierarchy_select content_profile_basic_info_directory_lvlthree" name="Content directory location">
+            <option value="no_value">__MSG__PLEASE_SELECT__</option>
             {for i in directory}
                 {if i.name === firstlevelvalue}
                     {for j in i.secondlevels}

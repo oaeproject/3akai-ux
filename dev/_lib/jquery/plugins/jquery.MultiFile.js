@@ -256,11 +256,18 @@
             return false;
           };
 
-          // Hide this element (NB: display:none is evil!)
-          $(this).css({ position:'absolute', top: '-3000px' });
+          // Check if max uploads equals 1. 
+          // If it does than this is a new version upload and the box shouldn't be hidden
+          if (parseInt(o.max.toString()) < 1) {
+              // Hide this element (NB: display:none is evil!)
+              $(this).css({
+                  position: 'absolute',
+                  top: '-3000px'
+              });
 
-          // Add new element to the form
-          slave.after(newEle);
+              // Add new element to the form
+            slave.after(newEle);
+        }
 
           // Update list
           MultiFile.addToList( this, slave_count );
@@ -299,7 +306,7 @@
          r = $('<div class="MultiFile-label"></div>'),
          v = String(slave.value || ''/*.attr('value)*/),
          b = $('<a class="MultiFile-remove" href="#'+MultiFile.wrapID+'">'+ 'Remove' +'</a>');
-         c = $('<span class="fileupload_file_name"><input type="text" id="' + MultiFile.STRING.file.replace('$file', v.match(/[^\/\\]+$/gi)[0]).replace(".", "_") + '" value="' + MultiFile.STRING.file.replace('$file', v.match(/[^\/\\]+$/gi)[0]) + '"></input></span>')
+         c = $('<span class="fileupload_file_name"><input type="text" id="' + MultiFile.STRING.file.replace('$file', v.match(/[^\/\\]+$/gi)[0]).replace(".", "_") + '" value="' + MultiFile.STRING.file.replace('$file', v.match(/[^\/\\]+$/gi)[0]) + '"></input></span><div class="fileupload_name_error" style="display:none;"></div>')
 
 
         // Insert label

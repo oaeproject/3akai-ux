@@ -7,6 +7,7 @@
     "VISIBLE_LABEL": "Who can see this group",
     "LOGGED_IN_USERS": "Logged in users",
     "MANAGERS_AND_MEMBERS": "Managers and members",
+    "PLEASE_SELECT":"Please select",
     "PUBLIC": "Public",
     "SELECT_AT_LEAST_ONE_DIRECTORY":"Select at least the first level in the directory where this resource can be found",
     "SELECT_DIRECTORY":"Select directory location"

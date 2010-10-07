@@ -52,6 +52,7 @@ sakai.addtocontacts = function(tuid, showSettings){
     // Form elements
     var addToContactsForm = addToContacts + "_form";
     var addToContactsFormButtonInvite = addToContactsForm + "_invite";
+    var addToContactsFormButtonCancel = addToContactsForm + "_cancel";
     var addToContactsFormPersonalNote = addToContactsForm + "_personalnote";
     var addToContactsFormPersonalNoteTemplate = addToContactsFormPersonalNote + "_template";
     var addToContactsFormType = addToContactsForm + "_type";
@@ -162,6 +163,8 @@ sakai.addtocontacts = function(tuid, showSettings){
                     $(addToContactsDialog).jqmHide();
                     sakai.api.Communication.sendMessage(userid, title, message, "invitation");
                     callbackWhenDone(friend);
+                    //reset the form to set original note 
+                    $(addToContactsForm)[0].reset();
                     sakai.api.Util.notification.show("", $(addToContactsDone).text());
                 },
                 error: function(xhr, textStatus, thrownError){
@@ -258,6 +261,11 @@ sakai.addtocontacts = function(tuid, showSettings){
         // Invite this person.
         doInvite(friend.uuid);
     });
+    
+    // Bind the cancel button
+ 	$(addToContactsFormButtonCancel).click(function(){
+ 	    $(addToContactsForm)[0].reset();
+ 	});
 
     // Bind the jqModal
     $(addToContactsDialog).jqm({

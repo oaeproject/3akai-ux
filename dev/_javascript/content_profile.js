@@ -67,6 +67,11 @@ sakai.content_profile = function(){
                 success: function(data){
 
                     var directory = [];
+                    // When only one tag is put in this will not be an array but a string
+                    // We need an array to parse and display the results
+                    if (!(typeof(data["sakai:tags"]) == "object") && data["sakai:tags"]){
+                        data["sakai:tags"] = [data["sakai:tags"]];
+                    }
                     currentTags = data["sakai:tags"];
                     $(data["sakai:tags"]).each(function(i){
                         var splitDir = data["sakai:tags"][i].split("/");
@@ -126,10 +131,10 @@ sakai.content_profile = function(){
     var loadContentUsers = function(tuid){
         // Check whether there is actually a content path in the URL
         if (content_path) {
-            var pl_config = {"selectable":true, "subNameInfoUser": "", "subNameInfoGroup": "sakai:group-description", "sortOn": "lastName", "sortOrder": "ascending", "items": 50 };
+            var pl_config = {"selectable":true, "subNameInfoUser": "", "subNameInfoGroup": "sakai:group-description", "sortOn": "lastName", "sortOrder": "ascending", "items": 1000 };
             var url = sakai.config.SakaiDomain + content_path + ".members.detailed.json";
             $("#content_profile_listpeople_container").show();
-            $(window).trigger("sakai-listpeople-render", {"tuid": tuid, "pl_config": pl_config, "url": url, "id": content_path});
+            $(window).trigger("sakai-listpeople-render", {"tuid": tuid, "listType": tuid, "pl_config": pl_config, "url": url, "id": content_path});
         }
     };
 
@@ -141,63 +146,69 @@ sakai.content_profile = function(){
      * @param {String} task Operation of either adding or removing
      */
     var addRemoveUsers = function(tuid, users, task) {
-        var userCount = 0;
-        var notificationType = sakai.api.Security.saneHTML($("#content_profile_viewers_text").text())
-
-        $.each(users, function(index, user) {
-            var data = {
-                "_charset_":"utf-8",
-                ":viewer": user
-            };
-            if (tuid === 'managers' && task === 'add') {
-                notificationType = sakai.api.Security.saneHTML($("#content_profile_managers_text").text())
-                data = {
-                    "_charset_":"utf-8",
-                    ":manager": user
+        var notificationType = sakai.api.Security.saneHTML($("#content_profile_viewers_text").text());
+        if (sakai.data.listpeople[tuid].selectCount === sakai.data.listpeople[tuid].currentElementCount && tuid === "managers" && task === 'remove') {
+            sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_cannot_remove_everyone").text()), sakai.api.Util.notification.type.ERROR);
+        } else {
+            var reqData = [];
+            $.each(users, function(index, user) {
+                var data = {
+                    ":viewer": user
                 };
-            } else if (task === 'remove') {
-                if (user['userid']) {
-                    user = user['userid'];
-                } else if (user['groupid']) {
-                    user = user['groupid'];
-                } else if (user['rep:userId']) {
-                    user = user['rep:userId'];
-                }
-                data = {
-                    "_charset_":"utf-8",
-                    ":viewer@Delete": user
-                };
-                if (tuid === 'managers') {
-                    notificationType = sakai.api.Security.saneHTML($("#content_profile_managers_text").text())
+                if (tuid === 'managers' && task === 'add') {
+                    notificationType = sakai.api.Security.saneHTML($("#content_profile_managers_text").text());
                     data = {
-                        "_charset_":"utf-8",
-                        ":manager@Delete": user
+                        ":manager": user
                     };
+                } else if (task === 'remove') {
+                    if (user['userid']) {
+                        user = user['userid'];
+                    } else if (user['sakai:group-id']) {
+                        user = user['sakai:group-id'];
+                    } else if (user['rep:userId']) {
+                        user = user['rep:userId'];
+                    }
+                    data = {
+                        ":viewer@Delete": user
+                    };
+                    if (tuid === 'managers') {
+                        notificationType = sakai.api.Security.saneHTML($("#content_profile_managers_text").text());
+                        data = {
+                            ":manager@Delete": user
+                        };
+                    }
                 }
-            }
-            if (user) {
-                // update user access for the content
+                if (user) {
+                    reqData.push({
+                        "url": content_path + ".members.json",
+                        "method": "POST",
+                        "parameters": data
+                    });
+                }
+            });
+
+            if (reqData.length > 0) {
+                // batch request to update user access for the content
                 $.ajax({
-                    url: content_path + ".members.json",
-                    async: false,
-                    data: data,
+                    url: sakai.config.URL.BATCH,
+                    traditional: true,
                     type: "POST",
+                    data: {
+                        requests: $.toJSON(reqData)
+                    },
                     success: function(data){
-                        userCount++;
+                        loadContentUsers("viewers");
+                        loadContentUsers("managers");
+                        if (task === 'add') {
+                            sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_added_text").text() + " " + notificationType));
+                        } else {
+                            sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_removed_text").text() + " " + notificationType));
+                        }
+                        $("#content_profile_add_" + tuid).focus();
                     }
                 });
             }
-        });
-
-        if (userCount > 0) {
-            loadContentUsers(tuid);
-            if (task === 'add') {
-                sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_added_text").text() + " " + notificationType));
-            } else {
-                sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_removed_text").text() + " " + notificationType));
-            }
         }
-        $("#content_profile_add_" + tuid).focus();
     };
 
 
@@ -221,12 +232,12 @@ sakai.content_profile = function(){
 
         // Bind the remove viewers button
         $("#content_profile_remove_viewers").bind("click", function(){
-            addRemoveUsers('viewers', sakai.listpeople.data["viewers"]["selected"], 'remove');
+            addRemoveUsers('viewers', sakai.data.listpeople["viewers"]["selected"], 'remove');
         });
 
         // Bind the remove managers button
         $("#content_profile_remove_managers").bind("click", function(){
-            addRemoveUsers('managers', sakai.listpeople.data["managers"]["selected"], 'remove');
+            addRemoveUsers('managers', sakai.data.listpeople["managers"]["selected"], 'remove');
         });
 
         if (sakai.pickeruser && sakai.pickeruser.isReady) {
@@ -248,7 +259,8 @@ sakai.content_profile = function(){
             "items": 50,
             "type": "people",
             "what": "Viewers",
-            "where": 'Content'
+            "where": sakai.content_profile.content_data.data["sakai:pooled-content-file-name"],
+            "URL": sakai.content_profile.content_data.url + "/" + sakai.content_profile.content_data.data["sakai:pooled-content-file-name"]
         };
 
         // Bind the add viewers button

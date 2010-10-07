@@ -11,10 +11,10 @@
 { height:25px; display:block; margin: 5px 0px 0 0;  }
 
 .sakai_site .content_page_options
-{ background: #fff url('/dev/_images/tab_bg_right.png') top right no-repeat; height: 25px; border: none;  padding: 0 10px 0 0; display: block; float:right; margin-top:3px;}
+{ background: transparent url('/dev/_images/tab_bg_right.png') top right no-repeat; height: 25px; border: none;  padding: 0 10px 0 0; display: block; float:right; margin-top:3px;}
 
 .sakai_site #content_edit_page_options.content_page_options
-{ background: #fff url('/dev/_images/edit_button_bg.png') right -27px no-repeat; }
+{ background: transparent url('/dev/_images/edit_button_bg.png') right -27px no-repeat; }
 
 .sakai_site .content_page_options ul
 { padding: 5px 0 0 12px; background: #fff url('/dev/_images/tab_bg_left.png') top left no-repeat; }
@@ -33,6 +33,9 @@
 
 .sakai_site .content_page_options .print_page_view
 { background: transparent url(/dev/_images/printer_18.png) top left no-repeat; padding: 2px 0px 0px 20px; }
+
+.sakai_site .content_page_options #sitespages_accessibility_help
+{ float:left; font-size:11px; margin-right:10px; margin-top:5px; }
 
 /** ADD MORE MENU **/
 #sitespages_page_options .content_page_options .more_link

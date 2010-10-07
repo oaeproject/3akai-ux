@@ -73,18 +73,21 @@ sakai.googlemaps = function(tuid, showSettings){
      */
     var setMapSize = function(callback) {
         if(!showSettings) {
+            $("#googlemaps_size_options").hide();
             if (json && json.mapsize == "SMALL") {
 
                 // Set the size of map according to the data stored on the backend server
                 $("#googlemaps_iframe_map", rootel).width("50%");
-                $("#googlemaps_iframe_map", rootel).css({"float": "right"});
+                //$("#googlemaps_iframe_map", rootel).css({"float": "right"});
             }
             else {
                 $("#googlemaps_iframe_map", rootel).width("95%");
             }
         }
         else {
-
+        
+            $("#googlemaps_size_options").show();
+    
             // Show the search input textfield and save, search, cancel buttons
             $("#googlemaps_form_search", rootel).show();
             $("#googlemaps_save_cancel_container", rootel).show();
@@ -157,41 +160,48 @@ sakai.googlemaps = function(tuid, showSettings){
 
                 // Set the initial value of search keyword input textbox
                 $("#googlemaps_input_text_location", rootel).val(json.mapinput);
+                
             } else {
-                // Show the search input textfield and save, search, cancel buttons
-                $("#googlemaps_form_search", rootel).show();
-                $("#googlemaps_save_cancel_container", rootel).show();
+                if (showSettings) {
+                    // Show the search input textfield and save, search, cancel buttons
+                    $("#googlemaps_form_search", rootel).show();
+                    $("#googlemaps_save_cancel_container", rootel).show();
 
-                // If the googlemaps is opened for the first time, the "large" radio button should be default checked
-                $("#googlemaps_radio_large", rootel).attr("checked", "checked");
 
-                // Add a submit listener so that the search function can be executed
-                $("#googlemaps_form_search", rootel).submit(function() {
-                    var input = $("#googlemaps_input_text_location", rootel).val();
-                    if (input) {
+                    // If the googlemaps is opened for the first time, the "large" radio button should be default checked
+                    $("#googlemaps_radio_large", rootel).attr("checked", "checked");
 
-                        // Quick hack so that searches are more local - this will need to be done via the Google API
-                        if (input.indexOf(",") === -1) {
-                            $("#googlemaps_input_text_location", rootel).val(input + ", " + sakai.data.me.user.locale.displayCountry);
-                            iframeContentWindow.search(input, sakai.data.me.user.locale.displayCountry);
-                        } else {
-                            iframeContentWindow.search(input, "");
+
+                    // Add a submit listener so that the search function can be executed
+                    $("#googlemaps_form_search", rootel).submit(function() {
+                        var input = $("#googlemaps_input_text_location", rootel).val();
+                        if (input) {
+
+                            // Quick hack so that searches are more local - this will need to be done via the Google API
+                            if (input.indexOf(",") === -1) {
+                                $("#googlemaps_input_text_location", rootel).val(input + ", " + sakai.data.me.user.locale.displayCountry);
+                                iframeContentWindow.search(input, sakai.data.me.user.locale.displayCountry);
+                            } else {
+                                iframeContentWindow.search(input, "");
+                            }
                         }
-                    }
-                    return false;
-                });
+                        return false;
+                    });
 
-                // Add listener to save button
-                $("#googlemaps_save", rootel).bind("click", function(e, ui) {
-                    saveToJCR();
-                });
+                    // Add listener to save button
+                    $("#googlemaps_save", rootel).bind("click", function(e, ui) {
+                        saveToJCR();
+                    });
 
-                // Add listerner to cancel button
-                $("#googlemaps_cancel", rootel).bind("click", function(e, ui) {
-                    sakai.api.Widgets.Container.informCancel(tuid, "googlemaps");
-                });
+                    // Add listerner to cancel button
+                    $("#googlemaps_cancel", rootel).bind("click", function(e, ui) {
+                        sakai.api.Widgets.Container.informCancel(tuid, "googlemaps");
+                    });
+                }
+
             }
-
+            // Set focus in location text box
+            $("#googlemaps_input_text_location").focus();
         });
     };
 

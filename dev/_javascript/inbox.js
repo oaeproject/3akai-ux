@@ -501,7 +501,7 @@ sakai.inbox = function() {
         }
 
         // A chat message doesn't really have subject, only a body.
-        if(message["sakai:type"] === "chat"){
+        if(message["sakai:category"] === "chat"){
             message.subject = "Chat message";
         }
 
@@ -657,7 +657,7 @@ sakai.inbox = function() {
                 sortBy = "sakai:created";
                 break;
             case "type":
-                sortBy = "sakai:type";
+                sortBy = "sakai:category";
                 break;
             case "to":
                 sortBy = "sakai:to";
@@ -1173,6 +1173,10 @@ sakai.inbox = function() {
         //    Jump back to inbox
         $.bbq.pushState({"box": openedBox},2);
     });
+    
+    $("#top_navigation .mail").live("click", function(){
+        $.bbq.pushState({"box": "inbox"},2);
+    });
 /*
     // Bind click event to hide menus
     $(document).bind("click", function(e){
@@ -1268,7 +1272,7 @@ sakai.inbox = function() {
 
     $(inboxSpecificMessageBackToInbox).click(function() {
         // Show the inbox.
-        showPane(inboxPaneInbox);
+        $.bbq.pushState({"box": openedBox},2);
 
         // Clear all the input fields
         clearInputFields();

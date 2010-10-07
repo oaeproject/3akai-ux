@@ -170,6 +170,7 @@ sakai.filerevisions = function(tuid, showSettings){
 
     $fileRevisionsDialog.jqm({
         modal: true,
+        overlay: 20,
         toTop: true
     });
 

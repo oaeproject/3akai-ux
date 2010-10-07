@@ -78,6 +78,7 @@ sakai.remotecontent = function(tuid, showSettings){
     var $remotecontentSettingsColorContainerTemplate = $("#remotecontent_settings_color_container_template", rootel);
     var $remotecontentSettingsTemplate = $("#remotecontent_settings_template", rootel);
     var $remotecontentSettingsPreviewTemplate = $("#remotecontent_settings_preview_template", rootel);
+    var $noRemoteContentSet = $("#remotecontent_no_content_set", rootel);
 
 
     ///////////////////////
@@ -389,7 +390,12 @@ sakai.remotecontent = function(tuid, showSettings){
             else {
                 // When the request isn't successful, it means that  there was no existing remotecontent
                 // so we show the basic settings.
-                displaySettings(null, false);
+                if (showSettings) {
+                    displaySettings(null, false);
+                } else {
+                    $(remotecontentMainContainer, rootel).html($.TemplateRenderer($noRemoteContentSet, {}));
+                    $(remotecontentMainContainer, rootel).show();
+                }
             }
         });
     };

@@ -19,6 +19,7 @@
         <!-- 3rd party CSS -->
         <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
         <link rel="stylesheet" type="text/css" href="/dev/_css/lib/jquery.autoSuggest.css" />
+        <link rel="stylesheet" type="text/css" href="/dev/_lib/jquery/plugins/gritter/css/jquery.gritter.css" />
 
 
         <!-- Sakai Config JS -->
@@ -48,6 +49,10 @@
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.ba-bbq.js"></script>
         <script type="text/javascript" src="_javascript/_history/search_history.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.autoSuggest.sakai-edited.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.form.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.MultiFile.js"></script>
+        <script type="text/javascript" src="_lib/jquery/plugins/jquery.validate.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/gritter/jquery.gritter.js"></script>
 
     </head>
 
@@ -87,6 +92,7 @@
                         <!-- SEARCH BAR -->
                         <div class="fl-left fl-container fl-fix search_bar">
                             <div id="search_form" >
+                                <button class="s3d-button s3d-button-primary search_add_content_button" id="upload_content"><span class="s3d-button-inner">__MSG__ADD_NEW_CONTENT__</span></button>
                                 <input type="text" maxlength="255" id="search_text" class="input" value="__MSG__ENTER_A_SEARCHTERM__" title="__MSG__ENTER_A_SEARCHTERM__" />
                                 <button id="search_button" class="s3d-search-button s3d-button s3d-button-primary"><span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span></button>
                                 <!-- SITEs TEMPLATE -->
@@ -122,9 +128,11 @@
                                     <span class="keyword" id="search_mysearchterm"></span> 
                                 </div>
                                 <div class="fl-left fl-container search_result_title" id="search_results_tag_header">
-                                    __MSG__RESULTS_TAGGED_UNDER__
                                     <span class="keyword" id="search_mytagterm"></span> 
                                 </div>
+
+                                <div id="search_result_results_tagged_under" style="display:none;"><span style="font-weight:normal">__MSG__RESULTS_TAGGED_UNDER__</span></div>
+                                <div id="search_result_results_located_in" style="display:none;"><span style="font-weight:normal">__MSG__RESULTS_LOCATED_IN__</span></div>
 
                                 <!-- CONTAINER FOR THE RESULTS -->
                                 <div id="search_results_container"></div>
@@ -145,7 +153,7 @@
                                         {elseif i['jcr:primaryType'] === "sling:Folder"}
                                             {var mimeType = 'folder'}
                                         {/if}
-                                        {if mimeType=="image/jpg" || mimeType=="image/png" || mimeType=="image/gif" || mimeType=="image/bmp"}
+                                        {if (mimeType=="image/jpg" || mimeType=="image/png" || mimeType=="image/gif") && sakai.config.MimeTypes[mimeType]}
                                             {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
                                             {if i['jcr:primaryType'] && i['jcr:primaryType'] === "sakai:pooled-content"}
                                                 <img src="/p/${i['jcr:name']}" alt="${mimeTypeDescription}" />
@@ -180,7 +188,7 @@
                                             {if i["sakai:description"]}<div class="search_result_description">${i["sakai:description"]}</div>{/if}
                                             {if i["sakai:tags"] && i["sakai:tags"].length > 0}
                                                 <div class="search_result_tags">__MSG__TAGS__:
-                                                    {for t in i["sakai:tags"]}{if t_index > 0},{/if} ${t}{/for}
+                                                    {for t in i["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0},{/if} ${t}{/if}{/for}
                                                 </div>
                                             {/if}
                                             {if mimeTypeDescription}<div class="search_result_type"><a href="/dev/content_profile.html#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}{else}${i['jcr:path']}{/if}">${mimeTypeDescription}</a></div>{/if}
@@ -207,6 +215,9 @@
                 <div class="jq_pager"><!-- --></div>
             </div>
         </div>
+        
+        <!-- Upload Content Widget Container -->
+        <div id="widget_fileupload" class="widget_inline"></div>
 
         <!-- FOOTER WIDGET -->
         <div id="widget_footer" class="widget_inline footercontainer"></div>

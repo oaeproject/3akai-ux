@@ -135,7 +135,12 @@ sakai.search = function() {
         // Set searching messages
         $(searchConfig.global.searchTerm).html(sakai.api.Security.saneHTML(sakai.api.Security.escapeHTML(searchterm)));
         if (tagterm) {
-            $(searchConfig.global.tagTerm).text(sakai.api.Security.saneHTML(tagterm.replace("/tags/", "").replace("directory/", "")));
+            var tags = tagterm.replace("/tags/", "").split("/");
+            if(tags[0] === "directory"){
+                $(searchConfig.global.tagTerm).html($("#search_result_results_located_in").html() + " " + tags.splice(1,tags.length).toString().replace(/,/g, "<span class='search_directory_seperator'>&raquo;</span>"));
+            } else {
+                $(searchConfig.global.tagTerm).html($("#search_result_results_tagged_under").html() + " " + sakai.api.Security.saneHTML(tagterm.replace("/tags/", "")));
+            }
         }
         $(searchConfig.global.numberFound).text("0");
 
@@ -212,7 +217,7 @@ sakai.search = function() {
         // Adjust total search result count
         updateTotalHitCount(foundCM.results.length);
 
-
+        $("#search_content_title").attr("href", "search_content.html#q=" + searchterm);
         if (Math.abs(foundCM.total) > cmToSearch) {
             $(searchConfig.cm.displayMore).show();
             $(searchConfig.cm.displayMore).attr("href", "search_content.html#q=" + searchterm);
@@ -246,6 +251,7 @@ sakai.search = function() {
 
             updateTotalHitCount(foundSites.results.length);
 
+            $("#search_groups_title").attr("href", "search_groups.html#q=" + searchterm);
             if (Math.abs(foundSites.total) > sitesToSearch) {
                 $(searchConfig.sites.displayMore).show();
                 $(searchConfig.sites.displayMore).attr("href", "search_groups.html#q=" + searchterm);
@@ -311,6 +317,7 @@ sakai.search = function() {
         // Adjust total search result count
         updateTotalHitCount(results.results.length);
 
+        $("#search_people_title").attr("href", "search_people.html#q=" + searchterm);
         if ((Math.abs(results.total) > peopleToSearch) && (results.results.length > 0)) {
             $(searchConfig.people.displayMore).attr("href", "search_people.html#q=" + searchterm).show();
         }
@@ -460,6 +467,9 @@ sakai.search = function() {
                 },
                 error: function(xhr, textStatus, thrownError) {
                     renderCM({});
+                    sakai.data.search.results_people = {};
+                    renderPeople({});
+                    renderSites({});
                 }
             });
         } else {

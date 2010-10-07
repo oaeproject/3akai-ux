@@ -998,7 +998,11 @@ sakai.sitespages.site_admin = function(){
      */
     var showPageLocation = function(){
         //http://localhost:8080/~resources#page=resourcespagesthird-page
-        $("#new_page_path").html(sakai.api.Security.saneHTML("<span>Page location: </span>" + sakai.config.SakaiDomain + "/~" + sakai.currentgroup.id + "#page=" + sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage].pageURLName));
+        if (!$.isEmptyObject(sakai.currentgroup.id)){
+            $("#new_page_path").html(sakai.api.Security.saneHTML("<span>Page location: </span>" + sakai.config.SakaiDomain + "/~" + sakai.currentgroup.id + "#page=" + sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage].pageURLName));
+        } else {
+            $("#new_page_path").html(sakai.api.Security.saneHTML("<span>Page location: </span>" + sakai.config.SakaiDomain + "/~" + sakai.data.me.user.userid + "#page=" + sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage].pageURLName));
+        }
 
     };
 
@@ -1687,12 +1691,6 @@ sakai.sitespages.site_admin = function(){
         });
     };
 
-
-
-
-
-
-
     //--------------------------------------------------------------------------------------------------------------
     //
     // ADD NEW...
@@ -2116,29 +2114,6 @@ sakai.sitespages.site_admin = function(){
 
     };
 
-    /**
-     * Load Templates. This function is no longer used within this js file. It
-     * is global and used by outside scripts. This, along with a number of other
-     * functions from this file should probably be moved into a Page-related api
-     * @return void
-     */
-    sakai.sitespages.loadTemplates = function() {
-        if (sakai.sitespages.versionHistoryNeedsReset) {
-            sakai.sitespages.resetVersionHistory();
-            sakai.sitespages.versionHistoryNeedsReset = false;
-        }
-
-        // Load template configuration file
-        sakai.api.Server.loadJSON("/~" + sakai.data.me.user.userid + "/private/templates", function(success, pref_data){
-            if (success) {
-                sakai.sitespages.mytemplates = pref_data;
-            } else {
-                sakai.sitespages.mytemplates = {};
-            }
-        });
-
-    };
-
 
     ///////////////////////
     // MORE: DELETE PAGE //
@@ -2204,9 +2179,9 @@ sakai.sitespages.site_admin = function(){
                 }
                 sakai.api.Activity.createActivity(nodeUrl, "site", "default", activityData);
                 */
-                sakai.sitespages.navigation.deleteNode(sakai.sitespages.selectedpage);
                 delete sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage];
                 delete sakai.sitespages.pagecontents[sakai.sitespages.selectedpage];
+                sakai.sitespages.navigation.deleteNode(sakai.sitespages.selectedpage);
                 sakai.sitespages.autosavecontent = false;
                 updatePagePositions(selectedPage);
                 $('#delete_dialog').jqmHide();

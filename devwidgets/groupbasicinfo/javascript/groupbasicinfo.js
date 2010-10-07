@@ -118,6 +118,51 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         }
     };
 
+    /**
+     * Bind the widget's internal Cancel and Save Settings button
+     */
+    var addBinding = function(){
+
+        $(groupbasicinfo_dontupdate, $rootel).bind("click", function(){
+            sakai.api.Widgets.Container.informCancel(tuid, "groupbasicinfo");
+        });
+
+        $(groupbasicinfo_update, $rootel).bind("click", function(){
+            // disable all basic info input elements while update is processed
+            sakai.api.UI.groupbasicinfo.disableInputElements();
+            $(window).trigger("sakai.groupbasicinfo.update");
+        });
+
+        $(groupBasicInfoDirectoryLvlOne).live("change", function(){
+            $(this).parent().children(groupBasicInfoThirdLevelTemplateContainer).html("");
+            $(this).children("option[value='no_value']").remove();
+            updateDirectoryDisplay(groupBasicInfoDirectoryLvlTwo, $($(this).parent()).children(groupBasicInfoDirectoryLvlOne), $($(this).parent()).children(groupBasicInfoDirectoryLvlOne));
+        });
+
+        $(groupBasicInfoDirectoryLvlTwo).live("change", function(){
+            $(this).children("option[value='no_value']").remove();
+            updateDirectoryDisplay(groupBasicInfoDirectoryLvlThree, $($(this).parent()).children(groupBasicInfoDirectoryLvlTwo), $($(this).parent().parent()).children(groupBasicInfoDirectoryLvlOne));
+        });
+
+        $(groupBasicInfoDirectoryLvlThree).live("change", function(){
+            $(this).children("option[value='no_value']").remove();
+        });
+
+        $(groupBasicInfoAddAnotherLocation).bind("click", function(){
+            addAnotherLocation();
+        });
+
+        $(groupBasicInfoRemoveLocation).live("click", function(){
+            removeDirectoryLocation($(this).parent());
+            $(this).parent().remove();
+        });
+
+        $(groupBasicInfoRemoveNewLocation).live("click", function(){
+            $(this).parent().remove();
+        });
+
+    };
+
 
     //////////////////////
     // Render functions //
@@ -176,6 +221,8 @@ sakai.groupbasicinfo = function(tuid, showSettings){
             $(groupbasicinfo_buttons, $rootel).show();
         }
 
+        addBinding();
+
     };
 
 
@@ -197,7 +244,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         sakai.currentgroup.data.authprofile["sakai:tags"] = [];
         var tags = $(groupBasicInfoGroupTags).val().split(",");
         $(tags).each(function(i, tag){
-            tag = $.trim(tag);
+            tag = $.trim(tag).replace(/#/g,"");
             if (sakai.api.Security.escapeHTML(tag) === tag && tag.replace(/\\/g,"").length) {
                 if ($.inArray(tag, sakai.currentgroup.data.authprofile["sakai:tags"]) < 0) {
                     sakai.currentgroup.data.authprofile["sakai:tags"].push(tag.replace(/\\/g,""));
@@ -346,7 +393,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
 
         sakai.api.Util.tagEntity(groupProfileURL, tagsAfterDeletion, sakai.currentgroup.data.authprofile["sakai:tags"], function(){
             sakai.currentgroup.data.authprofile["sakai:tags"].splice(tags);
-            sakai.api.Widgets.Container.informFinish(tuid, "groupbasicinfo");
+            //sakai.api.Widgets.Container.informFinish(tuid, "groupbasicinfo");
             $(window).trigger("sakai.groupbasicinfo.updateFinished");
         });
 
@@ -356,51 +403,6 @@ sakai.groupbasicinfo = function(tuid, showSettings){
     //////////////
     // Bindings //
     //////////////
-
-    /**
-     * Bind the widget's internal Cancel and Save Settings button
-     */
-    var addBinding = function(){
-
-        $(groupbasicinfo_dontupdate, $rootel).live("click", function(){
-            sakai.api.Widgets.Container.informCancel(tuid, "groupbasicinfo");
-        });
-
-        $(groupbasicinfo_update, $rootel).live("click", function(){
-            // disable all basic info input elements while update is processed
-            sakai.api.UI.groupbasicinfo.disableInputElements();
-            $(window).trigger("sakai.groupbasicinfo.update");
-        });
-
-        $(groupBasicInfoDirectoryLvlOne).live("change", function(){
-            $(this).parent().children(groupBasicInfoThirdLevelTemplateContainer).html("");
-            $(this).children("option[value='no_value']").remove();
-            updateDirectoryDisplay(groupBasicInfoDirectoryLvlTwo, $($(this).parent()).children(groupBasicInfoDirectoryLvlOne), $($(this).parent()).children(groupBasicInfoDirectoryLvlOne));
-        });
-
-        $(groupBasicInfoDirectoryLvlTwo).live("change", function(){
-            $(this).children("option[value='no_value']").remove();
-            updateDirectoryDisplay(groupBasicInfoDirectoryLvlThree, $($(this).parent()).children(groupBasicInfoDirectoryLvlTwo), $($(this).parent().parent()).children(groupBasicInfoDirectoryLvlOne));
-        });
-
-        $(groupBasicInfoDirectoryLvlThree).live("change", function(){
-            $(this).children("option[value='no_value']").remove();
-        });
-
-        $(groupBasicInfoAddAnotherLocation).live("click", function(){
-            addAnotherLocation();
-        });
-
-        $(groupBasicInfoRemoveLocation).live("click", function(){
-            removeDirectoryLocation($(this).parent());
-            $(this).parent().remove();
-        });
-
-        $(groupBasicInfoRemoveNewLocation).live("click", function(){
-            $(this).parent().remove();
-        });
-
-    };
 
     /**
      * This function will be called when the widget or the container
@@ -476,8 +478,6 @@ sakai.groupbasicinfo = function(tuid, showSettings){
     getDirectoryStructure();
 
     renderTemplateBasicInfo();
-
-    addBinding();
 };
 
 sakai.api.Widgets.widgetLoader.informOnLoad("groupbasicinfo");

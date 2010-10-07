@@ -24,14 +24,26 @@ function insertTable() {
 	border = formObj.elements['border'].value != "" ? formObj.elements['border'].value  : 0;
 	cellpadding = formObj.elements['cellpadding'].value != "" ? formObj.elements['cellpadding'].value : "";
 	cellspacing = formObj.elements['cellspacing'].value != "" ? formObj.elements['cellspacing'].value : "";
-	align = formObj.elements['align'].options[formObj.elements['align'].selectedIndex].value;
-	frame = formObj.elements['frame'].options[formObj.elements['frame'].selectedIndex].value;
-	rules = formObj.elements['rules'].options[formObj.elements['rules'].selectedIndex].value;
+	if (formObj.elements['align'].selectedIndex !== -1)
+	    align = formObj.elements['align'].options[formObj.elements['align'].selectedIndex].value;
+	else
+	    align = "";
+	if (formObj.elements['frame'].selectedIndex !== -1)
+	    frame = formObj.elements['frame'].options[formObj.elements['frame'].selectedIndex].value;
+	else
+	    frame = "";
+	if (formObj.elements['rules'].selectedIndex !== -1)
+	    rules = formObj.elements['rules'].options[formObj.elements['rules'].selectedIndex].value;
+	else
+	    rules = "";
 	width = formObj.elements['width'].value;
 	height = formObj.elements['height'].value;
 	bordercolor = formObj.elements['bordercolor'].value;
 	bgcolor = formObj.elements['bgcolor'].value;
-	className = formObj.elements['class'].options[formObj.elements['class'].selectedIndex].value;
+	if (formObj.elements['class'].selectedIndex !== -1)
+	    className = formObj.elements['class'].options[formObj.elements['class'].selectedIndex].value;
+	else
+	    className = "";
 	id = formObj.elements['id'].value;
 	summary = formObj.elements['summary'].value;
 	style = formObj.elements['style'].value;

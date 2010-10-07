@@ -13,8 +13,10 @@
                 {else}
                     <p class="content_profile_file_details_file_name_threedots"><span class="threedots ellipsis_text">${data["sakai:pooled-content-file-name"]}</span></p>
                 {/if}
-                <p>${data["jcr:content"]["jcr:mimeType"]}</p>
-                <p>${filesize}</p>
+                {if data["jcr:content"]["jcr:mimeType"] !== "x-sakai/link"}
+                    <p>${data["jcr:content"]["jcr:mimeType"]}</p>
+                    <p>${filesize}</p>
+                {/if}
             </div>
             <div id="content_profile_file_details_titles">
                 <p class="content_profile_file_details_title">__MSG__FIRST_CREATED__:</p>
@@ -29,23 +31,29 @@
             <hr class="fl-push fl-hidden"/>
         </div>
     </div>
-        <div {if data["jcr:content"]["jcr:mimeType"] === "x-sakai/link" && anon} id="content_profile_file_details_actions_anonlink" {else} id="content_profile_file_details_actions" {/if}>
+        <div id="content_profile_file_details_actions">
+            {if !anon}
+                <button type="button" class="s3d-button s3d-button-primary" id="content_profile_file_details_action_delete">
+                    <span class="s3d-button-inner">{if data["jcr:content"]["jcr:mimeType"] === "x-sakai/link"}__MSG__DELETE_LINK__{else}__MSG__DELETE_FILE__{/if}</span>
+                </button>
+            {/if}
             {if !anon}
                 <button type="button" {if data["jcr:content"]["jcr:mimeType"] === "x-sakai/link"}class="s3d-button s3d-button-primary new_version new_link"{else}class="s3d-button s3d-button-primary new_version"{/if} id="upload_content">
                     <span class="s3d-button-inner">__MSG__UPLOAD_NEW_VERSION__</span>
                 </button>
             {/if}
             {if data["jcr:content"]["jcr:mimeType"] !== "x-sakai/link"}
-                <a href="${url}/${data["sakai:pooled-content-file-name"]}" id="content_profile_file_details_action_download" class="s3d-button s3d-button-primary" target="_blank">
+                <a href="${url}/${data["sakai:pooled-content-file-name"]}{if data["sakai:pooled-content-file-name"].substring(data["sakai:pooled-content-file-name"].lastIndexOf("."), data["sakai:pooled-content-file-name"].length) !== data["sakai:fileextension"]}${data["sakai:fileextension"]}{/if}" id="content_profile_file_details_action_download" class="s3d-button s3d-button-primary" target="_blank">
                     <span class="s3d-button-inner">
                         __MSG__DOWNLOAD_FILE__
                     </span>
                 </a>
-            {/if}
-            {if !anon}
-                <button type="button" class="s3d-button s3d-button-primary" id="content_profile_file_details_action_delete">
-                    <span class="s3d-button-inner">{if data["jcr:content"]["jcr:mimeType"] === "x-sakai/link"}__MSG__DELETE_LINK__{else}__MSG__DELETE_FILE__{/if}</span>
-                </button>
+            {else}
+                <a href="${data["sakai:pooled-content-revurl"]}" id="content_profile_file_details_action_download" class="s3d-button s3d-button-primary" target="_blank">
+                    <span class="s3d-button-inner">
+                        __MSG__OPEN_THIS_LINK__
+                    </span>
+                </a>
             {/if}
             <hr class="fl-push fl-hidden"/>
         </div>

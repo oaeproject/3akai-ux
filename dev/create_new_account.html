@@ -15,6 +15,7 @@
         <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.create_new_account.css" />
 
         <!-- 3rd party CSS -->
+        <link rel="stylesheet" type="text/css" href="/dev/_lib/jquery/plugins/gritter/css/jquery.gritter.css" />
 
         <!-- Sakai Config JS -->
         <script type="text/javascript" src="_configuration/widgets.js"></script>
@@ -28,6 +29,7 @@
         <script type="text/javascript" src="_lib/Fluid/3akai_Infusion.js"></script>
         <script type="text/javascript" src="_lib/jquery/plugins/jquery.json.js"></script>
         <script type="text/javascript" src="/dev/_lib/google/html-sanitizer-minified.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.validate.js"></script>
 
         <!-- Sakai Core JS -->
         <script type="text/javascript" src="_lib/sakai_util/sakai_magic.js"></script>
@@ -35,6 +37,7 @@
         
         <!-- reCAPTCHA js -->
         <script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/gritter/jquery.gritter.js"></script>
 
 
     </head>
@@ -85,79 +88,68 @@
                             <!-- FIRST NAME -->
                             <tr>
                                 <td class="label_container"><label for="firstName">__MSG__FIRSTNAME__:</label></td>
-                                <td><input type="text" maxlength="255" id="firstName" name="firstName" class="create_account_input" value="" /></td>
+                                <td><input type="text" maxlength="255" id="firstName" name="firstName" class="create_account_input required" value="" /></td>
                             </tr>
                             <tr>
                                 <td></td>
-                                <td><div id="firstName_empty" class="create_account_error_msg">__MSG__PLEASE_ENTER_YOUR_FIRST_NAME__!</div></td>
+                                <td></td>
                             </tr>
 
                             <!-- LAST NAME -->
                             <tr>
                                 <td class="label_container"><label for="lastName">__MSG__LASTNAME__:</label></td>
-                                <td><input type="text" maxlength="255" id="lastName" name="lastName" class="create_account_input" value="" /></td>
+                                <td><input type="text" maxlength="255" id="lastName" name="lastName" class="create_account_input required" value="" /></td>
                             </tr>
                             <tr>
                                 <td></td>
-                                <td><div id="lastName_empty" class="create_account_error_msg">__MSG__PLEASE_ENTER_YOUR_LAST_NAME__!</div></td>
+                                <td></td>
                             </tr>
 
                             <!-- EMAIL -->
                             <tr>
                                 <td class="label_container"><label for="email">__MSG__EMAIL__:</label></td>
-                                <td><input type="text" maxlength="255" id="email" name="email" class="create_account_input" /></td>
+                                <td><input type="text" maxlength="255" id="email" name="email" class="create_account_input required email" /></td>
                             </tr>
                             <tr>
                                 <td></td>
-                                <td>
-                                    <div id="email_empty" class="create_account_error_msg">__MSG__PLEASE_ENTER_YOUR_EMAIL_ADDRESS__!</div>
-                                    <div id="email_invalid" class="create_account_error_msg">__MSG__THIS_IS_AN_INVALID_EMAIL_ADDRESS__!</div>
-                                </td>
+                                <td></td>
                             </tr>
 
                             <!-- USERNAME -->
                             <tr>
                                 <td class="label_container"><label id="username_label" for="username">__MSG__USERNAME__:</label></td>
-                                <td><input type="text" maxlength="255" id="username" name="username" class="create_account_input" /></td>
+                                <td><input type="text" maxlength="255" id="username" name="username" class="create_account_input required" /></td>
                                 <td>
-                                    <button type="button" id="checkUserName" class="s3d-button"><span class="s3d-button-inner">__MSG__CHECK_IF_USERNAME_IS_AVAILABLE__</span></button>
+                                    <button type="button" id="checkUserName" class="s3d-button">
+                                        <span class="s3d-button-inner">__MSG__CHECK_IF_USERNAME_IS_AVAILABLE__</span>
+                                    </button>
                                 </td>
                             </tr>
                             <tr>
                                 <td></td>
                                 <td>
-                                    <div id="username_taken" class="create_account_error_msg">__MSG__THIS_USERNAME_HAS_ALREADY_BEEN_TAKEN__!</div>
-                                    <div id="username_spaces" class="create_account_error_msg">__MSG__THE_USERNAME_SHOULDNT_CONTAIN_SPACES__!</div>
-                                    <div id="username_short" class="create_account_error_msg">__MSG__THE_USERNAME_SHOULD_BE_AT_LEAST_THREE_CHARACTERS_LONG__!</div>
-                                    <div id="username_empty" class="create_account_error_msg">__MSG__PLEASE_ENTER_YOUR_USERNAME__!</div>
-                                    <div id="username_available" class="username_available">__MSG__THIS_USERNAME_IS_AVAILABLE__</div>
+                                    <label id="username_available" class="username_available" for="username" class="available" style="display:none">__MSG__THIS_USERNAME_IS_AVAILABLE__</label>
                                 </td>
                             </tr>
 
                             <!-- PASSWORD -->
                             <tr>
                                 <td class="label_container"><label for="password">__MSG__PASSWORD__:</label></td>
-                                <td><input type="password" maxlength="255" id="password" name="password" class="create_account_input" /></td>
+                                <td><input type="password" maxlength="255" id="password" name="password" class="create_account_input required" /></td>
                             </tr>
                             <tr>
                                 <td></td>
-                                <td>
-                                    <div id="password_empty" class="create_account_error_msg">__MSG__PLEASE_ENTER_YOUR_PASSWORD__!</div>
-                                    <div id="password_short" class="create_account_error_msg">__MSG__YOUR_PASSWORD_SHOULD_BE_FOUR_CHARACTERS_LONG__!</div>
-                                </td>
+                                <td></td>
                             </tr>
 
                             <!-- PASSWORD REPEAT -->
                             <tr>
                                 <td class="label_container"><label for="password_repeat">__MSG__RE_TYPE_PASSWORD__:</label></td>
-                                <td><input type="password" maxlength="255" id="password_repeat" name="password_repeat" class="create_account_input" /></td>
+                                <td><input type="password" maxlength="255" id="password_repeat" name="password_repeat" class="create_account_input required" /></td>
                             </tr>
                             <tr>
                                 <td></td>
-                                <td>
-                                    <div id="password_repeat_empty" class="create_account_error_msg">__MSG__PLEASE_REPEART_YOUR_PASSWORD__!</div>
-                                    <div id="password_repeat_nomatch" class="create_account_error_msg">__MSG__THIS_PASSWORD_DOES_NOT_MATCH_THE_FIRST_ONE__!</div>
-                                </td>
+                                <td></td>
                             </tr>
 
                             <!-- CAPTCHA -->
@@ -170,8 +162,7 @@
                             <tr>
                                 <td></td>
                                 <td>
-                                    <div id="uword_empty" class="create_account_error_msg">__MSG__PLEASE_TYPE_THE_WORD_BELOW__!</div>
-                                    <div id="uword_nomatch" class="create_account_error_msg">__MSG__THIS_DOES_NOT_MATCH__!</div>
+                                    <label id="uword_nomatch" class="error" style="display:none">__MSG__THIS_DOES_NOT_MATCH__!</label>
                                 </td>
                             </tr>
 
@@ -186,8 +177,8 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td></td>
-                                <td><div id="success_message" class="success_message">__MSG__ACCOUNT_SUCCESSFULLY_CREATED__. <a href="index.html">__MSG__CLICK_HERE_TO_LOGIN__.</a></div></td>
+                                <td><span id="success_message_title" style="display:none;">Account Created</span></td>
+                                <td><div id="success_message" class="success_message"><span id="success_message_value">__MSG__ACCOUNT_SUCCESSFULLY_CREATED__.</span> <a href="index.html">__MSG__CLICK_HERE_TO_LOGIN__.</a></div></td>
                             </tr>
 
                         </table>
@@ -199,6 +190,21 @@
                 <div class="content_bottom"><div class="content_bottom_inner"><!-- --></div></div>
 
             </div>
+        </div>
+
+        <div id="error_msg_container" style="display:none">
+            <div id="firstName_empty" class="create_account_error_msg" style="display:none">__MSG__PLEASE_ENTER_YOUR_FIRST_NAME__!</div>
+            <div id="lastName_empty" class="create_account_error_msg" style="display:none">__MSG__PLEASE_ENTER_YOUR_LAST_NAME__!</div>
+            <div id="username_taken" class="create_account_error_msg" style="display:none">__MSG__THIS_USERNAME_HAS_ALREADY_BEEN_TAKEN__!</div>
+            <div id="username_spaces" class="create_account_error_msg" style="display:none">__MSG__THE_USERNAME_SHOULDNT_CONTAIN_SPACES__!</div>
+            <div id="username_short" class="create_account_error_msg" style="display:none">__MSG__THE_USERNAME_SHOULD_BE_AT_LEAST_THREE_CHARACTERS_LONG__!</div>
+            <div id="username_empty" class="create_account_error_msg" style="display:none">__MSG__PLEASE_ENTER_YOUR_USERNAME__!</div>
+            <div id="email_empty" class="create_account_error_msg" style="display:none">__MSG__PLEASE_ENTER_YOUR_EMAIL_ADDRESS__!</div>
+            <div id="email_invalid" class="create_account_error_msg" style="display:none">__MSG__THIS_IS_AN_INVALID_EMAIL_ADDRESS__!</div>
+            <div id="password_empty" class="create_account_error_msg" style="display:none">__MSG__PLEASE_ENTER_YOUR_PASSWORD__!</div>
+            <div id="password_short" class="create_account_error_msg" style="display:none">__MSG__YOUR_PASSWORD_SHOULD_BE_FOUR_CHARACTERS_LONG__!</div>
+            <div id="password_repeat_empty" class="create_account_error_msg" style="display:none">__MSG__PLEASE_REPEART_YOUR_PASSWORD__!</div>
+            <div id="password_repeat_nomatch" class="create_account_error_msg" style="display:none">__MSG__THIS_PASSWORD_DOES_NOT_MATCH_THE_FIRST_ONE__!</div>
         </div>
 
         <!-- FOOTER WIDGET -->

@@ -588,6 +588,9 @@ sakai.entity = function(tuid, showSettings){
             // Get the correct input value from the user
             var inputValue = $entity_profile_status_input.hasClass(entity_profile_status_input_dummy) ? "" : $.trim($entity_profile_status_input.val());
 
+            // Escape html
+            inputValue = sakai.api.Security.escapeHTML(inputValue);
+
             if (profile_status_value !== inputValue) {
                 profile_status_value = inputValue;
 
@@ -620,6 +623,7 @@ sakai.entity = function(tuid, showSettings){
                     } else {
                         // Log an error message
                         fluid.log("Entity widget - the saving of the profile status failed");
+                        profile_status_value = "";
 
                         // Show the message about a saving that failed to the user
                         $("button span", $entity_profile_status).text(sakai.api.Security.saneHTML($entity_profile_status_input_saving_failed.text()));
@@ -654,6 +658,15 @@ sakai.entity = function(tuid, showSettings){
             showHideListLinkMenu(tagsLinkMenu, tagsLink, false);
         });
     };
+    
+    // Add the click listener to the document
+ 	$(document).click(function(e){
+ 	    var $clicked = $(e.target);
+ 	    // if element clicked is not tag Link only then hide the menu.
+ 	    if (!$clicked.parents().is(tagsLink)) {
+ 	        showHideListLinkMenu(tagsLinkMenu, tagsLink, true);
+ 	    }
+ 	});
 
     /**
      * Add binding to elements related to locations drop down
@@ -887,6 +900,9 @@ sakai.entity = function(tuid, showSettings){
             }
         }
 
+        // Set file extension
+        entityconfig.data.profile.extension = filedata["sakai:fileextension"];
+
         // Check if user is a manager or viewer
         entityconfig.data.profile["role"] = "viewer";
         if (jcr_access) {
@@ -1084,6 +1100,11 @@ sakai.entity = function(tuid, showSettings){
     // Add binding to update the chat status
     $(window).bind("chat_status_change", function(event, newChatStatus){
         updateChatStatusElement(newChatStatus);
+    });
+    $(window).bind("sakai-fileupload-complete", function(){
+        if (sakai.hasOwnProperty("content_profile")) {
+            sakai.api.UI.entity.render("content", sakai.content_profile.content_data);
+        }
     });
 
 };

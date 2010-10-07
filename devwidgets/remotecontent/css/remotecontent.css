@@ -51,3 +51,6 @@
 /* Block */
 .remotecontent_settings_block {margin-left:15px;}
 .remotecontent_settings_block label {float:left;margin-right:5px;margin-top:3px;padding-top:5px;width:75px;}
+
+/* Default */
+#remotecontent_container p.remotecontent_default_text {margin-left:15px;margin-bottom:0;padding:0;}

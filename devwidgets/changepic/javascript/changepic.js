@@ -195,7 +195,7 @@ sakai.changepic = function(tuid, showSettings){
         // get file name
         fileName = $(picInput).val();
         // get extension from the file name.
-        var extension = fileName.slice(fileName.indexOf(".")).toLowerCase();
+        var extension = fileName.slice(fileName.lastIndexOf(".")).toLowerCase();
         var allowSubmit = false;
 
         for (var i = 0; i < extensionArray.length; i++) {

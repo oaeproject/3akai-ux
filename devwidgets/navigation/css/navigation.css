@@ -34,11 +34,11 @@
     {font-weight:normal; color:#006E96; white-space:normal; display:inline; padding:4px; line-height:19px;}
 #navigation_tree ul.jstree-no-dots li.jstree-open > a,
 #navigation_tree ul.jstree-no-dots li.jstree-closed > a
-    {font-weight:bold;}
+    {font-weight:normal;}
 #navigation_tree ul.jstree-no-dots li.jstree-leaf a.jstree-clicked,
 #navigation_tree ul.jstree-no-dots li.jstree-open a.jstree-clicked,
 #navigation_tree ul.jstree-no-dots li.jstree-closed a.jstree-clicked
-    {color:#FFFFFF; font-weight:bold; background-color:#006E96; border:none;}
+    {color:#FFFFFF; font-weight:normal; background-color:#006E96; border:none;}
 #navigation_tree ul.jstree-no-dots li.jstree-leaf a.jstree-hovered,
 #navigation_tree ul.jstree-no-dots li.jstree-open a.jstree-hovered,
 #navigation_tree ul.jstree-no-dots li.jstree-closed a.jstree-hovered

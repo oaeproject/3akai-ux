@@ -57,15 +57,15 @@
     width: 400px;
 }
 
-.groupbasicinfo_info {clear:both;color:#aaa;font-size:.9em;margin:-5px 0 5px 245px;}
-.groupbasicinfo_hierarchy_select {float:left; width:160px; margin-bottom:5px;}
+.groupbasicinfo_info {clear:both; color:#aaa; font-size:.9em; margin:-3px 0 5px 245px;}
+.groupbasicinfo_hierarchy_select {float:left; width:160px; margin-bottom:5px; font-weight:bold;}
 
 .groupbasicinfo_saveddirectory {margin:0}
 .groupbasicinfo_saveddirectory li {list-style:none; font-weight:bold;}
 .groupbasicinfo_saveddirectory_information {float:left; padding-bottom:10px; clear:both;}
 
 #groupbasicinfo_add_another_location a {color:#006E96; font-size:13px; font-weight:bold; background: url("/dev/_images/add_blue_icon.png") left no-repeat; padding-left:25px; height:16px; display:block; margin-right:15px;}
-#groupbasicinfo_add_another_location {clear:both; padding-top:7px;}
+#groupbasicinfo_add_another_location {clear:both; display:block; padding:7px 0; width:200px;}
 .groupbasicinfo_remove_location, .groupbasicinfo_remove_new_location {float:right; color:#006E96; font-size:13px; font-weight:bold; margin-right:10px; height:16px;}
 
 .groupbasicinfo_added_directory {clear:both; padding-top:3px;}

@@ -1281,7 +1281,10 @@ sakai.api.Security.saneHTML = function(inputHTML) {
                         switch (atype) {
                             case html4.atype.SCRIPT:
                             case html4.atype.STYLE:
-                                if ((value === "display: none;") || (value === "display:none;") || (value === "display: none") || (value === "display:none")) {
+                                if ((value === "display: none;") || (value === "display:none;") || (value === "display: none") || 
+                                    (value === "display:none") || (value.split(":")[0] === "background-color") || 
+                                    (value.split(":")[0] === "color") || (value.split(":")[0] === "font-size") ||
+                                    (value.split(":")[0] === "font-weight") || (value.split(":")[0] === "font-style")) {
                                     value = value;
                                 } else {
                                     value = null;
@@ -2342,6 +2345,41 @@ sakai.api.User.getShortDescription = function(profile) {
     return $.trim(shortDesc);
 };
 
+sakai.api.User.getContacts = function(callback) {
+    if (sakai.data.me.mycontacts) {
+        if ($.isFunction(callback)) {
+            callback();
+        }
+    } else {
+        // has to be synchronous
+        $.ajax({
+            url: sakai.config.URL.SEARCH_USERS_ACCEPTED,
+            data: {"q": "*"},
+            async: false,
+            success: function(data) {
+                sakai.data.me.mycontacts = data.results;
+                if ($.isFunction(callback)) {
+                    callback();
+                }
+            }
+        });
+    }
+};
+
+sakai.api.User.checkIfConnected = function(userid) {
+    var ret = false;
+    sakai.api.User.getContacts(function() {
+        for (var i in sakai.data.me.mycontacts) {
+            if (i && sakai.data.me.mycontacts.hasOwnProperty(i)) {
+                if (sakai.data.me.mycontacts[i].user === userid) {
+                    ret = true;
+                }
+            }
+        }
+    });
+    return ret;
+};
+
 /**
  * @class Util
  *
@@ -2453,7 +2491,7 @@ sakai.api.Util.convertToHumanReadableFileSize = function(filesize) {
  * @param {Function} callback Function to call when the permissions have been saved or failed to save.
  *                   The callback function is provided with a Boolean. True = permissions successfully set, False = permissions not set (error)
  */
-sakai.api.Util.setFilePermissions = function(permissionValue, filesArray, callback){
+sakai.api.Util.setFilePermissions = function(permissionValue, filesArray, callback, groupID){
     // Check which value was selected and fill in the data object accordingly
     var data = [];
     for (var file in filesArray) {
@@ -2532,15 +2570,15 @@ sakai.api.Util.setFilePermissions = function(permissionValue, filesArray, callba
                     break;
                 case "group":
                     var item = {
-                        "url": "/p/" + uploadedFiles[k].hashpath + ".members.html",
+                        "url": contentPath + ".members.html",
                         "method": "POST",
                         "parameters": {
-                            ":viewer": contextData.id
+                            ":viewer": groupID
                         }
                     };
                     data[data.length] = item;
                     var item = {
-                        "url": "/p/" + uploadedFiles[k].hashpath + ".modifyAce.html",
+                        "url": contentPath + ".modifyAce.html",
                         "method": "POST",
                         "parameters": {
                             "principalId": ["everyone", "anonymous"],
@@ -2726,7 +2764,7 @@ sakai.api.Util.tagEntity = function(tagLocation, newTags, currentTags, callback)
     var tagsToDelete = [];
     // determine which tags to add and which to delete
     $(newTags).each(function(i,val) {
-        val = $.trim(val);
+        val = $.trim(val).replace(/#/g,"");
         if (val && $.inArray(val,currentTags) == -1) {
             if (sakai.api.Security.escapeHTML(val) === val && val.length) {
                 if ($.inArray(val, tagsToAdd) < 0) {
@@ -2736,7 +2774,7 @@ sakai.api.Util.tagEntity = function(tagLocation, newTags, currentTags, callback)
         }
     });
     $(currentTags).each(function(i,val) {
-        val = $.trim(val);
+        val = $.trim(val).replace(/#/g,"");
         if (val && $.inArray(val,newTags) == -1) {
             if (sakai.api.Security.escapeHTML(val) === val && val.length) {
                 if ($.inArray(val, tagsToDelete) < 0) {
@@ -3011,6 +3049,22 @@ sakai.api.Util.stripTags = function(s) {
 
 
 };
+
+/**
+ * Shorten a string if it is too long, otherwise return the string as is
+ * @param {Object} s    String to shorten
+ * @param {Object} maxSize    Maximum length the string can have
+ */
+sakai.api.Util.shortenString = function(s, maxSize){
+    if (s && typeof s === "string"){
+        if (s.length > maxSize){
+            return s.substring(0, maxSize - 3) + "...";
+        } else {
+            return s;
+        }
+    }
+    return s;
+}
 
 
 /**

@@ -49,6 +49,12 @@
 
     <div id="fileupload_tagging_template" style="display:none;"><!--
         {if context !== "new_version"}<h1>__MSG__BASIC_INFORMATION__</h1>
+        <div id="fileupload_description">
+            <label for="fileupload_add_description">
+                __MSG__DESCRIPTION__
+            </label>
+            <textarea cols="50" rows="3" id="fileupload_add_description" class="fileupload_add_description" value="" /><hr/>
+        </div>
         <div id="fileupload_tags">
             <label for="fileupload_add_tags">
                 __MSG__TAGS__
@@ -56,12 +62,6 @@
             <textarea cols="50" rows="3" id="fileupload_add_tags" class="fileupload_add_tags" value="" />
             <br/>
             <hr/>
-        </div>
-        <div id="fileupload_description">
-            <label for="fileupload_add_description">
-                __MSG__DESCRIPTION__
-            </label>
-            <textarea cols="50" rows="3" id="fileupload_add_description" class="fileupload_add_description" value="" /><hr/>
         </div>
         <div id="fileupload_permissions">
             __MSG__WHO_CAN_SEE_THIS_CONTENT__
@@ -80,7 +80,7 @@
             {/if}
         </div>
         {else}
-            <label for="fileupload_add_version_description">
+            <label for="fileupload_add_version_description" id="fileupload_add_version_description_label">
                 __MSG__MESSAGE_OTHER_MANAGERS_REASON__
             </label>
             <textarea cols="50" rows="3" id="fileupload_add_version_description" value="" />
@@ -90,11 +90,11 @@
                 <span class="s3d-button-inner">__MSG__DONT_ADD__</span>
             </button>
             {if context !== "new_version"}
-                <button type="submit" class="s3d-button s3d-button-primary">
+                <button id="fileupload_form_submit" type="button" class="s3d-button s3d-button-primary">
                     <span class="s3d-button-inner">__MSG__ADD_CONTENT__</span>
                 </button>
             {else}
-                <button type="button" id="fileupload_submit" class="s3d-button s3d-button-primary">
+                <button type="button" id="fileupload_update_submit" class="s3d-button s3d-button-primary">
                     <span class="s3d-button-inner">__MSG__UPDATE_FILE__</span>
                 </button>
             {/if}
@@ -118,6 +118,7 @@
     <div id="fileupload_files_uploaded" style="display:none;">__MSG__FILES_UPLOADED__</div>
     <div id="fileupload_files_not_uploaded" style="display:none;">__MSG__FILES_NOT_UPLOADED__</div>
     <div id="fileupload_files_successfully_uploaded" style="display:none;">__MSG__FILES_SUCCESSFULLY_UPLOADED__</div>
+    <div id="fileupload_enter_name_for" style="display:none;">__MSG__ENTER_IN_NAME_FOR__</div>
 
 </div>
 

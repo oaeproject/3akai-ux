@@ -90,15 +90,15 @@ sakai.search = function() {
             value : "Content",
             facets : {
                 "all" : {
-                    "category": "All Files",
+                    "category": "All Content",
                     "searchurl": searchURLmap.allfiles
                 },
                 "manage" : {
-                    "category": "Files I manage",
+                    "category": "Content I manage",
                     "searchurl": searchURLmap.pooledcontentmanager
                 },
                 "member" : {
-                    "category": "Files I'm a Member of",
+                    "category": "Content I'm a viewer of",
                     "searchurl": searchURLmap.pooledcontentviewer
                 }
             }
@@ -115,7 +115,14 @@ sakai.search = function() {
      */
     var showSearchContent = function() {
         $(searchConfig.global.searchTerm).html(sakai.api.Security.saneHTML(sakai.api.Security.escapeHTML(searchterm)));
-        $(searchConfig.global.tagTerm).text(sakai.api.Security.saneHTML(tagterm));
+        if (tagterm) {
+            var tags = tagterm.replace("/tags/", "").split("/");
+            if(tags[0] === "directory"){
+                $(searchConfig.global.tagTerm).html($("#search_result_results_located_in").html() + " " + tags.splice(1,tags.length).toString().replace(/,/g, "<span class='search_directory_seperator'>&raquo;</span>"));
+            } else {
+                $(searchConfig.global.tagTerm).html($("#search_result_results_tagged_under").html() + " " + sakai.api.Security.saneHTML(tagterm.replace("/tags/", "")));
+            }
+        }
         $(searchConfig.global.numberFound).text("0");
         $(searchConfig.results.header).show();
         $(searchConfig.results.tagHeader).hide();
@@ -195,6 +202,11 @@ sakai.search = function() {
             // If we have results we add them to the object.
             if (results && results.results) {
                 finaljson = mainSearch.prepareCMforRendering(results.results, finaljson, searchterm);
+            }
+
+            // if we're searching tags we need to hide the pager since it doesnt work too well
+            if (!results.total) {
+                results.total = resultsToDisplay;
             }
 
             // We hide the pager if we don't have any results or
@@ -409,6 +421,10 @@ sakai.search = function() {
     var thisFunctionality = {
         "doHSearch" : sakai._search.doHSearch
     };
+    
+    $(window).bind("sakai-fileupload-complete", function(){
+       window.location = window.location + "&_=" + Math.random(); 
+    });
 
     var mainSearch = sakai._search(searchConfig, thisFunctionality);
 

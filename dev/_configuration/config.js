@@ -236,8 +236,10 @@ sakai.config = {
                         "label": "__MSG__PROFILE_BASIC_DATEOFBIRTH_LABEL__",
                         "required": false,
                         "display": true,
-                        "type": "dateITA"
-                        //"type": "date"
+                        "type": "oldDateITA",
+                        "example": "__MSG__DATE_OF_BIRTH_ITA_EXAMPLE__"
+                        //"type": "oldDate",
+                        //"example": "__MSG__DATE_OF_BIRTH_EXAMPLE__"
                     },
                     "tags": {
                         "label": "__MSG__TAGS__",
@@ -452,6 +454,10 @@ sakai.config = {
             URL: "/dev/_images/mimetypes/doc.png",
             description: "Word document"
         },
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document": {
+            URL: "/dev/_images/mimetypes/doc.png",
+            description: "Word document"
+        },
         "application/pdf": {
             URL: "/dev/_images/mimetypes/pdf.png",
             description: "PDF document"
@@ -461,6 +467,10 @@ sakai.config = {
             description: "PDF document"
         },
         "application/vnd.ms-powerpoint": {
+            URL: "/dev/_images/mimetypes/pps.png",
+            description: "PowerPoint document"
+        },
+        "application/vnd.openxmlformats-officedocument.presentationml.presentation": {
             URL: "/dev/_images/mimetypes/pps.png",
             description: "PowerPoint document"
         },
@@ -476,6 +486,10 @@ sakai.config = {
             URL: "/dev/_images/mimetypes/zip.png",
             description: "Archive file"
         },
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {
+            URL: "/dev/_images/mimetypes/spreadsheet.png",
+            description: "Spreadsheet document"
+        },
         "text/plain": {
             URL: "/dev/_images/mimetypes/txt.png",
             description: "Text document"
@@ -487,6 +501,10 @@ sakai.config = {
         "image/png": {
             URL: "/dev/_images/mimetypes/images.png",
             description: "Png image"
+        },
+        "image/bmp": {
+            URL: "/dev/_images/mimetypes/images.png",
+            description: "Bmp image"
         },
         "image/gif": {
             URL: "/dev/_images/mimetypes/images.png",
@@ -505,6 +523,10 @@ sakai.config = {
             description: "HTML document"
         },
         "video/x-msvideo": {
+            URL: "/dev/_images/mimetypes/video.png",
+            description: "Video file"
+        },
+        "video/mp4": {
             URL: "/dev/_images/mimetypes/video.png",
             description: "Video file"
         },
