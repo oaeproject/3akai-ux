@@ -421,6 +421,10 @@ sakai.search = function() {
     var thisFunctionality = {
         "doHSearch" : sakai._search.doHSearch
     };
+    
+    $(window).bind("sakai-fileupload-complete", function(){
+       window.location = window.location + "&_=" + Math.random(); 
+    });
 
     var mainSearch = sakai._search(searchConfig, thisFunctionality);
 

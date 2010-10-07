@@ -146,20 +146,18 @@ sakai.content_profile = function(){
      * @param {String} task Operation of either adding or removing
      */
     var addRemoveUsers = function(tuid, users, task) {
-        var userCount = 0;
         var notificationType = sakai.api.Security.saneHTML($("#content_profile_viewers_text").text());
         if (sakai.data.listpeople[tuid].selectCount === sakai.data.listpeople[tuid].currentElementCount && tuid === "managers" && task === 'remove') {
             sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_cannot_remove_everyone").text()), sakai.api.Util.notification.type.ERROR);
         } else {
+            var reqData = [];
             $.each(users, function(index, user) {
                 var data = {
-                    "_charset_":"utf-8",
                     ":viewer": user
                 };
                 if (tuid === 'managers' && task === 'add') {
                     notificationType = sakai.api.Security.saneHTML($("#content_profile_managers_text").text());
                     data = {
-                        "_charset_":"utf-8",
                         ":manager": user
                     };
                 } else if (task === 'remove') {
@@ -171,40 +169,46 @@ sakai.content_profile = function(){
                         user = user['rep:userId'];
                     }
                     data = {
-                        "_charset_":"utf-8",
                         ":viewer@Delete": user
                     };
                     if (tuid === 'managers') {
                         notificationType = sakai.api.Security.saneHTML($("#content_profile_managers_text").text());
                         data = {
-                            "_charset_":"utf-8",
                             ":manager@Delete": user
                         };
                     }
                 }
                 if (user) {
-                    // update user access for the content
-                    $.ajax({
-                        url: content_path + ".members.json",
-                        async: false,
-                        data: data,
-                        type: "POST",
-                        success: function(data){
-                            userCount++;
-                        }
+                    reqData.push({
+                        "url": content_path + ".members.json",
+                        "method": "POST",
+                        "parameters": data
                     });
                 }
             });
-        }
-        if (userCount > 0) {
-            loadContentUsers(tuid);
-            if (task === 'add') {
-                sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_added_text").text() + " " + notificationType));
-            } else {
-                sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_removed_text").text() + " " + notificationType));
+
+            if (reqData.length > 0) {
+                // batch request to update user access for the content
+                $.ajax({
+                    url: sakai.config.URL.BATCH,
+                    traditional: true,
+                    type: "POST",
+                    data: {
+                        requests: $.toJSON(reqData)
+                    },
+                    success: function(data){
+                        loadContentUsers("viewers");
+                        loadContentUsers("managers");
+                        if (task === 'add') {
+                            sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_added_text").text() + " " + notificationType));
+                        } else {
+                            sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_removed_text").text() + " " + notificationType));
+                        }
+                        $("#content_profile_add_" + tuid).focus();
+                    }
+                });
             }
         }
-        $("#content_profile_add_" + tuid).focus();
     };
 
 

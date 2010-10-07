@@ -209,6 +209,7 @@ sakai.groupedit = function(){
             var removeUser;
             var groupIdRemove = groupid;
             var userCount = 0;
+            var reqData = [];
 
             if (listType === 'managers') {
                 groupIdRemove = groupid + '-managers';
@@ -223,29 +224,39 @@ sakai.groupedit = function(){
                     removeUser = resultObject['rep:userId'];
                 }
                 if (removeUser) {
-                    // remove user from group
-                    $.ajax({
-                        url: "/system/userManager/group/" + groupIdRemove + ".update.json",
-                        async: false,
-                        data: {
+                    userCount++;
+                    reqData.push({
+                        "url": "/system/userManager/group/" + groupIdRemove + ".update.json",
+                        "method": "POST",
+                        "parameters": {
                             "_charset_":"utf-8",
                             ":member@Delete": removeUser
-                        },
-                        type: "POST",
-                        success: function(data){
-                            userCount++;
                         }
                     });
                 }
             });
 
-            if (userCount > 1) {
-                sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_users_removed_text").text()));
-            } else if (userCount == 1) {
-                sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_user_removed_text").text()));
+            if (reqData.length > 0) {
+                // batch request to remove users from group
+                $.ajax({
+                    url: sakai.config.URL.BATCH,
+                    traditional: true,
+                    type: "POST",
+                    data: {
+                        requests: $.toJSON(reqData)
+                    },
+                    success: function(data){
+                        if (userCount > 1) {
+                            sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_users_removed_text").text()));
+                        } else if (userCount == 1) {
+                            sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_user_removed_text").text()));
+                        }
+                        renderItemLists(listType);
+                        $("#entity_member_count").text(sakai.api.Security.saneHTML(parseInt($("#entity_member_count").text(), 10) - userCount));
+                    }
+                });
             }
-            renderItemLists(listType);
-            $("#entity_member_count").text(sakai.api.Security.saneHTML(parseInt($("#entity_member_count").text(), 10) - userCount));
+
         }
     };
 
@@ -257,32 +268,37 @@ sakai.groupedit = function(){
     var removeContent = function(listType) {
 
         var removeContent;
-        var contentRemoved = false;
+        var reqData = [];
 
         $.each(sakai.data.listpeople[listType]["selected"], function(index, resultObject) {
             if (resultObject['content_id']) {
                 removeContent = resultObject['content_id'];
             }
             if (removeContent) {
-                // remove group access
-                $.ajax({
-                    url: "/p/" + removeContent + ".members.json",
-                    async: false,
-                    data: {
-                        "_charset_":"utf-8",
+                reqData.push({
+                    "url": "/p/" + removeContent + ".members.json",
+                    "method": "POST",
+                    "parameters": {
                         ":viewer@Delete": groupid
-                    },
-                    type: "POST",
-                    success: function(data){
-                        sakai.listpeople.removeFromList(listType);
-                        contentRemoved = true;
                     }
                 });
             }
         });
 
-        if (contentRemoved) {
-            sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_content_removed_text").text()));
+        if (reqData.length > 0) {
+            // batch request to remove content from group
+            $.ajax({
+                url: sakai.config.URL.BATCH,
+                traditional: true,
+                type: "POST",
+                data: {
+                    requests: $.toJSON(reqData)
+                },
+                success: function(data){
+                    sakai.listpeople.removeFromList(listType);
+                    sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_content_removed_text").text()));
+                }
+            });
         }
     };
 
@@ -296,6 +312,7 @@ sakai.groupedit = function(){
         var addUser;
         var groupIdAdd = groupid;
         var userCount = 0;
+        var reqData = [];
 
         if (listType === 'managers') {
             groupIdAdd = groupid + '-managers';
@@ -303,31 +320,39 @@ sakai.groupedit = function(){
 
         $.each(users, function(index, member) {
             if (member) {
-                // add user to group
-                $.ajax({
-                    url: "/system/userManager/group/" + groupIdAdd + ".update.json",
-                    async: false,
-                    data: {
-                        "_charset_":"utf-8",
+                userCount++;
+                reqData.push({
+                    "url": "/system/userManager/group/" + groupIdAdd + ".update.json",
+                    "method": "POST",
+                    "parameters": {
                         ":member": member
-                    },
-                    type: "POST",
-                    success: function(data){
-                        userCount++;
                     }
                 });
             }
         });
 
-        if (userCount > 1) {
-            renderItemLists(listType);
-            sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_users_added_text").text()));
-        } else if (userCount == 1) {
-            renderItemLists(listType);
-            sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_user_added_text").text()));
+        if (reqData.length > 0) {
+            // batch request to add users to group
+            $.ajax({
+                url: sakai.config.URL.BATCH,
+                traditional: true,
+                type: "POST",
+                data: {
+                    requests: $.toJSON(reqData)
+                },
+                success: function(data){
+                    if (userCount > 1) {
+                        renderItemLists(listType);
+                        sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_users_added_text").text()));
+                    } else if (userCount == 1) {
+                        renderItemLists(listType);
+                        sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_user_added_text").text()));
+                    }
+                    $("#entity_member_count").text(sakai.api.Security.saneHTML(parseInt($("#entity_member_count").text(), 10) + userCount));
+                    $("#group_editing_add_" + listType).focus()
+                }
+            });
         }
-        $("#entity_member_count").text(sakai.api.Security.saneHTML(parseInt($("#entity_member_count").text(), 10) + userCount));
-        $("#group_editing_add_" + listType).focus();
     };
     
     /**
@@ -337,32 +362,37 @@ sakai.groupedit = function(){
      */
     var addContent = function(contentList) {
 
-        var updateSuccess = false;
+        var reqData = [];
 
         $(contentList).each(function(i, content) {
             var contentId = content["value"];
             if (contentId) {
-                // add content to group
-                $.ajax({
-                    url: "/p/" + contentId + ".members.json",
-                    async: false,
-                    data: {
-                        "_charset_":"utf-8",
+                reqData.push({
+                    "url": "/p/" + contentId + ".members.json",
+                    "method": "POST",
+                    "parameters": {
                         ":viewer": groupid
-                    },
-                    type: "POST",
-                    success: function(data){
-                        updateSuccess = true;
                     }
                 });
             }
         });
 
-        if (updateSuccess) {
-            renderItemLists('content');
-            sakai.api.Util.notification.show("Group Content", "Content has been added to the group.");
+        if (reqData.length > 0) {
+            // batch request to add content to group
+            $.ajax({
+                url: sakai.config.URL.BATCH,
+                traditional: true,
+                type: "POST",
+                data: {
+                    requests: $.toJSON(reqData)
+                },
+                success: function(data){
+                    renderItemLists('content');
+                    sakai.api.Util.notification.show("Group Content", "Content has been added to the group.");
+                    $("#group_editing_add_content").focus();
+                }
+            });
         }
-        $("#group_editing_add_content").focus();
     };
 
     /**

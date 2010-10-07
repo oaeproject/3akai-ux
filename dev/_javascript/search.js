@@ -403,7 +403,7 @@ sakai.search = function() {
                     page: 0,
                     items: peopleToSearch,
                     q: urlsearchterm,
-                    sortOn: "sakai:firstName",
+                    sortOn: "basic/elements/firstName/@value",
                     sortOrder: "ascending"
                 },
                 cache: false,

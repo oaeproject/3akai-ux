@@ -713,38 +713,31 @@ sakai.fileupload = function(tuid, showSettings){
         $(".MultiFile-remove").addClass("hide_remove_link");
     });
 
-    var invalidSubmit = 0;
+
+    jQuery.validator.addMethod("appendhttp", function(value, element) {
+        if(value.substring(0,7) !== "http://" &&
+        value.substring(0,6) !== "ftp://" &&
+        value.substring(0,8) !== "https://" &&
+        $.trim(value) !== "") {
+            $(element).val("http://" + value);
+        }
+        return true;
+    }, "No error message, this is just an appender");
 
     $("#fileupload_link_box form").validate({
         errorLabelContainer: "#error_msg_container",
         onclick:false,
         onkeyup:false,
-        onfocusout:false,
-        invalidHandler: function(form, validator) {
-            if($(fileUploadLinkBoxInput).val().substring(0,7) !== "http://" &&
-            $(fileUploadLinkBoxInput).val().substring(0,6) !== "ftp://" &&
-            $(fileUploadLinkBoxInput).val().substring(0,8) !== "https://" &&
-            $.trim($(fileUploadLinkBoxInput).val()) !== "") {
-                $(fileUploadLinkBoxInput).val("http://" + $(fileUploadLinkBoxInput).val());
-                invalidSubmit = 1;
-                $("#fileupload_link_box form").trigger("submit");
-            }
-        }
+        onfocusout:false
     });
 
-     $("#fileupload_link_box form").live("submit",function(){
+     $("#fileupload_link_box form").bind("submit",function(e){
 
          $(fileUploadAddLinkButton).attr("disabled", "disabled");
          $(fileUploadLinkBoxInput).attr("disabled", "disabled");
 
          if ($("#fileupload_link_box form").valid() && !($.trim(fileUploadLinkBoxInput) === "")) {
-             if (invalidSubmit === 2) {
-                 invalidSubmit = 0;
-                 return false;
-             }
-             if (invalidSubmit === 1) {
-                 invalidSubmit = 2;
-             }
+
             if (context !== "new_version") {
                 uploadLink();
             } else {
@@ -758,7 +751,7 @@ sakai.fileupload = function(tuid, showSettings){
             performedSubmit = false;
             sakai.api.Util.notification.show($(fileUploadCheckURL).html(), $(fileUploadEnterValidURL).html());
         }
-
+        e.stopImmediatePropagation();
         return false;
     });
 
