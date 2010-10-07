@@ -197,7 +197,8 @@ sakai.content_profile = function(){
                         requests: $.toJSON(reqData)
                     },
                     success: function(data){
-                        loadContentUsers(tuid);
+                        loadContentUsers("viewers");
+                        loadContentUsers("managers");
                         if (task === 'add') {
                             sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_added_text").text() + " " + notificationType));
                         } else {
