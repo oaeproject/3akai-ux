@@ -45,10 +45,6 @@
             <div class="groupbasicinfo_generalinfo_subcontainer">
                 <label class="groupbasicinfo_generalinfo_label" for="groupbasicinfo_generalinfo_group_joinable">__MSG__JOINABLE_LABEL__:</label>
                 <select class="groupbasicinfo_generalinfo_content" id="groupbasicinfo_generalinfo_group_joinable">
-                    <option{if data["sakai:group-joinable"] === sakai.config.Permissions.Groups.joinable.manager_add}
-                        selected="selected"{/if} value="${sakai.config.Permissions.Groups.joinable.manager_add}">
-                        __MSG__JOIN_MANAGER_ADD__
-                    </option>
                     <option{if data["sakai:group-joinable"] === sakai.config.Permissions.Groups.joinable.user_direct}
                         selected="selected"{/if} value="${sakai.config.Permissions.Groups.joinable.user_direct}">
                         __MSG__JOIN_USER_DIRECT__
@@ -56,6 +52,10 @@
                     <option{if data["sakai:group-joinable"] === sakai.config.Permissions.Groups.joinable.user_request}
                         selected="selected"{/if} value="${sakai.config.Permissions.Groups.joinable.user_request}">
                         __MSG__JOIN_USER_REQUEST__
+                    </option>
+                    <option{if data["sakai:group-joinable"] === sakai.config.Permissions.Groups.joinable.manager_add}
+                        selected="selected"{/if} value="${sakai.config.Permissions.Groups.joinable.manager_add}">
+                        __MSG__JOIN_MANAGER_ADD__
                     </option>
                 </select>
                 <div class="groupbasicinfo_info">__MSG__JOIN_ADD_INFO__</div>
