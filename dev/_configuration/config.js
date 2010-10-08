@@ -415,7 +415,7 @@ sakai.config = {
             {"name": "Colleague", "definition": "is my colleague", "selected": false},
             {"name": "College Mate", "definition": "is my college mate", "selected": false},
             {"name": "Shares Interests", "definition": "shares an interest with me", "selected": false}
-        ],
+        ]
     },
 
     Site: {
