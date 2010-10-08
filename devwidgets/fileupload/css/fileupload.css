@@ -15,15 +15,32 @@
  * specific language governing permissions and limitations under the License.
  */
 
-#fileupload_container .fileupload_add_description {margin:5px 150px 7px 0; width:450px !important; float:right}
+/* LAYOUT */
+.fileupload_content {background-color:#FFFFFF; border-left:3px solid #454A4F;
+    border-right:3px solid #454A4F; padding:10px;}
+.fileupload_section {background-color:#eff2f4; padding:10px; margin-top:10px;}
+#fileupload_add_to {padding:10px 0 0 10px;}
+.fileupload_main_option {margin-bottom:3px;}
+.fileupload_inputblock {clear:both; margin:10px 0;}
+#fileupload_permissions_select {margin-left:20px;}
+.fileupload_content .dialog_buttons {text-align:right;}
+#fileupload_link_input_container {width:510px;}
 
-#fileupload_container #fileupload_rendered_tagging label {float:left; clear:both;}
-#fileupload_container hr {clear:both; border:none; margin:0; padding:0; height:0;}
+/* TYPOGRAPHY */
+.fileupload_slim_p {margin-bottom:0.5em;}
+.fileupload_or_padding {margin-right:50px;}
+.fileupload_link {color:#006E96; font-weight:bold;}
+.fileupload_help {color:#666666; font-size:0.9em; margin-bottom:18px;}
+
+#fileupload_container .fileupload_textarea {width:380px !important; margin:0 196px 20px 0; float:right;}
+#fileupload_container #fileupload_rendered_tagging label {vertical-align:top;}
 
 #fileupload_container .fileupload_upload_progress {background:url("/dev/_images/ajax_load.gif") no-repeat scroll 0 0 transparent; clear:both; float:right; height:10px; width:80px;}
 
-#fileupload_container .fileupload_file_name {margin-left:10px; margin-top:5px;}
-#fileupload_container .fileupload_file_name input[type="text"] {float:right; margin-bottom:5px; width:450px;}
+#fileupload_container .fileupload_file_name {margin-left:25px; margin-top:5px;}
+#fileupload_container .fileupload_file_name input[type="text"],
+#fileupload_container #fileupload_link_box input[type="text"]
+    {width:500px; padding:4px; margin:0 5px 5px 0; font-weight:bold;}
 #fileupload_container .fileupload_fill_in_file_name {color:#FF0101; display:block; font-weight:bold; margin-left:240px; padding:3px;}
 #fileupload_container .fileupload_fill_in_file_name_input {border:1px solid #FF0101;}
 #fileupload_container .fileupload_name_error {clear:both; color:#9F3333; font-weight:bold; margin:0 0 10px 150px;}
@@ -31,26 +48,16 @@
 #fileupload_container h1 {clear:both;}
 #fileupload_container #fileupload_rendered_tagging h1 {margin-top:10px;}
 
-#fileupload_container #fileupload_rendered_tagging #fileupload_tags, #fileupload_container #fileupload_rendered_tagging #fileupload_description, #fileupload_container #fileupload_rendered_tagging h1 {padding:10px 0 10px 10px; background-color:#eee;}
 #fileupload_container #fileupload_rendered_tagging #fileupload_tags .fileupload_add_tags {width:450px !important; margin:0 150px 5px 0; float:right;}
-#fileupload_container #fileupload_rendered_tagging #fileupload_permissions {clear:both; padding:10px; background-color:#eee;}
 #fileupload_container #fileupload_rendered_tagging #fileupload_action_buttons {margin-top:10px; float:right;}
 
-#fileupload_container .MultiFile-label {clear:right; padding-bottom:5px;}
-#fileupload_container .MultiFile-remove {color:#2F88AA; float:right; font-weight:bold; padding-left:10px; margin-right:90px; position:relative;}
-#fileupload_container .MultiFile {margin-bottom:10px;}
-#fileupload_container .MultiFile-list {padding:10px 0 20px 10px; background-color:#eee; margin-top:10px; margin-bottom:10px;}
+#fileupload_container .MultiFile-remove {color:#006E96; font-weight:bold; padding-left:10px;}
+#fileupload_container .MultiFile-list {display:none; margin:10px 0;}
 
 #fileupload_container {width:800px !important; left:40% !important;}
 
-#fileupload_filename_label {float:left; clear:both;}
 #fileupload_add_version_description_label {margin-top:10px;}
-
-#fileupload_container #fileupload_add_to {float:left; padding-right:3px;}
-#fileupload_container #fileupload_add_to_template_container {padding-bottom:10px;}
 
 #fileupload_container .hide_remove_link {visibility:hidden;}
 
-#fileupload_container #multifile_form {margin-top:10px;}
-#fileupload_container #fileupload_link_box input[type="text"]{width:300px;}
 #fileupload_rendered_tagging textarea {height: 60px;}
