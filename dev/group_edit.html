@@ -77,11 +77,6 @@
 
         <div class="fl-container-flex">
 
-            <!-- GROUPBASICINFO WIDGET -->
-            <div id="group_edit_widget_template" style="display:none"><!--
-                <div id="widget_groupbasicinfo" class="widget_inline"></div>
-            --></div>
-
             <div class="fl-fix fl-centered fixed-container">
                 <div class="group_edit_section_container">
 
@@ -89,23 +84,6 @@
                     <div id="widget_joinrequests" class="widget_inline"></div>
 
                     <div id="group_edit_widget_container"></div>
-
-                    <!-- USER LIST TEMPLATE -->
-                    <div id="group_edit_userlist_default_template"><!--
-                        {if mode === "edit"}
-                            {var _access = data.access}
-                            <div class="group_edit_members_acl fl-force-right">
-                                <label for="group_edit_members_access">__MSG__WHO_CAN_VIEW_OR_SEARCH_THIS__</label>
-                                <select id="group_edit_members_access">
-                                    <option{if _access==="public"} selected="selected"{/if}>__MSG__PUBLIC__</option>
-                                    <option{if _access==="institution"} selected="selected"{/if}>__MSG__LOGGED_IN_USERS__</option>
-                                    <option{if _access==="contacts"} selected="selected"{/if}>__MSG__CONTACTS_ONLY__</option>
-                                    <option{if _access==="noone"} selected="selected"{/if}>__MSG__ONLY_ME__</option>
-                                </select>
-                            </div>
-                        
-                        {/if}
-                    --></div>
 
                     <!-- PICKERUSER WIDGET -->
                     <div id="widget_pickeruser" class="widget_inline"></div>
@@ -187,6 +165,27 @@
             </div>
 
         </div>
+        
+        <!-- GROUPBASICINFO WIDGET -->
+        <div id="group_edit_widget_template"><!--
+        	<div id="widget_groupbasicinfo" class="widget_inline"></div>
+        --></div>
+
+        <!-- USER LIST TEMPLATE -->
+        <div id="group_edit_userlist_default_template"><!--
+            {if mode === "edit"}
+            	{var _access = data.access}
+                <div class="group_edit_members_acl fl-force-right">
+                	<label for="group_edit_members_access">__MSG__WHO_CAN_VIEW_OR_SEARCH_THIS__</label>
+                    <select id="group_edit_members_access">
+                    	<option{if _access==="public"} selected="selected"{/if}>__MSG__PUBLIC__</option>
+                        <option{if _access==="institution"} selected="selected"{/if}>__MSG__LOGGED_IN_USERS__</option>
+                        <option{if _access==="contacts"} selected="selected"{/if}>__MSG__CONTACTS_ONLY__</option>
+                        <option{if _access==="noone"} selected="selected"{/if}>__MSG__ONLY_ME__</option>
+                    </select>
+                </div>
+             {/if}
+        --></div>
 
         <!-- CHANGEPIC WIDGET -->
         <div id="widget_changepic" class="widget_inline"></div>
