@@ -421,6 +421,22 @@ sakai.config = {
         }
     },
 
+    Relationships: {
+        /*
+         * Relationships used by the add contacts widget to define what relationship the contacts can have
+         */
+        "contacts": [
+            {"name": "Classmate", "definition": "is my classmate", "selected": false},
+            {"name": "Supervisor", "inverse": "Supervised", "definition": "is my supervisor", "selected": false},
+            {"name": "Supervised", "inverse": "Supervisor", "definition": "is being supervised by me", "selected": false},
+            {"name": "Lecturer", "inverse": "Student", "definition": "is my lecturer", "selected": false},
+            {"name": "Student", "inverse": "Lecturer", "definition": "is my student", "selected": false},
+            {"name": "Colleague", "definition": "is my colleague", "selected": false},
+            {"name": "College Mate", "definition": "is my college mate", "selected": false},
+            {"name": "Shares Interests", "definition": "shares an interest with me", "selected": false}
+        ]
+    },
+
     Site: {
         Styles: {
             original: {

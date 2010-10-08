@@ -179,7 +179,7 @@ a.s3d-action, .s3d-actions a {
     margin: 0;
     height: 23px;
     line-height: 23px;
-    white-space: nowrap;
+    white-space: nowrap !important;
     padding: 0 0 0 15px;
     color: #fff;
 }

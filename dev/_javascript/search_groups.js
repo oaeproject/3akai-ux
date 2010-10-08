@@ -33,8 +33,8 @@ sakai.search = function() {
     var currentfacet = "";
     
     // Add Group Button links
-	var createGroupContainer = "#creategroupcontainer";
- 	var searchAddGroupButton = ".search_add_group_button";
+    var createGroupContainer = "#creategroupcontainer";
+    var searchAddGroupButton = ".search_add_group_button";
 
     // Search URL mapping
     var searchURLmap = {
