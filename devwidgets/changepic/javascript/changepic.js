@@ -85,6 +85,7 @@ sakai.changepic = function(tuid, showSettings){
     var thumbnailContainer = "#thumbnail_container";
     var profilePicture = "#profilepicture";
     var fileName = false;
+    var imgAreaSelectShown = false;
 
     // An array with selectors pointing to images that need to be changed.
     var imagesToChange = ["#picture_holder img", "#entity_profile_picture", "#myprofile_pic", "#chat_available_me .chat_available_image img", "#profile_userinfo_picture"];
@@ -99,11 +100,12 @@ sakai.changepic = function(tuid, showSettings){
      * The other tab will be hidden.
      */
     var showNewTab = function(){
-
-        $(fullPicture).imgAreaSelect({
-            hide: true,
-            disable: true
-        });
+        if (imgAreaSelectShown) {
+            $(fullPicture).imgAreaSelect({
+                hide: true,
+                disable: true
+            });
+        }
 
         $(tabSelect).removeClass(tabActiveClass);
         $(tabSelect).removeClass(tabSearchSelected);
@@ -120,7 +122,7 @@ sakai.changepic = function(tuid, showSettings){
      * The upload-a-pic tab will be hidden.
      */
     var showSelectTab = function(){
-
+        imgAreaSelectShown = true;
         $(tabSelect).addClass(tabActiveClass);
         $(tabSelect).addClass(tabSearchSelected);
 
@@ -351,7 +353,7 @@ sakai.changepic = function(tuid, showSettings){
                         imageareaobject.setSelection(picture.selectedx1,picture.selectedy1,picture.selectedx2,picture.selectedy2);
                         imageareaobject.setOptions({ show: true });
                         imageareaobject.update();
-                        preview($("img" + fullPicture)[0], selectionObj)
+                        preview($("img" + fullPicture)[0], selectionObj);
                     },
                     onSelectChange: preview
                 });
@@ -467,11 +469,13 @@ sakai.changepic = function(tuid, showSettings){
      */
     var hideArea = function(hash){
 
-        // Remove the selecting of an area on an image.
-        $(fullPicture).imgAreaSelect({
-            hide: true,
-            disable: true
-        });
+        if (imgAreaSelectShown) {
+            // Remove the selecting of an area on an image.
+            $(fullPicture).imgAreaSelect({
+                hide: true,
+                disable: true
+            });
+        }
 
         hash.w.hide();
         hash.o.remove();
