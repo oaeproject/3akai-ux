@@ -1075,11 +1075,22 @@ sakai.api.i18n.General.process = function(toprocess, localbundle, defaultbundle)
         return "";
     }
 
-    var expression = new RegExp("__MSG__(.*?)__", "gm"), processed = "", lastend = 0;
+    var expression = new RegExp(".{1}__MSG__(.*?)__", "gm"), processed = "", lastend = 0;
+
     while(expression.test(toprocess)) {
         var replace = RegExp.lastMatch;
         var lastParen = RegExp.lastParen;
-        var toreplace = sakai.api.i18n.General.getValueForKey(lastParen);
+        var quotes = "";
+
+        // need to add quotations marks if key is adjacent to an equals sign which means its probably missing quotes - IE
+        if (replace.substr(0,2) !== "__"){
+            if (replace.substr(0,1) === "="){
+                quotes = '"';
+            }
+            replace = replace.substr(1, replace.length);
+        }
+
+        var toreplace = quotes + sakai.api.i18n.General.getValueForKey(lastParen) + quotes;
         processed += toprocess.substring(lastend,expression.lastIndex-replace.length) + toreplace;
         lastend = expression.lastIndex;
     }
