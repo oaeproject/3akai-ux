@@ -2969,6 +2969,81 @@ sakai.api.Util.parseSakaiDate = function(dateInput) {
 
 
 /**
+ * Parse an RFC822 date into a JavaScript date object.
+ * Examples of RFC822 dates:
+ * Wed, 02 Oct 2002 13:00:00 GMT
+ * Wed, 02 Oct 2002 13:00:00 +0200
+ *
+ * @param {String} dateString
+ * @return {Date}  a Javascript date object
+ */
+sakai.api.Util.parseRFC822Date = function(dateString) {
+
+    var dateOutput = new Date();
+
+    var dateElements = dateString.split(" ");
+    var dateElementsTime = dateElements[4].split(":");
+
+    var months = {"Jan":0,"Feb":1,"Mar":2,"Apr":3,"May":4,"Jun":5,"Jul":6,"Aug":7,"Sep":8,"Oct":9,"Nov":10,"Dec":11};
+    var zones = {
+        "UT": 0,
+        "GMT": 0,
+        "EST": -5,
+        "EDT": -4,
+        "CST": -6,
+        "CDT": -5,
+        "MST": -7,
+        "MDT": -6,
+        "PST": -8,
+        "PDT": -7,
+        "Z": 0,
+        "A":-1,
+        "M":-12,
+        "N": 1,
+        "Y": 12
+    }
+
+    // Set day
+    if (dateElements[1]) { dateOutput.setDate(Number(dateElements[1])); }
+
+    //Set month
+    if (dateElements[2]) { dateOutput.setMonth(months[dateElements[2]]); }
+
+    // Set year
+    if (dateElements[3]) { dateOutput.setFullYear(Number(dateElements[3])); }
+
+    // Set hour
+    if (dateElements[4] && dateElementsTime[0]) {
+
+        // Take timezone offset into account
+        if (zones[dateElements[5]]) {
+            dateOutput.setHours(dateElementsTime[0] + zones[dateElements[5]]);
+        } else if (!isNaN(parseInt(dateElements[5], 10))) {
+            var zoneTimeHour = Number(dateElements[5].substring(0,2));
+            dateOutput.setHours(Number(dateElementsTime[0]) + zoneTimeHour);
+        }
+    }
+
+    // Set minutes
+    if (dateElements[4] && dateElementsTime[1]) {
+
+        if (!isNaN(parseInt(dateElements[5], 10))) {
+            var zoneTimeMinutes = Number(dateElements[5].substring(3,4));
+            dateOutput.setMinutes(Number(dateElementsTime[1]) + zoneTimeMinutes);
+        } else {
+            dateOutput.setMinutes(Number(dateElementsTime[1]));
+        }
+    }
+
+    // Set seconds
+    if (dateElements[4] && dateElementsTime[2]) { dateOutput.setSeconds(dateElementsTime[2]); }
+
+    return dateOutput;
+
+}
+
+
+/**
  * Removes JCR or Sling properties from a JSON object
  * @param {Object} i_object The JSON object you want to remove the JCR object from
  * @returns void
