@@ -866,10 +866,11 @@ sakai.dashboard = function(tuid, showSettings) {
          toTop: true,
          onShow: renderGoodies
      });
-
-     sakai.dashboard.showAddWidgetDialog = function() {
-         $(addGoodiesDialog, $rootel).jqmShow();
-     };
+     $(window).bind("sakai-dashboard-showAddWidgetDialog", function(e, iTuid) {
+         if (iTuid == tuid) {
+              $(addGoodiesDialog, $rootel).jqmShow();
+          }
+     });
 
     /**
    * Initialize the Dashboard Widget

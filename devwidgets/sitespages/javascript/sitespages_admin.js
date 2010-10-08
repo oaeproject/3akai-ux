@@ -937,7 +937,8 @@ sakai.sitespages.site_admin = function(){
 
         //Check if tinyMCE has been loaded before - probably a more robust check will be needed
         if (sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageType"] === "dashboard") {
-            sakai.dashboard.showAddWidgetDialog();
+            var dashboardTUID = $("#" + sakai.sitespages.selectedpage).children("div").attr("id");
+            $(window).trigger("sakai-dashboard-showAddWidgetDialog", dashboardTUID);
         } else {
             if (tinyMCE.activeEditor === null) {
                 init_tinyMCE();

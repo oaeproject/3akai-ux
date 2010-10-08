@@ -62,7 +62,7 @@ sakai.mysakai = function(){
         });
 
         $("#mysakai_more_customize_page").live("click", function() {
-            sakai.dashboard.showAddWidgetDialog();
+            $(window).trigger("sakai-dashboard-showAddWidgetDialog", "mysakaidashboard");
             showHideMoreMenu(true);
         });
 
