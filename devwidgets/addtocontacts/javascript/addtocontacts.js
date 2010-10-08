@@ -79,7 +79,7 @@ sakai.addtocontacts = function(tuid, showSettings){
      * It renders the contacts types and the personal note
      */
     var renderTemplates = function(){
-        $.TemplateRenderer(addToContactsFormTypeTemplate.replace(/#/gi, ""), Widgets, $(addToContactsInfoTypes));
+        $.TemplateRenderer(addToContactsFormTypeTemplate.replace(/#/gi, ""), sakai.config.Relationships, $(addToContactsInfoTypes));
         var json = {
             me: me
         };
@@ -109,8 +109,8 @@ sakai.addtocontacts = function(tuid, showSettings){
      * @param {String} relationshipName
      */
     var getDefinedRelationship = function(relationshipName){
-        for (var i = 0, j = Widgets.relationships.length; i < j; i++) {
-            var definedRelationship = Widgets.relationships[i];
+        for (var i = 0, j = sakai.config.Relationships.contacts.length; i < j; i++) {
+            var definedRelationship = sakai.config.Relationships.contacts[i];
             if (definedRelationship.name === relationshipName) {
                 return definedRelationship;
             }
