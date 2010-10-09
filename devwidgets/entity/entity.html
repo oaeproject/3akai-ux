@@ -111,7 +111,7 @@
                     {else}
                         <span class="entity_member_count"><span id="entity_member_count">
                         {if data.profile["managerCount"] && data.profile["memberCount"]}
-                            (${data.profile["memberCount"]+data.profile["managerCount"]}</span>)
+                            (<span id="entity_member_count">${data.profile["memberCount"]+data.profile["managerCount"]}</span>)
                         {elseif data.profile["managerCount"]}
                             (<span id="entity_member_count">${data.profile["managerCount"]}</span>)
                         {elseif data.profile["memberCount"]}
