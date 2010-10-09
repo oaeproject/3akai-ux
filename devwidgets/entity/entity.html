@@ -97,43 +97,39 @@
         {/if}
         {if mode === "group"}
             <div class="fl-force-left entity_picture">
+                <div class="entity_avatar_border">
                 {if data.profile && data.profile.picture}
                     <img id="entity_profile_picture" src="${data.profile.picture}" alt="__MSG__PROFILE_PICTURE_FOR__ ${data.profile["sakai:group-title"]}" />
                 {else}
-                    <img id="entity_profile_picture" src="/dev/_images/group_avatar_icon_64x64.png" alt="group name" />
+                    <img id="entity_profile_picture" src="/dev/_images/group_avatar_icon_64x64_nob.png" alt="group name" />
                 {/if}
                 <div class="fl-text-align-center">
                     {if data.profile.role === "manager"}
                         <div class="entity_picture_div"><span class="entity_manage"><span class="entity_picture_text">&nbsp;&nbsp;__MSG__I_MANAGE_ENTITY__&nbsp;</span></span><span class="entity_manage_end">&nbsp;&nbsp;</span></div>
-                        <a href="javascript:;" class="s3d-action" id="changepic_container_trigger">__MSG__CHANGE__</a>
                     {elseif data.profile.role === "member"}
                         <div class="entity_picture_div"><span class="entity_member"><span class="entity_picture_text">&nbsp;&nbsp;__MSG__MEMBER_ENTITY__&nbsp;</span></span><span class="entity_member_end">&nbsp;&nbsp;</span></div>
-                    {/if}
-                </div>
-            </div>
-            <div class="entity_header">
-                {if data.profile["sakai:group-title"] && data.profile["sakai:group-title"].length > 115}
-                    <a class="entity_header_text" href="/~${data.profile["sakai:group-id"]}" title="${data.profile["sakai:group-title"]}">${data.profile["sakai:group-title"].substring(0, 115)}
-                    
+                    {else}
+                        <span class="entity_member_count"><span id="entity_member_count">
                         {if data.profile["managerCount"] && data.profile["memberCount"]}
-                            (<span id="entity_member_count">${data.profile["memberCount"]+data.profile["managerCount"]}</span>)
+                            (${data.profile["memberCount"]+data.profile["managerCount"]}</span>)
                         {elseif data.profile["managerCount"]}
                             (<span id="entity_member_count">${data.profile["managerCount"]}</span>)
                         {elseif data.profile["memberCount"]}
                             (<span id="entity_member_count">${data.profile["memberCount"]}</span>)
                         {/if}
-                        ...</a>
-
-                {elseif data.profile["sakai:group-title"]}
-                    <a class="entity_header_text" href="/~${data.profile["sakai:group-id"]}">${data.profile["sakai:group-title"]}
-                        {if data.profile["managerCount"] && data.profile["memberCount"]}
-                            (<span id="entity_member_count">${data.profile["memberCount"]+data.profile["managerCount"]}</span>)
-                        {elseif data.profile["managerCount"]}
-                            (<span id="entity_member_count">${data.profile["managerCount"]}</span>)
-                        {elseif data.profile["memberCount"]}
-                            (<span id="entity_member_count">${data.profile["memberCount"]}</span>)
-                        {/if}</a>
-                    
+                        </span>
+                    {/if}
+                </div>
+                </div>
+                {if data.profile.role === "manager"}
+                <div class="fl-text-align-center entity_padding_top">
+                    <a href="javascript:;" class="s3d-action" id="changepic_container_trigger">__MSG__CHANGE__</a>
+                </div>
+                {/if}
+            </div>
+            <div class="entity_header">
+                {if data.profile["sakai:group-title"]}
+                    <a class="entity_header_text" href="/~${data.profile["sakai:group-id"]}" title="${data.profile["sakai:group-title"]}">${sakai.api.Util.shortenString(data.profile["sakai:group-title"], 115)}</a>
                 {/if}
                 {if data.profile.role === "manager"}
                     {if sakai.profile.main.mode.value === "view"}
