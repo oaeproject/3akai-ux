@@ -185,7 +185,7 @@
                                                     {/if}
                                                 </a>
                                             </div>
-                                            {if i["sakai:description"]}<div class="search_result_description">${i["sakai:description"]}</div>{/if}
+                                            {if i["sakai:description"]}<div class="search_result_description">${sakai.api.Util.shortenString(i["sakai:description"], 400)}</div>{/if}
                                             {if i["sakai:tags"] && i["sakai:tags"].length > 0}
                                                 <div class="search_result_tags">__MSG__TAGS__:
                                                     {for t in i["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0},{/if} ${t}{/if}{/for}

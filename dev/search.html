@@ -164,7 +164,7 @@
                                                     {/if}
                                                 </a>
                                             </div>
-                                            {if i["sakai:description"]}<div class="search_result_description">${i["sakai:description"]}</div>{/if}
+                                            {if i["sakai:description"]}<div class="search_result_description">${sakai.api.Util.shortenString(i["sakai:description"], 400)}</div>{/if}
                                             {if i["sakai:tags"] && i["sakai:tags"].length > 0}
                                                 <div class="search_result_tags">__MSG__TAGS__:
                                                     {for t in i["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0},{/if} ${t}{/if}{/for}
@@ -196,9 +196,9 @@
                                         {if i['sakai:group-id']}
                                         {var groupsFound = true}
                                         <div class="fl-container fl-fix search_result_course_site">
-                                            <div class="search_result_course_site_title"><a href="/~${i.pagepath}">${i["sakai:group-title"]}</a></div>
-                                            <div class="search_result_course_site_url"><a href="/~${i.pagepath}">${i.pagepath}</a></div>
-                                            <div class="search_result_course_site_excerpt">${i["sakai:group-description"]}</div>
+                                            <div class="search_result_course_site_title"><a href="/~${i.pagepath}">${sakai.api.Util.shortenString(i["sakai:group-title"], 100)}</a></div>
+                                            <div class="search_result_course_site_url"><a href="/~${i.pagepath}">${sakai.api.Util.shortenString(i.pagepath, 100)}</a></div>
+                                            <div class="search_result_course_site_excerpt">${sakai.api.Util.shortenString(i["sakai:group-description"], 400)}</div>
                                         </div>
                                         {/if}
                                     {/for}
