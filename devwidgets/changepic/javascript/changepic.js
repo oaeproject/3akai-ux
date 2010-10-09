@@ -367,6 +367,11 @@ sakai.changepic = function(tuid, showSettings){
             showNewTab();
         }
     };
+    
+    // Remove error notification when a new file is chosen
+    $("#profilepicture").bind("change", function(){
+        $("#changepic_nofile_error").hide(); 
+    });
 
     // This is the function that will be called when a user has cut out a selection
     // and saves it.
