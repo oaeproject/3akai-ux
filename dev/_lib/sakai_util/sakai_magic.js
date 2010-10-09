@@ -3315,6 +3315,8 @@ sakai.api.Widgets.loadWidgetData = function(id, callback) {
  * Will be used for detecting widget declerations inside the page and load those
  * widgets into the page
  */
+sakai.api.Widgets.cssCache = {};
+
 sakai.api.Widgets.widgetLoader = {
 
     loaded : [],
@@ -3417,9 +3419,18 @@ sakai.api.Widgets.widgetLoader = {
 
             var CSSTags = locateTagAndRemove(content, "link", "href");
             content = CSSTags.content;
+            var stylesheets = [];
 
             for (var i = 0, j = CSSTags.URL.length; i<j; i++) {
-                $.Load.requireCSS(CSSTags.URL[i]);
+                // SAKIII-1524 - Instead of loading all of the widget CSS files independtly,
+                // we collect all CSS file declarations from all widgets in the current pass
+                // of the WidgetLoader. These will then be loaded in 1 go.
+                if ($.browser.msie && !sakai.api.Widgets.cssCache[CSSTags.URL[i]]) {
+                    stylesheets.push(CSSTags.URL[i]);
+                    sakai.api.Widgets.cssCache[CSSTags.URL[i]] = true;
+                } else {
+                    $.Load.requireCSS(CSSTags.URL[i]);
+                }
             }
 
             var JSTags = locateTagAndRemove(content, "script", "src");
@@ -3437,6 +3448,8 @@ sakai.api.Widgets.widgetLoader = {
             for (var JSURL = 0, l = JSTags.URL.length; JSURL < l; JSURL++){
                 $.Load.requireJS(JSTags.URL[JSURL]);
             }
+            
+            return stylesheets;
 
         };
 
@@ -3503,6 +3516,7 @@ sakai.api.Widgets.widgetLoader = {
                                 requests: $.toJSON(bundles)
                             },
                             success: function(data){
+                                var stylesheets = [];
                                 for (var i = 0, j = requestedURLsResults.length; i < j; i++) {
                                     // Current widget name
                                     var widgetName = requestedURLsResults[i].url.split("/")[2];
@@ -3540,7 +3554,59 @@ sakai.api.Widgets.widgetLoader = {
                                     } else {
                                         translated_content = sakai.api.i18n.General.process(requestedURLsResults[i].body, sakai.data.i18n.localBundle, sakai.data.i18n.defaultBundle);
                                     }
-                                    sethtmlover(translated_content, widgets, widgetName);
+                                    var ss = sethtmlover(translated_content, widgets, widgetName);
+                                    for (var s = 0; s < ss.length; s++){
+                                        stylesheets.push(ss[s]);
+                                    }
+                                }
+                                // SAKIII-1524 - IE has a limit of maximum 32 CSS files (link or style tags). When
+                                // a lot of widgets are loaded into 1 page, we can easily hit that limit. Therefore,
+                                // we adjust the widgetloader to load all CSS files of 1 WidgetLoader pass in 1 style
+                                // tag filled with import statements
+                                if ($.browser.msie && stylesheets.length > 0) {
+                                    var numberCSS = $("head style, head link").length;
+                                    // If we have more than 30 stylesheets, we will merge all of the previous style
+                                    // tags we have created into the lowest possible number
+                                    if (numberCSS >= 30){
+                                        $("head style").each(function(index){
+                                            if ($(this).attr("title") && $(this).attr("title") === "sakai_widgetloader") {
+                                                $(this).remove();
+                                            }
+                                        });
+                                    }
+                                    var allSS = [];
+                                    var newSS = document.createStyleSheet();
+                                    newSS.title = "sakai_widgetloader";
+                                    var totalImportsInCurrentSS = 0;
+                                    // Merge in the previously created style tags
+                                    if (numberCSS >= 30){
+                                        for (var s in sakai.api.Widgets.cssCache){
+                                             if (totalImportsInCurrentSS >= 30){
+                                                 allSS.push(newSS);
+                                                 newSS = document.createStyleSheet();
+                                                 newSS.title = "sakai_widgetloader";
+                                                 totalImportsInCurrentSS = 0;
+                                             }    
+                                             newSS.addImport(s);
+                                             totalImportsInCurrentSS++;
+                                        }
+                                    }
+                                    // Add in the stylesheets declared in the widgets loaded
+                                    // in the current pass of the WidgetLoader
+                                    for (var s = 0, ss = stylesheets.length; s < ss; s++) {
+                                        if (totalImportsInCurrentSS >= 30){
+                                        	allSS.push(newSS);
+                                            newSS = document.createStyleSheet();
+                                            newSS.title = "sakai_widgetloader";
+                                            totalImportsInCurrentSS = 0;
+                                        }
+                                        newSS.addImport(stylesheets[s]);
+                                    }
+                                    allSS.push(newSS);
+                                    // Add the style tags to the document
+                                    for (var s = 0; s < allSS.length; s++) {
+                                        $("head").append(allSS[s]);
+                                    }
                                 }
                             }
                         });
