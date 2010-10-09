@@ -205,30 +205,39 @@ sakai.rss = function(tuid, showSettings){
      * @param {Object} feed
      */
     var printFeed = function(feed){
+
         try{
+
             // Make the json-object where the rss-data will be saved
             var rss = {"items" : []};
             var xmlobject = feed;
+
             // retrieve data from the xmlobject and put it in the JSON-object
             var channel = $(xmlobject).find("channel");
+
             // put all the nodes in JSON-props
-            rss.title = getContent(channel.find("title")[0]);
-            rss.link = getContent(channel.find("link")[0]);
+            rss.title = $("title",channel).text();
+            rss.link = $("link",channel).text();
             rss.id = feedUrl;
-            rss.description = getContent(channel.find("description")[0]);
+            rss.description = $("description",channel).text();
             $(xmlobject).find("item").each(function() {
                 var item = $(this);
-                var parsedDate = "";
-                if (item.find("pubDate")[0]){
-                    parsedDate = formatDate(new Date(getContent(item.find("pubDate")[0])));
+                var pubDate = "";
+                var timeNow = new Date();
+                var parseDate = formatDate(timeNow);
+                if ($("pubDate",item).length > 0){
+
+                    // We have to parse the RFC 822 date to help IE understand it, as it is something dodgy there...
+                    pubDate = formatDate(sakai.api.Util.parseRFC822Date($("pubDate",item).text()));
+
                 }
                   rss.items.push({
-                    "title" : getContent(item.find("title")[0]),
-                    "link" : getContent(item.find("link")[0]),
-                    "description" : getContent(item.find("description")[0]),
-                    "pubDate" : Date.parse(getContent(item.find("pubDate")[0])),
-                    "guid" : getContent(item.find("guid")[0]),
-                    "parsedDate" : parsedDate
+                    "title" : $("title",item).text(),
+                    "link" : $("link",item).text(),
+                    "description" : $("description",item).text(),
+                    "pubDate" : pubDate,
+                    "guid" : $("guid",item).text(),
+                    "parsedDate" : parseDate
                 });
           });
           return rss;
@@ -260,7 +269,7 @@ sakai.rss = function(tuid, showSettings){
            url : sakai.config.URL.PROXY_RSS +  url,
            type : "GET",
            success : function(data) {
-                   onResponse(printFeed(data));
+                onResponse(printFeed(data));
            },
            error: function(xhr, textStatus, thrownError) {
                sakai.api.Util.notification.show($(rssUnableToConnect).html(), $(rssCannotConnectToRssFeed).html());

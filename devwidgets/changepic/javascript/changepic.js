@@ -99,11 +99,13 @@ sakai.changepic = function(tuid, showSettings){
      * The other tab will be hidden.
      */
     var showNewTab = function(){
-
-        $(fullPicture).imgAreaSelect({
-            hide: true,
-            disable: true
-        });
+        if (imageareaobject) {
+            imageareaobject.setOptions({
+                hide: true,
+                disable: true
+            });
+            imageareaobject.update();
+        }
 
         $(tabSelect).removeClass(tabActiveClass);
         $(tabSelect).removeClass(tabSearchSelected);
@@ -342,28 +344,18 @@ sakai.changepic = function(tuid, showSettings){
                 // Set the imgAreaSelect to a function so we can access it later on
                 imageareaobject = $(fullPicture).imgAreaSelect({
                     aspectRatio: "1:1",
-                    disable: false,
                     enable: true,
-                    hide: false,
+                    show: true,
                     instance: true,
                     onInit: function(){
                         // If the image gets loaded, make a first selection
-                        imageareaobject.setSelection(picture.selectedx1,picture.selectedy1,picture.selectedx2,picture.selectedy2);
-                        imageareaobject.setOptions({ show: true });
+                        imageareaobject.setSelection(picture.selectedx1, picture.selectedy1, picture.selectedx2, picture.selectedy2);
+                        imageareaobject.setOptions({show: true, enable: true});
                         imageareaobject.update();
-                        preview($("img" + fullPicture)[0], selectionObj)
+                        preview($("img" + fullPicture)[0], selectionObj);
                     },
                     onSelectChange: preview
                 });
-
-                // Check if the imageareaobject exists
-                // After init this structure will show the selection overlay
-                if (imageareaobject) {
-                    imageareaobject.setSelection(picture.selectedx1, picture.selectedy1, picture.selectedx2, picture.selectedy2);
-                    imageareaobject.setOptions({show: true});
-                    imageareaobject.update();
-                    preview($("img" + fullPicture)[0], selectionObj);
-                }
             });
             showSelectTab();
 
@@ -468,10 +460,13 @@ sakai.changepic = function(tuid, showSettings){
     var hideArea = function(hash){
 
         // Remove the selecting of an area on an image.
-        $(fullPicture).imgAreaSelect({
-            hide: true,
-            disable: true
-        });
+        if (imageareaobject) {
+            imageareaobject.setOptions({
+                hide: true,
+                disable: true
+            });
+            imageareaobject.update();
+        }
 
         hash.w.hide();
         hash.o.remove();

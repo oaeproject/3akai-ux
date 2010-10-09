@@ -72,7 +72,7 @@
             <div class="rss_output_entry">
                 {if !displayHeadlines}
                     <h2 class="fl-force-left">${i.title}</h2>
-                    <span class="rss_title fl-force-right" >${i.parsedDate}</span>
+                    <span class="rss_title fl-force-right" >${i.pubDate}</span>
                     <div class="fl-push"></div>
                     <p>${i.description}
                         {if i.link != ""}
@@ -81,7 +81,7 @@
                     </p>
                 {else}
                     <a href="${i.link}"><h2 class="fl-force-left">${i.title}</h2></a>
-                    <span class="rss_title fl-force-right" >${i.parsedDate}</span>
+                    <span class="rss_title fl-force-right" >${i.pubDate}</span>
                     <div class="fl-push"></div>
                     {if displaySource}
                         <br />
