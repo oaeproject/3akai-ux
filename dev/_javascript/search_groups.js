@@ -200,7 +200,7 @@ sakai.search = function() {
             } else if (results.results.length <= 0) {
                 $(searchConfig.global.numberFound).text(0);
             } else {
-                $(searchConfig.global.numberFound).text("more than 100");
+                $(searchConfig.global.numberFound).text("more than " + Math.abs(results.total));
             }
 
             // Reset the pager.
