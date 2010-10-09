@@ -1178,13 +1178,6 @@ sakai.api.i18n.Widgets.getValueForKey = function(widgetname, locale, key) {
 sakai.api.l10n = sakai.api.l10n || {};
 
 /**
- * Start the general l10n process
- */
-sakai.api.l10n.init = function() {
-
-};
-
-/**
  * Get the current logged in user's locale
  *
  * @return {String} The user's locale string in XXX format
@@ -1194,18 +1187,23 @@ sakai.api.l10n.getUserLocale = function() {
 };
 
 /**
- * Get a site's locale
- *
- * @returns {String} The site's locale string in XXX format
+ * Parse a date string into a date object and adjust that date to the timezone
+ * set by the current user.
+ * @param {Object} dateString    date to parse in the format 2010-10-06T14:45:54+01:00
  */
-sakai.api.l10n.getSiteLocale = function() {
-
-};
-
-
-
-
-
+sakai.api.l10n.parseDateString = function(dateString){
+    var d = new Date();
+    d.setFullYear(parseInt(dateString.substring(0,4),10));
+    d.setMonth(parseInt(dateString.substring(5,7),10) - 1);
+    d.setDate(parseInt(dateString.substring(8,10),10));
+    d.setHours(parseInt(dateString.substring(11,13),10));
+    d.setMinutes(parseInt(dateString.substring(14,16),10));
+    d.setSeconds(parseInt(dateString.substring(17,19),10));
+    // Localization
+    d.setTime(d.getTime() - (parseInt(dateString.substring(19,22),10)*60*60*1000));
+    d.setTime(d.getTime() + sakai.data.me.user.locale.timezone.GMT*60*60*1000);
+    return d;
+}
 
 
 
@@ -4311,9 +4309,6 @@ sakai.api.autoStart = function() {
 
             // Start i18n
             sakai.api.i18n.init();
-
-            // Start l10n
-            sakai.api.l10n.init();
 
         });
 
