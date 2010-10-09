@@ -41,7 +41,6 @@ sakai.topnavigation = function(tuid, showSettings){
     var currentChatStatus = "";
 
     // Links and labels
-    var hiLabel = "#hispan";
     var myprofileName = "#myprofile_name";
     var onlineButton = "#online_button";
     var pictureHolder = "#picture_holder";
@@ -463,8 +462,7 @@ sakai.topnavigation = function(tuid, showSettings){
 
         // Fill in the name of the user in the different fields
         if (sakai.api.User.getDisplayName(person.profile) !== "") {
-            $(userIdLabel).text(sakai.api.User.getDisplayName(person.profile));
-            $(hiLabel).text(sakai.api.User.getProfileBasicElementValue(person.profile, "firstName"));
+            $(userIdLabel).text(sakai.api.Util.shortenString(sakai.api.User.getDisplayName(person.profile), 25));
         }
 
         // Show the profile picture on the dashboard page
