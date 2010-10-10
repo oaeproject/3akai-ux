@@ -4,7 +4,7 @@
     <head>
 
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>Sakai 3 R&amp;D - __MSG__SEARCH_CONTENT_AND_MEDIA__</title>
+        <title></title>
 
         <!-- Sakai Core CSS -->
         <link rel="stylesheet" type="text/css" href="_css/FSS/fss-base.css" />
@@ -185,7 +185,7 @@
                                                     {/if}
                                                 </a>
                                             </div>
-                                            {if i["sakai:description"]}<div class="search_result_description">${i["sakai:description"]}</div>{/if}
+                                            {if i["sakai:description"]}<div class="search_result_description">${sakai.api.Util.shortenString(i["sakai:description"], 400)}</div>{/if}
                                             {if i["sakai:tags"] && i["sakai:tags"].length > 0}
                                                 <div class="search_result_tags">__MSG__TAGS__:
                                                     {for t in i["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0},{/if} ${t}{/if}{/for}

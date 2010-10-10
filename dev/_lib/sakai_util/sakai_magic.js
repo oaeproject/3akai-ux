@@ -1075,11 +1075,22 @@ sakai.api.i18n.General.process = function(toprocess, localbundle, defaultbundle)
         return "";
     }
 
-    var expression = new RegExp("__MSG__(.*?)__", "gm"), processed = "", lastend = 0;
+    var expression = new RegExp(".{1}__MSG__(.*?)__", "gm"), processed = "", lastend = 0;
+
     while(expression.test(toprocess)) {
         var replace = RegExp.lastMatch;
         var lastParen = RegExp.lastParen;
-        var toreplace = sakai.api.i18n.General.getValueForKey(lastParen);
+        var quotes = "";
+
+        // need to add quotations marks if key is adjacent to an equals sign which means its probably missing quotes - IE
+        if (replace.substr(0,2) !== "__"){
+            if (replace.substr(0,1) === "="){
+                quotes = '"';
+            }
+            replace = replace.substr(1, replace.length);
+        }
+
+        var toreplace = quotes + sakai.api.i18n.General.getValueForKey(lastParen) + quotes;
         processed += toprocess.substring(lastend,expression.lastIndex-replace.length) + toreplace;
         lastend = expression.lastIndex;
     }
@@ -1167,13 +1178,6 @@ sakai.api.i18n.Widgets.getValueForKey = function(widgetname, locale, key) {
 sakai.api.l10n = sakai.api.l10n || {};
 
 /**
- * Start the general l10n process
- */
-sakai.api.l10n.init = function() {
-
-};
-
-/**
  * Get the current logged in user's locale
  *
  * @return {String} The user's locale string in XXX format
@@ -1183,18 +1187,23 @@ sakai.api.l10n.getUserLocale = function() {
 };
 
 /**
- * Get a site's locale
- *
- * @returns {String} The site's locale string in XXX format
+ * Parse a date string into a date object and adjust that date to the timezone
+ * set by the current user.
+ * @param {Object} dateString    date to parse in the format 2010-10-06T14:45:54+01:00
  */
-sakai.api.l10n.getSiteLocale = function() {
-
-};
-
-
-
-
-
+sakai.api.l10n.parseDateString = function(dateString){
+    var d = new Date();
+    d.setFullYear(parseInt(dateString.substring(0,4),10));
+    d.setMonth(parseInt(dateString.substring(5,7),10) - 1);
+    d.setDate(parseInt(dateString.substring(8,10),10));
+    d.setHours(parseInt(dateString.substring(11,13),10));
+    d.setMinutes(parseInt(dateString.substring(14,16),10));
+    d.setSeconds(parseInt(dateString.substring(17,19),10));
+    // Localization
+    d.setTime(d.getTime() - (parseInt(dateString.substring(19,22),10)*60*60*1000));
+    d.setTime(d.getTime() + sakai.data.me.user.locale.timezone.GMT*60*60*1000);
+    return d;
+}
 
 
 
@@ -1403,6 +1412,13 @@ sakai.api.Security.showPage = function(){
         $('html').addClass("requireUser");
     }
     sakai.api.Skinning.loadSkinsFromConfig();
+    // Put the title inside the page
+    var pageTitle = sakai.api.i18n.General.getValueForKey(sakai.config.PageTitles.prefix);
+    if (sakai.config.PageTitles.pages[window.location.pathname]){
+        pageTitle += sakai.api.i18n.General.getValueForKey(sakai.config.PageTitles.pages[window.location.pathname]);
+    }
+    document.title = pageTitle;
+    // Show the actual page content
     $('body').show();
 };
 
@@ -2958,6 +2974,81 @@ sakai.api.Util.parseSakaiDate = function(dateInput) {
 
 
 /**
+ * Parse an RFC822 date into a JavaScript date object.
+ * Examples of RFC822 dates:
+ * Wed, 02 Oct 2002 13:00:00 GMT
+ * Wed, 02 Oct 2002 13:00:00 +0200
+ *
+ * @param {String} dateString
+ * @return {Date}  a Javascript date object
+ */
+sakai.api.Util.parseRFC822Date = function(dateString) {
+
+    var dateOutput = new Date();
+
+    var dateElements = dateString.split(" ");
+    var dateElementsTime = dateElements[4].split(":");
+
+    var months = {"Jan":0,"Feb":1,"Mar":2,"Apr":3,"May":4,"Jun":5,"Jul":6,"Aug":7,"Sep":8,"Oct":9,"Nov":10,"Dec":11};
+    var zones = {
+        "UT": 0,
+        "GMT": 0,
+        "EST": -5,
+        "EDT": -4,
+        "CST": -6,
+        "CDT": -5,
+        "MST": -7,
+        "MDT": -6,
+        "PST": -8,
+        "PDT": -7,
+        "Z": 0,
+        "A":-1,
+        "M":-12,
+        "N": 1,
+        "Y": 12
+    }
+
+    // Set day
+    if (dateElements[1]) { dateOutput.setDate(Number(dateElements[1])); }
+
+    //Set month
+    if (dateElements[2]) { dateOutput.setMonth(months[dateElements[2]]); }
+
+    // Set year
+    if (dateElements[3]) { dateOutput.setFullYear(Number(dateElements[3])); }
+
+    // Set hour
+    if (dateElements[4] && dateElementsTime[0]) {
+
+        // Take timezone offset into account
+        if (zones[dateElements[5]]) {
+            dateOutput.setHours(dateElementsTime[0] + zones[dateElements[5]]);
+        } else if (!isNaN(parseInt(dateElements[5], 10))) {
+            var zoneTimeHour = Number(dateElements[5].substring(0,2));
+            dateOutput.setHours(Number(dateElementsTime[0]) + zoneTimeHour);
+        }
+    }
+
+    // Set minutes
+    if (dateElements[4] && dateElementsTime[1]) {
+
+        if (!isNaN(parseInt(dateElements[5], 10))) {
+            var zoneTimeMinutes = Number(dateElements[5].substring(3,4));
+            dateOutput.setMinutes(Number(dateElementsTime[1]) + zoneTimeMinutes);
+        } else {
+            dateOutput.setMinutes(Number(dateElementsTime[1]));
+        }
+    }
+
+    // Set seconds
+    if (dateElements[4] && dateElementsTime[2]) { dateOutput.setSeconds(dateElementsTime[2]); }
+
+    return dateOutput;
+
+}
+
+
+/**
  * Removes JCR or Sling properties from a JSON object
  * @param {Object} i_object The JSON object you want to remove the JCR object from
  * @returns void
@@ -3304,6 +3395,8 @@ sakai.api.Widgets.loadWidgetData = function(id, callback) {
  * Will be used for detecting widget declerations inside the page and load those
  * widgets into the page
  */
+sakai.api.Widgets.cssCache = {};
+
 sakai.api.Widgets.widgetLoader = {
 
     loaded : [],
@@ -3406,9 +3499,18 @@ sakai.api.Widgets.widgetLoader = {
 
             var CSSTags = locateTagAndRemove(content, "link", "href");
             content = CSSTags.content;
+            var stylesheets = [];
 
             for (var i = 0, j = CSSTags.URL.length; i<j; i++) {
-                $.Load.requireCSS(CSSTags.URL[i]);
+                // SAKIII-1524 - Instead of loading all of the widget CSS files independtly,
+                // we collect all CSS file declarations from all widgets in the current pass
+                // of the WidgetLoader. These will then be loaded in 1 go.
+                if ($.browser.msie && !sakai.api.Widgets.cssCache[CSSTags.URL[i]]) {
+                    stylesheets.push(CSSTags.URL[i]);
+                    sakai.api.Widgets.cssCache[CSSTags.URL[i]] = true;
+                } else {
+                    $.Load.requireCSS(CSSTags.URL[i]);
+                }
             }
 
             var JSTags = locateTagAndRemove(content, "script", "src");
@@ -3426,6 +3528,8 @@ sakai.api.Widgets.widgetLoader = {
             for (var JSURL = 0, l = JSTags.URL.length; JSURL < l; JSURL++){
                 $.Load.requireJS(JSTags.URL[JSURL]);
             }
+            
+            return stylesheets;
 
         };
 
@@ -3492,6 +3596,7 @@ sakai.api.Widgets.widgetLoader = {
                                 requests: $.toJSON(bundles)
                             },
                             success: function(data){
+                                var stylesheets = [];
                                 for (var i = 0, j = requestedURLsResults.length; i < j; i++) {
                                     // Current widget name
                                     var widgetName = requestedURLsResults[i].url.split("/")[2];
@@ -3529,7 +3634,59 @@ sakai.api.Widgets.widgetLoader = {
                                     } else {
                                         translated_content = sakai.api.i18n.General.process(requestedURLsResults[i].body, sakai.data.i18n.localBundle, sakai.data.i18n.defaultBundle);
                                     }
-                                    sethtmlover(translated_content, widgets, widgetName);
+                                    var ss = sethtmlover(translated_content, widgets, widgetName);
+                                    for (var s = 0; s < ss.length; s++){
+                                        stylesheets.push(ss[s]);
+                                    }
+                                }
+                                // SAKIII-1524 - IE has a limit of maximum 32 CSS files (link or style tags). When
+                                // a lot of widgets are loaded into 1 page, we can easily hit that limit. Therefore,
+                                // we adjust the widgetloader to load all CSS files of 1 WidgetLoader pass in 1 style
+                                // tag filled with import statements
+                                if ($.browser.msie && stylesheets.length > 0) {
+                                    var numberCSS = $("head style, head link").length;
+                                    // If we have more than 30 stylesheets, we will merge all of the previous style
+                                    // tags we have created into the lowest possible number
+                                    if (numberCSS >= 30){
+                                        $("head style").each(function(index){
+                                            if ($(this).attr("title") && $(this).attr("title") === "sakai_widgetloader") {
+                                                $(this).remove();
+                                            }
+                                        });
+                                    }
+                                    var allSS = [];
+                                    var newSS = document.createStyleSheet();
+                                    newSS.title = "sakai_widgetloader";
+                                    var totalImportsInCurrentSS = 0;
+                                    // Merge in the previously created style tags
+                                    if (numberCSS >= 30){
+                                        for (var s in sakai.api.Widgets.cssCache){
+                                             if (totalImportsInCurrentSS >= 30){
+                                                 allSS.push(newSS);
+                                                 newSS = document.createStyleSheet();
+                                                 newSS.title = "sakai_widgetloader";
+                                                 totalImportsInCurrentSS = 0;
+                                             }    
+                                             newSS.addImport(s);
+                                             totalImportsInCurrentSS++;
+                                        }
+                                    }
+                                    // Add in the stylesheets declared in the widgets loaded
+                                    // in the current pass of the WidgetLoader
+                                    for (var s = 0, ss = stylesheets.length; s < ss; s++) {
+                                        if (totalImportsInCurrentSS >= 30){
+                                        	allSS.push(newSS);
+                                            newSS = document.createStyleSheet();
+                                            newSS.title = "sakai_widgetloader";
+                                            totalImportsInCurrentSS = 0;
+                                        }
+                                        newSS.addImport(stylesheets[s]);
+                                    }
+                                    allSS.push(newSS);
+                                    // Add the style tags to the document
+                                    for (var s = 0; s < allSS.length; s++) {
+                                        $("head").append(allSS[s]);
+                                    }
                                 }
                             }
                         });
@@ -4159,9 +4316,6 @@ sakai.api.autoStart = function() {
 
             // Start i18n
             sakai.api.i18n.init();
-
-            // Start l10n
-            sakai.api.l10n.init();
 
         });
 

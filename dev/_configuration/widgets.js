@@ -1,16 +1,6 @@
 var sakai = sakai || {};
 
 var Widgets = {
-    "relationships": [
-        {"name": "Classmate", "definition": "is my classmate"},
-        {"name": "Supervisor", "inverse": "Supervised", "definition": "is my supervisor"},
-        {"name": "Supervised", "inverse": "Supervisor", "definition": "is being supervised by me"},
-        {"name": "Lecturer", "inverse": "Student", "definition": "is my lecturer"},
-        {"name": "Student", "inverse": "Lecturer", "definition": "is my student"},
-        {"name": "Colleague", "definition": "is my colleague"},
-        {"name": "College Mate", "definition": "is my college mate"},
-        {"name": "Shares Interests", "definition": "shares an interest with me"}
-    ],
     "groups":[
         "Administrators",
         "Lecturers & Supervisors",

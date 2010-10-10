@@ -469,14 +469,9 @@ sakai.inbox = function() {
      */
     var formatMessage = function(message) {
 
+        // 2010-10-06T14:45:54+01:00
         var dateString = message["sakai:created"];
-        var d = new Date();
-        d.setFullYear(parseInt(dateString.substring(0,4),10));
-        d.setMonth(parseInt(dateString.substring(5,7),10) - 1);
-        d.setDate(parseInt(dateString.substring(8,10),10));
-        d.setHours(parseInt(dateString.substring(11,13),10));
-        d.setMinutes(parseInt(dateString.substring(14,16),10));
-        d.setSeconds(parseInt(dateString.substring(17,19),10));
+        var d = sakai.api.l10n.parseDateString(dateString);
         //Jan 22, 2009 10:25 PM
         message.date = formatDate(d, "M j, Y G:i A");
 
@@ -1393,30 +1388,25 @@ sakai.inbox = function() {
 
 
     var doInit = function() {
-        // Check if we are logged in or out.
-        var person = sakai.data.me;
-        var uuid = person.user.userid;
-        if (!uuid || person.user.anon) {
-            redirectToLoginPage();
-        }
-        else {
-            // We are logged in. Do all the nescecary stuff.
-            // load the list of messages.
-            showUnreadMessages();
-            var getMsgsReady = false;
-            var sendMsgReady = false;
-            getAll = true;
-            getAllMessages(function() {
-                getMsgsReady = true;
-                if (getMsgsReady && sendMsgReady)
-                    $(window).trigger("hashchange");
-            });
-            $(window).bind("sakai-sendmessage-ready", function() {
-                sendMsgReady = true;
-                if (getMsgsReady && sendMsgReady)
-                    $(window).trigger("hashchange");
-            });
-        }
+        
+        // We are logged in. Do all the nescecary stuff.
+        // load the list of messages.
+        showUnreadMessages();
+        var getMsgsReady = false;
+        var sendMsgReady = false;
+        getAll = true;
+        getAllMessages(function() {
+        getMsgsReady = true;
+        if (getMsgsReady && sendMsgReady)
+            $(window).trigger("hashchange");
+        });
+        $(window).bind("sakai-sendmessage-ready", function() {
+            sendMsgReady = true;
+            if (getMsgsReady && sendMsgReady) {
+                $(window).trigger("hashchange");
+            }
+        });
+
     };
 
 

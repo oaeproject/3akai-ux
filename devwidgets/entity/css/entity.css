@@ -72,3 +72,6 @@
 .entity_location_show_all {padding:0px;margin:0px;}
 
 .entity_threedots {display:block; width:340px;}
+.entity_avatar_border {border: 1px solid #cbd0d4;}
+.entity_padding_top {padding-top: 3px;}
+.entity_member_count {display:block: padding-top: 2px; padding-bottom: 2px; color: #333;}

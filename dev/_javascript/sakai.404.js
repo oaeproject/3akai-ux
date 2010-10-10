@@ -50,6 +50,7 @@ sakai.nopermissions = function(tuid, showSettings) {
             $("#page_not_found_error").addClass("error_page_bringdown");
         }
         sakai.api.Security.showPage();
+        document.title = document.title + sakai.api.i18n.General.getValueForKey("PAGE_NOT_FOUND");
     }
 
     doInit();

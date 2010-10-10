@@ -4,7 +4,7 @@
     <head>
 
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>Sakai 3 R&amp;D - __MSG__SEARCH__: __MSG__GROUPS__</title>
+        <title></title>
 
         <!-- Sakai Core CSS -->
         <link rel="stylesheet" type="text/css" href="_css/FSS/fss-base.css" />
@@ -127,9 +127,9 @@
                                     {if i['sakai:group-id']}
                                     {var groupsFound = true}
                                     <div class="fl-container fl-fix search_result_course_site">
-                                        <div class="search_result_course_site_title"><a href="/~${i.pagepath}">${i["sakai:group-title"]}</a></div>
-                                        <div class="search_result_course_site_url"><a href="/~${i.pagepath}">${i.pagepath}</a></div>
-                                        <div class="search_result_course_site_excerpt">${i["sakai:group-description"]}</div>
+                                        <div class="search_result_course_site_title"><a href="/~${i.pagepath}">${sakai.api.Util.shortenString(i["sakai:group-title"], 75)}</a></div>
+                                        <div class="search_result_course_site_url"><a href="/~${i.pagepath}">${sakai.api.Util.shortenString(i.pagepath, 75)}</a></div>
+                                        <div class="search_result_course_site_excerpt">${sakai.api.Util.shortenString(i["sakai:group-description"], 300)}</div>
                                     </div>
                                     {/if}
                                 {/for}

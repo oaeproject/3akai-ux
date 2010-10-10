@@ -71,8 +71,8 @@ __MSG__I_WOULD_LIKE_TO_INVITE_YOU_TO_BECOME_A_MEMBER_OF_MY_NETWORKS_ON_SAKAI__.
 
 <!-- WHAT TYPE OF CONNECTION TEMPLATE -->
 <div id="addtocontacts_form_type_template" style="display:none"><!--
-    {for type in relationships}
-        <input type="checkbox" name="addtocontacts_form_type" value="${type.name}" id="addtocontacts_checkbox_${type_index}" {if type_index == 0}CHECKED{/if}/> <label for="addtocontacts_checkbox_${type_index}">${type.definition}</label><br/>
+    {for type in contacts}
+        <input type="checkbox" name="addtocontacts_form_type" value="${type.name}" id="addtocontacts_checkbox_${type_index}" {if type.selected}CHECKED{/if}/> <label for="addtocontacts_checkbox_${type_index}">${type.definition}</label><br/>
     {/for}
 --></div>
 

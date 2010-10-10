@@ -2,10 +2,4 @@
 "name": "Changepic",
 "description": "Changepic widget\r\n",
 "WIDGET_TITLE": "Select your profile picture",
-"GET_STATUS_FROM_TWITTER": "Get status from twitter",
-"SET_STATUS_TO_TWITTER": "Set status to twitter",
-"SCREEN_NAME": "Screen name",
-"OK": "OK",
-"PASSWORD": "Password",
-"CLOSE_DIALOG": "Close Dialog"
 }
