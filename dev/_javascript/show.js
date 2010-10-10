@@ -139,6 +139,8 @@ sakai.show = function() {
         }
         postDataRetrieval();
         sakai.api.Security.showPage();
+        var pageTitle = sakai.api.i18n.General.getValueForKey(sakai.config.PageTitles.prefix);
+        document.title = pageTitle + entityData.authprofile["sakai:group-title"];
     };
 
     /**
@@ -194,6 +196,10 @@ sakai.show = function() {
             postDataRetrieval();
             sakai.api.Security.showPage();
         }
+        
+        var pageTitle = sakai.api.i18n.General.getValueForKey(sakai.config.PageTitles.prefix);
+        document.title = pageTitle + sakai.api.User.getDisplayName(sakai.profile.main.data);
+        
     };
 
     var getEntityData = function() {

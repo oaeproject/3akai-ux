@@ -1412,6 +1412,13 @@ sakai.api.Security.showPage = function(){
         $('html').addClass("requireUser");
     }
     sakai.api.Skinning.loadSkinsFromConfig();
+    // Put the title inside the page
+    var pageTitle = sakai.api.i18n.General.getValueForKey(sakai.config.PageTitles.prefix);
+    if (sakai.config.PageTitles.pages[window.location.pathname]){
+        pageTitle += sakai.api.i18n.General.getValueForKey(sakai.config.PageTitles.pages[window.location.pathname]);
+    }
+    document.title = pageTitle;
+    // Show the actual page content
     $('body').show();
 };
 

@@ -125,6 +125,52 @@ sakai.config = {
         USER_PREFIX: "/_user"
 
     },
+    
+    PageTitles: {
+        "prefix": "TITLE_PREFIX",
+        "pages": {
+            /**  403.html  **/
+            /**  404.html  **/
+            /**  500.html  **/
+            /**  account_preferences.html  **/
+            "/dev/account_preferences.html": "ACCOUNT_PREFERENCES",
+            /**  acknowledgements.html  **/
+            "/dev/acknowledgements.html": "ACKNOWLEDGEMENTS",
+            /**  content_profile.html  **/
+            "/dev/content_profile.html": "CONTENT_PROFILE",
+            /**  create_new_account.html  **/
+            "/dev/create_new_account.html": "CREATE_A_NEW_ACCOUNT",
+            /**  directory.html  **/
+            "/dev/directory.html": "DIRECTORY",
+            /**  group_edit.html  **/
+            "/dev/group_edit.html": "MANAGE_GROUP",
+            /**  inbox.html  **/
+            "/dev/inbox.html": "MY_MESSAGES",
+            /**  index.html  **/
+            "/": "SIGN_IN",
+            "/dev": "SIGN_IN",
+            "/dev/": "SIGN_IN",
+            "/index.html": "SIGN_IN",
+            "/dev/index.html": "SIGN_IN",
+            /**  logout.html  **/
+            "/dev/logout.html": "LOGGING_OUT",
+            /**  my_sakai.html  **/
+            "/dev/my_sakai.html": "MY_SAKAI",
+            /**  people.html  **/
+            "/dev/people.html": "PEOPLE",
+            /**  profile_edit.html  **/
+            "/dev/profile_edit.html": "EDIT_MY_PROFILE",
+            /**  search.html  **/
+            "/dev/search.html": "SEARCH_ALL",
+            /**  search_groups.html  **/
+            "/dev/search_groups.html": "SEARCH_GROUPS",
+            /**  search_people.html  **/
+            "/dev/search_people.html": "SEARCH_PEOPLE",
+            /**  search_content.html  **/
+            "/dev/search_content.html": "SEARCH_CONTENT_AND_MEDIA"
+            /**  show.html  **/
+        }
+    },
 
     Search: {
         MAX_CORRECT_SEARCH_RESULT_COUNT: 100
