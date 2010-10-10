@@ -316,7 +316,7 @@ sakai.creategroup = function(tuid, showSettings){
      * When you change something in the name of the group, it first removes the bad characters
      * and then it shows the edited url in the span
      */
-    $(createGroupAddName + "," + createGroupAddId).bind("keyup", function(ev){
+    $(createGroupAddName + "," + createGroupAddId).bind("keyup change", function(ev){
         var entered = replaceCharacters($(this).val());
         $(createGroupAddId).val(entered);
     });
