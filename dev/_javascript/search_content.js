@@ -124,7 +124,7 @@ sakai.search = function() {
             }
         }
         $(searchConfig.global.numberFound).text("0");
-        $(searchConfig.results.header).show();
+        $(searchConfig.results.header).hide();
         $(searchConfig.results.tagHeader).hide();
         $(searchConfig.results.container).html($(searchConfig.global.resultTemp).html());
     };
@@ -223,6 +223,7 @@ sakai.search = function() {
             $(searchConfig.global.pagerClass).hide();
         }
 
+        $(searchConfig.results.header).show();
         // Render the results.
         $(searchConfig.results.container).html($.TemplateRenderer(searchConfig.results.template, finaljson));
         $(".search_results_container").show();
