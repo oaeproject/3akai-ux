@@ -237,6 +237,11 @@ sakai.search = function() {
 
                     }
                     finaljson.items[i]["pagepath"] = page_path;
+
+                    if (finaljson.items[i].picture && typeof finaljson.items[i].picture === "string") {
+                        finaljson.items[i].picture = $.parseJSON(finaljson.items[i].picture);
+                        finaljson.items[i].picture.picPath = "/~"+finaljson.items[i]["sakai:group-id"]+"/public/profile/"+finaljson.items[i].picture.name;
+                    }
                 }
             }
 
