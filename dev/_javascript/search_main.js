@@ -235,6 +235,8 @@ sakai._search = function(config, callback) {
             }
             // Modify the tags if there are any
             if(finaljson.items[i]["sakai:tags"]){
+                if (typeof(finaljson.items[i]["sakai:tags"]) === 'string')
+                    finaljson.items[i]["sakai:tags"] = finaljson.items[i]["sakai:tags"].split(",");
 
                 for(var k = 0, l = finaljson.items[i]["sakai:tags"].length; k < l; k++){
 
