@@ -16,36 +16,45 @@
                 <label class="content_profile_basic_info_form_anon_label">{if data["sakai:pooled-content-file-name"]}${data["sakai:pooled-content-file-name"]}{/if}</label>
             {/if}
         </div>
-        <div class="content_profile_basic_info_form_row">
-            <label for="content_profile_basic_info_form_tags">
-                __MSG__TAGS__:
-            </label>
-            {if !anon}
+
+        {if anon && data["sakai:tags"].length > 1}
+            <div class="content_profile_basic_info_form_row">
+                <label for="content_profile_basic_info_form_tags">
+                    __MSG__TAGS__:
+                </label>
+                {for tag in data["sakai:tags"]}{if tag.split("/")[0] !== "directory"}{if tag_index > 0},{/if} <a href="/dev/search.html#tag=/tags/${tag}" class="s3d-action" title="Search content tagged with '${tag}'"">${tag}</a>{/if}{/for}
+            </div>
+        {elseif !anon}
+            <div class="content_profile_basic_info_form_row">
+                <label for="content_profile_basic_info_form_tags">
+                    __MSG__TAGS__:
+                </label>
                 <textarea rows="3" name="Content tags" id="content_profile_basic_info_form_tags">{if data["sakai:tags"]}{for tag in data["sakai:tags"]}{if tag.split("/")[0] !== "directory"}{if tag_index > 0},{/if}${tag}{/if}{/for}{/if}</textarea>
                 <br/>
                 <div class="content_profile_basic_info_form_info">
                     __MSG__THIS_WILL_HELP_YOU_AND_OTHERS_FIND_THIS_CONTENT__
                 </div>
-            {else}
-            <div id="content_profile_basic_info_tags_viewlist">
-                {if data["sakai:tags"]}
-                    {for tag in data["sakai:tags"]}{if tag.split("/")[0] !== "directory"}{if tag_index > 0},{/if} <a href="/dev/search.html#tag=/tags/${tag}" class="s3d-action" title="Search content tagged with '${tag}'"">${tag}</a>{/if}{/for}
-                {else}
-                    <label class="content_profile_basic_info_form_anon_label">__MSG__NONE__</label>
-                {/if}
             </div>
-            {/if}
-        </div>
-        <div class="content_profile_basic_info_form_row">
-            <label for="content_profile_basic_info_form_description">
-                __MSG__DESCRIPTION__:
-            </label>
-            {if !anon}
+        {/if}
+
+        {if anon && data["sakai:description"]}
+            <div class="content_profile_basic_info_form_row">
+                <label for="content_profile_basic_info_form_description">
+                    __MSG__DESCRIPTION__:
+                </label>
+                <label class="content_profile_basic_info_form_anon_label">
+                    ${data["sakai:description"]}
+                </label>
+            </div>
+        {elseif !anon}
+            <div class="content_profile_basic_info_form_row">
+                <label for="content_profile_basic_info_form_description">
+                    __MSG__DESCRIPTION__:
+                </label>
                 <textarea rows="3" name="Content description" id="content_profile_basic_info_form_description">{if data["sakai:description"]}${data["sakai:description"]}{/if}</textarea>
-            {else}
-                <label class="content_profile_basic_info_form_anon_label">{if data["sakai:description"]}${data["sakai:description"]}{else}__MSG__NONE__{/if}</label>
-            {/if}
-        </div>
+            </div>
+        {/if}
+
         <div class="content_profile_basic_info_form_row">
             <label for="content_profile_basic_info_copyright_select">
                 __MSG__KIND_OF_COPYRIGHT__:
@@ -68,67 +77,69 @@
                 </label>
             {/if}
         </div>
+
         {if !anon}
         <div class="content_profile_basic_info_form_row">
             <label for="content_profile_basic_info_permissions_select">
                 __MSG__WHO_CAN_SEE_THIS_CONTENT__:
             </label>
-                <select id="content_profile_basic_info_permissions_select" name="Content permissions">
-                    <option value="public" {if data["sakai:permissions"] === "public"}selected="selected"{/if}>__MSG__PUBLIC__</option>
-                    <option value="everyone" {if data["sakai:permissions"] === "everyone"}selected="selected"{/if}>__MSG__LOGGED_IN_USERS__</option>
-                    <option value="private" {if data["sakai:permissions"] === "private" || data["sakai:permissions"] === "group"}selected="selected"{/if}>__MSG__MANAGERS_AND_MEMBERS__</option>
-                </select>
+            <select id="content_profile_basic_info_permissions_select" name="Content permissions">
+                <option value="public" {if data["sakai:permissions"] === "public"}selected="selected"{/if}>__MSG__PUBLIC__</option>
+                <option value="everyone" {if data["sakai:permissions"] === "everyone"}selected="selected"{/if}>__MSG__LOGGED_IN_USERS__</option>
+                <option value="private" {if data["sakai:permissions"] === "private" || data["sakai:permissions"] === "group"}selected="selected"{/if}>__MSG__MANAGERS_AND_MEMBERS__</option>
+            </select>
         </div>
         {/if}
-        <div class="content_profile_basic_info_form_row">
-            <label class="content_profile_basic_info_label" for="content_profile_basic_info">
-                __MSG__WHERE_CONTENT_FOUND_IN_DIRECTORY__:
-            </label>
-            <span style="display:none;" id="content_profile_basic_info_add_another_text">__MSG__ADD_ANOTHER_LOCATION__</span>
-            {if !anon}
-            <div id="content_profile_basic_info_content_directory_contents">
-                {if saveddirectory.length === 0}
+        {if anon && saveddirectory.length !== 0}
+            <div class="content_profile_basic_info_form_row">
+                <label class="content_profile_basic_info_label" for="content_profile_basic_info">
+                    __MSG__WHERE_CONTENT_FOUND_IN_DIRECTORY__:
+                </label>
+                <ul class="content_profile_basic_info_saveddirectory">
+                    {for savedDir in saveddirectory}
+                    <li>
+                        <a href="/dev/search.html#tag=/tags/directory/${savedDir.toString().replace(/,/g, '/')}" class="s3d-action" title="Search content located at ${savedDir.toString().replace(/,/g, ' ')}">${savedDir.toString().replace(/,/g, " <span class='content_profile_basic_info_selected_and_saved_seperator'>&raquo;</span> ")}</a>
+                    </li>
+                    {/for}
+                </ul>
+            </div>
+        {elseif !anon}
+            <div class="content_profile_basic_info_form_row">
+                <label class="content_profile_basic_info_label" for="content_profile_basic_info">
+                    __MSG__WHERE_CONTENT_FOUND_IN_DIRECTORY__:
+                </label>
+                <span style="display:none;" id="content_profile_basic_info_add_another_text">__MSG__ADD_ANOTHER_LOCATION__</span>
+                <div id="content_profile_basic_info_content_directory_contents">
+                    {if saveddirectory.length === 0}
                     <div id="content_profile_basic_info_add_another_container">
                     </div>
                     <p id="content_profile_basic_info_add_another_location">
                         <a href="javascript:;" title="__MSG__ADD_A_LOCATION__"><span id="content_profile_basic_info_add_another_location_link">__MSG__ADD_A_LOCATION__</span></a>
                     </p>
-                {else}
+                    {else}
                     <ul class="content_profile_basic_info_saveddirectory">
                         {for savedDir in saveddirectory}
-                            <li class="${savedDir}">
-                                <span class="content_profile_basic_info_saveddirectory_information">${savedDir.toString().replace(/,/g, " <span class='content_profile_basic_info_selected_and_saved_seperator'>&raquo;</span> ")}</span>
-                                <a href="javascript:;" class="content_profile_basic_info_remove_location" title="Remove location">Remove</a>
-                            </li>
+                        <li class="${savedDir}">
+                            <span class="content_profile_basic_info_saveddirectory_information">${savedDir.toString().replace(/,/g, " <span class='content_profile_basic_info_selected_and_saved_seperator'>&raquo;</span> ")}</span>
+                            <a href="javascript:;" class="content_profile_basic_info_remove_location" title="Remove location">Remove</a>
+                        </li>
                         {/for}
                     </ul>
-                    <div id="content_profile_basic_info_add_another_container"></div>
+                    <div id="content_profile_basic_info_add_another_container">
+                    </div>
                     <p id="content_profile_basic_info_add_another_location">
                         <a href="javascript:;" title="__MSG__ADD_ANOTHER_LOCATION__">__MSG__ADD_ANOTHER_LOCATION__</a>
                     </p>
-                {/if}
+                    {/if}
+                </div>
             </div>
-            {else}
-                {if saveddirectory.length === 0}
-                    <label class="content_profile_basic_info_form_anon_label">No locations added</label>
-                {else}
-                    <ul class="content_profile_basic_info_saveddirectory">
-                        {for savedDir in saveddirectory}
-                            <li><a href="/dev/search.html#tag=/tags/directory/${savedDir.toString().replace(/,/g, '/')}" class="s3d-action" title="Search content located at ${savedDir.toString().replace(/,/g, ' ')}">
-                                    ${savedDir.toString().replace(/,/g, " <span class='content_profile_basic_info_selected_and_saved_seperator'>&raquo;</span> ")}
-                                </a>
-                            </li>
-                        {/for}
-                    </ul>
-                {/if}
-            {/if}
-        </div>
+        {/if}
         {if !anon}
-        <div class="content_profile_basic_info_form_buttons">
-            <button type="submit" class="s3d-button s3d-button-primary" id="uploadcontent_action_addcontent" name="submit_button">
-                <span class="s3d-button-inner">__MSG__UPDATE_DETAILS__</span>
-            </button>
-        </div>
+            <div class="content_profile_basic_info_form_buttons">
+                <button type="submit" class="s3d-button s3d-button-primary" id="uploadcontent_action_addcontent" name="submit_button">
+                    <span class="s3d-button-inner">__MSG__UPDATE_DETAILS__</span>
+                </button>
+            </div>
         {/if}
     </form>
 --></div>
