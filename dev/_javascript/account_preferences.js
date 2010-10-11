@@ -275,6 +275,11 @@ sakai.account_preferences = function(){
                     equalTo: "#new_pass"
                 }
             },
+            messages: {
+                retype_pass:{
+                    "equalTo": "Please enter the same password twice."
+                }
+            },
             debug:true
 
         });
