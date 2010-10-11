@@ -147,7 +147,7 @@ sakai.myprofile = function (tuid, showSettings) {
 
         // Check if we have a first and last name
         if (sakai.api.User.getDisplayName(json) !== "") {
-            $(profileNameID, rootel).text(sakai.api.User.getDisplayName(json));
+            $(profileNameID, rootel).text(sakai.api.Util.shortenString(sakai.api.User.getDisplayName(json), 30));
             $(profileNameID, rootel).attr("href", "/~" + sakai.data.me.user.userid);
         }
         else {

@@ -224,12 +224,14 @@ sakai.config = {
                     "firstName": {
                         "label": "__MSG__PROFILE_BASIC_FIRSTNAME_LABEL__",
                         "required": true,
-                        "display": true
+                        "display": true,
+                        "limitDisplayLength": 50
                     },
                     "lastName": {
                         "label": "__MSG__PROFILE_BASIC_LASTNAME_LABEL__",
                         "required": true,
-                        "display": true
+                        "display": true,
+                        "limitDisplayLength": 50
                     },
                     "picture": {
                         "label": "__MSG__PROFILE_BASIC_PICTURE_LABEL__",
