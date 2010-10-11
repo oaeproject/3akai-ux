@@ -68,6 +68,8 @@ sakai.index = function(){
                 $(loginDefault).show();
                 if (data) {
                     $(failMessage).show();
+                    $("#username").addClass("error");
+                    $("#password").addClass("error");
                 }
                 // Set the cursor in the username field
                 $("#" + usernameField).focus();
@@ -125,6 +127,9 @@ sakai.index = function(){
      * logged in
      */
     var performLogIn = function(){
+
+        $("#username").removeClass("error");
+        $("#password").removeClass("error");
 
         var values = sakai.api.UI.Forms.form2json($(loginForm));
 
