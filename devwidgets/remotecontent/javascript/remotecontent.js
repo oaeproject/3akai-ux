@@ -202,6 +202,7 @@ sakai.remotecontent = function(tuid, showSettings){
             // Show a notification
             sakai.api.Util.notification.show($(remotecontentTitle).html(), $(remotecontentSettingsUrlBlank).html());
         } else if (isCompleteUrl(json.url)){
+            $(remotecontentSettingsPreview).html("");
             sakai.api.Widgets.saveWidgetData(tuid, json, savedDataToJCR);
         } else {
             // Show a notification
