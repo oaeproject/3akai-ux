@@ -290,7 +290,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                 sakai.api.Util.notification.show("", "Fill in all required fields.", sakai.api.Util.notification.type.ERROR);
             },
             errorClass: "infosection_validation_error",
-            validClass: "infosection_validation_valid",
+            validClass: "infosection_validation_valid"
         });
     };
 
