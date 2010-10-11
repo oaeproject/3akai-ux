@@ -424,8 +424,6 @@ sakai.sitespages.site_admin = function(){
      * @return void
      */
     var placeToolbar = function(){
-
-        sakai.sitespages.minTop = $("#toolbarplaceholder").position().top;
         sakai.sitespages.curScroll = document.body.scrollTop;
 
         if (sakai.sitespages.curScroll === 0) {
@@ -495,6 +493,9 @@ sakai.sitespages.site_admin = function(){
                 sakai.sitespages.cur = (docHt + 30);
                 $("#placeholderforeditor").css("height", docHt + 60 + "px");
                 window.scrollTo(0, sakai.sitespages.curScroll);
+                // get position of place holder. if it is called in placetoolbar method,
+                // the position changes based on scroll bar position in IE 8. 
+                sakai.sitespages.minTop = $("#toolbarplaceholder").position().top;
                 placeToolbar();
             }
         }
