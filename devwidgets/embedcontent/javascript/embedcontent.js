@@ -316,7 +316,7 @@ sakai.embedcontent = function(tuid, showSettings) {
                             "URL": sakai.config.SakaiDomain + objectData.items[i].link + objectData.items[i].extension,
                             "selectedvalue": "video_noSource",
                             "isYoutube": false,
-                            "isSakaiVideoPlayer": false,
+                            "isSakaiVideoPlayer": false
                         }
                     }
                     videoBatchData.push(item);
