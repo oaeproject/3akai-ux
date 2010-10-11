@@ -419,7 +419,10 @@ sakai.entity = function(tuid, showSettings){
             entityconfig.data.profile["sakai:group-id"], function (success, data) {
             if (success) {
                 sakai.api.Util.notification.show("Group Membership", "You have successfully been added to the group.");
-                showGroupMembershipButton("leave");
+                // wait for two seconds and then redirect
+                setTimeout(function () {
+                    window.location.reload();
+                }, 2000);
             } else {
                 fluid.log("entity.js/joinGroup() ERROR: Could not add member: " +
                     sakai.data.me.user.userid + " to groupid: " +
