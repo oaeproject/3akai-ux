@@ -396,7 +396,7 @@ sakai.search = function() {
                     page: 0,
                     items: peopleToSearch,
                     q: urlsearchterm,
-                    sortOn: "basic/elements/firstName/@value",
+                    sortOn: "basic/elements/lastName/@value",
                     sortOrder: "ascending"
                 },
                 cache: false,
