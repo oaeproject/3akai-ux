@@ -438,18 +438,6 @@ sakai.config = {
         }
     },
 
-    Connections: {
-        /*
-         * Email message that will be sent when inviting someone to become a connection.
-         * ${user} will be replaced by the name of the current user and ${comment} will
-         * be replaced by the personal message left by the inviter.
-         */
-        Invitation: {
-            title: "${user} has invited you to become a connection",
-            body: "Hi, \n\n ${user} has invited you to become a connection. \nHe/She has also left the following message: \n\n ${comment} \n\nTo accept this invitation, please click on the accept button. \n\nKind regards,\n\nThe Sakai Team"
-        }
-    },
-
     Relationships: {
         /*
          * Relationships used by the add contacts widget to define what relationship the contacts can have
