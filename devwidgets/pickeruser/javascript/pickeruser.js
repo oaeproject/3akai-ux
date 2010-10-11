@@ -124,7 +124,7 @@ sakai.pickeruser = function(tuid, showSettings) {
      * @returns void
      */
     var render = function(iConfig) {
-
+        $pickeruser_add_button.attr("disabled", "disabled");
         clearAutoSuggest();
         // Merge user defined config with defaults
         for (var element in iConfig) {

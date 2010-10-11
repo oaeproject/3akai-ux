@@ -375,34 +375,16 @@ sakai.profile = function(){
             }
         }
 
-        /*for(var k = 0, kl = requests.length; k < kl; k++){
-
-            $.ajax({
-                url: requests[k].url,
-                traditional: true,
-                type: requests[k].method,
-                data: requests[k].parameters,
-                async: false,
-                success: function(){
-
-                    if(k === requests.length-1){
-                        alert("ok");
-                    }
-
-                }
-            });
-
-        }*/
-
-
         // Send the Ajax request to the batch servlet
-        // depends on KERN-909
         $.ajax({
             url: sakai.config.URL.BATCH,
             traditional: true,
             type: "POST",
             data: {
                 requests: $.toJSON(requests)
+            },
+            complete: function() {
+                $("#profile_footer_button_update").removeAttr("disabled");
             },
             success: function(data){
 
@@ -458,7 +440,7 @@ sakai.profile = function(){
 
             }
             else {
-
+                $("#profile_footer_button_update").removeAttr("disabled");
                 // Show an error message to the user
                 sakai.api.Util.notification.show("", $profile_error_form_error_server.text() , sakai.api.Util.notification.type.ERROR);
 
@@ -532,6 +514,7 @@ sakai.profile = function(){
         // Initialize the validate plug-in
         $profile_form.validate({
             submitHandler: function(form, validator) {
+                $("#profile_footer_button_update").attr("disabled", "disabled");
                 // Trigger the profile save method, this is event is bound in every sakai section
                 $(window).trigger("sakai-profile-save");
             },

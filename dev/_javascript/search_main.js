@@ -295,6 +295,7 @@ sakai._search = function(config, callback) {
                     }
                 }
                 user.connected = false;
+                user.invited = item.invited !== undefined ? item.invited : false;
                 // Check if this user is a friend of us already.
 
                 if (getMyFriends().results) {

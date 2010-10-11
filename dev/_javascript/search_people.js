@@ -459,6 +459,12 @@ sakai.search = function() {
                     for (var i = 0, j = data.results.length; i < j; i++) {
                         sakai.data.search.results_people[data.results[i]["rep:userId"]] = data.results[i];
                     }
+                    if (facet === "invited") {
+                        for (var i = 0, j = data.results.length; i < j; i++) {
+                            console.log("setting invited");
+                            data.results[i]["invited"] = true;
+                        }
+                    }
 
                     renderResults(data, true);
                 },
@@ -497,6 +503,32 @@ sakai.search = function() {
         } else {
             sakai._search.reset();
         }
+    };
+
+    $(".link_accept_invitation").live("click", function(e) {
+        var userid = $(this).attr("id").split("link_accept_invitation_")[1];
+        acceptInvitation(userid);
+        $(this).siblings("a.search_result_person_divider").remove();
+        $(this).siblings("a.search_result_person_link_divider_message").removeClass("search_result_person_link_divider_message");
+        $(this).remove();
+    });
+
+    var acceptInvitation = function(userid) {
+        var $userContainer = $("div div a#link_accept_invitation_" + userid).parent("div").parent("div");
+        console.log("user", $userContainer);
+        $.ajax({
+            url: "/~" + sakai.data.me.user.userid + "/contacts.accept.html",
+            type: "POST",
+            data : {"targetUserId": userid},
+            success: function(data) {
+                $(window).trigger("hashchange", true);
+
+            },
+            error: function(xhr, textStatus, thrownError) {
+                alert("An error has occured");
+            }
+        });
+
     };
 
     /**

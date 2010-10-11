@@ -1,10 +1,10 @@
 var History = {
     prev_url : -1,
     
-    history_change : function(e) {
+    history_change : function(e, force) {
         if (e == undefined) return;
         var url = e.fragment;
-        if (url != History.prev_url){ // should be checking individual params, not just the string composition
+        if (url != History.prev_url || force){ // should be checking individual params, not just the string composition
             if (url){
                 if (sakai._search.doSearch) {
                   sakai._search.doSearch($.bbq.getState('page'), $.bbq.getState('q'), $.bbq.getState('filter'), $.bbq.getState('facet'), $.bbq.getState('tag'));
@@ -44,8 +44,8 @@ $(function() {
     '': $(".search-container")
   };
   
-  $(window).bind('hashchange', function(e) {
-    History.history_change(e);
+  $(window).bind('hashchange', function(e, force) {
+    History.history_change(e, force);
   });
   
   $(window).trigger('hashchange');
