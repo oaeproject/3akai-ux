@@ -554,6 +554,10 @@ sakai.config = {
             URL: "/dev/_images/mimetypes/spreadsheet.png",
             description: "Spreadsheet document"
         },
+        "application/vnd.ms-excel": {
+            URL: "/dev/_images/mimetypes/spreadsheet.png",
+            description: "Spreadsheet document"
+        },
         "text/plain": {
             URL: "/dev/_images/mimetypes/txt.png",
             description: "Text document"
