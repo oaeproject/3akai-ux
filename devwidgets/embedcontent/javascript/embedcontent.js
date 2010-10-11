@@ -383,6 +383,16 @@ sakai.embedcontent = function(tuid, showSettings) {
 
     $(window).unbind("sakai-embedcontent-init");
     $(window).bind("sakai-embedcontent-init", function(e, config) {
+
+        // position dialog box at users scroll position
+        var htmlScrollPos = $("html").scrollTop();
+        var docScrollPos = $(document).scrollTop();
+        if (htmlScrollPos > 0) {
+            $(".dialog").css({"top": htmlScrollPos + 50 + "px"});
+        } else if (docScrollPos > 0) {
+            $(".dialog").css({"top": docScrollPos + 50 + "px"});
+        }
+
         embedConfig = $.extend(true, embedConfig, config);
         render();
         $embedcontent_dialog.jqmShow();

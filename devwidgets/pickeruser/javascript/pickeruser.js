@@ -291,6 +291,16 @@ sakai.pickeruser = function(tuid, showSettings) {
 
     $(window).unbind("sakai-pickeruser-init");
     $(window).bind("sakai-pickeruser-init", function(e, config, callbackFn) {
+
+        // position dialog box at users scroll position
+        var htmlScrollPos = $("html").scrollTop();
+        var docScrollPos = $(document).scrollTop();
+        if (htmlScrollPos > 0) {
+            $(".dialog").css({"top": htmlScrollPos + 50 + "px"});
+        } else if (docScrollPos > 0) {
+            $(".dialog").css({"top": docScrollPos + 50 + "px"});
+        }
+
         $pickeruser_container.jqmShow();
         render(config);
         $(window).unbind("sakai-pickeradvanced-finished");
