@@ -26,7 +26,7 @@
 
 /* Add group */
 #creategroup_add_container label {clear:both;color:#000000;float:left;font-weight:bold;margin:12px 10px 0 0;width:160px;text-align:right;}
-#creategroup_add_container .dialog_buttons {text-align:right;}
+#creategroup_add_container .dialog_buttons {text-align:right;padding-top:20px;}
 #creategroup_add_description {margin:5px 0;}
 #creategroup_add_template_container {float:left;margin-top:4px;}
 #creategroup_add_template_container label {clear:none;float:left;font-weight:normal;margin:9px 0 0 5px; width: 280px;}

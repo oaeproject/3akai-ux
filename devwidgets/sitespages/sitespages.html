@@ -3,30 +3,24 @@
 
 <div class="sakai_site">
 
-<!-- CONTENT -->
+    <!-- CONTENT -->
     <div class="fl-fix fl-centered" style="overflow:hidden">
 
         <!-- MAIN PAGE -->
         <div class="fl-fix fl-col-fixed main_container" id="show_view_container">
 
-
-
             <!-- Page Nav -->
             <div class="fl-col page_nav">
 
                 <!-- Page navigation -->
-                <div id="page_nav_content" class="pages page_nav_content">
-
-                </div>
+                <div id="page_nav_content" class="pages page_nav_content"></div>
 
                 <!-- Site Management -->
                 <div class="site_management" id="site_management" style="display:none">
 
                     <div class="sm_titlebar">
-                    <div class="sm_titlebar_inner"><h2 class="sm_title">Site Management</h2></div>
+                        <div class="sm_titlebar_inner"><h2 class="sm_title">Site Management</h2></div>
                     </div>
-
-
 
                     <div class="sm_bottom">
                         <div class="sm_bottom_inner"><!-- --></div>
@@ -43,505 +37,508 @@
                     </ul>
                 </div>
             </div>
+
             <!-- MAIN CONTENT -->
             <div class="fl-col-fixed content_container">
 
                 <!-- TOP BORDER -->
-                <div class="content_top content_top_rounded"><div class="content_top_inner"><!-- --></div></div>
+                <div class="content_top content_top_rounded">
+                    <div class="content_top_inner"><!-- --></div>
+                </div>
 
                 <div class="sakai_site_contents_main fl-fix">
 
-                <!-- REVISION HISTORY -->
-                <div class="fl-container revision_history fl-fix" id="revision_history_container"  style="display:none">
+                    <!-- REVISION HISTORY -->
+                    <div class="fl-container revision_history fl-fix" id="revision_history_container"  style="display:none">
 
-                    <label class="revision_history_viewing fl-force-left" for="revision_history_list">Viewing:</label>
+                        <label class="revision_history_viewing fl-force-left" for="revision_history_list">Viewing:</label>
 
-                    <div><select id="revision_history_list"></select></div>
+                        <div><select id="revision_history_list"></select></div>
 
-                    <button id="revision_history_revert" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">Use this Version</span></button>
-                    <button id="revision_history_cancel" class="s3d-button"><span class="s3d-button-inner">Cancel</span></button>
+                        <button id="revision_history_revert" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">Use this Version</span></button>
+                        <button id="revision_history_cancel" class="s3d-button"><span class="s3d-button-inner">Cancel</span></button>
+
+                    </div>
+
+                    <!-- PAGE TITLE -->
+                    <h1 id="pagetitle"></h1>
+
+
+                    <!-- MAIN CONTENT -->
+                    <div id="main-content-div"></div>
 
                 </div>
 
-                <!-- PAGE TITLE -->
-                <h1 id="pagetitle"></h1>
-
-
-                <!-- MAIN CONTENT -->
-                <div id="main-content-div">
-
-                </div>
+                <!-- BOTTOM BORDER -->
+                <div class="content_bottom"><div class="content_bottom_inner"><!-- --></div></div>
 
             </div>
 
-            <!-- BOTTOM BORDER -->
-            <div class="content_bottom"><div class="content_bottom_inner"><!-- --></div></div>
         </div>
-    </div>
 
         <!-- WORK AREA -->
         <div class="fl-fix edit_view" id="edit_view_container" style="display:none">
-        <div class="main_container content_container">
-            <span id="edit_untitled_page" style="display:none">__MSG__UNTITLED_PAGE__</span>
 
-            <!--//desNote: row of buttons need to coexist horizontally with tabs,hence the //-->
-            <div id="edit_page_action_buttons_template"><!--
-                <button class="s3d-button s3d-button-primary save_button"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
-                <button class="s3d-button cancel-button"><span class="s3d-button-inner">__MSG__DONT_SAVE__</span></button>
-                <span class="messageInformation" id="messageInformation" style="display:none">Auto saved at <span id="realtime"></span></span>
-            --></div>
+            <div class="main_container content_container">
+                <span id="edit_untitled_page" style="display:none">__MSG__UNTITLED_PAGE__</span>
 
-
-            <!-- TOP RIGHT MENU -->
-            <div id="content_page_options_container">
-                <div class="content_page_options" id="content_edit_page_options">
-                    <a href="http://confluence.sakaiproject.org/display/2ACC/Draft+TinyMCE+User+Documentation+for+Sakai+3" id="sitespages_accessibility_help" class="s3d-action" target="_blank">__MSG__ACCESSIBILITY_HELP__</a>
-                    <ul class="fl-force-right">
-                        <li id="li_edit_page"><a href="javascript:;" id="edit_page_revert">__MSG__EDIT__</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- TAB CONTENT -->
-            <div class="fl-centered fl-container fl-tab-content edit_container">
-
-                <!-- TOP BORDER -->
-                <div class="content_top"><div class="content_top_inner"><!-- --></div></div>
-
-                <div class="s3d-primary-tabs">
-                    <ul class="fl-tabs fl-tabs-left">
-                        <li id="sitespages_embed_content_button" class="sitespages_add_button"><img src="/dev/_images/add_image.png"/ ></li>
-                        <!-- <li id="embed_video" class="add_button"><img src="/dev/_images/add_video.png"/ ></li> -->
-                    </ul>
-                    <ul class="fl-tabs fl-tabs-right">
-                        <li id="tab_text_editor"><button class="s3d-button s3d-button-tab"><span class="s3d-button-inner">Text Editor</span></button></li>
-                        <li id="tab_html"><button class="s3d-button s3d-button-tab"><span class="s3d-button-inner">HTML</span></button></li>
-                        <li id="tab_preview"><button class="s3d-button s3d-button-tab"><span class="s3d-button-inner">Preview</span></button></li>
-                    </ul>
-                </div>
-
-                <!-- TOOLBAR -->
-                <div class="toolbar toolbar-placeholder" id="toolbarplaceholder"></div>
-
-                    <div class="toolbar" id="toolbarcontainer">
-                    <div class="mceToolbarExternal mceEditor defaultSkin"><!-- --></div>
-                </div>
-
-                <!-- EDIT CONTENTS -->
-                <div class="edit_contents_main">
-
-                    <div class="title_input_container" id="title-input-container">
-                    <input type="text" value="Untitled" maxlength="255" class="title-input" id="title-input"/>
-                    </div>
-
-                    <div id="fl-tab-content-editor">
-                        <div id="placeholderforeditor" class="textarea">
-
-                            <!-- Gets replaced with TinyMCE, remember HTML in a textarea should be encoded -->
-                            <textarea id="elm1" name="elm1" rows="15" cols="80" style="width: 100%">
-                                &nbsp;
-                            </textarea>
-                        </div>
-                    </div>
-
-                    <div id="html-editor" style="display:none;">
-                        <textarea id="html-editor-content" rows="20" wrap="hard"></textarea>
-                    </div>
-
-                <div class="new_page_path" id="new_page_path">
-
-                </div>
-
-                <div class="content_container fl-fix" id="page_preview_content" style="display:none;">
-
-                </div>
-
-                <div id="page_save_options_bottom">
+                <!--//desNote: row of buttons need to coexist horizontally with tabs,hence the //-->
+                <div id="edit_page_action_buttons_template"><!--
                     <button class="s3d-button s3d-button-primary save_button"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
                     <button class="s3d-button cancel-button"><span class="s3d-button-inner">__MSG__DONT_SAVE__</span></button>
+                    <span class="messageInformation" id="messageInformation" style="display:none">Auto saved at <span id="realtime"></span></span>
+                --></div>
+
+
+                <!-- TOP RIGHT MENU -->
+                <div id="content_page_options_container">
+                    <div class="content_page_options" id="content_edit_page_options">
+                        <a href="http://confluence.sakaiproject.org/display/2ACC/Draft+TinyMCE+User+Documentation+for+Sakai+3" id="sitespages_accessibility_help" class="s3d-action" target="_blank">__MSG__ACCESSIBILITY_HELP__</a>
+                        <ul class="fl-force-right">
+                            <li id="li_edit_page"><a href="javascript:;" id="edit_page_revert">__MSG__EDIT__</a></li>
+                        </ul>
+                    </div>
                 </div>
 
-                </div>
+                <!-- TAB CONTENT -->
+                <div class="fl-centered fl-container fl-tab-content edit_container">
 
-                <div class="content_bottom content_bottom_edit"><div class="content_bottom_inner"><!-- --></div></div>
+                    <!-- TOP BORDER -->
+                    <div class="content_top"><div class="content_top_inner"><!-- --></div></div>
 
-            </div>
-        </div>
-        </div>
-    </div>
+                    <div class="s3d-primary-tabs">
+                        <ul class="fl-tabs fl-tabs-left">
+                            <li id="sitespages_embed_content_button" class="sitespages_add_button"><img src="/dev/_images/add_image.png"/ ></li>
+                            <!--><li id="embed_video" class="add_button"><img src="/dev/_images/add_video.png"/ ></li>-->
+                        </ul>
+                        <ul class="fl-tabs fl-tabs-right">
+                            <li id="tab_text_editor"><button class="s3d-button s3d-button-tab"><span class="s3d-button-inner">Text Editor</span></button></li>
+                            <li id="tab_html"><button class="s3d-button s3d-button-tab"><span class="s3d-button-inner">HTML</span></button></li>
+                            <li id="tab_preview"><button class="s3d-button s3d-button-tab"><span class="s3d-button-inner">Preview</span></button></li>
+                        </ul>
+                    </div>
+
+                    <!-- TOOLBAR -->
+                    <div class="toolbar toolbar-placeholder" id="toolbarplaceholder"></div>
+
+                    <div class="toolbar" id="toolbarcontainer">
+                        <div class="mceToolbarExternal mceEditor defaultSkin"><!-- --></div>
+                    </div>
+
+                    <!-- EDIT CONTENTS -->
+                    <div class="edit_contents_main">
+
+                        <div class="title_input_container" id="title-input-container">
+                            <input type="text" value="Untitled" maxlength="255" class="title-input" id="title-input"/>
+                        </div>
+
+                        <div id="fl-tab-content-editor">
+                            <div id="placeholderforeditor" class="textarea">
+
+                                <!-- Gets replaced with TinyMCE, remember HTML in a textarea should be encoded -->
+                                <textarea id="elm1" name="elm1" rows="15" cols="80" style="width: 100%">
+                                    &nbsp;
+                                </textarea>
+                            </div>
+                        </div>
+
+                        <div id="html-editor" style="display:none;">
+                            <textarea id="html-editor-content" rows="20" wrap="hard"></textarea>
+                        </div>
+
+                        <div class="new_page_path" id="new_page_path"></div>
+
+                        <div class="content_container fl-fix" id="page_preview_content" style="display:none;"></div>
+
+                        <div id="page_save_options_bottom">
+                            <button class="s3d-button s3d-button-primary save_button"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
+                            <button class="s3d-button cancel-button"><span class="s3d-button-inner">__MSG__DONT_SAVE__</span></button>
+                        </div>
+
+                    </div> <!-- end EDIT CONTENTS -->
+
+                    <div class="content_bottom content_bottom_edit"><div class="content_bottom_inner"><!-- --></div></div>
+
+                </div> <!-- end TAB CONTENT -->
+
+            </div> <!-- end main_container content_container -->
+
+        </div> <!-- end WORK AREA -->
+
+    </div> <!-- end CONTENT -->
 
 <!-- DIALOGS, MENUS, MISC STUFF -->
 
-        <!-- TrimPath Templates -->
-        <div id="editor_extra_buttons"><!--
-            <td>
-                <span class='mceSeparator' style='width:5px'/>
-            </td>
-            <td>
-                <table cellspacing='0' cellpadding='0' class='mceListBox mceListBoxEnabled mce_formatselect' id='content_formatselect'>
-                    <tbody>
-                        <tr>
-                            <td class='mceFirst'>
-                                <a onmousedown='return false;' onclick='return false;' class='mceText insert_more_dropdown_activator' href='javascript:;' id='insert_more_dropdown_main'>Insert More</a>
-                            </td>
-                            <td class='mceLast'>
-                                <a onmousedown='return false;' onclick='return false;' class='mceOpen insert_more_dropdown_activator' href='javascript:;' tabindex='-1' id='content_formatselect_open'><span/></a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </td>
+    <!-- TrimPath Templates -->
+    <div id="editor_extra_buttons"><!--
+        <td>
+            <span class='mceSeparator' style='width:5px'/>
+        </td>
+        <td>
+            <table cellspacing='0' cellpadding='0' class='mceListBox mceListBoxEnabled mce_formatselect' id='content_formatselect'>
+                <tbody>
+                    <tr>
+                        <td class='mceFirst'>
+                            <a onmousedown='return false;' onclick='return false;' class='mceText insert_more_dropdown_activator' href='javascript:;' id='insert_more_dropdown_main'>__MSG__INSERT_MORE__</a>
+                        </td>
+                        <td class='mceLast'>
+                            <a onmousedown='return false;' onclick='return false;' class='mceOpen insert_more_dropdown_activator' href='javascript:;' tabindex='-1' id='content_formatselect_open'><span/></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
 
-        --></div>
+    --></div>
 
-        <div id="sitespages_page_options_container" style="display:none"><!--
-            <button class="s3d-button s3d-button-inline" id="more_link">
-                <span class="s3d-button-inner">
-                    <span class="s3d-button-icon-left"></span>
-                    <span class="s3d-button-inner-text">Page options</span>
-                    <span class="s3d-button-icon-right"></span>
-                </span>
-            </button>
+    <div id="sitespages_page_options_container" style="display:none"><!--
+        <button class="s3d-button s3d-button-inline" id="more_link">
+            <span class="s3d-button-inner">
+                <span class="s3d-button-icon-left"></span>
+                <span class="s3d-button-inner-text">Page options</span>
+                <span class="s3d-button-icon-right"></span>
+            </span>
+        </button>
 
-            <div class="add_more_menu" id="more_menu" style="display:none">
-                <ul>
-                    <li id="more_revision_history" class="more_option"><a href="javascript:;" class="s3d-action">Revision History</a></li>
-                    <li id="more_save_as_template" class="more_option"><a href="javascript:;" class="s3d-action">Save as Template</a></li>
-                    <li id="more_change_layout" class="more_option"><a href="javascript:;" class="s3d-action">Change Layout</a></li>
-                    <li id="more_delete" class="more_option option_last"><a href="javascript:;" class="s3d-action">Delete</a></li>
-                </ul>
-            </div>
-        --></div>
-
-
-        <!-- INSERT MORE MENU -->
-        <div id="insert_more_menu" class="insert_more_menu" style="display:none">
-            <div class="insert_more_menu_border">
-                <ul>
-                    <li><a href="javascript:;" id="link_dialog_trigger">Link</a></li>
-                    <li><a href="javascript:;" id="horizontal_line_insert">Horizontal Line</a></li>
-                </ul>
-            </div>
-            <div id="insert_more_media" class="insert_more_menu_border">
-
-            </div>
-            <div id="insert_more_goodies">
-
-            </div>
-            <div id="insert_more_sidebar">
-
-            </div>
-        </div>
-
-        <div id="insert_more_media_template" style="display:none"><!--
+        <div class="add_more_menu" id="more_menu" style="display:none">
             <ul>
-                <li class="insert_more_menu_inactive">Media:</li>
-                {for i in items}
-                    <li><a href="javascript:;" id="insert_more_widget_${i.id}" class="insert_more_widget">${i.name}</a></li>
-                {forelse}
-                    <li class="insert_more_menu_inactive"><i>No available</i></li>
-                {/for}
+                <li id="more_revision_history" class="more_option"><a href="javascript:;" class="s3d-action">Revision History</a></li>
+                <li id="more_save_as_template" class="more_option"><a href="javascript:;" class="s3d-action">Save as Template</a></li>
+                <li id="more_change_layout" class="more_option"><a href="javascript:;" class="s3d-action">Change Layout</a></li>
+                <li id="more_delete" class="more_option option_last"><a href="javascript:;" class="s3d-action">Delete</a></li>
             </ul>
-        --></div>
+        </div>
+    --></div>
 
-        <div id="insert_more_goodies_template" style="display:none"><!--
+
+    <!-- INSERT MORE MENU -->
+    <div id="insert_more_menu" class="insert_more_menu" style="display:none">
+        <div class="insert_more_menu_border">
             <ul>
-                <li class="insert_more_menu_inactive">Sakai Goodies:</li>
-                {for i in items}
-                    <li><a href="javascript:;" id="insert_more_widget_${i.id}" class="insert_more_widget">${i.name}</a></li>
-                {/for}
-                <li class="insert_more_menu_inactive">(More coming soon)</li>
+                <li><a href="javascript:;" id="link_dialog_trigger">Link</a></li>
+                <li><a href="javascript:;" id="horizontal_line_insert">Horizontal Line</a></li>
             </ul>
-        --></div>
+        </div>
+        <div id="insert_more_media" class="insert_more_menu_border">
 
-        <div id="insert_more_sidebar_template" style="display:none"><!--
+        </div>
+        <div id="insert_more_goodies">
+
+        </div>
+        <div id="insert_more_sidebar">
+
+        </div>
+    </div>
+
+    <div id="insert_more_media_template" style="display:none"><!--
+        <ul>
+            <li class="insert_more_menu_inactive">Media:</li>
+            {for i in items}
+                <li><a href="javascript:;" id="insert_more_widget_${i.id}" class="insert_more_widget">${i.name}</a></li>
+            {forelse}
+                <li class="insert_more_menu_inactive"><i>No available</i></li>
+            {/for}
+        </ul>
+    --></div>
+
+    <div id="insert_more_goodies_template" style="display:none"><!--
+        <ul>
+            <li class="insert_more_menu_inactive">Sakai Goodies:</li>
+            {for i in items}
+                <li><a href="javascript:;" id="insert_more_widget_${i.id}" class="insert_more_widget">${i.name}</a></li>
+            {/for}
+            <li class="insert_more_menu_inactive">(More coming soon)</li>
+        </ul>
+    --></div>
+
+    <div id="insert_more_sidebar_template" style="display:none"><!--
+        <ul>
+            <li class="insert_more_menu_inactive">Sidebar Goodies:</li>
+            {for i in items}
+                <li><a href="javascript:;" id="insert_more_widget_${i.id}" class="insert_more_widget">${i.name}</a></li>
+            {/for}
+        </ul>
+    --></div>
+
+
+    <!-- INSERT DIALOG -->
+    <div id="insert_dialog" class="dialog" style="width:650px; margin-left: -325px">
+        <!-- DIALOG HEADER -->
+        <div class="dialog_header">
+            <div class="dialog_header_inner">
+            <h1 id="dialog_title"></h1>
+            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+            </div>
+        </div>
+        <!-- DIALOG CONTENT -->
+        <div id="dialog_content" class="dialog_content"></div>
+        <!-- DIALOG FOOTER -->
+        <div class="dialog_footer">
+            <div class="dialog_footer_inner"><!-- --></div>
+        </div>
+    </div>
+
+
+    <!-- WRAPPING DIALOG -->
+    <div id="wrapping_dialog" class="dialog" style="width:400px; margin-left: -200px">
+        <div class="dialog_header">
+            <div class="dialog_header_inner">
+            <h1>Appearance</h1>
+            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+            </div>
+        </div>
+
+        <div class="dialog_content">
+
+            <h3 style="margin-top:0px">Select wrapping for your widget</h3>
+
+            <ul style="margin-left:1em">
+                <li style="list-style-type:none; padding-l"><a id="wrapping_no" href="javascript:;">No wrapping</a></li>
+                <li style="list-style-type:none"><a id="wrapping_left" href="javascript:;">Left wrapping</a></li>
+                <li style="list-style-type:none"><a id="wrapping_right" href="javascript:;">Right wrapping</a></li>
+            </ul>
+
+            <div class="dialog_buttons">
+                <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
+             </div>
+        </div>
+
+        <!-- DIALOG FOOTER -->
+        <div class="dialog_footer">
+            <div class="dialog_footer_inner"><!-- --></div>
+        </div>
+    </div>
+
+    <!-- AUTOSAVE DIALOG -->
+    <div id="autosave_dialog" class="dialog" style="width:400px; margin-left: -200px">
+        <div class="dialog_header">
+            <div class="dialog_header_inner">
+            <h1>Auto-save</h1>
+            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+            </div>
+        </div>
+
+        <div class="dialog_content">
+
+            <h3 style="margin-top:0px">An unsaved version of this page has been found.</h3>
+
+            <p>Do you want to load this unsaved version?</p>
+
+            <div class="dialog_buttons">
+                <button type="button" class="s3d-button s3d-button-primary" id="autosave_revert"><span class="s3d-button-inner">__MSG__YES__</span></button>
+                <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__NO__</span></button>
+            </div>
+        </div>
+
+        <!-- DIALOG FOOTER -->
+        <div class="dialog_footer">
+            <div class="dialog_footer_inner"><!-- --></div>
+        </div>
+    </div>
+
+    <div id="delete_dialog" class="dialog" style="width:400px; margin-left: -200px">
+        <div class="dialog_header">
+            <div class="dialog_header_inner">
+            <h1>__MSG__DELETE_A_PAGE__</h1>
+            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">__MSG__CLOSE_DIALOG__</a>
+            </div>
+        </div>
+
+        <div class="dialog_content">
+
+            <h4>__MSG__ARE_YOU_SURE_YOU_WANT_TO_DELETE__ <span class="sitespages_delete_confirm_page_title"></span>?</h4>
+
+            <p class="delete_page_text">__MSG__THIS_WILL_DELETE_CHILD_PAGES__</p>
+
+            <div class="dialog_buttons delete_page_buttons">
+                <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__NO__</span></button>
+                <button type="button" class="s3d-button s3d-button-primary" id="delete_confirm"><span class="s3d-button-inner">__MSG__YES__</span></button>
+            </div>
+        </div>
+
+        <!-- DIALOG FOOTER -->
+        <div class="dialog_footer">
+            <div class="dialog_footer_inner"><!-- --></div>
+        </div>
+    </div>
+
+    <div id="no_delete_dialog" class="dialog" style="width:400px; margin-left: -200px">
+        <div class="dialog_header">
+            <div class="dialog_header_inner">
+            <h1>__MSG__DELETE_A_PAGE__</h1>
+            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">__MSG__CLOSE_DIALOG__</a>
+            </div>
+        </div>
+
+        <div class="dialog_content">
+
+            <h4>__MSG__NOT_ALLOWED_TO_DELETE__ <span class="sitespages_delete_confirm_page_title"></span></h4>
+
+            <div class="dialog_buttons">
+                <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__OK__</span></button>
+            </div>
+        </div>
+
+        <!-- DIALOG FOOTER -->
+        <div class="dialog_footer">
+            <div class="dialog_footer_inner"><!-- --></div>
+        </div>
+    </div>
+
+    <div id="link_dialog" class="dialog" style="width:400px; margin-left: -200px">
+        <div class="dialog_header">
+            <div class="dialog_header_inner">
+            <h1>Insert a link</h1>
+            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+            </div>
+        </div>
+
+        <div class="dialog_content">
+
+            <h3 style="margin-top:0px">To insert a page link, select the right page and hit Insert</h3>
+
+            <div id="link_container" class="link_container">
+
+            </div>
+
+            <div class="dialog_buttons">
+                <button type="button" class="s3d-button s3d-button-primary" id="insert_link_confirm"><span class="s3d-button-inner">__MSG__INSERT__</span></button>
+                <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
+            </div>
+
+        </div>
+
+        <!-- DIALOG FOOTER -->
+        <div class="dialog_footer">
+            <div class="dialog_footer_inner"><!-- --></div>
+        </div>
+    </div>
+
+    <div class="context_menu" id="context_menu" style="display:none">
+        <button class="s3d-button s3d-button-inline" id="more_link">
+            <span class="s3d-button-inner"><span class="s3d-button-icon-left"></span><span class="s3d-button-inner-text">Widget options</span><span class="s3d-button-icon-right"></span></span>
+        </button>
+        <div class="context_more">
             <ul>
-                <li class="insert_more_menu_inactive">Sidebar Goodies:</li>
-                {for i in items}
-                    <li><a href="javascript:;" id="insert_more_widget_${i.id}" class="insert_more_widget">${i.name}</a></li>
-                {/for}
+                <li id="context_settings" class="more_option">
+                    <a href="javascript:;" class="s3d-action">Settings</a>
+                </li>
+                <li id="context_remove" class="more_option">
+                    <a href="javascript:;" class="s3d-action">Remove</a>
+                </li>
+                <li id="context_appearance_trigger" class="more_option option_last">
+                    <a href="javascript:;" class="s3d-action">Wrapping</a>
+                </li>
             </ul>
-        --></div>
+        </div>
+    </div>
 
 
-        <!-- INSERT DIALOG -->
-        <div id="insert_dialog" class="dialog" style="width:650px; margin-left: -325px">
-            <!-- DIALOG HEADER -->
-            <div class="dialog_header">
-                <div class="dialog_header_inner">
-                <h1 id="dialog_title"></h1>
-                <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
-                </div>
-            </div>
-            <!-- DIALOG CONTENT -->
-            <div id="dialog_content" class="dialog_content"></div>
-            <!-- DIALOG FOOTER -->
-            <div class="dialog_footer">
-                <div class="dialog_footer_inner"><!-- --></div>
+    <!-- SAVE AS TEMPLATE DIALOG -->
+    <div class="dialog" id="save_as_template_container">
+        <div class="dialog_header">
+            <div class="dialog_header_inner">
+            <h1>Save as Template</h1>
+            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
             </div>
         </div>
 
+        <div class="dialog_content">
 
-        <!-- WRAPPING DIALOG -->
-        <div id="wrapping_dialog" class="dialog" style="width:400px; margin-left: -200px">
-            <div class="dialog_header">
-                <div class="dialog_header_inner">
-                <h1>Appearance</h1>
-                <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
-                </div>
-            </div>
+            <h1>Template name</h1>
+            <textarea id="template_name"></textarea>
 
-            <div class="dialog_content">
+            <h1>Description</h1>
+            <textarea id="template_description"></textarea>
 
-                <h3 style="margin-top:0px">Select wrapping for your widget</h3>
+            <p><small>Maximum 250 characters!</small></p>
 
-                <ul style="margin-left:1em">
-                    <li style="list-style-type:none; padding-l"><a id="wrapping_no" href="javascript:;">No wrapping</a></li>
-                    <li style="list-style-type:none"><a id="wrapping_left" href="javascript:;">Left wrapping</a></li>
-                    <li style="list-style-type:none"><a id="wrapping_right" href="javascript:;">Right wrapping</a></li>
-                </ul>
-
-                <div class="dialog_buttons">
-                    <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
-                 </div>
-            </div>
-
-            <!-- DIALOG FOOTER -->
-            <div class="dialog_footer">
-                <div class="dialog_footer_inner"><!-- --></div>
+            <div class="dialog_buttons">
+                <button type="button" class="s3d-button s3d-button-primary" id="save_as_page_template_button"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
+                <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
             </div>
         </div>
 
-        <!-- AUTOSAVE DIALOG -->
-        <div id="autosave_dialog" class="dialog" style="width:400px; margin-left: -200px">
-            <div class="dialog_header">
-                <div class="dialog_header_inner">
-                <h1>Auto-save</h1>
-                <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
-                </div>
-            </div>
+        <!-- DIALOG FOOTER -->
+        <div class="dialog_footer">
+            <div class="dialog_footer_inner"><!-- --></div>
+        </div>
+    </div>
 
-            <div class="dialog_content">
 
-                <h3 style="margin-top:0px">An unsaved version of this page has been found.</h3>
-
-                <p>Do you want to load this unsaved version?</p>
-
-                <div class="dialog_buttons">
-                    <button type="button" class="s3d-button s3d-button-primary" id="autosave_revert"><span class="s3d-button-inner">__MSG__YES__</span></button>
-                    <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__NO__</span></button>
-                </div>
-            </div>
-
-            <!-- DIALOG FOOTER -->
-            <div class="dialog_footer">
-                <div class="dialog_footer_inner"><!-- --></div>
+    <!-- PAGE TEMPLATE SELECTION DIALOG -->
+    <div class="dialog" id="select_template_for_page">
+        <div class="dialog_header">
+            <div class="dialog_header_inner">
+            <h1>Add page from template</h1>
+            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
             </div>
         </div>
 
-        <div id="delete_dialog" class="dialog" style="width:400px; margin-left: -200px">
-            <div class="dialog_header">
-                <div class="dialog_header_inner">
-                <h1>__MSG__DELETE_A_PAGE__</h1>
-                <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">__MSG__CLOSE_DIALOG__</a>
-                </div>
+        <div class="dialog_content">
+
+            <div id="list_container" class="fl-container template_list_container">
             </div>
-
-            <div class="dialog_content">
-
-                <h4>__MSG__ARE_YOU_SURE_YOU_WANT_TO_DELETE__ <span class="sitespages_delete_confirm_page_title"></span>?</h4>
-
-                <p class="delete_page_text">__MSG__THIS_WILL_DELETE_CHILD_PAGES__</p>
-
-                <div class="dialog_buttons delete_page_buttons">
-                    <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__NO__</span></button>
-                    <button type="button" class="s3d-button s3d-button-primary" id="delete_confirm"><span class="s3d-button-inner">__MSG__YES__</span></button>
-                </div>
-            </div>
-
-            <!-- DIALOG FOOTER -->
-            <div class="dialog_footer">
-                <div class="dialog_footer_inner"><!-- --></div>
-            </div>
-        </div>
-
-        <div id="no_delete_dialog" class="dialog" style="width:400px; margin-left: -200px">
-            <div class="dialog_header">
-                <div class="dialog_header_inner">
-                <h1>__MSG__DELETE_A_PAGE__</h1>
-                <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">__MSG__CLOSE_DIALOG__</a>
-                </div>
-            </div>
-
-            <div class="dialog_content">
-
-                <h4>__MSG__NOT_ALLOWED_TO_DELETE__ <span class="sitespages_delete_confirm_page_title"></span></h4>
-
-                <div class="dialog_buttons">
-                    <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__OK__</span></button>
-                </div>
-            </div>
-
-            <!-- DIALOG FOOTER -->
-            <div class="dialog_footer">
-                <div class="dialog_footer_inner"><!-- --></div>
-            </div>
-        </div>
-
-        <div id="link_dialog" class="dialog" style="width:400px; margin-left: -200px">
-            <div class="dialog_header">
-                <div class="dialog_header_inner">
-                <h1>Insert a link</h1>
-                <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
-                </div>
-            </div>
-
-            <div class="dialog_content">
-
-                <h3 style="margin-top:0px">To insert a page link, select the right page and hit Insert</h3>
-
-                <div id="link_container" class="link_container">
-
-                </div>
-
-                <div class="dialog_buttons">
-                    <button type="button" class="s3d-button s3d-button-primary" id="insert_link_confirm"><span class="s3d-button-inner">__MSG__INSERT__</span></button>
-                    <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
-                </div>
-
-            </div>
-
-            <!-- DIALOG FOOTER -->
-            <div class="dialog_footer">
-                <div class="dialog_footer_inner"><!-- --></div>
-            </div>
-        </div>
-
-        <div class="context_menu" id="context_menu" style="display:none">
-            <button class="s3d-button s3d-button-inline" id="more_link">
-                <span class="s3d-button-inner"><span class="s3d-button-icon-left"></span><span class="s3d-button-inner-text">Widget options</span><span class="s3d-button-icon-right"></span></span>
-            </button>
-            <div class="context_more">
-                <ul>
-                    <li id="context_settings" class="more_option">
-                        <a href="javascript:;" class="s3d-action">Settings</a>
+            <div id="list_container_template"><!--
+                {if size > 0}
+                <ul class="fl-list-menu template_list">
+                    {for i in items}
+                <li>
+                        <a class="fl-icon fl-force-right delete template_delete" id="template_delete_${i.id}" href="javascript:;"></a>
+                        <a href="javascript:;" id="page_template_selection_${i.id}" class="page_template_selection">
+                            <span class="menu_title">${i.name}</span>
+                            <span class="description">${i.description}</span>
+                        </a>
                     </li>
-                    <li id="context_remove" class="more_option">
-                        <a href="javascript:;" class="s3d-action">Remove</a>
-                    </li>
-                    <li id="context_appearance_trigger" class="more_option option_last">
-                        <a href="javascript:;" class="s3d-action">Wrapping</a>
-                    </li>
-                </ul>
+                    {/for}
+            </ul>
+                {else}
+                    <span>No templates available. In order to create one, go to the page you would like to use as a template, hit the
+                    more menu and select Save As Page Template.</span>
+                {/if}
+            --></div>
+            <!-- DIALOG BUTTONS -->
+            <div class="dialog_buttons">
+                <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
             </div>
         </div>
 
+        <!-- DIALOG FOOTER -->
+        <div class="dialog_footer">
+            <div class="dialog_footer_inner"><!-- --></div>
+        </div>
+    </div>
 
-        <!-- SAVE AS TEMPLATE DIALOG -->
-        <div class="dialog" id="save_as_template_container">
-            <div class="dialog_header">
-                <div class="dialog_header_inner">
-                <h1>Save as Template</h1>
-                <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
-                </div>
-            </div>
-
-            <div class="dialog_content">
-
-                <h1>Template name</h1>
-                <textarea id="template_name"></textarea>
-
-                <h1>Description</h1>
-                <textarea id="template_description"></textarea>
-
-                <p><small>Maximum 250 characters!</small></p>
-
-                <div class="dialog_buttons">
-                    <button type="button" class="s3d-button s3d-button-primary" id="save_as_page_template_button"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
-                    <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
-                </div>
-            </div>
-
-            <!-- DIALOG FOOTER -->
-            <div class="dialog_footer">
-                <div class="dialog_footer_inner"><!-- --></div>
+    <!-- ADD DASHBOARD -->
+    <div class="dialog" id="dashboard_addpage_dialog">
+        <div class="dialog_header">
+            <div class="dialog_header_inner">
+            <h1>Add a dashboard page.</h1>
+            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
             </div>
         </div>
 
+        <div class="dialog_content">
+            <form method="POST" action="javascript:;">
+                <label for="dashboard_addpage_title">What is the title for your new dashboard page.</label><br />
+                <input type="text" maxlength="255" id="dashboard_addpage_title" />
 
-        <!-- PAGE TEMPLATE SELECTION DIALOG -->
-        <div class="dialog" id="select_template_for_page">
-            <div class="dialog_header">
-                <div class="dialog_header_inner">
-                <h1>Add page from template</h1>
-                <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
-                </div>
-            </div>
-
-            <div class="dialog_content">
-
-                <div id="list_container" class="fl-container template_list_container">
-                </div>
-                <div id="list_container_template"><!--
-                    {if size > 0}
-                    <ul class="fl-list-menu template_list">
-                        {for i in items}
-                    <li>
-                            <a class="fl-icon fl-force-right delete template_delete" id="template_delete_${i.id}" href="javascript:;"></a>
-                            <a href="javascript:;" id="page_template_selection_${i.id}" class="page_template_selection">
-                                <span class="menu_title">${i.name}</span>
-                                <span class="description">${i.description}</span>
-                            </a>
-                        </li>
-                        {/for}
-                </ul>
-                    {else}
-                        <span>No templates available. In order to create one, go to the page you would like to use as a template, hit the
-                        more menu and select Save As Page Template.</span>
-                    {/if}
-                --></div>
                 <!-- DIALOG BUTTONS -->
                 <div class="dialog_buttons">
+                    <button type="submit" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">__MSG__ADD__</span></button>
                     <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
                 </div>
-            </div>
-
-            <!-- DIALOG FOOTER -->
-            <div class="dialog_footer">
-                <div class="dialog_footer_inner"><!-- --></div>
-            </div>
+            </form>
         </div>
 
-        <!-- ADD DASHBOARD -->
-        <div class="dialog" id="dashboard_addpage_dialog">
-            <div class="dialog_header">
-                <div class="dialog_header_inner">
-                <h1>Add a dashboard page.</h1>
-                <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
-                </div>
-            </div>
-
-            <div class="dialog_content">
-                <form method="POST" action="javascript:;">
-                    <label for="dashboard_addpage_title">What is the title for your new dashboard page.</label><br />
-                    <input type="text" maxlength="255" id="dashboard_addpage_title" />
-
-                    <!-- DIALOG BUTTONS -->
-                    <div class="dialog_buttons">
-                        <button type="submit" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">__MSG__ADD__</span></button>
-                        <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
-                    </div>
-                </form>
-            </div>
-
-            <!-- DIALOG FOOTER -->
-            <div class="dialog_footer">
-                <div class="dialog_footer_inner"><!-- --></div>
-            </div>
+        <!-- DIALOG FOOTER -->
+        <div class="dialog_footer">
+            <div class="dialog_footer_inner"><!-- --></div>
         </div>
+    </div>
 
-        <!-- EMBED CONTENT -->
-        <div id="widget_embedcontent" class="widget_inline"></div>
+    <!-- EMBED CONTENT -->
+    <div id="widget_embedcontent" class="widget_inline"></div>
 
 </div>
 

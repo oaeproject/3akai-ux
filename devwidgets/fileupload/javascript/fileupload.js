@@ -81,7 +81,7 @@ sakai.fileupload = function(tuid, showSettings){
     var multiFileForm = "#multifile_form";
     var fileUploadUpdateSubmit = "#fileupload_update_submit";
 
-    var cancelButton = "#fileupload_cancel";
+    var cancelButton = ".fileupload_close";
 
     // Templates
     var fileUploadTaggingTemplate = "#fileupload_tagging_template";
@@ -139,6 +139,8 @@ sakai.fileupload = function(tuid, showSettings){
             if ($(fileUploadRenderedTagging).html() === "") {
                 var renderedTemplate = $.TemplateRenderer(fileUploadTaggingTemplate, contextData).replace(/\r/g, '');
                 $(fileUploadRenderedTagging).html(renderedTemplate);
+                $("#multifile_upload_wrap_list").show();
+                $("#fileupload_add_link_option").hide();
             }
         } else {
             $(fileUploadAddLinkButton).removeAttr("disabled");
@@ -175,6 +177,15 @@ sakai.fileupload = function(tuid, showSettings){
         $(fileuploadLimitContainer).html(renderedTemplate);
         // Set multiFile on the rendered box
         $("input[type=file].multi").MultiFile();
+
+        // add help text
+        $("<p>", {
+            "class": "fileupload_help",
+            "text": $("#fileupload_help_text").html()
+        }).insertAfter("input[type='file'].multi");
+
+        // show add a link option
+        $("#fileupload_add_link_option").show();
     };
 
     /**
@@ -189,6 +200,15 @@ sakai.fileupload = function(tuid, showSettings){
         // Set multiFile on the rendered box
         $("input[type=file].multi").MultiFile();
         $(multiFileList).hide();
+
+        // add help text
+        $("<p>", {
+            "class": "fileupload_help",
+            "text": $("#fileupload_help_text").html()
+        }).insertAfter("input[type='file'].multi");
+
+        // show add a link option
+        $("#fileupload_add_link_option").show();
     };
 
     /**
@@ -248,6 +268,10 @@ sakai.fileupload = function(tuid, showSettings){
      * It initializes the fileupload widget and shows the jqmodal (ligthbox)
      */
     sakai.fileupload.initialise = function(){
+        // always appear in upload file mode
+        $(fileUploadLinkBox).hide();
+        $("#new_uploader").show();
+
         if (groupContext){
             renderGroupUpload();
         } else if (newVersion){
@@ -262,8 +286,11 @@ sakai.fileupload = function(tuid, showSettings){
      * @param {Object} hash jqm data
      */
     var closeUploadBox = function(hash){
-        // Clear HTML, Clear file list, remove jqm box
+        // Clear HTML, Clear file list, remove validation errors & jqm box
+        $(fileUploadLinkBoxInput).val("");
         $(fileUploadRenderedTagging, $rootel).html("");
+        $("#fileupload_link_box form").validate().resetForm();
+
         // Remove files out of list
         $(multiFileRemove).each(function(){
             $(this).click();
@@ -285,7 +312,7 @@ sakai.fileupload = function(tuid, showSettings){
         $(window).trigger("sakai-fileupload-complete", {"files": dataResponse});
         // Show notification
         if (context !== "new_version") {
-            if (uploadedLink) {
+            /* if (uploadedLink) {
                 if (filesUploaded) {
                     sakai.api.Util.notification.show($(fileUploadLinkUploaded, $rootel).html(), $(fileUploadLinkSuccessfullyUploaded, $rootel).html());
                 } else {
@@ -298,6 +325,12 @@ sakai.fileupload = function(tuid, showSettings){
                 } else {
                     sakai.api.Util.notification.show("", $(fileUploadFilesNotUploaded, $rootel).html());
                 }
+            } */
+            if (uploadedLink) {
+                sakai.api.Util.notification.show($(fileUploadLinkUploaded, $rootel).html(), $(fileUploadLinkSuccessfullyUploaded, $rootel).html());
+            }
+            if (filesUploaded) {
+                sakai.api.Util.notification.show($(fileUploadFilesUploaded, $rootel).html(), $(fileUploadFilesSuccessfullyUploaded, $rootel).html());
             }
         } else {
             if(newVersion){
@@ -480,7 +513,7 @@ sakai.fileupload = function(tuid, showSettings){
                 dataResponse = data;
 
                 uploadedLink = true;
-                filesUploaded = true;
+                filesUploaded = false;
 
                 batchSetDescriptionAndName(data);
 
@@ -724,19 +757,24 @@ sakai.fileupload = function(tuid, showSettings){
         return true;
     }, "No error message, this is just an appender");
 
+
+    /** FORM VALIDATION **/
     $("#fileupload_link_box form").validate({
-        errorLabelContainer: "#error_msg_container",
-        onclick:false,
-        onkeyup:false,
-        onfocusout:false
+        onkeyup: false
     });
+    $(fileUploadLinkBoxInput).rules("add", {
+        required: true,
+        url: true,
+        messages: {
+            url: $("#fileupload_enter_valid_url").html()
+        }
+    });
+    $("#fileupload_link_box form").bind("submit",function(e){
 
-     $("#fileupload_link_box form").bind("submit",function(e){
+        $(fileUploadAddLinkButton).attr("disabled", "disabled");
+        $(fileUploadLinkBoxInput).attr("disabled", "disabled");
 
-         $(fileUploadAddLinkButton).attr("disabled", "disabled");
-         $(fileUploadLinkBoxInput).attr("disabled", "disabled");
-
-         if ($("#fileupload_link_box form").valid() && !($.trim(fileUploadLinkBoxInput) === "")) {
+        if ($(fileUploadLinkBoxInput).valid()) {
 
             if (context !== "new_version") {
                 uploadLink();
@@ -745,11 +783,10 @@ sakai.fileupload = function(tuid, showSettings){
                 saveVersion();
             }
         } else {
-            // Show a notification
+            // validation plugin will show error
             $(fileUploadAddLinkButton).removeAttr("disabled");
             $(fileUploadLinkBoxInput).removeAttr("disabled");
             performedSubmit = false;
-            sakai.api.Util.notification.show($(fileUploadCheckURL).html(), $(fileUploadEnterValidURL).html());
         }
         e.stopImmediatePropagation();
         return false;
@@ -764,8 +801,11 @@ sakai.fileupload = function(tuid, showSettings){
     });
 
     $(cancelButton).live("click", function(){
-        // Clear HTML, Clear file list, remove jqm box
+        // Clear HTML, Clear file list, remove validation errors and jqm box
+        $(fileUploadLinkBoxInput).val("");
         $(fileUploadRenderedTagging).html("");
+        $("#fileupload_link_box form").validate().resetForm();
+
         // Remove files out of list
         $(multiFileRemove).each(function(){
             $(this).click();
@@ -812,6 +852,17 @@ sakai.fileupload = function(tuid, showSettings){
                 sakai.fileupload.initialise();
             }
     });
+
+    $("#fileupload_add_link").click(function () {
+        $("#new_uploader").hide();
+        $(fileUploadLinkBox).show();
+    });
+
+    $("#fileupload_upload_file").click(function () {
+        $(fileUploadLinkBox).hide();
+        $("#new_uploader").show();
+    });
+
 
     initialiseUploader();
 };
