@@ -358,6 +358,11 @@ sakai.account_preferences = function(){
             getLanguages();
             initValidation();
         }
+        
+        // if allowpasswordchange is false then hide the regional setting
+        if(!sakai.config.allowPasswordChange){
+            $(passChangeContainer).hide();
+        }
     };
 
     doInit();

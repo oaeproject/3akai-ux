@@ -199,7 +199,7 @@ sakai.config = {
             }
         }
     },
-
+    allowPasswordChange: false,
     Profile: {
         /*
          * This is a collection of profile configuration functions and settings

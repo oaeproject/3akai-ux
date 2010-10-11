@@ -110,6 +110,7 @@ sakai.pickeruser = function(tuid, showSettings) {
     var reset = function() {
         $pickeruser_content_search.html("");
         $pickeruser_content_search.unbind("scroll");
+        $pickeruser_message.val("");
         pickerData.selected = {};
         pickerData.currentElementCount = 0;
         pickerData.selectCount = 0;
@@ -153,6 +154,8 @@ sakai.pickeruser = function(tuid, showSettings) {
         $pickeruser_add_button.unbind("click");
         $pickeruser_add_button.bind("click", function(){
             addPeople(iConfig);
+            //reset form
+            reset();
         });
     };
 
@@ -316,6 +319,8 @@ sakai.pickeruser = function(tuid, showSettings) {
     });
 
     $pickeruser_close_button.bind("click", function() {
+        // reset form.
+        reset();
         $pickeruser_container.jqmHide();
         //$("li#as-values-" + tuid).val();
     });

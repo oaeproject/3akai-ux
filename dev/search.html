@@ -45,6 +45,7 @@
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.cookie.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.pager.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.ba-bbq.js"></script>
+        <script type="text/javascript" src="_lib/jquery/plugins/jquery.threedots.js"></script>
         <script type="text/javascript" src="_javascript/_history/search_history.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.autoSuggest.sakai-edited.js"></script>
 
@@ -195,7 +196,12 @@
                                     {for i in items}
                                         {if i['sakai:group-id']}
                                         {var groupsFound = true}
-                                        <div class="fl-container fl-fix search_result_course_site">
+                                        <div class="fl-container fl-fix search_result">
+                                            {if i.picture}
+                                            <img src="${i.picture.picPath}" alt="group name">
+                                            {else}
+                                            <img src="/dev/_images/group_avatar_icon_64x64_nob.png" alt="group name">
+                                            {/if}
                                             <div class="search_result_course_site_title"><a href="/~${i.pagepath}">${sakai.api.Util.shortenString(i["sakai:group-title"], 100)}</a></div>
                                             <div class="search_result_course_site_url"><a href="/~${i.pagepath}">${sakai.api.Util.shortenString(i.pagepath, 100)}</a></div>
                                             <div class="search_result_course_site_excerpt">${sakai.api.Util.shortenString(i["sakai:group-description"], 400)}</div>
@@ -227,7 +233,7 @@
                                                 <a href="/~${i.userid}" class="search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"><img src="{if i.picture}${i.picture}{else}/dev/_images/person_icon.jpg{/if}" alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" width="60px" height="60px"/></a>
                                             {/if}
                                             <a href="/~${i.userid}" class="search_result_person_name">${sakai.api.Util.shortenString(i.name, 25)}</a>
-                                            {if i.extra}
+                                           {if i.extra}
                                                 <a href="javascript:;" class="search_result_person_dept">${i.extra}</a>
                                             {else}
                                                 <a href="javascript:;" class="search_result_person_dept">&nbsp;</a>

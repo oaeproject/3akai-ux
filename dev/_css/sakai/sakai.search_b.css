@@ -289,3 +289,5 @@ a.search_results_part_title {
 .site_heading { border-bottom:none; }
 
 .search_no_results {padding:10px;}
+
+.search_result_person_threedots {display:block; width:150px;}

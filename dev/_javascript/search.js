@@ -229,6 +229,13 @@ sakai.search = function() {
 
         }
         $(searchConfig.cm.searchResult).html($.TemplateRenderer(searchConfig.cm.searchResultTemplate, finaljson));
+        
+        $(".search_result_person_threedots").ThreeDots({
+            max_rows: 1,
+            text_span_class: "threedots",
+            alt_text_t: true
+        });
+
     };
 
     /**
@@ -291,6 +298,10 @@ sakai.search = function() {
                     }
                     finaljson.items[i]["pagepath"] = page_path;
 
+                    if (finaljson.items[i].picture && typeof finaljson.items[i].picture === "string") {
+                        finaljson.items[i].picture = $.parseJSON(finaljson.items[i].picture);
+                        finaljson.items[i].picture.picPath = "/~"+finaljson.items[i]["sakai:group-id"]+"/public/profile/"+finaljson.items[i].picture.name;
+                    }
                 }
             }
         }
