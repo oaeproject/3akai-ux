@@ -128,15 +128,15 @@ sakai.index = function(){
      */
     var performLogIn = function(){
 
-        $("#username").removeClass("error");
-        $("#password").removeClass("error");
-
         var values = sakai.api.UI.Forms.form2json($(loginForm));
 
         if (currentUserName !== values[usernameField] || currentPassword !== values[passwordField]) {
             currentUserName = values[usernameField];
             currentPassword = values[passwordField];
             
+            $("#username").removeClass("error");
+            $("#password").removeClass("error");
+
             $(failMessage).hide();
             $(loginButton).hide();
             $(registerLink).hide();
