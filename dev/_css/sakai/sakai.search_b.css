@@ -245,7 +245,9 @@ a.search_results_part_title {
     color: #000;
     font-size: .85em;
 }
-
+.search_result_person_link_divider_message {
+    margin: 0 0 0 10px;
+}
 .search_result_person_divider {
     color: #ddd;
     /*padding: 10px;*/

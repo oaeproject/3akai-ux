@@ -153,8 +153,14 @@
                                             {if ! i.connected}
                                             <a href="javascript:;" class="search_result_person_link link_add_to_contacts" id="link_add_to_contacts_${i.userid}">__MSG__ADD_TO_CONTACTS__</a>
                                             <a href="javascript:;" id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider">|</a>
-                                            {/if}
+                                            <a href="javascript:;" class="search_result_person_link search_result_person_link_message search_result_person_link_divider_message" id="search_result_person_link_message_${i.userid}">__MSG__MESSAGE__</a>
+                                            {elseif i.invited}
+                                            <a href="javascript:;" class="search_result_person_link link_accept_invitation" id="link_accept_invitation_${i.userid}">__MSG__ACCEPT_INVITATION__</a>
+                                            <a href="javascript:;" id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider">|</a>
+                                            <a href="javascript:;" class="search_result_person_link search_result_person_link_message search_result_person_link_divider_message" id="search_result_person_link_message_${i.userid}">__MSG__MESSAGE__</a>
+                                            {else}
                                             <a href="javascript:;" class="search_result_person_link search_result_person_link_message" id="search_result_person_link_message_${i.userid}">__MSG__MESSAGE__</a>
+                                            {/if}
                                         {/if}
                                         </div>
                                     </div>
