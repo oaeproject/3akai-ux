@@ -141,7 +141,7 @@
                                         {else}
                                         <a href="/~${i.userid}" class="search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"><img alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" src="${i.picture}" width="60px" height="60px"/></a>
                                         {/if}
-                                        <a href="/~${i.userid}" class="search_result_person_name">${i.name}</a>
+                                        <a href="/~${i.userid}" class="search_result_person_name">${sakai.api.Util.shortenString(i.name, 25)}</a>
                                         {if i.extra}
                                         <a href="javascript:;" class="search_result_person_dept">${i.extra}</a>
                                         {else}

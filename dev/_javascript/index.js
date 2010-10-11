@@ -68,6 +68,8 @@ sakai.index = function(){
                 $(loginDefault).show();
                 if (data) {
                     $(failMessage).show();
+                    $("#username").addClass("error");
+                    $("#password").addClass("error");
                 }
                 // Set the cursor in the username field
                 $("#" + usernameField).focus();
@@ -132,6 +134,9 @@ sakai.index = function(){
             currentUserName = values[usernameField];
             currentPassword = values[passwordField];
             
+            $("#username").removeClass("error");
+            $("#password").removeClass("error");
+
             $(failMessage).hide();
             $(loginButton).hide();
             $(registerLink).hide();

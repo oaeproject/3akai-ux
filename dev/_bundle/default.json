@@ -106,6 +106,8 @@
 "COMPANY": "Company",
 "COMPOSE_A_NEW_MESSAGE": "Compose a New Message",
 "COMPOSE_A_NEW": "Compose a new",
+"CONTACT_INVITATION_TITLE": "${user} has invited you to become a connection",
+"CONTACT_INVITATION_BODY": "Hi, \n\n ${user} has invited you to become a connection. \nHe/She has also left the following message: \n\n ${comment} \n\nTo accept this invitation, please click on the accept button. \n\nKind regards,\n\nThe Sakai Team",
 "CONTACTS": "Contacts",
 "CONTACTS_ONLY": "Contacts only",
 "CONTENT":"Content",

@@ -146,8 +146,8 @@ sakai.addtocontacts = function(tuid, showSettings){
             // send message to other person
             var userstring = sakai.api.User.getDisplayName(me.profile);
 
-            var title = sakai.config.Connections.Invitation.title.replace(/\$\{user\}/gi, userstring);
-            var message = sakai.config.Connections.Invitation.body.replace(/\$\{user\}/gi, userstring).replace(/\$\{comment\}/gi, personalnote);
+            var title = $("#addtocontacts_invitation_title").html().replace(/\$\{user\}/gi, userstring);
+            var message = $("#addtocontacts_invitation_body").html().replace(/\$\{user\}/gi, userstring).replace(/\$\{comment\}/gi, personalnote);
 
             // Do the invite and send a message
             $.ajax({

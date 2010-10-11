@@ -30,7 +30,7 @@
             </div>
             
             <div class="entity_header">
-                <a class="entity_header_text" href="/~${unescape(data.profile["rep:userId"])}">${unescape(sakai.api.User.getDisplayName(data.profile))}</a>
+                <a class="entity_header_text" href="/~${unescape(data.profile["rep:userId"])}">${sakai.api.Util.shortenString(unescape(sakai.api.User.getDisplayName(data.profile)), 30)}</a>
                 {if mode === "myprofile" && (!sakai.profile)}
                     <a class="s3d-action" href="/dev/profile_edit.html">__MSG__EDIT_PROFILE__</a>
                     |

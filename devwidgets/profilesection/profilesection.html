@@ -164,7 +164,11 @@
                         <a href="/dev/search.html#tag=/tags/${escape(tag)}" class="s3d-action">${tag}</a>{if tag_index < tagsArray.length-1},{/if}
                     {/for}
                 {elseif config.type !== "select"}
-                    ${data.value}
+                    {if config.limitDisplayLength}
+                        ${sakai.api.Util.shortenString(data.value, config.limitDisplayLength)}
+                    {else}
+                        ${data.value}
+                    {/if}
                 {else}
                     ${config.select_elements[data.value]}
                 {/if}
