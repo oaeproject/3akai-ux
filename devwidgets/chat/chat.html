@@ -9,48 +9,61 @@
     <table>
         <tbody>
             <tr id="chat_available_me" class="chat_top_container">
-                {if me}
                 <td class="chat_available_image">
-                    {if me.photo}
-                        <img src="${me.photo}" alt="The photo of the user" />
+                    {if sakai.data.me.profile.picture && $.parseJSON(sakai.data.me.profile.picture).name}
+                        <img src="/~${sakai.data.me.user.userid}/public/profile/${$.parseJSON(sakai.data.me.profile.picture).name}" />
                     {else}
-                        <img src="/dev/_images/person_icon.jpg" alt="The default photo of any user if not specified" />
+                        <img src="/dev/_images/person_icon.jpg" />
                     {/if}
                 </td>
                 <td>
-                    <span class="chat_available_name chat_available_status_${me.chatstatus}">${me.name}</span><br />
-                    <span id="chat_mystatusmessage" class="chat_available_statusmessage">${me.statusmessage}</span>
+                    <span class="chat_available_name chat_available_status_${sakaistatus}">${sakai.api.Util.shortenString(sakai.api.User.getDisplayName(sakai.data.me.profile), 14)}</span><br />
+                    <span id="chat_mystatusmessage" class="chat_available_statusmessage">
+                        {if sakai.data.me.profile.status}
+                            ${sakai.data.me.profile.status}
+                        {else}
+                            No status message
+                        {/if}
+                    </span>
                 </td>
-                {/if}
             </tr>
         </tbody>
     </table>
-    <div id="chat_available_others" {if totalitems > 4} class="chat_available_others_overflow" {else} class="chat_available_others_nooverflow" {/if}>
+    <div id="chat_available_others">
         <table>
             <tbody>
-                {for i in items}
-                    {if i['sakai:status'] == "online" && i.chatstatus != "offline"}
-                        <tr class="chat_available_friend">
+                {var index = 0}
+                {for i in contacts}
+                    {if i.profile.chatstatus != "offline"}
+                        ${index++|eat}
+                        <tr class="chat_available_friend" id="chat_available_friend_${i.profile.userid}">
                             <td class="chat_available_image">
-                                {if i.photo}
-                                    <img src="${i.photo}" alt="The photo of the user" />
+                                {if i.profile.picture}
+                                    <img src="${i.profile.picture}"/>
                                 {else}
-                                    <img src="/dev/_images/person_icon.jpg" alt="The photo of the user if not specified" />
+                                    <img src="/dev/_images/person_icon.jpg"/>
                                 {/if}
                             </td>
                             <td>
-                                <a href="javascript:;" class="chat_available_status_${i.chatstatus} initiate_chat_window" id="initiate_chat_window_${i.user}">${i.name}</a><br />
-                                <span id="chat_mystatusmessage" class="chat_available_statusmessage">${i.statusmessage}</span>
+                                <a href="javascript:;" class="chat_available_status_${i.profile.chatstatus} initiate_chat_window">${sakai.api.Util.shortenString(i.profile.name, 14)}</a><br />
+                                <span id="chat_mystatusmessage" class="chat_available_statusmessage">
+                                    {if i.profile.status}
+                                        ${sakai.api.Util.shortenString(i.profile.status, 20)}
+                                    {else}
+                                        No status message
+                                    {/if}
+                                </span>
                             </td>
                         </tr>
                     {/if}
-                {forelse}
-                <tr>
-                    <td id="chat_no_online_connections">
-                        __MSG__NO_ONLINE_CONNECTIONS_FOUND__
-                    </td>
-                </tr>
                 {/for}
+                {if index === 0}
+                    <tr>
+                        <td id="chat_no_online_connections">
+                            __MSG__NO_ONLINE_CONNECTIONS_FOUND__
+                        </td>
+                    </tr>
+                {/if}
             </tbody>
         </table>
     </div>
@@ -58,88 +71,50 @@
 
 <!-- CHAT WINDOW -->
 <div style="display:none" id="chat_windows_template"><!--
-    {var index = 0}
-    {for i in items}
-        {if special != false}
-            {if special == 0}
-                {if i.windowstatus}
-                <span class="user_chat_first active_window">
-                {else}
-                <span class="user_chat_first active_window hidden">
-                {/if}
-            {else}
-                {if i.windowstatus}
-                <span class="active_window">
-                {else}
-                <span class="active_window hidden">
-                {/if}
-            {/if}
-            <span id="online_button_${i.userid}" class="user_chat">
-
-        {else}
-            {if index == 0}
-                {if i.windowstatus}
-                <span class="user_chat_first active_window">
-                {else}
-                <span class="user_chat_first active_window hidden">
-                {/if}
-            {else}
-                {if i.windowstatus}
-                <span class="active_window">
-                {else}
-                <span class="active_window hidden">
-                {/if}
-            {/if}
-            <span id="online_button_${i.userid}" class="user_chat">
-        {/if}
-        <a href="javascript:;" id="chat_window_chatstatus_${i.userid}" class="chat_name_link chat_available_status_${i.chatstatus}">${i.name}</a>
+    <span class="active_window">
+        <span id="chat_online_button_${profile.userid}" class="user_chat">
+            <a href="javascript:;" id="chat_window_chatstatus_${profile.userid}" class="chat_name_link chat_available_status_${profile.chatstatus}">${profile.name}</a>
         </span>
-        </span>
-
-        <span style="display:none">${index++}</span>
-    {/for}
+    </span>
 --></div>
 
 <!-- CHAT WINDOW -->
 <div style="display:none" id="chat_windows_windows_template"><!--
-    {var index = 0}
-    {for i in items}
-
-        {if special != false}
-            <div id="chat_with_${i.userid}" class="chat_with_user" style="left: ${(special*150)}px; display:none">
-        {else}
-            <div id="chat_with_${i.userid}" class="chat_with_user" style="left: ${(index*150)}px; display:none">
-        {/if}
-
-                <table class="chat_top_table">
-                    <tr class="chat_top_container">
-                        <td class="chat_available_image">
-                            {if i.photo}
-                                <img src="${i.photo}" id="chat_window_photo_${i.userid}" alt="The photo of the user" />
+        <div id="chat_with_${profile.userid}" class="chat_with_user hidden">
+        
+	        <table class="chat_top_table">
+	            <tr class="chat_top_container">
+	                <td class="chat_available_image">
+  	                    {if profile.picture}
+	                        <img src="${profile.picture}" id="chat_window_photo_${profile.userid}" />
+                        {else}
+                            <img src="/dev/_images/person_icon.jpg" id="chat_window_photo_${profile.userid}" />
+                        {/if}
+                    </td>
+                    <td>
+                    	<span class="chat_user_button_image">
+                        	<a href="javascript:;" id="chat_minimize_${profile.userid}" class="chat_minimize">
+                            	<img src="/devwidgets/chat/images/chat_minimize.png" alt="Minimize this chat window" />
+                            </a>
+                            <a href="javascript:;" id="chat_close_${profile.userid}" class="chat_close">
+                            	<img src="/devwidgets/chat/images/chat_close.png" alt="Close this chat window" />
+                            </a>
+                        </span>
+                        <a href="/~${profile.userid}" id="chat_window_name_${profile.userid}" class="chat_window_name">${sakai.api.Util.shortenString(profile.name, 14)}</a><br />
+                        <span id="chat_window_statusmessage_${profile.userid}" class="chat_available_statusmessage">
+                            {if profile.status}
+                                ${sakai.api.Util.shortenString(profile.status, 20)}
                             {else}
-                                <img src="_images/person_icon.png" id="chat_window_photo_${i.userid}" alt="The photo of the user if not specified" />
-                            {/if}
-                        </td>
-                        <td>
-                            <span class="chat_user_button_image">
-                                <a href="javascript:;" id="chat_minimize_${i.userid}" class="chat_minimize">
-                                    <img src="/devwidgets/chat/images/chat_minimize.png" alt="To minimize the chat navigation area" />
-                                </a>
-                                <a href="javascript:;" id="chat_close_${i.userid}" class="chat_close">
-                                    <img src="/devwidgets/chat/images/chat_close.png" alt="To close the chat navigation area" />
-                                </a>
-                            </span>
-                            <span id="chat_window_name_${i.userid}" class="chat_window_name">${i.name}</span><br />
-                            <span id="chat_window_statusmessage_${i.userid}" class="chat_available_statusmessage">${i.statusmessage}</span>
-                        </td>
-                    </tr>
-                </table>
-                <div id="chat_with_${i.userid}_content" class="chat_with_content_nooverflow"></div>
-                <input id="chat_with_${i.userid}_txt" class="chat_with_txt" type="text" title="Please input the chat text" />
-            </div>
+                                No status message
+                            {/if}    
+                        </span>
+                    </td>
+                </tr>
+            </table>
+            <div id="chat_with_${profile.userid}_content" class="chat_with_content_overflow"></div>
+            <input id="chat_with_${profile.userid}_txt" class="chat_with_txt" type="text" title="Please input the chat text" />
+        </div>
 
-        <span style="display:none">${index++}</span>
-    {/for}
 --></div>
 
 <!-- CHAT MESSAGE -->
@@ -150,30 +125,30 @@
     </div>
 --></div>
 
-<!-- CHAT BOTTOM CONTAINER -->
-<div class="chat_main_container doFixed" id="chat_main_container" style="display:none; left:0px;">
-    <div id="chat_container" style="height:30px">
-        <table class="chat_main_table" summary="Chat">
-            <tr>
-                <td id="previous"><a href="javascript:;" id="prev" style="display:none"><img src="/devwidgets/chat/images/prev.png"  alt="Prev"></a></td>
-                <td id="chat_windows"></td>
-                <td id="more"><a href="javascript:;" id="next" style="display:none"><img src="/devwidgets/chat/images/more.png"  alt="Next"></a></td>
-                <td id="chat_online_connections_link">
-                    <span id="online_button">
-                        <img src="/devwidgets/chat/images/people.png" width="16px" class="chat_people_icon" alt="Online"/>
-                        <a href="javascript:;" class="chat_straight_link" id="chat_online"></a>
-
+<!-- CHAT CONTAINER -->
+<div class="chat_main_container" id="chat_main_container" style="display:none;">
+	<div id="chat_container">
+		<table class="chat_main_table" summary="Chat">
+			<tr>
+				<td id="chat_windows"></td>
+				<td id="chat_online_connections_link">
+					<div id="chat_online_button">
+					    <div id="chat_online_list_activator">
+						    <img src="/devwidgets/chat/images/people.png" class="chat_people_icon" alt="Online"/>
+						    <span class="chat_straight_link" id="chat_online"></span>
+                        </div>
+                        
                         <!-- SHOW ONLINE FRIENDS -->
-                        <div id="show_online" style="display:none">
+                        <div id="chat_show_online" style="display:none">
                             <div id="chat_available"></div>
                         </div>
-
-                    </span>
-                </td>
-            </tr>
-        </table>
-        <div id="chat_windows_container" style="position:relative"></div>
-    </div>
+                        
+					</div>
+				</td>
+			</tr>
+		</table>
+        <div id="chat_windows_container"><!-- --></div>
+	</div>
 </div>
 
 <!-- JAVASCRIPT -->

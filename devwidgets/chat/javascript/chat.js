@@ -15,132 +15,8 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-/**
- * @name sakai.flashChat
- *
- * @class flashChat
- *
- * @description
- * Namespace used for the flash functionality for chat
- *
- * @version 0.0.1
- * @param {String} tuid Unique id of the widget
- * @param {Boolean} showSettings Show the settings of the widget or not
- */
-sakai.flashChat = {
 
-
-    /////////////////////////////
-    // Configuration variables //
-    /////////////////////////////
-
-    flashing: [], // Array that contains all the uids of the users that need to flash
-    // Links and labels
-    onlineButton: "#online_button",
-    chatWith: "#chat_with",
-
-    // CSS Classes
-    showOnlineVisibleClass: "show_online_visible",
-
-
-    ///////////////////////
-    // Utility functions //
-    ///////////////////////
-
-    /**
-     * Scroll to the bottom of an element
-     * @param {Object} el The element that needs to be scrolled down
-     */
-    scroll_to_bottom: function(el){
-        el.attr("scrollTop", el.attr("scrollHeight"));
-    },
-
-
-    /////////////////////
-    // Flash functions //
-    /////////////////////
-
-    /**
-     * This will give the command to start the bar to flash
-     * @param {String} uid
-     *  The uid of the user which window needs to flash
-     * @param {Boolean} openWindow
-     *  true: Open the chat window during the flash
-     *  false: Don't open the chat window
-     */
-    doFlash: function(uid, openWindow){
-
-        var busy = false;
-
-        for (var i = 0, j = sakai.flashChat.flashing.length; i < j; i++) {
-            if (sakai.flashChat.flashing[i] === uid) {
-                busy = true;
-            }
-        }
-
-        if (!busy) {
-            sakai.flashChat.startFlashing(uid, 0, openWindow);
-        }
-
-    },
-
-    /**
-     * This will start the flashing for a certain window
-     * @param {String} uid
-     *  The uid of the user which window needs to flash
-     * @param {Integer} i
-     *  The count of how many times it has flashed already
-     * @param {Boolean} openWindow
-     *  true: Open the chat window during the flashing
-     *  false: Don't open the chat window
-     */
-    startFlashing: function(uid, i, openWindow){
-
-        var till = 0;
-        var el = $(sakai.flashChat.onlineButton + "_" + uid);
-
-        // Check if the openWindow variable is true or false
-        if (openWindow) {
-            till = 9;
-            // Open the window and show the chats for this user
-            $(sakai.flashChat.chatWith + "_" + uid).show();
-
-            // Scroll to the bottom of the content div
-            var el_content = $(sakai.flashChat.chatWith + "_" + uid + "_content");
-            sakai.flashChat.scroll_to_bottom(el_content);
-        }
-        else {
-            till = 10;
-        }
-
-        // Check if the count is even or not
-        if (i % 2 === 0) {
-
-            el.removeClass(sakai.flashChat.showOnlineVisibleClass);
-        }
-        else {
-
-            el.addClass(sakai.flashChat.showOnlineVisibleClass);
-        }
-
-        // Check whether it should stop flashing
-        if (i < till) {
-            i = i + 1;
-            setTimeout("sakai.flashChat.startFlashing('" + uid + "'," + i + "," + openWindow + ")", 500);
-        }
-        else {
-            // The box has flashed enough times.
-            // Look for the uuid in the flashing array and remove it.
-            var index = -1;
-            for (var k = 0; k < sakai.flashChat.flashing.length; k++) {
-                if (sakai.flashChat.flashing[k] === uid) {
-                    index = k;
-                }
-            }
-            sakai.flashChat.flashing.splice(index, 1);
-        }
-    }
-};
+/*global $, sakai */
 
 /**
  * @name sakai.chat
@@ -155,641 +31,537 @@ sakai.flashChat = {
  * @param {Boolean} showSettings Show the settings of the widget or not
  */
 sakai.chat = function(tuid, showSettings){
-
-    /////////////////////////////
-    // Configuration variables //
-    /////////////////////////////
-
-    var MAX_NO_OF_WINDOWS = 5; // maximum number of chat conversations open
-
-    var currentChatStatus = "";
-
-    var hasOpenChatWindow = false; // Does the current user has open chat windows
-    var personIconUrl = sakai.config.URL.USER_DEFAULT_ICON_URL;
-    var pulltime = "2100-10-10T10:10:10.000Z";
-    var initialtime = "2100-10-10T10:10:10.000Z";
-    var time = [];
-    var sendMessages = []; // Array containing the id's of all the send messages
-
-    // JSON
-    var activewindows = {
-        "items" : []
-    };
-    var allFriends = false;
-    var onlineFriends = [];
-    var goBackToLogin = false;
-    var online = false;
-
-    // Links and labels
-    var hiLabel = "#hispan";
-    var myprofileName = "#myprofile_name";
-    var onlineButton = "#online_button";
-    var pictureHolder = "#picture_holder";
-    var showOnlineLink = "#show_online";
-    var userIdLabel = "#userid";
-    var next = "#next";
-    var prev = "#prev";
-
-    // Chat
-    var chatAvailable = "#chat_available";
-    var chatAvailableName = ".chat_available_name";
-    var chatAvailableMinimize = chatAvailable + "_minimize";
-    var chatOnline = "#chat_online";
-    var chatOnlineConnectionsLink = chatOnline + "_connections_link";
-    var chatWindow = "#chat_window";
-    var chatWindowChatstatus = chatWindow + "_chatstatus";
-    var chatWindows = "#chat_windows";
-    var chatWith = "#chat_with";
-
-    // CSS Classes
-    var chatWithContentClass = "chat_with_content";
-    var chatWithContentNooverflowClass = chatWithContentClass + "_nooverflow";
-    var chatWithContentOverflowClass = chatWithContentClass + "_overflow";
-    var chatAvailableStatusClass = "chat_available_status";
-    var chatAvailableStatusClassOnline = chatAvailableStatusClass + "_online";
-    var chatAvailableStatusClassBusy = chatAvailableStatusClass + "_busy";
-    var chatAvailableStatusClassOffline = chatAvailableStatusClass + "_offline";
-
-    var showOnlineVisibleClass = "show_online_visible";
-
-    // CSS Classes with .
-    var initiateWindowClass = ".initiate_chat_window";
-    var userLinkChatStatusClass = ".user_link_chat_status";
-    var userChatClass = ".user_chat";
-
-    var chatClass = ".chat";
-    var chatCloseClass = chatClass + "_close";
-    var chatMinimizeClass = chatClass + "_minimize";
-    var chatWithTxtClass = chatClass + "_with_txt";
-
-    // Containers
-    var chatMainContainer = "#chat_main_container";
-
-    // Templates
-    var chatAvailableTemplate = "chat_available_template";
-    var chatContentTemplate = "chat_content_template";
-    var chatWindowsTemplate = "chat_windows_template";
-    //var timer = false;
-
+    
+    ///////////////////////////
+    // Configuration Options //
+    ///////////////////////////
+    
+    var loadOnlineContactsInterval = 20000;
+    var loadNewMessagesInterval = 5000;
+    
+    ////////////////////
+    // Timer Pointers //
+    ////////////////////
+    
+    var loadOnlineContactsTimer = false;
+    var loadNewMessagesTimer = false;
+    
+    ////////////////
+    // Data Cache //
+    ////////////////
+    
+    var globalOnlineContacts = [];
+    var globalChatWindows = [];
+    
     ///////////////////////
-    // Utility functions //
     ///////////////////////
-
+    // Chat Working Code //
+    ///////////////////////
+    ///////////////////////
+    
     /**
-     * Parse the picture for a user
-     * @param {String} picture The picture path for a user
-     * @param {String} userStoragePrefix The user's storage prefix
+     * Make the chat bar visible after we have
+     * detected that the current user is logged in
      */
-    var parsePicture = function(profile, uuid){
-        // Check if the picture is undefined or not
-        // The picture will be undefined if the other user is in process of
-        // changing his/her picture
-        if (profile && profile.picture && $.parseJSON(profile.picture).name) {
-            return "/~" + profile["rep:userId"] + "/public/profile/" + $.parseJSON(profile.picture).name;
-        }
-        else {
-            return personIconUrl;
-        }
+    var showChatBar = function(){
+        $("#chat_main_container").show();
     };
-
+    
+    /////////////////////////////
+    // List of online contacts //
+    /////////////////////////////
+    
     /**
-     * Add the id of the message to the array of send messages
-     * We needed to know which messages were send because otherwise
-     * the person who sended the message saw it 2 times
-     * @param {String} messageid The id of the message that was send
+     * Load the list of your online contacts
+     * @param {Object} initial Whether or not this is the first time
+     * the online friends are requested
      */
-    var addToSendMessages = function(messageid){
-
-        // Add the id of the message to the sendmessages array
-        sendMessages.push(messageid);
-    };
-
-        /*
-     * Placeholders that will be replaced by the real functions. This
-     * is necessary to comply with the JSLint rules
-     */
-
-    var doWindowRender = function(){};
-
-    /**
-     * Clone a certain object.
-     * We need this in activewindows, to not change the original object
-     * @param {Object} obj Object that needs to be cloned
-     */
-    var clone = function(obj){
-        return jQuery.extend(true, {}, obj);
-    };
-
-    /**
-     * Scroll to the bottom of an element
-     * @param {Object} el The element that needs to be scrolled down
-     */
-    var scroll_to_bottom = function(el){
-        el.attr("scrollTop", el.attr("scrollHeight"));
-    };
-
-    /**
-     * Parse the name for a user
-     * @param {String} uuid Uuid of the user
-     * @param {String} firstName Firstname of the user
-     * @param {String} lastName Lastname of the user
-     */
-    var parseName = function(uuid, profile){
-        var displayName = sakai.api.User.getDisplayName(profile);
-
-        // if display name/uuid is 14 character
-        // display name/uuid
-        // otherwise display name/uuid[11]...
-        if (displayName) {
-            if (displayName.lengt > 14) {
-                return sakai.api.Util.shortenString(displayName, 11);
-            }
-            else {
-                return displayName;
-            }
-        }
-        else {
-            if (uuid.length > 14) {
-                return sakai.api.Util.shortenString(uuid, 11);
-            }
-            else {
-                return uuid;
-            }
-        }
-    };
-
-    /**
-     * Parse the status message for a user
-     * @param {Object} basic JSON basic variable inside the profile information
-     */
-    var parseStatusMessage = function(status){
-        if (status) {
-            return sakai.api.Util.shortenString(status, 20);
-        }
-        return sakai.api.Util.shortenString("No status message");
-    };
-
-    //////////
-    // Chat //
-    //////////
-
-    /**
-     * Hide the container with your online friends
-     */
-    var hideOnline = function(){
-        $(showOnlineLink).hide();
-        $(onlineButton).removeClass(showOnlineVisibleClass);
-    };
-
-    /**
-     * Show the container with your online friends
-     */
-    var showOnline = function(){
-        var onlineWindow = $(showOnlineLink);
-        onlineWindow.css("bottom", 31 + onlineWindow.height() + "px");
-        $(showOnlineLink).show();
-        $(onlineButton).addClass(showOnlineVisibleClass);
-    };
-
-    /**
-     * Hide/Show the container with your online friends
-     */
-    var showHideOnline = function(){
-        if ($(showOnlineLink).is(":visible")) {
-            hideOnline();
-        }
-        else {
-            showOnline();
-        }
-    };
-
-    /**
-     * Get a user from the all friends object
-     * @param {Object} uuid Uid of the user you want to get
-     * @return
-     *  Will return a userobject matching the uuid
-     *  Will return null if no match is found
-     */
-    var getUserFromAllFriends = function(uuid){
-        for (var i = 0, j = allFriends.users.length; i < j; i++) {
-            if (allFriends.users[i].userid === uuid) {
-                return allFriends.users[i];
-            }
-        }
-        return null;
-    };
-
-    /**
-     * Update an item in the activewindow
-     * @param {String} userid User id of the user
-     * @param {String} item Item that needs to be updated
-     * @param {String} value Value of the item that needs to be updated
-     */
-    var updateActiveWindows = function(userid, item, value){
-        for (var i = 0, j = activewindows.items.length; i < j; i++) {
-            if (activewindows.items[i].userid === userid) {
-                activewindows.items[i][item] = value;
-            }
-        }
-    };
-
-    /**
-     * Update and element (only if it has to) with a value
-     * @param {String} userid The user id of the user
-     * @param {String} item Item that needs to be updated
-     * @param {String} value Value in the element that needs to be updated
-     */
-    var updateChatWindowElement = function(userid, item, value){
-        var el = $(chatWindow + "_" + item + "_" + userid);
-        switch (el.get(0).tagName.toLowerCase()) {
-            case "span":
-                // To avoid flickering of the element we check if the element already has this value.
-                // This improves the overall performance.
-                if (el.text() !== value) {
-                    el.text(sakai.api.Security.saneHTML(value));
-                    updateActiveWindows(userid, item, value);
-                }
-                break;
-            case "img":
-                if (el.attr("src") !== value) {
-                    el.attr("src", value);
-                    updateActiveWindows(userid, item, value);
-                }
-                break;
-        }
-    };
-
-    /**
-     * Update a certain element with a specific chatstatus
-     * @param {Object} element Element that needs to be updated
-     * @param {String} chatstatus The chatstatus that needs to be added
-     */
-    var updateChatStatusElement = function(element, chatstatus){
-        element.removeClass(chatAvailableStatusClassOnline);
-        element.removeClass(chatAvailableStatusClassBusy);
-        element.removeClass(chatAvailableStatusClassOffline);
-        element.addClass(chatAvailableStatusClass + "_" + chatstatus);
-    };
-
-    /**
-     * Update the chat status of a specific chat window
-     * @param {Object} userid The user id of the user
-     * @param {Object} value The status which should be updated if necessary
-     */
-    var updateChatWindowChatStatus = function(userid, value){
-        var el = $(chatWindowChatstatus + "_" + userid);
-
-        // Do a check to make sure that this element doesn't already have this class.
-        if (!el.hasClass(chatAvailableStatusClass + "_" + value)) {
-            updateChatStatusElement(el, value);
-            updateActiveWindows(userid, "chatstatus", value);
-        }
-    };
-
-    /**
-     * Update the chatwindow for a certain user
-     * @param {Object} user Object that contains the user information
-     */
-    var updateChatWindow = function(user){
-        if ($(chatWith + "_" + user.userid).length > 0) {
-            updateChatWindowChatStatus(user.userid, user.chatstatus);
-            updateChatWindowElement(user.userid, "photo", user.photo);
-            updateChatWindowElement(user.userid, "name", user.name);
-            updateChatWindowElement(user.userid, "statusmessage", user.statusmessage);
-        }
-    };
-
-    /**
-     * Hide the chat window for a specific element and button
-     * @param {Object} elementWindow The element that contains the window
-     * @param {Object} elementButton The button of the window
-     */
-    var hideOnlineWindow = function(elementWindow, elementButton){
-        elementWindow.hide();
-        elementButton.removeClass(showOnlineVisibleClass);
-    };
-
-    /**
-     * Show the chat window for a specific element and button
-     * @param {Object} elementWindow The element that contains the window
-     * @param {Object} elementButton The button of the window
-     */
-    var showOnlineWindow = function(elementWindow, elementButton){
-        elementWindow.show();
-        elementButton.addClass(showOnlineVisibleClass);
-    };
-
-    /**
-     * Toggle a certain chat window
-     * @param {String} selected The uuid of the user's window that
-     * needs to be toggled
-     */
-    var toggleChatWindow = function(selected){
-        var el = $(chatWith + "_" + selected);
-        var el_content = $(chatWith + "_" + selected + "_content");
-        var el_button = $(onlineButton + "_" + selected);
-
-        if (!el.is(":visible")) {
-
-            // Run over all the activewindows and set their active property on false
-            // Only if the activewindow is from the 'selected' userid, the active property should be true
-            for (var i = 0, j = activewindows.items.length; i < j; i++) {
-                hideOnlineWindow($(chatWith + "_" + activewindows.items[i].userid), $(onlineButton + "_" + activewindows.items[i].userid));
-                activewindows.items[i].active = false;
-                if (activewindows.items[i].userid === selected) {
-                    activewindows.items[i].active = true;
+    var loadOnlineContacts = function(){
+        $.ajax({
+            url: sakai.config.URL.PRESENCE_CONTACTS_SERVICE,
+            cache: false,
+            dataType: "json",
+            success: function(data){
+                // Render the list of your online friends
+                renderOnlineContacts(data);
+                // Start polling regurarly to get your online friends
+                if (!loadOnlineContactsTimer) {
+                    loadOnlineContactsTimer = setInterval(loadOnlineContacts, loadOnlineContactsInterval);
+                    checkNewMessages();
                 }
             }
-
-            // Hide the window containing all the online friends
-            hideOnline();
-
-            // Show the selected window
-            showOnlineWindow(el, $(onlineButton + "_" + selected));
-            hasOpenChatWindow = true;
-        }
-        else {
-
-            // If the selected element is visible, hide all the windows
-            for (var k = 0; k < activewindows.items.length; k++) {
-                if (activewindows.items[k].userid === selected) {
-                    activewindows.items[k].active = false;
-                }
-            }
-            hideOnlineWindow(el, el_button);
-            hasOpenChatWindow = false;
-        }
-
-        /** Scroll to the bottom of the content div */
-        scroll_to_bottom(el_content);
-    };
-
-    /**
-     * Open the chat window and execute some functions for a specific user
-     * @param {String} clicked The uid of the user's window that needs to
-     * be opened
-     */
-    var openChat = function(clicked){
-
-        // Close the other chat windows
-        for (var i = 0, j = activewindows.items.length; i < j; i++) {
-            if (activewindows.items[i].userid === clicked) {
-                toggleChatWindow(clicked);
-                return;
-            }
-        }
-
-        hasOpenChatWindow = true;
-
-        var index = activewindows.items.length;
-        activewindows.items[index] = {};
-        activewindows.items[index].userid = clicked;
-        activewindows.items[index].active = true;
-
-        // To limit the requests (and so have less load on the server and client) we
-        // just get the user from an object we created from a previous requests.
-        var user = getUserFromAllFriends(clicked);
-
-        if (user !== null) {
-            activewindows.items[index].name = user.name;
-            activewindows.items[index].photo = user.photo;
-            activewindows.items[index].status = user.status;
-            activewindows.items[index].statusmessage = user.statusmessage;
-            activewindows.items[index].chatstatus = user.chatstatus;
-
-            // if there are more than 5 chat conversation open
-            // hide the new chat conversation
-            if (activewindows.items.length > MAX_NO_OF_WINDOWS) {
-                activewindows.items[index].windowstatus = false;
-            }
-            else {
-                // show new chat conversation
-                activewindows.items[index].windowstatus = true;
-            }
-        }
-        else {
-            alert("An error has occured");
-        }
-
-        var specialjson = {};
-        specialjson.items = [];
-        specialjson.items[0] = clone(activewindows.items[index]);
-
-        doWindowRender(clicked, specialjson);
-
-        sakai.chat.loadChatTextInitial(true, activewindows);
-    };
-
-    /**
-     * Add binding to the chat windows
-     */
-    var addChatBinding = function(){
-        $(chatAvailableMinimize).live("click", function(){
-            hideOnline();
-        });
-
-        $(initiateWindowClass).live("click", function(ev){
-            var clicked = this.id.split("_")[this.id.split("_").length - 1];
-            openChat(clicked);
         });
     };
-    addChatBinding();
-
+    
     /**
-     * Save the json object containing all friends
-     * to an easier to read friends object
-     * @param {Object} jsonitem
+     * Transform the JSON object received from the online contacts
+     * service into a trimmed down version that will be used to store
+     * and retrieve the chatwindows
+     * @param {Object} onlineContacts   Object received from the online
+     * contacts service
      */
-    var saveToAllFriends = function(jsonitem){
-        var user = {};
-        user.userid = jsonitem.user;
-        user.name = jsonitem.name;
-        user.photo = jsonitem.photo;
-        user.chatstatus = jsonitem.chatstatus;
-        user.status = jsonitem.status;
-        user.statusmessage = jsonitem.statusmessage;
-        allFriends.users.push(user);
-        updateChatWindow(user);
+    var transformContactsObject = function(onlineContacts){
+        var contactList = [];
+        for (var i = 0; i < onlineContacts.contacts.length; i++){
+            if (onlineContacts.contacts[i]["sakai:status"] !== "offline" && onlineContacts.contacts[i].profile.chatstatus !== "offline") {
+                var contact = {};
+                contact.profile = {
+                    "userid": onlineContacts.contacts[i].user,
+                    "name": sakai.api.User.getDisplayName(onlineContacts.contacts[i].profile),
+                    "status": onlineContacts.contacts[i].profile.status,
+                    "chatstatus": onlineContacts.contacts[i].profile.chatstatus || onlineContacts.contacts[i]["sakai:status"]
+                };
+                if (onlineContacts.contacts[i].profile.picture && $.parseJSON(onlineContacts.contacts[i].profile.picture).name) {
+                    contact.profile.picture = "/~" + onlineContacts.contacts[i].user + "/public/profile/" + $.parseJSON(onlineContacts.contacts[i].profile.picture).name;
+                }
+                contactList.push(contact);
+            }
+        }
+        globalOnlineContacts = {"contacts": contactList, "sakaistatus": sakai.data.me.profile.chatstatus || onlineContacts["sakai:status"]};
+        return globalOnlineContacts;
     };
-
+    
     /**
-     * Check if a certain user is online or not
-     * @param {Array} onlinefriends Array that contains all the friends
-     * @param {String} userid Userid of the user
-     * @return Boolean true if the user is online
+     * Render the list of your online friends if it has changed
+     * since the last time
+     * @param {Object} onlineContacts  JSON Object containing the list
+     * of your online contacts
      */
-    var checkOnlineFriend = function(onlinefriends, userid){
-        var isOnline = false;
-        if (onlinefriends) {
-            for (var i = 0, j = onlinefriends.length; i < j; i++) {
-                if (onlinefriends[i].user === userid) {
-                    isOnline = true;
+    var renderOnlineContacts = function(onlineContacts){
+        // Prepare the online contacts for template rendering
+        onlineContacts = transformContactsObject(onlineContacts);
+        
+        $("#chat_online").text("(" + onlineContacts.contacts.length + ")");
+        updateChatWindows();
+
+        var renderedContacts = $.TemplateRenderer("chat_available_template", onlineContacts).replace(/\r/g, '');
+        var renderedDiv = $(document.createElement("div"));
+        renderedDiv.html(renderedContacts);
+
+        // We only render the template when it has changed since the last time
+        if ($("#chat_available").html() !== renderedDiv.html()) {
+            $("#chat_available").html(renderedContacts);
+            var onlineWindow = $("#chat_show_online");
+            onlineWindow.css("bottom", 31 + onlineWindow.height() + "px");
+        }
+    };
+    
+    /**
+     * Hide or show the list of online contacts depending on whether
+     * it's currently shown or not
+     */
+    var toggleOnlineContactsList = function(){
+        $("#chat_show_online").toggle();
+        var onlineListActivator = $("#chat_online_button");
+        if (onlineListActivator.hasClass("chat_show_online_visible")){
+            onlineListActivator.removeClass("chat_show_online_visible");
+        } else {
+            onlineListActivator.addClass("chat_show_online_visible");
+        }
+    };
+    
+    /**
+     * Hide the list of online contacts
+     */
+    var closeOnlineContactsList = function(){
+        $("#chat_show_online").hide();
+        $("#chat_online_button").removeClass("chat_show_online_visible");
+    };
+    
+    /**
+     * Get an online contact and his profile details
+     * @param {Object} userid   User id of the requested contact
+     */
+    var getOnlineContact = function(userid){
+        for (var i = 0; i < globalOnlineContacts.contacts.length; i++){
+            if (globalOnlineContacts.contacts[i].profile.userid === userid){
+                return globalOnlineContacts.contacts[i];
+            }   
+        }
+        return false;
+    };
+    
+    //////////////////////////
+    // Chat window handling //
+    //////////////////////////
+    
+    /**
+     * Get the reduced object with the necessary profile
+     * information for an online contact
+     * @param {Object} userid   The user id from the requested user
+     */
+    var getOnlineContactObject = function(userid){
+        for (var i = 0; i < globalOnlineContacts.contacts.length; i++){
+            if (globalOnlineContacts.contacts[i].profile.userid === userid){
+                return globalOnlineContacts.contacts[i];
+            }   
+        }
+        return false;
+    };
+    
+    /**
+     * Check whether a chat window already exists for a given
+     * user and return its profile object
+     * @param {Object} userid    User we are checking for
+     */
+    var getChatWindow = function(userid){
+        for (var i = 0; i < globalChatWindows.length; i++){
+            if (globalChatWindows[i].profile.userid === userid){
+                return globalChatWindows[i];
+            }   
+        }
+        return false;
+    };
+    
+    /**
+     * Keep the object that keeps the current chat window state
+     * up to date. This will be used to save the current layout
+     * to a persistent cookie
+     * @param {Object} userid    Userid of the window that is currently open
+     */
+    var setOpenWindows = function(userid){
+        for (var i = 0; i < globalChatWindows.length; i++) {
+            globalChatWindows[i].open = false;
+        }
+        if (userid){
+            var window = getChatWindow(userid);
+            window.open = true;
+        }
+    };
+    
+    /**
+     * Close all chat windows
+     */
+    var closeAllChatWindows = function(){
+        setOpenWindows();
+        $(".user_chat").removeClass("chat_online_button_visible");
+        $(".chat_with_user").hide();
+    };
+    
+    /**
+     * Open the chat window for a given user that already has a chat
+     * window open
+     * @param {Object} userid    Userid of the user for which a 
+     * chat window should be opened
+     */
+    var openChatWindow = function(userid){
+        setOpenWindows(userid);
+        $("#chat_online_button_" + userid).addClass("chat_online_button_visible");
+        $("#chat_with_" + userid).show();
+        $("#chat_with_" + userid + "_txt").focus();
+    };
+    
+    /**
+     * Add a new chat window to the list of existing ones
+     * @param {Object} contactObject    Object describing the user for which we want a new chat window
+     * @param {Object} openWindow       Whether to open the newly created window or not
+     */
+    var appendChatWindow = function(contactObject, openWindow){
+        // Check whether there already is a chat window for the current user
+        var chatWindowExists = getChatWindow(contactObject.profile.userid);
+        if (chatWindowExists && openWindow){
+            openChatWindow(contactObject.profile.userid);
+        } else if (!chatWindowExists) {
+            var window = contactObject;
+            window.open = openWindow;
+            window.index = globalChatWindows.length;
+            globalChatWindows.push(window);
+            $("#chat_windows").append($.TemplateRenderer("chat_windows_template", window));
+            $("#chat_windows_container").append($.TemplateRenderer("chat_windows_windows_template", window));
+            // Position the chat window as the last chat window in the row
+            $("#chat_with_" + window.profile.userid).css("left", (window.index * 150) + "px");
+            if (openWindow) {
+                closeAllChatWindows();
+                openChatWindow(contactObject.profile.userid);
+            }
+        }
+    };
+    
+    /**
+     * Remove a chat window and its corresponding button in the
+     * bottom bar
+     * @param {Object} userid    Userid of the user for which
+     * we want to remove the chat window
+     */
+    var removeChatWindow = function(userid){
+        var toremoveIndex = -1;
+        for (var i = 0; i < globalChatWindows.length; i++){
+            if (globalChatWindows[i].profile.userid === userid){
+                $("#chat_online_button_" + userid).remove();
+                $("#chat_with_" + userid).remove();
+                toremoveIndex = i;
+            } else if (toremoveIndex >= 0){
+                $("#chat_with_" + globalChatWindows[i].profile.userid).css("left", (150 * (i - 1)) + "px");
+            }
+        }
+        globalChatWindows.splice(toremoveIndex, 1);
+    };
+    
+    /**
+     * Update the chat windows so that the chat status and status
+     * message of their contacts is up to date. Also, disable all
+     * chat windows for which the contact is not online
+     */
+    var updateChatWindows = function(){
+        for (var i = 0; i < globalChatWindows.length; i++){
+            var contact = getOnlineContact(globalChatWindows[i].profile.userid);
+            var chatInputBox = $("#chat_with_" + globalChatWindows[i].profile.userid + "_txt");
+            // The contact is offline. Disable the chat window and update the chat status
+            if (!contact || contact.profile.chatstatus === "offline"){
+                // Set the chat status to offline
+                setWindowChatStatus(globalChatWindows[i].profile.userid, "offline");
+                // Disable the input box
+                chatInputBox.attr("disabled", true);
+                chatInputBox.val(globalChatWindows[i].profile.name + " is offline");
+            } else {
+                // Check whether the chat status changed
+                if (globalChatWindows[i].profile.chatstatus != contact.profile.chatstatus){
+                    // Make sure the input box is enabled
+                    if (globalChatWindows[i].profile.chatstatus === "offline") {
+                        chatInputBox.removeAttr("disabled").val("");
+                    }
+                    setWindowChatStatus(globalChatWindows[i].profile.userid, contact.profile.chatstatus);
+                }
+                // Check whether the statusmessage changed
+                if (globalChatWindows[i].profile.status != contact.profile.status){
+                    setWindowStatusmessage(globalChatWindows[i].profile.userid, contact.profile.status);
                 }
             }
         }
-        return isOnline;
     };
-
+    
     /**
-     * Enable / disable the chat input for online / offline users
+     * Update the chat availability icon for a given chat window
+     * @param {Object} userid   User id of the contact the icon should be adjusted for
+     * @param {Object} chatstatus   Chat status (online, busy, offline) to be changed to 
      */
-    var enableDisableOnline = function(){
-        if (activewindows.items) {
-            for (var i = 0; i < activewindows.items.length; i++) {
-
-                var friendId = activewindows.items[i].userid;
-                var friendName = activewindows.items[i].name;
-                var isOnline = checkOnlineFriend(online.items, friendId);
-
-                // We check if the text is "userid is offline" because we don't want to delete other text
-                if (isOnline) {
-                    if ($(chatWith + "_" + friendId + "_txt").val() === friendName + " is offline") {
-                        $(chatWith + "_" + friendId + "_txt").removeAttr("disabled");
-                        $(chatWith + "_" + friendId + "_txt").val("");
+    var setWindowChatStatus = function(userid, chatstatus){
+        var bottomName = $("#chat_window_chatstatus_" + userid);
+        // Remove the current chat status
+        bottomName.removeClass("chat_available_status_online");
+        bottomName.removeClass("chat_available_status_busy");
+        bottomName.removeClass("chat_available_status_offline");
+        // Add the new chat status
+        bottomName.addClass("chat_available_status_" + chatstatus);
+        // Update the global chat window object
+        getChatWindow(userid).profile.chatstatus = chatstatus;
+    };
+    
+    /**
+     * Update the status message for a given chat window
+     * @param {Object} userid  User id of the contact the message should be adjusted for
+     * @param {Object} status  Status message to be changed to 
+     */
+    var setWindowStatusmessage = function(userid, status){
+        getChatWindow(userid).profile.status = status;
+        if (!status){
+            status = "No status message";
+        }
+        var windowStatusMessage = $("#chat_window_statusmessage_" + userid);
+        windowStatusMessage.text(sakai.api.Util.shortenString(status, 20));
+    };
+    
+    ///////////////////////////
+    // Chat message handling //
+    ///////////////////////////
+    
+    /**
+     * Detect when a user wants to send a message to a user
+     * @param {Object} event
+     */
+    $(".chat_with_txt").live("keypress", function(event){
+        // Has the user pressed enter
+        if (event.keyCode == '13') {
+            var messageField = $(this);
+            var message = $.trim(messageField.val());
+            // Check whether the user is trying to send a valid message
+            if (message){
+                var userid = messageField.attr("id").substring(10);
+                userid = userid.substring(0, userid.length - 4);
+                sendMessage(userid, message);
+                messageField.val("");    
+            }
+        }
+    });
+    
+    /**
+     * Send a chat message to a given contact
+     * @param {Object} to    User id of the contact you are sending to
+     * @param {Object} messageText    Text of the message being sent
+     */
+    var sendMessage = function(to, messageText){
+        // Send a message to the other user
+        $.ajax({
+            url: "/~" + sakai.data.me.user.userid + "/message.create.html",
+            data: {
+	            "sakai:type": "chat",
+	            "sakai:sendstate": "pending",
+	            "sakai:messagebox": "outbox",
+	            "sakai:to": "chat:" + to,
+	            "sakai:from": sakai.data.me.user.userid,
+                "sakai:subject": "",
+                "sakai:body": messageText,
+                "sakai:category": "chat",
+                "_charset_": "utf-8"
+            },
+            type: "POST"
+        });
+        // Append my message to the chat window
+        var sentDate = new Date();
+        // Localize date
+        sentDate.setTime(sentDate.getTime() + sentDate.getTimezoneOffset() * 60 * 1000);
+        sentDate.setTime(sentDate.getTime() + sakai.data.me.user.locale.timezone.GMT*60*60*1000);
+        appendMessage(sakai.data.me.user.userid, to, messageText, sentDate);
+    };
+    
+    /**
+     * Append a message to a given chatwindow
+     * @param {Object} from    User id from the person sending the message
+     * @param {Object} window  User id of the user in which chat window the 
+     * message should be appended
+     * @param {Object} messageText   Body text of the message
+     * @param {Object} sentDate      Date in which the message was sent (localized)
+     */
+    var appendMessage = function(from, window, messageText, sentDate){
+        var message = {};
+        if (from === sakai.data.me.user.userid){
+            message.name = "Me";
+        } else {
+            message.name = getChatWindow(window).profile.name;
+        }
+        message.time = parseToAMPM(sentDate);
+        message.message = messageText;
+        var chatwindow = $("#chat_with_" + window + "_content");
+        chatwindow.append($.TemplateRenderer("chat_content_template", message));
+        // Scroll to the bottom
+        chatwindow.attr("scrollTop", chatwindow.attr("scrollHeight"));
+    };
+    
+    /**
+     * Function that will initiate the check for new messages at regular
+     * intervals
+     */
+    var checkNewMessages = function(){
+        // Only check for new messages when you have online contacts
+        if (globalOnlineContacts.contacts.length > 0){
+            loadNewMessages();
+        }
+        // Start polling regurarly to get new messages
+        if (!loadNewMessagesTimer) {
+	        loadNewMessagesTimer = setInterval(checkNewMessages, loadNewMessagesInterval);
+        }
+    };
+    
+    // Variable that keeps track of when we last checked for new messages 
+    var lastCheckDate = new Date().getTime();
+    
+    /**
+     * Check whether there are new unread chat messages waiting
+     */
+    var loadNewMessages = function(){
+        $.ajax({
+            url: "/~" + sakai.data.me.user.userid + "/message.chatupdate.json",
+            cache: false,
+            data: {
+                "t": lastCheckDate
+            },
+            success: function(resp1){
+                // If there are new messages waiting, retrieve them
+                if (resp1.update) {
+                    $.ajax({
+                        url: sakai.config.URL.CHAT_GET_SERVICE.replace(/__KIND__/, "unread"),
+                        data: {
+                            "_from": "*",
+                            "items": 1000,
+                            "t": resp1.pulltime,
+                            "sortOn": "sakai:created",
+                            "sortOrder": "descending"
+                        },
+                        cache: false,
+                        success: function(data){
+                            // Add the messages to the appropriate windows
+                            insertNewMessages(data);
+                            lastCheckDate = resp1.time;
+                        }
+                    });
+                }
+            }
+        });
+    };
+    
+    /**
+     * Once we know that there are new messages, we add them into
+     * the appropriate chat windows
+     * @param {Object} messages    List of new chat messages
+     */
+    var insertNewMessages = function(messages){
+        if (messages.results) {
+            for (var i = 0; i < messages.results.length; i++) {
+                var message = messages.results[i];
+                var from = message.userFrom[0];
+                // We don't add in our own messages as they are already in there.
+                if (from.userid !== sakai.data.me.user.userid){
+                    // Check whether there is already a chatwindow for it
+                    var chatWindow = getChatWindow(from.userid);
+                    var sentDate = sakai.api.l10n.parseDateString(message["sakai:created"]);
+                    var messageText = message["sakai:body"];
+                    if (!chatWindow) {
+                        // If not, create a new chat window
+                        var contact = {};
+                        contact.profile = {
+                            "userid": from.userid,
+                            "name": sakai.api.User.getDisplayName(from),
+                            "status": from.status,
+                            "chatstatus": from.chatstatus || from["sakai:status"]
+                        };
+                        if (from.picture && $.parseJSON(from.picture).name) {
+                            from.picture = "/~" + from.userid + "/public/profile/" + $.parseJSON(from.picture).name;
+                        }
+                        appendChatWindow(contact, false);
+                    }
+                    // Append the message
+                    appendMessage(from.userid, from.userid, messageText, sentDate);
+                    // Pulse if it is not currently open
+                    chatWindow = getChatWindow(from.userid);
+                    if (!chatWindow.open) {
+                        $("#chat_online_button_" + from.userid).effect("pulsate");
                     }
                 }
-                else {
-                    $(chatWith + "_" + friendId + "_txt").attr("disabled", true);
-                    $(chatWith + "_" + friendId + "_txt").val(friendName + " is offline");
-                    updateChatWindowChatStatus(friendId, "offline");
-                }
-
             }
         }
     };
-
+    
+    ////////////////////////
+    // Cookie Persistency //
+    ////////////////////////
+    
     /**
-     * Parse the chatstatus for a user
-     * @param {String} chatStatus The chatstatus which should be
-     * online, busy or offline
+     * Write a cookie with the current active windows when you go to another page
      */
-    var parseChatStatus = function(chatStatus){
-        // Check if the status is defined
-        if (!chatStatus) {
-            chatStatus = "online";
+    $(window).bind("unload", function(ev){
+        if (! sakai.data.me.user.anon) {
+            $.cookie('sakai_chat', $.toJSON(globalChatWindows));
         }
-        return chatStatus;
-    };
-
+    });
+    
     /**
-     * Show the friends that are online (status and chatstatus)
+     * Restore the state from the chat windows as specified in the persistent
+     * cookie
      */
-    var showOnlineFriends = function(){
-        var json = online;
-        var total = 0; //Total online friends
-        allFriends = {};
-        allFriends.users = [];
-        onlineFriends = [];
-        if (json.contacts !== undefined) {
-            for (var i = 0, j = json.contacts.length; i < j; i++) {
-                if (typeof json.contacts[i].profile === "string") {
-                    json.contacts[i].profile = $.parseJSON(json.contacts[i].profile);
-                }
-                json.contacts[i].chatstatus = parseChatStatus(json.contacts[i].profile.chatstatus);
-                /** Check if a friend is online or not */
-                if (json.contacts[i]["sakai:status"] === "online" && json.contacts[i].chatstatus !== "offline") {
-                    total++;
-                    onlineFriends.push(json.contacts[i]);
-                }
-
-                json.contacts[i].name = parseName(json.contacts[i].userid, json.contacts[i].profile);
-                json.contacts[i].photo = parsePicture(json.contacts[i].profile, json.contacts[i].profile["rep:userId"]);
-                json.contacts[i].statusmessage = parseStatusMessage(json.contacts[i].profile.status);
-
-                saveToAllFriends(json.contacts[i]);
+    var restoreChatWindows = function(){
+        if ($.cookie('sakai_chat') && $.parseJSON($.cookie('sakai_chat'))) {
+            var storedState = $.parseJSON($.cookie('sakai_chat'));
+            for (var i = 0; i < storedState.length; i++) {
+	            appendChatWindow({"profile": storedState[i].profile}, storedState[i].open);
             }
         }
-
-        if (!total || total === 0) {
-            json.items = [];
-            json.totalitems = total;
-            $(chatOnline).html("(0)");
-            //timer = false;
-        }
-        else {
-            json.totalitems = total;
-            $(chatOnline).html("<b>(" + total + ")</b>");
-
-            //if(!timer) {
-            //    timer = true;
-            //    sakai.chat.checkNewMessages();
-            //}
-            
-        }
-
-        json.me = {};
-        if (json.me) {
-            json.me.name = parseName(sakai.data.me.user.userid, sakai.data.me.profile);
-            json.me.photo = parsePicture(sakai.data.me.profile, sakai.data.me.user.userid);
-            json.me.statusmessage = parseStatusMessage(sakai.data.me.profile.status);
-            json.me.chatstatus = currentChatStatus || "online";
-
-            // We render the template, add it to a temporary div element and set the html for it.
-            json.items = [];
-            for (var z = 0, k = json.contacts.length; z < k; z++) {
-                if (json.contacts[z]["sakai:status"] == "online" && json.contacts[z].chatstatus !== "offline") {
-                    json.items.push(json.contacts[z]);
-                }
-            }
-            var renderedTemplate = $.TemplateRenderer(chatAvailableTemplate, json).replace(/\r/g, '');
-            var renderedDiv = $(document.createElement("div"));
-            renderedDiv.html(renderedTemplate);
-
-            // We only render the template when it's needed.
-            // The main reason we do this is to improve performance.
-            // It was not possible to compare the html from chatAvailable to the renderedTemplate (<br /> where replaced with <br>)
-            // so we made the temporary div, added the rendered template html for it and compared that to the html from chatAvailable
-            if ($(chatAvailable).html() !== renderedDiv.html()) {
-                $(chatAvailable).html(renderedTemplate);
-                var onlineWindow = $(showOnlineLink);
-                onlineWindow.css("bottom", 31 + onlineWindow.height() + "px");
-            }
-        }
-
-        enableDisableOnline();
-
+        loadOnlineContacts();
     };
-
-    /**
-     * Return the render of a certain chat message
-     * @param {Object} message Message that needs to be rendered
-     */
-    var renderChatMessage = function(message){
-        return $.TemplateRenderer(chatContentTemplate, message);
-    };
-
-    /**
-     * Check the height of an element and add overflow or not
-     * @param {Object} el Element that needs to be checked
-     * @param {String} nooverflow Class that will be added if the height is not too big
-     * @param {String} overflow Class that will be added it the height is too big
-     */
-    var checkHeight = function(el, nooverflow, overflow){
-        if (el.hasClass(nooverflow)) {
-            var totalHeight = 0;
-            el.children().each(function(){
-                totalHeight += $(this).attr('scrollHeight');
-                if (totalHeight >= el.height()) {
-                    el.removeClass(nooverflow);
-                    el.addClass(overflow);
-                }
-            });
-        }
-    };
-
-    /**
-     * Add a chat message
-     * @param {Object} el Element where the element needs to be attached to
-     * @param {Object} message Message that needs to be appended
-     */
-    var addChatMessage = function(el, message){
-        if (el.length > 0) {
-            el.append(sakai.api.Security.saneHTML(renderChatMessage(message)));
-            checkHeight(el, chatWithContentNooverflowClass, chatWithContentOverflowClass);
-            scroll_to_bottom(el);
-        }
-    };
-
+    
+    ////////////////////
+    // Util Functions //
+    ////////////////////
+    
     /**
      * Format the input date to a AM/PM Date
      * @param {Date} d Date that needs to be formatted
@@ -817,703 +589,59 @@ sakai.chat = function(tuid, showSettings){
 
         return current_hour + ":" + current_minutes + am_or_pm;
     };
-
-    /**
-     * Create a chat message
-     * @param {Object} isMessageFromOtherUser Is the message from another user
-     * @param {Object} otherUserName The name of the other user
-     * @param {Object} inputmessage The text that needs to be added to the message
-     * @param {Object} inputdate The date of the message
-     */
-    var createChatMessage = function(isMessageFromOtherUser, otherUserName, inputmessage, inputdate){
-        var message = {};
-
-        // Check if the message is from the other user
-        if (isMessageFromOtherUser) {
-            message.name = otherUserName;
-        }
-        else {
-            message.name = "Me";
-        }
-
-        message.message = inputmessage;
-
-        /** Parse the date to get the hours and minutes */
-        //var messageDate = new Date(inputdate);
-        //2009-07-27T13:48:47.999+01:00
-        var messageDate = false;
-        if (typeof inputdate === "string") {
-            messageDate = new Date(parseInt(inputdate.substring(0, 4), 10), parseInt(inputdate.substring(5, 7), 10) - 1, parseInt(inputdate.substring(8, 10), 10), parseInt(inputdate.substring(11, 13), 10), parseInt(inputdate.substring(14, 16), 10), parseInt(inputdate.substring(17, 19), 10));
-        }
-        else {
-            messageDate = new Date(inputdate);
-        }
-        message.time = parseToAMPM(messageDate);
-
-        return message;
-    };
-
-    /**
-     * Render all the chat windows on the bottom of the page
-     * @param {String} clicked The uuid of the friend that needs to be rendered
-     * @param {Object} special JSON Object containing information about the user(s)
-     * that need to be rendered seperately without rendering everything
-     */
-    doWindowRender = function(clicked, special){
-
-        if (sakai.data.me.user.anon) {
-            return;
-        }
-
-        if (special) {
-            // We only add one extra chatbox
-            // This value will be used to calculate the left value for the box
-            special.special = activewindows.items.length - 1;
-            $(chatWindows).append($.TemplateRenderer(chatWindowsTemplate, special));
-            $("#chat_windows_container").append($.TemplateRenderer("chat_windows_windows_template", special));
-        }
-        else {
-            // Render all the current chats.
-            activewindows.special = false;
-            $(chatWindows).html($.TemplateRenderer(chatWindowsTemplate, activewindows));
-            $("#chat_windows_container").html($.TemplateRenderer("chat_windows_windows_template", activewindows));
-
-        }
-
-        enableDisableOnline();
-        // show/hide next/previous
-        checkPaging();
-
-        if (clicked) {
-            hideOnline();
-            var el = $(chatWith + "_" + clicked);
-            var el_button = $(onlineButton + "_" + clicked);
-            showOnlineWindow(el, el_button);
-            hasOpenChatWindow = true;
-        }
-
-        // We don't use the live feature of jQuery here.
-        // Sometimes it gives an NSDocument exception in firefox.
-
-        // Every time we do this functions these events listeners will be binded.
-        // So we have to remove them every time as well.
-        $(userChatClass).unbind("click");
-        $(userChatClass).bind("click", function(ev){
-            var selected = ev.currentTarget.id.split("_")[ev.currentTarget.id.split("_").length - 1];
-            toggleChatWindow(selected);
-        });
-
-        $(chatMinimizeClass).unbind("click");
-        $(chatMinimizeClass).bind("click", function(ev){
-            var selected = ev.currentTarget.id.split("_")[ev.currentTarget.id.split("_").length - 1];
-            toggleChatWindow(selected);
-        });
-
-
-        $(chatCloseClass).unbind("click");
-        $(chatCloseClass).bind("click", function(ev){
-            var selected = ev.currentTarget.id.split("_")[ev.currentTarget.id.split("_").length - 1];
-            var toremove = -1;
-            for (var i = 0; i < activewindows.items.length; i++) {
-                if (activewindows.items[i].userid === selected) {
-                    toremove = i;
-                }
-            }
-            // show one hidden chat window
-            showChatWindow();
-
-            activewindows.items.splice(toremove, 1);
-
-            // show/hide next/previous
-            checkPaging();
-            $(onlineButton + "_" + selected).parent().remove();
-            $(onlineButton + "_" + selected).remove();
-            $(chatWith + "_" + selected).remove();
-
-            //hasOpenChatWindow = false;
-            //$("#chat_windows_container").html($.TemplateRenderer("chat_windows_windows_template", activewindows));
-
-            for (var j = 0; j < activewindows.items.length; j++) {
-                $(chatWith + "_" + activewindows.items[j].userid).css("left", "" + (j * 150) + "px");
-                if (j === 0) {
-                    $("#online_button_" + activewindows.items[j].userid).parent().addClass("user_chat_first");
-                }
-            }
-        });
-
-        $(chatWithTxtClass).unbind("keydown");
-        $(chatWithTxtClass).bind("keydown", function(ev){
-            if (ev.keyCode === 13) {
-
-                // Get the id of the user you are chatting with
-                var currentuser = ev.currentTarget.id.split("_")[ev.currentTarget.id.split("_").length - 2];
-
-                // Get the message/text you just wrote to him/her
-                var text = $(chatWith + "_" + currentuser + "_txt").val();
-
-                // Check if the text is not empty
-                if (text !== "") {
-
-                    // Create a chat message object
-                    var message = {};
-
-                    // Fill in the object with the appropriate data
-                    message = createChatMessage(false, "", text, new Date());
-
-                    // Add the chat message to the window
-                    addChatMessage($(chatWith + "_" + currentuser + "_content"), message);
-
-                    // Clear the input box
-                    $(chatWith + "_" + currentuser + "_txt").val("");
-
-                    var data = {
-                        "sakai:type": "chat",
-                        "sakai:sendstate": "pending",
-                        "sakai:messagebox": "outbox",
-                        "sakai:to": "chat:" + currentuser,
-                        "sakai:from": sakai.data.me.user.userid,
-                        "sakai:subject": "",
-                        "sakai:body": text,
-                        "sakai:category": "chat",
-                        "_charset_": "utf-8"
-                    };
-
-                    $.ajax({
-                        url: "/~" + sakai.data.me.user.userid + "/message.create.html",
-                        type: "POST",
-                        success: function(data){
-
-                            // Add the id to the send messages object
-                            // We need to do this because otherwise the user who
-                            // sends the message, will see it 2 times
-                            if (sendMessages.length == 0) {
-                                var temptime = data.message["sakai:created"];
-                                var temp = temptime.indexOf("+");
-                                initialtime = temptime.substring(0,temp)+".000"+temptime.substring(temp,temptime.length);
-                            }
-
-                            // Add the id to the send messages object
-                            // We need to do this because otherwise the user who
-                            // sends the message, will see it 2 times
-                            addToSendMessages(data.id);
-                        },
-                        error: function(xhr, textStatus, thrownError){
-                            alert("An error has occured when sending the message.");
-                        },
-                        data: data
-                    });
-
-                }
-            }
-        });
-    };
-
-    /**
-     * Bind the connectionslink button
-     */
-    $(chatOnlineConnectionsLink).bind("click", function(ev){
-        for (var i = 0; i < activewindows.items.length; i++) {
-            hideOnlineWindow($(chatWith + "_" + activewindows.items[i].userid), $(onlineButton + "_" + activewindows.items[i].userid));
-        }
-        showHideOnline();
+    
+    ////////////////////
+    // Event Handlers //
+    ////////////////////
+    
+    $("#chat_online_list_activator").live("click", function(){
+        closeAllChatWindows();
+        toggleOnlineContactsList();
     });
-
-    /**
-     * Write a cookie with the current active windows when you go to another page
-     */
-    $(window).bind("unload", function(ev){
-        if (sakai.data.me.user.anon) {
-            return;
-        }
-        else {
-            $.cookie('sakai_chat', $.toJSON(activewindows));
-        }
+    
+    $("#chat_available_minimize").live("click", function(){
+        closeOnlineContactsList();
     });
-
-
-    /**
-     * Check if there are any new chat messages for the current user
-     * A response could look like this:
-     * {
-     *    update: true,
-     *    time: 1255947464940
-     * }
-     * The update variable will be true
-     */
-    sakai.chat.checkNewMessages = function(){
-
-        // Create a data object
-        var data = {};
-
-        // Check if the time is not 0, if so set the current time
-        if (time.length !== 0) {
-            data.t = time;
-        }
-
-        // Send an Ajax request to check if there are any new messages, but only if there are contacts online
-        if ((onlineFriends) && (onlineFriends.length > 0)) {
-            $.ajax({
-                url: "/~" + sakai.data.me.user.userid + "/message.chatupdate.json",
-                data: data,
-                success: function(data){
-
-                    // Get the time
-                    time = data.time;
-                    pulltime = data.pulltime;
-
-                    if (data.update) {
-                        sakai.chat.loadChatTextInitial(false);
-                    }
-                    else {
-                        setTimeout(sakai.chat.checkNewMessages, 5000);
-                    }
-                }
-            });
+    
+    $(".chat_available_friend").live("click", function(){
+        var clicked = $(this).attr("id").substring(22);
+        appendChatWindow(getOnlineContactObject(clicked), true);
+        closeOnlineContactsList();
+    });
+    
+    $(".user_chat").live("click", function(){
+        var clicked = $(this).attr("id").substring(19);
+        var active = $(this).hasClass("chat_online_button_visible");
+        closeOnlineContactsList();
+        closeAllChatWindows();
+        if (active) {
+            closeAllChatWindows();
         } else {
-            setTimeout(sakai.chat.checkNewMessages, 5000);
-        }
-    };
-
-    /**
-     * Load the chat windows
-     * @param {Boolean} initial
-     *  true: Load the initial chat (receive all the messages)
-     *  false: It's not an initial load
-     * @param {Object} specialjson
-     *  JSON object that contains information about the user window that
-     *  needs to be loaded
-     */
-    sakai.chat.loadChatTextInitial = function(initial, specialjson, hasNew){
-
-        // Check if the current user is anonymous.
-        // If this is the case, exit this function
-        if (sakai.data.me.user.anon) {
-            return;
-        }
-
-        // Only completely reload everything if we didn't got a specialjson object
-        var doreload = false;
-        if (!specialjson) {
-            specialjson = activewindows;
-            doreload = true;
-        }
-
-        // Onlineusers is an array containing the uids that are in the specialjson.items
-        var onlineUsers = [];
-        if (specialjson.items) {
-            for (var i = 0; i < specialjson.items.length; i++) {
-                onlineUsers[onlineUsers.length] = specialjson.items[i].userid;
-            }
-        }
-
-        var retrievaltime = "2100-10-10T10:10:10.000Z";
-
-        // if window is jused opened, use initial time
-        // to retrieve all previous messagess
-        if(initial && !hasNew)
-            retrievaltime = initialtime;
-        else
-            retrievaltime = pulltime;
-        // Combine all the online users with a comma
-        var tosend = onlineUsers.join(",");
-
-        // Send and Ajax request to get the chat messages
-        $.ajax({
-            url: sakai.config.URL.CHAT_GET_SERVICE.replace(/__KIND__/, "unread"),
-            data: {
-                "_from": tosend,
-                "items": 1000,
-                "t": retrievaltime,
-                "sortOn": "sakai:created",
-                "sortOrder": "descending"
-            },
-            cache: false,
-            sendToLoginOnFail: true,
-            success: function(data){
-
-                // Check if there are any messages inside the JSON object
-                if (data.results) {
-
-                    //display image of the friend you are talking to
-                    //without this line it takes time to load the image
-                    showOnlineFriends();
-
-                    var njson = {};
-                    for (var i = data.results.length - 1; i >= 0; i--) {
-                        var message = data.results[i];
-                        var user = "";
-                        if (message.userFrom[0].userid === sakai.data.me.user.userid) {
-                            user = message.userTo[0].userid;
-                        }
-                        else {
-                            user = message.userFrom[0].userid;
-                        }
-
-                        var isIncluded = true;
-                        if (hasNew) {
-                            var isIn = false;
-                            for (var l = 0; l < specialjson.items.length; l++) {
-                                if (specialjson.items[l].userid === user) {
-                                    isIn = true;
-                                }
-                            }
-                            if (!isIn) {
-                                isIncluded = false;
-                            }
-                        }
-                        if (isIncluded) {
-                            if (!njson[user]) {
-                                njson[user] = {};
-                                njson[user].messages = [];
-                            }
-                            njson[user].messages[njson[user].messages.length] = message;
-                        }
-                    }
-
-                    for (var k in njson) {
-
-                        // We need to add the hasOwnProperty to pass to JSLint and it is also a security issue
-                        if (njson.hasOwnProperty(k)) {
-                            var isMessageFromOtherUser = false;
-
-                            // Check if there exists a window for the user
-                            if ($(chatWith + "_" + k).length > 0) {
-
-                                // We check if the message is in the sendMessages array
-                                if ($.inArray(njson[k].messages[0].id, sendMessages) !== -1 && !initial) {
-                                    continue;
-                                }
-
-                                var el = $(chatWith + "_" + k + "_content");
-                                var chatwithusername = parseName(k, njson[k].messages[0].userFrom[0]);
-
-                                // Create a message object
-                                var chatmessage = {};
-
-                                for (var j = 0; j < njson[k].messages.length; j++) {
-                                    // Check if the message is from the current user or from the friend you are talking to
-                                    if (sakai.data.me.user.userid == njson[k].messages[j].userFrom[0].userid) {
-                                        isMessageFromOtherUser = false;
-                                    }
-                                    else {
-                                        isMessageFromOtherUser = true;
-                                    }
-
-                                    // Create a chat message and add it
-                                    chatmessage = createChatMessage(isMessageFromOtherUser, chatwithusername, njson[k].messages[j]["sakai:body"], njson[k].messages[j]["sakai:created"]);
-                                    addChatMessage(el, chatmessage);
-                                }
-
-                            }
-                            else {
-
-                                // Add the user information to the active windows
-                                var index = activewindows.items.length;
-                                activewindows.items[index] = {};
-                                activewindows.items[index].userid = k;
-                                activewindows.items[index].active = false;
-                                var friendProfile = njson[k].messages[0].userFrom[0];
-                                if (njson[k].messages[0].userFrom[0].userid === sakai.data.me.user.userid) {
-                                    friendProfile = njson[k].messages[0].userTo[0];
-                                }
-
-                                // Parse the name, photo, statusmessage and chatstatus into the activewindows objects
-                                activewindows.items[index].name = parseName(k, friendProfile);
-                                activewindows.items[index].photo = parsePicture(friendProfile, k);
-                                activewindows.items[index].statusmessage = parseStatusMessage(friendProfile.status);
-                                activewindows.items[index].chatstatus = parseChatStatus(friendProfile.chatstatus);
-                                activewindows.items[index].windowstatus = true;
-
-                                var togo = true;
-                                // Togo will be false if the userid is in the activewindows and it's window is active
-                                for (var q = 0; q < activewindows.items.length; q++) {
-                                    if (activewindows.items[q].userid === k) {
-                                        if (activewindows.items[q].active) {
-                                            togo = false;
-                                        }
-                                    }
-                                }
-
-                                if (togo) {
-                                    if (hasOpenChatWindow) {
-                                        setTimeout("sakai.flashChat.doFlash('" + k + "', false)", 500);
-
-                                    }
-                                    else {
-                                        setTimeout("sakai.flashChat.doFlash('" + k + "', true)", 500);
-                                    }
-                                }
-
-                                // Extract existing windows
-                                var newactivewindows = {};
-                                newactivewindows.items = [];
-                                for (var p = 0; p < activewindows.items.length; p++) {
-                                    if ($(chatWith + "_" + activewindows.items[p].userid).length === 0) {
-                                        newactivewindows.items[newactivewindows.items.length] = activewindows.items[p];
-                                    }
-                                }
-
-                                // Render the windows and load the initial chat text function again
-                                doWindowRender(null, newactivewindows);
-                                sakai.chat.loadChatTextInitial(true, newactivewindows, true);
-
-                            }
-                        }
-                    }
-                }
-                
-                //if (initial){
-                //    alert("Starting polling");
-                    // Start polling for messages
-                    sakai.chat.checkNewMessages();
-                ///}
-
-                //if (doreload) {
-                //    if(timer) {
-                //        alert("Here");
-                //        setTimeout(sakai.chat.checkNewMessages, 5000);
-                //    }
-                //}
-            }
-            
-        });
-    };
-
-    /**
-     * This function will check if there are more than 5 open conversations.
-     * If so, show previous/next icon
-     */
-    var checkPaging = function(){
-        // all the open chat conversation
-        var chatWindow = $('.active_window');
-        // all the visible chat conversation
-        var chatWindowVisible = $('.active_window:visible');
-
-        // if open chat conversations are more than 5
-        if (chatWindow && chatWindow.length >= MAX_NO_OF_WINDOWS) {
-            // if there are more hidden chat conversation after the last visible window
-            if($(chatWindow[(chatWindow.index($(chatWindowVisible[(chatWindowVisible.length-1)]))) + 1]).length){
-                // show next >> link
-                $(next).show();
-            }else{
-                // hide next >> link
-                $(next).hide();
-            }
-
-            // if there are more hidden chat conversation before firt visible window
-            if($(chatWindow[(chatWindow.index($(chatWindowVisible[0]))) - 1]).length){
-                // show previous << link
-                $(prev).show();
-            }else{
-                // show previous << link
-                $(prev).hide();
-            }
-        // there is no more than 5 chat conversations
-        }else{
-            // hide next >> link
-            $(next).hide();
-            // hide previous << link
-            $(prev).hide();
-        }
-    };
-
-    /**
-     * This function will check if there are more chat conversation hidden after last
-     * visible chat window. If so, show the hidden chat conversation after last one and
-     * hide the first visible chat conversation
-     */
-    var showNextChat = function(){
-        // all the open chat conversation
-        var chatWindow = $('.active_window');
-        // all the visible chat conversation
-        var chatWindowVisible = $('.active_window:visible');
-
-        // the index of last visible chat window
-        var lastVisibleIndex = chatWindow.index($(chatWindowVisible[(chatWindowVisible.length-1)]));
-        // if there are more chat conversation hidden after last visible window
-        if (chatWindow.length - 1 > lastVisibleIndex) {
-            // show next chat conversation after last window
-            $(chatWindow[(lastVisibleIndex+1)]).removeClass("hidden");
-            // set window status in activewindows
-            activewindows.items[(lastVisibleIndex+1)].windowstatus = true;
-
-            // get the index of first visible chat window
-            var firstVisibleIndex = chatWindow.index($(chatWindowVisible[0]));
-            // hide the first visible window
-            $(chatWindow[firstVisibleIndex]).addClass("hidden");
-            // set window status in actviewindows
-            activewindows.items[firstVisibleIndex].windowstatus = false;
-        }
-        // show/hide prev/next icon
-        checkPaging();
-    };
-
-    /**
-     * This function will check if there are more chat conversation hidden before first
-     * visible chat window. If so, show the hidden chat conversation before first one and
-     * hide the last visible chat conversation
-     */
-    var showPreviousChat = function(){
-        // all the open chat conversation
-        var chatWindow = $('.active_window');
-        // all the visible chat conversation
-        var chatWindowVisible = $('.active_window:visible');
-
-        // get the index of first visible chat window
-        var firstVisibleIndex = chatWindow.index((chatWindowVisible[0]));
-
-        // if there are more chat conversation hidden before first visible window
-        if (firstVisibleIndex > 0) {
-            // show previous chat conversation before first visible window
-            $(chatWindow[(firstVisibleIndex-1)]).removeClass("hidden");
-            // set window status in activewindows
-            activewindows.items[(firstVisibleIndex-1)].windowstatus = true;
-
-            // the index of last visible chat window
-            var lastVisibleIndex = chatWindow.index($(chatWindowVisible[(chatWindowVisible.length-1)]));
-            // hide the last visible window
-            $(chatWindow[lastVisibleIndex]).addClass("hidden");
-            // set window status in actviewindows
-            activewindows.items[lastVisibleIndex].windowstatus = false;
-        }
-        // show/hide prev/next icon
-        checkPaging();
-    };
-
-    /**
-     * This function show the next available hidden chat conversation.
-     * @param {int} toRemoveIndex
-     *  The index of the closed chat window.
-     */
-    var showChatWindow = function(toRemoveIndex){
-        // all the open chat conversation
-        var chatWindow = $('.active_window');
-        // all the visible chat conversation
-        var chatWindowVisible = $('.active_window:visible');
-
-        // get the index of first visible chat window
-        var firstVisibleIndex = chatWindow.index((chatWindowVisible[0]));
-        // the index of last visible chat window
-        var lastVisibleIndex = chatWindow.index($(chatWindowVisible[(chatWindowVisible.length-1)]));
-
-        // if there are windows after last visible window show the next available one
-        if (lastVisibleIndex < chatWindow.length - 1) {
-            // show next chat conversation after last window
-            $(chatWindow[(lastVisibleIndex+1)]).removeClass("hidden");
-            // set window status in activewindows
-            activewindows.items[(lastVisibleIndex+1)].windowstatus = true;
-        }
-        // if there are window before first visible window shoe the previous available one
-        else if(firstVisibleIndex > 0) {
-            // show previous chat conversation before first visible window
-            $(chatWindow[(firstVisibleIndex-1)]).removeClass("hidden");
-            // set window status in activewindows
-            activewindows.items[(firstVisibleIndex-1)].windowstatus = true;
-        }
-
-        // show/hide prev/next icon
-        checkPaging();
-    };
-
-    /**
-     * Check if there were any windows open during the last visit
-     * and load the initial chat windows
-     */
-    var loadChatWindows = function(){
-
-        // Check if there is a cookie from a previous visit
-        if ($.cookie('sakai_chat')) {
-            activewindows = $.parseJSON($.cookie("sakai_chat"));
-            $.cookie("sakai_chat", null);
-            var toshow = false;
-            for (var i = 0, j = activewindows.items.length; i < j; i++) {
-                if (activewindows.items[i].active === true) {
-                    toshow = activewindows.items[i].userid;
-                }
-            }
-            doWindowRender(toshow);
-        }
-
-        sakai.chat.loadChatTextInitial(true);
-    };
-
-    /**
-     * Check who of your friends is online or not
-     * This function is executed every 20 seconds
-     */
-    var checkOnline = function(){
-
-        // Receive your online friends through an Ajax request
-        $.ajax({
-            url: sakai.config.URL.PRESENCE_CONTACTS_SERVICE,
-            cache: false,
-            success: function(data){
-                online = data;
-                showOnlineFriends();
-                setTimeout(checkOnline, 20000);
-                goBackToLogin = true;
-            }
-        });
-    };
-
-    /**
-     * Keep focus above chat panel for keyboard navigation
-     */
-    $("a, input, select, textarea").focus(function(ev) {
-        var chatHeight = $(".chat_main_container").height();
-        //var scrOfY = $(window).scrollTop(); // broken in IE
-        var scrOfY = 0;
-        if( typeof( window.pageYOffset ) === 'number' ) {
-            //Mozilla compliant
-            scrOfY = window.pageYOffset;
-        } else if( document.body && ( document.body.scrollTop ) ) {
-            //DOM compliant
-            scrOfY = document.body.scrollTop;
-        } else if( document.documentElement && ( document.documentElement.scrollTop ) ) {
-            //IE6 standards compliant mode
-            scrOfY = document.documentElement.scrollTop;
-        }
-
-        if ((this.offsetTop + $(this).height() + chatHeight) > (scrOfY + $(window).height())){
-            window.scrollBy(0,100);
+            openChatWindow(clicked);
         }
     });
-
+    
+    $(".chat_minimize").live("click", function(){
+        closeAllChatWindows();
+    });
+    
+    $(".chat_close").live("click", function(){
+        var clicked = $(this).attr("id").substring(11);
+        removeChatWindow(clicked);
+    });
+    
+    ////////////////////
+    // Initialisation //
+    ////////////////////
+    
     /**
-     * Contains all the functions and methods that need to be
-     * executed on the initial load of the page
+     * Initialisation code. Only load the list of online
+     * contacts and show the chat bar if the user is
+     * authenticated
      */
-    var doInit = function(){
-        currentChatStatus = sakai.data.me.profile.chatstatus
-
-        // define next/prev events
-        $(next).bind("click",showNextChat);
-        $(prev).bind("click",showPreviousChat);
-
-        $(chatMainContainer).show();
-
-        // Add binding to catch event fire by a chat status change
-        $(window).bind("chat_status_change", function(event, newChatStatus){
-            currentChatStatus = newChatStatus;
-            updateChatStatusElement($(chatAvailableName), newChatStatus)
-        });
-
-        //Add a binding to catch event fire by change of status message
-        $(window).bind("chat_status_message_change", function(event, statusmessage){
-            // Update the status message in the contacts pull-up
-            statusmessage = parseStatusMessage(statusmessage);
-            $("#chat_mystatusmessage").text(statusmessage);
-        });
-    };
-
-    if (sakai.data.me.user.anon) {
-        // If a user is not logged in -> switch to anonymous mode
-        // This is handled in the topnavigation widget
-    }
-    else {
-        loadChatWindows();
-        checkOnline();
-        doInit();
+    if (!sakai.data.me.user.anon){
+        showChatBar();
+        restoreChatWindows();
     }
     
 };
