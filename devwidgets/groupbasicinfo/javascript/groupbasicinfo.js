@@ -225,6 +225,23 @@ sakai.groupbasicinfo = function(tuid, showSettings){
 
     };
 
+    /**
+     * Fetch group data
+     */
+    var getGroupData = function(){
+
+        $.ajax({
+            url: "/~" + groupId + "/public.infinity.json",
+            success: function(data){
+                sakai.currentgroup.id = groupId;
+                sakai.currentgroup.data = data;
+                if (data.authprofile['rep:policy']) {
+                    sakai.currentgroup.manager = true;
+                }
+                renderTemplateBasicInfo();
+            }
+        });
+    };
 
     //////////////////////////////
     // Update Group Information //
@@ -238,10 +255,15 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         // need to validate data
         var groupTitle = $(groupBasicInfoGroupTitle, $rootel).val();
         var groupKind = $(groupBasicInfoGroupKind, $rootel).val();
-        var currentTags = sakai.currentgroup.data.authprofile["sakai:tags"];
+        if (sakai.currentgroup.data.authprofile["sakai:tags"] !== undefined) {
+            var currentTags = sakai.currentgroup.data.authprofile["sakai:tags"].slice(0);
+        } else {
+            var currentTags = [];
+            sakai.currentgroup.data.authprofile["sakai:tags"] = [];
+        }
 
         // Get all the tags
-        sakai.currentgroup.data.authprofile["sakai:tags"] = [];
+        //sakai.currentgroup.data.authprofile["sakai:tags"] = [];
         var tags = $(groupBasicInfoGroupTags).val().split(",");
         $(tags).each(function(i, tag){
             tag = $.trim(tag).replace(/#/g,"");
@@ -300,8 +322,8 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         var groupDesc = $(groupBasicInfoGroupDesc, $rootel).val();
 
         // check permissions settings
-        var joinable = $(groupBasicInfoGroupJoinable, $rootel).val();
-        var visible = $(groupBasicInfoGroupVisible, $rootel).val();
+        var joinable = $(groupBasicInfoGroupJoinable).val();
+        var visible = $(groupBasicInfoGroupVisible).val();
         if(joinable !== sakai.currentgroup.data.authprofile["sakai:group-joinable"] ||
             visible !== sakai.currentgroup.data.authprofile["sakai:group-visible"]) {
             // only POST if user has changed values
@@ -335,16 +357,15 @@ sakai.groupbasicinfo = function(tuid, showSettings){
             success: function(data, textStatus){
                 sakai.api.Util.tagEntity(groupProfileURL, sakai.currentgroup.data.authprofile["sakai:tags"], currentTags, function() {
                     sakai.currentgroup.data.authprofile["sakai:tags"] = currentTags;
-                    sakai.api.Widgets.Container.informFinish(tuid, "groupbasicinfo");
-                    $(window).trigger("sakai.groupbasicinfo.updateFinished");
+                    getGroupData();
                 });
-
-                renderTemplateBasicInfo();
             },
             error: function(xhr, textStatus, thrownError){
                 fluid.log("ERROR: groupbasicinfo.js/updateGroup() unable to set group information. Status: " + xhr.status + " - " + xhr.statusText);
             }
         });
+        sakai.api.Widgets.Container.informFinish(tuid, "groupbasicinfo");
+        $(window).trigger("sakai.groupbasicinfo.updateFinished");
     };
 
     var addAnotherLocation = function(){

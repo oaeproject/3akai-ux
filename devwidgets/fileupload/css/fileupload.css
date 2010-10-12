@@ -39,11 +39,11 @@
 
 #fileupload_container .fileupload_file_name {margin-left:25px; margin-top:5px;}
 #fileupload_container .fileupload_file_name input[type="text"],
-#fileupload_container #fileupload_link_box input[type="text"]
-    {width:500px; padding:4px; margin:0 5px 5px 0; font-weight:bold;}
+#fileupload_container #fileupload_link_box input[type="text"]{width:500px; padding:4px; margin:0 5px 5px 0; font-weight:bold;}
+
 #fileupload_container .fileupload_fill_in_file_name {color:#FF0101; display:block; font-weight:bold; margin-left:240px; padding:3px;}
 #fileupload_container .fileupload_fill_in_file_name_input {border:1px solid #FF0101;}
-#fileupload_container .fileupload_name_error {clear:both; color:#9F3333; font-weight:bold; margin:0 0 10px 150px;}
+#fileupload_container .fileupload_name_error {clear:both; color:#9F3333; font-weight:bold; margin:0 0 10px 50px; float:left}
 
 #fileupload_container h1 {clear:both;}
 #fileupload_container #fileupload_rendered_tagging h1 {margin-top:10px;}
@@ -60,4 +60,4 @@
 
 #fileupload_container .hide_remove_link {visibility:hidden;}
 
-#fileupload_rendered_tagging textarea {height: 60px;}
+#fileupload_rendered_tagging textarea {height:80px; margin-top:7px; width:100%;}
