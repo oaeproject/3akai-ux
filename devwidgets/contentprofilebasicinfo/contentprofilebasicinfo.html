@@ -17,7 +17,7 @@
             {/if}
         </div>
 
-        {if anon && data["sakai:tags"].length > 1}
+        {if anon && data["sakai:tags"] && data["sakai:tags"].length > 1}
             <div class="content_profile_basic_info_form_row">
                 <label for="content_profile_basic_info_form_tags">
                     __MSG__TAGS__:
