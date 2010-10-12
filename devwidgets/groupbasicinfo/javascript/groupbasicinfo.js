@@ -128,29 +128,9 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         });
 
         $(groupbasicinfo_update, $rootel).bind("click", function(){
-             // This function will be called when the widget or the container
-             // wants to save the new profile data
-            var basicinfoupdate = function(){
-                // Check if there are any faulty values in directory selection
-                var valueSelected = true;
-                $(".groupbasicinfo_added_directory select").each(function(){
-                    if($(this).selected().val() === "no_value"){
-                        if($(this).hasClass("groupbasicinfo_generalinfo_group_directory_lvlone")){
-                            valueSelected = false;
-                        }
-                    }
-                });
-                // If all values are selected execute the update
-                if (valueSelected) {
-                    updateGroup();
-                } else {
-                    sakai.api.UI.groupbasicinfo.enableInputElements();
-                    sakai.api.Util.notification.show($(groupbasicinfoSelectDirectory).html(), $(groupbasicinfoSelectAtLeastOneDirectory).html());
-                }
-            };
             // disable all basic info input elements while update is processed
             sakai.api.UI.groupbasicinfo.disableInputElements();
-            basicinfoupdate();
+            updateGroup();
         });
 
         $(groupBasicInfoDirectoryLvlOne).live("change", function(){
@@ -299,30 +279,32 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         // Create tags for the directory structure
         // For every groupbasicinfo_added_directory we create tags
         $(".groupbasicinfo_added_directory").each(function(){
-            var directoryString = "directory/";
-            if ($.inArray($(this).find(groupBasicInfoDirectoryLvlOne).selected().val().replace(/,/g, ""), sakai.currentgroup.data.authprofile["sakai:tags"]) < 0) {
-                sakai.currentgroup.data.authprofile["sakai:tags"].push($(this).find(groupBasicInfoDirectoryLvlOne).selected().val().replace(/,/g, ""));
-            }
-            directoryString += $(this).find(groupBasicInfoDirectoryLvlOne).selected().val().replace(/,/g,"");
-
-            if ($(this).find(groupBasicInfoDirectoryLvlTwo).selected().val() !== "no_value") {
-                if ($.inArray($(this).find(groupBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g, ""), sakai.currentgroup.data.authprofile["sakai:tags"]) < 0) {
-                    sakai.currentgroup.data.authprofile["sakai:tags"].push($(this).find(groupBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g, ""));
+            if ($(this).find(groupBasicInfoDirectoryLvlOne).selected().val() !== "no_value") {
+                var directoryString = "directory/";
+                if ($.inArray($(this).find(groupBasicInfoDirectoryLvlOne).selected().val().replace(/,/g, ""), sakai.currentgroup.data.authprofile["sakai:tags"]) < 0) {
+                    sakai.currentgroup.data.authprofile["sakai:tags"].push($(this).find(groupBasicInfoDirectoryLvlOne).selected().val().replace(/,/g, ""));
                 }
-                directoryString += "/" + $(this).find(groupBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g,"");
+                directoryString += $(this).find(groupBasicInfoDirectoryLvlOne).selected().val().replace(/,/g, "");
 
-                if ($(this).find(groupBasicInfoDirectoryLvlThree).selected().val() !== "no_value") {
-                    if ($.inArray($(this).find(groupBasicInfoDirectoryLvlThree).selected().val().replace(/,/g, ""), sakai.currentgroup.data.authprofile["sakai:tags"]) < 0) {
-                        sakai.currentgroup.data.authprofile["sakai:tags"].push($(this).find(groupBasicInfoDirectoryLvlThree).selected().val().replace(/,/g, ""));
+                if ($(this).find(groupBasicInfoDirectoryLvlTwo).selected().val() !== "no_value") {
+                    if ($.inArray($(this).find(groupBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g, ""), sakai.currentgroup.data.authprofile["sakai:tags"]) < 0) {
+                        sakai.currentgroup.data.authprofile["sakai:tags"].push($(this).find(groupBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g, ""));
                     }
-                    directoryString += "/" + $(this).find(groupBasicInfoDirectoryLvlThree).selected().val().replace(/,/g,"");
+                    directoryString += "/" + $(this).find(groupBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g, "");
+
+                    if ($(this).find(groupBasicInfoDirectoryLvlThree).selected().val() !== "no_value") {
+                        if ($.inArray($(this).find(groupBasicInfoDirectoryLvlThree).selected().val().replace(/,/g, ""), sakai.currentgroup.data.authprofile["sakai:tags"]) < 0) {
+                            sakai.currentgroup.data.authprofile["sakai:tags"].push($(this).find(groupBasicInfoDirectoryLvlThree).selected().val().replace(/,/g, ""));
+                        }
+                        directoryString += "/" + $(this).find(groupBasicInfoDirectoryLvlThree).selected().val().replace(/,/g, "");
+                    }
+
                 }
 
-            }
-
-            // Add string for all levels to tag array
-            if ($.inArray(directoryString, sakai.currentgroup.data.authprofile["sakai:tags"]) < 0) {
-                sakai.currentgroup.data.authprofile["sakai:tags"].push(directoryString);
+                // Add string for all levels to tag array
+                if ($.inArray(directoryString, sakai.currentgroup.data.authprofile["sakai:tags"]) < 0) {
+                    sakai.currentgroup.data.authprofile["sakai:tags"].push(directoryString);
+                }
             }
         });
 
