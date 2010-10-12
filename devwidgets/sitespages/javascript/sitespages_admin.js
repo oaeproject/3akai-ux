@@ -35,6 +35,7 @@ sakai.sitespages.site_admin = function(){
     sakai.sitespages.oldSelectedPage = false;
     sakai.sitespages.mytemplates = false;
     sakai.sitespages.showingInsertMore = false;
+    sakai.sitespages.updatingExistingWidget = false;
 
     // Cache all the jQuery selectors we can
     var $main_content_div = $("#main-content-div");
@@ -1129,11 +1130,12 @@ sakai.sitespages.site_admin = function(){
 
 
     // Bind Widget Context Settings click event
-    $("#context_settings").bind("click", function(ev){
+    $("#context_settings").bind("mousedown", function(ev){
         var ed = tinyMCE.get('elm1');
         var selected = ed.selection.getNode();
         $("#dialog_content").hide();
         if (selected && selected.nodeName.toLowerCase() === "img" && selected.getAttribute("class") === "widget_inline") {
+            sakai.sitespages.updatingExistingWidget = true;
             $("#context_settings").show();
             var id = selected.getAttribute("id");
             var split = id.split("_");
@@ -1183,7 +1185,7 @@ sakai.sitespages.site_admin = function(){
     //////////////////////////////////////
 
     // Bind Widget Context Remove click event
-    $("#context_remove").bind("click", function(ev){
+    $("#context_remove").bind("mousedown", function(ev){
         tinyMCE.get("elm1").execCommand('mceInsertContent', false, '');
     });
 
@@ -1637,7 +1639,10 @@ sakai.sitespages.site_admin = function(){
     sakai.sitespages.widgetFinish = function(tuid){
         // Add widget to the editor
         $("#insert_screen2_preview").html("");
-        tinyMCE.get("elm1").execCommand('mceInsertContent', false, '<img src="' + Widgets.widgets[sakai.sitespages.newwidget_id].img + '" id="' + sakai.sitespages.newwidget_uid + '" class="widget_inline" style="display:block; padding: 10px; margin: 4px" border="1"/>');
+        if (!sakai.sitespages.updatingExistingWidget) {
+            tinyMCE.get("elm1").execCommand('mceInsertContent', false, '<img src="' + Widgets.widgets[sakai.sitespages.newwidget_id].img + '" id="' + sakai.sitespages.newwidget_uid + '" class="widget_inline" style="display:block; padding: 10px; margin: 4px" border="1"/>');
+        }
+        sakai.sitespages.updatingExistingWidget = false;
         $('#insert_dialog').jqmHide();
     };
 
