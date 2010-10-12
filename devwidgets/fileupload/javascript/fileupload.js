@@ -80,7 +80,7 @@ sakai.fileupload = function(tuid, showSettings){
     // Form
     var multiFileForm = "#multifile_form";
     var fileUploadUpdateSubmit = "#fileupload_update_submit";
-
+    var performedSubmit = false;
     var cancelButton = ".fileupload_close";
 
     // Templates
@@ -360,6 +360,7 @@ sakai.fileupload = function(tuid, showSettings){
         groupContext = false;
         newVersion = false;
         uploadedLink = false;
+        performedSubmit = false;
     };
 
     /**
@@ -540,6 +541,7 @@ sakai.fileupload = function(tuid, showSettings){
                     });
                 }
 
+                $("#fileupload_link_submit").removeAttr("disabled");
                 $(fileUploadAddLinkButton).removeAttr("disabled");
                 $(fileUploadLinkBoxInput).removeAttr("disabled");
             },
@@ -784,11 +786,12 @@ sakai.fileupload = function(tuid, showSettings){
     });
     $("#fileupload_link_box form").bind("submit",function(e){
 
+        $("#fileupload_link_submit").attr("disabled","disabled");
         $(fileUploadAddLinkButton).attr("disabled", "disabled");
         $(fileUploadLinkBoxInput).attr("disabled", "disabled");
 
-        if ($(fileUploadLinkBoxInput).valid()) {
-
+        if ($(fileUploadLinkBoxInput).valid() && !performedSubmit) {
+            performedSubmit = true;
             if (context !== "new_version") {
                 uploadLink();
             } else {
@@ -797,6 +800,7 @@ sakai.fileupload = function(tuid, showSettings){
             }
         } else {
             // validation plugin will show error
+            $("#fileupload_link_submit").removeAttr("disabled");
             $(fileUploadAddLinkButton).removeAttr("disabled");
             $(fileUploadLinkBoxInput).removeAttr("disabled");
             performedSubmit = false;
