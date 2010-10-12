@@ -337,6 +337,7 @@ sakai.sitespages.site_admin = function(){
                 "h5[align|clear|height|width],"+
                 "h6[align|clear|height|width],"+
                 "hr[align|clear|color|noshade|size|width],"+
+                "i[],"+
                 "img[align|alt|border|height|hspace|src|vspace|width],"+
                 "li[align|clear|height|type|value|width],"+
                 "marquee[behavior|bgcolor|direction|height|hspace|loop|scrollamount|scrolldelay|vspace|width],"+
@@ -454,6 +455,21 @@ sakai.sitespages.site_admin = function(){
             $(elm1_menu_formatselect).css(tinyMCEmenuCSS);
             $(elm1_menu_fontselect).css(tinyMCEmenuCSS);
             $(elm1_menu_fontsizeselect).css(tinyMCEmenuCSS);
+            
+            // Set the position for the text color menu
+            var textColorMenu = $("#elm1_forecolor_menu");
+            if (textColorMenu.css("position") === "fixed"){
+                textColorMenu.css("position", "absolute");
+                textColorMenu.css("top", "334px");
+            };
+            
+            // Set the position for the background-color menu
+            var backColorMenu = $("#elm1_backcolor_menu");
+            if (backColorMenu.css("position") === "fixed"){
+                backColorMenu.css("position", "absolute");
+                backColorMenu.css("top", "334px");
+            };
+ 
         }
         else {
 
@@ -465,6 +481,21 @@ sakai.sitespages.site_admin = function(){
 
             $toolbarcontainer.css({"position":"fixed", "top":"0px"});
             $insert_more_menu.css({"position": "fixed", "top":"28px"});
+            
+            // Set the position for the text color menu
+            var textColorMenu = $("#elm1_forecolor_menu");
+            if (textColorMenu.css("position") === "absolute"){
+                textColorMenu.css("position", "fixed");
+                textColorMenu.css("top", "30px");
+            };
+            
+            // Set the position for the background-color menu
+            var backColorMenu = $("#elm1_backcolor_menu");
+            if (backColorMenu.css("position") === "absolute"){
+                backColorMenu.css("position", "fixed");
+                backColorMenu.css("top", "30px");
+            };
+            
         }
 
         var $insert_more_dropdown_main = $("#insert_more_dropdown_main");

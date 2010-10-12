@@ -1271,6 +1271,7 @@ sakai.api.Security.saneHTML = function(inputHTML) {
     html4.ATTRIBS["video::class"] = 0;
     html4.ATTRIBS["video::autoplay"] = 0;
     html4.ELEMENTS["embed"] = 0;
+    html4.ELEMENTS["i"] = 0;
     html4.ATTRIBS["embed::src"] = 0;
     html4.ATTRIBS["embed::class"] = 0;
     html4.ATTRIBS["embed::autostart"] = 0;
@@ -1290,13 +1291,22 @@ sakai.api.Security.saneHTML = function(inputHTML) {
                         switch (atype) {
                             case html4.atype.SCRIPT:
                             case html4.atype.STYLE:
-                                if ((value === "display: none;") || (value === "display:none;") || (value === "display: none") || 
-                                    (value === "display:none") || (value.split(":")[0] === "background-color") || 
-                                    (value.split(":")[0] === "color") || (value.split(":")[0] === "font-size") ||
-                                    (value.split(":")[0] === "font-weight") || (value.split(":")[0] === "font-style")) {
-                                    value = value;
-                                } else {
+                                var accept = ["color", "display", "background-color", "font-weight", "font-family",
+                                              "padding", "padding-left", "padding-right", "text-align", "font-style",
+                                              "text-decoration"];
+                                var sanitizedValue = "";
+                                if (value){
+                                    var vals = value.split(";");
+                                    for (var attrid = 0; attrid < vals.length; attrid++){
+                                        var attrValue = $.trim(vals[attrid].split(":")[0]).toLowerCase();
+                                        if ($.inArray(attrValue, accept)){
+                                            sanitizedValue += vals[i];
+                                        }
+                                    }
+                                if (!sanitizedValue)
                                     value = null;
+                                } else {
+                                    value = sanitizedValue;
                                 }
                                 break;
                             case html4.atype.IDREF:
