@@ -329,7 +329,6 @@ sakai.creategroup = function(tuid, showSettings){
         resetErrorFields(); 
     });
 
-
     /////////////////////////////
     // Initialisation function //
     /////////////////////////////

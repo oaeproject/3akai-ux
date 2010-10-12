@@ -16,21 +16,25 @@
  * specific language governing permissions and limitations under the License.
  */
 
-#video_maincontainer h3, #video_settings h3 {font-weight:normal;}
-.video_containerInTemplate {max-width:470px;}
-.video_containerInTemplate a {float:right;}
+/* Video Widget Icon */
+.video.fl-widget .fl-widget-titlebar .widget_title {
+    background:url("/devwidgets/video/images/video_icon.png") no-repeat scroll 14px 16px transparent;
+}
 
-#video_maincontainer .fl-widget-content , #video_settings .fl-widget-content {padding:10px;}
+/* TYPOGRAPHY */
+#video_maincontainer p.video_info_msg {padding:0; margin:10px; font-style:italic;}
+#video_settings p.video_input_help {font-size:0.9em; color:#999999;}
 
-/*Settings*/
-#video_settings .video_longtxt {width: 100%;border-style:solid;border-width:1.5px;padding: 5px 0px 5px 0px;border-color:#DEDEDE;background-color:#f4f4f4;font-size:14px;}
-#video_settings input[type=radio] {vertical-align:middle;margin-left:20px;height:35px;padding-top:5px;padding-bottom:5px;}
-#video_settings input[type=checkbox] {vertical-align:middle;height:35px;padding-top:5px;padding-bottom:5px;}
-.video_source_rbtLabel {vertical-align:middle;margin-left:10px;height:25px;}
-.video_settingsStep {border-bottom-style:solid;border-bottom-width:1px;border-color:#DEDEDE;padding-bottom:10px;}
-#video_ShowPreview {margin-left:auto;margin-right:auto;}
-#video_settings .video_containerInTemplate {width:320px;    margin-left:auto;margin-right:auto;}
-#video_txtSource {width: 250px;border-style:solid;border-width:1.5px;padding-top:5px;padding-bottom:5px;border-color:#DEDEDE;background-color:#f4f4f4;font-size:14px;}
-#video_choosePlayerContainer {margin-left:auto;margin-right:auto;display:block;width:320px;}
+/* LAYOUT */
+#video_settings .video_nomargin {margin:0; padding:0;}
+#video_settings .video_input_help {padding:0; margin:0 0 13px 0;}
+#video_settings div.dialog_buttons {text-align:right;}
+#video_source_display {margin: 0.5em 5px 0 0; padding:0; text-align:right;}
+#video_source_display a {color:#006E96;}
 
-#video_insertPlaceHolder, #video_txtURL, #video_txtTitle, #video_source_nosource, #video_source_guessURL {margin-bottom: 10px;}
+/* Settings */
+#video_settings {padding:10px;}
+#video_settings .video_input_text {width:100%; border-style:solid;
+    border-width:1.5px; padding:5px 0px; border-color:#DEDEDE;
+    background-color:#f4f4f4; font-size:14px;}
+#video_settings .video_containerInTemplate {width:320px;margin-left:auto;margin-right:auto;}

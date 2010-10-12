@@ -11,121 +11,167 @@
         </div>
     </div>
 
-    <div class="dialog_content">
+    <div class="fileupload_content">
+        <p id="fileupload_add_to">__MSG__ADD_TO__ <span id="fileupload_add_to_template_container"></span></p>
         <div id="new_uploader">
-            <div id="fileupload_add_to">__MSG__ADD_TO__</div><div id="fileupload_add_to_template_container"></div>
-            <div id="fileupload_link_box">
-                <p>
-                    __MSG__ADD_A_LINK__
-                </p>
-                <form>
-                    <input id="fileupload_link_box_input" type="text" name="fileupload_link_box_input" class="appendhttp url required"/>
-                    <button type="submit" class="s3d-button s3d-button-primary" id="fileupload_add_link_button">
-                        <span class="s3d-button-inner">__MSG__ADD_LINK__</span>
-                    </button>
-                    <div id="error_msg_container"></div>
+            <div class="fileupload_section">
+            <!-->
+                <div id="fileupload_link_box">
+                    <p class="fileupload_slim_p">
+                        __MSG__ADD_A_LINK__
+                    </p>
+                    <form>
+                        <p>
+                            <input id="fileupload_link_box_input" type="text" name="fileupload_link_box_input" class="appendhttp url required"/>
+                            <button type="submit" class="s3d-button" id="fileupload_add_link_button">
+                                <span class="s3d-button-inner">__MSG__VALIDATE_LINK__</span>
+                            </button>
+                            <div id="error_msg_container"></div>
+                        </p>
+                    </form>
+                </div>
+                <div id="fileupload_main_options">
+                    <p class="fileupload_main_option"><span class="fileupload_or_padding">__MSG__OR_UPPER__</span>
+                        <button class="s3d-button" id="fileupload_upload_button">
+                            <span class="s3d-button-inner">__MSG__SELECT_FILES_TO_UPLOAD__</span>
+                        </button>
+                    </p>
+                    <p class="fileupload_main_option"><span class="fileupload_or_padding">__MSG__OR_UPPER__</span>
+                        <a id="fileupload_search_link" class="fileupload_link" href="javascript:;">__MSG__SEARCH_FOR_AND_LINK__</a>
+                    </p>
+                </div>
+            -->
+                <!-- This form will be progressively enhanced by the Fluid Uploader component. -->
+                <form method="POST" enctype="multipart/form-data" id="multifile_form">
+                    <p class="fileupload_main_option">__MSG__SELECT_ONE_OR_MORE_FILES__</p>
+                    <div id="fileupload_limit_container"></div>
                 </form>
+                <p id="fileupload_add_link_option">__MSG__OR_LOWER__
+                    <a href="javascript:;" id="fileupload_add_link"
+                        class="fileupload_link">__MSG__ADD_A_NEW_LINK__</a>
+                </p>
             </div>
-            <!-- This form will be progressively enhanced by the Fluid Uploader component. -->
-            <form method="POST" enctype="multipart/form-data" id="multifile_form">
-                <p>__MSG__OR_UPLOAD_FILES__</p>
-                <div id="fileupload_limit_container"></div>
-                <div id="fileupload_rendered_tagging"></div>
-                <hr/>
+            <div id="fileupload_rendered_tagging"></div>
+        </div>
+
+        <div id="fileupload_link_box" style="display:none;">
+            <form>
+                <div class="fileupload_section">
+                    <p class="fileupload_main_option">__MSG__ENTER_OR_PASTE_A_WEB_ADDRESS__:</p>
+                    <p id="fileupload_link_input_container">
+                        <input id="fileupload_link_box_input" type="text" name="fileupload_link_box_input" class="appendhttp url required"/>
+                    </p>
+                    <p id="fileupload_upload_option">__MSG__OR_LOWER__
+                        <a href="javascript:;" id="fileupload_upload_file"
+                            class="fileupload_link">__MSG__UPLOAD_A_NEW_FILE__</a>
+                    </p>
+                </div>
+                <div class="dialog_buttons">
+                    <button type="button" id="fileupload_link_cancel" class="fileupload_close s3d-button jqmClose dialog_close_image">
+                        <span class="s3d-button-inner">__MSG__DONT_ADD__</span>
+                    </button>
+                    <button id="fileupload_link_submit" type="submit" class="s3d-button s3d-button-primary">
+                        <span class="s3d-button-inner">__MSG__ADD_CONTENT__</span>
+                    </button>
+                    <div id="fileupload_upload_progress"></div>
+                </div>
             </form>
         </div>
 
-    <div id="fileupload_limit_to_one_upload_template"><!--
-        <input name="fileData" id="multifile_upload" type="file" class="multi max-1" size="40"/>
-    --></div>
+        <div id="fileupload_limit_to_one_upload_template"><!--
+            <input name="fileData" id="multifile_upload" type="file" class="multi max-1" size="40"/>
+        --></div>
 
-    <div id="fileupload_no_limit_to_upload_template"><!--
-        <input name="fileData" id="multifile_upload" type="file" class="multi" size="40"/>
-    --></div>
+        <div id="fileupload_no_limit_to_upload_template"><!--
+            <input name="fileData" id="multifile_upload" type="file" class="multi" size="40"/>
+        --></div>
 
-    <div id="fileupload_add_to_template" style="display:none;"><!--
-        <b>{if context === "new_version"}__MSG__NEW_VERSION_OF_FILE__{else}__MSG__MY_CONTENT__{/if}</b>{if context === "group"} __MSG__AND_SHARE_WITH__<b>${name}</b>{/if}
-    --></div>
+        <div id="fileupload_add_to_template" style="display:none;"><!--
+            <b>{if context === "new_version"}__MSG__NEW_VERSION_OF_FILE__{else}__MSG__MY_CONTENT__{/if}</b>{if context === "group"} __MSG__AND_SHARE_WITH__<b>${name}</b>{/if}
+        --></div>
 
-    <div id="fileupload_tagging_template" style="display:none;"><!--
-        {if context !== "new_version"}<h1>__MSG__BASIC_INFORMATION__</h1>
-        <div id="fileupload_description">
-            <label for="fileupload_add_description">
-                __MSG__DESCRIPTION__
-            </label>
-            <textarea cols="50" rows="3" id="fileupload_add_description" class="fileupload_add_description" value="" /><hr/>
-        </div>
-        <div id="fileupload_tags">
-            <label for="fileupload_add_tags">
-                __MSG__TAGS__
-            </label>
-            <textarea cols="50" rows="3" id="fileupload_add_tags" class="fileupload_add_tags" value="" />
-            <br/>
-            <hr/>
-        </div>
-        <div id="fileupload_permissions">
-            __MSG__WHO_CAN_SEE_THIS_CONTENT__
-            {if context === "group" || context === "new_version"}
-            <select id="fileupload_permissions_select">
-                <option value="public">__MSG__PUBLIC__</option>
-                <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
-                <option value="group" selected="selected">__MSG__MANAGERS_AND_MEMBERS_OF_GROUP__</option>
-            </select>
-            {else}
-            <select id="fileupload_permissions_select">
-                <option value="public" selected="selected">__MSG__PUBLIC__</option>
-                <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
-                <option value="private">__MSG__ONLY_ME__</option>
-            </select>
-            {/if}
-        </div>
-        {else}
-            <label for="fileupload_add_version_description" id="fileupload_add_version_description_label">
-                __MSG__MESSAGE_OTHER_MANAGERS_REASON__
-            </label>
-            <textarea cols="50" rows="3" id="fileupload_add_version_description" value="" />
-        {/if}
-        <div id="fileupload_action_buttons">
-            <button type="button" id="fileupload_cancel" class="s3d-button jqmClose dialog_close_image">
-                <span class="s3d-button-inner">__MSG__DONT_ADD__</span>
-            </button>
-            {if context !== "new_version"}
-                <button id="fileupload_form_submit" type="button" class="s3d-button s3d-button-primary">
-                    <span class="s3d-button-inner">__MSG__ADD_CONTENT__</span>
-                </button>
-            {else}
-                <button type="button" id="fileupload_update_submit" class="s3d-button s3d-button-primary">
-                    <span class="s3d-button-inner">__MSG__UPDATE_FILE__</span>
-                </button>
-            {/if}
-            <div id="fileupload_upload_progress">
+        <div id="fileupload_tagging_template" style="display:none;"><!--
+            <div class="fileupload_section">
+                {if context !== "new_version"}<h2>__MSG__BASIC_INFORMATION__</h2>
+                <div id="fileupload_tags" class="fileupload_inputblock">
+                    <label for="fileupload_add_tags">
+                        __MSG__TAGS__
+                    </label>
+                    <textarea cols="50" rows="3" id="fileupload_add_tags" class="fileupload_textarea" value="" />
+                </div>
+                <div id="fileupload_description" class="fileupload_inputblock">
+                    <label for="fileupload_add_description">
+                        __MSG__DESCRIPTION__
+                    </label>
+                    <textarea cols="50" rows="3" id="fileupload_add_description" class="fileupload_textarea" value="" />
+                </div>
+                <div id="fileupload_permissions" class="fileupload_inputblock">
+                    <label for="fileupload_permissions_select">
+                        __MSG__WHO_CAN_SEE_THIS_CONTENT__?
+                    </label>
+                    {if context === "group" || context === "new_version"}
+                    <select id="fileupload_permissions_select">
+                        <option value="public">__MSG__PUBLIC__</option>
+                        <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
+                        <option value="group" selected="selected">__MSG__MANAGERS_AND_MEMBERS_OF_GROUP__</option>
+                    </select>
+                    {else}
+                    <select id="fileupload_permissions_select">
+                        <option value="public" selected="selected">__MSG__PUBLIC__</option>
+                        <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
+                        <option value="private">__MSG__ONLY_ME__</option>
+                    </select>
+                    {/if}
+                </div>
+                {else}
+                    <label for="fileupload_add_version_description" id="fileupload_add_version_description_label">
+                        __MSG__MESSAGE_OTHER_MANAGERS_REASON__
+                    </label>
+                    <textarea cols="50" rows="3" id="fileupload_add_version_description" value="" />
+                {/if}
             </div>
-        </div>
-        <hr/>
-    --></div>
+            <div class="dialog_buttons">
+                <button type="button" id="fileupload_cancel" class="fileupload_close s3d-button jqmClose dialog_close_image">
+                    <span class="s3d-button-inner">__MSG__DONT_ADD__</span>
+                </button>
+                {if context !== "new_version"}
+                    <button id="fileupload_form_submit" type="button" class="s3d-button s3d-button-primary">
+                        <span class="s3d-button-inner">__MSG__ADD_CONTENT__</span>
+                    </button>
+                {else}
+                    <button type="button" id="fileupload_update_submit" class="s3d-button s3d-button-primary">
+                        <span class="s3d-button-inner">__MSG__UPDATE_FILE__</span>
+                    </button>
+                {/if}
+                <div id="fileupload_upload_progress"></div>
+            </div>
+        --></div>
 
-    <!-- i18n -->
-    <div id="fileupload_no_files" style="display:none;">__MSG__NO_FILES__</div>
-    <div id="fileupload_no_files_were_uploaded" style="display:none;">__MSG__NO_FILES_WERE_UPLOADED__</div>
-    <div id="fileupload_check_url" style="display:none;">__MSG__CHECK_URL__</div>
-    <div id="fileupload_enter_valid_url" style="display:none;">__MSG__ENTER_VALID_URL__</div>
-    <div id="fileupload_new_version_uploaded" style="display:none;">__MSG__NEW_VERSION_UPLOADED__</div>
-    <div id="fileupload_new_version_for_file_uploaded" style="display:none;">__MSG__NEW_VERSION_FOR_FILE_UPLOADED__</div>
-    <div id="fileupload_link_uploaded" style="display:none;">__MSG__LINK_UPLOADED__</div>
-    <div id="fileupload_link_successfully_uploaded" style="display:none;">__MSG__LINK_SUCCESSFULLY_UPLOADED__</div>
-    <div id="fileupload_failed_saving_version" style="display:none;">__MSG__FAILED_SAVING_VERSION__</div>
-    <div id="fileupload_saving_new_version_failed" style="display:none;">__MSG__SAVING_NEW_VERSION_FAILED__</div>
-    <div id="fileupload_files_uploaded" style="display:none;">__MSG__FILES_UPLOADED__</div>
-    <div id="fileupload_files_not_uploaded" style="display:none;">__MSG__FILES_NOT_UPLOADED__</div>
-    <div id="fileupload_files_successfully_uploaded" style="display:none;">__MSG__FILES_SUCCESSFULLY_UPLOADED__</div>
-    <div id="fileupload_enter_name_for" style="display:none;">__MSG__ENTER_IN_NAME_FOR__</div>
+        <!-- i18n -->
+        <p id="fileupload_help_text" style="display:none;">__MSG__YOU_CAN_UPLOAD_MULTIPLE__</p>
+        <div id="fileupload_no_files" style="display:none;">__MSG__NO_FILES__</div>
+        <div id="fileupload_no_files_were_uploaded" style="display:none;">__MSG__NO_FILES_WERE_UPLOADED__</div>
+        <div id="fileupload_check_url" style="display:none;">__MSG__CHECK_URL__</div>
+        <div id="fileupload_enter_valid_url" style="display:none;">__MSG__ENTER_VALID_URL__</div>
+        <div id="fileupload_new_version_uploaded" style="display:none;">__MSG__NEW_VERSION_UPLOADED__</div>
+        <div id="fileupload_new_version_for_file_uploaded" style="display:none;">__MSG__NEW_VERSION_FOR_FILE_UPLOADED__</div>
+        <div id="fileupload_link_uploaded" style="display:none;">__MSG__LINK_UPLOADED__</div>
+        <div id="fileupload_link_successfully_uploaded" style="display:none;">__MSG__LINK_SUCCESSFULLY_UPLOADED__</div>
+        <div id="fileupload_failed_saving_version" style="display:none;">__MSG__FAILED_SAVING_VERSION__</div>
+        <div id="fileupload_saving_new_version_failed" style="display:none;">__MSG__SAVING_NEW_VERSION_FAILED__</div>
+        <div id="fileupload_files_uploaded" style="display:none;">__MSG__FILES_UPLOADED__</div>
+        <div id="fileupload_files_not_uploaded" style="display:none;">__MSG__FILES_NOT_UPLOADED__</div>
+        <div id="fileupload_files_successfully_uploaded" style="display:none;">__MSG__FILES_SUCCESSFULLY_UPLOADED__</div>
+        <div id="fileupload_enter_name_for" style="display:none;">__MSG__ENTER_IN_NAME_FOR__</div>
 
-</div>
+    </div>
 
     <!-- DIALOG FOOTER -->
     <div class="dialog_footer">
         <div class="dialog_footer_inner"><!-- --></div>
     </div>
+
+</div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/fileupload/javascript/fileupload.js"></script>

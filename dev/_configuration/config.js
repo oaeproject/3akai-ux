@@ -172,6 +172,25 @@ sakai.config = {
         }
     },
 
+    Domain: {
+        /*
+         * These domain labels can be used anywhere on the site (i.e in the video
+         * widget) to convert common domains into shorter, more readable labels
+         * for display purposes.
+         */
+        Labels: {
+            "youtube.com": "YouTube",
+            "www.youtube.com": "YouTube",
+            "youtube.co.uk": "YouTube",
+            "www.youtube.co.uk": "YouTube",
+            "vimeo.com": "Vimeo",
+            "www.vimeo.com": "Vimeo",
+            "vimeo.co.uk": "Vimeo",
+            "www.vimeo.co.uk": "Vimeo",
+            "video.google.com": "Google Video"
+        }
+    },
+
     Search: {
         MAX_CORRECT_SEARCH_RESULT_COUNT: 100
     },
