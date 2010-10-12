@@ -337,6 +337,7 @@ sakai.sitespages.site_admin = function(){
                 "h5[align|clear|height|width],"+
                 "h6[align|clear|height|width],"+
                 "hr[align|clear|color|noshade|size|width],"+
+                "i[],"+
                 "img[align|alt|border|height|hspace|src|vspace|width],"+
                 "li[align|clear|height|type|value|width],"+
                 "marquee[behavior|bgcolor|direction|height|hspace|loop|scrollamount|scrolldelay|vspace|width],"+
