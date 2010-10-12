@@ -128,9 +128,29 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         });
 
         $(groupbasicinfo_update, $rootel).bind("click", function(){
+             // This function will be called when the widget or the container
+             // wants to save the new profile data
+            var basicinfoupdate = function(){
+                // Check if there are any faulty values in directory selection
+                var valueSelected = true;
+                $(".groupbasicinfo_added_directory select").each(function(){
+                    if($(this).selected().val() === "no_value"){
+                        if($(this).hasClass("groupbasicinfo_generalinfo_group_directory_lvlone")){
+                            valueSelected = false;
+                        }
+                    }
+                });
+                // If all values are selected execute the update
+                if (valueSelected) {
+                    updateGroup();
+                } else {
+                    sakai.api.UI.groupbasicinfo.enableInputElements();
+                    sakai.api.Util.notification.show($(groupbasicinfoSelectDirectory).html(), $(groupbasicinfoSelectAtLeastOneDirectory).html());
+                }
+            };
             // disable all basic info input elements while update is processed
             sakai.api.UI.groupbasicinfo.disableInputElements();
-            $(window).trigger("sakai.groupbasicinfo.update");
+            basicinfoupdate();
         });
 
         $(groupBasicInfoDirectoryLvlOne).live("change", function(){
@@ -215,13 +235,15 @@ sakai.groupbasicinfo = function(tuid, showSettings){
 
         $groupbasicinfo_generalinfo.html($.TemplateRenderer("#groupbasicinfo_default_template", json));
 
+        if (mode === "edit") {
+            addBinding();
+        }
+
         // If this widget is not shown on the group profile (i.e. when rendered inside a page)
         // we show the widget's own update button
         if (!sakai.currentgroup.profileView){
             $(groupbasicinfo_buttons, $rootel).show();
         }
-
-        addBinding();
 
     };
 
@@ -419,34 +441,6 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         });
 
     }
-
-
-    //////////////
-    // Bindings //
-    //////////////
-
-    /**
-     * This function will be called when the widget or the container
-     * wants to save the new profile data
-     */
-    $(window).bind("sakai.groupbasicinfo.update", function(){
-        // Check if there are any faulty values in directory selection
-        var valueSelected = true;
-        $(".groupbasicinfo_added_directory select").each(function(){
-            if($(this).selected().val() === "no_value"){
-                if($(this).hasClass("groupbasicinfo_generalinfo_group_directory_lvlone")){
-                    valueSelected = false;
-                }
-            }
-        });
-        // If all values are selected execute the update
-        if (valueSelected) {
-            updateGroup();
-        } else {
-            sakai.api.UI.groupbasicinfo.enableInputElements();
-            sakai.api.Util.notification.show($(groupbasicinfoSelectDirectory).html(), $(groupbasicinfoSelectAtLeastOneDirectory).html());
-        }
-    });
 
 
     //////////////////////
