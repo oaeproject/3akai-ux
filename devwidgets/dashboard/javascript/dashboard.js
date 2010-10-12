@@ -652,6 +652,9 @@ sakai.dashboard = function(tuid, showSettings) {
 
     var finishAddWidgets = function(success) {
         if (success) {
+            // need to reinitialize it here otherwise things can go wrong when switching
+            // between states
+            $rootel = $($rootel.selector);
             $("#widgetscontainer", $rootel).html("");
             showDashboard();
         }
@@ -777,14 +780,14 @@ sakai.dashboard = function(tuid, showSettings) {
     // Add Sakai Goodies //
     ///////////////////////
     var bindGoodiesEventHandlers = function() {
-
+        $rootelClass = $($rootelClass.selector);
         /*
        * When you click the Add button, next to a widget in the Add Goodies screen,
        * this function will figure out what widget we chose and will hide the Add row
        * and show the Remove row for that widget
        */
-        $(goodiesAddButton, $rootelClass).bind("click",
-        function(ev) {
+        $(goodiesAddButton, $rootelClass).unbind("click");
+        $(goodiesAddButton, $rootelClass).bind("click", function(ev) {
             // Disable the add goodies buttons
             disableAddGoodies();
             // The expected is btn_add_WIDGETNAME
@@ -799,8 +802,8 @@ sakai.dashboard = function(tuid, showSettings) {
        * this function will figure out what widget we chose and will hide the Remove row
        * and show the Add row for that widget
        */
-        $(goodiesRemoveButton, $rootelClass).bind("click",
-        function(ev) {
+        $(goodiesRemoveButton, $rootelClass).unbind("click");
+        $(goodiesRemoveButton, $rootelClass).bind("click", function(ev) {
             // Disable the add goodies buttons
             disableAddGoodies();
             // The expected id is btn_remove_WIDGETNAME
@@ -815,6 +818,13 @@ sakai.dashboard = function(tuid, showSettings) {
             parent.removeChild(el);
             saveState();
         });
+
+        $(".close_goodies_dialog", $rootelClass).unbind("click");
+        $(".close_goodies_dialog", $rootelClass).bind("click", function(e) {
+            console.log(tuid);
+            sakai.dashboard.widgetDialogShown[tuid] = false;
+            $(addGoodiesDialog + rootelClass).jqmHide();
+        })
 
     };
 
@@ -866,9 +876,12 @@ sakai.dashboard = function(tuid, showSettings) {
          toTop: true,
          onShow: renderGoodies
      });
+     sakai.dashboard.widgetDialogShown = sakai.dashboard.widgetDialogShown || {};
+     $(window).unbind("sakai-dashboard-showAddWidgetDialog");
      $(window).bind("sakai-dashboard-showAddWidgetDialog", function(e, iTuid) {
-         if (iTuid == tuid) {
-              $(addGoodiesDialog, $rootel).jqmShow();
+         if (iTuid === tuid && (sakai.dashboard.widgetDialogShown[tuid] === false || sakai.dashboard.widgetDialogShown[tuid] === undefined)) {
+             sakai.dashboard.widgetDialogShown[tuid] = true;
+             $(addGoodiesDialog, $rootel).jqmShow();
           }
      });
 
