@@ -300,32 +300,6 @@ sakai.profile = function(){
         }
     };
 
-    /**
-     * Filter some JCR properties, we need to do this because some properties
-     * can not be used by the import operation in Sling
-     * @param {Object} i_object The object you want to filter
-     */
-    var filterJCRProperties = function(i_object){
-
-        // Remove the "rep:policy" property
-        if (i_object["rep:policy"]) {
-            delete i_object["rep:policy"];
-        }
-
-        // Remove the jcr:path property
-        if (i_object["jcr:path"]) {
-            delete i_object["jcr:path"];
-        }
-
-        // Also run over the other objects within this object
-        for (var i in i_object) {
-            if (i_object.hasOwnProperty(i) && $.isPlainObject(i_object[i])) {
-              filterJCRProperties(i_object[i]);
-            }
-        }
-
-    };
-
 
     /**
      * Save the Access control list for the profile
@@ -424,7 +398,7 @@ sakai.profile = function(){
 
         readySections = [];
         // Filter some JCR properties
-        filterJCRProperties(sakai.profile.main.data);
+        sakai.api.Server.filterJCRProperties(sakai.profile.main.data);
 
         // Filter out the tags
         filterTagsProperties(sakai.profile.main.data);

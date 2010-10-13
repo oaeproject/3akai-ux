@@ -233,7 +233,7 @@ sakai.entity = function(tuid, showSettings){
      * @param {Function} [callback] A callback function that gets fired after the request
      */
     var changeChatStatus = function(chatstatus){
-        sakai.data.me.profile = $.extend(true, sakai.data.me.profile, {"chatstatus": chatstatus});
+        sakai.data.me.profile = $.extend(true, {}, sakai.data.me.profile, {"chatstatus": chatstatus});
 
         var data = {
         	"chatstatus": chatstatus,
@@ -586,6 +586,7 @@ sakai.entity = function(tuid, showSettings){
         });
 
         // Add the submit event to the status form
+        $entity_profile_status.unbind("submit");
         $entity_profile_status.bind("submit", function(){
 
             // Get the correct input value from the user
@@ -594,19 +595,20 @@ sakai.entity = function(tuid, showSettings){
             // Escape html
             inputValue = sakai.api.Security.escapeHTML(inputValue);
 
-            if (profile_status_value !== inputValue) {
+            if (!profile_status_value || profile_status_value !== inputValue) {
                 profile_status_value = inputValue;
 
                 if (sakai.data.me.profile.activity)
                     delete sakai.data.me.profile.activity;
 
-                if (sakai.data.me.profile["rep:policy"])
-                    delete sakai.data.me.profile["rep:policy"];
+                var profileData = $.extend(true, {}, sakai.data.me.profile, {"status": inputValue});
+
+                sakai.api.Server.filterJCRProperties(profileData);
 
                 var originalText = $("button span", $entity_profile_status).text();
                 $("button span", $entity_profile_status).text(sakai.api.Security.saneHTML($entity_profile_status_input_saving.text()));
 
-                sakai.api.Server.saveJSON(authprofileURL, sakai.data.me.profile, function(success, data) {
+                sakai.api.Server.saveJSON(authprofileURL, profileData, function(success, data) {
                     if (success) {
                         // Set the button back to it's original text
                         $("button span", $entity_profile_status).text(sakai.api.Security.saneHTML(originalText));
