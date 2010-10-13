@@ -264,7 +264,19 @@ sakai._search = function(config, callback) {
                 user.path = "/~" + user.userid + "/public/";
                 var person = item;
                 if (person.picture) {
-                    var picture = $.parseJSON(person.picture);
+                    var picture;
+                    // if picture is string
+                    if (typeof person.picture === "string") {
+                        picture = $.parseJSON(person.picture);
+                    // if picuture is json object                    
+                    } else {
+                        picture = person.picture;
+                    }
+                    if (picture.name) {
+                        user.picture = "/~" + person["rep:userId"] + "/public/profile/" + picture.name;
+                    } else {
+                        user.picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
+                    }
                     if (picture.name) {
                         user.picture = "/~" + person["rep:userId"] + "/public/profile/" + picture.name;
                     } else {

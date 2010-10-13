@@ -597,8 +597,6 @@ sakai.entity = function(tuid, showSettings){
             if (profile_status_value !== inputValue) {
                 profile_status_value = inputValue;
 
-                sakai.data.me.profile = $.extend(true, sakai.data.me.profile, {"status": inputValue});
-
                 if (sakai.data.me.profile.activity)
                     delete sakai.data.me.profile.activity;
 
@@ -608,8 +606,6 @@ sakai.entity = function(tuid, showSettings){
                 var originalText = $("button span", $entity_profile_status).text();
                 $("button span", $entity_profile_status).text(sakai.api.Security.saneHTML($entity_profile_status_input_saving.text()));
 
-                //trigger chat_status_message_change to update the status message on chat widget.
-                $(window).trigger("chat_status_message_change", inputValue);
                 sakai.api.Server.saveJSON(authprofileURL, sakai.data.me.profile, function(success, data) {
                     if (success) {
                         // Set the button back to it's original text
@@ -622,6 +618,12 @@ sakai.entity = function(tuid, showSettings){
                         var activityData = {
                             "sakai:activityMessage": activityMsg
                         };
+
+                        sakai.data.me.profile = $.extend(true, sakai.data.me.profile, {"status": inputValue});
+
+                        //trigger chat_status_message_change to update the status message on chat widget.
+                        $(window).trigger("chat_status_message_change", inputValue);
+
                         sakai.api.Activity.createActivity(nodeUrl, "status", "default", activityData);
                     } else {
                         // Log an error message
