@@ -1293,7 +1293,7 @@ sakai.api.Security.saneHTML = function(inputHTML) {
                             case html4.atype.STYLE:
                                 var accept = ["color", "display", "background-color", "font-weight", "font-family",
                                               "padding", "padding-left", "padding-right", "text-align", "font-style",
-                                              "text-decoration"];
+                                              "text-decoration", "border"];
                                 var sanitizedValue = "";
                                 if (value){
                                     var vals = value.split(";");
