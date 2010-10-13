@@ -68,6 +68,7 @@ sakai.account_preferences = function(){
     var errorInvalidPass = accountPreferencesID + "_error_invalidPass";
     var errorFailChangeLang = accountPreferencesID + "_error_failChangeLang";
     var messageChangeLang = accountPreferencesID + "_message_ChangeLang";
+    var errorPassSame = accountPreferencesID + "_error_passSame";
 
     // Comboboxes
     var timezonesContainer = "#time_zone";
@@ -307,6 +308,18 @@ sakai.account_preferences = function(){
     /** Binds the submit function on the password change form **/
     $(accountPreferencesPasswordChange).submit(function(){
 
+        var pass = $(currentPassTxt).val();
+        var newPass1 = $(newPassTxt).val();
+        var newPass2 = $(newRetypePassTxt).val();
+
+        if (pass === newPass1) {
+            // Notify the user that he/she is trying to use the same pasword
+            sakai.api.Util.notification.show("", $(errorPassSame).html());
+
+            return false;
+        }
+
+
         // check if the user enter valid data for old and new passwords
         if ($(accountPreferencesPasswordChange).valid()) {
 
@@ -358,7 +371,7 @@ sakai.account_preferences = function(){
             getLanguages();
             initValidation();
         }
-        
+
         // if allowpasswordchange is false then hide the regional setting
         if(!sakai.config.allowPasswordChange){
             $(passChangeContainer).hide();
