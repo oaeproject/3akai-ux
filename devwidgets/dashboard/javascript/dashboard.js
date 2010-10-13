@@ -112,7 +112,7 @@ sakai.dashboard = function(tuid, showSettings) {
         sakai.api.Widgets.Container.registerFinishFunction(sakai.dashboard.finishEditSettings);
         sakai.api.Widgets.Container.registerCancelFunction(sakai.dashboard.finishEditSettings);
     }
-    
+
     $(window).bind("sakai_sitespages_exitedit", function(ev){
         registerWidgetFunctions();
     });
@@ -370,7 +370,7 @@ sakai.dashboard = function(tuid, showSettings) {
                       $("#widget_settings_menu", $rootel).show();
                   }
               });
-        
+
 
               // .hover is shorthand for .bind('mouseenter mouseleave')
               // unbinding 'hover' doesn't work, 'mouseenter mouseleave' must be used instead.
@@ -441,7 +441,7 @@ sakai.dashboard = function(tuid, showSettings) {
                   }
 
               });
-          
+
               var grabHandleFinder,
               createAvatar,
               options;
@@ -483,7 +483,7 @@ sakai.dashboard = function(tuid, showSettings) {
         // Enable add goodies buttons
         enableAddGoodies();
     };
-    
+
     var beforeWidgetDrag = function() {
         $("#widget_settings_menu", $rootel).hide();
     };
@@ -652,6 +652,9 @@ sakai.dashboard = function(tuid, showSettings) {
 
     var finishAddWidgets = function(success) {
         if (success) {
+            // need to reinitialize it here otherwise things can go wrong when switching
+            // between states
+            $rootel = $($rootel.selector);
             $("#widgetscontainer", $rootel).html("");
             showDashboard();
         }
@@ -777,14 +780,14 @@ sakai.dashboard = function(tuid, showSettings) {
     // Add Sakai Goodies //
     ///////////////////////
     var bindGoodiesEventHandlers = function() {
-
+        $rootelClass = $($rootelClass.selector);
         /*
        * When you click the Add button, next to a widget in the Add Goodies screen,
        * this function will figure out what widget we chose and will hide the Add row
        * and show the Remove row for that widget
        */
-        $(goodiesAddButton, $rootelClass).bind("click",
-        function(ev) {
+        $(goodiesAddButton, $rootelClass).unbind("click");
+        $(goodiesAddButton, $rootelClass).bind("click", function(ev) {
             // Disable the add goodies buttons
             disableAddGoodies();
             // The expected is btn_add_WIDGETNAME
@@ -799,8 +802,8 @@ sakai.dashboard = function(tuid, showSettings) {
        * this function will figure out what widget we chose and will hide the Remove row
        * and show the Add row for that widget
        */
-        $(goodiesRemoveButton, $rootelClass).bind("click",
-        function(ev) {
+        $(goodiesRemoveButton, $rootelClass).unbind("click");
+        $(goodiesRemoveButton, $rootelClass).bind("click", function(ev) {
             // Disable the add goodies buttons
             disableAddGoodies();
             // The expected id is btn_remove_WIDGETNAME
@@ -815,6 +818,12 @@ sakai.dashboard = function(tuid, showSettings) {
             parent.removeChild(el);
             saveState();
         });
+
+        $(".close_goodies_dialog", $rootelClass).unbind("click");
+        $(".close_goodies_dialog", $rootelClass).bind("click", function(e) {
+            sakai.dashboard.widgetDialogShown[tuid] = false;
+            $(addGoodiesDialog + rootelClass).jqmHide();
+        })
 
     };
 
@@ -866,17 +875,20 @@ sakai.dashboard = function(tuid, showSettings) {
          toTop: true,
          onShow: renderGoodies
      });
+     sakai.dashboard.widgetDialogShown = sakai.dashboard.widgetDialogShown || {};
+     $(window).unbind("sakai-dashboard-showAddWidgetDialog");
      $(window).bind("sakai-dashboard-showAddWidgetDialog", function(e, iTuid) {
-         if (iTuid == tuid) {
-              $(addGoodiesDialog, $rootel).jqmShow();
+         if (iTuid === tuid && (sakai.dashboard.widgetDialogShown[tuid] === false || sakai.dashboard.widgetDialogShown[tuid] === undefined)) {
+             sakai.dashboard.widgetDialogShown[tuid] = true;
+             $(addGoodiesDialog, $rootel).jqmShow();
           }
      });
 
     /**
    * Initialize the Dashboard Widget
    *
-   * @param {String} path the path of the embedding page, where this widget should be saved to. 
-   *                 NOTE: path should not be the same base path as the dashboard widget itself, or 
+   * @param {String} path the path of the embedding page, where this widget should be saved to.
+   *                 NOTE: path should not be the same base path as the dashboard widget itself, or
    *                 the dashboard settings will overwrite the widget settings upon save
    * @param {Boolean} editmode true if the dashboard should be editable, false if it should be static
    * @param {String} propertyname property name in the widget config to allow it to be added to this dashboard

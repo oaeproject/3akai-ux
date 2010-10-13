@@ -833,6 +833,11 @@ sakai.inbox = function() {
             $("#inbox-sitejoin-already").hide();
 
             showPane(inboxPaneMessage);
+            // if reply form if visible reset reply form and hide it
+            if($(inboxSpecificMessageCompose).is(":visible")){
+                $(".compose-form")[0].reset();
+                $(inboxSpecificMessageCompose).hide();
+            }
             // Fill in this message values.
             $(inboxSpecificMessageSubject).text(sakai.api.Security.saneHTML(message["sakai:subject"]));
             var messageBody = ""+message["sakai:body"]; // coerce to string in case the body is all numbers

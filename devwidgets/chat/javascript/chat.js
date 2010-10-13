@@ -530,7 +530,11 @@ sakai.chat = function(tuid, showSettings){
             }
         }
     };
-    
+
+    var updateChatStatusMessage = function(chatStatusMessage){
+        $("#chat_mystatusmessage").html(chatStatusMessage);
+    };     
+
     ////////////////////////
     // Cookie Persistency //
     ////////////////////////
@@ -609,6 +613,10 @@ sakai.chat = function(tuid, showSettings){
         closeOnlineContactsList();
     });
     
+    $(window).bind("chat_status_message_change", function(event,newChatStatusMessage){
+        updateChatStatusMessage(newChatStatusMessage);   
+    });
+
     $(".user_chat").live("click", function(){
         var clicked = $(this).attr("id").substring(19);
         var active = $(this).hasClass("chat_online_button_visible");
