@@ -785,7 +785,9 @@ sakai.discussion = function(tuid, showSettings){
     var deletePost = function(id, deleteValue){
         var url = store + "/" + shardedId(id);
         var data = {
-            "sakai:deleted": deleteValue
+            "sakai:deleted": deleteValue,
+            "sakai:deletedByID": me.user.userid,
+            "sakai:deletedBy": sakai.api.User.getDisplayName(me.profile)
         };
         $.ajax({
             url: url,

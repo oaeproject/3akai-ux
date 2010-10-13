@@ -69,10 +69,10 @@
                         <div id="discussion_content_container_${o.post["sakai:id"]}">
                             {if o.post["sakai:deleted"] && o.post["sakai:deleted"] === true}
                                 <p class="discussion_content_infoDeleted">
-                                {if o.post["sakai:from"] === current.user.userid}
-                                    You have deleted your post.
+                                {if o.post["sakai:deletedByID"] === current.user.userid}
+                                    You have deleted this post.
                                 {else}
-                                    This post has been deleted. Only site collaborators can see this post.
+                                    This post has been deleted by ${o.post["sakai:deletedBy"]}. Only managers can see this post.
                                 {/if}
                                 {if o.post.canDelete && o.post.canDelete === true}
                                     <br />You can return it by clicking the undelete link.
@@ -161,10 +161,10 @@
                     <div id="discussion_content_container_${o.post["sakai:id"]}">
                         {if o.post["sakai:deleted"] && o.post["sakai:deleted"] === true}
                             <p class="discussion_content_infoDeleted">
-                            {if o.post["sakai:from"] === current.user.userid}
-                                You have deleted your post.
+                            {if o.post["sakai:deletedByID"] === current.user.userid}
+                                You have deleted this post.
                             {else}
-                                This post has been deleted. Only site collaborators can see this post.
+                                This post has been deleted by ${o.post["sakai:deletedBy"]}. Only managers can see this post.
                             {/if}
                             {if o.post.canDelete && o.post.canDelete === true}
                                 <br />You can return it by clicking the undelete link.
