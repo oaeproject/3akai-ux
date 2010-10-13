@@ -367,7 +367,7 @@ sakai.changepic = function(tuid, showSettings){
             showNewTab();
         }
     };
-    
+
     // Remove error notification when a new file is chosen
     $("#profilepicture").bind("change", function(){
         $("#changepic_nofile_error").hide(); 
@@ -499,6 +499,7 @@ sakai.changepic = function(tuid, showSettings){
         $(container).jqmShow();
     });
 
+    $(window).trigger("sakai-changepic-ready");
 };
 
 /**

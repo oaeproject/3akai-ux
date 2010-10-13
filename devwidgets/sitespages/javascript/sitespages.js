@@ -369,22 +369,25 @@ sakai.sitespages = function(tuid,showSettings){
             } else {
                 sakai.sitespages.pagetypes[sakai.sitespages.selectedpage] = pageType;
             }
+            if (sakai.sitespages.site_info._pages[pageUrlName]) {
+                $.ajax({
+                    url: sakai.sitespages.site_info._pages[pageUrlName]["jcr:path"] + "/pageContent.infinity.json",
+                    type: "GET",
+                    success: function(data) {
 
-            $.ajax({
-                url: sakai.sitespages.site_info._pages[pageUrlName]["jcr:path"] + "/pageContent.infinity.json",
-                type: "GET",
-                success: function(data) {
+                        sakai.sitespages.pagecontents[pageUrlName] = data;
 
-                    sakai.sitespages.pagecontents[pageUrlName] = data;
+                        // TO DO: See if we need to run the content through sakai.site.ensureProperWidgetIDs - would be good if we could skip this step and make sure widget IDs are correct from the beginning
+                        displayPage(sakai.sitespages.pagecontents[pageUrlName]["sakai:pagecontent"], true);
 
-                    // TO DO: See if we need to run the content through sakai.site.ensureProperWidgetIDs - would be good if we could skip this step and make sure widget IDs are correct from the beginning
-                    displayPage(sakai.sitespages.pagecontents[pageUrlName]["sakai:pagecontent"], true);
-
-                 },
-                 error: function(xhr, status, e) {
-                    fluid.log("site.js: Could not load page content for webpage!");
-                 }
-            });
+                     },
+                     error: function(xhr, status, e) {
+                        fluid.log("site.js: Could not load page content for webpage!");
+                     }
+                });
+            } else {
+                $.bbq.removeState("page");
+            }
         }
 
         if (!config.editMode) {

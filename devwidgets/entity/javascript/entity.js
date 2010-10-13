@@ -862,6 +862,11 @@ sakai.entity = function(tuid, showSettings){
         if (sakai.api.UI.changepic){
             sakai.api.UI.changepic["mode"] = "group";
             sakai.api.UI.changepic["id"] = entityconfig.data.profile["sakai:group-id"];
+        } else {
+            $(window).bind("sakai-changepic-ready", function(e){
+                sakai.api.UI.changepic["mode"] = "group";
+                sakai.api.UI.changepic["id"] = entityconfig.data.profile["sakai:group-id"];
+            });
         }
 
     };
