@@ -66,7 +66,6 @@ ol,ul,dl{margin-left:2em;}
 ol li{list-style:decimal outside;}
 ul li{list-style:disc outside;}
 dl dd{margin-left:1em;}
-th,td{border:1px solid #000;padding:.5em;}
 th{font-weight:bold;text-align:center;}
 caption{margin-bottom:.5em;text-align:center;}
 p,fieldset,table,pre{margin-bottom:1em;}
