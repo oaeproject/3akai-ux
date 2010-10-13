@@ -342,12 +342,12 @@ sakai.groupedit = function(){
                 },
                 success: function(data){
                     if (userCount > 1) {
-                        renderItemLists(listType);
                         sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_users_added_text").text()));
                     } else if (userCount == 1) {
-                        renderItemLists(listType);
                         sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_user_added_text").text()));
                     }
+                    renderItemLists('members');
+                    renderItemLists('managers');
                     $("#entity_member_count").text(sakai.api.Security.saneHTML(parseInt($("#entity_member_count").text(), 10) + userCount));
                     $("#group_editing_add_" + listType).focus()
                 }
@@ -430,7 +430,7 @@ sakai.groupedit = function(){
      * @param {Array} peopleList The list of people to filter against
      * @return {Array} The filtered list of people
      */
-    var filterUsers = function(peopleList) {
+    var filterUsers = function(peopleList, accessType) {
         var peopleToAdd = [];
         $(peopleList).each(function(i,val) {
             var reason = "";
@@ -440,7 +440,7 @@ sakai.groupedit = function(){
                 }
             }
             for (var k in sakai.data.listpeople["members"]["userList"]) {
-                if (sakai.data.listpeople["members"]["userList"].hasOwnProperty(k) && k === val) {
+                if (sakai.data.listpeople["members"]["userList"].hasOwnProperty(k) && k === val && accessType !== 'managers') {
                     reason = "member";
                 }
             }
@@ -477,6 +477,21 @@ sakai.groupedit = function(){
         for (var k in sakai.data.listpeople["members"]["userList"]) {
             if (sakai.data.listpeople["members"]["userList"].hasOwnProperty(k)) {
                 list.push(k);
+            }
+        }
+        return list;
+    };
+
+    /**
+     * Retrieve the managers lists
+     *
+     * @return {Array} the list of managers
+     */
+    var getManagers = function() {
+        var list = [];
+        for (var j in sakai.data.listpeople["managers"]["userList"]) {
+            if (sakai.data.listpeople["managers"]["userList"].hasOwnProperty(j)) {
+                list.push(j);
             }
         }
         return list;
@@ -548,7 +563,7 @@ sakai.groupedit = function(){
                 });
                 $(window).unbind("sakai-pickeruser-finished");
                 $(window).bind("sakai-pickeruser-finished", function(e, peopleList) {
-                    var peopleToAdd = filterUsers(peopleList.toAdd);
+                    var peopleToAdd = filterUsers(peopleList.toAdd, 'members');
                     addUsers('members', peopleToAdd);
                 });
             });
@@ -557,12 +572,12 @@ sakai.groupedit = function(){
             $("#group_editing_add_managers").bind("click", function(){
                 pl_config.type = "people";
                 pl_config.what = "Managers";
-                pl_config.excludeList = getMembersAndManagers();
+                pl_config.excludeList = getManagers();
                 $(window).trigger("sakai-pickeruser-init", pl_config, function(people) {
                 });
                 $(window).unbind("sakai-pickeruser-finished");
                 $(window).bind("sakai-pickeruser-finished", function(e, peopleList) {
-                    var peopleToAdd = filterUsers(peopleList.toAdd);
+                    var peopleToAdd = filterUsers(peopleList.toAdd, 'managers');
                     addUsers('managers', peopleToAdd);
                 });
             });
