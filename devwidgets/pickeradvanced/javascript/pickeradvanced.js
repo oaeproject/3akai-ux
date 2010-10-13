@@ -254,6 +254,9 @@ sakai.pickeradvanced = function(tuid, showSettings) {
             type: "GET",
             dataType: "json",
             success: function(rawData) {
+                if (!rawData.results) {
+                    rawData.results = rawData;
+                }
                 // Eval profile data for now and extend it with additional info
                 var doAdd = true;
                 var newData = [];
@@ -470,7 +473,7 @@ sakai.pickeradvanced = function(tuid, showSettings) {
                $pickeradvanced_sort_on.hide();
                break;
            case "groups_manager":
-               searchURL = sakai.config.URL.SEARCH_GROUPS;
+               searchURL = sakai.config.URL.GROUPS_MANAGER;
                $pickeradvanced_sort_on.hide();
                break;
            case "files_mine":
