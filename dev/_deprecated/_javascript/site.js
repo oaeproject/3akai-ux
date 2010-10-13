@@ -220,7 +220,7 @@ sakai.site = function(){
 
         // Load admin part from a separate file
         $.getScript(sakai.site.siteAdminJS);
-        
+
     }
 
     /////////////
@@ -308,17 +308,17 @@ sakai.site = function(){
             }
         });
     };
-    
+
     var shouldShowJoinButton = function() {
-        return ((sakai.site.currentsite["sakai:joinable"] === "yes" 
+        return ((sakai.site.currentsite["sakai:joinable"] === "yes"
             || sakai.site.currentsite["sakai:joinable"] === "withauth")
         && !sakai.site.isCollaborator);
     }
-    
+
     var shouldDisableJoinButton = function() {
         return sakai.site.currentsite[":isPendingApproval"] === true;
     }
-    
+
     var joinRequiresApproval = function() {
         return sakai.site.currentsite["sakai:joinable"] === "withauth";
     }
@@ -428,7 +428,6 @@ sakai.site = function(){
             },
             error: function(xhr, textStatus, thrownError) {
               $(window).trigger('hashchange');
-              console.log(sakai.site.urls.SITE_NAVIGATION_CONTENT());
               alert("site.js: Could not load site navigation content. \n HTTP status code: " + xhr.status);
             }
         });

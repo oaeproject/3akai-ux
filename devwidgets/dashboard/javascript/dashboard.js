@@ -112,7 +112,7 @@ sakai.dashboard = function(tuid, showSettings) {
         sakai.api.Widgets.Container.registerFinishFunction(sakai.dashboard.finishEditSettings);
         sakai.api.Widgets.Container.registerCancelFunction(sakai.dashboard.finishEditSettings);
     }
-    
+
     $(window).bind("sakai_sitespages_exitedit", function(ev){
         registerWidgetFunctions();
     });
@@ -370,7 +370,7 @@ sakai.dashboard = function(tuid, showSettings) {
                       $("#widget_settings_menu", $rootel).show();
                   }
               });
-        
+
 
               // .hover is shorthand for .bind('mouseenter mouseleave')
               // unbinding 'hover' doesn't work, 'mouseenter mouseleave' must be used instead.
@@ -441,7 +441,7 @@ sakai.dashboard = function(tuid, showSettings) {
                   }
 
               });
-          
+
               var grabHandleFinder,
               createAvatar,
               options;
@@ -483,7 +483,7 @@ sakai.dashboard = function(tuid, showSettings) {
         // Enable add goodies buttons
         enableAddGoodies();
     };
-    
+
     var beforeWidgetDrag = function() {
         $("#widget_settings_menu", $rootel).hide();
     };
@@ -821,7 +821,6 @@ sakai.dashboard = function(tuid, showSettings) {
 
         $(".close_goodies_dialog", $rootelClass).unbind("click");
         $(".close_goodies_dialog", $rootelClass).bind("click", function(e) {
-            console.log(tuid);
             sakai.dashboard.widgetDialogShown[tuid] = false;
             $(addGoodiesDialog + rootelClass).jqmHide();
         })
@@ -888,8 +887,8 @@ sakai.dashboard = function(tuid, showSettings) {
     /**
    * Initialize the Dashboard Widget
    *
-   * @param {String} path the path of the embedding page, where this widget should be saved to. 
-   *                 NOTE: path should not be the same base path as the dashboard widget itself, or 
+   * @param {String} path the path of the embedding page, where this widget should be saved to.
+   *                 NOTE: path should not be the same base path as the dashboard widget itself, or
    *                 the dashboard settings will overwrite the widget settings upon save
    * @param {Boolean} editmode true if the dashboard should be editable, false if it should be static
    * @param {String} propertyname property name in the widget config to allow it to be added to this dashboard
