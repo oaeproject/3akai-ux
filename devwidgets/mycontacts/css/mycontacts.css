@@ -22,7 +22,7 @@
 /* Friends list */
 .mycontacts_list_contact {float:left;height:80px; margin:5px 10px 0px 0px;overflow:hidden;padding:0 20px 5px 0;width:70px;}
 .mycontacts_list_contact .mycontacts_list_contact_picture {margin:0;padding:0;display: block;}
-.mycontacts_list_contact .mycontacts_list_contact_picture img {height:50px;width:50px;}
+.mycontacts_list_contact .mycontacts_list_contact_picture img {height:48px;width:48px;}
 .mycontacts_list_contact .mycontacts_list_contact_name {color:#39C;font-size:0.95em;font-weight:bold;}
 
 /* Contact requests */

@@ -40,7 +40,7 @@ sakai.config = {
         SEARCH_PEOPLE_URL: "search_people.html",
         SEARCH_SITES_URL: "search_sites.html",
         TINY_MCE_CONTENT_CSS: "/dev/_css/FSS/fss-base.css,/dev/_css/sakai/sakai.core.2.css,/dev/_css/sakai/sakai.css,/dev/_css/sakai/sakai.editor.css,/dev/_css/sakai/sakai.show.css",
-        USER_DEFAULT_ICON_URL: "/dev/_images/person_icon.jpg",
+        USER_DEFAULT_ICON_URL: "/dev/_images/user_avatar_icon_48x48.png",
         USER_DEFAULT_UPLOAD_FOLDER: "/private/uploads",
 
 
@@ -125,7 +125,7 @@ sakai.config = {
         USER_PREFIX: "/_user"
 
     },
-    
+
     PageTitles: {
         "prefix": "TITLE_PREFIX",
         "pages": {
@@ -218,9 +218,9 @@ sakai.config = {
             }
         }
     },
-    
+
     allowPasswordChange: true,
-    
+
     Profile: {
         /*
          * This is a collection of profile configuration functions and settings
@@ -231,7 +231,7 @@ sakai.config = {
          * "display": {Boolean} Show the entry in the profile or not
          * "editable": {Boolean} Whether or not the entry is editable
          * For a date entry field use "date" as the type for MM/dd/yyyy and "dateITA" as the type for dd/MM/yyyy
-         * 
+         *
          */
         configuration: {
 
@@ -672,7 +672,7 @@ sakai.config = {
             "label" : "DIRECTORY"
         }
     ],
-    
+
     /*
      * List of pages that require a logged in user
      */
@@ -688,7 +688,7 @@ sakai.config = {
         "/dev/search_groups.html",
         "/dev/search_people.html"
     ],
-    
+
     /*
      * List of pages that require an anonymous user
      */
@@ -700,7 +700,7 @@ sakai.config = {
         "/",
         "/index.html"
     ],
-    
+
     /*
      * List op pages that require additional processing to determine
      * whether the page can be shown to the current user. These pages
