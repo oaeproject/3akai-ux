@@ -499,10 +499,10 @@ sakai.entity = function(tuid, showSettings){
             },
             success: function(data){
                 var presence = $.parseJSON(data.results[3].body);
-                for (var k in presence.contacts){
-                    if (presence.contacts[k].user === userid){
-                        if (presence.contacts[k].profile.chatstatus) {
-                            entityconfig.data.profile.chatstatus = presence.contacts[k].profile.chatstatus;
+                for (var l in presence.contacts){
+                    if (presence.contacts[l].user === userid){
+                        if (presence.contacts[l].profile.chatstatus) {
+                            entityconfig.data.profile.chatstatus = presence.contacts[l].profile.chatstatus;
                         } else {
                             entityconfig.data.profile.chatstatus = "offline";
                         }
