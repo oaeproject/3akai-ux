@@ -152,7 +152,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
             addAnotherLocation();
         });
 
-        $(groupBasicInfoRemoveLocation).live("click", function(){
+        $(groupBasicInfoRemoveLocation).bind("click", function(){
             removeDirectoryLocation($(this).parent());
             $(this).parent().remove();
         });
