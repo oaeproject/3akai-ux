@@ -64,6 +64,8 @@ sakai.inbox = function() {
     var inboxResults = inboxID + "_results";
     var inboxArrow = inboxClass + "_arrow";
     var inboxFolders = inboxID + "_folders";
+    var inboxProgress = inbox + "_progress";
+    var inboxLoadingProgress = inboxID + "_loading_progress";
 
     // Filters on the left side
     var inboxFilter = inboxID + "_filter";
@@ -525,7 +527,6 @@ sakai.inbox = function() {
      * @param {Object} The JSON response from the server. Make sure it has a .message array in it.
      */
     var renderMessages = function(response) {
-
         if (!getAll) {
             for (var i = 0, k = response.results.length; i < k; i++) {
 
@@ -603,6 +604,22 @@ sakai.inbox = function() {
         });
     };
 
+    /**
+     * Toggle loading animation and tbody.
+     */
+    toggleLoading = function(checking){
+        // if checking is true 
+        // show the animation and hide tbody
+        if (checking) {
+            $("tbody").hide();
+            $(inboxLoadingProgress).addClass(inboxProgress);
+        // hide animation and show tbody.
+        } else {
+            $("tbody").show();
+            $(inboxLoadingProgress).removeClass(inboxProgress);
+
+        }
+    }
 
     /**
      *
@@ -615,7 +632,7 @@ sakai.inbox = function() {
      * Gets all the messages from the JCR.
      */
     getAllMessages = function(callback) {
-
+        toggleLoading(true);
         box = "inbox";
         if (selectedType === "sent"){
             box = "outbox";
@@ -672,7 +689,7 @@ sakai.inbox = function() {
             cache: false,
             success: function(data) {
                 if (data.results) {
-
+                    toggleLoading();
                     // Render the messages
                     renderMessages(data);
                     showUnreadMessages();
