@@ -52,6 +52,7 @@ sakai.chat = function(tuid, showSettings){
     
     var globalOnlineContacts = [];
     var globalChatWindows = [];
+    var allMessages = {};
     
     ///////////////////////
     ///////////////////////
@@ -265,6 +266,16 @@ sakai.chat = function(tuid, showSettings){
         $("#chat_online_button_" + userid).addClass("chat_online_button_visible");
         $("#chat_with_" + userid).show();
         $("#chat_with_" + userid + "_txt").focus();
+        if (allMessages[userid] && allMessages[userid].length) {
+            var bulkRequests = [];
+            for (var i=0, j=allMessages[userid].length; i<j; i++) {
+                var message = allMessages[userid][i];
+                if (message["sakai:read"] === false) {
+                    bulkRequests.push(createBatchReadObject(message));
+                }
+            }
+            sendBatchReadRequests(bulkRequests);
+        }
     };
     
     /**
@@ -380,7 +391,39 @@ sakai.chat = function(tuid, showSettings){
     ///////////////////////////
     // Chat message handling //
     ///////////////////////////
-    
+
+    /**
+     * Create an object indicating the message has been read
+     * @param {Object} message The message
+     * @return {Object} request object for BATCH
+     */
+    var createBatchReadObject = function(message) {
+        return {
+            "url": message["jcr:path"],
+            "method": "POST",
+            "parameters": {
+                "sakai:read": true
+            }
+        };
+    };
+
+    /**
+     * Send the batch request saying these messages have been read
+     * @param {Array} batchRequests List of requests to send out
+     */
+    var sendBatchReadRequests = function(batchRequests) {
+        // send the 'this message has been read' requests
+        if (batchRequests && batchRequests.length > 0) {
+            $.ajax({
+                url: sakai.config.URL.BATCH,
+                type: "POST",
+                data: {
+                    requests: $.toJSON(batchRequests)
+                }
+            });
+        }
+    };
+
     /**
      * Detect when a user wants to send a message to a user
      * @param {Object} event
@@ -504,7 +547,7 @@ sakai.chat = function(tuid, showSettings){
             }
         });
     };
-    
+
     /**
      * Once we know that there are new messages, we add them into
      * the appropriate chat windows
@@ -512,6 +555,7 @@ sakai.chat = function(tuid, showSettings){
      */
     var insertNewMessages = function(messages){
         if (messages.results) {
+            var bulkRequests = [];
             for (var i = 0; i < messages.results.length; i++) {
                 var message = messages.results[i];
                 var from = message.userFrom[0];
@@ -541,9 +585,17 @@ sakai.chat = function(tuid, showSettings){
                     chatWindow = getChatWindow(from.userid);
                     if (!chatWindow.open) {
                         $("#chat_online_button_" + from.userid).effect("pulsate");
+                    } else {
+                        // the window is open, lets mark the message as read
+                        message["sakai:read"] = true;
+                        bulkRequests.push(createBatchReadObject(message));
                     }
+                    allMessages[from] = allMessages[from] || [];
+                    allMessages[from].push(message);
                 }
             }
+            // sent out the batch request saying the read messages are read
+            sendBatchReadRequests(bulkRequests);
         }
     };
 
