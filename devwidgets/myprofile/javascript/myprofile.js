@@ -41,7 +41,7 @@ sakai.myprofile = function (tuid, showSettings) {
     var rootel = $("#" + tuid);
     var me = sakai.data.me;
     var json = me.profile;
-    
+
     //    IDs
     var myprofileId = "#myprofile";
     var myprofileClass = ".myprofile";
@@ -62,7 +62,7 @@ sakai.myprofile = function (tuid, showSettings) {
     var availableStatus_online = availableStatus + "online";
     var availableStatus_busy = availableStatus + "busy";
     var availableStatus_offline = availableStatus + "offline";
-    
+
     var profilePreviewLink = "#myprofile_preview_profile";
 
     var headerChatUserId = "#user_link"; // The username in the chat bar.
@@ -110,7 +110,7 @@ sakai.myprofile = function (tuid, showSettings) {
             tempChatStatus = chatstatus;
 
             $(profileStatusContainer).toggle();
-            
+
             var data = {
                 "chatstatus": chatstatus,
                 "_charset_": "utf-8"
@@ -160,8 +160,10 @@ sakai.myprofile = function (tuid, showSettings) {
         if (json.picture) {
             var pict = $.parseJSON(json.picture);
             if (pict.name) {
-                $(profilePictureID, rootel).attr('src', "/~" + sakai.data.me.user.userid + "/public/profile/" + pict.name );
+                $(profilePictureID, rootel).attr("src", "/~" + sakai.data.me.user.userid + "/public/profile/" + pict.name );
             }
+        } else {
+            $(profilePictureID, rootel).attr("src", sakai.config.URL.USER_DEFAULT_ICON_URL);
         }
 
         // Any extra information we may have.
