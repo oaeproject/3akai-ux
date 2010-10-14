@@ -116,7 +116,7 @@
 { width: 670px; border-left: 3px solid #d5dbdf; border-right: 3px solid #d5dbdf; min-height: 400px; padding-bottom: 10px; }
 
 .inbox_main .inbox-table
-{ width: 670px; margin: 0; }
+{ width: 670px; margin: 0; border-spacing: 0; *border-collapse: collapse; }
 
 .inbox_main .top_decor
 { background: transparent url(/dev/_images/inbox_table_top.png) no-repeat top left; height: 32px; width: 673px; border: none; padding: 9px 0 0 7px; }
@@ -152,13 +152,13 @@
 
 /** List **/
 .inbox_main .inbox-table th
-{ color: #333;  text-align: left; height: 26px; border: none; }
+{ color: #333;  text-align: left; height: 26px; border: none; padding: 3px 5px; }
 
 .inbox_main .inbox-table tr
 { color: #666; }
 
 .inbox_main .inbox-table td
-{ border: none;  color: #666; text-align: left; font-size: 1em; border-bottom: 1px solid #d5dbdf; }
+{ border: none;  color: #666; text-align: left; font-size: 1em; border-bottom: 1px solid #d5dbdf; padding: 2px 2px 2px 5px; }
 
 .inbox_main .inbox-table tr.inbox-subject-read *
 { font-weight:normal;}
