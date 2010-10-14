@@ -772,7 +772,8 @@ sakai.dashboard = function(tuid, showSettings) {
         onShow: renderLayouts
     });
 
-    sakai.dashboard.changeLayout = function() {
+    sakai.dashboard.changeLayout = function(title) {
+        $("#pageTitle").append(" " + title);
         $(changeLayoutDialog, $rootel).jqmShow();
     };
 

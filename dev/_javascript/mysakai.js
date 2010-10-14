@@ -67,7 +67,9 @@ sakai.mysakai = function(){
         });
 
         $("#mysakai_more_change_layout").live("click", function() {
-            sakai.dashboard.changeLayout();
+            // get title
+            var title = $("#pagetitle").html();
+            sakai.dashboard.changeLayout(title);
             showHideMoreMenu(true);
         });
 
