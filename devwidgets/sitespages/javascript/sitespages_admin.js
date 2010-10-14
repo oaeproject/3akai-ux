@@ -318,6 +318,7 @@ sakai.sitespages.site_admin = function(){
             valid_elements : ""+
                 "@[id|class|style|title|dir<ltr?rtl|lang|xml::lang|onclick|ondblclick|onmousedown|onmouseup|onmouseover|onmousemove|onmouseout|onkeypress|onkeydown|onkeyup],"+
                 "a[href|rel|rev|target|title|type],"+
+                "address[],"+
                 "b[],"+
                 "blink[],"+
                 "blockquote[align|cite|clear|height|type|width],"+

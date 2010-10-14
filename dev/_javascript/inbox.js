@@ -529,11 +529,11 @@ sakai.inbox = function() {
         if (!getAll) {
             for (var i = 0, k = response.results.length; i < k; i++) {
 
-                if (box === "inbox" && cats === "" && response.results[i]["sakai:category"] === "chat") {
-                    response.results.splice(i, 1);
+                //if (box === "inbox" && cats === "" && response.results[i]["sakai:category"] === "chat") {
+                //    response.results.splice(i, 1);
                     // We are modifying the array we are iterating. We need to adjust the length otherwise we end up with undefined array elements
-                    k--;
-                }
+                //    k--;
+                //}
             }
         } else {
             getAll = false;
