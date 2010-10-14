@@ -110,7 +110,7 @@
                             </div>
 
                             <div class="search_top_rounded"><div class="search_top_rounded_inner"><!-- --></div></div>
-                            
+
 
                             <!-- CONTENT -->
                             <div class="fl-container fl-fix search_results_part">
@@ -121,7 +121,7 @@
                                     <span class="keyword" id="search_mysearchterm"></span>
                                 </div>
                                 <div class="search_result_title" id="search_results_tag_header">
-                                    <span class="keyword" id="search_mytagterm"></span> 
+                                    <span class="keyword" id="search_mytagterm"></span>
                                 </div>
 
                                 <div id="search_result_results_tagged_under" style="display:none;"><span style="font-weight:normal">__MSG__RESULTS_TAGGED_UNDER__</span></div>
@@ -140,7 +140,7 @@
                                         {if ! i.picture}
                                         <a href="/~${i.userid}" class="fl-icon search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"></a>
                                         {else}
-                                        <a href="/~${i.userid}" class="search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"><img alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" src="${i.picture}" width="60px" height="60px"/></a>
+                                        <a href="/~${i.userid}" class="search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"><img alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" src="${i.picture}" width="48px" height="48px"/></a>
                                         {/if}
                                         <a href="/~${i.userid}" class="search_result_person_name">${sakai.api.Util.shortenString(i.name, 25)}</a>
                                         {if i.extra}
