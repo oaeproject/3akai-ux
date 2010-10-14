@@ -89,6 +89,7 @@ sakai.chat = function(tuid, showSettings){
                     loadOnlineContactsTimer = setInterval(loadOnlineContacts, loadOnlineContactsInterval);
                     checkNewMessages();
                 }
+                $(window).trigger("sakai-chat-update");
             }
         });
     };
@@ -238,6 +239,21 @@ sakai.chat = function(tuid, showSettings){
         $(".chat_with_user").hide();
     };
     
+    /**
+     * Public method to return a contact
+     */
+    sakai.chat.getOnlineContact = function(userid){
+        return getOnlineContactObject(userid);
+    };
+
+    /**
+     * Public method to open contact list
+     */
+    sakai.chat.openContactsList = function(){
+        closeAllChatWindows();
+        toggleOnlineContactsList();
+    };
+
     /**
      * Open the chat window for a given user that already has a chat
      * window open

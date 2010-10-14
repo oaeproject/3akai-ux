@@ -22,9 +22,9 @@
                     </div>
                 {else}
                     <div class="fl-text-align-center entity_status">
-                        {if data.profile.chatstatus === "online"}<a class="s3d-action chat_available_status_online" id="entity_available_to_chat" href="javascript:;">__MSG__ONLINE__</a>{/if}
-                        {if data.profile.chatstatus === "busy"}<a class="chat_available_status_busy">__MSG__BUSY__</a>{/if}
-                        {if data.profile.chatstatus === "offline"}<a class="chat_available_status_offline">__MSG__OFFLINE__</a>{/if}
+                        <span id="entity_contact_online" style="display:none;"><a class="s3d-action chat_available_status_online" id="entity_available_to_chat" href="javascript:;">__MSG__ONLINE__</a></span>
+                        <span id="entity_contact_busy" style="display:none;"><a class="chat_available_status_busy">__MSG__BUSY__</a></span>
+                        <span id="entity_contact_offline" style="display:none;"><a class="chat_available_status_offline">__MSG__OFFLINE__</a></span>
                     </div>
                 {/if}
             </div>
