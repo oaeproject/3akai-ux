@@ -501,7 +501,7 @@ sakai.entity = function(tuid, showSettings){
                 var presence = $.parseJSON(data.results[3].body);
                 for (var l in presence.contacts){
                     if (presence.contacts[l].user === userid){
-                        if (presence.contacts[l].profile.chatstatus) {
+                        if (presence.contacts[l].profile.chatstatus && presence.contacts[l]["sakai:status"] === "online") {
                             entityconfig.data.profile.chatstatus = presence.contacts[l].profile.chatstatus;
                         } else {
                             entityconfig.data.profile.chatstatus = "offline";

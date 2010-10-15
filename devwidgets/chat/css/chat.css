@@ -52,9 +52,9 @@
 .chat_content_message {color: #000;}
 
 /* user_chat */
-.user_chat {border-right:1px solid #666;cursor:pointer;float:left;height:30px;line-height:30px;margin-left:auto;padding-left:10px;text-align:left;width:140px;}
+.user_chat {border-right:1px solid #666;cursor:pointer;float:left;height:30px;line-height:24px;margin-left:auto;padding-left:10px;text-align:left;width:140px;}
 .user_chat_first .chat_show_online_visible {border-left:1px solid #454A4F;}
-.chat_with_user {background-color:#D5DBDF;border:1px solid #454A4F;bottom:24px; text-align:left;width:215px;z-index:-1; position: relative; bottom: 315px;}
+.chat_with_user {background-color:#D5DBDF;border:1px solid #454A4F; text-align:left;width:215px;z-index:-1; position: relative; bottom: 328px;}
 .chat_name_link {color:#fff;padding-left:15px;}
 .chat_show_online_visible .chat_name_link {color: #666 !important;}
 .chat_top_table {margin:0px !important;}
@@ -76,11 +76,11 @@
 
 /* user status */
 .chat_available_status_online, .chat_available_status_busy, .chat_available_status_offline {padding-left:15px;}
-.chat_available_status_online { background: url("../images/bullet_green.png") no-repeat scroll -3px -1px transparent; }
-.chat_available_status_busy {background:url("../images/bullet_orange.png") no-repeat scroll -3px -1px transparent; }
-.chat_available_status_offline {background:url("../images/bullet_red.png") no-repeat scroll -3px -1px transparent; }
+.chat_available_status_online { background: url("../images/bullet_green.png") no-repeat scroll -3px 0px transparent; }
+.chat_available_status_busy {background:url("../images/bullet_orange.png") no-repeat scroll -3px 0px transparent; }
+.chat_available_status_offline {background:url("../images/bullet_red.png") no-repeat scroll -3px 0px transparent; }
 .pretend_link {cursor:pointer;}
-#chat_container {margin: 0 auto; background: #444; color:#fff; height:30px;width: 960px;;position:relative;top:5px;}
+#chat_container {margin: 0 auto; background: #444; color:#fff; height:30px;width: 960px;;position:relative;top:2px;}
 .chat_main_table {background: #444; width:100%;height:30px;}
 #chat_online_connections_link {cursor:pointer;width:70px; background: #333; }
 #chat_online_button {border-left:1px solid #666; color: #fff; float:right;height:30px;line-height:30px;margin-left:auto;text-align:center;top:-1px;width:70px;}
