@@ -773,7 +773,7 @@ sakai.dashboard = function(tuid, showSettings) {
     });
 
     sakai.dashboard.changeLayout = function(title) {
-        $("#pageTitle").append(" " + title);
+        $("#paget_title_only", $rootel).html(" "+title);
         $(changeLayoutDialog, $rootel).jqmShow();
     };
 

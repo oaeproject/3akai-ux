@@ -464,21 +464,21 @@ sakai.sitespages.site_admin = function(){
             $(elm1_menu_formatselect).css(tinyMCEmenuCSS);
             $(elm1_menu_fontselect).css(tinyMCEmenuCSS);
             $(elm1_menu_fontsizeselect).css(tinyMCEmenuCSS);
-            
+
             // Set the position for the text color menu
             var textColorMenu = $("#elm1_forecolor_menu");
             if (textColorMenu.css("position") === "fixed"){
                 textColorMenu.css("position", "absolute");
                 textColorMenu.css("top", "334px");
             };
-            
+
             // Set the position for the background-color menu
             var backColorMenu = $("#elm1_backcolor_menu");
             if (backColorMenu.css("position") === "fixed"){
                 backColorMenu.css("position", "absolute");
                 backColorMenu.css("top", "334px");
             };
- 
+
         }
         else {
 
@@ -490,21 +490,21 @@ sakai.sitespages.site_admin = function(){
 
             $toolbarcontainer.css({"position":"fixed", "top":"0px"});
             $insert_more_menu.css({"position": "fixed", "top":"28px"});
-            
+
             // Set the position for the text color menu
             var textColorMenu = $("#elm1_forecolor_menu");
             if (textColorMenu.css("position") === "absolute"){
                 textColorMenu.css("position", "fixed");
                 textColorMenu.css("top", "30px");
             };
-            
+
             // Set the position for the background-color menu
             var backColorMenu = $("#elm1_backcolor_menu");
             if (backColorMenu.css("position") === "absolute"){
                 backColorMenu.css("position", "fixed");
                 backColorMenu.css("top", "30px");
             };
-            
+
         }
 
         var $insert_more_dropdown_main = $("#insert_more_dropdown_main");
@@ -535,7 +535,7 @@ sakai.sitespages.site_admin = function(){
                 $("#placeholderforeditor").css("height", docHt + 60 + "px");
                 window.scrollTo(0, sakai.sitespages.curScroll);
                 // get position of place holder. if it is called in placetoolbar method,
-                // the position changes based on scroll bar position in IE 8. 
+                // the position changes based on scroll bar position in IE 8.
                 sakai.sitespages.minTop = $("#toolbarplaceholder").position().top;
                 placeToolbar();
             }
@@ -860,7 +860,7 @@ sakai.sitespages.site_admin = function(){
 
         // Remove autosave
         removeAutoSaveFile();
-        
+
         $(window).trigger("sakai_sitespages_exitedit");
 
         $("#sitespages_page_options #page_save_options").hide();
@@ -2074,7 +2074,7 @@ sakai.sitespages.site_admin = function(){
 
     $('#more_change_layout').live("click", function(){
         // get page title
-        var title = $("#pagetitle").html();
+        var title = sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageTitle"];
         sakai.dashboard.changeLayout(title);
     });
 
