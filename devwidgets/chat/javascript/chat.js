@@ -51,6 +51,7 @@ sakai.chat = function(tuid, showSettings){
     ////////////////
     
     var globalOnlineContacts = [];
+    var globalOnlineContactsLookup = {};
     var globalChatWindows = [];
     var globalMessages = []; // globalMessages include saved messages
     var allMessages = {}; // allMessages are messages from this refresh - to keep track of read/unread
@@ -123,6 +124,7 @@ sakai.chat = function(tuid, showSettings){
                     contact.profile.picture = "/~" + onlineContacts.contacts[i].user + "/public/profile/" + $.parseJSON(onlineContacts.contacts[i].profile.picture).name;
                 }
                 contactList.push(contact);
+                globalOnlineContactsLookup[contact.profile.userid] = contact.profile;
             }
         }
         globalOnlineContacts = {"contacts": contactList, "sakaistatus": sakai.data.me.profile.chatstatus || onlineContacts["sakai:status"]};
@@ -484,6 +486,14 @@ sakai.chat = function(tuid, showSettings){
         sentDate.setTime(sentDate.getTime() + sentDate.getTimezoneOffset() * 60 * 1000);
         sentDate.setTime(sentDate.getTime() + sakai.data.me.user.locale.timezone.GMT*60*60*1000);
         appendMessage(sakai.data.me.user.userid, to, messageText, sentDate);
+
+        // save the message data
+        message["userFrom"] = [];
+        message["userFrom"].push(sakai.data.me.profile);
+        message["userTo"] = [];
+        message["userTo"].push(globalOnlineContactsLookup[to]);
+        message["sentDate"] = sentDate;
+        globalMessages.push(message);
     };
     
     /**
@@ -606,9 +616,62 @@ sakai.chat = function(tuid, showSettings){
                     allMessages[from.userid] = allMessages[from.userid] || [];
                     allMessages[from.userid].push(message);
                 }
+                globalMessages.push(message);
             }
             // sent out the batch request saying the read messages are read
             sendBatchReadRequests(bulkRequests);
+        }
+    };
+
+    /**
+     * Insert saved messages for this chat session, so they can persist across refreshes
+     * @param {Array} messages  the saved messages to insert into the chat windows
+     * @param {Array} validWindows  a list of windows to open if messages exist for them.
+     *                              if insertOwn === true and validWindows is present it'll only insert messages for the valid windows
+     */
+    var insertSavedMessages = function(messages, validWindows) {
+        for (var i = 0; i < messages.length; i++) {
+            var message = messages[i];
+            var from = message.userFrom[0];
+            if (from["rep:userId"] === sakai.data.me.user.userid) {
+                from = message["userTo"][0];
+                messageFrom = sakai.data.me.user.userid;
+            }
+            var chatWindow = getChatWindow(from.userid);
+            var sentDate;
+            if (message["sakai:created"]) {
+                sentDate = sakai.api.l10n.parseDateString(message["sakai:created"]);
+            } else if (message["sentDate"]) {
+                sentDate = new Date(message["sentDate"]);
+            }
+            if (validWindows && validWindows.length && $.inArray(from.userid, validWindows) > -1) {
+                if (!chatWindow) {
+                    // If not, create a new chat window
+                    var contact = {};
+                    contact.profile = {
+                        "userid": from.userid,
+                        "name": from.name || sakai.api.User.getDisplayName(from),
+                        "status": from.status,
+                        "chatstatus": from.chatstatus || from["sakai:status"]
+                    };
+                    if (from.picture && $.parseJSON(from.picture).name) {
+                        from.picture = "/~" + from.userid + "/public/profile/" + $.parseJSON(from.picture).name;
+                    }
+                    appendChatWindow(contact, false);
+                }
+                // Append the message
+                var messageText = message["sakai:body"];
+                appendMessage(from.userid, from.userid, messageText, sentDate);
+                // Pulse if it is not currently open
+                chatWindow = getChatWindow(from.userid);
+                if (!chatWindow.open && message["sakai:read"] === false) {
+                    $("#chat_online_button_" + from.userid).effect("pulsate", {times: 5}, 500);
+                } else if (message["sakai:read"] !== true) {
+                    // the window is open, lets mark the message as read
+                    message["sakai:read"] = true;
+                }
+                globalMessages.push(message); // only push if this window is valid, so once they close it, its gone
+            }
         }
     };
 
@@ -626,6 +689,10 @@ sakai.chat = function(tuid, showSettings){
     $(window).bind("unload", function(ev){
         if (! sakai.data.me.user.anon) {
             $.cookie('sakai_chat', $.toJSON({"windows": globalChatWindows}));
+            // if the browser supports html5 local sessionStorage, utilize it and save the messages from this session
+            if (sessionStorage) {
+                sessionStorage.setItem('messages', $.toJSON(globalMessages));
+            }
         }
     });
     
@@ -637,8 +704,17 @@ sakai.chat = function(tuid, showSettings){
         if ($.cookie('sakai_chat') && $.parseJSON($.cookie('sakai_chat'))) {
             var storedState = $.parseJSON($.cookie('sakai_chat'));
             var chatWindows = storedState.windows;
+            var validWindows = [];
             for (var i = 0; i < chatWindows.length; i++) {
 	            appendChatWindow({"profile": chatWindows[i].profile}, chatWindows[i].open);
+	            validWindows.push(chatWindows[i].profile.userid);
+            }
+            // grab the session's saved chat messages if they exist
+            if (sessionStorage) {
+                var messages = $.parseJSON(sessionStorage.getItem('messages'));
+                if (messages.length) {
+                    insertSavedMessages(messages, validWindows);
+                }
             }
         }
     };
