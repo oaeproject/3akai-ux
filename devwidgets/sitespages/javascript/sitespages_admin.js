@@ -181,11 +181,7 @@ sakai.sitespages.site_admin = function(){
             "pageType": type,
             "fullwidth": fullwidth,
             "pagePosition": position,
-            "_pages": {},  // child pages
-            "pageContent": {
-                "sling:resourceType": "sakai/pagecontent",
-                "sakai:pagecontent": content
-            }
+            "_pages": {}
         });
 
         $.ajax({
@@ -196,17 +192,29 @@ sakai.sitespages.site_admin = function(){
                 ":contentType": "json",
                 ":content": page_data,
                 ":replace": true,
-                ":replaceProperties": true,
                 "_charset_": "utf-8"
             },
             success: function(data) {
-
-                callback(true, data);
+                // add pageContent in non-replace mode to support versioning
+                $.ajax({
+                    url: i_url + "/pageContent",
+                    type: "POST",
+                    data: {
+                        "sling:resourceType": "sakai/pagecontent",
+                        "sakai:pagecontent": content
+                    },
+                    success: function (data) {
+                        callback(true, data);
+                    },
+                    error: handleError
+                });
             },
-            error: function(xhr, textStatus, thrownError) {
-                callback(false, xhr);
-            }
+            error: handleError
         });
+
+        var handleError = function (xhr, textStatus, thrownError) {
+            callback(false, xhr);
+        };
     };
 
     /**
@@ -248,7 +256,7 @@ sakai.sitespages.site_admin = function(){
      */
     var updateRevisionHistory = function (pageUrl, callback) {
         $.ajax({
-            url: pageUrl + "/pageContent.save.html",
+            url: pageUrl + "/pageContent.save.json",
             type: "POST",
             success: function(data) {
                 if (callback && typeof(callback) === "function") {
