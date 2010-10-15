@@ -2073,7 +2073,9 @@ sakai.sitespages.site_admin = function(){
     });
 
     $('#more_change_layout').live("click", function(){
-        sakai.dashboard.changeLayout();
+        // get page title
+        var title = $("#pagetitle").html();
+        sakai.dashboard.changeLayout(title);
     });
 
 
