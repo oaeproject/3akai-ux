@@ -202,6 +202,8 @@ sakai.groupedit = function(){
      * @param {String} listType Identifier for the widget/type of user we're removing (member or a manager)
      */
     var removeUsers = function(listType) {
+        // disable button
+        toggleButtons(listType,true);
 
         if (sakai.data.listpeople[listType].selectCount === sakai.data.listpeople[listType].currentElementCount && listType === "managers") {
             sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_cannot_remove_everyone").text()), sakai.api.Util.notification.type.ERROR);
@@ -267,6 +269,8 @@ sakai.groupedit = function(){
      */
     var removeContent = function(listType) {
 
+        // disable button
+        toggleButtons(listType, true);
         var removeContent;
         var reqData = [];
 
@@ -482,6 +486,28 @@ sakai.groupedit = function(){
         return list;
     };
 
+    /**
+     * Enable/disable buttons based on the selected list.
+     */
+    var toggleButtons = function(tuid,isDisable) {
+        // if disable is true
+        if (!isDisable) {
+            // if there is selected list
+            if (sakai.data.listpeople[tuid].selectCount) {
+                // enable the button
+                $("#group_editing_remove_" + tuid).removeAttr("disabled");
+            }
+            // if there is not selected list disable
+            else {
+                $("#group_editing_remove_" + tuid).attr("disabled", "disabled")
+            }
+        }
+        // disable the button
+        else {
+            $("#group_editing_remove_" + tuid).attr("disabled", "disabled")
+        }
+    }
+
     ///////////////////////
     // BINDING FUNCTIONS //
     ///////////////////////
@@ -494,6 +520,11 @@ sakai.groupedit = function(){
         // Bind the listpeople widgets
         $(window).bind("sakai-listpeople-ready", function(e, tuid){
             renderItemLists(tuid);
+        });
+
+        // Bind event when selection in the list change    
+        $(window).bind("list-people-selected-change", function(e, tuid){
+            toggleButtons(tuid);            
         });
 
         // Bind the update button

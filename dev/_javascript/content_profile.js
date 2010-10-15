@@ -146,6 +146,8 @@ sakai.content_profile = function(){
      * @param {String} task Operation of either adding or removing
      */
     var addRemoveUsers = function(tuid, users, task) {
+        // disable buttons
+        toggleButtons(tuid,true);
         var notificationType = sakai.api.Security.saneHTML($("#content_profile_viewers_text").text());
         if (sakai.data.listpeople[tuid].selectCount === sakai.data.listpeople[tuid].currentElementCount && tuid === "managers" && task === 'remove') {
             sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_cannot_remove_everyone").text()), sakai.api.Util.notification.type.ERROR);
@@ -211,6 +213,27 @@ sakai.content_profile = function(){
         }
     };
 
+    /**
+     * Enable/disable buttons based on the selected list.
+     */
+    var toggleButtons = function(tuid,isDisable) {
+        // if disable is true
+        if (!isDisable) {
+            // if there is selected list
+            if (sakai.data.listpeople[tuid].selectCount) {
+                // enable the button
+                $("#content_profile_remove_" + tuid).removeAttr("disabled");
+            }
+            // if there is not selected list disable
+            else {
+                $("#content_profile_remove_" + tuid).attr("disabled", "disabled")
+            }
+        }
+        // disable the button
+        else {
+            $("#content_profile_remove_" + tuid).attr("disabled", "disabled")
+        }
+    }
 
     ///////////////////////
     // BINDING FUNCTIONS //
@@ -229,6 +252,10 @@ sakai.content_profile = function(){
             });
         }
 
+        // Bind event when selection in the list change    
+        $(window).bind("list-people-selected-change", function(e, tuid){
+            toggleButtons(tuid);            
+        });
 
         // Bind the remove viewers button
         $("#content_profile_remove_viewers").bind("click", function(){
