@@ -645,6 +645,9 @@ sakai.inbox = function() {
                 cats = "chat";
             }
             url = sakai.config.URL.MESSAGE_BOXCATEGORY_SERVICE + "?box=" + box + "&category=" + cats + "&items=" + messagesPerPage + "&page=" + currentPage;
+        } else {
+            // default to just the messages so your inbox isn't clogged up with chat messages
+            url = sakai.config.URL.MESSAGE_BOXCATEGORY_SERVICE + "?box=" + box + "&category=message&items=" + messagesPerPage + "&page=" + currentPage;
         }
 
         switch(sortBy) {
