@@ -95,7 +95,7 @@ sakai.pickeruser = function(tuid, showSettings) {
       "spaceName": "Space",
       "items": 50,
       "selectable": true,
-      "sortOn": "lastName",
+      "sortOn": "public/authprofile/basic/elements/lastName/@value",
       "sortOrder": "ascending",
       "what": "People",
       "where": "Group",
