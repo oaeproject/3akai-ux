@@ -55,6 +55,7 @@ sakai.chat = function(tuid, showSettings){
     var globalChatWindows = [];
     var globalMessages = []; // globalMessages include saved messages
     var allMessages = {}; // allMessages are messages from this refresh - to keep track of read/unread
+    var supportsSessionStorage = false;
 
     ///////////////////////
     ///////////////////////
@@ -690,7 +691,7 @@ sakai.chat = function(tuid, showSettings){
         if (! sakai.data.me.user.anon) {
             $.cookie('sakai_chat', $.toJSON({"windows": globalChatWindows}));
             // if the browser supports html5 local sessionStorage, utilize it and save the messages from this session
-            if (sessionStorage) {
+            if (supportsSessionStorage) {
                 sessionStorage.setItem('messages', $.toJSON(globalMessages));
             }
         }
@@ -710,9 +711,9 @@ sakai.chat = function(tuid, showSettings){
 	            validWindows.push(chatWindows[i].profile.userid);
             }
             // grab the session's saved chat messages if they exist
-            if (sessionStorage) {
+            if (supportsSessionStorage) {
                 var messages = $.parseJSON(sessionStorage.getItem('messages'));
-                if (messages.length) {
+                if (messages && messages.length) {
                     insertSavedMessages(messages, validWindows);
                 }
             }
@@ -806,6 +807,8 @@ sakai.chat = function(tuid, showSettings){
      */
     if (!sakai.data.me.user.anon){
         showChatBar();
+        // the following line is from Modernizr http://www.modernizr.com/, licensed under a dual MIT-BSD license
+        supportsSessionStorage = ('sessionStorage' in window) && window['sessionStorage'] !== null;
         loadOnlineContacts(function() {
             restoreChatWindows();
         });
