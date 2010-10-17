@@ -207,6 +207,14 @@ sakai.account_preferences = function(){
         $.ajax({
             url : "/dev/_configuration/languages.json",
             success : function(data) {
+                if (sakai.config.displayDebugInfo === true) {
+                    data.languages.push({
+                        "country": "GB",
+                        "displayName": "i18n debug",
+                        "language": "lu"
+                    })
+                }
+
                 languages = $.extend(data, {}, true);
                 putLangsinCmb(languages);
             },

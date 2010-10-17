@@ -1090,9 +1090,16 @@ sakai.api.i18n.General.process = function(toprocess, localbundle, defaultbundle)
             replace = replace.substr(1, replace.length);
         }
 
-        var toreplace = quotes + sakai.api.i18n.General.getValueForKey(lastParen) + quotes;
-        processed += toprocess.substring(lastend,expression.lastIndex-replace.length) + toreplace;
-        lastend = expression.lastIndex;
+        // check for i18n debug
+        if (sakai.config.displayDebugInfo === true && sakai.data.me.user.locale && sakai.data.me.user.locale.language === "lu" && sakai.data.me.user.locale.country === "GB"){
+            var toreplace = quotes + replace.substr(7, replace.length - 9) + quotes;
+            processed += toprocess.substring(lastend, expression.lastIndex - replace.length) + toreplace;
+            lastend = expression.lastIndex;
+        } else {
+            var toreplace = quotes + sakai.api.i18n.General.getValueForKey(lastParen) + quotes;
+            processed += toprocess.substring(lastend, expression.lastIndex - replace.length) + toreplace;
+            lastend = expression.lastIndex;
+        }
     }
     processed += toprocess.substring(lastend);
     return processed;
