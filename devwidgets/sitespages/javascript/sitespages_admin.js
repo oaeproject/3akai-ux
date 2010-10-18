@@ -658,8 +658,8 @@ sakai.sitespages.site_admin = function(){
         pagetitle = sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageTitle"];
 
 
-        // Prefill page title
-        $(".title-input").val(pagetitle);
+        // Prefill page title -- $("<div></div>").append(pagetitle).text(): getting rid of HTML special entities on display - there might be better ways...
+        $("#title-input").val($("<div></div>").append(pagetitle).text());
 
         // Generate the page location
         showPageLocation();
@@ -1196,7 +1196,7 @@ sakai.sitespages.site_admin = function(){
                 }
                 sakai.sitespages.newwidget_uid = nuid;
                 $("#dialog_content").html(sakai.api.Security.saneHTML('<img src="' + Widgets.widgets[type].img + '" id="' + nuid + '" class="widget_inline" border="1"/>'));
-                $("#dialog_title").text(Widgets.widgets[type].name);
+                $("#dialog_title").html(Widgets.widgets[type].name);
                 sakai.api.Widgets.widgetLoader.insertWidgets("dialog_content", true,sakai.sitespages.config.basepath + "_widgets/");
                 $("#dialog_content").show();
                 $insert_more_menu.hide();
@@ -1636,7 +1636,7 @@ sakai.sitespages.site_admin = function(){
             var id = "widget_" + widgetid + "_" + tuid;
             sakai.sitespages.newwidget_uid = id;
             $dialog_content.html(sakai.api.Security.saneHTML('<img src="' + Widgets.widgets[widgetid].img + '" id="' + id + '" class="widget_inline" border="1"/>'));
-            $("#dialog_title").text(Widgets.widgets[widgetid].name);
+            $("#dialog_title").html(Widgets.widgets[widgetid].name);
             sakai.api.Widgets.widgetLoader.insertWidgets(tuid,true,sakai.sitespages.config.basepath + "_widgets/");
             $dialog_content.show();
             window.scrollTo(0,0);

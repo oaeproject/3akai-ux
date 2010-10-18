@@ -341,7 +341,7 @@ sakai.sitespages = function(tuid,showSettings){
           pageType = sakai.sitespages.site_info._pages[pageUrlName]["pageType"];
 
           // Set page title
-          $pagetitle.text(sakai.api.Security.saneHTML(sakai.sitespages.site_info._pages[pageUrlName]["pageTitle"]));
+          $pagetitle.html(sakai.api.Security.saneHTML(sakai.sitespages.site_info._pages[pageUrlName]["pageTitle"]));
         }
 
         // UI setup
