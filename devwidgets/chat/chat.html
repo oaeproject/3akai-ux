@@ -13,7 +13,7 @@
                     {if sakai.data.me.profile.picture && $.parseJSON(sakai.data.me.profile.picture).name}
                         <img src="/~${sakai.data.me.user.userid}/public/profile/${$.parseJSON(sakai.data.me.profile.picture).name}" />
                     {else}
-                        <img src="/dev/_images/person_icon.jpg" />
+                        <img src="/dev/_images/user_avatar_icon_48x48.png" />
                     {/if}
                 </td>
                 <td>
@@ -41,7 +41,7 @@
                                 {if i.profile.picture}
                                     <img src="${i.profile.picture}"/>
                                 {else}
-                                    <img src="/dev/_images/person_icon.jpg"/>
+                                    <img src="/dev/_images/user_avatar_icon_32x32.png"/>
                                 {/if}
                             </td>
                             <td>
@@ -81,23 +81,23 @@
 <!-- CHAT WINDOW -->
 <div style="display:none" id="chat_windows_windows_template"><!--
         <div id="chat_with_${profile.userid}" class="chat_with_user hidden">
-        
-	        <table class="chat_top_table">
-	            <tr class="chat_top_container">
-	                <td class="chat_available_image">
-  	                    {if profile.picture}
-	                        <img src="${profile.picture}" id="chat_window_photo_${profile.userid}" />
+
+            <table class="chat_top_table">
+                <tr class="chat_top_container">
+                    <td class="chat_available_image">
+                        {if profile.picture}
+                            <img src="${profile.picture}" id="chat_window_photo_${profile.userid}" />
                         {else}
-                            <img src="/dev/_images/person_icon.jpg" id="chat_window_photo_${profile.userid}" />
+                            <img src="/dev/_images/user_avatar_icon_48x48.png" id="chat_window_photo_${profile.userid}" />
                         {/if}
                     </td>
                     <td>
-                    	<span class="chat_user_button_image">
-                        	<a href="javascript:;" id="chat_minimize_${profile.userid}" class="chat_minimize">
-                            	<img src="/devwidgets/chat/images/chat_minimize.png" alt="Minimize this chat window" />
+                        <span class="chat_user_button_image">
+                            <a href="javascript:;" id="chat_minimize_${profile.userid}" class="chat_minimize">
+                                <img src="/devwidgets/chat/images/chat_minimize.png" alt="Minimize this chat window" />
                             </a>
                             <a href="javascript:;" id="chat_close_${profile.userid}" class="chat_close">
-                            	<img src="/devwidgets/chat/images/chat_close.png" alt="Close this chat window" />
+                                <img src="/devwidgets/chat/images/chat_close.png" alt="Close this chat window" />
                             </a>
                         </span>
                         <a href="/~${profile.userid}" id="chat_window_name_${profile.userid}" class="chat_window_name">${sakai.api.Util.shortenString(profile.name, 14)}</a><br />
@@ -106,7 +106,7 @@
                                 ${sakai.api.Util.shortenString(profile.status, 20)}
                             {else}
                                 No status message
-                            {/if}    
+                            {/if}
                         </span>
                     </td>
                 </tr>
@@ -127,28 +127,28 @@
 
 <!-- CHAT CONTAINER -->
 <div class="chat_main_container" id="chat_main_container" style="display:none;">
-	<div id="chat_container">
-		<table class="chat_main_table" summary="Chat">
-			<tr>
-				<td id="chat_windows"></td>
-				<td id="chat_online_connections_link">
-					<div id="chat_online_button">
-					    <div id="chat_online_list_activator">
-						    <img src="/devwidgets/chat/images/people.png" class="chat_people_icon" alt="Online"/>
-						    <span class="chat_straight_link" id="chat_online"></span>
+    <div id="chat_container">
+        <table class="chat_main_table" summary="Chat">
+            <tr>
+                <td id="chat_windows"></td>
+                <td id="chat_online_connections_link">
+                    <div id="chat_online_button">
+                        <div id="chat_online_list_activator">
+                            <img src="/devwidgets/chat/images/people.png" class="chat_people_icon" alt="Online"/>
+                            <span class="chat_straight_link" id="chat_online"></span>
                         </div>
-                        
+
                         <!-- SHOW ONLINE FRIENDS -->
                         <div id="chat_show_online" style="display:none">
                             <div id="chat_available"></div>
                         </div>
-                        
-					</div>
-				</td>
-			</tr>
-		</table>
+
+                    </div>
+                </td>
+            </tr>
+        </table>
         <div id="chat_windows_container"><!-- --></div>
-	</div>
+    </div>
 </div>
 
 <!-- JAVASCRIPT -->
