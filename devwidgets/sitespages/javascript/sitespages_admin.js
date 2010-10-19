@@ -306,6 +306,9 @@ sakai.sitespages.site_admin = function(){
             // Example content CSS (should be your site CSS)
             content_css: sakai.config.URL.TINY_MCE_CONTENT_CSS,
 
+            // Editor CSS - custom Sakai Styling
+            editor_css: sakai.config.URL.TINY_MCE_EDITOR_CSS,
+
             // Drop lists for link/image/media/template dialogs
             template_external_list_url: "lists/template_list.js",
             external_link_list_url: "lists/link_list.js",
@@ -670,7 +673,7 @@ sakai.sitespages.site_admin = function(){
             content = sakai.sitespages.pagecontents[pageUrlName];
         }
         else {
-            content = sakai.sitespages.pagecontents[pageUrlName]["sakai:pagecontent"];
+            content = sakai.sitespages.pagecontents[pageUrlName]["sakai:pagecontent"] || "";
         }
 
         tinyMCE.get("elm1").setContent(content, {format : 'raw'});
