@@ -67,6 +67,7 @@ sakai.navigation = function(tuid, showSettings){
     var $deleteDialog = $("#delete_dialog");  // careful! coming from sitespages.html
     var $nodeleteDialog = $("#no_delete_dialog"); // ^^
     var $deleteConfirmPageTitle = $(".sitespages_delete_confirm_page_title");  // careful! coming from sitespages.html
+    var $navigation_delete_confirm_title = $("#navigation_delete_confirm_title");
     var $navigation_admin_options = $("#navigation_admin_options", $rootel);
     var $navigation_footer_edit = $("#navigation_footer_edit", $rootel);
     var $navigation_footer_noedit = $("#navigation_footer_noedit", $rootel);
@@ -289,7 +290,7 @@ sakai.navigation = function(tuid, showSettings){
         if(pageTitle) {
             $deleteConfirmPageTitle.html("&quot;" + pageTitle + "&quot;");
         } else {
-            $deleteConfirmPageTitle.html("this page");
+            $deleteConfirmPageTitle.html($navigation_delete_confirm_title.html());
         }
         if (sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage].deletable === false) {
             $nodeleteDialog.jqmShow();

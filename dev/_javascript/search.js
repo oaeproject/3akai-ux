@@ -50,6 +50,7 @@ sakai.search = function() {
         search : "#search",
         global : {
             resultTemp : search + "_result_temp",
+            thousands : search + "_result_thousands",
             introductionText: "#introduction_text",
             button : search + "_button",
             text : ".search_content_main " + search + '_text',
@@ -194,7 +195,7 @@ sakai.search = function() {
         if (totalItemsFound <= sakai.config.Search.MAX_CORRECT_SEARCH_RESULT_COUNT) {
             $(searchConfig.global.numberFound).text(""+totalItemsFound);
         } else {
-            $(searchConfig.global.numberFound).text("thousands of");
+            $(searchConfig.global.numberFound).text($(searchConfig.global.thousands).html());
         }
 
     };

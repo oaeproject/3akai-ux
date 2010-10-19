@@ -13,27 +13,27 @@
             <p>
                 <label for="basiclti_settings_lti_virtual_tool_id">Tool:</label>
                 <select id="basiclti_settings_lti_virtual_tool_id" name="lti_virtual_tool_id">
-                    <option value="sakai.announcements">Announcements</option>
-                    <option value="sakai.assignment.grades">Assignments</option>
-                    <option value="sakai.schedule">Calendar</option>
-                    <option value="sakai.summary.calendar">Calendar Summary</option>
-                    <option value="sakai.chat">Chat Room</option>
-                    <option value="sakai.dropbox">Drop Box</option>
-                    <option value="sakai.mailbox">Email Archive</option>
-                    <option value="sakai.forums">Forums</option>
-                    <option value="sakai.gradebook.tool">Gradebook</option>
-                    <option value="sakai.messages">Messages</option>
-                    <option value="sakai.news">News</option>
-                    <option value="sakai.poll">Polls</option>
-                    <option value="sakai.postem">PostEm</option>
-                    <option value="sakai.profile">Profile</option>
-                    <option value="sakai.profile2">Profile2</option>
-                    <option value="sakai.resources">Resources</option>
-                    <option value="sakai.site.roster">Roster</option>
-                    <option value="sakai.rwiki">rWiki</option>
-                    <option value="sakai.singleuser">Single User</option>
-                    <option value="sakai.syllabus">Syllabus</option>
-                    <option value="sakai.samigo">Tests & Quizzes</option>
+                    <option value="sakai.announcements">__MSG__ANNOUNCEMENTS__</option>
+                    <option value="sakai.assignment.grades">__MSG__ASSIGNMENTS__</option>
+                    <option value="sakai.schedule">__MSG__CALENDAR__</option>
+                    <option value="sakai.summary.calendar">__MSG__CALENDAR_SUMMARY__</option>
+                    <option value="sakai.chat">__MSG__CHAT_ROOM__</option>
+                    <option value="sakai.dropbox">__MSG__DROP_BOX__</option>
+                    <option value="sakai.mailbox">__MSG__EMAIL_ARCHIVE__</option>
+                    <option value="sakai.forums">__MSG__FORUMS__</option>
+                    <option value="sakai.gradebook.tool">__MSG__GRADEBOOK__</option>
+                    <option value="sakai.messages">__MSG__MESSAGES__</option>
+                    <option value="sakai.news">__MSG__NEWS__</option>
+                    <option value="sakai.poll">__MSG__POLLS__</option>
+                    <option value="sakai.postem">__MSG__POSTEM__</option>
+                    <option value="sakai.profile">__MSG__PROFILE__</option>
+                    <option value="sakai.profile2">__MSG__PROFILE2__</option>
+                    <option value="sakai.resources">__MSG__RESOURCES__</option>
+                    <option value="sakai.site.roster">__MSG__ROSTER__</option>
+                    <option value="sakai.rwiki">__MSG__RWIKI__</option>
+                    <option value="sakai.singleuser">__MSG__SINGLE_USER__</option>
+                    <option value="sakai.syllabus">__MSG__SYLLABUS__</option>
+                    <option value="sakai.samigo">__MSG__TESTS_N_QUIZZES__</option>
                 </select>
             </p>
             <p>
@@ -42,29 +42,29 @@
             <div id="basiclti_settings_preview">
 
             </div>
-            <button type="button" class="s3d-button s3d-button-primary" id="basiclti_settings_advanced_toggle_settings"><span class="s3d-button-inner">Advanced Settings <span id="basiclti_settings_advanced_down">&#8595;</span><span id="basiclti_settings_advanced_up">&#8593;</span></span></button>
+            <button type="button" class="s3d-button s3d-button-primary" id="basiclti_settings_advanced_toggle_settings"><span class="s3d-button-inner">__MSG__ADVANCED_SETTINGS__ <span id="basiclti_settings_advanced_down">&#8595;</span><span id="basiclti_settings_advanced_up">&#8593;</span></span></button>
         </div>
         <div id="basiclti_settings_advanced" style="display:none;">
             <div class="basiclti_settings_subcontainer">
-                <label class="basiclti_settings_label_head">Size:</label><br />
+                <label class="basiclti_settings_label_head">__MSG__SIZE__:</label><br />
                 <div class="basiclti_settings_block">
-                    <label for="basiclti_settings_width">Width:</label>
+                    <label for="basiclti_settings_width">__MSG__WIDTH__:</label>
                     <input type="text" id="basiclti_settings_width" value="${width}" />
                     <a href="javascript:;" id="basiclti_settings_width_unit_px" class="basiclti_settings_width_unit {if width_unit == "px"} basiclti_settings_width_unit_selected{/if}"> px</a>
                     <span> or </span>
                     <a href="javascript:;" id="basiclti_settings_width_unit_percent" class="basiclti_settings_width_unit {if width_unit == "%"} basiclti_settings_width_unit_selected{/if}"> %</a>
                     <br />
-                    <label for="basiclti_settings_frame_height">Height:</label>
+                    <label for="basiclti_settings_frame_height">__MSG__HEIGHT__:</label>
                     <input type="text" id="basiclti_settings_frame_height" value="${frame_height}" /><span> px</span>
-                    <button type="button" class="s3d-button s3d-button-primary" id="basiclti_settings_reset_size"><span class="s3d-button-inner">Reset to original size</span></button>
+                    <button type="button" class="s3d-button s3d-button-primary" id="basiclti_settings_reset_size"><span class="s3d-button-inner">__MSG__RESET_TO_ORIGINAL_SIZE__</span></button>
                     <br class="fl-push" />
                 </div>
             </div>
 
             <div class="basiclti_settings_subcontainer">
-                <label class="basiclti_settings_label_head">Border:</label><br />
+                <label class="basiclti_settings_label_head">__MSG__BORDER__:</label><br />
                 <div class="basiclti_settings_block">
-                    <label for="basiclti_settings_borders">Width:</label>
+                    <label for="basiclti_settings_borders">__MSG__WIDTH__:</label>
                     <input type="text" id="basiclti_settings_borders" value="${border_size}" /><span> px</span><br class="fl-push" />
                     <div id="basiclti_settings_color_container">
                     </div>

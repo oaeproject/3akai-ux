@@ -8,7 +8,7 @@
         <div class="dialog_header_inner">
             <h1 id="pickeruser_adding_people" class="pickeruser_adding_titles" style="display:none">__MSG__ADDING_PEOPLE__</h1>
             <h1 id="pickeruser_adding_files"  class="pickeruser_adding_titles" style="display:none">__MSG__ADDING_CONTENT__</h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog"></a>
+            <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__"></a>
         </div>
     </div>
     <div id="pickeruser_container_search" class="dialog_content">
@@ -58,9 +58,9 @@
                 {for i in results}
                 <li data-userid="${i['rep:userId']}" id="${i['rep:userId']}">
                     {if i.picture}
-                        <img src="/~${i["rep:userId"]}/public/profile/${i.picture.name}" alt="Profile picture for ${i.firstName} ${i.lastName}" class="pickeruser_ppicture"/>
+                        <img src="/~${i["rep:userId"]}/public/profile/${i.picture.name}" alt="__MSG__PROFILE_PICTURE_FOR__ ${i.firstName} ${i.lastName}" class="pickeruser_ppicture"/>
                     {else}
-                        <img src="/dev/_images/person_icon.jpg" alt="Default profile picture" class="pickeruser_ppicture"/>
+                        <img src="/dev/_images/person_icon.jpg" alt="__MSG__DEFAULT_PROFILE_PICTURE__" class="pickeruser_ppicture"/>
                     {/if}
                     <a class="pickeruser_name" href="/~${i['rep:userId']}">${sakai.api.User.getDisplayName(i)}</a>
                     <br />
