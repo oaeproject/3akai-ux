@@ -1,7 +1,7 @@
 <link rel="stylesheet" type="text/css" href="/devwidgets/siterecentactivity/css/siterecentactivity.css" />
 
 <div id="siterecentactivity_settings" style="display:none">
-    <p>No settings available</p>
+    <p>__MSG__NO_SETTINGS_AVAILABLE__</p>
     <div class="dialog_buttons">
         <button type="button" class="s3d-button s3d-button-primary" id="siterecentactivity_settings_submit"><span class="s3d-button-inner">__MSG__FINISH__</span></button>
         <button type="button" class="s3d-button" id="siterecentactivity_settings_cancel"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
@@ -11,7 +11,7 @@
     <div class="siterecentactivity">
 
         <div class="si_titlebar">
-            <div class="si_titlebar_inner"><h2 class="si_title">Recent Activity</h2></div>
+            <div class="si_titlebar_inner"><h2 class="si_title">__MSG__RECENT_ACTIVITY__</h2></div>
         </div>
 
         <div id="siterecentactivity_container" class="si_content"><!-- --></div>
@@ -23,16 +23,16 @@
                     <a href="${i.page_url}">${i.page_title}</a>
                     <p>
                     {if i.type === "page_edit"}
-                        Page updated ${i.date_parsed}
+                        __MSG__PAGE_UPDATED__ ${i.date_parsed}
                     {elseif i.type === "page_create"}
-                        Page created ${i.date_parsed}
+                        __MSG__PAGE_CREATED__ ${i.date_parsed}
                     {elseif i.type === "page_move"}
-                        Page moved ${i.date_parsed}
+                        __MSG__PAGE_MOVED__ ${i.date_parsed}
                     {/if}
                     </p>
                 </li>
             {forelse}
-                <li class="siterecentactivity_empty">No recent activity available</li>
+                <li class="siterecentactivity_empty">__MSG__NO_RECENT_ACTIVITY_AVAILABLE__</li>
             {/for}
             </ul>
         --></div>

@@ -2029,6 +2029,7 @@ sakai.sitespages.site_admin = function(){
     $("#more_move").live("click", function() {
 
         $("#more_menu").hide();
+        // 
         sakai.api.Util.notification.show("Page move", "To move a page just drag&drop in the page navigation widget!", sakai.api.Util.notification.type.INFORMATION);
     });
 
