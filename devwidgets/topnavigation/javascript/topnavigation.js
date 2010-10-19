@@ -335,21 +335,21 @@ sakai.topnavigation = function(tuid, showSettings){
         $(".personal .sign_out").hide();
         $(".help").hide();
         $("#user_link_container").hide();
-        
+
         // Hide search bar
- 	    $general_search_container.hide();
+        $general_search_container.hide();
 
         // Show anonymous elements
         $("#other_logins_button_container").show();
-        $(".log_in").addClass("help_none"); 
+        $(".log_in").addClass("help_none");
 
         // if config.js is set to external, register link is hidden
         if(!sakai.config.Authentication.internal) {
-            $("#register_button_container").hide();   
+            $("#register_button_container").hide();
         }
         else {
             $("#register_button_container").show();
-        }        
+        }
         $("#login_button_container").show();
 
         // Set up public nav links
@@ -420,9 +420,9 @@ sakai.topnavigation = function(tuid, showSettings){
      * executed on the initial load of the page
      */
     var doInit = function(){
-        
+
         $(navMyProfile).attr("href", "/~" + sakai.data.me.user.userid);
-        
+
         var obj = {};
         var menulinks = [];
 
@@ -430,7 +430,7 @@ sakai.topnavigation = function(tuid, showSettings){
 
             // We need to add the hasOwnProperty to pass to JSLint and it is also a security issue
             if (sakai.config.Navigation.hasOwnProperty(i)) {
-            
+
                 var temp = new Object();
                 temp.url = sakai.config.Navigation[i].url;
                 temp.label = sakai.api.i18n.General.getValueForKey(sakai.config.Navigation[i].label);

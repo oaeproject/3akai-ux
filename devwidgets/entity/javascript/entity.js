@@ -236,8 +236,8 @@ sakai.entity = function(tuid, showSettings){
         sakai.data.me.profile = $.extend(true, {}, sakai.data.me.profile, {"chatstatus": chatstatus});
 
         var data = {
-        	"chatstatus": chatstatus,
-        	"_charset_": "utf-8"
+            "chatstatus": chatstatus,
+            "_charset_": "utf-8"
         };
 
         $.ajax({
@@ -698,13 +698,13 @@ sakai.entity = function(tuid, showSettings){
     };
 
     // Add the click listener to the document
- 	$(document).click(function(e){
- 	    var $clicked = $(e.target);
- 	    // if element clicked is not tag Link only then hide the menu.
- 	    if (!$clicked.parents().is(tagsLink)) {
- 	        showHideListLinkMenu(tagsLinkMenu, tagsLink, true);
- 	    }
- 	});
+    $(document).click(function(e){
+        var $clicked = $(e.target);
+        // if element clicked is not tag Link only then hide the menu.
+        if (!$clicked.parents().is(tagsLink)) {
+            showHideListLinkMenu(tagsLinkMenu, tagsLink, true);
+        }
+    });
 
     /**
      * Add binding to elements related to locations drop down
@@ -1134,16 +1134,27 @@ sakai.entity = function(tuid, showSettings){
         $entity_container.empty().hide();
         $entity_container_actions.empty();
 
+        //Set initial chat status
+        if (mode === entitymodes[0]) {
+            if (!sakai.data.me.profile.chatstatus) {
+                // Assume online until chat status is persistent since that's what other comonents are doing, and so that the template has a consistent default
+                sakai.data.me.profile.chatstatus = "online"
+            }
+        }
+
         //Get the content data
         getContentData(mode, data);
+
     };
 
     $(window).trigger("sakai.api.UI.entity.ready", {});
     sakai.entity.isReady = true;
+
     // Add binding to update the chat status
     $(window).bind("chat_status_change", function(event, newChatStatus){
         updateChatStatusElement(newChatStatus);
     });
+
     $(window).bind("sakai-fileupload-complete", function(){
         if (sakai.hasOwnProperty("content_profile")) {
             sakai.api.UI.entity.render("content", sakai.content_profile.content_data);
