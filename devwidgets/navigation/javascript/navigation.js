@@ -545,7 +545,8 @@ sakai.navigation = function(tuid, showSettings){
             [ "themes", "json_data", "ui", "cookies" ];
         $navigationTree.jstree({
             "core": {
-                "animation": 0
+                "animation": 0,
+                "html_titles": true
             },
             "cookies": {
                 "save_selected": false

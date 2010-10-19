@@ -45,7 +45,7 @@
     top: -15px;
 }
 
-/* Button */	
+/* Button */
 .search_add_content_button, .search_add_group_button {
     float:right;
 }
@@ -203,13 +203,15 @@ a.search_results_part_title {
     height: 60px;
     float: left;
     border: none;
+    overflow: hidden;
+
 }
 
 .search_result_person_picture {
     float: left;
     display: block;
-    width: 60px;
-    height: 60px;
+    width: 48px;
+    height: 48px;
     padding: 0;
     margin: 0;
 }
@@ -226,7 +228,7 @@ a.search_results_part_title {
     color: #000;
     font-weight: bold;
     font-size: 1em;
-    margin-left: 70px;
+    margin-left: 57px;
     margin-top: 4px;
 }
 
@@ -234,11 +236,12 @@ a.search_results_part_title {
     display: block;
     color: #999;
     font-size: .85em;
-    margin: 0 0 6px 70px;
+    margin: 0 0 4px 57px;
+    line-height:12px;
 }
 
 .search_result_person_links {
-    margin-left: 70px;
+    margin-left: 57px;
 
 }
 .search_result_person_link {

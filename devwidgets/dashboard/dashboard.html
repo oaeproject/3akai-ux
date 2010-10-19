@@ -14,7 +14,7 @@
         </div>
         <div class="dialog_content">
             <div class="add-tools-right">
-                <h4>__MSG__SELECT_A_LAYOUT_FOR_YOUR_MY_SAKAI_PAGE__</h4>
+                <h4 id="pageTitle">__MSG__SELECT_A_LAYOUT_FOR_YOUR_MY_SAKAI_PAGE__<span id="paget_title_only"></span></h4>
                 <div class="elf-right-up fl-fix">
                     <div id="layouts_list"></div>
                 </div>
@@ -24,7 +24,7 @@
             </div>
         </div>
         <div class="dialog_footer">
-            <div class="dialog_footer_inner"><!-- 
+            <div class="dialog_footer_inner"><!--
             --></div>
         </div>
     </div>
@@ -62,18 +62,18 @@
         <div class="dialog_header">
             <div class="dialog_header_inner">
                 <h1>__MSG__ADD_WIDGETS__</h1>
-                <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+                <a href="javascript:;" class="close_goodies_dialog dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
             </div>
         </div>
-        
+
         <!-- DIALOG CONTENT -->
         <div class="dialog_content">
             <div id="add_goodies_body" class="dialog_body"></div>
         </div>
-        
+
         <!-- DIALOG FOOTER -->
         <div class="dialog_footer">
-            <div class="dialog_footer_inner"><!-- 
+            <div class="dialog_footer_inner"><!--
             --></div>
         </div>
         <div id="add_goodies_body_template"><!--
@@ -110,7 +110,7 @@
                       {else}
                       <tr id="row_remove_${i.id}" class="remove" style="display:none">
                       {/if}
-                          <td width="80px">
+                          <td class="remove_add_column">
                               <button type="button" class="s3d-button add-button remove goodies_remove_button" id="btn_remove_${i.id}"><span class="s3d-button-inner">__MSG__REMOVE__</span></button>
                           </td>
                           <td>
@@ -154,7 +154,7 @@
             {/for}
         </div>
     --></div>
-    
+
     <!-- Note: Removed fl-fix in the titlebar as it chokes FireFox. Please put it back if it gives problems
     in other browsers -->
 

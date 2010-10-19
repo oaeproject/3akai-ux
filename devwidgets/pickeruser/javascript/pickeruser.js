@@ -95,7 +95,7 @@ sakai.pickeruser = function(tuid, showSettings) {
       "spaceName": "Space",
       "items": 50,
       "selectable": true,
-      "sortOn": "lastName",
+      "sortOn": "public/authprofile/basic/elements/lastName/@value",
       "sortOrder": "ascending",
       "what": "People",
       "where": "Group",
@@ -191,7 +191,7 @@ sakai.pickeruser = function(tuid, showSettings) {
             messageList.push(sakai.data.me.profile["rep:userId"]);
           }
           if (iConfig.URL){
-              messageText = messageText + "\n\n" + "<a href='" + iConfig.URL + "'>" + iConfig.URL + "</a>";
+              messageText = messageText + "\n\n" + "<a href='" + window.location.href + "'>" + window.location.href + "</a>";
           }
           sakai.api.Communication.sendMessage(messageList, sakai.api.Security.saneHTML($("#pickeruser_subject_text").text()) + " " + iConfig.where, messageText);
       }

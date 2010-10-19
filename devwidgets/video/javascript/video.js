@@ -280,8 +280,7 @@ sakai.video = function(tuid, showSettings) {
     /** Bind the 'Don't Add' button */
     $(videoBack, rootel).bind("click",
     function(e, ui) {
-        $(videoSettings, rootel).hide();
-        $(videoOutput, rootel).show();
+        sakai.api.Widgets.Container.informCancel(tuid, "video");
     });
 
     /** Bind the insert placeholder button -- NOT FOR Q1

@@ -128,29 +128,9 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         });
 
         $(groupbasicinfo_update, $rootel).bind("click", function(){
-             // This function will be called when the widget or the container
-             // wants to save the new profile data
-            var basicinfoupdate = function(){
-                // Check if there are any faulty values in directory selection
-                var valueSelected = true;
-                $(".groupbasicinfo_added_directory select").each(function(){
-                    if($(this).selected().val() === "no_value"){
-                        if($(this).hasClass("groupbasicinfo_generalinfo_group_directory_lvlone")){
-                            valueSelected = false;
-                        }
-                    }
-                });
-                // If all values are selected execute the update
-                if (valueSelected) {
-                    updateGroup();
-                } else {
-                    sakai.api.UI.groupbasicinfo.enableInputElements();
-                    sakai.api.Util.notification.show($(groupbasicinfoSelectDirectory).html(), $(groupbasicinfoSelectAtLeastOneDirectory).html());
-                }
-            };
             // disable all basic info input elements while update is processed
             sakai.api.UI.groupbasicinfo.disableInputElements();
-            basicinfoupdate();
+            updateGroup();
         });
 
         $(groupBasicInfoDirectoryLvlOne).live("change", function(){
@@ -172,7 +152,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
             addAnotherLocation();
         });
 
-        $(groupBasicInfoRemoveLocation).live("click", function(){
+        $(groupBasicInfoRemoveLocation).bind("click", function(){
             removeDirectoryLocation($(this).parent());
             $(this).parent().remove();
         });
@@ -274,55 +254,65 @@ sakai.groupbasicinfo = function(tuid, showSettings){
      */
     var updateGroup = function(){
 
-        // need to validate data
-        var groupTitle = $(groupBasicInfoGroupTitle, $rootel).val();
-        var groupKind = $(groupBasicInfoGroupKind, $rootel).val();
-        if (sakai.currentgroup.data.authprofile["sakai:tags"] !== undefined) {
-            var currentTags = sakai.currentgroup.data.authprofile["sakai:tags"].slice(0);
-        } else {
-            var currentTags = [];
-            sakai.currentgroup.data.authprofile["sakai:tags"] = [];
+        // --- validate data ---
+
+        // group title (cannot be blank)
+        var groupTitle = $.trim($(groupBasicInfoGroupTitle, $rootel).val());
+        if (!groupTitle) {
+            groupTitle = sakai.currentgroup.data.authprofile["sakai:group-title"];
         }
 
-        // Get all the tags
-        //sakai.currentgroup.data.authprofile["sakai:tags"] = [];
-        var tags = $(groupBasicInfoGroupTags).val().split(",");
-        $(tags).each(function(i, tag){
-            tag = $.trim(tag).replace(/#/g,"");
-            if (sakai.api.Security.escapeHTML(tag) === tag && tag.replace(/\\/g,"").length) {
-                if ($.inArray(tag, sakai.currentgroup.data.authprofile["sakai:tags"]) < 0) {
-                    sakai.currentgroup.data.authprofile["sakai:tags"].push(tag.replace(/\\/g,""));
+        // group kind (should be preset values)
+        var groupKind = $(groupBasicInfoGroupKind, $rootel).val();
+
+        // group tags
+        var currentTags = [];
+        if (sakai.currentgroup.data.authprofile["sakai:tags"]) {
+            currentTags = sakai.currentgroup.data.authprofile["sakai:tags"].slice(0);
+        }
+        var enteredTags = $.trim($(groupBasicInfoGroupTags).val()).split(",");
+        if (enteredTags !== currentTags) {
+            // user has changed tags
+            sakai.currentgroup.data.authprofile["sakai:tags"] = [];
+            $(enteredTags).each(function(i, tag) {
+                tag = $.trim(tag).replace(/#/g,"");
+                if (sakai.api.Security.escapeHTML(tag) === tag && tag.replace(/\\/g,"").length) {
+                    if ($.inArray(tag, sakai.currentgroup.data.authprofile["sakai:tags"]) < 0) {
+                        sakai.currentgroup.data.authprofile["sakai:tags"].push(tag.replace(/\\/g,""));
+                    }
                 }
-            }
-        })
+            });
+        }
 
         // Create tags for the directory structure
         // For every groupbasicinfo_added_directory we create tags
         $(".groupbasicinfo_added_directory").each(function(){
-            var directoryString = "directory/";
-            if ($.inArray($(this).find(groupBasicInfoDirectoryLvlOne).selected().val().replace(/,/g, ""), sakai.currentgroup.data.authprofile["sakai:tags"]) < 0) {
-                sakai.currentgroup.data.authprofile["sakai:tags"].push($(this).find(groupBasicInfoDirectoryLvlOne).selected().val().replace(/,/g, ""));
-            }
-            directoryString += $(this).find(groupBasicInfoDirectoryLvlOne).selected().val().replace(/,/g,"");
-
-            if ($(this).find(groupBasicInfoDirectoryLvlTwo).selected().val() !== "no_value") {
-                if ($.inArray($(this).find(groupBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g, ""), sakai.currentgroup.data.authprofile["sakai:tags"]) < 0) {
-                    sakai.currentgroup.data.authprofile["sakai:tags"].push($(this).find(groupBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g, ""));
+            if ($(this).find(groupBasicInfoDirectoryLvlOne).selected().val() !== "no_value") {
+                var directoryString = "directory/";
+                if ($.inArray($(this).find(groupBasicInfoDirectoryLvlOne).selected().val().replace(/,/g, ""), sakai.currentgroup.data.authprofile["sakai:tags"]) < 0) {
+                    sakai.currentgroup.data.authprofile["sakai:tags"].push($(this).find(groupBasicInfoDirectoryLvlOne).selected().val().replace(/,/g, ""));
                 }
-                directoryString += "/" + $(this).find(groupBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g,"");
+                directoryString += $(this).find(groupBasicInfoDirectoryLvlOne).selected().val().replace(/,/g, "");
 
-                if ($(this).find(groupBasicInfoDirectoryLvlThree).selected().val() !== "no_value") {
-                    if ($.inArray($(this).find(groupBasicInfoDirectoryLvlThree).selected().val().replace(/,/g, ""), sakai.currentgroup.data.authprofile["sakai:tags"]) < 0) {
-                        sakai.currentgroup.data.authprofile["sakai:tags"].push($(this).find(groupBasicInfoDirectoryLvlThree).selected().val().replace(/,/g, ""));
+                if ($(this).find(groupBasicInfoDirectoryLvlTwo).selected().val() !== "no_value") {
+                    if ($.inArray($(this).find(groupBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g, ""), sakai.currentgroup.data.authprofile["sakai:tags"]) < 0) {
+                        sakai.currentgroup.data.authprofile["sakai:tags"].push($(this).find(groupBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g, ""));
                     }
-                    directoryString += "/" + $(this).find(groupBasicInfoDirectoryLvlThree).selected().val().replace(/,/g,"");
+                    directoryString += "/" + $(this).find(groupBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g, "");
+
+                    if ($(this).find(groupBasicInfoDirectoryLvlThree).selected().val() !== "no_value") {
+                        if ($.inArray($(this).find(groupBasicInfoDirectoryLvlThree).selected().val().replace(/,/g, ""), sakai.currentgroup.data.authprofile["sakai:tags"]) < 0) {
+                            sakai.currentgroup.data.authprofile["sakai:tags"].push($(this).find(groupBasicInfoDirectoryLvlThree).selected().val().replace(/,/g, ""));
+                        }
+                        directoryString += "/" + $(this).find(groupBasicInfoDirectoryLvlThree).selected().val().replace(/,/g, "");
+                    }
+
                 }
 
-            }
-
-            // Add string for all levels to tag array
-            if ($.inArray(directoryString, sakai.currentgroup.data.authprofile["sakai:tags"]) < 0) {
-                sakai.currentgroup.data.authprofile["sakai:tags"].push(directoryString);
+                // Add string for all levels to tag array
+                if ($.inArray(directoryString, sakai.currentgroup.data.authprofile["sakai:tags"]) < 0) {
+                    sakai.currentgroup.data.authprofile["sakai:tags"].push(directoryString);
+                }
             }
         });
 
@@ -341,15 +331,15 @@ sakai.groupbasicinfo = function(tuid, showSettings){
             }
         });
 
-        var groupDesc = $(groupBasicInfoGroupDesc, $rootel).val();
+        // group description (can be blank)
+        var groupDesc = $.trim($(groupBasicInfoGroupDesc, $rootel).val());
 
-        // check permissions settings
+        // group permissions settings
         var joinable = $(groupBasicInfoGroupJoinable).val();
         var visible = $(groupBasicInfoGroupVisible).val();
         if(joinable !== sakai.currentgroup.data.authprofile["sakai:group-joinable"] ||
             visible !== sakai.currentgroup.data.authprofile["sakai:group-visible"]) {
             // only POST if user has changed values
-            // set new group permissions
             sakai.currentgroup.data.authprofile["sakai:group-joinable"] = joinable;
             sakai.currentgroup.data.authprofile["sakai:group-visible"] = visible;
             sakai.api.Groups.setPermissions(sakai.currentgroup.id, joinable, visible,

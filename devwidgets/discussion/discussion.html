@@ -28,7 +28,7 @@
                     <textarea id="discussion_add_body" class="required"></textarea><br />
 
                     <div class="dialog_buttons">
-                        <button class="s3d-button s3d-button-primary submit_button" id="discussion_add_submit"><span class="s3d-button-inner">__MSG__ADD_TOPIC__</span></button>
+                        <button class="s3d-button s3d-button-primary submit_button" id="discussion_add_submit" type="submit"><span class="s3d-button-inner">__MSG__ADD_TOPIC__</span></button>
                         <button class="s3d-button cancel-button" id="discussion_add_cancel"><span class="s3d-button-inner">__MSG__DONT_ADD__</span></button>
                     </div>
                 </form>
@@ -69,10 +69,10 @@
                         <div id="discussion_content_container_${o.post["sakai:id"]}">
                             {if o.post["sakai:deleted"] && o.post["sakai:deleted"] === true}
                                 <p class="discussion_content_infoDeleted">
-                                {if o.post["sakai:from"] === current.user.userid}
-                                    You have deleted your post.
+                                {if o.post["sakai:deletedByID"] === current.user.userid}
+                                    You have deleted this post.
                                 {else}
-                                    This post has been deleted. Only site collaborators can see this post.
+                                    This post has been deleted by ${o.post["sakai:deletedBy"]}. Only managers can see this post.
                                 {/if}
                                 {if o.post.canDelete && o.post.canDelete === true}
                                     <br />You can return it by clicking the undelete link.
@@ -161,10 +161,10 @@
                     <div id="discussion_content_container_${o.post["sakai:id"]}">
                         {if o.post["sakai:deleted"] && o.post["sakai:deleted"] === true}
                             <p class="discussion_content_infoDeleted">
-                            {if o.post["sakai:from"] === current.user.userid}
-                                You have deleted your post.
+                            {if o.post["sakai:deletedByID"] === current.user.userid}
+                                You have deleted this post.
                             {else}
-                                This post has been deleted. Only site collaborators can see this post.
+                                This post has been deleted by ${o.post["sakai:deletedBy"]}. Only managers can see this post.
                             {/if}
                             {if o.post.canDelete && o.post.canDelete === true}
                                 <br />You can return it by clicking the undelete link.

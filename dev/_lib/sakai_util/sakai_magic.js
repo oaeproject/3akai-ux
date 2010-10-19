@@ -1300,7 +1300,7 @@ sakai.api.Security.saneHTML = function(inputHTML) {
                             case html4.atype.STYLE:
                                 var accept = ["color", "display", "background-color", "font-weight", "font-family",
                                               "padding", "padding-left", "padding-right", "text-align", "font-style",
-                                              "text-decoration"];
+                                              "text-decoration", "border"];
                                 var sanitizedValue = "";
                                 if (value){
                                     var vals = value.split(";");
@@ -1790,6 +1790,23 @@ sakai.api.Server.requireCSS = function(url) {
 sakai.api.Server.requireJS = function(url) {
 
 };
+
+sakai.api.Server.JCRPropertiesToDelete = ["rep:policy", "jcr:path"];
+
+sakai.api.Server.filterJCRProperties = function(data) {
+    $(sakai.api.Server.JCRPropertiesToDelete).each(function(i,val) {
+        if (data[val]) {
+            delete data[val];
+        }
+    });
+
+    // Also run over the other objects within this object
+    for (var i in data) {
+        if (data.hasOwnProperty(i) && $.isPlainObject(data[i])) {
+          sakai.api.Server.filterJCRProperties(data[i]);
+        }
+    }
+}
 
 
 

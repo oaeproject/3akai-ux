@@ -534,10 +534,13 @@ sakai.discussion = function(tuid, showSettings){
         if (jsonPosts.posts[0]) {
         var firstPostSubject = jsonPosts.posts[0].post['sakai:subject'];
 
+        $('#discussion_compact_link', rootel).unbind('click');
         $('#discussion_compact_link', rootel).bind('click', jsonPosts, renderCompactPostsView);
 
+        $('#discussion_full_link', rootel).unbind('click');
         $('#discussion_full_link', rootel).bind('click', jsonPosts, renderFullPostsView);
 
+        $('#discussion_expand_link', rootel).unbind('click');
         $('#discussion_expand_link', rootel).bind('click', function(e, ui){
             $('#discussion_container', rootel).show();
 
@@ -556,7 +559,7 @@ sakai.discussion = function(tuid, showSettings){
             $('#discussion_collapse_link', rootel).show();
         });
 
-
+        $('#discussion_collapse_link', rootel).unbind('click');
         $('#discussion_collapse_link', rootel).bind('click', function(e, ui){
             $('#discussion_container', rootel).hide();
             $('#discussion_collapse_link', rootel).hide();
@@ -643,7 +646,7 @@ sakai.discussion = function(tuid, showSettings){
         delete data["jcr:primaryType"];
 
         // don't save messages this way
-        delete data["message"];        
+        delete data["message"];
 
         sakai.api.Widgets.saveWidgetData(tuid, data, callback);
     };
@@ -678,16 +681,16 @@ sakai.discussion = function(tuid, showSettings){
      * Clear the input fields for the reply form
      */
     var clearReplyFields = function(){
-        $(discussionReplySubject, rootel).val('');
-        $(discussionReplyBody, rootel).val('');
+        $(discussionReplySubject, rootel).val("");
+        $(discussionReplyBody, rootel).val("");
     };
 
     /**
      * Clear the input fields for the add topic form
      */
     var clearAddTopicFields = function(){
-        $(discussionAddTopicSubject, rootel).val('');
-        $(discussionAddTopicBody, rootel).val('');
+        $(discussionAddTopicSubject, rootel).val("");
+        $(discussionAddTopicBody, rootel).val("");
     };
 
 
@@ -767,6 +770,8 @@ sakai.discussion = function(tuid, showSettings){
 
         // Focus on the subject field
         $(discussionAddTopicSubject, rootel).focus();
+
+        $(discussionAddContainer + " form", rootel).validate().resetForm();
     };
 
 
@@ -782,7 +787,9 @@ sakai.discussion = function(tuid, showSettings){
     var deletePost = function(id, deleteValue){
         var url = store + "/" + shardedId(id);
         var data = {
-            "sakai:deleted": deleteValue
+            "sakai:deleted": deleteValue,
+            "sakai:deletedByID": me.user.userid,
+            "sakai:deletedBy": sakai.api.User.getDisplayName(me.profile)
         };
         $.ajax({
             url: url,
@@ -1108,7 +1115,7 @@ sakai.discussion = function(tuid, showSettings){
     ////////////////////
     var addBindings = function() {
 
-        $("div form").validate();
+        $("div form", rootel).validate();
 
         $('.discussion_compact_post_link a', rootel).live('click', function(e, ui){
             var id = this.id.split("_")[this.id.split("_").length - 1];
@@ -1177,7 +1184,7 @@ sakai.discussion = function(tuid, showSettings){
         $(discussionAddTopicCancel, rootel).bind("click", function(e, ui){
 
             // Clear everything in the add topic fields
-            clearReplyFields();
+            clearAddTopicFields();
 
             // Hide the input form
             $(discussionAddContainer, rootel).hide();
@@ -1317,7 +1324,7 @@ sakai.discussion = function(tuid, showSettings){
             if (canAddTopics) {
                 $(discussionAddNewTopic).show();
             }
-            
+
             if (!sakai.api.Widgets.isOnDashboard(tuid)) {
                 $("#discussion_widget_header", rootel).show();
             }

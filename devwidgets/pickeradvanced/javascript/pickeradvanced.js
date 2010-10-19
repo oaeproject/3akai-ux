@@ -94,7 +94,7 @@ sakai.pickeradvanced = function(tuid, showSettings) {
       "spaceName": "Space",
       "items": 50,
       "selectable": true,
-      "sortOn": "basic/elements/lastName/@value",
+      "sortOn": "public/authprofile/basic/elements/lastName/@value",
       "sortOrder": "ascending",
       "what": "People",
       "where": "Group",
@@ -254,6 +254,9 @@ sakai.pickeradvanced = function(tuid, showSettings) {
             type: "GET",
             dataType: "json",
             success: function(rawData) {
+                if (!rawData.results) {
+                    rawData.results = rawData;
+                }
                 // Eval profile data for now and extend it with additional info
                 var doAdd = true;
                 var newData = [];
@@ -414,7 +417,7 @@ sakai.pickeradvanced = function(tuid, showSettings) {
         zIndex: 4000,
         toTop: true
     });
-    
+
     var addPeople = function() {
       // this value is a comma-delimited list
       // split it and get rid of any empty values in the array
@@ -426,7 +429,7 @@ sakai.pickeradvanced = function(tuid, showSettings) {
     ////////////
     // Events //
     ////////////
-    
+
     $(window).unbind("sakai-pickeradvanced-init");
     $(window).bind("sakai-pickeradvanced-init", function(e, config) {
         firstTime = true;
@@ -434,7 +437,7 @@ sakai.pickeradvanced = function(tuid, showSettings) {
         $pickeradvanced_container.jqmShow();
         pickerlist = config.list;
     });
-    
+
     $pickeradvanced_close_dialog.unbind("click");
     $pickeradvanced_close_dialog.bind("click", function() {
         $pickeradvanced_container.jqmHide();
@@ -470,7 +473,7 @@ sakai.pickeradvanced = function(tuid, showSettings) {
                $pickeradvanced_sort_on.hide();
                break;
            case "groups_manager":
-               searchURL = sakai.config.URL.SEARCH_GROUPS;
+               searchURL = sakai.config.URL.GROUPS_MANAGER;
                $pickeradvanced_sort_on.hide();
                break;
            case "files_mine":

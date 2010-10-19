@@ -230,7 +230,7 @@ sakai.search = function() {
 
         }
         $(searchConfig.cm.searchResult).html($.TemplateRenderer(searchConfig.cm.searchResultTemplate, finaljson));
-        
+
         $(".search_result_person_threedots").ThreeDots({
             max_rows: 1,
             text_span_class: "threedots",
@@ -408,7 +408,7 @@ sakai.search = function() {
                     page: 0,
                     items: peopleToSearch,
                     q: urlsearchterm,
-                    sortOn: "basic/elements/lastName/@value",
+                    sortOn: "public/authprofile/basic/elements/lastName/@value",
                     sortOrder: "ascending"
                 },
                 cache: false,
@@ -437,7 +437,7 @@ sakai.search = function() {
                 data: {
                      page: 0,
                      items: 5,
-                     q: urlsearchterm  
+                     q: urlsearchterm
                 },
                 success: function(data) {
                     renderSites(data);

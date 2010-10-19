@@ -233,7 +233,7 @@
                                             {if ! i.picture}
                                                 <a href="/~${i.userid}" class="fl-icon search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"></a>
                                             {else}
-                                                <a href="/~${i.userid}" class="search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"><img src="{if i.picture}${i.picture}{else}/dev/_images/person_icon.jpg{/if}" alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" width="60px" height="60px"/></a>
+                                                <a href="/~${i.userid}" class="search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"><img src="{if i.picture}${i.picture}{else}/dev/_images/person_icon.jpg{/if}" alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" width="48px" height="48px"/></a>
                                             {/if}
                                             <a href="/~${i.userid}" class="search_result_person_name">${sakai.api.Util.shortenString(i.name, 25)}</a>
                                            {if i.extra}
