@@ -487,7 +487,6 @@ sakai.groupedit = function(){
     };
 
     /**
-<<<<<<< HEAD
      * Enable/disable buttons based on the selected list.
      */
     var toggleButtons = function(tuid,isDisable) {
@@ -508,7 +507,8 @@ sakai.groupedit = function(){
             $("#group_editing_remove_" + tuid).attr("disabled", "disabled")
         }
     }
-=======
+
+    /**
      * Retrieve the managers lists
      *
      * @return {Array} the list of managers
@@ -522,7 +522,6 @@ sakai.groupedit = function(){
         }
         return list;
     };
->>>>>>> 80869f08d1f220eeab931b0fb8a4953efd5b6f2f
 
     ///////////////////////
     // BINDING FUNCTIONS //
@@ -538,9 +537,9 @@ sakai.groupedit = function(){
             renderItemLists(tuid);
         });
 
-        // Bind event when selection in the list change    
+        // Bind event when selection in the list change
         $(window).bind("list-people-selected-change", function(e, tuid){
-            toggleButtons(tuid);            
+            toggleButtons(tuid);
         });
 
         // Bind the update button
