@@ -32,7 +32,7 @@ var sakai = sakai || {};
  * @param {Boolean} showSettings Show the settings of the widget or not
  */
 sakai.embedcontent = function(tuid, showSettings) {
-    
+
     var $rootel = $("#" + tuid);
 
     var $embedcontent_dialog = $("#embedcontent_dialog", $rootel);
@@ -70,7 +70,7 @@ sakai.embedcontent = function(tuid, showSettings) {
      * Render the embed screen
      */
     var render = function() {
-        selectedItems = [];        
+        selectedItems = [];
         $.TemplateRenderer($embedcontent_page_name_template, {"name": embedConfig.name}, $embedcontent_page_name);
         if (firstTime) {
             setupAutoSuggest();
@@ -203,7 +203,7 @@ sakai.embedcontent = function(tuid, showSettings) {
             filesPicked++;
         });
         // revisit this next conditional -- right now it'll clear out all selections, not just add up to the limit
-        if (embedConfig.limit && filesPicked && ($(".as-selection-item").length + filesPicked) > embedConfig.limit) { 
+        if (embedConfig.limit && filesPicked && ($(".as-selection-item").length + filesPicked) > embedConfig.limit) {
             $("#as-values-" + tuid).val('');
             $(".as-selection-item").remove();
         }

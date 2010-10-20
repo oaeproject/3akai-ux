@@ -200,6 +200,8 @@ sakai.googlemaps = function(tuid, showSettings){
                 }
 
             }
+            // show main div
+            $("#main-content-div").show();
             // Set focus in location text box
             $("#googlemaps_input_text_location").focus();
         });
@@ -209,6 +211,8 @@ sakai.googlemaps = function(tuid, showSettings){
      * This is to init the google map and other controls
      */
     var init = function() {
+        // hide main div to prevent showing default cambridge location while loading
+        $("#main-content-div").hide();
         $("#googlemaps_iframe_map", rootel).load(function() {
 
             // To set the map iframe's content as the iframeContentWindow (var)

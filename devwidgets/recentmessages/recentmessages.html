@@ -16,7 +16,7 @@
         <ul>
             {for message in results}
                 <li {if message_index % 2} class="recentmessages_alterrow"{/if}>
-                    <span {if message["sakai:read"]==="false"} class="recentmessages_notread" {/if} title="${sakai.api.User.getDisplayName(message.userFrom[0])}">${sakai.api.User.getDisplayName(message.userFrom[0])} {if message.userFrom.length > 1} and others...{/if}:</span>
+                    <span {if message["sakai:read"]==="false"} class="recentmessages_notread" {/if} title="${sakai.api.User.getDisplayName(message.userFrom[0])}">${sakai.api.User.getDisplayName(message.userFrom[0])} {if message.userFrom.length > 1} __MSG__AND_OTHERS__...{/if}:</span>
                     
                     <a href="inbox.html#message=${message.id}">
                         {if message["sakai:type"] === "chat"}

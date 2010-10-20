@@ -14,41 +14,46 @@
             <form>
                 <div class="remotecontent_settings_subcontainer">
                     <div class="remotecontent_settings_url_input">
+<<<<<<< HEAD
+                        <label class="remotecontent_settings_label_head">__MSG__REMOTE_CONTENT_WEB_ADDRESS_URL__:</label> <input type="text" id="remotecontent_settings_url" value="${url}" />
+                        <span class="remotecontent_settings_url_help">__MSG__PLEASE_PASTE_OR_ENTER_THE_ADDRESS__</span>
+=======
                         <label class="remotecontent_settings_label_head">Remote content web address (URL):</label> <input type="text" id="remotecontent_settings_url" value="${url}" />
                         <span class="remotecontent_settings_url_help">Please paste or enter the address of the remote content you would like to embed into this page. Please note that some sites will not allow embedding their site content as part of your page, and might actively detect and take measures to avoid this: your page might automatically redirect to the remote content's location.</span>
+>>>>>>> 80869f08d1f220eeab931b0fb8a4953efd5b6f2f
                     </div>
-                    <span class="remotecontent_settings_error" id="remotecontent_settings_url_blank" style="display:none;">You haven't entered an address. Please enter a valid web address for the remote content.</span>
-                    <span id="remotecontent_settings_url_error" style="display:none;">The web address you entered is not valid. Please enter or paste a valid web address.</span>
-                    <span id="remotecontent_title" style="display:none;">Remote Content</span>
+                    <span class="remotecontent_settings_error" id="remotecontent_settings_url_blank" style="display:none;">__MSG__YOU_HAVENT_ENTERED_AN_ADDRESS__</span>
+                    <span id="remotecontent_settings_url_error" style="display:none;">__MSG__THE_WEB_ADDRESS_YOU_ENTERED_IS_NOT_VALID__</span>
+                    <span id="remotecontent_title" style="display:none;">__MSG__REMOTE_CONTENT__</span>
                     <p>
-                        <label class="remotecontent_settings_label_head">Preview:</label> <span> (size doesn't change in preview mode)<br class="fl-push" />
+                        <label class="remotecontent_settings_label_head">__MSG__PREVIEW__:</label> <span> (size doesn't change in preview mode)<br class="fl-push" />
                     </p>
                     <div id="remotecontent_settings_preview">
 
                     </div>
-                    <button type="button" class="s3d-button s3d-button-primary" id="remotecontent_settings_advanced_toggle_settings"><span class="s3d-button-inner">Advanced Settings <span id="remotecontent_settings_advanced_down">&#8595;</span><span id="remotecontent_settings_advanced_up">&#8593;</span></span></button>
+                    <button type="button" class="s3d-button s3d-button-primary" id="remotecontent_settings_advanced_toggle_settings"><span class="s3d-button-inner">__MSG__ADVANCED_SETTINGS__<span id="remotecontent_settings_advanced_down">&#8595;</span><span id="remotecontent_settings_advanced_up">&#8593;</span></span></button>
                 </div>
                 <div id="remotecontent_settings_advanced" style="display:none;">
                     <div class="remotecontent_settings_subcontainer">
-                        <label class="remotecontent_settings_label_head">Size:</label><br />
+                        <label class="remotecontent_settings_label_head">__MSG__SIZE__:</label><br />
                         <div class="remotecontent_settings_block">
-                            <label for="remotecontent_settings_width">Width:</label>
+                            <label for="remotecontent_settings_width">__MSG__WIDTH__:</label>
                             <input type="text" id="remotecontent_settings_width" value="${width}" />
                             <a href="javascript:;" id="remotecontent_settings_width_unit_px" class="remotecontent_settings_width_unit {if width_unit == "px"} remotecontent_settings_width_unit_selected{/if}"> px</a>
                             <span> or </span>
                             <a href="javascript:;" id="remotecontent_settings_width_unit_percent" class="remotecontent_settings_width_unit {if width_unit == "%"} remotecontent_settings_width_unit_selected{/if}"> %</a>
                             <br />
-                            <label for="remotecontent_settings_height">Height:</label>
+                            <label for="remotecontent_settings_height">__MSG__HEIGHT__:</label>
                             <input type="text" id="remotecontent_settings_height" value="${height}" /><span> px</span>
-                            <button type="button" class="s3d-button s3d-button-primary" id="remotecontent_settings_reset_size"><span class="s3d-button-inner">Reset to original size</span></button>
+                            <button type="button" class="s3d-button s3d-button-primary" id="remotecontent_settings_reset_size"><span class="s3d-button-inner">__MSG__RESET_TO_ORIGINAL_SIZE__</span></button>
                             <br class="fl-push" />
                         </div>
                     </div>
 
                     <div class="remotecontent_settings_subcontainer">
-                        <label class="remotecontent_settings_label_head">Border:</label><br />
+                        <label class="remotecontent_settings_label_head">__MSG__BORDER__:</label><br />
                         <div class="remotecontent_settings_block">
-                            <label for="remotecontent_settings_borders">Width:</label>
+                            <label for="remotecontent_settings_borders">__MSG__WIDTH__:</label>
                             <input type="text" id="remotecontent_settings_borders" value="${border_size}" /><span> px</span><br class="fl-push" />
                             <div id="remotecontent_settings_color_container">
                             </div>

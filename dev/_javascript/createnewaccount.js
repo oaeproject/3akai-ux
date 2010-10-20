@@ -304,7 +304,14 @@ sakai.newaccount = function(){
         }
     });
 
-    $(usernameField).bind("change keydown", function() {
+    $(usernameField).bind("change keyup", function() {
+        // if user name is entered enable button
+        if ($(usernameField).val() !== "") {
+            $(checkUserNameLink).removeAttr("disabled");
+        } else {
+            // disable button
+            $(checkUserNameLink).attr("disabled","disabled");
+        }
         if ($(usernameAvailable).is(":visible")) {
             $(usernameAvailable).hide();
         }

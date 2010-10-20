@@ -1,0 +1,31 @@
+{
+"name": "sakai2tool",
+"ANNOUNCEMENTS": "Announcements",
+"ASSIGNMENTS": "Assignments",
+"ADVANCED_SETTINGS": "Advanced Settings",
+"BORDER": "Border",
+"CALENDAR": "Calendar",
+"CALENDAR_SUMMARY": "Calendar Summary",
+"CHAT_ROOM": "Chat Room",
+"DROP_BOX": "Drop Box",
+"EMAIL_ARCHIVE": "Email Archive",
+"FORUMS": "Forums",
+"GRADEBOOK": "Gradebook",
+"MESSAGES": "Messages",
+"NEWS": "News",
+"POLLS":"Polls",
+"POSTEM": "PostEm",
+"PROFILE": "Profile",
+"PROFILE2": "Profile2",
+"RESOURCES": "Resources",
+"ROSTER": "Roster",
+"RWIKI": "rWiki",
+"SINGLE_USER": "Single User",
+"SYLLABUS":"Syllabus",
+"TESTS_N_QUIZZES": "Tests & Quizzes",
+"HEIGHT":"Height",
+"RESET_TO_ORIGINAL_SIZE": "Reset to original size"
+"SIZE": "Size",
+"WIDTH": "Width"
+
+}

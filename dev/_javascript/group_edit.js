@@ -124,12 +124,12 @@ sakai.groupedit = function(){
             },
             error: function(xhr, textStatus, thrownError){
 
-	            if (xhr.status === 401 || xhr.status === 403){
+                if (xhr.status === 401 || xhr.status === 403){
                     sakai.api.Security.send403();
                 } else {
                     sakai.api.Security.send404();
                 }
-                
+
             }
         });
     };
@@ -152,7 +152,7 @@ sakai.groupedit = function(){
         // enable group basic info input elements
         sakai.api.UI.groupbasicinfo.enableInputElements();
         // Show a notification on the screen
-    	sakai.api.Util.notification.show("Group Basic Information", "Updated successfully.");
+        sakai.api.Util.notification.show("Group Basic Information", "Updated successfully.");
         // Re-render the Entity Summary widget so the changes are reflected
         sakai.api.UI.entity.render("group", sakai.currentgroup.data);
     });
@@ -202,6 +202,8 @@ sakai.groupedit = function(){
      * @param {String} listType Identifier for the widget/type of user we're removing (member or a manager)
      */
     var removeUsers = function(listType) {
+        // disable button
+        toggleButtons(listType,true);
 
         if (sakai.data.listpeople[listType].selectCount === sakai.data.listpeople[listType].currentElementCount && listType === "managers") {
             sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_cannot_remove_everyone").text()), sakai.api.Util.notification.type.ERROR);
@@ -267,6 +269,8 @@ sakai.groupedit = function(){
      */
     var removeContent = function(listType) {
 
+        // disable button
+        toggleButtons(listType, true);
         var removeContent;
         var reqData = [];
 
@@ -354,7 +358,7 @@ sakai.groupedit = function(){
             });
         }
     };
-    
+
     /**
      * Add users
      * Function that gets the list of selected users from the people picker widget and adds them to the group
@@ -483,6 +487,28 @@ sakai.groupedit = function(){
     };
 
     /**
+<<<<<<< HEAD
+     * Enable/disable buttons based on the selected list.
+     */
+    var toggleButtons = function(tuid,isDisable) {
+        // if disable is true
+        if (!isDisable) {
+            // if there is selected list
+            if (sakai.data.listpeople[tuid].selectCount) {
+                // enable the button
+                $("#group_editing_remove_" + tuid).removeAttr("disabled");
+            }
+            // if there is not selected list disable
+            else {
+                $("#group_editing_remove_" + tuid).attr("disabled", "disabled")
+            }
+        }
+        // disable the button
+        else {
+            $("#group_editing_remove_" + tuid).attr("disabled", "disabled")
+        }
+    }
+=======
      * Retrieve the managers lists
      *
      * @return {Array} the list of managers
@@ -496,6 +522,7 @@ sakai.groupedit = function(){
         }
         return list;
     };
+>>>>>>> 80869f08d1f220eeab931b0fb8a4953efd5b6f2f
 
     ///////////////////////
     // BINDING FUNCTIONS //
@@ -509,6 +536,11 @@ sakai.groupedit = function(){
         // Bind the listpeople widgets
         $(window).bind("sakai-listpeople-ready", function(e, tuid){
             renderItemLists(tuid);
+        });
+
+        // Bind event when selection in the list change    
+        $(window).bind("list-people-selected-change", function(e, tuid){
+            toggleButtons(tuid);            
         });
 
         // Bind the update button
@@ -584,7 +616,7 @@ sakai.groupedit = function(){
 
             // Bind the add content button
             $("#group_editing_add_content").bind("click", function(){
-                $(window).trigger('sakai-embedcontent-init', {"name":"Item", "mode": "picker", "limit": false, "filter": false});
+                $(window).trigger('sakai-embedcontent-init', {"name":sakai.currentgroup.data.authprofile["sakai:group-title"], "mode": "picker", "limit": false, "filter": false});
                 $(window).unbind("sakai-embedcontent-picker-finished");
                 $(window).bind("sakai-embedcontent-picker-finished", function(e, fileList) {
                     if (fileList.items.length) {
@@ -616,10 +648,10 @@ sakai.groupedit = function(){
             }
             addBinding();
         } else {
-            
+
             // The user is not a manager of the group
             sakai.api.Security.send403();
-            
+
         }
     };
 

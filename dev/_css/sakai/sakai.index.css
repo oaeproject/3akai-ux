@@ -5,8 +5,7 @@ label {color:#888; font-weight: bold; font-size: 1em;}
 
 /* Container */
 .index-container{width: 960px; height: 100%; height: auto; min-height: 100%;}
-#login-failed {color: #000; display:none; margin-top:10px; width:260px;}
-#login-loader {display:none; color: #000;}
+
 
 /* Header */
 .header{background: #666; width: 100%; height: 150px;}
@@ -19,21 +18,6 @@ label {color:#888; font-weight: bold; font-size: 1em;}
 .login-box {padding: 40px; background: url(../../_images/login-box.png) no-repeat top left; clear: both; height: 324px;}
 .preview-box{float: left; width: 540px; margin: 0 80px 0 0;}
 .preview-box img {padding: 0 0 90px;}
-
-/* Log-in container */
-.login-container {padding: 0; float: left;}
-.login-container-button {margin: 25px 0 35px 0; float: none; border: 1px solid #fff;}
-.login-container-textfield {border: 1px solid #888; height: 18px; margin-bottom:15px; padding: 3px 0 0 3px; width:200px !important;}
-
-/* External Log-in */
-.login-external {margin-left: 600px; width: 250px; height: 250px; display: table;}
-.login-external-content {display: table-cell; vertical-align: middle;}
-.login-external-system {margin-bottom:30px;}
-.login-external-description {color: #999999;}
-
-/* Register here */
-#register_here {color: #454a4e; font-size: 0.95em; clear: both;}
-#register_here a {color:#006d94; font-weight: bold;}
 
 /* Footer */
 #index_footer {position: fixed; z-index: 99; bottom: 0px; color: #fff; background: url(../../_images/footer_bg.png) bottom left no-repeat; padding: 18px 20px 0 100px; margin-top: 100px; clear: both; height: 42px; width: 840px; font-size: .85em; line-height: 1.2em;}
