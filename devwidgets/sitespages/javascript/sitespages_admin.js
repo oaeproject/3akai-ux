@@ -54,6 +54,9 @@ sakai.sitespages.site_admin = function(){
     var $more_menu = $("#more_menu");
     var $title_input_container = $("#title-input-container");
     var $fl_tab_content_editor = $("#fl-tab-content-editor");
+    var $deleteDialog = $("#delete_dialog");
+    var $nodeleteDialog = $("#no_delete_dialog");
+    var $deleteConfirmPageTitle = $(".sitespages_delete_confirm_page_title");
 
     // TinyMCE selectors, please note that it is not possible to cache these
     // since they get created at runtime
@@ -1837,10 +1840,10 @@ sakai.sitespages.site_admin = function(){
 
         // Assign the content to the sakai.sitespages.pagecontents array
         if (sakai.sitespages.pagecontents[pageUniques.urlName]) {
-            sakai.sitespages.pagecontents[pageUniques.urlName]["sakai:pagecontent"] = content;
+            //sakai.sitespages.pagecontents[pageUniques.urlName]["sakai:pagecontent"] = content;
         } else {
             sakai.sitespages.pagecontents[pageUniques.urlName] = {};
-            sakai.sitespages.pagecontents[pageUniques.urlName]["sakai:pagecontent"] = content;
+            //sakai.sitespages.pagecontents[pageUniques.urlName]["sakai:pagecontent"] = content;
         }
         // Default dasboard content
         var dashboardUID = 'sitedashboard' + Math.round(Math.random() * 10000000000000);
@@ -2243,14 +2246,14 @@ sakai.sitespages.site_admin = function(){
     };
 
     // Init delete dialog
-    $('#delete_dialog').jqm({
+    $deleteDialog.jqm({
         modal: true,
         trigger: $('.delete_dialog'),
         overlay: 20,
         toTop: true
     });
 
-    $("#no_delete_dialog").jqm({
+    $nodeleteDialog.jqm({
         modal: true,
         overlay: 20,
         toTop: true
@@ -2258,7 +2261,17 @@ sakai.sitespages.site_admin = function(){
 
     // Bind delete page click event
     $("#more_delete").live("click", function(){
-        $('#delete_dialog').jqmShow();
+        var pageTitle = sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage].pageTitle;
+        if(pageTitle) {
+            $deleteConfirmPageTitle.html("&quot;" + pageTitle + "&quot;");
+        } else {
+            $deleteConfirmPageTitle.html("this page");
+        }
+        if (sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage].deletable === false) {
+            $nodeleteDialog.jqmShow();
+        } else {
+            $deleteDialog.jqmShow();
+        }
     });
 
     // Bind delete page confirmation click event
