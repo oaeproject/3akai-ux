@@ -1109,7 +1109,7 @@ sakai.api.i18n.General.process = function(toprocess, localbundle, defaultbundle)
 /**
  * Get the internationalised value for a specific key.
  * We expose this function so you can do internationalisation within JavaScript.
- * @example sakai.api.i18n.General.getValueForKey("__MSG__CHANGE_LAYOUT__");
+ * @example sakai.api.i18n.General.getValueForKey("CHANGE_LAYOUT");
  * @param {String} key The key that will be used to get the internationalised value
  * @return {String} The translated value for the provided key
  */

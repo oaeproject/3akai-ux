@@ -1195,7 +1195,7 @@ sakai.sitespages = function(tuid,showSettings){
         $("#sitespages_page_options #page_options").hide();
         $("#sitespages_page_options #page_save_options").show().html($.TemplateRenderer("#edit_page_action_buttons_template", {}));
         // Edit page title
-        document.title = document.title.replace("Site View", "Page Edit");
+        document.title = document.title.replace(sakai.api.i18n.General.getValueForKey("SITE_VIEW"), sakai.api.i18n.General.getValueForKey("PAGE_EDIT"));
 
         // UI init
         $more_menu.hide();
@@ -1293,7 +1293,7 @@ sakai.sitespages = function(tuid,showSettings){
         sakai.sitespages.inEditView = false;
 
         // Edit page title
-        document.title = document.title.replace("Page Edit", "Site View");
+        document.title = document.title.replace(sakai.api.i18n.General.getValueForKey("PAGE_EDIT"), sakai.api.i18n.General.getValueForKey("SITE_VIEW"));
         $("#sitespages_page_options #page_save_options").hide();
         $("#sitespages_page_options #page_options").show().html($.TemplateRenderer("#sitespages_page_options_container", {}));
         if (sakai.sitespages.isEditingNewPage) {
@@ -1369,7 +1369,7 @@ sakai.sitespages = function(tuid,showSettings){
      */
     var checkContent = function(content){
         if(!content.replace(/ /g,"%20")) {
-            alert("Please enter some content");
+            alert(sakai.api.i18n.General.getValueForKey("PLEASE_ENTER_SOME_CONTENT"));
             return false;
         }else{
             return true;
@@ -1426,7 +1426,7 @@ sakai.sitespages = function(tuid,showSettings){
         $("#sitespages_page_options #page_save_options").hide();
         $("#sitespages_page_options #page_options").show().html($.TemplateRenderer("#sitespages_page_options_container", {}));
         // Edit page title
-        document.title = document.title.replace("Page Edit", "Site View");
+        document.title = document.title.replace(sakai.api.i18n.General.getValueForKey("PAGE_EDIT"), sakai.api.i18n.General.getValueForKey("SITE_VIEW"));
 
         // Hide the Insert More menu if it is showing
         $insert_more_menu.hide();
@@ -1442,13 +1442,13 @@ sakai.sitespages = function(tuid,showSettings){
             // Check whether pagetitle and content exist
             var newpagetitle = $.trim($("#title-input").val());
             if (!newpagetitle.replace(/ /g,"%20")) {
-                alert("Please specify a page title");
+                alert(sakai.api.i18n.General.getValueForKey("PLEASE_SPECIFY_A_PAGE_TITLE"));
                 $("#title-input").focus();
                 return;
             }
             var newcontent = getContent();  // Get the content from tinyMCE
             if (!checkContent(newcontent)) {
-                alert("Please enter some content");
+                alert(sakai.api.i18n.General.getValueForKey("PLEASE_ENTER_SOME_CONTENT"));
                 return;
             }
 
@@ -2624,7 +2624,7 @@ sakai.sitespages = function(tuid,showSettings){
     $("#more_move").live("click", function() {
 
         $("#more_menu").hide();
-        sakai.api.Util.notification.show("Page move", "To move a page just drag&drop in the page navigation widget!", sakai.api.Util.notification.type.INFORMATION);
+        sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("PAGE_MOVE"), sakai.api.i18n.General.getValueForKey("TO_MOVE_PAGE_JUST_DRAG_AND_DROP_IN_NAVIGATION"), sakai.api.Util.notification.type.INFORMATION);
     });
 
     $('#more_change_layout').live("click", function(){

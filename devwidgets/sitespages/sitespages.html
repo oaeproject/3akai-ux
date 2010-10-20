@@ -19,7 +19,7 @@
                 <div class="site_management" id="site_management" style="display:none">
 
                     <div class="sm_titlebar">
-                        <div class="sm_titlebar_inner"><h2 class="sm_title">Site Management</h2></div>
+                        <div class="sm_titlebar_inner"><h2 class="sm_title">__MSG__SITE_MANAGEMENT__</h2></div>
                     </div>
 
                     <div class="sm_bottom">
@@ -51,12 +51,12 @@
                     <!-- REVISION HISTORY -->
                     <div class="fl-container revision_history fl-fix" id="revision_history_container"  style="display:none">
 
-                        <label class="revision_history_viewing fl-force-left" for="revision_history_list">Viewing:</label>
+                        <label class="revision_history_viewing fl-force-left" for="revision_history_list">__MSG__VIEWING__:</label>
 
                         <div><select id="revision_history_list"></select></div>
 
-                        <button id="revision_history_revert" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">Use this Version</span></button>
-                        <button id="revision_history_cancel" class="s3d-button"><span class="s3d-button-inner">Cancel</span></button>
+                        <button id="revision_history_revert" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">__MSG__USE_THIS_VERSION__</span></button>
+                        <button id="revision_history_cancel" class="s3d-button"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
 
                     </div>
 
@@ -112,9 +112,9 @@
                             <!-- <li id="embed_video" class="add_button"><img src="/dev/_images/add_video.png"/ ></li> -->
                         </ul>
                         <ul class="fl-tabs fl-tabs-right">
-                            <li id="tab_text_editor"><button class="s3d-button s3d-button-tab"><span class="s3d-button-inner">Text Editor</span></button></li>
-                            <li id="tab_html"><button class="s3d-button s3d-button-tab"><span class="s3d-button-inner">HTML</span></button></li>
-                            <li id="tab_preview"><button class="s3d-button s3d-button-tab"><span class="s3d-button-inner">Preview</span></button></li>
+                            <li id="tab_text_editor"><button class="s3d-button s3d-button-tab"><span class="s3d-button-inner">__MSG__TEXT_EDITOR__</span></button></li>
+                            <li id="tab_html"><button class="s3d-button s3d-button-tab"><span class="s3d-button-inner">__MSG__HTML__</span></button></li>
+                            <li id="tab_preview"><button class="s3d-button s3d-button-tab"><span class="s3d-button-inner">__MSG__PREVIEW__</span></button></li>
                         </ul>
                     </div>
 
@@ -195,17 +195,17 @@
         <button class="s3d-button s3d-button-inline" id="more_link">
             <span class="s3d-button-inner">
                 <span class="s3d-button-icon-left"></span>
-                <span class="s3d-button-inner-text">Page options</span>
+                <span class="s3d-button-inner-text">__MSG__PAGE_OPTIONS__</span>
                 <span class="s3d-button-icon-right"></span>
             </span>
         </button>
 
         <div class="add_more_menu" id="more_menu" style="display:none">
             <ul>
-                <li id="more_revision_history" class="more_option"><a href="javascript:;" class="s3d-action">Revision History</a></li>
-                <li id="more_save_as_template" class="more_option"><a href="javascript:;" class="s3d-action">Save as Template</a></li>
-                <li id="more_change_layout" class="more_option"><a href="javascript:;" class="s3d-action">Change Layout</a></li>
-                <li id="more_delete" class="more_option option_last"><a href="javascript:;" class="s3d-action">Delete</a></li>
+                <li id="more_revision_history" class="more_option"><a href="javascript:;" class="s3d-action">__MSG__REVISION_HISTORY__</a></li>
+                <li id="more_save_as_template" class="more_option"><a href="javascript:;" class="s3d-action">__MSG__SAVE_AS_TEMPLATE__</a></li>
+                <li id="more_change_layout" class="more_option"><a href="javascript:;" class="s3d-action">__MSG__CHANGE_LAYOUT__</a></li>
+                <li id="more_delete" class="more_option option_last"><a href="javascript:;" class="s3d-action">__MSG__DELETE__</a></li>
             </ul>
         </div>
     --></div>
@@ -215,8 +215,8 @@
     <div id="insert_more_menu" class="insert_more_menu" style="display:none">
         <div class="insert_more_menu_border">
             <ul>
-                <li><a href="javascript:;" id="link_dialog_trigger">Link</a></li>
-                <li><a href="javascript:;" id="horizontal_line_insert">Horizontal Line</a></li>
+                <li><a href="javascript:;" id="link_dialog_trigger">__MSG__LINK__</a></li>
+                <li><a href="javascript:;" id="horizontal_line_insert">__MSG__HORIZONTAL_LINE__</a></li>
             </ul>
         </div>
         <div id="insert_more_media" class="insert_more_menu_border">
@@ -232,28 +232,28 @@
 
     <div id="insert_more_media_template" style="display:none"><!--
         <ul>
-            <li class="insert_more_menu_inactive">Media:</li>
+            <li class="insert_more_menu_inactive">__MSG__MEDIA__:</li>
             {for i in items}
                 <li><a href="javascript:;" id="insert_more_widget_${i.id}" class="insert_more_widget">${i.name}</a></li>
             {forelse}
-                <li class="insert_more_menu_inactive"><i>No available</i></li>
+                <li class="insert_more_menu_inactive"><i>__MSG__NOT_AVAILABLE__</i></li>
             {/for}
         </ul>
     --></div>
 
     <div id="insert_more_goodies_template" style="display:none"><!--
         <ul>
-            <li class="insert_more_menu_inactive">Sakai Goodies:</li>
+            <li class="insert_more_menu_inactive">__MSG__SAKAI_GOODIES__:</li>
             {for i in items}
                 <li><a href="javascript:;" id="insert_more_widget_${i.id}" class="insert_more_widget">${i.name}</a></li>
             {/for}
-            <li class="insert_more_menu_inactive">(More coming soon)</li>
+            <li class="insert_more_menu_inactive">(__MSG__MORE_COMING_SOON__)</li>
         </ul>
     --></div>
 
     <div id="insert_more_sidebar_template" style="display:none"><!--
         <ul>
-            <li class="insert_more_menu_inactive">Sidebar Goodies:</li>
+            <li class="insert_more_menu_inactive">__MSG__SIDEBAR_GOODIES__:</li>
             {for i in items}
                 <li><a href="javascript:;" id="insert_more_widget_${i.id}" class="insert_more_widget">${i.name}</a></li>
             {/for}
@@ -267,7 +267,7 @@
         <div class="dialog_header">
             <div class="dialog_header_inner">
             <h1 id="dialog_title"></h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+            <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
             </div>
         </div>
         <!-- DIALOG CONTENT -->
@@ -283,19 +283,19 @@
     <div id="wrapping_dialog" class="dialog" style="width:400px; margin-left: -200px">
         <div class="dialog_header">
             <div class="dialog_header_inner">
-            <h1>Appearance</h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+            <h1>__MSG__APPEARANCE__</h1>
+            <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
             </div>
         </div>
 
         <div class="dialog_content">
 
-            <h3 style="margin-top:0px">Select wrapping for your widget</h3>
+            <h3 style="margin-top:0px">__MSG__SELECT_WRAPPING_FOR_YOUR_WIDGET__</h3>
 
             <ul style="margin-left:1em">
-                <li style="list-style-type:none; padding-l"><a id="wrapping_no" href="javascript:;">No wrapping</a></li>
-                <li style="list-style-type:none"><a id="wrapping_left" href="javascript:;">Left wrapping</a></li>
-                <li style="list-style-type:none"><a id="wrapping_right" href="javascript:;">Right wrapping</a></li>
+                <li style="list-style-type:none; padding-l"><a id="wrapping_no" href="javascript:;">__MSG__NO_WRAPPING__</a></li>
+                <li style="list-style-type:none"><a id="wrapping_left" href="javascript:;">__MSG__LEFT_WRAPPING__</a></li>
+                <li style="list-style-type:none"><a id="wrapping_right" href="javascript:;">__MSG__RIGHT_WRAPPING__</a></li>
             </ul>
 
             <div class="dialog_buttons">
@@ -313,16 +313,16 @@
     <div id="autosave_dialog" class="dialog" style="width:400px; margin-left: -200px">
         <div class="dialog_header">
             <div class="dialog_header_inner">
-            <h1>Auto-save</h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+            <h1>__MSG__AUTO__ __MSG__SAVE__</h1>
+            <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
             </div>
         </div>
 
         <div class="dialog_content">
 
-            <h3 style="margin-top:0px">An unsaved version of this page has been found.</h3>
+            <h3 style="margin-top:0px">__MSG__AN_UNSAVED_VERSION_OF_PAGE_HAS_BEEN_FOUND__.</h3>
 
-            <p>Do you want to load this unsaved version?</p>
+            <p>__MSG__DO_YOU_WANT_TO_LOAD_UNSAVED_VERSION__?</p>
 
             <div class="dialog_buttons">
                 <button type="button" class="s3d-button s3d-button-primary" id="autosave_revert"><span class="s3d-button-inner">__MSG__YES__</span></button>
@@ -340,7 +340,7 @@
         <div class="dialog_header">
             <div class="dialog_header_inner">
             <h1>__MSG__DELETE_A_PAGE__</h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">__MSG__CLOSE_DIALOG__</a>
+            <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
             </div>
         </div>
 
@@ -366,7 +366,7 @@
         <div class="dialog_header">
             <div class="dialog_header_inner">
             <h1>__MSG__DELETE_A_PAGE__</h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">__MSG__CLOSE_DIALOG__</a>
+            <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
             </div>
         </div>
 
@@ -388,14 +388,14 @@
     <div id="link_dialog" class="dialog" style="width:400px; margin-left: -200px">
         <div class="dialog_header">
             <div class="dialog_header_inner">
-            <h1>Insert a link</h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+            <h1>__MSG__INSERT_A_LINK__</h1>
+            <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
             </div>
         </div>
 
         <div class="dialog_content">
 
-            <h3 style="margin-top:0px">To insert a page link, select the right page and hit Insert</h3>
+            <h3 style="margin-top:0px">__MSG__TO_INSERT_PAGE_LINK__</h3>
 
             <div id="link_container" class="link_container">
 
@@ -416,18 +416,18 @@
 
     <div class="context_menu" id="context_menu" style="display:none">
         <button class="s3d-button s3d-button-inline" id="more_link">
-            <span class="s3d-button-inner"><span class="s3d-button-icon-left"></span><span class="s3d-button-inner-text">Widget options</span><span class="s3d-button-icon-right"></span></span>
+            <span class="s3d-button-inner"><span class="s3d-button-icon-left"></span><span class="s3d-button-inner-text">__MSG__WIDGET_OPTIONS__</span><span class="s3d-button-icon-right"></span></span>
         </button>
         <div class="context_more">
             <ul>
                 <li id="context_settings" class="more_option">
-                    <a href="javascript:;" class="s3d-action">Settings</a>
+                    <a href="javascript:;" class="s3d-action">__MSG__SETTINGS__</a>
                 </li>
                 <li id="context_remove" class="more_option">
-                    <a href="javascript:;" class="s3d-action">Remove</a>
+                    <a href="javascript:;" class="s3d-action">__MSG__REMOVE__</a>
                 </li>
                 <li id="context_appearance_trigger" class="more_option option_last">
-                    <a href="javascript:;" class="s3d-action">Wrapping</a>
+                    <a href="javascript:;" class="s3d-action">__MSG__WRAPPING__</a>
                 </li>
             </ul>
         </div>
@@ -438,20 +438,20 @@
     <div class="dialog" id="save_as_template_container">
         <div class="dialog_header">
             <div class="dialog_header_inner">
-            <h1>Save as Template</h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+            <h1>__MSG__SAVE_AS_TEMPLATE__</h1>
+            <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
             </div>
         </div>
 
         <div class="dialog_content">
 
-            <h1>Template name</h1>
+            <h1>__MSG__TEMPLATE_NAME__</h1>
             <textarea id="template_name"></textarea>
 
-            <h1>Description</h1>
+            <h1>__MSG__DESCRIPTION__</h1>
             <textarea id="template_description"></textarea>
 
-            <p><small>Maximum 250 characters!</small></p>
+            <p><small>__MSG__MAX_250_CHARACTERS__!</small></p>
 
             <div class="dialog_buttons">
                 <button type="button" class="s3d-button s3d-button-primary" id="save_as_page_template_button"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
@@ -470,8 +470,8 @@
     <div class="dialog" id="select_template_for_page">
         <div class="dialog_header">
             <div class="dialog_header_inner">
-            <h1>Add page from template</h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+            <h1>__MSG__ADD_PAGE_FROM_TEMPLATE__</h1>
+            <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
             </div>
         </div>
 
@@ -493,8 +493,7 @@
                     {/for}
             </ul>
                 {else}
-                    <span>No templates available. In order to create one, go to the page you would like to use as a template, hit the
-                    more menu and select Save As Page Template.</span>
+                    <span>__MSG__NO_TEMPLATES_AVAILABLE__</span>
                 {/if}
             --></div>
             <!-- DIALOG BUTTONS -->
@@ -513,14 +512,14 @@
     <div class="dialog" id="dashboard_addpage_dialog">
         <div class="dialog_header">
             <div class="dialog_header_inner">
-            <h1>Add a dashboard page.</h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+            <h1>__MSG__ADD_A_DASHBOARD_PAGE__.</h1>
+            <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
             </div>
         </div>
 
         <div class="dialog_content">
             <form method="POST" action="javascript:;">
-                <label for="dashboard_addpage_title">What is the title for your new dashboard page.</label><br />
+                <label for="dashboard_addpage_title">__MSG__WHAT_IS_THE_TITLE_FOR_DASHBOARD_PAGE__.</label><br />
                 <input type="text" maxlength="255" id="dashboard_addpage_title" />
 
                 <!-- DIALOG BUTTONS -->
@@ -544,11 +543,11 @@
 
 <!-- <div class="sm_content">
 	<ul>
-	    <li><a id="site_management_basic_link" href="/dev/site_management_basic_settings.html?siteid=">Site Settings</a></li>
-	    <li><a id="site_management_files_link" href="/dev/content_media.html?siteid=">Site Files</a></li>
-	    <li><a id="site_management_members_link" href="/dev/site_management_members_manage.html?siteid=">Members</a></li>
-	    <li><a id="site_management_appearance_link" href="/dev/site_management_appearance.html?siteid=">Appearance</a></li>
-	    <li><a href="javascript:;" id="edit_sidebar">Edit Sidebar</a></li>
+	    <li><a id="site_management_basic_link" href="/dev/site_management_basic_settings.html?siteid=">__MSG__SITE_SETTINGS__</a></li>
+	    <li><a id="site_management_files_link" href="/dev/content_media.html?siteid=">__MSG__SITE_FILES__</a></li>
+	    <li><a id="site_management_members_link" href="/dev/site_management_members_manage.html?siteid=">__MSG__MEMBERS__</a></li>
+	    <li><a id="site_management_appearance_link" href="/dev/site_management_appearance.html?siteid=">__MSG__APPEARANCE__</a></li>
+	    <li><a href="javascript:;" id="edit_sidebar">__MSG__EDIT_SIDEBAR__</a></li>
     </ul>
 </div> -->
 
