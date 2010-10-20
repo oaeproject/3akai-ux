@@ -2,6 +2,7 @@
 "name": "Recent messages",
 "description": "Your recent messages",
 "ALL_MESSAGES": "All messages",
+"AND_OTHERS": "and others",
 "NO_MESSAGES_AVAILABLE": "There are no recent messages available for you.",
 "NOT_CONNECTED": "The recent messages widget couldn't connect to the server.",
 "VIEW_AND_MANAGE_ALL_MY_MESSAGES" : "View &amp; manage all my messages"

@@ -17,5 +17,9 @@
 "SELECT_ALL": "Select All",
 "NO_RESULTS": "Sorry, your search didn't return any matches.",
 "ERROR_MSG": "Sorry, could not retrieve the list from the server!",
-"CONTENT_I_CAN_SEE": "Content I Can See"
+"CONTENT_I_CAN_SEE": "Content I Can See",
+"CLOSE_DIALOG": "Close Dialog",
+"DEFAULT_PROFILE_PICTURE":"Default profile picture",
+"PROFILE_PICTURE_FOR":"Profile picture for",
+"DEFAULT_GROUP_PICTURE":"Default profile picture"
 }

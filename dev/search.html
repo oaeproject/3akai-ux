@@ -110,6 +110,9 @@
                         <!-- TEMPORARY SEARCH TEXT -->
                         <span id="search_result_temp" style="display:none;"><b>__MSG__SEARCHING__ ...</b></span>
 
+                        <!-- EXCEED SEARCH LIMIT -->
+                        <span id="search_result_thousands" style="display:none;"><b>__MSG__THOUSANDS_OF__</b></span>
+
                         <!-- SEARCH RESULTS -->
                         <div class="fl-container fl-fix search_results">
 
@@ -198,9 +201,9 @@
                                         {var groupsFound = true}
                                         <div class="fl-container fl-fix search_result">
                                             {if i.picture}
-                                            <img src="${i.picture.picPath}" alt="group name">
+                                            <img src="${i.picture.picPath}" alt="__MSG__GROUP_NAME__">
                                             {else}
-                                            <img src="/dev/_images/group_avatar_icon_64x64_nob.png" alt="group name">
+                                            <img src="/dev/_images/group_avatar_icon_64x64_nob.png" alt="__MSG__GROUP__NAME">
                                             {/if}
                                             <div class="search_result_course_site_title"><a href="/~${i.pagepath}">${sakai.api.Util.shortenString(i["sakai:group-title"], 100)}</a></div>
                                             <div class="search_result_course_site_url"><a href="/~${i.pagepath}">${sakai.api.Util.shortenString(i.pagepath, 100)}</a></div>
