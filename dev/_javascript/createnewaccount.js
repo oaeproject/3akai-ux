@@ -317,6 +317,21 @@ sakai.newaccount = function(){
         }
     });
 
+    var doInit = function(){
+        // hide body first
+        $('body').hide();
+
+        // check if using internal or external authentication
+        if (!sakai.config.Authentication.internal) {
+            document.location = sakai.config.URL.GATEWAY_URL;
+        }
+        else {
+            $('body').show();
+        }
+    }
+
+    doInit();
+
     // Input field hover
     // The jQuery hover strangely has a bug in FF 3.5 - fast mouse movement doesn't fire the out event...
     //$(".create_account_input").hover(function(ev) { $(ev.target).addClass(inputFieldHoverClass); }, function(ev) { $(ev.target).removeClass(inputFieldHoverClass); });
