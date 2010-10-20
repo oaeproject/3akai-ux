@@ -1,6 +1,7 @@
 .fixed-container {
-    padding: 0 20px;
+    padding:0 20px;
     width: 920px;
+    overflow:hidden;
 }
 
 /********************************************/
