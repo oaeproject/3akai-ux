@@ -124,12 +124,12 @@ sakai.groupedit = function(){
             },
             error: function(xhr, textStatus, thrownError){
 
-	            if (xhr.status === 401 || xhr.status === 403){
+                if (xhr.status === 401 || xhr.status === 403){
                     sakai.api.Security.send403();
                 } else {
                     sakai.api.Security.send404();
                 }
-                
+
             }
         });
     };
@@ -152,7 +152,7 @@ sakai.groupedit = function(){
         // enable group basic info input elements
         sakai.api.UI.groupbasicinfo.enableInputElements();
         // Show a notification on the screen
-    	sakai.api.Util.notification.show("Group Basic Information", "Updated successfully.");
+        sakai.api.Util.notification.show("Group Basic Information", "Updated successfully.");
         // Re-render the Entity Summary widget so the changes are reflected
         sakai.api.UI.entity.render("group", sakai.currentgroup.data);
     });
@@ -354,7 +354,7 @@ sakai.groupedit = function(){
             });
         }
     };
-    
+
     /**
      * Add users
      * Function that gets the list of selected users from the people picker widget and adds them to the group
@@ -584,7 +584,7 @@ sakai.groupedit = function(){
 
             // Bind the add content button
             $("#group_editing_add_content").bind("click", function(){
-                $(window).trigger('sakai-embedcontent-init', {"name":"Item", "mode": "picker", "limit": false, "filter": false});
+                $(window).trigger('sakai-embedcontent-init', {"name":sakai.currentgroup.data.authprofile["sakai:group-title"], "mode": "picker", "limit": false, "filter": false});
                 $(window).unbind("sakai-embedcontent-picker-finished");
                 $(window).bind("sakai-embedcontent-picker-finished", function(e, fileList) {
                     if (fileList.items.length) {
@@ -616,10 +616,10 @@ sakai.groupedit = function(){
             }
             addBinding();
         } else {
-            
+
             // The user is not a manager of the group
             sakai.api.Security.send403();
-            
+
         }
     };
 
