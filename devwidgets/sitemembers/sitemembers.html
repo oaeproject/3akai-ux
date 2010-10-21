@@ -2,7 +2,7 @@
 <link rel="stylesheet" type="text/css" href="/devwidgets/sitemembers/css/sitemembers.css" />
 
 <!-- ERRORS -->
-<span id="sitemembers_error_couldnotconnect" style="display:none;">Could not retrieve site members</span>
+<span id="sitemembers_error_couldnotconnect" style="display:none;">__MSG__COULD_NOT_RETRIEVE_SITE_MEMBERS__</span>
 
 <!-- SETTINGS VIEW -->
 <div style="display: none;" id="sitemembers_settings" class="fl-widget-content">
@@ -25,7 +25,7 @@
     <input type="radio" id="sitemembers_settings_display_compact" name="sitemembers_settings_display" checked="checked" /> <label for="sitemembers_settings_display_compact">__MSG__COMPACT_SINGLE_COLUMN_OF_MEMBERS__</label><br />
     <input type="radio" id="sitemembers_settings_display_wide" name="sitemembers_settings_display" /> <label for="sitemembers_settings_display_wide">__MSG__WIDE_FULL_PAGE_WIDTH__</label>
     <!-- BACKEND ONLY ALLOWS SORTING ON FIRSTNAME AND LASTNAME.
-    <h2>Sort by:</h2>
+    <h2>__MSG__SORT_BY__:</h2>
     <input type="radio" name="sitemembers_settings_sort" id="sitemembers_settings_sort_name" checked="checked" /><label for="sitemembers_settings_sort_name">__MSG__NAME__</label><br />
     <input type="radio" name="sitemembers_settings_sort" id="sitemembers_settings_sort_position" /><label for="sitemembers_settings_sort_position">__MSG__POSITION__</label>
     -->
@@ -73,7 +73,7 @@
                 {if m.picture}
                     <img src="${m.picture}" alt="__MSG__PROFILE_PICTURE__" />
                 {else}
-                    <img src="/dev/_images/person_icon.jpg" alt="PROFILE_PICTURE" />
+                    <img src="/dev/_images/person_icon.jpg" alt="__MSG__PROFILE_PICTURE__" />
                 {/if}
 
                 <a href="/~${m.userid}">${m.firstName} ${m.lastName}</a><br />

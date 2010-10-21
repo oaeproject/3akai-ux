@@ -7,6 +7,7 @@
 "ADD_TO_CONTACTS": "Add to Contacts",
 "DATA_TO_DISPLAY_ABOUT_MEMBERS": "Data to display about members",
 "COMPACT_SINGLE_COLUMN_OF_MEMBERS": "Compact (single column of members)",
+"COULD_NOT_RETRIEVE_SITE_MEMBERS": "Could not retrieve site members",
 "DEGREES": "Degrees",
 "DISPLAY_MODE": "Display mode",
 "FETCHED": "Fetched",
@@ -38,6 +39,7 @@
 "SETTINGS": "Settings",
 "SHOW_ALL": "Show all",
 "SITE_MEMBERS": "Site members",
+"SORT_BY": "Sort by",
 "THIS_SITE_HAS": "This site has",
 "TALKS": "Talks",
 "WIDE_FULL_PAGE_WIDTH": "Wide (full page width)"
