@@ -144,7 +144,12 @@ sakai.search = function() {
      * @param {String} searchquery The searchterm you want to look for (optional / default = input box value.)
      * @param {String} searchwhere The subset of sites you want to search in
      */
-    sakai._search.doHSearch = function(page, searchquery, searchwhere, facet) {
+    sakai._search.doHSearch = function(page, searchquery, searchwhere, facet, killPreviousAjaxCall) {
+        // if killpreviousajaxcall is true then kill the previous ajax request
+        if (killPreviousAjaxCall) {
+            searchAjaxCall.abort();
+        }
+
         if (!page) {
             page = 1;
         }
