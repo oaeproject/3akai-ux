@@ -353,7 +353,7 @@ sakai.groupedit = function(){
                     renderItemLists('members');
                     renderItemLists('managers');
                     $("#entity_member_count").text(sakai.api.Security.saneHTML(parseInt($("#entity_member_count").text(), 10) + userCount));
-                    $("#group_editing_add_" + listType).focus()
+                    $("#group_editing_add_" + listType).focus();
                 }
             });
         }
@@ -499,14 +499,14 @@ sakai.groupedit = function(){
             }
             // if there is not selected list disable
             else {
-                $("#group_editing_remove_" + tuid).attr("disabled", "disabled")
+                $("#group_editing_remove_" + tuid).attr("disabled", "disabled");
             }
         }
         // disable the button
         else {
-            $("#group_editing_remove_" + tuid).attr("disabled", "disabled")
+            $("#group_editing_remove_" + tuid).attr("disabled", "disabled");
         }
-    }
+    };
 
     /**
      * Retrieve the managers lists
