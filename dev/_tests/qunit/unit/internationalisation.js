@@ -8,7 +8,7 @@ var checkChildElements = function(element, page, template){
         while (child) { // check child elements
             if (child.nodeType === 8 && child.parentNode.nodeName.toLowerCase() === "div") { // if comment node is in a div its probably a javascript template
                 var trimPathTemplate = document.createElement('div');
-                trimPathTemplate.innerHTML = child.data.replace('\[\"','').replace('\[\"','');
+                trimPathTemplate.innerHTML = child.data;
                 checkChildElements(trimPathTemplate, page, true);
             }
             if (child.nodeType === 1) { // if html element
