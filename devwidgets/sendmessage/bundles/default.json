@@ -1,10 +1,10 @@
 {
 "name": "Sendmessage",
 "description": "Sendmessage widget\r\n",
-"WIDGET_TITLE": "Send message",
 "ADDITIONAL_RECIPIENTS": "Additional Recipients",
 "FAILED_TO_RETRIEVE_DATA": "Failed to retrieve contacts or groups you may message at this time. Please try again later or contact your administrator for further assistance.",
-"MESSAGE_HAS_BEEN_SENT": "The message has been sent",
 "MESSAGE_COULD_NOT_BE_SENT": "The message could not be sent",
-"PLEASE_FILL_IN_ALL_FIELDS": "Please fill in all the fields"
+"MESSAGE_HAS_BEEN_SENT": "The message has been sent",
+"PLEASE_FILL_IN_ALL_FIELDS": "Please fill in all the fields",
+"WIDGET_TITLE": "Send message"
 }
