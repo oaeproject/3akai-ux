@@ -41,7 +41,7 @@ var checkChildElements = function(element, page, template){
                     if (regex.test(titleTextTest)){
                         //ok(true, "Page: " + page + ", String: " + titleText);
                     } else if (templateRegex.test(titleTextTest) && !(regex.test(titleTextTest) || templateStartAlphaRegex.test(titleTextTest) || templateEndAlphaRegex.test(titleTextTest) || templateMiddleAlphaRegex.test(titleTextTest)) && titleTextTest.length > 0 && template){
-                        //ok(true, "Page: " + page + ", String: " + tagText);
+                        //ok(true, "Page: " + page + ", String: " + titleText);
                     } else if (alpha.test(titleTextTest)){
                         ok(false, "Page: " + page + ", String: " + titleText);
                     }
@@ -54,7 +54,7 @@ var checkChildElements = function(element, page, template){
                     if (regex.test(valueTextTest)){
                         ok(true, "Page: " + page + ", String: " + valueText);
                     } else if (templateRegex.test(valueTextTest) && !(regex.test(valueTextTest) || templateStartAlphaRegex.test(valueTextTest) || templateEndAlphaRegex.test(valueTextTest) || templateMiddleAlphaRegex.test(valueTextTest)) && valueTextTest.length > 0 && template){
-                        ok(true, "Page: " + page + ", String: " + tagText);
+                        ok(true, "Page: " + page + ", String: " + valueText);
                     } else if (alpha.test(valueTextTest)){
                         ok(false, "Page: " + page + ", String: " + valueText);
                     }
@@ -64,7 +64,7 @@ var checkChildElements = function(element, page, template){
                     if (regex.test(altTextTest)) {
                         //ok(true, "Page: " + page + ", String: " + altText);
                     } else if (templateRegex.test(altTextTest) && !(regex.test(altTextTest) || templateStartAlphaRegex.test(altTextTest) || templateEndAlphaRegex.test(altTextTest) || templateMiddleAlphaRegex.test(altTextTest)) && altTextTest.length > 0 && template) {
-                        //ok(true, "Page: " + page + ", String: " + tagText);
+                        //ok(true, "Page: " + page + ", String: " + altText);
                     } else if (alpha.test(altTextTest)) {
                         ok(false, "Page: " + page + ", String: " + altText);
                     }
