@@ -1,13 +1,13 @@
 {
-"NAME": "Name",
-"TAGS": "Tags",
+"COPYRIGHTED":"Copyrighted",
+"CREATIVE_COMMONS_LICENSE":"Creative Commons License",
 "DESCRIPTION": "Description",
 "DONT_UPDATE_DETAILS": "Don't Update Details",
-"UPDATE_DETAILS": "Update Details",
 "KIND_OF_COPYRIGHT":"What kind of Copyright does this content have?",
-"CREATIVE_COMMONS_LICENSE":"Creative Commons License",
-"COPYRIGHTED":"Copyrighted",
 "LICENSED":"Licensed",
-"WAIVE_COPYRIGHT":"Waive Copyright",
-"NO_COPYRIGHT":"No Copyright"
+"NAME": "Name",
+"NO_COPYRIGHT":"No Copyright",
+"TAGS": "Tags",
+"UPDATE_DETAILS": "Update Details",
+"WAIVE_COPYRIGHT":"Waive Copyright"
 }

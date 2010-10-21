@@ -61,7 +61,7 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
         var year = date.getFullYear();
         var formattedDate = day + " " + month + " " + year;
         return formattedDate;
-    }
+    };
 
     var renderDetails = function(){
         // Construct the JSON object
@@ -85,7 +85,7 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
         // And render the detailed information
         var renderedTemplate = $.TemplateRenderer("content_profile_file_details_template", json);
         var renderedDiv = $(document.createElement("div"));
-        renderedDiv.html(renderedTemplate)
+        renderedDiv.html(renderedTemplate);
         $("#content_profile_file_details_container").html(renderedDiv);
         // Show the file details container
         $("#content_profile_file_details_container").show();
@@ -105,7 +105,7 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
             whole_word: false,
             alt_text_t: true
         });
-    }
+    };
 
     /**
      * Get userprofile with the userid provided
@@ -122,7 +122,7 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
                 renderDetails();
             }
         });
-    }
+    };
 
     var loadRevisions = function(){
         $.ajax({
@@ -132,16 +132,18 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
                 for (var i in data["versions"]) {
                     var item = {
                         "data" : data["versions"][i]
-                    }
+                    };
                     fileRevisions[fileRevisions.length] = item;
                 }
                 getUserProfile(profileData["sakai:pool-content-created-for"]);
             },
             error: function(xhr, textStatus, thrownError){
-                sakai.api.Util.notification.show("Failed loading revisions", "Failed to load file revision information");
+                sakai.api.Util.notification.show($("#contentprofiledetails_failed_loading_revisions").text(),
+                                                $("#contentprofiledetails_failed_to_load_revisions").text(),
+                                                sakai.api.Util.notification.type.ERROR);
             }
         });
-    }
+    };
 
     var loadContentProfile = function(){
         if (sakai.content_profile.content_data && sakai.content_profile.content_data.data) {
@@ -153,7 +155,9 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
                     profileData = sakai.content_profile.content_data.data;
                     loadRevisions();
                 } else {
-                    sakai.api.Util.notification.show("Failed loading data", "Failed to load file information");
+                    sakai.api.Util.notification.show($("#contentprofiledetails_failed_loading_data").text(),
+                                                    $("#contentprofiledetails_failed_to_load_file_info").text(),
+                                                    sakai.api.Util.notification.type.ERROR);
                 }
             });
         }

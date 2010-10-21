@@ -951,7 +951,9 @@ sakai.discussion = function(tuid, showSettings){
                             post = getSelectedDiscussion(selectedExistingDiscussionID);
 
                             if (post === false) {
-                                alert("You need to either post a new discussion or select an existing discussion");
+                                sakai.api.Util.notification.show($("#discussion_discussion").text(),
+                                                                $("#discussion_post_to_new_discussion").text(),
+                                                                sakai.api.Util.notification.type.ERROR);
                                 return;
                             }
                             widgetSettings.marker = post["sakai:marker"];

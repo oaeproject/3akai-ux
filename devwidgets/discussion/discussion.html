@@ -44,7 +44,7 @@
         <div id="discussion_compact_container_template" style="display:none"><!--
         {macro displayPost(o, first, current)}
                 <div class="discussion_compact_post_link">
-                    <a href="#" id="post_${o.post["sakai:id"]}" title="Click to expand this post"><span class="discussion_content_compact_subject">${o.post["sakai:subject"]}</span></a> - <span>by ${o.post.profile.fullName}</span> on <span>${o.post.date}</span>
+                    <a href="#" id="post_${o.post["sakai:id"]}" title="Click to expand this post"><span class="discussion_content_compact_subject">${o.post["sakai:subject"]}</span></a> - <span>by ${o.post.profile.fullName}</span> __MSG__ON__ <span>${o.post.date}</span>
                 </div>
 
                 <div class="discussion_post discussion_compact_post" id="discussion_post${o.post["sakai:id"]}">
@@ -57,11 +57,11 @@
                             {/if}
                             <p class="discussion_content_subject" id="discussion_content_subject_${o.post["sakai:id"]}">${o.post["sakai:subject"]}</p>
                             <a href="/~${o.post["sakai:from"]}"><span class="discussion_username">${o.post.profile.fullName}</span></a>
-                            <span class="discussion_date">posted this on ${o.post.date}</span>
+                            <span class="discussion_date">__MSG__POSTED_THIS_ON__ ${o.post.date}</span>
                             {if o.post.editters !== undefined}
                                 <br />
                                 <a href="/~${o.post.editedByUserid}"><span class="discussion_username_edited">${o.post.editedByName}</span></a>
-                                <span class="discussion_date">edited this on ${o.post.editedByDate}</span>
+                                <span class="discussion_date">__MSG__EDITED_THIS_ON__ ${o.post.editedByDate}</span>
                              {/if}
                         </div>
                      </div>
@@ -70,12 +70,12 @@
                             {if o.post["sakai:deleted"] && o.post["sakai:deleted"] === true}
                                 <p class="discussion_content_infoDeleted">
                                 {if o.post["sakai:deletedByID"] === current.user.userid}
-                                    You have deleted this post.
+                                    __MSG__YOU_DELETED_THIS_POST__.
                                 {else}
-                                    This post has been deleted by ${o.post["sakai:deletedBy"]}. Only managers can see this post.
+                                    __MSG__THIS_POST_HAS_BEEN_DELETED_BY__ ${o.post["sakai:deletedBy"]}. __MSG__ONLY_MANAGERS_CAN_SEE_THIS_POST__.
                                 {/if}
                                 {if o.post.canDelete && o.post.canDelete === true}
-                                    <br />You can return it by clicking the undelete link.
+                                    <br/>__MSG__YOU_CAN_RETURN_IT_BY_UNDELETING__.
                                 {/if}
                                 </p>
                             {/if}
@@ -84,15 +84,15 @@
                         {if loggedIn}
                             <div id="discussion_content_actions_${o.post["sakai:id"]}" class="discussion_content_actions link">
                                 <ul>
-                                    <li class="discussion_content_no_border"><a id="discussion_content_reply_${o.post["sakai:id"]}" class="discussion_content_reply" href="javascript:;">Reply</a></li>
+                                    <li class="discussion_content_no_border"><a id="discussion_content_reply_${o.post["sakai:id"]}" class="discussion_content_reply" href="javascript:;">__MSG__REPLY__</a></li>
                                     {if o.post.canEdit}
-                                        <li><a id="discussion_content_edit_${o.post["sakai:id"]}" class="discussion_content_edit" href="javascript:;">Edit</a></li>
+                                        <li><a id="discussion_content_edit_${o.post["sakai:id"]}" class="discussion_content_edit" href="javascript:;">__MSG__EDIT__</a></li>
                                     {/if}
                                     {if o.post.canDelete && first !== true && o.post["sakai:initialpost"] !== true}
                                         {if o.post["sakai:deleted"]}
-                                            <li><a id="discussion_content_undelete_${o.post["sakai:id"]}" class="discussion_content_undelete" href="javascript:;">Undelete</a></li>
+                                            <li><a id="discussion_content_undelete_${o.post["sakai:id"]}" class="discussion_content_undelete" href="javascript:;">__MSG__UNDELETE__</a></li>
                                         {else}
-                                             <li><a id="discussion_content_delete_${o.post["sakai:id"]}" class="discussion_content_delete" href="javascript:;">Delete</a></li>
+                                             <li><a id="discussion_content_delete_${o.post["sakai:id"]}" class="discussion_content_delete" href="javascript:;">__MSG__DELETE__</a></li>
                                         {/if}
                                     {/if}
                                 </ul>
@@ -109,7 +109,7 @@
         {/macro}
 
         {if posts.length == 0}
-            No posts yet.
+            __MSG__NO_POSTS_YET__.
         {else}
             {for post in posts}
                 ${displayPost(post, true, curr)}
@@ -133,25 +133,25 @@
                         {/if}
                         <p class="discussion_content_subject" id="discussion_content_subject_${o.post["sakai:id"]}">${o.post["sakai:subject"]}</p>
                         <a href="/~${o.post["sakai:from"]}"><span class="discussion_username">${o.post.profile.fullName}</span></a>
-                        <span class="discussion_date">posted this on ${o.post.date}</span>
+                        <span class="discussion_date">__MSG__POSTED_THIS_ON__ ${o.post.date}</span>
                         {if o.post.editters !== undefined}
                             <br />
                             <a href="/~${o.post.editedByUserid}"><span class="discussion_username_edited">${o.post.editedByName}</span></a>
-                            <span class="discussion_date">edited this on ${o.post.editedByDate}</span>
+                            <span class="discussion_date">__MSG__EDITED_THIS_ON__ ${o.post.editedByDate}</span>
                          {/if}
                     </div>
                     <span class="discussion_right">
                         <span class="discussion_totalReplies">${o.post.nrOfReplies}</span>
                         {if o.post.nrOfReplies == "1"}
-                            <span class="discussion_countReplies"> reply </span>
+                            <span class="discussion_countReplies"> __MSG__REPLY__ </span>
                         {else}
-                            <span class="discussion_countReplies"> replies </span>
+                            <span class="discussion_countReplies"> __MSG__REPLIES__ </span>
                         {/if}
                         {if o.post.nrOfReplies != "0"}
                             <span class="discussion_showAllContainer">
                             (<a class="discussion_toggle_showhideall" id="discussion_toggle_showhideall_${o.post["sakai:id"]}" href="javascript:;">
-                                <span class="discussion_toggle_showhideall_text${o.post["sakai:id"]}">Hide all</span>
-                                <span class="discussion_toggle_showhideall_text${o.post["sakai:id"]}" style="display:none;">Show all</span>
+                                <span class="discussion_toggle_showhideall_text${o.post["sakai:id"]}">__MSG__HIDE_ALL__</span>
+                                <span class="discussion_toggle_showhideall_text${o.post["sakai:id"]}" style="display:none;">__MSG__SHOW_ALL__</span>
                             </a>)
                             </span>
                         {/if}
@@ -162,12 +162,12 @@
                         {if o.post["sakai:deleted"] && o.post["sakai:deleted"] === true}
                             <p class="discussion_content_infoDeleted">
                             {if o.post["sakai:deletedByID"] === current.user.userid}
-                                You have deleted this post.
+                                __MSG__YOU_DELETED_THIS_POST__.
                             {else}
-                                This post has been deleted by ${o.post["sakai:deletedBy"]}. Only managers can see this post.
+                                __MSG__THIS_POST_HAS_BEEN_DELETED_BY__ ${o.post["sakai:deletedBy"]}. __MSG__ONLY_MANAGERS_CAN_SEE_THIS_POST__.
                             {/if}
                             {if o.post.canDelete && o.post.canDelete === true}
-                                <br />You can return it by clicking the undelete link.
+                                <br/>__MSG__YOU_CAN_RETURN_IT_BY_UNDELETING__.
                             {/if}
                             </p>
                         {/if}
@@ -176,15 +176,15 @@
                     {if loggedIn}
                         <div id="discussion_content_actions_${o.post["sakai:id"]}" class="discussion_content_actions link">
                             <ul>
-                                <li class="discussion_content_no_border"><a id="discussion_content_reply_${o.post["sakai:id"]}" class="discussion_content_reply" href="javascript:;">Reply</a></li>
+                                <li class="discussion_content_no_border"><a id="discussion_content_reply_${o.post["sakai:id"]}" class="discussion_content_reply" href="javascript:;">__MSG__REPLY__</a></li>
                                 {if o.post.canEdit}
-                                    <li><a id="discussion_content_edit_${o.post["sakai:id"]}" class="discussion_content_edit" href="javascript:;">Edit</a></li>
+                                    <li><a id="discussion_content_edit_${o.post["sakai:id"]}" class="discussion_content_edit" href="javascript:;">__MSG__EDIT__</a></li>
                                 {/if}
                                 {if o.post.canDelete && first !== true && o.post["sakai:initialpost"] !== true}
                                     {if o.post["sakai:deleted"]}
-                                        <li><a id="discussion_content_undelete_${o.post["sakai:id"]}" class="discussion_content_undelete" href="javascript:;">Undelete</a></li>
+                                        <li><a id="discussion_content_undelete_${o.post["sakai:id"]}" class="discussion_content_undelete" href="javascript:;">__MSG__UNDELETE__</a></li>
                                     {else}
-                                         <li><a id="discussion_content_delete_${o.post["sakai:id"]}" class="discussion_content_delete" href="javascript:;">Delete</a></li>
+                                         <li><a id="discussion_content_delete_${o.post["sakai:id"]}" class="discussion_content_delete" href="javascript:;">__MSG__DELETE__</a></li>
                                     {/if}
                                 {/if}
                             </ul>
@@ -201,7 +201,7 @@
         {/macro}
 
         {if posts.length == 0}
-            No posts yet.
+            __MSG__NO_POSTS_YET__.
         {else}
             {for post in posts}
                 ${displayPost(post, true, curr)}
@@ -269,7 +269,7 @@
                 <div id="discussion_settings_existing_container_template" ><!--
                     <label>Select existing discussion</label>
                     {if results.length == 0}
-                        <span>You don't have any discussions yet.</span>
+                        <span>__MSG__NO_DISCUSSIONS_YET__.</span>
                     {else}
                     <div class="discussion_settings_list">
                         {for i in results}
@@ -281,8 +281,8 @@
                     {/if}
                 --></div>
                 <div id="discussion_settings_display_options_container" class="discussion_settings_container" style="display:none;">
-                    <p><input id="discussion_settings_link_display_button" type="radio" name="discussion_display_option" /><label for="discussion_settings_link_display_button">Minimal view - saving space on the page by collapsing Discussions by default</label></p>
-                    <p><input id="discussion_settings_inline_display_button" type="radio" name="discussion_display_option" checked="checked" /><label for="discussion_settings_inline_display_button">Full view - displaying all replies by default</label></p>
+                    <p><input id="discussion_settings_link_display_button" type="radio" name="discussion_display_option" /><label for="discussion_settings_link_display_button">__MSG__MIMIMAL_VIEW__</label></p>
+                    <p><input id="discussion_settings_inline_display_button" type="radio" name="discussion_display_option" checked="checked" /><label for="discussion_settings_inline_display_button">__MSG__FULL_VIEW__</label></p>
                 </div>
                 <div id="discussion_settings_visibility">
                     <div id="discussion_settings_visibility_user" style="display:none"><p>__MSG__USER_VISIBILITY__</p></div>
@@ -301,6 +301,11 @@
     <div class="fl-widget-no-options fl-fix">
         <div class="widget-no-options-inner"></div>
     </div>
+</div>
+
+<div id="discussion_notifications" style="display:none">
+    <span id="discussion_discussion">__MSG__DISCUSSION__</span>
+    <span id="discussion_post_to_new_discussion">__MSG__POST_TO_NEW_DISCUSSION__</span>
 </div>
 
 <!-- JAVASCRIPT -->
