@@ -321,8 +321,8 @@ sakai.newaccount = function(){
         // hide body first
         $('body').hide();
 
-        // check if using internal or external authentication
-        if (!sakai.config.Authentication.internal) {
+        // check if using internalaccountcreation is false if so redirect
+        if (!sakai.config.Authentication.allowInternalAccountCreation && !sakai.config.Authentication.internal) {
             document.location = sakai.config.URL.GATEWAY_URL;
         }
         else {
