@@ -36,7 +36,7 @@
 .listpeople_container .listpeople_content .listpeople_page li
 { display: block; list-style: none; clear: both; padding: 5px 0 5px 10px; border-bottom: 1px solid #FFFFFF; border-top: 1px solid #FFFFFF; overflow: hidden; }
 
-.listpeople_container .listpeople_content .listpeople_page li:hover
+.listpeople_container .listpeople_content .listpeople_page li.selectable:hover
 { background-color: #99CCFF; }
 
 .listpeople_container .listpeople_content .listpeople_page .selectable
