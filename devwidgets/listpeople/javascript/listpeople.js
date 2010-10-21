@@ -261,6 +261,8 @@ sakai.listpeople = function(tuid, showSettings) {
                             }
                         }
                     }
+                    // trigger event when add/remove from the list
+                    $(window).trigger("list-people-selected-change",tuid);
                 }
                 $listpeople_count_items.hide();
                 $listpeople_count_of.show();

@@ -49,6 +49,7 @@ sakai.search = function() {
         search : "#search",
         global : {
             resultTemp : search + "_result_temp",
+            resultExceed: search+"_result_exceed",
             button : search + "_button",
             text  :search + '_text',
             numberFound : search + '_numberFound',
@@ -86,19 +87,19 @@ sakai.search = function() {
             template : 'search_results_template'
         },
         facetedConfig : {
-            title : "Refine your search",
+            title : $("#search_result_title").html(),
             value : "Content",
             facets : {
                 "all" : {
-                    "category": "All Content",
+                    "category": $("#search_result_all_content").html(),
                     "searchurl": searchURLmap.allfiles
                 },
                 "manage" : {
-                    "category": "Content I manage",
+                    "category": $("#search_result_content_I_manage").html(),
                     "searchurl": searchURLmap.pooledcontentmanager
                 },
                 "member" : {
-                    "category": "Content I'm a viewer of",
+                    "category": $("#search_result_content_I_m_a_viewer_of").html(),
                     "searchurl": searchURLmap.pooledcontentviewer
                 }
             }
@@ -189,7 +190,7 @@ sakai.search = function() {
             } else if (results.results.length <= 0) {
                 $(searchConfig.global.numberFound).text(0);
             } else {
-                $(searchConfig.global.numberFound).text("more than 100");
+                $(searchConfig.global.numberFound).text($(searchConfig.global.resultExceed).html());
             }
 
             // Reset the pager.

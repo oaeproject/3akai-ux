@@ -295,6 +295,7 @@
 .inbox_normal_message
 { padding:10px; border:3px solid #00ff00; background-color:#d9f7d8; width:80%;float:left; }
 
+.inbox_progress {background:url("/dev/_images/ajax_load.gif") no-repeat scroll 0 0 transparent; clear:both; float:right; height:10px; width:80px;}
 
 .inbox_main .user-personal a
 {color: #058ec4; font-size: 12px;}

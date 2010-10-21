@@ -1,0 +1,7 @@
+{
+    "description":"Login",
+    "name":"Login",
+    "id":"login",
+    "hasSettings":true,
+    "url":"/devwidgets/login/login.html"
+}

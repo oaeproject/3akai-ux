@@ -113,8 +113,11 @@ function geocodeAddress(address) {
  * Get the json object
  */
 var getJSON = function() {
-    json.lat = map.getCenter().lat();
-    json.lng = map.getCenter().lng();
+    // use marker rather than map because 
+    // map use 14 decimal places while marker uses only 6 decimal places 
+    // causing marker to appear on wrong spot
+    json.lat = marker.getPosition().lat();
+    json.lng = marker.getPosition().lng();
     json.mapzoom = map.getZoom();
     return json;
 };
