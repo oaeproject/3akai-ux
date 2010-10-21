@@ -57,7 +57,16 @@
 			t.editor = ed;
 
 			// Define minimum height
-			t.autoresize_min_height = ed.getElement().offsetHeight;
+			if (ed.getElement().offsetHeight > 0) {
+			    t.autoresize_min_height = ed.getElement().offsetHeight;
+			} else if (ed.getElement().style.height) {
+		        t.autoresize_min_height = ed.getElement().style.height;
+		        if (typeof t.autoresize_min_height === "string") {
+		            t.autoresize_min_height = t.autoresize_min_height.replace("px", "");
+                }
+			} else {
+			    t.autoresize_min_height = 0;
+			}
 
 			// Add appropriate listeners for resizing content area
 			ed.onChange.add(resize);
