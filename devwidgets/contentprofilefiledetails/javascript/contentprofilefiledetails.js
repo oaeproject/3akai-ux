@@ -155,7 +155,9 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
                     profileData = sakai.content_profile.content_data.data;
                     loadRevisions();
                 } else {
-                    sakai.api.Util.notification.show("Failed loading data", "Failed to load file information");
+                    sakai.api.Util.notification.show($("#contentprofiledetails_failed_loading_data").text(),
+                                                    $("#contentprofiledetails_failed_to_load_file_info").text(),
+                                                    sakai.api.Util.notification.type.ERROR);
                 }
             });
         }

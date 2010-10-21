@@ -399,13 +399,17 @@ sakai.entity = function(tuid, showSettings){
                 */
 
                 // show a notification and change the button
-                sakai.api.Util.notification.show("Group Membership", "Your request has successfully been sent to the group's managers.");
+                sakai.api.Util.notification.show($("#entity_group_membership").text(),
+                                                $("#entity_group_request_sent").text(),
+                                                sakai.api.Util.notification.type.INFORMATION);
                 showGroupMembershipButton("pending");
             } else {
                 fluid.log("entity.js/requestJoinGroup() ERROR: Could not process join request for: " +
                     sakai.data.me.user.userid + " for groupid: " + groupid +
                     " - error status: " + error.textStatus);
-                sakai.api.Util.notification.show("Group Membership", "Sorry, there was a problem sending your request. We've notified system administrators. Please try again later or contact an administrator if the issue persists.");
+                    sakai.api.Util.notification.show($("#entity_group_membership").text(),
+                                                    $("#entity_group_problem_with_request").text(),
+                                                    sakai.api.Util.notification.type.ERROR);
             }
         });
     };
@@ -418,7 +422,9 @@ sakai.entity = function(tuid, showSettings){
         sakai.api.Groups.addToGroup(sakai.data.me.user.userid,
             entityconfig.data.profile["sakai:group-id"], function (success, data) {
             if (success) {
-                sakai.api.Util.notification.show("Group Membership", "You have successfully been added to the group.");
+                sakai.api.Util.notification.show($("#entity_group_membership").text(),
+                                                $("#entity_group_adding_successful").text(),
+                                                sakai.api.Util.notification.type.INFORMATION);
                 // wait for two seconds and then redirect
                 setTimeout(function () {
                     window.location.reload();
@@ -428,7 +434,9 @@ sakai.entity = function(tuid, showSettings){
                     sakai.data.me.user.userid + " to groupid: " +
                     entityconfig.data.profile["sakai:group-id"] +
                     " - error status: " + data.textStatus);
-                sakai.api.Util.notification.show("Group Membership", "Sorry, there was a problem while adding you to the group. We've notified system administrators. Please try again later or contact an administrator if the issue persists.");
+                    sakai.api.Util.notification.show($("#entity_group_membership").text(),
+                                                    $("#entity_group_problem_adding").text(),
+                                                    sakai.api.Util.notification.type.ERROR);
             }
         });
     };
@@ -449,7 +457,9 @@ sakai.entity = function(tuid, showSettings){
             if (success) {
                 // because the user has left the group, they may not be allowed to
                 // view the current page - refresh the page to check visibility
-                sakai.api.Util.notification.show("Group Membership", "You have successfully been removed from the group.");
+                sakai.api.Util.notification.show($("#entity_group_membership").text(),
+                                                $("#entity_group_removal_successful").text(),
+                                                sakai.api.Util.notification.type.INFORMATION);
                 // wait for two seconds and then redirect
                 setTimeout(function () {
                     window.location.reload();
@@ -458,7 +468,9 @@ sakai.entity = function(tuid, showSettings){
                 fluid.log("entity.js/leaveGroup() ERROR: Could not remove member: " +
                     sakai.data.me.user.userid + " from groupid: " + groupid +
                     " - error status: " + data.textStatus);
-                sakai.api.Util.notification.show("Group Membership", "Sorry, there was a problem while removing you from the group. We've notified system administrators. Please try again later or contact an administrator if the issue persists.");
+                    sakai.api.Util.notification.show($("#entity_group_membership").text(),
+                                                    $("#entity_group_problem_removing").text(),
+                                                    sakai.api.Util.notification.type.ERROR);
             }
         });
     };
