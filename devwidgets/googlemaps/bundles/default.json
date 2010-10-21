@@ -1,13 +1,13 @@
 {
 "name": "Googlemaps",
 "description": "Googlemaps widget\r\n",
-"WIDGET_TITLE": "Googlemaps",
-"SEARCH": "Search",
 "ADD_MAP": "Add map",
 "DONT_ADD": "Don't add",
-"MAP_SIZE_ON_PAGE": "Map size on page",
-"SMALL": "Small",
 "LARGE": "Large",
 "LOCATION": "Location",
-"LOCATION_HELP": "You can enter a city, postcode or full address. You can also specify different countries after a comma: London, UK"
+"LOCATION_HELP": "You can enter a city, postcode or full address. You can also specify different countries after a comma: London, UK",
+"MAP_SIZE_ON_PAGE": "Map size on page",
+"SEARCH": "Search",
+"SMALL": "Small",
+"WIDGET_TITLE": "Googlemaps"
 }
