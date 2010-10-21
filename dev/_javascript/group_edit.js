@@ -152,7 +152,9 @@ sakai.groupedit = function(){
         // enable group basic info input elements
         sakai.api.UI.groupbasicinfo.enableInputElements();
         // Show a notification on the screen
-        sakai.api.Util.notification.show("Group Basic Information", "Updated successfully.");
+        sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_basic_info_text").text()),
+                                         sakai.api.Security.saneHTML($("#group_edit_updated_successfully_text").text()),
+                                         sakai.api.Util.notification.type.INFORMATION);
         // Re-render the Entity Summary widget so the changes are reflected
         sakai.api.UI.entity.render("group", sakai.currentgroup.data);
     });
@@ -206,7 +208,9 @@ sakai.groupedit = function(){
         toggleButtons(listType,true);
 
         if (sakai.data.listpeople[listType].selectCount === sakai.data.listpeople[listType].currentElementCount && listType === "managers") {
-            sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_cannot_remove_everyone").text()), sakai.api.Util.notification.type.ERROR);
+            sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()),
+                                             sakai.api.Security.saneHTML($("#group_edit_cannot_remove_everyone").text()),
+                                             sakai.api.Util.notification.type.ERROR);
         } else {
             var removeUser;
             var groupIdRemove = groupid;
@@ -300,7 +304,9 @@ sakai.groupedit = function(){
                 },
                 success: function(data){
                     sakai.listpeople.removeFromList(listType);
-                    sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_content_removed_text").text()));
+                    sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()),
+                                                     sakai.api.Security.saneHTML($("#group_edit_content_removed_text").text()),
+                                                     sakai.api.Util.notification.type.INFORMATION);
                 }
             });
         }
@@ -353,7 +359,7 @@ sakai.groupedit = function(){
                     renderItemLists('members');
                     renderItemLists('managers');
                     $("#entity_member_count").text(sakai.api.Security.saneHTML(parseInt($("#entity_member_count").text(), 10) + userCount));
-                    $("#group_editing_add_" + listType).focus()
+                    $("#group_editing_add_" + listType).focus();
                 }
             });
         }
@@ -392,7 +398,9 @@ sakai.groupedit = function(){
                 },
                 success: function(data){
                     renderItemLists('content');
-                    sakai.api.Util.notification.show("Group Content", "Content has been added to the group.");
+                    sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_content_text").text()),
+                                                     sakai.api.Security.saneHTML($("#group_edit_content_added_text").text()),
+                                                     sakai.api.Util.notification.type.INFORMATION);
                     $("#group_editing_add_content").focus();
                 }
             });
@@ -499,14 +507,14 @@ sakai.groupedit = function(){
             }
             // if there is not selected list disable
             else {
-                $("#group_editing_remove_" + tuid).attr("disabled", "disabled")
+                $("#group_editing_remove_" + tuid).attr("disabled", "disabled");
             }
         }
         // disable the button
         else {
-            $("#group_editing_remove_" + tuid).attr("disabled", "disabled")
+            $("#group_editing_remove_" + tuid).attr("disabled", "disabled");
         }
-    }
+    };
 
     /**
      * Retrieve the managers lists

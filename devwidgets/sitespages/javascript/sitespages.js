@@ -295,7 +295,6 @@ sakai.sitespages = function(tuid,showSettings){
         }
 
         // Reset flags
-        sakai.sitespages.showingInsertMore = false;
         sakai.sitespages.inEditView = false;
 
 
@@ -487,32 +486,6 @@ sakai.sitespages = function(tuid,showSettings){
     };
 
     /**
-     * Get document height
-     * @param {Object} doc
-     * @return {Int} height of supplied document
-     */
-    sakai.sitespages.getDocHeight = function(doc){
-        var docHt = 0, sh, oh;
-        if (doc.height) {
-            docHt = doc.height;
-        } else {
-            if (doc.body) {
-                if (doc.body.scrollHeight) {
-                    docHt = sh = doc.body.scrollHeight;
-                }
-                if (doc.body.offsetHeight) {
-                    docHt = oh = doc.body.offsetHeight;
-                }
-                if (sh && oh) {
-                    docHt = Math.max(sh, oh);
-                }
-            }
-        }
-
-        return docHt;
-    };
-
-    /**
      * Cretes URL safe page title
      * @param title {String} The title of a page
      * @returns {String} URL safe title
@@ -581,8 +554,10 @@ sakai.sitespages = function(tuid,showSettings){
 
     };
 
+    /////////////////////////////
+    // ADMIN  (previously sitespages_admin.js)
+    /////////////////////////////
 
-    // ADMIN
 
     /////////////////////////////
     // CONFIG and HELP VARS
@@ -597,7 +572,6 @@ sakai.sitespages = function(tuid,showSettings){
     sakai.sitespages.isEditingNewPage = false;
     sakai.sitespages.oldSelectedPage = false;
     sakai.sitespages.mytemplates = false;
-    sakai.sitespages.showingInsertMore = false;
     sakai.sitespages.updatingExistingWidget = false;
 
     // Cache all the jQuery selectors we can
@@ -840,7 +814,80 @@ sakai.sitespages = function(tuid,showSettings){
      * Initialise tinyMCE and run sakai.sitespages.startEditPage() when init is complete
      * @return void
      */
+
     function init_tinyMCE() {
+
+        // Creates a new plugin class and a custom listbox for the insert more menu
+        tinymce.create('tinymce.plugins.InsertMorePlugin', {
+            createControl: function(n, cm) {
+                switch (n) {
+                    case 'insertmore':
+                        var insertMoreBox = cm.createListBox('insertmore', {
+                             title : 'Insert More',
+                             onselect : function(v) {
+                                 if (v==="link") {
+                                     $('#link_dialog').jqmShow();
+                                 } else if (v==="hr") {
+                                     tinyMCE.get("elm1").execCommand('InsertHorizontalRule');
+                                 } else {
+                                     renderSelectedWidget(v);
+                                 }
+                                 $("#elm1_insertmore").get(0).selectedIndex = 0;
+                             }
+                        });
+
+                        insertMoreBox.add("Page Link", 'link');
+                        insertMoreBox.add("Horizontal Line", 'hr');
+
+                        // Vars for media and goodies
+                        var media = {}; media.items = [];
+                        var goodies = {}; goodies.items = [];
+                        var sidebar = {}; sidebar.items = [];
+
+                        // Fill in media and goodies
+                        for (var i in Widgets.widgets){
+                            if (i) {
+                                var widget = Widgets.widgets[i];
+                                if (widget[sakai.sitespages.config.pageEmbedProperty] && widget.showinmedia) {
+                                    media.items.push(widget);
+                                }
+                                if (widget[sakai.sitespages.config.pageEmbedProperty] && widget.showinsakaigoodies) {
+                                    goodies.items.push(widget);
+                                }
+                                if (widget[sakai.sitespages.config.pageEmbedProperty] && widget.showinsidebar){
+                                    sidebar.items.push(widget);
+                                }
+                            }
+                        }
+
+                        $(media.items).each(function(i,val) {
+                            insertMoreBox.add(val.name, val.id);
+                        });
+                        $(goodies.items).each(function(i,val) {
+                            insertMoreBox.add(val.name, val.id);
+                        });
+                        $(sidebar.items).each(function(i,val) {
+                            insertMoreBox.add(val.name, val.id);
+                        });
+
+                        // Event handler
+                        $('#insert_dialog').jqm({
+                            modal: true,
+                            overlay: 20,
+                            toTop: true,
+                            onHide: hideSelectedWidget
+                        });
+
+                        // Return the new listbox instance
+                        return insertMoreBox;
+                }
+
+                return null;
+            }
+        });
+
+        // Register plugin
+        tinymce.PluginManager.add('insertmore', tinymce.plugins.InsertMorePlugin);
 
         // Init tinyMCE
         tinyMCE.init({
@@ -849,22 +896,26 @@ sakai.sitespages = function(tuid,showSettings){
             mode : "exact",
             elements : "elm1",
             theme: "advanced",
+
             // For a built-in list of plugins with doc: http://wiki.moxiecode.com/index.php/TinyMCE:Plugins
-            plugins: "safari,advhr,inlinepopups,preview,noneditable,nonbreaking,xhtmlxtras,template,table",
+            plugins: "safari,advhr,inlinepopups,preview,noneditable,nonbreaking,xhtmlxtras,template,table,insertmore,autoresize",
 
             // Context Menu
-            theme_advanced_buttons1: "formatselect,fontselect,fontsizeselect,bold,italic,underline,|,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,|,table,link",
-            theme_advanced_toolbar_location: "external",
+            theme_advanced_buttons1: "formatselect,fontselect,fontsizeselect,bold,italic,underline,|,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,|,table,link,insertmore",
+            theme_advanced_buttons2:"",
+            theme_advanced_buttons3:"",
+            // set this to external|top|bottom
+            theme_advanced_toolbar_location: "top",
             theme_advanced_toolbar_align: "left",
             theme_advanced_statusbar_location: "none",
-            theme_advanced_resizing: false,
-            handle_event_callback: "sakai.sitespages.myHandleEvent",
-            onchange_callback: "sakai.sitespages.myHandleEvent",
             handle_node_change_callback: "sakai.sitespages.mySelectionEvent",
             init_instance_callback: "sakai.sitespages.startEditPage",
 
             // Example content CSS (should be your site CSS)
             content_css: sakai.config.URL.TINY_MCE_CONTENT_CSS,
+
+            // Editor CSS - custom Sakai Styling
+            editor_css: sakai.config.URL.TINY_MCE_EDITOR_CSS,
 
             // Drop lists for link/image/media/template dialogs
             template_external_list_url: "lists/template_list.js",
@@ -942,11 +993,11 @@ sakai.sitespages = function(tuid,showSettings){
         });
     }
 
-
     /**
      * Sets up the tinyMCE toolbar
      * @return void
      */
+     /*
     var setupToolbar = function(){
         try {
 
@@ -965,35 +1016,23 @@ sakai.sitespages = function(tuid,showSettings){
             $external_toolbar.show().css({"position":"static", 'border':'0px solid black'});
             $(".mceExternalClose").hide();
 
-            // Toolbar visibility setup
-            $elm1_toolbar1.hide();
-            $elm1_toolbar2.hide();
-            $elm1_toolbar3.hide();
-            $elm1_toolbar4.hide();
-            $(".mceToolbarRow2").hide();
-            $(".mceToolbarRow3").hide();
-            $elm1_toolbar1.show();
-            $elm1_external.show();
             $external_toolbar.show();
 
-            // Set the iFrame height, but make sure it is there
-            setTimeout('sakai.sitespages.setIframeHeight("elm1_ifr")',100);
-
             // Position toolbar
-            placeToolbar();
+            //placeToolbar();
         }
         catch (err) {
             // Firefox throws strange error, doesn't affect anything
             // Ignore
         }
     };
-
-
+*/
 
     /**
      * Position tinyMCE toolbar
      * @return void
      */
+     /*
     var placeToolbar = function(){
         sakai.sitespages.curScroll = document.body.scrollTop;
 
@@ -1074,56 +1113,7 @@ sakai.sitespages = function(tuid,showSettings){
 
         sakai.sitespages.last = new Date().getTime();
     };
-
-
-    /**
-     * Set the correct iFrame height
-     * @param {String} ifrm
-     * @return void
-     */
-    sakai.sitespages.setIframeHeight = function(ifrm){
-        var iframeWin = window.frames[0];
-        var iframeEl = document.getElementById ? document.getElementById(ifrm) : document.all ? document.all[ifrm] : null;
-        if (iframeEl && iframeWin) {
-            var docHt = sakai.sitespages.getDocHeight(iframeWin.document);
-            if (docHt < sakai.sitespages.minHeight) {
-                docHt = sakai.sitespages.minHeight;
-            }
-            if (docHt && sakai.sitespages.cur !== docHt) {
-                iframeEl.style.height = docHt + 30 + "px"; // add to height to be sure it will all show
-                sakai.sitespages.cur = (docHt + 30);
-                $("#placeholderforeditor").css("height", docHt + 60 + "px");
-                window.scrollTo(0, sakai.sitespages.curScroll);
-                // get position of place holder. if it is called in placetoolbar method,
-                // the position changes based on scroll bar position in IE 8.
-                sakai.sitespages.minTop = $("#toolbarplaceholder").position().top;
-                placeToolbar();
-            }
-        }
-    };
-
-
-    /**
-     * tinyMCE event handler - This adjusts the editor iframe height according to content, whenever content changes
-     * @param {Object} e
-     * @return {Boolean} true to continue event
-     */
-    sakai.sitespages.myHandleEvent = function(e){
-        if (e.type === "click" || e.type === "keyup" || e.type === "mouseup" || !e || !e.type) {
-            sakai.sitespages.curScroll = document.body.scrollTop;
-
-            if (sakai.sitespages.curScroll === 0) {
-                if (window.pageYOffset) {
-                    sakai.sitespages.curScroll = window.pageYOffset;
-                } else {
-                    sakai.sitespages.curScroll = (document.body.parentElement) ? document.body.parentElement.scrollTop : 0;
-                }
-            }
-            sakai.sitespages.setIframeHeight("elm1_ifr");
-        }
-        return true; // Continue handling
-    };
-
+*/
 
     /**
      * tinyMCE selection event handler
@@ -1150,22 +1140,6 @@ sakai.sitespages = function(tuid,showSettings){
             $context_menu.hide();
         }
     });
-
-
-    /**
-     * Toggle Insert more dropdown
-     * @return void
-     */
-    var toggleInsertMore = function(){
-        if (sakai.sitespages.showingInsertMore){
-            $insert_more_menu.hide();
-            sakai.sitespages.showingInsertMore = false;
-        } else {
-            $insert_more_menu.show();
-            sakai.sitespages.showingInsertMore = true;
-        }
-    };
-
 
 
     //--------------------------------------------------------------------------------------------------------------
@@ -1242,7 +1216,7 @@ sakai.sitespages = function(tuid,showSettings){
         $("#edit_view_container").show();
 
         // Setup tinyMCE Toolbar
-        setupToolbar();
+        //setupToolbar();
         sakai.sitespages.toolbarSetupReady = true;
 
         if (sakai.sitespages.isEditingNavigation){
@@ -1267,7 +1241,6 @@ sakai.sitespages = function(tuid,showSettings){
                 } else {
                     sakai.sitespages.timeoutid = setInterval(sakai.sitespages.doAutosave, sakai.sitespages.autosaveinterval);
                 }
-                setTimeout('sakai.sitespages.setIframeHeight("elm1_ifr")',0);
 
             },
             error: function(xhr, textStatus, thrownError) {
@@ -1287,9 +1260,7 @@ sakai.sitespages = function(tuid,showSettings){
 
         $(window).trigger("sakai_sitespages_exitedit");
 
-        $insert_more_menu.hide();
         $context_menu.hide();
-        sakai.sitespages.showingInsertMore = false;
         sakai.sitespages.inEditView = false;
 
         // Edit page title
@@ -1341,8 +1312,6 @@ sakai.sitespages = function(tuid,showSettings){
             viewSelectedPage();
         }
     };
-
-
 
 
     /////////////////////////////
@@ -1427,10 +1396,6 @@ sakai.sitespages = function(tuid,showSettings){
         $("#sitespages_page_options #page_options").show().html($.TemplateRenderer("#sitespages_page_options_container", {}));
         // Edit page title
         document.title = document.title.replace(sakai.api.i18n.General.getValueForKey("PAGE_EDIT"), sakai.api.i18n.General.getValueForKey("SITE_VIEW"));
-
-        // Hide the Insert More menu if it is showing
-        $insert_more_menu.hide();
-        sakai.sitespages.showingInsertMore = false;
 
         // Switch to Text Editor tab (as opposed to HTML or Preview)
         switchToTextEditor();
@@ -1526,7 +1491,6 @@ sakai.sitespages = function(tuid,showSettings){
 
     };
 
-
     /////////////////////////////
     // EDIT PAGE: GENERAL
     /////////////////////////////
@@ -1585,9 +1549,6 @@ sakai.sitespages = function(tuid,showSettings){
         addEditPageBinding();
 
     };
-
-
-
 
     //--------------------------------------------------------------------------------------------------------------
     //
@@ -1711,12 +1672,6 @@ sakai.sitespages = function(tuid,showSettings){
         onHide: hideAutosave
     });
 
-
-
-
-
-
-
     //--------------------------------------------------------------------------------------------------------------
     //
     // WIDGET CONTEXT MENU
@@ -1759,8 +1714,6 @@ sakai.sitespages = function(tuid,showSettings){
                 $("#dialog_title").html(Widgets.widgets[type].name);
                 sakai.api.Widgets.widgetLoader.insertWidgets("dialog_content", true,sakai.sitespages.config.basepath + "_widgets/");
                 $("#dialog_content").show();
-                $insert_more_menu.hide();
-                sakai.sitespages.showingInsertMore = false;
             }
         }
 
@@ -1777,8 +1730,6 @@ sakai.sitespages = function(tuid,showSettings){
             $("#context_settings").removeClass("selected_option");
         }
     );
-
-
 
     //////////////////////////////////////
     // WIDGET CONTEXT MENU: REMOVE
@@ -1799,8 +1750,6 @@ sakai.sitespages = function(tuid,showSettings){
             $("#context_remove").removeClass("selected_option");
         }
     );
-
-
 
     //////////////////////////////////////
     // WIDGET CONTEXT MENU: WRAPPING
@@ -1906,15 +1855,6 @@ sakai.sitespages = function(tuid,showSettings){
             $("#context_appearance").removeClass("selected_option");
         }
     );
-
-
-
-
-
-
-
-
-
 
 
     //--------------------------------------------------------------------------------------------------------------
@@ -2084,10 +2024,8 @@ sakai.sitespages = function(tuid,showSettings){
     // Init Insert link modal
     $('#link_dialog').jqm({
         modal: true,
-        trigger: $('#link_dialog_trigger'),
         overlay: 20,
         onShow: function(hash) {
-            //sakai.sitespages.insertLinkSelection = [];
 
             var $links = $('<ul id="insert_links_availablelinks"></ul>');
 
@@ -2160,7 +2098,6 @@ sakai.sitespages = function(tuid,showSettings){
     // Bind Insert horizontal line click event
     $("#horizontal_line_insert").bind("click", function(ev){
         tinyMCE.get("elm1").execCommand('mceInsertContent', false, '<hr/>');
-        toggleInsertMore();
     });
 
 
@@ -2174,20 +2111,10 @@ sakai.sitespages = function(tuid,showSettings){
      * @param {Object} hash
      * @return void
      */
-    var renderSelectedWidget = function(hash){
-
+    var renderSelectedWidget = function(widgetid) {
         var $dialog_content = $("#dialog_content");
-        toggleInsertMore();
-
-        var widgetid = false;
-        if (hash.t && hash.t.id){
-            widgetid = hash.t.id.split("_")[3];
-        }
         $dialog_content.hide();
-
         if (Widgets.widgets[widgetid]){
-            hash.w.show();
-
             sakai.sitespages.newwidget_id = widgetid;
             var tuid = "id" + Math.round(Math.random() * 1000000000);
             var id = "widget_" + widgetid + "_" + tuid;
@@ -2198,10 +2125,9 @@ sakai.sitespages = function(tuid,showSettings){
             $dialog_content.show();
             window.scrollTo(0,0);
         } else if (!widgetid){
-            hash.w.show();
             window.scrollTo(0,0);
         }
-
+        $('#insert_dialog').jqmShow();
     };
 
 
@@ -2241,56 +2167,6 @@ sakai.sitespages = function(tuid,showSettings){
         }
         sakai.sitespages.updatingExistingWidget = false;
         $('#insert_dialog').jqmHide();
-    };
-
-    /**
-     * Fill insert more dropdown
-     * @return void
-     */
-    var fillInsertMoreDropdown = function(){
-
-        // Vars for media and goodies
-        var media = {};
-        media.items = [];
-        var goodies = {};
-        goodies.items = [];
-        var sidebar = {};
-        sidebar.items = [];
-
-        // Fill in media and goodies
-        for (var i in Widgets.widgets){
-            if (i) {
-                var widget = Widgets.widgets[i];
-                if (widget[sakai.sitespages.config.pageEmbedProperty] && widget.showinmedia) {
-                    media.items[media.items.length] = widget;
-                }
-                if (widget[sakai.sitespages.config.pageEmbedProperty] && widget.showinsakaigoodies) {
-                    goodies.items[goodies.items.length] = widget;
-                }
-                if (widget[sakai.sitespages.config.pageEmbedProperty] && widget.showinsidebar){
-                    sidebar.items[sidebar.items.length] = widget;
-                }
-            }
-        }
-
-        // Render insert more media template
-        $("#insert_more_media").html($.TemplateRenderer("insert_more_media_template",media));
-
-        // Render insertmore goodies template
-        $("#insert_more_goodies").html($.TemplateRenderer("insert_more_goodies_template",goodies));
-
-        // Render insertmore sidebar template
-        $("#insert_more_sidebar").html($.TemplateRenderer("insert_more_sidebar_template",sidebar));
-
-        // Event handler
-        $('#insert_dialog').jqm({
-            modal: true,
-            trigger: $('.insert_more_widget'),
-            overlay: 20,
-            toTop: true,
-            onShow: renderSelectedWidget,
-            onHide: hideSelectedWidget
-        });
     };
 
     //--------------------------------------------------------------------------------------------------------------
@@ -2840,22 +2716,19 @@ sakai.sitespages = function(tuid,showSettings){
     // Bind scroll event
     $(window).bind("scroll", function(e){
         try {
-            placeToolbar();
+            //placeToolbar();
         } catch (err){
             // Ignore
         }
     });
 
     // Bind click event to hide menus
+
     $(document).bind("click", function(e){
         var $clicked = $(e.target);
         // Check if one of the parents is the element container
         if(!$clicked.is("#more_link") && $clicked.parents("#more_link").length === 0){
             showHideMoreMenu(true);
-        }
-        if(!$clicked.is(".insert_more_dropdown_activator")){
-            $insert_more_menu.hide();
-            sakai.sitespages.showingInsertMore = false;
         }
     });
 
@@ -2896,7 +2769,6 @@ sakai.sitespages = function(tuid,showSettings){
      */
     var admin_init = function() {
         sakai.sitespages.adminReady = true;
-        fillInsertMoreDropdown();
     };
 
 

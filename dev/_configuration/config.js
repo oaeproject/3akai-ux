@@ -40,6 +40,7 @@ sakai.config = {
         SEARCH_PEOPLE_URL: "search_people.html",
         SEARCH_SITES_URL: "search_sites.html",
         TINY_MCE_CONTENT_CSS: "/dev/_css/FSS/fss-base.css,/dev/_css/sakai/sakai.core.2.css,/dev/_css/sakai/sakai.css,/dev/_css/sakai/sakai.editor.css,/dev/_css/sakai/sakai.show.css",
+        TINY_MCE_EDITOR_CSS: "/dev/_css/sakai/tinymce_editor_styling.css",
         USER_DEFAULT_ICON_URL: "/dev/_images/user_avatar_icon_48x48.png",
         USER_DEFAULT_UPLOAD_FOLDER: "/private/uploads",
 

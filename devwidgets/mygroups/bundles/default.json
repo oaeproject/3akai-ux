@@ -1,9 +1,9 @@
 {
 "name": "My Groups",
 "description": "My Groups widget\r\n",
-"WIDGET_TITLE": "My Groups",
 "CREATE_A_GROUP": "Create a group",
-"YOU_ARE_NOT_CURRENTLY_A_MEMBER_OF_ANY_GROUPS": "You are not currently a member of any groups",
 "NO_SETTINGS_AVAILABLE": "No settings available",
-"VIEW_ALL_GROUPS_I_MANAGED": "View all groups I manage"
+"VIEW_ALL_GROUPS_I_MANAGED": "View all groups I manage",
+"WIDGET_TITLE": "My Groups",
+"YOU_ARE_NOT_CURRENTLY_A_MEMBER_OF_ANY_GROUPS": "You are not currently a member of any groups"
 }

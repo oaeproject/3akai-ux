@@ -1,10 +1,10 @@
 {
 "name": "My Contacts",
 "description": "My Contacts widget\r\n",
-"WIDGET_TITLE": "My Contacts",
-"YOU_CURRENTLY_HAVE_NO_CONTACTS": "You currently have no contacts",
+"CONTACT_REQUEST": "Contact Request",
+"CONTACT_REQUESTS": "Contact Requests",
 "UNABLE_TO_CONTACT_THE_SERVER_PLEASE_TRY_AGAIN_LATER": "Unable to contact the server. Please try again later",
 "VIEW_AND_EDIT_ALL_MY_CONTACTS": "View &amp; edit all my contacts",
-"CONTACT_REQUEST": "Contact Request",
-"CONTACT_REQUESTS": "Contact Requests"
+"WIDGET_TITLE": "My Contacts",
+"YOU_CURRENTLY_HAVE_NO_CONTACTS": "You currently have no contacts"
 }
