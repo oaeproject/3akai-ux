@@ -119,11 +119,11 @@
                     </div>
 
                     <!-- TOOLBAR -->
-                    <div class="toolbar toolbar-placeholder" id="toolbarplaceholder">
+<!--                    <div class="toolbar toolbar-placeholder" id="toolbarplaceholder">
                         <div id="toolbarcontainer">
-                            <div class="mceToolbarExternal mceEditor defaultSkin"><!-- --></div>
+                            <div class="mceToolbarExternal mceEditor defaultSkin"></div>
                         </div>
-                    </div>
+                    </div> -->
 
                     <!-- EDIT CONTENTS -->
                     <div class="edit_contents_main">
@@ -136,7 +136,7 @@
                             <div id="placeholderforeditor" class="textarea">
 
                                 <!-- Gets replaced with TinyMCE, remember HTML in a textarea should be encoded -->
-                                <textarea id="elm1" name="elm1" rows="15" cols="80" style="width: 100%">
+                                <textarea id="elm1" name="elm1" style="width: 890px; height:430px">
                                     &nbsp;
                                 </textarea>
                             </div>
@@ -169,28 +169,6 @@
 
 <!-- DIALOGS, MENUS, MISC STUFF -->
 
-    <!-- TrimPath Templates -->
-    <div id="editor_extra_buttons"><!--
-        <td>
-            <span class='mceSeparator' style='width:5px'/>
-        </td>
-        <td>
-            <table cellspacing='0' cellpadding='0' class='mceListBox mceListBoxEnabled mce_formatselect' id='content_formatselect'>
-                <tbody>
-                    <tr>
-                        <td class='mceFirst'>
-                            <a onmousedown='return false;' onclick='return false;' class='mceText insert_more_dropdown_activator' href='javascript:;' id='insert_more_dropdown_main'>__MSG__INSERT_MORE__</a>
-                        </td>
-                        <td class='mceLast'>
-                            <a onmousedown='return false;' onclick='return false;' class='mceOpen insert_more_dropdown_activator' href='javascript:;' tabindex='-1' id='content_formatselect_open'><span/></a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </td>
-
-    --></div>
-
     <div id="sitespages_page_options_container" style="display:none"><!--
         <button class="s3d-button s3d-button-inline" id="more_link">
             <span class="s3d-button-inner">
@@ -209,57 +187,6 @@
             </ul>
         </div>
     --></div>
-
-
-    <!-- INSERT MORE MENU -->
-    <div id="insert_more_menu" class="insert_more_menu" style="display:none">
-        <div class="insert_more_menu_border">
-            <ul>
-                <li><a href="javascript:;" id="link_dialog_trigger">Link</a></li>
-                <li><a href="javascript:;" id="horizontal_line_insert">Horizontal Line</a></li>
-            </ul>
-        </div>
-        <div id="insert_more_media" class="insert_more_menu_border">
-
-        </div>
-        <div id="insert_more_goodies">
-
-        </div>
-        <div id="insert_more_sidebar">
-
-        </div>
-    </div>
-
-    <div id="insert_more_media_template" style="display:none"><!--
-        <ul>
-            <li class="insert_more_menu_inactive">Media:</li>
-            {for i in items}
-                <li><a href="javascript:;" id="insert_more_widget_${i.id}" class="insert_more_widget">${i.name}</a></li>
-            {forelse}
-                <li class="insert_more_menu_inactive"><i>No available</i></li>
-            {/for}
-        </ul>
-    --></div>
-
-    <div id="insert_more_goodies_template" style="display:none"><!--
-        <ul>
-            <li class="insert_more_menu_inactive">Sakai Goodies:</li>
-            {for i in items}
-                <li><a href="javascript:;" id="insert_more_widget_${i.id}" class="insert_more_widget">${i.name}</a></li>
-            {/for}
-            <li class="insert_more_menu_inactive">(More coming soon)</li>
-        </ul>
-    --></div>
-
-    <div id="insert_more_sidebar_template" style="display:none"><!--
-        <ul>
-            <li class="insert_more_menu_inactive">Sidebar Goodies:</li>
-            {for i in items}
-                <li><a href="javascript:;" id="insert_more_widget_${i.id}" class="insert_more_widget">${i.name}</a></li>
-            {/for}
-        </ul>
-    --></div>
-
 
     <!-- INSERT DIALOG -->
     <div id="insert_dialog" class="dialog" style="width:650px; margin-left: -325px">

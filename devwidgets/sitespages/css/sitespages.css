@@ -188,6 +188,9 @@
 .edit_view #fl-tab-content-editor, .edit_view #html-editor-content, .edit_view #page_preview_content
 { margin: 10px 0; border: 1px solid #999999; padding: 5px; width:882px;}
 
+.edit_view #fl-tab-content-editor
+{ padding:0px; width:890px; }
+
 /** Move **/
 .edit_view .new_page_path
 { height: 23px; line-height:23px; margin-bottom: 20px; float:left;}

@@ -6,7 +6,7 @@
 /* Containers */
 .defaultSkin table {direction:ltr; background:#FFF}
 .defaultSkin iframe {display:block; background:#FFF}
-.defaultSkin .mceToolbar {height:26px}
+.defaultSkin .mceToolbar {height:24px}
 .defaultSkin .mceLeft {text-align:left}
 .defaultSkin .mceRight {text-align:right}
 
@@ -18,8 +18,8 @@
 /* Layout */
 .defaultSkin table.mceLayout {border:0;}
 .defaultSkin table.mceToolbar, .defaultSkin tr.mceFirst .mceToolbar tr td, .defaultSkin tr.mceLast .mceToolbar tr td {border:0; margin:0; padding:0;}
-.defaultSkin td.mceToolbar {padding-top:1px; vertical-align:top}
-.defaultSkin .mceIframeContainer {border:0;}
+.defaultSkin td.mceToolbar {border-bottom:1px solid #999999; padding:4px; vertical-align:middle;}
+.defaultSkin .mceIframeContainer {border:0;vertical-align:top;padding:4px 0px 0px 4px;}
 .defaultSkin .mceStatusbar {font-family:'MS Sans Serif',sans-serif,Verdana,Arial; font-size:9pt; line-height:16px; overflow:visible; color:#000; display:block; height:20px}
 .defaultSkin .mceStatusbar div {float:left; margin:2px}
 .defaultSkin .mceStatusbar a.mceResize {display:block; float:right; background:url(../../_lib/tiny_mce/themes/advanced/img/icons.gif) -800px 0; width:20px; height:20px; cursor:se-resize; outline:0}
@@ -54,8 +54,8 @@
 .defaultSkin .mceListBoxMenu {overflow:auto; overflow-x:hidden}
 .defaultSkin .mceOldBoxModel .mceListBox .mceText {height:22px}
 .defaultSkin .mceOldBoxModel .mceListBox .mceOpen {width:11px; height:22px;}
-.defaultSkin select.mceNativeListBox {font-family:'MS Sans Serif',sans-serif,Verdana,Arial; font-size:7pt; background:#F0F0EE; border:1px solid gray; margin-right:2px;}
-
+.defaultSkin select.mceNativeListBox {font-family:Arial, Helvetica, sans-serif, Verdana; font-size:11px; background:#FFF; border:1px solid gray; margin-right:4px; padding:2px; height:21px;}
+.defaultSkin select.mceNativeListBox option {padding:2px;}
 /* SplitButton */
 .defaultSkin .mceSplitButton {width:32px; height:20px; direction:ltr}
 .defaultSkin .mceSplitButton a, .defaultSkin .mceSplitButton span {height:20px; display:block}
