@@ -43,6 +43,7 @@ sakai.config.listpeople = sakai.config.listpeople || {};
 
 sakai.listpeople = function(tuid, showSettings) {
 
+    var totalResult = 5; // total no. of items display in list
     // DOM Selectors
     var $rootel = $("#"+tuid);
     var $listpeople_container = $(".listpeople_content", $rootel);
@@ -206,10 +207,10 @@ sakai.listpeople = function(tuid, showSettings) {
         var rawData = objects;
 
         // main container
-        var $listpeople_page_container = $("<ul id=\"listpeople_page_" + pageNumber + "\" class=\"listpeople_page loadinganim\"></ul>");
+        //var $listpeople_page_container = $("</ul>");
 
         // Display empty new container with loading anim
-        $listpeople_container.append($listpeople_page_container);
+        //$listpeople_container.append($listpeople_page_container);
 
         addToList(rawData);
 
@@ -223,6 +224,7 @@ sakai.listpeople = function(tuid, showSettings) {
         if (sakai.config.listpeople[listType].anon){
             json_data.selectable = false;
         }
+        json_data.pageNumber = pageNumber;
 
         // Render the results data template
         var pageHTML = $.TemplateRenderer($listpeople_content_pagetemplate, json_data);
@@ -231,10 +233,10 @@ sakai.listpeople = function(tuid, showSettings) {
         $listpeople_count.html(sakai.data.listpeople[listType].total);
 
         // Remove loading animation
-        $listpeople_page_container.removeClass("loadinganim");
+        //$listpeople_page_container.removeClass("loadinganim");
 
         // Inject results into DOM
-        $listpeople_page_container.html(pageHTML);
+        $listpeople_container.html(pageHTML);
 
         // Wire item selection
         if (sakai.config.listpeople[listType].selectable) {
@@ -288,8 +290,33 @@ sakai.listpeople = function(tuid, showSettings) {
 
         // sort list
         sortList(pageNumber, sakai.config.listpeople[listType].sortOrder);
+
+        pagerClickHandler(1);
     };
 
+    
+    var pagerClickHandler = function(clicked){
+       if (sakai.data.listpeople[listType].total > totalResult) {
+            var pageNumber = (parseInt(clicked) - 1) * totalResult;
+            var listItems = $("#listpeople_page_0", $rootel).children('li');
+            
+            // hide all the list items.
+            $(listItems).hide();
+
+            // show only 5 items at a time
+            for (var i = pageNumber; i < pageNumber+totalResult; i++) {
+                $(listItems).eq(i).show();
+            }
+            
+            var totalNumberItems = sakai.data.listpeople[listType].total;
+            $('.jq_pager', $rootel).pager({
+                pagenumber: pageNumber,
+                pagecount: Math.ceil(totalNumberItems / totalResult),
+                buttonClickCallback: pagerClickHandler
+            });
+            $('.jq_pager', $rootel).show();
+        }
+    }
 
     /**
      * sortList

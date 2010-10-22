@@ -22,6 +22,7 @@
     </div>
 
     <div class="listpeople_content_pagetemplate" style="display:none;"><!--
+        <ul id="listpeople_page_${pageNumber}" class="listpeople_page">
         {for i in userList}
             {if i.groupid}
             {if selectable} <li id="${i.groupid}" class="selectable">
@@ -113,6 +114,8 @@
             </li>
             {/if}
         {/for}
+        </ul>
+        <div class="jq_pager"></div>
     --></div>
 
     <div class="listpeople_error_template" style="display:none;">
