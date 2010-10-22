@@ -619,7 +619,7 @@ sakai.inbox = function() {
             $(inboxLoadingProgress).removeClass(inboxProgress);
 
         }
-    }
+    };
 
     /**
      *
@@ -1105,6 +1105,7 @@ sakai.inbox = function() {
         if (typeof hardDelete === "undefined") {
             hardDelete = false;
         }
+        $("#inbox_table input[type='checkbox']").removeAttr("checked");
         if (hardDelete) {
             // We will have to do a hard delete to all the JCR files.
             hardDeleteMessage(pathToMessages);
