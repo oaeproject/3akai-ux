@@ -37,6 +37,8 @@ sakai.embedcontent = function(tuid, showSettings) {
 
     var $embedcontent_dialog = $("#embedcontent_dialog", $rootel);
     var $embedcontent_page_name = $("#embedcontent_page_name", $rootel);
+    var $embedcontent_placing_content_label = $("#embedcontent_placing_content_label", $rootel);
+    var $embedcontent_share_files_with_label = $("#embedcontent_share_files_with_label", $rootel);
     var $embedcontent_place_content = $("#embedcontent_place_content", $rootel);
     var $embedcontent_cancel = $("#embedcontent_cancel", $rootel);
     var $embedcontent_content_input = $("#embedcontent_content_input", $rootel);
@@ -63,7 +65,8 @@ sakai.embedcontent = function(tuid, showSettings) {
         "mode": "embed", // can be 'embed' or 'picker'
         "name": "Page",
         "limit": false,
-        "filter": false
+        "filter": false,
+        "type": "choose"
     };
 
     /**
@@ -71,7 +74,15 @@ sakai.embedcontent = function(tuid, showSettings) {
      */
     var render = function() {
         selectedItems = [];
+        $embedcontent_share_files_with_label.hide();
+        $embedcontent_placing_content_label.hide();
+        if (embedConfig.type && embedConfig.type === "share") {
+            $embedcontent_share_files_with_label.show();
+        } else {
+            $embedcontent_placing_content_label.show();
+        }
         $.TemplateRenderer($embedcontent_page_name_template, {"name": embedConfig.name}, $embedcontent_page_name);
+
         if (firstTime) {
             setupAutoSuggest();
             firstTime = false;
