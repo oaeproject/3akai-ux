@@ -275,6 +275,9 @@ sakai.chat = function(tuid, showSettings){
         $("#chat_online_button_" + userid).addClass("chat_online_button_visible");
         $("#chat_with_" + userid).show();
         $("#chat_with_" + userid + "_txt").focus();
+        // Scroll to the bottom
+        var chatwindow = $("#chat_with_" + userid + "_content");
+        chatwindow.attr("scrollTop", chatwindow.attr("scrollHeight"));
         if (allMessages[userid] && allMessages[userid].length) {
             var bulkRequests = [];
             for (var i=0, j=allMessages[userid].length; i<j; i++) {

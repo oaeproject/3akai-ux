@@ -275,17 +275,17 @@ sakai.embedcontent = function(tuid, showSettings) {
         });
     };
 
-        var registerVideo = function(videoBatchData){
-            $.ajax({
-                url: sakai.config.URL.BATCH,
-                traditional: true,
-                type: "POST",
-                cache: false,
-                data: {
-                    requests: $.toJSON(videoBatchData)
-                }
-            });
-        }
+    var registerVideo = function(videoBatchData){
+        $.ajax({
+            url: sakai.config.URL.BATCH,
+            traditional: true,
+            type: "POST",
+            cache: false,
+            data: {
+                requests: $.toJSON(videoBatchData)
+            }
+        });
+    };
 
     /**
      * Embed the selected content on the page,
@@ -318,7 +318,7 @@ sakai.embedcontent = function(tuid, showSettings) {
                             "isYoutube": false,
                             "isSakaiVideoPlayer": false
                         }
-                    }
+                    };
                     videoBatchData.push(item);
                 }
             }

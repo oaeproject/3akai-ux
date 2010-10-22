@@ -151,7 +151,7 @@ sakai.video = function(tuid, showSettings) {
 
         } catch(err) {
             alert(err);
-            $(videoTempShowMain, rootel).text("No valid video found.");
+            $(videoTempShowMain, rootel).text(sakai.api.i18n.General.getValueForKey("__MSG__NO_VALID_VIDEO_FOUND__"));
         }
     };
 
@@ -253,7 +253,7 @@ sakai.video = function(tuid, showSettings) {
         required: true,
         url: true,
         messages: {
-            url: "Please enter a valid URL, i.e. http://www.youtube.com/watch?v=xyz"
+            url: (sakai.api.i18n.General.getValueForKey("PLEASE_ENTER_VALID_URL"))
         }
     });
 
@@ -318,7 +318,7 @@ sakai.video = function(tuid, showSettings) {
             showVideo(getVideoJson(), videoPreviewContainer, !isYouTube);
         }
         else {
-            alert("Please fill in a URL.");
+            alert(sakai.api.i18n.General.getValueForKey("PLEASE_FILL_IN_A_URL"));
         }
 
     }); */

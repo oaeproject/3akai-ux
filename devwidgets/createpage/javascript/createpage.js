@@ -189,7 +189,9 @@ sakai.createpage = function(tuid, showSettings){
             $createpageContainer.jqmHide();
         } else {
             fluid.log("createpage.js - handleNewPageCreation: creating page failed.");
-            alert("Sorry, your page could not be created at this time. Please try again later or contact your administrator for assistance.");
+            sakai.api.Util.notification.show($("#createpage_createpage").text(),
+                                            $("#createpage_cannot_create_page").text(),
+                                            sakai.api.Util.notification.type.ERROR);
         }
     };
 

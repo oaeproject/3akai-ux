@@ -9,7 +9,8 @@
 "PAGE_TITLE": "Page title",
 "PAGE_TYPE": "Type of page",
 "PROCESSING": "Processing",
-"TEMPLATE_PAGE": "Page from Template",
 "TEMPLATES_AVAILABLE": "Templates available",
-"WIDGET_TITLE": "Create a new page"
+"TEMPLATE_PAGE": "Page from Template",
+"WIDGET_TITLE": "Create a new page",
+"YOUR_PAGE_CANNOT_BE_CREATED": "Sorry, your page could not be created at this time. Please try again later or contact your administrator for assistance."
 }

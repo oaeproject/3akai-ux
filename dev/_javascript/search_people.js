@@ -53,6 +53,7 @@ sakai.search = function() {
         search : "#search",
         global : {
             resultTemp : search + "_result_temp",
+            resultExceed : search + "_result_exceed",
             button : search + "_button",
             text  :search + '_text',
             numberFound : search + '_numberFound',
@@ -116,15 +117,15 @@ sakai.search = function() {
             template : 'search_results_template'
         },
         facetedConfig : {
-            title : "Refine your search",
+            title : $("#search_result_title").html(),
             value : "People",
             facets: {
                 "all" : {
-                    "category": "All People",
+                    "category": $("#search_result_all_people").html(),
                     "searchurl": searchURLmap.allusers
                 },
                 "contacts" : {
-                    "category": "My Contacts",
+                    "category": $("#search_result_my_contacts").html(),
                     "searchurl": searchURLmap.mycontacts
                 },
                 //"onlinecontacts" : {
@@ -132,11 +133,11 @@ sakai.search = function() {
                 //    "searchurl": searchURLmap.onlinecontacts
                 //},
                 "invited" : {
-                    "category": "My Contact Invitations",
+                    "category": $("#search_result_my_contacts_invitation").html(),
                     "searchurl": searchURLmap.invitedcontacts
                 },
                 "requested" : {
-                    "category": "Pending Invitations",
+                    "category": $("#search_result_pending_invitations").html(),
                     "searchurl": searchURLmap.pendingcontacts
                 }
             }
@@ -272,7 +273,7 @@ sakai.search = function() {
             } else if (results.results.length <= 0) {
                 $(searchConfig.global.numberFound).text(0);
             } else {
-                $(searchConfig.global.numberFound).text("more than 100");
+                $(searchConfig.global.numberFound).text($(searchConfig.global.resultExceed).html());
             }
 
             // Reset the pager.

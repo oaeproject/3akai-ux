@@ -2,6 +2,9 @@
     "ca":true,
     "description":"List of site members",
     "hasSettings":true,
+    "i18n": {
+        "default": "/devwidgets/sitemembers/bundles/default.json"
+    },
     "id":"sitemembers",
     "img":"/devwidgets/sitemembers/images/sitemembers.png",
     "showinsakaigoodies":true,

@@ -1090,9 +1090,16 @@ sakai.api.i18n.General.process = function(toprocess, localbundle, defaultbundle)
             replace = replace.substr(1, replace.length);
         }
 
-        var toreplace = quotes + sakai.api.i18n.General.getValueForKey(lastParen) + quotes;
-        processed += toprocess.substring(lastend,expression.lastIndex-replace.length) + toreplace;
-        lastend = expression.lastIndex;
+        // check for i18n debug
+        if (sakai.config.displayDebugInfo === true && sakai.data.me.user.locale && sakai.data.me.user.locale.language === "lu" && sakai.data.me.user.locale.country === "GB"){
+            var toreplace = quotes + replace.substr(7, replace.length - 9) + quotes;
+            processed += toprocess.substring(lastend, expression.lastIndex - replace.length) + toreplace;
+            lastend = expression.lastIndex;
+        } else {
+            var toreplace = quotes + sakai.api.i18n.General.getValueForKey(lastParen) + quotes;
+            processed += toprocess.substring(lastend, expression.lastIndex - replace.length) + toreplace;
+            lastend = expression.lastIndex;
+        }
     }
     processed += toprocess.substring(lastend);
     return processed;
@@ -1102,7 +1109,7 @@ sakai.api.i18n.General.process = function(toprocess, localbundle, defaultbundle)
 /**
  * Get the internationalised value for a specific key.
  * We expose this function so you can do internationalisation within JavaScript.
- * @example sakai.api.i18n.General.getValueForKey("__MSG__CHANGE_LAYOUT__");
+ * @example sakai.api.i18n.General.getValueForKey("CHANGE_LAYOUT");
  * @param {String} key The key that will be used to get the internationalised value
  * @return {String} The translated value for the provided key
  */
@@ -3647,15 +3654,32 @@ sakai.api.Widgets.widgetLoader = {
 
                                     // Change messages
                                     if (hasBundles) {
-                                        var expression = new RegExp("__MSG__(.*?)__", "gm");
+                                        var expression = new RegExp(".{1}__MSG__(.*?)__", "gm");
                                         var lastend = 0;
                                         var translated_content = "";
                                         while (expression.test(requestedURLsResults[i].body)) {
                                             var replace = RegExp.lastMatch;
                                             var lastParen = RegExp.lastParen;
-                                            var toreplace = sakai.api.i18n.Widgets.getValueForKey(widgetName, current_locale_string, lastParen);
-                                            translated_content += requestedURLsResults[i].body.substring(lastend, expression.lastIndex - replace.length) + toreplace;
-                                            lastend = expression.lastIndex;
+                                            var quotes = "";
+
+                                            // need to add quotations marks if key is adjacent to an equals sign which means its probably missing quotes - IE
+                                            if (replace.substr(0,2) !== "__"){
+                                                if (replace.substr(0,1) === "="){
+                                                    quotes = '"';
+                                                }
+                                                replace = replace.substr(1, replace.length);
+                                            }
+
+                                            // check for i18n debug
+                                            if (sakai.config.displayDebugInfo === true && sakai.data.me.user.locale && sakai.data.me.user.locale.language === "lu" && sakai.data.me.user.locale.country === "GB"){
+                                                var toreplace = quotes + replace.substr(7, replace.length - 9) + quotes;
+                                                translated_content += requestedURLsResults[i].body.substring(lastend, expression.lastIndex - replace.length) + toreplace;
+                                                lastend = expression.lastIndex;
+                                            } else {
+                                                var toreplace = quotes + sakai.api.i18n.Widgets.getValueForKey(widgetName, current_locale_string, lastParen); + quotes;
+                                                translated_content += requestedURLsResults[i].body.substring(lastend, expression.lastIndex - replace.length) + toreplace;
+                                                lastend = expression.lastIndex;
+                                            }
                                         }
                                         translated_content += requestedURLsResults[i].body.substring(lastend);
                                     } else {

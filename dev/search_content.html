@@ -91,7 +91,7 @@
 
                         <!-- SEARCH BAR -->
                         <div class="fl-left fl-container fl-fix search_bar">
-                            <button class="s3d-button s3d-button-primary search_add_content_button" id="upload_content"><span class="s3d-button-inner">__MSG__ADD_NEW_CONTENT__</span></button>
+                            <span class="s3d-button s3d-button-primary search_add_content_button" id="upload_content"><span class="s3d-button-inner">__MSG__ADD_NEW_CONTENT__</span></span>
                             <span id="search_form" >
                                 <input type="text" maxlength="255" id="search_text" class="input" value="__MSG__ENTER_A_SEARCHTERM__" title="__MSG__ENTER_A_SEARCHTERM__" />
                                 <button id="search_button" class="s3d-search-button s3d-button s3d-button-primary"><span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span></button>
@@ -110,6 +110,10 @@
                         <div class="fl-container fl-fix search_results">
 
                         <div class="search_results_faceted">
+                            <span id="search_result_title" style="display:none;">__MSG__REFINE_YOUR_SEARCH__</span>
+                            <span id="search_result_all_content" style="display:none;">__MSG__ALL_CONTENT__</span>
+                            <span id="search_result_content_I_manage" style="display:none;">__MSG__CONTENT_I_MANAGE__</span>
+                            <span id="search_result_content_I_m_a_viewer_of" style="display:none;">__MSG__CONTENT_I_M_A_VIEWER_OF__</span>
                             <!-- FACETED WIDGET -->
                             <div id="widget_faceted" class="widget_inline"></div>
                         </div>
@@ -136,6 +140,9 @@
 
                                 <!-- CONTAINER FOR THE RESULTS -->
                                 <div id="search_results_container"></div>
+
+                                <!-- EXCEED SEARCH RESULT -->
+                                <span id="search_result_exceed" style="display:none;">__MSG__MORE_THAN_100__</span>
                             </div>
 
                             <!-- TEMPLATE CONTAINING THE RESULTS -->

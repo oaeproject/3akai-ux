@@ -1,3 +1,15 @@
 {
-"NO_REMOTE_CONTENT": "No remote content has been set"
+"ADVANCED_SETTINGS": "Advanced Settings",
+"BORDER": "Border",
+"HEIGHT": "Height",
+"NO_REMOTE_CONTENT": "No remote content has been set",
+"PLEASE_PASTE_OR_ENTER_THE_ADDRESS": "Please paste or enter the address of the remote content you would like to embed into this page",
+"PREVIEW":"Preview",
+"REMOTE_CONTENT": "Remote Content",
+"REMOTE_CONTENT_WEB_ADDRESS_URL": "Remote content web address (URL)",
+"RESET_TO_ORIGINAL_SIZE": "Reset to original size",
+"SIZE": "Size",
+"THE_WEB_ADDRESS_YOU_ENTERED_IS_NOT_VALID": "The web address you entered is not valid. Please enter or paste a valid web address.",
+"WIDTH": "Width",
+"YOU_HAVENT_ENTERED_AN_ADDRESS": "You haven't entered an address. Please enter a valid web address for the remote content."
 }
