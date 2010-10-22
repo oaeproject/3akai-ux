@@ -57,6 +57,8 @@ sakai.chat = function(tuid, showSettings){
     var allMessages = {}; // allMessages are messages from this refresh - to keep track of read/unread
     var supportsSessionStorage = false;
 
+    var acceptedContactList = false; // to store accepted contact list
+
     ///////////////////////
     ///////////////////////
     // Chat Working Code //
@@ -77,30 +79,75 @@ sakai.chat = function(tuid, showSettings){
 
     /**
      * Load the list of your online contacts
+     * make batch request for accepted friend and presence online
+     * and close the chat window if contact has been deleted.
      * @param {Object} initial Whether or not this is the first time
      * the online friends are requested
      */
     var loadOnlineContacts = function(callback){
+        var batchRequests = [];
+        
+        // accepted contacts
+        var acceptedContacts = {
+            "url":sakai.config.URL.CONTACTS_ACCEPTED + "?page=0&items=6",
+            "method":"GET",
+            "cache":false,
+            "dataType":"json" 
+        };
+
+        // contacts online
+        var contactsOnline = {
+            "url":sakai.config.URL.PRESENCE_CONTACTS_SERVICE,
+            "method":"GET",
+            "cache":false,
+            "dataType":"json" 
+        };
+        
+        batchRequests.push(acceptedContacts);
+        batchRequests.push(contactsOnline);
+
         $.ajax({
-            url: sakai.config.URL.PRESENCE_CONTACTS_SERVICE,
-            cache: false,
-            dataType: "json",
-            success: function(data){
-                // Render the list of your online friends
-                renderOnlineContacts(data);
-                // Start polling regurarly to get your online friends
-                if (!loadOnlineContactsTimer) {
-                    loadOnlineContactsTimer = setInterval(loadOnlineContacts, loadOnlineContactsInterval);
-                    checkNewMessages();
-                }
-                $(window).trigger("sakai-chat-update");
+        url: sakai.config.URL.BATCH,
+            type: "POST",
+            data: {
+                requests: $.toJSON(batchRequests)
             },
-            complete: function() {
+            success: function(data){
+                // contact list
+                if (data.results.hasOwnProperty(0)) {
+                    acceptedContactList = $.parseJSON(data.results[0].body);
+                }
+
+                // presence contacts
+                if (data.results.hasOwnProperty(1)) {
+                    // load the list of contact onlines
+                    loadContactFinished($.parseJSON(data.results[1].body));
+                }
+            },
+            complete: function(){
                 if ($.isFunction(callback)) {
                     callback();
                 }
             }
         });
+
+    };
+
+    /**
+     * Load the list of your online contacts
+     * @param {Object} initial Whether or not this is the first time
+     * the online friends are requested
+     */
+    var loadContactFinished = function(data) {
+        // Render the list of your online friends
+        renderOnlineContacts(data);
+        // Start polling regurarly to get your online friends
+        if (!loadOnlineContactsTimer) {
+            loadOnlineContactsTimer = setInterval(loadOnlineContacts, loadOnlineContactsInterval);
+            checkNewMessages();
+        }
+        $(window).trigger("sakai-chat-update");
+        
     };
 
     /**
@@ -343,6 +390,20 @@ sakai.chat = function(tuid, showSettings){
     };
 
     /**
+     *  Check if user is still in contact list
+     * @param {Object} userId  User id of the contact the icon should be adjusted for
+     */
+    var isContactExists = function(userId) {
+        // check to see if user is still in contact list
+        for (var i = 0; i<acceptedContactList.results.length; i++){
+            if(acceptedContactList.results[i].profile['rep:userId'] === userId){
+                return true;
+            }    
+        }
+        return false;
+    }
+
+    /**
      * Update the chat windows so that the chat status and status
      * message of their contacts is up to date. Also, disable all
      * chat windows for which the contact is not online
@@ -351,8 +412,11 @@ sakai.chat = function(tuid, showSettings){
         for (var i = 0; i < globalChatWindows.length; i++){
             var contact = getOnlineContact(globalChatWindows[i].profile.userid);
             var chatInputBox = $("#chat_with_" + globalChatWindows[i].profile.userid + "_txt");
+            // if contact has been deleted remove the chat window
+            if(!isContactExists(globalChatWindows[i].profile.userid)){
+                removeChatWindow(globalChatWindows[i].profile.userid);
             // The contact is offline. Disable the chat window and update the chat status
-            if (!contact || contact.profile.chatstatus === "offline"){
+            }else if (!contact || contact.profile.chatstatus === "offline"){
                 // Set the chat status to offline
                 setWindowChatStatus(globalChatWindows[i].profile.userid, "offline");
                 // Disable the input box
