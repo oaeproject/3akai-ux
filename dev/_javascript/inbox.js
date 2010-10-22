@@ -1120,8 +1120,8 @@ sakai.inbox = function() {
 
             for (var i = 0, j = allMessages.length; i < j; i++){
                 for (var m = 0, n = pathToMessages.length; m < n; m++){
-                    if (allMessages[i].id === pathToMessages[m]){
-                        if (allMessages[i]["sakai:read"] === "false" && allMessages[i]["sakai:category"]){
+                    if (allMessages[i]["jcr:path"] === pathToMessages[m]){
+                        if (allMessages[i]["sakai:read"] === false && allMessages[i]["sakai:category"]){
                             if (allMessages[i]["sakai:category"] === "message"){
                                 deletedUnreadMessages++;
                             } else if (allMessages[i]["sakai:category"] === "invitation"){
