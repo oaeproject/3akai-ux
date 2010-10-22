@@ -139,6 +139,7 @@ sakai.pickeradvanced = function(tuid, showSettings) {
             $pickeradvanced_sort_on.show();
             $pickeradvanced_search_people.show();
         } else if (pickerData["type"] === "content") {
+            $("#pickeradvanced_search_files_mine").parent("li").addClass("pickeradvanced_selected_list");
             $pickeradvanced_sort_on.hide();
             $pickeradvanced_search_files.show();
             pickerData["searchIn"] = sakai.config.URL.POOLED_CONTENT_MANAGER.replace(".json", ".infinity.json") + "?page=0&items=12&_=&q=";
