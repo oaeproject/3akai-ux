@@ -147,7 +147,7 @@
 .fl-widget .fl-widget-options ul li {float: left; margin: 0; padding: 16px 6px 0 6px}
 .fl-widget .fl-widget-options ul li a {color: #666; font-size: .85em; font-weight: bold}
 .fl-widget .fl-widget-options .pipe_divider {font-size: .85em}
-.fl-widget .fl-widget-options-footer-left {background-image:url("../../_images/block_footer_bl.png");background-position:left bottom;background-repeat:no-repeat;height:16px;margin-top:-16px;}
+.fl-widget .fl-widget-options-footer-left {background-image:url("../../_images/block_footer_bl.png");background-position:left bottom;background-repeat:no-repeat;height:16px;margin-top:-12px;}
 .fl-widget .fl-widget-options-footer-right {background-image:url("../../_images/block_footer_br.png");background-position:right bottom;background-repeat:no-repeat;height:16px;margin-right:-8px;}
 
 .fl-widget .fl-widget-no-options { background: url('../../_images/content_br.png') top right no-repeat; padding: 0 5px 0 0; margin: 0; }
