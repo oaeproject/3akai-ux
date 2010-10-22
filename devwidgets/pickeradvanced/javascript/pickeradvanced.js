@@ -315,7 +315,7 @@ sakai.pickeradvanced = function(tuid, showSettings) {
                                 pickerData["selected"][$(this).attr("id")].entityType = "file";
                             }
                             if ($pickeradvanced_add_button.is(":disabled")) {
-                                $pickeradvanced_add_button.attr("disabled", "");
+                                $pickeradvanced_add_button.removeAttr("disabled");
                             }
                         });
                     });
