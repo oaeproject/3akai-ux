@@ -3777,7 +3777,7 @@ sakai.api.Widgets.widgetLoader = {
                 if (split[2]){
                     widgetid = split[2];
                 } else if(widgetname) {
-                    widgetid = widgetname + "container";
+                    widgetid = widgetname + "container" + Math.round(Math.random() * 10000000);
                 }
 
                 // Check if the widget is an iframe widget
