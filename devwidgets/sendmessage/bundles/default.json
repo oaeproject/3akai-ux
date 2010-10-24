@@ -2,9 +2,15 @@
 "name": "Sendmessage",
 "description": "Sendmessage widget\r\n",
 "ADDITIONAL_RECIPIENTS": "Additional Recipients",
+"BODY": "Body",
+"CLOSE_DIALOG": "Close Dialog",
 "FAILED_TO_RETRIEVE_DATA": "Failed to retrieve contacts or groups you may message at this time. Please try again later or contact your administrator for further assistance.",
+"FROM": "From",
 "MESSAGE_COULD_NOT_BE_SENT": "The message could not be sent",
 "MESSAGE_HAS_BEEN_SENT": "The message has been sent",
 "PLEASE_FILL_IN_ALL_FIELDS": "Please fill in all the fields",
+"SEND_MESSAGE": "Send Message",
+"SUBJECT": "Subject",
+"TO": "To",
 "WIDGET_TITLE": "Send message"
 }

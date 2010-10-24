@@ -2,33 +2,46 @@ module("Internationalisation");
 
 (function(){
 
-var checkChildElements = function(element, page){
+var checkChildElements = function(element, page, template){
     if (element.firstChild) { // check for children elements
         var child = element.firstChild;
         while (child) { // check child elements
+            if (child.nodeType === 8 && child.parentNode.nodeName.toLowerCase() === "div") { // if comment node is in a div its probably a javascript template
+                var trimPathTemplate = document.createElement('div');
+                trimPathTemplate.innerHTML = child.data;
+                checkChildElements(trimPathTemplate, page, true);
+            }
             if (child.nodeType === 1) { // if html element
                 var tagText = $(child).clone().find("*").remove().end().text();
 
                 // check title and alt attributes, and text within the tag
+                // there is an issue getting tag attributes from javascript templates if it contains double quotes within template brackets, these will fail the unit test
                 var titleText = $(child).attr("title");
                 var valueText = $(child).attr("value");
                 var altText = $(child).attr("alt");
                 var alpha = new RegExp("^(.*)[a-zA-z](.*)+$");
                 var regex = new RegExp("__MSG__(.*?)__");
+                var templateRegex = new RegExp("^(.*?)(\\$*){(.*?)}(.*?)+$");
+                var templateStartAlphaRegex = new RegExp("^([a-zA-z]+)(\\$*){(.*?)}+$");
+                var templateMiddleAlphaRegex = new RegExp("^(\\$*){(.*?)}([a-zA-z]+)(\\$*){(.*?)}+$");
+                var templateEndAlphaRegex = new RegExp("^(\\$*){(.*?)}([a-zA-z])+$");
 
                 if (tagText) {
-                    tagTextTest = tagText.replace(/ /g,'');
-                    tagTextTest = tagText.replace(/[\r\n]/g,'');
-                    if (regex.test(tagTextTest) && tagTextTest.length > 0){
-                        ok(true, "Page: " + page + ", String: " + tagText);
+                    tagTextTest = tagText.replace(/\s+/g,'');
+                    if (regex.test(tagTextTest) && tagTextTest.length > 0) {
+                        //ok(true, "Page: " + page + ", String: " + tagText);
+                    } else if (templateRegex.test(tagTextTest) && !(regex.test(tagTextTest) || templateStartAlphaRegex.test(tagTextTest) || templateEndAlphaRegex.test(tagTextTest) || templateMiddleAlphaRegex.test(tagTextTest)) && tagTextTest.length > 0 && template){
+                        //ok(true, "Page: " + page + ", String: " + tagText);
                     } else if (alpha.test(tagTextTest) && tagTextTest.length > 0) {
                         ok(false, "Page: " + page + ", String: " + tagText);
                     }
                 }
                 if (titleText) {
-                    titleTextTest = titleText.replace(/ /g,'');
+                    titleTextTest = titleText.replace(/\s+/g,'');
                     if (regex.test(titleTextTest)){
-                        ok(true, "Page: " + page + ", String: " + titleText);
+                        //ok(true, "Page: " + page + ", String: " + titleText);
+                    } else if (templateRegex.test(titleTextTest) && !(regex.test(titleTextTest) || templateStartAlphaRegex.test(titleTextTest) || templateEndAlphaRegex.test(titleTextTest) || templateMiddleAlphaRegex.test(titleTextTest)) && titleTextTest.length > 0 && template){
+                        //ok(true, "Page: " + page + ", String: " + titleText);
                     } else if (alpha.test(titleTextTest)){
                         ok(false, "Page: " + page + ", String: " + titleText);
                     }
@@ -37,23 +50,26 @@ var checkChildElements = function(element, page){
                     if (typeof(valueText) !== "string") {
                         valueText = valueText.toString();
                     }
-                    valueTextTest = valueText.replace(/ /g,'');
+                    valueTextTest = valueText.replace(/\s+/g,'');
                     if (regex.test(valueTextTest)){
+                        ok(true, "Page: " + page + ", String: " + valueText);
+                    } else if (templateRegex.test(valueTextTest) && !(regex.test(valueTextTest) || templateStartAlphaRegex.test(valueTextTest) || templateEndAlphaRegex.test(valueTextTest) || templateMiddleAlphaRegex.test(valueTextTest)) && valueTextTest.length > 0 && template){
                         ok(true, "Page: " + page + ", String: " + valueText);
                     } else if (alpha.test(valueTextTest)){
                         ok(false, "Page: " + page + ", String: " + valueText);
                     }
                 }*/
                 if (altText) {
-                    altTextTest = altText.replace(/ /g,'');
-                    if (regex.test(altTextTest)){
-                        ok(true, "Page: " + page + ", String: " + altText);
-                    } else if (alpha.test(altTextTest)){
+                    altTextTest = altText.replace(/\s+/g,'');
+                    if (regex.test(altTextTest)) {
+                        //ok(true, "Page: " + page + ", String: " + altText);
+                    } else if (templateRegex.test(altTextTest) && !(regex.test(altTextTest) || templateStartAlphaRegex.test(altTextTest) || templateEndAlphaRegex.test(altTextTest) || templateMiddleAlphaRegex.test(altTextTest)) && altTextTest.length > 0 && template) {
+                        //ok(true, "Page: " + page + ", String: " + altText);
+                    } else if (alpha.test(altTextTest)) {
                         ok(false, "Page: " + page + ", String: " + altText);
                     }
                 }
-
-                checkChildElements(child, page);
+                checkChildElements(child, page, template);
             }
         child = child.nextSibling;
         }
@@ -152,8 +168,7 @@ var testInternationalisation = function(){
             success: function(data){
                 var div = document.createElement('div');
                 div.innerHTML = data;
-                var elements = div.childNodes;
-                checkChildElements(div, url);
+                checkChildElements(div, url, false);
             }
         });
     }
