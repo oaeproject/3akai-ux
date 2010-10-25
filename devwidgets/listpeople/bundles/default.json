@@ -1,4 +1,15 @@
 {
 "name": "listpeople",
-"description": "A general widget listing people on any Sakai page\r\n"
+"description": "A general widget listing people on any Sakai page\r\n",
+"ALPHABETICALLY_AZ": "Alphabetically A - Z",
+"ALPHABETICALLY_ZA": "Alphabetically Z - A",
+"CONTENT_PICTURE_FOR": "Content picture for",
+"DEFAULT_GROUP_PICTURE": "Default group picture",
+"DEFAULT_PROFILE_PICTURE": "Default profile picture",
+"GROUP_PICTURE_FOR": "Group picture for",
+"ITEMS": "item(s)",
+"OF": "of",
+"PROFILE_PICTURE_FOR": "Profile picture for",
+"SELECTED": "selected",
+"SORRY_NO_USERS": "Sorry, could not retrieve the list of users form the server!"
 }

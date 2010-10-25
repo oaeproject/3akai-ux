@@ -37,13 +37,17 @@ sakai.search = function(){
         loadContacts(currentpage);
     };
 
+    var errorText = $("#AN_ERROR_HAS_OCCURRED").text();
+    var errorTemplate = $("#error_template").html();
+    var loadingTemplate = $("#loading_template").html();
+
     loadContacts = function(page){
 
         currentpage = parseInt(page, 10);
 
         // Set searching messages
 
-        $("#contacts_search_result").html("<b>Loading ...</b>");
+        $("#contacts_search_result").html(loadingTemplate);
 
         $.ajax({
             url: "/var/contacts/accepted.infinity.json?page=" + (page - 1) + "&items=" + peopleToSearch,
@@ -53,7 +57,7 @@ sakai.search = function(){
                 renderContacts();
             },
             error: function(xhr, textStatus, thrownError) {
-                $("#contacts_search_result").html("<b>An error has occurred.</b> Please try again later");
+                $("#contacts_search_result").html(errorTemplate);
             }
         });
 
@@ -141,7 +145,7 @@ sakai.search = function(){
 
                 },
                 error: function(xhr, textStatus, thrownError) {
-                    alert("An error has occured");
+                    alert(errorText);
                 }
             });
 
@@ -156,7 +160,7 @@ sakai.search = function(){
 
         // Set searching messages
 
-        $("#invited_search_result").html("<b>Loading ...</b>");
+        $("#invited_search_result").html(loadingTemplate);
 
         $.ajax({
             url: "/var/contacts/invited.infinity.json?page=0&items=100",
@@ -166,7 +170,7 @@ sakai.search = function(){
                 renderInvitations();
             },
             error: function(xhr, textStatus, thrownError) {
-                $("#invited_search_result").html("<b>An error has occurred.</b> Please try again later");
+                $("#invited_search_result").html(errorTemplate);
             }
         });
 
@@ -243,7 +247,7 @@ sakai.search = function(){
 
                 },
                 error: function(xhr, textStatus, thrownError) {
-                    alert("An error has occured");
+                    alert(errorText);
                 }
             });
 
@@ -260,7 +264,7 @@ sakai.search = function(){
 
         // Set searching messages
 
-        $("#invited_search_result").html("<b>Loading ...</b>");
+        $("#invited_search_result").html(loadingTemplate);
 
         $.ajax({
             url: "/var/contacts/pending.infinity.json?page=0&items=100",
@@ -270,7 +274,7 @@ sakai.search = function(){
                 renderPending();
             },
             error: function(xhr, textStatus, thrownError) {
-                $("#pending_search_result").html("<b>An error has occurred.</b> Please try again later");
+                $("#pending_search_result").html(errorTemplate);
             }
         });
 
