@@ -1089,14 +1089,14 @@ sakai.api.i18n.General.process = function(toprocess, localbundle, defaultbundle)
             }
             replace = replace.substr(1, replace.length);
         }
-
+        var toreplace;
         // check for i18n debug
         if (sakai.config.displayDebugInfo === true && sakai.data.me.user.locale && sakai.data.me.user.locale.language === "lu" && sakai.data.me.user.locale.country === "GB"){
-            var toreplace = quotes + replace.substr(7, replace.length - 9) + quotes;
+            toreplace = quotes + replace.substr(7, replace.length - 9) + quotes;
             processed += toprocess.substring(lastend, expression.lastIndex - replace.length) + toreplace;
             lastend = expression.lastIndex;
         } else {
-            var toreplace = quotes + sakai.api.i18n.General.getValueForKey(lastParen) + quotes;
+            toreplace = quotes + sakai.api.i18n.General.getValueForKey(lastParen) + quotes;
             processed += toprocess.substring(lastend, expression.lastIndex - replace.length) + toreplace;
             lastend = expression.lastIndex;
         }
@@ -1210,7 +1210,7 @@ sakai.api.l10n.parseDateString = function(dateString){
     d.setTime(d.getTime() - (parseInt(dateString.substring(19,22),10)*60*60*1000));
     d.setTime(d.getTime() + sakai.data.me.user.locale.timezone.GMT*60*60*1000);
     return d;
-}
+};
 
 
 
@@ -1806,13 +1806,7 @@ sakai.api.Server.filterJCRProperties = function(data) {
           sakai.api.Server.filterJCRProperties(data[i]);
         }
     }
-}
-
-
-
-
-
-
+};
 
 /**
  * @class Site
@@ -2547,10 +2541,11 @@ sakai.api.Util.setFilePermissions = function(permissionValue, filesArray, callba
     for (var file in filesArray) {
         if (filesArray.hasOwnProperty(file)) {
             var contentPath = "/p/" + filesArray[file].hashpath;
+            var item;
             switch (permissionValue) {
                 // Logged in only
                 case "everyone":
-                    var item = {
+                    item = {
                         "url": contentPath + ".members.html",
                         "method": "POST",
                         "parameters": {
@@ -2559,7 +2554,7 @@ sakai.api.Util.setFilePermissions = function(permissionValue, filesArray, callba
                         }
                     };
                     data[data.length] = item;
-                    var item = {
+                    item = {
                         "url": contentPath + ".modifyAce.html",
                         "method": "POST",
                         "parameters": {
@@ -2568,7 +2563,7 @@ sakai.api.Util.setFilePermissions = function(permissionValue, filesArray, callba
                         }
                     };
                     data[data.length] = item;
-                    var item = {
+                    item = {
                         "url": contentPath + ".modifyAce.html",
                         "method": "POST",
                         "parameters": {
@@ -2580,7 +2575,7 @@ sakai.api.Util.setFilePermissions = function(permissionValue, filesArray, callba
                     break;
                 // Public
                 case "public":
-                    var item = {
+                    item = {
                         "url": contentPath + ".members.html",
                         "method": "POST",
                         "parameters": {
@@ -2588,7 +2583,7 @@ sakai.api.Util.setFilePermissions = function(permissionValue, filesArray, callba
                         }
                     };
                     data[data.length] = item;
-                    var item = {
+                    item = {
                         "url": contentPath + ".modifyAce.html",
                         "method": "POST",
                         "parameters": {
@@ -2600,7 +2595,7 @@ sakai.api.Util.setFilePermissions = function(permissionValue, filesArray, callba
                     break;
                 // Managers and viewers only
                 case "private":
-                    var item = {
+                    item = {
                         "url": contentPath + ".members.html",
                         "method": "POST",
                         "parameters": {
@@ -2608,7 +2603,7 @@ sakai.api.Util.setFilePermissions = function(permissionValue, filesArray, callba
                         }
                     };
                     data[data.length] = item;
-                    var item = {
+                    item = {
                         "url": contentPath + ".modifyAce.html",
                         "method": "POST",
                         "parameters": {
@@ -2619,7 +2614,7 @@ sakai.api.Util.setFilePermissions = function(permissionValue, filesArray, callba
                     data[data.length] = item;
                     break;
                 case "group":
-                    var item = {
+                    item = {
                         "url": contentPath + ".members.html",
                         "method": "POST",
                         "parameters": {
@@ -2627,7 +2622,7 @@ sakai.api.Util.setFilePermissions = function(permissionValue, filesArray, callba
                         }
                     };
                     data[data.length] = item;
-                    var item = {
+                    item = {
                         "url": contentPath + ".modifyAce.html",
                         "method": "POST",
                         "parameters": {
@@ -2655,7 +2650,7 @@ sakai.api.Util.setFilePermissions = function(permissionValue, filesArray, callba
             callback(false);
         }
     });
-}
+};
 
 /**
  * Formats a comma separated string of text to an array of usable tags
@@ -3040,7 +3035,7 @@ sakai.api.Util.parseRFC822Date = function(dateString) {
         "M":-12,
         "N": 1,
         "Y": 12
-    }
+    };
 
     // Set day
     if (dateElements[1]) { dateOutput.setDate(Number(dateElements[1])); }
@@ -3079,7 +3074,7 @@ sakai.api.Util.parseRFC822Date = function(dateString) {
 
     return dateOutput;
 
-}
+};
 
 
 /**
@@ -3189,7 +3184,7 @@ sakai.api.Util.shortenString = function(s, maxSize){
         }
     }
     return s;
-}
+};
 
 
 /**
@@ -3669,14 +3664,14 @@ sakai.api.Widgets.widgetLoader = {
                                                 }
                                                 replace = replace.substr(1, replace.length);
                                             }
-
+                                            var toreplace;
                                             // check for i18n debug
                                             if (sakai.config.displayDebugInfo === true && sakai.data.me.user.locale && sakai.data.me.user.locale.language === "lu" && sakai.data.me.user.locale.country === "GB"){
-                                                var toreplace = quotes + replace.substr(7, replace.length - 9) + quotes;
+                                                toreplace = quotes + replace.substr(7, replace.length - 9) + quotes;
                                                 translated_content += requestedURLsResults[i].body.substring(lastend, expression.lastIndex - replace.length) + toreplace;
                                                 lastend = expression.lastIndex;
                                             } else {
-                                                var toreplace = quotes + sakai.api.i18n.Widgets.getValueForKey(widgetName, current_locale_string, lastParen); + quotes;
+                                                toreplace = quotes + sakai.api.i18n.Widgets.getValueForKey(widgetName, current_locale_string, lastParen); + quotes;
                                                 translated_content += requestedURLsResults[i].body.substring(lastend, expression.lastIndex - replace.length) + toreplace;
                                                 lastend = expression.lastIndex;
                                             }
@@ -3711,32 +3706,32 @@ sakai.api.Widgets.widgetLoader = {
                                     var totalImportsInCurrentSS = 0;
                                     // Merge in the previously created style tags
                                     if (numberCSS >= 30){
-                                        for (var s in sakai.api.Widgets.cssCache){
+                                        for (var k in sakai.api.Widgets.cssCache){
                                              if (totalImportsInCurrentSS >= 30){
                                                  allSS.push(newSS);
                                                  newSS = document.createStyleSheet();
                                                  newSS.title = "sakai_widgetloader";
                                                  totalImportsInCurrentSS = 0;
                                              }    
-                                             newSS.addImport(s);
+                                             newSS.addImport(k);
                                              totalImportsInCurrentSS++;
                                         }
                                     }
                                     // Add in the stylesheets declared in the widgets loaded
                                     // in the current pass of the WidgetLoader
-                                    for (var s = 0, ss = stylesheets.length; s < ss; s++) {
+                                    for (var m = 0, mm = stylesheets.length; m < mm; m++) {
                                         if (totalImportsInCurrentSS >= 30){
                                         	allSS.push(newSS);
                                             newSS = document.createStyleSheet();
                                             newSS.title = "sakai_widgetloader";
                                             totalImportsInCurrentSS = 0;
                                         }
-                                        newSS.addImport(stylesheets[s]);
+                                        newSS.addImport(stylesheets[m]);
                                     }
                                     allSS.push(newSS);
                                     // Add the style tags to the document
-                                    for (var s = 0; s < allSS.length; s++) {
-                                        $("head").append(allSS[s]);
+                                    for (var z = 0; z < allSS.length; z++) {
+                                        $("head").append(allSS[z]);
                                     }
                                 }
                             }
@@ -3777,7 +3772,7 @@ sakai.api.Widgets.widgetLoader = {
                 if (split[2]){
                     widgetid = split[2];
                 } else if(widgetname) {
-                    widgetid = widgetname + "container";
+                    widgetid = widgetname + "container" + Math.round(Math.random() * 10000000);
                 }
 
                 // Check if the widget is an iframe widget

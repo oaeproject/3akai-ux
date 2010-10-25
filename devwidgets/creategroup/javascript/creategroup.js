@@ -74,6 +74,7 @@ sakai.creategroup = function(tuid, showSettings){
 
     // Pages to be added to the group
     var pagestemplate = "defaultgroup";
+    var changedURLManually = false;
 
     ///////////////////////
     // Utility functions //
@@ -85,6 +86,7 @@ sakai.creategroup = function(tuid, showSettings){
      * It initializes the creategroup widget and shows the jqmodal (ligthbox)
      */
     sakai.creategroup.initialise = function(){
+        changedURLManually = false;
         $(".description_fields").show();
         $("#creategroup_add_container").show();
         $(createGroupAddTemplate).show();
@@ -312,11 +314,20 @@ sakai.creategroup = function(tuid, showSettings){
         saveGroup();
     });
 
+
     /*
      * When you change something in the name of the group, it first removes the bad characters
      * and then it shows the edited url in the span
      */
-    $(createGroupAddName + "," + createGroupAddId).bind("keyup change", function(ev){
+    $(createGroupAddName).bind("keyup change", function(ev){
+        if (!changedURLManually) { // only change the url if the user hasn't changed it themselves
+            var entered = replaceCharacters($(this).val());
+            $(createGroupAddId).val(entered);
+        }
+    });
+
+    $(createGroupAddId).bind("keyup change", function(e) {
+        changedURLManually = true;
         var entered = replaceCharacters($(this).val());
         $(createGroupAddId).val(entered);
     });
@@ -334,7 +345,7 @@ sakai.creategroup = function(tuid, showSettings){
     /////////////////////////////
 
     var doInit = function(){
-
+        changedURLManually = false;
         // Hide error fields at start
         $(errorFields).hide();
 
