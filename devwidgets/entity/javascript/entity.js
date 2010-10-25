@@ -1138,7 +1138,7 @@ sakai.entity = function(tuid, showSettings){
         if (mode === entitymodes[0]) {
             if (!sakai.data.me.profile.chatstatus) {
                 // Assume online until chat status is persistent since that's what other comonents are doing, and so that the template has a consistent default
-                sakai.data.me.profile.chatstatus = "online"
+                sakai.data.me.profile.chatstatus = "online";
             }
         }
 
