@@ -20,7 +20,7 @@ sakai.search = function(){
     var doInit = function(){
 
         meObj = sakai.data.me;
-        
+
         loadContacts(1);
         loadInvitations();
         loadPending();
@@ -97,9 +97,9 @@ sakai.search = function(){
                     var relationships = connection["sakai:types"];
                     // if there are more than 3 connection type display 2 connection,...
                     if (relationships.length < 3) {
-                        finaljson.items[index].extra = relationships;    
+                        finaljson.items[index].extra = relationships;
                     } else {
-                        finaljson.items[index].extra = relationships[0] + ", "+ relationships[1]+ ", ...";    
+                        finaljson.items[index].extra = relationships[0] + ", "+ relationships[1]+ ", ...";
                     }
                     finaljson.items[index].connected = true;
                     if (finaljson.items[index].userid == sakai.data.me.user.userid){
@@ -199,12 +199,12 @@ sakai.search = function(){
                         finaljson.items[index].name = finaljson.items[index].userid;
                     }
                     var relationships = connection["sakai:types"];
-                    
+
                     // if there are more than 3 connection type display 2 connection,...
                     if (relationships.length < 3) {
-                        finaljson.items[index].extra = relationships;    
+                        finaljson.items[index].extra = relationships;
                     } else {
-                        finaljson.items[index].extra = relationships[0] + ", "+ relationships[1]+ ", ...";    
+                        finaljson.items[index].extra = relationships[0] + ", "+ relationships[1]+ ", ...";
                     }
                     finaljson.items[index].connected = true;
 
@@ -305,9 +305,9 @@ sakai.search = function(){
                     var relationships = connection["sakai:types"];
                     // if there are more than 3 connection type display 2 connection,...
                     if (relationships.length < 3) {
-                        finaljson.items[index].extra = relationships;    
+                        finaljson.items[index].extra = relationships;
                     } else {
-                        finaljson.items[index].extra = relationships[0] + ", "+ relationships[1]+ ", ...";    
+                        finaljson.items[index].extra = relationships[0] + ", "+ relationships[1]+ ", ...";
                     }
                     finaljson.items[index].connected = true;
 
@@ -335,4 +335,4 @@ sakai.search = function(){
 
 };
 
-sakai.api.Widgets.Container.registerForLoad("sakai.search");
+sakai.api.Widgets.Container.registerForLoad("sakai.search");
