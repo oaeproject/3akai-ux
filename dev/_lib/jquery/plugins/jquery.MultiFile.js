@@ -258,7 +258,7 @@
 
           // Check if max uploads equals 1. 
           // If it does than this is a new version upload and the box shouldn't be hidden
-          if (parseInt(o.max.toString()) < 1) {
+          if (parseInt(o.max.toString()) != 1) {
               // Hide this element (NB: display:none is evil!)
               $(this).css({
                   position: 'absolute',
