@@ -1099,23 +1099,10 @@ sakai.entity = function(tuid, showSettings){
      *
      */
     var getContentData = function(mode, data){
-        //make an ajax call to get content data
-        $.ajax({
-            url: "/var/search/pool/me/manager.json?q=*",
-            type: "GET",
-            success: function(d, textStatus){
-                entityconfig.data.count.contents = d.total;
-
-                // Change the mode for the entity widget
-                entityconfig.mode = mode;
-
-                // Get the data for the appropriate mode
-                getData(entityconfig.mode, data);
-            },
-            error: function(xhr, textStatus, thrownError){
-                alert("An error has occured");
-            }
-        });
+        // Change the mode for the entity widget
+        entityconfig.mode = mode;
+        // Get the data for the appropriate mode
+        getData(entityconfig.mode, data);
     };
 
     ////////////////////
