@@ -673,7 +673,7 @@ sakai.sitespages.site_admin = function(){
             content = sakai.sitespages.pagecontents[pageUrlName];
         }
         else {
-            content = sakai.sitespages.pagecontents[pageUrlName]["sakai:pagecontent"];
+            content = sakai.sitespages.pagecontents[pageUrlName]["sakai:pagecontent"] || "";
         }
 
         tinyMCE.get("elm1").setContent(content, {format : 'raw'});
@@ -833,7 +833,8 @@ sakai.sitespages.site_admin = function(){
      */
     var viewSelectedPage = function () {
         // show newly updated title and content
-        $("#" + sakai.sitespages.selectedpage).html(sakai.api.Security.saneHTML(sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"]));
+        var pagecontent = sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"] || "";
+        $("#" + sakai.sitespages.selectedpage).html(sakai.api.Security.saneHTML(pagecontent));
         $("#" + sakai.sitespages.selectedpage).show();
         if (sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageType"] === "webpage") {
             $("#webpage_edit").show();
@@ -1989,10 +1990,11 @@ sakai.sitespages.site_admin = function(){
             success : function(data) {
 
                 var type = sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageType"];
+                var pagecontent = data["sakai:pagecontent"] || "";
                 if (type === "webpage") {
-                    $("#" + sakai.sitespages.selectedpage).html(sakai.api.Security.saneHTML(data["sakai:pagecontent"]));
+                    $("#" + sakai.sitespages.selectedpage).html(sakai.api.Security.saneHTML(pagecontent));
                     sakai.api.Widgets.widgetLoader.insertWidgets(sakai.sitespages.selectedpage, null, sakai.sitespages.config.basepath + "_widgets/");
-                    sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"] = data["sakai:pagecontent"];
+                    sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"] = pagecontent;
 
                     // Create an activity item for the page edit
                     /* var nodeUrl = sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["jcr:path"];
@@ -2006,11 +2008,11 @@ sakai.sitespages.site_admin = function(){
                     // Remove previous dashboard
                     $("#" + sakai.sitespages.selectedpage).remove();
                     // Render new one
-                    sakai.sitespages._displayDashboard (data["sakai:pagecontent"], true);
+                    sakai.sitespages._displayDashboard(pagecontent, true);
                 }
 
                 // Save new version of this page
-                sakai.sitespages.updatePageContent(sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["jcr:path"], data["sakai:pagecontent"], function(success, data) {
+                sakai.sitespages.updatePageContent(sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["jcr:path"], pagecontent, function(success, data) {
 
                     if (success) {
 
@@ -2049,12 +2051,13 @@ sakai.sitespages.site_admin = function(){
             success : function(data) {
 
                 var type = sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageType"];
+                var pagecontent = data["sakai:pagecontent"] || "";
                 if (type === "webpage") {
-                    $("#" + sakai.sitespages.selectedpage).html(sakai.api.Security.saneHTML(data["sakai:pagecontent"]));
+                    $("#" + sakai.sitespages.selectedpage).html(sakai.api.Security.saneHTML(pagecontent));
                     sakai.api.Widgets.widgetLoader.insertWidgets(sakai.sitespages.selectedpage, null, sakai.sitespages.config.basepath + "_widgets/");
                 } else if (type === "dashboard") {
                     $("#" + sakai.sitespages.selectedpage).remove();
-                    sakai.sitespages._displayDashboard(data["sakai:pagecontent"], true);
+                    sakai.sitespages._displayDashboard(pagecontent, true);
                 }
             },
             error: function(xhr, textStatus, thrownError) {
@@ -2147,7 +2150,7 @@ sakai.sitespages.site_admin = function(){
         templates[newid]["pageContent"] = {};
         templates[newid]["pageContent"]["_charset_"] = "utf-8";
         templates[newid]["pageContent"]["sling:resourceType"] = "sakai/pagetemplatecontent";
-        templates[newid]["pageContent"]["sakai:pagecontent"] = sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"];
+        templates[newid]["pageContent"]["sakai:pagecontent"] = sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"] || "";
 
         sakai.api.Server.saveJSON("/~" + sakai.data.me.user.userid + "/private/templates", templates, function(success, response) {
 
