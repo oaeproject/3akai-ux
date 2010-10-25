@@ -452,7 +452,7 @@ sakai.sitespages.site_admin = function(){
 
         // Variable that contains the css for the tinyMCE menus
         var tinyMCEmenuCSS = {};
-
+        var textColorMenu, backColorMenu = "";
         // Check if the current scroll position is smaller then the top position of the toolbar
         if (barTop <= sakai.sitespages.minTop) {
 
@@ -469,14 +469,14 @@ sakai.sitespages.site_admin = function(){
             $(elm1_menu_fontsizeselect).css(tinyMCEmenuCSS);
 
             // Set the position for the text color menu
-            var textColorMenu = $("#elm1_forecolor_menu");
+            textColorMenu = $("#elm1_forecolor_menu");
             if (textColorMenu.css("position") === "fixed"){
                 textColorMenu.css("position", "absolute");
                 textColorMenu.css("top", "334px");
             };
 
             // Set the position for the background-color menu
-            var backColorMenu = $("#elm1_backcolor_menu");
+            backColorMenu = $("#elm1_backcolor_menu");
             if (backColorMenu.css("position") === "fixed"){
                 backColorMenu.css("position", "absolute");
                 backColorMenu.css("top", "334px");
@@ -495,14 +495,14 @@ sakai.sitespages.site_admin = function(){
             $insert_more_menu.css({"position": "fixed", "top":"28px"});
 
             // Set the position for the text color menu
-            var textColorMenu = $("#elm1_forecolor_menu");
+            textColorMenu = $("#elm1_forecolor_menu");
             if (textColorMenu.css("position") === "absolute"){
                 textColorMenu.css("position", "fixed");
                 textColorMenu.css("top", "30px");
             };
 
             // Set the position for the background-color menu
-            var backColorMenu = $("#elm1_backcolor_menu");
+            backColorMenu = $("#elm1_backcolor_menu");
             if (backColorMenu.css("position") === "absolute"){
                 backColorMenu.css("position", "fixed");
                 backColorMenu.css("top", "30px");
