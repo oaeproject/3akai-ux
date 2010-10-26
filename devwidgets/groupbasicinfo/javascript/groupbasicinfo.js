@@ -369,15 +369,16 @@ sakai.groupbasicinfo = function(tuid, showSettings){
             success: function(data, textStatus){
                 sakai.api.Util.tagEntity(groupProfileURL, sakai.currentgroup.data.authprofile["sakai:tags"], currentTags, function() {
                     sakai.currentgroup.data.authprofile["sakai:tags"] = currentTags;
-                    getGroupData();
                 });
             },
             error: function(xhr, textStatus, thrownError){
                 fluid.log("ERROR: groupbasicinfo.js/updateGroup() unable to set group information. Status: " + xhr.status + " - " + xhr.statusText);
+            },
+            complete: function() {
+                sakai.api.Widgets.Container.informFinish(tuid, "groupbasicinfo");
+                $(window).trigger("sakai.groupbasicinfo.updateFinished");
             }
         });
-        sakai.api.Widgets.Container.informFinish(tuid, "groupbasicinfo");
-        $(window).trigger("sakai.groupbasicinfo.updateFinished");
     };
 
     var addAnotherLocation = function(){
