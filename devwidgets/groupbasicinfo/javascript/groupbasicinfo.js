@@ -185,10 +185,10 @@ sakai.groupbasicinfo = function(tuid, showSettings){
             var splitDir = sakai.currentgroup.data.authprofile["sakai:tags"][i].split("/");
             if (splitDir[0] === "directory") {
                 var item = [];
-                for (var i in splitDir) {
-                    if (splitDir.hasOwnProperty(i)) {
-                        if (splitDir[i] !== "directory") {
-                            item.push(splitDir[i]);
+                for (var j in splitDir) {
+                    if (splitDir.hasOwnProperty(j)) {
+                        if (splitDir[j] !== "directory") {
+                            item.push(splitDir[j]);
                         }
                     }
                 }
@@ -355,7 +355,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         sakai.currentgroup.data.authprofile["sakai:group-title"] = sakai.api.Security.escapeHTML(groupTitle);
         sakai.currentgroup.data.authprofile["sakai:group-kind"] = groupKind;
         sakai.currentgroup.data.authprofile["sakai:group-description"] = sakai.api.Security.escapeHTML(groupDesc);
-        groupProfileURL = "/~" + sakai.currentgroup.id + "/public/authprofile"
+        groupProfileURL = "/~" + sakai.currentgroup.id + "/public/authprofile";
 
         $.ajax({
             url: groupProfileURL,
@@ -388,7 +388,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         // Apply style to the rendered div
         $(renderedDiv).addClass("groupbasicinfo_added_directory");
         $(groupBasicInfoAddAnotherLocationLink).text("Add another location");
-    }
+    };
 
     /**
      * Update the select boxes on the stage
@@ -411,9 +411,9 @@ sakai.groupbasicinfo = function(tuid, showSettings){
 
     var removeDirectoryLocation = function(clickedParent){
         // Look for group profile path
-        groupProfileURL = "/~" + sakai.currentgroup.id + "/public/authprofile"
+        groupProfileURL = "/~" + sakai.currentgroup.id + "/public/authprofile";
         // Extract tags from clickedParent
-        var tags = []
+        var tags = [];
         tags = clickedParent[0].className.split(",");
         tags.push("directory/" + tags.toString().replace(/,/g,"/"));
 
@@ -430,7 +430,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
             $(window).trigger("sakai.groupbasicinfo.updateFinished");
         });
 
-    }
+    };
 
 
     //////////////////////
