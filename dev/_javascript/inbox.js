@@ -544,7 +544,7 @@ sakai.inbox = function() {
             // temporary internal id.
             // Use the name for the id.
             response.results[j].nr = j;
-            response.results[j].subject = sakai.api.Security.escapeHTML(response.results[j]["sakai:subject"]);
+            response.results[j].subject = sakai.api.Security.escapeHTML(sakai.api.i18n.General.getValueForKey(response.results[j]["sakai:subject"]).replace(/\$\{user\}/gi,sakai.api.User.getDisplayName(response.results[j].userFrom[0])));
             response.results[j].body = response.results[j]["sakai:body"];
             response.results[j].messagebox = response.results[j]["sakai:messagebox"];
             response.results[j] = formatMessage(response.results[j]);
@@ -858,14 +858,15 @@ sakai.inbox = function() {
                 $(".compose-form")[0].reset();
                 $(inboxSpecificMessageCompose).hide();
             }
-            // Fill in this message values.
-            $(inboxSpecificMessageSubject).text(sakai.api.Security.saneHTML(message["sakai:subject"]));
-            var messageBody = ""+message["sakai:body"]; // coerce to string in case the body is all numbers
-            $(inboxSpecificMessageBody).html(sakai.api.Security.saneHTML(messageBody.replace(/\n/gi, "<br />")));
-            $(inboxSpecificMessageDate).text(sakai.api.Security.saneHTML(message.date));
 
             if (message.userFrom) {
                 for (var i = 0, j = message.userFrom.length; i < j; i++) {
+                    message["sakai:subject"] = sakai.api.i18n.General.getValueForKey(message["sakai:subject"]).replace(/\$\{user\}/gi,sakai.api.User.getDisplayName(message.userFrom[i]));
+                    var messageBody = message["sakai:body"];
+                    var key = messageBody.substr(0,messageBody.lastIndexOf(","));
+                    comment = messageBody.substr(messageBody.lastIndexOf(",")+1,messageBody.length);
+                    message["sakai:body"] = sakai.api.i18n.General.getValueForKey(key).replace(/\$\{comment\}/gi, comment).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(message.userFrom[i]));
+
                     $(inboxSpecificMessageFrom).attr("href", "/~" + message.userFrom[i].userid);
                     $(inboxSpecificMessageFrom).text(sakai.api.User.getDisplayName(message.userFrom[i]));
                     if (message.userFrom[i].photo) {
@@ -879,6 +880,12 @@ sakai.inbox = function() {
                 $(inboxSpecificMessageFrom).text(sakai.api.Security.saneHTML(message["sakai:from"]));
                 $(inboxSpecificMessagePicture).attr("src", sakai.config.URL.USER_DEFAULT_ICON_URL);
             }
+
+            // Fill in this message values.
+            $(inboxSpecificMessageSubject).text(sakai.api.Security.saneHTML(message["sakai:subject"]));
+            var messageBody = ""+message["sakai:body"]; // coerce to string in case the body is all numbers
+            $(inboxSpecificMessageBody).html(sakai.api.Security.saneHTML(messageBody.replace(/\n/gi, "<br />")));
+            $(inboxSpecificMessageDate).text(sakai.api.Security.saneHTML(message.date));
 
             // Reply part.
             $(inboxSpecificMessageComposeSubject).val("Re: " + message.subject);
