@@ -962,6 +962,18 @@ sakai.api.i18n.init = function(){
      * we'll use the default bundle to translate everything.
      */
     var loadLocalBundle = function(langCode){
+        // globalization
+        var i10nCode = langCode.replace("_", "-");
+        if ($.cultures) { // check if jquery.glob has been defined yet, should always be but just a sanity check
+            if ($.cultures[i10nCode]) {
+                $.preferCulture(i10nCode);
+            } else {
+                $.getScript("/dev/_lib/jquery/plugins/glob/jquery.glob." + i10nCode + ".min.js", function(success, textStatus) {
+                    $.preferCulture(i10nCode);
+                });
+            }
+        }
+        // language bundles
         $.ajax({
             url: sakai.config.URL.I18N_BUNDLE_ROOT + langCode + ".json",
             success: function(data){

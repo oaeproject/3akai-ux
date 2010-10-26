@@ -30,6 +30,7 @@
         <script type="text/javascript" src="/dev/_lib/jquery/jquery.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/jquery-ui.full.js"></script>
         <script type="text/javascript" src="/dev/_lib/Fluid/3akai_Infusion.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.glob.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.json.js"></script>
         <script type="text/javascript" src="/dev/_lib/google/html-sanitizer-minified.js"></script>
 
