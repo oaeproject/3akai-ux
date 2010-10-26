@@ -2,7 +2,7 @@
     "description":"User Profile",
     "ca":false,
     "hasSettings":false,
-    "id":"sitespages",
+    "id":"userprofile",
     "name":"User Profile",
     "showinsakaigoodies":false,
     "siteportal":false,
