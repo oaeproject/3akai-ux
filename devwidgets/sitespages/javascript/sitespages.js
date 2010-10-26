@@ -378,7 +378,8 @@ sakai.sitespages = function(tuid,showSettings){
                         sakai.sitespages.pagecontents[pageUrlName] = data;
 
                         // TO DO: See if we need to run the content through sakai.site.ensureProperWidgetIDs - would be good if we could skip this step and make sure widget IDs are correct from the beginning
-                        displayPage(sakai.sitespages.pagecontents[pageUrlName]["sakai:pagecontent"], true);
+                        var pagecontent = sakai.sitespages.pagecontents[pageUrlName]["sakai:pagecontent"] || "";
+                        displayPage(pagecontent, true);
 
                      },
                      error: function(xhr, status, e) {
