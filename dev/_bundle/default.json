@@ -238,6 +238,7 @@
 "HIDE": "Hide",
 "HOBBIES": "Hobbies",
 "HOME_CONTACT_INFO": "Home Contact Info",
+"IGNORE_INVITATION": "Ignore Invitation",
 "INBOX": "Inbox",
 "INCLUDING_ANONYMOUS_VISITORS": "including anonymous visitors",
 "INDEX_INTRODUCTION_TEXT": "<h2>Sakai 3.0</h2><p>This is a development server to show progress in putting the Sakai 3 front end on top of K2. Internal user creation is now possible, so you can create your own account by clicking the Sign Up for An Account button.</p><h2>Not a member yet?</h2><p>Click the &quot;Sign Up for an Account&quot; button to create one</p>",
@@ -702,7 +703,7 @@
 "YOU_CAN": "You can",
 "YOU_DONT_HAVE_PERMISSION_TO_VIEW_REQUESTED_PAGE": "You don't have permission to view the requested page",
 "YOU_FILLED_IN_AN_INCORRECT_PASSWORD": "You filled in an incorrect password",
-"YOU_HAVE_ACCEPTED_THIS_PERSON_AS_A_CONTACT": "You have accepted this person as a contact",
+"YOU_HAVE_ACCEPTED_THIS_PERSON_AS_A_CONTACT": "You have accepted this person as a contact or ignored their request",
 "YOU_HAVE_BEEN_ADDED_TO": "You have been added to",
 "YOU_HAVE_REPLIED_TO_THIS_REQUEST_TO_JOIN_THIS_SITE": "You have replied to this site join request",
 "YOU_MAY_HAVE_CLICKED_A_BROKEN_LINK_OR_MISTYPED_THE_URL": "You may have clicked a broken link or mistyped the web address (some url addresses are case sensitive). It's also possible you don't have permission to access this page.",
@@ -719,7 +720,6 @@
 "YOUR_PROFILE_INFORMATION_HAS_BEEN_UPDATED": "Your profile information has been updated",
 "YOU_ARE_NOT_ALLOWED_TO_CHANGE_THIS_SITE_ARE_YOU_STILL_LOGGED_IN": "You are not allowed to change this site. Are you still logged in?",
 "YOU_FILLED_IN_AN_INCORRECT_PASSWORD": "You filled in an incorrect password",
-"YOU_HAVE_ACCEPTED_THIS_PERSON_AS_A_CONTACT": "You have accepted this person as a contact",
 "YOU_HAVE_BEEN_ADDED_TO": "You have been added to",
 "YOU_HAVE_REPLIED_TO_THIS_REQUEST_TO_JOIN_THIS_SITE": "You have replied to this site join request"
 }
