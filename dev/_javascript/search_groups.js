@@ -36,6 +36,8 @@ sakai.search = function() {
     var createGroupContainer = "#creategroupcontainer";
     var searchAddGroupButton = ".search_add_group_button";
 
+    var searchAjaxCall = false;
+
     // Search URL mapping
     var searchURLmap = {
         allgroups : sakai.config.URL.SEARCH_GROUPS,
@@ -373,7 +375,7 @@ sakai.search = function() {
                 }
             }
 
-            $.ajax({
+            searchAjaxCall = $.ajax({
                 url: searchURL,
                 data: params,
                 cache: false,

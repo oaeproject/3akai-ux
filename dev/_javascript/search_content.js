@@ -31,6 +31,8 @@ sakai.search = function() {
     var tagterm = "";
     var currentpage = 0;
 
+    var searchAjaxCall = false;
+
     // Search URL mapping
     var searchURLmap = {
         allfiles : sakai.config.URL.SEARCH_ALL_FILES,
@@ -339,7 +341,7 @@ sakai.search = function() {
                 url = facetedurl.replace(".json", ".infinity.json");
             };
 
-            $.ajax({
+            searchAjaxCall = $.ajax({
                 url: url,
                 data: {
                     "q" : urlsearchterm,
