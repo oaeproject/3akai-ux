@@ -5,6 +5,7 @@
 "CONTENT_NOT_SUCCESSFULLY_DELETED": "The content could not be deleted",
 "CONTENT_SUCCESSFULLY_DELETED": "The content was successfully deleted",
 "COULD_NOT_DELETE_THE_CONTENT": "Could not delete the content",
+"DELETING_THIS_CONTENT_IS_PERMANENT": "Deleting this content will erase it permanently from Sakai. Are you sure you want to do this?",
 "DELETE_CONTENT": "Delete Content",
 "DONT_DELETE_CONTENT": "Don't Delete Content"
 }

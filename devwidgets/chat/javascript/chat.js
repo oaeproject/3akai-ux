@@ -583,7 +583,7 @@ sakai.chat = function(tuid, showSettings){
     var insertNewMessages = function(messages){
         if (messages.results) {
             var bulkRequests = [];
-            for (var i = 0; i < messages.results.length; i++) {
+            for (var i = messages.results.length; i--;) {
                 var message = messages.results[i];
                 var from = message.userFrom[0];
                 // We don't add in our own messages as they are already in there.

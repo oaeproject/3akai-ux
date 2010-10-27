@@ -11,5 +11,6 @@
 "PROCESSING": "Processing",
 "TEMPLATES_AVAILABLE": "Templates available",
 "TEMPLATE_PAGE": "Page from Template",
-"WIDGET_TITLE": "Create a new page"
+"WIDGET_TITLE": "Create a new page",
+"YOUR_PAGE_CANNOT_BE_CREATED": "Sorry, your page could not be created at this time. Please try again later or contact your administrator for assistance."
 }

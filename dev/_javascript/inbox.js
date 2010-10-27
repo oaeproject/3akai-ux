@@ -619,7 +619,7 @@ sakai.inbox = function() {
             $(inboxLoadingProgress).removeClass(inboxProgress);
 
         }
-    }
+    };
 
     /**
      *
@@ -848,6 +848,7 @@ sakai.inbox = function() {
             // Hide invitation links
             $("#inbox-invitation-accept").hide();
             $("#inbox-invitation-already").hide();
+            $("#inbox-invitation-ignore").hide();
             $("#inbox-sitejoin-accept").hide();
             $("#inbox-sitejoin-deny").hide();
             $("#inbox-sitejoin-already").hide();
@@ -908,6 +909,7 @@ sakai.inbox = function() {
                             }
                             if (pending){
                                 $("#inbox-invitation-accept").show();
+                                $("#inbox-invitation-ignore").show();
                             } else {
                                 $("#inbox-invitation-already").show();
                             }
@@ -962,7 +964,35 @@ sakai.inbox = function() {
             data : {"targetUserId":accepting},
             success: function(data){
                 $("#inbox-invitation-accept").hide();
+                $("#inbox-invitation-ignore").hide();
                 $("#inbox-invitation-already").show();
+            }
+        });
+    });
+
+    /**
+     *
+     * IGNORE INVITATION
+     *
+     */
+
+    $("#inbox_message_ignore_invitation").live("click", function(ev){
+        var accepting = selectedMessage["sakai:from"];
+        $.ajax({
+            url: "/~" + sakai.data.me.user.userid + "/contacts.ignore.html",
+            type: "POST",
+            data : {"targetUserId":accepting},
+            success: function(data){
+                $.ajax({
+                    url: "/~" + sakai.data.me.user.userid + "/contacts.remove.html",
+                    type: "POST",
+                    data : {"targetUserId":accepting},
+                    success: function(data){
+                        $("#inbox-invitation-accept").hide();
+                        $("#inbox-invitation-ignore").hide();
+                        $("#inbox-invitation-already").show();
+                    }
+                });
             }
         });
     });
@@ -1105,6 +1135,7 @@ sakai.inbox = function() {
         if (typeof hardDelete === "undefined") {
             hardDelete = false;
         }
+        $("#inbox_table input[type='checkbox']").removeAttr("checked");
         if (hardDelete) {
             // We will have to do a hard delete to all the JCR files.
             hardDeleteMessage(pathToMessages);
@@ -1120,8 +1151,8 @@ sakai.inbox = function() {
 
             for (var i = 0, j = allMessages.length; i < j; i++){
                 for (var m = 0, n = pathToMessages.length; m < n; m++){
-                    if (allMessages[i].id === pathToMessages[m]){
-                        if (allMessages[i]["sakai:read"] === "false" && allMessages[i]["sakai:category"]){
+                    if (allMessages[i]["jcr:path"] === pathToMessages[m]){
+                        if (allMessages[i]["sakai:read"] === false && allMessages[i]["sakai:category"]){
                             if (allMessages[i]["sakai:category"] === "message"){
                                 deletedUnreadMessages++;
                             } else if (allMessages[i]["sakai:category"] === "invitation"){

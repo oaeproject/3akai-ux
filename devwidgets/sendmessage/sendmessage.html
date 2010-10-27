@@ -12,7 +12,7 @@
     <!-- HEADER -->
     <div class="dialog_header">
         <div class="dialog_header_inner">
-            <h1>Send Message</h1>
+            <h1>__MSG__SEND_MESSAGE__</h1>
             <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
         </div>
     </div>
@@ -27,10 +27,10 @@
             <form class="compose-form" action="" method="post">
 
                 <!-- FROM -->
-                <div>From: <span id="message_from"></span></div>
+                <div>__MSG__FROM__: <span id="message_from"></span></div>
 
                 <!-- TO -->
-                <div id="sendmessage_fixed_to_user" style="display:none;">To: <span id="message_to"></span></div>
+                <div id="sendmessage_fixed_to_user" style="display:none;">__MSG__TO__: <span id="message_to"></span></div>
 
                 <!-- MULTIPLE RECIPIENTS -->
                 <div id="sendmessage_to_container" style="display:none;">
@@ -41,20 +41,20 @@
 
                 <!-- SUBJECT -->
                 <div>
-                    <label for="comp-subject">Subject</label><br />
+                    <label for="comp-subject">__MSG__SUBJECT__</label><br />
                     <input type="text" class="text-field compose-subject" id="comp-subject" />
                 </div>
 
                 <!-- BODY -->
                 <div>
-                    <label for="comp-body">Body</label><br />
+                    <label for="comp-body">__MSG__BODY__</label><br />
                     <textarea class="text-field compose-body" id="comp-body" cols="90" rows="10"></textarea>
                 </div>
 
                 <!-- BUTTONS -->
                 <div class="dialog_buttons fl-force-right">
                     <button type="button" class="s3d-button jqmClose" id="send_message_cancel"><span class="s3d-button-inner">__MSG__DONT_SEND__</span></button>
-                    <button type="button" class="s3d-button s3d-button-primary" id="send_message"><span class="s3d-button-inner">Send Message</span></button>
+                    <button type="button" class="s3d-button s3d-button-primary" id="send_message"><span class="s3d-button-inner">__MSG__SEND_MESSAGE__</span></button>
                 </div>
 
             </form>

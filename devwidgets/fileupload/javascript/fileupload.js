@@ -683,7 +683,10 @@ sakai.fileupload = function(tuid, showSettings){
                         $(multiFileList + " input").each(function(index){
                             for (var i in extractedData){
                                 if (extractedData.hasOwnProperty(i)) {
-                                    if ($(this)[0].id === extractedData[i].filename.replace(/\./g, "_")) {
+                                    // Fix IE7 issue where full path is used as a name for an upload
+                                    // Cut off the extra path information with the following replace functions
+                                    var replacedData = extractedData[i].filename.replace(/\./g, "_");
+                                    if ($(this)[0].id === replacedData.substring(replacedData.lastIndexOf("\\") + 1, replacedData.length)) {
                                         extractedData[i].name = $(this).val();
                                         break;
                                     }

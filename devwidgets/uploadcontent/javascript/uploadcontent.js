@@ -221,7 +221,7 @@ sakai.uploadcontent = function(tuid, showSettings){
         $uploadcontent_form_content.attr("action", defaultposturl.substr(0, defaultposturl.length -1));
         $uploadcontent_form_content.ajaxForm({
             beforeSubmit: function(a,f,o) {
-                $('#uploadOutput').html('Submitting...');
+                $('#uploadOutput').html(sakai.api.i18n.General.getValueForKey("SUBMITTING") + '...');
             },
             clearForm:true,
             success: function(data) {
