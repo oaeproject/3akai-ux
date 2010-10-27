@@ -113,6 +113,7 @@ sakai.listpeople = function(tuid, showSettings) {
         // get data
         $.ajax({
             url: url,
+            cache: false,
             success: function(data){
                 var json_data;
                 if (typeof(data) === 'string') {
@@ -207,7 +208,8 @@ sakai.listpeople = function(tuid, showSettings) {
         var rawData = objects;
 
         // main container
-        //var $listpeople_page_container = $("</ul>");
+        var uniqueIdentifier = Math.round(Math.random() + 1000);
+        var $listpeople_page_container = $("<ul id=\"listpeople_page_" + pageNumber + "\" class=\"listpeople_page loadinganim " + uniqueIdentifier + "\"></ul>");
 
         // Display empty new container with loading anim
         //$listpeople_container.append($listpeople_page_container);
@@ -290,8 +292,14 @@ sakai.listpeople = function(tuid, showSettings) {
 
         // sort list
         sortList(pageNumber, sakai.config.listpeople[listType].sortOrder);
-
         pagerClickHandler(1);
+        // SAKIII-1714 - In IE7, the list didn't rerender properly. Adding in this
+        // resolved the problem
+        if ($.browser.msie) {
+            $listpeople_page_container.hide();
+            setTimeout("$(\"." + uniqueIdentifier + "\").show()", 20);
+        }
+        
     };
 
     
