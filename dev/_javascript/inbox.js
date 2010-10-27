@@ -870,11 +870,19 @@ sakai.inbox = function() {
 
             if (message.userFrom) {
                 for (var i = 0, j = message.userFrom.length; i < j; i++) {
-                    message["sakai:subject"] = sakai.api.i18n.General.getValueForKey(message["sakai:subject"]).replace(/\$\{user\}/gi,sakai.api.User.getDisplayName(message.userFrom[i]));
+                    var messageSubject = message["sakai:subject"];
+                    var key = messageSubject.substr(0,messageSubject.lastIndexOf(","));
+                    comment = messageSubject.substr(messageSubject.lastIndexOf(",")+1,messageSubject.length);
+                    // title , groupid from pickeruser
+                    if (key) {
+                        message["sakai:subject"] = sakai.api.Security.escapeHTML(sakai.api.i18n.General.getValueForKey(key)+" "+comment);
+                        // just title with ${user} add to contacts 
+                    } else {
+                        message["sakai:subject"] = sakai.api.Security.escapeHTML(sakai.api.i18n.General.getValueForKey(response.results[j]["sakai:subject"]).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(response.results[j].userFrom[0])));
+                    }
                     var messageBody = message["sakai:body"];
                     var key = messageBody.substr(0,messageBody.lastIndexOf(","));
                     comment = messageBody.substr(messageBody.lastIndexOf(",")+1,messageBody.length);
-                    
                     if (key) {
                         message["sakai:body"] = sakai.api.i18n.General.getValueForKey(key).replace(/\$\{comment\}/gi, comment).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(message.userFrom[i]));
                     } else {
