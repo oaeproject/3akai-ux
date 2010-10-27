@@ -544,7 +544,16 @@ sakai.inbox = function() {
             // temporary internal id.
             // Use the name for the id.
             response.results[j].nr = j;
-            response.results[j].subject = sakai.api.Security.escapeHTML(sakai.api.i18n.General.getValueForKey(response.results[j]["sakai:subject"]).replace(/\$\{user\}/gi,sakai.api.User.getDisplayName(response.results[j].userFrom[0])));
+            var messageSubject = response.results[j]["sakai:subject"];
+            var key = messageSubject.substr(0,messageSubject.lastIndexOf(","));
+            comment = messageSubject.substr(messageSubject.lastIndexOf(",")+1,messageSubject.length);
+            // title , groupid from pickeruser
+            if (key) {
+                response.results[j].subject = sakai.api.Security.escapeHTML(sakai.api.i18n.General.getValueForKey(key)+" "+comment);
+            // just title with ${user} add to contacts 
+            } else {
+                response.results[j].subject = sakai.api.Security.escapeHTML(sakai.api.i18n.General.getValueForKey(response.results[j]["sakai:subject"]).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(response.results[j].userFrom[0])));
+            }
             response.results[j].body = response.results[j]["sakai:body"];
             response.results[j].messagebox = response.results[j]["sakai:messagebox"];
             response.results[j] = formatMessage(response.results[j]);
@@ -865,8 +874,12 @@ sakai.inbox = function() {
                     var messageBody = message["sakai:body"];
                     var key = messageBody.substr(0,messageBody.lastIndexOf(","));
                     comment = messageBody.substr(messageBody.lastIndexOf(",")+1,messageBody.length);
-                    message["sakai:body"] = sakai.api.i18n.General.getValueForKey(key).replace(/\$\{comment\}/gi, comment).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(message.userFrom[i]));
-
+                    
+                    if (key) {
+                        message["sakai:body"] = sakai.api.i18n.General.getValueForKey(key).replace(/\$\{comment\}/gi, comment).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(message.userFrom[i]));
+                    } else {
+                        message["sakai:body"] = comment;
+                    }
                     $(inboxSpecificMessageFrom).attr("href", "/~" + message.userFrom[i].userid);
                     $(inboxSpecificMessageFrom).text(sakai.api.User.getDisplayName(message.userFrom[i]));
                     if (message.userFrom[i].photo) {
