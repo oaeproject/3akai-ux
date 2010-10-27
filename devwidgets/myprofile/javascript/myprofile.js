@@ -57,6 +57,7 @@ sakai.myprofile = function (tuid, showSettings) {
     var profileChatStatusDropDownLink = myprofileClass + "_chat_status_dropdown_link";
     var profileChatStatusPicker = myprofileClass + "_chat_status_picker";
     var profileWidget = myprofileClass + "_widget";
+    var profileChatStatus = "#myprofile_chat_status"
 
     var availableStatus = "chat_available_status_";
     var availableStatus_online = availableStatus + "online";
@@ -267,7 +268,7 @@ sakai.myprofile = function (tuid, showSettings) {
 
     // Add binding to set the status
     $(window).bind("chat_status_change", function(event, currentChatStatus){
-        updateChatStatusElement($(profileNameID), currentChatStatus);
+        updateChatStatusElement($(profileChatStatus), currentChatStatus);
         chatStatus = currentChatStatus;
         $(profileChatStatusClass).hide();
         $(profileChatStatusID + currentChatStatus).show();

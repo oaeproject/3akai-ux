@@ -23,19 +23,19 @@ strong {color: #000;}
 .s3d-button.s3d-button-inline .s3d-button-inner .s3d-button-inner-text {width:60px;}
 
 .s3d-button.s3d-button-inline .s3d-button-inner .s3d-button-icon-left {
-    background: url("/dev/_images/page-options-button-sprite.png") no-repeat left top transparent;
+    background: url("../../_images/dashboard_sprite.png") no-repeat -11px -235px transparent;
 }
 .s3d-button.s3d-button-inline:hover .s3d-button-inner .s3d-button-icon-left {
-    background-position:-20px top;
+    background-position:-31px -235px
 }
 .s3d-button.s3d-button-inline.clicked .s3d-button-inner .s3d-button-icon-left {
-    background-position:-40px top;
+    background-position:-51px -235px;
 }
 .s3d-button.s3d-button-inline .s3d-button-inner .s3d-button-icon-right {
-    background: url("/dev/_images/page-options-button-sprite.png") no-repeat -60px top transparent;
+    background: url("../../_images/dashboard_sprite.png") no-repeat -68px -235px transparent;
 }
 .s3d-button.s3d-button-inline.clicked .s3d-button-inner .s3d-button-icon-right {
-    background: url("/dev/_images/white_subnav_arrow.png") no-repeat right center transparent;
+    background: url("/dev/_images/dashboard_sprite.png") no-repeat scroll -155px -394px transparent;
 }
 
 /** EDIT PAGE MENU **/

@@ -25,6 +25,14 @@
     width: 960px;
 }
 
+#footer_logo {
+    background: url("/dev/_images/dashboard_sprite.png") no-repeat scroll -40px -712px transparent;
+    width:61px;
+    height:28px;
+    float:left;
+    margin-right:15px;
+}
+
 .footer_main #footer_debug_info {
     margin: 5px 0 0 76px;
 }
@@ -38,11 +46,6 @@
     background: #454A4F;
     padding: 0 25px 10px;
     width: 910px;
-}
-
-.footer_main .fixed-container img {
-    float: left;
-    margin-right: 15px;
 }
 
 .footer_main .fixed-container p {

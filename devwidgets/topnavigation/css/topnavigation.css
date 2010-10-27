@@ -42,10 +42,11 @@
 /*** Top Right Navbar ***/
 .explore_nav .personal-container { margin-top: 5px; padding-right: 5px; overflow: hidden; }
 .explore_nav .personal { padding: 4px 0 0 5px; margin: 0; min-height: 30px; }
-.explore_nav .personal li a { font-size: 8.5pt; padding:0 7px 0 7px; border-right: 1px solid #878a8c; color: #fff; }
+.explore_nav .personal li a { font-size: 8.5pt; padding:0 7px 0 7px; border-right: 1px solid #878a8c; color: #fff; display:block;}
 .explore_nav .personal li .help_none { border-right: none; }
 .explore_nav .personal li span { color: #fff; }
-.explore_nav .user_link span { background: url('/dev/_images/white_subnav_arrow.png') bottom right no-repeat; padding-right: 17px; padding-left: 8px; }
+.explore_nav .user_link #userid {margin-left:7px;}
+.explore_nav .user_link #userid_dropdown_arrow { background: url("/dev/_images/dashboard_sprite.png") no-repeat scroll -149px -394px transparent; padding-right: 17px; padding-left: 8px;}
 .explore_nav .personal li.last a { border:none; padding-right:0; }
 .personal img { vertical-align: middle;}
 .explore_nav .personal .sign_out { border: none;}

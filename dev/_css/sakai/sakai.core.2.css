@@ -1,7 +1,10 @@
 .fixed-container {
-    padding:0 20px;
-    width: 920px;
+    width: 960px;
     overflow:hidden;
+}
+
+.fl-container-flex .content_widgets {
+    padding:5px 20px 0;
 }
 
 /********************************************/
@@ -36,8 +39,9 @@
 
 /* HEADER */
 .header { padding: 10px 0 0 0; }
-.header .fixed-container { background: #fff url('../../_images/header_l.png') top left no-repeat; }
-.header .fixed-container .decor { background: url('../../_images/header_r.png') top right no-repeat; height: 5px; margin-right: -20px; }
+.header .fixed-container {background-color:#FFF;}
+.header .fixed-container .content_header_l { background: url("/dev/_images/dashboard_sprite.png") no-repeat scroll -10px -10px transparent; width:5px; height:5px; float:left;}
+.header .fixed-container .content_header_r { background: url("/dev/_images/dashboard_sprite.png") no-repeat scroll -40px -10px transparent; width:5px; height:5px; float:right; position:relative;}
 
 /********************************************/
 /* Treeview */

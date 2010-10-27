@@ -159,13 +159,13 @@ a.s3d-action, .s3d-actions a {
     padding: 0 13px 0 0;
     cursor: pointer;
     overflow: visible; /* removes extra side padding in IE */
-    background: url("../../_images/button-sprite-5state.png") no-repeat scroll right -40px transparent;
+    background: url("../../_images/dashboard_sprite.png") no-repeat scroll right -30px transparent;
     font-size: 0.9em;
     font-weight: bold;
 }
 
 .s3d-button:hover, .s3d-button-hover {
-    background-position: right -120px;
+    background-position: right -70px;
 }
 
 .s3d-button::-moz-focus-inner {
@@ -175,7 +175,7 @@ a.s3d-action, .s3d-actions a {
 .s3d-button .s3d-button-inner {
     position: relative;
     display: block;
-    background: url("../../_images/button-sprite-5state.png") no-repeat scroll left top transparent;
+    background: url("../../_images/dashboard_sprite.png") no-repeat scroll left -30px transparent;
     margin: 0;
     height: 23px;
     line-height: 23px;
@@ -185,7 +185,7 @@ a.s3d-action, .s3d-actions a {
 }
 
 .s3d-button:hover .s3d-button-inner, .s3d-button-hover .s3d-button-inner {
-    background-position: left -80px;
+    background-position: left -70px;
     color: #FFF;
 }
 
@@ -194,29 +194,29 @@ html > body .s3d-button .s3d-button-inner {
 }
 
 .s3d-button-primary {
-    background-position: right -200px;
+    background-position: right -110px;
 }
 
 .s3d-button-primary .s3d-button-inner {
-    background-position: left -160px;
+    background-position: left -110px;
 }
 
 .s3d-button[disabled], .s3d-disabled {
-    background-position: right -280px;
+    background-position: right -150px;
     cursor: default;
 }
 
 .s3d-button:hover[disabled], .s3d-disabled.s3d-button-hover {
-    background-position: right -280px;
+    background-position: right -150px;
     cursor: default;
 }
 
 .s3d-button[disabled] .s3d-button-inner, .s3d-disabled .s3d-button-inner {
-    background-position: left -240px;
+    background-position: left -150px;
 }
 
 , .s3d-button:hover[disabled] .s3d-button-inner, .s3d-disabled.s3d-button-hover .s3d-button-inner  {
-    background-position: left -240px;
+    background-position: left -150px;
 }
 
 .s3d-button-icon-right, .s3d-button-icon-left {
@@ -241,7 +241,9 @@ html > body .s3d-button .s3d-button-inner {
 }
 
 .s3d-search-button .s3d-button-icon-right {
-     background-image: url("../../_images/icon-search-white.png");
+     background-image: url("../../_images/dashboard_sprite.png");
+     background-position: 38px -394px;
+     display:inline
 }
 .s3d-button.s3d-button-inline {
     background-image:none;
@@ -249,10 +251,10 @@ html > body .s3d-button .s3d-button-inner {
     padding-right:4px;
 }
 .s3d-button.s3d-button-inline:hover {
-    background: url("../../_images/page-options-button-sprite.png") no-repeat scroll right -49px transparent;
+    background: url("../../_images/dashboard_sprite.png") no-repeat scroll -96px -284px transparent;
 }
 .s3d-button.s3d-button-inline.clicked {
-    background: url("../../_images/page-options-button-sprite.png") no-repeat scroll right -107px transparent;
+    background: url("../../_images/dashboard_sprite.png") no-repeat scroll -96px -342px transparent;
 }
 .s3d-button.s3d-button-inline .s3d-button-inner span {
     float:left;
@@ -268,10 +270,10 @@ html > body .s3d-button .s3d-button-inner {
     font-size:11px;
 }
 .s3d-button.s3d-button-inline:hover .s3d-button-inner {
-    background: url("../../_images/page-options-button-sprite.png") no-repeat scroll left -20px transparent;
+    background: url("../../_images/dashboard_sprite.png") no-repeat scroll -10px -255px transparent
 }
 .s3d-button.s3d-button-inline.clicked .s3d-button-inner {
-    background: url("../../_images/page-options-button-sprite.png") no-repeat scroll left -78px transparent;
+    background: url("../../_images/dashboard_sprite.png") no-repeat scroll -10px -313px transparent;
     color:#fff;
 }
 .s3d-button.s3d-button-inline .s3d-button-inner .s3d-button-inner-text {
