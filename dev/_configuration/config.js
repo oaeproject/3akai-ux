@@ -24,6 +24,7 @@ sakai.config = {
         CONTENT_MEDIA_URL: "/dev/content_media.html",
         COURSES_SITES_URL: "/dev/courses_sites.html",
         GATEWAY_URL: "/dev/index.html",
+        I10N_BUNDLE_URL: "/dev/_lib/jquery/plugins/glob/jquery.glob.__CODE__.min.js",
         I18N_BUNDLE_ROOT: "/dev/_bundle/",
         LOGOUT_URL: "/dev/logout.html",
         MY_DASHBOARD_URL: "/dev/my_sakai.html",

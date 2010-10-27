@@ -968,7 +968,7 @@ sakai.api.i18n.init = function(){
             if ($.cultures[i10nCode]) {
                 $.preferCulture(i10nCode);
             } else {
-                $.getScript("/dev/_lib/jquery/plugins/glob/jquery.glob." + i10nCode + ".min.js", function(success, textStatus) {
+                $.getScript(sakai.config.URL.I10N_BUNDLE_URL.replace("__CODE__", i10nCode), function(success, textStatus) {
                     $.preferCulture(i10nCode);
                 });
             }
