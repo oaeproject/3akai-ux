@@ -373,6 +373,7 @@ sakai.sitespages = function(tuid,showSettings){
                 $.ajax({
                     url: sakai.sitespages.site_info._pages[pageUrlName]["jcr:path"] + "/pageContent.infinity.json",
                     type: "GET",
+                    cache: false,
                     success: function(data) {
 
                         sakai.sitespages.pagecontents[pageUrlName] = data;
