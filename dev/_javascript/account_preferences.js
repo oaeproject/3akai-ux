@@ -236,7 +236,7 @@ sakai.account_preferences = function(){
                         // Reload the page if the language for a user has changed
                         sakai.api.Util.notification.show($(messageChangeLang).html(), $(messageChangeLang).html());
                             window.setTimeout(function(){
-                            //document.location.reload();
+                            document.location.reload();
                         },2000);
                     }
                     else {
