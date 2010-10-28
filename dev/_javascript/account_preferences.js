@@ -222,7 +222,7 @@ sakai.account_preferences = function(){
      */
     var saveRegionalToMe = function(){
         var language = $(languagesContainer).val();
-        var locale = {"locale" : language, "timezone" : $(timezonesContainer).val(), "_charset_":"utf-8"};
+        var locale = {"locale" : language, "timezone" : $(timezonesContainer).val(), "_charset_":"utf-8", ":sakai:update-profile": false};
 
         // if regional Setting and langauge is changed only then save the changes
         if (me.user.locale.timezone.name !== $(timezonesContainer).val() || language !== me.user.locale.language+"_"+me.user.locale.country) {
@@ -236,7 +236,7 @@ sakai.account_preferences = function(){
                         // Reload the page if the language for a user has changed
                         sakai.api.Util.notification.show($(messageChangeLang).html(), $(messageChangeLang).html());
                             window.setTimeout(function(){
-                            document.location.reload();
+                            //document.location.reload();
                         },2000);
                     }
                     else {
