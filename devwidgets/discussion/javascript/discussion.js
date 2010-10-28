@@ -208,9 +208,11 @@ sakai.discussion = function(tuid, showSettings){
      * @param {Object} element The element you want to scroll to
      */
     var scrollTo = function(element){
-        $('html, body').animate({
-            scrollTop: element.offset().top
-        }, 1);
+        if (element.offset() && element.offset().top) {
+            $('html, body').animate({
+                scrollTop: element.offset().top
+            }, 1);
+        }
     };
 
     /**
@@ -353,6 +355,9 @@ sakai.discussion = function(tuid, showSettings){
 
         var sMessage = "";
         sMessage = $(discussionContentMessage + "_" + id, rootel).html();
+        if (!sMessage) {
+            sMessage = $(discussionContentMessage + "_" + id).html();
+        }
         sMessage = sMessage.replace(/<br\s*\/?>/g, "\n"); // Replace br or br/ tags with \n tags
         $(discussionEditMessage, editContainer).val(sMessage);
 
