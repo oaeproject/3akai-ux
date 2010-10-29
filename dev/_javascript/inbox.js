@@ -92,6 +92,9 @@ sakai.inbox = function() {
     var inboxTablePreloader = inboxTable + "_preloader";
     var inboxTableHeader = inboxTable + "_header";
     var inboxTableHeaderFrom = inboxTableHeader + "_from";
+    var inboxTableHeaderFromContentFrom = inboxTableHeader + "_from_content_from";
+    var inboxTableHeaderFromContentTo = inboxTableHeader + "_from_content_to";
+    var inboxTableHeaderFromContentFromTo = inboxTableHeader + "_from_content_from_to";
     var inboxTableHeaderFromContent = inboxTableHeaderFrom + " span";
     var inboxTableMessage = inboxClass + "_message";    //    A row in the table
     var inboxTableMessageID = inboxTable + "_message_";
@@ -266,7 +269,7 @@ sakai.inbox = function() {
      * @param {String} id The id of the filter that got clicked in the side panel.
      */
     var filterMessages = function(type, category, read, id) {
-        $(inboxTableHeaderFromContent).text("From");
+        $(inboxTableHeaderFromContent).text($(inboxTableHeaderFromContentFrom).html());
 
         // The small header above the webpage
         $(inboxInboxHeader).hide();
@@ -1434,7 +1437,7 @@ sakai.inbox = function() {
                 case "sent":
                     $(inboxSubfolderClass).hide();
                     filterMessages(sakai.config.Messages.Types.sent, "", "all", inboxFilterSent);
-                    $(inboxTableHeaderFromContent).text("To");
+                    $(inboxTableHeaderFromContent).text($(inboxTableHeaderFromContentTo).html());
                     break;
                 case "announcements":
                     $(inboxSubfolderClass).hide();
@@ -1449,7 +1452,7 @@ sakai.inbox = function() {
                 case "trash":
                     $(inboxSubfolderClass).hide();
                     filterMessages(sakai.config.Messages.Types.trash, "", "all", inboxFilterTrash);
-                    $(inboxTableHeaderFromContent).text("From/To");
+                    $(inboxTableHeaderFromContent).text($(inboxTableHeaderFromContentFromTo).html());
                     break;
                 case "invitations":
                     filterMessages(sakai.config.Messages.Types.inbox, sakai.config.Messages.Categories.invitation, "all", inboxFilterInvitations);

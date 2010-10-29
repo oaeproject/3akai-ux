@@ -3,5 +3,8 @@
     "name":"Hello World",
     "id":"helloworld",
     "hasSettings":true,
+    "i18n": {
+        "default": "/devwidgets/helloworld/bundles/default.json"
+    },
     "url":"/devwidgets/helloworld/helloworld.html"
 }

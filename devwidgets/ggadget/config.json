@@ -5,6 +5,9 @@
     "userpages": true,
     "description":"Embed Google Gadgets in your page or dashboard",
     "id":"ggadget",
+    "i18n": {
+        "default": "/devwidgets/ggadget/bundles/default.json"
+    },
     "img":"/devwidgets/ggadget/images/ggadget.png",
     "name":"Google Gadget",
     "showinsakaigoodies":true,

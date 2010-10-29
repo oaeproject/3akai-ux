@@ -12,44 +12,44 @@
         <!-- The main  settings template -->
         <div id="remotecontent_settings_template"><!--
             <div class="remotecontent_settings_subcontainer">
-                <label>Gadget embed code</label>
+                <label>__MSG__GADGET_EMBED_CODE__</label>
                 <input type="text" id="remotecontent_settings_url" value="${url}" /><br />
-                <span id="remotecontent_settings_help">Please paste or enter the Gadget's embed code here as provided by Google</span>
-                <span id="remotecontent_settings_url_error" style="display:none;">Please enter a valid Google Gadget embed code available from Google's Gadgets page at <a href="http://www.google.com/webmasters/gadgets">http://www.google.com/webmasters/gadgets</a></span>
-                <span id="remotecontent_settings_url_error_title" style="display:none;">Incorrect URL</span>
+                <span id="remotecontent_settings_help">__MSG__PLEASE_PATE_OR_ENTER_THE_GADGETS_EMBED_CODE__</span>
+                <span id="remotecontent_settings_url_error" style="display:none;">__MSG__PLEASE_ENTER_A_VALID_GOOGLE_GADGET_EMBED_CODE__ <a href="http://www.google.com/webmasters/gadgets">http://www.google.com/webmasters/gadgets</a></span>
+                <span id="remotecontent_settings_url_error_title" style="display:none;">__MSG__INCORRECT_URL__</span>
                 <p class="remotecontent_settings_label">
                     <div class="fl-force-right">
                         <button class="ggadget_preview_button s3d-button s3d-button-primary">
-                            <span class="s3d-button-inner">Preview gadget</span>
+                            <span class="s3d-button-inner">__MSG__PREVIEW_GADGET__</span>
                         </button>
                     </div>
-                    <label class="remotecontent_settings_label_head">Preview:</label> <span> (size doesn't change in preview mode)<br class="fl-push" />
+                    <label class="remotecontent_settings_label_head">__MSG__PREVIEW__:</label> <span> __MSG__SIZE_DOESNT_CHANGE_ON_PREVIEW_MODE__<br class="fl-push" />
                 </p>
                 <div id="remotecontent_settings_preview"></div>
-                    <button type="button" class="s3d-button s3d-button-primary" id="remotecontent_settings_advanced_toggle_settings"><span class="s3d-button-inner">Advanced Settings <span id="remotecontent_settings_advanced_down">&#8595;</span><span id="remotecontent_settings_advanced_up">&#8593;</span></span></button>
+                    <button type="button" class="s3d-button s3d-button-primary" id="remotecontent_settings_advanced_toggle_settings"><span class="s3d-button-inner">__MSG__ADVANCED_SETTINGS__ <span id="remotecontent_settings_advanced_down">&#8595;</span><span id="remotecontent_settings_advanced_up">&#8593;</span></span></button>
                 </div>
                 <div id="remotecontent_settings_advanced" style="display:none;">
                     <div class="remotecontent_settings_subcontainer">
-                        <label class="remotecontent_settings_label_head">Size:</label><br />
+                        <label class="remotecontent_settings_label_head">__MSG__SIZE__:</label><br />
                         <div class="remotecontent_settings_block">
-                            <label for="remotecontent_settings_width">Width:</label>
+                            <label for="remotecontent_settings_width">__MSG__WIDTH__:</label>
                             <input type="text" id="remotecontent_settings_width" value="${width}" />
-                            <a href="javascript:;" id="remotecontent_settings_width_unit_px" class="remotecontent_settings_width_unit {if width_unit == "px"} remotecontent_settings_width_unit_selected{/if}"> px</a>
+                            <a href="javascript:;" id="remotecontent_settings_width_unit_px" class="remotecontent_settings_width_unit {if width_unit == "px"} remotecontent_settings_width_unit_selected{/if}"> __MSG__PX__</a>
                             <span> or </span>
                             <a href="javascript:;" id="remotecontent_settings_width_unit_percent" class="remotecontent_settings_width_unit {if width_unit == "%"} remotecontent_settings_width_unit_selected{/if}"> %</a>
                             <br />
-                            <label for="remotecontent_settings_height">Height:</label>
+                            <label for="remotecontent_settings_height">__MSG__HEIGHT__:</label>
                             <input type="text" id="remotecontent_settings_height" value="${height}" /><span> px</span>
-                            <button type="button" class="s3d-button s3d-button-primary" id="remotecontent_settings_reset_size"><span class="s3d-button-inner">Reset to original size</span></button>
+                            <button type="button" class="s3d-button s3d-button-primary" id="remotecontent_settings_reset_size"><span class="s3d-button-inner">__MSG__RESET_TO_ORIGINAL_SIZE__</span></button>
                             <br class="fl-push" />
                         </div>
                     </div>
 
                     <div class="remotecontent_settings_subcontainer">
-                        <label class="remotecontent_settings_label_head">Border:</label><br />
+                        <label class="remotecontent_settings_label_head">__MSG__BORDER__:</label><br />
                         <div class="remotecontent_settings_block">
-                            <label for="remotecontent_settings_borders">Width:</label>
-                            <input type="text" id="remotecontent_settings_borders" value="${border_size}" /><span> px</span><br class="fl-push" />
+                            <label for="remotecontent_settings_borders">__MSG__WIDTH__:</label>
+                            <input type="text" id="remotecontent_settings_borders" value="${border_size}" /><span> __MSG__PX__</span><br class="fl-push" />
                             <div id="remotecontent_settings_color_container">
                             </div>
                         </div>
@@ -69,7 +69,7 @@
 
         <!-- Template for choosing the color -->
         <div id="remotecontent_settings_color_container_template"><!--
-            <label>Color:</label>
+            <label>__MSG__COLOR__:</label>
             <a id="remotecontent_settings_color_000000" class="remotecontent_settings_color {if border_color == "000000"} remotecontent_settings_color_selected{/if}">&nbsp;</a>
             <a id="remotecontent_settings_color_cccccc" class="remotecontent_settings_color {if border_color == "cccccc"} remotecontent_settings_color_selected{/if}">&nbsp;</a>
             <a id="remotecontent_settings_color_ff0000" class="remotecontent_settings_color {if border_color == "ff0000"} remotecontent_settings_color_selected{/if}">&nbsp;</a>

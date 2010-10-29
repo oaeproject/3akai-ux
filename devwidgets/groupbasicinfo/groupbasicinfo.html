@@ -86,20 +86,21 @@
                         <div id="groupbasicinfo_add_another_container">
                         </div>
                         <p id="groupbasicinfo_add_another_location">
-                            <a href="javascript:;" title="Add a location"><span id="groupbasicinfo_add_another_location_link">Add a location</span></a>
+                            <a href="javascript:;" title="__MSG__ADD_A_LOCATION__"><span id="groupbasicinfo_add_another_location_link">__MSG__ADD_A_LOCATION__</span></a>
                         </p>
                     {else}
                         <ul class="groupbasicinfo_saveddirectory">
                             {for savedDir in saveddirectory}
                                 <li class="${savedDir}">
                                     <span class="groupbasicinfo_saveddirectory_information">${savedDir.toString().replace(/,/g, " <span class='groupbasicinfo_selected_and_saved_seperator'>&raquo;</span> ")}</span>
-                                    <a href="javascript:;" class="groupbasicinfo_remove_location" title="Remove">Remove</a>
+                                    <a href="javascript:;" class="groupbasicinfo_remove_location" title="__MSG__REMOVE__">__MSG__REMOVE__</a>
                                 </li>
                             {/for}
                         </ul>
                         <div id="groupbasicinfo_add_another_container"></div>
                         <p id="groupbasicinfo_add_another_location">
-                            <a href="javascript:;" title="Add another location">Add another location</a>
+                            <a href="javascript:;" title="__MSG__ADD_ANOTHER_LOCATION__">__MSG__ADD_ANOTHER_LOCATION__</a>
+                            <span style="display:none;" id="groupbasicinfo_add_another_location_text">__MSG__ADD_ANOTHER_LOCATION__</span>
                         </p>
                     {/if}
                 </div>
@@ -181,7 +182,7 @@
         </select>
         <div id="groupbasicinfo_secondlevel_template_container"></div>
         <div id="groupbasicinfo_thirdlevel_template_container"></div>
-        <a href="javascript:;" class="groupbasicinfo_remove_new_location" title="Remove location">Remove</a>
+        <a href="javascript:;" class="groupbasicinfo_remove_new_location" title="__MSG__REMOVE_LOCATION__">__MSG__REMOVE__</a>
     --></div>
 
     <div id="groupbasicinfo_secondlevel_template" style="display:none;"><!--

@@ -50,7 +50,7 @@
                 {var count = count + 1}
             {/for}
             <li class="{if Math.round(data.numberOfRevisions % 2) != 1}li_greybg{/if}">
-                <span class="filerevisions_lefthand_description">Current version</span>
+                <span class="filerevisions_lefthand_description">__MSG__CURRENT_VERSION__</span>
                 <span class="filerevisions_list_content">${data.revisions[0]["jcr:created"]} __MSG__BY__: <a href="/~${data.revisions[count - 1]["sakai:savedBy"]["rep:userId"]}" class="filerevisions_editor_name"> ${sakai.api.User.getDisplayName(data.revisions[count - 1]["sakai:savedBy"])} </a></span>
             </li>
             <button type="button" id="filerevisions_close" class="s3d-button s3d-button-primary jqmClose dialog_close_image">
