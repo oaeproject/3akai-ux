@@ -172,6 +172,7 @@ sakai.newaccount = function(){
                 if (xhr.status === 500 || xhr.status === 401) {
                     if (xhr.responseText.indexOf("Untrusted request") !== -1) {
                         $(captchaNoMatch).show();
+                        sakai.captcha.reload();
                     }
                 }
             }
