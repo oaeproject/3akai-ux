@@ -136,6 +136,7 @@
                                         {elseif i['jcr:primaryType'] === "sling:Folder"}
                                             {var mimeType = 'folder'}
                                         {/if}
+                                        <a href="/dev/content_profile.html#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['jcr:path']}" title="${i['jcr:name']}"{/if}>
                                         {if (mimeType=="image/jpg" || mimeType=="image/png" || mimeType=="image/gif") && sakai.config.MimeTypes[mimeType]}
                                             {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
                                             {if i['jcr:primaryType'] && i['jcr:primaryType'] === "sakai:pooled-content"}
@@ -150,6 +151,7 @@
                                             {var mimeTypeDescription = sakai.config.MimeTypes["other"].description}
                                             <img src="${sakai.config.MimeTypes["other"].URL}" alt="${mimeTypeDescription}" />
                                         {/if}
+                                        </a>
                                         <div class="search_result_right">
                                             <div class="search_result_header">
                                                 <a href="/dev/content_profile.html#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['jcr:path']}" title="${i['jcr:name']}"{/if}>
@@ -200,11 +202,13 @@
                                         {if i['sakai:group-id']}
                                         {var groupsFound = true}
                                         <div class="fl-container fl-fix search_result">
+                                            <a href="/~${i.pagepath}">
                                             {if i.picture}
                                             <img src="${i.picture.picPath}" alt="__MSG__GROUP_NAME__">
                                             {else}
                                             <img src="/dev/_images/group_avatar_icon_64x64_nob.png" alt="__MSG__GROUP__NAME">
                                             {/if}
+                                            </a>
                                             <div class="search_result_course_site_title"><a href="/~${i.pagepath}">${sakai.api.Util.shortenString(i["sakai:group-title"], 100)}</a></div>
                                             <div class="search_result_course_site_url"><a href="/~${i.pagepath}">${sakai.api.Util.shortenString(i.pagepath, 100)}</a></div>
                                             <div class="search_result_course_site_excerpt">${sakai.api.Util.shortenString(i["sakai:group-description"], 400)}</div>
