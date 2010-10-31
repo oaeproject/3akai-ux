@@ -137,6 +137,7 @@ sakai.inbox = function() {
     var inboxSpecificMessageBody = inboxSpecificMessage + "_body";
     var inboxSpecificMessageDate = inboxSpecificMessage + "_date";
     var inboxSpecificMessageFrom = inboxSpecificMessage + "_from";
+    var inboxSpecificMessageFromPicture = inboxSpecificMessageFrom + "_picture";
     var inboxSpecificMessageSubject = inboxSpecificMessage + "_subject";
     var inboxSpecificMessagePicture = inboxSpecificMessage + "_picture";
 
@@ -893,6 +894,7 @@ sakai.inbox = function() {
                         message["sakai:body"] = comment;
                     }
                     $(inboxSpecificMessageFrom).attr("href", "/~" + message.userFrom[i].userid);
+                    $(inboxSpecificMessageFromPicture).attr("href", "/~" + message.userFrom[i].userid);
                     $(inboxSpecificMessageFrom).text(sakai.api.User.getDisplayName(message.userFrom[i]));
                     if (message.userFrom[i].photo) {
                         $(inboxSpecificMessagePicture).attr("src", "/~" + message.userFrom[i]["userid"] + "/public/profile/" + message.userFrom[i].photo);
