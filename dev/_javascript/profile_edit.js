@@ -28,7 +28,7 @@ sakai.profile = function(){
 
     sakai.profile.main = {
         chatstatus: "",
-        config: sakai.config.Profile.configuration,
+        config: sakai.config.Profile.configuration.defaultConfig,
         data: {},
         isme: false,
         currentuser: "",
@@ -231,6 +231,16 @@ sakai.profile = function(){
     };
 
     /**
+     * Checks if the user has a custom profile type set
+     */
+    var checkProfileType = function() {
+        var userType = sakai.profile.main.data.userType;
+        if (userType && sakai.config.Profile.configuration[userType]) {
+            sakai.profile.main.config = sakai.config.Profile.configuration[userType];
+        }
+    };
+
+    /**
      * Set the profile data for the user such as the status and profile picture
      */
     var setProfileData = function(callback){
@@ -249,6 +259,9 @@ sakai.profile = function(){
 
             // Set the profile data object
             sakai.profile.main.data = $.extend(true, {}, sakai.data.me.profile);
+
+            // Check user profile type
+            checkProfileType();
 
             if (sakai.profile.main.data.activity)
                 delete sakai.profile.main.data.activity;
@@ -275,6 +288,9 @@ sakai.profile = function(){
 
                     // Set the profile data object
                     sakai.profile.main.data = $.extend(true, {}, userprofile);
+
+                    // Check user profile type
+                    checkProfileType();
                 } else {
                     fluid.log("setProfileData: Could not find the user's profile");
                 }

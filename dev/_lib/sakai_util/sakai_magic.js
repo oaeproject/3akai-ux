@@ -2362,9 +2362,9 @@ sakai.api.User.getShortDescription = function(profile) {
             if (lastReplacementValue === "" && tokens[i-1]) {
                 // replace everything before this and after the last token
             }
-            if (sakai.config.Profile.configuration.basic.elements[profileNode].type === "select") {
+            if (sakai.config.Profile.configuration.defaultConfig.basic.elements[profileNode].type === "select") {
                 lastReplacementValue = profile.basic.elements[profileNode].value;
-                lastReplacementValue = sakai.config.Profile.configuration.basic.elements[profileNode].select_elements[lastReplacementValue];
+                lastReplacementValue = sakai.config.Profile.configuration.defaultConfig.basic.elements[profileNode].select_elements[lastReplacementValue];
                 lastReplacementValue = sakai.api.i18n.General.process(lastReplacementValue, sakai.data.i18n.localBundle, sakai.data.i18n.defaultBundle);
             } else {
                 lastReplacementValue = profile.basic.elements[profileNode].value;

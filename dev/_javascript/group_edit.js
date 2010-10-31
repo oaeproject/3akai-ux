@@ -30,7 +30,7 @@ sakai.currentgroup.profileView = true;
 sakai.profile = sakai.profile || {};
 sakai.profile.main = {
     chatstatus: "",
-    config: sakai.config.Profile.configuration,
+    config: sakai.config.Profile.configuration.defaultConfig,
     data: {},
     isme: false,
     currentuser: "",
