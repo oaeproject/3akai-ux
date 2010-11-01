@@ -192,6 +192,10 @@ sakai.newaccount = function(){
      * the check has been completed.
      */
     var checkUserName = function(checkingOnly){
+
+        $("#username").removeClass("error");
+        $("#username_error_container label").hide();
+
         var values = getFormValues();
         var ret = false;
         // If we reach this point, we have a username in a valid format. We then go and check
@@ -204,10 +208,11 @@ sakai.newaccount = function(){
                 cache: false,
                 async: false,
                 error: function(xhr, textStatus, thrownError){
-                    if (checkingOnly) {
-                        $(usernameAvailable).show();
-                    }
-                    else {
+                    // SAKIII-1736 - IE will interpret the 204 returned by the server as a
+                    // status code 1223, which will cause the error clause to activate
+                    if (xhr.status === 1223){
+                        ret = false;
+                    } else {
                         ret = true;
                     }
                 }
@@ -300,7 +305,13 @@ sakai.newaccount = function(){
     $(checkUserNameLink).bind("click", function(){
         if(currentUserName !== $("#username").val() && $.trim($("#username").val()) !== "" && $("#username").val().length > 3) {
             currentUserName = $("#username").val();
-            checkUserName(true);
+            var success = checkUserName(true);
+            if (success){
+                $(usernameAvailable).show();
+            } else {
+                $("#username").addClass("error");
+                $(usernameTaken).show();
+            }
         }
     });
 
@@ -315,6 +326,8 @@ sakai.newaccount = function(){
         if ($(usernameAvailable).is(":visible")) {
             $(usernameAvailable).hide();
         }
+        $("#username").removeClass("error");
+        $("#username_error_container label").hide();
     });
 
     // Input field hover

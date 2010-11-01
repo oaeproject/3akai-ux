@@ -158,7 +158,7 @@
 { color: #666; }
 
 .inbox_main .inbox-table td
-{ border: none;  color: #666; text-align: left; font-size: 1em; border-bottom: 1px solid #d5dbdf; padding: 2px 2px 2px 5px; }
+{ border: none;  color: #666; text-align: left; font-size: 1em; border-bottom: 1px solid #d5dbdf; padding: 4px 2px 4px 5px; }
 
 .inbox_main .inbox-table tr.inbox-subject-read *
 { font-weight:normal;}
