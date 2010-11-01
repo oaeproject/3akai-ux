@@ -691,6 +691,7 @@ sakai.discussion = function(tuid, showSettings){
     var clearAddTopicFields = function(){
         $(discussionAddTopicSubject, rootel).val("");
         $(discussionAddTopicBody, rootel).val("");
+        $(discussionAddTopicSubmit).removeAttr("disabled");
     };
 
 
@@ -850,6 +851,7 @@ sakai.discussion = function(tuid, showSettings){
                     else {
                         alert("Failed to add a reply.");
                     }
+                    $(discussionAddTopicSubmit).removeAttr("disabled");
                 },
                 data: object
             });
@@ -1177,6 +1179,7 @@ sakai.discussion = function(tuid, showSettings){
         // Bind the add topic submit
         $(discussionAddContainer + " form", rootel).bind("submit", function(e, ui){
             if ($(discussionAddContainer + " form").valid()) {
+                $(discussionAddTopicSubmit).attr("disabled", "disabled");
                 addNewTopic();
             }
             return false;

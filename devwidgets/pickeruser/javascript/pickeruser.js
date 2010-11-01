@@ -299,9 +299,9 @@ sakai.pickeruser = function(tuid, showSettings) {
         var htmlScrollPos = $("html").scrollTop();
         var docScrollPos = $(document).scrollTop();
         if (htmlScrollPos > 0) {
-            $(".dialog").css({"top": htmlScrollPos + 50 + "px"});
+            $pickeruser_container.css({"top": htmlScrollPos + 50 + "px"});
         } else if (docScrollPos > 0) {
-            $(".dialog").css({"top": docScrollPos + 50 + "px"});
+            $pickeruser_container.css({"top": docScrollPos + 50 + "px"});
         }
 
         $pickeruser_container.jqmShow();

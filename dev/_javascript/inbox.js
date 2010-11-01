@@ -848,6 +848,7 @@ sakai.inbox = function() {
             // Hide invitation links
             $("#inbox-invitation-accept").hide();
             $("#inbox-invitation-already").hide();
+            $("#inbox-invitation-ignore").hide();
             $("#inbox-sitejoin-accept").hide();
             $("#inbox-sitejoin-deny").hide();
             $("#inbox-sitejoin-already").hide();
@@ -908,6 +909,7 @@ sakai.inbox = function() {
                             }
                             if (pending){
                                 $("#inbox-invitation-accept").show();
+                                $("#inbox-invitation-ignore").show();
                             } else {
                                 $("#inbox-invitation-already").show();
                             }
@@ -962,7 +964,35 @@ sakai.inbox = function() {
             data : {"targetUserId":accepting},
             success: function(data){
                 $("#inbox-invitation-accept").hide();
+                $("#inbox-invitation-ignore").hide();
                 $("#inbox-invitation-already").show();
+            }
+        });
+    });
+
+    /**
+     *
+     * IGNORE INVITATION
+     *
+     */
+
+    $("#inbox_message_ignore_invitation").live("click", function(ev){
+        var accepting = selectedMessage["sakai:from"];
+        $.ajax({
+            url: "/~" + sakai.data.me.user.userid + "/contacts.ignore.html",
+            type: "POST",
+            data : {"targetUserId":accepting},
+            success: function(data){
+                $.ajax({
+                    url: "/~" + sakai.data.me.user.userid + "/contacts.remove.html",
+                    type: "POST",
+                    data : {"targetUserId":accepting},
+                    success: function(data){
+                        $("#inbox-invitation-accept").hide();
+                        $("#inbox-invitation-ignore").hide();
+                        $("#inbox-invitation-already").show();
+                    }
+                });
             }
         });
     });

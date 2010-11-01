@@ -363,7 +363,8 @@ sakai.sitespages = function(tuid,showSettings){
                         sakai.sitespages.pagecontents[pageUrlName] = data;
 
                         // TO DO: See if we need to run the content through sakai.site.ensureProperWidgetIDs - would be good if we could skip this step and make sure widget IDs are correct from the beginning
-                        displayPage(sakai.sitespages.pagecontents[pageUrlName]["sakai:pagecontent"], true);
+                        var pagecontent = sakai.sitespages.pagecontents[pageUrlName]["sakai:pagecontent"] || "";
+                        displayPage(pagecontent, true);
 
                      },
                      error: function(xhr, status, e) {
@@ -548,7 +549,8 @@ sakai.sitespages = function(tuid,showSettings){
         if (sakai.sitespages.selectedpage) {
             $("#revision_history_container").hide();
             $content_page_options.show();
-            $("#" + sakai.sitespages.selectedpage).html(sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"]);
+            var pagecontent = sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"] || "";
+            $("#" + sakai.sitespages.selectedpage).html(pagecontent);
             sakai.api.Widgets.widgetLoader.insertWidgets(sakai.sitespages.selectedpage, null, config.basepath);
         }
 
@@ -1359,7 +1361,8 @@ sakai.sitespages = function(tuid,showSettings){
      */
     var viewSelectedPage = function () {
         // show newly updated title and content
-        $("#" + sakai.sitespages.selectedpage).html(sakai.api.Security.saneHTML(sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"]));
+        var pagecontent = sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"] || "";
+        $("#" + sakai.sitespages.selectedpage).html(sakai.api.Security.saneHTML(pagecontent));
         $("#" + sakai.sitespages.selectedpage).show();
         if (sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageType"] === "webpage") {
             $("#webpage_edit").show();
@@ -2062,7 +2065,7 @@ sakai.sitespages = function(tuid,showSettings){
     var showHideMoreMenu = function(hideOnly){
         var el = $("#more_menu");
         if (el) {
-            if (el.css("display").toLowerCase() !== "none" || hideOnly) {
+            if ((el.css("display") && el.css("display").toLowerCase() !== "none") || hideOnly) {
                 $("#more_link").removeClass("clicked");
                 el.hide();
             } else {
@@ -2417,10 +2420,11 @@ sakai.sitespages = function(tuid,showSettings){
             success : function(data) {
 
                 var type = sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageType"];
+                var pagecontent = data["sakai:pagecontent"] || "";
                 if (type === "webpage") {
-                    $("#" + sakai.sitespages.selectedpage).html(sakai.api.Security.saneHTML(data["sakai:pagecontent"]));
+                    $("#" + sakai.sitespages.selectedpage).html(sakai.api.Security.saneHTML(pagecontent));
                     sakai.api.Widgets.widgetLoader.insertWidgets(sakai.sitespages.selectedpage, null, sakai.sitespages.config.basepath + "_widgets/");
-                    sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"] = data["sakai:pagecontent"];
+                    sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"] = pagecontent;
 
                     // Create an activity item for the page edit
                     /* var nodeUrl = sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["jcr:path"];
@@ -2434,11 +2438,11 @@ sakai.sitespages = function(tuid,showSettings){
                     // Remove previous dashboard
                     $("#" + sakai.sitespages.selectedpage).remove();
                     // Render new one
-                    sakai.sitespages._displayDashboard (data["sakai:pagecontent"], true);
+                    sakai.sitespages._displayDashboard (pagecontent, true);
                 }
 
                 // Save new version of this page
-                sakai.sitespages.updatePageContent(sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["jcr:path"], data["sakai:pagecontent"], function(success, data) {
+                sakai.sitespages.updatePageContent(sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["jcr:path"], pagecontent, function(success, data) {
 
                     if (success) {
 
@@ -2477,12 +2481,13 @@ sakai.sitespages = function(tuid,showSettings){
             success : function(data) {
 
                 var type = sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageType"];
+                var pagecontent = data["sakai:pagecontent"] || "";
                 if (type === "webpage") {
-                    $("#" + sakai.sitespages.selectedpage).html(sakai.api.Security.saneHTML(data["sakai:pagecontent"]));
+                    $("#" + sakai.sitespages.selectedpage).html(sakai.api.Security.saneHTML(pagecontent));
                     sakai.api.Widgets.widgetLoader.insertWidgets(sakai.sitespages.selectedpage, null, sakai.sitespages.config.basepath + "_widgets/");
                 } else if (type === "dashboard") {
                     $("#" + sakai.sitespages.selectedpage).remove();
-                    sakai.sitespages._displayDashboard(data["sakai:pagecontent"], true);
+                    sakai.sitespages._displayDashboard(pagecontent, true);
                 }
             },
             error: function(xhr, textStatus, thrownError) {
@@ -2575,7 +2580,7 @@ sakai.sitespages = function(tuid,showSettings){
         templates[newid]["pageContent"] = {};
         templates[newid]["pageContent"]["_charset_"] = "utf-8";
         templates[newid]["pageContent"]["sling:resourceType"] = "sakai/pagetemplatecontent";
-        templates[newid]["pageContent"]["sakai:pagecontent"] = sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"];
+        templates[newid]["pageContent"]["sakai:pagecontent"] = sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"] || "";
 
         sakai.api.Server.saveJSON("/~" + sakai.data.me.user.userid + "/private/templates", templates, function(success, response) {
 
