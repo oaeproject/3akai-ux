@@ -842,7 +842,11 @@ sakai.inbox = function() {
                 $(inboxSpecificMessageCompose).hide();
             }
             // Fill in this message values.
-            $(inboxSpecificMessageSubject).text(sakai.api.Security.saneHTML(message["sakai:subject"]));
+            if (message["sakai:category"] === "chat") {
+                $(inboxSpecificMessageSubject).text("Chat message");
+            } else {
+                $(inboxSpecificMessageSubject).text(sakai.api.Security.saneHTML(message["sakai:subject"]));
+            }
             var messageBody = ""+message["sakai:body"]; // coerce to string in case the body is all numbers
             $(inboxSpecificMessageBody).html(sakai.api.Security.saneHTML(messageBody.replace(/\n/gi, "<br />")));
             $(inboxSpecificMessageDate).text(sakai.api.Security.saneHTML(message.date));
