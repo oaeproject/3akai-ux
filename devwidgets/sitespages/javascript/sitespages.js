@@ -2357,6 +2357,12 @@ sakai.sitespages = function(tuid,showSettings){
         $("#revision_history_container").show();
         $("#more_menu").hide();
 
+        // months string reference
+        var months = [
+            "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+        ];
+
+        // fetch data
         $.ajax({
             url: sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["jcr:path"] + "/pageContent.versions.json",
             cache: false,
@@ -2374,8 +2380,10 @@ sakai.sitespages = function(tuid,showSettings){
                         var name = "Version " + (ver);
 
                         // Transform date
-                        var date = data.versions[ver]["jcr:created"];
-                        var datestring = sakai.sitespages.transformDate(parseInt(date.substring(8,10),10), parseInt(date.substring(5,7),10), parseInt(date.substring(0,4),10), parseInt(date.substring(11,13),10), parseInt(date.substring(14,16),10));
+                        var date = sakai.api.l10n.parseDateString(data.versions[ver]["jcr:created"]);
+                        var datestring = months[date.getMonth()] + " " +
+                            date.getDate() + ", " + date.getFullYear() + " " +
+                            date.getHours() + ":" + date.getMinutes();
 
                         name += " - " + datestring;
 
