@@ -139,6 +139,7 @@
                 SLING-INF/content/dev;path:=/dev;ignoreImportProviders:="xml,json,html,jar,zip";uninstall:=false,
                 SLING-INF/content/devwidgets;path:=/devwidgets;ignoreImportProviders:="xml,json,html,jar,zip";uninstall:=false,
                 SLING-INF/content/var/templates/site;path:=/var/templates/site;uninstall:=false,
+                SLING-INF/content/var/ux-version;path:=/var/ux-version;uninstall:=false;overwriteProperties:=true,
                 SLING-INF/content/apps;path:=/apps;uninstall:=false,
                 SLING-INF/content/root;path:=/;uninstall:=false
             </Sling-Initial-Content>
@@ -165,6 +166,32 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.4</version>
+        <executions>
+          <execution>
+            <phase>initialize</phase>
+            <configuration>
+              <tasks>
+                <exec outputproperty="git.version" executable="git" failifexecutionfails="false" searchpath="true" >
+                  <arg line="describe" />
+                </exec>
+                <condition property="git.version.value" value="${git.version}" else="UnknownVersion" >
+                  <isset property="git.version" />
+                </condition>
+                <echo file="${basedir}/target/scm-version.properties" >
+                  scm.version=${git.version.value}
+                </echo>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
     </plugins>
   </build>
 </project>
