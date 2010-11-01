@@ -10,11 +10,11 @@
     <h1>${widgetTitle}</h1>
     <div style="display:none">
       <span style="display:none" id="choose_layout">
-        <a id="layout_selector" href="javascript:;"><span id="chosen_layout">{if displayStyle == 'albumView'}Album View{elseif displayStyle == 'mapView'}Architectural View{/if}</span>
+        <a id="layout_selector" href="javascript:;"><span id="chosen_layout">{if displayStyle == 'albumView'}__MSG__ALBUM_VIEW__{elseif displayStyle == 'mapView'}__MSG__ARCHITECTURAL_VIEW__{/if}</span>
         </a>
       </span>
       <a href="javascript:;" id="configure_widget">
-        <img src="/devwidgets/collections/images/config_icon.png" alt="Configure this Collections Widget" title="Configure this Collections Widget"/>
+        <img src="/devwidgets/collections/images/config_icon.png" alt="__MSG__CONFIGURE_THIS_COLLECTIONS_WIDGET__" title="__MSG__CONFIGURE_THIS_COLLECTIONS_WIDGET"/>
       </a>
     </div>
   --></div>
@@ -27,8 +27,8 @@
     <div id="collections_header_select_layout" style="display:none"></div>
     <div id="collections_header_select_layout_template" style="display:none"><!--
       <ul>
-        <li {if displayStyle == "albumView"} class="selected" {/if} id="albumView">Album View</li>
-        <li {if displayStyle == "mapView"} class="selected" {/if} id="mapView">Architectural View</li>
+        <li {if displayStyle == "albumView"} class="selected" {/if} id="albumView">__MSG__ALBUM_VIEW__</li>
+        <li {if displayStyle == "mapView"} class="selected" {/if} id="mapView">__MSG__ARCHITECTURAL_VIEW__</li>
       </ul>
     --></div>
     
@@ -42,7 +42,7 @@
         <div id="album_{if album.id}${album.id}{else}0{/if}" class="albumCover">
           <div class="albumCoverImage">
             {if album.image}
-              <img src="${album.image}" alt="${album.title} image"/>
+              <img src="${album.image}" alt="${album.title} __MSG__IMAGE__"/>
             {/if}
           </div>
           <div class="albumCoverTitle"><span class="ellipsis_text">${album.title}</span></div>
@@ -56,20 +56,20 @@
       <div class="albumHero">
         <div class="albumHead">
           <div class="albumTitleContainer"><h1 class="isEditable albumTitle">${album.title}</h1></div>
-          <div class="configureAlbum configure" style="display:none"><button class="s3d-button s3d-button-primary" style="display:none"><span class="s3d-button-inner">Delete Album</span></button><a href="javascript:;"><img src="/devwidgets/collections/images/config_icon.png" alt="Configure this Album" title="Configure this Album"/></a></div>
+          <div class="configureAlbum configure" style="display:none"><button class="s3d-button s3d-button-primary" style="display:none"><span class="s3d-button-inner">__MSG__DELETE_ALBUM__</span></button><a href="javascript:;"><img src="/devwidgets/collections/images/config_icon.png" alt="__MSG__CONFIGURE_THIS_ALBUM__" title="__MSG__CONFIGURE_THIS_ALBUM__"/></a></div>
         </div>
         <div class="albumImage isEditable"><img src="${album.image}"/></div>
-        <div class="albumDesc isEditable" id="${album.id}_description">${album.description}</div>
+        <div class="albumDesc isEditable" id="${album.id}___MSG__DESCRIPTION__">${album.description}</div>
       </div>
       <div class="albumCategories">
-        <div class="categoryHeader"><h2>Categories</h2><span style="display:none"><a href="javascript:;"><img src="/devwidgets/collections/images/add_icon.png" alt="Add New Category" title="Add New Category"/></a></span></div>
+        <div class="categoryHeader"><h2>Categories</h2><span style="display:none"><a href="javascript:;"><img src="/devwidgets/collections/images/add_icon.png" alt="__MSG__ADD_NEW_CATEGORY__" title="__MSG__ADD_NEW_CATEGORY__"/></a></span></div>
         {for category in album.categories}
         <div class="categoryPreview" id="category_${category.id}">
           <div class="categoryCover">
-            <img src="${category.image}" alt="${category.name} image"/>
+            <img src="${category.image}" alt="${category.name} __MSG__IMAGE__"/>
           </div>
           <div class="categoryPreviewName"><span class="ellipsis_text">${category.name}</span></div>
-          <span class="categoryPreviewItems">${category.items.length} items</span>
+          <span class="categoryPreviewItems">${category.items.length} __MSG__ITEMS__</span>
         </div>
         {/for}
       </div>
@@ -82,8 +82,8 @@
         <div class="itemsContainerHead">
           <div class="categoryTitleContainer"><h2 class="isEditable categoryTitle categoryData">${category.name}</h2></div>
           <div class="configureCategory configure" style="display:none">
-            <button class="s3d-button s3d-button-primary" style="display:none"><span class="s3d-button-inner">Delete Category</span></button>
-            <a href="javascript:;"><img src="/devwidgets/collections/images/config_icon.png" alt="Configure This Category" title="Configure This Category"/></a>
+            <button class="s3d-button s3d-button-primary" style="display:none"><span class="s3d-button-inner">__MSG__DELETE_CATEGORY__</span></button>
+            <a href="javascript:;"><img src="/devwidgets/collections/images/config_icon.png" alt="__MSG__CONFIGURE_THIS_CATEGORY__" title="__MSG__CONFIGURE_THIS_CATEGORY__"/></a>
           </div>
         </div>
         <div class="scroll-pane">
@@ -123,7 +123,7 @@
         <div class="itemImage isEditable itemData">
           <a class="itemLink" href="${item.url}">
           {if (item.mimeType.split("/")[0] == "image")}
-            <img src="${item.url}" alt="${item.title} image"/>
+            <img src="${item.url}" alt="${item.title} __MSG__IMAGE__"/>
           {elseif sakai.config.MimeTypes[item.mimeType]}
             <img src="${sakai.config.MimeTypes[item.mimeType].URL}" alt="${sakai.config.MimeTypes[item.mimeType].description}" />
           {else}
@@ -148,7 +148,7 @@
                 <a href="javascript:;" class="roomLink" id="room_${room.position}">${room.title}</a>
               </span>
             {else}
-              <span><a href="javascript:;" class="roomLink addLink" id="room_${room.position}">Furnish Room</a></span>
+              <span><a href="javascript:;" class="roomLink addLink" id="room_${room.position}">__MSG__FURNISH_ROOM__</a></span>
             {/if}
           </div>
         </div>
@@ -156,8 +156,8 @@
     --></div>
   
     <div id="collections_map_room_edit_container" style="display:none" class="mapView">
-      <a href="javascript:;" class="return_to_floorplan_link" id="return_to_room_from_edit" style="display:none">Return to Room</a>
-      <a href="javascript:;" class="return_to_floorplan_link" id="return_to_floorplan_from_edit">Return to Floorplan</a>    
+      <a href="javascript:;" class="return_to_floorplan_link" id="return_to_room_from_edit" style="display:none">__MSG__RETURN_TO_ROOM__</a>
+      <a href="javascript:;" class="return_to_floorplan_link" id="return_to_floorplan_from_edit">__MSG__RETURN_TO_FLOORPLAN__</a>    
       <div id="collections_map_room_edit"></div>
   
       <div id="collections_map_room_edit_template"><!--
@@ -235,13 +235,13 @@
     </div>
 
     <div id="collections_map_show_room_conatiner" style="display:none" class="mapView">
-      <a href="javascript:;" class="return_to_floorplan_link" id="return_to_floorplan_from_show">Return to Floorplan</a>
-      <span id="room_edit_links"><a href="javascript:;" class="edit_this_room_link">Edit Room</a><a href="javascript:;" class="add_content_link">Add Content</a></span>
+      <a href="javascript:;" class="return_to_floorplan_link" id="return_to_floorplan_from_show">__MSG__RETURN_TO_FLOORPLAN__</a>
+      <span id="room_edit_links"><a href="javascript:;" class="edit_this_room_link">__MSG__EDIT_ROOM__</a><a href="javascript:;" class="add_content_link">__MSG__ADD_CONTENT__</a></span>
       <div id="collections_map_show_room"></div>
       <div id="collections_map_show_room_template"><!--
         <h2>${room.title}</h2>
         {if room.image}
-        <img src="${room.image}" alt="${room.title} image"/>
+        <img src="${room.image}" alt="${room.title} __MSG__IMAGE__"/>
         {/if}
         {if room.description}
         <p>${room.description}</p>
@@ -258,24 +258,24 @@
     </div>
 
     <div id="collections_map_add_content_container" style="display:none" class="mapView">
-      <a href="javascript:;" class="return_to_floorplan_link" id="return_to_room_from_edit">Return to Room</a>
-      <a href="javascript:;" class="return_to_floorplan_link" id="return_to_content_from_edit" style="display:none">Return to Content</a>      
+      <a href="javascript:;" class="return_to_floorplan_link" id="return_to_room_from_edit">__MSG__RETURN_TO_ROOM__</a>
+      <a href="javascript:;" class="return_to_floorplan_link" id="return_to_content_from_edit" style="display:none">__MSG__RETURN_TO_CONTENT__</a>      
       <div id="collections_map_add_content"></div>
       <div id="collections_map_add_content_template"><!--
         <h2>Add Content</h2>
         <form>
           <input type="hidden" name="content_mimetype" id="content_mimetype" value="{if content.mimeType}${content.mimeType}{/if}"/>
           <div class="form_item">
-            <label for="content_title">Title</label>
+            <label for="content_title">__MSG__TITLE__</label>
             <input type="text" name="content_title" id="content_title" value="{if content.title}${content.title}{/if}"/>
           </div>
           <div class="form_item">
-            <label for="content_url">Content Path</label>
-            <input type="text" name="content_url" id="content_url" value="{if content.url}${content.url}{/if}" disabled="disabled"/><button type="button" name="browse_for_content_file" class="s3d-button s3d-button-primary browse_for_content_file"><span class="s3d-button-inner">Browse</span></button>
+            <label for="content_url">__MSG__CONTENT_PATH__</label>
+            <input type="text" name="content_url" id="content_url" value="{if content.url}${content.url}{/if}" disabled="disabled"/><button type="button" name="browse_for_content_file" class="s3d-button s3d-button-primary browse_for_content_file"><span class="s3d-button-inner">__MSG__BROWSE__</span></button>
           </div>
           <div class="form_item">
             {if content.mimeType == "image"}
-            <img src="${content.url}" alt="content image" class="room_image_preview"/>
+            <img src="${content.url}" alt="__MSG__CONTENT_IMAGE__" class="room_image_preview"/>
             {/if}
           </div>
           <div class="form_item">
@@ -289,7 +289,7 @@
           <div id="category_dropdown">
           </div>
           <div class="form_item" id="action_buttons">
-            <button type="cancel" name="cancel_add_content" class="s3d-button" id="cancel_add_content"><span class="s3d-button-inner">Cancel</span></button><button type="submit" name="submit" class="s3d-button s3d-button-primary" id="save_add_content"><span class="s3d-button-inner">Save</span></button>
+            <button type="cancel" name="cancel_add_content" class="s3d-button" id="cancel_add_content"><span class="s3d-button-inner">__MSG__CANCEL__</span></button><button type="submit" name="submit" class="s3d-button s3d-button-primary" id="save_add_content"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
           </div>
         </form>
       --></div>
@@ -313,7 +313,7 @@
         <h2>${item.title}</h2>
         <div>${item.description}</div>
         {if item.mimeType.split('/')[0] == "image"}
-          <a href="${item.url}"><img src="${item.url}" alt="${item.title} image" class="content_image"/></a>
+          <a href="${item.url}"><img src="${item.url}" alt="${item.title} __MSG__IMAGE__" class="content_image"/></a>
         {elseif item.url}
           <a href="${item.url}" class="content_link">${item.url.split("/")[item.url.split("/").length-1]}</a>
         {/if}
@@ -342,14 +342,15 @@
   <form action="javascript:;" method="POST">
     <div class="dialog_buttons">
       <form>
-        <label for="widget_title">Title</label>
+        <label for="widget_title">__MSG__TITLE__</label>
         <input type="text" id="widget_title" name="widget_title"/>
-        <button class="button-default submit_button s3d-button s3d-button-primary" id="collections_settings_submit"><span class="s3d-button-inner">Submit</span></button>
-        <button class="s3d-button" id="collections_settings_cancel"><span class="s3d-button-inner">Cancel</span></button>
+        <button class="button-default submit_button s3d-button s3d-button-primary" id="collections_settings_submit"><span class="s3d-button-inner">__MSG__SUBMIT__</span></button>
+        <button class="s3d-button" id="collections_settings_cancel"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
       </form>
     </div>
   </form>
 </div>
 
+<span style="display:none;" id="collections_title_empty">__MSG__PLEASE_INPUT_A_TITLE__</span>
 <!-- JAVASCRIPT -->
 <script src="/devwidgets/collections/javascript/collections.js" type="text/javascript" charset="utf-8"></script>

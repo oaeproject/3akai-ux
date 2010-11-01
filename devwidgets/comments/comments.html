@@ -5,7 +5,7 @@
 <!-- MAIN VIEW -->
 <div id="comments_mainContainer" class="fl-widget-content" style="display:none;">
     <div id="comments_titlebar">
-        <span class="comments_titleLeft">Comments:</span><span class="comments_titleRight">Displaying <span id="comments_numCommentsDisplayed"></span> out of <span id="comments_numComments" >0</span id="comments_commentscomment"> comments</span>
+        <span class="comments_titleLeft">__MSG__COMMENTS__:</span><span class="comments_titleRight">__MSG__DISPLAYING__ <span id="comments_numCommentsDisplayed"></span> __MSG__OUT_OF__ <span id="comments_numComments" >0</span id="comments_commentscomment"> __MSG__COMMENTS__</span>
     </div>
 
     <div class="comments_nextButtons">
@@ -21,7 +21,7 @@
 
         {for i in comments}
             <div class="comments_topCommentBar">
-                <img alt="avatar" class="comments_avatar" src="${i.user.picture}" />
+                <img alt="__MSG__AVATAR__" class="comments_avatar" src="${i.user.picture}" />
                 <div class="comments_posterData">
                     <span class="comments_posterDataName"><a href="/~${i.user.uid}">${i.user.fullName}</a></span><br />
                     ${i.timeAgo} <span class="comments_dateComment">(${i.formatDate})</span>
@@ -35,13 +35,13 @@
                     <input type="hidden" id="comments_path_${i['sakai:id']}" value="${i['jcr:path']}" />
                     <ul>
                         {if i.canEdit && i.canEdit === true}
-                            <li><a href="javascript:;" class="comments_edit" id="comments_edit_${i['sakai:id']}">Edit</a></li>
+                            <li><a href="javascript:;" class="comments_edit" id="comments_edit_${i['sakai:id']}">__MSG__EDIT__</a></li>
                         {/if}
                         {if i.canDelete && i.canDelete === true}
                             {if i["sakai:deleted"] && i["sakai:deleted"] === true}
-                                <li>| <a href="javascript:;" class="comments_undelete" id="comments_undelete${i['sakai:id']}">Undelete</a></li>
+                                <li>| <a href="javascript:;" class="comments_undelete" id="comments_undelete${i['sakai:id']}">__MSG__UNDELETE__</a></li>
                             {else}
-                                <li>| <a href="javascript:;" class="comments_delete" id="comments_delete${i['sakai:id']}">Delete</a></li>
+                                <li>| <a href="javascript:;" class="comments_delete" id="comments_delete${i['sakai:id']}">__MSG__DELETE__</a></li>
                             {/if}
                         {/if}
                     </ul>
@@ -75,28 +75,28 @@
     --></div>
     <div class="comments_nextButtons">
         <div class="dialog_buttons">
-            <button type="button" class="s3d-button s3d-button-primary comments_comment" id="comments_comment_Bottom"><span class="s3d-button-inner">Add comment</span></button>
+            <button type="button" class="s3d-button s3d-button-primary comments_comment" id="comments_comment_Bottom"><span class="s3d-button-inner">__MSG__ADD_COMMENT__</span></button>
         </div>
-        <button type="button" class="s3d-button" id="comments_prevPage"><span class="s3d-button-inner">Previous page</span></button><br />
+        <button type="button" class="s3d-button" id="comments_prevPage"><span class="s3d-button-inner">__MSG__PREVIOUS_PAGE__</span></button><br />
         <div class="jq_pager comments_jqpager" style="display:none;"><!-- In this container the pager will be shown (bottom) --></div>
     </div>
     <div id="comments_fillInComment" style="display:none;">
         <div class="comments_fillInCommentTopContainer">
         <br />
         <div id="comments_txtNamePoster_container" style="display:none;">
-            <label for="comments_txtNamePoster">Name:</label>
+            <label for="comments_txtNamePoster">__MSG__NAME__:</label>
             <input type="text" class="comments_inputFields" id="comments_txtNamePoster"><br />
         </div>
         <div id="comments_txtMailPoster_container" style="display:none;">
-            <label for="comments_txtMailPoster">Email:</label>
+            <label for="comments_txtMailPoster">__MSG__EMAIL__:</label>
             <input type="text" class="comments_inputFields" id="comments_txtMailPoster"><br />
         </div>
-        <label for="comments_txtMessage">Your comment:</label>
+        <label for="comments_txtMessage">__MSG__YOUR_COMMENT__:</label>
         <textarea id="comments_txtMessage" class="comments_inputFields" rows="7" cols="50"></textarea><br />
 
         <div class="dialog_buttons right">
-            <button type="button" class="s3d-button s3d-button-primary comment_postCommentTopBottom" id="comments_postComment"><span class="s3d-button-inner">Submit comment</span></button>
-            <button type="button" class="s3d-button comment_postCommentTopBottom" id="comments_cancelComment"><span class="s3d-button-inner">Cancel</span></button>
+            <button type="button" class="s3d-button s3d-button-primary comment_postCommentTopBottom" id="comments_postComment"><span class="s3d-button-inner">__MSG__SUBMIT_COMMENT__</span></button>
+            <button type="button" class="s3d-button comment_postCommentTopBottom" id="comments_cancelComment"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
         </div>
 
         </div>
@@ -107,46 +107,46 @@
 <div id="comments_settings" class="fl-widget-content" style="display:none;">
     <form class="comments_form">
         <div class="comments_settingsPart">
-            <h3>Display:</h3>
+            <h3>__MSG__DISPLAY__:</h3>
             <ul>
                 <li>
-                    <label for="comments_PerPageID" class="video_source_rbtLabel">Display <input type="text" id="comments_txtPage" />
-                    comments at a time.</label></input><br />
+                    <label for="comments_PerPageID" class="video_source_rbtLabel">__MSG__DISPLAY__ <input type="text" id="comments_txtPage" />
+                    __MSG__COMMENT_AT_A_TIME__.</label></input><br />
                 </li>
                 <li>&nbsp;</li>
                 <li>
                     <input type="radio" name="comments_ChooseDirectionComments" value="comments_FirstUp" id="comments_FirstUpID" checked="checked">
-                        <label for="comments_FirstUpID" class="video_source_rbtLabel">Latest comment is at the top of the comment list</label>
+                        <label for="comments_FirstUpID" class="video_source_rbtLabel">__MSG__LATEST_COMMENT_IS_AT THE_TOP_OF_THE_COMMENT_LIST__</label>
                     </input>
                 </li>
                 <li>
                     <input type="radio" name="comments_ChooseDirectionComments" value="comments_FirstDown" id="comments_FirstDownID">
-                        <label for="comments_FirstDownID" class="video_source_rbtLabel">Latest comment is at the bottom of the comment list</label>
+                        <label for="comments_FirstDownID" class="video_source_rbtLabel">__MSG__LATEST_COMMENT_IS_AT THE_BOTTOM_OF_THE_COMMENT_LIST__</label>
                     </input>
                 </li>
             </ul>
 
         </div>
         <div class="comments_settingsPart">
-            <h3>Permissions:</h3>
+            <h3>__MSG__PERMISSIONS__:</h3>
             <ul>
                 <li><input type="radio" name="comments_ChoosePermissionComments" value="comments_RequireLogIn" id="comments_RequireLogInID" Name="comments_RequireLogIn">
-                <label for="comments_RequireLogInID" class="video_source_rbtLabel"> Only registered users can comment</label></input><br /></li>
+                <label for="comments_RequireLogInID" class="video_source_rbtLabel"> __MSG__ONLY_REGISTERED_USERS_CAN_COMMENT__</label></input><br /></li>
                 <li>
                     <input type="radio" name="comments_ChoosePermissionComments" value="comments_DontRequireLogin" id="comments_DontRequireLoginID" Name="comments_DontRequireLogin"  checked="checked">
-                        <label for="comments_DontRequireLoginID" class="video_source_rbtLabel">Allow anyone to comment</label>
+                        <label for="comments_DontRequireLoginID" class="video_source_rbtLabel">__MSG__ALLOW_ANYONE_TO_COMMENT__</label>
                     </input>
                 </li>
                 <li>
                     <ul>
                         <li>
                             <input type="checkbox" id="comments_Namerequired">
-                                <label for="comments_Namerequired" class="video_source_rbtLabel">Comments require name</label>
+                                <label for="comments_Namerequired" class="video_source_rbtLabel">__MSG__COMMENTS_REQUIRE_NAME__</label>
                             </input>
                         </li>
                         <li>
                             <input type="checkbox" id="comments_Emailrequired">
-                                <label for="comments_Emailrequired" class="video_source_rbtLabel" >Comments require email</label>
+                                <label for="comments_Emailrequired" class="video_source_rbtLabel" >__MSG__COMMENTS_REQUIRE_EMAIL__</label>
                             </input>
                         </li>
                     </ul>
@@ -156,13 +156,13 @@
         </div>
 
         <div class="comments_settingsPart">
-            <h3>Notification:</h3>
-            <ul><li><input type="checkbox" id="comments_SendMail"><label for="comments_SendMail" class="video_source_rbtLabel"> Email me when there is a new comment</label></input></li></ul>
+            <h3>__MSG__NOTIFICATION__:</h3>
+            <ul><li><input type="checkbox" id="comments_SendMail"><label for="comments_SendMail" class="video_source_rbtLabel"> __MSG__EMAIL_ME_WHEN_THERE_IS_A_NEW_COMMENT__</label></input></li></ul>
         </div>
 
         <div class="dialog_buttons right">
-            <button type="button" class="s3d-button s3d-button-primary" id="comments_submit"><span class="s3d-button-inner">Save</span></button>
-            <button type="button" class="s3d-button" id="comments_cancel"><span class="s3d-button-inner">Cancel</span></button>
+            <button type="button" class="s3d-button s3d-button-primary" id="comments_submit"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
+            <button type="button" class="s3d-button" id="comments_cancel"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
         </div>
     </form>
 </div>

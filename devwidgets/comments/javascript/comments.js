@@ -153,43 +153,44 @@ sakai.comments = function(tuid, showSettings){
             var iTimeAgo = (currentDate - date) / (1000);
             if (iTimeAgo < 60) {
                 if (Math.floor(iTimeAgo) === 1) {
-                    return Math.floor(iTimeAgo) + " second";
+                    return Math.floor(iTimeAgo) +" " + sakai.api.i18n.General.getValueForKey("SECOND");
                 }
-                return Math.floor(iTimeAgo) + " seconds";
+                return Math.floor(iTimeAgo) + " "+sakai.api.i18n.General.getValueForKey("SECONDS");
             }
             else
                 if (iTimeAgo < 3600) {
                     if (Math.floor(iTimeAgo / 60) === 1) {
-                        return Math.floor(iTimeAgo / 60) + " minute";
+                        
+                        return Math.floor(iTimeAgo / 60) + " "+sakai.api.i18n.General.getValueForKey("MINUTE");
                     }
-                    return Math.floor(iTimeAgo / 60) + " minutes";
+                    return Math.floor(iTimeAgo / 60) + " "+sakai.api.i18n.General.getValueForKey("MINUTES");
                 }
                 else
                     if (iTimeAgo < (3600 * 60)) {
                         if (Math.floor(iTimeAgo / (3600)) === 1) {
-                            return Math.floor(iTimeAgo / (3600)) + " hour";
+                            return Math.floor(iTimeAgo / (3600)) + " "+sakai.api.i18n.General.getValueForKey("HOUR");
                         }
-                        return Math.floor(iTimeAgo / (3600)) + " hours";
+                        return Math.floor(iTimeAgo / (3600)) + " "+sakai.api.i18n.General.getValueForKey("HOURS");
                     }
                     else
                         if (iTimeAgo < (3600 * 60 * 30)) {
                             if (Math.floor(iTimeAgo / (3600 * 60)) === 1) {
-                                return Math.floor(iTimeAgo / (3600 * 60)) + " day";
+                                return Math.floor(iTimeAgo / (3600 * 60)) + " "+sakai.api.i18n.General.getValueForKey("DAY");
                             }
-                            return Math.floor(iTimeAgo / (3600 * 60)) + " days";
+                            return Math.floor(iTimeAgo / (3600 * 60)) + " "+sakai.api.i18n.General.getValueForKey("DAYS");
                         }
                         else
                             if (iTimeAgo < (3600 * 60 * 30 * 12)) {
                                 if (Math.floor(iTimeAgo / (3600 * 60 * 30)) === 1) {
-                                    return Math.floor(iTimeAgo / (3600 * 60 * 30)) + " month";
+                                    return Math.floor(iTimeAgo / (3600 * 60 * 30)) + " "+sakai.api.i18n.General.getValueForKey("MONTH");
                                 }
-                                return Math.floor(iTimeAgo / (3600 * 60 * 30)) + " months";
+                                return Math.floor(iTimeAgo / (3600 * 60 * 30)) + " "+sakai.api.i18n.General.getValueForKey("MONTHS");
                             }
                             else {
                                 if (Math.floor(iTimeAgo / (3600 * 60 * 30 * 12) === 1)) {
-                                    return Math.floor(iTimeAgo / (3600 * 60 * 30 * 12)) + " year";
+                                    return Math.floor(iTimeAgo / (3600 * 60 * 30 * 12)) + " "+sakai.api.i18n.General.getValueForKey("YEAR");
                                 }
-                                return Math.floor(iTimeAgo / (3600 * 60 * 30 * 12)) + " years";
+                                return Math.floor(iTimeAgo / (3600 * 60 * 30 * 12)) + " "+sakai.api.i18n.General.getValueForKey("YEARS");
                             }
         }
 
@@ -255,7 +256,7 @@ sakai.comments = function(tuid, showSettings){
                 comment.date = tempDate;
             }
 
-            comment.timeAgo = "about " + getTimeAgo(comment.date) + " ago";
+            comment.timeAgo = "about " + getTimeAgo(comment.date) + " "+sakai.api.i18n.General.getValueForKey("AGO");
             comment.formatDate = formatDate(comment.date);
             comment.messageTxt = comment["sakai:body"];
             comment.message = tidyInput(comment["sakai:body"]);
@@ -313,7 +314,7 @@ sakai.comments = function(tuid, showSettings){
         $(commentsNumComments, rootel).html(json.total);
         // Change to "comment" or "comments"
         if (json.total === 1) {
-            $(commentsCommentComments, rootel).text("comment");
+            $(commentsCommentComments, rootel).text(sakai.api.i18n.General.getValueForKey("COMMENT"));
         }
 
 

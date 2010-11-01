@@ -464,7 +464,7 @@ sakai.chat = function(tuid, showSettings){
     var setWindowStatusmessage = function(userid, status){
         getChatWindow(userid).profile.status = status;
         if (!status){
-            status = "No status message";
+            status = i18n.General.getValueForKey("NO_STATUS_MESSAGE");
         }
         var windowStatusMessage = $("#chat_window_statusmessage_" + userid);
         windowStatusMessage.text(sakai.api.Util.shortenString(status, 20));

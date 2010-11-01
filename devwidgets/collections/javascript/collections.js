@@ -157,7 +157,7 @@ sakai.collections = function(tuid, showSettings) {
         settings = {};
         var title = $("#widget_title").val();
         if ($.trim(title) == "") {
-            alert('Please input a title');
+            alert($("collections_title_empty").text());
             return false;
         }
         settings.widgetTitle = title;
