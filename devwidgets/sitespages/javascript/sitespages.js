@@ -2065,7 +2065,7 @@ sakai.sitespages = function(tuid,showSettings){
     var showHideMoreMenu = function(hideOnly){
         var el = $("#more_menu");
         if (el) {
-            if (el.css("display").toLowerCase() !== "none" || hideOnly) {
+            if ((el.css("display") && el.css("display").toLowerCase() !== "none") || hideOnly) {
                 $("#more_link").removeClass("clicked");
                 el.hide();
             } else {
