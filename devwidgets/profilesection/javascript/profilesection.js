@@ -190,13 +190,14 @@ sakai.profilesection = function(tuid, showSettings){
                     // only need to do the following on edit
                     if (sakai.profile.main.mode.value === "edit") {
                         sections += $.TemplateRenderer($profilesection_remove_section_template, {"config": sectionObject, "parentid": elts.id.value});
+                        sections += "</div>";
                         if (i === sakai.profile.main.data[currentsection].elements.length-1) {
                             sections += $.TemplateRenderer($profilesection_add_section_template, {"config": sectionObject, "parentid": elts.id.value});
                         }
                     } else if (i !== sakai.profile.main.data[currentsection].elements.length-1) {
+                        sections += "</div>";
                         sections += $.TemplateRenderer($profilesection_section_divider_template, {});
                     }
-                    sections += "</div>";
 
                 });
             }
@@ -292,7 +293,7 @@ sakai.profilesection = function(tuid, showSettings){
       });
       sakai.profile.main.data[currentsection].elements = newData;
       if (!newData.length) {
-          $(".profilesection_add_section").remove();
+          $parentSection.parent().find(".profilesection_add_section").remove();
           var sections = "<div class='profilesection_section' id='profilesection_section_0'>";
           if (sakai.profile.main.mode.value === "edit") {
               sakai.profile.main.data[currentsection].elements = [];
@@ -306,7 +307,8 @@ sakai.profilesection = function(tuid, showSettings){
 
     $profilesection_add_section.live("click", function(e) {
         var parentSelector = "#profilesection_section_" + $(this).attr("id").split("profilesection_add_link_")[1];
-        var $parentSection = $(parentSelector).parent("div");
+        // Check to see if a previous element has been created
+        var $parentSection = $(this).parent();
         renderAdditionalTemplateEditSection(currentsection, $parentSection, this);
     });
 
