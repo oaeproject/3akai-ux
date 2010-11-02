@@ -618,11 +618,14 @@ sakai.inbox = function() {
      * @param {int} pageNumber The number of the current page
      */
     pageMessages = function(pageNumber) {
-        $(inboxPager).pager({
-            pagenumber: pageNumber,
-            pagecount: Math.ceil(messagesForTypeCat / messagesPerPage),
-            buttonClickCallback: showPage
-        });
+        // show pager only when there are more than one pages
+        if (Math.ceil(messagesForTypeCat / messagesPerPage) > 1) {
+            $(inboxPager).pager({
+                pagenumber: pageNumber,
+                pagecount: Math.ceil(messagesForTypeCat / messagesPerPage),
+                buttonClickCallback: showPage
+            });
+        }
     };
 
     /**
