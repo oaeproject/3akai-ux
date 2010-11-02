@@ -3,6 +3,9 @@
     //"grouppages":true,
     "description":"Basic LTI Widget",
     "id":"basiclti",
+    "i18n": {
+        "default": "/devwidgets/basiclti/bundles/default.json",
+    }
     "img":"/devwidgets/basiclti/images/basiclti.png",
     "name":"Basic LTI",
     //"showinsakaigoodies":true,
