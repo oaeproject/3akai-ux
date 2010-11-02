@@ -41,10 +41,6 @@ sakai.search = function(){
 
         currentpage = parseInt(page, 10);
 
-        // Set searching messages
-
-        $("#contacts_search_result").html("<b>Loading ...</b>");
-
         $.ajax({
             url: "/var/contacts/accepted.infinity.json?page=" + (page - 1) + "&items=" + peopleToSearch,
             cache: false,
