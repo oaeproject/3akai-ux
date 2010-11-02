@@ -549,14 +549,22 @@ sakai.inbox = function() {
             // Use the name for the id.
             response.results[j].nr = j;
             var messageSubject = response.results[j]["sakai:subject"];
-            var key = messageSubject.substr(0,messageSubject.lastIndexOf(","));
-            comment = messageSubject.substr(messageSubject.lastIndexOf(",")+1,messageSubject.length);
-            // title , groupid from pickeruser
-            if (key) {
-                response.results[j].subject = sakai.api.Security.escapeHTML(sakai.api.i18n.General.getValueForKey(key)+" "+comment);
-            // just title with ${user} add to contacts 
+            if (messageSubject) {
+                var key = messageSubject.substr(0, messageSubject.lastIndexOf(","));
+                comment = messageSubject.substr(messageSubject.lastIndexOf(",") + 1, messageSubject.length);
+                
+                // title , groupid from pickeruser
+                if (key) {
+                    response.results[j].subject = sakai.api.Security.escapeHTML(sakai.api.i18n.General.getValueForKey(key) + " " + comment);
+                // just title with ${user} add to contacts 
+                }
+                else if(sakai.api.i18n.General.getValueForKey(response.results[j]["sakai:subject"])){
+                    response.results[j].subject = sakai.api.Security.escapeHTML(sakai.api.i18n.General.getValueForKey(response.results[j]["sakai:subject"]).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(response.results[j].userFrom[0])));
+                } else {
+                    response.results[j].subject = messageSubject;
+                }
             } else {
-                response.results[j].subject = sakai.api.Security.escapeHTML(sakai.api.i18n.General.getValueForKey(response.results[j]["sakai:subject"]).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(response.results[j].userFrom[0])));
+                messageSubject = messageSubject;
             }
             response.results[j].body = response.results[j]["sakai:body"];
             response.results[j].messagebox = response.results[j]["sakai:messagebox"];
@@ -882,7 +890,7 @@ sakai.inbox = function() {
                     if (key) {
                         message["sakai:subject"] = sakai.api.Security.escapeHTML(sakai.api.i18n.General.getValueForKey(key)+" "+comment);
                         // just title with ${user} add to contacts 
-                    } else {
+                    } else if (sakai.api.i18n.General.getValueForKey(message["sakai:subject"])){
                         message["sakai:subject"] = sakai.api.Security.escapeHTML(sakai.api.i18n.General.getValueForKey(message["sakai:subject"]).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(message.userFrom[0])));
                     }
                     var messageBody = message["sakai:body"];
