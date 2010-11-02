@@ -126,10 +126,11 @@
                                     </button>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr id="username_error_container">
                                 <td></td>
                                 <td>
                                     <label id="username_available" class="username_available" for="username" class="available" style="display:none">__MSG__THIS_USERNAME_IS_AVAILABLE__</label>
+                                    <label id="username_taken" class="create_account_error_msg error" style="display:none">__MSG__THIS_USERNAME_HAS_ALREADY_BEEN_TAKEN__!</label>
                                 </td>
                             </tr>
 
@@ -196,7 +197,6 @@
         <div id="error_msg_container" style="display:none">
             <div id="firstName_empty" class="create_account_error_msg" style="display:none">__MSG__PLEASE_ENTER_YOUR_FIRST_NAME__!</div>
             <div id="lastName_empty" class="create_account_error_msg" style="display:none">__MSG__PLEASE_ENTER_YOUR_LAST_NAME__!</div>
-            <div id="username_taken" class="create_account_error_msg" style="display:none">__MSG__THIS_USERNAME_HAS_ALREADY_BEEN_TAKEN__!</div>
             <div id="username_spaces" class="create_account_error_msg" style="display:none">__MSG__THE_USERNAME_SHOULDNT_CONTAIN_SPACES__!</div>
             <div id="username_short" class="create_account_error_msg" style="display:none">__MSG__THE_USERNAME_SHOULD_BE_AT_LEAST_THREE_CHARACTERS_LONG__!</div>
             <div id="username_empty" class="create_account_error_msg" style="display:none">__MSG__PLEASE_ENTER_YOUR_USERNAME__!</div>

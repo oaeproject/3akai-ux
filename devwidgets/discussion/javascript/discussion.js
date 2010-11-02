@@ -208,9 +208,11 @@ sakai.discussion = function(tuid, showSettings){
      * @param {Object} element The element you want to scroll to
      */
     var scrollTo = function(element){
-        $('html, body').animate({
-            scrollTop: element.offset().top
-        }, 1);
+        if (element.offset() && element.offset().top) {
+            $('html, body').animate({
+                scrollTop: element.offset().top
+            }, 1);
+        }
     };
 
     /**
@@ -353,6 +355,9 @@ sakai.discussion = function(tuid, showSettings){
 
         var sMessage = "";
         sMessage = $(discussionContentMessage + "_" + id, rootel).html();
+        if (!sMessage) {
+            sMessage = $(discussionContentMessage + "_" + id).html();
+        }
         sMessage = sMessage.replace(/<br\s*\/?>/g, "\n"); // Replace br or br/ tags with \n tags
         $(discussionEditMessage, editContainer).val(sMessage);
 
@@ -691,6 +696,7 @@ sakai.discussion = function(tuid, showSettings){
     var clearAddTopicFields = function(){
         $(discussionAddTopicSubject, rootel).val("");
         $(discussionAddTopicBody, rootel).val("");
+        $(discussionAddTopicSubmit).removeAttr("disabled");
     };
 
 
@@ -850,6 +856,7 @@ sakai.discussion = function(tuid, showSettings){
                     else {
                         alert("Failed to add a reply.");
                     }
+                    $(discussionAddTopicSubmit).removeAttr("disabled");
                 },
                 data: object
             });
@@ -1177,6 +1184,7 @@ sakai.discussion = function(tuid, showSettings){
         // Bind the add topic submit
         $(discussionAddContainer + " form", rootel).bind("submit", function(e, ui){
             if ($(discussionAddContainer + " form").valid()) {
+                $(discussionAddTopicSubmit).attr("disabled", "disabled");
                 addNewTopic();
             }
             return false;

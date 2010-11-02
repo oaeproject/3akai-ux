@@ -237,191 +237,194 @@ sakai.config = {
          */
         configuration: {
 
-            "basic": {
-                "label": "__MSG__PROFILE_BASIC_LABEL__",
-                "required": true,
-                "display": true,
-                "access": "everybody",
-                "modifyacl": false,
-                "elements": {
-                    "firstName": {
-                        "label": "__MSG__PROFILE_BASIC_FIRSTNAME_LABEL__",
-                        "required": true,
-                        "display": true,
-                        "limitDisplayLength": 50
-                    },
-                    "lastName": {
-                        "label": "__MSG__PROFILE_BASIC_LASTNAME_LABEL__",
-                        "required": true,
-                        "display": true,
-                        "limitDisplayLength": 50
-                    },
-                    "picture": {
-                        "label": "__MSG__PROFILE_BASIC_PICTURE_LABEL__",
-                        "required": false,
-                        "display": false
-                    },
-                    "preferredName": {
-                        "label": "__MSG__PROFILE_BASIC_PREFERREDNAME_LABEL__",
-                        "required": false,
-                        "display": true
-                    },
-                    "email": {
-                        "label": "__MSG__PROFILE_BASIC_EMAIL_LABEL__",
-                        "required": false,
-                        "display": true,
-                        "type": "email"
-                    },
-                    "status": {
-                        "label": "__MSG__PROFILE_BASIC_STATUS_LABEL__",
-                        "required": false,
-                        "display": false
-                    },
-                    "role": {
-                        "label": "__MSG__PROFILE_BASIC_ROLE_LABEL__",
-                        "required": false,
-                        "display": true,
-                        "type": "select",
-                        "select_elements": {
-                            "academic_related_staff":"__MSG__PROFILE_BASIC_ROLE_ACADEMIC_RELATED_STAFF_LABEL__",
-                            "academic_staff":"__MSG__PROFILE_BASIC_ROLE_ACADEMIC_STAFF_LABEL__",
-                            "assistent_staff":"__MSG__PROFILE_BASIC_ROLE_ASSISTENT_STAFF_LABEL__",
-                            "graduate_student":"__MSG__PROFILE_BASIC_ROLE_GRADUATE_STUDENT_LABEL__",
-                            "undergraduate_student":"__MSG__PROFILE_BASIC_ROLE_UNDERGRADUATE_STUDENT_LABEL__",
-                            "non_academic_staff":"__MSG__PROFILE_BASIC_ROLE_NON_ACADEMIC_STAFF_LABEL__",
-                            "postgraduate_student":"__MSG__PROFILE_BASIC_ROLE_POSTGRADUATE_STUDENT_LABEL__",
-                            "research_staff":"__MSG__PROFILE_BASIC_ROLE_RESEARCH_STAFF_LABEL__",
-                            "other":"__MSG__PROFILE_BASIC_ROLE_OTHER_LABEL__"
+            defaultConfig: {
+
+                "basic": {
+                    "label": "__MSG__PROFILE_BASIC_LABEL__",
+                    "required": true,
+                    "display": true,
+                    "access": "everybody",
+                    "modifyacl": false,
+                    "elements": {
+                        "firstName": {
+                            "label": "__MSG__PROFILE_BASIC_FIRSTNAME_LABEL__",
+                            "required": true,
+                            "display": true,
+                            "limitDisplayLength": 50
+                        },
+                        "lastName": {
+                            "label": "__MSG__PROFILE_BASIC_LASTNAME_LABEL__",
+                            "required": true,
+                            "display": true,
+                            "limitDisplayLength": 50
+                        },
+                        "picture": {
+                            "label": "__MSG__PROFILE_BASIC_PICTURE_LABEL__",
+                            "required": false,
+                            "display": false
+                        },
+                        "preferredName": {
+                            "label": "__MSG__PROFILE_BASIC_PREFERREDNAME_LABEL__",
+                            "required": false,
+                            "display": true
+                        },
+                        "email": {
+                            "label": "__MSG__PROFILE_BASIC_EMAIL_LABEL__",
+                            "required": false,
+                            "display": true,
+                            "type": "email"
+                        },
+                        "status": {
+                            "label": "__MSG__PROFILE_BASIC_STATUS_LABEL__",
+                            "required": false,
+                            "display": false
+                        },
+                        "role": {
+                            "label": "__MSG__PROFILE_BASIC_ROLE_LABEL__",
+                            "required": false,
+                            "display": true,
+                            "type": "select",
+                            "select_elements": {
+                                "academic_related_staff":"__MSG__PROFILE_BASIC_ROLE_ACADEMIC_RELATED_STAFF_LABEL__",
+                                "academic_staff":"__MSG__PROFILE_BASIC_ROLE_ACADEMIC_STAFF_LABEL__",
+                                "assistent_staff":"__MSG__PROFILE_BASIC_ROLE_ASSISTENT_STAFF_LABEL__",
+                                "graduate_student":"__MSG__PROFILE_BASIC_ROLE_GRADUATE_STUDENT_LABEL__",
+                                "undergraduate_student":"__MSG__PROFILE_BASIC_ROLE_UNDERGRADUATE_STUDENT_LABEL__",
+                                "non_academic_staff":"__MSG__PROFILE_BASIC_ROLE_NON_ACADEMIC_STAFF_LABEL__",
+                                "postgraduate_student":"__MSG__PROFILE_BASIC_ROLE_POSTGRADUATE_STUDENT_LABEL__",
+                                "research_staff":"__MSG__PROFILE_BASIC_ROLE_RESEARCH_STAFF_LABEL__",
+                                "other":"__MSG__PROFILE_BASIC_ROLE_OTHER_LABEL__"
+                            }
+                        },
+                        "department": {
+                            "label": "__MSG__PROFILE_BASIC_DEPARTMENT_LABEL__",
+                            "required": false,
+                            "display": true
+                        },
+                        "college": {
+                            "label": "__MSG__PROFILE_BASIC_COLLEGE_LABEL__",
+                            "required": false,
+                            "display": true
+                        },
+                        "dateofbirth": {
+                            "label": "__MSG__PROFILE_BASIC_DATEOFBIRTH_LABEL__",
+                            "required": false,
+                            "display": true,
+                            "type": "oldDateITA",
+                            "example": "__MSG__DATE_OF_BIRTH_ITA_EXAMPLE__"
+                            //"type": "oldDate",
+                            //"example": "__MSG__DATE_OF_BIRTH_EXAMPLE__"
+                        },
+                        "tags": {
+                            "label": "__MSG__TAGS__",
+                            "required": false,
+                            "display": true,
+                            "type": "textarea",
+                            "tagField": true
                         }
-                    },
-                    "department": {
-                        "label": "__MSG__PROFILE_BASIC_DEPARTMENT_LABEL__",
-                        "required": false,
-                        "display": true
-                    },
-                    "college": {
-                        "label": "__MSG__PROFILE_BASIC_COLLEGE_LABEL__",
-                        "required": false,
-                        "display": true
-                    },
-                    "dateofbirth": {
-                        "label": "__MSG__PROFILE_BASIC_DATEOFBIRTH_LABEL__",
-                        "required": false,
-                        "display": true,
-                        "type": "oldDateITA",
-                        "example": "__MSG__DATE_OF_BIRTH_ITA_EXAMPLE__"
-                        //"type": "oldDate",
-                        //"example": "__MSG__DATE_OF_BIRTH_EXAMPLE__"
-                    },
-                    "tags": {
-                        "label": "__MSG__TAGS__",
-                        "required": false,
-                        "display": true,
-                        "type": "textarea",
-                        "tagField": true
                     }
-                }
-            },
-            "aboutme": {
-                "label": "__MSG__PROFILE_ABOUTME_LABEL__",
-                "required": true,
-                "display": true,
-                "access": "everybody",
-                "modifyacl": true,
-                "elements": {
-                    "aboutme": {
-                        "label": "__MSG__PROFILE_ABOUTME_LABEL__",
-                        "required": false,
-                        "display": true,
-                        "type": "textarea"
-                    },
-                    "academicinterests": {
-                        "label": "__MSG__PROFILE_ABOUTME_ACADEMICINTERESTS_LABEL__",
-                        "required": false,
-                        "display": true,
-                        "type": "textarea"
-                    },
-                    "personalinterests": {
-                        "label": "__MSG__PROFILE_ABOUTME_PERSONALINTERESTS_LABEL__",
-                        "required": false,
-                        "display": true,
-                        "type": "textarea"
-                    },
-                    "hobbies": {
-                        "label": "__MSG__PROFILE_ABOUTME_HOBBIES_LABEL__",
-                        "required": false,
-                        "display": true
+                },
+                "aboutme": {
+                    "label": "__MSG__PROFILE_ABOUTME_LABEL__",
+                    "required": true,
+                    "display": true,
+                    "access": "everybody",
+                    "modifyacl": true,
+                    "elements": {
+                        "aboutme": {
+                            "label": "__MSG__PROFILE_ABOUTME_LABEL__",
+                            "required": false,
+                            "display": true,
+                            "type": "textarea"
+                        },
+                        "academicinterests": {
+                            "label": "__MSG__PROFILE_ABOUTME_ACADEMICINTERESTS_LABEL__",
+                            "required": false,
+                            "display": true,
+                            "type": "textarea"
+                        },
+                        "personalinterests": {
+                            "label": "__MSG__PROFILE_ABOUTME_PERSONALINTERESTS_LABEL__",
+                            "required": false,
+                            "display": true,
+                            "type": "textarea"
+                        },
+                        "hobbies": {
+                            "label": "__MSG__PROFILE_ABOUTME_HOBBIES_LABEL__",
+                            "required": false,
+                            "display": true
+                        }
                     }
-                }
-            },
-            "publications": {
-                "label": "__MSG__PROFILE_PUBLICATIONS_LABEL__",
-                "required": false,
-                "display": true,
-                "access": "everybody",
-                "modifyacl": true,
-                "multiple": true,
-                "multipleLabel": "__MSG__PROFILE_PUBLICATION_LABEL__",
-                //"template": "profile_section_publications_template",
-                "elements": {
-                    "maintitle": {
-                        "label": "__MSG__PROFILE_PUBLICATIONS_MAIN_TITLE__",
-                        "required": true,
-                        "display": true,
-                        "example": "__MSG__PROFILE_PUBLICATIONS_MAIN_TITLE_EXAMPLE__"
-                    },
-                    "mainauthor": {
-                        "label": "__MSG__PROFILE_PUBLICATIONS_MAIN_AUTHOR__",
-                        "required": true,
-                        "display": true
-                    },
-                    "coauthor": {
-                        "label": "__MSG__PROFILE_PUBLICATIONS_CO_AUTHOR__",
-                        "required": false,
-                        "display": true,
-                        "example": "__MSG__PROFILE_PUBLICATIONS_CO_AUTHOR_EXAMPLE__"
-                    },
-                    "publisher": {
-                        "label": "__MSG__PROFILE_PUBLICATIONS_PUBLISHER__",
-                        "required": true,
-                        "display": true
-                    },
-                    "placeofpublication": {
-                        "label": "__MSG__PROFILE_PUBLICATIONS_PLACE_OF_PUBLICATION__",
-                        "required": true,
-                        "display": true
-                    },
-                    "volumetitle": {
-                        "label": "__MSG__PROFILE_PUBLICATIONS_VOLUME_TITLE__",
-                        "required": false,
-                        "display": true
-                    },
-                    "volumeinformation": {
-                        "label": "__MSG__PROFILE_PUBLICATIONS_VOLUME_INFORMATION__",
-                        "required": false,
-                        "display": true,
-                        "example": "__MSG__PROFILE_PUBLICATIONS_VOLUME_INFORMATION_EXAMPLE__"
-                    },
-                    "year": {
-                        "label": "__MSG__PROFILE_PUBLICATIONS_YEAR__",
-                        "required": true,
-                        "display": true
-                    },
-                    "number": {
-                        "label": "__MSG__PROFILE_PUBLICATIONS_NUMBER__",
-                        "required": false,
-                        "display": true
-                    },
-                    "series title": {
-                        "label": "__MSG__PROFILE_PUBLICATIONS_SERIES_TITLE__",
-                        "required": false,
-                        "display": true
-                    },
-                    "url": {
-                        "label": "__MSG__PROFILE_PUBLICATIONS_URL__",
-                        "required": false,
-                        "display": true,
-                        "validation":"appendhttp url"
+                },
+                "publications": {
+                    "label": "__MSG__PROFILE_PUBLICATIONS_LABEL__",
+                    "required": false,
+                    "display": true,
+                    "access": "everybody",
+                    "modifyacl": true,
+                    "multiple": true,
+                    "multipleLabel": "__MSG__PROFILE_PUBLICATION_LABEL__",
+                    //"template": "profile_section_publications_template",
+                    "elements": {
+                        "maintitle": {
+                            "label": "__MSG__PROFILE_PUBLICATIONS_MAIN_TITLE__",
+                            "required": true,
+                            "display": true,
+                            "example": "__MSG__PROFILE_PUBLICATIONS_MAIN_TITLE_EXAMPLE__"
+                        },
+                        "mainauthor": {
+                            "label": "__MSG__PROFILE_PUBLICATIONS_MAIN_AUTHOR__",
+                            "required": true,
+                            "display": true
+                        },
+                        "coauthor": {
+                            "label": "__MSG__PROFILE_PUBLICATIONS_CO_AUTHOR__",
+                            "required": false,
+                            "display": true,
+                            "example": "__MSG__PROFILE_PUBLICATIONS_CO_AUTHOR_EXAMPLE__"
+                        },
+                        "publisher": {
+                            "label": "__MSG__PROFILE_PUBLICATIONS_PUBLISHER__",
+                            "required": true,
+                            "display": true
+                        },
+                        "placeofpublication": {
+                            "label": "__MSG__PROFILE_PUBLICATIONS_PLACE_OF_PUBLICATION__",
+                            "required": true,
+                            "display": true
+                        },
+                        "volumetitle": {
+                            "label": "__MSG__PROFILE_PUBLICATIONS_VOLUME_TITLE__",
+                            "required": false,
+                            "display": true
+                        },
+                        "volumeinformation": {
+                            "label": "__MSG__PROFILE_PUBLICATIONS_VOLUME_INFORMATION__",
+                            "required": false,
+                            "display": true,
+                            "example": "__MSG__PROFILE_PUBLICATIONS_VOLUME_INFORMATION_EXAMPLE__"
+                        },
+                        "year": {
+                            "label": "__MSG__PROFILE_PUBLICATIONS_YEAR__",
+                            "required": true,
+                            "display": true
+                        },
+                        "number": {
+                            "label": "__MSG__PROFILE_PUBLICATIONS_NUMBER__",
+                            "required": false,
+                            "display": true
+                        },
+                        "series title": {
+                            "label": "__MSG__PROFILE_PUBLICATIONS_SERIES_TITLE__",
+                            "required": false,
+                            "display": true
+                        },
+                        "url": {
+                            "label": "__MSG__PROFILE_PUBLICATIONS_URL__",
+                            "required": false,
+                            "display": true,
+                            "validation":"appendhttp url"
+                        }
                     }
                 }
             }

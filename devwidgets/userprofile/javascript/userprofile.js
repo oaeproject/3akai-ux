@@ -153,6 +153,16 @@ sakai.userprofile = function(tuid,showSettings){
     };
 
     /**
+     * Checks if the user has a custom profile type set
+     */
+    var checkProfileType = function() {
+        var userType = sakai.profile.main.data.userType;
+        if (userType && sakai.config.Profile.configuration[userType]) {
+            sakai.profile.main.config = sakai.config.Profile.configuration[userType];
+        }
+    };
+
+    /**
      * Construct the ACL list
      */
     var constructACL = function(){
@@ -625,6 +635,9 @@ sakai.userprofile = function(tuid,showSettings){
 
         // Construct the ACL list
         constructACL();
+
+        // Check user profile type
+        checkProfileType();
 
         renderTemplates();
 

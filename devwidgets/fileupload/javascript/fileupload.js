@@ -281,6 +281,15 @@ sakai.fileupload = function(tuid, showSettings){
      * It initializes the fileupload widget and shows the jqmodal (ligthbox)
      */
     sakai.fileupload.initialise = function(){
+        // position dialog box at users scroll position
+        var htmlScrollPos = $("html").scrollTop();
+        var docScrollPos = $(document).scrollTop();
+        if (htmlScrollPos > 0) {
+            $(fileUploadContainer).css({"top": htmlScrollPos + 100 + "px"});
+        } else if (docScrollPos > 0) {
+            $(fileUploadContainer).css({"top": docScrollPos + 100 + "px"});
+        }
+
         // always appear in upload file mode
         $(fileUploadLinkBox).hide();
         $("#new_uploader").show();

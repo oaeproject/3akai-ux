@@ -358,6 +358,7 @@ sakai.sitespages = function(tuid,showSettings){
                 $.ajax({
                     url: sakai.sitespages.site_info._pages[pageUrlName]["jcr:path"] + "/pageContent.infinity.json",
                     type: "GET",
+                    cache: false,
                     success: function(data) {
 
                         sakai.sitespages.pagecontents[pageUrlName] = data;
@@ -1339,11 +1340,10 @@ sakai.sitespages = function(tuid,showSettings){
      * @param {String} content The content of the WYSIWYG editor
      */
     var checkContent = function(content){
-        if(!content.replace(/ /g,"%20")) {
-            alert(sakai.api.i18n.General.getValueForKey("PLEASE_ENTER_SOME_CONTENT"));
-            return false;
-        }else{
+        if (content) {
             return true;
+        } else {
+            return false;
         }
     };
 
@@ -1414,7 +1414,7 @@ sakai.sitespages = function(tuid,showSettings){
                 $("#title-input").focus();
                 return;
             }
-            var newcontent = getContent();  // Get the content from tinyMCE
+            var newcontent = getContent() || "";  // Get the content from tinyMCE
             if (!checkContent(newcontent)) {
                 alert(sakai.api.i18n.General.getValueForKey("PLEASE_ENTER_SOME_CONTENT"));
                 return;
@@ -2065,7 +2065,7 @@ sakai.sitespages = function(tuid,showSettings){
     var showHideMoreMenu = function(hideOnly){
         var el = $("#more_menu");
         if (el) {
-            if (el.css("display").toLowerCase() !== "none" || hideOnly) {
+            if ((el.css("display") && el.css("display").toLowerCase() !== "none") || hideOnly) {
                 $("#more_link").removeClass("clicked");
                 el.hide();
             } else {
