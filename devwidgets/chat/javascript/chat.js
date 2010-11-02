@@ -467,6 +467,8 @@ sakai.chat = function(tuid, showSettings){
      * @param {Object} messageText    Text of the message being sent
      */
     var sendMessage = function(to, messageText){
+        var date = new Date( );
+        var timestamp = date.getTime();
         // Send a message to the other user
         var message = {
             "sakai:type": "chat",
@@ -477,6 +479,7 @@ sakai.chat = function(tuid, showSettings){
             "sakai:subject": "",
             "sakai:body": messageText,
             "sakai:category": "chat",
+            "sakai:timestamp": timestamp,
             "_charset_": "utf-8"
         };
         $.ajax({
@@ -576,14 +579,23 @@ sakai.chat = function(tuid, showSettings){
     };
 
     /**
+     * Callback function to sort messages based on timestamp
+     */
+    function sortMessages(a, b){
+        return a["sakai:timestamp"] > b["sakai:timestamp"] ? 1 : -1;
+    };
+
+    /**
      * Once we know that there are new messages, we add them into
      * the appropriate chat windows
      * @param {Object} messages    List of new chat messages
      */
     var insertNewMessages = function(messages){
         if (messages.results) {
+            // Sort messages based on timestamp
+            messages.results.sort(sortMessages);
             var bulkRequests = [];
-            for (var i = messages.results.length; i--;) {
+            for (var i = 0; i < messages.results.length; i++) {
                 var message = messages.results[i];
                 var from = message.userFrom[0];
                 // We don't add in our own messages as they are already in there.
