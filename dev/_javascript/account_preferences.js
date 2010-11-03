@@ -205,24 +205,16 @@ sakai.account_preferences = function(){
      * Gets all the languages supported and puts them in a combobox
      */
     var getLanguages = function(){
-        $.ajax({
-            url : "/dev/_configuration/languages.json",
-            success : function(data) {
-                if (sakai.config.displayDebugInfo === true) {
-                    data.languages.push({
-                        "country": "GB",
-                        "displayName": "i18n debug",
-                        "language": "lu"
-                    })
-                }
-
-                languages = $.extend(data, {}, true);
-                putLangsinCmb(languages);
-            },
-            error: function(xhr, textStatus, thrownError) {
-                alert("Failed to retrieve the language list.");
-            }
-        });
+        var langs = sakai.config.Languages;
+        if (sakai.config.displayDebugInfo === true) {
+            langs.push({
+                "country": "GB",
+                "displayName": "i18n debug",
+                "language": "lu"
+            });
+        }
+        var languages = {languages:$.extend(langs, {}, true)};
+        putLangsinCmb(languages);
     };
 
     /**
@@ -292,7 +284,7 @@ sakai.account_preferences = function(){
             debug:true
 
         });
-    }
+    };
 
     /**
      * Disable or enable elements
@@ -323,10 +315,8 @@ sakai.account_preferences = function(){
         if (pass === newPass1) {
             // Notify the user that he/she is trying to use the same pasword
             sakai.api.Util.notification.show("", $(errorPassSame).html());
-
             return false;
         }
-
 
         // check if the user enter valid data for old and new passwords
         if ($(accountPreferencesPasswordChange).valid()) {
@@ -334,6 +324,7 @@ sakai.account_preferences = function(){
             // change the password
             changePass();
         }
+        return true;
     });
 
     /** Binds all the regional settings select box change **/

@@ -526,22 +526,6 @@ sakai.sitespages = function(tuid,showSettings){
     });
 
     /**
-     * Transform a date into more readable date string
-     * @param {Object} day
-     * @param {Object} month
-     * @param {Object} year
-     * @param {Object} hour
-     * @param {Object} minute
-     * @return {String} formatted date string
-     */
-    sakai.sitespages.transformDate = function(day, month, year, hour, minute){
-        var string = "";
-        var months_lookup = {1: "Jan", 2: "Feb", 3: "Mar", 4: "Apr", 5: "May", 6: "Jun", 7: "Jul", 8: "Aug", 9: "Sep", 10: "Oct", 11: "Nov", 12: "Dec"};
-        string += months_lookup[month] + " " + day + ", " + year + " " + ("00" + hour).slice(-2) + ":" + ("00" + minute).slice(-2);
-        return string;
-    };
-
-    /**
      * Reset version history
      * @return void
      */
@@ -1614,11 +1598,7 @@ sakai.sitespages = function(tuid,showSettings){
         });
 
         // Update autosave indicator
-        var now = new Date();
-        var hours = now.getHours();
-        var minutes = now.getMinutes();
-        var seconds = now.getSeconds();
-        $("#realtime").text(("00" + hours).slice(-2) + ":" + ("00" + minutes).slice(-2) + ":" + ("00" + seconds).slice(-2));
+        $("#realtime").text(sakai.api.l10n.transformTime(new Date()));
         $("#messageInformation").show();
 
     };
@@ -2327,7 +2307,6 @@ sakai.sitespages = function(tuid,showSettings){
         });
     };
 
-
     //--------------------------------------------------------------------------------------------------------------
     //
     // MORE MENU
@@ -2375,7 +2354,7 @@ sakai.sitespages = function(tuid,showSettings){
 
                         // Transform date
                         var date = data.versions[ver]["jcr:created"];
-                        var datestring = sakai.sitespages.transformDate(parseInt(date.substring(8,10),10), parseInt(date.substring(5,7),10), parseInt(date.substring(0,4),10), parseInt(date.substring(11,13),10), parseInt(date.substring(14,16),10));
+                        var datestring = sakai.api.l10n.transformDateTimeShort(new Date(date));
 
                         name += " - " + datestring;
 

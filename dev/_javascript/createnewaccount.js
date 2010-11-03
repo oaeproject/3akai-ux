@@ -116,6 +116,35 @@ sakai.newaccount = function(){
         return values;
     };
 
+    /**
+     * getLocale
+     * Get the user's browser language preference and match it against the available languages
+     * in sakai.config.Languages
+     * If nothing matches, return sakai.config.defaultLanguage
+     * @return {String} the user's locale
+     */
+    var getLocale = function() {
+        var ret = sakai.config.defaultLanguage;
+        // Get the browser language preference - IE uses userLanguage, all other browsers user language
+        var locale = navigator.language ? navigator.language : navigator.userLanguage;
+        if (locale) {
+            var split = locale.split("-");
+            if (split.length > 1) {
+                split[1] = split[1].toUpperCase();
+                var langs = sakai.config.Languages;
+                // Loop over all the available languages - if the user's browser language preference matches
+                // then set their locale to that so they don't have to set it manually
+                for (var i=0,j=langs.length; i<j; i++) {
+                    if (langs[i].language === split[0] && langs[i].country === split[1]) {
+                        ret = split[0] + "_" + split[1];
+                        break;
+                    }
+                }
+            }
+        }
+        return ret;
+    };
+
 
     ///////////////////////
     // Creating the user //
@@ -136,6 +165,7 @@ sakai.newaccount = function(){
             profileData.basic.elements[key].value = values[key];
         });
         profileData.basic.access = "everybody";
+        var locale = getLocale();
         var data = {
             ":create-auth": "reCAPTCHA.net",
             ":recaptcha-challenge": values["recaptcha-challenge"],
@@ -146,7 +176,8 @@ sakai.newaccount = function(){
             ":name": values[username],
             "_charset_": "utf-8",
             ":sakai:profile-import": $.toJSON(profileData),
-            ":sakai:pages-template": "/var/templates/site/" + pagestemplate
+            ":sakai:pages-template": "/var/templates/site/" + pagestemplate,
+            "locale": locale
         };
         $.ajax ({
             url : sakai.config.URL.CREATE_USER_SERVICE,
