@@ -35,3 +35,5 @@
 #pickeradvanced_container #pickeradvanced_content_search .pickeradvanced_page .pickeradvanced_subnameinfo{color:#999;font-size:11px;position:relative;top:5px;left:5px;}
 .loadinganim{background:#fff url(../../../dev/_images/ajax_load.gif) center 8px no-repeat;min-height:50px;}
 #pickeradvanced_container #pickeradvanced_no_results {font-weight:bold; margin-left:128px; margin-top:20px; float:left;}
+/* HIDE SORT SAKIII-1790 */
+#pickeradvanced_container #pickeradvanced_sort {display:none;}

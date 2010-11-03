@@ -24,6 +24,7 @@ sakai.config = {
         CONTENT_MEDIA_URL: "/dev/content_media.html",
         COURSES_SITES_URL: "/dev/courses_sites.html",
         GATEWAY_URL: "/dev/index.html",
+        I10N_BUNDLE_URL: "/dev/_lib/i10n/globinfo/Globalization.__CODE__.min.js",
         I18N_BUNDLE_ROOT: "/dev/_bundle/",
         LOGOUT_URL: "/dev/logout.html",
         MY_DASHBOARD_URL: "/dev/my_sakai.html",
@@ -309,10 +310,10 @@ sakai.config = {
                             "label": "__MSG__PROFILE_BASIC_DATEOFBIRTH_LABEL__",
                             "required": false,
                             "display": true,
-                            "type": "oldDateITA",
-                            "example": "__MSG__DATE_OF_BIRTH_ITA_EXAMPLE__"
-                            //"type": "oldDate",
-                            //"example": "__MSG__DATE_OF_BIRTH_EXAMPLE__"
+                            "type": "oldDate",
+                            // note that MM/DD/YYYY will be localized in javascript, so its value is simply a placeholder
+                            // ie do not change MM/DD/YYYY -- keep it in this string
+                            "example": "__MSG__DATE_OF_BIRTH_EXAMPLE__ MM/DD/YYYY __MSG__FORMAT__"
                         },
                         "tags": {
                             "label": "__MSG__TAGS__",
@@ -513,14 +514,6 @@ sakai.config = {
         Body: "body",
         To: "to",
         read: "read"
-    },
-
-    L10N: {
-        DateFormat: "dd/MM/yyyy",
-        TimeFormat: "HH:mm:ss",
-        DateTimeFormat: "EEEEE, d MMMMM yy",
-        DecimalPoint: ",",
-        NumberSeparator: "."
     },
 
     MimeTypes: {
@@ -766,6 +759,47 @@ sakai.config = {
     },
     // Array of css files to load in each page
     skinCSS: [],
+
+    Languages: [
+    {
+        "country": "CN",
+        "language": "zh",
+        "displayName": "中文"
+    },
+    {
+        "country": "NL",
+        "language": "nl",
+        "displayName": "Nederlands"
+    },
+    {
+        "country": "GB",
+        "language": "en",
+        "displayName": "English (United Kingdom)"
+    },
+    {
+        "country": "US",
+        "language": "en",
+        "displayName": "English (United States)"
+    },
+    {
+        "country": "JP",
+        "language": "ja",
+        "displayName": "日本語"
+    },
+    {
+        "country": "HU",
+        "language": "hu",
+        "displayName": "Magyar"
+    },
+    {
+        "country": "KR",
+        "language": "ko",
+        "displayName": "한국어"
+    }
+    ],
+
+    // Default Language for the deployment, must be one of the language_COUNTRY pairs that exists above
+    defaultLanguage: "en_US",
 
     widgets: {}
 };

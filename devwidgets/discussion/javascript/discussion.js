@@ -142,42 +142,6 @@ sakai.discussion = function(tuid, showSettings){
     var discussionSettingsExistingContainerTemplate = "discussion_settings_existing_container_template";
     var discussionCompactContainerTemplate = "discussion_compact_container_template";
 
-
-    ///////////////////////
-    // Utility functions //
-    ///////////////////////
-
-    /**
-     * Format an input date (used by TrimPath)
-     * @param {Date} d Date that needs to be formatted
-     * @return {String} A string that beautifies the date e.g. May 11, 2009 at 9:11AM
-     */
-    var formatDate = function(d){
-        var names_of_months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        var am_or_pm = "";
-
-        var current_hour = d.getHours();
-        if (current_hour < 12) {
-            am_or_pm = "AM";
-        }
-        else {
-            am_or_pm = "PM";
-        }
-        if (current_hour === 0) {
-            current_hour = 12;
-        }
-        if (current_hour > 12) {
-            current_hour = current_hour - 12;
-        }
-
-        var current_minutes = d.getMinutes() + "";
-        if (current_minutes.length === 1) {
-            current_minutes = "0" + current_minutes;
-        }
-
-        return (names_of_months[d.getMonth()].substring(0, 3) + " " + d.getDate() + ", " + d.getFullYear() + " at " + current_hour + ":" + current_minutes + am_or_pm);
-    };
-
     /**
      * Parse a json integer to a valid date
      * @param {Integer} dateInput Integer of a date that needs to be parsed
@@ -208,9 +172,11 @@ sakai.discussion = function(tuid, showSettings){
      * @param {Object} element The element you want to scroll to
      */
     var scrollTo = function(element){
-        $('html, body').animate({
-            scrollTop: element.offset().top
-        }, 1);
+        if (element.offset() && element.offset().top) {
+            $('html, body').animate({
+                scrollTop: element.offset().top
+            }, 1);
+        }
     };
 
     /**
@@ -353,6 +319,9 @@ sakai.discussion = function(tuid, showSettings){
 
         var sMessage = "";
         sMessage = $(discussionContentMessage + "_" + id, rootel).html();
+        if (!sMessage) {
+            sMessage = $(discussionContentMessage + "_" + id).html();
+        }
         sMessage = sMessage.replace(/<br\s*\/?>/g, "\n"); // Replace br or br/ tags with \n tags
         $(discussionEditMessage, editContainer).val(sMessage);
 
@@ -453,7 +422,7 @@ sakai.discussion = function(tuid, showSettings){
     var doMarkUpOnPost = function(o){
         var post = o.post;
         var uid = post["sakai:from"];
-        post.date = formatDate(parseDate(post["sakai:created"]));
+        post.date = sakai.api.l10n.transformDateTimeShort(parseDate(post["sakai:created"]));
         post['sakai:body'] = (""+post['sakai:body']).replace(/\n/g, "<br />");
         post.showEdit = false;
         post.showDelete = false;

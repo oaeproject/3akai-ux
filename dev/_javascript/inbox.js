@@ -316,154 +316,6 @@ sakai.inbox = function() {
      */
 
 
-    // TODO: Document properties.
-    /**
-     * Used for the date formatter.
-     */
-    var replaceChars = {
-        date: new Date(),
-        shortMonths: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-        longMonths: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-        shortDays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-        longDays: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-
-        // Day
-        d: function() {
-            return (replaceChars.date.getDate() < 10 ? '0' : '') + replaceChars.date.getDate();
-        },
-        D: function() {
-            return replaceChars.shortDays[replaceChars.date.getDay()];
-        },
-        j: function() {
-            return replaceChars.date.getDate();
-        },
-        l: function() {
-            return replaceChars.longDays[replaceChars.date.getDay()];
-        },
-        N: function() {
-            return replaceChars.date.getDay() + 1;
-        },
-        S: function() {
-            return (replaceChars.date.getDate() % 10 === 1 && replaceChars.date.getDate() !== 11 ? 'st' : (replaceChars.date.getDate() % 10 === 2 && replaceChars.date.getDate() !== 12 ? 'nd' : (replaceChars.date.getDate() % 10 === 3 && replaceChars.date.getDate() !== 13 ? 'rd' : 'th')));
-        },
-        w: function() {
-            return replaceChars.date.getDay();
-        },
-        z: function() {
-            return "Not Yet Supported";
-        },
-        // Week
-        W: function() {
-            return "Not Yet Supported";
-        },
-        // Month
-        F: function() {
-            return replaceChars.longMonths[this.getMonth()];
-        },
-        m: function() {
-            return (replaceChars.date.getMonth() < 11 ? '0' : '') + (replaceChars.date.getMonth() + 1);
-        },
-        M: function() {
-            return replaceChars.shortMonths[replaceChars.date.getMonth()];
-        },
-        n: function() {
-            return replaceChars.date.getMonth() + 1;
-        },
-        t: function() {
-            return "Not Yet Supported";
-        },
-        // Year
-        L: function() {
-            return "Not Yet Supported";
-        },
-        o: function() {
-            return "Not Supported";
-        },
-        Y: function() {
-            return replaceChars.date.getFullYear();
-        },
-        y: function() {
-            return ('' + replaceChars.date.getFullYear()).substr(2);
-        },
-        // Time
-        a: function() {
-            return replaceChars.date.getHours() < 12 ? 'am' : 'pm';
-        },
-        A: function() {
-            return replaceChars.date.getHours() < 12 ? 'AM' : 'PM';
-        },
-        B: function() {
-            return "Not Yet Supported";
-        },
-        g: function() {
-            return replaceChars.date.getHours() % 12 || 12;
-        },
-        G: function() {
-            return replaceChars.date.getHours();
-        },
-        h: function() {
-            return ((replaceChars.date.getHours() % 12 || 12) < 10 ? '0' : '') + (replaceChars.date.getHours() % 12 || 12);
-        },
-        H: function() {
-            return (replaceChars.date.getHours() < 10 ? '0' : '') + replaceChars.date.getHours();
-        },
-        i: function() {
-            return (replaceChars.date.getMinutes() < 10 ? '0' : '') + replaceChars.date.getMinutes();
-        },
-        s: function() {
-            return (replaceChars.date.getSeconds() < 10 ? '0' : '') + replaceChars.date.getSeconds();
-        },
-        // Timezone
-        e: function() {
-            return "Not Yet Supported";
-        },
-        I: function() {
-            return "Not Supported";
-        },
-        O: function() {
-            return (replaceChars.date.getTimezoneOffset() < 0 ? '-' : '+') + (replaceChars.date.getTimezoneOffset() / 60 < 10 ? '0' : '') + (replaceChars.date.getTimezoneOffset() / 60) + '00';
-        },
-        T: function() {
-            return "Not Yet Supported";
-        },
-        Z: function() {
-            return replaceChars.date.getTimezoneOffset() * 60;
-        },
-        // Full Date/Time
-        c: function() {
-            return "Not Yet Supported";
-        },
-        r: function() {
-            return replaceChars.date.toString();
-        },
-        U: function() {
-            return replaceChars.date.getTime() / 1000;
-        }
-    };
-
-
-    /**
-     * Format a date to a string.
-     * See replaceChars for the specific options.
-     * @param {Date} d
-     * @param {String} format
-     */
-    var formatDate = function(d, format) {
-        var returnStr = '';
-        replaceChars.date = d;
-        var replace = replaceChars;
-        for (var i = 0; i < format.length; i++) {
-            var curChar = format.charAt(i);
-            if (replace[curChar]) {
-                returnStr += replace[curChar].call(d);
-            }
-            else {
-                returnStr += curChar;
-            }
-        }
-        return returnStr;
-    };
-
     /**
      * Adds the correct format to a message.
      * ex: parsing the date
@@ -475,7 +327,7 @@ sakai.inbox = function() {
         var dateString = message["sakai:created"];
         var d = sakai.api.l10n.parseDateString(dateString);
         //Jan 22, 2009 10:25 PM
-        message.date = formatDate(d, "M j, Y G:i A");
+        message.date = sakai.api.l10n.transformDateTimeShort(d);
 
         if (message["sakai:read"] === "true" || message["sakai:read"] === true) {
             message.read = true;
@@ -662,7 +514,7 @@ sakai.inbox = function() {
                 cats = "chat";
             }
             url = sakai.config.URL.MESSAGE_BOXCATEGORY_SERVICE + "?box=" + box + "&category=" + cats + "&items=" + messagesPerPage + "&page=" + currentPage;
-        } else {
+        } else if (box === "inbox") {
             // default to just the messages so your inbox isn't clogged up with chat messages
             url = sakai.config.URL.MESSAGE_BOXCATEGORY_SERVICE + "?box=" + box + "&category=message&items=" + messagesPerPage + "&page=" + currentPage;
         }
@@ -860,7 +712,11 @@ sakai.inbox = function() {
                 $(inboxSpecificMessageCompose).hide();
             }
             // Fill in this message values.
-            $(inboxSpecificMessageSubject).text(sakai.api.Security.saneHTML(message["sakai:subject"]));
+            if (message["sakai:category"] === "chat") {
+                $(inboxSpecificMessageSubject).text("Chat message");
+            } else {
+                $(inboxSpecificMessageSubject).text(sakai.api.Security.saneHTML(message["sakai:subject"]));
+            }
             var messageBody = ""+message["sakai:body"]; // coerce to string in case the body is all numbers
             $(inboxSpecificMessageBody).html(sakai.api.Security.saneHTML(messageBody.replace(/\n/gi, "<br />")));
             $(inboxSpecificMessageDate).text(sakai.api.Security.saneHTML(message.date));

@@ -149,35 +149,6 @@ sakai.entity = function(tuid, showSettings){
     };
 
     /**
-     * Convert a file size to a human readable format (4 MB)
-     * @param {Integer} filesize The filesize you want to convert into a human readable one
-     * @return {String} A human readable file size
-     */
-    var convertToHumanReadableFileSize = function(filesize){
-
-        // Divide the length into its largest unit
-        var units = [[1024 * 1024 * 1024, 'GB'], [1024 * 1024, 'MB'], [1024, 'KB'], [1, 'bytes']];
-        var lengthunits;
-        for (var i = 0, j=units.length; i < j; i++) {
-
-            var unitsize = units[i][0];
-            var unittext = units[i][1];
-
-            if (filesize >= unitsize) {
-                filesize = filesize / unitsize;
-                // 1 decimal place
-                filesize = Math.ceil(filesize * 10) / 10;
-                lengthunits = unittext;
-                break;
-            }
-        }
-
-        // Return the human readable filesize
-        return filesize + " " + lengthunits;
-
-    };
-
-    /**
      * Render the main entity template
      */
     var renderTemplate = function(){
@@ -947,7 +918,7 @@ sakai.entity = function(tuid, showSettings){
             }
             // Set the size of the file
             if (jcr_content[":jcr:data"]) {
-                entityconfig.data.profile.filesize = convertToHumanReadableFileSize(jcr_content[":jcr:data"]);
+                entityconfig.data.profile.filesize = sakai.api.Util.convertToHumanReadableFileSize(jcr_content[":jcr:data"]);
             }
             // Set the mimetype of the file
             if (jcr_content["jcr:mimeType"]) {
