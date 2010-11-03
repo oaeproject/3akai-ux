@@ -5,6 +5,13 @@
 "CONTACT_REQUESTS": "Contact Requests",
 "UNABLE_TO_CONTACT_THE_SERVER_PLEASE_TRY_AGAIN_LATER": "Unable to contact the server. Please try again later",
 "VIEW_AND_EDIT_ALL_MY_CONTACTS": "View &amp; edit all my contacts",
+<<<<<<< HEAD:devwidgets/mycontacts/bundles/default.json
 "WIDGET_TITLE": "My Contacts",
 "YOU_CURRENTLY_HAVE_NO_CONTACTS": "You currently have no contacts"
 }
+=======
+"CONTACT_REQUEST": "Contact Request",
+"CONTACT_REQUESTS": "Contact Requests",
+"PERSON_ICON": "person icon"
+}
+>>>>>>> 07a62f34e20c3e6a89959b36a6eff1d8fde3a884:devwidgets/mycontacts/bundles/default.json
