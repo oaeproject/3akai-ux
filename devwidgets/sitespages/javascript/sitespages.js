@@ -1998,6 +1998,15 @@ sakai.sitespages = function(tuid,showSettings){
         return true;
     };
 
+    // overtake the click action for the inserted links to make the navigation work properly
+    $('.contauthlink').die("click");
+    $('.contauthlink').live("click", function() {
+        var id = $(this).attr("href").split("#page=")[1];
+        sakai.sitespages.navigation.deselectCurrentNode();
+        sakai.sitespages.navigation.selectNode(id);
+        return false;
+    });
+
     // Bind Insert link confirmation click event
     $("#insert_link_confirm").bind("click", function(ev){
         insertLink();
