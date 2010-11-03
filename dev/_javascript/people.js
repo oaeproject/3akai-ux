@@ -37,9 +37,9 @@ sakai.search = function(){
         loadContacts(currentpage);
     };
 
-    var errorText = $("#AN_ERROR_HAS_OCCURRED").text();
-    var errorTemplate = $("#error_template").html();
-    var loadingTemplate = $("#loading_template").html();
+    var errorText = $("#people_an_error_has_occurred").text();
+    var errorHTML = $("#people_error").html();
+    var loadingHTML = $("#people_loading").html();
 
     loadContacts = function(page){
 
@@ -47,7 +47,7 @@ sakai.search = function(){
 
         // Set searching messages
 
-        $("#contacts_search_result").html(loadingTemplate);
+        $("#contacts_search_result").html(loadingHTML);
 
         $.ajax({
             url: "/var/contacts/accepted.infinity.json?page=" + (page - 1) + "&items=" + peopleToSearch,
@@ -57,7 +57,7 @@ sakai.search = function(){
                 renderContacts();
             },
             error: function(xhr, textStatus, thrownError) {
-                $("#contacts_search_result").html(errorTemplate);
+                $("#contacts_search_result").html(errorHTML);
             }
         });
 
@@ -160,7 +160,7 @@ sakai.search = function(){
 
         // Set searching messages
 
-        $("#invited_search_result").html(loadingTemplate);
+        $("#invited_search_result").html(loadingHTML);
 
         $.ajax({
             url: "/var/contacts/invited.infinity.json?page=0&items=100",
@@ -170,7 +170,7 @@ sakai.search = function(){
                 renderInvitations();
             },
             error: function(xhr, textStatus, thrownError) {
-                $("#invited_search_result").html(errorTemplate);
+                $("#invited_search_result").html(errorHTML);
             }
         });
 
@@ -264,7 +264,7 @@ sakai.search = function(){
 
         // Set searching messages
 
-        $("#invited_search_result").html(loadingTemplate);
+        $("#invited_search_result").html(loadingHTML);
 
         $.ajax({
             url: "/var/contacts/pending.infinity.json?page=0&items=100",
@@ -274,7 +274,7 @@ sakai.search = function(){
                 renderPending();
             },
             error: function(xhr, textStatus, thrownError) {
-                $("#pending_search_result").html(errorTemplate);
+                $("#pending_search_result").html(errorHTML);
             }
         });
 
