@@ -30,6 +30,7 @@
 #myprofile_status {font-size:.95em!important;left:110px;list-style-image:none;position:absolute;top:29px;z-index:10;margin:0;}
 #myprofile_status li {list-style-type:none;padding:0;}
 #myprofile_status ul {background-color:#fff;border:1px solid #CCC;margin:0;padding:5px 15px 5px 7px;}
+#myprofile_chat_status {float:left; padding-left:17px;}
 
 /* Widget icon */
 .myprofile.fl-widget .fl-widget-titlebar .widget_title {background:transparent url(/devwidgets/myprofile/images/myprofile_icon.png) no-repeat scroll 17px 18px;}

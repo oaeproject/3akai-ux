@@ -17,7 +17,8 @@
                     {/if}
                 </td>
                 <td>
-                    <span class="chat_available_name chat_available_status_${sakaistatus}">${sakai.api.Util.shortenString(sakai.api.User.getDisplayName(sakai.data.me.profile), 14)}</span><br />
+                    <span class="chat_status chat_available_status_${sakaistatus}">&nbsp;</span>
+                    <span class="chat_available_name">${sakai.api.Util.shortenString(sakai.api.User.getDisplayName(sakai.data.me.profile), 14)}</span><br />
                     <span id="chat_mystatusmessage" class="chat_available_statusmessage">
                         {if sakai.data.me.profile.status}
                             ${sakai.data.me.profile.status}

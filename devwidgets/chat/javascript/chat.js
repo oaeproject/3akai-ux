@@ -381,7 +381,7 @@ sakai.chat = function(tuid, showSettings){
      * @param {Object} chatstatus   Chat status (online, busy, offline) to be changed to
      */
     var setWindowChatStatus = function(userid, chatstatus){
-        var bottomName = $("#chat_window_chatstatus_" + userid);
+        var bottomName = $(".chat_status");
         // Remove the current chat status
         bottomName.removeClass("chat_available_status_online");
         bottomName.removeClass("chat_available_status_busy");

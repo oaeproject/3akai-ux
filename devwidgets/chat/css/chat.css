@@ -29,7 +29,7 @@
 .chat_available_friend {cursor: hand; cursor: pointer;}
 .chat_available_friend img {height:32px;width:32px;}
 #chat_available_others .chat_available_image {width:32px;}
-.chat_top_container .chat_available_name, #chat_available_others .chat_friend_name {color:#666;font-weight:bold;padding-left:13px;}
+.chat_top_container .chat_available_name, #chat_available_others .chat_friend_name {color:#666;font-weight:bold;}
 #chat_available_others .chat_friend_name {color:#058ec4;}
 .chat_available_statusmessage {color:#999;font-size:90%;}
 #chat_available_others {background: #fff; overflow: auto; max-height: 184px; position: relative;}
@@ -84,6 +84,7 @@
 #chat_online_connections_link {cursor:pointer;width:70px; background: #333; }
 #chat_online_button {border-left:1px solid #666; color: #fff; float:right;height:30px;line-height:30px;margin-left:auto;text-align:center;top:-1px;width:70px;}
 .chat_people_icon {cursor:pointer;position:relative;top:1px;width:16px;}
+.chat_status {}
 
 /* NAVIGATION DROPDOWN CSS */
 .chat_main_container th,.chat_main_container td {border:none;padding:0;}

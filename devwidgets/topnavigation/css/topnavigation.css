@@ -36,7 +36,7 @@
 
 /* Selected Nav element */
 .explore_nav .explore .explore_nav_selected { padding-bottom:12px; }
-.explore_nav .explore .explore_nav_selected a, .explore_nav .explore .explore_nav_selected span { background: url('/dev/_images/topnav_hover_bg.gif') repeat; height:16px;}
+.explore_nav .explore .explore_nav_selected a, .explore_nav .explore .explore_nav_selected span { background: url("/dev/_images/body_bg_sprite.png") repeat scroll left top #868A8D}
 
 
 /*** Top Right Navbar ***/

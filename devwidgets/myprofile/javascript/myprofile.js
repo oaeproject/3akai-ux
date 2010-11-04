@@ -192,7 +192,7 @@ sakai.myprofile = function (tuid, showSettings) {
         }
 
         // Set the status in front of the user his name/
-        $(profileNameID).addClass(profileChatStatus + chatstatus);
+        $(profileChatStatus).addClass("chat_available_status_" + chatstatus);
         $(profileChatStatusID + chatstatus).show();
 
         // Show the widget after everything is loaded
