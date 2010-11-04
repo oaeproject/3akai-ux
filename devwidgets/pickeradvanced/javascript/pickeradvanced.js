@@ -265,8 +265,10 @@ sakai.pickeradvanced = function(tuid, showSettings) {
                     if (rawData.results[i].profile) {
                         rawData.results[i] = rawData.results[i].profile;
                     }
-                    if ($.inArray(rawData.results[i].user, pickerlist) !== -1) {
-                        doAdd = false;
+                    if (pickerlist && pickerlist.length) {
+                        if ($.inArray(rawData.results[i].user, pickerlist) !== -1) {
+                            doAdd = false;
+                        }
                     }
                     if (rawData.results[i]['rep:userId'] && (rawData.results[i]['rep:userId'] === "admin" || rawData.results[i]['rep:userId'] === "anonymous")) {
                         doAdd = false;
