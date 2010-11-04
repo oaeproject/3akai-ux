@@ -179,7 +179,7 @@ sakai.contentmedia = function(){
      */
     var dateFormat = function(date_input){
         var date = new Date(date_input);
-        return $.L10N.transformDate(date);
+        return sakai.api.l10n.transformDate(date);
     };
 
     /**

@@ -136,7 +136,10 @@ sakai.profilesection = function(tuid, showSettings){
             }
             json_config.path = currentsection + ".elements." + fieldName;
         }
-        return $.TemplateRenderer(fieldTemplate, json_config);
+        var ret = $.TemplateRenderer(fieldTemplate, json_config);
+        var localDateString = sakai.api.l10n.getDateFormatString();
+        ret = ret.replace("MM/DD/YYYY", localDateString);
+        return ret;
 
     };
 
@@ -190,13 +193,14 @@ sakai.profilesection = function(tuid, showSettings){
                     // only need to do the following on edit
                     if (sakai.profile.main.mode.value === "edit") {
                         sections += $.TemplateRenderer($profilesection_remove_section_template, {"config": sectionObject, "parentid": elts.id.value});
+                        sections += "</div>";
                         if (i === sakai.profile.main.data[currentsection].elements.length-1) {
                             sections += $.TemplateRenderer($profilesection_add_section_template, {"config": sectionObject, "parentid": elts.id.value});
                         }
                     } else if (i !== sakai.profile.main.data[currentsection].elements.length-1) {
+                        sections += "</div>";
                         sections += $.TemplateRenderer($profilesection_section_divider_template, {});
                     }
-                    sections += "</div>";
 
                 });
             }
@@ -292,7 +296,7 @@ sakai.profilesection = function(tuid, showSettings){
       });
       sakai.profile.main.data[currentsection].elements = newData;
       if (!newData.length) {
-          $(".profilesection_add_section").remove();
+          $parentSection.parent().find(".profilesection_add_section").remove();
           var sections = "<div class='profilesection_section' id='profilesection_section_0'>";
           if (sakai.profile.main.mode.value === "edit") {
               sakai.profile.main.data[currentsection].elements = [];
@@ -306,7 +310,8 @@ sakai.profilesection = function(tuid, showSettings){
 
     $profilesection_add_section.live("click", function(e) {
         var parentSelector = "#profilesection_section_" + $(this).attr("id").split("profilesection_add_link_")[1];
-        var $parentSection = $(parentSelector).parent("div");
+        // Check to see if a previous element has been created
+        var $parentSection = $(this).parent();
         renderAdditionalTemplateEditSection(currentsection, $parentSection, this);
     });
 
@@ -382,12 +387,17 @@ sakai.profilesection = function(tuid, showSettings){
                         parentProp[propName] = {};
                         parentProp[propName].value = escape($selected_element.val());
                     } else if (prop) { // it exists, just change its value
+                        var val = $selected_element.val();
+                        if ($(element).hasClass("date") || $(element).hasClass("oldDate")) { // localize dates
+                            // convert the date into a Date object for storage
+                            val = Globalization.parseDate(val);
+                        }
                         if ($.isPlainObject(prop)) {
                             // Set the correct value
-                            prop.value = sakai.api.Security.saneHTML(escape($selected_element.val()));
+                            prop.value = sakai.api.Security.saneHTML(escape(val));
                         } else {
                             // This is an access attribute
-                            sakai.profile.main.data[title.split(".")[0]].access = $selected_element.val();
+                            sakai.profile.main.data[title.split(".")[0]].access = val;
                         }
                     } else {
                         sakai.profile.main.data[title.split(".")[0]].access = escape($selected_element.val());

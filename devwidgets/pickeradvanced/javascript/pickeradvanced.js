@@ -433,6 +433,15 @@ sakai.pickeradvanced = function(tuid, showSettings) {
 
     $(window).unbind("sakai-pickeradvanced-init");
     $(window).bind("sakai-pickeradvanced-init", function(e, config) {
+        // position dialog box at users scroll position
+        var htmlScrollPos = $("html").scrollTop();
+        var docScrollPos = $(document).scrollTop();
+        if (htmlScrollPos > 0) {
+            $pickeradvanced_container.css({"top": htmlScrollPos + 130 + "px"});
+        } else if (docScrollPos > 0) {
+            $pickeradvanced_container.css({"top": docScrollPos + 130 + "px"});
+        }
+
         firstTime = true;
         render(config.config);
         $pickeradvanced_container.jqmShow();

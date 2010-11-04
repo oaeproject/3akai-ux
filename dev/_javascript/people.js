@@ -20,7 +20,7 @@ sakai.search = function(){
     var doInit = function(){
 
         meObj = sakai.data.me;
-        
+
         loadContacts(1);
         loadInvitations();
         loadPending();
@@ -37,9 +37,17 @@ sakai.search = function(){
         loadContacts(currentpage);
     };
 
+    var errorText = $("#people_an_error_has_occurred").text();
+    var errorHTML = $("#people_error").html();
+    var loadingHTML = $("#people_loading").html();
+
     loadContacts = function(page){
 
         currentpage = parseInt(page, 10);
+
+        // Set searching messages
+
+        $("#contacts_search_result").html(loadingHTML);
 
         $.ajax({
             url: "/var/contacts/accepted.infinity.json?page=" + (page - 1) + "&items=" + peopleToSearch,
@@ -49,7 +57,7 @@ sakai.search = function(){
                 renderContacts();
             },
             error: function(xhr, textStatus, thrownError) {
-                $("#contacts_search_result").html("<b>An error has occurred.</b> Please try again later");
+                $("#contacts_search_result").html(errorHTML);
             }
         });
 
@@ -93,9 +101,9 @@ sakai.search = function(){
                     var relationships = connection["sakai:types"];
                     // if there are more than 3 connection type display 2 connection,...
                     if (relationships.length < 3) {
-                        finaljson.items[index].extra = relationships;    
+                        finaljson.items[index].extra = relationships;
                     } else {
-                        finaljson.items[index].extra = relationships[0] + ", "+ relationships[1]+ ", ...";    
+                        finaljson.items[index].extra = relationships[0] + ", "+ relationships[1]+ ", ...";
                     }
                     finaljson.items[index].connected = true;
                     if (finaljson.items[index].userid == sakai.data.me.user.userid){
@@ -137,7 +145,7 @@ sakai.search = function(){
 
                 },
                 error: function(xhr, textStatus, thrownError) {
-                    alert("An error has occured");
+                    alert(errorText);
                 }
             });
 
@@ -152,7 +160,7 @@ sakai.search = function(){
 
         // Set searching messages
 
-        $("#invited_search_result").html("<b>Loading ...</b>");
+        $("#invited_search_result").html(loadingHTML);
 
         $.ajax({
             url: "/var/contacts/invited.infinity.json?page=0&items=100",
@@ -162,7 +170,7 @@ sakai.search = function(){
                 renderInvitations();
             },
             error: function(xhr, textStatus, thrownError) {
-                $("#invited_search_result").html("<b>An error has occurred.</b> Please try again later");
+                $("#invited_search_result").html(errorHTML);
             }
         });
 
@@ -195,12 +203,12 @@ sakai.search = function(){
                         finaljson.items[index].name = finaljson.items[index].userid;
                     }
                     var relationships = connection["sakai:types"];
-                    
+
                     // if there are more than 3 connection type display 2 connection,...
                     if (relationships.length < 3) {
-                        finaljson.items[index].extra = relationships;    
+                        finaljson.items[index].extra = relationships;
                     } else {
-                        finaljson.items[index].extra = relationships[0] + ", "+ relationships[1]+ ", ...";    
+                        finaljson.items[index].extra = relationships[0] + ", "+ relationships[1]+ ", ...";
                     }
                     finaljson.items[index].connected = true;
 
@@ -239,7 +247,7 @@ sakai.search = function(){
 
                 },
                 error: function(xhr, textStatus, thrownError) {
-                    alert("An error has occured");
+                    alert(errorText);
                 }
             });
 
@@ -256,7 +264,7 @@ sakai.search = function(){
 
         // Set searching messages
 
-        $("#invited_search_result").html("<b>Loading ...</b>");
+        $("#invited_search_result").html(loadingHTML);
 
         $.ajax({
             url: "/var/contacts/pending.infinity.json?page=0&items=100",
@@ -266,7 +274,7 @@ sakai.search = function(){
                 renderPending();
             },
             error: function(xhr, textStatus, thrownError) {
-                $("#pending_search_result").html("<b>An error has occurred.</b> Please try again later");
+                $("#pending_search_result").html(errorHTML);
             }
         });
 
@@ -301,9 +309,9 @@ sakai.search = function(){
                     var relationships = connection["sakai:types"];
                     // if there are more than 3 connection type display 2 connection,...
                     if (relationships.length < 3) {
-                        finaljson.items[index].extra = relationships;    
+                        finaljson.items[index].extra = relationships;
                     } else {
-                        finaljson.items[index].extra = relationships[0] + ", "+ relationships[1]+ ", ...";    
+                        finaljson.items[index].extra = relationships[0] + ", "+ relationships[1]+ ", ...";
                     }
                     finaljson.items[index].connected = true;
 
@@ -331,4 +339,4 @@ sakai.search = function(){
 
 };
 
-sakai.api.Widgets.Container.registerForLoad("sakai.search");
+sakai.api.Widgets.Container.registerForLoad("sakai.search");

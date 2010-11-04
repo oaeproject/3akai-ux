@@ -542,6 +542,8 @@ sakai.chat = function(tuid, showSettings){
      * @param {Object} messageText    Text of the message being sent
      */
     var sendMessage = function(to, messageText){
+        var date = new Date( );
+        var timestamp = date.getTime();
         // Send a message to the other user
         var message = {
             "sakai:type": "chat",
@@ -552,6 +554,7 @@ sakai.chat = function(tuid, showSettings){
             "sakai:subject": "",
             "sakai:body": messageText,
             "sakai:category": "chat",
+            "sakai:timestamp": timestamp,
             "_charset_": "utf-8"
         };
         $.ajax({
@@ -590,7 +593,7 @@ sakai.chat = function(tuid, showSettings){
         } else {
             message.name = getChatWindow(window).profile.name;
         }
-        message.time = parseToAMPM(sentDate);
+        message.time = sakai.api.l10n.transformTime(sentDate);
         message.message = messageText;
         var chatwindow = $("#chat_with_" + window + "_content");
         chatwindow.append($.TemplateRenderer("chat_content_template", message));
@@ -651,14 +654,23 @@ sakai.chat = function(tuid, showSettings){
     };
 
     /**
+     * Callback function to sort messages based on timestamp
+     */
+    function sortMessages(a, b){
+        return a["sakai:timestamp"] > b["sakai:timestamp"] ? 1 : -1;
+    };
+
+    /**
      * Once we know that there are new messages, we add them into
      * the appropriate chat windows
      * @param {Object} messages    List of new chat messages
      */
     var insertNewMessages = function(messages){
         if (messages.results) {
+            // Sort messages based on timestamp
+            messages.results.sort(sortMessages);
             var bulkRequests = [];
-            for (var i = messages.results.length; i--;) {
+            for (var i = 0; i < messages.results.length; i++) {
                 var message = messages.results[i];
                 var from = message.userFrom[0];
                 // We don't add in our own messages as they are already in there.
@@ -796,38 +808,6 @@ sakai.chat = function(tuid, showSettings){
                 }
             }
         }
-    };
-
-    ////////////////////
-    // Util Functions //
-    ////////////////////
-
-    /**
-     * Format the input date to a AM/PM Date
-     * @param {Date} d Date that needs to be formatted
-     */
-    var parseToAMPM = function(d){
-        var current_hour = d.getHours();
-        var am_or_pm = "";
-        if (current_hour < 12) {
-            am_or_pm = "AM";
-        }
-        else {
-            am_or_pm = "PM";
-        }
-        if (current_hour === 0) {
-            current_hour = 12;
-        }
-        if (current_hour > 12) {
-            current_hour = current_hour - 12;
-        }
-
-        var current_minutes = d.getMinutes() + "";
-        if (current_minutes.length === 1) {
-            current_minutes = "0" + current_minutes;
-        }
-
-        return current_hour + ":" + current_minutes + am_or_pm;
     };
 
     ////////////////////

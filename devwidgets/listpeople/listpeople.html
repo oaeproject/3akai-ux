@@ -6,14 +6,14 @@
 
     <div class="listpeople_header">
         <span class="listpeople_count">0</span>
-        <span class="listpeople_count_of" style="display: none;"> of</span>
+        <span class="listpeople_count_of" style="display: none;"> __MSG__OF__</span>
         <span class="listpeople_count_total" style="display: none;"> 0</span>
-        <span class="listpeople_count_items"> item(s)</span>
-        <span class="listpeople_count_selected" style="display: none;"> selected</span>
+        <span class="listpeople_count_items"> __MSG__ITEMS__</span>
+        <span class="listpeople_count_selected" style="display: none;"> __MSG__SELECTED__</span>
 
         <select id="listpeople_sort_order">
-            <option default="true" value="ascending">Alphabetically A - Z</option>
-            <option value="descending">Alphabetically Z - A</option>
+            <option default="true" value="ascending">__MSG__ALPHABETICALLY_AZ__</option>
+            <option value="descending">__MSG__ALPHABETICALLY_ZA__</option>
         </select>
     </div>
 
@@ -30,9 +30,9 @@
             {/if}
                 {if selectable}<input type="checkbox" name="selected" value="${i.groupid}" />{/if}
                 {if i.picture}
-                    <a href="/~${i.groupid}" target="_blank"><img src="/~${i.groupid}/public/profile/${i.picture.name}" alt="Group picture for ${i['sakai:group-title']}" class="listpeople_ppicture"/></a>
+                    <a href="/~${i.groupid}" target="_blank"><img src="/~${i.groupid}/public/profile/${i.picture.name}" alt="__MSG__GROUP_PICTURE_FOR__ ${i['sakai:group-title']}" class="listpeople_ppicture"/></a>
                 {else}
-                    <a href="/~${i.groupid}" target="_blank"><img src="/dev/_images/group_avatar_icon_32x32.png" alt="Default group picture" class="listpeople_ppicture"/></a>
+                    <a href="/~${i.groupid}" target="_blank"><img src="/dev/_images/group_avatar_icon_32x32.png" alt="__MSG__DEFAULT_GROUP_PICTURE__" class="listpeople_ppicture"/></a>
                 {/if}
                 <a class="listpeople_name" href="/~${i.groupid}" target="_blank">${i['sakai:group-title']}</a>
                 <br />
@@ -48,9 +48,9 @@
             {/if}
                 {if selectable}<input type="checkbox" name="selected" value="${i['sakai:group-id']}" />{/if}
                 {if i.picture}
-                    <a href="/~${i['sakai:group-id']}" target="_blank"><img src="/~${i['sakai:group-id']}/public/profile/${i.picture.name}" alt="Group picture for ${i['sakai:group-title']}" class="listpeople_ppicture"/></a>
+                    <a href="/~${i['sakai:group-id']}" target="_blank"><img src="/~${i['sakai:group-id']}/public/profile/${i.picture.name}" alt="__MSG__GROUP_PICTURE_FOR__ ${i['sakai:group-title']}" class="listpeople_ppicture"/></a>
                 {else}
-                    <a href="/~${i['sakai:group-id']}" target="_blank"><img src="/dev/_images/group_avatar_icon_32x32.png" alt="Default group picture" class="listpeople_ppicture"/></a>
+                    <a href="/~${i['sakai:group-id']}" target="_blank"><img src="/dev/_images/group_avatar_icon_32x32.png" alt="__MSG__DEFAULT_GROUP_PICTURE__" class="listpeople_ppicture"/></a>
                 {/if}
                 <a class="listpeople_name" href="/~${i['sakai:group-id']}" target="_blank">${i['sakai:group-title']}</a>
                 <br />
@@ -66,9 +66,9 @@
             {/if}
                 {if selectable}<input type="checkbox" name="selected" value="${i.userid}" />{/if}
                 {if i.picture}
-                    <a href="/~${i.userid}" target="_blank"><img src="/~${i.userid}/public/profile/${i.picture.name}" alt="Profile picture for ${unescape(i.displayName)}" class="listpeople_ppicture"/></a>
+                    <a href="/~${i.userid}" target="_blank"><img src="/~${i.userid}/public/profile/${i.picture.name}" alt="__MSG__PROFILE_PICTURE_FOR__ ${unescape(i.displayName)}" class="listpeople_ppicture"/></a>
                 {else}
-                    <a href="/~${i.userid}" target="_blank"><img src="/dev/_images/user_avatar_icon_32x32.png" alt="Default profile picture" class="listpeople_ppicture"/></a>
+                    <a href="/~${i.userid}" target="_blank"><img src="/dev/_images/user_avatar_icon_32x32.png" alt="__MSG__DEFAULT_PROFILE_PICTURE__" class="listpeople_ppicture"/></a>
                 {/if}
                 <a class="listpeople_name" href="/~${i.userid}" target="_blank">${unescape(i.displayName)}</a>
                 <br />
@@ -84,9 +84,9 @@
             {/if}
                 {if selectable}<input type="checkbox" name="selected" value="${i['rep:userId']}" />{/if}
                 {if i.picture}
-                    <a href="/~${i['rep:userId']}" target="_blank"><img src="/~${i["rep:userId"]}/public/profile/${i.picture.name}" alt="Profile picture for ${unescape(i.displayName)}" class="listpeople_ppicture"/></a>
+                    <a href="/~${i['rep:userId']}" target="_blank"><img src="/~${i["rep:userId"]}/public/profile/${i.picture.name}" alt="__MSG__PROFILE_PICTURE_FOR__ ${unescape(i.displayName)}" class="listpeople_ppicture"/></a>
                 {else}
-                    <a href="/~${i['rep:userId']}" target="_blank"><img src="/dev/_images/user_avatar_icon_32x32.png" alt="Default profile picture" class="listpeople_ppicture"/></a>
+                    <a href="/~${i['rep:userId']}" target="_blank"><img src="/dev/_images/user_avatar_icon_32x32.png" alt="__MSG__DEFAULT_PROFILE_PICTURE__" class="listpeople_ppicture"/></a>
                 {/if}
                 <a class="listpeople_name" href="/~${i['rep:userId']}" target="_blank">${unescape(i.displayName)}</a>
                 <br />
@@ -102,7 +102,7 @@
             {/if}
                 {if selectable}<input type="checkbox" name="selected" value="${i.content_id}" />{/if}
                 {if i.avatar}
-                    <a href="/dev/content_profile.html#content_path=/p/${i.content_id}" target="_blank"><img src="${i.avatar}" alt="Content picture for ${i["sakai:pooled-content-file-name"]}" class="listpeople_ppicture"/></a>
+                    <a href="/dev/content_profile.html#content_path=/p/${i.content_id}" target="_blank"><img src="${i.avatar}" alt="__MSG__CONTENT_PICTURE_FOR__ ${i["sakai:pooled-content-file-name"]}" class="listpeople_ppicture"/></a>
                 {/if}
                 <a class="listpeople_name" href="/dev/content_profile.html#content_path=/p/${i.content_id}" target="_blank">${i["sakai:pooled-content-file-name"]}</a>
                 <br />
@@ -119,7 +119,7 @@
     --></div>
 
     <div class="listpeople_error_template" style="display:none;">
-        <span>Sorry, could not retrieve the list of users form the server!</span>
+        <span>__MSG__SORRY_NO_USERS__</span>
     </div>
 
 </div>

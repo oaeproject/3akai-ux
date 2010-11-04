@@ -203,8 +203,7 @@
 "DATE": "Date",
 "DATE_ARRIVED": "Date Arrived",
 "DATE_OF_BIRTH": "Date of birth",
-"DATE_OF_BIRTH_EXAMPLE": "Please enter your date of birth in MM/DD/YYYY format.",
-"DATE_OF_BIRTH_ITA_EXAMPLE": "Please enter your date of birth in DD/MM/YYYY format.",
+"DATE_OF_BIRTH_EXAMPLE": "Please enter your date of birth in",
 "DECEMBER": "December",
 "DEGREE": "Degree",
 "DEGREES": "Degrees",
@@ -277,6 +276,7 @@
 "FIRSTNAME": "First Name",
 "FLUID_INFUSION": "Fluid Infusion",
 "FOOTER": "Portions of Sakai are copyrighted by other parties as described in the <a href=\"/dev/acknowledgements.html\">acknowledgements section</a>",
+"FORMAT": "format.",
 "FOUND": "Found",
 "FRIDAY": "Friday",
 "FRIENDS": "Friends",
@@ -371,6 +371,7 @@
 "LINK_TO_THE_PAPER": "Link to the paper",
 "LIST_VIEW": "List view",
 "LOADING_PLEASE_HOLD_ON": "Loading, please hold on",
+"LOADING": "Loading ...",
 "locale": "default",
 "LOCATION": "Location",
 "LOCATIONS": "Locations",
@@ -878,6 +879,7 @@
 "YOUR_MESSAGE_HAS_BEEN_SENT": "Your message has been sent",
 "YOUR_PASSWORD_SHOULD_BE_FOUR_CHARACTERS_LONG": "Your password should be 4 characters long",
 "YOUR_PASSWORD_SHOULDNT_CONTAIN_SPACES": "Your password shouldn't contain spaces",
+<<<<<<< HEAD
 "YOUR_PROFILE_INFORMATION_HAS_BEEN_UPDATED": "Your profile information has been updated",
 "YUI_COMPRESSOR": "YUI Compressor",
 "YUSUKE_KAMIYAMANE": "Yusuke Kamiyamane",
@@ -1481,4 +1483,5 @@
 "YEAR": "year",
 "YEARS": "years",
 "ZULU": "Zulu"
+"YOUR_PROFILE_INFORMATION_HAS_BEEN_UPDATED": "Your profile information has been updated"
 }

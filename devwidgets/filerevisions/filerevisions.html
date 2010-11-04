@@ -36,7 +36,7 @@
             <li>
                 <a {if linkrevision} href="${data.revisionFileDetails[1]["sakai:pooled-content-revurl"]}" {else} href="${data.path}.version.,1.0,/${data.revisionFileDetails[1]["sakai:pooled-content-file-name"]}{if data.revisionFileDetails[1]["sakai:pooled-content-file-name"].substring(data.revisionFileDetails[1]["sakai:pooled-content-file-name"].lastIndexOf("."), data.revisionFileDetails[1]["sakai:pooled-content-file-name"].length) !== data.revisionFileDetails[1]["sakai:fileextension"]}${data.revisionFileDetails[1]["sakai:fileextension"]}{/if}"{/if} title="Show original version" target="_blank" class="filerevisions_download_version">{if linkrevision} __MSG__OPEN_THIS_LINK__{else} __MSG__DOWNLOAD__{/if}</a>
                 <span class="filerevisions_lefthand_description">__MSG__CREATED__</span>
-                <span class="filerevisions_list_content">${sakai.filerevisions.getFormattedDate(data.data["jcr:created"])} __MSG__BY__: <a href="/~${data.data["sakai:pool-content-created-for"]}" class="filerevisions_editor_name"> ${data.data["sakai:pool-content-created-for-full"]}</a></span>
+                <span class="filerevisions_list_content">${data.created} __MSG__BY__: <a href="/~${data.data["sakai:pool-content-created-for"]}" class="filerevisions_editor_name"> ${data.data["sakai:pool-content-created-for-full"]}</a></span>
             </li>
             {var count = 0}
             {for i in data.revisions}

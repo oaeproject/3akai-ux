@@ -17,7 +17,7 @@
 #profilesection_generalinfo .profilesection_generalinfo_header {
     border-bottom:1px solid #999;
     margin:15px 0;
-    padding:7px 0;
+    padding:7px 0 15px;
     width:100%;
     float:left;
     display:inline;
@@ -34,6 +34,7 @@
     margin: 0;
     padding-right: 5px;
     width: 65%;
+    line-height:30px;
 }
 #profilesection_generalinfo .profilesection_generalinfo_content {
     font-weight: bold;
