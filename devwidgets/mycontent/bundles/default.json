@@ -1,13 +1,6 @@
 {
-<<<<<<< HEAD:devwidgets/mycontent/bundles/default.json
+"ADD_FILES_OR_LINKS": "Add files or links",
 "DATA_ERROR": "Sorry, there was a problem fetching your content. Please contact your administrator for assistance.",
 "NO_CONTENT": "You do not currently manage any content.",
 "VIEW_ALL_CONTENT_I_MANAGED": "View all content I manage"
 }
-=======
-    "ADD_FILES_OR_LINKS": "Add files or links",
-    "DATA_ERROR": "Sorry, there was a problem fetching your content. Please contact your administrator for assistance.",
-    "NO_CONTENT": "You do not currently manage any content.",
-    "VIEW_ALL_CONTENT_I_MANAGED": "View all content I manage"
-}
->>>>>>> 07a62f34e20c3e6a89959b36a6eff1d8fde3a884:devwidgets/mycontent/bundles/default.json
