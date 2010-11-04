@@ -24,7 +24,7 @@
 .myprofile_widget .profile .myprofile_dept {color:#999;display:block;margin-left:80px;font-size:.95em;position:relative;}
 .myprofile_widget .profile p {padding-top:10px;color:#999;float:left;}
 .myprofile_widget .profile p .myprofile_chat_status {color:#666;display:inline;}
-.myprofile_widget .profile .myprofile_chat_status_dropdown {background-image:url("/dev/_images/arrow_down_sm2.png");background-repeat:no-repeat;width:9px;height:5px;position:relative;top:17px;left:3px;}
+.myprofile_widget .profile .myprofile_chat_status_dropdown {background:url("/dev/_images/dashboard_sprite.png") no-repeat scroll -128px -400px transparent;height:10px;left:3px;position:relative;top:16px;width:10px;}
 
 /* Profile status */
 #myprofile_status {font-size:.95em!important;left:110px;list-style-image:none;position:absolute;top:29px;z-index:10;margin:0;}

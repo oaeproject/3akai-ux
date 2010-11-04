@@ -18,15 +18,14 @@
 
 /* General */
 .footer_main {
-    background: url('../images/footer.png') center bottom no-repeat;
     color: #fff;
     margin: 0 auto 0px auto;
-    padding: 10px 0;
+    padding: 0 0 10px;
     width: 960px;
 }
 
 #footer_logo {
-    background: url("/dev/_images/dashboard_sprite.png") no-repeat scroll -40px -712px transparent;
+    background: url("/dev/_images/dashboard_sprite.png") no-repeat scroll -49px -712px transparent;
     width:61px;
     height:28px;
     float:left;
@@ -44,7 +43,7 @@
 /* Fixed Container */
 .footer_main .fixed-container {
     background: #454A4F;
-    padding: 0 25px 10px;
+    padding: 10px 25px 10px;
     width: 910px;
 }
 
@@ -61,14 +60,26 @@
 }
 
 .footer_main .fixed-container a.back-top {
-    background: url('../images/white_bottom_arrow.png') center right no-repeat;
     color: #fff;
     display: block;
     float: right;
     font-size: 13px;
     font-weight: bold;
-    padding-right: 20px;
+    padding-right: 7px;
 }
+
+.footer_main .fixed-container div.back-top {
+    background: url("/dev/_images/dashboard_sprite.png") no-repeat scroll -102px -639px transparent;
+    height: 13px;
+    width: 10px;
+    float:right;
+    cursor:pointer;
+}
+
+
+#footer_main_br {width: 100%; height: 9px; background: url('/dev/_images/dashboard_sprite.png') no-repeat scroll right -763px transparent;float:left;}
+#footer_main_bl {width: 16px; height: 9px; background: url('/dev/_images/dashboard_sprite.png') no-repeat scroll -11px -763px transparent;float:left;}
+#footer_main_footer {background:url('/dev/_images/body_bg_sprite.png') repeat-x scroll left -42px transparent;height:9px;margin:0 16px;}
 
 /* Footer on the login page */
 .footer_index {
