@@ -662,7 +662,7 @@ sakai.inbox = function() {
                 cats = "chat";
             }
             url = sakai.config.URL.MESSAGE_BOXCATEGORY_SERVICE + "?box=" + box + "&category=" + cats + "&items=" + messagesPerPage + "&page=" + currentPage;
-        } else {
+        } else if (box === "inbox") {
             // default to just the messages so your inbox isn't clogged up with chat messages
             url = sakai.config.URL.MESSAGE_BOXCATEGORY_SERVICE + "?box=" + box + "&category=message&items=" + messagesPerPage + "&page=" + currentPage;
         }
@@ -859,7 +859,11 @@ sakai.inbox = function() {
                 $(inboxSpecificMessageCompose).hide();
             }
             // Fill in this message values.
-            $(inboxSpecificMessageSubject).text(sakai.api.Security.saneHTML(message["sakai:subject"]));
+            if (message["sakai:category"] === "chat") {
+                $(inboxSpecificMessageSubject).text("Chat message");
+            } else {
+                $(inboxSpecificMessageSubject).text(sakai.api.Security.saneHTML(message["sakai:subject"]));
+            }
             var messageBody = ""+message["sakai:body"]; // coerce to string in case the body is all numbers
             $(inboxSpecificMessageBody).html(sakai.api.Security.saneHTML(messageBody.replace(/\n/gi, "<br />")));
             $(inboxSpecificMessageDate).text(sakai.api.Security.saneHTML(message.date));

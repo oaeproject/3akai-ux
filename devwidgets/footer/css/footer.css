@@ -20,7 +20,7 @@
 .footer_main {
     background: url('../images/footer.png') center bottom no-repeat;
     color: #fff;
-    margin: 0 auto 45px auto;
+    margin: 0 auto 0px auto;
     padding: 10px 0;
     width: 960px;
 }
@@ -79,4 +79,8 @@
     position: fixed;
     margin-bottom: 0;
     z-index: 99;
+}
+
+.footer_push {
+    height: 45px;
 }
