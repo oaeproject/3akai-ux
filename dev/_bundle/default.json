@@ -879,7 +879,6 @@
 "YOUR_MESSAGE_HAS_BEEN_SENT": "Your message has been sent",
 "YOUR_PASSWORD_SHOULD_BE_FOUR_CHARACTERS_LONG": "Your password should be 4 characters long",
 "YOUR_PASSWORD_SHOULDNT_CONTAIN_SPACES": "Your password shouldn't contain spaces",
-<<<<<<< HEAD
 "YOUR_PROFILE_INFORMATION_HAS_BEEN_UPDATED": "Your profile information has been updated",
 "YUI_COMPRESSOR": "YUI Compressor",
 "YUSUKE_KAMIYAMANE": "Yusuke Kamiyamane",
@@ -1482,6 +1481,5 @@
 "WET": "WET",
 "YEAR": "year",
 "YEARS": "years",
-"ZULU": "Zulu"
-"YOUR_PROFILE_INFORMATION_HAS_BEEN_UPDATED": "Your profile information has been updated"
+"ZULU": "Zulu",
 }
