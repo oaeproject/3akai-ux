@@ -371,7 +371,7 @@ sakai.listpeople = function(tuid, showSettings) {
             $.each(object.results, function(index, resultObject) {
                 var iSubNameInfoGroup = sakai.config.listpeople[listType]["subNameInfoGroup"];
                 var iSubNameInfoUser = sakai.config.listpeople[listType]["subNameInfoUser"];
-                var iSubNameInfoContent = Widgets.widgets.listpeople.subNameInfoContent;
+                var iSubNameInfoContent = sakai.widgets.widgets.listpeople.subNameInfoContent;
                 if (resultObject.userid) {
                     // get user details
                     sakai.data.listpeople[listType].userList[resultObject.userid] = resultObject;
