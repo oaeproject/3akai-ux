@@ -99,7 +99,10 @@
         </copy>
 
         <echo message="Making a copy of var content files..." />
-        <copy todir="${TARGET_DIR_VAR}">
+        <copy todir="${TARGET_DIR_VAR}" filtering="true">
+            <filterset begintoken="@" endtoken="@">
+              <filtersfile file="${TARGET}/scm-version.properties" />
+            </filterset>
             <fileset dir="${SRC_DIR_VAR}" />
         </copy>
 
