@@ -3734,17 +3734,17 @@ sakai.api.Widgets.widgetLoader = {
                             var jsonpath = requestedURLsResults[i].url;
                             var widgetname = batchWidgets[jsonpath];
 
-                            if (jQuery.isPlainObject(Widgets.widgets[widgetname].i18n)) {
-                                if (Widgets.widgets[widgetname].i18n["default"]){
+                            if (jQuery.isPlainObject(sakai.widgets.widgets[widgetname].i18n)) {
+                                if (sakai.widgets.widgets[widgetname].i18n["default"]){
                                     var item = {
-                                        "url" : Widgets.widgets[widgetname].i18n["default"],
+                                        "url" : sakai.widgets.widgets[widgetname].i18n["default"],
                                         "method" : "GET"
                                     };
                                     bundles.push(item);
                                 }
-                                if (Widgets.widgets[widgetname].i18n[current_locale_string]) {
+                                if (sakai.widgets.widgets[widgetname].i18n[current_locale_string]) {
                                     var item1 = {
-                                        "url" : Widgets.widgets[widgetname].i18n[current_locale_string],
+                                        "url" : sakai.widgets.widgets[widgetname].i18n[current_locale_string],
                                         "method" : "GET"
                                     };
                                     bundles.push(item1);
@@ -3910,10 +3910,10 @@ sakai.api.Widgets.widgetLoader = {
                 }
 
                 // Check if the widget is an iframe widget
-                if (Widgets.widgets[widgetname] && Widgets.widgets[widgetname].iframe){
+                if (sakai.widgets.widgets[widgetname] && sakai.widgets.widgets[widgetname].iframe){
 
                     // Get the information about the widget in the widgets.js file
-                    var portlet = Widgets.widgets[widgetname];
+                    var portlet = sakai.widgets.widgets[widgetname];
 
                     // Check if the scrolling property has been set to true
                     var scrolling = portlet.scrolling ? "auto" : "no";
@@ -3935,7 +3935,7 @@ sakai.api.Widgets.widgetLoader = {
                 }
 
                 // The widget isn't an iframe widget
-                else if (Widgets.widgets[widgetname]){
+                else if (sakai.widgets.widgets[widgetname]){
 
                     // Set the placement for the widget
                     var placement = "";
@@ -3978,7 +3978,7 @@ sakai.api.Widgets.widgetLoader = {
                         $(document.getElementById(widgets[i][ii].id)).replaceWith($('<div id="'+widgets[i][ii].uid+'" class="' + widgets[i][ii].floating + '"></div>'));
                     }
 
-                    var url = Widgets.widgets[i].url;
+                    var url = sakai.widgets.widgets[i].url;
                     batchWidgets[url] = i; //i is the widgetname
                 }
             }

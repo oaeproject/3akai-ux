@@ -1,6 +1,6 @@
 var sakai = sakai || {};
 
-var Widgets = {
+sakai.widgets = {
     "groups":[
         "Administrators",
         "Lecturers & Supervisors",
@@ -52,5 +52,5 @@ var Widgets = {
  * JSON Object that is an aggregation of all widget config.json files
  */
 sakai.storeWidgets = function(widgets){
-    Widgets.widgets = widgets;
+    sakai.widgets.widgets = widgets;
 };

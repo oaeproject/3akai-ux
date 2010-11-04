@@ -832,9 +832,9 @@ sakai.sitespages = function(tuid,showSettings){
                         var sidebar = {}; sidebar.items = [];
 
                         // Fill in media and goodies
-                        for (var i in Widgets.widgets){
+                        for (var i in sakai.widgets.widgets){
                             if (i) {
-                                var widget = Widgets.widgets[i];
+                                var widget = sakai.widgets.widgets[i];
                                 if (widget[sakai.sitespages.config.pageEmbedProperty] && widget.showinmedia) {
                                     media.items.push(widget);
                                 }
@@ -1686,15 +1686,15 @@ sakai.sitespages = function(tuid,showSettings){
 
             $("#dialog_content").hide();
 
-            if (Widgets.widgets[type]) {
+            if (sakai.widgets.widgets[type]) {
                 $('#insert_dialog').jqmShow();
                 var nuid = "widget_" + type + "_" + uid;
                 if (placement){
                     nuid += "_" + placement;
                 }
                 sakai.sitespages.newwidget_uid = nuid;
-                $("#dialog_content").html(sakai.api.Security.saneHTML('<img src="' + Widgets.widgets[type].img + '" id="' + nuid + '" class="widget_inline" border="1"/>'));
-                $("#dialog_title").html(Widgets.widgets[type].name);
+                $("#dialog_content").html(sakai.api.Security.saneHTML('<img src="' + sakai.widgets.widgets[type].img + '" id="' + nuid + '" class="widget_inline" border="1"/>'));
+                $("#dialog_title").html(sakai.widgets.widgets[type].name);
                 sakai.api.Widgets.widgetLoader.insertWidgets("dialog_content", true,sakai.sitespages.config.basepath + "_widgets/");
                 $("#dialog_content").show();
             }
@@ -2106,13 +2106,13 @@ sakai.sitespages = function(tuid,showSettings){
     var renderSelectedWidget = function(widgetid) {
         var $dialog_content = $("#dialog_content");
         $dialog_content.hide();
-        if (Widgets.widgets[widgetid]){
+        if (sakai.widgets.widgets[widgetid]){
             sakai.sitespages.newwidget_id = widgetid;
             var tuid = "id" + Math.round(Math.random() * 1000000000);
             var id = "widget_" + widgetid + "_" + tuid;
             sakai.sitespages.newwidget_uid = id;
-            $dialog_content.html(sakai.api.Security.saneHTML('<img src="' + Widgets.widgets[widgetid].img + '" id="' + id + '" class="widget_inline" border="1"/>'));
-            $("#dialog_title").html(Widgets.widgets[widgetid].name);
+            $dialog_content.html(sakai.api.Security.saneHTML('<img src="' + sakai.widgets.widgets[widgetid].img + '" id="' + id + '" class="widget_inline" border="1"/>'));
+            $("#dialog_title").html(sakai.widgets.widgets[widgetid].name);
             sakai.api.Widgets.widgetLoader.insertWidgets(tuid,true,sakai.sitespages.config.basepath + "_widgets/");
             $dialog_content.show();
             window.scrollTo(0,0);
@@ -2155,7 +2155,7 @@ sakai.sitespages = function(tuid,showSettings){
         // Add widget to the editor
         $("#insert_screen2_preview").html("");
         if (!sakai.sitespages.updatingExistingWidget) {
-            tinyMCE.get("elm1").execCommand('mceInsertContent', false, '<img src="' + Widgets.widgets[sakai.sitespages.newwidget_id].img + '" id="' + sakai.sitespages.newwidget_uid + '" class="widget_inline" style="display:block; padding: 10px; margin: 4px" border="1"/>');
+            tinyMCE.get("elm1").execCommand('mceInsertContent', false, '<img src="' + sakai.widgets.widgets[sakai.sitespages.newwidget_id].img + '" id="' + sakai.sitespages.newwidget_uid + '" class="widget_inline" style="display:block; padding: 10px; margin: 4px" border="1"/>');
         }
         sakai.sitespages.updatingExistingWidget = false;
         $('#insert_dialog').jqmHide();
