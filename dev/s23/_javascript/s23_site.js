@@ -73,7 +73,7 @@ sakai.s23_site = function(){
         } else {
             return false;
         }
-    }
+    };
 
     /**
      * Get all the information about a certain page
@@ -91,7 +91,8 @@ sakai.s23_site = function(){
         }
 
         // Log a message if the page with the given pageid was not found
-        fluid.log("s23_site: the page with id'" + pageid + "' was not found in the json object");
+        debug.error("s23_site: the page with id'" + pageid + "' was not found in the json object");
+        return false;
     };
 
     /**
