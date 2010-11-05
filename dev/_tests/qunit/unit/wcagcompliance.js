@@ -110,7 +110,7 @@ var checkChildElements = function(element, page, template){
 };
 
 /**
- * Check HTML pages and test for hard coded english
+ * Check HTML pages and test for WCAG compliance
  */
 var testInternationalisation = function(){
     var pageArray = ["/dev/403.html",
