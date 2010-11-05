@@ -1931,7 +1931,7 @@ sakai.sitespages = function(tuid,showSettings){
     });
 
     $("#sitespages_embed_content_button").live("click", function(e) {
-        $(window).trigger('sakai-embedcontent-init', {"name":sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageTitle"]});
+        renderSelectedWidget("embedcontent");
     });
 
 
