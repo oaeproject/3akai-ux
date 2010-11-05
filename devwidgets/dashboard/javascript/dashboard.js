@@ -305,7 +305,7 @@ sakai.dashboard = function(tuid, showSettings) {
 
         }
         catch(err) {
-            fluid.log(err);
+            debug.error(err);
             isValid = false;
         }
 
@@ -535,7 +535,7 @@ sakai.dashboard = function(tuid, showSettings) {
 
                     }
                 } catch(err) {
-                    fluid.log("mysakai.js/saveState(): There was an error saving state: " + err);
+                    debug.error("mysakai.js/saveState(): There was an error saving state: " + err);
                 }
 
             }
@@ -567,7 +567,7 @@ sakai.dashboard = function(tuid, showSettings) {
         // Enable the add goodies buttons
         enableAddGoodies();
         if (!success) {
-            fluid.log("Connection with the server was lost");
+            debug.error("Connection with the server was lost");
         }
     };
 

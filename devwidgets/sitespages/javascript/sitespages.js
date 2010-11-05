@@ -218,7 +218,7 @@ sakai.sitespages = function(tuid,showSettings){
             },
             error: function(xhr, textStatus, thrownError) {
                 sakai.site.site_info = {};
-                fluid.log("site.js: Could not load site info. \n HTTP status code: " + xhr.status);
+                debug.error("site.js: Could not load site info. \n HTTP status code: " + xhr.status);
 
             }
 
@@ -255,7 +255,7 @@ sakai.sitespages = function(tuid,showSettings){
             },
             error: function(xhr, textStatus, thrownError) {
               $(window).trigger('hashchange');
-              fluid.log("sitespages.js: Could not load site navigation content. \n HTTP status code: " + xhr.status);
+              debug.error("sitespages.js: Could not load site navigation content. \n HTTP status code: " + xhr.status);
             }
         });
 
@@ -369,7 +369,7 @@ sakai.sitespages = function(tuid,showSettings){
 
                      },
                      error: function(xhr, status, e) {
-                        fluid.log("site.js: Could not load page content for webpage!");
+                        debug.error("site.js: Could not load page content for webpage!");
                      }
                 });
             } else {
@@ -677,7 +677,7 @@ sakai.sitespages = function(tuid,showSettings){
                 callback(tgt_urlsafe_name);
             },
             error: function(xhr, text, thrown_error) {
-                fluid.log("sitespages_admin.js/movePage(): Failed to move page node!");
+                debug.error("sitespages_admin.js/movePage(): Failed to move page node!");
             }
         });
     };
@@ -1429,7 +1429,7 @@ sakai.sitespages = function(tuid,showSettings){
                         updateRevisionHistory(sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["jcr:path"]);
                     } else {
                         // Page node save wasn't successful
-                        fluid.log("sitepages_admin.js/saveEdit(): Failed to update page content while saving existing page: " + sakai.sitespages.config.basepath);
+                        debug.error("sitepages_admin.js/saveEdit(): Failed to update page content while saving existing page: " + sakai.sitespages.config.basepath);
                     }
                 });
 
@@ -2229,7 +2229,7 @@ sakai.sitespages = function(tuid,showSettings){
                 }
 
             } else {
-                fluid.log("site_admin.js/sakai.sitespages.createNewPage(): Could not create page node for page!");
+                debug.error("site_admin.js/sakai.sitespages.createNewPage(): Could not create page node for page!");
                 // run callback
                 if(typeof(callback) === "function") {
                     callback(false);
@@ -2305,7 +2305,7 @@ sakai.sitespages = function(tuid,showSettings){
                 sakai.api.Activity.createActivity(nodeUrl, "site", "default", activityData); */
 
             } else {
-                fluid.log("site_admin.js/sakai.sitespages.addDashboardPage(): Could not create page node for dashboard page!");
+                debug.error("site_admin.js/sakai.sitespages.addDashboardPage(): Could not create page node for dashboard page!");
 
                 // run callback
                 if(typeof(callback) === "function") {
@@ -2385,7 +2385,7 @@ sakai.sitespages = function(tuid,showSettings){
 
             },
             error: function(xhr, textStatus, thrownError) {
-                fluid.log("site_admin.js:Revision History: An error has occured while fetching the revision history");
+                debug.error("site_admin.js:Revision History: An error has occured while fetching the revision history");
                 sakai.sitespages.versionHistoryNeedsReset = true;
             }
         });
@@ -2444,13 +2444,13 @@ sakai.sitespages = function(tuid,showSettings){
                         sakai.sitespages.resetVersionHistory();
 
                     } else {
-                        fluid.log("site_admin.js: Failed to save new version of page content while applying new revision of content!");
+                        debug.error("site_admin.js: Failed to save new version of page content while applying new revision of content!");
                     }
 
                 });
             },
             error: function(xhr, textStatus, thrownError) {
-                fluid.log("site_admin.js: Failed to fetch new version of page content while applying new revision of content!");
+                debug.error("site_admin.js: Failed to fetch new version of page content while applying new revision of content!");
             }
         });
     });
@@ -2479,7 +2479,7 @@ sakai.sitespages = function(tuid,showSettings){
                 }
             },
             error: function(xhr, textStatus, thrownError) {
-                fluid.log("site_admin.js: An error has occured while trying to cahnge version preview");
+                debug.error("site_admin.js: An error has occured while trying to change version preview");
             }
         });
     };
@@ -2580,7 +2580,7 @@ sakai.sitespages = function(tuid,showSettings){
                 $("#template_name").val("");
                 $("#template_description").val("");
             } else {
-                fluid.log("site_admin.js/updateTemplates(): Could not save page template!");
+                debug.error("site_admin.js/updateTemplates(): Could not save page template!");
             }
 
         });
@@ -2661,7 +2661,7 @@ sakai.sitespages = function(tuid,showSettings){
             },
             error: function(xhr, textStatus, thrownError) {
 
-                fluid.log("site_admin.js/deletePage(): Could not delete page node at " + sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["jcr:path"]);
+                debug.error("site_admin.js/deletePage(): Could not delete page node at " + sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["jcr:path"]);
             }
         });
     };

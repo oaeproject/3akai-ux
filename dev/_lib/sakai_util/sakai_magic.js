@@ -64,6 +64,38 @@ sakai.api = {
 
 };
 
+/**
+ * window.debug, a console.log wrapper
+ * adapted from html5boilerplate.com's window.log and Ben Alman's window.debug
+ *
+ * Only logs information when sakai.config.displayDebugInfo is switched on
+ *
+ * debug.log, debug.error, debug.warn, debug.debug, debug.info
+ * usage: debug.log("argument", {more:"arguments"})
+ *
+ * paulirish.com/2009/log-a-lightweight-wrapper-for-consolelog/
+ * benalman.com/projects/javascript-debug-console-log/
+ * https://gist.github.com/466188
+ */
+window.debug = (function() {
+    var that = {},
+        methods = [ 'error', 'warn', 'info', 'debug', 'log' ],
+        idx = methods.length;
+
+    while (--idx>=0) {
+        (function(method) {
+            that[method] = function() {
+                if (!window.console || !sakai.config.displayDebugInfo) return;
+                console.firebug ? console[method].apply(console, arguments)
+                          : console[method] ? console[method](Array.prototype.slice.call(arguments))
+                          : console.log(Array.prototype.slice.call(arguments));
+            };
+        })(methods[idx]);
+    }
+
+    return that;
+})();
+
 
 (function(){
 
@@ -170,7 +202,7 @@ sakai.api.Communication.sendMessage = function(to, subject, body, category, repl
             },
             error: function(xhr, textStatus, thrownError) {
 
-                fluid.log("sakai.api.Communication.sendMessage(): Could not send message to " + to);
+                debug.error("sakai.api.Communication.sendMessage(): Could not send message to " + to);
 
                 if (typeof callback === "function") {
                     callback(false, xhr);
@@ -203,7 +235,7 @@ sakai.api.Communication.sendMessage = function(to, subject, body, category, repl
         }
     } else {
         // unrecognized type
-        fluid.log("sakai.api.Communication.sendMessage(): invalid argument ('to' not an Array or String).");
+        debug.warn("sakai.api.Communication.sendMessage(): invalid argument ('to' not an Array or String).");
 
         if (typeof callback === "function") {
             callback(false, xhr);
@@ -317,11 +349,11 @@ sakai.api.Activity.createActivity = function(nodeUrl, appID, templateID, extraDa
 
     // Check required params
     if (typeof appID !== "string" || appID === "") {
-        fluid.log("sakai.api.Activity.createActivity(): appID is required argument!");
+        debug.error("sakai.api.Activity.createActivity(): appID is required argument!");
         return;
     }
     if (typeof templateID !== "string" || templateID === "") {
-        fluid.log("sakai.api.Activity.createActivity(): templateID is required argument!");
+        debug.error("sakai.api.Activity.createActivity(): templateID is required argument!");
     }
 
     // Create event url with appropriate selector
@@ -530,7 +562,7 @@ sakai.api.Groups.setPermissions = function (groupid, joinable, visible, callback
             },
             error: function(xhr, textStatus, thrownError){
                 // Log an error message
-                fluid.log("sakai.grouppermissions.setPermissions - batch post failed");
+                debug.error("sakai.grouppermissions.setPermissions - batch post failed");
 
                 if(typeof(callback) === "function") {
                     callback(false, textStatus);
@@ -1137,7 +1169,7 @@ sakai.api.i18n.General.getValueForKey = function(key) {
     }
     // If none of the about found something, log an error message
     else {
-        fluid.log("sakai.api.i18n.General.getValueForKey: Not in local & default file. Key: " + key);
+        debug.warn("sakai.api.i18n.General.getValueForKey: Not in local & default file. Key: " + key);
         return false;
     }
 };
@@ -1615,7 +1647,7 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
     if (!i_url || !i_data) {
 
         // Log the error message
-        fluid.log("sakai.api.Server.saveJSON: Not enough or empty arguments!");
+        debug.warn("sakai.api.Server.saveJSON: Not enough or empty arguments!");
 
         // Still invoke the callback function
         if (typeof callback === "function") {
@@ -1713,7 +1745,7 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
         error: function(xhr, status, e){
 
             // Log error
-            fluid.log("sakai.api.Server.saveJSON: There was an error saving JSON data to: " + this.url);
+            debug.error("sakai.api.Server.saveJSON: There was an error saving JSON data to: " + this.url);
 
             // If a callback function is specified in argument, call it
             if (typeof callback === "function") {
@@ -1740,7 +1772,7 @@ sakai.api.Server.loadJSON = function(i_url, callback, data) {
     if (!i_url) {
 
         // Log the error message
-        fluid.log("sakai.api.Server.loadJSON: Not enough or empty arguments!");
+        debug.info("sakai.api.Server.loadJSON: Not enough or empty arguments!");
 
         // Still invoke the callback function
         if (typeof callback === "function") {
@@ -1772,7 +1804,7 @@ sakai.api.Server.loadJSON = function(i_url, callback, data) {
         error: function(xhr, status, e) {
 
             // Log error
-            fluid.log("sakai.api.Server.loadJSON: There was an error loading JSON data from: " + this.url);
+            debug.warn("sakai.api.Server.loadJSON: There was an error loading JSON data from: " + this.url);
 
             // Call callback function if present
             if (typeof callback === "function") {
@@ -1864,7 +1896,7 @@ sakai.api.Server.removeJSON = function(i_url, callback){
     if (!i_url) {
 
         // Log the error message
-        fluid.log("sakai.api.Server.removeJSON: Not enough or empty arguments!");
+        debug.info("sakai.api.Server.removeJSON: Not enough or empty arguments!");
 
         // Still invoke the callback function
         if (typeof callback === "function") {
@@ -1896,7 +1928,7 @@ sakai.api.Server.removeJSON = function(i_url, callback){
         error: function(xhr, status, e){
 
             // Log error
-            fluid.log("sakai.api.Server.removeJSON: There was an error removing the JSON on: " + this.url);
+            debug.error("sakai.api.Server.removeJSON: There was an error removing the JSON on: " + this.url);
 
             // If a callback function is specified in argument, call it
             if (typeof callback === "function") {
@@ -2264,7 +2296,7 @@ sakai.api.User.login = function(credentials, callback) {
 
     // Argument check
     if (!credentials || !credentials.username || !credentials.password) {
-        fluid.log("sakai.api.user.login: Not enough or invalid arguments!");
+        debug.info("sakai.api.user.login: Not enough or invalid arguments!");
         callback(false, null);
         return;
     }
@@ -2387,7 +2419,7 @@ sakai.api.User.loadMeData = function(callback) {
         error: function(xhr, textStatus, thrownError) {
 
             // Log error
-            fluid.log("sakai.api.User.loadMeData: Could not load logged in user data from the me service!");
+            debug.error("sakai.api.User.loadMeData: Could not load logged in user data from the me service!");
 
             if (xhr.status === 500 && window.location.pathname !== "/dev/500.html"){
                 document.location = "/dev/500.html";
@@ -2851,7 +2883,7 @@ sakai.api.Util.tagEntity = function(tagLocation, newTags, currentTags, callback)
                     doSetTags(tags);
                 },
                 error: function(xhr, response){
-                    fluid.log(val + " failed to be created");
+                    debug.error(val + " failed to be created");
                     if ($.isFunction(callback)) {
                         callback();
                     }
@@ -2889,7 +2921,7 @@ sakai.api.Util.tagEntity = function(tagLocation, newTags, currentTags, callback)
                     }
                 },
                 error: function(xhr, response){
-                    fluid.log(tagLocation + " failed to be tagged as " + val);
+                    debug.error(tagLocation + " failed to be tagged as " + val);
                 }
             });
         };
@@ -2924,7 +2956,7 @@ sakai.api.Util.tagEntity = function(tagLocation, newTags, currentTags, callback)
                     requests: $.toJSON(requests)
                 },
                 error: function(xhr, response) {
-                    fluid.log(val + " tag failed to be removed from " + tagLocation);
+                    debug.error(val + " tag failed to be removed from " + tagLocation);
                 },
                 complete: function() {
                     if ($.isFunction(callback)) {
@@ -2997,7 +3029,7 @@ sakai.api.Util.notification.show = function(title, text, type){
     if(!text){
 
         // Log an error message
-        fluid.log("sakai.api.Util.notification.show: You need to fill out the 'text' parameter");
+        debug.info("sakai.api.Util.notification.show: You need to fill out the 'text' parameter");
 
         // Make sure the execution in this function stops
         return;
@@ -3008,7 +3040,7 @@ sakai.api.Util.notification.show = function(title, text, type){
     if (type && !$.isPlainObject(type)) {
 
         // Log an error message
-        fluid.log("sakai.api.Util.notification.show: Make sure you supplied a correct type parameter");
+        debug.info("sakai.api.Util.notification.show: Make sure you supplied a correct type parameter");
 
         // Stop the function execution
         return;
@@ -3498,7 +3530,7 @@ sakai.api.Widgets.Container = {
             if(typeof fct === "function"){
                 fct();
             }else{
-                fluid.log("sakai magic - sakai.api.Widgets.Container.performLoad - The function couldn't execute correctly: '" + fct + "'");
+                debug.error("sakai magic - sakai.api.Widgets.Container.performLoad - The function couldn't execute correctly: '" + fct + "'");
             }
         }
         sakai.api.Widgets.Container.toLoad = [];
@@ -4462,9 +4494,6 @@ if(Array.hasOwnProperty("indexOf") === false){
 }
 
 
-
-
-
 /**
  * Entry point for functions which needs to automatically start on each page
  * load.
@@ -4472,21 +4501,6 @@ if(Array.hasOwnProperty("indexOf") === false){
  * @returns {Void}
  */
 sakai.api.autoStart = function() {
-
-
-    /*
-     * There is no specific logging function within Sakai, but using console.debug will
-     * only work in Firefox, and if written poorly, will brake the code in IE, ... If we
-     * do want to use logging, we will reuse the logging function available in the Fluid
-     * Infusion framework. In order to use this, you need to uncomment the fluid.setLogging(true)
-     * line. After this has been done, all calls to
-     *    fluid.log(message);
-     * will be logged in the most appropriate console
-     * NOTE: always disable debugging for production systems, as logging calls are quite
-     * expensive.
-     */
-    fluid.setLogging(true);
-
 
     // When DOM is ready...
     $(document).ready(function(){

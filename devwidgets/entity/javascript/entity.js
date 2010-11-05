@@ -219,7 +219,7 @@ sakai.entity = function(tuid, showSettings){
                 $(window).trigger("chat_status_change", chatstatus);
             },
             error: function(xhr, textStatus, thrownError){
-                fluid.log("Entity widget - An error occured when sending the status to the server.");
+                debug.error("Entity widget - An error occured when sending the status to the server.");
             }
          });
 
@@ -360,7 +360,7 @@ sakai.entity = function(tuid, showSettings){
                             showGroupMembershipButton("pending");
                         } else {
                             // show a notification and do not change the button
-                            fluid.log("entity.js/requestJoinGroup() ERROR: Could not send join request messages for: " +
+                            debug.log("entity.js/requestJoinGroup() ERROR: Could not send join request messages for: " +
                                 sakai.data.me.user.userid + " for groupid: " + groupid +
                                 " to manager group: " + groupmanagers +
                                 " - error status: " + data.textStatus);
@@ -375,7 +375,7 @@ sakai.entity = function(tuid, showSettings){
                                                 sakai.api.Util.notification.type.INFORMATION);
                 showGroupMembershipButton("pending");
             } else {
-                fluid.log("entity.js/requestJoinGroup() ERROR: Could not process join request for: " +
+                debug.error("entity.js/requestJoinGroup() ERROR: Could not process join request for: " +
                     sakai.data.me.user.userid + " for groupid: " + groupid +
                     " - error status: " + error.textStatus);
                     sakai.api.Util.notification.show($("#entity_group_membership").text(),
@@ -401,7 +401,7 @@ sakai.entity = function(tuid, showSettings){
                     window.location.reload();
                 }, 2000);
             } else {
-                fluid.log("entity.js/joinGroup() ERROR: Could not add member: " +
+                debug.error("entity.js/joinGroup() ERROR: Could not add member: " +
                     sakai.data.me.user.userid + " to groupid: " +
                     entityconfig.data.profile["sakai:group-id"] +
                     " - error status: " + data.textStatus);
@@ -436,7 +436,7 @@ sakai.entity = function(tuid, showSettings){
                     window.location.reload();
                 }, 2000);
             } else {
-                fluid.log("entity.js/leaveGroup() ERROR: Could not remove member: " +
+                debug.error("entity.js/leaveGroup() ERROR: Could not remove member: " +
                     sakai.data.me.user.userid + " from groupid: " + groupid +
                     " - error status: " + data.textStatus);
                     sakai.api.Util.notification.show($("#entity_group_membership").text(),
@@ -643,7 +643,7 @@ sakai.entity = function(tuid, showSettings){
                         sakai.api.Activity.createActivity(nodeUrl, "status", "default", activityData);
                     } else {
                         // Log an error message
-                        fluid.log("Entity widget - the saving of the profile status failed");
+                        debug.error("Entity widget - the saving of the profile status failed");
                         profile_status_value = "";
 
                         // Show the message about a saving that failed to the user
@@ -786,7 +786,7 @@ sakai.entity = function(tuid, showSettings){
                     }
                 } else {
                     // log error
-                    fluid.log("entity.js/addBindingGroup() ERROR: Could not get join requests for group: " +
+                    debug.error("entity.js/addBindingGroup() ERROR: Could not get join requests for group: " +
                         groupid + " - error status: " + data.textStatus);
 
                     // not sure if this user has requested, show request button
@@ -895,7 +895,7 @@ sakai.entity = function(tuid, showSettings){
      */
     var setContentData = function(data){
         if (!data) {
-            fluid.log("Entity widget - setContentData - the data parameter is invalid:'" + data + "'");
+            debug.warn("Entity widget - setContentData - the data parameter is invalid:'" + data + "'");
             return;
         }
 

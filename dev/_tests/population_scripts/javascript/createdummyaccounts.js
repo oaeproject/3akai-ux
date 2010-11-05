@@ -83,10 +83,10 @@ sakai.createdummyaccounts = function(){
                 type: "POST",
                 data: userlist[count],
                 success: function(data){
-                    log("Created " + username, true);
+                    debug.info("Created " + username, true);
                 },
                 error: function(data){
-                    log("Failed to create " + username, false);
+                    debug.error("Failed to create " + username, false);
                 },
                 complete: function(){
                     count++;

@@ -70,7 +70,7 @@ sakai.grouppermissions = function(tuid, showSettings){
             $rootel.html($.TemplateRenderer($(template), gp_data));
             $(template, $rootel).show();
         } else {
-            fluid.log("grouppermissions.js - ERROR getting permissions properties from sakai.currentgroup");
+            debug.error("grouppermissions.js - ERROR getting permissions properties from sakai.currentgroup");
             $(dataError).show();
         }
     };

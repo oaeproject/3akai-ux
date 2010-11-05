@@ -356,7 +356,7 @@ sakai.profilesection = function(tuid, showSettings){
                 });
                 var profileURL = "/~" + sakai.profile.main.data["rep:userId"] + "/public/authprofile";
                 sakai.api.Util.tagEntity(profileURL, tagsArray, currentTags, function() {
-                    fluid.log("user tags saved");
+                    debug.info("user tags saved");
                 });
             } else if (title) {
 
@@ -410,7 +410,7 @@ sakai.profilesection = function(tuid, showSettings){
 
             }
             else {
-                fluid.log("sakai.profilesection - saveValues - the specificied element doesn't have the correct attribute: " + $selected_element.selector);
+                debug.warn("sakai.profilesection - saveValues - the specificied element doesn't have the correct attribute: " + $selected_element.selector);
             }
 
         });
