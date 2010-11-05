@@ -389,7 +389,7 @@ sakai.embedcontent = function(tuid, showSettings) {
     });
 
     $embedcontent_cancel.bind("click", function() {
-        // informFinish
+        sakai.api.Widgets.Container.informFinish(tuid, "embedcontent");
     });
 
     $embedcontent_display_options_select.bind("change", function(e) {
