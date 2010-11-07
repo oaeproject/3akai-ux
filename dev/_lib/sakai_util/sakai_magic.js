@@ -1007,8 +1007,9 @@ sakai.api.i18n.init = function(){
         }
         // language bundles
         $.ajax({
-            url: sakai.config.URL.I18N_BUNDLE_ROOT + langCode + ".json",
+            url: sakai.config.URL.I18N_BUNDLE_ROOT + langCode + ".properties",
             success: function(data){
+                data = changeToJSON(data);
                 sakai.data.i18n.localBundle = data;
                 doI18N(sakai.data.i18n.localBundle, sakai.data.i18n.defaultBundle);
             },
@@ -1048,13 +1049,29 @@ sakai.api.i18n.init = function(){
     };
 
     /**
+     * This change properties file into json object.
+     */
+    var changeToJSON = function(input){
+        var json = {};
+        var inputLine = input.split(/\n/);
+        for (i in inputLine) {
+            var keyValuePair = inputLine[i].split(/ \= /);
+            var key = keyValuePair[0];
+            var value = keyValuePair[1];
+            json[key] = value;
+        }
+        return json;
+    }
+
+    /**
      * This will load the default language bundle and will store it in a global variable. This default bundle
      * will be saved in a file called _bundle/default.properties.
      */
     var loadDefaultBundle = function(){
         $.ajax({
-            url: sakai.config.URL.I18N_BUNDLE_ROOT + "default.json",
+            url: sakai.config.URL.I18N_BUNDLE_ROOT + "default.properties",
             success: function(data){
+                data = changeToJSON(data);
                 sakai.data.i18n.defaultBundle = data;
                 var site = getSiteId();
                 if (!site) {
