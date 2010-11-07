@@ -404,7 +404,7 @@ sakai.navigation = function(tuid, showSettings){
                 },
                 type: "POST",
                 error: function(xhr, textStatus, thrownError) {
-                    fluid.log("ERROR-navigation.js settings update: " + xhr.status + " " + xhr.statusText);
+                    debug.error("ERROR-navigation.js settings update: " + xhr.status + " " + xhr.statusText);
                 }
             });
         }

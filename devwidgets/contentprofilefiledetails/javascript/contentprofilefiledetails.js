@@ -39,6 +39,7 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
     var contentProfileFileDetailsActionDelete= "#content_profile_file_details_action_delete";
     var contentProfileFileDetailsActionUpload = "#upload_content";
     var contentProfileFileDetailsViewRevisions = "#content_profile_details_view_revisions";
+    var $uploadContentLink = $("#upload_content", $rootel);
 
     var fileRevisions = [];
     var profileData = [];
@@ -207,6 +208,10 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
 
     $(contentProfileFileDetailsViewRevisions).live("click",function(){
         sakai.filerevisions.initialise(sakai.content_profile.content_data);
+    });
+
+    $uploadContentLink.bind("click", function() {
+        $(window).trigger("sakai-fileupload-init");
     });
 
     $(window).bind("sakai-fileupload-complete", function(){

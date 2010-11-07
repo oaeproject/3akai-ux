@@ -73,7 +73,7 @@ sakai.s23_site = function(){
         } else {
             return false;
         }
-    }
+    };
 
     /**
      * Get all the information about a certain page
@@ -91,7 +91,8 @@ sakai.s23_site = function(){
         }
 
         // Log a message if the page with the given pageid was not found
-        fluid.log("s23_site: the page with id'" + pageid + "' was not found in the json object");
+        debug.error("s23_site: the page with id'" + pageid + "' was not found in the json object");
+        return false;
     };
 
     /**
@@ -218,7 +219,7 @@ sakai.s23_site = function(){
             $(s23SiteMenuItems + ":first").trigger("click");
         }
         else {
-            fluid.log("s23_site: An error occured when parsing the Sakai 2 site information");
+            debug.error("s23_site: An error occured when parsing the Sakai 2 site information");
         }
     };
 
@@ -240,7 +241,7 @@ sakai.s23_site = function(){
                 parseSakai2SiteInfo();
             },
             error: function(xhr, textStatus, thrownError) {
-                fluid.log("s23_site: It was not possible to get the information the Sakai 2 site with the id: " + siteid + " the error code is: " + xhr.status);
+                debug.error("s23_site: It was not possible to get the information the Sakai 2 site with the id: " + siteid + " the error code is: " + xhr.status);
             }
         });
     };
@@ -267,7 +268,7 @@ sakai.s23_site = function(){
         else {
 
             // Log an error message for the user
-            fluid.log("s23site: This site needs to have an id parameter for a sakai2 site");
+            debug.error("s23site: This site needs to have an id parameter for a sakai2 site");
         }
     };
     init();

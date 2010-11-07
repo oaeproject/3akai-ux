@@ -623,9 +623,9 @@ sakai.groupedit = function(){
 
             // Bind the add content button
             $("#group_editing_add_content").bind("click", function(){
-                $(window).trigger('sakai-embedcontent-init', {"name":sakai.currentgroup.data.authprofile["sakai:group-title"], "mode": "picker", "type": "share", "limit": false, "filter": false});
-                $(window).unbind("sakai-embedcontent-picker-finished");
-                $(window).bind("sakai-embedcontent-picker-finished", function(e, fileList) {
+                $(window).trigger('sakai-contentpicker-init', {"name":sakai.currentgroup.data.authprofile["sakai:group-title"], "mode": "picker", "type": "share", "limit": false, "filter": false});
+                $(window).unbind("sakai-contentpicker-finished");
+                $(window).bind("sakai-contentpicker-finished", function(e, fileList) {
                     if (fileList.items.length) {
                         addContent(fileList.items);
                     }

@@ -261,7 +261,7 @@ sakai.uploadcontent = function(tuid, showSettings){
         if(!data || typeof data !== "object"){
 
             // If the parameters aren't valid, log an error message
-            fluid.log("Upload Content widget - sakai.uploadcontent.init - the supplied data parameter is invalid: '" + data + "'");
+            debug.warn("Upload Content widget - sakai.uploadcontent.init - the supplied data parameter is invalid: '" + data + "'");
 
             // Quit the execution of this function
             return;

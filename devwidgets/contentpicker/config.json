@@ -1,0 +1,9 @@
+{
+    "description":"Pick Content",
+    "id":"contentpicker",
+    "i18n": {
+        "default": "/devwidgets/contentpicker/bundles/default.json"
+    },
+    "name":"Content Picker",
+    "url":"/devwidgets/contentpicker/contentpicker.html"
+}

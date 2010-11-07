@@ -66,6 +66,16 @@ a:hover {
     font-weight: bold;
 }
 
+.s3d-regular-links {
+    color: #006E96;
+}
+.s3d-item-links {
+    color: #006E96; 
+    font-size: 1em; 
+    font-weight: bold; 
+    display: block;
+}
+
 /*
  * CHROME STYLES
  * HEADINGS

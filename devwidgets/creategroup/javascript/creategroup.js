@@ -232,7 +232,7 @@ sakai.creategroup = function(tuid, showSettings){
                                 // show the group
                                 document.location = "/~" + groupid;
                             } else {
-                                fluid.log("creategroup.js doSaveGroup failed to set group permissions: " + errorMessage);
+                                debug.error("creategroup.js doSaveGroup failed to set group permissions: " + errorMessage);
                             }
                         });
                 }
@@ -242,7 +242,7 @@ sakai.creategroup = function(tuid, showSettings){
                 if (groupCheck){
                     setError(createGroupAddId,createGroupAddIdTaken,true);
                 } else {
-                    fluid.log("An error has occurred: " + xhr.status + " " + xhr.statusText);
+                    debug.error("An error has occurred: " + xhr.status + " " + xhr.statusText);
                 }
                 showProcess(false);
             }

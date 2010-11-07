@@ -95,7 +95,7 @@ sakai.profile = function(){
             sakai.profile.main.mode.value = sakai.profile.main.mode.options[0];
 
             // Print a log message that the supplied mode isn't valid
-            fluid.log("profile - changeProfileMode - the supplied mode '" + mode + "' is not a valid profile mode. Using the default mode instead");
+            debug.warn("profile - changeProfileMode - the supplied mode '" + mode + "' is not a valid profile mode. Using the default mode instead");
 
         }
 
@@ -292,7 +292,7 @@ sakai.profile = function(){
                     // Check user profile type
                     checkProfileType();
                 } else {
-                    fluid.log("setProfileData: Could not find the user's profile");
+                    debug.error("setProfileData: Could not find the user's profile");
                 }
                 if (callback && typeof callback === "function") {
                     callback();
@@ -388,7 +388,7 @@ sakai.profile = function(){
                 sakai.api.Util.notification.show("", $profile_error_form_error_server.text() , sakai.api.Util.notification.type.ERROR);
 
                 // Log an error message
-                fluid.log("sakai.profile - saveProfileACL - the profile ACL's couldn't be saved successfully");
+                debug.error("sakai.profile - saveProfileACL - the profile ACL's couldn't be saved successfully");
 
             }
         });
@@ -435,7 +435,7 @@ sakai.profile = function(){
                 sakai.api.Util.notification.show("", $profile_error_form_error_server.text() , sakai.api.Util.notification.type.ERROR);
 
                 // Log an error message
-                fluid.log("sakai.profile - saveProfileData - the profile data couldn't be saved successfully");
+                debug.error("sakai.profile - saveProfileData - the profile data couldn't be saved successfully");
 
             }
 

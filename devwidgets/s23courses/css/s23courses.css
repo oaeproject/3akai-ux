@@ -48,10 +48,3 @@
 #s23courses_subcontainer ul li.s23courses_favourite {
     background: url('/dev/_images/contentmedia_bookmark.png') 12px 5px no-repeat;
 }
-
-#s23courses_subcontainer ul li a {
-    color: #006E96;
-    display: block;
-    font-size: 1em;
-    font-weight: bold;
-}

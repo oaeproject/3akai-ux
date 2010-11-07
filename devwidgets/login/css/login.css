@@ -38,6 +38,4 @@ label {color:#888; font-weight: bold; font-size: 1em;}
 
 /* Register here */
 #register_here {color: #454a4e; font-size: 0.95em; clear: both;}
-#register_here a {color:#006d94; font-weight: bold;}
-
-
+#register_here a {font-weight: bold;}

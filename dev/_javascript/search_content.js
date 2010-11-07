@@ -108,6 +108,7 @@ sakai.search = function() {
         }
     };
 
+    var $uploadContentLink = $("#upload_content.search_add_content_button");
 
     ///////////////
     // Functions //
@@ -429,7 +430,11 @@ sakai.search = function() {
     var thisFunctionality = {
         "doHSearch" : sakai._search.doHSearch
     };
-    
+
+    $uploadContentLink.bind("click", function() {
+        $(window).trigger("sakai-fileupload-init");
+    });
+
     $(window).bind("sakai-fileupload-complete", function(){
        window.location = window.location + "&_=" + Math.random(); 
     });

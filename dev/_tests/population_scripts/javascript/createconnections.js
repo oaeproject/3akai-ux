@@ -73,7 +73,7 @@ sakai.createconnections = function(){
                             type: "POST",
                             data: currentConnection.postdata,
                             success: function(){
-                                log("Send the connection invite from " + currentConnection.from + " and " + currentConnection.to, true);
+                                debug.log("Send the connection invite from " + currentConnection.from + " and " + currentConnection.to, true);
 
                                 // Logout
                                 sakai.api.User.logout(function(){
@@ -94,7 +94,7 @@ sakai.createconnections = function(){
                                                     },
                                                     type: "POST",
                                                     success: function(data){
-                                                        log("Created the connection between " + currentConnection.from + " and " + currentConnection.to, true);
+                                                        debug.log("Created the connection between " + currentConnection.from + " and " + currentConnection.to, true);
 
                                                         // Logout
                                                         sakai.api.User.logout(function(data){
@@ -103,13 +103,13 @@ sakai.createconnections = function(){
                                                         });
                                                     },
                                                     error: function(data){
-                                                        log("Could not create the connection between " + currentConnection.from + " and " + currentConnection.to, false);
+                                                        debug.error("Could not create the connection between " + currentConnection.from + " and " + currentConnection.to, false);
                                                     }
                                                 });
                                             });
                                         }
                                         else {
-                                            log("Failed to login " + currentConnection.to, false);
+                                            debug.error("Failed to login " + currentConnection.to, false);
                                         }
                                     });
 
@@ -117,14 +117,14 @@ sakai.createconnections = function(){
 
                             },
                             error: function(data){
-                                log("Failed to send the connection invite from " + currentConnection.from + " to " + currentConnection.to, false);
+                                debug.error("Failed to send the connection invite from " + currentConnection.from + " to " + currentConnection.to, false);
                             }
                         });
 
                     });
                 }
                 else {
-                    log("Failed to login " + currentConnection.from, false);
+                    debug.error("Failed to login " + currentConnection.from, false);
                 }
             });
 
