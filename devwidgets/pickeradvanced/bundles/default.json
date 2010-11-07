@@ -9,6 +9,7 @@
 "A_Z": "A-Z",
 "Z_A": "Z-A",
 "ALL_CONTACTS": "All Contacts",
+"ALL_CONTENT": "All Content",
 "ALL_USERS": "All Users",
 "ALL_GROUPS": "All Groups",
 "GROUPS_I_CAN_SEE": "Groups I can see",
@@ -17,5 +18,6 @@
 "SELECT_ALL": "Select All",
 "NO_RESULTS": "Sorry, your search didn't return any matches.",
 "ERROR_MSG": "Sorry, could not retrieve the list from the server!",
-"CONTENT_I_CAN_SEE": "Content I Can See"
+"CONTENT_I_CAN_SEE": "Content I'm a viewer of",
+"CONTENT_I_MANAGE": "Content I manage"
 }

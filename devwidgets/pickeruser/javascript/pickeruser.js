@@ -315,7 +315,7 @@ sakai.pickeruser = function(tuid, showSettings) {
 
     $pickeruser_init_search.bind("click", function() {
         var currentSelections = getSelectedList();
-       $(window).trigger("sakai-pickeradvanced-init", {"list":currentSelections, "config": {"type": pickerData["type"]}});
+        $(window).trigger("sakai-pickeradvanced-init", {"list":currentSelections, "config": {"type": pickerData["type"]}});
     });
 
     $pickeruser_close_button.bind("click", function() {
