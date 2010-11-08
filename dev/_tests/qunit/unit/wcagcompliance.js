@@ -28,7 +28,7 @@ var checkChildElements = function(element, page, template){
             }
             if (child.nodeType === 1) { // if html element
                 var previousImg = false;
-                if (child.previousSibling && $(child).prev().context.nodeName.toLowerCase() === "img") {
+                if (child.previousElementSibling && child.previousElementSibling.nodeName.toLowerCase() === "img") {
                     previousImg = true;
                 }
 
