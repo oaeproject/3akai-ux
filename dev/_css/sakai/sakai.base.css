@@ -76,6 +76,11 @@ a:hover {
     display: block;
 }
 
+.s3d-links {
+    color:#3399CC;
+    font-weight:bold;
+}
+
 /*
  * CHROME STYLES
  * HEADINGS
