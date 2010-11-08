@@ -27,7 +27,7 @@
         <div id="content_profile_file_details_details_secondcolumn">
             <p><span class="content_profile_file_details_content">${created}{if data["sakai:pool-content-created-for-full"]} by <a href="/~${data["sakai:pool-content-created-for"]}" class="s3d-action">${data["sakai:pool-content-created-for-full"]}</a>{/if}</span></p>
             <p><span class="content_profile_file_details_content">${lastModified}{if data["sakai:pool-content-created-for-full"]} by <a href="/~${data["sakai:pool-content-created-for"]}" class="s3d-action">${data["sakai:pool-content-created-for-full"]}<a/>{/if}</span></p>
-            <p><span class="content_profile_file_details_content">{if revisions.length -1 === 0}No revisions{else}${revisions.length -1} <a href="javascript:;" id="content_profile_details_view_revisions" {if data["jcr:content"]["jcr:mimeType"] === "x-sakai/link"}class="link_revision s3d-action"{else}class="s3d-action"{/if}>__MSG__VIEW_REVISIONS__</a>{/if}</span></p>
+            <p><span class="content_profile_file_details_content">{if revisions.length -1 <= 0}No revisions{else}${revisions.length -1} <a href="javascript:;" id="content_profile_details_view_revisions" {if data["jcr:content"]["jcr:mimeType"] === "x-sakai/link"}class="link_revision s3d-action"{else}class="s3d-action"{/if}>__MSG__VIEW_REVISIONS__</a>{/if}</span></p>
             <hr class="fl-push fl-hidden"/>
         </div>
     </div>

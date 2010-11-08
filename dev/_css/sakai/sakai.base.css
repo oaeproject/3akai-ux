@@ -61,6 +61,11 @@ a:hover {
 .s3d-hidden, .i18nable {
     display: none;
 }
+
+.s3d-bold {
+    font-weight: bold;
+}
+
 /*
  * CHROME STYLES
  * HEADINGS

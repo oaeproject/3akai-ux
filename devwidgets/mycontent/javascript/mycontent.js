@@ -151,8 +151,7 @@ sakai.mycontent = function(tuid, showSettings) {
 
     // Clicking to upload content
     $(uploadLink, rootel).click(function(ev) {
-        $(fileuploadContainer, rootel).show();
-        sakai.fileupload.initialise();
+        $(window).trigger("sakai-fileupload-init");
         return false;
     });
 

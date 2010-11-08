@@ -370,7 +370,7 @@ sakai.api.UI.listGeneral.addPage = function(tuid, pageNumber, searchQuery) {
                 }
 
                 // Log error in console
-                fluid.log("listgeneral.js: Error in processing a search request!");
+                debug.error("listgeneral.js: Error in processing a search request!");
 
             }
         });

@@ -1645,38 +1645,38 @@ sakai.collections = function(tuid, showSettings) {
 
     // embed content bindings
 
-    var bindToEmbedContent = function() {
+    var bindToContentPicker = function() {
         $(".itemImage.editable", $rootel).live("click", function() {
-            $(window).trigger('sakai-embedcontent-init', {"name":"Item", "mode": "picker", "limit": 1, "filter": false});
-            $(window).unbind("sakai-embedcontent-picker-finished");
-            $(window).bind("sakai-embedcontent-picker-finished", function(e, fileList) {
+            $(window).trigger('sakai-contentpicker-init', {"name":"Item", "mode": "picker", "limit": 1, "filter": false});
+            $(window).unbind("sakai-contentpicker-picker-finished");
+            $(window).bind("sakai-contentpicker-picker-finished", function(e, fileList) {
                 if (fileList.items.length) {
                     addItemFile(fileList.items[0].link, fileList.items[0].mimetype);
                 }
             });
         });
         $(".albumImage.editable", $rootel).live("click", function() {
-            $(window).trigger('sakai-embedcontent-init', {"name":"Album", "mode": "picker", "limit": 1, "filter": "image"});
-            $(window).unbind("sakai-embedcontent-picker-finished");
-            $(window).bind("sakai-embedcontent-picker-finished", function(e, fileList) {
+            $(window).trigger('sakai-contentpicker-init', {"name":"Album", "mode": "picker", "limit": 1, "filter": "image"});
+            $(window).unbind("sakai-contentpicker-picker-finished");
+            $(window).bind("sakai-contentpicker-picker-finished", function(e, fileList) {
                 if (fileList.items.length) {
                     addAlbumImage(fileList.items[0].link);
                 }
             });
         });
         $(browseForFilesButton, $rootel).live("click", function() {
-            $(window).trigger('sakai-embedcontent-init', {"name":"Album", "mode": "picker", "limit": 1, "filter": "image"});
-            $(window).unbind("sakai-embedcontent-picker-finished");
-            $(window).bind("sakai-embedcontent-picker-finished", function(e, fileList) {
+            $(window).trigger('sakai-contentpicker-init', {"name":"Album", "mode": "picker", "limit": 1, "filter": "image"});
+            $(window).unbind("sakai-contentpicker-picker-finished");
+            $(window).bind("sakai-contentpicker-picker-finished", function(e, fileList) {
                 if (fileList.items.length) {
                     addRoomImage(fileList.items[0].link);
                 }
             });
         });
         $(browseForContentFileButton, $rootel).live("click", function() {
-            $(window).trigger('sakai-embedcontent-init', {"name":"Album", "mode": "picker", "limit": 1, "filter": false});
-            $(window).unbind("sakai-embedcontent-picker-finished");
-            $(window).bind("sakai-embedcontent-picker-finished", function(e, fileList) {
+            $(window).trigger('sakai-contentpicker-init', {"name":"Album", "mode": "picker", "limit": 1, "filter": false});
+            $(window).unbind("sakai-contentpicker-picker-finished");
+            $(window).bind("sakai-contentpicker-picker-finished", function(e, fileList) {
                 if (fileList.items.length) {
                     addItemContent(fileList.items[0].link);
                     addContentMimetype(fileList.items[0].mimetype);
@@ -1699,11 +1699,11 @@ sakai.collections = function(tuid, showSettings) {
             $(collectionsSettings, $rootel).hide();
             $(collectionsMainContainer, $rootel).show();
         }
-        if (sakai.embedcontent) {
-            bindToEmbedContent();
+        if (sakai.contentpicker) {
+            bindToContentPicker();
         } else {
             sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
-            $(window).bind("sakai-embedcontent-ready", function(e) {
+            $(window).bind("sakai-contentpicker-ready", function(e) {
                 bindToEmbedContent();
             });
         }

@@ -127,7 +127,7 @@ sakai.myprofile = function (tuid, showSettings) {
                     if (typeof callback === "function") {
                         callback(false, xhr);
                     }
-                    fluid.log("Entity widget - An error occured when sending the status to the server.");
+                    debug.error("Entity widget - An error occured when sending the status to the server.");
                 }
             });
 

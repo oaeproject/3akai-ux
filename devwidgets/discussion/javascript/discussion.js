@@ -569,11 +569,11 @@ sakai.discussion = function(tuid, showSettings){
                 getPostInfo(response.results);
             }
             catch (err) {
-                fluid.log(err);
+                debug.error(err);
             }
         }
         else {
-            fluid.log('Failed to show the posts.');
+            debug.warn('Failed to show the posts.');
         }
     };
 
@@ -635,7 +635,7 @@ sakai.discussion = function(tuid, showSettings){
                 sakai.api.Widgets.Container.informFinish(tuid, "discussion");
             },
             error: function(xhr, textStatus, thrownError){
-                fluid.log("Unable to save your post.");
+                debug.error("Unable to save your post.");
             },
             data: post
         });

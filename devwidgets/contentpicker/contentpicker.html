@@ -1,0 +1,53 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/contentpicker/css/contentpicker.css" />
+
+<!-- MAIN VIEW -->
+<div class="dialog" id="contentpicker_dialog">
+    <div class="dialog_header">
+        <div class="dialog_header_inner">
+        <h1>__MSG__PLACE_CONTENT__</h1>
+        <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+        </div>
+    </div>
+
+    <div class="dialog_content">
+        <div id="contentpicker_main_container">
+            <div id="contentpicker_header">
+                <h2>
+                    <span id="contentpicker_placing_content_label" style="display:none">__MSG__PLACING_CONTENT_ON_PAGE__: </span>
+                    <span id="contentpicker_share_files_with_label" style="display:none">__MSG__SHARE_FILES_WITH__: </span>
+                    <span id="contentpicker_page_name"></span>
+                </h2>
+            </div>
+            <div id="contentpicker_choose" class="contentpicker_line">
+                <div class="contentpicker_left_label fl-force-left fl-container">
+                    <p>__MSG__TYPE_NAME_OF_EXISTING_ITEM__</p>
+                    <p><a href="javascript:;" class="s3d-action" id="contentpicker_search_for_content">__MSG__SEARCH_FOR_CONTENT__</a> __MSG__OR__ <a href="javascript:;" class="group_content s3d-action" id="upload_content">__MSG__ADD_NEW_CONTENT__</a></p>
+                </div>
+                <div class="contentpicker_right_input fl-force-left fl-container">
+                    <input type="text" id="contentpicker_content_input"/>
+                </div>
+            </div>
+            <div id="contentpicker_footer">
+                <div class="fl-force-right">
+                    <button class="s3d-button" id="contentpicker_cancel"><span class="s3d-button-inner">__MSG__DONT_PLACE__</span></button>
+                    <button class="s3d-button s3d-button-primary" id="contentpicker_place_content" disabled="disabled"><span class="s3d-button-inner">__MSG__ADD_CONTENT__</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DIALOG FOOTER -->
+    <div class="dialog_footer">
+        <div class="dialog_footer_inner"><!-- --></div>
+    </div>
+    <div id="contentpicker_page_name_template" style="display:none"><!--
+        __MSG__LEFT_QUOTE__${name}__MSG__RIGHT_QUOTE__
+    --></div>
+
+    <div id="widget_fileupload" class="widget_inline"></div>
+    <div id="widget_pickeradvanced" class="widget_inline"></div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/contentpicker/javascript/contentpicker.js"></script>
