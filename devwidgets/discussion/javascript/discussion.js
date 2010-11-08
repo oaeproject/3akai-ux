@@ -293,7 +293,8 @@ sakai.discussion = function(tuid, showSettings){
         var post = {
             'sakai:subject': subject,
             'sakai:body': body,
-            'sakai:editedby': me.user.userid
+            'sakai:editedby': me.user.userid,
+            '_charset_':'utf-8'
         };
 
         $.ajax({
@@ -717,7 +718,8 @@ sakai.discussion = function(tuid, showSettings){
                 'sakai:replyon': id,
                 'sakai:messagebox': 'outbox',
                 'sakai:sendstate': 'pending',
-                'sakai:to': "discussion:w-" + store
+                'sakai:to': "discussion:w-" + store,
+                '_charset_':'utf-8'
             };
 /*            sakai.api.Widgets.saveWidgetData(tuid, object, function(success, data){
                 alert("I seem to have saved a discussion topic.");
@@ -833,7 +835,8 @@ sakai.discussion = function(tuid, showSettings){
                 'sakai:initialpost': true,
                 'sakai:messagebox': 'outbox',
                 'sakai:sendstate': 'pending',
-                'sakai:to': "discussion:w-" + store
+                'sakai:to': "discussion:w-" + store,
+                '_charset_':"utf-8"
             };
 /*            sakai.api.Widgets.saveWidgetData(tuid, object, function(success, data){
                 alert("I seem to have saved a discussion topic.");
@@ -904,6 +907,7 @@ sakai.discussion = function(tuid, showSettings){
         post['sakai:marker'] = tuid;
         post['sakai:messagebox'] = "outbox";
         post['sakai:sendstate'] = "pending";
+        post['_charset_'] = "utf-8";
         return post;
     };
 
