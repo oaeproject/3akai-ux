@@ -3,6 +3,9 @@
     "name":"Lists",
     "id":"lists",
     "hasSettings":true,
+    "i18n": {
+        "default": "/devwidgets/lists/bundles/default.properties"
+    },
     "userpages": false,
     "userdashboard": false,
     "grouppages": false,

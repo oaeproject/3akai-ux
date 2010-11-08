@@ -4,7 +4,7 @@
     "id":"helloworld",
     "hasSettings":true,
     "i18n": {
-        "default": "/devwidgets/helloworld/bundles/default.json"
+        "default": "/devwidgets/helloworld/bundles/default.properties"
     },
     "url":"/devwidgets/helloworld/helloworld.html"
 }

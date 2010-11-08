@@ -11,6 +11,6 @@
     "showinmedia":true,
     "url":"/devwidgets/video/video.html",
     "i18n": {
-        "default": "/devwidgets/video/bundles/default.json"
+        "default": "/devwidgets/video/bundles/default.properties"
     },
 }

@@ -11,8 +11,8 @@
     "showinsakaigoodies":true,
     "url":"/devwidgets/rss/rss.html",
     "i18n": {
-        "default": "/devwidgets/rss/bundles/default.json",
-        "en_US": "/devwidgets/rss/bundles/en_US.json",
-        "nl_NL": "/devwidgets/rss/bundles/nl_NL.json"
+        "default": "/devwidgets/rss/bundles/default.properties",
+        "en_US": "/devwidgets/rss/bundles/en_US.properties",
+        "nl_NL": "/devwidgets/rss/bundles/nl_NL.properties"
     }
 }

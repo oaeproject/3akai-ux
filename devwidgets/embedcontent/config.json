@@ -5,7 +5,7 @@
     "hasSettings": true,
     "id":"embedcontent",
     "i18n": {
-        "default": "/devwidgets/embedcontent/bundles/default.json"
+        "default": "/devwidgets/embedcontent/bundles/default.properties"
     },
     "name":"Embed Content",
     "img":"/devwidgets/embedcontent/images/content.png",

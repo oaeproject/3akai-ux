@@ -2,8 +2,8 @@
     "id":"contentprofilefiledetails",
     "url":"/devwidgets/contentprofilefiledetails/contentprofilefiledetails.html",
     "i18n": {
-        "default": "/devwidgets/contentprofilefiledetails/bundles/default.json",
-        "en_GB": "/devwidgets/contentprofilefiledetails/bundles/en_GB.json",
-        "nl_NL": "/devwidgets/contentprofilefiledetails/bundles/nl_NL.json"
+        "default": "/devwidgets/contentprofilefiledetails/bundles/default.properties",
+        "en_GB": "/devwidgets/contentprofilefiledetails/bundles/en_GB.properties",
+        "nl_NL": "/devwidgets/contentprofilefiledetails/bundles/nl_NL.properties"
     }
 }

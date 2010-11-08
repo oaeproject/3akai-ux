@@ -6,7 +6,7 @@
     "description":"Embed Google Gadgets in your page or dashboard",
     "id":"ggadget",
     "i18n": {
-        "default": "/devwidgets/ggadget/bundles/default.json"
+        "default": "/devwidgets/ggadget/bundles/default.properties"
     },
     "img":"/devwidgets/ggadget/images/ggadget.png",
     "name":"Google Gadget",

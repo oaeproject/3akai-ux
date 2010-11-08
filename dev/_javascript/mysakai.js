@@ -90,7 +90,6 @@ sakai.mysakai = function(){
      * Init function for the mysakai page
      */
     var init = function(){
-
         // Initialise the entity widget
         $(window).bind("sakai.api.UI.entity.ready", function(e){
             sakai.api.UI.entity.render("myprofile", false);

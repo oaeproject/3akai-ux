@@ -2,8 +2,5 @@
     "description": "Create Page Widget",
     "name": "Create Page",
     "id": "createpage",
-    "i18n": {
-        "default": "/devwidgets/createpage/bundles/default.json"
-    },
     "url": "/devwidgets/createpage/createpage.html"
 }

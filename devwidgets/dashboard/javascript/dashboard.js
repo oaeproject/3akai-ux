@@ -126,7 +126,6 @@ sakai.dashboard = function(tuid, showSettings) {
 
         columns[0] = [];
         columns[1] = [];
-
         // grab the defaults from config if they exist
         if (sakai.widgets.defaults[widgetPropertyName]) {
             if (sakai.widgets.defaults[widgetPropertyName].layout) {
@@ -904,11 +903,9 @@ sakai.dashboard = function(tuid, showSettings) {
         savePath = path;
         isEditable = editmode;
         widgetPropertyName = propertyname;
-
         // add the tuid to the dialogs so they can be bound to by each instance of this widget
         $(addGoodiesDialog, $rootel).addClass(tuid);
         $(changeLayoutDialog, $rootel).addClass(tuid);
-
         // reinitialize the selector after adding the class to the elements
         $rootelClass = $($rootelClass.selector);
 

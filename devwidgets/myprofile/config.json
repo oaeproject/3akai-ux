@@ -4,9 +4,9 @@
     "id":"myprofile",
     "personalportal":true,
     "i18n": {
-        "default": "/devwidgets/myprofile/bundles/default.json",
-        "en_US": "/devwidgets/myprofile/bundles/en_US.json",
-        "zh_CN": "/devwidgets/myprofile/bundles/zh_CN.json"
+        "default": "/devwidgets/myprofile/bundles/default.properties",
+        "en_US": "/devwidgets/myprofile/bundles/en_US.properties",
+        "zh_CN": "/devwidgets/myprofile/bundles/zh_CN.properties"
     },
     "url":"/devwidgets/myprofile/myprofile.html"
 }

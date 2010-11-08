@@ -1,9 +1,9 @@
 {
     "description":"Listing of the sites I'm a member of",
     "i18n": {
-        "default": "/devwidgets/sites/bundles/default.json",
-        "en_US": "/devwidgets/sites/bundles/en_US.json",
-        "zh_CN": "/devwidgets/sites/bundles/zh_CN.json"
+        "default": "/devwidgets/sites/bundles/default.properties",
+        "en_US": "/devwidgets/sites/bundles/en_US.properties",
+        "zh_CN": "/devwidgets/sites/bundles/zh_CN.properties"
     },
     "id":"sites",
     "name":"My Courses & Sites",

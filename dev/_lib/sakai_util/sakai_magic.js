@@ -880,6 +880,9 @@ sakai.api.i18n.init = function(){
     // Will contain all the i18n for widgets
     sakai.data.i18n.widgets = sakai.data.i18n.widgets || {};
 
+    // Will contain all the i18n for widgets
+    sakai.data.i18n.changeToJSON = sakai.data.i18n.changeToJSON || {};
+
 
     ////////////////////
     // HELP VARIABLES //
@@ -1009,7 +1012,7 @@ sakai.api.i18n.init = function(){
         $.ajax({
             url: sakai.config.URL.I18N_BUNDLE_ROOT + langCode + ".properties",
             success: function(data){
-                data = changeToJSON(data);
+                data = sakai.data.i18n.changeToJSON(data);
                 sakai.data.i18n.localBundle = data;
                 doI18N(sakai.data.i18n.localBundle, sakai.data.i18n.defaultBundle);
             },
@@ -1051,9 +1054,9 @@ sakai.api.i18n.init = function(){
     /**
      * This change properties file into json object.
      */
-    var changeToJSON = function(input){
-        var json = {};
-        var inputLine = input.split(/\n/);
+    sakai.data.i18n.changeToJSON = function(input){
+       var json = {};
+        var inputLine = input.split(/\r\n/);
         for (i in inputLine) {
             var keyValuePair = inputLine[i].split(/ \= /);
             var key = keyValuePair[0];
@@ -1071,7 +1074,7 @@ sakai.api.i18n.init = function(){
         $.ajax({
             url: sakai.config.URL.I18N_BUNDLE_ROOT + "default.properties",
             success: function(data){
-                data = changeToJSON(data);
+                data = sakai.data.i18n.changeToJSON(data);
                 sakai.data.i18n.defaultBundle = data;
                 var site = getSiteId();
                 if (!site) {
@@ -1175,7 +1178,6 @@ sakai.api.i18n.General.process = function(toprocess, localbundle, defaultbundle)
  * @return {String} The translated value for the provided key
  */
 sakai.api.i18n.General.getValueForKey = function(key) {
-
     // First check if the key can be found in the locale bundle
     if (sakai.data.i18n.localBundle[key]) {
         return sakai.data.i18n.localBundle[key];
@@ -1784,7 +1786,6 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
  * @returns {Void}
  */
 sakai.api.Server.loadJSON = function(i_url, callback, data) {
-
     // Argument check
     if (!i_url) {
 
@@ -3576,10 +3577,8 @@ sakai.api.Widgets.renderWidget = function(widgetID) {
  * @param {Function} callback Callback function that gets executed after the load is complete
  */
 sakai.api.Widgets.loadWidgetData = function(id, callback) {
-
     // Get the URL from the widgetloader
     var url = sakai.api.Widgets.widgetLoader.widgets[id] ? sakai.api.Widgets.widgetLoader.widgets[id].placement : false;
-
     // Send a GET request to get the data for the widget
     sakai.api.Server.loadJSON(url, callback);
 
@@ -3621,7 +3620,6 @@ sakai.api.Widgets.widgetLoader = {
      * @param {String} context The context of the widget (e.g. siteid)
      */
     loadWidgets : function(id, showSettings, context){
-
         // Configuration variables
         var widgetNameSpace = "sakai";
         var widgetSelector = ".widget_inline";
@@ -3635,17 +3633,15 @@ sakai.api.Widgets.widgetLoader = {
          * @param {String} widgetname The name of the widget
          */
         var informOnLoad = function(widgetname){
-
             var doDelete;
-
             // Check if the name of the widget is inside the widgets object.
             if (widgets[widgetname] && widgets[widgetname].length > 0){
 
                 // Run through all the widgets with a specific name
                 for (var i = 0, j = widgets[widgetname].length; i<j; i++){
                     widgets[widgetname][i].done++;
+                    
                     if (widgets[widgetname][i].done === widgets[widgetname][i].todo){
-
                          // Save the placement in the widgets variable
                         sakai.api.Widgets.widgetLoader.widgets[widgets[widgetname][i].uid] = {
                             "placement": widgets[widgetname][i].placement + widgets[widgetname][i].uid + "/" + widgetname,
@@ -3766,7 +3762,6 @@ sakai.api.Widgets.widgetLoader = {
                         for (var i = 0, j = requestedURLsResults.length; i<j; i++) {
                             var jsonpath = requestedURLsResults[i].url;
                             var widgetname = batchWidgets[jsonpath];
-
                             if (jQuery.isPlainObject(sakai.widgets.widgets[widgetname].i18n)) {
                                 if (sakai.widgets.widgets[widgetname].i18n["default"]){
                                     var item = {
@@ -3806,10 +3801,10 @@ sakai.api.Widgets.widgetLoader = {
                                             hasBundles = true;
                                             if(data.results[ii].url.split("/")[4].split(".")[0] === "default"){
                                                 sakai.data.i18n.widgets[widgetName] = sakai.data.i18n.widgets[widgetName] || {};
-                                                sakai.data.i18n.widgets[widgetName]["default"] = $.parseJSON(data.results[ii].body);
+                                                sakai.data.i18n.widgets[widgetName]["default"] = sakai.data.i18n.changeToJSON(data.results[ii].body);
                                             } else {
                                                 sakai.data.i18n.widgets[widgetName] = sakai.data.i18n.widgets[widgetName] || {};
-                                                sakai.data.i18n.widgets[widgetName][current_locale_string] = $.parseJSON(data.results[ii].body);
+                                                sakai.data.i18n.widgets[widgetName][current_locale_string] = sakai.data.i18n.changeToJSON(data.results[ii].body);
                                             }
                                         }
                                     }
