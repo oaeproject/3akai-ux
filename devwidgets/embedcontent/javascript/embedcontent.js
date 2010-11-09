@@ -306,9 +306,17 @@ sakai.embedcontent = function(tuid, showSettings) {
                 if(objectData.items[i].filetype === "video"){
                     // Set random ID to the video
                     objectData.items[i].uId = Math.ceil(Math.random() * 999999999);
+
+                    var itemUrl;
+                    if (sakai.currentgroup.data.authprofile) {
+                        itemUrl = "/~" + sakai.currentgroup.data.authprofile["sakai:group-title"] + "/pages/_widgets/id" + objectData.items[i].uId + "/video";
+                    } else {
+                        itemUrl = "/~" + sakai.data.me.user.userid + "/pages/_widgets/id" + objectData.items[i].uId + "/video";
+                    }
+
                     // Create batch request data for the video
                     var item = {
-                        "url": "/~" + sakai.currentgroup.data.authprofile["sakai:group-title"] + "/pages/_widgets/id" + objectData.items[i].uId + "/video",
+                        "url": itemUrl,
                         "method": "POST",
                         "parameters": {
                             "uid": sakai.data.me.user.userid,
