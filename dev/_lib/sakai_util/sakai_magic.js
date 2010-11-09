@@ -1058,10 +1058,13 @@ sakai.api.i18n.init = function(){
        var json = {};
         var inputLine = input.split(/\r\n/);
         for (i in inputLine) {
-            var keyValuePair = inputLine[i].split(/ \= /);
-            var key = keyValuePair[0];
-            var value = keyValuePair[1];
-            json[key] = value;
+            // IE 8 i has indexof as well which breaks the page.
+            if (inputLine.hasOwnProperty(i)) {
+                var keyValuePair = inputLine[i].split(/ \= /);
+                var key = keyValuePair[0];
+                var value = keyValuePair[1];
+                json[key] = value;
+            }
         }
         return json;
     }
