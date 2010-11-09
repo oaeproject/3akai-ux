@@ -1,0 +1,279 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>__MSG__WIDGET_ADMIN__</title>
+
+        <!-- Sakai Core CSS -->
+        <link rel="stylesheet" type="text/css" href="_css/FSS/fss-base.css" />
+        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
+        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
+        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
+        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.admin_widgets.css" />
+
+        <!-- 3rd party CSS -->
+        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
+        <link rel="stylesheet" type="text/css" href="/dev/_lib/jquery/plugins/gritter/css/jquery.gritter.css" />
+        <link rel="stylesheet" type="text/css" href="_lib/jquery/plugins/imgareaselect/imgareaselect-default.css" />
+
+        <!-- Sakai Config JS -->
+        <script type="text/javascript" src="_configuration/widgets.js"></script>
+        <script type="text/javascript" src="/var/widgets.json?callback=sakai.storeWidgets"></script>
+        <script type="text/javascript" src="/dev/_configuration/config.js"></script>
+        <script type="text/javascript" src="/dev/_configuration/config_custom.js"></script>
+
+        <!-- Core 3rd-party JS -->
+        <script type="text/javascript" src="/dev/_lib/jquery/jquery.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/jquery-ui.full.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.validate.sakai-edited.js"></script>
+        <script type="text/javascript" src="/dev/_lib/Fluid/3akai_Infusion.js"></script>
+        <script type="text/javascript" src="/dev/_lib/i10n/globalization.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.json.js"></script>
+        <script type="text/javascript" src="/dev/_lib/google/html-sanitizer-minified.js"></script>
+
+        <!-- Sakai Core JS -->
+        <script type="text/javascript" src="/dev/_lib/sakai_util/sakai_magic.js"></script>
+        <script type="text/javascript" src="/dev/_lib/sakai_util/site_authz.js"></script>
+
+        <!-- 3rd party JS -->
+        <script type="text/javascript" src="/dev/_lib/sakai_util/trimpath.template.js"></script>
+        <script type="text/javascript" src="/dev/_lib/sakai_util/querystring.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/gritter/jquery.gritter.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jqmodal.sakai-edited.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.cookie.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.pager.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.threedots.js"></script>
+        <script type="text/javascript" src="/dev/_lib/Fluid/ProgressiveEnhancement.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/imgareaselect/jquery.imgareaselect.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.form.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.MultiFile.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/gritter/jquery.gritter.js"></script>
+
+    </head>
+
+    <body id="root" class="fl-centered fl-container i18nable widgets-container">
+
+        <span id="admin_widgets_notication" style="display:none;">__MSG__WIDGET_ADMIN__</span>
+        <span id="admin_widgets_notication_disable_success" style="display:none;">__MSG__WIDGET_DISABLED_SUCCESS__</span>
+        <span id="admin_widgets_notication_disable_error" style="display:none;">__MSG__WIDGET_DISABLED_ERROR__</span>
+        <span id="admin_widgets_notication_enable_success" style="display:none;">__MSG__WIDGET_ENABLED_SUCCESS__</span>
+        <span id="admin_widgets_notication_enable_error" style="display:none;">__MSG__WIDGET_ENABLED_ERROR__</span>
+        <span id="admin_widgets_notication_delete_success" style="display:none;">__MSG__WIDGET_DELETED_SUCCESS__</span>
+        <span id="admin_widgets_notication_delete_error" style="display:none;">__MSG__WIDGET_DELETED_ERROR__</span>
+        <span id="admin_widgets_notication_install_success" style="display:none;">__MSG__WIDGET_INSTALL_SUCCESS__</span>
+        <span id="admin_widgets_notication_install_error" style="display:none;">__MSG__WIDGET_INSTALL_ERROR__</span>
+
+        <!-- TOP BANNER -->
+        <div id="top_banner"><!-- --></div>
+
+        <!-- NAVIGATION -->
+        <div id="widget_topnavigation" class="widget_inline">
+        </div>
+
+        <!-- CONTENT -->
+        <div class="fl-container-flex header">
+            <div class="fl-fix fl-centered fixed-container">
+                <div class="decor">
+                </div>
+                <!-- TITLE BAR  -->
+                <div class="s3d-site-heading">
+                    <h1>__MSG__WIDGET_ADMIN__</h1>
+                </div>
+                <!-- CONTENT -->
+                <div class="fl-fix fl-centered main-container">
+                    <div id="admin_widgets_core_template_container">
+                        <!--
+                        -->
+                    </div>
+                    <div id="admin_widgets_sakai_template_container">
+                        <!--
+                        -->
+                    </div>
+                    <div id="admin_widgets_contrib_template_container">
+                        <!--
+                        -->
+                    </div>
+                    <div id="admin_widgets_add_widget">
+                        <div id="admin_widgets_jumpbox">
+                            <h2 id="admin_widgets_header">__MSG__INSTALL_A_WIDGET__</h2>
+                            <div class="admin_widgets_jumpbox_box">
+                                <div class="admin_widgets_upload_section">
+                                    __MSG__INSTALL_FROM_URL__
+                                    <p>__MSG__ENTER_OR_PASTE_WIDGET_WEB_ADDRESS__:</p>
+                                    <input id="admin_widgets_install_url" type="text" name="admin_widgets_install_url"/>
+                                    <p>
+                                        <button class="s3d-button" id="admin_widgets_install_url_submit"><span class="s3d-button-inner">__MSG__INSTALL_WIDGET__</span></button>
+                                    </p>
+                                </div>
+                                <div class="admin_widgets_upload_section">
+                                    <a href="javascript:;" id="admin_widgets_upload_link" class="admin_widgets_upload_link">__MSG__UPLOAD_A_WIDGET__</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TEMPLATES -->
+        <div id="admin_widgets_core_template" style="display:none;"><!--
+        <div id="admin_widgets_jumpbox">
+            <h2 id="admin_widgets_header">__MSG__CORE_WIDGETS__</h2>
+            <div class="admin_widgets_jumpbox_box">
+                {for i in items}
+                    <div class="admin_widgets_jumpbox_box_widget admin_widgets_widget_${i.id}">
+                        {if i.name}
+                            <span class="admin_widgets_name">${i.name}</span>
+                        {else}
+                            <span class="admin_widgets_name">${i.id}</span>
+                        {/if}
+                        {if i.description}
+                            <p>${i.description}</p>
+                        {/if}
+                    </div>
+                {/for}
+                <hr/>
+            </div>
+        </div>
+        --></div>
+
+        <div id="admin_widgets_sakai_template" style="display:none;"><!--
+        <div id="admin_widgets_jumpbox">
+            <h2 id="admin_widgets_header">__MSG__SAKAI_WIDGETS__</h2>
+            <div class="admin_widgets_jumpbox_box">
+                {for i in items}
+                    <div class="admin_widgets_jumpbox_box_widget admin_widgets_widget_${i.id}">
+                        {if i.name}
+                            <span class="admin_widgets_name admin_widgets_widget_name_${i.id}">${i.name}</span>
+                        {else}
+                            <span class="admin_widgets_name admin_widgets_widget_name_${i.id}">${i.id}</span>
+                        {/if}
+                        {if i.description}
+                            <p>${i.description}</p>
+                        {/if}
+                        <div class="dialog_buttons">
+                            {if i.status && i.status === "enabled"}
+                                <button class="s3d-button admin_widgets_button_disable" id="admin_widgets_disable_${i.id}"><span class="s3d-button-inner">__MSG__DISABLE_WIDGET__</span></button>
+                                <button class="s3d-button admin_widgets_button_enable" id="admin_widgets_enable_${i.id}" style="display:none;"><span class="s3d-button-inner">__MSG__ENABLE_WIDGET__</span></button>
+                            {else}
+                                <button class="s3d-button admin_widgets_button_disable" id="admin_widgets_disable_${i.id}" style="display:none;"><span class="s3d-button-inner">__MSG__DISABLE_WIDGET__</span></button>
+                                <button class="s3d-button admin_widgets_button_enable" id="admin_widgets_enable_${i.id}"><span class="s3d-button-inner">__MSG__ENABLE_WIDGET__</span></button>
+                            {/if}
+                        </div>
+                    </div>
+                {/for}
+                <hr/>
+            </div>
+        </div>
+        --></div>
+
+        <div id="admin_widgets_contrib_template" style="display:none;"><!--
+        <div id="admin_widgets_jumpbox">
+            <h2 id="admin_widgets_header">__MSG__CONTRIB_WIDGETS__</h2>
+            <div class="admin_widgets_jumpbox_box">
+                {for i in items}
+                    <div class="admin_widgets_jumpbox_box_widget admin_widgets_widget_${i.id}">
+                        {if i.name}
+                            <span class="admin_widgets_name admin_widgets_widget_name_${i.id}">${i.name}</span>
+                        {else}
+                            <span class="admin_widgets_name admin_widgets_widget_name_${i.id}">${i.id}</span>
+                        {/if}
+                        {if i.description}
+                            <p>${i.description}</p>
+                        {/if}
+                            <div class="dialog_buttons">
+                            {if i.status && i.status === "enabled"}
+                                <button class="s3d-button admin_widgets_button_disable" id="admin_widgets_disable_${i.id}"><span class="s3d-button-inner">__MSG__DISABLE_WIDGET__</span></button>
+                                <button class="s3d-button admin_widgets_button_enable" id="admin_widgets_enable_${i.id}" style="display:none;"><span class="s3d-button-inner">__MSG__ENABLE_WIDGET__</span></button>
+                            {else}
+                                <button class="s3d-button admin_widgets_button_disable" id="admin_widgets_disable_${i.id}" style="display:none;"><span class="s3d-button-inner">__MSG__DISABLE_WIDGET__</span></button>
+                                <button class="s3d-button admin_widgets_button_enable" id="admin_widgets_enable_${i.id}"><span class="s3d-button-inner">__MSG__ENABLE_WIDGET__</span></button>
+                            {/if}
+                            <button class="s3d-button admin_widgets_button_delete" id="admin_widgets_delete_${i.id}"><span class="s3d-button-inner">__MSG__DELETE_WIDGET__</span></button>
+                        </div>
+                    </div>
+                {/for}
+                <hr/>
+            </div>
+        </div>
+        --></div>
+
+        <!-- CONFIRM DISABLE DIALOG -->
+        <div id="admin_widgets_disable_dialog" class="dialog admin_widgets_dialog" style="width:400px; margin-left: -200px">
+            <div class="dialog_header">
+                <div class="dialog_header_inner">
+                <h1>__MSG__DISABLE_A_WIDGET__</h1>
+                <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+                </div>
+            </div>
+            <div class="dialog_content">
+                <h4>__MSG__ARE_YOU_SURE_YOU_WANT_TO_DISABLE_THE_WIDGET__: <span id="admin_widgets_disable_confirm_widget_title"></span>?</h4>
+                <div class="dialog_buttons disable_page_buttons">
+                    <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__NO__</span></button>
+                    <button type="button" class="s3d-button s3d-button-primary admin_widgets_button_disable_confirm"><span class="s3d-button-inner">__MSG__YES__</span></button>
+                </div>
+            </div>
+            <!-- DIALOG FOOTER -->
+            <div class="dialog_footer">
+                <div class="dialog_footer_inner"><!-- --></div>
+            </div>
+        </div>
+
+        <!-- CONFIRM ENABLE DIALOG -->
+        <div id="admin_widgets_enable_dialog" class="dialog admin_widgets_dialog" style="width:400px; margin-left: -200px">
+            <div class="dialog_header">
+                <div class="dialog_header_inner">
+                <h1>__MSG__ENABLE_A_WIDGET__</h1>
+                <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+                </div>
+            </div>
+            <div class="dialog_content">
+                <h4>__MSG__ARE_YOU_SURE_YOU_WANT_TO_ENABLE_THE_WIDGET__: <span id="admin_widgets_enable_confirm_widget_title"></span>?</h4>
+                <div class="dialog_buttons enable_page_buttons">
+                    <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__NO__</span></button>
+                    <button type="button" class="s3d-button s3d-button-primary admin_widgets_button_enable_confirm"><span class="s3d-button-inner">__MSG__YES__</span></button>
+                </div>
+            </div>
+            <!-- DIALOG FOOTER -->
+            <div class="dialog_footer">
+                <div class="dialog_footer_inner"><!-- --></div>
+            </div>
+        </div>
+
+        <!-- CONFIRM DELETE DIALOG -->
+        <div id="admin_widgets_delete_dialog" class="dialog admin_widgets_dialog" style="width:400px; margin-left: -200px">
+            <div class="dialog_header">
+                <div class="dialog_header_inner">
+                <h1>__MSG__DELETE_A_WIDGET__</h1>
+                <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+                </div>
+            </div>
+            <div class="dialog_content">
+                <h4>__MSG__ARE_YOU_SURE_YOU_WANT_TO_DELETE_THE_WIDGET__: <span id="admin_widgets_delete_confirm_widget_title"></span>?</h4>
+                <p class="admin_widgets_delete_widgets_text">__MSG__THIS_WILL_DELETE_THE_WIDGET__</p>
+                <div class="dialog_buttons delete_page_buttons">
+                    <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__NO__</span></button>
+                    <button type="button" class="s3d-button s3d-button-primary admin_widgets_button_delete_confirm"><span class="s3d-button-inner">__MSG__YES__</span></button>
+                </div>
+            </div>
+            <!-- DIALOG FOOTER -->
+            <div class="dialog_footer">
+                <div class="dialog_footer_inner"><!-- --></div>
+            </div>
+        </div>
+
+        <!-- Upload Content Widget Container -->
+        <div id="widget_fileupload" class="widget_inline"></div>
+
+        <!-- FOOTER WIDGET -->
+        <div id="widget_footer" class="widget_inline footercontainer"></div>
+
+        <!-- CHAT -->
+        <div id="widget_chat" class="widget_inline"></div>
+
+        <!-- JAVASCRIPT -->
+        <script type="text/javascript" src="_javascript/admin_widgets.js"></script>
+
+    </body>
+</html>
