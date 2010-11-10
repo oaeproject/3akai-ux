@@ -66,7 +66,6 @@
 
 #groupbasicinfo_add_another_location a {background: url("/dev/_images/add_blue_icon.png") left no-repeat; padding-left:25px; height:16px; display:block; margin-right:15px;}
 #groupbasicinfo_add_another_location {clear:both; display:block; padding:7px 0; width:200px;}
-.groupbasicinfo_remove_location, .groupbasicinfo_remove_new_location {float:right; color:#006E96; font-size:13px; font-weight:bold; margin-right:10px; height:16px;}
 
 .groupbasicinfo_added_directory {clear:both; padding-top:3px;}
 #groupbasicinfo_content_directory_contents {overflow:hidden;}

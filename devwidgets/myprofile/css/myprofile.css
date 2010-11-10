@@ -20,7 +20,7 @@
 .myprofile_widget .fl-widget-content {padding: 10px 20px;}
 .myprofile_widget .profile .myprofile_picture {width:48px;height:48px;float:left;margin-right:10px;}
 .myprofile_widget .profile .myprofile_status_led {background-image:url("/dev/_images/dot_green.png");float:left;position:relative;bottom:2px;margin:0;}
-.myprofile_widget .profile .myprofile_name {font-weight:700;font-size:1.1em;color:#39C;display:block;margin-left:56px;}
+.myprofile_widget .profile .myprofile_name {font-size:1.1em;display:block;margin-left:56px;}
 .myprofile_widget .profile .myprofile_dept {color:#999;display:block;margin-left:80px;font-size:.95em;position:relative;}
 .myprofile_widget .profile p {padding-top:10px;color:#999;float:left;}
 .myprofile_widget .profile p .myprofile_chat_status {color:#666;display:inline;}

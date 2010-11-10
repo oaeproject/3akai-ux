@@ -22,15 +22,15 @@
         {for i in comments}
             <div class="comments_topCommentBar">
                 <img alt="__MSG__AVATAR__" class="comments_avatar" src="${i.user.picture}" />
-                <div class="comments_posterData">
-                    <span class="comments_posterDataName"><a href="/~${i.user.uid}">${i.user.fullName}</a></span><br />
+                <div class="comments_posterData s3d-regular-light-links">
+                    <span class="comments_posterDataName s3d-regular-light-links"><a href="/~${i.user.uid}">${i.user.fullName}</a></span><br />
                     ${i.timeAgo} <span class="comments_dateComment">(${i.formatDate})</span>
                 </div>
             </div>
             <div>
             <div class="comments_arrowUp"></div>
 
-                <div class="comments_commentMessage">
+                <div class="comments_commentMessage s3d-regular-light-links">
                 <div class="comments_commentLinks">
                     <input type="hidden" id="comments_path_${i['sakai:id']}" value="${i['jcr:path']}" />
                     <ul>
