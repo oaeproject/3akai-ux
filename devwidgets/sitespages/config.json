@@ -9,5 +9,7 @@
     "name":"Sites Pages",
     "showinsakaigoodies":false,
     "siteportal":false,
+    "type":"core",
+    "enabled":true,
     "url":"/devwidgets/sitespages/sitespages.html"
 }

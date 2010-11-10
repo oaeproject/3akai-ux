@@ -124,13 +124,18 @@
                 {for i in items}
                     <div class="admin_widgets_jumpbox_box_widget admin_widgets_widget_${i.id}">
                         {if i.name}
-                            <span class="admin_widgets_name">${i.name}</span>
+                            <span class="admin_widgets_name admin_widgets_widget_name_${i.id}">${i.name}</span>
                         {else}
-                            <span class="admin_widgets_name">${i.id}</span>
+                            <span class="admin_widgets_name admin_widgets_widget_name_${i.id}">${i.id}</span>
                         {/if}
                         {if i.description}
                             <p>${i.description}</p>
                         {/if}
+                        <div class="dialog_buttons">
+                            {if !i.enabled}
+                                <button class="s3d-button admin_widgets_button_enable" id="admin_widgets_enable_${i.id}"><span class="s3d-button-inner">__MSG__ENABLE_WIDGET__</span></button>
+                            {/if}
+                        </div>
                     </div>
                 {/for}
                 <hr/>
@@ -153,7 +158,7 @@
                             <p>${i.description}</p>
                         {/if}
                         <div class="dialog_buttons">
-                            {if i.status && i.status === "enabled"}
+                            {if i.enabled}
                                 <button class="s3d-button admin_widgets_button_disable" id="admin_widgets_disable_${i.id}"><span class="s3d-button-inner">__MSG__DISABLE_WIDGET__</span></button>
                                 <button class="s3d-button admin_widgets_button_enable" id="admin_widgets_enable_${i.id}" style="display:none;"><span class="s3d-button-inner">__MSG__ENABLE_WIDGET__</span></button>
                             {else}
@@ -183,7 +188,7 @@
                             <p>${i.description}</p>
                         {/if}
                             <div class="dialog_buttons">
-                            {if i.status && i.status === "enabled"}
+                            {if i.enabled}
                                 <button class="s3d-button admin_widgets_button_disable" id="admin_widgets_disable_${i.id}"><span class="s3d-button-inner">__MSG__DISABLE_WIDGET__</span></button>
                                 <button class="s3d-button admin_widgets_button_enable" id="admin_widgets_enable_${i.id}" style="display:none;"><span class="s3d-button-inner">__MSG__ENABLE_WIDGET__</span></button>
                             {else}
@@ -203,7 +208,7 @@
         <div id="admin_widgets_disable_dialog" class="dialog admin_widgets_dialog" style="width:400px; margin-left: -200px">
             <div class="dialog_header">
                 <div class="dialog_header_inner">
-                <h1>__MSG__DISABLE_A_WIDGET__</h1>
+                <h1>__MSG__DISABLE_WIDGET__</h1>
                 <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
                 </div>
             </div>
@@ -224,7 +229,7 @@
         <div id="admin_widgets_enable_dialog" class="dialog admin_widgets_dialog" style="width:400px; margin-left: -200px">
             <div class="dialog_header">
                 <div class="dialog_header_inner">
-                <h1>__MSG__ENABLE_A_WIDGET__</h1>
+                <h1>__MSG__ENABLE_WIDGET__</h1>
                 <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
                 </div>
             </div>
@@ -245,7 +250,7 @@
         <div id="admin_widgets_delete_dialog" class="dialog admin_widgets_dialog" style="width:400px; margin-left: -200px">
             <div class="dialog_header">
                 <div class="dialog_header_inner">
-                <h1>__MSG__DELETE_A_WIDGET__</h1>
+                <h1>__MSG__DELETE_WIDGET__</h1>
                 <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
                 </div>
             </div>

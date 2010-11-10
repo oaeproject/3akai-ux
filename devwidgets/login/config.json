@@ -3,5 +3,7 @@
     "name":"Login",
     "id":"login",
     "hasSettings":true,
+    "type":"core",
+    "enabled":true,
     "url":"/devwidgets/login/login.html"
 }

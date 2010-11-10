@@ -3,5 +3,7 @@
     "name":"Hello World",
     "id":"helloworld",
     "hasSettings":true,
+    "type":"sakai",
+    "enabled":true,
     "url":"/devwidgets/helloworld/helloworld.html"
 }

@@ -10,5 +10,7 @@
     "name":"Comments",
     "showinsakaigoodies":true,
     "siteportal":true,
+    "type":"sakai",
+    "enabled":true,
     "url":"/devwidgets/comments/comments.html"
 }
