@@ -9,5 +9,7 @@
     },
     "name":"Embed Content",
     "img":"/devwidgets/embedcontent/images/content.png",
+    "type":"core",
+    "enabled":true,
     "url":"/devwidgets/embedcontent/embedcontent.html"
 }

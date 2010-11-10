@@ -9,5 +9,7 @@
     "name":"My Groups",
     "personalportal":true,
     "deletable": false,
+    "type":"sakai",
+    "enabled":true,
     "url":"/devwidgets/mygroups/mygroups.html"
 }

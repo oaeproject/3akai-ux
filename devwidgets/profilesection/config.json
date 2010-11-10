@@ -2,5 +2,7 @@
     "description":"Show a profile section",
     "name":"Profile Section",
     "id":"profilesection",
+    "type":"core",
+    "enabled":true,
     "url":"/devwidgets/profilesection/profilesection.html"
 }

@@ -118,6 +118,7 @@ var testInternationalisation = function(){
         "/dev/500.html",
         "/dev/account_preferences.html",
         "/dev/acknowledgements.html",
+        "/dev/admin_widgets.html",
         "/dev/content_profile.html",
         "/dev/create_new_account.html",
         "/dev/directory.html",

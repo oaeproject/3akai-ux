@@ -6,5 +6,7 @@
         "default": "/devwidgets/listgeneral/bundles/default.json"
     },
     "name": "General Lister",
+    "type":"core",
+    "enabled":true,
     "url": "/devwidgets/listgeneral/listgeneral.html"
 }

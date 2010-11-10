@@ -6,5 +6,7 @@
     "name":"User Profile",
     "showinsakaigoodies":false,
     "siteportal":false,
+    "type":"core",
+    "enabled":true,
     "url":"/devwidgets/userprofile/userprofile.html"
 }

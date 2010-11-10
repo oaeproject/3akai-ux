@@ -5,6 +5,8 @@
     "name":"Group Basic Information",
     "id":"groupbasicinfo",
     "img":"/devwidgets/groupbasicinfo/images/icon.png",
+    "type":"core",
+    "enabled":true,
     "url":"/devwidgets/groupbasicinfo/groupbasicinfo.html",
     "i18n": {
         "default": "/devwidgets/groupbasicinfo/bundles/default.json",

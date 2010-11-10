@@ -10,5 +10,7 @@
     "name": "Pages",
     "showinsidebar": true,
     "showinsakaigoodies": true,
+    "type":"core",
+    "enabled":true,
     "url": "/devwidgets/navigation/navigation.html"
 }
