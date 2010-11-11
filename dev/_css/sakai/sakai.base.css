@@ -51,6 +51,10 @@ a:hover {
     text-decoration: underline;
 }
 
+/* '+ Add another' link */
+.s3d-add_another_location {color:#3399CC; font-size:13px; font-weight:bold; background: url("/dev/_images/add_blue_icon.png") left no-repeat; padding-left:25px; height:16px; display:block; margin-right:15px;}
+.s3d-add_another_location_container {clear:both; display:block; padding:7px 0; width:200px;}
+
 /* Hidden elements
  ** localization: .i18nable
  * Hide i18nable elements by default until the messages are replaced by the translated
