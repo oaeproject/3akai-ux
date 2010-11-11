@@ -78,7 +78,6 @@ var testInternationalization = function(){
         "/dev/500.html",
         "/dev/account_preferences.html",
         "/dev/acknowledgements.html",
-        "/dev/admin_widgets.html",
         "/dev/content_profile.html",
         "/dev/create_new_account.html",
         "/dev/directory.html",
@@ -94,7 +93,8 @@ var testInternationalization = function(){
         "/dev/search_groups.html",
         "/dev/search_people.html",
         "/dev/show.html",
-        "/dev/s23/s23_site.html"
+        "/dev/s23/s23_site.html",
+        "/dev/admin/widgets.html"
     ];
 
     for (var i in Widgets.widgets) {
