@@ -1783,8 +1783,13 @@ sakai.api.Server.loadJSON = function(i_url, callback, data) {
         return;
     }
 
+    // append .infinity.json if .json isn't present in the url
+    if (i_url.indexOf(".json") === -1) {
+        i_url += ".infinity.json";
+    }
+
     $.ajax({
-        url: i_url + ".infinity.json",
+        url: i_url,
         cache: false,
         dataType: "json",
         data: data,

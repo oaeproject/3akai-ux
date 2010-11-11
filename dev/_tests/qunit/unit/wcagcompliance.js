@@ -2,117 +2,36 @@ module("WCAG 2.0 Compliance");
 
 (function(){
 
-var checkElementText = function(element){
-    var hasText = false;
-    for (var i = 0; i < element.childNodes.length; i++) {
-        if ($(element.childNodes[i]).clone().find("*").remove().end().text()) {
-            return true;
-        } else if (element.childNodes[i].firstChild) {
-            if (checkElementText()){
-                hasText = true;
-            }
-        }
-    }
-    return hasText;
-}
+var checkElements = function($elt, pageURL){
+    $.each($elt.find("img"), function(i, elt) {
+        ok($(elt).attr("alt") || $(elt).prev('img').attr("src") === $(elt).attr("src"), "Page: " + pageURL + "IMG tag has ALT attribute:" + $('<div/>').html(elt).html());
+    });
 
-var checkChildElements = function(element, page, template){
-    if (element.firstChild) { // check for children elements
-        var child = element.firstChild;
+    $.each($elt.find("applet"), function(i, elt) {
+        ok($(elt).attr("alt"), "Page: " + pageURL + "APPLET tag has ALT attribute: " + $('<div/>').html(elt).html());
+    });
 
-        while (child) { // check child elements
-            if (child.nodeType === 8 && child.parentNode.nodeName.toLowerCase() === "div") { // if comment node is in a div its probably a javascript template
-                var trimPathTemplate = document.createElement('div');
-                trimPathTemplate.innerHTML = child.data;
-                checkChildElements(trimPathTemplate, page, true);
-            }
-            if (child.nodeType === 1) { // if html element
-                var previousImg = false;
-                if (child.previousElementSibling && child.previousElementSibling.nodeName.toLowerCase() === "img") {
-                    previousImg = true;
-                }
+    $.each($elt.find("object"), function(i, elt) {
+        ok($(elt).children().length > 0, "Page: " + pageURL + "OBJECT tag has contents: " + $('<div/>').html(elt).html());
+    });
 
-                var errorString = "";
-                var pass = true;
-                var testNodeName = child.nodeName.toLowerCase();
+    $.each($elt.find("area"), function(i, elt) {
+        ok($(elt).attr("alt"), "Page: " + pageURL + "AREA tag has ALT attribute: " + $('<div/>').html(elt).html());
+    });
 
-                var hasAlt = false;
-                var hasTitle = false;
-                var hasText = false;
-                var hasChild = false;
-                var hasElements = false;
+    $.each($elt.find("abbr"), function(i, elt) {
+        ok($(elt).attr("title"), "Page: " + pageURL + "ABBR tag has TITLE attribute: " + $('<div/>').html(elt).html());
+    });
 
-                if ($(child).attr("alt"))
-                    hasAlt = true;
-                if ($(child).attr("title"))
-                    hasTitle = true;
-                if ($(child).clone().find("*").remove().end().text())
-                    hasText = true;
-                if (child.firstChild)
-                    hasChild = true;
-
-                if (testNodeName === "img"){
-                    errorString = "IMG tag missing ";
-                    if (!hasAlt && !previousImg) {
-                        errorString = errorString + "ALT attribute, ";
-                        pass = false;
-                    }
-                } else if (testNodeName === "applet"){
-                    errorString = "APPLET tag missing ";
-                    if (!hasAlt) {
-                        errorString = errorString + "ALT attribute, ";
-                        pass = false;
-                    }
-                } else if (testNodeName === "object"){
-                    errorString = "OBJECT tag missing ";
-                    if (!hasChild) {
-                        errorString = errorString + "body, ";
-                        pass = false;
-                    }
-                } else if (testNodeName === "area"){
-                    errorString = "AREA tag missing ";
-                    if (!hasAlt) {
-                        errorString = errorString + "ALT attribute, ";
-                        pass = false;
-                    }
-                } else if (testNodeName === "abbr"){
-                    errorString = "ABBR tag missing ";
-                    if (!hasTitle) {
-                        errorString = errorString + "TITLE attribute, ";
-                        pass = false;
-                    }
-                } else if (testNodeName === "a"){
-                    var hasChildText = false;
-                    for (var i = 0; i < child.childNodes.length; i++) {
-                        if (child.childNodes[i].nodeName.toLowerCase() === "img" && $(child.childNodes[i]).attr("alt")) {
-                            hasChildText = true;
-                        } else if (checkElementText(child.childNodes[i])) {
-                            hasChildText = true;
-                        }
-                    }
-                    errorString = "A tag missing ";
-                    if (!hasText && !hasChildText) {
-                        errorString = errorString + "link text or IMG ALT attribute, ";
-                        pass = false;
-                    }
-                }
-
-                if (!pass) {
-                    errorString = errorString + " String: " + $(child).clone().wrapAll("<div/>").parent().html();
-                    ok(false, "Page: " + page + ", Error: " + errorString);
-                }
-
-                checkChildElements(child, page, template);
-            }
-        child = child.nextSibling;
-        }
-    }
+    $.each($elt.find("a"), function(i, elt) {
+        ok($(elt).text() || $(elt).find("*").text(), "Page: " + pageURL + "A tag has text or children that have text: " + $('<div/>').html(elt).html());
+    });
 };
 
 /**
  * Check HTML pages and test for WCAG compliance
  */
-var testInternationalisation = function(){
+var testWCAGCompliance = function(){
     var pageArray = ["/dev/403.html",
         "/dev/404.html",
         "/dev/500.html",
@@ -143,15 +62,15 @@ var testInternationalisation = function(){
         }
     }
 
-    for (var i = 0; i < pageArray.length; i++) {
-        var url = pageArray[i];
+    for (var j = 0; j < pageArray.length; j++) {
+        var url = pageArray[j];
         $.ajax({
             url: url,
             async: false,
             success: function(data){
                 var div = document.createElement('div');
                 div.innerHTML = data;
-                checkChildElements(div, url, false);
+                checkElements($(div), url, false);
             }
         });
     }
@@ -161,7 +80,7 @@ var testInternationalisation = function(){
  * Run a test
  */
 test("Test for WCAG 2.0 Compliance - 1.1.1 Non-text Content / Text Alternatives", function(){
-    testInternationalisation();
+    testWCAGCompliance();
 });
 
 })();

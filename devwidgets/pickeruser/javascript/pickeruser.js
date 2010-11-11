@@ -191,7 +191,7 @@ sakai.pickeruser = function(tuid, showSettings) {
             messageList.push(sakai.data.me.profile["rep:userId"]);
           }
           if (iConfig.URL){
-              messageText = messageText + "\n\n" + "<a href='" + window.location.href + "'>" + window.location.href + "</a>";
+              messageText = messageText + "\n\n" + "<a href='" + iConfig.URL + "'>" + iConfig.URL + "</a>";
           }
           sakai.api.Communication.sendMessage(messageList, sakai.api.Security.saneHTML($("#pickeruser_subject_text").text()) + " " + iConfig.where, messageText);
       }
@@ -315,7 +315,7 @@ sakai.pickeruser = function(tuid, showSettings) {
 
     $pickeruser_init_search.bind("click", function() {
         var currentSelections = getSelectedList();
-       $(window).trigger("sakai-pickeradvanced-init", {"list":currentSelections, "config": {"type": pickerData["type"]}});
+        $(window).trigger("sakai-pickeradvanced-init", {"list":currentSelections, "config": {"type": pickerData["type"]}});
     });
 
     $pickeruser_close_button.bind("click", function() {
