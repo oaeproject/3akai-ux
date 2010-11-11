@@ -662,7 +662,7 @@ sakai.collections = function(tuid, showSettings) {
                 }
             }
             if (!categoryImages[cat.id]) {
-                $("#category_" + cat.id + " div img").attr("src", "/dev/_images/mimetypes/empty.png");
+                $("#category_" + cat.id + " div img").attr("src", "/dev/images/mimetypes/empty.png");
             }
         }
     };

@@ -45,9 +45,9 @@
 
         <!-- Define a patternset for core JS files (from ${TARGET_DIR}) -->
         <patternset id="js.corefiles">
-            <include name="_javascript/**/*.js"/>
-            <include name="_configuration/**/*.js"/>
-            <include name="_lib/sakai_util/**/*.js"/>
+            <include name="javascript/**/*.js"/>
+            <include name="configuration/**/*.js"/>
+            <include name="lib/sakai_util/**/*.js"/>
         </patternset>
 
         <!-- Define patternset for widget JS files (from ${TARGET_DIR_W}) -->
@@ -58,8 +58,8 @@
 
         <!-- Define patternset for core CSS files (from ${TARGET_DIR}) -->
         <patternset id="css.corefiles">
-            <include name="_css/sakai/**/*.css"/>
-            <include name="_skins/**/*.css"/>
+            <include name="css/sakai/**/*.css"/>
+            <include name="skins/**/*.css"/>
         </patternset>
 
         <!-- Define patternset for widget CSS files (from ${TARGET_DIR_W}) -->
@@ -260,7 +260,7 @@
             <arg value="-d=${jsdoc.output}"/>
             <arg value="-t=${jsdoc.defaulttemplate}"/>
             <arg value="-o=${jsdoc.logfile}"/>
-            <filelist dir="${SRC_DIR}/_lib/sakai_util">
+            <filelist dir="${SRC_DIR}/lib/sakai_util">
                 <file name="sakai_magic.js" />
             </filelist>
             <fileset dir="${SRC_DIR_W}">
@@ -274,15 +274,13 @@
         <delete dir="${INSTRUMENTED_DIR}" includeemptydirs="true" />
         <exec executable="jscoverage">
             <arg value="--no-instrument" />
-            <arg value="_tests" />
+            <arg value="lib${file.separator}google" />
             <arg value="--no-instrument" />
-            <arg value="_lib${file.separator}google" />
+            <arg value="lib${file.separator}Fluid" />
             <arg value="--no-instrument" />
-            <arg value="_lib${file.separator}Fluid" />
+            <arg value="lib${file.separator}jquery" />
             <arg value="--no-instrument" />
-            <arg value="_lib${file.separator}jquery" />
-            <arg value="--no-instrument" />
-            <arg value="_lib${file.separator}sakai_util${file.separator}trimpath.template.js" />
+            <arg value="lib${file.separator}sakai_util${file.separator}trimpath.template.js" />
             <arg value="${SRC_DIR}" />
             <arg value="${INSTRUMENTED_DIR}" />
         </exec>

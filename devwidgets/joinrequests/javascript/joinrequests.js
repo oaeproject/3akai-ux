@@ -71,7 +71,7 @@ sakai.joinrequests = function (tuid, showSettings) {
             // set images for users that have a profile picture
             for (var i in joinrequests) {
                 if (joinrequests.hasOwnProperty(i)) {
-                    var pic_src = "/dev/_images/default_profile_picture_64.png";
+                    var pic_src = "/dev/images/default_profile_picture_64.png";
                     if (joinrequests[i].pic_src) {
                         var pic_src_json = $.parseJSON(joinrequests[i].pic_src);
                         pic_src = "/~" + joinrequests[i].userid +

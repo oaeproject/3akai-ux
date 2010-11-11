@@ -209,7 +209,7 @@ sakai.discussion = function(tuid, showSettings){
             return "/~" + uuid + "/public/profile/" + picture.name;
         }
         else {
-            return "/dev/_images/user_avatar_icon_32x32.png";
+            return "/dev/images/user_avatar_icon_32x32.png";
         }
     };
 
