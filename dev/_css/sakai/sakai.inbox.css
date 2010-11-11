@@ -1,9 +1,5 @@
 /** inbox_main.html **/
 
-/** CONTAINER **/
-.fixed-container
-{ background: #fff;}
-
 /** LAYOUT **/
 .inbox_main .main_container
 { border:medium none; margin:0 0 20px; padding:0; }
@@ -176,10 +172,10 @@
 { padding: 19px 0 0 0; }
 
 .inbox_main .compose-message
-{ background: #fff; width: 613px; height: auto; text-align: left; padding: 20px 20px 20px 37px; border-top: 3px solid #D5DBDF; }
+{ width: 613px; height: auto; text-align: left; padding: 20px 20px 20px 37px; border-top: 3px solid #D5DBDF; }
 
 .inbox_main .compose-reply
-{ background: #fff; width: 500px; height: auto; position: relative; top:-15px;}
+{  width: 500px; height: auto; position: relative; top:-15px;}
 
 .inbox_main .compose-form
 { padding: 0; color: #333; font-size: 13px; }

@@ -124,7 +124,25 @@ a:hover {
 }
 
 /*
- * CHROME STYLES
+ * CONTENT LAYOUT 
+ */
+.s3d-header .s3d-fixed-container {
+    background:url("../../_images/header_l.png") no-repeat scroll left top #FFFFFF;
+}
+
+.s3d-header .s3d-fixed-container .s3d-decor {
+    background:url("../../_images/header_r.png") no-repeat scroll right top transparent;
+    height:5px;
+    margin-right:-20px;
+} 
+
+.s3d-main-container {
+    background: #ffffff;
+    padding-bottom: 20px;
+}
+
+/*
+ * CHROME STYLES    
  * HEADINGS
  */
 .s3d-site-heading {

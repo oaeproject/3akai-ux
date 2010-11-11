@@ -16,10 +16,6 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/** CONTAINER **/
-.fixed-container
-{ background: #fff; }
-
 .basic_appearance .site_appereance_contents_main
 { border-left: 3px solid #D3DBDE; border-right: 3px solid #D3DBDE; margin: 0; padding: 10px; }
 

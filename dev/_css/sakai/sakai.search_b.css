@@ -21,9 +21,6 @@
 
 /* HEADER */
 .content_search { padding: 12px 0 0 0; }
-.search-container .content_search .fixed-container { background: #fff url('../../_images/header_l.png') top left no-repeat; }
-.search-container .content_search .fixed-container .decor { background: url('../../_images/header_r.png') top right no-repeat; height: 5px; margin-right: -20px; }
-
 
 .content_search h1.title { font-size: 1.4em; font-weight: bold; margin: 15px 0 0 0; padding: 0;}
 
