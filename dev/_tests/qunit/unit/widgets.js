@@ -69,6 +69,32 @@ test('Test properties', function(){
                 "name": "url",
                 "required": true,
                 "type": "string"
+            }, {
+                "name": "groupdashboard",
+                "type": "boolean"
+            }, {
+                "name": "grouppages",
+                "type": "boolean"
+            }, {
+                "name": "userdashboard",
+                "type": "boolean"
+            }, {
+                "name": "userpages",
+                "type": "boolean"
+            }, {
+                "name": "deletable",
+                "type": "boolean"
+            }, {
+                "name": "subNameInfoContent",
+                "type": "string"
+            }, {
+                "name": "enabled",
+                "type": "boolean",
+                "required": true
+            }, {
+                "name": "type",
+                "type": "string",
+                "required": true
             }];
             var propertiesCount = properties.length;
 
