@@ -435,3 +435,9 @@ label.error {color:#9f3333;font-weight:bold;}
 /* Dialog footer */
 .dialog_footer{background:url(/dev/_images/dialog_br.png) top right no-repeat;padding:0 8px 0 0;}
 .dialog_footer_inner{background:url(/dev/_images/dialog_bl.png) top left no-repeat;height:6px;}
+
+/** Chat bullets **/
+.chat_available_status_online { background: url("/dev/_images/bullet_green.png") no-repeat scroll -3px -1px transparent; }
+.chat_available_status_busy {background:url("/dev/_images/bullet_orange.png") no-repeat scroll -3px -1px transparent; }
+.chat_available_status_offline {background:url("/dev/_images/bullet_red.png") no-repeat scroll -3px -1px transparent; }
+.chat_available_status_offline, .chat_available_status_busy, .chat_available_status_online {padding-left:15px;}

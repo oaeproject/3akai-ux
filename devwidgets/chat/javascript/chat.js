@@ -382,12 +382,8 @@ sakai.chat = function(tuid, showSettings){
      */
     var setWindowChatStatus = function(userid, chatstatus){
         var bottomName = $("#chat_window_chatstatus_" + userid);
-        // Remove the current chat status
-        bottomName.removeClass("chat_available_status_online");
-        bottomName.removeClass("chat_available_status_busy");
-        bottomName.removeClass("chat_available_status_offline");
         // Add the new chat status
-        bottomName.addClass("chat_available_status_" + chatstatus);
+        sakai.api.Util.updateChatStatusElement(bottomName, "chat_available_status_" + chatstatus);
         // Update the global chat window object
         getChatWindow(userid).profile.chatstatus = chatstatus;
     };
@@ -756,6 +752,11 @@ sakai.chat = function(tuid, showSettings){
 
     $(window).bind("chat_status_message_change", function(event,newChatStatusMessage){
         updateChatStatusMessage(newChatStatusMessage);
+    });
+
+    // Add binding to set the status
+    $(window).bind("chat_status_change", function(event, currentChatStatus){
+        sakai.api.Util.updateChatStatusElement($(".chat_available_name"), currentChatStatus);
     });
 
     $(".user_chat").live("click", function(){

@@ -3303,6 +3303,20 @@ sakai.api.Util.shortenString = function(input, maxlength){
 
 
 /**
+ * Sets the chat bullets after update of status by
+ * adding the right status css class on an element.
+ * @param {Object} element the jquery element you wish to add the class to
+ * @param {Object} status the status
+ */
+sakai.api.Util.updateChatStatusElement = function(element, chatstatus) {
+    element.removeClass("chat_available_status_online");
+    element.removeClass("chat_available_status_busy");
+    element.removeClass("chat_available_status_offline");
+    element.addClass("chat_available_status_" + chatstatus);
+};
+
+
+/**
  * URL encodes a given string
  *
  * @param {String} s The string we would like to URL encode
