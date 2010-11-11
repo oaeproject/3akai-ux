@@ -315,6 +315,9 @@ html > body .s3d-button .s3d-button-inner {
 .context_menu ul li{list-style-type:none;}
 .context_menu ul li a{color:#666;font-size:0.95em;display:block;padding:2px 20px 2px 4px;}
 
+/* Input fields */
+input[type="text"]:hover, input[type="password"]:hover, textarea:hover{background:none repeat scroll 0 0 #D3EDF5;}
+
 /* ----------------------------------------------------------------------------
  *    CONTENT AREA TOP TABS
  * ----------------------------------------------------------------------------

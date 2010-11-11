@@ -7,9 +7,6 @@
     padding: 3px;
     width:  410px
 }
-#profilesection_generalinfo input[type="text"]:hover, #profilesection_generalinfo input[type="password"]:hover, textarea:hover {
-    background: #d3edf5;
-}
 #profile_heading a, #profile_userinfo a, #profile_generalinfo a {
     color: #3399CC;
     font-weight: bold;
