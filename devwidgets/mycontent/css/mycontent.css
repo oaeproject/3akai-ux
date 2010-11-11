@@ -9,7 +9,7 @@ p.mycontent_item_title, p.mycontent_item_meta, p.mycontent_error_msg {margin:0;}
 p.mycontent_error_msg {padding-left:15px;}
 
 /*** TYPOGRAPHY ***/
-a.mycontent_item_link {font-weight:bold; font-size:1.1em; color:#016E97;}
+a.mycontent_item_link {font-weight:bold; font-size:1.1em;}
 p.mycontent_item_meta {font-size:0.9em; color:#444444;}
    
 /* Widget icon */

@@ -32,9 +32,8 @@
 #content_profile_basic_info_tags_viewlist {overflow:hidden; margin:0; padding-top:3px;}
 #content_profile_basic_info_form input,#content_profile_basic_info_form textarea, #content_profile_basic_info_form select {font-weight:bold; margin-top:3px;}
 
-#content_profile_basic_info_add_another_location a {color:#006E96; font-size:13px; font-weight:bold; background: url("/dev/_images/add_blue_icon.png") left no-repeat; padding-left:25px; height:16px; display:block; margin-right:15px;}
+#content_profile_basic_info_add_another_location a {background: url("/dev/_images/add_blue_icon.png") left no-repeat; padding-left:25px; height:16px; display:block; margin-right:15px;}
 #content_profile_basic_info_add_another_location {clear:both; display:block; padding:7px 0; width:200px;}
-.content_profile_basic_info_remove_location, .content_profile_basic_info_remove_new_location {float:right; color:#006E96; font-size:13px; font-weight:bold; margin-right:10px; height:16px;}
 
 .content_profile_basic_info_added_directory {clear:both; padding-top:3px;}
 #content_profile_basic_info_content_directory_contents {overflow:auto;}

@@ -10,8 +10,7 @@ strong {color: #000;}
 #toolscontainer { margin-left: 20px; }
 
 /* WIDGET CONTAINER */
-#widgetscontainer {background-color: #fff; padding-top: 1px; padding-bottom: 20px;}
-#widgetscontainer .fl-widget {margin-top: 1px}
+##widgetscontainer .fl-widget {margin-top: 1px}
 
 #mysakai_edit_page { float:right; padding:10px; width:220px; }
 

@@ -21,8 +21,7 @@ width:70px;}
 
 /* HEADER */
 .content-management { padding: 12px 0 0 0; }
-.content-management .fixed-container { background: #fff url('../../_images/header_l.png') top left no-repeat; }
-.content-management .fixed-container .decor { background: url('../../_images/header_r.png') top right no-repeat; height: 5px; margin-right: -20px; }
+.content-management .fixed-container .decor { top right no-repeat; height: 5px; margin-right: -20px; }
 .content-management #sitetitle { color: #454A4F; font-size: 1.8em; font-weight: bold; margin: 15px 0 0 0; padding: 0;}
 .content-management .secondary_title { color: #454A4F; font-size: 1.6em; font-weight: bold; margin: 15px 0; padding: 0;}
 .content-management .secondary_title a { float: right; display: block; font-size: 0.6em; font-weight: bold; margin: 5px 0; padding: 0;}

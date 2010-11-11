@@ -1,9 +1,5 @@
 /** inbox_main.html **/
 
-/** CONTAINER **/
-.fixed-container
-{ background: #fff;}
-
 /** LAYOUT **/
 .inbox_main .main_container
 { border:medium none; margin:0 0 20px; padding:0; }
@@ -63,7 +59,7 @@
 { list-style-type: none; padding: 3px 0 3px 0; }
 
 .inbox_main .inbox-folders .if_content ul li a
-{ font-weight: normal; color: #058EC4; }
+{ font-weight: normal; }
 
 .inbox_main .inbox-folders .if_content ul li span
 { font-weight: normal; color: #999999; }
@@ -72,7 +68,7 @@
 { margin: 10px 0 10px 0; }
 
 .inbox_main .inbox-folders .if_content .tab a
-{ font-weight: bold; color: #058EC4; font-size: 1.2em; padding: 0 0 10px 0; }
+{ font-size: 1.2em; padding: 0 0 10px 0; }
 
 .inbox_main .inbox-folders #inbox_filter_inbox
 { background: transparent url(/dev/_images/inbox_folders_messages.gif) no-repeat scroll left center; height: 20px; padding: 0 0 0 28px; }
@@ -125,9 +121,6 @@
 .inbox_main .top_button_bar
 { padding: 0 12px 5px 0; text-align: right; }
 
-.inbox_main .inbox_inbox_delete
-{ color: #058EC4; }
-
 /** Header **/
 .inbox_main .inbox-table .different
 { background: #eaedef; }
@@ -166,8 +159,6 @@
 .inbox_main .inbox-table tr.inbox-subject-unread *
 { font-weight: bold; }
 
-.inbox_main .inbox-table td a.inbox_inbox_message {color:#058EC4}
-
 .inbox_main .inbox-table .inbox_message_none
 { text-align: center; border: none; height: 370px; }
 
@@ -176,18 +167,15 @@
 { background: transparent url(/dev/_images/inbox_table_bottom.png) no-repeat top left; height: 41px; width: 676px; border: none; }
 
 
-
-
-
 /** INBOX COMPOSE PANE **/
 .inbox_main #inbox_pane_compose
 { padding: 19px 0 0 0; }
 
 .inbox_main .compose-message
-{ background: #fff; width: 613px; height: auto; text-align: left; padding: 20px 20px 20px 37px; border-top: 3px solid #D5DBDF; }
+{ width: 613px; height: auto; text-align: left; padding: 20px 20px 20px 37px; border-top: 3px solid #D5DBDF; }
 
 .inbox_main .compose-reply
-{ background: #fff; width: 500px; height: auto; position: relative; top:-15px;}
+{  width: 500px; height: auto; position: relative; top:-15px;}
 
 .inbox_main .compose-form
 { padding: 0; color: #333; font-size: 13px; }
@@ -220,10 +208,7 @@
 { padding: 0; }
 
 .inbox_detail .sender-options
-{ color:#058ec4; font-size: 1em; padding: 0 12px 5px 0; }
-
-.inbox_detail .sender-options a
-{ color:#058ec4; font-size: 1em; }
+{ padding: 0 12px 5px 0; }
 
 .inbox_detail .sender_details
 { height: 32px; background: #f4f4f4; border-bottom: 3px solid #D4DADE; padding: 5px; }
@@ -235,13 +220,10 @@
 { width:32px; height:32px; }
 
 .inbox_detail .inbox-heading a
-{ color: #058ec4; font-size: 13px; }
+{font-size: 13px; }
 
 .inbox_detail .inbox-heading span
 { font-size: 16px; }
-
-.inbox_detail .sender-name
-{ color: #058ec4; font-weight: bold; }
 
 .inbox_detail .sender-timestamp
 { color: #999999; font-size: 11px; }
@@ -263,9 +245,6 @@
 
 .inbox_detail .message-options
 { padding: 15px 15px 0 0; }
-
-.inbox_detail .message-options a, #inbox_message_body a
-{ color:#058ec4; font-weight: bold; }
 
 .inbox_detail .pipe-divider
 { color:#d2d2d2; padding: 0 10px 0 10px; }

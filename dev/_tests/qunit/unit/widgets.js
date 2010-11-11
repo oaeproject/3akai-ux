@@ -5,15 +5,15 @@ module("Widgets");
 test("The Widget variable exists", function(){
     same(typeof Widgets, "object", "the Widgets variable exists");
 
-    same(typeof Widgets.widgets, "object", "the Widgets.widgets variable exists");
+    same(typeof sakai.widgets.widgets, "object", "the sakai.widgets.widgets variable exists");
 });
 
 test('Test properties', function(){
 
-    for(var i in Widgets.widgets){
-        if(Widgets.widgets.hasOwnProperty(i)){
+    for(var i in sakai.widgets.widgets){
+        if(sakai.widgets.widgets.hasOwnProperty(i)){
 
-            var widgetObject = Widgets.widgets[i];
+            var widgetObject = sakai.widgets.widgets[i];
 
             // Properties
             var properties = [{
@@ -132,10 +132,10 @@ test('Test properties', function(){
 
 asyncTest('Test if all the URLs work', function(){
 
-    for (var i in Widgets.widgets) {
-        if (Widgets.widgets.hasOwnProperty(i)) {
+    for (var i in sakai.widgets.widgets) {
+        if (sakai.widgets.widgets.hasOwnProperty(i)) {
 
-            var widgetObject = Widgets.widgets[i];
+            var widgetObject = sakai.widgets.widgets[i];
 
             var properties = ["url", "img", "i18n"];
 

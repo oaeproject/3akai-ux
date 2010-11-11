@@ -45,7 +45,7 @@
 
     </head>
 
-    <body class="fl-centered fl-container acknowledgements">
+    <body class="fl-centered fl-container acknowledgements i18nable">
 
         <!-- TOP BANNER -->
         <div id="top_banner"><!-- --></div>
@@ -54,15 +54,15 @@
         <div id="widget_topnavigation" class="widget_inline"></div>
 
         <!-- TITLE BAR  -->
-        <div class="fl-container-flex header">
-            <div class="fl-fix fl-centered fixed-container">
-                <div class="decor"></div>
+        <div class="fl-container-flex header s3d-header">
+            <div class="fl-fix fl-centered fixed-container s3d-fixed-container">
+                <div class="s3d-decor"></div>
 
                 <!-- TITLE BAR  -->
                 <div class="s3d-site-heading">
-                    <h1 class="title">Acknowledgement</h1>
+                    <h1 class="title">__MSG__ACKNOWLEDGEMENTS__</h1>
                 </div>
-                <span id="ackenowledgements_content">Special thanks to the following organizations that have contributed software and other resources to the Sakai Community. Without their help, dedication and hard work Sakai would not be the same high quality product.</span>
+                <span id="ackenowledgements_content">__MSG__SPECIAL_THANKS_TO__</span>
             </div>
         </div>
 
@@ -70,7 +70,7 @@
         <div class="fl-container fl-fix acknowledgements_content">
 
             <!-- JQUERY -->
-            <div class="fl-fix fl-centered fixed-container main-container">
+            <div class="fl-fix fl-centered fixed-container main-container s3d-main-container">
                 <div class="fl-container fl-fix acknowledgement_container">
                     <div class="fl-container">
                         <div class="acknowledgement_image_container">
@@ -78,328 +78,322 @@
                         <img src="/dev/_images/logo_jquery_ui.png"></img>
                         </div>
                         <div class="acknowledgement_information">
-                            <h1>jQuery and jQuery UI</h1>
+                            <h1>__MSG__JQUERY_AND_JQUERY_UI__</h1>
                             <a href="http://www.jquery.com">www.jquery.com</a> <br /><br />
-                            <span>jQuery is a fast and concise JavaScript Library that simplifies HTML document traversing, event handling, animating, and Ajax interactions for rapid web development. jQuery is designed to change the way that you write JavaScript. jQuery UI provides abstractions for low-level interaction and animation, advanced effects and high-level, themeable widgets, built on top of the jQuery JavaScript Library, that you can use to build highly interactive web applications.</span>
+                            <span>__MSG__JQUERY_IS_A_FAST_AND_CONCISE__</span>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- APACHE SLING -->
-            <div class="fl-fix fl-centered fixed-container main-container">
+            <div class="fl-fix fl-centered fixed-container main-container s3d-main-container">
                 <div class="fl-container fl-fix acknowledgement_container">
                     <div class="fl-container">
                         <div class="acknowledgement_image_container">
                             <img src="/dev/_images/logo_sling.png"></img>
                         </div>
                         <div class="acknowledgement_information">
-                            <h1>Apache Sling</h1>
+                            <h1>__MSG__APACHE_SLING__</h1>
                             <a href="http://www.sling.apache.com">www.sling.apache.com</a> <br /><br />
-                            <span>Apache Sling is a web framework that uses a Java Content Repository, such as Apache Jackrabbit, to store and manage content. Sling applications use either scripts or Java servlets, selected based on simple name conventions, to process HTTP requests in a RESTful way. The embedded Apache Felix OSGi framework and console provide a dynamic runtime environment, where code and content bundles can be loaded, unloaded and reconfigured at runtime. As the first web framework dedicated to JSR-170 Java Content Repositories, Sling makes it very simple to implement simple applications, while providing an enterprise-level framework for more complex applications.</span>
+                            <span>__MSG__APACHE_SLING_IS_A_WEB_FRAMWORK__</span>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- FLUID -->
-            <div class="fl-fix fl-centered fixed-container main-container">
+            <div class="fl-fix fl-centered fixed-container main-container s3d-main-container">
                 <div class="fl-container fl-fix acknowledgement_container">
                     <div class="fl-container">
                         <div class="acknowledgement_image_container">
                             <img src="/dev/_images/logo_fluid.png"></img>
                         </div>
                         <div class="acknowledgement_information">
-                            <h1>Fluid Infusion</h1>
+                            <h1>__MSG__FLUID_INFUSION__</h1>
                             <a href="http://www.fluidproject.org/products/infusion">www.fluidproject.org/products/infusion</a> <br /><br />
-                            <span>We think good interfaces should be easy to use and easy to build. Infusion takes the pain out of developing accessible, high performance, clean and nimble front-ends for applications that want to do more. Our approach is to leave you in control - it's your interface, using your markup, your way. Developed by an international group of software developers and interaction designers, Fluid Infusion combines JavaScript, CSS, HTML and user-centered design, rolling them all into a single package that sits on top of the popular jQuery toolkit. Infusion includes ready-to-use components as well as a framework to build your own. Once you're using Infusion, we work to ensure that upgrading is pain-free with backwards compatibility, support for multiple versions, and the APIs are rock solid with thorough documentation.</span>
+                            <span>__MSG__WE_THINK_GOOD_INTERFACES__</span>
                         </div>
                     </div>
                 </div>
               </div>
 
             <!-- SOFTWARE FROM THIRD PARTIES LIST -->
-            <div class="fl-fix fl-centered fixed-container main-container acknowledgements_third_party">
-                <span>The product includes software from the following 3rd parties:</span>
+            <div class="fl-fix fl-centered fixed-container main-container s3d-main-container acknowledgements_third_party">
+                <span>__MSG__THE_PRODUCT_INCLUDES_SOFTWARE_FROM__</span>
 
                 <div class="acknowledgement_information">
-                    <h2>TrimPath</h2>
+                    <h2>__MSG__TRIMPATH__</h2>
                     <a href="http://code.google.com/p/trimpath/wiki/JavaScriptTemplates" target="_blank" title="TrimPath">http://code.google.com/p/trimpath/wiki/JavaScriptTemplates</a>
                     <br/>
-                    <span>Javascript Templates.</span>
+                    <span>__MSG__JAVASCRIPT_TEMPLATES__</span>
                 </div>
                 <div class="acknowledgement_information">
-                    <h2>Moxiecode Systems AB</h2>
-                    <a href="http://tinymce.moxiecode.com/" target="_blank" title="Moxiecode Systems AB">http://tinymce.moxiecode.com/</a>
+                    <h2>__MSG__MOXIECODE_SYSTEMS_AB__</h2>
+                    <a href="http://tinymce.moxiecode.com/" target="_blank" title="__MSG__MOXIECODE_SYSTEMS_AB__">http://tinymce.moxiecode.com/</a>
                     <br/>
-                    <span>tinyMCE - Javascript WYSIWYG Editor</span>
+                    <span>__MSG__TINYMCE_JAVASCRIPT_WYSIWYG_EDITOR__</span>
                 </div>
                 <div class="acknowledgement_information">
-                    <h2>Google Inc.</h2>
-                    <a href="http://code.google.com/p/google-caja/wiki/JsHtmlSanitizer" target="_blank" title="Google Inc.">code.google.com/p/google-caja/wiki/JsHtmlSanitizer</a>
+                    <h2>__MSG__GOOGLE_INC__</h2>
+                    <a href="http://code.google.com/p/google-caja/wiki/JsHtmlSanitizer" target="_blank" title="__MSG__GOOGLE_INC__">code.google.com/p/google-caja/wiki/JsHtmlSanitizer</a>
                     <br/>
-                    <span>JSHtmlSanitizer library from the Caja Project</span>
+                    <span>__MSG__JSHTMLSANITIZER_LIBRARY_FROM_THE_CAJA_PROJECT__</span>
                 </div>
                 <div class="acknowledgement_information">
-                    <h2>Jordan Boesch.</h2>
-                    <a href="http://www.boedesign.com" target="_blank" title="Jordan Boesch.">www.boedesign.com</a>
+                    <h2>__MSG__JORDAN_BOESH__</h2>
+                    <a href="http://www.boedesign.com" target="_blank" title="__MSG__JORDAN_BOESH__">www.boedesign.com</a>
                     <br/>
-                    <span>Gritter jQuery plugin</span>
+                    <span>__MSG__GRITTER_JQUERY_PLUGIN__</span>
                 </div>
                 <div class="acknowledgement_information">
-                    <h2>Brice Burgess</h2>
-                    <a href="http://dev.iceburg.net/jquery/jqModal" target="_blank" title="Brice Burgess">dev.iceburg.net/jquery/jqModal</a>
+                    <h2>__MSG__BRICE_BURGESS__</h2>
+                    <a href="http://dev.iceburg.net/jquery/jqModal" target="_blank" title="__MSG__BRICE_BURGESS__">dev.iceburg.net/jquery/jqModal</a>
                     <br/>
-                    <span>jqModal jQuery plugin</span>
+                    <span>__MSG__JQMODAL_JQUERY_PLUGIN__</span>
                 </div>
                 <div class="acknowledgement_information">
-                    <h2>Kelvin Luck</h2>
-                    <a href="http://kelvinluck.com/assets/jquery/jScrollPane" target="_blank" title="Kelvin Luck">kelvinluck.com/assets/jquery/jScrollPane</a>
+                    <h2>__MSG__KELVIN_LUCK__</h2>
+                    <a href="http://kelvinluck.com/assets/jquery/jScrollPane" target="_blank" title="__MSG__KELVIN_LUCK__">kelvinluck.com/assets/jquery/jScrollPane</a>
                     <br/>
-                    <span>jScrollPane jQuery plugin</span>
+                    <span>__MSG__JSCROLLPANE_JQUERY_PLUGIN__</span>
                 </div>
                 <div class="acknowledgement_information">
-                    <h2>Drew Wilson</h2>
-                    <a href="http://code.drewwilson.com/entry/autosuggest-jquery-plugin" target="_blank" title="Drew Wilson">code.drewwilson.com/entry/autosuggest-jquery-plugin</a>
+                    <h2>__MSG__DREW_WILSON__</h2>
+                    <a href="http://code.drewwilson.com/entry/autosuggest-jquery-plugin" target="_blank" title="__MSG__DREW_WILSON__">code.drewwilson.com/entry/autosuggest-jquery-plugin</a>
                     <br/>
-                    <span>AutoSuggest jQuery plugin</span>
+                    <span>__MSG__AUTOSUGGEST_JQUERY_PLUGIN__</span>
                 </div>
                 <div class="acknowledgement_information">
-                    <h2>"Cowboy" Ben Alman</h2>
-                    <a href="http://benalman.com/about/license" target="_blank" title='"Cowboy" Ben Alman'>benalman.com/about/license</a>
+                    <h2>__MSG__COWBOY_BEN_ALMAN__</h2>
+                    <a href="http://benalman.com/about/license" target="_blank" title='__MSG__COWBOY_BEN_ALMAN__'>benalman.com/about/license</a>
                     <br/>
-                    <span>jQuery BBQ: Back Button jQuery plugin</span>
+                    <span>__MSG__JQUERY_BBQ__</span>
                 </div>
-                <div class="acknowledgement_information">
-                    <h2>"Cowboy" Ben Alman</h2>
-                    <a href="http://benalman.com/about/license" target="_blank" title='"Cowboy" Ben Alman'>benalman.com/about/license</a>
+               <div class="acknowledgement_information">
+                    <h2>__MSG__KLAUS_HARTL__</h2>
+                    <a href="http://stilbuero.de" target="_blank" title="__MSG__KLAUS_HARTL__">stilbuero.de</a>
                     <br/>
-                    <span>jQuery BBQ: Back Button jQuery plugin</span>
+                    <span>__MSG__COOKIE_JQUERY_PLUGIN__</span>
                 </div>
                 <div class="acknowledgement_information">
-                    <h2>Klaus Hartl</h2>
-                    <a href="http://stilbuero.de" target="_blank" title="Klaus Hartl">stilbuero.de</a>
+                    <h2>__MSG__MIKE_ALSUP__</h2>
+                    <a href="http://malsup.com/jquery/form" target="_blank" title="__MSG__MIKE_ALSUP__">http://malsup.com/jquery/form</a>
                     <br/>
-                    <span>Cookie jQuery plugin</span>
+                    <span>__MSG__JQUERY_FORM_PLUGIN__</span>
                 </div>
                 <div class="acknowledgement_information">
-                    <h2>Mike Alsup</h2>
-                    <a href="http://malsup.com/jquery/form" target="_blank" title="Mike Alsup">http://malsup.com/jquery/form</a>
+                    <h2>__MSG__MICHAL_WOJCIECHOWSKI__</h2>
+                    <a href="http://odyniec.net/projects/imgareaselect" target="_blank" title="__MSG__MICHAL_WOJCIECHOWSKI__">odyniec.net/projects/imgareaselect</a>
                     <br/>
-                    <span>jQuery Form Plugin</span>
+                    <span>__MSG__IMGAREASELECT_JQUERY_PLUGIN__</span>
                 </div>
                 <div class="acknowledgement_information">
-                    <h2>Michal Wojciechowski</h2>
-                    <a href="http://odyniec.net/projects/imgareaselect" target="_blank" title="Michal Wojciechowski">odyniec.net/projects/imgareaselect</a>
+                    <h2>__MSG__MIKA_TUUPOLA_DYLAN_VERHEUL__</h2>
+                    <a href="http://www.appelsiini.net/projects/jeditable" target="_blank" title="__MSG__MIKA_TUUPOLA_DYLAN_VERHEUL__">www.appelsiini.net/projects/jeditable</a>
                     <br/>
-                    <span>imgAreaSelect jQuery plugin</span>
+                    <span>__MSG__JEDITABLE_JQUERY_PLUGIN__</span>
                 </div>
                 <div class="acknowledgement_information">
-                    <h2>Mika Tuupola, Dylan Verheul</h2>
-                    <a href="http://www.appelsiini.net/projects/jeditable" target="_blank" title="Mika Tuupola, Dylan Verheul">www.appelsiini.net/projects/jeditable</a>
+                    <h2>__MSG__BRANTLEY_HARRIS__</h2>
+                    <a href="http://code.google.com/p/jquery-json" target="_blank" title="__MSG__BRANTLEY_HARRIS__">http://code.google.com/p/jquery-json</a>
                     <br/>
-                    <span>Jeditable jQuery plugin</span>
+                    <span>__MSG__JQUERY_JSON_PLUGIN__</span>
                 </div>
                 <div class="acknowledgement_information">
-                    <h2>Brantley Harris</h2>
-                    <a href="http://code.google.com/p/jquery-json" target="_blank" title="Brantley Harris">http://code.google.com/p/jquery-json</a>
+                    <h2>__MSG__IVAN_BOSZHANOV__</h2>
+                    <a href="http://jstree.com" target="_blank" title="__MSG__IVAN_BOSZHANOV__">jstree.com</a>
                     <br/>
-                    <span>jQuery JSON Plugin</span>
+                    <span>__MSG__JSTREE_JQUERY_PLUGIN__</span>
                 </div>
                 <div class="acknowledgement_information">
-                    <h2>Ivan Bozhanov</h2>
-                    <a href="http://jstree.com" target="_blank" title="Ivan Bozhanov">jstree.com</a>
+                    <h2>__MSG__FYNETWORKS_COM__</h2>
+                    <a href="http://www.fyneworks.com/jquery/multiple-file-upload" target="_blank" title="__MSG__FYNETWORKS_COM__">www.fyneworks.com/jquery/multiple-file-upload</a>
                     <br/>
-                    <span>jsTree jQuery plugin</span>
+                    <span>__MSG__JQUERY_MULTIPLE_FILE_UPLOAD_PLUGIN__</span>
                 </div>
                 <div class="acknowledgement_information">
-                    <h2>Fynetworks.com</h2>
-                    <a href="http://www.fyneworks.com/jquery/multiple-file-upload" target="_blank" title="Fynetworks.com">www.fyneworks.com/jquery/multiple-file-upload</a>
+                    <h2>__MSG__JON_PAUL_DAVIES__</h2>
+                    <a href="http://jonpauldavies.github.com/JQuery/Pager" target="_blank" title="__MSG__JON_PAUL_DAVIES__">jonpauldavies.github.com/JQuery/Pager</a>
                     <br/>
-                    <span>jQuery Multiple File Upload Plugin</span>
+                    <span>__MSG__JQUERY_PAGER_PLUGIN__</span>
                 </div>
                 <div class="acknowledgement_information">
-                    <h2>Jon Paul Davies</h2>
-                    <a href="http://jonpauldavies.github.com/JQuery/Pager" target="_blank" title="Jon Paul Davies">jonpauldavies.github.com/JQuery/Pager</a>
+                    <h2>__MSG__AUTHOR_JEREMY_HORN__</h2>
+                    <a href="http://tpgblog.com/ThreeDots" target="_blank" title="__MSG__AUTHOR_JEREMY_HORN__">tpgblog.com/ThreeDots</a>
                     <br/>
-                    <span>jQuery Pager plugin</span>
+                    <span>__MSG__THREEDOTS_JQUERY_PLUGIN__</span>
                 </div>
                 <div class="acknowledgement_information">
-                    <h2>Author Jeremy Horn</h2>
-                    <a href="http://tpgblog.com/ThreeDots" target="_blank" title="Author Jeremy Horn">tpgblog.com/ThreeDots</a>
+                    <h2>__MSG__RYAN_MCGEARY__</h2>
+                    <a href="http://timeago.yarp.com" target="_blank" title="__MSG__RYAN_MCGEARY__">timeago.yarp.com</a>
                     <br/>
-                    <span>ThreeDots jQuery plugin</span>
+                    <span>__MSG__TIMEAGE_JQUERY_PLUGIN__</span>
                 </div>
                 <div class="acknowledgement_information">
-                    <h2>Ryan McGeary</h2>
-                    <a href="http://timeago.yarp.com" target="_blank" title="Ryan McGeary">timeago.yarp.com</a>
+                    <h2>__MSG__JORN_ZAEFFERER__</h2>
+                    <a href="http://bassistance.de/jquery-plugins/jquery-plugin-validation" target="_blank" title="__MSG__JORN_ZAEFFERER__">bassistance.de/jquery-plugins/jquery-plugin-validation</a>
                     <br/>
-                    <span>Timeage jQuery plugin</span>
+                    <span>__MSG__JQUERY_VALIDATION_PLUGIN__</span>
                 </div>
                 <div class="acknowledgement_information">
-                    <h2>Jorn Zaefferer</h2>
-                    <a href="http://bassistance.de/jquery-plugins/jquery-plugin-validation" target="_blank" title="J�rn Zaefferer">bassistance.de/jquery-plugins/jquery-plugin-validation</a>
+                    <h2>__MSG__ADAM_VANDENBERG__</h2>
+                    <a href="http://adamv.com/dev/javascript/querystring" target="_blank" title="__MSG__ADAM_VANDENBERG__">http://adamv.com/dev/javascript/querystring</a>
                     <br/>
-                    <span>jQuery validation plugin</span>
+                    <span>__MSG__QUERYSTRING__</span>
                 </div>
                 <div class="acknowledgement_information">
-                    <h2>Adam Vandenberg</h2>
-                    <a href="http://adamv.com/dev/javascript/querystring" target="_blank" title="Adam Vandenberg">http://adamv.com/dev/javascript/querystring</a>
+                    <h2>__MSG__DOMINIC_MITCHELL__</h2>
+                    <a href="http://search.cpan.org/~hdm/JavaScript-JSLint-0.06/" target="_blank" title="__MSG__DOMINIC_MITCHELL__">http://search.cpan.org/~hdm/JavaScript-JSLint-0.06/</a>
                     <br/>
-                    <span>Querystring</span>
+                    <span>__MSG__JAVASCRIPT_JSLINT__</span>
                 </div>
                 <div class="acknowledgement_information">
-                    <h2>Dominic Mitchell</h2>
-                    <a href="http://search.cpan.org/~hdm/JavaScript-JSLint-0.06/" target="_blank" title="Dominic Mitchell">http://search.cpan.org/~hdm/JavaScript-JSLint-0.06/</a>
+                    <h2>__MSG__MICHAEL_MATHEWS__</h2>
+                    <a href="http://code.google.com/p/jsdoc-toolkit" target="_blank" title="__MSG__MICHAEL_MATHEWS__">code.google.com/p/jsdoc-toolkit</a>
                     <br/>
-                    <span>Javascript-JSLint</span>
+                    <span>__MSG__JSDOC_TOOLKIT__</span>
                 </div>
                 <div class="acknowledgement_information">
-                    <h2>Michael Mathews</h2>
-                    <a href="http://code.google.com/p/jsdoc-toolkit" target="_blank" title="Michael Mathews">code.google.com/p/jsdoc-toolkit</a>
+                    <h2>__MSG__YAHOO_INC__</h2>
+                    <a href="http://developer.yahoo.com/yui/compressor/" target="_blank" title="__MSG__YAHOO_INC__">http://developer.yahoo.com/yui/compressor/</a>
                     <br/>
-                    <span>JsDoc Toolkit</span>
+                    <span>__MSG__YUI_COMPRESSOR__</span>
                 </div>
                 <div class="acknowledgement_information">
-                    <h2>Yahoo! Inc.</h2>
-                    <a href="http://developer.yahoo.com/yui/compressor/" target="_blank" title="Yahoo! Inc.">http://developer.yahoo.com/yui/compressor/</a>
+                    <h2>__MSG__YUSUKE_KAMIYAMANE__</h2>
+                    <a href="http://p.yusukekamiyamane.com" target="_blank" title="__MSG__YUSUKE_KAMIYAMANE__">http://p.yusukekamiyamane.com</a>
                     <br/>
-                    <span>YUI Compressor</span>
+                    <span>__MSG__FUGUE_ICONS__</span>
                 </div>
                 <div class="acknowledgement_information">
-                    <h2>Yusuke Kamiyamane</h2>
-                    <a href="http://p.yusukekamiyamane.com" target="_blank" title="Yusuke Kamiyamane">http://p.yusukekamiyamane.com</a>
+                    <h2>__MSG__MARK_JAMES__</h2>
+                    <a href="http://www.famfamfam.com/lab/icons/silk" target="_blank" title="__MSG__MARK_JAMES__">www.famfamfam.com/lab/icons/silk</a>
                     <br/>
-                    <span>Fugue icons</span>
+                    <span>__MSG__SILK_ICONS__</span>
                 </div>
                 <div class="acknowledgement_information">
-                    <h2>Mark James</h2>
-                    <a href="http://www.famfamfam.com/lab/icons/silk" target="_blank" title="Mark James">www.famfamfam.com/lab/icons/silk</a>
-                    <br/>
-                    <span>Silk icons</span>
-                </div>
-                <div class="acknowledgement_information">
-                    <h2>Apache Software Foundation</h2>
-                    <a href="http://www.apache.org" target="_blank" title="Apache Software Foundation">www.apache.org</a>
+                    <h2>__MSG__APACHE_SOFTWARE_FOUNDATION__</h2>
+                    <a href="http://www.apache.org" target="_blank" title="__MSG__APACHE_SOFTWARE_FOUNDATION__">www.apache.org</a>
                     <br/>
                 </div>
 
                 <!-- NAKAMURA -->
                 <div class="acknowledgement_information">
-                    <h2>Nakamura - the server part of Sakai 3 - uses the following components:</h2>
+                    <h2>__MSG__NAKAMURA_THE_SERVER_PART_OF_SAKAI_3__</h2>
                     <ul>
-                        <li>Apache Aries JMX API</li>
-                        <li>Apache Aries JMX Core</li>
-                        <li>Apache Commons IO Bundle</li>
-                        <li>Apache Derby 10.5</li>
-                        <li>Apache Felix Bundle Repository</li>
-                        <li>Apache Felix Configuration Admin Service</li>
-                        <li>Apache Felix Declarative Services</li>
-                        <li>Apache Felix EventAdmin</li>
-                        <li>Apache Felix File Install</li>
-                        <li>Apache Felix Http Whiteboard</li>
-                        <li>Apache Felix Metatype Service</li>
-                        <li>Apache Felix Web Console Event Plugin</li>
-                        <li>Apache Felix Web Console Memory Usage Plugin</li>
-                        <li>Apache Felix Web Management Console</li>
-                        <li>Apache Jackrabbit API</li>
-                        <li>Apache Sling Adapter Manager Implementation</li>
-                        <li>Apache Sling API</li>
-                        <li>Apache Sling Authentication Service</li>
-                        <li>Apache Sling Bundle Resource Provider</li>
-                        <li>Apache Sling Commons OSGi support</li>
-                        <li>Apache Sling Default GET Servlets</li>
-                        <li>Apache Sling Default POST Servlets</li>
-                        <li>Apache Sling Dynamic Class Loader Support</li>
-                        <li>Apache Sling Engine Implementation</li>
-                        <li>Apache Sling Filesystem Resource Provider</li>
-                        <li>Apache Sling Groovy Extensions</li>
-                        <li>Apache Sling Initial Content Loader</li>
-                        <li>Apache Sling Jackrabbit Embedded Repository</li>
-                        <li>Apache Sling Jackrabbit JSR-283 Access Control Manager Support</li>
-                        <li>Apache Sling JCR Base Bundle</li>
-                        <li>Apache Sling JCR ClassLoader</li>
-                        <li>Apache Sling JCR Resource Resolver</li>
-                        <li>Apache Sling JCR WebConsole Bundle</li>
-                        <li>Apache Sling JSON Library</li>
-                        <li>Apache Sling JSP Tag Library</li>
-                        <li>Apache Sling Launchpad Content</li>
-                        <li>Apache Sling MIME type mapping support</li>
-                        <li>Apache Sling Object Content Mapping</li>
-                        <li>Apache Sling OpenID Authentication</li>
-                        <li>Apache Sling OSGi LogService Implementation</li>
-                        <li>Apache Sling Repository API Bundle</li>
-                        <li>Apache Sling Scheduler Support</li>
-                        <li>Apache Sling Scripting Core implementation</li>
-                        <li>Apache Sling Scripting Implementation API</li>
-                        <li>Apache Sling Scripting JavaScript Support</li>
-                        <li>Apache Sling Scripting JSP Support</li>
-                        <li>Apache Sling Servlet Resolver</li>
-                        <li>Apache Sling Settings</li>
-                        <li>Apache Sling Thread Dumper</li>
-                        <li>Apache Sling Thread Support</li>
-                        <li>Apache Sling Web Console Branding</li>
-                        <li>Apache Sling Web Console Security Provider</li>
-                        <li>Commons Collections</li>
-                        <li>Commons FileUpload</li>
-                        <li>Commons Lang</li>
-                        <li>EclipseLink JPA</li>
-                        <li>geronimo-j2ee-connector_1.5_spec</li>
-                        <li>geronimo-jta_1.1_spec</li>
-                        <li>Groovy Runtime</li>
-                        <li>Jackrabbit JCR Commons</li>
-                        <li>Jackrabbit JCR-RMI</li>
-                        <li>Jackrabbit SPI</li>
-                        <li>Jackrabbit SPI Commons</li>
-                        <li>OPS4J Pax Web - Service</li>
-                        <li>Sakai 3 UX Loader</li>
-                        <li>Sakai Nakamura :: ActiveMQ Bundle</li>
-                        <li>Sakai Nakamura :: Activity Bundle</li>
-                        <li>Sakai Nakamura :: Apache Commons Codec bundle</li>
-                        <li>Sakai Nakamura :: Apache Commons Email bundle</li>
-                        <li>Sakai Nakamura :: Apache Commons HTTPClient bundle</li>
-                        <li>Sakai Nakamura :: Apache Commons Pools bundle</li>
-                        <li>Sakai Nakamura :: Authorization Bundle</li>
-                        <li>Sakai Nakamura :: Batch Bundle</li>
-                        <li>Sakai Nakamura :: Calendar based events bundle</li>
-                        <li>Sakai Nakamura :: Chat services bundle</li>
-                        <li>Sakai Nakamura :: Configuration Bundle</li>
-                        <li>Sakai Nakamura :: Connections Management Bundle</li>
-                        <li>Sakai Nakamura :: Database Bundle</li>
-                        <li>Sakai Nakamura :: Discussion Management Bundle</li>
-                        <li>Sakai Nakamura :: Document Proxy</li>
-                        <li>Sakai Nakamura :: Documentation Support bundle</li>
-                        <li>Sakai Nakamura :: Files Bundle</li>
-                        <li>Sakai Nakamura :: Form Auth Bundle</li>
-                        <li>Sakai Nakamura :: image service</li>
-                        <li>Sakai Nakamura :: Javax Activation and Mail Bundle</li>
-                        <li>Sakai Nakamura :: JAXP API Bundle</li>
-                        <li>Sakai Nakamura :: JCR Bundle</li>
-                        <li>Sakai Nakamura :: JSON Lib Bundle</li>
-                        <li>Sakai Nakamura :: Locking Bundle</li>
-                        <li>Sakai Nakamura :: Me Service Bundle</li>
-                        <li>Sakai Nakamura :: Memory Bundle</li>
-                        <li>Sakai Nakamura :: Messaging Bundle</li>
-                        <li>Sakai Nakamura :: OSGi-to-JMS Events Bridge Bundle</li>
-                        <li>Sakai Nakamura :: Outgoing Email Sender</li>
-                        <li>Sakai Nakamura :: Personal Space Bundle</li>
-                        <li>Sakai Nakamura :: Presence Bundle</li>
-                        <li>Sakai Nakamura :: proxy service</li>
-                        <li>Sakai Nakamura :: Sakai Cluster Tracking</li>
-                        <li>Sakai Nakamura :: Search Support Bundle</li>
-                        <li>Sakai Nakamura :: Security Loader Bundle</li>
-                        <li>Sakai Nakamura :: Site Service Bundle</li>
-                        <li>Sakai Nakamura :: Sling Resource Extensione Bundle</li>
-                        <li>Sakai Nakamura :: SMTP Server</li>
-                        <li>Sakai Nakamura :: Tika Bundle</li>
-                        <li>Sakai Nakamura :: Trusted Authentication Bundle</li>
-                        <li>Sakai Nakamura :: User Extension Bundle</li>
-                        <li>Sakai Nakamura :: Utilities</li>
-                        <li>Sakai Nakamura :: Version Extension Bundle</li>
+                        <li>__MSG__APACHE_ARIES_JMX_API__</li>
+                        <li>__MSG__APACHE_ARIES_JMS_CORE__</li>
+                        <li>__MSG__APACHE_COMMONS_IO_BUNDLE__</li>
+                        <li>__MSG__APACHE_DERBY__</li>
+                        <li>__MSG__APACHE_FELIX_BUNDLE_REPOSITORY__</li>
+                        <li>__MSG__APACHE_FELIX_CONFIGURATION_ADMIN_SERVICE__</li>
+                        <li>__MSG__APACHE_FELIX_DECLARATIVE_SERVICES__</li>
+                        <li>__MSG__APACHE_FELIX_EVENTADMIN__</li>
+                        <li>__MSG__APACHE_FELIX_FILE_INSTALL__</li>
+                        <li>__MSG__APACHE_FELIX_HTTP_WHITEBOARD__</li>
+                        <li>__MSG__APACHE_FELIX_METATYPE_SERVICE__</li>
+                        <li>__MSG__APACHE_FELIX_WEB_CONSOLE_EVENT_PLUGIN__</li>
+                        <li>__MSG__APACHE_FELIX_WEB_CONSOLE_MEMORY_USAGE_PLUGIN__</li>
+                        <li>__MSG__APACHE_FELIX_WEB_MANAGEMENT_CONSOLE__</li>
+                        <li>__MSG__APACHE_JACKRABBIT_API__</li>
+                        <li>__MSG__APACHE_SLING_ADAPTER_MANAGER_IMPLEMENTATION__</li>
+                        <li>__MSG__APACHE_SLING_API__</li>
+                        <li>__MSG__APACHE_SLING_AUTHENTICATION_SERVICE__</li>
+                        <li>__MSG__APACHE_SLING_BUNDLE_RESOURCE_PROVIDER__</li>
+                        <li>__MSG__APACHE_SLING_COMMONS_OSGI_SUPPORT__</li>
+                        <li>__MSG__APACHE_SLING_DEFAULT_GET_SERVLETS__</li>
+                        <li>__MSG__APACHE_SLING_DEFAULT_POST_SERVLETS__</li>
+                        <li>__MSG__APACHE_SLING_DYNAMIC_CLASS_LOADER_SUPPORT__</li>
+                        <li>__MSG__APACHE_SLING_ENGINE_IMPLEMENTATION__</li>
+                        <li>__MSG__APACHE_SLING_FILESYSTEM_RESOURCE_PROVIDER__</li>
+                        <li>__MSG__APACHE_SLING_GROOVY_EXTENSION__</li>
+                        <li>__MSG__APACHE_SLING_INITIAL_CONTENT_LOADER__</li>
+                        <li>__MSG__APACHE_SLING_JACKRABBIT_EMBEDDED_REPOSITORY__</li>
+                        <li>__MSG__APACHE_SLING_JACKRABBIT_JSR_ACCESS_CONTROL_MANAGER_SUPPORT__</li>
+                        <li>__MSG__APACHE_SLING_JCR_BASE_BUNDLE__</li>
+                        <li>__MSG__APACHE_SLING_JCR_CLASSLOADER__</li>
+                        <li>__MSG__APACHE_SLING_JCR_RESOURCE_RESOLVER__</li>
+                        <li>__MSG__APACHE_SLING_JCR_WEBCONSOLE_BUNDLE__</li>
+                        <li>__MSG__APACHE_SLING_JSON_LIBRARY__</li>
+                        <li>__MSG__APACHE_SLING_JSP_TAG_LIBRARY__</li>
+                        <li>__MSG__APACHE_SLING_LAUNCHPAD_CONTENT__</li>
+                        <li>__MSG__APACHE_SLING_MIME_TYPE_MAPPING_SUPPORT__</li>
+                        <li>__MSG__APACHE_SLING_OBJECT_CONTENT_MAPPING__</li>
+                        <li>__MSG__APACHE_SLING_OPENID_AUTHENTICATION__</li>
+                        <li>__MSG__APACHE_SLING_OSGI_LOGSERVICE_IMPLEMENTATION__</li>
+                        <li>__MSG__APACHE_SLING_REPOSITORY_API_BUNDLE__</li>
+                        <li>__MSG__APACHE_SLING_SCHEDULER_SUPPORT__</li>
+                        <li>__MSG__APACHE_SLING_SCRIPTING_CORE_IMPLEMENTATION__</li>
+                        <li>__MSG__APACHE_SLING_SCRIPTING_IMPLEMENTATION_API__</li>
+                        <li>__MSG__APACHE_SLING_SCRIPTING_JAVASCRIPT_SUPPORT__</li>
+                        <li>__MSG__APACHE_SLING_SCRIPTING_JSP_SUPPORT__</li>
+                        <li>__MSG__APACHE_SLING_SERVLET_RESOLVER__</li>
+                        <li>__MSG__APACHE_SLING_SETTINGS__</li>
+                        <li>__MSG__APACHE_SLING_THREAD_DUMPER__</li>
+                        <li>__MSG__APACHE_SLING_THREAD_SUPPORT__</li>
+                        <li>__MSG__APACHE_SLING_WEB_CONSOLE_BRANDING__</li>
+                        <li>__MSG__APACHE_SLING_WEB_CONSOLE_SECURITY_PROVIDER__</li>
+                        <li>__MSG__COMMONS_COLLECTIONS__</li>
+                        <li>__MSG__COMMONS_FILEUPLOAD__</li>
+                        <li>__MSG__COMMONS_LANG__</li>
+                        <li>__MSG__ECLIPSELINK_JPA__</li>
+                        <li>__MSG__GERONIMO_J2EE_CONNECTOR__</li>
+                        <li>__MSG__GERONIMO_JTA__</li>
+                        <li>__MSG__GROOVY_RUNTIME__</li>
+                        <li>__MSG__JACKRABBIT_JCR_COMMONS__</li>
+                        <li>__MSG__JACKRABBIT_JCR_RMI__</li>
+                        <li>__MSG__JACKRABBIT_SPI__</li>
+                        <li>__MSG__JACKRABBIT_SPI_COMMONS__</li>
+                        <li>__MSG__OPS4J_PAX_WEB_SERVICE__</li>
+                        <li>__MSG__SAKAI_3_UX_LOADER__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_ACTIVE_MQ_BUNDLE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_ACTIVITY_BUNDLE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_APACHE_COMMONS_CODE_BUNDLE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_APACHE_COMMONS_EMAIL_BUNDLE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_APACHE_COMMONS_HTTPCLIENT_BUNDLE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_APACHE_COMMONS_POOLS_BUNDLE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_AUTHORIZATION_BUNDLE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_BATCH_BUNDLE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_CALENDAR_BASED_EVENTS_BUNDLE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_CHAT_SERVICES_BUNDLE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_CONFIGURATION_BUNDLE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_CONNECTIONS_MANAGEMENT_BUNDLE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_DATABASE_BUNDLE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_DISCUSSION_MANAGEMENT_BUNDLE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_DOCUMENT_PROXY__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_DOCUMENTATION_SUPPORT_BUNDLE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_FILES_BUNDLE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_FORM_AUTH_BUNDLE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_IMAGE_SERVICE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_JAVAX_ACTIVATION_AND_MAIL_BUNDLE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_JAXP_API_BUNDLE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_JCR_BUNDLE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_JSON_LIB_BUNDLE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_LOCKING_BUNDLE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_ME_SERVICE_BUNDLE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_MEMORY_BUNDLE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_MESSAGING_BUNDLE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_OSGI_TO_JMS_EVENTS_BRIDGE_BUNDLE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_OUTGOING_EMAIL_SENDER__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_PERSONAL_SPACE_BUNDLE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_PRESENCE_BUNDLE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_PROXY_SERVICE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_SAKAI_CLUSTER_TRACKING__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_SEARCH_SUPPORT_BUNDLE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_SECURITY_LOADER_BUNDLE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_SITE_SERVICE_BUNDLE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_SLING_RESOURCE_EXTENSION BUNDLE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_SMTP_SERVER__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_TIKA_BUNDLE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_TRUSTED_AUTHENTICATION_BUNDLE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_USER_EXTENSIONS_BUNDLE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_UTILITIES__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_VERSION_EXTENSION_BUNDLE__</li>
                       </ul>
                   </div>
 
-                  <span>Copyright 2003-2010 The Sakai Foundation. All rights reserved. Sakai is licensed for use pursuant to the Educational Community License v. 2.0. Portions of Sakai are copyrighted by other parties, including the parties listed below. For a complete list of licensing and copyright information see the licensing folder in the Sakai reference project.</span>
+                  <span>__MSG__COPYRIGHT_THE_SAKAI_FOUNDATION__</span>
               </div>
         </div>
 

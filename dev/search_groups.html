@@ -58,9 +58,9 @@
         <div id="widget_topnavigation" class="widget_inline"></div>
 
         <!-- CONTENT -->
-        <div class="fl-container-flex content content_search">
-            <div class="fl-fix fl-centered fixed-container">
-                <div class="decor"></div>
+        <div class="fl-container-flex content content_search s3d-regular-links s3d-header">
+            <div class="fl-fix fl-centered fixed-container s3d-fixed-container">
+                <div class="s3d-decor"></div>
 
                 <!-- TITLE -->
                 <h1 class="title">__MSG__SEARCH_GROUPS__</h1>
@@ -126,12 +126,14 @@
                                     {if i['sakai:group-id']}
                                     {var groupsFound = true}
                                     <div class="fl-container fl-fix search_result">
+                                        <a href="/~${i.pagepath}">
                                         {if i.picture}
                                         <img src="${i.picture.picPath}" alt="group name">
                                         {else}
                                         <img src="/dev/_images/group_avatar_icon_64x64_nob.png" alt="group name">
                                         {/if}
-                                        <div class="search_result_course_site_title"><a href="/~${i.pagepath}">${sakai.api.Util.shortenString(i["sakai:group-title"], 75)}</a></div>
+                                        </a>
+                                        <div class="search_result_course_site_title"><a class="s3d-links" href="/~${i.pagepath}">${sakai.api.Util.shortenString(i["sakai:group-title"], 75)}</a></div>
                                         <div class="search_result_course_site_url"><a href="/~${i.pagepath}">${sakai.api.Util.shortenString(i.pagepath, 75)}</a></div>
                                         <div class="search_result_course_site_excerpt">${sakai.api.Util.shortenString(i["sakai:group-description"], 300)}</div>
                                     </div>

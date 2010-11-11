@@ -78,7 +78,7 @@ function geocodePosition(position) {
                 updateInfoWindow(html);
             }
             else {
-                alert("Cannot determine address at this location.");
+                alert($("#map_no_address").html());
             }
         });
     }
@@ -103,7 +103,7 @@ function geocodeAddress(address) {
                 updateInfoWindow(html);
             }
             else {
-                alert("Cannot determine address at this location.");
+                alert($("#map_no_address").html());
             }
         });
     }

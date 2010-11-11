@@ -3,7 +3,7 @@
     "hasSettings": false,
     "id": "pickeradvanced",
     "i18n": {
-        "default": "/devwidgets/pickeradvanced/bundles/default.json"
+        "default": "/devwidgets/pickeradvanced/bundles/default.properties"
     },
     "name": "Advanced Search Picker",
     "type":"core",

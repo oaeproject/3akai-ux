@@ -20,8 +20,8 @@
 #createpage_container {width:600px!important;margin-left:-350px!important;}
 
 /* Layout */
-#createpage_container input#createpage_title {width:370px;}
-#createpage_form label.createpage_form_label {width:160px; margin:3px 10px 0 0;
+#createpage_container input#createpage_title {width:370px; padding:0;}
+#createpage_form label.createpage_form_label {width:130px; margin:3px 10px 0 0;
     float:left; text-align:right; font-weight:bold;}
 #createpage_form .dialog_buttons {text-align:right;}
 #createpage_templates {margin-left:170px;}

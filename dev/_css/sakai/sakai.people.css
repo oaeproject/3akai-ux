@@ -30,9 +30,7 @@
 .people .content_search {
     padding: 0;
 }
-.people .main-container {
-    background: #FFF;
-}
+
 .people .outline-top {
     background: url('../../_images/content_tr_flip.png') top right no-repeat;
     padding: 0 5px 0 0;

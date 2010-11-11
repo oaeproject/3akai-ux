@@ -620,6 +620,7 @@ sakai.config = {
     },
 
     Authentication: {
+        "allowInternalAccountCreation":true,
         "internal": true,
         "external": [
             {

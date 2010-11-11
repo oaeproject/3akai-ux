@@ -126,14 +126,13 @@ sakai.dashboard = function(tuid, showSettings) {
 
         columns[0] = [];
         columns[1] = [];
-
         // grab the defaults from config if they exist
-        if (Widgets.defaults[widgetPropertyName]) {
-            if (Widgets.defaults[widgetPropertyName].layout) {
-                layout = Widgets.defaults[widgetPropertyName].layout;
+        if (sakai.widgets.defaults[widgetPropertyName]) {
+            if (sakai.widgets.defaults[widgetPropertyName].layout) {
+                layout = sakai.widgets.defaults[widgetPropertyName].layout;
             }
-            if (Widgets.defaults[widgetPropertyName].columns && Widgets.defaults[widgetPropertyName].columns.length) {
-                columns = Widgets.defaults[widgetPropertyName].columns;
+            if (sakai.widgets.defaults[widgetPropertyName].columns && sakai.widgets.defaults[widgetPropertyName].columns.length) {
+                columns = sakai.widgets.defaults[widgetPropertyName].columns;
             }
         }
 
@@ -197,10 +196,10 @@ sakai.dashboard = function(tuid, showSettings) {
     var showDashboard = function() {
         tempSettings = settings;
 
-        if (!Widgets.layouts[settings.layout]) {
+        if (!sakai.widgets.layouts[settings.layout]) {
 
             var columns = [];
-            for (var i = 0, j = Widgets.layouts[settings.layout].widths.length; i < j; i++) {
+            for (var i = 0, j = sakai.widgets.layouts[settings.layout].widths.length; i < j; i++) {
                 columns[i] = [];
             }
 
@@ -208,7 +207,7 @@ sakai.dashboard = function(tuid, showSettings) {
             for (l in settings.columns) {
                 initlength++;
             }
-            var newlength = Widgets.layouts[settings.layout].widths.length;
+            var newlength = sakai.widgets.layouts[settings.layout].widths.length;
 
             var index = 0;
             for (l in settings.columns) {
@@ -249,7 +248,7 @@ sakai.dashboard = function(tuid, showSettings) {
             }
 
             var jsonstring = '{"layout":"' + settings.layout + '","columns":{';
-            for (i = 0, j = Widgets.layouts[settings.layout].widths.length; i < j; i++) {
+            for (i = 0, j = sakai.widgets.layouts[settings.layout].widths.length; i < j; i++) {
                 jsonstring += '"column' + (i + 1) + '":[';
                 for (var ii = 0, jj = columns[i].length; ii < jj; ii++) {
                     jsonstring += '{"uid":"' + columns[i][ii].uid + '","visible":"' + columns[i][ii].visible + '","name":"' + columns[i][ii].name + '"}';
@@ -258,7 +257,7 @@ sakai.dashboard = function(tuid, showSettings) {
                     }
                 }
                 jsonstring += ']';
-                if (i !== Widgets.layouts[settings.layout].widths.length - 1) {
+                if (i !== sakai.widgets.layouts[settings.layout].widths.length - 1) {
                     jsonstring += ',';
                 }
             }
@@ -272,7 +271,7 @@ sakai.dashboard = function(tuid, showSettings) {
 
         var final2 = {};
         final2.columns = [];
-        final2.size = Widgets.layouts[settings.layout].widths.length;
+        final2.size = sakai.widgets.layouts[settings.layout].widths.length;
         var currentindex = -1;
         var isValid = true;
 
@@ -283,12 +282,12 @@ sakai.dashboard = function(tuid, showSettings) {
                 index = final2.columns.length;
                 final2.columns[index] = {};
                 final2.columns[index].portlets = [];
-                final2.columns[index].width = Widgets.layouts[settings.layout].widths[currentindex];
+                final2.columns[index].width = sakai.widgets.layouts[settings.layout].widths[currentindex];
                 var columndef = settings.columns["column" + (currentindex+1)];
                 for (var pi in columndef) {
                     var dashboardDef = columndef[pi];
-                    if (dashboardDef.name && Widgets.widgets[dashboardDef.name]) {
-                        var widget = Widgets.widgets[dashboardDef.name];
+                    if (dashboardDef.name && sakai.widgets.widgets[dashboardDef.name]) {
+                        var widget = sakai.widgets.widgets[dashboardDef.name];
                         var iindex = final2.columns[index].portlets.length;
                         final2.columns[index].portlets[iindex] = [];
                         final2.columns[index].portlets[iindex].id = widget.id;
@@ -344,13 +343,13 @@ sakai.dashboard = function(tuid, showSettings) {
                       currentSettingsOpen = splitted[0] + "_" + splitted[1];
                       var widgetId = splitted[0];
 
-                      if (Widgets.widgets[widgetId] && Widgets.widgets[widgetId].hasSettings) {
+                      if (sakai.widgets.widgets[widgetId] && sakai.widgets.widgets[widgetId].hasSettings) {
                           $("#settings_settings", $rootel).show();
                       } else {
                           $("#settings_settings", $rootel).hide();
                       }
-                      if (Widgets.widgets[widgetId] &&
-                          (Widgets.widgets[widgetId].deletable === true || Widgets.widgets[widgetId].deletable === undefined)) {
+                      if (sakai.widgets.widgets[widgetId] &&
+                          (sakai.widgets.widgets[widgetId].deletable === true || sakai.widgets.widgets[widgetId].deletable === undefined)) {
                           $("#settings_remove", $rootel).show();
                       } else {
                           $("#settings_remove", $rootel).hide();
@@ -575,12 +574,12 @@ sakai.dashboard = function(tuid, showSettings) {
         var selectedlayout = settings.layout;
 
         var columns = [];
-        for (var i = 0, j = Widgets.layouts[selectedlayout].widths.length; i < j; i++) {
+        for (var i = 0, j = sakai.widgets.layouts[selectedlayout].widths.length; i < j; i++) {
             columns[i] = [];
         }
 
-        var initlength = Widgets.layouts[settings.layout].widths.length;
-        var newlength = Widgets.layouts[selectedlayout].widths.length;
+        var initlength = sakai.widgets.layouts[settings.layout].widths.length;
+        var newlength = sakai.widgets.layouts[selectedlayout].widths.length;
 
         var index = 0;
         for (var l in settings.columns) {
@@ -633,7 +632,7 @@ sakai.dashboard = function(tuid, showSettings) {
         columns[lowestcolumn][_i].uid = "id" + Math.round(Math.random() * 10000000000);
 
         var jsonstring = '{"layout":"' + selectedlayout + '","columns":{';
-        for (var z = 0, x = Widgets.layouts[selectedlayout].widths.length; z < x; z++) {
+        for (var z = 0, x = sakai.widgets.layouts[selectedlayout].widths.length; z < x; z++) {
             jsonstring += '"column' + (z + 1) + '":[';
             for (var ii = 0, jj = columns[z].length; ii < jj; ii++) {
                 jsonstring += '{"uid":"' + columns[z][ii].uid + '","visible":"' + columns[z][ii].visible + '","name":"' + columns[z][ii].name + '"}';
@@ -642,7 +641,7 @@ sakai.dashboard = function(tuid, showSettings) {
                 }
             }
             jsonstring += ']';
-            if (z !== Widgets.layouts[selectedlayout].widths.length - 1) {
+            if (z !== sakai.widgets.layouts[selectedlayout].widths.length - 1) {
                 jsonstring += ',';
             }
         }
@@ -677,7 +676,7 @@ sakai.dashboard = function(tuid, showSettings) {
         function(ev) {
             var selected = this.id.split("-")[this.id.split("-").length - 1];
             var newjson = {};
-            newjson.layouts = Widgets.layouts;
+            newjson.layouts = sakai.widgets.layouts;
             newjson.selected = selected;
             currentlySelectedLayout = selected;
             $("#layouts_list", $rootelClass).html($.TemplateRenderer("layouts_template", newjson));
@@ -700,12 +699,12 @@ sakai.dashboard = function(tuid, showSettings) {
 
             var selectedlayout = currentlySelectedLayout;
             var columns = [];
-            for (var i = 0, j = Widgets.layouts[selectedlayout].widths.length; i < j; i++) {
+            for (var i = 0, j = sakai.widgets.layouts[selectedlayout].widths.length; i < j; i++) {
                 columns[i] = [];
             }
 
-            var initlength = Widgets.layouts[settings.layout].widths.length;
-            var newlength = Widgets.layouts[selectedlayout].widths.length;
+            var initlength = sakai.widgets.layouts[settings.layout].widths.length;
+            var newlength = sakai.widgets.layouts[selectedlayout].widths.length;
 
             var index = 0;
             for (var l in settings.columns) {
@@ -748,7 +747,7 @@ sakai.dashboard = function(tuid, showSettings) {
             settings = {};
             settings["layout"] = selectedlayout;
             settings["columns"] = {};
-            for (i = 0, j = Widgets.layouts[selectedlayout].widths.length; i < j; i++) {
+            for (i = 0, j = sakai.widgets.layouts[selectedlayout].widths.length; i < j; i++) {
                 settings["columns"]["column" + (i + 1)] = [];
                 for (var ii = 0, jj = columns[i].length; ii < jj; ii++) {
                     settings["columns"]["column" + (i + 1)][settings["columns"]["column" + (i + 1)].length] = {"uid":columns[i][ii].uid,"visible":columns[i][ii].visible,"name":columns[i][ii].name};
@@ -762,7 +761,7 @@ sakai.dashboard = function(tuid, showSettings) {
 
     var renderLayouts = function(hash) {
         var newjson = {};
-        newjson.layouts = Widgets.layouts;
+        newjson.layouts = sakai.widgets.layouts;
         newjson.selected = settings.layout;
         currentlySelectedLayout = settings.layout;
         $("#layouts_list", $rootelClass).html($.TemplateRenderer("layouts_template", newjson));
@@ -840,7 +839,7 @@ sakai.dashboard = function(tuid, showSettings) {
 
         $(addGoodiesListContainer, $rootelClass).html("");
 
-        for (var l in Widgets.widgets) {
+        for (var l in sakai.widgets.widgets) {
             var alreadyIn = false;
             // Run through the list of widgets that are already on my dashboard and decide
             // whether the current widget is already on the dashboard (so show the Remove row),
@@ -852,9 +851,9 @@ sakai.dashboard = function(tuid, showSettings) {
                     }
                 }
             }
-            if (Widgets.widgets[l][widgetPropertyName]) {
+            if (sakai.widgets.widgets[l][widgetPropertyName]) {
                 var index = addingPossible.items.length;
-                addingPossible.items[index] = Widgets.widgets[l];
+                addingPossible.items[index] = sakai.widgets.widgets[l];
                 addingPossible.items[index].alreadyIn = alreadyIn;
             }
         }
@@ -904,11 +903,9 @@ sakai.dashboard = function(tuid, showSettings) {
         savePath = path;
         isEditable = editmode;
         widgetPropertyName = propertyname;
-
         // add the tuid to the dialogs so they can be bound to by each instance of this widget
         $(addGoodiesDialog, $rootel).addClass(tuid);
         $(changeLayoutDialog, $rootel).addClass(tuid);
-
         // reinitialize the selector after adding the class to the elements
         $rootelClass = $($rootelClass.selector);
 

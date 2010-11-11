@@ -55,9 +55,9 @@
         </div>
 
         <!-- CONTENT -->
-        <div class="fl-container-flex header">
-            <div class="fl-fix fl-centered fixed-container">
-                <div class="decor">
+        <div class="fl-container-flex header s3d-header">
+            <div class="fl-fix fl-centered fixed-container s3d-fixed-container">
+                <div class="s3d-decor">
                 </div>
                 <!-- TITLE BAR  -->
                 <div class="s3d-site-heading">
@@ -81,11 +81,11 @@
                 {for i in directory}
                     <div class="directory_jumpbox_box_hierarchybox">
                         <p>
-                            <a href="#${i.name}" class="directory_level_three_link directory_level_two_header">${i.name}</a>
+                            <a href="#${i.name}" class="s3d-regular-links directory_level_two_header">${i.name}</a>
                         </p>
                         {for j in i.secondlevels}
                             <p>
-                                <a href="#${i.name}${j.name}" class="directory_level_three_link">${j.name}</a>
+                                <a href="#${i.name}${j.name}" class="s3d-regular-links">${j.name}</a>
                             </p>
                         {/for}
                     </div>
@@ -100,7 +100,7 @@
                     <h2 class="directory_level_two_header" name="${j.name}"><a href="/dev/search.html#tag=/tags/directory/${(i.name) + "/" + escape(j.name)}" name="${i.name}${j.name}">${j.name}</a></h2>
                     {for k in j.thirdlevels}
                     <p>
-                        <a href="/dev/search.html#tag=/tags/directory/${(i.name) + "/" + escape(j.name) + "/" + escape(k.name)}" class="directory_level_three_link">${k.name}</a>
+                        <a href="/dev/search.html#tag=/tags/directory/${(i.name) + "/" + escape(j.name) + "/" + escape(k.name)}" class="s3d-regular-links">${k.name}</a>
                     </p>
                     {/for}
                 </div>
