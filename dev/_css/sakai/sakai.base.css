@@ -66,7 +66,7 @@ a:hover {
     font-weight: bold;
 }
 
-.s3d-regular-links, .s3d-regular-links a{
+a.s3d-regular-links, .s3d-regular-links a{
     color: #006E96;
 }
 
@@ -83,16 +83,16 @@ a:hover {
     font-size: 1em;
 }
 
-.s3d-bold-links {
+.s3d-content-type-link a{
+    color:#5FB3D2;    
+}
+a.s3d-bold-links, .s3d-bold-links a {
     color: #006E96;
     font-weight: bold;
 }
 
-.s3d-remove-location {
+.s3d-remove-links {
     float:right; 
-    color:#006E96; 
-    font-size:13px; 
-    font-weight:bold; 
     margin-right:10px; 
     height:16px;
 }

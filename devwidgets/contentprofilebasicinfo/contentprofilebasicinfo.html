@@ -121,7 +121,7 @@
                         {for savedDir in saveddirectory}
                         <li class="${savedDir}">
                             <span class="content_profile_basic_info_saveddirectory_information">${savedDir.toString().replace(/,/g, " <span class='content_profile_basic_info_selected_and_saved_seperator'>&raquo;</span> ")}</span>
-                            <a href="javascript:;" class="s3d-remove-location" title="__MSG__REMOVE_LOCATION__">__MSG__REMOVE</a>
+                            <a href="javascript:;" class="s3d-remove-link s3d-action" title="__MSG__REMOVE_LOCATION__">__MSG__REMOVE</a>
                         </li>
                         {/for}
                     </ul>
@@ -153,7 +153,7 @@
         </select>
         <div id="content_profile_basic_info_secondlevel_template_container"></div>
         <div id="content_profile_basic_info_thirdlevel_template_container"></div>
-        <a href="javascript:;" class="s3d-remove-location" title="__MSG__REMOVE_LOCATION__">__MSG__REMOVE__</a>
+        <a href="javascript:;" class="s3d-remove-link s3d-action" title="__MSG__REMOVE_LOCATION__">__MSG__REMOVE__</a>
     --></div>
 
     <div id="content_profile_basic_info_secondlevel_template" style="display:none;"><!--

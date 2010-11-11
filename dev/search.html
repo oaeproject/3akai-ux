@@ -176,7 +176,7 @@
                                                     {for t in i["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0},{/if} ${t}{/if}{/for}
                                                 </div>
                                             {/if}
-                                            {if mimeTypeDescription}<div class="search_result_type"><a href="/dev/content_profile.html#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}{else}${i['jcr:path']}{/if}">${mimeTypeDescription}</a></div>{/if}
+                                            {if mimeTypeDescription}<div class="search_result_type s3d-content-type-link"><a href="/dev/content_profile.html#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}{else}${i['jcr:path']}{/if}">${mimeTypeDescription}</a></div>{/if}
                                         </div>
                                     </div>
                                     {/if}
