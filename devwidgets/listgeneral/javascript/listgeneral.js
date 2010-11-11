@@ -286,7 +286,7 @@ sakai.api.UI.listGeneral.addPage = function(tuid, pageNumber, searchQuery) {
                             result.space.picture = $.parseJSON(result.space.picture);
                             result.listgeneral.avatar = result.space["jcr:path"] + "/" + result.space.picture.name
                         } else {
-                            result.listgeneral.avatar = "/dev/_images/mimetypes/html.png";
+                            result.listgeneral.avatar = "/dev/images/mimetypes/html.png";
                         }
 
                     }
@@ -302,7 +302,7 @@ sakai.api.UI.listGeneral.addPage = function(tuid, pageNumber, searchQuery) {
                             result.listgeneral.avatar = sakai.config.MimeTypes[result["jcr:mimeType"]].URL;
                             result.listgeneral.mimeTypeDescripton = sakai.config.MimeTypes[result["jcr:mimeType"]].description;
                         } else {
-                            result.listgeneral.avatar = "/dev/_images/mimetypes/empty.png";
+                            result.listgeneral.avatar = "/dev/images/mimetypes/empty.png";
                             result.listgeneral.mimeTypeDescripton = sakai.config.MimeTypes.other.description;
                         }
 

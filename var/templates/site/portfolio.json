@@ -4,7 +4,7 @@
         "description": "This is a portfolio site template!",
         "id": "portfolio",
         "sakai:site-template": "/templates/portfolio",
-        "sakai:skin": "/dev/_skins/original/original.html",
+        "sakai:skin": "/dev/skins/original/original.html",
         "sling:resourceType": "sakai/template",
         "jcr:primaryType": "nt:unstructured",
         "jcr:mixinTypes": ["rep:AccessControllable"],

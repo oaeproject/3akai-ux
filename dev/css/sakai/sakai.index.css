@@ -1,0 +1,24 @@
+body { margin-bottom: 50px !important; }
+
+/* General */
+label {color:#888; font-weight: bold; font-size: 1em;}
+
+/* Container */
+.index-container{width: 960px; height: 100%; height: auto; min-height: 100%;}
+
+
+/* Header */
+.header{background: #666; width: 100%; height: 150px;}
+.header-version{color: #999; font-size: 12px; float: right; padding: 15px 30px 0 0;}
+.header-title{ color: #08415E; font-size: 4.0em; float: left; margin: 0 35px 0 0; padding: 40px 0;}
+.header-byline{color: #2C9CC4; font-size: 1.5em; font-weight: bold; padding: 60px 0 0 0;}
+.header-smallline {padding:0 0 40px 0; color:#000; font-size: 1em;}
+
+/* Log-in box */
+.login-box {padding: 40px; background: url(/dev/images/login-box.png) no-repeat top left; clear: both; height: 324px;}
+.preview-box{float: left; width: 540px; margin: 0 80px 0 0;}
+.preview-box img {padding: 0 0 90px;}
+
+/* Footer */
+#index_footer {position: fixed; z-index: 99; bottom: 0px; color: #fff; background: url(/dev/images/footer_bg.png) bottom left no-repeat; padding: 18px 20px 0 100px; margin-top: 100px; clear: both; height: 42px; width: 840px; font-size: .85em; line-height: 1.2em;}
+#index_footer a { color: #c6e4fc; }

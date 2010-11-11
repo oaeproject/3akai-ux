@@ -10,13 +10,16 @@
 
         <!-- SETUP - Source and target paths -->
         <property name="SRC_DIR" value="dev" description="Core source folder" />
+        <property name="QUNIT_SRC_DIR" value="tests" description="QUnit test folder" />
         <property name="INSTRUMENTED_DIR" value="${SRC_DIR}-i" description="Instrumented source folder" />
         <property name="TARGET" value="target" description="Core target folder" />
         <property name="TARGET_RESOURCES" value="${TARGET}/processed-resources" description="Top directory for JARs, archives" />
-        <property name="TARGET_DIR" value="${TARGET_RESOURCES}/dev" description="Core target folder" />
         <property name="TARGET_COMPRESSED_DIR" value="${TARGET}/compressed" description="Core compressed folder" />
-        <property name="TARGET_DOCUMENTATION_DIR" value="${TARGET}/doc" description="Core documentation folder" />
-        <property name="TARGET_REPORTS_DIR" value="${TARGET}/reports" description="Core reports folder" />
+
+        <property name="TARGET_DIR" value="${TARGET_RESOURCES}/dev" description="Core target folder" />
+        <property name="TARGET_QUNIT_DIR" value="${TARGET_RESOURCES}/tests" description="QUnit target folder" />
+        <property name="TARGET_DOCUMENTATION_DIR" value="${TARGET_RESOURCES}/jsdoc" description="JSDoc documentation folder" />
+        <property name="TARGET_REPORTS_DIR" value="${TARGET_RESOURCES}/reports" description="Core reports folder" />
 
         <property name="SRC_DIR_W" value="devwidgets" description="Source folder for widgets" />
         <property name="TARGET_DIR_W" value="${TARGET_RESOURCES}/devwidgets" description="Target folder for widgets" />
@@ -42,9 +45,9 @@
 
         <!-- Define a patternset for core JS files (from ${TARGET_DIR}) -->
         <patternset id="js.corefiles">
-            <include name="_javascript/**/*.js"/>
-            <include name="_configuration/**/*.js"/>
-            <include name="_lib/sakai_util/**/*.js"/>
+            <include name="javascript/**/*.js"/>
+            <include name="configuration/**/*.js"/>
+            <include name="lib/sakai_util/**/*.js"/>
         </patternset>
 
         <!-- Define patternset for widget JS files (from ${TARGET_DIR_W}) -->
@@ -55,8 +58,8 @@
 
         <!-- Define patternset for core CSS files (from ${TARGET_DIR}) -->
         <patternset id="css.corefiles">
-            <include name="_css/sakai/**/*.css"/>
-            <include name="_skins/**/*.css"/>
+            <include name="css/sakai/**/*.css"/>
+            <include name="skins/**/*.css"/>
         </patternset>
 
         <!-- Define patternset for widget CSS files (from ${TARGET_DIR_W}) -->
@@ -86,7 +89,7 @@
     </target>
 
     <!-- Target: Copy source tree -->
-    <target name="copy_all" depends="create_target_folders" description="Copy source files to target folders">
+    <target name="copy_prod" depends="create_target_folders" description="Copy source files to target folders">
 
         <echo message="Making a copy of core source files..." />
         <copy todir="${TARGET_DIR}">
@@ -114,6 +117,16 @@
         <echo message="Making a copy of root content files..." />
         <copy todir="${TARGET_DIR_ROOT}">
             <fileset dir="${SRC_DIR_ROOT}" />
+        </copy>
+
+    </target>
+
+     <!-- Target: Copy source tree -->
+    <target name="copy_test" depends="copy_prod" description="Copy qunit files to target folders">
+
+        <echo message="Making a copy of QUnit test files..." />
+        <copy todir="${TARGET_QUNIT_DIR}">
+            <fileset dir="${QUNIT_SRC_DIR}" />
         </copy>
 
     </target>
@@ -247,7 +260,7 @@
             <arg value="-d=${jsdoc.output}"/>
             <arg value="-t=${jsdoc.defaulttemplate}"/>
             <arg value="-o=${jsdoc.logfile}"/>
-            <filelist dir="${SRC_DIR}/_lib/sakai_util">
+            <filelist dir="${SRC_DIR}/lib/sakai_util">
                 <file name="sakai_magic.js" />
             </filelist>
             <fileset dir="${SRC_DIR_W}">
@@ -261,23 +274,26 @@
         <delete dir="${INSTRUMENTED_DIR}" includeemptydirs="true" />
         <exec executable="jscoverage">
             <arg value="--no-instrument" />
-            <arg value="_tests" />
+            <arg value="lib${file.separator}google" />
             <arg value="--no-instrument" />
-            <arg value="_lib${file.separator}google" />
+            <arg value="lib${file.separator}Fluid" />
             <arg value="--no-instrument" />
-            <arg value="_lib${file.separator}Fluid" />
+            <arg value="lib${file.separator}jquery" />
             <arg value="--no-instrument" />
-            <arg value="_lib${file.separator}jquery" />
-            <arg value="--no-instrument" />
-            <arg value="_lib${file.separator}sakai_util${file.separator}trimpath.template.js" />
+            <arg value="lib${file.separator}sakai_util${file.separator}trimpath.template.js" />
             <arg value="${SRC_DIR}" />
             <arg value="${INSTRUMENTED_DIR}" />
         </exec>
     </target>
 
-    <!-- Target: Build complete -->
-    <target name="finish" depends="init, create_target_folders, copy_all, permissions, formatting, js_lint, minify_css, minify_js, compress, documentation">
+    <!-- Target: Release Builds-->
+    <target name="release" depends="init, create_target_folders, copy_prod, permissions, formatting, js_lint, minify_css, minify_js, compress, documentation">
         <echo message="Sakai 3 UX Build: Build complete." />
+    </target>
+
+    <!-- Target: Development Builds -->
+    <target name="development" depends="copy_test, js_lint, documentation">
+        <echo message="Sakai 3 UX Development Build: Build complete." />
     </target>
 
     <!-- Target: Remove the build folder -->

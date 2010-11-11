@@ -1,0 +1,156 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" class="fl-layout-">
+    <head>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>__MSG__WIDGET_PLAYGROUND__ - Listpeople</title>
+
+        <!-- Sakai Core CSS -->
+        <link rel="stylesheet" type="text/css" href="/dev/css/FSS/fss-base.css" />
+        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.base.css" />
+        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.core.2.css" />
+        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.3.css" />
+
+        <!-- Sakai Page CSS -->
+        <!-- <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.profile.css" /> -->
+
+        <!-- Sakai Config JS -->
+        <script type="text/javascript" src="/dev/configuration/widgets.js"></script>
+        <script type="text/javascript" src="/var/widgets.json?callback=sakai.storeWidgets"></script>
+        <script type="text/javascript" src="/dev/configuration/config.js"></script>
+
+        <!-- Core 3rd-party JS -->
+        <script type="text/javascript" src="/dev/lib/jquery/jquery.js"></script>
+        <script type="text/javascript" src="/dev/lib/jquery/jquery-ui.full.js"></script>
+        <script type="text/javascript" src="/dev/lib/Fluid/3akai_Infusion.js"></script>
+        <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.json.js"></script>
+        <script type="text/javascript" src="/dev/lib/google/html-sanitizer-minified.js"></script>
+
+        <!-- Sakai Core JS -->
+        <script type="text/javascript" src="/dev/lib/sakai_util/sakai_magic.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai_util/i18n.js"></script>
+
+        <!-- 3rd party JS -->
+        <script type="text/javascript" src="/dev/lib/sakai_util/trimpath.template.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai_util/querystring.js"></script>
+
+    </head>
+
+    <body class="fl-centered profile_preview i18nable">
+
+        <!-- HEADER -->
+        <div class="fl-container-flex header">
+            <div class="fl-fix fl-centered fixed-container">
+                <div class="decor"></div>
+
+                <!-- TITLE BAR  -->
+                <div class="s3d-site-heading fl-force-left">
+                    <h1 id="sitetitle">__MSG__WIDGET_PLAYGROUND__ - Listpeople</h1>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="fl-centered fixed-container" style="background: #fff; min-height: 400px;">
+
+            <div id="widget_pickeruser" class="widget_inline"></div>
+            <br><br>
+            <button id="listpeople_add_files" type="button" class="s3d-button">
+               <span class="s3d-button-inner">Add test file(s)</span>
+            </button>
+            <div id="test_response">pickeruser response:</div><br><br>
+            <div id="widget_listpeople" class="widget_inline"></div>
+
+            <button id="listpeople_remove" type="button" class="s3d-button">
+               <span class="s3d-button-inner">Remove selected users</span>
+            </button>
+        </div>
+
+        <!-- FOOTER WIDGET -->
+        <div id="widget_footer" class="widget_inline footercontainer"></div>
+
+        <script>
+
+            // Page code
+            $(window).bind("pickeruser_ready", function(e, tuid){
+
+                var pl_config = {"mode": "search", "type": "people", "spaceName": "Widget Playground", "selectable":true, "subNameInfo": "email", "sortOn": "lastName", "items": 50 };
+
+                sakai.api.UI.pickerUser.render(tuid, pl_config);
+
+            });
+
+            // Page code
+            $(window).bind("listpeople_ready", function(e, ltuid){
+                $(window).bind("pickeruser_finished", function(e, tuid){
+
+                    // get group to test with group data
+                    var groupid = '';
+                    var querystring = new Querystring();
+                    if (querystring.contains("id")) {
+                        groupid = querystring.get("id");
+                        $.ajax({
+                            url: "/~" + groupid + "/public.infinity.json",
+                            async: false,
+                            success: function(data){
+                                sakai.data.pickeruser[tuid]["selected"][groupid] = data;
+                                sakai.data.pickeruser[tuid]["selected"][groupid].groupid = groupid;
+                                sakai.data.pickeruser[tuid]["selected"][groupid]['sakai:group-description'] = data.authprofile['sakai:group-description'];
+                                sakai.data.pickeruser[tuid]["selected"][groupid]['sakai:group-title'] = data.authprofile['sakai:group-title'];
+                                sakai.data.pickeruser[tuid].selectCount += 1;
+                            }
+                        });
+                    }
+
+                    $("#test_response").html("Response:<br>"+sakai.data.pickeruser[tuid].selectCount+" users selected: ");
+                    $.each(sakai.data.pickeruser[tuid]["selected"], function(index, value) {
+                        $("#test_response").append(index+", ");
+                    });
+
+                    var json_data = {
+                        "results" : sakai.data.pickeruser[tuid]["selected"],
+                        "total" : sakai.data.pickeruser[tuid].selectCount
+                    };
+
+                    var pl_query = sakai.config.URL.SEARCH_USERS + "?q=*&page=0&items=12&_=" + (Math.random() * 100000000000000000);
+                    //var pl_query = "/sites/test.members.json?sort=firstName,asc&start=0&items=10&_=" + (Math.random() * 100000000000000000);
+                    var pl_config = {"selectable":true, "subNameInfoUser": "email", "subNameInfoGroup": "sakai:group-description", "sortOn": "lastName", "sortOrder": "ascending", "items": 50, "function": "getSelection" };
+                    sakai.listpeople.render(ltuid, pl_config, json_data);
+
+                    // Bind the remove user button
+                    $("#listpeople_remove").bind("click", function(){
+                        sakai.listpeople.removeFromList('listpeoplecontainer');
+                    });
+                });
+
+                // Bind the add files button
+                $("#listpeople_add_files").bind("click", function(){
+                    var content_path = '/index.html';
+                    $.ajax({
+                        url: sakai.config.SakaiDomain + content_path + ".2.json",
+                        success: function(data){
+                            // Construct the JSON object
+                            var json = {};
+                            json[content_path] = {
+                                data: data,
+                                mode: "content",
+                                content_path: content_path,
+                                url: sakai.config.SakaiDomain + content_path
+                            };
+                            var json_data = {
+                                "results" : json,
+                                "total" : 1
+                            };
+                            var pl_config = {"selectable":true, "sortOrder": "ascending", "items": 50, "function": "getSelection" };
+                            sakai.listpeople.render(ltuid, pl_config, json_data);
+                        }
+                    });
+                });
+
+            });
+
+        </script>
+
+    </body>
+
+</html>
