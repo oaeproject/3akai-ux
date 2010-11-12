@@ -533,7 +533,7 @@ sakai.chat = function(tuid, showSettings){
         }
         // Start polling regurarly to get new messages
         if (!loadNewMessagesTimer) {
-	        loadNewMessagesTimer = setInterval(checkNewMessages, loadNewMessagesInterval);
+            loadNewMessagesTimer = setInterval(checkNewMessages, loadNewMessagesInterval);
         }
     };
 
@@ -718,8 +718,8 @@ sakai.chat = function(tuid, showSettings){
             var chatWindows = storedState.windows;
             var validWindows = [];
             for (var i = 0; i < chatWindows.length; i++) {
-	            appendChatWindow({"profile": chatWindows[i].profile}, chatWindows[i].open);
-	            validWindows.push(chatWindows[i].profile.userid);
+                appendChatWindow({"profile": chatWindows[i].profile}, chatWindows[i].open);
+                validWindows.push(chatWindows[i].profile.userid);
             }
             // grab the session's saved chat messages if they exist
             if (supportsSessionStorage) {
@@ -756,7 +756,7 @@ sakai.chat = function(tuid, showSettings){
 
     // Add binding to set the status
     $(window).bind("chat_status_change", function(event, currentChatStatus){
-        sakai.api.Util.updateChatStatusElement($(".chat_available_name"), currentChatStatus);
+        sakai.api.Util.updateChatStatusElement($(".chat_status"), currentChatStatus);
     });
 
     $(".user_chat").live("click", function(){

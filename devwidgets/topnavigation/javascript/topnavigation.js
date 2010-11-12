@@ -182,7 +182,7 @@ sakai.topnavigation = function(tuid, showSettings){
 
         $(window).bind("chat_status_change", function(event, chatstatus){
             currentChatStatus = chatstatus;
-            sakai.api.Util.updateChatStatusElement($(userLink), chatstatus);
+            sakai.api.Util.updateChatStatusElement($("#topnavigation_chat_status"), chatstatus);
         });
 
         $(window).bind("click", function(e){
