@@ -36,7 +36,7 @@
 
 /* Selected Nav element */
 .explore_nav .explore .explore_nav_selected { padding-bottom:12px; }
-.explore_nav .explore .explore_nav_selected a, .explore_nav .explore .explore_nav_selected span { background: url('/dev/_images/topnav_hover_bg.gif') repeat; height:16px;}
+.explore_nav .explore .explore_nav_selected a, .explore_nav .explore .explore_nav_selected span { background: url('/dev/images/topnav_hover_bg.gif') repeat; height:16px;}
 
 
 /*** Top Right Navbar ***/
@@ -45,7 +45,7 @@
 .explore_nav .personal li a { font-size: 8.5pt; padding:0 7px 0 7px; border-right: 1px solid #878a8c; color: #fff; }
 .explore_nav .personal li .help_none { border-right: none; }
 .explore_nav .personal li span { color: #fff; }
-.explore_nav .user_link span { background: url('/dev/_images/white_subnav_arrow.png') bottom right no-repeat; padding-right: 17px; padding-left: 8px; }
+.explore_nav .user_link span { background: url('/dev/images/white_subnav_arrow.png') bottom right no-repeat; padding-right: 17px; padding-left: 8px; }
 .explore_nav .personal li.last a { border:none; padding-right:0; }
 .personal img { vertical-align: middle;}
 .explore_nav .personal .sign_out { border: none;}
@@ -67,7 +67,7 @@
 #login_container { background:none repeat scroll 0 0 #878A8C; left:785px; padding:10px; position:absolute; top:32px; width:246px; z-index:1000; text-align: right; color: #eee; }
 #login_container input { border:1px solid #666666; height:20px; line-height:20px; margin:3px 0 10px; text-align:right; width:240px; font-size:11pt; font-weight:bold; color: #333; padding:0 10px 0 0; }
 #error_message { font-size: 9pt; color: #ff0; }
-#login_busy { background: url("/dev/_images/ajax_load.gif") 0 0 no-repeat; width: 80px; height: 10px; }
+#login_busy { background: url("/dev/images/ajax_load.gif") 0 0 no-repeat; width: 80px; height: 10px; }
 
 /* General Search */
 #general_search_container { margin:15px auto 0; text-align:right;width:960px; overflow: hidden; }

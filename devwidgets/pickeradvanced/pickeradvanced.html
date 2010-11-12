@@ -85,7 +85,7 @@
                         {if i.picture}
                             <img src="/~${i["rep:userId"]}/public/profile/${$.parseJSON(i.picture).name}" alt="__MSG__PROFILE_PICTURE_FOR__ ${i.firstName} ${i.lastName}" class="pickeradvanced_ppicture"/>
                         {else}
-                            <img src="/dev/_images/person_icon.jpg" alt="__MSG__DEFAULT_PROFILE_PICTURE__" class="pickeradvanced_ppicture"/>
+                            <img src="/dev/images/person_icon.jpg" alt="__MSG__DEFAULT_PROFILE_PICTURE__" class="pickeradvanced_ppicture"/>
                         {/if}
                         <a class="pickeradvanced_name" href="/~${i['rep:userId']}" target="_blank">${sakai.api.User.getDisplayName(i)}</a>
                         <br />
@@ -100,7 +100,7 @@
                         {if i.picture}
                             <img src="/~${i["sakai:group-id"]}/public/profile/${$.parseJSON(i.picture).name}" alt="__MSG__PROFILE_PICTURE_FOR__ ${i["sakai:group-title"]}" class="pickeradvanced_ppicture"/>
                         {else}
-                            <img src="/dev/_images/group_avatar_icon_64x64.png" alt="__MSG__DEFAULT_GROUP_PICTURE__" class="pickeradvanced_ppicture"/>
+                            <img src="/dev/images/group_avatar_icon_64x64.png" alt="__MSG__DEFAULT_GROUP_PICTURE__" class="pickeradvanced_ppicture"/>
                         {/if}
                         <a class="pickeradvanced_name" href="/~${i["sakai:group-id"]}" target="_blank">${i["sakai:group-title"]}</a>
                         <br />

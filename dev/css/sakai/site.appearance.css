@@ -1,0 +1,110 @@
+/*
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+
+/** CONTAINER **/
+.fixed-container
+{ background: #fff; }
+
+.basic_appearance .site_appereance_contents_main
+{ border-left: 3px solid #D3DBDE; border-right: 3px solid #D3DBDE; margin: 0; padding: 10px; }
+
+.basic_appearance .site_secondary_heading
+{ color: #454a4f; padding: 10px 0 20px 0; border: none; }
+
+.basic_appearance .site_secondary_heading a
+{ background: #fff url('/dev/images/arrow_left_sm2_blue.gif') center left no-repeat; padding: 0 0 0 10px; }
+
+
+/** TAB CONTENTS **/
+.basic_appearance .site_appearance_container
+{ padding: 0; margin: 0 0 20px 0; border: none; margin-top: 0; color: #454a4f; }
+
+.basic_appearance .site_appereance_contents_main
+{ border-left: 3px solid #D3DBDE; border-right: 3px solid #D3DBDE; margin: 0; padding: 10px; }
+
+
+.basic_appearance .content_top
+{ background: url('/dev/images/content_tr_leftalign.gif') top right no-repeat; padding: 0 5px 0 0; margin: 0; }
+
+
+.basic_appearance .content_top_inner
+{ background: url('/dev/images/content_tl_leftalign.gif') 0 0 no-repeat; margin: 0; height: 6px; }
+
+.basic_appearance .content_bottom
+{ background: url('/dev/images/content_br.png') top right no-repeat; padding: 0 5px 0 0; margin: 0; }
+
+.basic_appearance .content_bottom_inner
+{ background: url('/dev/images/content_bl.png') 0 0 no-repeat; margin: 0; height: 6px; }
+
+/* PAGE CONTENTS */
+
+.basic_appearance .site_appereance_contents_main h4
+{ padding: 5px 0 10px 0; font-weight: normal; color: #5a6a7c; }
+
+
+/** Site logo **/
+.basic_appearance .site_logo
+{ padding: 0 0 20px 0; }
+
+.basic_appearance .logo-preview-container, .basic_appearance .site_appearance_logo_template
+{ display: block; height: 100px; width: 200px; border: 1px solid #d5dbdf; margin: 0 0 10px 0}
+
+.basic_appearance .change-logo
+{ margin: 10px 0 10px 0; }
+
+
+/** Site style **/
+.basic_appearance .region-container
+{ margin:0 0 10px 0; padding:0;}
+
+.basic_appearance .region-container li
+{ list-style-type: none; height: 145px; margin-right: 20px; float: left; width: 96px; }
+
+.basic_appearance .region-container .thumbnail
+{ width: 96px; height: 96px; border: 1px solid #d5dbdf; }
+
+.basic_appearance .region-container .selected .thumbnail-label span
+{ color: #454a4f; }
+
+.basic_appearance .region-container .selected .thumbnail
+{ border: 3px solid #454a4f; }
+
+.basic_appearance .region-container .thumbnail-label span
+{ color: #3399cc; font-weight: bold; font-size: 13px; display: block; margin-top: 3px; text-align: center; }
+
+
+
+/** SITE PREVIEW **/
+.basic_appearance .page_preview_iframe
+{ height: 505px; width: 520px; border: 3px solid #454a4f; }
+
+
+/* CHANGE PIC */
+#site_appearance_change_container {width:700px!important;margin-left:-350px!important;}
+#site_appearance_change_container .fl-tabs {border-bottom: 1px solid #ddd; padding-bottom: 3px}
+#site_appearance_change_container .fl-tabs li a {bottom:3px!important;#bottom:5px!important;/* override for Microsoft Internet Explorer browsers*/ background-color:#EEE;color:#000!important;margin-left:-1px;position:relative;border-color:#EEE #EEE #DDD;border-style:solid;border-width:1px;padding:6px 20px;}
+#site_appearance_change_container .fl-tabs .fl-tabs-active a {background-color:#FFF!important;color:#000!important;font-weight:400!important;border-color:#DDD #DDD #EEE;border-style:solid;border-width:1px;}
+#site_appearance_change_picture_thumbnail_container {float:left;position:relative;overflow:hidden;width:200px;height:100px;}
+.dailog_changepic h4 {margin-bottom:10px;}
+#site_appearance_change_select_content {padding-top:10px;padding-left:10px;}
+#site_appearance_change_picture_measurer {left:-100000px;top:-100000px;position:absolute;}
+#site_appearance_change_picture_full {float:left;margin-right:10px;}
+#site_appearance_change_picture_thumbnail {position:relative;}
+#site_appearance_change_upload_tabnew {padding-top:10px;padding-left:10px;}
+#site_appearance_change_upload_form {padding-top:10px;}
+#site_appearance_change_upload_form .error_msg { color: #880000; padding: 10px 0 0 0; }
