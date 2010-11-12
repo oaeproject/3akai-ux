@@ -1151,7 +1151,7 @@ sakai.inbox = function() {
      */
 
     $(inboxInboxMessage).live("click", function(e, ui) {
-
+        
         var id = e.target.id;
         id = id.split('_');
         $.bbq.pushState({"message":id[id.length - 1]},2);
