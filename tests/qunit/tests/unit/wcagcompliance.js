@@ -32,6 +32,12 @@ var checkElements = function($elt){
  * Check HTML pages and test for WCAG compliance
  */
 var testWCAGCompliance = function(){
+
+    // First, run a test on static markup to ensure the testing is working properly
+    test("TEST - Embedded link text", function() {
+        checkElements($("#qunit-fixture"));
+    });
+
     var pageArray = ["/dev/403.html",
         "/dev/404.html",
         "/dev/500.html",

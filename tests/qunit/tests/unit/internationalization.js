@@ -73,6 +73,17 @@ var checkElements = function($elt){
  * Check HTML pages and test for hard coded english
  */
 var testInternationalization = function(){
+
+    // First, run a few tests to verify that the testing is working
+    // these should all pass
+    test("TEST - i18n key nested inside elements in an A tag", 2, function() {
+        checkElements($("#qunit-fixture"));
+    });
+
+    test("TEST - alt and title attributes", 2,  function() {
+        checkAttrs($("#qunit-fixture"));
+    });
+
     var pageArray = ["/dev/403.html",
         "/dev/404.html",
         "/dev/500.html",

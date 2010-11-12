@@ -1,20 +1,43 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Sakai 3 Javascript Test Suite</title>
+        <title>Sakai 3 Javascript QUnit Test Suite</title>
+        <!-- Sakai Core CSS -->
+        <link rel="stylesheet" type="text/css" href="/dev/css/FSS/fss-base.css" />
+        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.base.css" />
+        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.core.2.css" />
     </head>
-    <body>
-        <h2>All</h2>
-        <ul>
-            <li><a href="tests/all.html">All</a></li>
-        </ul>
-        <h2>Internationalization and Localization</h2>
-        <ul>
-            <li><a href="tests/i18n.html">i18n Strings</a></li>
-        </ul>
-        <h2>Accessibility</h2>
-        <ul>
-            <li><a href="tests/wcag.html">WCAG Compliance</a></li>
-        </ul>
+    <body class="fl-centered fl-container">
+        <div class="fl-container-flex">
+            <div class="fl-fix fl-centered fixed-container">
+                <h1>Sakai 3 QUnit Test Suite</h1>
+                <hr/>
+            </div>
+        </div>
+        <div class="fl-container-flex">
+            <div class="fl-fix fl-centered fixed-container">
+                <h2>Core</h2>
+                <ul>
+                    <li><a href="tests/data_transport.html" class="s3d-action">Data Transport</a></li>
+                    <li><a href="tests/messaging.html" class="s3d-action">Messaging</a></li>
+                    <li><a href="tests/security.html" class="s3d-action">Security</a></li>
+                    <li><a href="tests/templates.html" class="s3d-action">Template Renderer</a></li>
+                    <li><a href="tests/user_profiles.html" class="s3d-action">User Profiles</a></li>
+                    <li><a href="tests/util.html" class="s3d-action">Util</a></li>
+                </ul>
+                <h2>Accessibility</h2>
+                <ul>
+                    <li><a href="tests/wcag.html" class="s3d-action">WCAG Compliance</a></li>
+                </ul>
+                <h2>Internationalization and Localization</h2>
+                <ul>
+                    <li><a href="tests/i18n.html" class="s3d-action">i18n Strings</a></li>
+                </ul>
+                <h2>Widgets</h2>
+                <ul>
+                    <li><a href="tests/widgets.html" class="s3d-action">Widget Configuration</a></li>
+                </ul>
+            </div>
+        </div>
     </body>
 </html>
