@@ -142,7 +142,7 @@ sakai.entity = function(tuid, showSettings){
                 $(locationsLink).removeClass("entity_list_open");
             }
             $(menuBox).css("left", Math.round($(menuLink).offset().left) + "px");
-            $(menuBox).css("top", (Math.round($(menuLink).offset().top) + $(menuLink).height() + 11) + "px");
+            $(menuBox).css("top", (Math.round($(menuLink).offset().top) + $(menuLink).height()) + "px");
             $(menuLink).addClass("entity_list_open");
             $(menuBox).show();
         }
