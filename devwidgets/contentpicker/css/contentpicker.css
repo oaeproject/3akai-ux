@@ -1,0 +1,23 @@
+#contentpicker_dialog.dialog {width:700px; margin-left:-350px;}
+#contentpicker_header h2 {margin:0;}
+#contentpicker_header {margin-bottom:10px;}
+
+.contentpicker_line {padding:10px;margin:10px 0px;}
+.contentpicker_line_even {background-color:#EFF2F4;}
+.contentpicker_left_label {width:170px;}
+.contentpicker_right_input {width:440px;margin-left:20px;}
+.contentpicker_right_input input {width:98%;}
+.contentpicker_left_label p.label_header {font-weight:bold;}
+
+#contentpicker_choose {height:94px;}
+#contentpicker_display_options {height:24px;}
+#contentpicker_alternative_display_name {height:110px;}
+#contentpicker_description {height:100px;}
+
+#contentpicker_footer {height:24px;}
+
+#contentpicker_main_container ul.as-selections {width:98%; height:80px;}
+
+#contentpicker_search_for_content {display:block;}
+
+.contentpicker_right_input label.error {font-weight:bold; float:left; color:red;}

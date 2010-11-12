@@ -1,4 +1,24 @@
 {
 "name": "listgeneral",
-"description": "A general listing widget, listing spaces, sites and content \r\n"
+"description": "A general listing widget, listing spaces, sites and content \r\n",
+"ALPHABETICAL_AZ": "Alphabetical A-Z",
+"ALPHABETICAL_ZA": "Alphabetical Z-A",
+"BY_FAVOURITE": "By favourite",
+"FILE_SIZE": "File size",
+"FIRST_ADDED": "First added",
+"HIGHEST_RATED": "Highest rated",
+"LIST": "List",
+"LOWEST_RATED": "Lowest rated",
+"MORE_RESULTS": "More results...",
+"MOST_RECENTLY_ADDED": "Most recently added",
+"NEWEST": "Newest",
+"NO_RESULTS": "No results!",
+"OLDEST": "Oldest",
+"PROFILE_PICTURE": "Profile picture",
+"RESULTS": "Results",
+"SITE_LOGO": "Site logo",
+"SPACE_LOGO": "Space logo",
+"SORT": "Sort",
+"SORRY_NO_USERS": "Sorry, could not retrieve the list of users form the server!",
+"THUMBNAILS": "Thumbnails"
 }

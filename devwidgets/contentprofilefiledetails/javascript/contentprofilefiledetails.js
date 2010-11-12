@@ -39,6 +39,7 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
     var contentProfileFileDetailsActionDelete= "#content_profile_file_details_action_delete";
     var contentProfileFileDetailsActionUpload = "#upload_content";
     var contentProfileFileDetailsViewRevisions = "#content_profile_details_view_revisions";
+    var $uploadContentLink = $("#upload_content", $rootel);
 
     var fileRevisions = [];
     var profileData = [];
@@ -50,24 +51,11 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
         });
     };
 
-    /**
-     * Convert given date object to readable date string
-     * @param {Object} date Date object
-     */
-    var getFormattedDate = function(date){
-        var months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-        var day = date.getDate();
-        var month = months[date.getMonth()];
-        var year = date.getFullYear();
-        var formattedDate = day + " " + month + " " + year;
-        return formattedDate;
-    };
-
     var renderDetails = function(){
         // Construct the JSON object
         // Create a readable data to display
-        var lastModified = getFormattedDate(new Date(profileData["jcr:content"]["jcr:lastModified"]));
-        var created = getFormattedDate(new Date(profileData["jcr:created"]));
+        var lastModified = sakai.api.l10n.transformDate(new Date(profileData["jcr:content"]["jcr:lastModified"]));
+        var created = sakai.api.l10n.transformDate(new Date(profileData["jcr:created"]));
         var json = {
             data: profileData,
             lastModified : lastModified,
@@ -220,6 +208,10 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
 
     $(contentProfileFileDetailsViewRevisions).live("click",function(){
         sakai.filerevisions.initialise(sakai.content_profile.content_data);
+    });
+
+    $uploadContentLink.bind("click", function() {
+        $(window).trigger("sakai-fileupload-init");
     });
 
     $(window).bind("sakai-fileupload-complete", function(){

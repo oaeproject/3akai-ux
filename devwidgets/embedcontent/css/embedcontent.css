@@ -1,11 +1,10 @@
-#embedcontent_dialog.dialog {width:700px; margin-left:-350px;}
 #embedcontent_header h2 {margin:0;}
 #embedcontent_header {margin-bottom:10px;}
 
 .embedcontent_line {padding:10px;margin:10px 0px;}
 .embedcontent_line_even {background-color:#EFF2F4;}
 .embedcontent_left_label {width:170px;}
-.embedcontent_right_input {width:440px;margin-left:20px;}
+.embedcontent_right_input {width:390px;margin-left:20px;}
 .embedcontent_right_input input {width:98%;}
 .embedcontent_left_label p.label_header {font-weight:bold;}
 
@@ -16,7 +15,7 @@
 
 #embedcontent_footer {height:24px;}
 
-#embedcontent_main_container ul.as-selections {width:98%; height:80px;}
+#embedcontent_settings ul.as-selections {width:98%; height:80px;}
 
 #embedcontent_search_for_content {display:block;}
 

@@ -92,7 +92,7 @@
 
 <!-- MULTIPLE INSTANCE ADD ANOTHER TEMPLATE -->
 <div id="profilesection_add_section_template"><!--
-    <a href="javascript:;" class="profilesection_add_section" id="profilesection_add_link_${parentid}"><img src="/dev/_images/add_blue_icon.png"/><span>Add another ${config.multipleLabel}</span></a>
+<a href="javascript:;" class="profilesection_add_section s3d-add_another_location" id="profilesection_add_link_${parentid}"><span>Add another ${config.multipleLabel}</span></a>
 --></div>
 
 <!-- MULTIPLE INSTANCE REMOVE SECTION TEMPLATE -->
@@ -109,7 +109,7 @@
 <!-- FIELD TEMPLATES -->
 <div id="profilesection_field_default_template"><!--
     {var mode = sakai.profile.main.mode}
-    {var stringtypes = ["string", "date", "dateITA", "email", "oldDateITA", "oldDate"]}
+    {var stringtypes = ["string", "date", "email", "oldDate"]}
     {if mode.value === "edit"}
         {if data}
             <div class="profilesection_generalinfo_subcontainer">
@@ -130,7 +130,11 @@
                         {elseif config.type} ${config.type}
                         {/if}"
                     {if !config.type || $.inArray(config.type, stringtypes) >= 0}
-                        value="{if data.value}${data.value.replace(/\"/g, "&quot;")}{/if}"
+                        {if config.type === "date" || config.type === "oldDate"}
+                            value="{if data.value}${sakai.api.l10n.transformDate(new Date(data.value))}{/if}"
+                        {else}
+                            value="{if data.value}${data.value.replace(/\"/g, "&quot;")}{/if}"
+                        {/if}
                     {/if}
                         id="profilesection_generalinfo_${path.replace(/\./g,"_")}" name="${config.label}" title="${config.label}"
                     {if !config.type || $.inArray(config.type, stringtypes) >= 0}
@@ -167,7 +171,11 @@
                     {if config.limitDisplayLength}
                         ${sakai.api.Util.shortenString(data.value, config.limitDisplayLength)}
                     {else}
+                        {if config.type === "date" || config.type === "oldDate"}
+                        ${sakai.api.l10n.transformDate(new Date(data.value))}
+                        {else}
                         ${data.value}
+                        {/if}
                     {/if}
                 {else}
                     ${config.select_elements[data.value]}

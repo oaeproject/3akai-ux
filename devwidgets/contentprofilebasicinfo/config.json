@@ -1,6 +1,8 @@
 {
     "id":"contentprofilebasicinfo",
     "url":"/devwidgets/contentprofilebasicinfo/contentprofilebasicinfo.html",
+    "type":"core",
+    "enabled":true,
     "i18n": {
         "default": "/devwidgets/contentprofilebasicinfo/bundles/default.json",
         "en_GB": "/devwidgets/contentprofilebasicinfo/bundles/en_GB.json",

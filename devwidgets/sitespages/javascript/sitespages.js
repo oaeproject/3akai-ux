@@ -218,7 +218,7 @@ sakai.sitespages = function(tuid,showSettings){
             },
             error: function(xhr, textStatus, thrownError) {
                 sakai.site.site_info = {};
-                fluid.log("site.js: Could not load site info. \n HTTP status code: " + xhr.status);
+                debug.error("site.js: Could not load site info. \n HTTP status code: " + xhr.status);
 
             }
 
@@ -255,7 +255,7 @@ sakai.sitespages = function(tuid,showSettings){
             },
             error: function(xhr, textStatus, thrownError) {
               $(window).trigger('hashchange');
-              fluid.log("sitespages.js: Could not load site navigation content. \n HTTP status code: " + xhr.status);
+              debug.error("sitespages.js: Could not load site navigation content. \n HTTP status code: " + xhr.status);
             }
         });
 
@@ -369,7 +369,7 @@ sakai.sitespages = function(tuid,showSettings){
 
                      },
                      error: function(xhr, status, e) {
-                        fluid.log("site.js: Could not load page content for webpage!");
+                        debug.error("site.js: Could not load page content for webpage!");
                      }
                 });
             } else {
@@ -526,22 +526,6 @@ sakai.sitespages = function(tuid,showSettings){
     });
 
     /**
-     * Transform a date into more readable date string
-     * @param {Object} day
-     * @param {Object} month
-     * @param {Object} year
-     * @param {Object} hour
-     * @param {Object} minute
-     * @return {String} formatted date string
-     */
-    sakai.sitespages.transformDate = function(day, month, year, hour, minute){
-        var string = "";
-        var months_lookup = {1: "Jan", 2: "Feb", 3: "Mar", 4: "Apr", 5: "May", 6: "Jun", 7: "Jul", 8: "Aug", 9: "Sep", 10: "Oct", 11: "Nov", 12: "Dec"};
-        string += months_lookup[month] + " " + day + ", " + year + " " + ("00" + hour).slice(-2) + ":" + ("00" + minute).slice(-2);
-        return string;
-    };
-
-    /**
      * Reset version history
      * @return void
      */
@@ -550,7 +534,8 @@ sakai.sitespages = function(tuid,showSettings){
         if (sakai.sitespages.selectedpage) {
             $("#revision_history_container").hide();
             $content_page_options.show();
-            $("#" + sakai.sitespages.selectedpage).html(sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"]);
+            var pagecontent = sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"] || "";
+            $("#" + sakai.sitespages.selectedpage).html(pagecontent);
             sakai.api.Widgets.widgetLoader.insertWidgets(sakai.sitespages.selectedpage, null, config.basepath);
         }
 
@@ -692,7 +677,7 @@ sakai.sitespages = function(tuid,showSettings){
                 callback(tgt_urlsafe_name);
             },
             error: function(xhr, text, thrown_error) {
-                fluid.log("sitespages_admin.js/movePage(): Failed to move page node!");
+                debug.error("sitespages_admin.js/movePage(): Failed to move page node!");
             }
         });
     };
@@ -728,6 +713,7 @@ sakai.sitespages = function(tuid,showSettings){
                 ":contentType": "json",
                 ":content": page_data,
                 ":replace": true,
+                ":replaceProperties": true,
                 "_charset_": "utf-8"
             },
             success: function(data) {
@@ -1339,11 +1325,10 @@ sakai.sitespages = function(tuid,showSettings){
      * @param {String} content The content of the WYSIWYG editor
      */
     var checkContent = function(content){
-        if(!content.replace(/ /g,"%20")) {
-            alert(sakai.api.i18n.General.getValueForKey("PLEASE_ENTER_SOME_CONTENT"));
-            return false;
-        }else{
+        if (content) {
             return true;
+        } else {
+            return false;
         }
     };
 
@@ -1361,7 +1346,8 @@ sakai.sitespages = function(tuid,showSettings){
      */
     var viewSelectedPage = function () {
         // show newly updated title and content
-        $("#" + sakai.sitespages.selectedpage).html(sakai.api.Security.saneHTML(sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"]));
+        var pagecontent = sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"] || "";
+        $("#" + sakai.sitespages.selectedpage).html(sakai.api.Security.saneHTML(pagecontent));
         $("#" + sakai.sitespages.selectedpage).show();
         if (sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageType"] === "webpage") {
             $("#webpage_edit").show();
@@ -1413,7 +1399,7 @@ sakai.sitespages = function(tuid,showSettings){
                 $("#title-input").focus();
                 return;
             }
-            var newcontent = getContent();  // Get the content from tinyMCE
+            var newcontent = getContent() || "";  // Get the content from tinyMCE
             if (!checkContent(newcontent)) {
                 alert(sakai.api.i18n.General.getValueForKey("PLEASE_ENTER_SOME_CONTENT"));
                 return;
@@ -1444,7 +1430,7 @@ sakai.sitespages = function(tuid,showSettings){
                         updateRevisionHistory(sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["jcr:path"]);
                     } else {
                         // Page node save wasn't successful
-                        fluid.log("sitepages_admin.js/saveEdit(): Failed to update page content while saving existing page: " + sakai.sitespages.config.basepath);
+                        debug.error("sitepages_admin.js/saveEdit(): Failed to update page content while saving existing page: " + sakai.sitespages.config.basepath);
                     }
                 });
 
@@ -1613,11 +1599,7 @@ sakai.sitespages = function(tuid,showSettings){
         });
 
         // Update autosave indicator
-        var now = new Date();
-        var hours = now.getHours();
-        var minutes = now.getMinutes();
-        var seconds = now.getSeconds();
-        $("#realtime").text(("00" + hours).slice(-2) + ":" + ("00" + minutes).slice(-2) + ":" + ("00" + seconds).slice(-2));
+        $("#realtime").text(sakai.api.l10n.transformTime(new Date()));
         $("#messageInformation").show();
 
     };
@@ -1950,7 +1932,7 @@ sakai.sitespages = function(tuid,showSettings){
     });
 
     $("#sitespages_embed_content_button").live("click", function(e) {
-        $(window).trigger('sakai-embedcontent-init', {"name":sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageTitle"]});
+        renderSelectedWidget("embedcontent");
     });
 
 
@@ -2017,6 +1999,15 @@ sakai.sitespages = function(tuid,showSettings){
         return true;
     };
 
+    // overtake the click action for the inserted links to make the navigation work properly
+    $('.contauthlink').die("click");
+    $('.contauthlink').live("click", function() {
+        var id = $(this).attr("href").split("#page=")[1];
+        sakai.sitespages.navigation.deselectCurrentNode();
+        sakai.sitespages.navigation.selectNode(id);
+        return false;
+    });
+
     // Bind Insert link confirmation click event
     $("#insert_link_confirm").bind("click", function(ev){
         insertLink();
@@ -2064,7 +2055,7 @@ sakai.sitespages = function(tuid,showSettings){
     var showHideMoreMenu = function(hideOnly){
         var el = $("#more_menu");
         if (el) {
-            if (el.css("display").toLowerCase() !== "none" || hideOnly) {
+            if ((el.css("display") && el.css("display").toLowerCase() !== "none") || hideOnly) {
                 $("#more_link").removeClass("clicked");
                 el.hide();
             } else {
@@ -2239,7 +2230,7 @@ sakai.sitespages = function(tuid,showSettings){
                 }
 
             } else {
-                fluid.log("site_admin.js/sakai.sitespages.createNewPage(): Could not create page node for page!");
+                debug.error("site_admin.js/sakai.sitespages.createNewPage(): Could not create page node for page!");
                 // run callback
                 if(typeof(callback) === "function") {
                     callback(false);
@@ -2315,7 +2306,7 @@ sakai.sitespages = function(tuid,showSettings){
                 sakai.api.Activity.createActivity(nodeUrl, "site", "default", activityData); */
 
             } else {
-                fluid.log("site_admin.js/sakai.sitespages.addDashboardPage(): Could not create page node for dashboard page!");
+                debug.error("site_admin.js/sakai.sitespages.addDashboardPage(): Could not create page node for dashboard page!");
 
                 // run callback
                 if(typeof(callback) === "function") {
@@ -2325,7 +2316,6 @@ sakai.sitespages = function(tuid,showSettings){
 
         });
     };
-
 
     //--------------------------------------------------------------------------------------------------------------
     //
@@ -2374,7 +2364,7 @@ sakai.sitespages = function(tuid,showSettings){
 
                         // Transform date
                         var date = data.versions[ver]["jcr:created"];
-                        var datestring = sakai.sitespages.transformDate(parseInt(date.substring(8,10),10), parseInt(date.substring(5,7),10), parseInt(date.substring(0,4),10), parseInt(date.substring(11,13),10), parseInt(date.substring(14,16),10));
+                        var datestring = sakai.api.l10n.transformDateTimeShort(new Date(date));
 
                         name += " - " + datestring;
 
@@ -2396,7 +2386,7 @@ sakai.sitespages = function(tuid,showSettings){
 
             },
             error: function(xhr, textStatus, thrownError) {
-                fluid.log("site_admin.js:Revision History: An error has occured while fetching the revision history");
+                debug.error("site_admin.js:Revision History: An error has occured while fetching the revision history");
                 sakai.sitespages.versionHistoryNeedsReset = true;
             }
         });
@@ -2419,10 +2409,11 @@ sakai.sitespages = function(tuid,showSettings){
             success : function(data) {
 
                 var type = sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageType"];
+                var pagecontent = data["sakai:pagecontent"] || "";
                 if (type === "webpage") {
-                    $("#" + sakai.sitespages.selectedpage).html(sakai.api.Security.saneHTML(data["sakai:pagecontent"]));
+                    $("#" + sakai.sitespages.selectedpage).html(sakai.api.Security.saneHTML(pagecontent));
                     sakai.api.Widgets.widgetLoader.insertWidgets(sakai.sitespages.selectedpage, null, sakai.sitespages.config.basepath + "_widgets/");
-                    sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"] = data["sakai:pagecontent"];
+                    sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"] = pagecontent;
 
                     // Create an activity item for the page edit
                     /* var nodeUrl = sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["jcr:path"];
@@ -2436,11 +2427,11 @@ sakai.sitespages = function(tuid,showSettings){
                     // Remove previous dashboard
                     $("#" + sakai.sitespages.selectedpage).remove();
                     // Render new one
-                    sakai.sitespages._displayDashboard (data["sakai:pagecontent"], true);
+                    sakai.sitespages._displayDashboard (pagecontent, true);
                 }
 
                 // Save new version of this page
-                sakai.sitespages.updatePageContent(sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["jcr:path"], data["sakai:pagecontent"], function(success, data) {
+                sakai.sitespages.updatePageContent(sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["jcr:path"], pagecontent, function(success, data) {
 
                     if (success) {
 
@@ -2454,13 +2445,13 @@ sakai.sitespages = function(tuid,showSettings){
                         sakai.sitespages.resetVersionHistory();
 
                     } else {
-                        fluid.log("site_admin.js: Failed to save new version of page content while applying new revision of content!");
+                        debug.error("site_admin.js: Failed to save new version of page content while applying new revision of content!");
                     }
 
                 });
             },
             error: function(xhr, textStatus, thrownError) {
-                fluid.log("site_admin.js: Failed to fetch new version of page content while applying new revision of content!");
+                debug.error("site_admin.js: Failed to fetch new version of page content while applying new revision of content!");
             }
         });
     });
@@ -2479,16 +2470,17 @@ sakai.sitespages = function(tuid,showSettings){
             success : function(data) {
 
                 var type = sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageType"];
+                var pagecontent = data["sakai:pagecontent"] || "";
                 if (type === "webpage") {
-                    $("#" + sakai.sitespages.selectedpage).html(sakai.api.Security.saneHTML(data["sakai:pagecontent"]));
+                    $("#" + sakai.sitespages.selectedpage).html(sakai.api.Security.saneHTML(pagecontent));
                     sakai.api.Widgets.widgetLoader.insertWidgets(sakai.sitespages.selectedpage, null, sakai.sitespages.config.basepath + "_widgets/");
                 } else if (type === "dashboard") {
                     $("#" + sakai.sitespages.selectedpage).remove();
-                    sakai.sitespages._displayDashboard(data["sakai:pagecontent"], true);
+                    sakai.sitespages._displayDashboard(pagecontent, true);
                 }
             },
             error: function(xhr, textStatus, thrownError) {
-                fluid.log("site_admin.js: An error has occured while trying to cahnge version preview");
+                debug.error("site_admin.js: An error has occured while trying to change version preview");
             }
         });
     };
@@ -2577,7 +2569,7 @@ sakai.sitespages = function(tuid,showSettings){
         templates[newid]["pageContent"] = {};
         templates[newid]["pageContent"]["_charset_"] = "utf-8";
         templates[newid]["pageContent"]["sling:resourceType"] = "sakai/pagetemplatecontent";
-        templates[newid]["pageContent"]["sakai:pagecontent"] = sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"];
+        templates[newid]["pageContent"]["sakai:pagecontent"] = sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"] || "";
 
         sakai.api.Server.saveJSON("/~" + sakai.data.me.user.userid + "/private/templates", templates, function(success, response) {
 
@@ -2589,7 +2581,7 @@ sakai.sitespages = function(tuid,showSettings){
                 $("#template_name").val("");
                 $("#template_description").val("");
             } else {
-                fluid.log("site_admin.js/updateTemplates(): Could not save page template!");
+                debug.error("site_admin.js/updateTemplates(): Could not save page template!");
             }
 
         });
@@ -2670,7 +2662,7 @@ sakai.sitespages = function(tuid,showSettings){
             },
             error: function(xhr, textStatus, thrownError) {
 
-                fluid.log("site_admin.js/deletePage(): Could not delete page node at " + sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["jcr:path"]);
+                debug.error("site_admin.js/deletePage(): Could not delete page node at " + sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["jcr:path"]);
             }
         });
     };

@@ -71,7 +71,7 @@ sakai.joinrequests = function (tuid, showSettings) {
             // set images for users that have a profile picture
             for (var i in joinrequests) {
                 if (joinrequests.hasOwnProperty(i)) {
-                    var pic_src = "/dev/_images/default_profile_picture_64.png";
+                    var pic_src = "/dev/images/default_profile_picture_64.png";
                     if (joinrequests[i].pic_src) {
                         var pic_src_json = $.parseJSON(joinrequests[i].pic_src);
                         pic_src = "/~" + joinrequests[i].userid +
@@ -137,7 +137,7 @@ sakai.joinrequests = function (tuid, showSettings) {
                 }
             } else {
                 // log error
-                fluid.log("joinrequests.js/getJoinRequestsData() ERROR: Could not get join requests for group: " +
+                debug.error("joinrequests.js/getJoinRequestsData() ERROR: Could not get join requests for group: " +
                     sakai.currentgroup.id + " - error status: " + data.textStatus);
             }
         });
@@ -165,7 +165,7 @@ sakai.joinrequests = function (tuid, showSettings) {
                 // remove join request from UI and server
                 removeJoinRequest(userid);
             } else {
-                fluid.log("joinrequests.js/addUser() ERROR: Could not add member: " +
+                debug.error("joinrequests.js/addUser() ERROR: Could not add member: " +
                     userid + " to groupid: " + sakai.currentgroup.id +
                     " - error status: " + data.textStatus);
                 sakai.api.Util.notification.show("Group Membership", "Sorry, there was a problem while adding the user to the group. We've notified system administrators. Please try again later or contact an administrator if the issue persists.");
@@ -190,7 +190,7 @@ sakai.joinrequests = function (tuid, showSettings) {
                     $joinrequestsWidget.hide();
                 }
             } else {
-                fluid.log("joinrequests.js/ignoreUser() ERROR: Could not remove join request for: " +
+                debug.error("joinrequests.js/ignoreUser() ERROR: Could not remove join request for: " +
                     userid + " from groupid: " + sakai.currentgroup.id +
                     " - error status: " + data.textStatus);
                 sakai.api.Util.notification.show("Group Membership", "Sorry, there was a problem while ignoring the join request. We've notified system administrators. Please try again later or contact an administrator if the issue persists.");

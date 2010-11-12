@@ -142,7 +142,7 @@ sakai.pickeradvanced = function(tuid, showSettings) {
             $("#pickeradvanced_search_files_mine").parent("li").addClass("pickeradvanced_selected_list");
             $pickeradvanced_sort_on.hide();
             $pickeradvanced_search_files.show();
-            pickerData["searchIn"] = sakai.config.URL.POOLED_CONTENT_MANAGER.replace(".json", ".infinity.json") + "?page=0&items=12&_=&q=";
+            pickerData["searchIn"] = sakai.config.URL.SEARCH_ALL_FILES.replace(".json", ".infinity.json") + "?page=0&items=12&_=&q=";
         }
         $("ul.pickeradvanced_search_" + pickerData["type"]).show();
         $pickeradvanced_search_query.focus();
@@ -266,8 +266,10 @@ sakai.pickeradvanced = function(tuid, showSettings) {
                     if (rawData.results[i].profile) {
                         rawData.results[i] = rawData.results[i].profile;
                     }
-                    if ($.inArray(rawData.results[i].user, pickerlist) !== -1) {
-                        doAdd = false;
+                    if (pickerlist && pickerlist.length) {
+                        if ($.inArray(rawData.results[i].user, pickerlist) !== -1) {
+                            doAdd = false;
+                        }
                     }
                     if (rawData.results[i]['rep:userId'] && (rawData.results[i]['rep:userId'] === "admin" || rawData.results[i]['rep:userId'] === "anonymous")) {
                         doAdd = false;
@@ -433,6 +435,15 @@ sakai.pickeradvanced = function(tuid, showSettings) {
 
     $(window).unbind("sakai-pickeradvanced-init");
     $(window).bind("sakai-pickeradvanced-init", function(e, config) {
+        // position dialog box at users scroll position
+        var htmlScrollPos = $("html").scrollTop();
+        var docScrollPos = $(document).scrollTop();
+        if (htmlScrollPos > 0) {
+            $pickeradvanced_container.css({"top": htmlScrollPos + 130 + "px"});
+        } else if (docScrollPos > 0) {
+            $pickeradvanced_container.css({"top": docScrollPos + 130 + "px"});
+        }
+
         firstTime = true;
         render(config.config);
         $pickeradvanced_container.jqmShow();
@@ -475,6 +486,10 @@ sakai.pickeradvanced = function(tuid, showSettings) {
                break;
            case "groups_manager":
                searchURL = sakai.config.URL.GROUPS_MANAGER;
+               $pickeradvanced_sort_on.hide();
+               break;
+           case "files_all":
+               searchURL = sakai.config.URL.SEARCH_ALL_FILES.replace(".json", ".infinity.json");
                $pickeradvanced_sort_on.hide();
                break;
            case "files_mine":

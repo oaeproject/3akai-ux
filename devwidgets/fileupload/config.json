@@ -7,5 +7,7 @@
     },
     "id":"fileupload",
     "name":"fileupload",
+    "type":"core",
+    "enabled":true,
     "url":"/devwidgets/fileupload/fileupload.html"
 }

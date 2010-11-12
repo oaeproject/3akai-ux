@@ -35,7 +35,8 @@
             <div id="pickeradvanced_results_header" class="fl-force-left"><span><a href="javascript:;" id="pickeradvanced_select_all_button" class="s3d-action">__MSG__SELECT_ALL__</a></span></div>
             <div id="pickeradvanced_content_list" class="fl-force-left">
                 <ul id="pickeradvanced_file_filters" style="display:none" class="pickeradvanced_search_content">
-                    <li><a href="javascript:;" id="pickeradvanced_search_files_mine" class="pickeradvanced_search_filter s3d-action">__MSG__MY_CONTENT__</a></li>
+                    <li><a href="javascript:;" id="pickeradvanced_search_files_all" class="pickeradvanced_search_filter s3d-action">__MSG__ALL_CONTENT__</a></li>
+                    <li><a href="javascript:;" id="pickeradvanced_search_files_mine" class="pickeradvanced_search_filter s3d-action">__MSG__CONTENT_I_MANAGE__</a></li>
                     <li><a href="javascript:;" id="pickeradvanced_search_files_view" class="pickeradvanced_search_filter s3d-action">__MSG__CONTENT_I_CAN_SEE__</a></li>
                 </ul>
                 <ul id="pickeradvanced_people_filters" style="display:none" class="pickeradvanced_search_people">
@@ -84,7 +85,7 @@
                         {if i.picture}
                             <img src="/~${i["rep:userId"]}/public/profile/${$.parseJSON(i.picture).name}" alt="__MSG__PROFILE_PICTURE_FOR__ ${i.firstName} ${i.lastName}" class="pickeradvanced_ppicture"/>
                         {else}
-                            <img src="/dev/_images/person_icon.jpg" alt="__MSG__DEFAULT_PROFILE_PICTURE__" class="pickeradvanced_ppicture"/>
+                            <img src="/dev/images/person_icon.jpg" alt="__MSG__DEFAULT_PROFILE_PICTURE__" class="pickeradvanced_ppicture"/>
                         {/if}
                         <a class="pickeradvanced_name" href="/~${i['rep:userId']}" target="_blank">${sakai.api.User.getDisplayName(i)}</a>
                         <br />
@@ -99,7 +100,7 @@
                         {if i.picture}
                             <img src="/~${i["sakai:group-id"]}/public/profile/${$.parseJSON(i.picture).name}" alt="__MSG__PROFILE_PICTURE_FOR__ ${i["sakai:group-title"]}" class="pickeradvanced_ppicture"/>
                         {else}
-                            <img src="/dev/_images/group_avatar_icon_64x64.png" alt="__MSG__DEFAULT_GROUP_PICTURE__" class="pickeradvanced_ppicture"/>
+                            <img src="/dev/images/group_avatar_icon_64x64.png" alt="__MSG__DEFAULT_GROUP_PICTURE__" class="pickeradvanced_ppicture"/>
                         {/if}
                         <a class="pickeradvanced_name" href="/~${i["sakai:group-id"]}" target="_blank">${i["sakai:group-title"]}</a>
                         <br />
