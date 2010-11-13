@@ -168,7 +168,7 @@ module("Widgets - URLs in Config file");
                                     async: false,
                                     url: subproperties[l].url,
                                     complete: function(xhr, status) {
-                                        ok(status === "success", "The URL " + subproperties[l].url + " for the " + subproperties[l].name + " property on the " + widgetObject.id + " widget is valid");
+                                        ok(status === "success", subproperties[l].url + " on the " + subproperties[l].name + " property on the " + widgetObject.id + ": " + status);
                                         start();
                                     }
                                 });

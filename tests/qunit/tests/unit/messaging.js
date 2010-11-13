@@ -161,9 +161,9 @@ var sendMessage = function(category, reply){
     sakai.api.User.login(logindata, function(success){
         if (success) {
             //check if it's a normal message or a reply, change the callback function
-            if(reply === ""){
+            if (reply === "") {
                 sakai.api.Communication.sendMessage(dummyUser, dummySubject, dummyMessage, category, reply, testMessageCallback);
-            }else{
+            } else {
                 sakai.api.Communication.sendMessage(dummyUser, dummySubject, dummyMessage, category, reply, testReplyCallback);
             }
         }
