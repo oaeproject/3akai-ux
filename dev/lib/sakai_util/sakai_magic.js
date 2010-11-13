@@ -976,7 +976,7 @@ sakai.api.i18n.init = function(){
      */
     var doI18N = function(localjson, defaultjson){
         var newstring = sakai.api.i18n.General.process(tostring, localjson, defaultjson);
-        // We actually use the old innerHTML function here because the jQuery.html() function will
+        // We actually use the old innerHTML function here because the $.html() function will
         // try to reload all of the JavaScript files declared in the HTML, which we don't want as they
         // will already be loaded
         if($i18nable.length > 0){
@@ -3755,7 +3755,7 @@ sakai.api.Widgets.widgetLoader = {
                             var jsonpath = requestedURLsResults[i].url;
                             var widgetname = batchWidgets[jsonpath];
 
-                            if (jQuery.isPlainObject(Widgets.widgets[widgetname].i18n)) {
+                            if ($.isPlainObject(Widgets.widgets[widgetname].i18n)) {
                                 if (Widgets.widgets[widgetname].i18n["default"]){
                                     var item = {
                                         "url" : Widgets.widgets[widgetname].i18n["default"],
@@ -3982,7 +3982,7 @@ sakai.api.Widgets.widgetLoader = {
                     var floating = "inline_class_widget_nofloat";
 
                     // Check if the browser supports cssFloat (other browsers) or styleFloat (IE)
-                    var styleFloat = jQuery.support.cssFloat ? "cssFloat" : "styleFloat";
+                    var styleFloat = $.support.cssFloat ? "cssFloat" : "styleFloat";
                     if (divarray[i].style[styleFloat]) {
                         floating = divarray[i].style[styleFloat] === "left" ? "inline_class_widget_leftfloat" : "inline_class_widget_rightfloat";
                     }
@@ -4210,7 +4210,7 @@ sakai.api.Widgets.isOnDashboard = function(tuid) {
 ///////////////////////////
 
 /*
- * We override the standard jQuery.ajax error function, which is being executed when
+ * We override the standard $.ajax error function, which is being executed when
  * a request fails. We will check whether the request has failed due to an authorization
  * required error, by checking the response code and then doing a request to the me service
  * to find out whether we are no longer logged in. If we are no longer logged in, and the
@@ -4283,7 +4283,7 @@ sakai.api.Widgets.isOnDashboard = function(tuid) {
         }
 
         if (s.global) {
-          jQuery.event.trigger("ajaxError", [xhr, status, e]);
+          $.event.trigger("ajaxError", [xhr, status, e]);
         }
           }
 
