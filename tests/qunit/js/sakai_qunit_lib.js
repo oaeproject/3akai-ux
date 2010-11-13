@@ -22,4 +22,4 @@ QUnit.done = function(failures, total) {
     $(window).trigger('sakai-qunit-done', {url: location, failures:failures, total:total});
 };
 
-})();
+})(jQuery);
