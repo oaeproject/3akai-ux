@@ -36,7 +36,7 @@
 .listpeople_container .listpeople_content .listpeople_page li
 { display: block; list-style: none; clear: both; padding: 5px 0 5px 10px; border-bottom: 1px solid #FFFFFF; border-top: 1px solid #FFFFFF; overflow: hidden; }
 
-.listpeople_container .listpeople_content .listpeople_page li:hover
+.listpeople_container .listpeople_content .listpeople_page li.selectable:hover
 { background-color: #99CCFF; }
 
 .listpeople_container .listpeople_content .listpeople_page .selectable
@@ -52,7 +52,7 @@
 { float: left; display: block; height: 32px; width: 32px; }
 
 .listpeople_container .listpeople_content .listpeople_page .listpeople_name
-{ color: #006E96; font-size: 14px; font-weight: bold; position: relative; top: 1px; left: 5px; }
+{ font-size: 14px; position: relative; top: 1px; left: 5px; }
 
 .listpeople_container .listpeople_content .listpeople_page .listpeople_subnameinfo
 { color: #999; font-size: 11px; position: relative; top: 1px; left: 7px; }

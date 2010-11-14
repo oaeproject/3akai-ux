@@ -68,6 +68,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
     var groupBasicInfoSecondLevelTemplate = "#groupbasicinfo_secondlevel_template";
     var groupBasicInfoThirdLevelTemplate = "#groupbasicinfo_thirdlevel_template";
     var groupBasicInfoAddAnotherLocation = "#groupbasicinfo_add_another_location";
+    var groupBasicInfoAddAnotherLocationtext = "#groupbasicinfo_add_another_location_text";
     var groupBasicInfoAddAnotherLocationLink = groupBasicInfoAddAnotherLocation + "_link";
     var groupBasicInfoRemoveNewLocation = ".groupbasicinfo_remove_new_location";
     var groupBasicInfoRemoveLocation = ".groupbasicinfo_remove_location";
@@ -388,7 +389,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         $("#groupbasicinfo_add_another_container").append(renderedDiv);
         // Apply style to the rendered div
         $(renderedDiv).addClass("groupbasicinfo_added_directory");
-        $(groupBasicInfoAddAnotherLocationLink).text("Add another location");
+        $(groupBasicInfoAddAnotherLocationLink).text($(groupBasicInfoAddAnotherLocationtext).html());
     };
 
     /**

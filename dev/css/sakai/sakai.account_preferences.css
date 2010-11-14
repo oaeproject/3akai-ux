@@ -3,12 +3,6 @@
     padding: 15px 0;
 }
 /** MAIN CONTENT **/
-.account_preferences .header .fixed-container {
-    background: #FFFFFF url(/dev/images/header_l.png) no-repeat scroll left top;
-}
-.account_preferences .main-container {
-    background: #fff;
-}
 .account_preferences .outline-top {
     background: url('/dev/images/content_tr_flip.png') top right no-repeat;
     padding: 0 5px 0 0;

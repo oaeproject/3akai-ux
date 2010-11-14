@@ -15,12 +15,12 @@
             <div class="fl-force-left">
                 <a href="/~${jr.userid}" target="_blank"
                     class="joinrequests_userpicture_link"
-                    title="View profile"><img class="joinrequests_userpicture"
+                    title="__MSG__VIEW_PROFILE"><img class="joinrequests_userpicture"
                     id="joinrequests_userpicture_${jr.userid}" /></a>
             </div>
             <div class="fl-force-left joinrequests_details">
                 <p class="joinrequests_username" style="width:150px;">
-                    <a href="/~${jr.userid}" title="View profile"
+                    <a href="/~${jr.userid}" title="__MSG__VIEW_PROFILE"
                     id="joinrequests_username_link_${jr.userid}"
                     class="joinrequests_username_link"
                     target="_blank">${jr.firstName} ${jr.lastName}</a>
@@ -28,8 +28,8 @@
                 <p class="joinrequests_request_age">
                     <span class="joinrequests_timeago">${jr.request_age}</span>
                 </p>
-                <p id="joinrequests_actions_${jr.userid}" class="joinrequests_actions">
-                    <a href="javascript:;" class="joinrequests_add_link"
+                <p id="joinrequests_actions_${jr.userid}" class="joinrequests_actions s3d-regular-links">
+                    <a class="" href="javascript:;" class="joinrequests_add_link"
                         id="joinrequests_add_${jr.userid}">__MSG__ADD_AS_A_MEMBER__</a>
                     |
                     <a href="javascript:;" class="joinrequests_ignore_link"
@@ -41,6 +41,10 @@
         </div>
     {/for}
     --></div>
+    <!-- MESSAGES -->
+    <span style="display:none;" id="joinrequests_title">__MSG__GROUP_MEMBERSHIP__</span>
+    <span style="display:none;" id="joinrequests_success">__MSG__HAS_SUCCESSFULLY_ADDED_TO_THE_GROUP__</span>
+    <span style="display:none;" id="joinrequests_error">__MSG__SORRY_THERE_WAS_A_PROBLEM__</span>
 </div>
 
 <!-- JAVASCRIPT -->

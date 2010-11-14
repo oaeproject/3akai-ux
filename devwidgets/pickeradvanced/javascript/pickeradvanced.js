@@ -48,7 +48,7 @@ sakai.pickeradvanced = function(tuid, showSettings) {
     var $rootel = $("#" + tuid);
 
     var $pickeradvanced_container = $("#pickeradvanced_container", $rootel);
-    var $pickeradvanced_content_search = $("#pickeradvanced_content_search", $rootel);
+    var $pickeradvanced_content_search = $("#pickeradvanced_content_search");
     var $pickeradvanced_content_list = $("#pickeradvanced_content_list", $rootel);
     var $pickeradvanced_search_query = $("#pickeradvanced_search_query", $rootel);
     var $pickeradvanced_search_button = $("#pickeradvanced_search_button", $rootel);

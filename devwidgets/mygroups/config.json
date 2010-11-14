@@ -1,9 +1,9 @@
 {
     "description":"A list of the groups I'm a member of",
     "i18n": {
-        "default": "/devwidgets/mygroups/bundles/default.json",
-        "en_US": "/devwidgets/mygroups/bundles/en_US.json",
-        "zh_CN": "/devwidgets/mygroups/bundles/zh_CN.json"
+        "default": "/devwidgets/mygroups/bundles/default.properties",
+        "en_US": "/devwidgets/mygroups/bundles/en_US.properties",
+        "zh_CN": "/devwidgets/mygroups/bundles/zh_CN.properties"
     },
     "id":"mygroups",
     "name":"My Groups",

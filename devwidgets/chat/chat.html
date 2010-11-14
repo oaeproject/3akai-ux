@@ -3,7 +3,7 @@
 <div id="chat_available_template" style="display:none"><!--
     <span class="chat_button_image">
         <a href="javascript:;" id="chat_available_minimize">
-            <img src="/devwidgets/chat/images/chat_minimize.png" alt="To show the chat navigation" />
+            <img src="/devwidgets/chat/images/chat_minimize.png" alt="__MSG__TO_SHOW_THE_CHAT_NAVIGATION__" />
         </a>
     </span>
     <table>
@@ -22,7 +22,7 @@
                         {if sakai.data.me.profile.status}
                             ${sakai.data.me.profile.status}
                         {else}
-                            No status message
+                            __MSG__NO_STATUS_MESSAGE__
                         {/if}
                     </span>
                 </td>
@@ -45,12 +45,12 @@
                                 {/if}
                             </td>
                             <td>
-                                <a href="javascript:;" class="chat_available_status_${i.profile.chatstatus} initiate_chat_window">${sakai.api.Util.shortenString(i.profile.name, 14)}</a><br />
+                                <a href="javascript:;" class="chat_available_status_${i.profile.chatstatus} initiate_chat_window s3d-name-links">${sakai.api.Util.shortenString(i.profile.name, 14)}</a><br />
                                 <span id="chat_mystatusmessage" class="chat_available_statusmessage">
                                     {if i.profile.status}
                                         ${sakai.api.Util.shortenString(i.profile.status, 20)}
                                     {else}
-                                        No status message
+                                        __MSG__NO_STATUS_MESSAGE__
                                     {/if}
                                 </span>
                             </td>
@@ -94,10 +94,10 @@
                     <td>
                         <span class="chat_user_button_image">
                             <a href="javascript:;" id="chat_minimize_${profile.userid}" class="chat_minimize">
-                                <img src="/devwidgets/chat/images/chat_minimize.png" alt="Minimize this chat window" />
+                                <img src="/devwidgets/chat/images/chat_minimize.png" alt="__MSG__MINIMIZE_THIS_CHAT_WINDOW__" />
                             </a>
                             <a href="javascript:;" id="chat_close_${profile.userid}" class="chat_close">
-                                <img src="/devwidgets/chat/images/chat_close.png" alt="Close this chat window" />
+                                <img src="/devwidgets/chat/images/chat_close.png" alt="__MSG__CLOSE_THIS_CHAT_WINDOW__" />
                             </a>
                         </span>
                         <a href="/~${profile.userid}" id="chat_window_name_${profile.userid}" class="chat_window_name">${sakai.api.Util.shortenString(profile.name, 14)}</a><br />
@@ -105,14 +105,14 @@
                             {if profile.status}
                                 ${sakai.api.Util.shortenString(profile.status, 20)}
                             {else}
-                                No status message
+                                __MSG__NO_STATUS_MESSAGE__
                             {/if}
                         </span>
                     </td>
                 </tr>
             </table>
             <div id="chat_with_${profile.userid}_content" class="chat_with_content_overflow"></div>
-            <input id="chat_with_${profile.userid}_txt" class="chat_with_txt" type="text" title="Please input the chat text" />
+            <input id="chat_with_${profile.userid}_txt" class="chat_with_txt" type="text" title="__MSG__PLEASE_INPUT_CHAT_TEXT__" />
         </div>
 
 --></div>
@@ -134,7 +134,7 @@
                 <td id="chat_online_connections_link">
                     <div id="chat_online_button">
                         <div id="chat_online_list_activator">
-                            <img src="/devwidgets/chat/images/people.png" class="chat_people_icon" alt="Online"/>
+                            <img src="/devwidgets/chat/images/people.png" class="chat_people_icon" alt="__MSG__ONLINE__"/>
                             <span class="chat_straight_link" id="chat_online"></span>
                         </div>
 

@@ -65,9 +65,9 @@
         <div id="widget_topnavigation" class="widget_inline i18nable"></div>
 
         <!-- CONTENT -->
-        <div class="fl-container-flex content content_search">
-            <div class="fl-fix fl-centered fixed-container">
-                <div class="decor"><!-- --></div>
+        <div class="fl-container-flex content content_search s3d-regular-links s3d-header">
+            <div class="fl-fix fl-centered fixed-container s3d-fixed-container">
+                <div class="s3d-decor"><!-- --></div>
 
                 <!-- TITLE -->
                 <h1 class="title">__MSG__SEARCH_CONTENT_AND_MEDIA__</h1>
@@ -160,6 +160,7 @@
                                         {elseif i['jcr:primaryType'] === "sling:Folder"}
                                             {var mimeType = 'folder'}
                                         {/if}
+                                        <a href="/dev/content_profile.html#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['jcr:path']}" title="${i['jcr:name']}"{/if}>
                                         {if (mimeType=="image/jpg" || mimeType=="image/png" || mimeType=="image/gif") && sakai.config.MimeTypes[mimeType]}
                                             {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
                                             {if i['jcr:primaryType'] && i['jcr:primaryType'] === "sakai:pooled-content"}
@@ -174,6 +175,7 @@
                                             {var mimeTypeDescription = sakai.config.MimeTypes["other"].description}
                                             <img src="${sakai.config.MimeTypes["other"].URL}" alt="${mimeTypeDescription}" />
                                         {/if}
+                                        </a>
                                         <div class="search_result_right">
                                             <div class="search_result_header">
                                                 <a href="/dev/content_profile.html#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['jcr:path']}" title="${i['jcr:name']}"{/if}>
@@ -198,7 +200,7 @@
                                                     {for t in i["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0},{/if} ${t}{/if}{/for}
                                                 </div>
                                             {/if}
-                                            {if mimeTypeDescription}<div class="search_result_type"><a href="/dev/content_profile.html#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}{else}${i['jcr:path']}{/if}">${mimeTypeDescription}</a></div>{/if}
+                                            {if mimeTypeDescription}<div class="search_result_type s3d-content-type-link"><a href="/dev/content_profile.html#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}{else}${i['jcr:path']}{/if}">${mimeTypeDescription}</a></div>{/if}
                                         </div>
                                     </div>
                                     {/if}

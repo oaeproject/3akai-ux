@@ -3,9 +3,7 @@ module("Widgets - Core");
 (function(){
 
 test("The Widget variable exists", function(){
-    same(typeof Widgets, "object", "the Widgets variable exists");
-
-    same(typeof Widgets.widgets, "object", "the Widgets.widgets variable exists");
+    same(typeof sakai.widgets.widgets, "object", "the sakai.widgets.widgets variable exists");
 });
 
 module("Widgets - Valid Properties");
@@ -93,10 +91,10 @@ module("Widgets - Valid Properties");
         "type": "string",
         "required": true
     }];
-    for (var i in Widgets.widgets) {
+    for (var i in sakai.widgets.widgets) {
         (function(i) {
-            if (Widgets.widgets.hasOwnProperty(i)) {
-                var widgetObject = Widgets.widgets[i];
+            if (sakai.widgets.widgets.hasOwnProperty(i)) {
+                var widgetObject = sakai.widgets.widgets[i];
                 test(i, function() {
                     var propertiesCount = properties.length;
                     while (propertiesCount--){
@@ -130,14 +128,16 @@ module("Widgets - Valid Properties");
     }
 })();
 
+asyncTest('Test if all the URLs work', function(){
+
 module("Widgets - URLs in Config file");
 
 (function() {
 
-    for (var i in Widgets.widgets) {
+    for (var i in sakai.widgets.widgets) {
         (function(i) {
-            if (Widgets.widgets.hasOwnProperty(i)) {
-                var widgetObject = Widgets.widgets[i];
+            if (sakai.widgets.widgets.hasOwnProperty(i)) {
+                var widgetObject = sakai.widgets.widgets[i];
                 asyncTest(i, function(){
                     stop();
                     var properties = ["url", "img", "i18n"];
@@ -182,4 +182,4 @@ module("Widgets - URLs in Config file");
     }
 })();
 
-})();
+});

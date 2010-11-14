@@ -92,6 +92,9 @@ sakai.inbox = function() {
     var inboxTablePreloader = inboxTable + "_preloader";
     var inboxTableHeader = inboxTable + "_header";
     var inboxTableHeaderFrom = inboxTableHeader + "_from";
+    var inboxTableHeaderFromContentFrom = inboxTableHeader + "_from_content_from";
+    var inboxTableHeaderFromContentTo = inboxTableHeader + "_from_content_to";
+    var inboxTableHeaderFromContentFromTo = inboxTableHeader + "_from_content_from_to";
     var inboxTableHeaderFromContent = inboxTableHeaderFrom + " span";
     var inboxTableMessage = inboxClass + "_message";    //    A row in the table
     var inboxTableMessageID = inboxTable + "_message_";
@@ -134,6 +137,7 @@ sakai.inbox = function() {
     var inboxSpecificMessageBody = inboxSpecificMessage + "_body";
     var inboxSpecificMessageDate = inboxSpecificMessage + "_date";
     var inboxSpecificMessageFrom = inboxSpecificMessage + "_from";
+    var inboxSpecificMessageFromPicture = inboxSpecificMessageFrom + "_picture";
     var inboxSpecificMessageSubject = inboxSpecificMessage + "_subject";
     var inboxSpecificMessagePicture = inboxSpecificMessage + "_picture";
 
@@ -266,7 +270,7 @@ sakai.inbox = function() {
      * @param {String} id The id of the filter that got clicked in the side panel.
      */
     var filterMessages = function(type, category, read, id) {
-        $(inboxTableHeaderFromContent).text("From");
+        $(inboxTableHeaderFromContent).text($(inboxTableHeaderFromContentFrom).html());
 
         // The small header above the webpage
         $(inboxInboxHeader).hide();
@@ -396,7 +400,24 @@ sakai.inbox = function() {
             // temporary internal id.
             // Use the name for the id.
             response.results[j].nr = j;
-            response.results[j].subject = sakai.api.Security.escapeHTML(response.results[j]["sakai:subject"]);
+            var messageSubject = response.results[j]["sakai:subject"];
+            if (messageSubject) {
+                var key = messageSubject.substr(0, messageSubject.lastIndexOf(","));
+                comment = messageSubject.substr(messageSubject.lastIndexOf(",") + 1, messageSubject.length);
+                
+                // title , groupid from pickeruser
+                if (key) {
+                    response.results[j].subject = sakai.api.Security.escapeHTML(sakai.api.i18n.General.getValueForKey(key) + " " + comment);
+                // just title with ${user} add to contacts 
+                }
+                else if(sakai.api.i18n.General.getValueForKey(response.results[j]["sakai:subject"])){
+                    response.results[j].subject = sakai.api.Security.escapeHTML(sakai.api.i18n.General.getValueForKey(response.results[j]["sakai:subject"]).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(response.results[j].userFrom[0])));
+                } else {
+                    response.results[j].subject = messageSubject;
+                }
+            } else {
+                messageSubject = messageSubject;
+            }
             response.results[j].body = response.results[j]["sakai:body"];
             response.results[j].messagebox = response.results[j]["sakai:messagebox"];
             response.results[j] = formatMessage(response.results[j]);
@@ -449,11 +470,14 @@ sakai.inbox = function() {
      * @param {int} pageNumber The number of the current page
      */
     pageMessages = function(pageNumber) {
-        $(inboxPager).pager({
-            pagenumber: pageNumber,
-            pagecount: Math.ceil(messagesForTypeCat / messagesPerPage),
-            buttonClickCallback: showPage
-        });
+        // show pager only when there are more than one pages
+        if (Math.ceil(messagesForTypeCat / messagesPerPage) > 1) {
+            $(inboxPager).pager({
+                pagenumber: pageNumber,
+                pagecount: Math.ceil(messagesForTypeCat / messagesPerPage),
+                buttonClickCallback: showPage
+            });
+        }
     };
 
     /**
@@ -723,7 +747,26 @@ sakai.inbox = function() {
 
             if (message.userFrom) {
                 for (var i = 0, j = message.userFrom.length; i < j; i++) {
+                    var messageSubject = message["sakai:subject"];
+                    var key = messageSubject.substr(0,messageSubject.lastIndexOf(","));
+                    comment = messageSubject.substr(messageSubject.lastIndexOf(",")+1,messageSubject.length);
+                    // title , groupid from pickeruser
+                    if (key) {
+                        message["sakai:subject"] = sakai.api.Security.escapeHTML(sakai.api.i18n.General.getValueForKey(key)+" "+comment);
+                        // just title with ${user} add to contacts 
+                    } else if (sakai.api.i18n.General.getValueForKey(message["sakai:subject"])){
+                        message["sakai:subject"] = sakai.api.Security.escapeHTML(sakai.api.i18n.General.getValueForKey(message["sakai:subject"]).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(message.userFrom[0])));
+                    }
+                    var messageBody = message["sakai:body"];
+                    var key = messageBody.substr(0,messageBody.lastIndexOf(","));
+                    comment = messageBody.substr(messageBody.lastIndexOf(",")+1,messageBody.length);
+                    if (key) {
+                        message["sakai:body"] = sakai.api.i18n.General.getValueForKey(key).replace(/\$\{comment\}/gi, comment).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(message.userFrom[i]));
+                    } else {
+                        message["sakai:body"] = comment;
+                    }
                     $(inboxSpecificMessageFrom).attr("href", "/~" + message.userFrom[i].userid);
+                    $(inboxSpecificMessageFromPicture).attr("href", "/~" + message.userFrom[i].userid);
                     $(inboxSpecificMessageFrom).text(sakai.api.User.getDisplayName(message.userFrom[i]));
                     if (message.userFrom[i].photo) {
                         $(inboxSpecificMessagePicture).attr("src", "/~" + message.userFrom[i]["userid"] + "/public/profile/" + message.userFrom[i].photo);
@@ -736,6 +779,12 @@ sakai.inbox = function() {
                 $(inboxSpecificMessageFrom).text(sakai.api.Security.saneHTML(message["sakai:from"]));
                 $(inboxSpecificMessagePicture).attr("src", sakai.config.URL.USER_DEFAULT_ICON_URL);
             }
+
+            // Fill in this message values.
+            $(inboxSpecificMessageSubject).text(sakai.api.Security.saneHTML(message["sakai:subject"]));
+            var messageBody = ""+message["sakai:body"]; // coerce to string in case the body is all numbers
+            $(inboxSpecificMessageBody).html(sakai.api.Security.saneHTML(messageBody.replace(/\n/gi, "<br />")));
+            $(inboxSpecificMessageDate).text(sakai.api.Security.saneHTML(message.date));
 
             // Reply part.
             $(inboxSpecificMessageComposeSubject).val("Re: " + message.subject);
@@ -1102,7 +1151,7 @@ sakai.inbox = function() {
      */
 
     $(inboxInboxMessage).live("click", function(e, ui) {
-
+        
         var id = e.target.id;
         id = id.split('_');
         $.bbq.pushState({"message":id[id.length - 1]},2);
@@ -1262,7 +1311,7 @@ sakai.inbox = function() {
                 case "sent":
                     $(inboxSubfolderClass).hide();
                     filterMessages(sakai.config.Messages.Types.sent, "", "all", inboxFilterSent);
-                    $(inboxTableHeaderFromContent).text("To");
+                    $(inboxTableHeaderFromContent).text($(inboxTableHeaderFromContentTo).html());
                     break;
                 case "announcements":
                     $(inboxSubfolderClass).hide();
@@ -1277,7 +1326,7 @@ sakai.inbox = function() {
                 case "trash":
                     $(inboxSubfolderClass).hide();
                     filterMessages(sakai.config.Messages.Types.trash, "", "all", inboxFilterTrash);
-                    $(inboxTableHeaderFromContent).text("From/To");
+                    $(inboxTableHeaderFromContent).text($(inboxTableHeaderFromContentFromTo).html());
                     break;
                 case "invitations":
                     filterMessages(sakai.config.Messages.Types.inbox, sakai.config.Messages.Categories.invitation, "all", inboxFilterInvitations);

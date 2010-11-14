@@ -44,6 +44,9 @@ sakai.joinrequests = function (tuid, showSettings) {
     var $rootel = $("#" + tuid);
     var $joinrequestsWidget = $(".joinrequests_widget", $rootel);
     var $joinrequests = $("#joinrequests_joinrequests", $rootel);
+    var $joinrequestsTitle = $("#joinrequests_title", $rootel);
+    var $joinrequestsError = $("#joinrequests_error", $rootel);
+    var $joinrequestsSuccess = $("#joinrequests_success", $rootel);
     var $joinrequestsTemplate = $("#joinrequests_template", $rootel);
     var $addLink = $("a.joinrequests_add_link", $rootel);
     var $ignoreLink = $("a.joinrequests_ignore_link", $rootel);
@@ -155,9 +158,9 @@ sakai.joinrequests = function (tuid, showSettings) {
         function (success, data) {
             if (success) {
                 // show notification
-                sakai.api.Util.notification.show("Group Membership",
+                sakai.api.Util.notification.show($joinrequestsTitle.html(),
                     $("#joinrequests_username_link_" + userid).html() +
-                    " has successfully been added to the group.");
+                    " "+$joinrequestsSuccess.html());
 
                 // trigger the member list on group_edit.html to refresh
                 $(window).trigger("sakai-listpeople-ready", "members");
@@ -168,7 +171,7 @@ sakai.joinrequests = function (tuid, showSettings) {
                 debug.error("joinrequests.js/addUser() ERROR: Could not add member: " +
                     userid + " to groupid: " + sakai.currentgroup.id +
                     " - error status: " + data.textStatus);
-                sakai.api.Util.notification.show("Group Membership", "Sorry, there was a problem while adding the user to the group. We've notified system administrators. Please try again later or contact an administrator if the issue persists.");
+                sakai.api.Util.notification.show($joinrequestsTitle.html(), $joinrequestsError.html());
             }
         });
     };
@@ -193,7 +196,7 @@ sakai.joinrequests = function (tuid, showSettings) {
                 debug.error("joinrequests.js/ignoreUser() ERROR: Could not remove join request for: " +
                     userid + " from groupid: " + sakai.currentgroup.id +
                     " - error status: " + data.textStatus);
-                sakai.api.Util.notification.show("Group Membership", "Sorry, there was a problem while ignoring the join request. We've notified system administrators. Please try again later or contact an administrator if the issue persists.");
+                sakai.api.Util.notification.show($joinrequestsTitle.html(), $joinrequestsError.html());
                 hideSpinner(userid);
             }
         });

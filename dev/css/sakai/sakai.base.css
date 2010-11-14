@@ -66,8 +66,83 @@ a:hover {
     font-weight: bold;
 }
 
+a.s3d-regular-links, .s3d-regular-links a{
+    color: #006E96;
+}
+
+.s3d-regular-light-links, .s3d-regular-light-links a{
+    color:#058EC4;
+}
+
+.s3d-bold-light-links, .s3d-bold-light-links a{
+    color: #058EC4;
+    font-weight : bold;
+}
+.s3d-em-light-links, .s3d-em-light-links a{
+    color: #058EC4;
+    font-size: 1em;
+}
+
+.s3d-content-type-link a{
+    color:#5FB3D2;    
+}
+a.s3d-bold-links, .s3d-bold-links a {
+    color: #006E96;
+    font-weight: bold;
+}
+
+.s3d-remove-links {
+    float:right; 
+    margin-right:10px; 
+    height:16px;
+}
+
+.s3d-item-links {
+    color: #006E96; 
+    font-size: 1em; 
+    font-weight: bold; 
+    display: block;
+}
+
+.s3d-links {
+    color:#3399CC;
+    font-weight:bold;
+}
+
+.s3d-name-links{
+    color:#3399CC; 
+    font-weight:700;
+}
+
+.s3d-tab-active a {
+    background-color:#FFF!important;
+    color:#000!important;
+    font-weight:400!important;
+    border-color:#DDD #DDD #EEE;
+    border-style:solid;
+    border-width:1px;
+}
+
 /*
- * CHROME STYLES
+ * CONTENT LAYOUT 
+ */
+.s3d-header .s3d-fixed-container {
+    background:url("../../_images/header_l.png") no-repeat scroll left top #FFFFFF;
+}
+
+.s3d-header .s3d-fixed-container .s3d-decor {
+    background:url("../../_images/header_r.png") no-repeat scroll right top transparent;
+    height:5px;
+    margin-right:-20px;
+} 
+
+.s3d-main-container {
+    background: #ffffff;
+    padding-bottom: 20px;
+}
+
+/*
+ * CHROME STYLES    
  * HEADINGS
  */
 .s3d-site-heading {

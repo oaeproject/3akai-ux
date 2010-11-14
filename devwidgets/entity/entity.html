@@ -22,9 +22,9 @@
                     </div>
                 {else}
                     <div class="fl-text-align-center entity_status">
-                        <span id="entity_contact_online" style="display:none;"><a class="s3d-action chat_available_status_online" id="entity_available_to_chat" href="javascript:;">__MSG__ONLINE__</a></span>
-                        <span id="entity_contact_busy" style="display:none;"><a class="chat_available_status_busy">__MSG__BUSY__</a></span>
-                        <span id="entity_contact_offline" style="display:none;"><a class="chat_available_status_offline">__MSG__OFFLINE__</a></span>
+                        <span id="entity_contact_online" style="display:none;"><span class="chat_available_status_online" id="entity_available_to_chat">__MSG__ONLINE__</span></span>
+                        <span id="entity_contact_busy" style="display:none;"><span class="chat_available_status_busy">__MSG__BUSY__</span></span>
+                        <span id="entity_contact_offline" style="display:none;"><span class="chat_available_status_offline">__MSG__OFFLINE__</span></span>
                     </div>
                 {/if}
             </div>
@@ -167,6 +167,7 @@
                         </div>
                     </div>
                     <a id="entity_tags_link" class="entity_tags_link" href="javascript:;">
+                    <div>
                         <span>${count}
                         {if count > 1}
                             __MSG__TAGS__
@@ -174,6 +175,7 @@
                             __MSG__TAG__
                         {/if}
                         </span>
+                    </div>
                     </a>
                 </div>
             {/if}
@@ -194,13 +196,15 @@
                         </div>
                     </div>
                     <a id="entity_tags_link" class="entity_tags_link" href="javascript:;">
-                        <span>${count}
-                        {if count > 1}
-                            __MSG__TAGS__
-                        {else}
-                            __MSG__TAG__
-                        {/if}
-                        </span>
+                        <div>
+                            <span>${count}
+                            {if count > 1}
+                                __MSG__TAGS__
+                            {else}
+                                __MSG__TAG__
+                            {/if}
+                            </span>
+                        </div>
                     </a>
                 </div>
             {/if}
@@ -230,13 +234,15 @@
                         </div>
                     </div>
                     <a id="entity_tags_link" class="entity_tags_link" href="javascript:;">
-                        <span>${count}
-                        {if count > 1}
-                            __MSG__TAGS__
-                        {else}
-                            __MSG__TAG__
-                        {/if}
-                        </span>
+                        <div>
+                            <span>${count}
+                            {if count > 1}
+                                __MSG__TAGS__
+                            {else}
+                                __MSG__TAG__
+                            {/if}
+                            </span>
+                        </div>
                     </a>
                 </div>
             {/if}
@@ -256,13 +262,15 @@
                         </div>
                     </div>
                     <a id="entity_tags_link" class="entity_tags_link" href="javascript:;">
-                        <span>${count}
-                        {if count > 1}
-                            __MSG__TAGS__
-                        {else}
-                            __MSG__TAG__
-                        {/if}
-                        </span>
+                        <div>
+                            <span>${count}
+                            {if count > 1}
+                                __MSG__TAGS__
+                            {else}
+                                __MSG__TAG__
+                            {/if}
+                            </span>
+                        </div>
                     </a>
                 </div>
             {/if}

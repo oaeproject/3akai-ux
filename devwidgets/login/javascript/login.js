@@ -61,8 +61,8 @@ sakai.login = function(){
         } else {
             $(loadingMessage).hide();
             
-            // check if using internal or external authentication
-            if (sakai.config.Authentication.internal || !sakai.config.Authentication.external) {
+            // check if internal is true or internal account creation is true show login
+            if (sakai.config.Authentication.internal || sakai.config.Authentication.allowInternalAccountCreation) {
                 $(loginButton).show();
                 $(registerLink).show();
                 $(loginDefault).show();

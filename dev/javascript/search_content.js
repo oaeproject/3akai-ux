@@ -31,6 +31,8 @@ sakai.search = function() {
     var tagterm = "";
     var currentpage = 0;
 
+    var searchAjaxCall = false;
+
     // Search URL mapping
     var searchURLmap = {
         allfiles : sakai.config.URL.SEARCH_ALL_FILES,
@@ -143,7 +145,11 @@ sakai.search = function() {
      * @param {Integer} page The page you are on (optional / default = 1.)
      * @param {String} searchquery The searchterm you want to look for (optional / default = input box value.)
      */
-    sakai._search.doHSearch = function(page, searchquery, searchwhere, facet) {
+    sakai._search.doHSearch = function(page, searchquery, searchwhere, facet, killPreviousAjaxCall) {
+        // if killpreviousajaxcall is true then kill the previous ajax request
+        if (killPreviousAjaxCall) {
+            searchAjaxCall.abort();
+        }
         
         if (!page) {
             page = 1;
@@ -336,7 +342,7 @@ sakai.search = function() {
                 url = facetedurl.replace(".json", ".infinity.json");
             };
 
-            $.ajax({
+            searchAjaxCall = $.ajax({
                 url: url,
                 data: {
                     "q" : urlsearchterm,
