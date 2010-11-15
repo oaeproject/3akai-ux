@@ -62,9 +62,9 @@ var testWCAGCompliance = function(){
         "/dev/admin/widgets.html"
     ];
 
-    for (var i in Widgets.widgets) {
-        if (Widgets.widgets.hasOwnProperty(i) && Widgets.widgets[i].url) {
-            pageArray.push(Widgets.widgets[i].url);
+    for (var i in sakai.widgets.widgets) {
+        if (sakai.widgets.widgets.hasOwnProperty(i) && sakai.widgets.widgets[i].url) {
+            pageArray.push(sakai.widgets.widgets[i].url);
         }
     }
 
