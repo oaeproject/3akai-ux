@@ -124,6 +124,62 @@ a.s3d-bold-links, .s3d-bold-links a {
 }
 
 /*
+ * SPRITES BUTTON 
+ */
+.s3d-sprites-buttons {
+    background-color: #FFF; 
+    padding: 0; 
+    position: absolute; 
+    left: 0; 
+    top: 0; 
+    display: block; 
+    width: 106px; 
+    margin: 0;
+}
+.s3d-sprites-buttons ul {
+    margin:0; 
+    border:1px solid #cbd0d4; 
+    -moz-border-radius:4px; 
+    -webkit-border-radius:4px; 
+    border-radius:4px;
+}
+
+.s3d-sprites-buttons ul li { 
+    padding: 5px 0px 5px 9px; 
+    list-style-type: none;
+}
+
+.s3d-sprites-buttons ul li:hover { 
+    background-color:#dbeefc; 
+    cursor:pointer;
+}
+
+.s3d-sprites-buttons ul li a { 
+    font-weight:normal; 
+    font-size:12px;
+}
+
+.s3d-sprites-buttons ul li a:hover { 
+    text-decoration:none; 
+}
+
+.s3d-sprites-buttons ul li.more_option {
+    border-bottom:1px solid #cbd0d4;
+}
+
+.s3d-sprites-buttons ul li.more_option.option_last {
+    border-bottom:0px;
+}
+
+.s3d-sprites-buttons .nav_small_spacer
+{ height: 20px; }
+
+.s3d-sprites-buttons .more_link { 
+    background: transparent url(/dev/images/more_bg_18.png) top left no-repeat; 
+    padding: 1px 21px 2px 12px; 
+}
+
+/*
  * CONTENT LAYOUT 
  */
 .s3d-header .s3d-fixed-container {
