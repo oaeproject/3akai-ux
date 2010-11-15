@@ -6,5 +6,7 @@
         "default": "/devwidgets/pickeruser/bundles/default.properties"
     },
     "name": "People Picker",
+    "type":"core",
+    "enabled":true,
     "url": "/devwidgets/pickeruser/pickeruser.html"
 }

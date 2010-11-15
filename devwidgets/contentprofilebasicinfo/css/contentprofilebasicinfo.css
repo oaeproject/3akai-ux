@@ -32,7 +32,7 @@
 #content_profile_basic_info_tags_viewlist {overflow:hidden; margin:0; padding-top:3px;}
 #content_profile_basic_info_form input,#content_profile_basic_info_form textarea, #content_profile_basic_info_form select {font-weight:bold; margin-top:3px;}
 
-#content_profile_basic_info_add_another_location a {background: url("/dev/_images/add_blue_icon.png") left no-repeat; padding-left:25px; height:16px; display:block; margin-right:15px;}
+#content_profile_basic_info_add_another_location a {background: url("/dev/images/add_blue_icon.png") left no-repeat; padding-left:25px; height:16px; display:block; margin-right:15px;}
 #content_profile_basic_info_add_another_location {clear:both; display:block; padding:7px 0; width:200px;}
 
 .content_profile_basic_info_added_directory {clear:both; padding-top:3px;}

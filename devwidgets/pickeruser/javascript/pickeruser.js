@@ -191,7 +191,7 @@ sakai.pickeruser = function(tuid, showSettings) {
             messageList.push(sakai.data.me.profile["rep:userId"]);
           }
           if (iConfig.URL){
-              messageText = messageText + "\n\n" + "<a href='" + window.location.href + "'>" + window.location.href + "</a>";
+              messageText = messageText + "\n\n" + "<a href='" + iConfig.URL + "'>" + iConfig.URL + "</a>";
           }
           sakai.api.Communication.sendMessage(messageList, sakai.api.Security.saneHTML($("#pickeruser_subject_text").text())+ "," + iConfig.where, messageText);
       }
@@ -246,9 +246,9 @@ sakai.pickeruser = function(tuid, showSettings) {
             formatList: function(data, elem) {
                 // formats each line to be presented in autosuggest list
                 // add the correct image, wrap name in a class
-                var imgSrc = "/dev/_images/user_avatar_icon_32x32.png";
+                var imgSrc = "/dev/images/user_avatar_icon_32x32.png";
                 if(data.type === "group") {
-                    imgSrc = "/dev/_images/group_avatar_icon_32x32.png";
+                    imgSrc = "/dev/images/group_avatar_icon_32x32.png";
                 }
                 var line_item = elem.html(
                     '<img class="sm_suggestion_img" src="' + imgSrc + '" />' +
@@ -315,7 +315,7 @@ sakai.pickeruser = function(tuid, showSettings) {
 
     $pickeruser_init_search.bind("click", function() {
         var currentSelections = getSelectedList();
-       $(window).trigger("sakai-pickeradvanced-init", {"list":currentSelections, "config": {"type": pickerData["type"]}});
+        $(window).trigger("sakai-pickeradvanced-init", {"list":currentSelections, "config": {"type": pickerData["type"]}});
     });
 
     $pickeruser_close_button.bind("click", function() {

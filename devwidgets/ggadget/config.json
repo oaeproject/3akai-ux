@@ -12,5 +12,7 @@
     "name":"Google Gadget",
     "showinsakaigoodies":true,
     "hasSettings": true,
+    "type":"sakai",
+    "enabled":true,
     "url":"/devwidgets/ggadget/ggadget.html"
 }

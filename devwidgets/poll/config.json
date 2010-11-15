@@ -8,5 +8,7 @@
     "userdashboard": false,
     "grouppages": false,
     "groupdashboard": false,
+    "type":"sakai",
+    "enabled":true,
     "url":"/devwidgets/poll/poll.html"
 }

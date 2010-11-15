@@ -13,5 +13,7 @@
     "name":"Remote Content",
     "showinsakaigoodies":true,
     "hasSettings": true,
+    "type":"sakai",
+    "enabled":true,
     "url":"/devwidgets/remotecontent/remotecontent.html"
 }

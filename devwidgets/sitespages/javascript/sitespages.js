@@ -713,6 +713,7 @@ sakai.sitespages = function(tuid,showSettings){
                 ":contentType": "json",
                 ":content": page_data,
                 ":replace": true,
+                ":replaceProperties": true,
                 "_charset_": "utf-8"
             },
             success: function(data) {

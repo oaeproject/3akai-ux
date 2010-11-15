@@ -9,5 +9,7 @@
     },
     "name":"My recent contacts",
     "personalportal":true,
+    "type":"sakai",
+    "enabled":true,
     "url":"/devwidgets/mycontacts/mycontacts.html"
 }

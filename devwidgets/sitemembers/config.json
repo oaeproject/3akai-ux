@@ -10,5 +10,7 @@
     "showinsakaigoodies":true,
     "siteportal":true,
     "name":"Site members",
+    "type":"core",
+    "enabled":true,
     "url":"/devwidgets/sitemembers/sitemembers.html"
 }

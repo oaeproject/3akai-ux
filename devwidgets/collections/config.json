@@ -10,5 +10,7 @@
     }
     "img":"/devwidgets/collections/images/portfolio.png",
     "name":"Collections",
+    "type":"sakai",
+    "enabled":true,
     "url":"/devwidgets/collections/collections.html"
 }

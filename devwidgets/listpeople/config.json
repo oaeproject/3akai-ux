@@ -7,5 +7,7 @@
     },
     "name": "People Lister",
     "url": "/devwidgets/listpeople/listpeople.html",
+    "type":"core",
+    "enabled":true,
     "subNameInfoContent": "mimeTypeDescripton"
 }

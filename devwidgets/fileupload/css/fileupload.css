@@ -34,7 +34,7 @@
 #fileupload_container .fileupload_textarea {width:380px !important; margin:0 196px 20px 0; float:right;}
 #fileupload_container #fileupload_rendered_tagging label {vertical-align:top;}
 
-#fileupload_container .fileupload_upload_progress {background:url("/dev/_images/ajax_load.gif") no-repeat scroll 0 0 transparent; clear:both; float:right; height:10px; width:80px;}
+#fileupload_container .fileupload_upload_progress {background:url("/dev/images/ajax_load.gif") no-repeat scroll 0 0 transparent; clear:both; float:right; height:10px; width:80px;}
 
 #fileupload_container .fileupload_file_name {margin-left:25px; margin-top:5px;}
 #fileupload_container .fileupload_file_name input[type="text"],

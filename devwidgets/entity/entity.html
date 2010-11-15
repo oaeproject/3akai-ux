@@ -14,7 +14,7 @@
                 {if data.profile && data.profile.picture}
                     <img id="entity_profile_picture" src="${data.profile.picture}" alt="__MSG__PROFILE_PICTURE_FOR__ ${sakai.api.User.getDisplayName(data.profile)}" />
                 {else}
-                    <img id="entity_profile_picture" src="/dev/_images/default_profile_picture_64.png" alt="__MSG__PLACEHOLDER_PICTURE_FOR__ ${sakai.api.User.getDisplayName(data.profile)}" />
+                    <img id="entity_profile_picture" src="/dev/images/default_profile_picture_64.png" alt="__MSG__PLACEHOLDER_PICTURE_FOR__ ${sakai.api.User.getDisplayName(data.profile)}" />
                 {/if}
                 {if mode === "myprofile"}
                     <div class="fl-text-align-center">
@@ -101,7 +101,7 @@
                 {if data.profile && data.profile.picture}
                     <img id="entity_profile_picture" src="${data.profile.picture}" alt="__MSG__PROFILE_PICTURE_FOR__ ${data.profile["sakai:group-title"]}" />
                 {else}
-                    <img id="entity_profile_picture" src="/dev/_images/group_avatar_icon_64x64_nob.png" alt="group name" />
+                    <img id="entity_profile_picture" src="/dev/images/group_avatar_icon_64x64_nob.png" alt="group name" />
                 {/if}
                 <div class="fl-text-align-center">
                     {if data.profile.role === "manager"}

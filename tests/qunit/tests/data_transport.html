@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Sakai 3 Javascript Test Suite</title>
+        <link rel="stylesheet" href="/tests/qunit/css/qunit.css" type="text/css" media="screen">
+        <script type="text/javascript" src="/tests/qunit/js/qunit.js"></script>
+
+        <script type="text/javascript" src="/dev/lib/jquery/jquery.js"></script>
+        <script type="text/javascript" src="/dev/lib/jquery/jquery-ui.full.js"></script>
+        <script type="text/javascript" src="/dev/lib/Fluid/3akai_Infusion.js"></script>
+        <script type="text/javascript" src="/dev/lib/i10n/globalization.js"></script>
+        <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.json.js"></script>
+
+        <script type="text/javascript" src="/dev/configuration/config.js"></script>
+        <script type="text/javascript" src="/dev/configuration/widgets.js"></script>
+        <script type="text/javascript" src="/var/widgets.json?callback=sakai.storeWidgets"></script>
+        <script type="text/javascript" src="/dev/lib/sakai_util/sakai_magic.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai_util/trimpath.template.js"></script>
+        <script type="text/javascript" src="/dev/lib/google/html-sanitizer-minified.js"></script>
+
+        <script type="text/javascript" src="/tests/qunit/js/sakai_qunit_lib.js"></script>
+
+        <script type="text/javascript" src="/tests/qunit/tests/unit/json_load_save_remove.js"></script>
+        <script type="text/javascript" src="/tests/qunit/tests/unit/loadmedata.js"></script>
+
+    </head>
+    <body>
+        <h1 id="qunit-header">3akai-ux Data Transport Test Suite</h1>
+        <h2 id="qunit-banner"></h2>
+        <div id="qunit-testrunner-toolbar">
+        </div>
+        <h2 id="qunit-userAgent"></h2>
+        <ol id="qunit-tests">
+        </ol>
+        <button id="coveragebutton" onclick='window.open("/dev/jscoverage.html")'>
+          Coverage report
+        </button>
+        <script>
+          if (typeof(_$jscoverage)=='undefined'){
+            document.getElementById("coveragebutton").style.display="none";
+          }
+        </script>
+    </body>
+</html>

@@ -106,14 +106,19 @@
        </repository>
   </repositories>
   <properties>
-    <ant.target>copy_all</ant.target>
+    <ant.target>development</ant.target>
+    <dev.content>
+        SLING-INF/content/tests;path:=/tests,
+        SLING-INF/content/jsdoc;path:=/jsdoc,
+    </dev.content>
   </properties>
   <profiles>
     <profile>
       <id>sakai-release</id>
       <!-- Begin workaround for maven-bundle-plugin 2.0.1 ignoring processed resources. -->
       <properties>
-        <ant.target>finish</ant.target>
+        <ant.target>release</ant.target>
+        <dev.content></dev.content>
       </properties>
     </profile>
   </profiles>
@@ -141,6 +146,7 @@
                 SLING-INF/content/var/templates/site;path:=/var/templates/site;uninstall:=false,
                 SLING-INF/content/var/ux-version;path:=/var/ux-version;uninstall:=false;overwriteProperties:=true,
                 SLING-INF/content/apps;path:=/apps;uninstall:=false,
+                ${dev.content}
                 SLING-INF/content/root;path:=/;uninstall:=false
             </Sling-Initial-Content>
           </instructions>

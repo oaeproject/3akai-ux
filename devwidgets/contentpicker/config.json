@@ -5,5 +5,7 @@
         "default": "/devwidgets/contentpicker/bundles/default.properties"
     },
     "name":"Content Picker",
+    "type":"core",
+    "enabled":true,
     "url":"/devwidgets/contentpicker/contentpicker.html"
 }

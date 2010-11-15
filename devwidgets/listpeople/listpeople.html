@@ -32,7 +32,7 @@
                 {if i.picture}
                     <a href="/~${i.groupid}" target="_blank"><img src="/~${i.groupid}/public/profile/${i.picture.name}" alt="__MSG__GROUP_PICTURE_FOR__ ${i['sakai:group-title']}" class="listpeople_ppicture"/></a>
                 {else}
-                    <a href="/~${i.groupid}" target="_blank"><img src="/dev/_images/group_avatar_icon_32x32.png" alt="__MSG__DEFAULT_GROUP_PICTURE__" class="listpeople_ppicture"/></a>
+                    <a href="/~${i.groupid}" target="_blank"><img src="/dev/images/group_avatar_icon_32x32.png" alt="__MSG__DEFAULT_GROUP_PICTURE__" class="listpeople_ppicture"/></a>
                 {/if}
                 <a class="listpeople_name s3d-bold-links" href="/~${i.groupid}" target="_blank">${i['sakai:group-title']}</a>
                 <br />
@@ -50,7 +50,7 @@
                 {if i.picture}
                     <a href="/~${i['sakai:group-id']}" target="_blank"><img src="/~${i['sakai:group-id']}/public/profile/${i.picture.name}" alt="__MSG__GROUP_PICTURE_FOR__ ${i['sakai:group-title']}" class="listpeople_ppicture"/></a>
                 {else}
-                    <a href="/~${i['sakai:group-id']}" target="_blank"><img src="/dev/_images/group_avatar_icon_32x32.png" alt="__MSG__DEFAULT_GROUP_PICTURE__" class="listpeople_ppicture"/></a>
+                    <a href="/~${i['sakai:group-id']}" target="_blank"><img src="/dev/images/group_avatar_icon_32x32.png" alt="__MSG__DEFAULT_GROUP_PICTURE__" class="listpeople_ppicture"/></a>
                 {/if}
                 <a class="listpeople_name s3d-bold-links" href="/~${i['sakai:group-id']}" target="_blank">${i['sakai:group-title']}</a>
                 <br />
@@ -68,7 +68,7 @@
                 {if i.picture}
                     <a href="/~${i.userid}" target="_blank"><img src="/~${i.userid}/public/profile/${i.picture.name}" alt="__MSG__PROFILE_PICTURE_FOR__ ${unescape(i.displayName)}" class="listpeople_ppicture"/></a>
                 {else}
-                    <a href="/~${i.userid}" target="_blank"><img src="/dev/_images/user_avatar_icon_32x32.png" alt="__MSG__DEFAULT_PROFILE_PICTURE__" class="listpeople_ppicture"/></a>
+                    <a href="/~${i.userid}" target="_blank"><img src="/dev/images/user_avatar_icon_32x32.png" alt="__MSG__DEFAULT_PROFILE_PICTURE__" class="listpeople_ppicture"/></a>
                 {/if}
                 <a class="listpeople_name s3d-bold-links" href="/~${i.userid}" target="_blank">${unescape(i.displayName)}</a>
                 <br />
@@ -86,7 +86,7 @@
                 {if i.picture}
                     <a href="/~${i['rep:userId']}" target="_blank"><img src="/~${i["rep:userId"]}/public/profile/${i.picture.name}" alt="__MSG__PROFILE_PICTURE_FOR__ ${unescape(i.displayName)}" class="listpeople_ppicture"/></a>
                 {else}
-                    <a href="/~${i['rep:userId']}" target="_blank"><img src="/dev/_images/user_avatar_icon_32x32.png" alt="__MSG__DEFAULT_PROFILE_PICTURE__" class="listpeople_ppicture"/></a>
+                    <a href="/~${i['rep:userId']}" target="_blank"><img src="/dev/images/user_avatar_icon_32x32.png" alt="__MSG__DEFAULT_PROFILE_PICTURE__" class="listpeople_ppicture"/></a>
                 {/if}
                 <a class="listpeople_name s3d-bold-links" href="/~${i['rep:userId']}" target="_blank">${unescape(i.displayName)}</a>
                 <br />

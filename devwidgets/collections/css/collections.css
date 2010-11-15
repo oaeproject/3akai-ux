@@ -14,7 +14,7 @@ div {word-wrap:break-word;}
 .editable {background:url(/devwidgets/collections/images/edit_pencil.png) no-repeat top right; cursor:pointer;}
 .editable:hover {background-color:#FFC;}
 /* Layout Chooser */
-#collections_header div span#choose_layout {height:16px; border:1px solid #aaa; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; margin-top:1px; width:160px; padding:2px; background:url(/dev/_images/arrow_down_sm2.png) no-repeat scroll 150px 50% transparent; cursor:pointer;}
+#collections_header div span#choose_layout {height:16px; border:1px solid #aaa; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; margin-top:1px; width:160px; padding:2px; background:url(/dev/images/arrow_down_sm2.png) no-repeat scroll 150px 50% transparent; cursor:pointer;}
 #collections_header div span#choose_layout a {float:left; margin-top:-1px; margin-left:4px; font-weight:bold;}
 #collections_header div span#choose_layout a:hover {text-decoration:none;}
 #collections_header_select_layout {-moz-border-radius:0 0 5px 5px;-webkit-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px;background-color:rgb(213,219,223);border-style:solid; border-color:#aaa; border-width:0px 1px 1px 1px;left:423px;position:absolute;top:-15px;width:164px;z-index:200;}
@@ -99,7 +99,7 @@ img.content_image {max-width:300px; max-height:200px;}
 /* Actions */
 #browse_resource_files #contentmedia_bar_right a{margin:0 8px;}
 #browse_resource_files #contentmedia_actions_view_list,#contentmedia_actions_view_thumbnail{display:inline-block;text-indent:-5000px;height:14px;width:15px;}
-#browse_resource_files #contentmedia_actions_view_list{background:url(/dev/_images/contentmedia_view_list.gif) center left no-repeat;}
+#browse_resource_files #contentmedia_actions_view_list{background:url(/dev/images/contentmedia_view_list.gif) center left no-repeat;}
 /* Close */
 #browse_resource_files #contentmedia_close{float:right;padding:14px 18px;cursor:pointer;}
 /* Pop up */
@@ -133,7 +133,7 @@ img.content_image {max-width:300px; max-height:200px;}
 #browse_resource_files .contentmedia_view_thumbnail .contentmedia_file img{width:50px;}
 #browse_resource_files .contentmedia_view_list .contentmedia_file img{float:left;height:15px;width:15px;}
 /*
-.contentmedia_view_thumbnail .contentmedia_file_bookmark{background:url(/dev/_images/contentmedia_bookmark.png) center left no-repeat;display:inline-block;height:14px;position:absolute;right:5px;text-indent:-5000px;top:5px;width:15px;}
+.contentmedia_view_thumbnail .contentmedia_file_bookmark{background:url(/dev/images/contentmedia_bookmark.png) center left no-repeat;display:inline-block;height:14px;position:absolute;right:5px;text-indent:-5000px;top:5px;width:15px;}
 */
 #browse_resource_files .contentmedia_view_thumbnail .contentmedia_file_bookmark{display:none;}
 #browse_resource_files .contentmedia_view_list .contentmedia_file_bookmark{display:none;}
@@ -202,9 +202,9 @@ img.content_image {max-width:300px; max-height:200px;}
 #browse_resource_files #embedresource_settings{float:left;position:relative;display:none;width:100%;}
 #browse_resource_files .embed_settings{float:left;position:relative;display:none;width:100%;display:none;}
 /* Overwrite sakai.base.css to fix paths and HTML styling */
-#browse_resource_files .s3d-search-button .s3d-button-icon-right{background-image:url(/dev/_images/icon-search-white.png);}
-#browse_resource_files .s3d-button .s3d-button-inner{background:url(/dev/_images/button-sprite-5state.png) no-repeat scroll left top transparent;}
-#browse_resource_files .s3d-button{background:url(/dev/_images/button-sprite-5state.png) no-repeat scroll right -40px transparent;}
+#browse_resource_files .s3d-search-button .s3d-button-icon-right{background-image:url(/dev/images/icon-search-white.png);}
+#browse_resource_files .s3d-button .s3d-button-inner{background:url(/dev/images/button-sprite-5state.png) no-repeat scroll left top transparent;}
+#browse_resource_files .s3d-button{background:url(/dev/images/button-sprite-5state.png) no-repeat scroll right -40px transparent;}
 #browse_resource_files textarea,#browse_resource_files input[type="text"]{width:500px;height:auto;}
 /* All Album View */
 #collections_albums{float:left;padding-left:0;padding-top:22px;position:relative;}

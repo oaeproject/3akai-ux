@@ -1,6 +1,8 @@
 {
     "id":"entity",
     "url":"/devwidgets/entity/entity.html",
+    "type":"core",
+    "enabled":true,
     "i18n": {
         "default": "/devwidgets/entity/bundles/default.properties"
     }

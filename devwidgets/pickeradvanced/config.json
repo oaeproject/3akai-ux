@@ -6,5 +6,7 @@
         "default": "/devwidgets/pickeradvanced/bundles/default.properties"
     },
     "name": "Advanced Search Picker",
+    "type":"core",
+    "enabled":true,
     "url": "/devwidgets/pickeradvanced/pickeradvanced.html"
 }

@@ -1,6 +1,8 @@
 {
     "id":"contentprofilefiledetails",
     "url":"/devwidgets/contentprofilefiledetails/contentprofilefiledetails.html",
+    "type":"core",
+    "enabled":true,
     "i18n": {
         "default": "/devwidgets/contentprofilefiledetails/bundles/default.properties",
         "en_GB": "/devwidgets/contentprofilefiledetails/bundles/en_GB.properties",

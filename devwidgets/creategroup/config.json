@@ -6,5 +6,7 @@
         "default": "/devwidgets/creategroup/bundles/default.properties",
         "en_US": "/devwidgets/creategroup/bundles/en_US.properties"
     },
+    "type":"core",
+    "enabled":true,
     "url":"/devwidgets/creategroup/creategroup.html"
 }

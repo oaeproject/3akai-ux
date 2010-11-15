@@ -2,6 +2,8 @@
     "description":"View file revisions",
     "id":"filerevisions",
     "url":"/devwidgets/filerevisions/filerevisions.html",
+    "type":"core",
+    "enabled":true,
     "i18n": {
         "default": "/devwidgets/filerevisions/bundles/default.properties",
         "en_GB": "/devwidgets/filerevisions/bundles/en_GB.properties",

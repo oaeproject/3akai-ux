@@ -1,0 +1,70 @@
+/** HEADER **/
+.account_preferences .s3d-site-heading {
+    padding: 15px 0;
+}
+/** MAIN CONTENT **/
+.account_preferences .outline-top {
+    background: url('/dev/images/content_tr_flip.png') top right no-repeat;
+    padding: 0 5px 0 0;
+    margin: 0;
+}
+.account_preferences .outline-top-inner {
+    background: url('/dev/images/content_tl.gif') 0 0 no-repeat;
+    margin: 0;
+    height: 6px;
+}
+.account_preferences .outline {
+    border-left: 3px solid #D5DBDF;
+    border-right: 3px solid #D5DBDF;
+    padding: 14px 20px;
+}
+.account_preferences .outline-bottom {
+    background: url('/dev/images/content_br.png') top right no-repeat;
+    padding: 0 5px 0 0;
+    margin: 0 0 20px 0;
+}
+.account_preferences .outline-bottom-inner {
+    background: url('/dev/images/content_bl.png') 0 0 no-repeat;
+    margin: 0;
+    height: 6px;
+}
+.account_preferences .section_header {
+    color: #5A697B;
+    font-size: 1.1em;
+}
+.account_preferences .password {
+    margin-top: 10px;
+}
+.account_preferences .password-preferences-input {
+    border: 1px solid #ccc;
+    height: 25px;
+    width: 300px;
+}
+.account_preferences .save-preferences {
+    float: right;
+    height: auto;
+    margin-right: 382px;
+    margin-top:5px;
+}
+.account_preferences .form-item {
+    margin: 0 0 15px 15px;
+}
+.account_preferences .form-item label {
+    float: left;
+    font-weight: bold;
+    margin-right: 15px;
+    text-align: right;
+    width: 155px;
+}
+.account_preferences .preferences-form {
+    margin-top: 25px;
+}
+.account_preferences .preferences-form select {
+    height: 21px;
+    width: 300px;
+}
+div.account_preferences_error {
+    margin-left: 170px;
+    color:#9f3333;
+    font-weight:bold;
+}

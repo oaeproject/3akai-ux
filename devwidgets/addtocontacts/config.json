@@ -7,5 +7,7 @@
         "zh_CN": "/devwidgets/addtocontacts/bundles/zh_CN.properties"
     },
     "id":"addtocontacts",
+    "type":"core",
+    "enabled":true,
     "url":"/devwidgets/addtocontacts/addtocontacts.html"
 }

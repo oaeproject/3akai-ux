@@ -13,7 +13,7 @@
                     {if sakai.data.me.profile.picture && $.parseJSON(sakai.data.me.profile.picture).name}
                         <img src="/~${sakai.data.me.user.userid}/public/profile/${$.parseJSON(sakai.data.me.profile.picture).name}" />
                     {else}
-                        <img src="/dev/_images/user_avatar_icon_48x48.png" />
+                        <img src="/dev/images/user_avatar_icon_48x48.png" />
                     {/if}
                 </td>
                 <td>
@@ -41,7 +41,7 @@
                                 {if i.profile.picture}
                                     <img src="${i.profile.picture}"/>
                                 {else}
-                                    <img src="/dev/_images/user_avatar_icon_32x32.png"/>
+                                    <img src="/dev/images/user_avatar_icon_32x32.png"/>
                                 {/if}
                             </td>
                             <td>
@@ -88,7 +88,7 @@
                         {if profile.picture}
                             <img src="${profile.picture}" id="chat_window_photo_${profile.userid}" />
                         {else}
-                            <img src="/dev/_images/user_avatar_icon_48x48.png" id="chat_window_photo_${profile.userid}" />
+                            <img src="/dev/images/user_avatar_icon_48x48.png" id="chat_window_photo_${profile.userid}" />
                         {/if}
                     </td>
                     <td>

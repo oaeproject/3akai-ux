@@ -11,6 +11,8 @@
     "grouppages": false,
     "groupdashboard": false,
     "showinsakaigoodies":true,
+    "type":"sakai",
+    "enabled":true,
     "url":"/devwidgets/lists/lists.html",
     "img":"/devwidgets/lists/images/lists.png"
 }

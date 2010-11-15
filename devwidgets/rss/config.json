@@ -9,6 +9,8 @@
     "img":"/devwidgets/rss/images/rss.png",
     "name":"RSS Feed Reader",
     "showinsakaigoodies":true,
+    "type":"sakai",
+    "enabled":true,
     "url":"/devwidgets/rss/rss.html",
     "i18n": {
         "default": "/devwidgets/rss/bundles/default.properties",
