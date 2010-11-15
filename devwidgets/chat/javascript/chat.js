@@ -810,6 +810,20 @@ sakai.chat = function(tuid, showSettings){
         }
     };
 
+    /**
+     * Change chat status to the current chat status
+     * @param {Object} new chatstatus status
+     */
+    var updateChatStatusElement = function(chatstatus){
+        var chatClass = $(".chat_available_name").attr("class");
+        // get current chat status
+        var currentStatus = chatClass.substr(str.indexOf("chat_available_status_"),str.length);
+        // remove the current chat status class
+        $(".chat_available_name").removeClass(currentStatus);
+        // add new chat status class
+        $(".chat_available_name").addClass("chat_available_status_"+chatstatus);
+    };
+
     ////////////////////
     // Event Handlers //
     ////////////////////
@@ -853,6 +867,14 @@ sakai.chat = function(tuid, showSettings){
         var clicked = $(this).attr("id").substring(11);
         removeChatWindow(clicked);
     });
+
+    // Add binding to set the status
+    $(window).bind("chat_status_change", function(event, currentChatStatus){
+        updateChatStatusElement(currentChatStatus);
+        /*updateChatStatusElement($(profileNameID), currentChatStatus);
+        chatStatus = currentChatStatus;*/
+    });
+
 
     ////////////////////
     // Initialisation //
