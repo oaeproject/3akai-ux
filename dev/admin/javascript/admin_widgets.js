@@ -92,9 +92,9 @@ sakai.admin_widgets = function(tuid, showSettings){
         var contribWidgets = {}; contribWidgets.items = [];
 
         // Fill in the widget types
-        for (var i in Widgets.widgets){
+        for (var i in sakai.widgets.widgets){
             if (i) {
-                var widget = Widgets.widgets[i];
+                var widget = sakai.widgets.widgets[i];
                 if (widget.type && widget.type.toLowerCase() === "core") {
                     coreWidgets.items.push(widget);
                 } else if (widget.type && widget.type.toLowerCase() === "sakai") {
