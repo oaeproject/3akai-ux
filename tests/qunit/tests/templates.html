@@ -33,9 +33,37 @@
         </ol>
         <div id="qunit-fixture">
             <div id="qunit_body"></div>
-            <div id="qunit_body_template"><!--
-                {for i in data}
-                {/for}
+            <div id="qunit_body_template1"><!--
+                ${data}
+            --></div>
+            <div id="qunit_body_template2"><!--
+                {for i in data} ${i} {/for}
+            --></div>
+            <div id="qunit_body_template3"><!--
+                ${data.hi} ${data.from} ${data.sakai}
+            --></div>
+            <div id="qunit_body_template4"><!--
+                {for i in data} ${i.str} {/for}
+            --></div>
+            <div id="qunit_body_template5"><!--
+                ${data.nested.str}
+            --></div>
+            <div id="qunit_body_template6"><!--
+                ${data}
+            --></div>
+            <div id="qunit_body_template7"><!--
+                {if data === "Hi"} Hi {elseif data === "from"} from {else} Sakai {/if}
+            --></div>
+            <div id="qunit_body_template8"><!--
+                {for i in data}Data{forelse}No data{/for}
+            --></div>
+            <div id="qunit_body_template9"><!--
+                {macro showData(d)}${d}{/macro}
+                ${showData(data)}
+            --></div>
+            <div id="qunit_body_template10"><!--
+                {var thedata = data}
+                ${thedata}
             --></div>
         </div>
         <button id="coveragebutton" onclick='window.open("/dev/jscoverage.html")'>
