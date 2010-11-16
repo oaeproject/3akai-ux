@@ -16,33 +16,53 @@
             <button id="lists_cancel" class="s3d-button"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
         </div>
     </div>
-    <div class="fl-widget-options fl-fix">
-        <div class="widget-options-inner">
-        </div>
+    <div class="fl-widget-no-options fl-fix">
+        <div class="widget-no-options-inner"></div>
     </div>
     <div id="lists_list_edit_template"><!--
         <div id="${escape(data.Label)}" class="list_parent_${escape(parentLabel)} list_container">
             <label for="list_select_${escape(data.Label)}">${data.Label}</label>
+            {if !data.multiple}
             <select name="list_select_${escape(data.Label)}" class="list_select{if !hasLists} list_final{/if}" id="list_select_${escape(data.Label)}"{if data.multiple} multiple="true"{/if}>
-                {if !data.multiple}<option></option>{/if}
+                <option></option>
                 {for opt in data.list}
                     {if opt.Label}
                         <option value="${escape(opt.Label)}"{if opt.selected} selected="selected"{/if}>${opt.Label}</option>
+                    {elseif opt.title}
+                        <option value="${escape(opt.title)}"{if opt.selected} selected="selected"{/if}{if opt.link} title="${opt.link}"{/if}>${opt}</option>
                     {else}
-                        <option value="${escape(opt)}"{if opt.selected} selected="selected"{/if}>${opt}</option>
                     {/if}
                 {/for}
             </select>
+            {else}
+                <div{if !hasLists} class="list_final"{/if}>
+                    {for opt in data.list}
+                        <span class="lists_multi">
+                        {if opt.Label}
+                            <input type="checkbox" value="${escape(opt.Label)}"{if opt.selected} checked="checked"{/if} name="${escape(opt.Label)}"/>
+                            <label for="${escape(opt.Label)}">${opt.Label}</label>
+                        {elseif opt.title}
+                            <input type="checkbox" value="${escape(opt.title)}"{if opt.selected} checked="checked"{/if} name="${escape(opt.title)}"{if opt.link} title="${opt.link}"{/if}/>
+                            <label for="${escape(opt.title)}">${opt.title}</label>
+                        {else}
+                            <input type="checkbox" value="${escape(opt)}"{if opt.selected} checked="checked"{/if} name="${escape(opt)}"/>
+                            <label for="${escape(opt)}">${opt}</label>
+                        {/if}
+                        </span>
+                    {/for}
+                </div>
+            {/if}
         </div>
     --></div>
 
     <div id="lists_list_display_template"><!--
         <ul>
         {for item in data}
-            <li>${item}</li>
+            <li>{if item.link}<a href="${item.link}" class="s3d-action">{/if}${item.title}{if item.link}</a>{/if}</li>
         {/for}
         </ul>
     -->
+    </div>
 </div>
 
 <!-- JAVASCRIPT -->
