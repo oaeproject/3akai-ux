@@ -134,9 +134,9 @@
                 <div class="fl-col groupWrapper{if size === 1} fl-container-flex{/if}" id="column_uid_${index}">
                     <div class="widget_spacer"></div>
                 {for p in c.portlets}
-                    <div class="fl-widget widget1 ${p.id}" id="${p.id}_${p.uid}">
-                        <div {if p.display=="none"} class="fl-widget-titlebar widget1-head hiddenwidget" {else} class="fl-widget-titlebar widget1-head" {/if} id="draghandle_${p.id}_${p.uid}">
-                            <div class="widget-titlebar-inner">
+                    <div class="fl-widget s3d-widget widget1 ${p.id}" id="${p.id}_${p.uid}">
+                        <div {if p.display=="none"} class="fl-widget-titlebar s3d-widget-titlebar widget1-head hiddenwidget" {else} class="fl-widget-titlebar widget1-head s3d-widget-titlebar" {/if} id="draghandle_${p.id}_${p.uid}">
+                            <div class="widget-titlebar-inner s3d-widget-titlebar-inner">
                                 <h2 class="widget_title">${p.title}</h2>
                                 <a href="javascript:;" id="${p.id}_${p.uid}_settings" class="fl-force-right fl-icon settings" style="display:none">__MSG__SETTINGS__</a>
                             </div>

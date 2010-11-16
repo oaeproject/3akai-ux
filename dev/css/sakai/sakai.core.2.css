@@ -132,8 +132,6 @@
 /* GENERAL WIDGET CSS */
 .fl-widget {padding: 0;}
 .fl-widget .fl-widget-titlebar h2 {padding-left:3px}
-.fl-widget .fl-widget-titlebar {background: url(/dev/images/block_tr.png) top right no-repeat; padding: 0 4px 0 0; width: auto;}
-.fl-widget .fl-widget-titlebar .widget-titlebar-inner {background: url(/dev/images/block_tl.png) top left no-repeat; height: 47px}
 .fl-widget .fl-widget-titlebar .widget_title {color: #878a8c; font-size: 1.0em; float: left; padding-left: 43px; line-height: 50px}
 .fl-widget .fl-widget-titlebar .settings {background-image: url(/dev/images/edit_icon_widget.png); position: relative; height: 18px; background-repeat: no-repeat; margin-top: 15px}
 
@@ -144,13 +142,8 @@
 .fl-widget .fl-widget-options ul li {float: left; margin: 0; padding: 16px 6px 0 6px}
 .fl-widget .fl-widget-options ul li a {color: #666; font-size: .85em; font-weight: bold}
 .fl-widget .fl-widget-options .pipe_divider {font-size: .85em}
-.fl-widget .fl-widget-options-footer-left {background-image:url("/dev/images/block_footer_bl.png");background-position:left bottom;background-repeat:no-repeat;height:16px;margin-top:-16px;}
-.fl-widget .fl-widget-options-footer-right {background-image:url("/dev/images/block_footer_br.png");background-position:right bottom;background-repeat:no-repeat;height:16px;margin-right:-8px;}
 
-.fl-widget .fl-widget-no-options { background: url('/dev/images/content_br.png') top right no-repeat; padding: 0 5px 0 0; margin: 0; }
-.fl-widget .fl-widget-no-options .widget-no-options-inner { background: url('/dev/images/content_bl.png') 0 0 no-repeat; margin: 0; height: 6px; }
-
-.fl-widget .fl-widget-content {background-color: #fff; padding: 10px 0 10px 0; margin: 0; border-left: 3px solid #D4DADE; border-right: 3px solid #D4DADE; }
+.fl-widget .fl-widget-content {background-color: #fff; }
 .fl-widget .fl-widget-content ul {margin: 0;}
 
 #widget_settings_menu {

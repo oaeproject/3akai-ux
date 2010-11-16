@@ -50,13 +50,6 @@ body { margin-bottom: 50px !important; }
 .create_account .content_main
 { border-left: 3px solid #D3DBDE; border-right: 3px solid #D3DBDE; margin: 0; padding: 10px; }
 
-.create_account .content_bottom
-{ background: url(/dev/images/content_br.png) top right no-repeat; padding: 0 5px 0 0; margin: 0; }
-
-.create_account .content_bottom_inner
-{ background: url(/dev/images/content_bl.png) 0 0 no-repeat; margin: 0; height: 6px; }
-
-
 /** TABLE/FORM **/
 
 .create_account .create_account_form

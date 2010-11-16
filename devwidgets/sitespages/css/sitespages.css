@@ -40,7 +40,7 @@
 { padding: 0; margin: 0 0 20px 0; overflow: hidden; }
 
 .sakai_site .sakai_site_contents_main
-{ border-left: 3px solid #D3DBDE; border-right: 3px solid #D3DBDE; margin: 0; padding: 10px; min-height: 350px; }
+{ margin: 0; padding: 10px; min-height: 350px; }
 
 .sakai_site .content_top
 { background: url('/dev/images/content_tr.gif') top right no-repeat; padding: 0 5px 0 0; margin: 0; }
@@ -51,14 +51,8 @@
 .sakai_site .content_top_inner
 { background: url('/dev/images/content_tl.gif') 0 0 no-repeat; margin: 0; height: 6px; }
 
-.sakai_site .content_bottom
-{ background: url('/dev/images/content_br.png') top right no-repeat; padding: 0 5px 0 0; margin: 0;}
-
 .sakai_site .content_bottom.content_bottom_edit
 { float:left; width:916px; }
-
-.sakai_site .content_bottom_inner
-{ background: url('/dev/images/content_bl.png') 0 0 no-repeat; margin: 0; height: 6px; }
 
 #revision_history_list
 { font-size:0.95em; margin-left: 5px; margin-right:15px; padding:2px; border: 1px solid #cccccc; }
@@ -86,14 +80,8 @@
 .site_management .sm_titlebar
 { background:transparent url(/dev/images/block_tr.png) no-repeat scroll right top; padding: 0 10px 0 0; height:50px; }
 
-.site_management .sm_titlebar_inner
-{ background:transparent url(/dev/images/block_tl.png) no-repeat scroll left top; padding: 5px 0 0 17px; height:50px; }
-
 .site_management .sm_title
 { background:transparent url(/dev/images/site_management_icon.png) no-repeat scroll left top; color:#878A8C; font-size:1em; padding-left: 25px; }
-
-.site_management .sm_content
-{ border-left: 3px solid #D4DADE; border-right: 3px solid #D4DADE; padding: 10px 5px 10px 20px; margin: 0; }
 
 .site_management .sm_content ul
 { margin: 0; padding: 0; }
@@ -183,12 +171,6 @@
 
 .edit_view .content_top_inner
 { background: url('/dev/images/content_tl.gif') 0 0 no-repeat; margin: 0; height: 6px; }
-
-.edit_view.content_bottom
-{ background: url('/dev/images/content_br.png') top right no-repeat; padding: 0 5px 0 0; margin: 0; }
-
-.edit_view .content_bottom_inner
-{ background: url('/dev/images/content_bl.png') 0 0 no-repeat; margin: 0; height: 6px; }
 
 .edit_view .sitespages_add_button
 { background: url('/dev/images/add_button_bg.png') no-repeat top left; padding:5px; cursor:pointer; margin-top:-4px;}

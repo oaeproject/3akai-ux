@@ -42,19 +42,7 @@
     height: 6px;
 }
 .people .outline {
-    border-left: 3px solid #D5DBDF;
-    border-right: 3px solid #D5DBDF;
     padding: 8px 10px;
-}
-.people .outline-bottom {
-    background: url('/dev/images/content_br.png') top right no-repeat;
-    padding: 0 5px 0 0;
-    margin: 0 0 20px 0;
-}
-.people .outline-bottom-inner {
-    background: url('/dev/images/content_bl.png') 0 0 no-repeat;
-    margin: 0;
-    height: 6px;
 }
 .people .search_tab_content {
     background-image: none;

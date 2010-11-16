@@ -180,6 +180,53 @@ a.s3d-bold-links, .s3d-bold-links a {
 }
 
 /*
+ * WIDGET LAYOUT
+ */
+.s3d-widget-titlebar {
+    background:transparent url(/dev/images/block_tr.png) no-repeat scroll right top; 
+    padding: 0 10px 0 0; 
+    height:50px;
+}
+.s3d-widget-titlebar-inner {
+    background:transparent url(/dev/images/block_tl.png) no-repeat scroll left top; 
+    padding: 5px 0 0 17px; 
+    height:50px;
+}
+
+.s3d-widget .s3d-widget-content, .s3d-content {
+    padding: 10px 0 10px 0; 
+    margin: 0 !important; 
+    border-left: 3px solid #D4DADE; 
+    border-right: 3px solid #D4DADE;
+}
+
+.s3d-widget .s3d-widget-options-footer-left {
+    background-image:url("/dev/images/block_footer_bl.png");
+    background-position:left bottom;
+    background-repeat:no-repeat;
+    height:16px;
+    margin-top:-16px;
+}
+
+.s3d-widget .s3d-widget-options-footer-right {
+    background-image:url("/dev/images/block_footer_br.png");
+    background-position:right bottom;
+    background-repeat:no-repeat;
+    height:16px;
+    margin-right:-8px;
+}
+
+.s3d-widget .s3d-widget-no-options, .s3d-no-options{
+    background: url('/dev/images/content_br.png') top right no-repeat; 
+    padding: 0 5px 0 0; 
+    margin: 0;
+}
+.s3d-widget .s3d-widget-no-options-inner, .s3d-no-options-inner {
+    background: url('/dev/images/content_bl.png') 0 0 no-repeat; 
+    margin: 0; 
+    height: 6px;
+}
+/*
  * CONTENT LAYOUT 
  */
 .s3d-header .s3d-fixed-container {

@@ -86,5 +86,4 @@
 #discussion_tab_content_top {background:url("/dev/images/content_tr.gif") no-repeat scroll right top transparent; margin:0; padding:0 5px 0 0;}
 #discussion_tab_content_top_inner {background:url("/dev/images/content_tl.gif") no-repeat scroll 0 0 transparent;height:6px;margin:0;}
 #discussion_tab_content {border-left:3px solid #D3DBDE;border-right:3px solid #D3DBDE;padding:10px;}
-#discussion_tab_content_bottom {background:url("/dev/images/content_br.png") no-repeat scroll right top transparent;margin:0 0 20px;padding:0 5px 0 0;}
-#discussion_tab_content_bottom_inner { background:url("/dev/images/content_bl.png") no-repeat scroll 0 0 transparent;height:6px;margin:0;}
+#discussion_tab_content_bottom {margin:0 0 20px;}

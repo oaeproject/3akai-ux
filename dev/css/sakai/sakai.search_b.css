@@ -51,8 +51,6 @@
     margin: 0 0 20px 0;
 }
 .search_content_main {
-    border-left: 3px solid #D3DBDE;
-    border-right: 3px solid #D3DBDE;
     margin: 0;
     padding: 10px;
     min-height: 350px;
@@ -64,16 +62,6 @@
 }
 .search_tab_content_top_inner {
     background: url('/dev/images/content_tl.gif') 0 0 no-repeat;
-    margin: 0;
-    height: 6px;
-}
-.search_tab_content_bottom {
-    background: url('/dev/images/content_br.png') top right no-repeat;
-    padding: 0 5px 0 0;
-    margin: 0 0 20px;
-}
-.search_tab_content_bottom_inner {
-    background: url('/dev/images/content_bl.png') 0 0 no-repeat;
     margin: 0;
     height: 6px;
 }

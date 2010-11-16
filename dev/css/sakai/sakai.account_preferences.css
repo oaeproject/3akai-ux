@@ -14,19 +14,7 @@
     height: 6px;
 }
 .account_preferences .outline {
-    border-left: 3px solid #D5DBDF;
-    border-right: 3px solid #D5DBDF;
     padding: 14px 20px;
-}
-.account_preferences .outline-bottom {
-    background: url('/dev/images/content_br.png') top right no-repeat;
-    padding: 0 5px 0 0;
-    margin: 0 0 20px 0;
-}
-.account_preferences .outline-bottom-inner {
-    background: url('/dev/images/content_bl.png') 0 0 no-repeat;
-    margin: 0;
-    height: 6px;
 }
 .account_preferences .section_header {
     color: #5A697B;
