@@ -340,7 +340,7 @@ sakai.search = function() {
             // Check if we want to search using a faceted link
             if (facetedurl) {
                 url = facetedurl.replace(".json", ".infinity.json");
-            };
+            }
 
             searchAjaxCall = $.ajax({
                 url: url,

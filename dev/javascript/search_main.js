@@ -235,14 +235,16 @@ sakai._search = function(config, callback) {
             }
             // Modify the tags if there are any
             if(finaljson.items[i]["sakai:tags"]){
-                if (typeof(finaljson.items[i]["sakai:tags"]) === 'string')
+                if (typeof(finaljson.items[i]["sakai:tags"]) === 'string') {
                     finaljson.items[i]["sakai:tags"] = finaljson.items[i]["sakai:tags"].split(",");
+                }
 
                 for(var k = 0, l = finaljson.items[i]["sakai:tags"].length; k < l; k++){
 
                     // If the searchterm occures in the tags, make it bold
-                    if (finaljson.items[i]["sakai:tags"][k])
+                    if (finaljson.items[i]["sakai:tags"][k]) {
                         finaljson.items[i]["sakai:tags"][k] = convertTermToBold(finaljson.items[i]["sakai:tags"][k], searchterm);
+                    }
                 }
             }
         }
@@ -406,7 +408,7 @@ sakai._search = function(config, callback) {
         if (splitted.length > 1) {
             for (var i = 0; i < splitted.length; i++) {
                 if (splitted[i]) {
-                    urlterm += "*" + splitted[i] + "* "
+                    urlterm += "*" + splitted[i] + "* ";
                     if (i < splitted.length - 1) {
                         urlterm += "OR ";
                     }

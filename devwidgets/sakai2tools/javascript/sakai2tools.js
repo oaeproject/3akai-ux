@@ -123,8 +123,6 @@ sakai.sakai2tools = function(tuid, showSettings){
         if(url1 == url2) {
             return true;
         }
-        // console.log(isUrl(url1) + ": " + url1 + "=" + urlRegExp.exec(url1)[4]);
-        // console.log(isUrl(url2) + ": " + url2 + "=" + urlRegExp.exec(url2)[4]);
         // i.e. protocol, domain (and optional port numbers) must match
         if((urlRegExp.exec(url1)[2] == urlRegExp.exec(url2)[2]) &&
            (urlRegExp.exec(url1)[4] == urlRegExp.exec(url2)[4])){

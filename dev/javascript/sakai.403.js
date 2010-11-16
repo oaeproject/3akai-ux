@@ -25,10 +25,11 @@ sakai.nopermissions = function(tuid, showSettings) {
     var gatewayURL = sakai.config.URL.GATEWAY_URL;
 
     var doInit = function(){
+        var renderedTemplate = false;
         if (sakai.data.me.user.anon){
             $('html').addClass("requireAnon");
             // the user is anonymous and should be able to log in
-            var renderedTemplate = $.TemplateRenderer(permissionsErrorLoggedOutTemplate, sakai.data.me.user).replace(/\r/g, '');
+            renderedTemplate = $.TemplateRenderer(permissionsErrorLoggedOutTemplate, sakai.data.me.user).replace(/\r/g, '');
             $(permissionsError).append(renderedTemplate);
             var querystring = new Querystring();
             var redurl = window.location.pathname + window.location.hash;
@@ -45,13 +46,13 @@ sakai.nopermissions = function(tuid, showSettings) {
             // Remove the sakai.index stylesheet as it would mess up the design
             $("LINK[href*='/dev/css/sakai/sakai.index.css']").remove();
             // the user is logged in and should get a page in Sakai itself
-            var renderedTemplate = $.TemplateRenderer(permissionsErrorLoggedInTemplate, sakai.data.me.user).replace(/\r/g, '');
+            renderedTemplate = $.TemplateRenderer(permissionsErrorLoggedInTemplate, sakai.data.me.user).replace(/\r/g, '');
             $(permissionsError).append(renderedTemplate);
             $("#permission_error").addClass("error_page_bringdown");
         }
         sakai.api.Security.showPage();
         document.title = document.title + sakai.api.i18n.General.getValueForKey("ACCESS_DENIED");
-    }
+    };
 
     doInit();
 

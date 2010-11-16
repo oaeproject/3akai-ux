@@ -34,10 +34,10 @@ sakai.directory = function(){
      * Render the directory structure on the page
      */
     var renderDirectoryStructure = function(){
-        var obj = {}
-        obj.directory = directoryJSON
+        var obj = {};
+        obj.directory = directoryJSON;
         $(directoryTemplateContainer).html($.TemplateRenderer(directoryTemplate, obj));
-    }
+    };
 
     /**
      * Get a list of nodes representing the directory structure to be rendered
@@ -47,21 +47,21 @@ sakai.directory = function(){
         for(var i in sakai.config.Directory){
             if (sakai.config.Directory.hasOwnProperty(i)) {
                 // Create first level of content
-                var temp = new Object();
+                var temp = {};
                 temp.name = i;
 
                 // Create second level of content
                 temp.secondlevels = [];
                 for (var j in sakai.config.Directory[i]) {
                     if (sakai.config.Directory[i].hasOwnProperty(j)) {
-                        var secondlevel = new Object();
+                        var secondlevel = {};
                         secondlevel.name = j;
 
                         // Create third level of content
-                        secondlevel.thirdlevels = []
+                        secondlevel.thirdlevels = [];
                         for (var k in sakai.config.Directory[i][j]) {
                             if (sakai.config.Directory[i][j].hasOwnProperty(k)) {
-                                var thirdlevel = new Object();
+                                var thirdlevel = {};
                                 thirdlevel.name = sakai.config.Directory[i][j][k];
                                 secondlevel.thirdlevels.push(thirdlevel);
                             }
