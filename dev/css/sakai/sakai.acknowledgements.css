@@ -26,7 +26,6 @@
 .acknowledgements_content a{ color:#006E96; font-weight:bold; }
 
 /* Container */
-.acknowledgements .main-container { background: #FFF; }
 .acknowledgement_container .acknowledgement_information { float:right; width:685px;}
 .acknowledgements .acknowledgement_image_container { float:left; width:200px; margin-right:10px; }
 .acknowledgements .acknowledgement_image_container img{ float:right; margin:2px; }

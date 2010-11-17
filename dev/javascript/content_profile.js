@@ -69,7 +69,7 @@ sakai.content_profile = function(){
                     var directory = [];
                     // When only one tag is put in this will not be an array but a string
                     // We need an array to parse and display the results
-                    if (!(typeof(data["sakai:tags"]) == "object") && data["sakai:tags"]){
+                    if ((typeof(data["sakai:tags"]) !== "object") && data["sakai:tags"]){
                         data["sakai:tags"] = [data["sakai:tags"]];
                     }
                     currentTags = data["sakai:tags"];
@@ -226,14 +226,14 @@ sakai.content_profile = function(){
             }
             // if there is not selected list disable
             else {
-                $("#content_profile_remove_" + tuid).attr("disabled", "disabled")
+                $("#content_profile_remove_" + tuid).attr("disabled", "disabled");
             }
         }
         // disable the button
         else {
-            $("#content_profile_remove_" + tuid).attr("disabled", "disabled")
+            $("#content_profile_remove_" + tuid).attr("disabled", "disabled");
         }
-    }
+    };
 
     ///////////////////////
     // BINDING FUNCTIONS //

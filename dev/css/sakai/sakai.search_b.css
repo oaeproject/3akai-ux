@@ -21,10 +21,6 @@
 
 /* HEADER */
 .content_search { padding: 12px 0 0 0; }
-.content_search a {    color: #006E96;}
-.search-container .content_search .fixed-container { background: #fff url('/dev/images/header_l.png') top left no-repeat; }
-.search-container .content_search .fixed-container .decor { background: url('/dev/images/header_r.png') top right no-repeat; height: 5px; margin-right: -20px; }
-
 
 .content_search h1.title { font-size: 1.4em; font-weight: bold; margin: 15px 0 0 0; padding: 0;}
 
@@ -111,7 +107,7 @@
     width: 100%;
 }
 .search_content_main .search_results_container_sub {
-    width: 75% !important;
+    width: 74% !important;
 }
 .search_top_rounded {
     background: transparent url(/dev/images/search_results_tl.png) top left no-repeat;
@@ -262,9 +258,7 @@ a.search_results_part_title {
 }
 
 .search_result_course_site_title a {
-    color: #3399cc;
     margin: 0 0 5px 0;
-    font-weight: bold;
     font-size: 1em;
 }
 

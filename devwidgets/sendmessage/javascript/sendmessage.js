@@ -321,8 +321,6 @@ if (!sakai.sendmessage){
                                 }
                             });
                             add(suggestions);
-                        } else {
-
                         }
                     }, {"q": "*" + query.replace(/\s+/g, "* OR *") + "*", "page": 0, "items": 15});
                 }

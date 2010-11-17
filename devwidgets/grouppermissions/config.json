@@ -3,7 +3,7 @@
     "name":"Group Permissions",
     "id":"grouppermissions",
     "i18n": {
-        "default": "/devwidgets/grouppermissions/bundles/default.json"
+        "default": "/devwidgets/grouppermissions/bundles/default.properties"
     },
     "personalportal":false,
     "hasSettings":false,

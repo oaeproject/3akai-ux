@@ -44,6 +44,13 @@ sakai.captcha = function(tuid, showSettings) {
     };
     
     /**
+     * Reload the current captcha
+     */
+    sakai.captcha.reload = function() {
+        Recaptcha.reload();  
+    };
+
+    /**
      * Performs an AJAX request to the captcha service and fetches all the properties.
      * We assume that we always use reCAPTCHA
      */

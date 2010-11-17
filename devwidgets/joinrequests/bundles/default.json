@@ -1,5 +1,9 @@
 {
 "ADD_AS_A_MEMBER": "Add as a member",
+"GROUP_MEMBERSHIP": "Group Membership",
+"HAS_SUCCESSFULLY_ADDED_TO_THE_GROUP":"has successfully been added to the group.",
 "IGNORE": "Ignore",
-"PENDING_REQUESTS_TO_JOIN": "Pending requests to join"
+"PENDING_REQUESTS_TO_JOIN": "Pending requests to join",
+"SORRY_THERE_WAS_A_PROBLEM": "Sorry, there was a problem while adding the user to the group. We've notified system administrators. Please try again later or contact an administrator if the issue persists."
+"VIEW_PROFILE": "View profile"
 }

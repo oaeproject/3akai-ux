@@ -1,0 +1,17 @@
+{
+"ADVANCED_SETTINGS": "Advanced Settings",
+"BORDER": "Border",
+"COLOR": "Color",
+"GADGET_EMBED_CODE": "Gadget embed code",
+"HEIGHT": "Height",
+"INCORRECT_URL": "Incorrect URL",
+"PLEASE_ENTER_A_VALID_GOOGLE_GADGET_EMBED_CODE": "Please enter a valid Google Gadget embed code available from Google's Gadgets page at",
+"PLEASE_PATE_OR_ENTER_THE_GADGETS_EMBED_CODE": "Please paste or enter the Gadget's embed code here as provided by Google",
+"PREVIEW": "Preview",
+"PREVIEW_GADGET": "Preview gadget",
+"PX": "px",
+"RESET_TO_ORIGINAL_SIZE": "Reset to original size",
+"SIZE": "Size",
+"SIZE_DOESNT_CHANGE_ON_PREVIEW_MODE": "(size doesn't change in preview mode)",
+"WIDTH": "Width"
+}

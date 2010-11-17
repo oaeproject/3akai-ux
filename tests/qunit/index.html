@@ -2,10 +2,12 @@
 <html>
     <head>
         <title>Sakai 3 Javascript QUnit Test Suite</title>
-        <!-- Sakai Core CSS -->
         <link rel="stylesheet" type="text/css" href="/dev/css/FSS/fss-base.css" />
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.base.css" />
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.core.2.css" />
+        <link rel="stylesheet" type="text/css" href="/tests/qunit/css/sakai_qunit_runner.css" />
+        <script type="text/javascript" src="/dev/lib/jquery/jquery.js"></script>
+        <script type="text/javascript" src="/tests/qunit/js/qunit.js"></script>
     </head>
     <body class="fl-centered fl-container">
         <div class="fl-container-flex">
@@ -16,28 +18,58 @@
         </div>
         <div class="fl-container-flex">
             <div class="fl-fix fl-centered fixed-container">
-                <h2>Core</h2>
-                <ul>
-                    <li><a href="tests/data_transport.html" class="s3d-action">Data Transport</a></li>
-                    <li><a href="tests/messaging.html" class="s3d-action">Messaging</a></li>
-                    <li><a href="tests/security.html" class="s3d-action">Security</a></li>
-                    <li><a href="tests/templates.html" class="s3d-action">Template Renderer</a></li>
-                    <li><a href="tests/user_profiles.html" class="s3d-action">User Profiles</a></li>
-                    <li><a href="tests/util.html" class="s3d-action">Util</a></li>
-                </ul>
-                <h2>Accessibility</h2>
-                <ul>
-                    <li><a href="tests/wcag.html" class="s3d-action">WCAG Compliance</a></li>
-                </ul>
-                <h2>Internationalization and Localization</h2>
-                <ul>
-                    <li><a href="tests/i18n.html" class="s3d-action">i18n Strings</a></li>
-                </ul>
-                <h2>Widgets</h2>
-                <ul>
-                    <li><a href="tests/widgets.html" class="s3d-action">Widget Configuration</a></li>
-                </ul>
+                <div id="show_list"><a href="javascript:;" class="s3d-action">Hide Tests</a></div>
+                <div id="tests_list">
+                    <h2>Core</h2>
+                    <ul>
+                        <li><a href="tests/cleanjs.html" class="s3d-action test">Clean Javascript (includes JSLint)</a></li>
+                        <li><a href="tests/data_transport.html" class="s3d-action test">Data Transport</a></li>
+                        <li><a href="tests/messaging.html" class="s3d-action test">Messaging</a></li>
+                        <li><a href="tests/security.html" class="s3d-action test">Security</a></li>
+                        <li><a href="tests/templates.html" class="s3d-action test">Template Renderer</a></li>
+                        <li><a href="tests/user_profiles.html" class="s3d-action test">User Profiles</a></li>
+                        <li><a href="tests/util.html" class="s3d-action test">Util</a></li>
+                    </ul>
+                    <h2>Accessibility</h2>
+                    <ul>
+                        <li><a href="tests/wcag.html" class="s3d-action test">WCAG Compliance</a></li>
+                    </ul>
+                    <h2>Internationalization and Localization</h2>
+                    <ul>
+                        <li><a href="tests/i18n.html" class="s3d-action test">Presence of English Strings</a></li>
+                    </ul>
+                    <h2>Widgets</h2>
+                    <ul>
+                        <li><a href="tests/widgets.html" class="s3d-action test">Widget Configuration</a></li>
+                    </ul>
+                    <h2><a href="javascript:;" id="run_all" class="s3d-action">Run all tests on this page</a></h2>
+                </div>
+                <div id="run_all_results" style="display:none" class="fl-container-flex">
+                    <div id="run_all_results_status" class="fl-container-flex">
+                        <h1>Running All Tests</h1>
+                        <h2>Status</h2>
+                        <span class="label">Currently Running Test: </span><span id="run_all_current_test" class="result"></span>
+                        <span class="label">Suites Complete: </span><span id="run_all_results_num_finished" class="result">0</span>
+                        <span class="label">Suites To Go: </span><span id="run_all_results_num_to_go" class="result"></span>
+                    </div>
+                    <div id="run_all_results_individual" class="fl-container-flex">
+                        <h2>Results</h2>
+                        <h4>Click a row for detailed test results</h4>
+                        <table cellpadding="0" cellspacing="0" border="1px">
+                            <thead>
+                                <tr><th>Test Suite</th><th>Failures</th><th>Successes</th><th>Test Duration (seconds)</th></tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                            <tfoot>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <div id="run_all_iframes">
+                    </div>
+                </div>
             </div>
         </div>
+        <script type="text/javascript" src="/tests/qunit/js/sakai_qunit_runner.js"></script>
     </body>
 </html>

@@ -38,11 +38,6 @@
     padding: 5px 15px;
     margin: 0;
 }
-#recentmessages_container ul li a {
-    color: #006e96;
-    font-size: 1em;
-    font-weight: bold;
-}
 #recentmessages_container .recentmessages_alterrow {
     background-color: #f5f6f6;
 }

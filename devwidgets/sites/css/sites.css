@@ -21,4 +21,3 @@
 #createsitecontainer, createsitecontainer>div {width:100%;}
 
 .my_course_sites_widget .fl-widget-content ul li {list-style: none; padding: 5px 5px 5px 40px; margin: 0; border-bottom: 1px solid #CCC; background: url('/dev/images/folder_icon.png') 11px 5px no-repeat;}
-.my_course_sites_widget .fl-widget-content ul li a {color: #006E96; font-size: 1em; font-weight: bold; display: block;}

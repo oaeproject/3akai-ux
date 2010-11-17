@@ -2,7 +2,7 @@
     "description":"Pick Content",
     "id":"contentpicker",
     "i18n": {
-        "default": "/devwidgets/contentpicker/bundles/default.json"
+        "default": "/devwidgets/contentpicker/bundles/default.properties"
     },
     "name":"Content Picker",
     "type":"core",

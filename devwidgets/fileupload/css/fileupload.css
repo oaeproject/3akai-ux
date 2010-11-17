@@ -29,7 +29,6 @@
 /* TYPOGRAPHY */
 .fileupload_slim_p {margin-bottom:0.5em;}
 .fileupload_or_padding {margin-right:50px;}
-.fileupload_link {color:#006E96; font-weight:bold;}
 .fileupload_help {color:#666666; font-size:0.9em; margin-bottom:18px;}
 
 #fileupload_container .fileupload_textarea {width:380px !important; margin:0 196px 20px 0; float:right;}
@@ -51,7 +50,7 @@
 #fileupload_container #fileupload_rendered_tagging #fileupload_tags .fileupload_add_tags {width:450px !important; margin:0 150px 5px 0; float:right;}
 #fileupload_container #fileupload_rendered_tagging #fileupload_action_buttons {margin-top:10px; float:right;}
 
-#fileupload_container .MultiFile-remove {color:#006E96; font-weight:bold; padding-left:10px;}
+#fileupload_container .MultiFile-remove {padding-left:10px;}
 #fileupload_container .MultiFile-list {display:none; margin:10px 0;}
 
 #fileupload_container {width:800px !important; left:40% !important;}

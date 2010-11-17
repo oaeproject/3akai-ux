@@ -1,7 +1,7 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/contentprofilebasicinfo/css/contentprofilebasicinfo.css" />
 
-<div id="content_profile_basic_info_container" style="display:none;"></div>
+<div id="content_profile_basic_info_container s3d-main-container" style="display:none;"></div>
 
 <div id="content_profile_basic_info_template"><!--
     <form id="content_profile_basic_info_form" action="javascript:;" method="post">
@@ -22,7 +22,7 @@
                 <label for="content_profile_basic_info_form_tags">
                     __MSG__TAGS__:
                 </label>
-                {for tag in data["sakai:tags"]}{if tag.split("/")[0] !== "directory"}{if tag_index > 0},{/if} <a href="/dev/search.html#tag=/tags/${tag}" class="s3d-action" title="Search content tagged with '${tag}'"">${tag}</a>{/if}{/for}
+                {for tag in data["sakai:tags"]}{if tag.split("/")[0] !== "directory"}{if tag_index > 0},{/if} <a href="/dev/search.html#tag=/tags/${tag}" class="s3d-action" title="__MSG__SEARCH_CONTENT_TAGGED_WITH__ '${tag}'"">${tag}</a>{/if}{/for}
             </div>
         {elseif !anon}
             <div class="content_profile_basic_info_form_row">
@@ -121,7 +121,7 @@
                         {for savedDir in saveddirectory}
                         <li class="${savedDir}">
                             <span class="content_profile_basic_info_saveddirectory_information">${savedDir.toString().replace(/,/g, " <span class='content_profile_basic_info_selected_and_saved_seperator'>&raquo;</span> ")}</span>
-                            <a href="javascript:;" class="content_profile_basic_info_remove_location" title="Remove location">Remove</a>
+                            <a href="javascript:;" class="s3d-remove-link s3d-action" title="__MSG__REMOVE_LOCATION__">__MSG__REMOVE</a>
                         </li>
                         {/for}
                     </ul>
@@ -153,7 +153,7 @@
         </select>
         <div id="content_profile_basic_info_secondlevel_template_container"></div>
         <div id="content_profile_basic_info_thirdlevel_template_container"></div>
-        <a href="javascript:;" class="content_profile_basic_info_remove_new_location" title="Remove location">Remove</a>
+        <a href="javascript:;" class="s3d-remove-link s3d-action" title="__MSG__REMOVE_LOCATION__">__MSG__REMOVE__</a>
     --></div>
 
     <div id="content_profile_basic_info_secondlevel_template" style="display:none;"><!--

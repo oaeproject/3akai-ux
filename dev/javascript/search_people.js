@@ -35,6 +35,8 @@ sakai.search = function() {
     var mainSearch = false;
     var max_items = 2000;
 
+    var searchAjaxCall = false;
+
     // Search URL mapping
     var searchURLmap = {
         allusers : sakai.config.URL.SEARCH_USERS,
@@ -228,7 +230,11 @@ sakai.search = function() {
      * @param {Integer} page The page you are on (optional / default = 1.)
      * @param {String} searchquery The searchterm you want to look for (optional / default = input box value.)
      */
-    sakai._search.doHSearch = function(page, searchquery, searchwhere, facet) {
+    sakai._search.doHSearch = function(page, searchquery, searchwhere, facet, killPreviousAjaxCall) {
+        // if killpreviousajaxcall is true then kill the previous ajax request
+        if (killPreviousAjaxCall) {
+            searchAjaxCall.abort();
+        }
         if (!page) {
             page = 1;
         }
@@ -397,7 +403,7 @@ sakai.search = function() {
                 searchURL = sakai.config.URL.SEARCH_USERS_ACCEPTED;
                 params = {
                     q: urlsearchterm
-                }
+                };
             }  else {
                 searchURL = sakai.config.URL.SEARCH_USERS;
                 params = {
@@ -406,7 +412,7 @@ sakai.search = function() {
                     q: urlsearchterm,
                     sortOn: "public/authprofile/basic/elements/lastName/@value",
                     sortOrder: "ascending"
-                }
+                };
             }
 
             // Check if we want to search using a faceted link
@@ -418,10 +424,10 @@ sakai.search = function() {
                     q: urlsearchterm,
                     sortOn: "public/authprofile/basic/elements/firstName/@value",
                     sortOrder: "ascending"
-                }
+                };
             }
 
-            $.ajax({
+            searchAjaxCall = $.ajax({
                 cache: false,
                 url: searchURL,
                 data: params,
@@ -429,10 +435,10 @@ sakai.search = function() {
 
                     // Store found people in data cache
                     sakai.data.search.results_people = {};
-
+                    var resultsTemp = {};
                     // if results are returned in a different format
                     if (!data.results && data.contacts && facetedurl === sakai.config.URL.PRESENCE_CONTACTS_SERVICE) {
-                        var resultsTemp = { results : [] };
+                        resultsTemp = { results : [] };
                         var j = 0;
                         $.each(data.contacts, function(i, val) {
                             if (val.profile && val["sakai:status"] === "online") {
@@ -443,7 +449,7 @@ sakai.search = function() {
                         resultsTemp.total = data.total;
                         data = resultsTemp;
                     } else if (data.results) {
-                        var resultsTemp = { results : [] };
+                        resultsTemp = { results : [] };
                         var updateData = false;
                         $.each(data.results, function(i, val) {
                             if (val.profile) {
@@ -457,12 +463,12 @@ sakai.search = function() {
                         }
                     }
 
-                    for (var i = 0, j = data.results.length; i < j; i++) {
+                    for (var i = 0, jj = data.results.length; i < jj; i++) {
                         sakai.data.search.results_people[data.results[i]["rep:userId"]] = data.results[i];
                     }
                     if (facet === "invited") {
-                        for (var i = 0, j = data.results.length; i < j; i++) {
-                            data.results[i]["invited"] = true;
+                        for (var ii = 0, jjj = data.results.length; i < jjj; ii++) {
+                            data.results[ii]["invited"] = true;
                         }
                     }
 

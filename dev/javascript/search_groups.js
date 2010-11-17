@@ -31,10 +31,12 @@ sakai.search = function() {
     var tagterm = "";
     var currentpage = 0;
     var currentfacet = "";
-    
+
     // Add Group Button links
     var createGroupContainer = "#creategroupcontainer";
     var searchAddGroupButton = ".search_add_group_button";
+
+    var searchAjaxCall = false;
 
     // Search URL mapping
     var searchURLmap = {
@@ -144,7 +146,12 @@ sakai.search = function() {
      * @param {String} searchquery The searchterm you want to look for (optional / default = input box value.)
      * @param {String} searchwhere The subset of sites you want to search in
      */
-    sakai._search.doHSearch = function(page, searchquery, searchwhere, facet) {
+    sakai._search.doHSearch = function(page, searchquery, searchwhere, facet, killPreviousAjaxCall) {
+        // if killpreviousajaxcall is true then kill the previous ajax request
+        if (killPreviousAjaxCall) {
+            searchAjaxCall.abort();
+        }
+
         if (!page) {
             page = 1;
         }
@@ -266,7 +273,7 @@ sakai.search = function() {
         }
 
         $(searchConfig.results.header).show();
-        
+
         // Render the results.
         $(searchConfig.results.container).html($.TemplateRenderer(searchConfig.results.template, finaljson));
         $(".search_results_container").show();
@@ -350,13 +357,13 @@ sakai.search = function() {
                 page: (currentpage - 1),
                 items: resultsToDisplay,
                 q: urlsearchterm
-            }
+            };
 
             // Check if we want to search using a faceted link
             if (facetedurl) {
                 // only simple search terms supported for these URLs - KERN-1020
                 if (facetedurl === sakai.config.URL.GROUPS_MANAGER || facetedurl === sakai.config.URL.GROUPS_MEMBER) {
-                    urlsearchterm = searchterm
+                    urlsearchterm = searchterm;
                 }
 
                 searchURL = facetedurl;
@@ -365,10 +372,10 @@ sakai.search = function() {
                     items: resultsToDisplay,
                     q: urlsearchterm,
                     facet: facet
-                }
+                };
             }
 
-            $.ajax({
+            searchAjaxCall = $.ajax({
                 url: searchURL,
                 data: params,
                 cache: false,
@@ -414,19 +421,19 @@ sakai.search = function() {
     /**
      * Show the popup to create a new group.
      */
- 	var createNewGroup = function(){
- 	    $(createGroupContainer).show();
- 	    // Load the creategroup widget.
- 	    sakai.creategroup.initialise();
- 	};
-    
-    
+    var createNewGroup = function(){
+        $(createGroupContainer).show();
+        // Load the creategroup widget.
+        sakai.creategroup.initialise();
+    };
+
+
     ////////////////////
     // Event Handlers //
- 	////////////////////
- 	$(searchAddGroupButton).bind("click", function(ev){
- 	    createNewGroup();
- 	});
+    ////////////////////
+    $(searchAddGroupButton).bind("click", function(ev){
+        createNewGroup();
+    });
 
     /**
      * Will reset the view to standard.

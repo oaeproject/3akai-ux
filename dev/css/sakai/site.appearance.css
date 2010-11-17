@@ -16,10 +16,6 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/** CONTAINER **/
-.fixed-container
-{ background: #fff; }
-
 .basic_appearance .site_appereance_contents_main
 { border-left: 3px solid #D3DBDE; border-right: 3px solid #D3DBDE; margin: 0; padding: 10px; }
 
@@ -98,7 +94,6 @@
 #site_appearance_change_container {width:700px!important;margin-left:-350px!important;}
 #site_appearance_change_container .fl-tabs {border-bottom: 1px solid #ddd; padding-bottom: 3px}
 #site_appearance_change_container .fl-tabs li a {bottom:3px!important;#bottom:5px!important;/* override for Microsoft Internet Explorer browsers*/ background-color:#EEE;color:#000!important;margin-left:-1px;position:relative;border-color:#EEE #EEE #DDD;border-style:solid;border-width:1px;padding:6px 20px;}
-#site_appearance_change_container .fl-tabs .fl-tabs-active a {background-color:#FFF!important;color:#000!important;font-weight:400!important;border-color:#DDD #DDD #EEE;border-style:solid;border-width:1px;}
 #site_appearance_change_picture_thumbnail_container {float:left;position:relative;overflow:hidden;width:200px;height:100px;}
 .dailog_changepic h4 {margin-bottom:10px;}
 #site_appearance_change_select_content {padding-top:10px;padding-left:10px;}

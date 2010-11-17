@@ -36,7 +36,6 @@
 #chat_available_others table {width: 200px;}
 #chat_available_others tr {border-top:1px #ebebeb solid;}
 #chat_online_list_activator {cursor: pointer; cursor: hand;}
-.initiate_chat_window {color:#3399CC; font-weight:700;}
 
 /* show online */
 #chat_show_online {background-color:#d5dbdf;border:1px solid #666666; border-bottom: none;bottom:25px;text-align:left;width:215px;z-index:-1; right:146px; line-height: normal; position: relative;}

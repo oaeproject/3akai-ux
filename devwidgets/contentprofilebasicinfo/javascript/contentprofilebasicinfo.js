@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config, fluid, window, document */
+/*global $ */
 
 var sakai = sakai || {};
 
@@ -146,26 +146,26 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                         data["sakai:tags"].push(tag.replace(/\\/g, ""));
                     }
                 }
-            })
+            });
 
             // Create tags for the directory structure
             // For every content_profile_basic_info_added_directory we create tags
             // Filter out ',' since that causes unwanted behavior when rendering
             $(".content_profile_basic_info_added_directory").each(function(){
-                if ($(this).find(contentProfileBasicInfoDirectoryLvlOne).selected().val() !== "no_value" && $(this).find(contentProfileBasicInfoDirectoryLvlOne).selected().val() != undefined) {
+                if ($(this).find(contentProfileBasicInfoDirectoryLvlOne).selected().val() !== "no_value" && $(this).find(contentProfileBasicInfoDirectoryLvlOne).selected().val() !== undefined) {
                     var directoryString = "directory/";
                     if ($.inArray($(this).find(contentProfileBasicInfoDirectoryLvlOne).selected().val().replace(/,/g, ""), data["sakai:tags"]) < 0) {
                         data["sakai:tags"].push($(this).find(contentProfileBasicInfoDirectoryLvlOne).selected().val().replace(/,/g, ""));
                     }
                     directoryString += $(this).find(contentProfileBasicInfoDirectoryLvlOne).selected().val().replace(/,/g, "");
 
-                    if ($(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val() !== "no_value" && $(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val() != undefined) {
+                    if ($(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val() !== "no_value" && $(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val() !== undefined) {
                         if ($.inArray($(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g, ""), data["sakai:tags"]) < 0) {
                             data["sakai:tags"].push($(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g, ""));
                         }
                         directoryString += "/" + $(this).find(contentProfileBasicInfoDirectoryLvlTwo).selected().val().replace(/,/g, "");
 
-                        if ($(this).find(contentProfileBasicInfoDirectoryLvlThree).selected().val() !== "no_value" && $(this).find(contentProfileBasicInfoDirectoryLvlThree).selected().val() != undefined) {
+                        if ($(this).find(contentProfileBasicInfoDirectoryLvlThree).selected().val() !== "no_value" && $(this).find(contentProfileBasicInfoDirectoryLvlThree).selected().val() !== undefined) {
                             if ($.inArray($(this).find(contentProfileBasicInfoDirectoryLvlThree).selected().val().replace(/,/g, ""), data["sakai:tags"]) < 0) {
                                 data["sakai:tags"].push($(this).find(contentProfileBasicInfoDirectoryLvlThree).selected().val().replace(/,/g, ""));
                             }
@@ -232,7 +232,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
         // Create object of file to be updated
         var obj = {
             "hashpath": contentPath.replace("/p/","")
-        }
+        };
 
         // Disable basic info fields
         enableDisableBasicInfoFields(true);
@@ -366,7 +366,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
         // Apply style to the rendered div
         $(renderedDiv).addClass("content_profile_basic_info_added_directory");
         $(contentProfileBasicInfoAddAnotherLocationLink).text(sakai.api.Security.saneHTML($("#content_profile_basic_info_add_another_text").text()));
-    }
+    };
 
     /**
      * Update the select boxes on the stage
@@ -391,14 +391,14 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
         // Get current tags up to date
         currentTags = data["sakai:tags"];
         // Extract tags from clickedParent
-        var tags = []
+        var tags = [];
         tags = clickedParent[0].className.split(",");
         tags.push("directory/" + tags.toString().replace(/,/g,"/"));
 
         var tagsAfterDeletion = currentTags.slice(0);
-        for (var tag = 0 in tags){
-            if(jQuery.inArray(tags[tag],tagsAfterDeletion) > -1){
-                tagsAfterDeletion.splice(jQuery.inArray(tags[tag],tagsAfterDeletion), 1);
+        for (var tag in tags){
+            if($.inArray(tags[tag],tagsAfterDeletion) > -1){
+                tagsAfterDeletion.splice($.inArray(tags[tag],tagsAfterDeletion), 1);
             }
         }
 
@@ -411,7 +411,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
             });
             sakai.api.Util.notification.show($(contentProfileBasicInfoUpdatedBasicInfo).html(), $(contentProfileBasicInfoFileBasicInfoUpdated).html());
         });
-    }
+    };
 
     /**
      * Bind the widget's internal Cancel and Save Settings button

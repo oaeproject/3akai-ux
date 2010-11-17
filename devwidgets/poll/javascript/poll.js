@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config */
+/*global $ */
 
 var sakai = sakai || {};
 
@@ -502,7 +502,7 @@ sakai.poll = function(tuid, showSettings){
         if(me){
 
             // A user can only vote once
-            if(!$.inArray(me.user.userid, json.poll.users) > -1){
+            if($.inArray(me.user.userid, json.poll.users) === -1){
 
                 // Double check (it is already checked in the bindUnbindVote function)
                 // if the user has checked an element. We do this double check to make it

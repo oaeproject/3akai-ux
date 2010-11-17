@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config */
+/*global $ */
 
 // Namespaces
 var sakai = sakai || {};
@@ -48,7 +48,7 @@ sakai.pickeradvanced = function(tuid, showSettings) {
     var $rootel = $("#" + tuid);
 
     var $pickeradvanced_container = $("#pickeradvanced_container", $rootel);
-    var $pickeradvanced_content_search = $("#pickeradvanced_content_search", $rootel);
+    var $pickeradvanced_content_search = $("#pickeradvanced_content_search");
     var $pickeradvanced_content_list = $("#pickeradvanced_content_list", $rootel);
     var $pickeradvanced_search_query = $("#pickeradvanced_search_query", $rootel);
     var $pickeradvanced_search_button = $("#pickeradvanced_search_button", $rootel);
@@ -199,9 +199,9 @@ sakai.pickeradvanced = function(tuid, showSettings) {
         var searchQuery = {};
         var main_parts = iSearchQuery.split("?");
         searchQuery.url = main_parts[0];
-        var arguments = main_parts[1].split("&");
-        for (var i=0, il = arguments.length; i < il; i++) {
-            var kv_pair = arguments[i].split("=");
+        var args = main_parts[1].split("&");
+        for (var i=0, il = args.length; i < il; i++) {
+            var kv_pair = args[i].split("=");
             searchQuery[kv_pair[0]] = kv_pair[1];
         }
 
@@ -235,7 +235,7 @@ sakai.pickeradvanced = function(tuid, showSettings) {
         if ((pickerData["type"] === "people" && $pickeradvanced_sort_on.is(":visible")) || firstTime) {
             searchQuery.sortOn = pickerData["sortOn"];
             searchQuery.sortOrder = pickerData["sortOrder"];
-            if (firstTime) firstTime = false;
+            if (firstTime) { firstTime = false; }
         }
 
         // Construct search query

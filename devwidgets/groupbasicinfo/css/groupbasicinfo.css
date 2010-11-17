@@ -10,13 +10,13 @@
 #groupbasicinfo_generalinfo input[type="text"]:hover, #groupbasicinfo_generalinfo input[type="password"]:hover, textarea:hover {
     background: #d3edf5;
 }
-#profilewow_heading a, #profilewow_userinfo a, #profilewow_generalinfo a {
-    color: #3399CC;
-    font-weight: bold;
-}
 
 #groupbasicinfo_generalinfo .groupbasicinfo_generalinfo_header_first {
     padding-top: 0;
+}
+#profilewow_heading a, #profilewow_userinfo a, #profilewow_generalinfo a {
+    color: #3399CC;
+    font-weight: bold;
 }
 #groupbasicinfo_generalinfo h2 {
     border-bottom:1px solid #EBEBEB;

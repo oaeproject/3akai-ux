@@ -3,6 +3,8 @@
     "ca":true,
     "hasSettings":true,
     "id":"dashboard",
+    "i18n": {
+    },
     "img":"/devwidgets/comments/images/comments.png",
     "name":"Dashboard",
     "showinsakaigoodies":false,

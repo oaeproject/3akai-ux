@@ -9,8 +9,8 @@
     "enabled":true,
     "url":"/devwidgets/groupbasicinfo/groupbasicinfo.html",
     "i18n": {
-        "default": "/devwidgets/groupbasicinfo/bundles/default.json",
-        "en_GB": "/devwidgets/groupbasicinfo/bundles/en_GB.json",
-        "nl_NL": "/devwidgets/groupbasicinfo/bundles/nl_NL.json"
+        "default": "/devwidgets/groupbasicinfo/bundles/default.properties",
+        "en_GB": "/devwidgets/groupbasicinfo/bundles/en_GB.properties",
+        "nl_NL": "/devwidgets/groupbasicinfo/bundles/nl_NL.properties"
     },
 }

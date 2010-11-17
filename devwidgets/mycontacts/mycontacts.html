@@ -29,7 +29,7 @@
         {for i in items}
             <div class="mycontacts_list_contact">
                 <a href="/~${i.id}" class="mycontacts_list_contact_picture"><img src="${i.photo}" alt="__MSG__PERSON_ICON__"/></a>
-                <a href="/~${i.id}" class="mycontacts_list_contact_name">${i.name}</a>
+                <a href="/~${i.id}" class="mycontacts_list_contact_name s3d-links">${i.name}</a>
             </div>
         {forelse}
             <span id="mycontacts_nocontacts">__MSG__YOU_CURRENTLY_HAVE_NO_CONTACTS__</span>

@@ -86,7 +86,7 @@ sakai.faceted = function(tuid){
             $(".faceted_category").removeClass("faceted_category_selected");
             $(this).addClass("faceted_category_selected");
         });
-    }
+    };
 
 
     ////////////////////

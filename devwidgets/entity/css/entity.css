@@ -21,7 +21,7 @@
 .entity_header_text {font-size:22px; font-weight:bold; line-height:28px; margin-right:10px;color:#444;}
 .entity_picture {margin: 0 20px 5px 0; font-size: 10px; color: #FFFFFF; line-height: 11px;}
 .entity_description {width:340px; }
-.entity_status {font-size:12px;}
+.entity_status {color: #aaa;font-size:12px;}
 .entity_picture .entity_manage{background:url(/dev/images/group_avatar_badge_orange_left_128.png) no-repeat;}
 .entity_picture .entity_manage_end{background:url(/dev/images/group_avatar_badge_orange_right_128.png) no-repeat;}
 .entity_picture .entity_member{background:url(/dev/images/group_avatar_badge_blue_left_128.png) no-repeat;}
@@ -59,12 +59,12 @@
 #entity_contact_invited {padding-left: 10px;}
 
 /* List box for tags and locations */
-#entity_tags_link, #entity_locations_link {padding: 5px 5px 5px 5px;}
-.entity_tags_link, .entity_locations_link {border: 1px solid #fff;}
-.entity_tags_link:hover, .entity_locations_link:hover {border: 1px solid #ddd;}
-.entity_list_open {border: 1px solid #ddd !important;}
+#entity_tags_link div, #entity_locations_link div {padding: 5px 5px 5px 5px; width:70px;}
+.entity_tags_link div, .entity_locations_link div {border: 1px solid #fff;}
+.entity_tags_link:hover div, .entity_locations_link:hover div {border: 1px solid #ddd;}
+.entity_list_open div {border: 1px solid #ddd !important;}
 #entity_tags_link span, #entity_locations_link span {background: url('/dev/images/arrow_down_sm2.png') center right no-repeat; padding: 0 17px 0 5px;}
-#entity_tags_link_menu, #entity_locations_link_menu {background-color: #FFFFFF; position: absolute; z-index:400; width: 300px; border: 1px solid #ddd;}
+#entity_tags_link_menu, #entity_locations_link_menu {background-color: #FFFFFF; position: absolute; z-index:400; min-width: 100px; max-width: 300px; border: 1px solid #ddd;}
 #entity_tags_link_menu .entity_tags_link_menu_list, #entity_locations_link_menu .entity_locations_link_menu_list {padding: 5px;}
 .entity_locations_list {padding-top: 20px;}
 .entity_location {margin: 20px 0 0 10px;}

@@ -2,7 +2,7 @@
     "description":"Delete content widget",
     "id":"deletecontent",
     "i18n": {
-        "default": "/devwidgets/deletecontent/bundles/default.json"
+        "default": "/devwidgets/deletecontent/bundles/default.properties"
     },
     "name":"Delete Content",
     "type":"core",

@@ -6,9 +6,9 @@
     "hasSettings": true,
     "description":"Google maps",
     "i18n": {
-        "default": "/devwidgets/googlemaps/bundles/default.json",
-        "en_US": "/devwidgets/googlemaps/bundles/en_US.json",
-        "zh_CN": "/devwidgets/googlemaps/bundles/zh_CN.json"
+        "default": "/devwidgets/googlemaps/bundles/default.properties",
+        "en_US": "/devwidgets/googlemaps/bundles/en_US.properties",
+        "zh_CN": "/devwidgets/googlemaps/bundles/zh_CN.properties"
     },
     "id":"googlemaps",
     "img":"/devwidgets/googlemaps/images/googlemaps.png",

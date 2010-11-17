@@ -281,8 +281,6 @@ sakai.search = function() {
                 // If result is page content set up page path
                 for (var i=0, j=finaljson.items.length; i<j; i++ ) {
 
-                    //console.log(finaljson.items[i], finaljson.items[i]["jcr:path"], finaljson.items[i]["site"]["jcr:path"]);
-
                     var full_path = finaljson.items[i]["path"];
                     var site_path = finaljson.items[i]["sakai:group-id"];
                     var page_path = site_path;
@@ -357,7 +355,7 @@ sakai.search = function() {
         tagterm = mainSearch.getSearchTags();
 
         // Check if the searchquery is empty
-        if((searchquery === "" || searchquery == undefined) && (tagterm === "" || tagterm == undefined)){
+        if((searchquery === "" || searchquery === undefined) && (tagterm === "" || tagterm === undefined)){
 
             // If there is nothing in the search query, remove the html and hide some divs
             $(".search_results_container").hide();
@@ -411,7 +409,6 @@ sakai.search = function() {
                     sortOn: "public/authprofile/basic/elements/lastName/@value",
                     sortOrder: "ascending"
                 },
-                cache: false,
                 success: function(data) {
 
                     // Store found people in data cache

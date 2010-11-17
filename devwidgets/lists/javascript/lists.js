@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config */
+/*global $ */
 
 var sakai = sakai || {};
 
@@ -83,18 +83,34 @@ sakai.lists = function(tuid, showSettings) {
     };
 
     var getSaveData = function() {
-        if ($("select.list_final").length > 0 && $("select.list_final option:selected").length > 0) {
+        if (($("select.list_final").length > 0 && $("select.list_final option:selected").length > 0) ||
+             $(".lists_multi input[type=checkbox]:checked").length > 0) {
+
             widgetData.selections = [];
             widgetData.parents = [];
-            $("select.list_final").parents(".list_container").each(function(i,val) {
+            $(".list_final").parents(".list_container").each(function(i,val) {
                 if (i === 0) {
                     widgetData.title = unescape($(val).attr("id"));
                 }
                 widgetData.parents[i] = unescape($(val).attr("id"));
             });
-            $("select.list_final option:selected").each(function(i,val){
-                widgetData.selections.push(unescape($(this).val()));
-            });
+            if ($("select.list_final option:selected").length > 0) {
+                $("select.list_final option:selected").each(function(i,val){
+                    var obj = {"title": unescape($(this).val())};
+                    if ($(this).attr("title")) {
+                        obj.link = $(this).attr("title");
+                    }
+                    widgetData.selections.push(obj);
+                });
+            } else {
+                $(".lists_multi input[type=checkbox]:checked").each(function(i,val){
+                    var obj = {"title": unescape($(this).val())};
+                    if ($(this).attr("title")) {
+                        obj.link = $(this).attr("title");
+                    }
+                    widgetData.selections.push(obj);
+                });
+            }
             return true;
         } else {
             alert("Please make a selection before saving");
@@ -114,29 +130,29 @@ sakai.lists = function(tuid, showSettings) {
 
     var setSelected = function() {
         if (widgetData && widgetData.parents) {
+            // select the parents
             for (var i=widgetData.parents.length-1, j=-1; i>j; i--) {
                 var thisLabel = widgetData.parents[i];
                 doSetSelectedRecursive(sakai.Lists, widgetData.parents, thisLabel);
             }
+            // select the selections
+            $(widgetData.selections).each(function(i,val) {
+                doSetSelectedRecursive(sakai.Lists, widgetData.parents, val.title);
+            });
         }
     };
 
     var doSetSelectedRecursive = function(lists, parents, label) {
-        var ret = false;
         $(lists).each(function(i,val) {
-            if (label === val.Label) {
+            if (label === val.Label || (val.title && label === val.title) || label === val) {
                 val.selected = true;
-                ret = true;
             }
         });
-        if (ret) return ret;
         $(lists).each(function(i,val) {
             if (val.list && $.inArray(val.Label, parents) !== -1) {
-                ret = doSetSelectedRecursive(val.list, parents, label);
+                doSetSelectedRecursive(val.list, parents, label);
             }
         });
-        if (ret) return ret;
-        
     };
 
     /**
@@ -154,13 +170,13 @@ sakai.lists = function(tuid, showSettings) {
                 ret = val;
             }
         });
-        if (ret) return ret;
+        if (ret) { return ret; }
         $(lists).each(function(i,val) {
             if (val.list) {
                 ret = getList(val.list, label);
             }
         });
-        if (ret) return ret;
+        if (ret) { return ret; }
         return false;
     };
 

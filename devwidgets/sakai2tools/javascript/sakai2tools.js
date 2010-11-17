@@ -15,6 +15,7 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
+/*global $ */
 
 var sakai = sakai || {};
 
@@ -123,8 +124,6 @@ sakai.sakai2tools = function(tuid, showSettings){
         if(url1 == url2) {
             return true;
         }
-        // console.log(isUrl(url1) + ": " + url1 + "=" + urlRegExp.exec(url1)[4]);
-        // console.log(isUrl(url2) + ": " + url2 + "=" + urlRegExp.exec(url2)[4]);
         // i.e. protocol, domain (and optional port numbers) must match
         if((urlRegExp.exec(url1)[2] == urlRegExp.exec(url2)[2]) &&
            (urlRegExp.exec(url1)[4] == urlRegExp.exec(url2)[4])){
@@ -132,7 +131,7 @@ sakai.sakai2tools = function(tuid, showSettings){
         } else {
             return false;
         }
-    }
+    };
 
     /**
      * Called when the data has been saved to the JCR.
@@ -212,19 +211,19 @@ sakai.sakai2tools = function(tuid, showSettings){
      */
     var displayRemoteContent = function(parameters){
         // default to some reasonable vaules if the settings node does not have them (maybe a legacy node)
-        if (parameters.border_size == null) {
+        if (parameters.border_size === null) {
             parameters.border_size = 0;
         }
-        if (parameters.border_color == null) {
+        if (parameters.border_color === null) {
             parameters.border_color = "cccccc";
         }
-        if (parameters.width == null) {
+        if (parameters.width === null) {
             parameters.width = defaultWidth;
         }
-        if (parameters.width_unit == null) {
+        if (parameters.width_unit === null) {
             parameters.width_unit = defaultWidthUnit;
         }
-        if (parameters.frame_height == null) {
+        if (parameters.frame_height === null) {
             parameters.frame_height = defaultHeight;
         }
         json = parameters;
@@ -247,7 +246,7 @@ sakai.sakai2tools = function(tuid, showSettings){
             json.ltisecret = ""; // does not need to be persisted
             json["ltisecret_lock@TypeHint"] = "Boolean";
             json.ltisecret_lock = null; // does not need to be persisted
-            json.ltikey = "" // does not need to be persisted
+            json.ltikey = ""; // does not need to be persisted
             json["ltikey_lock@TypeHint"] = "Boolean";
             json.ltikey_lock = null; // does not need to be persisted
             json["debug@TypeHint"] = "Boolean";

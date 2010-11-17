@@ -118,10 +118,12 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
             success: function(data){
                 fileRevisions = [];
                 for (var i in data["versions"]) {
-                    var item = {
-                        "data" : data["versions"][i]
-                    };
-                    fileRevisions[fileRevisions.length] = item;
+                    if (data["versions"].hasOwnProperty(i)) {
+                        var item = {
+                            "data" : data["versions"][i]
+                        };
+                        fileRevisions[fileRevisions.length] = item;
+                    }
                 }
                 getUserProfile(profileData["sakai:pool-content-created-for"]);
             },
