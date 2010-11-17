@@ -1492,7 +1492,11 @@ sakai.api.Security.saneHTML = function(inputHTML) {
                     var attribName = attribs[i];
                     var value = attribs[i + 1];
                     var atype = null, attribKey;
-                    if ((attribKey = tagName + '::' + attribName, html4.ATTRIBS.hasOwnProperty(attribKey)) || (attribKey = '*::' + attribName, html4.ATTRIBS.hasOwnProperty(attribKey))) {
+                    if (html4.ATTRIBS.hasOwnProperty(tagName + '::' + attribName)) {
+                        attribKey = tagName + '::' + attribName;
+                        atype = html4.ATTRIBS[attribKey];
+                    } else if (html4.ATTRIBS.hasOwnProperty('*::' + attribName)) {
+                        attribKey = '*::' + attribName;
                         atype = html4.ATTRIBS[attribKey];
                     }
                     if (atype !== null) {
