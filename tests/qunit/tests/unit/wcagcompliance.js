@@ -38,38 +38,8 @@ var testWCAGCompliance = function(){
         checkElements($("#qunit-fixture"));
     });
 
-    var pageArray = ["/dev/403.html",
-        "/dev/404.html",
-        "/dev/500.html",
-        "/dev/account_preferences.html",
-        "/dev/acknowledgements.html",
-        "/dev/content_profile.html",
-        "/dev/create_new_account.html",
-        "/dev/directory.html",
-        "/dev/group_edit.html",
-        "/dev/inbox.html",
-        "/dev/index.html",
-        "/dev/logout.html",
-        "/dev/my_sakai.html",
-        "/dev/people.html",
-        "/dev/profile_edit.html",
-        "/dev/search.html",
-        "/dev/search_content.html",
-        "/dev/search_groups.html",
-        "/dev/search_people.html",
-        "/dev/show.html",
-        "/dev/s23/s23_site.html",
-        "/dev/admin/widgets.html"
-    ];
-
-    for (var i in sakai.widgets.widgets) {
-        if (sakai.widgets.widgets.hasOwnProperty(i) && sakai.widgets.widgets[i].url) {
-            pageArray.push(sakai.widgets.widgets[i].url);
-        }
-    }
-
-    for (var j = 0; j < pageArray.length; j++) {
-        var urlToCheck = pageArray[j];
+    for (var j = 0; j < sakai.qunit.htmlFiles.length; j++) {
+        var urlToCheck = sakai.qunit.htmlFiles[j];
         $.ajax({
             url: urlToCheck,
             async: false,
