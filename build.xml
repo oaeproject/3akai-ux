@@ -40,7 +40,6 @@
 
         <!-- SETUP - Tools -->
         <property name="YUI_COMPRESSOR" value="tools/yuicompressor/yuicompressor-2.4.2.jar" description="YUI Compressor 2.4.2" />
-        <property name="JSLINT" value="tools/jslint/jslint4java-1.3.3.jar" description="JSLint (jslint4java - 1.3.3)" />
         <property name="JSDOCTOOLKIT_DIR" value="tools/jsdoc-toolkit" description="JSDoc-Toolkit" />
 
         <!-- Define a patternset for core JS files (from ${TARGET_DIR}) -->
@@ -144,31 +143,6 @@
 
         <echo message="Fixing encoding, EOL, tabs and EOF..." />
         <fixcrlf srcdir="${TARGET_DIR}" includes="*.html,*.js,*.css,*.json" outputencoding="utf-8" eol="lf" tab="remove" tablength="4" eof="remove" />
-
-    </target>
-
-    <!-- Target: Run Javascript files through JSLint -->
-    <target name="js_lint" depends="create_target_folders">
-
-        <echo message="Generating JSLint report for core Javascript files..." />
-        <apply executable="java" parallel="true" output="${TARGET_REPORTS_DIR}/jslint_core.txt">
-            <arg value="-jar"/>
-            <arg path="${JSLINT}"/>
-            <arg line="--browser --css --devel --evil --eqeqeq --indent=4 --predef=window,sakai,fluid,$ --undef --maxerr=1000"/>
-            <fileset dir="${TARGET_DIR}">
-                <patternset refid="js.corefiles"/>
-            </fileset>
-        </apply>
-
-        <echo message="Generating JSLint report for widget Javascript files..." />
-        <apply executable="java" parallel="true" output="${TARGET_REPORTS_DIR}/jslint_widgets.txt">
-            <arg value="-jar"/>
-            <arg path="${JSLINT}"/>
-            <arg line="--browser --css --devel --evil --eqeqeq --indent=4 --predef=window,sakai,fluid,$ --undef --maxerr=1000"/>
-            <fileset dir="${TARGET_DIR_W}">
-                <patternset refid="js.widgetfiles"/>
-            </fileset>
-        </apply>
 
     </target>
 
@@ -287,12 +261,12 @@
     </target>
 
     <!-- Target: Release Builds-->
-    <target name="release" depends="init, create_target_folders, copy_prod, permissions, formatting, js_lint, minify_css, minify_js, compress, documentation">
+    <target name="release" depends="init, create_target_folders, copy_prod, permissions, formatting, minify_css, minify_js, compress, documentation">
         <echo message="Sakai 3 UX Build: Build complete." />
     </target>
 
     <!-- Target: Development Builds -->
-    <target name="development" depends="copy_test, js_lint, documentation">
+    <target name="development" depends="copy_test, documentation">
         <echo message="Sakai 3 UX Development Build: Build complete." />
     </target>
 
