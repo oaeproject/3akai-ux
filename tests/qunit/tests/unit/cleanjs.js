@@ -65,6 +65,21 @@ var checkForAlert = function(file) {
     }
 };
 
+var jslintfile = function(data) {
+    var result = JSLINT(data, {
+        sub:true // ignore dot notation recommendations - ie ["userid"] should be .userid
+        });
+    if (result) {
+        ok(result, "JSLint clean");
+    } else {
+        for (var i=0,j=JSLINT.errors.length; i<j; i++) {
+            var error = JSLINT.errors[i];
+            if (error)
+                ok(false, "JSLint error on line " + error.line + " character " + error.character + ": " + error.reason + error.evidence);
+        }
+    }
+};
+
 for (var i=0, j=jsfiles.length; i<j; i++) {
     var file = jsfiles[i];
     (function(filename) {
@@ -75,6 +90,7 @@ for (var i=0, j=jsfiles.length; i<j; i++) {
             success: function(data) {
                 test(filename, function() {
                     checkForConsoleLog(data, filename);
+                    jslintfile(data);
                     checkForAlert(data);
                 });
             }
