@@ -39,7 +39,7 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
     var contentProfileFileDetailsActionDelete= "#content_profile_file_details_action_delete";
     var contentProfileFileDetailsActionUpload = "#upload_content";
     var contentProfileFileDetailsViewRevisions = "#content_profile_details_view_revisions";
-    var $uploadContentLink = $("#upload_content", $rootel);
+    var $uploadContentLink = $("#upload_content");
 
     var fileRevisions = [];
     var profileData = [];

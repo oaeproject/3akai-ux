@@ -16,9 +16,7 @@
  */
 
 /* LAYOUT */
-.fileupload_content {background-color:#FFFFFF; border-left:3px solid #454A4F;
-    border-right:3px solid #454A4F; padding:10px;}
-.fileupload_section {background-color:#eff2f4; padding:10px; margin-top:10px;}
+.fileupload_content {background-color:#FFFFFF; border-left:3px solid #454A4F; border-right:3px solid #454A4F; padding:10px;}
 #fileupload_add_to {padding:10px 0 0 10px;}
 .fileupload_main_option {margin-bottom:3px;}
 .fileupload_inputblock {clear:both; margin:10px 0;}
