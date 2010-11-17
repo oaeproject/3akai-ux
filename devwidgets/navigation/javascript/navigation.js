@@ -29,7 +29,7 @@ var sakai = sakai || {};
 sakai.sitespages = sakai.sitespages || {};
 
 /**
- * @name sakai.site.navigation
+ * @name sakai.sitespages.navigation
  *
  * @description
  * Contains public functions for the navigation widget

@@ -19,6 +19,9 @@
 
 var sakai = sakai || {};
 
+/**
+ * @name sakai.api.UI.groupbasicinfo
+ */
 sakai.api.UI.groupbasicinfo = sakai.api.UI.groupbasicinfo || {};
 sakai.api.UI.groupbasicinfo.render = sakai.api.UI.groupbasicinfo.render || {};
 

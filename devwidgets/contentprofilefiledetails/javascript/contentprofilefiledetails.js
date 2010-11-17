@@ -20,6 +20,12 @@
 
 var sakai = sakai || {};
 
+/**
+ * @name sakai.contentprofilefiledetails
+ *
+ * @param {String} tuid Unique id of the widget
+ * @param {Boolean} showSettings Show the settings of the widget or not
+ */
 sakai.contentprofilefiledetails = function(tuid, showSettings){
 
 

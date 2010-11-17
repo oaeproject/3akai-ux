@@ -20,8 +20,12 @@
 
 var sakai = sakai || {};
 
-// This function is called by the sakai ux framework when a widget is
-// embedded in the page.
+/**
+ * @name sakai.collections
+ *
+ * @param {String} tuid Unique id of the widget
+ * @param {Boolean} showSettings Show the settings of the widget or not
+ */
 sakai.collections = function(tuid, showSettings) {
 
     var rootel = "#" + tuid;
