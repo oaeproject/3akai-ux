@@ -802,5 +802,8 @@ sakai.config = {
     // Default Language for the deployment, must be one of the language_COUNTRY pairs that exists above
     defaultLanguage: "en_US",
 
+    defaultUserTemplate: "defaultuser",
+    defaultGroupTemplate: "defaultgroup",
+
     widgets: {}
 };
