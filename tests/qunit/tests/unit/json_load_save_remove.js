@@ -1,6 +1,6 @@
 module("JSON - load / save & remove");
 
-(function(){
+$(function() {
 
 var testJSON = {
     "boolean": true,
@@ -201,4 +201,4 @@ test("Remove a JSON file - bad parameters", function(){
     testCallback();
 });
 
-})();
+});

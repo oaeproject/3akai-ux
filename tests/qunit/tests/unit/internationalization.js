@@ -1,6 +1,6 @@
 module("Internationalization");
 
-(function(){
+$(function() {
 
 // attributes to test for
 var attrs = ["alt", "title"];
@@ -110,4 +110,4 @@ var testInternationalization = function(){
  */
 testInternationalization();
 
-})();
+});

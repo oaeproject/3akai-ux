@@ -1,5 +1,7 @@
 module("Clean Javascript");
+
 $(function() {
+
 var consoleregex = new RegExp(/console\.(?:log|warn|error|debug|trace)/g),
     alertregex = new RegExp(/alert\([.\s\S]*\)/g);
 

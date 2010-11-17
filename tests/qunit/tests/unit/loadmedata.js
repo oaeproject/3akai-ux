@@ -1,6 +1,6 @@
 module("Load me data");
 
-(function(){
+$(function() {
 
 // Set the admin login data
 var logindata = {
@@ -54,4 +54,4 @@ asyncTest("Test if the correct data is retrieved and stored in the sakai.data.me
     testLoadMeData();
 });
 
-})();
+});

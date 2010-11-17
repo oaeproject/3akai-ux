@@ -1,5 +1,7 @@
 module("User Creation, Login, Logout");
 
+$(function() {
+
 asyncTest("Log-in with a Sakai3 admin user", 1, function(){
     sakai.api.User.login({
         "username": "admin",
@@ -86,4 +88,6 @@ asyncTest("Remove a Sakai3 user", 2, function(){
             start();
         });
     });
+});
+
 });

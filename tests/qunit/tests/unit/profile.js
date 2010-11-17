@@ -1,6 +1,6 @@
 module("Profile");
 
-(function(){
+$(function() {
 
 var profile = {}; profile.basic = {}; profile.basic.elements = {}; 
 profile.basic.elements.firstName = {}; profile.basic.elements.lastName = {};
@@ -22,4 +22,4 @@ test("Change a user's first name", function() {
     ok(profile.basic.elements.firstName.value === "Bob", "First name properly changed");
 });
 
-})();
+});
