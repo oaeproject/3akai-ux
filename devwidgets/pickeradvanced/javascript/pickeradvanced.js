@@ -24,14 +24,6 @@ var sakai = sakai || {};
 /**
  * @name sakai.pickeradvanced
  *
- * @description
- * Public functions for the people picker widget
- */
-sakai.pickeradvanced = {};
-
-/**
- * @name sakai.pickeradvanced
- *
  * @class pickeradvanced
  *
  * @description
