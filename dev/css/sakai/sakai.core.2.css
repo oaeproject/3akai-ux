@@ -36,8 +36,9 @@
 
 /* HEADER */
 .header { padding: 10px 0 0 0; }
-.header .fixed-container { background: #fff url('/dev/images/header_l.png') top left no-repeat; }
-.header .fixed-container .decor { background: url('/dev/images/header_r.png') top right no-repeat; height: 5px; margin-right: -20px; }
+.header .fixed-container { background-color: #FFF; }
+.header .fixed-container .decor_left {background:url("/dev/images/dashboard_sprite.png") no-repeat scroll left -10px transparent; float:left; height:5px; margin-left:-20px; width:5px;}
+.header .fixed-container .decor { background: url("/dev/images/dashboard_sprite.png") no-repeat scroll right -10px transparent; height: 5px; margin-right: -20px; }
 
 /********************************************/
 /* Treeview */
