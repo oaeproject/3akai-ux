@@ -1357,6 +1357,28 @@ sakai.api.l10n.getUserLocale = function() {
 
 };
 
+sakai.api.l10n.getUserDefaultLocale = function() {
+    var ret = sakai.config.defaultLanguage;
+    // Get the browser language preference - IE uses userLanguage, all other browsers user language
+    var locale = navigator.language ? navigator.language : navigator.userLanguage;
+    if (locale) {
+        var split = locale.split("-");
+        if (split.length > 1) {
+            split[1] = split[1].toUpperCase();
+            var langs = sakai.config.Languages;
+            // Loop over all the available languages - if the user's browser language preference matches
+            // then set their locale to that so they don't have to set it manually
+            for (var i=0,j=langs.length; i<j; i++) {
+                if (langs[i].language === split[0] && langs[i].country === split[1]) {
+                    ret = split[0] + "_" + split[1];
+                    break;
+                }
+            }
+        }
+    }
+    return ret;
+};
+
 /**
  * Parse a date string into a date object and adjust that date to the timezone
  * set by the current user.
@@ -2334,15 +2356,44 @@ sakai.api.UI.Forms = {
  */
 sakai.api.User = sakai.api.User || {};
 
-
 /**
- * Create a user in the Sakai3 system.
- *
- * @param {Object} user A JSON object containing all the information to create a user.
- * @param {Function} [callback] A callback function which will be called after the request to the server.
+ * @param {Object} extraOptions can include recaptcha: {challenge, response}, locale : "user_LOCALE", template: "templateName"
  */
-sakai.api.User.createUser = function(user, callback){
-
+sakai.api.User.createUser = function(username, firstName, lastName, email, password, passwordConfirm, extraOptions, callback) {
+    var profileData = {}; profileData.basic = {}; profileData.basic.elements = {};
+    profileData.basic.elements["firstName"] = {};
+    profileData.basic.elements["firstName"].value = firstName;
+    profileData.basic.elements["lastName"] = {};
+    profileData.basic.elements["lastName"].value = lastName;
+    profileData.basic.elements["email"] = {};
+    profileData.basic.elements["email"].value = email;
+    profileData.basic.access = "everybody";
+    var user = {
+        "_charset_": "utf-8",
+        "locale": sakai.api.l10n.getUserDefaultLocale(),
+        "pwd": password,
+        "pwdConfirm": passwordConfirm,
+        ":name": username,
+        ":sakai:pages-template": "/var/templates/site/" + sakai.config.defaultUserTemplate,
+        ":sakai:profile-import": $.toJSON(profileData)
+    };
+    for (var i in extraOptions) {
+        if (extraOptions.hasOwnProperty(i)) {
+            switch(i) {
+                case "recaptcha":
+                    user[":create-auth"] = "reCAPTCHA.net";
+                    user[":recaptcha-challenge"] = extraOptions[i].challenge;
+                    user[":recaptcha-response"] = extraOptions[i].response;
+                    break;
+                case "locale":
+                    user["locale"] = extraOptions[i];
+                    break;
+                case "template":
+                    user["template"] = "/var/templates/site/" + extraOptions[i];
+                    break;
+            }
+        }
+    }
     // Send an Ajax POST request to create a user
     $.ajax({
         url: sakai.config.URL.CREATE_USER_SERVICE,
@@ -2365,7 +2416,6 @@ sakai.api.User.createUser = function(user, callback){
 
         }
     });
-
 };
 
 
