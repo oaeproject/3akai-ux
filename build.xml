@@ -140,7 +140,7 @@
     </target>
 
     <!-- Target: Check whitespace, tabs, line ending -->
-    <target name="formatting">
+    <target name="formatting" depends="create_target_folders">
 
         <echo message="Fixing encoding, EOL, tabs and EOF..." />
         <fixcrlf srcdir="${TARGET_DIR}" includes="*.html,*.js,*.css,*.json" outputencoding="utf-8" eol="lf" tab="remove" tablength="4" eof="remove" />
@@ -148,7 +148,7 @@
     </target>
 
     <!-- Target: Run Javascript files through JSLint -->
-    <target name="js_lint">
+    <target name="js_lint" depends="create_target_folders">
 
         <echo message="Generating JSLint report for core Javascript files..." />
         <apply executable="java" parallel="true" output="${TARGET_REPORTS_DIR}/jslint_core.txt">
@@ -173,7 +173,7 @@
     </target>
 
     <!-- Target: Minfy CSS files -->
-    <target name="minify_css">
+    <target name="minify_css" depends="create_target_folders">
 
         <echo message="Minifying core CSS files..." />
         <apply executable="java" parallel="false" dest="${TARGET_DIR}" force="true">
@@ -204,7 +204,7 @@
     </target>
 
     <!-- Target: Minify Javascript -->
-    <target name="minify_js">
+    <target name="minify_js" depends="create_target_folders">
 
         <echo message="Minifying core Javascript files..." />
         <apply executable="java" parallel="false" dest="${TARGET_DIR}" force="true">
@@ -235,7 +235,7 @@
     </target>
 
     <!-- Target: Create archives -->
-    <target name="compress">
+    <target name="compress" depends="create_target_folders">
 
         <echo message="Creating ZIP file..." />
         <zip destfile="${TARGET_ZIP_FILE}" basedir="${TARGET_RESOURCES}" encoding="UTF-8"/>
@@ -246,7 +246,7 @@
     </target>
 
     <!-- Create documentation -->
-    <target name="documentation" depends="init">
+    <target name="documentation" depends="create_target_folders">
 
         <echo message="Creating documentation..."/>
         <property name="jsdoc.output" location="${TARGET_DOCUMENTATION_DIR}"/>
