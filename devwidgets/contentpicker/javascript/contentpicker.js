@@ -154,8 +154,6 @@ sakai.contentpicker = function(tuid, showSettings) {
                             }
                         });
                         add(suggestions);
-                    } else {
-
                     }
                 }, {"q": "*" + query.replace(/\s+/g, "* OR *") + "*", "page": 0, "items": 15});
             },
@@ -246,14 +244,16 @@ sakai.contentpicker = function(tuid, showSettings) {
     var associatedEmbeddedItemsWithGroup = function(embeddedItems){
         var data = [];
         for (var embeddedItem in embeddedItems) {
-            var item = {
-                "url": embeddedItems[embeddedItem].path + ".members.json",
-                "method": "POST",
-                "parameters": {
-                    ":viewer": sakai.currentgroup.id
-                }
-            };
-            data[data.length] = item;
+            if (embeddedItems.hasOwnProperty(embeddedItem)) {
+                var item = {
+                    "url": embeddedItems[embeddedItem].path + ".members.json",
+                    "method": "POST",
+                    "parameters": {
+                        ":viewer": sakai.currentgroup.id
+                    }
+                };
+                data[data.length] = item;
+            }
         }
 
         $.ajax({

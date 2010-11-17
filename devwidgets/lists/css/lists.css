@@ -26,3 +26,5 @@
 .inline_class_widget_leftfloat .lists_widget.on_page {margin-right:6px;}
 .lists_widget.on_page #lists_title {background:url("/dev/images/block_tl.png") no-repeat scroll -10px -10px transparent;height:46px;}
 .lists_widget.on_page #lists_title h1 {margin:10px 0px 0px 10px;}
+#lists_settings .lists_multi {width:100%; float:left;}
+#lists_settings .lists_multi label, #lists_settings .lists_multi input {width:auto;float:none;}

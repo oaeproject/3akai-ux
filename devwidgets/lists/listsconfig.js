@@ -8,12 +8,30 @@ sakai.Lists = {
             "Label": "Program",
             "multiple": true,
             "list": [
-            "PNP",
-            "HPAM",
-            "UP",
-            "EMPA",
-            "EMPA Nurse Leaders",
-            "PhD"
+                {
+                    "title":"PNP",
+                    "link": "http://sakaiproject.org/product-overview"
+                },
+                {
+                    "title":"HPAM",
+                    "link": "http://sakaiproject.org/support-overview"
+                },
+                {
+                    "title":"UP",
+                    "link": "http://sakaiproject.org/community-overview"
+                },
+                {
+                    "title":"EMPA",
+                    "link": "http://sakaiproject.org/try-sakai-overview"
+                },
+                {
+                    "title":"EMPA Nurse Leaders",
+                    "link": "http://sakaiproject.org/news-events"
+                },
+                {
+                    "title":"PhD",
+                    "link": "http://sakaiproject.org/contact"
+                }
             ]
         },
         {

@@ -71,7 +71,7 @@ sakai.show = function() {
             if (querystring.contains("id")) {
                 entityID = querystring.get("id");
             } else if (entityType === "user") { // if there's no ID, assume its meant for you
-            	entityID = sakai.data.me.user.userid;
+                entityID = sakai.data.me.user.userid;
             }
         }
         sakai.api.Server.loadJSON("/~" + entityID + "/public/authprofile", function(success, data) {
@@ -163,8 +163,9 @@ sakai.show = function() {
             // Set the profile data object
             sakai.profile.main.data = $.extend(true, {}, sakai.data.me.profile);
 
-            if (sakai.profile.main.data.activity)
+            if (sakai.profile.main.data.activity) {
                 delete sakai.profile.main.data.activity;
+            }
 
             if (sakai.profile.main.data.authprofile["sakai:customStyle"]) {
                 $.Load.requireCSS(sakai.profile.main.data.authprofile["sakai:customStyle"]);
@@ -183,7 +184,7 @@ sakai.show = function() {
 
             // Set the status for the user you want the information from
             if(userprofile.basic && userprofile.basic.elements.status){
-            	sakai.profile.main.status = userprofile.basic.elements.status.value;
+                sakai.profile.main.status = userprofile.basic.elements.status.value;
             }
 
             // Set the profile data object

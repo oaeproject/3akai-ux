@@ -15,6 +15,7 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
+/*global $ */
 
 var sakai = sakai || {};
 
@@ -195,6 +196,7 @@ sakai.dashboard = function(tuid, showSettings) {
 
     var showDashboard = function() {
         tempSettings = settings;
+        var index = 0;
 
         if (!sakai.widgets.layouts[settings.layout]) {
 
@@ -204,55 +206,62 @@ sakai.dashboard = function(tuid, showSettings) {
             }
 
             var initlength = 0;
-            for (l in settings.columns) {
-                initlength++;
+            for (var l in settings.columns) {
+                if (settings.columns.hasOwnProperty(l)) {
+                    initlength++;
+                }
             }
             var newlength = sakai.widgets.layouts[settings.layout].widths.length;
 
-            var index = 0;
-            for (l in settings.columns) {
-                if (index < newlength) {
-                    for (i = 0, j = settings.columns[l].length; i < j; i++) {
-                        columns[index][i] = {};
-                        columns[index][i].uid = settings.columns[l][i].uid;
-                        columns[index][i].visible = settings.columns[l][i].visible;
-                        columns[index][i].name = settings.columns[l][i].name;
+
+            for (var z in settings.columns) {
+                if (settings.columns.hasOwnProperty(z)) {
+                    if (index < newlength) {
+                        for (i = 0, j = settings.columns[z].length; i < j; i++) {
+                            columns[index][i] = {};
+                            columns[index][i].uid = settings.columns[z][i].uid;
+                            columns[index][i].visible = settings.columns[z][i].visible;
+                            columns[index][i].name = settings.columns[z][i].name;
+                        }
+                        index++;
                     }
-                    index++;
                 }
             }
 
             index = 0;
             if (newlength < initlength) {
-                for (l in settings.columns) {
-                    if (index >= newlength) {
-                        for (i = 0, j = settings.columns[l].length; i < j; i++) {
-                            var lowestnumber = -1;
-                            var lowestcolumn = -1;
-                            for (var iii = 0, jjj = columns.length; iii < jjj; iii++) {
-                                var number = columns[iii].length;
-                                if (number < lowestnumber || lowestnumber == -1) {
-                                    lowestnumber = number;
-                                    lowestcolumn = iii;
+                for (var q in settings.columns) {
+                    if (settings.columns.hasOwnProperty(q)) {
+                        if (index >= newlength) {
+                            for (var ii = 0, jj = settings.columns[q].length; ii < jj; ii++) {
+                                var lowestnumber = -1;
+                                var lowestcolumn = -1;
+                                for (var iii = 0, jjj = columns.length; iii < jjj; iii++) {
+                                    var number = columns[iii].length;
+                                    if (number < lowestnumber || lowestnumber == -1) {
+                                        lowestnumber = number;
+                                        lowestcolumn = iii;
+                                    }
                                 }
+                                var _i = columns[lowestcolumn].length;
+                                columns[lowestcolumn][_i] = {};
+                                columns[lowestcolumn][_i].uid = settings.columns[q][ii].uid;
+                                columns[lowestcolumn][_i].visible = settings.columns[q][ii].visible;
+                                columns[lowestcolumn][_i].name = settings.columns[q][ii].name;
                             }
-                            var _i = columns[lowestcolumn].length;
-                            columns[lowestcolumn][_i] = {};
-                            columns[lowestcolumn][_i].uid = settings.columns[l][i].uid;
-                            columns[lowestcolumn][_i].visible = settings.columns[l][i].visible;
-                            columns[lowestcolumn][_i].name = settings.columns[l][i].name;
                         }
+                        index++;
                     }
-                    index++;
+
                 }
             }
 
             var jsonstring = '{"layout":"' + settings.layout + '","columns":{';
-            for (i = 0, j = sakai.widgets.layouts[settings.layout].widths.length; i < j; i++) {
-                jsonstring += '"column' + (i + 1) + '":[';
-                for (var ii = 0, jj = columns[i].length; ii < jj; ii++) {
-                    jsonstring += '{"uid":"' + columns[i][ii].uid + '","visible":"' + columns[i][ii].visible + '","name":"' + columns[i][ii].name + '"}';
-                    if (ii !== columns[i].length - 1) {
+            for (var y = 0, v = sakai.widgets.layouts[settings.layout].widths.length; y < v; y++) {
+                jsonstring += '"column' + (y + 1) + '":[';
+                for (var r = 0, h = columns[y].length; r < h; r++) {
+                    jsonstring += '{"uid":"' + columns[y][r].uid + '","visible":"' + columns[y][r].visible + '","name":"' + columns[y][r].name + '"}';
+                    if (r !== columns[y].length - 1) {
                         jsonstring += ',';
                     }
                 }
@@ -277,27 +286,30 @@ sakai.dashboard = function(tuid, showSettings) {
 
         try {
             for (var c in settings.columns) {
-
-                currentindex++;
-                index = final2.columns.length;
-                final2.columns[index] = {};
-                final2.columns[index].portlets = [];
-                final2.columns[index].width = sakai.widgets.layouts[settings.layout].widths[currentindex];
-                var columndef = settings.columns["column" + (currentindex+1)];
-                for (var pi in columndef) {
-                    var dashboardDef = columndef[pi];
-                    if (dashboardDef.name && sakai.widgets.widgets[dashboardDef.name]) {
-                        var widget = sakai.widgets.widgets[dashboardDef.name];
-                        var iindex = final2.columns[index].portlets.length;
-                        final2.columns[index].portlets[iindex] = [];
-                        final2.columns[index].portlets[iindex].id = widget.id;
-                        final2.columns[index].portlets[iindex].iframe = widget.iframe;
-                        final2.columns[index].portlets[iindex].url = widget.url;
-                        final2.columns[index].portlets[iindex].title = widget.name;
-                        final2.columns[index].portlets[iindex].display = dashboardDef.visible;
-                        final2.columns[index].portlets[iindex].uid = dashboardDef.uid;
-                        final2.columns[index].portlets[iindex].placement = savePath;
-                        final2.columns[index].portlets[iindex].height = widget.height;
+                if (settings.columns.hasOwnProperty(c)) {
+                    currentindex++;
+                    index = final2.columns.length;
+                    final2.columns[index] = {};
+                    final2.columns[index].portlets = [];
+                    final2.columns[index].width = sakai.widgets.layouts[settings.layout].widths[currentindex];
+                    var columndef = settings.columns["column" + (currentindex+1)];
+                    for (var pi in columndef) {
+                        if (columndef.hasOwnProperty(pi)) {
+                            var dashboardDef = columndef[pi];
+                            if (dashboardDef.name && sakai.widgets.widgets[dashboardDef.name]) {
+                                var widget = sakai.widgets.widgets[dashboardDef.name];
+                                var iindex = final2.columns[index].portlets.length;
+                                final2.columns[index].portlets[iindex] = [];
+                                final2.columns[index].portlets[iindex].id = widget.id;
+                                final2.columns[index].portlets[iindex].iframe = widget.iframe;
+                                final2.columns[index].portlets[iindex].url = widget.url;
+                                final2.columns[index].portlets[iindex].title = widget.name;
+                                final2.columns[index].portlets[iindex].display = dashboardDef.visible;
+                                final2.columns[index].portlets[iindex].uid = dashboardDef.uid;
+                                final2.columns[index].portlets[iindex].placement = savePath;
+                                final2.columns[index].portlets[iindex].height = widget.height;
+                            }
+                        }
                     }
                 }
             }
@@ -556,8 +568,9 @@ sakai.dashboard = function(tuid, showSettings) {
             }
         }
 
-        if ($.toJSON(tempSettings) !== $.toJSON(settings))
+        if ($.toJSON(tempSettings) !== $.toJSON(settings)) {
             sakai.api.Widgets.saveWidgetData(tuid, settings, checkSuccess);
+        }
 
         tempSettings = settings;
     };
@@ -595,22 +608,24 @@ sakai.dashboard = function(tuid, showSettings) {
         var lowestnumber, lowestcolumn, number, _i;
         if (settings.layout !== selectedlayout && newlength < initlength) {
             for (l in settings.columns) {
-                if (index >= newlength) {
-                    for (i = 0, j = settings.columns[l].length; i < j; i++) {
-                        lowestnumber = -1;
-                        lowestcolumn = -1;
-                        for (var iii = 0, jjj = columns.length; iii < jjj; iii++) {
-                            number = columns[iii].length;
-                            if (number < lowestnumber || lowestnumber == -1) {
-                                lowestnumber = number;
-                                lowestcolumn = iii;
+                if (settings.columns.hasOwnProperty(l)) {
+                    if (index >= newlength) {
+                        for (i = 0, j = settings.columns[l].length; i < j; i++) {
+                            lowestnumber = -1;
+                            lowestcolumn = -1;
+                            for (var iii = 0, jjj = columns.length; iii < jjj; iii++) {
+                                number = columns[iii].length;
+                                if (number < lowestnumber || lowestnumber == -1) {
+                                    lowestnumber = number;
+                                    lowestcolumn = iii;
+                                }
                             }
+                            _i = columns[lowestcolumn].length;
+                            columns[lowestcolumn][_i] = settings.columns[l][i];
                         }
-                        _i = columns[lowestcolumn].length;
-                        columns[lowestcolumn][_i] = settings.columns[l][i];
                     }
+                    index++;
                 }
-                index++;
             }
         }
 
@@ -626,7 +641,7 @@ sakai.dashboard = function(tuid, showSettings) {
             }
         }
         _i = columns[lowestcolumn].length;
-        columns[lowestcolumn][_i] = new Object();
+        columns[lowestcolumn][_i] = {};
         columns[lowestcolumn][_i].name = currentWidget;
         columns[lowestcolumn][_i].visible = "block";
         columns[lowestcolumn][_i].uid = "id" + Math.round(Math.random() * 10000000000);
@@ -721,26 +736,28 @@ sakai.dashboard = function(tuid, showSettings) {
 
             index = 0;
             if (newlength < initlength) {
-                for (l in settings.columns) {
-                    if (index >= newlength) {
-                        for (i = 0, j = settings.columns[l].length; i < j; i++) {
-                            var lowestnumber = -1;
-                            var lowestcolumn = -1;
-                            for (var iii = 0, jjj = columns.length; iii < jjj; iii++) {
-                                var number = columns[iii].length;
-                                if (number < lowestnumber || lowestnumber == -1) {
-                                    lowestnumber = number;
-                                    lowestcolumn = iii;
+                for (var z in settings.columns) {
+                    if (settings.columns.hasOwnProperty(z)) {
+                        if (index >= newlength) {
+                            for (i = 0, j = settings.columns[z].length; i < j; i++) {
+                                var lowestnumber = -1;
+                                var lowestcolumn = -1;
+                                for (var iii = 0, jjj = columns.length; iii < jjj; iii++) {
+                                    var number = columns[iii].length;
+                                    if (number < lowestnumber || lowestnumber == -1) {
+                                        lowestnumber = number;
+                                        lowestcolumn = iii;
+                                    }
                                 }
+                                var _i = columns[lowestcolumn].length;
+                                columns[lowestcolumn][_i] = {};
+                                columns[lowestcolumn][_i].name = settings.columns[z][i].name;
+                                columns[lowestcolumn][_i].visible = settings.columns[z][i].visible;
+                                columns[lowestcolumn][_i].uid = settings.columns[z][i].uid;
                             }
-                            var _i = columns[lowestcolumn].length;
-                            columns[lowestcolumn][_i] = {};
-                            columns[lowestcolumn][_i].name = settings.columns[l][i].name;
-                            columns[lowestcolumn][_i].visible = settings.columns[l][i].visible;
-                            columns[lowestcolumn][_i].uid = settings.columns[l][i].uid;
                         }
+                        index++;
                     }
-                    index++;
                 }
             }
 
@@ -840,21 +857,25 @@ sakai.dashboard = function(tuid, showSettings) {
         $(addGoodiesListContainer, $rootelClass).html("");
 
         for (var l in sakai.widgets.widgets) {
-            var alreadyIn = false;
-            // Run through the list of widgets that are already on my dashboard and decide
-            // whether the current widget is already on the dashboard (so show the Remove row),
-            // or whether the current widget is not on the dashboard (and thus show the Add row)
-            for (var c in settings.columns) {
-                for (var ii = 0; ii < settings.columns[c].length; ii++) {
-                    if (settings.columns[c][ii].name === l) {
-                        alreadyIn = true;
+            if (sakai.widgets.widgets.hasOwnProperty(l)) {
+                var alreadyIn = false;
+                // Run through the list of widgets that are already on my dashboard and decide
+                // whether the current widget is already on the dashboard (so show the Remove row),
+                // or whether the current widget is not on the dashboard (and thus show the Add row)
+                for (var c in settings.columns) {
+                    if (settings.columns.hasOwnProperty(c)) {
+                        for (var ii = 0; ii < settings.columns[c].length; ii++) {
+                            if (settings.columns[c][ii].name === l) {
+                                alreadyIn = true;
+                            }
+                        }
                     }
                 }
-            }
-            if (sakai.widgets.widgets[l][widgetPropertyName]) {
-                var index = addingPossible.items.length;
-                addingPossible.items[index] = sakai.widgets.widgets[l];
-                addingPossible.items[index].alreadyIn = alreadyIn;
+                if (sakai.widgets.widgets[l][widgetPropertyName]) {
+                    var index = addingPossible.items.length;
+                    addingPossible.items[index] = sakai.widgets.widgets[l];
+                    addingPossible.items[index].alreadyIn = alreadyIn;
+                }
             }
         }
 

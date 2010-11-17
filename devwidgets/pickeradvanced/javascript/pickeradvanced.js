@@ -16,18 +16,10 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config */
+/*global $ */
 
 // Namespaces
 var sakai = sakai || {};
-
-/**
- * @name sakai.pickerUser
- *
- * @description
- * Public functions for the people picker widget
- */
-sakai.pickeradvanced = {};
 
 /**
  * @name sakai.pickeradvanced
@@ -35,9 +27,9 @@ sakai.pickeradvanced = {};
  * @class pickeradvanced
  *
  * @description
- * People Picker widget<br />
+ * Advanced Picker widget<br />
  * This is a general widget which aims to display an arbitriary number of
- * people, loading dynamically if the list is very long and return the
+ * items, loading dynamically if the list is very long and return the
  * selected users in an object.
  *
  * @version 0.0.1
@@ -199,9 +191,9 @@ sakai.pickeradvanced = function(tuid, showSettings) {
         var searchQuery = {};
         var main_parts = iSearchQuery.split("?");
         searchQuery.url = main_parts[0];
-        var arguments = main_parts[1].split("&");
-        for (var i=0, il = arguments.length; i < il; i++) {
-            var kv_pair = arguments[i].split("=");
+        var args = main_parts[1].split("&");
+        for (var i=0, il = args.length; i < il; i++) {
+            var kv_pair = args[i].split("=");
             searchQuery[kv_pair[0]] = kv_pair[1];
         }
 
@@ -220,7 +212,7 @@ sakai.pickeradvanced = function(tuid, showSettings) {
 
     /**
      * addPage
-     * Adds another page of search result to the People picker's result list
+     * Adds another page of search result to the picker's result list
      * @pageNumber {Int} The page we want to load
      * @searchQuery {Object} An object containing the search query elements
      * @returns void
@@ -235,7 +227,7 @@ sakai.pickeradvanced = function(tuid, showSettings) {
         if ((pickerData["type"] === "people" && $pickeradvanced_sort_on.is(":visible")) || firstTime) {
             searchQuery.sortOn = pickerData["sortOn"];
             searchQuery.sortOrder = pickerData["sortOrder"];
-            if (firstTime) firstTime = false;
+            if (firstTime) { firstTime = false; }
         }
 
         // Construct search query
@@ -296,7 +288,7 @@ sakai.pickeradvanced = function(tuid, showSettings) {
 
                         if ((e.target.scrollHeight - e.target.scrollTop - $(e.target).height() ) === 0) {
                             $pickeradvanced_content_search.unbind("scroll");
-                            sakai.pickerUser.addPage(tuid, (pageNumber + 1), searchQuery);
+                            addPage(tuid, (pageNumber + 1), searchQuery);
                         }
                     });
                 }

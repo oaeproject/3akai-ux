@@ -81,11 +81,13 @@ div {word-wrap:break-word;}
 #browse_resource_files{width:813px;margin-left:-407px;}
 #browse_resource_files h1{padding:15px 20px;}
 #action_buttons{padding-bottom:10px;}
+.room_image_preview {max-width:600px;}
 /* Show Room */
 span#room_edit_links{width:100%;float:left;position:relative;}
 span#room_edit_links a{float:left;position:relative;color:#AB4500;margin:0 1em 0 0;}
 div.room_categories span{width:100%;float:left;position:relative;}
 .return_to_floorplan_link{background:url(/devwidgets/collections/images/returnto.png) no-repeat scroll left bottom transparent;padding-left:22px;}
+.room_image_full {max-width:630px;}
 /* Show Content */
 a.content_link{font-size:1.5em;font-weight:bold;text-decoration:underline;}
 img.content_image {max-width:300px; max-height:200px;}

@@ -151,15 +151,18 @@ sakai.navigation = function(tuid, showSettings){
 
     // Get a page object by it's jcr path
     var getPageInfoByLastURLElement = function(i_jcr_path) {
-        var return_object = {};
+        var return_object = {},
+            jcr_path;
         for (var i in sakai.sitespages.site_info._pages) {
-            if (sakai.sitespages.site_info._pages[i]["jcr:path"]) {
-                var jcr_path = sakai.sitespages.site_info._pages[i]["jcr:path"];
-            } else {
-                continue;
-            }
-            if (jcr_path === i_jcr_path) {
-                return_object = sakai.sitespages.site_info._pages[i];
+            if (sakai.sitespages.site_info._pages.hasOwnProperty(i)) {
+                if (sakai.sitespages.site_info._pages[i]["jcr:path"]) {
+                    jcr_path = sakai.sitespages.site_info._pages[i]["jcr:path"];
+                } else {
+                    continue;
+                }
+                if (jcr_path === i_jcr_path) {
+                    return_object = sakai.sitespages.site_info._pages[i];
+                }
             }
         }
         return return_object;
@@ -218,13 +221,15 @@ sakai.navigation = function(tuid, showSettings){
             attr: { id: p_id },
             data: {
                 title: p_title,
-                attr: {"href": "javascript:;"},
+                attr: {"href": "#"},
                 pagePosition: p_pagePosition
             },
             children:[]
         };
         for (var child in children[url_fragment]) {
-            node.children.push(buildNodeRecursive(child, children));
+            if (children[url_fragment].hasOwnProperty(child)) {
+                node.children.push(buildNodeRecursive(child, children));
+            }
         }
         return node;
     };
@@ -638,28 +643,30 @@ sakai.navigation = function(tuid, showSettings){
                 var currentNodePage = parseFloat(sakai.sitespages.site_info._pages[src_url_name].pagePosition, 10);
                 var referenceNodePage = parseFloat(sakai.sitespages.site_info._pages[ref_url_name].pagePosition, 10);
 
-                var toUpdatePages = [];
+                var toUpdatePages = [],
+                    nodePage;
 
                 //check if the node has been dropped infront of the reference node or behind
                 if((position ==='before')){
                     //Check if the user dragged the node to another node which is higher in the list or not
-                    var nodePage;
                     if (currentNodePage < referenceNodePage) {
                         // Loop over all the nodes
                         for (var c in sakai.sitespages.site_info._pages) {
-                            nodePage = parseFloat(sakai.sitespages.site_info._pages[c].pagePosition, 10);
-                            // make sure that the dropped node isn't in this list, because it has to be updated speratly
-                            if (sakai.sitespages.site_info._pages[c].pageTitle !== sakai.sitespages.site_info._pages[src_url_name].pageTitle) {
-                                // Check if the node in the list is smaller than the current node (dragged node) and the smaller than the reference node. Because these will have to get a lower position value
-                                // These are in fact the nodes that are in front of the reference node
-                                if ((nodePage > currentNodePage) && (nodePage < referenceNodePage)) {
-                                    sakai.sitespages.site_info._pages[c].pagePosition = nodePage - 200000;
-                                    toUpdatePages.push(sakai.sitespages.site_info._pages[c]);
-                                }
-                                // IF this is not the case this means that the node will be after the reference node and it just has to be parsed
-                                else {
-                                    sakai.sitespages.site_info._pages[c].pagePosition = nodePage;
-                                    toUpdatePages.push(sakai.sitespages.site_info._pages[c]);
+                            if (sakai.sitespages.site_info._pages.hasOwnProperty(c)) {
+                                nodePage = parseFloat(sakai.sitespages.site_info._pages[c].pagePosition, 10);
+                                // make sure that the dropped node isn't in this list, because it has to be updated speratly
+                                if (sakai.sitespages.site_info._pages[c].pageTitle !== sakai.sitespages.site_info._pages[src_url_name].pageTitle) {
+                                    // Check if the node in the list is smaller than the current node (dragged node) and the smaller than the reference node. Because these will have to get a lower position value
+                                    // These are in fact the nodes that are in front of the reference node
+                                    if ((nodePage > currentNodePage) && (nodePage < referenceNodePage)) {
+                                        sakai.sitespages.site_info._pages[c].pagePosition = nodePage - 200000;
+                                        toUpdatePages.push(sakai.sitespages.site_info._pages[c]);
+                                    }
+                                    // IF this is not the case this means that the node will be after the reference node and it just has to be parsed
+                                    else {
+                                        sakai.sitespages.site_info._pages[c].pagePosition = nodePage;
+                                        toUpdatePages.push(sakai.sitespages.site_info._pages[c]);
+                                    }
                                 }
                             }
                         }
@@ -668,36 +675,39 @@ sakai.navigation = function(tuid, showSettings){
                         sakai.sitespages.site_info._pages[src_url_name].pagePosition = referenceNodePage - 200000;
                         toUpdatePages.push(sakai.sitespages.site_info._pages[src_url_name]);
                         updatePagePosition(toUpdatePages);
-                    }
-                    else {
+                    } else {
                         // This happends when a user drags a node from the top, this means that nothing will change to the nodes that are under the reference node,only the nodes above the reference node will have to be updated
                         sakai.sitespages.site_info._pages[src_url_name].pagePosition = referenceNodePage;
                         //updateSite(sakai.sitespages.site_info._pages[src_url_name]);
                         toUpdatePages.push(sakai.sitespages.site_info._pages[src_url_name]);
                         for (var k in sakai.sitespages.site_info._pages) {
-                            nodePage = parseFloat(sakai.sitespages.site_info._pages[k].pagePosition,10);
-                            if(nodePage >= parseFloat(sakai.sitespages.site_info._pages[src_url_name].pagePosition,10)&&(sakai.sitespages.site_info._pages[k].pageTitle !==sakai.sitespages.site_info._pages[src_url_name].pageTitle )){
-                                sakai.sitespages.site_info._pages[k].pagePosition = nodePage + 200000;
-                                toUpdatePages.push(sakai.sitespages.site_info._pages[k]);
+                            if (sakai.sitespages.site_info._pages.hasOwnProperty(k)) {
+                                nodePage = parseFloat(sakai.sitespages.site_info._pages[k].pagePosition,10);
+                                if(nodePage >= parseFloat(sakai.sitespages.site_info._pages[src_url_name].pagePosition,10)&&(sakai.sitespages.site_info._pages[k].pageTitle !==sakai.sitespages.site_info._pages[src_url_name].pageTitle )){
+                                    sakai.sitespages.site_info._pages[k].pagePosition = nodePage + 200000;
+                                    toUpdatePages.push(sakai.sitespages.site_info._pages[k]);
+                                }
                             }
                         }
                         updatePagePosition(toUpdatePages);
                     }
-                }else{
+                } else {
                     // This is almost exactly the same as the "before" part, there are small diffrences because the reference node is in front of the node when it is dropped
                     // This means that the nodes before the reference node will have an extra node and the nodes after the reference node will have one less
                     if (currentNodePage < referenceNodePage) {
                         for (var z in sakai.sitespages.site_info._pages) {
-                            nodePage = parseFloat(sakai.sitespages.site_info._pages[z].pagePosition, 10);
-                            if (sakai.sitespages.site_info._pages[z].pageTitle !== sakai.sitespages.site_info._pages[src_url_name].pageTitle) {
-                                if ((nodePage > currentNodePage) && (nodePage <= referenceNodePage)) {
-                                    sakai.sitespages.site_info._pages[z].pagePosition = nodePage - 200000;
-                                    //updateSite(sakai.sitespages.site_info._pages[c]);
-                                    toUpdatePages.push(sakai.sitespages.site_info._pages[z]);
-                                }
-                                else {
-                                    sakai.sitespages.site_info._pages[c].pagePosition = nodePage;
-                                    toUpdatePages.push(sakai.sitespages.site_info._pages[z]);
+                            if (sakai.sitespages.site_info._pages.hasOwnProperty(z)) {
+                                nodePage = parseFloat(sakai.sitespages.site_info._pages[z].pagePosition, 10);
+                                if (sakai.sitespages.site_info._pages[z].pageTitle !== sakai.sitespages.site_info._pages[src_url_name].pageTitle) {
+                                    if ((nodePage > currentNodePage) && (nodePage <= referenceNodePage)) {
+                                        sakai.sitespages.site_info._pages[z].pagePosition = nodePage - 200000;
+                                        //updateSite(sakai.sitespages.site_info._pages[c]);
+                                        toUpdatePages.push(sakai.sitespages.site_info._pages[z]);
+                                    }
+                                    else {
+                                        sakai.sitespages.site_info._pages[z].pagePosition = nodePage;
+                                        toUpdatePages.push(sakai.sitespages.site_info._pages[z]);
+                                    }
                                 }
                             }
                         }

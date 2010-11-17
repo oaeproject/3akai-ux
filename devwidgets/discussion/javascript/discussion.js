@@ -796,7 +796,6 @@ sakai.discussion = function(tuid, showSettings){
                 'sakai:type': 'discussion',
                 'sling:resourceType': 'sakai/message',
                 'sakai:writeto': store,
-                'sakai:marker': tuid,
                 'sakai:initialpost': true,
                 'sakai:messagebox': 'outbox',
                 'sakai:sendstate': 'pending',

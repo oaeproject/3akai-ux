@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config */
+/*global $ */
 
 var sakai = sakai || {};
 
@@ -201,7 +201,9 @@ sakai.sitespages = function(tuid,showSettings){
                 sakai.sitespages.site_info.number_of_pages = function() {
                     var counter = 0;
                     for (var i in sakai.sitespages.site_info._pages) {
-                        counter++;
+                        if (sakai.sitespages.site_info._pages.hasOwnProperty(i)) {
+                            counter++;
+                        }
                     }
                     return counter;
                 };
@@ -321,7 +323,7 @@ sakai.sitespages = function(tuid,showSettings){
         }
         */
 
-        if (sakai.sitespages.site_info._pages[pageUrlName] != undefined) {
+        if (sakai.sitespages.site_info._pages[pageUrlName] !== undefined) {
           // Get page type
           pageType = sakai.sitespages.site_info._pages[pageUrlName]["pageType"];
 
@@ -705,6 +707,10 @@ sakai.sitespages = function(tuid,showSettings){
             "_pages": {}
         });
 
+        var handleError = function (xhr, textStatus, thrownError) {
+            callback(false, xhr);
+        };
+
         $.ajax({
             url: i_url,
             type: "POST",
@@ -734,9 +740,6 @@ sakai.sitespages = function(tuid,showSettings){
             error: handleError
         });
 
-        var handleError = function (xhr, textStatus, thrownError) {
-            callback(false, xhr);
-        };
     };
 
     /**
@@ -808,66 +811,65 @@ sakai.sitespages = function(tuid,showSettings){
         // Creates a new plugin class and a custom listbox for the insert more menu
         tinymce.create('tinymce.plugins.InsertMorePlugin', {
             createControl: function(n, cm) {
-                switch (n) {
-                    case 'insertmore':
+                if ( n === 'insertmore' ) {
                         var insertMoreBox = cm.createListBox('insertmore', {
-                             title : 'Insert More',
-                             onselect : function(v) {
-                                 if (v==="link") {
-                                     $('#link_dialog').jqmShow();
-                                 } else if (v==="hr") {
-                                     tinyMCE.get("elm1").execCommand('InsertHorizontalRule');
-                                 } else {
-                                     renderSelectedWidget(v);
-                                 }
-                                 $("#elm1_insertmore").get(0).selectedIndex = 0;
+                         title : 'Insert More',
+                         onselect : function(v) {
+                             if (v==="link") {
+                                 $('#link_dialog').jqmShow();
+                             } else if (v==="hr") {
+                                 tinyMCE.get("elm1").execCommand('InsertHorizontalRule');
+                             } else {
+                                 renderSelectedWidget(v);
                              }
-                        });
+                             $("#elm1_insertmore").get(0).selectedIndex = 0;
+                         }
+                    });
 
-                        insertMoreBox.add("Page Link", 'link');
-                        insertMoreBox.add("Horizontal Line", 'hr');
+                    insertMoreBox.add("Page Link", 'link');
+                    insertMoreBox.add("Horizontal Line", 'hr');
 
-                        // Vars for media and goodies
-                        var media = {}; media.items = [];
-                        var goodies = {}; goodies.items = [];
-                        var sidebar = {}; sidebar.items = [];
+                    // Vars for media and goodies
+                    var media = {}; media.items = [];
+                    var goodies = {}; goodies.items = [];
+                    var sidebar = {}; sidebar.items = [];
 
-                        // Fill in media and goodies
-                        for (var i in sakai.widgets.widgets){
-                            if (i) {
-                                var widget = sakai.widgets.widgets[i];
-                                if (widget[sakai.sitespages.config.pageEmbedProperty] && widget.showinmedia) {
-                                    media.items.push(widget);
-                                }
-                                if (widget[sakai.sitespages.config.pageEmbedProperty] && widget.showinsakaigoodies) {
-                                    goodies.items.push(widget);
-                                }
-                                if (widget[sakai.sitespages.config.pageEmbedProperty] && widget.showinsidebar){
-                                    sidebar.items.push(widget);
-                                }
+                    // Fill in media and goodies
+                    for (var i in sakai.widgets.widgets){
+                        if (i) {
+                            var widget = sakai.widgets.widgets[i];
+                            if (widget[sakai.sitespages.config.pageEmbedProperty] && widget.showinmedia) {
+                                media.items.push(widget);
+                            }
+                            if (widget[sakai.sitespages.config.pageEmbedProperty] && widget.showinsakaigoodies) {
+                                goodies.items.push(widget);
+                            }
+                            if (widget[sakai.sitespages.config.pageEmbedProperty] && widget.showinsidebar){
+                                sidebar.items.push(widget);
                             }
                         }
+                    }
 
-                        $(media.items).each(function(i,val) {
-                            insertMoreBox.add(val.name, val.id);
-                        });
-                        $(goodies.items).each(function(i,val) {
-                            insertMoreBox.add(val.name, val.id);
-                        });
-                        $(sidebar.items).each(function(i,val) {
-                            insertMoreBox.add(val.name, val.id);
-                        });
+                    $(media.items).each(function(i,val) {
+                        insertMoreBox.add(val.name, val.id);
+                    });
+                    $(goodies.items).each(function(i,val) {
+                        insertMoreBox.add(val.name, val.id);
+                    });
+                    $(sidebar.items).each(function(i,val) {
+                        insertMoreBox.add(val.name, val.id);
+                    });
 
-                        // Event handler
-                        $('#insert_dialog').jqm({
-                            modal: true,
-                            overlay: 20,
-                            toTop: true,
-                            onHide: hideSelectedWidget
-                        });
+                    // Event handler
+                    $('#insert_dialog').jqm({
+                        modal: true,
+                        overlay: 20,
+                        toTop: true,
+                        onHide: hideSelectedWidget
+                    });
 
-                        // Return the new listbox instance
-                        return insertMoreBox;
+                    // Return the new listbox instance
+                    return insertMoreBox;
                 }
 
                 return null;
@@ -2021,18 +2023,19 @@ sakai.sitespages = function(tuid,showSettings){
         onShow: function(hash) {
 
             var $links = $('<ul id="insert_links_availablelinks"></ul>');
-
+            var toggleSelectedOn = function(e) {
+                $(this).addClass("selected");
+            };
+            var toggleSelectedOff = function(e) {
+                $(this).removeClass("selected");
+            };
             // Create clickable page links
             for (var urlname in sakai.sitespages.site_info._pages) {
                 if (sakai.sitespages.site_info._pages[urlname]) {
                     var $link = $('<li id="linksel_'+ urlname +'">' + sakai.sitespages.site_info._pages[urlname]["pageTitle"] + '</li>')
                         .data("link", urlname)
                         .css({"padding-left": ((parseInt(sakai.sitespages.site_info._pages[urlname]["pageDepth"],10) - 4) * 3) + "px"})
-                        .toggle(function(e){
-                            $(this).addClass("selected");
-                        }, function() {
-                            $(this).removeClass("selected");
-                        });
+                        .toggle(toggleSelectedOn, toggleSelectedOff);
                     $links.append($link);
                 }
             }
@@ -2433,7 +2436,7 @@ sakai.sitespages = function(tuid,showSettings){
                     // Remove previous dashboard
                     $("#" + sakai.sitespages.selectedpage).remove();
                     // Render new one
-                    sakai.sitespages._displayDashboard (pagecontent, true);
+                    sakai.sitespages._displayDashboard(pagecontent, true);
                 }
 
                 // Save new version of this page

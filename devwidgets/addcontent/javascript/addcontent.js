@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config, fluid, window */
+/*global $ */
 
 var sakai = sakai || {};
 
@@ -132,7 +132,8 @@ sakai.addcontent = function(tuid, showSettings){
             sakai.api.Widgets.saveWidgetData(tuid, data, function(success){
                 if(success){
                     sakai.api.Widgets.Container.informFinish(tuid, "addcontent");
-                }else{
+                } else {
+                    debug.warn("Widget data could not be saved");
                     // TODO show a valid error message to the user
                 }
             });

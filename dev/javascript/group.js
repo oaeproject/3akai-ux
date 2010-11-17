@@ -70,7 +70,7 @@ sakai.group = function(){
         var editMode = sakai.currentgroup.manager;
         var homePage = "";
         sakai.sitespages.doInit(basepath, fullpath, url, editMode, homePage, "grouppages", "groupdashboard");
-    }
+    };
 
     /**
      * Get the group id from the querystring

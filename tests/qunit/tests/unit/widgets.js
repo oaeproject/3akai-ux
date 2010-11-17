@@ -128,8 +128,6 @@ module("Widgets - Valid Properties");
     }
 })();
 
-asyncTest('Test if all the URLs work', function(){
-
 module("Widgets - URLs in Config file");
 
 (function() {
@@ -182,4 +180,4 @@ module("Widgets - URLs in Config file");
     }
 })();
 
-});
+})();

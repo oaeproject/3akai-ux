@@ -16,9 +16,57 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global , opensocial, Config, window, alert, $ */
+/*global $ */
 
 var sakai = sakai || {};
+
+var AIM = {
+
+    frame : function(c) {
+        var n = 'f' + Math.floor(Math.random() * 99999);
+        var d = document.createElement('DIV');
+        d.innerHTML = '<iframe style="display:none" src="about:blank" id="'+n+'" name="'+n+'" onload="AIM.loaded(\''+n+'\')"></iframe>';
+        document.body.appendChild(d);
+
+        var i = document.getElementById(n);
+        if (c && typeof(c.onComplete) === 'function') {
+            i.onComplete = c.onComplete;
+        }
+        return n;
+    },
+
+    form : function(f, name) {
+        f.setAttribute('target', name);
+    },
+
+    submit : function(f, c) {
+        AIM.form(f, AIM.frame(c));
+        if (c && typeof(c.onStart) === 'function') {
+            return c.onStart();
+        } else {
+            return true;
+        }
+    },
+
+    loaded : function(id) {
+        var i = document.getElementById(id);
+        var d = null;
+        if (i.contentDocument) {
+            d = i.contentDocument;
+        } else if (i.contentWindow) {
+            d = i.contentWindow.document;
+        } else {
+            d = window.frames[id].document;
+        }
+        if (d.location.href === "about:blank") {
+            return;
+        }
+
+        if (typeof(i.onComplete) === 'function') {
+            i.onComplete(d.body.innerHTML);
+        }
+    }
+};
 
 sakai.api.UI.changepic = sakai.api.UI.changepic || {};
 /**
@@ -193,7 +241,7 @@ sakai.changepic = function(tuid, showSettings){
     $(picForm).submit(function () {
         // validate args
         // file extension allow for image
-        var extensionArray = new Array(".png", ".jpg", ".jpeg",".gif");
+        var extensionArray = [".png", ".jpg", ".jpeg",".gif"];
         // get file name
         fileName = $(picInput).val();
         // get extension from the file name.
@@ -517,55 +565,6 @@ sakai.changepic.completeCallback = function(response){
 
     // we have saved the profile, now do the widgets other stuff.
     sakai.changepic.doInit(true);
-};
-
-
-var AIM = {
-
-    frame : function(c) {
-        var n = 'f' + Math.floor(Math.random() * 99999);
-        var d = document.createElement('DIV');
-        d.innerHTML = '<iframe style="display:none" src="about:blank" id="'+n+'" name="'+n+'" onload="AIM.loaded(\''+n+'\')"></iframe>';
-        document.body.appendChild(d);
-
-        var i = document.getElementById(n);
-        if (c && typeof(c.onComplete) === 'function') {
-            i.onComplete = c.onComplete;
-        }
-        return n;
-    },
-
-    form : function(f, name) {
-        f.setAttribute('target', name);
-    },
-
-    submit : function(f, c) {
-        AIM.form(f, AIM.frame(c));
-        if (c && typeof(c.onStart) === 'function') {
-            return c.onStart();
-        } else {
-            return true;
-        }
-    },
-
-    loaded : function(id) {
-        var i = document.getElementById(id);
-        var d = null;
-        if (i.contentDocument) {
-            d = i.contentDocument;
-        } else if (i.contentWindow) {
-            d = i.contentWindow.document;
-        } else {
-            d = window.frames[id].document;
-        }
-        if (d.location.href === "about:blank") {
-            return;
-        }
-
-        if (typeof(i.onComplete) === 'function') {
-            i.onComplete(d.body.innerHTML);
-        }
-    }
 };
 
 sakai.api.Widgets.widgetLoader.informOnLoad("changepic");

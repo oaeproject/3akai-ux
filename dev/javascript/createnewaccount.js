@@ -105,7 +105,7 @@ sakai.newaccount = function(){
             if ($.inArray(i, nonEscaped) == -1) {
                 values[i] = escape(values[i]);
             }
-        };
+        }
 
         // Get the values from the captcha form.
         var captchaValues = sakai.captcha.getProperties();
@@ -179,7 +179,7 @@ sakai.newaccount = function(){
             ":sakai:pages-template": "/var/templates/site/" + pagestemplate,
             "locale": locale
         };
-        $.ajax ({
+        $.ajax({
             url : sakai.config.URL.CREATE_USER_SERVICE,
             type : "POST",
             data : data,
@@ -373,7 +373,7 @@ sakai.newaccount = function(){
         else {
             $('body').show();
         }
-    }
+    };
 
     doInit();
 

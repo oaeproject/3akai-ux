@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config */
+/*global $ */
 
 // Namespaces
 var sakai = sakai || {};
@@ -234,8 +234,6 @@ sakai.pickeruser = function(tuid, showSettings) {
                             }
                         });
                         add(suggestions);
-                    } else {
-
                     }
                 }, {"q": "*" + query.replace(/\s+/g, "* OR *") + "*", "page": 0, "items": 15});
             },

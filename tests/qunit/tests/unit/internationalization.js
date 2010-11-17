@@ -12,6 +12,8 @@ var templateRegex = new RegExp("^(.*?)(\\$*){(.*?)}(.*?)+$");
 var templateStartAlphaRegex = new RegExp("^([a-zA-z]+)(\\$*){(.*?)}+$");
 var templateMiddleAlphaRegex = new RegExp("^(\\$*){(.*?)}([a-zA-z]+)(\\$*){(.*?)}+$");
 var templateEndAlphaRegex = new RegExp("^(\\$*){(.*?)}([a-zA-z])+$");
+// from jquery validate, modified to optionally allow (https?|ftp)://
+var urlRegex = new RegExp(/^((https?|ftp):\/\/)?(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i);
 
 /**
  * Test a string to make sure it is not a plain-text, non-internationalized string
@@ -33,7 +35,9 @@ var testString = function(str) {
                         )
                     )
                 ) ||
-                !alpha.test(str) // allow numbers to be non-internationalized
+                // allow numbers to be non-internationalized
+                !alpha.test(str) ||
+                urlRegex.test(str)
             );
 };
 
@@ -84,39 +88,8 @@ var testInternationalization = function(){
         checkAttrs($("#qunit-fixture"));
     });
 
-    var pageArray = ["/dev/403.html",
-        "/dev/404.html",
-        "/dev/500.html",
-        "/dev/account_preferences.html",
-        "/dev/acknowledgements.html",
-        "/dev/content_profile.html",
-        "/dev/create_new_account.html",
-        "/dev/directory.html",
-        "/dev/group_edit.html",
-        "/dev/inbox.html",
-        "/dev/index.html",
-        "/dev/logout.html",
-        "/dev/my_sakai.html",
-        "/dev/people.html",
-        "/dev/profile_edit.html",
-        "/dev/search.html",
-        "/dev/search_content.html",
-        "/dev/search_groups.html",
-        "/dev/search_people.html",
-        "/dev/show.html",
-        "/dev/s23/s23_site.html",
-        "/dev/admin/widgets.html"
-    ];
-
-    for (var i in Widgets.widgets) {
-        if (Widgets.widgets.hasOwnProperty(i) && Widgets.widgets[i].url) {
-            pageArray.push(Widgets.widgets[i].url);
-        }
-    }
-
-
-    for (var j = 0; j < pageArray.length; j++) {
-        var urlToCheck = pageArray[j];
+    for (var j = 0; j < sakai.qunit.htmlFiles.length; j++) {
+        var urlToCheck = sakai.qunit.htmlFiles[j];
         $.ajax({
             url: urlToCheck,
             async: false,

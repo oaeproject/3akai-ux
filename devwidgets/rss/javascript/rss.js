@@ -161,7 +161,7 @@ sakai.rss = function(tuid, showSettings){
             resultJSON.entries.sort(sortByDatefunction);
             pagerClickHandler(1);
         });
-    }
+    };
 
 
     ////////////////////////
@@ -332,7 +332,7 @@ sakai.rss = function(tuid, showSettings){
                 $(rootel + " " + rssRemove).bind("click", function(e,ui){
                     var index = parseInt(e.target.parentNode.id.replace(rssRemoveNoDot, ""),10);
                     resultJSON.feeds.splice(index,1);
-                    $(rssRemoveFeed + index).parent().remove()
+                    $(rssRemoveFeed + index).parent().remove();
                 });
             }
         });
@@ -365,7 +365,7 @@ sakai.rss = function(tuid, showSettings){
      * @param {Object} pageClicked
      */
     var pagerClickHandler = function(clicked){
-        pageClicked = parseInt(clicked);
+        pageClicked = parseInt(clicked, 10);
         // first get the entries that need to be shown on this page
         resultJSON.shownEntries = getShownEntries(clicked);
         // render these entries
@@ -459,7 +459,7 @@ sakai.rss = function(tuid, showSettings){
             $(rootel + " " + rssRemove).bind("click", function(e,ui){
                 var index = parseInt(e.target.parentNode.id.replace(rssRemoveNoDot, ""),10);
                 resultJSON.feeds.splice(index,1);
-                $(rssRemoveFeed + index).parent().remove()
+                $(rssRemoveFeed + index).parent().remove();
             });
         }
     };
