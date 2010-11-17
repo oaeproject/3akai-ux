@@ -16,6 +16,8 @@
  * specific language governing permissions and limitations under the License.
  */
 
+/*global $ */
+
 var sakai = sakai || {};
 
 // This function is called by the sakai ux framework when a widget is

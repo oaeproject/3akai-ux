@@ -15,7 +15,7 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-/*global $, document, addBinding, window, fluid */
+/*global $ */
 
 var sakai = sakai || {};
 
@@ -420,9 +420,11 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         tags.push("directory/" + tags.toString().replace(/,/g,"/"));
 
         var tagsAfterDeletion = sakai.currentgroup.data.authprofile["sakai:tags"].slice(0);
-        for (var tag = 0 in tags){
-            if(jQuery.inArray(tags[tag],tagsAfterDeletion) > -1){
-                tagsAfterDeletion.splice(jQuery.inArray(tags[tag],tagsAfterDeletion), 1);
+        for (var tag in tags){
+            if (tags.hasOwnProperty(tag)) {
+                if($.inArray(tags[tag],tagsAfterDeletion) > -1) {
+                    tagsAfterDeletion.splice($.inArray(tags[tag],tagsAfterDeletion), 1);
+                }
             }
         }
 

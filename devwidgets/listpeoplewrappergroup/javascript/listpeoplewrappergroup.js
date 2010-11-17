@@ -69,17 +69,18 @@ sakai.listpeoplewrappergroup = function(tuid, showSettings){
      * Render Widget with group data
      */
     var loadGroupElements = function(){
-        var pl_config = {"selectable":false, "subNameInfoUser": "", "subNameInfoGroup": "sakai:group-description", "sortOn": "lastName", "sortOrder": "ascending", "items": 1000, "function": "getSelection" };
+        var pl_config = {"selectable":false, "subNameInfoUser": "", "subNameInfoGroup": "sakai:group-description", "sortOn": "lastName", "sortOrder": "ascending", "items": 1000, "function": "getSelection" },
+            url = "";
 
         if (listType === "members") {
             // get group members
-            var url = "/system/userManager/group/" + sakai.currentgroup.data.authprofile["sakai:group-id"] + ".members.detailed.json";
+            url = "/system/userManager/group/" + sakai.currentgroup.data.authprofile["sakai:group-id"] + ".members.detailed.json";
         } else if (listType === "managers") {
             // get group managers
-            var url = "/system/userManager/group/" + sakai.currentgroup.data.authprofile["sakai:group-id"] + ".managers.detailed.json";
+            url = "/system/userManager/group/" + sakai.currentgroup.data.authprofile["sakai:group-id"] + ".managers.detailed.json";
         } else if (listType === "content") {
             // get group content
-            var url = "/var/search/pool/files?group=" + sakai.currentgroup.data.authprofile["sakai:group-id"];
+            url = "/var/search/pool/files?group=" + sakai.currentgroup.data.authprofile["sakai:group-id"];
         }
 
         $(window).trigger("sakai-listpeople-render", {"tuid": listType+tuid, "listType": listType, "pl_config": pl_config, "url": url, "id": sakai.currentgroup.data.authprofile["sakai:group-id"]});
@@ -103,7 +104,7 @@ sakai.listpeoplewrappergroup = function(tuid, showSettings){
                 }
             });
         }
-    }
+    };
 
     /**
      * Bind the save/cancel buttons
@@ -126,7 +127,7 @@ sakai.listpeoplewrappergroup = function(tuid, showSettings){
                 });
             }
         });
-    }
+    };
 
     ////////////////////
     // Initialization //

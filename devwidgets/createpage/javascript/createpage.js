@@ -15,8 +15,7 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
-/*global $, Config */
+/*global $ */
 
 var sakai = sakai || {};
 
@@ -105,7 +104,7 @@ sakai.createpage = function(tuid, showSettings){
         };
         if(sakai.sitespages && sakai.sitespages.mytemplates) {
             // create a custom list of templates with just the info we care about
-            for(t in sakai.sitespages.mytemplates) {
+            for(var t in sakai.sitespages.mytemplates) {
                 if(sakai.sitespages.mytemplates.hasOwnProperty(t)) {
                     var template = {
                         "id": t,

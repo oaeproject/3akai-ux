@@ -117,7 +117,7 @@ sakai.addtocontacts = function(tuid, showSettings){
             }
         }
         return null;
-    }
+    };
 
     /**
      * Does the invitation stuff. Will send a request for an invitation and a message to the user.
@@ -264,9 +264,9 @@ sakai.addtocontacts = function(tuid, showSettings){
     });
     
     // Bind the cancel button
- 	$(addToContactsFormButtonCancel).click(function(){
- 	    $(addToContactsForm)[0].reset();
- 	});
+    $(addToContactsFormButtonCancel).click(function(){
+        $(addToContactsForm)[0].reset();
+    });
 
     // Bind the jqModal
     $(addToContactsDialog).jqm({

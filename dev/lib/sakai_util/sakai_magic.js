@@ -18,7 +18,7 @@
  *
  */
 
-/*global $, jQuery, fluid, TrimPath, window, document */
+/*global $, jQuery, TrimPath, window, document */
 
 /**
  * @name sakai
@@ -2492,20 +2492,22 @@ sakai.api.User.getDisplayName = function(profile) {
     var done = false;
     var idx = 0;
 
+    var parseName = function(i,key) {
+        if (profile &&
+            profile.basic &&
+            profile.basic.elements &&
+            profile.basic.elements[key] !== undefined &&
+            profile.basic.elements[key].value !== undefined) {
+           nameToReturn += profile.basic.elements[key].value + " ";
+           done = true;
+       }
+    };
+
     // iterate over the configDisplayName object until a valid non-empty display name is found
     while (!done && idx < 2) {
         if (configDisplayName[idx] !== undefined && configDisplayName[idx] !== "") {
             var configEltsArray = configDisplayName[idx].split(" ");
-            $(configEltsArray).each(function(i, key) {
-                if (profile &&
-                    profile.basic &&
-                    profile.basic.elements &&
-                    profile.basic.elements[key] !== undefined &&
-                    profile.basic.elements[key].value !== undefined) {
-                   nameToReturn += profile.basic.elements[key].value + " ";
-                   done = true;
-               }
-            });
+            $(configEltsArray).each(parseName);
         }
         idx++;
     }
@@ -2569,9 +2571,9 @@ sakai.api.User.getShortDescription = function(profile) {
     $(tokens).each(function(i, val) {
         var profileNode = val.match(/[A-Za-z]+/gi)[0];
         if (profile.basic.elements[profileNode] && $.trim(profile.basic.elements[profileNode].value) !== "") {
-            if (lastReplacementValue === "" && tokens[i-1]) {
+            /*if (lastReplacementValue === "" && tokens[i-1]) {
                 // replace everything before this and after the last token
-            }
+            } */
             if (sakai.config.Profile.configuration.defaultConfig.basic.elements[profileNode].type === "select") {
                 lastReplacementValue = profile.basic.elements[profileNode].value;
                 lastReplacementValue = sakai.config.Profile.configuration.defaultConfig.basic.elements[profileNode].select_elements[lastReplacementValue];

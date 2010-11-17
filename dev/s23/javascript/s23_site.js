@@ -122,17 +122,19 @@ sakai.s23_site = function(){
 
                 // Render the tools of the site and add them to the page container
                 s23SiteIframeContainer.append($.TemplateRenderer(s23SiteIframeContainerTemplate, page));
+                var loadIframe = function() {
+                    $(this).height($(this).contents().find("body").height() + 15); // add 10px for IE and 5px more for Gradebook weirdness
+                };
                 for (var tool in page.tools){
-                    var iframe = $("#Main" + page.tools[tool].xid);
-                    var srcUrl = sakai.config.SakaiDomain + "/portal/tool/" + page.tools[tool].url + "?panel=Main";
-                    if(isSameOriginPolicy(window.location.href, srcUrl)) {
-                        iframe.load(function() {
-                            $(this).height($(this).contents().find("body").height() + 15); // add 10px for IE and 5px more for Gradebook weirdness
-                        });
+                    if (page.tools.hasOwnProperty(tool)) {
+                        var iframe = $("#Main" + page.tools[tool].xid);
+                        var srcUrl = sakai.config.SakaiDomain + "/portal/tool/" + page.tools[tool].url + "?panel=Main";
+                        if(isSameOriginPolicy(window.location.href, srcUrl)) {
+                            iframe.load(loadIframe);
+                        }
+                        iframe.attr("src", srcUrl);
                     }
-                    iframe.attr("src", srcUrl);
                 }
-                
             }
         }
     };

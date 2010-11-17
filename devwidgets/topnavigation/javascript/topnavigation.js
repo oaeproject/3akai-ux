@@ -183,7 +183,7 @@ sakai.topnavigation = function(tuid, showSettings){
 
         $.each($(topNavigationBar + " a"), function(){
             if (window.location.pathname === $(this).attr("href")){
-                $(this).attr("href", "javascript:;");
+                $(this).attr("href", "#");
             }
         });
 
@@ -431,7 +431,7 @@ sakai.topnavigation = function(tuid, showSettings){
             // We need to add the hasOwnProperty to pass to JSLint and it is also a security issue
             if (sakai.config.Navigation.hasOwnProperty(i)) {
 
-                var temp = new Object();
+                var temp = {};
                 temp.url = sakai.config.Navigation[i].url;
                 temp.label = sakai.api.i18n.General.getValueForKey(sakai.config.Navigation[i].label);
                 temp.cleanurl = temp.url || "";
@@ -443,7 +443,7 @@ sakai.topnavigation = function(tuid, showSettings){
                         temp.cleanurl = temp.cleanurl.substring(0, temp.cleanurl.indexOf('#'));
                     }
                 }
-                if (i == 0) {
+                if (i === 0) {
                     temp.firstlink = true;
                 }
                 else {

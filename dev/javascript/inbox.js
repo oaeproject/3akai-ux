@@ -383,7 +383,7 @@ sakai.inbox = function() {
      * @param {Object} The JSON response from the server. Make sure it has a .message array in it.
      */
     var renderMessages = function(response) {
-        if (!getAll) {
+        /*if (!getAll) {
             for (var i = 0, k = response.results.length; i < k; i++) {
 
                 //if (box === "inbox" && cats === "" && response.results[i]["sakai:category"] === "chat") {
@@ -394,7 +394,7 @@ sakai.inbox = function() {
             }
         } else {
             getAll = false;
-        }
+        }*/
 
         for (var j = 0, l = response.results.length; j < l; j++) {
             // temporary internal id.
@@ -404,11 +404,11 @@ sakai.inbox = function() {
             if (messageSubject) {
                 var key = messageSubject.substr(0, messageSubject.lastIndexOf(","));
                 comment = messageSubject.substr(messageSubject.lastIndexOf(",") + 1, messageSubject.length);
-                
+
                 // title , groupid from pickeruser
                 if (key) {
                     response.results[j].subject = sakai.api.Security.escapeHTML(sakai.api.i18n.General.getValueForKey(key) + " " + comment);
-                // just title with ${user} add to contacts 
+                // just title with ${user} add to contacts
                 }
                 else if(sakai.api.i18n.General.getValueForKey(response.results[j]["sakai:subject"])){
                     response.results[j].subject = sakai.api.Security.escapeHTML(sakai.api.i18n.General.getValueForKey(response.results[j]["sakai:subject"]).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(response.results[j].userFrom[0])));
@@ -484,7 +484,7 @@ sakai.inbox = function() {
      * Toggle loading animation and tbody.
      */
     toggleLoading = function(checking){
-        // if checking is true 
+        // if checking is true
         // show the animation and hide tbody
         if (checking) {
             $("tbody").hide();
@@ -754,7 +754,7 @@ sakai.inbox = function() {
                     // title , groupid from pickeruser
                     if (key) {
                         message["sakai:subject"] = sakai.api.Security.escapeHTML(sakai.api.i18n.General.getValueForKey(key)+" "+comment);
-                        // just title with ${user} add to contacts 
+                        // just title with ${user} add to contacts
                     } else if (sakai.api.i18n.General.getValueForKey(message["sakai:subject"])){
                         message["sakai:subject"] = sakai.api.Security.escapeHTML(sakai.api.i18n.General.getValueForKey(message["sakai:subject"]).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(message.userFrom[0])));
                     }
@@ -902,7 +902,7 @@ sakai.inbox = function() {
             }
         });
     });
-    
+
     /**
      *
      * ACCEPT SITE JOIN REQUEST
@@ -923,7 +923,7 @@ sakai.inbox = function() {
             }
         });
     });
-    
+
     /**
      *
      * DENY SITE JOIN REQUEST
@@ -1076,22 +1076,18 @@ sakai.inbox = function() {
             updateUnreadNumbers();
             $.bbq.removeState("message");
 
+            var handleComplete = function(xhr, textStatus) {
+                deleted++;
+                if (deleted === toDelete) {
+                    deleteMessagesFinished(pathToMessages, textStatus === "success");
+                }
+            };
+
             for (var d = 0, e = pathToMessages.length; d < e; d++) {
                 $.ajax({
                     url: pathToMessages[d],
                     type: "POST",
-                    success: function(data){
-                        deleted++;
-                        if (deleted === toDelete) {
-                            deleteMessagesFinished(pathToMessages, true);
-                        }
-                    },
-                    error: function(xhr, textStatus, thrownError) {
-                        deleted++;
-                        if (deleted === toDelete) {
-                            deleteMessagesFinished(pathToMessages, false);
-                        }
-                    },
+                    complete: handleComplete,
                     data: {
                         "sakai:messagebox":"trash",
                         "_charset_": "utf-8"
@@ -1130,7 +1126,7 @@ sakai.inbox = function() {
         //    Jump back to inbox
         $.bbq.pushState({"box": openedBox},2);
     });
-    
+
     $("#top_navigation .mail").live("click", function(){
         $.bbq.pushState({"box": "inbox"},2);
     });
@@ -1152,7 +1148,7 @@ sakai.inbox = function() {
      */
 
     $(inboxInboxMessage).live("click", function(e, ui) {
-        
+
         var id = e.target.id;
         id = id.split('_');
         $.bbq.pushState({"message":id[id.length - 1]},2);
@@ -1312,7 +1308,7 @@ sakai.inbox = function() {
                     break;
                 case "announcements":
                     $(inboxSubfolderClass).hide();
-                    filterMessages(sakai.config.Messages.Types.inbox, sakai.config.Messages.Categories.announcement, "all", inboxFilterAnnouncements);                    
+                    filterMessages(sakai.config.Messages.Types.inbox, sakai.config.Messages.Categories.announcement, "all", inboxFilterAnnouncements);
                     $(inboxSubfolderAnnouncements).show();
                     break;
                 case "chats":
@@ -1346,7 +1342,7 @@ sakai.inbox = function() {
 
 
     var doInit = function() {
-        
+
         // We are logged in. Do all the nescecary stuff.
         // load the list of messages.
         showUnreadMessages();

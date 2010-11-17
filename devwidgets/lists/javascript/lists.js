@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config */
+/*global $ */
 
 var sakai = sakai || {};
 
@@ -170,13 +170,13 @@ sakai.lists = function(tuid, showSettings) {
                 ret = val;
             }
         });
-        if (ret) return ret;
+        if (ret) { return ret; }
         $(lists).each(function(i,val) {
             if (val.list) {
                 ret = getList(val.list, label);
             }
         });
-        if (ret) return ret;
+        if (ret) { return ret; }
         return false;
     };
 

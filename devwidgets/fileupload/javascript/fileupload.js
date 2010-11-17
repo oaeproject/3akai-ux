@@ -16,7 +16,9 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Querystring, fluid, sakai, window */
+/*global $, Querystring */
+
+var sakai = sakai || {};
 
 /**
  * @name sakai.fileupload
@@ -705,11 +707,10 @@ sakai.fileupload = function(tuid, showSettings){
                     uploadedFiles = extractedData;
 
                     // Initiate the tagging process
-                    var tags = sakai.api.Util.formatTags($fileUploadAddTags.val());
+                    tags = sakai.api.Util.formatTags($fileUploadAddTags.val());
                     for (var file in uploadedFiles) {
                         if (uploadedFiles.hasOwnProperty(file)) {
-                            sakai.api.Util.tagEntity("/p/" + uploadedFiles[file].hashpath, tags, [], function(){
-                            });
+                            sakai.api.Util.tagEntity("/p/" + uploadedFiles[file].hashpath, tags, []);
                         }
                     }
 
@@ -739,7 +740,7 @@ sakai.fileupload = function(tuid, showSettings){
         var nameError = false;
         $fileUploadNameError.hide();
         $multiFileList.find("input").each(function(index){
-            if($.trim($(this)[0].value).length == 0){
+            if($.trim($(this)[0].value).length === 0){
                 var errorLabel = $(this).parent().next();
                 errorLabel.css("display", "block");
                 errorLabel.html($(fileUploadEnterNameFor).html() + " \"" + $(this)[0].defaultValue + "\"");
