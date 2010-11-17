@@ -20,12 +20,12 @@
 var sakai = sakai || {};
 
 /**
- * @name sakai.basiclti
+ * @name sakai.sakai2tools
  *
- * @class basiclti
+ * @class sakai2tools
  *
  * @description
- * Basiclti widget
+ * Sakai2tools widget
  *
  * @version 0.0.1
  * @param {String} tuid Unique id of the widget
