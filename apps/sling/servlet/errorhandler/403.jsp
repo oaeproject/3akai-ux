@@ -29,10 +29,10 @@
         <!-- Core 3rd-party JS -->
         <script type="text/javascript" src="/dev/lib/jquery/jquery.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/jquery-ui.full.js"></script>
-        <script type="text/javascript" src="/dev/lib/Fluid/3akai_Infusion.js"></script>
-        <script type="text/javascript" src="/dev/lib/i10n/globalization.js"></script>
+        <script type="text/javascript" src="/dev/lib/fluid/3akai_Infusion.js"></script>
+        <script type="text/javascript" src="/dev/lib/misc/l10n/globalization.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.json.js"></script>
-        <script type="text/javascript" src="/dev/lib/google/html-sanitizer-minified.js"></script>
+        <script type="text/javascript" src="/dev/lib/misc/google/html-sanitizer-minified.js"></script>
 
         <!-- Sakai Core JS -->
         <script type="text/javascript" src="/dev/lib/sakai/sakai.api.core.js"></script>
@@ -43,8 +43,8 @@
         <script type="text/javascript" src="/dev/lib/sakai/sakai.api.widgets.js"></script>
 
         <!-- 3rd party JS -->
-        <script type="text/javascript" src="/dev/lib/sakai_util/trimpath.template.js"></script>
-        <script type="text/javascript" src="/dev/lib/sakai_util/querystring.js"></script>
+        <script type="text/javascript" src="/dev/lib/misc/trimpath.template.js"></script>
+        <script type="text/javascript" src="/dev/lib/misc/querystring.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jqmodal.sakai-edited.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.cookie.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.pager.js"></script>
