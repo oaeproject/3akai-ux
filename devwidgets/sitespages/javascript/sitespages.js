@@ -2615,7 +2615,7 @@ sakai.sitespages = function(tuid,showSettings){
             },
             success: $.noop(),
             error: function(xhr, status, e){
-                Fluid.log('Error at updatePagePosition');
+                debug.error('Error at updatePagePosition');
             }
         });
     };
