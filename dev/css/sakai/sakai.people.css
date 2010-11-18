@@ -51,11 +51,7 @@
     margin: 0;
     padding: 0;
 }
-.people .search_results_container {
-    margin: 0 0 10px 0;
-    padding: 0;
-    background: #EFF2F4;
-}
+
 .people .search_results_part {
     padding: 0 10px;
 }

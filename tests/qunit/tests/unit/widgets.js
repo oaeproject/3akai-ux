@@ -1,6 +1,6 @@
-module("Widgets - Core");
-
 $(function() {
+
+module("Widgets - Core");
 
 test("The Widget variable exists", function(){
     same(typeof sakai.widgets.widgets, "object", "the sakai.widgets.widgets variable exists");

@@ -548,7 +548,7 @@ sakai.fileupload = function(tuid, showSettings){
                     setLinkAsGroupResource(data);
                 } else {
                     // Set permissions on the files
-                    sakai.api.Util.setFilePermissions("public", linkArray, function(permissionsSet){
+                    sakai.api.Content.setFilePermissions("public", linkArray, function(permissionsSet){
                     });
                 }
 
@@ -720,7 +720,7 @@ sakai.fileupload = function(tuid, showSettings){
                         // Set the description data on the completed uploads
 
                         // Set permissions on the files
-                        sakai.api.Util.setFilePermissions($fileUploadPermissionsSelect.val(), uploadedFiles, function(permissionsSet){
+                        sakai.api.Content.setFilePermissions($fileUploadPermissionsSelect.val(), uploadedFiles, function(permissionsSet){
                             batchSetDescriptionAndName();
                         }, contextData.id);
 

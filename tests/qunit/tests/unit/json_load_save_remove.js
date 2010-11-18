@@ -1,6 +1,6 @@
-module("JSON - load / save & remove");
-
 $(function() {
+
+module("JSON - load / save & remove");
 
 var testJSON = {
     "boolean": true,

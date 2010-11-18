@@ -1,6 +1,6 @@
-module("TemplateRenderer");
-
 $(function() {
+
+module("TemplateRenderer");
 
 var $container = $("#qunit_body"),
     $template1 = $("#qunit_body_template1"),

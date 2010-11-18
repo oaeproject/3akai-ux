@@ -5,7 +5,7 @@
 #pickeruser_container #pickeruser_basic span.fl-force-left{width:100%;margin-bottom:5px;}
 #pickeruser_container #pickeruser_basic span#pickeruser_add_header{margin-bottom:30px;}
 #pickeruser_container #pickeruser_basic textarea{width:100%;}
-#pickeruser_container #pickeruser_basic #pickeruser_send_message{background-color:#EFF2F4;width:96%;padding:2%;margin-top:15px;}
+#pickeruser_container #pickeruser_basic #pickeruser_send_message{width:96%;padding:2%;}
 #pickeruser_container .pickeruser_link{color:#006E96;font-weight:bold;}
 #pickeruser_container #pickeruser_basic span#pickeruser_add_header_what,#pickeruser_container #pickeruser_basic span#pickeruser_add_header_where{font-weight:bold;}
 #pickeruser_container ul.as-selections{height:80px;}

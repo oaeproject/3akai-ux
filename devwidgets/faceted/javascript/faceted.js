@@ -19,6 +19,9 @@
 
 var sakai = sakai || {};
 
+/**
+ * @name sakai.api.UI.faceted
+ */
 sakai.api.UI.faceted = sakai.api.UI.faceted || {};
 sakai.api.UI.faceted.render = sakai.api.UI.faceted.render || {};
 

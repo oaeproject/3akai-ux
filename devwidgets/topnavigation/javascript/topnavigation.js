@@ -81,10 +81,6 @@ sakai.topnavigation = function(tuid, showSettings){
 
     // CSS Classes
     var searchInputFocusClass = "search_input_focus";
-    var chatAvailableStatusClass = "chat_available_status";
-    var chatAvailableStatusClassOnline = chatAvailableStatusClass + "_online";
-    var chatAvailableStatusClassBusy = chatAvailableStatusClass + "_busy";
-    var chatAvailableStatusClassOffline = chatAvailableStatusClass + "_offline";
 
     var userLinkChatStatusClass = ".user_link_chat_status";
 
@@ -99,18 +95,6 @@ sakai.topnavigation = function(tuid, showSettings){
         //we have the number of unread messages as a part of the me-feed
         //so get it directly from me object.
         $(chatUnreadMessages).text(sakai.data.me.messages.unread);
-    };
-
-    /**
-     * Update a certain element with a specific chatstatus
-     * @param {Object} element Element that needs to be updated
-     * @param {String} chatstatus The chatstatus that needs to be added
-     */
-    var updateChatStatusElement = function(element, chatstatus){
-        element.removeClass(chatAvailableStatusClassOnline);
-        element.removeClass(chatAvailableStatusClassBusy);
-        element.removeClass(chatAvailableStatusClassOffline);
-        element.addClass(chatAvailableStatusClass + "_" + chatstatus);
     };
 
     /**
@@ -198,7 +182,7 @@ sakai.topnavigation = function(tuid, showSettings){
 
         $(window).bind("chat_status_change", function(event, chatstatus){
             currentChatStatus = chatstatus;
-            updateChatStatusElement($(userLink), chatstatus);
+            sakai.api.Util.updateChatStatusElement($(userLink), chatstatus);
         });
 
         $(window).bind("click", function(e){

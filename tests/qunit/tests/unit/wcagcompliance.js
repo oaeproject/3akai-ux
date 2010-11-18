@@ -1,6 +1,6 @@
-module("WCAG 2.0 Compliance - 1.1.1 Non-text Content / Text Alternatives");
-
 $(function() {
+
+module("WCAG 2.0 Compliance - 1.1.1 Non-text Content / Text Alternatives");
 
 var checkElements = function($elt){
     $.each($elt.find("img"), function(i, elt) {

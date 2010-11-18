@@ -1,6 +1,6 @@
-module("Arrays");
-
 $(function() {
+
+module("Arrays");
 
 var dummyArray = ["apple","pear","banana","cherry"];
 
@@ -9,7 +9,7 @@ var dummyArray = ["apple","pear","banana","cherry"];
  */
 var testCustomIndexOf = function(){
 
-    //in IE the indexOf function from sakai_magic will be used
+    //in IE the indexOf function from sakai.api.core.js will be used
     var index = dummyArray.indexOf("pear");
 
     //check if it is the same as expected

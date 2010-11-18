@@ -74,12 +74,6 @@
 #general_search_input { border: 1px solid #777; color: #aaa; float: left; font-size: 1em; height: 20px; margin: 0 14px 0 0; padding: 3px 5px 0px; width: 27em; }
 .search_input_focus { color: #333 !important;}
 
-/* user status */
-.navigation_chat_available_status_online, .chat_available_status_busy, .chat_available_status_offline {padding-left:15px;}
-.navigation_chat_available_status_online { background: url("/devwidgets/topnavigation/images/bullet_green.png") no-repeat scroll -3px -1px transparent; }
-.navigation_chat_available_status_busy {background:url("/devwidgets/topnavigation/images/bullet_orange.png") no-repeat scroll -3px -1px transparent; }
-.navigation_chat_available_status_offline {background:url("/devwidgets/topnavigation/images/bullet_red.png") no-repeat scroll -3px -1px transparent; }
-
 /* MAIN */
 .dropdown .dropdown_contacts .dropdown_person_name,.dropdown ul li a {color:#006e96;font-weight:700;}
 #people_dropdown_main .button, #mysites_dropdown_main .button {float:none;display:inline;}

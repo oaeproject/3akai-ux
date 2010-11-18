@@ -13,7 +13,7 @@
 #pickeradvanced_footer_select{padding-bottom:40px;}
 #pickeradvanced_container #pickeradvanced_footer_options{margin-top:15px;}
 /* CONTENT */
-#pickeradvanced_container #pickeradvanced_content{background-color:#EFF2F4;height:336px;overflow:auto;padding:10px;width:700px;}
+#pickeradvanced_container #pickeradvanced_content{height:336px;overflow:auto;width:700px;}
 /* LIST */
 #pickeradvanced_container #pickeradvanced_content_list{float:left;height:269px;width:159px;overflow:auto;background-color:#fff;}
 #pickeradvanced_container #pickeradvanced_content_list {margin:0;}

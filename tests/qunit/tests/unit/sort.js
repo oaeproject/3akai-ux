@@ -1,6 +1,6 @@
-module("Sorting");
-
 $(function() {
+
+module("Sorting");
 
 test("Natural sorting: Strings", function(){
     var arrayTest = ["z10.doc", "z2.doc", "z17.doc", "z23.doc", "z3.doc", "z1.doc"];

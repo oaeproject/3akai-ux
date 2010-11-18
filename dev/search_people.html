@@ -36,7 +36,13 @@
         <script type="text/javascript" src="/dev/lib/google/html-sanitizer-minified.js"></script>
 
         <!-- Sakai Core JS -->
-        <script type="text/javascript" src="/dev/lib/sakai_util/sakai_magic.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.core.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.util.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.i18n.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.l10n.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.user.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.widgets.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.communication.js"></script>
 
         <!-- 3rd party JS -->
         <script type="text/javascript" src="/dev/lib/sakai_util/trimpath.template.js"></script>
@@ -108,7 +114,7 @@
                         </div>
 
                         <!-- SEARCH RESULTS -->
-                        <div id="search_results_page1" class="search_results_container search_results_container_sub">
+                        <div id="search_results_page1" class="search_results_container highlight_area_background search_results_container_sub">
 
                             <!-- CREATE SITE WITH THESE PEOPLE -->
                             <div id="create_site_these_people" style="float:right; padding: 20px 10px 10px 10px; display:none;">
@@ -134,7 +140,7 @@
                                 <div id="search_result_results_located_in" style="display:none;"><span style="font-weight:normal">__MSG__RESULTS_LOCATED_IN__</span></div>
 
                                 <!-- CONTAINER FOR THE RESULTS -->
-                                <div id="search_results_container"></div>
+                                <div id="search_results_container highlight_area_background"></div>
 
                                 <!-- EXCEED SEARCH RESULT -->
                                 <span id="search_result_exceed" style="display:none;">__MSG__MORE_THAN_100__</span>
