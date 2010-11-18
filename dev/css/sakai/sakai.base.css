@@ -522,7 +522,7 @@ label.error {color:#9f3333;font-weight:bold;}
 .highlight_area_background {background-color:#EFF2F4; padding: 10px; margin: 0 0 15px 0;}
 
 /** Chat bullets **/
-.chat_available_status_online { background: url("/dev/_images/bullet_green.png") no-repeat scroll -3px -1px transparent; }
-.chat_available_status_busy {background:url("/dev/_images/bullet_orange.png") no-repeat scroll -3px -1px transparent; }
-.chat_available_status_offline {background:url("/dev/_images/bullet_red.png") no-repeat scroll -3px -1px transparent; }
+.chat_available_status_online { background: url("/dev/images/bullet_green.png") no-repeat scroll -3px -1px transparent; }
+.chat_available_status_busy {background:url("/dev/images/bullet_orange.png") no-repeat scroll -3px -1px transparent; }
+.chat_available_status_offline {background:url("/dev/images/bullet_red.png") no-repeat scroll -3px -1px transparent; }
 .chat_available_status_offline, .chat_available_status_busy, .chat_available_status_online {padding-left:15px;}
