@@ -18,7 +18,7 @@
 
 /* Widget title icon */
 .recentmessages .widget_title {
-    background: url("/dev/_images/messages_icon.png") no-repeat scroll 17px 20px transparent;
+    background: url("/dev/images/messages_icon.png") no-repeat scroll 17px 20px transparent;
 }
 
 /* Error messages */

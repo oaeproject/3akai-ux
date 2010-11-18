@@ -7,5 +7,7 @@
     },
     "personalportal":false,
     "hasSettings":false,
+    "type":"core",
+    "enabled":true,
     "url":"/devwidgets/joinrequests/joinrequests.html"
 }

@@ -345,7 +345,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
             sakai.api.Groups.setPermissions(sakai.currentgroup.id, joinable, visible,
                 function (success, errorMessage) {
                     if (!success) {
-                        fluid.log("ERROR: groupbasicinfo.js/updateGroup() unable to set group permissions: " + errorMessage);
+                        debug.error("ERROR: groupbasicinfo.js/updateGroup() unable to set group permissions: " + errorMessage);
                     }
                 }
             );
@@ -372,7 +372,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
                 });
             },
             error: function(xhr, textStatus, thrownError){
-                fluid.log("ERROR: groupbasicinfo.js/updateGroup() unable to set group information. Status: " + xhr.status + " - " + xhr.statusText);
+                debug.error("ERROR: groupbasicinfo.js/updateGroup() unable to set group information. Status: " + xhr.status + " - " + xhr.statusText);
             },
             complete: function() {
                 sakai.api.Widgets.Container.informFinish(tuid, "groupbasicinfo");

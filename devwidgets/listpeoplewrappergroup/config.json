@@ -7,5 +7,7 @@
     "id": "listpeoplewrappergroup",
     "img":"/devwidgets/listpeoplewrappergroup/images/icon.png",
     "name": "Group lister",
+    "type":"core",
+    "enabled":true,
     "url": "/devwidgets/listpeoplewrappergroup/listpeoplewrappergroup.html"
 }

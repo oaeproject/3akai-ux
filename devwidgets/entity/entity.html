@@ -14,7 +14,7 @@
                 {if data.profile && data.profile.picture}
                     <img id="entity_profile_picture" src="${data.profile.picture}" alt="__MSG__PROFILE_PICTURE_FOR__ ${sakai.api.User.getDisplayName(data.profile)}" />
                 {else}
-                    <img id="entity_profile_picture" src="/dev/_images/default_profile_picture_64.png" alt="__MSG__PLACEHOLDER_PICTURE_FOR__ ${sakai.api.User.getDisplayName(data.profile)}" />
+                    <img id="entity_profile_picture" src="/dev/images/default_profile_picture_64.png" alt="__MSG__PLACEHOLDER_PICTURE_FOR__ ${sakai.api.User.getDisplayName(data.profile)}" />
                 {/if}
                 {if mode === "myprofile"}
                     <div class="fl-text-align-center">
@@ -101,7 +101,7 @@
                 {if data.profile && data.profile.picture}
                     <img id="entity_profile_picture" src="${data.profile.picture}" alt="__MSG__PROFILE_PICTURE_FOR__ ${data.profile["sakai:group-title"]}" />
                 {else}
-                    <img id="entity_profile_picture" src="/dev/_images/group_avatar_icon_64x64_nob.png" alt="group name" />
+                    <img id="entity_profile_picture" src="/dev/images/group_avatar_icon_64x64_nob.png" alt="group name" />
                 {/if}
                 <div class="fl-text-align-center">
                     {if data.profile.role === "manager"}
@@ -269,6 +269,16 @@
         {/if}
     </div>
 --></div>
+
+<div id="entity_notifications" style="display:none">
+    <span id="entity_group_membership">__MSG__GROUP_MEMBERSHIP__</span>
+    <span id="entity_group_problem_removing">__MSG__PROBLEM_REMOVING_FROM_GROUP__</span>
+    <span id="entity_group_removal_successful">__MSG__SUCCESSFULLY_REMOVED_FROM_GROUP__</span>
+    <span id="entity_group_request_sent">__MSG__YOUR_REQUEST_HAS_BEEN_SENT__</span>
+    <span id="entity_group_problem_with_request">__MSG__PROBLEM_WITH_REQUEST__</span>
+    <span id="entity_group_problem_adding">__MSG__PROBLEM_ADDING_TO_GROUP__</span>
+    <span id="entity_group_adding_successful">__MSG__SUCCESSFULLY_ADDED_TO_GROUP__</span>
+</div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/entity/javascript/entity.js"></script>

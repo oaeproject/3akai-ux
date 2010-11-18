@@ -7,5 +7,7 @@
     "id":"recentmessages",
     "name":"My recent messages",
     "personalportal":true,
+    "type":"sakai",
+    "enabled":true,
     "url":"/devwidgets/recentmessages/recentmessages.html"
 }

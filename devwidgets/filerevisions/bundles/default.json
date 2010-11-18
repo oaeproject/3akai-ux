@@ -1,12 +1,12 @@
 {
-"FILE_REVISIONS":"File revisions",
-"LINK_REVISIONS":"Link revisions",
-"DOWNLOAD":"Download",
-"OPEN_THIS_LINK": "Open this link",
-"SHOW_VERSION":"Show version",
-"REVISED":"Revised",
-"CREATED":"Created",
-"FILE":"File",
 "BY":"by",
-"LINK":"Link"
+"CREATED":"Created",
+"DOWNLOAD":"Download",
+"FILE":"File",
+"FILE_REVISIONS":"File revisions",
+"LINK":"Link",
+"LINK_REVISIONS":"Link revisions",
+"OPEN_THIS_LINK": "Open this link",
+"REVISED":"Revised",
+"SHOW_VERSION":"Show version"
 }

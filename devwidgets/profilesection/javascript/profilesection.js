@@ -136,7 +136,10 @@ sakai.profilesection = function(tuid, showSettings){
             }
             json_config.path = currentsection + ".elements." + fieldName;
         }
-        return $.TemplateRenderer(fieldTemplate, json_config);
+        var ret = $.TemplateRenderer(fieldTemplate, json_config);
+        var localDateString = sakai.api.l10n.getDateFormatString();
+        ret = ret.replace("MM/DD/YYYY", localDateString);
+        return ret;
 
     };
 
@@ -353,7 +356,7 @@ sakai.profilesection = function(tuid, showSettings){
                 });
                 var profileURL = "/~" + sakai.profile.main.data["rep:userId"] + "/public/authprofile";
                 sakai.api.Util.tagEntity(profileURL, tagsArray, currentTags, function() {
-                    fluid.log("user tags saved");
+                    debug.info("user tags saved");
                 });
             } else if (title) {
 
@@ -384,12 +387,17 @@ sakai.profilesection = function(tuid, showSettings){
                         parentProp[propName] = {};
                         parentProp[propName].value = escape($selected_element.val());
                     } else if (prop) { // it exists, just change its value
+                        var val = $selected_element.val();
+                        if ($(element).hasClass("date") || $(element).hasClass("oldDate")) { // localize dates
+                            // convert the date into a Date object for storage
+                            val = Globalization.parseDate(val);
+                        }
                         if ($.isPlainObject(prop)) {
                             // Set the correct value
-                            prop.value = sakai.api.Security.saneHTML(escape($selected_element.val()));
+                            prop.value = sakai.api.Security.saneHTML(escape(val));
                         } else {
                             // This is an access attribute
-                            sakai.profile.main.data[title.split(".")[0]].access = $selected_element.val();
+                            sakai.profile.main.data[title.split(".")[0]].access = val;
                         }
                     } else {
                         sakai.profile.main.data[title.split(".")[0]].access = escape($selected_element.val());
@@ -402,7 +410,7 @@ sakai.profilesection = function(tuid, showSettings){
 
             }
             else {
-                fluid.log("sakai.profilesection - saveValues - the specificied element doesn't have the correct attribute: " + $selected_element.selector);
+                debug.warn("sakai.profilesection - saveValues - the specificied element doesn't have the correct attribute: " + $selected_element.selector);
             }
 
         });

@@ -8,5 +8,7 @@
         "en_US": "/devwidgets/myprofile/bundles/en_US.json",
         "zh_CN": "/devwidgets/myprofile/bundles/zh_CN.json"
     },
+    "type":"core",
+    "enabled":true,
     "url":"/devwidgets/myprofile/myprofile.html"
 }

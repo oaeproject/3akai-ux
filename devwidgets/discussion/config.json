@@ -14,5 +14,7 @@
     "name":"Discussion",
     "showinsakaigoodies":true,
     "hasSettings": true,
+    "type":"sakai",
+    "enabled":true,
     "url":"/devwidgets/discussion/discussion.html"
 }

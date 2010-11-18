@@ -8,5 +8,7 @@
     },
     "id":"chat",
     "name":"chat",
+    "type":"core",
+    "enabled":true,
     "url":"/devwidgets/chat/chat.html"
 }

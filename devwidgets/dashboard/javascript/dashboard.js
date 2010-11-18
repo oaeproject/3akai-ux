@@ -111,7 +111,7 @@ sakai.dashboard = function(tuid, showSettings) {
     var registerWidgetFunctions = function(){
         sakai.api.Widgets.Container.registerFinishFunction(sakai.dashboard.finishEditSettings);
         sakai.api.Widgets.Container.registerCancelFunction(sakai.dashboard.finishEditSettings);
-    }
+    };
 
     $(window).bind("sakai_sitespages_exitedit", function(ev){
         registerWidgetFunctions();
@@ -185,14 +185,14 @@ sakai.dashboard = function(tuid, showSettings) {
  */
     var enableAddGoodies = function(){
         $(".add-button", $rootelClass).attr("disabled", false);
-    }
+    };
 
 /**
  * Disable the add goodies buttons to avoid double requests
  */
     var disableAddGoodies = function(){
         $(".add-button", $rootelClass).attr("disabled", true);
-    }
+    };
 
     var showDashboard = function() {
         tempSettings = settings;
@@ -305,7 +305,7 @@ sakai.dashboard = function(tuid, showSettings) {
 
         }
         catch(err) {
-            fluid.log(err);
+            debug.error(err);
             isValid = false;
         }
 
@@ -535,7 +535,7 @@ sakai.dashboard = function(tuid, showSettings) {
 
                     }
                 } catch(err) {
-                    fluid.log("mysakai.js/saveState(): There was an error saving state: " + err);
+                    debug.error("mysakai.js/saveState(): There was an error saving state: " + err);
                 }
 
             }
@@ -567,7 +567,7 @@ sakai.dashboard = function(tuid, showSettings) {
         // Enable the add goodies buttons
         enableAddGoodies();
         if (!success) {
-            fluid.log("Connection with the server was lost");
+            debug.error("Connection with the server was lost");
         }
     };
 
@@ -593,20 +593,21 @@ sakai.dashboard = function(tuid, showSettings) {
         }
 
         index = 0;
+        var lowestnumber, lowestcolumn, number, _i;
         if (settings.layout !== selectedlayout && newlength < initlength) {
             for (l in settings.columns) {
                 if (index >= newlength) {
                     for (i = 0, j = settings.columns[l].length; i < j; i++) {
-                        var lowestnumber = -1;
-                        var lowestcolumn = -1;
+                        lowestnumber = -1;
+                        lowestcolumn = -1;
                         for (var iii = 0, jjj = columns.length; iii < jjj; iii++) {
-                            var number = columns[iii].length;
+                            number = columns[iii].length;
                             if (number < lowestnumber || lowestnumber == -1) {
                                 lowestnumber = number;
                                 lowestcolumn = iii;
                             }
                         }
-                        var _i = columns[lowestcolumn].length;
+                        _i = columns[lowestcolumn].length;
                         columns[lowestcolumn][_i] = settings.columns[l][i];
                     }
                 }
@@ -616,32 +617,32 @@ sakai.dashboard = function(tuid, showSettings) {
 
         var currentWidget = id;
 
-        var lowestnumber = -1;
-        var lowestcolumn = -1;
-        for (var iii = 0, jjj = columns.length; iii < jjj; iii++) {
-            var number = columns[iii].length;
+        lowestnumber = -1;
+        lowestcolumn = -1;
+        for (var iiii = 0, jjjj = columns.length; iiii < jjjj; iiii++) {
+            number = columns[iiii].length;
             if (number < lowestnumber || lowestnumber == -1) {
                 lowestnumber = number;
-                lowestcolumn = iii;
+                lowestcolumn = iiii;
             }
         }
-        var _i = columns[lowestcolumn].length;
+        _i = columns[lowestcolumn].length;
         columns[lowestcolumn][_i] = new Object();
         columns[lowestcolumn][_i].name = currentWidget;
         columns[lowestcolumn][_i].visible = "block";
         columns[lowestcolumn][_i].uid = "id" + Math.round(Math.random() * 10000000000);
 
         var jsonstring = '{"layout":"' + selectedlayout + '","columns":{';
-        for (var i = 0, j = Widgets.layouts[selectedlayout].widths.length; i < j; i++) {
-            jsonstring += '"column' + (i + 1) + '":[';
-            for (var ii = 0, jj = columns[i].length; ii < jj; ii++) {
-                jsonstring += '{"uid":"' + columns[i][ii].uid + '","visible":"' + columns[i][ii].visible + '","name":"' + columns[i][ii].name + '"}';
-                if (ii !== columns[i].length - 1) {
+        for (var z = 0, x = Widgets.layouts[selectedlayout].widths.length; z < x; z++) {
+            jsonstring += '"column' + (z + 1) + '":[';
+            for (var ii = 0, jj = columns[z].length; ii < jj; ii++) {
+                jsonstring += '{"uid":"' + columns[z][ii].uid + '","visible":"' + columns[z][ii].visible + '","name":"' + columns[z][ii].name + '"}';
+                if (ii !== columns[z].length - 1) {
                     jsonstring += ',';
                 }
             }
             jsonstring += ']';
-            if (i !== Widgets.layouts[selectedlayout].widths.length - 1) {
+            if (z !== Widgets.layouts[selectedlayout].widths.length - 1) {
                 jsonstring += ',';
             }
         }
@@ -828,7 +829,7 @@ sakai.dashboard = function(tuid, showSettings) {
         $(".close_goodies_dialog", $rootelClass).bind("click", function(e) {
             sakai.dashboard.widgetDialogShown[tuid] = false;
             $(addGoodiesDialog + rootelClass).jqmHide();
-        })
+        });
 
     };
 

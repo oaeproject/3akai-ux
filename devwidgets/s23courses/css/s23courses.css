@@ -38,7 +38,7 @@
 }
 
 #s23courses_subcontainer ul li {
-    background: url('/dev/_images/folder_icon.png') 11px 5px no-repeat;
+    background: url('/dev/images/folder_icon.png') 11px 5px no-repeat;
     border-bottom: 1px solid #ccc;
     list-style: none;
     margin: 0;
@@ -46,7 +46,7 @@
 }
 
 #s23courses_subcontainer ul li.s23courses_favourite {
-    background: url('/dev/_images/contentmedia_bookmark.png') 12px 5px no-repeat;
+    background: url('/dev/images/contentmedia_bookmark.png') 12px 5px no-repeat;
 }
 
 #s23courses_subcontainer ul li a {

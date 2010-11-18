@@ -5,5 +5,7 @@
     },
     "id": "uploadcontent",
     "name": "Upload Content",
+    "type":"core",
+    "enabled":true,
     "url": "/devwidgets/uploadcontent/uploadcontent.html"
 }

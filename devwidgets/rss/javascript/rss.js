@@ -182,25 +182,6 @@ sakai.rss = function(tuid, showSettings){
     };
 
     /**
-     * Formats a dateobject to
-     * @param {Object} date-object
-     * @return {String} date in the following format: 20/3/2009 10:20 AM
-     */
-    var formatDate = function(d){
-        var am_or_pm = "";
-
-        var current_hour = d.getHours();
-        if (current_hour < 12) {am_or_pm = "AM";} else{am_or_pm = "PM";}
-        if (current_hour === 0){current_hour = 12;}
-        if (current_hour > 12){current_hour = current_hour - 12;}
-
-        var current_minutes = d.getMinutes() + "";
-        if (current_minutes.length === 1){current_minutes = "0" + current_minutes;}
-        // make a string out of a date in the correct format
-        return(d.getDate() + "/" + (d.getMonth() + 1) + "/" +  d.getFullYear() + " " + current_hour + ":" + current_minutes +  " " + am_or_pm);
-    };
-
-    /**
      * converts the xml-feed to a json-object
      * @param {Object} feed
      */
@@ -228,7 +209,7 @@ sakai.rss = function(tuid, showSettings){
                 if ($("pubDate",item).length > 0){
 
                     // We have to parse the RFC 822 date to help IE understand it, as it is something dodgy there...
-                    pubDate = formatDate(sakai.api.Util.parseRFC822Date($("pubDate",item).text()));
+                    pubDate = sakai.api.l10n.transformDateTimeShort(sakai.api.Util.parseRFC822Date($("pubDate",item).text()));
 
                 }
                   rss.items.push({

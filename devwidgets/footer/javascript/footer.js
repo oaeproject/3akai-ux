@@ -89,10 +89,22 @@ sakai.footer = function(tuid,showSettings){
             cache: false,
             dataType: "json",
             success: function(data){
-                // Construct debug info | TODO: get current running kernel version from a service, maybe svn version of UX as well
+                // Construct debug info
                 var debug_text = "DEBUG:";
                 debug_text += " Nakamura Version: " + data["sakai:nakamura-version"];
-                debug_text += " | UX Code Timestamp: " + data["jcr:created"];
+                getUxVersion(debug_text, container);
+            }
+        });
+    };
+
+    var getUxVersion = function(debug_text, container) {
+        $.ajax({
+            url: "/var/ux-version/ux-version.json",
+            type: "GET",
+            cache: false,
+            dataType: "json",
+            success: function(data){
+                debug_text += " | UX Version: " + data["sakai:ux-version"];
                 debug_text += "<br/>DOC mod date: " + document.lastModified;
                 debug_text += " | PLACE: " + (doc_name || "index.html");
 
@@ -100,7 +112,6 @@ sakai.footer = function(tuid,showSettings){
                 container.html(sakai.api.Security.saneHTML(debug_text));
             }
         });
-
     };
 
     /**

@@ -198,26 +198,6 @@ sakai.comments = function(tuid, showSettings){
     };
 
     /**
-     * Format an input date (used by TrimPath)
-     * @param {Date} d Date that needs to be formatted
-     * @return {String} returns the date in the followinig format
-     */
-    var formatDate = function(d){
-        if (d === null) {
-            return null;
-        }
-
-        var names_of_months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        var current_hour = d.getHours();
-        var current_minutes = d.getMinutes() + "";
-        if (current_minutes.length === 1) {
-            current_minutes = "0" + current_minutes;
-        }
-
-        return (names_of_months[d.getMonth()].substring(0, 3) + " " + d.getDate() + ", " + d.getFullYear() + " - " + current_hour + ":" + current_minutes);
-    };
-
-    /**
      * Converts all HTML to flat text and converts \n to <br />
      * @param {String} str
      */
@@ -256,7 +236,7 @@ sakai.comments = function(tuid, showSettings){
             }
 
             comment.timeAgo = "about " + getTimeAgo(comment.date) + " ago";
-            comment.formatDate = formatDate(comment.date);
+            comment.formatDate = sakai.api.l10n.transformDateTimeShort(comment.date);
             comment.messageTxt = comment["sakai:body"];
             comment.message = tidyInput(comment["sakai:body"]);
             // weird json bug.

@@ -642,7 +642,7 @@ sakai.poll = function(tuid, showSettings){
                 showPoll(response, exists);
             }
         } else {
-            fluid.log('Failed to show the posts.');
+            debug.error('Failed to show the posts.');
         }
     };
 

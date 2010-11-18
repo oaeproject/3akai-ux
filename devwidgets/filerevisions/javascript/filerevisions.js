@@ -40,25 +40,11 @@ sakai.filerevisions = function(tuid, showSettings){
     var filerevisionsCloseButton = "#filerevisions_close";
 
     /**
-     * Convert given date object to readable date string
-     * @param {Object} date Date object
-     */
-    sakai.filerevisions.getFormattedDate = function(date){
-        date = new Date(date);
-        var months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-        var day = date.getDate();
-        var month = months[date.getMonth()];
-        var year = date.getFullYear();
-        var formattedDate = day + " " + month + " " + year;
-        return formattedDate;
-    };
-
-    /**
      * Render the template that displays all revision information
      */
     var renderRevisionData = function(){
         var data = [];
-        baseFileData.created = sakai.filerevisions.getFormattedDate(new Date(baseFileData.data["jcr:created"]));
+        baseFileData.created = sakai.api.l10n.transformDate(new Date(baseFileData.data["jcr:created"]));
         data.data = baseFileData;
         data.linkrevision = $("#content_profile_details_view_revisions").hasClass("link_revision");
 
@@ -142,8 +128,8 @@ sakai.filerevisions = function(tuid, showSettings){
                 var versions = [];
                 for (var i in data.versions){
                     if (data.versions.hasOwnProperty(i)) {
-                        var splittedDate = data.versions[i]["jcr:created"].split("T")[0].split("-");
-                        data.versions[i]["jcr:created"] = sakai.filerevisions.getFormattedDate(new Date(splittedDate[0],splittedDate[1]-1,splittedDate[2]));
+                        var splitDate = data.versions[i]["jcr:created"].split("T")[0].split("-");
+                        data.versions[i]["jcr:created"] = sakai.api.l10n.transformDate(new Date(splitDate[0],splitDate[1]-1,splitDate[2]));
                         versions.push(data.versions[i]);
                     }
                 }

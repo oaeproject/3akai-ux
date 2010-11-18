@@ -3,11 +3,13 @@
     "ca":false,
     "hasSettings":false,
     "i18n": {
-        "default": "/devwidgets/sitespages/bundles/default.json",
+        "default": "/devwidgets/sitespages/bundles/default.json"
     },
     "id":"sitespages",
     "name":"Sites Pages",
     "showinsakaigoodies":false,
     "siteportal":false,
+    "type":"core",
+    "enabled":true,
     "url":"/devwidgets/sitespages/sitespages.html"
 }

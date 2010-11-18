@@ -10,6 +10,9 @@
 
     <!-- FOOTER LINKS -->
     <div class="fl-widget-options fl-fix" style="overflow:hidden;">
+        <div class="fl-widget-options-footer-top">
+            <div class="fl-widget-options-top-right"></div>
+        </div>
         <div class="widget-options-inner">
             <ul>
                 <li><a href="people.html">__MSG__VIEW_AND_EDIT_ALL_MY_CONTACTS__</a></li>
@@ -19,16 +22,16 @@
             </ul>
 
         </div>
-        <div class="fl-widget-options-footer-left">
-            <div class="fl-widget-options-footer-right">
-            </div>
+        <div class="fl-widget-options-footer">
+            <div class="fl-widget-options-footer-right"></div>
+            <div class="fl-widget-options-footer-left"></div>
         </div>
     </div>
     
     <div id="mycontacts_list_template" style="display:none"><!--
         {for i in items}
             <div class="mycontacts_list_contact">
-                <a href="/~${i.id}" class="mycontacts_list_contact_picture"><img src="${i.photo}" alt="person icon"/></a>
+                <a href="/~${i.id}" class="mycontacts_list_contact_picture"><img src="${i.photo}" alt="__MSG__PERSON_ICON__"/></a>
                 <a href="/~${i.id}" class="mycontacts_list_contact_name">${i.name}</a>
             </div>
         {forelse}

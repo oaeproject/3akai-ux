@@ -17,7 +17,7 @@
 
             </div>
             <div class="poll_center">
-                <span>Question view</span>
+                <span>__MSG__QUESTION_VIEW__</span>
             </div>
             <hr />
 
@@ -26,12 +26,12 @@
 
             </div>
             <div class="poll_center">
-                <span>Chart view</span>
+                <span>__MSG__CHART_VIEW__</span>
             </div>
             <hr />
             <div class="dialog_buttons">
-                <button type="button" class="s3d-button" id="poll_preview_back"><span class="s3d-button-inner">Back</span></button>
-                <button type="button" class="s3d-button s3d-button-primary" id="poll_preview_insert"><span class="s3d-button-inner">Insert Widget</span></button>
+                <button type="button" class="s3d-button" id="poll_preview_back"><span class="s3d-button-inner">__MSG__BACK__</span></button>
+                <button type="button" class="s3d-button s3d-button-primary" id="poll_preview_insert"><span class="s3d-button-inner">__MSG__INSERT_WIDGET__</span></button>
             </div>
             <br class="poll_cls"/>
         </div>
@@ -40,67 +40,67 @@
     <!-- Main template for the settings view -->
     <div id="poll_settings_template" style="display:none"><!--
     <ul id="poll_tabs">
-        <li><a href="javascript:;" id="poll_create_new_tab" class="poll_selectedtab">Create New Poll</a></li>
+        <li><a href="javascript:;" id="poll_create_new_tab" class="poll_selectedtab">__MSG__CREATE_NEW_POLL__</a></li>
     </ul>
     <div id="poll_create_new">
         <form>
-            <button type="button" class="s3d-button s3d-button-primary" id="poll_create_placeholder"><span class="s3d-button-inner">Create a quick placeholder</span></button>
+            <button type="button" class="s3d-button s3d-button-primary" id="poll_create_placeholder"><span class="s3d-button-inner">__MSG__CREATE_A_NEW_PLACEHOLDER__</span></button>
             <br class="poll_cls" />
-            <label for="poll_question">Question:</label>
+            <label for="poll_question">__MSG__QUESTION__:</label>
             <textarea id="poll_question">${poll.question}</textarea><br />
-            <label>Options:</label>
+            <label>__MSG__OPTIONS__:</label>
             <div id="poll_options">
 
             </div>
             <div id="poll_add_new_option_container">
-                <button type="button" class="s3d-button s3d-button-primary" id="poll_add_new_option"><span class="s3d-button-inner">Add new option...</span></button>
+                <button type="button" class="s3d-button s3d-button-primary" id="poll_add_new_option"><span class="s3d-button-inner">__MSG__ADD_NEW_OPTION__...</span></button>
             </div>
             <br class="poll_cls" />
             <div class="poll_left">
                 <input id="poll_allow_multiple" {if poll.allow_multiple==1}checked="checked"{/if} type="checkbox"/><label for="poll_allow_multiple" class="poll_radiocheck_label">Allow users to select multiple options</label>
             </div>
-            <button type="button" class="s3d-button s3d-button-primary" id="poll_toggle_advanced_settings"><span class="s3d-button-inner">Advanced settings <span id="poll_toggle_advanced_settings_down">&#8595;</span><span id="poll_toggle_advanced_settings_up">&#8593;</span></span></button>
+            <button type="button" class="s3d-button s3d-button-primary" id="poll_toggle_advanced_settings"><span class="s3d-button-inner">__MSG__ADVANCED_SETTINGS__ <span id="poll_toggle_advanced_settings_down">&#8595;</span><span id="poll_toggle_advanced_settings_up">&#8593;</span></span></button>
             <br class="poll_cls" />
             <div id="poll_advanced_settings">
                 <div id="poll_date_left">
-                    <label for="poll_startdate">Start date and time:</label><br />
+                    <label for="poll_startdate">__MSG__START_DATE_AND_TIME__:</label><br />
                     <input type="text" id="poll_startdate" class="poll_date_input" value="${poll.startdate}" readonly="true"/>
                     <input type="text" id="poll_starthour" class="poll_time_input" value="${poll.starthour}" readonly="true"/>
-                    <img id="poll_starthour_down" class="poll_dropdown" src="/devwidgets/poll/images/poll_drop_down.gif" alt="Please select an hour" title="Please select an hour"/>
+                    <img id="poll_starthour_down" class="poll_dropdown" src="/devwidgets/poll/images/poll_drop_down.gif" alt="__MSG__PLEASE_SELECT_AN_HOUR__" title="__MSG__PLEASE_SELECT_AN_HOUR__"/>
                     <div id="poll_starthour_div" class="poll_time"></div>
                     <span class="poll_minutes_seconds">:</span>
                     <input type="text" id="poll_startmin" class="poll_time_input" value="${poll.startmin}" readonly="true"/>
-                    <img id="poll_startmin_down" class="poll_dropdown" src="/devwidgets/poll/images/poll_drop_down.gif" alt="Please select a minute" title="Please select a minute"/>
+                    <img id="poll_startmin_down" class="poll_dropdown" src="/devwidgets/poll/images/poll_drop_down.gif" alt="__MSG__PLEASE_SELECT_A_MINUTE__" title="__MSG__PLEASE_SELECT_A_MINUTE__"/>
                     <div id="poll_startmin_div" class="poll_time"></div>
                 </div>
                 <div id="poll_date_right">
-                    <label for="poll_stopdate">Stop date and time:</label><br />
+                    <label for="poll_stopdate">__MSG__STOP_DATE_AND_TIME__:</label><br />
                     <input type="text" id="poll_stopdate" class="poll_date_input" value="${poll.stopdate}" readonly="true"/>
                     <input type="text" id="poll_stophour" class="poll_time_input" value="${poll.stophour}" readonly="true"/>
-                    <img id="poll_stophour_down" class="poll_dropdown" src="/devwidgets/poll/images/poll_drop_down.gif" alt="Please select an hour" title="Please select an hour"/>
+                    <img id="poll_stophour_down" class="poll_dropdown" src="/devwidgets/poll/images/poll_drop_down.gif" alt="__MSG__PLEASE_SELECT_AN_HOUR__" title="__MSG__PLEASE_SELECT_AN_HOUR__"/>
                     <div id="poll_stophour_div" class="poll_time"></div>
                     <span class="poll_minutes_seconds">:</span>
                     <input type="text" id="poll_stopmin" class="poll_time_input" value="${poll.stopmin}" readonly="true"/>
-                    <img id="poll_stopmin_down" class="poll_dropdown" src="/devwidgets/poll/images/poll_drop_down.gif" alt="Please select a minute" title="Please select a minute"/>
+                    <img id="poll_stopmin_down" class="poll_dropdown" src="/devwidgets/poll/images/poll_drop_down.gif" alt="__MSG__PLEASE_SELECT_A_MINUTE__" title="__MSG__PLEASE_SELECT_A_MINUTE__"/>
                     <div id="poll_stopmin_div" class="poll_time"></div>
                 </div>
                 <br class="poll_cls" />
                 <hr />
-                <label>Poll type:</label>
+                <label>__MSG__POLL_TYPE__:</label>
                 <ul id="poll_polltype">
-                    <li{if poll.poll_type == 0} class="poll_polltype_active"{/if} id="poll_polltype_vertical"><a href="javascript:;"><span>vertical</span></a></li>
-                    <li{if poll.poll_type == 1} class="poll_polltype_active"{/if} id="poll_polltype_horizontal"><a href="javascript:;"><span>horizontal</span></a></li>
-                    <li{if poll.poll_type == 2} class="poll_polltype_active"{/if} id="poll_polltype_pie"><a href="javascript:;"><span>piechart</span></a></li>
-                    <li{if poll.poll_type == 3} class="poll_polltype_active"{/if} id="poll_polltype_text"><a href="javascript:;"><span>text only</span></a></li>
+                    <li{if poll.poll_type == 0} class="poll_polltype_active"{/if} id="poll_polltype_vertical"><a href="javascript:;"><span>__MSG__VERTICAL__</span></a></li>
+                    <li{if poll.poll_type == 1} class="poll_polltype_active"{/if} id="poll_polltype_horizontal"><a href="javascript:;"><span>__MSG__HORIZONTAL__</span></a></li>
+                    <li{if poll.poll_type == 2} class="poll_polltype_active"{/if} id="poll_polltype_pie"><a href="javascript:;"><span>__MSG__PIECHART__</span></a></li>
+                    <li{if poll.poll_type == 3} class="poll_polltype_active"{/if} id="poll_polltype_text"><a href="javascript:;"><span>__MSG__TEXT_ONLY__</span></a></li>
                 </ul>
                 <br class="poll_cls" />
-                <input id="poll_not_see_chart_view" {if poll.not_see_chart_view}checked="checked"{/if} type="checkbox"/><label for="poll_not_see_chart_view" class="poll_radiocheck_label">Users can NOT see the chart view</label><br class="poll_cls" />
-                <input id="poll_allow_see_results" {if poll.allow_see_results}checked="checked"{/if} type="checkbox"/><label for="poll_allow_see_results" class="poll_radiocheck_label">Allow users to see results before voting</label>
+                <input id="poll_not_see_chart_view" {if poll.not_see_chart_view}checked="checked"{/if} type="checkbox"/><label for="poll_not_see_chart_view" class="poll_radiocheck_label">__MSG__USER_CAN_NOT_SEE_THE_CHART_VIEW__</label><br class="poll_cls" />
+                <input id="poll_allow_see_results" {if poll.allow_see_results}checked="checked"{/if} type="checkbox"/><label for="poll_allow_see_results" class="poll_radiocheck_label">__MSG__ALLOW_USERS_TO_SEE_RESULTS_BEFORE_VOTING__</label>
             </div>
             <br class="poll_cls" />
             <div class="dialog_buttons">
-                <button type="button" class="s3d-button" id="poll_cancel"><span class="s3d-button-inner">Cancel</span></button>
-                <button type="button" class="s3d-button s3d-button-primary" id="poll_preview_insert"><span class="s3d-button-inner">Insert Widget</span></button>
+                <button type="button" class="s3d-button" id="poll_cancel"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
+                <button type="button" class="s3d-button s3d-button-primary" id="poll_preview_insert"><span class="s3d-button-inner">__MSG__INSERT_WIDGET__</span></button>
             </div>
             <br class="poll_cls" />
         </form>
@@ -132,7 +132,7 @@
 <!-- Template used to render the template -->
 <div id="poll_show_question_template"><!--
     {if poll.placeholder == 1}
-        <img src="/devwidgets/poll/images/poll_placeholder.jpg" alt="Poll placeholder" />
+        <img src="/devwidgets/poll/images/poll_placeholder.jpg" alt="__MSG__POLL_PLACEHOLDER__" />
     {else}
         <p id="poll_question_view_header">
             ${poll.question}
@@ -148,11 +148,11 @@
             <hr />
             <div class="poll_question_view_bar_bottom">
                 {if poll.temp.userVoted == 0 && poll.temp.polldateok == 1}
-                <button type="button" class="s3d-button s3d-button-primary" id="poll_question_view_vote"><span class="s3d-button-inner">Vote</span></button>
+                <button type="button" class="s3d-button s3d-button-primary" id="poll_question_view_vote"><span class="s3d-button-inner">__MSG__VOTE__</span></button>
                 {/if}
                 {if poll.allow_see_results == 1}
                     {if poll.not_see_chart_view == 0}
-                    <button type="button" class="s3d-button s3d-button-primary" id="poll_question_view_results"><span class="s3d-button-inner">View results</span></button>
+                    <button type="button" class="s3d-button s3d-button-primary" id="poll_question_view_results"><span class="s3d-button-inner">__MSG__VIEW_RESULTS__</span></button>
                     {/if}
                 {/if}
             </div>
@@ -174,12 +174,12 @@
         </div>
         <hr />
         <div class="poll_question_view_bar_bottom">
-            <button type="button" class="s3d-button s3d-button-primary" id="poll_question_view_vote"><span class="s3d-button-inner">Vote</span></button>
-            <button type="button" class="s3d-button s3d-button-primary" id="poll_question_view_results"><span class="s3d-button-inner">View results</span></button>
+            <button type="button" class="s3d-button s3d-button-primary" id="poll_question_view_vote"><span class="s3d-button-inner">__MSG__VOTE__</span></button>
+            <button type="button" class="s3d-button s3d-button-primary" id="poll_question_view_results"><span class="s3d-button-inner">__MSG__VIEW_RESULTS__</span></button>
         </div>
     </form>
     <div class="poll_specimen">
-         <img src="/devwidgets/poll/images/poll_specimen.png" alt="Specimen" />
+         <img src="/devwidgets/poll/images/poll_specimen.png" alt="__MSG__SPECIMEN__" />
     </div>
 --></div>
 
@@ -200,21 +200,21 @@
                     <li id="poll_chart_view_options${option_index}"><span class="poll_chart_view_bullet poll_color_${option.color}">&nbsp;</span><span class="poll_chart_view_content">${option.answer}</span></li>
                 {/for}
             </ul>
-            <img src="${poll.image}" alt="Vertical chart" />
+            <img src="${poll.image}" alt="__MSG__VERTICAL_CHART__" />
         {elseif poll.poll_type == 1}
             <ul id="poll_chart_view_options">
                 {for option in poll.options}
                     <li id="poll_chart_view_options${option_index}"><span class="poll_chart_view_bullet poll_color_${option.color}">&nbsp;</span><span class="poll_chart_view_content">${option.answer}</span></li>
                 {/for}
             </ul>
-            <img src="${poll.image}" alt="Horizontal chart" />
+            <img src="${poll.image}" alt="__MSG__HORIZONTAL_CHART__" />
         {elseif poll.poll_type == 2}
             <ul id="poll_chart_view_options">
                 {for option in poll.options}
                     <li id="poll_chart_view_options${option_index}"><span class="poll_chart_view_bullet poll_color_${option.color}">&nbsp;</span><span class="poll_chart_view_content">${option.answer}</span></li>
                 {/for}
             </ul>
-            <img src="${poll.image}" alt="Pie chart" />
+            <img src="${poll.image}" alt="__MSG__PIECHART__" />
         {elseif poll.poll_type == 3}
             <ul id="poll_text_view_options">
                 {for option in poll.options}
@@ -225,7 +225,7 @@
         {if poll.allow_see_results == 1 && poll.temp.userVoted == 0 && poll.temp.polldateok == 1}
         <hr />
         <div class="poll_question_view_bar_bottom">
-            <button type="button" class="s3d-button s3d-button-primary" id="poll_chart_view_back"><span class="s3d-button-inner">Back</span></button>
+            <button type="button" class="s3d-button s3d-button-primary" id="poll_chart_view_back"><span class="s3d-button-inner">__MSG__BACK__</span></button>
         </div>
         {/if}
     </form>
@@ -248,21 +248,21 @@
                     <li id="poll_chart_view_options${option_index}"><span class="poll_chart_view_bullet poll_color_${option.color}">&nbsp;</span><span class="poll_chart_view_content">${option.answer}</span></li>
                 {/for}
             </ul>
-            <img src="${poll.image}" alt="Vertical chart" />
+            <img src="${poll.image}" alt="__MSG__VERTICAL_CHART__" />
         {elseif poll.poll_type == 1}
             <ul id="poll_chart_view_options">
                 {for option in poll.temp.options}
                     <li id="poll_chart_view_options${option_index}"><span class="poll_chart_view_bullet poll_color_${option.color}">&nbsp;</span><span class="poll_chart_view_content">${option.answer}</span></li>
                 {/for}
             </ul>
-            <img src="${poll.image}" alt="Horizontal chart" />
+            <img src="${poll.image}" alt="__MSG__HORIZONTAL_CHART__" />
         {elseif poll.poll_type == 2}
             <ul id="poll_chart_view_options">
                 {for option in poll.temp.options}
                     <li id="poll_chart_view_options${option_index}"><span class="poll_chart_view_bullet poll_color_${option.color}">&nbsp;</span><span class="poll_chart_view_content">${option.answer}</span></li>
                 {/for}
             </ul>
-            <img src="${poll.image}" alt="Pie chart" />
+            <img src="${poll.image}" alt="__MSG__PIECHART__" />
         {elseif poll.poll_type == 3}
             <ul id="poll_text_view_options">
                 {for option in poll.temp.options}
@@ -272,7 +272,7 @@
         {/if}
     </form>
     <div class="poll_specimen">
-         <img src="/devwidgets/poll/images/poll_specimen.png" alt="Specimen" />
+         <img src="/devwidgets/poll/images/poll_specimen.png" alt="__MSG__SPECIMEN__" />
     </div>
 --></div>
 

@@ -158,7 +158,7 @@ sakai.s23courses = function(tuid, showSettings){
                 globalfeed = $.extend(data, {}, true);
             },
             error: function(xhr, textStatus, thrownError) {
-                fluid.log("s23courses: Could not receive the courses and projects from the server.");
+                debug.error("s23courses: Could not receive the courses and projects from the server.");
             },
             complete: function(){
                 splitGlobalFeed();

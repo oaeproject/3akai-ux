@@ -263,6 +263,8 @@ sakai.listpeople = function(tuid, showSettings) {
                             }
                         }
                     }
+                    // trigger event when add/remove from the list
+                    $(window).trigger("list-people-selected-change",tuid);
                 }
                 $listpeople_count_items.hide();
                 $listpeople_count_of.show();
@@ -413,7 +415,7 @@ sakai.listpeople = function(tuid, showSettings) {
                                 sakai.data.listpeople[listType].userList[resultObject["jcr:name"]]['avatar'] = sakai.config.MimeTypes[data["jcr:content"]["jcr:mimeType"]].URL;
                                 sakai.data.listpeople[listType].userList[resultObject["jcr:name"]]['mimeTypeDescripton'] = sakai.config.MimeTypes[data["jcr:content"]["jcr:mimeType"]].description;
                             } else {
-                                sakai.data.listpeople[listType].userList[resultObject["jcr:name"]]['avatar'] = "/dev/_images/mimetypes/empty.png";
+                                sakai.data.listpeople[listType].userList[resultObject["jcr:name"]]['avatar'] = "/dev/images/mimetypes/empty.png";
                                 sakai.data.listpeople[listType].userList[resultObject["jcr:name"]]['mimeTypeDescripton'] = sakai.config.MimeTypes.other.description;
                             }
                             if (!sakai.data.listpeople[listType].userList[resultObject["jcr:name"]]["subNameInfo"]) {

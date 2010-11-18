@@ -6,5 +6,7 @@
     },
     "id":"changepic",
     "name":"changepic",
+    "type":"core",
+    "enabled":true,
     "url":"/devwidgets/changepic/changepic.html"
 }

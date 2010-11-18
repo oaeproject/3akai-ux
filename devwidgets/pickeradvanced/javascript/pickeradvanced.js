@@ -139,6 +139,7 @@ sakai.pickeradvanced = function(tuid, showSettings) {
             $pickeradvanced_sort_on.show();
             $pickeradvanced_search_people.show();
         } else if (pickerData["type"] === "content") {
+            $("#pickeradvanced_search_files_mine").parent("li").addClass("pickeradvanced_selected_list");
             $pickeradvanced_sort_on.hide();
             $pickeradvanced_search_files.show();
             pickerData["searchIn"] = sakai.config.URL.SEARCH_ALL_FILES.replace(".json", ".infinity.json") + "?page=0&items=12&_=&q=";
@@ -317,7 +318,7 @@ sakai.pickeradvanced = function(tuid, showSettings) {
                                 pickerData["selected"][$(this).attr("id")].entityType = "file";
                             }
                             if ($pickeradvanced_add_button.is(":disabled")) {
-                                $pickeradvanced_add_button.attr("disabled", "");
+                                $pickeradvanced_add_button.removeAttr("disabled");
                             }
                         });
                     });
@@ -434,6 +435,15 @@ sakai.pickeradvanced = function(tuid, showSettings) {
 
     $(window).unbind("sakai-pickeradvanced-init");
     $(window).bind("sakai-pickeradvanced-init", function(e, config) {
+        // position dialog box at users scroll position
+        var htmlScrollPos = $("html").scrollTop();
+        var docScrollPos = $(document).scrollTop();
+        if (htmlScrollPos > 0) {
+            $pickeradvanced_container.css({"top": htmlScrollPos + 130 + "px"});
+        } else if (docScrollPos > 0) {
+            $pickeradvanced_container.css({"top": docScrollPos + 130 + "px"});
+        }
+
         firstTime = true;
         render(config.config);
         $pickeradvanced_container.jqmShow();

@@ -6,5 +6,7 @@
     },
     "id":"sendmessage",
     "name":"Send a message",
+    "type":"core",
+    "enabled":true,
     "url":"/devwidgets/sendmessage/sendmessage.html"
 }

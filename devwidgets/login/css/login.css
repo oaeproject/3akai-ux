@@ -1,0 +1,43 @@
+/*
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+
+/* General */
+label {color:#888; font-weight: bold; font-size: 1em;}
+
+/* Container */
+#login-failed {color: #000; display:none; margin-top:10px; width:260px;}
+#login-loader {display:none; color: #000;}
+
+
+/* Log-in container */
+.login-container {padding: 0; float: left;}
+.login-container-button {margin: 25px 0 35px 0; float: none; border: 1px solid #fff;}
+.login-container-textfield {border: 1px solid #888; height: 18px; margin-bottom:15px; padding: 3px 0 0 3px; width:200px !important;}
+
+
+/* External Log-in */
+.login-external {margin-left: 600px; width: 250px; height: 250px; display: table;}
+.login-external-content {display: table-cell; vertical-align: middle;}
+.login-external-system {margin-bottom:30px;}
+.login-external-description {color: #999999;}
+
+/* Register here */
+#register_here {color: #454a4e; font-size: 0.95em; clear: both;}
+#register_here a {color:#006d94; font-weight: bold;}
+
+

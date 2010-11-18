@@ -8,5 +8,7 @@
     "id":"sites",
     "name":"My Courses & Sites",
     "personalportal":false,
+    "type":"sakai",
+    "enabled":true,
     "url":"/devwidgets/sites/sites.html"
 }

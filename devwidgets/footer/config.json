@@ -7,5 +7,7 @@
     },
     "id":"footer",
     "name":"Dynamic Footer",
+    "type":"core",
+    "enabled":true,
     "url":"/devwidgets/footer/footer.html"
 }

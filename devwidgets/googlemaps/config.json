@@ -14,5 +14,7 @@
     "img":"/devwidgets/googlemaps/images/googlemaps.png",
     "name":"Google maps",
     "showinsakaigoodies":true,
+    "type":"sakai",
+    "enabled":true,
     "url":"/devwidgets/googlemaps/googlemaps.html"
 }

@@ -8,5 +8,7 @@
     },
     "id":"topnavigation",
     "name":"topnavigation",
+    "type":"core",
+    "enabled":true,
     "url":"/devwidgets/topnavigation/topnavigation.html"
 }

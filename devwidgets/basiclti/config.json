@@ -6,5 +6,7 @@
     "img":"/devwidgets/basiclti/images/basiclti.png",
     "name":"Basic LTI",
     //"showinsakaigoodies":true,
+    "type":"sakai",
+    "enabled":true,
     "url":"/devwidgets/basiclti/basiclti.html"
 }

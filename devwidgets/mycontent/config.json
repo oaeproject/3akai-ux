@@ -7,6 +7,8 @@
     },
     "personalportal":true,
     "hasSettings":false,
+    "type":"sakai",
+    "enabled":true,
     "url":"/devwidgets/mycontent/mycontent.html",
     "deletable":false
 }
