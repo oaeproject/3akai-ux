@@ -431,7 +431,6 @@ sakai.api.Groups = sakai.api.Groups || {};
  *                            two params, success {Boolean} and nameTaken {Boolean}
 */
 sakai.api.Groups.createGroup = function(id, title, description, callback) {
-
     /**
      * Check if the group is created correctly and exists
      * @param {String} groupid
@@ -936,7 +935,7 @@ sakai.api.Skinning = sakai.api.Skinning || {};
 sakai.api.Skinning.loadSkinsFromConfig = function() {
     if (sakai.config.skinCSS && sakai.config.skinCSS.length) {
         $(sakai.config.skinCSS).each(function(i,val) {
-            $.Load.requireCSS(val);
+            sakai.api.Util.include.css(val);
         });
     }
 };
@@ -2099,25 +2098,6 @@ sakai.api.Server.removeJSON = function(i_url, callback){
     });
 };
 
-
-/**
- * Loads in a CSS file at runtime from a given URL
- *
- * @param {String} url The URL pointing to the required CSS file
- */
-sakai.api.Server.requireCSS = function(url) {
-
-};
-
-/**
- * Loads in a JS file at runtime from a given URL
- *
- * @param {String} url The URL pointing to the required JS file
- */
-sakai.api.Server.requireJS = function(url) {
-
-};
-
 sakai.api.Server.JCRPropertiesToDelete = ["rep:policy", "jcr:path"];
 
 sakai.api.Server.filterJCRProperties = function(data) {
@@ -2136,46 +2116,6 @@ sakai.api.Server.filterJCRProperties = function(data) {
 };
 
 /**
- * @class Site
- *
- * @description
- * Site related common functionality,
- * This should only hold functions
- * which are used across multiple pages, and does not constitute functionality
- * related to a single area/page
- *
- * @namespace
- * Site related convenience functions
- */
-sakai.api.Site = sakai.api.Site || {};
-
-
-/** Description - TO DO */
-sakai.api.Site.updateSettings = function(siteID, settings) {
-
-
-};
-
-/** Description - TO DO */
-sakai.api.Site.addSiteMember = function(userID, siteID, role) {
-
-
-};
-
-/** Description - TO DO */
-sakai.api.Site.removeSiteMember = function(userID, siteID) {
-
-
-};
-
-/** Description - TO DO */
-sakai.api.Site.loadSkin = function(siteID, skinID) {
-
-
-};
-
-
-/**
  * @class UI
  *
  * @description
@@ -2186,167 +2126,6 @@ sakai.api.Site.loadSkin = function(siteID, skinID) {
  * Standard Sakai 3 UI elements
  */
 sakai.api.UI = sakai.api.UI || {};
-
-/**
- * @class Forms
- *
- * @description
- * Form related functionality speeding up data retrieval, filling in initial
- * values or resetting a form.
- *
- * @namespace
- * UI Form related functions
- */
-sakai.api.UI.Forms = {
-
-    /**
-     * Retrieves all data from a form and constructs a JSON object containing
-     * all values.
-     * <p>This function will look for input fields, selects and textareas and will get all of the values
-     * out and store them in a JSON object. The keys for this object are the names (name attribute) of
-     * the form fields. This function is useful as it saves you to do a .val() on every form field.
-     * Form fields without a name attribute will be ignored. </p>
-     *
-     * @param {Object} formElement The jQuery object of the form we would like to
-     * extract the data from
-     *
-     * @return {Object} <p>A JSON object containing name: value pair of form data.
-     * The object that's returned will look like this:</p>
-     * <pre><code>{
-     *     inputBoxName : "Value 1",
-     *     radioButtonGroup : "value2",
-     *     checkBoxGroup : ["option1","option2"],
-     *     selectElement : ["UK"],
-     *     textAreaName : "This is some random text"
-     * }</code></pre>
-     */
-    form2json: function(formElement){
-
-        var finalFields = {};
-        var fields = $("input, textarea, select", formElement);
-
-        for(var i = 0, il = fields.length; i < il; i++) {
-
-            var el = fields[i];
-            var name = el.name;
-            var nodeName = el.nodeName.toLowerCase();
-            var type = el.type.toLowerCase() || "";
-
-            if (name){
-                if (nodeName === "input" || nodeName === "textarea") {
-                    // Text fields and textareas
-                    if (nodeName === "textarea" || (type === "text" || type === "password")) {
-                        finalFields[name] = el.value;
-                    // Checkboxes
-                    } else if (type === "checkbox") {
-                        finalFields[name] = finalFields[name] || [];
-                        if (el.checked) {
-                            finalFields[name][finalFields[name].length] = el.value;
-                        }
-                    // Radiobuttons
-                    } else if (type === "radio" && el.checked) {
-                        finalFields[name] = el.value;
-                    }
-                // Select dropdowns
-                } else if (nodeName === "select"){
-                    // An array as they have possibly multiple selected items
-                    finalFields[name] = [];
-                    for (var j = 0, jl = el.options.length; j < jl; j++) {
-                        if (el.options[j].selected) {
-                            finalFields[name] = el.options[j].value;
-                        }
-                    }
-                }
-            }
-        }
-
-        return finalFields;
-    },
-
-
-    /**
-     * Function that will take in a JSON object and a container and will try to attempt to fill out
-     * all form fields according to what's in the JSON object. A useful usecase for this would be to
-     * have a user fill out a form, and store the serialization of it directly on the server. When the
-     * user then comes back, we can get this value from the server and give that value to this function.
-     * This will create the same form state as when it was saved by the user.
-     *
-     * @param {Object} formElement JQuery element that represents the container in which we are
-     *  filling out the values
-     * @param {Object} formDataJson JSON object that contains the names of the fields we want to populate (name attribute)
-     *  as keys and the actual value (text for input text fields and textareas, and values for
-     *  checkboxes, radio buttons and select dropdowns)
-     *  <pre><code>{
-     *     inputBoxName : "Value 1",
-     *     radioButtonGroup : "value2",
-     *     checkBoxGroup : ["option1","option2"],
-     *     selectElement : ["UK"],
-     *     textAreaName : "This is some random text"
-     *  }</code></pre>
-     */
-    json2form: function(formElement, formDataJson){
-
-        sakai.api.UI.Forms.resetForm(formElement);
-
-        for (var name in formDataJson) {
-            if (formDataJson[name]){
-                var els = $('[name=' + name + ']', formElement);
-                for (var i = 0, il = els.length; i < il; i++){
-                    var el = els[i];
-                    var nodeName = el.nodeName.toLowerCase();
-                    var type = el.type.toLowerCase() || "";
-                    if (nodeName === "textarea" || (nodeName === "input" && (type === "text" || type === "password"))){
-                        el.value = formDataJson[name];
-                    } else if (nodeName === "input" && type === "radio"){
-                        if (el.value === formDataJson[name]){
-                            el.checked = true;
-                        }
-                    } else if (nodeName === "input" && type === "checkbox"){
-                        for (var j = 0, jl = formDataJson[name].length; j < jl; j++){
-                            if (el.value === formDataJson[name][j]){
-                                el.checked = true;
-                            }
-                        }
-                    } else if (nodeName === "select"){
-                        for (var k = 0, kl = el.options.length; k < kl; k++) {
-                            if (el.options[k].value === formDataJson[name]) {
-                                el.options[k].selected = true;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-    },
-
-    /**
-     * Resets all the values of a given form . If it's an input textbox or a textarea, the value will
-     * become an empty string. If it's a radio button or a checkbox, all will be unchecked.
-     * If it's a select dropdown, then the first element will be selected
-     * @param {Object} formElement JQuery element that represents the container in which we are
-     *  resetting the form fields
-     */
-    resetForm: function(formElement){
-
-        var fields = $("input, textarea, select", formElement);
-        for (var i = 0, il = fields.length; i < il; i++){
-            var el = fields[i];
-            var nodeName = el.nodeName.toLowerCase();
-            var type = el.type.toLowerCase() || "";
-            if ((nodeName === "input" && (type === "text" || type === "password")) || nodeName === "textarea"){
-                el.value = "";
-            } else if (nodeName === "input"){
-                el.checked = false;
-            } else if (nodeName === "select"){
-                el.selectedIndex = 0;
-            }
-        }
-
-    }
-
-};
-
 
 /**
  * @class User
@@ -3502,45 +3281,85 @@ sakai.api.Util.updateChatStatusElement = function(element, chatstatus) {
 };
 
 
-/**
- * URL encodes a given string
- *
- * @param {String} s The string we would like to URL encode
- *
- * @returns Returns the URL encoded string
- * @type String
- */
-sakai.api.Util.URLEncode = function(s) {
+(function($){
+    sakai.api.Util.include = {};
+    /**
+     * Generic function that will insert an HTML tag into the head of the document. This
+     * will be used to both insert CSS and JS files
+     * @param {Object} tagname
+     *  Name of the tag we want to insert. This is supposed to be "link" or "script".
+     * @param {Object} attributes
+     *  A JSON object that contains all of the attributes we want to attach to the tag we're
+     *  inserting. The keys in this object are the attribute names, the values in the object
+     *  are the attribute values
+     */
+    var insertTag = function(tagname, attributes) {
+        var tag = document.createElement(tagname);
+        var head = document.getElementsByTagName('head').item(0);
+        for (var a in attributes){
+            if(attributes.hasOwnProperty(a)){
+                tag[a] = attributes[a];
+            }
+        }
+        head.appendChild(tag);
+    };
 
+    /**
+     * Check to see if the tag+attributes combination currently exists in the DOM
+     *
+     * @param {Object} tagname
+     *  Name of the tag we want to insert. This is supposed to be "link" or "script".
+     * @param {Object} attributes
+     *  A JSON object that contains all of the attributes we want to attach to the tag we're
+     *  inserting. The keys in this object are the attribute names, the values in the object
+     *  are the attribute values
+     * @return {jQuery|Boolean} returns the selected objects if found, otherwise returns false
+     */
+    var checkForTag = function(tagname, attributes) {
+        var selector = tagname;
+        for (var i in attributes) {
+            if (i && attributes.hasOwnProperty(i)) {
+                selector += "[" + i + "*=" + attributes[i] + "]";
+            }
+        }
+        if ($(selector).length) {
+            return $(selector);
+        }
+        else {
+            return false;
+        }
+    };
 
-};
+    /**
+     * Load a JavaScript file into the document
+     * @param {String} URL of the JavaScript file relative to the parent dom.
+     */
+    sakai.api.Util.include.js = function(url) {
+        var attributes = {"src": url, "type": "text/javascript"};
+        var existingScript = checkForTag("script", attributes);
+        if (existingScript) {
+            // Remove the existing script so we can place in a new one
+            // We need to do this otherwise the init functions that need to be called
+            // at the end of widgets never get called again
+            existingScript.remove();
+        }
+        insertTag("script", {"src" : url, "type" : "text/javascript"});
+    };
 
-/**
- * URL decodes a given URL encoded string
- *
- * @param {String} s The string we would like to decode
- *
- * @returns Returns the decoded string
- * @type String
- */
-sakai.api.Util.URLDecode = function(s) {
+    /**
+     * Load a CSS file into the document
+     * @param {String} URL of the CSS file relative to the parent dom.
+     */
+    sakai.api.Util.include.css = function(url) {
+        var attributes = {"href" : url, "type" : "text/css", "rel" : "stylesheet"};
+        var existingStylesheet = checkForTag("link", attributes);
+        // if the stylesheet already exists, don't add it again
+        if (!existingStylesheet) {
+            insertTag("link", attributes);
+        }
+    };
 
-
-};
-
-/**
- * Strip all HTML tags from a given string
- *
- * @param {String} s The string we would like to strip all tags from
- *
- * @returns Returns the input string without tags
- * @type String
- */
-sakai.api.Util.stripTags = function(s) {
-
-
-};
-
+})(jQuery);
 
 /**
  * @class Sorting
@@ -3891,7 +3710,7 @@ sakai.api.Widgets.widgetLoader = {
                     stylesheets.push(CSSTags.URL[i]);
                     sakai.api.Widgets.cssCache[CSSTags.URL[i]] = true;
                 } else {
-                    $.Load.requireCSS(CSSTags.URL[i]);
+                    sakai.api.Util.include.css(CSSTags.URL[i]);
                 }
             }
 
@@ -3908,7 +3727,7 @@ sakai.api.Widgets.widgetLoader = {
             }
 
             for (var JSURL = 0, l = JSTags.URL.length; JSURL < l; JSURL++){
-                $.Load.requireJS(JSTags.URL[JSURL]);
+                sakai.api.Util.include.js(JSTags.URL[JSURL]);
             }
 
             return stylesheets;
@@ -4288,8 +4107,6 @@ sakai.api.Widgets.isOnDashboard = function(tuid) {
 })();
 
 
-
-
 // -----------------------------------------------------------------------------
 
 /**
@@ -4297,7 +4114,6 @@ sakai.api.Widgets.isOnDashboard = function(tuid) {
  * @namespace
  * jQuery Plugins and overrides for Sakai.
  */
-
 
 
 /*
@@ -4492,168 +4308,30 @@ sakai.api.Widgets.isOnDashboard = function(tuid) {
 
 
 /**
- * URL encoding and decoding Jquery plugins
- * In order to decode or encode a URL use the following functions:
- * $.URLDecode(string) : URL Decodes the given string
- * $.URLEncode(string) : URL Encodes the given string
+ * Extend jQuery to include a serializeObject function
+ * which uses $.serializeArray to serialize the form
+ * and then creates an object from that array
+ *
+ * http://stackoverflow.com/questions/1184624/serialize-form-to-json-with-jquery
  */
-
 (function($){
-
-    /**
-     * $.URLEncode
-     * @function
-     * @param c {String} The URL we would like to encode
-     */
-    $.URLEncode = function(c) {
-        var o='';var x=0;c=c.toString();var r=/(^[a-zA-Z0-9_.]*)/;
-        while (x<c.length) {
-            var m=r.exec(c.substr(x));
-            if(m!==null && m.length>1 && m[1]!==''){
-                o+=m[1];x+=m[1].length;
-            } else {
-                if(c[x]==' ') {
-                    o+='+';
+    $.fn.serializeObject = function()
+    {
+        var o = {};
+        var a = this.serializeArray();
+        $.each(a, function() {
+            if (o[this.name]) {
+                if (!o[this.name].push) {
+                    o[this.name] = [o[this.name]];
                 }
-                else {
-                    var d=c.charCodeAt(x);
-                    var h=d.toString(16);
-                    o+='%'+(h.length<2?'0':'')+h.toUpperCase();
-                }x++;
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
             }
-        }
-
+        });
         return o;
     };
-
-    /**
-     * $.URLDecode
-     * @function
-     * @param c {String} The URL we would like to decode
-     */
-    $.URLDecode = function(s){
-        var o=s;
-        var binVal,t;
-        var r=/(%[^%]{2})/;
-        while((m=r.exec(o))!==null && m.length>1 && m[1]!=='') {
-            b=parseInt(m[1].substr(1),16);
-            t=String.fromCharCode(b);
-            o=o.replace(m[1],t);
-        }
-        return o;
-    };
-
 })(jQuery);
-
-
-
-/*
- * Function that will take in a string that possibly contains HTML tags and will strip out all
- * of the HTML tags and return a string that doesn't contain any HTML tags anymore.
- */
-(function($){
-
-    /**
-     * $.stripTags
-     * @function
-     * Strips HTML tags form matched element's HTML
-     */
-    $.stripTags = function() {
-        return this.replaceWith( this.html().replace(/<\/?[^>]+>/gi,''));
-    };
-})(jQuery);
-
-
-/*
- * jQuery plugin that will load JavaScript and CSS files into the document at runtime.
- */
-(function($){
-
-    /**
-     * Load JavaScript and CSS dynamically
-     */
-    $.Load = {};
-
-    /**
-     * Generic function that will insert an HTML tag into the head of the document. This
-     * will be used to both insert CSS and JS files
-     * @param {Object} tagname
-     *  Name of the tag we want to insert. This is supposed to be "link" or "script".
-     * @param {Object} attributes
-     *  A JSON object that contains all of the attributes we want to attach to the tag we're
-     *  inserting. The keys in this object are the attribute names, the values in the object
-     *  are the attribute values
-     */
-    var insertTag = function(tagname, attributes){
-        var tag = document.createElement(tagname);
-        var head = document.getElementsByTagName('head').item(0);
-        for (var a in attributes){
-            if(attributes.hasOwnProperty(a)){
-                tag[a] = attributes[a];
-            }
-        }
-        head.appendChild(tag);
-    };
-
-    /**
-     * Check to see if the tag+attributes combination currently exists in the DOM
-     *
-     * @param {Object} tagname
-     *  Name of the tag we want to insert. This is supposed to be "link" or "script".
-     * @param {Object} attributes
-     *  A JSON object that contains all of the attributes we want to attach to the tag we're
-     *  inserting. The keys in this object are the attribute names, the values in the object
-     *  are the attribute values
-     * @return {jQuery|Boolean} returns the selected objects if found, otherwise returns false
-     */
-    var checkForTag = function(tagname, attributes) {
-        var selector = tagname;
-        for (var i in attributes) {
-            if (i && attributes.hasOwnProperty(i)) {
-                selector += "[" + i + "*=" + attributes[i] + "]";
-            }
-        }
-        if ($(selector).length) {
-            return $(selector);
-        }
-        else {
-            return false;
-        }
-    };
-
-    /**
-     * Load a JavaScript file into the document
-     * @param {String} URL of the JavaScript file relative to the parent dom.
-     */
-    $.Load.requireJS = function(url) {
-        var attributes = {"src": url, "type": "text/javascript"};
-        var existingScript = checkForTag("script", attributes);
-        if (existingScript) {
-            // Remove the existing script so we can place in a new one
-            // We need to do this otherwise the init functions that need to be called
-            // at the end of widgets never get called again
-            existingScript.remove();
-        }
-        insertTag("script", {"src" : url, "type" : "text/javascript"});
-    };
-
-    /**
-     * Load a CSS file into the document
-     * @param {String} URL of the CSS file relative to the parent dom.
-     */
-    $.Load.requireCSS = function(url) {
-        var attributes = {"href" : url, "type" : "text/css", "rel" : "stylesheet"};
-        var existingStylesheet = checkForTag("link", attributes);
-        // if the stylesheet already exists, don't add it again
-        if (!existingStylesheet) {
-            insertTag("link", attributes);
-        }
-    };
-
-})(jQuery);
-
-
-
 
 /**
  * @name Array

@@ -10,6 +10,7 @@
         <script type="text/javascript" src="/dev/lib/Fluid/3akai_Infusion.js"></script>
         <script type="text/javascript" src="/dev/lib/i10n/globalization.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.json.js"></script>
+        <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.form.js"></script>
 
         <script type="text/javascript" src="/dev/configuration/config.js"></script>
         <script type="text/javascript" src="/dev/configuration/widgets.js"></script>
@@ -37,6 +38,23 @@
         <h2 id="qunit-userAgent"></h2>
         <ol id="qunit-tests">
         </ol>
+        <div id="qunit-fixture">
+            <form action="javascript:;" id="dummyForm">
+                <input type="text" name="name" value="john doe"/>
+                <input type="text" value="should not be saved"/>
+                <input type="radio" name="gender" value="male"/>
+                <input type="radio" checked="true" name="gender" value="female"/>
+                <input type="checkbox" name="color" value="red"/>
+                <input type="checkbox" checked="true" name="color" value="green"/>
+                <input type="checkbox" name="color" value="blue"/>
+                <select name="shape">
+                    <option value="square">Square</option>
+                    <option value="circle" selected="selected">Circle</option>
+                    <option value="rectangle">Rectangle</option>
+                </select>
+                <textarea rows="10" cols="30" name="description">Demo text area</textarea>
+            </form>
+        </div>
         <button id="coveragebutton" onclick='window.open("/dev/jscoverage.html")'>
           Coverage report
         </button>

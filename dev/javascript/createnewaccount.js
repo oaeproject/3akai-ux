@@ -98,7 +98,7 @@ sakai.newaccount = function(){
      */
     var getFormValues = function(){
         // Get the values from the form.
-        var values = sakai.api.UI.Forms.form2json($(formContainer));
+        var values = $(formContainer).serializeObject();
 
         var nonEscaped = ["password", "username", "password_repeat", "recaptcha_response_field"];
         for (var i in values){

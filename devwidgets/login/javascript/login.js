@@ -134,7 +134,7 @@ sakai.login = function(){
      */
     var performLogIn = function(){
 
-        var values = sakai.api.UI.Forms.form2json($(loginForm));
+        var values = $(loginForm).serializeObject();
 
         if (currentUserName !== values[usernameField] || currentPassword !== values[passwordField]) {
             currentUserName = values[usernameField];
@@ -189,7 +189,7 @@ sakai.login = function(){
         var qs = new Querystring();
         var red = qs.get("url", false);
         if (red !== false){
-            redirectUrl = $.URLDecode(red);
+            redirectUrl = decodeURIComponent(red);
         }
 
         // Check whether we are already logged in
