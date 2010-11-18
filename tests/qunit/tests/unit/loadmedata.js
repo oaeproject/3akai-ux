@@ -1,6 +1,6 @@
-module("Load me data");
-
 $(function() {
+
+module("Load me data");
 
 // Set the admin login data
 var logindata = {

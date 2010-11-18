@@ -1,6 +1,6 @@
-module("Arrays");
-
 $(function() {
+
+module("Arrays");
 
 var dummyArray = ["apple","pear","banana","cherry"];
 

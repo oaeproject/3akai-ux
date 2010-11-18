@@ -1,6 +1,6 @@
-module("Profile");
-
 $(function() {
+
+module("Profile");
 
 var profile = {}; profile.basic = {}; profile.basic.elements = {}; 
 profile.basic.elements.firstName = {}; profile.basic.elements.lastName = {};

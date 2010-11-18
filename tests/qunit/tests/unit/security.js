@@ -1,6 +1,6 @@
-module("Security");
-
 $(function() {
+
+module("Security");
 
 /*
  * Test the escape HTML function

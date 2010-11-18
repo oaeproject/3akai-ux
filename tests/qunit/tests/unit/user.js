@@ -1,6 +1,6 @@
-module("User Creation, Login, Logout");
-
 $(function() {
+
+module("User Creation, Login, Logout");
 
 asyncTest("Log-in with a Sakai3 admin user", 1, function(){
     sakai.api.User.login({

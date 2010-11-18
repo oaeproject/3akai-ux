@@ -1,6 +1,6 @@
-module("Internationalization");
-
 $(function() {
+
+module("Internationalization");
 
 // attributes to test for
 var attrs = ["alt", "title"];

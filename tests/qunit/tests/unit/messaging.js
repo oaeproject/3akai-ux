@@ -1,6 +1,6 @@
-module("Messaging");
-
 $(function() {
+
+module("Messaging");
 
 var userlist;
 var dummyMessage = "This is a messaging test";

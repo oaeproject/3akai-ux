@@ -1,6 +1,6 @@
-module("Date parse");
-
 $(function() {
+
+module("Date parse");
 
 /*
  * Test the supported date formats

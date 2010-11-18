@@ -1,6 +1,6 @@
-module("JCR Removal");
-
 $(function() {
+
+module("JCR Removal");
 
 var dummyObject = {
     "name":"dummy",
