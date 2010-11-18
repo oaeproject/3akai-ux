@@ -51,6 +51,10 @@ a:hover {
     text-decoration: underline;
 }
 
+/* '+ Add another' link */
+.s3d-add_another_location {color:#3399CC; font-size:13px; font-weight:bold; background: url("/dev/_images/add_blue_icon.png") left no-repeat; padding-left:25px; height:16px; display:block; margin-right:15px;}
+.s3d-add_another_location_container {clear:both; display:block; padding:7px 0; width:200px;}
+
 /* Hidden elements
  ** localization: .i18nable
  * Hide i18nable elements by default until the messages are replaced by the translated
@@ -386,6 +390,9 @@ html > body .s3d-button .s3d-button-inner {
 .context_menu ul li{list-style-type:none;}
 .context_menu ul li a{color:#666;font-size:0.95em;display:block;padding:2px 20px 2px 4px;}
 
+/* Input fields */
+input[type="text"]:hover, input[type="password"]:hover, textarea:hover{background:none repeat scroll 0 0 #D3EDF5;}
+
 /* ----------------------------------------------------------------------------
  *    CONTENT AREA TOP TABS
  * ----------------------------------------------------------------------------
@@ -508,5 +515,14 @@ label.error {color:#9f3333;font-weight:bold;}
 .dialog_buttons{clear:both;margin-top:20px;}
 
 /* Dialog footer */
-.dialog_footer{background:url(/dev/images/dialog_br.png) top right no-repeat;padding:0 8px 0 0;}
-.dialog_footer_inner{background:url(/dev/images/dialog_bl.png) top left no-repeat;height:6px;}
+.dialog_footer{background:url(/dev/_images/dialog_br.png) top right no-repeat;padding:0 8px 0 0;}
+.dialog_footer_inner{background:url(/dev/_images/dialog_bl.png) top left no-repeat;height:6px;}
+
+/* highlighted areas */
+.highlight_area_background {background-color:#EFF2F4; padding: 10px; margin: 0 0 15px 0;}
+
+/** Chat bullets **/
+.chat_available_status_online { background: url("/dev/_images/bullet_green.png") no-repeat scroll -3px -1px transparent; }
+.chat_available_status_busy {background:url("/dev/_images/bullet_orange.png") no-repeat scroll -3px -1px transparent; }
+.chat_available_status_offline {background:url("/dev/_images/bullet_red.png") no-repeat scroll -3px -1px transparent; }
+.chat_available_status_offline, .chat_available_status_busy, .chat_available_status_online {padding-left:15px;}
