@@ -36,7 +36,7 @@ sakai.Lists = {
         },
         {
             "Label": "Specialization",
-            "multiple": true,            
+            "multiple": true,
             "list": [
             "Finance",
             "International",
@@ -49,7 +49,7 @@ sakai.Lists = {
         },
         {
             "Label": "Enrollment Status",
-            "multiple": false,            
+            "multiple": false,
             "list": [
             "Full-Time",
             "Part-Time"
@@ -57,7 +57,7 @@ sakai.Lists = {
         },
         {
             "Label": "Gradutation Date (Month)",
-            "multiple": false,            
+            "multiple": false,
             "list": [
             "May ",
             "January",
@@ -66,7 +66,7 @@ sakai.Lists = {
         },
         {
             "Label": "Graduation Date (Year)",
-            "multiple": false,            
+            "multiple": false,
             "list": [
             "2010",
             "2011",
@@ -77,7 +77,7 @@ sakai.Lists = {
         },
         {
             "Label": "Interest Area(s)",
-            "multiple": true,            
+            "multiple": true,
             "list": [
             "Aging",
             "Arts and Culture",
@@ -137,7 +137,7 @@ sakai.Lists = {
         },
         {
             "Label": "Student Groups",
-            "multiple": true,            
+            "multiple": true,
             "list": [
             "Wagner Student Association (WSA)",
             "Alliance of Latin American Students (ALAS)",
