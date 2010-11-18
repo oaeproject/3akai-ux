@@ -29,6 +29,10 @@
  * Main sakai namespace. This is where all the initial namespaces should be defined
  */
 var sakai = sakai || {};
+
+/**
+ * @name sakai.data
+ */
 sakai.data = {};
 
 /**
@@ -967,6 +971,9 @@ sakai.api.i18n.init = function(){
     /////////////////////////////
 
     // Initialise the sakai.data.18n variable
+    /**
+     * @name sakai.data.i18n
+     */
     sakai.data.i18n = {};
 
     // Will contain all of the values for the default bundle
@@ -3772,6 +3779,9 @@ sakai.api.Widgets.loadWidgetData = function(id, callback) {
  */
 sakai.api.Widgets.cssCache = {};
 
+/**
+ * @name sakai.api.Widgets.widgetLoader
+ */
 sakai.api.Widgets.widgetLoader = {
 
     loaded : [],

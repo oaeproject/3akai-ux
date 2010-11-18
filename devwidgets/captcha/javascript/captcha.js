@@ -22,6 +22,12 @@
 
 var sakai = sakai || {};
 
+/**
+ * @name sakai.captcha
+ *
+ * @param {String} tuid Unique id of the widget
+ * @param {Boolean} showSettings Show the settings of the widget or not
+ */
 sakai.captcha = function(tuid, showSettings) {
     
     var $rootel = $("#" + tuid);
