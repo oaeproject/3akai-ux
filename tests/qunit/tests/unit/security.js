@@ -1,6 +1,6 @@
 module("Security");
 
-(function(){
+$(function() {
 
 /*
  * Test the escape HTML function
@@ -255,4 +255,4 @@ test("CSS Attacks", function() {
     equals(htmlString.indexOf("z-index"), -1, "Strip CSS positioning");
 });
 
-})();
+});

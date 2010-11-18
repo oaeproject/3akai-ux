@@ -401,7 +401,7 @@ sakai.chat = function(tuid, showSettings){
             }    
         }
         return false;
-    }
+    };
 
     /**
      * Update the chat windows so that the chat status and status
@@ -656,7 +656,7 @@ sakai.chat = function(tuid, showSettings){
     /**
      * Callback function to sort messages based on timestamp
      */
-    function sortMessages(a, b){
+    var sortMessages = function(a, b){
         return a["sakai:timestamp"] > b["sakai:timestamp"] ? 1 : -1;
     };
 

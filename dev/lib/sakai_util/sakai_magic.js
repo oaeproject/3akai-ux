@@ -9,7 +9,7 @@
  * with the License. You may obtain a copy of the License at
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *g
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,7 +18,7 @@
  *
  */
 
-/*global $, jQuery, fluid, TrimPath, Widgets, window, document */
+/*global $, jQuery, TrimPath, window, document */
 
 /**
  * @name sakai
@@ -65,7 +65,7 @@ sakai.api = {
 };
 
 /**
- * window.debug, a console.log wrapper
+ * window.debug, a console dot log wrapper
  * adapted from html5boilerplate.com's window.log and Ben Alman's window.debug
  *
  * Only logs information when sakai.config.displayDebugInfo is switched on
@@ -82,15 +82,23 @@ window.debug = (function() {
         methods = [ 'error', 'warn', 'info', 'debug', 'log' ],
         idx = methods.length;
 
+    var createLogMethod = function(method) {
+        that[method] = function() {
+            if (!window.console || !sakai.config.displayDebugInfo) {
+                return;
+            }
+            if (console.firebug) {
+                console[method].apply(console, arguments);
+            } else if (console[method]) {
+                console[method](Array.prototype.slice.call(arguments));
+            } else {
+                console.log(Array.prototype.slice.call(arguments));
+            }
+        };
+    };
+
     while (--idx>=0) {
-        (function(method) {
-            that[method] = function() {
-                if (!window.console || !sakai.config.displayDebugInfo) return;
-                console.firebug ? console[method].apply(console, arguments)
-                          : console[method] ? console[method](Array.prototype.slice.call(arguments))
-                          : console.log(Array.prototype.slice.call(arguments));
-            };
-        })(methods[idx]);
+        createLogMethod(methods[idx]);
     }
 
     return that;
@@ -365,7 +373,9 @@ sakai.api.Activity.createActivity = function(nodeUrl, appID, templateID, extraDa
         "sakai:activity-templateid": templateID
     };
     for (var i in extraData) {
-        dataToSend[i] = extraData[i];
+        if (extraData.hasOwnProperty(i)) {
+            dataToSend[i] = extraData[i];
+        }
     }
 
     // Send request to create the activity
@@ -409,6 +419,94 @@ sakai.api.Groups = sakai.api.Groups || {};
 
 
 /**
+ * Create a group
+ * @param {String} id the id of the group that's being created
+ * @param {String} title the title of the group that's being created
+ * @param {String} description the description of the group that's being created
+ * @param {Function} callback the callback function for when the group save is complete. It will pass
+ *                            two params, success {Boolean} and nameTaken {Boolean}
+*/
+sakai.api.Groups.createGroup = function(id, title, description, callback) {
+
+    /**
+     * Check if the group is created correctly and exists
+     * @param {String} groupid
+     */
+    var groupExists = function(groupid){
+        // Check if the group exists.
+        var groupExists = false;
+        $.ajax({
+            url: "/~" + groupid + ".json",
+            type: "GET",
+            async: false,
+            success: function(data, textStatus) {
+                groupExists = true;
+            }
+        });
+        return groupExists;
+    };
+
+    /**
+     * Create the group.
+     * @param {String} groupid the id of the group that's being created
+     * @param {String} grouptitle the title of the group that's being created
+     * @param {String} groupdescription the description of the group that's being created
+     * @param {Function} callback the callback function for when the group save is complete. It will pass
+     *                            two params, success {Boolean} and nameTaken {Boolean}
+    */
+    var saveGroup = function(groupid, grouptitle, groupdescription, callback){
+        $.ajax({
+            url: sakai.config.URL.GROUP_CREATE_SERVICE,
+            data: {
+                "_charset_":"utf-8",
+                ":name": groupid,
+                ":sakai:manager": sakai.data.me.user.userid,
+                "sakai:group-title" : grouptitle,
+                "sakai:group-description" : groupdescription,
+                "sakai:group-id": groupid,
+                ":sakai:pages-template": "/var/templates/site/" + sakai.config.defaultGroupTemplate,
+                "sakai:pages-visible": sakai.config.Permissions.Groups.visible["public"]
+            },
+            type: "POST",
+            success: function(data, textStatus) {
+                // set default permissions for this group
+                sakai.api.Groups.setPermissions(groupid,
+                    sakai.config.Permissions.Groups.joinable.manager_add,
+                    sakai.config.Permissions.Groups.visible["public"],
+                    function (success, errorMessage) {
+                        if(success) {
+                            if ($.isFunction(callback)) {
+                                callback(true, false);
+                            }
+                        } else {
+                            debug.error("doSaveGroup failed to set group permissions: " + errorMessage);
+                            if ($.isFunction(callback)) {
+                                callback(false, false);
+                            }
+                        }
+                    }
+                );
+            },
+            error: function(xhr, textStatus, thrownError) {
+                debug.error("An error has occurred: " + xhr.status + " " + xhr.statusText);
+                if ($.isFunction(callback)) {
+                    callback(false, false);
+                }
+            }
+        });
+    };
+
+    // check if the group exists
+    if (!groupExists(id)) {
+        saveGroup(id, title, description, callback);
+    } else {
+        if ($.isFunction(callback)) {
+            callback(false, true);
+        }
+    }
+};
+
+/**
  * Public function used to set joinability and visibility permissions for a
  * group with groupid.
  *
@@ -419,7 +517,7 @@ sakai.api.Groups = sakai.api.Groups || {};
  *   args: (success, errorMessage)
  * @return None
  */
-sakai.api.Groups.setPermissions = function (groupid, joinable, visible, callback) {
+sakai.api.Groups.setPermissions = function(groupid, joinable, visible, callback) {
     if(groupid && typeof(groupid) === "string" &&
        sakai.api.Security.isValidPermissionsProperty(sakai.config.Permissions.Groups.joinable, joinable) &&
        sakai.api.Security.isValidPermissionsProperty(sakai.config.Permissions.Groups.visible, visible)) {
@@ -681,7 +779,7 @@ sakai.api.Groups.removeFromGroup = function(userID, groupID, callback) {
             },
             type: "POST",
             success: function (data) {
-    	        if (typeof(callback) === "function") {
+                if (typeof(callback) === "function") {
                     callback(true, data);
                 }
             },
@@ -775,7 +873,7 @@ sakai.api.Groups.removeJoinRequest = function (userID, groupID, callback) {
  */
 sakai.api.Groups.getJoinRequests = function (groupID, callback, async) {
     if (groupID && typeof(groupID) === "string") {
-        if (async == null) {
+        if (async === null) {
             async = true;
         }
         $.ajax({
@@ -1067,7 +1165,7 @@ sakai.api.i18n.init = function(){
             }
         }
         return json;
-    }
+    };
 
     /**
      * This will load the default language bundle and will store it in a global variable. This default bundle
@@ -1259,6 +1357,28 @@ sakai.api.l10n.getUserLocale = function() {
 
 };
 
+sakai.api.l10n.getUserDefaultLocale = function() {
+    var ret = sakai.config.defaultLanguage;
+    // Get the browser language preference - IE uses userLanguage, all other browsers user language
+    var locale = navigator.language ? navigator.language : navigator.userLanguage;
+    if (locale) {
+        var split = locale.split("-");
+        if (split.length > 1) {
+            split[1] = split[1].toUpperCase();
+            var langs = sakai.config.Languages;
+            // Loop over all the available languages - if the user's browser language preference matches
+            // then set their locale to that so they don't have to set it manually
+            for (var i=0,j=langs.length; i<j; i++) {
+                if (langs[i].language === split[0] && langs[i].country === split[1]) {
+                    ret = split[0] + "_" + split[1];
+                    break;
+                }
+            }
+        }
+    }
+    return ret;
+};
+
 /**
  * Parse a date string into a date object and adjust that date to the timezone
  * set by the current user.
@@ -1396,8 +1516,11 @@ sakai.api.l10n.getDateFormatString = function() {
     var pattern = Globalization.culture.calendar.patterns.d;
     var split = pattern.split("/");
     for (var i=0, j=split.length; i<j; i++) {
-        if (split[i] === "m" || split[i] === "M") split[i] = "mm";
-        else if (split[i] === "d" || split[i] === "D") split[i] = "dd";
+        if (split[i] === "m" || split[i] === "M") {
+            split[i] = "mm";
+        } else if (split[i] === "d" || split[i] === "D") {
+            split[i] = "dd";
+        }
     }
     return split.join("/").toUpperCase();
 };
@@ -1479,7 +1602,11 @@ sakai.api.Security.saneHTML = function(inputHTML) {
                     var attribName = attribs[i];
                     var value = attribs[i + 1];
                     var atype = null, attribKey;
-                    if ((attribKey = tagName + '::' + attribName, html4.ATTRIBS.hasOwnProperty(attribKey)) || (attribKey = '*::' + attribName, html4.ATTRIBS.hasOwnProperty(attribKey))) {
+                    if (html4.ATTRIBS.hasOwnProperty(tagName + '::' + attribName)) {
+                        attribKey = tagName + '::' + attribName;
+                        atype = html4.ATTRIBS[attribKey];
+                    } else if (html4.ATTRIBS.hasOwnProperty('*::' + attribName)) {
+                        attribKey = '*::' + attribName;
                         atype = html4.ATTRIBS[attribKey];
                     }
                     if (atype !== null) {
@@ -1498,8 +1625,9 @@ sakai.api.Security.saneHTML = function(inputHTML) {
                                             sanitizedValue += vals[i];
                                         }
                                     }
-                                if (!sanitizedValue)
-                                    value = null;
+                                    if (!sanitizedValue) {
+                                        value = null;
+                                    }
                                 } else {
                                     value = sanitizedValue;
                                 }
@@ -1556,7 +1684,7 @@ sakai.api.Security.isValidPermissionsProperty = function(permissionsProperty, va
         // value is empty - not valid
         return false;
     }
-    for(index in permissionsProperty) {
+    for(var index in permissionsProperty) {
         if(permissionsProperty.hasOwnProperty(index)) {
             if(value === permissionsProperty[index]) {
                 // value is valid
@@ -2228,15 +2356,44 @@ sakai.api.UI.Forms = {
  */
 sakai.api.User = sakai.api.User || {};
 
-
 /**
- * Create a user in the Sakai3 system.
- *
- * @param {Object} user A JSON object containing all the information to create a user.
- * @param {Function} [callback] A callback function which will be called after the request to the server.
+ * @param {Object} extraOptions can include recaptcha: {challenge, response}, locale : "user_LOCALE", template: "templateName"
  */
-sakai.api.User.createUser = function(user, callback){
-
+sakai.api.User.createUser = function(username, firstName, lastName, email, password, passwordConfirm, extraOptions, callback) {
+    var profileData = {}; profileData.basic = {}; profileData.basic.elements = {};
+    profileData.basic.elements["firstName"] = {};
+    profileData.basic.elements["firstName"].value = firstName;
+    profileData.basic.elements["lastName"] = {};
+    profileData.basic.elements["lastName"].value = lastName;
+    profileData.basic.elements["email"] = {};
+    profileData.basic.elements["email"].value = email;
+    profileData.basic.access = "everybody";
+    var user = {
+        "_charset_": "utf-8",
+        "locale": sakai.api.l10n.getUserDefaultLocale(),
+        "pwd": password,
+        "pwdConfirm": passwordConfirm,
+        ":name": username,
+        ":sakai:pages-template": "/var/templates/site/" + sakai.config.defaultUserTemplate,
+        ":sakai:profile-import": $.toJSON(profileData)
+    };
+    for (var i in extraOptions) {
+        if (extraOptions.hasOwnProperty(i)) {
+            switch(i) {
+                case "recaptcha":
+                    user[":create-auth"] = "reCAPTCHA.net";
+                    user[":recaptcha-challenge"] = extraOptions[i].challenge;
+                    user[":recaptcha-response"] = extraOptions[i].response;
+                    break;
+                case "locale":
+                    user["locale"] = extraOptions[i];
+                    break;
+                case "template":
+                    user["template"] = "/var/templates/site/" + extraOptions[i];
+                    break;
+            }
+        }
+    }
     // Send an Ajax POST request to create a user
     $.ajax({
         url: sakai.config.URL.CREATE_USER_SERVICE,
@@ -2259,7 +2416,6 @@ sakai.api.User.createUser = function(user, callback){
 
         }
     });
-
 };
 
 
@@ -2474,20 +2630,22 @@ sakai.api.User.getDisplayName = function(profile) {
     var done = false;
     var idx = 0;
 
+    var parseName = function(i,key) {
+        if (profile &&
+            profile.basic &&
+            profile.basic.elements &&
+            profile.basic.elements[key] !== undefined &&
+            profile.basic.elements[key].value !== undefined) {
+           nameToReturn += profile.basic.elements[key].value + " ";
+           done = true;
+       }
+    };
+
     // iterate over the configDisplayName object until a valid non-empty display name is found
     while (!done && idx < 2) {
         if (configDisplayName[idx] !== undefined && configDisplayName[idx] !== "") {
             var configEltsArray = configDisplayName[idx].split(" ");
-            $(configEltsArray).each(function(i, key) {
-                if (profile &&
-                    profile.basic &&
-                    profile.basic.elements &&
-                    profile.basic.elements[key] !== undefined &&
-                    profile.basic.elements[key].value !== undefined) {
-                   nameToReturn += profile.basic.elements[key].value + " ";
-                   done = true;
-               }
-            });
+            $(configEltsArray).each(parseName);
         }
         idx++;
     }
@@ -2551,9 +2709,9 @@ sakai.api.User.getShortDescription = function(profile) {
     $(tokens).each(function(i, val) {
         var profileNode = val.match(/[A-Za-z]+/gi)[0];
         if (profile.basic.elements[profileNode] && $.trim(profile.basic.elements[profileNode].value) !== "") {
-            if (lastReplacementValue === "" && tokens[i-1]) {
+            /*if (lastReplacementValue === "" && tokens[i-1]) {
                 // replace everything before this and after the last token
-            }
+            } */
             if (sakai.config.Profile.configuration.defaultConfig.basic.elements[profileNode].type === "select") {
                 lastReplacementValue = profile.basic.elements[profileNode].value;
                 lastReplacementValue = sakai.config.Profile.configuration.defaultConfig.basic.elements[profileNode].select_elements[lastReplacementValue];
@@ -3648,7 +3806,7 @@ sakai.api.Widgets.widgetLoader = {
                 // Run through all the widgets with a specific name
                 for (var i = 0, j = widgets[widgetname].length; i<j; i++){
                     widgets[widgetname][i].done++;
-                    
+
                     if (widgets[widgetname][i].done === widgets[widgetname][i].todo){
                          // Save the placement in the widgets variable
                         sakai.api.Widgets.widgetLoader.widgets[widgets[widgetname][i].uid] = {
@@ -3728,7 +3886,7 @@ sakai.api.Widgets.widgetLoader = {
             for (var JSURL = 0, l = JSTags.URL.length; JSURL < l; JSURL++){
                 $.Load.requireJS(JSTags.URL[JSURL]);
             }
-            
+
             return stylesheets;
 
         };
@@ -3818,10 +3976,10 @@ sakai.api.Widgets.widgetLoader = {
                                     }
 
                                     // Change messages
+                                    var translated_content = "",
+                                        lastend = 0;
                                     if (hasBundles) {
                                         var expression = new RegExp(".{1}__MSG__(.*?)__", "gm");
-                                        var lastend = 0;
-                                        var translated_content = "";
                                         while (expression.test(requestedURLsResults[i].body)) {
                                             var replace = RegExp.lastMatch;
                                             var lastParen = RegExp.lastParen;
@@ -3841,7 +3999,7 @@ sakai.api.Widgets.widgetLoader = {
                                                 translated_content += requestedURLsResults[i].body.substring(lastend, expression.lastIndex - replace.length) + toreplace;
                                                 lastend = expression.lastIndex;
                                             } else {
-                                                toreplace = quotes + sakai.api.i18n.Widgets.getValueForKey(widgetName, current_locale_string, lastParen); + quotes;
+                                                toreplace = quotes + sakai.api.i18n.Widgets.getValueForKey(widgetName, current_locale_string, lastParen) + quotes;
                                                 translated_content += requestedURLsResults[i].body.substring(lastend, expression.lastIndex - replace.length) + toreplace;
                                                 lastend = expression.lastIndex;
                                             }
@@ -3877,21 +4035,23 @@ sakai.api.Widgets.widgetLoader = {
                                     // Merge in the previously created style tags
                                     if (numberCSS >= 30){
                                         for (var k in sakai.api.Widgets.cssCache){
-                                             if (totalImportsInCurrentSS >= 30){
-                                                 allSS.push(newSS);
-                                                 newSS = document.createStyleSheet();
-                                                 newSS.title = "sakai_widgetloader";
-                                                 totalImportsInCurrentSS = 0;
-                                             }    
-                                             newSS.addImport(k);
-                                             totalImportsInCurrentSS++;
+                                            if (sakai.api.Widgets.cssCache.hasOwnProperty(k)) {
+                                                 if (totalImportsInCurrentSS >= 30){
+                                                     allSS.push(newSS);
+                                                     newSS = document.createStyleSheet();
+                                                     newSS.title = "sakai_widgetloader";
+                                                     totalImportsInCurrentSS = 0;
+                                                 }
+                                                 newSS.addImport(k);
+                                                 totalImportsInCurrentSS++;
+                                            }
                                         }
                                     }
                                     // Add in the stylesheets declared in the widgets loaded
                                     // in the current pass of the WidgetLoader
                                     for (var m = 0, mm = stylesheets.length; m < mm; m++) {
                                         if (totalImportsInCurrentSS >= 30){
-                                        	allSS.push(newSS);
+                                            allSS.push(newSS);
                                             newSS = document.createStyleSheet();
                                             newSS.title = "sakai_widgetloader";
                                             totalImportsInCurrentSS = 0;
@@ -4325,7 +4485,7 @@ sakai.api.Widgets.isOnDashboard = function(tuid) {
         var o='';var x=0;c=c.toString();var r=/(^[a-zA-Z0-9_.]*)/;
         while (x<c.length) {
             var m=r.exec(c.substr(x));
-            if(m!=null && m.length>1 && m[1]!=''){
+            if(m!==null && m.length>1 && m[1]!==''){
                 o+=m[1];x+=m[1].length;
             } else {
                 if(c[x]==' ') {
@@ -4351,7 +4511,7 @@ sakai.api.Widgets.isOnDashboard = function(tuid) {
         var o=s;
         var binVal,t;
         var r=/(%[^%]{2})/;
-        while((m=r.exec(o))!=null && m.length>1 && m[1]!='') {
+        while((m=r.exec(o))!==null && m.length>1 && m[1]!=='') {
             b=parseInt(m[1].substr(1),16);
             t=String.fromCharCode(b);
             o=o.replace(m[1],t);
@@ -4429,8 +4589,12 @@ sakai.api.Widgets.isOnDashboard = function(tuid) {
                 selector += "[" + i + "*=" + attributes[i] + "]";
             }
         }
-        if ($(selector).length) return $(selector);
-        else return false;
+        if ($(selector).length) {
+            return $(selector);
+        }
+        else {
+            return false;
+        }
     };
 
     /**

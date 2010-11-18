@@ -2,7 +2,9 @@ var History = {
     prev_url : -1,
     
     history_change : function(e, force) {
-        if (e == undefined) return;
+        if (e === undefined) {
+            return;
+        }
         var url = e.fragment;
         if (url != History.prev_url || force){ // should be checking individual params, not just the string composition
             if (url){
@@ -36,8 +38,7 @@ var History = {
       state['page'] = page || "1";
       $.bbq.pushState(state);
     }
-
-}
+};
 
 $(function() {
   var cache = {

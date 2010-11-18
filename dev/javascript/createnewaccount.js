@@ -105,7 +105,7 @@ sakai.newaccount = function(){
             if ($.inArray(i, nonEscaped) == -1) {
                 values[i] = escape(values[i]);
             }
-        };
+        }
 
         // Get the values from the captcha form.
         var captchaValues = sakai.captcha.getProperties();
@@ -115,36 +115,6 @@ sakai.newaccount = function(){
 
         return values;
     };
-
-    /**
-     * getLocale
-     * Get the user's browser language preference and match it against the available languages
-     * in sakai.config.Languages
-     * If nothing matches, return sakai.config.defaultLanguage
-     * @return {String} the user's locale
-     */
-    var getLocale = function() {
-        var ret = sakai.config.defaultLanguage;
-        // Get the browser language preference - IE uses userLanguage, all other browsers user language
-        var locale = navigator.language ? navigator.language : navigator.userLanguage;
-        if (locale) {
-            var split = locale.split("-");
-            if (split.length > 1) {
-                split[1] = split[1].toUpperCase();
-                var langs = sakai.config.Languages;
-                // Loop over all the available languages - if the user's browser language preference matches
-                // then set their locale to that so they don't have to set it manually
-                for (var i=0,j=langs.length; i<j; i++) {
-                    if (langs[i].language === split[0] && langs[i].country === split[1]) {
-                        ret = split[0] + "_" + split[1];
-                        break;
-                    }
-                }
-            }
-        }
-        return ret;
-    };
-
 
     ///////////////////////
     // Creating the user //
@@ -158,32 +128,11 @@ sakai.newaccount = function(){
         $("button").attr("disabled", "disabled");
         $("input").attr("disabled", "disabled");
         var values = getFormValues();
-        var profileData = {}; profileData.basic = {}; profileData.basic.elements = {};
-        var keys = ["firstName", "lastName", "email"];
-        $(keys).each(function(i, key) {
-            profileData.basic.elements[key] = {};
-            profileData.basic.elements[key].value = values[key];
-        });
-        profileData.basic.access = "everybody";
-        var locale = getLocale();
-        var data = {
-            ":create-auth": "reCAPTCHA.net",
-            ":recaptcha-challenge": values["recaptcha-challenge"],
-            ":recaptcha-response": values["recaptcha-response"],
-            "email": values[email],
-            "pwd": values[password],
-            "pwdConfirm": values[password],
-            ":name": values[username],
-            "_charset_": "utf-8",
-            ":sakai:profile-import": $.toJSON(profileData),
-            ":sakai:pages-template": "/var/templates/site/" + pagestemplate,
-            "locale": locale
-        };
-        $.ajax ({
-            url : sakai.config.URL.CREATE_USER_SERVICE,
-            type : "POST",
-            data : data,
-            success : function(data) {
+        sakai.api.User.createUser(values.username, values.firstName, values.lastName, values.email, values.password, values.password, 
+                {
+                    recaptcha: {challenge: values["recaptcha-challenge"], response: values["recaptcha-response"]}
+                }, function(success, data) {
+            if (success) {
                 // This will hide the Create and Cancel button and offer a link back to the login page
 
                 // Destroy the captcha
@@ -196,19 +145,17 @@ sakai.newaccount = function(){
                     // Relocate to the my log in page
                     document.location = sakai.config.URL.GATEWAY_URL;
                 }, 2000);
-            },
-            error: function(xhr, textStatus, thrownError) {
+            } else {
                 $("button").removeAttr("disabled");
                 $("input").removeAttr("disabled");
-                if (xhr.status === 500 || xhr.status === 401) {
-                    if (xhr.responseText.indexOf("Untrusted request") !== -1) {
+                if (data.status === 500 || data.status === 401) {
+                    if (data.responseText.indexOf("Untrusted request") !== -1) {
                         $(captchaNoMatch).show();
                         sakai.captcha.reload();
                     }
                 }
             }
         });
-
     };
 
     //////////////////////////////
@@ -373,7 +320,7 @@ sakai.newaccount = function(){
         else {
             $('body').show();
         }
-    }
+    };
 
     doInit();
 

@@ -1,6 +1,6 @@
 module("Date parse");
 
-(function(){
+$(function() {
 
 /*
  * Test the supported date formats
@@ -83,4 +83,4 @@ test("Date format: YYYY-MM-DDThh:mm:ssTZD", function(){
     equals(dateEquals.getUTCSeconds(), date.substr(17,2), "The seconds are correct");
 });
 
-})();
+});

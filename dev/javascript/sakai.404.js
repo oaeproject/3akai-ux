@@ -25,10 +25,11 @@ sakai.nopermissions = function(tuid, showSettings) {
     var gatewayURL = sakai.config.URL.GATEWAY_URL;
 
     var doInit = function(){
+        var renderedTemplate = false;
         if (sakai.data.me.user.anon){
             $('html').addClass("requireAnon");
             // the user is anonymous and should be able to log in
-            var renderedTemplate = $.TemplateRenderer(pageNotFoundErrorLoggedOutTemplate, sakai.data.me.user).replace(/\r/g, '');
+            renderedTemplate = $.TemplateRenderer(pageNotFoundErrorLoggedOutTemplate, sakai.data.me.user).replace(/\r/g, '');
             $(pageNotFoundError).append(renderedTemplate);
             // Set the link for the sign in button
             var querystring = new Querystring();
@@ -45,13 +46,13 @@ sakai.nopermissions = function(tuid, showSettings) {
             // Remove the sakai.index stylesheet as it would mess up the design
             $("LINK[href*='/dev/css/sakai/sakai.index.css']").remove();
             // the user is logged in and should get a page in Sakai itself
-            var renderedTemplate = $.TemplateRenderer(pageNotFoundErrorLoggedInTemplate, sakai.data.me.user).replace(/\r/g, '');
+            renderedTemplate = $.TemplateRenderer(pageNotFoundErrorLoggedInTemplate, sakai.data.me.user).replace(/\r/g, '');
             $(pageNotFoundError).append(renderedTemplate);
             $("#page_not_found_error").addClass("error_page_bringdown");
         }
         sakai.api.Security.showPage();
         document.title = document.title + sakai.api.i18n.General.getValueForKey("PAGE_NOT_FOUND");
-    }
+    };
 
     doInit();
 

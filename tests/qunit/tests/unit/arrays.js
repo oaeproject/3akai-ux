@@ -1,6 +1,6 @@
 module("Arrays");
 
-(function(){
+$(function() {
 
 var dummyArray = ["apple","pear","banana","cherry"];
 
@@ -33,4 +33,4 @@ test("Get the first occurence of an item in an array", function(){
     testCustomIndexOf();
 });
 
-})();
+});

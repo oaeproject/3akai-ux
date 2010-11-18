@@ -263,8 +263,9 @@ sakai.profile = function(){
             // Check user profile type
             checkProfileType();
 
-            if (sakai.profile.main.data.activity)
+            if (sakai.profile.main.data.activity) {
                 delete sakai.profile.main.data.activity;
+            }
 
             // Execute the callback function
             if (callback && typeof callback === "function") {

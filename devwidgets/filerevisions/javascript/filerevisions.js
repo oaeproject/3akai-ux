@@ -78,12 +78,14 @@ sakai.filerevisions = function(tuid, showSettings){
      */
     var getRevisionInformationDetails = function(){
         var revisionInformationDetails = [];
-        for (i in baseFileData.revisions) {
-            var item = {
-                "url": baseFileData.path + ".version.," + baseFileData.revisions[i]["jcr:name"] + ",.json",
-                "method": "GET"
-            };
-            revisionInformationDetails[revisionInformationDetails.length] = item;
+        for (var i in baseFileData.revisions) {
+            if (baseFileData.revisions.hasOwnProperty(i)) {
+                var item = {
+                    "url": baseFileData.path + ".version.," + baseFileData.revisions[i]["jcr:name"] + ",.json",
+                    "method": "GET"
+                };
+                revisionInformationDetails[revisionInformationDetails.length] = item;
+            }
         }
         baseFileData.numberOfRevisions = revisionInformationDetails.length;
         // Do the Batch request

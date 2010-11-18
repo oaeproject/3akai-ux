@@ -1,3 +1,22 @@
+/*
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+/*global $ */
+
 var sakai = sakai || {};
 
 /**
@@ -165,7 +184,7 @@ sakai.siterecentactivity = function(tuid, showSettings){
      * Licensed under the MIT license.
      */
 
-    function humane_date(date_str){
+    var humane_date = function(date_str){
         var time_formats = [
             [60, 'Just Now'],
             [90, '1 Minute'], // 60*1.5
@@ -184,7 +203,7 @@ sakai.siterecentactivity = function(tuid, showSettings){
         ];
 
         var time = ('' + date_str).replace(/-/g,"/").replace(/[TZ]/g," "),
-            dt = new Date,
+            dt = new Date(),
             seconds = ((dt - new Date(time) + (dt.getTimezoneOffset() * 60000)) / 1000),
             token = ' Ago',
             i = 0,
@@ -194,8 +213,8 @@ sakai.siterecentactivity = function(tuid, showSettings){
             seconds = Math.abs(seconds);
             token = '';
         }
-
-        while (format = time_formats[i++]) {
+        format = time_formats[0];
+        while (format) {
             if (seconds < format[0]) {
                 if (format.length == 2) {
                     return format[1] + (i > 1 ? token : ''); // Conditional so we don't return Just Now Ago
@@ -203,21 +222,24 @@ sakai.siterecentactivity = function(tuid, showSettings){
                     return Math.round(seconds / format[2]) + ' ' + format[1] + (i > 1 ? token : '');
                 }
             }
+            format = time_formats[i++];
         }
 
         // overflow for centuries
-        if(seconds > 4730400000)
+        if(seconds > 4730400000) {
             return Math.round(seconds / 4730400000) + ' Centuries' + token;
+        }
 
         return date_str;
     };
 
-    if(typeof jQuery != "undefined") {
-        jQuery.fn.humane_dates = function(){
+    if(typeof $ != "undefined") {
+        $.fn.humane_dates = function(){
             return this.each(function(){
                 var date = humane_date(this.title);
-                if(date && jQuery(this).text() != date) // don't modify the dom if we don't have to
-                    jQuery(this).text(sakai.api.Security.saneHTML(date));
+                if(date && $(this).text() != date) {// don't modify the dom if we don't have to
+                    $(this).text(sakai.api.Security.saneHTML(date));
+                }
             });
         };
     }

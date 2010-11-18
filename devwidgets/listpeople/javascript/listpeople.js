@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config */
+/*global $ */
 
 // Namespaces
 var sakai = sakai || {};
@@ -92,7 +92,7 @@ sakai.listpeople = function(tuid, showSettings) {
      * @returns void
      */
     var render = function(iTuid, iConfig, url, id) {
-        if (iTuid !== tuid) return;
+        if (iTuid !== tuid) { return; }
         reset();
 
         // Merge user defined sakai.config.listpeople[tuid] with defaults
@@ -115,7 +115,8 @@ sakai.listpeople = function(tuid, showSettings) {
             url: url,
             cache: false,
             success: function(data){
-                var json_data;
+                var json_data = {},
+                    itemCount = 0;
                 if (typeof(data) === 'string') {
                     data = $.parseJSON(data);
 
@@ -166,7 +167,7 @@ sakai.listpeople = function(tuid, showSettings) {
                 }
 
                 if (json_data) {
-                    var itemCount = 0;
+                    itemCount = 0;
 
                     // filter out the manager group if we're listing items for a group, the everyone group and the anonymous user
                     json_data.results = $.grep(json_data.results, function(resultObject, index){
@@ -184,7 +185,7 @@ sakai.listpeople = function(tuid, showSettings) {
                     json_data.total = itemCount;
                     // Render list of objects
                     renderList(0, json_data);
-                };
+                }
             }
         });
 
@@ -305,7 +306,7 @@ sakai.listpeople = function(tuid, showSettings) {
     
     var pagerClickHandler = function(clicked){
        if (sakai.data.listpeople[listType].total > totalResult) {
-            var pageNumber = (parseInt(clicked) - 1) * totalResult;
+            var pageNumber = (parseInt(clicked, 10) - 1) * totalResult;
             var listItems = $("#listpeople_page_0", $rootel).children('li');
             
             // hide all the list items.
@@ -324,7 +325,7 @@ sakai.listpeople = function(tuid, showSettings) {
             });
             $('.jq_pager', $rootel).show();
         }
-    }
+    };
 
     /**
      * sortList

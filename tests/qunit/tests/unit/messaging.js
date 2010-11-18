@@ -1,6 +1,6 @@
 module("Messaging");
 
-(function(){
+$(function() {
 
 var userlist;
 var dummyMessage = "This is a messaging test";
@@ -245,4 +245,4 @@ asyncTest("Send message to multiple users", function(){
     startTest("","");
 });
 
-})();
+});

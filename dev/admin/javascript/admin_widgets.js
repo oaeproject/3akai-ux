@@ -71,7 +71,7 @@ sakai.admin_widgets = function(tuid, showSettings){
     /**
      * Callback function to sort widgets
      */
-    function sortWidgets(a, b){
+    var sortWidgets = function(a, b){
         if (a.name && b.name) {
             return a.name > b.name ? 1 : -1;
         } else if (a.id && b.name) {
@@ -92,9 +92,9 @@ sakai.admin_widgets = function(tuid, showSettings){
         var contribWidgets = {}; contribWidgets.items = [];
 
         // Fill in the widget types
-        for (var i in Widgets.widgets){
+        for (var i in sakai.widgets.widgets){
             if (i) {
-                var widget = Widgets.widgets[i];
+                var widget = sakai.widgets.widgets[i];
                 if (widget.type && widget.type.toLowerCase() === "core") {
                     coreWidgets.items.push(widget);
                 } else if (widget.type && widget.type.toLowerCase() === "sakai") {
@@ -113,7 +113,7 @@ sakai.admin_widgets = function(tuid, showSettings){
         $(coreWidgetsTemplateContainer).html($.TemplateRenderer(coreWidgetsTemplate, coreWidgets));
         $(sakaiWidgetsTemplateContainer).html($.TemplateRenderer(sakaiWidgetsTemplate, sakaiWidgets));
         $(contribWidgetsTemplateContainer).html($.TemplateRenderer(contribWidgetsTemplate, contribWidgets));
-    }
+    };
 
     /**
      * Disable the specified widget
@@ -138,7 +138,7 @@ sakai.admin_widgets = function(tuid, showSettings){
                     sakai.api.Util.notification.show($(adminWidgetsNofication).html(),
                                                      $(adminWidgetsNoficationDisableError).html() + " - " + widgetId,
                                                      sakai.api.Util.notification.type.ERROR);*/
-    }
+    };
 
     /**
      * Enable the specified widget
@@ -163,7 +163,7 @@ sakai.admin_widgets = function(tuid, showSettings){
                     sakai.api.Util.notification.show($(adminWidgetsNofication).html(),
                                                      $(adminWidgetsNoficationEnableError).html() + " - " + widgetId,
                                                      sakai.api.Util.notification.type.ERROR);*/
-    }
+    };
 
     /**
      * Delete the specified widget
@@ -186,15 +186,15 @@ sakai.admin_widgets = function(tuid, showSettings){
                     sakai.api.Util.notification.show($(adminWidgetsNofication).html(),
                                                      $(adminWidgetsNoficationDeleteError).html() + " - " + widgetId,
                                                      sakai.api.Util.notification.type.ERROR);*/
-    }
+    };
 
     /**
      * Positions the dialog box at the users scroll position
      */
     var installFromUrl = function(){
         var widgetUrl = $(adminWidgetsInstallUrl).val();
-        $(adminWidgetsInstallUrl).attr("disabled", "disabled")
-        $(adminWidgetsInstallUrlSubmit).attr("disabled", "disabled")
+        $(adminWidgetsInstallUrl).attr("disabled", "disabled");
+        $(adminWidgetsInstallUrlSubmit).attr("disabled", "disabled");
         
         // ajax call to service
 
@@ -276,7 +276,7 @@ sakai.admin_widgets = function(tuid, showSettings){
         // Bind the disable buttons
         $(adminWidgetsButtonDisable).live("click", function(){
             var widgetId = this.id.substring(adminWidgetsDisable.length - 1);
-            $(adminWidgetsButtonDisableConfirm).attr("id", widgetId)
+            $(adminWidgetsButtonDisableConfirm).attr("id", widgetId);
             $(adminWidgetsDisableConfirmWidgetTitle).html("&quot;" + $(adminWidgetsWidgetName + widgetId).html() + "&quot;");
             positionDialog();
             $(adminWidgetsDisableDialog).jqmShow();
@@ -291,7 +291,7 @@ sakai.admin_widgets = function(tuid, showSettings){
         // Bind the enable buttons
         $(adminWidgetsButtonEnable).live("click", function(){
             var widgetId = this.id.substring(adminWidgetsEnable.length - 1);
-            $(adminWidgetsButtonEnableConfirm).attr("id", widgetId)
+            $(adminWidgetsButtonEnableConfirm).attr("id", widgetId);
             $(adminWidgetsEnableConfirmWidgetTitle).html("&quot;" + $(adminWidgetsWidgetName + widgetId).html() + "&quot;");
             positionDialog();
             $(adminWidgetsEnableDialog).jqmShow();
@@ -306,7 +306,7 @@ sakai.admin_widgets = function(tuid, showSettings){
         // Bind the delete buttons
         $(adminWidgetsButtonDelete).live("click", function(){
             var widgetId = this.id.substring(adminWidgetsDelete.length - 1);
-            $(adminWidgetsButtonDeleteConfirm).attr("id", widgetId)
+            $(adminWidgetsButtonDeleteConfirm).attr("id", widgetId);
             $(adminWidgetsDeleteConfirmWidgetTitle).html("&quot;" + $(adminWidgetsWidgetName + widgetId).html() + "&quot;");
             positionDialog();
             $(adminWidgetsDeleteDialog).jqmShow();

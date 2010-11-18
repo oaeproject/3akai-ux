@@ -1,6 +1,6 @@
 module("FormToJSON");
 
-(function(){
+$(function() {
 
 var dummyForm = "<form action='javascript:;' id='dummyForm'>" +
                     "<input type='text' name='name' value='john doe'/>" +
@@ -113,4 +113,4 @@ test("Convert the values of a form to a json object", function(){
     testFormToJSON();
 });
 
-})();
+});

@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config */
+/*global $ */
 
 var sakai = sakai || {};
 
@@ -366,15 +366,10 @@ sakai.userprofile = function(tuid,showSettings){
 
                 // Wait for 2 seconds
                 setTimeout(
-
                     function(){
-
                         // Change the profile mode if the save was successful
                         changeProfileMode("view");
-
-                    }
-
-                , 2000);
+                    }, 2000);
 
             },
             error: function(xhr, textStatus, thrownError){
