@@ -251,41 +251,19 @@ sakai.creategroup = function(tuid, showSettings){
 
 
     var saveGroup = function(){
-        resetErrorFields();
-
         // Get the values from the input text and radio fields
         var grouptitle = $(createGroupAddName).val() || "";
         var groupdescription = $(createGroupAddDescription).val() || "";
         var groupid = replaceCharacters($(createGroupAddId).val());
         var inputError = false;
 
-        // Check if there is a group id or group title defined
-        if (grouptitle === "")
-        {
-            setError(createGroupAddName,createGroupAddNameEmpty,true);
-            inputError = true;
-        } else if (grouptitle.length < 3) {
-            setError(createGroupAddName,createGroupAddNameShort,true);
-            inputError = true;
-        }
-        if (!groupid)
-        {
-            setError(createGroupAddId,createGroupAddIdEmpty,true);
-            inputError = true;
-        } else if (groupid.length < 3) {
-            setError(createGroupAddId,createGroupAddIdShort,true);
-            inputError = true;
-        }
-
-        if (inputError)
-        {
-            return;
-        }
-        else
-        {
+        if($("#creategroup_form").valid()) {
             // Hide the buttons and show the process status
             showProcess(true);
             doSaveGroup(groupid, grouptitle, groupdescription);
+        }
+        else {
+            return;
         }
     };
 
@@ -332,13 +310,40 @@ sakai.creategroup = function(tuid, showSettings){
         $(createGroupAddId).val(entered);
     });
 
-    /*
-     *  When user change the group url address, reset error fields.
-     */
-    $(createGroupAddId).bind("keyup",function(ev){
-        // reset error field.
-        resetErrorFields();
+    $("#creategroup_form").validate({
+        errorClass: "creategroup_error_msg",
+        errorElement: "span",
+        highlight: function(element, errorClass) {
+            $(element).addClass("invalid");
+        },
+        unhighlight: function(element, errorClass, validClass) {
+            $(element).removeClass("invalid");
+        },
+        onclick:false,
+        onkeyup:false,
+        onfocusout:false,
+        rules: {
+            creategroup_add_name: {
+                required: true,
+                minlength: 3
+            },
+            creategroup_add_id: {
+                required: true,
+                minlength: 3
+            }
+        },
+        messages: {
+            creategroup_add_name:  {
+                required: $(createGroupAddNameEmpty).text(),
+                minlength: $(createGroupAddNameShort).text(),
+            },
+            creategroup_add_id: {
+                required: $(createGroupAddIdEmpty).text(),
+                minlength: $(createGroupAddIdShort).text(),
+            }
+        }
     });
+
 
     /////////////////////////////
     // Initialisation function //
