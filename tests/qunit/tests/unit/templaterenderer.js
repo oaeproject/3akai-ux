@@ -1,5 +1,7 @@
 module("TemplateRenderer");
+
 $(function() {
+
 var $container = $("#qunit_body"),
     $template1 = $("#qunit_body_template1"),
     $template2 = $("#qunit_body_template2"),

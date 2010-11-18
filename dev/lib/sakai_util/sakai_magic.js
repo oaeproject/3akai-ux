@@ -419,6 +419,94 @@ sakai.api.Groups = sakai.api.Groups || {};
 
 
 /**
+ * Create a group
+ * @param {String} id the id of the group that's being created
+ * @param {String} title the title of the group that's being created
+ * @param {String} description the description of the group that's being created
+ * @param {Function} callback the callback function for when the group save is complete. It will pass
+ *                            two params, success {Boolean} and nameTaken {Boolean}
+*/
+sakai.api.Groups.createGroup = function(id, title, description, callback) {
+
+    /**
+     * Check if the group is created correctly and exists
+     * @param {String} groupid
+     */
+    var groupExists = function(groupid){
+        // Check if the group exists.
+        var groupExists = false;
+        $.ajax({
+            url: "/~" + groupid + ".json",
+            type: "GET",
+            async: false,
+            success: function(data, textStatus) {
+                groupExists = true;
+            }
+        });
+        return groupExists;
+    };
+
+    /**
+     * Create the group.
+     * @param {String} groupid the id of the group that's being created
+     * @param {String} grouptitle the title of the group that's being created
+     * @param {String} groupdescription the description of the group that's being created
+     * @param {Function} callback the callback function for when the group save is complete. It will pass
+     *                            two params, success {Boolean} and nameTaken {Boolean}
+    */
+    var saveGroup = function(groupid, grouptitle, groupdescription, callback){
+        $.ajax({
+            url: sakai.config.URL.GROUP_CREATE_SERVICE,
+            data: {
+                "_charset_":"utf-8",
+                ":name": groupid,
+                ":sakai:manager": sakai.data.me.user.userid,
+                "sakai:group-title" : grouptitle,
+                "sakai:group-description" : groupdescription,
+                "sakai:group-id": groupid,
+                ":sakai:pages-template": "/var/templates/site/" + sakai.config.defaultGroupTemplate,
+                "sakai:pages-visible": sakai.config.Permissions.Groups.visible["public"]
+            },
+            type: "POST",
+            success: function(data, textStatus) {
+                // set default permissions for this group
+                sakai.api.Groups.setPermissions(groupid,
+                    sakai.config.Permissions.Groups.joinable.manager_add,
+                    sakai.config.Permissions.Groups.visible["public"],
+                    function (success, errorMessage) {
+                        if(success) {
+                            if ($.isFunction(callback)) {
+                                callback(true, false);
+                            }
+                        } else {
+                            debug.error("doSaveGroup failed to set group permissions: " + errorMessage);
+                            if ($.isFunction(callback)) {
+                                callback(false, false);
+                            }
+                        }
+                    }
+                );
+            },
+            error: function(xhr, textStatus, thrownError) {
+                debug.error("An error has occurred: " + xhr.status + " " + xhr.statusText);
+                if ($.isFunction(callback)) {
+                    callback(false, false);
+                }
+            }
+        });
+    };
+
+    // check if the group exists
+    if (!groupExists(id)) {
+        saveGroup(id, title, description, callback);
+    } else {
+        if ($.isFunction(callback)) {
+            callback(false, true);
+        }
+    }
+};
+
+/**
  * Public function used to set joinability and visibility permissions for a
  * group with groupid.
  *
@@ -429,7 +517,7 @@ sakai.api.Groups = sakai.api.Groups || {};
  *   args: (success, errorMessage)
  * @return None
  */
-sakai.api.Groups.setPermissions = function (groupid, joinable, visible, callback) {
+sakai.api.Groups.setPermissions = function(groupid, joinable, visible, callback) {
     if(groupid && typeof(groupid) === "string" &&
        sakai.api.Security.isValidPermissionsProperty(sakai.config.Permissions.Groups.joinable, joinable) &&
        sakai.api.Security.isValidPermissionsProperty(sakai.config.Permissions.Groups.visible, visible)) {
@@ -1267,6 +1355,28 @@ sakai.api.l10n = sakai.api.l10n || {};
  */
 sakai.api.l10n.getUserLocale = function() {
 
+};
+
+sakai.api.l10n.getUserDefaultLocale = function() {
+    var ret = sakai.config.defaultLanguage;
+    // Get the browser language preference - IE uses userLanguage, all other browsers user language
+    var locale = navigator.language ? navigator.language : navigator.userLanguage;
+    if (locale) {
+        var split = locale.split("-");
+        if (split.length > 1) {
+            split[1] = split[1].toUpperCase();
+            var langs = sakai.config.Languages;
+            // Loop over all the available languages - if the user's browser language preference matches
+            // then set their locale to that so they don't have to set it manually
+            for (var i=0,j=langs.length; i<j; i++) {
+                if (langs[i].language === split[0] && langs[i].country === split[1]) {
+                    ret = split[0] + "_" + split[1];
+                    break;
+                }
+            }
+        }
+    }
+    return ret;
 };
 
 /**
@@ -2246,15 +2356,44 @@ sakai.api.UI.Forms = {
  */
 sakai.api.User = sakai.api.User || {};
 
-
 /**
- * Create a user in the Sakai3 system.
- *
- * @param {Object} user A JSON object containing all the information to create a user.
- * @param {Function} [callback] A callback function which will be called after the request to the server.
+ * @param {Object} extraOptions can include recaptcha: {challenge, response}, locale : "user_LOCALE", template: "templateName"
  */
-sakai.api.User.createUser = function(user, callback){
-
+sakai.api.User.createUser = function(username, firstName, lastName, email, password, passwordConfirm, extraOptions, callback) {
+    var profileData = {}; profileData.basic = {}; profileData.basic.elements = {};
+    profileData.basic.elements["firstName"] = {};
+    profileData.basic.elements["firstName"].value = firstName;
+    profileData.basic.elements["lastName"] = {};
+    profileData.basic.elements["lastName"].value = lastName;
+    profileData.basic.elements["email"] = {};
+    profileData.basic.elements["email"].value = email;
+    profileData.basic.access = "everybody";
+    var user = {
+        "_charset_": "utf-8",
+        "locale": sakai.api.l10n.getUserDefaultLocale(),
+        "pwd": password,
+        "pwdConfirm": passwordConfirm,
+        ":name": username,
+        ":sakai:pages-template": "/var/templates/site/" + sakai.config.defaultUserTemplate,
+        ":sakai:profile-import": $.toJSON(profileData)
+    };
+    for (var i in extraOptions) {
+        if (extraOptions.hasOwnProperty(i)) {
+            switch(i) {
+                case "recaptcha":
+                    user[":create-auth"] = "reCAPTCHA.net";
+                    user[":recaptcha-challenge"] = extraOptions[i].challenge;
+                    user[":recaptcha-response"] = extraOptions[i].response;
+                    break;
+                case "locale":
+                    user["locale"] = extraOptions[i];
+                    break;
+                case "template":
+                    user["template"] = "/var/templates/site/" + extraOptions[i];
+                    break;
+            }
+        }
+    }
     // Send an Ajax POST request to create a user
     $.ajax({
         url: sakai.config.URL.CREATE_USER_SERVICE,
@@ -2277,7 +2416,6 @@ sakai.api.User.createUser = function(user, callback){
 
         }
     });
-
 };
 
 

@@ -1,6 +1,6 @@
 module("Widgets - Core");
 
-(function(){
+$(function() {
 
 test("The Widget variable exists", function(){
     same(typeof sakai.widgets.widgets, "object", "the sakai.widgets.widgets variable exists");
@@ -131,7 +131,6 @@ module("Widgets - Valid Properties");
 module("Widgets - URLs in Config file");
 
 (function() {
-
     for (var i in sakai.widgets.widgets) {
         (function(i) {
             if (sakai.widgets.widgets.hasOwnProperty(i)) {
@@ -180,4 +179,4 @@ module("Widgets - URLs in Config file");
     }
 })();
 
-})();
+});

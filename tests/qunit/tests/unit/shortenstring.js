@@ -1,6 +1,6 @@
 module("Shorten String");
 
-(function(){
+$(function() {
 
 var dummyString = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In orci nibh, venenatis id aliquam vitae, porttitor quis lacus.";
 
@@ -26,4 +26,4 @@ test("Send message to one person", function(){
     testShortenString();
 });
 
-})();
+});
