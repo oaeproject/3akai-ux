@@ -7,8 +7,8 @@ var consoleregex = new RegExp(/console\.(?:log|warn|error|debug|trace)/g),
 
 var checkForConsoleLog = function(file, filename) {
     var matches = consoleregex.exec(file);
-    if (filename === "/dev/lib/sakai_util/sakai_magic.js" && matches && matches.length === 1) {
-        ok(true, "Found a single console.log in sakai_magic which is the only one allowed as it is the wrapper for debug.log");
+    if (filename === "/dev/lib/sakai/sakai.api.core.js" && matches && matches.length === 1) {
+        ok(true, "Found a single console.log in sakai.api.core.js which is the only one allowed as it is the wrapper for debug.log");
     } else if (matches && matches.length) {
         for (var i=0,j=matches.length; i<j; i++) {
             ok(false, "found console.(log|warn|error|debug|trace)");

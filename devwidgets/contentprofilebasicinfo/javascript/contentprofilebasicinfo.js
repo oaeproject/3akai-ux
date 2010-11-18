@@ -20,12 +20,6 @@
 
 var sakai = sakai || {};
 
-/**
- * @name sakai.contentprofilebasicinfo
- *
- * @param {String} tuid Unique id of the widget
- * @param {Boolean} showSettings Show the settings of the widget or not
- */
 sakai.contentprofilebasicinfo = function(tuid, showSettings){
 
 
@@ -256,7 +250,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
             },
             success : function(){
                 // Set permissions on the files
-                sakai.api.Util.setFilePermissions(data["sakai:permissions"], [obj], function(permissionsSet){
+                sakai.api.Content.setFilePermissions(data["sakai:permissions"], [obj], function(permissionsSet){
                     // Load content profile
                     sakai.content_profile.loadContentProfile(function(){
                         removeBinding();

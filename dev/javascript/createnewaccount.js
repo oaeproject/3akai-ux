@@ -16,13 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-
-/*global Config, $ */
-
-
-var sakai = sakai || {};
-
-sakai.newaccount = function(){
+$(function(){
 
 
     /*global checkUserName */
@@ -340,6 +334,4 @@ sakai.newaccount = function(){
 
     // Initialize the captcha widget.
     initCaptcha();
-};
-
-sakai.api.Widgets.Container.registerForLoad("sakai.newaccount");
+});
