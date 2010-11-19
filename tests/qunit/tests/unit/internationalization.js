@@ -50,9 +50,9 @@ var checkAttrs = function($elt) {
     $.each(attrs, function(i, val) {
         // grab any element with the attribute, and filter out any empties
         $.each($elt.find("*[" + val + "]").filter(function(index) {
-            return $(this).attr(val).trim() !== "";
+            return $.trim($(this).attr(val)) !== "";
         }), function(j,elt) {
-            var attrText = $(elt).attr(val).trim();
+            var attrText = $.trim($(elt).attr(val));
             var pass = testString(attrText);
             ok(pass, val.toUpperCase() + " Text: " + attrText);
         });
@@ -67,9 +67,9 @@ var checkAttrs = function($elt) {
 var checkElements = function($elt){
     // check all elements with no children that have text, filtering out any empties (post-trim)
     $.each($elt.find("*:not(:empty)").filter(function(index){
-        return $(this).children().length === 0 && $(this).text().trim() !== "";
+        return $(this).children().length === 0 && $.trim($(this).text()) !== "";
     }), function(i,elt) {
-        var tagText = $(elt).text().trim();
+        var tagText = $.trim($(elt).text());
         var pass = testString(tagText);
         ok(pass, "String: " + tagText);
     });
@@ -84,9 +84,9 @@ var checkElements = function($elt){
 var getAllKeys = function($elt) {
     var keys = [];
     $.each($elt.find("*:not(:empty)").filter(function(index){
-        return $(this).children().length === 0 && $(this).text().trim() !== "";
+        return $(this).children().length === 0 && $.trim($(this).text()) !== "";
     }), function(i,elt) {
-        var tagText = $(elt).text().trim();
+        var tagText = $.trim($(elt).text());
         var pass = testString(tagText);
         if (pass && !(!alpha.test(tagText) || urlRegex.test(tagText)) && $.inArray(tagText, keys) === -1) {
             keys.push(regex.exec(tagText)[0].replace("__MSG__", "").replace("__", ""));
@@ -94,9 +94,9 @@ var getAllKeys = function($elt) {
     });
     $.each(attrs, function(i, val) {
         $.each($elt.find("*[" + val + "]").filter(function(index) {
-            return $(this).attr(val).trim() !== "";
+            return $.trim($(this).attr(val)) !== "";
         }), function(j,elt) {
-            var attrText = $(elt).attr(val).trim();
+            var attrText = $.trim($(elt).attr(val));
             var pass = testString(attrText);
             if (pass && !(!alpha.test(attrText) || urlRegex.test(attrText)) && $.inArray(attrText, keys) === -1) {
                 keys.push(regex.exec(attrText)[0].replace("__MSG__", "").replace("__", ""));
