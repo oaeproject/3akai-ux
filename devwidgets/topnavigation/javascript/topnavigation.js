@@ -127,7 +127,7 @@ sakai.topnavigation = function(tuid, showSettings){
                     updateChatStatus();
                 },
                 error: function(xhr, textStatus, thrownError){
-                    $.gritter.add("An error occurend when sending the status to the server.");
+                    sakai.api.Util.notification.show("An error occurend when sending the status to the server.",,sakai.api.Util.notification.type.ERROR);
                 }
             });
         }

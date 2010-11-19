@@ -150,7 +150,7 @@ sakai.video = function(tuid, showSettings) {
               so.write(video.videoContainer);
 
         } catch(err) {
-            $.gritter.add(err);
+            sakai.api.Util.notification.show(err,,sakai.api.Util.notification.type.ERROR);
             $(videoTempShowMain, rootel).text(sakai.api.i18n.General.getValueForKey("__MSG__NO_VALID_VIDEO_FOUND__"));
         }
     };
@@ -236,7 +236,7 @@ sakai.video = function(tuid, showSettings) {
                 showVideo(video, videoShowMain, video.isSakaiVideoPlayer);
             }
             catch(err) {
-                $.gritter.add("failed to retrieve video.");
+                sakai.api.Util.notification.show("failed to retrieve video.",,sakai.api.Util.notification.type.ERROR);
             }
         }
 
@@ -318,7 +318,7 @@ sakai.video = function(tuid, showSettings) {
             showVideo(getVideoJson(), videoPreviewContainer, !isYouTube);
         }
         else {
-            $.gritter.add(sakai.api.i18n.General.getValueForKey("PLEASE_FILL_IN_A_URL"));
+            sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("PLEASE_FILL_IN_A_URL"),,sakai.api.Util.notification.type.ERROR);
         }
 
     }); */

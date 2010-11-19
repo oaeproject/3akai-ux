@@ -530,7 +530,7 @@ sakai.search = function() {
 
             },
             error: function(xhr, textStatus, thrownError) {
-                $.gritter.add("An error has occured");
+                sakai.api.Util.notification.show("An error has occured",,sakai.api.Util.notification.type.ERROR);
             }
         });
 
