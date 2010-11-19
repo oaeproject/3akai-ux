@@ -118,38 +118,40 @@ var checkKeys = function($elt) {
     }
 };
 
-var getWidgetInfo = function(widgetname, widgetURL, callback) {
-    $.ajax({
-        url: widgetURL,
-        async: false,
-        cache: false,
-        success: function(data) {
-            var bundle = false;
-            if ($.isPlainObject(sakai.widgets.widgets[widgetname].i18n)) {
-                if (sakai.widgets.widgets[widgetname].i18n["default"]){
-                    bundle = sakai.widgets.widgets[widgetname].i18n["default"];
-                }
-            }
-            if (bundle) {
-                $.ajax({
-                    url: bundle,
-                    async: false,
-                    cache: false,
-                    success: function(data){
-                        sakai.data.i18n.widgets[widgetname] = sakai.data.i18n.widgets[widgetname] || {};
-                        sakai.data.i18n.widgets[widgetname]["default"] = sakai.data.i18n.changeToJSON(data);
-                        if ($.isFunction(callback)) {
-                            callback(true);
-                        }
-                    }
-                });
-            } else {
-                if ($.isFunction(callback)) {
-                    callback(false);
-                }
-            }
+/**
+ * Grabs the widget's default bundle
+ *
+ * @param {String} widgetname The name of the widget
+ * @param {Function} callback Callback function, called with a boolean for if the widget
+ *                            has a bundle or not
+ */
+var getWidgetInfo = function(widgetname, callback) {
+    var bundle = false;
+    if ($.isPlainObject(sakai.widgets.widgets[widgetname].i18n)) {
+        if (sakai.widgets.widgets[widgetname].i18n["default"]){
+            bundle = sakai.widgets.widgets[widgetname].i18n["default"];
         }
-    });
+    }
+    if (bundle) {
+        $.ajax({
+            url: bundle,
+            async: false,
+            cache: false,
+            success: function(data){
+                sakai.data.i18n.widgets[widgetname] = sakai.data.i18n.widgets[widgetname] || {};
+                sakai.data.i18n.widgets[widgetname]["default"] = sakai.data.i18n.changeToJSON(data);
+                if ($.isFunction(callback)) {
+                    callback(true);
+                }
+            }
+        });
+    } else {
+        if ($.isFunction(callback)) {
+            callback(false);
+        }
+    }
+
+
 };
 
 /**
@@ -161,7 +163,7 @@ var getWidgetInfo = function(widgetname, widgetURL, callback) {
  */
 var checkWidgetKeys = function($elt, widget, callback) {
     var keys = getAllKeys($elt);
-    getWidgetInfo(widget.name, widget.html, function(hasBundles) {
+    getWidgetInfo(widget.name, function(hasBundles) {
         for (var i=0,j=keys.length;i<j;i++) {
             if (hasBundles) {
                 ok(sakai.api.i18n.Widgets.getValueForKey(widget.name, null, keys[i]), "Default value exists for " + keys[i]);
