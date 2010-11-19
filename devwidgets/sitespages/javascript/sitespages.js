@@ -1397,13 +1397,13 @@ sakai.sitespages = function(tuid,showSettings){
             // Check whether pagetitle and content exist
             var newpagetitle = $.trim($("#title-input").val());
             if (!newpagetitle.replace(/ /g,"%20")) {
-                $.gritter.add(sakai.api.i18n.General.getValueForKey("PLEASE_SPECIFY_A_PAGE_TITLE"));
+                sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("PLEASE_SPECIFY_A_PAGE_TITLE"),,sakai.api.Util.notification.type.ERROR);
                 $("#title-input").focus();
                 return;
             }
             var newcontent = getContent() || "";  // Get the content from tinyMCE
             if (!checkContent(newcontent)) {
-                $.gritter.add(sakai.api.i18n.General.getValueForKey("PLEASE_ENTER_SOME_CONTENT"));
+                sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("PLEASE_ENTER_SOME_CONTENT"),,sakai.api.Util.notification.type.ERROR);
                 return;
             }
 
@@ -1785,6 +1785,8 @@ sakai.sitespages = function(tuid,showSettings){
                 }
             }
             toinsert += '/>';
+
+            //sakai.api.Util.notification.show(ed.selection.getContent() + "\n" + selected.getAttribute("style"),,sakai.api.Util.notification.type.ERROR);
 
             tinyMCE.get("elm1").execCommand('mceInsertContent', true, toinsert);
         }

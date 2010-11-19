@@ -276,7 +276,7 @@ sakai.sakai2tools = function(tuid, showSettings){
             });
         }
         else {
-            $.gritter.add("Please specify a URL");
+            sakai.api.Util.notification.show("Please specify a URL",,sakai.api.Util.notification.type.ERROR);
         }
     };
 

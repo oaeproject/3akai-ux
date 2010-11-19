@@ -508,7 +508,7 @@ sakai.poll = function(tuid, showSettings){
                 // if the user has checked an element. We do this double check to make it
                 // more secure.
                 if($('input[name=' + pollQuestionViewOptionsClass + ']:checked').length === 0){
-                    $.gritter.add("Please select at least one option.");
+                    sakai.api.Util.notification.show("Please select at least one option.",,sakai.api.Util.notification.type.ERROR);
 
                 // If the user selected one or multiple options
                 }else{
@@ -522,10 +522,10 @@ sakai.poll = function(tuid, showSettings){
                 }
             }
             else{
-                $.gritter.add("You already registered a vote.");
+                sakai.api.Util.notification.show("You already registered a vote.",,sakai.api.Util.notification.type.ERROR);
             }
         }else{
-            $.gritter.add("Can not get the current user.");
+            sakai.api.Util.notification.show("Can not get the current user.",,sakai.api.Util.notification.type.ERROR);
         }
     };
 
@@ -635,7 +635,7 @@ sakai.poll = function(tuid, showSettings){
                         }
                     }
                 } catch (err){
-                    $.gritter.add(err);
+                    sakai.api.Util.notification.show(err,,sakai.api.Util.notification.type.ERROR);
                 }
             }
             else {

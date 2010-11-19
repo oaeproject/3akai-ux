@@ -273,7 +273,7 @@ sakai.discussion = function(tuid, showSettings){
                 }
             },
             error: function(xhr, textStatus, thrownError){
-                $.gritter.add("Failed to edit this post.");
+                sakai.api.Util.notification.show("Failed to edit this post.",,sakai.api.Util.notification.type.ERROR);
             },
             data: post,
             type: 'POST'
@@ -698,17 +698,17 @@ sakai.discussion = function(tuid, showSettings){
                 error: function(xhr, textStatus, thrownError){
                     if (xhr.status === 401) {
                         clearReplyFields();
-                        $.gritter.add("You are not allowed to add a reply.");
+                        sakai.api.Util.notification.show("You are not allowed to add a reply.",,sakai.api.Util.notification.type.ERROR);
                     }
                     else {
-                        $.gritter.add("Failed to add a reply.");
+                        sakai.api.Util.notification.show("Failed to add a reply.",,sakai.api.Util.notification.type.ERROR);
                     }
                 },
                 data: object
             });
         }
         else {
-            $.gritter.add("Please enter all the fields.");
+            sakai.api.Util.notification.show("Please enter all the fields.",,sakai.api.Util.notification.type.ERROR);
         }
     };
 
@@ -767,7 +767,7 @@ sakai.discussion = function(tuid, showSettings){
                 getPostsFromJCR();
             },
             error: function(xhr, textStatus, thrownError){
-                $.gritter.add("Failed to delete this post.");
+                sakai.api.Util.notification.show("Failed to delete this post.",,sakai.api.Util.notification.type.ERROR);
             },
             data: data
         });
@@ -811,10 +811,10 @@ sakai.discussion = function(tuid, showSettings){
                 error: function(xhr, textStatus, thrownError){
                     if (xhr.status === 401) {
                         clearReplyFields();
-                        $.gritter.add("You are not allowed to add a reply.");
+                        sakai.api.Util.notification.show("You are not allowed to add a reply.",,sakai.api.Util.notification.type.ERROR);
                     }
                     else {
-                        $.gritter.add("Failed to add a reply.");
+                        sakai.api.Util.notification.show("Failed to add a reply.",,sakai.api.Util.notification.type.ERROR);
                     }
                     $(discussionAddTopicSubmit).removeAttr("disabled");
                 },
@@ -822,7 +822,7 @@ sakai.discussion = function(tuid, showSettings){
             });
         }
         else {
-            $.gritter.add("Please enter all the fields.");
+            sakai.api.Util.notification.show("Please enter all the fields.",,sakai.api.Util.notification.type.ERROR);
         }
     };
 
@@ -891,7 +891,7 @@ sakai.discussion = function(tuid, showSettings){
                 post = createPostObject();
 
                 if ((""+post['sakai:subject']).replace(/ /g, "") === "" || (""+post['sakai:body']).replace(/ /g, "") === "") {
-                    $.gritter.add("Please fill in all the fields.");
+                    sakai.api.Util.notification.show("Please fill in all the fields.",,sakai.api.Util.notification.type.ERROR);
                 }
                 else {
                     if (initialPost !== false) {

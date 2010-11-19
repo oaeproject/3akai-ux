@@ -522,7 +522,7 @@ sakai.sitemembers = function(tuid, showSettings){
                 }
             },
             error: function(xhr, textStatus, thrownError) {
-                $.gritter.add("An error occured");
+                sakai.api.Util.notification.show("An error occured",,sakai.api.Util.notification.type.ERROR);
             }
         });
     };
@@ -649,7 +649,7 @@ sakai.sitemembers = function(tuid, showSettings){
                 closeSettings();
             }
             else {
-                $.gritter.add("Failed to save settings");
+                sakai.api.Util.notification.show("Failed to save settings",,sakai.api.Util.notification.type.ERROR);
             }
 
         });
