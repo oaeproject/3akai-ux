@@ -10,15 +10,15 @@
 <!-- CONTENT -->
 <div class="recentmessages_widget">
 
-    <div class="fl-widget-content" id="recentmessages_container">
+    <div class="fl-widget-content s3d-widget-content" id="recentmessages_container">
     </div>
     <div id="recentmessages_template"><!--
         <ul>
             {for message in results}
                 <li {if message_index % 2} class="recentmessages_alterrow"{/if}>
-                    <span {if message["sakai:read"]==="false"} class="recentmessages_notread" {/if} title="${sakai.api.User.getDisplayName(message.userFrom[0])}">${sakai.api.User.getDisplayName(message.userFrom[0])} {if message.userFrom.length > 1} and others...{/if}:</span>
+                    <span {if message["sakai:read"]==="false"} class="recentmessages_notread" {/if} title="${sakai.api.User.getDisplayName(message.userFrom[0])}">${sakai.api.User.getDisplayName(message.userFrom[0])} {if message.userFrom.length > 1} __MSG__AND_OTHERS__...{/if}:</span>
                     
-                    <a href="inbox.html#message=${message.id}">
+                    <a href="inbox.html#message=${message.id}" class="s3d-regular-links s3d-bold">
                         {if message["sakai:type"] === "chat"}
                             <span class="ellipsis_text" title="__MSG__CHAT_MESSAGE__">
                                 __MSG__CHAT_MESSAGE__
@@ -39,8 +39,8 @@
                 <li><a href="inbox.html">__MSG__VIEW_AND_MANAGE_ALL_MY_MESSAGES__</a></li>
             </ul>
         </div>
-        <div class="fl-widget-options-footer-left">
-            <div class="fl-widget-options-footer-right">
+        <div class="s3d-widget-options-footer-left">
+            <div class="s3d-widget-options-footer-right">
             </div>
         </div>
     </div>

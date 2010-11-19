@@ -1,7 +1,4 @@
 /** CONTAINER **/
-.fixed-container
-{ background: #fff; }
-
 .mceContentBody {
     display: block !important;
 }
@@ -11,16 +8,16 @@
 { height:25px; display:block; margin: 5px 0px 0 0;  }
 
 .sakai_site .content_page_options
-{ background: transparent url('/dev/_images/tab_bg_right.png') top right no-repeat; height: 25px; border: none;  padding: 0 10px 0 0; display: block; float:right; margin-top:3px;}
+{ background: transparent url('/dev/images/tab_bg_right.png') top right no-repeat; height: 25px; border: none;  padding: 0 10px 0 0; display: block; float:right; margin-top:3px;}
 
 .sakai_site #content_edit_page_options.content_page_options
-{ background: transparent url('/dev/_images/edit_button_bg.png') right -27px no-repeat; }
+{ background: transparent url('/dev/images/edit_button_bg.png') right -27px no-repeat; }
 
 .sakai_site .content_page_options ul
-{ padding: 5px 0 0 12px; background: #fff url('/dev/_images/tab_bg_left.png') top left no-repeat; }
+{ padding: 5px 0 0 12px; background: #fff url('/dev/images/tab_bg_left.png') top left no-repeat; }
 
 .sakai_site #content_edit_page_options.content_page_options ul
-{ background: #fff url('/dev/_images/edit_button_bg.png') top left no-repeat; }
+{ background: #fff url('/dev/images/edit_button_bg.png') top left no-repeat; }
 
 .sakai_site .content_page_options ul li
 { display: block; float: left; height: 20px; padding: 0px 6px 0px 0px; }
@@ -29,48 +26,13 @@
 { font-weight:bold; font-size:11px; }
 
 .sakai_site .content_page_options .print_page_admin
-{ background: transparent url(/dev/_images/printer_18.png) top left no-repeat; padding: 2px 15px 0 20px; border-right: 1px solid #888888; }
+{ background: transparent url(/dev/images/printer_18.png) top left no-repeat; padding: 2px 15px 0 20px; border-right: 1px solid #888888; }
 
 .sakai_site .content_page_options .print_page_view
-{ background: transparent url(/dev/_images/printer_18.png) top left no-repeat; padding: 2px 0px 0px 20px; }
+{ background: transparent url(/dev/images/printer_18.png) top left no-repeat; padding: 2px 0px 0px 20px; }
 
 .sakai_site .content_page_options #sitespages_accessibility_help
 { float:left; font-size:11px; margin-right:10px; margin-top:5px; }
-
-/** ADD MORE MENU **/
-#sitespages_page_options .content_page_options .more_link
-{ background: transparent url(/dev/_images/more_bg_18.png) top left no-repeat; padding: 1px 21px 2px 12px; }
-
-#sitespages_page_options .add_more_menu, .context_menu .context_more
-{ background-color: #FFF; padding: 0; position: absolute; left: 0; top: 0; display: block; width: 123px; margin: 0; }
-
-.context_menu .context_more {
-    margin-top:30px;
-}
-
-#sitespages_page_options .add_more_menu ul, .context_menu .context_more ul
-{ margin:0; border:1px solid #cbd0d4; -moz-border-radius:4px; -webkit-border-radius:4px; border-radius:4px; }
-
-#sitespages_page_options .nav_small_spacer
-{ height: 20px; }
-
-#sitespages_page_options .add_more_menu ul li, .context_menu .context_more ul li
-{ padding: 5px 10px 5px 15px; list-style-type: none; }
-
-#sitespages_page_options .add_more_menu ul li.more_option, .context_menu .more_option
-{ border-bottom:1px solid #cbd0d4;}
-
-#sitespages_page_options .add_more_menu ul li.more_option.option_last, .context_menu .more_option ul li.more_option.option_last
-{ border-bottom:0px;}
-
-#sitespages_page_options .add_more_menu ul li:hover, .context_menu ul li:hover
-{ background-color:#dbeefc; cursor:pointer;}
-
-#sitespages_page_options .add_more_menu ul li a, .context_menu ul li a
-{ font-weight:normal; font-size:12px;}
-
-#sitespages_page_options .add_more_menu ul li a:hover, .context_menu ul li a:hover
-{ text-decoration:none; }
 
 /** MAIN CONTENTS **/
 
@@ -78,25 +40,19 @@
 { padding: 0; margin: 0 0 20px 0; overflow: hidden; }
 
 .sakai_site .sakai_site_contents_main
-{ border-left: 3px solid #D3DBDE; border-right: 3px solid #D3DBDE; margin: 0; padding: 10px; min-height: 350px; }
+{ margin: 0; padding: 10px; min-height: 350px; }
 
 .sakai_site .content_top
-{ background: url('/dev/_images/content_tr.gif') top right no-repeat; padding: 0 5px 0 0; margin: 0; }
+{ background: url('/dev/images/content_tr.gif') top right no-repeat; padding: 0 5px 0 0; margin: 0; }
 
 .sakai_site .content_top.content_top_rounded
-{ background: url('/dev/_images/content_tr_flip.png') top right no-repeat; padding: 0 5px 0 0; margin: 0; }
+{ background: url('/dev/images/content_tr_flip.png') top right no-repeat; padding: 0 5px 0 0; margin: 0; }
 
 .sakai_site .content_top_inner
-{ background: url('/dev/_images/content_tl.gif') 0 0 no-repeat; margin: 0; height: 6px; }
-
-.sakai_site .content_bottom
-{ background: url('/dev/_images/content_br.png') top right no-repeat; padding: 0 5px 0 0; margin: 0;}
+{ background: url('/dev/images/content_tl.gif') 0 0 no-repeat; margin: 0; height: 6px; }
 
 .sakai_site .content_bottom.content_bottom_edit
 { float:left; width:916px; }
-
-.sakai_site .content_bottom_inner
-{ background: url('/dev/_images/content_bl.png') 0 0 no-repeat; margin: 0; height: 6px; }
 
 #revision_history_list
 { font-size:0.95em; margin-left: 5px; margin-right:15px; padding:2px; border: 1px solid #cccccc; }
@@ -122,16 +78,10 @@
 { margin:0; padding: 0; border: none; }
 
 .site_management .sm_titlebar
-{ background:transparent url(/dev/_images/block_tr.png) no-repeat scroll right top; padding: 0 10px 0 0; height:50px; }
-
-.site_management .sm_titlebar_inner
-{ background:transparent url(/dev/_images/block_tl.png) no-repeat scroll left top; padding: 5px 0 0 17px; height:50px; }
+{ background:transparent url(/dev/images/block_tr.png) no-repeat scroll right top; padding: 0 10px 0 0; height:50px; }
 
 .site_management .sm_title
-{ background:transparent url(/dev/_images/site_management_icon.png) no-repeat scroll left top; color:#878A8C; font-size:1em; padding-left: 25px; }
-
-.site_management .sm_content
-{ border-left: 3px solid #D4DADE; border-right: 3px solid #D4DADE; padding: 10px 5px 10px 20px; margin: 0; }
+{ background:transparent url(/dev/images/site_management_icon.png) no-repeat scroll left top; color:#878A8C; font-size:1em; padding-left: 25px; }
 
 .site_management .sm_content ul
 { margin: 0; padding: 0; }
@@ -146,10 +96,10 @@
 { color: #999999; }
 
 .site_management .sm_bottom
-{ background:transparent url(/dev/_images/content_bl.png) no-repeat scroll left bottom; height: 5px; padding: 0 0 0 10px; }
+{ background:transparent url(/dev/images/content_bl.png) no-repeat scroll left bottom; height: 5px; padding: 0 0 0 10px; }
 
 .site_management .sm_bottom_inner
-{ background:transparent url(/dev/_images/content_br.png) no-repeat scroll right bottom; height: 5px; }
+{ background:transparent url(/dev/images/content_br.png) no-repeat scroll right bottom; height: 5px; }
 
 
 
@@ -158,7 +108,7 @@
 
 /** TABS VARIANT **/
 .edit_view .s3d-primary-tabs {
-     background: #FFFFFF url(/dev/_images/edit_toolbar_bg.png) top left repeat-x; border-left: 3px solid #D3DBDE; border-right: 3px solid #D3DBDE; height:40px;
+     background: #FFFFFF url(/dev/images/edit_toolbar_bg.png) top left repeat-x; border-left: 3px solid #D3DBDE; border-right: 3px solid #D3DBDE; height:40px;
 }
 
 .edit_view .s3d-primary-tabs ul.fl-tabs { background:none; }
@@ -172,7 +122,7 @@
 { padding: 0 0 0 0; margin: 0; background: transparent; height: 40px; border:none; }
 
 .edit_view .toolbar
-{ border-left: 3px solid #D3DBDE; border-right: 3px solid #D3DBDE; margin: 0 5px 0 -5px; padding: 5px 0 10px 7px; background: transparent; height: 35px; vertical-align: middle; background-color: #fff;}
+{ border-left: 3px solid #D3DBDE; border-right: 3px solid #D3DBDE; margin: 0; padding: 5px 3px 10px 8px; background: transparent; height: 20px; vertical-align: middle; background-color: #fff;}
 
 /** Title **/
 .edit_view .title_input_container
@@ -187,6 +137,9 @@
 
 .edit_view #fl-tab-content-editor, .edit_view #html-editor-content, .edit_view #page_preview_content
 { margin: 10px 0; border: 1px solid #999999; padding: 5px; width:882px;}
+
+.edit_view #fl-tab-content-editor
+{ padding:0px; width:890px; }
 
 /** Move **/
 .edit_view .new_page_path
@@ -217,16 +170,10 @@
 { background: none; padding: 0 5px 0 0; margin: 0; border-right:3px solid #D3DBDE;}
 
 .edit_view .content_top_inner
-{ background: url('/dev/_images/content_tl.gif') 0 0 no-repeat; margin: 0; height: 6px; }
-
-.edit_view.content_bottom
-{ background: url('/dev/_images/content_br.png') top right no-repeat; padding: 0 5px 0 0; margin: 0; }
-
-.edit_view .content_bottom_inner
-{ background: url('/dev/_images/content_bl.png') 0 0 no-repeat; margin: 0; height: 6px; }
+{ background: url('/dev/images/content_tl.gif') 0 0 no-repeat; margin: 0; height: 6px; }
 
 .edit_view .sitespages_add_button
-{ background: url('/dev/_images/add_button_bg.png') no-repeat top left; padding:5px; cursor:pointer; margin-top:-4px;}
+{ background: url('/dev/images/add_button_bg.png') no-repeat top left; padding:5px; cursor:pointer; margin-top:-4px;}
 
 .sakai_site .content p a {
     text-decoration: underline;
@@ -267,7 +214,7 @@
 .sitemembers .sitemembers_compact {width:auto;}
 .sitemembers #sitemembers_settings_data_container {width:100%;}
 .sitemembers .sitemembers_settings_data {width:auto;float:none;display:block;}
-.sitemembers.fl-widget .fl-widget-titlebar .widget_title { background:transparent url(/dev/_images/myprofile_icon.png) no-repeat scroll 17px 18px; }
+.sitemembers.fl-widget .fl-widget-titlebar .widget_title { background:transparent url(/dev/images/myprofile_icon.png) no-repeat scroll 17px 18px; }
 
 /* TOOLS CONTAINER - RIGHT COLUMN */
 #toolscontainer {
@@ -294,7 +241,7 @@
 .s3d-button.s3d-button-inline .s3d-button-inner .s3d-button-inner-text {width:90px;}
 
 .s3d-button.s3d-button-inline .s3d-button-inner .s3d-button-icon-left {
-    background: url("/dev/_images/page-options-button-sprite.png") no-repeat left top transparent;
+    background: url("/dev/images/page-options-button-sprite.png") no-repeat left top transparent;
 }
 .s3d-button.s3d-button-inline:hover .s3d-button-inner .s3d-button-icon-left {
     background-position:-20px top;
@@ -303,8 +250,8 @@
     background-position:-40px top;
 }
 .s3d-button.s3d-button-inline .s3d-button-inner .s3d-button-icon-right {
-    background: url("/dev/_images/page-options-button-sprite.png") no-repeat -60px top transparent;
+    background: url("/dev/images/page-options-button-sprite.png") no-repeat -60px top transparent;
 }
 .s3d-button.s3d-button-inline.clicked .s3d-button-inner .s3d-button-icon-right {
-    background: url("/dev/_images/white_subnav_arrow.png") no-repeat right center transparent;
+    background: url("/dev/images/white_subnav_arrow.png") no-repeat right center transparent;
 }

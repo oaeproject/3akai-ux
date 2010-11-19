@@ -3,5 +3,10 @@
     "name":"Hello World",
     "id":"helloworld",
     "hasSettings":true,
+    "type":"sakai",
+    "enabled":true,
+    "i18n": {
+        "default": "/devwidgets/helloworld/bundles/default.properties"
+    },
     "url":"/devwidgets/helloworld/helloworld.html"
 }

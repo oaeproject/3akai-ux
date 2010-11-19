@@ -3,8 +3,10 @@
     "hasSettings": false,
     "id": "listgeneral",
     "i18n": {
-        "default": "/devwidgets/listgeneral/bundles/default.json"
+        "default": "/devwidgets/listgeneral/bundles/default.properties"
     },
     "name": "General Lister",
+    "type":"core",
+    "enabled":true,
     "url": "/devwidgets/listgeneral/listgeneral.html"
 }

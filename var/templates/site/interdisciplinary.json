@@ -4,7 +4,7 @@
         "description": "This is an interdisciplinary research site template!",
         "id": "interdisciplinary",
         "sakai:site-template": "/templates/interdisciplinary",
-        "sakai:skin": "/dev/_skins/original/original.html",
+        "sakai:skin": "/dev/skins/original/original.html",
         "sling:resourceType": "sakai/template",
         "jcr:primaryType": "nt:unstructured",
         "jcr:mixinTypes": ["rep:AccessControllable"],

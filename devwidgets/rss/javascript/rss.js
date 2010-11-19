@@ -161,7 +161,7 @@ sakai.rss = function(tuid, showSettings){
             resultJSON.entries.sort(sortByDatefunction);
             pagerClickHandler(1);
         });
-    }
+    };
 
 
     ////////////////////////
@@ -179,25 +179,6 @@ sakai.rss = function(tuid, showSettings){
             return node.textContent;
         }
         return "";
-    };
-
-    /**
-     * Formats a dateobject to
-     * @param {Object} date-object
-     * @return {String} date in the following format: 20/3/2009 10:20 AM
-     */
-    var formatDate = function(d){
-        var am_or_pm = "";
-
-        var current_hour = d.getHours();
-        if (current_hour < 12) {am_or_pm = "AM";} else{am_or_pm = "PM";}
-        if (current_hour === 0){current_hour = 12;}
-        if (current_hour > 12){current_hour = current_hour - 12;}
-
-        var current_minutes = d.getMinutes() + "";
-        if (current_minutes.length === 1){current_minutes = "0" + current_minutes;}
-        // make a string out of a date in the correct format
-        return(d.getDate() + "/" + (d.getMonth() + 1) + "/" +  d.getFullYear() + " " + current_hour + ":" + current_minutes +  " " + am_or_pm);
     };
 
     /**
@@ -228,7 +209,7 @@ sakai.rss = function(tuid, showSettings){
                 if ($("pubDate",item).length > 0){
 
                     // We have to parse the RFC 822 date to help IE understand it, as it is something dodgy there...
-                    pubDate = formatDate(sakai.api.Util.parseRFC822Date($("pubDate",item).text()));
+                    pubDate = sakai.api.l10n.transformDateTimeShort(sakai.api.Util.parseRFC822Date($("pubDate",item).text()));
 
                 }
                   rss.items.push({
@@ -351,7 +332,7 @@ sakai.rss = function(tuid, showSettings){
                 $(rootel + " " + rssRemove).bind("click", function(e,ui){
                     var index = parseInt(e.target.parentNode.id.replace(rssRemoveNoDot, ""),10);
                     resultJSON.feeds.splice(index,1);
-                    $(rssRemoveFeed + index).parent().remove()
+                    $(rssRemoveFeed + index).parent().remove();
                 });
             }
         });
@@ -384,7 +365,7 @@ sakai.rss = function(tuid, showSettings){
      * @param {Object} pageClicked
      */
     var pagerClickHandler = function(clicked){
-        pageClicked = parseInt(clicked);
+        pageClicked = parseInt(clicked, 10);
         // first get the entries that need to be shown on this page
         resultJSON.shownEntries = getShownEntries(clicked);
         // render these entries
@@ -478,7 +459,7 @@ sakai.rss = function(tuid, showSettings){
             $(rootel + " " + rssRemove).bind("click", function(e,ui){
                 var index = parseInt(e.target.parentNode.id.replace(rssRemoveNoDot, ""),10);
                 resultJSON.feeds.splice(index,1);
-                $(rssRemoveFeed + index).parent().remove()
+                $(rssRemoveFeed + index).parent().remove();
             });
         }
     };

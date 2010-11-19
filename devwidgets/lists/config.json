@@ -3,11 +3,16 @@
     "name":"Lists",
     "id":"lists",
     "hasSettings":true,
+    "i18n": {
+        "default": "/devwidgets/lists/bundles/default.properties"
+    },
     "userpages": false,
     "userdashboard": false,
     "grouppages": false,
     "groupdashboard": false,
     "showinsakaigoodies":true,
+    "type":"sakai",
+    "enabled":true,
     "url":"/devwidgets/lists/lists.html",
     "img":"/devwidgets/lists/images/lists.png"
 }

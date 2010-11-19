@@ -2,7 +2,7 @@
 <link rel="stylesheet" type="text/css" href="/devwidgets/mycontent/css/mycontent.css" />
 
 <div class="mycontent_widget">
-    <div class="fl-widget-content">
+    <div class="fl-widget-content s3d-widget-content">
         <!-- ERRORS -->
         <div id="mycontent_nocontent" style="display:none;">
             <p class="mycontent_error_msg">__MSG__NO_CONTENT__</p>
@@ -18,13 +18,13 @@
             {var i = 0}
             {for item in items}
                 {eval} i++; {/eval}
-                <div class="mycontent_item{if i % 2 == 0} mycontent_item_even{/if}">
+                <div class="mycontent_item{if i % 2 == 0} s3d-highlight_area_background{/if}">
                     <div class="mycontent_item_img fl-force-left">
                         <img class="mycontent_item_mime" src="${item.type_img_url}" />
                     </div>
                     <div class="mycontent_item_info">
                         <p class="mycontent_item_title">
-                            <a class="mycontent_item_link"
+                            <a class="mycontent_item_link s3d-regular-links"
                                 href="/dev/content_profile.html#content_path=${item.path}">
                                 <div class="mycontent_ellipsis_container">
                                     <span class="mycontent_ellipsis_text">${item.name}</span>
@@ -47,12 +47,12 @@
                 </li>
                 <li><span class="pipe_divider">|</span></li>
                 <li>
-                    <a href="javascript:;" id="upload_link">Add files or links</a>
+                    <a href="javascript:;" id="upload_link">__MSG__ADD_FILES_OR_LINKS__</a>
                 </li>
             </ul>
         </div>
-        <div class="fl-widget-options-footer-left">
-            <div class="fl-widget-options-footer-right">
+        <div class="s3d-widget-options-footer-left">
+            <div class="s3d-widget-options-footer-right">
             </div>
         </div>
     </div>

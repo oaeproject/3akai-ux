@@ -3,8 +3,10 @@
     "name":"Create Group",
     "id":"creategroup",
     "i18n": {
-        "default": "/devwidgets/creategroup/bundles/default.json",
-        "en_US": "/devwidgets/creategroup/bundles/en_US.json"
+        "default": "/devwidgets/creategroup/bundles/default.properties",
+        "en_US": "/devwidgets/creategroup/bundles/en_US.properties"
     },
+    "type":"core",
+    "enabled":true,
     "url":"/devwidgets/creategroup/creategroup.html"
 }

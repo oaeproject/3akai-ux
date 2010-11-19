@@ -1,5 +1,7 @@
 {
     "name":"Faceted",
     "id":"faceted",
+    "type":"core",
+    "enabled":true,
     "url":"/devwidgets/faceted/faceted.html"
 }

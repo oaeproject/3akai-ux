@@ -3,9 +3,13 @@
     "ca":true,
     "hasSettings":true,
     "id":"dashboard",
+    "i18n": {
+    },
     "img":"/devwidgets/comments/images/comments.png",
     "name":"Dashboard",
     "showinsakaigoodies":false,
     "siteportal":false,
+    "type":"core",
+    "enabled":true,
     "url":"/devwidgets/dashboard/dashboard.html"
 }

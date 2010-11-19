@@ -2,8 +2,10 @@
     "description":"Display a captcha widget",
     "name":"Captcha Widget",
     "i18n": {
-        "default": "/devwidgets/captcha/bundles/default.json"
+        "default": "/devwidgets/captcha/bundles/default.properties"
     },
     "id":"captcha",
+    "type":"core",
+    "enabled":true,
     "url":"/devwidgets/captcha/captcha.html"
 }

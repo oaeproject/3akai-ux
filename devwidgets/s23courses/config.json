@@ -5,5 +5,7 @@
     "personalportal":false,
     // Enable this line when using Hybrid mode
     // "personalportal":true
+    "type":"sakai",
+    "enabled":true,
     "url":"/devwidgets/s23courses/s23courses.html"
 }

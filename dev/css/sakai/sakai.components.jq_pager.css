@@ -1,0 +1,15 @@
+/* Pager CSS */
+
+.jq_pager {text-align: center; }
+.sakai_pager { text-align: center; display: inline-block; }
+.sakai_pager li.hidden { visibility:hidden; }
+.sakai_pager li { float: left; display:inline-block; list-style:none; font-size:0.95em; height:18px; background: transparent url(/dev/images/pager-left.png) top left no-repeat; margin:0px 5px;} .sakai_pager li > span {display:inline-block;background: url(/dev/images/pager-right.png) top right no-repeat; margin:0;  border: none; font-weight: bold; cursor: pointer; height: 18px; margin-right: -5px;padding:1px 10px 0px 10px;color:#006e96;}
+.sakai_pager li.pgCurrent, .sakai_pager li.pgCurrent > span, .sakai_pager li.dots {background:none;color:#454a4f;}
+.sakai_pager li.dots {margin-left:10px; }
+.sakai_pager li.pgNext, .sakai_pager li.pgPrev {margin:0px 10px;}
+.sakai_pager li.pgPrev img {margin-top:1px;}
+.sakai_pager li.pgNext img {margin-top:1px;}
+.sakai_pager li.pgNext span.t, .sakai_pager li.pgPrev span.t {color:#454a4f;}
+.sakai_pager li.page-number {margin:0px 5px;}
+.sakai_pager li.pgCurrent {text-decoration:none;font-weight:bold;color:#4b4b4b;}
+.sakai_pager li.pgEmpty { visibility:hidden !important; }

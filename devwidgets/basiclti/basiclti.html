@@ -11,11 +11,11 @@
     <form>
         <div class="basiclti_settings_subcontainer">
             <p>
-                <label for="basiclti_settings_ltiurl">URL: </label>
+                <label for="basiclti_settings_ltiurl">__MSG__URL__: </label>
                 <input type="text" id="basiclti_settings_ltiurl" value="${ltiurl}" /><br />
-                <label for="basiclti_settings_ltikey">Key: </label>
+                <label for="basiclti_settings_ltikey">__MSG__KEY__: </label>
                 <input type="text" id="basiclti_settings_ltikey" value="${ltikey}" /><br />
-                <label for="basiclti_settings_ltisecret">Secret: </label>
+                <label for="basiclti_settings_ltisecret">__MSG__SECRET__: </label>
                 <input type="text" id="basiclti_settings_ltisecret" value="${ltisecret}" /><br />
             </p>
             <p>
@@ -24,22 +24,22 @@
             <div id="basiclti_settings_preview">
 
             </div>
-            <button type="button" class="s3d-button s3d-button-primary" id="basiclti_settings_advanced_toggle_settings"><span class="s3d-button-inner">Advanced Settings <span id="basiclti_settings_advanced_down">&#8595;</span><span id="basiclti_settings_advanced_up">&#8593;</span></span></button>
+            <button type="button" class="s3d-button s3d-button-primary" id="basiclti_settings_advanced_toggle_settings"><span class="s3d-button-inner">__MSG__ADVANCED_SETTINGS__ <span id="basiclti_settings_advanced_down">&#8595;</span><span id="basiclti_settings_advanced_up">&#8593;</span></span></button>
         </div>
         <div id="basiclti_settings_advanced" style="display:none;">
             <div class="basiclti_settings_subcontainer">
-                <label class="basiclti_settings_label_head">Privacy:</label><br />
+                <label class="basiclti_settings_label_head">__MSG__PRIVACY__:</label><br />
                 <div class="basiclti_settings_block">
                     <div class="basiclti_settings_checkbox">
-                        <label for="basiclti_settings_release_names">Release Names:</label>
+                        <label for="basiclti_settings_release_names">__MSG__RELEASE_NAMES__:</label>
                         <input type="checkbox" id="basiclti_settings_release_names" name="release_names" {if release_names}checked="checked"{/if} /><span>&nbsp;</span>
                     </div>
                     <div class="basiclti_settings_checkbox">
-                        <label for="basiclti_settings_release_principal_name">Release Username:</label>
+                        <label for="basiclti_settings_release_principal_name">__MSG__RELEASE_USERNAME__:</label>
                         <input type="checkbox" id="basiclti_settings_release_principal_name" name="release_principal_name" {if release_principal_name}checked="checked"{/if} /><span>&nbsp;</span>
                     </div>
                     <div class="basiclti_settings_checkbox">
-                        <label for="basiclti_settings_release_email">Release Email Address:</label>
+                        <label for="basiclti_settings_release_email">__MSG__RELEASE_EMAIL_ADDRESS__:</label>
                         <input type="checkbox" id="basiclti_settings_release_email" name="release_email" {if release_email}checked="checked"{/if} /><span>&nbsp;</span><br class="fl-push" />
                     </div>
                     <br class="fl-push" />
@@ -47,26 +47,26 @@
             </div>
 
             <div class="basiclti_settings_subcontainer">
-                <label class="basiclti_settings_label_head">Size:</label><br />
+                <label class="basiclti_settings_label_head">__MSG__SIZE__:</label><br />
                 <div class="basiclti_settings_block">
-                    <label for="basiclti_settings_width">Width:</label>
+                    <label for="basiclti_settings_width">__MSG__WIDTH__:</label>
                     <input type="text" id="basiclti_settings_width" value="${width}" />
                     <a href="javascript:;" id="basiclti_settings_width_unit_px" class="basiclti_settings_width_unit {if width_unit == "px"} basiclti_settings_width_unit_selected{/if}"> px</a>
                     <span> or </span>
                     <a href="javascript:;" id="basiclti_settings_width_unit_percent" class="basiclti_settings_width_unit {if width_unit == "%"} basiclti_settings_width_unit_selected{/if}"> %</a>
                     <br />
-                    <label for="basiclti_settings_frame_height">Height:</label>
-                    <input type="text" id="basiclti_settings_frame_height" value="${frame_height}" /><span> px</span>
-                    <button type="button" class="s3d-button s3d-button-primary" id="basiclti_settings_reset_size"><span class="s3d-button-inner">Reset to original size</span></button>
+                    <label for="basiclti_settings_frame_height">__MSG__HEIGHT__:</label>
+                    <input type="text" id="basiclti_settings_frame_height" value="${frame_height}" /><span> __MSG__PX__</span>
+                    <button type="button" class="s3d-button s3d-button-primary" id="basiclti_settings_reset_size"><span class="s3d-button-inner">__MSG__RESET_TO_ORIGINAL_SIZE__</span></button>
                     <br class="fl-push" />
                 </div>
             </div>
 
             <div class="basiclti_settings_subcontainer">
-                <label class="basiclti_settings_label_head">Border:</label><br />
+                <label class="basiclti_settings_label_head">__MSG__BORDER__:</label><br />
                 <div class="basiclti_settings_block">
-                    <label for="basiclti_settings_borders">Width:</label>
-                    <input type="text" id="basiclti_settings_borders" value="${border_size}" /><span> px</span><br class="fl-push" />
+                    <label for="basiclti_settings_borders">__MSG__WIDTH:</label>
+                    <input type="text" id="basiclti_settings_borders" value="${border_size}" /><span> __MSG__PX__</span><br class="fl-push" />
                     <div id="basiclti_settings_color_container">
                     </div>
                 </div>

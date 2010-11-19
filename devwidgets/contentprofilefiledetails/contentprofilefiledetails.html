@@ -1,10 +1,10 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/contentprofilefiledetails/css/contentprofilefiledetails.css" />
 
-<div id="content_profile_file_details_container" style="display:none;">&nbsp;</div>
+<div id="content_profile_file_details_container" class="s3d-main-container" style="display:none;">&nbsp;</div>
 
 <div id="content_profile_file_details_template"><!--
-    <div id="content_profile_file_details_details">
+    <div id="content_profile_file_details_details" class="s3d-highlight_area_background">
         <h4 class="content_profile_file_details_form_section_header">{if data["jcr:content"]["jcr:mimeType"] === "x-sakai/link"}__MSG__LINK_DETAILS__{else}__MSG__FILE_DETAILS__{/if}</h4>
         <div id="content_profile_file_details_details_firstcolumn">
             <div id="content_profile_file_details_basic_info">
@@ -59,5 +59,11 @@
         </div>
 --></div>
 
+<div id="contentprofiledetails_notifications" style="display:none">
+    <span id="contentprofiledetails_failed_loading_data">__MSG__FAILED_LOADING_DATA__</span>
+    <span id="contentprofiledetails_failed_loading_revisions">__MSG__FAILED_LOADING_REVISIONS__</span>
+    <span id="contentprofiledetails_failed_to_load_file_info">__MSG__FAILED_TO_LOAD_FILE_INFORMATION__</span>
+    <span id="contentprofiledetails_failed_to_load_revisions">__MSG__FAILED_TO_LOAD_REVISION_INFORMATION__</span>
+</div>
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/contentprofilefiledetails/javascript/contentprofilefiledetails.js"></script>

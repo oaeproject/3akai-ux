@@ -7,45 +7,51 @@
         <title></title>
 
         <!-- Sakai Core CSS -->
-        <link rel="stylesheet" type="text/css" href="_css/FSS/fss-base.css" />
-        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
-        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
-        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
+        <link rel="stylesheet" type="text/css" href="/dev/css/FSS/fss-base.css" />
+        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.base.css" />
+        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.core.2.css" />
+        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.3.css" />
 
         <!-- Sakai Page CSS -->
-        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search.css" />
-        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search_b.css" />
+        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.search.css" />
+        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.search_b.css" />
 
         <!-- 3rd party CSS -->
-        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
-        <link rel="stylesheet" type="text/css" href="/dev/_css/lib/jquery.autoSuggest.css" />
+        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.components.jq_pager.css" />
+        <link rel="stylesheet" type="text/css" href="/dev/css/lib/jquery.autoSuggest.css" />
 
         <!-- Sakai Config JS -->
-        <script type="text/javascript" src="_configuration/widgets.js"></script>
+        <script type="text/javascript" src="/dev/configuration/widgets.js"></script>
         <script type="text/javascript" src="/var/widgets.json?callback=sakai.storeWidgets"></script>
-        <script type="text/javascript" src="/dev/_configuration/config.js"></script>
-        <script type="text/javascript" src="/dev/_configuration/config_custom.js"></script>
+        <script type="text/javascript" src="/dev/configuration/config.js"></script>
+        <script type="text/javascript" src="/dev/configuration/config_custom.js"></script>
 
         <!-- Core 3rd-party JS -->
-        <script type="text/javascript" src="_lib/jquery/jquery.js"></script>
-        <script type="text/javascript" src="_lib/jquery/jquery-ui.full.js"></script>
-        <script type="text/javascript" src="_lib/Fluid/3akai_Infusion.js"></script>
-        <script type="text/javascript" src="_lib/jquery/plugins/jquery.json.js"></script>
-        <script type="text/javascript" src="/dev/_lib/google/html-sanitizer-minified.js"></script>
+        <script type="text/javascript" src="/dev/lib/jquery/jquery.js"></script>
+        <script type="text/javascript" src="/dev/lib/jquery/jquery-ui.full.js"></script>
+        <script type="text/javascript" src="/dev/lib/fluid/3akai_Infusion.js"></script>
+        <script type="text/javascript" src="/dev/lib/misc/l10n/globalization.js"></script>
+        <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.json.js"></script>
+        <script type="text/javascript" src="/dev/lib/misc/google/html-sanitizer-minified.js"></script>
 
         <!-- Sakai Core JS -->
-        <script type="text/javascript" src="_lib/sakai_util/sakai_magic.js"></script>
-        <script type="text/javascript" src="_lib/sakai_util/i18n.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.core.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.util.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.i18n.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.l10n.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.user.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.widgets.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.groups.js"></script>
 
         <!-- 3rd-party JS -->
-        <script type="text/javascript" src="/dev/_lib/sakai_util/trimpath.template.js"></script>
-        <script type="text/javascript" src="/dev/_lib/sakai_util/querystring.js"></script>
-        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jqmodal.sakai-edited.js"></script>
-        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.cookie.js"></script>
-        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.pager.js"></script>
-        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.ba-bbq.js"></script>
-        <script type="text/javascript" src="_javascript/_history/search_history.js"></script>
-        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.autoSuggest.sakai-edited.js"></script>
+        <script type="text/javascript" src="/dev/lib/misc/trimpath.template.js"></script>
+        <script type="text/javascript" src="/dev/lib/misc/querystring.js"></script>
+        <script type="text/javascript" src="/dev/lib/jquery/plugins/jqmodal.sakai-edited.js"></script>
+        <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.cookie.js"></script>
+        <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.pager.js"></script>
+        <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.ba-bbq.js"></script>
+        <script type="text/javascript" src="/dev/javascript/history/search_history.js"></script>
+        <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.autoSuggest.sakai-edited.js"></script>
 
     </head>
 
@@ -58,9 +64,9 @@
         <div id="widget_topnavigation" class="widget_inline"></div>
 
         <!-- CONTENT -->
-        <div class="fl-container-flex content content_search">
-            <div class="fl-fix fl-centered fixed-container">
-                <div class="decor"></div>
+        <div class="fl-container-flex content content_search s3d-regular-links s3d-header">
+            <div class="fl-fix fl-centered fixed-container s3d-fixed-container">
+                <div class="s3d-decor"></div>
 
                 <!-- TITLE -->
                 <h1 class="title">__MSG__SEARCH_GROUPS__</h1>
@@ -81,17 +87,17 @@
                         <div class="search_tab_content_top_inner"></div>
                     </div>
 
-                    <div class="search_content_main">
+                    <div class="search_content_main s3d-content">
 
                         <!-- SEARCH BAR -->
                         <div class="fl-left fl-container fl-fix search_bar">
-                            <button class="s3d-button s3d-button-primary search_add_group_button"><span class="s3d-button-inner">__MSG__CREATE_A_GROUP__</span></button>
+                            <span class="s3d-button s3d-button-primary search_add_group_button"><span class="s3d-button-inner">__MSG__CREATE_A_GROUP__</span></span>
                             <span id="search_form">
                                 <input maxlength="255" type="text" id="search_text" class="input" value="__MSG__ENTER_A_SEARCHTERM__" title="__MSG__ENTER_A_SEARCHTERM__" />
                                 <button id="search_button" class="s3d-search-button s3d-button s3d-button-primary"><span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span></button>
                             </span>
                         </div>
-                        
+
                         <!-- TEMPORARY SEARCH TEXT -->
                         <div id="search_result_temp" style="display:none;"><b>__MSG__SEARCHING__ ...</b></div>
 
@@ -103,10 +109,9 @@
                         </div>
 
                         <!-- SEARCH RESULTS -->
-                        <div id="search_results_page1" class="search_results_container search_results_container_sub">
+                        <div id="search_results_page1" class="search_results_container s3d-highlight_area_background search_results_container_sub">
                             <div class="search_top_rounded"><div class="search_top_rounded_inner"><!-- --></div></div>
-                            
-                            
+
                             <!-- CONTENT -->
                             <div class="fl-container fl-fix search_results_part">
 
@@ -117,7 +122,7 @@
                                 <div id="search_result_results_located_in" style="display:none;"><span style="font-weight:normal">__MSG__RESULTS_LOCATED_IN__</span></div>
 
                                 <!-- CONTAINER FOR THE RESULTS -->
-                                <div id="search_results_container" class="search_padded_groups"></div>
+                                <div id="search_results_container s3d-highlight_area_background" class="search_padded_groups"></div>
 
                             </div>
 
@@ -127,12 +132,14 @@
                                     {if i['sakai:group-id']}
                                     {var groupsFound = true}
                                     <div class="fl-container fl-fix search_result">
+                                        <a href="/~${i.pagepath}">
                                         {if i.picture}
                                         <img src="${i.picture.picPath}" alt="group name">
                                         {else}
-                                        <img src="/dev/_images/group_avatar_icon_64x64_nob.png" alt="group name">
+                                        <img src="/dev/images/group_avatar_icon_64x64_nob.png" alt="group name">
                                         {/if}
-                                        <div class="search_result_course_site_title"><a href="/~${i.pagepath}">${sakai.api.Util.shortenString(i["sakai:group-title"], 75)}</a></div>
+                                        </a>
+                                        <div class="search_result_course_site_title"><a class="s3d-regular-links s3d-bold" href="/~${i.pagepath}">${sakai.api.Util.shortenString(i["sakai:group-title"], 75)}</a></div>
                                         <div class="search_result_course_site_url"><a href="/~${i.pagepath}">${sakai.api.Util.shortenString(i.pagepath, 75)}</a></div>
                                         <div class="search_result_course_site_excerpt">${sakai.api.Util.shortenString(i["sakai:group-description"], 300)}</div>
                                     </div>
@@ -149,8 +156,8 @@
                         </div>
                     </div>
 
-                    <div class="search_tab_content_bottom">
-                        <div class="search_tab_content_bottom_inner"></div>
+                    <div class="s3d-no-options">
+                        <div class="s3d-no-options-inner"></div>
                     </div>
                 </div>
 
@@ -172,8 +179,8 @@
         <!-- CHAT -->
         <div id="widget_chat" class="widget_inline"></div>
 
-        <script type="text/javascript" src="_javascript/search_main.js"></script>
-        <script type="text/javascript" src="_javascript/search_groups.js"></script>
+        <script type="text/javascript" src="/dev/javascript/search_main.js"></script>
+        <script type="text/javascript" src="/dev/javascript/search_groups.js"></script>
 
     </body>
 
