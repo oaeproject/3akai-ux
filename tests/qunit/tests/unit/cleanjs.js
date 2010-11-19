@@ -44,8 +44,8 @@ var jslintfile = function(data) {
     }
 };
 
-for (var i=0, j=sakai.qunit.jsFiles.length; i<j; i++) {
-    var file = sakai.qunit.jsFiles[i];
+for (var i=0, j=sakai.qunit.allJSFiles.length; i<j; i++) {
+    var file = sakai.qunit.allJSFiles[i];
     (function(filename) {
         $.ajax({
             async: false,

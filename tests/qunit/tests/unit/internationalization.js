@@ -53,7 +53,8 @@ var checkAttrs = function($elt) {
             return $(this).attr(val).trim() !== "";
         }), function(j,elt) {
             var attrText = $(elt).attr(val).trim();
-            ok(testString(attrText) , val.toUpperCase() + " Text: " + attrText);
+            var pass = testString(attrText);
+            ok(pass, val.toUpperCase() + " Text: " + attrText);
         });
     });
 };
@@ -69,7 +70,108 @@ var checkElements = function($elt){
         return $(this).children().length === 0 && $(this).text().trim() !== "";
     }), function(i,elt) {
         var tagText = $(elt).text().trim();
-        ok(testString(tagText) , "String: " + tagText);
+        var pass = testString(tagText);
+        ok(pass, "String: " + tagText);
+    });
+};
+
+/**
+ * Get all the i18n keys in the given element, both attributes and element text
+ *
+ * @param {jQuery} $elt The element to get all the keys from (and all its children)
+ * @return {Array} an array of the keys in the element
+ */
+var getAllKeys = function($elt) {
+    var keys = [];
+    $.each($elt.find("*:not(:empty)").filter(function(index){
+        return $(this).children().length === 0 && $(this).text().trim() !== "";
+    }), function(i,elt) {
+        var tagText = $(elt).text().trim();
+        var pass = testString(tagText);
+        if (pass && !(!alpha.test(tagText) || urlRegex.test(tagText)) && $.inArray(tagText, keys) === -1) {
+            keys.push(regex.exec(tagText)[0].replace("__MSG__", "").replace("__", ""));
+        }
+    });
+    $.each(attrs, function(i, val) {
+        $.each($elt.find("*[" + val + "]").filter(function(index) {
+            return $(this).attr(val).trim() !== "";
+        }), function(j,elt) {
+            var attrText = $(elt).attr(val).trim();
+            var pass = testString(attrText);
+            if (pass && !(!alpha.test(attrText) || urlRegex.test(attrText)) && $.inArray(attrText, keys) === -1) {
+                keys.push(regex.exec(attrText)[0].replace("__MSG__", "").replace("__", ""));
+            }
+        });
+    });
+    return keys;
+};
+
+/**
+ * Checks i18n keys from core HTML files for their presence in the default bundle
+ *
+ * @param {jQuery} $elt The element to check for valid translated keys (and all its children)
+ */
+var checkKeys = function($elt) {
+    var keys = getAllKeys($elt);
+    for (var i=0,j=keys.length;i<j;i++) {
+        ok(sakai.data.i18n.defaultBundle[keys[i]], "Default value exists for " + keys[i]);
+    }
+};
+
+var getWidgetInfo = function(widgetname, widgetURL, callback) {
+    $.ajax({
+        url: widgetURL,
+        async: false,
+        cache: false,
+        success: function(data) {
+            var bundle = false;
+            if ($.isPlainObject(sakai.widgets.widgets[widgetname].i18n)) {
+                if (sakai.widgets.widgets[widgetname].i18n["default"]){
+                    bundle = sakai.widgets.widgets[widgetname].i18n["default"];
+                }
+            }
+            if (bundle) {
+                $.ajax({
+                    url: bundle,
+                    async: false,
+                    cache: false,
+                    success: function(data){
+                        sakai.data.i18n.widgets[widgetname] = sakai.data.i18n.widgets[widgetname] || {};
+                        sakai.data.i18n.widgets[widgetname]["default"] = sakai.data.i18n.changeToJSON(data);
+                        if ($.isFunction(callback)) {
+                            callback(true);
+                        }
+                    }
+                });
+            } else {
+                if ($.isFunction(callback)) {
+                    callback(false);
+                }
+            }
+        }
+    });
+};
+
+/**
+ * Checks i18n keys from widget files for their presence in the widget's default bundle
+ *
+ * @param {jQuery} $elt The element to check for valid translated keys (and all its children)
+ * @param {Object} widget The widget object as created in sakai_qunit_lib
+ * @param {Function} callback function to call when complete
+ */
+var checkWidgetKeys = function($elt, widget, callback) {
+    var keys = getAllKeys($elt);
+    getWidgetInfo(widget.name, widget.html, function(hasBundles) {
+        for (var i=0,j=keys.length;i<j;i++) {
+            if (hasBundles) {
+                ok(sakai.api.i18n.Widgets.getValueForKey(widget.name, null, keys[i]), "Default value exists for " + keys[i]);
+            } else {
+                ok(sakai.data.i18n.defaultBundle[keys[i]], "Default value exists for " + keys[i]);
+            }
+        }
+        if ($.isFunction(callback)) {
+            callback();
+        }
     });
 };
 
@@ -88,8 +190,14 @@ var testInternationalization = function(){
         checkAttrs($("#qunit-fixture"));
     });
 
-    for (var j = 0; j < sakai.qunit.htmlFiles.length; j++) {
-        var urlToCheck = sakai.qunit.htmlFiles[j];
+    test("TEST - checking for missing value", 2, function() {
+        ok(sakai.data.i18n.defaultBundle["ABOUT"], "Testing for a default value for ABOUT");
+        ok(!sakai.data.i18n.defaultBundle["ABOUT123456"], "Testing for a missing value for ABOUT123456");
+    });
+
+    // Check all the core HTML files
+    for (var i=0,j=sakai.qunit.htmlFiles.length; i<j; i++) {
+        var urlToCheck = sakai.qunit.htmlFiles[i];
         $.ajax({
             url: urlToCheck,
             async: false,
@@ -99,10 +207,35 @@ var testInternationalization = function(){
                 test(urlToCheck, function() {
                     checkElements($(div));
                     checkAttrs($(div));
+                    checkKeys($(div));
                 });
             }
         });
     }
+
+    // Check all the widgets
+    for (var z=0,y=sakai.qunit.widgets.length; z<y; z++) {
+        var widgetURLToCheck = sakai.qunit.widgets[z].html;
+        $.ajax({
+            url: widgetURLToCheck,
+            async: false,
+            success: function(data){
+                var div = document.createElement('div');
+                div.innerHTML = data;
+                var widgetObject = sakai.qunit.widgets[z];
+                (function($div, widget) {
+                    asyncTest(widgetURLToCheck, function() {
+                        checkElements($(div));
+                        checkAttrs($(div));
+                        checkWidgetKeys($(div), widget, function() {
+                            start();
+                        });
+                    });
+                })($(div), widgetObject);
+            }
+        });
+    }
+
 };
 
 /**

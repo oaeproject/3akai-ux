@@ -92,11 +92,15 @@ sakai.qunit.htmlFiles = [
     "/dev/s23/s23_site.html",
     "/dev/admin/widgets.html"
 ];
+sakai.qunit.widgets = [];
+sakai.qunit.allJSFiles = $.merge([], sakai.qunit.jsFiles);
+sakai.qunit.allHtmlFiles = $.merge([], sakai.qunit.htmlFiles);
 // Add all the widgets in
 for (var x in sakai.widgets.widgets) {
     if (sakai.widgets.widgets.hasOwnProperty(x) && sakai.widgets.widgets[x].url) {
-        sakai.qunit.jsFiles.push("/devwidgets/" + x + "/javascript/" + x + ".js");
-        sakai.qunit.htmlFiles.push(sakai.widgets.widgets[x].url);
+        sakai.qunit.allJSFiles.push("/devwidgets/" + x + "/javascript/" + x + ".js");
+        sakai.qunit.allHtmlFiles.push(sakai.widgets.widgets[x].url);
+        sakai.qunit.widgets.push({name:x, html:sakai.widgets.widgets[x].url, js: "/devwidgets/" + x + "/javascript/" + x + ".js"});
     }
 }
 })(jQuery, sakai);
