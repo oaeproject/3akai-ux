@@ -2,7 +2,7 @@
 <link rel="stylesheet" type="text/css" href="/devwidgets/remotecontent/css/remotecontent.css" />
 
 <div id="remotecontent_container">
-    <div class="fl-widget-content">
+    <div class="fl-widget-content s3d-widget-content">
         <!-- SETTINGS -->
         <span style="display:none;"><br /></span>
         <div id="remotecontent_settings" style="display:none;">
@@ -11,10 +11,10 @@
 
         <!-- The main  settings template -->
         <div id="remotecontent_settings_template"><!--
-            <form>
+            <form id="remotecontent_form">
                 <div class="remotecontent_settings_subcontainer">
                     <div class="remotecontent_settings_url_input">
-                        <label class="remotecontent_settings_label_head">__MSG__REMOTE_CONTENT_WEB_ADDRESS_URL__:</label> <input type="text" id="remotecontent_settings_url" value="${url}" />
+                        <label class="remotecontent_settings_label_head">__MSG__REMOTE_CONTENT_WEB_ADDRESS_URL__:</label> <input type="text" id="remotecontent_settings_url" value="${url}" class="required appendhttp url"/>
                         <span class="remotecontent_settings_url_help">__MSG__PLEASE_PASTE_OR_ENTER_THE_ADDRESS__</span>
                     </div>
                     <span class="remotecontent_settings_error" id="remotecontent_settings_url_blank" style="display:none;">__MSG__YOU_HAVENT_ENTERED_AN_ADDRESS__</span>
@@ -90,8 +90,8 @@
         <div id="remotecontent_main_container" style="display:none;">
         </div>
     </div>
-    <div class="fl-widget-no-options fl-fix">
-        <div class="widget-no-options-inner">
+    <div class="s3d-widget-no-options fl-fix">
+        <div class="s3d-widget-no-options-inner">
         </div>
     </div>
 </div>
