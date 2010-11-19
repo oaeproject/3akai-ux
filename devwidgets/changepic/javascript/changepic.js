@@ -489,13 +489,13 @@ sakai.changepic = function(tuid, showSettings){
 
                     },
                     error: function(xhr, textStatus, thrownError) {
-                        alert("An error has occured");
+                        $.gritter.add("An error has occured");
                     }
                 });
 
             },
             error: function(xhr, textStatus, thrownError) {
-                alert("An error has occured");
+                $.gritter.add("An error has occured");
             }
         });
 

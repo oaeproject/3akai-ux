@@ -1397,13 +1397,13 @@ sakai.sitespages = function(tuid,showSettings){
             // Check whether pagetitle and content exist
             var newpagetitle = $.trim($("#title-input").val());
             if (!newpagetitle.replace(/ /g,"%20")) {
-                alert(sakai.api.i18n.General.getValueForKey("PLEASE_SPECIFY_A_PAGE_TITLE"));
+                $.gritter.add(sakai.api.i18n.General.getValueForKey("PLEASE_SPECIFY_A_PAGE_TITLE"));
                 $("#title-input").focus();
                 return;
             }
             var newcontent = getContent() || "";  // Get the content from tinyMCE
             if (!checkContent(newcontent)) {
-                alert(sakai.api.i18n.General.getValueForKey("PLEASE_ENTER_SOME_CONTENT"));
+                $.gritter.add(sakai.api.i18n.General.getValueForKey("PLEASE_ENTER_SOME_CONTENT"));
                 return;
             }
 
@@ -1785,8 +1785,6 @@ sakai.sitespages = function(tuid,showSettings){
                 }
             }
             toinsert += '/>';
-
-            //alert(ed.selection.getContent() + "\n" + selected.getAttribute("style"));
 
             tinyMCE.get("elm1").execCommand('mceInsertContent', true, toinsert);
         }

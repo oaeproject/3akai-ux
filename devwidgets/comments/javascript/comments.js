@@ -335,7 +335,7 @@ sakai.comments = function(tuid, showSettings){
                 showComments();
             },
             error: function(xhr, textStatus, thrownError){
-                alert("comments: An error occured while receiving the comments (" + xhr.status + ")");
+                $.gritter.add("comments: An error occured while receiving the comments (" + xhr.status + ")");
             }
         });
     };
@@ -386,7 +386,7 @@ sakai.comments = function(tuid, showSettings){
         if (!isLoggedIn && widgetSettings['sakai:allowanonymous'] === false) {
             // This should not even happen.. Somebody is tinkering with the HTML.
             allowPost = false;
-            alert("Anonymous users are not allowed to post comments. Please register or log in to add your comment.");
+            $.gritter.add("Anonymous users are not allowed to post comments. Please register or log in to add your comment.");
         }
 
         var subject = 'Comment on /~' + currentSite;
@@ -423,17 +423,17 @@ sakai.comments = function(tuid, showSettings){
                 },
                 error: function(xhr, textStatus, thrownError){
                     if (xhr.status === 401) {
-                        alert("You are not allowed to add comments.");
+                        $.gritter.add("You are not allowed to add comments.");
                     }
                     else {
-                        alert("Failed to save.");
+                        $.gritter.add("Failed to save.");
                     }
                 },
                 data: message
             });
         }
         else {
-            alert("Please fill in all the fields.");
+            $.gritter.add("Please fill in all the fields.");
         }
     };
 
@@ -497,13 +497,13 @@ sakai.comments = function(tuid, showSettings){
         }
 
         if (comments.perPage < 1) {
-            alert("Please fill in a number bigger then 0.");
+            $.gritter.add("Please fill in a number bigger then 0.");
             return false;
         }
         // Check if a valid number is inserted
         else
             if ($(commentsPageTxt, rootel).val().search(/^\d*$/)) {
-                alert("Please fill in a valid number.");
+                $.gritter.add("Please fill in a valid number.");
                 return false;
             }
 
@@ -610,7 +610,7 @@ sakai.comments = function(tuid, showSettings){
                     finishNewSettings();
                 }
                 else {
-                    alert("Failed to save.");
+                    $.gritter.add("Failed to save.");
                 }
             });
 
@@ -640,7 +640,7 @@ sakai.comments = function(tuid, showSettings){
         }
         if (!isLoggedIn && widgetSettings['sakai:allowanonymous'] === false) {
             // This should not even happen.. Somebody is tinkering with the HTML.
-            alert("Anonymous users are not allowed to post comments. Please register or log in to add your comment.");
+            $.gritter.add("Anonymous users are not allowed to post comments. Please register or log in to add your comment.");
         }
         // Show the form.
         $(commentsFillInComment, rootel).show();
@@ -686,7 +686,7 @@ sakai.comments = function(tuid, showSettings){
                 getComments();
             },
             error: function(xhr, textStatus, thrownError){
-                alert("Failed to (un)delete the post.");
+                $.gritter.add("Failed to (un)delete the post.");
             },
             data: data
         });
@@ -743,13 +743,13 @@ sakai.comments = function(tuid, showSettings){
                     $(commentsMessage + id, rootel).show();
                 },
                 error: function(xhr, textStatus, thrownError){
-                    alert("Failed to edit comment.");
+                    $.gritter.add("Failed to edit comment.");
                 },
                 data: data
             });
         }
         else {
-            alert("Please enter a message.");
+            $.gritter.add("Please enter a message.");
         }
     });
 

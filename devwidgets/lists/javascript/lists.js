@@ -113,7 +113,7 @@ sakai.lists = function(tuid, showSettings) {
             }
             return true;
         } else {
-            alert("Please make a selection before saving");
+            $.gritter.add("Please make a selection before saving");
             return false;
         }
     };

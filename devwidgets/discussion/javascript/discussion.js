@@ -273,7 +273,7 @@ sakai.discussion = function(tuid, showSettings){
                 }
             },
             error: function(xhr, textStatus, thrownError){
-                alert("Failed to edit this post.");
+                $.gritter.add("Failed to edit this post.");
             },
             data: post,
             type: 'POST'
@@ -686,9 +686,6 @@ sakai.discussion = function(tuid, showSettings){
                 'sakai:to': "discussion:w-" + store,
                 '_charset_':'utf-8'
             };
-/*            sakai.api.Widgets.saveWidgetData(tuid, object, function(success, data){
-                alert("I seem to have saved a discussion topic.");
-            });*/
             var url = store + ".create.html";
             $.ajax({
                 url: url,
@@ -701,17 +698,17 @@ sakai.discussion = function(tuid, showSettings){
                 error: function(xhr, textStatus, thrownError){
                     if (xhr.status === 401) {
                         clearReplyFields();
-                        alert("You are not allowed to add a reply.");
+                        $.gritter.add("You are not allowed to add a reply.");
                     }
                     else {
-                        alert("Failed to add a reply.");
+                        $.gritter.add("Failed to add a reply.");
                     }
                 },
                 data: object
             });
         }
         else {
-            alert("Please enter all the fields.");
+            $.gritter.add("Please enter all the fields.");
         }
     };
 
@@ -770,7 +767,7 @@ sakai.discussion = function(tuid, showSettings){
                 getPostsFromJCR();
             },
             error: function(xhr, textStatus, thrownError){
-                alert("Failed to delete this post.");
+                $.gritter.add("Failed to delete this post.");
             },
             data: data
         });
@@ -802,9 +799,6 @@ sakai.discussion = function(tuid, showSettings){
                 'sakai:to': "discussion:w-" + store,
                 '_charset_':"utf-8"
             };
-/*            sakai.api.Widgets.saveWidgetData(tuid, object, function(success, data){
-                alert("I seem to have saved a discussion topic.");
-            });*/
             var url = store + ".create.html";
             $.ajax({
                 url: url,
@@ -817,10 +811,10 @@ sakai.discussion = function(tuid, showSettings){
                 error: function(xhr, textStatus, thrownError){
                     if (xhr.status === 401) {
                         clearReplyFields();
-                        alert("You are not allowed to add a reply.");
+                        $.gritter.add("You are not allowed to add a reply.");
                     }
                     else {
-                        alert("Failed to add a reply.");
+                        $.gritter.add("Failed to add a reply.");
                     }
                     $(discussionAddTopicSubmit).removeAttr("disabled");
                 },
@@ -828,7 +822,7 @@ sakai.discussion = function(tuid, showSettings){
             });
         }
         else {
-            alert("Please enter all the fields.");
+            $.gritter.add("Please enter all the fields.");
         }
     };
 
@@ -897,7 +891,7 @@ sakai.discussion = function(tuid, showSettings){
                 post = createPostObject();
 
                 if ((""+post['sakai:subject']).replace(/ /g, "") === "" || (""+post['sakai:body']).replace(/ /g, "") === "") {
-                    alert("Please fill in all the fields.");
+                    $.gritter.add("Please fill in all the fields.");
                 }
                 else {
                     if (initialPost !== false) {
