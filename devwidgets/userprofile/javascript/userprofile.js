@@ -329,27 +329,6 @@ sakai.userprofile = function(tuid,showSettings){
 
             }
         }
-
-        /*for(var k = 0, kl = requests.length; k < kl; k++){
-
-            $.ajax({
-                url: requests[k].url,
-                traditional: true,
-                type: requests[k].method,
-                data: requests[k].parameters,
-                async: false,
-                success: function(){
-
-                    if(k === requests.length-1){
-                        alert("ok");
-                    }
-
-                }
-            });
-
-        }*/
-
-
         // Send the Ajax request to the batch servlet
         // depends on KERN-909
         $.ajax({

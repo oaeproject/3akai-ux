@@ -145,7 +145,7 @@ sakai.search = function(){
 
                 },
                 error: function(xhr, textStatus, thrownError) {
-                    alert(errorText);
+                    $.gritter.add(errorText);
                 }
             });
 
@@ -247,7 +247,7 @@ sakai.search = function(){
 
                 },
                 error: function(xhr, textStatus, thrownError) {
-                    alert(errorText);
+                    $.gritter.add(errorText);
                 }
             });
 

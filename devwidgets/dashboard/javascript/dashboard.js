@@ -684,7 +684,7 @@ sakai.dashboard = function(tuid, showSettings) {
             showDashboard();
         }
         else {
-            alert("The connection with the server has been lost");
+            $.gritter.add("The connection with the server has been lost");
         }
     };
 

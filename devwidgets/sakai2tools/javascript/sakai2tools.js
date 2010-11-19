@@ -276,7 +276,7 @@ sakai.sakai2tools = function(tuid, showSettings){
             });
         }
         else {
-            alert("Please specify a URL");
+            $.gritter.add("Please specify a URL");
         }
     };
 

@@ -478,7 +478,7 @@ if (!sakai.sendmessage){
             if(success) {
                 showMessageSent(success);
             } else {
-                alert("Your message failed to be delivered.");
+                $.gritter.add("Your message failed to be delivered.");
             }
         };
 
@@ -514,7 +514,7 @@ if (!sakai.sendmessage){
                     $(messageFieldSubject).val(), $(messageFieldBody).val(),
                     "message", null, handleSentMessage);
             } else {
-                alert("All fields are required.");
+                $.gritter.add("All fields are required.");
             }
         });
 
