@@ -32,6 +32,7 @@
 .explore_nav .explore li a.explore_inactive {color: #888;}
 .explore_nav .explore li small { color:#ddd; font-size: 0.85em; }
 .explore_nav .explore li span { height:16px; color:#fff; padding: 8px 20px; text-align: center; display: block; float: left; font-weight: bold;}
+#topnavigation_mail_icon {background:url("/dev/images/mail_icon.png") no-repeat scroll 4px 3px transparent; float:left; height:14px; width:18px;}
 
 
 /* Selected Nav element */
