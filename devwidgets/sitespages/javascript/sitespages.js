@@ -2349,11 +2349,6 @@ sakai.sitespages = function(tuid,showSettings){
         $("#revision_history_container").show();
         $("#more_menu").hide();
 
-        // months string reference
-        var months = [
-            "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-        ];
-
         // fetch data
         $.ajax({
             url: sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["jcr:path"] + "/pageContent.versions.json",
