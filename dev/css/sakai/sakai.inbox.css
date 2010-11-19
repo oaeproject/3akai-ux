@@ -315,7 +315,8 @@
 
 
 
-.inbox_main .inbox_arrow {float:right;width:6px;height:3px;display:inline;margin-top:5px;}
+.inbox_main .inbox_arrow_down {float:right !important;width:6px;height:3px;display:inline;margin-top:5px;background:url("/dev/images/arrow_down_inbox.png") no-repeat scroll 0 0 transparent;}
+.inbox_main .inbox_arrow_up {float:right !important;width:6px;height:3px;display:inline;margin-top:5px;background:url("/dev/images/arrow_up_inbox.png") no-repeat scroll 0 0 transparent;}
 
 
 .inbox_main .inbox_inbox_table_header_sort { cursor:pointer;}
