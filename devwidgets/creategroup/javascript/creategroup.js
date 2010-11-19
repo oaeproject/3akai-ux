@@ -268,11 +268,11 @@ sakai.creategroup = function(tuid, showSettings){
         messages: {
             creategroup_add_name:  {
                 required: $(createGroupAddNameEmpty).text(),
-                minlength: $(createGroupAddNameShort).text(),
+                minlength: $(createGroupAddNameShort).text()
             },
             creategroup_add_id: {
                 required: $(createGroupAddIdEmpty).text(),
-                minlength: $(createGroupAddIdShort).text(),
+                minlength: $(createGroupAddIdShort).text()
             }
         }
     });
