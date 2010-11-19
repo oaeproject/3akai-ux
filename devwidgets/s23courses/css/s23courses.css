@@ -45,6 +45,8 @@
     padding: 5px 5px 5px 40px;
 }
 
+.s23courses_title {display:block}
+
 #s23courses_subcontainer ul li.s23courses_favourite {
     background: url('/dev/images/contentmedia_bookmark.png') 12px 5px no-repeat;
 }
