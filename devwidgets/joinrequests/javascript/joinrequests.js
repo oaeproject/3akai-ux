@@ -154,8 +154,7 @@ sakai.joinrequests = function (tuid, showSettings) {
      */
     var addUser = function (userid) {
         // add user to group
-        sakai.api.Groups.addToGroup(userid, sakai.currentgroup.id,
-        function (success, data) {
+        sakai.api.Groups.addUsersToGroup(sakai.currentgroup.id, "members", [userid], function (success) {
             if (success) {
                 // show notification
                 sakai.api.Util.notification.show($joinrequestsTitle.html(),
@@ -168,9 +167,6 @@ sakai.joinrequests = function (tuid, showSettings) {
                 // remove join request from UI and server
                 removeJoinRequest(userid);
             } else {
-                debug.error("joinrequests.js/addUser() ERROR: Could not add member: " +
-                    userid + " to groupid: " + sakai.currentgroup.id +
-                    " - error status: " + data.textStatus);
                 sakai.api.Util.notification.show($joinrequestsTitle.html(), $joinrequestsError.html());
             }
         });

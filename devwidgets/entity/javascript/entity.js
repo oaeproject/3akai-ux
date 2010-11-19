@@ -390,8 +390,7 @@ sakai.entity = function(tuid, showSettings){
      */
     var joinGroup = function () {
         // add user to group
-        sakai.api.Groups.addToGroup(sakai.data.me.user.userid,
-            entityconfig.data.profile["sakai:group-id"], function (success, data) {
+        sakai.api.Groups.addUsersToGroup(entityconfig.data.profile["sakai:group-id"], "members", [sakai.data.me.user.userid], function(success) {
             if (success) {
                 sakai.api.Util.notification.show($("#entity_group_membership").text(),
                                                 $("#entity_group_adding_successful").text(),
@@ -417,14 +416,15 @@ sakai.entity = function(tuid, showSettings){
      */
     var leaveGroup = function () {
         // if this user is a manager, we need to remove them from the manager group
-        var groupid = entityconfig.data.profile["sakai:group-id"];
+        var groupid = entityconfig.data.profile["sakai:group-id"],
+            groupType = "members";
+
         if (entityconfig.data.profile.role === "manager") {
-            groupid = groupid + "-managers";
+            groupType = "managers";
         }
 
         // remove user from group
-        sakai.api.Groups.removeFromGroup(sakai.data.me.user.userid, groupid,
-        function (success, data) {
+        sakai.api.Groups.removeUsersFromGroup(groupid, groupType, [sakai.data.me.user.userid], function (success) {
             if (success) {
                 // because the user has left the group, they may not be allowed to
                 // view the current page - refresh the page to check visibility
@@ -436,9 +436,6 @@ sakai.entity = function(tuid, showSettings){
                     window.location.reload();
                 }, 2000);
             } else {
-                debug.error("entity.js/leaveGroup() ERROR: Could not remove member: " +
-                    sakai.data.me.user.userid + " from groupid: " + groupid +
-                    " - error status: " + data.textStatus);
                     sakai.api.Util.notification.show($("#entity_group_membership").text(),
                                                     $("#entity_group_problem_removing").text(),
                                                     sakai.api.Util.notification.type.ERROR);

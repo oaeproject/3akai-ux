@@ -92,10 +92,6 @@ sakai.contentpicker = function(tuid, showSettings) {
     var doReset = function() {
         $("#as-values-" + tuid).val("");
         $(".as-selection-item").remove();
-        $contentpicker_display_options.hide();
-        $contentpicker_metadata_container.hide();
-        $contentpicker_alternative_display_name_value.val('');
-        $contentpicker_description_value.val('');
     };
 
     /**
@@ -171,8 +167,6 @@ sakai.contentpicker = function(tuid, showSettings) {
                 elem.remove();
                 if (selectedItems.length === 0) {
                     $contentpicker_place_content.attr("disabled", "disabled");
-                    $contentpicker_display_options.hide();
-                    $contentpicker_metadata_container.hide();
                 }
             }
         });
