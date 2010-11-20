@@ -235,10 +235,8 @@ sakai.groupbasicinfo = function(tuid, showSettings){
      * Fetch group data
      */
     var getGroupData = function(){
-
-        $.ajax({
-            url: "/~" + groupId + "/public.infinity.json",
-            success: function(data){
+        sakai.api.Groups.getGroupData(groupid, function(success, data) {
+            if (success) {
                 sakai.currentgroup.id = groupId;
                 sakai.currentgroup.data = data;
                 if (data.authprofile['rep:policy']) {
@@ -346,13 +344,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
             // only POST if user has changed values
             sakai.currentgroup.data.authprofile["sakai:group-joinable"] = joinable;
             sakai.currentgroup.data.authprofile["sakai:group-visible"] = visible;
-            sakai.api.Groups.setPermissions(sakai.currentgroup.id, joinable, visible,
-                function (success, errorMessage) {
-                    if (!success) {
-                        debug.error("ERROR: groupbasicinfo.js/updateGroup() unable to set group permissions: " + errorMessage);
-                    }
-                }
-            );
+            sakai.api.Groups.setPermissions(sakai.currentgroup.id, joinable, visible);
         }
 
         // Update the group object

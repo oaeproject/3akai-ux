@@ -138,10 +138,6 @@ sakai.joinrequests = function (tuid, showSettings) {
                     }
                     renderJoinRequests(joinrequests);
                 }
-            } else {
-                // log error
-                debug.error("joinrequests.js/getJoinRequestsData() ERROR: Could not get join requests for group: " +
-                    sakai.currentgroup.id + " - error status: " + data.textStatus);
             }
         });
     };
@@ -181,7 +177,7 @@ sakai.joinrequests = function (tuid, showSettings) {
     var removeJoinRequest = function (userid) {
         // remove join request from server
         sakai.api.Groups.removeJoinRequest(userid, sakai.currentgroup.id,
-        function (success, data) {
+        function (success) {
             if (success) {
                 // remove the UI joinrequest element
                 $("#joinrequests_joinrequest_" + userid, $rootel).remove();
@@ -189,9 +185,6 @@ sakai.joinrequests = function (tuid, showSettings) {
                     $joinrequestsWidget.hide();
                 }
             } else {
-                debug.error("joinrequests.js/ignoreUser() ERROR: Could not remove join request for: " +
-                    userid + " from groupid: " + sakai.currentgroup.id +
-                    " - error status: " + data.textStatus);
                 sakai.api.Util.notification.show($joinrequestsTitle.html(), $joinrequestsError.html());
                 hideSpinner(userid);
             }

@@ -101,10 +101,8 @@ sakai.groupedit = function(){
      * @param {String} groupid Identifier for the group we're interested in
      */
     var getGroupData = function(groupid){
-
-        $.ajax({
-            url: "/~" + groupid + "/public.infinity.json",
-            success: function(data){
+        sakai.api.Groups.getGroupData(groupid, function(success, data) {
+            if (success) {
                 sakai.currentgroup.id = groupid;
                 sakai.currentgroup.data = data;
                 sakai.currentgroup.data["sakai:group-id"] = groupid;
@@ -121,16 +119,12 @@ sakai.groupedit = function(){
                 addPickUserBinding();
                 // Show the page content
                 sakai.api.Security.showPage();
-            },
-            error: function(xhr, textStatus, thrownError){
-
-                if (xhr.status === 401 || xhr.status === 403){
+            } else if (data && (data.status === 401 || data.status === 403)) {
                     sakai.api.Security.send403();
-                } else {
-                    sakai.api.Security.send404();
-                }
-
+            } else {
+                sakai.api.Security.send404();
             }
+
         });
     };
 

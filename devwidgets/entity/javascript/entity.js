@@ -334,7 +334,7 @@ sakai.entity = function(tuid, showSettings){
         // add this user to the list of join requests for this group
         var groupid = entityconfig.data.profile["sakai:group-id"];
         sakai.api.Groups.addJoinRequest(sakai.data.me.user.userid, groupid,
-        function (success, error) {
+        function (success) {
             if (success) {
                 // send a join request message to all group managers
                 /*
@@ -375,12 +375,9 @@ sakai.entity = function(tuid, showSettings){
                                                 sakai.api.Util.notification.type.INFORMATION);
                 showGroupMembershipButton("pending");
             } else {
-                debug.error("entity.js/requestJoinGroup() ERROR: Could not process join request for: " +
-                    sakai.data.me.user.userid + " for groupid: " + groupid +
-                    " - error status: " + error.textStatus);
-                    sakai.api.Util.notification.show($("#entity_group_membership").text(),
-                                                    $("#entity_group_problem_with_request").text(),
-                                                    sakai.api.Util.notification.type.ERROR);
+                sakai.api.Util.notification.show($("#entity_group_membership").text(),
+                                                $("#entity_group_problem_with_request").text(),
+                                                sakai.api.Util.notification.type.ERROR);
             }
         });
     };
@@ -786,10 +783,6 @@ sakai.entity = function(tuid, showSettings){
                         showGroupMembershipButton("request");
                     }
                 } else {
-                    // log error
-                    debug.error("entity.js/addBindingGroup() ERROR: Could not get join requests for group: " +
-                        groupid + " - error status: " + data.textStatus);
-
                     // not sure if this user has requested, show request button
                     showGroupMembershipButton("request");
                 }
