@@ -115,7 +115,7 @@ sakai.api.Communication.sendMessage = function(to, subject, body, category, repl
             data: toSend,
             success: function(data) {
 
-                if (typeof callback === "function") {
+                if ($.isFunction(callback)) {
                     callback(true, data);
                 }
             },
@@ -123,7 +123,7 @@ sakai.api.Communication.sendMessage = function(to, subject, body, category, repl
 
                 debug.error("sakai.api.Communication.sendMessage(): Could not send message to " + to);
 
-                if (typeof callback === "function") {
+                if ($.isFunction(callback)) {
                     callback(false, xhr);
                 }
             }
@@ -156,7 +156,7 @@ sakai.api.Communication.sendMessage = function(to, subject, body, category, repl
         // unrecognized type
         debug.warn("sakai.api.Communication.sendMessage(): invalid argument ('to' not an Array or String).");
 
-        if (typeof callback === "function") {
+        if ($.isFunction(callback)) {
             callback(false, xhr);
         }
     }

@@ -550,7 +550,7 @@ sakai.userprofile = function(tuid,showSettings){
         // Bind a global event that can be triggered by the profilesection widgets
         $(window).bind("sakai-" + sectionobject.sectionname, function(eventtype, callback){
 
-            if(callback && typeof callback === "function"){
+            if ($.isFunction(callback)) {
                 callback(sectionname);
             }
 
