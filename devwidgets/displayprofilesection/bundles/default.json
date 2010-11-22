@@ -1,0 +1,11 @@
+{
+"name": "Display Profile Section",
+"description": "Display profile section\r\n",
+"ADD_PROFILE_SECTION":"Add profile section",
+"DONT_ADD":"Don't add",
+"EDIT_YOUR_PROFILE":"Edit your profile",
+"NO_PROFILE_INFO_TO_DISPLAY":"There is no information to display.",
+"OR_SELECT_ANOTHER_SECTION_TO_DISPLAY":"or select another section to display in the settings of this widget.",
+"SECTION_TITLE":"Section title",
+"SELECT_SECTION_TO_DISPLAY":"Select a section to display"
+}
