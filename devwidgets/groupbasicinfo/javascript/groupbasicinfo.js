@@ -351,29 +351,16 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         sakai.currentgroup.data.authprofile["sakai:group-title"] = sakai.api.Security.escapeHTML(groupTitle);
         sakai.currentgroup.data.authprofile["sakai:group-kind"] = groupKind;
         sakai.currentgroup.data.authprofile["sakai:group-description"] = sakai.api.Security.escapeHTML(groupDesc);
-        groupProfileURL = "/~" + sakai.currentgroup.id + "/public/authprofile";
 
-        $.ajax({
-            url: groupProfileURL,
-            data: {
-                "_charset_":"utf-8",
-                "sakai:group-title" : groupTitle,
-                "sakai:group-kind" : groupKind,
-                "sakai:group-description" : groupDesc
-            },
-            type: "POST",
-            success: function(data, textStatus){
+        sakai.api.Groups.updateGroupInfo(sakai.currentgroup.id, groupTitle, groupDesc, groupKind, function(success) {
+            if (success) {
+                groupProfileURL = "/~" + sakai.currentgroup.id + "/public/authprofile";
                 sakai.api.Util.tagEntity(groupProfileURL, sakai.currentgroup.data.authprofile["sakai:tags"], currentTags, function() {
                     sakai.currentgroup.data.authprofile["sakai:tags"] = currentTags;
                 });
-            },
-            error: function(xhr, textStatus, thrownError){
-                debug.error("ERROR: groupbasicinfo.js/updateGroup() unable to set group information. Status: " + xhr.status + " - " + xhr.statusText);
-            },
-            complete: function() {
-                sakai.api.Widgets.Container.informFinish(tuid, "groupbasicinfo");
-                $(window).trigger("sakai.groupbasicinfo.updateFinished");
             }
+            sakai.api.Widgets.Container.informFinish(tuid, "groupbasicinfo");
+            $(window).trigger("sakai.groupbasicinfo.updateFinished");
         });
     };
 
