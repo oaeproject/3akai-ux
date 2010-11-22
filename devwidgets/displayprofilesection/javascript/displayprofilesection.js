@@ -88,7 +88,7 @@ sakai.displayprofilesection = function(tuid, showSettings){
         // Create a JSON object to pass the sectionid along
         // Trimpath needs an object to be passed (not only a variable)
         var sectionobject = {
-            "sectionid": "profilesection-" + data.sectionid,
+            "sectionid": "profilesection-" + data.sectionid
         };
 
         sakai.api.Widgets.changeWidgetTitle(tuid, data.sectiontitle);
@@ -99,12 +99,12 @@ sakai.displayprofilesection = function(tuid, showSettings){
 
         // Bind a global event that can be triggered by the profilesection widgets
         $(window).bind("sakai-" + sectionobject.sectionid, function(eventtype, callback){
-            if(callback && typeof callback === "function"){
+            if ($.isFunction(callback)) {
                 callback(data.sectionid);
             }
 
-            if ($.trim($("#profilesection_generalinfo", rootel).html()) == "") {
-                if (sakai.data.me.user.userid == sakai.profile.main.data["rep:userId"]) {
+            if ($.trim($("#profilesection_generalinfo", rootel).html()) === "") {
+                if (sakai.data.me.user.userid === sakai.profile.main.data["rep:userId"]) {
                     $(displayprofilesectionNoProfileInfoInserted, rootel).show();
                 } else {
                     $(displayprofilesectionNoProfileInfoInsertedViewMode, rootel).show();
@@ -151,7 +151,7 @@ sakai.displayprofilesection = function(tuid, showSettings){
         }, function(success, data){
             sakai.api.Widgets.Container.informFinish(tuid, "displayprofilesection");
         });
-    }
+    };
 
     /**
      * Add binding to elements
@@ -170,7 +170,7 @@ sakai.displayprofilesection = function(tuid, showSettings){
         $(displayprofilesectionSelectSection, rootel).bind("change", function(e, ui){
             $(this).children("option[value='no_value']").remove();
         });
-    }
+    };
 
     /**
      * Initialize the widget

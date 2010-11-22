@@ -2,8 +2,7 @@
     "description":"Display a profile section",
     "id":"displayprofilesection",
     "i18n": {
-        "default": "/devwidgets/displayprofilesection/bundles/default.json",
-        "en_US": "/devwidgets/displayprofilesection/bundles/en_US.json",
+        "default": "/devwidgets/displayprofilesection/bundles/default.properties"
     },
     "name":"Display profile section",
     "userpages": true,
@@ -11,6 +10,8 @@
     "grouppages": false,
     "groupdashboard": false,
     "hasSettings": true,
-    "showinsakaigoodies":true,
+    "showinsakaigoodies": true,
+    "type": "sakai",
+    "enabled": true,
     "url":"/devwidgets/displayprofilesection/displayprofilesection.html"
 }
