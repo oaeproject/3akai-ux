@@ -41,6 +41,14 @@
         <!-- SETUP - Tools -->
         <property name="YUI_COMPRESSOR" value="tools/yuicompressor/yuicompressor-2.4.2.jar" description="YUI Compressor 2.4.2" />
         <property name="JSDOCTOOLKIT_DIR" value="tools/jsdoc-toolkit" description="JSDoc-Toolkit" />
+        <property name="ANT_CONTRIB" value="tools/ant-contrib/ant-contrib-1.0b3.jar" description="Ant-contrib 1.0b3" />
+
+        <!-- SETUP - Set Ant-contrib dependency -->
+        <taskdef resource="net/sf/antcontrib/antlib.xml">
+            <classpath>
+                <pathelement location="${ANT_CONTRIB}"/>
+            </classpath>
+        </taskdef>
 
         <!-- Define a patternset for core JS files (from ${TARGET_DIR}) -->
         <patternset id="js.corefiles">
@@ -52,7 +60,6 @@
         <!-- Define patternset for widget JS files (from ${TARGET_DIR_W}) -->
         <patternset id="js.widgetfiles">
             <include name="**/javascript/*.js"/>
-            <exclude name="**/javascript/*.min.*"/>
         </patternset>
 
         <!-- Define patternset for core CSS files (from ${TARGET_DIR}) -->
@@ -64,6 +71,128 @@
         <!-- Define patternset for widget CSS files (from ${TARGET_DIR_W}) -->
         <patternset id="css.widgetfiles">
             <include name="**/css/*.css"/>
+        </patternset>
+
+        <!-- Define a patternset for HTML files (from ${TARGET_DIR} or ${TARGET_DIR_W}) -->
+        <patternset id="html.files">
+            <include name="**/*.html"/>
+        </patternset>
+
+        <!-- Set property for combined core JS file -->
+        <property name="JSCOMMONCOREFILE" value="/javascript/sakai-common-core.js" />
+        <!-- Set property for the JS file we will replace the combined one with -->
+        <property name="JSMAINCOREFILE" value="/configuration/widgets.js" />
+
+        <!-- Set property for combined page JS file -->
+        <property name="JSCOMMONPAGEFILE" value="/javascript/sakai-common-page.js" />
+
+        <!-- Set property for combined widget JS file -->
+        <property name="JSCOMMONWIDGETFILE" value="/javascript/sakai-common-widget.js" />
+
+        <!-- Define patternsets for core JS files for concatenation in a specific order (from ${TARGET_DIR}) -->
+        <patternset id="js.corefiles01">
+            <include name="configuration/widgets.js"/>
+        </patternset>
+        <patternset id="js.corefiles02">
+            <include name="configuration/config.js"/>
+        </patternset>
+        <patternset id="js.corefiles03">
+            <include name="configuration/config_custom.js"/>
+        </patternset>
+        <patternset id="js.corefiles04">
+            <include name="lib/jquery/jquery.js"/>
+        </patternset>
+        <patternset id="js.corefiles05">
+            <include name="lib/jquery/jquery-ui.full.js"/>
+        </patternset>
+        <patternset id="js.corefiles06">
+            <include name="lib/jquery/plugins/jquery.validate.sakai-edited.js"/>
+        </patternset>
+        <patternset id="js.corefiles07">
+            <include name="lib/fluid/3akai_Infusion.js"/>
+        </patternset>
+        <patternset id="js.corefiles08">
+            <include name="lib/misc/l10n/globalization.js"/>
+        </patternset>
+        <patternset id="js.corefiles09">
+            <include name="lib/jquery/plugins/jquery.json.js"/>
+        </patternset>
+        <patternset id="js.corefiles10">
+            <include name="lib/misc/google/html-sanitizer-minified.js"/>
+        </patternset>
+        <patternset id="js.corefiles11">
+            <include name="lib/sakai/sakai.api.core.js"/>
+        </patternset>
+        <patternset id="js.corefiles12">
+            <include name="lib/sakai/sakai.api.util.js"/>
+        </patternset>
+        <patternset id="js.corefiles13">
+            <include name="lib/sakai/sakai.api.i18n.js"/>
+        </patternset>
+        <patternset id="js.corefiles14">
+            <include name="lib/sakai/sakai.api.l10n.js"/>
+        </patternset>
+        <patternset id="js.corefiles15">
+            <include name="lib/sakai/sakai.api.user.js"/>
+        </patternset>
+        <patternset id="js.corefiles16">
+            <include name="lib/sakai/sakai.api.widgets.js"/>
+        </patternset>
+        <patternset id="js.corefiles17">
+            <include name="lib/sakai/sakai.api.groups.js"/>
+        </patternset>
+        <patternset id="js.corefiles18">
+            <include name="lib/sakai/sakai.api.communication.js"/>
+        </patternset>
+        <patternset id="js.corefiles19">
+            <include name="lib/sakai/sakai.api.content.js"/>
+        </patternset>
+        <patternset id="js.corefiles20">
+            <include name="lib/misc/trimpath.template.js"/>
+        </patternset>
+        <patternset id="js.corefiles21">
+            <include name="lib/misc/querystring.js"/>
+        </patternset>
+        <patternset id="js.corefiles22">
+            <include name="lib/jquery/plugins/jqmodal.sakai-edited.js"/>
+        </patternset>
+        <patternset id="js.corefiles23">
+            <include name="lib/jquery/plugins/jquery.cookie.js"/>
+        </patternset>
+        <patternset id="js.corefiles24">
+            <include name="lib/jquery/plugins/jquery.pager.js"/>
+        </patternset>
+        <patternset id="js.corefiles25">
+            <include name="lib/jquery/plugins/jquery.threedots.js"/>
+        </patternset>
+        <patternset id="js.corefiles26">
+            <include name="lib/jquery/plugins/imgareaselect/jquery.imgareaselect.js"/>
+        </patternset>
+        <patternset id="js.corefiles27">
+            <include name="lib/jquery/plugins/jquery.ba-bbq.js"/>
+        </patternset>
+        <patternset id="js.corefiles28">
+            <include name="lib/jquery/plugins/jquery.timeago.js"/>
+        </patternset>
+        <patternset id="js.corefiles29">
+            <include name="lib/jquery/plugins/jquery.form.js"/>
+        </patternset>
+        <patternset id="js.corefiles30">
+            <include name="lib/jquery/plugins/jquery.MultiFile.js"/>
+        </patternset>
+        <patternset id="js.corefiles31">
+            <include name="lib/jquery/plugins/gritter/jquery.gritter.js"/>
+        </patternset>
+        <patternset id="js.corefiles32">
+            <include name="lib/jquery/plugins/jquery.autoSuggest.sakai-edited.js"/>
+        </patternset>
+        <patternset id="js.corefiles33">
+            <include name="javascript/history/*.js"/>
+        </patternset>
+
+        <!-- Define patternsets for page JS files for concatenation (from ${TARGET_DIR}) -->
+        <patternset id="js.pagefiles">
+            <include name="javascript/*.js"/>
         </patternset>
 
     </target>
@@ -101,12 +230,6 @@
         </copy>
 
         <echo message="Making a copy of var content files..." />
-        <copy todir="${TARGET_DIR_VAR}" filtering="true">
-            <filterset begintoken="@" endtoken="@">
-              <filtersfile file="${TARGET}/scm-version.properties" />
-            </filterset>
-            <fileset dir="${SRC_DIR_VAR}" />
-        </copy>
 
         <echo message="Making a copy of apps content files..." />
         <copy todir="${TARGET_DIR_APPS}">
@@ -177,8 +300,272 @@
 
     </target>
 
+    <!-- Target: Concatenate Core Javascript files and update HTML references -->
+    <target name="concatenate_core_js">
+
+        <!-- Concatenate Core Javascript files in a specific order -->
+        <echo message="Concatenating core Javascript files..." />
+        <concat destfile="${TARGET_DIR}${JSCOMMONCOREFILE}">
+            <fileset dir="${TARGET_DIR}">
+                <patternset refid="js.corefiles01"/>
+            </fileset>
+            <fileset dir="${TARGET_DIR}">
+                <patternset refid="js.corefiles02"/>
+            </fileset>
+            <fileset dir="${TARGET_DIR}">
+                <patternset refid="js.corefiles03"/>
+            </fileset>
+            <fileset dir="${TARGET_DIR}">
+                <patternset refid="js.corefiles04"/>
+            </fileset>
+            <fileset dir="${TARGET_DIR}">
+                <patternset refid="js.corefiles05"/>
+            </fileset>
+            <fileset dir="${TARGET_DIR}">
+                <patternset refid="js.corefiles22"/>
+            </fileset>
+            <fileset dir="${TARGET_DIR}">
+                <patternset refid="js.corefiles06"/>
+            </fileset>
+            <fileset dir="${TARGET_DIR}">
+                <patternset refid="js.corefiles07"/>
+            </fileset>
+            <fileset dir="${TARGET_DIR}">
+                <patternset refid="js.corefiles08"/>
+            </fileset>
+            <fileset dir="${TARGET_DIR}">
+                <patternset refid="js.corefiles09"/>
+            </fileset>
+            <fileset dir="${TARGET_DIR}">
+                <patternset refid="js.corefiles10"/>
+            </fileset>
+            <fileset dir="${TARGET_DIR}">
+                <patternset refid="js.corefiles11"/>
+            </fileset>
+            <fileset dir="${TARGET_DIR}">
+                <patternset refid="js.corefiles12"/>
+            </fileset>
+            <fileset dir="${TARGET_DIR}">
+                <patternset refid="js.corefiles13"/>
+            </fileset>
+            <fileset dir="${TARGET_DIR}">
+                <patternset refid="js.corefiles14"/>
+            </fileset>
+            <fileset dir="${TARGET_DIR}">
+                <patternset refid="js.corefiles15"/>
+            </fileset>
+            <fileset dir="${TARGET_DIR}">
+                <patternset refid="js.corefiles16"/>
+            </fileset>
+            <fileset dir="${TARGET_DIR}">
+                <patternset refid="js.corefiles17"/>
+            </fileset>
+            <fileset dir="${TARGET_DIR}">
+                <patternset refid="js.corefiles18"/>
+            </fileset>
+            <fileset dir="${TARGET_DIR}">
+                <patternset refid="js.corefiles19"/>
+            </fileset>
+            <fileset dir="${TARGET_DIR}">
+                <patternset refid="js.corefiles20"/>
+            </fileset>
+            <fileset dir="${TARGET_DIR}">
+                <patternset refid="js.corefiles21"/>
+            </fileset>
+            <fileset dir="${TARGET_DIR}">
+                <patternset refid="js.corefiles23"/>
+            </fileset>
+            <fileset dir="${TARGET_DIR}">
+                <patternset refid="js.corefiles24"/>
+            </fileset>
+            <fileset dir="${TARGET_DIR}">
+                <patternset refid="js.corefiles25"/>
+            </fileset>
+            <fileset dir="${TARGET_DIR}">
+                <patternset refid="js.corefiles26"/>
+            </fileset>
+            <fileset dir="${TARGET_DIR}">
+                <patternset refid="js.corefiles27"/>
+            </fileset>
+            <fileset dir="${TARGET_DIR}">
+                <patternset refid="js.corefiles28"/>
+            </fileset>
+            <fileset dir="${TARGET_DIR}">
+                <patternset refid="js.corefiles29"/>
+            </fileset>
+            <fileset dir="${TARGET_DIR}">
+                <patternset refid="js.corefiles30"/>
+            </fileset>
+            <fileset dir="${TARGET_DIR}">
+                <patternset refid="js.corefiles31"/>
+            </fileset>
+            <fileset dir="${TARGET_DIR}">
+                <patternset refid="js.corefiles32"/>
+            </fileset>
+        </concat>
+
+        <!-- Get a list of Core Javascript files to remove references from the HTML files -->
+        <fileset id="jscore.contents" dir="${TARGET_DIR}">
+            <patternset refid="js.corefiles01"/>
+            <patternset refid="js.corefiles02"/>
+            <patternset refid="js.corefiles03"/>
+            <patternset refid="js.corefiles04"/>
+            <patternset refid="js.corefiles05"/>
+            <patternset refid="js.corefiles22"/>
+            <patternset refid="js.corefiles06"/>
+            <patternset refid="js.corefiles07"/>
+            <patternset refid="js.corefiles08"/>
+            <patternset refid="js.corefiles09"/>
+            <patternset refid="js.corefiles10"/>
+            <patternset refid="js.corefiles11"/>
+            <patternset refid="js.corefiles12"/>
+            <patternset refid="js.corefiles13"/>
+            <patternset refid="js.corefiles14"/>
+            <patternset refid="js.corefiles15"/>
+            <patternset refid="js.corefiles16"/>
+            <patternset refid="js.corefiles17"/>
+            <patternset refid="js.corefiles18"/>
+            <patternset refid="js.corefiles19"/>
+            <patternset refid="js.corefiles20"/>
+            <patternset refid="js.corefiles21"/>
+            <patternset refid="js.corefiles23"/>
+            <patternset refid="js.corefiles24"/>
+            <patternset refid="js.corefiles25"/>
+            <patternset refid="js.corefiles26"/>
+            <patternset refid="js.corefiles27"/>
+            <patternset refid="js.corefiles28"/>
+            <patternset refid="js.corefiles29"/>
+            <patternset refid="js.corefiles30"/>
+            <patternset refid="js.corefiles31"/>
+            <patternset refid="js.corefiles32"/>
+        </fileset>
+
+        <!-- Convert the Core Javascript files into a comma seperated list -->
+        <pathconvert dirsep="/" pathsep="," property="prop.jscore.contents" refid="jscore.contents">
+            <chainedmapper>
+                <regexpmapper from="dev(.*)" to="/dev\1" casesensitive="no"/>
+            </chainedmapper>
+        </pathconvert>
+
+        <echo message="Updating Javascript References in core HTML files..." />
+
+        <!-- Insert Core Javascript reference for the HTML files to the combined Javascript file -->
+        <replaceregexp match="(.*)/dev${JSMAINCOREFILE}(.*)" replace="\1/dev${JSCOMMONCOREFILE}\2">
+            <fileset dir="${TARGET_DIR}">
+                <patternset refid="html.files"/>
+            </fileset>
+        </replaceregexp>
+
+        <!-- Remove each Core Javascript file reference from the HTML files -->
+        <for list="${prop.jscore.contents}" param="jsCoreFile">
+            <sequential>
+                <!--<echo>@{jsCoreFile}</echo>-->
+                <replaceregexp match="(.*)@{jsCoreFile}(.*)" replace="">
+                    <fileset dir="${TARGET_DIR}">
+                        <patternset refid="html.files"/>
+                    </fileset>
+                </replaceregexp>
+            </sequential>
+        </for>
+
+    </target>
+
+    <!-- Target: Concatenate Page Javascript files and update HTML references -->
+    <target name="concatenate_page_js">
+
+        <!-- Concatenate Page Javascript files in a specific order -->
+        <echo message="Concatenating page Javascript files..." />
+        <concat destfile="${TARGET_DIR}${JSCOMMOMPAGEFILE}">
+            <fileset dir="${TARGET_DIR}">
+                <patternset refid="js.pagefiles"/>
+            </fileset>
+        </concat>
+
+        <!-- Get a list of Page Javascript files to remove references from the HTML files -->
+        <fileset id="jspage.contents" dir="${TARGET_DIR}">
+            <patternset refid="js.pagefiles"/>
+        </fileset>
+
+        <!-- Convert the Page Javascript files into a comma seperated list -->
+        <pathconvert dirsep="/" pathsep="," property="prop.jspage.contents" refid="jspage.contents">
+            <chainedmapper>
+                <regexpmapper from="dev(.*)" to="/dev\1" casesensitive="no"/>
+            </chainedmapper>
+        </pathconvert>
+
+        <echo message="Updating Javascript References in page HTML files..." />
+
+        <!-- Update each Page Javascript file reference for the HTML files to the combined Javascript file -->
+         <for list="${prop.jspage.contents}" param="jsPageFile">
+            <sequential>
+                <replaceregexp match="(.*)@{jsPageFile}(.*)" replace="\1/dev${JSCOMMONPAGEFILE}\2">
+                    <fileset dir="${TARGET_DIR}">
+                        <patternset refid="html.files"/>
+                    </fileset>
+                </replaceregexp>
+            </sequential>
+        </for>
+
+    </target>
+
+    <!-- Target: Concatenate Widget Javascript files and update HTML references -->
+    <target name="concatenate_widget_js">
+
+        <!-- Concatenate Widget Javascript files in a specific order -->
+        <echo message="Concatenating widget Javascript files..." />
+        <concat destfile="${TARGET_DIR}${JSCOMMONWIDGETFILE}">
+            <fileset dir="${TARGET_DIR_W}">
+                <patternset refid="js.widgetfiles"/>
+            </fileset>
+        </concat>
+
+        <!-- Get a list of Widget Javascript files to remove references from the HTML files -->
+        <fileset id="jswidget.contents" dir="${TARGET_DIR_W}">
+            <patternset refid="js.widgetfiles"/>
+        </fileset>
+
+        <!-- Convert the Widget Javascript files into a comma seperated list -->
+        <pathconvert dirsep="/" pathsep="," property="prop.jswidget.contents" refid="jswidget.contents">
+            <chainedmapper>
+                <regexpmapper from="dev(.*)" to="/dev\1" casesensitive="no"/>
+            </chainedmapper>
+        </pathconvert>
+
+        <echo message="Updating Javascript References in widget HTML files..." />
+
+        <!-- Update each Widget Javascript file reference for the HTML files to the combined Javascript file -->
+        <for list="${prop.jswidget.contents}" param="jsWidgetFile">
+            <sequential>
+                <replaceregexp match="(.*)@{jsWidgetFile}(.*)" replace="\1/dev${JSCOMMONWIDGETFILE}\2">
+                    <fileset dir="${TARGET_DIR_W}">
+                        <patternset refid="html.files"/>
+                    </fileset>
+                </replaceregexp>
+            </sequential>
+        </for>
+
+    </target>
+
+    <!-- Target: Concatenate Javascript files and update HTML references -->
+    <target name="concatenate_js" depends="concatenate_core_js">
+        <!-- Could concatenate the 3 common JS files here into one file -->
+    </target>
+
     <!-- Target: Minify Javascript -->
     <target name="minify_js" depends="create_target_folders">
+
+        <echo message="Minifying common core Javascript file..." />
+        <apply executable="java" parallel="false" dest="${TARGET_DIR}" force="true">
+            <fileset dir="${TARGET_DIR}">
+                <include name="${JSCOMMONCOREFILE}"/>
+            </fileset>
+            <arg value="-jar"/>
+            <arg path="${YUI_COMPRESSOR}"/>
+            <srcfile/>
+            <arg value="-o"/>
+            <mapper type="identity"/>
+            <targetfile/>
+        </apply>
 
         <echo message="Minifying core Javascript files..." />
         <apply executable="java" parallel="false" dest="${TARGET_DIR}" force="true">
@@ -269,7 +656,7 @@
     </target>
 
     <!-- Target: Release Builds-->
-    <target name="release" depends="init, create_target_folders, copy_prod, permissions, formatting, minify_css, minify_js, compress, documentation">
+    <target name="release" depends="init, create_target_folders, copy_prod, permissions, formatting, concatenate_js, minify_css, minify_js, compress, documentation">
         <echo message="Sakai 3 UX Build: Build complete." />
     </target>
 
