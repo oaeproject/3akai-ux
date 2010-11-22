@@ -784,12 +784,12 @@ sakai.sitespages = function(tuid,showSettings){
             url: pageUrl + "/pageContent.save.json",
             type: "POST",
             success: function(data) {
-                if (callback && typeof(callback) === "function") {
+                if ($.isFunction(callback)) {
                     callback(true, data);
                 }
             },
             error: function(xhr, textStatus, thrownError) {
-                if (callback && typeof(callback) === "function") {
+                if ($.isFunction(callback)) {
                     callback(false, xhr);
                 }
             }
@@ -2228,14 +2228,14 @@ sakai.sitespages = function(tuid,showSettings){
                 }
 
                 // run callback
-                if(typeof(callback) === "function") {
+                if ($.isFunction(callback)) {
                     callback(true);
                 }
 
             } else {
                 debug.error("site_admin.js/sakai.sitespages.createNewPage(): Could not create page node for page!");
                 // run callback
-                if(typeof(callback) === "function") {
+                if ($.isFunction(callback)) {
                     callback(false);
                 }
             }
@@ -2295,7 +2295,7 @@ sakai.sitespages = function(tuid,showSettings){
                 });
 
                 // run callback
-                if(typeof(callback) === "function") {
+                if ($.isFunction(callback)) {
                     callback(true);
                 }
 
@@ -2312,7 +2312,7 @@ sakai.sitespages = function(tuid,showSettings){
                 debug.error("site_admin.js/sakai.sitespages.addDashboardPage(): Could not create page node for dashboard page!");
 
                 // run callback
-                if(typeof(callback) === "function") {
+                if ($.isFunction(callback)) {
                     callback(false);
                 }
             }
@@ -2348,11 +2348,6 @@ sakai.sitespages = function(tuid,showSettings){
         $("#content_page_options").hide();
         $("#revision_history_container").show();
         $("#more_menu").hide();
-
-        // months string reference
-        var months = [
-            "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-        ];
 
         // fetch data
         $.ajax({

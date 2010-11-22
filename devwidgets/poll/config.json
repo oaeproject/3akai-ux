@@ -4,6 +4,9 @@
     "img":"/devwidgets/poll/images/poll.png",
     "name":"Poll",
     "showinsakaigoodies":true,
+    "i18n": {
+        "default": "/devwidgets/poll/bundles/default.properties"
+    },
     "userpages": false,
     "userdashboard": false,
     "grouppages": false,

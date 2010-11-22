@@ -31,6 +31,33 @@
  */
 sakai.api.Groups = sakai.api.Groups || {};
 
+/**
+ * Get the data for the specified group
+ *
+ * @param {String} groupid The ID of the group
+ * @param {Function} callback Callback function, passes (success, (data|xhr))
+ * @param {Boolean} async If this call should be ascynronous, defaults to true
+ */
+sakai.api.Groups.getGroupData = function(groupid, callback, async) {
+    if (async === null || async === undefined) {
+        async = true;
+    }
+    $.ajax({
+        url: "/~" + groupid + "/public.infinity.json",
+        async: async,
+        success: function(data) {
+            if ($.isFunction(callback)) {
+                callback(true, data);
+            }
+        },
+        error: function(xhr, textStatus, thrownError) {
+            debug.error("Could not get data for group " + groupid);
+            if ($.isFunction(callback)) {
+                callback(false, xhr);
+            }
+        }
+    });
+};
 
 /**
  * Create a group
@@ -127,7 +154,7 @@ sakai.api.Groups.createGroup = function(id, title, description, callback) {
  * @param {String} joinable The joinable state for the group (from sakai.config.Permissions.Groups)
  * @param {String} visible The visibile state for the group (from sakai.config.Permissions.Groups)
  * @param {Function} callback Function to be called on complete - callback
- *   args: (success, errorMessage)
+ *   args: (success)
  * @return None
  */
 sakai.api.Groups.setPermissions = function(groupid, joinable, visible, callback) {
@@ -267,22 +294,22 @@ sakai.api.Groups.setPermissions = function(groupid, joinable, visible, callback)
                     sakai.currentgroup.data.authprofile["sakai:group-joinable"] = joinable;
                     sakai.currentgroup.data.authprofile["sakai:group-visible"] = visible;
                 }
-                if(typeof(callback) === "function") {
-                    callback(true, null);
+                if ($.isFunction(callback)) {
+                    callback(true);
                 }
             },
             error: function(xhr, textStatus, thrownError){
                 // Log an error message
-                debug.error("sakai.grouppermissions.setPermissions - batch post failed");
-
-                if(typeof(callback) === "function") {
-                    callback(false, textStatus);
+                debug.error("Setting permissions on the group failed");
+                if ($.isFunction(callback)) {
+                    callback(false);
                 }
             }
         });
     } else {
-        if(typeof(callback) === "function") {
-            callback(false, "Invalid arguments sent to sakai.api.Groups.setPermissions");
+        debug.warn("Invalid arguments sent to sakai.api.Groups.setPermissions");
+        if ($.isFunction(callback)) {
+            callback(false);
         }
     }
 };
@@ -294,7 +321,7 @@ sakai.api.Groups.setPermissions = function(groupid, joinable, visible, callback)
  * @param groupid {String} id of the group to check
  * @return true if the current user is a manager, false otherwise
  */
-sakai.api.Groups.isCurrentUserAManager = function (groupid) {
+sakai.api.Groups.isCurrentUserAManager = function(groupid) {
     if(!groupid || typeof(groupid) !== "string") {
         return false;
     }
@@ -317,7 +344,7 @@ sakai.api.Groups.isCurrentUserAManager = function (groupid) {
  * @param groupid {String} id of the group to check
  * @return true if the current user is a member or manager, false otherwise
  */
-sakai.api.Groups.isCurrentUserAMember = function (groupid) {
+sakai.api.Groups.isCurrentUserAMember = function(groupid) {
     if(!groupid || typeof(groupid) !== "string") {
         return false;
     }
@@ -330,86 +357,6 @@ sakai.api.Groups.isCurrentUserAMember = function (groupid) {
     }
 };
 
-
-/**
- * Adds the specified user to a specified group
- *
- * @param {String} userID The ID of the user to add to the group
- * @param {String} groupID The ID of the group to add the user to
- * @param {Function} callback Callback function executed at the end of the
- * operation - callback args:
- * -- {Boolean} success true if the operation succeeded, false if it failed
- * -- {Object} data data returned on successful operation, xhr on failed operation
- */
-sakai.api.Groups.addToGroup = function(userID, groupID, callback) {
-    if (userID && typeof(userID) === "string" &&
-        groupID && typeof(groupID) === "string") {
-        // add user to group
-        $.ajax({
-            url: "/system/userManager/group/" + groupID + ".update.json",
-            data: {
-                "_charset_":"utf-8",
-                ":member": userID
-            },
-            type: "POST",
-            success: function (data) {
-                if (typeof(callback) === "function") {
-                    callback(true, data);
-                }
-            },
-            error: function (xhr, textStatus, thrownError) {
-                if (typeof(callback) === "function") {
-                    callback(false, xhr);
-                }
-            }
-        });
-    } else {
-        if (typeof(callback) === "function") {
-            callback(false, {"textStatus": "Invalid arguments sent to sakai.api.Groups.addToGroup()"});
-        }
-    }
-};
-
-
-/**
- * Removes the specified user from a specified group
- *
- * @param {String} userID The ID of the user to remove from the group
- * @param {String} groupID The ID of the group to remove the user from
- * @param {Function} callback Callback function executed at the end of the
- * operation - callback args:
- * -- {Boolean} success true if the operation succeeded, false if it failed
- * -- {Object} data data returned on successful operation, xhr on failed operation
- */
-sakai.api.Groups.removeFromGroup = function(userID, groupID, callback) {
-    if (userID && typeof(userID) === "string" &&
-        groupID && typeof(groupID) === "string") {
-        $.ajax({
-            url: "/system/userManager/group/" + groupID + ".update.json",
-            data: {
-                "_charset_":"utf-8",
-                ":member@Delete": userID
-            },
-            type: "POST",
-            success: function (data) {
-                if (typeof(callback) === "function") {
-                    callback(true, data);
-                }
-            },
-            error: function (xhr, textStatus, thrownError) {
-                if (typeof(callback) === "function") {
-                    callback(false, xhr);
-                }
-            }
-        });
-    } else {
-        if (typeof(callback) === "function") {
-            callback(false, {"textStatus": "Invalid arguments sent to sakai.api.Groups.removeFromGroup()"});
-        }
-    }
-};
-
-
 /**
  * Creates a join request for the given user for the specified group
  *
@@ -418,34 +365,43 @@ sakai.api.Groups.removeFromGroup = function(userID, groupID, callback) {
  * @param {Function} callback Callback function executed at the end of the
  * operation - callback args:
  *  -- {Boolean} success True if operation succeeded, false otherwise
- *  -- {Object} error null if successful, xhr data otherwise
  */
-sakai.api.Groups.addJoinRequest = function (userID, groupID, callback) {
+sakai.api.Groups.addJoinRequest = function(userID, groupID, callback) {
     if (userID && typeof(userID) === "string" &&
         groupID && typeof(groupID) === "string") {
         $.ajax({
             url: "/~" + groupID + "/joinrequests.create.html?userid=" + userID,
             type: "POST",
             success: function (data) {
-                if (typeof(callback) === "function") {
-                    callback(true, null);
+                if ($.isFunction(callback)) {
+                    callback(true);
                 }
             },
             error: function (xhr, textStatus, thrownError) {
-                if (typeof(callback) === "function") {
-                    callback(false, xhr);
+                debug.error("Could not process join request");
+                if ($.isFunction(callback)) {
+                    callback(false);
                 }
             }
         });
     } else {
-        if (typeof(callback) === "function") {
-            callback(false, {"textStatus": "Invalid arguments sent to sakai.api.Groups.addJoinRequest()"});
+        debug.warn("Invalid arguments passed to addJoinRequest");
+        if ($.isFunction(callback)) {
+            callback(false);
         }
     }
 };
 
-
-sakai.api.Groups.removeJoinRequest = function (userID, groupID, callback) {
+/**
+ * Removes a join request for the given user for the specified group
+ *
+ * @param {String} userID ID of the user that wants to join the group
+ * @param {String} groupID ID of the group to the user wants to join
+ * @param {Function} callback Callback function executed at the end of the
+ * operation - callback args:
+ *  -- {Boolean} success True if operation succeeded, false otherwise
+ */
+sakai.api.Groups.removeJoinRequest = function(userID, groupID, callback) {
     if (userID && typeof(userID) === "string" &&
         groupID && typeof(groupID) === "string") {
         $.ajax({
@@ -455,23 +411,24 @@ sakai.api.Groups.removeJoinRequest = function (userID, groupID, callback) {
             },
             type: "POST",
             success: function (data) {
-                if (typeof(callback) === "function") {
-                    callback(true, null);
+                if ($.isFunction(callback)) {
+                    callback(true);
                 }
             },
             error: function (xhr, textStatus, thrownError) {
-                if (typeof(callback) === "function") {
-                    callback(false, xhr);
+                debug.error("Could not remove join request");
+                if ($.isFunction(callback)) {
+                    callback(false);
                 }
             }
         });
     } else {
-        if (typeof(callback) === "function") {
-            callback(false, {"textStatus": "Invalid arguments sent to sakai.api.Groups.removeJoinRequest()"});
+        debug.warn("Invalid arguments sent to sakai.api.Groups.removeJoinRequest()");
+        if ($.isFunction(callback)) {
+            callback(false);
         }
     }
 };
-
 
 /**
  * Returns all join requests for the specified group
@@ -482,11 +439,11 @@ sakai.api.Groups.removeJoinRequest = function (userID, groupID, callback) {
  *   asynchronous or not. Default is true.
  * operation - callback args:
  *  -- {Boolean} success true if operation succeeded, false otherwise
- *  -- {Object} joinrequest data if successful, xhr data otherwise
+ *  -- {Object} joinrequest data if successful
  */
-sakai.api.Groups.getJoinRequests = function (groupID, callback, async) {
+sakai.api.Groups.getJoinRequests = function(groupID, callback, async) {
     if (groupID && typeof(groupID) === "string") {
-        if (async === null) {
+        if (async === null || async === undefined) {
             async = true;
         }
         $.ajax({
@@ -494,35 +451,249 @@ sakai.api.Groups.getJoinRequests = function (groupID, callback, async) {
             type: "GET",
             async: async,
             success: function (data) {
-                if (typeof(callback) === "function") {
+                if ($.isFunction(callback)) {
                     callback(true, data);
                 }
             },
             error: function (xhr, textStatus, thrownError) {
-                if (typeof(callback) === "function") {
-                    callback(false, xhr);
+                debug.error("Request to get join requests failed");
+                if ($.isFunction(callback)) {
+                    callback(false);
                 }
             }
         });
     } else {
-        if (typeof(callback) === "function") {
-            callback(false, {"textStatus": "Invalid arguments sent to sakai.api.Groups.getJoinRequests()"});
+        debug.warn("Invalid arguments sent to sakai.api.Groups.getJoinRequests()");
+        if ($.isFunction(callback)) {
+            callback(false);
         }
     }
 };
 
-
 /**
  * Returns all the users who are member of a certain group
  *
- * @param {String} groupID The ID of the group we would like to get the members
- * of
- * @param {Function} callback Callback function executed at the end of the
- * operation, containing the member user's data
+ * @param {String} groupID The ID of the group we would like to get the members of
+ * @param {Function} callback Callback function, passes (success, (data|xhr))
  *
- * @returns true or false
- * @type Boolean
  */
 sakai.api.Groups.getMembers = function(groupID, callback) {
+    $.ajax({
+        url: "/system/userManager/group/" + groupID + ".members.detailed.json",
+        success: function(data) {
+            if ($.isFunction(callback)) {
+                callback(true, data);
+            }
+        },
+        error: function(xhr, textStatus) {
+            debug.error("Could not get members group info for " + groupID);
+            if ($.isFunction(callback)) {
+                callback(false, xhr);
+            }
+        }
+    });
+};
 
+/**
+ * Returns all the users who are managers of a certain group
+ *
+ * @param {String} groupID The ID of the group we would like to get the managers of
+ * @param {Function} callback Callback function, passes (success, (data|xhr))
+ *
+ */
+sakai.api.Groups.getManagers = function(groupID, callback) {
+    $.ajax({
+        url: "/system/userManager/group/" + groupID + "-managers.members.detailed.json",
+        success: function(data) {
+            if ($.isFunction(callback)) {
+                callback(true, data);
+            }
+        },
+        error: function(xhr, textStatus) {
+            debug.error("Could not get managers group info for " + groupID);
+            if ($.isFunction(callback)) {
+                callback(false, xhr);
+            }
+        }
+    });
+};
+
+/**
+ * Add users to the specified group
+ *
+ * @param {String} groupID the ID of the group to add members to
+ * @param {String} list Either 'members' or 'managers'
+ * @param {Array} users Array of user/group IDs to add to the group
+ * @param {Function} callback Callback function
+ */
+sakai.api.Groups.addUsersToGroup = function(groupID, list, users, callback) {
+    var reqData = [];
+
+    if (list === 'managers') {
+        groupID = groupID + '-managers';
+    }
+
+    // Construct the batch requests
+    $.each(users, function(index, user) {
+        if (user) {
+            reqData.push({
+                "url": "/system/userManager/group/" + groupID + ".update.json",
+                "method": "POST",
+                "parameters": {
+                    ":member": user
+                }
+            });
+        }
+    });
+
+    if (reqData.length > 0) {
+        // batch request to add users to group
+        $.ajax({
+            url: sakai.config.URL.BATCH,
+            traditional: true,
+            type: "POST",
+            data: {
+                requests: $.toJSON(reqData)
+            },
+            error: function() {
+                debug.error("Could not add users to group");
+            },
+            complete: function(xhr, textStatus) {
+                if ($.isFunction(callback)) {
+                    callback(textStatus === "success");
+                }
+            }
+        });
+    }
+};
+
+/**
+ * Add users to the specified group
+ *
+ * @param {String} groupID the ID of the group to add members to
+ * @param {Array} contentList Array of content IDs to add to the group
+ * @param {Function} callback Callback function
+ */
+sakai.api.Groups.addContentToGroup = function(groupID, contentIDs, callback) {
+    var reqData = [];
+
+    $(contentIDs).each(function(i, contentID) {
+        reqData.push({
+            "url": "/p/" + contentID + ".members.json",
+            "method": "POST",
+            "parameters": {
+                ":viewer": groupID
+            }
+        });
+    });
+
+    if (reqData.length > 0) {
+        // batch request to add content to group
+        $.ajax({
+            url: sakai.config.URL.BATCH,
+            traditional: true,
+            type: "POST",
+            data: {
+                requests: $.toJSON(reqData)
+            },
+            error: function() {
+                debug.error("Error adding content to the group");
+            },
+            complete: function(xhr, textStatus) {
+                if ($.isFunction(callback)) {
+                    callback(textStatus === "success");
+                }
+            }
+        });
+    }
+};
+
+/**
+ * Add users to the specified group
+ *
+ * @param {String} groupID the ID of the group to add members to
+ * @param {String} list Either 'members' or 'managers'
+ * @param {Array} users Array of user/group IDs to remove from the group
+ * @param {Function} callback Callback function
+ */
+sakai.api.Groups.removeUsersFromGroup = function(groupID, list, users, callback) {
+    var reqData = [];
+
+    if (list === 'managers') {
+        groupID = groupID + '-managers';
+    }
+
+    $.each(users, function(index, user) {
+        reqData.push({
+            "url": "/system/userManager/group/" + groupID + ".update.json",
+            "method": "POST",
+            "parameters": {
+                "_charset_":"utf-8",
+                ":member@Delete": user
+            }
+        });
+    });
+
+    if (reqData.length > 0) {
+        // batch request to remove users from group
+        $.ajax({
+            url: sakai.config.URL.BATCH,
+            traditional: true,
+            type: "POST",
+            data: {
+                requests: $.toJSON(reqData)
+            },
+            error: function() {
+                debug.error("Error removing users from the group");
+            },
+            complete: function(xhr, textStatus) {
+                if ($.isFunction(callback)) {
+                    callback(textStatus === "success");
+                }
+            }
+        });
+    }
+};
+
+/**
+ * Add users to the specified group
+ *
+ * @param {String} groupID the ID of the group to add members to
+ * @param {Array} content Array of content IDs to remove from the group
+ * @param {Function} callback Callback function
+ */
+sakai.api.Groups.removeContentFromGroup = function(groupID, contentIDs, callback) {
+    var reqData = [];
+
+    $.each(contentIDs, function(index, contentID) {
+        if (contentID) {
+            reqData.push({
+                "url": "/p/" + contentID + ".members.json",
+                "method": "POST",
+                "parameters": {
+                    ":viewer@Delete": groupID
+                }
+            });
+        }
+    });
+
+    if (reqData.length > 0) {
+        // batch request to remove content from group
+        $.ajax({
+            url: sakai.config.URL.BATCH,
+            traditional: true,
+            type: "POST",
+            data: {
+                requests: $.toJSON(reqData)
+            },
+            error: function() {
+                debug.error("Error removing content from the group");
+            },
+            complete: function(xhr, textStatus) {
+                if ($.isFunction(callback)) {
+                    callback(textStatus === "success");
+                }
+            }
+        });
+    }
 };

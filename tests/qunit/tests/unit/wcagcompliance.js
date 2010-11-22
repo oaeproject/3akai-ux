@@ -38,8 +38,8 @@ var testWCAGCompliance = function(){
         checkElements($("#qunit-fixture"));
     });
 
-    for (var j = 0; j < sakai.qunit.htmlFiles.length; j++) {
-        var urlToCheck = sakai.qunit.htmlFiles[j];
+    for (var j = 0; j < sakai.qunit.allHtmlFiles.length; j++) {
+        var urlToCheck = sakai.qunit.allHtmlFiles[j];
         $.ajax({
             url: urlToCheck,
             async: false,

@@ -87,7 +87,7 @@
                         <div class="search_tab_content_top_inner"></div>
                     </div>
 
-                    <div class="search_content_main">
+                    <div class="search_content_main s3d-content">
 
                         <!-- SEARCH BAR -->
                         <div class="fl-left fl-container fl-fix search_bar">
@@ -109,7 +109,7 @@
                         </div>
 
                         <!-- SEARCH RESULTS -->
-                        <div id="search_results_page1" class="search_results_container highlight_area_background search_results_container_sub">
+                        <div id="search_results_page1" class="search_results_container s3d-highlight_area_background search_results_container_sub">
                             <div class="search_top_rounded"><div class="search_top_rounded_inner"><!-- --></div></div>
 
                             <!-- CONTENT -->
@@ -122,7 +122,7 @@
                                 <div id="search_result_results_located_in" style="display:none;"><span style="font-weight:normal">__MSG__RESULTS_LOCATED_IN__</span></div>
 
                                 <!-- CONTAINER FOR THE RESULTS -->
-                                <div id="search_results_container highlight_area_background" class="search_padded_groups"></div>
+                                <div id="search_results_container s3d-highlight_area_background" class="search_padded_groups"></div>
 
                             </div>
 
@@ -139,7 +139,7 @@
                                         <img src="/dev/images/group_avatar_icon_64x64_nob.png" alt="group name">
                                         {/if}
                                         </a>
-                                        <div class="search_result_course_site_title"><a class="s3d-links" href="/~${i.pagepath}">${sakai.api.Util.shortenString(i["sakai:group-title"], 75)}</a></div>
+                                        <div class="search_result_course_site_title"><a class="s3d-regular-links s3d-bold" href="/~${i.pagepath}">${sakai.api.Util.shortenString(i["sakai:group-title"], 75)}</a></div>
                                         <div class="search_result_course_site_url"><a href="/~${i.pagepath}">${sakai.api.Util.shortenString(i.pagepath, 75)}</a></div>
                                         <div class="search_result_course_site_excerpt">${sakai.api.Util.shortenString(i["sakai:group-description"], 300)}</div>
                                     </div>
@@ -156,8 +156,8 @@
                         </div>
                     </div>
 
-                    <div class="search_tab_content_bottom">
-                        <div class="search_tab_content_bottom_inner"></div>
+                    <div class="s3d-no-options">
+                        <div class="s3d-no-options-inner"></div>
                     </div>
                 </div>
 

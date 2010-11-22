@@ -29,7 +29,7 @@
     <!-- REVISION TEMPLATE -->
     <div id="filerevisions_template"><!--
         <ul>
-            <li class="highlight_area_background">
+            <li class="s3d-highlight_area_background">
                 <span class="filerevisions_lefthand_description">{if linkrevision}__MSG__LINK__{else}__MSG__FILE__{/if}</span>
                 <span class="filerevisions_list_content filerevision_list_content_basefilename">${data["sakai:pooled-content-file-name"]}</span>
             </li>
@@ -41,7 +41,7 @@
             {var count = 0}
             {for i in data.revisions}
                 {if i_index != 0 && i_index != 1}
-                    <li class="{if Math.round(i_index % 2) != 1}highlight_area_background{/if}">
+                    <li class="{if Math.round(i_index % 2) != 1}s3d-highlight_area_background{/if}">
                         <a {if linkrevision} href="${data.revisionFileDetails[i_index]["sakai:pooled-content-revurl"]}" {else} href="${data.path}.version.,${i["jcr:name"]},/${data.revisionFileDetails[i_index]["sakai:pooled-content-file-name"]}{if data.revisionFileDetails[i_index]["sakai:pooled-content-file-name"].substring(data.revisionFileDetails[1]["sakai:pooled-content-file-name"].lastIndexOf("."), data.revisionFileDetails[i_index]["sakai:pooled-content-file-name"].length) !== data.revisionFileDetails[i_index]["sakai:fileextension"]}${data.revisionFileDetails[i_index]["sakai:fileextension"]}{/if}"{/if} title="__MSG__SHOW_VERSION__ ${data.revisions[i_index]["jcr:name"]}" target="_blank" class="filerevisions_download_version">{if linkrevision} __MSG__OPEN_THIS_LINK__{else} __MSG__DOWNLOAD__{/if}</a>
                         <span class="filerevisions_lefthand_description">__MSG__REVISED__</span>
                         <span class="filerevisions_list_content">${data.revisions[i_index]["jcr:created"]} __MSG__BY__: <a href="/~${data.revisions[i_index - 1]["sakai:savedBy"]["rep:userId"]}" class="filerevisions_editor_name"> ${sakai.api.User.getDisplayName(data.revisions[i_index - 1]["sakai:savedBy"])}</a></span>
@@ -49,7 +49,7 @@
                 {/if}
                 {var count = count + 1}
             {/for}
-            <li class="{if Math.round(data.numberOfRevisions % 2) != 1}highlight_area_background{/if}">
+            <li class="{if Math.round(data.numberOfRevisions % 2) != 1}s3d-highlight_area_background{/if}">
                 <span class="filerevisions_lefthand_description">__MSG__CURRENT_VERSION__</span>
                 <span class="filerevisions_list_content">${data.revisions[0]["jcr:created"]} __MSG__BY__: <a href="/~${data.revisions[count - 1]["sakai:savedBy"]["rep:userId"]}" class="filerevisions_editor_name"> ${sakai.api.User.getDisplayName(data.revisions[count - 1]["sakai:savedBy"])} </a></span>
             </li>

@@ -89,7 +89,7 @@
                         <div class="search_tab_content_top_inner"><!-- --></div>
                     </div>
 
-                    <div class="search_content_main">
+                    <div class="search_content_main s3d-content">
 
                         <!-- SEARCH BAR -->
                         <div class="fl-left fl-container fl-fix search_bar">
@@ -124,7 +124,7 @@
                         <div class="fl-container fl-fix search_results">
 
                         <!-- CONTENT / MEDIA PART -->
-                        <div class="fl-container fl-fix search_results_container highlight_area_background" style="display:none" id="cm_header">
+                        <div class="fl-container fl-fix search_results_container s3d-highlight_area_background" style="display:none" id="cm_header">
                             <div class="search_top_rounded"><div class="search_top_rounded_inner"><!-- --></div></div>
                             <div class="fl-container fl-fix search_results_part">
                                 <div class="fl-container fl-fix search_results_part_header"> <a href="search_content.html" id="search_content_title" class="search_results_part_title">__MSG__CONTENT_AND_MEDIA__</a> <a href="#" class="fl-force-right display_more_link" id="display_more_cm" style="display:none"><small>__MSG__VIEW_MORE_CONTENT_AND_MEDIA_RESULTS__ &raquo;</small></a> </div>
@@ -199,7 +199,7 @@
                         </div>
 
                         <!-- GROUPS -->
-                        <div class="fl-container fl-fix search_results_container highlight_area_background" style="display:none" id="sites_header">
+                        <div class="fl-container fl-fix search_results_container s3d-highlight_area_background" style="display:none" id="sites_header">
                             <div class="search_top_rounded"><div class="search_top_rounded_inner"><!-- --></div></div>
                             <div class="fl-container fl-fix search_results_part">
                                 <div class="fl-container fl-fix search_results_part_header"> <a href="search_group.html" id="search_groups_title" class="search_results_part_title">__MSG__GROUPS__</a> <a href="#" class="fl-force-right display_more_link" id="display_more_sites" style="display:none"><small>__MSG__VIEW_MORE_GROUP_RESULT__ &raquo;</small></a> </div>
@@ -216,7 +216,7 @@
                                             <img src="/dev/images/group_avatar_icon_64x64_nob.png" alt="__MSG__GROUP__NAME">
                                             {/if}
                                             </a>
-                                            <div class="search_result_course_site_title"><a class="s3d-links" href="/~${i.pagepath}">${sakai.api.Util.shortenString(i["sakai:group-title"], 100)}</a></div>
+                                            <div class="search_result_course_site_title"><a class="s3d-regular-links s3d-bold" href="/~${i.pagepath}">${sakai.api.Util.shortenString(i["sakai:group-title"], 100)}</a></div>
                                             <div class="search_result_course_site_url"><a href="/~${i.pagepath}">${sakai.api.Util.shortenString(i.pagepath, 100)}</a></div>
                                             <div class="search_result_course_site_excerpt">${sakai.api.Util.shortenString(i["sakai:group-description"], 400)}</div>
                                         </div>
@@ -231,7 +231,7 @@
                         </div>
 
                         <!-- PEOPLE PART -->
-                        <div class="fl-container fl-fix search_results_container highlight_area_background" style="display:none" id="people_header">
+                        <div class="fl-container fl-fix search_results_container s3d-highlight_area_background" style="display:none" id="people_header">
                         <div class="search_top_rounded"><div class="search_top_rounded_inner"><!-- --></div></div>
                             <div class="fl-container fl-fix search_results_part">
                                 <div class="fl-container fl-fix search_results_part_header"> <a href="search_people.html" id="search_people_title" class="search_results_part_title">__MSG__PEOPLE__</a> <a href="javascript:;" class="fl-force-right display_more_link" id="display_more_people" style="display:none"><small>__MSG__VIEW_MORE_PEOPLE_RESULTS__ &raquo;</small></a> </div>
@@ -275,8 +275,8 @@
                         </div>
                     </div>
 
-                    <div class="search_tab_content_bottom">
-                        <div class="search_tab_content_bottom_inner"><!-- --></div>
+                    <div class="s3d-no-options">
+                        <div class="s3d-no-options-inner"><!-- --></div>
                     </div>
                 </div>
 
