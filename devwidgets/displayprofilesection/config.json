@@ -1,0 +1,16 @@
+{
+    "description":"Display a profile section",
+    "id":"displayprofilesection",
+    "i18n": {
+        "default": "/devwidgets/displayprofilesection/bundles/default.json",
+        "en_US": "/devwidgets/displayprofilesection/bundles/en_US.json",
+    },
+    "name":"Display profile section",
+    "userpages": true,
+    "userdashboard": true,
+    "grouppages": false,
+    "groupdashboard": false,
+    "hasSettings": true,
+    "showinsakaigoodies":true,
+    "url":"/devwidgets/displayprofilesection/displayprofilesection.html"
+}
