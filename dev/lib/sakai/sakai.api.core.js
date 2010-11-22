@@ -169,13 +169,13 @@ sakai.api.Activity.createActivity = function(nodeUrl, appID, templateID, extraDa
         data: dataToSend,
         success: function(data){
 
-            if (typeof callback === "function") {
+            if ($.isFunction(callback)) {
                 callback(data, true);
             }
         },
         error: function(xhr, textStatus, thrownError) {
 
-            if (typeof callback === "function") {
+            if ($.isFunction(callback)) {
                 callback(xhr.status, false);
             }
         }
@@ -477,7 +477,7 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
         debug.warn("sakai.api.Server.saveJSON: Not enough or empty arguments!");
 
         // Still invoke the callback function
-        if (typeof callback === "function") {
+        if ($.isFunction(callback)) {
             callback(false, "The supplied arguments were incorrect.");
         }
 
@@ -564,7 +564,7 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
         success: function(data){
 
             // If a callback function is specified in argument, call it
-            if (typeof callback === "function") {
+            if ($.isFunction(callback)) {
                 callback(true, data);
             }
         },
@@ -575,7 +575,7 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
             debug.error("sakai.api.Server.saveJSON: There was an error saving JSON data to: " + this.url);
 
             // If a callback function is specified in argument, call it
-            if (typeof callback === "function") {
+            if ($.isFunction(callback)) {
                 callback(false, xhr);
             }
         }
@@ -601,7 +601,7 @@ sakai.api.Server.loadJSON = function(i_url, callback, data) {
         debug.info("sakai.api.Server.loadJSON: Not enough or empty arguments!");
 
         // Still invoke the callback function
-        if (typeof callback === "function") {
+        if ($.isFunction(callback)) {
             callback(false, "The supplied arguments were incorrect.");
         }
 
@@ -628,7 +628,7 @@ sakai.api.Server.loadJSON = function(i_url, callback, data) {
             data = sakai.api.Server.loadJSON.convertObjectToArray(data, null, null);
 
             // Call callback function if present
-            if (typeof callback === "function") {
+            if ($.isFunction(callback)) {
                 callback(true, data);
             }
         },
@@ -638,7 +638,7 @@ sakai.api.Server.loadJSON = function(i_url, callback, data) {
             debug.warn("sakai.api.Server.loadJSON: There was an error loading JSON data from: " + this.url);
 
             // Call callback function if present
-            if (typeof callback === "function") {
+            if ($.isFunction(callback)) {
                 callback(false, xhr);
             }
         }
@@ -730,7 +730,7 @@ sakai.api.Server.removeJSON = function(i_url, callback){
         debug.info("sakai.api.Server.removeJSON: Not enough or empty arguments!");
 
         // Still invoke the callback function
-        if (typeof callback === "function") {
+        if ($.isFunction(callback)) {
             callback(false, "The supplied arguments were incorrect.");
         }
 
@@ -751,7 +751,7 @@ sakai.api.Server.removeJSON = function(i_url, callback){
         success: function(data){
 
             // If a callback function is specified in argument, call it
-            if (typeof callback === "function") {
+            if ($.isFunction(callback)) {
                 callback(true, data);
             }
         },
@@ -762,7 +762,7 @@ sakai.api.Server.removeJSON = function(i_url, callback){
             debug.error("sakai.api.Server.removeJSON: There was an error removing the JSON on: " + this.url);
 
             // If a callback function is specified in argument, call it
-            if (typeof callback === "function") {
+            if ($.isFunction(callback)) {
                 callback(false, xhr);
             }
         }

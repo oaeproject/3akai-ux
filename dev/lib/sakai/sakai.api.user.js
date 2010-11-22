@@ -80,7 +80,7 @@ sakai.api.User.createUser = function(username, firstName, lastName, email, passw
         success: function(data){
 
             // Call callback function if set
-            if (typeof callback === "function") {
+            if ($.isFunction(callback)) {
                 callback(true, data);
             }
 
@@ -88,7 +88,7 @@ sakai.api.User.createUser = function(username, firstName, lastName, email, passw
         error: function(xhr, textStatus, thrownError){
 
             // Call callback function if set
-            if (typeof callback === "function") {
+            if ($.isFunction(callback)) {
                 callback(false, xhr);
             }
 
@@ -123,7 +123,7 @@ sakai.api.User.removeUser = function(userid, callback){
         success: function(data){
 
             // Call callback function if set
-            if (typeof callback === "function") {
+            if ($.isFunction(callback)) {
                 callback(true, data);
             }
 
@@ -131,7 +131,7 @@ sakai.api.User.removeUser = function(userid, callback){
         error: function(xhr, textStatus, thrownError){
 
             // Call callback function if set
-            if (typeof callback === "function") {
+            if ($.isFunction(callback)) {
                 callback(false, xhr);
             }
 
@@ -180,7 +180,7 @@ sakai.api.User.login = function(credentials, callback) {
         success: function(data){
 
             // Call callback function if set
-            if (typeof callback === "function") {
+            if ($.isFunction(callback)) {
                 callback(true, data);
             }
 
@@ -188,7 +188,7 @@ sakai.api.User.login = function(credentials, callback) {
         error: function(xhr, textStatus, thrownError){
 
             // Call callback function if set
-            if (typeof callback === "function") {
+            if ($.isFunction(callback)) {
                 callback(false, xhr);
             }
 
@@ -218,26 +218,16 @@ sakai.api.User.logout = function(callback) {
             "sakai:status": "offline",
             "_charset_": "utf-8"
         },
-        success: function(data) {
-            if (typeof callback === "function"){
-                callback(true, data);
-            }
-            /*
-             * Redirect to the standard logout servlet, which
-             * will destroy the session.
-             */
-             window.location = sakai.config.URL.LOGOUT_SERVICE;
-         },
-         error: function(xhr, textStatus, thrownError){
-            if (typeof callback === "function"){
-                callback(false, xhr);
-            }
-            /*
-             * Redirect to the standard logout servlet, which
-             * will destroy the session.
-             */
-             window.location = sakai.config.URL.LOGOUT_SERVICE;
-         }
+        complete: function(xhr, textStatus) {
+            // hit the logout service to destroy the session
+            $.ajax({
+                url: sakai.config.URL.LOGOUT_SERVICE,
+                type: "GET",
+                complete: function(xhrInner, textStatusInner) {
+                    callback(textStatusInner === "success");
+                }
+            });
+        }
     });
 
 };
@@ -272,7 +262,7 @@ sakai.api.User.loadMeData = function(callback) {
             }
 
             // Call callback function if set
-            if (typeof callback === "function") {
+            if ($.isFunction(callback)) {
                 callback(true, sakai.data.me);
             }
         },
@@ -286,7 +276,7 @@ sakai.api.User.loadMeData = function(callback) {
             }
 
             // Call callback function if set
-            if (typeof callback === "function") {
+            if ($.isFunction(callback)) {
                 callback(false, xhr);
             }
         }

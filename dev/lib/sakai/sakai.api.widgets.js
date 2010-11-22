@@ -107,8 +107,8 @@ sakai.api.Widgets.Container = {
      * @param {Object} widgetname
      *     Name of the widget as registered in the widget config file(e.g. sites, myprofile, video, ...)
      */
-    informCancel : function(tuid, widgetname){
-        if (sakai.api.Widgets.Container.toCallOnCancel){
+    informCancel : function(tuid, widgetname) {
+        if (sakai.api.Widgets.Container.toCallOnCancel) {
             sakai.api.Widgets.Container.toCallOnCancel(tuid, widgetname);
         }
     },
@@ -116,28 +116,28 @@ sakai.api.Widgets.Container = {
     readyToLoad : false,
     toLoad : [],
 
-    registerForLoad : function(id){
+    registerForLoad : function(id) {
         sakai.api.Widgets.Container.toLoad[sakai.api.Widgets.Container.toLoad.length] = id.replace("sakai.", "");
-        if (sakai.api.Widgets.Container.readyToLoad){
+        if (sakai.api.Widgets.Container.readyToLoad) {
             sakai.api.Widgets.Container.performLoad();
         }
     },
 
-    performLoad : function(){
+    performLoad : function() {
         for (var i = 0, il = sakai.api.Widgets.Container.toLoad.length; i<il; i++){
             var fct = window["sakai"][sakai.api.Widgets.Container.toLoad[i]];
-            if(typeof fct === "function"){
+            if ($.isFunction(fct)) {
                 fct();
-            }else{
+            } else {
                 debug.error("sakai magic - sakai.api.Widgets.Container.performLoad - The function couldn't execute correctly: '" + fct + "'");
             }
         }
         sakai.api.Widgets.Container.toLoad = [];
     },
 
-    setReadyToLoad : function(set){
+    setReadyToLoad : function(set) {
         sakai.api.Widgets.Container.readyToLoad = set;
-        if (set){
+        if (set) {
             sakai.api.Widgets.Container.performLoad();
         }
     }

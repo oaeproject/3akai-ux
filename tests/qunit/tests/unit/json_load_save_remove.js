@@ -67,12 +67,6 @@ var testURL2 = "/~admin/public/test2";
 
 var testCallbackCount = 0;
 
-// Set the admin login data
-var logindata = {
-    "username": "admin",
-    "password": "admin"
-};
-
 var testCallback = function(){
     if (testCallbackCount === 1) {
         ok(true, "The callback function was successfully invoked");
@@ -82,34 +76,22 @@ var testCallback = function(){
     }
 };
 
-var save = function(url, json){
-
-    var saveCallback = function(){
-        ok(true);
-        start();
-    };
-
-    // Perform the login operation
-    sakai.api.User.login(logindata, function(success){
-        if (success) {
-            sakai.api.Server.saveJSON(url, json, saveCallback);
-        }
-        else {
-            ok(false, "Could not log-in successfully");
-            start();
-        }
-    });
-
-};
+sakai.qunit.loginWithAdmin();
 
 asyncTest("Save a JSON file - big structure", function(){
-    save(testURL, testJSON);
+    sakai.api.Server.saveJSON(testURL, testJSON, function() {
+         start();
+     });
 });
 asyncTest("Save a JSON file - my_sakai example", function(){
-    save(testURL2, testJSON2);
+    sakai.api.Server.saveJSON(testURL2, testJSON2, function() {
+         start();
+     });
 });
 asyncTest("Save a JSON file - my_sakai example - changed", function(){
-    save(testURL2, testJSON3);
+    sakai.api.Server.saveJSON(testURL2, testJSON3, function() {
+         start();
+     });
 });
 test("Save a JSON file - bad parameters", function(){
 
@@ -129,17 +111,7 @@ var load = function(url, json){
         start();
     };
 
-    // Perform the login operation
-    sakai.api.User.login(logindata, function(success){
-        if (success) {
-            sakai.api.Server.loadJSON(url, loadCallback);
-        }
-        else {
-            ok(false, "Could not log-in successfully");
-            start();
-        }
-    });
-
+    sakai.api.Server.loadJSON(url, loadCallback);
 };
 
 asyncTest("Load a JSON file - big structure", function(){
@@ -171,16 +143,7 @@ var remove = function(url){
         start();
     };
 
-    // Perform the login operation
-    sakai.api.User.login(logindata, function(success){
-        if (success) {
-            sakai.api.Server.removeJSON(url, removeCallback);
-        }
-        else {
-            ok(false, "Could not log-in successfully");
-            start();
-        }
-    });
+    sakai.api.Server.removeJSON(url, removeCallback);
 
 };
 asyncTest("Remove a JSON file - big structure", function(){
