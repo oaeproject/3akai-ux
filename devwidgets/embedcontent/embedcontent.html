@@ -21,20 +21,20 @@
                     <img src="${sakai.config.MimeTypes[item.mimetype].URL}" alt="${sakai.config.MimeTypes[item.mimetype].description}" class="embed_image_thumbnail_size"/>
                 </div>
                 <div class="item_description">
-                    <h3><a href="/dev/content_profile.html#content_path=${item.path}" class="s3d-action">${item.name} (${item.mimetype.split("/")[1]})</a></h3>
+                    <h3><a href="${item.link}" class="s3d-action">${item.name} (${item.mimetype.split("/")[1]})</a></h3>
                     {if item.description}<p class="embedcontent_actual_description">${item.description}</p>{/if}
-                    <p class="embedcontent_download_link"><a href="${item.link}" class="s3d-action">__MSG__DOWNLOAD__</a></p>
+                    <p class="embedcontent_download_link"><a href="/dev/content_profile.html#content_path=${item.path}" class="s3d-action">__MSG__SEE_THE_PROFILE__</a></p>
                 </div>
                 {else}
                     <img src="${sakai.config.MimeTypes["other"].URL}" alt="${sakai.config.MimeTypes["other"].description}" class="embed_image_thumbnail_size"/>
                 </div>
                 <div class="item_description">
-                    <h3><a href="/dev/content_profile.html#content_path=${item.path}" class="s3d-action">${item.name} (${item.mimetype.split("/")[1]})</a></h3>
+                    <h3><a href="${item.link}" class="s3d-action">${item.name} (${item.mimetype.split("/")[1]})</a></h3>
                     {if item.description}<p class="embedcontent_actual_description">${item.description}</p>{/if}
                     {if item.mimetype.split("/")[1] === "link"}
                         <p class="embedcontent_download_link"><a href="${item.name}" class="s3d-action">__MSG__LINK_TO_CONTENT__</a></p>
                     {else}
-                        <p class="embedcontent_download_link"><a href="${item.link}" class="s3d-action">__MSG__DOWNLOAD__</a></p>
+                        <p class="embedcontent_download_link"><a href="/dev/content_profile.html#content_path=${item.path}" class="s3d-action">__MSG__SEE_THE_PROFILE__</a></p>
                     {/if}
                 </div>
                 {/if}
@@ -56,9 +56,9 @@
                 {/if}
                 </div>
                 <div class="item_description">
-                    <h3><a href="/dev/content_profile.html#content_path=${item.path}" class="s3d-action">${item.name} (${item.mimetype.split("/")[1]})</a></h3>
+                    <h3><a href="${item.link}" class="s3d-action">${item.name} (${item.mimetype.split("/")[1]})</a></h3>
                     {if item.description}<p class="embedcontent_actual_description">${item.description}</p>{/if}
-                    <p class="embedcontent_download_link"><a href="${item.link}" class="s3d-action">__MSG__DOWNLOAD__</a></p>
+                    <p class="embedcontent_download_link"><a href="/dev/content_profile.html#content_path=${item.path}" class="s3d-action">__MSG__SEE_THE_PROFILE__</a></p>
                 </div>
             </div>
             {/for}
@@ -80,9 +80,9 @@
                     {/if}
                     </div>
                     <div class="item_description">
-                        <h3><a href="/dev/content_profile.html#content_path=${item.path}" class="s3d-action">${item.name} (${item.mimetype.split("/")[1]})</a></h3>
+                        <h3><a href="${item.link}" class="s3d-action">${item.name} (${item.mimetype.split("/")[1]})</a></h3>
                         {if item.description}<p class="embedcontent_actual_description">${item.description}</p>{/if}
-                        <p class="embedcontent_download_link"><a href="${item.link}" class="s3d-action">__MSG__DOWNLOAD__</a></p>
+                        <p class="embedcontent_download_link"><a href="/dev/content_profile.html#content_path=${item.path}" class="s3d-action">__MSG__SEE_THE_PROFILE__</a></p>
                     </div>
                 </div>
                 {/for}
