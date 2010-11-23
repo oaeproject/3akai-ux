@@ -282,17 +282,6 @@ a.s3d-regular-links, .s3d-regular-links a{
  * Variants:
  * - action series: links are inside list items, each list item is separated by a divider
  */
-a.s3d-action, .s3d-actions a {
-    color: #006E96;
-    font-weight: bold;
-    font-size: 13px;
-}
-
-.s3d-action-series a {
-    font-size: 12px;
-    font-weight: bold;
-    padding: 0 12px;
-}
 
 .s3d-action-series li {
     border-left: 1px solid #CCD1D5;
