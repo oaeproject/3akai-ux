@@ -320,9 +320,6 @@ sakai.topnavigation = function(tuid, showSettings){
         $(".help").hide();
         $("#user_link_container").hide();
 
-        // Hide search bar
-        $general_search_container.hide();
-
         // Show anonymous elements
         $("#other_logins_button_container").show();
         $(".log_in").addClass("help_none");
@@ -342,6 +339,8 @@ sakai.topnavigation = function(tuid, showSettings){
         $("#nav_people_link a").attr("href", sakai.config.URL.PUBLIC_PEOPLE_URL);
         $("#nav_courses_sites_link a").attr("href", sakai.config.URL.PUBLIC_COURSES_SITES_URL);
         $("#nav_search_link a").attr("href", sakai.config.URL.PUBLIC_SEARCH_URL_PAGE);
+
+        renderMenu();
 
         // Make the login page redirect to the current page after login
         $(".log_in").attr("href", $(".log_in").attr("href") + "?url=" + escape(window.location.pathname + window.location.search + window.location.hash));
@@ -395,18 +394,7 @@ sakai.topnavigation = function(tuid, showSettings){
         updateChatStatus();
     };
 
-    ///////////////////////
-    // Initial functions //
-    ///////////////////////
-
-    /**
-     * Contains all the functions and methods that need to be
-     * executed on the initial load of the page
-     */
-    var doInit = function(){
-
-        $(navMyProfile).attr("href", "/~" + sakai.data.me.user.userid);
-
+    var renderMenu = function() {
         var obj = {};
         var menulinks = [];
 
@@ -439,6 +427,21 @@ sakai.topnavigation = function(tuid, showSettings){
         obj.links = menulinks;
         // Get navigation and render menu template
         $(".explore").html($.TemplateRenderer("navigation_template", obj));
+    }
+
+    ///////////////////////
+    // Initial functions //
+    ///////////////////////
+
+    /**
+     * Contains all the functions and methods that need to be
+     * executed on the initial load of the page
+     */
+    var doInit = function(){
+
+        $(navMyProfile).attr("href", "/~" + sakai.data.me.user.userid);
+
+        renderMenu();
 
         var person = sakai.data.me;
 
