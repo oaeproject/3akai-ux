@@ -82,6 +82,7 @@
                 {for i in results}
                     {if i['rep:userId']}
                     <li id="${i['rep:userId']}">
+                        <input type="checkbox" name="selected" value="${i['rep:userId']}" />
                         {if i.picture}
                             <img src="/~${i["rep:userId"]}/public/profile/${$.parseJSON(i.picture).name}" alt="__MSG__PROFILE_PICTURE_FOR__ ${i.firstName} ${i.lastName}" class="pickeradvanced_ppicture"/>
                         {else}
@@ -97,6 +98,7 @@
                     </li>
                     {elseif i['sakai:group-id']}
                     <li id="${i['sakai:group-id']}">
+                        <input type="checkbox" name="selected" value="${i['sakai:group-id']}" />
                         {if i.picture}
                             <img src="/~${i["sakai:group-id"]}/public/profile/${$.parseJSON(i.picture).name}" alt="__MSG__PROFILE_PICTURE_FOR__ ${i["sakai:group-title"]}" class="pickeradvanced_ppicture"/>
                         {else}
@@ -114,6 +116,7 @@
                     </li>
                     {elseif i["sakai:pooled-content-file-name"]}
                     <li id="${i["jcr:name"]}">
+                        <input type="checkbox" name="selected" value="${i["jcr:name"]}" />
                         {var mimetype = i["jcr:content"]["jcr:mimeType"]}
                         {if mimetype == "image/jpg" || mimetype == "image/jpeg" || mimetype == "image/png" || mimetype == "image/gif" || mimetype == "image/bmp" }
                             <img src="/p/${i["jcr:name"]}/${i["sakai:pooled-content-file-name"]}" alt="${sakai.config.MimeTypes[mimetype].description}" class="pickeradvanced_ppicture"/>
