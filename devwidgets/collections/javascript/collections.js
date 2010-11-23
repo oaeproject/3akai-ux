@@ -552,17 +552,19 @@ sakai.collections = function(tuid, showSettings) {
         $(collectionsAlbums, $rootel).show();
         $.TemplateRenderer(collectionsAlbumsTemplate, collectionData, $(collectionsAlbums, $rootel));
         if (sakai.show.canEdit()) {
-          $("#collections_header div", $rootel).show();
-          if (collectionData.collections.length == 0) {
-            if (!$("#collections_header div").hasClass("expanded")) {
-              $("#collections_header div a#configure_widget").trigger("click");
-          } else {
-            showAddAlbum();
-        }
-          }
+            $("#collections_header div", $rootel).show();
+            if (collectionData.collections.length == 0) {
+                if (!$("#collections_header div").hasClass("expanded")) {
+                    $("#collections_header div a#configure_widget").trigger("click");
+                } else {
+                    showAddAlbum();
+                }
+            }
         }
 
-        $(".albumCoverTitle span").html(stripHTML($(".albumCoverTitle span").html()));
+        $(".albumCoverTitle span").each(function(elt) {
+            $(this).html(stripHTML($(this).html()));
+        });
         $(".albumCoverDescription span").each(function(elt) {
           var newDesc = stripHTML($(this).html()); // strip the html tags
           newDesc = newDesc.substring(1,newDesc.length);  // remove the " that trimpath is putting in there...
