@@ -15,7 +15,7 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-/*global $, Config, jQuery, sakai */
+/*global $ */
 
 var sakai = sakai || {};
 
@@ -58,11 +58,6 @@ sakai.myprofile = function (tuid, showSettings) {
     var profileChatStatusPicker = myprofileClass + "_chat_status_picker";
     var profileWidget = myprofileClass + "_widget";
 
-    var availableStatus = "chat_available_status_";
-    var availableStatus_online = availableStatus + "online";
-    var availableStatus_busy = availableStatus + "busy";
-    var availableStatus_offline = availableStatus + "offline";
-
     var profilePreviewLink = "#myprofile_preview_profile";
 
     var headerChatUserId = "#user_link"; // The username in the chat bar.
@@ -74,20 +69,6 @@ sakai.myprofile = function (tuid, showSettings) {
     /////////////////
     // Chat status //
     /////////////////
-
-    /**
-     * Add the right status css class on an element.
-     * @param {Object} element the jquery element you wish to add the class to
-     * @param {Object} status the status
-     */
-    var updateChatStatusElement = function (element, status) {
-        if (element){
-            element.removeClass(availableStatus_online);
-            element.removeClass(availableStatus_busy);
-            element.removeClass(availableStatus_offline);
-            element.addClass(availableStatus + status);
-        }
-    };
 
     /**
      * Update the chat statuses all across the page.
@@ -124,10 +105,10 @@ sakai.myprofile = function (tuid, showSettings) {
                     updateChatStatus(status);
                 },
                 error: function(xhr, textStatus, thrownError){
-                    if (typeof callback === "function") {
+                    if ($.isFunction(callback)) {
                         callback(false, xhr);
                     }
-                    fluid.log("Entity widget - An error occured when sending the status to the server.");
+                    debug.error("Entity widget - An error occured when sending the status to the server.");
                 }
             });
 
@@ -267,7 +248,7 @@ sakai.myprofile = function (tuid, showSettings) {
 
     // Add binding to set the status
     $(window).bind("chat_status_change", function(event, currentChatStatus){
-        updateChatStatusElement($(profileNameID), currentChatStatus);
+        sakai.api.Util.updateChatStatusElement($(profileNameID), currentChatStatus);
         chatStatus = currentChatStatus;
         $(profileChatStatusClass).hide();
         $(profileChatStatusID + currentChatStatus).show();

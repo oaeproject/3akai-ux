@@ -1,11 +1,13 @@
 {
     "description":"Your recent messages",
     "i18n": {
-        "default": "/devwidgets/recentmessages/bundles/default.json",
-        "en_US": "/devwidgets/recentmessages/bundles/en_US.json"
+        "default": "/devwidgets/recentmessages/bundles/default.properties",
+        "en_US": "/devwidgets/recentmessages/bundles/en_US.properties"
     },
     "id":"recentmessages",
     "name":"My recent messages",
     "personalportal":true,
+    "type":"sakai",
+    "enabled":true,
     "url":"/devwidgets/recentmessages/recentmessages.html"
 }

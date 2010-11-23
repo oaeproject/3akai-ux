@@ -101,7 +101,7 @@ Getting started guide:
 Demo Servers
 ------------
 
-Stable demo server:
+Stable demo server (running Q1 release):
 [http://3akai.sakaiproject.org/dev/](http://3akai.sakaiproject.org/dev/)
 
 Nightly build server:

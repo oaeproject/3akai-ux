@@ -1,0 +1,38 @@
+/* GENERAL */
+strong {color: #000;}
+.dialog_buttons .button {color: #666;}
+
+/* OPTIONS */
+.mysakai_options {text-align: right; margin: 0 10px 5px 0}
+.mysakai_options a {font-size: 9pt; color: #454A4F; font-weight: bold}
+
+/* TOOLS CONTAINER - RIGHT COLUMN */
+#toolscontainer { margin-left: 20px; }
+
+/* WIDGET CONTAINER */
+#widgetscontainer .fl-widget {margin-top: 1px}
+
+#mysakai_edit_page { float:right; padding:10px; width:220px; }
+
+#mysakai_edit_page #mysakai_edit_page_container {float:right;}
+
+/* Inline Button */
+.s3d-button.s3d-button-inline {width:114px; height:28px;}
+.s3d-button.s3d-button-inline .s3d-button-inner {float:left;display:inline;}
+.s3d-button.s3d-button-inline .s3d-button-inner .s3d-button-inner-text {width:60px;}
+
+.s3d-button.s3d-button-inline .s3d-button-inner .s3d-button-icon-left {
+    background: url("/dev/images/page-options-button-sprite.png") no-repeat left top transparent;
+}
+.s3d-button.s3d-button-inline:hover .s3d-button-inner .s3d-button-icon-left {
+    background-position:-20px top;
+}
+.s3d-button.s3d-button-inline.clicked .s3d-button-inner .s3d-button-icon-left {
+    background-position:-40px top;
+}
+.s3d-button.s3d-button-inline .s3d-button-inner .s3d-button-icon-right {
+    background: url("/dev/images/page-options-button-sprite.png") no-repeat -60px top transparent;
+}
+.s3d-button.s3d-button-inline.clicked .s3d-button-inner .s3d-button-icon-right {
+    background: url("/dev/images/white_subnav_arrow.png") no-repeat right center transparent;
+}

@@ -15,10 +15,13 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-/*global $, document, addBinding, window, fluid */
+/*global $ */
 
 var sakai = sakai || {};
 
+/**
+ * @name sakai.api.UI.groupbasicinfo
+ */
 sakai.api.UI.groupbasicinfo = sakai.api.UI.groupbasicinfo || {};
 sakai.api.UI.groupbasicinfo.render = sakai.api.UI.groupbasicinfo.render || {};
 
@@ -68,6 +71,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
     var groupBasicInfoSecondLevelTemplate = "#groupbasicinfo_secondlevel_template";
     var groupBasicInfoThirdLevelTemplate = "#groupbasicinfo_thirdlevel_template";
     var groupBasicInfoAddAnotherLocation = "#groupbasicinfo_add_another_location";
+    var groupBasicInfoAddAnotherLocationtext = "#groupbasicinfo_add_another_location_text";
     var groupBasicInfoAddAnotherLocationLink = groupBasicInfoAddAnotherLocation + "_link";
     var groupBasicInfoRemoveNewLocation = ".groupbasicinfo_remove_new_location";
     var groupBasicInfoRemoveLocation = ".groupbasicinfo_remove_location";
@@ -231,10 +235,8 @@ sakai.groupbasicinfo = function(tuid, showSettings){
      * Fetch group data
      */
     var getGroupData = function(){
-
-        $.ajax({
-            url: "/~" + groupId + "/public.infinity.json",
-            success: function(data){
+        sakai.api.Groups.getGroupData(groupid, function(success, data) {
+            if (success) {
                 sakai.currentgroup.id = groupId;
                 sakai.currentgroup.data = data;
                 if (data.authprofile['rep:policy']) {
@@ -342,42 +344,23 @@ sakai.groupbasicinfo = function(tuid, showSettings){
             // only POST if user has changed values
             sakai.currentgroup.data.authprofile["sakai:group-joinable"] = joinable;
             sakai.currentgroup.data.authprofile["sakai:group-visible"] = visible;
-            sakai.api.Groups.setPermissions(sakai.currentgroup.id, joinable, visible,
-                function (success, errorMessage) {
-                    if (!success) {
-                        fluid.log("ERROR: groupbasicinfo.js/updateGroup() unable to set group permissions: " + errorMessage);
-                    }
-                }
-            );
+            sakai.api.Groups.setPermissions(sakai.currentgroup.id, joinable, visible);
         }
 
         // Update the group object
         sakai.currentgroup.data.authprofile["sakai:group-title"] = sakai.api.Security.escapeHTML(groupTitle);
         sakai.currentgroup.data.authprofile["sakai:group-kind"] = groupKind;
         sakai.currentgroup.data.authprofile["sakai:group-description"] = sakai.api.Security.escapeHTML(groupDesc);
-        groupProfileURL = "/~" + sakai.currentgroup.id + "/public/authprofile";
 
-        $.ajax({
-            url: groupProfileURL,
-            data: {
-                "_charset_":"utf-8",
-                "sakai:group-title" : groupTitle,
-                "sakai:group-kind" : groupKind,
-                "sakai:group-description" : groupDesc
-            },
-            type: "POST",
-            success: function(data, textStatus){
+        sakai.api.Groups.updateGroupInfo(sakai.currentgroup.id, groupTitle, groupDesc, groupKind, function(success) {
+            if (success) {
+                groupProfileURL = "/~" + sakai.currentgroup.id + "/public/authprofile";
                 sakai.api.Util.tagEntity(groupProfileURL, sakai.currentgroup.data.authprofile["sakai:tags"], currentTags, function() {
                     sakai.currentgroup.data.authprofile["sakai:tags"] = currentTags;
                 });
-            },
-            error: function(xhr, textStatus, thrownError){
-                fluid.log("ERROR: groupbasicinfo.js/updateGroup() unable to set group information. Status: " + xhr.status + " - " + xhr.statusText);
-            },
-            complete: function() {
-                sakai.api.Widgets.Container.informFinish(tuid, "groupbasicinfo");
-                $(window).trigger("sakai.groupbasicinfo.updateFinished");
             }
+            sakai.api.Widgets.Container.informFinish(tuid, "groupbasicinfo");
+            $(window).trigger("sakai.groupbasicinfo.updateFinished");
         });
     };
 
@@ -388,7 +371,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         $("#groupbasicinfo_add_another_container").append(renderedDiv);
         // Apply style to the rendered div
         $(renderedDiv).addClass("groupbasicinfo_added_directory");
-        $(groupBasicInfoAddAnotherLocationLink).text("Add another location");
+        $(groupBasicInfoAddAnotherLocationLink).text($(groupBasicInfoAddAnotherLocationtext).html());
     };
 
     /**
@@ -419,9 +402,11 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         tags.push("directory/" + tags.toString().replace(/,/g,"/"));
 
         var tagsAfterDeletion = sakai.currentgroup.data.authprofile["sakai:tags"].slice(0);
-        for (var tag = 0 in tags){
-            if(jQuery.inArray(tags[tag],tagsAfterDeletion) > -1){
-                tagsAfterDeletion.splice(jQuery.inArray(tags[tag],tagsAfterDeletion), 1);
+        for (var tag in tags){
+            if (tags.hasOwnProperty(tag)) {
+                if($.inArray(tags[tag],tagsAfterDeletion) > -1) {
+                    tagsAfterDeletion.splice($.inArray(tags[tag],tagsAfterDeletion), 1);
+                }
             }
         }
 

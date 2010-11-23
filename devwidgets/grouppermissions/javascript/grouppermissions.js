@@ -70,7 +70,7 @@ sakai.grouppermissions = function(tuid, showSettings){
             $rootel.html($.TemplateRenderer($(template), gp_data));
             $(template, $rootel).show();
         } else {
-            fluid.log("grouppermissions.js - ERROR getting permissions properties from sakai.currentgroup");
+            debug.error("grouppermissions.js - ERROR getting permissions properties from sakai.currentgroup");
             $(dataError).show();
         }
     };
@@ -89,11 +89,7 @@ sakai.grouppermissions = function(tuid, showSettings){
         if(joinable !== sakai.currentgroup.data.authprofile["sakai:group-joinable"] ||
             visible !== sakai.currentgroup.data.authprofile["sakai:group-visible"]) {
             // set new group permissions
-            sakai.api.Groups.setPermissions(sakai.currentgroup.id, joinable, visible,
-                function (success, errorMessage) {
-                    $(window).trigger("sakai.grouppermissions.updateFinished", [success, errorMessage]);
-                }
-            );
+            sakai.api.Groups.setPermissions(sakai.currentgroup.id, joinable, visible);
         }
     };
 

@@ -7,9 +7,6 @@
     padding: 3px;
     width:  410px
 }
-#profilesection_generalinfo input[type="text"]:hover, #profilesection_generalinfo input[type="password"]:hover, textarea:hover {
-    background: #d3edf5;
-}
 #profile_heading a, #profile_userinfo a, #profile_generalinfo a {
     color: #3399CC;
     font-weight: bold;
@@ -17,7 +14,7 @@
 #profilesection_generalinfo .profilesection_generalinfo_header {
     border-bottom:1px solid #999;
     margin:15px 0;
-    padding:7px 0;
+    padding:7px 0 15px;
     width:100%;
     float:left;
     display:inline;
@@ -34,6 +31,7 @@
     margin: 0;
     padding-right: 5px;
     width: 65%;
+    line-height:30px;
 }
 #profilesection_generalinfo .profilesection_generalinfo_content {
     font-weight: bold;
@@ -74,11 +72,8 @@
     padding: 3px;
 }
 #profilesection_generalinfo a.profilesection_add_section {
-    color:#3399CC;
     font-size:14px;
-    font-weight:bold;
     float:left;
-    height:30px;
     margin:10px 0px 0px 240px;
 }
 #profilesection_generalinfo a.profilesection_add_section img {

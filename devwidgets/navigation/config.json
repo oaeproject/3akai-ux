@@ -3,12 +3,14 @@
     //"grouppages": true,
     "hasSettings": true,
     "i18n": {
-        "default": "/devwidgets/navigation/bundles/default.json"
+        "default": "/devwidgets/navigation/bundles/default.properties"
     },
     "id": "navigation",
     "img": "/devwidgets/navigation/images/icon.png",
     "name": "Pages",
     "showinsidebar": true,
     "showinsakaigoodies": true,
+    "type":"core",
+    "enabled":true,
     "url": "/devwidgets/navigation/navigation.html"
 }

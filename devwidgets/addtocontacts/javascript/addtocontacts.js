@@ -92,7 +92,8 @@ sakai.addtocontacts = function(tuid, showSettings){
      */
     var fillInUserInfo = function(user){
         if (user) {
-            $(addToContactsInfoDisplayName).text(sakai.api.User.getProfileBasicElementValue(user, "firstName"));
+            
+            $(addToContactsInfoDisplayName).text(sakai.api.User.getDisplayName(user));
 
             // Check for picture
             if (user.picture && $.parseJSON(user.picture).name) {
@@ -116,14 +117,14 @@ sakai.addtocontacts = function(tuid, showSettings){
             }
         }
         return null;
-    }
+    };
 
     /**
      * Does the invitation stuff. Will send a request for an invitation and a message to the user.
      * @param {String} userid
      */
     var doInvite = function(userid){
-        var formValues = sakai.api.UI.Forms.form2json($(addToContactsForm));
+        var formValues = $(addToContactsForm).serializeObject();
         var types = formValues[addToContactsFormType.replace(/#/gi, "")];
         $(addToContactsResponse).text("");
         if (types.length) {
@@ -146,8 +147,8 @@ sakai.addtocontacts = function(tuid, showSettings){
             // send message to other person
             var userstring = sakai.api.User.getDisplayName(me.profile);
 
-            var title = $("#addtocontacts_invitation_title").html().replace(/\$\{user\}/gi, userstring);
-            var message = $("#addtocontacts_invitation_body").html().replace(/\$\{user\}/gi, userstring).replace(/\$\{comment\}/gi, personalnote);
+            var title = $("#addtocontacts_invitation_title_key").html();
+            var message = $("#addtocontacts_invitation_body_key").html()+","+personalnote;
 
             // Do the invite and send a message
             $.ajax({
@@ -263,9 +264,9 @@ sakai.addtocontacts = function(tuid, showSettings){
     });
     
     // Bind the cancel button
- 	$(addToContactsFormButtonCancel).click(function(){
- 	    $(addToContactsForm)[0].reset();
- 	});
+    $(addToContactsFormButtonCancel).click(function(){
+        $(addToContactsForm)[0].reset();
+    });
 
     // Bind the jqModal
     $(addToContactsDialog).jqm({

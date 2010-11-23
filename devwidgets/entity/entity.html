@@ -14,7 +14,7 @@
                 {if data.profile && data.profile.picture}
                     <img id="entity_profile_picture" src="${data.profile.picture}" alt="__MSG__PROFILE_PICTURE_FOR__ ${sakai.api.User.getDisplayName(data.profile)}" />
                 {else}
-                    <img id="entity_profile_picture" src="/dev/_images/default_profile_picture_64.png" alt="__MSG__PLACEHOLDER_PICTURE_FOR__ ${sakai.api.User.getDisplayName(data.profile)}" />
+                    <img id="entity_profile_picture" src="/dev/images/default_profile_picture_64.png" alt="__MSG__PLACEHOLDER_PICTURE_FOR__ ${sakai.api.User.getDisplayName(data.profile)}" />
                 {/if}
                 {if mode === "myprofile"}
                     <div class="fl-text-align-center">
@@ -22,9 +22,9 @@
                     </div>
                 {else}
                     <div class="fl-text-align-center entity_status">
-                        <span id="entity_contact_online" style="display:none;"><a class="s3d-action chat_available_status_online" id="entity_available_to_chat" href="javascript:;">__MSG__ONLINE__</a></span>
-                        <span id="entity_contact_busy" style="display:none;"><a class="chat_available_status_busy">__MSG__BUSY__</a></span>
-                        <span id="entity_contact_offline" style="display:none;"><a class="chat_available_status_offline">__MSG__OFFLINE__</a></span>
+                        <span id="entity_contact_online" style="display:none;"><span class="chat_available_status_online" id="entity_available_to_chat">__MSG__ONLINE__</span></span>
+                        <span id="entity_contact_busy" style="display:none;"><span class="chat_available_status_busy">__MSG__BUSY__</span></span>
+                        <span id="entity_contact_offline" style="display:none;"><span class="chat_available_status_offline">__MSG__OFFLINE__</span></span>
                     </div>
                 {/if}
             </div>
@@ -101,7 +101,7 @@
                 {if data.profile && data.profile.picture}
                     <img id="entity_profile_picture" src="${data.profile.picture}" alt="__MSG__PROFILE_PICTURE_FOR__ ${data.profile["sakai:group-title"]}" />
                 {else}
-                    <img id="entity_profile_picture" src="/dev/_images/group_avatar_icon_64x64_nob.png" alt="group name" />
+                    <img id="entity_profile_picture" src="/dev/images/group_avatar_icon_64x64_nob.png" alt="group name" />
                 {/if}
                 <div class="fl-text-align-center">
                     {if data.profile.role === "manager"}
@@ -167,6 +167,7 @@
                         </div>
                     </div>
                     <a id="entity_tags_link" class="entity_tags_link" href="javascript:;">
+                    <div>
                         <span>${count}
                         {if count > 1}
                             __MSG__TAGS__
@@ -174,6 +175,7 @@
                             __MSG__TAG__
                         {/if}
                         </span>
+                    </div>
                     </a>
                 </div>
             {/if}
@@ -194,13 +196,15 @@
                         </div>
                     </div>
                     <a id="entity_tags_link" class="entity_tags_link" href="javascript:;">
-                        <span>${count}
-                        {if count > 1}
-                            __MSG__TAGS__
-                        {else}
-                            __MSG__TAG__
-                        {/if}
-                        </span>
+                        <div>
+                            <span>${count}
+                            {if count > 1}
+                                __MSG__TAGS__
+                            {else}
+                                __MSG__TAG__
+                            {/if}
+                            </span>
+                        </div>
                     </a>
                 </div>
             {/if}
@@ -230,13 +234,15 @@
                         </div>
                     </div>
                     <a id="entity_tags_link" class="entity_tags_link" href="javascript:;">
-                        <span>${count}
-                        {if count > 1}
-                            __MSG__TAGS__
-                        {else}
-                            __MSG__TAG__
-                        {/if}
-                        </span>
+                        <div>
+                            <span>${count}
+                            {if count > 1}
+                                __MSG__TAGS__
+                            {else}
+                                __MSG__TAG__
+                            {/if}
+                            </span>
+                        </div>
                     </a>
                 </div>
             {/if}
@@ -256,19 +262,31 @@
                         </div>
                     </div>
                     <a id="entity_tags_link" class="entity_tags_link" href="javascript:;">
-                        <span>${count}
-                        {if count > 1}
-                            __MSG__TAGS__
-                        {else}
-                            __MSG__TAG__
-                        {/if}
-                        </span>
+                        <div>
+                            <span>${count}
+                            {if count > 1}
+                                __MSG__TAGS__
+                            {else}
+                                __MSG__TAG__
+                            {/if}
+                            </span>
+                        </div>
                     </a>
                 </div>
             {/if}
         {/if}
     </div>
 --></div>
+
+<div id="entity_notifications" style="display:none">
+    <span id="entity_group_membership">__MSG__GROUP_MEMBERSHIP__</span>
+    <span id="entity_group_problem_removing">__MSG__PROBLEM_REMOVING_FROM_GROUP__</span>
+    <span id="entity_group_removal_successful">__MSG__SUCCESSFULLY_REMOVED_FROM_GROUP__</span>
+    <span id="entity_group_request_sent">__MSG__YOUR_REQUEST_HAS_BEEN_SENT__</span>
+    <span id="entity_group_problem_with_request">__MSG__PROBLEM_WITH_REQUEST__</span>
+    <span id="entity_group_problem_adding">__MSG__PROBLEM_ADDING_TO_GROUP__</span>
+    <span id="entity_group_adding_successful">__MSG__SUCCESSFULLY_ADDED_TO_GROUP__</span>
+</div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/entity/javascript/entity.js"></script>

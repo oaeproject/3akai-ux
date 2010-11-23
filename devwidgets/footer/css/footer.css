@@ -67,6 +67,8 @@
     padding-right: 20px;
 }
 
+#footer_logo {background:url("/dev/images/sakai_logo.png") no-repeat scroll 0 0 transparent; float:left; height:28px; width:76px;}
+
 /* Footer on the login page */
 .footer_index {
     bottom: 0;

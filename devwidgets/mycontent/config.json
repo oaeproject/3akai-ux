@@ -3,10 +3,12 @@
     "name":"My recent content",
     "id":"mycontent",
     "i18n": {
-        "default": "/devwidgets/mycontent/bundles/default.json"
+        "default": "/devwidgets/mycontent/bundles/default.properties"
     },
     "personalportal":true,
     "hasSettings":false,
+    "type":"sakai",
+    "enabled":true,
     "url":"/devwidgets/mycontent/mycontent.html",
     "deletable":false
 }

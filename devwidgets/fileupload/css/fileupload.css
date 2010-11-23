@@ -16,9 +16,7 @@
  */
 
 /* LAYOUT */
-.fileupload_content {background-color:#FFFFFF; border-left:3px solid #454A4F;
-    border-right:3px solid #454A4F; padding:10px;}
-.fileupload_section {background-color:#eff2f4; padding:10px; margin-top:10px;}
+.fileupload_content {background-color:#FFFFFF; border-left:3px solid #454A4F; border-right:3px solid #454A4F; padding:10px;}
 #fileupload_add_to {padding:10px 0 0 10px;}
 .fileupload_main_option {margin-bottom:3px;}
 .fileupload_inputblock {clear:both; margin:10px 0;}
@@ -29,13 +27,12 @@
 /* TYPOGRAPHY */
 .fileupload_slim_p {margin-bottom:0.5em;}
 .fileupload_or_padding {margin-right:50px;}
-.fileupload_link {color:#006E96; font-weight:bold;}
 .fileupload_help {color:#666666; font-size:0.9em; margin-bottom:18px;}
 
 #fileupload_container .fileupload_textarea {width:380px !important; margin:0 196px 20px 0; float:right;}
 #fileupload_container #fileupload_rendered_tagging label {vertical-align:top;}
 
-#fileupload_container .fileupload_upload_progress {background:url("/dev/_images/ajax_load.gif") no-repeat scroll 0 0 transparent; clear:both; float:right; height:10px; width:80px;}
+#fileupload_container .fileupload_upload_progress {background:url("/dev/images/ajax_load.gif") no-repeat scroll 0 0 transparent; clear:both; float:right; height:10px; width:80px;}
 
 #fileupload_container .fileupload_file_name {margin-left:25px; margin-top:5px;}
 #fileupload_container .fileupload_file_name input[type="text"],
@@ -51,7 +48,7 @@
 #fileupload_container #fileupload_rendered_tagging #fileupload_tags .fileupload_add_tags {width:450px !important; margin:0 150px 5px 0; float:right;}
 #fileupload_container #fileupload_rendered_tagging #fileupload_action_buttons {margin-top:10px; float:right;}
 
-#fileupload_container .MultiFile-remove {color:#006E96; font-weight:bold; padding-left:10px;}
+#fileupload_container .MultiFile-remove {padding-left:10px;}
 #fileupload_container .MultiFile-list {display:none; margin:10px 0;}
 
 #fileupload_container {width:800px !important; left:40% !important;}

@@ -6,9 +6,14 @@
     "groupdashboard": true,
     "hasSettings":true,
     "id":"comments",
+    "i18n": {
+        "default": "/devwidgets/comments/bundles/default.properties"
+    },
     "img":"/devwidgets/comments/images/comments.png",
     "name":"Comments",
     "showinsakaigoodies":true,
     "siteportal":true,
+    "type":"sakai",
+    "enabled":true,
     "url":"/devwidgets/comments/comments.html"
 }

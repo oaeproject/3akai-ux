@@ -19,6 +19,9 @@
 
 var sakai = sakai || {};
 
+/**
+ * @name sakai.api.UI.faceted
+ */
 sakai.api.UI.faceted = sakai.api.UI.faceted || {};
 sakai.api.UI.faceted.render = sakai.api.UI.faceted.render || {};
 
@@ -86,7 +89,7 @@ sakai.faceted = function(tuid){
             $(".faceted_category").removeClass("faceted_category_selected");
             $(this).addClass("faceted_category_selected");
         });
-    }
+    };
 
 
     ////////////////////

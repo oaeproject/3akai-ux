@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config */
+/*global $ */
 
 var sakai = sakai || {};
 
@@ -158,7 +158,7 @@ sakai.s23courses = function(tuid, showSettings){
                 globalfeed = $.extend(data, {}, true);
             },
             error: function(xhr, textStatus, thrownError) {
-                fluid.log("s23courses: Could not receive the courses and projects from the server.");
+                debug.error("s23courses: Could not receive the courses and projects from the server.");
             },
             complete: function(){
                 splitGlobalFeed();

@@ -3,7 +3,9 @@
     "name": "Create Page",
     "id": "createpage",
     "i18n": {
-        "default": "/devwidgets/createpage/bundles/default.json"
+        "default": "/devwidgets/createpage/bundles/default.properties"
     },
+    "type":"core",
+    "enabled":true,
     "url": "/devwidgets/createpage/createpage.html"
 }

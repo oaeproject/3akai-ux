@@ -3,9 +3,11 @@
     "name":"Join Requests",
     "id":"joinrequests",
     "i18n": {
-        "default": "/devwidgets/joinrequests/bundles/default.json"
+        "default": "/devwidgets/joinrequests/bundles/default.properties"
     },
     "personalportal":false,
     "hasSettings":false,
+    "type":"core",
+    "enabled":true,
     "url":"/devwidgets/joinrequests/joinrequests.html"
 }

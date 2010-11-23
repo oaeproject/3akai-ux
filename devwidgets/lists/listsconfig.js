@@ -8,17 +8,35 @@ sakai.Lists = {
             "Label": "Program",
             "multiple": true,
             "list": [
-            "PNP",
-            "HPAM",
-            "UP",
-            "EMPA",
-            "EMPA Nurse Leaders",
-            "PhD"
+                {
+                    "title":"PNP",
+                    "link": "http://sakaiproject.org/product-overview"
+                },
+                {
+                    "title":"HPAM",
+                    "link": "http://sakaiproject.org/support-overview"
+                },
+                {
+                    "title":"UP",
+                    "link": "http://sakaiproject.org/community-overview"
+                },
+                {
+                    "title":"EMPA",
+                    "link": "http://sakaiproject.org/try-sakai-overview"
+                },
+                {
+                    "title":"EMPA Nurse Leaders",
+                    "link": "http://sakaiproject.org/news-events"
+                },
+                {
+                    "title":"PhD",
+                    "link": "http://sakaiproject.org/contact"
+                }
             ]
         },
         {
             "Label": "Specialization",
-            "multiple": true,            
+            "multiple": true,
             "list": [
             "Finance",
             "International",
@@ -31,7 +49,7 @@ sakai.Lists = {
         },
         {
             "Label": "Enrollment Status",
-            "multiple": false,            
+            "multiple": false,
             "list": [
             "Full-Time",
             "Part-Time"
@@ -39,7 +57,7 @@ sakai.Lists = {
         },
         {
             "Label": "Gradutation Date (Month)",
-            "multiple": false,            
+            "multiple": false,
             "list": [
             "May ",
             "January",
@@ -48,7 +66,7 @@ sakai.Lists = {
         },
         {
             "Label": "Graduation Date (Year)",
-            "multiple": false,            
+            "multiple": false,
             "list": [
             "2010",
             "2011",
@@ -59,7 +77,7 @@ sakai.Lists = {
         },
         {
             "Label": "Interest Area(s)",
-            "multiple": true,            
+            "multiple": true,
             "list": [
             "Aging",
             "Arts and Culture",
@@ -119,7 +137,7 @@ sakai.Lists = {
         },
         {
             "Label": "Student Groups",
-            "multiple": true,            
+            "multiple": true,
             "list": [
             "Wagner Student Association (WSA)",
             "Alliance of Latin American Students (ALAS)",

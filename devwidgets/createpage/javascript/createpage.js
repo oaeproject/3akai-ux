@@ -15,8 +15,7 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
-/*global $, Config */
+/*global $ */
 
 var sakai = sakai || {};
 
@@ -105,7 +104,7 @@ sakai.createpage = function(tuid, showSettings){
         };
         if(sakai.sitespages && sakai.sitespages.mytemplates) {
             // create a custom list of templates with just the info we care about
-            for(t in sakai.sitespages.mytemplates) {
+            for(var t in sakai.sitespages.mytemplates) {
                 if(sakai.sitespages.mytemplates.hasOwnProperty(t)) {
                     var template = {
                         "id": t,
@@ -188,8 +187,10 @@ sakai.createpage = function(tuid, showSettings){
             // hide the modal
             $createpageContainer.jqmHide();
         } else {
-            fluid.log("createpage.js - handleNewPageCreation: creating page failed.");
-            alert("Sorry, your page could not be created at this time. Please try again later or contact your administrator for assistance.");
+            debug.error("createpage.js - handleNewPageCreation: creating page failed.");
+            sakai.api.Util.notification.show($("#createpage_createpage").text(),
+                                            $("#createpage_cannot_create_page").text(),
+                                            sakai.api.Util.notification.type.ERROR);
         }
     };
 
@@ -226,7 +227,7 @@ sakai.createpage = function(tuid, showSettings){
             if (success) {
                 showTemplates();
             } else {
-                fluid.log("createpage.js: Failed to delete template with id="+templateDeleted);
+                debug.error("createpage.js: Failed to delete template with id="+templateDeleted);
             }
         });
     });

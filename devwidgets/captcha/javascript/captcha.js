@@ -22,6 +22,12 @@
 
 var sakai = sakai || {};
 
+/**
+ * @name sakai.captcha
+ *
+ * @param {String} tuid Unique id of the widget
+ * @param {Boolean} showSettings Show the settings of the widget or not
+ */
 sakai.captcha = function(tuid, showSettings) {
     
     var $rootel = $("#" + tuid);
@@ -43,6 +49,13 @@ sakai.captcha = function(tuid, showSettings) {
       Recaptcha.destroy();  
     };
     
+    /**
+     * Reload the current captcha
+     */
+    sakai.captcha.reload = function() {
+        Recaptcha.reload();  
+    };
+
     /**
      * Performs an AJAX request to the captcha service and fetches all the properties.
      * We assume that we always use reCAPTCHA

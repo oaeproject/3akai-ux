@@ -9,12 +9,12 @@
 </div>
 <!-- CONTENT -->
 <div class="my_groups_widget">
-    <div class="fl-widget-content" id="mygroups_list">
+    <div class="fl-widget-content s3d-widget-content" id="mygroups_list">
     </div>
     <div id="mygroups_list_template"><!--
         <ul>
             {for group in entry}
-                <li><a href="/~${group.groupid}"><div class="mygroups_ellipsis_container"><span class="mygroups_ellipsis_text">${group["sakai:group-title"]}</span></div></a></li>
+                <li><a class="s3d-regular-links s3d-bold" href="/~${group.groupid}"><div class="mygroups_ellipsis_container"><span class="mygroups_ellipsis_text">${group["sakai:group-title"]}</span></div></a></li>
             {/for}
         </ul>
     --></div>
@@ -22,12 +22,16 @@
         <div class="widget-options-inner">
             <ul>
                 <li>
+                    <a href="/dev/search_groups.html#q=*&filter=&facet=manage&page=1">__MSG__VIEW_ALL_GROUPS_I_MANAGED__</a>
+                </li>
+                <li><span class="pipe_divider">|</span></li>
+                <li>
                     <a href="javascript:;" id="create_new_group_link">__MSG__CREATE_A_GROUP__</a>
                 </li>
             </ul>
         </div>
-        <div class="fl-widget-options-footer-left">
-            <div class="fl-widget-options-footer-right">
+        <div class="s3d-widget-options-footer-left">
+            <div class="s3d-widget-options-footer-right">
             </div>
         </div>
     </div>
