@@ -24,7 +24,7 @@ var checkElements = function($elt){
     });
 
     $.each($elt.find("a"), function(i, elt) {
-        ok($(elt).text() || $(elt).find("*").text(), "A tag has text or children that have text: " + $('<div/>').html(elt).html());
+        ok($(elt).text() || $(elt).find("*").text() || ($(elt).html() === "<!-- -->"), "A tag has text or children that have text: " + $('<div/>').html(elt).html());
     });
 };
 
