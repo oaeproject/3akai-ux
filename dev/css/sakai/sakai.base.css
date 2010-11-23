@@ -167,7 +167,7 @@ a.s3d-regular-links, .s3d-regular-links a{
 }
 .s3d-widget-titlebar-inner {
     background:transparent url(/dev/images/block_tl.png) no-repeat scroll left top; 
-    padding: 5px 0 0 17px; 
+    padding: 0px 0 0 5px; 
     height:50px;
 }
 
