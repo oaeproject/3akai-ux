@@ -7,7 +7,7 @@
     "id":"collections",
     "i18n": {
         "default": "/devwidgets/collections/bundles/default.properties",
-    }
+    },
     "img":"/devwidgets/collections/images/portfolio.png",
     "name":"Collections",
     "type":"sakai",
