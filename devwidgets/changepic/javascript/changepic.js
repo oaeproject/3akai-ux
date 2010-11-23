@@ -489,13 +489,13 @@ sakai.changepic = function(tuid, showSettings){
 
                     },
                     error: function(xhr, textStatus, thrownError) {
-                        sakai.api.Util.notification.show("An error has occured",,sakai.api.Util.notification.type.ERROR);
+                        sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("AN_ERROR_HAS_OCCURRED"),,sakai.api.Util.notification.type.ERROR);
                     }
                 });
 
             },
             error: function(xhr, textStatus, thrownError) {
-                sakai.api.Util.notification.show("An error has occured",,sakai.api.Util.notification.type.ERROR);
+                sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("AN_ERROR_HAS_OCCURRED"),,sakai.api.Util.notification.type.ERROR);
             }
         });
 

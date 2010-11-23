@@ -508,7 +508,7 @@ sakai.poll = function(tuid, showSettings){
                 // if the user has checked an element. We do this double check to make it
                 // more secure.
                 if($('input[name=' + pollQuestionViewOptionsClass + ']:checked').length === 0){
-                    sakai.api.Util.notification.show("Please select at least one option.",,sakai.api.Util.notification.type.ERROR);
+                    sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("PLEASE_SELECT_AN_OPTION"),,sakai.api.Util.notification.type.ERROR);
 
                 // If the user selected one or multiple options
                 }else{
@@ -522,10 +522,10 @@ sakai.poll = function(tuid, showSettings){
                 }
             }
             else{
-                sakai.api.Util.notification.show("You already registered a vote.",,sakai.api.Util.notification.type.ERROR);
+                sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("YOU_ALREADY_VOTED"),,sakai.api.Util.notification.type.ERROR);
             }
         }else{
-            sakai.api.Util.notification.show("Can not get the current user.",,sakai.api.Util.notification.type.ERROR);
+            sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("CANT_GET_CURRENT_USER"),,sakai.api.Util.notification.type.ERROR);
         }
     };
 

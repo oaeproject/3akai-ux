@@ -335,7 +335,7 @@ sakai.comments = function(tuid, showSettings){
                 showComments();
             },
             error: function(xhr, textStatus, thrownError){
-                sakai.api.Util.notification.show("comments: An error occured while receiving the comments (" + xhr.status + ")",,sakai.api.Util.notification.type.ERROR);
+                sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("COMMENTS_AN_ERROR_OCCURRED") + " (" + xhr.status + ")",,sakai.api.Util.notification.type.ERROR);
             }
         });
     };
@@ -386,7 +386,7 @@ sakai.comments = function(tuid, showSettings){
         if (!isLoggedIn && widgetSettings['sakai:allowanonymous'] === false) {
             // This should not even happen.. Somebody is tinkering with the HTML.
             allowPost = false;
-            sakai.api.Util.notification.show("Anonymous users are not allowed to post comments. Please register or log in to add your comment.",,sakai.api.Util.notification.type.ERROR);
+            sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("ANON_NOT_ALLOWED"),,sakai.api.Util.notification.type.ERROR);
         }
 
         var subject = 'Comment on /~' + currentSite;
@@ -423,17 +423,17 @@ sakai.comments = function(tuid, showSettings){
                 },
                 error: function(xhr, textStatus, thrownError){
                     if (xhr.status === 401) {
-                        sakai.api.Util.notification.show("You are not allowed to add comments.",,sakai.api.Util.notification.type.ERROR);
+                        sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("YOU_NOT_ALLOWED"),,sakai.api.Util.notification.type.ERROR);
                     }
                     else {
-                        sakai.api.Util.notification.show("Failed to save.",,sakai.api.Util.notification.type.ERROR);
+                        sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("FAILED_TO_SAVE"),,sakai.api.Util.notification.type.ERROR);
                     }
                 },
                 data: message
             });
         }
         else {
-            sakai.api.Util.notification.show("Please fill in all the fields.",,sakai.api.Util.notification.type.ERROR);
+            sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("PLEASE_FILL_ALL_FIELDS"),,sakai.api.Util.notification.type.ERROR);
         }
     };
 
@@ -497,13 +497,13 @@ sakai.comments = function(tuid, showSettings){
         }
 
         if (comments.perPage < 1) {
-            sakai.api.Util.notification.show("Please fill in a number bigger then 0.",,sakai.api.Util.notification.type.ERROR);
+            sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("PLEASE_FILL_POSITIVE_NUM"),,sakai.api.Util.notification.type.ERROR);
             return false;
         }
         // Check if a valid number is inserted
         else
             if ($(commentsPageTxt, rootel).val().search(/^\d*$/)) {
-                sakai.api.Util.notification.show("Please fill in a valid number.",,sakai.api.Util.notification.type.ERROR);
+                sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("PLEASE_FILL_VALID_NUM"),,sakai.api.Util.notification.type.ERROR);
                 return false;
             }
 
@@ -610,7 +610,7 @@ sakai.comments = function(tuid, showSettings){
                     finishNewSettings();
                 }
                 else {
-                    sakai.api.Util.notification.show("Failed to save.",,sakai.api.Util.notification.type.ERROR);
+                    sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("FAILED_TO_SAVE"),,sakai.api.Util.notification.type.ERROR);
                 }
             });
 
@@ -640,7 +640,7 @@ sakai.comments = function(tuid, showSettings){
         }
         if (!isLoggedIn && widgetSettings['sakai:allowanonymous'] === false) {
             // This should not even happen.. Somebody is tinkering with the HTML.
-            sakai.api.Util.notification.show("Anonymous users are not allowed to post comments. Please register or log in to add your comment.",,sakai.api.Util.notification.type.ERROR);
+            sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("ANON_NOT_ALLOWED"),,sakai.api.Util.notification.type.ERROR);
         }
         // Show the form.
         $(commentsFillInComment, rootel).show();
@@ -686,7 +686,7 @@ sakai.comments = function(tuid, showSettings){
                 getComments();
             },
             error: function(xhr, textStatus, thrownError){
-                sakai.api.Util.notification.show("Failed to (un)delete the post.",,sakai.api.Util.notification.type.ERROR);
+                sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("FAILED_TO_UNDELETE"),,sakai.api.Util.notification.type.ERROR);
             },
             data: data
         });
@@ -743,13 +743,13 @@ sakai.comments = function(tuid, showSettings){
                     $(commentsMessage + id, rootel).show();
                 },
                 error: function(xhr, textStatus, thrownError){
-                    sakai.api.Util.notification.show("Failed to edit comment.",,sakai.api.Util.notification.type.ERROR);
+                    sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("FAILED_TO_EDIT"),,sakai.api.Util.notification.type.ERROR);
                 },
                 data: data
             });
         }
         else {
-            sakai.api.Util.notification.show("Please enter a message.",,sakai.api.Util.notification.type.ERROR);
+            sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("PLEASE_ENTER_MESSAGE"),,sakai.api.Util.notification.type.ERROR);
         }
     });
 

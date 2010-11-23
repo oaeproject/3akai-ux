@@ -684,7 +684,7 @@ sakai.dashboard = function(tuid, showSettings) {
             showDashboard();
         }
         else {
-            sakai.api.Util.notification.show("The connection with the server has been lost",,sakai.api.Util.notification.type.ERROR);
+            sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("CONNECTION_LOST"),,sakai.api.Util.notification.type.ERROR);
         }
     };
 

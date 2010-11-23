@@ -236,7 +236,7 @@ sakai.video = function(tuid, showSettings) {
                 showVideo(video, videoShowMain, video.isSakaiVideoPlayer);
             }
             catch(err) {
-                sakai.api.Util.notification.show("failed to retrieve video.",,sakai.api.Util.notification.type.ERROR);
+                sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("FAILED_RETRIEVE_VIDEO"),,sakai.api.Util.notification.type.ERROR);
             }
         }
 
