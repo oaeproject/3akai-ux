@@ -145,7 +145,7 @@ sakai.search = function(){
 
                 },
                 error: function(xhr, textStatus, thrownError) {
-                    sakai.api.Util.notification.show(errorText,,sakai.api.Util.notification.type.ERROR);
+                    sakai.api.Util.notification.show(errorText,"",sakai.api.Util.notification.type.ERROR);
                 }
             });
 
@@ -247,7 +247,7 @@ sakai.search = function(){
 
                 },
                 error: function(xhr, textStatus, thrownError) {
-                    sakai.api.Util.notification.show(errorText,,sakai.api.Util.notification.type.ERROR);
+                    sakai.api.Util.notification.show(errorText,"",sakai.api.Util.notification.type.ERROR);
                 }
             });
 

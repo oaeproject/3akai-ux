@@ -276,7 +276,7 @@ sakai.sakai2tools = function(tuid, showSettings){
             });
         }
         else {
-            sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("PLEASE_SPECIFY_URL"),,sakai.api.Util.notification.type.ERROR);
+            sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("PLEASE_SPECIFY_URL"),"",sakai.api.Util.notification.type.ERROR);
         }
     };
 
