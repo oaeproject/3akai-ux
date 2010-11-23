@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-$(function(){
+sakai.create_new_account = function(){
 
 
     /*global checkUserName */
@@ -118,10 +118,10 @@ $(function(){
      * Function that will actually collect all of the values out of the form and
      * will try to create the new user
      */
-    var doCreateUser = function(){
+    var doCreateUser = function(value){
         $("button").attr("disabled", "disabled");
         $("input").attr("disabled", "disabled");
-        var values = getFormValues();
+        var values = value;
         sakai.api.User.createUser(values.username, values.firstName, values.lastName, values.email, values.password, values.password, 
                 {
                     recaptcha: {challenge: values["recaptcha-challenge"], response: values["recaptcha-response"]}
@@ -220,11 +220,6 @@ $(function(){
     }, "* The passwords do not match.");
 
     $("#create_account_form").validate({
-        invalidHandler: function(form) {
-        },
-        submitHandler: function(form) {
-            doCreateUser();
-        },
         onclick:false,
         onkeyup:false,
         onfocusout:false,
@@ -274,6 +269,17 @@ $(function(){
     $("#cancel_button").bind("click", function(ev){
         document.location = sakai.config.URL.GATEWAY_URL;
     });
+
+    /*
+     * If the save button is clicked, get form values and call create user.
+     */
+    $("#save_account").bind("click", function(ev){
+        var formValue = getFormValues();
+        if ($("#create_account_form").valid()) {
+            doCreateUser(formValue);
+        }
+    });
+
 
     $(checkUserNameLink).bind("click", function(){
         if(currentUserName !== $("#username").val() && $.trim($("#username").val()) !== "" && $("#username").val().length > 3) {
@@ -334,4 +340,6 @@ $(function(){
 
     // Initialize the captcha widget.
     initCaptcha();
-});
+};
+
+sakai.api.Widgets.Container.registerForLoad("sakai.create_new_account");
