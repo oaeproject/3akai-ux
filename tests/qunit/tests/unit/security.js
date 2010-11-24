@@ -80,7 +80,7 @@ test("Image Attacks", function() {
 
     htmlString = "<IMG SRC=&#0000106&#0000097&#0000118&#0000097&#0000115&#0000099&#0000114&#0000105&#0000112&#0000116&#0000058&#0000097&#0000108&#0000101&#0000114&#0000116&#0000040&#0000039&#0000088&#0000083&#0000083&#0000039&#0000041>";
     htmlString = sakai.api.Security.saneHTML(htmlString);
-    equals(htmlString.indexOf("&amp;"), 9, "Strip images with js src");
+    equals(htmlString.indexOf("&amp;"), -1, "Strip images with js src");
 
     htmlString = "<IMG SRC=&#x6A&#x61&#x76&#x61&#x73&#x63&#x72&#x69&#x70&#x74&#x3A&#x61&#x6C&#x65&#x72&#x74&#x28&#x27&#x58&#x53&#x53&#x27&#x29>";
     htmlString = sakai.api.Security.saneHTML(htmlString);
