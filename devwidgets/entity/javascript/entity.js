@@ -1051,6 +1051,9 @@ console.log(sakai);
                     });*/
                 }
                 break;
+            case "content2":
+                setContentData(data);
+                break;
         }
 
         if(entityconfig.mode ==="content" && !data){

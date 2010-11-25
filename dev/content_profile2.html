@@ -97,15 +97,23 @@
 
         <!-- MAIN CONTAINER -->
         <div class="fl-container-flex">
-            <div class="fl-fix fl-centered fixed-container s3d-main-container" id="content_profile_file_details_container" style="display: none;"><!-- --></div>
-            <div class="fl-fix fl-centered fixed-container s3d-main-container" id="content_profile_basic_info_container" style="display: none;"><!-- --></div>
+            <div class="fl-fix fl-centered fixed-container s3d-main-container">
+                <div>
+                    <div class="fl-container-flex75 fl-force-left">
+                        <div id="widget_contentpreview" class="widget_inline"></div>
+                        Content Metadata Widget
+                        <br/>
+                        Content Rating Widget
+                        <div id="widget_comments" class="widget_inline"></div>
+                    </div>
+                    <div class="fl-container-flex25 fl-force-right">
+                        <div id="widget_relatedcontent" class="widget_inline"></div>
+                    </div>
+                </div>
+                <div class="fl-push fl-widget"><!-- --></div>
+            </div>
         </div>
-
-        <!-- FILE DETAIL INFO-->
-        <div id="widget_contentprofilefiledetails" class="widget_inline"></div>
-
-        <!-- BASIC CONTENT INFO-->
-        <div id="widget_contentprofilebasicinfo" class="widget_inline"></div>
+        
 
         <!-- DELETE CONTENT WIDGET -->
         <div id="widget_deletecontent" class="widget_inline"></div>
@@ -127,33 +135,6 @@
             <span style="display:none;" id="content_profile_managers_text">__MSG__MANAGERS__</span>
             <span style="display:none;" id="content_profile_cannot_remove_everyone">__MSG__CONTENT_CANNOT_REMOVE_ALL_MANAGERS__</span>
 
-            <h4 class="content_profile_list_header">__MSG__VIEWERS_OF_THIS_CONTENT__</h4>
-            <!-- LISTPEOPLE WIDGET TO LIST VIEWERS -->
-            <div id="widget_listpeople_viewers" class="widget_inline"></div>
-            <div class="content_profile_list_buttons fl-push" style="display:none;">
-                <div class="fl-force-right">
-                    <button id="content_profile_remove_viewers" type="button" class="s3d-button">
-                        <span class="s3d-button-inner">__MSG__REMOVE_SELECTED_VIEWERS__</span>
-                    </button>
-                    <button id="content_profile_add_viewers" type="button" class="s3d-button s3d-button-primary">
-                        <span class="s3d-button-inner">__MSG__ADD_NEW_VIEWERS__</span>
-                    </button>
-                </div>
-            </div>
-
-            <h4 class="content_profile_list_header">__MSG__MANAGERS_OF_THIS_CONTENT__</h4>
-            <!-- LISTPEOPLE WIDGET TO LIST MANAGERS -->
-            <div id="widget_listpeople_managers" class="widget_inline"></div>
-            <div class="content_profile_list_buttons fl-push" style="display:none;">
-                <div class="fl-force-right">
-                    <button id="content_profile_remove_managers" type="button" class="s3d-button">
-                        <span class="s3d-button-inner">__MSG__REMOVE_SELECTED_MANAGERS__</span>
-                    </button>
-                    <button id="content_profile_add_managers" type="button" class="s3d-button s3d-button-primary">
-                        <span class="s3d-button-inner">__MSG__ADD_NEW_MANAGERS__</span>
-                    </button>
-                </div>
-            </div>
         </div>
 
         <!-- FOOTER WIDGET -->
@@ -162,7 +143,7 @@
         <!-- CHAT -->
         <div id="widget_chat" class="widget_inline"></div>
 
-        <script type="text/javascript" src="/dev/javascript/content_profile.js"></script>
+        <script type="text/javascript" src="/dev/javascript/content_profile2.js"></script>
 
     </body>
 
