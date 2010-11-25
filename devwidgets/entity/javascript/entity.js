@@ -1036,7 +1036,7 @@ sakai.entity = function(tuid, showSettings){
             case "content":
                 setContentData(data);
                 $entity_container_template = $entity_container_template_content;
-console.log(sakai);
+
                 // we want to display content manager and viewer numbers when available
                 if (typeof sakai.listpeople == "undefined" || typeof sakai.listpeople.isRendered == "undefined") {
                     /*$(window).bind("sakai-listpeople-rendered", function(e, tuid){
