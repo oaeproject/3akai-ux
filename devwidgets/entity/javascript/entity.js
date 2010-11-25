@@ -82,7 +82,11 @@ sakai.entity = function(tuid, showSettings){
 
     // Container
     var $entity_container = $("#entity_container", $rootel);
-    var $entity_container_template = $("#entity_container_template", $rootel);
+    var $entity_container_template;
+    var $entity_container_template_myprofile = $("#entity_container_template_myprofile", $rootel);
+    var $entity_container_template_profile = $("#entity_container_template_profile", $rootel);
+    var $entity_container_template_group = $("#entity_container_template_group", $rootel);
+    var $entity_container_template_content = $("#entity_container_template_content", $rootel);
     var $entity_container_actions = $("#entity_container_actions", $rootel);
 
     // Profile
@@ -114,6 +118,13 @@ sakai.entity = function(tuid, showSettings){
     var entityGroupJoin = entityGroup + "_join";
     var entityGroupJoinRequest = entityGroupJoin + '_request';
     var entityGroupJoinRequestPending = entityGroupJoin + '_request_pending';
+
+    // Used by details
+    var entityUsedBy = "#entity_used_by";
+    var entityUsedPlaces = "#entity_used_places";
+    var entityUsedType = "#entity_used_type";
+    var entityUsedPeople = "#entity_used_people";
+    var entityUsedPerson = "#entity_used_person";
 
     var authprofileURL;
 
@@ -1003,6 +1014,7 @@ sakai.entity = function(tuid, showSettings){
                 entityconfig.data.profile = $.extend(true, {}, data);
                 // Set the correct profile data
                 setProfileData();
+                $entity_container_template = $entity_container_template_profile;
                 break;
             case "myprofile":
                 // Set the profile for the entity widget to the personal profile information
@@ -1012,15 +1024,32 @@ sakai.entity = function(tuid, showSettings){
                 setData();
                 // Set the correct profile data
                 setProfileData();
+                $entity_container_template = $entity_container_template_myprofile;
                 break;
             case "group":
                 // Set the profile for the entity widget to the group authprofile
                 entityconfig.data.profile = $.extend(true, {}, data.authprofile);
                 // Set the correct group profile data
                 setGroupData();
+                $entity_container_template = $entity_container_template_group;
                 break;
             case "content":
                 setContentData(data);
+                $entity_container_template = $entity_container_template_content;
+console.log(sakai);
+                // we want to display content manager and viewer numbers when available
+                if (typeof sakai.listpeople == "undefined" || typeof sakai.listpeople.isRendered == "undefined") {
+                    /*$(window).bind("sakai-listpeople-rendered", function(e, tuid){
+                        if (sakai.data.listpeople.managers && sakai.data.listpeople.viewers){
+                            $(entityUsedBy).html(sakai.data.listpeople.managers.currentElementCount + sakai.data.listpeople.viewers.currentElementCount);
+                            if ((sakai.data.listpeople.managers.currentElementCount + sakai.data.listpeople.viewers.currentElementCount) === 1){
+                                $(entityUsedType).html($(entityUsedPerson).text());
+                            } else {
+                                $(entityUsedType).html($(entityUsedPeople).text());
+                            }
+                        }
+                    });*/
+                }
                 break;
         }
 
