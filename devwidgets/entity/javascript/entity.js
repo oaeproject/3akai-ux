@@ -1022,6 +1022,9 @@ sakai.entity = function(tuid, showSettings){
             case "content":
                 setContentData(data);
                 break;
+            case "content2":
+                setContentData(data);
+                break;
         }
 
         if(entityconfig.mode ==="content" && !data){

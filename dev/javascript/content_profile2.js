@@ -136,11 +136,11 @@ sakai.content_profile = function(){
         sakai.content_profile.loadContentProfile(function() {
             // The request was successful so initialise the entity widget
             if (sakai.entity && sakai.entity.isReady) {
-                sakai.api.UI.entity.render("content", sakai.content_profile.content_data);
+                sakai.api.UI.entity.render("content2", sakai.content_profile.content_data);
             }
             else {
                 $(window).bind("sakai.api.UI.entity.ready", function(e){
-                    sakai.api.UI.entity.render("content", sakai.content_profile.content_data);
+                    sakai.api.UI.entity.render("content2", sakai.content_profile.content_data);
                     ready_event_fired++;
                 });
             }
