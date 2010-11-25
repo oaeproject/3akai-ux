@@ -127,7 +127,6 @@
             <span style="display:none;" id="content_profile_managers_text">__MSG__MANAGERS__</span>
             <span style="display:none;" id="content_profile_cannot_remove_everyone">__MSG__CONTENT_CANNOT_REMOVE_ALL_MANAGERS__</span>
 
-            <button onclick="$('#viewersmanagers').toggle()">Show/Hide Managers and Viewers</button>
             <div id="viewersmanagers" style="display:none">
 
                 <h4 class="content_profile_list_header">__MSG__VIEWERS_OF_THIS_CONTENT__</h4>
@@ -163,6 +162,8 @@
 
         <!-- FOOTER WIDGET -->
         <div id="widget_footer" class="widget_inline footercontainer"></div>
+
+        <button onclick="$('#viewersmanagers').toggle()" style="position: absolute; top: 0px; left: 0px;">Show/Hide Managers and Viewers</button>
 
         <!-- CHAT -->
         <div id="widget_chat" class="widget_inline"></div>
