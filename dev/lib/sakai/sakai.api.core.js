@@ -333,6 +333,18 @@ sakai.api.Security.saneHTML = function(inputHTML) {
                     } else {
                         value = null;
                     }
+                    if (value !== null && attribName.toLowerCase() === "src") {
+                        // decode the value by adding it to a text node within the browser
+                        var e = document.createElement('div');
+                        e.innerHTML = value;
+                        value = e.childNodes[0].nodeValue.replace(/\s+/g,"");
+                        // check for javascript in src attribute - we dont want to return the tag
+                        var js = new RegExp("^(.*)javascript:(.*)+$");
+                        if (js.test(value)) {
+                            value = null;
+                            out = [];
+                        }
+                    }
                     attribs[i + 1] = value;
                 }
                 return attribs;
