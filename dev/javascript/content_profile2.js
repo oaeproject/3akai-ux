@@ -144,6 +144,16 @@ sakai.content_profile = function(){
                     ready_event_fired++;
                 });
             }
+            // The request was successful so initialise the relatedcontent widget
+            if (sakai.relatedcontent && sakai.relatedcontent.isReady) {
+                sakai.api.UI.relatedcontent.render(sakai.content_profile.content_data);
+            }
+            else {
+                $(window).bind("sakai.api.UI.relatedcontent.ready", function(e){
+                    sakai.api.UI.relatedcontent.render(sakai.content_profile.content_data);
+                    ready_event_fired++;
+                });
+            }
 
             sakai.api.Security.showPage();
 
