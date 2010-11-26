@@ -134,7 +134,7 @@
 --></div>
 
 <div id="entity_container_template_content"><!--
-    <div class="fl-col entity_container_left">
+    <div class="fl-col entity_content_container_left">
         {if mode === "content"}
             {if data.profile}
                 <div class="fl-force-left entity_picture">
@@ -170,26 +170,50 @@
         {/if}
         {if mode === "content2"}
             {if data.profile}
-                <div class="fl-force-left entity_header">
-                    <span class="entity_threedots entity_header_text">
+                <div class="fl-force-left entity_content_header">
+                    <span class="entity_content_threedots entity_content_header_text">
                         {if data.profile.description}
-                            <span>${sakai.api.Util.shortenString(data.profile.description, 115)}</span>
+                            <span class="threedots ellipsis_text">${sakai.api.Util.shortenString(data.profile.description, 60)}</span>
                         {else}
                             <span class="threedots ellipsis_text">${data.profile.name}</span>
                         {/if}
                     </span>
                 </div>
-                <div class="fl-force-left entity_description">
-                </div>
-                <div class="fl-force-left entity_used">
-                    <span id="entity_used_people" style="display:none;">__MSG__PEOPLE__</span>
-                    <span id="entity_used_person" style="display:none;">__MSG__PERSON__</span>
-                    <p class="entity_usedby">Used in <span id="entity_used_places">0</span> places by <span id="entity_used_by">0</span> <span id="entity_used_type">__MSG__PEOPLE__</span>,</p>
+                <div class="fl-force-left entity_content_description">
+                    <div class="fl-force-left entity_content_new_events">
+                        <a href="" class="s3d-regular-light-links s3d-bold">13 __MSG__NEW_THINGS_HAVE_HAPPENED__</a>
+                    </div>
+                    <div class="fl-force-left entity_content_used_by">
+                        {if sakai.content_profile && sakai.content_profile.content_data && sakai.content_profile.content_data.members}
+                            {var numUsers = 0}
+                            {if sakai.content_profile.content_data.members.managers}
+                                {var numUsers = sakai.content_profile.content_data.members.managers.length}
+                            {/if}
+                            {if sakai.content_profile.content_data.members.viewers}
+                                {var numUsers = numUsers + sakai.content_profile.content_data.members.viewers.length}
+                            {/if}
+                            <p class="entity_usedby">__MSG__USED_IN__ <a href="" class="s3d-regular-light-links s3d-bold"><span id="entity_used_places">0</span> __MSG__PLACES__</a> __MSG__BY__ 
+                                <a href="" class="s3d-regular-light-links s3d-bold">
+                                    ${numUsers}
+                                    {if numUsers === 1}
+                                        __MSG__PERSON__
+                                    {else}
+                                        __MSG__PEOPLE__
+                                    {/if}
+                                </a>
+                            </p>
+                        {/if}
+                    </div>
+                    <div class="fl-force-left entity_content_permissions">
+                        {if data.profile.permissions === "public"}
+                            <p class="entity_content_link_icon"></p><a href="${data.profile.path}" class="s3d-regular-light-links s3d-bold">__MSG__ANYONE_WITH_LINK_CAN_SEE__</a>
+                        {/if}
+                    </div>
                 </div>
             {/if}
         {/if}
     </div>
-    <div class="fl-col entity_container_right s3d-actions">
+    <div class="fl-col entity_content_container_right s3d-actions">
         {if mode === "content"}
             {if data.profile.mimetype === "x-sakai/link"}
                 <a href="${data.profile.revurl}" id="content_profile_file_details_action_download" class="s3d-button entity_action_button" target="_blank">
@@ -227,6 +251,16 @@
                     </a>
                 </div>
             {/if}
+        {/if}
+        {if mode === "content2"}
+            <div class="entity_content_right">
+                <div class="entity_content_viewed">
+                    __MSG__VIEWED__ <span class="entity_content_view_count">X</span> __MSG__TIMES__
+                </div>
+                <div class="entity_content_share">
+                    <button id="entity_content_share_button" class="s3d-button" type="submit"><span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SHARE__</span></span></button>
+                </div>
+            </div>
         {/if}
     </div>
 --></div>

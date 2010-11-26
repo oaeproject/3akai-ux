@@ -130,7 +130,7 @@ sakai.content_profile = function(){
         }
 
     };
-    
+
     var handleHashChange = function() {
         content_path = $.bbq.getState("content_path") || "";
         sakai.content_profile.loadContentProfile(function() {

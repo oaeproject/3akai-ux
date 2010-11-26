@@ -119,13 +119,6 @@ sakai.entity = function(tuid, showSettings){
     var entityGroupJoinRequest = entityGroupJoin + '_request';
     var entityGroupJoinRequestPending = entityGroupJoin + '_request_pending';
 
-    // Used by details
-    var entityUsedBy = "#entity_used_by";
-    var entityUsedPlaces = "#entity_used_places";
-    var entityUsedType = "#entity_used_type";
-    var entityUsedPeople = "#entity_used_people";
-    var entityUsedPerson = "#entity_used_person";
-
     var authprofileURL;
 
     ////////////////////
@@ -994,6 +987,11 @@ sakai.entity = function(tuid, showSettings){
             entityconfig.data.profile.copyright = filedata["sakai:copyright"];
         }
 
+        // Set the permissions of the file
+        if (filedata["sakai:copyright"]) {
+            entityconfig.data.profile.permissions = filedata["sakai:permissions"];
+        }
+
         if (document.location.pathname === "/dev/content_profile.html"){
             entityconfig.data["link_name"] = false;
         } else {
@@ -1035,24 +1033,11 @@ sakai.entity = function(tuid, showSettings){
                 break;
             case "content":
                 setContentData(data);
-                $entity_container_template = $entity_container_template_content;
-
-                // we want to display content manager and viewer numbers when available
-                if (typeof sakai.listpeople == "undefined" || typeof sakai.listpeople.isRendered == "undefined") {
-                    /*$(window).bind("sakai-listpeople-rendered", function(e, tuid){
-                        if (sakai.data.listpeople.managers && sakai.data.listpeople.viewers){
-                            $(entityUsedBy).html(sakai.data.listpeople.managers.currentElementCount + sakai.data.listpeople.viewers.currentElementCount);
-                            if ((sakai.data.listpeople.managers.currentElementCount + sakai.data.listpeople.viewers.currentElementCount) === 1){
-                                $(entityUsedType).html($(entityUsedPerson).text());
-                            } else {
-                                $(entityUsedType).html($(entityUsedPeople).text());
-                            }
-                        }
-                    });*/
-                }
+                $entity_container_template = $entity_container_template_content
                 break;
             case "content2":
                 setContentData(data);
+                $entity_container_template = $entity_container_template_content;
                 break;
         }
 

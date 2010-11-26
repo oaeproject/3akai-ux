@@ -30,7 +30,7 @@
 .entity_picture_div {padding-bottom: 3px;}
 
 /* Container */
-#entity_container {margin: 19px 0 15px 7px; overflow: hidden;width:670px;}
+#entity_container {margin: 19px 0 15px 7px; overflow: hidden;width:900px;}
 #entity_container.joinable {width:700px;}
 #entity_container .entity_profile_status_input_dummy {color: #aaa}
 #entity_container form#entity_profile_status {margin-top: 5px;}
@@ -51,7 +51,18 @@
 .entity_content_about {margin-top: 10px; width: 380px;}
 #entity_container h1 {margin:0;}
 .entity_group_edit {padding-right: 5px;}
+.entity_content_container_left {width: 670px}
+.entity_content_container_right {margin-top: 8px; padding-left: 0px; width: 200px;float:right;}
+.entity_content_header {margin: 3px 0 10px 0px; padding: 0; width: 670px; overflow:hidden;}
+.entity_content_header_text {font-size:22px; font-weight:bold; line-height:28px; margin-right:10px;color:#444;}
+.entity_content_threedots {display:block; width:670px;}
 .entity_content_filetype {color: #aaaaaa; padding-right: 5px;}
+.entity_content_description {width:670px;}
+.entity_content_new_events, .entity_content_used_by {padding-right: 35px;}
+.entity_content_link_icon {background:url("/dev/images/mail_icon.png") no-repeat scroll 4px 3px transparent; float:left; height:14px; width:18px; padding-right:3px;}
+.entity_content_right {float:right;}
+.entity_content_view_count {background-color:#000000; color:#FFFFFF; font-weight:bold; font-size:13px; padding:2px 4px;}
+.entity_content_share {margin-top:10px;}
 
 /* Actions */
 .entity_actions {margin-top:10px; overflow:hidden;}
