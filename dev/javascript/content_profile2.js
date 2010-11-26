@@ -72,6 +72,12 @@ sakai.content_profile = function(){
 
                     if (data.results.hasOwnProperty(1)) {
                         contentMembers = $.parseJSON(data.results[1].body);
+                        $.each(contentMembers.viewers, function(index, resultObject) {
+                            contentMembers.viewers[index].picture = $.parseJSON(contentMembers.viewers[index].picture);
+                        });
+                        $.each(contentMembers.managers, function(index, resultObject) {
+                            contentMembers.managers[index].picture = $.parseJSON(contentMembers.managers[index].picture);
+                        });
                     }
 
                     var directory = [];

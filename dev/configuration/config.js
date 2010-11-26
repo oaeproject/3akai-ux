@@ -218,7 +218,14 @@ sakai.config = {
                 "public": "public",            // Anyone on the Internet
                 "managers": "managers-only"    // Group managers only
             }
-        }
+        },
+        Content: {
+            label: {
+                "public":"THE_PUBLIC",
+                "private":"MANAGERS_AND_MEMBERS",
+                "everyone":"EVERYONE"
+            }
+         }
     },
 
     allowPasswordChange: true,

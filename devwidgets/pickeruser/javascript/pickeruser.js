@@ -48,40 +48,28 @@ sakai.pickeruser = function(tuid, showSettings) {
 
     var $rootel = $("#" + tuid);
 
-    var $pickeruser_container = $("#pickeruser_container", $rootel);
-    var $pickeruser_container_search = $("#pickeruser_container_search", $rootel);
-    var $pickeruser_content_search = $("#pickeruser_content_search", $rootel);
-    var $pickeruser_search_query = $("#pickeruser_search_query", $rootel);
-    var $pickeruser_search_button = $("#pickeruser_search_button", $rootel);
-    var $pickeruser_close_button = $("#pickeruser_close_button", $rootel);
-    var $pickeruser_select_all_button = $("#pickeruser_select_all_button", $rootel);
-    var $pickeruser_content_search_form = $("#pickeruser_content_search_form", $rootel);
+    // Buttons
+    var pickeruser_close_button = "#pickeruser_close_button";
     var $pickeruser_add_button = $("#pickeruser_add_button", $rootel);
-    var $pickeruser_sort_on = $("#pickeruser_sort_on", $rootel);
-    var $pickeruser_count = $("#pickeruser_count", $rootel);
-    var $pickeruser_count_person = $("#pickeruser_count_person", $rootel);
-    var $pickeruser_count_people = $("#pickeruser_count_people", $rootel);
-    var $pickeruser_count_of = $("#pickeruser_count_of", $rootel);
-    var $pickeruser_count_thousands = $("#pickeruser_count_thousands", $rootel);
-    var $pickeruser_add_header_what = $("#pickeruser_add_header_what", $rootel);
-    var $pickeruser_add_header_where = $("#pickeruser_add_header_where", $rootel);
-    var $pickeruser_copy_myself = $("#pickeruser_copy_myself", $rootel);
-    var $pickeruser_message = $("#pickeruser_message", $rootel);
-    var $pickeruser_init_search = $("#pickeruser_init_search", $rootel);
-    var $pickeruser_people_text = $("#pickeruser_people_text", $rootel);
-    var $pickeruser_content_text = $("#pickeruser_content_text", $rootel);
-    var $pickeruser_instruction = $("#pickeruser_instruction", $rootel);
-    var $pickeruser_send_message = $("#pickeruser_send_message", $rootel);
 
-    var $pickeruser_error_template = $("#pickeruser_error_template", $rootel);
-    var $pickeruser_content_search_pagetemplate = $("#pickeruser_content_search_pagetemplate", $rootel);
-    var $pickeruser_content_search_listtemplate = $("#pickeruser_content_search_listtemplate", $rootel);
-
-    var $pickeruser_adding_titles = $(".pickeruser_adding_titles", $rootel);
-    var $pickeruser_adding_people = $("#pickeruser_adding_people", $rootel);
+    // Sharing
+    var $pickeruser_i_want_to_share = $("#pickeruser_i_want_to_share", $rootel);
     var $pickeruser_adding_files = $("#pickeruser_adding_files", $rootel);
+    var pickeruserEmailLink = "#pickeruser_email_link";
+    var pickeruserMessageLink = "#pickeruser_message_link";
+    var pickeruserLinkInput = "#pickeruser_share_link input";
 
-    var pickeruser_page = ".pickeruser_page";
+    // Search
+    var $pickeruser_container_search = $("#pickeruser_container_search", $rootel);
+    var pickeruser_search_query = "#pickeruser_search_query";
+    var pickeruser_init_search = "#pickeruser_init_search";
+
+    // Containers
+    var pickeruserBasicContainer = "#pickeruser_basic_container";
+    var $pickeruser_container = $("#pickeruser_container", $rootel);
+
+    // Templates
+    var pickeruserBasicTemplate = "pickeruser_basic_template";
 
     var callback = false;
 
@@ -102,70 +90,6 @@ sakai.pickeruser = function(tuid, showSettings) {
       "excludeList": []
     };
 
-    /**
-     * Reset
-     * Resets the people picker to a default state
-     * @returns void
-     */
-    var reset = function() {
-        $pickeruser_content_search.html("");
-        $pickeruser_content_search.unbind("scroll");
-        $pickeruser_message.val("");
-        pickerData.selected = {};
-        pickerData.currentElementCount = 0;
-        pickerData.selectCount = 0;
-        clearAutoSuggest();
-    };
-
-    /**
-     * Render
-     * Renders the people picker
-     * @param iConfig {String} Config element for the widget
-     * @returns void
-     */
-    var render = function(iConfig) {
-        $pickeruser_add_button.attr("disabled", "disabled");
-        clearAutoSuggest();
-        // Merge user defined config with defaults
-        for (var element in iConfig) {
-            if (iConfig.hasOwnProperty(element) && pickerData.hasOwnProperty(element)) {
-                pickerData[element] = iConfig[element];
-            }
-        }
-
-        // bind elements, replace some text
-        $pickeruser_adding_titles.hide();
-        if (pickerData.type === 'content') {
-            $pickeruser_instruction.html($pickeruser_content_text.html());
-            $pickeruser_send_message.hide();
-            $pickeruser_container_search.addClass("no_message");
-            $pickeruser_adding_files.show();
-        } else {
-            $pickeruser_instruction.html($pickeruser_people_text.html());
-            $pickeruser_send_message.show();
-            $pickeruser_init_search.show();
-            $pickeruser_adding_people.show();
-            $pickeruser_container_search.removeClass("no_message");
-        }
-
-        $pickeruser_add_header_what.html(pickerData.what);
-        $pickeruser_add_header_where.html(pickerData.where);
-        $pickeruser_search_query.focus();
-        $pickeruser_add_button.unbind("click");
-        $pickeruser_add_button.bind("click", function(){
-            addPeople(iConfig);
-            //reset form
-            reset();
-        });
-    };
-
-    $pickeruser_container.jqm({
-        modal: true,
-        overlay: 20,
-        toTop: true,
-        zIndex: 3000
-    });
-
     var getSelectedList = function() {
         var list = $("#as-values-" + tuid).val();
         // this value is a comma-delimited list
@@ -179,33 +103,105 @@ sakai.pickeruser = function(tuid, showSettings) {
         return list;
     };
 
-    var addPeople = function(iConfig) {
-
-      var userList = getSelectedList();
-
-      // send the message if its not empty
-      var messageText = $.trim($pickeruser_message.val());
-      if (messageText !== "") {
-          var messageList = getSelectedList();
-          if ($pickeruser_copy_myself.is(':checked')) {
-            messageList.push(sakai.data.me.profile["rep:userId"]);
-          }
-          if (iConfig.URL){
-              messageText = messageText + "\n\n" + "<a href='" + iConfig.URL + "'>" + iConfig.URL + "</a>";
-          }
-          sakai.api.Communication.sendMessage(messageList, sakai.api.Security.saneHTML($("#pickeruser_subject_text").text())+ "," + iConfig.where, messageText);
-      }
-      $pickeruser_container.jqmHide();
-      $(window).trigger("sakai-pickeruser-finished", {"toAdd":userList});
-    };
-
+    /**
+     * Clear the autosuggest box
+     */
     var clearAutoSuggest = function() {
         $("#as-values-" + tuid).val("");
         $(".as-selection-item").remove();
     };
 
+    /**
+     * Reset
+     * Resets the people picker to a default state
+     * @returns void
+     */
+    var reset = function() {
+        pickerData.selected = {};
+        pickerData.currentElementCount = 0;
+        pickerData.selectCount = 0;
+        clearAutoSuggest();
+    };
+
+    /**
+     * Executed when the message has been handled
+     */
+    var messageSent = function(){
+
+    };
+
+    var addMembers = function(){
+
+    };
+
+    var removeMembers = function(selectedUserId, listItem){
+        var permission = selectedUserId.split("-")[0];
+        var itemArr = [];
+        if (permission !== "manager") {
+            var item = {
+                "url": sakai.content_profile.content_data.path + ".members.json",
+                "method": "POST",
+                "parameters": {
+                    ":viewer@Delete": selectedUserId.substring(selectedUserId.indexOf("-") + 1, selectedUserId.length)
+                }
+            };
+        } else {
+            var item = {
+                "url": sakai.content_profile.content_data.path + ".members.json",
+                "method": "POST",
+                "parameters": {
+                    ":manager@Delete": selectedUserId.substring(selectedUserId.indexOf("-") + 1, selectedUserId.length)
+                }
+            };
+        }
+        itemArr.push(item);
+
+        // Do the Batch request
+        $.ajax({
+            url: sakai.config.URL.BATCH,
+            traditional: true,
+            type : "POST",
+            cache: false,
+            data: {
+                requests: $.toJSON(itemArr)
+            },
+            success: function(data){
+                listItem.remove();
+            }
+        });
+        
+    };
+
+    var addBinding = function() {
+        $(pickeruser_init_search).live("click", function() {
+            var currentSelections = getSelectedList();
+            $(window).trigger("sakai-pickeradvanced-init", {"list":currentSelections, "config": {"type": pickerData["type"]}});
+        });
+
+        $(pickeruser_close_button).live("click", function() {
+            // reset form.
+            reset();
+            $pickeruser_container.jqmHide();
+        });
+
+        $(pickeruserMessageLink).live("click", function(){
+            sakai.sendmessage.initialise(null, true, false, messageSent, sakai.data.me.profile.basic.elements.firstName.value + " " + sakai.data.me.profile.basic.elements.lastName.value + " " + sakai.api.i18n.Widgets.getValueForKey("pickeruser", "", "WANTS_TO_SHARE"), sakai.data.me.profile.basic.elements.firstName.value + " " + sakai.data.me.profile.basic.elements.lastName.value + " " + sakai.api.i18n.Widgets.getValueForKey("pickeruser", "", "WANTS_TO_SHARE") + "\n\n" + sakai.api.i18n.Widgets.getValueForKey("pickeruser", "", "DOCUMENT_NAME") + "\"" + sakai.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"\n" + sakai.api.i18n.Widgets.getValueForKey("pickeruser", "", "DOCUMENT_TYPE") + ": " + sakai.content_profile.content_data.data["jcr:content"]["jcr:mimeType"] + "\n" + sakai.api.i18n.Widgets.getValueForKey("pickeruser", "", "LINK") + ": " + window.location);
+        });
+
+        $(pickeruserLinkInput).live("focus", function(){
+            this.select();
+        });
+
+        $(".pickeruser_remove a").live("click", function(){
+            removeMembers(this.id, $(this).parent().parent().parent());
+        });
+    };
+
+    /**
+     * Set up the auto suggest box to enable search suggestions upon typing in the field
+     */
     var setupAutoSuggest = function() {
-        $pickeruser_search_query.autoSuggest("",{
+        $(pickeruser_search_query).autoSuggest("",{
             source: function(query, add) {
                 var searchUrl = sakai.config.URL.SEARCH_USERS_GROUPS;
                 if (pickerData.type === 'content') {
@@ -264,8 +260,68 @@ sakai.pickeruser = function(tuid, showSettings) {
             }
         });
     };
-    setupAutoSuggest();
 
+    /**
+     * Add people to the list of picked people
+     * @param {Object} iConfig
+     */
+    var addPeople = function(iConfig) {
+      var userList = getSelectedList();
+      $pickeruser_container.jqmHide();
+      $(window).trigger("sakai-pickeruser-finished", {"toAdd":userList});
+    };
+
+    /**
+     * Render
+     * Renders the people picker
+     * @param iConfig {String} Config element for the widget
+     * @returns void
+     */
+    var render = function(iConfig) {
+        $pickeruser_add_button.attr("disabled", "disabled");
+        clearAutoSuggest();
+        // Merge user defined config with defaults
+        for (var element in iConfig) {
+            if (iConfig.hasOwnProperty(element) && pickerData.hasOwnProperty(element)) {
+                pickerData[element] = iConfig[element];
+            }
+        }
+
+        // bind elements, replace some text
+        $pickeruser_i_want_to_share.html(sakai.api.i18n.Widgets.getValueForKey("pickeruser", "", "I_WANT_TO_SHARE") + " \"" + sakai.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"");
+        $(pickeruserBasicContainer).html($.TemplateRenderer(pickeruserBasicTemplate, sakai));
+
+        // Inserts the listpeople widget
+        sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
+
+        $pickeruser_i_want_to_share.show();
+
+        $(pickeruser_init_search, $rootel).show();
+
+        $pickeruser_container_search.removeClass("no_message");
+        $(pickeruser_search_query).focus();
+        $pickeruser_add_button.unbind("click");
+        $pickeruser_add_button.bind("click", function(){
+            addPeople(iConfig);
+            //reset form
+            reset();
+        });
+
+        addBinding();
+        setupAutoSuggest();
+    };
+
+    $pickeruser_container.jqm({
+        modal: true,
+        overlay: 20,
+        toTop: true,
+        zIndex: 3000
+    });
+
+    /**
+     * Add people to the list of picked people, selected in the advanced picker widget
+     * @param {Object} data User data
+     */
     var addChoicesFromPickeradvanced = function(data) {
       $.each(data, function(i,val) {
           var name = "";
@@ -280,7 +336,7 @@ sakai.pickeruser = function(tuid, showSettings) {
               name = val["sakai:pooled-content-file-name"];
               id = val["jcr:name"];
           }
-          $pickeruser_search_query.autoSuggest.add_selected_item({"name": name, "value": id}, id);
+          $(pickeruser_search_query).autoSuggest.add_selected_item({"name": name, "value": id}, id);
           $pickeruser_add_button.removeAttr("disabled");
       });
       $("input#" + tuid).val('').focus();
@@ -311,19 +367,6 @@ sakai.pickeruser = function(tuid, showSettings) {
         callback = callbackFn;
     });
 
-    $pickeruser_init_search.bind("click", function() {
-        var currentSelections = getSelectedList();
-        $(window).trigger("sakai-pickeradvanced-init", {"list":currentSelections, "config": {"type": pickerData["type"]}});
-    });
-
-    $pickeruser_close_button.bind("click", function() {
-        // reset form.
-        reset();
-        $pickeruser_container.jqmHide();
-        //$("li#as-values-" + tuid).val();
-    });
-
-
     // Reset to defaults
     reset();
 
@@ -333,7 +376,6 @@ sakai.pickeruser = function(tuid, showSettings) {
     // Send out an event that says the widget is ready to
     // accept a search query to process and display. This event can be picked up
     // in a page JS code
-
     $(window).trigger("sakai-pickeruser-ready");
     sakai.pickeruser.isReady = true;
 

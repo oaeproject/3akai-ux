@@ -701,6 +701,24 @@ sakai.entity = function(tuid, showSettings){
         });
     };
 
+    $("#entity_content_share_button").live("click", function(){
+        var pl_config = {
+            "mode": "search",
+            "selectable": true,
+            "subNameInfo": "email",
+            "sortOn": "lastName",
+            "items": 50,
+            "type": "people",
+            "what": "Viewers",
+            "where": sakai.content_profile.content_data.data["sakai:pooled-content-file-name"],
+            "URL": sakai.content_profile.content_data.url + "/" + sakai.content_profile.content_data.data["sakai:pooled-content-file-name"]
+        };
+
+        $(window).trigger("sakai-pickeruser-init", pl_config, function(people){
+        });
+    });
+
+
     /**
      * Remove contact button after contact request is sent
      */
