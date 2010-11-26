@@ -101,7 +101,6 @@ sakai.content_profile = function(){
                         members: contentMembers,
                         mode: "content",
                         url: sakai.config.SakaiDomain + content_path,
-                        contentpath: content_path,
                         path: content_path,
                         saveddirectory : directory
                     };
@@ -151,6 +150,16 @@ sakai.content_profile = function(){
             else {
                 $(window).bind("sakai.api.UI.relatedcontent.ready", function(e){
                     sakai.api.UI.relatedcontent.render(sakai.content_profile.content_data);
+                    ready_event_fired++;
+                });
+            }
+            //
+            if (sakai.contentpreview && sakai.contentpreview.isReady) {
+                $(window).trigger("sakai.contentpreview.start");
+            }
+            else {
+                $(window).bind("sakai.contentpreview.ready", function(e){
+                    $(window).trigger("sakai.contentpreview.start");
                     ready_event_fired++;
                 });
             }
