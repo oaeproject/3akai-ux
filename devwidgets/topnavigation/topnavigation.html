@@ -89,10 +89,18 @@
 <!-- SEARCH -->
 <div id="general_search_container">
     <form class="fl-force-right" method="post" action="">
+        <div class="search_box">
+            <span class="search_left search_type"><span class="search_links">__MSG__GLOBAL__</span><span class="search_drop"></span></span><input type="text" id="general_search_input" title="__MSG__PLEASE_INPUT_SEARCH_KEYWORD__" class="general_search_input search_string" /><span class="search_right search_type" id="general_search_submit_button"><span class="search_text">__MSG__SEARCH__</span><span class="search_icon"></span></span>
+        </div>
+        <div class="s3d-sprites-buttons" id="search_more_menu" style="display:none">
+            <ul>
+                <li id="search_global" class="more_option"><a href="javascript:;" class="s3d-regular-light-links s3d-bold"><span id="search_global_text">__MSG__GLOBAL__</span></a></li>
+                <li id="search_content" class="more_option"><a href="javascript:;" class="s3d-regular-light-links s3d-bold"><span id="search_content_text">__MSG__CONTENT__</span></a></li>
+                <li id="search_people" class="more_option"><a href="javascript:;" class="s3d-regular-light-links s3d-bold"><span id="search_people_text">__MSG__PEOPLE__</span></a></li>
+                <li id="search_group" class="more_option option_last"><a href="javascript:;" class="s3d-regular-light-links s3d-bold"><span id="search_group_text">__MSG__GROUP__</span></a></li>
+            </ul>
+        </div>            
         <span style="display:none" id="general_search_default_value">__MSG__SEARCH_FOR__</span>
-        <input type="text" id="general_search_input" title="__MSG__PLEASE_INPUT_SEARCH_KEYWORD__" class="general_search_input" value="__MSG__SEARCH_FOR__" />
-        <button id="general_search_submit_button" class="s3d-search-button s3d-button s3d-button-primary" type="submit"><span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span></button>
-        <br class="clear"/>
     </form>
 </div>
 
