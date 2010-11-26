@@ -54,7 +54,6 @@ sakai.text = function(tuid, showSettings) {
     $text_save.live("click", function(e) {
         widgetData.title = $("#text_title", $rootel).val();
         widgetData.text = $("#text_text", $rootel).val();
-        debug.debug(widgetData);
         sakai.api.Widgets.saveWidgetData(tuid, {data:widgetData}, function(success, data){
             sakai.api.Widgets.Container.informFinish(tuid, "text");
         });
@@ -74,7 +73,6 @@ sakai.text = function(tuid, showSettings) {
             if (showSettings) {
                 $text_settings.html($.TemplateRenderer($text_settings_template, {data:widgetData})).show();
             } else {
-                debug.log(widgetData.title);
                 if (widgetData.title) {
                     sakai.api.Widgets.changeWidgetTitle(tuid, widgetData.title);
                 }
