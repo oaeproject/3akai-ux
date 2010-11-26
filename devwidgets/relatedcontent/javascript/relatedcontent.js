@@ -21,12 +21,21 @@
 var sakai = sakai || {};
 
 /**
- * @name sakai.helloworld
+ * @name sakai.api.UI.relatedcontent
  *
- * @class helloworld
+ * @class relatedcontent
+ *
+ */
+sakai.api.UI.relatedcontent = sakai.api.UI.relatedcontent || {};
+sakai.api.UI.relatedcontent.render = sakai.api.UI.relatedcontent.render || {};
+
+/**
+ * @name sakai.relatedcontent
+ *
+ * @class relatedcontent
  *
  * @description
- * Initialize the helloworld widget
+ * Initialize the relatedcontent widget
  *
  * @version 0.0.1
  * @param {String} tuid Unique id of the widget
@@ -34,8 +43,84 @@ var sakai = sakai || {};
  */
 sakai.relatedcontent = function(tuid,showSettings){
 
-    
+    ///////////////////
+    // CSS Selectors //
+    ///////////////////
 
+    var relatedcontent = "#relatedcontent";
+    var relatedcontentContainer = relatedcontent + "_container";
+    var relatedcontentDefaultTemplate = relatedcontent + "_default_template";
+
+
+    //////////////////////
+    // Render functions //
+    //////////////////////
+
+    /**
+     * Render the template
+     */
+    var renderTemplate = function(relatedcontentData){
+        // Render the relatedcontent.
+        $(relatedcontentContainer).html($.TemplateRenderer(relatedcontentDefaultTemplate, relatedcontentData));
+        $(relatedcontentContainer).show();
+    };
+
+
+    ////////////////////
+    // Util functions //
+    ////////////////////
+
+    /**
+     * Fetches the related content
+     */
+    var getRelatedContent = function(contentData){
+        
+        // get related content for contentData
+        // return some search results for now
+            $.ajax({
+                url: sakai.config.URL.SEARCH_ALL_FILES.replace(".json", ".infinity.json"),
+                data: {
+                    "q" : "*",
+                    "items" : "10"
+                },
+                success: function(data) {
+                    renderTemplate(data);
+                },
+                error: function(xhr, textStatus, thrownError) {
+                    var json = {};
+                    renderTemplate(json);
+                }
+            });
+    };
+
+
+    //////////////
+    // Bindings //
+    //////////////
+
+    /**
+     * Bind the widget's links
+     */
+    var addBinding = function(){
+        // bind the more link
+
+    };
+
+    ////////////////////
+    // Initialization //
+    ////////////////////
+
+    /**
+     * Render function
+     */
+    sakai.api.UI.relatedcontent.render = function(contentData){
+        addBinding();
+        getRelatedContent(contentData);
+    };
+
+    // Indicate that the widget has finished loading
+    $(window).trigger("sakai.api.UI.relatedcontent.ready", {});
+    sakai.relatedcontent.isReady = true;
 };
 
 sakai.api.Widgets.widgetLoader.informOnLoad("relatedcontent");

@@ -130,7 +130,7 @@ sakai.content_profile = function(){
         }
 
     };
-    
+
     var handleHashChange = function() {
         content_path = $.bbq.getState("content_path") || "";
         sakai.content_profile.loadContentProfile(function() {
@@ -141,6 +141,16 @@ sakai.content_profile = function(){
             else {
                 $(window).bind("sakai.api.UI.entity.ready", function(e){
                     sakai.api.UI.entity.render("content2", sakai.content_profile.content_data);
+                    ready_event_fired++;
+                });
+            }
+            // The request was successful so initialise the relatedcontent widget
+            if (sakai.relatedcontent && sakai.relatedcontent.isReady) {
+                sakai.api.UI.relatedcontent.render(sakai.content_profile.content_data);
+            }
+            else {
+                $(window).bind("sakai.api.UI.relatedcontent.ready", function(e){
+                    sakai.api.UI.relatedcontent.render(sakai.content_profile.content_data);
                     ready_event_fired++;
                 });
             }

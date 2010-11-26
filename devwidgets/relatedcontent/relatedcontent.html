@@ -1,8 +1,31 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/relatedcontent/css/relatedcontent.css" />
 
-<div class="contentpreview_widget">
-    Related Content Widget
+<div class="relatedcontent s3d-highlight_area_background">
+    <div class="relatedcontent_title">
+        __MSG__RELATED_CONTENT__
+    </div>
+
+    <!-- CONTAINER FOR RELATEDCONTENT -->
+    <div id="relatedcontent_container" style="display:none"><!-- --></div>
+
+    <div id="relatedcontent_default_template"><!--
+        <div class="s3d-action">
+            <div class="relatedcontent_list">
+                {var relatedcontent_index = 0}
+                {for r in results}
+                    {if relatedcontent_index < 10}
+                        <span class="relatedcontent_content" id="${r["jcr:name"]}"><a href="javascript:;" class="s3d-regular-light-links">${r["sakai:pooled-content-file-name"]}</a></span>
+                    {/if}
+                    ${relatedcontent_index++|eat}
+                {/for}
+                {if relatedcontent_index > 9}
+                    <span class="relatedcontent_more"><a href="javascript:;" id="relatedcontent_more_link"  class="s3d-regular-light-links">More</a></span>
+                {/if}
+            </div>
+        </div>
+    --></div>
+
 </div>
 
 <!-- JAVASCRIPT -->

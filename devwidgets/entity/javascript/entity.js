@@ -82,7 +82,11 @@ sakai.entity = function(tuid, showSettings){
 
     // Container
     var $entity_container = $("#entity_container", $rootel);
-    var $entity_container_template = $("#entity_container_template", $rootel);
+    var $entity_container_template;
+    var $entity_container_template_myprofile = $("#entity_container_template_myprofile", $rootel);
+    var $entity_container_template_profile = $("#entity_container_template_profile", $rootel);
+    var $entity_container_template_group = $("#entity_container_template_group", $rootel);
+    var $entity_container_template_content = $("#entity_container_template_content", $rootel);
     var $entity_container_actions = $("#entity_container_actions", $rootel);
 
     // Profile
@@ -983,6 +987,11 @@ sakai.entity = function(tuid, showSettings){
             entityconfig.data.profile.copyright = filedata["sakai:copyright"];
         }
 
+        // Set the permissions of the file
+        if (filedata["sakai:copyright"]) {
+            entityconfig.data.profile.permissions = filedata["sakai:permissions"];
+        }
+
         if (document.location.pathname === "/dev/content_profile.html"){
             entityconfig.data["link_name"] = false;
         } else {
@@ -1003,6 +1012,7 @@ sakai.entity = function(tuid, showSettings){
                 entityconfig.data.profile = $.extend(true, {}, data);
                 // Set the correct profile data
                 setProfileData();
+                $entity_container_template = $entity_container_template_profile;
                 break;
             case "myprofile":
                 // Set the profile for the entity widget to the personal profile information
@@ -1012,18 +1022,22 @@ sakai.entity = function(tuid, showSettings){
                 setData();
                 // Set the correct profile data
                 setProfileData();
+                $entity_container_template = $entity_container_template_myprofile;
                 break;
             case "group":
                 // Set the profile for the entity widget to the group authprofile
                 entityconfig.data.profile = $.extend(true, {}, data.authprofile);
                 // Set the correct group profile data
                 setGroupData();
+                $entity_container_template = $entity_container_template_group;
                 break;
             case "content":
                 setContentData(data);
+                $entity_container_template = $entity_container_template_content
                 break;
             case "content2":
                 setContentData(data);
+                $entity_container_template = $entity_container_template_content;
                 break;
         }
 
