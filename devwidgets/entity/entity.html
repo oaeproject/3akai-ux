@@ -171,12 +171,8 @@
         {if mode === "content2"}
             {if data.profile}
                 <div class="fl-force-left entity_content_header">
-                    <span class="entity_content_threedots entity_content_header_text">
-                        {if data.profile.description}
-                            <span class="threedots ellipsis_text">${sakai.api.Util.shortenString(data.profile.description, 60)}</span>
-                        {else}
-                            <span class="threedots ellipsis_text">${data.profile.name}</span>
-                        {/if}
+                    <span class="entity_content_header_text">
+                        ${data.profile.name}
                     </span>
                 </div>
                 <div class="fl-force-left entity_content_description">
@@ -255,10 +251,10 @@
         {if mode === "content2"}
             <div class="entity_content_right">
                 <div class="entity_content_viewed">
-                    __MSG__VIEWED__ <span class="entity_content_view_count">X</span> __MSG__TIMES__
+                    __MSG__VIEWED__ <span class="entity_content_view_count">XXX,XXX</span> __MSG__TIMES__
                 </div>
                 <div class="entity_content_share">
-                    <button id="entity_content_share_button" class="s3d-button" type="submit"><span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SHARE__</span></span></button>
+                    <button id="entity_content_share_button" class="s3d-button s3d-button-tertiary" type="submit"><span class="s3d-button-inner">__MSG__SHARE__</span></button>
                 </div>
             </div>
         {/if}
