@@ -162,7 +162,7 @@ sakai.collections = function(tuid, showSettings) {
     var setupWidgetSettingsForSave = function() {
         settings = {};
         var title = $("#widget_title").val();
-        if ($.trim(title) == "") {
+        if ($.trim(title) === "") {
             alert($("collections_title_empty").text());
         }
         settings.widgetTitle = title;
@@ -385,7 +385,7 @@ sakai.collections = function(tuid, showSettings) {
     };
 
     var setCollectionData = function() {
-        if (!currentCollectionData || !currentCollectionData.categories || currentCollectionData.categories.length == 0) {
+        if (!currentCollectionData || !currentCollectionData.categories || currentCollectionData.categories.length === 0) {
             for (var i in collectionData.collections) {
                 if (collectionData.collections[i].id == selectedCollectionID) {
                     currentCollectionData = collectionData.collections[i];
@@ -542,7 +542,9 @@ sakai.collections = function(tuid, showSettings) {
     var initializeAlbumView = function() {
         sortCollectionByPosition();
         for (var i in collectionData.collections) {
-            collectionData.collections[i].albumViewPosition = i;
+            if (collectionData.collections.hasOwnProperty(i)) {
+                collectionData.collections[i].albumViewPosition = i;
+            }
         }
     };
 
@@ -553,7 +555,7 @@ sakai.collections = function(tuid, showSettings) {
         $.TemplateRenderer(collectionsAlbumsTemplate, collectionData, $(collectionsAlbums, $rootel));
         if (sakai.show.canEdit()) {
             $("#collections_header div", $rootel).show();
-            if (collectionData.collections.length == 0) {
+            if (collectionData.collections.length === 0) {
                 if (!$("#collections_header div").hasClass("expanded")) {
                     $("#collections_header div a#configure_widget").trigger("click");
                 } else {
@@ -576,8 +578,11 @@ sakai.collections = function(tuid, showSettings) {
 
     var addNewAlbum = function() {
         currentCollectionData = {};
-        if (collectionData.collections) currentCollectionData.albumViewPosition = collectionData.collections.length;
-        else currentCollectionData.albumViewPosition = 0;
+        if (collectionData.collections) {
+            currentCollectionData.albumViewPosition = collectionData.collections.length;
+        } else {
+            currentCollectionData.albumViewPosition = 0;
+        }
 
         var d = new Date();
         currentCollectionData.id = d.getTime() + "" + Math.floor(Math.random() * 101);
@@ -591,12 +596,14 @@ sakai.collections = function(tuid, showSettings) {
     var viewAlbum = function() {
         hideAllAlbumView();
 
-        if (! (currentCollectionData.id == selectedCollectionID)) {
+        if (currentCollectionData.id !== selectedCollectionID) {
             currentCollectionData = {};
             for (var i in collectionData.collections) {
-                if (collectionData.collections[i].id == selectedCollectionID) {
-                    currentCollectionData = collectionData.collections[i];
-                    break;
+                if (collectionData.collections.hasOwnProperty(i)) {
+                    if (collectionData.collections[i].id == selectedCollectionID) {
+                        currentCollectionData = collectionData.collections[i];
+                        break;
+                    }
                 }
             }
         }
@@ -618,7 +625,7 @@ sakai.collections = function(tuid, showSettings) {
         $(collectionsAlbumsShowAlbum, $rootel));
         selectedCollectionID = currentCollectionData.id;
 
-        if (!currentCollectionData.title || currentCollectionData.title == "") {
+        if (!currentCollectionData.title || currentCollectionData.title === "") {
             $(".configureAlbum a").trigger("click");
         } else {
             setupCategoryPreviewImages();
@@ -634,8 +641,11 @@ sakai.collections = function(tuid, showSettings) {
 
     var showAddAlbum = function() {
         if ($("#collections_header div").hasClass("expanded")) {
-            if ($(".addAlbum").length == 0) $("#collections_albums").append("<div class='albumCover addAlbum'></div>");
-            else $(".addAlbum").show();
+            if ($(".addAlbum").length === 0) {
+                $("#collections_albums").append("<div class='albumCover addAlbum'></div>");
+            } else {
+                $(".addAlbum").show();
+            }
         }
     };
 
@@ -652,25 +662,29 @@ sakai.collections = function(tuid, showSettings) {
         // preload them all, in some intelligent way
         //  - fire up a ton of <img> tags with sequential IDs so that we can just toggle them back and forth based on mousemove position
         for (var i in currentCollectionData.categories) {
-            var cat = currentCollectionData.categories[i];
-            var setFirstImage = false;
-            for (var j in cat.items) {
-                var item = cat.items[j];
-                if (item.mimeType && item.mimeType.split("/")[0] == "image") {
-                    $("<img/>")[0].src = item.url;
-                    // load/cache the image
-                    if (!setFirstImage) {
-                        setFirstImage = true;
-                        $("#category_" + cat.id + " div img").attr("src", item.url);
-                        categoryImages[cat.id] = {};
-                        categoryImages[cat.id].currentImage = 0;
-                        categoryImages[cat.id].images = [];
+            if (currentCollectionData.categories.hasOwnProperty(i)) {
+                var cat = currentCollectionData.categories[i];
+                var setFirstImage = false;
+                for (var j in cat.items) {
+                    if (cat.items.hasOwnProperty(j)) {
+                        var item = cat.items[j];
+                        if (item.mimeType && item.mimeType.split("/")[0] === "image") {
+                            $("<img/>")[0].src = item.url;
+                            // load/cache the image
+                            if (!setFirstImage) {
+                                setFirstImage = true;
+                                $("#category_" + cat.id + " div img").attr("src", item.url);
+                                categoryImages[cat.id] = {};
+                                categoryImages[cat.id].currentImage = 0;
+                                categoryImages[cat.id].images = [];
+                            }
+                            categoryImages[cat.id].images.push(item.url);
+                        }
                     }
-                    categoryImages[cat.id].images.push(item.url);
                 }
-            }
-            if (!categoryImages[cat.id]) {
-                $("#category_" + cat.id + " div img").attr("src", "/dev/images/mimetypes/empty.png");
+                if (!categoryImages[cat.id]) {
+                    $("#category_" + cat.id + " div img").attr("src", "/dev/images/mimetypes/empty.png");
+                }
             }
         }
     };
@@ -679,8 +693,11 @@ sakai.collections = function(tuid, showSettings) {
 
     var addNewCategory = function() {
         currentCategoryData = {};
-        if (currentCollectionData.categories) currentCategoryData.position = currentCollectionData.categories.length;
-        else currentCategoryData.position = 0;
+        if (currentCollectionData.categories) {
+            currentCategoryData.position = currentCollectionData.categories.length;
+        } else {
+            currentCategoryData.position = 0;
+        }
 
         var d = new Date();
         currentCategoryData.id = d.getTime() + "" + Math.floor(Math.random() * 101);
@@ -736,8 +753,11 @@ sakai.collections = function(tuid, showSettings) {
 
     var showAddItem = function() {
         if ($(".configureCategory").hasClass("expanded")) {
-            if ($(".addItem").length == 0) $(".scroll-content").prepend("<div class='scroll-content-item addItem'><div class='scrollItemContainer'></div></div>");
-            else $(".addItem").show();
+            if ($(".addItem").length === 0) {
+                $(".scroll-content").prepend("<div class='scroll-content-item addItem'><div class='scrollItemContainer'></div></div>");
+            } else {
+                $(".addItem").show();
+            }
         }
     };
 
@@ -771,7 +791,7 @@ sakai.collections = function(tuid, showSettings) {
         },
         $(collectionsAlbumsShowItem, $rootel));
 
-        if (!currentItemData.title || currentItemData.title == "") {
+        if (!currentItemData.title || currentItemData.title === "") {
             $(".configureItem a").trigger("click");
         }
 
@@ -812,9 +832,9 @@ sakai.collections = function(tuid, showSettings) {
                         tooltip: 'Click to add the album title',
                         cssclass: 'inlineEditBtn'
                     });
-                } else if ($(this).hasClass("albumImage")) {
+                } /*else if ($(this).hasClass("albumImage")) {
 
-                }
+                }*/
                 $(this).editable("enable");
             }
             $(this).toggleClass("editable");
@@ -913,9 +933,9 @@ sakai.collections = function(tuid, showSettings) {
                         tooltip: 'Click to add the album title',
                         cssclass: 'inlineEditBtn'
                     });
-                } else if ($(this).hasClass("itemImage")) {
+                } /*else if ($(this).hasClass("itemImage")) {
 
-                }
+                }*/
                 $(this).editable("enable");
             }
             $(this).toggleClass("editable");
@@ -1187,9 +1207,11 @@ sakai.collections = function(tuid, showSettings) {
 
         for (var i = 1; i < 11; i++) {
             var tmpToPush = {};
-            for (j in collectionData.collections) {
-                if (collectionData.collections[j].position == i) {
-                    tmpToPush = collectionData.collections[j];
+            for (var j in collectionData.collections) {
+                if (collectionData.collections.hasOwnProperty(j)) {
+                    if (collectionData.collections[j].position == i) {
+                        tmpToPush = collectionData.collections[j];
+                    }
                 }
             }
 
@@ -1304,7 +1326,7 @@ sakai.collections = function(tuid, showSettings) {
         initInlineMCE();
         currentContentItemData = {};
         $(collectionsAddContentContainer, $rootel).show();
-        if (contentItemID != 0) {
+        if (contentItemID !== 0) {
             for (var i = 0; i < currentCollectionData.categories.length; i++) {
                 var currentCat = currentCollectionData.categories[i];
                 for (var j = 0; j < currentCat.items.length; j++) {
@@ -1324,7 +1346,7 @@ sakai.collections = function(tuid, showSettings) {
         },
         $(collectionsCategoryDropdown, $rootel));
 
-        if (contentItemID != 0) {
+        if (contentItemID !== 0) {
             $(collectionsReturnToContentFromEditLink, $rootel).show();
             $(collectionsReturnToRoomFromEdit, $rootel).hide();
         } else {
@@ -1484,7 +1506,7 @@ sakai.collections = function(tuid, showSettings) {
                 "items": []
             };
             var currentNumCategories = currentCollectionData.categories ? currentCollectionData.categories.length : 0;
-            if (currentNumCategories == 0) {
+            if (currentNumCategories === 0) {
                 currentCollectionData.categories = [];
                 $(categoriesListingBody, $rootel).html($.TemplateRenderer(categoriesListingBodyTemplate, {
                     "categories": [newCategory]
@@ -1509,11 +1531,11 @@ sakai.collections = function(tuid, showSettings) {
     $(addCategoryButton, $rootel).die("click");
     $(addCategoryButton, $rootel).live("click", function() {
         var catToAdd = $.trim($(addCategoryTextField, $rootel).val());
-        if (catToAdd != "") {
+        if (catToAdd !== "") {
             addCategory(catToAdd);
-        } else {
+        } /*else {
             // do nothing, for now
-        }
+        }*/
         return false;
     });
 
@@ -1543,12 +1565,12 @@ sakai.collections = function(tuid, showSettings) {
     $(collectionsEditForm, $rootel).die("submit");
     $(collectionsEditForm, $rootel).live("submit", function(e) {
         if (sakai.show.canEdit()) {
-            if ($.trim($("#room_title", $rootel).val()) == "") {
+            if ($.trim($("#room_title", $rootel).val()) === "") {
                 // need a title, son!
                 alert("Please enter a title for this room before saving.");
                 return false;
             }
-            if (currentCollectionData.categories.length == 0) {
+            if (currentCollectionData.categories.length === 0) {
                 // need categories too, kid!
                 alert("Please add a category to this room before saving");
                 return false;
