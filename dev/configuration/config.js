@@ -671,7 +671,10 @@ sakai.config = {
             "label" : "DIRECTORY"
         }
     ],
-
+    /*
+     * Are anonymous users allowed to browse/search
+     */
+    anonAllowed: true,
     /*
      * List of pages that require a logged in user
      */
