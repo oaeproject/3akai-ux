@@ -113,7 +113,7 @@ sakai.lists = function(tuid, showSettings) {
             }
             return true;
         } else {
-            alert("Please make a selection before saving");
+            sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("PLEASE_MAKE_SELECTION"),"",sakai.api.Util.notification.type.ERROR);
             return false;
         }
     };
