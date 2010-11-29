@@ -60,7 +60,7 @@ sakai.relatedcontent = function(tuid,showSettings){
      * Render the template
      */
     var renderTemplate = function(relatedcontentData){
-        // Render the relatedcontent.
+        // Render the relatedcontent
         $(relatedcontentContainer).html($.TemplateRenderer(relatedcontentDefaultTemplate, relatedcontentData));
         $(relatedcontentContainer).show();
     };
@@ -81,10 +81,14 @@ sakai.relatedcontent = function(tuid,showSettings){
                 url: sakai.config.URL.SEARCH_ALL_FILES.replace(".json", ".infinity.json"),
                 data: {
                     "q" : "*",
-                    "items" : "10"
+                    "items" : "11"
                 },
                 success: function(data) {
-                    renderTemplate(data);
+                    var json = {
+                        "content": contentData,
+                        "relatedContent": data
+                    };
+                    renderTemplate(json);
                 },
                 error: function(xhr, textStatus, thrownError) {
                     var json = {};
