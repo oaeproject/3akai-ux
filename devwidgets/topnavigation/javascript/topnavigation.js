@@ -307,6 +307,17 @@ sakai.topnavigation = function(tuid, showSettings){
 
     };
 
+    /**
+     * Bind the submit event to the search form
+     * This event is triggered when you hit enter in the input field and
+     * when you click on the submit button
+    */
+    $general_search_form.bind("submit", function(){
+        doSearch();
+        return false;
+    });
+
+
 
     ////////////
     // SEARCH //
@@ -330,8 +341,9 @@ sakai.topnavigation = function(tuid, showSettings){
             $generalSearchSubmitButton.attr("disabled", false);
             // if user is on the search page use the history event to perform the search
             History.addBEvent("1", encodeURIComponent(tosearch));
-        // global is selected
-        } else if ($search_links.html() === $search_global_text.html()) {
+        } 
+        // global is selected 
+        if ($search_links.html() === $search_global_text.html()) {
             // Redirecting back to the general search page. This expects the URL to be
             // in a format like this one: page.html#pageid|searchstring
             document.location = sakai.config.URL.SEARCH_GENERAL_URL + "#q=" + tosearch;
