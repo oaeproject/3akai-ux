@@ -336,10 +336,6 @@ sakai.api.Security.saneHTML = function(inputHTML) {
                             case html4.atype.URI:
                                 if (attribName.toLowerCase() === "src") {
                                     value = opt_urlPolicy && opt_urlPolicy(value);
-                                    if (!value){
-                                        // strip out the tag
-                                        out = [];
-                                    }
                                 }
                                 break;
                             case html4.atype.URI_FRAGMENT:
