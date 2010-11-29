@@ -30,38 +30,79 @@
             <h1 class="fl-force-left">__MSG__THESE_PEOPLE_CAN_EDIT_OR_BE_LINKED__</h1>
             <div id="pickeruser_listpeople">
                 <ul>
-                    {for viewer in content_profile.content_data.members.viewers}
-                        {if viewer.userid !== "anonymous"}
-                            <li>
-                                {if viewer.picture != null}
-                                    <img src="/~${viewer.userid}/public/profile/${viewers.picture.name}" alt="${viewer.basic.elements.firstName.value}" class="pickeruser_people_picture"/>
-                                {else}
-                                    <img src="/dev/images/user_avatar_icon_32x32.png" alt="${viewer.basic.elements.firstName.value}" class="pickeruser_people_picture"/>
-                                {/if}
-                                <span class="pickeruser_viewer_name s3d-bold">${viewer.basic.elements.firstName.value} ${viewer.basic.elements.lastName.value}</span>
-                                <span class="pickeruser_right_floats">
-                                    <a href="javascript:;" class="s3d-bold pickeruser_permission_link"><span class="pickeruser_permission">Can view</span></a>
-                                    <span class="pickeruser_remove"><a href="javascript:;" class="s3d-regular-links s3d-bold" id="viewer-${viewer.userid}">__MSG__REMOVE__</a></span>
-                                </span>
-                            </li>
-                        {/if}
-                    {/for}
                     {for manager in content_profile.content_data.members.managers}
-                        {if manager.userid !== "anonymous"}
-                            <li>
-                                {if manager.picture != null}
+                        <li>
+                            {if manager.picture != null}
+                                {if manager.hasOwnProperty("groupid")}
+                                    <img src="/~${manager.groupid}/public/profile/${manager.picture.name}" alt="${manager["sakai:group-title"]}" class="pickeruser_people_picture"/>
+                                {else}
                                     <img src="/~${manager.userid}/public/profile/${manager.picture.name}" alt="${manager.basic.elements.firstName.value}" class="pickeruser_people_picture"/>
+                                {/if}
+                            {else}
+                                {if manager.hasOwnProperty("groupid")}
+                                    <img src="/dev/images/group_avatar_icon_32x32.png" alt="${manager["sakai:group-title"]}" class="pickeruser_people_picture"/>
                                 {else}
                                     <img src="/dev/images/user_avatar_icon_32x32.png" alt="${manager.basic.elements.firstName.value}" class="pickeruser_people_picture"/>
                                 {/if}
+                            {/if}
+                            {if manager.hasOwnProperty("groupid")}
+                                <span class="pickeruser_manager_name s3d-bold">${manager["sakai:group-title"]}</span>
+                                <span class="pickeruser_right_floats">
+                                    <a href="javascript:;" class="s3d-bold s3d-regular-links pickeruser_permission_link pickeruser_permission_link_${manager.groupid}"><span class="pickeruser_permission">__MSG__CAN_EDIT__</span></a>
+                                    <span class="pickeruser_remove"><a href="javascript:;" class="s3d-regular-links s3d-bold" id="manager-${manager.groupid}">__MSG__REMOVE__</a></span>
+                                </span>
+                            {else}
                                 <span class="pickeruser_manager_name s3d-bold">${manager.basic.elements.firstName.value} ${manager.basic.elements.lastName.value}</span>
                                 <span class="pickeruser_right_floats">
-                                    <a href="javascript:;" class="s3d-bold pickeruser_permission_link"><span class="pickeruser_permission">Can edit</span></a>
+                                    <a href="javascript:;" class="s3d-bold s3d-regular-links pickeruser_permission_link pickeruser_permission_link_${manager.userid}"><span class="pickeruser_permission">__MSG__CAN_EDIT__</span></a>
                                     <span class="pickeruser_remove"><a href="javascript:;" class="s3d-regular-links s3d-bold" id="manager-${manager.userid}">__MSG__REMOVE__</a></span>
                                 </span>
-                            </li>
-                        {/if}
+                            {/if}
+                        </li>
                     {/for}
+
+                    {if content_profile.content_data.members.hasOwnProperty("viewers")}
+                        {for viewer in content_profile.content_data.members.viewers}
+                            <li>
+                                {if viewer.picture != null}
+                                    {if viewer.hasOwnProperty("groupid")}
+                                        <img src="/~${viewer.groupid}/public/profile/${viewers.picture.name}" alt="${viewer["sakai:group-title"]}" class="pickeruser_people_picture"/>
+                                    {else}
+                                        <img src="/~${viewer.userid}/public/profile/${viewers.picture.name}" alt="${viewer.basic.elements.firstName.value}" class="pickeruser_people_picture"/>
+                                    {/if}
+                                {else}
+                                    {if viewer.hasOwnProperty("groupid")}
+                                        <img src="/dev/images/group_avatar_icon_32x32.png" alt="${viewer["sakai:group-title"]}" class="pickeruser_people_picture"/>
+                                    {else}
+                                        <img src="/dev/images/user_avatar_icon_32x32.png" alt="${viewer.basic.elements.firstName.value}" class="pickeruser_people_picture"/>
+                                    {/if}
+                                {/if}
+                                {if viewer.hasOwnProperty("groupid")}
+                                    <span class="pickeruser_viewer_name s3d-bold">${viewer["sakai:group-title"]}</span>
+                                    <span class="pickeruser_right_floats">
+                                        <a href="javascript:;" class="s3d-bold s3d-regular-links pickeruser_permission_link pickeruser_permission_link_${viewer.groupid}"><span class="pickeruser_permission">__MSG__CAN_VIEW__</span></a>
+                                        <span class="pickeruser_remove"><a href="javascript:;" class="s3d-regular-links s3d-bold" id="viewer-${viewer.groupid}">__MSG__REMOVE__</a></span>
+                                    </span>
+                                {else}
+                                    <span class="pickeruser_viewer_name s3d-bold">${viewer.basic.elements.firstName.value} ${viewer.basic.elements.lastName.value}</span>
+                                    <span class="pickeruser_right_floats">
+                                        <a href="javascript:;" class="s3d-bold s3d-regular-links pickeruser_permission_link pickeruser_permission_link_${viewer.userid}"><span class="pickeruser_permission">__MSG__CAN_VIEW__</span></a>
+                                        <span class="pickeruser_remove"><a href="javascript:;" class="s3d-regular-links s3d-bold" id="viewer-${viewer.userid}">__MSG__REMOVE__</a></span>
+                                    </span>
+                                {/if}
+                            </li>
+                        {/for}
+                    {/if}
+                </ul>
+            </div>
+            <div id="pickeruser_edit_permission" style="display:none;">
+                <ul>
+                    <li>
+                        <a id="pickeruser_edit_permission_picker_viewer" class="pickeruser_edit_permission_picker" href="javascript:;">__MSG__CAN_VIEW__</a>
+                    </li>
+                    <li>
+                        <a id="pickeruser_edit_permission_picker_manager" class="pickeruser_edit_permission_picker" href="javascript:;">__MSG__CAN_EDIT__</a>
+                    </li>
                 </ul>
             </div>
             <span class="fl-force-left" id="pickeruser_people"><span class="s3d-bold">__MSG__ADD_PEOPLE__</span> - <a href="javascript:;" id="pickeruser_init_search" class="s3d-action">__MSG__SEARCH__</a></span>
@@ -86,7 +127,8 @@
 	<div id="widget_pickeradvanced" class="widget_inline"></div>
 </div>
 
-
+    <div id="pickeruser_can_edit" style="display:none;">__MSG__CAN_EDIT__</div>
+    <div id="pickeruser_can_view" style="display:none;">__MSG__CAN_VIEW__</div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/pickeruser/javascript/pickeruser.js"></script>
