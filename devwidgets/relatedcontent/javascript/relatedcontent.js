@@ -60,7 +60,7 @@ sakai.relatedcontent = function(tuid,showSettings){
      * Render the template
      */
     var renderTemplate = function(relatedcontentData){
-        // Render the relatedcontent.
+        // Render the relatedcontent
         $(relatedcontentContainer).html($.TemplateRenderer(relatedcontentDefaultTemplate, relatedcontentData));
         $(relatedcontentContainer).show();
     };
@@ -71,26 +71,71 @@ sakai.relatedcontent = function(tuid,showSettings){
     ////////////////////
 
     /**
+     * This function will replace all
+     * @param {String} term The search term that needs to be converted.
+     */
+    var prepSearchTermForURL = function(term) {
+        // taken this from search_main until a backend service can get related content
+        var urlterm = "";
+        var splitted = $.trim(term).split(/\s/);
+        if (splitted.length > 1) {
+            for (var i = 0; i < splitted.length; i++) {
+                if (splitted[i]) {
+                    urlterm += "*" + splitted[i] + "* ";
+                    if (i < splitted.length - 1) {
+                        urlterm += "OR ";
+                    }
+                }
+            }
+        }
+        else {
+            urlterm = "*" + term + "*";
+        }
+        return urlterm;
+    };
+
+    /**
      * Fetches the related content
      */
     var getRelatedContent = function(contentData){
-        
+
+        var managersList = "";
+        var viewersList = "";
+
+        for (var i = 0; i < contentData.members.managers.length; i++) {
+            if (contentData.members.managers[i]) {
+                managersList += " " + contentData.members.managers[i].userid;
+            }
+        }
+        for (var i = 0; i < contentData.members.viewers.length; i++) {
+            if (contentData.members.viewers[i]) {
+                viewersList += " " + contentData.members.viewers[i].userid;
+            }
+        }
+
+        searchterm = contentData.data["sakai:pooled-content-file-name"] + " " + contentData.data["sakai:tags"].join(" ") + " " + managersList + " " + viewersList;
+        searchquery = prepSearchTermForURL(searchterm);
+
         // get related content for contentData
         // return some search results for now
-            $.ajax({
-                url: sakai.config.URL.SEARCH_ALL_FILES.replace(".json", ".infinity.json"),
-                data: {
-                    "q" : "*",
-                    "items" : "10"
-                },
-                success: function(data) {
-                    renderTemplate(data);
-                },
-                error: function(xhr, textStatus, thrownError) {
-                    var json = {};
-                    renderTemplate(json);
-                }
-            });
+        $.ajax({
+            url: sakai.config.URL.SEARCH_ALL_FILES.replace(".json", ".infinity.json"),
+            data: {
+                "q" : searchquery,
+                "items" : "11"
+            },
+            success: function(data) {
+                var json = {
+                    "content": contentData,
+                    "relatedContent": data
+                };
+                renderTemplate(json);
+            },
+            error: function(xhr, textStatus, thrownError) {
+                var json = {};
+                renderTemplate(json);
+            }
+        });
     };
 
 
