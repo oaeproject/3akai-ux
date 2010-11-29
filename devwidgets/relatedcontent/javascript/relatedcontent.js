@@ -113,7 +113,10 @@ sakai.relatedcontent = function(tuid,showSettings){
             }
         }
 
-        searchterm = contentData.data["sakai:pooled-content-file-name"] + " " + contentData.data["sakai:tags"].join(" ") + " " + managersList + " " + viewersList;
+        searchterm = contentData.data["sakai:pooled-content-file-name"] + " " + managersList + " " + viewersList;
+        if (contentData.data["sakai:tags"]){
+            searchterm = searchterm + " " + contentData.data["sakai:tags"].join(" ");
+        }
         searchquery = prepSearchTermForURL(searchterm);
 
         // get related content for contentData
