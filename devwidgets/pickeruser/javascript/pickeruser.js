@@ -48,9 +48,10 @@ sakai.pickeruser = function(tuid, showSettings) {
 
     var $rootel = $("#" + tuid);
 
-    // Buttons
+    // Buttons & links
     var pickeruser_close_button = "#pickeruser_close_button";
     var $pickeruser_add_button = $("#pickeruser_add_button", $rootel);
+    var pickeruserPermissionsLink = ".pickeruser_permission_link";
 
     // Sharing
     var $pickeruser_i_want_to_share = $("#pickeruser_i_want_to_share", $rootel);
@@ -58,6 +59,7 @@ sakai.pickeruser = function(tuid, showSettings) {
     var pickeruserEmailLink = "#pickeruser_email_link";
     var pickeruserMessageLink = "#pickeruser_message_link";
     var pickeruserLinkInput = "#pickeruser_share_link input";
+    var pickeruserSelectedSharer = "";
 
     // Search
     var $pickeruser_container_search = $("#pickeruser_container_search", $rootel);
@@ -67,9 +69,14 @@ sakai.pickeruser = function(tuid, showSettings) {
     // Containers
     var pickeruserBasicContainer = "#pickeruser_basic_container";
     var $pickeruser_container = $("#pickeruser_container", $rootel);
+    var pickeruserEditPermissionsLink = "#pickeruser_edit_permission";
 
     // Templates
     var pickeruserBasicTemplate = "pickeruser_basic_template";
+
+    // i18n
+    var pickeruserCanEdit = "#pickeruser_can_edit";
+    var pickeruserCanView = "#pickeruser_can_view";
 
     var callback = false;
 
@@ -169,8 +176,49 @@ sakai.pickeruser = function(tuid, showSettings) {
                 listItem.remove();
             }
         });
-        
+
     };
+
+    String.prototype.startsWith = function(str){
+        return (this.indexOf(str) === 0);
+    }
+
+    var changePermission = function(userid, permission){
+        var data = [];
+        if (permission === "viewer") {
+            item = {
+                "url": sakai.content_profile.content_data.path + ".members.json",
+                "method": "POST",
+                "parameters": {
+                    ":viewer": userid,
+                    ":manager@Delete": userid
+                }
+            };
+            data.push(item);
+        } else {
+            item = {
+                "url": sakai.content_profile.content_data.path + ".members.json",
+                "method": "POST",
+                "parameters": {
+                    ":manager": userid,
+                    ":viewer@Delete": userid
+                }
+            };
+            data.push(item);
+        }
+        // batch request to update user access for the content
+        $.ajax({
+            url: sakai.config.URL.BATCH,
+            traditional: true,
+            type: "POST",
+            data: {
+                requests: $.toJSON(data)
+            },
+            success: function(data){
+
+            }
+        });
+    }
 
     var addBinding = function() {
         $(pickeruser_init_search).live("click", function() {
@@ -194,6 +242,36 @@ sakai.pickeruser = function(tuid, showSettings) {
 
         $(".pickeruser_remove a").live("click", function(){
             removeMembers(this.id, $(this).parent().parent().parent());
+        });
+
+        $(pickeruserPermissionsLink).live("click", function(){
+            $.each($(this)[0].classList, function(i, val){
+                if(val.startsWith("pickeruser_permission_link_")){
+                    pickeruserSelectedSharer = val.split("pickeruser_permission_link_")[1];
+                }
+            });
+            pickeruserEditPermissionsLink = $("#pickeruser_edit_permission")
+            pickeruserEditPermissionsLink.css("left",$(this).offset().left / 2 + "px");
+            pickeruserEditPermissionsLink.css("top",$(this).offset().top - 60 + "px");
+            pickeruserEditPermissionsLink.toggle();
+        });
+
+        $(pickeruserEditPermissionsLink + " a").live("click", function(){
+            $(pickeruserEditPermissionsLink).toggle();
+            var changeTo = $(this)[0].id.split("pickeruser_edit_permission_picker_")[1];
+            // Change the permissions if the user selected a different one
+            $pickeruserSelectedSharerSpan = $(".pickeruser_permission_link_" + pickeruserSelectedSharer + " span");
+            if (changeTo === "viewer") {
+                if ($pickeruserSelectedSharerSpan.html() !== $(pickeruserCanView).html()) {
+                    $pickeruserSelectedSharerSpan.html($(pickeruserCanView).html());
+                    changePermission(pickeruserSelectedSharer, changeTo);
+                }
+            }else {
+                if ($pickeruserSelectedSharerSpan.html() !== $(pickeruserCanEdit).html()) {
+                    $pickeruserSelectedSharerSpan.html($(pickeruserCanEdit).html());
+                    changePermission(pickeruserSelectedSharer, changeTo);
+                }
+            }
         });
     };
 

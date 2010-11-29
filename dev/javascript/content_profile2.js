@@ -23,41 +23,41 @@ sakai.content_profile = sakai.content_profile || {};
 sakai.content_profile.content_data = sakai.content_profile.content_data || {};
 
 sakai.content_profile = function(){
-    
+
     var content_path = ""; // The current path of the content
     var ready_event_fired = 0;
     var list_event_fired = false;
-    
+
     /**
      * Load the content profile for the current content path
      */
     sakai.content_profile.loadContentProfile = function(callback){
         // Check whether there is actually a content path in the URL
-        
+
         // http://localhost:8080/p/YjsKgQ8wNtTga1qadZwjQCe.2.json
         // http://localhost:8080/p/YjsKgQ8wNtTga1qadZwjQCe.members.json
-        
+
         if (content_path) {
-            
+
             // Get the content information and the members and managers
             var batchRequests = [
                 {
                     "url": content_path + ".2.json",
                     "method":"GET",
                     "cache":false,
-                    "dataType":"json" 
+                    "dataType":"json"
                 },
                 {
                     "url": content_path + ".members.json",
                     "method":"GET",
                     "cache":false,
-                    "dataType":"json" 
+                    "dataType":"json"
                 }
             ];
-            
+
             var contentInfo = false;
             var contentMembers = false;
-        
+
             $.ajax({
                 url: sakai.config.URL.BATCH,
                 type: "POST",
@@ -65,7 +65,7 @@ sakai.content_profile = function(){
                     requests: $.toJSON(batchRequests)
                 },
                 success: function(data){
-                    
+
                     if (data.results.hasOwnProperty(0)) {
                         contentInfo = $.parseJSON(data.results[0].body);
                     }
@@ -175,6 +175,84 @@ sakai.content_profile = function(){
         });
     };
 
+    /**
+     * addRemoveUsers users
+     * Function that adds or removes selected users to/from the content
+     * @param {String} tuid Identifier for the widget/type of user we're adding (viewer or manager)
+     * @param {Object} users List of users we're adding/removing
+     * @param {String} task Operation of either adding or removing
+     */
+    var addRemoveUsers = function(tuid, users, task){
+        var notificationType = sakai.api.Security.saneHTML($("#content_profile_viewers_text").text());
+        var reqData = [];
+        $.each(users, function(index, user){
+            var data = {
+                ":viewer": user
+            };
+            if (tuid === 'managers' && task === 'add') {
+                notificationType = sakai.api.Security.saneHTML($("#content_profile_managers_text").text());
+                data = {
+                    ":manager": user
+                };
+            }
+            else
+                if (task === 'remove') {
+                    if (user['userid']) {
+                        user = user['userid'];
+                    }
+                    else
+                        if (user['sakai:group-id']) {
+                            user = user['sakai:group-id'];
+                        }
+                        else
+                            if (user['rep:userId']) {
+                                user = user['rep:userId'];
+                            }
+                    data = {
+                        ":viewer@Delete": user
+                    };
+                    if (tuid === 'managers') {
+                        notificationType = sakai.api.Security.saneHTML($("#content_profile_managers_text").text());
+                        data = {
+                            ":manager@Delete": user
+                        };
+                    }
+                }
+            if (user) {
+                reqData.push({
+                    "url": content_path + ".members.json",
+                    "method": "POST",
+                    "parameters": data
+                });
+            }
+        });
+
+        if (reqData.length > 0) {
+            // batch request to update user access for the content
+            $.ajax({
+                url: sakai.config.URL.BATCH,
+                traditional: true,
+                type: "POST",
+                data: {
+                    requests: $.toJSON(reqData)
+                },
+                success: function(data){
+                    if (task === 'add') {
+                        sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_added_text").text() + " " + notificationType));
+                    }
+                    else {
+                        sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_removed_text").text() + " " + notificationType));
+                    }
+                }
+            });
+        }
+    };
+
+
+    $(window).unbind("sakai-pickeruser-finished");
+    $(window).bind("sakai-pickeruser-finished", function(e, peopleList){
+        addRemoveUsers('viewers', peopleList.toAdd, 'add');
+    });
     ////////////////////
     // Initialisation //
     ////////////////////
@@ -193,7 +271,7 @@ sakai.content_profile = function(){
 
     // Initialise the content profile page
     init();
-    
+
 };
 
 
@@ -458,9 +536,9 @@ var old_function = function(){
             });
         }
 
-        // Bind event when selection in the list change    
+        // Bind event when selection in the list change
         $(window).bind("list-people-selected-change", function(e, tuid){
-            toggleButtons(tuid);            
+            toggleButtons(tuid);
         });
 
         // Bind the remove viewers button

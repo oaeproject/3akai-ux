@@ -41,3 +41,8 @@ img.sm_suggestion_img{height:16px;width:16px;margin-right:5px;}
 .pickeruser_remove {margin-right:10px;}
 .pickeruser_permission {background:url("/dev/images/arrow_down_sm2.png") no-repeat scroll right 6px transparent; padding-right:15px;}
 .pickeruser_permission_link {margin-right:30px;}
+
+/* EDIT PERMISSION DROPDOWN */
+#pickeruser_edit_permission {font-size:.95em!important;left:110px;list-style-image:none;position:absolute;top:29px;z-index:10;margin:0;}
+#pickeruser_edit_permission li {list-style-type:none;padding:0;}
+#pickeruser_edit_permission ul {background-color:#fff;border:1px solid #CCC;margin:0;padding:5px 15px 5px 7px;}
