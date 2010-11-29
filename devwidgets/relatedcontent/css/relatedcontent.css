@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 .relatedcontent {
-    margin: 10px;
+    margin: 0px 10px 10px;
     padding: 15px;
     border: 1px solid #d4dade;
     overflow: hidden;
@@ -35,7 +35,7 @@
 .relatedcontent .relatedcontent_content  img {
     float: left;
     padding: 5px 10px;
-    width: 50px;
+    width: 30px;
 }
 .relatedcontent .relatedcontent_list {
     padding: 5px 0;
@@ -47,7 +47,7 @@
 .relatedcontent_list a {
     color: #3399cc;
     font-weight: bold;
-    font-size: 1.1em;
+    font-size: 0.9em;
 }
 .relatedcontent_more {
     margin-left: 70px;
