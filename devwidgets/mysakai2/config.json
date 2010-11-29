@@ -1,0 +1,13 @@
+{
+    "description":"A list of the sakai 2 sites",
+    "i18n": {
+        "default": "/devwidgets/mysakai2/bundles/default.properties"
+    },
+    "id":"mysakai2",
+    "name":"My Sakai 2 favourites",
+    "personalportal":true,
+    "type":"sakai",
+    "enabled":true,
+    "hasSettings":true,
+    "url":"/devwidgets/mysakai2/mysakai2.html"
+}
