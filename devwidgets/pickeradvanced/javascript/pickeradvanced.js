@@ -169,11 +169,8 @@ sakai.pickeradvanced = function(tuid, showSettings) {
         if (!searchQuery) {
             searchQuery = "*";
         } else {
-            searchQuery = $.trim(searchQuery);
-            searchQuery = searchQuery.replace(/\s+/g, "* OR *");
-            searchQuery = "*" + searchQuery + "*";
+            searchQuery = sakai.api.Server.createSearchString(searchQuery);
         }
-
         var pl_query = pickerData["searchIn"] + searchQuery + "&page=0&items=12&_=" + (Math.random() * 100000000000000000);
         renderSearch(pl_query);
     };

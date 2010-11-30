@@ -807,6 +807,30 @@ sakai.api.Server.filterJCRProperties = function(data) {
 };
 
 /**
+ * Create a search string for the server
+ * This method exists to transform a user's search string which
+ * they type in into the string we should pass to the server
+ *
+ * Strings with AND, OR, '"', '-', '_' are treated as advanced search queries
+ * and left alone. Those without are transformed into term* AND term2*
+ *
+ * @param {String} searchString The user's search
+ * @return {String} The string to send to the server
+ */
+sakai.api.Server.createSearchString = function(searchString) {
+    var ret = "";
+    var advancedSearchRegex = new RegExp("(AND|OR|\"|\-|\_)", "g");
+
+    if (advancedSearchRegex.test(searchString)) {
+        ret = searchString;
+    } else {
+        ret = $.trim(searchString).split(" ").join("* AND ") + "*";
+    }
+
+    return ret;
+};
+
+/**
  * @class UI
  *
  * @description
