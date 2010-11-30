@@ -7,7 +7,7 @@
 
         <!-- Sakai Core CSS -->
         <link rel="stylesheet" type="text/css" href="/dev/css/FSS/fss-base.css" />
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.base.css"/>
+        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.base.css" />
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.core.2.css" />
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.3.css" />
 
@@ -24,13 +24,16 @@
         <script type="text/javascript" src="/dev/configuration/config_custom.js"></script>
 
         <!-- Core 3rd-party JS -->
+        <script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/jquery.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/jquery-ui.full.js"></script>
         <script type="text/javascript" src="/dev/lib/fluid/3akai_Infusion.js"></script>
         <script type="text/javascript" src="/dev/lib/misc/l10n/globalization.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.json.js"></script>
         <script type="text/javascript" src="/dev/lib/misc/google/html-sanitizer-minified.js"></script>
+        <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.form.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.validate.sakai-edited.js"></script>
+        <script type="text/javascript" src="/dev/lib/jquery/plugins/gritter/jquery.gritter.js"></script>
 
         <!-- Sakai Core JS -->
         <script type="text/javascript" src="/dev/lib/sakai/sakai.api.core.js"></script>
@@ -39,11 +42,6 @@
         <script type="text/javascript" src="/dev/lib/sakai/sakai.api.l10n.js"></script>
         <script type="text/javascript" src="/dev/lib/sakai/sakai.api.user.js"></script>
         <script type="text/javascript" src="/dev/lib/sakai/sakai.api.widgets.js"></script>
-        
-        <!-- reCAPTCHA js -->
-        <script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
-        <script type="text/javascript" src="/dev/lib/jquery/plugins/gritter/jquery.gritter.js"></script>
-
 
     </head>
 
@@ -88,7 +86,7 @@
                 <div class="content_main">
 
                     <!-- Set fields red by adding the invalid class -->
-                    <form class="create_account_form" id="create_account_form" method="post" action="javascript:;">
+                    <form id="create_account_form" method="post" action="javascript:;">
                         <table summary="Create a new account">
                             <!-- FIRST NAME -->
                             <tr>
@@ -177,13 +175,17 @@
                                 <td></td>
                                 <td>
                                     <div>
-                                        <button id="save_account" class="s3d-button s3d-button-primary" type="submit"><span class="s3d-button-inner">__MSG__CREATE_ACCOUNT__</span></button>
-                                        <button id="cancel_button" class="s3d-button" type="reset"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
+                                        <button id="save_account" class="s3d-button s3d-button-primary" type="submit">
+                                            <span class="s3d-button-inner">__MSG__CREATE_ACCOUNT__</span>
+                                        </button>
+                                        <button id="cancel_button" class="s3d-button" type="reset">
+                                            <span class="s3d-button-inner">__MSG__CANCEL__</span>
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
                             <tr>
-                                <td><span id="success_message_title" style="display:none;">Account Created</span></td>
+                                <td><span id="success_message_title" style="display:none;">__MSG__ACCOUNT_CREATED__</span></td>
                                 <td><div id="success_message" class="success_message"><span id="success_message_value">__MSG__ACCOUNT_SUCCESSFULLY_CREATED__.</span> <a href="index.html">__MSG__CLICK_HERE_TO_LOGIN__.</a></div></td>
                             </tr>
 
