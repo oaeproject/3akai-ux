@@ -51,12 +51,22 @@ sakai.contentpreview = function(tuid,showSettings){
             renderDefaultPreview();
         }
     }
+    
+    var setDownloadButton = function(){
+        $("#contentpreview_download_button").attr("href", sakai.content_profile.content_data.path);
+    }
+    
+    var showManagerButtons = function(){
+        if (sakai.content_profile.content_data.isManager){
+            $("#contentpreview_actions_container").show();
+        }
+    }
 
     //TODO: Clean this mess up
     var renderImagePreview = function(){
         $(".contentpreview_image_preview").show();
         var json = {};
-        json.contentURL = sakai.content_profile.content_data.path + "/" + sakai.content_profile.content_data.data["sakai:pooled-content-file-name"];
+        json.contentURL = sakai.content_profile.content_data.path;
         $.TemplateRenderer("contentpreview_image_template", json, $("#contentpreview_image_calculatesize"));
         $("#contentpreview_image_rendered").bind('load', function(ev){
             var width = $("#contentpreview_image_rendered").width();
@@ -87,7 +97,7 @@ sakai.contentpreview = function(tuid,showSettings){
         };
         $(".contentpreview_text_preview").show();
         $.ajax({
-           url: sakai.content_profile.content_data.path + "/" + sakai.content_profile.content_data.data["sakai:pooled-content-file-name"],
+           url: sakai.content_profile.content_data.path,
            type: "GET",
            success: function(data){
                $(".contentpreview_text_preview").html(data.replace(/\n/g, "<br/>"));
@@ -98,7 +108,7 @@ sakai.contentpreview = function(tuid,showSettings){
     var renderVideoPlayer = function(){
         $(".contentpreview_videoaudio_preview").show();
         var so = createSWFObject(false, {}, {});
-        so.addVariable('file', sakai.content_profile.content_data.path + "/" + sakai.content_profile.content_data.data["sakai:pooled-content-file-name"]);
+        so.addVariable('file', sakai.content_profile.content_data.path);
         if (sakai.content_profile.content_data.data.previewImage) {
             so.addVariable('image', sakai.content_profile.content_data.data.previewImage);
         }
@@ -109,7 +119,7 @@ sakai.contentpreview = function(tuid,showSettings){
     var renderAudioPlayer = function(){
         $(".contentpreview_videoaudio_preview").show();
         var so = createSWFObject(false, {}, {});
-        so.addVariable('file', sakai.content_profile.content_data.path + "/" + sakai.content_profile.content_data.data["sakai:pooled-content-file-name"]);
+        so.addVariable('file', sakai.content_profile.content_data.path);
         so.addVariable('image', "/devwidgets/contentpreview/images/content_preview_audio.jpg");
         so.addVariable('stretching','fill');
         so.write("contentpreview_videoaudio_preview");
@@ -117,7 +127,7 @@ sakai.contentpreview = function(tuid,showSettings){
     
     var renderFlashPlayer = function(){
         $(".contentpreview_flash_preview").show();
-        var so = createSWFObject(sakai.content_profile.content_data.path + "/" + sakai.content_profile.content_data.data["sakai:pooled-content-file-name"], {'allowscriptaccess':'never'}, {});
+        var so = createSWFObject(sakai.content_profile.content_data.path, {'allowscriptaccess':'never'}, {});
         so.addParam('scale','exactfit');
         so.write("contentpreview_flash_preview");
     }
@@ -151,6 +161,8 @@ sakai.contentpreview = function(tuid,showSettings){
 
     $(window).bind("sakai.contentpreview.start", function(){
         determineDataType();
+        showManagerButtons();
+        setDownloadButton();
     });
     
     // Indicate that the widget has finished loading

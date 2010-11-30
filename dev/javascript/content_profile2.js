@@ -80,6 +80,16 @@ sakai.content_profile = function(){
                         });
                     }
 
+                    var manager = false;
+                    var anon = true;
+                    if (!sakai.data.me.user.anon){
+                        for (var i in contentMembers.managers) {
+                            if (contentMembers.managers[i].userid === sakai.data.me.user.userid) {
+                            	manager = true;
+                            }
+                        }
+                    }
+
                     var directory = [];
                     // When only one tag is put in this will not be an array but a string
                     // We need an array to parse and display the results
@@ -102,13 +112,20 @@ sakai.content_profile = function(){
                         }
                     });
 
+                    var fullPath = content_path + "/" + contentInfo["sakai:pooled-content-file-name"];
+                    if (contentInfo["sakai:pooled-content-file-name"].substring(contentInfo["sakai:pooled-content-file-name"].lastIndexOf("."), contentInfo["sakai:pooled-content-file-name"].length) !== contentInfo["sakai:fileextension"]) {
+                        fullPath += contentInfo["sakai:fileextension"];
+                    }
+
                     json = {
                         data: contentInfo,
                         members: contentMembers,
                         mode: "content",
-                        url: sakai.config.SakaiDomain + content_path,
-                        path: content_path,
-                        saveddirectory : directory
+                        url: sakai.config.SakaiDomain + fullPath,
+                        path: fullPath,
+                        saveddirectory : directory,
+                        anon: anon,
+                        isManager: manager
                     };
 
                     sakai.content_profile.content_data = json;
