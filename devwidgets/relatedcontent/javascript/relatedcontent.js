@@ -107,13 +107,13 @@ sakai.relatedcontent = function(tuid,showSettings){
                 managersList += " " + contentData.members.managers[i].userid;
             }
         }
-        for (var i = 0; i < contentData.members.viewers.length; i++) {
-            if (contentData.members.viewers[i]) {
-                viewersList += " " + contentData.members.viewers[i].userid;
+        for (var j = 0; j < contentData.members.viewers.length; j++) {
+            if (contentData.members.viewers[j]) {
+                viewersList += " " + contentData.members.viewers[j].userid;
             }
         }
 
-        searchterm = contentData.data["sakai:pooled-content-file-name"] + " " + managersList + " " + viewersList;
+        var searchterm = contentData.data["sakai:pooled-content-file-name"] + " " + managersList + " " + viewersList;
         if (contentData.data["sakai:tags"]){
             searchterm = searchterm + " " + contentData.data["sakai:tags"].join(" ");
         }
