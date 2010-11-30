@@ -819,7 +819,7 @@ sakai.api.Server.filterJCRProperties = function(data) {
  */
 sakai.api.Server.createSearchString = function(searchString) {
     var ret = "";
-    var advancedSearchRegex = new RegExp("(AND|OR|\"|\-|\_)", "g");
+    var advancedSearchRegex = new RegExp("(AND|OR|\"|-|_)", "g");
 
     if (advancedSearchRegex.test(searchString)) {
         ret = searchString;
