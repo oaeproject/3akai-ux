@@ -1,14 +1,12 @@
 {
     "ca":true,
-    //"grouppages":true,
     "description":"Basic LTI Widget",
     "id":"basiclti",
     "i18n": {
         "default": "/devwidgets/basiclti/bundles/default.properties",
-    }
+    },
     "img":"/devwidgets/basiclti/images/basiclti.png",
     "name":"Basic LTI",
-    //"showinsakaigoodies":true,
     "type":"sakai",
     "enabled":true,
     "url":"/devwidgets/basiclti/basiclti.html"
