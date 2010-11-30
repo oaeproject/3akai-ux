@@ -398,40 +398,42 @@ sakai.topnavigation = function(tuid, showSettings){
     var switchToAnonymousMode = function(){
 
         // Show Nav Container
-        $(exploreNavigationContainer).show();
+        if (sakai.config.anonAllowed){
+            $(exploreNavigationContainer).show();
 
-        // Hide things which are irrelvant for Anonymous user
-        $(".personal .mail").hide();
-        $(".personal .sign_out").hide();
-        $(".help").hide();
-        $("#user_link_container").hide();
+            // Hide things which are irrelvant for Anonymous user
+            $(".personal .mail").hide();
+            $(".personal .sign_out").hide();
+            $(".help").hide();
+            $("#user_link_container").hide();
 
-        // Hide search bar
-        $general_search_container.hide();
+            // Show anonymous elements
+            $("#other_logins_button_container").show();
+            $(".log_in").addClass("help_none");
 
-        // Show anonymous elements
-        $("#other_logins_button_container").show();
-        $(".log_in").addClass("help_none");
+            // if config.js is set to external, register link is hidden
+            if(!sakai.config.Authentication.internal) {
+                $("#register_button_container").hide();
+            }
+            else {
+                $("#register_button_container").show();
+            }
+            $("#login_button_container").show();
 
-        // if config.js is set to external, register link is hidden
-        if(!sakai.config.Authentication.internal) {
-            $("#register_button_container").hide();
+            // Set up public nav links
+            $("#nav_my_sakai_link a").attr("href", sakai.config.URL.PUBLIC_MY_DASHBOARD_URL);
+            $("#nav_content_media_link a").attr("href", sakai.config.URL.PUBLIC_CONTENT_MEDIA_URL_PAGE);
+            $("#nav_people_link a").attr("href", sakai.config.URL.PUBLIC_PEOPLE_URL);
+            $("#nav_courses_sites_link a").attr("href", sakai.config.URL.PUBLIC_COURSES_SITES_URL);
+            $("#nav_search_link a").attr("href", sakai.config.URL.PUBLIC_SEARCH_URL_PAGE);
+
+            renderMenu();
         }
         else {
-            $("#register_button_container").show();
+            $general_search_container.hide();
         }
-        $("#login_button_container").show();
-
-        // Set up public nav links
-        $("#nav_my_sakai_link a").attr("href", sakai.config.URL.PUBLIC_MY_DASHBOARD_URL);
-        $("#nav_content_media_link a").attr("href", sakai.config.URL.PUBLIC_CONTENT_MEDIA_URL_PAGE);
-        $("#nav_people_link a").attr("href", sakai.config.URL.PUBLIC_PEOPLE_URL);
-        $("#nav_courses_sites_link a").attr("href", sakai.config.URL.PUBLIC_COURSES_SITES_URL);
-        $("#nav_search_link a").attr("href", sakai.config.URL.PUBLIC_SEARCH_URL_PAGE);
-
         // Make the login page redirect to the current page after login
         $(".log_in").attr("href", $(".log_in").attr("href") + "?url=" + escape(window.location.pathname + window.location.search + window.location.hash));
-
     };
 
     /**
@@ -481,18 +483,7 @@ sakai.topnavigation = function(tuid, showSettings){
         updateChatStatus();
     };
 
-    ///////////////////////
-    // Initial functions //
-    ///////////////////////
-
-    /**
-     * Contains all the functions and methods that need to be
-     * executed on the initial load of the page
-     */
-    var doInit = function(){
-
-        $(navMyProfile).attr("href", "/~" + sakai.data.me.user.userid);
-
+    var renderMenu = function() {
         var obj = {};
         var menulinks = [];
 
@@ -525,6 +516,21 @@ sakai.topnavigation = function(tuid, showSettings){
         obj.links = menulinks;
         // Get navigation and render menu template
         $(".explore").html($.TemplateRenderer("navigation_template", obj));
+    }
+
+    ///////////////////////
+    // Initial functions //
+    ///////////////////////
+
+    /**
+     * Contains all the functions and methods that need to be
+     * executed on the initial load of the page
+     */
+    var doInit = function(){
+
+        $(navMyProfile).attr("href", "/~" + sakai.data.me.user.userid);
+
+        renderMenu();
 
         var person = sakai.data.me;
 
