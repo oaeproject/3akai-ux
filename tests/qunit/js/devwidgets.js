@@ -114,7 +114,11 @@ var loadWidgets = function() {
                 async: false,
                 type: "json",
                 success: function(data) {
-                    data = $.parseJSON(data);
+                    try {
+                        data = $.parseJSON(data);
+                    } catch (e) {
+                        console.error(widgetName + " has an error in its json");
+                    }
                     sakai.widgets.widgets[widgetName] = data;
                     widgetHTML = sakai.widgets.widgets[widgetName].url;
                     sakai.qunit.widgets.push({name:widgetName, html: widgetHTML, js: widgetJS});

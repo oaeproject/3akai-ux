@@ -173,13 +173,13 @@ var testAllProperties = function(subproperties, widgetName, callback) {
                 url: propertyURL,
                 async: false,
                 complete: function(xhr, status) {
-                    ok(status === "success", propertyURL + " on the " + propertyName + " on the " );
-                    if (last) {
+                    ok(status === "success", propertyURL + " on the " + propertyName);
+                    if ($.isFunction(callback)) {
                         callback();
                     }
                 }
             });
-        })(subproperties[l].url, subproperties[l].name, subproperties.length-1 === l);
+        })(subproperties[l].url, subproperties[l].name);
     }
 };
 
@@ -191,10 +191,13 @@ var testWidgetURLs = function() {
             var subproperties = getWidgetProperties(theWidget);
             if (subproperties.length > 0) {
                 (function(widgetName, subprops) {
-                    stop();
                     asyncTest(widgetName, subprops.length, function() {
+                        var counter = 0;
                          testAllProperties(subprops, widgetName, function() {
-                             start();
+                             counter++;
+                             if (counter === subprops.length) {
+                                 start();
+                             }
                          });
                     });
                 })(theWidget.id, subproperties);  
