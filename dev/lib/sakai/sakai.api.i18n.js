@@ -130,6 +130,10 @@ sakai.api.i18n.init = function(){
      */
     var finishI18N = function(){
         var currentPage = window.location.pathname;
+        if (!sakai.config.anonAllowed) {
+            sakai.config.requireUser = sakai.config.requireUser.concat(sakai.config.requireUserAnonNotAllowed);
+            sakai.config.requireAnonymous = sakai.config.requireAnonymous.concat(sakai.config.requireAnonymousAnonNotAllowed);
+        }
         if (sakai.data.me.user.anon) {
             if ($.inArray(currentPage, sakai.config.requireUser) > -1){
                 sakai.api.Security.sendToLogin();

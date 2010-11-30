@@ -697,7 +697,24 @@ sakai.config = {
         "/",
         "/index.html"
     ],
-
+    /*
+     * List of pages that will be added to requireUser if
+     * anonAllowed is false
+     */
+    requireUserAnonNotAllowed: [
+        "/dev/people.html",
+        "/dev/profile_edit.html",
+        "/dev/search.html",
+        "/dev/search_content.html",
+        "/dev/search_groups.html",
+        "/dev/search_people.html"
+    ],
+    /*
+     * List of pages that will be added to requireAnonymous if
+     * anonAllowed is false
+     */
+    requireAnonymousAnonNotAllowed: [
+    ],
     /*
      * List op pages that require additional processing to determine
      * whether the page can be shown to the current user. These pages
