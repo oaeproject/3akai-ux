@@ -111,11 +111,12 @@ var getAllKeys = function($elt) {
  *
  * @param {jQuery} $elt The element to check for valid translated keys (and all its children)
  */
-var checkKeys = function($elt) {
+var checkKeys = function($elt, callback) {
     var keys = getAllKeys($elt);
     for (var i=0,j=keys.length;i<j;i++) {
         ok(sakai.data.i18n.defaultBundle[keys[i]], "Default value exists for " + keys[i]);
     }
+    callback();
 };
 
 /**
@@ -192,57 +193,69 @@ var testInternationalization = function(){
         checkAttrs($("#qunit-fixture"));
     });
 
-    test("TEST - checking for missing value", 2, function() {
+    test("TEST - chceking for missing value", 2,  function() {
         ok(sakai.data.i18n.defaultBundle["ABOUT"], "Testing for a default value for ABOUT");
         ok(!sakai.data.i18n.defaultBundle["ABOUT123456"], "Testing for a missing value for ABOUT123456");
     });
 
     // Check all the core HTML files
-    for (var i=0,j=sakai.qunit.htmlFiles.length; i<j; i++) {
-        var urlToCheck = sakai.qunit.htmlFiles[i];
-        $.ajax({
-            url: urlToCheck,
-            async: false,
-            success: function(data){
-                var div = document.createElement('div');
-                div.innerHTML = data;
-                test(urlToCheck, function() {
-                    checkElements($(div));
-                    checkAttrs($(div));
-                    checkKeys($(div));
+    for (var i=0,j=sakai.qunit.devHtmlFiles.length; i<j; i++) {
+        var urlToCheck = sakai.qunit.devHtmlFiles[i];
+        (function(url) {
+            asyncTest(url, function() {
+                $.ajax({
+                    url: url,
+                    async: false,
+                    success: function(data){
+                        var div = document.createElement('div');
+                        div.innerHTML = data;
+                        checkElements($(div));
+                        checkAttrs($(div));
+                        checkKeys($(div), function() {
+                            start();
+                        });
+                    }
                 });
-            }
-        });
+            });
+        })(urlToCheck);
     }
 
     // Check all the widgets
     for (var z=0,y=sakai.qunit.widgets.length; z<y; z++) {
         var widgetURLToCheck = sakai.qunit.widgets[z].html;
-        $.ajax({
-            url: widgetURLToCheck,
-            async: false,
-            success: function(data){
-                var div = document.createElement('div');
-                div.innerHTML = data;
-                var widgetObject = sakai.qunit.widgets[z];
-                (function($div, widget) {
-                    asyncTest(widgetURLToCheck, function() {
+        var widgetObject = sakai.qunit.widgets[z];
+        (function(url, widget) {
+            $.ajax({
+                url: url,
+                async: false,
+                success: function(data){
+                    var div = document.createElement('div');
+                    div.innerHTML = data;
+                    asyncTest(url, function() {
                         checkElements($(div));
                         checkAttrs($(div));
                         checkWidgetKeys($(div), widget, function() {
                             start();
                         });
                     });
-                })($(div), widgetObject);
-            }
-        });
+                }
+            });
+        })(widgetURLToCheck, widgetObject);
     }
+    QUnit.start();
 
 };
 
 /**
  * Run the test
  */
-testInternationalization();
+if (sakai.qunit && sakai.qunit.ready) {
+    testInternationalization();
+} else {
+    $(window).bind("sakai-qunit-ready", function() {
+        testInternationalization();
+    });
+}
+
 
 });

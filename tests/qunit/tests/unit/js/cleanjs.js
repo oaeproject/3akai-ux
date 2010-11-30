@@ -29,7 +29,7 @@ var checkForAlert = function(file) {
     }
 };
 
-var jslintfile = function(data) {
+var jslintfile = function(data, callback) {
     var result = JSLINT(data, {
         sub:true // ignore dot notation recommendations - ie ["userid"] should be .userid
         });
@@ -42,24 +42,38 @@ var jslintfile = function(data) {
                 ok(false, "JSLint error on line " + error.line + " character " + error.character + ": " + error.reason + error.evidence);
         }
     }
+    callback();
 };
 
-for (var i=0, j=sakai.qunit.allJSFiles.length; i<j; i++) {
-    var file = sakai.qunit.allJSFiles[i];
-    (function(filename) {
-        $.ajax({
-            async: false,
-            dataType: "text",
-            url: filename,
-            success: function(data) {
-                test(filename, function() {
-                    checkForConsoleLog(data, filename);
-                    jslintfile(data);
-                    checkForAlert(data);
+var cleanJSTest = function() {
+    for (var i=0, j=sakai.qunit.allJSFiles.length; i<j; i++) {
+        var file = sakai.qunit.allJSFiles[i];
+        (function(filename) {
+            asyncTest(filename, function() {
+                $.ajax({
+                    async: false,
+                    dataType: "text",
+                    url: filename,
+                    success: function(data) {
+                        checkForConsoleLog(data, filename);
+                        checkForAlert(data);
+                        jslintfile(data, function() {
+                            start();
+                        });
+                    }
                 });
-            }
-        });
-    })(file);
+            });
+        })(file);
+    }
+    QUnit.start();
+};
+
+if (sakai.qunit && sakai.qunit.ready) {
+    cleanJSTest();
+} else {
+    $(window).bind("sakai-qunit-ready", function() {
+        cleanJSTest();
+    });
 }
 
 });
