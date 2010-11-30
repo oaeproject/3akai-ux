@@ -14,19 +14,23 @@
         <div id="pickeruser_basic_container"></div>
 
         <div id="pickeruser_basic_template" style="display:none"><!--
-            <h1 class="fl-force-left" id="pickeruser_visibility_header">
-                {if content_profile.content_data.data["sakai:permissions"] == "public"}
-                    ${sakai.api.i18n.Widgets.getValueForKey("pickeruser", "", config.Permissions.Content.label.public)}
-                {elseif content_profile.content_data.data["sakai:permissions"] == "private"}
-                    ${sakai.api.i18n.Widgets.getValueForKey("pickeruser", "", config.Permissions.Content.label.private)}
-                {else content_profile.content_data.data["sakai:permissions"] == "everyone"}
-                    ${sakai.api.i18n.Widgets.getValueForKey("pickeruser", "", config.Permissions.Content.label.everyone)}
-                {/if}
-                __MSG__CAN_VIEW_THIS_CONTENT__
-            </h1>
-            <span id="pickeruser_share_link" class="fl-force-left fl-push">
-                <input type="text" value="${window.location}" readonly="readonly"/><a href="javascript:;" id="pickeruser_message_link" class="s3d-regular-links s3d-bold">__MSG__MESSAGE_LINK__</a><a href="mailto:?subject=${data.me.profile.basic.elements.firstName.value} ${sakai.data.me.profile.basic.elements.lastName.value} __MSG__WANTS_TO_SHARE__&body=${data.me.profile.basic.elements.firstName.value} ${sakai.data.me.profile.basic.elements.lastName.value} __MSG__WANTS_TO_SHARE__ %0A%0A__MSG__DOCUMENT_NAME__: &quot;${content_profile.content_data.data["sakai:pooled-content-file-name"]}&quot;%0A__MSG__DOCUMENT_TYPE__: ${content_profile.content_data.data["jcr:content"]["jcr:mimeType"]}%0A__MSG__LINK__: ${window.location}%0A%0A%0A__MSG__IF_YOU_DONT_HAVE_AN_ACCOUNT__${window.location.protocol}//${window.location.host}/dev/create_new_account.html" id="pickeruser_email_link" class="s3d-regular-links s3d-bold">__MSG__EMAIL_THE_LINK__</a>
-            </span>
+            <div class="s3d-highlight_area_background">
+                <h1 class="fl-force-left" id="pickeruser_visibility_header">
+                    {if content_profile.content_data.data["sakai:permissions"] == "public"}
+                        ${sakai.api.i18n.Widgets.getValueForKey("pickeruser", "", config.Permissions.Content.label.public)}
+                    {elseif content_profile.content_data.data["sakai:permissions"] == "private"}
+                        ${sakai.api.i18n.Widgets.getValueForKey("pickeruser", "", config.Permissions.Content.label.private)}
+                    {else content_profile.content_data.data["sakai:permissions"] == "everyone"}
+                        ${sakai.api.i18n.Widgets.getValueForKey("pickeruser", "", config.Permissions.Content.label.everyone)}
+                    {/if}
+                    __MSG__CAN_VIEW_THIS_CONTENT__
+                </h1>
+                <span id="pickeruser_share_link" class="fl-force-left fl-push">
+                    <input type="text" value="${window.location}" readonly="readonly"/><a href="javascript:;" id="pickeruser_message_link" class="s3d-regular-links s3d-bold">__MSG__MESSAGE_LINK__</a><a href="mailto:?subject=${data.me.profile.basic.elements.firstName.value} ${sakai.data.me.profile.basic.elements.lastName.value} __MSG__WANTS_TO_SHARE__&body=${data.me.profile.basic.elements.firstName.value} ${sakai.data.me.profile.basic.elements.lastName.value} __MSG__WANTS_TO_SHARE__ %0A%0A__MSG__DOCUMENT_NAME__: &quot;${content_profile.content_data.data["sakai:pooled-content-file-name"]}&quot;%0A__MSG__DOCUMENT_TYPE__: ${content_profile.content_data.data["jcr:content"]["jcr:mimeType"]}%0A__MSG__LINK__: ${window.location}%0A%0A%0A__MSG__IF_YOU_DONT_HAVE_AN_ACCOUNT__${window.location.protocol}//${window.location.host}/dev/create_new_account.html" id="pickeruser_email_link" class="s3d-regular-links s3d-bold">__MSG__EMAIL_THE_LINK__</a>
+                </span>
+                <hr class="fl-push fl-hidden"/>
+            </div>
+
             <h1 class="fl-force-left">__MSG__THESE_PEOPLE_CAN_EDIT_OR_BE_LINKED__</h1>
             <div id="pickeruser_listpeople">
                 <ul>
@@ -105,12 +109,15 @@
                     </li>
                 </ul>
             </div>
-            <span class="fl-force-left" id="pickeruser_people"><span class="s3d-bold">__MSG__ADD_PEOPLE__</span> - <a href="javascript:;" id="pickeruser_init_search" class="s3d-action">__MSG__SEARCH__</a></span>
-            <span class="fl-force-left" id="pickeruser_people_text" style="display:none;">__MSG__TYPE_NAME_PERSON_GROUP__ __MSG__OR__ </span>
-            <span class="fl-force-left" id="pickeruser_form_container"><input name="pickeruser_search_query" id="pickeruser_search_query" type="text" autocomplete="off"/></span>
+            <div class="s3d-highlight_area_background">
+                <span class="s3d-bold" id="pickeruser_add_people">__MSG__ADD_PEOPLE__</span>
+                <span class="" id="pickeruser_form_container"><input name="pickeruser_search_query" id="pickeruser_search_query" type="text" autocomplete="off"/></span>
+                <a href="javascript:;" id="pickeruser_init_search" class="s3d-action">__MSG__SEARCH__</a>
+                <hr class="fl-push fl-hidden"/>
+            </div>
         --></div>
 
-        <div id="pickeruser_footer_options" class="fl-force-left">
+        <div id="pickeruser_footer_options">
             <button type="button" class="s3d-button s3d-button-primary fl-force-right" id="pickeruser_add_button" disabled="disabled">
                 <span class="s3d-button-inner">__MSG__ADD__</span>
             </button>

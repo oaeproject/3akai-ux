@@ -1,6 +1,6 @@
 /** SEARCH **/
 #pickeruser_container{width:637px;height:490px;padding:5px;margin-left:-319px;}
-#pickeruser_container #pickeruser_container_search{width:591px;height:381px;}
+#pickeruser_container #pickeruser_container_search{width:591px;}
 #pickeruser_container #pickeruser_container_search.no_message{height:200px;}
 
 /* HEADER */
@@ -12,14 +12,13 @@
 #pickeruser_container div.fl-force-left{width:100%;}
 
 /* SHARE LINK */
-#pickeruser_container #pickeruser_basic_container #pickeruser_share_link {margin:5px 0 20px;}
+#pickeruser_container #pickeruser_basic_container #pickeruser_share_link {margin:5px 0 0;}
 #pickeruser_container #pickeruser_basic_container #pickeruser_share_link input{width:350px; margin-right:10px;height:26px;}
 #pickeruser_message_link, #pickeruser_email_link {margin:0 7px;}
 
 /* FOOTER */
 #pickeruser_container #pickeruser_footer{float:right;width:445px;}
 #pickeruser_footer_select{padding-bottom:40px;}
-#pickeruser_container #pickeruser_footer_options{margin-top:15px;}
 
 /* CONTENT */
 #pickeruser_container #pickeruser_content{height:280px;width:600px;overflow:auto;}
@@ -35,12 +34,17 @@ img.sm_suggestion_img{height:16px;width:16px;margin-right:5px;}
 #pickeruser_listpeople ul li {border-bottom:1px solid #E4E4E4; border-top:1px solid #FFFFFF; clear:both; display:block; list-style:none outside none; overflow:hidden; padding:5px 0 5px 10px;}
 #pickeruser_listpeople ul li span {margin-top:9px;}
 #pickeruser_listpeople ul li:hover {background-color:#99ccff;}
+#pickeruser_listpeople ul .s3d-highlight_area_background {margin:0;}
 .pickeruser_viewer_name, .pickeruser_manager_name {float:left;}
 .pickeruser_people_picture {float:left; height:32px; margin-right:10px; width:32px;}
 .pickeruser_right_floats {float:right; margin-right:10px;}
 .pickeruser_remove {margin-right:10px;}
 .pickeruser_permission {background:url("/dev/images/arrow_down_sm2.png") no-repeat scroll right 6px transparent; padding-right:15px;}
 .pickeruser_permission_link {margin-right:30px;}
+
+#pickeruser_add_people {float:left; margin:9px 9px 0 0;}
+#pickeruser_form_container .as-selections {width:400px; float:left;}
+#pickeruser_init_search {float:right; margin:9px;}
 
 /* EDIT PERMISSION DROPDOWN */
 #pickeruser_edit_permission {font-size:.95em!important;left:110px;list-style-image:none;position:absolute;top:29px;z-index:10;margin:0;}
