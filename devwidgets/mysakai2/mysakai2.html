@@ -1,0 +1,38 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/mysakai2/css/mysakai2.css" />
+<!-- CONTENT -->
+<div class="mysakai2_widget">
+    <div class="fl-widget-content s3d-widget-content" id="mysakai2_list">
+    </div>
+    <div id="mysakai2_list_template"><!--
+        <ul>
+            {for site in sites}
+                <li>
+                    <a class="s3d-regular-links s3d-bold">${site.title}</a><br />
+                    <span id="mysakai2_forums"><a class="s3d-regular-links s3d-bold" href="#">${site.messages}</a>
+                    <img src="/devwidgets/mysakai2/images/messages.png" title="${site.messages}__MSG__NEW_MESSAGES__ "/>
+                    </span>
+                    <span class="s3d-regular-links s3d-bold">/</span>
+                    <span id="mysakai2_comments"><a class="s3d-regular-links s3d-bold" href="#">${site.forums}</a>
+                    <img src="/devwidgets/mysakai2/images/forums.png" title="${site.forums}__MSG__NEW_FORUM_POSTS__" />
+                    </span>
+                </li>
+            {/for}
+        </ul>
+    --></div>
+    <div class="fl-widget-options fl-fix" id="mysakai2_top">
+        <div class="widget-options-inner">
+            <ul>
+                <li>
+                    <a href="">__MSG__VIEW_ALL_MY_SITES__</a>
+                </li>
+            </ul>
+        </div>
+        <div class="s3d-widget-options-footer-left">
+            <div class="s3d-widget-options-footer-right">
+            </div>
+        </div>
+    </div>
+</div>
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/mysakai2/javascript/mysakai2.js" />
