@@ -170,6 +170,7 @@
         {/if}
         {if mode === "content2"}
             {if data.profile}
+                {var numUsers = 0}
                 <div class="fl-force-left entity_content_header">
                     <span class="entity_content_header_text">
                         ${data.profile.name}
@@ -181,7 +182,6 @@
                     </div>
                     <div class="fl-force-left entity_content_used_by">
                         {if sakai.content_profile && sakai.content_profile.content_data && sakai.content_profile.content_data.members}
-                            {var numUsers = 0}
                             {if sakai.content_profile.content_data.members.managers}
                                 {var numUsers = sakai.content_profile.content_data.members.managers.length}
                             {/if}
@@ -201,9 +201,27 @@
                         {/if}
                     </div>
                     <div class="fl-force-left entity_content_permissions">
-                        {if data.profile.permissions === "public"}
-                            <p class="entity_content_link_icon"></p><a href="${data.profile.path}" class="s3d-regular-light-links s3d-bold">__MSG__ANYONE_WITH_LINK_CAN_SEE__</a>
-                        {/if}
+                        <a href="${data.profile.path}" class="s3d-regular-light-links s3d-bold">
+                        <p class="entity_content_link_icon"></p>
+                            {if data.profile.permissions === "public"}
+                                __MSG__VISIBLE_TO_ANYONE__
+                            {elseif data.profile.permissions === "everyone"}
+                                __MSG__VISIBLE_TO_ANYONE_LOGGED_IN__
+                            {elseif data.profile.permissions === "private"}
+                                __MSG__PRIVATE__
+                                {if sakai.content_profile.content_data.members.managers}
+                                    __MSG__TO__ ${sakai.api.User.getDisplayName(sakai.content_profile.content_data.members.managers[0])}
+                                    {if numUsers > 1}
+                                        + ${numUsers - 1}
+                                        {if numUsers = 2}
+                                            __MSG__OTHER__
+                                        {else}
+                                            __MSG__OTHERS__
+                                        {/if}
+                                    {/if}
+                                {/if}
+                            {/if}
+                        </a>
                     </div>
                 </div>
             {/if}
