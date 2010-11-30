@@ -221,9 +221,9 @@ sakai.config = {
         },
         Content: {
             label: {
-                "public":"THE_PUBLIC",
-                "private":"MANAGERS_AND_MEMBERS",
-                "everyone":"EVERYONE"
+                "public":"VISIBLE_TO_ANYONE",
+                "private":"PRIVATE_TO_ANYONE_I_SHARE_WITH",
+                "everyone":"VISIBLE_TO_ANYONE_WHOS_LOGGED_IN"
             }
          }
     },

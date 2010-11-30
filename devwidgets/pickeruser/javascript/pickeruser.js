@@ -65,6 +65,7 @@ sakai.pickeruser = function(tuid, showSettings) {
     var $pickeruser_container_search = $("#pickeruser_container_search", $rootel);
     var pickeruser_search_query = "#pickeruser_search_query";
     var pickeruser_init_search = "#pickeruser_init_search";
+    var pickeruserMessageNewMembers = "#pickeruser_message_new_members";
 
     // Containers
     var pickeruserBasicContainer = "#pickeruser_basic_container";
@@ -78,6 +79,7 @@ sakai.pickeruser = function(tuid, showSettings) {
     var pickeruserCanEdit = "#pickeruser_can_edit";
     var pickeruserCanView = "#pickeruser_can_view";
 
+    var userList = [];
     var callback = false;
 
     var pickerData = {
@@ -128,17 +130,6 @@ sakai.pickeruser = function(tuid, showSettings) {
         pickerData.currentElementCount = 0;
         pickerData.selectCount = 0;
         clearAutoSuggest();
-    };
-
-    /**
-     * Executed when the message has been handled
-     */
-    var messageSent = function(){
-
-    };
-
-    var addMembers = function(){
-
     };
 
     var removeMembers = function(selectedUserId, listItem){
@@ -233,15 +224,21 @@ sakai.pickeruser = function(tuid, showSettings) {
         });
 
         $(pickeruserMessageLink).live("click", function(){
-            sakai.sendmessage.initialise(null, true, false, messageSent, sakai.data.me.profile.basic.elements.firstName.value + " " + sakai.data.me.profile.basic.elements.lastName.value + " " + sakai.api.i18n.Widgets.getValueForKey("pickeruser", "", "WANTS_TO_SHARE"), sakai.data.me.profile.basic.elements.firstName.value + " " + sakai.data.me.profile.basic.elements.lastName.value + " " + sakai.api.i18n.Widgets.getValueForKey("pickeruser", "", "WANTS_TO_SHARE") + "\n\n" + sakai.api.i18n.Widgets.getValueForKey("pickeruser", "", "DOCUMENT_NAME") + "\"" + sakai.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"\n" + sakai.api.i18n.Widgets.getValueForKey("pickeruser", "", "DOCUMENT_TYPE") + ": " + sakai.content_profile.content_data.data["jcr:content"]["jcr:mimeType"] + "\n" + sakai.api.i18n.Widgets.getValueForKey("pickeruser", "", "LINK") + ": " + window.location);
+            sakai.sendmessage.initialise(null, true, false, messageSent, sakai.data.me.profile.basic.elements.firstName.value + " " + sakai.data.me.profile.basic.elements.lastName.value + " " + sakai.api.i18n.Widgets.getValueForKey("pickeruser", "", "WANTS_TO_SHARE"), sakai.data.me.profile.basic.elements.firstName.value + " " + sakai.data.me.profile.basic.elements.lastName.value + " " + sakai.api.i18n.Widgets.getValueForKey("pickeruser", "", "WANTS_TO_SHARE") + "\n\n" + sakai.api.i18n.Widgets.getValueForKey("pickeruser", "", "DOCUMENT_NAME") + ": \"" + sakai.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"\n" + sakai.api.i18n.Widgets.getValueForKey("pickeruser", "", "DOCUMENT_TYPE") + ": " + sakai.content_profile.content_data.data["jcr:content"]["jcr:mimeType"] + "\n" + sakai.api.i18n.Widgets.getValueForKey("pickeruser", "", "LINK") + ": " + window.location);
+        });
+
+        $(pickeruserEmailLink).live("click", function(){
+            location.href = "mailto:?subject=" + sakai.data.me.profile.basic.elements.firstName.value + " " + sakai.data.me.profile.basic.elements.lastName.value + " " + sakai.api.i18n.Widgets.getValueForKey("pickeruser","","WANTS_TO_SHARE") + "&body=" + sakai.data.me.profile.basic.elements.firstName.value + " " + sakai.data.me.profile.basic.elements.lastName.value + " " + sakai.api.i18n.Widgets.getValueForKey("pickeruser","","WANTS_TO_SHARE") + "%0A%0A" + sakai.api.i18n.Widgets.getValueForKey("pickeruser","","DOCUMENT_NAME") + 
+            ": \"" + sakai.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\";%0A" + sakai.api.i18n.Widgets.getValueForKey("pickeruser","","DOCUMENT_TYPE") + ": " + sakai.content_profile.content_data.data["jcr:content"]["jcr:mimeType"] + "%0A" + sakai.api.i18n.Widgets.getValueForKey("pickeruser","","LINK") + ": " + window.location + "%0A%0A%0A" + sakai.api.i18n.Widgets.getValueForKey("pickeruser","","IF_YOU_DONT_HAVE_AN_ACCOUNT") + window.location.protocol + "//" + 
+            window.location.host + "/dev/create_new_account.html";
         });
 
         $(pickeruserLinkInput).live("focus", function(){
             this.select();
         });
 
-        $(".pickeruser_remove a").live("click", function(){
-            removeMembers(this.id, $(this).parent().parent().parent());
+        $(".pickeruser_remove").live("click", function(){
+            removeMembers(this.id, $(this).parent().parent());
         });
 
         $(pickeruserPermissionsLink).live("click", function(){
@@ -250,9 +247,10 @@ sakai.pickeruser = function(tuid, showSettings) {
                     pickeruserSelectedSharer = val.split("pickeruser_permission_link_")[1];
                 }
             });
-            pickeruserEditPermissionsLink = $("#pickeruser_edit_permission")
-            pickeruserEditPermissionsLink.css("left",$(this).offset().left / 2 + "px");
-            pickeruserEditPermissionsLink.css("top",$(this).offset().top - 60 + "px");
+            pickeruserEditPermissionsLink = $("#pickeruser_edit_permission");
+            pickeruserEditPermissionsLink.css("width", $(this).width() + 11);
+            pickeruserEditPermissionsLink.css("left",$(this).position().left + 2 + "px");
+            pickeruserEditPermissionsLink.css("top",$(this).position().top + 21 + "px");
             pickeruserEditPermissionsLink.toggle();
         });
 
@@ -329,24 +327,41 @@ sakai.pickeruser = function(tuid, showSettings) {
             },
             resultClick: function(data) {
                 $pickeruser_add_button.removeAttr("disabled");
+                $(pickeruserMessageNewMembers).show();
             },
             selectionRemoved: function(elem) {
                 elem.remove();
                 if ($(".as-selection-item").length === 0) {
                     $pickeruser_add_button.attr("disabled", "disabled");
+                    $(pickeruserMessageNewMembers).hide();
                 }
             }
         });
     };
+
+
+    /**
+     * Executed when the message has been handled
+     */
+    var messageSent = function(success, data){
+        if(success){
+            // Send out an event to indicate completion of the permission update
+            $(window).trigger("sakai-pickeruser-finished", {"toAdd":userList});
+        }
+        $pickeruser_container.jqmHide();
+    };
+
+    var sendNewMembersMessage = function(userList){
+        sakai.api.Communication.sendMessage(userList, sakai.api.i18n.Widgets.getValueForKey("pickeruser","","I_WANT_TO_SHARE") + " \"" + sakai.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"", $(pickeruserMessageNewMembers).val(), false, false, messageSent);
+    }
 
     /**
      * Add people to the list of picked people
      * @param {Object} iConfig
      */
     var addPeople = function(iConfig) {
-      var userList = getSelectedList();
-      $pickeruser_container.jqmHide();
-      $(window).trigger("sakai-pickeruser-finished", {"toAdd":userList});
+      userList = getSelectedList();
+      sendNewMembersMessage(userList);
     };
 
     /**
@@ -416,6 +431,7 @@ sakai.pickeruser = function(tuid, showSettings) {
           }
           $(pickeruser_search_query).autoSuggest.add_selected_item({"name": name, "value": id}, id);
           $pickeruser_add_button.removeAttr("disabled");
+          $(pickeruserMessageNewMembers).show();
       });
       $("input#" + tuid).val('').focus();
     };
