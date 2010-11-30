@@ -251,7 +251,7 @@ sakai.api.Security.saneHTML = function(inputHTML) {
 
         // test for javascript in the URL and remove it
         var testUrl = decodeURIComponent(url.replace(/\s+/g,""));
-        var js = "javascript:;";
+        var js = "javascript:" + ";"; // to make JSLint happy
         var jsRegex = new RegExp("^(.*)javascript:(.*)+$");
         var vbRegex = new RegExp("^(.*)vbscript:(.*)+$");
         if ((jsRegex.test(testUrl) || vbRegex.test(testUrl)) && testUrl !== js) {
