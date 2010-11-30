@@ -43,9 +43,56 @@ sakai.contentpreview = function(tuid,showSettings){
             renderAudioPlayer();
         } else if (mimeType === "application/x-shockwave-flash"){
             renderFlashPlayer();    
+        } else if (mimeType === "text/plain") {
+            renderTextPreview();
+        } else if (mimeType.substring(0, 6) === "image/") {
+            renderImagePreview();
         } else {
             renderDefaultPreview();
         }
+    }
+
+    //TODO: Clean this mess up
+    var renderImagePreview = function(){
+        $(".contentpreview_image_preview").show();
+        var json = {};
+        json.contentURL = sakai.content_profile.content_data.path + "/" + sakai.content_profile.content_data.data["sakai:pooled-content-file-name"];
+        $.TemplateRenderer("contentpreview_image_template", json, $("#contentpreview_image_calculatesize"));
+        $("#contentpreview_image_rendered").bind('load', function(ev){
+            var width = $("#contentpreview_image_rendered").width();
+            var height = $("#contentpreview_image_rendered").height();
+            if (width > 640 && height / width * 640 > 390){
+                $("#contentpreview_image_rendered").css("width", "640px");
+                $("#contentpreview_image_rendered").css("border", "none");
+                $("#contentpreview_image_preview").css("height", "390px");
+                $("#contentpreview_image_preview").css("width", "640px");
+                $("#contentpreview_image_preview").css("border", "1px solid #D4DADE");
+                $("#contentpreview_image_preview").css("overflow", "hidden");
+                $("#contentpreview_image_rendered").css("margin-top", - ((height / width * 640) - 390) / 2 + "px");
+            } else if (width > 640 && height / width * 640 <= 390){
+                $("#contentpreview_image_rendered").css("width", "640px");
+            } else if (height > 390 && width / height * 390 <= 640){
+                $("#contentpreview_image_rendered").css("height", "390px");
+            } else if (width <= 640 && height <= 390){
+                // Do nothing, just show the image as is
+            }
+            $("#contentpreview_image_preview").append($("#contentpreview_image_rendered"));
+        });
+    }
+    
+    var renderTextPreview = function(){
+        if (sakai.content_profile.content_data.data["jcr:content"][":jcr:data"] > 1500000){
+            renderDefaultPreview();
+            return;
+        };
+        $(".contentpreview_text_preview").show();
+        $.ajax({
+           url: sakai.content_profile.content_data.path + "/" + sakai.content_profile.content_data.data["sakai:pooled-content-file-name"],
+           type: "GET",
+           success: function(data){
+               $(".contentpreview_text_preview").html(data.replace(/\n/g, "<br/>"));
+           }
+        });
     }
     
     var renderVideoPlayer = function(){
@@ -91,12 +138,15 @@ sakai.contentpreview = function(tuid,showSettings){
     }
     
     var renderDefaultPreview = function(){
-        
+        $(".contentpreview_default_preview").show();
     }
     
     var hidePreview = function(){
         $(".contentpreview_videoaudio_preview").hide();
         $(".contentpreview_flash_preview").hide();
+        $(".contentpreview_default_preview").hide();
+        $(".contentpreview_text_preview").hide();
+        $(".contentpreview_image_preview").hide();
     }
 
     $(window).bind("sakai.contentpreview.start", function(){
@@ -104,8 +154,8 @@ sakai.contentpreview = function(tuid,showSettings){
     });
     
     // Indicate that the widget has finished loading
-    $(window).trigger("sakai.contentpreview.ready", {});
     sakai.contentpreview.isReady = true;
+    $(window).trigger("sakai.contentpreview.ready", {});
 
 };
 

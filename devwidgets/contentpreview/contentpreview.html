@@ -3,16 +3,36 @@
 
 <div class="contentpreview_widget">
     <!-- Video and Audio Files -->
-    <div class="contentpreview_videoaudio_preview" id="contentpreview_videoaudio_preview" style="width:640px; height: 390px; border: 1px solid #ccc; display:none;">
+    <div class="contentpreview_videoaudio_preview" id="contentpreview_videoaudio_preview" style="width:640px; height: 390px; border: 1px solid #D4DADE; display:none;">
         <!-- Video container will be inserted here -->
     </div>
     <!-- Flash Files -->
-    <div class="contentpreview_flash_preview" id="contentpreview_flash_preview" style="width:640px; height: 390px; border: 1px solid #aaa; display:none;">
+    <div class="contentpreview_flash_preview" id="contentpreview_flash_preview" style="width:640px; height: 390px; border: 1px solid #D4DADE; display:none;">
         <!-- Flash file will be inserted here -->
     </div>
+    <!-- Text -->
+    <div class="contentpreview_text_preview" id="contentpreview_text_preview" style="font-family: 'Courier New'; padding: 5px; overflow: auto; width:640px; height: 390px; border: 1px solid #D4DADE; display:none; ">
+        <!-- Text content will be inserted here -->
+    </div>
+    <!-- Images -->
+    <div class="contentpreview_image_preview" id="contentpreview_image_preview" style="padding: 0px; display:none; ">
+        <!-- Image content will be inserted here -->
+    </div>
     <!-- Default Behavior -->
-    <div class="contentpreview_default_preview" id="contentpreview_default_preview">
+    <div class="contentpreview_default_preview" id="contentpreview_default_preview" style="display:none; ">
         Default behavior
+    </div>
+</div>
+
+<div id="contentpreview_templates">
+    <div id="contentpreview_image_template"><!--
+        <img src="${contentURL}" id="contentpreview_image_rendered" style="border: 1px solid #D4DADE;" />
+    --></div> 
+</div>
+
+<div id="contentpreview_image_calculatesize_container" style="position: absolute; left: -10000px; top: -10000px;">
+    <div id="contentpreview_image_calculatesize">
+        <!-- Image will be pre-loaded here -->
     </div>
 </div>
 
