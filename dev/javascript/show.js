@@ -167,12 +167,12 @@ sakai.show = function() {
                 delete sakai.profile.main.data.activity;
             }
 
+            postDataRetrieval();
+            sakai.api.Security.showPage();
+
             if (sakai.profile.main.data.authprofile["sakai:customStyle"]) {
                 sakai.api.Util.include.css(sakai.profile.main.data.authprofile["sakai:customStyle"]);
             }
-
-            postDataRetrieval();
-            sakai.api.Security.showPage();
 
         } else {
 

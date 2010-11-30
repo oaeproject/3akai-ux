@@ -246,9 +246,29 @@ sakai.api.Security.saneHTML = function(inputHTML) {
         return "";
     }
 
-
     // Filter which runs through every url in inputHTML
     var filterUrl = function(url) {
+
+        // test for javascript in the URL and remove it
+        var testUrl = decodeURIComponent(url.replace(/\s+/g,""));
+        var js = "javascript"; // for JSLint to be happy, this needs to be broken up
+        js += ":;";
+        var jsRegex = new RegExp("^(.*)javascript:(.*)+$");
+        var vbRegex = new RegExp("^(.*)vbscript:(.*)+$");
+        if ((jsRegex.test(testUrl) || vbRegex.test(testUrl)) && testUrl !== js) {
+            url = null;
+        } else if (testUrl !== js) {
+            // check for utf-8 unicode encoding without semicolons
+            testUrl = testUrl.replace(/&/g,";&");
+            testUrl = testUrl.replace(";&","&") + ";";
+
+            var nulRe = /\0/g;
+            testUrl = html.unescapeEntities(testUrl.replace(nulRe, ''));
+
+            if (jsRegex.test(testUrl) || vbRegex.test(testUrl)) {
+                url = null;
+            }
+        }
 
         return url;
 
@@ -332,18 +352,6 @@ sakai.api.Security.saneHTML = function(inputHTML) {
                         }
                     } else {
                         value = null;
-                    }
-                    if (value !== null && attribName.toLowerCase() === "src") {
-                        // decode the value by adding it to a text node within the browser
-                        var e = document.createElement('div');
-                        e.innerHTML = value;
-                        value = e.childNodes[0].nodeValue.replace(/\s+/g,"");
-                        // check for javascript in src attribute - we dont want to return the tag
-                        var js = new RegExp("^(.*)javascript:(.*)+$");
-                        if (js.test(value)) {
-                            value = null;
-                            out = [];
-                        }
                     }
                     attribs[i + 1] = value;
                 }
