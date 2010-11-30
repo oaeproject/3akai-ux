@@ -817,48 +817,60 @@ sakai.entity = function(tuid, showSettings){
         }
     };
 
+
+    ///////////////////////////
+    // ENTITY MODE FUNCTIONS //
+    ///////////////////////////
+
+    ////////////////////
+    // MYPROFILE MODE //
+    ////////////////////
+
     /**
-     * Add binding to various elements on the entity widget
+     * Set data.
+     * For example:
+     * No. Unread messages
+     * No. of Contacts
+     * No. invited contacts
+     * No. of pending request
+     * No. of group
+     *
      */
-    var addBinding = function(){
-        if(entityconfig.mode === "profile" || entityconfig.mode === "myprofile"){
-            // Add binding to the profile status elements
-            addBindingProfileStatus();
+    var setMyProfileData = function(){
+        //no. of unread messages
+        entityconfig.data.count.messages_unread = sakai.data.me.messages.unread;
 
-            // Add binding related to chat status
-            addBindingChatStatus();
-        }
+        //no. of contacts
+        entityconfig.data.count.contacts_accepted = sakai.data.me.contacts.accepted;
 
-        if(entityconfig.mode === "profile"){
-            // Add binding to add contact button
-            addBindingAddContact();
+        //no. of contacts invited
+        entityconfig.data.count.contacts_invited = sakai.data.me.contacts.invited;
 
-            // Add binding to available to chat link
-            $('#entity_available_to_chat').live("click", function() {
-                sakai.chat.openContactsList();
-            });
+        //no. of pending requests
+        entityconfig.data.count.contacts_pending = sakai.data.me.contacts.pending;
 
-            $("#entity_contact_invited").live("click", function(){
-               acceptInvitation(entityconfig.data.profile["rep:userId"]);
-            });
-        }
+        //no. of groups user is memeber of
+        entityconfig.data.count.groups = sakai.data.me.groups.length;
+    };
 
-        if(entityconfig.mode === "group"){
-            // Add binding to group related buttons
-            addBindingGroup();
+    /**
+     * Add binding to MyProfile elements on the entity widget
+     */
+    var addMyProfileBinding = function(){
+        // Add binding to the profile status elements
+        addBindingProfileStatus();
 
-            // Add binding to locations box
-            addBindingLocationsLink();
-        }
-
-        if(entityconfig.mode === "content"){
-            // Add binding to locations box
-            addBindingLocationsLink();
-        }
+        // Add binding related to chat status
+        addBindingChatStatus();
 
         // Add binding to elements related to tag drop down
         addBindingTagsLink();
     };
+
+
+    //////////////////
+    // PROFILE MODE //
+    //////////////////
 
     /**
      * Set the profile data for the user such as the status and profile picture
@@ -883,6 +895,37 @@ sakai.entity = function(tuid, showSettings){
     };
 
     /**
+     * Add binding to Profile elements on the entity widget
+     */
+    var addProfileBinding = function(){
+        // Add binding to the profile status elements
+        addBindingProfileStatus();
+
+        // Add binding related to chat status
+        addBindingChatStatus();
+
+        // Add binding to add contact button
+        addBindingAddContact();
+
+        // Add binding to available to chat link
+        $('#entity_available_to_chat').live("click", function() {
+            sakai.chat.openContactsList();
+        });
+
+        $("#entity_contact_invited").live("click", function(){
+           acceptInvitation(entityconfig.data.profile["rep:userId"]);
+        });
+
+        // Add binding to elements related to tag drop down
+        addBindingTagsLink();
+    };
+
+
+    ////////////////
+    // GROUP MODE //
+    ////////////////
+
+    /**
      * Set the profile group data such as the users role, member count and profile picture
      */
     var setGroupData = function(){
@@ -904,6 +947,25 @@ sakai.entity = function(tuid, showSettings){
         }
 
     };
+
+    /**
+     * Add binding to Content elements on the entity widget
+     */
+    var addGroupBinding = function(){
+        // Add binding to group related buttons
+        addBindingGroup();
+
+        // Add binding to locations box
+        addBindingLocationsLink();
+
+        // Add binding to elements related to tag drop down
+        addBindingTagsLink();
+    };
+
+
+    //////////////////
+    // CONTENT MODE //
+    //////////////////
 
     /**
      * Set the data for the content object information
@@ -1018,6 +1080,47 @@ sakai.entity = function(tuid, showSettings){
     };
 
     /**
+     * Add binding to Content elements on the entity widget
+     */
+    var addContentBinding = function(){
+        // Add binding to locations box
+        addBindingLocationsLink();
+
+        // Add binding to elements related to tag drop down
+        addBindingTagsLink();
+    };
+
+
+    ////////////////////
+    // MAIN FUNCTIONS //
+    ////////////////////
+
+    /**
+     * Add binding to various elements on the entity widget depending on mode
+     * @param {String} mode The mode you want to bind elements for
+     */
+    var addBinding = function(mode){
+        // add bindings according to entity mode
+        switch (mode) {
+            case "profile":
+                addProfileBinding();
+                break;
+            case "myprofile":
+                addMyProfileBinding();
+                break;
+            case "group":
+                addGroupBinding();
+                break;
+            case "content":
+                addContentBinding();
+                break;
+            case "content2":
+                addContentBinding();
+                break;
+        }
+    };
+
+    /**
      * Get the data for a specific mode
      * @param {String} mode The mode you want to get the data for
      * @param {Object} [data] The data you received from the page that called this (can be undefined)
@@ -1037,7 +1140,7 @@ sakai.entity = function(tuid, showSettings){
                 // We need to clone the sakai.data.me.profile object so we don't interfere with it
                 entityconfig.data.profile = $.extend(true, {}, sakai.data.me.profile);
                 //get data from sakai.data.me object and set in the entityconfig
-                setData();
+                setMyProfileData();
                 // Set the correct profile data
                 setProfileData();
                 $entity_container_template = $entity_container_template_myprofile;
@@ -1072,35 +1175,8 @@ sakai.entity = function(tuid, showSettings){
         }
 
         // Add binding
-        addBinding();
+        addBinding(mode);
 
-    };
-
-    /**
-     * Set data.
-     * For example:
-     * No. Unread messages
-     * No. of Contacts
-     * No. invited contacts
-     * No. of pending request
-     * No. of group
-     *
-     */
-    var setData = function(){
-        //no. of unread messages
-        entityconfig.data.count.messages_unread = sakai.data.me.messages.unread;
-
-        //no. of contacts
-        entityconfig.data.count.contacts_accepted = sakai.data.me.contacts.accepted;
-
-        //no. of contacts invited
-        entityconfig.data.count.contacts_invited = sakai.data.me.contacts.invited;
-
-        //no. of pending requests
-        entityconfig.data.count.contacts_pending = sakai.data.me.contacts.pending;
-
-        //no. of groups user is memeber of
-        entityconfig.data.count.groups = sakai.data.me.groups.length;
     };
 
     /**
@@ -1110,7 +1186,7 @@ sakai.entity = function(tuid, showSettings){
      * to display Contents: no. Items
      *
      */
-    var getContentData = function(mode, data){
+    var getEntityData = function(mode, data){
         // Change the mode for the entity widget
         entityconfig.mode = mode;
         // Get the data for the appropriate mode
@@ -1142,7 +1218,7 @@ sakai.entity = function(tuid, showSettings){
         }
 
         //Get the content data
-        getContentData(mode, data);
+        getEntityData(mode, data);
 
     };
 
