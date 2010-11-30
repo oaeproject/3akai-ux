@@ -140,7 +140,7 @@ test("href Attacks", function() {
 
     htmlString = "<IFRAME SRC=\"javascript:alert('XSS');\"></IFRAME>";
     htmlString = sakai.api.Security.saneHTML(htmlString);
-    equals(htmlString.indexOf("iframe"), -1, "Strip javascript hrefs");
+    equals(htmlString.indexOf("src"), -1, "Strip javascript scr");
 
     htmlString = "<FRAMESET><FRAME SRC=\"javascript:alert('XSS');\"></FRAMESET>";
     htmlString = sakai.api.Security.saneHTML(htmlString);

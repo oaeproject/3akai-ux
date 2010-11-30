@@ -251,10 +251,12 @@ sakai.api.Security.saneHTML = function(inputHTML) {
 
         // test for javascript in the URL and remove it
         var testUrl = decodeURIComponent(url.replace(/\s+/g,""));
-        var js = new RegExp("^(.*)javascript:(.*)+$");
-        if (js.test(testUrl)) {
+        var js = "javascript:;";
+        var jsRegex = new RegExp("^(.*)javascript:(.*)+$");
+        var vbRegex = new RegExp("^(.*)vbscript:(.*)+$");
+        if ((jsRegex.test(testUrl) || vbRegex.test(testUrl)) && testUrl !== js) {
             url = null;
-        } else {
+        } else if (testUrl !== js) {
             // check for utf-8 unicode encoding without semicolons
             testUrl = testUrl.replace(/&/g,";&");
             testUrl = testUrl.replace(";&","&") + ";";
@@ -262,7 +264,7 @@ sakai.api.Security.saneHTML = function(inputHTML) {
             var nulRe = /\0/g;
             testUrl = html.unescapeEntities(testUrl.replace(nulRe, ''));
 
-            if (js.test(testUrl)) {
+            if (jsRegex.test(testUrl) || vbRegex.test(testUrl)) {
                 url = null;
             }
         }
@@ -334,9 +336,7 @@ sakai.api.Security.saneHTML = function(inputHTML) {
                                 value = opt_nmTokenPolicy ? opt_nmTokenPolicy(value) : value;
                                 break;
                             case html4.atype.URI:
-                                if (attribName.toLowerCase() === "src") {
-                                    value = opt_urlPolicy && opt_urlPolicy(value);
-                                }
+                                value = opt_urlPolicy && opt_urlPolicy(value);
                                 break;
                             case html4.atype.URI_FRAGMENT:
                                 if (value && '#' === value.charAt(0)) {
