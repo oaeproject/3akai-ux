@@ -1154,7 +1154,7 @@ sakai.entity = function(tuid, showSettings){
                 break;
             case "content":
                 setContentData(data);
-                $entity_container_template = $entity_container_template_content
+                $entity_container_template = $entity_container_template_content;
                 break;
             case "content2":
                 setContentData(data);
