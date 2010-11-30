@@ -672,7 +672,10 @@ sakai.config = {
             "label" : "DIRECTORY"
         }
     ],
-
+    /*
+     * Are anonymous users allowed to browse/search
+     */
+    anonAllowed: true,
     /*
      * List of pages that require a logged in user
      */
@@ -681,12 +684,7 @@ sakai.config = {
         "/dev/account_preferences.html",
         "/dev/group_edit.html",
         "/dev/inbox.html",
-        "/dev/people.html",
-        "/dev/profile_edit.html",
-        "/dev/search.html",
-        "/dev/search_content.html",
-        "/dev/search_groups.html",
-        "/dev/search_people.html"
+        "/dev/profile_edit.html"
     ],
 
     /*
