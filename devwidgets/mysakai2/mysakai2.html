@@ -8,17 +8,12 @@
         <ul>
             {for site in sites}
                 <li>
-                    <a class="s3d-regular-links s3d-bold" href="/dev/s23/s23_site.html?id=${site.id}">${site.title}</a><br />
+                    <span class="mysakai2_site_title"><a class="s3d-regular-links s3d-bold" href="/dev/s23/s23_site.html?id=${site.id}">${site.title}</a></span>
                     {if site.messages}
-                        <span id="mysakai2_forums"><a class="s3d-regular-links s3d-bold" href="#">${site.messages}</a>
-                        <img src="/devwidgets/mysakai2/images/messages.png" title="${site.messages} __MSG__NEW_MESSAGES__ "/>
-                        </span>
-                        <span class="s3d-regular-links s3d-bold">/</span>
+                        <span id="mysakai2_messages">${site.messages} messages</span>
                     {/if}
                     {if site.forums}
-                        <span id="mysakai2_comments"><a class="s3d-regular-links s3d-bold" href="#">${site.forums}</a>
-                        <img src="/devwidgets/mysakai2/images/forums.png" title="${site.forums} __MSG__NEW_FORUM_POSTS__" />
-                        </span>
+                        <span id="mysakai2_forums">${site.forums} posts</span>
                     {/if}
                 </li>
             {/for}
@@ -28,7 +23,7 @@
         <div class="widget-options-inner">
             <ul>
                 <li>
-                    <a href="">__MSG__VIEW_ALL_MY_SITES__</a>
+                    <a href=""><span class="mysakai2_add_files">__MSG__ADD_FILES_OR_LINKS__</span></a>
                 </li>
             </ul>
         </div>
