@@ -264,7 +264,7 @@
       <div id="collections_map_add_content"></div>
       <div id="collections_map_add_content_template"><!--
         <h2>Add Content</h2>
-        <form>
+        <form action="javascript:;" method="POST">
           <input type="hidden" name="content_mimetype" id="content_mimetype" value="{if content.mimeType}${content.mimeType}{/if}"/>
           <div class="form_item">
             <label for="content_title">__MSG__TITLE__</label>
@@ -351,6 +351,8 @@
     </div>
   </form>
 </div>
+
+<div id="widget_contentpicker" class="widget_inline"></div>
 
 <span style="display:none;" id="collections_title_empty">__MSG__PLEASE_INPUT_A_TITLE__</span>
 <!-- JAVASCRIPT -->
