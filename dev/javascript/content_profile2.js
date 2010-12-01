@@ -274,8 +274,6 @@ sakai.content_profile = function(){
         }
     };
 
-
-    $(window).unbind("sakai-pickeruser-finished");
     $(window).bind("sakai-pickeruser-finished", function(e, peopleList){
         addRemoveUsers('viewers', peopleList.toAdd, 'add');
     });

@@ -722,7 +722,6 @@ sakai.entity = function(tuid, showSettings){
         $(window).trigger("sakai-pickeruser-init", pl_config, function(people){
         });
 
-        $(window).unbind("sakai-pickeruser-finished");
         $(window).bind("sakai-pickeruser-finished", function(e, data) {
             //renderTemplate();
         });

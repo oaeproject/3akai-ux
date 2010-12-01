@@ -592,7 +592,7 @@ label.error {color:#9f3333;font-weight:bold;}
 .dialog_header .dialog_close_image{background:url(/dev/images/close_dialog.png) no-repeat top right;cursor:pointer;display:block;height:15px;overflow:hidden;position:absolute;right:20px;top:17px;text-indent:-5000px;width:14px;}
 
 /* Dialog content */
-.dialog_content{background-color:#fff;border-left:3px #454a4f solid;border-right:3px #454a4f solid;padding:20px;}
+.dialog_content{background-color:#fff;border-left:3px #454a4f solid;border-right:3px #454a4f solid;padding:7px 20px 7px;}
 .dialog_content h1{font-size:1.1em;font-weight:bold;color:#333;margin:0;padding:5px 0;}
 .dialog_content textarea {height:80px;width:98%;}
 
