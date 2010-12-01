@@ -434,9 +434,13 @@ sakai.search = function() {
         "doHSearch" : sakai._search.doHSearch
     };
 
-    $uploadContentLink.bind("click", function() {
-        $(window).trigger("sakai-fileupload-init");
-    });
+    if (sakai.data.me.user.anon) {
+        $uploadContentLink.hide();
+    } else {
+        $uploadContentLink.bind("click", function() {
+            $(window).trigger("sakai-fileupload-init");
+        });
+    }
 
     $(window).bind("sakai-fileupload-complete", function(){
        window.location = window.location + "&_=" + Math.random(); 

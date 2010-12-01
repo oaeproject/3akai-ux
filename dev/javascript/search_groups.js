@@ -434,9 +434,13 @@ sakai.search = function() {
     ////////////////////
     // Event Handlers //
     ////////////////////
-    $(searchAddGroupButton).bind("click", function(ev){
-        createNewGroup();
-    });
+    if (sakai.data.me.user.anon) {
+        $(searchAddGroupButton).hide();
+    } else {
+        $(searchAddGroupButton).bind("click", function(ev){
+            createNewGroup();
+        });
+    }
 
     /**
      * Will reset the view to standard.
