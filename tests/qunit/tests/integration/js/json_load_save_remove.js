@@ -79,19 +79,22 @@ var testCallback = function(){
 sakai.qunit.loginWithAdmin();
 
 asyncTest("Save a JSON file - big structure", function(){
-    sakai.api.Server.saveJSON(testURL, testJSON, function() {
-         start();
-     });
+    sakai.api.Server.saveJSON(testURL, testJSON, function(success, data) {
+        ok(success, "JSON File Saved");
+        start();
+    });
 });
 asyncTest("Save a JSON file - my_sakai example", function(){
-    sakai.api.Server.saveJSON(testURL2, testJSON2, function() {
-         start();
-     });
+    sakai.api.Server.saveJSON(testURL2, testJSON2, function(success, data) {
+        ok(success, "JSON File Saved");
+        start();
+    });
 });
 asyncTest("Save a JSON file - my_sakai example - changed", function(){
-    sakai.api.Server.saveJSON(testURL2, testJSON3, function() {
-         start();
-     });
+    sakai.api.Server.saveJSON(testURL2, testJSON3, function(success, data) {
+        ok(success, "JSON File Saved");
+        start();
+    });
 });
 test("Save a JSON file - bad parameters", function(){
 

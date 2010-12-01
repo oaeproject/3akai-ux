@@ -1,0 +1,31 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/text/css/text.css" />
+
+<div class="text_widget">
+    <div class="fl-widget-content s3d-widget-content">
+        <div id="text_main" style="display:none">
+        </div>
+        <div id="text_main_template" style="display:none"><!--
+            <pre>{if data.text}${data.text}{/if}</pre>
+        --></div>
+        <div id="text_settings" style="display:none">
+        </div>
+        <div id="text_settings_template" style="display:none"><!--
+            <label for="text_title">__MSG__TITLE__</label>
+            <input type="text" id="text_title" name="text_title"{if data.title}value="${data.title}"{/if}/>
+            <label for="text_text">__MSG__TEXT__</label>
+            <textarea id="text_text" name="text_text">{if data.text}${data.text}{/if}</textarea>
+            <div id="text_actions">
+                <button type="button" class="s3d-button s3d-button-primary" id="text_save"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
+                <button type="button" class="s3d-button" id="text_cancel"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
+            </div>
+        --></div>
+    </div>
+    <div class="s3d-widget-no-options fl-fix">
+        <div class="s3d-widget-no-options-inner">
+        </div>
+    </div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/text/javascript/text.js"></script>

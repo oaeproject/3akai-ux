@@ -52,22 +52,22 @@ body { margin-bottom: 50px !important; }
 
 /** TABLE/FORM **/
 
-.create_account .create_account_form
+.create_account #create_account_form
 { padding: 10px 0 0 47px; }
 
-.create_account .create_account_form .create_account_input
+.create_account #create_account_form .create_account_input
 { border: 1px solid #999999; width: 400px; height: 26px; font-weight: bold; font-size: 20px; padding: 1px 5px 0 5px; }
 
-.create_account .create_account_form td
+.create_account #create_account_form td
 { border: none; margin: 0; padding: 5px 5px 5px 5px;  }
 
-.create_account .create_account_form .label_container
+.create_account #create_account_form .label_container
 { color: #454A4F; text-align: right; font-weight: bold; font-size: 12px; }
 
-.create_account .create_account_form .input_field_hover
+.create_account #create_account_form .input_field_hover
 { border: 1px solid #454a4f; background: #dceffd; }
 
-.create_account .create_account_form .username_available
+.create_account #create_account_form .username_available
 { color: #7aa722; font-weight: bold; padding: 0; margin: -5px 0; }
 
 .create_account .success_message
