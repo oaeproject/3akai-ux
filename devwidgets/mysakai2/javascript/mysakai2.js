@@ -76,6 +76,13 @@ sakai.mysakai2 = function(tuid){
                 "description": "Administration Workspace",
                 "forums": 3,
                 "messages":5
+            },
+            {
+                "title":"projecto",
+                "id":"c1cffc2c-4da1-4e1e-8ea6-49f767d47527",
+                "url":"http://localhost/portal/site/c1cffc2c-4da1-4e1e-8ea6-49f767d47527",
+                "description":"ggg",
+                "forums": 1
             }]
         };
         

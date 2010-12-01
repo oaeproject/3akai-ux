@@ -17,7 +17,7 @@
  */
 
 .sites_error {font-size:0.95em; padding:10px 20px !important;}
-
+.mysakai2.fl-widget .fl-widget-titlebar .widget_title { background:url("/devwidgets/mysakai2/images/mysakai2_headericon.png") no-repeat scroll 17px 15px transparent;}
 .mysakai2_widget .fl-widget-content ul li { list-style-type: none; padding: 5px 5px 5px 40px; margin: 0; border-bottom: 1px solid #CCC; }
 .mysakai2_widget .fl-widget-content ul li a { vertical-align:middle;}
 .mysakai2_widget .fl-widget-content ul li img { width:20px; height:20px; vertical-align:bottom;}
