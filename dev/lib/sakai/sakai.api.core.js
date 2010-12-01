@@ -251,10 +251,13 @@ sakai.api.Security.saneHTML = function(inputHTML) {
 
         // test for javascript in the URL and remove it
         var testUrl = decodeURIComponent(url.replace(/\s+/g,""));
-        var js = new RegExp("^(.*)javascript:(.*)+$");
-        if (js.test(testUrl)) {
+        var js = "javascript"; // for JSLint to be happy, this needs to be broken up
+        js += ":;";
+        var jsRegex = new RegExp("^(.*)javascript:(.*)+$");
+        var vbRegex = new RegExp("^(.*)vbscript:(.*)+$");
+        if ((jsRegex.test(testUrl) || vbRegex.test(testUrl)) && testUrl !== js) {
             url = null;
-        } else {
+        } else if (testUrl !== js) {
             // check for utf-8 unicode encoding without semicolons
             testUrl = testUrl.replace(/&/g,";&");
             testUrl = testUrl.replace(";&","&") + ";";
@@ -262,7 +265,7 @@ sakai.api.Security.saneHTML = function(inputHTML) {
             var nulRe = /\0/g;
             testUrl = html.unescapeEntities(testUrl.replace(nulRe, ''));
 
-            if (js.test(testUrl)) {
+            if (jsRegex.test(testUrl) || vbRegex.test(testUrl)) {
                 url = null;
             }
         }
@@ -334,13 +337,7 @@ sakai.api.Security.saneHTML = function(inputHTML) {
                                 value = opt_nmTokenPolicy ? opt_nmTokenPolicy(value) : value;
                                 break;
                             case html4.atype.URI:
-                                if (attribName.toLowerCase() === "src") {
-                                    value = opt_urlPolicy && opt_urlPolicy(value);
-                                    if (!value){
-                                        // strip out the tag
-                                        out = [];
-                                    }
-                                }
+                                value = opt_urlPolicy && opt_urlPolicy(value);
                                 break;
                             case html4.atype.URI_FRAGMENT:
                                 if (value && '#' === value.charAt(0)) {
@@ -436,7 +433,7 @@ sakai.api.Security.sendToLogin = function(){
     return false;
 };
 
-sakai.api.Security.showPage = function(){
+sakai.api.Security.showPage = function(callback){
     // Show the background images used on anonymous user pages
     if ($.inArray(window.location.pathname, sakai.config.requireAnonymous) > -1){
         $('html').addClass("requireAnon");
@@ -453,6 +450,9 @@ sakai.api.Security.showPage = function(){
     document.title = pageTitle;
     // Show the actual page content
     $('body').show();
+    if ($.isFunction(callback)) {
+        callback();
+    }
 };
 
 
@@ -807,6 +807,30 @@ sakai.api.Server.filterJCRProperties = function(data) {
           sakai.api.Server.filterJCRProperties(data[i]);
         }
     }
+};
+
+/**
+ * Create a search string for the server
+ * This method exists to transform a user's search string which
+ * they type in into the string we should pass to the server
+ *
+ * Strings with AND, OR, '"', '-', '_' are treated as advanced search queries
+ * and left alone. Those without are transformed into term* AND term2*
+ *
+ * @param {String} searchString The user's search
+ * @return {String} The string to send to the server
+ */
+sakai.api.Server.createSearchString = function(searchString) {
+    var ret = "";
+    var advancedSearchRegex = new RegExp("(AND|OR|\"|-|_)", "g");
+
+    if (advancedSearchRegex.test(searchString)) {
+        ret = searchString;
+    } else {
+        ret = $.trim(searchString).split(" ").join("* AND ") + "*";
+    }
+
+    return ret;
 };
 
 /**

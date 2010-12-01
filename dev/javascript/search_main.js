@@ -403,22 +403,7 @@ sakai._search = function(config, callback) {
      * @param {String} term The search term that needs to be converted.
      */
     var prepSearchTermForURL = function(term) {
-        var urlterm = "";
-        var splitted = $.trim(term).split(/\s/);
-        if (splitted.length > 1) {
-            for (var i = 0; i < splitted.length; i++) {
-                if (splitted[i]) {
-                    urlterm += "*" + splitted[i] + "* ";
-                    if (i < splitted.length - 1) {
-                        urlterm += "OR ";
-                    }
-                }
-            }
-        }
-        else {
-            urlterm = "*" + term + "*";
-        }
-        return urlterm;
+        return sakai.api.Server.createSearchString(term);
     };
 
     /**
