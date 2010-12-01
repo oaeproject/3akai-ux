@@ -117,6 +117,15 @@ sakai.content_profile = function(){
                         fullPath += contentInfo["sakai:fileextension"];
                     }
 
+                    // filter out the the everyone group and the anonymous user
+                    contentMembers.viewers = $.grep(contentMembers.viewers, function(resultObject, index){
+                        if (resultObject['groupid'] !== 'everyone' &&
+                            resultObject['userid'] !== 'anonymous') {
+                            return true;
+                        }
+                        return false;
+                    });
+
                     json = {
                         data: contentInfo,
                         members: contentMembers,

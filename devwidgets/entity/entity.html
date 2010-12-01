@@ -181,24 +181,20 @@
                         <a href="" class="s3d-regular-light-links s3d-bold">13 __MSG__NEW_THINGS_HAVE_HAPPENED__</a>
                     </div>
                     <div class="fl-force-left entity_content_used_by">
-                        {if sakai.content_profile && sakai.content_profile.content_data && sakai.content_profile.content_data.members}
-                            {if sakai.content_profile.content_data.members.managers}
-                                {var numUsers = sakai.content_profile.content_data.members.managers.length}
-                            {/if}
-                            {if sakai.content_profile.content_data.members.viewers}
-                                {var numUsers = numUsers + sakai.content_profile.content_data.members.viewers.length}
-                            {/if}
-                            <p class="entity_usedby">__MSG__USED_IN__ <a href="" class="s3d-regular-light-links s3d-bold"><span id="entity_used_places">0</span> __MSG__PLACES__</a> __MSG__BY__ 
-                                <a href="" class="s3d-regular-light-links s3d-bold">
-                                    ${numUsers}
-                                    {if numUsers === 1}
-                                        __MSG__PERSON__
-                                    {else}
-                                        __MSG__PEOPLE__
-                                    {/if}
-                                </a>
-                            </p>
-                        {/if}
+                        <p class="entity_usedby">__MSG__USED_IN__
+                            <a href="#" class="entity_content_places s3d-regular-light-links s3d-bold">
+                                ${data.profile.groupcount}
+                                {if data.profile.groupcount === 1}__MSG__PLACE__{else}__MSG__PLACES__{/if}</a>
+                            __MSG__BY__
+                            <a href="#" class="entity_content_people s3d-regular-light-links s3d-bold">
+                                ${data.profile.usercount}
+                                {if data.profile.usercount === 1}
+                                    __MSG__PERSON__
+                                {else}
+                                    __MSG__PEOPLE__
+                                {/if}
+                            </a>
+                        </p>
                     </div>
                     <div class="fl-force-left entity_content_permissions">
                         <a id="entity_content_share_link" href="#" class="s3d-regular-light-links s3d-bold">
@@ -210,10 +206,10 @@
                             {elseif data.profile.permissions === "private"}
                                 __MSG__PRIVATE__
                                 {if sakai.content_profile.content_data.members.managers}
-                                    __MSG__TO__ ${sakai.api.User.getDisplayName(sakai.content_profile.content_data.members.managers[0])}
-                                    {if numUsers > 1}
-                                        + ${numUsers - 1}
-                                        {if numUsers = 2}
+                                    __MSG__TO__ ${unescape(sakai.api.User.getDisplayName(sakai.content_profile.content_data.members.managers[0]))}
+                                    {if data.profile.usercount + data.profile.groupcount > 1}
+                                        + ${data.profile.usercount + data.profile.groupcount}
+                                        {if (data.profile.usercount + data.profile.groupcount) === 2}
                                             __MSG__OTHER__
                                         {else}
                                             __MSG__OTHERS__
@@ -365,6 +361,67 @@
     </div>
 --></div>
 
+<!-- DIALOG BOX FOR CONTENT PROFILE USERS -->
+<div id="entity_content_users_dialog" class="dialog" style="width:500px; margin-left: -200px">
+    <div class="dialog_header">
+        <div class="dialog_header_inner">
+        <h1 id="entity_content_users_dialog_heading"><!-- --></h1>
+        <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+        </div>
+    </div>
+
+    <div class="dialog_content">
+        <!-- CONTAINER -->
+        <div id="entity_content_users_dialog_list_container" style="display:none"><!-- --></div>
+
+        <!-- TEMPLATE -->
+        <div id="entity_content_users_dialog_list_template" style="display:none;"><!--
+            <ul class="entity_content_users_dialog_list">
+            {var userlist_places_index = 0}
+            {var userlist_people_index = 0}
+            {for i in userList}
+                {if i.groupid && type === "places"}
+                    ${userlist_places_index++|eat}
+                    {if userlist_places_index%2} <li id="${i.groupid}">
+                    {else} <li id="${i.groupid}" class="entity_content_even">
+                    {/if}
+                    {if i.picture}
+                        <a href="/~${i.groupid}" target="_blank"><img src="/~${i.groupid}/public/profile/${i.picture.name}" alt="__MSG__GROUP_PICTURE_FOR__ ${i['sakai:group-title']}" class="entity_content_picture"/></a>
+                    {else}
+                        <a href="/~${i.groupid}" target="_blank"><img src="/dev/images/group_avatar_icon_32x32.png" alt="__MSG__DEFAULT_GROUP_PICTURE__" class="entity_content_picture"/></a>
+                    {/if}
+                    <a class="entity_content_name s3d-regular-links s3d-bold" href="/~${i.groupid}" target="_blank">${i['sakai:group-title']}</a>
+                </li>
+                {elseif i.userid && type === "people"}
+                    ${userlist_people_index++|eat}
+                    {if userlist_people_index%2} <li id="${i.userid}">
+                    {else} <li id="${i.userid}" class="entity_content_even">
+                    {/if}
+                    {if i.picture}
+                        <a href="/~${i.userid}" target="_blank"><img src="/~${i.userid}/public/profile/${i.picture.name}" alt="__MSG__PROFILE_PICTURE_FOR__ ${unescape(i.displayName)}" class="entity_content_picture"/></a>
+                    {else}
+                        <a href="/~${i.userid}" target="_blank"><img src="/dev/images/user_avatar_icon_32x32.png" alt="__MSG__DEFAULT_PROFILE_PICTURE__" class="entity_content_picture"/></a>
+                    {/if}
+                    <a class="s3d-regular-links s3d-bold" href="/~${i.userid}" target="_blank">${unescape(sakai.api.User.getDisplayName(i))}</a>
+                </li>
+                {/if}
+            {/for}
+            </ul>
+        --></div>
+
+        <div class="dialog_buttons fl-force-right">
+            <button type="button" class="s3d-button s3d-button-primary jqmClose"><span class="s3d-button-inner">__MSG__CLOSE__</span></button>
+        </div>
+        <hr class="fl-push fl-hidden">
+    </div>
+
+    <!-- DIALOG FOOTER -->
+    <div class="dialog_footer">
+        <div class="dialog_footer_inner"><!-- --></div>
+    </div>
+</div>
+
+<!-- i18n MESSAGES -->
 <div id="entity_notifications" style="display:none">
     <span id="entity_group_membership">__MSG__GROUP_MEMBERSHIP__</span>
     <span id="entity_group_problem_removing">__MSG__PROBLEM_REMOVING_FROM_GROUP__</span>
@@ -373,6 +430,8 @@
     <span id="entity_group_problem_with_request">__MSG__PROBLEM_WITH_REQUEST__</span>
     <span id="entity_group_problem_adding">__MSG__PROBLEM_ADDING_TO_GROUP__</span>
     <span id="entity_group_adding_successful">__MSG__SUCCESSFULLY_ADDED_TO_GROUP__</span>
+    <span id="entity_content_places">__MSG__THE_FOLLOWING_GROUPS_USING_CONTENT__</span>
+    <span id="entity_content_poeple">__MSG__THE_FOLLOWING_USERS_USING_CONTENT__</span>
 </div>
 
 <!-- JAVASCRIPT -->

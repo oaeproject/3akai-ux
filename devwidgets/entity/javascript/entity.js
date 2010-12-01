@@ -119,6 +119,11 @@ sakai.entity = function(tuid, showSettings){
     var entityGroupJoinRequest = entityGroupJoin + '_request';
     var entityGroupJoinRequestPending = entityGroupJoin + '_request_pending';
 
+    // Content Profile
+    var $entityContentUsersDialog = $("#entity_content_users_dialog");
+    var $entity_content_dialog_container = $("#entity_content_users_dialog_list_container", $rootel);
+    var $entity_content_dialog_template = $("#entity_content_users_dialog_list_template", $rootel);
+
     var authprofileURL;
 
     ////////////////////
@@ -920,7 +925,7 @@ sakai.entity = function(tuid, showSettings){
         });
 
         $("#entity_contact_invited").live("click", function(){
-           acceptInvitation(entityconfig.data.profile["rep:userId"]);
+            acceptInvitation(entityconfig.data.profile["rep:userId"]);
         });
 
         // Add binding to elements related to tag drop down
@@ -1079,6 +1084,26 @@ sakai.entity = function(tuid, showSettings){
             entityconfig.data.profile.permissions = filedata["sakai:permissions"];
         }
 
+        // get the count of users and groups who have access to the content
+        var userCount = 0;
+        var groupCount = 0;
+        for (var i in sakai.content_profile.content_data.members.viewers) {
+            if (sakai.content_profile.content_data.members.viewers[i].userid) {
+                userCount++;
+            } else if (sakai.content_profile.content_data.members.viewers[i].groupid) {
+                groupCount++;
+            }
+        }
+        for (var i in sakai.content_profile.content_data.members.managers) {
+            if (sakai.content_profile.content_data.members.managers[i].userid) {
+                userCount++;
+            } else if (sakai.content_profile.content_data.members.managers[i].groupid) {
+                groupCount++;
+            }
+        }
+        entityconfig.data.profile.usercount = userCount;
+        entityconfig.data.profile.groupcount = groupCount;
+
         if (document.location.pathname === "/dev/content_profile.html"){
             entityconfig.data["link_name"] = false;
         } else {
@@ -1095,6 +1120,46 @@ sakai.entity = function(tuid, showSettings){
 
         // Add binding to elements related to tag drop down
         addBindingTagsLink();
+
+        $entityContentUsersDialog.jqm({
+            modal: true,
+            overlay: 20,
+            toTop: true
+        });
+
+        $(".entity_content_people").live("click", function(){
+            $entityContentUsersDialog.jqmShow();
+
+            var userList = sakai.content_profile.content_data.members.managers.concat(sakai.content_profile.content_data.members.viewers);
+            var json = {
+                "userList": userList,
+                "type": "people"
+            };
+
+            // render dialog template
+            $.TemplateRenderer($entity_content_dialog_template, json, $entity_content_dialog_container);
+            $entity_content_dialog_container.show();
+            $("#entity_content_users_dialog_heading").html($("#entity_content_poeple").html());
+
+            return false;
+        });
+
+        $(".entity_content_places").live("click", function(){
+            $entityContentUsersDialog.jqmShow();
+
+            var userList = sakai.content_profile.content_data.members.managers.concat(sakai.content_profile.content_data.members.viewers);
+            var json = {
+                "userList": userList,
+                "type": "places"
+            };
+
+            // render dialog template
+            $.TemplateRenderer($entity_content_dialog_template, json, $entity_content_dialog_container);
+            $entity_content_dialog_container.show();
+            $("#entity_content_users_dialog_heading").html($("#entity_content_places").html());
+
+            return false;
+        });
     };
 
 

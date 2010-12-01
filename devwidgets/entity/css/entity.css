@@ -65,6 +65,11 @@
 .entity_content_share {margin-top:10px; text-align: center;}
 .entity_content_viewed {font-size: 11px; font-weight: bold; color: #333;}
 #entity_content_share_button {width: 120px;}
+.entity_content_users_dialog_list {margin: 0; padding: 0; height: 289px; overflow: auto; border: 1px solid #d4dade;}
+.entity_content_users_dialog_list li {display: block; list-style: none; clear: both; padding: 5px 0 5px 10px; border-bottom: 1px solid #FFFFFF; border-top: 1px solid #FFFFFF; overflow: hidden;}
+.entity_content_users_dialog_list .entity_content_picture {float: left; display: block; height: 32px; width: 32px;}
+.entity_content_users_dialog_list .entity_content_name {font-size: 14px; position: relative; top: 1px; left: 5px;}
+.entity_content_users_dialog_list .entity_content_even {background: #f1f1f1; border-bottom: 1px solid #f1f1f1;}
 
 /* Actions */
 .entity_actions {margin-top:10px; overflow:hidden;}
