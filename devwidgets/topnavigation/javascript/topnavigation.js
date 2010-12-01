@@ -411,15 +411,17 @@ sakai.topnavigation = function(tuid, showSettings){
             $("#other_logins_button_container").show();
             $(".log_in").addClass("help_none");
 
-            // if config.js is set to external, register link is hidden
-            if(!sakai.config.Authentication.internal) {
-                $("#register_button_container").hide();
+            // if current page is not index.html only then show register and login button
+            if (window.location.pathname.split("/")[2] !== "index.html") {
+                // if config.js is set to external, register link is hidden
+                if (!sakai.config.Authentication.internal) {
+                    $("#register_button_container").hide();
+                }
+                else {
+                    $("#register_button_container").show();
+                }
+                $("#login_button_container").show();
             }
-            else {
-                $("#register_button_container").show();
-            }
-            $("#login_button_container").show();
-
             // Set up public nav links
             $("#nav_my_sakai_link a").attr("href", sakai.config.URL.PUBLIC_MY_DASHBOARD_URL);
             $("#nav_content_media_link a").attr("href", sakai.config.URL.PUBLIC_CONTENT_MEDIA_URL_PAGE);

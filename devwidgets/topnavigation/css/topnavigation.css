@@ -42,7 +42,7 @@
 
 /*** Top Right Navbar ***/
 .explore_nav .personal-container { margin-top: 0px; padding-right: 5px; overflow: hidden; }
-.explore_nav .personal { padding: 0 0 0 5px; margin: 0; min-height: 20px; }
+.explore_nav .personal { padding: 0 0 0 5px; margin: 0; min-height: 20px; float:right;}
 .explore_nav .personal li a { font-size: 8.5pt; padding:0 7px 0 7px; border-right: 1px solid #878a8c; color: #fff; }
 .explore_nav .personal li .help_none { border-right: none; }
 .explore_nav .personal li span { color: #fff; }
@@ -98,5 +98,7 @@
 #search_more_menu ul {background-color:#FFF;}
 #search_more_menu ul li{ float:none;}
 
-#personal_container {background:transparent; margin:0px; height:20px; float:right;width:550px;}
+.personal_container {background-color:transparent!important; height:20px;}
+.personal_container div {background-color:transparent!important;}
 #top_navigation li a {border-right:1px solid #454A4F;}
+#top_navigation li:last-child a {border:none;}
