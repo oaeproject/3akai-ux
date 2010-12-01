@@ -208,7 +208,7 @@
                                 {if sakai.content_profile.content_data.members.managers}
                                     __MSG__TO__ ${unescape(sakai.api.User.getDisplayName(sakai.content_profile.content_data.members.managers[0]))}
                                     {if data.profile.usercount + data.profile.groupcount > 1}
-                                        + ${data.profile.usercount + data.profile.groupcount}
+                                        + ${data.profile.usercount + data.profile.groupcount - 1}
                                         {if (data.profile.usercount + data.profile.groupcount) === 2}
                                             __MSG__OTHER__
                                         {else}
