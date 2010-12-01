@@ -64,15 +64,15 @@ test("Image Attacks", function() {
 
     htmlString = "<img src=javascript:alert(document.cookie)>";
     htmlString = sakai.api.Security.saneHTML(htmlString);
-    equals(htmlString.indexOf("<img"), -1, "Strip images with js src");
+    equals(htmlString.indexOf("src"), -1, "Strip images with js src");
 
     htmlString = "<IMG SRC=&#106;&#97;&#118;&#97;&#115;&#99;&#114;&#105;&#112;&#116;&#58;&#97;&#108;&#101;&#114;&#116;&#40;&#39;&#88;&#83;&#83;&#39;&#41;>";
     htmlString = sakai.api.Security.saneHTML(htmlString);
-    equals(htmlString.indexOf("<img"), -1, "Strip images with js src");
+    equals(htmlString.indexOf("src"), -1, "Strip images with js src");
 
     htmlString = "<IMG SRC='&#0000106&#0000097&#0000118&#0000097&#0000115&#0000099&#0000114&#0000105&#0000112&#0000116&#0000058&#0000097&#0000108&#0000101&#0000114&#0000116&#0000040&#0000039&#0000088&#0000083&#0000083&#0000039&#0000041'>";
     htmlString = sakai.api.Security.saneHTML(htmlString);
-    equals(htmlString.indexOf("<img"), -1, "Strip images with js src");
+    equals(htmlString.indexOf("src"), -1, "Strip images with js src");
 
     htmlString = "<IMG SRC=\"jav&#x0D;ascript:alert('XSS');\">";
     htmlString = sakai.api.Security.saneHTML(htmlString);
@@ -140,7 +140,7 @@ test("href Attacks", function() {
 
     htmlString = "<IFRAME SRC=\"javascript:alert('XSS');\"></IFRAME>";
     htmlString = sakai.api.Security.saneHTML(htmlString);
-    equals(htmlString.indexOf("iframe"), -1, "Strip javascript hrefs");
+    equals(htmlString.indexOf("src"), -1, "Strip javascript scr");
 
     htmlString = "<FRAMESET><FRAME SRC=\"javascript:alert('XSS');\"></FRAMESET>";
     htmlString = sakai.api.Security.saneHTML(htmlString);

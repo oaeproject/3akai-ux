@@ -314,7 +314,7 @@ sakai.pickeruser = function(tuid, showSettings) {
                         });
                         add(suggestions);
                     }
-                }, {"q": "*" + query.replace(/\s+/g, "* OR *") + "*", "page": 0, "items": 15});
+                }, {"q": sakai.api.Server.createSearchString(query), "page": 0, "items": 15});
             },
             retrieveLimit: 10,
             asHtmlID: tuid,

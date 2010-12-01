@@ -16,10 +16,10 @@
  * specific language governing permissions and limitations under the License.
  */
 
-$(function(){
+/*global $ */
 
+sakai.createnewaccount = function(){
 
-    /*global checkUserName */
 
     /////////////////////////////
     // Configuration variables //
@@ -29,43 +29,36 @@ $(function(){
     var pagestemplate = "defaultuser";
 
     // Links and labels
-    var checkUserNameLink = "#checkUserName ";
+    var checkUserNameLink = "#checkUserName";
     var buttonsContainer = ".create_account_button_bar";
     var successMessage = "#success_message";
     var successMessageTitle = "#success_message_title";
     var successMessageValue = "#success_message_value";
 
     // Input fields
-    var username = "username";
-    var firstName = "firstName";
-    var lastName = "lastName";
-    var email = "email";
-    var password = "password";
-    var passwordRepeat = "password_repeat";
-    var captcha = "uword";
-    var usernameField = "#" + username;
-    var firstNameField = "#" + firstName;
-    var lastNameField = "#" + lastName;
-    var emailField = "#" + email;
-    var passwordField = "#" + password;
-    var passwordRepeatField = "#" + passwordRepeat;
-    var captchaField = "#" + captcha;
+    var usernameField = "#username";
+    var firstNameField = "#firstName";
+    var lastNameField = "#lastName";
+    var emailField = "#email";
+    var passwordField = "#password";
+    var passwordRepeatField = "#passwordRepeat";
+    var captchaField = "#uword";
 
     // Error fields
-    var usernameTaken = usernameField + "_taken";
-    var usernameShort = usernameField + "_short";
-    var usernameSpaces = usernameField + "_spaces";
-    var usernameEmpty = usernameField + "_empty";
-    var firstNameEmpty = firstNameField + "_empty";
-    var lastNameEmpty = lastNameField + "_empty";
-    var emailEmpty = emailField + "_empty";
-    var emailInvalid = emailField + "_invalid";
-    var passwordEmpty = passwordField + "_empty";
-    var passwordShort = passwordField + "_short";
-    var passwordRepeatEmpty = passwordRepeatField + "_empty";
-    var passwordRepeatNoMatch = passwordRepeatField + "_nomatch";
-    var captchaEmpty = captchaField + "_empty";
-    var captchaNoMatch = captchaField + "_nomatch";
+    var usernameTaken = "#username_taken";
+    var usernameShort = "#username_short";
+    var usernameSpaces = "#username_spaces";
+    var usernameEmpty = "#username_empty";
+    var firstNameEmpty = "#firstName_empty";
+    var lastNameEmpty = "#lastName_empty";
+    var emailEmpty = "#email_empty";
+    var emailInvalid = "#email_invalid";
+    var passwordEmpty = "#password_empty";
+    var passwordShort = "#password_short";
+    var passwordRepeatEmpty = "#password_repeat_empty";
+    var passwordRepeatNoMatch = "#password_repeat_nomatch";
+    var captchaEmpty = "#uword_empty";
+    var captchaNoMatch = "#uword_nomatch";
     var errorFields = ".create_account_error_msg";
     var usernameLabel = "#username_label";
     var inputFields = ".create_account_input";
@@ -79,7 +72,7 @@ $(function(){
     // Contains executable errors
     var errObj = [];
 
-    var currentUserName;
+    var currentUserName = "";
     ///////////////////////
     // Utility functions //
     ///////////////////////
@@ -105,7 +98,7 @@ $(function(){
         var captchaValues = sakai.captcha.getProperties();
 
         // Add them to the form values.
-        jQuery.extend(values, captchaValues);
+        values = $.extend(true, {}, values, captchaValues);
 
         return values;
     };
@@ -119,10 +112,10 @@ $(function(){
      * will try to create the new user
      */
     var doCreateUser = function(){
+        var values = getFormValues();
         $("button").attr("disabled", "disabled");
         $("input").attr("disabled", "disabled");
-        var values = getFormValues();
-        sakai.api.User.createUser(values.username, values.firstName, values.lastName, values.email, values.password, values.password, 
+        sakai.api.User.createUser(values.username, values.firstName, values.lastName, values.email, values.password, values.password,
                 {
                     recaptcha: {challenge: values["recaptcha-challenge"], response: values["recaptcha-response"]}
                 }, function(success, data) {
@@ -133,7 +126,7 @@ $(function(){
                 sakai.captcha.destroy();
 
                 sakai.api.Util.notification.show($(successMessageTitle).html(), $(successMessageValue).html());
-                
+
                 // Wait for 2 seconds
                 setTimeout(function(){
                     // Relocate to the my log in page
@@ -166,7 +159,7 @@ $(function(){
      */
     var checkUserName = function(checkingOnly){
 
-        $("#username").removeClass("error");
+        $(usernameField).removeClass("error");
         $("#username_error_container label").hide();
 
         var values = getFormValues();
@@ -177,7 +170,7 @@ $(function(){
         if (errObj.length === 0) {
             $.ajax({
                 // Replace the preliminary parameter in the service URL by the real username entered
-                url: sakai.config.URL.USER_EXISTENCE_SERVICE.replace(/__USERID__/g, values[username]),
+                url: sakai.config.URL.USER_EXISTENCE_SERVICE.replace(/__USERID__/g, values.username),
                 cache: false,
                 async: false,
                 error: function(xhr, textStatus, thrownError){
@@ -203,105 +196,107 @@ $(function(){
     // Event Handlers //
     ////////////////////
 
-    /*
-     * Once the user is trying to submit the form, we check whether all the fields have valid
-     * input and try to create the new account
-     */
-    jQuery.validator.addMethod("nospaces", function(value, element) {
-        return this.optional(element) || (value.indexOf(" ") === -1);
-    }, "* No spaces are allowed");
-
-    jQuery.validator.addMethod("validusername", function(value, element) {
-        return this.optional(element) || (checkUserName());
-    }, "* This username is already taken.");
-
-    jQuery.validator.addMethod("passwordmatch", function(value, element) {
-        return this.optional(element) || (value === $(passwordField).val());
-    }, "* The passwords do not match.");
-
-    $("#create_account_form").validate({
-        invalidHandler: function(form) {
-        },
-        submitHandler: function(form) {
-            doCreateUser();
-        },
-        onclick:false,
-        onkeyup:false,
-        onfocusout:false,
-        rules: {
-            password: {
-                minlength: 4
-            },
-            password_repeat: {
-                passwordmatch: true
-            },
-            username: {
-                minlength: 3,
-                nospaces: true,
-                validusername: true
-            }
-        },
-        messages: {
-            firstName: $(firstNameEmpty).text(),
-            lastName: $(lastNameEmpty).text(),
-            email: {
-                required: $(emailEmpty).text(),
-                email: $(emailInvalid).text()
-            },
-            username: {
-                required: $(usernameEmpty).text(),
-                minlength: $(usernameShort).text(),
-                nospaces: $(usernameSpaces).text(),
-                validusername: $(usernameTaken).text()
-            },
-            password: {
-                required: $(passwordEmpty).text(),
-                minlength: $(passwordShort).text()
-            },
-            password_repeat:  {
-                required: $(passwordRepeatEmpty).text(),
-                passwordmatch: $(passwordRepeatNoMatch).text()
-            }
-        },
-        errorPlacement: function(error, element) {
-            error.appendTo(element.parent("td").parent("tr").next("tr").children("td")[1]);
-        }
-    });
 
     /*
      * If the Cancel button is clicked, we redirect them back to the login page
      */
-    $("#cancel_button").bind("click", function(ev){
-        document.location = sakai.config.URL.GATEWAY_URL;
-    });
+    var doBinding = function() {
 
-    $(checkUserNameLink).bind("click", function(){
-        if(currentUserName !== $("#username").val() && $.trim($("#username").val()) !== "" && $("#username").val().length > 3) {
-            currentUserName = $("#username").val();
-            var success = checkUserName(true);
-            if (success){
-                $(usernameAvailable).show();
-            } else {
-                $("#username").addClass("error");
-                $(usernameTaken).show();
+        $("#cancel_button").bind("click", function(ev){
+            document.location = sakai.config.URL.GATEWAY_URL;
+        });
+
+        $(checkUserNameLink).bind("click", function(){
+            if(currentUserName !== $(usernameField).val() && $.trim($(usernameField).val()) !== "" && $(usernameField).val().length > 2) {
+                currentUserName = $(usernameField).val();
+                var success = checkUserName(true);
+                if (success){
+                    $(usernameAvailable).show();
+                } else {
+                    $(usernameField).addClass("error");
+                    $(usernameTaken).show();
+                }
             }
-        }
-    });
+        });
 
-    $(usernameField).bind("change keyup", function() {
-        // if user name is entered enable button
-        if ($(usernameField).val() !== "") {
-            $(checkUserNameLink).removeAttr("disabled");
-        } else {
-            // disable button
-            $(checkUserNameLink).attr("disabled","disabled");
-        }
-        if ($(usernameAvailable).is(":visible")) {
-            $(usernameAvailable).hide();
-        }
-        $("#username").removeClass("error");
-        $("#username_error_container label").hide();
-    });
+        $(usernameField).bind("change keyup", function() {
+            // if user name is entered enable button
+            if ($(usernameField).val() !== "" && $.trim($(usernameField).val()).length > 2) {
+                $(checkUserNameLink).removeAttr("disabled");
+            } else {
+                // disable button
+                $(checkUserNameLink).attr("disabled","disabled");
+            }
+            if ($(usernameAvailable).is(":visible")) {
+                $(usernameAvailable).hide();
+            }
+            $(usernameField).removeClass("error");
+            $("#username_error_container label").hide();
+        });
+
+        /*
+         * Once the user is trying to submit the form, we check whether all the fields have valid
+         * input and try to create the new account
+         */
+        $.validator.addMethod("nospaces", function(value, element) {
+            return this.optional(element) || (value.indexOf(" ") === -1);
+        }, "* No spaces are allowed");
+
+        $.validator.addMethod("validusername", function(value, element) {
+            return this.optional(element) || (checkUserName());
+        }, "* This username is already taken.");
+
+        $.validator.addMethod("passwordmatch", function(value, element) {
+            return this.optional(element) || (value === $(passwordField).val());
+        }, "* The passwords do not match.");
+
+        $("#create_account_form").validate({
+            onclick:false,
+            onkeyup:false,
+            onfocusout:false,
+            rules: {
+                password: {
+                    minlength: 4
+                },
+                password_repeat: {
+                    passwordmatch: true
+                },
+                username: {
+                    minlength: 3,
+                    nospaces: true,
+                    validusername: true
+                }
+            },
+            messages: {
+                firstName: $(firstNameEmpty).text(),
+                lastName: $(lastNameEmpty).text(),
+                email: {
+                    required: $(emailEmpty).text(),
+                    email: $(emailInvalid).text()
+                },
+                username: {
+                    required: $(usernameEmpty).text(),
+                    minlength: $(usernameShort).text(),
+                    nospaces: $(usernameSpaces).text(),
+                    validusername: $(usernameTaken).text()
+                },
+                password: {
+                    required: $(passwordEmpty).text(),
+                    minlength: $(passwordShort).text()
+                },
+                password_repeat:  {
+                    required: $(passwordRepeatEmpty).text(),
+                    passwordmatch: $(passwordRepeatNoMatch).text()
+                }
+            },
+            submitHandler: function(form, validator) {
+                doCreateUser();
+            },
+            errorPlacement: function(error, element) {
+                error.appendTo(element.parent("td").parent("tr").next("tr").children("td")[1]);
+            }
+        });
+    };
 
     var doInit = function(){
         // hide body first
@@ -314,24 +309,26 @@ $(function(){
         else {
             $('body').show();
         }
+        // Input field hover
+        // The jQuery hover strangely has a bug in FF 3.5 - fast mouse movement doesn't fire the out event...
+        //$(".create_account_input").hover(function(ev) { $(ev.target).addClass(inputFieldHoverClass); }, function(ev) { $(ev.target).removeClass(inputFieldHoverClass); });
+        // so we use this for now:
+
+        $(inputFields).bind("mouseover", function(ev) { $(this).addClass(inputFieldHoverClass); });
+        $(inputFields).bind("mouseout", function(ev) { $(this).removeClass(inputFieldHoverClass); });
+
+        // Hide success message
+        $(successMessage).hide();
+        // Hide username available message
+        $(usernameAvailable).hide();
+
+        // Initialize the captcha widget.
+        initCaptcha();
+        doBinding();
     };
 
     doInit();
 
-    // Input field hover
-    // The jQuery hover strangely has a bug in FF 3.5 - fast mouse movement doesn't fire the out event...
-    //$(".create_account_input").hover(function(ev) { $(ev.target).addClass(inputFieldHoverClass); }, function(ev) { $(ev.target).removeClass(inputFieldHoverClass); });
-    // so we use this for now:
+};
 
-    $(inputFields).bind("mouseover", function(ev) { $(this).addClass(inputFieldHoverClass); });
-    $(inputFields).bind("mouseout", function(ev) { $(this).removeClass(inputFieldHoverClass); });
-
-    // Hide success message
-    $(successMessage).hide();
-
-    // Hide username available message
-    $(usernameAvailable).hide();
-
-    // Initialize the captcha widget.
-    initCaptcha();
-});
+sakai.api.Widgets.Container.registerForLoad("sakai.createnewaccount");
