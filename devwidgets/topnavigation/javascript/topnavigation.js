@@ -430,7 +430,7 @@ sakai.topnavigation = function(tuid, showSettings){
         obj.links = menulinks;
         // Get navigation and render menu template
         $(".explore").html($.TemplateRenderer("navigation_template", obj));
-    }
+    };
 
     ///////////////////////
     // Initial functions //
