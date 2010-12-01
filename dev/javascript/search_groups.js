@@ -96,18 +96,21 @@ sakai.search = function() {
                 "all": {
                     "category": "All Groups",
                     "searchurl": searchURLmap.allgroups
-                },
-                "manage": {
-                    "category": "Groups I manage",
-                    "searchurl": searchURLmap.managergroups
-                },
-                "member": {
-                    "category": "Groups I'm a member of",
-                    "searchurl": searchURLmap.membergroups
                 }
             }
         }
     };
+
+    if (!sakai.data.me.user.anon) {
+        searchConfig.facetedConfig.facets.manage = {
+           "category": "Groups I manage",
+           "searchurl": searchURLmap.managergroups
+        };
+        searchConfig.facetedConfig.facets.member = {
+           "category": "Groups I'm a member of",
+           "searchurl": searchURLmap.membergroups
+        };
+    }
 
 
     ///////////////

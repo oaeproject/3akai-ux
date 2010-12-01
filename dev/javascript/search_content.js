@@ -95,18 +95,21 @@ sakai.search = function() {
                 "all" : {
                     "category": $("#search_result_all_content").html(),
                     "searchurl": searchURLmap.allfiles
-                },
-                "manage" : {
-                    "category": $("#search_result_content_I_manage").html(),
-                    "searchurl": searchURLmap.pooledcontentmanager
-                },
-                "member" : {
-                    "category": $("#search_result_content_I_m_a_viewer_of").html(),
-                    "searchurl": searchURLmap.pooledcontentviewer
                 }
             }
         }
     };
+
+    if (!sakai.data.me.user.anon) {
+        searchConfig.facetedConfig.facets.manage = {
+            "category": $("#search_result_content_I_manage").html(),
+            "searchurl": searchURLmap.pooledcontentmanager
+        };
+        searchConfig.facetedConfig.facets.member = {
+            "category": $("#search_result_content_I_m_a_viewer_of").html(),
+            "searchurl": searchURLmap.pooledcontentviewer
+        };
+    }
 
     var $uploadContentLink = $("#upload_content.search_add_content_button");
 
