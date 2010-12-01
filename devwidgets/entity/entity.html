@@ -201,7 +201,7 @@
                         {/if}
                     </div>
                     <div class="fl-force-left entity_content_permissions">
-                        <a href="${data.profile.path}" class="s3d-regular-light-links s3d-bold">
+                        <a id="entity_content_share_link" href="#" class="s3d-regular-light-links s3d-bold">
                         <p class="entity_content_link_icon"></p>
                             {if data.profile.permissions === "public"}
                                 __MSG__VISIBLE_TO_ANYONE__
@@ -220,6 +220,8 @@
                                         {/if}
                                     {/if}
                                 {/if}
+                            {else}
+                                __MSG__VISIBLE_TO_ANYONE__
                             {/if}
                         </a>
                     </div>

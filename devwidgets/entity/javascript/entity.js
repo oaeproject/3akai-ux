@@ -701,7 +701,7 @@ sakai.entity = function(tuid, showSettings){
         });
     };
 
-    $("#entity_content_share_button").live("click", function(){
+    $("#entity_content_share_button, #entity_content_share_link").live("click", function(){
         var pl_config = {
             "mode": "search",
             "selectable": true,
@@ -716,6 +716,13 @@ sakai.entity = function(tuid, showSettings){
 
         $(window).trigger("sakai-pickeruser-init", pl_config, function(people){
         });
+
+        $(window).unbind("sakai-pickeruser-finished");
+        $(window).bind("sakai-pickeruser-finished", function(e, data) {
+            //renderTemplate();
+        });
+
+        return false;
     });
 
 
