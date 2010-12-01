@@ -563,6 +563,7 @@ sakai.topnavigation = function(tuid, showSettings){
     };
 
     if (sakai.data.me.user.anon) {
+        addBinding();
         // If a user is not logged in -> switch to anonymous mode
         switchToAnonymousMode();
     }
