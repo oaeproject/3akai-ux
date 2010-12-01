@@ -1083,26 +1083,6 @@ sakai.entity = function(tuid, showSettings){
             entityconfig.data.profile.permissions = filedata["sakai:permissions"];
         }
 
-        // get the count of users and groups who have access to the content
-        var userCount = 0;
-        var groupCount = 0;
-        for (var i in sakai.content_profile.content_data.members.viewers) {
-            if (sakai.content_profile.content_data.members.viewers[i].userid) {
-                userCount++;
-            } else if (sakai.content_profile.content_data.members.viewers[i].groupid) {
-                groupCount++;
-            }
-        }
-        for (var i in sakai.content_profile.content_data.members.managers) {
-            if (sakai.content_profile.content_data.members.managers[i].userid) {
-                userCount++;
-            } else if (sakai.content_profile.content_data.members.managers[i].groupid) {
-                groupCount++;
-            }
-        }
-        entityconfig.data.profile.usercount = userCount;
-        entityconfig.data.profile.groupcount = groupCount;
-
         if (document.location.pathname === "/dev/content_profile.html"){
             entityconfig.data["link_name"] = false;
         } else {
@@ -1161,6 +1141,37 @@ sakai.entity = function(tuid, showSettings){
         });
     };
 
+    ///////////////////
+    // CONTENT2 MODE //
+    ///////////////////
+
+    /**
+     * Set the data for the content2 object information
+     * @param {Object} data The data we need to parse
+     */
+    var setContent2Data = function(data){
+        setContentData(data);
+
+        // get the count of users and groups who have access to the content
+        var userCount = 0;
+        var groupCount = 0;
+        for (var i in sakai.content_profile.content_data.members.viewers) {
+            if (sakai.content_profile.content_data.members.viewers[i].userid) {
+                userCount++;
+            } else if (sakai.content_profile.content_data.members.viewers[i].groupid) {
+                groupCount++;
+            }
+        }
+        for (var i in sakai.content_profile.content_data.members.managers) {
+            if (sakai.content_profile.content_data.members.managers[i].userid) {
+                userCount++;
+            } else if (sakai.content_profile.content_data.members.managers[i].groupid) {
+                groupCount++;
+            }
+        }
+        entityconfig.data.profile.usercount = userCount;
+        entityconfig.data.profile.groupcount = groupCount;
+    };
 
     ////////////////////
     // MAIN FUNCTIONS //
@@ -1228,7 +1239,7 @@ sakai.entity = function(tuid, showSettings){
                 $entity_container_template = $entity_container_template_content;
                 break;
             case "content2":
-                setContentData(data);
+                setContent2Data(data);
                 $entity_container_template = $entity_container_template_content;
                 break;
         }
