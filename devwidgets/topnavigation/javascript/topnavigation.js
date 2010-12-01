@@ -418,7 +418,7 @@ sakai.topnavigation = function(tuid, showSettings){
                         temp.cleanurl = temp.cleanurl.substring(0, temp.cleanurl.indexOf('#'));
                     }
                 }
-                if (i === 0) {
+                if (i === "0") {
                     temp.firstlink = true;
                 }
                 else {
