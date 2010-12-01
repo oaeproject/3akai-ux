@@ -18,6 +18,7 @@
 
         <!-- 3rd party CSS -->
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.components.jq_pager.css" />
+        <link rel="stylesheet" type="text/css" href="/dev/lib/jquery/plugins/gritter/css/jquery.gritter.css"/>
         <link rel="stylesheet" type="text/css" href="/dev/css/lib/jquery.autoSuggest.css" />
 
         <!-- Sakai Config JS -->
@@ -41,9 +42,9 @@
         <script type="text/javascript" src="/dev/lib/sakai/sakai.api.l10n.js"></script>
         <script type="text/javascript" src="/dev/lib/sakai/sakai.api.user.js"></script>
         <script type="text/javascript" src="/dev/lib/sakai/sakai.api.widgets.js"></script>
-        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.groups.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.communication.js"></script>
 
-        <!-- 3rd-party JS -->
+        <!-- 3rd party JS -->
         <script type="text/javascript" src="/dev/lib/misc/trimpath.template.js"></script>
         <script type="text/javascript" src="/dev/lib/misc/querystring.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jqmodal.sakai-edited.js"></script>
@@ -51,6 +52,7 @@
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.pager.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.ba-bbq.js"></script>
         <script type="text/javascript" src="/dev/javascript/history/search_history.js"></script>
+        <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.threedots.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.autoSuggest.sakai-edited.js"></script>
 
     </head>
@@ -69,43 +71,39 @@
                 <div class="s3d-decor"></div>
 
                 <!-- TITLE -->
-                <h1 class="title">__MSG__SEARCH_GROUPS__</h1>
+                <h1 class="title">__MSG__MY_SAKAI2_SITES__</h1>
 
                 <!-- TAB NAVIGATION -->
                 <div class="s3d-primary-tabs">
                     <ul class="fl-tabs fl-tabs-right">
                         <li><a id="tab_search_all" href="search.html#">__MSG__ALL__</a></li>
                         <li><a href="search_content.html#" id="tab_search_content">__MSG__CONTENT_AND_MEDIA__</a></li>
-                        <li class="fl-tabs-active search_tab_selected"><a href="search_groups.html#" id="tab_search_sites">__MSG__GROUPS__</a></li>
-                        <li><a href="search_sakai2.html#" id="tab_search_sakai2">__MSG__SAKAI2__</a></li>
+                        <li><a href="search_groups.html#" id="tab_search_sites">__MSG__GROUPS__</a></li>
+                        <li class="fl-tabs-active search_tab_selected"><a href="search_sakai2.html#" id="tab_search_sakai2">__MSG__SAKAI2__</a></li>
                         <li><a href="search_people.html#" id="tab_search_people">__MSG__PEOPLE__</a></li>
                     </ul>
                 </div>
 
                 <!-- TAB CONTENT -->
                 <div class="fl-centered fl-container fl-tab-content search_content_wrapper">
-                    <div class="search_tab_content_top">
-                        <div class="search_tab_content_top_inner"></div>
-                    </div>
+                    <div class="search_tab_content_top"><div class="search_tab_content_top_inner"></div></div>
 
                     <div class="search_content_main s3d-content">
 
                         <!-- SEARCH BAR -->
                         <div class="fl-left fl-container fl-fix search_bar">
-                            <span class="s3d-button s3d-button-primary search_add_group_button"><span class="s3d-button-inner">__MSG__CREATE_A_GROUP__</span></span>
-                            <span id="search_form">
-                                <input maxlength="255" type="text" id="search_text" class="input" value="__MSG__ENTER_A_SEARCHTERM__" title="__MSG__ENTER_A_SEARCHTERM__" />
+                            <div id="search_form">
+                                <input type="text" maxlength="255" id="search_text" class="input" value="__MSG__ENTER_A_SEARCH_TERM__" title="__MSG__ENTER_A_SEARCH_TERM__" />
                                 <button id="search_button" class="s3d-search-button s3d-button s3d-button-primary"><span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span></button>
-                            </span>
+                            </div>
                         </div>
 
                         <!-- TEMPORARY SEARCH TEXT -->
-                        <div id="search_result_temp" style="display:none;"><b>__MSG__SEARCHING__ ...</b></div>
+                        <div id="search_result_temp" style="display:none;"><div class="search_padded_content"><b>__MSG__SEARCHING__ ...</b></div></div>
 
                         <div class="fl-container fl-fix search_results">
 
-                        <div class="search_results_faceted">
-                            <!-- FACETED WIDGET -->
+                        <div class="search_results_faceted"> 
                             <div id="widget_faceted" class="widget_inline"></div>
                         </div>
 
@@ -126,53 +124,14 @@
                                 <div id="search_results_container s3d-highlight_area_background" class="search_padded_groups"></div>
 
                             </div>
-
-                            <!-- TEMPLATE CONTAINING THE RESULTS -->
-                            <div id="search_results_template"><!--
-                                {for i in items}
-                                    {if i['sakai:group-id']}
-                                    {var groupsFound = true}
-                                    <div class="fl-container fl-fix search_result">
-                                        <a href="/~${i.pagepath}">
-                                        {if i.picture}
-                                        <img src="${i.picture.picPath}" alt="group name">
-                                        {else}
-                                        <img src="/dev/images/group_avatar_icon_64x64_nob.png" alt="group name">
-                                        {/if}
-                                        </a>
-                                        <div class="search_result_course_site_title"><a class="s3d-regular-links s3d-bold" href="/~${i.pagepath}">${sakai.api.Util.shortenString(i["sakai:group-title"], 75)}</a></div>
-                                        <div class="search_result_course_site_url"><a href="/~${i.pagepath}">${sakai.api.Util.shortenString(i.pagepath, 75)}</a></div>
-                                        <div class="search_result_course_site_excerpt">${sakai.api.Util.shortenString(i["sakai:group-description"], 300)}</div>
-                                    </div>
-                                    {/if}
-                                {/for}
-                                {if !groupsFound}
-                                    <div class="search_no_groups">
-                                        __MSG__NO_GROUPS_FOUND__
-                                    </div>
-                                {/if}
-                            --></div>
-                            <div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"><!-- --></div></div>
-                        </div>
-                        </div>
-                    </div>
-
-                    <div class="s3d-no-options">
-                        <div class="s3d-no-options-inner"></div>
+                        </div>                        
                     </div>
                 </div>
-
-                <!-- CONTAINER FOR THE PAGER -->
-                <div class="jq_pager"></div>
+                <div class="s3d-no-options">
+                    <div class="s3d-no-options-inner"></div>
+                </div>
             </div>
-
         </div>
-
-        <!-- CONTAINER FOR THE CREATEGROUP CONTAINER -->
-        <div id="creategroupcontainer" style="display:none;">
-            <!-- We need this container to show the pop-up where you can add a group -->
-            <div id="widget_creategroup" class="widget_inline"></div>
- 	    </div>
 
         <!-- FOOTER WIDGET -->
         <div id="widget_footer" class="widget_inline footercontainer"></div>
@@ -180,8 +139,11 @@
         <!-- CHAT -->
         <div id="widget_chat" class="widget_inline"></div>
 
+        <div id="widget_createsite" class="widget_inline"></div>
+
         <script type="text/javascript" src="/dev/javascript/search_main.js"></script>
-        <script type="text/javascript" src="/dev/javascript/search_groups.js"></script>
+        <script type="text/javascript" src="/dev/javascript/search_sakai2.js"></script>
+        <script type="text/javascript" src="/dev/lib/jquery/plugins/gritter/jquery.gritter.js"></script>
 
     </body>
 
