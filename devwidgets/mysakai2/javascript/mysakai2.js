@@ -25,7 +25,7 @@ var sakai = sakai || {};
  * @class mysakai2
  *
  * @description
- * Initialize the mysakai2 widget
+ * Initialize the mysakai2 w    idget
  *
  * @version 0.0.1
  * @param {String} tuid Unique id of the widget
@@ -67,27 +67,19 @@ sakai.mysakai2 = function(tuid){
      * 
      */
     var loadSakai2SiteList = function(){
-        var newjson = {
-            "principal": "admin",
-            "sites": [{
-                "title": "Administration Workspace",
-                "id": "!admin",
-                "url": "http://localhost/portal/site/!admin",
-                "description": "Administration Workspace",
-                "forums": 3,
-                "messages":5
+       $.ajax({
+            // TODO static links need to change once backend is completed
+            url: "/devwidgets/mysakai2/bundles/sites.json",
+            type : "GET",
+            dataType: "json",
+            success: function(data){
+                var newjson = data;
+                // Render all the sites.
+                doRender(newjson);
             },
-            {
-                "title":"projecto",
-                "id":"c1cffc2c-4da1-4e1e-8ea6-49f767d47527",
-                "url":"http://localhost/portal/site/c1cffc2c-4da1-4e1e-8ea6-49f767d47527",
-                "description":"ggg",
-                "forums": 1
-            }]
-        };
-        
-        // Render all the sites.
-        doRender(newjson);
+            error: function(){
+            }
+        });
     };
 
     /**
