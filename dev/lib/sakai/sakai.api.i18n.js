@@ -134,7 +134,7 @@ sakai.api.i18n.init = function(){
             sakai.config.requireUser = sakai.config.requireUser.concat(sakai.config.requireUserAnonNotAllowed);
             sakai.config.requireAnonymous = sakai.config.requireAnonymous.concat(sakai.config.requireAnonymousAnonNotAllowed);
         }
-        if (sakai.data.me.user.anon) {
+        if (sakai.data && sakai.data.me && sakai.data.me.user && sakai.data.me.user.anon) {
             if ($.inArray(currentPage, sakai.config.requireUser) > -1){
                 sakai.api.Security.sendToLogin();
                 return false;
@@ -150,6 +150,8 @@ sakai.api.i18n.init = function(){
         }
         sakai.api.Widgets.Container.setReadyToLoad(true);
         sakai.api.Widgets.widgetLoader.insertWidgets(null, false);
+        sakai.api.i18n.done = true;
+        $(window).trigger("sakai-i18n-done");
         return true;
     };
 
@@ -267,7 +269,7 @@ sakai.api.i18n.init = function(){
                 sakai.data.i18n.defaultBundle = data;
                 var site = getSiteId();
                 if (!site) {
-                    if (sakai.data.me.user.locale) {
+                    if (sakai.data && sakai.data.me && sakai.data.me.user && sakai.data.me.user.locale) {
                         loadLocalBundle(sakai.data.me.user.locale.language + "_" + sakai.data.me.user.locale.country);
                     }
                     else {
