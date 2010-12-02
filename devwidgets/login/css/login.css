@@ -25,13 +25,13 @@ label {color:#888; font-weight: bold; font-size: 1em;}
 
 
 /* Log-in container */
-.login-container {padding: 0; float: left;}
-.login-container-button {margin: 25px 0 35px 0; float: none; border: 1px solid #fff;}
-.login-container-textfield {border: 1px solid #888; height: 18px; margin-bottom:15px; padding: 3px 0 0 3px; width:200px !important;}
+.login-container {padding: 0; float: right; margin-top: -25px;}
+.login-container-button {margin: 0 0 0 0; float: none; display: inline;}
+.login-container-textfield {border: 1px solid #888; height: 18px; padding: 3px 0 0 3px; width:125px !important;}
 
 
 /* External Log-in */
-.login-external {margin-left: 600px; width: 250px; height: 250px; display: table;}
+/*.login-external {margin-left: 600px; width: 250px; height: 250px; display: table;}*/
 .login-external-content {display: table-cell; vertical-align: middle;}
 .login-external-system {margin-bottom:30px;}
 .login-external-description {color: #999999;}

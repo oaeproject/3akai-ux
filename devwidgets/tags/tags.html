@@ -1,10 +1,20 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/text/css/text.css" />
 
-<div class="tags_widget">
-    <div class="fl-widget-content s3d-widget-content">
-        <div id="tags_main" style="display:none">
+<div class="tags_widget fl-widget s3d-widget">
+        <!-- WIDGET HEADER -->
+        <div class="fl-widget-titlebar s3d-widget-titlebar">
+            <div class="widget-titlebar-inner s3d-widget-titlebar-inner">
+                <h2 id="tags_title" class="widget_title">__MSG__MOST_USED_PUBLIC__</h2>
+            </div>
         </div>
+
+        <!-- WIDGET BODY -->
+        <div class="fl-widget-content s3d-widget-content">
+            <div id="tags_main" style="display:none">
+            </div>
+        </div>
+
         <div id="tags_main_template" style="display:none"><!--
             {if data.results}<ul>{for result in ${data.results}
                 {for tag in ${results.tags}}
@@ -12,9 +22,16 @@
                 {/for}
             {/for}</ul>{/if}
         --></div>
-    </div>
     <div class="s3d-widget-no-options fl-fix">
         <div class="s3d-widget-no-options-inner">
+        </div>
+    </div>
+
+    <!-- WIDGET FOOTER -->
+    <div class="fl-widget-options fl-fix" id="tags_footer_edit" style="display:none">
+        <div class="s3d-widget-options-footer-left">
+            <div class="s3d-widget-options-footer-right">
+            </div>
         </div>
     </div>
 </div>
