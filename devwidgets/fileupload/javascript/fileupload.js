@@ -65,13 +65,13 @@ sakai.fileupload = function(tuid, showSettings){
     var $fileUploadNameError = $(".fileupload_name_error", $rootel);
 
     // ID
-    var $fileUploadAddDescription = $("#fileupload_add_description", $rootel);
+    var $fileUploadAddDescription = $("#fileupload_add_description");
     var $multiFileUpload = $("#multifile_upload", $rootel);
     var $newUploaderForm = $("#new_uploader form", $rootel);
     var $fileUploadUploadContent = $("#upload_content", $rootel);
-    var $fileUploadAddTags = $("#fileupload_add_tags", $rootel);
+    var $fileUploadAddTags = $("#fileupload_add_tags");
     var $fileUploadProgressId = $("#fileupload_upload_progress", $rootel);
-    var $fileUploadPermissionsSelect = $("#fileupload_permissions_select", $rootel);
+    var $fileUploadPermissionsSelect = $("#fileupload_permissions_select");
     var $fileUploadWidgetTitle= $("#fileupload_widget_title", $rootel);
     var $fileUploadWidgetTitleNewVersion= $("#fileupload_widget_title_new_version", $rootel);
     var $fileUploadAddVersionDescription = $("#fileupload_add_version_description", $rootel);
@@ -306,6 +306,18 @@ sakai.fileupload = function(tuid, showSettings){
     };
 
     /**
+     * Show the upload dialog box and reset the rootel
+     * @param {Object} hash jqm data
+     */
+    var showUploadDialog = function(hash) {
+        hash.w.show();
+        $rootel = $("#" + hash.w.attr("id") + "." + hash.w.attr("class").split(" ").join("."));
+        $fileUploadAddDescription = $("#fileupload_add_description", $rootel);
+        $fileUploadAddTags = $("#fileupload_add_tags", $rootel);
+        $fileUploadPermissionsSelect = $("#fileupload_permissions_select", $rootel);
+    };
+
+    /**
      * Reset the fields and lists when the user closes the jqm box
      * @param {Object} hash jqm data
      */
@@ -319,6 +331,7 @@ sakai.fileupload = function(tuid, showSettings){
         $multiFileRemove.each(function(){
             $(this).click();
         });
+        $rootel = $("#" + tuid);
         hash.o.remove();
         hash.w.hide();
     };
@@ -378,6 +391,9 @@ sakai.fileupload = function(tuid, showSettings){
      * Set the description of the uploaded files
      */
     var batchSetDescriptionAndName = function(data){
+        $fileUploadAddDescription = $($fileUploadAddDescription.selector);
+        $fileUploadAddTags = $($fileUploadAddTags.selector);
+        $fileUploadPermissionsSelect = $($fileUploadPermissionsSelect.selector);
         // Batch link the files with the tags
         var batchDescriptionData = [];
         // Check if it's a link that's been uploaded
@@ -707,6 +723,7 @@ sakai.fileupload = function(tuid, showSettings){
                     uploadedFiles = extractedData;
 
                     // Initiate the tagging process
+                    $fileUploadAddTags = $($fileUploadAddTags.selector);
                     tags = sakai.api.Util.formatTags($fileUploadAddTags.val());
                     for (var file in uploadedFiles) {
                         if (uploadedFiles.hasOwnProperty(file)) {
@@ -825,7 +842,8 @@ sakai.fileupload = function(tuid, showSettings){
         overlay: 20,
         zIndex: 4000,
         toTop: true,
-        onHide: closeUploadBox
+        onHide: closeUploadBox,
+        onShow: showUploadDialog
     });
 
     $cancelButton.live("click", function(){

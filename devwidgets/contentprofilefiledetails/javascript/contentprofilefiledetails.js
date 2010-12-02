@@ -218,7 +218,8 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
         sakai.filerevisions.initialise(sakai.content_profile.content_data);
     });
 
-    $uploadContentLink.bind("click", function() {
+    $uploadContentLink.die("click");
+    $uploadContentLink.live("click", function() {
         $(window).trigger("sakai-fileupload-init");
     });
 
