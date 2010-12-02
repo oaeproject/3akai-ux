@@ -1,0 +1,16 @@
+{
+    "userpages": false,
+    "userdashboard": true,
+    "grouppages": false,
+    "groupdashboard": true,
+    "description": "Tags",
+    "hasSettings": false,
+    "id": "tags",
+    "name": "Most used public tags",
+    "type": "sakai",
+    "enabled": true,
+    "url":"/devwidgets/tags/tags.html",
+    "i18n": {
+        "default": "/devwidgets/tags/bundles/default.properties"
+    }
+}

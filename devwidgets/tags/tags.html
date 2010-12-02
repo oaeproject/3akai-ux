@@ -1,0 +1,23 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/text/css/text.css" />
+
+<div class="tags_widget">
+    <div class="fl-widget-content s3d-widget-content">
+        <div id="tags_main" style="display:none">
+        </div>
+        <div id="tags_main_template" style="display:none"><!--
+            {if data.results}<ul>{for result in ${data.results}
+                {for tag in ${results.tags}}
+                    <li><a href="/dev/search.html?#tag=/tags/${tag.name}">${tag.name}</a>(${tag.count})</li>
+                {/for}
+            {/for}</ul>{/if}
+        --></div>
+    </div>
+    <div class="s3d-widget-no-options fl-fix">
+        <div class="s3d-widget-no-options-inner">
+        </div>
+    </div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/tags/javascript/tags.js"></script>
