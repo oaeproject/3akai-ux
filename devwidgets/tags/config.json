@@ -1,8 +1,8 @@
 {
     "userpages": false,
-    "userdashboard": true,
+    "userdashboard": false,
     "grouppages": false,
-    "groupdashboard": true,
+    "groupdashboard": false,
     "description": "Tags",
     "hasSettings": false,
     "id": "tags",
