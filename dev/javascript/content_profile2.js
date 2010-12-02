@@ -267,6 +267,7 @@ sakai.content_profile = function(){
                 success: function(data){
                     if (task === 'add') {
                         sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_added_text").text() + " " + notificationType) + ": " + users.toAddNames.toString().replace(/,/g, ", "));
+                        sakai.content_profile.loadContentProfile();
                     }
                     else {
                         sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_removed_text").text() + " " + notificationType) + " " + users.toAddNames.toString().replace(/,/g, ", "));
@@ -277,7 +278,10 @@ sakai.content_profile = function(){
     };
 
     $(window).bind("sakai-pickeruser-finished", function(e, peopleList){
-        addRemoveUsers('viewers', peopleList, 'add');
+        if(!peopleList.mode || peopleList.mode == undefined){
+            peopleList.mode = "viewers";
+        }
+        addRemoveUsers(peopleList.mode, peopleList, 'add');
     });
     ////////////////////
     // Initialisation //

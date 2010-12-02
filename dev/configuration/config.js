@@ -218,14 +218,7 @@ sakai.config = {
                 "public": "public",            // Anyone on the Internet
                 "managers": "managers-only"    // Group managers only
             }
-        },
-        Content: {
-            label: {
-                "public":"VISIBLE_TO_ANYONE",
-                "private":"PRIVATE_TO_ANYONE_I_SHARE_WITH",
-                "everyone":"VISIBLE_TO_ANYONE_WHOS_LOGGED_IN"
-            }
-         }
+        }
     },
 
     allowPasswordChange: true,
