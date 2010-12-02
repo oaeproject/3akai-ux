@@ -144,6 +144,7 @@ sakai.collections = function(tuid, showSettings) {
     var saveWidgetData = function() {
         widgetData.collectionData = collectionData;
         widgetData.settings = settings;
+        console.debug(widgetData.collectionData.collections.length);
         sakai.api.Widgets.saveWidgetData(tuid, widgetData, function(success, data) {
             if (success) {
                 if (showSettings) {
@@ -1267,7 +1268,7 @@ sakai.collections = function(tuid, showSettings) {
             var d = new Date();
             currentCollectionData.id = d.getTime() + "" + Math.floor(Math.random() * 101);
         }
-        $.TemplateRenderer(collectionsEditRoomTemplate, {"room": currentCollectionData}, $collectionsEditRoom);
+        $.TemplateRenderer(collectionsEditRoomTemplate, {"room": currentCollectionData}, $collections_map_room_edit);
         if (currentCollectionData.categories) {
             $.TemplateRenderer(categoriesListingBodyTemplate, {"categories": currentCollectionData.categories}, $categories_listing_body);
             sortCategoriesDisplay();
