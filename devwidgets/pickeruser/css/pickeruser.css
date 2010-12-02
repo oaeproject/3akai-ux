@@ -1,4 +1,4 @@
-/** SEARCH **/
+/* SEARCH */
 #pickeruser_container{width:696px;height:490px;padding:5px;margin-left:-349px;}
 #pickeruser_container #pickeruser_container_search{width:650px;}
 #pickeruser_container #pickeruser_container_search.no_message{height:200px;}
@@ -39,10 +39,10 @@
 #pickeruser_form_container{width:100%;}
 img.sm_suggestion_img{height:16px;width:16px;margin-right:5px;}
 
-/** LIST PEOPLE **/
+/* LIST PEOPLE */
 #pickeruser_listpeople {border: 1px solid #878A8C; height:214px; width:100%; margin-bottom:0; clear:both; overflow:auto;}
 #pickeruser_listpeople ul {margin:0; padding:0;}
-#pickeruser_listpeople ul li {border-bottom:1px solid #E4E4E4; border-top:1px solid #FFFFFF; clear:both; display:block; list-style:none outside none; overflow:hidden; padding:4px 0 4px 10px;}
+#pickeruser_listpeople ul li {clear:both; display:block; list-style:none outside none; overflow:hidden; padding:5px 0 5px 10px;}
 #pickeruser_listpeople ul li span {margin:4px 0 0 8px;}
 #pickeruser_listpeople ul li:hover {background-color:#99ccff;}
 #pickeruser_listpeople ul .s3d-highlight_area_background {margin:0;}
@@ -64,7 +64,7 @@ img.sm_suggestion_img{height:16px;width:16px;margin-right:5px;}
 #pickeruser_edit_permission li {list-style-type:none;padding:0;}
 #pickeruser_edit_permission ul {background-color:#fff;border:1px solid #CCC;margin:0;padding:5px 15px 5px 7px;}
 
-/** LINK BUTTON **/
+/* LINK BUTTON */
 .s3d-button-link-2-state {background: url("/dev/images/button_link_2_state.png") no-repeat scroll right -40px transparent;}
 .s3d-button-link-2-state-inner {background: url("/dev/images/button_link_2_state.png") no-repeat scroll left 0px transparent !important; margin: 0 !important; color: #333 !important;font-size:11px;}
 .s3d-button-link-2-state-inner-secondary {font-size:9px;}
