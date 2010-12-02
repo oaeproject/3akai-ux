@@ -447,9 +447,9 @@ sakai._search = function(config, callback) {
                 // if another link is clicked in between load old link data instead of new link
                 // so need to check if new link is clicked kill the previous ajax request.
                 var killPreviousAjaxCall = false;
-                if (mainFacetedUrl !== searchConfig.facetedConfig.facets[facet].searchurl) {
+                /*if (mainFacetedUrl !== searchConfig.facetedConfig.facets[facet].searchurl) {
                     killPreviousAjaxCall = true;
-                }
+                }*/
                 
                 mainFacetedUrl = searchConfig.facetedConfig.facets[facet].searchurl;
                 sakai._search.doHSearch(1, searchquery, searchwhere, facet, killPreviousAjaxCall);

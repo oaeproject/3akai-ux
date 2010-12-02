@@ -176,6 +176,10 @@ strong {
     width: 50px;
 }
 
+.search_result_sites img {
+    width: 30px;
+}
+
 .search_result_right {
     margin-left: 60px;
 }

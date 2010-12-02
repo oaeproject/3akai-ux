@@ -1,0 +1,80 @@
+{
+    "principal":"admin",
+    "categories":
+    [
+        {
+            "category":"i18n_moresite_01_all_sites",
+            "sites":
+            [
+                {
+                    "title":"Administration Workspace",
+                    "id":"!admin",
+                    "url":"http://localhost/portal/site/!admin",
+                    "description":"Administration Workspace"
+                },
+                {
+                    "title":"Citations Admin",
+                    "id":"citationsAdmin",
+                    "url":"http://localhost/portal/site/citationsAdmin"
+                },
+                {
+                    "title":"Portfolio Admin",
+                    "id":"PortfolioAdmin",
+                    "url":"http://localhost/portal/site/PortfolioAdmin",
+                    "description":"Site for portfolio administration"
+                },
+                {
+                    "title":"mercury site",
+                    "id":"mercury",
+                    "url":"http://localhost/portal/site/mercury"
+                },
+                {
+                    "title":"projecto",
+                    "id":"c1cffc2c-4da1-4e1e-8ea6-49f767d47527",
+                    "url":"http://localhost/portal/site/c1cffc2c-4da1-4e1e-8ea6-49f767d47527",
+                    "description":"ggg"
+                }
+            ]
+        },
+        {
+            "category":"i18n_moresite_05_projects",
+            "sites":
+            [
+                {
+                    "title":"Citations Admin",
+                    "id":"citationsAdmin",
+                    "url":"http://localhost/portal/site/citationsAdmin"
+                },
+                {
+                    "title":"projecto",
+                    "id":"c1cffc2c-4da1-4e1e-8ea6-49f767d47527",
+                    "url":"http://localhost/portal/site/c1cffc2c-4da1-4e1e-8ea6-49f767d47527",
+                    "description":"ggg"
+                }
+            ]
+        },
+        {
+            "category":"i18n_moresite_04_other",
+            "sites":
+            [
+                {
+                    "title":"Administration Workspace",
+                    "id":"!admin",
+                    "url":"http://localhost/portal/site/!admin",
+                    "description":"Administration Workspace"
+                },
+                {
+                    "title":"Portfolio Admin",
+                    "id":"PortfolioAdmin",
+                    "url":"http://localhost/portal/site/PortfolioAdmin",
+                    "description":"Site for portfolio administration"
+                },
+                {
+                    "title":"mercury site",
+                    "id":"mercury",
+                    "url":"http://localhost/portal/site/mercury"
+                }
+            ]
+        }
+    ]
+}

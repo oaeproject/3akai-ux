@@ -121,9 +121,19 @@
                                 <div id="search_result_results_located_in" style="display:none;"><span style="font-weight:normal">__MSG__RESULTS_LOCATED_IN__</span></div>
 
                                 <!-- CONTAINER FOR THE RESULTS -->
-                                <div id="search_results_container s3d-highlight_area_background" class="search_padded_groups"></div>
+                                <div id="search_results_container" class="search_padded_groups s3d-highlight_area_background"></div>
 
                             </div>
+                            <!-- TEMPLATE CONTAINING THE RESULTS -->
+                            <div id="search_results_template"><!--
+                                {for site in sites}
+                                    <div class="fl-container fl-fix search_result search_result_sites">
+                                        <img src="/dev/images/sakai2sites.png" alt="Sites" />
+                                        <div class="search_result_course_site_title"><a class="s3d-regular-links s3d-bold" href=${site.url}>${site.title}</a></div>
+                                    </div>
+                                {/for}
+                            --></div>
+  
                         </div>                        
                     </div>
                 </div>

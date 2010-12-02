@@ -454,6 +454,7 @@ sakai.search = function() {
 
         // Get my sites
         mainSearch.getMySites();
+        
         // Add the bindings
         mainSearch.addEventListeners();
 
