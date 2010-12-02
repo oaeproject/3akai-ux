@@ -34,6 +34,7 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
     ///////////////
 
     var anon = false;
+    var isLink = false;
 
     // path variables
     var contentPath = "";
@@ -73,6 +74,10 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
             anon : anon
         };
 
+        if (profileData["jcr:content"]["jcr:mimeType"] === "x-sakai/link") {
+            isLink = true;
+        }
+
         // Set the global JSON object (we also need this in other functions + don't want to modify this)
         globalJSON = $.extend(true, {}, json);
 
@@ -88,7 +93,6 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
         addBinding();
 
         // Add classes
-        $(contentProfileFileDetailsActionUpload).data("hashpath", "contentpath_" + contentPath.split("/p/")[1]);
 
         // make sure the newly added content is properly styled with
         // threedots truncation
@@ -218,8 +222,9 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
         sakai.filerevisions.initialise(sakai.content_profile.content_data);
     });
 
-    $uploadContentLink.bind("click", function() {
-        $(window).trigger("sakai-fileupload-init");
+    $uploadContentLink.die("click");
+    $uploadContentLink.live("click", function() {
+        $(window).trigger("sakai-fileupload-init", {newVersion: true, isLink: isLink, contentPath: contentPath.split("/p/")[1]});
     });
 
     $(window).bind("sakai-fileupload-complete", function(){
