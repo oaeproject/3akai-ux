@@ -272,7 +272,7 @@ img.content_image {max-width:300px; max-height:200px;}
 .itemHero {-moz-border-radius:3px;-moz-box-shadow:3px 3px 12px -5px rgb(20,20,20);-webkit-border-radius:3px;-webkit-box-shadow:3px 3px 12px -5px rgb(20,20,20);border-radius:3px;box-shadow:3px 3px 12px -5px rgb(20,20,20);background-color:#fff;margin:20px;padding:10px 20px 20px 20px;width:560px;float:left;position:relative;}
 .itemHead {float:left; width:100%;min-height:40px;}
 .itemHead div.itemTitleContainer { float:left; position:relative; width:410px; min-height:27px;}
-.itemHead h1 { float:left; position:relative; width:390px; }
+.itemHead h1 { float:left; position:relative; width:368px; }
 .itemHead div.configureItem {float:left; position:relative; width:146px;margin-top:-2px;padding:2px;text-align:right;}
 .itemHead div.configureItem.expanded {border:1px solid #999; -moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px; padding:1px;}
 .itemHead img {margin:3px 3px 0 0;}
