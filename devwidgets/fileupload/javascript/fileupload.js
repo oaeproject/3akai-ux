@@ -849,6 +849,17 @@ sakai.fileupload = function(tuid, showSettings){
         $fileUploadContainer.jqmHide();
     });
 
+    /**
+     * Invoke 'sakai-fileupload-init' to initialize the upload widget
+     * There are 2 modes in which the widget can operate
+     * 
+     * - The normal mode doesn't require any extra action by the developer, just fire the event and the widget pops up.
+     * 
+     * - The new version mode requires an extra class to be added on the button that invokes the widget. The extra class is 'new_version'
+     *   If you add another class 'new_link' then the new version will be considered to be a link.
+     * 
+     * In both modes the button that invokes the uploader has the id 'upload_content'
+     */
     $(window).unbind("sakai-fileupload-init");
     $(window).bind("sakai-fileupload-init", function(ev){
         // Check if the uploads need to be associated with a group or not
