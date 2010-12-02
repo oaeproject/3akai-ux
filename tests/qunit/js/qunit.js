@@ -10,6 +10,10 @@
 
 (function(window) {
 
+var defined = {
+    setTimeout: typeof window.setTimeout !== "undefined"
+}
+
 var QUnit = {
 
 	// call on start of module test to prepend name to all tests
@@ -193,7 +197,6 @@ var QUnit = {
 					if ( toolbar ) {
 						toolbar.style.display = "block";
 						id("qunit-filter-pass").disabled = null;
-						id("qunit-filter-missing").disabled = null;
 					}
 				}
 
@@ -214,10 +217,6 @@ var QUnit = {
 			}
 
 			QUnit.testDone( testName, bad, config.assertions.length );
-
-			if ( !window.setTimeout && !config.queue.length ) {
-				done();
-			}
 		});
 
 		synchronize( done );
@@ -296,7 +295,7 @@ var QUnit = {
 
 	start: function() {
 		// A slight delay, to avoid any current callbacks
-		if ( window.setTimeout ) {
+		if ( defined.setTimeout ) {
 			window.setTimeout(function() {
 				if ( config.timeout ) {
 					clearTimeout(config.timeout);
@@ -314,7 +313,7 @@ var QUnit = {
 	stop: function(timeout) {
 		config.blocking = true;
 
-		if ( timeout && window.setTimeout ) {
+		if ( timeout && defined.setTimeout ) {
 			config.timeout = window.setTimeout(function() {
 				QUnit.ok( false, "Test timed out" );
 				QUnit.start();
@@ -494,10 +493,19 @@ extend(QUnit, {
 		message = '<span class="test-message">' + message + "</span>";
 		expected = escapeHtml(QUnit.jsDump.parse(expected));
 		actual = escapeHtml(QUnit.jsDump.parse(actual));
-		var output = message + ', expected: <span class="test-expected">' + expected + '</span>';
+		var output = message + '<table><tr class="test-expected"><th>Expected: </th><td><pre>' + expected + '</pre></td></tr>';
 		if (actual != expected) {
-			output += ' result: <span class="test-actual">' + actual + '</span>, diff: ' + QUnit.diff(expected, actual);
+			output += '<tr class="test-actual"><th>Result: </th><td><pre>' + actual + '</pre></td></tr>';
+			output += '<tr class="test-diff"><th>Diff: </th><td><pre>' + QUnit.diff(expected, actual) +'</pre></td></tr>';
 		}
+		if (!result) {
+			var source = sourceFromStacktrace();
+			if (source) {
+				details.source = source;
+				output += '<tr class="test-source"><th>Source: </th><td><pre>' + source +'</pre></td></tr>';
+			}
+		}
+		output += "</table>";
 		
 		QUnit.log(result, message, details);
 		
@@ -571,25 +579,6 @@ addEvent(window, "load", function() {
 		label.setAttribute("for", "qunit-filter-pass");
 		label.innerHTML = "Hide passed tests";
 		toolbar.appendChild( label );
-
-		var missing = document.createElement("input");
-		missing.type = "checkbox";
-		missing.id = "qunit-filter-missing";
-		missing.disabled = true;
-		addEvent( missing, "click", function() {
-			var li = document.getElementsByTagName("li");
-			for ( var i = 0; i < li.length; i++ ) {
-				if ( li[i].className.indexOf("fail") > -1 && li[i].innerHTML.indexOf('missing test - untested code is broken code') > - 1 ) {
-					li[i].parentNode.parentNode.style.display = missing.checked ? "none" : "block";
-				}
-			}
-		});
-		toolbar.appendChild( missing );
-
-		label = document.createElement("label");
-		label.setAttribute("for", "qunit-filter-missing");
-		label.innerHTML = "Hide missing tests (untested code is broken code)";
-		toolbar.appendChild( label );
 	}
 
 	var main = id('main') || id('qunit-fixture');
@@ -609,13 +598,15 @@ function done() {
 	}
 
 	if ( config.queue.length ) {
-		config.doneTimer = window.setTimeout(function(){
-			if ( !config.queue.length ) {
-				done();
-			} else {
-				synchronize( done );
-			}
-		}, 13);
+		if ( defined.setTimeout ) {
+			config.doneTimer = window.setTimeout(function(){
+				if ( !config.queue.length ) {
+					done();
+				} else {
+					synchronize( done );
+				}
+			}, 13);
+		}
 
 		return;
 	}
@@ -681,6 +672,22 @@ function validTest( name ) {
 	return run;
 }
 
+// so far supports only Firefox, Chrome and Opera (buggy)
+// could be extended in the future to use something like https://github.com/csnover/TraceKit
+function sourceFromStacktrace() {
+	try {
+		throw new Error();
+	} catch ( e ) {
+		if (e.stacktrace) {
+			// Opera
+			return e.stacktrace.split("\n")[6];
+		} else if (e.stack) {
+			// Firefox, Chrome
+			return e.stack.split("\n")[4];
+		}
+	}
+}
+
 function resultDisplayStyle(passed) {
 	return passed && id("qunit-filter-pass") && id("qunit-filter-pass").checked ? 'none' : '';
 }
@@ -716,9 +723,8 @@ function process() {
 	while ( config.queue.length && !config.blocking ) {
 		if ( config.updateRate <= 0 || (((new Date()).getTime() - start) < config.updateRate) ) {
 			config.queue.shift()();
-
 		} else {
-			setTimeout( process, 13 );
+			window.setTimeout( process, 13 );
 			break;
 		}
 	}
@@ -1024,7 +1030,7 @@ QUnit.jsDump = (function() {
 				type = "date";
 			} else if (QUnit.is("Function", obj)) {
 				type = "function";
-			} else if (obj.setInterval && obj.document && !obj.nodeType) {
+			} else if (typeof obj.setInterval !== undefined && typeof obj.document !== "undefined" && typeof obj.nodeType === "undefined") {
 				type = "window";
 			} else if (obj.nodeType === 9) {
 				type = "document";
@@ -1078,31 +1084,31 @@ QUnit.jsDump = (function() {
 					ret += ' ' + name;
 				ret += '(';
 				
-				ret = [ ret, this.parse( fn, 'functionArgs' ), '){'].join('');
-				return join( ret, this.parse(fn,'functionCode'), '}' );
+				ret = [ ret, QUnit.jsDump.parse( fn, 'functionArgs' ), '){'].join('');
+				return join( ret, QUnit.jsDump.parse(fn,'functionCode'), '}' );
 			},
 			array: array,
 			nodelist: array,
 			arguments: array,
 			object:function( map ) {
 				var ret = [ ];
-				this.up();
+				QUnit.jsDump.up();
 				for ( var key in map )
-					ret.push( this.parse(key,'key') + ': ' + this.parse(map[key]) );
-				this.down();
+					ret.push( QUnit.jsDump.parse(key,'key') + ': ' + QUnit.jsDump.parse(map[key]) );
+				QUnit.jsDump.down();
 				return join( '{', ret, '}' );
 			},
 			node:function( node ) {
-				var open = this.HTML ? '&lt;' : '<',
-					close = this.HTML ? '&gt;' : '>';
+				var open = QUnit.jsDump.HTML ? '&lt;' : '<',
+					close = QUnit.jsDump.HTML ? '&gt;' : '>';
 					
 				var tag = node.nodeName.toLowerCase(),
 					ret = open + tag;
 					
-				for ( var a in this.DOMAttrs ) {
-					var val = node[this.DOMAttrs[a]];
+				for ( var a in QUnit.jsDump.DOMAttrs ) {
+					var val = node[QUnit.jsDump.DOMAttrs[a]];
 					if ( val )
-						ret += ' ' + a + '=' + this.parse( val, 'attribute' );
+						ret += ' ' + a + '=' + QUnit.jsDump.parse( val, 'attribute' );
 				}
 				return ret + close + open + '/' + tag + close;
 			},
@@ -1130,8 +1136,8 @@ QUnit.jsDump = (function() {
 			'class':'className'
 		},
 		HTML:false,//if true, entities are escaped ( <, >, \t, space and \n )
-		indentChar:'   ',//indentation unit
-		multiline:false //if true, items in a collection, are separated by a \n, else just a space.
+		indentChar:'  ',//indentation unit
+		multiline:true //if true, items in a collection, are separated by a \n, else just a space.
 	};
 
 	return jsDump;

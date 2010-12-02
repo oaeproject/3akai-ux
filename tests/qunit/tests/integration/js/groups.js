@@ -7,6 +7,7 @@ var group_id = ("grouprandom" + (new Date()).getTime()),
     group_desc = "Sakai Group is the best group",
     group_new_title = "New Sakai Group",
     group_new_desc = "Sakai Group will never be the best group",
+    group_new_kind = "library",
     user_random = "userrandom_" + (new Date()).getTime();
 
 
@@ -163,13 +164,40 @@ asyncTest("Join the user to the group", 3, function() {
                             });
                         }
                     });
+                } else {
+                    start();
                 }
             });
+        } else {
+            start();
         }
     });
 });
 
 sakai.qunit.loginWithAdmin();
+
+module("Group Information");
+
+asyncTest("Change group information", function() {
+    sakai.api.Groups.updateGroupInfo(group_id, group_new_title, group_new_desc, group_new_kind, function(success) {
+        ok(success, "Changed group information");
+        if (success) {
+            sakai.api.Groups.getGroupData(group_id, function(success, data) {
+                if (success) {
+                    var profile = data.authprofile;
+                    same(profile["sakai:group-title"], group_new_title, "Title set correctly");
+                    same(profile["sakai:group-kind"], group_new_kind, "Kind set correctly");
+                    same(profile["sakai:group-description"], group_new_desc, "Description set correctly");
+                }
+                start();
+            }, false);
+        } else {
+            start();
+        }
+    });
+});
+
+module("Group Test Cleanup");
 
 asyncTest("Cleanup", function() {
     sakai.api.User.removeUser(user_random, function(success, data) {

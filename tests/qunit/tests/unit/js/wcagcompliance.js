@@ -2,7 +2,7 @@ $(function() {
 
 module("WCAG 2.0 Compliance - 1.1.1 Non-text Content / Text Alternatives");
 
-var checkElements = function($elt){
+var checkElements = function($elt, callback){
     $.each($elt.find("img"), function(i, elt) {
         ok($(elt).attr("alt") || $(elt).prev('img').attr("src") === $(elt).attr("src"), "IMG tag has ALT attribute:" + $('<div/>').html(elt).html());
     });
@@ -24,8 +24,11 @@ var checkElements = function($elt){
     });
 
     $.each($elt.find("a"), function(i, elt) {
-        ok($(elt).text() || $(elt).find("*").text(), "A tag has text or children that have text: " + $('<div/>').html(elt).html());
+        ok($(elt).text() || $(elt).find("*").text() || ($(elt).html() === "<!-- -->") || $(elt).find("img").attr("alt"), "A tag has text or children that have text: " + $('<div/>').html(elt).html());
     });
+    if ($.isFunction(callback)) {
+        callback();
+    }
 };
 
 /**
@@ -40,23 +43,35 @@ var testWCAGCompliance = function(){
 
     for (var j = 0; j < sakai.qunit.allHtmlFiles.length; j++) {
         var urlToCheck = sakai.qunit.allHtmlFiles[j];
-        $.ajax({
-            url: urlToCheck,
-            async: false,
-            success: function(data){
-                var div = document.createElement('div');
-                div.innerHTML = data;
-                test(urlToCheck, function() {
-                    checkElements($(div));
+        (function(url){
+            asyncTest(url, function() {
+                $.ajax({
+                    url: url,
+                    async: false,
+                    success: function(data){
+                        var div = document.createElement('div');
+                        div.innerHTML = data;
+                        checkElements($(div), function() {
+                            start();
+                        });
+                    }
                 });
-            }
-        });
+            });
+        })(urlToCheck);
     }
+    QUnit.start();
 };
 
 /**
  * Run the test
  */
-testWCAGCompliance();
+
+if (sakai.qunit && sakai.qunit.ready) {
+    testWCAGCompliance();
+} else {
+    $(window).bind("sakai-qunit-ready", function() {
+        testWCAGCompliance();
+    });
+}
 
 });

@@ -156,7 +156,7 @@ sakai.search = function() {
             page = 1;
         }
         if (!searchquery) {
-            searchquery = $(searchConfig.global.text).val().toLowerCase();
+            searchquery = $(searchConfig.global.text).val();
         }
         if (!searchwhere) {
             searchwhere = mainSearch.getSearchWhereSites();
@@ -331,12 +331,12 @@ sakai.search = function() {
 
         // Get the search term out of the input box.
         // If we were redirected to this page it will be added previously already.
-        searchterm = $(searchConfig.global.text).val().toLowerCase();
+        searchterm = $(searchConfig.global.text).val();
 
         // Rebind everything
         mainSearch.addEventListeners(searchterm, searchwhere);
 
-        if (searchquery && searchterm && searchterm !== $(searchConfig.global.text).attr("title").toLowerCase()) {
+        if (searchquery && searchterm && searchterm !== $(searchConfig.global.text).attr("title")) {
 
             // Show and hide the correct elements.
             showSearchContent();
@@ -346,11 +346,7 @@ sakai.search = function() {
             // sites Search
             var searchWhere = mainSearch.getSearchWhereSites();
 
-            var urlsearchterm = "";
-            var splitted = searchterm.split(" ");
-            for (var i = 0; i < splitted.length; i++) {
-                urlsearchterm += splitted[i] + "~" + " " + splitted[i] + "*" + " ";
-            }
+            var urlsearchterm = sakai.api.Server.createSearchString(searchterm);
 
             var searchURL = sakai.config.URL.SEARCH_GROUPS;
             var params = {

@@ -167,7 +167,7 @@ a.s3d-regular-links, .s3d-regular-links a{
 }
 .s3d-widget-titlebar-inner {
     background:transparent url(/dev/images/block_tl.png) no-repeat scroll left top; 
-    padding: 5px 0 0 17px; 
+    padding: 0px 0 0 5px; 
     height:50px;
 }
 
@@ -208,11 +208,11 @@ a.s3d-regular-links, .s3d-regular-links a{
  * CONTENT LAYOUT 
  */
 .s3d-header .s3d-fixed-container {
-    background:url("../../_images/header_l.png") no-repeat scroll left top #FFFFFF;
+    background:url("/dev/images/header_l.png") no-repeat scroll left top #FFFFFF;
 }
 
 .s3d-header .s3d-fixed-container .s3d-decor {
-    background:url("../../_images/header_r.png") no-repeat scroll right top transparent;
+    background:url("/dev/images/header_r.png") no-repeat scroll right top transparent;
     height:5px;
     margin-right:-20px;
 } 
@@ -592,8 +592,8 @@ label.error {color:#9f3333;font-weight:bold;}
 .dialog_buttons{clear:both;margin-top:20px;}
 
 /* Dialog footer */
-.dialog_footer{background:url(/dev/_images/dialog_br.png) top right no-repeat;padding:0 8px 0 0;}
-.dialog_footer_inner{background:url(/dev/_images/dialog_bl.png) top left no-repeat;height:6px;}
+.dialog_footer{background:url(/dev/images/dialog_br.png) top right no-repeat;padding:0 8px 0 0;}
+.dialog_footer_inner{background:url(/dev/images/dialog_bl.png) top left no-repeat;height:6px;}
 
 /* highlighted areas */
 .s3d-highlight_area_background {background-color:#EFF2F4; padding: 10px; margin: 0 0 15px 0;}

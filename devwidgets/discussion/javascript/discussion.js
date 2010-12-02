@@ -273,7 +273,7 @@ sakai.discussion = function(tuid, showSettings){
                 }
             },
             error: function(xhr, textStatus, thrownError){
-                alert("Failed to edit this post.");
+                sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("FAILED_EDIT_POST"),"",sakai.api.Util.notification.type.ERROR);
             },
             data: post,
             type: 'POST'
@@ -686,9 +686,6 @@ sakai.discussion = function(tuid, showSettings){
                 'sakai:to': "discussion:w-" + store,
                 '_charset_':'utf-8'
             };
-/*            sakai.api.Widgets.saveWidgetData(tuid, object, function(success, data){
-                alert("I seem to have saved a discussion topic.");
-            });*/
             var url = store + ".create.html";
             $.ajax({
                 url: url,
@@ -701,17 +698,17 @@ sakai.discussion = function(tuid, showSettings){
                 error: function(xhr, textStatus, thrownError){
                     if (xhr.status === 401) {
                         clearReplyFields();
-                        alert("You are not allowed to add a reply.");
+                        sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("YOU_CANT_REPLY"),"",sakai.api.Util.notification.type.ERROR);
                     }
                     else {
-                        alert("Failed to add a reply.");
+                        sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("FAILED_ADD_REPLY"),"",sakai.api.Util.notification.type.ERROR);
                     }
                 },
                 data: object
             });
         }
         else {
-            alert("Please enter all the fields.");
+            sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("PLEASE_ENTER_ALL_FIELDS"),"",sakai.api.Util.notification.type.ERROR);
         }
     };
 
@@ -770,7 +767,7 @@ sakai.discussion = function(tuid, showSettings){
                 getPostsFromJCR();
             },
             error: function(xhr, textStatus, thrownError){
-                alert("Failed to delete this post.");
+                sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("FAILED_DELETE_POST"),"",sakai.api.Util.notification.type.ERROR);
             },
             data: data
         });
@@ -802,9 +799,6 @@ sakai.discussion = function(tuid, showSettings){
                 'sakai:to': "discussion:w-" + store,
                 '_charset_':"utf-8"
             };
-/*            sakai.api.Widgets.saveWidgetData(tuid, object, function(success, data){
-                alert("I seem to have saved a discussion topic.");
-            });*/
             var url = store + ".create.html";
             $.ajax({
                 url: url,
@@ -817,10 +811,10 @@ sakai.discussion = function(tuid, showSettings){
                 error: function(xhr, textStatus, thrownError){
                     if (xhr.status === 401) {
                         clearReplyFields();
-                        alert("You are not allowed to add a reply.");
+                        sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("YOU_CANT_REPLY"),"",sakai.api.Util.notification.type.ERROR);
                     }
                     else {
-                        alert("Failed to add a reply.");
+                        sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("FAILED_ADD_REPLY"),"",sakai.api.Util.notification.type.ERROR);
                     }
                     $(discussionAddTopicSubmit).removeAttr("disabled");
                 },
@@ -828,7 +822,7 @@ sakai.discussion = function(tuid, showSettings){
             });
         }
         else {
-            alert("Please enter all the fields.");
+            sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("PLEASE_ENTER_ALL_FIELDS"),"",sakai.api.Util.notification.type.ERROR);
         }
     };
 
@@ -897,7 +891,7 @@ sakai.discussion = function(tuid, showSettings){
                 post = createPostObject();
 
                 if ((""+post['sakai:subject']).replace(/ /g, "") === "" || (""+post['sakai:body']).replace(/ /g, "") === "") {
-                    alert("Please fill in all the fields.");
+                    sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("PLEASE_ENTER_ALL_FIELDS"),"",sakai.api.Util.notification.type.ERROR);
                 }
                 else {
                     if (initialPost !== false) {

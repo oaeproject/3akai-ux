@@ -147,6 +147,38 @@ sakai.api.Groups.createGroup = function(id, title, description, callback) {
 };
 
 /**
+ * Update group information
+ *
+ * @param {String} id The id of the group to update
+ * @param {String} title The new title of the group
+ * @param {String} description The new description of the group
+ * @param {String} kind The kind of group, defined in (TODO define this somewhere, currently only in groupbasicinfo.html)
+ * @param {Function} callback Callback function, passes (success)
+ */
+sakai.api.Groups.updateGroupInfo = function(id, title, description, kind, callback) {
+    var groupProfileURL = "/~" + id + "/public/authprofile";
+
+    $.ajax({
+        url: groupProfileURL,
+        data: {
+            "_charset_":"utf-8",
+            "sakai:group-title" : title,
+            "sakai:group-description" : description,
+            "sakai:group-kind" : kind
+        },
+        type: "POST",
+        error: function(xhr, textStatus, thrownError){
+            debug.error("Unable to update group information.");
+        },
+        complete: function(xhr, textStatus) {
+            if ($.isFunction(callback)) {
+                callback(textStatus === "success");
+            }
+        }
+    });
+};
+
+/**
  * Public function used to set joinability and visibility permissions for a
  * group with groupid.
  *

@@ -169,11 +169,8 @@ sakai.pickeradvanced = function(tuid, showSettings) {
         if (!searchQuery) {
             searchQuery = "*";
         } else {
-            searchQuery = $.trim(searchQuery);
-            searchQuery = searchQuery.replace(/\s+/g, "* OR *");
-            searchQuery = "*" + searchQuery + "*";
+            searchQuery = sakai.api.Server.createSearchString(searchQuery);
         }
-
         var pl_query = pickerData["searchIn"] + searchQuery + "&page=0&items=12&_=" + (Math.random() * 100000000000000000);
         renderSearch(pl_query);
     };
@@ -300,6 +297,7 @@ sakai.pickeradvanced = function(tuid, showSettings) {
                         pickerData.selectCount = 0;
                         $('#pickeradvanced_content_search ul li').each(function(i) {
                             $(this).addClass("pickeradvanced_selected_user");
+                            $(this).children("input").attr('checked', true);
                             pickerData.selectCount += 1;
                             pickerData["selected"][$(this).attr("id")] = rawData.results[i];
                             if (rawData.results[i]['rep:userId']) {
@@ -321,6 +319,7 @@ sakai.pickeradvanced = function(tuid, showSettings) {
                             // Remove from selected list
                             if ($(this).hasClass("pickeradvanced_selected_user")) {
                                 $(this).removeClass("pickeradvanced_selected_user");
+                                $(this).children("input").removeAttr('checked');
                                 delete pickerData["selected"][$(this).attr("id")];
                                 pickerData.selectCount -= 1;
                                 if (pickerData.selectCount < 1) {
@@ -330,6 +329,7 @@ sakai.pickeradvanced = function(tuid, showSettings) {
                                 if ((pickerData.limit && pickerData.selectCount < pickerData.limit) || !pickerData.limit) {
                                     // Add to selected list
                                     $(this).addClass("pickeradvanced_selected_user");
+                                    $(this).children("input").attr('checked', true);
                                     for (var j = 0; j < rawData.results.length; j++) {
                                         if (rawData.results[j]['rep:userId'] && rawData.results[j]['rep:userId'] == [$(this).attr("id")]) {
                                             pickerData.selectCount += 1;
