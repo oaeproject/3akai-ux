@@ -443,6 +443,9 @@ sakai._search = function(config, callback) {
         });
     };
 
+    if(sakai.config.showSakai2) {
+        $("#tab_search_sakai2").show();
+    }
     return {
         'getMySites': getMySites,
         'getFacetedUrl': getFacetedUrl,

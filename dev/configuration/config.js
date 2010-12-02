@@ -728,6 +728,8 @@ sakai.config = {
         "/dev/show.html"
     ],
 
+    showSakai2 : true,
+
     displayDebugInfo: true,
 
     Directory: {

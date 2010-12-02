@@ -270,3 +270,6 @@ strong {
 
 /* Search Directory */
 .search_directory_seperator {padding:0 10px 0 10px;}
+
+/* Sakai Search Tab */
+#tab_search_sakai2 { display:none;}
