@@ -37,7 +37,7 @@
             <div id="pickeruser_listpeople">
                 <ul>
                     {for manager in content_profile.content_data.members.managers}
-                        <li {if manager_index % 2 == 0} class="pickeruser_list_item_alternating_row"{/if}>
+                        <li {if manager_index % 2 != 0} class="pickeruser_list_item_alternating_row"{/if}>
                             {if manager.picture != null}
                                 {if manager.hasOwnProperty("groupid")}
                                     <img src="/~${manager.groupid}/public/profile/${manager.picture.name}" alt="${manager["sakai:group-title"]}" class="pickeruser_people_picture"/>
@@ -70,7 +70,7 @@
                     {if content_profile.content_data.members.hasOwnProperty("viewers")}
                         {for viewer in content_profile.content_data.members.viewers}
                             {if viewer.userid != "anonymous"}
-                                <li {if content_profile.content_data.members.managers.length % 2 != 0}{if viewer_index % 2 != 0} class="pickeruser_list_item_alternating_row"{/if}{else}{if viewer_index % 2 == 0} class="pickeruser_list_item_alternating_row"{/if}{/if}>
+                                <li {if content_profile.content_data.members.managers.length % 2 != 0}{if viewer_index % 2 == 0} class="pickeruser_list_item_alternating_row"{/if}{else}{if viewer_index % 2 != 0} class="pickeruser_list_item_alternating_row"{/if}{/if}>
                                     {if viewer.picture != null}
                                         {if viewer.hasOwnProperty("groupid")}
                                             <img src="/~${viewer.groupid}/public/profile/${viewers.picture.name}" alt="${viewer["sakai:group-title"]}" class="pickeruser_people_picture"/>

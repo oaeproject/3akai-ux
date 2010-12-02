@@ -110,7 +110,16 @@ sakai.pickeruser = function(tuid, showSettings) {
                list.splice(i, 1);
            }
         });
-        return list;
+        
+        // Create list to show in the notification
+        var toAddNames = [];
+        $("#pickeruser_container .as-selection-item").each(function(){
+            toAddNames.push($(this).html().split("</a>")[1]);
+        });
+
+        var returnValue = {"list":list, "toAddNames":toAddNames};
+
+        return returnValue;
     };
 
     /**
@@ -127,6 +136,11 @@ sakai.pickeruser = function(tuid, showSettings) {
      * @returns void
      */
     var reset = function() {
+        $pickeruser_add_button.hide();
+        $(pickeruser_dont_share_button).hide();
+        $(pickeruserMessageNewMembers).hide();
+        $(pickeruser_close_button).show();
+
         pickerData.selected = {};
         pickerData.currentElementCount = 0;
         pickerData.selectCount = 0;
@@ -215,13 +229,12 @@ sakai.pickeruser = function(tuid, showSettings) {
     var addBinding = function() {
         $(pickeruser_init_search).bind("click", function() {
             var currentSelections = getSelectedList();
-            $(window).trigger("sakai-pickeradvanced-init", {"list":currentSelections, "config": {"type": pickerData["type"]}});
+            $(window).trigger("sakai-pickeradvanced-init", {"list":currentSelections.list, "config": {"type": pickerData["type"]}});
         });
 
         $(pickeruser_dont_share_button).bind("click", function() {
             // reset form.
             reset();
-            $pickeruser_container.jqmHide();
         });
 
         $(pickeruser_close_button).bind("click", function(){
@@ -361,11 +374,10 @@ sakai.pickeruser = function(tuid, showSettings) {
         // send the message if its not empty
         var messageText = $.trim($(pickeruserMessageNewMembers).val());
         if (messageText !== "") {
-            var messageList = getSelectedList();
-            sakai.api.Communication.sendMessage(userList, sakai.api.i18n.Widgets.getValueForKey("pickeruser", "", "I_WANT_TO_SHARE") + " \"" + sakai.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"", messageText, false, false, false);
+            sakai.api.Communication.sendMessage(userList.list, sakai.api.i18n.Widgets.getValueForKey("pickeruser", "", "I_WANT_TO_SHARE") + " \"" + sakai.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"", messageText, false, false, false);
         }
-        $pickeruser_container.jqmHide();
-        $(window).trigger("sakai-pickeruser-finished", {"toAdd": userList});
+
+        $(window).trigger("sakai-pickeruser-finished", {"toAdd": userList.list, "toAddNames": userList.toAddNames});
     };
 
     /**

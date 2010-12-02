@@ -208,11 +208,12 @@ sakai.content_profile = function(){
      * @param {String} tuid Identifier for the widget/type of user we're adding (viewer or manager)
      * @param {Object} users List of users we're adding/removing
      * @param {String} task Operation of either adding or removing
+     * @param {Array} Array containg user ID's and names that can be displayed on the UI
      */
     var addRemoveUsers = function(tuid, users, task){
         var notificationType = sakai.api.Security.saneHTML($("#content_profile_viewers_text").text());
         var reqData = [];
-        $.each(users, function(index, user){
+        $.each(users.toAdd, function(index, user){
             var data = {
                 ":viewer": user
             };
@@ -265,10 +266,10 @@ sakai.content_profile = function(){
                 },
                 success: function(data){
                     if (task === 'add') {
-                        sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_added_text").text() + " " + notificationType));
+                        sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_added_text").text() + " " + notificationType) + ": " + users.toAddNames.toString().replace(/,/g, ", "));
                     }
                     else {
-                        sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_removed_text").text() + " " + notificationType));
+                        sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_removed_text").text() + " " + notificationType) + " " + users.toAddNames.toString().replace(/,/g, ", "));
                     }
                 }
             });
@@ -276,7 +277,7 @@ sakai.content_profile = function(){
     };
 
     $(window).bind("sakai-pickeruser-finished", function(e, peopleList){
-        addRemoveUsers('viewers', peopleList.toAdd, 'add');
+        addRemoveUsers('viewers', peopleList, 'add');
     });
     ////////////////////
     // Initialisation //
