@@ -396,16 +396,15 @@ sakai.topnavigation = function(tuid, showSettings){
      * @returns void
      */
     var switchToAnonymousMode = function(){
+        // Hide things which are irrelvant for Anonymous user
+        $(".personal .mail").hide();
+        $(".personal .sign_out").hide();
+        $(".help").hide();
+        $("#user_link_container").hide();
 
         // Show Nav Container
         if (sakai.config.anonAllowed){
             $(exploreNavigationContainer).show();
-
-            // Hide things which are irrelvant for Anonymous user
-            $(".personal .mail").hide();
-            $(".personal .sign_out").hide();
-            $(".help").hide();
-            $("#user_link_container").hide();
 
             // Show anonymous elements
             $("#other_logins_button_container").show();
