@@ -67,14 +67,24 @@ sakai.content_profile = function(){
                 success: function(data){
 
                     if (data.results.hasOwnProperty(0)) {
-                        contentInfo = $.parseJSON(data.results[0].body);
+                        if (data.results[0].status === 404){
+                            sakai.api.Security.send404();
+                            return;
+                        } else if (data.results[0].stats === 403){
+                            sakai.api.Security.send403();
+                            return;
+                        } else {
+                            contentInfo = $.parseJSON(data.results[0].body);
+                        }
                     }
 
                     if (data.results.hasOwnProperty(1)) {
                         contentMembers = $.parseJSON(data.results[1].body);
+                        contentMembers.viewers = contentMembers.viewers || {};
                         $.each(contentMembers.viewers, function(index, resultObject) {
                             contentMembers.viewers[index].picture = $.parseJSON(contentMembers.viewers[index].picture);
                         });
+                        contentMembers.managers = contentMembers.managers || {};
                         $.each(contentMembers.managers, function(index, resultObject) {
                             contentMembers.managers[index].picture = $.parseJSON(contentMembers.managers[index].picture);
                         });
@@ -142,15 +152,6 @@ sakai.content_profile = function(){
                     if ($.isFunction(callback)) {
                         callback(true);
                     }
-                },
-                error: function(xhr, textStatus, thrownError){
-
-                    if (xhr.status === 401 || xhr.status === 403){
-                        sakai.api.Security.send403();
-                    } else {
-                        sakai.api.Security.send404();
-                    }
-
                 }
             });
 

@@ -22,8 +22,8 @@
 
 /* SHARE LINK */
 #pickeruser_container #pickeruser_basic_container #pickeruser_share_link {margin:5px 0 0;}
-#pickeruser_container #pickeruser_basic_container #pickeruser_share_link input{width:330px; margin-right:10px;}
-#pickeruser_message_link, #pickeruser_email_link {margin:0 7px;}
+#pickeruser_container #pickeruser_basic_container #pickeruser_share_link input{width:355px; margin-right:10px;}
+#pickeruser_message_link, #pickeruser_email_link {margin:0 0px;}
 #pickeruser_content_link {margin-right:10px; padding-left:23px; background:url("/dev/images/link.png") no-repeat scroll 0 0 transparent}
 
 /* FOOTER */
@@ -32,7 +32,7 @@
 
 /* CONTENT */
 #pickeruser_container #pickeruser_content{height:280px;width:600px;overflow:auto;}
-#pickeruser_container .s3d-highlight_area_background {margin: 0 0 35px; padding:8px 10px 7px;}
+#pickeruser_container .s3d-highlight_area_background {margin: 0 0 20px; padding:8px 10px 7px;}
 
 /* AUTOSUGGEST */
 #pickeruser_container_search ul li{list-style:none;}

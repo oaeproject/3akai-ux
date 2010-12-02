@@ -714,6 +714,7 @@ sakai.config = {
      * themselves
      */
     requireProcessing: [
+        "/dev/content_profile2.html",
         "/dev/content_profile.html",
         "/dev/group_edit.html",
         "/dev/show.html"
