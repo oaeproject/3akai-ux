@@ -709,30 +709,6 @@ sakai.entity = function(tuid, showSettings){
         });
     };
 
-    $("#entity_content_share_button, #entity_content_share_link").live("click", function(){
-        var pl_config = {
-            "mode": "search",
-            "selectable": true,
-            "subNameInfo": "email",
-            "sortOn": "lastName",
-            "items": 50,
-            "type": "people",
-            "what": "Viewers",
-            "where": sakai.content_profile.content_data.data["sakai:pooled-content-file-name"],
-            "URL": sakai.content_profile.content_data.url + "/" + sakai.content_profile.content_data.data["sakai:pooled-content-file-name"]
-        };
-
-        $(window).trigger("sakai-pickeruser-init", pl_config, function(people){
-        });
-
-        $(window).bind("sakai-pickeruser-finished", function(e, data) {
-            //renderTemplate();
-        });
-
-        return false;
-    });
-
-
     /**
      * Remove contact button after contact request is sent
      */
@@ -1217,7 +1193,9 @@ sakai.entity = function(tuid, showSettings){
         $("#entity_content_activity").live("click", function(){
             $entityContentActivityDialog.jqmShow();
 
-            var activity = false;
+            var activity = {
+                "results": false
+            };
 
             if (entityconfig.data.profile.activity) {
                 activity = entityconfig.data.profile.activity;
@@ -1228,6 +1206,73 @@ sakai.entity = function(tuid, showSettings){
             $entityContentActivityDialogContainer.show();
 
             return false;
+        });
+
+        $("#entity_content_share_button, #entity_content_share_link").live("click", function(){
+            var pl_config = {
+                "mode": "search",
+                "selectable": true,
+                "subNameInfo": "email",
+                "sortOn": "lastName",
+                "items": 50,
+                "type": "people",
+                "what": "Viewers",
+                "where": sakai.content_profile.content_data.data["sakai:pooled-content-file-name"],
+                "URL": sakai.content_profile.content_data.url + "/" + sakai.content_profile.content_data.data["sakai:pooled-content-file-name"]
+            };
+
+            $(window).trigger("sakai-pickeruser-init", pl_config, function(people){
+            });
+
+            return false;
+        });
+
+        $(window).bind("sakai-pickeruser-addUser", function(e, data) {
+            // add users that were added to content member list and render template
+            for (var i in data.user.toAddNames){
+                if (data.user.toAddNames.hasOwnProperty(i)) {
+                    if (data.access === "viewer"){
+                        sakai.content_profile.content_data.members.viewers.push({
+                            "userid": data.user.list[i],
+                            "displayName": data.user.toAddNames[i]
+                        });
+                    } else if (data.access === "manager"){
+                        sakai.content_profile.content_data.members.managers.push({
+                            "userid": data.user.list[i],
+                            "displayName": data.user.toAddNames[i]
+                        });
+                    }
+                    entityconfig.data.profile.usercount++;
+                }
+            }
+            renderTemplate();
+        });
+
+        $(window).bind("sakai-pickeruser-removeUser", function(e, data) {
+            // filter out the user that was removed and render template
+            sakai.content_profile.content_data.members.managers = $.grep(sakai.content_profile.content_data.members.managers, function(resultObject, index){
+                if (resultObject.groupid !== data.user &&
+                    resultObject.userid !== data.user) {
+                    return true;
+                }
+                entityconfig.data.profile.usercount--;
+                return false;
+            });
+            sakai.content_profile.content_data.members.viewers = $.grep(sakai.content_profile.content_data.members.viewers, function(resultObject, index){
+                if (resultObject.groupid !== data.user &&
+                    resultObject.userid !== data.user) {
+                    return true;
+                }
+                entityconfig.data.profile.usercount--;
+                return false;
+            });
+            renderTemplate();
+        });
+
+        $(window).bind("sakai-pickeruser-setGlobalPermission", function() {
+            // update content permission and render template
+            entityconfig.data.profile.permissions = sakai.content_profile.content_data.data["sakai:permissions"];
+            renderTemplate();
         });
     };
 

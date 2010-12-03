@@ -160,8 +160,9 @@ sakai.pickeruser = function(tuid, showSettings) {
     var removeMembers = function(selectedUserId, listItem){
         var permission = selectedUserId.split("-")[0];
         var itemArr = [];
+        var item;
         if (permission !== "manager") {
-            var item = {
+            item = {
                 "url": "/p/" + sakai.content_profile.content_data.data["jcr:name"] + ".members.json",
                 "method": "POST",
                 "parameters": {
@@ -169,7 +170,7 @@ sakai.pickeruser = function(tuid, showSettings) {
                 }
             };
         } else {
-            var item = {
+            item = {
                 "url": "/p/" + sakai.content_profile.content_data.data["jcr:name"] + ".members.json",
                 "method": "POST",
                 "parameters": {
@@ -189,6 +190,10 @@ sakai.pickeruser = function(tuid, showSettings) {
                 requests: $.toJSON(itemArr)
             },
             success: function(data){
+                $(window).trigger("sakai-pickeruser-removeUser", {
+                    "user": selectedUserId.substring(selectedUserId.indexOf("-") + 1, selectedUserId.length),
+                    "access": permission
+                });
                 listItem.remove();
             }
         });
@@ -197,7 +202,7 @@ sakai.pickeruser = function(tuid, showSettings) {
 
     String.prototype.startsWith = function(str){
         return (this.indexOf(str) === 0);
-    }
+    };
 
     var changePermission = function(userid, permission){
         var data = [];
@@ -234,10 +239,10 @@ sakai.pickeruser = function(tuid, showSettings) {
 
             }
         });
-    }
+    };
 
     var setGlobalPermission = function(){
-        var selectedVal = ""
+        var selectedVal = "";
         $(pickeruserPermissionSettingsContainerContent + " input:radio").each(function(){
             if (this.checked) {
                 selectedVal = this.value;
@@ -246,7 +251,7 @@ sakai.pickeruser = function(tuid, showSettings) {
 
         var data = {
             "sakai:permissions" : selectedVal
-        }
+        };
 
         sakai.api.Content.setFilePermissions(selectedVal, [{
             "hashpath": sakai.content_profile.content_data.data["jcr:name"]
@@ -258,17 +263,18 @@ sakai.pickeruser = function(tuid, showSettings) {
                 type: "POST",
                 success: function(){
                     sakai.content_profile.content_data.data["sakai:permissions"] = selectedVal;
+                    $(window).trigger("sakai-pickeruser-setGlobalPermission");
                     $(pickeruserVisibilityHeader).html($.TemplateRenderer(pickeruserVisibilityHeaderTemplate, sakai));
                     $(pickeruserPermissionSettingsContainer).jqmHide();
                 }
             });
-        }, false)
-    }
+        }, false);
+    };
 
     var addBinding = function() {
         $(window).bind("sakai-contentprofile-ready", function(){
             render();
-        })
+        });
 
         $(pickeruser_init_search).live("click", function() {
             var currentSelections = getSelectedList();
@@ -281,6 +287,7 @@ sakai.pickeruser = function(tuid, showSettings) {
 
         $(pickeruser_close_button).live("click", function(){
             reset();
+            $(window).trigger("sakai-pickeruser-close");
             $pickeruser_container.jqmHide();
         });
 
@@ -339,19 +346,20 @@ sakai.pickeruser = function(tuid, showSettings) {
 
         $(pickeruserEditPermissionsLink + " a").live("click", function(){
             $(pickeruserEditPermissionsLink).toggle();
-            if (pickeruserSelectedSharer != "") {
+            var changeTo;
+            if (pickeruserSelectedSharer !== "") {
                 // Change the permissions if the user selected a different one
                 $pickeruserSelectedSharerSpan = $(".pickeruser_permission_link_" + pickeruserSelectedSharer + " span");
-                var changeTo = $(this)[0].id.split("pickeruser_edit_permission_picker_")[1];
+                changeTo = $(this)[0].id.split("pickeruser_edit_permission_picker_")[1];
             } else {
                 $pickeruserSelectedSharerSpan = $(".pickeruser_new_members_permission_link span");
-                var changeTo = $(this)[0].id.split("pickeruser_edit_permission_picker_")[1];
+                changeTo = $(this)[0].id.split("pickeruser_edit_permission_picker_")[1];
             }
 
             if (changeTo === "viewer") {
                 if ($pickeruserSelectedSharerSpan.html() !== $(pickeruserCanView).html()) {
                     $pickeruserSelectedSharerSpan.html($(pickeruserCanView).html());
-                    if (pickeruserSelectedSharer != "") {
+                    if (pickeruserSelectedSharer !== "") {
                         changePermission(pickeruserSelectedSharer, changeTo);
                     } else {
                         $(pickeruserNewMembersPermissions).val("viewer");
@@ -361,7 +369,7 @@ sakai.pickeruser = function(tuid, showSettings) {
             else {
                 if ($pickeruserSelectedSharerSpan.html() !== $(pickeruserCanEdit).html()) {
                     $pickeruserSelectedSharerSpan.html($(pickeruserCanEdit).html());
-                    if (pickeruserSelectedSharer != "") {
+                    if (pickeruserSelectedSharer !== "") {
                         changePermission(pickeruserSelectedSharer, changeTo);
                     } else {
                         $(pickeruserNewMembersPermissions).val("managers");
@@ -459,6 +467,11 @@ sakai.pickeruser = function(tuid, showSettings) {
 
         var mode = $(pickeruserNewMembersPermissions).val();
         $(window).trigger("sakai-pickeruser-finished", {"toAdd": userList.list, "toAddNames": userList.toAddNames, "mode": mode});
+
+        $(window).trigger("sakai-pickeruser-addUser", {
+            "user": userList,
+            "access": mode
+        });
     };
 
     /**
