@@ -1,0 +1,43 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/contentmetadata/css/contentmetadata.css" />
+
+
+<div id="contentmetadata_container" class="s3d-highlight_area_background_darker1">
+    <h1>__MSG__DETAILS__</h1>
+    <div id="contentmetadata_description_container">
+        <!-- -->
+    </div>
+    <div id="contentmetadata_tags_container">
+        <!-- -->
+    </div>
+    <div id="contentmetadata_details_container">
+        <!-- -->
+    </div>
+    <div id="contentmetadata_locations_container">
+        <!-- -->
+    </div>
+    <a href="javascript:;" id="contentmetadata_"></a>
+    <hr class="fl-hidden fl-push">
+</div>
+
+<div id="contentmetadata_description_template" style="display:none;"><!--
+    <span id="contentmetadata_description_display" class="s3d-inline-editable-field">${data["sakai:description"]}</span>
+--></div>
+
+<div id="contentmetadata_tags_template" style="display:none;"><!--
+    <label for="content_profile_basic_info_form_tags">
+        __MSG__TAGS__:
+    </label>
+    {for tag in data["sakai:tags"]}{if tag.split("/")[0] !== "directory"}{if tag_index > 0},{/if} <a href="/dev/search.html#tag=/tags/${tag}" class="s3d-action" title="__MSG__SEARCH_CONTENT_TAGGED_WITH__ '${tag}'"">${tag}</a>{/if}{/for}
+--></div>
+
+<div id="contentmetadata_details_template" style="display:none;"><!--
+    
+--></div>
+
+<div id="contentmetadata_locations_template" style="display:none;"><!--
+    
+--></div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/contentmetadata/javascript/contentmetadata.js"></script>
