@@ -90,6 +90,7 @@ sakai.pickeruser = function(tuid, showSettings) {
     var pickeruserCanView = "#pickeruser_can_view";
 
     var userList = [];
+    var initialized = false;
     var callback = false;
 
     var pickerData = {
@@ -272,6 +273,8 @@ sakai.pickeruser = function(tuid, showSettings) {
     };
 
     var addBinding = function() {
+        initialized = true;
+
         $(window).bind("sakai-contentprofile-ready", function(){
             render();
         });
@@ -515,7 +518,9 @@ sakai.pickeruser = function(tuid, showSettings) {
         $(pickeruserNewMembersPermissions).hide();
         $(pickeruser_close_button).show();
 
-        addBinding();
+        if (!initialized) {
+            addBinding();
+        }
         setupAutoSuggest();
     };
 
