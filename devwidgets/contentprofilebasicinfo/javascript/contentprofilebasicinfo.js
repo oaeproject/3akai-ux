@@ -231,8 +231,8 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
     var addRecentActivity = function(activityMessage){
         var activityData = {
             "sakai:activityMessage": activityMessage
-        }
-        sakai.api.Activity.createActivity(sakai.content_profile.content_data.path, "content", "default", activityData)
+        };
+        sakai.api.Activity.createActivity(sakai.content_profile.content_data.path, "content", "default", activityData);
     };
 
     /**
