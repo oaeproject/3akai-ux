@@ -74,6 +74,7 @@ sakai.config = {
         MESSAGE_BOXCATEGORY_SERVICE: "/var/message/boxcategory.json",
         POOLED_CONTENT_MANAGER: "/var/search/pool/me/manager.json",
         POOLED_CONTENT_VIEWER: "/var/search/pool/me/viewer.json",
+        POOLED_CONTENT_ACTIVITY_FEED: "/var/search/pool/activityfeed.json",
         PRESENCE_CONTACTS_SERVICE: "/var/presence.contacts.json",
         PRESENCE_SERVICE: "/var/presence.json",
         PROXY_RSS_SERVICE: "/var/proxy/rss.json?rss=",

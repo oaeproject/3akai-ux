@@ -162,7 +162,7 @@ sakai.api.l10n.transformDecimal = function(num, decimalplaces) {
  *  GMT date and time
  */
 sakai.api.l10ntoGMT = function(date){
-    date.setHours(date.getHours() - sakai.data.me.locale.timezone.GMT);
+    date.setHours(date.getHours() - sakai.data.me.user.locale.timezone.GMT);
     return date;
 };
 
@@ -179,7 +179,7 @@ sakai.api.l10ntoGMT = function(date){
  *  a local date and time
  */
 sakai.api.l10n.fromGMT = function(date){
-    date.setHours(date.getHours() + sakai.data.me.locale.timezone.GMT);
+    date.setHours(date.getHours() + sakai.data.me.user.locale.timezone.GMT);
     return date;
 };
 

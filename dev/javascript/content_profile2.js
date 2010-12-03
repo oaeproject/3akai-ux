@@ -36,6 +36,7 @@ sakai.content_profile = function(){
 
         // http://localhost:8080/p/YjsKgQ8wNtTga1qadZwjQCe.2.json
         // http://localhost:8080/p/YjsKgQ8wNtTga1qadZwjQCe.members.json
+        // http://localhost:8080/var/search/pool/activityfeed.json?p=/p/YjsKgQ8wNtTga1qadZwjQCe&items=1000
 
         if (content_path) {
 
@@ -52,11 +53,32 @@ sakai.content_profile = function(){
                     "method":"GET",
                     "cache":false,
                     "dataType":"json"
+                },
+                {
+                    "url": sakai.config.URL.POOLED_CONTENT_ACTIVITY_FEED + "?p=" + content_path,
+                    "method":"GET",
+                    "cache":false,
+                    "dataType":"json"
                 }
             ];
 
             var contentInfo = false;
             var contentMembers = false;
+            var contentActivity = false;
+
+            // temporary request that returns data
+            $.ajax({
+                url: sakai.config.URL.POOLED_CONTENT_ACTIVITY_FEED + "?p=" + content_path  + "&items=1000",
+                type: "GET",
+                "async":false,
+                "cache":false,
+                "dataType":"json",
+                success: function(data){
+                    if (data.results.hasOwnProperty(0)) {
+                        contentActivity = data;
+                    }
+                }
+            });
 
             $.ajax({
                 url: sakai.config.URL.BATCH,
@@ -78,6 +100,10 @@ sakai.content_profile = function(){
                         $.each(contentMembers.managers, function(index, resultObject) {
                             contentMembers.managers[index].picture = $.parseJSON(contentMembers.managers[index].picture);
                         });
+                    }
+
+                    if (data.results.hasOwnProperty(2)) {
+                        //contentActivity = $.parseJSON(data.results[2].body);
                     }
 
                     var manager = false;
@@ -129,6 +155,7 @@ sakai.content_profile = function(){
                     json = {
                         data: contentInfo,
                         members: contentMembers,
+                        activity: contentActivity,
                         mode: "content",
                         url: sakai.config.SakaiDomain + fullPath,
                         path: fullPath,
