@@ -224,6 +224,81 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
         $(contentProfileBasicInfoForm)[0].disabled = bool;
     };
 
+    /**
+     * Adds recent activity for the file
+     * @param {Object} newData Data from the content profile form that we need to check what has changed
+     */
+    var addRecentActivity = function(activityMessage){
+        var activityData = {
+            "sakai:activityMessage": activityMessage
+        }
+        sakai.api.Activity.createActivity(sakai.content_profile.content_data.path, "content", "default", activityData)
+    };
+
+    /**
+     * Checks submitted data and adds recent activity for the file
+     * @param {Object} newData Data from the content profile form that we need to check what has changed
+     */
+    var checkRecentActivity = function(newData){
+        var titleActivity = false;
+        var descriptionActivity = false;
+        var tagActivity = false;
+        var directoryActivity = false;
+        var activityMessage;
+
+        // check if title has changed
+        if (sakai.content_profile.content_data.data["sakai:pooled-content-file-name"] !== newData["sakai:pooled-content-file-name"]){
+            titleActivity = true;
+            activityMessage = "MODIFIED_TITLE";
+        }
+        if (titleActivity) {
+            addRecentActivity(activityMessage);
+        }
+
+        // check if description has changed
+        if (sakai.content_profile.content_data.data["sakai:description"] && newData["sakai:description"]) {
+            // check if description has been modified
+            if (newData["sakai:description"] !== sakai.content_profile.content_data.data["sakai:description"]) {
+                descriptionActivity = true;
+                activityMessage = "MODIFIED_DESCRIPTION";
+            }
+        } else if (sakai.content_profile.content_data.data["sakai:description"] && !newData["sakai:description"]) {
+            // description has been removed
+            descriptionActivity = true;
+            activityMessage = "REMOVED_DESCRIPTION";
+        } else if (!sakai.content_profile.content_data.data["sakai:description"] && newData["sakai:description"]) {
+            // description has been added
+            descriptionActivity = true;
+            activityMessage = "ADDED_DESCRIPTION";
+        }
+        if (descriptionActivity) {
+            addRecentActivity(activityMessage);
+        }
+
+        // check if tags have changed
+        if (sakai.content_profile.content_data.data["sakai:tags"] && sakai.content_profile.content_data.data["sakai:tags"].length > 0){
+            // content has current tags
+            if (newData["sakai:tags"] && newData["sakai:tags"].length > 0) {
+                // check if tags have been modified
+                if ($.toJSON(newData["sakai:tags"]) !== $.toJSON(sakai.content_profile.content_data.data["sakai:tags"])) {
+                    tagActivity = true;
+                    activityMessage = "MODIFIED_TAGS";
+                }
+            } else {
+                // tags have been removed
+                tagActivity = true;
+                activityMessage = "REMOVED_TAGS";
+            }
+        } else if (newData["sakai:tags"] && newData["sakai:tags"].length > 0){
+            // tags have been added
+            tagActivity = true;
+            activityMessage = "ADDED_TAGS";
+        }
+        if (tagActivity) {
+            addRecentActivity(activityMessage);
+        }
+    };
+
     var updateBasicInfo = function(){
 
         // Get all the value for the form
@@ -249,6 +324,8 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                 sakai.api.Util.notification.show($(contentProfileBasicInfoFailedUpdatingBasicInfo).html(), $(contentProfileBasicInfoFileBasicInfoNotUpdated).html());
             },
             success : function(){
+                // Add recent activity for the file
+                checkRecentActivity(data);
                 // Set permissions on the files
                 sakai.api.Content.setFilePermissions(data["sakai:permissions"], [obj], function(permissionsSet){
                     // Load content profile

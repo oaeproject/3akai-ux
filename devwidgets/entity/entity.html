@@ -482,8 +482,14 @@
                     </span>
                     <br />
                     <span class="entity_content_activity">
+                        {var activityMessage = unescape(sakai.api.i18n.General.getValueForKey(i["sakai:activityMessage"]))}
                         {var activityDate = new Date(i["jcr:created"])}
-                        ${i["sakai:activityMessage"]} - ${sakai.api.Datetime.getTimeAgo(activityDate)} __MSG__AGO__
+                        {if activityMessage && activityMessage !== "false"}
+                            ${activityMessage}
+                        {else}
+                            ${i["sakai:activityMessage"]}
+                        {/if}
+                         - ${sakai.api.Datetime.getTimeAgo(activityDate)} __MSG__AGO__
                     </span>
                     </li>
                 {/for}
