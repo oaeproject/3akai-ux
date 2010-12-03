@@ -31,7 +31,7 @@ label {color:#888; font-weight: bold; font-size: 1em;}
 
 
 /* External Log-in */
-.login-external {margin-left: 600px; width: 250px; height: 250px; display: table;}
+.login-external {width: 250px; height: 250px; display: table;}
 .login-external-content {display: table-cell; vertical-align: middle;}
 .login-external-system {margin-bottom:30px;}
 .login-external-description {color: #999999;}

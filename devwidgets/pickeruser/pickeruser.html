@@ -11,16 +11,16 @@
         </div>
     </div>
     <div id="pickeruser_container_search" class="dialog_content">
-        <div id="pickeruser_basic_container"></div>
+        <div id="pickeruser_basic_container"><!-- --></div>
 
         <div id="pickeruser_basic_template" style="display:none"><!--
             <h1 id="pickeruser_visibility_header">
                 {if content_profile.content_data.data["sakai:permissions"] == "public"}
-                    ${sakai.api.i18n.Widgets.getValueForKey("pickeruser", "", config.Permissions.Content.label.public)}
+                    __MSG__VISIBLE_TO_ANYONE__
                 {elseif content_profile.content_data.data["sakai:permissions"] == "private"}
-                    ${sakai.api.i18n.Widgets.getValueForKey("pickeruser", "", config.Permissions.Content.label.private)}
-                {else content_profile.content_data.data["sakai:permissions"] == "everyone"}
-                    ${sakai.api.i18n.Widgets.getValueForKey("pickeruser", "", config.Permissions.Content.label.everyone)}
+                    __MSG__PRIVATE_TO_WHO_I_SHARE_THIS_WITH__
+                {elseif content_profile.content_data.data["sakai:permissions"] == "everyone"}
+                    __MSG__VISIBLE_TO_ANYONE_WHOS_LOGGED_IN__
                 {/if}
             </h1>
             <a href="javascript:;" id="pickeruser_change_global_permissions" class="s3d-bold s3d-regular-links">__MSG__CHANGE__</a>
@@ -37,7 +37,7 @@
             <div id="pickeruser_listpeople">
                 <ul>
                     {for manager in content_profile.content_data.members.managers}
-                        <li {if manager_index % 2 == 0} class="pickeruser_list_item_alternating_row"{/if}>
+                        <li {if manager_index % 2 != 0} class="pickeruser_list_item_alternating_row"{/if}>
                             {if manager.picture != null}
                                 {if manager.hasOwnProperty("groupid")}
                                     <img src="/~${manager.groupid}/public/profile/${manager.picture.name}" alt="${manager["sakai:group-title"]}" class="pickeruser_people_picture"/>
@@ -70,7 +70,7 @@
                     {if content_profile.content_data.members.hasOwnProperty("viewers")}
                         {for viewer in content_profile.content_data.members.viewers}
                             {if viewer.userid != "anonymous"}
-                                <li {if content_profile.content_data.members.managers.length % 2 != 0}{if viewer_index % 2 != 0} class="pickeruser_list_item_alternating_row"{/if}{else}{if viewer_index % 2 == 0} class="pickeruser_list_item_alternating_row"{/if}{/if}>
+                                <li {if content_profile.content_data.members.managers.length % 2 != 0}{if viewer_index % 2 == 0} class="pickeruser_list_item_alternating_row"{/if}{else}{if viewer_index % 2 != 0} class="pickeruser_list_item_alternating_row"{/if}{/if}>
                                     {if viewer.picture != null}
                                         {if viewer.hasOwnProperty("groupid")}
                                             <img src="/~${viewer.groupid}/public/profile/${viewers.picture.name}" alt="${viewer["sakai:group-title"]}" class="pickeruser_people_picture"/>
@@ -114,13 +114,23 @@
                 </ul>
             </div>
 
-            <div class="s3d-highlight_area_background_darker1">
-                <span class="s3d-bold" id="pickeruser_add_people">__MSG__ADD_PEOPLE__</span>
+            <div class="s3d-highlight_area_background_darker1 pickeruser_search_container">
+                <span class="s3d-bold" id="pickeruser_add_people">__MSG__ADD_PEOPLE__<a href="javascript:;" id="pickeruser_init_search" class="s3d-action">__MSG__SEARCH__</a></span>
                 <span id="pickeruser_form_container"><input name="pickeruser_search_query" id="pickeruser_search_query" type="text" autocomplete="off"/></span>
-                <a href="javascript:;" id="pickeruser_init_search" class="s3d-action">__MSG__SEARCH__</a>
+                <button type="submit" class="s3d-button s3d-button-link-2-state pickeruser_permission_link pickeruser_new_members_permission_link" style="display:none;" value="viewer"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CAN_VIEW__<span class="pickeruser_permission"></span></span></button>
                 <hr class="fl-push fl-hidden"/>
                 <textarea id="pickeruser_message_new_members" style="display:none;">__MSG__SEND_PERSONAL_MESSAGE__</textarea
             </div>
+        --></div>
+
+        <div id="pickeruser_visibility_header_template"><!--
+            {if content_profile.content_data.data["sakai:permissions"] == "public"}
+                __MSG__VISIBLE_TO_ANYONE__
+            {elseif content_profile.content_data.data["sakai:permissions"] == "private"}
+                __MSG__PRIVATE_TO_WHO_I_SHARE_THIS_WITH__
+            {elseif content_profile.content_data.data["sakai:permissions"] == "everyone"}
+                __MSG__VISIBLE_TO_ANYONE_WHOS_LOGGED_IN__
+            {/if}
         --></div>
 
         <div id="pickeruser_footer_options">
@@ -142,6 +152,57 @@
     </div>
 	<div id="widget_pickeradvanced" class="widget_inline"></div>
 </div>
+
+<div id="pickeruser_permission_settings_container" style="display:none" class="dialog">
+    <div id="pickeruser_permission_settings_container_header" class="dialog_header">
+        <div class="dialog_header_inner">
+            <h1 id="pickeruser_permission_settings_container_header" class="pickeruser_adding_titles">__MSG__THE_FOLLOWING_GROUPS_AND_USERS_ARE_USING_THIS_CONTENT__</h1>
+            <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+        </div>
+    </div>
+    <div id="pickeruser_permission_settings_container_content" class="dialog_content">
+        <!-- -->
+    </div>
+    <!-- DIALOG FOOTER -->
+    <div class="dialog_footer">
+        <div class="dialog_footer_inner">
+            <!-- -->
+        </div>
+    </div>
+</div>
+
+    <div id="pickeruser_permission_settings_template"><!--
+        <h1 class="fl-force-left">__MSG__WHO_CAN_SEE_THIS__</h1>
+        <div class="s3d-highlight_area_background">
+            <ul>
+                <li id="permissions_settings_container_public" class="permissions_settings_item">
+                    <input type="radio" id="permission_settings_rbt_public" name="permission_settings" value="public" {if data["sakai:permissions"] == "public"}checked{/if}/>
+                    <label id="permissions_settings_item_public" for="permission_settings_rbt_public">
+                        __MSG__VISIBLE_TO_ANYONE__
+                    </label>
+                </li>
+                <li id="permissions_settings_container_loggedin" class="permissions_settings_item">
+                    <input type="radio" id="permission_settings_rbt_everyone" name="permission_settings" value="everyone" {if data["sakai:permissions"] == "everyone"}checked{/if}/>
+                    <label id="permissions_settings_item_everyone" for="permission_settings_rbt_everyone">
+                        __MSG__VISIBLE_TO_ANYONE_WHOS_LOGGED_IN__
+                    </label>
+                </li>
+                <li id="permissions_settings_container_private" class="permissions_settings_item">
+                    <input type="radio" id="permission_settings_rbt_private" name="permission_settings" value="private" {if data["sakai:permissions"] == "private"}checked{/if}/>
+                    <label id="permissions_settings_item_private" for="permission_settings_rbt_private">
+                        __MSG__PRIVATE_TO_WHO_I_SHARE_THIS_WITH__
+                    </label>
+                </li>
+            </ul>
+        </div>
+        <button type="button" class="s3d-button s3d-button-primary fl-force-right" id="pickeruser_permission_settings_save">
+            <span class="s3d-button-inner">__MSG__SAVE__</span>
+        </button>
+        <button type="button" class="s3d-button fl-force-right" id="pickeruser_permission_settings_dont_save">
+            <span class="s3d-button-inner">__MSG__DONT_SAVE__</span>
+        </button>
+        <hr class="fl-push fl-hidden"/>
+    --></div>
 
     <div id="pickeruser_can_edit" style="display:none;">__MSG__CAN_EDIT__<span class="pickeruser_permission"></span></div>
     <div id="pickeruser_can_view" style="display:none;">__MSG__CAN_VIEW__<span class="pickeruser_permission"></span></div>

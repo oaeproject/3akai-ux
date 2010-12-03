@@ -13,7 +13,7 @@ label {color:#888; font-weight: bold; font-size: 1em;}
 .header-title{ color: #08415E; font-size: 4.0em; float: left; margin: 0 35px 0 0; padding: 40px 0 0;}
 .header-title .sakai_logo_index {background:url("/dev/images/sakai_logo_index.png") no-repeat scroll 0 7px transparent; height:54px; padding:0 10px; width:81px;}
  
-.header-byline{color: #2C9CC4; font-size: 1.5em; font-weight: bold; padding: 60px 0 0 0;}
+.header-byline{color: #2C9CC4; font-size: 1.5em; font-weight: bold; padding: 60px 0 60px 120px;}
 .header-smallline {padding:0 0 40px 0; color:#000; font-size: 1em;}
 
 /* Log-in box */

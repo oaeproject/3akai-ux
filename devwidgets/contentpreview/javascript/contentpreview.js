@@ -21,12 +21,12 @@
 var sakai = sakai || {};
 
 /**
- * @name sakai.helloworld
+ * @name sakai.contenpreview
  *
- * @class helloworld
+ * @class contentpreview
  *
  * @description
- * Initialize the helloworld widget
+ * Initialize the contentpreview widget
  *
  * @version 0.0.1
  * @param {String} tuid Unique id of the widget
@@ -157,12 +157,28 @@ sakai.contentpreview = function(tuid,showSettings){
         $(".contentpreview_default_preview").hide();
         $(".contentpreview_text_preview").hide();
         $(".contentpreview_image_preview").hide();
+        
+        $("#contentpreview_image_preview").html("");
+    }
+
+    var bindButtons = function(){
+        $("#content_preview_delete").unbind("click");
+        $("#upload_content").unbind("click");
+        // Open the delete content pop-up
+        $("#content_preview_delete").bind("click", function(){
+            window.scrollTo(0,0);
+            sakai.deletecontent.init(sakai.content_profile.content_data);
+        });
+        $("#upload_content").bind("click", function(){
+            $(window).trigger("sakai-fileupload-init");
+        });
     }
 
     $(window).bind("sakai.contentpreview.start", function(){
         determineDataType();
         showManagerButtons();
         setDownloadButton();
+        bindButtons();
     });
     
     // Indicate that the widget has finished loading

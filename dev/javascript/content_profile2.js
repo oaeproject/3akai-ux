@@ -89,14 +89,24 @@ sakai.content_profile = function(){
                 success: function(data){
 
                     if (data.results.hasOwnProperty(0)) {
-                        contentInfo = $.parseJSON(data.results[0].body);
+                        if (data.results[0].status === 404){
+                            sakai.api.Security.send404();
+                            return;
+                        } else if (data.results[0].stats === 403){
+                            sakai.api.Security.send403();
+                            return;
+                        } else {
+                            contentInfo = $.parseJSON(data.results[0].body);
+                        }
                     }
 
                     if (data.results.hasOwnProperty(1)) {
                         contentMembers = $.parseJSON(data.results[1].body);
+                        contentMembers.viewers = contentMembers.viewers || {};
                         $.each(contentMembers.viewers, function(index, resultObject) {
                             contentMembers.viewers[index].picture = $.parseJSON(contentMembers.viewers[index].picture);
                         });
+                        contentMembers.managers = contentMembers.managers || {};
                         $.each(contentMembers.managers, function(index, resultObject) {
                             contentMembers.managers[index].picture = $.parseJSON(contentMembers.managers[index].picture);
                         });
@@ -169,15 +179,6 @@ sakai.content_profile = function(){
                     if ($.isFunction(callback)) {
                         callback(true);
                     }
-                },
-                error: function(xhr, textStatus, thrownError){
-
-                    if (xhr.status === 401 || xhr.status === 403){
-                        sakai.api.Security.send403();
-                    } else {
-                        sakai.api.Security.send404();
-                    }
-
                 }
             });
 
@@ -234,11 +235,12 @@ sakai.content_profile = function(){
      * @param {String} tuid Identifier for the widget/type of user we're adding (viewer or manager)
      * @param {Object} users List of users we're adding/removing
      * @param {String} task Operation of either adding or removing
+     * @param {Array} Array containg user ID's and names that can be displayed on the UI
      */
     var addRemoveUsers = function(tuid, users, task){
         var notificationType = sakai.api.Security.saneHTML($("#content_profile_viewers_text").text());
         var reqData = [];
-        $.each(users, function(index, user){
+        $.each(users.toAdd, function(index, user){
             var data = {
                 ":viewer": user
             };
@@ -291,10 +293,11 @@ sakai.content_profile = function(){
                 },
                 success: function(data){
                     if (task === 'add') {
-                        sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_added_text").text() + " " + notificationType));
+                        sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_added_text").text() + " " + notificationType) + ": " + users.toAddNames.toString().replace(/,/g, ", "));
+                        sakai.content_profile.loadContentProfile();
                     }
                     else {
-                        sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_removed_text").text() + " " + notificationType));
+                        sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_removed_text").text() + " " + notificationType) + " " + users.toAddNames.toString().replace(/,/g, ", "));
                     }
                 }
             });
@@ -302,7 +305,10 @@ sakai.content_profile = function(){
     };
 
     $(window).bind("sakai-pickeruser-finished", function(e, peopleList){
-        addRemoveUsers('viewers', peopleList.toAdd, 'add');
+        if(!peopleList.mode || peopleList.mode == undefined){
+            peopleList.mode = "viewers";
+        }
+        addRemoveUsers(peopleList.mode, peopleList, 'add');
     });
     ////////////////////
     // Initialisation //

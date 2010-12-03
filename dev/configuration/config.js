@@ -219,14 +219,7 @@ sakai.config = {
                 "public": "public",            // Anyone on the Internet
                 "managers": "managers-only"    // Group managers only
             }
-        },
-        Content: {
-            label: {
-                "public":"VISIBLE_TO_ANYONE",
-                "private":"PRIVATE_TO_ANYONE_I_SHARE_WITH",
-                "everyone":"VISIBLE_TO_ANYONE_WHOS_LOGGED_IN"
-            }
-         }
+        }
     },
 
     allowPasswordChange: true,
@@ -715,6 +708,7 @@ sakai.config = {
      * themselves
      */
     requireProcessing: [
+        "/dev/content_profile2.html",
         "/dev/content_profile.html",
         "/dev/group_edit.html",
         "/dev/show.html"
