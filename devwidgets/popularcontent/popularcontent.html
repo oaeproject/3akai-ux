@@ -1,0 +1,40 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/text/css/text.css" />
+
+<div class="popularcontent_widget fl-widget s3d-widget">
+        <!-- WIDGET HEADER -->
+        <div class="fl-widget-titlebar s3d-widget-titlebar">
+            <div class="widget-titlebar-inner s3d-widget-titlebar-inner">
+                <h2 id="popularcontent_title" class="widget_title">__MSG__MOST_VIEWED__</h2>
+            </div>
+        </div>
+
+        <!-- WIDGET BODY -->
+        <div class="fl-widget-content s3d-widget-content">
+            <div id="popularcontent_main" style="display:none">
+            </div>
+        </div>
+        <!-- FIXME adjust template to match popular content feed -->
+        <div id="popularcontent_main_template" style="display:none"><!--
+            {if data.results}<ul>{for result in ${data.results}
+                {for tag in ${results.popularcontent}}
+                    <li><a href="/dev/search.html?#tag=/popularcontent/${tag.name}">${tag.name}</a>(${tag.count})</li>
+                {/for}
+            {/for}</ul>{/if}
+        --></div>
+    <div class="s3d-widget-no-options fl-fix">
+        <div class="s3d-widget-no-options-inner">
+        </div>
+    </div>
+
+    <!-- WIDGET FOOTER -->
+    <div class="fl-widget-options fl-fix" id="popularcontent_footer_edit" style="display:none">
+        <div class="s3d-widget-options-footer-left">
+            <div class="s3d-widget-options-footer-right">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/popularcontent/javascript/popularcontent.js"></script>

@@ -1,0 +1,16 @@
+{
+    "userpages": false,
+    "userdashboard": false,
+    "grouppages": false,
+    "groupdashboard": false,
+    "description": "",
+    "hasSettings": false,
+    "id": "popularcontent",
+    "name": "Most viewed content",
+    "type": "sakai",
+    "enabled": true,
+    "url":"/devwidgets/popularcontent/popularcontent.html",
+    "i18n": {
+        "default": "/devwidgets/popularcontent/bundles/default.properties"
+    }
+}
