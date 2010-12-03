@@ -82,6 +82,10 @@ sakai.mysakai2 = function(tuid){
         });
     };
 
+    $("#mysakai2_add_files_link").click(function(ev){
+        sakai.sakai2favourites.initialise(); 
+    });
+
     /**
      * Will initiate a request to the my groups service.
      */

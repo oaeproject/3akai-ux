@@ -1,0 +1,55 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/sakai2favourites/css/sakai2favourites.css" />
+
+<!-- CONTAINER -->
+<div style="display:none" id="sakai2favourites_container" class="dialog">
+    <div class="dialog_header">
+        <div class="dialog_header_inner">
+            <h1>__MSG__WIDGET_TITLE__</h1>
+            <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+        </div>
+    </div>
+
+    <div class="dialog_content">
+        <div class="s3d-highlight_area_background" id="sakai2favourites_sub_container">
+            <div class="fl-force-left">
+                <span>Select Category or Search</span>
+                <div class="fl-widget-content s3d-widget-content sakai2favourites_site_list" id="sakai2_category_list">
+                </div>
+                <div id="sakai2_category_list_template"><!--
+                    <ul>
+                        <li><span class="sakai2_category_title" id="all"><a class="s3d-regular-links s3d-bold" href="javascript:;">All</a></span></li>
+                        {for category in categories}
+                            <li><span class="sakai2_category_title" id=${category.category}><a class="s3d-regular-links s3d-bold" href="javascript:;">${category.category}</a></span></li>
+                        {/for}
+                    </ul>
+                --></div>
+                
+            </div>
+            <div class="fl-force-left" style="margin-left:5px;">
+                <span>Select Sites to add to favourites</span>
+                <div class="fl-widget-content s3d-widget-content sakai2favourites_site_list" id="sakai2_site_list">
+                </div>
+                <div id="sakai2_site_list_template"><!--
+                    <ul>
+                        {for site in sites}
+                            <li><span class="sakai2_category_title" id=${site.id}><a class="s3d-regular-links s3d-bold" href="javascript:;">${site.title}</a></span></li>
+                        {/for}
+                    </ul>
+                --></div>
+                </div>
+            <div class="fl-force-right sakai2favourites_site_list">
+                testing
+            </div>
+
+        </div>
+    </div>
+
+    <!-- DIALOG FOOTER -->
+    <div class="dialog_footer">
+        <div class="dialog_footer_inner"><!-- --></div>
+    </div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/sakai2favourites/javascript/sakai2favourites.js"></script>
