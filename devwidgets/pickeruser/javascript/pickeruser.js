@@ -332,7 +332,7 @@ sakai.pickeruser = function(tuid, showSettings) {
 
         $(pickeruserPermissionsLink).live("click", function(){
             pickeruserSelectedSharer = "";
-            $.each($(this)[0].classList, function(i, val){
+            $.each($(this)[0].className.split(" "), function(i, val){
                 if(val.startsWith("pickeruser_permission_link_")){
                     pickeruserSelectedSharer = val.split("pickeruser_permission_link_")[1];
                 }
