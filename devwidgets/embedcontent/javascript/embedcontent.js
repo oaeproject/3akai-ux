@@ -36,33 +36,44 @@ sakai.embedcontent = function(tuid, showSettings) {
     var $rootel = $("#" + tuid);
 
     var $embedcontent_main_container = $("#embedcontent_main_container", $rootel);
-    var $embedcontent_settings = $("#embedcontent_settings", $rootel);
     var $embedcontent_page_name = $("#embedcontent_page_name", $rootel);
-    var $embedcontent_place_content = $("#embedcontent_place_content", $rootel);
-    var $embedcontent_cancel = $("#embedcontent_cancel", $rootel);
-    var $embedcontent_content_input = $("#embedcontent_content_input", $rootel);
-    var $embedcontent_display_options = $("#embedcontent_display_options", $rootel);
-    var $embedcontent_display_options_select = $("#embedcontent_display_options_select", $rootel);
-    var $embedcontent_metadata_container = $("#embedcontent_metadata_container", $rootel);
-    var $embedcontent_metadata = $("#embedcontent_metadata", $rootel);
+
+
+    // Settings Mode
+    var $embedcontent_settings = $("#embedcontent_settings", $rootel);
+    var $embedcontent_dont_add = $(".embedcontent_dont_add", $rootel);
+
+    // Choose Content tab selectors
+    var $embedcontent_tabs = $("#embedcontent_tabs", $rootel);
     var $embedcontent_search_for_content = $("#embedcontent_search_for_content", $rootel);
-
-    var $embedcontent_alternative_display_name_value = $("#embedcontent_alternative_display_name_value", $rootel);
-    var $embedcontent_description_value = $("#embedcontent_description_value", $rootel);
-
-    var $embedcontent_page_name_template = $("#embedcontent_page_name_template", $rootel);
-    var $embedcontent_display_options_select_template = $("#embedcontent_display_options_select_template", $rootel);
-    var $embedcontent_content = $("#embedcontent_content", $rootel);
-
-    var $embedcontent_content_html_template = $("#embedcontent_content_html_template", $rootel);
-    var $embedcontent_new_item_template = $("#embedcontent_new_item_template", $rootel);
-
+    var $embedcontent_just_add = $("#embedcontent_just_add", $rootel);
+    var $embedcontent_button_goto_display_settings = $("#embedcontent_button_goto_display_settings", $rootel);
+    var $embedcontent_content_input = $("#embedcontent_content_input", $rootel);
     var $fileuploadContainer = $("#fileupload_container", $rootel);
     var $uploadContentLink = $("#upload_content", $rootel);
+
+    // Display Settings tab selectors
+    var $embedcontent_alternative_display_name_value = $("#embedcontent_alternative_display_name_value", $rootel);
+    var $embedcontent_description_value = $("#embedcontent_description_value", $rootel);
+    var $embedcontent_page_name_template = $("#embedcontent_page_name_template", $rootel);
+    var $embedcontent_button_add_selected_content = $("#embedcontent_button_add_selected_content", $rootel);
+    var $embedcontent_display_previews = $("#embedcontent_display_style div.s3d-highlight_area_background", $rootel);
+    var $embedcontent_include_inputs = $("#embedcontent_include input", $rootel);
+    var $embedcontent_layout_options = $("#embedcontent_choose_layout div", $rootel);
+    var $embedcontent_add_title_description_button = $("#embedcontent_add_title_description_button", $rootel);
+    var $embedcontent_add_title_description_fields = $("#embedcontent_add_title_description_fields", $rootel);
+
+    // Display mode
+    var $embedcontent_content = $("#embedcontent_content", $rootel);
+    var $embedcontent_content_html_template = $("#embedcontent_content_html_template", $rootel);
+
 
     var selectedItems = [];
     var firstTime = true;
     var widgetData = false;
+    var active_content_class = "tab_content_active",
+        tab_id_prefix = "embedcontent_tab_",
+        active_tab_class = "fl-tabs-active";
 
     var embedConfig = {
         "name": "Page",
@@ -102,12 +113,22 @@ sakai.embedcontent = function(tuid, showSettings) {
     var doReset = function() {
         $("#as-values-" + tuid).val("");
         $(".as-selection-item").remove();
-        $embedcontent_display_options.hide();
-        $embedcontent_metadata_container.hide();
-        $embedcontent_display_options_select.find("option:selected").removeAttr("selected");
-        $embedcontent_display_options_select.find("#show_content_only").attr("selected", "selected");
-        $embedcontent_alternative_display_name_value.val('');
-        $embedcontent_description_value.val('');
+        // $embedcontent_alternative_display_name_value.val('');
+        //         $embedcontent_description_value.val('');
+    };
+
+    var toggleButtons = function(doDisable) {
+        var elts = [
+            $embedcontent_just_add,
+            $embedcontent_button_goto_display_settings
+        ];
+        $.each(elts, function(i,$elt) {
+            if (doDisable) {
+                $elt.attr("disabled", "disabled");
+            } else {
+                $elt.removeAttr("disabled");
+            }
+        });
     };
 
     /**
@@ -177,15 +198,13 @@ sakai.embedcontent = function(tuid, showSettings) {
             resultClick: function(data) {
                 selectedItems.push(data.attributes);
                 showDisplayOptions();
-                $embedcontent_place_content.removeAttr("disabled");
+                toggleButtons();
             },
             selectionRemoved: function(elem) {
                 removeItemFromSelected(elem.html().split("</a>")[1]); // get filename
                 elem.remove();
                 if (selectedItems.length === 0) {
-                    $embedcontent_place_content.attr("disabled", "disabled");
-                    $embedcontent_display_options.hide();
-                    $embedcontent_metadata_container.hide();
+                    toggleButtons(true);
                 }
             }
         });
@@ -211,11 +230,10 @@ sakai.embedcontent = function(tuid, showSettings) {
             $embedcontent_content_input.autoSuggest.add_selected_item(val, val.value);
         });
         $(".as-original input.as-input").val('').focus();
-        $embedcontent_place_content.removeAttr("disabled");
+        toggleButtons();
         showDisplayOptions();
-        $embedcontent_display_options_select.val(widgetData.embedmethod).trigger("change");
-        $embedcontent_alternative_display_name_value.val(widgetData.title);
-        $embedcontent_description_value.val(widgetData.description);
+        // $embedcontent_alternative_display_name_value.val(widgetData.title);
+        // $embedcontent_description_value.val(widgetData.description);
     };
 
     /**
@@ -233,7 +251,7 @@ sakai.embedcontent = function(tuid, showSettings) {
             $(".as-selection-item").remove();
         }
         if (filesPicked > 0) {
-            $embedcontent_place_content.removeAttr("disabled");
+            toggleButtons();
         }
         $.each(files, function(i,val) {
             var newObj = createDataObject(val, val["jcr:name"]);
@@ -259,14 +277,14 @@ sakai.embedcontent = function(tuid, showSettings) {
           });
       });
       $("input#" + tuid).val('').focus();
-      $embedcontent_place_content.removeAttr("disabled");
+      toggleButtons();
     };
 
     /**
      * Shows the options the user has for displaying the content
      */
     var showDisplayOptions = function() {
-        $embedcontent_display_options.show();
+        // $embedcontent_display_options.show();
     };
 
     /**
@@ -357,10 +375,12 @@ sakai.embedcontent = function(tuid, showSettings) {
             }
         }
 
-        // Associate embedded items with the group
-        associatedEmbeddedItemsWithGroup(selectedItems);
-
         registerVideo(videoBatchData);
+
+        if (sakai.currentgroup) {
+            // Associate embedded items with the group
+            associatedEmbeddedItemsWithGroup(selectedItems);
+        }
 
         if ($embedcontent_metadata_container.is(":visible")) {
             var isValid = $embedcontent_metadata.valid();
@@ -370,6 +390,7 @@ sakai.embedcontent = function(tuid, showSettings) {
         } else {
             saveWidgetData(objectData);
         }
+
 
     };
 
@@ -392,24 +413,89 @@ sakai.embedcontent = function(tuid, showSettings) {
     };
 
     // Bind Events
-    $embedcontent_place_content.bind("click", function() {
+    $embedcontent_just_add.bind("click", function() {
         doEmbed();
     });
 
-    $embedcontent_cancel.bind("click", function() {
+    $embedcontent_dont_add.bind("click", function() {
         sakai.api.Widgets.Container.informFinish(tuid, "embedcontent");
-    });
-
-    $embedcontent_display_options_select.bind("change", function(e) {
-        if ($embedcontent_display_options_select.find("option:selected").val() === "show_content_and_description") {
-            $embedcontent_metadata_container.show();
-        } else {
-            $embedcontent_metadata_container.hide();
-        }
     });
 
     $uploadContentLink.bind("click", function() {
         $(window).trigger("sakai-fileupload-init");
+        return false;
+    });
+
+    var toggleTabs = function(target) {
+        $("." + active_tab_class).removeClass(active_tab_class);
+        $(target).parent("li").addClass(active_tab_class);
+        $("." + active_content_class).hide();
+        $("#" + $(target).attr("id") + "_content").addClass(active_content_class).show();
+    };
+
+    $embedcontent_tabs.find("li a").bind("click", function(e) {
+        var tab = $(e.target).attr("id").split(tab_id_prefix)[1];
+        if ($(e.target).parent("li").hasClass(active_tab_class)) {
+            return false;
+        } else {
+            toggleTabs(e.target);
+        }
+        return false;
+    });
+
+    /**
+     * Bind to a click on the display preview blocks
+     * This should place an outline on the img and check the checkbox
+     */
+    $embedcontent_display_previews.bind("click", function(e) {
+        if ($(this).find("input").attr("checked") === "checked") {
+            return true;
+        } else {
+           $("#embedcontent_display_style img.selected", $rootel).removeClass('selected');
+           $(this).find("input").attr("checked", "checked");
+           $(this).find("img").addClass('selected');
+           return true;
+        }
+    });
+
+    $embedcontent_display_previews.find("a").bind("click", function(e) {
+        // trigger the above event handler
+        $(e.target).parent("span").parent("div").parent("div").trigger("click");
+        return false;
+    });
+
+    /**
+     * Bind to a change in the include checkboxes
+     * This toggles the preview elements
+     */
+    $embedcontent_include_inputs.bind("change", function(e) {
+        var which = $(this).attr("id").split("_")[1];
+        if ($(this).attr("checked")) {
+            $(".embedcontent_include_" + which).show();
+        } else {
+            $(".embedcontent_include_" + which).hide();
+        }
+    });
+
+    $embedcontent_layout_options.bind("click", function(e) {
+        if ($(this).find("input").attr("checked") === "checked") {
+            return true;
+        } else {
+           $("#embedcontent_choose_layout img.selected", $rootel).removeClass('selected');
+           $(this).find("input").attr("checked", "checked");
+           $(this).find("img").addClass('selected');
+           return true;
+        }
+    });
+
+    $embedcontent_add_title_description_button.bind("click", function(e) {
+        if ($(this).find("span.down").length > 0) {
+            $(this).find("span.down").removeClass("down").addClass("up");
+            $embedcontent_add_title_description_fields.show();
+        } else {
+            $(this).find("span.up").removeClass("up").addClass("down");
+            $embedcontent_add_title_description_fields.hide();
+        }
     });
 
     $(window).unbind("sakai-fileupload-complete");
@@ -435,15 +521,21 @@ sakai.embedcontent = function(tuid, showSettings) {
                 pickerConfig.limit = embedConfig.limit;
             }
             $(window).trigger("sakai-pickeradvanced-init", {"config": pickerConfig});
+            return false;
         });
     });
 
-    $embedcontent_metadata.validate();
+    // $embedcontent_metadata.validate();
 
     var doInit = function() {
         getWidgetData(function() {
             if (showSettings) {
-                embedConfig.name = sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageTitle"];
+                if (sakai.sitespages && sakai.sitespages.site_info && sakai.sitespages.site_info._pages && sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage] && sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageTitle"]) {
+                    embedConfig.name = sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageTitle"];
+                } else {
+                    embedConfig.name = "";
+                }
+
                 renderSettings();
                 $embedcontent_settings.show();
             } else {
