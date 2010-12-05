@@ -49,3 +49,6 @@
     font-weight: bold;
     font-size: 0.9em;
 }
+.relatedcontent .relatedcontent_no_content {
+    padding-top: 20px;
+}
