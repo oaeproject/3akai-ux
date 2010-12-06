@@ -1,5 +1,5 @@
 <!-- CSS -->
-<link rel="stylesheet" type="text/css" href="/devwidgets/text/css/text.css" />
+<link rel="stylesheet" type="text/css" href="/devwidgets/activegroups/css/activegroups.css" />
 
 <div class="activegroups_widget fl-widget s3d-widget">
         <!-- WIDGET HEADER -->
@@ -14,12 +14,11 @@
             <div id="activegroups_main" style="display:none">
             </div>
         </div>
-        <!-- FIXME adjust template to match active groups feed -->
         <div id="activegroups_main_template" style="display:none"><!--
-            {if data.results}<ul>{for result in ${data.results}
-                {for tag in ${results.activegroups}}
-                    <li><a href="/dev/search.html?#tag=/activegroups/${tag.name}">${tag.name}</a>(${tag.count})</li>
-                {/for}
+            {if data.results}<ul>{for result in data.results}
+                  {for group in result.groups}
+                    <li><a href="/~${group.id}" class="s3d-regular-links">${group.name}</a></li>
+                  {/for}
             {/for}</ul>{/if}
         --></div>
     <div class="s3d-widget-no-options fl-fix">

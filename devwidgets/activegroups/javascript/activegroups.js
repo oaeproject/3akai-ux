@@ -38,23 +38,23 @@ sakai.activegroups = function(tuid, showSettings) {
         $activegroups_main = $("#activegroups_main", $rootel),
         $activegroups_main_template = $("#activegroups_main_template", $rootel);
 
-    var tagData = {};
+    var groupData = {};
 
     var loadData = function(callback){
-       // FIXME Put the feed url in here
-       /*$.ajax({
-            url: "",
+       $.ajax({
+            url: "/var/search/groups/mostactive.json",
             cache: false,
             success: function(data) {
-                tagData = data;*/
+                groupData = data;
                 callback();
-            /*}
-        });*/
+            }
+        });
     };
 
     var doInit = function(){
         loadData(function() {
-            $activegroups_main.html($.TemplateRenderer($activegroups_main_template, {data:tagData})).show();
+            var output = $.TemplateRenderer($activegroups_main_template, {data:groupData});
+            $activegroups_main.html(output).show();
         });
     };
 
