@@ -111,7 +111,6 @@
         <script>
             $(function(){
                 $("#launch_embedcontent").live("click", function() {
-                    console.log("click");
                     launchEmbedContent();
                     return false;
                 });
@@ -122,11 +121,8 @@
                         toTop: true
                     });
                     var $dialog_content = $("#dialog_content");
-                    console.log($dialog_content);
                     var id = "widget_embedcontent_123";
-                    console.log(id);
                     $dialog_content.html(sakai.api.Security.saneHTML('<img src="' + sakai.widgets.widgets['embedcontent'].img + '" id="' + id + '" class="widget_inline" border="1"/>'));
-                    console.log($dialog_content.html());
                     $("#dialog_title").html(sakai.widgets.widgets['embedcontent'].name);
                     sakai.api.Widgets.widgetLoader.insertWidgets('embedcontent_test', true);
                     $dialog_content.show();
