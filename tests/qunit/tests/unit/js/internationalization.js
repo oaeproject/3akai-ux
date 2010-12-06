@@ -50,7 +50,12 @@ var checkAttrs = function($elt) {
     $.each(attrs, function(i, val) {
         // grab any element with the attribute, and filter out any empties
         $.each($elt.find("*[" + val + "]").filter(function(index) {
-            return $.trim($(this).attr(val)) !== "";
+            try {
+                return $.trim($(this).attr(val)) !== "";
+            } catch(e) {
+                ok(false, e);
+                return false;
+            }
         }), function(j,elt) {
             var attrText = $.trim($(elt).attr(val));
             var pass = testString(attrText);
