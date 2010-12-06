@@ -1003,7 +1003,7 @@ sakai.api.UI = sakai.api.UI || {};
 
                 var decideLoggedIn = function(response, exists){
                     var originalURL = document.location;
-                    originalURL = $.URLEncode(originalURL.pathname + originalURL.search + originalURL.hash);
+                    originalURL = encodeURI(originalURL.pathname + originalURL.search + originalURL.hash);
                     var redirecturl = sakai.config.URL.GATEWAY_URL + "?url=" + originalURL;
                     if (exists && response.preferences && (response.preferences.uuid === "anonymous" || !response.preferences.uuid)) {
                         document.location = redirecturl;
