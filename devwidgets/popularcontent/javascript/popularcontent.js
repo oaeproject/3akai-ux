@@ -41,15 +41,14 @@ sakai.popularcontent = function(tuid, showSettings) {
     var tagData = {};
 
     var loadData = function(callback){
-       // FIXME Put the feed url in here
-       /*$.ajax({
-            url: "",
+       $.ajax({
+            url: "/var/search/pool/mostactive.json",
             cache: false,
             success: function(data) {
                 tagData = data;*/
                 callback();
-            /*}
-        });*/
+            }
+        });
     };
 
     var doInit = function(){
