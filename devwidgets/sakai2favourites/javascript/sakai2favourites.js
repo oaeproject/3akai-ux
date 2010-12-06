@@ -36,7 +36,8 @@ sakai.sakai2favourites = function(tuid, showSettings){
 
     var sakai2CategoryList = "#sakai2_category_list";
     var sakai2CategoryListTemplate = "#sakai2_category_list_template";
-    var newjson = false;
+    var siteListsjson = false;
+    var selectedSiteJson = false;
 
     ///////////////////////
     // Utility functions //
@@ -48,9 +49,63 @@ sakai.sakai2favourites = function(tuid, showSettings){
      * It initializes the creategroup widget and shows the jqmodal (ligthbox)
      */
     sakai.sakai2favourites.initialise = function(){
+        // render Category List
         loadSakai2SiteList();
+        // render all sites list
+        $("#all").addClass("selected_category");
+        renderSiteList("all");
+        // render selected site List
+        renderSelectedList();
+        // show dialog
         $("#sakai2favourites_container").jqmShow();
+        // bind events
+        bindEvents();
     };
+
+    /**
+     * This method render Category List. 
+     */
+    var loadSakai2SiteList = function(){
+        $(sakai2CategoryList).html($.TemplateRenderer(sakai2CategoryListTemplate.replace(/#/, ''), siteListsjson));
+    };
+
+   /**
+     * This method render all sites or sites related to the categoryname.
+     * @param {string} categoryname The category(all:render all sites, categoryname:render sites related to the category)
+     */
+    var renderSiteList = function(categoryname){
+        var siteListJson = {};
+        siteListJson.sites = [];
+
+        //loop through each category and get the related sites
+        for(var i in siteListsjson.categories){
+            var category = siteListsjson.categories[i];
+            // if category name is all
+            if(categoryname === "all"){
+                // get all the unique site lists
+                siteListJson = getAllSites(category, siteListJson);
+            // if category name is equal to the category.categoryname
+            // for example categoryname = i18n_moresite_01_all_sites
+            } else if(category.category === categoryname) {
+                // get the site lists in certain category
+                // for example get site list in i18n_moresite_01_all_sites
+                siteListJson.sites = siteListsjson.categories[i].sites;
+                break;
+            }
+        }
+        // render the sites 
+        $("#sakai2_site_list").html($.TemplateRenderer("#sakai2_site_list_template".replace(/#/, ''),siteListJson));
+        // select related checkboxes based on the selectedlistjson
+        setSite();
+    }
+
+   /**
+     * This method render all sites selected to display in my sakai2 favourites 
+     */
+    var renderSelectedList = function(){
+        $("#sakai2favourites_selected_site_list").html($.TemplateRenderer("#sakai2_selected_site_list_template".replace(/#/, ''),sakai.data.me.sakai2List));
+    };
+
 
     var myClose = function(hash) {
         hash.o.remove();
@@ -74,48 +129,172 @@ sakai.sakai2favourites = function(tuid, showSettings){
         onHide: myClose
     });
 
-   /**
-     * This function loop through all category if all is slected and loop through related category
-     * if other category is slected.
-     * @param {string} category The category you want to search in.
+    /**
+     * Add event handling
      */
-    var renderSiteList = function(categoryname){
-        var siteJson = {};
-        for(var i in newjson.categories){
-            var category = newjson.categories[i];
-            if(category.category === categoryname) {
-                siteJson.sites = newjson.categories[i].sites;
-                $("#sakai2_site_list").html($.TemplateRenderer("#sakai2_site_list_template".replace(/#/, ''),siteJson));
+    var bindEvents = function(){
+        $(".sakai2_category_title").click(function(ev){
+            if($(".selected_category")){
+                $(".selected_category").removeClass("selected_category");                    
+            }
+            $(ev.currentTarget).addClass("selected_category");
+            var category = ev.currentTarget.id;
+            renderSiteList(category);
+            bindEvents();
+        });
+        $(".sakai2_site_title").click(function(ev){
+            var siteId = ev.currentTarget.id;
+            if($(ev.currentTarget).attr("checked")){
+                var site = getObject(siteId);
+                sakai.data.me.sakai2List.sites.push(site);
+            }else {
+                var ind = getToRemoveIndex(siteId);
+                sakai.data.me.sakai2List.sites.splice(ind,1);
+            }
+            renderSiteList($(".selected_category").attr("id"));
+            renderSelectedList();
+            // bind events
+            bindEvents();
+        });
+        
+        $(".sakai2_selected_site_title").click(function(ev){
+            var siteId = ev.currentTarget.id;
+            var ind = getToRemoveIndex(siteId);
+            sakai.data.me.sakai2List.sites.splice(ind,1);
+            renderSiteList($(".selected_category").attr("id"));
+            renderSelectedList();
+            // bind events
+            bindEvents();
+        });
+        
+        $("#sakai2favourites_add_save").click(function(ev){
+            // TODO call backend method to save the data.
+            $(window).trigger("sakai2-favourites-selected");
+            $("#sakai2favourites_container").jqmHide(); 
+        });
+    }
+
+    /**
+     *  This function return the list of unique sites.
+     * @param {Object} category The category lists json object
+     * @param {siteJson} siteJson The site list object.
+     */
+    var getAllSites = function(category,siteJson){
+        // loop through each sites in the category and add to the siteJson
+        // if it is not already in the siteJson
+        for(var i in category.sites){
+            // check if the site already exists in the the siteJson
+            if(!isItemExists(siteJson.sites, category.sites[i])){
+                // add to the siteJson object
+                siteJson.sites.push(category.sites[i]);
+            }
+        }
+        return siteJson;
+    }
+
+    /**
+     *  This function check if item is already exists in the site list.
+     *  It check whether site is already in the sites.
+     * @param {String} sites The site lists json object
+     * @param {string} site The site object.
+     */
+    var isItemExists = function(sites, site){
+        var checking = false;
+        // loop through all sites and check if site already exists in the sites.
+        for(var i in sites) {
+            // if site id is same
+            if(sites[i].id == site.id) {
+                checking = true;
+            }
+        }
+        return checking;
+    }
+
+    /**
+     *  This function checked the checkboxes for the selected sites.
+     */
+    var setSite = function(){
+        // loop through the list of sites to be displayed in mysakai2 favourites list
+        for(var i in sakai.data.me.sakai2List.sites){
+            // checked the related checkbox
+            $("input[id='"+sakai.data.me.sakai2List.sites[i].id+"']").attr('checked', true);
+        }
+    }
+
+    /**
+     * This function get the site object based on the id passed.
+     * @param {String} id The site id
+     */
+    var getObject = function(id){
+        // loop through category list first
+        for(var i in siteListsjson.categories){
+            // loop through site list inside each category
+            for(var j in siteListsjson.categories[i].sites){
+                // if site id is ame return the site object.
+                if(siteListsjson.categories[i].sites[j].id === id){
+                    return siteListsjson.categories[i].sites[j];
+                }
+            }
+        }
+    }
+    
+    /**
+     * This function return the index of site in the sakai.data.me.sakai2List(myskai2 favourites site list)based on the id
+     * @param {String} id The site id
+     */
+    var getToRemoveIndex = function(id){
+        // loop through mysakai2 favourites selected sites 
+        for(var i in sakai.data.me.sakai2List.sites){
+            // if id is same return the index.
+            if(sakai.data.me.sakai2List.sites[i].id === id){
+                return i;
             }
         }
     }
 
-
     /**
-     * 
-     * 
+     *  This function get the list of sites list group by category.
      */
-    var loadSakai2SiteList = function(){
-       $.ajax({
+    var getSiteList = function(){
+        $.ajax({
             // TODO static links need to change once backend is completed
             url: "/dev/s23/bundles/sites-categorized.json",
             type : "GET",
             dataType: "json",
             success: function(data){
-                newjson = data;
-                $(sakai2CategoryList).html($.TemplateRenderer(sakai2CategoryListTemplate.replace(/#/, ''), data));
-                $(".sakai2_category_title").click(function(ev){
-                    var category = ev.currentTarget.id;
-                    renderSiteList(category);
-                });
-
+                siteListsjson = data;
             },
             error: function(){
             }
         });
     };
-    var doInit = function(){
 
+    /**
+     *  This function get the list of sites selected to display in my sakai2 favourites
+     */
+/*    var getSelectedSiteList = function(){
+        $.ajax({
+            // TODO static links need to change once backend is completed
+            url: "/dev/s23/bundles/sites.json",
+            type : "GET",
+            dataType: "json",
+            success: function(data){
+                sakai.data.me.sakai2List = data;
+            },
+            error: function(){
+            }
+        });
+    };*/
+
+
+    /**
+     * Execute this function when the widget get launched
+     */
+    var doInit = function(){
+        // get list of all sites
+        getSiteList();
+        // get lists of site selected to display in my sakai2 favourites
+        //getSelectedSiteList();
     }
     doInit();
 

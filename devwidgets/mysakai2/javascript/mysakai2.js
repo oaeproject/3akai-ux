@@ -67,20 +67,37 @@ sakai.mysakai2 = function(tuid){
      * 
      */
     var loadSakai2SiteList = function(){
-       $.ajax({
-            // TODO static links need to change once backend is completed
-            url: "/devwidgets/mysakai2/bundles/sites.json",
-            type : "GET",
-            dataType: "json",
-            success: function(data){
-                var newjson = data;
-                // Render all the sites.
-                doRender(newjson);
-            },
-            error: function(){
-            }
-        });
+       if (sakai.data.me.sakai2List) {
+           doRender(sakai.data.me.sakai2List);
+       }
+       else {
+           // TODO need to get both siteId lists and site list
+           // filter it 
+           $.ajax({
+                // TODO static links need to change once backend is completed
+                url: "/devwidgets/mysakai2/bundles/sites.json",
+                type: "GET",
+                dataType: "json",
+                success: function(data){
+                    sakai.data.me.sakai2List = data;
+                    // Render all the sites.
+                    doRender(sakai.data.me.sakai2List);
+                },
+                error: function(){
+                }
+            });
+        }
     };
+
+    ////////////////////
+    // Event Handlers //
+    ////////////////////
+
+    // Listen for completion of sakai2 favourites site addition
+    // to refresh this widget's sites listing
+    $(window).bind("sakai2-favourites-selected", function() {
+        doInit();
+    });
 
     $("#mysakai2_add_files_link").click(function(ev){
         sakai.sakai2favourites.initialise(); 

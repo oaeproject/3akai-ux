@@ -13,7 +13,7 @@
     <div class="dialog_content">
         <div class="s3d-highlight_area_background" id="sakai2favourites_sub_container">
             <div class="fl-force-left">
-                <span>Select Category or Search</span>
+                <span>Select category or search</span>
                 <div class="fl-widget-content s3d-widget-content sakai2favourites_site_list" id="sakai2_category_list">
                 </div>
                 <div id="sakai2_category_list_template"><!--
@@ -32,17 +32,33 @@
                 </div>
                 <div id="sakai2_site_list_template"><!--
                     <ul>
+                        {var i = 0}
                         {for site in sites}
-                            <li><span class="sakai2_category_title" id=${site.id}><a class="s3d-regular-links s3d-bold" href="javascript:;">${site.title}</a></span></li>
+                            {eval} i++; {/eval}
+                            <li {if i % 2 == 0} class="s3d-highlight_area_background"{/if}><span class="sakai2_site_title"><input type="checkbox" class="sakai2_site_title" id=${site.id}>${site.title}</input></span></li>
                         {/for}
                     </ul>
                 --></div>
                 </div>
-            <div class="fl-force-right sakai2favourites_site_list">
-                testing
+            <div class="fl-force-right">
+                <span>Sites included in favourites</span>
+                <div class="fl-widget-content s3d-widget-content sakai2favourites_site_list" id="sakai2favourites_selected_site_list">
+                </div>
+                <div id="sakai2_selected_site_list_template"><!--
+                    <ul>
+                        {for site in sites}
+                            <li><span class="sakai2_selected_site_title" id=${site.id}><a class="s3d-regular-links s3d-bold" href="javascript:;">${site.title}</a></span></li>
+                        {/for}
+                    </ul>
+    
+                --></div>
             </div>
-
         </div>
+        <div class="dialog_buttons">
+            <button type="button" class="s3d-button s3d-button jqmClose" id="sakai2favourites_add_cancel"><span class="s3d-button-inner">__MSG__DONT_CREATE__</span></button>
+            <button type="button" class="s3d-button s3d-button-primary" id="sakai2favourites_add_save"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
+        </div>
+
     </div>
 
     <!-- DIALOG FOOTER -->

@@ -17,8 +17,14 @@
  */
 
 /* Global */
-.sakai2favourites_site_list { background-color:#FFF; width:230px; border:1px solid #999999; }
-#sakai2favourites_sub_container { height:426px; }
+.sakai2favourites_site_list { background-color:#FFF; width:230px; border:1px solid #999999; height:350px;}
+.sakai2_site_title input {margin-right:5px;}
+.dialog_buttons {text-align:right;}
+#sakai2favourites_sub_container { height:370px; }
 #sakai2favourites_container {width:770px; }
 #sakai2_category_list ul li{ list-style:none; }
-#sakai2_site_list ul li{ list-style:none; }
+#sakai2_site_list ul {margin:0px; padding:0px;}
+#sakai2_site_list ul li{ list-style:none; margin:0px;padding:10px;}
+#sakai2favourites_selected_site_list ul li { list-style-image: url("/dev/images/close_dialog.png");}
+#sakai2favourites_selected_site_list ul li:hover { list-style-image: url("/dev/images/close_icon.png");padding:0px;}
+
