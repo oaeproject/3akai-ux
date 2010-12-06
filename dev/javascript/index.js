@@ -23,6 +23,10 @@
 var sakai = sakai || {};
 
 sakai.index = function(){
+    if (sakai.config.anonAllowed){
+        $("#login_right_col").show();
+    }
+
     //////////
     // Chat //
     //////////
