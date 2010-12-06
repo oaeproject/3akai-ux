@@ -70,7 +70,7 @@ sakai.contentprofilefiledetails = function(tuid, showSettings){
             revisions: fileRevisions,
             mode: "content",
             url: contentPath,
-            filesize: sakai.api.Util.convertToHumanReadableFileSize(profileData["jcr:content"][":jcr:data"]),
+            filesize: sakai.api.Util.convertToHumanReadableFileSize(profileData["jcr:content"]["jcr:data"]),
             anon : anon
         };
 

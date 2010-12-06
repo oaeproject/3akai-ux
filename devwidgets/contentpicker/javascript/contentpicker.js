@@ -120,7 +120,7 @@ sakai.contentpicker = function(tuid, showSettings) {
             "mimetype": mimetype,
             "description": result["sakai:description"] || "",
             "path": "/p/" + (name || result['jcr:name']),
-            "fileSize": sakai.api.Util.convertToHumanReadableFileSize(result["jcr:content"][":jcr:data"]),
+            "fileSize": sakai.api.Util.convertToHumanReadableFileSize(result["jcr:content"]["jcr:data"]),
             "link": "/p/" + (name || result['jcr:name']) + "/" + result['sakai:pooled-content-file-name'],
             "extension": result['sakai:fileextension']
         };

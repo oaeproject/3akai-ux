@@ -103,6 +103,9 @@ sakai.api.Util.createSakaiDate = function(date, format, offset) {
  */
 
 sakai.api.Util.convertToHumanReadableFileSize = function(filesize) {
+    if (filesize.indexOf("binary-length:") > -1) {
+        filesize = filesize.replace("binary-length:", "");
+    }
     // Divide the length into its largest unit
     var units = [[1024 * 1024 * 1024, 'GB'], [1024 * 1024, 'MB'], [1024, 'KB'], [1, 'bytes']];
     var lengthunits;
