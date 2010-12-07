@@ -42,6 +42,13 @@ sakai.contentmetadata = function(tuid,showSettings){
 
     // Elements
     var contentmetadataDescriptionDisplay = "#contentmetadata_description_display";
+    var $collapsibleContainers = $(".collapsible_container");
+    var contentmetadataViewRevisions = "#contentmetadata_view_revisions";
+
+    // See more
+    var $contentmetadataShowMore = $("#contentmetadata_show_more");
+    var $contentmetadataSeeMore = $("#contentmetadata_see_more");
+    var $contentmetadataSeeLess = $("#contentmetadata_see_less");
 
     // Templates
     var contentmetadataDescriptionTemplate = "contentmetadata_description_template";
@@ -51,15 +58,56 @@ sakai.contentmetadata = function(tuid,showSettings){
 
     var renderTags = function(){
         $contentmetadataTagsContainer.html($.TemplateRenderer(contentmetadataTagsTemplate, sakai.content_profile.content_data));
-    }
+    };
 
     var renderDescription = function(){
         $contentmetadataDescriptionContainer.html($.TemplateRenderer(contentmetadataDescriptionTemplate, sakai.content_profile.content_data));
     };
 
+    var renderDetails = function(){
+        $contentmetadataDetailsContainer.html($.TemplateRenderer(contentmetadataDetailsTemplate, sakai.content_profile.content_data));
+    };
+
+    var renderLocation = function(){
+        $contentmetadataLocationsContainer.html($.TemplateRenderer(contentmetadataLocationsTemplate, sakai.content_profile.content_data));
+    }
+
+    var addBinding = function(){
+        $contentmetadataShowMore.bind("click", function(){
+            $collapsibleContainers.animate({
+                'margin-bottom': 'toggle',
+                opacity: 'toggle',
+                'padding-top': 'toggle',
+                'padding-bottom': 'toggle',
+                height: 'toggle'
+            }, 400, function(){
+                // make sure the newly added content is properly styled with
+                // threedots truncation
+                $(".threedots_text").ThreeDots({
+                    max_rows: 1,
+                    text_span_class: "ellipsis_text",
+                    e_span_class: "threedots_a",
+                    whole_word: false,
+                    alt_text_t: true
+                });
+            });
+            $("#contentmetadata_show_more span").toggle(); 
+        });
+
+        $(contentmetadataViewRevisions).live("click", function(){
+            sakai.filerevisions.initialise(sakai.content_profile.content_data);
+        });
+    };
+
     var doInit = function(){
+        // Render all information
         renderDescription();
         renderTags();
+        renderDetails();
+        renderLocation();
+
+        // Add binding
+        addBinding();
     }
 
     doInit();

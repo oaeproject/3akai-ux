@@ -10,33 +10,76 @@
     <div id="contentmetadata_tags_container">
         <!-- -->
     </div>
-    <div id="contentmetadata_details_container">
+    <div id="contentmetadata_details_container" class="collapsible_container" style="display:none;">
         <!-- -->
     </div>
-    <div id="contentmetadata_locations_container">
+    <div id="contentmetadata_locations_container" class="collapsible_container" style="display:none;">
         <!-- -->
     </div>
-    <a href="javascript:;" id="contentmetadata_"></a>
+    <a href="javascript:;" id="contentmetadata_show_more">
+        <span id="contentmetadata_see_more">__MSG__SEE_MORE__</span>
+        <span id="contentmetadata_see_less" style="display:none;">__MSG__SEE_LESS__</span>
+    </a>
     <hr class="fl-hidden fl-push">
 </div>
 
 <div id="contentmetadata_description_template" style="display:none;"><!--
-    <span id="contentmetadata_description_display" class="s3d-inline-editable-field">${data["sakai:description"]}</span>
+    <span id="contentmetadata_description_display" class="s3d-inline-editable-field">{if $.trim(data["sakai:description"]) != ""}${data["sakai:description"]}{else}__MSG__NO_DESCRIPTION__{/if}</span>
 --></div>
 
 <div id="contentmetadata_tags_template" style="display:none;"><!--
-    <label for="content_profile_basic_info_form_tags">
-        __MSG__TAGS__:
-    </label>
-    {for tag in data["sakai:tags"]}{if tag.split("/")[0] !== "directory"}{if tag_index > 0},{/if} <a href="/dev/search.html#tag=/tags/${tag}" class="s3d-action" title="__MSG__SEARCH_CONTENT_TAGGED_WITH__ '${tag}'"">${tag}</a>{/if}{/for}
+    <span class="contentmetadata_content_row">
+        <span class="contentmetadata_first_column">__MSG__TAGS__:</span>
+        <span class="contentmetadata_second_column">
+        {if typeof data["sakai:tags"] != "undefined"}
+            {for tag in data["sakai:tags"]}{if tag.split("/")[0] !== "directory"}{if tag_index > 0},{/if} <a href="/dev/search.html#tag=/tags/${tag}" class="s3d-action" title="__MSG__SEARCH_CONTENT_TAGGED_WITH__ '${tag}'"">${tag}</a>{/if}{/for}
+        {else}
+            __MSG__NO_TAGS__
+        {/if}
+        </span>
+    </span>
 --></div>
 
 <div id="contentmetadata_details_template" style="display:none;"><!--
-    
+    <span class="contentmetadata_content_row">
+        <span class="contentmetadata_first_column">__MSG__SIZE__: </span>
+        <span>${sakai.api.Util.convertToHumanReadableFileSize(data["jcr:content"]["jcr:data"].split(":")[1])}</span>
+    </span>
+    <span class="contentmetadata_content_row">
+        <span class="contentmetadata_first_column">__MSG__TYPE__: </span>
+        <span>${data["jcr:content"]["jcr:mimeType"]}</span>
+    </span>
+    <span class="contentmetadata_content_row">
+        <span class="contentmetadata_first_column">__MSG__CREATED__: </span>
+        <span>${sakai.api.l10n.transformDate(new Date(data["jcr:created"]))}</span>
+    </span>
+    <span class="contentmetadata_content_row">
+        <span class="contentmetadata_first_column">__MSG__LAST_MODIFIED__: </span>
+        <span>${sakai.api.l10n.transformDate(new Date(data["jcr:content"]["jcr:lastModified"]))}</span>
+    </span>
+    <span class="contentmetadata_content_row">
+        <span class="contentmetadata_first_column">__MSG__REVISIONS__: </span>
+        <span>{if versions.total -1 <= 0}__MSG__NO_REVISIONS__{else}<a href="javascript:;" id="contentmetadata_view_revisions" {if data["jcr:content"]["jcr:mimeType"] === "x-sakai/link"}class="link_revision s3d-action"{else}class="s3d-action"{/if}>${versions.total -1} __MSG__VERSIONS__</a> __MSG__AVAILABLE__{/if}</span>
+    </span>
+    <span class="contentmetadata_content_row">
+        <span class="contentmetadata_first_column">__MSG__COPYRIGHT__: </span>
+        {for copyrightLabel in sakai.config.Permissions.Copyright}
+            {if data["sakai:copyright"] === copyrightLabel_index}
+                <label class="content_profile_basic_info_form_anon_label">
+                    __MSG__CREATIVE_COMMONS_LICENSE__
+                </label>
+            {/if}
+        {/for}
+    </span>
 --></div>
 
 <div id="contentmetadata_locations_template" style="display:none;"><!--
-    
+    <span class="contentmetadata_first_column">__MSG__DIRECTORY_LOCATIONS__:</span>
+    <ul>
+    {for dir in saveddirectory}
+        <li><a href="/dev/search.html#tag=/tags/directory/${dir.toString().replace(/,/g, '/')}" class="s3d-action threedots_text" title="Search content located at ${dir.toString().replace(/,/g, ' ')}"><span class="ellipsis_text contentmetadata_directory_location">${dir.toString().replace(/,/g, " <span class='content_profile_basic_info_selected_and_saved_seperator'>&raquo;</span> ")}</span></a></li>
+    {/for}
+    </ul>
 --></div>
 
 <!-- JAVASCRIPT -->

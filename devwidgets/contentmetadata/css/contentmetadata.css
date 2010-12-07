@@ -18,3 +18,13 @@
 
 #contentmetadata_description_container, #contentmetadata_tags_container, #contentmetadata_details_container, #contentmetadata_locations_container {padding:10px; background-color:#FFF; margin-bottom: 10px; width: 520px; float:right; font-weight:bold;}
 #contentmetadata_container h1 {color: #555555; font-size: 1.2em; font-weight: normal; float:left; margin:5px 0 0;}
+#contentmetadata_show_more {float:right; clear:both;}
+#contentmetadata_see_more {background: url("/dev/images/arrow_down_sm2.png") no-repeat scroll right 6px transparent; padding-right: 16px;}
+#contentmetadata_see_less {background: url("/dev/images/arrow_up_sm2.png") no-repeat scroll right 6px transparent; padding-right: 16px;}
+.contentmetadata_first_column {display: block; float: left; width: 150px; font-weight:normal;}
+.contentmetadata_content_row {clear: both; float: left; margin-bottom: 5px;}
+.contentmetadata_second_column {display:block; overflow:hidden;}
+#contentmetadata_container ul { margin: 0; overflow: hidden;}
+#contentmetadata_container ul li {list-style: none outside none;}
+#contentmetadata_container {word-wrap: break-word;}
+.threedots_text {width: 350px; display:block;}

@@ -219,6 +219,13 @@ sakai.config = {
                 "public": "public",            // Anyone on the Internet
                 "managers": "managers-only"    // Group managers only
             }
+        },
+        Copyright: {
+            "creativecommons" : "__MSG__CREATIVE_COMMONS_LICENSE__",
+            "copyrighted" : "__MSG__COPYRIGHTED__",
+            "nocopyright" : "__MSG__NO_COPYRIGHT__",
+            "licensed" : "__MSG__LICENSED__",
+            "waivecopyright" : "__MSG__WAIVE_COPYRIGHT__"
         }
     },
 

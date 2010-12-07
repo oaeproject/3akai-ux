@@ -40,7 +40,7 @@ sakai.content_profile = function(){
 
         if (content_path) {
 
-            // Get the content information and the members and managers
+            // Get the content information, the members and managers and version information
             var batchRequests = [
                 {
                     "url": content_path + ".2.json",
@@ -50,6 +50,12 @@ sakai.content_profile = function(){
                 },
                 {
                     "url": content_path + ".members.json",
+                    "method":"GET",
+                    "cache":false,
+                    "dataType":"json"
+                },
+                {
+                    "url": content_path + ".versions.json",
                     "method":"GET",
                     "cache":false,
                     "dataType":"json"
@@ -65,6 +71,7 @@ sakai.content_profile = function(){
             var contentInfo = false;
             var contentMembers = false;
             var contentActivity = false;
+            var versionInfo = false;
 
             // temporary request that returns data
             $.ajax({
@@ -113,6 +120,19 @@ sakai.content_profile = function(){
                     }
 
                     if (data.results.hasOwnProperty(2)) {
+                        versionInfo =$.parseJSON(data.results[2].body)
+                        var versions = [];
+                        for (var i in versionInfo.versions) {
+                            if(versionInfo.versions.hasOwnProperty(i)){
+                                var splitDate = versionInfo.versions[i]["jcr:created"].split("T")[0].split("-");
+                                versionInfo.versions[i]["jcr:created"] = sakai.api.l10n.transformDate(new Date(splitDate[0], splitDate[1]-1, splitDate[2]));
+                                versions.push(versionInfo.versions[i]);
+                            }
+                        }
+                        versionInfo.versions = versions.reverse();
+                    }
+
+                    if (data.results.hasOwnProperty(3)) {
                         //contentActivity = $.parseJSON(data.results[2].body);
                     }
 
@@ -170,6 +190,7 @@ sakai.content_profile = function(){
                         url: sakai.config.SakaiDomain + fullPath,
                         path: fullPath,
                         saveddirectory : directory,
+                        versions : versionInfo,
                         anon: anon,
                         isManager: manager
                     };
