@@ -63,6 +63,11 @@
                     {/if}
                     ${relatedcontent_index++|eat}
                 {/for}
+                {if relatedcontent_index === 0}
+                    <div class="relatedcontent_no_content">
+                        __MSG__NO_RELATED_CONTENT_FOUND__
+                    </div>
+                {/if}
             </div>
         </div>
     --></div>

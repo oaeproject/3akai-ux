@@ -1085,6 +1085,13 @@ sakai.entity = function(tuid, showSettings){
     ///////////////////
 
     /**
+     * Callback function to sort activity based on created date
+     */
+    var sortActivity = function(a, b){
+        return a["jcr:created"] < b["jcr:created"] ? 1 : -1;
+    };
+
+    /**
      * Set the data for the content2 object information
      * @param {Object} data The data we need to parse
      */
@@ -1114,6 +1121,7 @@ sakai.entity = function(tuid, showSettings){
         // Set the recent activity for the file
         if (sakai.content_profile.content_data.activity) {
             entityconfig.data.profile.activity = sakai.content_profile.content_data.activity;
+            entityconfig.data.profile.activity.results.sort(sortActivity);
 
             // find a user for each action from the users list
             var userList = sakai.content_profile.content_data.members.managers.concat(sakai.content_profile.content_data.members.viewers);
