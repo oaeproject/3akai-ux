@@ -226,6 +226,8 @@ sakai.content_profile = function(){
 
             sakai.api.Security.showPage();
 
+            // rerender comments widget
+            $(window).trigger("content_profile_hash_change");
         });
     };
 
