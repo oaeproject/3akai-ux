@@ -1244,7 +1244,7 @@ sakai.discussion = function(tuid, showSettings){
         if (widgeturl) {
             store = widgeturl + "/message";
             $.ajax({
-                url: widgeturl + ".infinity.json",
+                url: widgeturl + ".0.json",
                 type: "GET",
                 dataType: "json",
                 success: function(data){

@@ -1,5 +1,6 @@
 #text_main, #text_settings {margin:10px;}
-#text_main pre { font-family:Arial,Helvetica,sans-serif; line-height:120%; }
+/* white space fix from http://labnol.blogspot.com/2006/10/html-css-trick-for-displaying-code.html */
+#text_main pre { font-family:Arial,Helvetica,sans-serif; line-height:120%; white-space: pre-wrap; white-space: -moz-pre-wrap !important; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word; }
 #text_settings input, #text_settings textarea { margin-bottom:8px; background-color:#F4F4F4;border:1.5px solid #DEDEDE; padding:5px 0; width:100%;}
 #text_settings textarea {height:150px;}
 #text_actions {height:35px;}
