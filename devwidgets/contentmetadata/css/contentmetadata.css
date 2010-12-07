@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-#contentmetadata_description_container, #contentmetadata_tags_container, #contentmetadata_details_container, #contentmetadata_locations_container {padding:10px; background-color:#FFF; margin-bottom: 10px; width: 520px; float:right; font-weight:bold;}
+#contentmetadata_description_container, #contentmetadata_tags_container, #contentmetadata_details_container, #contentmetadata_locations_container {padding: 0 10px;; background-color:#FFF; margin-bottom: 10px; width: 520px; float:right; font-weight:bold;}
 #contentmetadata_container h1 {color: #555555; font-size: 1.2em; font-weight: normal; float:left; margin:5px 0 0;}
 #contentmetadata_show_more {float:right; clear:both;}
 #contentmetadata_see_more {background: url("/dev/images/arrow_down_sm2.png") no-repeat scroll right 6px transparent; padding-right: 16px;}

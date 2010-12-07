@@ -7,7 +7,7 @@
 #pickeruser_container ul.as-selections {padding: 1px; margin:3px 8px 0 0;}
 #pickeruser_container .as-results {margin-top:32px;margin-left: 107px;}
 #pickeruser_container ul.as-selections li.as-original input {background: none repeat scroll 0 0 transparent;}
-#pickeruser_container .s3d-highlight_area_background_darker1 {padding: 12px 10px 8px;}
+#pickeruser_container .s3d-highlight_area_background_darker1 {padding: 12px 10px 0;}
 #pickeruser_basic_container .pickeruser_search_container .pickeruser_permission_link {margin-top: 5px;}
 #pickeruser_basic_container .pickeruser_search_container ul.as-selections {-moz-box-shadow: none; overflow: visible;}
 
@@ -34,7 +34,7 @@
 
 /* CONTENT */
 #pickeruser_container #pickeruser_content{height:280px;width:600px;overflow:auto;}
-#pickeruser_container .s3d-highlight_area_background {margin: 0 0 20px; padding:8px 10px 7px;}
+#pickeruser_container .s3d-highlight_area_background {margin: 0 0 20px; padding:0 10px;}
 
 /* AUTOSUGGEST */
 #pickeruser_container_search ul li{list-style:none;}
@@ -68,8 +68,10 @@ img.sm_suggestion_img{height:16px;width:16px;margin-right:5px;}
 
 #pickeruser_permission_settings_container input[type="radio"] {margin-right: 16px;}
 #pickeruser_permission_settings_container ul {margin:0; padding:0; }
-#pickeruser_permission_settings_container .permissions_settings_item {list-style: none; padding:9px 8px; background-color:#FFF; margin:3px 0; color:#555;}
+#pickeruser_permission_settings_container .permissions_settings_item {list-style: none; padding:0 10px; background-color:#FFF; margin:3px 0; color:#555;}
 #pickeruser_permission_settings_container .s3d-highlight_area_background {clear:both;}
+#pickeruser_permission_settings_container .s3d-highlight_area_background_white_content_tl {height: 12px;}
+#pickeruser_permission_settings_container .s3d-highlight_area_background_white_content_binner {margin-top:5px;}
 #permissions_settings_item_public {background: url("/dev/images/globe_fuge.png") no-repeat scroll 0 5px transparent; padding: 6px 0 6px 25px;}
 #permissions_settings_item_everyone {background: url("/dev/images/lock_fuge.png") no-repeat scroll 0 5px transparent; padding: 6px 0 6px 25px;}
 #permissions_settings_item_private {background: url("/dev/images/people_icon.png") no-repeat scroll 0 3px transparent; padding: 6px 0 6px 25px;}
