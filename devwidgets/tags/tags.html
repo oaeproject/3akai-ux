@@ -18,7 +18,7 @@
         <div id="tags_main_template" style="display:none"><!--
             {if data.results}<ul>{for result in data.results}
                 {for tag in result.tags}
-                    <li><a href="/dev/search.html?#tag=/tags/${tag.name}">${tag.name}</a>(${tag.count})</li>
+                    <li><a href="/dev/search.html?#tag=/tags/${tag.name}" class="s3d-regular-links">${tag.name}</a>(${tag.count})</li>
                 {/for}
             {/for}</ul>{/if}
         --></div>
