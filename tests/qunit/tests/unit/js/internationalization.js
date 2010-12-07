@@ -49,13 +49,13 @@ var testString = function(str) {
 var checkAttrs = function($elt) {
     $.each(attrs, function(i, val) {
         // grab any element with the attribute, and filter out any empties
-        $.each($elt.find("*[" + val + "]").filter(function(index) {
-            try {
+        $.each($elt.find("[" + val + "]").filter(function(index) {
+            if (typeof $(this).attr(val) === "string") {
                 return $.trim($(this).attr(val)) !== "";
-            } catch(e) {
-                ok(false, e);
+            } else {
                 return false;
             }
+
         }), function(j,elt) {
             var attrText = $.trim($(elt).attr(val));
             var pass = testString(attrText);
@@ -99,7 +99,11 @@ var getAllKeys = function($elt) {
     });
     $.each(attrs, function(i, val) {
         $.each($elt.find("*[" + val + "]").filter(function(index) {
-            return $.trim($(this).attr(val)) !== "";
+            if (typeof $(this).attr(val) === "string") {
+                return $.trim($(this).attr(val)) !== "";
+            } else {
+                return false;
+            }
         }), function(j,elt) {
             var attrText = $.trim($(elt).attr(val));
             var pass = testString(attrText);
