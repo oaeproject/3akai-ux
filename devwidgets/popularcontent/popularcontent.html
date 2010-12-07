@@ -14,11 +14,10 @@
             <div id="popularcontent_main" style="display:none">
             </div>
         </div>
-        <!-- FIXME adjust template to match popular content feed -->
         <div id="popularcontent_main_template" style="display:none"><!--
             {if data.results}<ul>{for result in data.results}
-                {for tag in results.popularcontent}
-                    <li><a href="/dev/search.html?#tag=/popularcontent/${tag.name}">${tag.name}</a>(${tag.count})</li>
+                {for item in result.content}
+                    <li><a href="/dev/content_profile.html#content_path=/p/${item.id}" class="s3d-regular-links">${item.name}</a></li>
                 {/for}
             {/for}</ul>{/if}
         --></div>
