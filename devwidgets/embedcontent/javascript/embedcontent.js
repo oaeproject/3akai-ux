@@ -62,6 +62,8 @@ sakai.embedcontent = function(tuid, showSettings) {
     var $embedcontent_layout_options = $("#embedcontent_choose_layout div", $rootel);
     var $embedcontent_add_title_description_button = $("#embedcontent_add_title_description_button", $rootel);
     var $embedcontent_add_title_description_fields = $("#embedcontent_add_title_description_fields", $rootel);
+    var $embedcontent_display_form = $("#embedcontent_display_form", $rootel);
+    var $embedcontent_choose_layout_container = $("#embedcontent_choose_layout_container", $rootel);
 
     // Display mode
     var $embedcontent_content = $("#embedcontent_content", $rootel);
@@ -120,7 +122,8 @@ sakai.embedcontent = function(tuid, showSettings) {
     var toggleButtons = function(doDisable) {
         var elts = [
             $embedcontent_just_add,
-            $embedcontent_button_goto_display_settings
+            $embedcontent_button_goto_display_settings,
+            $embedcontent_button_add_selected_content
         ];
         $.each(elts, function(i,$elt) {
             if (doDisable) {
@@ -157,11 +160,29 @@ sakai.embedcontent = function(tuid, showSettings) {
             "mimetype": mimetype,
             "description": result["sakai:description"] || "",
             "path": "/p/" + (name || result['jcr:name']),
-            "fileSize": sakai.api.Util.convertToHumanReadableFileSize(result["jcr:content"][":jcr:data"]),
+            "fileSize": sakai.api.Util.convertToHumanReadableFileSize(result["jcr:content"]["jcr:data"]),
             "link": "/p/" + (name || result['jcr:name']) + "/" + result['sakai:pooled-content-file-name'],
             "extension": result['sakai:fileextension']
         };
         return dataObj;
+    };
+
+    var autosuggestSelectionAdded = function(item) {
+        selectedItems.push(item);
+        toggleButtons();
+        if (selectedItems.length > 1) {
+            $embedcontent_choose_layout_container.show();
+        }
+    };
+
+    var autosuggestSelectionRemoved = function(elem) {
+        removeItemFromSelected(elem.html().split("</a>")[1]); // get filename
+        elem.remove();
+        if (selectedItems.length === 0) {
+            toggleButtons(true);
+        } else if (selectedItems.length === 1) {
+            $embedcontent_choose_layout_container.hide();
+        }
     };
 
     /**
@@ -196,16 +217,10 @@ sakai.embedcontent = function(tuid, showSettings) {
             searchObjProps: "name",
             selectionLimit: embedConfig.limit,
             resultClick: function(data) {
-                selectedItems.push(data.attributes);
-                showDisplayOptions();
-                toggleButtons();
+                autosuggestSelectionAdded(data.attributes);
             },
             selectionRemoved: function(elem) {
-                removeItemFromSelected(elem.html().split("</a>")[1]); // get filename
-                elem.remove();
-                if (selectedItems.length === 0) {
-                    toggleButtons(true);
-                }
+                autosuggestSelectionRemoved(elem);
             }
         });
     };
@@ -226,14 +241,12 @@ sakai.embedcontent = function(tuid, showSettings) {
 
     var setCurrentFiles = function() {
         $.each(widgetData.items, function(i,val) {
-            selectedItems.push(val);
+            autosuggestSelectionAdded(val);
             $embedcontent_content_input.autoSuggest.add_selected_item(val, val.value);
         });
         $(".as-original input.as-input").val('').focus();
-        toggleButtons();
-        showDisplayOptions();
-        // $embedcontent_alternative_display_name_value.val(widgetData.title);
-        // $embedcontent_description_value.val(widgetData.description);
+        $embedcontent_title.val(widgetData.title);
+        $embedcontent_description.val(widgetData.description);
     };
 
     /**
@@ -250,15 +263,12 @@ sakai.embedcontent = function(tuid, showSettings) {
             $("#as-values-" + tuid).val('');
             $(".as-selection-item").remove();
         }
-        if (filesPicked > 0) {
-            toggleButtons();
-        }
         $.each(files, function(i,val) {
             var newObj = createDataObject(val, val["jcr:name"]);
-            selectedItems.push(newObj);
+            autosuggestSelectionAdded(newObj);
             $embedcontent_content_input.autoSuggest.add_selected_item(newObj, newObj.value);
         });
-        $("input#" + tuid).val('').focus();
+        $("input[id='" + tuid + "']").val('').focus();
     };
 
     /**
@@ -271,20 +281,13 @@ sakai.embedcontent = function(tuid, showSettings) {
              url: val.url + ".infinity.json",
              success: function(data) {
                  var newObj = createDataObject(data, val.url.split("/p/")[1]);
-                 selectedItems.push(newObj);
+                 autosuggestSelectionAdded(newObj);
                  $embedcontent_content_input.autoSuggest.add_selected_item(newObj, newObj.value);
              }
           });
       });
-      $("input#" + tuid).val('').focus();
+      $("input[id='" + tuid + "']").val('').focus();
       toggleButtons();
-    };
-
-    /**
-     * Shows the options the user has for displaying the content
-     */
-    var showDisplayOptions = function() {
-        // $embedcontent_display_options.show();
     };
 
     /**
@@ -336,13 +339,17 @@ sakai.embedcontent = function(tuid, showSettings) {
      */
     var doEmbed = function() {
         var embedContentHTML = "";
+        var formVals = $embedcontent_display_form.serializeObject();
         var objectData = {
-            "embedmethod": $embedcontent_display_options_select.find("option:selected").val(),
-            "title": $embedcontent_alternative_display_name_value.val(),
-            "description": $embedcontent_description_value.val(),
-            "items": selectedItems
+            "layout": selectedItems.length > 1 ? formVals.layout : "single",
+            "embedmethod": formVals.style,
+            "title": formVals.title || null,
+            "description": formVals.description || null,
+            "items": selectedItems,
+            "details": formVals.details ? true : false,
+            "download": formVals.download ? true : false,
+            "name": formVals.name ? true : false
         };
-
         var videoBatchData = [];
         for (var i in objectData.items){
             if(objectData.items.hasOwnProperty(i)){
@@ -382,16 +389,7 @@ sakai.embedcontent = function(tuid, showSettings) {
             associatedEmbeddedItemsWithGroup(selectedItems);
         }
 
-        if ($embedcontent_metadata_container.is(":visible")) {
-            var isValid = $embedcontent_metadata.valid();
-            if (isValid) {
-                saveWidgetData(objectData);
-            }
-        } else {
-            saveWidgetData(objectData);
-        }
-
-
+        saveWidgetData(objectData);
     };
 
     var saveWidgetData = function(data) {
@@ -413,12 +411,18 @@ sakai.embedcontent = function(tuid, showSettings) {
     };
 
     // Bind Events
+    $embedcontent_button_add_selected_content.bind("click", function() {
+        doEmbed();
+        return false;
+    });
+
     $embedcontent_just_add.bind("click", function() {
         doEmbed();
     });
 
     $embedcontent_dont_add.bind("click", function() {
-        sakai.api.Widgets.Container.informFinish(tuid, "embedcontent");
+        sakai.api.Widgets.Container.informCancel(tuid, "embedcontent");
+        return false;
     });
 
     $uploadContentLink.bind("click", function() {
@@ -464,6 +468,11 @@ sakai.embedcontent = function(tuid, showSettings) {
         return false;
     });
 
+    $embedcontent_button_goto_display_settings.bind("click", function(e) {
+        toggleTabs($("#embedcontent_tab_display"));
+        return false;
+    });
+
     /**
      * Bind to a change in the include checkboxes
      * This toggles the preview elements
@@ -496,19 +505,18 @@ sakai.embedcontent = function(tuid, showSettings) {
             $(this).find("span.up").removeClass("up").addClass("down");
             $embedcontent_add_title_description_fields.hide();
         }
+        return false;
     });
 
     $(window).unbind("sakai-fileupload-complete");
     $(window).bind("sakai-fileupload-complete", function(e, data) {
         var files = data.files;
         addChoicesFromFileUpload(files);
-        showDisplayOptions();
     });
 
     $(window).unbind("sakai-pickeradvanced-finished");
     $(window).bind("sakai-pickeradvanced-finished", function(e, data) {
         addChoicesFromPickeradvanced(data.toAdd);
-        showDisplayOptions();
     });
 
     $(window).unbind("sakai-pickeradvanced-ready");
@@ -525,12 +533,15 @@ sakai.embedcontent = function(tuid, showSettings) {
         });
     });
 
-    // $embedcontent_metadata.validate();
-
     var doInit = function() {
         getWidgetData(function() {
             if (showSettings) {
-                if (sakai.sitespages && sakai.sitespages.site_info && sakai.sitespages.site_info._pages && sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage] && sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageTitle"]) {
+                if (sakai.sitespages &&
+                    sakai.sitespages.site_info &&
+                    sakai.sitespages.site_info._pages &&
+                    sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage] &&
+                    sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageTitle"]) {
+
                     embedConfig.name = sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageTitle"];
                 } else {
                     embedConfig.name = "";

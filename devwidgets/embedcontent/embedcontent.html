@@ -136,87 +136,91 @@
                             </div>
                         </div>
                     </div>
-                    <div id="embedcontent_tab_display_content" style="display:none" class="clearfix">
-                        <div id="embedcontent_display_style">
-                            <h2>__MSG__CHOOSE_DISPLAY_STYLE__</h2>
-                            <div class="s3d-highlight_area_background">
-                                <div class="embedcontent_large_content">
-                                    <img src="/devwidgets/embedcontent/images/Surfer-Large.jpg" alt="__MSG__LARGE_IMAGE__" class="selected"/>
-                                    <span><a href="#" class="s3d-action embedcontent_include_name" style="display:none">__MSG__NAME_OF_CONTENT__</a></span>
-                                    <span class="embedcontent_include_details" style="display:none">__MSG__EXTRA_DETAILS__</span>
-                                    <span><a href="#" class="s3d-action embedcontent_include_download" style="display:none">__MSG__DOWNLOAD__</a></span>
-                                </div>
-                                <div class="embedcontent_option">
-                                    <input type="radio" name="embedcontent_display_style" value="original" id="original_size" checked="true"/>
-                                    <label for="original_size">__MSG__ORIGINAL_SIZE__</label>
-                                </div>
-                            </div>
-                            <div class="s3d-highlight_area_background" id="embedcontent_thumbnail_example">
-                                <div class="embedcontent_thumbnail_content clearfix">
-                                    <img src="/devwidgets/embedcontent/images/Surfer-Small.jpg" alt="__MSG__THUMBNAIL_IMAGE__"/>
-                                    <div class="embedcontent_details">
+                    <form action="#" method="POST" id="embedcontent_display_form">
+                        <div id="embedcontent_tab_display_content" style="display:none" class="clearfix">
+                            <div id="embedcontent_display_style">
+                                <h2>__MSG__CHOOSE_DISPLAY_STYLE__</h2>
+                                <div class="s3d-highlight_area_background">
+                                    <div class="embedcontent_large_content">
+                                        <img src="/devwidgets/embedcontent/images/Surfer-Large.jpg" alt="__MSG__LARGE_IMAGE__" class="selected"/>
                                         <span><a href="#" class="s3d-action embedcontent_include_name" style="display:none">__MSG__NAME_OF_CONTENT__</a></span>
                                         <span class="embedcontent_include_details" style="display:none">__MSG__EXTRA_DETAILS__</span>
                                         <span><a href="#" class="s3d-action embedcontent_include_download" style="display:none">__MSG__DOWNLOAD__</a></span>
                                     </div>
+                                    <div class="embedcontent_option">
+                                        <input type="radio" name="style" value="original" id="original_size" checked="true"/>
+                                        <label for="original_size">__MSG__ORIGINAL_SIZE__</label>
+                                    </div>
                                 </div>
-                                <div class="embedcontent_option">
-                                    <input type="radio" name="embedcontent_display_style" value="thumbnail" id="thumbnail"/>
-                                    <label for="thumbnail">__MSG__THUMBNAIL__</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="embedcontent_include">
-                            <h2>__MSG__INCLUDE__</h2>
-                            <div class="s3d-highlight_area_background" id="embedcontent_choose_data">
-                                <span>
-                                    <input type="checkbox" name="name" id="embedcontent_name_checkbox"/>
-                                    <label for="embedcontent_name_checkbox">__MSG__NAME_OF_EACH_CONTENT_ITEM__</label>
-                                </span>
-                                <span>
-                                    <input type="checkbox" name="details" id="embedcontent_details_checkbox"/>
-                                    <label for="embedcontent_details_checkbox">__MSG__EXTRA_DETAILS__</label>
-                                </span>
-                                <span>
-                                    <input type="checkbox" name="download" id="embedcontent_download_checkbox"/>
-                                    <label for="embedcontent_download_checkbox">__MSG__DOWNLOAD_LINK__</label>
-                                </span>
-                            </div>
-                            <h2>__MSG__LAYOUT__</h2>
-                            <div class="s3d-highlight_area_background clearfix" id="embedcontent_choose_layout">
-                                <div>
-                                    <img src="/devwidgets/embedcontent/images/layout_vertical.png" alt="__MSG__LAYOUT_VERTICAL__" class="selected"/>
-                                    <input type="radio" checked="true" name="layout" id="embedcontent_layout_vertical" value="vertical"/>
-                                    <label for="embedcontent_layout_vertical">__MSG__VERTICAL__</label>
-                                </div>
-                                <div>
-                                    <img src="/devwidgets/embedcontent/images/layout_horizontal.png" alt="__MSG__LAYOUT_HORIZONTAL__"/>
-                                    <input type="radio" name="layout" id="embedcontent_layout_horizontal" value="horizontal"/>
-                                    <label for="embedcontent_layout_horizontal">__MSG__HORIZONTAL__</label>
+                                <div class="s3d-highlight_area_background" id="embedcontent_thumbnail_example">
+                                    <div class="embedcontent_thumbnail_content clearfix">
+                                        <img src="/devwidgets/embedcontent/images/Surfer-Small.jpg" alt="__MSG__THUMBNAIL_IMAGE__"/>
+                                        <div class="embedcontent_details">
+                                            <span><a href="#" class="s3d-action embedcontent_include_name" style="display:none">__MSG__NAME_OF_CONTENT__</a></span>
+                                            <span class="embedcontent_include_details" style="display:none">__MSG__EXTRA_DETAILS__</span>
+                                            <span><a href="#" class="s3d-action embedcontent_include_download" style="display:none">__MSG__DOWNLOAD__</a></span>
+                                        </div>
+                                    </div>
+                                    <div class="embedcontent_option">
+                                        <input type="radio" name="style" value="thumbnail" id="thumbnail"/>
+                                        <label for="thumbnail">__MSG__THUMBNAIL__</label>
+                                    </div>
                                 </div>
                             </div>
-                            <div id="embedcontent_add_title_description" class="s3d-highlight_area_background clearfix">
-                                <h2>__MSG__ADD_TITLE_DESCRIPTION__</h2>
-                                <button class="s3d-button s3d-button-grad" id="embedcontent_add_title_description_button">
-                                    <span class="s3d-button-inner">
-                                        <span class="s3d-button-icon-right down">__MSG__ADD__</span>
+                            <div id="embedcontent_include">
+                                <h2>__MSG__INCLUDE__</h2>
+                                <div class="s3d-highlight_area_background" id="embedcontent_choose_data">
+                                    <span>
+                                        <input type="checkbox" name="name" id="embedcontent_name_checkbox"/>
+                                        <label for="embedcontent_name_checkbox">__MSG__NAME_OF_EACH_CONTENT_ITEM__</label>
                                     </span>
-                                </button>
-                                <div id="embedcontent_add_title_description_fields" style="display:none">
-                                    <label for="embedcontent_title">__MSG__TITLE__</label>
-                                    <input type="text" id="embedcontent_title"/>
-                                    <label for="embedcontent_description">__MSG__DESCRIPTION__</label>
-                                    <textarea id="embedcontent_description"></textarea>
+                                    <span>
+                                        <input type="checkbox" name="details" id="embedcontent_details_checkbox"/>
+                                        <label for="embedcontent_details_checkbox">__MSG__EXTRA_DETAILS__</label>
+                                    </span>
+                                    <span>
+                                        <input type="checkbox" name="download" id="embedcontent_download_checkbox"/>
+                                        <label for="embedcontent_download_checkbox">__MSG__DOWNLOAD_LINK__</label>
+                                    </span>
+                                </div>
+                                <div id="embedcontent_choose_layout_container" style="display:none">
+                                    <h2>__MSG__LAYOUT__</h2>
+                                    <div class="s3d-highlight_area_background clearfix" id="embedcontent_choose_layout">
+                                        <div>
+                                            <img src="/devwidgets/embedcontent/images/layout_vertical.png" alt="__MSG__LAYOUT_VERTICAL__" class="selected"/>
+                                            <input type="radio" checked="true" name="layout" id="embedcontent_layout_vertical" value="vertical"/>
+                                            <label for="embedcontent_layout_vertical">__MSG__VERTICAL__</label>
+                                        </div>
+                                        <div>
+                                            <img src="/devwidgets/embedcontent/images/layout_horizontal.png" alt="__MSG__LAYOUT_HORIZONTAL__"/>
+                                            <input type="radio" name="layout" id="embedcontent_layout_horizontal" value="horizontal"/>
+                                            <label for="embedcontent_layout_horizontal">__MSG__HORIZONTAL__</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="embedcontent_add_title_description" class="s3d-highlight_area_background clearfix">
+                                    <h2>__MSG__ADD_TITLE_DESCRIPTION__</h2>
+                                    <button class="s3d-button s3d-button-grad" id="embedcontent_add_title_description_button">
+                                        <span class="s3d-button-inner">
+                                            <span class="s3d-button-icon-right down">__MSG__ADD__</span>
+                                        </span>
+                                    </button>
+                                    <div id="embedcontent_add_title_description_fields" style="display:none">
+                                        <label for="embedcontent_title">__MSG__TITLE__</label>
+                                        <input type="text" id="embedcontent_title" name="title"/>
+                                        <label for="embedcontent_description">__MSG__DESCRIPTION__</label>
+                                        <textarea id="embedcontent_description" name="description"></textarea>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="embedcontent_footer">
-                            <div class="fl-force-right">
-                                <p>__MSG__YOU_CAN_CHANGE__</p>
-                                <button class="s3d-button embedcontent_dont_add"><span class="s3d-button-inner">__MSG__DONT_ADD__</span></button>
-                                <button class="s3d-button s3d-button-primary" id="embedcontent_button_add_selected_content" disabled="disabled"><span class="s3d-button-inner">__MSG__ADD_SELECTED_CONTENT__</span></button>
+                            <div class="embedcontent_footer">
+                                <div class="fl-force-right">
+                                    <p>__MSG__YOU_CAN_CHANGE__</p>
+                                    <button class="s3d-button embedcontent_dont_add"><span class="s3d-button-inner">__MSG__DONT_ADD__</span></button>
+                                    <button class="s3d-button s3d-button-primary" id="embedcontent_button_add_selected_content" disabled="disabled"><span class="s3d-button-inner">__MSG__ADD_SELECTED_CONTENT__</span></button>
+                                </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
                 <div class="s3d-no-options">
