@@ -70,6 +70,7 @@
 #error_message { font-size: 9pt; color: #ff0; }
 #login_busy { background: url("/dev/images/ajax_load.gif") 0 0 no-repeat; width: 80px; height: 10px; }
 #register_button_container .register {border:none !important;}
+#register_here {margin-bottom: 10px;}
 
 /* General Search */
 #general_search_container { padding-top: 3px; }
