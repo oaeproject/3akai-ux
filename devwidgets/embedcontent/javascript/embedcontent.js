@@ -64,6 +64,8 @@ sakai.embedcontent = function(tuid, showSettings) {
     var $embedcontent_add_title_description_fields = $("#embedcontent_add_title_description_fields", $rootel);
     var $embedcontent_display_form = $("#embedcontent_display_form", $rootel);
     var $embedcontent_choose_layout_container = $("#embedcontent_choose_layout_container", $rootel);
+    var $embedcontent_title = $("#embedcontent_title", $rootel);
+    var $embedcontent_description = $("#embedcontent_description", $rootel);
 
     // Display mode
     var $embedcontent_content = $("#embedcontent_content", $rootel);
@@ -245,8 +247,33 @@ sakai.embedcontent = function(tuid, showSettings) {
             $embedcontent_content_input.autoSuggest.add_selected_item(val, val.value);
         });
         $(".as-original input.as-input").val('').focus();
-        $embedcontent_title.val(widgetData.title);
-        $embedcontent_description.val(widgetData.description);
+        if (widgetData.title || widgetData.description) {
+            toggleAddTitleAndDescription(true);
+            $embedcontent_title.val(widgetData.title);
+            $embedcontent_description.val(widgetData.description);
+        }
+        if (widgetData.layout !== "single") {
+            $embedcontent_display_form.find("img.selected").removeClass('selected');
+            $embedcontent_display_form.
+                find("input[name='layout'][value='" + widgetData.layout + "']").
+                siblings("img").
+                addClass('selected');
+            $embedcontent_display_form.find("input[name='layout'][value='" + widgetData.layout + "']").attr("checked", true);
+        }
+        $embedcontent_display_form.
+            find("input[name='style'][value='" + widgetData.embedmethod + "']").
+            parent("div").
+            siblings("div").
+            children("img").
+            addClass('selected');
+        $embedcontent_display_form.find("input[name='style'][value='" + widgetData.embedmethod + "']").attr("checked", true);
+        var checkboxes = ["name", "download", "description"];
+        $.each(checkboxes, function(i,val) {
+            if (widgetData[val]) {
+                $embedcontent_display_form.find("input[name='" + val + "']").attr("checked", "checked");
+                $(".embedcontent_include_" + val, $rootel).show();
+            }
+        });
     };
 
     /**
@@ -343,8 +370,8 @@ sakai.embedcontent = function(tuid, showSettings) {
         var objectData = {
             "layout": selectedItems.length > 1 ? formVals.layout : "single",
             "embedmethod": formVals.style,
-            "title": formVals.title || null,
-            "description": formVals.description || null,
+            "title": formVals.title || '',
+            "description": formVals.description || '',
             "items": selectedItems,
             "details": formVals.details ? true : false,
             "download": formVals.download ? true : false,
@@ -497,14 +524,18 @@ sakai.embedcontent = function(tuid, showSettings) {
         }
     });
 
-    $embedcontent_add_title_description_button.bind("click", function(e) {
-        if ($(this).find("span.down").length > 0) {
-            $(this).find("span.down").removeClass("down").addClass("up");
+    var toggleAddTitleAndDescription = function(show) {
+        if (show) {
+            $embedcontent_add_title_description_button.find("span.down").removeClass("down").addClass("up");
             $embedcontent_add_title_description_fields.show();
         } else {
-            $(this).find("span.up").removeClass("up").addClass("down");
+            $embedcontent_add_title_description_button.find("span.up").removeClass("up").addClass("down");
             $embedcontent_add_title_description_fields.hide();
         }
+    };
+
+    $embedcontent_add_title_description_button.bind("click", function(e) {
+        toggleAddTitleAndDescription($(this).find("span.down").length > 0);
         return false;
     });
 

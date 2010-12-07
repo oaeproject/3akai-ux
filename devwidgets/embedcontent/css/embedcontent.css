@@ -1,22 +1,15 @@
 #embedcontent_header h2 {margin:0;}
 #embedcontent_header {margin-bottom:10px;}
+.embedcontent_footer {height:20px; margin-top:20px; width:100%;}
 
-.embedcontent_line {padding:10px;margin:10px 0px;}
+/* Choose content */
+#embedcontent_choose {height:94px;}
 .embedcontent_left_label {width:170px;}
 .embedcontent_right_input {width:466px;margin-left:20px;}
 .embedcontent_right_input input {width:98%;}
 .embedcontent_left_label p.label_header {font-weight:bold;}
-
-#embedcontent_choose {height:94px;}
-#embedcontent_alternative_display_name {height:110px;}
-#embedcontent_description {height:100px;}
-
-.embedcontent_footer {height:20px; margin-top:20px; width:100%;}
-
 #embedcontent_settings ul.as-selections {width:98%; height:80px;}
-
 #embedcontent_search_for_content {display:block;}
-
 .embedcontent_right_input label.error {font-weight:bold; float:left; color:red;}
 
 #embedcontent_tabs {display:block; width:100%; float:left; height:30px; clear:both;}
@@ -60,8 +53,21 @@
 
 #embedcontent_add_title_description {background-color:#d5dbdf;}
 #embedcontent_add_title_description h2 {margin:6px; float:left;}
+#embedcontent_description {height:100px;}
 
 #embedcontent_add_title_description button {float:right; margin:0;}
 #embedcontent_add_title_description_fields label {float:left; width:100%; margin:6px 0px 2px 6px; }
 #embedcontent_add_title_description_fields input, #embedcontent_add_title_description_fields textarea {float:left; width:302px; border:1px solid #898c8f; margin:6px 0px 10px 6px;}
 #embedcontent_add_title_description_fields input { height:20px; }
+
+/* Display content */
+#embedcontent_content div.embedcontent_large_content img { max-width: 634px; }
+#embedcontent_content div.embedcontent_large_content div.embedcontent_details span { display:block; }
+
+#embedcontent_content div.embedcontent_thumbnail_content img {height:50px; width:50px;}
+#embedcontent_content div.embedcontent_thumbnail_content img,
+#embedcontent_content div.embedcontent_thumbnail_content div.embedcontent_details { float:left; }
+#embedcontent_content div.embedcontent_thumbnail_content div.embedcontent_details span {display:block; margin-left:10px;}
+
+#embedcontent_content div.horizontal { display:inline; margin-right:20px; margin-bottom:20px; float:left;}
+#embedcontent_content div.vertical { display:block; margin-bottom:20px;}

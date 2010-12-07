@@ -1684,13 +1684,13 @@ sakai.sitespages = function(tuid,showSettings){
             var uid = split[2];
             var length = split[0].length + 1 + split[1].length + 1 + split[2].length + 1;
             var placement = id.substring(length);
-
+            var widgetSettingsWidth = 650;
             sakai.sitespages.newwidget_id = type;
-
             $("#dialog_content").hide();
-
             if (sakai.widgets.widgets[type]) {
-                $('#insert_dialog').jqmShow();
+                if (sakai.widgets.widgets[type].settingsWidth) {
+                    widgetSettingsWidth = sakai.widgets.widgets[type].settingsWidth;
+                }
                 var nuid = "widget_" + type + "_" + uid;
                 if (placement){
                     nuid += "_" + placement;
@@ -1700,6 +1700,7 @@ sakai.sitespages = function(tuid,showSettings){
                 $("#dialog_title").html(sakai.widgets.widgets[type].name);
                 sakai.api.Widgets.widgetLoader.insertWidgets("dialog_content", true,sakai.sitespages.config.basepath + "_widgets/");
                 $("#dialog_content").show();
+                $('#insert_dialog').css({'width':widgetSettingsWidth + "px", 'margin-left':-(widgetSettingsWidth/2) + "px"}).jqmShow();
             }
         }
 
