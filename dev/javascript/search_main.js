@@ -143,7 +143,7 @@ sakai._search = function(config, callback) {
      */
     var addEventListeners = function(searchterm, searchwhere) {
         /** The top tabs */
-        $(searchConfig.tabs.all + ", " + searchConfig.tabs.people + ", " + searchConfig.tabs.sites + ", " + searchConfig.tabs.content).live("click", function(ev) {
+        $(searchConfig.tabs.all + ", " + searchConfig.tabs.people + ", " + searchConfig.tabs.sites + ", " + searchConfig.tabs.content+ ", " + searchConfig.tabs.sakai2).live("click", function(ev) {
             var url = $(this).attr("href").split("#")[0] + "#";
             var frag = $.deparam.fragment();
             frag["filter"] = ""; // clear the filter

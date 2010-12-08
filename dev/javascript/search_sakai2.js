@@ -26,7 +26,7 @@ sakai.search = function() {
     //    Config variables    //
     //////////////////////////
 
-    var resultsToDisplay = 10;
+    var resultsToDisplay = 3;
     var searchterm = "";
     var tagterm = "";
     var currentpage = 0;
@@ -59,7 +59,8 @@ sakai.search = function() {
             numberFound : search + '_numberFound',
             searchTerm : search + "_mysearchterm",
             tagTerm : search + "_mytagterm",
-            searchBarSelectedClass : "search_bar_selected"
+            searchBarSelectedClass : "search_bar_selected",
+            pagerClass : ".jq_pager"
         },
         filters : {
             filter : search + "_filter",
@@ -81,7 +82,8 @@ sakai.search = function() {
             all : "#tab_search_all",
             content : "#tab_search_content",
             people : "#tab_search_people",
-            sites : "#tab_search_sites"
+            sites : "#tab_search_sites",
+            sakai2 : "#tab_search_sakai2"
         },
         results : {
             container : search + '_results_container',
@@ -108,14 +110,31 @@ sakai.search = function() {
      */
     var renderResults = function(results, success) {
         // show the total result found.
-        $(searchConfig.global.numberFound).text(results.sites.length);
+        $(searchConfig.global.numberFound).text(results.total);
         // show header
         $(searchConfig.results.header).show();
+
+        // Reset the pager.
+        $(searchConfig.global.pagerClass).pager({
+            pagenumber: currentpage,
+            pagecount: Math.ceil(Math.abs(results.total) / resultsToDisplay),
+            buttonClickCallback: pager_click_handler
+        });
+
+        // We hide the pager if we don't have any results or
+        // they are less then the number we should display
+        if (results.total <= resultsToDisplay) {
+            $(searchConfig.global.pagerClass).hide();
+        }
+        else {
+            $(searchConfig.global.pagerClass).show();
+        }
 
         // Render the results.
         $(searchConfig.results.container).html($.TemplateRenderer(searchConfig.results.template, results));
         //show results
         $(".search_results_container").show();
+
     };
 
     //////////////////////////
@@ -136,6 +155,10 @@ sakai.search = function() {
             searchAjaxCall.abort();
         }
 
+        if (!page) {
+            page = 1;
+        }
+ 
         if (!searchquery) {
             searchquery = $(searchConfig.global.text).val().toLowerCase();
         }
@@ -147,15 +170,11 @@ sakai.search = function() {
             facet = $.bbq.getState('facet');
         }
 
+        currentpage = page;
+
         // This will invoke the sakai._search.doSearch function and change the url.
-        History.addBEvent(encodeURIComponent(searchquery), searchwhere, facet);
+        History.addBEvent(page,encodeURIComponent(searchquery), searchwhere, facet);
     };
-
-    /*
-     * These are functions that are defined in search_history.js .
-     * We override these with our own implementation.
-     */
-
 
     /**
      * This function gets called everytime the page loads and a new searchterm is entered.
@@ -167,7 +186,7 @@ sakai.search = function() {
      *  mysites = the site the user is registered on
      *  /a-site-of-mine = specific site from the user
      */
-    sakai._search.doSearch = function(searchquery, searchwhere, facet) {
+    sakai._search.doSearch = function(page, searchquery, searchwhere, facet) {
 
         // if there is facet selected then remove previous one and highlight new one
         if (facet) {
@@ -175,7 +194,10 @@ sakai.search = function() {
             $("#" + facet).addClass("faceted_category_selected");
         }
         
-        var page = 0;
+        if (isNaN(page)){
+            page = 1;
+        }
+
         // Set all the input fields and paging correct.
         mainSearch.fillInElements(page, searchquery, searchwhere);
 
@@ -194,12 +216,24 @@ sakai.search = function() {
             var categoryname = facet === "all" ? false: facet;
             
             // if all is not selected used the newjson
-            var newJson = filterCategory(searchterm, categoryname, newjson);
+            var newJson = filterCategory(page, searchterm, categoryname, newjson);
+
             renderResults(newJson,true);
             
         } else {
             sakai._search.reset();
         }
+    };
+
+    /**
+     * When the pager gets clicked.
+     * @param {integer} pageclickednumber The page you want to go to.
+     */
+    var pager_click_handler = function(pageclickednumber) {
+        currentpage = pageclickednumber;
+
+        // Redo the search
+        sakai._search.doHSearch(currentpage, searchterm, null, $.bbq.getState('facet'));
     };
 
     /**
@@ -209,7 +243,7 @@ sakai.search = function() {
      * @param {string} category The category you want to search in.
      * @param {Object} json The search result json object.
      */
-    var filterCategory = function(searchterm, categoryname, json){
+    var filterCategory = function(page, searchterm, categoryname, json){
         var resultJson = {};
         resultJson.sites = [];
 
@@ -222,7 +256,26 @@ sakai.search = function() {
                  resultJson = filterSearch(searchterm, category, resultJson);
             }
         }
-        return resultJson;
+
+         resultJson.total = resultJson.sites.length;
+         
+         var pagingIndex = (page-1) * resultsToDisplay;
+         var lastIndex = pagingIndex+resultsToDisplay;
+         
+         if(lastIndex <= resultJson.sites.length){
+             lastIndex = lastIndex;
+             console.log(pagingIndex);
+             console.log(lastIndex)
+             resultJson.sites = resultJson.sites.slice(pagingIndex,lastIndex);
+         }
+         else {
+             lastIndex = resultJson.sites.length ;
+             console.log(pagingIndex);
+             console.log(lastIndex);
+             resultJson.sites = resultJson.sites.slice(pagingIndex,lastIndex);
+         }
+
+         return resultJson;
     }
 
     /**
@@ -232,9 +285,12 @@ sakai.search = function() {
      * @param {Object} resultJson The search result json object.
      */
     var filterSearch = function(searchterm, category , resultJson) {
-        
-        $.each(category.sites, function(j, site){
-            if(site.title.toLowerCase().search(searchterm) > -1){
+        for(var j=0;j<category.sites.length;j++){
+            var site = category.sites[j];
+            if(searchterm === "*"){
+                if(!isItemExists(resultJson.sites,site))
+                    resultJson.sites.push(site);
+            }else if(site.title.toLowerCase().search(searchterm) > -1){
                 if(!isItemExists(resultJson.sites,site))
                     resultJson.sites.push(site);
             }
@@ -243,7 +299,7 @@ sakai.search = function() {
                     if(!isItemExists(resultJson.sites,site))
                         resultJson.sites.push(site);
             }
-         });
+         }
          
          return resultJson;        
     }

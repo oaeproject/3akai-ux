@@ -128,8 +128,10 @@
                             <div id="search_results_template"><!--
                                 {for site in sites}
                                     <div class="fl-container fl-fix search_result search_result_sites">
-                                        <img src="/dev/images/sakai2sites.png" alt="Sites" />
-                                        <div class="search_result_course_site_title"><a class="s3d-regular-links s3d-bold" href=${site.url}>${site.title}</a></div>
+                                        <a class="s3d-regular-links s3d-bold" href="/dev/s23/s23_site.html?id=${site.url}">
+                                            <img src="/dev/images/sakai2sites.png" alt="Sites" />
+                                            <div class="search_result_course_site_title">${site.title}</div>
+                                        </a>
                                     </div>
                                 {/for}
                             --></div>
@@ -140,6 +142,10 @@
                 <div class="s3d-no-options">
                     <div class="s3d-no-options-inner"></div>
                 </div>
+
+                <!-- CONTAINER FOR THE PAGER -->
+                <div class="jq_pager"></div>
+
             </div>
         </div>
 

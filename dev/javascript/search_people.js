@@ -110,7 +110,8 @@ sakai.search = function() {
             all : "#tab_search_all",
             content : "#tab_search_content",
             people : "#tab_search_people",
-            sites : "#tab_search_sites"
+            sites : "#tab_search_sites",
+            sakai2 : "#tab_search_sakai2"
         },
         results : {
             container : search + '_results_container',
