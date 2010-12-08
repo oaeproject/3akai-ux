@@ -38,14 +38,14 @@ sakai.popularcontent = function(tuid, showSettings) {
         $popularcontent_main = $("#popularcontent_main", $rootel),
         $popularcontent_main_template = $("#popularcontent_main_template", $rootel);
 
-    var tagData = {};
+    var contentData = {};
 
     var loadData = function(callback){
        $.ajax({
             url: "/var/search/pool/mostactive.json",
             cache: false,
             success: function(data) {
-                tagData = data;*/
+                contentData = data;
                 callback();
             }
         });
@@ -53,7 +53,7 @@ sakai.popularcontent = function(tuid, showSettings) {
 
     var doInit = function(){
         loadData(function() {
-            $popularcontent_main.html($.TemplateRenderer($popularcontent_main_template, {data:tagData})).show();
+            $popularcontent_main.html($.TemplateRenderer($popularcontent_main_template, {data:contentData})).show();
         });
     };
 
