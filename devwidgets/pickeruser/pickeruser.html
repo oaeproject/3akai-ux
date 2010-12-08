@@ -25,12 +25,14 @@
             </h1>
             <a href="javascript:;" id="pickeruser_change_global_permissions" class="s3d-bold s3d-regular-links">__MSG__CHANGE__</a>
             <div class="s3d-highlight_area_background fl-push">
-                <span id="pickeruser_share_link" class="fl-force-left fl-push">
-                    <span id="pickeruser_content_link" class="s3d-bold">__MSG__LINK__</span><input type="text" value="${window.location}" readonly="readonly"/>
-                    <button type="submit" class="s3d-button s3d-button-link-2-state" id="pickeruser_message_link"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__MESSAGE_LINK__</span></button>
-                    <button type="submit" class="s3d-button s3d-button-link-2-state" id="pickeruser_email_link"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__EMAIL_THE_LINK__</span></button>
-                </span>
-                <hr class="fl-push fl-hidden"/>
+                <div class='s3d-highlight_area_background_tl'><div class='s3d-highlight_area_background_tinner'></div></div>
+                    <span id="pickeruser_share_link" class="fl-force-left fl-push">
+                        <span id="pickeruser_content_link" class="s3d-bold">__MSG__LINK__</span><input type="text" value="${window.location}" readonly="readonly"/>
+                        <button type="submit" class="s3d-button s3d-button-link-2-state" id="pickeruser_message_link"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__MESSAGE_LINK__</span></button>
+                        <button type="submit" class="s3d-button s3d-button-link-2-state" id="pickeruser_email_link"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__EMAIL_THE_LINK__</span></button>
+                    </span>
+                    <hr class="fl-push fl-hidden"/>
+                <div class="s3d-highlight_area_background_bl"><div class="s3d-highlight_area_background_binner"></div></div>
             </div>
 
             <h1 class="fl-force-left">__MSG__CONTENT_HAS_BEEN_SHARED_WITH__</h1>
@@ -119,7 +121,8 @@
                 <span id="pickeruser_form_container"><input name="pickeruser_search_query" id="pickeruser_search_query" type="text" autocomplete="off"/></span>
                 <button type="submit" class="s3d-button s3d-button-link-2-state pickeruser_permission_link pickeruser_new_members_permission_link" style="display:none;" value="viewer"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CAN_VIEW__<span class="pickeruser_permission"></span></span></button>
                 <hr class="fl-push fl-hidden"/>
-                <textarea id="pickeruser_message_new_members" style="display:none;">__MSG__SEND_PERSONAL_MESSAGE__</textarea
+                <textarea id="pickeruser_message_new_members" style="display:none;">__MSG__SEND_PERSONAL_MESSAGE__</textarea>
+                <div class="s3d-highlight_area_background_darker1_bl"><div class="s3d-highlight_area_background_darker1_binner"></div></div>
             </div>
         --></div>
 
@@ -174,26 +177,34 @@
     <div id="pickeruser_permission_settings_template"><!--
         <h1 class="fl-force-left">__MSG__WHO_CAN_SEE_THIS__</h1>
         <div class="s3d-highlight_area_background">
+            <div class="s3d-highlight_area_background_tl"><div class="s3d-highlight_area_background_tinner"></div></div>
             <ul>
                 <li id="permissions_settings_container_public" class="permissions_settings_item">
+                    <div class='s3d-highlight_area_background_white_content_tl'><div class='s3d-highlight_area_background_white_content_tinner'></div></div>
                     <input type="radio" id="permission_settings_rbt_public" name="permission_settings" value="public" {if data["sakai:permissions"] == "public"}checked{/if}/>
                     <label id="permissions_settings_item_public" for="permission_settings_rbt_public">
                         __MSG__VISIBLE_TO_ANYONE__
                     </label>
+                    <div class='s3d-highlight_area_background_white_content_bl'><div class='s3d-highlight_area_background_white_content_binner'></div></div>
                 </li>
                 <li id="permissions_settings_container_loggedin" class="permissions_settings_item">
+                    <div class='s3d-highlight_area_background_white_content_tl'><div class='s3d-highlight_area_background_white_content_tinner'></div></div>
                     <input type="radio" id="permission_settings_rbt_everyone" name="permission_settings" value="everyone" {if data["sakai:permissions"] == "everyone"}checked{/if}/>
                     <label id="permissions_settings_item_everyone" for="permission_settings_rbt_everyone">
                         __MSG__VISIBLE_TO_ANYONE_WHOS_LOGGED_IN__
                     </label>
+                    <div class='s3d-highlight_area_background_white_content_bl'><div class='s3d-highlight_area_background_white_content_binner'></div></div>
                 </li>
                 <li id="permissions_settings_container_private" class="permissions_settings_item">
+                    <div class='s3d-highlight_area_background_white_content_tl'><div class='s3d-highlight_area_background_white_content_tinner'></div></div>
                     <input type="radio" id="permission_settings_rbt_private" name="permission_settings" value="private" {if data["sakai:permissions"] == "private"}checked{/if}/>
                     <label id="permissions_settings_item_private" for="permission_settings_rbt_private">
                         __MSG__PRIVATE_TO_WHO_I_SHARE_THIS_WITH__
                     </label>
+                    <div class='s3d-highlight_area_background_white_content_bl'><div class='s3d-highlight_area_background_white_content_binner'></div></div>
                 </li>
             </ul>
+            <div class="s3d-highlight_area_background_bl"><div class="s3d-highlight_area_background_binner"></div></div>
         </div>
         <button type="button" class="s3d-button s3d-button-primary fl-force-right" id="pickeruser_permission_settings_save">
             <span class="s3d-button-inner">__MSG__SAVE__</span>

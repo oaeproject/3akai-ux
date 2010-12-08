@@ -132,6 +132,21 @@ sakai.filerevisions = function(tuid, showSettings){
      * @param {Object} data Contains data needed to call all revisions for the file
      */
     sakai.filerevisions.initialise = function(data){
+        // position dialog box at users scroll position
+        var htmlScrollPos = $("html").scrollTop();
+        var docScrollPos = $(document).scrollTop();
+
+        if (htmlScrollPos > 0) {
+            $fileRevisionsDialog.css({
+                "top": htmlScrollPos + 100 + "px"
+            });
+        }
+        else if (docScrollPos > 0) {
+            $fileRevisionsDialog.css({
+                "top": docScrollPos + 100 + "px"
+            });
+        }
+ 
         baseFileData = data;
         getRevisionInformationDetails();
         $fileRevisionsDialog.jqmShow();

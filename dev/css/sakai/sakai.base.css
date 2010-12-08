@@ -604,8 +604,28 @@ label.error {color:#9f3333;font-weight:bold;}
 .dialog_footer_inner{background:url(/dev/images/dialog_bl.png) top left no-repeat;height:6px;}
 
 /* highlighted areas */
-.s3d-highlight_area_background {background-color:#EFF2F4; padding: 10px; margin: 0 0 15px 0;}
-.s3d-highlight_area_background_darker1 {background-color:#d5dbdf; padding: 10px; margin: 0 0 15px 0;}
+.s3d-highlight_area_background {background-color:#EFF2F4; padding: 0 10px; margin: 0 0 15px 0;}
+
+.s3d-highlight_area_background_tl {height:7px; margin-left: -10px;  background: url("/dev/images/highlight_area_background_tl.png") no-repeat scroll left 0 transparent;}
+.s3d-highlight_area_background_tinner {height:7px; margin-right: -10px;  background: url("/dev/images/highlight_area_background_tr.png") no-repeat scroll right 0 transparent;}
+.s3d-highlight_area_background_bl {clear:both; height:7px; margin-left: -10px;  background: url("/dev/images/highlight_area_background_bl.png") no-repeat scroll left 0 transparent;}
+.s3d-highlight_area_background_binner {clear:both; height:7px; margin-right: -10px;  background: url("/dev/images/highlight_area_background_br.png") no-repeat scroll right 0 transparent;}
+
+.s3d-highlight_area_background_white_content_tl {height:7px; margin-left: -10px;  background: url("/dev/images/highlight_area_background_white_content_tl.png") no-repeat scroll left 0 transparent;}
+.s3d-highlight_area_background_white_content_tinner {height:7px; margin-right: -10px;  background: url("/dev/images/highlight_area_background_white_content_tr.png") no-repeat scroll right 0 transparent;}
+.s3d-highlight_area_background_white_content_bl {clear:both; height:7px; margin-left: -10px;  background: url("/dev/images/highlight_area_background_white_content_bl.png") no-repeat scroll left 0 transparent;}
+.s3d-highlight_area_background_white_content_binner {clear:both; height:7px; margin-right: -10px;  background: url("/dev/images/highlight_area_background_white_content_br.png") no-repeat scroll right 0 transparent;}
+
+.s3d-highlight_area_background_darker1 {background-color:#d5dbdf; padding: 0 10px; margin: 0 0 15px 0;}
+.s3d-highlight_area_background_darker1_tl {height:7px; margin-left: -10px;  background: url("/dev/images/highlight_area_background_darker1_tl.png") no-repeat scroll left 0 transparent;}
+.s3d-highlight_area_background_darker1_tinner {height:7px; margin-right: -10px;  background: url("/dev/images/highlight_area_background_darker1_tr.png") no-repeat scroll right 0 transparent;}
+.s3d-highlight_area_background_darker1_bl {height:7px; margin-left: -10px;  background: url("/dev/images/highlight_area_background_darker1_bl.png") no-repeat scroll left 0 transparent;}
+.s3d-highlight_area_background_darker1_binner {height:7px; margin-right: -10px;  background: url("/dev/images/highlight_area_background_darker1_br.png") no-repeat scroll right 0 transparent;}
+
+.s3d-highlight_area_background_darker1_white_content_tl {height:7px; margin-left: -10px;  background: url("/dev/images/highlight_area_background_darker1_white_content_tl.png") no-repeat scroll left 0 transparent;}
+.s3d-highlight_area_background_darker1_white_content_tinner {height:7px; margin-right: -10px;  background: url("/dev/images/highlight_area_background_darker1_white_content_tr.png") no-repeat scroll right 0 transparent;}
+.s3d-highlight_area_background_darker1_white_content_bl {clear:both; height:7px; margin-left: -10px;  background: url("/dev/images/highlight_area_background_darker1_white_content_bl.png") no-repeat scroll left 0 transparent;}
+.s3d-highlight_area_background_darker1_white_content_binner {clear:both; height:7px; margin-right: -10px;  background: url("/dev/images/highlight_area_background_darker1_white_content_br.png") no-repeat scroll right 0 transparent;}
 
 /** Chat bullets **/
 .chat_available_status_online { background: url("/dev/images/bullet_green.png") no-repeat scroll -3px -1px transparent; }
