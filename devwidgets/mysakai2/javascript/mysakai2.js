@@ -41,6 +41,7 @@ sakai.mysakai2 = function(tuid){
 
     var mysakai2List = "#mysakai2_list";
     var mysakai2ListTemplate = "#mysakai2_list_template";
+    var mysakai2ErrorNosites = "#mysakai2_error_nosites";
 
 
     /**
@@ -50,7 +51,7 @@ sakai.mysakai2 = function(tuid){
     var doRender = function(newjson){
         // If the user is not registered for any sites, show the no sites error.
         if (newjson.sites.length === 0) {
-            $(mysakai2List, rootel).html(sakai.api.Security.saneHTML("No sites")).addClass("sites_error");
+            $(mysakai2List, rootel).html(sakai.api.Security.saneHTML($(mysakai2ErrorNosites).html())).addClass("sites_error");
         }
         else {
             for (var site in newjson.sites) {

@@ -1,5 +1,8 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/mysakai2/css/mysakai2.css" />
+<div id="mysakai2_error_nosites" style="display:none;">
+    <span class="mysakai2_left_padding">__MSG__YOU_CURRENTLY_DONT_HAVE_ANY_SAKAI2_SITES_SELECTED__</span>
+</div>
 <!-- CONTENT -->
 <div class="mysakai2_widget">
     <div class="fl-widget-content s3d-widget-content" id="mysakai2_list">
@@ -10,10 +13,10 @@
                 <li>
                     <span class="mysakai2_site_title"><a class="s3d-regular-links s3d-bold" href="/dev/s23/s23_site.html?id=${site.id}">${site.title}</a></span>
                     {if site.messages}
-                        <span id="mysakai2_messages">${site.messages} messages</span>
+                        <span id="mysakai2_messages">${site.messages} message{if site.messages > 1}s{/if}</span>
                     {/if}
                     {if site.forums}
-                        <span id="mysakai2_forums">${site.forums} posts</span>
+                        <span id="mysakai2_forums">${site.forums} post{if site.forums > 1}s{/if}</span>
                     {/if}
                 </li>
             {/for}
@@ -23,7 +26,11 @@
         <div class="widget-options-inner">
             <ul>
                 <li>
-                    <a href="javascript:;" id="mysakai2_add_files_link"><span class="mysakai2_add_files">__MSG__ADD_FILES_OR_LINKS__</span></a>
+                    <a href="javascript:;" id="mysakai2_add_files_link"><span class="mysakai2_add_files">__MSG__SETTINGS__</span></a>
+                </li>
+                <li><span class="pipe_divider">|</span></li>
+                <li>
+                    <a href="/dev/search_sakai2.html" id="mysakai2_show_all_sites">__MSG__SHOW_ALL_SITES__</a>
                 </li>
             </ul>
         </div>
