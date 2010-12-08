@@ -1148,11 +1148,13 @@ sakai.entity = function(tuid, showSettings){
                     var translatedMessageArray = entityconfig.data.profile.activity.results[j]["sakai:activityMessage"].split(" ");
 
                     for (var jjj in messageArray) {
-                        var expression = new RegExp("__MSG__(.*?)__", "gm");
-                        if (expression.test(translatedMessageArray[jjj])) {
-                            translatedMessageArray[jjj] = sakai.api.i18n.General.getValueForKey(messageArray[jjj].substr(7, messageArray[jjj].length - 9));
-                            if (translatedMessageArray[jjj] && translatedMessageArray[jjj] !== "false") {
-                                messageArray[jjj] = translatedMessageArray[jjj];
+                        if (messageArray.hasOwnProperty(jjj)) {
+                            var expression = new RegExp("__MSG__(.*?)__", "gm");
+                            if (expression.test(translatedMessageArray[jjj])) {
+                                translatedMessageArray[jjj] = sakai.api.i18n.General.getValueForKey(messageArray[jjj].substr(7, messageArray[jjj].length - 9));
+                                if (translatedMessageArray[jjj] && translatedMessageArray[jjj] !== "false") {
+                                    messageArray[jjj] = translatedMessageArray[jjj];
+                                }
                             }
                         }
                     }
