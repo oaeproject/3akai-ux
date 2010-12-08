@@ -37,6 +37,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
     var userStoragePrefix = sakai.data.me.user.userStoragePrefix;
     var tagsPath = "/~" + userId + "/public/tags/";
     var tagsPathForLinking = "/_user/" + userStoragePrefix + "public/tags/";
+    var directoryAdded = false;
 
     // JSON
     var data = {};
@@ -177,6 +178,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                     if ($.inArray(directoryString, data["sakai:tags"]) < 0) {
                         data["sakai:tags"].push(directoryString);
                     }
+                    directoryAdded = true;
                 }
             });
         }
@@ -249,7 +251,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
         // check if title has changed
         if (sakai.content_profile.content_data.data["sakai:pooled-content-file-name"] !== newData["sakai:pooled-content-file-name"]){
             titleActivity = true;
-            activityMessage = "MODIFIED_TITLE";
+            activityMessage = "__MSG__CONTENT_MODIFIED_TITLE__";
         }
         if (titleActivity) {
             addRecentActivity(activityMessage);
@@ -260,16 +262,16 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
             // check if description has been modified
             if (newData["sakai:description"] !== sakai.content_profile.content_data.data["sakai:description"]) {
                 descriptionActivity = true;
-                activityMessage = "MODIFIED_DESCRIPTION";
+                activityMessage = "__MSG__CONTENT_MODIFIED_DESCRIPTION__";
             }
         } else if (sakai.content_profile.content_data.data["sakai:description"] && !newData["sakai:description"]) {
             // description has been removed
             descriptionActivity = true;
-            activityMessage = "REMOVED_DESCRIPTION";
+            activityMessage = "__MSG__CONTENT_REMOVED_DESCRIPTION__";
         } else if (!sakai.content_profile.content_data.data["sakai:description"] && newData["sakai:description"]) {
             // description has been added
             descriptionActivity = true;
-            activityMessage = "ADDED_DESCRIPTION";
+            activityMessage = "__MSG__CONTENT_ADDED_DESCRIPTION__";
         }
         if (descriptionActivity) {
             addRecentActivity(activityMessage);
@@ -282,17 +284,17 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                 // check if tags have been modified
                 if ($.toJSON(newData["sakai:tags"]) !== $.toJSON(sakai.content_profile.content_data.data["sakai:tags"])) {
                     tagActivity = true;
-                    activityMessage = "MODIFIED_TAGS";
+                    activityMessage = "__MSG__CONTENT_MODIFIED_TAGS__";
                 }
             } else {
                 // tags have been removed
                 tagActivity = true;
-                activityMessage = "REMOVED_TAGS";
+                activityMessage = "__MSG__CONTENT_REMOVED_TAGS__";
             }
         } else if (newData["sakai:tags"] && newData["sakai:tags"].length > 0){
             // tags have been added
             tagActivity = true;
-            activityMessage = "ADDED_TAGS";
+            activityMessage = "__MSG__CONTENT_ADDED_TAGS__";
         }
         if (tagActivity) {
             addRecentActivity(activityMessage);
@@ -326,6 +328,9 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
             success : function(){
                 // Add recent activity for the file
                 checkRecentActivity(data);
+                if (directoryAdded){
+                    addRecentActivity("__MSG__CONTENT_DIRECTORY_ADDED__");
+                }
                 // Set permissions on the files
                 sakai.api.Content.setFilePermissions(data["sakai:permissions"], [obj], function(permissionsSet){
                     // Load content profile
@@ -486,6 +491,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                     removeBinding();
                     $(window).trigger('hashchange');
             });
+            addRecentActivity("__MSG__CONTENT_DIRECTORY_REMOVED__");
             sakai.api.Util.notification.show($(contentProfileBasicInfoUpdatedBasicInfo).html(), $(contentProfileBasicInfoFileBasicInfoUpdated).html());
         });
     };

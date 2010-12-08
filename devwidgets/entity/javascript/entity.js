@@ -1148,9 +1148,12 @@ sakai.entity = function(tuid, showSettings){
                     var translatedMessageArray = entityconfig.data.profile.activity.results[j]["sakai:activityMessage"].split(" ");
 
                     for (var jjj in messageArray) {
-                        translatedMessageArray[jjj] = sakai.api.i18n.General.getValueForKey(messageArray[jjj]);
-                        if (translatedMessageArray[jjj] && translatedMessageArray[jjj] !== "false"){
-                            messageArray[jjj] = translatedMessageArray[jjj];
+                        var expression = new RegExp("__MSG__(.*?)__", "gm");
+                        if (expression.test(translatedMessageArray[jjj])) {
+                            translatedMessageArray[jjj] = sakai.api.i18n.General.getValueForKey(messageArray[jjj].substr(7, messageArray[jjj].length - 9));
+                            if (translatedMessageArray[jjj] && translatedMessageArray[jjj] !== "false") {
+                                messageArray[jjj] = translatedMessageArray[jjj];
+                            }
                         }
                     }
                     entityconfig.data.profile.activity.results[j]["sakai:activityMessage"] = messageArray.join(" ");
@@ -1253,9 +1256,9 @@ sakai.entity = function(tuid, showSettings){
             var comma = "";
             var managerAdded = false;
             var viewerAdded = false;
-            var managerActivityMessage = "ADDED_NEW_MANAGER -";
+            var managerActivityMessage = "__MSG__CONTENT_ADDED_NEW_MANAGER__ -";
             var managerLinks = "";
-            var viewerActivityMessage = "SHARED_CONTENT_WITH_SOMEONE";
+            var viewerActivityMessage = "__MSG__CONTENT_SHARED_WITH_SOMEONE__";
             for (var i in data.user.toAddNames){
                 if (data.user.toAddNames.hasOwnProperty(i)) {
                     var userid = data.user.list[i];
@@ -1269,7 +1272,7 @@ sakai.entity = function(tuid, showSettings){
                     } else if (data.access === "manager"){
                         if (managerAdded) {
                             comma = ",";
-                            managerActivityMessage = "ADDED_NEW_MANAGERS -";
+                            managerActivityMessage = "__MSG__CONTENT_ADDED_NEW_MANAGERS__ -";
                         }
                         managerLinks = managerLinks + comma + ' <a href="/~' + userid + '" target="_blank" class="s3d-regular-light-links">' + displayName + '</a>';
                         managerAdded = true;

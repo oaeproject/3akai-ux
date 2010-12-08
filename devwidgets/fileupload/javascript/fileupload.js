@@ -727,9 +727,9 @@ sakai.fileupload = function(tuid, showSettings){
                     // Initiate the tagging process and create an activity
                     $fileUploadAddTags = $($fileUploadAddTags.selector);
                     tags = sakai.api.Util.formatTags($fileUploadAddTags.val());
-                    var activityMessage = "UPLOADED_FILE";
+                    var activityMessage = "__MSG__UPLOADED_FILE__";
                     if (newVersion) {
-                        activityMessage = "UPLOADED_NEW_FILE_VERSION";
+                        activityMessage = "__MSG__UPLOADED_NEW_FILE_VERSION__";
                     }
                     var activityData = {
                         "sakai:activityMessage": activityMessage
