@@ -724,12 +724,20 @@ sakai.fileupload = function(tuid, showSettings){
 
                     uploadedFiles = extractedData;
 
-                    // Initiate the tagging process
+                    // Initiate the tagging process and create an activity
                     $fileUploadAddTags = $($fileUploadAddTags.selector);
                     tags = sakai.api.Util.formatTags($fileUploadAddTags.val());
+                    var activityMessage = "UPLOADED_FILE";
+                    if (newVersion) {
+                        activityMessage = "UPLOADED_NEW_FILE_VERSION";
+                    }
+                    var activityData = {
+                        "sakai:activityMessage": activityMessage
+                    };
                     for (var file in uploadedFiles) {
                         if (uploadedFiles.hasOwnProperty(file)) {
                             sakai.api.Util.tagEntity("/p/" + uploadedFiles[file].hashpath, tags, []);
+                            sakai.api.Activity.createActivity("/p/" + uploadedFiles[file].hashpath, "content", "default", activityData);
                         }
                     }
 
