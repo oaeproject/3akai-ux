@@ -72,6 +72,7 @@ sakai.embedcontent = function(tuid, showSettings) {
     var $embedcontent_content_html_template = $("#embedcontent_content_html_template", $rootel);
     var $embedcontent_primary_display = $(".embedcontent_primary_display", $rootel);
     var $embedcontent_alt_display = $(".embedcontent_alt_display", $rootel);
+    var $embedcontent_item_unavailable_text = $("#embedcontent_item_unavailable_text", $rootel);
 
 
     var selectedItems = [];
@@ -233,6 +234,11 @@ sakai.embedcontent = function(tuid, showSettings) {
             },
             selectionRemoved: function(elem) {
                 autosuggestSelectionRemoved(elem);
+            },
+            selectionAdded: function(elem) {
+                if (elem.attr("id").indexOf("as-selection-notfound") > -1) {
+                    elem.addClass("embedcontent_selection_notfound");
+                }
             }
         });
     };
@@ -257,7 +263,7 @@ sakai.embedcontent = function(tuid, showSettings) {
             if (val.value) {
                 $embedcontent_content_input.autoSuggest.add_selected_item(val, val.value);
             } else {
-                $embedcontent_content_input.autoSuggest.add_selected_item({name:"notfound", value:"notfound"}, "notfound");
+                $embedcontent_content_input.autoSuggest.add_selected_item({name:$embedcontent_item_unavailable_text.text(), value:"notfound"+Math.ceil(Math.random() * 9999)}, "notfound");
             }
         });
         $(".as-original input.as-input").val('').focus();
@@ -459,9 +465,7 @@ sakai.embedcontent = function(tuid, showSettings) {
                 // get the item profile data
                 for (var i=0, j=items.length; i<j; i++) {
                     if (items[i].notfound) {
-                        debug.log(items[i]);
                         newItems[i] = {type:"notfound"};
-                        debug.log(newItems);
                         count++;
                         if (count === items.length) {
                             widgetData.items = newItems;
@@ -482,7 +486,6 @@ sakai.embedcontent = function(tuid, showSettings) {
                                 },
                                 complete: function() {
                                     count++;
-                                    debug.log(newItems, count, items.length);
                                     if (count === items.length) {
                                         widgetData.items = newItems;
                                         if ($.isFunction(callback)) {

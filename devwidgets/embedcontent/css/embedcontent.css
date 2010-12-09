@@ -12,6 +12,9 @@
 #embedcontent_search_for_content {display:block;}
 .embedcontent_right_input label.error {font-weight:bold; float:left; color:red;}
 
+ul.as-selections li.as-selection-item.embedcontent_selection_notfound {background-color:#ebc6ce;}
+ul.as-selections li.as-selection-item.embedcontent_selection_notfound a.as-close {color:#2B3840; }
+
 #embedcontent_tabs {display:block; width:100%; float:left; height:30px; clear:both;}
 #embedcontent_tabs .s3d-primary-tabs {float:left; height:25px; padding:2px 5px 2px 0px;}
 #embedcontent_tabs .s3d-primary-tabs .fl-tabs {height:26px;}
