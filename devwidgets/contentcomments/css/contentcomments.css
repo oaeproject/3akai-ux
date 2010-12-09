@@ -26,7 +26,7 @@
 #comments_settings .dialog_buttons.right button {float:right;}
 
 /* Main container */
-#comments_mainContainer.fl-widget-content, #comments_settings.fl-widget-content {padding:10px;/*border: 1px solid #d4dade;*/}
+#comments_mainContainer.fl-widget-content, #comments_settings.fl-widget-content {padding:10px;border: 1px solid #d4dade;}
 .comments_commentMessage p.comments_infoDeleted { font-size:0.9em;text-align:right;}
 .comments_nextButtons {width:100%;}
 #comments_titlebar {overflow:auto;width:auto;height:26px;}
@@ -55,10 +55,10 @@
 .comments_arrowLeftFiller {height:1px;margin: 20px 0 0 44px; width: 5px;}
 .comments_arrowLeft {height:15px;background:#fff url(../images/comments_arrowleft.jpg) no-repeat top left;margin: 15px 0 0 50px; width: 15px;}
 #comments_fillInComment {background-color:#EBEFF1;margin:-31px 0 0 58px;padding:0 15px 0 15px;}
-/*#comments_fillInComment label { font-weight:bold;margin-top:20px;display:block;}*/
 #comments_mainContainer .dialog_buttons {padding: 6px 0 6px 6px; height:30px; margin-top:0;}
 #comments_mainContainer .dialog_buttons.right button {float:right;}
 #comments_mainContainer .comments_message p {padding-bottom:0; margin-bottom:0;}
+.comments_noComments {padding-top: 15px;}
 
 #comments_mainContainer textarea, #comments_settings textarea {margin:2px 0;width:100%;border:#999999 solid 1px; resize:none;}
 #comments_settings textarea {height:140px;}

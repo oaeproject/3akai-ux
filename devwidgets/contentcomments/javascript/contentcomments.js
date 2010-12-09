@@ -48,6 +48,7 @@ sakai.contentcomments = function(tuid, showSettings){
     var defaultPostsPerPage = 10;
     var widgeturl = "";
     var currentSite = "";
+    var contentPath = "";
     var store = "";
 
     // Main Ids
@@ -127,21 +128,10 @@ sakai.contentcomments = function(tuid, showSettings){
      * @returns {Date}
      */
     var parseDate = function(dateInput){
-        /** Get the date with the use of regular expressions */
         if (dateInput !== null) {
-            /** Get the date with the use of regular expressions */
-            var match = /([0-9]{4})\-([0-9]{2})\-([0-9]{2}).([0-9]{2}):([0-9]{2}):([0-9]{2})/.exec(dateInput); // 2009-08-14T12:18:50
-            var d = new Date();
-            d.setYear(match[1]);
-            d.setMonth(match[2] - 1);
-            d.setDate(match[3]);
-            d.setHours(match[4]);
-            d.setMinutes(match[5]);
-            d.setSeconds(match[6]);
-            return d;
+           return sakai.api.l10n.parseDateString(dateInput.substring(0,19) + dateInput.substring(23,29));
         }
         return null;
-
     };
 
     /**
@@ -167,14 +157,21 @@ sakai.contentcomments = function(tuid, showSettings){
      * Show the users profile picture
      */
     var displayUserProfilePicture = function(){
-        if (sakai.data.me.profile) {
-            var profile = sakai.data.me.profile;
+        if (me.profile) {
+            var profile = me.profile;
             var picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
             if (profile.picture && $.parseJSON(profile.picture).name) {
                 picture = "/~" + profile["rep:userId"] + "/public/profile/" + $.parseJSON(profile.picture).name;
             }
             $("#comments_userProfileAvatarPicture").attr("src", picture);
         }
+    };
+
+    /**
+     * Callback function to sort comments based on created date
+     */
+    var sortComments = function(a, b){
+        return a.created < b.created ? 1 : -1;
     };
 
     ///////////////////
@@ -189,13 +186,16 @@ sakai.contentcomments = function(tuid, showSettings){
             "comments": [],
             "settings": widgetSettings
         };
+
+        // sort comments on create date
+        json.comments.sort(sortComments);
+
         // Loops through all the comments and does the necessary changes to render the JSON-object
-        for (var i = 0; i < json.results.length; i++) {
+        for (var i = 0; i < json.comments.length; i++) {
             jsonDisplay.comments[i] = {};
-            var comment = json.results[i].post;
+            var comment = json.comments[i];
             // Checks if the date is already parsed to a date object
-            // TODO: Get jcr:created
-            var tempDate = comment["sakai:created"];
+            var tempDate = comment.created;
             try {
                 // if the date is not a string this should generate en exception
                 comment.date = parseDate(tempDate);
@@ -206,25 +206,26 @@ sakai.contentcomments = function(tuid, showSettings){
 
             comment.timeAgo = "about " + getTimeAgo(comment.date) + " "+sakai.api.i18n.General.getValueForKey("AGO");
             comment.formatDate = sakai.api.l10n.transformDateTimeLong(comment.date);
-            comment.messageTxt = comment["sakai:body"];
-            comment.message = tidyInput(comment["sakai:body"]);
-            // weird json bug.
-            comment["sakai:deleted"] = (comment["sakai:deleted"] && (comment["sakai:deleted"] === "true" || comment["sakai:deleted"] === true)) ? true : false;
-
+            comment.messageTxt = comment.comment;
+            comment.message = tidyInput(comment.comment);
+            comment.canEdit = false;
+            comment["sakai:id"] = comment.commentId;
 
             var user = {};
             // User
             // Puts the userinformation in a better structure for trimpath
-            // if (comment.profile["sling:resourceType"] === "sakai/user-profile") { // no longer in use, it seems
-            if (comment.profile) {
-                var profile = comment.profile[0];
+            if (comment.userid) {
+                if (comment.userid === me.profile["rep:userId"]){
+                    comment.canDelete = true;
+                }
+                var profile = comment;
                 user.fullName = sakai.api.User.getDisplayName(profile);
                 user.picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
+                user.uid = profile.userid;
                 // Check if the user has a picture
                 if (profile.picture && $.parseJSON(profile.picture).name) {
-                    user.picture = "/~" + profile["userid"] + "/public/profile/" + $.parseJSON(profile.picture).name;
+                    user.picture = "/~" + user.uid + "/public/profile/" + $.parseJSON(profile.picture).name;
                 }
-                user.uid = profile["userid"];
                 user.profile = "/~" + user.uid;
             }
             else {
@@ -267,11 +268,11 @@ sakai.contentcomments = function(tuid, showSettings){
 
 
         // Change the page-number on the display
-        $(commentsPager, rootel).pager({
+/*        $(commentsPager, rootel).pager({
             pagenumber: clickedPage,
             pagecount: Math.ceil(json.total / widgetSettings.perPage),
             buttonClickCallback: pagerClickHandler
-        });
+        });*/
 
         if (json.total > widgetSettings.perPage) {
             $(commentsPager, rootel).show();
@@ -294,7 +295,8 @@ sakai.contentcomments = function(tuid, showSettings){
             items = widgetSettings.perPage;
         }
 
-        var url = "/var/search/comments/flat.json?sortOn=" + sortOn + "&sortOrder=" + sortOrder + "&page=" + (clickedPage - 1) + "&items=" + items + "&marker=" + tuid + "&path=" + store;
+        var url = contentPath + ".comments?sortOn=" + sortOn + "&sortOrder=" + sortOrder + "&page=" + (clickedPage - 1) + "&items=" + items;
+
         $.ajax({
             url: url,
             cache: false,
@@ -316,11 +318,11 @@ sakai.contentcomments = function(tuid, showSettings){
         clickedPage = pageclickednumber;
 
         // Change the page-number on the display
-        $(commentsPager, rootel).pager({
+/*        $(commentsPager, rootel).pager({
             pagenumber: pageclickednumber,
             pagecount: Math.ceil(json.total / widgetSettings.perPage),
             buttonClickCallback: pagerClickHandler
-        });
+        });*/
         getComments();
     };
 
@@ -357,24 +359,17 @@ sakai.contentcomments = function(tuid, showSettings){
             sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("ANON_NOT_ALLOWED"),"",sakai.api.Util.notification.type.ERROR);
         }
 
-        var subject = 'Comment on /~' + currentSite;
-        var to = "internal:w-" + widgeturl + "/message";
+        var subject = 'Comment on ' + currentSite;
+        //var to = "internal:w-" + widgeturl + "/message";
 
         var body = $(commentsMessageTxt, rootel).val();
         if (allowPost && body !== "") {
             var message = {
-                "sakai:type": "comment",
-                "sakai:to": to,
-                "sakai:marker": tuid,
-                "sakai:subject": subject,
-                "sakai:body": body,
-                "sakai:messagebox": "outbox",
-                "sakai:sendstate": "pending",
-                "_charset_":"utf-8"
+                "_charset_":"utf-8",
+                "comment": body
             };
 
-
-            var url = widgeturl + "/message.create.html";
+            var url = contentPath + ".comments";
             $.ajax({
                 url: url,
                 type: "POST",
@@ -386,6 +381,8 @@ sakai.contentcomments = function(tuid, showSettings){
                     $(commentsMessageTxt, rootel).val("");
                     $(commentsNamePosterTxt, rootel).val("");
                     $(commentsMailPosterTxt, rootel).val("");
+                    // Add an acitivty
+                    sakai.api.Activity.createActivity(contentPath, "content", "default", {"sakai:activityMessage": "__MSG__CONTENT_ADDED_COMMENT__"});
                     // Get the comments.
                     getComments();
                 },
@@ -643,20 +640,16 @@ sakai.contentcomments = function(tuid, showSettings){
      * @param {Boolean} deleteValue true = delete it, false = undelete it.
      */
     var doDelete = function(id, deleteValue){
-        var url = $(commentsPath+id).val();
-        var data = {
-            "sakai:deleted": deleteValue
-        };
+        var url = contentPath + ".comments?commentId=" + $(commentsPath+id).val();
         $.ajax({
             url: url,
-            type: 'POST',
+            type: 'DELETE',
             success: function(){
                 getComments();
             },
             error: function(xhr, textStatus, thrownError){
-                sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("FAILED_TO_UNDELETE"),"",sakai.api.Util.notification.type.ERROR);
-            },
-            data: data
+                sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("FAILED_TO_DELETE"),"",sakai.api.Util.notification.type.ERROR);
+            }
         });
     };
 
@@ -741,11 +734,11 @@ sakai.contentcomments = function(tuid, showSettings){
     var doInit = function(){
 
         // configure widget placement if on the content profile page
-        if (sakai.content_profile && sakai.content_profile.content_data){
+        if (sakai.content_profile && sakai.content_profile.content_data && sakai.api.Widgets.widgetLoader.widgets[tuid].placement.substr(0,3) !== "/p/"){
             sakai.api.Widgets.widgetLoader.widgets[tuid].placement = "/p/" + sakai.content_profile.content_data.data["jcr:name"] + "/_widgets/" + sakai.api.Widgets.widgetLoader.widgets[tuid].placement;
         }
 
-        widgeturl = sakai.api.Widgets.widgetLoader.widgets[tuid] ? sakai.api.Widgets.widgetLoader.widgets[tuid].placement : false;
+        /*widgeturl = sakai.api.Widgets.widgetLoader.widgets[tuid] ? sakai.api.Widgets.widgetLoader.widgets[tuid].placement : false;
 
         if (widgeturl) {
             store = widgeturl + "/message";
@@ -763,13 +756,10 @@ sakai.contentcomments = function(tuid, showSettings){
                     }
                 }
             });
-        }
-        if (sakai.currentgroup && !$.isEmptyObject(sakai.currentgroup.id)) {
-            currentSite = sakai.currentgroup.id;
-        } else if (sakai.content_profile && sakai.content_profile.content_data){
+        }*/
+        if (sakai.content_profile && sakai.content_profile.content_data){
             currentSite = sakai.content_profile.content_data.data["sakai:pooled-content-file-name"];
-        } else {
-            currentSite = sakai.profile.main.data["rep:userId"];
+            contentPath = sakai.content_profile.content_data.path;
         }
         if (!showSettings) {
             // Show the main view.
@@ -782,7 +772,7 @@ sakai.contentcomments = function(tuid, showSettings){
         // listen for event if new content profile is loaded
         $(window).unbind("content_profile_hash_change");
         $(window).bind("content_profile_hash_change", function(e){
-            //doInit();
+            doInit();
         });
     };
     doInit();
