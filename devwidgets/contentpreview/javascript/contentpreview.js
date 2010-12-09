@@ -189,6 +189,14 @@ sakai.contentpreview = function(tuid,showSettings){
             window.scrollTo(0,0);
             sakai.deletecontent.init(sakai.content_profile.content_data);
         });
+        $("#upload_content").die("click");
+        $("#upload_content").live("click", function() {
+            $(window).trigger("sakai-fileupload-init", {
+                newVersion: true,
+                isLink: false,
+                contentPath: sakai.content_profile.content_data.data["jcr:name"]
+            });
+        });
         $("#upload_content").bind("click", function(){
             $(window).trigger("sakai-fileupload-init");
         });
