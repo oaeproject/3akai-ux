@@ -494,7 +494,11 @@ sakai.topnavigation = function(tuid, showSettings){
             if (sakai.config.Navigation.hasOwnProperty(i)) {
 
                 var temp = {};
-                temp.url = sakai.config.Navigation[i].url;
+                if (sakai.data.me.user.anon && sakai.config.Navigation[i].anonUrl) {
+                  temp.url = sakai.config.Navigation[i].anonUrl;
+                } else {
+                  temp.url = sakai.config.Navigation[i].url;
+                }
                 temp.label = sakai.api.i18n.General.getValueForKey(sakai.config.Navigation[i].label);
                 temp.cleanurl = temp.url || "";
                 if (temp.cleanurl) {
