@@ -45,6 +45,8 @@ sakai.contentpreview = function(tuid,showSettings){
             renderFlashPlayer();    
         } else if (mimeType === "text/plain") {
             renderTextPreview();
+        } else if (mimeType === "text/html") {
+            renderHTMLPreview();
         } else if (mimeType.substring(0, 6) === "image/") {
             renderImagePreview();
         } else {
@@ -65,6 +67,14 @@ sakai.contentpreview = function(tuid,showSettings){
     //TODO: Clean this mess up
     var renderImagePreview = function(){
         $(".contentpreview_image_preview").show();
+        $("#contentpreview_image_rendered").css("width", "");
+        $("#contentpreview_image_rendered").css("height", "");
+        $("#contentpreview_image_rendered").css("border", "");
+        $("#contentpreview_image_preview").css("width", "");
+        $("#contentpreview_image_preview").css("height", "");
+        $("#contentpreview_image_preview").css("border", "");
+        $("#contentpreview_image_preview").css("overflow", "");
+        $("#contentpreview_image_rendered").css("margin-top", "");
         var json = {};
         json.contentURL = sakai.content_profile.content_data.path;
         $.TemplateRenderer("contentpreview_image_template", json, $("#contentpreview_image_calculatesize"));
@@ -103,6 +113,15 @@ sakai.contentpreview = function(tuid,showSettings){
                $(".contentpreview_text_preview").html(data.replace(/\n/g, "<br/>"));
            }
         });
+    }
+    
+    var renderHTMLPreview = function(){
+        $(".contentpreview_html_preview").show();
+        $.TemplateRenderer("contentpreview_html_template", json, $("#contentpreview_html_preview"));
+        $("#contentpreview_html_iframe").attr("src", sakai.content_profile.content_data.path);
+        $("#contentpreview_html_iframe").attr("width", "640px");
+        $("#contentpreview_html_iframe").attr("height", "390px");
+        $("#contentpreview_html_iframe").attr("frameborder", "0");
     }
     
     var renderVideoPlayer = function(){
@@ -152,6 +171,7 @@ sakai.contentpreview = function(tuid,showSettings){
     }
     
     var hidePreview = function(){
+        $(".contentpreview_html_preview").hide();
         $(".contentpreview_videoaudio_preview").hide();
         $(".contentpreview_flash_preview").hide();
         $(".contentpreview_default_preview").hide();

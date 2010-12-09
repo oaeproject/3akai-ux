@@ -1039,7 +1039,7 @@ sakai.entity = function(tuid, showSettings){
         }
         // Set the contentpath of the resource
         if(data.url){
-            entityconfig.data.profile.contentpath = data.contentpath;
+            entityconfig.data.profile.contentpath = data.path;
         }
 
         // Set the description of the resource
@@ -1130,6 +1130,7 @@ sakai.entity = function(tuid, showSettings){
             // loop through each activity
             for (var j in entityconfig.data.profile.activity.results) {
                 if (entityconfig.data.profile.activity.results.hasOwnProperty(j)) {
+
                     // loop though the userlist to find the actor
                     for (var jj in userList) {
                         if (userList.hasOwnProperty(jj)) {
@@ -1141,6 +1142,23 @@ sakai.entity = function(tuid, showSettings){
                             }
                         }
                     }
+
+                    // translate the activity message
+                    var messageArray = entityconfig.data.profile.activity.results[j]["sakai:activityMessage"].split(" ");
+                    var translatedMessageArray = entityconfig.data.profile.activity.results[j]["sakai:activityMessage"].split(" ");
+
+                    for (var jjj in messageArray) {
+                        if (messageArray.hasOwnProperty(jjj)) {
+                            var expression = new RegExp("__MSG__(.*?)__", "gm");
+                            if (expression.test(translatedMessageArray[jjj])) {
+                                translatedMessageArray[jjj] = sakai.api.i18n.General.getValueForKey(messageArray[jjj].substr(7, messageArray[jjj].length - 9));
+                                if (translatedMessageArray[jjj] && translatedMessageArray[jjj] !== "false") {
+                                    messageArray[jjj] = translatedMessageArray[jjj];
+                                }
+                            }
+                        }
+                    }
+                    entityconfig.data.profile.activity.results[j]["sakai:activityMessage"] = messageArray.join(" ");
                 }
             }
         }
@@ -1237,21 +1255,50 @@ sakai.entity = function(tuid, showSettings){
 
         $(window).bind("sakai-pickeruser-addUser", function(e, data) {
             // add users that were added to content member list and render template
+            var comma = "";
+            var managerAdded = false;
+            var viewerAdded = false;
+            var managerActivityMessage = "__MSG__CONTENT_ADDED_NEW_MANAGER__ -";
+            var managerLinks = "";
+            var viewerActivityMessage = "__MSG__CONTENT_SHARED_WITH_SOMEONE__";
             for (var i in data.user.toAddNames){
                 if (data.user.toAddNames.hasOwnProperty(i)) {
+                    var userid = data.user.list[i];
+                    var displayName = data.user.toAddNames[i];
                     if (data.access === "viewer"){
+                        viewerAdded = true;
                         sakai.content_profile.content_data.members.viewers.push({
-                            "userid": data.user.list[i],
-                            "displayName": data.user.toAddNames[i]
+                            "userid": userid,
+                            "displayName": displayName
                         });
                     } else if (data.access === "manager"){
+                        if (managerAdded) {
+                            comma = ",";
+                            managerActivityMessage = "__MSG__CONTENT_ADDED_NEW_MANAGERS__ -";
+                        }
+                        managerLinks = managerLinks + comma + ' <a href="/~' + userid + '" target="_blank" class="s3d-regular-light-links">' + displayName + '</a>';
+                        managerAdded = true;
                         sakai.content_profile.content_data.members.managers.push({
-                            "userid": data.user.list[i],
-                            "displayName": data.user.toAddNames[i]
+                            "userid": userid,
+                            "displayName": displayName
                         });
                     }
                     entityconfig.data.profile.usercount++;
                 }
+            }
+            if (viewerAdded) {
+                var viewerActivityData = {
+                    "sakai:activityMessage": viewerActivityMessage
+                };
+                sakai.api.Activity.createActivity(entityconfig.data.profile.contentpath, "content", "default", viewerActivityData);
+            }
+            if (managerAdded) {
+                var replaceIdx = managerLinks.lastIndexOf(",");
+                managerLinks = managerLinks.substring(0, replaceIdx) + " AND" + managerLinks.substring(replaceIdx + 1);
+                var managerActivityData = {
+                    "sakai:activityMessage": managerActivityMessage + managerLinks
+                };
+                sakai.api.Activity.createActivity(entityconfig.data.profile.contentpath, "content", "default", managerActivityData);
             }
             renderTemplate();
         });

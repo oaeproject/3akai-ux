@@ -275,10 +275,6 @@
             {/if}
         {/if}
         {if mode === "content2"}
-            <div class="entity_content_right">
-                <div class="entity_content_viewed">
-                    __MSG__VIEWED__ <span class="entity_content_view_count">XXX,XXX</span> __MSG__TIMES__
-                </div>
                 <div class="entity_content_share">
                     <button id="entity_content_share_button" class="s3d-button s3d-button-tertiary" type="submit"><span class="s3d-button-inner">__MSG__SHARE__</span></button>
                 </div>
@@ -286,6 +282,10 @@
         {/if}
     </div>
 --></div>
+
+<!--             <div class="entity_content_right"><div class="entity_content_viewed">
+                    __MSG__VIEWED__ <span class="entity_content_view_count">XXX,XXX</span> __MSG__TIMES__
+                </div></div> -->
 
 <div id="entity_container_template_group"><!--
     <div class="fl-col entity_container_left">
@@ -484,13 +484,8 @@
                     </span>
                     <br />
                     <span class="entity_content_activity">
-                        {var activityMessage = unescape(sakai.api.i18n.General.getValueForKey(i["sakai:activityMessage"]))}
                         {var activityDate = new Date(i["jcr:created"])}
-                        {if activityMessage && activityMessage !== "false"}
-                            ${activityMessage}
-                        {else}
-                            ${i["sakai:activityMessage"]}
-                        {/if}
+                        ${i["sakai:activityMessage"]}
                          - ${sakai.api.Datetime.getTimeAgo(activityDate)} __MSG__AGO__
                     </span>
                     </li>
