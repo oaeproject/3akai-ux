@@ -636,6 +636,7 @@ sakai.config = {
             }
         ],
         "hideLoginOn": [
+            "/dev",
             "/dev/index.html",
             "/dev/create_new_account.html"
         ]

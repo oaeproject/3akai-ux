@@ -94,7 +94,7 @@ sakai.topnavigation = function(tuid, showSettings){
     var userLinkChatStatusClass = ".user_link_chat_status";
 
     var showLogin = true;
-    if (-1 !== $.inArray(window.location.pathname, sakai.config.Authentication.hideLoginOn)) {
+    if (-1 !== $.inArray(window.location.pathname.replace(/\/$/,""), sakai.config.Authentication.hideLoginOn)) {
       showLogin = false;
     }
 
