@@ -622,6 +622,7 @@ sakai.fileupload = function(tuid, showSettings){
         // Add the button to the form and remove loader class
         $fileUploadRenderedTagging.find("button").show();
         $fileUploadProgressId.removeClass(fileUploadProgressClass);
+        $fileUploadPermissionsSelect = $($fileUploadPermissionsSelect.selector);
         // Disable input fields
         if (context !== "new_version") {
             $fileUploadAddTags.removeAttr("disabled");
@@ -739,6 +740,7 @@ sakai.fileupload = function(tuid, showSettings){
                         // Set the description data on the completed uploads
 
                         // Set permissions on the files
+                        $fileUploadPermissionsSelect = $($fileUploadPermissionsSelect.selector);
                         sakai.api.Content.setFilePermissions($fileUploadPermissionsSelect.val(), uploadedFiles, function(permissionsSet){
                             batchSetDescriptionAndName();
                         }, contextData.id);
@@ -777,6 +779,7 @@ sakai.fileupload = function(tuid, showSettings){
         // Remove the button from the form and set loader class
         $fileUploadRenderedTagging.find("button").hide();
         $fileUploadProgressId.addClass(fileUploadProgressClass);
+        $fileUploadPermissionsSelect = $($fileUploadPermissionsSelect.selector);
         // Disable input fields
         if (context !== "new_version") {
             $fileUploadAddTags.attr("disabled", "disabled");
