@@ -300,19 +300,22 @@ sakai.show = function() {
     });
 
     var triggerHelp = function(profileFlag, whichHelp) {
-        $(window).trigger("sakai-help-init", {
-            profileFlag: profileFlag,
-            whichHelp: whichHelp
-        });
-        $launch_help.show();
-        $launch_help.bind("click", function() {
+        // only show to managers
+        if (canEdit) {
             $(window).trigger("sakai-help-init", {
                 profileFlag: profileFlag,
-                whichHelp: whichHelp,
-                force: true
+                whichHelp: whichHelp
             });
-            return false;
-        });
+            $launch_help.show();
+            $launch_help.bind("click", function() {
+                $(window).trigger("sakai-help-init", {
+                    profileFlag: profileFlag,
+                    whichHelp: whichHelp,
+                    force: true
+                });
+                return false;
+            });
+        }
     };
 
     var loadHelp = function(profileFlag, whichHelp) {
