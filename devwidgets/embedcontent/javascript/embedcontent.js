@@ -258,7 +258,9 @@ sakai.embedcontent = function(tuid, showSettings) {
                 find("input[name='layout'][value='" + widgetData.layout + "']").
                 siblings("img").
                 addClass('selected');
-            $embedcontent_display_form.find("input[name='layout'][value='" + widgetData.layout + "']").attr("checked", true);
+            $embedcontent_display_form.
+                find("input[name='layout'][value='" + widgetData.layout + "']").
+                attr("checked", true);
         }
         $embedcontent_display_form.
             find("input[name='style'][value='" + widgetData.embedmethod + "']").
@@ -267,7 +269,7 @@ sakai.embedcontent = function(tuid, showSettings) {
             children("img").
             addClass('selected');
         $embedcontent_display_form.find("input[name='style'][value='" + widgetData.embedmethod + "']").attr("checked", true);
-        var checkboxes = ["name", "download", "description"];
+        var checkboxes = ["name", "download", "details"];
         $.each(checkboxes, function(i,val) {
             if (widgetData[val]) {
                 $embedcontent_display_form.find("input[name='" + val + "']").attr("checked", "checked");
