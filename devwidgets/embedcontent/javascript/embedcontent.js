@@ -70,10 +70,13 @@ sakai.embedcontent = function(tuid, showSettings) {
     // Display mode
     var $embedcontent_content = $("#embedcontent_content", $rootel);
     var $embedcontent_content_html_template = $("#embedcontent_content_html_template", $rootel);
+    var $embedcontent_primary_display = $(".embedcontent_primary_display", $rootel);
+    var $embedcontent_alt_display = $(".embedcontent_alt_display", $rootel);
 
 
     var selectedItems = [];
-    var firstTime = true;
+    var firstTime = true,
+        firstLoad = true;
     var widgetData = false;
     var active_content_class = "tab_content_active",
         tab_id_prefix = "embedcontent_tab_",
@@ -98,6 +101,13 @@ sakai.embedcontent = function(tuid, showSettings) {
             firstTime = false;
         } else {
             doReset();
+        }
+        if (firstLoad) {
+            $embedcontent_primary_display.show();
+            $embedcontent_alt_display.hide();
+        } else {
+            $embedcontent_primary_display.hide();
+            $embedcontent_alt_display.show();
         }
         $("#as-values-" + tuid).val("");
         $(".as-selection-item").remove();
@@ -244,7 +254,11 @@ sakai.embedcontent = function(tuid, showSettings) {
     var setCurrentFiles = function() {
         $.each(widgetData.items, function(i,val) {
             autosuggestSelectionAdded(val);
-            $embedcontent_content_input.autoSuggest.add_selected_item(val, val.value);
+            if (val.value) {
+                $embedcontent_content_input.autoSuggest.add_selected_item(val, val.value);
+            } else {
+                $embedcontent_content_input.autoSuggest.add_selected_item({name:"notfound", value:"notfound"}, "notfound");
+            }
         });
         $(".as-original input.as-input").val('').focus();
         if (widgetData.title || widgetData.description) {
@@ -369,28 +383,36 @@ sakai.embedcontent = function(tuid, showSettings) {
     var doEmbed = function() {
         var embedContentHTML = "";
         var formVals = $embedcontent_display_form.serializeObject();
+        var itemsToSave = [];
+        $.each(selectedItems, function(i,item) {
+            if (item.path) {
+                itemsToSave.push(item.path);
+            } else {
+                itemsToSave.push({notfound:true});
+            }
+        });
         var objectData = {
             "layout": selectedItems.length > 1 ? formVals.layout : "single",
             "embedmethod": formVals.style,
             "title": formVals.title || '',
             "description": formVals.description || '',
-            "items": selectedItems,
+            "items": itemsToSave,
             "details": formVals.details ? true : false,
             "download": formVals.download ? true : false,
             "name": formVals.name ? true : false
         };
         var videoBatchData = [];
-        for (var i in objectData.items){
-            if(objectData.items.hasOwnProperty(i)){
-                if(objectData.items[i].filetype === "video"){
+        for (var i in selectedItems){
+            if(selectedItems.hasOwnProperty(i)){
+                if(selectedItems[i].filetype === "video"){
                     // Set random ID to the video
-                    objectData.items[i].uId = Math.ceil(Math.random() * 999999999);
+                    selectedItems[i].uId = Math.ceil(Math.random() * 999999999);
 
                     var itemUrl;
                     if (sakai.currentgroup.data.authprofile) {
-                        itemUrl = "/~" + sakai.currentgroup.data.authprofile["sakai:group-title"] + "/pages/_widgets/id" + objectData.items[i].uId + "/video";
+                        itemUrl = "/~" + sakai.currentgroup.data.authprofile["sakai:group-title"] + "/pages/_widgets/id" + selectedItems[i].uId + "/video";
                     } else {
-                        itemUrl = "/~" + sakai.data.me.user.userid + "/pages/_widgets/id" + objectData.items[i].uId + "/video";
+                        itemUrl = "/~" + sakai.data.me.user.userid + "/pages/_widgets/id" + selectedItems[i].uId + "/video";
                     }
 
                     // Create batch request data for the video
@@ -400,7 +422,7 @@ sakai.embedcontent = function(tuid, showSettings) {
                         "parameters": {
                             "uid": sakai.data.me.user.userid,
                             "source": " ",
-                            "URL": sakai.config.SakaiDomain + objectData.items[i].link + objectData.items[i].extension,
+                            "URL": sakai.config.SakaiDomain + selectedItems[i].link + selectedItems[i].extension,
                             "selectedvalue": "video_noSource",
                             "isYoutube": false,
                             "isSakaiVideoPlayer": false
@@ -431,10 +453,52 @@ sakai.embedcontent = function(tuid, showSettings) {
         sakai.api.Widgets.loadWidgetData(tuid, function(success, data) {
             if (success) {
                 widgetData = data;
-            }
-
-            if ($.isFunction(callback)) {
-                callback();
+                var items = data.items,
+                    newItems = [],
+                    count = 0;
+                // get the item profile data
+                for (var i=0, j=items.length; i<j; i++) {
+                    if (items[i].notfound) {
+                        debug.log(items[i]);
+                        newItems[i] = {type:"notfound"};
+                        debug.log(newItems);
+                        count++;
+                        if (count === items.length) {
+                            widgetData.items = newItems;
+                            if ($.isFunction(callback)) {
+                                callback();
+                            }
+                        }
+                    } else {
+                        (function(idx) {
+                            $.ajax({
+                                url: sakai.config.SakaiDomain + items[idx] + ".2.json",
+                                success: function(data) {
+                                    var newItem = createDataObject(data);
+                                    newItems[idx] = newItem;
+                                },
+                                error: function(data) {
+                                    newItems[idx] = {type:"notfound"};
+                                },
+                                complete: function() {
+                                    count++;
+                                    debug.log(newItems, count, items.length);
+                                    if (count === items.length) {
+                                        widgetData.items = newItems;
+                                        if ($.isFunction(callback)) {
+                                            callback();
+                                        }
+                                    }
+                                }
+                            });
+                        })(i);
+                    }
+                }
+                firstLoad = false;
+            } else {
+                if ($.isFunction(callback)) {
+                    callback();
+                }
             }
         });
     };

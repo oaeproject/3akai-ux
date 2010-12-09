@@ -8,7 +8,7 @@
         <div id="embedcontent_content" class="clearfix"><!-- --></div>
         <div id="embedcontent_content_html_template"><!--
         {if embedmethod === "original"}
-            {var embedClass="embedcontent_large_content"}
+            {var embedClass="embedcontent_large_content clearfix"}
             {var alt="__MSG__LARGE_IMAGE__"}
         {elseif embedmethod ==="thumbnail"}
             {var embedClass="embedcontent_thumbnail_content clearfix"}
@@ -20,22 +20,31 @@
             {if description}<p>${description}</p>{/if}
         {/if}
         {for item in items}
-            <div class="${embedClass} ${layout}">
-                {if item.filetype === "image"}
-                    <img src="${item.link}" alt="${sakai.config.MimeTypes[item.mimetype].description}" />
-                {elseif item.filetype === "video"}
-                    <img border="1" style="display: block; padding: 10px; margin: 4px;" class="widget_inline" id="widget_video_id${item.uId}" src="/devwidgets/video/images/video.png">
-                {elseif sakai.config.MimeTypes[item.mimetype]}
-                    <img src="${sakai.config.MimeTypes[item.mimetype].URL}" alt="${sakai.config.MimeTypes[item.mimetype].description}"/>
-                {else}
-                    <img src="${sakai.config.MimeTypes['other'].URL}" alt="${sakai.config.MimeTypes['other'].description}"/>
-                {/if}
-                <div class="embedcontent_details">
-                    {if name}<span><a href="/dev/content_profile.html#content_path=${item.path}" class="s3d-action embedcontent_include_name">${item.name}</a></span>{/if}
-                    {if details}<span class="embedcontent_include_details">${item.description}</span>{/if}
-                    {if download}<span><a href="${item.link}" class="s3d-action embedcontent_include_download">__MSG__DOWNLOAD__</a></span>{/if}
+            {if item.type === "notfound"}
+                <div class="s3d-highlight_area_background embedcontent_thumbnail_content clearfix ${layout}">
+                    <img src="/dev/images/not_found.png" class="not_found" alt="__MSG__NOT_FOUND__"/>
+                    <div class="embedcontent_details">
+                        <span class="embedcontent_include_details">__MSG__NO_LONGER_AVAILABLE__</span>
+                    </div>
                 </div>
-            </div>
+            {else}
+                <div class="${embedClass} ${layout}">
+                    {if item.filetype === "image"}
+                        <img src="${item.link}" alt="${sakai.config.MimeTypes[item.mimetype].description}" />
+                    {elseif item.filetype === "video"}
+                        <img border="1" style="display: block; padding: 10px; margin: 4px;" class="widget_inline" id="widget_video_id${item.uId}" src="/devwidgets/video/images/video.png">
+                    {elseif sakai.config.MimeTypes[item.mimetype]}
+                        <img src="${sakai.config.MimeTypes[item.mimetype].URL}" alt="${sakai.config.MimeTypes[item.mimetype].description}"/>
+                    {else}
+                        <img src="${sakai.config.MimeTypes['other'].URL}" alt="${sakai.config.MimeTypes['other'].description}"/>
+                    {/if}
+                    <div class="embedcontent_details">
+                        {if name}<span><a href="/dev/content_profile.html#content_path=${item.path}" class="s3d-action embedcontent_include_name">${item.name}</a></span>{/if}
+                        {if details}<span class="embedcontent_include_details">${item.description}</span>{/if}
+                        {if download}<span><a href="${item.link}" class="s3d-action embedcontent_include_download">__MSG__DOWNLOAD__</a></span>{/if}
+                    </div>
+                </div>
+            {/if}
         {/for}
         {if title || description}
             </div>
@@ -82,9 +91,9 @@
                         </div>
                         <div class="embedcontent_footer">
                             <div class="fl-force-right">
-                                <button class="s3d-button embedcontent_dont_add"><span class="s3d-button-inner">__MSG__DONT_ADD__</span></button>
-                                <button class="s3d-button" id="embedcontent_just_add" disabled="disabled"><span class="s3d-button-inner">__MSG__JUST_ADD_CONTENT__</span></button>
-                                <button class="s3d-button s3d-button-primary" id="embedcontent_button_goto_display_settings" disabled="disabled"><span class="s3d-button-inner">__MSG__ADD_CONTENT_AND_SET_DISPLAY_SETTINGS__</span></button>
+                                <button class="s3d-button embedcontent_dont_add"><span class="s3d-button-inner embedcontent_primary_display">__MSG__DONT_ADD__</span><span class="s3d-button-inner embedcontent_alt_display" style="display:none">__MSG__DONT_SAVE__</span></button>
+                                <button class="s3d-button" id="embedcontent_just_add" disabled="disabled"><span class="s3d-button-inner embedcontent_primary_display">__MSG__ADD_SELECTED_CONTENT__</span><span class="s3d-button-inner embedcontent_alt_display" style="display:none">__MSG__SAVE_CHANGES__</span></button>
+                                <button class="s3d-button s3d-button-primary" id="embedcontent_button_goto_display_settings" disabled="disabled"><span class="s3d-button-inner">__MSG__CHOOSE_DISPLAY_SETTINGS__</span></button>
                             </div>
                         </div>
                     </div>
@@ -168,8 +177,8 @@
                             <div class="embedcontent_footer">
                                 <div class="fl-force-right">
                                     <p>__MSG__YOU_CAN_CHANGE__</p>
-                                    <button class="s3d-button embedcontent_dont_add"><span class="s3d-button-inner">__MSG__DONT_ADD__</span></button>
-                                    <button class="s3d-button s3d-button-primary" id="embedcontent_button_add_selected_content" disabled="disabled"><span class="s3d-button-inner">__MSG__ADD_SELECTED_CONTENT__</span></button>
+                                    <button class="s3d-button embedcontent_dont_add"><span class="s3d-button-inner embedcontent_primary_display">__MSG__DONT_ADD__</span><span class="s3d-button-inner embedcontent_alt_display" style="display:none">__MSG__DONT_SAVE__</span></button>
+                                    <button class="s3d-button s3d-button-primary" id="embedcontent_button_add_selected_content" disabled="disabled"><span class="s3d-button-inner embedcontent_primary_display">__MSG__ADD_SELECTED_CONTENT__</span><span class="s3d-button-inner embedcontent_alt_display" style="display:none">__MSG__SAVE_CHANGES__</span></button>
                                 </div>
                             </div>
                         </form>

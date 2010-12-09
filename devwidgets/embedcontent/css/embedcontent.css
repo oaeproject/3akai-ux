@@ -65,6 +65,7 @@
 #embedcontent_content div.embedcontent_large_content div.embedcontent_details span { display:block; }
 
 #embedcontent_content div.embedcontent_thumbnail_content img {height:50px; width:50px;}
+#embedcontent_content div.embedcontent_thumbnail_content img.not_found { width:29px; height:36px; }
 #embedcontent_content div.embedcontent_thumbnail_content img,
 #embedcontent_content div.embedcontent_thumbnail_content div.embedcontent_details { float:left; }
 #embedcontent_content div.embedcontent_thumbnail_content div.embedcontent_details span {display:block; margin-left:10px;}
