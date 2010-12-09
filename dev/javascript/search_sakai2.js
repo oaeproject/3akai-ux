@@ -26,7 +26,7 @@ sakai.search = function() {
     //    Config variables    //
     //////////////////////////
 
-    var resultsToDisplay = 3;
+    var resultsToDisplay = 10;
     var searchterm = "";
     var tagterm = "";
     var currentpage = 0;

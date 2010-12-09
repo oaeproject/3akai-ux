@@ -68,26 +68,13 @@ sakai.mysakai2 = function(tuid){
      * 
      */
     var loadSakai2SiteList = function(){
-       if (sakai.data.me.sakai2List) {
-           doRender(sakai.data.me.sakai2List);
-       }
-       else {
-           // TODO need to get both siteId lists and site list
-           // filter it 
-           $.ajax({
-                // TODO static links need to change once backend is completed
-                url: "/devwidgets/mysakai2/bundles/sites.json",
-                type: "GET",
-                dataType: "json",
-                success: function(data){
-                    sakai.data.me.sakai2List = data;
-                    // Render all the sites.
-                    doRender(sakai.data.me.sakai2List);
-                },
-                error: function(){
-                }
-            });
-        }
+        // get sakai2favouriteList
+        sakai.api.Server.loadJSON("/~" + sakai.data.me.user.userid + "/private/sakai2favouriteList",function(success,data){
+            if(success){
+                sakai.data.me.sakai2List = data;
+                doRender(sakai.data.me.sakai2List);    
+            } 
+        });
     };
 
     ////////////////////

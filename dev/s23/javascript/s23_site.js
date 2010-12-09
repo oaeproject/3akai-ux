@@ -250,7 +250,12 @@ sakai.s23_site = function(){
             }
         });
     };
-
+    
+    var hideNotification = function(){
+        var json = {"sakai2notificaiton":false};
+        sakai.api.Util.notification.removeAll();
+        sakai.api.Server.saveJSON("/~" + sakai.data.me.user.userid+"/private/sakai2notification", json, function(success, data){});
+    }
 
     /////////////////////////////
     // Initialisation function //
@@ -260,12 +265,14 @@ sakai.s23_site = function(){
      * Function that get executed when the DOM is completely loaded
      */
     var init = function(){
-        // show sticky notification 
-        sakai.api.Util.notification.show($(s23GritterNotificationTitle).html(), $(s23GritterNotificationMessage).html(), sakai.api.Util.notification.type.INFORMATION, true);
-
-        $(".s23_gritter_notification_cancel").click(function(ev){
-            sakai.api.Util.notification.removeAll();
+        // show sticky notification
+        sakai.api.Server.loadJSON("/~" + sakai.data.me.user.userid+"/private/sakai2notification", function(success, data){
+            if (!success) {
+                sakai.api.Util.notification.show($(s23GritterNotificationTitle).html(), $(s23GritterNotificationMessage).html(), sakai.api.Util.notification.type.INFORMATION, true);
+                $(".s23_gritter_notification_cancel").click(hideNotification);
+            }
         });
+        
 
         // Check if the query string contains the parameter id
         if (qs.contains("id")) {

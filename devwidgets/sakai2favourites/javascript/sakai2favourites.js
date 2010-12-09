@@ -135,8 +135,11 @@ sakai.sakai2favourites = function(tuid, showSettings){
     var bindEvents = function(){
         $(".sakai2_category_title").click(function(ev){
             if($(".selected_category")){
-                $(".selected_category").removeClass("selected_category");                    
+                $(".selected_category").removeClass("selected_category");
+                $(".selected").removeClass("selected");                    
             }
+
+            $(ev.currentTarget).parent().addClass("selected");
             $(ev.currentTarget).addClass("selected_category");
             var category = ev.currentTarget.id;
             renderSiteList(category);
@@ -167,12 +170,7 @@ sakai.sakai2favourites = function(tuid, showSettings){
             bindEvents();
         });
         
-        $("#sakai2favourites_add_save").click(function(ev){
-            // TODO call backend method to save the data.
-            $(window).trigger("sakai2-favourites-selected");
-            $("#sakai2favourites_container").jqmHide(); 
-        });
-    }
+  }
 
     /**
      *  This function return the list of unique sites.
@@ -270,24 +268,6 @@ sakai.sakai2favourites = function(tuid, showSettings){
     };
 
     /**
-     *  This function get the list of sites selected to display in my sakai2 favourites
-     */
-/*    var getSelectedSiteList = function(){
-        $.ajax({
-            // TODO static links need to change once backend is completed
-            url: "/dev/s23/bundles/sites.json",
-            type : "GET",
-            dataType: "json",
-            success: function(data){
-                sakai.data.me.sakai2List = data;
-            },
-            error: function(){
-            }
-        });
-    };*/
-
-
-    /**
      * Execute this function when the widget get launched
      */
     var doInit = function(){
@@ -295,6 +275,13 @@ sakai.sakai2favourites = function(tuid, showSettings){
         getSiteList();
         // get lists of site selected to display in my sakai2 favourites
         //getSelectedSiteList();
+        
+        $("#sakai2favourites_add_save").click(function(ev){
+            sakai.api.Server.saveJSON("/~" + sakai.data.me.user.userid + "/private/sakai2favouriteList",sakai.data.me.sakai2List, function(success,data){
+                $("#sakai2favourites_container").jqmHide(); 
+                $(window).trigger("sakai2-favourites-selected");    
+            });
+        });
     }
     doInit();
 
