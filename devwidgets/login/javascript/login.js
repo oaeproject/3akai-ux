@@ -79,6 +79,11 @@ sakai.login = function(){
                 }
                 // Set the cursor in the username field
                 $("#" + usernameField).focus();
+                
+                // if 403 or 404 pages show user name and password label.
+                if (window.location.pathname.split("/")[2] === "403.html" || window.location.pathname.split("/")[2] === "404.html") {
+                    $(".login_label").show();
+                }
             } else {
                 // loop through and render each external authentication system
                 $.each(sakai.config.Authentication.external, function(index, value) {
@@ -194,6 +199,7 @@ sakai.login = function(){
 
         // Check whether we are already logged in
         decideLoggedIn();
+        
     };
 
     doInit();
