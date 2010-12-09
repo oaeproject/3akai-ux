@@ -42,7 +42,7 @@ sakai.popularcontent = function(tuid, showSettings) {
 
     var loadData = function(callback){
        $.ajax({
-            url: "/var/search/pool/mostactive.json",
+            url: "/var/search/public/mostactivecontent.json",
             cache: false,
             success: function(data) {
                 contentData = data;

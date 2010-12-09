@@ -42,7 +42,7 @@ sakai.activegroups = function(tuid, showSettings) {
 
     var loadData = function(callback){
        $.ajax({
-            url: "/var/search/groups/mostactive.json",
+            url: "/var/search/public/mostactivegroups.json",
             cache: false,
             success: function(data) {
                 groupData = data;
