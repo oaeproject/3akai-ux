@@ -5,16 +5,19 @@
 <div id="contentmetadata_container" class="s3d-highlight_area_background_darker1">
     <div class='s3d-highlight_area_background_darker1_tl'><div class='s3d-highlight_area_background_darker1_tinner'></div></div>
     <h1>__MSG__DETAILS__</h1>
-    <div id="contentmetadata_description_container">
+    <div id="contentmetadata_description_container" class="contentmetadata_editable">
         <!-- -->
     </div>
-    <div id="contentmetadata_tags_container">
+    <div id="contentmetadata_tags_container" class="contentmetadata_editable">
+        <!-- -->
+    </div>
+    <div id="contentmetadata_copyright_container" class="collapsible_container contentmetadata_editable" style="display:none;">
+        <!-- -->
+    </div>
+    <div id="contentmetadata_locations_container" class="collapsible_container contentmetadata_editable" style="display:none;">
         <!-- -->
     </div>
     <div id="contentmetadata_details_container" class="collapsible_container" style="display:none;">
-        <!-- -->
-    </div>
-    <div id="contentmetadata_locations_container" class="collapsible_container" style="display:none;">
         <!-- -->
     </div>
     <a href="javascript:;" id="contentmetadata_show_more">
@@ -26,23 +29,71 @@
 </div>
 
 <div id="contentmetadata_description_template" style="display:none;"><!--
-    <div class='s3d-highlight_area_background_darker1_white_content_tl'><div class='s3d-highlight_area_background_darker1_white_content_tinner'></div></div>
-        <span id="contentmetadata_description_display" class="s3d-inline-editable-field">{if $.trim(data["sakai:description"]) != ""}${data["sakai:description"]}{else}__MSG__NO_DESCRIPTION__{/if}</span>
-    <div class='s3d-highlight_area_background_darker1_white_content_bl'><div class='s3d-highlight_area_background_darker1_white_content_binner'></div></div>
+    {if mode === "edit"}
+        <input id="contentmetadata_description_description" class="contentmetadata_edit_input" value="${data["sakai:description"]}"/>
+    {else}
+        <div class='s3d-highlight_area_background_darker1_white_content_tl'><div class='s3d-highlight_area_background_darker1_white_content_tinner'></div></div>
+            <span id="contentmetadata_description_display">{if $.trim(data["sakai:description"]) != ""}${data["sakai:description"]}{else}__MSG__NO_DESCRIPTION__{/if}</span>
+        <div class='s3d-highlight_area_background_darker1_white_content_bl'><div class='s3d-highlight_area_background_darker1_white_content_binner'></div></div>
+    {/if}
 --></div>
 
 <div id="contentmetadata_tags_template" style="display:none;"><!--
     <div class='s3d-highlight_area_background_darker1_white_content_tl'><div class='s3d-highlight_area_background_darker1_white_content_tinner'></div></div>
-        <span class="contentmetadata_content_row">
+        {if mode === "edit"}
+            <textarea id="contentmetadata_tags_tags" class="contentmetadata_edit_input">{if typeof data["sakai:tags"] != "undefined"}${data["sakai:tags"]}{/if}</textarea>
+        {else}
             <span class="contentmetadata_first_column">__MSG__TAGS__:</span>
-            <span class="contentmetadata_second_column">
             {if typeof data["sakai:tags"] != "undefined"}
-                {for tag in data["sakai:tags"]}{if tag.split("/")[0] !== "directory"}{if tag_index > 0},{/if} <a href="/dev/search.html#tag=/tags/${tag}" class="s3d-action" title="__MSG__SEARCH_CONTENT_TAGGED_WITH__ '${tag}'"">${tag}</a>{/if}{/for}
+                <span class="contentmetadata_second_column">
+                    {for tag in data["sakai:tags"]}{if tag.split("/")[0] !== "directory"}{if tag_index > 0},{/if} <a href="/dev/search.html#tag=/tags/${tag}" class="s3d-action" title="__MSG__SEARCH_CONTENT_TAGGED_WITH__ '${tag}'"">${tag}</a>{/if}{/for}
+                </span>
             {else}
-                __MSG__NO_TAGS__
+                <span>
+                    __MSG__NO_TAGS__
+                </span>
             {/if}
-            </span>
-        </span>
+        {/if}
+    <div class='s3d-highlight_area_background_darker1_white_content_bl'><div class='s3d-highlight_area_background_darker1_white_content_binner'></div></div>
+--></div>
+
+<div id="contentmetadata_copyright_template" style="display:none;"><!--
+    <div class='s3d-highlight_area_background_darker1_white_content_tl'><div class='s3d-highlight_area_background_darker1_white_content_tinner'></div></div>
+        {if mode === "edit"}
+            <select id="contentmetadata_copyright_copyright"  class="contentmetadata_edit_input">
+                {for copyrightLabel in sakai.config.Permissions.Copyright}
+                    <option {if data["sakai:copyright"] === copyrightLabel_index} selected="selected"{/if} value="${copyrightLabel_index}">${sakai.api.i18n.Widgets.getValueForKey("contentmetadata", sakai.data.me.user.locale.language + "_" + sakai.data.me.user.locale.country, copyrightLabel)}</option>
+                {/for}
+            </select>
+        {else}
+            <span class="contentmetadata_first_column">__MSG__COPYRIGHT__: </span>
+            {for copyrightLabel in sakai.config.Permissions.Copyright}
+                {if data["sakai:copyright"] === copyrightLabel_index}
+                    <label class="content_profile_basic_info_form_anon_label">
+                        ${sakai.api.i18n.Widgets.getValueForKey("contentmetadata", sakai.data.me.user.locale.language + "_" + sakai.data.me.user.locale.country, copyrightLabel)}
+                    </label>
+                {/if}
+            {/for}
+        {/if}
+    <div class='s3d-highlight_area_background_darker1_white_content_bl'><div class='s3d-highlight_area_background_darker1_white_content_binner'></div></div>
+--></div>
+
+<div id="contentmetadata_locations_template" style="display:none;"><!--
+    <div class='s3d-highlight_area_background_darker1_white_content_tl'><div class='s3d-highlight_area_background_darker1_white_content_tinner'></div></div>
+        {if mode === "edit"}
+            
+        {else}
+            <span class="contentmetadata_first_column">__MSG__DIRECTORY_LOCATIONS__:</span>
+            {if saveddirectory.length != 0}
+                <ul>
+                    {for dir in saveddirectory}
+                        <li><a href="/dev/search.html#tag=/tags/directory/${dir.toString().replace(/,/g, '/')}" class="s3d-action threedots_text" title="Search content located at ${dir.toString().replace(/,/g, ' ')}"><span class="ellipsis_text contentmetadata_directory_location">${dir.toString().replace(/,/g, " <span class='content_profile_basic_info_selected_and_saved_seperator'>&raquo;</span> ")}</span></a></li>
+                    {/for}
+                </ul>
+            {else}
+                __MSG__NO_LOCATIONS__
+            {/if}
+        {/if}
     <div class='s3d-highlight_area_background_darker1_white_content_bl'><div class='s3d-highlight_area_background_darker1_white_content_binner'></div></div>
 --></div>
 
@@ -68,27 +119,6 @@
             <span class="contentmetadata_first_column">__MSG__REVISIONS__: </span>
             <span>{if versions.total -1 <= 0}__MSG__NO_REVISIONS__{else}<a href="javascript:;" id="contentmetadata_view_revisions" {if data["jcr:content"]["jcr:mimeType"] === "x-sakai/link"}class="link_revision s3d-action"{else}class="s3d-action"{/if}>${versions.total -1} __MSG__VERSIONS__</a> __MSG__AVAILABLE__{/if}</span>
         </span>
-        <span class="contentmetadata_content_row">
-            <span class="contentmetadata_first_column">__MSG__COPYRIGHT__: </span>
-            {for copyrightLabel in sakai.config.Permissions.Copyright}
-                {if data["sakai:copyright"] === copyrightLabel_index}
-                    <label class="content_profile_basic_info_form_anon_label">
-                        __MSG__CREATIVE_COMMONS_LICENSE__
-                    </label>
-                {/if}
-            {/for}
-        </span>
-    <div class='s3d-highlight_area_background_darker1_white_content_bl'><div class='s3d-highlight_area_background_darker1_white_content_binner'></div></div>
---></div>
-
-<div id="contentmetadata_locations_template" style="display:none;"><!--
-    <div class='s3d-highlight_area_background_darker1_white_content_tl'><div class='s3d-highlight_area_background_darker1_white_content_tinner'></div></div>
-        <span class="contentmetadata_first_column">__MSG__DIRECTORY_LOCATIONS__:</span>
-        <ul>
-        {for dir in saveddirectory}
-            <li><a href="/dev/search.html#tag=/tags/directory/${dir.toString().replace(/,/g, '/')}" class="s3d-action threedots_text" title="Search content located at ${dir.toString().replace(/,/g, ' ')}"><span class="ellipsis_text contentmetadata_directory_location">${dir.toString().replace(/,/g, " <span class='content_profile_basic_info_selected_and_saved_seperator'>&raquo;</span> ")}</span></a></li>
-        {/for}
-        </ul>
     <div class='s3d-highlight_area_background_darker1_white_content_bl'><div class='s3d-highlight_area_background_darker1_white_content_binner'></div></div>
 --></div>
 
