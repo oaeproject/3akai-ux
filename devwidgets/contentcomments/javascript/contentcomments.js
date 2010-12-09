@@ -734,11 +734,11 @@ sakai.contentcomments = function(tuid, showSettings){
     var doInit = function(){
 
         // configure widget placement if on the content profile page
-        if (sakai.content_profile && sakai.content_profile.content_data && sakai.api.Widgets.widgetLoader.widgets[tuid].placement.substr(0,3) !== "/p/"){
+        /*if (sakai.content_profile && sakai.content_profile.content_data && sakai.api.Widgets.widgetLoader.widgets[tuid].placement.substr(0,3) !== "/p/"){
             sakai.api.Widgets.widgetLoader.widgets[tuid].placement = "/p/" + sakai.content_profile.content_data.data["jcr:name"] + "/_widgets/" + sakai.api.Widgets.widgetLoader.widgets[tuid].placement;
         }
 
-        /*widgeturl = sakai.api.Widgets.widgetLoader.widgets[tuid] ? sakai.api.Widgets.widgetLoader.widgets[tuid].placement : false;
+        widgeturl = sakai.api.Widgets.widgetLoader.widgets[tuid] ? sakai.api.Widgets.widgetLoader.widgets[tuid].placement : false;
 
         if (widgeturl) {
             store = widgeturl + "/message";
@@ -767,7 +767,8 @@ sakai.contentcomments = function(tuid, showSettings){
             $(commentsSettingsContainer, rootel).hide();
             $(commentsOutputContainer, rootel).show();
         }
-        getWidgetSettings();
+        //getWidgetSettings();
+        pagerClickHandler(1);
 
         // listen for event if new content profile is loaded
         $(window).unbind("content_profile_hash_change");
