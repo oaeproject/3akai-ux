@@ -634,6 +634,10 @@ sakai.config = {
               url: "http://external.login2.com/",
               description: "This is the description displayed underneath ..."
             }
+        ],
+        "hideLoginOn": [
+            "/dev/index.html",
+            "/dev/create_new_account.html"
         ]
     },
 

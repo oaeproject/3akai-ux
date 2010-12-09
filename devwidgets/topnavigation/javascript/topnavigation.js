@@ -93,6 +93,11 @@ sakai.topnavigation = function(tuid, showSettings){
 
     var userLinkChatStatusClass = ".user_link_chat_status";
 
+    var showLogin = true;
+    if (-1 !== $.inArray(window.location.pathname, sakai.config.Authentication.hideLoginOn)) {
+      showLogin = false;
+    }
+
     ///////////////////////
     // Utility functions //
     ///////////////////////
@@ -410,8 +415,7 @@ sakai.topnavigation = function(tuid, showSettings){
             $("#other_logins_button_container").show();
             $(".log_in").addClass("help_none");
 
-            // if current page is not index.html only then show register and login button
-            if (window.location.pathname.split("/")[2] !== "index.html") {
+            if (showLogin) {
                 // if config.js is set to external, register link is hidden
                 if (!sakai.config.Authentication.internal) {
                     $("#register_button_container").hide();
