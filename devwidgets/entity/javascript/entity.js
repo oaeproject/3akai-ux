@@ -1144,21 +1144,23 @@ sakai.entity = function(tuid, showSettings){
                     }
 
                     // translate the activity message
-                    var messageArray = entityconfig.data.profile.activity.results[j]["sakai:activityMessage"].split(" ");
-                    var translatedMessageArray = entityconfig.data.profile.activity.results[j]["sakai:activityMessage"].split(" ");
+                    if (entityconfig.data.profile.activity.results[j]["sakai:activityMessage"]) {
+                        var messageArray = entityconfig.data.profile.activity.results[j]["sakai:activityMessage"].split(" ");
+                        var translatedMessageArray = entityconfig.data.profile.activity.results[j]["sakai:activityMessage"].split(" ");
 
-                    for (var jjj in messageArray) {
-                        if (messageArray.hasOwnProperty(jjj)) {
-                            var expression = new RegExp("__MSG__(.*?)__", "gm");
-                            if (expression.test(translatedMessageArray[jjj])) {
-                                translatedMessageArray[jjj] = sakai.api.i18n.General.getValueForKey(messageArray[jjj].substr(7, messageArray[jjj].length - 9));
-                                if (translatedMessageArray[jjj] && translatedMessageArray[jjj] !== "false") {
-                                    messageArray[jjj] = translatedMessageArray[jjj];
+                        for (var jjj in messageArray) {
+                            if (messageArray.hasOwnProperty(jjj)) {
+                                var expression = new RegExp("__MSG__(.*?)__", "gm");
+                                if (expression.test(translatedMessageArray[jjj])) {
+                                    translatedMessageArray[jjj] = sakai.api.i18n.General.getValueForKey(messageArray[jjj].substr(7, messageArray[jjj].length - 9));
+                                    if (translatedMessageArray[jjj] && translatedMessageArray[jjj] !== "false") {
+                                        messageArray[jjj] = translatedMessageArray[jjj];
+                                    }
                                 }
                             }
                         }
+                        entityconfig.data.profile.activity.results[j]["sakai:activityMessage"] = messageArray.join(" ");
                     }
-                    entityconfig.data.profile.activity.results[j]["sakai:activityMessage"] = messageArray.join(" ");
                 }
             }
         }

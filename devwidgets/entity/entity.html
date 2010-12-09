@@ -484,9 +484,9 @@
                     </span>
                     <br />
                     <span class="entity_content_activity">
-                        {var activityDate = new Date(i["jcr:created"])}
                         ${i["sakai:activityMessage"]}
-                         - ${sakai.api.Datetime.getTimeAgo(activityDate)} __MSG__AGO__
+                         - ${sakai.api.Datetime.getTimeAgo(sakai.api.l10n.parseDateString(i["jcr:created"]))} __MSG__AGO__
+                         ${i.timeAgo}
                     </span>
                     </li>
                 {/for}

@@ -54,13 +54,13 @@
             </div>
             <div class="comments_topCommentBar">
                 <div class="comments_posterData s3d-regular-light-links">
-                    <span class="comments_posterDataName s3d-regular-light-links"><a href="/~${i.user.uid}">${i.user.fullName}</a></span>
+                    <span class="comments_posterDataName s3d-regular-light-links"><a href="/~${i.user.uid}" target="_blank">${i.user.fullName}</a></span>
                     <span class="comments_dateComment">${i.formatDate}</span>
                 </div>
 
                 <div class="comments_commentMessage">
                     <div class="comments_commentLinks">
-                        <input type="hidden" id="comments_path_${i['sakai:id']}" value="${i['jcr:path']}" />
+                        <input type="hidden" id="comments_path_${i['sakai:id']}" value="${i.commentId}" />
                         <ul>
                             {if i.canEdit && i.canEdit === true}
                                 <span class="dialog_buttons right">
@@ -92,15 +92,15 @@
                     <div id="comments_message_editContainer_${i['sakai:id']}" style="display:none;">
                         <textarea class="comments_txtMessage" id="comments_editComment_txt_${i['sakai:id']}" rows="7" cols="50">${i.messageTxt}</textarea><br />
                         <div class="dialog_buttons right">
-                            <button type="button" class="s3d-button s3d-button-primary comments_editComment_save" id="comments_editComment_save${i['sakai:id']}"><span class="s3d-button-inner">Edit comment</span></button>
-                            <button type="button" class="s3d-button comments_editComment_cancel" id="comments_editComment_cancel${i['sakai:id']}"><span class="s3d-button-inner">Cancel</span></button>
+                            <button type="button" class="s3d-button s3d-button-primary comments_editComment_save" id="comments_editComment_save${i['sakai:id']}"><span class="s3d-button-inner">__MSG__EDIT_COMMENT__</span></button>
+                            <button type="button" class="s3d-button comments_editComment_cancel" id="comments_editComment_cancel${i['sakai:id']}"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         {forelse}
-            <div class="comments_noComments">There are no comments as of yet.</div>
+            <div class="comments_noComments">__MSG__THERE_ARE_NO_COMMENTS__</div>
         {/for}
     </div>
 
