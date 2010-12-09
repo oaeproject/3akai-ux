@@ -16,14 +16,25 @@
  * specific language governing permissions and limitations under the License.
  */
 
-#contentmetadata_description_container, #contentmetadata_tags_container, #contentmetadata_details_container, #contentmetadata_locations_container {padding: 0 10px;; background-color:#FFF; margin-bottom: 10px; width: 520px; float:right; font-weight:bold;}
+#contentmetadata_description_container, #contentmetadata_tags_container, #contentmetadata_details_container, #contentmetadata_locations_container, #contentmetadata_copyright_container {padding: 0 10px;; background-color:#FFF; margin-bottom: 10px; width: 520px; float:right; font-weight:bold;}
 #contentmetadata_container h1 {color: #555555; font-size: 1.2em; font-weight: normal; float:left; margin:5px 0 0;}
 #contentmetadata_show_more {float:right; clear:both;}
 #contentmetadata_see_more {background: url("/dev/images/arrow_down_sm2.png") no-repeat scroll right 6px transparent; padding-right: 16px;}
 #contentmetadata_see_less {background: url("/dev/images/arrow_up_sm2.png") no-repeat scroll right 6px transparent; padding-right: 16px;}
 .contentmetadata_first_column {display: block; float: left; width: 150px; font-weight:normal;}
-.contentmetadata_content_row {clear: both; float: left; margin-bottom: 5px;}
+.contentmetadata_content_row {clear: both; float: left;}
 .contentmetadata_second_column {display:block; overflow:hidden;}
+
+/* EDITABLE FIELDS */
+.contentmetadata_editable {padding:5px;}
+.contentmetadata_editable:hover {background-color:#fcecb2 !important; cursor:pointer;}
+.contentmetadata_editable:hover .s3d-highlight_area_background_darker1_white_content_tl {background: url("/dev/images/highlight_area_background_darker1_white_content_editable_tl.png") no-repeat scroll left 0 transparent;}
+.contentmetadata_editable:hover .s3d-highlight_area_background_darker1_white_content_tinner {background: url("/dev/images/highlight_area_background_darker1_white_content_editable_tr.png") no-repeat scroll right 0 transparent;}
+.contentmetadata_editable:hover .s3d-highlight_area_background_darker1_white_content_bl {background: url("/dev/images/highlight_area_background_darker1_white_content_editable_bl.png") no-repeat scroll left 0 transparent;}
+.contentmetadata_editable:hover .s3d-highlight_area_background_darker1_white_content_binner {background: url("/dev/images/highlight_area_background_darker1_white_content_editable_br.png") no-repeat scroll right 0 transparent;}
+.contentmetadata_edit_input {width:100%; margin: 7px 0;}
+
+
 #contentmetadata_container ul { margin: 0; overflow: hidden;}
 #contentmetadata_container ul li {list-style: none outside none;}
 #contentmetadata_container {word-wrap: break-word;}
