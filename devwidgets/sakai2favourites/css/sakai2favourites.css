@@ -17,14 +17,16 @@
  */
 
 /* Global */
-.sakai2favourites_site_list { background-color:#FFF; width:230px; border:1px solid #999999; height:350px;}
-.sakai2_site_title input {margin-right:5px;}
+.sakai2favourites_site_list { background-color:#FFF; width:230px; border:1px solid #999999; height:350px; max-height:350px;}
+.sakai2_site_title input {margin-right:5px; padding:0px;}
 .dialog_buttons {text-align:right;}
+.sakai2_selected_site_title {background : url("/dev/images/close_dialog.png") no-repeat; padding-left:20px;margin-top:12px;}
+.sakai2_selected_site_title:hover {background : url("/dev/images/close_icon.png") no-repeat; padding-left:20px;margin-top:12px;}
+.selected { background-color : #CAE1FF;}
 #sakai2favourites_sub_container { height:370px; }
-#sakai2favourites_container {width:770px; }
-#sakai2_category_list ul li{ list-style:none; }
+#sakai2favourites_container {width:770px;left:40% !important; }
+#sakai2_category_list ul{ margin:0px; }
+#sakai2_category_list ul li{ list-style:none; margin:0px; }
 #sakai2_site_list ul {margin:0px; padding:0px;}
-#sakai2_site_list ul li{ list-style:none; margin:0px;padding:10px;}
-#sakai2favourites_selected_site_list ul li { list-style-image: url("/dev/images/close_dialog.png");}
-#sakai2favourites_selected_site_list ul li:hover { list-style-image: url("/dev/images/close_icon.png");padding:0px;}
-
+#sakai2_site_list ul li{ list-style:none; margin:0px;padding:0px;}
+#sakai2favourites_selected_site_list ul li { list-style:none; }
