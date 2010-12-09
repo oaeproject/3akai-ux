@@ -234,7 +234,7 @@ sakai.content_profile = function(){
                     ready_event_fired++;
                 });
             }
-            //
+            // The request was successful so initialise the relatedcontent widget
             if (sakai.contentpreview && sakai.contentpreview.isReady) {
                 $(window).trigger("sakai.contentpreview.start");
             }
@@ -244,6 +244,17 @@ sakai.content_profile = function(){
                     ready_event_fired++;
                 });
             }
+            // The request was successful so initialise the metadata widget
+            if (sakai.contentmetadata && sakai.contentmetadata.isReady) {
+                sakai.api.UI.contentmetadata.render();
+            }
+            else {
+                $(window).bind("sakai.contentmetadata.ready", function(e){
+                    $(window).trigger("sakai.contentmetadata.start");
+                    ready_event_fired++;
+                });
+            }
+
 
             sakai.api.Security.showPage();
 
