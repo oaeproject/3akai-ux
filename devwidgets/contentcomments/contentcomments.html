@@ -5,13 +5,9 @@
 <div id="comments_mainContainer" class="fl-widget-content s3d-widget-content" style="display:none;">
     <div id="comments_titlebar">
         <span class="comments_titleLeft">__MSG__COMMENTS__</span><!--<span class="comments_titleRight">__MSG__DISPLAYING__ <span id="comments_numCommentsDisplayed"></span> __MSG__OUT_OF__ <span id="comments_numComments" >0</span id="comments_commentscomment"> __MSG__COMMENTS__</span>-->
-
-        <div class="comments_titleRight">
-            <button type="button" class="s3d-button s3d-button-primary comments_comment" id="comments_comment_Bottom"><span class="s3d-button-inner">__MSG__ADD_COMMENT__</span></button>
-        </div>
     </div>
 
-    <div id="comments_userCommentContainer" style="display:none;">
+    <div id="comments_userCommentContainer">
         <div id="comments_userProfileAvatar">
             <img id="comments_userProfileAvatarPicture" alt="__MSG__AVATAR__" class="comments_avatar" src="/dev/images/default_profile_picture_64.png" />
         </div>
@@ -30,7 +26,7 @@
                 </div>
                 <textarea id="comments_txtMessage" class="comments_inputFields" rows="2" cols="20"></textarea>
                 <div class="dialog_buttons right">
-                    <button type="button" class="s3d-button s3d-button-primary comment_postCommentTopBottom" id="comments_postComment"><span class="s3d-button-inner">__MSG__COMMENT__</span></button>
+                    <button type="button" class="s3d-button s3d-button-link-2-state comment_postCommentTopBottom" id="comments_postComment"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__COMMENT__</span></button>
                 </div>
             </div>
         </div>
@@ -64,15 +60,15 @@
                         <ul>
                             {if i.canEdit && i.canEdit === true}
                                 <span class="dialog_buttons right">
-                                    <li><button type="button" class="s3d-button s3d-button-primary comments_edit" id="comments_edit_${i['sakai:id']}"><span class="s3d-button-inner">__MSG__EDIT__</span></button></li>
+                                    <li><button type="button" class="s3d-button s3d-button-link-2-state comments_edit" id="comments_edit_${i['sakai:id']}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__EDIT__</span></button></li>
                                 </span>
                             {/if}
                             {if i.canDelete && i.canDelete === true}
                                 <span class="dialog_buttons right">
                                     {if i["sakai:deleted"] && i["sakai:deleted"] === true}
-                                        <li><button type="button" class="s3d-button s3d-button-primary comments_undelete" id="comments_undelete${i['sakai:id']}"><span class="s3d-button-inner">__MSG__UNDELETE__</span></button></li>
+                                        <li><button type="button" class="s3d-button s3d-button-link-2-state comments_undelete" id="comments_undelete${i['sakai:id']}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__UNDELETE__</span></button></li>
                                     {else}
-                                        <li><button type="button" class="s3d-button s3d-button-primary comments_delete" id="comments_delete${i['sakai:id']}"><span class="s3d-button-inner">__MSG__DELETE__</span></button></li>
+                                        <li><button type="button" class="s3d-button s3d-button-link-2-state comments_delete" id="comments_delete${i['sakai:id']}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__DELETE__</span></button></li>
                                     {/if}
                                 </span>
                             {/if}
