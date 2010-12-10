@@ -21,8 +21,8 @@
 #contentmetadata_show_more {float:right; clear:both;}
 #contentmetadata_see_more {background: url("/dev/images/arrow_down_sm2.png") no-repeat scroll right 6px transparent; padding-right: 16px;}
 #contentmetadata_see_less {background: url("/dev/images/arrow_up_sm2.png") no-repeat scroll right 6px transparent; padding-right: 16px;}
-.contentmetadata_first_column {display: block; float: left; width: 150px; font-weight:normal;}
-.contentmetadata_content_row {clear: both; float: left;}
+.contentmetadata_first_column {display: block; float: left; width: 150px; font-weight:normal; margin-bottom:3px;}
+.contentmetadata_content_row {clear:both; float:left;}
 .contentmetadata_second_column {display:block; overflow:hidden;}
 
 /* EDITABLE FIELDS */
@@ -42,6 +42,11 @@
 /* DIRECTORY */
 #contentmetadata_locations_dialog {width:750px; margin-left: -370px;}
 .contentmetadata_added_directory {clear:both;}
-.contentmetadata_location_content {float:left; margin-bottom: 7px;}
-.contentmetadata_select_seperator {float:left; padding:0 10px;}
+.contentmetadata_location_content {float:left; margin:7px 0 0;}
+.contentmetadata_saved_seperator, .contentmetadata_select_seperator {padding:0 10px;}
+.contentmetadata_saved_seperator {float:left; margin-top: 7px;}
 #contentmetadata_locations_add_another{clear:both; float:left;}
+.contentmetadata_locations_dialog_actions {float:right;}
+.contentmetadata_locations_link {margin-bottom: 3px;}
+.contentmetadata_remove_location {float:right; margin-right:10px; height:16px;}
+.contentmetadata_remove_new_location {float: right; margin-right: 10px; margin-top: 9px;}

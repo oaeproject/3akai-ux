@@ -28,6 +28,30 @@ sakai.content_profile = function(){
     var ready_event_fired = 0;
     var list_event_fired = false;
 
+    sakai.content_profile.parseDirectoryTags = function(contentInfo){
+        if ((typeof(contentInfo["sakai:tags"]) !== "object") && contentInfo["sakai:tags"]) {
+            contentInfo["sakai:tags"] = [contentInfo["sakai:tags"]];
+        }
+        var saveddirectory = [];
+        currentTags = contentInfo["sakai:tags"];
+        $(currentTags).each(function(i){
+            var splitDir = currentTags[i].split("/");
+            if (splitDir[0] === "directory") {
+                var item = [];
+                for (var j in splitDir) {
+                    if (splitDir.hasOwnProperty(j)) {
+                        if (splitDir[j] !== "directory") {
+                            item.push(splitDir[j]);
+                        }
+                    }
+                }
+                saveddirectory.push(item);
+            }
+        });
+
+        return saveddirectory;
+    }
+
     /**
      * Load the content profile for the current content path
      */
@@ -141,7 +165,7 @@ sakai.content_profile = function(){
                     if (!sakai.data.me.user.anon){
                         for (var i in contentMembers.managers) {
                             if (contentMembers.managers[i].userid === sakai.data.me.user.userid) {
-                            	manager = true;
+                                manager = true;
                             }
                         }
                     }
@@ -149,24 +173,7 @@ sakai.content_profile = function(){
                     var directory = [];
                     // When only one tag is put in this will not be an array but a string
                     // We need an array to parse and display the results
-                    if ((typeof(contentInfo["sakai:tags"]) !== "object") && contentInfo["sakai:tags"]){
-                        contentInfo["sakai:tags"] = [contentInfo["sakai:tags"]];
-                    }
-                    currentTags = contentInfo["sakai:tags"];
-                    $(contentInfo["sakai:tags"]).each(function(i){
-                        var splitDir = contentInfo["sakai:tags"][i].split("/");
-                        if (splitDir[0] === "directory") {
-                            var item = [];
-                            for (var j in splitDir) {
-                                if (splitDir.hasOwnProperty(j)) {
-                                    if (splitDir[j] !== "directory") {
-                                        item.push(splitDir[j]);
-                                    }
-                                }
-                            }
-                            directory.push(item);
-                        }
-                    });
+                    directory = sakai.content_profile.parseDirectoryTags(contentInfo);
 
                     var fullPath = content_path; // + "/" + contentInfo["sakai:pooled-content-file-name"];
                     //if (contentInfo["sakai:pooled-content-file-name"].substring(contentInfo["sakai:pooled-content-file-name"].lastIndexOf("."), contentInfo["sakai:pooled-content-file-name"].length) !== contentInfo["sakai:fileextension"]) {

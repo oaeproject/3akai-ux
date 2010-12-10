@@ -69,6 +69,9 @@ sakai.contentmetadata = function(tuid,showSettings){
     var contentmetadataLocationLvlOne = ".contentmetadata_location_directory_lvlone";
     var contentmetadataLocationLvlTwo = ".contentmetadata_location_directory_lvltwo";
     var contentmetadataLocationLvlThree = ".contentmetadata_location_directory_lvlthree";
+    var $contentmetadataLocationsDialogUpdate = $("#contentmetadata_locations_dialog_update");
+    var contentmetadataRemoveLocation = ".contentmetadata_remove_location";
+    var contentmetadataRemoveNewLocation = ".contentmetadata_remove_new_location";
 
     // See more
     var $contentmetadataShowMore = $("#contentmetadata_show_more");
@@ -175,6 +178,95 @@ sakai.contentmetadata = function(tuid,showSettings){
         }
     };
 
+    var updateDirectory = function(){
+        if(sakai.content_profile.content_data.data["sakai:tags"] == undefined){
+            sakai.content_profile.content_data.data["sakai:tags"] = []
+        }
+        var originalTags = sakai.content_profile.content_data.data["sakai:tags"].slice(0);
+
+        // Create tags for the directory structure
+        // For every content_profile_basic_info_added_directory we create tags
+        // Filter out ',' since that causes unwanted behavior when rendering
+        $(".contentmetadata_added_directory").each(function(){
+            if ($(this).find(contentmetadataLocationLvlOne).selected().val() !== "no_value" && $(this).find(contentmetadataLocationLvlOne).selected().val() !== undefined) {
+                var directoryString = "directory/";
+                if ($.inArray($(this).find(contentmetadataLocationLvlOne).selected().val().replace(/,/g, ""), sakai.content_profile.content_data.data["sakai:tags"]) < 0) {
+                    sakai.content_profile.content_data.data["sakai:tags"].push($(this).find(contentmetadataLocationLvlOne).selected().val().replace(/,/g, ""));
+                }
+                directoryString += $(this).find(contentmetadataLocationLvlOne).selected().val().replace(/,/g, "");
+
+                if ($(this).find(contentmetadataLocationLvlTwo).selected().val() !== "no_value" && $(this).find(contentmetadataLocationLvlTwo).selected().val() !== undefined) {
+                    if ($.inArray($(this).find(contentmetadataLocationLvlTwo).selected().val().replace(/,/g, ""), sakai.content_profile.content_data.data["sakai:tags"]) < 0) {
+                        sakai.content_profile.content_data.data["sakai:tags"].push($(this).find(contentmetadataLocationLvlTwo).selected().val().replace(/,/g, ""));
+                    }
+                    directoryString += "/" + $(this).find(contentmetadataLocationLvlTwo).selected().val().replace(/,/g, "");
+
+                    if ($(this).find(contentmetadataLocationLvlThree).selected().val() !== "no_value" && $(this).find(contentmetadataLocationLvlThree).selected().val() !== undefined) {
+                        if ($.inArray($(this).find(contentmetadataLocationLvlThree).selected().val().replace(/,/g, ""), sakai.content_profile.content_data.data["sakai:tags"]) < 0) {
+                            sakai.content_profile.content_data.data["sakai:tags"].push($(this).find(contentmetadataLocationLvlThree).selected().val().replace(/,/g, ""));
+                        }
+                        directoryString += "/" + $(this).find(contentmetadataLocationLvlThree).selected().val().replace(/,/g, "");
+                    }
+                    
+                }
+
+                // Add string for all levels to tag array
+                if ($.inArray(directoryString, sakai.content_profile.content_data.data["sakai:tags"]) < 0) {
+                    sakai.content_profile.content_data.data["sakai:tags"].push(directoryString);
+                }
+            }
+        });
+        
+        sakai.api.Util.tagEntity("/p/" + sakai.content_profile.content_data.data["jcr:name"], sakai.content_profile.content_data.data["sakai:tags"], originalTags, function(){
+            sakai.content_profile.saveddirectory = sakai.content_profile.parseDirectoryTags(sakai.content_profile.content_data.data);
+            $contentmetadataLocationsDialog.jqmHide();
+            renderLocations(false);
+        });
+    };
+
+    var changedLvlOne = function(el){
+        $(el).parent().children(contentmetadataLocationsThirdLevelTemplateContainer).html("");
+        $(el).children("option[value='no_value']").remove();
+        updateDirectoryDisplay(contentmetadataLocationLvlTwo, $($(el).parent()).children(contentmetadataLocationLvlOne), $($(el).parent()).children(contentmetadataLocationLvlOne));
+    };
+
+    var changedLvlTwo = function(el){
+        $(el).children("option[value='no_value']").remove();
+        updateDirectoryDisplay(contentmetadataLocationLvlThree, $($(el).parent()).children(contentmetadataLocationLvlTwo), $($(el).parent().parent()).children(contentmetadataLocationLvlOne));
+    };
+
+    var changedLvlThree = function(el){
+        $(el).children("option[value='no_value']").remove();
+    };
+
+    var removeDirectoryLocation = function(clickedParent){
+        // Get current tags up to date
+        currentTags = sakai.content_profile.content_data.data["sakai:tags"];
+        // Extract tags from clickedParent
+        var tags = [];
+        tags = clickedParent[0].id.split(",");
+        tags.push("directory/" + tags.toString().replace(/,/g,"/"));
+
+        var tagsAfterDeletion = currentTags.slice(0);
+        for (var tag in tags){
+            if($.inArray(tags[tag],tagsAfterDeletion) > -1){
+                tagsAfterDeletion.splice($.inArray(tags[tag],tagsAfterDeletion), 1);
+            }
+            for (dir in sakai.content_profile.content_data.saveddirectory) {
+                if ($.inArray(tags[tag], sakai.content_profile.content_data.saveddirectory[dir]) > -1) {
+                    sakai.content_profile.content_data.saveddirectory[dir].splice(tags[tag], 1);
+                }
+            }
+        }
+
+        clickedParent.remove();
+
+        sakai.api.Util.tagEntity("/p/" + sakai.content_profile.content_data.data["jcr:name"], tagsAfterDeletion, currentTags, function(){
+            sakai.content_profile.content_data.data["sakai:tags"] = tagsAfterDeletion;
+            renderLocations(false);
+        });
+    };
+
     var renderLocationsEdit = function(){
         $contentmetadataLocationsDialog.jqmShow();
 
@@ -195,19 +287,28 @@ sakai.contentmetadata = function(tuid,showSettings){
             }
 
         $(contentmetadataLocationLvlOne).live("change", function(){
-            $(this).parent().children(contentmetadataLocationsThirdLevelTemplateContainer).html("");
-            $(this).children("option[value='no_value']").remove();
-            updateDirectoryDisplay(contentmetadataLocationLvlTwo, $($(this).parent()).children(contentmetadataLocationLvlOne), $($(this).parent()).children(contentmetadataLocationLvlOne));
+            changedLvlOne(this);
         });
 
         $(contentmetadataLocationLvlTwo).live("change", function(){
-            $(this).children("option[value='no_value']").remove();
-            updateDirectoryDisplay(contentmetadataLocationLvlThree, $($(this).parent()).children(contentmetadataLocationLvlTwo), $($(this).parent().parent()).children(contentmetadataLocationLvlOne));
+            changedLvlTwo(this);
         });
 
         $(contentmetadataLocationLvlThree).live("change", function(){
-            $(this).children("option[value='no_value']").remove();
+            changedLvlThree(this);
         });
+
+        $contentmetadataLocationsDialogUpdate.bind("click", function(){
+            updateDirectory();
+        });
+
+        $(contentmetadataRemoveLocation).live("click", function(){
+            removeDirectoryLocation($(this).parent());
+        })
+
+        $(contentmetadataRemoveNewLocation).live("click", function(){
+            $(this).parent().remove();
+        })
 
         $contentmetadataLocationsDialogContainer.html($.TemplateRenderer(contentmetadataLocationsDialogTemplate, sakai.content_profile.content_data));
     };
@@ -221,9 +322,9 @@ sakai.contentmetadata = function(tuid,showSettings){
             renderLocationsEdit();
         }
         else {
+            $contentmetadataLocationsContainer.html("");
             sakai.content_profile.content_data.mode = mode;
             $contentmetadataLocationsContainer.html($.TemplateRenderer(contentmetadataLocationsTemplate, sakai.content_profile.content_data));
-            addEditBinding(mode);
         }
     };
 
@@ -266,6 +367,7 @@ sakai.contentmetadata = function(tuid,showSettings){
     };
 
     var addAnotherLocation = function(){
+        $("#contentmetadata_no_locations").remove();
         var directory = getDirectoryStructure();
         var renderedTemplate = $.TemplateRenderer(contentmetadataLocationFirstLevelTemplate, directory);
         var renderedDiv = $(document.createElement("div"));
@@ -402,9 +504,8 @@ sakai.contentmetadata = function(tuid,showSettings){
             sakai.filerevisions.initialise(sakai.content_profile.content_data)
         });
 
-        $contentmetadataLocationsAddAnother.bind("click", function(){
-            addAnotherLocation();
-        });
+        $contentmetadataLocationsAddAnother.unbind("click", addAnotherLocation);
+        $contentmetadataLocationsAddAnother.bind("click", addAnotherLocation);
     };
 
     /**
