@@ -37,6 +37,6 @@ label {color:#888; font-weight: bold; font-size: 1em;}
 .login-external-description {color: #999999;}
 
 /* Register here */
-#register_here {color: #454a4e; font-size: 0.95em; clear: both;}
-#register_here a {font-weight: bold;}
+#register_here {color: #fefefe; font-size: 0.95em; clear: both;}
+#register_here a {font-weight: bold; color: #c1e5fb}
 .block { display:block;}

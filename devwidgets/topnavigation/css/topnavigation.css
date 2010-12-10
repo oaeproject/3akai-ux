@@ -34,6 +34,7 @@
 .explore_nav .explore li span { height:16px; color:#fff; padding: 8px 20px; text-align: center; display: block; float: left; font-weight: bold;}
 #topnavigation_mail_icon {background:url("/dev/images/mail_icon.png") no-repeat scroll 4px 3px transparent; float:left; height:14px; width:18px;}
 
+.explore-bg {height: 110px; background-color: #868b91; position:fixed; top: 32px; left: 0; right:0; z-index: -1;}
 
 /* Selected Nav element */
 .explore_nav .explore .explore_nav_selected { padding-bottom:12px; }

@@ -104,13 +104,21 @@ sakai.login = function(){
         }
     };
 
+    /*
+     * FIXME it would be nice if we could switch out css files here instead of
+     * inlining all this css
+     */
     var reLayout = function(event, horizontal) {
        if (horizontal) {
            $(".login_label").hide();
            $(".login-container").css("margin-top", "-25px");
+           $("#register_here").css("color", "#fefefe");
+           $("#register_here a").css("color", "#c1e5fb");
        } else {
            $(".login_label").show();
            $(".login-container").css("margin-top", "25px");
+           $("#register_here").css("color", "#454a4e");
+           $("#register_here a").css("color", "#006E96");
        }
     }
 

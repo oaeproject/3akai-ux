@@ -411,6 +411,11 @@ sakai.topnavigation = function(tuid, showSettings){
         if (sakai.config.anonAllowed){
             $(exploreNavigationContainer).show();
 
+            var indexPaths = ["/dev", "/dev/index.html"];
+            if (-1 !== $.inArray(window.location.pathname.replace(/\/$/,""), indexPaths)) {
+                $(".explore-bg").show();
+            }
+
             // Show anonymous elements
             $("#other_logins_button_container").show();
             $(".log_in").addClass("help_none");
