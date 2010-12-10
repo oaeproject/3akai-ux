@@ -1,5 +1,6 @@
 {
     "principal":"admin",
+    "display" : 2,
     "sites":
     [
         {
