@@ -317,6 +317,7 @@ sakai.fileupload = function(tuid, showSettings){
         $fileUploadPermissionsSelect = $("#fileupload_permissions_select", $rootel);
         $cancelButton = $(".fileupload_close", $rootel);
         $fileUploadUpdateSubmit = $("#fileupload_update_submit", $rootel);
+        $multiFileList = $(".MultiFile-list", $rootel);
     };
 
     /**
@@ -707,7 +708,7 @@ sakai.fileupload = function(tuid, showSettings){
                 else {
                     // Files uploaded
                     filesUploaded = true;
-
+                    $multiFileList = $($multiFileList.selector);
                     // Get the values out of the name boxes
                     $multiFileList.find("input").each(function(index){
                         for (var i in extractedData){
@@ -808,22 +809,18 @@ sakai.fileupload = function(tuid, showSettings){
 
     /** FORM VALIDATION **/
     $("#fileupload_link_box form").validate({
-        onkeyup: false
-    });
-    $fileUploadLinkBoxInput.rules("add", {
-        required: true,
-        url: true,
+        onkeyup: false,
         messages: {
             url: $("#fileupload_enter_valid_url").html()
         }
     });
-    $("#fileupload_link_box form").bind("submit",function(e){
 
+    $("#fileupload_link_box form").bind("submit",function(e){
         $("#fileupload_link_submit").attr("disabled","disabled");
         $fileUploadAddLinkButton.attr("disabled", "disabled");
-        $fileUploadLinkBoxInput.attr("disabled", "disabled");
 
-        if ($fileUploadLinkBoxInput.valid() && !performedSubmit) {
+        if ($("#fileupload_link_box form").valid() && !performedSubmit) {
+            $fileUploadLinkBoxInput.attr("disabled", "disabled");
             performedSubmit = true;
             if (context !== "new_version") {
                 uploadLink();
