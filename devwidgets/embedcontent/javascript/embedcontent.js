@@ -274,20 +274,20 @@ sakai.embedcontent = function(tuid, showSettings) {
         }
         if (widgetData.layout !== "single") {
             $embedcontent_display_form.find("img.selected").removeClass('selected');
-            $embedcontent_display_form.
-                find("input[name='layout'][value='" + widgetData.layout + "']").
-                siblings("img").
-                addClass('selected');
-            $embedcontent_display_form.
-                find("input[name='layout'][value='" + widgetData.layout + "']").
-                attr("checked", true);
+            $embedcontent_display_form
+                .find("input[name='layout'][value='" + widgetData.layout + "']")
+                .siblings("img")
+                .addClass('selected');
+            $embedcontent_display_form
+                .find("input[name='layout'][value='" + widgetData.layout + "']")
+                .attr("checked", true);
         }
-        $embedcontent_display_form.
-            find("input[name='style'][value='" + widgetData.embedmethod + "']").
-            parent("div").
-            siblings("div").
-            children("img").
-            addClass('selected');
+        $embedcontent_display_form
+            .find("input[name='style'][value='" + widgetData.embedmethod + "']")
+            .parent("div")
+            .siblings("div")
+            .children("img")
+            .addClass('selected');
         $embedcontent_display_form.find("input[name='style'][value='" + widgetData.embedmethod + "']").attr("checked", true);
         var checkboxes = ["name", "download", "details"];
         $.each(checkboxes, function(i,val) {
@@ -455,49 +455,53 @@ sakai.embedcontent = function(tuid, showSettings) {
         });
     };
 
+    var newItems = [];
+    var processWidget = function(item, items) {
+        var ret = false;
+        if (item.notfound) {
+            newItems.push({type:"notfound"});
+            if (newItems.length === items.length) {
+                widgetData.items = newItems;
+                ret = true;
+            }
+        } else {
+           $.ajax({
+                url: sakai.config.SakaiDomain + item + ".2.json",
+                // we have to wait for them all to return anyway, so
+                // no need to make them async calls
+                async:false,
+                success: function(data) {
+                    var newItem = createDataObject(data);
+                    newItems.push(newItem);
+                },
+                error: function(data) {
+                    newItems.push({type:"notfound"});
+                },
+                complete: function() {
+                    if (newItems.length === items.length) {
+                        widgetData.items = newItems;
+                        ret = true;
+                    }
+                }
+            });
+        }
+        return ret;
+    };
+
     var getWidgetData = function(callback) {
         sakai.api.Widgets.loadWidgetData(tuid, function(success, data) {
             if (success) {
                 widgetData = data;
-                var items = data.items,
-                    newItems = [],
-                    count = 0;
+                firstLoad = false;
+                newItems = [];
                 // get the item profile data
-                for (var i=0, j=items.length; i<j; i++) {
-                    if (items[i].notfound) {
-                        newItems[i] = {type:"notfound"};
-                        count++;
-                        if (count === items.length) {
-                            widgetData.items = newItems;
-                            if ($.isFunction(callback)) {
-                                callback();
-                            }
+                for (var i=0, j=data.items.length; i<j; i++) {
+                    if (processWidget(data.items[i], data.items)) {
+                        if ($.isFunction(callback)) {
+                            callback();
                         }
-                    } else {
-                        (function(idx) {
-                            $.ajax({
-                                url: sakai.config.SakaiDomain + items[idx] + ".2.json",
-                                success: function(data) {
-                                    var newItem = createDataObject(data);
-                                    newItems[idx] = newItem;
-                                },
-                                error: function(data) {
-                                    newItems[idx] = {type:"notfound"};
-                                },
-                                complete: function() {
-                                    count++;
-                                    if (count === items.length) {
-                                        widgetData.items = newItems;
-                                        if ($.isFunction(callback)) {
-                                            callback();
-                                        }
-                                    }
-                                }
-                            });
-                        })(i);
                     }
                 }
-                firstLoad = false;
             } else {
                 if ($.isFunction(callback)) {
                     callback();
