@@ -11,6 +11,6 @@
 
 .help_content, .help_footer {width:500px; float:right; display:inline;}
 .help_content h2 { border-bottom:1px solid black; margin:0px 0px 10px 0px; padding-bottom:5px;}
-.help_content img {float:right; margin-left:50px;}
+.help_content img {float:right; margin:0px 0px 10px 10px; border:1px solid #666;}
 
 .help_footer {text-align:right;}
