@@ -104,6 +104,7 @@
     line-height: 140%;
     padding: 2px 0 5px 0;
     font-size: .95em;
+    word-wrap: break-word;
 }
 .content_container .new_page_path {
     line-height: 3em;

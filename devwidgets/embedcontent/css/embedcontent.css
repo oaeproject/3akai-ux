@@ -1,3 +1,5 @@
+.inline_class_widget_leftfloat #embedcontent_main_container { margin-right:10px; }
+.inline_class_widget_rightfloat #embedcontent_main_container { margin-left:10px; }
 #embedcontent_header h2 {margin:0;}
 #embedcontent_header {margin-bottom:10px;}
 .embedcontent_footer {height:20px; margin-top:20px; width:100%;}

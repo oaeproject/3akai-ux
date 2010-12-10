@@ -1114,7 +1114,7 @@ sakai.sitespages = function(tuid,showSettings){
         $context_menu.hide();
         var selected = ed.selection.getNode();
         if (selected && selected.nodeName.toLowerCase() === "img") {
-            if (selected.getAttribute("class") === "widget_inline"){
+            if ($(selected).hasClass("widget_inline")){
                 $context_settings.show();
             } else {
                 $context_settings.hide();
@@ -1671,11 +1671,12 @@ sakai.sitespages = function(tuid,showSettings){
 
 
     // Bind Widget Context Settings click event
-    $("#context_settings").bind("mousedown", function(ev){
+    $("#context_settings").bind("click", function(ev){
+        debug.log("click");
         var ed = tinyMCE.get('elm1');
         var selected = ed.selection.getNode();
         $("#dialog_content").hide();
-        if (selected && selected.nodeName.toLowerCase() === "img" && selected.getAttribute("class") === "widget_inline") {
+        if (selected && selected.nodeName.toLowerCase() === "img" && $(selected).hasClass("widget_inline")) {
             sakai.sitespages.updatingExistingWidget = true;
             $("#context_settings").show();
             var id = selected.getAttribute("id");
