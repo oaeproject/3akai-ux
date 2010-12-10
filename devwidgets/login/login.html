@@ -5,7 +5,13 @@
     <!-- LOGIN FUNCTIONALITY -->
     <div id="login-default" style="display:none;">
         <form class="login-container" id="login-container" method="post" action="javascript:;">
+            <div class="login_label" style="display:none;">
+                <label for="login_username">__MSG__USERNAME__</label>
+            </div>
             <input type="text" alt="__MSG__USERNAME__" maxlength="255" id="username" name="username" class="login-container-textfield" tabindex="1"/>
+            <div class="login_label" style="display:none;">
+                <label for="login_password">__MSG__PASSWORD__</label>
+            </div>
             <input type="password" alt="__MSG__PASSWORD__" maxlength="255" id="password" name="password" class="login-container-textfield" tabindex="2" />
             <div id="login-failed">
                 <label class="error">
