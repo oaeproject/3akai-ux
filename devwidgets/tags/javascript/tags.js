@@ -42,7 +42,7 @@ sakai.tags = function(tuid, showSettings) {
 
     var loadData = function(callback){
        $.ajax({
-            url: "/var/search/tags/cloud.json",
+            url: "/var/search/public/tagcloud.json",
             cache: false,
             success: function(data) {
                 tagData = data;
