@@ -6,7 +6,7 @@
     "description": "",
     "hasSettings": false,
     "id": "popularcontent",
-    "name": "Most viewed content",
+    "name": "Most active public content",
     "type": "sakai",
     "enabled": true,
     "url":"/devwidgets/popularcontent/popularcontent.html",
