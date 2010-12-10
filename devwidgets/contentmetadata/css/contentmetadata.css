@@ -34,8 +34,14 @@
 .contentmetadata_editable:hover .s3d-highlight_area_background_darker1_white_content_binner {background: url("/dev/images/highlight_area_background_darker1_white_content_editable_br.png") no-repeat scroll right 0 transparent;}
 .contentmetadata_edit_input {width:100%; margin: 7px 0;}
 
-
 #contentmetadata_container ul { margin: 0; overflow: hidden;}
 #contentmetadata_container ul li {list-style: none outside none;}
 #contentmetadata_container {word-wrap: break-word;}
 .threedots_text {width: 350px; display:block;}
+
+/* DIRECTORY */
+#contentmetadata_locations_dialog {width:750px; margin-left: -370px;}
+.contentmetadata_added_directory {clear:both;}
+.contentmetadata_location_content {float:left; margin-bottom: 7px;}
+.contentmetadata_select_seperator {float:left; padding:0 10px;}
+#contentmetadata_locations_add_another{clear:both; float:left;}

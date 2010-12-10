@@ -49,6 +49,13 @@ sakai.contentmetadata = function(tuid,showSettings){
     var $contentmetadataCopyrightContainer = $("#contentmetadata_copyright_container");
     var $contentmetadataDetailsContainer = $("#contentmetadata_details_container");
     var $contentmetadataLocationsContainer = $("#contentmetadata_locations_container");
+    var $contentmetadataLocationsDialogContainer = $("#contentmetadata_locations_dialog_container");
+    var contentmetadataLocationsNewLocationsContainer = "#contentmetadata_locations_newlocations_container";
+    var contentmetadataLocationsSecondLevelTemplateContainer = "#contentmetadata_location_secondlevel_template_container";
+    var contentmetadataLocationsThirdLevelTemplateContainer = "#contentmetadata_location_thirdlevel_template_container";
+
+    // Dialogs
+    var $contentmetadataLocationsDialog = $("#contentmetadata_locations_dialog");
 
     // Elements
     var contentmetadataDescriptionDisplay = "#contentmetadata_description_display";
@@ -58,6 +65,10 @@ sakai.contentmetadata = function(tuid,showSettings){
     var contentmetadataCancelSave = ".contentmetadata_cancel_save";
     var contentmetadataSave = ".contentmetadata_save";
     var contentmetadataInputEdit = ".contentmetadata_edit_input";
+    var $contentmetadataLocationsAddAnother = $("#contentmetadata_locations_add_another");
+    var contentmetadataLocationLvlOne = ".contentmetadata_location_directory_lvlone";
+    var contentmetadataLocationLvlTwo = ".contentmetadata_location_directory_lvltwo";
+    var contentmetadataLocationLvlThree = ".contentmetadata_location_directory_lvlthree";
 
     // See more
     var $contentmetadataShowMore = $("#contentmetadata_show_more");
@@ -70,13 +81,17 @@ sakai.contentmetadata = function(tuid,showSettings){
     var contentmetadataCopyrightTemplate = "contentmetadata_copyright_template";
     var contentmetadataDetailsTemplate = "contentmetadata_details_template";
     var contentmetadataLocationsTemplate = "contentmetadata_locations_template";
+    var contentmetadataLocationsDialogTemplate = "contentmetadata_locations_dialog_template";
+    var contentmetadataLocationFirstLevelTemplate= "contentmetadata_location_firstlevel_template";
+    var contentmetadataLocationSecondLevelTemplate= "contentmetadata_location_secondlevel_template";
+    var contentmetadataLocationThirdLevelTemplate= "contentmetadata_location_thirdlevel_template";
 
     // Edit vars
     // Parent DIV that handles the hover and click to edit
     var editTarget = "";
     // ID of Input element that's focused, defines what to update
     var edittingElement = "";
-
+    var directoryJSON = {};
 
     ////////////////////////
     ////// RENDERING ///////
@@ -91,7 +106,7 @@ sakai.contentmetadata = function(tuid,showSettings){
             if ($(".contentmetadata_edit_input")[0] !== undefined) {
                 $(".contentmetadata_edit_input")[0].focus();
             }
-            $(contentmetadataInputEdit).focus(editInputFocus);
+
             $(contentmetadataInputEdit).blur(editInputBlur);
         }
     }
@@ -136,16 +151,128 @@ sakai.contentmetadata = function(tuid,showSettings){
         addEditBinding(mode);
     };
 
+
+    //////////////////////////////////
+    /////// DIRECTORY EDITTING ///////
+    //////////////////////////////////
+
+    /**
+     * Update the select boxes on the stage
+     * @param {String} select Containing ID to check which box value has been changed
+     * @param {String} changedboxvalue Containing selected value
+     * @param {String} firstlevelvalue Containing value of first select box
+     */
+    var updateDirectoryDisplay = function(select, changedboxvalue, firstlevelvalue){
+        var obj = {
+            "firstlevelvalue":firstlevelvalue.selected().val(),
+            "changedboxvalue" : changedboxvalue.selected().val(),
+            "directory": directoryJSON.directory
+        };
+        if(select === contentmetadataLocationLvlTwo){
+            $(firstlevelvalue.parent().children(contentmetadataLocationsSecondLevelTemplateContainer)).html($.TemplateRenderer(contentmetadataLocationSecondLevelTemplate, obj));
+        }else{
+            $(firstlevelvalue.parent().children(contentmetadataLocationsThirdLevelTemplateContainer)).html($.TemplateRenderer(contentmetadataLocationThirdLevelTemplate, obj));
+        }
+    };
+
+    var renderLocationsEdit = function(){
+        $contentmetadataLocationsDialog.jqmShow();
+
+        // position dialog box at users scroll position
+        var htmlScrollPos = $("html").scrollTop();
+        var docScrollPos = $(document).scrollTop();
+
+        if (htmlScrollPos > 0) {
+            $contentmetadataLocationsDialog.css({
+                "top": htmlScrollPos + 100 + "px"
+            });
+        }
+        else 
+            if (docScrollPos > 0) {
+                $contentmetadataLocationsDialog.css({
+                    "top": docScrollPos + 100 + "px"
+                });
+            }
+
+        $(contentmetadataLocationLvlOne).live("change", function(){
+            $(this).parent().children(contentmetadataLocationsThirdLevelTemplateContainer).html("");
+            $(this).children("option[value='no_value']").remove();
+            updateDirectoryDisplay(contentmetadataLocationLvlTwo, $($(this).parent()).children(contentmetadataLocationLvlOne), $($(this).parent()).children(contentmetadataLocationLvlOne));
+        });
+
+        $(contentmetadataLocationLvlTwo).live("change", function(){
+            $(this).children("option[value='no_value']").remove();
+            updateDirectoryDisplay(contentmetadataLocationLvlThree, $($(this).parent()).children(contentmetadataLocationLvlTwo), $($(this).parent().parent()).children(contentmetadataLocationLvlOne));
+        });
+
+        $(contentmetadataLocationLvlThree).live("change", function(){
+            $(this).children("option[value='no_value']").remove();
+        });
+
+        $contentmetadataLocationsDialogContainer.html($.TemplateRenderer(contentmetadataLocationsDialogTemplate, sakai.content_profile.content_data));
+    };
+
     /**
      * Render the Locations template
      * @param {String|Boolean} mode Can be false or 'edit' depending on the mode you want to be in
      */
     var renderLocations = function(mode){
-        sakai.content_profile.content_data.mode = mode;
-        $contentmetadataLocationsContainer.html($.TemplateRenderer(contentmetadataLocationsTemplate, sakai.content_profile.content_data));
-        addEditBinding(mode);
+        if (mode === "edit") {
+            renderLocationsEdit();
+        }
+        else {
+            sakai.content_profile.content_data.mode = mode;
+            $contentmetadataLocationsContainer.html($.TemplateRenderer(contentmetadataLocationsTemplate, sakai.content_profile.content_data));
+            addEditBinding(mode);
+        }
     };
 
+    /**
+     * Get a list of nodes representing the directory structure to be rendered
+     */
+    var getDirectoryStructure = function(){
+        directoryJSON.directory = [];
+        // Get directory structure from config file
+        for (var i in sakai.config.Directory) {
+            if (sakai.config.Directory.hasOwnProperty(i)) {
+                // Create first level of content
+                var temp = {};
+                temp.name = i;
+
+                // Create second level of content
+                temp.secondlevels = [];
+                for (var j in sakai.config.Directory[i]) {
+                    if (sakai.config.Directory[i].hasOwnProperty(j)) {
+                        var secondlevel = {};
+                        secondlevel.name = j;
+
+                        // Create third level of content
+                        secondlevel.thirdlevels = [];
+                        for (var k in sakai.config.Directory[i][j]) {
+                            if (sakai.config.Directory[i][j].hasOwnProperty(k)) {
+                                var thirdlevel = {};
+                                thirdlevel.name = sakai.config.Directory[i][j][k];
+                                secondlevel.thirdlevels.push(thirdlevel);
+                            }
+                        }
+
+                        temp.secondlevels.push(secondlevel);
+                    }
+                }
+                directoryJSON.directory.push(temp);
+            }
+        }
+        return directoryJSON;
+    };
+
+    var addAnotherLocation = function(){
+        var directory = getDirectoryStructure();
+        var renderedTemplate = $.TemplateRenderer(contentmetadataLocationFirstLevelTemplate, directory);
+        var renderedDiv = $(document.createElement("div"));
+        renderedDiv.html(renderedTemplate);
+        $(contentmetadataLocationsNewLocationsContainer).append(renderedDiv);
+        $(renderedDiv).addClass("contentmetadata_added_directory");
+    }
 
     ////////////////////////
     /////// EDITTING ///////
@@ -209,7 +336,6 @@ sakai.contentmetadata = function(tuid,showSettings){
         if (target[0] !== undefined) {
             editTarget = target;
             var dataToEdit = editTarget[0].id.split("_")[1];
-            editTarget.removeClass("contentmetadata_editable");
             eval("render" + dataToEdit.capitalize() + "(\"edit\")");
         }
     };
@@ -219,7 +345,6 @@ sakai.contentmetadata = function(tuid,showSettings){
      * @param {Object} el Element that lost the focus
      */
     var editInputBlur = function(el){
-        editTarget.addClass("contentmetadata_editable");
         edittingElement = $(el.target)[0].id.split("_")[2];
         switch (edittingElement){
             case "description":
@@ -232,14 +357,6 @@ sakai.contentmetadata = function(tuid,showSettings){
                 updateCopyright();
                 break;
         }
-    };
-
-    /**
-     * Handle focussing of an input element
-     * @param {Object} el Element that has the focus
-     */
-    var editInputFocus = function(el){
-
     };
 
 
@@ -284,12 +401,22 @@ sakai.contentmetadata = function(tuid,showSettings){
         $(contentmetadataViewRevisions).live("click", function(){
             sakai.filerevisions.initialise(sakai.content_profile.content_data)
         });
+
+        $contentmetadataLocationsAddAnother.bind("click", function(){
+            addAnotherLocation();
+        });
     };
 
     /**
      * Initialize the widget
      */
     var doInit = function(){
+        // This will make the widget popup as a layover.
+        $contentmetadataLocationsDialog.jqm({
+            modal: true,
+            toTop: true
+        });
+
         // Render all information
         renderDescription(false);
         renderTags(false);

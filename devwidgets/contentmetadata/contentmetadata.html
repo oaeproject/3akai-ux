@@ -29,13 +29,13 @@
 </div>
 
 <div id="contentmetadata_description_template" style="display:none;"><!--
+    <div class='s3d-highlight_area_background_darker1_white_content_tl'><div class='s3d-highlight_area_background_darker1_white_content_tinner'></div></div>
     {if mode === "edit"}
         <input id="contentmetadata_description_description" class="contentmetadata_edit_input" value="${data["sakai:description"]}"/>
     {else}
-        <div class='s3d-highlight_area_background_darker1_white_content_tl'><div class='s3d-highlight_area_background_darker1_white_content_tinner'></div></div>
-            <span id="contentmetadata_description_display">{if $.trim(data["sakai:description"]) != ""}${data["sakai:description"]}{else}__MSG__NO_DESCRIPTION__{/if}</span>
-        <div class='s3d-highlight_area_background_darker1_white_content_bl'><div class='s3d-highlight_area_background_darker1_white_content_binner'></div></div>
+            <span id="contentmetadata_description_display" class="contentmetadata_click">{if $.trim(data["sakai:description"]) != ""}${data["sakai:description"]}{else}__MSG__NO_DESCRIPTION__{/if}</span>
     {/if}
+    <div class='s3d-highlight_area_background_darker1_white_content_bl'><div class='s3d-highlight_area_background_darker1_white_content_binner'></div></div>
 --></div>
 
 <div id="contentmetadata_tags_template" style="display:none;"><!--
@@ -49,7 +49,7 @@
                     {for tag in data["sakai:tags"]}{if tag.split("/")[0] !== "directory"}{if tag_index > 0},{/if} <a href="/dev/search.html#tag=/tags/${tag}" class="s3d-action" title="__MSG__SEARCH_CONTENT_TAGGED_WITH__ '${tag}'"">${tag}</a>{/if}{/for}
                 </span>
             {else}
-                <span>
+                <span class="contentmetadata_click">
                     __MSG__NO_TAGS__
                 </span>
             {/if}
@@ -80,19 +80,15 @@
 
 <div id="contentmetadata_locations_template" style="display:none;"><!--
     <div class='s3d-highlight_area_background_darker1_white_content_tl'><div class='s3d-highlight_area_background_darker1_white_content_tinner'></div></div>
-        {if mode === "edit"}
-            
+        <span class="contentmetadata_first_column">__MSG__DIRECTORY_LOCATIONS__:</span>
+        {if saveddirectory.length != 0}
+            <ul>
+                {for dir in saveddirectory}
+                    <li><a href="/dev/search.html#tag=/tags/directory/${dir.toString().replace(/,/g, '/')}" class="s3d-action threedots_text" title="Search content located at ${dir.toString().replace(/,/g, ' ')}"><span class="ellipsis_text contentmetadata_directory_location">${dir.toString().replace(/,/g, " <span class='contentmetadata_select_seperator'>&raquo;</span> ")}</span></a></li>
+                {/for}
+            </ul>
         {else}
-            <span class="contentmetadata_first_column">__MSG__DIRECTORY_LOCATIONS__:</span>
-            {if saveddirectory.length != 0}
-                <ul>
-                    {for dir in saveddirectory}
-                        <li><a href="/dev/search.html#tag=/tags/directory/${dir.toString().replace(/,/g, '/')}" class="s3d-action threedots_text" title="Search content located at ${dir.toString().replace(/,/g, ' ')}"><span class="ellipsis_text contentmetadata_directory_location">${dir.toString().replace(/,/g, " <span class='content_profile_basic_info_selected_and_saved_seperator'>&raquo;</span> ")}</span></a></li>
-                    {/for}
-                </ul>
-            {else}
-                __MSG__NO_LOCATIONS__
-            {/if}
+            __MSG__NO_LOCATIONS__
         {/if}
     <div class='s3d-highlight_area_background_darker1_white_content_bl'><div class='s3d-highlight_area_background_darker1_white_content_binner'></div></div>
 --></div>
@@ -121,6 +117,93 @@
         </span>
     <div class='s3d-highlight_area_background_darker1_white_content_bl'><div class='s3d-highlight_area_background_darker1_white_content_binner'></div></div>
 --></div>
+
+<!-- DIALOG -->
+<div class="dialog" id="contentmetadata_locations_dialog" style="display:none;">
+    <!-- HEADER -->
+    <div class="dialog_header">
+        <div class="dialog_header_inner">
+            <h1>__MSG__CONTENT_LOCATION_IN_DIRECTORY__</h1>
+            <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+        </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="dialog_content">
+        <p>__MSG__WHERE_CAN_THIS_CONTENT_BE_FOUND__</p>
+            <div id="contentmetadata_locations_dialog_container" class="s3d-highlight_area_background"><!-- --></div>
+            <a href="javascript:;" class="s3d-action" id="contentmetadata_locations_add_another" title="__MSG__ADD_ANOTHER_LOCATION__">__MSG__ADD_ANOTHER_LOCATION__</a>
+            <hr class="fl-push fl-hidden"/>
+    </div>
+
+    <!-- DIALOG FOOTER -->
+    <div class="dialog_footer">
+        <div class="dialog_footer_inner"><!-- --></div>
+    </div>
+</div>
+
+<div id="contentmetadata_locations_dialog_template"><!--
+    <div class='s3d-highlight_area_background_tl'>
+        <div class='s3d-highlight_area_background_tinner'>
+        </div>
+    </div>
+    <div id="contentmetadata_locations_savedlocations">
+        {if saveddirectory.length === 0}
+            __MSG__NO_LOCATIONS__
+        {else}
+            
+        {/if}
+    </div>
+    <div id="contentmetadata_locations_newlocations_container"></div>
+    <hr class="fl-push fl-hidden"/>
+    <div class="s3d-highlight_area_background_bl">
+        <div class="s3d-highlight_area_background_binner">
+        </div>
+    </div>
+--></div>
+
+    <div id="contentmetadata_location_firstlevel_template"><!--
+        <select class="contentmetadata_location_content contentmetadata_location_hierarchy_select contentmetadata_location_directory_lvlone required" name="contentmetadata_location_directory_lvlone">
+            <option value="no_value">__MSG__PLEASE_SELECT__</option>
+            {for i in directory}
+                <option value="${i.name}">${i.name}</option>
+            {/for}
+        </select>
+        <div id="contentmetadata_location_secondlevel_template_container"></div>
+        <div id="contentmetadata_location_thirdlevel_template_container"></div>
+    --></div>
+
+    <div id="contentmetadata_location_secondlevel_template" style="display:none;"><!--
+        <span class="contentmetadata_select_seperator"> &raquo; </span>
+        <select class="contentmetadata_location_content contentmetadata_location_hierarchy_select contentmetadata_location_directory_lvltwo" name="Content directory location">
+            <option value="no_value">__MSG__PLEASE_SELECT__</option>
+            {for i in directory}
+                {if i.name === changedboxvalue}
+                    {for j in i.secondlevels}
+                        <option value="${j.name}">${j.name}</option>
+                    {/for}
+                {/if}
+            {/for}
+        </select>
+    --></div>
+
+    <div id="contentmetadata_location_thirdlevel_template" style="display:none;"><!--
+        <span class="contentmetadata_select_seperator"> &raquo; </span>
+        <select class="contentmetadata_location_content contentmetadata_location_hierarchy_select contentmetadata_location_directory_lvlthree" name="Content directory location">
+            <option value="no_value">__MSG__PLEASE_SELECT__</option>
+            {for i in directory}
+                {if i.name === firstlevelvalue}
+                    {for j in i.secondlevels}
+                        {if j.name === changedboxvalue}
+                            {for k in j.thirdlevels}
+                                <option value="${k.name}">${k.name}</option>
+                            {/for}
+                        {/if}
+                    {/for}
+                {/if}
+            {/for}
+        </select>
+    --></div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/contentmetadata/javascript/contentmetadata.js"></script>
