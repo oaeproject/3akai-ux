@@ -147,7 +147,7 @@ sakai.api.Groups.createGroup = function(id, title, description, callback) {
 };
 
 /**
- * Update group information
+ * Update group basic information
  *
  * @param {String} id The id of the group to update
  * @param {String} title The new title of the group
@@ -177,6 +177,23 @@ sakai.api.Groups.updateGroupInfo = function(id, title, description, kind, callba
         }
     });
 };
+
+/**
+ * Update group profile
+ *
+ * @param {String} id The id of the group to update
+ * @param {Object} profile The group's profile
+ * @param {Function} callback Callback function, passes (success)
+ */
+sakai.api.Groups.updateGroupProfile = function(id, profile, callback) {
+    var groupProfileURL = "/~" + id + "/public/authprofile";
+    sakai.api.Server.saveJSON(groupProfileURL, profile, function(success, data) {
+        if ($.isFunction(callback)) {
+            callback(success);
+        }
+    });
+};
+
 
 /**
  * Public function used to set joinability and visibility permissions for a
