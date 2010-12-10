@@ -218,7 +218,7 @@ sakai.contentmetadata = function(tuid,showSettings){
         });
         
         sakai.api.Util.tagEntity("/p/" + sakai.content_profile.content_data.data["jcr:name"], sakai.content_profile.content_data.data["sakai:tags"], originalTags, function(){
-            sakai.content_profile.saveddirectory = sakai.content_profile.parseDirectoryTags(sakai.content_profile.content_data.data);
+            sakai.content_profile.content_data.saveddirectory = sakai.content_profile.parseDirectoryTags(sakai.content_profile.content_data.data);
             $contentmetadataLocationsDialog.jqmHide();
             renderLocations(false);
         });
@@ -248,13 +248,15 @@ sakai.contentmetadata = function(tuid,showSettings){
         tags.push("directory/" + tags.toString().replace(/,/g,"/"));
 
         var tagsAfterDeletion = currentTags.slice(0);
+        var sliced = 0;
         for (var tag in tags){
             if($.inArray(tags[tag],tagsAfterDeletion) > -1){
                 tagsAfterDeletion.splice($.inArray(tags[tag],tagsAfterDeletion), 1);
             }
             for (dir in sakai.content_profile.content_data.saveddirectory) {
                 if ($.inArray(tags[tag], sakai.content_profile.content_data.saveddirectory[dir]) > -1) {
-                    sakai.content_profile.content_data.saveddirectory[dir].splice(tags[tag], 1);
+                    sakai.content_profile.content_data.saveddirectory[dir].splice(tag + sliced, 1);
+                    sliced -= 1;
                 }
             }
         }
