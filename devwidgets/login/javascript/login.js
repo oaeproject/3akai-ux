@@ -66,7 +66,7 @@ sakai.login = function(){
             document.location = redirectUrl;
         } else {
             $(loadingMessage).hide();
-            
+
             // check if internal is true or internal account creation is true show login
             if (sakai.config.Authentication.internal || sakai.config.Authentication.allowInternalAccountCreation) {
                 $(loginButton).show();
@@ -102,8 +102,13 @@ sakai.login = function(){
                 $(loginExternal).show();
             }
         }
-
     };
+
+    var reLayout = function(event, horizontal) {
+       if (! horizontal) {
+          $("LINK[href*='/devwidgets/login/css/login.css']").remove();
+       }
+    }
 
     /**
      * This will be executed after the post to the login service has finished.
@@ -192,8 +197,12 @@ sakai.login = function(){
             redirectUrl = decodeURIComponent(red);
         }
 
+        $(window).bind("sakai-login-render", reLayout);
+
         // Check whether we are already logged in
         decideLoggedIn();
+
+        $(window).trigger("sakai-login-ready");
     };
 
     doInit();
