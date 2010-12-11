@@ -1,6 +1,6 @@
 {
-    "uid": "id402868781",
+    "uid": "id402868782",
     "visible": "block",
-    "name": "text",
+    "name": "listpeoplewrappergroup",
     "jcr:mixinTypes": "sakai:propertiesmix"
 }

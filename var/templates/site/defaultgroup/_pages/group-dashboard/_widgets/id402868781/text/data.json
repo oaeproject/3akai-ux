@@ -1,0 +1,5 @@
+{
+    "title":"Welcome",
+    "text":"Welcome to your new group. As part of setting up your group space, you can replace this text with information you want members to see when they access your group or you can delete this widget from the dashboard. To update this text, hover over the top-right corner of this widget to open the widget options menu and choose Settings. Or, choose Remove to clear it from the dashboard.",
+    "jcr:primaryType":"sling:Folder"
+}

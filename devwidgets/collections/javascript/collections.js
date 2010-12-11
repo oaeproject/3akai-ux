@@ -144,7 +144,6 @@ sakai.collections = function(tuid, showSettings) {
     var saveWidgetData = function() {
         widgetData.collectionData = collectionData;
         widgetData.settings = settings;
-        console.debug(widgetData.collectionData.collections.length);
         sakai.api.Widgets.saveWidgetData(tuid, widgetData, function(success, data) {
             if (success) {
                 if (showSettings) {

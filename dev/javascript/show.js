@@ -55,6 +55,7 @@ sakai.show = function() {
     var entityWidgetReady = false;
     var renderedPagesWidget = false;
     var renderedEntityWidget = false;
+    var $launch_help = $("#launch_help");
 
 
     /**
@@ -210,6 +211,7 @@ sakai.show = function() {
                 break;
             case "group":
                 getGroupData();
+                loadHelp('groupHelp', 'group');
                 break;
         }
     };
@@ -296,6 +298,43 @@ sakai.show = function() {
             loadPagesWidget();
         }
     });
+
+    var triggerHelp = function(profileFlag, whichHelp) {
+        // only show to the manager who created the group
+        if (canEdit) {
+            $launch_help.show();
+            $launch_help.bind("click", function() {
+                $(window).trigger("sakai-help-init", {
+                    profileFlag: profileFlag,
+                    whichHelp: whichHelp,
+                    force: true
+                });
+                return false;
+            });
+            if (sakai.currentgroup &&
+            sakai.currentgroup.data &&
+            sakai.currentgroup.data.authprofile &&
+            !sakai.currentgroup.data.authprofile.beenVisited) {
+                $(window).trigger("sakai-help-init", {
+                    profileFlag: profileFlag,
+                    whichHelp: whichHelp
+                });
+                sakai.currentgroup.data.authprofile.beenVisited = true;
+                sakai.api.Groups.updateGroupProfile(sakai.currentgroup.id, sakai.currentgroup.data.authprofile);
+            }
+        }
+    };
+
+    var loadHelp = function(profileFlag, whichHelp) {
+        if (!sakai.help || !sakai.help.isReady) {
+            $(window).bind("sakai-help-ready", function() {
+                triggerHelp(profileFlag, whichHelp);
+            });
+        } else {
+            triggerHelp(profileFlag, whichHelp);
+        }
+    };
+
 
     ////////////////////
     // INITIALISATION //
