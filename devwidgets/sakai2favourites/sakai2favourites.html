@@ -18,9 +18,10 @@
                 </div>
                 <div id="sakai2_category_list_template"><!--
                     <ul>
-                        <li class="selected"><span class="sakai2_category_title" id="all"><a class="s3d-regular-links s3d-bold" href="javascript:;">All</a></span></li>
+                        {var index = 0}
                         {for category in categories}
-                            <li><span class="sakai2_category_title" id=${category.category}><a class="s3d-regular-links s3d-bold" href="javascript:;">${category.category}</a></span></li>
+                            <li {if index === 0} class="selected" {/if}><span class="sakai2_category_title {if index === 0} selected_category {/if}" id=${category.category.replace(/ /g, "_")}><a class="s3d-regular-links s3d-bold" href="javascript:;">${category.category}</a></span></li>
+                            ${index++|eat}
                         {/for}
                     </ul>
                 --></div>
@@ -53,7 +54,6 @@
                             {/for}
                         </ul>
                     </div>
-    
                 --></div>
             </div>
         </div>

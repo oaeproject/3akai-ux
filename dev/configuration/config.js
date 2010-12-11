@@ -729,6 +729,7 @@ sakai.config = {
     ],
 
     showSakai2 : true,
+    useLiveSakai2Feeds : false,
 
     displayDebugInfo: true,
 

@@ -48,29 +48,11 @@ sakai.mysakai2 = function(tuid){
      * Takes a set of json and renders the sakai2 sites.
      * @param {Object} newjson sakai 2 list object
      */
-    var doRender = function(newjson , useDisplayProperties){
+    var doRender = function(resultJson , useDisplayProperties){
         // If the user is not registered for any sites, show the no sites error.
-        if (newjson.sites.length === 0) {
+        if (resultJson.sites.length === 0) {
             $(mysakai2List, rootel).html(sakai.api.Security.saneHTML($(mysakai2ErrorNosites).html())).addClass("sites_error");
-        }
-        else {
-            // if useDisplayProperties is set..display the first x no. of sites
-            var lastIndex = newjson.sites.length;
-            if(useDisplayProperties){
-                lastIndex = newjson.display;            
-            }
-
-            // store result json
-            var resultJson = {};
-            resultJson.sites = [];
-            // loop through the diplay properties if there is no site is slected
-            // loop through selected list if sites are selected.            
-            for (var i=0;i<lastIndex;i++) {
-                var site = newjson.sites[i];
-                site.title = sakai.api.Security.escapeHTML(site.title);
-                resultJson.sites.push(site);
-            }
-
+        } else {
             $(mysakai2List, rootel).html($.TemplateRenderer(mysakai2ListTemplate.replace(/#/, ''), resultJson));
         }
     };
@@ -81,21 +63,38 @@ sakai.mysakai2 = function(tuid){
      */
     var loadSakai2SiteList = function(){
         // get sakai2favouriteList
-        sakai.api.Server.loadJSON("/~" + sakai.data.me.user.userid + "/private/sakai2favouriteList",function(success,data){
-            if(success){
-                sakai.data.me.sakai2List = data;
-                doRender(sakai.data.me.sakai2List);    
-            } else {
-                $.ajax({
-                    url: "/devwidgets/mysakai2/bundles/sites.json",
-                    type : "GET",
-                    dataType: "json",
-                    success: function(data){
-                        sakai.data.me.sakai2List = data;
-                        doRender(sakai.data.me.sakai2List, true);
-                    }
-                 });   
+        sakai.api.Server.loadJSON("/~" + sakai.data.me.user.userid + "/private/sakai2favouriteList",function(savedsuccess,saveddata){
+            var url = "/dev/s23/bundles/sites.json";
+            if (sakai.config.useLiveSakai2Feeds){
+                url = "/var/proxy/s23/sitesUnread.json?unread=true";
             }
+            $.ajax({
+                url: url,
+                type : "GET",
+                dataType: "json",
+                success: function(fulllist){
+                    var resultJson = {};
+                    resultJson.sites = [];
+                    if(savedsuccess){
+                        for (var ii = 0; ii < fulllist.sites.length; ii++){
+                            for (var i = 0; i < saveddata.id.length; i++){
+                                if (fulllist.sites[ii].id === saveddata.id[i]){
+                                    resultJson.sites.push(fulllist.sites[ii]);
+                                    break;
+                                }
+                            }
+                        }
+                    } else {
+                        for (var i = 0; i < fulllist.display; i++){
+                            if (fulllist.sites[i]) {
+                                resultJson.sites.push(fulllist.sites[i]);
+                            }
+                        }
+                    }
+                    sakai.data.me.sakai2List = resultJson;
+                    doRender(sakai.data.me.sakai2List);                    
+                }
+            });
         });
     };
 

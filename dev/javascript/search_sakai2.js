@@ -32,6 +32,7 @@ sakai.search = function() {
     var currentpage = 0;
     var currentfacet = "";
     var newjson = false;
+    sakai._search.waitForFacets = true;
 
     // Add Group Button links
     var createGroupContainer = "#creategroupcontainer";
@@ -95,10 +96,7 @@ sakai.search = function() {
             title : "Refine your search",
             value : "Groups",
             facets:{
-                    "all": {
-                        "category": "All sites",
-                        "searchurl": searchURLmap.allgroups
-                    }
+                    
                 }
         }
     };
@@ -188,6 +186,11 @@ sakai.search = function() {
      */
     sakai._search.doSearch = function(page, searchquery, searchwhere, facet) {
 
+        //alert(page);
+        //alert(searchquery);
+        //alert(searchwhere);
+        //alert(facet);
+
         // if there is facet selected then remove previous one and highlight new one
         if (facet) {
             $(".faceted_category").removeClass("faceted_category_selected");
@@ -196,6 +199,10 @@ sakai.search = function() {
         
         if (isNaN(page)){
             page = 1;
+        }
+        
+        if (!searchquery){
+            searchquery = "*";
         }
 
         // Set all the input fields and paging correct.
@@ -264,14 +271,10 @@ sakai.search = function() {
          
          if(lastIndex <= resultJson.sites.length){
              lastIndex = lastIndex;
-             console.log(pagingIndex);
-             console.log(lastIndex)
              resultJson.sites = resultJson.sites.slice(pagingIndex,lastIndex);
          }
          else {
              lastIndex = resultJson.sites.length ;
-             console.log(pagingIndex);
-             console.log(lastIndex);
              resultJson.sites = resultJson.sites.slice(pagingIndex,lastIndex);
          }
 
@@ -337,15 +340,19 @@ sakai.search = function() {
      * Get sites list group with categories from back end.
      */
     var getCategories = function(){
+        var url = "/dev/s23/bundles/sites-categorized.json";
+        if (sakai.config.useLiveSakai2Feeds){
+            url = "/var/proxy/s23/sitesCategorized.json?categorized=true";
+        }
         $.ajax({
-            // TODO static links need to change once backend is completed
-            url: "/dev/s23/bundles/sites-categorized.json",
+            url: url,
             type : "GET",
             dataType: "json",
             success: function(data){
                 newjson = data;
                 // Render all the sites.
                 renderCategories(newjson);
+                sakai._search.waitForFacets = false;
             },
             error: function(){
             }

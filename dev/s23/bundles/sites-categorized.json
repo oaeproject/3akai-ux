@@ -3,7 +3,7 @@
     "categories":
     [
         {
-            "category":"i18n_moresite_01_all_sites",
+            "category":"All Sites",
             "sites":
             [
                 {
@@ -37,7 +37,7 @@
             ]
         },
         {
-            "category":"i18n_moresite_05_projects",
+            "category":"Projects",
             "sites":
             [
                 {
@@ -54,7 +54,7 @@
             ]
         },
         {
-            "category":"i18n_moresite_04_other",
+            "category":"Other",
             "sites":
             [
                 {

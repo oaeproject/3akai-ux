@@ -52,8 +52,7 @@ sakai.sakai2favourites = function(tuid, showSettings){
         // render Category List
         loadSakai2SiteList();
         // render all sites list
-        $("#all").addClass("selected_category");
-        renderSiteList("all");
+        renderSiteList();
         // render selected site List
         renderSelectedList();
         // show dialog
@@ -81,12 +80,12 @@ sakai.sakai2favourites = function(tuid, showSettings){
         for(var i in siteListsjson.categories){
             var category = siteListsjson.categories[i];
             // if category name is all
-            if(categoryname === "all"){
+            if(!categoryname){
                 // get all the unique site lists
                 siteListJson = getAllSites(category, siteListJson);
             // if category name is equal to the category.categoryname
             // for example categoryname = i18n_moresite_01_all_sites
-            } else if(category.category === categoryname) {
+            } else if(category.category.replace(/ /g, "_") === categoryname) {
                 // get the site lists in certain category
                 // for example get site list in i18n_moresite_01_all_sites
                 siteListJson.sites = siteListsjson.categories[i].sites;
@@ -133,6 +132,7 @@ sakai.sakai2favourites = function(tuid, showSettings){
      * Add event handling
      */
     var bindEvents = function(){
+        $(".sakai2_category_title").unbind("click");
         $(".sakai2_category_title").click(function(ev){
             if($(".selected_category")){
                 $(".selected_category").removeClass("selected_category");
@@ -145,6 +145,7 @@ sakai.sakai2favourites = function(tuid, showSettings){
             renderSiteList(category);
             bindEvents();
         });
+        $(".sakai2_site_title").unbind("click");
         $(".sakai2_site_title").click(function(ev){
             var siteId = ev.currentTarget.id;
             if($(ev.currentTarget).attr("checked")){
@@ -159,7 +160,7 @@ sakai.sakai2favourites = function(tuid, showSettings){
             // bind events
             bindEvents();
         });
-        
+        $(".sakai2_selected_site_title").unbind("click");
         $(".sakai2_selected_site_title").click(function(ev){
             var siteId = ev.currentTarget.id;
             var ind = getToRemoveIndex(siteId);
@@ -254,9 +255,12 @@ sakai.sakai2favourites = function(tuid, showSettings){
      *  This function get the list of sites list group by category.
      */
     var getSiteList = function(){
+        var url = "/dev/s23/bundles/sites-categorized.json";
+        if (sakai.config.useLiveSakai2Feeds){
+            url = "/var/proxy/s23/sitesCategorized.json?categorized=true";
+        }
         $.ajax({
-            // TODO static links need to change once backend is completed
-            url: "/dev/s23/bundles/sites-categorized.json",
+            url: url,
             type : "GET",
             dataType: "json",
             success: function(data){
@@ -277,7 +281,17 @@ sakai.sakai2favourites = function(tuid, showSettings){
         //getSelectedSiteList();
         
         $("#sakai2favourites_add_save").click(function(ev){
-            sakai.api.Server.saveJSON("/~" + sakai.data.me.user.userid + "/private/sakai2favouriteList",sakai.data.me.sakai2List, function(success,data){
+            var toSave = {};
+            toSave.id = [];
+            for (var i = 0; i < sakai.data.me.sakai2List.sites.length; i++){
+                toSave.id.push(sakai.data.me.sakai2List.sites[i].id);
+            }
+            // TODO: Fix this. This is a temporary solution necessary for making the back-end
+            // store an empty list and have it overwrite the previous one.
+            if (toSave.id.length === 0){
+                toSave.id[0] = "invalidSite";
+            }
+            sakai.api.Server.saveJSON("/~" + sakai.data.me.user.userid + "/private/sakai2favouriteList",toSave, function(success,data){
                 $("#sakai2favourites_container").jqmHide(); 
                 $(window).trigger("sakai2-favourites-selected");    
             });
