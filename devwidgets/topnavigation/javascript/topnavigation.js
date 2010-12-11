@@ -411,6 +411,11 @@ sakai.topnavigation = function(tuid, showSettings){
         if (sakai.config.anonAllowed){
             $(exploreNavigationContainer).show();
 
+            var indexPaths = ["/dev", "/dev/index.html"];
+            if (-1 !== $.inArray(window.location.pathname.replace(/\/$/,""), indexPaths)) {
+                $(".explore-bg").show();
+            }
+
             // Show anonymous elements
             $("#other_logins_button_container").show();
             $(".log_in").addClass("help_none");
@@ -431,7 +436,7 @@ sakai.topnavigation = function(tuid, showSettings){
             $("#nav_people_link a").attr("href", sakai.config.URL.PUBLIC_PEOPLE_URL);
             $("#nav_courses_sites_link a").attr("href", sakai.config.URL.PUBLIC_COURSES_SITES_URL);
             $("#nav_search_link a").attr("href", sakai.config.URL.PUBLIC_SEARCH_URL_PAGE);
-            
+
             if (window.location.pathname.split("/")[2] === "403.html" || window.location.pathname.split("/")[2] === "404.html") {
                 // hide register and login links
                 $("#register_button_container").hide();

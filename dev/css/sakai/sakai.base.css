@@ -376,7 +376,7 @@ html > body .s3d-button .s3d-button-inner {
     background-position: left -240px;
 }
 
-, .s3d-button:hover[disabled] .s3d-button-inner, .s3d-disabled.s3d-button-hover .s3d-button-inner  {
+.s3d-button:hover[disabled] .s3d-button-inner, .s3d-disabled.s3d-button-hover .s3d-button-inner  {
     background-position: left -240px;
 }
 
@@ -457,6 +457,18 @@ html > body .s3d-button .s3d-button-inner {
 .s3d-button.s3d-button-tab { background: url("/dev/images/tab_button_bg.png") no-repeat scroll right -25px transparent; margin-top: 3px; }
 .s3d-button.s3d-button-tab .s3d-button-inner { background: url("/dev/images/tab_button_bg.png") no-repeat scroll left top transparent; }
 .s3d-button.s3d-button-tab .s3d-button-inner { font-size:11px; }
+
+/*
+ * Light gray button with small corner radius
+ */
+.s3d-button.s3d-button-light-gray-square {
+    background:url('/dev/images/light_gray_soft_square_button.png') no-repeat scroll right -21px transparent;
+}
+
+.s3d-button.s3d-button-light-gray-square .s3d-button-inner {
+    background:url('/dev/images/light_gray_soft_square_button.png') no-repeat scroll left top transparent;
+    color: #292929;
+}
 
 /*
  * Context Menu for Dropdowns

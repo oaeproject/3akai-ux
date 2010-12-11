@@ -27,6 +27,10 @@ sakai.index = function(){
         $("#login_right_col").show();
     }
 
+    $(window).bind("sakai-login-ready", function(e) {
+        $(window).trigger("sakai-login-render", true)
+    });
+
     //////////
     // Chat //
     //////////

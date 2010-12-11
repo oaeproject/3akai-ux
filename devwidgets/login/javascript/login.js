@@ -66,7 +66,7 @@ sakai.login = function(){
             document.location = redirectUrl;
         } else {
             $(loadingMessage).hide();
-            
+
             // check if internal is true or internal account creation is true show login
             if (sakai.config.Authentication.internal || sakai.config.Authentication.allowInternalAccountCreation) {
                 $(loginButton).show();
@@ -79,11 +79,6 @@ sakai.login = function(){
                 }
                 // Set the cursor in the username field
                 $("#" + usernameField).focus();
-                
-                // if 403 or 404 pages show user name and password label.
-                if (window.location.pathname.split("/")[2] === "403.html" || window.location.pathname.split("/")[2] === "404.html") {
-                    $(".login_label").show();
-                }
             } else {
                 // loop through and render each external authentication system
                 $.each(sakai.config.Authentication.external, function(index, value) {
@@ -107,8 +102,25 @@ sakai.login = function(){
                 $(loginExternal).show();
             }
         }
-
     };
+
+    /*
+     * FIXME it would be nice if we could switch out css files here instead of
+     * inlining all this css
+     */
+    var reLayout = function(event, horizontal) {
+       if (horizontal) {
+           $(".login_label").hide();
+           $(".login-container").css("margin-top", "-25px");
+           $("#register_here").css("color", "#fefefe");
+           $("#register_here a").css("color", "#c1e5fb");
+       } else {
+           $(".login_label").show();
+           $(".login-container").css("margin-top", "25px");
+           $("#register_here").css("color", "#454a4e");
+           $("#register_here a").css("color", "#006E96");
+       }
+    }
 
     /**
      * This will be executed after the post to the login service has finished.
@@ -197,9 +209,12 @@ sakai.login = function(){
             redirectUrl = decodeURIComponent(red);
         }
 
+        $(window).bind("sakai-login-relayout", reLayout);
+
         // Check whether we are already logged in
         decideLoggedIn();
-        
+
+        $(window).trigger("sakai-login-ready");
     };
 
     doInit();
