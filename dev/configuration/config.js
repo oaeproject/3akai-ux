@@ -728,7 +728,7 @@ sakai.config = {
         "/dev/show.html"
     ],
 
-    showSakai2 : true,
+    showSakai2 : false,
     useLiveSakai2Feeds : false,
 
     displayDebugInfo: true,
