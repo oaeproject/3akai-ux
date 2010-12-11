@@ -81,7 +81,8 @@ sakai.search = function() {
             all : "#tab_search_all",
             content : "#tab_search_content",
             people : "#tab_search_people",
-            sites : "#tab_search_sites"
+            sites : "#tab_search_sites",
+            sakai2 : "#tab_search_sakai2"
         },
         results : {
             container : search + '_results_container',
@@ -147,6 +148,7 @@ sakai.search = function() {
      * @param {String} searchwhere The subset of sites you want to search in
      */
     sakai._search.doHSearch = function(page, searchquery, searchwhere, facet, killPreviousAjaxCall) {
+
         // if killpreviousajaxcall is true then kill the previous ajax request
         if (killPreviousAjaxCall) {
             searchAjaxCall.abort();
@@ -166,6 +168,7 @@ sakai.search = function() {
         }
 
         currentpage = page;
+
         // This will invoke the sakai._search.doSearch function and change the url.
         History.addBEvent(page, encodeURIComponent(searchquery), searchwhere, facet);
     };
@@ -447,9 +450,9 @@ sakai.search = function() {
      * Will fetch the sites and add a new item to the history list.
      */
     var doInit = function() {
-
         // Get my sites
         mainSearch.getMySites();
+        
         // Add the bindings
         mainSearch.addEventListeners();
 

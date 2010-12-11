@@ -39,6 +39,7 @@ sakai.config = {
         SEARCH_CONTENT_URL: "/dev/search_content.html",
         SEARCH_GENERAL_URL: "/dev/search.html",
         SEARCH_PEOPLE_URL: "search_people.html",
+        SEARCH_GROUP_URL: "search_groups.html",
         SEARCH_SITES_URL: "search_sites.html",
         TINY_MCE_CONTENT_CSS: "/dev/css/FSS/fss-base.css,/dev/css/sakai/sakai.core.2.css,/dev/css/sakai/sakai.base.css,/dev/css/sakai/sakai.editor.css,/dev/css/sakai/sakai.show.css",
         TINY_MCE_EDITOR_CSS: "/dev/css/sakai/tinymce_editor_styling.css",
@@ -671,7 +672,10 @@ sakai.config = {
             "label" : "DIRECTORY"
         }
     ],
-
+    /*
+     * Are anonymous users allowed to browse/search
+     */
+    anonAllowed: true,
     /*
      * List of pages that require a logged in user
      */
@@ -680,12 +684,7 @@ sakai.config = {
         "/dev/account_preferences.html",
         "/dev/group_edit.html",
         "/dev/inbox.html",
-        "/dev/people.html",
-        "/dev/profile_edit.html",
-        "/dev/search.html",
-        "/dev/search_content.html",
-        "/dev/search_groups.html",
-        "/dev/search_people.html"
+        "/dev/profile_edit.html"
     ],
 
     /*
@@ -699,7 +698,24 @@ sakai.config = {
         "/",
         "/index.html"
     ],
-
+    /*
+     * List of pages that will be added to requireUser if
+     * anonAllowed is false
+     */
+    requireUserAnonNotAllowed: [
+        "/dev/people.html",
+        "/dev/profile_edit.html",
+        "/dev/search.html",
+        "/dev/search_content.html",
+        "/dev/search_groups.html",
+        "/dev/search_people.html"
+    ],
+    /*
+     * List of pages that will be added to requireAnonymous if
+     * anonAllowed is false
+     */
+    requireAnonymousAnonNotAllowed: [
+    ],
     /*
      * List op pages that require additional processing to determine
      * whether the page can be shown to the current user. These pages
@@ -711,6 +727,9 @@ sakai.config = {
         "/dev/group_edit.html",
         "/dev/show.html"
     ],
+
+    showSakai2 : false,
+    useLiveSakai2Feeds : false,
 
     displayDebugInfo: true,
 
