@@ -15,7 +15,7 @@
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.content_profile.css" />
 
         <!-- 3rd party CSS -->
-        <link rel="stylesheet" type="text/css" href="/dev/lib/jquery/plugins/gritter/css/jquery.gritter.css" />
+        <link rel="stylesheet" type="text/css" href="/dev/lib/jquery/plugins/gritter/css/jquery.gritter.css">
         <link rel="stylesheet" type="text/css" href="/dev/css/lib/jquery.autoSuggest.css" />
 
         <!-- Sakai Config JS -->
@@ -32,6 +32,7 @@
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.json.js"></script>
         <script type="text/javascript" src="/dev/lib/misc/google/html-sanitizer-minified.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.timeago.js"></script>
+        <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.form.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.validate.sakai-edited.js"></script>
 
         <!-- Sakai Core JS -->
@@ -42,6 +43,7 @@
         <script type="text/javascript" src="/dev/lib/sakai/sakai.api.user.js"></script>
         <script type="text/javascript" src="/dev/lib/sakai/sakai.api.widgets.js"></script>
         <script type="text/javascript" src="/dev/lib/sakai/sakai.api.content.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.communication.js"></script>
 
         <!-- 3rd party JS -->
         <script type="text/javascript" src="/dev/lib/misc/trimpath.template.js"></script>
@@ -54,6 +56,7 @@
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.form.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.MultiFile.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.autoSuggest.sakai-edited.js"></script>
+        <script type="text/javascript" src="/devwidgets/video/jwplayer/swfobject.js"></script>
 
     </head>
 
@@ -73,38 +76,26 @@
                 <!-- ENTITY WIDGET -->
                 <div id="widget_entity" class="widget_inline"></div>
 
-                <!-- ERROR CONTAINER -->
-                <div id="content_profile_error_container">
-                </div>
-
-                <div id="content_profile_error_container_template"><!--
-                    {if error}
-                        <div class="s3d-site-heading">
-                            <h1>__MSG__CONTENT_PROFILE__</h1>
-                        </div>
-                        <p class="content_profile_error">
-                        {if error === "invalid_url"}
-                            __MSG__THE_CONTENT_PATH_COULD_NOT_BE_LOADED__.
-                        {elseif error === "invalid_query"}
-                            __MSG__THE_CONTENT_PATH_IS_INVALID_OR_UNDEFINED__.
-                        {/if}
-                        </p>
-                    {/if}
-                --></div>
             </div>
         </div>
 
         <!-- MAIN CONTAINER -->
         <div class="fl-container-flex">
-            <div class="fl-fix fl-centered fixed-container s3d-main-container" id="content_profile_file_details_container" style="display: none;"><!-- --></div>
-            <div class="fl-fix fl-centered fixed-container s3d-main-container" id="content_profile_basic_info_container" style="display: none;"><!-- --></div>
+            <div class="fl-fix fl-centered fixed-container s3d-main-container">
+                <div>
+                    <div class="fl-container-650 fl-force-left content_profile_left_column">
+                        <div id="widget_contentpreview" class="widget_inline"></div>
+                        <div id="widget_contentmetadata" class="widget_inline"></div>
+                        <div id="widget_contentcomments_id123456789" class="widget_inline"></div>
+                    </div>
+                    <div class="fl-container-250 fl-force-right">
+                        <div id="widget_relatedcontent" class="widget_inline"></div>
+                    </div>
+                </div>
+                <div class="fl-push fl-widget"><!-- --></div>
+            </div>
         </div>
-
-        <!-- FILE DETAIL INFO-->
-        <div id="widget_contentprofilefiledetails" class="widget_inline"></div>
-
-        <!-- BASIC CONTENT INFO-->
-        <div id="widget_contentprofilebasicinfo" class="widget_inline"></div>
+        
 
         <!-- DELETE CONTENT WIDGET -->
         <div id="widget_deletecontent" class="widget_inline"></div>
@@ -115,44 +106,20 @@
         <!-- VIEW FILE REVISIONS WIDGET -->
         <div id="widget_filerevisions" class="widget_inline"></div>
 
+        <!-- SEND MESSAGE -->
+        <div id="widget_sendmessage" class="widget_inline"></div>
+
         <div id="content_profile_listpeople_container" class="testing fl-fix fl-centered fixed-container s3d-main-container" style="display:none;">
             <!-- PICKERUSER WIDGET -->
             <div id="widget_pickeruser" class="widget_inline"></div>
 
             <span style="display:none;" id="content_profile_text">__MSG__CONTENT_PROFILE__</span>
-            <span style="display:none;" id="content_profile_users_added_text">__MSG__ALL_SELECTED_USERS_AND_GROUPS_HAVE_BEEN_ADDED_TO__</span>
+            <span style="display:none;" id="content_profile_users_added_text">__MSG__THE_FOLLOWING_USERS_AND_GROUPS_HAVE_BEEN_ADDED_TO__</span>
             <span style="display:none;" id="content_profile_users_removed_text">__MSG__ALL_SELECTED_USERS_AND_GROUPS_HAVE_BEEN_REMOVED_FROM__</span>
             <span style="display:none;" id="content_profile_viewers_text">__MSG__VIEWERS__</span>
             <span style="display:none;" id="content_profile_managers_text">__MSG__MANAGERS__</span>
             <span style="display:none;" id="content_profile_cannot_remove_everyone">__MSG__CONTENT_CANNOT_REMOVE_ALL_MANAGERS__</span>
 
-            <h4 class="content_profile_list_header">__MSG__VIEWERS_OF_THIS_CONTENT__</h4>
-            <!-- LISTPEOPLE WIDGET TO LIST VIEWERS -->
-            <div id="widget_listpeople_viewers" class="widget_inline"></div>
-            <div class="content_profile_list_buttons fl-push" style="display:none;">
-                <div class="fl-force-right">
-                    <button id="content_profile_remove_viewers" type="button" class="s3d-button">
-                        <span class="s3d-button-inner">__MSG__REMOVE_SELECTED_VIEWERS__</span>
-                    </button>
-                    <button id="content_profile_add_viewers" type="button" class="s3d-button s3d-button-primary">
-                        <span class="s3d-button-inner">__MSG__ADD_NEW_VIEWERS__</span>
-                    </button>
-                </div>
-            </div>
-
-            <h4 class="content_profile_list_header">__MSG__MANAGERS_OF_THIS_CONTENT__</h4>
-            <!-- LISTPEOPLE WIDGET TO LIST MANAGERS -->
-            <div id="widget_listpeople_managers" class="widget_inline"></div>
-            <div class="content_profile_list_buttons fl-push" style="display:none;">
-                <div class="fl-force-right">
-                    <button id="content_profile_remove_managers" type="button" class="s3d-button">
-                        <span class="s3d-button-inner">__MSG__REMOVE_SELECTED_MANAGERS__</span>
-                    </button>
-                    <button id="content_profile_add_managers" type="button" class="s3d-button s3d-button-primary">
-                        <span class="s3d-button-inner">__MSG__ADD_NEW_MANAGERS__</span>
-                    </button>
-                </div>
-            </div>
         </div>
 
         <!-- FOOTER WIDGET -->
