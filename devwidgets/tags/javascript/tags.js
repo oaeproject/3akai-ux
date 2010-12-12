@@ -53,6 +53,14 @@ sakai.tags = function(tuid, showSettings) {
     
     var doInit = function(){
         loadData(function() {
+            var newtags = [];
+            // Filter out directory tags
+            for (var i = 0; i < tagData.results[0].tags.length; i++){
+                if (tagData.results[0].tags[i].name.substring(0, 10) !== "directory/"){
+                    newtags.push(tagData.results[0].tags[i]);
+                }
+            }
+            tagData.results[0].tags = newtags;
             // Sort the tags in alphabetical order so we can generate a tag cloud
             tagData.results[0].tags.sort(function(a, b) {
                 var nameA = a.name.toLowerCase();
