@@ -57,10 +57,14 @@ sakai.faceted = function(tuid){
      * Render the template
      */
     var renderTemplateFaceted = function(facetedConfig){
-        // Render the faceted.
-        $(facetedContainer).html($.TemplateRenderer(facetedDefaultTemplate, facetedConfig));
+        if (sakai.data.me.user.anon) {
+          $(facetedContainer).hide();
+        } else {
+          // Render the faceted.
+          $(facetedContainer).html($.TemplateRenderer(facetedDefaultTemplate, facetedConfig));
 
-        addBinding();
+          addBinding();
+        }
     };
 
 

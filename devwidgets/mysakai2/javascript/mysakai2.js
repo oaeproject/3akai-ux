@@ -58,8 +58,8 @@ sakai.mysakai2 = function(tuid){
     };
 
     /**
-     * 
-     * 
+     *
+     *
      */
     var loadSakai2SiteList = function(){
         // get sakai2favouriteList

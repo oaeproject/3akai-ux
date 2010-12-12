@@ -97,18 +97,21 @@ sakai.search = function() {
                 "all": {
                     "category": "All Groups",
                     "searchurl": searchURLmap.allgroups
-                },
-                "manage": {
-                    "category": "Groups I manage",
-                    "searchurl": searchURLmap.managergroups
-                },
-                "member": {
-                    "category": "Groups I'm a member of",
-                    "searchurl": searchURLmap.membergroups
                 }
             }
         }
     };
+
+    if (!sakai.data.me.user.anon) {
+        searchConfig.facetedConfig.facets.manage = {
+           "category": "Groups I manage",
+           "searchurl": searchURLmap.managergroups
+        };
+        searchConfig.facetedConfig.facets.member = {
+           "category": "Groups I'm a member of",
+           "searchurl": searchURLmap.membergroups
+        };
+    }
 
 
     ///////////////
@@ -430,9 +433,14 @@ sakai.search = function() {
     ////////////////////
     // Event Handlers //
     ////////////////////
-    $(searchAddGroupButton).bind("click", function(ev){
-        createNewGroup();
-    });
+    if (sakai.data.me.user.anon) {
+        $(searchAddGroupButton).hide();
+        $("#search_results_page1").removeClass("search_results_container_sub");
+    } else {
+        $(searchAddGroupButton).bind("click", function(ev){
+            createNewGroup();
+        });
+    }
 
     /**
      * Will reset the view to standard.

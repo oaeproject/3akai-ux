@@ -84,7 +84,7 @@ sakai.topnavigation = function(tuid, showSettings){
     var $search_group = $("#search_group");
     var $search_group_text = $("#search_group_text");
     var searchFocus = false;
-    
+
     // Containers
     var exploreNavigationContainer = "#explore_nav_container";
 
@@ -92,6 +92,11 @@ sakai.topnavigation = function(tuid, showSettings){
     var searchInputFocusClass = "search_input_focus";
 
     var userLinkChatStatusClass = ".user_link_chat_status";
+
+    var showLogin = true;
+    if (-1 !== $.inArray(window.location.pathname.replace(/\/$/,""), sakai.config.Authentication.hideLoginOn)) {
+      showLogin = false;
+    }
 
     ///////////////////////
     // Utility functions //
@@ -195,25 +200,25 @@ sakai.topnavigation = function(tuid, showSettings){
         // Click event for search_content drop down item
         $search_content.live("click", function(ev){
             showHideMoreMenu(false);
-            $search_links.html($search_content_text.html()); 
+            $search_links.html($search_content_text.html());
         });
 
         // Click event for search_global drop down item
         $search_global.live("click", function(ev){
             showHideMoreMenu(false);
-            $search_links.html($search_global_text.html()); 
+            $search_links.html($search_global_text.html());
         });
 
         // Click event for search_people drop down item
         $search_people.live("click", function(ev){
             showHideMoreMenu(false);
-            $search_links.html($search_people_text.html()); 
+            $search_links.html($search_people_text.html());
         });
 
         // Click event for search_group drop down item
         $search_group.live("click", function(ev){
             showHideMoreMenu(false);
-            $search_links.html($search_group_text.html()); 
+            $search_links.html($search_group_text.html());
         });
 
         $(userLinkChatStatusClass).bind("click", function(ev){
@@ -331,7 +336,7 @@ sakai.topnavigation = function(tuid, showSettings){
         // Disable search button
         $generalSearchSubmitButton.attr("disabled", true);
         // Check whether the search term is different than the default text. If not,
-        // we do a search for * 
+        // we do a search for *
         if (!tosearch){
             tosearch = "*";
         }
@@ -341,8 +346,8 @@ sakai.topnavigation = function(tuid, showSettings){
             $generalSearchSubmitButton.attr("disabled", false);
             // if user is on the search page use the history event to perform the search
             History.addBEvent("1", encodeURIComponent(tosearch));
-        } 
-        // global is selected 
+        }
+        // global is selected
         if ($search_links.html() === $search_global_text.html()) {
             // Redirecting back to the general search page. This expects the URL to be
             // in a format like this one: page.html#pageid|searchstring
@@ -352,7 +357,7 @@ sakai.topnavigation = function(tuid, showSettings){
             // Redirecting back to the general search_content page. This expects the URL to be
             // in a format like this one: page.html#pageid|searchstring
             document.location = sakai.config.URL.SEARCH_CONTENT_URL + "#q=" + tosearch;
-        } 
+        }
         // if people is selected
         else if($search_links.html() === $search_people_text.html()){
             // Redirecting back to the general search_content page. This expects the URL to be
@@ -363,7 +368,7 @@ sakai.topnavigation = function(tuid, showSettings){
             // Redirecting back to the general search_content page. This expects the URL to be
             // in a format like this one: page.html#pageid|searchstring
             document.location = sakai.config.URL.SEARCH_GROUP_URL + "#q=" + tosearch;
-        } 
+        }
 
     };
 
@@ -396,23 +401,26 @@ sakai.topnavigation = function(tuid, showSettings){
      * @returns void
      */
     var switchToAnonymousMode = function(){
+        // Hide things which are irrelvant for Anonymous user
+        $(".personal .mail").hide();
+        $(".personal .sign_out").hide();
+        $(".help").hide();
+        $("#user_link_container").hide();
 
         // Show Nav Container
         if (sakai.config.anonAllowed){
             $(exploreNavigationContainer).show();
 
-            // Hide things which are irrelvant for Anonymous user
-            $(".personal .mail").hide();
-            $(".personal .sign_out").hide();
-            $(".help").hide();
-            $("#user_link_container").hide();
+            var indexPaths = ["/dev", "/dev/index.html", "/dev/", "/", "/dev/404.html", "/dev/403.html"];
+            if (-1 !== $.inArray(window.location.pathname.replace(/\/$/,""), indexPaths)) {
+                $(".explore-bg").show();
+            }
 
             // Show anonymous elements
             $("#other_logins_button_container").show();
             $(".log_in").addClass("help_none");
 
-            // if current page is not index.html only then show register and login button
-            if (window.location.pathname.split("/")[2] !== "index.html") {
+            if (showLogin) {
                 // if config.js is set to external, register link is hidden
                 if (!sakai.config.Authentication.internal) {
                     $("#register_button_container").hide();
@@ -428,6 +436,12 @@ sakai.topnavigation = function(tuid, showSettings){
             $("#nav_people_link a").attr("href", sakai.config.URL.PUBLIC_PEOPLE_URL);
             $("#nav_courses_sites_link a").attr("href", sakai.config.URL.PUBLIC_COURSES_SITES_URL);
             $("#nav_search_link a").attr("href", sakai.config.URL.PUBLIC_SEARCH_URL_PAGE);
+
+            if (window.location.pathname.split("/")[2] === "403.html" || window.location.pathname.split("/")[2] === "404.html") {
+                // hide register and login links
+                $("#register_button_container").hide();
+                $("#login_button_container").hide();
+            }
 
             renderMenu();
         }
@@ -495,7 +509,11 @@ sakai.topnavigation = function(tuid, showSettings){
             if (sakai.config.Navigation.hasOwnProperty(i)) {
 
                 var temp = {};
-                temp.url = sakai.config.Navigation[i].url;
+                if (sakai.data.me.user.anon && sakai.config.Navigation[i].anonUrl) {
+                  temp.url = sakai.config.Navigation[i].anonUrl;
+                } else {
+                  temp.url = sakai.config.Navigation[i].url;
+                }
                 temp.label = sakai.api.i18n.General.getValueForKey(sakai.config.Navigation[i].label);
                 temp.cleanurl = temp.url || "";
                 if (temp.cleanurl) {
@@ -506,7 +524,7 @@ sakai.topnavigation = function(tuid, showSettings){
                         temp.cleanurl = temp.cleanurl.substring(0, temp.cleanurl.indexOf('#'));
                     }
                 }
-                if (i === 0) {
+                if (i === "0") {
                     temp.firstlink = true;
                 }
                 else {
@@ -518,7 +536,7 @@ sakai.topnavigation = function(tuid, showSettings){
         obj.links = menulinks;
         // Get navigation and render menu template
         $(".explore").html($.TemplateRenderer("navigation_template", obj));
-    }
+    };
 
     ///////////////////////
     // Initial functions //

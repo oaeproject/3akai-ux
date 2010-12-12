@@ -626,14 +626,17 @@ sakai.config = {
         "external": [
             {
               label: "External Login System 1",
-              url: "http://external.login1.com/",
-              description: "This is the description displayed underneath ..."
+              url: "http://external.login1.com/"
             },
             {
               label: "External Login System 2",
-              url: "http://external.login2.com/",
-              description: "This is the description displayed underneath ..."
+              url: "http://external.login2.com/"
             }
+        ],
+        "hideLoginOn": [
+            "/dev",
+            "/dev/index.html",
+            "/dev/create_new_account.html"
         ]
     },
 
@@ -657,14 +660,17 @@ sakai.config = {
         },
         {
             "url" : "/dev/search_content.html#q=*&facet=manage",
+            "anonUrl" : "/dev/search_content.html#q=*",
             "label" : "CONTENT_AND_MEDIA"
         },
         {
             "url" : "/dev/search_groups.html#q=*&facet=manage",
+            "anonUrl" : "/dev/search_groups.html#q=*",
             "label" : "GROUPS"
         },
         {
             "url" : "/dev/search_people.html#q=*&facet=contacts",
+            "anonUrl" : "/dev/search_people.html#q=*",
             "label" : "PEOPLE"
         },
         {
@@ -708,7 +714,8 @@ sakai.config = {
         "/dev/search.html",
         "/dev/search_content.html",
         "/dev/search_groups.html",
-        "/dev/search_people.html"
+        "/dev/search_people.html",
+        "/dev/search_sakai2.html"
     ],
     /*
      * List of pages that will be added to requireAnonymous if

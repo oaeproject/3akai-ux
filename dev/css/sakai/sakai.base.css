@@ -477,6 +477,15 @@ html > body .s3d-button .s3d-button-inner {
     background-image: url("/dev/images/arrow_up.png");
 }
 
+.s3d-button.s3d-button-light-gray-square {
+    background:url('/dev/images/light_gray_soft_square_button.png') no-repeat scroll right -21px transparent;
+}
+
+.s3d-button.s3d-button-light-gray-square .s3d-button-inner {
+    background:url('/dev/images/light_gray_soft_square_button.png') no-repeat scroll left top transparent;
+    color: #292929;
+}
+
 /*
  * Context Menu for Dropdowns
  */

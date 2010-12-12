@@ -393,6 +393,11 @@ sakai.search = function() {
      */
     var doInit = function() {
 
+        // Handling the anon user
+        if (sakai.data.me.user.anon) {
+            $("#search_results_page1").removeClass("search_results_container_sub");
+        }
+
         // Get my sites
         mainSearch.getMySites();
         // Add the bindings

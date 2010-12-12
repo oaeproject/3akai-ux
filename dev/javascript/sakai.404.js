@@ -27,6 +27,7 @@ sakai.nopermissions = function(tuid, showSettings) {
     var doInit = function(){
         var renderedTemplate = false;
         if (sakai.data.me.user.anon){
+            
             $('html').addClass("requireAnon");
             // the user is anonymous and should be able to log in
             renderedTemplate = $.TemplateRenderer(pageNotFoundErrorLoggedOutTemplate, sakai.data.me.user).replace(/\r/g, '');
