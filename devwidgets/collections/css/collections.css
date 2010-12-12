@@ -250,7 +250,7 @@ img.content_image {max-width:300px; max-height:200px;}
 #collections_albums_show_category h1 {margin:20px 0px 0px 20px; cursor:pointer;}
 #collections_albums_show_category h1:hover {text-decoration:underline;}
 #collections_albums_show_category div.categoryTitleContainer {margin:0; width:395px; height:30px; float:left; font-weight:bold;}
-#collections_albums_show_category h2 {margin:0; width:375px; float:left; font-weight:bold;}
+#collections_albums_show_category h2 {margin:0; width:353px; float:left; font-weight:bold;}
 #collections_albums_show_category div.configureCategory {float:left; width:163px; text-align:right; margin-top:10px;margin-top:-2px;padding:2px;}
 #collections_albums_show_category div.configureCategory.expanded {border:1px solid #999; -moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px; padding:1px;}
 #collections_albums_show_category div.configureCategory button {float:left; margin-top:2px;margin-bottom:2px;}

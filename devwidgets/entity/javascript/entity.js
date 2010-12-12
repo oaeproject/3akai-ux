@@ -911,8 +911,8 @@ sakai.entity = function(tuid, showSettings){
                 entityconfig.data.profile.lastmodified = $.timeago(new Date(jcr_content["jcr:lastModified"]));
             }
             // Set the size of the file
-            if (jcr_content[":jcr:data"]) {
-                entityconfig.data.profile.filesize = sakai.api.Util.convertToHumanReadableFileSize(jcr_content[":jcr:data"]);
+            if (jcr_content["jcr:data"]) {
+                entityconfig.data.profile.filesize = sakai.api.Util.convertToHumanReadableFileSize(jcr_content["jcr:data"]);
             }
             // Set the mimetype of the file
             if (jcr_content["jcr:mimeType"]) {
