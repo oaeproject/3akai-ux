@@ -124,6 +124,32 @@ sakai.contentmetadata = function(tuid,showSettings){
         addEditBinding(mode);
     };
 
+    var renderName = function(mode){
+        sakai.content_profile.content_data.mode = mode;
+        if (mode === "edit"){
+            $("#contentmetadata_name_name").hide();
+            $("#contentmetadata_name_text").val($.trim($("#contentmetadata_name_name").text()));
+            $("#contentmetadata_name_edit").show(); 
+            $("#contentmetadata_name_text").focus(); 
+        }
+        $("#contentmetadata_name_text").die("blur");
+        $("#contentmetadata_name_text").bind("blur", function(){
+            $("#contentmetadata_name_edit").hide();
+            $("#contentmetadata_name_name").text($("#contentmetadata_name_text").val());
+            $("#contentmetadata_name_name").show();
+            $.ajax({
+                url: "/p/" + sakai.content_profile.content_data.data["jcr:name"] + ".html",
+                type : "POST",
+                cache: false,
+                data: {
+                    "sakai:pooled-content-file-name":$("#contentmetadata_name_text").val()
+                }, success: function(){
+                    sakai.content_profile.content_data.data["sakai:pooled-content-file-name"] = $("#contentmetadata_name_text").val();
+                }
+            });
+        });
+    }
+
     /**
      * Render the Tags template
      * @param {String|Boolean} mode Can be false or 'edit' depending on the mode you want to be in
@@ -498,7 +524,6 @@ sakai.contentmetadata = function(tuid,showSettings){
      * Add binding/events to the elements in the widget
      */
     var addBinding = function(){
-        
         $(".contentmetadata_editable_for_maintainers").removeClass("contentmetadata_editable");
         if (sakai.content_profile.content_data.isManager) {
             $(".contentmetadata_editable_for_maintainers").addClass("contentmetadata_editable");
@@ -507,9 +532,10 @@ sakai.contentmetadata = function(tuid,showSettings){
         $contentmetadataShowMore.unbind("click", animateData);
         $contentmetadataShowMore.bind("click", animateData);
 
-        $(".contentmetadata_editable").unbind("click", editData);
-        $(".contentmetadata_editable").bind("click", editData);
+        $(".contentmetadata_editable").die("click", editData);
+        $(".contentmetadata_editable").live("click", editData);
 
+        $(contentmetadataViewRevisions).die("click");
         $(contentmetadataViewRevisions).live("click", function(){
             sakai.filerevisions.initialise(sakai.content_profile.content_data)
         });

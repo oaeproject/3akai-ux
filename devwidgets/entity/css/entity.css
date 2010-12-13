@@ -98,3 +98,6 @@
 .entity_avatar_border {border: 1px solid #cbd0d4;}
 .entity_padding_top {padding-top: 3px;}
 .entity_member_count {display:block; padding-top: 2px; padding-bottom: 2px; color: #333;}
+
+.entity_content_header .contentmetadata_editable {padding: 0px !important;}
+#contentmetadata_name_text {width: 600px; font-size: 22px;}

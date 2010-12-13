@@ -1354,9 +1354,6 @@ sakai.entity = function(tuid, showSettings){
                 addGroupBinding();
                 break;
             case "content":
-                addContentBinding();
-                break;
-            case "content2":
                 addContent2Binding();
                 break;
         }
