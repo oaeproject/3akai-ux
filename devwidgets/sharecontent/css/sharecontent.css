@@ -21,7 +21,7 @@
 #sharecontent_container #sharecontent_basic_container span#sharecontent_add_header_what,#sharecontent_container #sharecontent_basic_container span#sharecontent_add_header_where{font-weight:bold;}
 #sharecontent_container div.fl-force-left{width:100%;}
 #sharecontent_visibility_header {float:left;}
-#sharecontent_change_global_permissions {float:left; margin-left:13px; padding:9px 0 0;font-size: 12px;}
+#sharecontent_change_global_permissions {float:left; margin-left:13px; padding:8px 0 0;font-size: 12px;}
 
 /* SHARE LINK */
 #sharecontent_container #sharecontent_basic_container #sharecontent_share_link {margin:5px 0 0;}
