@@ -7,7 +7,7 @@
 #sharecontent_container ul.as-selections {padding: 1px; margin:3px 8px 0 0;}
 #sharecontent_container .as-results {margin-top:32px;margin-left: 107px;}
 #sharecontent_container ul.as-selections li.as-original input {background: none repeat scroll 0 0 transparent;}
-#sharecontent_container .s3d-highlight_area_background_darker1 {padding: 12px 10px 0;}
+#sharecontent_container .s3d-highlight_area_background_darker1 {padding: 12px 10px 0; width: 632px;}
 #sharecontent_basic_container .sharecontent_search_container .sharecontent_permission_link {margin-top: 5px;}
 #sharecontent_basic_container .sharecontent_search_container ul.as-selections {-moz-box-shadow: none; overflow: visible;}
 #sharecontent_basic_container .s3d-highlight_area_background_darker1 {background-color: #D5DBDF; margin: 0;}
