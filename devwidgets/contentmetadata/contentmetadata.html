@@ -41,7 +41,7 @@
 <div id="contentmetadata_tags_template" style="display:none;"><!--
     <div class='s3d-highlight_area_background_darker1_white_content_tl'><div class='s3d-highlight_area_background_darker1_white_content_tinner'></div></div>
         {if mode === "edit"}
-            <textarea id="contentmetadata_tags_tags" class="contentmetadata_edit_input">{if typeof data["sakai:tags"] != "undefined"}${data["sakai:tags"]}{/if}</textarea>
+            <textarea id="contentmetadata_tags_tags" class="contentmetadata_edit_input">{if typeof data["sakai:tags"] != "undefined"}{for tag in data["sakai:tags"]}{if tag.split("/")[0] !== "directory"}{if tag_index > 0},{/if}${tag}{/if}{/for}{/if}</textarea>
         {else}
             <span class="contentmetadata_first_column">__MSG__TAGS__:</span>
             {if typeof data["sakai:tags"] != "undefined"}

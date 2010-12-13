@@ -410,6 +410,12 @@ sakai.contentmetadata = function(tuid,showSettings){
 
     var updateTags = function() {
         var tags = sakai.api.Util.formatTags($("#contentmetadata_tags_tags").val());
+        // Since directory tags are filtered out of the textarea we should put them back to save them
+        $(sakai.content_profile.content_data.data["sakai:tags"]).each(function(index, tag){
+            if(tag.split("/")[0] === "directory"){
+                tags.push(tag);
+            };
+        })
         sakai.api.Util.tagEntity("/p/" + sakai.content_profile.content_data.data["jcr:name"], tags, sakai.content_profile.content_data.data["sakai:tags"], function(){
             sakai.content_profile.content_data.data["sakai:tags"] = tags;
             renderTags(false);
