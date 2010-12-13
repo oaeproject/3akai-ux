@@ -21,7 +21,7 @@
 #contentmetadata_show_more {float:right; clear:both;}
 #contentmetadata_see_more {background: url("/dev/images/arrow_down_sm2.png") no-repeat scroll right 6px transparent; padding-right: 16px;}
 #contentmetadata_see_less {background: url("/dev/images/arrow_up_sm2.png") no-repeat scroll right 6px transparent; padding-right: 16px;}
-.contentmetadata_first_column {display: block; float: left; width: 150px; font-weight:normal; margin-bottom:3px;}
+.contentmetadata_first_column {display: block; float: left; width: 100px; font-weight:normal; margin-bottom:3px;}
 .contentmetadata_content_row {clear:both; float:left;}
 .contentmetadata_second_column {display:block; overflow:hidden;}
 

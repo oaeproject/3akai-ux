@@ -123,29 +123,6 @@ sakai.contentcomments = function(tuid, showSettings){
     ////////////////////////
 
     /**
-     * Parse a json string to a valid date
-     * @param {String} dateInput String of a date that needs to be parsed
-     * @returns {Date}
-     */
-    var parseDate = function(dateInput){
-        /** Get the date with the use of regular expressions */
-        if (dateInput !== null) {
-            /** Get the date with the use of regular expressions */
-            var match = /([0-9]{4})\-([0-9]{2})\-([0-9]{2}).([0-9]{2}):([0-9]{2}):([0-9]{2})/.exec(dateInput); // 2009-08-14T12:18:50
-            var d = new Date();
-            d.setYear(match[1]);
-            d.setMonth(match[2] - 1);
-            d.setDate(match[3]);
-            d.setHours(match[4]);
-            d.setMinutes(match[5]);
-            d.setSeconds(match[6]);
-            return d;
-        }
-        return null;
-
-    };
-
-    /**
      * returns how many years, months, days or hours since the dateinput
      * @param {Date} date
      */
@@ -209,14 +186,14 @@ sakai.contentcomments = function(tuid, showSettings){
             var tempDate = comment.created;
             try {
                 // if the date is not a string this should generate en exception
-                comment.date = parseDate(tempDate);
+                comment.date = sakai.api.l10n.parseDateString(tempDate);
             }
             catch (ex) {
                 comment.date = tempDate;
             }
 
             comment.timeAgo = "about " + getTimeAgo(comment.date) + " "+sakai.api.i18n.General.getValueForKey("AGO");
-            comment.formatDate = sakai.api.l10n.transformDateTimeLong(comment.date);
+            comment.formatDate = sakai.api.l10n.transformDateTimeShort(comment.date);
             comment.messageTxt = comment.comment;
             comment.message = tidyInput(comment.comment);
             comment.canEdit = false;

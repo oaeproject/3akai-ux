@@ -433,14 +433,17 @@ sakai.contentmetadata = function(tuid,showSettings){
 
     /**
      * Trigger the template to render the edit mode
-     * @param {Object} el Clicked element
+     * @param {Object} ev Trigger event
      */
-    var editData = function(el){
-        target = $(el.target).closest(".contentmetadata_editable");
-        if (target[0] !== undefined) {
-            editTarget = target;
-            var dataToEdit = editTarget[0].id.split("_")[1];
-            eval("render" + dataToEdit.capitalize() + "(\"edit\")");
+    var editData = function(ev){
+        if (ev.target.nodeName.toLowerCase() !== "a" && ev.target.nodeName.toLowerCase() !== "select" && ev.target.nodeName.toLowerCase() !== "option") {
+            console.debug(ev);
+            target = $(ev.target).closest(".contentmetadata_editable");
+            if (target[0] !== undefined) {
+                editTarget = target;
+                var dataToEdit = editTarget[0].id.split("_")[1];
+                eval("render" + dataToEdit.capitalize() + "(\"edit\")");
+            }
         }
     };
 
@@ -462,7 +465,6 @@ sakai.contentmetadata = function(tuid,showSettings){
                 break;
         }
     };
-
 
     ////////////////////////
     //////// SET-UP ////////

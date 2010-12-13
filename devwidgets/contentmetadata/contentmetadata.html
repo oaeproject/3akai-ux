@@ -31,7 +31,7 @@
 <div id="contentmetadata_description_template" style="display:none;"><!--
     <div class='s3d-highlight_area_background_darker1_white_content_tl'><div class='s3d-highlight_area_background_darker1_white_content_tinner'></div></div>
     {if mode === "edit"}
-        <input id="contentmetadata_description_description" class="contentmetadata_edit_input" value="${data["sakai:description"]}"/>
+        <textarea id="contentmetadata_description_description" class="contentmetadata_edit_input">${data["sakai:description"]}</textarea>
     {else}
             <span id="contentmetadata_description_display" class="contentmetadata_click">{if $.trim(data["sakai:description"]) != ""}${data["sakai:description"]}{else}__MSG__NO_DESCRIPTION__{/if}</span>
     {/if}
@@ -46,7 +46,7 @@
             <span class="contentmetadata_first_column">__MSG__TAGS__:</span>
             {if typeof data["sakai:tags"] != "undefined"}
                 <span class="contentmetadata_second_column">
-                    {for tag in data["sakai:tags"]}{if tag.split("/")[0] !== "directory"}{if tag_index > 0},{/if} <a href="/dev/search.html#tag=/tags/${tag}" class="s3d-action" title="__MSG__SEARCH_CONTENT_TAGGED_WITH__ '${tag}'"">${tag}</a>{/if}{/for}
+                    {for tag in data["sakai:tags"]}{if tag.split("/")[0] !== "directory"}{if tag_index > 0},{/if} <a href="/dev/search.html#tag=/tags/${tag}" target="_blank" class="s3d-action" title="__MSG__SEARCH_CONTENT_TAGGED_WITH__ '${tag}'"">${tag}</a>{/if}{/for}
                 </span>
             {else}
                 <span class="contentmetadata_click">
@@ -105,11 +105,11 @@
         </span>
         <span class="contentmetadata_content_row">
             <span class="contentmetadata_first_column">__MSG__CREATED__: </span>
-            <span>${sakai.api.l10n.transformDate(new Date(data["jcr:created"]))}</span>
+            <span>${sakai.api.l10n.transformDate(sakai.api.l10n.parseDateString(data["jcr:created"]))}</span>
         </span>
         <span class="contentmetadata_content_row">
             <span class="contentmetadata_first_column">__MSG__LAST_MODIFIED__: </span>
-            <span>${sakai.api.l10n.transformDate(new Date(data["jcr:content"]["jcr:lastModified"]))}</span>
+            <span>${sakai.api.l10n.transformDate(sakai.api.l10n.parseDateString(data["jcr:content"]["jcr:lastModified"]))}</span>
         </span>
         <span class="contentmetadata_content_row">
             <span class="contentmetadata_first_column">__MSG__REVISIONS__: </span>

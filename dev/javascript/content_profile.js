@@ -649,7 +649,7 @@ var old_function = function(){
             addRemoveUsers('managers', sakai.data.listpeople["managers"]["selected"], 'remove');
         });
 
-        if (sakai.pickeruser && sakai.pickeruser.isReady) {
+        if (sakai.sharecontent && sakai.sharecontent.isReady) {
             doPickerUserBindings();
         } else {
             // Add binding to the pickeruser widget buttons for adding users

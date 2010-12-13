@@ -53,26 +53,24 @@
                     <span class="comments_posterDataName s3d-regular-light-links"><a href="/~${i.user.uid}" target="_blank">${i.user.fullName}</a></span>
                     <span class="comments_dateComment">${i.formatDate}</span>
                 </div>
-
+                {if i.canDelete && i.canDelete === true}
+                	{if i["sakai:deleted"] && i["sakai:deleted"] === true}
+                    	<button type="button" class="s3d-button s3d-button-link-2-state comments_undelete" id="comments_undelete${i['sakai:id']}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__UNDELETE__</span></button>
+                    {else}
+                    	<button type="button" class="s3d-button s3d-button-link-2-state comments_delete" id="comments_delete${i['sakai:id']}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__DELETE__</span></button>
+                    {/if}
+                {/if}
                 <div class="comments_commentMessage">
                     <div class="comments_commentLinks">
                         <input type="hidden" id="comments_path_${i['sakai:id']}" value="${i.commentId}" />
-                        <ul>
+                        
                             {if i.canEdit && i.canEdit === true}
-                                <span class="dialog_buttons right">
-                                    <li><button type="button" class="s3d-button s3d-button-link-2-state comments_edit" id="comments_edit_${i['sakai:id']}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__EDIT__</span></button></li>
-                                </span>
+                                <ul>
+                                    <span class="dialog_buttons right">
+                                        <li><button type="button" class="s3d-button s3d-button-link-2-state comments_edit" id="comments_edit_${i['sakai:id']}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__EDIT__</span></button></li>
+                                    </span>
+                                </ul>
                             {/if}
-                            {if i.canDelete && i.canDelete === true}
-                                <span class="dialog_buttons right">
-                                    {if i["sakai:deleted"] && i["sakai:deleted"] === true}
-                                        <li><button type="button" class="s3d-button s3d-button-link-2-state comments_undelete" id="comments_undelete${i['sakai:id']}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__UNDELETE__</span></button></li>
-                                    {else}
-                                        <li><button type="button" class="s3d-button s3d-button-link-2-state comments_delete" id="comments_delete${i['sakai:id']}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__DELETE__</span></button></li>
-                                    {/if}
-                                </span>
-                            {/if}
-                        </ul>
                     </div>
 
                     {if i["sakai:deleted"] && i["sakai:deleted"] === true}
@@ -96,7 +94,9 @@
             </div>
         </div>
         {forelse}
-            <div class="comments_noComments">__MSG__THERE_ARE_NO_COMMENTS__</div>
+            {if sakai.data.me.user.anon}
+                <div class="comments_noComments">__MSG__THERE_ARE_NO_COMMENTS__</div>
+            {/if}
         {/for}
     </div>
 
