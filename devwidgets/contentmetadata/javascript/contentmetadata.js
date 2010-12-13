@@ -463,7 +463,6 @@ sakai.contentmetadata = function(tuid,showSettings){
      */
     var editData = function(ev){
         if (ev.target.nodeName.toLowerCase() !== "a" && ev.target.nodeName.toLowerCase() !== "select" && ev.target.nodeName.toLowerCase() !== "option") {
-            console.debug(ev);
             target = $(ev.target).closest(".contentmetadata_editable");
             if (target[0] !== undefined) {
                 editTarget = target;

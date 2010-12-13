@@ -1117,7 +1117,7 @@ sakai.entity = function(tuid, showSettings){
         }
         entityconfig.data.profile.usercount = userCount;
         entityconfig.data.profile.groupcount = groupCount;
-
+        
         // Set the recent activity for the file
         if (sakai.content_profile.content_data.activity) {
             entityconfig.data.profile.activity = sakai.content_profile.content_data.activity;
@@ -1392,10 +1392,6 @@ sakai.entity = function(tuid, showSettings){
                 $entity_container_template = $entity_container_template_group;
                 break;
             case "content":
-                setContentData(data);
-                $entity_container_template = $entity_container_template_content;
-                break;
-            case "content2":
                 setContent2Data(data);
                 $entity_container_template = $entity_container_template_content;
                 break;

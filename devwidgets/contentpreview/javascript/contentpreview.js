@@ -66,6 +66,8 @@ sakai.contentpreview = function(tuid,showSettings){
     var showManagerButtons = function(){
         if (sakai.content_profile.content_data.isManager){
             $("#contentpreview_actions_container").show();
+        } else {
+            $("#contentpreview_actions_container").hide();
         }
     }
 
