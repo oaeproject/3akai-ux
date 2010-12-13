@@ -1,39 +1,32 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/contentpreview/css/contentpreview.css" />
 
-<div class="contentpreview_widget">
-    <!-- Video and Audio Files -->
-    <div class="contentpreview_videoaudio_preview" id="contentpreview_videoaudio_preview" style="width:640px; height: 390px; border: 1px solid #D4DADE; display:none;">
-        <!-- Video container will be inserted here -->
-    </div>
-    <!-- Flash Files -->
-    <div class="contentpreview_flash_preview" id="contentpreview_flash_preview" style="width:640px; height: 390px; border: 1px solid #D4DADE; display:none;">
-        <!-- Flash file will be inserted here -->
-    </div>
-    <!-- Text -->
-    <div class="contentpreview_text_preview" id="contentpreview_text_preview" style="font-family: 'Courier New'; padding: 5px; overflow: auto; width:640px; height: 390px; border: 1px solid #D4DADE; display:none; ">
-        <!-- Text content will be inserted here -->
-    </div>
-    <!-- HTML -->
-    <div class="contentpreview_html_preview" id="contentpreview_html_preview" style="width:640px; height: 390px; border: 1px solid #D4DADE; display:none; ">
-        <!-- HTML content will be inserted here -->
-    </div>
-    <!-- Images -->
-    <div class="contentpreview_image_preview" id="contentpreview_image_preview" style="padding: 0px; display:none; ">
-        <!-- Image content will be inserted here -->
-    </div>
-    <!-- Default Behavior -->
-    <div class="contentpreview_default_preview" id="contentpreview_default_preview" style="display:none; ">
-        Default behavior
-    </div>
+<div id="contentpreview_widget_main_container" class="contentpreview_widget">
+    
 </div>
-<div style="padding: 15px 20px 15px 10px; height: 25px;">
-    <a id="contentpreview_download_button" href="javascript:;" class="s3d-button s3d-button-primary" style="float:right"><span class="s3d-button-inner">Download</span></a>
-    <div id="contentpreview_actions_container" style="display:none">
-        <button type="submit" class="s3d-button s3d-button-secondary" id="content_preview_delete"><span class="s3d-button-inner">Delete</span></button>
-        <button type="submit" class="s3d-button s3d-button-secondary new_version" id="upload_content"><span class="s3d-button-inner">Upload new version</span></button>
-    </div>
-</div>
+
+<div id="contentpreview_widget_main_template" style="display:none"><!--
+    {if type === "default"}
+        <div class="contentpreview_default_preview" id="contentpreview_default_preview" style="padding: 15px 20px 15px 10px; margin-bottom: 15px; background-color: #eef2f5;">
+            Default behavior
+        </div>
+    {else}
+        <div class="contentpreview_videoaudio_preview" id="contentpreview_videoaudio_preview" style="width:640px; height: 390px; border: 1px solid #D4DADE; display:none;"></div>
+        <div class="contentpreview_flash_preview" id="contentpreview_flash_preview" style="width:640px; height: 390px; border: 1px solid #D4DADE; display:none;"></div>
+        <div class="contentpreview_text_preview" id="contentpreview_text_preview" style="font-family: 'Courier New'; padding: 5px; overflow: auto; width:640px; height: 390px; border: 1px solid #D4DADE; display:none; "></div>
+        <div class="contentpreview_html_preview" id="contentpreview_html_preview" style="width:640px; height: 390px; border: 1px solid #D4DADE; display:none; "></div>
+        <div class="contentpreview_image_preview" id="contentpreview_image_preview" style="padding: 0px; display:none; "></div>
+        <div style="padding: 15px 20px 15px 10px; height: 25px;">
+            <a id="contentpreview_download_button" href="javascript:;" class="s3d-button s3d-button-primary" style="float:right"><span class="s3d-button-inner">Download</span></a>
+            {if sakai.content_profile.content_data.isManager}
+                <div id="contentpreview_actions_container">
+                    <button type="submit" class="s3d-button s3d-button-secondary" id="content_preview_delete"><span class="s3d-button-inner">Delete</span></button>
+                    <button type="submit" class="s3d-button s3d-button-secondary new_version" id="upload_content"><span class="s3d-button-inner">Upload new version</span></button>
+                </div>
+            {/if}
+        </div>
+    {/if}
+--></div>
 
 <div id="contentpreview_templates">
     <div id="contentpreview_image_template"><!--
