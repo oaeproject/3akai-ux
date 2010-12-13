@@ -25,7 +25,7 @@ var sakai = sakai || {};
  * @name sakai.sharecontent
  *
  * @description
- * Public functions for the people picker widget
+ * Public functions for the content share widget
  */
 sakai.sharecontent = {};
 
@@ -35,10 +35,11 @@ sakai.sharecontent = {};
  * @class sharecontent
  *
  * @description
- * People Picker widget<br />
+ * Content Share widget<br />
  * This is a general widget which aims to display an arbitriary number of
  * people, loading dynamically if the list is very long and return the
- * selected users in an object.
+ * selected users in an object. The list loaded also shows which permissions
+ * users have (managers or viewers) and as a manager you can change these settings
  *
  * @version 0.0.1
  * @param {String} tuid Unique id of the widget
@@ -65,6 +66,13 @@ sakai.sharecontent = function(tuid, showSettings) {
     var sharecontentSelectedSharer = "";
     var sharecontentChangeGlobalPermissions = "#sharecontent_change_global_permissions";
     var sharecontentNewMembersPermissions = "#sharecontent_basic_container .sharecontent_search_container .sharecontent_permission_link";
+
+    // Message and mail
+    var $sharecontentWantsToShareAFileWithYou = $("#sharecontent_wants_to_share_a_file_with_you");
+    var $sharecontentHi = $("#sharecontent_hi");
+    var $sharecontentIWouldLikeToShareFilenameWithYou = $("#sharecontent_i_would_like_to_share_filename_with_you");
+    var $sharecontentYouCanFindItOn = $("#sharecontent_you_can_find_it_on");
+    var $sharecontentRegards = $("#sharecontent_regards");
 
     // Search
     var $sharecontent_container_search = $("#sharecontent_container_search", $rootel);
@@ -316,13 +324,12 @@ sakai.sharecontent = function(tuid, showSettings) {
         });
 
         $(sharecontentMessageLink).live("click", function(){
-            sakai.sendmessage.initialise(null, true, false, null, sakai.data.me.profile.basic.elements.firstName.value + " " + sakai.data.me.profile.basic.elements.lastName.value + " " + sakai.api.i18n.Widgets.getValueForKey("sharecontent", "", "WANTS_TO_SHARE"), sakai.data.me.profile.basic.elements.firstName.value + " " + sakai.data.me.profile.basic.elements.lastName.value + " " + sakai.api.i18n.Widgets.getValueForKey("sharecontent", "", "WANTS_TO_SHARE") + "\n\n" + sakai.api.i18n.Widgets.getValueForKey("sharecontent", "", "DOCUMENT_NAME") + ": \"" + sakai.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"\n" + sakai.api.i18n.Widgets.getValueForKey("sharecontent", "", "DOCUMENT_TYPE") + ": " + sakai.content_profile.content_data.data["jcr:content"]["jcr:mimeType"] + "\n" + sakai.api.i18n.Widgets.getValueForKey("sharecontent", "", "LINK") + ": " + window.location);
+            sakai.sendmessage.initialise(null, true, false, null, $sharecontentWantsToShareAFileWithYou.html().replace("${user}", sakai.data.me.profile.basic.elements.firstName.value + " " + sakai.data.me.profile.basic.elements.lastName.value), $sharecontentHi.html() + ",\n\n" + $sharecontentIWouldLikeToShareFilenameWithYou.html().replace("${filename}", "\"" + sakai.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"") + "\n" + $sharecontentYouCanFindItOn.html().replace("${path}", window.location) + "\n\n" + $sharecontentRegards.html() + ",\n" + sakai.data.me.profile.basic.elements.firstName.value);
         });
 
         $(sharecontentEmailLink).live("click", function(){
-            location.href = "mailto:?subject=" + sakai.data.me.profile.basic.elements.firstName.value + " " + sakai.data.me.profile.basic.elements.lastName.value + " " + sakai.api.i18n.Widgets.getValueForKey("sharecontent","","WANTS_TO_SHARE") + "&body=" + sakai.data.me.profile.basic.elements.firstName.value + " " + sakai.data.me.profile.basic.elements.lastName.value + " " + sakai.api.i18n.Widgets.getValueForKey("sharecontent","","WANTS_TO_SHARE") + "%0A%0A" + sakai.api.i18n.Widgets.getValueForKey("sharecontent","","DOCUMENT_NAME") +
-            ": \"" + sakai.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\";%0A" + sakai.api.i18n.Widgets.getValueForKey("sharecontent","","DOCUMENT_TYPE") + ": " + sakai.content_profile.content_data.data["jcr:content"]["jcr:mimeType"] + "%0A" + sakai.api.i18n.Widgets.getValueForKey("sharecontent","","LINK") + ": " + window.location + "%0A%0A%0A" + sakai.api.i18n.Widgets.getValueForKey("sharecontent","","IF_YOU_DONT_HAVE_AN_ACCOUNT") + window.location.protocol + "//" +
-            window.location.host + "/dev/create_new_account.html";
+            location.href = "mailto:?subject=" + $sharecontentWantsToShareAFileWithYou.html().replace("${user}", sakai.data.me.profile.basic.elements.firstName.value + " " + sakai.data.me.profile.basic.elements.lastName.value) + 
+            "&body=" + $sharecontentHi.html() + ",%0A%0A" + $sharecontentIWouldLikeToShareFilenameWithYou.html().replace("${filename}", "\"" + sakai.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"") + "%0A" + $sharecontentYouCanFindItOn.html().replace("${path}", window.location) + "%0A%0A" + $sharecontentRegards.html() + ",%0A" + sakai.data.me.profile.basic.elements.firstName.value;
         });
 
         $(sharecontentLinkInput).live("focus", function(){

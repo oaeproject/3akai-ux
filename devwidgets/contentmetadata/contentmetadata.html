@@ -46,7 +46,8 @@
             <span class="contentmetadata_first_column">__MSG__TAGS__:</span>
             {if typeof data["sakai:tags"] != "undefined"}
                 <span class="contentmetadata_second_column">
-                    {for tag in data["sakai:tags"]}{if tag.split("/")[0] !== "directory"}{if tag_index > 0},{/if} <a href="/dev/search.html#tag=/tags/${tag}" target="_blank" class="s3d-action" title="__MSG__SEARCH_CONTENT_TAGGED_WITH__ '${tag}'"">${tag}</a>{/if}{/for}
+                    {var dirCount = 0;}
+                    {for tag in data["sakai:tags"]}{if tag.split("/")[0] !== "directory"}{if tag_index - dirCount > 0},{/if} <a href="/dev/search.html#tag=/tags/${tag}" target="_blank" class="s3d-action" title="__MSG__SEARCH_CONTENT_TAGGED_WITH__ '${tag}'"">${tag}</a>{else}{var dirCount = dirCount + 1;}{/if}{/for}
                 </span>
             {else}
                 <span class="contentmetadata_click">
