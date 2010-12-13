@@ -37,38 +37,41 @@ var sakai = sakai || {};
 
 sakai.contentpreview = function(tuid,showSettings){
 
+    var obj = {};
+    obj.type = "showpreview";
+
     var determineDataType = function(){
         hidePreview();
+        obj.type = "showpreview";
+        var callback = null;
+        var arg = null;
         var mimeType = sakai.content_profile.content_data.data["jcr:content"]["jcr:mimeType"];
-        if (mimeType.substring(0, 6) === "video/"){
-            renderVideoPlayer();
-        } else if (mimeType.substring(0, 6) === "audio/"){
-            renderAudioPlayer();
-        } else if (mimeType === "application/x-shockwave-flash"){
-            renderFlashPlayer();    
+        if (mimeType.substring(0, 6) === "video/") {
+            callback = renderVideoPlayer;
+        } else if (mimeType.substring(0, 6) === "audio/") {
+            callback = renderAudioPlayer;
+        } else if (mimeType === "application/x-shockwave-flash") {
+        	callback = renderFlashPlayer;
         } else if (mimeType === "text/plain") {
-            renderTextPreview();
+        	callback = renderTextPreview;
         } else if (mimeType === "text/html") {
-            renderHTMLPreview();
+        	callback = renderHTMLPreview;
         } else if (mimeType === "image/vnd.adobe.photoshop") {
-            renderDefaultPreview();
-        } else if (mimeType.substring(0, 6) === "image/") {
-            renderImagePreview();
+            callback = renderStoredPreview;
+        } else  if (mimeType.substring(0, 6) === "image/") {
+            callback = renderImagePreview;
+        } else if (sakai.content_profile.content_data.data["sakai:needsprocessing"] === "false") {
+            callback = renderStoredPreview                   
         } else {
-            renderDefaultPreview();
+            callback = renderDefaultPreview;
+            obj.type = "default";
         }
+        $.TemplateRenderer("contentpreview_widget_main_template", obj, $("#contentpreview_widget_main_container"));
+        callback(arg);
     }
     
     var setDownloadButton = function(){
         $("#contentpreview_download_button").attr("href", sakai.content_profile.content_data.path);
-    }
-    
-    var showManagerButtons = function(){
-        if (sakai.content_profile.content_data.isManager){
-            $("#contentpreview_actions_container").show();
-        } else {
-            $("#contentpreview_actions_container").hide();
-        }
     }
 
     //TODO: Clean this mess up
@@ -173,23 +176,16 @@ sakai.contentpreview = function(tuid,showSettings){
         return so;
     }
     
+    var renderStoredPreview = function(){
+        renderImagePreview("/p/" + sakai.content_profile.content_data.data["jcr:name"] + ".preview.jpg");
+    }
+    
     var renderDefaultPreview = function(){
-        if (sakai.content_profile.content_data.data["sakai:needsprocessing"] === "false") {
-            renderImagePreview("/p/" + sakai.content_profile.content_data.data["jcr:name"] + ".preview.jpg");
-        }
-        else {
-            $(".contentpreview_default_preview").show();
-        }
+        // TODO
     }
     
     var hidePreview = function(){
-        $(".contentpreview_html_preview").hide();
-        $(".contentpreview_videoaudio_preview").hide();
-        $(".contentpreview_flash_preview").hide();
-        $(".contentpreview_default_preview").hide();
-        $(".contentpreview_text_preview").hide();
-        $(".contentpreview_image_preview").hide();
-        
+        $("#contentpreview_widget_main_container").html("");
         $("#contentpreview_image_preview").html("");
     }
 
@@ -216,7 +212,6 @@ sakai.contentpreview = function(tuid,showSettings){
 
     $(window).bind("sakai.contentpreview.start", function(){
         determineDataType();
-        showManagerButtons();
         setDownloadButton();
         bindButtons();
     });
