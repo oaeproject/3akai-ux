@@ -73,7 +73,7 @@ sakai.content_profile = function(){
                     "dataType":"json"
                 },
                 {
-                    "url": content_path + ".members.json",
+                    "url": content_path + ".members.detailed.json",
                     "method":"GET",
                     "cache":false,
                     "dataType":"json"
@@ -164,7 +164,7 @@ sakai.content_profile = function(){
                     var anon = true;
                     if (!sakai.data.me.user.anon){
                         for (var i in contentMembers.managers) {
-                            if (contentMembers.managers[i].userid === sakai.data.me.user.userid) {
+                            if (contentMembers.managers[i]["rep:userId"] === sakai.data.me.user.userid) {
                                 manager = true;
                             }
                         }

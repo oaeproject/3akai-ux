@@ -29,7 +29,7 @@
             <div class="s3d-highlight_area_background fl-push">
                 <div class='s3d-highlight_area_background_tl'><div class='s3d-highlight_area_background_tinner'></div></div>
                     <span id="sharecontent_share_link" class="fl-force-left fl-push">
-                        <span id="sharecontent_content_link" class="s3d-bold">__MSG__LINK__</span><input type="text" value="${window.location}" readonly="readonly"/>
+                        <span id="sharecontent_content_link" class="s3d-bold">__MSG__LINK__</span><input type="text" value="${window.location}" readonly="readonly" dir="rtl"/>
                         {if !data.me.user.anon}
                             <button type="submit" class="s3d-button s3d-button-link-2-state" id="sharecontent_message_link"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__MESSAGE_LINK__</span></button>
                         {/if}
@@ -43,83 +43,87 @@
             <div id="sharecontent_listpeople">
                 <ul>
                     {for manager in content_profile.content_data.members.managers}
-                        <li {if manager_index % 2 != 0} class="sharecontent_list_item_alternating_row"{/if}>
-                            {if manager.picture != null}
-                                {if manager.hasOwnProperty("groupid")}
-                                    <img src="/~${manager.groupid}/public/profile/${manager.picture.name}" alt="${unescape(manager["sakai:group-title"])}" class="sharecontent_people_picture"/>
-                                {else}
-                                    <img src="/~${manager.userid}/public/profile/${manager.picture.name}" alt="${manager.basic.elements.firstName.value}" class="sharecontent_people_picture"/>
-                                {/if}
-                            {else}
-                                {if manager.hasOwnProperty("groupid")}
-                                    <img src="/dev/images/group_avatar_icon_32x32.png" alt="${unescape(manager["sakai:group-title"])}" class="sharecontent_people_picture"/>
-                                {else}
-                                    <img src="/dev/images/user_avatar_icon_32x32.png" alt="${manager.basic.elements.firstName.value}" class="sharecontent_people_picture"/>
-                                {/if}
-                            {/if}
-                            {if manager.hasOwnProperty("groupid")}
-                                <span class="sharecontent_manager_name s3d-bold">${unescape(manager["sakai:group-title"])}</span>
-                                <span class="sharecontent_right_floats">
-                                    {if !data.me.user.anon && content_profile.content_data.isManager}
-                                        <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_permission_link sharecontent_permission_link_${manager.groupid}"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CAN_EDIT__<span class="sharecontent_permission"></span></span></button>
-                                        <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_remove" id="viewer-${manager.groupid}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__REMOVE__</span></button>
+                        {if manager["rep:userId"] !== "anonymous"}
+                            <li {if manager_index % 2 != 0} class="sharecontent_list_item_alternating_row"{/if}>
+                                {if manager.picture != null}
+                                    {if manager.hasOwnProperty("sakai:group-id")}
+                                        <img src="/~${manager["sakai:group-id"]}/public/profile/${manager.picture.name}" alt="${unescape(manager["sakai:group-title"])}" class="sharecontent_people_picture"/>
                                     {else}
-                                        <span class="s3d-bold sharecontent_permission_anon">__MSG__CAN_EDIT__</span>
+                                        <img src="/~${manager["rep:userId"]}/public/profile/${manager.picture.name}" alt="${manager.basic.elements.firstName.value}" class="sharecontent_people_picture"/>
                                     {/if}
-                                </span>
-                            {else}
-                                <span class="sharecontent_manager_name s3d-bold">${unescape(manager.basic.elements.firstName.value)} ${unescape(manager.basic.elements.lastName.value)}{if data.me.user.userid == manager.userid}<span id="sharecontent_you">(__MSG__YOU__)</span>{/if}</span>
-                                <span class="sharecontent_right_floats">
-                                    {if !data.me.user.anon && content_profile.content_data.isManager}
-                                        <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_permission_link sharecontent_permission_link_${manager.userid}"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CAN_EDIT__<span class="sharecontent_permission"></span></span></button>
-                                        <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_remove" id="viewer-${manager.userid}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__REMOVE__</span></button>
+                                {else}
+                                    {if manager.hasOwnProperty("sakai:group-id")}
+                                        <img src="/dev/images/group_avatar_icon_32x32.png" alt="${unescape(manager["sakai:group-title"])}" class="sharecontent_people_picture"/>
                                     {else}
-                                        <span class="s3d-bold sharecontent_permission_anon">__MSG__CAN_EDIT__</span>
+                                        <img src="/dev/images/user_avatar_icon_32x32.png" alt="${manager.basic.elements.firstName.value}" class="sharecontent_people_picture"/>
                                     {/if}
-                                </span>
-                            {/if}
-                        </li>
+                                {/if}
+                                {if manager.hasOwnProperty("sakai:group-id")}
+                                    <span class="sharecontent_manager_name s3d-bold">${unescape(manager["sakai:group-title"])}</span>
+                                    <span class="sharecontent_right_floats">
+                                        {if !data.me.user.anon && content_profile.content_data.isManager}
+                                            <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_permission_link sharecontent_permission_link_${manager["sakai:group-id"]}"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CAN_EDIT__<span class="sharecontent_permission"></span></span></button>
+                                            <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_remove" id="viewer-${manager.groupid}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__REMOVE__</span></button>
+                                        {else}
+                                            <span class="s3d-bold sharecontent_permission_anon">__MSG__CAN_EDIT__</span>
+                                        {/if}
+                                    </span>
+                                {else}
+                                    <span class="sharecontent_manager_name s3d-bold">${unescape(manager.basic.elements.firstName.value)} ${unescape(manager.basic.elements.lastName.value)}{if data.me.user.userid == manager.userid}<span id="sharecontent_you">(__MSG__YOU__)</span>{/if}</span>
+                                    <span class="sharecontent_right_floats">
+                                        {if !data.me.user.anon && content_profile.content_data.isManager}
+                                            <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_permission_link sharecontent_permission_link_${manager["rep:userId"]}"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CAN_EDIT__<span class="sharecontent_permission"></span></span></button>
+                                            <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_remove" id="viewer-${manager.userid}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__REMOVE__</span></button>
+                                        {else}
+                                            <span class="s3d-bold sharecontent_permission_anon">__MSG__CAN_EDIT__</span>
+                                        {/if}
+                                    </span>
+                                {/if}
+                            </li>
+                        {/if}
                     {/for}
 
                     {if content_profile.content_data.members.hasOwnProperty("viewers")}
                         {for viewer in content_profile.content_data.members.viewers}
-                            {if !data.me.user.anon}
-                                <li {if content_profile.content_data.members.managers.length % 2 != 0}{if viewer_index % 2 == 0} class="sharecontent_list_item_alternating_row"{/if}{else}{if viewer_index % 2 != 0} class="sharecontent_list_item_alternating_row"{/if}{/if}>
-                                    {if viewer.picture != null}
-                                        {if viewer.hasOwnProperty("groupid")}
-                                            <img src="/~${viewer.groupid}/public/profile/${viewers.picture.name}" alt="${unescape(viewer["sakai:group-title"])}" class="sharecontent_people_picture"/>
-                                        {else}
-                                            <img src="/~${viewer.userid}/public/profile/${viewers.picture.name}" alt="${viewer.basic.elements.firstName.value}" class="sharecontent_people_picture"/>
-                                        {/if}
-                                    {else}
-                                        {if viewer.hasOwnProperty("groupid")}
-                                            <img src="/dev/images/group_avatar_icon_32x32.png" alt="${unescape(viewer["sakai:group-title"])}" class="sharecontent_people_picture"/>
-                                        {else}
-                                            <img src="/dev/images/user_avatar_icon_32x32.png" alt="${viewer.basic.elements.firstName.value}" class="sharecontent_people_picture"/>
-                                        {/if}
-                                    {/if}
-                                    {if viewer.hasOwnProperty("groupid")}
-                                        <span class="sharecontent_viewer_name s3d-bold">${unescape(viewer["sakai:group-title"])}</span>
-                                        <span class="sharecontent_right_floats">
-                                            {if !data.me.user.anon && content_profile.content_data.isManager}
-                                                <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_permission_link sharecontent_permission_link_${viewer.groupid}"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CAN_VIEW__<span class="sharecontent_permission"></span></span></button>
-                                                <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_remove" id="viewer-${viewer.groupid}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__REMOVE__</span></button>
+                            {if viewer["rep:userId"] !== "anonymous"}
+                                {if !data.me.user.anon}
+                                    <li {if content_profile.content_data.members.managers.length % 2 != 0}{if viewer_index % 2 == 0} class="sharecontent_list_item_alternating_row"{/if}{else}{if viewer_index % 2 != 0} class="sharecontent_list_item_alternating_row"{/if}{/if}>
+                                        {if viewer.picture != null}
+                                            {if viewer.hasOwnProperty("sakai:group-id")}
+                                                <img src="/~${viewer["sakai:group-id"]}/public/profile/${viewer.picture.name}" alt="${unescape(viewer["sakai:group-title"])}" class="sharecontent_people_picture"/>
                                             {else}
-                                                <span class="s3d-bold sharecontent_permission_anon">__MSG__CAN_VIEW__</span>
+                                                <img src="/~${viewer["rep:userId"]}/public/profile/${viewer.picture.name}" alt="${viewer.basic.elements.firstName.value}" class="sharecontent_people_picture"/>
                                             {/if}
-                                        </span>
-                                    {else}
-                                        <span class="sharecontent_viewer_name s3d-bold">${unescape(viewer.basic.elements.firstName.value)} ${unescape(viewer.basic.elements.lastName.value)}{if data.me.user.userid == viewer.userid}<span id="sharecontent_you">(__MSG__YOU__)</span>{/if}</span>
-                                        <span class="sharecontent_right_floats">
-                                            {if !data.me.user.anon && content_profile.content_data.isManager}
-                                                <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_permission_link sharecontent_permission_link_${viewer.userid}"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CAN_VIEW__<span class="sharecontent_permission"></span></span></button>
-                                                <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_remove" id="viewer-${viewer.userid}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__REMOVE__</span></button>
+                                        {else}
+                                            {if viewer.hasOwnProperty("sakai:group-id")}
+                                                <img src="/dev/images/group_avatar_icon_32x32.png" alt="${unescape(viewer["sakai:group-title"])}" class="sharecontent_people_picture"/>
                                             {else}
-                                                <span class="s3d-bold sharecontent_permission_anon">__MSG__CAN_VIEW__</span>
+                                                <img src="/dev/images/user_avatar_icon_32x32.png" alt="${viewer.basic.elements.firstName.value}" class="sharecontent_people_picture"/>
                                             {/if}
-                                        </span>
-                                    {/if}
-                                </li>
+                                        {/if}
+                                        {if viewer.hasOwnProperty("sakai:group-id")}
+                                            <span class="sharecontent_viewer_name s3d-bold">${unescape(viewer["sakai:group-title"])}</span>
+                                            <span class="sharecontent_right_floats">
+                                                {if !data.me.user.anon && content_profile.content_data.isManager}
+                                                    <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_permission_link sharecontent_permission_link_${viewer["sakai:group-id"]}"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CAN_VIEW__<span class="sharecontent_permission"></span></span></button>
+                                                    <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_remove" id="viewer-${viewer.groupid}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__REMOVE__</span></button>
+                                                {else}
+                                                    <span class="s3d-bold sharecontent_permission_anon">__MSG__CAN_VIEW__</span>
+                                                {/if}
+                                            </span>
+                                        {else}
+                                            <span class="sharecontent_viewer_name s3d-bold">${unescape(viewer.basic.elements.firstName.value)} ${unescape(viewer.basic.elements.lastName.value)}{if data.me.user.userid == viewer.userid}<span id="sharecontent_you">(__MSG__YOU__)</span>{/if}</span>
+                                            <span class="sharecontent_right_floats">
+                                                {if !data.me.user.anon && content_profile.content_data.isManager}
+                                                    <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_permission_link sharecontent_permission_link_${viewer["rep:userId"]}"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CAN_VIEW__<span class="sharecontent_permission"></span></span></button>
+                                                    <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_remove" id="viewer-${viewer.userid}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__REMOVE__</span></button>
+                                                {else}
+                                                    <span class="s3d-bold sharecontent_permission_anon">__MSG__CAN_VIEW__</span>
+                                                {/if}
+                                            </span>
+                                        {/if}
+                                    </li>
+                                {/if}
                             {/if}
                         {/for}
                     {/if}
