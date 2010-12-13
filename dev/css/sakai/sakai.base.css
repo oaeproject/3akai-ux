@@ -467,6 +467,34 @@ html > body .s3d-button .s3d-button-inner {
 .s3d-button.s3d-button-tab .s3d-button-inner { font-size:11px; }
 
 /*
+ * Gradient-style button
+ */
+.s3d-button.s3d-button-grad {
+    background:url('/dev/images/gradient_button_bg.png') no-repeat scroll right -24px transparent;
+}
+.s3d-button.s3d-button-grad .s3d-button-inner {
+    background:url('/dev/images/gradient_button_bg.png') no-repeat scroll left top transparent;
+    color:#2a2a2a;
+}
+
+.s3d-button.s3d-button-grad .s3d-button-inner .s3d-button-icon-right.down {
+    background-image: url("/dev/images/arrow_down.png");
+}
+
+.s3d-button.s3d-button-grad .s3d-button-inner .s3d-button-icon-right.up {
+    background-image: url("/dev/images/arrow_up.png");
+}
+
+.s3d-button.s3d-button-light-gray-square {
+    background:url('/dev/images/light_gray_soft_square_button.png') no-repeat scroll right -21px transparent;
+}
+
+.s3d-button.s3d-button-light-gray-square .s3d-button-inner {
+    background:url('/dev/images/light_gray_soft_square_button.png') no-repeat scroll left top transparent;
+    color: #292929;
+}
+
+/*
  * Context Menu for Dropdowns
  */
 .context_menu{left:18px;padding:0;position:absolute;top:124px;}
@@ -574,6 +602,9 @@ ul.as-selections.loading {background:#fff url(/dev/images/ajax_load.gif) center 
 input.error, textarea.error {border-color:#9f3333;background-color:#ffdede;}
 label.error {color:#9f3333;font-weight:bold;}
 
+/* http://blogs.sitepoint.com/2005/02/26/simple-clearing-of-floats/ */
+.clearfix { overflow:auto; }
+
 /*
 
 /* ----------------------------------------------------------------------------
@@ -604,8 +635,28 @@ label.error {color:#9f3333;font-weight:bold;}
 .dialog_footer_inner{background:url(/dev/images/dialog_bl.png) top left no-repeat;height:6px;}
 
 /* highlighted areas */
-.s3d-highlight_area_background {background-color:#EFF2F4; padding: 10px; margin: 0 0 15px 0;}
-.s3d-highlight_area_background_darker1 {background-color:#d5dbdf; padding: 10px; margin: 0 0 15px 0;}
+.s3d-highlight_area_background {background-color:#EFF2F4; padding: 0 10px; margin: 0 0 15px 0;}
+
+.s3d-highlight_area_background_tl {height:7px; margin-left: -10px;  background: url("/dev/images/highlight_area_background_tl.png") no-repeat scroll left 0 transparent;}
+.s3d-highlight_area_background_tinner {height:7px; margin-right: -10px;  background: url("/dev/images/highlight_area_background_tr.png") no-repeat scroll right 0 transparent;}
+.s3d-highlight_area_background_bl {clear:both; height:7px; margin-left: -10px;  background: url("/dev/images/highlight_area_background_bl.png") no-repeat scroll left 0 transparent;}
+.s3d-highlight_area_background_binner {clear:both; height:7px; margin-right: -10px;  background: url("/dev/images/highlight_area_background_br.png") no-repeat scroll right 0 transparent;}
+
+.s3d-highlight_area_background_white_content_tl {height:7px; margin-left: -10px;  background: url("/dev/images/highlight_area_background_white_content_tl.png") no-repeat scroll left 0 transparent;}
+.s3d-highlight_area_background_white_content_tinner {height:7px; margin-right: -10px;  background: url("/dev/images/highlight_area_background_white_content_tr.png") no-repeat scroll right 0 transparent;}
+.s3d-highlight_area_background_white_content_bl {clear:both; height:7px; margin-left: -10px;  background: url("/dev/images/highlight_area_background_white_content_bl.png") no-repeat scroll left 0 transparent;}
+.s3d-highlight_area_background_white_content_binner {clear:both; height:7px; margin-right: -10px;  background: url("/dev/images/highlight_area_background_white_content_br.png") no-repeat scroll right 0 transparent;}
+
+.s3d-highlight_area_background_darker1 {background-color:#d5dbdf; padding: 0 10px; margin: 0 0 15px 0;}
+.s3d-highlight_area_background_darker1_tl {height:7px; margin-left: -10px;  background: url("/dev/images/highlight_area_background_darker1_tl.png") no-repeat scroll left 0 transparent;}
+.s3d-highlight_area_background_darker1_tinner {height:7px; margin-right: -10px;  background: url("/dev/images/highlight_area_background_darker1_tr.png") no-repeat scroll right 0 transparent;}
+.s3d-highlight_area_background_darker1_bl {height:7px; margin-left: -10px;  background: url("/dev/images/highlight_area_background_darker1_bl.png") no-repeat scroll left 0 transparent;}
+.s3d-highlight_area_background_darker1_binner {height:7px; margin-right: -10px;  background: url("/dev/images/highlight_area_background_darker1_br.png") no-repeat scroll right 0 transparent;}
+
+.s3d-highlight_area_background_darker1_white_content_tl {height:7px; margin-left: -10px;  background: url("/dev/images/highlight_area_background_darker1_white_content_tl.png") no-repeat scroll left 0 transparent;}
+.s3d-highlight_area_background_darker1_white_content_tinner {height:7px; margin-right: -10px;  background: url("/dev/images/highlight_area_background_darker1_white_content_tr.png") no-repeat scroll right 0 transparent;}
+.s3d-highlight_area_background_darker1_white_content_bl {clear:both; height:7px; margin-left: -10px;  background: url("/dev/images/highlight_area_background_darker1_white_content_bl.png") no-repeat scroll left 0 transparent;}
+.s3d-highlight_area_background_darker1_white_content_binner {clear:both; height:7px; margin-right: -10px;  background: url("/dev/images/highlight_area_background_darker1_white_content_br.png") no-repeat scroll right 0 transparent;}
 
 /** Chat bullets **/
 .chat_available_status_online { background: url("/dev/images/bullet_green.png") no-repeat scroll -3px -1px transparent; }

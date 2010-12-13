@@ -70,7 +70,11 @@
 .entity_content_users_dialog_list .entity_content_picture {float: left; display: block; height: 32px; width: 32px; padding-right: 10px;}
 .entity_content_users_dialog_list .entity_content_name {line-height: 30px;}
 .entity_content_users_dialog_list .entity_content_even {background: #f1f1f1; border-bottom: 1px solid #f1f1f1;}
-.entity_content_users_dialog_list .entity_content_no_places {text-align: center; line-height: 300px;}
+.entity_content_users_dialog_list .entity_content_list_empty, .entity_content_activity_dialog_list .entity_content_list_empty {text-align: center; line-height: 300px;}
+.entity_content_activity_dialog_list {margin: 12px 0 0 0; padding: 0; height: 310px; overflow: auto; border: 1px solid #d4dade;}
+.entity_content_activity_dialog_list li {display: block; list-style: none; clear: both; padding: 10px 0 10px 10px; border-bottom: 9px solid #FFFFFF; border-top: 1px solid #FFFFFF; overflow: hidden; background: #f1f1f1; }
+.entity_content_activity_dialog_list .entity_content_picture {float: left; display: block; height: 32px; width: 32px; padding-right: 10px;}
+.entity_content_activity_dialog_list .entity_content_activity {position: relative; top: 1px;}
 
 /* Actions */
 .entity_actions {margin-top:10px; overflow:hidden;}
@@ -94,3 +98,6 @@
 .entity_avatar_border {border: 1px solid #cbd0d4;}
 .entity_padding_top {padding-top: 3px;}
 .entity_member_count {display:block; padding-top: 2px; padding-bottom: 2px; color: #333;}
+
+.entity_content_header .contentmetadata_editable {padding: 0px !important;}
+#contentmetadata_name_text {width: 600px; font-size: 22px;}

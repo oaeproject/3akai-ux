@@ -72,8 +72,17 @@ sakai.topnavigation = function(tuid, showSettings){
     var $general_search_container = $("#general_search_container");
     var $general_search_form = $("#general_search_container form");
     var $general_search_input = $("#general_search_input");
-    var $general_search_default_value = $("#general_search_default_value");
-    var generalSearchSubmitButton = "#general_search_submit_button";
+    var $generalSearchSubmitButton = $("#general_search_submit_button");
+    var $search_type = $(".search_type");
+    var $search_links = $(".search_links");
+    var $search_global = $("#search_global");
+    var $search_global_text = $("#search_global_text");
+    var $search_content = $("#search_content");
+    var $search_content_text = $("#search_content_text");
+    var $search_people = $("#search_people");
+    var $search_people_text = $("#search_people_text");
+    var $search_group = $("#search_group");
+    var $search_group_text = $("#search_group_text");
     var searchFocus = false;
 
     // Containers
@@ -83,6 +92,11 @@ sakai.topnavigation = function(tuid, showSettings){
     var searchInputFocusClass = "search_input_focus";
 
     var userLinkChatStatusClass = ".user_link_chat_status";
+
+    var showLogin = true;
+    if (-1 !== $.inArray(window.location.pathname.replace(/\/$/,""), sakai.config.Authentication.hideLoginOn)) {
+      showLogin = false;
+    }
 
     ///////////////////////
     // Utility functions //
@@ -151,12 +165,60 @@ sakai.topnavigation = function(tuid, showSettings){
         }
     };
 
+    /////////////////////////////
+    // Initialisation function //
+    /////////////////////////////
+
+    var showHideMoreMenu = function(hideOnly){
+        var el = $("#search_more_menu");
+        if (el) {
+            if (el.css("display").toLowerCase() !== "none" || hideOnly) {
+                el.hide();
+            } else {
+                var x = $search_type.position().left;
+                var y = $search_type.position().top;
+                el.css(
+                        {
+                          "top": y + 20 + "px",
+                          "left": x + 2 + "px"
+                        }
+                    ).show();
+            }
+        }
+    };
+
     /**
      * Add binding to some elements
      */
     var addBinding = function(){
-        $(userLink).bind("click", function(){
-            showHideUserLinkMenu(false);
+        // Bind search criteria click event
+        $search_type.live("click", function(ev){
+            // show/hide drop down menu
+            showHideMoreMenu(false);
+        });
+
+        // Click event for search_content drop down item
+        $search_content.live("click", function(ev){
+            showHideMoreMenu(false);
+            $search_links.html($search_content_text.html());
+        });
+
+        // Click event for search_global drop down item
+        $search_global.live("click", function(ev){
+            showHideMoreMenu(false);
+            $search_links.html($search_global_text.html());
+        });
+
+        // Click event for search_people drop down item
+        $search_people.live("click", function(ev){
+            showHideMoreMenu(false);
+            $search_links.html($search_people_text.html());
+        });
+
+        // Click event for search_group drop down item
+        $search_group.live("click", function(ev){
+            showHideMoreMenu(false);
+            $search_links.html($search_group_text.html());
         });
 
         $(userLinkChatStatusClass).bind("click", function(ev){
@@ -191,6 +253,16 @@ sakai.topnavigation = function(tuid, showSettings){
                 showHideUserLinkMenu(true);
             }
         });
+            /**
+     * Bind the submit event to the search form
+     * This event is triggered when you hit enter in the input field and
+     * when you click on the submit button
+     */
+    $generalSearchSubmitButton.bind("click", function(){
+        doSearch();
+        return false;
+    });
+
     };
 
     ////////////////
@@ -240,6 +312,17 @@ sakai.topnavigation = function(tuid, showSettings){
 
     };
 
+    /**
+     * Bind the submit event to the search form
+     * This event is triggered when you hit enter in the input field and
+     * when you click on the submit button
+    */
+    $general_search_form.bind("submit", function(){
+        doSearch();
+        return false;
+    });
+
+
 
     ////////////
     // SEARCH //
@@ -251,23 +334,42 @@ sakai.topnavigation = function(tuid, showSettings){
     var doSearch = function(){
         var tosearch = $general_search_input.val();
         // Disable search button
-        $(generalSearchSubmitButton).attr("disabled", true);
+        $generalSearchSubmitButton.attr("disabled", true);
         // Check whether the search term is different than the default text. If not,
         // we do a search for *
-        if (!tosearch || tosearch === $general_search_default_value.text()){
+        if (!tosearch){
             tosearch = "*";
         }
 
         // Only enable button if the location is the search page
         if (window.location.pathname.split("/")[2] === "search.html") {
-            $(generalSearchSubmitButton).attr("disabled", false);
+            $generalSearchSubmitButton.attr("disabled", false);
             // if user is on the search page use the history event to perform the search
             History.addBEvent("1", encodeURIComponent(tosearch));
-        } else {
+        }
+        // global is selected
+        if ($search_links.html() === $search_global_text.html()) {
             // Redirecting back to the general search page. This expects the URL to be
             // in a format like this one: page.html#pageid|searchstring
             document.location = sakai.config.URL.SEARCH_GENERAL_URL + "#q=" + tosearch;
+        // if content is selected
+        } else if($search_links.html() === $search_content_text.html()){
+            // Redirecting back to the general search_content page. This expects the URL to be
+            // in a format like this one: page.html#pageid|searchstring
+            document.location = sakai.config.URL.SEARCH_CONTENT_URL + "#q=" + tosearch;
         }
+        // if people is selected
+        else if($search_links.html() === $search_people_text.html()){
+            // Redirecting back to the general search_content page. This expects the URL to be
+            // in a format like this one: page.html#pageid|searchstring
+            document.location = sakai.config.URL.SEARCH_PEOPLE_URL + "#q=" + tosearch;
+        // if group is selected
+        } else if($search_links.html() === $search_group_text.html()){
+            // Redirecting back to the general search_content page. This expects the URL to be
+            // in a format like this one: page.html#pageid|searchstring
+            document.location = sakai.config.URL.SEARCH_GROUP_URL + "#q=" + tosearch;
+        }
+
     };
 
     /**
@@ -289,63 +391,65 @@ sakai.topnavigation = function(tuid, showSettings){
 
         if (!$general_search_input.val()) {
             $general_search_input.removeClass(searchInputFocusClass);
-            $general_search_input.val($general_search_default_value.text());
             searchFocus = false;
         }
     });
 
-    /**
-     * Bind the submit event to the search form
-     * This event is triggered when you hit enter in the input field and
-     * when you click on the submit button
-     */
-    $general_search_form.bind("submit", function(){
-
-        doSearch();
-        return false;
-    });
 
     /**
      * Switch navigation bar to anonymous mode
      * @returns void
      */
     var switchToAnonymousMode = function(){
-
-        // Show Nav Container
-        $(exploreNavigationContainer).show();
-
         // Hide things which are irrelvant for Anonymous user
         $(".personal .mail").hide();
         $(".personal .sign_out").hide();
         $(".help").hide();
         $("#user_link_container").hide();
 
-        // Hide search bar
-        $general_search_container.hide();
+        // Show Nav Container
+        if (sakai.config.anonAllowed){
+            $(exploreNavigationContainer).show();
 
-        // Show anonymous elements
-        $("#other_logins_button_container").show();
-        $(".log_in").addClass("help_none");
+            var indexPaths = ["/dev", "/dev/index.html", "/dev/", "/", "/dev/404.html", "/dev/403.html"];
+            if (-1 !== $.inArray(window.location.pathname.replace(/\/$/,""), indexPaths)) {
+                $(".explore-bg").show();
+            }
 
-        // if config.js is set to external, register link is hidden
-        if(!sakai.config.Authentication.internal) {
-            $("#register_button_container").hide();
+            // Show anonymous elements
+            $("#other_logins_button_container").show();
+            $(".log_in").addClass("help_none");
+
+            if (showLogin) {
+                // if config.js is set to external, register link is hidden
+                if (!sakai.config.Authentication.internal) {
+                    $("#register_button_container").hide();
+                }
+                else {
+                    $("#register_button_container").show();
+                }
+                $("#login_button_container").show();
+            }
+            // Set up public nav links
+            $("#nav_my_sakai_link a").attr("href", sakai.config.URL.PUBLIC_MY_DASHBOARD_URL);
+            $("#nav_content_media_link a").attr("href", sakai.config.URL.PUBLIC_CONTENT_MEDIA_URL_PAGE);
+            $("#nav_people_link a").attr("href", sakai.config.URL.PUBLIC_PEOPLE_URL);
+            $("#nav_courses_sites_link a").attr("href", sakai.config.URL.PUBLIC_COURSES_SITES_URL);
+            $("#nav_search_link a").attr("href", sakai.config.URL.PUBLIC_SEARCH_URL_PAGE);
+
+            if (window.location.pathname.split("/")[2] === "403.html" || window.location.pathname.split("/")[2] === "404.html") {
+                // hide register and login links
+                $("#register_button_container").hide();
+                $("#login_button_container").hide();
+            }
+
+            renderMenu();
         }
         else {
-            $("#register_button_container").show();
+            $general_search_container.hide();
         }
-        $("#login_button_container").show();
-
-        // Set up public nav links
-        $("#nav_my_sakai_link a").attr("href", sakai.config.URL.PUBLIC_MY_DASHBOARD_URL);
-        $("#nav_content_media_link a").attr("href", sakai.config.URL.PUBLIC_CONTENT_MEDIA_URL_PAGE);
-        $("#nav_people_link a").attr("href", sakai.config.URL.PUBLIC_PEOPLE_URL);
-        $("#nav_courses_sites_link a").attr("href", sakai.config.URL.PUBLIC_COURSES_SITES_URL);
-        $("#nav_search_link a").attr("href", sakai.config.URL.PUBLIC_SEARCH_URL_PAGE);
-
         // Make the login page redirect to the current page after login
         $(".log_in").attr("href", $(".log_in").attr("href") + "?url=" + escape(window.location.pathname + window.location.search + window.location.hash));
-
     };
 
     /**
@@ -395,6 +499,45 @@ sakai.topnavigation = function(tuid, showSettings){
         updateChatStatus();
     };
 
+    var renderMenu = function() {
+        var obj = {};
+        var menulinks = [];
+
+        for (var i in sakai.config.Navigation) {
+
+            // We need to add the hasOwnProperty to pass to JSLint and it is also a security issue
+            if (sakai.config.Navigation.hasOwnProperty(i)) {
+
+                var temp = {};
+                if (sakai.data.me.user.anon && sakai.config.Navigation[i].anonUrl) {
+                  temp.url = sakai.config.Navigation[i].anonUrl;
+                } else {
+                  temp.url = sakai.config.Navigation[i].url;
+                }
+                temp.label = sakai.api.i18n.General.getValueForKey(sakai.config.Navigation[i].label);
+                temp.cleanurl = temp.url || "";
+                if (temp.cleanurl) {
+                    if (temp.cleanurl.indexOf('?') && temp.cleanurl.indexOf('?') > 0) {
+                        temp.cleanurl = temp.cleanurl.substring(0, temp.cleanurl.indexOf('?'));
+                    }
+                    if (temp.cleanurl.indexOf('#') && temp.cleanurl.indexOf('#') > 0) {
+                        temp.cleanurl = temp.cleanurl.substring(0, temp.cleanurl.indexOf('#'));
+                    }
+                }
+                if (i === "0") {
+                    temp.firstlink = true;
+                }
+                else {
+                    temp.firstlink = false;
+                }
+                menulinks.push(temp);
+            }
+        }
+        obj.links = menulinks;
+        // Get navigation and render menu template
+        $(".explore").html($.TemplateRenderer("navigation_template", obj));
+    };
+
     ///////////////////////
     // Initial functions //
     ///////////////////////
@@ -407,38 +550,7 @@ sakai.topnavigation = function(tuid, showSettings){
 
         $(navMyProfile).attr("href", "/~" + sakai.data.me.user.userid);
 
-        var obj = {};
-        var menulinks = [];
-
-        for (var i in sakai.config.Navigation) {
-
-            // We need to add the hasOwnProperty to pass to JSLint and it is also a security issue
-            if (sakai.config.Navigation.hasOwnProperty(i)) {
-
-                var temp = {};
-                temp.url = sakai.config.Navigation[i].url;
-                temp.label = sakai.api.i18n.General.getValueForKey(sakai.config.Navigation[i].label);
-                temp.cleanurl = temp.url || "";
-                if (temp.cleanurl) {
-                    if (temp.cleanurl.indexOf('?') && temp.cleanurl.indexOf('?') > 0) {
-                        temp.cleanurl = temp.cleanurl.substring(0, temp.cleanurl.indexOf('?'));
-                    }
-                    if (temp.cleanurl.indexOf('#') && temp.cleanurl.indexOf('#') > 0) {
-                        temp.cleanurl = temp.cleanurl.substring(0, temp.cleanurl.indexOf('#'));
-                    }
-                }
-                if (i === 0) {
-                    temp.firstlink = true;
-                }
-                else {
-                    temp.firstlink = false;
-                }
-                menulinks.push(temp);
-            }
-        }
-        obj.links = menulinks;
-        // Get navigation and render menu template
-        $(".explore").html($.TemplateRenderer("navigation_template", obj));
+        renderMenu();
 
         var person = sakai.data.me;
 
@@ -471,6 +583,7 @@ sakai.topnavigation = function(tuid, showSettings){
     };
 
     if (sakai.data.me.user.anon) {
+        addBinding();
         // If a user is not logged in -> switch to anonymous mode
         switchToAnonymousMode();
     }

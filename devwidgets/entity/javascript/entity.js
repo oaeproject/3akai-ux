@@ -121,8 +121,11 @@ sakai.entity = function(tuid, showSettings){
 
     // Content Profile
     var $entityContentUsersDialog = $("#entity_content_users_dialog");
-    var $entity_content_dialog_container = $("#entity_content_users_dialog_list_container", $rootel);
-    var $entity_content_dialog_template = $("#entity_content_users_dialog_list_template", $rootel);
+    var $entityContentUsersDialogContainer = $("#entity_content_users_dialog_list_container", $rootel);
+    var $entityContentUsersDialogTemplate = $("#entity_content_users_dialog_list_template", $rootel);
+    var $entityContentActivityDialog = $("#entity_content_activity_dialog");
+    var $entityContentActivityDialogContainer = $("#entity_content_activity_dialog_list_container", $rootel);
+    var $entityContentActivityDialogTemplate = $("#entity_content_activity_dialog_list_template", $rootel);
 
     var authprofileURL;
 
@@ -706,30 +709,6 @@ sakai.entity = function(tuid, showSettings){
         });
     };
 
-    $("#entity_content_share_button, #entity_content_share_link").live("click", function(){
-        var pl_config = {
-            "mode": "search",
-            "selectable": true,
-            "subNameInfo": "email",
-            "sortOn": "lastName",
-            "items": 50,
-            "type": "people",
-            "what": "Viewers",
-            "where": sakai.content_profile.content_data.data["sakai:pooled-content-file-name"],
-            "URL": sakai.content_profile.content_data.url + "/" + sakai.content_profile.content_data.data["sakai:pooled-content-file-name"]
-        };
-
-        $(window).trigger("sakai-pickeruser-init", pl_config, function(people){
-        });
-
-        $(window).bind("sakai-pickeruser-finished", function(e, data) {
-            //renderTemplate();
-        });
-
-        return false;
-    });
-
-
     /**
      * Remove contact button after contact request is sent
      */
@@ -1006,8 +985,8 @@ sakai.entity = function(tuid, showSettings){
                 entityconfig.data.profile.lastmodified = $.timeago(new Date(jcr_content["jcr:lastModified"]));
             }
             // Set the size of the file
-            if (jcr_content[":jcr:data"]) {
-                entityconfig.data.profile.filesize = sakai.api.Util.convertToHumanReadableFileSize(jcr_content[":jcr:data"]);
+            if (jcr_content["jcr:data"]) {
+                entityconfig.data.profile.filesize = sakai.api.Util.convertToHumanReadableFileSize(jcr_content["jcr:data"]);
             }
             // Set the mimetype of the file
             if (jcr_content["jcr:mimeType"]) {
@@ -1060,7 +1039,7 @@ sakai.entity = function(tuid, showSettings){
         }
         // Set the contentpath of the resource
         if(data.url){
-            entityconfig.data.profile.contentpath = data.contentpath;
+            entityconfig.data.profile.contentpath = data.path;
         }
 
         // Set the description of the resource
@@ -1099,51 +1078,18 @@ sakai.entity = function(tuid, showSettings){
 
         // Add binding to elements related to tag drop down
         addBindingTagsLink();
-
-        $entityContentUsersDialog.jqm({
-            modal: true,
-            overlay: 20,
-            toTop: true
-        });
-
-        $(".entity_content_people").live("click", function(){
-            $entityContentUsersDialog.jqmShow();
-
-            var userList = sakai.content_profile.content_data.members.managers.concat(sakai.content_profile.content_data.members.viewers);
-            var json = {
-                "userList": userList,
-                "type": "people"
-            };
-
-            // render dialog template
-            $.TemplateRenderer($entity_content_dialog_template, json, $entity_content_dialog_container);
-            $entity_content_dialog_container.show();
-            $("#entity_content_users_dialog_heading").html($("#entity_content_poeple").html());
-
-            return false;
-        });
-
-        $(".entity_content_places").live("click", function(){
-            $entityContentUsersDialog.jqmShow();
-
-            var userList = sakai.content_profile.content_data.members.managers.concat(sakai.content_profile.content_data.members.viewers);
-            var json = {
-                "userList": userList,
-                "type": "places"
-            };
-
-            // render dialog template
-            $.TemplateRenderer($entity_content_dialog_template, json, $entity_content_dialog_container);
-            $entity_content_dialog_container.show();
-            $("#entity_content_users_dialog_heading").html($("#entity_content_places").html());
-
-            return false;
-        });
     };
 
     ///////////////////
     // CONTENT2 MODE //
     ///////////////////
+
+    /**
+     * Callback function to sort activity based on created date
+     */
+    var sortActivity = function(a, b){
+        return a["jcr:created"] < b["jcr:created"] ? 1 : -1;
+    };
 
     /**
      * Set the data for the content2 object information
@@ -1162,15 +1108,229 @@ sakai.entity = function(tuid, showSettings){
                 groupCount++;
             }
         }
-        for (var i in sakai.content_profile.content_data.members.managers) {
-            if (sakai.content_profile.content_data.members.managers[i].userid) {
+        for (var ii in sakai.content_profile.content_data.members.managers) {
+            if (sakai.content_profile.content_data.members.managers[ii].userid) {
                 userCount++;
-            } else if (sakai.content_profile.content_data.members.managers[i].groupid) {
+            } else if (sakai.content_profile.content_data.members.managers[ii].groupid) {
                 groupCount++;
             }
         }
         entityconfig.data.profile.usercount = userCount;
         entityconfig.data.profile.groupcount = groupCount;
+
+        // Set the recent activity for the file
+        if (sakai.content_profile.content_data.activity) {
+            entityconfig.data.profile.activity = sakai.content_profile.content_data.activity;
+            entityconfig.data.profile.activity.results.sort(sortActivity);
+
+            // find a user for each action from the users list
+            var userList = sakai.content_profile.content_data.members.managers.concat(sakai.content_profile.content_data.members.viewers);
+            var foundUser = false;
+
+            // loop through each activity
+            for (var j in entityconfig.data.profile.activity.results) {
+                if (entityconfig.data.profile.activity.results.hasOwnProperty(j)) {
+
+                    // loop though the userlist to find the actor
+                    for (var jj in userList) {
+                        if (userList.hasOwnProperty(jj)) {
+                            if (userList[jj].userid && userList[jj].userid === entityconfig.data.profile.activity.results[j]["sakai:activity-actor"]) {
+                                entityconfig.data.profile.activity.results[j].actorProfile = userList[jj];
+                                foundUser = true;
+                            } else if (!foundUser) {
+                                    entityconfig.data.profile.activity.results[j].actorProfile = entityconfig.data.profile.activity.results[j]["sakai:activity-actor"];
+                            }
+                        }
+                    }
+
+                    // translate the activity message
+                    if (entityconfig.data.profile.activity.results[j]["sakai:activityMessage"]) {
+                        var messageArray = entityconfig.data.profile.activity.results[j]["sakai:activityMessage"].split(" ");
+                        var translatedMessageArray = entityconfig.data.profile.activity.results[j]["sakai:activityMessage"].split(" ");
+
+                        for (var jjj in messageArray) {
+                            if (messageArray.hasOwnProperty(jjj)) {
+                                var expression = new RegExp("__MSG__(.*?)__", "gm");
+                                if (expression.test(translatedMessageArray[jjj])) {
+                                    translatedMessageArray[jjj] = sakai.api.i18n.General.getValueForKey(messageArray[jjj].substr(7, messageArray[jjj].length - 9));
+                                    if (translatedMessageArray[jjj] && translatedMessageArray[jjj] !== "false") {
+                                        messageArray[jjj] = translatedMessageArray[jjj];
+                                    }
+                                }
+                            }
+                        }
+                        entityconfig.data.profile.activity.results[j]["sakai:activityMessage"] = messageArray.join(" ");
+                    }
+                }
+            }
+        }
+    };
+
+    /**
+     * Add binding to Content2 elements on the entity widget
+     */
+    var addContent2Binding = function(){
+        addContentBinding();
+
+        $entityContentUsersDialog.jqm({
+            modal: true,
+            overlay: 20,
+            toTop: true
+        });
+
+        $entityContentActivityDialog.jqm({
+            modal: true,
+            overlay: 20,
+            toTop: true
+        });
+
+        $(".entity_content_people").live("click", function(){
+            $entityContentUsersDialog.jqmShow();
+
+            var userList = sakai.content_profile.content_data.members.managers.concat(sakai.content_profile.content_data.members.viewers);
+            var json = {
+                "userList": userList,
+                "type": "people"
+            };
+
+            // render dialog template
+            $.TemplateRenderer($entityContentUsersDialogTemplate, json, $entityContentUsersDialogContainer);
+            $entityContentUsersDialogContainer.show();
+            $("#entity_content_users_dialog_heading").html($("#entity_content_poeple").html());
+
+            return false;
+        });
+
+        $(".entity_content_places").live("click", function(){
+            $entityContentUsersDialog.jqmShow();
+
+            var userList = sakai.content_profile.content_data.members.managers.concat(sakai.content_profile.content_data.members.viewers);
+            var json = {
+                "userList": userList,
+                "type": "places"
+            };
+
+            // render users dialog template
+            $.TemplateRenderer($entityContentUsersDialogTemplate, json, $entityContentUsersDialogContainer);
+            $entityContentUsersDialogContainer.show();
+            $("#entity_content_users_dialog_heading").html($("#entity_content_places").html());
+
+            return false;
+        });
+
+        $("#entity_content_activity").live("click", function(){
+            $entityContentActivityDialog.jqmShow();
+
+            var activity = {
+                "results": false
+            };
+
+            if (entityconfig.data.profile.activity) {
+                activity = entityconfig.data.profile.activity;
+            }
+
+            // render activity dialog template
+            $.TemplateRenderer($entityContentActivityDialogTemplate, activity, $entityContentActivityDialogContainer);
+            $entityContentActivityDialogContainer.show();
+
+            return false;
+        });
+
+        $("#entity_content_share_button, #entity_content_share_link").live("click", function(){
+            var pl_config = {
+                "mode": "search",
+                "selectable": true,
+                "subNameInfo": "email",
+                "sortOn": "lastName",
+                "items": 50,
+                "type": "people",
+                "what": "Viewers",
+                "where": sakai.content_profile.content_data.data["sakai:pooled-content-file-name"],
+                "URL": sakai.content_profile.content_data.url + "/" + sakai.content_profile.content_data.data["sakai:pooled-content-file-name"]
+            };
+
+            $(window).trigger("sakai-pickeruser-init", pl_config, function(people){
+            });
+
+            return false;
+        });
+
+        $(window).bind("sakai-pickeruser-addUser", function(e, data) {
+            // add users that were added to content member list and render template
+            var comma = "";
+            var managerAdded = false;
+            var viewerAdded = false;
+            var managerActivityMessage = "__MSG__CONTENT_ADDED_NEW_MANAGER__ -";
+            var managerLinks = "";
+            var viewerActivityMessage = "__MSG__CONTENT_SHARED_WITH_SOMEONE__";
+            for (var i in data.user.toAddNames){
+                if (data.user.toAddNames.hasOwnProperty(i)) {
+                    var userid = data.user.list[i];
+                    var displayName = data.user.toAddNames[i];
+                    if (data.access === "viewer"){
+                        viewerAdded = true;
+                        sakai.content_profile.content_data.members.viewers.push({
+                            "userid": userid,
+                            "displayName": displayName
+                        });
+                    } else if (data.access === "manager"){
+                        if (managerAdded) {
+                            comma = ",";
+                            managerActivityMessage = "__MSG__CONTENT_ADDED_NEW_MANAGERS__ -";
+                        }
+                        managerLinks = managerLinks + comma + ' <a href="/~' + userid + '" target="_blank" class="s3d-regular-light-links">' + displayName + '</a>';
+                        managerAdded = true;
+                        sakai.content_profile.content_data.members.managers.push({
+                            "userid": userid,
+                            "displayName": displayName
+                        });
+                    }
+                    entityconfig.data.profile.usercount++;
+                }
+            }
+            if (viewerAdded) {
+                var viewerActivityData = {
+                    "sakai:activityMessage": viewerActivityMessage
+                };
+                sakai.api.Activity.createActivity(entityconfig.data.profile.contentpath, "content", "default", viewerActivityData);
+            }
+            if (managerAdded) {
+                var replaceIdx = managerLinks.lastIndexOf(",");
+                managerLinks = managerLinks.substring(0, replaceIdx) + " AND" + managerLinks.substring(replaceIdx + 1);
+                var managerActivityData = {
+                    "sakai:activityMessage": managerActivityMessage + managerLinks
+                };
+                sakai.api.Activity.createActivity(entityconfig.data.profile.contentpath, "content", "default", managerActivityData);
+            }
+            renderTemplate();
+        });
+
+        $(window).bind("sakai-pickeruser-removeUser", function(e, data) {
+            // filter out the user that was removed and render template
+            sakai.content_profile.content_data.members.managers = $.grep(sakai.content_profile.content_data.members.managers, function(resultObject, index){
+                if (resultObject.groupid !== data.user &&
+                    resultObject.userid !== data.user) {
+                    return true;
+                }
+                entityconfig.data.profile.usercount--;
+                return false;
+            });
+            sakai.content_profile.content_data.members.viewers = $.grep(sakai.content_profile.content_data.members.viewers, function(resultObject, index){
+                if (resultObject.groupid !== data.user &&
+                    resultObject.userid !== data.user) {
+                    return true;
+                }
+                entityconfig.data.profile.usercount--;
+                return false;
+            });
+            renderTemplate();
+        });
+
+        $(window).bind("sakai-pickeruser-setGlobalPermission", function() {
+            // update content permission and render template
+            entityconfig.data.profile.permissions = sakai.content_profile.content_data.data["sakai:permissions"];
+            renderTemplate();
+        });
     };
 
     ////////////////////
@@ -1194,10 +1354,7 @@ sakai.entity = function(tuid, showSettings){
                 addGroupBinding();
                 break;
             case "content":
-                addContentBinding();
-                break;
-            case "content2":
-                addContentBinding();
+                addContent2Binding();
                 break;
         }
     };

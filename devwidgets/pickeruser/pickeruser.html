@@ -6,134 +6,72 @@
 
     <div id="pickeruser_container_header" class="dialog_header">
         <div class="dialog_header_inner">
-            <h1 id="pickeruser_i_want_to_share" class="pickeruser_adding_titles" style="display:none">__MSG__I_WANT_TO_SHARE__</h1>
+            <h1 id="pickeruser_adding_people" class="pickeruser_adding_titles" style="display:none">__MSG__ADDING_PEOPLE__</h1>
+            <h1 id="pickeruser_adding_files"  class="pickeruser_adding_titles" style="display:none">__MSG__ADDING_CONTENT__</h1>
             <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
         </div>
     </div>
     <div id="pickeruser_container_search" class="dialog_content">
-        <div id="pickeruser_basic_container"></div>
+        <div id="pickeruser_basic">
+			<span class="fl-force-left" id="pickeruser_add_header">__MSG__ADDING__ <span id="pickeruser_add_header_what"></span> __MSG__TO__ <span id="pickeruser_add_header_where"></span></span>
+			<span class="fl-force-left" id="pickeruser_people"><span id="pickeruser_instruction">__MSG__TYPE_NAME_PERSON_GROUP__ __MSG__OR__</span><a href="javascript:;" id="pickeruser_init_search" class="s3d-action">__MSG__SEARCH__</a></span>
+			<span class="fl-force-left" id="pickeruser_people_text" style="display:none;">__MSG__TYPE_NAME_PERSON_GROUP__ __MSG__OR__ </span>
+			<span class="fl-force-left" id="pickeruser_content_text" style="display:none;">__MSG__TYPE_NAME_CONTENT__ </span>
+            <span class="fl-force-left" id="pickeruser_form_container">
+            	<input name="pickeruser_search_query" id="pickeruser_search_query" type="text" autocomplete="off"/>
+            </span>
+			<div id="pickeruser_send_message" class="fl-force-left s3d-highlight_area_background">
+				<span class="fl-force-left">__MSG__SEND_PERSONAL_MESSAGE__</span>
+				<span class="fl-force-left">
+					<textarea id="pickeruser_message"></textarea>
+				</span>
+				<span class="fl-force-left">
+					<input type="checkbox" name="pickeruser_copy_myself" id="pickeruser_copy_myself"/>
+					<label for="pickeruser_copy_myself">__MSG__SEND_COPY_TO_MYSELF__</label>
+				</span>
+				<span style="display:none;" id="pickeruser_subject_text">__MSG__YOU_HAVE_BEEN_ADDED_TO__</span>
+			</div>
+        </div>
 
-        <div id="pickeruser_basic_template" style="display:none"><!--
-            <h1 id="pickeruser_visibility_header">
-                {if content_profile.content_data.data["sakai:permissions"] == "public"}
-                    ${sakai.api.i18n.Widgets.getValueForKey("pickeruser", "", config.Permissions.Content.label.public)}
-                {elseif content_profile.content_data.data["sakai:permissions"] == "private"}
-                    ${sakai.api.i18n.Widgets.getValueForKey("pickeruser", "", config.Permissions.Content.label.private)}
-                {else content_profile.content_data.data["sakai:permissions"] == "everyone"}
-                    ${sakai.api.i18n.Widgets.getValueForKey("pickeruser", "", config.Permissions.Content.label.everyone)}
-                {/if}
-            </h1>
-            <a href="javascript:;" id="pickeruser_change_global_permissions" class="s3d-bold s3d-regular-links">__MSG__CHANGE__</a>
-            <div class="s3d-highlight_area_background fl-push">
-                <span id="pickeruser_share_link" class="fl-force-left fl-push">
-                    <span id="pickeruser_content_link" class="s3d-bold">__MSG__LINK__</span><input type="text" value="${window.location}" readonly="readonly"/>
-                    <button type="submit" class="s3d-button s3d-button-link-2-state" id="pickeruser_message_link"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__MESSAGE_LINK__</span></button>
-                    <button type="submit" class="s3d-button s3d-button-link-2-state" id="pickeruser_email_link"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__EMAIL_THE_LINK__</span></button>
-                </span>
-                <hr class="fl-push fl-hidden"/>
-            </div>
+		<div id="pickeruser_footer_options" class="fl-force-left">
+            <button type="button" class="s3d-button s3d-button-primary fl-force-right" id="pickeruser_add_button" disabled="disabled">
+                <span class="s3d-button-inner">__MSG__ADD__</span>
+            </button>
+            <button type="button" class="s3d-button fl-force-right" id="pickeruser_close_button">
+                <span class="s3d-button-inner">__MSG__DONT_ADD__</span>
+            </button>
+        </div>
 
-            <h1 class="fl-force-left">__MSG__CONTENT_HAS_BEEN_SHARED_WITH__</h1>
-            <div id="pickeruser_listpeople">
-                <ul>
-                    {for manager in content_profile.content_data.members.managers}
-                        <li {if manager_index % 2 == 0} class="pickeruser_list_item_alternating_row"{/if}>
-                            {if manager.picture != null}
-                                {if manager.hasOwnProperty("groupid")}
-                                    <img src="/~${manager.groupid}/public/profile/${manager.picture.name}" alt="${manager["sakai:group-title"]}" class="pickeruser_people_picture"/>
-                                {else}
-                                    <img src="/~${manager.userid}/public/profile/${manager.picture.name}" alt="${manager.basic.elements.firstName.value}" class="pickeruser_people_picture"/>
-                                {/if}
-                            {else}
-                                {if manager.hasOwnProperty("groupid")}
-                                    <img src="/dev/images/group_avatar_icon_32x32.png" alt="${manager["sakai:group-title"]}" class="pickeruser_people_picture"/>
-                                {else}
-                                    <img src="/dev/images/user_avatar_icon_32x32.png" alt="${manager.basic.elements.firstName.value}" class="pickeruser_people_picture"/>
-                                {/if}
-                            {/if}
-                            {if manager.hasOwnProperty("groupid")}
-                                <span class="pickeruser_manager_name s3d-bold">${manager["sakai:group-title"]}</span>
-                                <span class="pickeruser_right_floats">
-                                    <button type="submit" class="s3d-button s3d-button-link-2-state pickeruser_permission_link pickeruser_permission_link_${manager.groupid}"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CAN_EDIT__<span class="pickeruser_permission"></span></span></button>
-                                    <button type="submit" class="s3d-button s3d-button-link-2-state pickeruser_remove" id="viewer-${manager.groupid}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__REMOVE__</span></button>
-                                </span>
-                            {else}
-                                <span class="pickeruser_manager_name s3d-bold">${manager.basic.elements.firstName.value} ${manager.basic.elements.lastName.value}{if data.me.user.userid == manager.userid}<span id="pickeruser_you">(__MSG__YOU__)</span>{/if}</span>
-                                <span class="pickeruser_right_floats">
-                                    <button type="submit" class="s3d-button s3d-button-link-2-state pickeruser_permission_link pickeruser_permission_link_${manager.userid}"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CAN_EDIT__<span class="pickeruser_permission"></span></span></button>
-                                    <button type="submit" class="s3d-button s3d-button-link-2-state pickeruser_remove" id="viewer-${manager.userid}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__REMOVE__</span></button>
-                                </span>
-                            {/if}
-                        </li>
-                    {/for}
+        <div id="pickeruser_content_search_pagedefault">
 
-                    {if content_profile.content_data.members.hasOwnProperty("viewers")}
-                        {for viewer in content_profile.content_data.members.viewers}
-                            {if viewer.userid != "anonymous"}
-                                <li {if content_profile.content_data.members.managers.length % 2 != 0}{if viewer_index % 2 != 0} class="pickeruser_list_item_alternating_row"{/if}{else}{if viewer_index % 2 == 0} class="pickeruser_list_item_alternating_row"{/if}{/if}>
-                                    {if viewer.picture != null}
-                                        {if viewer.hasOwnProperty("groupid")}
-                                            <img src="/~${viewer.groupid}/public/profile/${viewers.picture.name}" alt="${viewer["sakai:group-title"]}" class="pickeruser_people_picture"/>
-                                        {else}
-                                            <img src="/~${viewer.userid}/public/profile/${viewers.picture.name}" alt="${viewer.basic.elements.firstName.value}" class="pickeruser_people_picture"/>
-                                        {/if}
-                                    {else}
-                                        {if viewer.hasOwnProperty("groupid")}
-                                            <img src="/dev/images/group_avatar_icon_32x32.png" alt="${viewer["sakai:group-title"]}" class="pickeruser_people_picture"/>
-                                        {else}
-                                            <img src="/dev/images/user_avatar_icon_32x32.png" alt="${viewer.basic.elements.firstName.value}" class="pickeruser_people_picture"/>
-                                        {/if}
-                                    {/if}
-                                    {if viewer.hasOwnProperty("groupid")}
-                                        <span class="pickeruser_viewer_name s3d-bold">${viewer["sakai:group-title"]}</span>
-                                        <span class="pickeruser_right_floats">
-                                            <button type="submit" class="s3d-button s3d-button-link-2-state pickeruser_permission_link pickeruser_permission_link_${viewer.groupid}"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CAN_VIEW__<span class="pickeruser_permission"></span></span></button>
-                                            <button type="submit" class="s3d-button s3d-button-link-2-state pickeruser_remove" id="viewer-${viewer.groupid}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__REMOVE__</span></button>
-                                        </span>
-                                    {else}
-                                        <span class="pickeruser_viewer_name s3d-bold">${viewer.basic.elements.firstName.value} ${viewer.basic.elements.lastName.value}{if data.me.user.userid == viewer.userid}<span id="pickeruser_you">(__MSG__YOU__)</span>{/if}</span>
-                                        <span class="pickeruser_right_floats">
-                                            <button type="submit" class="s3d-button s3d-button-link-2-state pickeruser_permission_link pickeruser_permission_link_${viewer.userid}"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CAN_VIEW__<span class="pickeruser_permission"></span></span></button>
-                                            <button type="submit" class="s3d-button s3d-button-link-2-state pickeruser_remove" id="viewer-${viewer.userid}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__REMOVE__</span></button>
-                                        </span>
-                                    {/if}
-                                </li>
-                            {/if}
-                        {/for}
+            <div id="pickeruser_content_search_listtemplate"><!--
+                <ul id="pickeruser_list" class="pickeruser_page">
+                {for p in people}
+                    <li id="${p.id}" dataid="${p.id}">
+                        <span class="pickeruser_list_name">${p.name}</span>
+                    </li>
+                {/for}
+                </ul>
+            --></div>
+
+            <div id="pickeruser_content_search_pagetemplate" style="display:none;"><!--
+                {for i in results}
+                <li data-userid="${i['rep:userId']}" id="${i['rep:userId']}">
+                    {if i.picture}
+                        <img src="/~${i["rep:userId"]}/public/profile/${i.picture.name}" alt="__MSG__PROFILE_PICTURE_FOR__ ${i.firstName} ${i.lastName}" class="pickeruser_ppicture"/>
+                    {else}
+                        <img src="/dev/images/person_icon.jpg" alt="__MSG__DEFAULT_PROFILE_PICTURE__" class="pickeruser_ppicture"/>
                     {/if}
-                </ul>
-            </div>
-            <div id="pickeruser_edit_permission" style="display:none;">
-                <ul>
-                    <li>
-                        <a id="pickeruser_edit_permission_picker_viewer" class="pickeruser_edit_permission_picker" href="javascript:;">__MSG__CAN_VIEW__</a>
-                    </li>
-                    <li>
-                        <a id="pickeruser_edit_permission_picker_manager" class="pickeruser_edit_permission_picker" href="javascript:;">__MSG__CAN_EDIT__</a>
-                    </li>
-                </ul>
-            </div>
+                    <a class="pickeruser_name" href="/~${i['rep:userId']}">${sakai.api.User.getDisplayName(i)}</a>
+                    <br />
+                    <span class="pickeruser_subnameinfo">${i.subNameInfo}</span>
+                </li>
+                {/for}
+            --></div>
+        </div>
 
-            <div class="s3d-highlight_area_background_darker1">
-                <span class="s3d-bold" id="pickeruser_add_people">__MSG__ADD_PEOPLE__</span>
-                <span id="pickeruser_form_container"><input name="pickeruser_search_query" id="pickeruser_search_query" type="text" autocomplete="off"/></span>
-                <a href="javascript:;" id="pickeruser_init_search" class="s3d-action">__MSG__SEARCH__</a>
-                <hr class="fl-push fl-hidden"/>
-                <textarea id="pickeruser_message_new_members" style="display:none;">__MSG__SEND_PERSONAL_MESSAGE__</textarea
-            </div>
-        --></div>
-
-        <div id="pickeruser_footer_options">
-            <button type="button" class="s3d-button s3d-button-primary fl-force-right" id="pickeruser_close_button">
-                <span class="s3d-button-inner">__MSG__CLOSE__</span>
-            </button>
-            <button type="button" class="s3d-button s3d-button-primary fl-force-right" id="pickeruser_add_button" disabled="disabled" style="display:none;">
-                <span class="s3d-button-inner">__MSG__SHARE__</span>
-            </button>
-            <button type="button" class="s3d-button fl-force-right" id="pickeruser_dont_share_button"  style="display:none;">
-                <span class="s3d-button-inner">__MSG__DONT_SHARE__</span>
-            </button>
-            <hr class="fl-push fl-hidden"/>
+        <div id="pickeruser_error_template" style="display:none;">
+            <span>Sorry, could not retrieve the list of users form the server!</span>
         </div>
     </div>
     <!-- DIALOG FOOTER -->
@@ -143,8 +81,7 @@
 	<div id="widget_pickeradvanced" class="widget_inline"></div>
 </div>
 
-    <div id="pickeruser_can_edit" style="display:none;">__MSG__CAN_EDIT__<span class="pickeruser_permission"></span></div>
-    <div id="pickeruser_can_view" style="display:none;">__MSG__CAN_VIEW__<span class="pickeruser_permission"></span></div>
+
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/pickeruser/javascript/pickeruser.js"></script>

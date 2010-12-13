@@ -58,40 +58,55 @@
         <!-- TOP BANNER -->
         <div id="top_banner"><!-- --></div>
 
+        <div id="widget_topnavigation" class="widget_inline"></div>
+  
         <div class="index-container fl-centered permissions_error"><span style="display:none;"><br /></span>
             <div id="permission_error_logged_out_template" style="display:none;"><!--
-                <div class="header-title">
-                    <img src="/dev/images/sakai_logo_index.png" alt="__MSG__INSTANCE_NAME__"/>
-                </div>
+
+                <div class="index-container fl-centered">
+
+                <div id="widget_login" class="widget_inline"></div>
     
-                <div class="header-byline">
-                    __MSG__HEADER_BYLINE__
-                </div>
     
-                <div class="login-box">
-                    <div id="permission_error">
-                        <div class="preview-box">
-                            <span id="error_title">__MSG__YOU_DONT_HAVE_PERMISSION_TO_VIEW_REQUESTED_PAGE__</span>
-                            <p>
-                                __MSG__YOU_TRIED_TO_ACCESS_PAGE_WITHOUT_PERMISSIONS__
-                            </p>
-                            __MSG__YOU_CAN__
-                            <ul>
-                                <li>
-                                    __MSG__SIGN_INTO_SAKAI_ACCOUNT_WITH_CORRECT_PERMISSIONS__
-                                </li>
-                                <li>
-                                    __MSG__TRY_TO_CONTACT_PAGE_ADMIN_REQUEST_ACCESS__
-                                </li>
-                            </ul>
+                <div class="login-box fl-container">
+                    <div class="preview-box fl-left">
+    
+                        <div class="header-title">
+                            <p class="sakai_logo_index"></p>
                         </div>
-                        <div class="login-container">
-                            <div id="widget_login" class="widget_inline"></div> 
+    
+                        <div class="header-byline">
+                            __MSG__HEADER_BYLINE__
                         </div>
+    
+    
+                        <div id="page_not_found_error">
+                            <div class="preview-box">
+                                <span id="error_title">__MSG__YOU_DONT_HAVE_PERMISSION_TO_VIEW_REQUESTED_PAGE__</span>
+                                <p>
+                                    __MSG__YOU_TRIED_TO_ACCESS_PAGE_WITHOUT_PERMISSIONS__
+                                </p>
+                                __MSG__YOU_CAN__
+                                <ul>
+                                    <li>
+                                        __MSG__SIGN_INTO_SAKAI_ACCOUNT_WITH_CORRECT_PERMISSIONS__
+                                    </li>
+                                    <li>
+                                        __MSG__TRY_TO_CONTACT_PAGE_ADMIN_REQUEST_ACCESS__
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="login-container">
+                                <div id="widget_login" class="widget_inline"></div>
+                            </div>
+                        </div>
+    
                     </div>
-                </div>--></div>
+                </div>
+                <div id="widget_footer" class="widget_inline footercontainer"></div>
+
+                --></div>
                 <div id="permission_error_logged_in_template" style="display:none;"><!--
-                <div id="widget_topnavigation" class="widget_inline">
                 </div>
                 <div class="fl-container-flex header s3d-header">
                     <div class="fl-fix fl-centered fixed-container s3d-fixed-container">

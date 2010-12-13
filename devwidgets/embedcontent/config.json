@@ -11,5 +11,6 @@
     "img":"/devwidgets/embedcontent/images/content.png",
     "type":"core",
     "enabled":true,
-    "url":"/devwidgets/embedcontent/embedcontent.html"
+    "url":"/devwidgets/embedcontent/embedcontent.html",
+    "settingsWidth": 785
 }

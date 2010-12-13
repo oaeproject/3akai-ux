@@ -1,0 +1,26 @@
+/*
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+
+.sites_error {font-size:0.95em; padding:10px 20px !important;}
+.mysakai2.fl-widget .fl-widget-titlebar .widget_title { background: url('/devwidgets/mysakai2/images/mysakai2_headericon.png') 17px 15px no-repeat;}
+.mysakai2_widget .fl-widget-content ul li { list-style-type: none; padding: 5px 5px 5px 40px; margin: 0; border-bottom: 1px solid #CCC; background:url("/devwidgets/mysakai2/images/s2icon.png") no-repeat scroll 15px 7px transparent;}
+.mysakai2_widget .fl-widget-content ul li a { vertical-align:top;padding-bottom:20px;}
+.mysakai2_site_title {padding-bottom:7px;display:block;}
+.mysakai2_show_files {background:url("/devwidgets/mysakai2/images/addicon.png") no-repeat left center transparent; padding-left:15px;}
+#mysakai2_messages { background:url("/devwidgets/mysakai2/images/messages.png") no-repeat left top transparent; padding-left:20px; color:#999999; font-weight:700px; padding-right:10px;}
+#mysakai2_forums { background:url("/devwidgets/mysakai2/images/forums.png") no-repeat left top transparent; padding-left:20px; color:#999999; font-weight:700px;}

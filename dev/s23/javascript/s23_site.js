@@ -40,6 +40,9 @@ sakai.s23_site = function(){
     var s23SitePageContainerClass = ".s23_site_page_container";
     var s23SitePageContainerTag = "s23_site_page_container_";
     var s23SiteTitle = $(s23Site + "_title");
+    var s23GritterNotificationTitle = "#s23_gritter_notification_title";
+    var s23GritterNotificationMessage = "#s23_gritter_notification_message";
+    var s23GritterNotificationCancel = "#s23_gritter_notification_cancel";
 
     // Templates
     var s23SiteIframeContainerTemplate = "s23_site_iframe_container_template";
@@ -247,7 +250,12 @@ sakai.s23_site = function(){
             }
         });
     };
-
+    
+    var hideNotification = function(){
+        var json = {"sakai2notificaiton":false};
+        sakai.api.Util.notification.removeAll();
+        sakai.api.Server.saveJSON("/~" + sakai.data.me.user.userid+"/private/sakai2notification", json, function(success, data){});
+    }
 
     /////////////////////////////
     // Initialisation function //
@@ -257,6 +265,14 @@ sakai.s23_site = function(){
      * Function that get executed when the DOM is completely loaded
      */
     var init = function(){
+        // show sticky notification
+        sakai.api.Server.loadJSON("/~" + sakai.data.me.user.userid+"/private/sakai2notification", function(success, data){
+            if (!success) {
+                sakai.api.Util.notification.show($(s23GritterNotificationTitle).html(), $(s23GritterNotificationMessage).html(), sakai.api.Util.notification.type.INFORMATION, true);
+                $(".s23_gritter_notification_cancel").click(hideNotification);
+            }
+        });
+        
 
         // Check if the query string contains the parameter id
         if (qs.contains("id")) {

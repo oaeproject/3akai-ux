@@ -14,6 +14,10 @@
     <div class="contentpreview_text_preview" id="contentpreview_text_preview" style="font-family: 'Courier New'; padding: 5px; overflow: auto; width:640px; height: 390px; border: 1px solid #D4DADE; display:none; ">
         <!-- Text content will be inserted here -->
     </div>
+    <!-- HTML -->
+    <div class="contentpreview_html_preview" id="contentpreview_html_preview" style="width:640px; height: 390px; border: 1px solid #D4DADE; display:none; ">
+        <!-- HTML content will be inserted here -->
+    </div>
     <!-- Images -->
     <div class="contentpreview_image_preview" id="contentpreview_image_preview" style="padding: 0px; display:none; ">
         <!-- Image content will be inserted here -->
@@ -23,12 +27,11 @@
         Default behavior
     </div>
 </div>
-<div style="padding: 15px 20px 15px 10px;">
+<div style="padding: 15px 20px 15px 10px; height: 25px;">
     <a id="contentpreview_download_button" href="javascript:;" class="s3d-button s3d-button-primary" style="float:right"><span class="s3d-button-inner">Download</span></a>
     <div id="contentpreview_actions_container" style="display:none">
-        <button type="submit" class="s3d-button s3d-button-secondary"><span class="s3d-button-inner">Delete</span></button>
-        <button type="submit" class="s3d-button s3d-button-secondary"><span class="s3d-button-inner">Upload new version</span></button>
-        <button type="submit" class="s3d-button s3d-button-secondary"><span class="s3d-button-inner">Edit</span></button>
+        <button type="submit" class="s3d-button s3d-button-secondary" id="content_preview_delete"><span class="s3d-button-inner">Delete</span></button>
+        <button type="submit" class="s3d-button s3d-button-secondary new_version" id="upload_content"><span class="s3d-button-inner">Upload new version</span></button>
     </div>
 </div>
 
@@ -36,6 +39,9 @@
     <div id="contentpreview_image_template"><!--
         <img src="${contentURL}" id="contentpreview_image_rendered" style="border: 1px solid #D4DADE;" />
     --></div> 
+    <div id="contentpreview_html_template"><!--
+        <iframe id="contentpreview_html_iframe" style="width: 640px; height: 390px;" border="0"></iframe>
+    --></div>
 </div>
 
 <div id="contentpreview_image_calculatesize_container" style="position: absolute; left: -10000px; top: -10000px;">

@@ -53,19 +53,28 @@
         <!-- TOP BANNER -->
         <div id="top_banner"><!-- --></div>
 
+        <!-- NAVIGATION -->
+        <div id="widget_topnavigation" class="widget_inline"></div>
+
         <div class="index-container fl-centered">
 
-            <!-- HEADER -->
-            <div class="header-title">
-                <p class="sakai_logo_index"></p>
-            </div>
+            <!-- LOGIN WIDGET -->
+            <div id="widget_login" class="widget_inline"></div>
 
-            <div class="header-byline">
-                __MSG__HEADER_BYLINE__
-            </div>
 
-            <div class="login-box">
-                <div class="preview-box">
+            <div class="login-box fl-container">
+                <div class="preview-box fl-left">
+
+                    <!-- HEADER -->
+                    <div class="header-title">
+                        <p class="sakai_logo_index"></p>
+                    </div>
+
+                    <div class="header-byline">
+                        __MSG__HEADER_BYLINE__
+                    </div>
+
+
                     <div class="header-smallline">
                         __MSG__HEADER_SMALLLINE__
                     </div>
@@ -74,8 +83,12 @@
                     <img src="/dev/images/panel_thumb.jpg" alt="__MSG__INSTANCE_NAME__" />
                 </div>
 
-                <!-- LOGIN WIDGET -->
-                <div id="widget_login" class="widget_inline"></div>
+                <!-- WIDGET COLUMN -->
+                <div id="login_right_col" class="fl-right fl-fix" style="display:none;">
+                    <div id="widget_tags" class="widget_inline"></div>
+                    <div id="widget_activegroups" class="widget_inline"></div>
+                    <div id="widget_popularcontent" class="widget_inline"></div>
+                </div>
             </div>
 
             <!-- FOOTER WIDGET -->

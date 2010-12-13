@@ -1,0 +1,16 @@
+#help_widget { width:900px; margin-left:-450px;}
+
+.help_nav { width:230px; float:left; display:inline; }
+.help_nav h4 {margin-bottom:20px;}
+.help_nav ul { margin:0; }
+.help_nav ul li { list-style:none; }
+.help_nav ul li a { font-size:14px;}
+.help_nav ul li a.active { color:black; cursor:default; }
+.help_nav ul li a.active:hover { text-decoration:none; }
+.help_nav p { margin-top:40px; font-size:11px; color:#666; }
+
+.help_content, .help_footer {width:600px; float:right; display:inline;}
+.help_content h2 { border-bottom:1px solid black; margin:0px 0px 10px 0px; padding-bottom:5px;}
+.help_content img {float:right; margin:0px 0px 10px 10px; border:1px solid #666;}
+
+.help_footer {text-align:right;}

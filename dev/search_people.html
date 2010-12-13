@@ -79,6 +79,7 @@
                         <li><a id="tab_search_all" href="search.html#">__MSG__ALL__</a></li>
                         <li><a href="search_content.html#" id="tab_search_content">__MSG__CONTENT_AND_MEDIA__</a></li>
                         <li><a href="search_groups.html#" id="tab_search_sites">__MSG__GROUPS__</a></li>
+                        <li><a href="search_sakai2.html#" id="tab_search_sakai2">__MSG__SAKAI2__</a></li>
                         <li class="fl-tabs-active search_tab_selected"><a href="search_people.html#" id="tab_search_people">__MSG__PEOPLE__</a></li>
                     </ul>
                 </div>
@@ -140,7 +141,7 @@
                                 <div id="search_result_results_located_in" style="display:none;"><span style="font-weight:normal">__MSG__RESULTS_LOCATED_IN__</span></div>
 
                                 <!-- CONTAINER FOR THE RESULTS -->
-                                <div id="search_results_container s3d-highlight_area_background"></div>
+                                <div id="search_results_container" class="s3d-highlight_area_background"></div>
 
                                 <!-- EXCEED SEARCH RESULT -->
                                 <span id="search_result_exceed" style="display:none;">__MSG__MORE_THAN_100__</span>
@@ -165,7 +166,7 @@
                                         {/if}
 
                                         <div class="search_result_person_links">
-                                        {if ! i.isMe}
+                                        {if ! i.isMe && ! sakai.data.me.user.anon}
                                             {if ! i.connected}
                                             <a href="javascript:;" class="search_result_person_link link_add_to_contacts" id="link_add_to_contacts_${i.userid}">__MSG__ADD_TO_CONTACTS__</a>
                                             <a href="javascript:;" id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider">|</a>

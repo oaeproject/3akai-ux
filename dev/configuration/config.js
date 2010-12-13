@@ -39,6 +39,7 @@ sakai.config = {
         SEARCH_CONTENT_URL: "/dev/search_content.html",
         SEARCH_GENERAL_URL: "/dev/search.html",
         SEARCH_PEOPLE_URL: "search_people.html",
+        SEARCH_GROUP_URL: "search_groups.html",
         SEARCH_SITES_URL: "search_sites.html",
         TINY_MCE_CONTENT_CSS: "/dev/css/FSS/fss-base.css,/dev/css/sakai/sakai.core.2.css,/dev/css/sakai/sakai.base.css,/dev/css/sakai/sakai.editor.css,/dev/css/sakai/sakai.show.css",
         TINY_MCE_EDITOR_CSS: "/dev/css/sakai/tinymce_editor_styling.css",
@@ -74,6 +75,7 @@ sakai.config = {
         MESSAGE_BOXCATEGORY_SERVICE: "/var/message/boxcategory.json",
         POOLED_CONTENT_MANAGER: "/var/search/pool/me/manager.json",
         POOLED_CONTENT_VIEWER: "/var/search/pool/me/viewer.json",
+        POOLED_CONTENT_ACTIVITY_FEED: "/var/search/pool/activityfeed.json",
         PRESENCE_CONTACTS_SERVICE: "/var/presence.contacts.json",
         PRESENCE_SERVICE: "/var/presence.json",
         PROXY_RSS_SERVICE: "/var/proxy/rss.json?rss=",
@@ -219,13 +221,13 @@ sakai.config = {
                 "managers": "managers-only"    // Group managers only
             }
         },
-        Content: {
-            label: {
-                "public":"VISIBLE_TO_ANYONE",
-                "private":"PRIVATE_TO_ANYONE_I_SHARE_WITH",
-                "everyone":"VISIBLE_TO_ANYONE_WHOS_LOGGED_IN"
-            }
-         }
+        Copyright: {
+            "creativecommons" : "CREATIVE_COMMONS_LICENSE",
+            "copyrighted" : "COPYRIGHTED",
+            "nocopyright" : "NO_COPYRIGHT",
+            "licensed" : "LICENSED",
+            "waivecopyright" : "WAIVE_COPYRIGHT"
+        }
     },
 
     allowPasswordChange: true,
@@ -632,14 +634,17 @@ sakai.config = {
         "external": [
             {
               label: "External Login System 1",
-              url: "http://external.login1.com/",
-              description: "This is the description displayed underneath ..."
+              url: "http://external.login1.com/"
             },
             {
               label: "External Login System 2",
-              url: "http://external.login2.com/",
-              description: "This is the description displayed underneath ..."
+              url: "http://external.login2.com/"
             }
+        ],
+        "hideLoginOn": [
+            "/dev",
+            "/dev/index.html",
+            "/dev/create_new_account.html"
         ]
     },
 
@@ -663,14 +668,17 @@ sakai.config = {
         },
         {
             "url" : "/dev/search_content.html#q=*&facet=manage",
+            "anonUrl" : "/dev/search_content.html#q=*",
             "label" : "CONTENT_AND_MEDIA"
         },
         {
             "url" : "/dev/search_groups.html#q=*&facet=manage",
+            "anonUrl" : "/dev/search_groups.html#q=*",
             "label" : "GROUPS"
         },
         {
             "url" : "/dev/search_people.html#q=*&facet=contacts",
+            "anonUrl" : "/dev/search_people.html#q=*",
             "label" : "PEOPLE"
         },
         {
@@ -678,7 +686,10 @@ sakai.config = {
             "label" : "DIRECTORY"
         }
     ],
-
+    /*
+     * Are anonymous users allowed to browse/search
+     */
+    anonAllowed: true,
     /*
      * List of pages that require a logged in user
      */
@@ -687,12 +698,7 @@ sakai.config = {
         "/dev/account_preferences.html",
         "/dev/group_edit.html",
         "/dev/inbox.html",
-        "/dev/people.html",
-        "/dev/profile_edit.html",
-        "/dev/search.html",
-        "/dev/search_content.html",
-        "/dev/search_groups.html",
-        "/dev/search_people.html"
+        "/dev/profile_edit.html"
     ],
 
     /*
@@ -706,7 +712,25 @@ sakai.config = {
         "/",
         "/index.html"
     ],
-
+    /*
+     * List of pages that will be added to requireUser if
+     * anonAllowed is false
+     */
+    requireUserAnonNotAllowed: [
+        "/dev/people.html",
+        "/dev/profile_edit.html",
+        "/dev/search.html",
+        "/dev/search_content.html",
+        "/dev/search_groups.html",
+        "/dev/search_people.html",
+        "/dev/search_sakai2.html"
+    ],
+    /*
+     * List of pages that will be added to requireAnonymous if
+     * anonAllowed is false
+     */
+    requireAnonymousAnonNotAllowed: [
+    ],
     /*
      * List op pages that require additional processing to determine
      * whether the page can be shown to the current user. These pages
@@ -714,10 +738,14 @@ sakai.config = {
      * themselves
      */
     requireProcessing: [
+        "/dev/content_profile2.html",
         "/dev/content_profile.html",
         "/dev/group_edit.html",
         "/dev/show.html"
     ],
+
+    showSakai2 : false,
+    useLiveSakai2Feeds : false,
 
     displayDebugInfo: true,
 

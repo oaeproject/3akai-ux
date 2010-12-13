@@ -26,7 +26,7 @@
                             {elseif i['jcr:primaryType'] === "sling:Folder"}
                                 {var mimeType = 'folder'}
                             {/if}
-                            <a href="/dev/content_profile2.html#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['jcr:path']}" title="${i['jcr:name']}"{/if}>
+                            <a href="/dev/content_profile.html#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['jcr:path']}" title="${i['jcr:name']}"{/if}>
                                 {if (mimeType=="image/jpg" || mimeType=="image/png" || mimeType=="image/gif") && sakai.config.MimeTypes[mimeType]}
                                     {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
                                     {if i['jcr:primaryType'] && i['jcr:primaryType'] === "sakai:pooled-content"}
@@ -43,7 +43,7 @@
                                 {/if}
                             </a>
                             <div class="relatedcontent_content_right">
-                                <a class="s3d-regular-light-links" href="/dev/content_profile2.html#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['jcr:path']}" title="${i['jcr:name']}"{/if}>
+                                <a class="s3d-regular-light-links" href="/dev/content_profile.html#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['jcr:path']}" title="${i['jcr:name']}"{/if}>
                                     {if i['sakai:pooled-content-file-name']}
                                         {if i['sakai:pooled-content-file-name'].length > 60}
                                             ${i['sakai:pooled-content-file-name'].substring(0, 60)}...
@@ -60,9 +60,14 @@
                                 </a>
                             </div>
                         </div>
+                        ${relatedcontent_index++|eat}
                     {/if}
-                    ${relatedcontent_index++|eat}
                 {/for}
+                {if relatedcontent_index === 0}
+                    <div class="relatedcontent_no_content">
+                        __MSG__NO_RELATED_CONTENT_FOUND__
+                    </div>
+                {/if}
             </div>
         </div>
     --></div>
