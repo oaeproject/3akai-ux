@@ -175,10 +175,10 @@ sakai.content_profile = function(){
                     // We need an array to parse and display the results
                     directory = sakai.content_profile.parseDirectoryTags(contentInfo);
 
-                    var fullPath = content_path; // + "/" + contentInfo["sakai:pooled-content-file-name"];
-                    //if (contentInfo["sakai:pooled-content-file-name"].substring(contentInfo["sakai:pooled-content-file-name"].lastIndexOf("."), contentInfo["sakai:pooled-content-file-name"].length) !== contentInfo["sakai:fileextension"]) {
-                    //    fullPath += contentInfo["sakai:fileextension"];
-                    //}
+                    var fullPath = content_path + "/" + contentInfo["sakai:pooled-content-file-name"];
+                    if (contentInfo["sakai:pooled-content-file-name"].substring(contentInfo["sakai:pooled-content-file-name"].lastIndexOf("."), contentInfo["sakai:pooled-content-file-name"].length) !== contentInfo["sakai:fileextension"]) {
+                        fullPath += contentInfo["sakai:fileextension"];
+                    }
 
                     // filter out the the everyone group and the anonymous user
                     contentMembers.viewers = $.grep(contentMembers.viewers, function(resultObject, index){

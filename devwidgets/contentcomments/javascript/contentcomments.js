@@ -283,7 +283,7 @@ sakai.contentcomments = function(tuid, showSettings){
             items = widgetSettings.perPage;
         }
 
-        var url = contentPath + ".comments?sortOn=" + sortOn + "&sortOrder=" + sortOrder + "&page=" + (clickedPage - 1) + "&items=" + items;
+        var url = "/p/" + sakai.content_profile.content_data.data["jcr:name"] + ".comments?sortOn=" + sortOn + "&sortOrder=" + sortOrder + "&page=" + (clickedPage - 1) + "&items=" + items;
 
         $.ajax({
             url: url,
