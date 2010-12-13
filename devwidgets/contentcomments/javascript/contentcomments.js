@@ -357,7 +357,7 @@ sakai.contentcomments = function(tuid, showSettings){
                 "comment": body
             };
 
-            var url = contentPath + ".comments";
+            var url = "/p/" + sakai.content_profile.content_data.data["jcr:name"] + ".comments";
             $.ajax({
                 url: url,
                 type: "POST",

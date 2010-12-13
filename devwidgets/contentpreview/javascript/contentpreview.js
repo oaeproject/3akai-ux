@@ -209,11 +209,26 @@ sakai.contentpreview = function(tuid,showSettings){
             $(window).trigger("sakai-fileupload-init");
         });
     }
+    
+    var determineFileCreator = function(){
+        $.ajax({
+            url: "/~" + sakai.content_profile.content_data.data["sakai:pool-content-created-for"] + "/public/authprofile.infinity.json",
+            success: function(profile){
+                sakai.content_profile.content_data.creator = sakai.api.User.getDisplayName(profile);
+                determineDataType();
+                setDownloadButton();
+                bindButtons();
+            },
+            error: function(xhr, textStatus, thrownError){
+                determineDataType();
+                setDownloadButton();
+                bindButtons();
+            }
+        });
+    }
 
     $(window).bind("sakai.contentpreview.start", function(){
-        determineDataType();
-        setDownloadButton();
-        bindButtons();
+        determineFileCreator();
     });
     
     // Indicate that the widget has finished loading
