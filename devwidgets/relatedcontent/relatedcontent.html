@@ -1,0 +1,78 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/relatedcontent/css/relatedcontent.css" />
+
+<div class="relatedcontent">
+    <div class="relatedcontent_title">
+        __MSG__RELATED_CONTENT__
+    </div>
+
+    <!-- CONTAINER FOR RELATEDCONTENT -->
+    <div id="relatedcontent_container" style="display:none"><!-- --></div>
+
+    <div id="relatedcontent_default_template"><!--
+        <div class="s3d-action">
+            <div class="relatedcontent_list">
+                {var relatedcontent_index = 0}
+                {for i in relatedContent.results}
+                    {if i['sakai:pooled-content-file-name'] && relatedcontent_index < 10 && i['jcr:name'] !== content.data["jcr:name"]}
+                        {var contentFound = true}
+                        <div class="relatedcontent_content">
+                            {if i['jcr:mimeType']}
+                                {var mimeType = i['jcr:mimeType']}
+                            {elseif i.file && i.file['jcr:mimeType']}
+                                {var mimeType = i.file['jcr:mimeType']}
+                            {elseif i['jcr:content'] && i['jcr:content']['jcr:mimeType']}
+                                {var mimeType = i['jcr:content']['jcr:mimeType']}
+                            {elseif i['jcr:primaryType'] === "sling:Folder"}
+                                {var mimeType = 'folder'}
+                            {/if}
+                            <a href="/dev/content_profile.html#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['jcr:path']}" title="${i['jcr:name']}"{/if}>
+                                {if (mimeType=="image/jpg" || mimeType=="image/png" || mimeType=="image/gif") && sakai.config.MimeTypes[mimeType]}
+                                    {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
+                                    {if i['jcr:primaryType'] && i['jcr:primaryType'] === "sakai:pooled-content"}
+                                        <img src="/p/${i['jcr:name']}" alt="${mimeTypeDescription}" />
+                                    {else}
+                                        <img src="${i['jcr:path']}" alt="${mimeTypeDescription}" />
+                                    {/if}
+                                {elseif sakai.config.MimeTypes[mimeType]}
+                                    {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
+                                    <img src="${sakai.config.MimeTypes[mimeType].URL}" alt="${mimeTypeDescription}" />
+                                {else}
+                                    {var mimeTypeDescription = sakai.config.MimeTypes["other"].description}
+                                    <img src="${sakai.config.MimeTypes["other"].URL}" alt="${mimeTypeDescription}" />
+                                {/if}
+                            </a>
+                            <div class="relatedcontent_content_right">
+                                <a class="s3d-regular-light-links" href="/dev/content_profile.html#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['jcr:path']}" title="${i['jcr:name']}"{/if}>
+                                    {if i['sakai:pooled-content-file-name']}
+                                        {if i['sakai:pooled-content-file-name'].length > 60}
+                                            ${i['sakai:pooled-content-file-name'].substring(0, 60)}...
+                                        {else}
+                                            ${i['sakai:pooled-content-file-name']}
+                                        {/if}
+                                    {elseif i['jcr:name']}
+                                        {if i['jcr:name'].length > 60}
+                                            ${i['jcr:name'].substring(0, 60)}...
+                                        {else}
+                                            ${i['jcr:name']}
+                                        {/if}
+                                    {/if}
+                                </a>
+                            </div>
+                        </div>
+                        ${relatedcontent_index++|eat}
+                    {/if}
+                {/for}
+                {if relatedcontent_index === 0}
+                    <div class="relatedcontent_no_content">
+                        __MSG__NO_RELATED_CONTENT_FOUND__
+                    </div>
+                {/if}
+            </div>
+        </div>
+    --></div>
+
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/relatedcontent/javascript/relatedcontent.js"></script>

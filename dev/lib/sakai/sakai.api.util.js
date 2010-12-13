@@ -103,6 +103,9 @@ sakai.api.Util.createSakaiDate = function(date, format, offset) {
  */
 
 sakai.api.Util.convertToHumanReadableFileSize = function(filesize) {
+    if (filesize.indexOf("binary-length:") > -1) {
+        filesize = filesize.replace("binary-length:", "");
+    }
     // Divide the length into its largest unit
     var units = [[1024 * 1024 * 1024, 'GB'], [1024 * 1024, 'MB'], [1024, 'KB'], [1, 'bytes']];
     var lengthunits;
@@ -327,8 +330,9 @@ sakai.api.Util.notification = sakai.api.Util.notification || {};
  * @param {String} title The notification title (if it is an empty string, the title isn't shown)
  * @param {String} text The text you want to see appear in the body of the notification
  * @param {Constant} [type] The type of the notification. If this is not supplied, we use the type "information"
+ * @param {Boolean} sticky The sticky (if it is true, the notification doesn't disappear without using action)
  */
-sakai.api.Util.notification.show = function(title, text, type){
+sakai.api.Util.notification.show = function(title, text, type , sticky){
 
     // Check whether the text parameter is supplied.
     if(!text){
@@ -358,6 +362,7 @@ sakai.api.Util.notification.show = function(title, text, type){
     // Set the title and text
     notification.title = title;
     notification.text = text;
+    notification.sticky = sticky;
 
     // Show a the actual notification to the user
     $.gritter.add(notification);

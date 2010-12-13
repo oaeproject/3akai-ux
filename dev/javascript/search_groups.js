@@ -81,7 +81,8 @@ sakai.search = function() {
             all : "#tab_search_all",
             content : "#tab_search_content",
             people : "#tab_search_people",
-            sites : "#tab_search_sites"
+            sites : "#tab_search_sites",
+            sakai2 : "#tab_search_sakai2"
         },
         results : {
             container : search + '_results_container',
@@ -96,18 +97,21 @@ sakai.search = function() {
                 "all": {
                     "category": "All Groups",
                     "searchurl": searchURLmap.allgroups
-                },
-                "manage": {
-                    "category": "Groups I manage",
-                    "searchurl": searchURLmap.managergroups
-                },
-                "member": {
-                    "category": "Groups I'm a member of",
-                    "searchurl": searchURLmap.membergroups
                 }
             }
         }
     };
+
+    if (!sakai.data.me.user.anon) {
+        searchConfig.facetedConfig.facets.manage = {
+           "category": "Groups I manage",
+           "searchurl": searchURLmap.managergroups
+        };
+        searchConfig.facetedConfig.facets.member = {
+           "category": "Groups I'm a member of",
+           "searchurl": searchURLmap.membergroups
+        };
+    }
 
 
     ///////////////
@@ -147,6 +151,7 @@ sakai.search = function() {
      * @param {String} searchwhere The subset of sites you want to search in
      */
     sakai._search.doHSearch = function(page, searchquery, searchwhere, facet, killPreviousAjaxCall) {
+
         // if killpreviousajaxcall is true then kill the previous ajax request
         if (killPreviousAjaxCall) {
             searchAjaxCall.abort();
@@ -166,6 +171,7 @@ sakai.search = function() {
         }
 
         currentpage = page;
+
         // This will invoke the sakai._search.doSearch function and change the url.
         History.addBEvent(page, encodeURIComponent(searchquery), searchwhere, facet);
     };
@@ -427,9 +433,14 @@ sakai.search = function() {
     ////////////////////
     // Event Handlers //
     ////////////////////
-    $(searchAddGroupButton).bind("click", function(ev){
-        createNewGroup();
-    });
+    if (sakai.data.me.user.anon) {
+        $(searchAddGroupButton).hide();
+        $("#search_results_page1").removeClass("search_results_container_sub");
+    } else {
+        $(searchAddGroupButton).bind("click", function(ev){
+            createNewGroup();
+        });
+    }
 
     /**
      * Will reset the view to standard.
@@ -447,9 +458,9 @@ sakai.search = function() {
      * Will fetch the sites and add a new item to the history list.
      */
     var doInit = function() {
-
         // Get my sites
         mainSearch.getMySites();
+        
         // Add the bindings
         mainSearch.addEventListeners();
 

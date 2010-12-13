@@ -183,6 +183,61 @@ sakai.api.Activity.createActivity = function(nodeUrl, appID, templateID, extraDa
 };
 
 /**
+ * @class Datetime
+ *
+ * @description
+ * Datetime format related functions
+ *
+ * @namespace
+ * Datetime related functions
+ */
+sakai.api.Datetime = sakai.api.Datetime || {};
+
+/**
+ * Function that returns how many years, months, days or hours since the dateinput
+ *
+ * @param {Date} date
+ */
+sakai.api.Datetime.getTimeAgo = function(date){
+    if (date !== null) {
+        var currentDate = new Date();
+        var iTimeAgo = (currentDate - date) / (1000);
+        if (iTimeAgo < 60) {
+            if (Math.floor(iTimeAgo) === 1) {
+                return Math.floor(iTimeAgo) +" " + sakai.api.i18n.General.getValueForKey("SECOND");
+            }
+            return Math.floor(iTimeAgo) + " "+sakai.api.i18n.General.getValueForKey("SECONDS");
+        } else if (iTimeAgo < 3600) {
+            if (Math.floor(iTimeAgo / 60) === 1) {
+                return Math.floor(iTimeAgo / 60) + " "+sakai.api.i18n.General.getValueForKey("MINUTE");
+            }
+            return Math.floor(iTimeAgo / 60) + " "+sakai.api.i18n.General.getValueForKey("MINUTES");
+        } else if (iTimeAgo < (3600 * 60)) {
+            if (Math.floor(iTimeAgo / (3600)) === 1) {
+                return Math.floor(iTimeAgo / (3600)) + " "+sakai.api.i18n.General.getValueForKey("HOUR");
+            }
+            return Math.floor(iTimeAgo / (3600)) + " "+sakai.api.i18n.General.getValueForKey("HOURS");
+        } else if (iTimeAgo < (3600 * 60 * 30)) {
+            if (Math.floor(iTimeAgo / (3600 * 60)) === 1) {
+                return Math.floor(iTimeAgo / (3600 * 60)) + " "+sakai.api.i18n.General.getValueForKey("DAY");
+            }
+            return Math.floor(iTimeAgo / (3600 * 60)) + " "+sakai.api.i18n.General.getValueForKey("DAYS");
+        } else if (iTimeAgo < (3600 * 60 * 30 * 12)) {
+            if (Math.floor(iTimeAgo / (3600 * 60 * 30)) === 1) {
+                return Math.floor(iTimeAgo / (3600 * 60 * 30)) + " "+sakai.api.i18n.General.getValueForKey("MONTH");
+            }
+            return Math.floor(iTimeAgo / (3600 * 60 * 30)) + " "+sakai.api.i18n.General.getValueForKey("MONTHS");
+        } else {
+            if (Math.floor(iTimeAgo / (3600 * 60 * 30 * 12) === 1)) {
+                return Math.floor(iTimeAgo / (3600 * 60 * 30 * 12)) + " "+sakai.api.i18n.General.getValueForKey("YEAR");
+            }
+            return Math.floor(iTimeAgo / (3600 * 60 * 30 * 12)) + " "+sakai.api.i18n.General.getValueForKey("YEARS");
+        }
+    }
+    return null;
+};
+
+/**
  * @class Skinning
  *
  * @description
@@ -410,7 +465,7 @@ sakai.api.Security.getPermissions = function(target, type, permissions_object) {
  */
 sakai.api.Security.send404 = function(){
     var redurl = window.location.pathname + window.location.hash;
-    document.location = "/dev/404.html?redurl=" + escape(window.location.pathname + window.location.search + window.location.hash);
+    document.location = "/dev/404.html?url=" + escape(window.location.pathname + window.location.search + window.location.hash);
     return false;
 };
 
@@ -420,7 +475,7 @@ sakai.api.Security.send404 = function(){
  */
 sakai.api.Security.send403 = function(){
     var redurl = window.location.pathname + window.location.hash;
-    document.location = "/dev/403.html?redurl=" + escape(window.location.pathname + window.location.search + window.location.hash);
+    document.location = "/dev/403.html?url=" + escape(window.location.pathname + window.location.search + window.location.hash);
     return false;
 };
 
@@ -1003,7 +1058,7 @@ sakai.api.UI = sakai.api.UI || {};
 
                 var decideLoggedIn = function(response, exists){
                     var originalURL = document.location;
-                    originalURL = $.URLEncode(originalURL.pathname + originalURL.search + originalURL.hash);
+                    originalURL = encodeURI(originalURL.pathname + originalURL.search + originalURL.hash);
                     var redirecturl = sakai.config.URL.GATEWAY_URL + "?url=" + originalURL;
                     if (exists && response.preferences && (response.preferences.uuid === "anonymous" || !response.preferences.uuid)) {
                         document.location = redirecturl;

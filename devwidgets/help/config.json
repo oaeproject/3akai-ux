@@ -1,0 +1,12 @@
+{
+    "description":"Help",
+    "name":"Help",
+    "id":"help",
+    "hasSettings":false,
+    "type":"sakai",
+    "enabled":true,
+    "i18n": {
+        "default": "/devwidgets/help/bundles/default.properties"
+    },
+    "url":"/devwidgets/help/help.html"
+}

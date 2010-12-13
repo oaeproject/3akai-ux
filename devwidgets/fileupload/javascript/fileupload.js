@@ -317,6 +317,7 @@ sakai.fileupload = function(tuid, showSettings){
         $fileUploadPermissionsSelect = $("#fileupload_permissions_select", $rootel);
         $cancelButton = $(".fileupload_close", $rootel);
         $fileUploadUpdateSubmit = $("#fileupload_update_submit", $rootel);
+        $multiFileList = $(".MultiFile-list", $rootel);
     };
 
     /**
@@ -622,6 +623,7 @@ sakai.fileupload = function(tuid, showSettings){
         // Add the button to the form and remove loader class
         $fileUploadRenderedTagging.find("button").show();
         $fileUploadProgressId.removeClass(fileUploadProgressClass);
+        $fileUploadPermissionsSelect = $($fileUploadPermissionsSelect.selector);
         // Disable input fields
         if (context !== "new_version") {
             $fileUploadAddTags.removeAttr("disabled");
@@ -706,7 +708,7 @@ sakai.fileupload = function(tuid, showSettings){
                 else {
                     // Files uploaded
                     filesUploaded = true;
-
+                    $multiFileList = $($multiFileList.selector);
                     // Get the values out of the name boxes
                     $multiFileList.find("input").each(function(index){
                         for (var i in extractedData){
@@ -724,12 +726,20 @@ sakai.fileupload = function(tuid, showSettings){
 
                     uploadedFiles = extractedData;
 
-                    // Initiate the tagging process
+                    // Initiate the tagging process and create an activity
                     $fileUploadAddTags = $($fileUploadAddTags.selector);
                     tags = sakai.api.Util.formatTags($fileUploadAddTags.val());
+                    var activityMessage = "__MSG__UPLOADED_FILE__";
+                    if (newVersion) {
+                        activityMessage = "__MSG__UPLOADED_NEW_FILE_VERSION__";
+                    }
+                    var activityData = {
+                        "sakai:activityMessage": activityMessage
+                    };
                     for (var file in uploadedFiles) {
                         if (uploadedFiles.hasOwnProperty(file)) {
                             sakai.api.Util.tagEntity("/p/" + uploadedFiles[file].hashpath, tags, []);
+                            sakai.api.Activity.createActivity("/p/" + uploadedFiles[file].hashpath, "content", "default", activityData);
                         }
                     }
 
@@ -739,6 +749,7 @@ sakai.fileupload = function(tuid, showSettings){
                         // Set the description data on the completed uploads
 
                         // Set permissions on the files
+                        $fileUploadPermissionsSelect = $($fileUploadPermissionsSelect.selector);
                         sakai.api.Content.setFilePermissions($fileUploadPermissionsSelect.val(), uploadedFiles, function(permissionsSet){
                             batchSetDescriptionAndName();
                         }, contextData.id);
@@ -777,6 +788,7 @@ sakai.fileupload = function(tuid, showSettings){
         // Remove the button from the form and set loader class
         $fileUploadRenderedTagging.find("button").hide();
         $fileUploadProgressId.addClass(fileUploadProgressClass);
+        $fileUploadPermissionsSelect = $($fileUploadPermissionsSelect.selector);
         // Disable input fields
         if (context !== "new_version") {
             $fileUploadAddTags.attr("disabled", "disabled");
@@ -805,22 +817,18 @@ sakai.fileupload = function(tuid, showSettings){
 
     /** FORM VALIDATION **/
     $("#fileupload_link_box form").validate({
-        onkeyup: false
-    });
-    $fileUploadLinkBoxInput.rules("add", {
-        required: true,
-        url: true,
+        onkeyup: false,
         messages: {
             url: $("#fileupload_enter_valid_url").html()
         }
     });
-    $("#fileupload_link_box form").bind("submit",function(e){
 
+    $("#fileupload_link_box form").bind("submit",function(e){
         $("#fileupload_link_submit").attr("disabled","disabled");
         $fileUploadAddLinkButton.attr("disabled", "disabled");
-        $fileUploadLinkBoxInput.attr("disabled", "disabled");
 
-        if ($fileUploadLinkBoxInput.valid() && !performedSubmit) {
+        if ($("#fileupload_link_box form").valid() && !performedSubmit) {
+            $fileUploadLinkBoxInput.attr("disabled", "disabled");
             performedSubmit = true;
             if (context !== "new_version") {
                 uploadLink();
@@ -872,6 +880,17 @@ sakai.fileupload = function(tuid, showSettings){
         $fileUploadContainer.jqmHide();
     });
 
+    /**
+     * Invoke 'sakai-fileupload-init' to initialize the upload widget
+     * There are 2 modes in which the widget can operate
+     * 
+     * - The normal mode doesn't require any extra action by the developer, just fire the event and the widget pops up.
+     * 
+     * - The new version mode requires an extra class to be added on the button that invokes the widget. The extra class is 'new_version'
+     *   If you add another class 'new_link' then the new version will be considered to be a link.
+     * 
+     * In both modes the button that invokes the uploader has the id 'upload_content'
+     */
     $(window).unbind("sakai-fileupload-init");
     /**
      * Bind to sakai-fileupload-init

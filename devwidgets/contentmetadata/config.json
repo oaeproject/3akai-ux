@@ -1,0 +1,9 @@
+{
+    "id":"contentmetadata",
+    "type":"core",
+    "enabled":true,
+    "i18n": {
+        "default": "/devwidgets/contentmetadata/bundles/default.properties"
+    },
+    "url":"/devwidgets/contentmetadata/contentmetadata.html"
+}

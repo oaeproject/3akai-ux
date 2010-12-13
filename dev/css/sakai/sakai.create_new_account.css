@@ -21,10 +21,12 @@ body { margin-bottom: 50px !important; }
 .create_account .header_container { width: 960px; }
 
 .create_account .header-title
-{ color: #08415E; float: left; font-size: 4em; margin: 0 35px 0 0; padding: 40px 0 35px 0; }
+{ color: #08415E; float: left; font-size: 4em; margin: 0 35px 0 0; padding: 0px 0 20px 0; }
 
 .create_account .header-byline
-{ color: #2C9CC4; font-size: 1.5em; font-weight: bold; padding: 60px 0 0 0; }
+{ color: #2C9CC4; font-size: 1.5em; font-weight: bold; padding: 3px 0 0 0; }
+
+#header_byline_justify_left {margin-left: 20px;}
 
 
 /** CONTENT **/

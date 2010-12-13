@@ -590,10 +590,8 @@ sakai.api.Widgets.widgetLoader = {
                     };
                     var floating = "inline_class_widget_nofloat";
 
-                    // Check if the browser supports cssFloat (other browsers) or styleFloat (IE)
-                    var styleFloat = $.support.cssFloat ? "cssFloat" : "styleFloat";
-                    if (divarray[i].style[styleFloat]) {
-                        floating = divarray[i].style[styleFloat] === "left" ? "inline_class_widget_leftfloat" : "inline_class_widget_rightfloat";
+                    if ($(divarray[i]).css("float") !== "none") {
+                        floating = $(divarray[i]).css("float") === "left" ? "inline_class_widget_leftfloat" : "inline_class_widget_rightfloat";
                     }
                     widgets[widgetname][index].floating = floating;
                 }

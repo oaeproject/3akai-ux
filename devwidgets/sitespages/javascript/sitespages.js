@@ -1114,7 +1114,7 @@ sakai.sitespages = function(tuid,showSettings){
         $context_menu.hide();
         var selected = ed.selection.getNode();
         if (selected && selected.nodeName.toLowerCase() === "img") {
-            if (selected.getAttribute("class") === "widget_inline"){
+            if ($(selected).hasClass("widget_inline")){
                 $context_settings.show();
             } else {
                 $context_settings.hide();
@@ -1671,11 +1671,12 @@ sakai.sitespages = function(tuid,showSettings){
 
 
     // Bind Widget Context Settings click event
-    $("#context_settings").bind("mousedown", function(ev){
+    $("#context_settings").bind("click", function(ev){
+        debug.log("click");
         var ed = tinyMCE.get('elm1');
         var selected = ed.selection.getNode();
         $("#dialog_content").hide();
-        if (selected && selected.nodeName.toLowerCase() === "img" && selected.getAttribute("class") === "widget_inline") {
+        if (selected && selected.nodeName.toLowerCase() === "img" && $(selected).hasClass("widget_inline")) {
             sakai.sitespages.updatingExistingWidget = true;
             $("#context_settings").show();
             var id = selected.getAttribute("id");
@@ -1684,13 +1685,13 @@ sakai.sitespages = function(tuid,showSettings){
             var uid = split[2];
             var length = split[0].length + 1 + split[1].length + 1 + split[2].length + 1;
             var placement = id.substring(length);
-
+            var widgetSettingsWidth = 650;
             sakai.sitespages.newwidget_id = type;
-
             $("#dialog_content").hide();
-
             if (sakai.widgets.widgets[type]) {
-                $('#insert_dialog').jqmShow();
+                if (sakai.widgets.widgets[type].settingsWidth) {
+                    widgetSettingsWidth = sakai.widgets.widgets[type].settingsWidth;
+                }
                 var nuid = "widget_" + type + "_" + uid;
                 if (placement){
                     nuid += "_" + placement;
@@ -1700,6 +1701,7 @@ sakai.sitespages = function(tuid,showSettings){
                 $("#dialog_title").html(sakai.widgets.widgets[type].name);
                 sakai.api.Widgets.widgetLoader.insertWidgets("dialog_content", true,sakai.sitespages.config.basepath + "_widgets/");
                 $("#dialog_content").show();
+                $('#insert_dialog').css({'width':widgetSettingsWidth + "px", 'margin-left':-(widgetSettingsWidth/2) + "px"}).jqmShow();
             }
         }
 
@@ -2108,7 +2110,8 @@ sakai.sitespages = function(tuid,showSettings){
      * @return void
      */
     var renderSelectedWidget = function(widgetid) {
-        var $dialog_content = $("#dialog_content");
+        var $dialog_content = $("#dialog_content"),
+            widgetSettingsWidth = 650;
         $dialog_content.hide();
         if (sakai.widgets.widgets[widgetid]){
             sakai.sitespages.newwidget_id = widgetid;
@@ -2118,12 +2121,15 @@ sakai.sitespages = function(tuid,showSettings){
             $dialog_content.html(sakai.api.Security.saneHTML('<img src="' + sakai.widgets.widgets[widgetid].img + '" id="' + id + '" class="widget_inline" border="1"/>'));
             $("#dialog_title").html(sakai.widgets.widgets[widgetid].name);
             sakai.api.Widgets.widgetLoader.insertWidgets(tuid,true,sakai.sitespages.config.basepath + "_widgets/");
+            if (sakai.widgets.widgets[widgetid].settingsWidth) {
+                widgetSettingsWidth = sakai.widgets.widgets[widgetid].settingsWidth;
+            }
             $dialog_content.show();
             window.scrollTo(0,0);
         } else if (!widgetid){
             window.scrollTo(0,0);
         }
-        $('#insert_dialog').jqmShow();
+        $('#insert_dialog').css({'width':widgetSettingsWidth + "px", 'margin-left':-(widgetSettingsWidth/2) + "px"}).jqmShow();
     };
 
 
