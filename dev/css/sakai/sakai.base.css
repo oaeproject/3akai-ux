@@ -52,7 +52,7 @@ a:hover {
 }
 
 /* '+ Add another' link */
-.s3d-add_another_location {color:#3399CC; font-size:13px; font-weight:bold; background: url("/dev/images/add_blue_icon.png") left no-repeat; padding-left:25px; height:16px; display:block; margin-right:15px;}
+.s3d-add_another_location {clear:both;color:#3399CC; font-size:13px; font-weight:bold; background: url("/dev/images/add_blue_icon.png") left no-repeat; padding-left:25px; height:16px; display:block; margin-right:15px;}
 .s3d-add_another_location_container {clear:both; display:block; padding:7px 0; width:200px;}
 
 /* Hidden elements
@@ -358,8 +358,16 @@ html > body .s3d-button .s3d-button-inner {
     background-position: right -200px;
 }
 
+.s3d-button-tertiary {
+    background-position: right -120px;
+}
+
 .s3d-button-primary .s3d-button-inner {
     background-position: left -160px;
+}
+
+.s3d-button-tertiary .s3d-button-inner {
+    background-position: left -80px;
 }
 
 .s3d-button[disabled], .s3d-disabled {
@@ -496,7 +504,7 @@ html > body .s3d-button .s3d-button-inner {
 .context_menu ul li a{color:#666;font-size:0.95em;display:block;padding:2px 20px 2px 4px;}
 
 /* Input fields */
-input[type="text"]:hover, input[type="password"]:hover, textarea:hover{background:none repeat scroll 0 0 #D3EDF5;}
+input[type="text"]:hover, input[type="password"]:hover, textarea:hover, .as-selections:hover, .as-selections:hover input{background:none repeat scroll 0 0 #D3EDF5;}
 
 /* ----------------------------------------------------------------------------
  *    CONTENT AREA TOP TABS
@@ -615,7 +623,7 @@ label.error {color:#9f3333;font-weight:bold;}
 .dialog_header .dialog_close_image{background:url(/dev/images/close_dialog.png) no-repeat top right;cursor:pointer;display:block;height:15px;overflow:hidden;position:absolute;right:20px;top:17px;text-indent:-5000px;width:14px;}
 
 /* Dialog content */
-.dialog_content{background-color:#fff;border-left:3px #454a4f solid;border-right:3px #454a4f solid;padding:20px;}
+.dialog_content{background-color:#fff;border-left:3px #454a4f solid;border-right:3px #454a4f solid;padding:7px 20px 7px;}
 .dialog_content h1{font-size:1.1em;font-weight:bold;color:#333;margin:0;padding:5px 0;}
 .dialog_content textarea {height:80px;width:98%;}
 
@@ -627,7 +635,28 @@ label.error {color:#9f3333;font-weight:bold;}
 .dialog_footer_inner{background:url(/dev/images/dialog_bl.png) top left no-repeat;height:6px;}
 
 /* highlighted areas */
-.s3d-highlight_area_background {background-color:#EFF2F4; padding: 10px; margin: 0 0 15px 0;}
+.s3d-highlight_area_background {background-color:#EFF2F4; padding: 0 10px; margin: 0 0 15px 0;}
+
+.s3d-highlight_area_background_tl {height:7px; margin-left: -10px;  background: url("/dev/images/highlight_area_background_tl.png") no-repeat scroll left 0 transparent;}
+.s3d-highlight_area_background_tinner {height:7px; margin-right: -10px;  background: url("/dev/images/highlight_area_background_tr.png") no-repeat scroll right 0 transparent;}
+.s3d-highlight_area_background_bl {clear:both; height:7px; margin-left: -10px;  background: url("/dev/images/highlight_area_background_bl.png") no-repeat scroll left 0 transparent;}
+.s3d-highlight_area_background_binner {clear:both; height:7px; margin-right: -10px;  background: url("/dev/images/highlight_area_background_br.png") no-repeat scroll right 0 transparent;}
+
+.s3d-highlight_area_background_white_content_tl {height:7px; margin-left: -10px;  background: url("/dev/images/highlight_area_background_white_content_tl.png") no-repeat scroll left 0 transparent;}
+.s3d-highlight_area_background_white_content_tinner {height:7px; margin-right: -10px;  background: url("/dev/images/highlight_area_background_white_content_tr.png") no-repeat scroll right 0 transparent;}
+.s3d-highlight_area_background_white_content_bl {clear:both; height:7px; margin-left: -10px;  background: url("/dev/images/highlight_area_background_white_content_bl.png") no-repeat scroll left 0 transparent;}
+.s3d-highlight_area_background_white_content_binner {clear:both; height:7px; margin-right: -10px;  background: url("/dev/images/highlight_area_background_white_content_br.png") no-repeat scroll right 0 transparent;}
+
+.s3d-highlight_area_background_darker1 {background-color:#d5dbdf; padding: 0 10px; margin: 0 0 15px 0;}
+.s3d-highlight_area_background_darker1_tl {height:7px; margin-left: -10px;  background: url("/dev/images/highlight_area_background_darker1_tl.png") no-repeat scroll left 0 transparent;}
+.s3d-highlight_area_background_darker1_tinner {height:7px; margin-right: -10px;  background: url("/dev/images/highlight_area_background_darker1_tr.png") no-repeat scroll right 0 transparent;}
+.s3d-highlight_area_background_darker1_bl {height:7px; margin-left: -10px;  background: url("/dev/images/highlight_area_background_darker1_bl.png") no-repeat scroll left 0 transparent;}
+.s3d-highlight_area_background_darker1_binner {height:7px; margin-right: -10px;  background: url("/dev/images/highlight_area_background_darker1_br.png") no-repeat scroll right 0 transparent;}
+
+.s3d-highlight_area_background_darker1_white_content_tl {height:7px; margin-left: -10px;  background: url("/dev/images/highlight_area_background_darker1_white_content_tl.png") no-repeat scroll left 0 transparent;}
+.s3d-highlight_area_background_darker1_white_content_tinner {height:7px; margin-right: -10px;  background: url("/dev/images/highlight_area_background_darker1_white_content_tr.png") no-repeat scroll right 0 transparent;}
+.s3d-highlight_area_background_darker1_white_content_bl {clear:both; height:7px; margin-left: -10px;  background: url("/dev/images/highlight_area_background_darker1_white_content_bl.png") no-repeat scroll left 0 transparent;}
+.s3d-highlight_area_background_darker1_white_content_binner {clear:both; height:7px; margin-right: -10px;  background: url("/dev/images/highlight_area_background_darker1_white_content_br.png") no-repeat scroll right 0 transparent;}
 
 /** Chat bullets **/
 .chat_available_status_online { background: url("/dev/images/bullet_green.png") no-repeat scroll -3px -1px transparent; }

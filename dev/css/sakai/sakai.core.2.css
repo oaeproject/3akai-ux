@@ -4,6 +4,11 @@
     overflow:hidden;
 }
 
+*:focus {
+    outline: none;
+    outline-width:0; /* Safari needs this instead of outline:0; */
+}
+
 /********************************************/
 /* Insert More Dropdown */
 

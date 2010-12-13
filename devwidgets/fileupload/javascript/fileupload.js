@@ -726,12 +726,20 @@ sakai.fileupload = function(tuid, showSettings){
 
                     uploadedFiles = extractedData;
 
-                    // Initiate the tagging process
+                    // Initiate the tagging process and create an activity
                     $fileUploadAddTags = $($fileUploadAddTags.selector);
                     tags = sakai.api.Util.formatTags($fileUploadAddTags.val());
+                    var activityMessage = "__MSG__UPLOADED_FILE__";
+                    if (newVersion) {
+                        activityMessage = "__MSG__UPLOADED_NEW_FILE_VERSION__";
+                    }
+                    var activityData = {
+                        "sakai:activityMessage": activityMessage
+                    };
                     for (var file in uploadedFiles) {
                         if (uploadedFiles.hasOwnProperty(file)) {
                             sakai.api.Util.tagEntity("/p/" + uploadedFiles[file].hashpath, tags, []);
+                            sakai.api.Activity.createActivity("/p/" + uploadedFiles[file].hashpath, "content", "default", activityData);
                         }
                     }
 
@@ -872,6 +880,17 @@ sakai.fileupload = function(tuid, showSettings){
         $fileUploadContainer.jqmHide();
     });
 
+    /**
+     * Invoke 'sakai-fileupload-init' to initialize the upload widget
+     * There are 2 modes in which the widget can operate
+     * 
+     * - The normal mode doesn't require any extra action by the developer, just fire the event and the widget pops up.
+     * 
+     * - The new version mode requires an extra class to be added on the button that invokes the widget. The extra class is 'new_version'
+     *   If you add another class 'new_link' then the new version will be considered to be a link.
+     * 
+     * In both modes the button that invokes the uploader has the id 'upload_content'
+     */
     $(window).unbind("sakai-fileupload-init");
     /**
      * Bind to sakai-fileupload-init

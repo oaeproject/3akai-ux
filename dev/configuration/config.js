@@ -75,6 +75,7 @@ sakai.config = {
         MESSAGE_BOXCATEGORY_SERVICE: "/var/message/boxcategory.json",
         POOLED_CONTENT_MANAGER: "/var/search/pool/me/manager.json",
         POOLED_CONTENT_VIEWER: "/var/search/pool/me/viewer.json",
+        POOLED_CONTENT_ACTIVITY_FEED: "/var/search/pool/activityfeed.json",
         PRESENCE_CONTACTS_SERVICE: "/var/presence.contacts.json",
         PRESENCE_SERVICE: "/var/presence.json",
         PROXY_RSS_SERVICE: "/var/proxy/rss.json?rss=",
@@ -219,6 +220,13 @@ sakai.config = {
                 "public": "public",            // Anyone on the Internet
                 "managers": "managers-only"    // Group managers only
             }
+        },
+        Copyright: {
+            "creativecommons" : "CREATIVE_COMMONS_LICENSE",
+            "copyrighted" : "COPYRIGHTED",
+            "nocopyright" : "NO_COPYRIGHT",
+            "licensed" : "LICENSED",
+            "waivecopyright" : "WAIVE_COPYRIGHT"
         }
     },
 
@@ -730,6 +738,7 @@ sakai.config = {
      * themselves
      */
     requireProcessing: [
+        "/dev/content_profile2.html",
         "/dev/content_profile.html",
         "/dev/group_edit.html",
         "/dev/show.html"

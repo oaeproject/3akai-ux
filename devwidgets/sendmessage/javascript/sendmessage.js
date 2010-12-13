@@ -263,6 +263,7 @@ if (!sakai.sendmessage){
                 sakai.api.Util.notification.show("", errorMsg, sakai.api.Util.notification.type.ERROR);
             }
 
+            $(messageDialogContainer).jqmHide();
             // If we have a valid callback function we call that
             // and dont show the message
             // If we dont have a callback we show a default message and fade out the layover.

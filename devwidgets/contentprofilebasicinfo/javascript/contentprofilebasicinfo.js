@@ -37,6 +37,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
     var userStoragePrefix = sakai.data.me.user.userStoragePrefix;
     var tagsPath = "/~" + userId + "/public/tags/";
     var tagsPathForLinking = "/_user/" + userStoragePrefix + "public/tags/";
+    var directoryAdded = false;
 
     // JSON
     var data = {};
@@ -177,6 +178,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                     if ($.inArray(directoryString, data["sakai:tags"]) < 0) {
                         data["sakai:tags"].push(directoryString);
                     }
+                    directoryAdded = true;
                 }
             });
         }
@@ -224,6 +226,81 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
         $(contentProfileBasicInfoForm)[0].disabled = bool;
     };
 
+    /**
+     * Adds recent activity for the file
+     * @param {Object} newData Data from the content profile form that we need to check what has changed
+     */
+    var addRecentActivity = function(activityMessage){
+        var activityData = {
+            "sakai:activityMessage": activityMessage
+        };
+        sakai.api.Activity.createActivity(sakai.content_profile.content_data.path, "content", "default", activityData);
+    };
+
+    /**
+     * Checks submitted data and adds recent activity for the file
+     * @param {Object} newData Data from the content profile form that we need to check what has changed
+     */
+    var checkRecentActivity = function(newData){
+        var titleActivity = false;
+        var descriptionActivity = false;
+        var tagActivity = false;
+        var directoryActivity = false;
+        var activityMessage;
+
+        // check if title has changed
+        if (sakai.content_profile.content_data.data["sakai:pooled-content-file-name"] !== newData["sakai:pooled-content-file-name"]){
+            titleActivity = true;
+            activityMessage = "__MSG__CONTENT_MODIFIED_TITLE__";
+        }
+        if (titleActivity) {
+            addRecentActivity(activityMessage);
+        }
+
+        // check if description has changed
+        if (sakai.content_profile.content_data.data["sakai:description"] && newData["sakai:description"]) {
+            // check if description has been modified
+            if (newData["sakai:description"] !== sakai.content_profile.content_data.data["sakai:description"]) {
+                descriptionActivity = true;
+                activityMessage = "__MSG__CONTENT_MODIFIED_DESCRIPTION__";
+            }
+        } else if (sakai.content_profile.content_data.data["sakai:description"] && !newData["sakai:description"]) {
+            // description has been removed
+            descriptionActivity = true;
+            activityMessage = "__MSG__CONTENT_REMOVED_DESCRIPTION__";
+        } else if (!sakai.content_profile.content_data.data["sakai:description"] && newData["sakai:description"]) {
+            // description has been added
+            descriptionActivity = true;
+            activityMessage = "__MSG__CONTENT_ADDED_DESCRIPTION__";
+        }
+        if (descriptionActivity) {
+            addRecentActivity(activityMessage);
+        }
+
+        // check if tags have changed
+        if (sakai.content_profile.content_data.data["sakai:tags"] && sakai.content_profile.content_data.data["sakai:tags"].length > 0){
+            // content has current tags
+            if (newData["sakai:tags"] && newData["sakai:tags"].length > 0) {
+                // check if tags have been modified
+                if ($.toJSON(newData["sakai:tags"]) !== $.toJSON(sakai.content_profile.content_data.data["sakai:tags"])) {
+                    tagActivity = true;
+                    activityMessage = "__MSG__CONTENT_MODIFIED_TAGS__";
+                }
+            } else {
+                // tags have been removed
+                tagActivity = true;
+                activityMessage = "__MSG__CONTENT_REMOVED_TAGS__";
+            }
+        } else if (newData["sakai:tags"] && newData["sakai:tags"].length > 0){
+            // tags have been added
+            tagActivity = true;
+            activityMessage = "__MSG__CONTENT_ADDED_TAGS__";
+        }
+        if (tagActivity) {
+            addRecentActivity(activityMessage);
+        }
+    };
+
     var updateBasicInfo = function(){
 
         // Get all the value for the form
@@ -249,6 +326,11 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                 sakai.api.Util.notification.show($(contentProfileBasicInfoFailedUpdatingBasicInfo).html(), $(contentProfileBasicInfoFileBasicInfoNotUpdated).html());
             },
             success : function(){
+                // Add recent activity for the file
+                checkRecentActivity(data);
+                if (directoryAdded){
+                    addRecentActivity("__MSG__CONTENT_DIRECTORY_ADDED__");
+                }
                 // Set permissions on the files
                 sakai.api.Content.setFilePermissions(data["sakai:permissions"], [obj], function(permissionsSet){
                     // Load content profile
@@ -409,6 +491,7 @@ sakai.contentprofilebasicinfo = function(tuid, showSettings){
                     removeBinding();
                     $(window).trigger('hashchange');
             });
+            addRecentActivity("__MSG__CONTENT_DIRECTORY_REMOVED__");
             sakai.api.Util.notification.show($(contentProfileBasicInfoUpdatedBasicInfo).html(), $(contentProfileBasicInfoFileBasicInfoUpdated).html());
         });
     };

@@ -64,7 +64,7 @@
 .groupbasicinfo_saveddirectory li {list-style:none; font-weight:bold;}
 .groupbasicinfo_saveddirectory_information {float:left; padding-bottom:10px; clear:both;}
 
-.groupbasicinfo_remove_location, .groupbasicinfo_remove_new_location {float:right; color:#006E96; font-size:13px; font-weight:bold; margin-right:10px; height:16px;}
+.groupbasicinfo_remove_location, .groupbasicinfo_remove_new_location {float:right; margin-right:10px; height:16px;}
 
 .groupbasicinfo_added_directory {clear:both; padding-top:3px;}
 #groupbasicinfo_content_directory_contents {overflow:hidden;}
