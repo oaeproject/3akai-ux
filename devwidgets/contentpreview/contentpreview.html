@@ -9,7 +9,7 @@
     {if type === "default"}
         <div class="contentpreview_default_preview" id="contentpreview_default_preview" style="background-color:#EEF2F5; height:60px; margin-bottom:15px; padding-bottom:20px; padding-left:15px; padding-right:20px; padding-top:20px;">
             <div style="width: 240px; padding-top: 7px; float: right">
-                <a id="contentpreview_download_button" href="javascript:;" style="text-align:center; width:216px;" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">Download</span></a>
+                <a id="contentpreview_download_button" href="${sakai.content_profile.content_data.path}" style="text-align:center; width:216px;" class="s3d-button s3d-button-primary" target="_blank"><span class="s3d-button-inner">Download</span></a>
                 {if sakai.content_profile.content_data.isManager}
                     <div id="contentpreview_actions_container">
                         <button type="submit" class="s3d-button s3d-button-secondary" id="content_preview_delete"><span class="s3d-button-inner">Delete</span></button>
@@ -37,7 +37,7 @@
         <div class="contentpreview_html_preview" id="contentpreview_html_preview" style="width:640px; height: 390px; border: 1px solid #D4DADE; display:none; "></div>
         <div class="contentpreview_image_preview" id="contentpreview_image_preview" style="padding: 0px; display:none; "></div>
         <div style="padding: 15px 20px 15px 10px; height: 25px;">
-            <a id="contentpreview_download_button" href="javascript:;" class="s3d-button s3d-button-primary" style="float:right"><span class="s3d-button-inner">Download</span></a>
+            <a id="contentpreview_download_button" href="${sakai.content_profile.content_data.path}" class="s3d-button s3d-button-primary" style="float:right" target="_blank"><span class="s3d-button-inner">Download</span></a>
             {if sakai.content_profile.content_data.isManager}
                 <div id="contentpreview_actions_container">
                     <button type="submit" class="s3d-button s3d-button-secondary" id="content_preview_delete"><span class="s3d-button-inner">Delete</span></button>

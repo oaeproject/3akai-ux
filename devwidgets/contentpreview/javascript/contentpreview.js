@@ -69,10 +69,6 @@ sakai.contentpreview = function(tuid,showSettings){
         $.TemplateRenderer("contentpreview_widget_main_template", obj, $("#contentpreview_widget_main_container"));
         callback(arg);
     }
-    
-    var setDownloadButton = function(){
-        $("#contentpreview_download_button").attr("href", sakai.content_profile.content_data.path);
-    }
 
     //TODO: Clean this mess up
     var renderImagePreview = function(contentURL){
@@ -216,12 +212,10 @@ sakai.contentpreview = function(tuid,showSettings){
             success: function(profile){
                 sakai.content_profile.content_data.creator = sakai.api.User.getDisplayName(profile);
                 determineDataType();
-                setDownloadButton();
                 bindButtons();
             },
             error: function(xhr, textStatus, thrownError){
                 determineDataType();
-                setDownloadButton();
                 bindButtons();
             }
         });
