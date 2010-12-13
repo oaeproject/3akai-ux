@@ -488,6 +488,8 @@ if (!sakai.sendmessage){
          * call to the server for the selected recipients.
          */
         $(buttonSendMessage).bind("click", function(ev) {
+            // unbind the click event to prevent clicking button repeatedly
+            $(this).unbind("click");
             var recipients = [];
             if (allowOthers) {
                 // fetch list of selected recipients
