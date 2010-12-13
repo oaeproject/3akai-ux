@@ -502,6 +502,7 @@ sakai.chat = function(tuid, showSettings){
         }
     };
 
+
     /**
      * Detect when a user wants to send a message to a user
      * @param {Object} event
@@ -511,16 +512,34 @@ sakai.chat = function(tuid, showSettings){
         if (event.keyCode == '13') {
             var messageField = $(this);
             var message = $.trim(messageField.val());
+
             // Check whether the user is trying to send a valid message
             if (message){
                 var userid = messageField.attr("id").substring(10);
                 userid = userid.substring(0, userid.length - 4);
-                message = replaceURL(message); 
+                message = replaceURL(message);
+                message = escapeHTML(message); 
                 sendMessage(userid, message);
                 messageField.val("");
             }
         }
     });
+
+    /**
+     * The is message escageHTML tag.
+     * when user enter html for example :<input type="button" id="hello-world2" value="Hello" onClick="alert('Hello World!');" /> 
+     * input box is shown in the chat messages.
+     * this method escage the html tags so that the html text is displayed instead of inputbox.
+     * @param {Object} message Message that user has entered.
+     */
+    var escapeHTML = function (message) {                                       
+        return(                                                                 
+            message.replace(/&/g,'&amp;').                                         
+                replace(/>/g,'&gt;').                                           
+                replace(/</g,'&lt;').                                           
+                replace(/"/g,'&quot;')                                         
+        );                                                                     
+    };
 
     /**
      * Represent URL if any in an anchor tag.
