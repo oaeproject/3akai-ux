@@ -1249,7 +1249,7 @@ sakai.entity = function(tuid, showSettings){
                 "URL": sakai.content_profile.content_data.url + "/" + sakai.content_profile.content_data.data["sakai:pooled-content-file-name"]
             };
 
-            $(window).trigger("sakai-pickeruser-init", pl_config, function(people){
+            $(window).trigger("sakai-sharecontent-init", pl_config, function(people){
             });
 
             return false;

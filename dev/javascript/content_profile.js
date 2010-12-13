@@ -345,7 +345,7 @@ sakai.content_profile = function(){
         }
     };
 
-    $(window).bind("sakai-pickeruser-finished", function(e, peopleList){
+    $(window).bind("sakai-sharecontent-finished", function(e, peopleList){
         if(!peopleList.mode || peopleList.mode == undefined){
             peopleList.mode = "viewers";
         }

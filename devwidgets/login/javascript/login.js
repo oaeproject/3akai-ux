@@ -70,7 +70,7 @@ sakai.login = function(){
             if (sakai.config.Authentication.allowInternalAccountCreation){
                 $(registerLink).show();
             }
-            
+
             if (sakai.config.Authentication.internal || sakai.config.Authentication.allowInternalAccountCreation) {
                 $(loginButton).show();
                 $(loginDefault).show();
