@@ -247,6 +247,7 @@ sakai.contentmetadata = function(tuid,showSettings){
             sakai.content_profile.content_data.saveddirectory = sakai.content_profile.parseDirectoryTags(sakai.content_profile.content_data.data);
             $contentmetadataLocationsDialog.jqmHide();
             renderLocations(false);
+            renderTags(false);
         });
     };
 
@@ -353,6 +354,7 @@ sakai.contentmetadata = function(tuid,showSettings){
             $contentmetadataLocationsContainer.html("");
             sakai.content_profile.content_data.mode = mode;
             $contentmetadataLocationsContainer.html($.TemplateRenderer(contentmetadataLocationsTemplate, sakai.content_profile.content_data));
+            applyThreeDots();
         }
     };
 
@@ -501,6 +503,18 @@ sakai.contentmetadata = function(tuid,showSettings){
     //////// SET-UP ////////
     ////////////////////////
 
+    var applyThreeDots = function(){
+        // make sure the newly added content is properly styled with
+        // threedots truncation
+        $(".threedots_text").ThreeDots({
+            max_rows: 1,
+            text_span_class: "ellipsis_text",
+            e_span_class: "threedots_a",
+            whole_word: false,
+            alt_text_t: true
+        });
+    };
+
     /**
      * Animate the hidden or shown data containers
      */
@@ -512,15 +526,7 @@ sakai.contentmetadata = function(tuid,showSettings){
             'padding-bottom': 'toggle',
             height: 'toggle'
         }, 400, function(){
-            // make sure the newly added content is properly styled with
-            // threedots truncation
-            $(".threedots_text").ThreeDots({
-                max_rows: 1,
-                text_span_class: "ellipsis_text",
-                e_span_class: "threedots_a",
-                whole_word: false,
-                alt_text_t: true
-            });
+            applyThreeDots();
         });
         $("#contentmetadata_show_more span").toggle();
     };
