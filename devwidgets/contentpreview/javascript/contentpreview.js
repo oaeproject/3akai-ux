@@ -69,10 +69,6 @@ sakai.contentpreview = function(tuid,showSettings){
         $.TemplateRenderer("contentpreview_widget_main_template", obj, $("#contentpreview_widget_main_container"));
         callback(arg);
     }
-    
-    var setDownloadButton = function(){
-        $("#contentpreview_download_button").attr("href", sakai.content_profile.content_data.path);
-    }
 
     //TODO: Clean this mess up
     var renderImagePreview = function(contentURL){
@@ -181,7 +177,7 @@ sakai.contentpreview = function(tuid,showSettings){
     }
     
     var renderDefaultPreview = function(){
-        // TODO
+        //Nothing really, it's all part of the template
     }
     
     var hidePreview = function(){
@@ -201,7 +197,7 @@ sakai.contentpreview = function(tuid,showSettings){
         $("#upload_content").live("click", function() {
             $(window).trigger("sakai-fileupload-init", {
                 newVersion: true,
-                isLink: false,
+                isLink: sakai.content_profile.content_data.data["jcr:content"]["jcr:mimeType"] === "x-sakai/link",
                 contentPath: sakai.content_profile.content_data.data["jcr:name"]
             });
         });
@@ -209,11 +205,24 @@ sakai.contentpreview = function(tuid,showSettings){
             $(window).trigger("sakai-fileupload-init");
         });
     }
+    
+    var determineFileCreator = function(){
+        $.ajax({
+            url: "/~" + sakai.content_profile.content_data.data["sakai:pool-content-created-for"] + "/public/authprofile.infinity.json",
+            success: function(profile){
+                sakai.content_profile.content_data.creator = sakai.api.User.getDisplayName(profile);
+                determineDataType();
+                bindButtons();
+            },
+            error: function(xhr, textStatus, thrownError){
+                determineDataType();
+                bindButtons();
+            }
+        });
+    }
 
     $(window).bind("sakai.contentpreview.start", function(){
-        determineDataType();
-        setDownloadButton();
-        bindButtons();
+        determineFileCreator();
     });
     
     // Indicate that the widget has finished loading
