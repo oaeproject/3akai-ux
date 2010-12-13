@@ -177,7 +177,7 @@ sakai.contentpreview = function(tuid,showSettings){
     }
     
     var renderDefaultPreview = function(){
-        // TODO
+        //Nothing really, it's all part of the template
     }
     
     var hidePreview = function(){
@@ -197,7 +197,7 @@ sakai.contentpreview = function(tuid,showSettings){
         $("#upload_content").live("click", function() {
             $(window).trigger("sakai-fileupload-init", {
                 newVersion: true,
-                isLink: false,
+                isLink: sakai.content_profile.content_data.data["jcr:content"]["jcr:mimeType"] === "x-sakai/link",
                 contentPath: sakai.content_profile.content_data.data["jcr:name"]
             });
         });
