@@ -600,7 +600,7 @@ sakai.api.Groups.addUsersToGroup = function(groupID, list, users, callback) {
 };
 
 /**
- * Add users to the specified group
+ * Add content items to the specified group
  *
  * @param {String} groupID the ID of the group to add members to
  * @param {Array} contentList Array of content IDs to add to the group
@@ -641,7 +641,7 @@ sakai.api.Groups.addContentToGroup = function(groupID, contentIDs, callback) {
 };
 
 /**
- * Add users to the specified group
+ * Remove users from the specified group
  *
  * @param {String} groupID the ID of the group to add members to
  * @param {String} list Either 'members' or 'managers'

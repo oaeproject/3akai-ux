@@ -16,11 +16,32 @@
  * specific language governing permissions and limitations under the License.
  */
 
- /* Widget Container CSS */
-.helloworld_widget .s3d-widget-content {padding: 10px 20px;}
+/*
+ * The below CSS sections may not be necesary for your widget, but best practice
+ * is to organize your CSS into sections like these (or add new sections)
+ */
 
-/* Dashboard Widget Icon */
-.helloworld.s3d-widget .s3d-widget-titlebar .widget_title {
-    background: url('/devwidgets/helloworld/images/helloworld_icon.png')
+/*
+ * Widget Container CSS
+ */
+
+/* padding around all your widget's content */
+.WIDGET_ID_widget .s3d-widget-content {padding: 10px 20px;}
+
+/* widget icon (for widgets that may appear on a dashboard) 
+   icons are usually around 18 x 18 pixels */
+.WIDGET_ID.s3d-widget .s3d-widget-titlebar .widget_title {
+    background: url('/devwidgets/WIDGET_ID/images/WIDGET_ID_icon.png') 
         17px 18px no-repeat;
 }
+
+
+/*
+ * Main View CSS
+ */
+
+
+/*
+ * Settings View CSS
+ */
+ 
