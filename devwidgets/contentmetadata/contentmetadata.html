@@ -49,6 +49,9 @@
                     {var dirCount = 0;}
                     {for tag in data["sakai:tags"]}{if tag.split("/")[0] !== "directory"}{if tag_index - dirCount > 0},{/if} <a href="/dev/search.html#tag=/tags/${tag}" target="_blank" class="s3d-action" title="__MSG__SEARCH_CONTENT_TAGGED_WITH__ '${tag}'"">${tag}</a>{else}{var dirCount = dirCount + 1;}{/if}{/for}
                 </span>
+                {if data["sakai:tags"].length == dirCount}
+                    {if isManager}__MSG__CLICK_TO_EDIT_TAGS__{else}__MSG__NO_TAGS__{/if}
+                {/if}
             {else}
                 <span class="contentmetadata_click">
                 {if isManager}__MSG__CLICK_TO_EDIT_TAGS__{else}__MSG__NO_TAGS__{/if}
@@ -89,7 +92,7 @@
                 {/for}
             </ul>
         {else}
-            __MSG__NO_LOCATIONS__
+            {if isManager}__MSG__CLICK_TO_EDIT_LOCATIONS__{else}__MSG__NO_LOCATIONS__{/if}
         {/if}
     <div class='s3d-highlight_area_background_darker1_white_content_bl'><div class='s3d-highlight_area_background_darker1_white_content_binner'></div></div>
 --></div>
