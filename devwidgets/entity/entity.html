@@ -322,31 +322,31 @@
                 {var userlist_places_index = 0}
                 {var userlist_people_index = 0}
                 {for i in userList}
-                    {if i.groupid && type === "places"}
+                    {if i['sakai:group-id'] && type === "places"}
                         ${userlist_places_index++|eat}
-                        {if userlist_places_index%2} <li id="${i.groupid}">
-                        {else} <li id="${i.groupid}" class="entity_content_even">
+                        {if userlist_places_index%2} <li id="${i['sakai:group-id']}">
+                        {else} <li id="${i['sakai:group-id']}" class="entity_content_even">
                         {/if}
                         {if i.picture}
-                            <a href="/~${i.groupid}" target="_blank"><img src="/~${i.groupid}/public/profile/${i.picture.name}" alt="__MSG__GROUP_PICTURE_FOR__ ${i['sakai:group-title']}" class="entity_content_picture"/></a>
+                            <a href="/~${i['sakai:group-id']}" target="_blank"><img src="/~${i['sakai:group-id']}/public/profile/${i.picture.name}" alt="__MSG__GROUP_PICTURE_FOR__ ${i['sakai:group-title']}" class="entity_content_picture"/></a>
                         {else}
-                            <a href="/~${i.groupid}" target="_blank"><img src="/dev/images/group_avatar_icon_32x32.png" alt="__MSG__DEFAULT_GROUP_PICTURE__" class="entity_content_picture"/></a>
+                            <a href="/~${i['sakai:group-id']}" target="_blank"><img src="/dev/images/group_avatar_icon_32x32.png" alt="__MSG__DEFAULT_GROUP_PICTURE__" class="entity_content_picture"/></a>
                         {/if}
                         <span class="entity_content_name">
-                            <a class="s3d-regular-links s3d-bold" href="/~${i.groupid}" target="_blank">${i['sakai:group-title']}</a>
+                            <a class="s3d-regular-links s3d-bold" href="/~${i['sakai:group-id']}" target="_blank">${i['sakai:group-title']}</a>
                         </span>
                     </li>
-                    {elseif i.userid && type === "people"}
+                    {elseif i["rep:userId"] && type === "people"}
                         ${userlist_people_index++|eat}
                         {var displayName = unescape(sakai.api.User.getDisplayName(i))}
                         {if !displayName}
                             {var displayName = i.displayName}
                         {/if}
-                        {if userlist_people_index%2} <li id="${i.userid}">
+                        {if userlist_people_index%2} <li id="${i["rep:userId"]}">
                         {else} <li id="${i["rep:userId"]}" class="entity_content_even">
                         {/if}
                         {if i.picture}
-                            <a href="/~${i["rep:userId"]}" target="_blank"><img src="/~${i.userid}/public/profile/${i.picture.name}" alt="__MSG__PROFILE_PICTURE_FOR__ ${displayName}" class="entity_content_picture"/></a>
+                            <a href="/~${i["rep:userId"]}" target="_blank"><img src="/~${i["rep:userId"]}/public/profile/${i.picture.name}" alt="__MSG__PROFILE_PICTURE_FOR__ ${displayName}" class="entity_content_picture"/></a>
                         {else}
                             <a href="/~${i["rep:userId"]}" target="_blank"><img src="/dev/images/user_avatar_icon_32x32.png" alt="__MSG__DEFAULT_PROFILE_PICTURE__" class="entity_content_picture"/></a>
                         {/if}
@@ -401,15 +401,15 @@
                     {/if}
                     <li id="${i["jcr:name"]}">
                     {if i.actorProfile && i.actorProfile.picture}
-                        <a href="/~${i.actorProfile.userid}" target="_blank"><img src="/~${i.actorProfile.userid}/public/profile/${i.actorProfile.picture.name}" alt="__MSG__PROFILE_PICTURE_FOR__ ${displayName}" class="entity_content_picture"/></a>
-                    {elseif i.actorProfile && i.actorProfile.userid}
-                        <a href="/~${i.actorProfile.userid}" target="_blank"><img src="/dev/images/user_avatar_icon_32x32.png" alt="__MSG__DEFAULT_PROFILE_PICTURE__" class="entity_content_picture"/></a>
+                        <a href="/~${i.actorProfile["rep:userId"]}" target="_blank"><img src="/~${i.actorProfile["rep:userId"]}/public/profile/${i.actorProfile.picture.name}" alt="__MSG__PROFILE_PICTURE_FOR__ ${displayName}" class="entity_content_picture"/></a>
+                    {elseif i.actorProfile && i.actorProfile["rep:userId"]}
+                        <a href="/~${i.actorProfile["rep:userId"]}" target="_blank"><img src="/dev/images/user_avatar_icon_32x32.png" alt="__MSG__DEFAULT_PROFILE_PICTURE__" class="entity_content_picture"/></a>
                     {else}
                         <a href="/~${i.actorProfile}" target="_blank"><img src="/dev/images/user_avatar_icon_32x32.png" alt="__MSG__DEFAULT_PROFILE_PICTURE__" class="entity_content_picture"/></a>
                     {/if}
                     <span class="entity_content_name">
-                        {if i.actorProfile && i.actorProfile.userid}
-                            <a class="s3d-regular-links s3d-bold" href="/~${i.actorProfile.userid}" target="_blank">${displayName}</a>
+                        {if i.actorProfile && i.actorProfile["rep:userId"]}
+                            <a class="s3d-regular-links s3d-bold" href="/~${i.actorProfile["rep:userId"]}" target="_blank">${displayName}</a>
                         {else}
                             <a class="s3d-regular-links s3d-bold" href="/~${i["sakai:activity-actor"]}" target="_blank">${displayName}</a>
                         {/if}
