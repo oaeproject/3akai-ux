@@ -17,4 +17,4 @@
 
 .header .fixed-container {height:300px;}
 
-.login-box {height: 290px !important;}
+.login-box .login-box-bottom {display:none;}
