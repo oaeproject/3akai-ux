@@ -182,8 +182,8 @@ sakai.content_profile = function(){
 
                     // filter out the the everyone group and the anonymous user
                     contentMembers.viewers = $.grep(contentMembers.viewers, function(resultObject, index){
-                        if (resultObject['groupid'] !== 'everyone' &&
-                            resultObject['userid'] !== 'anonymous') {
+                        if (resultObject['sakai:group-id'] !== 'everyone' &&
+                            resultObject['rep:userId'] !== 'anonymous') {
                             return true;
                         }
                         return false;

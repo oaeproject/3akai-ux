@@ -1102,14 +1102,14 @@ sakai.entity = function(tuid, showSettings){
         var userCount = 0;
         var groupCount = 0;
         for (var i in sakai.content_profile.content_data.members.viewers) {
-            if (sakai.content_profile.content_data.members.viewers[i].userid) {
+            if (sakai.content_profile.content_data.members.viewers[i]["rep:userId"]) {
                 userCount++;
             } else if (sakai.content_profile.content_data.members.viewers[i].groupid) {
                 groupCount++;
             }
         }
         for (var ii in sakai.content_profile.content_data.members.managers) {
-            if (sakai.content_profile.content_data.members.managers[ii].userid) {
+            if (sakai.content_profile.content_data.members.managers[ii]["rep:userId"]) {
                 userCount++;
             } else if (sakai.content_profile.content_data.members.managers[ii].groupid) {
                 groupCount++;

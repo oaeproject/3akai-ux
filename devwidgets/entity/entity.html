@@ -343,15 +343,15 @@
                             {var displayName = i.displayName}
                         {/if}
                         {if userlist_people_index%2} <li id="${i.userid}">
-                        {else} <li id="${i.userid}" class="entity_content_even">
+                        {else} <li id="${i["rep:userId"]}" class="entity_content_even">
                         {/if}
                         {if i.picture}
-                            <a href="/~${i.userid}" target="_blank"><img src="/~${i.userid}/public/profile/${i.picture.name}" alt="__MSG__PROFILE_PICTURE_FOR__ ${displayName}" class="entity_content_picture"/></a>
+                            <a href="/~${i["rep:userId"]}" target="_blank"><img src="/~${i.userid}/public/profile/${i.picture.name}" alt="__MSG__PROFILE_PICTURE_FOR__ ${displayName}" class="entity_content_picture"/></a>
                         {else}
-                            <a href="/~${i.userid}" target="_blank"><img src="/dev/images/user_avatar_icon_32x32.png" alt="__MSG__DEFAULT_PROFILE_PICTURE__" class="entity_content_picture"/></a>
+                            <a href="/~${i["rep:userId"]}" target="_blank"><img src="/dev/images/user_avatar_icon_32x32.png" alt="__MSG__DEFAULT_PROFILE_PICTURE__" class="entity_content_picture"/></a>
                         {/if}
                         <span class="entity_content_name">
-                            <a class="s3d-regular-links s3d-bold" href="/~${i.userid}" target="_blank">${displayName}</a>
+                            <a class="s3d-regular-links s3d-bold" href="/~${i["rep:userId"]}" target="_blank">${displayName}</a>
                         </span>
                     </li>
                     {/if}
