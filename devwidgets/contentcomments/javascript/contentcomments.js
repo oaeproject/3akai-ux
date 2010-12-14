@@ -370,7 +370,7 @@ sakai.contentcomments = function(tuid, showSettings){
                     $(commentsNamePosterTxt, rootel).val("");
                     $(commentsMailPosterTxt, rootel).val("");
                     // Add an acitivty
-                    sakai.api.Activity.createActivity(contentPath, "content", "default", {"sakai:activityMessage": "__MSG__CONTENT_ADDED_COMMENT__"});
+                    sakai.api.Activity.createActivity("/p/" + sakai.content_profile.content_data.data["jcr:name"], "content", "default", {"sakai:activityMessage": "__MSG__CONTENT_ADDED_COMMENT__"});
                     // Get the comments.
                     getComments();
                 },

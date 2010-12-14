@@ -167,6 +167,13 @@ sakai.sharecontent = function(tuid, showSettings) {
         clearAutoSuggest();
     };
 
+    var createActivity = function(activityMessage){
+        var activityData = {
+            "sakai:activityMessage": activityMessage
+        }
+        sakai.api.Activity.createActivity("/p/" + sakai.content_profile.content_data.data["jcr:name"], "content", "default", activityData);
+    }
+
     var removeMembers = function(selectedUserId, listItem){
         var permission = selectedUserId.split("-")[0];
         var removeAllowed = true;
@@ -213,6 +220,7 @@ sakai.sharecontent = function(tuid, showSettings) {
                         "access": permission
                     });
                     listItem.remove();
+                    createActivity("__MSG__MEMBERS_REMOVED_FROM_CONTENT__");
                 }
             });
         } else {
@@ -255,6 +263,8 @@ sakai.sharecontent = function(tuid, showSettings) {
             type: "POST",
             data: {
                 requests: $.toJSON(data)
+            }, success : function(){
+                createActivity("__MSG__CHANGED_PERMISSIONS_FOR_MEMBER__");
             }
         });
     };
@@ -284,6 +294,8 @@ sakai.sharecontent = function(tuid, showSettings) {
                     $(window).trigger("sakai-sharecontent-setGlobalPermission");
                     $(sharecontentVisibilityHeader).html($.TemplateRenderer(sharecontentVisibilityHeaderTemplate, sakai));
                     $(sharecontentPermissionSettingsContainer).jqmHide();
+                    // Post activity
+                    createActivity("__MSG__CHANGED_FILE_PERMISSIONS__");
                 }
             });
         }, false);
@@ -491,6 +503,8 @@ sakai.sharecontent = function(tuid, showSettings) {
             "user": userList,
             "access": mode
         });
+        
+        createActivity("__MSG__ADDED_A_MEMBER__");
     };
 
     /**

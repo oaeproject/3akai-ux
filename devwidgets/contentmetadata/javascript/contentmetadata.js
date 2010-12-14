@@ -89,6 +89,9 @@ sakai.contentmetadata = function(tuid,showSettings){
     var contentmetadataLocationSecondLevelTemplate= "contentmetadata_location_secondlevel_template";
     var contentmetadataLocationThirdLevelTemplate= "contentmetadata_location_thirdlevel_template";
 
+    // i18n
+    var $contentmetadataUpdatedCopyright = $("#contentmetadata_updated_copyright");
+
     // Edit vars
     // Parent DIV that handles the hover and click to edit
     var editTarget = "";
@@ -180,6 +183,12 @@ sakai.contentmetadata = function(tuid,showSettings){
         addEditBinding(mode);
     };
 
+    var createActivity = function(activityMessage){
+        var activityData = {
+            "sakai:activityMessage": activityMessage
+        }
+        sakai.api.Activity.createActivity("/p/" + sakai.content_profile.content_data.data["jcr:name"], "content", "default", activityData);
+    }
 
     //////////////////////////////////
     /////// DIRECTORY EDITTING ///////
@@ -248,6 +257,8 @@ sakai.contentmetadata = function(tuid,showSettings){
             $contentmetadataLocationsDialog.jqmHide();
             renderLocations(false);
             renderTags(false);
+            // Create an activity
+            createActivity("__MSG__UPDATED_LOCATIONS__");
         });
     };
 
@@ -421,6 +432,8 @@ sakai.contentmetadata = function(tuid,showSettings){
         sakai.api.Util.tagEntity("/p/" + sakai.content_profile.content_data.data["jcr:name"], tags, sakai.content_profile.content_data.data["sakai:tags"], function(){
             sakai.content_profile.content_data.data["sakai:tags"] = tags;
             renderTags(false);
+            // Create an activity
+            createActivity("__MSG__UPDATED_TAGS__");
         });
     };
 
@@ -437,6 +450,8 @@ sakai.contentmetadata = function(tuid,showSettings){
             }, success: function(){
                 sakai.content_profile.content_data.data["sakai:description"] = $("#contentmetadata_description_description").val();
                 renderDescription(false);
+                // Create an activity
+                createActivity("__MSG__UPDATED_DESCRIPTION__");
             }
         });
     }
@@ -454,6 +469,8 @@ sakai.contentmetadata = function(tuid,showSettings){
             }, success: function(){
                 sakai.content_profile.content_data.data["sakai:copyright"] = $("#contentmetadata_copyright_copyright").val();
                 renderCopyright(false);
+                // Create an activity
+                createActivity("__MSG__UPDATED_COPYRIGHT__");
             }
         });
     }
@@ -575,6 +592,8 @@ sakai.contentmetadata = function(tuid,showSettings){
         // Add binding
         addBinding();
     };
+
+    $(window).bind("sakai-fileupload-complete", function(){sakai.content_profile.loadContentProfile(renderDetails);})
 
     /**
      * Initialize the widget from outside of the widget
