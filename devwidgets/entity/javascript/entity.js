@@ -1305,19 +1305,19 @@ sakai.entity = function(tuid, showSettings){
             renderTemplate();
         });
 
-        $(window).bind("sakai-pickeruser-removeUser", function(e, data) {
+        $(window).bind("sakai-sharecontent-removeUser", function(e, data) {
             // filter out the user that was removed and render template
             sakai.content_profile.content_data.members.managers = $.grep(sakai.content_profile.content_data.members.managers, function(resultObject, index){
-                if (resultObject.groupid !== data.user &&
-                    resultObject.userid !== data.user) {
+                if (resultObject["sakai:group-id"] !== data.user &&
+                    resultObject["rep:userId"] !== data.user) {
                     return true;
                 }
                 entityconfig.data.profile.usercount--;
                 return false;
             });
             sakai.content_profile.content_data.members.viewers = $.grep(sakai.content_profile.content_data.members.viewers, function(resultObject, index){
-                if (resultObject.groupid !== data.user &&
-                    resultObject.userid !== data.user) {
+                if (resultObject["sakai:group-id"] !== data.user &&
+                    resultObject["rep:userId"] !== data.user) {
                     return true;
                 }
                 entityconfig.data.profile.usercount--;

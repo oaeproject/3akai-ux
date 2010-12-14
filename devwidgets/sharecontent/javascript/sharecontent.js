@@ -67,13 +67,6 @@ sakai.sharecontent = function(tuid, showSettings) {
     var sharecontentChangeGlobalPermissions = "#sharecontent_change_global_permissions";
     var sharecontentNewMembersPermissions = "#sharecontent_basic_container .sharecontent_search_container .sharecontent_permission_link";
 
-    // Message and mail
-    var $sharecontentWantsToShareAFileWithYou = $("#sharecontent_wants_to_share_a_file_with_you");
-    var $sharecontentHi = $("#sharecontent_hi");
-    var $sharecontentIWouldLikeToShareFilenameWithYou = $("#sharecontent_i_would_like_to_share_filename_with_you");
-    var $sharecontentYouCanFindItOn = $("#sharecontent_you_can_find_it_on");
-    var $sharecontentRegards = $("#sharecontent_regards");
-
     // Search
     var $sharecontent_container_search = $("#sharecontent_container_search", $rootel);
     var sharecontent_search_query = "#sharecontent_search_query";
@@ -96,6 +89,14 @@ sakai.sharecontent = function(tuid, showSettings) {
     // i18n
     var sharecontentCanEdit = "#sharecontent_can_edit";
     var sharecontentCanView = "#sharecontent_can_view";
+    var $sharecontentThereShouldBeAtLeastOneManager = $("#sharecontent_there_should_be_at_least_one_manager");
+    var $sharecontentManagerCouldNotBeRemoved = $("#sharecontent_manager_could_not_be_removed");
+
+    var $sharecontentWantsToShareAFileWithYou = $("#sharecontent_wants_to_share_a_file_with_you");
+    var $sharecontentHi = $("#sharecontent_hi");
+    var $sharecontentIWouldLikeToShareFilenameWithYou = $("#sharecontent_i_would_like_to_share_filename_with_you");
+    var $sharecontentYouCanFindItOn = $("#sharecontent_you_can_find_it_on");
+    var $sharecontentRegards = $("#sharecontent_regards");
 
     var userList = [];
     var initialized = false;
@@ -168,6 +169,7 @@ sakai.sharecontent = function(tuid, showSettings) {
 
     var removeMembers = function(selectedUserId, listItem){
         var permission = selectedUserId.split("-")[0];
+        var removeAllowed = true;
         var itemArr = [];
         var item;
         if (permission !== "manager") {
@@ -179,33 +181,43 @@ sakai.sharecontent = function(tuid, showSettings) {
                 }
             };
         } else {
-            item = {
-                "url": "/p/" + sakai.content_profile.content_data.data["jcr:name"] + ".members.json",
-                "method": "POST",
-                "parameters": {
-                    ":manager@Delete": selectedUserId.substring(selectedUserId.indexOf("-") + 1, selectedUserId.length)
-                }
-            };
-        }
-        itemArr.push(item);
-
-        // Do the Batch request
-        $.ajax({
-            url: sakai.config.URL.BATCH,
-            traditional: true,
-            type : "POST",
-            cache: false,
-            data: {
-                requests: $.toJSON(itemArr)
-            },
-            success: function(data){
-                $(window).trigger("sakai-sharecontent-removeUser", {
-                    "user": selectedUserId.substring(selectedUserId.indexOf("-") + 1, selectedUserId.length),
-                    "access": permission
-                });
-                listItem.remove();
+            if (sakai.content_profile.content_data.members.managers.length <= 1) {
+                removeAllowed = false;
             }
-        });
+            else {
+                item = {
+                    "url": "/p/" + sakai.content_profile.content_data.data["jcr:name"] + ".members.json",
+                    "method": "POST",
+                    "parameters": {
+                        ":manager@Delete": selectedUserId.substring(selectedUserId.indexOf("-") + 1, selectedUserId.length)
+                    }
+                };
+            }
+        }
+
+        if (removeAllowed) {
+            itemArr.push(item);
+
+            // Do the Batch request
+            $.ajax({
+                url: sakai.config.URL.BATCH,
+                traditional: true,
+                type: "POST",
+                cache: false,
+                data: {
+                    requests: $.toJSON(itemArr)
+                },
+                success: function(data){
+                    $(window).trigger("sakai-sharecontent-removeUser", {
+                        "user": selectedUserId.substring(selectedUserId.indexOf("-") + 1, selectedUserId.length),
+                        "access": permission
+                    });
+                    listItem.remove();
+                }
+            });
+        } else {
+            sakai.api.Util.notification.show($sharecontentManagerCouldNotBeRemoved.text(), $sharecontentThereShouldBeAtLeastOneManager.text());
+        }
 
     };
 
@@ -243,9 +255,6 @@ sakai.sharecontent = function(tuid, showSettings) {
             type: "POST",
             data: {
                 requests: $.toJSON(data)
-            },
-            success: function(data){
-
             }
         });
     };

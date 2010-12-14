@@ -63,7 +63,7 @@
                                     <span class="sharecontent_right_floats">
                                         {if !data.me.user.anon && content_profile.content_data.isManager}
                                             <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_permission_link sharecontent_permission_link_${manager["sakai:group-id"]}"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CAN_EDIT__<span class="sharecontent_permission"></span></span></button>
-                                            <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_remove" id="viewer-${manager.groupid}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__REMOVE__</span></button>
+                                            <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_remove" id="manager-${manager["sakai:group-id"]}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__REMOVE__</span></button>
                                         {else}
                                             <span class="s3d-bold sharecontent_permission_anon">__MSG__CAN_EDIT__</span>
                                         {/if}
@@ -73,7 +73,7 @@
                                     <span class="sharecontent_right_floats">
                                         {if !data.me.user.anon && content_profile.content_data.isManager}
                                             <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_permission_link sharecontent_permission_link_${manager["rep:userId"]}"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CAN_EDIT__<span class="sharecontent_permission"></span></span></button>
-                                            <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_remove" id="viewer-${manager.userid}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__REMOVE__</span></button>
+                                            <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_remove" id="manager-${manager["rep:userId"]}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__REMOVE__</span></button>
                                         {else}
                                             <span class="s3d-bold sharecontent_permission_anon">__MSG__CAN_EDIT__</span>
                                         {/if}
@@ -106,7 +106,7 @@
                                             <span class="sharecontent_right_floats">
                                                 {if !data.me.user.anon && content_profile.content_data.isManager}
                                                     <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_permission_link sharecontent_permission_link_${viewer["sakai:group-id"]}"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CAN_VIEW__<span class="sharecontent_permission"></span></span></button>
-                                                    <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_remove" id="viewer-${viewer.groupid}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__REMOVE__</span></button>
+                                                    <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_remove" id="viewer-${viewer["sakai:group-id"]}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__REMOVE__</span></button>
                                                 {else}
                                                     <span class="s3d-bold sharecontent_permission_anon">__MSG__CAN_VIEW__</span>
                                                 {/if}
@@ -116,7 +116,7 @@
                                             <span class="sharecontent_right_floats">
                                                 {if !data.me.user.anon && content_profile.content_data.isManager}
                                                     <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_permission_link sharecontent_permission_link_${viewer["rep:userId"]}"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CAN_VIEW__<span class="sharecontent_permission"></span></span></button>
-                                                    <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_remove" id="viewer-${viewer.userid}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__REMOVE__</span></button>
+                                                    <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_remove" id="viewer-${viewer["rep:userId"]}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__REMOVE__</span></button>
                                                 {else}
                                                     <span class="s3d-bold sharecontent_permission_anon">__MSG__CAN_VIEW__</span>
                                                 {/if}
@@ -249,6 +249,9 @@
     <div id="sharecontent_i_would_like_to_share_filename_with_you" style="display:none;">__MSG__I_WOULD_LIKE_TO_SHARE_FILENAME_WITH_YOU__</div>
     <div id="sharecontent_you_can_find_it_on" style="display:none;">__MSG__YOU_CAN_FIND_IT_ON__</div>
     <div id="sharecontent_regards" style="display:none;">__MSG__REGARDS__</div>
+
+    <div id="sharecontent_manager_could_not_be_removed" style="display:none;">__MSG__MANAGER_COULD_NOT_BE_REMOVED__</div>
+    <div id="sharecontent_there_should_be_at_least_one_manager" style="display:none;">__MSG__THERE_SHOULD_BE_AT_LEAST_ONE_MANAGER__</div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/sharecontent/javascript/sharecontent.js"></script>
