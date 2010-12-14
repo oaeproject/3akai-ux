@@ -211,11 +211,8 @@ sakai.content_profile = function(){
             });
 
         } else {
-
             sakai.api.Security.send404();
-
         }
-
     };
 
     var handleHashChange = function() {
@@ -261,7 +258,6 @@ sakai.content_profile = function(){
                     ready_event_fired++;
                 });
             }
-
 
             sakai.api.Security.showPage();
 
@@ -351,6 +347,8 @@ sakai.content_profile = function(){
         }
         addRemoveUsers(peopleList.mode, peopleList, 'add');
     });
+
+
     ////////////////////
     // Initialisation //
     ////////////////////

@@ -349,7 +349,7 @@ sakai.sharecontent = function(tuid, showSettings) {
         });
 
         $(sharecontentEmailLink).live("click", function(){
-            location.href = "mailto:?subject=" + $sharecontentWantsToShareAFileWithYou.html().replace("${user}", sakai.data.me.profile.basic.elements.firstName.value + " " + sakai.data.me.profile.basic.elements.lastName.value) + 
+            location.href = "mailto:?subject=" + $sharecontentWantsToShareAFileWithYou.html().replace("${user}", sakai.data.me.profile.basic.elements.firstName.value + " " + sakai.data.me.profile.basic.elements.lastName.value) +
             "&body=" + $sharecontentHi.html() + ",%0A%0A" + $sharecontentIWouldLikeToShareFilenameWithYou.html().replace("${filename}", "\"" + sakai.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"") + "%0A" + $sharecontentYouCanFindItOn.html().replace("${path}", window.location) + "%0A%0A" + $sharecontentRegards.html() + ",%0A" + sakai.data.me.profile.basic.elements.firstName.value;
         });
 
@@ -503,7 +503,7 @@ sakai.sharecontent = function(tuid, showSettings) {
             "user": userList,
             "access": mode
         });
-        
+
         createActivity("__MSG__ADDED_A_MEMBER__");
     };
 
