@@ -1102,16 +1102,16 @@ sakai.entity = function(tuid, showSettings){
         var userCount = 0;
         var groupCount = 0;
         for (var i in sakai.content_profile.content_data.members.viewers) {
-            if (sakai.content_profile.content_data.members.viewers[i].userid) {
+            if (sakai.content_profile.content_data.members.viewers[i]["rep:userId"]) {
                 userCount++;
-            } else if (sakai.content_profile.content_data.members.viewers[i].groupid) {
+            } else if (sakai.content_profile.content_data.members.viewers[i]['sakai:group-id']) {
                 groupCount++;
             }
         }
         for (var ii in sakai.content_profile.content_data.members.managers) {
-            if (sakai.content_profile.content_data.members.managers[ii].userid) {
+            if (sakai.content_profile.content_data.members.managers[ii]["rep:userId"]) {
                 userCount++;
-            } else if (sakai.content_profile.content_data.members.managers[ii].groupid) {
+            } else if (sakai.content_profile.content_data.members.managers[ii]['sakai:group-id']) {
                 groupCount++;
             }
         }
@@ -1134,7 +1134,7 @@ sakai.entity = function(tuid, showSettings){
                     // loop though the userlist to find the actor
                     for (var jj in userList) {
                         if (userList.hasOwnProperty(jj)) {
-                            if (userList[jj].userid && userList[jj].userid === entityconfig.data.profile.activity.results[j]["sakai:activity-actor"]) {
+                            if (userList[jj]["rep:userId"] && userList[jj]["rep:userId"] === entityconfig.data.profile.activity.results[j]["sakai:activity-actor"]) {
                                 entityconfig.data.profile.activity.results[j].actorProfile = userList[jj];
                                 foundUser = true;
                             } else if (!foundUser) {
@@ -1255,7 +1255,7 @@ sakai.entity = function(tuid, showSettings){
             return false;
         });
 
-        $(window).bind("sakai-pickeruser-addUser", function(e, data) {
+        $(window).bind("sakai-sharecontent-addUser", function(e, data) {
             // add users that were added to content member list and render template
             var comma = "";
             var managerAdded = false;
@@ -1326,7 +1326,7 @@ sakai.entity = function(tuid, showSettings){
             renderTemplate();
         });
 
-        $(window).bind("sakai-pickeruser-setGlobalPermission", function() {
+        $(window).bind("sakai-sharecontent-setGlobalPermission", function() {
             // update content permission and render template
             entityconfig.data.profile.permissions = sakai.content_profile.content_data.data["sakai:permissions"];
             renderTemplate();
