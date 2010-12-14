@@ -409,7 +409,7 @@ sakai.pickeradvanced = function(tuid, showSettings) {
     $pickeradvanced_container.jqm({
         modal: true,
         overlay: 20,
-        zIndex: 4000,
+        zIndex: 5000,
         toTop: true
     });
 
