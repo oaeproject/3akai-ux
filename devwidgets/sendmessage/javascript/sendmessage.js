@@ -488,8 +488,8 @@ if (!sakai.sendmessage){
          * call to the server for the selected recipients.
          */
         $(buttonSendMessage).bind("click", function(ev) {
-            // unbind the click event to prevent clicking button repeatedly
-            $(this).unbind("click");
+            // disable the button to prevent clicking button repeatedly
+            $(this).attr("disabled", "disabled");
             var recipients = [];
             if (allowOthers) {
                 // fetch list of selected recipients
@@ -515,6 +515,7 @@ if (!sakai.sendmessage){
                 sakai.api.Communication.sendMessage(recipients,
                     $(messageFieldSubject).val(), $(messageFieldBody).val(),
                     "message", null, handleSentMessage);
+                $(this).removeAttr("disabled");
             } else {
                 sakai.api.Util.notification.show("All fields are required.","",sakai.api.Util.notification.type.ERROR);
             }
