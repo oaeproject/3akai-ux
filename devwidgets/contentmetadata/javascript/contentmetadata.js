@@ -186,7 +186,7 @@ sakai.contentmetadata = function(tuid,showSettings){
     var createActivity = function(activityMessage){
         var activityData = {
             "sakai:activityMessage": activityMessage
-        }
+        };
         sakai.api.Activity.createActivity("/p/" + sakai.content_profile.content_data.data["jcr:name"], "content", "default", activityData);
     };
 
@@ -214,8 +214,8 @@ sakai.contentmetadata = function(tuid,showSettings){
     };
 
     var updateDirectory = function(){
-        if(sakai.content_profile.content_data.data["sakai:tags"] == undefined){
-            sakai.content_profile.content_data.data["sakai:tags"] = []
+        if(sakai.content_profile.content_data.data["sakai:tags"] === undefined){
+            sakai.content_profile.content_data.data["sakai:tags"] = [];
         }
         var originalTags = sakai.content_profile.content_data.data["sakai:tags"].slice(0);
 
@@ -287,14 +287,16 @@ sakai.contentmetadata = function(tuid,showSettings){
 
         var tagsAfterDeletion = currentTags.slice(0);
         var sliced = 0;
-        for (var tag in tags){
-            if($.inArray(tags[tag],tagsAfterDeletion) > -1){
-                tagsAfterDeletion.splice($.inArray(tags[tag],tagsAfterDeletion), 1);
-            }
-            for (dir in sakai.content_profile.content_data.saveddirectory) {
-                if ($.inArray(tags[tag], sakai.content_profile.content_data.saveddirectory[dir]) > -1) {
-                    sakai.content_profile.content_data.saveddirectory[dir].splice(tag + sliced, 1);
-                    sliced -= 1;
+        for (var tag in tags) {
+            if (tags.hasOwnProperty(tag)) {
+                if ($.inArray(tags[tag], tagsAfterDeletion) > -1) {
+                    tagsAfterDeletion.splice($.inArray(tags[tag], tagsAfterDeletion), 1);
+                }
+                for (var dir in sakai.content_profile.content_data.saveddirectory) {
+                    if ($.inArray(tags[tag], sakai.content_profile.content_data.saveddirectory[dir]) > -1) {
+                        sakai.content_profile.content_data.saveddirectory[dir].splice(tag + sliced, 1);
+                        sliced -= 1;
+                    }
                 }
             }
         }
@@ -344,11 +346,11 @@ sakai.contentmetadata = function(tuid,showSettings){
 
         $(contentmetadataRemoveLocation).live("click", function(){
             removeDirectoryLocation($(this).parent());
-        })
+        });
 
         $(contentmetadataRemoveNewLocation).live("click", function(){
             $(this).parent().remove();
-        })
+        });
 
         $contentmetadataLocationsDialogContainer.html($.TemplateRenderer(contentmetadataLocationsDialogTemplate, sakai.content_profile.content_data));
     };
@@ -427,8 +429,9 @@ sakai.contentmetadata = function(tuid,showSettings){
         $(sakai.content_profile.content_data.data["sakai:tags"]).each(function(index, tag){
             if(tag.split("/")[0] === "directory"){
                 tags.push(tag);
-            };
-        })
+            }
+        });
+
         sakai.api.Util.tagEntity("/p/" + sakai.content_profile.content_data.data["jcr:name"], tags, sakai.content_profile.content_data.data["sakai:tags"], function(){
             sakai.content_profile.content_data.data["sakai:tags"] = tags;
             renderTags(false);
@@ -604,7 +607,9 @@ sakai.contentmetadata = function(tuid,showSettings){
         addBinding();
     };
 
-    $(window).bind("sakai-fileupload-complete", function(){sakai.content_profile.loadContentProfile(renderDetails);})
+    $(window).bind("sakai-fileupload-complete", function(){
+        sakai.content_profile.loadContentProfile(renderDetails);
+    });
 
     // Bind Enter key to input fields to save on keyup
     $("input").bind("keyup", function(ev){
