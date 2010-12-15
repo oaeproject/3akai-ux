@@ -611,6 +611,14 @@ sakai.sharecontent = function(tuid, showSettings) {
         callback = callbackFn;
     });
 
+    $(document).bind("click", function(e){
+        if (!$(e.target).is(".sharecontent_edit_permission") && !$(e.target).is(sharecontentPermissionsLink)) {
+            if($(sharecontentEditPermissionsLink).is(":visible")){
+                $(sharecontentEditPermissionsLink).toggle();
+            }
+        }
+    });
+
     // Reset to defaults
     reset();
 
