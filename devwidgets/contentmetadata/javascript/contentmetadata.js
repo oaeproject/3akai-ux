@@ -115,7 +115,7 @@ sakai.contentmetadata = function(tuid,showSettings){
 
             $(contentmetadataInputEdit).blur(editInputBlur);
         }
-    }
+    };
 
     /**
      * Render the Description template
@@ -151,7 +151,7 @@ sakai.contentmetadata = function(tuid,showSettings){
                 }
             });
         });
-    }
+    };
 
     /**
      * Render the Tags template
@@ -188,7 +188,7 @@ sakai.contentmetadata = function(tuid,showSettings){
             "sakai:activityMessage": activityMessage
         }
         sakai.api.Activity.createActivity("/p/" + sakai.content_profile.content_data.data["jcr:name"], "content", "default", activityData);
-    }
+    };
 
     //////////////////////////////////
     /////// DIRECTORY EDITTING ///////
@@ -415,7 +415,7 @@ sakai.contentmetadata = function(tuid,showSettings){
         renderedDiv.html(renderedTemplate);
         $(contentmetadataLocationsNewLocationsContainer).append(renderedDiv);
         $(renderedDiv).addClass("contentmetadata_added_directory");
-    }
+    };
 
     ////////////////////////
     /////// EDITTING ///////
@@ -454,7 +454,7 @@ sakai.contentmetadata = function(tuid,showSettings){
                 createActivity("__MSG__UPDATED_DESCRIPTION__");
             }
         });
-    }
+    };
 
     /**
      * Update the copyright of the content
@@ -473,13 +473,6 @@ sakai.contentmetadata = function(tuid,showSettings){
                 createActivity("__MSG__UPDATED_COPYRIGHT__");
             }
         });
-    }
-
-    /**
-     * Capitalize first letter of every word in the string
-     */
-    String.prototype.capitalize = function(){
-        return this.charAt(0).toUpperCase() + this.slice(1);
     };
 
     /**
@@ -487,12 +480,30 @@ sakai.contentmetadata = function(tuid,showSettings){
      * @param {Object} ev Trigger event
      */
     var editData = function(ev){
+        var dataToEdit = "";
         if (ev.target.nodeName.toLowerCase() !== "a" && ev.target.nodeName.toLowerCase() !== "select" && ev.target.nodeName.toLowerCase() !== "option") {
             target = $(ev.target).closest(".contentmetadata_editable");
             if (target[0] !== undefined) {
                 editTarget = target;
-                var dataToEdit = editTarget[0].id.split("_")[1];
-                eval("render" + dataToEdit.capitalize() + "(\"edit\")");
+                dataToEdit = editTarget[0].id.split("_")[1];
+
+                switch (dataToEdit){
+                    case "description":
+                        renderDescription("edit");
+                        break;
+                    case "tags":
+                        renderTags("edit");
+                        break;
+                    case "locations":
+                        renderLocations("edit");
+                        break;
+                    case "copyright":
+                        renderCopyright("edit");
+                        break;
+                    case "name":
+                        renderName("edit");
+                        break;
+                }
             }
         }
     };
@@ -565,7 +576,7 @@ sakai.contentmetadata = function(tuid,showSettings){
 
         $(contentmetadataViewRevisions).die("click");
         $(contentmetadataViewRevisions).live("click", function(){
-            sakai.filerevisions.initialise(sakai.content_profile.content_data)
+            sakai.filerevisions.initialise(sakai.content_profile.content_data);
         });
 
         $contentmetadataLocationsAddAnother.unbind("click", addAnotherLocation);
