@@ -249,6 +249,8 @@ sakai.remotecontent = function(tuid, showSettings){
             $.trim(value) !== "") {
                 $(element).val("http://" + value);
                 json.url = "http://" + value;
+            } else {
+              json.url = value;
             }
             return true;
         }, "No error message, this is just an appender");
