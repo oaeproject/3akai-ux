@@ -19,9 +19,11 @@ label {color:#888; font-weight: bold; font-size: 1em;}
 #header_byline_justify_left {margin-left: 20px;}
 
 /* Log-in box */
-.login-box {padding: 40px; background: url(/dev/images/login-box.png) no-repeat top left; clear: both; height: 545px;}
+.login-box {clear: both;}
+.login-box .login-box-content {background-color: #FEFFFE; padding: 36px 40px 36px 40px; width: 880px; overflow: auto;}
+.login-box .login-box-top {background: url(/dev/images/login-box.png) no-repeat top left transparent; height: 4px;}
+.login-box .login-box-bottom {background: url(/dev/images/login-box.png) no-repeat left -4px transparent; height:4px;}
 .preview-box{float: left; width: 540px; margin: 0 80px 0 0;}
-.preview-box img {padding: 0 0 90px;}
 
 /* Footer */
 #index_footer {position: fixed; z-index: 99; bottom: 0px; color: #fff; background: url(/dev/images/footer_bg.png) bottom left no-repeat; padding: 18px 20px 0 100px; margin-top: 100px; clear: both; height: 42px; width: 840px; font-size: .85em; line-height: 1.2em;}

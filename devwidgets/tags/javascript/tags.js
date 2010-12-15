@@ -69,6 +69,16 @@ sakai.tags = function(tuid, showSettings) {
                 if (nameA > nameB) {return 1}
                 return 0;
             });
+            // Only show the first 20 tags
+            var totalAdded = 0;
+            newtags = [];
+            for (var i = 0; i < tagData.results[0].tags.length; i++) {
+                if (totalAdded < 20) {
+                    newtags.push(tagData.results[0].tags[i]);
+                    totalAdded++;
+                }
+            }
+            tagData.results[0].tags = newtags;
             $tags_main.html($.TemplateRenderer($tags_main_template, {data:tagData})).show();
         });
     };
