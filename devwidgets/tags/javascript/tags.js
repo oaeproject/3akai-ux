@@ -50,7 +50,7 @@ sakai.tags = function(tuid, showSettings) {
             }
         });
     };
-    
+
     var doInit = function(){
         loadData(function() {
             var newtags = [];
@@ -65,16 +65,16 @@ sakai.tags = function(tuid, showSettings) {
             tagData.results[0].tags.sort(function(a, b) {
                 var nameA = a.name.toLowerCase();
                 var nameB = b.name.toLowerCase();
-                if (nameA < nameB) {return -1}
-                if (nameA > nameB) {return 1}
+                if (nameA < nameB) {return -1;}
+                if (nameA > nameB) {return 1;}
                 return 0;
             });
             // Only show the first 20 tags
             var totalAdded = 0;
             newtags = [];
-            for (var i = 0; i < tagData.results[0].tags.length; i++) {
+            for (var ii = 0; ii < tagData.results[0].tags.length; ii++) {
                 if (totalAdded < 20) {
-                    newtags.push(tagData.results[0].tags[i]);
+                    newtags.push(tagData.results[0].tags[ii]);
                     totalAdded++;
                 }
             }

@@ -174,9 +174,9 @@ sakai.sharecontent = function(tuid, showSettings) {
     var createActivity = function(activityMessage){
         var activityData = {
             "sakai:activityMessage": activityMessage
-        }
+        };
         sakai.api.Activity.createActivity("/p/" + sakai.content_profile.content_data.data["jcr:name"], "content", "default", activityData);
-    }
+    };
 
     var removeMembers = function(selectedUserId, listItem){
         var permission = selectedUserId.split("-")[0];

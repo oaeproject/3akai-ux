@@ -62,7 +62,7 @@ sakai.sakai2favourites = function(tuid, showSettings){
     };
 
     /**
-     * This method render Category List. 
+     * This method render Category List.
      */
     var loadSakai2SiteList = function(){
         $(sakai2CategoryList).html($.TemplateRenderer(sakai2CategoryListTemplate.replace(/#/, ''), siteListsjson));
@@ -78,28 +78,32 @@ sakai.sakai2favourites = function(tuid, showSettings){
 
         //loop through each category and get the related sites
         for(var i in siteListsjson.categories){
-            var category = siteListsjson.categories[i];
-            // if category name is all
-            if(!categoryname){
-                // get all the unique site lists
-                siteListJson = getAllSites(category, siteListJson);
-            // if category name is equal to the category.categoryname
-            // for example categoryname = i18n_moresite_01_all_sites
-            } else if(category.category.replace(/ /g, "_") === categoryname) {
-                // get the site lists in certain category
-                // for example get site list in i18n_moresite_01_all_sites
-                siteListJson.sites = siteListsjson.categories[i].sites;
-                break;
+            if (siteListsjson.categories.hasOwnProperty(i)) {
+                var category = siteListsjson.categories[i];
+                // if category name is all
+                if (!categoryname) {
+                    // get all the unique site lists
+                    siteListJson = getAllSites(category, siteListJson);
+                // if category name is equal to the category.categoryname
+                // for example categoryname = i18n_moresite_01_all_sites
+                }
+                else
+                    if (category.category.replace(/ /g, "_") === categoryname) {
+                        // get the site lists in certain category
+                        // for example get site list in i18n_moresite_01_all_sites
+                        siteListJson.sites = siteListsjson.categories[i].sites;
+                        break;
+                    }
             }
         }
-        // render the sites 
+        // render the sites
         $("#sakai2_site_list").html($.TemplateRenderer("#sakai2_site_list_template".replace(/#/, ''),siteListJson));
         // select related checkboxes based on the selectedlistjson
         setSite();
-    }
+    };
 
    /**
-     * This method render all sites selected to display in my sakai2 favourites 
+     * This method render all sites selected to display in my sakai2 favourites
      */
     var renderSelectedList = function(){
         $("#sakai2favourites_selected_site_list").html($.TemplateRenderer("#sakai2_selected_site_list_template".replace(/#/, ''),sakai.data.me.sakai2List));
@@ -136,7 +140,7 @@ sakai.sakai2favourites = function(tuid, showSettings){
         $(".sakai2_category_title").click(function(ev){
             if($(".selected_category")){
                 $(".selected_category").removeClass("selected_category");
-                $(".selected").removeClass("selected");                    
+                $(".selected").removeClass("selected");
             }
 
             $(ev.currentTarget).parent().addClass("selected");
@@ -170,8 +174,7 @@ sakai.sakai2favourites = function(tuid, showSettings){
             // bind events
             bindEvents();
         });
-        
-  }
+    };
 
     /**
      *  This function return the list of unique sites.
@@ -189,7 +192,7 @@ sakai.sakai2favourites = function(tuid, showSettings){
             }
         }
         return siteJson;
-    }
+    };
 
     /**
      *  This function check if item is already exists in the site list.
@@ -207,7 +210,7 @@ sakai.sakai2favourites = function(tuid, showSettings){
             }
         }
         return checking;
-    }
+    };
 
     /**
      *  This function checked the checkboxes for the selected sites.
@@ -215,10 +218,12 @@ sakai.sakai2favourites = function(tuid, showSettings){
     var setSite = function(){
         // loop through the list of sites to be displayed in mysakai2 favourites list
         for(var i in sakai.data.me.sakai2List.sites){
-            // checked the related checkbox
-            $("input[id='"+sakai.data.me.sakai2List.sites[i].id+"']").attr('checked', true);
+            if (sakai.data.me.sakai2List.sites.hasOwnProperty(i)) {
+                // checked the related checkbox
+                $("input[id='" + sakai.data.me.sakai2List.sites[i].id + "']").attr('checked', true);
+            }
         }
-    }
+    };
 
     /**
      * This function get the site object based on the id passed.
@@ -227,29 +232,31 @@ sakai.sakai2favourites = function(tuid, showSettings){
     var getObject = function(id){
         // loop through category list first
         for(var i in siteListsjson.categories){
-            // loop through site list inside each category
-            for(var j in siteListsjson.categories[i].sites){
-                // if site id is ame return the site object.
-                if(siteListsjson.categories[i].sites[j].id === id){
-                    return siteListsjson.categories[i].sites[j];
+            if (siteListsjson.categories.hasOwnProperty(i)) {
+                // loop through site list inside each category
+                for (var j in siteListsjson.categories[i].sites) {
+                    // if site id is ame return the site object.
+                    if (siteListsjson.categories[i].sites[j].id === id) {
+                        return siteListsjson.categories[i].sites[j];
+                    }
                 }
             }
         }
-    }
-    
+    };
+
     /**
      * This function return the index of site in the sakai.data.me.sakai2List(myskai2 favourites site list)based on the id
      * @param {String} id The site id
      */
     var getToRemoveIndex = function(id){
-        // loop through mysakai2 favourites selected sites 
+        // loop through mysakai2 favourites selected sites
         for(var i in sakai.data.me.sakai2List.sites){
             // if id is same return the index.
             if(sakai.data.me.sakai2List.sites[i].id === id){
                 return i;
             }
         }
-    }
+    };
 
     /**
      *  This function get the list of sites list group by category.
@@ -279,7 +286,7 @@ sakai.sakai2favourites = function(tuid, showSettings){
         getSiteList();
         // get lists of site selected to display in my sakai2 favourites
         //getSelectedSiteList();
-        
+
         $("#sakai2favourites_add_save").click(function(ev){
             var toSave = {};
             toSave.id = [];
@@ -292,11 +299,11 @@ sakai.sakai2favourites = function(tuid, showSettings){
                 toSave.id[0] = "invalidSite";
             }
             sakai.api.Server.saveJSON("/~" + sakai.data.me.user.userid + "/private/sakai2favouriteList",toSave, function(success,data){
-                $("#sakai2favourites_container").jqmHide(); 
-                $(window).trigger("sakai2-favourites-selected");    
+                $("#sakai2favourites_container").jqmHide();
+                $(window).trigger("sakai2-favourites-selected");
             });
         });
-    }
+    };
     doInit();
 
 };
