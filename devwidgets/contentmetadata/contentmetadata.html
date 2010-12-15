@@ -64,7 +64,7 @@
 <div id="contentmetadata_copyright_template" style="display:none;"><!--
     <div class='s3d-highlight_area_background_darker1_white_content_tl'><div class='s3d-highlight_area_background_darker1_white_content_tinner'></div></div>
         {if mode === "edit"}
-            <select id="contentmetadata_copyright_copyright"  class="contentmetadata_edit_input">
+            <select id="contentmetadata_copyright_copyright" class="contentmetadata_edit_input">
                 {for copyrightLabel in sakai.config.Permissions.Copyright}
                     <option {if data["sakai:copyright"] === copyrightLabel_index} selected="selected"{/if} value="${copyrightLabel_index}">${sakai.api.i18n.Widgets.getValueForKey("contentmetadata", "", copyrightLabel)}</option>
                 {/for}

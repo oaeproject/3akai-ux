@@ -606,6 +606,13 @@ sakai.contentmetadata = function(tuid,showSettings){
 
     $(window).bind("sakai-fileupload-complete", function(){sakai.content_profile.loadContentProfile(renderDetails);})
 
+    // Bind Enter key to input fields to save on keyup
+    $("input").bind("keyup", function(ev){
+        if(ev.keyCode == 13){
+            $(this).blur();
+        }
+    });
+
     /**
      * Initialize the widget from outside of the widget
      */
