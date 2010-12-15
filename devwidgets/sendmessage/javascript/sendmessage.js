@@ -480,6 +480,7 @@ if (!sakai.sendmessage){
             } else {
                 sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("YOUR_MESSAGE_FAILED_DELIVERED"),"",sakai.api.Util.notification.type.ERROR);
             }
+            $(this).removeAttr("disabled");
         };
 
         /**
@@ -515,7 +516,6 @@ if (!sakai.sendmessage){
                 sakai.api.Communication.sendMessage(recipients,
                     $(messageFieldSubject).val(), $(messageFieldBody).val(),
                     "message", null, handleSentMessage);
-                $(this).removeAttr("disabled");
             } else {
                 sakai.api.Util.notification.show("All fields are required.","",sakai.api.Util.notification.type.ERROR);
             }
