@@ -145,9 +145,9 @@ sakai.contentmetadata = function(tuid,showSettings){
                 type : "POST",
                 cache: false,
                 data: {
-                    "sakai:pooled-content-file-name":$("#contentmetadata_name_text").val()
+                    "sakai:pooled-content-file-name":sakai.api.Security.escapeHTML($("#contentmetadata_name_text").val())
                 }, success: function(){
-                    sakai.content_profile.content_data.data["sakai:pooled-content-file-name"] = $("#contentmetadata_name_text").val();
+                    sakai.content_profile.content_data.data["sakai:pooled-content-file-name"] = sakai.api.Security.escapeHTML($("#contentmetadata_name_text").val());
                 }
             });
         });
@@ -424,7 +424,7 @@ sakai.contentmetadata = function(tuid,showSettings){
     ////////////////////////
 
     var updateTags = function() {
-        var tags = sakai.api.Util.formatTags($("#contentmetadata_tags_tags").val());
+        var tags = sakai.api.Util.formatTags(sakai.api.Security.escapeHTML($("#contentmetadata_tags_tags").val()));
         // Since directory tags are filtered out of the textarea we should put them back to save them
         $(sakai.content_profile.content_data.data["sakai:tags"]).each(function(index, tag){
             if(tag.split("/")[0] === "directory"){
@@ -449,7 +449,7 @@ sakai.contentmetadata = function(tuid,showSettings){
             type : "POST",
             cache: false,
             data: {
-                "sakai:description":$("#contentmetadata_description_description").val()
+                "sakai:description":sakai.api.Security.escapeHTML($("#contentmetadata_description_description").val())
             }, success: function(){
                 sakai.content_profile.content_data.data["sakai:description"] = $("#contentmetadata_description_description").val();
                 renderDescription(false);
