@@ -850,7 +850,7 @@ sakai.fileupload = function(tuid, showSettings){
     $fileUploadContainer.jqm({
         modal: true,
         overlay: 20,
-        zIndex: 4000,
+        zIndex: 5000,
         toTop: true,
         onHide: closeUploadBox,
         onShow: showUploadDialog
