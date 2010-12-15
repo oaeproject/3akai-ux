@@ -28,7 +28,7 @@ sakai.nopermissions = function(tuid, showSettings) {
         var renderedTemplate = false;
         if (sakai.data.me.user.anon){
             $(window).bind("sakai-login-ready", function(e) {
-                $(window).trigger("sakai-login-relayout", false)
+                $(window).trigger("sakai-login-relayout", false);
             });
 
             $('html').addClass("requireAnon");
