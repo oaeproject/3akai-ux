@@ -56,6 +56,18 @@ sakai.relatedcontent = function(tuid,showSettings){
     // Render functions //
     //////////////////////
 
+    var applyThreeDots = function(){
+        // make sure the newly added content is properly styled with
+        // threedots truncation
+        $(".relatedcontent .threedots_text").ThreeDots({
+            max_rows: 1,
+            text_span_class: "ellipsis_text",
+            e_span_class: "threedots_a",
+            whole_word: false,
+            alt_text_t: true
+        });
+    };
+
     /**
      * Render the template
      */
@@ -63,6 +75,7 @@ sakai.relatedcontent = function(tuid,showSettings){
         // Render the relatedcontent
         $(relatedcontentContainer).html($.TemplateRenderer(relatedcontentDefaultTemplate, relatedcontentData));
         $(relatedcontentContainer).show();
+        applyThreeDots();
     };
 
 
