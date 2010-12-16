@@ -7,7 +7,7 @@ var History = {
         }
         var url = e.fragment;
         if (url != History.prev_url || force){ // should be checking individual params, not just the string composition
-            if (url != undefined && !sakai._search.waitForFacets){
+            if (url !== undefined && !sakai._search.waitForFacets){
                 if (sakai._search.doSearch) {
                   sakai._search.doSearch($.bbq.getState('page'), $.bbq.getState('q'), $.bbq.getState('filter'), $.bbq.getState('facet'), $.bbq.getState('tag'));
                   History.prev_url = url;

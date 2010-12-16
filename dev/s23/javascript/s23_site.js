@@ -255,7 +255,7 @@ sakai.s23_site = function(){
         var json = {"sakai2notificaiton":false};
         sakai.api.Util.notification.removeAll();
         sakai.api.Server.saveJSON("/~" + sakai.data.me.user.userid+"/private/sakai2notification", json, function(success, data){});
-    }
+    };
 
     /////////////////////////////
     // Initialisation function //
