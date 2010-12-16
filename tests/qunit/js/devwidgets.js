@@ -65,7 +65,6 @@ var widgetList = [
     "listgeneral",
     "listpeople",
     "listpeoplewrappergroup",
-    "lists",
     "login",
     "mycontacts",
     "mycontent",
