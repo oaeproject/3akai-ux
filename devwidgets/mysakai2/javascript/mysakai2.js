@@ -85,9 +85,9 @@ sakai.mysakai2 = function(tuid){
                             }
                         }
                     } else {
-                        for (var j = 0; j < fulllist.display; j++){
-                            if (fulllist.sites[j]) {
-                                resultJson.sites.push(fulllist.sites[j]);
+                        for (var i = 0; i < fulllist.display; i++){
+                            if (fulllist.sites[i]) {
+                                resultJson.sites.push(fulllist.sites[i]);
                             }
                         }
                     }

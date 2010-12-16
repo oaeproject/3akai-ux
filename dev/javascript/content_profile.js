@@ -50,7 +50,7 @@ sakai.content_profile = function(){
         });
 
         return saveddirectory;
-    };
+    }
 
     /**
      * Load the content profile for the current content path
@@ -144,7 +144,7 @@ sakai.content_profile = function(){
                     }
 
                     if (data.results.hasOwnProperty(2)) {
-                        versionInfo =$.parseJSON(data.results[2].body);
+                        versionInfo =$.parseJSON(data.results[2].body)
                         var versions = [];
                         for (var i in versionInfo.versions) {
                             if(versionInfo.versions.hasOwnProperty(i)){
@@ -156,11 +156,15 @@ sakai.content_profile = function(){
                         versionInfo.versions = versions.reverse();
                     }
 
+                    if (data.results.hasOwnProperty(3)) {
+                        //contentActivity = $.parseJSON(data.results[2].body);
+                    }
+
                     var manager = false;
                     var anon = true;
                     if (!sakai.data.me.user.anon){
-                        for (var j in contentMembers.managers) {
-                            if (contentMembers.managers[j]["rep:userId"] === sakai.data.me.user.userid) {
+                        for (var i in contentMembers.managers) {
+                            if (contentMembers.managers[i]["rep:userId"] === sakai.data.me.user.userid) {
                                 manager = true;
                             }
                         }
@@ -338,7 +342,7 @@ sakai.content_profile = function(){
     };
 
     $(window).bind("sakai-sharecontent-finished", function(e, peopleList){
-        if(!peopleList.mode || peopleList.mode === undefined){
+        if(!peopleList.mode || peopleList.mode == undefined){
             peopleList.mode = "viewers";
         }
         addRemoveUsers(peopleList.mode, peopleList, 'add');
@@ -734,6 +738,6 @@ var old_function = function(){
 
     // Initialise the content profile page
     init();
-};
+}
 
 sakai.api.Widgets.Container.registerForLoad("sakai.content_profile");
