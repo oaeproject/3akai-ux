@@ -20,7 +20,7 @@
  * Top Navigation Bar
  */
 
-#explore_nav_container { background-color: #454a4f; color: #fff; }
+#explore_nav_container { background-color: #454a4f; color: #000; }
 .explore_nav { vertical-align: bottom; width: 960px; height: 32px; margin: 0 auto 12px auto; background-color: #454a4f;}
 .explore_nav ul { padding:0; margin:0; }
 .explore_nav li { float: left; list-style:none none; padding: 0; margin: 0; }
@@ -34,6 +34,7 @@
 .explore_nav .explore li span { height:16px; color:#fff; padding: 8px 20px; text-align: center; display: block; float: left; font-weight: bold;}
 #topnavigation_mail_icon {background:url("/dev/images/mail_icon.png") no-repeat scroll 4px 3px transparent; float:left; height:14px; width:18px;}
 
+.explore-bg {height: 100px; background-color: #868b91; position:absolute; top: 32px; left: 0; right:0; z-index: -1;}
 
 /* Selected Nav element */
 .explore_nav .explore .explore_nav_selected { padding-bottom:12px; }
@@ -42,7 +43,7 @@
 
 /*** Top Right Navbar ***/
 .explore_nav .personal-container { margin-top: 0px; padding-right: 5px; overflow: hidden; }
-.explore_nav .personal { padding: 0 0 0 5px; margin: 0; min-height: 20px; }
+.explore_nav .personal { padding: 0 0 0 5px; margin: 0; min-height: 20px; float:right;}
 .explore_nav .personal li a { font-size: 8.5pt; padding:0 7px 0 7px; border-right: 1px solid #878a8c; color: #fff; }
 .explore_nav .personal li .help_none { border-right: none; }
 .explore_nav .personal li span { color: #fff; }
@@ -69,9 +70,11 @@
 #login_container input { border:1px solid #666666; height:20px; line-height:20px; margin:3px 0 10px; text-align:right; width:240px; font-size:11pt; font-weight:bold; color: #333; padding:0 10px 0 0; }
 #error_message { font-size: 9pt; color: #ff0; }
 #login_busy { background: url("/dev/images/ajax_load.gif") 0 0 no-repeat; width: 80px; height: 10px; }
+#register_button_container .register {border:none !important;}
+#register_here {margin-bottom: 10px;}
 
 /* General Search */
-#general_search_container { padding-top: 5px; }
+#general_search_container { padding-top: 3px; }
 .search_input_focus { color: #333 !important;}
 
 /* MAIN */
@@ -83,20 +86,22 @@
 
 /* Search Bar */
 .search_box { margin:0px;padding:0px;}
-.search_box .search_type{ display:inline-block; font-weight:bold; text-align:center; cursor:pointer; height:22px; width:80px; margin-top:1px; padding:0px;}
-.search_text, .search_links {display:inline-block;padding-top:2px;padding-left:6px;}
+.search_box .search_type{ display:inline-block; font-weight:normal; font-size: 11px; text-align:center; cursor:pointer; height:22px; width:80px; margin-top:1px; padding:0px;}
+.search_text, .search_links {display:inline-block;padding-top:4px;padding-left:6px;}
 .search_text {font-weight:bold;}
 .search_left { border-top-left-radius: 10px; -webkit-border-top-left-radius:10px; -moz-border-radius-topleft : 10px; -moz-border-radius-bottomleft : 10px;-webkit-border-bottom-left-radius:10px; border-bottom-left-radius: 10px; background: url("/dev/images/search_bg.jpg") repeat transparent; }
 .search_left:hover, .search_right:hover{ background: url("/dev/images/page-options-button-sprite.png") no-repeat scroll -2px -22px transparent; color:black;}
 .search_right { color:white; background: url("/dev/images/page-options-button-sprite.png") no-repeat scroll -2px -80px transparent; border-top-right-radius: 10px;-webkit-border-top-right-radius:10px; -moz-border-radius-topright : 10px; -moz-border-radius-bottomright : 10px;-webkit-border-bottom-right-radius:10px; border-bottom-right-radius: 10px;}
 .search_drop{ background: url("/dev/images/page-options-button-sprite.png") no-repeat scroll -60px top transparent; width:15px; height:15px; margin:5px 7px 0 0; float:right;}
-.search_right:hover .search_icon{ background: url("/dev/images/search_dark.png") no-repeat transparent; width:15px; height:15px; margin: 4px 5px 0 0; float:right;}
-.search_icon{ background: url("/dev/images/search_light.png") no-repeat transparent; width:15px; height:15px; margin: 5px 4px 0 0; float:right;}
-.search_string { color: #aaa; font-size: 1em; margin-top:px; border: 1px solid grey; width:20em!important; height:22px; vertical-align:top;}
+.search_right:hover .search_icon{ background: url("/dev/images/search_dark.png") no-repeat transparent; width:15px; height:15px; margin: 4px 10px 0 0; float:right;}
+.search_icon{ background: url("/dev/images/search_light.png") no-repeat transparent; width:15px; height:15px; margin: 5px 10px 0 0; float:right;}
+.search_string { padding: 3px 0px 0px 3px; color: #aaa; font-size: 1em; margin-top:px; border: 1px solid grey; width:15em!important; height:19px; vertical-align:top;}
 .search_string:hover { background-color : #CCC!important;}
 #search_more_menu {background-color:transparent;z-index:2;}
 #search_more_menu ul {background-color:#FFF;}
 #search_more_menu ul li{ float:none;}
 
-#personal_container {background:transparent; margin:0px; height:20px; float:right;width:550px;}
+.personal_container {background-color:transparent!important; height:20px;}
+.personal_container div {background-color:transparent!important;}
 #top_navigation li a {border-right:1px solid #454A4F;}
+#top_navigation li:last-child a {border:none;}

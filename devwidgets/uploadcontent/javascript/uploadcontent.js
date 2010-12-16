@@ -285,7 +285,8 @@ sakai.uploadcontent = function(tuid, showSettings){
         // Initialise the jqModal
         $uploadcontent_dialog.jqm({
             modal: true,
-            toTop: true
+            toTop: true,
+            zIndex: 5000
         });
 
         // Render the templates

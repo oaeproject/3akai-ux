@@ -75,6 +75,7 @@ sakai.config = {
         MESSAGE_BOXCATEGORY_SERVICE: "/var/message/boxcategory.json",
         POOLED_CONTENT_MANAGER: "/var/search/pool/me/manager.json",
         POOLED_CONTENT_VIEWER: "/var/search/pool/me/viewer.json",
+        POOLED_CONTENT_ACTIVITY_FEED: "/var/search/pool/activityfeed.json",
         PRESENCE_CONTACTS_SERVICE: "/var/presence.contacts.json",
         PRESENCE_SERVICE: "/var/presence.json",
         PROXY_RSS_SERVICE: "/var/proxy/rss.json?rss=",
@@ -219,6 +220,13 @@ sakai.config = {
                 "public": "public",            // Anyone on the Internet
                 "managers": "managers-only"    // Group managers only
             }
+        },
+        Copyright: {
+            "creativecommons" : "CREATIVE_COMMONS_LICENSE",
+            "copyrighted" : "COPYRIGHTED",
+            "nocopyright" : "NO_COPYRIGHT",
+            "licensed" : "LICENSED",
+            "waivecopyright" : "WAIVE_COPYRIGHT"
         }
     },
 
@@ -626,14 +634,17 @@ sakai.config = {
         "external": [
             {
               label: "External Login System 1",
-              url: "http://external.login1.com/",
-              description: "This is the description displayed underneath ..."
+              url: "http://external.login1.com/"
             },
             {
               label: "External Login System 2",
-              url: "http://external.login2.com/",
-              description: "This is the description displayed underneath ..."
+              url: "http://external.login2.com/"
             }
+        ],
+        "hideLoginOn": [
+            "/dev",
+            "/dev/index.html",
+            "/dev/create_new_account.html"
         ]
     },
 
@@ -657,14 +668,17 @@ sakai.config = {
         },
         {
             "url" : "/dev/search_content.html#q=*&facet=manage",
+            "anonUrl" : "/dev/search_content.html#q=*",
             "label" : "CONTENT_AND_MEDIA"
         },
         {
             "url" : "/dev/search_groups.html#q=*&facet=manage",
+            "anonUrl" : "/dev/search_groups.html#q=*",
             "label" : "GROUPS"
         },
         {
             "url" : "/dev/search_people.html#q=*&facet=contacts",
+            "anonUrl" : "/dev/search_people.html#q=*",
             "label" : "PEOPLE"
         },
         {
@@ -672,7 +686,10 @@ sakai.config = {
             "label" : "DIRECTORY"
         }
     ],
-
+    /*
+     * Are anonymous users allowed to browse/search
+     */
+    anonAllowed: true,
     /*
      * List of pages that require a logged in user
      */
@@ -681,12 +698,7 @@ sakai.config = {
         "/dev/account_preferences.html",
         "/dev/group_edit.html",
         "/dev/inbox.html",
-        "/dev/people.html",
-        "/dev/profile_edit.html",
-        "/dev/search.html",
-        "/dev/search_content.html",
-        "/dev/search_groups.html",
-        "/dev/search_people.html"
+        "/dev/profile_edit.html"
     ],
 
     /*
@@ -700,7 +712,25 @@ sakai.config = {
         "/",
         "/index.html"
     ],
-
+    /*
+     * List of pages that will be added to requireUser if
+     * anonAllowed is false
+     */
+    requireUserAnonNotAllowed: [
+        "/dev/people.html",
+        "/dev/profile_edit.html",
+        "/dev/search.html",
+        "/dev/search_content.html",
+        "/dev/search_groups.html",
+        "/dev/search_people.html",
+        "/dev/search_sakai2.html"
+    ],
+    /*
+     * List of pages that will be added to requireAnonymous if
+     * anonAllowed is false
+     */
+    requireAnonymousAnonNotAllowed: [
+    ],
     /*
      * List op pages that require additional processing to determine
      * whether the page can be shown to the current user. These pages
@@ -708,10 +738,14 @@ sakai.config = {
      * themselves
      */
     requireProcessing: [
+        "/dev/content_profile2.html",
         "/dev/content_profile.html",
         "/dev/group_edit.html",
         "/dev/show.html"
     ],
+
+    showSakai2 : false,
+    useLiveSakai2Feeds : false,
 
     displayDebugInfo: true,
 

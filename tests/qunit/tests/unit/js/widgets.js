@@ -81,6 +81,9 @@ var widgetProperties = [{
     "name": "type",
     "type": "string",
     "required": true
+}, {
+    "name": "settingsWidth",
+    "type": "number"
 }];
 
 

@@ -110,7 +110,8 @@ sakai.search = function() {
             all : "#tab_search_all",
             content : "#tab_search_content",
             people : "#tab_search_people",
-            sites : "#tab_search_sites"
+            sites : "#tab_search_sites",
+            sakai2 : "#tab_search_sakai2"
         },
         results : {
             container : search + '_results_container',
@@ -125,29 +126,25 @@ sakai.search = function() {
                 "all" : {
                     "category": $("#search_result_all_people").html(),
                     "searchurl": searchURLmap.allusers
-                },
-                "contacts" : {
-                    "category": $("#search_result_my_contacts").html(),
-                    "searchurl": searchURLmap.mycontacts
-                },
-                //"onlinecontacts" : {
-                //    "category": "Contacts Currently Online",
-                //    "searchurl": searchURLmap.onlinecontacts
-                //},
-                "invited" : {
-                    "category": $("#search_result_my_contacts_invitation").html(),
-                    "searchurl": searchURLmap.invitedcontacts
-                },
-                "requested" : {
-                    "category": $("#search_result_pending_invitations").html(),
-                    "searchurl": searchURLmap.pendingcontacts
                 }
             }
         }
     };
 
-
-
+    if (!sakai.data.me.user.anon) {
+        searchConfig.facetedConfig.facets.contacts = {
+            "category": $("#search_result_my_contacts").html(),
+            "searchurl": searchURLmap.mycontacts
+        };
+        searchConfig.facetedConfig.facets.invited = {
+            "category": $("#search_result_my_contacts_invitation").html(),
+            "searchurl": searchURLmap.invitedcontacts
+        };
+        searchConfig.facetedConfig.facets.requested = {
+            "category": $("#search_result_pending_invitations").html(),
+            "searchurl": searchURLmap.pendingcontacts
+        };
+    }
 
     //////////////////
     //    functions    //
@@ -542,6 +539,11 @@ sakai.search = function() {
     sakai._search.reset = function() {
         $(searchConfig.results.header).hide();
     };
+    
+    // Handling the anon user
+    if (sakai.data.me.user.anon) {
+        $("#search_results_page1").removeClass("search_results_container_sub");
+    }
 
 
     //////////////////////

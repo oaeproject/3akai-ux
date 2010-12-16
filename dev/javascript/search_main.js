@@ -143,7 +143,7 @@ sakai._search = function(config, callback) {
      */
     var addEventListeners = function(searchterm, searchwhere) {
         /** The top tabs */
-        $(searchConfig.tabs.all + ", " + searchConfig.tabs.people + ", " + searchConfig.tabs.sites + ", " + searchConfig.tabs.content).live("click", function(ev) {
+        $(searchConfig.tabs.all + ", " + searchConfig.tabs.people + ", " + searchConfig.tabs.sites + ", " + searchConfig.tabs.content+ ", " + searchConfig.tabs.sakai2).live("click", function(ev) {
             var url = $(this).attr("href").split("#")[0] + "#";
             var frag = $.deparam.fragment();
             frag["filter"] = ""; // clear the filter
@@ -432,9 +432,9 @@ sakai._search = function(config, callback) {
                 // if another link is clicked in between load old link data instead of new link
                 // so need to check if new link is clicked kill the previous ajax request.
                 var killPreviousAjaxCall = false;
-                if (mainFacetedUrl !== searchConfig.facetedConfig.facets[facet].searchurl) {
+                /*if (mainFacetedUrl !== searchConfig.facetedConfig.facets[facet].searchurl) {
                     killPreviousAjaxCall = true;
-                }
+                }*/
                 
                 mainFacetedUrl = searchConfig.facetedConfig.facets[facet].searchurl;
                 sakai._search.doHSearch(1, searchquery, searchwhere, facet, killPreviousAjaxCall);
@@ -443,6 +443,9 @@ sakai._search = function(config, callback) {
         });
     };
 
+    if(sakai.config.showSakai2) {
+        $("#tab_search_sakai2").show();
+    }
     return {
         'getMySites': getMySites,
         'getFacetedUrl': getFacetedUrl,

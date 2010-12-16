@@ -25,7 +25,7 @@ var sakai = sakai || {};
  * @class mysakai2
  *
  * @description
- * Initialize the mysakai2 widget
+ * Initialize the mysakai2 w    idget
  *
  * @version 0.0.1
  * @param {String} tuid Unique id of the widget
@@ -41,47 +41,76 @@ sakai.mysakai2 = function(tuid){
 
     var mysakai2List = "#mysakai2_list";
     var mysakai2ListTemplate = "#mysakai2_list_template";
+    var mysakai2ErrorNosites = "#mysakai2_error_nosites";
 
 
     /**
      * Takes a set of json and renders the sakai2 sites.
      * @param {Object} newjson sakai 2 list object
      */
-    var doRender = function(newjson){
+    var doRender = function(resultJson , useDisplayProperties){
         // If the user is not registered for any sites, show the no sites error.
-        if (newjson.sites.length === 0) {
-            $(mysakai2List, rootel).html(sakai.api.Security.saneHTML("No sites")).addClass("sites_error");
-        }
-        else {
-            for (var site in newjson.sites) {
-                if (newjson.sites.hasOwnProperty(site)) {
-                    site.title = sakai.api.Security.escapeHTML(site.title);
-                }
-            }
-            $(mysakai2List, rootel).html($.TemplateRenderer(mysakai2ListTemplate.replace(/#/, ''), newjson));
+        if (resultJson.sites.length === 0) {
+            $(mysakai2List, rootel).html(sakai.api.Security.saneHTML($(mysakai2ErrorNosites).html())).addClass("sites_error");
+        } else {
+            $(mysakai2List, rootel).html($.TemplateRenderer(mysakai2ListTemplate.replace(/#/, ''), resultJson));
         }
     };
 
     /**
-     * 
-     * 
+     *
+     *
      */
     var loadSakai2SiteList = function(){
-        var newjson = {
-            "principal": "admin",
-            "sites": [{
-                "title": "Administration Workspace",
-                "id": "!admin",
-                "url": "http://localhost/portal/site/!admin",
-                "description": "Administration Workspace",
-                "forums": 3,
-                "messages":5
-            }]
-        };
-        
-        // Render all the sites.
-        doRender(newjson);
+        // get sakai2favouriteList
+        sakai.api.Server.loadJSON("/~" + sakai.data.me.user.userid + "/private/sakai2favouriteList",function(savedsuccess,saveddata){
+            var url = "/dev/s23/bundles/sites.json";
+            if (sakai.config.useLiveSakai2Feeds){
+                url = "/var/proxy/s23/sitesUnread.json?unread=true";
+            }
+            $.ajax({
+                url: url,
+                type : "GET",
+                dataType: "json",
+                success: function(fulllist){
+                    var resultJson = {};
+                    resultJson.sites = [];
+                    if(savedsuccess){
+                        for (var ii = 0; ii < fulllist.sites.length; ii++){
+                            for (var i = 0; i < saveddata.id.length; i++){
+                                if (fulllist.sites[ii].id === saveddata.id[i]){
+                                    resultJson.sites.push(fulllist.sites[ii]);
+                                    break;
+                                }
+                            }
+                        }
+                    } else {
+                        for (var i = 0; i < fulllist.display; i++){
+                            if (fulllist.sites[i]) {
+                                resultJson.sites.push(fulllist.sites[i]);
+                            }
+                        }
+                    }
+                    sakai.data.me.sakai2List = resultJson;
+                    doRender(sakai.data.me.sakai2List);                    
+                }
+            });
+        });
     };
+
+    ////////////////////
+    // Event Handlers //
+    ////////////////////
+
+    // Listen for completion of sakai2 favourites site addition
+    // to refresh this widget's sites listing
+    $(window).bind("sakai2-favourites-selected", function() {
+        doInit();
+    });
+
+    $("#mysakai2_add_files_link").click(function(ev){
+        sakai.sakai2favourites.initialise(); 
+    });
 
     /**
      * Will initiate a request to the my groups service.

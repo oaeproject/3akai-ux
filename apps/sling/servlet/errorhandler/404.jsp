@@ -6,6 +6,7 @@
     <head>
 
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <!-- Sakai 3 R&amp;D - Page not found -->
         <title></title>
 
         <!-- Sakai Core CSS -->
@@ -61,75 +62,91 @@
         <!-- TOP BANNER -->
         <div id="top_banner"><!-- --></div>
 
+        <div id="widget_topnavigation" class="widget_inline"></div>
+
         <div class="index-container fl-centered page_not_found_error"><span style="display:none;"><br /></span>
             <div id="page_not_found_error_logged_out_template" style="display:none;"><!--
-                <div class="header-title">
-                    <img src="/dev/images/sakai_logo_index.png" alt="__MSG__INSTANCE_NAME__" />
-                </div>
 
-                <div class="header-byline">
-                    __MSG__HEADER_BYLINE__
-                </div>
+                <div class="index-container fl-centered">
 
-                <div class="login-box">
-                    <div id="page_not_found_error">
-                        <div class="preview-box">
-                            <span id="error_title">The page you requested was not found.</span>
-                            <p>
-                                You may have clicked a broken link or mistyped the web address (some url addresses are case sensitive). It's also possible you don't have permission to access this page.
-                            </p>
-                            You can
-                            <ul>
-                                <li>
-                                    Verify the link in the address bar
-                                </li>
-                                <li>
-                                    Go back to the previous page by clicking the back button in your browser
-                                </li>
-                                <li>
-                                	Try to contact the page administrator to request access permissions if you think you should have
-                                </li>
-                            </ul>
-                            <p>
-                                If you continue to receive this error, the page may have been moved or no longer exists.
-                            </p>
-                        </div>
-                        <div class="login-container">
-                            <button class="s3d-button s3d-button-primary" type="submit"><span class="s3d-button-inner">Sign In</span></button>
-                            <p>
-                                If you have an account, you may wish to sign in to search available pages.
-                            </p>
+                <div id="widget_login" class="widget_inline"></div>
+
+
+                <div class="login-box fl-container">
+                    <div class="login-box-top">
+                    </div>
+                    <div class="login-box-content">
+                        <div class="preview-box fl-left">
+
+                            <div class="header-title">
+                                <p class="sakai_logo_index"></p>
+                            </div>
+
+                            <div class="header-byline">
+                                __MSG__HEADER_BYLINE__
+                            </div>
+
+
+                            <div id="page_not_found_error">
+                                <div class="preview-box">
+                                    <span id="error_title">__MSG__THE_PAGE_YOU_REQUESTED_WAS_NOT_FOUND__</span>
+                                    <p>
+                                        __MSG__YOU_MAY_HAVE_CLICKED_A_BROKEN_LINK_OR_MISTYPED_THE_URL__
+                                    </p>
+                                    __MSG__YOU_CAN__
+                                    <ul>
+                                        <li>
+                                            __MSG__VERIFY_THE_LINK_IN_THE_ADDRESS_BAR__
+                                        </li>
+                                        <li>
+                                            __MSG__GO_BACK_TO_PREVIOUS_PAGE_CLICKING_BACK_BUTTON_IN_BROWSER__
+                                        </li>
+                                        <li>
+                                          __MSG__TRY_TO_CONTACT_PAGE_ADMIN_REQUEST_ACCESS__
+                                        </li>
+                                    </ul>
+                                    <p>
+                                        __MSG__IF_YOU_CONTINUE_TO_RECEIVE_ERROR_PAGE_MAY_HAVE_BEEN_MOVED_OR_NO_LONDER_EXISTS__
+                                    </p>
+                                </div>
+                                <div class="login-container">
+                                    <div id="widget_login" class="widget_inline"></div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
+                    <div class="login-box-bottom">
+                    </div>
                 </div>
+                <div id="widget_footer" class="widget_inline footercontainer"></div>
+
             --></div>
             <div id="page_not_found_error_logged_in_template" style="display:none;"><!--
-                <div id="widget_topnavigation" class="widget_inline">
-                </div>
-                <div class="fl-container-flex header">
-                    <div class="fl-fix fl-centered fixed-container">
-                        <div class="decor">
+                <div class="fl-container-flex header s3d-header">
+                    <div class="fl-fix fl-centered fixed-container s3d-fixed-container">
+                        <div class="s3d-decor">
                         </div>
                         <div id="page_not_found_error">
                             <div class="preview-box">
-                                <span id="error_title">The page you requested was not found.</span>
+                                <span id="error_title">__MSG__THE_PAGE_YOU_REQUESTED_WAS_NOT_FOUND__</span>
                                 <p>
-                                    You may have clicked a broken link or mistyped the web address (some url addresses are case sensitive). It's also possible you don't have permission to access this page.
+                                    __MSG__YOU_MAY_HAVE_CLICKED_A_BROKEN_LINK_OR_MISTYPED_THE_URL__
                                 </p>
-                                You can
+                                __MSG__YOU_CAN__
                                 <ul>
                                     <li>
-                                        Verify the link in the address bar
+                                        __MSG__VERIFY_THE_LINK_IN_THE_ADDRESS_BAR__
                                     </li>
                                     <li>
-                                        Go back to the previous page by clicking the back button in your browser
+                                        __MSG__GO_BACK_TO_PREVIOUS_PAGE_CLICKING_BACK_BUTTON_IN_BROWSER__
                                     </li>
                                     <li>
-                                	    Try to contact the page administrator to request access permissions if you think you should have
+                                	    __MSG__TRY_TO_CONTACT_PAGE_ADMIN_REQUEST_ACCESS__
                                     </li>
                                 </ul>
                                 <p>
-                                    If you continue to receive this error, the page may have been moved or no longer exists.
+                                    __MSG__IF_YOU_CONTINUE_TO_RECEIVE_ERROR_PAGE_MAY_HAVE_BEEN_MOVED_OR_NO_LONDER_EXISTS__
                                 </p>
                             </div>
                         </div>

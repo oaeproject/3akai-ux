@@ -1,0 +1,12 @@
+{
+    "description":"Share content widget",
+    "hasSettings": false,
+    "id": "sharecontent",
+    "i18n": {
+        "default": "/devwidgets/sharecontent/bundles/default.properties"
+    },
+    "name": "Share Content",
+    "type":"core",
+    "enabled":true,
+    "url": "/devwidgets/sharecontent/sharecontent.html"
+}

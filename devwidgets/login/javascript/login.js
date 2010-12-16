@@ -38,7 +38,6 @@ sakai.login = function(){
     var redirectUrl = sakai.config.URL.MY_DASHBOARD_URL;
     var usernameField = "username";
     var passwordField = "password";
-    var failMessage = "#login-failed";
     var loadingMessage = "#login-loader";
     var registerLink = "#register_here";
     var loginButton = "#loginbutton";
@@ -66,44 +65,36 @@ sakai.login = function(){
             document.location = redirectUrl;
         } else {
             $(loadingMessage).hide();
-            
+
             // check if internal is true or internal account creation is true show login
+            if (sakai.config.Authentication.allowInternalAccountCreation){
+                $(registerLink).show();
+            }
+
             if (sakai.config.Authentication.internal || sakai.config.Authentication.allowInternalAccountCreation) {
                 $(loginButton).show();
-                $(registerLink).show();
                 $(loginDefault).show();
                 if (data) {
-                    $(failMessage).show();
                     $("#username").addClass("error");
                     $("#password").addClass("error");
                 }
                 // Set the cursor in the username field
                 $("#" + usernameField).focus();
             } else {
-                // loop through and render each external authentication system
-                $.each(sakai.config.Authentication.external, function(index, value) {
-                    var curNum = $('.login-external-system').length - 1;
-                    var newNum = curNum + 1;
-                    var newElem = $(loginExternalSystem + '0').clone().attr('id', 'login-external-system' + newNum);
-                    newElem.children(':first').attr('id', 'login-external-button' + newNum).attr('login-external-button', 'login-external-button' + newNum);
-                    $(loginExternalSystem + curNum).after(newElem);
-                    $(loginExternalSystem + newNum + ' .login-external-label').text(sakai.api.Security.saneHTML(value.label));
-                    if (value.description) {
-                        $(loginExternalSystem + newNum + ' .login-external-description').text(sakai.api.Security.saneHTML(value.description));                    
-                    }
-                    $(loginExternalSystem + newNum + ' .login-external-url').text(sakai.api.Security.saneHTML(value.url));
-                    $(loginExternalSystem + newNum).show();
-                    
-                    // bind external url
-                    $(loginExternalButton + newNum).bind("click", function(){
-                        document.location = value.url;
-                    });
-                });
+                $("#login-external-container").html($.TemplateRenderer("login-external-template", sakai.config.Authentication));
                 $(loginExternal).show();
             }
         }
-
     };
+    
+    $("#username").bind("keydown", function(){
+        $("#username").removeClass("error");
+        $("#password").removeClass("error");
+    });
+    $("#password").bind("keydown", function(){
+        $("#username").removeClass("error");
+        $("#password").removeClass("error");
+    });
 
     /**
      * This will be executed after the post to the login service has finished.
@@ -136,26 +127,22 @@ sakai.login = function(){
 
         var values = $(loginForm).serializeObject();
 
-        if (currentUserName !== values[usernameField] || currentPassword !== values[passwordField]) {
-            currentUserName = values[usernameField];
-            currentPassword = values[passwordField];
+        currentUserName = values[usernameField];
+        currentPassword = values[passwordField];
             
-            $("#username").removeClass("error");
-            $("#password").removeClass("error");
+        $("#username").removeClass("error");
+        $("#password").removeClass("error");
 
-            $(failMessage).hide();
-            $(loginButton).hide();
-            $(registerLink).hide();
-            $(loadingMessage).show();
-            var data = {
-                "username": values[usernameField],
-                "password": values[passwordField]
-            };
+        $(loginButton).hide();
+        $(loadingMessage).css("display", "inline-block");
+        var data = {
+            "username": values[usernameField],
+            "password": values[passwordField]
+        };
             
-            // Perform the login operation
-            sakai.api.User.login(data, checkLogInSuccess);
-            
-        }
+        // Perform the login operation
+        sakai.api.User.login(data, checkLogInSuccess);
+        
         return false;
 
     };
@@ -194,6 +181,8 @@ sakai.login = function(){
 
         // Check whether we are already logged in
         decideLoggedIn();
+
+        $(window).trigger("sakai-login-ready");
     };
 
     doInit();

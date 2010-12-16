@@ -7,102 +7,227 @@
 <!-- ACTIONS CONTAINER -->
 <div id="entity_container_actions" style="display:none"><!-- --></div>
 
-<div id="entity_container_template"><!--
+<div id="entity_container_template_myprofile"><!--
     <div class="fl-col entity_container_left">
-        {if mode === "myprofile" || mode === "profile"}
-            <div class="fl-force-left entity_picture">
-                {if data.profile && data.profile.picture}
-                    <img id="entity_profile_picture" src="${data.profile.picture}" alt="__MSG__PROFILE_PICTURE_FOR__ ${sakai.api.User.getDisplayName(data.profile)}" />
-                {else}
-                    <img id="entity_profile_picture" src="/dev/images/default_profile_picture_64.png" alt="__MSG__PLACEHOLDER_PICTURE_FOR__ ${sakai.api.User.getDisplayName(data.profile)}" />
-                {/if}
-                {if mode === "myprofile"}
-                    <div class="fl-text-align-center">
-                        <a href="javascript:;" class="s3d-action" id="changepic_container_trigger">__MSG__CHANGE__</a>
-                    </div>
-                {else}
-                    <div class="fl-text-align-center entity_status">
-                        <span id="entity_contact_online" style="display:none;"><span class="chat_available_status_online" id="entity_available_to_chat">__MSG__ONLINE__</span></span>
-                        <span id="entity_contact_busy" style="display:none;"><span class="chat_available_status_busy">__MSG__BUSY__</span></span>
-                        <span id="entity_contact_offline" style="display:none;"><span class="chat_available_status_offline">__MSG__OFFLINE__</span></span>
-                    </div>
-                {/if}
-            </div>
-            
-            <div class="entity_header">
-                <a class="entity_header_text" href="/~${unescape(data.profile["rep:userId"])}">${sakai.api.Util.shortenString(unescape(sakai.api.User.getDisplayName(data.profile)), 30)}</a>
-                {if mode === "myprofile" && (!sakai.profile)}
-                    <a class="s3d-action" href="/dev/profile_edit.html">__MSG__EDIT_PROFILE__</a>
-                    |
-                    <a class="s3d-action" href="/~${unescape(data.profile["rep:userId"])}">__MSG__MY_PERSONAL_PAGES__</a>
-                {elseif mode === "myprofile" && (sakai.profile.main.mode.value === "view")}
-                    <a class="s3d-action" href="/dev/profile_edit.html">__MSG__EDIT_PROFILE__</a>
-                {elseif mode === "myprofile"}
-                    <a class="s3d-action" href="/~${data.profile["rep:userId"]}">__MSG__MY_PERSONAL_PAGES__</a>
-                {/if}
-            </div>
-            <div>
-                    {if mode === "myprofile"}
-                       <form id="entity_profile_status" method="POST" action="javascript:;">
-                            <div>
-                                <input id="entity_profile_status_input" title="__MSG__WHAT_ARE_YOU_DOING_NOW__" maxlength="255" type="text" {if !data.profile.status}class="entity_profile_status_input_dummy" value="__MSG__WHAT_ARE_YOU_DOING_NOW__"{else}value="${data.profile.status}"{/if} />
-                                <span id="entity_profile_status_input_dummy" style="display:none;">__MSG__WHAT_ARE_YOU_DOING_NOW__</span>
-                                <button type="submit" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">__MSG__UPDATE__</span></button>
-                                <span id="entity_profile_status_input_saving" style="display:none;">__MSG__SAVING__...</span>
-                                <span id="entity_profile_status_input_saving_failed" style="display:none;">__MSG__SAVING_FAILED__</span>
-                            </div>
-                        </form> 
-                   {/if}
-            </div>
-            {if mode !== "myprofile"}
-                <div class="entity_content_about">
-                    {if data.profile.status}
-                        ${data.profile.status}
-                    {/if}
-                </div>
+        <div class="fl-force-left entity_picture">
+            {if data.profile && data.profile.picture}
+                <img id="entity_profile_picture" src="${data.profile.picture}" alt="__MSG__PROFILE_PICTURE_FOR__ ${sakai.api.User.getDisplayName(data.profile)}" />
+            {else}
+                <img id="entity_profile_picture" src="/dev/images/default_profile_picture_64.png" alt="__MSG__PLACEHOLDER_PICTURE_FOR__ ${sakai.api.User.getDisplayName(data.profile)}" />
             {/if}
+            <div class="fl-text-align-center">
+                <a href="javascript:;" class="s3d-action" id="changepic_container_trigger">__MSG__CHANGE__</a>
+            </div>
+        </div>
+
+        <div class="entity_header">
+            <a class="entity_header_text" href="/~${unescape(data.profile["rep:userId"])}">${sakai.api.Util.shortenString(unescape(sakai.api.User.getDisplayName(data.profile)), 30)}</a>
+            {if mode === "myprofile" && (!sakai.profile)}
+                <a class="s3d-action" href="/dev/profile_edit.html">__MSG__EDIT_PROFILE__</a>
+                |
+                <a class="s3d-action" href="/~${unescape(data.profile["rep:userId"])}">__MSG__MY_PERSONAL_PAGES__</a>
+            {elseif mode === "myprofile" && (sakai.profile.main.mode.value === "view")}
+                <a class="s3d-action" href="/dev/profile_edit.html">__MSG__EDIT_PROFILE__</a>
+            {elseif mode === "myprofile"}
+                <a class="s3d-action" href="/~${data.profile["rep:userId"]}">__MSG__MY_PERSONAL_PAGES__</a>
+            {/if}
+        </div>
+        <div>
+            <form id="entity_profile_status" method="POST" action="javascript:;">
+                <div>
+                    <input id="entity_profile_status_input" title="__MSG__WHAT_ARE_YOU_DOING_NOW__" maxlength="255" type="text" {if !data.profile.status}class="entity_profile_status_input_dummy" value="__MSG__WHAT_ARE_YOU_DOING_NOW__"{else}value="${data.profile.status}"{/if} />
+                    <span id="entity_profile_status_input_dummy" style="display:none;">__MSG__WHAT_ARE_YOU_DOING_NOW__</span>
+                    <button type="submit" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">__MSG__UPDATE__</span></button>
+                    <span id="entity_profile_status_input_saving" style="display:none;">__MSG__SAVING__...</span>
+                    <span id="entity_profile_status_input_saving_failed" style="display:none;">__MSG__SAVING_FAILED__</span>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="fl-col entity_container_right s3d-actions">
+        <form method="POST" action="javascript:;">
+            <select id="entity_profile_chatstatus" title="__MSG__CHAT_STATUS__">
+                <option value="online" {if data.profile.chatstatus === "online"}selected="selected"{/if}>__MSG__AVAILABLE_TO_CHAT__</option>
+                <option value="busy" {if data.profile.chatstatus === "busy"}selected="selected"{/if}>__MSG__BUSY__</option>
+                <option value="offline" {if data.profile.chatstatus === "offline"}selected="selected"{/if}>__MSG__OFFLINE__</option>
+            </select>
+        </form>
+        {if data.profile.basic && data.profile["sakai:tags"] && data.profile["sakai:tags"].length > 0}
+            <div class="entity_tags">
+                <div class="entity_tags_link_menu_border" id="entity_tags_link_menu" style="display:none;">
+                    <div class="entity_tags_link_menu_list">
+                        {var count = 0}
+                        {for t in data.profile["sakai:tags"]}{if t.split("/")[0] !== "directory"}{var count = count +1}{if t_index > 0},{/if} <a href="/dev/search.html#tag=/tags/${escape(t)}" class="s3d-action">${unescape(t)}</a>{/if}{/for}
+                    </div>
+                </div>
+                <a id="entity_tags_link" class="entity_tags_link" href="javascript:;">
+                <div>
+                    <span>${count}
+                    {if count > 1}
+                        __MSG__TAGS__
+                    {else}
+                        __MSG__TAG__
+                    {/if}
+                    </span>
+                </div>
+                </a>
+            </div>
         {/if}
+    </div>
+--></div>
+
+<div id="entity_container_template_profile"><!--
+    <div class="fl-col entity_container_left">
+        <div class="fl-force-left entity_picture">
+            {if data.profile && data.profile.picture}
+                <img id="entity_profile_picture" src="${data.profile.picture}" alt="__MSG__PROFILE_PICTURE_FOR__ ${sakai.api.User.getDisplayName(data.profile)}" />
+            {else}
+                <img id="entity_profile_picture" src="/dev/images/default_profile_picture_64.png" alt="__MSG__PLACEHOLDER_PICTURE_FOR__ ${sakai.api.User.getDisplayName(data.profile)}" />
+            {/if}
+            <div class="fl-text-align-center entity_status">
+                <span id="entity_contact_online" style="display:none;"><span class="chat_available_status_online" id="entity_available_to_chat">__MSG__ONLINE__</span></span>
+                <span id="entity_contact_busy" style="display:none;"><span class="chat_available_status_busy">__MSG__BUSY__</span></span>
+                <span id="entity_contact_offline" style="display:none;"><span class="chat_available_status_offline">__MSG__OFFLINE__</span></span>
+            </div>
+        </div>
+
+        <div class="entity_header">
+            <a class="entity_header_text" href="/~${unescape(data.profile["rep:userId"])}">${sakai.api.Util.shortenString(unescape(sakai.api.User.getDisplayName(data.profile)), 30)}</a>
+        </div>
+        <div>
+        </div>
+        <div class="entity_content_about">
+            {if data.profile.status}
+                ${data.profile.status}
+            {/if}
+        </div>
+    </div>
+    <div class="fl-col entity_container_right s3d-actions">
+        {if !sakai.data.me.user.anon}
+            <button style="display:none" id="entity_add_to_contacts" class="s3d-button entity_action_button"><span class="s3d-button-inner">__MSG__ADD_TO_CONTACTS__</span></button>
+            <span style="display:none" id="entity_contact_pending" class="entity_contact_span">__MSG__THIS_PERSON_HAS_BEEN_INVITED_AS_CONTACT__</span>
+            <span style="display:none" id="entity_contact_accepted" class="entity_contact_span">__MSG__THIS PERSON IS A CONTACT__</span>
+            <a href="javascript:;" style="display:none" id="entity_contact_invited">__MSG__ACCEPT_INVITATION__</a>
+        {/if}
+        {if data.profile.basic && data.profile["sakai:tags"] && data.profile["sakai:tags"].length > 0}
+            <div class="entity_tags">
+                <div class="entity_tags_link_menu_border" id="entity_tags_link_menu" style="display:none;">
+                    <div class="entity_tags_link_menu_list">
+                        {var count = 0}
+                        {for t in data.profile["sakai:tags"]}{if t.split("/")[0] !== "directory"}{var count = count +1}{if t_index > 0},{/if} <a href="/dev/search.html#tag=/tags/${escape(t)}" class="s3d-action">${unescape(t)}</a>{/if}{/for}
+                    </div>
+                </div>
+                <a id="entity_tags_link" class="entity_tags_link" href="javascript:;">
+                    <div>
+                        <span>${count}
+                        {if count > 1}
+                            __MSG__TAGS__
+                        {else}
+                            __MSG__TAG__
+                        {/if}
+                        </span>
+                    </div>
+                </a>
+            </div>
+        {/if}
+    </div>
+--></div>
+
+<div id="entity_container_template_content"><!--
+    <div class="fl-col entity_content_container_left">
         {if mode === "content"}
             {if data.profile}
-                <div class="fl-force-left entity_picture">
-                    {if data.profile.mimetype === "image/pjpeg" || data.profile.mimetype === "image/jpeg" || data.profile.mimetype === "image/png" || data.profile.mimetype === "image/gif"}
-                        <img id="entity_profile_picture" src="${data.profile.path}?${Math.ceil(Math.random()*999999)}" alt="${sakai.config.MimeTypes[data.profile.mimetype].description}"/>
-                    {elseif sakai.config.MimeTypes[data.profile.mimetype]}
-                        <img id="entity_profile_picture" src="${sakai.config.MimeTypes[data.profile.mimetype].URL}" alt="${sakai.config.MimeTypes[data.profile.mimetype].description}"/>
-                    {else}
-                        <img id="entity_profile_picture" src="${sakai.config.MimeTypes["other"].URL}" alt="${sakai.config.MimeTypes["other"].description}"/>
-                    {/if}
-                    <div class="fl-text-align-center">
-                        {if data.profile.role === "manager"}
-                            <div class="entity_picture_div"><span class="entity_manage"><span class="entity_picture_text">&nbsp;&nbsp;__MSG__I_MANAGE_ENTITY__&nbsp;</span></span><span class="entity_manage_end">&nbsp;&nbsp;</span></div>
-                        {/if}
-                    </div>
-                </div>
-                <div class="fl-force-left entity_header">
-                    <span class="entity_threedots entity_header_text">
-                    	<span class="threedots ellipsis_text">${data.profile.name}</span>
+                <div class="fl-force-left entity_content_header">
+                    <span id="contentmetadata_name_name" class="entity_content_header_text {if sakai.content_profile.content_data.isManager} contentmetadata_editable {/if}">
+                        ${data.profile.name}
                     </span>
-                    {if data.profile.mimetype === "x-sakai/link"}
-                        <span class="entity_content_filetype">(__MSG__URL_LINK__)</span>
-                    {else}
-                        <span class="entity_content_filetype">(${data.profile.mimetype} ${data.profile.filesize})</span>
-                    {/if}
+                    <span id="contentmetadata_name_edit" style="display:none">
+                        <input id="contentmetadata_name_text" type="text" size="50"/>
+                    </span>
                 </div>
-                <div class="fl-force-left entity_description">
-                    {if data.profile.description}
-                        <p class="entity_description">${sakai.api.Util.shortenString(data.profile.description, 115)}</p>
-                    {/if}
+                <div class="fl-force-left entity_content_description">
+                    <div class="fl-force-left entity_content_new_events">
+                        <a id="entity_content_activity" href="#" class="s3d-regular-light-links s3d-bold">
+                            {if data.profile.activity}
+                                ${data.profile.activity.total}
+                                {if data.profile.activity.total === 1}
+                                    __MSG__THING_HAS_HAPPENED__
+                                {else}
+                                    __MSG__THINGS_HAVE_HAPPENED__
+                                {/if}
+                            {else}
+                            0 __MSG__THINGS_HAVE_HAPPENED__
+                            {/if}
+                        </a>
+                    </div>
+                    <div class="fl-force-left entity_content_used_by">
+                        <p class="entity_usedby">__MSG__USED_IN__
+                            <a href="#" class="entity_content_places s3d-regular-light-links s3d-bold">
+                                ${data.profile.groupcount}
+                                {if data.profile.groupcount === 1}__MSG__PLACE__{else}__MSG__PLACES__{/if}</a>
+                            __MSG__BY__
+                            <a href="#" class="entity_content_people s3d-regular-light-links s3d-bold">
+                                ${data.profile.usercount}
+                                {if data.profile.usercount === 1}
+                                    __MSG__PERSON__
+                                {else}
+                                    __MSG__PEOPLE__
+                                {/if}
+                            </a>
+                        </p>
+                    </div>
+                    <div class="fl-force-left entity_content_permissions">
+                        <a id="entity_content_share_link" href="#" class="s3d-regular-light-links s3d-bold">
+                        <p class="entity_content_link_icon"></p>
+                            {if data.profile.permissions === "public"}
+                                __MSG__VISIBLE_TO_ANYONE__
+                            {elseif data.profile.permissions === "everyone"}
+                                __MSG__VISIBLE_TO_ANYONE_LOGGED_IN__
+                            {elseif data.profile.permissions === "private"}
+                                __MSG__PRIVATE__
+                                {if sakai.content_profile.content_data.members.managers}
+                                    __MSG__TO__ ${unescape(sakai.api.User.getDisplayName(sakai.content_profile.content_data.members.managers[0]))}
+                                    {if data.profile.usercount + data.profile.groupcount > 1}
+                                        + ${data.profile.usercount + data.profile.groupcount - 1}
+                                        {if (data.profile.usercount + data.profile.groupcount) === 2}
+                                            __MSG__OTHER__
+                                        {else}
+                                            __MSG__OTHERS__
+                                        {/if}
+                                    {/if}
+                                {/if}
+                            {else}
+                                __MSG__VISIBLE_TO_ANYONE__
+                            {/if}
+                        </a>
+                    </div>
                 </div>
             {/if}
         {/if}
-        {if mode === "group"}
-            <div class="fl-force-left entity_picture">
-                <div class="entity_avatar_border">
-                {if data.profile && data.profile.picture}
-                    <img id="entity_profile_picture" src="${data.profile.picture}" alt="__MSG__PROFILE_PICTURE_FOR__ ${data.profile["sakai:group-title"]}" />
-                {else}
-                    <img id="entity_profile_picture" src="/dev/images/group_avatar_icon_64x64_nob.png" alt="group name" />
-                {/if}
+    </div>
+    <div class="fl-col entity_content_container_right s3d-actions">
+        {if mode === "content"}
+                <div class="entity_content_share">
+                    <button id="entity_content_share_button" class="s3d-button s3d-button-tertiary" type="submit"><span class="s3d-button-inner">__MSG__SHARE__</span></button>
+                </div>
+            </div>
+        {/if}
+    </div>
+--></div>
+
+<!--             <div class="entity_content_right"><div class="entity_content_viewed">
+                    __MSG__VIEWED__ <span class="entity_content_view_count">XXX,XXX</span> __MSG__TIMES__
+                </div></div> -->
+
+<div id="entity_container_template_group"><!--
+    <div class="fl-col entity_container_left">
+        <div class="fl-force-left entity_picture">
+            <div class="entity_avatar_border">
+            {if data.profile && data.profile.picture}
+                <img id="entity_profile_picture" src="${data.profile.picture}" alt="__MSG__PROFILE_PICTURE_FOR__ ${data.profile["sakai:group-title"]}" />
+            {else}
+                <img id="entity_profile_picture" src="/dev/images/group_avatar_icon_64x64_nob.png" alt="group name" />
+            {/if}
                 <div class="fl-text-align-center">
                     {if data.profile.role === "manager"}
                         <div class="entity_picture_div"><span class="entity_manage"><span class="entity_picture_text">&nbsp;&nbsp;__MSG__I_MANAGE_ENTITY__&nbsp;</span></span><span class="entity_manage_end">&nbsp;&nbsp;</span></div>
@@ -120,53 +245,49 @@
                         </span>
                     {/if}
                 </div>
-                </div>
-                {if data.profile.role === "manager"}
-                <div class="fl-text-align-center entity_padding_top">
-                    <a href="javascript:;" class="s3d-action" id="changepic_container_trigger">__MSG__CHANGE__</a>
-                </div>
-                {/if}
             </div>
-            <div class="entity_header">
-                {if data.profile["sakai:group-title"]}
-                    <a class="entity_header_text" href="/~${data.profile["sakai:group-id"]}" title="${data.profile["sakai:group-title"]}">${sakai.api.Util.shortenString(data.profile["sakai:group-title"], 115)}</a>
-                {/if}
-                {if data.profile.role === "manager"}
-                    {if sakai.profile.main.mode.value === "view"}
-                        <a class="s3d-action entity_group_edit" href="/dev/group_edit.html?id=${data.profile["sakai:group-id"]}">__MSG__MANAGE_GROUP__</a>
-                    {/if}
-                {/if}
-                {if sakai.profile.main.mode.value === "edit"}
-                    <a class="s3d-action" href="/~${data.profile["sakai:group-id"]}">__MSG__GROUP_PAGES__</a>
-                {/if}
+            {if data.profile.role === "manager"}
+            <div class="fl-text-align-center entity_padding_top">
+                <a href="javascript:;" class="s3d-action" id="changepic_container_trigger">__MSG__CHANGE__</a>
             </div>
-            <div class="fl-force-left entity_description">
-                {if data.profile["sakai:group-description"] && data.profile["sakai:group-description"].length > 115}
-                    <p>${data.profile["sakai:group-description"].substring(0, 115)}...</p>
-                {elseif data.profile["sakai:group-description"]}
-                    <p>${data.profile["sakai:group-description"]}</p>
+            {/if}
+        </div>
+        <div class="entity_header">
+            {if data.profile["sakai:group-title"]}
+                <a class="entity_header_text" href="/~${data.profile["sakai:group-id"]}" title="${data.profile["sakai:group-title"]}">${sakai.api.Util.shortenString(data.profile["sakai:group-title"], 115)}</a>
+            {/if}
+            {if data.profile.role === "manager"}
+                {if sakai.profile.main.mode.value === "view"}
+                    <a class="s3d-action entity_group_edit" href="/dev/group_edit.html?id=${data.profile["sakai:group-id"]}">__MSG__MANAGE_GROUP__</a>
                 {/if}
-            </div>
-        {/if}
+            {/if}
+            {if sakai.profile.main.mode.value === "edit"}
+                <a class="s3d-action" href="/~${data.profile["sakai:group-id"]}">__MSG__GROUP_PAGES__</a>
+            {/if}
+        </div>
+        <div class="fl-force-left entity_description">
+            {if data.profile["sakai:group-description"] && data.profile["sakai:group-description"].length > 115}
+                <p>${data.profile["sakai:group-description"].substring(0, 115)}...</p>
+            {elseif data.profile["sakai:group-description"]}
+                <p>${data.profile["sakai:group-description"]}</p>
+            {/if}
+        </div>
     </div>
     <div class="fl-col entity_container_right s3d-actions">
-        {if mode === "myprofile"}
-            <form method="POST" action="javascript:;">
-                <select id="entity_profile_chatstatus" title="__MSG__CHAT_STATUS__">
-            	    <option value="online" {if data.profile.chatstatus === "online"}selected="selected"{/if}>__MSG__AVAILABLE_TO_CHAT__</option>
-            	    <option value="busy" {if data.profile.chatstatus === "busy"}selected="selected"{/if}>__MSG__BUSY__</option>
-                    <option value="offline" {if data.profile.chatstatus === "offline"}selected="selected"{/if}>__MSG__OFFLINE__</option>
-                </select>
-            </form>
-            {if data.profile.basic && data.profile["sakai:tags"] && data.profile["sakai:tags"].length > 0}
-                <div class="entity_tags">
-                    <div class="entity_tags_link_menu_border" id="entity_tags_link_menu" style="display:none;">
-                        <div class="entity_tags_link_menu_list">
-                            {var count = 0}
-                            {for t in data.profile["sakai:tags"]}{if t.split("/")[0] !== "directory"}{var count = count +1}{if t_index > 0},{/if} <a href="/dev/search.html#tag=/tags/${escape(t)}" class="s3d-action">${unescape(t)}</a>{/if}{/for}
-                        </div>
+        <button id="entity_group_leave" class="s3d-button entity_action_button" style="display:none;"><span class="s3d-button-inner">__MSG__LEAVE_GROUP__</span></button>
+        <button id="entity_group_join" class="s3d-button entity_action_button" style="display:none;"><span class="s3d-button-inner">__MSG__JOIN_GROUP__</span></button>
+        <button id="entity_group_join_request" class="s3d-button entity_action_button" style="display:none;"><span class="s3d-button-inner">__MSG__REQUEST_TO_JOIN__</span></button>
+        <button id="entity_group_join_request_pending" class="s3d-button entity_action_button" disabled="disabled" style="display:none;"><span class="s3d-button-inner">__MSG__REQUEST_PENDING__</span></button>
+
+        {if data.profile && data.profile["sakai:tags"] && data.profile["sakai:tags"].length > 0}
+            <div class="entity_tags entity_tags_group">
+                <div class="entity_tags_link_menu_border" id="entity_tags_link_menu" style="display:none;">
+                    <div class="entity_tags_link_menu_list">
+                        {var count = 0}
+                        {for t in data.profile["sakai:tags"]}{if t.split("/")[0] !== "directory"}{var count = count +1}{if t_index > 0},{/if} <a href="/dev/search.html#tag=/tags/${escape(t)}" class="s3d-action">${unescape(t)}</a>{/if}{/for}
                     </div>
-                    <a id="entity_tags_link" class="entity_tags_link" href="javascript:;">
+                </div>
+                <a id="entity_tags_link" class="entity_tags_link" href="javascript:;">
                     <div>
                         <span>${count}
                         {if count > 1}
@@ -176,108 +297,152 @@
                         {/if}
                         </span>
                     </div>
-                    </a>
-                </div>
-            {/if}
-        {/if}
-        {if mode === "profile"}
-            {if !sakai.data.me.user.anon}
-                <button style="display:none" id="entity_add_to_contacts" class="s3d-button entity_action_button"><span class="s3d-button-inner">__MSG__ADD_TO_CONTACTS__</span></button>
-                <span style="display:none" id="entity_contact_pending" class="entity_contact_span">__MSG__THIS_PERSON_HAS_BEEN_INVITED_AS_CONTACT__</span>
-                <span style="display:none" id="entity_contact_accepted" class="entity_contact_span">__MSG__THIS PERSON IS A CONTACT__</span>
-                <a href="javascript:;" style="display:none" id="entity_contact_invited">__MSG__ACCEPT_INVITATION__</a>
-            {/if}
-            {if data.profile.basic && data.profile["sakai:tags"] && data.profile["sakai:tags"].length > 0}
-                <div class="entity_tags">
-                    <div class="entity_tags_link_menu_border" id="entity_tags_link_menu" style="display:none;">
-                        <div class="entity_tags_link_menu_list">
-                            {var count = 0}
-                            {for t in data.profile["sakai:tags"]}{if t.split("/")[0] !== "directory"}{var count = count +1}{if t_index > 0},{/if} <a href="/dev/search.html#tag=/tags/${escape(t)}" class="s3d-action">${unescape(t)}</a>{/if}{/for}
-                        </div>
-                    </div>
-                    <a id="entity_tags_link" class="entity_tags_link" href="javascript:;">
-                        <div>
-                            <span>${count}
-                            {if count > 1}
-                                __MSG__TAGS__
-                            {else}
-                                __MSG__TAG__
-                            {/if}
-                            </span>
-                        </div>
-                    </a>
-                </div>
-            {/if}
-        {/if}
-        {if mode === "content"}
-            {if data.profile.mimetype === "x-sakai/link"}
-                <a href="${data.profile.revurl}" id="content_profile_file_details_action_download" class="s3d-button entity_action_button" target="_blank">
-                    <span class="s3d-button-inner">
-                        __MSG__OPEN_THIS_LINK__
-                    </span>
                 </a>
-            {else}
-                <a href="${data.profile.contentpath}/${data.profile.name}{if data.profile.name.substring(data.profile.name.lastIndexOf("."), data.profile.name.length) !== data.profile.extension}${data.profile.extension}{/if}" id="content_profile_file_details_action_download" class="s3d-button entity_action_button" target="_blank">
-                    <span class="s3d-button-inner">
-                        __MSG__DOWNLOAD_FILE__
-                    </span>
-                </a>
-            {/if}
-            {if data.profile["sakai:tags"] && data.profile["sakai:tags"].split(",").length > 0}
-                <div class="entity_tags">
-                    <div class="entity_tags_link_menu_border" id="entity_tags_link_menu" style="display:none;">
-                        <div class="entity_tags_link_menu_list">
-                            {var count = 0}
-                            {for t in data.profile['sakai:tags'].split(",")}{if t.split("/")[0] !== "directory"}{var count = count +1}{if t_index > 0},{/if} <a href="/dev/search.html#tag=/tags/${t}" class="s3d-action">${t}</a>{/if}{/for}
-                        </div>
-                        <div class="entity_tags_link_menu_list">
-                        </div>
-                    </div>
-                    <a id="entity_tags_link" class="entity_tags_link" href="javascript:;">
-                        <div>
-                            <span>${count}
-                            {if count > 1}
-                                __MSG__TAGS__
-                            {else}
-                                __MSG__TAG__
-                            {/if}
-                            </span>
-                        </div>
-                    </a>
-                </div>
-            {/if}
-        {/if}
-        {if mode === "group"}
-            <button id="entity_group_leave" class="s3d-button entity_action_button" style="display:none;"><span class="s3d-button-inner">__MSG__LEAVE_GROUP__</span></button>
-            <button id="entity_group_join" class="s3d-button entity_action_button" style="display:none;"><span class="s3d-button-inner">__MSG__JOIN_GROUP__</span></button>
-            <button id="entity_group_join_request" class="s3d-button entity_action_button" style="display:none;"><span class="s3d-button-inner">__MSG__REQUEST_TO_JOIN__</span></button>
-            <button id="entity_group_join_request_pending" class="s3d-button entity_action_button" disabled="disabled" style="display:none;"><span class="s3d-button-inner">__MSG__REQUEST_PENDING__</span></button>
-
-            {if data.profile && data.profile["sakai:tags"] && data.profile["sakai:tags"].length > 0}
-                <div class="entity_tags entity_tags_group">
-                    <div class="entity_tags_link_menu_border" id="entity_tags_link_menu" style="display:none;">
-                        <div class="entity_tags_link_menu_list">
-                            {var count = 0}
-                            {for t in data.profile["sakai:tags"]}{if t.split("/")[0] !== "directory"}{var count = count +1}{if t_index > 0},{/if} <a href="/dev/search.html#tag=/tags/${escape(t)}" class="s3d-action">${unescape(t)}</a>{/if}{/for}
-                        </div>
-                    </div>
-                    <a id="entity_tags_link" class="entity_tags_link" href="javascript:;">
-                        <div>
-                            <span>${count}
-                            {if count > 1}
-                                __MSG__TAGS__
-                            {else}
-                                __MSG__TAG__
-                            {/if}
-                            </span>
-                        </div>
-                    </a>
-                </div>
-            {/if}
+            </div>
         {/if}
     </div>
 --></div>
 
+<!-- DIALOG BOX FOR CONTENT PROFILE USERS -->
+<div id="entity_content_users_dialog" class="dialog" style="width:500px; margin-left: -200px">
+    <div class="dialog_header">
+        <div class="dialog_header_inner">
+        <h1 id="entity_content_users_dialog_heading"><!-- --></h1>
+        <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+        </div>
+    </div>
+
+    <div class="dialog_content">
+        <!-- CONTAINER -->
+        <div id="entity_content_users_dialog_list_container" style="display:none"><!-- --></div>
+
+        <!-- TEMPLATE -->
+        <div id="entity_content_users_dialog_list_template" style="display:none;"><!--
+            <ul class="entity_content_users_dialog_list">
+                {var userlist_places_index = 0}
+                {var userlist_people_index = 0}
+                {for i in userList}
+                    {if i['sakai:group-id'] && type === "places"}
+                        ${userlist_places_index++|eat}
+                        {if userlist_places_index%2} <li id="${i['sakai:group-id']}">
+                        {else} <li id="${i['sakai:group-id']}" class="entity_content_even">
+                        {/if}
+                        {if i.picture}
+                            <a href="/~${i['sakai:group-id']}" target="_blank"><img src="/~${i['sakai:group-id']}/public/profile/${i.picture.name}" alt="__MSG__GROUP_PICTURE_FOR__ ${i['sakai:group-title']}" class="entity_content_picture"/></a>
+                        {else}
+                            <a href="/~${i['sakai:group-id']}" target="_blank"><img src="/dev/images/group_avatar_icon_32x32.png" alt="__MSG__DEFAULT_GROUP_PICTURE__" class="entity_content_picture"/></a>
+                        {/if}
+                        <span class="entity_content_name">
+                            <a class="s3d-regular-links s3d-bold" href="/~${i['sakai:group-id']}" target="_blank">${i['sakai:group-title']}</a>
+                        </span>
+                    </li>
+                    {elseif i["rep:userId"] && type === "people"}
+                        ${userlist_people_index++|eat}
+                        {var displayName = unescape(sakai.api.User.getDisplayName(i))}
+                        {if !displayName}
+                            {var displayName = i.displayName}
+                        {/if}
+                        {if userlist_people_index%2} <li id="${i["rep:userId"]}">
+                        {else} <li id="${i["rep:userId"]}" class="entity_content_even">
+                        {/if}
+                        {if i.picture}
+                            <a href="/~${i["rep:userId"]}" target="_blank"><img src="/~${i["rep:userId"]}/public/profile/${i.picture.name}" alt="__MSG__PROFILE_PICTURE_FOR__ ${displayName}" class="entity_content_picture"/></a>
+                        {else}
+                            <a href="/~${i["rep:userId"]}" target="_blank"><img src="/dev/images/user_avatar_icon_32x32.png" alt="__MSG__DEFAULT_PROFILE_PICTURE__" class="entity_content_picture"/></a>
+                        {/if}
+                        <span class="entity_content_name">
+                            <a class="s3d-regular-links s3d-bold" href="/~${i["rep:userId"]}" target="_blank">${displayName}</a>
+                        </span>
+                    </li>
+                    {/if}
+                {/for}
+                {if type === "places" && userlist_places_index === 0}
+                    <div class="entity_content_list_empty">
+                        __MSG__NO_GROUPS_USING_CONTENT__
+                    </div>
+                {/if}
+            </ul>
+        --></div>
+
+        <div class="dialog_buttons fl-force-right">
+            <button type="button" class="s3d-button s3d-button-primary jqmClose"><span class="s3d-button-inner">__MSG__CLOSE__</span></button>
+        </div>
+        <hr class="fl-push fl-hidden">
+    </div>
+
+    <!-- DIALOG FOOTER -->
+    <div class="dialog_footer">
+        <div class="dialog_footer_inner"><!-- --></div>
+    </div>
+</div>
+
+<!-- DIALOG BOX FOR CONTENT PROFILE RECENT ACTIVITY -->
+<div id="entity_content_activity_dialog" class="dialog" style="width:500px; margin-left: -200px">
+    <div class="dialog_header">
+        <div class="dialog_header_inner">
+        <h1 id="entity_content_activity_dialog_heading">__MSG__WHATS_HAPPENING__</h1>
+        <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE__</a>
+        </div>
+    </div>
+
+    <div class="dialog_content">
+        <!-- CONTAINER -->
+        <div id="entity_content_activity_dialog_list_container" style="display:none"><!-- --></div>
+
+        <!-- TEMPLATE -->
+        <div id="entity_content_activity_dialog_list_template" style="display:none;"><!--
+            <ul class="entity_content_activity_dialog_list">
+                {var activitylist_index = 0}
+                {for i in results}
+                    ${activitylist_index++|eat}
+                    {var displayName = unescape(sakai.api.User.getDisplayName(i.actorProfile))}
+                    {if !displayName}
+                        {var displayName = i["sakai:activity-actor"]}
+                    {/if}
+                    <li id="${i["jcr:name"]}">
+                    {if i.actorProfile && i.actorProfile.picture}
+                        <a href="/~${i.actorProfile["rep:userId"]}" target="_blank"><img src="/~${i.actorProfile["rep:userId"]}/public/profile/${i.actorProfile.picture.name}" alt="__MSG__PROFILE_PICTURE_FOR__ ${displayName}" class="entity_content_picture"/></a>
+                    {elseif i.actorProfile && i.actorProfile["rep:userId"]}
+                        <a href="/~${i.actorProfile["rep:userId"]}" target="_blank"><img src="/dev/images/user_avatar_icon_32x32.png" alt="__MSG__DEFAULT_PROFILE_PICTURE__" class="entity_content_picture"/></a>
+                    {else}
+                        <a href="/~${i.actorProfile}" target="_blank"><img src="/dev/images/user_avatar_icon_32x32.png" alt="__MSG__DEFAULT_PROFILE_PICTURE__" class="entity_content_picture"/></a>
+                    {/if}
+                    <span class="entity_content_name">
+                        {if i.actorProfile && i.actorProfile["rep:userId"]}
+                            <a class="s3d-regular-links s3d-bold" href="/~${i.actorProfile["rep:userId"]}" target="_blank">${displayName}</a>
+                        {else}
+                            <a class="s3d-regular-links s3d-bold" href="/~${i["sakai:activity-actor"]}" target="_blank">${displayName}</a>
+                        {/if}
+                    </span>
+                    <br />
+                    <span class="entity_content_activity">
+                        ${i["sakai:activityMessage"]}
+                         - ${sakai.api.Datetime.getTimeAgo(sakai.api.l10n.parseDateString(i["jcr:created"]))} __MSG__AGO__
+                         ${i.timeAgo}
+                    </span>
+                    </li>
+                {/for}
+                {if activitylist_index === 0}
+                    <div class="entity_content_list_empty">
+                        __MSG__NO_ACTIVITIES_FOUND__
+                    </div>
+                {/if}
+            </ul>
+        --></div>
+
+        <div class="dialog_buttons fl-force-right">
+            <button type="button" class="s3d-button s3d-button-primary jqmClose"><span class="s3d-button-inner">__MSG__CLOSE__</span></button>
+        </div>
+        <hr class="fl-push fl-hidden">
+    </div>
+
+    <!-- DIALOG FOOTER -->
+    <div class="dialog_footer">
+        <div class="dialog_footer_inner"><!-- --></div>
+    </div>
+</div>
+
+<!-- i18n MESSAGES -->
 <div id="entity_notifications" style="display:none">
     <span id="entity_group_membership">__MSG__GROUP_MEMBERSHIP__</span>
     <span id="entity_group_problem_removing">__MSG__PROBLEM_REMOVING_FROM_GROUP__</span>
@@ -286,6 +451,8 @@
     <span id="entity_group_problem_with_request">__MSG__PROBLEM_WITH_REQUEST__</span>
     <span id="entity_group_problem_adding">__MSG__PROBLEM_ADDING_TO_GROUP__</span>
     <span id="entity_group_adding_successful">__MSG__SUCCESSFULLY_ADDED_TO_GROUP__</span>
+    <span id="entity_content_places">__MSG__THE_FOLLOWING_GROUPS_USING_CONTENT__</span>
+    <span id="entity_content_poeple">__MSG__THE_FOLLOWING_PEOPLE_USING_CONTENT__</span>
 </div>
 
 <!-- JAVASCRIPT -->
