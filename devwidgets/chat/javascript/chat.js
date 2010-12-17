@@ -312,6 +312,22 @@ sakai.chat = function(tuid, showSettings){
     };
 
     /**
+     * This method escape meta charcaters(!"#$%&'()*+,./:;?@[\]^`{|}~) for userid.
+     * If id contain any of those character jquery selector wont work.
+     * For example, userid : kkyaw@ will not open the chat window at all SAKIII-1855.
+     * These characters are escaped by adding \\ in front of them.
+     * For kkyaw@ , it change to kkyaw\\@
+     * @param {Object} userid    Userid of the user for which a* 
+     * 
+     */
+    var escapeCharacters = function(userid){
+        // replace !"#$%&'()*+,./:;?@[\]^`{|}~ ) with \\ those characters
+        // for example userid kkyaw@ will be returned as kkyaw\\@.
+        // reference: http://api.jquery.com/category/selectors/
+        return userid.replace(/([!\"#$%&'\(\)\*\+,.\/:;?@\[\\\]^\`{|}~])$/gim,"\\$1");
+    };
+
+    /**
      * Open the chat window for a given user that already has a chat
      * window open
      * @param {Object} userid    Userid of the user for which a
@@ -319,6 +335,7 @@ sakai.chat = function(tuid, showSettings){
      */
     var openChatWindow = function(userid){
         setOpenWindows(userid);
+        userid = escapeCharacters(userid);
         $("#chat_online_button_" + userid).addClass("chat_online_button_visible");
         $("#chat_with_" + userid).show();
         $("#chat_with_" + userid + "_txt").focus();
