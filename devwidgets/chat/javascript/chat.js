@@ -648,6 +648,9 @@ sakai.chat = function(tuid, showSettings){
                         }
                     });
                 }
+            },
+            error: function(){
+                clearInterval(loadNewMessagesTimer);
             }
         });
     };
