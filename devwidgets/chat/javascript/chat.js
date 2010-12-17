@@ -310,22 +310,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             toggleOnlineContactsList();
         };
 
-       /**
-        * This method escape meta charcaters(!"#$%&'()*+,./:;?@[\]^`{|}~) for userid.
-        * If id contain any of those character jquery selector wont work.
-        * For example, userid : kkyaw@ will not open the chat window at all SAKIII-1855.
-        * These characters are escaped by adding \\ in front of them.
-        * For kkyaw@ , it change to kkyaw\\@
-        * @param {Object} userid    Userid of the user for which a*
-        *
-        */
+        /**
+         * This method escape meta charcaters(!"#$%&'()*+,./:;?@[\]^`{|}~) for userid.
+         * If id contain any of those character jquery selector wont work.
+         * For example, userid : kkyaw@ will not open the chat window at all SAKIII-1855.
+         * These characters are escaped by adding \\ in front of them.
+         * For kkyaw@ , it change to kkyaw\\@
+         * @param {Object} userid    Userid of the user for which a* 
+         * 
+         */
         var escapeCharacters = function(userid){
             // replace !"#$%&'()*+,./:;?@[\]^`{|}~ ) with \\ those characters
             // for example userid kkyaw@ will be returned as kkyaw\\@.
             // reference: http://api.jquery.com/category/selectors/
-            // ^\`{|}~
-            var re = new RegExp("([!\"#$%&\'()*+,.\/:;?@[\\]^`{|}~])", "g");
-            return userid.replace(re,"\\$1");
+            return userid.replace(/([!\"#$%&'\(\)\*\+,.\/:;?@\[\\\]^\`{|}~])$/gim,"\\$1");
         };
 
         /**
