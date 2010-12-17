@@ -43,9 +43,11 @@ sakai.api.Communication = sakai.api.Communication || {};
  * @param {String} [category="message"] The category for this message
  * @param {String} [reply] The id of the message you are replying on
  * @param {Function} [callback] A callback function which is executed at the end of the operation
+ * @param {Boolean} [sendMail] True if a mail needs to be sent, False if no mail is needed. Unles specified false the default will be true and a mail will be sent
+ * @param {Boolean|String} [mailContent] False or String of content that contains HTML or regular text
  *
  */
-sakai.api.Communication.sendMessage = function(to, subject, body, category, reply, callback) {
+sakai.api.Communication.sendMessage = function(to, subject, body, category, reply, callback, context, sendMail) {
 
     /////////////////////////////
     // CONFIGURATION VARIABLES //
@@ -53,6 +55,7 @@ sakai.api.Communication.sendMessage = function(to, subject, body, category, repl
 
     var toUsers = "";              // aggregates all message recipients
     var sendDone = false;          // has the send been issued?
+    var mail = sendMail || true;
 
     ///////////////////////
     // UTILITY FUNCTIONS //
@@ -76,6 +79,62 @@ sakai.api.Communication.sendMessage = function(to, subject, body, category, repl
             toUsers += "internal:" + userids.join(",internal:");
             toUsers = toUsers.replace(/internal\:\,/g, "");
         }
+    };
+
+    var setMailValuesForContext = function(toSend){
+        var person = sakai.data.me;
+        switch (context){
+            case "new_message":
+                //toSend["sakai:body"] = "";
+                toSend["sakai:subject"] = sakai.api.i18n.General.getValueForKey("YOU_HAVE_A_NEW_MESSAGE_FROM").replace(/\$\{displayName\}/g, sakai.api.User.getDisplayName(person.profile)).replace(/\$\{system\}/g, sakai.api.i18n.General.getValueForKey("INSTANCE_NAME"));
+                break;
+        }
+    };
+
+    var doSendMail = function(){
+        // Basic message details
+        var toSend = {
+            "sakai:type": "smtp",
+            "sakai:sendstate": "pending",
+            "sakai:messagebox": "outbox",
+            "sakai:to": toUsers,
+            "sakai:from": sakai.data.me.user.userid,
+            "sakai:subject": subject,
+            "sakai:body": body,
+            "sakai:category": "message",
+            "_charset_": "utf-8"
+        };
+
+        // Place mail-specific content if needed
+        if (context) {
+            setMailValuesForContext(toSend);
+        }
+
+        // Message category
+        if (category) {
+            toSend["sakai:category"] = category;
+        } else {
+            toSend["sakai:category"] = "message";
+        }
+
+        // Send message
+        $.ajax({
+            url: "/~" + sakai.data.me.user.userid + "/message.create.html",
+            type: "POST",
+            data: toSend,
+            success: function(data) {
+                if ($.isFunction(callback)) {
+                    callback(true, data);
+                }
+            },
+            error: function(xhr, textStatus, thrownError) {
+                if ($.isFunction(callback)) {
+                    callback(false, xhr);
+                }
+            }
+        });
+        // the send has been issued
+        sendDone = true;
     };
 
     /**
@@ -113,26 +172,20 @@ sakai.api.Communication.sendMessage = function(to, subject, body, category, repl
             url: "/~" + sakai.data.me.user.userid + "/message.create.html",
             type: "POST",
             data: toSend,
-            success: function(data) {
-
+            success: function(data){
                 if ($.isFunction(callback)) {
                     callback(true, data);
                 }
             },
-            error: function(xhr, textStatus, thrownError) {
-
-                debug.error("sakai.api.Communication.sendMessage(): Could not send message to " + to);
-
+            error: function(xhr, textStatus, thrownError){
                 if ($.isFunction(callback)) {
                     callback(false, xhr);
                 }
             }
         });
-
         // the send has been issued
         sendDone = true;
     };
-
 
     //////////////////
     // MAIN ROUTINE //
@@ -162,21 +215,25 @@ sakai.api.Communication.sendMessage = function(to, subject, body, category, repl
     }
 
     $.ajax({
-       url: "/system/batch",
-       method: "POST",
-       data: {
-           "requests": $.toJSON(reqs)
-       },
-       success: function(data){
-           // array of recipients
-           addRecipient(to);
-           // send now if we have only a list of users ("thread" safe?)
-           if (!sendDone) {
-               doSendMessage();
-           }
-       }
+        url: "/system/batch",
+        method: "POST",
+        data: {
+            "requests": $.toJSON(reqs)
+        },
+        success: function(data){
+            // array of recipients
+            addRecipient(to);
+            // send now if we have only a list of users ("thread" safe?)
+            if (!sendDone) {
+                if (mail) {
+                    doSendMail();
+                }
+                else {
+                    doSendMessage();
+                }
+            }
+        }
     });
-
 };
 
 /**
