@@ -209,19 +209,24 @@ sakai.navigation = function(tuid, showSettings){
 
         // Navigation node data
         var p_title = "";
+        var p_title_short = "";
         var p_id = "";
         var p_pagePosition;
         if (page_info["pageTitle"]) {
             p_title = sakai.api.Security.saneHTML(page_info["pageTitle"]);
             p_id = "nav_" + page_info["pageURLName"];
             p_pagePosition = parseInt(page_info.pagePosition, 10);
+            p_title_short = p_title;
+            if (p_title_short.length > 25){
+                p_title_short = p_title_short.substr(0, 24) + "...";
+            }
         }
 
         var node = {
             attr: { id: p_id },
             data: {
-                title: p_title,
-                attr: {"href": "#"},
+                title: p_title_short,
+                attr: {"href": "#", "title": p_title},
                 pagePosition: p_pagePosition
             },
             children:[]
