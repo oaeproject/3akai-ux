@@ -417,7 +417,7 @@
                     <br />
                     <span class="entity_content_activity">
                         ${i["sakai:activityMessage"]}
-                         - ${sakai.api.Datetime.getTimeAgo(sakai.api.l10n.parseDateString(i["jcr:created"]))} __MSG__AGO__
+                         - ${sakai.api.Datetime.getTimeAgo(sakai.api.l10n.parseDateString(i["sakai:activity-created"]))} __MSG__AGO__
                          ${i.timeAgo}
                     </span>
                     </li>

@@ -150,9 +150,13 @@ sakai.api.Activity.createActivity = function(nodeUrl, appID, templateID, extraDa
     // Create event url with appropriate selector
     var activityUrl = nodeUrl + ".activity.json";
 
+    // save the create date in GMT
+    var createDate = Globalization.format(sakai.api.l10ntoGMT(new Date()), "yyyy-MM-dd'T'HH:mm:ss");
+
     // Create data object to send
     var dataToSend = {
         "sakai:activity-appid": appID,
+        "sakai:activity-created": createDate,
         "sakai:activity-templateid": templateID
     };
     for (var i in extraData) {
