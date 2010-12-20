@@ -40,10 +40,9 @@
 
 
 /* HEADER */
-.header { padding: 10px 0 0 0; }
-.header .fixed-container { background-color: #FFF; }
-.header .fixed-container .decor_left {background:url("/dev/images/dashboard_sprite.png") no-repeat scroll left -10px transparent; float:left; height:5px; margin-left:-20px; width:5px;}
-.header .fixed-container .decor { background: url("/dev/images/dashboard_sprite.png") no-repeat scroll right -10px transparent; height: 5px; margin-right: -20px; }
+.s3d-header .fixed-container { background-color: #FFF;}
+.s3d-header .fixed-container .decor_left {background:url("/dev/images/dashboard_sprite.png") no-repeat scroll left -10px transparent; float:left; height:5px; margin-left:-20px; width:5px;}
+.s3d-header .fixed-container .decor { background: url("/dev/images/dashboard_sprite.png") no-repeat scroll right -10px transparent; height: 5px; margin-right: -20px; }
 
 /********************************************/
 /* Treeview */
@@ -142,7 +141,7 @@
 .fl-widget {padding: 0;}
 .fl-widget .fl-widget-titlebar h2 {padding-left:3px}
 .fl-widget .fl-widget-titlebar {background: url("/dev/images/dashboard_sprite.png") no-repeat scroll right -473px transparent; padding: 0 4px 0 0; width: auto;}
-.fl-widget .fl-widget-titlebar .widget-titlebar-inner {background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -10px -570px transparent; height: 47px}.fl-widget .fl-widget-options ul {margin: 0; padding: 0}
+.fl-widget .fl-widget-titlebar .widget-titlebar-inner {background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -10px -570px transparent; height: 49px}.fl-widget .fl-widget-options ul {margin: 0; padding: 0}
 .fl-widget .fl-widget-titlebar .widget_title {color: #878a8c; font-size: 1.0em; float: left; padding-left: 43px; line-height: 50px}
 .fl-widget .fl-widget-titlebar .settings {background-image: url(/dev/images/edit_icon_widget.png); position: relative; height: 18px; background-repeat: no-repeat; margin-top: 15px}
 

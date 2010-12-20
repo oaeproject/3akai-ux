@@ -163,7 +163,7 @@ a.s3d-regular-links, .s3d-regular-links a{
 .s3d-widget-titlebar {
     background:transparent url(/dev/images/block_tr.png) no-repeat scroll right top; 
     padding: 0 10px 0 0; 
-    height:50px;
+    height:49px;
 }
 .s3d-widget-titlebar-inner {
     background:transparent url(/dev/images/block_tl.png) no-repeat scroll left top; 
@@ -178,21 +178,9 @@ a.s3d-regular-links, .s3d-regular-links a{
     border-right: 3px solid #D4DADE;
 }
 
-.s3d-widget .s3d-widget-options-footer-left {
-    background-image:url("/dev/images/block_footer_bl.png");
-    background-position:left bottom;
-    background-repeat:no-repeat;
-    height:16px;
-    margin-top:-16px;
-}
+.s3d-widget .s3d-widget-options-footer-left { background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -70px -436px #D5DBDF; height: 12px;}
 
-.s3d-widget .s3d-widget-options-footer-right {
-    background-image:url("/dev/images/block_footer_br.png");
-    background-position:right bottom;
-    background-repeat:no-repeat;
-    height:16px;
-    margin-right:-8px;
-}
+.s3d-widget .s3d-widget-options-footer-right { background: url("/dev/images/dashboard_sprite.png") no-repeat scroll right -456px #D5DBDF; float: right; height: 12px; width: 16px;}
 
 .s3d-widget .s3d-widget-no-options, .s3d-no-options{
     background: url('/dev/images/content_br.png') top right no-repeat; 
@@ -207,15 +195,9 @@ a.s3d-regular-links, .s3d-regular-links a{
 /*
  * CONTENT LAYOUT 
  */
-.s3d-header .s3d-fixed-container {
-    background:url("/dev/images/header_l.png") no-repeat scroll left top #FFFFFF;
-}
+.s3d-header .s3d-fixed-container .s3d-decor-left {background: url("/dev/images/dashboard_sprite.png") no-repeat scroll 0 -10px transparent; float: left; height: 5px; margin-left: -20px; overflow: visible; width: 5px;}
 
-.s3d-header .s3d-fixed-container .s3d-decor {
-    background:url("/dev/images/header_r.png") no-repeat scroll right top transparent;
-    height:5px;
-    margin-right:-20px;
-} 
+.s3d-header .s3d-fixed-container .s3d-decor { background: url("/dev/images/dashboard_sprite.png") no-repeat scroll right -10px transparent; float: right; height: 5px; margin-right: -20px; position: relative; width: 5px;}
 
 .s3d-main-container {
     background: #ffffff;
