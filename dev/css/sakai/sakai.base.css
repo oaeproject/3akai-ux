@@ -311,6 +311,10 @@ a.s3d-action, .s3d-actions a {
     background-position: right -70px;
 }
 
+.s3d-button-link-2-state:hover {
+    background-position: right -120px;
+}
+
 .s3d-button::-moz-focus-inner {
     border: none; /* overrides extra padding in Firefox */
 }
@@ -341,7 +345,7 @@ html > body .s3d-button .s3d-button-inner {
 }
 
 .s3d-button-tertiary {
-    background-position: right -120px;
+    background-position: right -70px;
 }
 
 .s3d-button-primary .s3d-button-inner {
@@ -349,7 +353,7 @@ html > body .s3d-button .s3d-button-inner {
 }
 
 .s3d-button-tertiary .s3d-button-inner {
-    background-position: left -80px;
+    background-position: left -70px;
 }
 
 .s3d-button[disabled], .s3d-disabled {
@@ -445,6 +449,12 @@ html > body .s3d-button .s3d-button-inner {
 .s3d-button.s3d-button-inline.clicked .s3d-button-inner .s3d-button-icon-right {
     margin:6px 0px 0px 5px;
 }
+
+/* LINK BUTTON */
+.s3d-button-link-2-state {background: url("/dev/images/button_link_2_state.png") no-repeat scroll right -40px transparent;}
+.s3d-button-link-2-state-inner {background: url("/dev/images/button_link_2_state.png") no-repeat scroll left 0px transparent !important; margin: 0 !important; color: #333 !important;font-size:11px;}
+.s3d-button-link-2-state-inner-secondary {font-size:9px;}
+.s3d-button:hover .s3d-button-link-2-state-inner {background: url("/dev/images/button_link_2_state.png") no-repeat scroll left -80px transparent !important; color: #FFF !important;}
 
 .s3d-button.s3d-button-tab { background: url("/dev/images/tab_button_bg.png") no-repeat scroll right -25px transparent; margin-top: 3px; }
 .s3d-button.s3d-button-tab .s3d-button-inner { background: url("/dev/images/tab_button_bg.png") no-repeat scroll left top transparent; }

@@ -79,9 +79,3 @@ img.sm_suggestion_img{height:16px;width:16px;margin-right:5px;}
 #permissions_settings_item_private {background: url("/dev/images/people_icon.png") no-repeat scroll 0 3px transparent; padding: 6px 0 6px 25px;}
 
 .sharecontent_permission_anon {display: block; padding-right: 170px;}
-
-/* LINK BUTTON */
-.s3d-button-link-2-state {background: url("/dev/images/button_link_2_state.png") no-repeat scroll right -40px transparent;}
-.s3d-button-link-2-state-inner {background: url("/dev/images/button_link_2_state.png") no-repeat scroll left 0px transparent !important; margin: 0 !important; color: #333 !important;font-size:11px;}
-.s3d-button-link-2-state-inner-secondary {font-size:9px;}
-.s3d-button:hover .s3d-button-link-2-state-inner {background: url("/dev/images/button_link_2_state.png") no-repeat scroll left -80px transparent !important; color: #FFF !important;}
