@@ -29,22 +29,29 @@
         <!-- Core 3rd-party JS -->
         <script type="text/javascript" src="/dev/lib/jquery/jquery.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/jquery-ui.full.js"></script>
-        <script type="text/javascript" src="/dev/lib/Fluid/3akai_Infusion.js"></script>
-        <script type="text/javascript" src="/dev/lib/i10n/globalization.js"></script>
+        <script type="text/javascript" src="/dev/lib/fluid/3akai_Infusion.js"></script>
+        <script type="text/javascript" src="/dev/lib/misc/l10n/globalization.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.json.js"></script>
-        <script type="text/javascript" src="/dev/lib/google/html-sanitizer-minified.js"></script>
+        <script type="text/javascript" src="/dev/lib/misc/google/html-sanitizer-minified.js"></script>
 
         <!-- Sakai Core JS -->
-        <script type="text/javascript" src="/dev/lib/sakai_util/sakai_magic.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.core.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.util.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.i18n.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.l10n.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.user.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.widgets.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.groups.js"></script>
 
         <!-- 3rd-party JS -->
-        <script type="text/javascript" src="/dev/lib/sakai_util/trimpath.template.js"></script>
-        <script type="text/javascript" src="/dev/lib/sakai_util/querystring.js"></script>
+        <script type="text/javascript" src="/dev/lib/misc/trimpath.template.js"></script>
+        <script type="text/javascript" src="/dev/lib/misc/querystring.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jqmodal.sakai-edited.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.cookie.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.pager.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.ba-bbq.js"></script>
-        <script type="text/javascript" src="/dev/javascript/_history/search_history.js"></script>
+        <script type="text/javascript" src="/dev/javascript/history/search_history.js"></script>
+        <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.validate.sakai-edited.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.autoSuggest.sakai-edited.js"></script>
 
     </head>
@@ -58,9 +65,9 @@
         <div id="widget_topnavigation" class="widget_inline"></div>
 
         <!-- CONTENT -->
-        <div class="fl-container-flex content content_search">
-            <div class="fl-fix fl-centered fixed-container">
-                <div class="decor"></div>
+        <div class="fl-container-flex content content_search s3d-regular-links s3d-header">
+            <div class="fl-fix fl-centered fixed-container s3d-fixed-container">
+                <div class="s3d-decor"></div>
 
                 <!-- TITLE -->
                 <h1 class="title">__MSG__SEARCH_GROUPS__</h1>
@@ -71,6 +78,7 @@
                         <li><a id="tab_search_all" href="search.html#">__MSG__ALL__</a></li>
                         <li><a href="search_content.html#" id="tab_search_content">__MSG__CONTENT_AND_MEDIA__</a></li>
                         <li class="fl-tabs-active search_tab_selected"><a href="search_groups.html#" id="tab_search_sites">__MSG__GROUPS__</a></li>
+                        <li><a href="search_sakai2.html#" id="tab_search_sakai2">__MSG__SAKAI2__</a></li>
                         <li><a href="search_people.html#" id="tab_search_people">__MSG__PEOPLE__</a></li>
                     </ul>
                 </div>
@@ -81,7 +89,7 @@
                         <div class="search_tab_content_top_inner"></div>
                     </div>
 
-                    <div class="search_content_main">
+                    <div class="search_content_main s3d-content">
 
                         <!-- SEARCH BAR -->
                         <div class="fl-left fl-container fl-fix search_bar">
@@ -103,7 +111,7 @@
                         </div>
 
                         <!-- SEARCH RESULTS -->
-                        <div id="search_results_page1" class="search_results_container search_results_container_sub">
+                        <div id="search_results_page1" class="search_results_container s3d-highlight_area_background search_results_container_sub">
                             <div class="search_top_rounded"><div class="search_top_rounded_inner"><!-- --></div></div>
 
                             <!-- CONTENT -->
@@ -116,7 +124,7 @@
                                 <div id="search_result_results_located_in" style="display:none;"><span style="font-weight:normal">__MSG__RESULTS_LOCATED_IN__</span></div>
 
                                 <!-- CONTAINER FOR THE RESULTS -->
-                                <div id="search_results_container" class="search_padded_groups"></div>
+                                <div id="search_results_container" class="search_padded_groups s3d-highlight_area_background"></div>
 
                             </div>
 
@@ -126,12 +134,14 @@
                                     {if i['sakai:group-id']}
                                     {var groupsFound = true}
                                     <div class="fl-container fl-fix search_result">
+                                        <a href="/~${i.pagepath}">
                                         {if i.picture}
                                         <img src="${i.picture.picPath}" alt="group name">
                                         {else}
                                         <img src="/dev/images/group_avatar_icon_64x64_nob.png" alt="group name">
                                         {/if}
-                                        <div class="search_result_course_site_title"><a href="/~${i.pagepath}">${sakai.api.Util.shortenString(i["sakai:group-title"], 75)}</a></div>
+                                        </a>
+                                        <div class="search_result_course_site_title"><a class="s3d-regular-links s3d-bold" href="/~${i.pagepath}">${sakai.api.Util.shortenString(i["sakai:group-title"], 75)}</a></div>
                                         <div class="search_result_course_site_url"><a href="/~${i.pagepath}">${sakai.api.Util.shortenString(i.pagepath, 75)}</a></div>
                                         <div class="search_result_course_site_excerpt">${sakai.api.Util.shortenString(i["sakai:group-description"], 300)}</div>
                                     </div>
@@ -148,8 +158,8 @@
                         </div>
                     </div>
 
-                    <div class="search_tab_content_bottom">
-                        <div class="search_tab_content_bottom_inner"></div>
+                    <div class="s3d-no-options">
+                        <div class="s3d-no-options-inner"></div>
                     </div>
                 </div>
 

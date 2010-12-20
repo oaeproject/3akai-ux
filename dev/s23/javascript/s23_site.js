@@ -40,6 +40,9 @@ sakai.s23_site = function(){
     var s23SitePageContainerClass = ".s23_site_page_container";
     var s23SitePageContainerTag = "s23_site_page_container_";
     var s23SiteTitle = $(s23Site + "_title");
+    var s23GritterNotificationTitle = "#s23_gritter_notification_title";
+    var s23GritterNotificationMessage = "#s23_gritter_notification_message";
+    var s23GritterNotificationCancel = "#s23_gritter_notification_cancel";
 
     // Templates
     var s23SiteIframeContainerTemplate = "s23_site_iframe_container_template";
@@ -64,8 +67,8 @@ sakai.s23_site = function(){
         if(url1 == url2) {
             return true;
         }
-        // console.log(isUrl(url1) + ": " + url1 + "=" + urlRegExp.exec(url1)[4]);
-        // console.log(isUrl(url2) + ": " + url2 + "=" + urlRegExp.exec(url2)[4]);
+        // debug.log(isUrl(url1) + ": " + url1 + "=" + urlRegExp.exec(url1)[4]);
+        // debug.log(isUrl(url2) + ": " + url2 + "=" + urlRegExp.exec(url2)[4]);
         // i.e. protocol, domain (and optional port numbers) must match
         if((urlRegExp.exec(url1)[2] == urlRegExp.exec(url2)[2]) &&
            (urlRegExp.exec(url1)[4] == urlRegExp.exec(url2)[4])){
@@ -122,17 +125,19 @@ sakai.s23_site = function(){
 
                 // Render the tools of the site and add them to the page container
                 s23SiteIframeContainer.append($.TemplateRenderer(s23SiteIframeContainerTemplate, page));
+                var loadIframe = function() {
+                    $(this).height($(this).contents().find("body").height() + 15); // add 10px for IE and 5px more for Gradebook weirdness
+                };
                 for (var tool in page.tools){
-                    var iframe = $("#Main" + page.tools[tool].xid);
-                    var srcUrl = sakai.config.SakaiDomain + "/portal/tool/" + page.tools[tool].url + "?panel=Main";
-                    if(isSameOriginPolicy(window.location.href, srcUrl)) {
-                        iframe.load(function() {
-                            $(this).height($(this).contents().find("body").height() + 15); // add 10px for IE and 5px more for Gradebook weirdness
-                        });
+                    if (page.tools.hasOwnProperty(tool)) {
+                        var iframe = $("#Main" + page.tools[tool].xid);
+                        var srcUrl = sakai.config.SakaiDomain + "/portal/tool/" + page.tools[tool].url + "?panel=Main";
+                        if(isSameOriginPolicy(window.location.href, srcUrl)) {
+                            iframe.load(loadIframe);
+                        }
+                        iframe.attr("src", srcUrl);
                     }
-                    iframe.attr("src", srcUrl);
                 }
-                
             }
         }
     };
@@ -245,7 +250,12 @@ sakai.s23_site = function(){
             }
         });
     };
-
+    
+    var hideNotification = function(){
+        var json = {"sakai2notificaiton":false};
+        sakai.api.Util.notification.removeAll();
+        sakai.api.Server.saveJSON("/~" + sakai.data.me.user.userid+"/private/sakai2notification", json, function(success, data){});
+    }
 
     /////////////////////////////
     // Initialisation function //
@@ -255,6 +265,14 @@ sakai.s23_site = function(){
      * Function that get executed when the DOM is completely loaded
      */
     var init = function(){
+        // show sticky notification
+        sakai.api.Server.loadJSON("/~" + sakai.data.me.user.userid+"/private/sakai2notification", function(success, data){
+            if (!success) {
+                sakai.api.Util.notification.show($(s23GritterNotificationTitle).html(), $(s23GritterNotificationMessage).html(), sakai.api.Util.notification.type.INFORMATION, true);
+                $(".s23_gritter_notification_cancel").click(hideNotification);
+            }
+        });
+        
 
         // Check if the query string contains the parameter id
         if (qs.contains("id")) {

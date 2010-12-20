@@ -4,6 +4,6 @@
     "type":"core",
     "enabled":true,
     "i18n": {
-        "default": "/devwidgets/entity/bundles/default.json"
+        "default": "/devwidgets/entity/bundles/default.properties"
     }
 }

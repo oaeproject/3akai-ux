@@ -46,6 +46,7 @@ sakai.remotecontent = function(tuid, showSettings){
     var defaultWidth = 100;
     var defaultWidthUnit = "%";
     var defaultHeight = 200;
+    var clickSubmit = false;
 
     // Links and labels
     var remotecontent = "#remotecontent";
@@ -115,7 +116,7 @@ sakai.remotecontent = function(tuid, showSettings){
      *     false: is not an url
      */
     var isCompleteUrl = function(url){
-        var regEx = /^(?:ftp|https?):\/\/(?:(?:[\w\.\-\+%!$&'\(\)*\+,;=]+:)*[\w\.\-\+%!$&'\(\)*\+,;=]+@)?(?:[a-z0-9\-\.%]+)(?::[0-9]+)?(?:[\/|\?][\w#!:\.\?\+=&%@!$'~*,;\/\(\)\[\]\-]*)?$/
+        var regEx = new RegExp(/^(?:ftp|https?):\/\/(?:(?:[\w\.\-\+%!$&'\(\)*\+,;=]+:)*[\w\.\-\+%!$&'\(\)*\+,;=]+@)?(?:[a-z0-9\-\.%]+)(?::[0-9]+)?(?:[\/|\?][\w#!:\.\?\+=&%@!$'~*,;\/\(\)\[\]\-]*)?$/);
         return regEx.test(url);
     };
 
@@ -198,15 +199,10 @@ sakai.remotecontent = function(tuid, showSettings){
      * Save the remotecontent to the jcr
      */
     var saveRemoteContent = function(){
-        if (json.url === "" || json.url === 'http://'){
-            // Show a notification
-            sakai.api.Util.notification.show($(remotecontentTitle).html(), $(remotecontentSettingsUrlBlank).html());
-        } else if (isCompleteUrl(json.url)){
+        clickSubmit = true;
+        if ($("#remotecontent_form").valid()) {
             $(remotecontentSettingsPreview).html("");
             sakai.api.Widgets.saveWidgetData(tuid, json, savedDataToJCR);
-        } else {
-            // Show a notification
-            sakai.api.Util.notification.show($(remotecontentTitle).html(), $(remotecontentSettingsUrlError).html());
         }
     };
 
@@ -245,20 +241,45 @@ sakai.remotecontent = function(tuid, showSettings){
      * Add binding to all the elements
      */
     var addBinding = function(){
+        // this method append http:// or ftp:// or https:// 
+        $.validator.addMethod("appendhttp", function(value, element) {
+            if(value.substring(0,7) !== "http://" &&
+            value.substring(0,6) !== "ftp://" &&
+            value.substring(0,8) !== "https://" &&
+            $.trim(value) !== "") {
+                $(element).val("http://" + value);
+                json.url = "http://" + value;
+            }
+            return true;
+        }, "No error message, this is just an appender");
+
+        // FORM VALIDATION 
+        $("#remotecontent_form").validate({
+            onkeyup: false,
+            errorPlacement: function(error, element){
+                if (clickSubmit) {
+                    sakai.api.Util.notification.show($(remotecontentTitle).html(), $(error).html());
+                    clickSubmit = false;
+                }
+            }
+        });
+    
+        // define rules for the url
+        $(remotecontentSettingsUrl).rules("add", {
+            required: true,
+            appendhttp: true,
+            url: true,
+            messages: {
+                required: $(remotecontentSettingsUrlBlank).html(),
+                url: $(remotecontentSettingsUrlError).html()
+            }
+        });
 
         // Change the url for the iFrame
         $(remotecontentSettingsUrl).change(function(){
             var urlValue = $(this).val();
-            json.url = urlValue;
-            if (urlValue !== "") {
-                // Check if someone already wrote http inside the url
-                if (!isUrl(urlValue)) {
-                    urlValue = 'http://' + urlValue;
-                }
-                if (isCompleteUrl(urlValue) && urlValue !== 'http://') {
-                    json.url = urlValue;
-                    renderIframeSettings(true);
-                }
+            if ($("#remotecontent_form").valid()) {
+                renderIframeSettings(true);
             }
         });
 

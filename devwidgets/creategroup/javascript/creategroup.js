@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config */
+/*global $ */
 
 var sakai = sakai || {};
 
@@ -72,8 +72,6 @@ sakai.creategroup = function(tuid, showSettings){
     // CSS Classes
     var invalidFieldClass = "invalid";
 
-    // Pages to be added to the group
-    var pagestemplate = "defaultgroup";
     var changedURLManually = false;
 
     ///////////////////////
@@ -175,117 +173,29 @@ sakai.creategroup = function(tuid, showSettings){
     // Create a group //
     ///////////////////
 
-    /**
-     * Check if the group is created correctly and exists
-     * @param {String} groupid
-     */
-    var doCheckGroup = function(groupid){
-        // Check if the group exists.
-        var groupExists = false;
-
-        $.ajax({
-            url: "/~" + groupid + ".json",
-            type: "GET",
-            async: false,
-            success: function(data, textStatus){
-                groupExists = true;
-            },
-            error: function(xhr, textStatus, thrownError){
-                groupExists = true;
-            }
-        });
-        return groupExists;
-    };
-
-    /**
-     * Create the group.
-     * @param {String} groupid the id of the group that's being created
-     * @param {String} grouptitle the title of the group that's being created
-     * @param {String} groupdescription the description of the group that's being created
-     * @param {String} groupidManagers the id of the managers group for the group that's being created
-    */
-    var doSaveGroup = function(groupid, grouptitle, groupdescription){
-    // Create a group with the managers group
-
-        $.ajax({
-            url: sakai.config.URL.GROUP_CREATE_SERVICE,
-            data: {
-                "_charset_":"utf-8",
-                ":name": groupid,
-                ":sakai:manager": sakai.data.me.user.userid,
-                "sakai:group-title" : grouptitle,
-                "sakai:group-description" : groupdescription,
-                "sakai:group-id": groupid,
-                ":sakai:pages-template": "/var/templates/site/" + pagestemplate,
-                "sakai:pages-visible": sakai.config.Permissions.Groups.visible["public"]
-            },
-            type: "POST",
-            success: function(data, textStatus){
-                // check if the group exists
-                if (doCheckGroup(groupid)) {
-                    // set default permissions for this group
-                    sakai.api.Groups.setPermissions(groupid,
-                        sakai.config.Permissions.Groups.joinable.manager_add,
-                        sakai.config.Permissions.Groups.visible["public"],
-                        function (success, errorMessage) {
-                            if(success) {
-                                // show the group
-                                document.location = "/~" + groupid;
-                            } else {
-                                debug.error("creategroup.js doSaveGroup failed to set group permissions: " + errorMessage);
-                            }
-                        });
-                }
-            },
-            error: function(xhr, textStatus, thrownError){
-                var groupCheck = doCheckGroup(groupid);
-                if (groupCheck){
-                    setError(createGroupAddId,createGroupAddIdTaken,true);
-                } else {
-                    debug.error("An error has occurred: " + xhr.status + " " + xhr.statusText);
-                }
-                showProcess(false);
-            }
-        });
-    };
-
-
     var saveGroup = function(){
-        resetErrorFields();
-
         // Get the values from the input text and radio fields
         var grouptitle = $(createGroupAddName).val() || "";
         var groupdescription = $(createGroupAddDescription).val() || "";
         var groupid = replaceCharacters($(createGroupAddId).val());
         var inputError = false;
 
-        // Check if there is a group id or group title defined
-        if (grouptitle === "")
-        {
-            setError(createGroupAddName,createGroupAddNameEmpty,true);
-            inputError = true;
-        } else if (grouptitle.length < 3) {
-            setError(createGroupAddName,createGroupAddNameShort,true);
-            inputError = true;
-        }
-        if (!groupid)
-        {
-            setError(createGroupAddId,createGroupAddIdEmpty,true);
-            inputError = true;
-        } else if (groupid.length < 3) {
-            setError(createGroupAddId,createGroupAddIdShort,true);
-            inputError = true;
-        }
-
-        if (inputError)
-        {
-            return;
-        }
-        else
-        {
+        if($("#creategroup_form").valid()) {
             // Hide the buttons and show the process status
             showProcess(true);
-            doSaveGroup(groupid, grouptitle, groupdescription);
+            sakai.api.Groups.createGroup(groupid, grouptitle, groupdescription, function(success, nameTaken) {
+                if (success) {
+                    document.location = "/~" + groupid;
+                } else if (!success) {
+                    if (nameTaken) {
+                        setError(createGroupAddId,createGroupAddIdTaken,true);
+                    }
+                    showProcess(false);
+                }
+            });
+        }
+        else {
+            return;
         }
     };
 
@@ -314,7 +224,6 @@ sakai.creategroup = function(tuid, showSettings){
         saveGroup();
     });
 
-
     /*
      * When you change something in the name of the group, it first removes the bad characters
      * and then it shows the edited url in the span
@@ -323,6 +232,7 @@ sakai.creategroup = function(tuid, showSettings){
         if (!changedURLManually) { // only change the url if the user hasn't changed it themselves
             var entered = replaceCharacters($(this).val());
             $(createGroupAddId).val(entered);
+            resetErrorFields();
         }
     });
 
@@ -330,15 +240,43 @@ sakai.creategroup = function(tuid, showSettings){
         changedURLManually = true;
         var entered = replaceCharacters($(this).val());
         $(createGroupAddId).val(entered);
-    });
-
-    /*
-     *  When user change the group url address, reset error fields.
-     */
-    $(createGroupAddId).bind("keyup",function(ev){
-        // reset error field.
         resetErrorFields();
     });
+
+    $("#creategroup_form").validate({
+        errorClass: "creategroup_error_msg",
+        errorElement: "span",
+        highlight: function(element, errorClass) {
+            $(element).addClass("invalid");
+        },
+        unhighlight: function(element, errorClass, validClass) {
+            $(element).removeClass("invalid");
+        },
+        onclick:false,
+        onkeyup:false,
+        onfocusout:false,
+        rules: {
+            creategroup_add_name: {
+                required: true,
+                minlength: 3
+            },
+            creategroup_add_id: {
+                required: true,
+                minlength: 3
+            }
+        },
+        messages: {
+            creategroup_add_name:  {
+                required: $(createGroupAddNameEmpty).text(),
+                minlength: $(createGroupAddNameShort).text()
+            },
+            creategroup_add_id: {
+                required: $(createGroupAddIdEmpty).text(),
+                minlength: $(createGroupAddIdShort).text()
+            }
+        }
+    });
+
 
     /////////////////////////////
     // Initialisation function //

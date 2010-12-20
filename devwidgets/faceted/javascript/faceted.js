@@ -19,6 +19,9 @@
 
 var sakai = sakai || {};
 
+/**
+ * @name sakai.api.UI.faceted
+ */
 sakai.api.UI.faceted = sakai.api.UI.faceted || {};
 sakai.api.UI.faceted.render = sakai.api.UI.faceted.render || {};
 
@@ -54,10 +57,14 @@ sakai.faceted = function(tuid){
      * Render the template
      */
     var renderTemplateFaceted = function(facetedConfig){
-        // Render the faceted.
-        $(facetedContainer).html($.TemplateRenderer(facetedDefaultTemplate, facetedConfig));
+        if (sakai.data.me.user.anon) {
+          $(facetedContainer).hide();
+        } else {
+          // Render the faceted.
+          $(facetedContainer).html($.TemplateRenderer(facetedDefaultTemplate, facetedConfig));
 
-        addBinding();
+          addBinding();
+        }
     };
 
 
@@ -86,7 +93,7 @@ sakai.faceted = function(tuid){
             $(".faceted_category").removeClass("faceted_category_selected");
             $(this).addClass("faceted_category_selected");
         });
-    }
+    };
 
 
     ////////////////////

@@ -31,10 +31,12 @@ sakai.search = function() {
     var tagterm = "";
     var currentpage = 0;
     var currentfacet = "";
-    
+
     // Add Group Button links
     var createGroupContainer = "#creategroupcontainer";
     var searchAddGroupButton = ".search_add_group_button";
+
+    var searchAjaxCall = false;
 
     // Search URL mapping
     var searchURLmap = {
@@ -79,7 +81,8 @@ sakai.search = function() {
             all : "#tab_search_all",
             content : "#tab_search_content",
             people : "#tab_search_people",
-            sites : "#tab_search_sites"
+            sites : "#tab_search_sites",
+            sakai2 : "#tab_search_sakai2"
         },
         results : {
             container : search + '_results_container',
@@ -94,18 +97,21 @@ sakai.search = function() {
                 "all": {
                     "category": "All Groups",
                     "searchurl": searchURLmap.allgroups
-                },
-                "manage": {
-                    "category": "Groups I manage",
-                    "searchurl": searchURLmap.managergroups
-                },
-                "member": {
-                    "category": "Groups I'm a member of",
-                    "searchurl": searchURLmap.membergroups
                 }
             }
         }
     };
+
+    if (!sakai.data.me.user.anon) {
+        searchConfig.facetedConfig.facets.manage = {
+           "category": "Groups I manage",
+           "searchurl": searchURLmap.managergroups
+        };
+        searchConfig.facetedConfig.facets.member = {
+           "category": "Groups I'm a member of",
+           "searchurl": searchURLmap.membergroups
+        };
+    }
 
 
     ///////////////
@@ -144,12 +150,18 @@ sakai.search = function() {
      * @param {String} searchquery The searchterm you want to look for (optional / default = input box value.)
      * @param {String} searchwhere The subset of sites you want to search in
      */
-    sakai._search.doHSearch = function(page, searchquery, searchwhere, facet) {
+    sakai._search.doHSearch = function(page, searchquery, searchwhere, facet, killPreviousAjaxCall) {
+
+        // if killpreviousajaxcall is true then kill the previous ajax request
+        if (killPreviousAjaxCall) {
+            searchAjaxCall.abort();
+        }
+
         if (!page) {
             page = 1;
         }
         if (!searchquery) {
-            searchquery = $(searchConfig.global.text).val().toLowerCase();
+            searchquery = $(searchConfig.global.text).val();
         }
         if (!searchwhere) {
             searchwhere = mainSearch.getSearchWhereSites();
@@ -159,6 +171,7 @@ sakai.search = function() {
         }
 
         currentpage = page;
+
         // This will invoke the sakai._search.doSearch function and change the url.
         History.addBEvent(page, encodeURIComponent(searchquery), searchwhere, facet);
     };
@@ -266,7 +279,7 @@ sakai.search = function() {
         }
 
         $(searchConfig.results.header).show();
-        
+
         // Render the results.
         $(searchConfig.results.container).html($.TemplateRenderer(searchConfig.results.template, finaljson));
         $(".search_results_container").show();
@@ -324,12 +337,12 @@ sakai.search = function() {
 
         // Get the search term out of the input box.
         // If we were redirected to this page it will be added previously already.
-        searchterm = $(searchConfig.global.text).val().toLowerCase();
+        searchterm = $(searchConfig.global.text).val();
 
         // Rebind everything
         mainSearch.addEventListeners(searchterm, searchwhere);
 
-        if (searchquery && searchterm && searchterm !== $(searchConfig.global.text).attr("title").toLowerCase()) {
+        if (searchquery && searchterm && searchterm !== $(searchConfig.global.text).attr("title")) {
 
             // Show and hide the correct elements.
             showSearchContent();
@@ -339,24 +352,20 @@ sakai.search = function() {
             // sites Search
             var searchWhere = mainSearch.getSearchWhereSites();
 
-            var urlsearchterm = "";
-            var splitted = searchterm.split(" ");
-            for (var i = 0; i < splitted.length; i++) {
-                urlsearchterm += splitted[i] + "~" + " " + splitted[i] + "*" + " ";
-            }
+            var urlsearchterm = sakai.api.Server.createSearchString(searchterm);
 
             var searchURL = sakai.config.URL.SEARCH_GROUPS;
             var params = {
                 page: (currentpage - 1),
                 items: resultsToDisplay,
                 q: urlsearchterm
-            }
+            };
 
             // Check if we want to search using a faceted link
             if (facetedurl) {
                 // only simple search terms supported for these URLs - KERN-1020
                 if (facetedurl === sakai.config.URL.GROUPS_MANAGER || facetedurl === sakai.config.URL.GROUPS_MEMBER) {
-                    urlsearchterm = searchterm
+                    urlsearchterm = searchterm;
                 }
 
                 searchURL = facetedurl;
@@ -365,10 +374,10 @@ sakai.search = function() {
                     items: resultsToDisplay,
                     q: urlsearchterm,
                     facet: facet
-                }
+                };
             }
 
-            $.ajax({
+            searchAjaxCall = $.ajax({
                 url: searchURL,
                 data: params,
                 cache: false,
@@ -414,19 +423,24 @@ sakai.search = function() {
     /**
      * Show the popup to create a new group.
      */
- 	var createNewGroup = function(){
- 	    $(createGroupContainer).show();
- 	    // Load the creategroup widget.
- 	    sakai.creategroup.initialise();
- 	};
-    
-    
+    var createNewGroup = function(){
+        $(createGroupContainer).show();
+        // Load the creategroup widget.
+        sakai.creategroup.initialise();
+    };
+
+
     ////////////////////
     // Event Handlers //
- 	////////////////////
- 	$(searchAddGroupButton).bind("click", function(ev){
- 	    createNewGroup();
- 	});
+    ////////////////////
+    if (sakai.data.me.user.anon) {
+        $(searchAddGroupButton).hide();
+        $("#search_results_page1").removeClass("search_results_container_sub");
+    } else {
+        $(searchAddGroupButton).bind("click", function(ev){
+            createNewGroup();
+        });
+    }
 
     /**
      * Will reset the view to standard.
@@ -444,9 +458,9 @@ sakai.search = function() {
      * Will fetch the sites and add a new item to the history list.
      */
     var doInit = function() {
-
         // Get my sites
         mainSearch.getMySites();
+        
         // Add the bindings
         mainSearch.addEventListeners();
 

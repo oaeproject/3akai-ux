@@ -1,5 +1,0 @@
-module("Content");
-
-(function(){
-
-})();

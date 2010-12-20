@@ -3,7 +3,7 @@
 
 <!-- MAIN VIEW -->
 <div id="discussion_main_container" style="display:none">
-    <div class="fl-widget-content">
+    <div class="fl-widget-content s3d-widget-content">
         <div id="discussion_widget_header_wrapper">
             <div id="discussion_widget_title_wrapper">
                 <h3 id="discussion_widget_header" style="display:none">__MSG__WIDGET_TITLE__</h3>
@@ -11,7 +11,7 @@
                     <button id="discussion_add_newtopic" class="s3d-button s3d-button-primary" type="button" style="display:none">
                         <span class="s3d-button-inner">__MSG__ADD_NEW_TOPIC__</span>
                     </button>
-                    <div class="discussion_view_options fl-force-right">
+                    <div class="discussion_view_options fl-force-right s3d-regular-light-links">
                         <a id="discussion_compact_link" title="__MSG__COMPACT_VIEW_ALT__" href="javascript:;" class="s3d-action">__MSG__C_COMPACT_VIEW__</a>
                         <a id="discussion_full_link" title="__MSG__FULL_VIEW_ALT__" href="javascript:;" class="s3d-action">__MSG__C_FULL_VIEW__</a>
                         <a id="discussion_expand_link" title="__MSG__SHOW_ALL_ALT__" href="javascript:;" class="s3d-action">__MSG__SHOW_ALL__</a>
@@ -36,7 +36,7 @@
         </div>
 
         <!-- MAIN CONTAINER FOR DISCUSSIONS -->
-        <div id="discussion_container">
+        <div id="discussion_container" class="s3d-regular-light-links">
 
         </div>
 
@@ -116,8 +116,8 @@
             {/for}
         {/if}
     --></div></div>
-        <div class="fl-widget-no-options fl-fix">
-            <div class="widget-no-options-inner"></div>
+        <div class="s3d-widget-no-options fl-fix">
+            <div class="s3d-widget-no-options-inner"></div>
         </div>
 
         <div id="discussion_container_template" style="display:none"><!--
@@ -239,7 +239,7 @@
 
 <!-- SETTINGS VIEW -->
 <div id="discussion_settings" style="display:none">
-    <div class="fl-widget-content">
+    <div class="fl-widget-content s3d-widget-content">
         <form>
             <div class="s3d-primary-tabs">
                 <ul class="fl-tabs fl-tabs-right">
@@ -293,13 +293,13 @@
                     <button type="button" class="s3d-button" id="discussion_settings_cancel"><span class="s3d-button-inner">__MSG__DONT_SAVE__</span></button>
                 </div>
             </div>
-            <div id="discussion_tab_content_bottom">
-                <div id="discussion_tab_content_bottom_inner"><!-- --></div>
+            <div id="s3d-widget-no-options">
+                <div id="s3d-widget-no-options-inner"><!-- --></div>
             </div>
         </form>
     </div>
-    <div class="fl-widget-no-options fl-fix">
-        <div class="widget-no-options-inner"></div>
+    <div class="s3d-widget-no-options fl-fix">
+        <div class="s3d-widget-no-options-inner"></div>
     </div>
 </div>
 

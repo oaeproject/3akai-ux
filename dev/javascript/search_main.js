@@ -143,7 +143,7 @@ sakai._search = function(config, callback) {
      */
     var addEventListeners = function(searchterm, searchwhere) {
         /** The top tabs */
-        $(searchConfig.tabs.all + ", " + searchConfig.tabs.people + ", " + searchConfig.tabs.sites + ", " + searchConfig.tabs.content).live("click", function(ev) {
+        $(searchConfig.tabs.all + ", " + searchConfig.tabs.people + ", " + searchConfig.tabs.sites + ", " + searchConfig.tabs.content+ ", " + searchConfig.tabs.sakai2).live("click", function(ev) {
             var url = $(this).attr("href").split("#")[0] + "#";
             var frag = $.deparam.fragment();
             frag["filter"] = ""; // clear the filter
@@ -235,14 +235,16 @@ sakai._search = function(config, callback) {
             }
             // Modify the tags if there are any
             if(finaljson.items[i]["sakai:tags"]){
-                if (typeof(finaljson.items[i]["sakai:tags"]) === 'string')
+                if (typeof(finaljson.items[i]["sakai:tags"]) === 'string') {
                     finaljson.items[i]["sakai:tags"] = finaljson.items[i]["sakai:tags"].split(",");
+                }
 
                 for(var k = 0, l = finaljson.items[i]["sakai:tags"].length; k < l; k++){
 
                     // If the searchterm occures in the tags, make it bold
-                    if (finaljson.items[i]["sakai:tags"][k])
+                    if (finaljson.items[i]["sakai:tags"][k]) {
                         finaljson.items[i]["sakai:tags"][k] = convertTermToBold(finaljson.items[i]["sakai:tags"][k], searchterm);
+                    }
                 }
             }
         }
@@ -401,22 +403,7 @@ sakai._search = function(config, callback) {
      * @param {String} term The search term that needs to be converted.
      */
     var prepSearchTermForURL = function(term) {
-        var urlterm = "";
-        var splitted = $.trim(term).split(/\s/);
-        if (splitted.length > 1) {
-            for (var i = 0; i < splitted.length; i++) {
-                if (splitted[i]) {
-                    urlterm += "*" + splitted[i] + "* "
-                    if (i < splitted.length - 1) {
-                        urlterm += "OR ";
-                    }
-                }
-            }
-        }
-        else {
-            urlterm = "*" + term + "*";
-        }
-        return urlterm;
+        return sakai.api.Server.createSearchString(term);
     };
 
     /**
@@ -440,13 +427,25 @@ sakai._search = function(config, callback) {
                 var facet = $(this).attr("id");
                 var searchquery = $(searchConfig.global.text).val();
                 var searchwhere = getSearchWhereSites();
+
+                // sometimes page search takes a long time and 
+                // if another link is clicked in between load old link data instead of new link
+                // so need to check if new link is clicked kill the previous ajax request.
+                var killPreviousAjaxCall = false;
+                /*if (mainFacetedUrl !== searchConfig.facetedConfig.facets[facet].searchurl) {
+                    killPreviousAjaxCall = true;
+                }*/
+                
                 mainFacetedUrl = searchConfig.facetedConfig.facets[facet].searchurl;
-                sakai._search.doHSearch(1, searchquery, searchwhere, facet);
+                sakai._search.doHSearch(1, searchquery, searchwhere, facet, killPreviousAjaxCall);
             });
 
         });
     };
 
+    if(sakai.config.showSakai2) {
+        $("#tab_search_sakai2").show();
+    }
     return {
         'getMySites': getMySites,
         'getFacetedUrl': getFacetedUrl,

@@ -21,10 +21,10 @@
 
 #filerevisions_template_container ul {padding: 0; margin:0;}
 #filerevisions_template_container ul li{list-style: none; padding:7px;}
-#filerevisions_template_container .li_greybg {background-color:#EEF2F5;}
 
 #filerevisions_template_container .filerevisions_editor_name {color:#058EC4; font-weight:bold;}
 
 #filerevisions_template_container .filerevisions_download_version {float:right; color:#058EC4; font-weight:bold;}
 #filerevisions_template_container #filerevisions_close {float:right; margin-top:5px;}
-#filerevisions_template_container hr {margin-top:10px; visibility:hidden;}
+
+#filerevisions_template_container ul .s3d-highlight_area_background {margin: 0px;}

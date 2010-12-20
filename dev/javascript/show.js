@@ -55,6 +55,7 @@ sakai.show = function() {
     var entityWidgetReady = false;
     var renderedPagesWidget = false;
     var renderedEntityWidget = false;
+    var $launch_help = $("#launch_help");
 
 
     /**
@@ -71,7 +72,7 @@ sakai.show = function() {
             if (querystring.contains("id")) {
                 entityID = querystring.get("id");
             } else if (entityType === "user") { // if there's no ID, assume its meant for you
-            	entityID = sakai.data.me.user.userid;
+                entityID = sakai.data.me.user.userid;
             }
         }
         sakai.api.Server.loadJSON("/~" + entityID + "/public/authprofile", function(success, data) {
@@ -134,11 +135,12 @@ sakai.show = function() {
     var getGroupData = function() {
         sakai.currentgroup.id = entityID;
         sakai.currentgroup.data = entityData;
-        if (sakai.currentgroup.data.authprofile["sakai:customStyle"]) {
-            $.Load.requireCSS(sakai.currentgroup.data.authprofile["sakai:customStyle"]);
-        }
         postDataRetrieval();
-        sakai.api.Security.showPage();
+        sakai.api.Security.showPage(function() {
+            if (sakai.currentgroup.data.authprofile["sakai:customStyle"]) {
+                sakai.api.Util.include.css(sakai.currentgroup.data.authprofile["sakai:customStyle"]);
+            }
+        });
         var pageTitle = sakai.api.i18n.General.getValueForKey(sakai.config.PageTitles.prefix);
         document.title = pageTitle + entityData.authprofile["sakai:group-title"];
     };
@@ -163,16 +165,16 @@ sakai.show = function() {
             // Set the profile data object
             sakai.profile.main.data = $.extend(true, {}, sakai.data.me.profile);
 
-            if (sakai.profile.main.data.activity)
+            if (sakai.profile.main.data.activity) {
                 delete sakai.profile.main.data.activity;
-
-            if (sakai.profile.main.data.authprofile["sakai:customStyle"]) {
-                $.Load.requireCSS(sakai.profile.main.data.authprofile["sakai:customStyle"]);
             }
 
             postDataRetrieval();
-            sakai.api.Security.showPage();
-
+            sakai.api.Security.showPage(function() {
+                if (sakai.profile.main.data.authprofile["sakai:customStyle"]) {
+                    sakai.api.Util.include.css(sakai.profile.main.data.authprofile["sakai:customStyle"]);
+                }
+            });
         } else {
 
             // Set the correct userprofile data
@@ -183,14 +185,14 @@ sakai.show = function() {
 
             // Set the status for the user you want the information from
             if(userprofile.basic && userprofile.basic.elements.status){
-            	sakai.profile.main.status = userprofile.basic.elements.status.value;
+                sakai.profile.main.status = userprofile.basic.elements.status.value;
             }
 
             // Set the profile data object
             sakai.profile.main.data = $.extend(true, {}, userprofile);
 
             if (sakai.profile.main.data["sakai:customStyle"]) {
-                $.Load.requireCSS(sakai.profile.main.data["sakai:customStyle"]);
+                sakai.api.Util.include.css(sakai.profile.main.data["sakai:customStyle"]);
             }
 
             postDataRetrieval();
@@ -209,6 +211,7 @@ sakai.show = function() {
                 break;
             case "group":
                 getGroupData();
+                loadHelp('groupHelp', 'group');
                 break;
         }
     };
@@ -295,6 +298,43 @@ sakai.show = function() {
             loadPagesWidget();
         }
     });
+
+    var triggerHelp = function(profileFlag, whichHelp) {
+        // only show to the manager who created the group
+        if (canEdit) {
+            $launch_help.show();
+            $launch_help.bind("click", function() {
+                $(window).trigger("sakai-help-init", {
+                    profileFlag: profileFlag,
+                    whichHelp: whichHelp,
+                    force: true
+                });
+                return false;
+            });
+            if (sakai.currentgroup &&
+            sakai.currentgroup.data &&
+            sakai.currentgroup.data.authprofile &&
+            !sakai.currentgroup.data.authprofile.beenVisited) {
+                $(window).trigger("sakai-help-init", {
+                    profileFlag: profileFlag,
+                    whichHelp: whichHelp
+                });
+                sakai.currentgroup.data.authprofile.beenVisited = true;
+                sakai.api.Groups.updateGroupProfile(sakai.currentgroup.id, sakai.currentgroup.data.authprofile);
+            }
+        }
+    };
+
+    var loadHelp = function(profileFlag, whichHelp) {
+        if (!sakai.help || !sakai.help.isReady) {
+            $(window).bind("sakai-help-ready", function() {
+                triggerHelp(profileFlag, whichHelp);
+            });
+        } else {
+            triggerHelp(profileFlag, whichHelp);
+        }
+    };
+
 
     ////////////////////
     // INITIALISATION //

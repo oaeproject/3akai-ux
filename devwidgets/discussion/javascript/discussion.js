@@ -257,7 +257,8 @@ sakai.discussion = function(tuid, showSettings){
         var post = {
             'sakai:subject': subject,
             'sakai:body': body,
-            'sakai:editedby': me.user.userid
+            'sakai:editedby': me.user.userid,
+            '_charset_':'utf-8'
         };
 
         $.ajax({
@@ -272,7 +273,7 @@ sakai.discussion = function(tuid, showSettings){
                 }
             },
             error: function(xhr, textStatus, thrownError){
-                alert("Failed to edit this post.");
+                sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("FAILED_EDIT_POST"),"",sakai.api.Util.notification.type.ERROR);
             },
             data: post,
             type: 'POST'
@@ -682,11 +683,9 @@ sakai.discussion = function(tuid, showSettings){
                 'sakai:replyon': id,
                 'sakai:messagebox': 'outbox',
                 'sakai:sendstate': 'pending',
-                'sakai:to': "discussion:w-" + store
+                'sakai:to': "discussion:w-" + store,
+                '_charset_':'utf-8'
             };
-/*            sakai.api.Widgets.saveWidgetData(tuid, object, function(success, data){
-                alert("I seem to have saved a discussion topic.");
-            });*/
             var url = store + ".create.html";
             $.ajax({
                 url: url,
@@ -699,17 +698,17 @@ sakai.discussion = function(tuid, showSettings){
                 error: function(xhr, textStatus, thrownError){
                     if (xhr.status === 401) {
                         clearReplyFields();
-                        alert("You are not allowed to add a reply.");
+                        sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("YOU_CANT_REPLY"),"",sakai.api.Util.notification.type.ERROR);
                     }
                     else {
-                        alert("Failed to add a reply.");
+                        sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("FAILED_ADD_REPLY"),"",sakai.api.Util.notification.type.ERROR);
                     }
                 },
                 data: object
             });
         }
         else {
-            alert("Please enter all the fields.");
+            sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("PLEASE_ENTER_ALL_FIELDS"),"",sakai.api.Util.notification.type.ERROR);
         }
     };
 
@@ -768,7 +767,7 @@ sakai.discussion = function(tuid, showSettings){
                 getPostsFromJCR();
             },
             error: function(xhr, textStatus, thrownError){
-                alert("Failed to delete this post.");
+                sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("FAILED_DELETE_POST"),"",sakai.api.Util.notification.type.ERROR);
             },
             data: data
         });
@@ -794,15 +793,12 @@ sakai.discussion = function(tuid, showSettings){
                 'sakai:type': 'discussion',
                 'sling:resourceType': 'sakai/message',
                 'sakai:writeto': store,
-                'sakai:marker': tuid,
                 'sakai:initialpost': true,
                 'sakai:messagebox': 'outbox',
                 'sakai:sendstate': 'pending',
-                'sakai:to': "discussion:w-" + store
+                'sakai:to': "discussion:w-" + store,
+                '_charset_':"utf-8"
             };
-/*            sakai.api.Widgets.saveWidgetData(tuid, object, function(success, data){
-                alert("I seem to have saved a discussion topic.");
-            });*/
             var url = store + ".create.html";
             $.ajax({
                 url: url,
@@ -815,10 +811,10 @@ sakai.discussion = function(tuid, showSettings){
                 error: function(xhr, textStatus, thrownError){
                     if (xhr.status === 401) {
                         clearReplyFields();
-                        alert("You are not allowed to add a reply.");
+                        sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("YOU_CANT_REPLY"),"",sakai.api.Util.notification.type.ERROR);
                     }
                     else {
-                        alert("Failed to add a reply.");
+                        sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("FAILED_ADD_REPLY"),"",sakai.api.Util.notification.type.ERROR);
                     }
                     $(discussionAddTopicSubmit).removeAttr("disabled");
                 },
@@ -826,7 +822,7 @@ sakai.discussion = function(tuid, showSettings){
             });
         }
         else {
-            alert("Please enter all the fields.");
+            sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("PLEASE_ENTER_ALL_FIELDS"),"",sakai.api.Util.notification.type.ERROR);
         }
     };
 
@@ -870,6 +866,7 @@ sakai.discussion = function(tuid, showSettings){
         post['sakai:marker'] = tuid;
         post['sakai:messagebox'] = "outbox";
         post['sakai:sendstate'] = "pending";
+        post['_charset_'] = "utf-8";
         return post;
     };
 
@@ -894,7 +891,7 @@ sakai.discussion = function(tuid, showSettings){
                 post = createPostObject();
 
                 if ((""+post['sakai:subject']).replace(/ /g, "") === "" || (""+post['sakai:body']).replace(/ /g, "") === "") {
-                    alert("Please fill in all the fields.");
+                    sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("PLEASE_ENTER_ALL_FIELDS"),"",sakai.api.Util.notification.type.ERROR);
                 }
                 else {
                     if (initialPost !== false) {
@@ -1247,7 +1244,7 @@ sakai.discussion = function(tuid, showSettings){
         if (widgeturl) {
             store = widgeturl + "/message";
             $.ajax({
-                url: widgeturl + ".infinity.json",
+                url: widgeturl + ".0.json",
                 type: "GET",
                 dataType: "json",
                 success: function(data){

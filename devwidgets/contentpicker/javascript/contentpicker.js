@@ -92,10 +92,6 @@ sakai.contentpicker = function(tuid, showSettings) {
     var doReset = function() {
         $("#as-values-" + tuid).val("");
         $(".as-selection-item").remove();
-        $contentpicker_display_options.hide();
-        $contentpicker_metadata_container.hide();
-        $contentpicker_alternative_display_name_value.val('');
-        $contentpicker_description_value.val('');
     };
 
     /**
@@ -124,7 +120,7 @@ sakai.contentpicker = function(tuid, showSettings) {
             "mimetype": mimetype,
             "description": result["sakai:description"] || "",
             "path": "/p/" + (name || result['jcr:name']),
-            "fileSize": sakai.api.Util.convertToHumanReadableFileSize(result["jcr:content"][":jcr:data"]),
+            "fileSize": sakai.api.Util.convertToHumanReadableFileSize(result["jcr:content"]["jcr:data"]),
             "link": "/p/" + (name || result['jcr:name']) + "/" + result['sakai:pooled-content-file-name'],
             "extension": result['sakai:fileextension']
         };
@@ -154,10 +150,8 @@ sakai.contentpicker = function(tuid, showSettings) {
                             }
                         });
                         add(suggestions);
-                    } else {
-
                     }
-                }, {"q": "*" + query.replace(/\s+/g, "* OR *") + "*", "page": 0, "items": 15});
+                }, {"q": sakai.api.Server.createSearchString(query), "page": 0, "items": 15});
             },
             retrieveLimit: 10,
             asHtmlID: tuid,
@@ -173,8 +167,6 @@ sakai.contentpicker = function(tuid, showSettings) {
                 elem.remove();
                 if (selectedItems.length === 0) {
                     $contentpicker_place_content.attr("disabled", "disabled");
-                    $contentpicker_display_options.hide();
-                    $contentpicker_metadata_container.hide();
                 }
             }
         });
@@ -246,14 +238,16 @@ sakai.contentpicker = function(tuid, showSettings) {
     var associatedEmbeddedItemsWithGroup = function(embeddedItems){
         var data = [];
         for (var embeddedItem in embeddedItems) {
-            var item = {
-                "url": embeddedItems[embeddedItem].path + ".members.json",
-                "method": "POST",
-                "parameters": {
-                    ":viewer": sakai.currentgroup.id
-                }
-            };
-            data[data.length] = item;
+            if (embeddedItems.hasOwnProperty(embeddedItem)) {
+                var item = {
+                    "url": embeddedItems[embeddedItem].path + ".members.json",
+                    "method": "POST",
+                    "parameters": {
+                        ":viewer": sakai.currentgroup.id
+                    }
+                };
+                data[data.length] = item;
+            }
         }
 
         $.ajax({

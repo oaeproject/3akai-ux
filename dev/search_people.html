@@ -30,22 +30,28 @@
         <!-- Core 3rd-party JS -->
         <script type="text/javascript" src="/dev/lib/jquery/jquery.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/jquery-ui.full.js"></script>
-        <script type="text/javascript" src="/dev/lib/Fluid/3akai_Infusion.js"></script>
-        <script type="text/javascript" src="/dev/lib/i10n/globalization.js"></script>
+        <script type="text/javascript" src="/dev/lib/fluid/3akai_Infusion.js"></script>
+        <script type="text/javascript" src="/dev/lib/misc/l10n/globalization.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.json.js"></script>
-        <script type="text/javascript" src="/dev/lib/google/html-sanitizer-minified.js"></script>
+        <script type="text/javascript" src="/dev/lib/misc/google/html-sanitizer-minified.js"></script>
 
         <!-- Sakai Core JS -->
-        <script type="text/javascript" src="/dev/lib/sakai_util/sakai_magic.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.core.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.util.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.i18n.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.l10n.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.user.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.widgets.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.communication.js"></script>
 
         <!-- 3rd party JS -->
-        <script type="text/javascript" src="/dev/lib/sakai_util/trimpath.template.js"></script>
-        <script type="text/javascript" src="/dev/lib/sakai_util/querystring.js"></script>
+        <script type="text/javascript" src="/dev/lib/misc/trimpath.template.js"></script>
+        <script type="text/javascript" src="/dev/lib/misc/querystring.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jqmodal.sakai-edited.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.cookie.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.pager.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.ba-bbq.js"></script>
-        <script type="text/javascript" src="/dev/javascript/_history/search_history.js"></script>
+        <script type="text/javascript" src="/dev/javascript/history/search_history.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.threedots.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.autoSuggest.sakai-edited.js"></script>
 
@@ -60,9 +66,9 @@
         <div id="widget_topnavigation" class="widget_inline"></div>
 
         <!-- CONTENT -->
-        <div class="fl-container-flex content content_search">
-            <div class="fl-fix fl-centered fixed-container">
-                <div class="decor"></div>
+        <div class="fl-container-flex content content_search s3d-regular-links s3d-header">
+            <div class="fl-fix fl-centered fixed-container s3d-fixed-container">
+                <div class="s3d-decor"></div>
 
                 <!-- TITLE -->
                 <h1 class="title">__MSG__SEARCH_PEOPLE__</h1>
@@ -73,6 +79,7 @@
                         <li><a id="tab_search_all" href="search.html#">__MSG__ALL__</a></li>
                         <li><a href="search_content.html#" id="tab_search_content">__MSG__CONTENT_AND_MEDIA__</a></li>
                         <li><a href="search_groups.html#" id="tab_search_sites">__MSG__GROUPS__</a></li>
+                        <li><a href="search_sakai2.html#" id="tab_search_sakai2">__MSG__SAKAI2__</a></li>
                         <li class="fl-tabs-active search_tab_selected"><a href="search_people.html#" id="tab_search_people">__MSG__PEOPLE__</a></li>
                     </ul>
                 </div>
@@ -81,7 +88,7 @@
                 <div class="fl-centered fl-container fl-tab-content search_content_wrapper">
                     <div class="search_tab_content_top"><div class="search_tab_content_top_inner"></div></div>
 
-                    <div class="search_content_main">
+                    <div class="search_content_main s3d-content">
 
                         <!-- SEARCH BAR -->
                         <div class="fl-left fl-container fl-fix search_bar">
@@ -108,7 +115,7 @@
                         </div>
 
                         <!-- SEARCH RESULTS -->
-                        <div id="search_results_page1" class="search_results_container search_results_container_sub">
+                        <div id="search_results_page1" class="search_results_container s3d-highlight_area_background search_results_container_sub">
 
                             <!-- CREATE SITE WITH THESE PEOPLE -->
                             <div id="create_site_these_people" style="float:right; padding: 20px 10px 10px 10px; display:none;">
@@ -134,7 +141,7 @@
                                 <div id="search_result_results_located_in" style="display:none;"><span style="font-weight:normal">__MSG__RESULTS_LOCATED_IN__</span></div>
 
                                 <!-- CONTAINER FOR THE RESULTS -->
-                                <div id="search_results_container"></div>
+                                <div id="search_results_container" class="s3d-highlight_area_background"></div>
 
                                 <!-- EXCEED SEARCH RESULT -->
                                 <span id="search_result_exceed" style="display:none;">__MSG__MORE_THAN_100__</span>
@@ -159,7 +166,7 @@
                                         {/if}
 
                                         <div class="search_result_person_links">
-                                        {if ! i.isMe}
+                                        {if ! i.isMe && ! sakai.data.me.user.anon}
                                             {if ! i.connected}
                                             <a href="javascript:;" class="search_result_person_link link_add_to_contacts" id="link_add_to_contacts_${i.userid}">__MSG__ADD_TO_CONTACTS__</a>
                                             <a href="javascript:;" id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider">|</a>
@@ -185,7 +192,7 @@
                         </div>
                     </div>
 
-                    <div class="search_tab_content_bottom"><div class="search_tab_content_bottom_inner"></div></div>
+                    <div class="s3d-no-options"><div class="s3d-no-options-inner"></div></div>
                 </div>
 
                 <!-- CONTAINER FOR THE PAGER -->

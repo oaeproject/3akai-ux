@@ -22,17 +22,25 @@
         <!-- Core 3rd-party JS -->
         <script type="text/javascript" src="/dev/lib/jquery/jquery.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/jquery-ui.full.js"></script>
-        <script type="text/javascript" src="/dev/lib/Fluid/3akai_Infusion.js"></script>
+        <script type="text/javascript" src="/dev/lib/fluid/3akai_Infusion.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.json.js"></script>
-        <script type="text/javascript" src="/dev/lib/google/html-sanitizer-minified.js"></script>
+        <script type="text/javascript" src="/dev/lib/misc/google/html-sanitizer-minified.js"></script>
 
         <!-- Sakai Core JS -->
-        <script type="text/javascript" src="/dev/lib/sakai_util/sakai_magic.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.core.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.util.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.i18n.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.l10n.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.user.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.widgets.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.groups.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.communication.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.content.js"></script>
         <script type="text/javascript" src="/dev/lib/sakai_util/i18n.js"></script>
 
         <!-- 3rd party JS -->
-        <script type="text/javascript" src="/dev/lib/sakai_util/trimpath.template.js"></script>
-        <script type="text/javascript" src="/dev/lib/sakai_util/querystring.js"></script>
+        <script type="text/javascript" src="/dev/lib/misc/trimpath.template.js"></script>
+        <script type="text/javascript" src="/dev/lib/misc/querystring.js"></script>
 
     </head>
 
@@ -89,17 +97,15 @@
                     var querystring = new Querystring();
                     if (querystring.contains("id")) {
                         groupid = querystring.get("id");
-                        $.ajax({
-                            url: "/~" + groupid + "/public.infinity.json",
-                            async: false,
-                            success: function(data){
+                        sakai.api.Groups.getGroupData(groupid, function(success, data) {
+                            if (success) {
                                 sakai.data.pickeruser[tuid]["selected"][groupid] = data;
                                 sakai.data.pickeruser[tuid]["selected"][groupid].groupid = groupid;
                                 sakai.data.pickeruser[tuid]["selected"][groupid]['sakai:group-description'] = data.authprofile['sakai:group-description'];
                                 sakai.data.pickeruser[tuid]["selected"][groupid]['sakai:group-title'] = data.authprofile['sakai:group-title'];
                                 sakai.data.pickeruser[tuid].selectCount += 1;
                             }
-                        });
+                        }, false);
                     }
 
                     $("#test_response").html("Response:<br>"+sakai.data.pickeruser[tuid].selectCount+" users selected: ");

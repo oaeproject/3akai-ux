@@ -2,6 +2,12 @@
 "name": "navigationchat",
 "description": "Chat widget\r\n",
 "CHAT_STATUS": "Chat Status",
+"CLOSE_THIS_CHAT_WINDOW": "Close this chat window",
+"MINIMIZE_THIS_CHAT_WINDOW": "Minimize this chat window",
 "NO_ONLINE_CONNECTIONS_FOUND": "No online connections found",
+"NO_STATUS_MESSAGE": "No status message",
+"ONLINE": "Online",
+"PLEASE_INPUT_CHAT_TEXT": "Please input the chat text",
+"TO_SHOW_THE_CHAT_NAVIGATION": "To show the chat navigation",
 "WIDGET_TITLE": "Chat"
 }

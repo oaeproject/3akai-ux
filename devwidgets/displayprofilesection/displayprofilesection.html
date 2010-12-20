@@ -1,0 +1,50 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/displayprofilesection/css/displayprofilesection.css" />
+
+<div class="displayprofilesection_widget">
+
+<div class="fl-widget-content">
+    <div class="displayprofilesection_content" style="display:none;">
+        <p class="displayprofilesection_no_profile_info_inserted" style="display:none;">__MSG__NO_PROFILE_INFO_TO_DISPLAY__ <a href="/dev/profile_edit.html" class="s3d-action" title="__MSG__EDIT_YOUR_PROFILE__">__MSG__EDIT_YOUR_PROFILE__</a> __MSG__OR_SELECT_ANOTHER_SECTION_TO_DISPLAY__</p>
+        <p class="displayprofilesection_no_profile_info_inserted_view_mode" style="display:none;">__MSG__NO_PROFILE_INFO_TO_DISPLAY__</p>
+        <div class="displayprofilesection_content_widget_holder"></div>
+    </div>
+    <div class="displayprofilesection_settings" style="display:none;">
+        <label for="displayprofilesection_section_title">__MSG__SECTION_TITLE__</label>
+        <input type="text" id="displayprofilesection_section_title" class = "displayprofilesection_section_title"/>
+        <select class="displayprofilesection_select_section">
+        </select>
+        <div class="dialog_buttons">
+            <button class="s3d-button displayprofilesection_add_cancel">
+                <span class="s3d-button-inner">__MSG__DONT_ADD__</span>
+            </button>
+            <button class="s3d-button s3d-button-primary submit_button displayprofilesection_add_submit" type="submit">
+                <span class="s3d-button-inner">__MSG__ADD_PROFILE_SECTION__</span>
+            </button>
+        </div>
+        <hr class="fl-push fl-hidden"/>
+    </div>
+</div>
+
+<div class="fl-widget-no-options fl-fix">
+    <div class="widget-no-options-inner">
+    </div>
+</div>
+
+<div id="displayprofilesection_select_section_template" style="display:none;"><!--
+    <option value="no_value">__MSG__SELECT_SECTION_TO_DISPLAY__</option>
+    {for section in configuration}
+        <option value="${section.id}" {if selectedsection == section.id} selected="selected"{/if}>${section.label}</option>
+    {/for}
+--></div>
+
+<!-- SECTION WIDGET TEMPLATE -->
+<div id="displayprofilesection_sectionwidgets_container_template"><!--
+    <div id="widget_profilesection_${sectionid}" class="widget_inline"></div>
+    <hr class="fl-push fl-hidden"/>
+--></div>
+
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/displayprofilesection/javascript/displayprofilesection.js"></script>

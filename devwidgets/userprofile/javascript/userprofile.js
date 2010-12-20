@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config */
+/*global $ */
 
 var sakai = sakai || {};
 
@@ -330,26 +330,6 @@ sakai.userprofile = function(tuid,showSettings){
             }
         }
 
-        /*for(var k = 0, kl = requests.length; k < kl; k++){
-
-            $.ajax({
-                url: requests[k].url,
-                traditional: true,
-                type: requests[k].method,
-                data: requests[k].parameters,
-                async: false,
-                success: function(){
-
-                    if(k === requests.length-1){
-                        alert("ok");
-                    }
-
-                }
-            });
-
-        }*/
-
-
         // Send the Ajax request to the batch servlet
         // depends on KERN-909
         $.ajax({
@@ -366,15 +346,10 @@ sakai.userprofile = function(tuid,showSettings){
 
                 // Wait for 2 seconds
                 setTimeout(
-
                     function(){
-
                         // Change the profile mode if the save was successful
                         changeProfileMode("view");
-
-                    }
-
-                , 2000);
+                    }, 2000);
 
             },
             error: function(xhr, textStatus, thrownError){
@@ -555,7 +530,7 @@ sakai.userprofile = function(tuid,showSettings){
         // Bind a global event that can be triggered by the profilesection widgets
         $(window).bind("sakai-" + sectionobject.sectionname, function(eventtype, callback){
 
-            if(callback && typeof callback === "function"){
+            if ($.isFunction(callback)) {
                 callback(sectionname);
             }
 

@@ -1,9 +1,9 @@
 {
     "description":"Add Files",
     "i18n": {
-        "default": "/devwidgets/fileupload/bundles/default.json",
-        "en_US": "/devwidgets/fileupload/bundles/en_US.json",
-        "nl_NL": "/devwidgets/fileupload/bundles/nl_NL.json"
+        "default": "/devwidgets/fileupload/bundles/default.properties",
+        "en_US": "/devwidgets/fileupload/bundles/en_US.properties",
+        "nl_NL": "/devwidgets/fileupload/bundles/nl_NL.properties"
     },
     "id":"fileupload",
     "name":"fileupload",

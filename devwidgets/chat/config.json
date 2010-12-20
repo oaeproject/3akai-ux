@@ -1,10 +1,10 @@
 {
     "description":"chat",
     "i18n": {
-        "default": "/devwidgets/chat/bundles/default.json",
-        "en_US": "/devwidgets/chat/bundles/en_US.json",
-        "nl_NL": "/devwidgets/chat/bundles/nl_NL.json",
-        "zh_CN": "/devwidgets/chat/bundles/zh_CN.json"
+        "default": "/devwidgets/chat/bundles/default.properties",
+        "en_US": "/devwidgets/chat/bundles/en_US.properties",
+        "nl_NL": "/devwidgets/chat/bundles/nl_NL.properties",
+        "zh_CN": "/devwidgets/chat/bundles/zh_CN.properties"
     },
     "id":"chat",
     "name":"chat",

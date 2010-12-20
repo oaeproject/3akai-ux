@@ -21,7 +21,7 @@
 .entity_header_text {font-size:22px; font-weight:bold; line-height:28px; margin-right:10px;color:#444;}
 .entity_picture {margin: 0 20px 5px 0; font-size: 10px; color: #FFFFFF; line-height: 11px;}
 .entity_description {width:340px; }
-.entity_status {font-size:12px;}
+.entity_status {color: #aaa;font-size:12px;}
 .entity_picture .entity_manage{background:url(/dev/images/group_avatar_badge_orange_left_128.png) no-repeat;}
 .entity_picture .entity_manage_end{background:url(/dev/images/group_avatar_badge_orange_right_128.png) no-repeat;}
 .entity_picture .entity_member{background:url(/dev/images/group_avatar_badge_blue_left_128.png) no-repeat;}
@@ -30,7 +30,7 @@
 .entity_picture_div {padding-bottom: 3px;}
 
 /* Container */
-#entity_container {margin: 19px 0 15px 7px; overflow: hidden;width:670px;}
+#entity_container {margin: 19px 0 15px 7px; overflow: hidden;width:auto;}
 #entity_container.joinable {width:700px;}
 #entity_container .entity_profile_status_input_dummy {color: #aaa}
 #entity_container form#entity_profile_status {margin-top: 5px;}
@@ -39,7 +39,7 @@
 #entity_container input[type="text"] {border: 1px solid #ddd;padding: 3px;}
 .entity_container_left {width: 460px}
 .entity_container_right {margin-top: 8px; padding-left: 0px; width: 200px;}
-.entity_container_right strong {clear: both;: block;float:left;overflow:hidden;width: 90px;}
+.entity_container_right strong {clear: both;display: block;float:left;overflow:hidden;width: 90px;}
 .entity_container_top_margin {margin-top:15px;}
 .entity_tags {padding-top: 10px;}
 .entity_tags_group {padding-top: 3px;}
@@ -51,7 +51,30 @@
 .entity_content_about {margin-top: 10px; width: 380px;}
 #entity_container h1 {margin:0;}
 .entity_group_edit {padding-right: 5px;}
+.entity_content_container_left {width: 670px}
+.entity_content_container_right {margin-top: 8px; padding-left: 0px; width: 200px;float:right;}
+.entity_content_header {margin: 3px 0 5px 0px; padding: 0; width: 670px; overflow:hidden;}
+.entity_content_header_text {font-size:22px; font-weight:bold; line-height:28px; margin-right:10px;color:#444;}
+.entity_content_threedots {display:block; width:670px;}
 .entity_content_filetype {color: #aaaaaa; padding-right: 5px;}
+.entity_content_description {width:670px; font-size: 11px; font-weight: bold;}
+.entity_content_new_events, .entity_content_used_by {padding-right: 35px;}
+.entity_content_link_icon {background:url("/dev/images/link.png") no-repeat scroll 3px 0px transparent; float:left; height:14px; width:18px; padding-right:3px;}
+.entity_content_right {float:right;}
+.entity_content_view_count {background-color:#000000; color:#FFFFFF; font-weight:normal; font-size:12px; padding:2px 4px;}
+.entity_content_share {margin-top:10px; text-align: center;}
+.entity_content_viewed {font-size: 11px; font-weight: bold; color: #333;}
+#entity_content_share_button {width: 120px;}
+.entity_content_users_dialog_list {margin: 12px 0 0 0; padding: 0; height: 310px; overflow: auto; border: 1px solid #d4dade;}
+.entity_content_users_dialog_list li {display: block; list-style: none; clear: both; padding: 5px 0 5px 10px; border-bottom: 1px solid #FFFFFF; border-top: 1px solid #FFFFFF; overflow: hidden;}
+.entity_content_users_dialog_list .entity_content_picture {float: left; display: block; height: 32px; width: 32px; padding-right: 10px;}
+.entity_content_users_dialog_list .entity_content_name {line-height: 30px;}
+.entity_content_users_dialog_list .entity_content_even {background: #f1f1f1; border-bottom: 1px solid #f1f1f1;}
+.entity_content_users_dialog_list .entity_content_list_empty, .entity_content_activity_dialog_list .entity_content_list_empty {text-align: center; line-height: 300px;}
+.entity_content_activity_dialog_list {margin: 12px 0 0 0; padding: 0; height: 310px; overflow: auto; border: 1px solid #d4dade;}
+.entity_content_activity_dialog_list li {display: block; list-style: none; clear: both; padding: 10px 0 10px 10px; border-bottom: 9px solid #FFFFFF; border-top: 1px solid #FFFFFF; overflow: hidden; background: #f1f1f1; }
+.entity_content_activity_dialog_list .entity_content_picture {float: left; display: block; height: 32px; width: 32px; padding-right: 10px;}
+.entity_content_activity_dialog_list .entity_content_activity {position: relative; top: 1px;}
 
 /* Actions */
 .entity_actions {margin-top:10px; overflow:hidden;}
@@ -59,12 +82,12 @@
 #entity_contact_invited {padding-left: 10px;}
 
 /* List box for tags and locations */
-#entity_tags_link, #entity_locations_link {padding: 5px 5px 5px 5px;}
-.entity_tags_link, .entity_locations_link {border: 1px solid #fff;}
-.entity_tags_link:hover, .entity_locations_link:hover {border: 1px solid #ddd;}
-.entity_list_open {border: 1px solid #ddd !important;}
+#entity_tags_link div, #entity_locations_link div {padding: 5px 5px 5px 5px; width:70px;}
+.entity_tags_link div, .entity_locations_link div {border: 1px solid #fff;}
+.entity_tags_link:hover div, .entity_locations_link:hover div {border: 1px solid #ddd;}
+.entity_list_open div {border: 1px solid #ddd !important;}
 #entity_tags_link span, #entity_locations_link span {background: url('/dev/images/arrow_down_sm2.png') center right no-repeat; padding: 0 17px 0 5px;}
-#entity_tags_link_menu, #entity_locations_link_menu {background-color: #FFFFFF; position: absolute; z-index:400; width: 300px; border: 1px solid #ddd;}
+#entity_tags_link_menu, #entity_locations_link_menu {background-color: #FFFFFF; position: absolute; z-index:400; min-width: 100px; max-width: 300px; border: 1px solid #ddd;}
 #entity_tags_link_menu .entity_tags_link_menu_list, #entity_locations_link_menu .entity_locations_link_menu_list {padding: 5px;}
 .entity_locations_list {padding-top: 20px;}
 .entity_location {margin: 20px 0 0 10px;}
@@ -74,4 +97,7 @@
 .entity_threedots {display:block; width:340px;}
 .entity_avatar_border {border: 1px solid #cbd0d4;}
 .entity_padding_top {padding-top: 3px;}
-.entity_member_count {display:block: padding-top: 2px; padding-bottom: 2px; color: #333;}
+.entity_member_count {display:block; padding-top: 2px; padding-bottom: 2px; color: #333;}
+
+.entity_content_header .contentmetadata_editable {padding: 0px !important;}
+#contentmetadata_name_text {width: 600px; font-size: 22px;}

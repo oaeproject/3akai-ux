@@ -26,7 +26,6 @@
 .acknowledgements_content a{ color:#006E96; font-weight:bold; }
 
 /* Container */
-.acknowledgements .main-container { background: #FFF; }
 .acknowledgement_container .acknowledgement_information { float:right; width:685px;}
 .acknowledgements .acknowledgement_image_container { float:left; width:200px; margin-right:10px; }
 .acknowledgements .acknowledgement_image_container img{ float:right; margin:2px; }
@@ -34,4 +33,3 @@
 
 .acknowledgements_third_party{ padding-bottom:10px; }
 .acknowledgement_information span, .acknowledgement_information li, #ackenowledgements_content { color: #878A8C; }
-.acknowledgements .acknowledgement_container { margin: 0 0 15px 0; padding: 10px; background: #EFF2F4;}

@@ -1,4 +1,6 @@
 {
+"PEOPLE": "people",
+"PERSON": "person",
 "PROBLEM_ADDING_TO_GROUP": "Sorry, there was a problem while adding you to the group. We've notified system administrators. Please try again later or contact an administrator if the issue persists.",
 "PROBLEM_REMOVING_FROM_GROUP": "Sorry, there was a problem while removing you from the group. We've notified system administrators. Please try again later or contact an administrator if the issue persists.",
 "PROBLEM_WITH_REQUEST": "Sorry, there was a problem sending your request. We've notified system administrators. Please try again later or contact an administrator if the issue persists.",

@@ -5,8 +5,8 @@
     "type":"core",
     "enabled":true,
     "i18n": {
-        "default": "/devwidgets/filerevisions/bundles/default.json",
-        "en_GB": "/devwidgets/filerevisions/bundles/en_GB.json",
-        "nl_NL": "/devwidgets/filerevisions/bundles/nl_NL.json"
+        "default": "/devwidgets/filerevisions/bundles/default.properties",
+        "en_GB": "/devwidgets/filerevisions/bundles/en_GB.properties",
+        "nl_NL": "/devwidgets/filerevisions/bundles/nl_NL.properties"
     }
 }

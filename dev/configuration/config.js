@@ -24,7 +24,7 @@ sakai.config = {
         CONTENT_MEDIA_URL: "/dev/content_media.html",
         COURSES_SITES_URL: "/dev/courses_sites.html",
         GATEWAY_URL: "/dev/index.html",
-        I10N_BUNDLE_URL: "/dev/lib/i10n/globinfo/Globalization.__CODE__.min.js",
+        I10N_BUNDLE_URL: "/dev/lib/misc/l10n/globinfo/Globalization.__CODE__.min.js",
         I18N_BUNDLE_ROOT: "/dev/bundle/",
         LOGOUT_URL: "/dev/logout.html",
         MY_DASHBOARD_URL: "/dev/my_sakai.html",
@@ -39,8 +39,9 @@ sakai.config = {
         SEARCH_CONTENT_URL: "/dev/search_content.html",
         SEARCH_GENERAL_URL: "/dev/search.html",
         SEARCH_PEOPLE_URL: "search_people.html",
+        SEARCH_GROUP_URL: "search_groups.html",
         SEARCH_SITES_URL: "search_sites.html",
-        TINY_MCE_CONTENT_CSS: "/dev/css/FSS/fss-base.css,/dev/css/sakai/sakai.core.2.css,/dev/css/sakai/sakai.css,/dev/css/sakai/sakai.editor.css,/dev/css/sakai/sakai.show.css",
+        TINY_MCE_CONTENT_CSS: "/dev/css/FSS/fss-base.css,/dev/css/sakai/sakai.core.2.css,/dev/css/sakai/sakai.base.css,/dev/css/sakai/sakai.editor.css,/dev/css/sakai/sakai.show.css",
         TINY_MCE_EDITOR_CSS: "/dev/css/sakai/tinymce_editor_styling.css",
         USER_DEFAULT_ICON_URL: "/dev/images/user_avatar_icon_48x48.png",
         USER_DEFAULT_UPLOAD_FOLDER: "/private/uploads",
@@ -74,6 +75,7 @@ sakai.config = {
         MESSAGE_BOXCATEGORY_SERVICE: "/var/message/boxcategory.json",
         POOLED_CONTENT_MANAGER: "/var/search/pool/me/manager.json",
         POOLED_CONTENT_VIEWER: "/var/search/pool/me/viewer.json",
+        POOLED_CONTENT_ACTIVITY_FEED: "/var/search/pool/activityfeed.json",
         PRESENCE_CONTACTS_SERVICE: "/var/presence.contacts.json",
         PRESENCE_SERVICE: "/var/presence.json",
         PROXY_RSS_SERVICE: "/var/proxy/rss.json?rss=",
@@ -218,6 +220,13 @@ sakai.config = {
                 "public": "public",            // Anyone on the Internet
                 "managers": "managers-only"    // Group managers only
             }
+        },
+        Copyright: {
+            "creativecommons" : "CREATIVE_COMMONS_LICENSE",
+            "copyrighted" : "COPYRIGHTED",
+            "nocopyright" : "NO_COPYRIGHT",
+            "licensed" : "LICENSED",
+            "waivecopyright" : "WAIVE_COPYRIGHT"
         }
     },
 
@@ -620,18 +629,22 @@ sakai.config = {
     },
 
     Authentication: {
+        "allowInternalAccountCreation":true,
         "internal": true,
         "external": [
             {
               label: "External Login System 1",
-              url: "http://external.login1.com/",
-              description: "This is the description displayed underneath ..."
+              url: "http://external.login1.com/"
             },
             {
               label: "External Login System 2",
-              url: "http://external.login2.com/",
-              description: "This is the description displayed underneath ..."
+              url: "http://external.login2.com/"
             }
+        ],
+        "hideLoginOn": [
+            "/dev",
+            "/dev/index.html",
+            "/dev/create_new_account.html"
         ]
     },
 
@@ -655,14 +668,17 @@ sakai.config = {
         },
         {
             "url" : "/dev/search_content.html#q=*&facet=manage",
+            "anonUrl" : "/dev/search_content.html#q=*",
             "label" : "CONTENT_AND_MEDIA"
         },
         {
             "url" : "/dev/search_groups.html#q=*&facet=manage",
+            "anonUrl" : "/dev/search_groups.html#q=*",
             "label" : "GROUPS"
         },
         {
             "url" : "/dev/search_people.html#q=*&facet=contacts",
+            "anonUrl" : "/dev/search_people.html#q=*",
             "label" : "PEOPLE"
         },
         {
@@ -670,7 +686,10 @@ sakai.config = {
             "label" : "DIRECTORY"
         }
     ],
-
+    /*
+     * Are anonymous users allowed to browse/search
+     */
+    anonAllowed: true,
     /*
      * List of pages that require a logged in user
      */
@@ -679,12 +698,7 @@ sakai.config = {
         "/dev/account_preferences.html",
         "/dev/group_edit.html",
         "/dev/inbox.html",
-        "/dev/people.html",
-        "/dev/profile_edit.html",
-        "/dev/search.html",
-        "/dev/search_content.html",
-        "/dev/search_groups.html",
-        "/dev/search_people.html"
+        "/dev/profile_edit.html"
     ],
 
     /*
@@ -698,7 +712,25 @@ sakai.config = {
         "/",
         "/index.html"
     ],
-
+    /*
+     * List of pages that will be added to requireUser if
+     * anonAllowed is false
+     */
+    requireUserAnonNotAllowed: [
+        "/dev/people.html",
+        "/dev/profile_edit.html",
+        "/dev/search.html",
+        "/dev/search_content.html",
+        "/dev/search_groups.html",
+        "/dev/search_people.html",
+        "/dev/search_sakai2.html"
+    ],
+    /*
+     * List of pages that will be added to requireAnonymous if
+     * anonAllowed is false
+     */
+    requireAnonymousAnonNotAllowed: [
+    ],
     /*
      * List op pages that require additional processing to determine
      * whether the page can be shown to the current user. These pages
@@ -706,10 +738,14 @@ sakai.config = {
      * themselves
      */
     requireProcessing: [
+        "/dev/content_profile2.html",
         "/dev/content_profile.html",
         "/dev/group_edit.html",
         "/dev/show.html"
     ],
+
+    showSakai2 : false,
+    useLiveSakai2Feeds : false,
 
     displayDebugInfo: true,
 
@@ -800,6 +836,9 @@ sakai.config = {
 
     // Default Language for the deployment, must be one of the language_COUNTRY pairs that exists above
     defaultLanguage: "en_US",
+
+    defaultUserTemplate: "defaultuser",
+    defaultGroupTemplate: "defaultgroup",
 
     widgets: {}
 };

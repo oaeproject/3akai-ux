@@ -5,8 +5,8 @@
     "groupdashboard": true,
     "description":"Remote Content",
     "i18n": {
-        "default": "/devwidgets/remotecontent/bundles/default.json",
-        "en_US": "/devwidgets/remotecontent/bundles/en_US.json"
+        "default": "/devwidgets/remotecontent/bundles/default.properties",
+        "en_US": "/devwidgets/remotecontent/bundles/en_US.properties"
     },
     "id":"remotecontent",
     "img":"/devwidgets/remotecontent/images/remotecontent.png",

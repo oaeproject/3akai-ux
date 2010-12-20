@@ -15,7 +15,7 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-/*global $, Config, jQuery, sakai */
+/*global $ */
 
 var sakai = sakai || {};
 
@@ -105,7 +105,7 @@ sakai.myprofile = function (tuid, showSettings) {
                     updateChatStatus(status);
                 },
                 error: function(xhr, textStatus, thrownError){
-                    if (typeof callback === "function") {
+                    if ($.isFunction(callback)) {
                         callback(false, xhr);
                     }
                     debug.error("Entity widget - An error occured when sending the status to the server.");

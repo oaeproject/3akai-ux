@@ -263,6 +263,7 @@ if (!sakai.sendmessage){
                 sakai.api.Util.notification.show("", errorMsg, sakai.api.Util.notification.type.ERROR);
             }
 
+            $(messageDialogContainer).jqmHide();
             // If we have a valid callback function we call that
             // and dont show the message
             // If we dont have a callback we show a default message and fade out the layover.
@@ -321,10 +322,8 @@ if (!sakai.sendmessage){
                                 }
                             });
                             add(suggestions);
-                        } else {
-
                         }
-                    }, {"q": "*" + query.replace(/\s+/g, "* OR *") + "*", "page": 0, "items": 15});
+                    }, {"q": sakai.api.Server.createSearchString(query), "page": 0, "items": 15});
                 }
             });
         };
@@ -480,7 +479,7 @@ if (!sakai.sendmessage){
             if(success) {
                 showMessageSent(success);
             } else {
-                alert("Your message failed to be delivered.");
+                sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("YOUR_MESSAGE_FAILED_DELIVERED"),"",sakai.api.Util.notification.type.ERROR);
             }
         };
 
@@ -516,7 +515,7 @@ if (!sakai.sendmessage){
                     $(messageFieldSubject).val(), $(messageFieldBody).val(),
                     "message", null, handleSentMessage);
             } else {
-                alert("All fields are required.");
+                sakai.api.Util.notification.show("All fields are required.","",sakai.api.Util.notification.type.ERROR);
             }
         });
 

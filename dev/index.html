@@ -26,17 +26,22 @@
         <!-- Core 3rd-party JS -->
         <script type="text/javascript" src="/dev/lib/jquery/jquery.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/jquery-ui.full.js"></script>
-        <script type="text/javascript" src="/dev/lib/Fluid/3akai_Infusion.js"></script>
-        <script type="text/javascript" src="/dev/lib/i10n/globalization.js"></script>
+        <script type="text/javascript" src="/dev/lib/fluid/3akai_Infusion.js"></script>
+        <script type="text/javascript" src="/dev/lib/misc/l10n/globalization.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.json.js"></script>
-        <script type="text/javascript" src="/dev/lib/google/html-sanitizer-minified.js"></script>
+        <script type="text/javascript" src="/dev/lib/misc/google/html-sanitizer-minified.js"></script>
 
         <!-- Sakai Core JS -->
-        <script type="text/javascript" src="/dev/lib/sakai_util/sakai_magic.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.core.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.util.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.i18n.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.l10n.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.user.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.widgets.js"></script>
 
         <!-- 3rd party JS -->
-        <script type="text/javascript" src="/dev/lib/sakai_util/trimpath.template.js"></script>
-        <script type="text/javascript" src="/dev/lib/sakai_util/querystring.js"></script>
+        <script type="text/javascript" src="/dev/lib/misc/trimpath.template.js"></script>
+        <script type="text/javascript" src="/dev/lib/misc/querystring.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jqmodal.sakai-edited.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.cookie.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.pager.js"></script>
@@ -48,29 +53,48 @@
         <!-- TOP BANNER -->
         <div id="top_banner"><!-- --></div>
 
+        <!-- NAVIGATION -->
+        <div id="widget_topnavigation" class="widget_inline"></div>
+
         <div class="index-container fl-centered">
 
-            <!-- HEADER -->
-            <div class="header-title">
-                <img src="/dev/images/sakai_logo_index.png" alt="__MSG__INSTANCE_NAME__" />
-            </div>
+            <!-- LOGIN WIDGET -->
+            <div id="widget_login" class="widget_inline"></div>
 
-            <div class="header-byline">
-                __MSG__HEADER_BYLINE__
-            </div>
 
-            <div class="login-box">
-                <div class="preview-box">
-                    <div class="header-smallline">
-                        __MSG__HEADER_SMALLLINE__
+            <div class="login-box fl-container">
+                <div class="login-box-top">
+                </div>
+                <div class="login-box-content">
+                    <div class="preview-box fl-left">
+
+                        <!-- HEADER -->
+                        <div class="header-title">
+                            <p class="sakai_logo_index"></p>
+                        </div>
+
+                        <div class="header-byline">
+                            __MSG__HEADER_BYLINE__
+                        </div>
+
+
+                        <div class="header-smallline">
+                            __MSG__HEADER_SMALLLINE__
+                        </div>
+
+                        <!-- PREVIEW IMAGE -->
+                        <img src="/dev/images/panel_thumb.jpg" alt="__MSG__INSTANCE_NAME__" />
                     </div>
 
-                    <!-- PREVIEW IMAGE -->
-                    <img src="/dev/images/panel_thumb.jpg" alt="__MSG__INSTANCE_NAME__" />
+                    <!-- WIDGET COLUMN -->
+                    <div id="login_right_col" class="fl-right fl-fix" style="display:none;">
+                        <div id="widget_tags" class="widget_inline"></div>
+                        <div id="widget_activegroups" class="widget_inline"></div>
+                        <div id="widget_popularcontent" class="widget_inline"></div>
+                    </div>
                 </div>
-
-                <!-- LOGIN WIDGET -->
-                <div id="widget_login" class="widget_inline"></div>
+                <div class="login-box-bottom">
+                </div>
             </div>
 
             <!-- FOOTER WIDGET -->

@@ -4,6 +4,11 @@
     overflow:hidden;
 }
 
+*:focus {
+    outline: none;
+    outline-width:0; /* Safari needs this instead of outline:0; */
+}
+
 /********************************************/
 /* Insert More Dropdown */
 
@@ -107,6 +112,7 @@
     line-height: 140%;
     padding: 2px 0 5px 0;
     font-size: .95em;
+    word-wrap: break-word;
 }
 .content_container .new_page_path {
     line-height: 3em;
@@ -131,7 +137,6 @@
 #main-content-div {
     padding-top: 10px;
 }
-.widget-content .fixed-container {background-color: #fff; padding-bottom: 20px;}
 
 /* GENERAL WIDGET CSS */
 .fl-widget {padding: 0;}
@@ -153,7 +158,7 @@
 .fl-widget .fl-widget-no-options { background: url('/dev/images/content_br.png') top right no-repeat; padding: 0 5px 0 0; margin: 0; }
 .fl-widget .fl-widget-no-options .widget-no-options-inner { background: url('/dev/images/content_bl.png') 0 0 no-repeat; margin: 0; height: 6px; }
 
-.fl-widget .fl-widget-content {background-color: #fff; padding: 10px 0 10px 0; margin: 0; border-left: 3px solid #D4DADE; border-right: 3px solid #D4DADE; }
+.fl-widget .fl-widget-content {background-color: #fff; }
 .fl-widget .fl-widget-content ul {margin: 0;}
 .fl-widget .widget-options-inner {padding: 3px 10px 0}
 

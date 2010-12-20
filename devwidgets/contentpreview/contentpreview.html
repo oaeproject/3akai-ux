@@ -1,0 +1,73 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/contentpreview/css/contentpreview.css" />
+
+<div id="contentpreview_widget_main_container" class="contentpreview_widget">
+    
+</div>
+
+<div id="contentpreview_widget_main_template" style="display:none"><!--
+    {if type === "default"}
+        <div class="contentpreview_default_preview" id="contentpreview_default_preview" style="background-color:#EEF2F5; height:60px; margin-bottom:15px; padding-bottom:20px; padding-left:15px; padding-right:20px; padding-top:20px;">
+            <div style="width: 240px; padding-top: 7px; float: right">
+                {if sakai.content_profile.content_data.data["jcr:content"]["jcr:mimeType"] === "x-sakai/link"}
+                    <a id="contentpreview_download_button" href="${sakai.content_profile.content_data.data["sakai:pooled-content-url"]}" style="text-align:center; width:216px;" class="s3d-button s3d-button-primary" target="_blank"><span class="s3d-button-inner">Open Link</span></a>
+                {else}
+                    <a id="contentpreview_download_button" href="${sakai.content_profile.content_data.path}" style="text-align:center; width:216px;" class="s3d-button s3d-button-primary" target="_blank"><span class="s3d-button-inner">Download</span></a>
+                {/if}
+                {if sakai.content_profile.content_data.isManager}
+                    <div id="contentpreview_actions_container">
+                        <button type="submit" class="s3d-button s3d-button-secondary" id="content_preview_delete"><span class="s3d-button-inner">Delete</span></button>
+                        <button type="submit" class="s3d-button s3d-button-secondary new_version" id="upload_content"><span class="s3d-button-inner">Upload new version</span></button>
+                    </div>
+                {/if}
+            </div>
+            <div style="float:left; width:80px;">
+            {if sakai.config.MimeTypes[sakai.content_profile.content_data.data["jcr:content"]["jcr:mimeType"]]}
+            	<img id="entity_profile_picture" src="${sakai.config.MimeTypes[sakai.content_profile.content_data.data["jcr:content"]["jcr:mimeType"]].URL}" alt="${sakai.config.MimeTypes[sakai.content_profile.content_data.data["jcr:content"]["jcr:mimeType"]].description}"/>
+            {else}
+            	<img id="entity_profile_picture" src="${sakai.config.MimeTypes["other"].URL}" alt="${sakai.config.MimeTypes["other"].description}"/>
+            {/if}
+            </div>
+            <div style="width: 280px; float:left; padding-top:7px; font-weight: bold;">
+                Created by <a class="s3d-action" href="/~${sakai.content_profile.content_data.data["sakai:pool-content-created-for"]}">${sakai.content_profile.content_data.creator}</a> <br/>
+                ${sakai.api.Util.convertToHumanReadableFileSize(sakai.content_profile.content_data.data["jcr:content"]["jcr:data"].split(":")[1])}<br/>
+                {if sakai.content_profile.content_data.data["jcr:content"]["jcr:mimeType"] !== "x-sakai/link"}
+                    ${sakai.content_profile.content_data.data["jcr:content"]["jcr:mimeType"]}
+                {/if}
+            </div>
+        </div>
+    {else}
+        <div class="contentpreview_videoaudio_preview" id="contentpreview_videoaudio_preview" style="width:640px; height: 390px; border: 1px solid #D4DADE; display:none;"></div>
+        <div class="contentpreview_flash_preview" id="contentpreview_flash_preview" style="width:640px; height: 390px; border: 1px solid #D4DADE; display:none;"></div>
+        <div class="contentpreview_text_preview" id="contentpreview_text_preview" style="font-family: 'Courier New'; padding: 5px; overflow: auto; width:640px; height: 390px; border: 1px solid #D4DADE; display:none; "></div>
+        <div class="contentpreview_html_preview" id="contentpreview_html_preview" style="width:640px; height: 390px; border: 1px solid #D4DADE; display:none; "></div>
+        <div class="contentpreview_image_preview" id="contentpreview_image_preview" style="padding: 0px; display:none; "></div>
+        <div style="padding: 15px 20px 15px 10px; height: 25px;">
+            <a id="contentpreview_download_button" href="${sakai.content_profile.content_data.path}" class="s3d-button s3d-button-primary" style="float:right" target="_blank"><span class="s3d-button-inner">Download</span></a>
+            {if sakai.content_profile.content_data.isManager}
+                <div id="contentpreview_actions_container">
+                    <button type="submit" class="s3d-button s3d-button-secondary" id="content_preview_delete"><span class="s3d-button-inner">Delete</span></button>
+                    <button type="submit" class="s3d-button s3d-button-secondary new_version" id="upload_content"><span class="s3d-button-inner">Upload new version</span></button>
+                </div>
+            {/if}
+        </div>
+    {/if}
+--></div>
+
+<div id="contentpreview_templates">
+    <div id="contentpreview_image_template"><!--
+        <img src="${contentURL}" id="contentpreview_image_rendered" style="border: 1px solid #D4DADE;" />
+    --></div> 
+    <div id="contentpreview_html_template"><!--
+        <iframe id="contentpreview_html_iframe" style="width: 640px; height: 390px;" border="0"></iframe>
+    --></div>
+</div>
+
+<div id="contentpreview_image_calculatesize_container" style="position: absolute; left: -10000px; top: -10000px;">
+    <div id="contentpreview_image_calculatesize">
+        <!-- Image will be pre-loaded here -->
+    </div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/contentpreview/javascript/contentpreview.js"></script>

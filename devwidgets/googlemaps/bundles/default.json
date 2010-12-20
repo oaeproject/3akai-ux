@@ -2,6 +2,7 @@
 "name": "Googlemaps",
 "description": "Googlemaps widget\r\n",
 "ADD_MAP": "Add map",
+"CANNOT_DETERMINE_ADDRESS_AT_THIS_LOCATION": "Cannot determine address at this location.",
 "DONT_ADD": "Don't add",
 "LARGE": "Large",
 "LOCATION": "Location",

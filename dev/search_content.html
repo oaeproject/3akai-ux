@@ -31,23 +31,28 @@
         <!-- Core 3rd-party JS -->
         <script type="text/javascript" src="/dev/lib/jquery/jquery.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/jquery-ui.full.js"></script>
-        <script type="text/javascript" src="/dev/lib/Fluid/3akai_Infusion.js"></script>
-        <script type="text/javascript" src="/dev/lib/i10n/globalization.js"></script>
+        <script type="text/javascript" src="/dev/lib/fluid/3akai_Infusion.js"></script>
+        <script type="text/javascript" src="/dev/lib/misc/l10n/globalization.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.json.js"></script>
-        <script type="text/javascript" src="/dev/lib/google/html-sanitizer-minified.js"></script>
+        <script type="text/javascript" src="/dev/lib/misc/google/html-sanitizer-minified.js"></script>
 
         <!-- Sakai Core JS -->
-        <script type="text/javascript" src="/dev/lib/sakai_util/sakai_magic.js"></script>
-        <script type="text/javascript" src="/dev/lib/sakai_util/site_authz.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.core.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.util.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.i18n.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.l10n.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.user.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.widgets.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.content.js"></script>
 
         <!-- 3rd party JS -->
-        <script type="text/javascript" src="/dev/lib/sakai_util/trimpath.template.js"></script>
-        <script type="text/javascript" src="/dev/lib/sakai_util/querystring.js"></script>
+        <script type="text/javascript" src="/dev/lib/misc/trimpath.template.js"></script>
+        <script type="text/javascript" src="/dev/lib/misc/querystring.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jqmodal.sakai-edited.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.cookie.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.pager.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.ba-bbq.js"></script>
-        <script type="text/javascript" src="/dev/javascript/_history/search_history.js"></script>
+        <script type="text/javascript" src="/dev/javascript/history/search_history.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.autoSuggest.sakai-edited.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.form.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.MultiFile.js"></script>
@@ -65,9 +70,9 @@
         <div id="widget_topnavigation" class="widget_inline i18nable"></div>
 
         <!-- CONTENT -->
-        <div class="fl-container-flex content content_search">
-            <div class="fl-fix fl-centered fixed-container">
-                <div class="decor"><!-- --></div>
+        <div class="fl-container-flex content content_search s3d-regular-links s3d-header">
+            <div class="fl-fix fl-centered fixed-container s3d-fixed-container">
+                <div class="s3d-decor"><!-- --></div>
 
                 <!-- TITLE -->
                 <h1 class="title">__MSG__SEARCH_CONTENT_AND_MEDIA__</h1>
@@ -78,6 +83,7 @@
                         <li><a id="tab_search_all" href="search.html#">__MSG__ALL__</a></li>
                         <li class="fl-tabs-active search_tab_selected"><a href="search_content.html#" id="tab_search_content">__MSG__CONTENT_AND_MEDIA__</a></li>
                         <li><a href="search_groups.html#" id="tab_search_sites">__MSG__GROUPS__</a></li>
+                        <li><a href="search_sakai2.html#" id="tab_search_sakai2">__MSG__SAKAI2__</a></li>
                         <li><a href="search_people.html#" id="tab_search_people">__MSG__PEOPLE__</a></li>
                     </ul>
                 </div>
@@ -87,7 +93,7 @@
                     <div class="search_tab_content_top">
                         <div class="search_tab_content_top_inner"><!-- --></div>
                     </div>
-                    <div class="search_content_main">
+                    <div class="search_content_main s3d-content">
 
                         <!-- SEARCH BAR -->
                         <div class="fl-left fl-container fl-fix search_bar">
@@ -119,7 +125,7 @@
                         </div>
 
                         <!-- SEARCH RESULTS -->
-                        <div id="search_results_page1" class="search_results_container search_results_container_sub">
+                        <div id="search_results_page1" class="search_results_container s3d-highlight_area_background search_results_container_sub">
 
                             <div class="search_top_rounded"><div class="search_top_rounded_inner"><!-- --></div></div>
 
@@ -139,7 +145,7 @@
                                 <div id="search_result_results_located_in" style="display:none;"><span style="font-weight:normal">__MSG__RESULTS_LOCATED_IN__</span></div>
 
                                 <!-- CONTAINER FOR THE RESULTS -->
-                                <div id="search_results_container"></div>
+                                <div id="search_results_container" class="s3d-highlight_area_background">123</div>
 
                                 <!-- EXCEED SEARCH RESULT -->
                                 <span id="search_result_exceed" style="display:none;">__MSG__MORE_THAN_100__</span>
@@ -160,6 +166,7 @@
                                         {elseif i['jcr:primaryType'] === "sling:Folder"}
                                             {var mimeType = 'folder'}
                                         {/if}
+                                        <a href="/dev/content_profile.html#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['jcr:path']}" title="${i['jcr:name']}"{/if}>
                                         {if (mimeType=="image/jpg" || mimeType=="image/png" || mimeType=="image/gif") && sakai.config.MimeTypes[mimeType]}
                                             {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
                                             {if i['jcr:primaryType'] && i['jcr:primaryType'] === "sakai:pooled-content"}
@@ -174,6 +181,7 @@
                                             {var mimeTypeDescription = sakai.config.MimeTypes["other"].description}
                                             <img src="${sakai.config.MimeTypes["other"].URL}" alt="${mimeTypeDescription}" />
                                         {/if}
+                                        </a>
                                         <div class="search_result_right">
                                             <div class="search_result_header">
                                                 <a href="/dev/content_profile.html#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['jcr:path']}" title="${i['jcr:name']}"{/if}>
@@ -198,7 +206,7 @@
                                                     {for t in i["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0},{/if} ${t}{/if}{/for}
                                                 </div>
                                             {/if}
-                                            {if mimeTypeDescription}<div class="search_result_type"><a href="/dev/content_profile.html#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}{else}${i['jcr:path']}{/if}">${mimeTypeDescription}</a></div>{/if}
+                                            {if mimeTypeDescription}<div class="search_result_type s3d-content-type-link"><a href="/dev/content_profile.html#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}{else}${i['jcr:path']}{/if}">${mimeTypeDescription}</a></div>{/if}
                                         </div>
                                     </div>
                                     {/if}
@@ -213,8 +221,8 @@
                         </div>
                     </div>
 
-                    <div class="search_tab_content_bottom">
-                        <div class="search_tab_content_bottom_inner"><!-- --></div>
+                    <div class="s3d-no-options">
+                        <div class="s3d-no-options-inner"><!-- --></div>
                     </div>
                 </div>
 

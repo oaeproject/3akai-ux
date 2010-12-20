@@ -3,7 +3,7 @@
     "description":"List of site members",
     "hasSettings":true,
     "i18n": {
-        "default": "/devwidgets/sitemembers/bundles/default.json"
+        "default": "/devwidgets/sitemembers/bundles/default.properties"
     },
     "id":"sitemembers",
     "img":"/devwidgets/sitemembers/images/sitemembers.png",

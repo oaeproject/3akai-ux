@@ -153,43 +153,44 @@ sakai.comments = function(tuid, showSettings){
             var iTimeAgo = (currentDate - date) / (1000);
             if (iTimeAgo < 60) {
                 if (Math.floor(iTimeAgo) === 1) {
-                    return Math.floor(iTimeAgo) + " second";
+                    return Math.floor(iTimeAgo) +" " + sakai.api.i18n.General.getValueForKey("SECOND");
                 }
-                return Math.floor(iTimeAgo) + " seconds";
+                return Math.floor(iTimeAgo) + " "+sakai.api.i18n.General.getValueForKey("SECONDS");
             }
             else
                 if (iTimeAgo < 3600) {
                     if (Math.floor(iTimeAgo / 60) === 1) {
-                        return Math.floor(iTimeAgo / 60) + " minute";
+                        
+                        return Math.floor(iTimeAgo / 60) + " "+sakai.api.i18n.General.getValueForKey("MINUTE");
                     }
-                    return Math.floor(iTimeAgo / 60) + " minutes";
+                    return Math.floor(iTimeAgo / 60) + " "+sakai.api.i18n.General.getValueForKey("MINUTES");
                 }
                 else
                     if (iTimeAgo < (3600 * 60)) {
                         if (Math.floor(iTimeAgo / (3600)) === 1) {
-                            return Math.floor(iTimeAgo / (3600)) + " hour";
+                            return Math.floor(iTimeAgo / (3600)) + " "+sakai.api.i18n.General.getValueForKey("HOUR");
                         }
-                        return Math.floor(iTimeAgo / (3600)) + " hours";
+                        return Math.floor(iTimeAgo / (3600)) + " "+sakai.api.i18n.General.getValueForKey("HOURS");
                     }
                     else
                         if (iTimeAgo < (3600 * 60 * 30)) {
                             if (Math.floor(iTimeAgo / (3600 * 60)) === 1) {
-                                return Math.floor(iTimeAgo / (3600 * 60)) + " day";
+                                return Math.floor(iTimeAgo / (3600 * 60)) + " "+sakai.api.i18n.General.getValueForKey("DAY");
                             }
-                            return Math.floor(iTimeAgo / (3600 * 60)) + " days";
+                            return Math.floor(iTimeAgo / (3600 * 60)) + " "+sakai.api.i18n.General.getValueForKey("DAYS");
                         }
                         else
                             if (iTimeAgo < (3600 * 60 * 30 * 12)) {
                                 if (Math.floor(iTimeAgo / (3600 * 60 * 30)) === 1) {
-                                    return Math.floor(iTimeAgo / (3600 * 60 * 30)) + " month";
+                                    return Math.floor(iTimeAgo / (3600 * 60 * 30)) + " "+sakai.api.i18n.General.getValueForKey("MONTH");
                                 }
-                                return Math.floor(iTimeAgo / (3600 * 60 * 30)) + " months";
+                                return Math.floor(iTimeAgo / (3600 * 60 * 30)) + " "+sakai.api.i18n.General.getValueForKey("MONTHS");
                             }
                             else {
                                 if (Math.floor(iTimeAgo / (3600 * 60 * 30 * 12) === 1)) {
-                                    return Math.floor(iTimeAgo / (3600 * 60 * 30 * 12)) + " year";
+                                    return Math.floor(iTimeAgo / (3600 * 60 * 30 * 12)) + " "+sakai.api.i18n.General.getValueForKey("YEAR");
                                 }
-                                return Math.floor(iTimeAgo / (3600 * 60 * 30 * 12)) + " years";
+                                return Math.floor(iTimeAgo / (3600 * 60 * 30 * 12)) + " "+sakai.api.i18n.General.getValueForKey("YEARS");
                             }
         }
 
@@ -235,7 +236,7 @@ sakai.comments = function(tuid, showSettings){
                 comment.date = tempDate;
             }
 
-            comment.timeAgo = "about " + getTimeAgo(comment.date) + " ago";
+            comment.timeAgo = "about " + getTimeAgo(comment.date) + " "+sakai.api.i18n.General.getValueForKey("AGO");
             comment.formatDate = sakai.api.l10n.transformDateTimeShort(comment.date);
             comment.messageTxt = comment["sakai:body"];
             comment.message = tidyInput(comment["sakai:body"]);
@@ -293,7 +294,7 @@ sakai.comments = function(tuid, showSettings){
         $(commentsNumComments, rootel).html(json.total);
         // Change to "comment" or "comments"
         if (json.total === 1) {
-            $(commentsCommentComments, rootel).text("comment");
+            $(commentsCommentComments, rootel).text(sakai.api.i18n.General.getValueForKey("COMMENT"));
         }
 
 
@@ -334,7 +335,7 @@ sakai.comments = function(tuid, showSettings){
                 showComments();
             },
             error: function(xhr, textStatus, thrownError){
-                alert("comments: An error occured while receiving the comments (" + xhr.status + ")");
+                sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("COMMENTS_AN_ERROR_OCCURRED") + " (" + xhr.status + ")","",sakai.api.Util.notification.type.ERROR);
             }
         });
     };
@@ -385,7 +386,7 @@ sakai.comments = function(tuid, showSettings){
         if (!isLoggedIn && widgetSettings['sakai:allowanonymous'] === false) {
             // This should not even happen.. Somebody is tinkering with the HTML.
             allowPost = false;
-            alert("Anonymous users are not allowed to post comments. Please register or log in to add your comment.");
+            sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("ANON_NOT_ALLOWED"),"",sakai.api.Util.notification.type.ERROR);
         }
 
         var subject = 'Comment on /~' + currentSite;
@@ -422,17 +423,17 @@ sakai.comments = function(tuid, showSettings){
                 },
                 error: function(xhr, textStatus, thrownError){
                     if (xhr.status === 401) {
-                        alert("You are not allowed to add comments.");
+                        sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("YOU_NOT_ALLOWED"),"",sakai.api.Util.notification.type.ERROR);
                     }
                     else {
-                        alert("Failed to save.");
+                        sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("FAILED_TO_SAVE"),"",sakai.api.Util.notification.type.ERROR);
                     }
                 },
                 data: message
             });
         }
         else {
-            alert("Please fill in all the fields.");
+            sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("PLEASE_FILL_ALL_FIELDS"),"",sakai.api.Util.notification.type.ERROR);
         }
     };
 
@@ -496,13 +497,13 @@ sakai.comments = function(tuid, showSettings){
         }
 
         if (comments.perPage < 1) {
-            alert("Please fill in a number bigger then 0.");
+            sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("PLEASE_FILL_POSITIVE_NUM"),"",sakai.api.Util.notification.type.ERROR);
             return false;
         }
         // Check if a valid number is inserted
         else
             if ($(commentsPageTxt, rootel).val().search(/^\d*$/)) {
-                alert("Please fill in a valid number.");
+                sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("PLEASE_FILL_VALID_NUM"),"",sakai.api.Util.notification.type.ERROR);
                 return false;
             }
 
@@ -609,7 +610,7 @@ sakai.comments = function(tuid, showSettings){
                     finishNewSettings();
                 }
                 else {
-                    alert("Failed to save.");
+                    sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("FAILED_TO_SAVE"),"",sakai.api.Util.notification.type.ERROR);
                 }
             });
 
@@ -639,7 +640,7 @@ sakai.comments = function(tuid, showSettings){
         }
         if (!isLoggedIn && widgetSettings['sakai:allowanonymous'] === false) {
             // This should not even happen.. Somebody is tinkering with the HTML.
-            alert("Anonymous users are not allowed to post comments. Please register or log in to add your comment.");
+            sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("ANON_NOT_ALLOWED"),"",sakai.api.Util.notification.type.ERROR);
         }
         // Show the form.
         $(commentsFillInComment, rootel).show();
@@ -685,7 +686,7 @@ sakai.comments = function(tuid, showSettings){
                 getComments();
             },
             error: function(xhr, textStatus, thrownError){
-                alert("Failed to (un)delete the post.");
+                sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("FAILED_TO_UNDELETE"),"",sakai.api.Util.notification.type.ERROR);
             },
             data: data
         });
@@ -742,13 +743,13 @@ sakai.comments = function(tuid, showSettings){
                     $(commentsMessage + id, rootel).show();
                 },
                 error: function(xhr, textStatus, thrownError){
-                    alert("Failed to edit comment.");
+                    sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("FAILED_TO_EDIT"),"",sakai.api.Util.notification.type.ERROR);
                 },
                 data: data
             });
         }
         else {
-            alert("Please enter a message.");
+            sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("PLEASE_ENTER_MESSAGE"),"",sakai.api.Util.notification.type.ERROR);
         }
     });
 
@@ -773,7 +774,7 @@ sakai.comments = function(tuid, showSettings){
         if (widgeturl) {
             store = widgeturl + "/message";
             $.ajax({
-                url: widgeturl + ".infinity.json",
+                url: widgeturl + ".0.json",
                 type: "GET",
                 dataType: "json",
                 success: function(data){

@@ -30,17 +30,23 @@
         <!-- Core 3rd-party JS -->
         <script type="text/javascript" src="/dev/lib/jquery/jquery.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/jquery-ui.full.js"></script>
-        <script type="text/javascript" src="/dev/lib/Fluid/3akai_Infusion.js"></script>
-        <script type="text/javascript" src="/dev/lib/i10n/globalization.js"></script>
+        <script type="text/javascript" src="/dev/lib/fluid/3akai_Infusion.js"></script>
+        <script type="text/javascript" src="/dev/lib/misc/l10n/globalization.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.json.js"></script>
-        <script type="text/javascript" src="/dev/lib/google/html-sanitizer-minified.js"></script>
+        <script type="text/javascript" src="/dev/lib/misc/google/html-sanitizer-minified.js"></script>
 
         <!-- Sakai Core JS -->
-        <script type="text/javascript" src="/dev/lib/sakai_util/sakai_magic.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.core.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.util.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.i18n.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.l10n.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.user.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.widgets.js"></script>
+        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.communication.js"></script>
 
         <!-- 3rd party JS -->
-        <script type="text/javascript" src="/dev/lib/sakai_util/trimpath.template.js"></script>
-        <script type="text/javascript" src="/dev/lib/sakai_util/querystring.js"></script>
+        <script type="text/javascript" src="/dev/lib/misc/trimpath.template.js"></script>
+        <script type="text/javascript" src="/dev/lib/misc/querystring.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jqmodal.sakai-edited.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.cookie.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.pager.js"></script>
@@ -58,9 +64,9 @@
         <div id="widget_topnavigation" class="widget_inline"></div>
 
         <!-- TITLE BAR  -->
-        <div class="fl-container-flex header">
-            <div class="fl-fix fl-centered fixed-container">
-                <div class="decor"></div>
+        <div class="fl-container-flex header s3d-header">
+            <div class="fl-fix fl-centered fixed-container s3d-fixed-container">
+                <div class="s3d-decor"></div>
 
                 <!-- TITLE BAR  -->
                 <div class="s3d-site-heading">
@@ -74,16 +80,16 @@
         </div>
 
         <!-- CONTENT -->
-        <div class="fl-container fl-fix content content_search">
-            <div class="fl-fix fl-centered fixed-container main-container">
+        <div class="fl-container fl-fix content content_search s3d-regular-links">
+            <div class="fl-fix fl-centered fixed-container main-container s3d-main-container">
                 <div class="outline-top"><div class="outline-top-inner"></div></div>
-                <div class="outline">
+                <div class="outline s3d-content">
 
                     <!-- TAB CONTENT -->
                     <div class="fl-centered fl-container fl-tab-content search_tab_content">
 
                         <!-- SEARCH RESULTS -->
-                        <div class="fl-container fl-fix search_results_container" id="content_media_header">
+                        <div class="fl-container fl-fix search_results_container s3d-highlight_area_background" id="content_media_header">
                             <div class="search_top_rounded"><div class="search_top_rounded_inner"></div></div>
 
                             <!-- COURSE / SITES PART -->
@@ -135,7 +141,7 @@
                         </div>
 
                         <!-- PEOPLE PART -->
-                        <div class="fl-container fl-fix search_results_container" id="people_header">
+                        <div class="fl-container fl-fix search_results_container s3d-highlight_area_background" id="people_header">
                             <div class="search_top_rounded"><div class="search_top_rounded_inner"></div></div>
                             <div class="fl-container fl-fix search_results_part">
 
@@ -177,7 +183,7 @@
                             <div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"></div></div>
                         </div>
 
-                        <div class="fl-container fl-fix search_results_container" id="courses_sites_header">
+                        <div class="fl-container fl-fix search_results_container s3d-highlight_area_background" id="courses_sites_header">
                             <div class="search_top_rounded"><div class="search_top_rounded_inner"></div></div>
                             <div class="fl-container fl-fix search_results_part">
                                 <div class="fl-container fl-fix search_results_part_header">
@@ -217,7 +223,7 @@
                     </div>
 
                 </div>
-                <div class="outline-bottom"><div class="outline-bottom-inner"></div></div>
+                <div class="s3d-no-options"><div class="s3d-no-options-inner"></div></div>
             </div>
         </div>
 

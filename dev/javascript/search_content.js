@@ -31,6 +31,8 @@ sakai.search = function() {
     var tagterm = "";
     var currentpage = 0;
 
+    var searchAjaxCall = false;
+
     // Search URL mapping
     var searchURLmap = {
         allfiles : sakai.config.URL.SEARCH_ALL_FILES,
@@ -78,7 +80,8 @@ sakai.search = function() {
             all : "#tab_search_all",
             content : "#tab_search_content",
             people : "#tab_search_people",
-            sites : "#tab_search_sites"
+            sites : "#tab_search_sites",
+            sakai2 : "#tab_search_sakai2"
         },
         results : {
             container : search + '_results_container',
@@ -93,18 +96,21 @@ sakai.search = function() {
                 "all" : {
                     "category": $("#search_result_all_content").html(),
                     "searchurl": searchURLmap.allfiles
-                },
-                "manage" : {
-                    "category": $("#search_result_content_I_manage").html(),
-                    "searchurl": searchURLmap.pooledcontentmanager
-                },
-                "member" : {
-                    "category": $("#search_result_content_I_m_a_viewer_of").html(),
-                    "searchurl": searchURLmap.pooledcontentviewer
                 }
             }
         }
     };
+
+    if (!sakai.data.me.user.anon) {
+        searchConfig.facetedConfig.facets.manage = {
+            "category": $("#search_result_content_I_manage").html(),
+            "searchurl": searchURLmap.pooledcontentmanager
+        };
+        searchConfig.facetedConfig.facets.member = {
+            "category": $("#search_result_content_I_m_a_viewer_of").html(),
+            "searchurl": searchURLmap.pooledcontentviewer
+        };
+    }
 
     var $uploadContentLink = $("#upload_content.search_add_content_button");
 
@@ -143,7 +149,11 @@ sakai.search = function() {
      * @param {Integer} page The page you are on (optional / default = 1.)
      * @param {String} searchquery The searchterm you want to look for (optional / default = input box value.)
      */
-    sakai._search.doHSearch = function(page, searchquery, searchwhere, facet) {
+    sakai._search.doHSearch = function(page, searchquery, searchwhere, facet, killPreviousAjaxCall) {
+        // if killpreviousajaxcall is true then kill the previous ajax request
+        if (killPreviousAjaxCall) {
+            searchAjaxCall.abort();
+        }
         
         if (!page) {
             page = 1;
@@ -334,9 +344,9 @@ sakai.search = function() {
             // Check if we want to search using a faceted link
             if (facetedurl) {
                 url = facetedurl.replace(".json", ".infinity.json");
-            };
+            }
 
-            $.ajax({
+            searchAjaxCall = $.ajax({
                 url: url,
                 data: {
                     "q" : urlsearchterm,
@@ -425,9 +435,14 @@ sakai.search = function() {
         "doHSearch" : sakai._search.doHSearch
     };
 
-    $uploadContentLink.bind("click", function() {
-        $(window).trigger("sakai-fileupload-init");
-    });
+    if (sakai.data.me.user.anon) {
+        $uploadContentLink.hide();
+        $("#search_results_page1").removeClass("search_results_container_sub");
+    } else {
+        $uploadContentLink.bind("click", function() {
+            $(window).trigger("sakai-fileupload-init");
+        });
+    }
 
     $(window).bind("sakai-fileupload-complete", function(){
        window.location = window.location + "&_=" + Math.random(); 

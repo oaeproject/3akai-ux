@@ -3,7 +3,7 @@
     "hasSettings": false,
     "id": "listpeople",
     "i18n": {
-        "default": "/devwidgets/listpeople/bundles/default.json"
+        "default": "/devwidgets/listpeople/bundles/default.properties"
     },
     "name": "People Lister",
     "url": "/devwidgets/listpeople/listpeople.html",

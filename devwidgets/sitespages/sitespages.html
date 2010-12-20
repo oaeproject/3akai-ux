@@ -18,8 +18,8 @@
                 <!-- Site Management -->
                 <div class="site_management" id="site_management" style="display:none">
 
-                    <div class="sm_titlebar">
-                        <div class="sm_titlebar_inner"><h2 class="sm_title">__MSG__SITE_MANAGEMENT__</h2></div>
+                    <div class="sm_titlebar s3d-widget-titlebar">
+                        <div class="sm_titlebar_inner s3d-widget-titlebar-inner s3d-widget-titlebar-inner"><h2 class="sm_title">__MSG__SITE_MANAGEMENT__</h2></div>
                     </div>
 
                     <div class="sm_bottom">
@@ -46,7 +46,7 @@
                     <div class="content_top_inner"><!-- --></div>
                 </div>
 
-                <div class="sakai_site_contents_main fl-fix">
+                <div class="sakai_site_contents_main s3d-content fl-fix">
 
                     <!-- REVISION HISTORY -->
                     <div class="fl-container revision_history fl-fix" id="revision_history_container"  style="display:none">
@@ -70,7 +70,7 @@
                 </div>
 
                 <!-- BOTTOM BORDER -->
-                <div class="content_bottom"><div class="content_bottom_inner"><!-- --></div></div>
+                <div class="s3d-no-options"><div class="s3d-no-options-inner"><!-- --></div></div>
 
             </div>
 
@@ -94,7 +94,7 @@
                 <div id="content_page_options_container">
                     <div class="content_page_options" id="content_edit_page_options">
                         <a href="http://confluence.sakaiproject.org/display/2ACC/Draft+TinyMCE+User+Documentation+for+Sakai+3" id="sitespages_accessibility_help" class="s3d-action" target="_blank">__MSG__ACCESSIBILITY_HELP__</a>
-                        <ul class="fl-force-right">
+                        <ul class="fl-force-left">
                             <li id="li_edit_page"><a href="javascript:;" id="edit_page_revert">__MSG__EDIT__</a></li>
                         </ul>
                     </div>
@@ -108,8 +108,8 @@
 
                     <div class="s3d-primary-tabs">
                         <ul class="fl-tabs fl-tabs-left">
-                            <li id="sitespages_embed_content_button" class="sitespages_add_button"><img src="/dev/images/add_image.png"/ ></li>
-                            <!-- <li id="embed_video" class="add_button"><img src="/dev/images/add_video.png"/ ></li> -->
+                            <li id="sitespages_embed_content_button" class="sitespages_add_button"><img src="/dev/images/add_image.png" alt="__MSG__ADD_CONTENT__" /></li>
+                            <!-- <li id="embed_video" class="add_button"><img src="/dev/images/add_video.png" alt="__MSG__ADD_VIDEO__" /></li> -->
                         </ul>
                         <ul class="fl-tabs fl-tabs-right">
                             <li id="tab_text_editor"><button class="s3d-button s3d-button-tab"><span class="s3d-button-inner">__MSG__TEXT_EDITOR__</span></button></li>
@@ -157,7 +157,7 @@
 
                     </div> <!-- end EDIT CONTENTS -->
 
-                    <div class="content_bottom content_bottom_edit"><div class="content_bottom_inner"><!-- --></div></div>
+                    <div class="s3d-widget-no-options content_bottom_edit"><div class="s3d-widget-no-options-inner"><!-- --></div></div>
 
                 </div> <!-- end TAB CONTENT -->
 
@@ -178,7 +178,7 @@
             </span>
         </button>
 
-        <div class="add_more_menu" id="more_menu" style="display:none">
+        <div class="s3d-sprites-buttons" id="more_menu" style="display:none">
             <ul>
                 <li id="more_revision_history" class="more_option"><a href="javascript:;" class="s3d-action">__MSG__REVISION_HISTORY__</a></li>
                 <li id="more_save_as_template" class="more_option"><a href="javascript:;" class="s3d-action">__MSG__SAVE_AS_TEMPLATE__</a></li>
@@ -240,7 +240,7 @@
 
 
     <!-- INSERT DIALOG -->
-    <div id="insert_dialog" class="dialog" style="width:650px; margin-left: -325px">
+    <div id="insert_dialog" class="dialog">
         <!-- DIALOG HEADER -->
         <div class="dialog_header">
             <div class="dialog_header_inner">
@@ -392,7 +392,7 @@
         </div>
     </div>
 
-    <div class="context_menu" id="context_menu" style="display:none">
+    <div class="s3d-sprites-buttons" id="context_menu" style="display:none">
         <button class="s3d-button s3d-button-inline" id="more_link">
             <span class="s3d-button-inner"><span class="s3d-button-icon-left"></span><span class="s3d-button-inner-text">__MSG__WIDGET_OPTIONS__</span><span class="s3d-button-icon-right"></span></span>
         </button>
@@ -516,7 +516,7 @@
 
 </div>
 
-<!-- <div class="sm_content">
+<!-- <div class="sm_content s3d-widget-content">
     <ul>
         <li><a id="site_management_basic_link" href="/dev/site_management_basic_settings.html?siteid=">__MSG__SITE_SETTINGS__</a></li>
         <li><a id="site_management_files_link" href="/dev/content_media.html?siteid=">__MSG__SITE_FILES__</a></li>

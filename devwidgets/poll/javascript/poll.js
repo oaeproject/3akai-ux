@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config */
+/*global $ */
 
 var sakai = sakai || {};
 
@@ -502,13 +502,13 @@ sakai.poll = function(tuid, showSettings){
         if(me){
 
             // A user can only vote once
-            if(!$.inArray(me.user.userid, json.poll.users) > -1){
+            if($.inArray(me.user.userid, json.poll.users) === -1){
 
                 // Double check (it is already checked in the bindUnbindVote function)
                 // if the user has checked an element. We do this double check to make it
                 // more secure.
                 if($('input[name=' + pollQuestionViewOptionsClass + ']:checked').length === 0){
-                    alert("Please select at least one option.");
+                    sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("PLEASE_SELECT_AN_OPTION"),"",sakai.api.Util.notification.type.ERROR);
 
                 // If the user selected one or multiple options
                 }else{
@@ -522,10 +522,10 @@ sakai.poll = function(tuid, showSettings){
                 }
             }
             else{
-                alert("You already registered a vote.");
+                sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("YOU_ALREADY_VOTED"),"",sakai.api.Util.notification.type.ERROR);
             }
         }else{
-            alert("Can not get the current user.");
+            sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("CANT_GET_CURRENT_USER"),"",sakai.api.Util.notification.type.ERROR);
         }
     };
 
@@ -635,7 +635,7 @@ sakai.poll = function(tuid, showSettings){
                         }
                     }
                 } catch (err){
-                    alert(err);
+                    sakai.api.Util.notification.show(err,"",sakai.api.Util.notification.type.ERROR);
                 }
             }
             else {

@@ -70,7 +70,7 @@ sakai.group = function(){
         var editMode = sakai.currentgroup.manager;
         var homePage = "";
         sakai.sitespages.doInit(basepath, fullpath, url, editMode, homePage, "grouppages", "groupdashboard");
-    }
+    };
 
     /**
      * Get the group id from the querystring
@@ -97,10 +97,8 @@ sakai.group = function(){
      * Fetch group data
      */
     var getGroupData = function(groupid){
-
-        $.ajax({
-            url: "/~" + groupid + "/public.infinity.json",
-            success: function(data){
+        sakai.api.Groups.getGroupData(groupid, function(success, data) {
+            if (success) {
                 sakai.currentgroup.id = groupid;
                 sakai.currentgroup.data = data;
                 if (data.authprofile['rep:policy']) {

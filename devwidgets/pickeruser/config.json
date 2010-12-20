@@ -3,7 +3,7 @@
     "hasSettings": false,
     "id": "pickeruser",
     "i18n": {
-        "default": "/devwidgets/pickeruser/bundles/default.json"
+        "default": "/devwidgets/pickeruser/bundles/default.properties"
     },
     "name": "People Picker",
     "type":"core",

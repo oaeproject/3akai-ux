@@ -263,11 +263,12 @@ sakai.profile = function(){
             // Check user profile type
             checkProfileType();
 
-            if (sakai.profile.main.data.activity)
+            if (sakai.profile.main.data.activity) {
                 delete sakai.profile.main.data.activity;
+            }
 
             // Execute the callback function
-            if (callback && typeof callback === "function") {
+            if ($.isFunction(callback)) {
                 callback();
             }
 
@@ -294,7 +295,7 @@ sakai.profile = function(){
                 } else {
                     debug.error("setProfileData: Could not find the user's profile");
                 }
-                if (callback && typeof callback === "function") {
+                if ($.isFunction(callback)) {
                     callback();
                 }
             });
@@ -582,7 +583,7 @@ sakai.profile = function(){
         // Bind a global event that can be triggered by the profilesection widgets
         $(window).bind("sakai-" + sectionobject.sectionname, function(eventtype, callback){
 
-            if(callback && typeof callback === "function"){
+            if ($.isFunction(callback)) {
                 callback(sectionname);
             }
 

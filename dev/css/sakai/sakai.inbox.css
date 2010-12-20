@@ -1,9 +1,5 @@
 /** inbox_main.html **/
 
-/** CONTAINER **/
-.fixed-container
-{ background: #fff;}
-
 /** LAYOUT **/
 .inbox_main .main_container
 { border:medium none; margin:0 0 20px; padding:0; }
@@ -43,18 +39,11 @@
 .inbox_main .inbox-folders
 { width: 230px; margin:0; padding: 0; overflow: hidden; }
 
-.inbox_main .inbox-folders .if_titlebar
-{ background:transparent url(/dev/images/block_tr.png) no-repeat scroll right top; padding: 0 10px 0 0; height:50px; }
-
 .inbox_main .inbox-folders .if_titlebar_inner
-{ background:transparent url(/dev/images/block_tl.png) no-repeat scroll left top; padding: 18px 0 0 17px; height:50px; }
+{ padding: 18px 0 0 17px; }
 
 .inbox_main .inbox-folders .if_title
 { background:transparent url(/dev/images/mail_icon_16x16.png) no-repeat scroll left top; color:#878A8C; font-size:1em; padding-left: 25px; margin:0;}
-
-
-.inbox_main .inbox-folders .if_content
-{ border-left: 3px solid #D4DADE; border-right: 3px solid #D4DADE; padding: 1px 5px 1px 12px; margin: 0; }
 
 .inbox_main .inbox-folders .if_content ul
 { padding: 0 0 0 20px; margin: 0; }
@@ -63,7 +52,7 @@
 { list-style-type: none; padding: 3px 0 3px 0; }
 
 .inbox_main .inbox-folders .if_content ul li a
-{ font-weight: normal; color: #058EC4; }
+{ font-weight: normal; }
 
 .inbox_main .inbox-folders .if_content ul li span
 { font-weight: normal; color: #999999; }
@@ -72,7 +61,7 @@
 { margin: 10px 0 10px 0; }
 
 .inbox_main .inbox-folders .if_content .tab a
-{ font-weight: bold; color: #058EC4; font-size: 1.2em; padding: 0 0 10px 0; }
+{ font-size: 1.2em; padding: 0 0 10px 0; }
 
 .inbox_main .inbox-folders #inbox_filter_inbox
 { background: transparent url(/dev/images/inbox_folders_messages.gif) no-repeat scroll left center; height: 20px; padding: 0 0 0 28px; }
@@ -95,16 +84,6 @@
 .inbox_main .inbox-folders #inbox_filter_trash
 { background: transparent url(/dev/images/inbox_folders_trash.gif) no-repeat scroll left center; height: 20px; padding: 0 0 0 28px; }
 
-.inbox_main .inbox-folders .if_bottom
-{ background:transparent url(/dev/images/content_bl.png) no-repeat scroll left bottom; height: 5px; padding: 0 0 0 10px; }
-
-.inbox_main .inbox-folders .if_bottom_inner
-{ background:transparent url(/dev/images/content_br.png) no-repeat scroll right bottom; height: 5px; }
-
-
-
-
-
 /** INBOX MAIN PANE **/
 
 .inbox_main .inbox-heading
@@ -124,9 +103,6 @@
 /** Buttons **/
 .inbox_main .top_button_bar
 { padding: 0 12px 5px 0; text-align: right; }
-
-.inbox_main .inbox_inbox_delete
-{ color: #058EC4; }
 
 /** Header **/
 .inbox_main .inbox-table .different
@@ -166,8 +142,6 @@
 .inbox_main .inbox-table tr.inbox-subject-unread *
 { font-weight: bold; }
 
-.inbox_main .inbox-table td a.inbox_inbox_message {color:#058EC4}
-
 .inbox_main .inbox-table .inbox_message_none
 { text-align: center; border: none; height: 370px; }
 
@@ -176,18 +150,15 @@
 { background: transparent url(/dev/images/inbox_table_bottom.png) no-repeat top left; height: 41px; width: 676px; border: none; }
 
 
-
-
-
 /** INBOX COMPOSE PANE **/
 .inbox_main #inbox_pane_compose
 { padding: 19px 0 0 0; }
 
 .inbox_main .compose-message
-{ background: #fff; width: 613px; height: auto; text-align: left; padding: 20px 20px 20px 37px; border-top: 3px solid #D5DBDF; }
+{ width: 613px; height: auto; text-align: left; padding: 20px 20px 20px 37px; border-top: 3px solid #D5DBDF; }
 
 .inbox_main .compose-reply
-{ background: #fff; width: 500px; height: auto; position: relative; top:-15px;}
+{  width: 500px; height: auto; position: relative; top:-15px;}
 
 .inbox_main .compose-form
 { padding: 0; color: #333; font-size: 13px; }
@@ -220,10 +191,7 @@
 { padding: 0; }
 
 .inbox_detail .sender-options
-{ color:#058ec4; font-size: 1em; padding: 0 12px 5px 0; }
-
-.inbox_detail .sender-options a
-{ color:#058ec4; font-size: 1em; }
+{ padding: 0 12px 5px 0; }
 
 .inbox_detail .sender_details
 { height: 32px; background: #f4f4f4; border-bottom: 3px solid #D4DADE; padding: 5px; }
@@ -235,13 +203,10 @@
 { width:32px; height:32px; }
 
 .inbox_detail .inbox-heading a
-{ color: #058ec4; font-size: 13px; }
+{font-size: 13px; }
 
 .inbox_detail .inbox-heading span
 { font-size: 16px; }
-
-.inbox_detail .sender-name
-{ color: #058ec4; font-weight: bold; }
 
 .inbox_detail .sender-timestamp
 { color: #999999; font-size: 11px; }
@@ -263,9 +228,6 @@
 
 .inbox_detail .message-options
 { padding: 15px 15px 0 0; }
-
-.inbox_detail .message-options a, #inbox_message_body a
-{ color:#058ec4; font-weight: bold; }
 
 .inbox_detail .pipe-divider
 { color:#d2d2d2; padding: 0 10px 0 10px; }
@@ -336,7 +298,8 @@
 
 
 
-.inbox_main .inbox_arrow {float:right;width:6px;height:3px;display:inline;margin-top:5px;}
+.inbox_main .inbox_arrow_down {float:right !important;width:6px;height:3px;display:inline;margin-top:5px;background:url("/dev/images/arrow_down_inbox.png") no-repeat scroll 0 0 transparent;}
+.inbox_main .inbox_arrow_up {float:right !important;width:6px;height:3px;display:inline;margin-top:5px;background:url("/dev/images/arrow_up_inbox.png") no-repeat scroll 0 0 transparent;}
 
 
 .inbox_main .inbox_inbox_table_header_sort { cursor:pointer;}
@@ -349,7 +312,7 @@
 
 .inbox_reply_buttons {padding-right: 23px;}
 
-
+.if_content {padding-top: 1px;padding-left: 15px;}
 
 
 
