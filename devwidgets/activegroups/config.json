@@ -6,7 +6,7 @@
     "description": "",
     "hasSettings": false,
     "id": "activegroups",
-    "name": "Most active public groups",
+    "name": "Most active groups",
     "type": "sakai",
     "enabled": true,
     "url":"/devwidgets/activegroups/activegroups.html",
