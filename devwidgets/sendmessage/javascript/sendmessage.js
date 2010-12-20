@@ -481,7 +481,7 @@ if (!sakai.sendmessage){
             } else {
                 sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("YOUR_MESSAGE_FAILED_DELIVERED"),"",sakai.api.Util.notification.type.ERROR);
             }
-            $(this).removeAttr("disabled");
+            $(buttonSendMessage).removeAttr("disabled");
         };
 
         /**
@@ -491,7 +491,7 @@ if (!sakai.sendmessage){
          */
         $(buttonSendMessage).bind("click", function(ev) {
             // disable the button to prevent clicking button repeatedly
-            $(this).attr("disabled", "disabled");
+            $(buttonSendMessage).attr("disabled", "disabled");
             var recipients = [];
             if (allowOthers) {
                 // fetch list of selected recipients
