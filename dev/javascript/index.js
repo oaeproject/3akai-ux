@@ -28,7 +28,7 @@ sakai.index = function(){
     }
 
     $(window).bind("sakai-login-ready", function(e) {
-        $(window).trigger("sakai-login-render", true)
+        $(window).trigger("sakai-login-render", true);
     });
 
     //////////
