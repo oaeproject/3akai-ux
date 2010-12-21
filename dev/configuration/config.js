@@ -527,102 +527,127 @@ sakai.config = {
 
     MimeTypes: {
         "application/doc": {
+            cssClass: "icon-doc-sprite",
             URL: "/dev/images/mimetypes/doc.png",
             description: "Word document"
         },
         "application/msword": {
+            cssClass: "icon-doc-sprite",
             URL: "/dev/images/mimetypes/doc.png",
             description: "Word document"
         },
+        "application/vnd.oasis.opendocument.text": {
+            cssClass: "icon-doc-sprite",
+            URL: "/dev/images/mimetypes/doc.png",
+            description: "Open Office document"
+        },
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document": {
+            cssClass: "icon-doc-sprite",
             URL: "/dev/images/mimetypes/doc.png",
             description: "Word document"
         },
         "application/pdf": {
+            cssClass: "icon-pdf-sprite",
             URL: "/dev/images/mimetypes/pdf.png",
             description: "PDF document"
         },
         "application/x-pdf": {
+            cssClass: "icon-pdf-sprite",
             URL: "/dev/images/mimetypes/pdf.png",
             description: "PDF document"
         },
         "application/vnd.ms-powerpoint": {
+            cssClass: "icon-pps-sprite",
             URL: "/dev/images/mimetypes/pps.png",
             description: "PowerPoint document"
         },
         "application/vnd.openxmlformats-officedocument.presentationml.presentation": {
+            cssClass: "icon-pps-sprite",
             URL: "/dev/images/mimetypes/pps.png",
             description: "PowerPoint document"
         },
-        "application/vnd.oasis.opendocument.text": {
-            URL: "/dev/images/mimetypes/doc.png",
-            description: "Open Office document"
-        },
         "application/x-shockwave-flash": {
+            cssClass: "icon-swf-sprite",
             URL: "/dev/images/mimetypes/swf.png",
             description: "Flash player file"
         },
         "application/zip": {
+            cssClass: "icon-zip-sprite",
             URL: "/dev/images/mimetypes/zip.png",
             description: "Archive file"
         },
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {
+            cssClass: "icon-spreadsheet-sprite",
             URL: "/dev/images/mimetypes/spreadsheet.png",
             description: "Spreadsheet document"
         },
         "application/vnd.ms-excel": {
+            cssClass: "icon-spreadsheet-sprite",
             URL: "/dev/images/mimetypes/spreadsheet.png",
             description: "Spreadsheet document"
         },
         "text/plain": {
+            cssClass: "icon-txt-sprite",
             URL: "/dev/images/mimetypes/txt.png",
             description: "Text document"
         },
         "text/rtf": {
+            cssClass: "icon-txt-sprite",
             URL: "/dev/images/mimetypes/txt.png",
             description: "Text document"
         },
         "image/png": {
+            cssClass: "icon-image-sprite",
             URL: "/dev/images/mimetypes/images.png",
             description: "Png image"
         },
         "image/bmp": {
+            cssClass: "icon-image-sprite",
             URL: "/dev/images/mimetypes/images.png",
             description: "Bmp image"
         },
         "image/gif": {
+            cssClass: "icon-image-sprite",
             URL: "/dev/images/mimetypes/images.png",
             description: "Gif image"
         },
         "image/jpeg": {
+            cssClass: "icon-image-sprite",
             URL: "/dev/images/mimetypes/images.png",
             description: "Jpg image"
         },
         "image/pjpeg": {
+            cssClass: "icon-image-sprite",
             URL: "/dev/images/mimetypes/images.png",
             description: "Jpg image"
         },
         "text/html": {
+            cssClass: "icon-html-sprite",
             URL: "/dev/images/mimetypes/html.png",
             description: "HTML document"
         },
         "video/x-msvideo": {
+            cssClass: "icon-video-sprite",
             URL: "/dev/images/mimetypes/video.png",
             description: "Video file"
         },
         "video/mp4": {
+            cssClass: "icon-video-sprite",
             URL: "/dev/images/mimetypes/video.png",
             description: "Video file"
         },
         folder: {
+            cssClass: "icon-kmultiple-sprite",
             URL: "/dev/images/mimetypes/kmultiple.png",
             description: "Folder"
         },
         "x-sakai/link": {
+            cssClass: "icon-url-sprite",
             URL: "/dev/images/mimetypes/html.png",
             description: "URL Link"
         },
         other: {
+            cssClass: "icon-unknown-sprite",
             URL: "/dev/images/mimetypes/unknown.png",
             description: "Other document"
         }
