@@ -528,103 +528,103 @@ sakai.config = {
     MimeTypes: {
         "application/doc": {
             URL: "/dev/images/mimetypes/doc.png",
-            description: "Word document"
+            description: "WORD_DOCUMENT"
         },
         "application/msword": {
             URL: "/dev/images/mimetypes/doc.png",
-            description: "Word document"
+            description: "WORD_DOCUMENT"
         },
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document": {
             URL: "/dev/images/mimetypes/doc.png",
-            description: "Word document"
+            description: "WORD_DOCUMENT"
         },
         "application/pdf": {
             URL: "/dev/images/mimetypes/pdf.png",
-            description: "PDF document"
+            description: "PDF_DOCUMENT"
         },
         "application/x-pdf": {
             URL: "/dev/images/mimetypes/pdf.png",
-            description: "PDF document"
+            description: "PDF_DOCUMENT"
         },
         "application/vnd.ms-powerpoint": {
             URL: "/dev/images/mimetypes/pps.png",
-            description: "PowerPoint document"
+            description: "POWERPOINT_DOCUMENT"
         },
         "application/vnd.openxmlformats-officedocument.presentationml.presentation": {
             URL: "/dev/images/mimetypes/pps.png",
-            description: "PowerPoint document"
+            description: "POWERPOINT_DOCUMENT"
         },
         "application/vnd.oasis.opendocument.text": {
             URL: "/dev/images/mimetypes/doc.png",
-            description: "Open Office document"
+            description: "OPEN_OFFICE_DOCUMENT"
         },
         "application/x-shockwave-flash": {
             URL: "/dev/images/mimetypes/swf.png",
-            description: "Flash player file"
+            description: "FLASH_PLAYER_FILE"
         },
         "application/zip": {
             URL: "/dev/images/mimetypes/zip.png",
-            description: "Archive file"
+            description: "ARCHIVE_FILE"
         },
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {
             URL: "/dev/images/mimetypes/spreadsheet.png",
-            description: "Spreadsheet document"
+            description: "SPREADSHEET_DOCUMENT"
         },
         "application/vnd.ms-excel": {
             URL: "/dev/images/mimetypes/spreadsheet.png",
-            description: "Spreadsheet document"
+            description: "SPREADSHEET_DOCUMENT"
         },
         "text/plain": {
             URL: "/dev/images/mimetypes/txt.png",
-            description: "Text document"
+            description: "TEXT_DOCUMENT"
         },
         "text/rtf": {
             URL: "/dev/images/mimetypes/txt.png",
-            description: "Text document"
+            description: "TEXT_DOCUMENT"
         },
         "image/png": {
             URL: "/dev/images/mimetypes/images.png",
-            description: "Png image"
+            description: "PNG_IMAGE"
         },
         "image/bmp": {
             URL: "/dev/images/mimetypes/images.png",
-            description: "Bmp image"
+            description: "BMP_IMAGE"
         },
         "image/gif": {
             URL: "/dev/images/mimetypes/images.png",
-            description: "Gif image"
+            description: "GIF_IMAGE"
         },
         "image/jpeg": {
             URL: "/dev/images/mimetypes/images.png",
-            description: "Jpg image"
+            description: "JPG_IMAGE"
         },
         "image/pjpeg": {
             URL: "/dev/images/mimetypes/images.png",
-            description: "Jpg image"
+            description: "JPG_IMAGE"
         },
         "text/html": {
             URL: "/dev/images/mimetypes/html.png",
-            description: "HTML document"
+            description: "HTML_DOCUMENT"
         },
         "video/x-msvideo": {
             URL: "/dev/images/mimetypes/video.png",
-            description: "Video file"
+            description: "VIDEO_FILE"
         },
         "video/mp4": {
             URL: "/dev/images/mimetypes/video.png",
-            description: "Video file"
+            description: "VIDEO_FILE"
         },
         folder: {
             URL: "/dev/images/mimetypes/kmultiple.png",
-            description: "Folder"
+            description: "FOLDER"
         },
         "x-sakai/link": {
             URL: "/dev/images/mimetypes/html.png",
-            description: "URL Link"
+            description: "URL_LINK"
         },
         other: {
             URL: "/dev/images/mimetypes/unknown.png",
-            description: "Other document"
+            description: "OTHER_DOCUMENT"
         }
     },
 

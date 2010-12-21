@@ -277,10 +277,10 @@ sakai.api.UI.listGeneral.addPage = function(tuid, pageNumber, searchQuery) {
                 // Get mimetype icon and human readable mimetype description
                 if (sakai.config.MimeTypes[result["jcr:mimeType"]]) {
                     result.listgeneral.avatar = sakai.config.MimeTypes[result["jcr:mimeType"]].URL;
-                    result.listgeneral.mimeTypeDescripton = sakai.config.MimeTypes[result["jcr:mimeType"]].description;
+                    result.listgeneral.mimeTypeDescripton = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[result["jcr:mimeType"]].description);
                 } else {
                     result.listgeneral.avatar = "/dev/images/mimetypes/empty.png";
-                    result.listgeneral.mimeTypeDescripton = sakai.config.MimeTypes.other.description;
+                    result.listgeneral.mimeTypeDescripton = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes.other.description);
                 }
 
                 // Description
