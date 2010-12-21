@@ -117,42 +117,55 @@
                 {if config.editable === false}
                     <span class="profilesection_generalinfo_content">${data.value}</span>
                 {else}
-                    {if !config.type || $.inArray(config.type, stringtypes) >= 0}
-                        <input type="text"
-                    {elseif config.type === "textarea"}
-                        <textarea rows="3" 
-                    {elseif config.type === "select"}
-                        <select
-                    {/if}
-                        class="profilesection_generalinfo_content
-                        {if config.required} required{/if}
-                        {if config.validation} ${config.validation}
-                        {elseif config.type} ${config.type}
-                        {/if}"
-                    {if !config.type || $.inArray(config.type, stringtypes) >= 0}
-                        {if config.type === "date" || config.type === "oldDate"}
-                            value="{if data.value}${sakai.api.l10n.transformDate(new Date(data.value))}{/if}"
-                        {else}
-                            value="{if data.value}${data.value.replace(/\"/g, "&quot;")}{/if}"
+                    {if config.type === "location"}
+                        <div class="profilesection_added_directory">
+                            <select id="profilesection_generalinfo_locations_firstlvl" class="profilesection_generalinfo_content profilesection_content_location profilesection_location_directory_lvlone required" name="profilesection_location_directory_lvlone">
+                                <option value="no_value">__MSG__PLEASE_SELECT__</option>
+                                {for i in directory}
+                                    <option value="${i.name}">${i.name}</option>
+                                {/for}
+                            </select>
+                            <div id="profilesection_location_secondlevel_template_container"></div>
+                            <div id="profilesection_location_thirdlevel_template_container"></div>
+                        </div>
+                    {else}
+                        {if !config.type || $.inArray(config.type, stringtypes) >= 0}
+                            <input type="text"
+                        {elseif config.type === "textarea"}
+                            <textarea rows="3" 
+                        {elseif config.type === "select"}
+                            <select
                         {/if}
-                    {/if}
-                        id="profilesection_generalinfo_${path.replace(/\./g,"_")}" name="${config.label}" title="${config.label}"
-                    {if !config.type || $.inArray(config.type, stringtypes) >= 0}
-                        />
-                    {elseif config.type === "select"}
-                        >
-                        <option value=""></option>
-                        {for i in config.select_elements}
-                            <option value="${i_index}"{if i_index === data.value} selected="selected"{/if}>${i}</option>
-                        {/for}
-                        </select>
-                    {elseif config.type === "textarea"}
-                        >${data.value}</textarea>
-                    {/if}
-                    {if config.example}
-                        <p class="profilesection_generalinfo_example">
-                            ${config.example}
-                        </p>
+                            class="profilesection_generalinfo_content
+                            {if config.required} required{/if}
+                            {if config.validation} ${config.validation}
+                            {elseif config.type} ${config.type}
+                            {/if}"
+                        {if !config.type || $.inArray(config.type, stringtypes) >= 0}
+                            {if config.type === "date" || config.type === "oldDate"}
+                                value="{if data.value}${sakai.api.l10n.transformDate(new Date(data.value))}{/if}"
+                            {else}
+                                value="{if data.value}${data.value.replace(/\"/g, "&quot;")}{/if}"
+                            {/if}
+                        {/if}
+                            id="profilesection_generalinfo_${path.replace(/\./g,"_")}" name="${config.label}" title="${config.label}"
+                        {if !config.type || $.inArray(config.type, stringtypes) >= 0}
+                            />
+                        {elseif config.type === "select"}
+                            >
+                            <option value=""></option>
+                            {for i in config.select_elements}
+                                <option value="${i_index}"{if i_index === data.value} selected="selected"{/if}>${i}</option>
+                            {/for}
+                            </select>
+                        {elseif config.type === "textarea"}
+                            >${data.value}</textarea>
+                        {/if}
+                        {if config.example}
+                            <p class="profilesection_generalinfo_example">
+                                ${config.example}
+                            </p>
+                        {/if}
                     {/if}
                 {/if}
             </div>
@@ -185,6 +198,38 @@
         {/if}
     {/if}
 --></div>
+
+    <div id="profilesection_location_secondlevel_template" style="display:none;"><!--
+        <span class="profilesection_saved_seperator"> &raquo; </span>
+        <select id="profilesection_generalinfo_locations_secondlvl" class="profilesection_generalinfo_content profilesection_content_location profilesection_location_hierarchy_select profilesection_location_directory_lvltwo" name="Content directory location">
+            <option value="no_value">__MSG__PLEASE_SELECT__</option>
+            {for i in directory}
+                {if i.name === changedboxvalue}
+                    {for j in i.secondlevels}
+                        <option value="${j.name}">${j.name}</option>
+                    {/for}
+                {/if}
+            {/for}
+        </select>
+    --></div>
+
+    <div id="profilesection_location_thirdlevel_template" style="display:none;"><!--
+        <span class="profilesection_saved_seperator"> &raquo; </span>
+        <select id="profilesection_generalinfo_locations_thirdlvl" class="profilesection_generalinfo_content profilesection_content_location profilesection_location_hierarchy_select profilesection_location_directory_lvlthree" name="Content directory location">
+            <option value="no_value">__MSG__PLEASE_SELECT__</option>
+            {for i in directory}
+                {if i.name === firstlevelvalue}
+                    {for j in i.secondlevels}
+                        {if j.name === changedboxvalue}
+                            {for k in j.thirdlevels}
+                                <option value="${k.name}">${k.name}</option>
+                            {/for}
+                        {/if}
+                    {/for}
+                {/if}
+            {/for}
+        </select>
+    --></div>
 
 <!-- JAVASCRIPT -->
 <script src="/devwidgets/profilesection/javascript/profilesection.js" type="application/javascript"></script>

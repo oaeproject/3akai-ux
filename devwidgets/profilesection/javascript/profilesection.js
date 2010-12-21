@@ -66,6 +66,44 @@ sakai.profilesection = function(tuid, showSettings){
     ////////////////////
 
     /**
+     * Get a list of nodes representing the directory structure to be rendered
+     */
+    var getDirectoryStructure = function(){
+        var directory = [];
+        // Get directory structure from config file
+        for (var i in sakai.config.Directory) {
+            if (sakai.config.Directory.hasOwnProperty(i)) {
+                // Create first level of content
+                var temp = {};
+                temp.name = i;
+
+                // Create second level of content
+                temp.secondlevels = [];
+                for (var j in sakai.config.Directory[i]) {
+                    if (sakai.config.Directory[i].hasOwnProperty(j)) {
+                        var secondlevel = {};
+                        secondlevel.name = j;
+
+                        // Create third level of content
+                        secondlevel.thirdlevels = [];
+                        for (var k in sakai.config.Directory[i][j]) {
+                            if (sakai.config.Directory[i][j].hasOwnProperty(k)) {
+                                var thirdlevel = {};
+                                thirdlevel.name = sakai.config.Directory[i][j][k];
+                                secondlevel.thirdlevels.push(thirdlevel);
+                            }
+                        }
+
+                        temp.secondlevels.push(secondlevel);
+                    }
+                }
+                directory.push(temp);
+            }
+        }
+        return directory;
+    };
+
+    /**
      * Get the property for a deep selection in a JavaScript object
      * Since we can't do something like obj["test.test"]
      * @param {Object} obj The object you want to get the property from
@@ -110,6 +148,7 @@ sakai.profilesection = function(tuid, showSettings){
         var json_config = {};
         json_config.data = {};
         json_config.config = sakai.profile.main.config[currentsection].elements[fieldName];
+        json_config.directory = getDirectoryStructure();
 
         if (multi) {
             json_config.path = currentsection + ".elements." + id + "." + fieldName;
@@ -264,6 +303,7 @@ sakai.profilesection = function(tuid, showSettings){
 
         // grab the config and set up the sections to add
         var sectionObject = sakai.profile.main.config[currentsection];
+
         var sections = "<div class='profilesection_section' id='profilesection_section_" + elt.id.value + "'>";
 
         $(addLink).remove();
@@ -321,10 +361,81 @@ sakai.profilesection = function(tuid, showSettings){
         removeSection($parentSection, sectionID);
     });
 
+    /**
+     * Update the select boxes on the stage
+     * @param {String} select Containing ID to check which box value has been changed
+     * @param {String} changedboxvalue Containing selected value
+     * @param {String} firstlevelvalue Containing value of first select box
+     */
+    var updateDirectoryDisplay = function(select, changedboxvalue, firstlevelvalue){
+        var obj = {
+            "firstlevelvalue":firstlevelvalue.val(),
+            "changedboxvalue" : changedboxvalue.val(),
+            "directory": getDirectoryStructure()
+        };
+        if(select === ".profilesection_location_directory_lvltwo"){
+            $(firstlevelvalue.parent().children("#profilesection_location_secondlevel_template_container")).html($.TemplateRenderer("profilesection_location_secondlevel_template", obj));
+        }else {
+            $(firstlevelvalue.parent().children("#profilesection_location_thirdlevel_template_container")).html($.TemplateRenderer("profilesection_location_thirdlevel_template", obj));
+        }
+    };
+
+    var changedLvlOne = function(el){
+        $(el).parent().children("#profilesection_location_thirdlevel_template_container").html("");
+        $(el).children("option[value='no_value']").remove();
+        updateDirectoryDisplay(".profilesection_location_directory_lvltwo", $($(el).parent()).children(".profilesection_location_directory_lvlone"), $($(el).parent()).children(".profilesection_location_directory_lvlone"));
+    };
+
+    var changedLvlTwo = function(el){
+        $(el).children("option[value='no_value']").remove();
+        updateDirectoryDisplay(".profilesection_location_directory_lvlthree", $($(el).parent()).children(".profilesection_location_directory_lvltwo"), $($(el).parent().parent()).children(".profilesection_location_directory_lvlone"));
+    };
+
+    var changedLvlThree = function(el){
+        $(el).children("option[value='no_value']").remove();
+    };
+
 
     ////////////////////////
     // Save functionality //
     ////////////////////////
+
+    var updateDirectory = function(){
+        // Create tags for the directory structure
+        // For every content_profile_basic_info_added_directory we create tags
+        // Filter out ',' since that causes unwanted behavior when rendering
+        var tags = [];
+        $(".profilesection_added_directory").each(function(){
+            if ($(this).find(".profilesection_location_directory_lvlone").val() !== "no_value" && $(this).find(".profilesection_location_directory_lvlone").val() !== undefined) {
+                var directoryString = "directory/";
+                if ($.inArray($(this).find(".profilesection_location_directory_lvlone").val().replace(/,/g, ""), sakai.profile.main.data["sakai:tags"]) < 0) {
+                    tags.push($(this).find(".profilesection_location_directory_lvlone").val().replace(/,/g, ""));
+                }
+                directoryString += $(this).find(".profilesection_location_directory_lvlone").val().replace(/,/g, "");
+
+                if ($(this).find(".profilesection_location_directory_lvltwo").val() !== "no_value" && $(this).find(".profilesection_location_directory_lvltwo").val() !== undefined) {
+                    if ($.inArray($(this).find(".profilesection_location_directory_lvltwo").val().replace(/,/g, ""), sakai.profile.main.data["sakai:tags"]) < 0) {
+                        tags.push($(this).find(".profilesection_location_directory_lvltwo").val().replace(/,/g, ""));
+                    }
+                    directoryString += "/" + $(this).find(".profilesection_location_directory_lvltwo").val().replace(/,/g, "");
+
+                    if ($(this).find(".profilesection_generalinfo_locations_thirdlvl").val() !== "no_value" && $(this).find(".profilesection_generalinfo_locations_thirdlvl").val() !== undefined) {
+                        if ($.inArray($(this).find(".profilesection_generalinfo_locations_thirdlvl").val().replace(/,/g, ""), sakai.profile.main.data["sakai:tags"]) < 0) {
+                            tags.push($(this).find(".profilesection_generalinfo_locations_thirdlvl").val().replace(/,/g, ""));
+                        }
+                        directoryString += "/" + $(this).find(".profilesection_generalinfo_locations_thirdlvl").val().replace(/,/g, "");
+                    }
+                    
+                }
+
+                // Add string for all levels to tag array
+                if ($.inArray(directoryString, sakai.profile.main.data["sakai:tags"]) < 0) {
+                    tags.push(directoryString);
+                }
+            }
+        });
+        return tags;
+    };
 
     /**
      * Save the values to the main sakai.profile object
@@ -357,6 +468,13 @@ sakai.profilesection = function(tuid, showSettings){
                 var profileURL = "/~" + sakai.profile.main.data["rep:userId"] + "/public/authprofile";
                 sakai.api.Util.tagEntity(profileURL, tagsArray, currentTags, function() {
                     debug.info("user tags saved");
+                });
+            } else if (title === "locations.firstlvl" || title === "locations.secondlvl" || title === "locations.thirdlvl") { // Location tags are saved in a different way
+                var currentTags = sakai.profile.main.data["sakai:tags"] || [];
+                var tagsArray = updateDirectory();
+                var profileURL = "/~" + sakai.profile.main.data["rep:userId"] + "/public/authprofile";
+                sakai.api.Util.tagEntity(profileURL, tagsArray, currentTags, function() {
+                    debug.info("user location tags saved");
                 });
             } else if (title) {
 
@@ -450,6 +568,18 @@ sakai.profilesection = function(tuid, showSettings){
             // Save the values to the global object
             saveValues();
 
+        });
+
+        $(".profilesection_location_directory_lvlone").live("change", function(){
+            changedLvlOne(this);
+        });
+
+        $(".profilesection_location_directory_lvltwo").live("change", function(){
+            changedLvlTwo(this);
+        });
+
+        $(".profilesection_location_directory_lvlthree").live("change", function(){
+            changedLvlThree(this);
         });
 
     };
