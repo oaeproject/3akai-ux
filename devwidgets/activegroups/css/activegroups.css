@@ -2,3 +2,6 @@
 #activegroups_main ul li {list-style-type: none;}
 #activegroups_title {padding-left: 15px !important;}
 .activegroups_widget {overflow: hidden;}
+
+/* Widget icon */
+.activegroups.fl-widget .fl-widget-titlebar .widget_title {background: url('/devwidgets/activegroups/images/icon.png') 14px 15px no-repeat;}

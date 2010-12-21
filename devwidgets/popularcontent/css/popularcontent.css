@@ -2,3 +2,6 @@
 #popularcontent_main ul li {list-style-type: none;}
 #popularcontent_title {padding-left: 15px !important;}
 .popularcontent_widget {overflow: hidden;}
+
+/* Widget icon */
+.popularcontent.fl-widget .fl-widget-titlebar .widget_title {background: url('/devwidgets/popularcontent/images/icon.png') 14px 15px no-repeat;}
