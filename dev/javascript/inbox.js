@@ -641,6 +641,11 @@ sakai.inbox = function() {
         }
 
         var totalUnread = 0 + unreadMessages + unreadInvitations + unreadAnnouncements;
+
+        // if unread messages return minus value set to 0.
+        if (totalUnread < 0) {
+            totalUnread = 0;
+        }
         $(chatUnreadMessages).text(sakai.api.Security.saneHTML(totalUnread));
     };
 
