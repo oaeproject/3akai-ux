@@ -218,7 +218,7 @@ sakai.api.Datetime.toGMT = function(date){
     date.setDate(date.getUTCDate());
     date.setHours(date.getUTCHours());
     return date;
-}
+};
 
 /**
  * Function that returns how many years, months, days or hours since the dateinput based on GMT time
