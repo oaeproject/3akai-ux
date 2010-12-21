@@ -1161,6 +1161,10 @@ sakai.entity = function(tuid, showSettings){
                         }
                         entityconfig.data.profile.activity.results[j]["sakai:activityMessage"] = messageArray.join(" ");
                     }
+
+                    // get the time since the activity happened
+                    var activityDate = sakai.api.Datetime.parseDateString(entityconfig.data.profile.activity.results[j]["jcr:created"]);
+                    entityconfig.data.profile.activity.results[j].timeAgo = sakai.api.Datetime.getTimeAgo(activityDate);
                 }
             }
         }
