@@ -51,6 +51,7 @@ sakai.api.User.createUser = function(username, firstName, lastName, email, passw
         "locale": sakai.api.l10n.getUserDefaultLocale(),
         "pwd": password,
         "pwdConfirm": passwordConfirm,
+        "email": email,
         ":name": username,
         ":sakai:pages-template": "/var/templates/site/" + sakai.config.defaultUserTemplate,
         ":sakai:profile-import": $.toJSON(profileData)
