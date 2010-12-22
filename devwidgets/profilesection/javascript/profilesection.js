@@ -39,6 +39,7 @@ sakai.profilesection = function(tuid, showSettings){
     /////////////////////////////
 
     var currentsection;
+    var directorySaved = false;
 
     ///////////////////
     // CSS Selectors //
@@ -175,6 +176,9 @@ sakai.profilesection = function(tuid, showSettings){
             }
             json_config.path = currentsection + ".elements." + fieldName;
         }
+        if(json_config.config.type === "location"){
+            sakai.profile.main.data.saveddirectory = sakai.profile.parseDirectoryTags(sakai.profile.main.data);
+        }
         var ret = $.TemplateRenderer(fieldTemplate, json_config);
         var localDateString = sakai.api.l10n.getDateFormatString();
         ret = ret.replace("MM/DD/YYYY", localDateString);
@@ -224,14 +228,37 @@ sakai.profilesection = function(tuid, showSettings){
                             // Set the field template, if there is no template defined, use the default one
                             var fieldTemplate = sectionObject.elements[j].template ? $("#" + sectionObject.elements[j].template, $rootel) : $profilesection_field_default_template;
 
-                            // Render the template field
-                            sections += unescape(renderTemplateField(fieldTemplate, j, true, sectionObject.elements.id.value));
+                            // Render location fields with custom template
+                            if (sectionObject.elements.locationtitle != undefined) {
+                                if (!sectionObject.elements.locationtitle.type === "location") {
+                                    // Render the template field
+                                    sections += unescape(renderTemplateField(fieldTemplate, j, true, sectionObject.elements.id.value));
+                                } else {
+                                    sakai.profile.main.data.saveddirectory = sakai.profile.parseDirectoryTags(sakai.profile.main.data);
+                                }
+                            } else {
+                                    // Render the template field
+                                    sections += unescape(renderTemplateField(fieldTemplate, j, true, sectionObject.elements.id.value));
+                            }
                         }
                     }
 
                     // only need to do the following on edit
                     if (sakai.profile.main.mode.value === "edit") {
-                        sections += $.TemplateRenderer($profilesection_remove_section_template, {"config": sectionObject, "parentid": elts.id.value});
+                        // Don't render remove button as locations have custom remove buttons
+                        if (sectionObject.elements.locationtitle != undefined) {
+                            if (!sectionObject.elements.locationtitle.type === "location") {
+                                sections += $.TemplateRenderer($profilesection_remove_section_template, {
+                                    "config": sectionObject,
+                                    "parentid": elts.id.value
+                                });
+                            }
+                        } else {
+                            sections += $.TemplateRenderer($profilesection_remove_section_template, {
+                                "config": sectionObject,
+                                "parentid": elts.id.value
+                            });
+                        }
                         sections += "</div>";
                         if (i === sakai.profile.main.data[currentsection].elements.length-1) {
                             sections += $.TemplateRenderer($profilesection_add_section_template, {"config": sectionObject, "parentid": elts.id.value});
@@ -263,6 +290,8 @@ sakai.profilesection = function(tuid, showSettings){
             "currentsection": currentsection
         };
 
+        json_config.config.type = sectionObject.type || "";
+
         return $.TemplateRenderer(sectionTemplate, json_config);
 
     };
@@ -287,6 +316,9 @@ sakai.profilesection = function(tuid, showSettings){
         var sectionConfig = $.extend(true, {}, sakai.profile.main.config[currentsection]);
 
         // Render the template section
+        if(profilesection === "locations"){
+            sectionConfig.type = "location";
+        }
         generalinfo += renderTemplateSection(sectionTemplate, sectionConfig);
 
         // Render the General info
@@ -419,11 +451,11 @@ sakai.profilesection = function(tuid, showSettings){
                     }
                     directoryString += "/" + $(this).find(".profilesection_location_directory_lvltwo").val().replace(/,/g, "");
 
-                    if ($(this).find(".profilesection_generalinfo_locations_thirdlvl").val() !== "no_value" && $(this).find(".profilesection_generalinfo_locations_thirdlvl").val() !== undefined) {
-                        if ($.inArray($(this).find(".profilesection_generalinfo_locations_thirdlvl").val().replace(/,/g, ""), sakai.profile.main.data["sakai:tags"]) < 0) {
-                            tags.push($(this).find(".profilesection_generalinfo_locations_thirdlvl").val().replace(/,/g, ""));
+                    if ($(this).find(".profilesection_location_directory_lvlthree").val() !== "no_value" && $(this).find(".profilesection_location_directory_lvlthree").val() !== undefined) {
+                        if ($.inArray($(this).find(".profilesection_location_directory_lvlthree").val().replace(/,/g, ""), sakai.profile.main.data["sakai:tags"]) < 0) {
+                            tags.push($(this).find(".profilesection_location_directory_lvlthree").val().replace(/,/g, ""));
                         }
-                        directoryString += "/" + $(this).find(".profilesection_generalinfo_locations_thirdlvl").val().replace(/,/g, "");
+                        directoryString += "/" + $(this).find(".profilesection_location_directory_lvlthree").val().replace(/,/g, "");
                     }
                     
                 }
@@ -434,6 +466,11 @@ sakai.profilesection = function(tuid, showSettings){
                 }
             }
         });
+        
+        $(".profilesection_saved_locations li").each(function(i, el){
+            tags.push("directory/" + el.id.replace(/,/g, "/"));
+        });
+
         return tags;
     };
 
@@ -470,12 +507,17 @@ sakai.profilesection = function(tuid, showSettings){
                     debug.info("user tags saved");
                 });
             } else if (title === "locations.firstlvl" || title === "locations.secondlvl" || title === "locations.thirdlvl") { // Location tags are saved in a different way
-                var currentTags = sakai.profile.main.data["sakai:tags"] || [];
-                var tagsArray = updateDirectory();
-                var profileURL = "/~" + sakai.profile.main.data["rep:userId"] + "/public/authprofile";
-                sakai.api.Util.tagEntity(profileURL, tagsArray, currentTags, function() {
-                    debug.info("user location tags saved");
-                });
+                // Compose the tags based on the first level.
+                // Other levels should be ignored as they're already handled by the first level
+                if (!directorySaved) {
+                    var currentTags = sakai.profile.main.data["sakai:tags"] || [];
+                    var tagsArray = updateDirectory();
+                    var profileURL = "/~" + sakai.profile.main.data["rep:userId"] + "/public/authprofile";
+                    sakai.api.Util.tagEntity(profileURL, tagsArray, currentTags, function(){
+                        debug.info("user location tags saved");
+                        directorySaved = true;
+                    });
+                }
             } else if (title) {
 
                 // Get the property if it exists
@@ -532,6 +574,8 @@ sakai.profilesection = function(tuid, showSettings){
             }
 
         });
+
+        directorySaved = false;
 
         // tell the profile that this section has finished saving its data
         $(window).trigger("sakai-profile-data-ready", currentsection);

@@ -105,7 +105,9 @@
 
 /* DIRECTORY */
 #profilesection_locations_dialog {width:750px; margin-left: -370px;}
+.profilesection_saved_locations {margin:10px 0 15px 245px;}
+.profilesection_saved_locations li{list-style:none; margin:7px 0;}
 .profilesection_content_location {float:left; margin:2px 0 0;}
 .profilesection_saved_seperator, .profilesection_select_seperator {padding:0 10px;}
-.profilesection_saved_seperator {float:left; margin-top: 7px;}
+.profilesection_saved_seperator {float:left; margin-top: 2px;}
 .profilesection_locations_link {margin-bottom: 3px;}

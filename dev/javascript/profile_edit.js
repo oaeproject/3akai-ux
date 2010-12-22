@@ -46,6 +46,7 @@ sakai.profile = function(){
     var querystring; // Variable that will contain the querystring object of the page
     var authprofileURL;
     var readySections = []; // Profile sections that have saved their data to sakai.profile.main
+    var currentTags = [];
 
     ///////////////////
     // CSS SELECTORS //
@@ -75,6 +76,30 @@ sakai.profile = function(){
     ////////////////////
     // UTIL FUNCTIONS //
     ////////////////////
+
+    sakai.profile.parseDirectoryTags = function(userInfo){
+        if ((typeof(userInfo["sakai:tags"]) !== "object") && userInfo["sakai:tags"]) {
+            userInfo["sakai:tags"] = [userInfo["sakai:tags"]];
+        }
+        var saveddirectory = [];
+        currentTags = userInfo["sakai:tags"];
+        $(currentTags).each(function(i){
+            var splitDir = currentTags[i].split("/");
+            if (splitDir[0] === "directory") {
+                var item = [];
+                for (var j in splitDir) {
+                    if (splitDir.hasOwnProperty(j)) {
+                        if (splitDir[j] !== "directory") {
+                            item.push(splitDir[j]);
+                        }
+                    }
+                }
+                saveddirectory.push(item);
+            }
+        });
+
+        return saveddirectory;
+    };
 
     /**
      * Change the mode of the current profile
