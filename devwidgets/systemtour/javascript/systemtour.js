@@ -91,23 +91,23 @@ sakai.systemtour = function(tuid, showSettings){
     var updateProgressBar = function(){
         if (uploadedProfilePhoto) {
             $systemtourAddPhoto.hide();
-            $systemtourAddPhotoComplete.show()
+            $systemtourAddPhotoComplete.show();
         }
         if (uploadedContent) {
             $systemtourUploadFile.hide();
-            $systemtourUploadFileComplete.show()
+            $systemtourUploadFileComplete.show();
         }
         if (sharedContent) {
             $systemtourShareContent.hide();
-            $systemtourShareContentComplete.show()
+            $systemtourShareContentComplete.show();
         }
         if (invitedSomeone) {
             $systemtourInvitedSomeone.hide();
-            $systemtourInvitedSomeoneComplete.show()
+            $systemtourInvitedSomeoneComplete.show();
         }
         if (halfCompletedProfile) {
             $systemtourHalfCompleteProfile.hide();
-            $systemtourHalfCompleteProfileComplete.show()
+            $systemtourHalfCompleteProfileComplete.show();
         }
     };
 

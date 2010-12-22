@@ -89,6 +89,7 @@ var widgetList = [
     "siterecentactivity",
     "sites",
     "sitespages",
+    "systemtour",
     "tags",
     "text",
     "topnavigation",
