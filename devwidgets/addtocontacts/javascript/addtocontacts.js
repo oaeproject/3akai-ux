@@ -167,6 +167,8 @@ sakai.addtocontacts = function(tuid, showSettings){
                     //reset the form to set original note 
                     $(addToContactsForm)[0].reset();
                     sakai.api.Util.notification.show("", $(addToContactsDone).text());
+                    // record that user made contact request
+                    sakai.api.User.addTourProgress("madeContactRequest");
                 },
                 error: function(xhr, textStatus, thrownError){
                     $(addToContactsResponse).text(sakai.api.Security.saneHTML($(addToContactsErrorRequest).text()));

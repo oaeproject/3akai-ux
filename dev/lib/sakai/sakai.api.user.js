@@ -441,3 +441,59 @@ sakai.api.User.checkIfConnected = function(userid) {
     });
     return ret;
 };
+
+/**
+ * Adds system tour progress for the user to be tracked by the systemtour widget
+ *
+ * @param {String} type The type of progress the user as achieved
+ */
+sakai.api.User.addTourProgress = function(type) {
+    var me = sakai.data.me;
+    var progressData = "";
+    switch(type) {
+        case "uploadedProfilePhoto":
+            if (!me.user.properties.uploadedProfilePhoto) {
+                progressData = {"uploadedProfilePhoto": true};
+                sakai.data.me.user.properties.uploadedProfilePhoto = true;
+            }
+            break;
+        case "uploadedContent":
+            if (!me.user.properties.uploadedContent) {
+                progressData = {"uploadedContent": true};
+                sakai.data.me.user.properties.uploadedContent = true;
+            }
+            break;
+        case "sharedContent":
+            if (!me.user.properties.sharedContent) {
+                progressData = {"sharedContent": true};
+                sakai.data.me.user.properties.sharedContent = true;
+            }
+            break;
+        case "madeContactRequest":
+            if (!me.user.properties.madeContactRequest) {
+                progressData = {"madeContactRequest": true};
+                sakai.data.me.user.properties.madeContactRequest = true;
+            }
+            break;
+        case "halfCompletedProfile":
+            if (!me.user.properties.halfCompletedProfile) {
+                progressData = {"halfCompletedProfile": true};
+                sakai.data.me.user.properties.halfCompletedProfile = true;
+            }
+            break;
+    }
+
+    if (progressData !== ""){
+        //var jsonData = {"tourProgress" : progressData};
+        $.ajax({
+            url: "/system/userManager/user/" + me.user.userid + ".update.html",
+            type: "POST",
+            dataType: "json",
+            //data: jsonData,
+            data: progressData,
+            success: function(data) {
+                $(window).trigger("sakai-systemtour-update");
+            }
+        });
+    }
+};
