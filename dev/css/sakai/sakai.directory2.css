@@ -1,0 +1,14 @@
+/* Directory 2 CSS */
+
+/* BROWSE DIRECTORY*/
+.browse_directory {float :left; width:24%; padding:10px;}
+
+/*CONTENT*/
+.content {width:73% !important; padding:10px;}
+.directory_info {width:50%;}
+
+/* DIRECTORY TITLE */
+.directory_title { color:#333333; font-size:1.15em; font-weight:bold;padding:5px 10px; }
+.directory_header { color:#444444; font-size:22px; font-weight:bold; line-height:28px; margin-right:10px;}
+
+
