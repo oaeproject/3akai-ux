@@ -41,8 +41,8 @@ sakai.search = function() {
     var searchURLmap = {
         allusers : sakai.config.URL.SEARCH_USERS,
         mycontacts : sakai.config.URL.SEARCH_USERS_ACCEPTED,
-        invitedcontacts : sakai.config.URL.CONTACTS_INVITED,
-        pendingcontacts : sakai.config.URL.CONTACTS_PENDING,
+        invitedcontacts : sakai.config.URL.SEARCH_USERS_ACCEPTED + '?state=INVITED',
+        pendingcontacts : sakai.config.URL.SEARCH_USERS_ACCEPTED + '?state=PENDING',
         onlinecontacts : sakai.config.URL.PRESENCE_CONTACTS_SERVICE
     };
 
