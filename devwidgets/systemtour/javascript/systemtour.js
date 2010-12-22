@@ -38,7 +38,7 @@ sakai.systemtour = function(tuid, showSettings){
     // Configuration variables //
     /////////////////////////////
 
-    var me = sakai.data.me; // Contains information about the current user
+    var me; // Contains information about the current user
     // Variables used to determine what the user has done
     var uploadedProfilePhoto;
     var uploadedContent;
@@ -78,11 +78,12 @@ sakai.systemtour = function(tuid, showSettings){
      * Updates the progress data based
      */
     var updateProgressData = function(){
-        uploadedProfilePhoto = me.user.properties.uploadedProfilePhoto;
-        uploadedContent = me.user.properties.uploadedContent;
-        sharedContent = me.user.properties.sharedContent;
-        invitedSomeone = me.user.properties.invitedSomeone;
-        halfCompletedProfile = me.user.properties.halfCompletedProfile;
+        me = sakai.data.me;
+        uploadedProfilePhoto = me.profile.userprogress.uploadedProfilePhoto;
+        uploadedContent = me.profile.userprogress.uploadedContent;
+        sharedContent = me.profile.userprogress.sharedContent;
+        invitedSomeone = me.profile.userprogress.invitedSomeone;
+        halfCompletedProfile = me.profile.userprogress.halfCompletedProfile;
     };
 
     /**
@@ -122,12 +123,11 @@ sakai.systemtour = function(tuid, showSettings){
      * Permanently hides the progress bar
      */
     var removeProgressBar = function(){
-        $.ajax({
-            url: "/system/userManager/user/" + me.user.userid + ".update.html",
-            type: "POST",
-            dataType: "json",
-            data: {"hideSystemTour": true},
-            success: function(data) {
+        var progressData = {"hideSystemTour": true};
+        var authprofileURL = "/~" + me.user.userid + "/public/authprofile/userprogress";
+        sakai.api.Server.saveJSON(authprofileURL, progressData, function(success, data){
+            // Check whether save was successful
+            if (success) {
                 $(window).unbind("sakai-systemtour-update");
                 $systemtourContainer.hide();
             }
@@ -167,10 +167,14 @@ sakai.systemtour = function(tuid, showSettings){
      * Initialise the widget
      */
     var doInit = function(){
+        if (!sakai.data.me.profile.userprogress){
+            sakai.data.me.profile.userprogress = {};
+        }
+
         updateProgressData();
 
         // if user has not removed the tour progress bar or completed all actions
-        if (!me.user.properties.hideSystemTour && (!uploadedProfilePhoto || !uploadedContent || !sharedContent || !invitedSomeone || !halfCompletedProfile)) {
+        if (!me.profile.userprogress.hideSystemTour && (!uploadedProfilePhoto || !uploadedContent || !sharedContent || !invitedSomeone || !halfCompletedProfile)) {
             // update progress bar
             updateProgressBar();
 

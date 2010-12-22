@@ -333,7 +333,7 @@ sakai.content_profile = function(){
                         sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_added_text").text()) + " " + users.toAddNames.toString().replace(/,/g, ", "));
                         sakai.content_profile.loadContentProfile();
                         // record that user shared content
-                        sakai.api.User.addTourProgress("sharedContent");
+                        sakai.api.User.addUserProgress("sharedContent");
                     }
                     else {
                         sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_removed_text").text()) + " " + users.toAddNames.toString().replace(/,/g, ", "));

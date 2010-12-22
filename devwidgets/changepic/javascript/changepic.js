@@ -489,7 +489,7 @@ sakai.changepic = function(tuid, showSettings){
 
                         if (mode !== "group") {
                             // record that user uploaded their profile picture
-                            sakai.api.User.addTourProgress("uploadedProfilePhoto");
+                            sakai.api.User.addUserProgress("uploadedProfilePhoto");
                         }
                     },
                     error: function(xhr, textStatus, thrownError) {

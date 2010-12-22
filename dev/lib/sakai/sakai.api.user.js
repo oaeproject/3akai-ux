@@ -447,51 +447,52 @@ sakai.api.User.checkIfConnected = function(userid) {
  *
  * @param {String} type The type of progress the user as achieved
  */
-sakai.api.User.addTourProgress = function(type) {
+sakai.api.User.addUserProgress = function(type) {
+    if (!sakai.data.me.profile.userprogress){
+        sakai.data.me.profile.userprogress = {};
+    }
     var me = sakai.data.me;
     var progressData = "";
+
     switch(type) {
         case "uploadedProfilePhoto":
-            if (!me.user.properties.uploadedProfilePhoto) {
+            if (!me.profile.userprogress.uploadedProfilePhoto) {
                 progressData = {"uploadedProfilePhoto": true};
-                sakai.data.me.user.properties.uploadedProfilePhoto = true;
+                sakai.data.me.profile.userprogress.uploadedProfilePhoto = true;
             }
             break;
         case "uploadedContent":
-            if (!me.user.properties.uploadedContent) {
+            if (!me.profile.userprogress.uploadedContent) {
                 progressData = {"uploadedContent": true};
-                sakai.data.me.user.properties.uploadedContent = true;
+                sakai.data.me.profile.userprogress.uploadedContent = true;
             }
             break;
         case "sharedContent":
-            if (!me.user.properties.sharedContent) {
+            if (!me.profile.userprogress.sharedContent) {
                 progressData = {"sharedContent": true};
-                sakai.data.me.user.properties.sharedContent = true;
+                sakai.data.me.profile.userprogress.sharedContent = true;
             }
             break;
         case "madeContactRequest":
-            if (!me.user.properties.madeContactRequest) {
+            if (!me.profile.userprogress.madeContactRequest) {
                 progressData = {"madeContactRequest": true};
-                sakai.data.me.user.properties.madeContactRequest = true;
+                sakai.data.me.profile.userprogress.madeContactRequest = true;
             }
             break;
         case "halfCompletedProfile":
-            if (!me.user.properties.halfCompletedProfile) {
+            if (!me.profile.userprogress.halfCompletedProfile) {
                 progressData = {"halfCompletedProfile": true};
-                sakai.data.me.user.properties.halfCompletedProfile = true;
+                sakai.data.me.profile.userprogress.halfCompletedProfile = true;
             }
             break;
     }
 
     if (progressData !== ""){
-        //var jsonData = {"tourProgress" : progressData};
-        $.ajax({
-            url: "/system/userManager/user/" + me.user.userid + ".update.html",
-            type: "POST",
-            dataType: "json",
-            //data: jsonData,
-            data: progressData,
-            success: function(data) {
+        var authprofileURL = "/~" + me.user.userid + "/public/authprofile/userprogress";
+        sakai.api.Server.saveJSON(authprofileURL, progressData, function(success, data){
+            // Check whether save was successful
+            if (success) {
+                // Refresh the widget
                 $(window).trigger("sakai-systemtour-update");
             }
         });

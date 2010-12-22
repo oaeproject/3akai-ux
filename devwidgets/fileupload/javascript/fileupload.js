@@ -744,7 +744,7 @@ sakai.fileupload = function(tuid, showSettings){
                     }
 
                     // record that user uploaded a file
-                    sakai.api.User.addTourProgress("uploadedContent");
+                    sakai.api.User.addUserProgress("uploadedContent");
 
                     // If the file is a new version set is as one
                     // Else it is a new file and needs to have a description, permissions, tags, ...
