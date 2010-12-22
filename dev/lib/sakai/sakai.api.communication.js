@@ -55,7 +55,6 @@ sakai.api.Communication.sendMessage = function(to, subject, body, category, repl
 
     var toUsers = "";              // aggregates all message recipients
     var sendDone = false;          // has the send been issued?
-    var mail = sendMail || true;
 
     ///////////////////////
     // UTILITY FUNCTIONS //
@@ -215,7 +214,7 @@ sakai.api.Communication.sendMessage = function(to, subject, body, category, repl
             addRecipient(to);
             // send now if we have only a list of users ("thread" safe?)
             if (!sendDone) {
-                if (mail) {
+                if (sendMail) {
                     doSendMail();
                 }
                 else {

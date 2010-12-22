@@ -511,10 +511,9 @@ if (!sakai.sendmessage){
 
             // Check the fields if there are any required fields that are not filled in.
             if(checkFieldsForErrors(recipients)) {
-                var person = sakai.data.me;
-                var subject = sakai.api.i18n.Widgets.getValueForKey("sendmessage", sakai.data.me.user.locale.language + "_" + sakai.data.me.user.locale.country ,"YOU_HAVE_A_NEW_MESSAGE_FROM").replace(/\$\{displayName\}/g, sakai.api.User.getDisplayName(person.profile)).replace(/\$\{subject\}/g, $(messageFieldSubject).val());
-                var body = sakai.api.i18n.Widgets.getValueForKey("sendmessage", sakai.data.me.user.locale.language + "_" + sakai.data.me.user.locale.country ,"MESSAGE_SUBJECT_AND_BODY").replace(/\$\{br\}/g, "\n").replace(/\$\{subject\}/g, $(messageFieldSubject).val()).replace(/\$\{body\}/g, $(messageFieldBody).val()).replace(/\$\{replylink\}/g, sakai.config.SakaiDomain + "/dev/inbox.html#box=messages");
-                sakai.api.Communication.sendMessage(recipients, subject, body,"message", null, handleSentMessage, true);
+                sakai.api.Communication.sendMessage(recipients,
+                    $(messageFieldSubject).val(), $(messageFieldBody).val(),
+                    "message", null, handleSentMessage,false);
             } else {
                 sakai.api.Util.notification.show("All fields are required.","",sakai.api.Util.notification.type.ERROR);
             }
