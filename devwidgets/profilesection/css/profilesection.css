@@ -111,3 +111,4 @@
 .profilesection_saved_seperator, .profilesection_select_seperator {padding:0 10px;}
 .profilesection_saved_seperator {float:left; margin-top: 2px;}
 .profilesection_locations_link {margin-bottom: 3px;}
+.profilesection_remove_location {float: right;}

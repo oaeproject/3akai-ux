@@ -318,6 +318,15 @@ sakai.profilesection = function(tuid, showSettings){
         // Render the template section
         if(profilesection === "locations"){
             sectionConfig.type = "location";
+            $(".profilesection_remove_location").live("click", function(){
+                var tagsAfterDeletion = sakai.profile.main.data["sakai:tags"].slice(0);
+                var directoryToRemove = "directory/" + $(this).parent()[0].id.replace(/,/g, "/")
+                if ($.inArray(directoryToRemove, tagsAfterDeletion) > -1) {
+                    tagsAfterDeletion.splice($.inArray(directoryToRemove, tagsAfterDeletion), 1);
+                }
+                sakai.api.Util.tagEntity("/~" + sakai.profile.main.data["rep:userId"] + "/public/authprofile", tagsAfterDeletion, sakai.profile.main.data["sakai:tags"], function() {});
+                $(this).parent().remove();
+            });
         }
         generalinfo += renderTemplateSection(sectionTemplate, sectionConfig);
 

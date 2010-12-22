@@ -88,7 +88,10 @@
         {if config.type && config.type === "location"}
             <ul class="profilesection_saved_locations">
                 {for dir in sakai.profile.main.data.saveddirectory}
-                    <li id="${dir}"><a href="/dev/search.html#tag=/tags/directory/${dir.toString().replace(/,/g, '/')}" target="_blank" class="s3d-action contentmetadata_locations_link" title="Search content located at ${dir.toString().replace(/,/g, ' ')}">${dir.toString().replace(/,/g, " <span class='contentmetadata_select_seperator'>&raquo;</span> ")}</a></li>
+                    <li id="${dir}">
+                        <a href="javascript:;" class="s3d-remove-link s3d-action profilesection_remove_location" title="__MSG__REMOVE_LOCATION__">__MSG__REMOVE__</a>
+                        <a href="/dev/search.html#tag=/tags/directory/${dir.toString().replace(/,/g, '/')}" target="_blank" class="s3d-action contentmetadata_locations_link" title="Search content located at ${dir.toString().replace(/,/g, ' ')}">${dir.toString().replace(/,/g, " <span class='contentmetadata_select_seperator'>&raquo;</span> ")}</a>
+                    </li>
                 {/for}
             </ul>
         {/if}
