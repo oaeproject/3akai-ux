@@ -1,0 +1,187 @@
+/*
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+/*global Config, $ */
+
+var sakai = sakai || {};
+
+/**
+ * @name sakai.systemtour
+ *
+ * @class systemtour
+ *
+ * @description
+ * Initialize the systemtour widget
+ *
+ * @version 0.0.1
+ * @param {String} tuid Unique id of the widget
+ * @param {Boolean} showSettings Show the settings of the widget or not
+ */
+sakai.systemtour = function(tuid, showSettings){
+
+
+    /////////////////////////////
+    // Configuration variables //
+    /////////////////////////////
+
+    var me = sakai.data.me; // Contains information about the current user
+    // Variables used to determine what the user has done
+    var uploadedProfilePhoto;
+    var uploadedContent;
+    var sharedContent;
+    var invitedSomeone;
+    var halfCompletedProfile;
+
+
+    ///////////////////
+    // CSS SELECTORS //
+    ///////////////////
+
+    var $rootel = $("#" + tuid); // Get the main div used by the widget
+    var $systemtourContainer = $("#systemtour_container", $rootel);
+    var $systemtourProgressBar = $("#systemtour_progress_bar", $rootel);
+    var $systemtourRemoveWidget = $("#systemtour_remove_widget", $rootel);
+    var $systemtourCloseWidget = $("#systemtour_close_widget", $rootel);
+
+    // Progress bar buttons
+    var $systemtourAddPhoto = $("#systemtour_add_photo", $rootel);
+    var $systemtourUploadFile = $("#systemtour_upload_file", $rootel);
+    var $systemtourShareContent = $("#systemtour_share_content", $rootel);
+    var $systemtourInvitedSomeone = $("#systemtour_invited_someone", $rootel);
+    var $systemtourHalfCompleteProfile = $("#systemtour_half_complete_profile", $rootel);
+    var $systemtourAddPhotoComplete = $("#systemtour_add_photo_complete", $rootel);
+    var $systemtourUploadFileComplete = $("#systemtour_upload_file_complete", $rootel);
+    var $systemtourShareContentComplete = $("#systemtour_share_content_complete", $rootel);
+    var $systemtourInvitedSomeoneComplete = $("#systemtour_invited_someone_complete", $rootel);
+    var $systemtourHalfCompleteProfileComplete = $("#systemtour_half_complete_profile_complete", $rootel);
+
+
+    ////////////////////////
+    // Utility  functions //
+    ////////////////////////
+
+    /**
+     * Updates the progress data based
+     */
+    var updateProgressData = function(){
+        uploadedProfilePhoto = me.user.properties.uploadedProfilePhoto;
+        uploadedContent = me.user.properties.uploadedContent;
+        sharedContent = me.user.properties.sharedContent;
+        invitedSomeone = me.user.properties.invitedSomeone;
+        halfCompletedProfile = me.user.properties.halfCompletedProfile;
+    };
+
+    /**
+     * Updates the progress bar based on actions the user has already performed
+     */
+    var updateProgressBar = function(){
+        if (uploadedProfilePhoto) {
+            $systemtourAddPhoto.hide();
+            $systemtourAddPhotoComplete.show()
+        }
+        if (uploadedContent) {
+            $systemtourUploadFile.hide();
+            $systemtourUploadFileComplete.show()
+        }
+        if (sharedContent) {
+            $systemtourShareContent.hide();
+            $systemtourShareContentComplete.show()
+        }
+        if (invitedSomeone) {
+            $systemtourInvitedSomeone.hide();
+            $systemtourInvitedSomeoneComplete.show()
+        }
+        if (halfCompletedProfile) {
+            $systemtourHalfCompleteProfile.hide();
+            $systemtourHalfCompleteProfileComplete.show()
+        }
+    };
+
+    /**
+     * Temporary hides the progress bar
+     */
+    var hideProgressBar = function(){
+        $systemtourContainer.hide();
+    };
+
+    /**
+     * Permanently hides the progress bar
+     */
+    var removeProgressBar = function(){
+        $.ajax({
+            url: "/system/userManager/user/" + me.user.userid + ".update.html",
+            type: "POST",
+            dataType: "json",
+            data: {"hideSystemTour": true},
+            success: function(data) {
+                $(window).unbind("sakai-systemtour-update");
+                $systemtourContainer.hide();
+            }
+        });
+    };
+
+
+    ////////////////////
+    // Event Handlers //
+    ////////////////////
+
+    /**
+     * Add binding to widget elements
+     */
+    var addBinding = function(){
+        $systemtourCloseWidget.bind("click", function () {
+            hideProgressBar();
+        });
+
+        $systemtourRemoveWidget.bind("click", function () {
+            removeProgressBar();
+        });
+
+        $(window).bind("sakai-systemtour-update", function() {
+            // update progress bar when data has changed
+            updateProgressData();
+            updateProgressBar();
+        });
+    };
+
+
+    /////////////////////////////
+    // Initialisation function //
+    /////////////////////////////
+
+    /**
+     * Initialise the widget
+     */
+    var doInit = function(){
+        updateProgressData();
+
+        // if user has not removed the tour progress bar or completed all actions
+        if (!me.user.properties.hideSystemTour && (!uploadedProfilePhoto || !uploadedContent || !sharedContent || !invitedSomeone || !halfCompletedProfile)) {
+            // update progress bar
+            updateProgressBar();
+
+            // bind elements
+            addBinding();
+
+            // show widget
+            $systemtourContainer.show();
+        }
+    };
+    doInit();
+};
+
+sakai.api.Widgets.widgetLoader.informOnLoad("systemtour");
