@@ -149,7 +149,6 @@ sakai.api.Activity.createActivity = function(nodeUrl, appID, templateID, extraDa
 
     // Create event url with appropriate selector
     var activityUrl = nodeUrl + ".activity.json";
-
     // Create data object to send
     var dataToSend = {
         "sakai:activity-appid": appID,
@@ -194,13 +193,47 @@ sakai.api.Activity.createActivity = function(nodeUrl, appID, templateID, extraDa
 sakai.api.Datetime = sakai.api.Datetime || {};
 
 /**
- * Function that returns how many years, months, days or hours since the dateinput
+ * Parse a date string into a date object
+ * @param {Object} dateString    date to parse in the format 2010-10-06T14:45:54+01:00
+ */
+sakai.api.Datetime.parseDateString = function(dateString){
+    var d = new Date();
+    d.setFullYear(parseInt(dateString.substring(0,4),10));
+    d.setMonth(parseInt(dateString.substring(5,7),10) - 1);
+    d.setDate(parseInt(dateString.substring(8,10),10));
+    d.setHours(parseInt(dateString.substring(11,13),10));
+    d.setMinutes(parseInt(dateString.substring(14,16),10));
+    d.setSeconds(parseInt(dateString.substring(17,19),10));
+    return d;
+};
+
+/**
+ * Function that will return the date in GMT time
+ *
+ * @param {Date} date
+ */
+sakai.api.Datetime.toGMT = function(date){
+    date.setFullYear(date.getUTCFullYear());
+    date.setMonth(date.getUTCMonth());
+    date.setDate(date.getUTCDate());
+    date.setHours(date.getUTCHours());
+    return date;
+};
+
+/**
+ * Function that returns how many years, months, days or hours since the dateinput based on GMT time
  *
  * @param {Date} date
  */
 sakai.api.Datetime.getTimeAgo = function(date){
     if (date !== null) {
+        // convert date input to GMT time
+        date = sakai.api.Datetime.toGMT(date);
+
         var currentDate = new Date();
+        // convert current date to GMT time
+        currentDate = sakai.api.Datetime.toGMT(currentDate);
+
         var iTimeAgo = (currentDate - date) / (1000);
         if (iTimeAgo < 60) {
             if (Math.floor(iTimeAgo) === 1) {
