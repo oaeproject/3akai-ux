@@ -310,7 +310,6 @@ sakai.search = function() {
             $(searchConfig.global.pagerClass).hide();
         }
         foundPeople = finaljson.items;
-        $(searchConfig.results.header).show();
 
         //    Render the results.
         $(searchConfig.results.container).html($.TemplateRenderer(searchConfig.results.template, finaljson));
@@ -470,18 +469,21 @@ sakai.search = function() {
                     }
 
                     renderResults(data, true);
+                    $(searchConfig.results.header).show();
                 },
                 error: function(xhr, textStatus, thrownError) {
                     sakai.data.search.results_people = {};
                     renderResults(sakai.data.search.results_people, false);
+                    $(searchConfig.results.header).show();
                 }
             });
 
         } else if (tagterm) {
+            // add text to search input
+            $(searchConfig.global.text).val(tagterm);
+
             // Show and hide the correct elements.
             showSearchContent();
-            $(searchConfig.results.header).hide();
-            $(searchConfig.results.tagHeader).show();
 
             // Search based on tags and render each search section
             $.ajax({
@@ -497,10 +499,12 @@ sakai.search = function() {
                     json.items = json.results.length;
 
                     renderResults(json, true);
+                    $(searchConfig.results.tagHeader).show();
                 },
                 error: function(xhr, textStatus, thrownError) {
                     var json = {};
                     renderResults(json, false);
+                    $(searchConfig.results.tagHeader).show();
                 }
             });
         } else {
