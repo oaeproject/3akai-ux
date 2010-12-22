@@ -759,13 +759,13 @@ sakai.inbox = function() {
                         message["sakai:subject"] = sakai.api.Security.escapeHTML(sakai.api.i18n.General.getValueForKey(message["sakai:subject"]).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(message.userFrom[0])));
                     }
                     messageBody = message["sakai:body"];
-                    key = messageBody.substr(0,messageBody.lastIndexOf(","));
-                    comment = messageBody.substr(messageBody.lastIndexOf(",")+1,messageBody.length);
-                    if (key) {
-                        message["sakai:body"] = sakai.api.i18n.General.getValueForKey(key).replace(/\$\{comment\}/gi, comment).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(message.userFrom[i]));
-                    } else {
-                        message["sakai:body"] = comment;
-                    }
+                    //key = messageBody.substr(0,messageBody.lastIndexOf(","));
+                    //comment = messageBody.substr(messageBody.lastIndexOf(",")+1,messageBody.length);
+                    //if (key) {
+                    //    message["sakai:body"] = sakai.api.i18n.General.getValueForKey(key).replace(/\$\{comment\}/gi, comment).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(message.userFrom[i]));
+                    //} else {
+                    //    message["sakai:body"] = comment;
+                    //}
                     $(inboxSpecificMessageFrom).attr("href", "/~" + message.userFrom[i].userid);
                     $(inboxSpecificMessageFromPicture).attr("href", "/~" + message.userFrom[i].userid);
                     $(inboxSpecificMessageFrom).text(sakai.api.User.getDisplayName(message.userFrom[i]));
@@ -1263,10 +1263,14 @@ sakai.inbox = function() {
 
     $(inboxSpecificMessageComposeSend).click(function() {
         // We want to send a message.
-        var subject = $(inboxSpecificMessageComposeSubject).val();
-        var body = $(inboxSpecificMessageComposeBody).val();
+        //var subject = $(inboxSpecificMessageComposeSubject).val();
+        //var body = $(inboxSpecificMessageComposeBody).val();
 
-        sakai.api.Communication.sendMessage(selectedMessage["sakai:from"], subject, body, "message", selectedMessage["sakai:id"], sendMessageFinished);
+        var person = sakai.data.me;
+        var subject = sakai.api.i18n.Widgets.getValueForKey("sendmessage", sakai.data.me.user.locale.language + "_" + sakai.data.me.user.locale.country ,"YOU_HAVE_A_NEW_MESSAGE_FROM").replace(/\$\{displayName\}/g, sakai.api.User.getDisplayName(person.profile)).replace(/\$\{subject\}/g, $(inboxSpecificMessageComposeSubject).val());
+        var body = sakai.api.i18n.Widgets.getValueForKey("sendmessage", sakai.data.me.user.locale.language + "_" + sakai.data.me.user.locale.country ,"MESSAGE_SUBJECT_AND_BODY").replace(/\$\{br\}/g, "\n").replace(/\$\{subject\}/g, $(inboxSpecificMessageComposeSubject).val()).replace(/\$\{body\}/g, $(inboxSpecificMessageComposeBody).val()).replace(/\$\{replylink\}/g, sakai.config.SakaiDomain + "/dev/inbox.html#message=" + selectedMessage["sakai:id"]);
+
+        sakai.api.Communication.sendMessage(selectedMessage["sakai:from"], subject, body, "message", selectedMessage["sakai:id"], sendMessageFinished, true);
         showGeneralMessage($(inboxGeneralMessagesSent).text());
         // Clear all the input fieldst
         clearInputFields();

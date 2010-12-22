@@ -47,7 +47,7 @@ sakai.api.Communication = sakai.api.Communication || {};
  * @param {Boolean|String} [mailContent] False or String of content that contains HTML or regular text
  *
  */
-sakai.api.Communication.sendMessage = function(to, subject, body, category, reply, callback, context, sendMail) {
+sakai.api.Communication.sendMessage = function(to, subject, body, category, reply, callback, sendMail) {
 
     /////////////////////////////
     // CONFIGURATION VARIABLES //
@@ -81,16 +81,6 @@ sakai.api.Communication.sendMessage = function(to, subject, body, category, repl
         }
     };
 
-    var setMailValuesForContext = function(toSend){
-        var person = sakai.data.me;
-        switch (context){
-            case "new_message":
-                //toSend["sakai:body"] = "";
-                toSend["sakai:subject"] = sakai.api.i18n.General.getValueForKey("YOU_HAVE_A_NEW_MESSAGE_FROM").replace(/\$\{displayName\}/g, sakai.api.User.getDisplayName(person.profile)).replace(/\$\{system\}/g, sakai.api.i18n.General.getValueForKey("INSTANCE_NAME"));
-                break;
-        }
-    };
-
     var doSendMail = function(){
         // Basic message details
         var toSend = {
@@ -105,16 +95,16 @@ sakai.api.Communication.sendMessage = function(to, subject, body, category, repl
             "_charset_": "utf-8"
         };
 
-        // Place mail-specific content if needed
-        if (context) {
-            setMailValuesForContext(toSend);
-        }
-
         // Message category
         if (category) {
             toSend["sakai:category"] = category;
         } else {
             toSend["sakai:category"] = "message";
+        }
+
+        // See if this is a reply or not
+        if (reply) {
+            toSend["sakai:previousmessage"] = reply;
         }
 
         // Send message
