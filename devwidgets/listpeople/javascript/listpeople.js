@@ -439,10 +439,10 @@ sakai.listpeople = function(tuid, showSettings) {
                             sakai.data.listpeople[listType].total += 1;
                             if (sakai.config.MimeTypes[data["jcr:content"]["jcr:mimeType"]]) {
                                 sakai.data.listpeople[listType].userList[resultObject["jcr:name"]]['avatar'] = sakai.config.MimeTypes[data["jcr:content"]["jcr:mimeType"]].URL;
-                                sakai.data.listpeople[listType].userList[resultObject["jcr:name"]]['mimeTypeDescripton'] = sakai.config.MimeTypes[data["jcr:content"]["jcr:mimeType"]].description;
+                                sakai.data.listpeople[listType].userList[resultObject["jcr:name"]]['mimeTypeDescripton'] = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[data["jcr:content"]["jcr:mimeType"]].description);
                             } else {
                                 sakai.data.listpeople[listType].userList[resultObject["jcr:name"]]['avatar'] = "/dev/images/mimetypes/empty.png";
-                                sakai.data.listpeople[listType].userList[resultObject["jcr:name"]]['mimeTypeDescripton'] = sakai.config.MimeTypes.other.description;
+                                sakai.data.listpeople[listType].userList[resultObject["jcr:name"]]['mimeTypeDescripton'] = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes.other.description);
                             }
                             if (!sakai.data.listpeople[listType].userList[resultObject["jcr:name"]]["subNameInfo"]) {
                                 sakai.data.listpeople[listType].userList[resultObject["jcr:name"]]["subNameInfo"] = data[iSubNameInfoContent];

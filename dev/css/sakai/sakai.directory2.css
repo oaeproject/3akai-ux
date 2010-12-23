@@ -15,15 +15,15 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-.directory-container hr {clear:both;border:none; height:0; margin:0; padding:0;}
-.directory-container p {margin-bottom:7px;}
+/* Directory 2 CSS */
 
-#directory_jump_to_header {color:#444444; padding-left:7px;}
-#directory_jumpbox {padding:10px; background-color:#ddd}
-.directory_jumpbox_box {padding:10px; background-color:#fff;}
-.directory_jumpbox_box_hierarchybox {width:250px; float:left;}
+/* BROWSE DIRECTORY WIDGET PLACEMENT*/
+.browse_directory {width:24%; padding:10px;}
 
-.directory_level_one_header {border-bottom:1px solid #DDDDDD; color:#444444; font-size:18px; font-weight:normal; padding:10px 0; clear:both;}
-.directory_level_two_header {font-size:14px; font-weight:bold; margin-top:0;}
+/* DIRECOTRY CONTENT */
+.content {width:53%; min-height: 50px;}
+.node_content_area {width:53%; padding:10px; min-height:350px; }
 
-.directory_block {float:left; width:305px; margin-bottom:12px;}
+/* DIRECTORY TITLE */
+.directory_title { color:#333333; font-size:1.15em; font-weight:bold;padding:5px 10px; }
+.directory_header { color:#444444; font-size:22px; font-weight:bold; line-height:28px; margin-right:10px;}

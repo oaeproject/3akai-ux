@@ -41,7 +41,9 @@
         <!-- 3rd party JS -->
         <script type="text/javascript" src="/dev/lib/misc/trimpath.template.js"></script>
         <script type="text/javascript" src="/dev/lib/misc/querystring.js"></script>
+        <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.ba-bbq.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jqmodal.sakai-edited.js"></script>
+        <script type="text/javascript" src="/dev/lib/jquery/plugins/jsTree/jquery.jstree.sakai-edit.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.cookie.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.pager.js"></script>
 
@@ -57,33 +59,50 @@
         </div>
 
         <!-- CONTENT -->
+        
         <div class="fl-container-flex header s3d-header">
             <div class="fl-fix fl-centered fixed-container s3d-fixed-container">
-                <div class="s3d-decor">
+                <div class="s3d-decor"></div>
+                
+                <!-- BROWSE DIRECTORY WIDGET -->
+                <div class="browse_directory fl-col">
+                    <div id="widget_browsedirectory" class="widget_inline"></div>
                 </div>
+
                 <!-- TITLE BAR  -->
-                <div class="s3d-site-heading">
-                    <h1>__MSG__DIRECTORY__</h1>
-                </div>
-                <!-- CONTENT -->
-                <div class="fl-fix fl-centered main-container">
-                    <div id="directory_template_container">
-                        <!--
-                        -->
+                <div class="content fl-col">
+                    <div class="directory_info">
                     </div>
+                    <div id="directory_template"><!--
+                        <div class="fl-force-left">
+                            {if icon}
+                                <img id="profile_picture" src="${icon}" />
+                            {else}
+                                <img id="profile_picture" src="/dev/images/default_profile_picture_64.png" />
+                            {/if}
+                            <div class="fl-text-align-center">
+                                <a href="javascript:;" class="s3d-action" id="changepic_container_trigger">__MSG__CHANGE__</a>
+                            </div>
+                        </div>
+                        <div class="directory_header">${title}</div>
+                    --></div>
                 </div>
+                <div class="fl-col node_content_area">
+                    <div id="widget_nodecontentarea" class="widget_inline"></div>
+                <div class="browse_directory">
             </div>
         </div>
 
-        
+        <!-- Widget used for changing picture -->
+        <div id="widget_changepic" class="widget_inline"></div>
+
         <!-- FOOTER WIDGET -->
         <div id="widget_footer" class="widget_inline footercontainer"></div>
 
         <!-- CHAT -->
         <div id="widget_chat" class="widget_inline"></div>
 
-        <!-- JAVASCRIPT -->
         <script type="text/javascript" src="/dev/javascript/directory2.js"></script>
-
+        <script type="text/javascript" src="/dev/lib/tinymce/tiny_mce.js"></script>
     </body>
 </html>
