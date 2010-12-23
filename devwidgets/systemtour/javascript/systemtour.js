@@ -145,10 +145,12 @@ sakai.systemtour = function(tuid, showSettings){
     var addBinding = function(){
         $systemtourCloseWidget.bind("click", function () {
             hideProgressBar();
+            return false;
         });
 
         $systemtourRemoveWidget.bind("click", function () {
             removeProgressBar();
+            return false;
         });
 
         $(window).bind("sakai-systemtour-update", function() {
