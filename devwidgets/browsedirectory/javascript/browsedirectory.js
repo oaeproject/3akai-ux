@@ -224,9 +224,10 @@ sakai.browsedirectory = function(tuid, showSettings){
             if ($browsedirectoryTree.jstree("is_open", sib)) {
                 $browsedirectoryTree.jstree("close_node", sib);
             }
+            var directorystructure = link.split("#")[1];
             // open the selected node
             $browsedirectoryTree.jstree("open_node");
-            $(window).trigger("sakai-directory-selected", {"id":selectedPageUrl});
+            $(window).trigger("sakai-directory-selected", directorystructure);
         });
     };
 
