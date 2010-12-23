@@ -1,11 +1,11 @@
 /* Directory 2 CSS */
 
 /* BROWSE DIRECTORY WIDGET PLACEMENT*/
-.browse_directory {float :left; width:24%; padding:10px;}
+.browse_directory {width:24%; padding:10px;}
 
 /* DIRECOTRY CONTENT */
-.content {width:73% !important; padding:10px;}
-.directory_info {width:50%;}
+.content {width:53%; min-height: 50px;}
+.node_content_area {width:53%; padding:10px; min-height:350px; }
 
 /* DIRECTORY TITLE */
 .directory_title { color:#333333; font-size:1.15em; font-weight:bold;padding:5px 10px; }
