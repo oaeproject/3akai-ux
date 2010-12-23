@@ -41,6 +41,7 @@
         <!-- 3rd party JS -->
         <script type="text/javascript" src="/dev/lib/misc/trimpath.template.js"></script>
         <script type="text/javascript" src="/dev/lib/misc/querystring.js"></script>
+        <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.ba-bbq.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jqmodal.sakai-edited.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jsTree/jquery.jstree.sakai-edit.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.cookie.js"></script>
@@ -63,23 +64,33 @@
             <div class="fl-fix fl-centered fixed-container s3d-fixed-container">
                 <div class="s3d-decor"></div>
                 
+                <!-- BROWSE DIRECTORY WIDGET -->
                 <div class="browse_directory">
                     <div id="widget_browsedirectory" class="widget_inline"></div>
                 </div>
                 <!-- TITLE BAR  -->
                 <div class="content">
                     <div class="fl-col directory_info">
+                    </div>
+                    <div id="directory_template"><!--
                         <div class="fl-force-left">
-                            <img id="profile_picture" src="/dev/images/default_profile_picture_64.png" />
+                            {if icon}
+                                <img id="profile_picture" src="${icon}" />
+                            {else}
+                                <img id="profile_picture" src="/dev/images/default_profile_picture_64.png" />
+                            {/if}
                             <div class="fl-text-align-center">
                                 <a href="javascript:;" class="s3d-action" id="changepic_container_trigger">__MSG__CHANGE__</a>
                             </div>
                         </div>
-                        <div class="directory_header"></div>
-                    </div>
+                        <div class="directory_header">${title}</div>
+                    --></div>
                 </div>
             </div>
         </div>
+
+        <!-- Widget used for changing picture -->
+        <div id="widget_changepic" class="widget_inline"></div>
 
         <!-- FOOTER WIDGET -->
         <div id="widget_footer" class="widget_inline footercontainer"></div>

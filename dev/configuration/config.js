@@ -750,47 +750,36 @@ sakai.config = {
     displayDebugInfo: true,
 
     Directory: {
-        "College of Engineering": {
-            "First Year Courses": [
-                "Chemistry 101",
-                "AutoCAD for dummies",
-                "Hierarchy 3",
-                "Hierarchy 3",
-                "Hierarchy 3"
-            ],
-            "Second Year Courses": [
-                "Google Sketchup, 3D is pretty easy",
-                "Theory of Circuitry",
-                "Hierarchy 3",
-                "Hierarchy 3",
-                "Hierarchy 3"
-            ],
-            "Third Year Courses": [
-                "Google Sketchup, 3D is pretty easy",
-                "Theory of Circuitry",
-                "Hierarchy 3",
-                "Hierarchy 3",
-                "Hierarchy 3"
-            ],
-            "Fourth Year Courses": [
-                "Google Sketchup, 3D is pretty easy",
-                "Theory of Circuitry",
-                "Hierarchy 3",
-                "Hierarchy 3",
-                "Hierarchy 3"
-            ]
-        },
-        "College of Liberal Arts": {
-            "First Year Courses": [
-                "Shakespeare in Translation",
-                "Constructing Derrida",
-                "Hierarchy 3",
-                "Hierarchy 3",
-                "Hierarchy 3"
-            ]
-        },
-        "caret": {
-            "employees": ["bert", "oszkar", "nicolaas"]
+        "collegeofengineering": {
+            title: "College of Engineering",
+            description: "A description about the College of Engineering",
+            icon: "http://urltoicon.com/icon.jpg",
+            children: {
+                "firstyearcourses": {
+                    title: "First Year Courses",
+                    description: "A description about the First Year Courses",
+                    icon: "http://urltoicon.com/icon.jpg",
+                    children: {
+                        "childfirstyearcourses": {
+                            title: "First Year Courses",
+                            description: "A description about the First Year Courses",
+                            icon: "http://urltoicon.com/icon.jpg"
+                        }
+                    }
+                },
+                "secondyearcourses": {
+                    title: "First Year Courses",
+                    description: "A description about the First Year Courses",
+                    icon: "http://urltoicon.com/icon.jpg",
+                    children: {
+                        "childsecondyearcourses": {
+                            title: "First Year Courses",
+                            description: "A description about the First Year Courses",
+                            icon: "http://urltoicon.com/icon.jpg"
+                        }
+                    }
+                }
+            }
         }
     },
     // Array of css files to load in each page

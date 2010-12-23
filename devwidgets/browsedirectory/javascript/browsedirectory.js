@@ -21,12 +21,12 @@
 var sakai = sakai || {};
 
 /**
- * @name sakai.navigation
+ * @name sakai.browsedirectory
  *
- * @class navigation
+ * @class browsedirectory
  *
  * @description
- * Initialize the navigation widget
+ * Initialize the browsedirectory widget
  *
  * @version 0.0.1
  * @param {String} tuid Unique id of the widget
@@ -56,58 +56,63 @@ sakai.browsedirectory = function(tuid, showSettings){
     ///////////////////////
 
     /**
-     * Get a Directory object by it's id
-     *
-     * @param {String} id id of the directory to select upon initial
-     *   load of the directory structure. If null, a default page is selected.
+     * Converts directory array into a node structure
+     * so that it can be rendered into the jstree.
+     * 
+     * @param {Object} directory list of directories
+     * @return result the json object in the structure necessary to render in jstree
      */
-    var getDirectoryObject = function(id) {
-        var return_object = {};
-        for (var directory in sakai.config.Directory) {
-            if (sakai.config.Directory.hasOwnProperty(directory)) {
-                if (directory === id) {
-                    return_object = sakai.config.Directory[id];
-                }
-                for (child in sakai.config.Directory[directory].children) {
-                    return_object = getDirectoryObject(child);
-                }
-            }
-        }
-        return return_object;
-    };
-
-    // Converts array of directory array into a hierarchical structure hierarchical node structure
     var convertToHierarchy = function(directory) {
         var item, path;
 
         var result = [];
+        // loop through all the directory
         for (var item in directory) {
+            // url for the first level nodes
             var url = "/dev/directory2.html#"+item;
+            // call buildnoderecursive to get the node structure to render.
             result.push(buildNodeRecursive(item, directory, url));
         }
         return result;
     };
 
-    // Recursive helper to create URL hierarchy
-    var buildNodeRecursive = function(url_fragment, directory ,url) {
-        var p_title = directory[url_fragment].title;
-        var p_title_short = directory[url_fragment].title;
-        var p_id = url_fragment;
-        var p_pagePosition;
+    /**
+     * Recursive method that create the node structure
+     * so that it can be rendered into the jstree.
+     * 
+     * @param {String} node_id  the unique id for each node for example firstyearcourses
+     * @param {Object} directory directory list json object for example "collegeofengineering": { ... } 
+     * @param {String} url the url of the page to render when directory node is clicked for example /dev/directory2.html#collegeofengineering
+     *  
+     * @return node the json object in the structure necessary to render in jstree
+     */
+    var buildNodeRecursive = function(node_id, directory ,url) {
+        // node title
+        var p_title = directory[node_id].title;
+        // node id
+        var p_id = node_id;
+        // icon url
+        var p_url = directory[node_id].icon;
 
+        // create the node based on the parameters
         var node = {
-            attr: { id: p_id },
+            attr: { id: p_id ,"data-url":p_url },
             data: {
-                title: p_title_short,
-                attr: {"href": "#"+url, "title": p_title},
-                pagePosition: p_pagePosition
+                title: p_title,
+                attr: {"href": url, "title": p_title},
             },
             children:[]
         };
-        
-        for (child in directory[url_fragment].children) {
-            node.children.push(buildNodeRecursive(child, directory[url_fragment].children, url+"/"+child));
-            
+
+        // if current node has any children
+        // call buildNoderecursive method create the node structure for
+        // all level of child         
+        for (child in directory[node_id].children) {
+            // for each child node, call buildnoderecursive to build the node structure
+            // pass current child(id), the list of all sibligs(json object) and url append/child
+            // for example first level node /dev/directory2.html#courses/firstyearcourses
+            // for second level node /dev/directory2.html#course/firstyearcourses/chemistry
+            node.children.push(buildNodeRecursive(child, directory[node_id].children, url+"/"+child));
         }
         return node;
     };
@@ -138,44 +143,41 @@ sakai.browsedirectory = function(tuid, showSettings){
 
 
     /**
-     * Initiates rendering pages in read-only view in the navigation widget
+     * Initiates rendering directories in read-only view in the browsedirectory widget
      *
-     * @param {String} selectedPageUrlName id of the page to select upon initial
-     *   load of the navigation tree. If null, a default page is selected.
-     * @param {Object} site_info_object Contains an array with all the pages, each page is an object.
-     * @return None
+     * @param {String} id  the unique id for node to select on load for example firstyearcourses or empty
      */
-    var renderDirectories = function () {
+    var renderDirectories = function (id) {
         // disable editing and render tree without drag-n-drop
         disableEditing();
-        renderPages();
+        // create jstree instance for the directory
+        renderDirectoryTree(id);
+        // show directory tree
         $browsedirectoryTree.show();
+        // show main view
         $mainView.show();
     };
 
 
     /**
-     * Renders the pages navigation tree that is the core of the navigation widget
-     *
-     * @param {String} selectedPageUrlName id of the page to select upon initial
-     *   load of the navigation tree. If null, a default page is selected.
-     * @param {Object} site_info_object Contains an array with all the pages, each page is an object.
-     * @param {Boolean} allowDnd true if drag-and-drop editing should be enabled,
-     *   false if it should be disabled.
-     * @return None
+     * Thie method create directory jstree.
+     * It deletes existing jstree, create new jstree and bind event for the jstree nodes.
+     * 
+     * @param {String} id  the unique id for node to select on load for example firstyearcourses or empty
      */
-    var renderPages = function () {
+    var renderDirectoryTree = function (id) {
+        // get item 
         var initiallySelect = "firstyearcourses";
-        
+        // if id is passed set inital select as id
+        if (id !== "") {
+            initiallySelect = id;
+        }
         // destroy any existing jstree instance
         $browsedirectoryTree.jstree("destroy");
         var browsedirectoryData = convertToHierarchy(sakai.config.Directory);
 
-        // set up new jstree navigation tree
-        var pluginArray = false ?
-            [ "themes", "json_data", "ui", "cookies", "dnd" ] :
-            [ "themes", "json_data", "ui", "cookies" ];
-            
+        // set up new jstree for directory 
+        var pluginArray = [ "themes", "json_data", "ui", "cookies", "dnd" ];
         $browsedirectoryTree.jstree({
             "core": {
                 "animation": 0,
@@ -202,7 +204,6 @@ sakai.browsedirectory = function(tuid, showSettings){
         addJstreeBindings();
     };
 
-
     /**
      * Add event bindings for the jstree pages navigation tree
      */
@@ -212,30 +213,43 @@ sakai.browsedirectory = function(tuid, showSettings){
          */
         $browsedirectoryTree.bind("select_node.jstree", function(e, data) {
             var selectedPageUrl = $(data.rslt.obj[0]).attr("id").replace("nav_","");
+            // get anchor tag href attribute that has been set in buildNodeRecursive method
+            var link = $(data.rslt.obj[0]).children('a').attr("href");
+            // redirect page to the link
+            document.location.href = link;
+            // get node at same level
+            var sib = $("#"+selectedPageUrl).siblings();
+            // check if node at same level is opened.
+            // if it is open closed it.
+            if ($browsedirectoryTree.jstree("is_open", sib)) {
+                $browsedirectoryTree.jstree("close_node", sib);
+            }
+            // open the selected node
+            $browsedirectoryTree.jstree("open_node");
             $(window).trigger("sakai-directory-selected", {"id":selectedPageUrl});
         });
     };
 
-
     /**
-     * It fires the event to render the navigation
-     * @param {String} selectedPageUrlName id of the page to select upon initial
-     *   load of the navigation tree. If null, a default page is selected.
-     * @param {Object} site_info_object Contains an array with all the pages, each page is an object.
+     * Function that is available to other functions and called by directory2.js
+     * It return the directorynode json object based on the id passed
+     * 
+     * @param {String} id  the unique id for each node for example firstyearcourses
      */
-    renderNavigation = function(selectedPages) {
-        // check arguments
-        renderDirectories(selectedPages);
+    sakai.browsedirectory.getDirectoryNodeJson = function(id) {
+        // call get_json from jstree with parameter selector object and attribute for li
+        // id, title and data-url is passed when creating the jstree in buildNodeRecursive.
+        var directoryNodeJsonObject = $browsedirectoryTree.jstree("get_json", $("#"+id),["id","title","data-url"]);
+        return directoryNodeJsonObject;        
     };
 
     ///////////////////////
     // Initial functions //
     ///////////////////////
     var doInit = function(){
-        //var temp = "http://localhost:8080/directory2.html#test/test1/test2";
-        //window.location.pathname.split("#")[1].split("/");
-        
-        renderDirectories();
+        var url = document.location.toString();
+        var id = (url.split("#").length < 2)?"":url.split("#")[1].split("/").reverse().shift();
+        renderDirectories(id);
     };
     
     doInit();

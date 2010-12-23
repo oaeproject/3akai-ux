@@ -1,9 +1,9 @@
 /* Directory 2 CSS */
 
-/* BROWSE DIRECTORY*/
+/* BROWSE DIRECTORY WIDGET PLACEMENT*/
 .browse_directory {float :left; width:24%; padding:10px;}
 
-/*CONTENT*/
+/* DIRECOTRY CONTENT */
 .content {width:73% !important; padding:10px;}
 .directory_info {width:50%;}
 

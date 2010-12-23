@@ -17,12 +17,8 @@
  */
 
 /* LAYOUT */
-#browsedirectory_settings {padding:10px;}
 #browsedirectory_no_pages {padding:20px 30px;}
 #browsedirectory_main {overflow:hidden;}
-
-/* TYPOGRAPHY */
-#browsedirectory_groupname {font-weight:bold;}
 
 /* browsedirectory TREE STYLES */
 #browsedirectory_tree ul.jstree-no-dots li.jstree-leaf,
@@ -45,11 +41,8 @@
 #browsedirectory_tree ul.jstree-no-dots li.jstree-closed a.jstree-hovered
     {color:#006E96; background-color:#D3EDF5; border:none;}
 #browsedirectory_tree.jstree-default.jstree-focused {background-color:#fff;}
-#browsedirectory_tree.jstree-default a .jstree-icon {background:url("/dev/images/page_icon_small_blue.png") 0px 0px no-repeat;}
+#browsedirectory_tree.jstree-default a .jstree-icon {background:url("/devwidgets/browsedirectory/images/plus.png") 6px 5px no-repeat;}
 #browsedirectory_tree.jstree-default a .jstree-icon:hover {cursor:move;}
 
-/* BACKGROUND IMAGES */
-#browsedirectory_title {background:transparent url(/dev/images/pages_icon.png) no-repeat scroll 16px 17px;}
-#browsedirectory_create_page {padding-left:15px; background:transparent url(/dev/images/add_action_icon.png) no-repeat scroll 3px 3px;}
-#browsedirectory_delete_page {padding-left:15px; background:transparent url(/dev/images/delete_action_icon.png) no-repeat scroll 3px 3px;}
-
+/* Remove the triangle icon*/
+.jstree-default .jstree-open > ins, .jstree-default .jstree-closed > ins {background-image:none;}
