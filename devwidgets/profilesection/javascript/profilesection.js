@@ -177,7 +177,7 @@ sakai.profilesection = function(tuid, showSettings){
             json_config.path = currentsection + ".elements." + fieldName;
         }
         if(json_config.config.type === "location"){
-            sakai.profile.main.data.saveddirectory = sakai.profile.parseDirectoryTags(sakai.profile.main.data);
+            sakai.profile.main.data.saveddirectory = sakai.api.User.parseDirectoryTags(sakai.profile.main.data);
         }
         var ret = $.TemplateRenderer(fieldTemplate, json_config);
         var localDateString = sakai.api.l10n.getDateFormatString();
@@ -234,7 +234,7 @@ sakai.profilesection = function(tuid, showSettings){
                                     // Render the template field
                                     sections += unescape(renderTemplateField(fieldTemplate, j, true, sectionObject.elements.id.value));
                                 } else {
-                                    sakai.profile.main.data.saveddirectory = sakai.profile.parseDirectoryTags(sakai.profile.main.data);
+                                    sakai.profile.main.data.saveddirectory = sakai.api.User.parseDirectoryTags(sakai.profile.main.data);
                                 }
                             } else {
                                     // Render the template field
@@ -265,7 +265,9 @@ sakai.profilesection = function(tuid, showSettings){
                         }
                     } else if (i !== sakai.profile.main.data[currentsection].elements.length-1) {
                         sections += "</div>";
-                        sections += $.TemplateRenderer($profilesection_section_divider_template, {});
+                        if (sakai.profile.main.mode.value !== "view") {
+                            sections += $.TemplateRenderer($profilesection_section_divider_template, {});
+                        }
                     }
 
                 });
@@ -528,7 +530,6 @@ sakai.profilesection = function(tuid, showSettings){
                     });
                 }
             } else if (title) {
-
                 // Get the property if it exists
                 var prop = getProperty(sakai.profile.main.data, title);
                 var parentProp = getParentProperty(sakai.profile.main.data, title);
