@@ -52,6 +52,11 @@ sakai.popularcontent = function(tuid, showSettings) {
     };
 
     var doInit = function(){
+        if (! sakai.api.Widgets.isOnDashboard(tuid)){
+            $(".popularcontent-widget-border").show();
+            $("#popularcontent_widget").addClass("fl-widget s3d-widget");
+        }
+
         loadData(function() {
             $popularcontent_main.html($.TemplateRenderer($popularcontent_main_template, {data:contentData})).show();
         });

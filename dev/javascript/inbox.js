@@ -804,7 +804,7 @@ sakai.inbox = function() {
                 } else {
                     // Check whether this request is still pending
                     $.ajax({
-                        url: "/var/contacts/invited?page=0&items=100",
+                        url: sakai.config.URL.CONTACTS_FIND + "?state=INVITED&page=0&items=100",
                         success: function(data) {
                             var pending = false;
                             for (var i = 0; i < data.results.length; i++){
