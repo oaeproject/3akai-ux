@@ -413,6 +413,24 @@ sakai.profile = function(){
             }
         }
 
+        // determine how much profile data has been entered
+        var elementItemCount = 0;
+        var dataItemCount = 0;
+        for (var i in sakai.profile.main.config) {
+            if (sakai.profile.main.config.hasOwnProperty(i)) {
+                if (sakai.profile.main.config[i].elements && i !== "publications") {
+                    for (var ii in sakai.profile.main.config[i].elements) {
+                        elementItemCount++;
+                        if (sakai.profile.main.data[i] && sakai.profile.main.data[i].elements && sakai.profile.main.data[i].elements[ii]) {
+                            dataItemCount++;
+                        }
+                    }
+                }
+            }
+        }
+
+        var profilePercentageComplete = dataItemCount / elementItemCount * 100;
+
         readySections = [];
         // Filter some JCR properties
         sakai.api.Server.filterJCRProperties(sakai.profile.main.data);
@@ -429,6 +447,10 @@ sakai.profile = function(){
                 // Save the profile acl
                 saveProfileACL();
 
+                // if user has completed over half their profile add user progress
+                if (profilePercentageComplete > 49){
+                    sakai.api.User.addUserProgress("halfCompletedProfile");
+                }
             }
             else {
                 $("#profile_footer_button_update").removeAttr("disabled");
