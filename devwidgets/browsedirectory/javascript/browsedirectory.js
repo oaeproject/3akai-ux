@@ -226,7 +226,8 @@ sakai.browsedirectory = function(tuid, showSettings){
             }
             // open the selected node
             $browsedirectoryTree.jstree("open_node");
-            $(window).trigger("sakai-directory-selected", {"id":selectedPageUrl});
+            selectedPageUrl = link.split("#")[1];
+            $(window).trigger("sakai-directory-selected", selectedPageUrl);
         });
     };
 

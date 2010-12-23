@@ -76,21 +76,30 @@ sakai.profilesection = function(tuid, showSettings){
             if (sakai.config.Directory.hasOwnProperty(i)) {
                 // Create first level of content
                 var temp = {};
-                temp.name = i;
+                temp.id = i
+                temp.name = sakai.config.Directory[i].title
+                temp.description = sakai.config.Directory[i].description;
+                temp.icon = sakai.config.Directory[i].icon
 
                 // Create second level of content
                 temp.secondlevels = [];
-                for (var j in sakai.config.Directory[i]) {
-                    if (sakai.config.Directory[i].hasOwnProperty(j)) {
+                for (var j in sakai.config.Directory[i].children) {
+                    if (sakai.config.Directory[i].children.hasOwnProperty(j)) {
                         var secondlevel = {};
-                        secondlevel.name = j;
+                        secondlevel.id = j
+                        secondlevel.name = sakai.config.Directory[i].children[j].title;
+                        secondlevel.description = sakai.config.Directory[i].children[j].description;
+                        secondlevel.icon = sakai.config.Directory[i].children[j].icon;
 
                         // Create third level of content
                         secondlevel.thirdlevels = [];
-                        for (var k in sakai.config.Directory[i][j]) {
-                            if (sakai.config.Directory[i][j].hasOwnProperty(k)) {
+                        for (var k in sakai.config.Directory[i].children[j].children) {
+                            if (sakai.config.Directory[i].children[j].children.hasOwnProperty(k)) {
                                 var thirdlevel = {};
-                                thirdlevel.name = sakai.config.Directory[i][j][k];
+                                thirdlevel.id = k
+                                thirdlevel.name = sakai.config.Directory[i].children[j].children[k].title;
+                                thirdlevel.description = sakai.config.Directory[i].children[j].children[k].description;
+                                thirdlevel.description = sakai.config.Directory[i].children[j].children[k].icon;
                                 secondlevel.thirdlevels.push(thirdlevel);
                             }
                         }

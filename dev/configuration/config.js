@@ -773,21 +773,21 @@ sakai.config = {
                     description: "A description about the First Year Courses",
                     icon: "http://urltoicon.com/icon.jpg",
                     children: {
-                        "childfirstyearcourses": {
-                            title: "First Year Courses",
-                            description: "A description about the First Year Courses",
+                        "maths": {
+                            title: "Maths",
+                            description: "A description about the Maths course",
                             icon: "http://urltoicon.com/icon.jpg"
                         }
                     }
                 },
                 "secondyearcourses": {
-                    title: "First Year Courses",
-                    description: "A description about the First Year Courses",
+                    title: "Second Year Courses",
+                    description: "A description about the Second Year Courses",
                     icon: "http://urltoicon.com/icon.jpg",
                     children: {
-                        "childsecondyearcourses": {
-                            title: "First Year Courses",
-                            description: "A description about the First Year Courses",
+                        "physics": {
+                            title: "Physics",
+                            description: "A description about the Physics course",
                             icon: "http://urltoicon.com/icon.jpg"
                         }
                     }
