@@ -21,8 +21,19 @@
 .browse_directory {width:24%; padding:10px;}
 
 /* DIRECOTRY CONTENT */
-.content {width:53%; min-height: 50px;}
-.node_content_area {width:53%; padding:10px; min-height:350px; }
+.content {width:48%; min-height: 50px;}
+.node_content_area {width:48%; min-height:350px; }
+.node_content_area .s3d-widget .s3d-widget-content, .s3d-content {
+    border-left: none !important;
+    border-right: none !important;
+}
+
+.node_content_area .content_top_inner, .node_content_area .content_top, .node_content_area .s3d-no-options-inner, .node_content_area .s3d-no-options {
+    background: none !important;
+}
 
 /* DIRECTORY TITLE */
 .directory_header { font-size:22px; line-height:28px; margin-right:10px;}
+
+/* INFORMATION WIDGETS */
+.directory_information_widgets_container {width:25%; float:right; padding-top:10px;}
