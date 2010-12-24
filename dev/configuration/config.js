@@ -766,29 +766,71 @@ sakai.config = {
         "collegeofengineering": {
             title: "College of Engineering",
             description: "A description about the College of Engineering",
-            icon: "http://urltoicon.com/icon.jpg",
+            icon: "/dev/images/hierarchy.png",
             children: {
                 "firstyearcourses": {
                     title: "First Year Courses",
                     description: "A description about the First Year Courses",
-                    icon: "http://urltoicon.com/icon.jpg",
+                    icon: "/dev/images/hierarchy.png",
                     children: {
                         "maths": {
                             title: "Maths",
                             description: "A description about the Maths course",
-                            icon: "http://urltoicon.com/icon.jpg"
+                            icon: "/dev/images/hierarchy.png"
                         }
                     }
                 },
                 "secondyearcourses": {
                     title: "Second Year Courses",
                     description: "A description about the Second Year Courses",
-                    icon: "http://urltoicon.com/icon.jpg",
+                    icon: "/dev/images/hierarchy.png",
                     children: {
                         "physics": {
                             title: "Physics",
                             description: "A description about the Physics course",
-                            icon: "http://urltoicon.com/icon.jpg"
+                            icon: "/dev/images/hierarchy.png"
+                        },
+                        "geography": {
+                            title: "Geography",
+                            description: "A description about the Geography course",
+                            icon: "/dev/images/hierarchy.png"
+                        },
+                        "biology": {
+                            title: "Biology",
+                            description: "A description about the Biology course",
+                            icon: "/dev/images/hierarchy.png"
+                        },
+                        "modernenglish": {
+                            title: "Modern English",
+                            description: "A description about the Modern English course",
+                            icon: "/dev/images/hierarchy.png"
+                        }
+                    }
+                },
+                "thirdyearcourses": {
+                    title: "Third Year Courses",
+                    description: "A description about the Third Year Courses",
+                    icon: "/dev/images/hierarchy.png",
+                    children: {
+                        "physics": {
+                            title: "Physics",
+                            description: "A description about the Physics course",
+                            icon: "/dev/images/hierarchy.png"
+                        },
+                        "geography": {
+                            title: "Geography",
+                            description: "A description about the Geography course",
+                            icon: "/dev/images/hierarchy.png"
+                        },
+                        "biology": {
+                            title: "Biology",
+                            description: "A description about the Biology course",
+                            icon: "/dev/images/hierarchy.png"
+                        },
+                        "modernenglish": {
+                            title: "Modern English",
+                            description: "A description about the Modern English course",
+                            icon: "/dev/images/hierarchy.png"
                         }
                     }
                 }
