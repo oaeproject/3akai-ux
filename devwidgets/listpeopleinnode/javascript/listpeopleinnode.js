@@ -42,7 +42,19 @@ sakai.listpeopleinnode = function(tuid, showSettings){
     var listpeopleinnodeTitleTemplate = "listpeopleinnode_title_template";
     var listpeopleinnodePeopleTemplate = "listpeopleinnode_people_template";
 
+    // Elements
+    var $listpeopleinnodeSeeAllLink = $("#listpeopleinnode_see_all_link a");
+    var $listpeopleinnodeAjaxLoader = $("#listpeopleinnode_ajax_loader");
+
+    var searchQuery = "/dev/search_people.html#tag=${query}";
+
+    /**
+     * 
+     * @param {Object} results
+     * @param {Object} success
+     */
     var renderResults = function(results, success){
+        $listpeopleinnodeAjaxLoader.hide();
         if(success){
             $listpeopleinnodePeopleContainer.html($.TemplateRenderer(listpeopleinnodePeopleTemplate, results));
         }else{
@@ -52,6 +64,7 @@ sakai.listpeopleinnode = function(tuid, showSettings){
 
     /**
      * 
+     * @param {Object} selected
      */
     var searchUsersInNode = function(selected){
         var params = {
@@ -91,11 +104,14 @@ sakai.listpeopleinnode = function(tuid, showSettings){
     //////////////////////////////
 
     $(window).bind("sakai-directory-selected", function(ev, selected){
+        $listpeopleinnodePeopleContainer.text("");
+        $listpeopleinnodeAjaxLoader.show();
         // Set title
         var obj = {
             "location" : selected.split("/")[selected.split("/").length - 1]
         };
-        $listpeopleinnodeTitle.text($.TemplateRenderer(listpeopleinnodeTitleTemplate, obj))
+        $listpeopleinnodeTitle.text($.TemplateRenderer(listpeopleinnodeTitleTemplate, obj));
+        $listpeopleinnodeSeeAllLink[0].href = searchQuery.replace("${query}", "directory/" + selected);
         searchUsersInNode(selected);
     });
 };
