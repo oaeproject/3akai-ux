@@ -2,21 +2,32 @@
 <link rel="stylesheet" type="text/css" href="/devwidgets/nodecontentarea/css/nodecontentarea.css"></link>
 
 <div class="nodecontentarea_widget fl-widget s3d-widget">
+
     <div class="content_top"><div class="content_top_inner"><!-- --></div></div>
+
+    <!-- MAIN CONTENT -->
     <div class="nodecontentarea_content s3d-content fl-fix">
-        <a href="#" class="s3d-action fl-force-right" id="edit_page">Edit</a>
+        <a href="#" class="s3d-action fl-force-right" id="edit_page">__MSG__EDIT__</a>
+
+        <!-- CONTENT -->
         <div id="main-content-div-preview"></div>
+
+        <!-- EDITOR AREA -->
         <div id="main-content-div" style="display:none;">
             <!-- Gets replaced with TinyMCE, remember HTML in a textarea should be encoded -->
             <textarea id="elm1" name="elm1" style="width: 450px; height:430px">
                 &nbsp;
             </textarea>
+
+            <!-- BUTTONS -->
             <div class="fl-force-right" style="padding:20px;">
-                <button class="s3d-button s3d-button-primary save_button"><span class="s3d-button-inner">Save</span></button>
-                <button class="s3d-button cancel-button"><span class="s3d-button-inner">Don't save</span></button>
+                <button class="s3d-button s3d-button-primary save_button"><span class="s3d-button-inner">__MSG__SAVE</span></button>
+                <button class="s3d-button cancel_button"><span class="s3d-button-inner">__MSG__DONT_SAVE__</span></button>
             </div>
         </div>    
+
     </div>
+
     <div class="s3d-no-options"><div class="s3d-no-options-inner"><!-- --></div></div>
 </div>
 
