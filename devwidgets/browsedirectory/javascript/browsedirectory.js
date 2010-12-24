@@ -93,10 +93,12 @@ sakai.browsedirectory = function(tuid, showSettings){
         var p_id = node_id;
         // icon url
         var p_url = directory[node_id].icon;
+        // description
+        var p_description = directory[node_id].description;
 
         // create the node based on the parameters
         var node = {
-            attr: { id: p_id ,"data-url":p_url },
+            attr: { id: p_id ,"data-url":p_url, "data-description": p_description },
             data: {
                 title: p_title,
                 attr: {"href": url, "title": p_title},
@@ -239,8 +241,8 @@ sakai.browsedirectory = function(tuid, showSettings){
      */
     sakai.browsedirectory.getDirectoryNodeJson = function(id) {
         // call get_json from jstree with parameter selector object and attribute for li
-        // id, title and data-url is passed when creating the jstree in buildNodeRecursive.
-        var directoryNodeJsonObject = $browsedirectoryTree.jstree("get_json", $("#"+id),["id","title","data-url"]);
+        // id, title, data-url and data-description is passed when creating the jstree in buildNodeRecursive.
+        var directoryNodeJsonObject = $browsedirectoryTree.jstree("get_json", $("#"+id),["id","title","data-url","data-description"]);
         return directoryNodeJsonObject;        
     };
 
