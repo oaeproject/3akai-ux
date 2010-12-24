@@ -40,15 +40,63 @@ sakai.tags = function(tuid, showSettings) {
 
     var tagData = {};
 
-    var loadData = function(callback){
-       $.ajax({
-            url: "/var/search/public/tagcloud.json",
-            cache: false,
-            success: function(data) {
-                tagData = data;
-                callback();
+    var generateTagCloud = function(){
+        var newtags = [];
+        // Filter out directory tags
+        for (var i = 0; i < tagData.results[0].tags.length; i++) {
+            if (tagData.results[0].tags[i].name.substring(0, 10) !== "directory/") {
+                newtags.push(tagData.results[0].tags[i]);
             }
+        }
+        tagData.results[0].tags = newtags;
+        // Sort the tags in alphabetical order so we can generate a tag cloud
+        tagData.results[0].tags.sort(function(a, b){
+            var nameA = a.name.toLowerCase();
+            var nameB = b.name.toLowerCase();
+            if (nameA < nameB) {
+                return -1;
+            }
+            if (nameA > nameB) {
+                return 1;
+            }
+            return 0;
         });
+        // Only show the first 20 tags
+        var totalAdded = 0;
+        newtags = [];
+        for (var ii = 0; ii < tagData.results[0].tags.length; ii++) {
+            if (totalAdded < 20) {
+                newtags.push(tagData.results[0].tags[ii]);
+                totalAdded++;
+            }
+        }
+        tagData.results[0].tags = newtags;
+        $tags_main.html($.TemplateRenderer($tags_main_template, {
+            data: tagData
+        })).show();
+    };
+
+    var loadData = function(directory, callback){
+        if (directory) {
+            /*$.ajax({
+                url: "/var/search/public/tagcloud.json", // New feed in the backend
+                cache: false,
+                success: function(data){
+                    tagData = data;
+                    callback();
+                }
+            });*/
+        }
+        else {
+            $.ajax({
+                url: "/var/search/public/tagcloud.json",
+                cache: false,
+                success: function(data){
+                    tagData = data;
+                    callback();
+                }
+            });
+        }
     };
 
     var doInit = function(){
@@ -57,35 +105,13 @@ sakai.tags = function(tuid, showSettings) {
             $("#tags_widget").addClass("fl-widget s3d-widget");
         }
 
-        loadData(function() {
-            var newtags = [];
-            // Filter out directory tags
-            for (var i = 0; i < tagData.results[0].tags.length; i++){
-                if (tagData.results[0].tags[i].name.substring(0, 10) !== "directory/"){
-                    newtags.push(tagData.results[0].tags[i]);
-                }
-            }
-            tagData.results[0].tags = newtags;
-            // Sort the tags in alphabetical order so we can generate a tag cloud
-            tagData.results[0].tags.sort(function(a, b) {
-                var nameA = a.name.toLowerCase();
-                var nameB = b.name.toLowerCase();
-                if (nameA < nameB) {return -1;}
-                if (nameA > nameB) {return 1;}
-                return 0;
-            });
-            // Only show the first 20 tags
-            var totalAdded = 0;
-            newtags = [];
-            for (var ii = 0; ii < tagData.results[0].tags.length; ii++) {
-                if (totalAdded < 20) {
-                    newtags.push(tagData.results[0].tags[ii]);
-                    totalAdded++;
-                }
-            }
-            tagData.results[0].tags = newtags;
-            $tags_main.html($.TemplateRenderer($tags_main_template, {data:tagData})).show();
-        });
+        // If the widget is initialized on the directory page then listen to the event to catch specified tag results
+        if (sakai.directory2.getIsDirectory()) {
+            loadData(true, generateTagCloud);
+        }
+        else {
+            loadData(false, generateTagCloud);
+        }
     };
 
     doInit();
