@@ -634,6 +634,19 @@ label.error {color:#9f3333;font-weight:bold;}
 .dialog_footer{background:url(/dev/images/dialog_br.png) top right no-repeat;padding:0 8px 0 0;}
 .dialog_footer_inner{background:url(/dev/images/dialog_bl.png) top left no-repeat;height:6px;}
 
+/* Dialog tooltip header */
+.dialog_tooltip_header{background:url(/dev/images/dialog_tr.png) top right no-repeat;padding:0 8px 0 0;}
+.dialog_tooltip_header_inner{background:url(/dev/images/dialog_tl.png) top left no-repeat;height:6px;}
+
+/* Dialog tooltip content */
+.dialog_tooltip_content{background-color:#fff;border-left:3px #454a4f solid;border-right:3px #454a4f solid;padding:7px 20px 7px;}
+.dialog_tooltip_content h1{font-size:1.1em;font-weight:bold;color:#333;margin:0;padding:5px 0;}
+.dialog_tooltip_content textarea {height:80px;width:98%;}
+
+/* Dialog tooltip footer */
+.dialog_tooltip_footer{background:url(/dev/images/dialog_br.png) top right no-repeat;padding:0 8px 0 0;}
+.dialog_tooltip_footer_inner{background:url(/dev/images/dialog_bl.png) top left no-repeat;height:6px;}
+
 /* highlighted areas */
 .s3d-highlight_area_background {background-color:#EFF2F4; padding: 0 10px; margin: 0 0 15px 0;}
 

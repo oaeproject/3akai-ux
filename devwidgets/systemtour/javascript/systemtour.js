@@ -143,6 +143,12 @@ sakai.systemtour = function(tuid, showSettings){
      * Add binding to widget elements
      */
     var addBinding = function(){
+        $systemtourAddPhoto.bind("click", function () {
+            var tooltipData = {"profileFlag": "photoHelpTooltip","whichHelp": "tooltip_photo","tooltip":"true","toolTipSelector":"#changepic_container_trigger"};
+            $(window).trigger("sakai-help-init", tooltipData);
+            return false;
+        });
+
         $systemtourCloseWidget.bind("click", function () {
             hideProgressBar();
             return false;

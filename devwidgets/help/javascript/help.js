@@ -30,12 +30,15 @@ sakai.help = function(tuid, showSettings) {
         profileData = null,
         forced = false,
         alreadySet = false,
+        toolTip = false,
+        toolTipSelector = false,
         authprofileURL = "/~" +
                         sakai.data.me.user.userid +
                         "/public/authprofile";
     
     var $rootel = $("#" + tuid);
     var $help_widget = $("#help_widget", $rootel),
+        $help_tooltip_widget = $("#help_widget", $rootel),
         $help_nav_ul_li_a = $(".help_nav ul li a", $rootel),
         $help_content = $(".help_content", $rootel),
         $help_close = $(".help_close", $rootel),
@@ -45,6 +48,12 @@ sakai.help = function(tuid, showSettings) {
     $help_widget.jqm({
         modal: true,
         overlay: 20,
+        toTop: true
+    });
+
+    $help_tooltip_widget.jqm({
+        modal: true,
+        overlay: 0,
         toTop: true
     });
 
@@ -62,7 +71,11 @@ sakai.help = function(tuid, showSettings) {
                 } else {
                     $help_dont_show.removeAttr("checked");
                 }
-                $help_widget.jqmShow();
+                if (tooltip){
+                    $help_tooltip_widget.jqmShow();
+                } else {
+                    $help_widget.jqmShow();
+                }
             }
         }
     };
@@ -130,6 +143,18 @@ sakai.help = function(tuid, showSettings) {
             whichHelp = helpObj.whichHelp;
             forced = helpObj.force || false;
             alreadySet = false;
+            tooltip = helpObj.tooltip || false;
+            toolTipSelector = helpObj.toolTipSelector || false;
+            if (tooltip){
+                $help_widget.removeClass("help_dialog");
+                $help_widget.addClass("help_tooltip_dialog");
+                // position tooltip
+                if (toolTipSelector) {
+                    var eleOffset = $(toolTipSelector).offset();
+                    $help_widget.css("top", 20 + eleOffset.top);
+                    $help_widget.css("left", 430 + eleOffset.left);
+                }
+            }
             $.ajax({
                 url: authprofileURL + ".infinity.json",
                 success: function(profile) {
