@@ -38,12 +38,18 @@ sakai.directory2 = function(){
         // bind sakai-directory-selected event.
         // that event is triggered when directory in browsedirectory widget is selected.
         $(window).bind("sakai-directory-selected", function(e, id){
+
             // get directory json object called method from browsedirectory widget
-            var directoryJson = sakai.browsedirectory.getDirectoryNodeJson(id.id);
+            var nodeId = id.split("/").reverse().shift();
+            var directoryJson = sakai.browsedirectory.getDirectoryNodeJson(nodeId);
+
+            // prepare result json
             var resultJson = {};
             resultJson.title = directoryJson[0].data;
             resultJson.icon = directoryJson[0].attr["data-url"];
             resultJson.id = directoryJson[0].attr["id"];
+
+            // render directory information 
             $(".directory_info").html($.TemplateRenderer("#directory_template", resultJson));
         });
     };

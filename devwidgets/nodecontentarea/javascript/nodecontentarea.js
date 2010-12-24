@@ -21,12 +21,12 @@
 var sakai = sakai || {};
 
 /**
- * @name sakai.sitespages
+ * @name sakai.nodecontentarea
  *
- * @class sitespages
+ * @class nodecontentarea
  *
  * @description
- * Initialize the sitespages widget
+ * Initialize the nodecontentarea widget
  *
  * @version 0.0.1
  * @param {String} tuid Unique id of the widget
@@ -37,16 +37,27 @@ sakai.nodecontentarea = function(tuid,showSettings){
     //////////////////////////
     // CONFIG and HELP VARS //
     //////////////////////////
-    var doInit = function() {
-        bindEvents();
-    };
     
+    var mainContentDivPreview = "#main-content-div-preview";
+    var mainContentDiv = "#main-content-div";
+
+    // Buttons and Links
+    var editPage = "#edit_page";
+    var saveButton = ".save_button";
+    var cancelButton = ".cancel_button";
+    
+
+    /**
+     * Bind events
+     */    
     var bindEvents = function(){
         // Bind Edit page link click event
-        $("#edit_page").bind("click", function(ev){
+        $(editPage).bind("click", function(ev){
+            // if there is no active editor initialize editor
             if (tinyMCE.activeEditor === null) {
                 init_tinyMCE();
             }
+            // otherwise remove existing active editor and initialize new one
             else {
                 if (tinyMCE.activeEditor.id !== "elm1" && didInit === false) {
                     tinyMCE.remove(tinyMCE.activeEditor.id);
@@ -54,35 +65,77 @@ sakai.nodecontentarea = function(tuid,showSettings){
                     didInit = true;
                 }
             }
-            
-            $("#edit_page").hide();
-            $("#main-content-div").show();
+            // show editor
+            switchToEditorMode(true);
         });
         
         // Bind Save button click
-        $(".save_button").live("click", function(ev){
+        $(saveButton).live("click", function(ev){
             saveEdit();
         });
 
         // Bind cancel button click
-        $(".cancel-button").live("click", function(ev){
+        $(cancelButton).live("click", function(ev){
             cancelEdit();
         });
 
-    }
+        // bind sakai-directory-selected event.
+        // that event is triggered when directory in browsedirectory widget is selected.
+        $(window).bind("sakai-directory-selected", function(e, id){
+            // get directory json object called method from browsedirectory widget
+            var nodeId = id.split("/").reverse().shift();
+            var directoryJson = sakai.browsedirectory.getDirectoryNodeJson(nodeId);
+            
+            // show description
+            $(mainContentDivPreview).html(directoryJson[0].attr["data-description"]);
+        });
+    };
 
+    /**
+     * Show and Hide the div and links based on parameter passed
+     * if parameter is true show the editor, hide edit link and content link(editor mode)
+     * if parameter is false hide the editor, show edit link and content link(preview mode)
+     * 
+     * @param {Boolean} mode boolean value to switch mode true(editor mode), false(preview  mode)  
+     */
+    var switchToEditorMode = function(mode){
+        if (mode) {
+            $(mainContentDivPreview).hide();
+            $(editPage).hide();
+            $(mainContentDiv).show();
+        } else {
+            $(mainContentDivPreview).show();
+            $(editPage).show();
+            $(mainContentDiv).hide();
+        }
+    };
+
+    /**
+     * Simply hide editor and show content and edit link
+     */
     var cancelEdit = function() {
-        $("#main-content-div").hide();
-        $("#edit_page").show();        
+        // hide editor
+        switchToEditorMode(false);       
     };    
 
+    /**
+     * Save the description, hide editor and show content and edit link
+     */
     var saveEdit = function(){
         var newcontent = getContent();
         //TODO call save description function
-        $("#main-content-div").hide();
-        $("#edit_page").show();
-        $("#main-content-div-preview").html(newcontent);
-    }
+        $(mainContentDivPreview).html(newcontent);
+        // hide editor
+        switchToEditorMode(false);
+    };
+
+    /**
+     * Get description from the preiew and show in editor
+     */
+    var setDescription = function (){
+        var content = $(mainContentDivPreview).html();
+        setContent(content);
+    };
 
     /////////////////////////////
     // tinyMCE FUNCTIONS
@@ -94,6 +147,12 @@ sakai.nodecontentarea = function(tuid,showSettings){
         return tinyMCE.get("elm1").getContent({format : 'raw'}).replace(/src="..\/devwidgets\//g, 'src="/devwidgets/');
     };
 
+    /**
+     * Set the content inside the TinyMCE editor
+     */
+    var setContent = function(content){
+        tinyMCE.get("elm1").setContent(content, {format : 'raw'});
+    };
 
     /**
      * Initialise tinyMCE and run sakai.sitespages.startEditPage() when init is complete
@@ -110,18 +169,23 @@ sakai.nodecontentarea = function(tuid,showSettings){
 
             // Context Menu
             theme_advanced_buttons1: "formatselect,fontselect,fontsizeselect,|,forecolor,backcolor",
-            theme_advanced_buttons2: "bold,italic,underline,|,numlist,bullist,|,outdent,indent,|,link,|,image,|",
+            theme_advanced_buttons2: "bold,italic,underline,|,numlist,bullist,|,outdent,indent,|,justifyleft,justifycenter,justifyright,justifyfull,|,link,|,image,|",
             theme_advanced_buttons3:"",
             
             // set this to external|top|bottom
             theme_advanced_toolbar_location: "top",
             theme_advanced_toolbar_align: "left",
             theme_advanced_statusbar_location: "none",
+            oninit : setDescription
         });
-
-
     }
 
+    //////////////////////////
+    // INITIALIZATION METHOD 
+    //////////////////////////
+    var doInit = function() {
+        bindEvents();
+    };
 
     doInit();
 };
