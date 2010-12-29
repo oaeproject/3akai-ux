@@ -19,11 +19,11 @@
             <div class="nextleveldown_child_container">
                 <div class="nextleveldown_child_header">
                     <img src="${child.attr["data-url"]}" alt="${child.data}" class="nextleveldown_child_image"/>
-                    <span class="nextleveldown_child_title"><a href="/dev/directory2.html#${child.attr.id}" class="s3d-action">${child.data}</a></span>
+                    <span class="nextleveldown_child_title"><a id="${child.attr.id}" href="javascript:;" class="s3d-action nextleveldown_child">${child.data}</a></span>
                 </div>
                 {if child.children}
                     {for subChild in child.children}
-                        <span class="nextleveldown_subchild_title"><a href="javascript:;" class="s3d-action">${subChild.data}</a></span>
+                        <span class="nextleveldown_subchild_title"><a id="${subChild.attr.id}" href="javascript:;" class="s3d-action nextleveldown_child">${subChild.data}</a></span>
                     {/for}
                 {/if}
             </div>

@@ -38,13 +38,32 @@ sakai.nextleveldown = function(tuid,showSettings){
     var $nextleveldownContent = $(".nextleveldown_content");
 
     // Templates
-    var nextleveldownContentTemplate = $("#nextleveldown_content_template");
+    var nextleveldownContentTemplate = "nextleveldown_content_template";
 
+    // Elements
+    var nextleveldownChild= ".nextleveldown_child";
+
+    /**
+     * Render the first 2 children levels of the current location
+     * @param {Object} data Data containing the JSTree
+     */
     var renderChildren = function(data){
         $nextleveldownContent.html($.TemplateRenderer(nextleveldownContentTemplate, {
             "data": data
         }))
     }
+
+    /**
+     * Fire the JSTree event associated with this location
+     * @param {Object} id ID of the clicked element
+     */
+    var clickedChild = function(id){
+        $("li#" + id).children("a").click();
+    }
+
+    $(nextleveldownChild).live("click",function(){
+        clickedChild(this.id);
+    });
 
     $(window).bind("sakai-directory-selected", function(ev, selectedpath, selected){
         renderChildren(sakai.browsedirectory.getDirectoryNodeJson(selectedpath.split("/")[selectedpath.split("/").length -1]));

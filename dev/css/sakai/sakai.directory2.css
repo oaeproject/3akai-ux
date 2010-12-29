@@ -18,7 +18,7 @@
 /* Directory 2 CSS */
 
 /* BROWSE DIRECTORY WIDGET PLACEMENT*/
-.browse_directory {width:24%; padding:10px;}
+.browse_directory {padding: 10px 10px 10px 0; width: 25%;}
 
 /* DIRECOTRY CONTENT */
 .content {width:48%; min-height: 50px; margin-top: 10px;}
