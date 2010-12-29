@@ -55,7 +55,7 @@ sakai.contentmetadata = function(tuid,showSettings){
     var contentmetadataLocationsThirdLevelTemplateContainer = "#contentmetadata_location_thirdlevel_template_container";
 
     // Dialogs
-    var $contentmetadataLocationsDialog = $("#contentmetadata_locations_dialog");
+    //var $contentmetadataLocationsDialog = $("#contentmetadata_locations_dialog");
 
     // Elements
     var contentmetadataDescriptionDisplay = "#contentmetadata_description_display";
@@ -122,13 +122,17 @@ sakai.contentmetadata = function(tuid,showSettings){
      * @param {String|Boolean} mode Can be false or 'edit' depending on the mode you want to be in
      */
     var renderDescription = function(mode){
-        sakai.content_profile.content_data.mode = mode;
+        if (mode) {
+            sakai.content_profile.content_data.mode = mode;
+        }
         $contentmetadataDescriptionContainer.html($.TemplateRenderer(contentmetadataDescriptionTemplate, sakai.content_profile.content_data));
         addEditBinding(mode);
     };
 
     var renderName = function(mode){
-        sakai.content_profile.content_data.mode = mode;
+        if (mode) {
+            sakai.content_profile.content_data.mode = mode;
+        }
         if (mode === "edit"){
             $("#contentmetadata_name_name").hide();
             $("#contentmetadata_name_text").val($.trim($("#contentmetadata_name_name").text()));
@@ -254,7 +258,7 @@ sakai.contentmetadata = function(tuid,showSettings){
         
         sakai.api.Util.tagEntity("/p/" + sakai.content_profile.content_data.data["jcr:name"], sakai.content_profile.content_data.data["sakai:tags"], originalTags, function(){
             sakai.content_profile.content_data.saveddirectory = sakai.content_profile.parseDirectoryTags(sakai.content_profile.content_data.data);
-            $contentmetadataLocationsDialog.jqmHide();
+            //$contentmetadataLocationsDialog.jqmHide();
             renderLocations(false);
             renderTags(false);
             // Create an activity
@@ -310,16 +314,21 @@ sakai.contentmetadata = function(tuid,showSettings){
     };
 
     var renderLocationsEdit = function(){
-        $contentmetadataLocationsDialog.jqmShow();
+        //$contentmetadataLocationsDialog.jqmShow();
+        $("#assignlocation_container").jqmShow();
 
         // position dialog box at users scroll position
         var htmlScrollPos = $("html").scrollTop();
         var docScrollPos = $(document).scrollTop();
 
         if (htmlScrollPos > 0) {
-            $contentmetadataLocationsDialog.css({
+            //$contentmetadataLocationsDialog.css({
+            //    "top": htmlScrollPos + 100 + "px"
+            //});
+            $("#assignlocation_container").css({
                 "top": htmlScrollPos + 100 + "px"
             });
+            
         }
         else 
             if (docScrollPos > 0) {
@@ -591,10 +600,15 @@ sakai.contentmetadata = function(tuid,showSettings){
      */
     var doInit = function(){
         // This will make the widget popup as a layover.
-        $contentmetadataLocationsDialog.jqm({
+        //$contentmetadataLocationsDialog.jqm({
+        //    modal: true,
+        //    toTop: true
+        //});
+        $("#assignlocation_container").jqm({
             modal: true,
             toTop: true
         });
+
 
         // Render all information
         renderDescription(false);

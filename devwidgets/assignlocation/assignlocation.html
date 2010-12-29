@@ -3,22 +3,52 @@
 
 <!-- MAIN VIEW -->
 <div id="assignlocation_container" style="display:none" class="dialog">
-
     <div id="assignlocation_container_header" class="dialog_header">
         <div class="dialog_header_inner">
-            <h1>__MSG__I_WANT_TO_SHARE__</h1>
+            <h1>__MSG__ASSIGN_A_LOCATION__</h1>
             <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
         </div>
     </div>
+
     <div id="assignlocation_container_search" class="dialog_content">
-        <div id="assignlocation_basic_container"><!-- --></div>
+        <div class="s3d-highlight_area_background fl-push">
+            <div class='s3d-highlight_area_background_tl'>
+                <div class='s3d-highlight_area_background_tinner'>
+                </div>
+            </div>
+            <h1>__MSG__SELECT_LOCATION_OR_SEARCH__</h1>
+            <div id="assignlocation_jstree_container">
+            </div>
+            <div id="assignlocation_jstree_selected_container">
+            </div>
+            <button type="button" class="s3d-button s3d-button-primary fl-force-right" id="assignlocation_save_button" disabled="disabled">
+                <span class="s3d-button-inner">__MSG__SAVE__</span>
+            </button>
+            <button type="button" class="jqmClose s3d-button fl-force-right" id="assignlocation_dont_save_button">
+                <span class="s3d-button-inner">__MSG__DONT_SAVE__</span>
+            </button>
+            <div class="s3d-highlight_area_background_bl">
+                <div class="s3d-highlight_area_background_binner">
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- DIALOG FOOTER -->
     <div class="dialog_footer">
-        <div class="dialog_footer_inner"><!-- --></div>
+        <div class="dialog_footer_inner">
+            <!-- -->
+        </div>
     </div>
 </div>
+
+<div id="assignlocation_jstree_selected_template"><!-- 
+    <ul>
+    {for location in newlyAssignedLocations}
+        <li class="s3d-list-item">${location}</li>
+    {/for}
+    </ul>
+--></div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/assignlocation/javascript/assignlocation.js"></script>

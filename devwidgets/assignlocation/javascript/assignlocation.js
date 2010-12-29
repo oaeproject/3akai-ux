@@ -45,6 +45,85 @@ sakai.assignlocation = {};
  * @param {Boolean} showSettings Show the settings of the widget or not
  */
 sakai.assignlocation = function(tuid, showSettings) {
+    // Containers
+    var $assignlocationJSTreeContainer = $("#assignlocation_jstree_container");
+    var $assignlocationJSTreeSelectedContainer = $("#assignlocation_jstree_selected_container");
+
+    // Templates
+    var assignlocationJSTreeSelectedTemplate = "assignlocation_jstree_selected_template";
+
+    // Variables
+    var alreadyAssignedLocations = [];
+    var newlyAssignedLocations = [];
+
+    // Actions
+    var $assignlocationSaveButton = $("#assignlocation_save_button");
+
+    var renderSelected = function() {
+        var locations = {
+            "alreadyAssignedLocations" : alreadyAssignedLocations,
+            "newlyAssignedLocations" : newlyAssignedLocations
+        }
+        $assignlocationJSTreeSelectedContainer.html($.TemplateRenderer(assignlocationJSTreeSelectedTemplate, locations));
+    };
+
+    var enableDisableButtons = function(){
+        if(!newlyAssignedLocations.length && !alreadyAssignedLocations.length){
+            $assignlocationSaveButton.attr("disabled", "disabled");
+        } else {
+            $assignlocationSaveButton.removeAttr("disabled");
+        }
+    };
+
+    var addTreebinding = function(){
+        $assignlocationJSTreeContainer.bind("change_state.jstree", function(ev){
+            newlyAssignedLocations = [];
+            $(".jstree-leaf.jstree-checked a").each(function(index, val){
+                newlyAssignedLocations.push(val.href.split("#")[1]);
+            });
+            renderSelected();
+            enableDisableButtons();
+        });
+    };
+
+    var saveLocations = function(){
+        
+    };
+
+    var addWidgetBinding = function(){
+        $assignlocationSaveButton.bind("click", function(){
+            saveLocations();
+        });
+    };
+
+    var doInit = function(){
+        // set up new jstree for directory 
+        var pluginArray = ["themes", "json_data", "cookies", "dnd", "search", "checkbox"];
+        $assignlocationJSTreeContainer.jstree({
+            "core": {
+                "animation": 0,
+                "html_titles": true
+            },
+            "cookies": {
+                "save_selected": false
+            },
+            "json_data": {
+                "data": sakai.api.UI.getDirectoryStructure
+            },
+            "themes": {
+                "dots": false,
+                "icons": false
+            },
+            "search" : {
+                "case_insensitive" : true
+            },
+            "plugins": pluginArray
+        });
+        addTreebinding();
+        addWidgetBinding();
+    };
+
+    doInit();
 
 };
 
