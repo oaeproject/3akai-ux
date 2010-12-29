@@ -933,7 +933,80 @@ sakai.api.Server.createSearchString = function(searchString) {
  */
 sakai.api.UI = sakai.api.UI || {};
 
+sakai.api.UI.getDirectoryStructure = function(){
+    /**
+     * Converts directory array into a node structure
+     * so that it can be rendered into the jstree.
+     *
+     * @param {Object} directory list of directories
+     * @return result the json object in the structure necessary to render in jstree
+     */
+    var convertToHierarchy = function(directory){
+        var item, path;
 
+        var result = [];
+        // loop through all the directory
+        for (var item in directory) {
+            // url for the first level nodes
+            var url = "/dev/directory2.html#" + item;
+            // call buildnoderecursive to get the node structure to render.
+            result.push(buildNodeRecursive(item, directory, url));
+        }
+        return result;
+    };
+
+    /**
+     * Recursive method that create the node structure
+     * so that it can be rendered into the jstree.
+     *
+     * @param {String} node_id  the unique id for each node for example firstyearcourses
+     * @param {Object} directory directory list json object for example "collegeofengineering": { ... }
+     * @param {String} url the url of the page to render when directory node is clicked for example /dev/directory2.html#collegeofengineering
+     *
+     * @return node the json object in the structure necessary to render in jstree
+     */
+    var buildNodeRecursive = function(node_id, directory, url){
+        // node title
+        var p_title = directory[node_id].title;
+        // node id
+        var p_id = node_id;
+        // icon url
+        var p_url = directory[node_id].icon;
+        // description
+        var p_description = directory[node_id].description;
+
+        // create the node based on the parameters
+        var node = {
+            attr: {
+                id: p_id,
+                "data-url": p_url,
+                "data-description": p_description
+            },
+            data: {
+                title: p_title,
+                attr: {
+                    "href": url,
+                    "title": p_title
+                },
+            },
+            children: []
+        };
+
+        // if current node has any children
+        // call buildNoderecursive method create the node structure for
+        // all level of child
+        for (child in directory[node_id].children) {
+            // for each child node, call buildnoderecursive to build the node structure
+            // pass current child(id), the list of all sibligs(json object) and url append/child
+            // for example first level node /dev/directory2.html#courses/firstyearcourses
+            // for second level node /dev/directory2.html#course/firstyearcourses/chemistry
+            node.children.push(buildNodeRecursive(child, directory[node_id].children, url + "/" + child));
+        }
+        return node;
+    };
+
+    return convertToHierarchy(sakai.config.Directory);
+};
 
 // -----------------------------------------------------------------------------
 

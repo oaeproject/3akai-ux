@@ -158,7 +158,7 @@ sakai.profilesection = function(tuid, showSettings){
         var json_config = {};
         json_config.data = {};
         json_config.config = sakai.profile.main.config[currentsection].elements[fieldName];
-        json_config.directory = getDirectoryStructure();
+        json_config.directory = sakai.api.UI.getDirectoryStructure();
 
         if (multi) {
             json_config.path = currentsection + ".elements." + id + "." + fieldName;
