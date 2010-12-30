@@ -314,28 +314,7 @@ sakai.contentmetadata = function(tuid,showSettings){
     };
 
     var renderLocationsEdit = function(){
-        //$contentmetadataLocationsDialog.jqmShow();
         $("#assignlocation_container").jqmShow();
-
-        // position dialog box at users scroll position
-        var htmlScrollPos = $("html").scrollTop();
-        var docScrollPos = $(document).scrollTop();
-
-        if (htmlScrollPos > 0) {
-            //$contentmetadataLocationsDialog.css({
-            //    "top": htmlScrollPos + 100 + "px"
-            //});
-            $("#assignlocation_container").css({
-                "top": htmlScrollPos + 100 + "px"
-            });
-            
-        }
-        else 
-            if (docScrollPos > 0) {
-                $contentmetadataLocationsDialog.css({
-                    "top": docScrollPos + 100 + "px"
-                });
-            }
 
         $(contentmetadataLocationLvlOne).live("change", function(){
             changedLvlOne(this);
@@ -599,17 +578,6 @@ sakai.contentmetadata = function(tuid,showSettings){
      * Initialize the widget
      */
     var doInit = function(){
-        // This will make the widget popup as a layover.
-        //$contentmetadataLocationsDialog.jqm({
-        //    modal: true,
-        //    toTop: true
-        //});
-        $("#assignlocation_container").jqm({
-            modal: true,
-            toTop: true
-        });
-
-
         // Render all information
         renderDescription(false);
         renderTags(false);
@@ -623,6 +591,12 @@ sakai.contentmetadata = function(tuid,showSettings){
 
     $(window).bind("sakai-fileupload-complete", function(){
         sakai.content_profile.loadContentProfile(renderDetails);
+    });
+
+    $(window).bind("sakai-contentmetadata-renderlocations", function(ev, val){
+        sakai.content_profile.content_data.saveddirectory = val.saveddirectory;
+        sakai.content_profile.content_data.data["sakai:tags"] = val.tags;
+        renderLocations(false);
     });
 
     // Bind Enter key to input fields to save on keyup

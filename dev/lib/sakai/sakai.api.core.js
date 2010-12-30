@@ -933,6 +933,20 @@ sakai.api.Server.createSearchString = function(searchString) {
  */
 sakai.api.UI = sakai.api.UI || {};
 
+sakai.api.UI.getPageContext = function(){
+    if (sakai.content_profile) {
+        return "content";
+    } else if (sakai.group || sakai.groupedit) {
+        return "group";
+    } else if (sakai.directory2) {
+        return "directory";
+    } else if (sakai.content_profile || sakai.profile){
+        return "user";
+    } else {
+        return false;
+    }
+};
+
 sakai.api.UI.getDirectoryStructure = function(){
     /**
      * Converts directory array into a node structure

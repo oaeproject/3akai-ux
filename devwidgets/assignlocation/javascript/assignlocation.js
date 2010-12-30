@@ -46,6 +46,7 @@ sakai.assignlocation = {};
  */
 sakai.assignlocation = function(tuid, showSettings) {
     // Containers
+    var $assignlocationContainer = $("#assignlocation_container");
     var $assignlocationJSTreeContainer = $("#assignlocation_jstree_container");
     var $assignlocationJSTreeSelectedContainer = $("#assignlocation_jstree_selected_container");
 
@@ -55,23 +56,26 @@ sakai.assignlocation = function(tuid, showSettings) {
     // Variables
     var alreadyAssignedLocations = [];
     var newlyAssignedLocations = [];
+    var contextVariables = {};
+
+    // i18n
+    var assignlocationLocationSaved = $("#assignlocation_location_saved");
+    var assignlocationLocationSuccessfullySaved = $("#assignlocation_location_successfully_saved");
 
     // Actions
     var $assignlocationSaveButton = $("#assignlocation_save_button");
 
-    var renderSelected = function() {
+    var renderSelected = function(init) {
         var locations = {
-            "alreadyAssignedLocations" : alreadyAssignedLocations,
             "newlyAssignedLocations" : newlyAssignedLocations
         }
         $assignlocationJSTreeSelectedContainer.html($.TemplateRenderer(assignlocationJSTreeSelectedTemplate, locations));
-    };
-
-    var enableDisableButtons = function(){
-        if(!newlyAssignedLocations.length && !alreadyAssignedLocations.length){
-            $assignlocationSaveButton.attr("disabled", "disabled");
-        } else {
-            $assignlocationSaveButton.removeAttr("disabled");
+        // Check the boxes that were previously saved
+        if (init) {
+            var initiallySelect = [];
+            for (var location in contextVariables.saveddirectory){
+                $.jstree._reference($assignlocationJSTreeContainer).change_state($("#" + contextVariables.saveddirectory[location][contextVariables.saveddirectory[location].length - 1]), false);
+            }
         }
     };
 
@@ -82,12 +86,35 @@ sakai.assignlocation = function(tuid, showSettings) {
                 newlyAssignedLocations.push(val.href.split("#")[1]);
             });
             renderSelected();
-            enableDisableButtons();
         });
     };
 
     var saveLocations = function(){
-        
+        var locations = [];
+        $("#assignlocation_locations_selected li").each(function(index, val){
+            locations.push("directory/" + $(val).text());
+        });
+
+        // Concatenate the tags with the new locations
+        var newTags = [];
+        if (contextVariables.tags) {
+            newTags = sakai.api.Util.formatTagsExcludeLocation(contextVariables.tags.toString()).slice(0);
+        }
+        newTags = newTags.concat(locations);
+
+        // Fetch original tags and directory locations
+        var originalTags = [];
+        if (contextVariables.tags){
+            originalTags = contextVariables.tags;
+        }
+
+        sakai.api.Util.tagEntity(contextVariables.path, newTags, originalTags, function(){
+            contextVariables.tags = newTags;
+            contextVariables.saveddirectory = sakai.api.Util.getDirectoryTags(newTags.toString());
+            $assignlocationContainer.jqmHide();
+            sakai.api.Util.notification.show($(assignlocationLocationSaved).html(), $(assignlocationLocationSuccessfullySaved).html());
+            $(window).trigger("sakai-contentmetadata-renderlocations", contextVariables);
+        });
     };
 
     var addWidgetBinding = function(){
@@ -96,7 +123,63 @@ sakai.assignlocation = function(tuid, showSettings) {
         });
     };
 
+    var showContainer = function(){
+        // position dialog box at users scroll position
+        var htmlScrollPos = $("html").scrollTop();
+        var docScrollPos = $(document).scrollTop();
+        
+        if (htmlScrollPos > 0) {
+            $assignlocationContainer.css({
+                "top": htmlScrollPos + 100 + "px"
+            });
+            
+        }
+        else 
+            if (docScrollPos > 0) {
+                $contentmetadataLocationsDialog.css({
+                    "top": docScrollPos + 100 + "px"
+                });
+            }
+        $assignlocationContainer.show();
+        renderSelected(true);
+    };
+
+    var determineContext = function(){
+        var context = sakai.api.UI.getPageContext();
+        if (context) {
+            switch (context) {
+                case "user":
+                    contextVariables = {
+                        "saveddirectory": sakai.data.me.profile.saveddirectory,
+                        "tags": sakai.data.me.profile["sakai:tags"],
+                        "path": "/~" + sakai.data.me.profile["rep:userId"] + "/public/authprofile",
+                        "context" : "user"
+                    }
+                    break;
+                case "group":
+                    break;
+                case "content":
+                    contextVariables = {
+                        "saveddirectory": sakai.content_profile.content_data.saveddirectory,
+                        "tags": sakai.content_profile.content_data.data["sakai:tags"],
+                        "path": "/p/" + sakai.content_profile.content_data.data["jcr:name"],
+                        "context" : "content"
+                    }
+                    break;
+            }
+            addTreebinding();
+            addWidgetBinding();
+        }
+    };
+
     var doInit = function(){
+
+        $assignlocationContainer.jqm({
+            modal: true,
+            toTop: true,
+            onShow: showContainer
+        });
+
         // set up new jstree for directory 
         var pluginArray = ["themes", "json_data", "cookies", "dnd", "search", "checkbox"];
         $assignlocationJSTreeContainer.jstree({
@@ -105,7 +188,7 @@ sakai.assignlocation = function(tuid, showSettings) {
                 "html_titles": true
             },
             "cookies": {
-                "save_selected": false
+                "save_selected": true
             },
             "json_data": {
                 "data": sakai.api.UI.getDirectoryStructure
@@ -119,8 +202,7 @@ sakai.assignlocation = function(tuid, showSettings) {
             },
             "plugins": pluginArray
         });
-        addTreebinding();
-        addWidgetBinding();
+        determineContext();
     };
 
     doInit();

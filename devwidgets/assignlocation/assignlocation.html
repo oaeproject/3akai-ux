@@ -16,12 +16,12 @@
                 <div class='s3d-highlight_area_background_tinner'>
                 </div>
             </div>
-            <h1>__MSG__SELECT_LOCATION_OR_SEARCH__</h1>
+            <h1 id="assignlocation_secondcolumn_header">__MSG__CONTENT_WILL_BE_INCLUDED_IN_THESE_LOCATIONS__</h1><h1>__MSG__SELECT_LOCATION_OR_SEARCH__</h1>
             <div id="assignlocation_jstree_container">
             </div>
             <div id="assignlocation_jstree_selected_container">
             </div>
-            <button type="button" class="s3d-button s3d-button-primary fl-force-right" id="assignlocation_save_button" disabled="disabled">
+            <button type="button" class="s3d-button s3d-button-primary fl-force-right" id="assignlocation_save_button">
                 <span class="s3d-button-inner">__MSG__SAVE__</span>
             </button>
             <button type="button" class="jqmClose s3d-button fl-force-right" id="assignlocation_dont_save_button">
@@ -43,12 +43,15 @@
 </div>
 
 <div id="assignlocation_jstree_selected_template"><!-- 
-    <ul>
-    {for location in newlyAssignedLocations}
-        <li class="s3d-list-item">${location}</li>
-    {/for}
+    <ul id="assignlocation_locations_selected">
+        {for location in newlyAssignedLocations}
+            <li class="s3d-list-item">${location}</li>
+        {/for}
     </ul>
 --></div>
+
+<div id="assignlocation_location_saved" style="display:none;">__MSG__LOCATION_SAVED__</div>
+<div id="assignlocation_location_successfully_saved" style="display:none;">__MSG__LOCATION_SUCCESSFULLY_SAVED__</div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/assignlocation/javascript/assignlocation.js"></script>

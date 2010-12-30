@@ -28,30 +28,6 @@ sakai.content_profile = function(){
     var ready_event_fired = 0;
     var list_event_fired = false;
 
-    sakai.content_profile.parseDirectoryTags = function(contentInfo){
-        if ((typeof(contentInfo["sakai:tags"]) !== "object") && contentInfo["sakai:tags"]) {
-            contentInfo["sakai:tags"] = [contentInfo["sakai:tags"]];
-        }
-        var saveddirectory = [];
-        currentTags = contentInfo["sakai:tags"];
-        $(currentTags).each(function(i){
-            var splitDir = currentTags[i].split("/");
-            if (splitDir[0] === "directory") {
-                var item = [];
-                for (var j in splitDir) {
-                    if (splitDir.hasOwnProperty(j)) {
-                        if (splitDir[j] !== "directory") {
-                            item.push(splitDir[j]);
-                        }
-                    }
-                }
-                saveddirectory.push(item);
-            }
-        });
-
-        return saveddirectory;
-    };
-
     /**
      * Load the content profile for the current content path
      */
@@ -169,7 +145,9 @@ sakai.content_profile = function(){
                     var directory = [];
                     // When only one tag is put in this will not be an array but a string
                     // We need an array to parse and display the results
-                    directory = sakai.content_profile.parseDirectoryTags(contentInfo);
+                    if (contentInfo && contentInfo['sakai:tags']) {
+                        directory = sakai.api.Util.getDirectoryTags(contentInfo["sakai:tags"].toString());
+                    }
 
                     var fullPath = content_path + "/" + contentInfo["sakai:pooled-content-file-name"];
                     if (contentInfo["sakai:pooled-content-file-name"].substring(contentInfo["sakai:pooled-content-file-name"].lastIndexOf("."), contentInfo["sakai:pooled-content-file-name"].length) !== contentInfo["sakai:fileextension"]) {

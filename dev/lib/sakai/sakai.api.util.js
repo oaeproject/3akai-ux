@@ -153,6 +153,55 @@ sakai.api.Util.formatTags = function(inputTags){
 };
 
 /**
+ * Formats a comma separated string of text to an array of usable tags
+ * Filters out unwanted tags (eg empty tags) and especially location tags (start with "directory/")
+ * Returns the array of tags, if no tags were provided or none were valid an empty array is returned
+ *
+ * Example: inputTags = "tag1, tag2, , , tag3, , tag4" returns ["tag1","tag2","tag3","tag4"]
+ *
+ * @param {String} inputTags Unformatted, comma separated, string of tags put in by a user
+ * @return {Array} Array of formatted tags
+ */
+sakai.api.Util.formatTagsExcludeLocation = function(inputTags){
+    var inputTags = sakai.api.Util.formatTags(inputTags);
+    if (inputTags.length) {
+        var tags = [];
+        for (var item in inputTags){
+            if (inputTags[item].split("/")[0] != "directory") {
+                tags.push(inputTags[item]);
+            }
+        };
+        return tags;
+    } else {
+        return [];
+    }
+};
+
+/**
+ * Formats a comma separated string of text to an array of usable directory tags
+ * Returns the array of tags, if no tags were provided or none were valid an empty array is returned
+ *
+ * Example: inputTags = "tag1, directory/tag2, , , tag3, , directory/tag4" returns ["directory/tag2","directory/tag4"]
+ *
+ * @param {String} inputTags Unformatted, comma separated, string of tags put in by a user
+ * @return {Array} Array of formatted tags
+ */
+sakai.api.Util.getDirectoryTags = function(inputTags){
+    var inputTags = sakai.api.Util.formatTags(inputTags);
+    if (inputTags.length) {
+        var tags = [];
+        for (var item in inputTags){
+            if (inputTags[item].split("/")[0] == "directory") {
+                tags.push(inputTags[item].split("directory/")[1].split("/"));
+            }
+        };
+        return tags;
+    } else {
+        return [];
+    }
+};
+
+/**
  * Add and delete tags from an entity
  * The two arrays, newTags and currentTags, represent the state of tags on the entity
  * newTags should be the tags that you want on the entity, the whole set
