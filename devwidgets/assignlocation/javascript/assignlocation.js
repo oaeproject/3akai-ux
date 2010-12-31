@@ -139,14 +139,13 @@ sakai.assignlocation = function(tuid, showSettings) {
         // position dialog box at users scroll position
         var htmlScrollPos = $("html").scrollTop();
         var docScrollPos = $(document).scrollTop();
-        
+
         if (htmlScrollPos > 0) {
             $assignlocationContainer.css({
                 "top": htmlScrollPos + 100 + "px"
             });
-            
         }
-        else 
+        else
             if (docScrollPos > 0) {
                 $contentmetadataLocationsDialog.css({
                     "top": docScrollPos + 100 + "px"
@@ -155,6 +154,11 @@ sakai.assignlocation = function(tuid, showSettings) {
         $assignlocationContainer.show();
         renderSelected(true);
     };
+
+    var closeContainer = function(){
+        $assignlocationActions.show();
+        $assignlocationAjaxLoader.hide();
+    }
 
     var determineContext = function(){
         var context = sakai.api.UI.getPageContext();
@@ -189,10 +193,11 @@ sakai.assignlocation = function(tuid, showSettings) {
         $assignlocationContainer.jqm({
             modal: true,
             toTop: true,
-            onShow: showContainer
+            onShow: showContainer,
+            onClose: closeContainer
         });
 
-        // set up new jstree for directory 
+        // set up new jstree for directory
         var pluginArray = ["themes", "json_data", "cookies", "dnd", "search", "checkbox"];
         $assignlocationJSTreeContainer.jstree({
             "core": {
