@@ -960,11 +960,13 @@ sakai.api.UI.getDirectoryStructure = function(){
 
         var result = [];
         // loop through all the directory
-        for (var item in directory) {
-            // url for the first level nodes
-            var url = "/dev/directory2.html#" + item;
-            // call buildnoderecursive to get the node structure to render.
-            result.push(buildNodeRecursive(item, directory, url));
+        for (item in directory) {
+            if (directory.hasOwnProperty(item)) {
+                // url for the first level nodes
+                var url = "/dev/directory2.html#" + item;
+                // call buildnoderecursive to get the node structure to render.
+                result.push(buildNodeRecursive(item, directory, url));
+            }
         }
         return result;
     };
@@ -1001,7 +1003,7 @@ sakai.api.UI.getDirectoryStructure = function(){
                 attr: {
                     "href": url,
                     "title": p_title
-                },
+                }
             },
             children: []
         };
@@ -1009,12 +1011,14 @@ sakai.api.UI.getDirectoryStructure = function(){
         // if current node has any children
         // call buildNoderecursive method create the node structure for
         // all level of child
-        for (child in directory[node_id].children) {
-            // for each child node, call buildnoderecursive to build the node structure
-            // pass current child(id), the list of all sibligs(json object) and url append/child
-            // for example first level node /dev/directory2.html#courses/firstyearcourses
-            // for second level node /dev/directory2.html#course/firstyearcourses/chemistry
-            node.children.push(buildNodeRecursive(child, directory[node_id].children, url + "/" + child));
+        for (var child in directory[node_id].children) {
+            if (directory[node_id].children.hasOwnProperty(child)) {
+                // for each child node, call buildnoderecursive to build the node structure
+                // pass current child(id), the list of all sibligs(json object) and url append/child
+                // for example first level node /dev/directory2.html#courses/firstyearcourses
+                // for second level node /dev/directory2.html#course/firstyearcourses/chemistry
+                node.children.push(buildNodeRecursive(child, directory[node_id].children, url + "/" + child));
+            }
         }
         return node;
     };

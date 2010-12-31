@@ -1050,7 +1050,7 @@ sakai.config = {
                                     description: "A description of General Studies",
                                     icon: "/dev/images/hierarchy.png",
                                     children: {}
-                                },
+                                }
                             }
                         },
                         "graduateschool": {
@@ -1113,12 +1113,6 @@ sakai.config = {
                                     children: {}
                                 }
                             }
-                        },
-                        "schoolofeducation": {
-                            title: "School of Education",
-                            description: "A description of School of Education",
-                            icon: "/dev/images/hierarchy.png",
-                            children: {}
                         },
                         "schoolofeducation": {
                             title: "School of Education",
@@ -1306,7 +1300,7 @@ sakai.config = {
                                     description: "A description of Media, Arts and Science (New Media)",
                                     icon: "/dev/images/hierarchy.png",
                                     children: {}
-                                },
+                                }
                             }
                         },
                         "schoolofjournalism": {
@@ -1314,8 +1308,7 @@ sakai.config = {
                             description: "A description of School of Journalism",
                             icon: "/dev/images/hierarchy.png",
                             children: {}
-                        }
-                        ,
+                        },
                         "schooloflaw": {
                             title: "School of Law",
                             description: "A description of School of Law",
@@ -1684,8 +1677,7 @@ sakai.config = {
                                     children: {}
                                 }
                             }
-                        }
-                        ,
+                        },
                         "purdueschoolofscience": {
                             title: "Purdue School of Science",
                             description: "A description of School of Purdue School of Science",
@@ -1740,15 +1732,13 @@ sakai.config = {
                                     children: {}
                                 }
                             }
-                        }
-                        ,
+                        },
                         "schoolofsocialwork": {
                             title: "School of Social Work",
                             description: "A description of School of Social Work",
                             icon: "/dev/images/hierarchy.png",
                             children: {}
-                        }
-                        ,
+                        },
                         "iupuiuniversitycollege": {
                             title: "IUPUI University College",
                             description: "A description of IUPUI University College",

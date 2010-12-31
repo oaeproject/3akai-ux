@@ -196,151 +196,9 @@ sakai.contentmetadata = function(tuid,showSettings){
 
     //////////////////////////////////
     /////// DIRECTORY EDITTING ///////
-    //////////////////////////////////
-
-    /**
-     * Update the select boxes on the stage
-     * @param {String} select Containing ID to check which box value has been changed
-     * @param {String} changedboxvalue Containing selected value
-     * @param {String} firstlevelvalue Containing value of first select box
-     */
-    var updateDirectoryDisplay = function(select, changedboxvalue, firstlevelvalue){
-        var obj = {
-            "firstlevelvalue":firstlevelvalue.selected().val(),
-            "changedboxvalue" : changedboxvalue.selected().val(),
-            "directory": directoryJSON.directory
-        };
-        if(select === contentmetadataLocationLvlTwo){
-            $(firstlevelvalue.parent().children(contentmetadataLocationsSecondLevelTemplateContainer)).html($.TemplateRenderer(contentmetadataLocationSecondLevelTemplate, obj));
-        }else{
-            $(firstlevelvalue.parent().children(contentmetadataLocationsThirdLevelTemplateContainer)).html($.TemplateRenderer(contentmetadataLocationThirdLevelTemplate, obj));
-        }
-    };
-
-    var updateDirectory = function(){
-        if(sakai.content_profile.content_data.data["sakai:tags"] === undefined){
-            sakai.content_profile.content_data.data["sakai:tags"] = [];
-        }
-        var originalTags = sakai.content_profile.content_data.data["sakai:tags"].slice(0);
-
-        // Create tags for the directory structure
-        // For every content_profile_basic_info_added_directory we create tags
-        // Filter out ',' since that causes unwanted behavior when rendering
-        $(".contentmetadata_added_directory").each(function(){
-            if ($(this).find(contentmetadataLocationLvlOne).selected().val() !== "no_value" && $(this).find(contentmetadataLocationLvlOne).selected().val() !== undefined) {
-                var directoryString = "directory/";
-                if ($.inArray($(this).find(contentmetadataLocationLvlOne).selected().val().replace(/,/g, ""), sakai.content_profile.content_data.data["sakai:tags"]) < 0) {
-                    sakai.content_profile.content_data.data["sakai:tags"].push($(this).find(contentmetadataLocationLvlOne).selected().val().replace(/,/g, ""));
-                }
-                directoryString += $(this).find(contentmetadataLocationLvlOne).selected().val().replace(/,/g, "");
-
-                if ($(this).find(contentmetadataLocationLvlTwo).selected().val() !== "no_value" && $(this).find(contentmetadataLocationLvlTwo).selected().val() !== undefined) {
-                    if ($.inArray($(this).find(contentmetadataLocationLvlTwo).selected().val().replace(/,/g, ""), sakai.content_profile.content_data.data["sakai:tags"]) < 0) {
-                        sakai.content_profile.content_data.data["sakai:tags"].push($(this).find(contentmetadataLocationLvlTwo).selected().val().replace(/,/g, ""));
-                    }
-                    directoryString += "/" + $(this).find(contentmetadataLocationLvlTwo).selected().val().replace(/,/g, "");
-
-                    if ($(this).find(contentmetadataLocationLvlThree).selected().val() !== "no_value" && $(this).find(contentmetadataLocationLvlThree).selected().val() !== undefined) {
-                        if ($.inArray($(this).find(contentmetadataLocationLvlThree).selected().val().replace(/,/g, ""), sakai.content_profile.content_data.data["sakai:tags"]) < 0) {
-                            sakai.content_profile.content_data.data["sakai:tags"].push($(this).find(contentmetadataLocationLvlThree).selected().val().replace(/,/g, ""));
-                        }
-                        directoryString += "/" + $(this).find(contentmetadataLocationLvlThree).selected().val().replace(/,/g, "");
-                    }
-                    
-                }
-
-                // Add string for all levels to tag array
-                if ($.inArray(directoryString, sakai.content_profile.content_data.data["sakai:tags"]) < 0) {
-                    sakai.content_profile.content_data.data["sakai:tags"].push(directoryString);
-                }
-            }
-        });
-        
-        sakai.api.Util.tagEntity("/p/" + sakai.content_profile.content_data.data["jcr:name"], sakai.content_profile.content_data.data["sakai:tags"], originalTags, function(){
-            sakai.content_profile.content_data.saveddirectory = sakai.content_profile.parseDirectoryTags(sakai.content_profile.content_data.data);
-            //$contentmetadataLocationsDialog.jqmHide();
-            renderLocations(false);
-            renderTags(false);
-            // Create an activity
-            createActivity("__MSG__UPDATED_LOCATIONS__");
-        });
-    };
-
-    var changedLvlOne = function(el){
-        $(el).parent().children(contentmetadataLocationsThirdLevelTemplateContainer).html("");
-        $(el).children("option[value='no_value']").remove();
-        updateDirectoryDisplay(contentmetadataLocationLvlTwo, $($(el).parent()).children(contentmetadataLocationLvlOne), $($(el).parent()).children(contentmetadataLocationLvlOne));
-    };
-
-    var changedLvlTwo = function(el){
-        $(el).children("option[value='no_value']").remove();
-        updateDirectoryDisplay(contentmetadataLocationLvlThree, $($(el).parent()).children(contentmetadataLocationLvlTwo), $($(el).parent().parent()).children(contentmetadataLocationLvlOne));
-    };
-
-    var changedLvlThree = function(el){
-        $(el).children("option[value='no_value']").remove();
-    };
-
-    var removeDirectoryLocation = function(clickedParent){
-        // Get current tags up to date
-        currentTags = sakai.content_profile.content_data.data["sakai:tags"];
-        // Extract tags from clickedParent
-        var tags = [];
-        tags = clickedParent[0].id.split(",");
-        tags.push("directory/" + tags.toString().replace(/,/g,"/"));
-
-        var tagsAfterDeletion = currentTags.slice(0);
-        var sliced = 0;
-        for (var tag in tags) {
-            if (tags.hasOwnProperty(tag)) {
-                if ($.inArray(tags[tag], tagsAfterDeletion) > -1) {
-                    tagsAfterDeletion.splice($.inArray(tags[tag], tagsAfterDeletion), 1);
-                }
-                for (var dir in sakai.content_profile.content_data.saveddirectory) {
-                    if ($.inArray(tags[tag], sakai.content_profile.content_data.saveddirectory[dir]) > -1) {
-                        sakai.content_profile.content_data.saveddirectory[dir].splice(tag + sliced, 1);
-                        sliced -= 1;
-                    }
-                }
-            }
-        }
-
-        clickedParent.remove();
-
-        sakai.api.Util.tagEntity("/p/" + sakai.content_profile.content_data.data["jcr:name"], tagsAfterDeletion, currentTags, function(){
-            sakai.content_profile.content_data.data["sakai:tags"] = tagsAfterDeletion;
-            renderLocations(false);
-        });
-    };
-
+ 
     var renderLocationsEdit = function(){
         $("#assignlocation_container").jqmShow();
-
-        $(contentmetadataLocationLvlOne).live("change", function(){
-            changedLvlOne(this);
-        });
-
-        $(contentmetadataLocationLvlTwo).live("change", function(){
-            changedLvlTwo(this);
-        });
-
-        $(contentmetadataLocationLvlThree).live("change", function(){
-            changedLvlThree(this);
-        });
-
-        $contentmetadataLocationsDialogUpdate.bind("click", function(){
-            updateDirectory();
-        });
-
-        $(contentmetadataRemoveLocation).live("click", function(){
-            removeDirectoryLocation($(this).parent());
-        });
-
-        $(contentmetadataRemoveNewLocation).live("click", function(){
-            $(this).parent().remove();
-        });
-
-        $contentmetadataLocationsDialogContainer.html($.TemplateRenderer(contentmetadataLocationsDialogTemplate, sakai.content_profile.content_data));
     };
 
     /**
@@ -357,54 +215,6 @@ sakai.contentmetadata = function(tuid,showSettings){
             $contentmetadataLocationsContainer.html($.TemplateRenderer(contentmetadataLocationsTemplate, sakai.content_profile.content_data));
             applyThreeDots();
         }
-    };
-
-    /**
-     * Get a list of nodes representing the directory structure to be rendered
-     */
-    var getDirectoryStructure = function(){
-        directoryJSON.directory = [];
-        // Get directory structure from config file
-        for (var i in sakai.config.Directory) {
-            if (sakai.config.Directory.hasOwnProperty(i)) {
-                // Create first level of content
-                var temp = {};
-                temp.name = i;
-
-                // Create second level of content
-                temp.secondlevels = [];
-                for (var j in sakai.config.Directory[i]) {
-                    if (sakai.config.Directory[i].hasOwnProperty(j)) {
-                        var secondlevel = {};
-                        secondlevel.name = j;
-
-                        // Create third level of content
-                        secondlevel.thirdlevels = [];
-                        for (var k in sakai.config.Directory[i][j]) {
-                            if (sakai.config.Directory[i][j].hasOwnProperty(k)) {
-                                var thirdlevel = {};
-                                thirdlevel.name = sakai.config.Directory[i][j][k];
-                                secondlevel.thirdlevels.push(thirdlevel);
-                            }
-                        }
-
-                        temp.secondlevels.push(secondlevel);
-                    }
-                }
-                directoryJSON.directory.push(temp);
-            }
-        }
-        return directoryJSON;
-    };
-
-    var addAnotherLocation = function(){
-        $("#contentmetadata_no_locations").remove();
-        var directory = getDirectoryStructure();
-        var renderedTemplate = $.TemplateRenderer(contentmetadataLocationFirstLevelTemplate, directory);
-        var renderedDiv = $(document.createElement("div"));
-        renderedDiv.html(renderedTemplate);
-        $(contentmetadataLocationsNewLocationsContainer).append(renderedDiv);
-        $(renderedDiv).addClass("contentmetadata_added_directory");
     };
 
     ////////////////////////
@@ -569,9 +379,6 @@ sakai.contentmetadata = function(tuid,showSettings){
         $(contentmetadataViewRevisions).live("click", function(){
             sakai.filerevisions.initialise(sakai.content_profile.content_data);
         });
-
-        $contentmetadataLocationsAddAnother.unbind("click", addAnotherLocation);
-        $contentmetadataLocationsAddAnother.bind("click", addAnotherLocation);
     };
 
     /**

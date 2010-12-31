@@ -159,18 +159,18 @@ sakai.api.Util.formatTags = function(inputTags){
  *
  * Example: inputTags = "tag1, tag2, , , tag3, , tag4" returns ["tag1","tag2","tag3","tag4"]
  *
- * @param {String} inputTags Unformatted, comma separated, string of tags put in by a user
+ * @param {String} input Unformatted, comma separated, string of tags put in by a user
  * @return {Array} Array of formatted tags
  */
-sakai.api.Util.formatTagsExcludeLocation = function(inputTags){
-    var inputTags = sakai.api.Util.formatTags(inputTags);
+sakai.api.Util.formatTagsExcludeLocation = function(input){
+    var inputTags = sakai.api.Util.formatTags(input);
     if (inputTags.length) {
         var tags = [];
         for (var item in inputTags){
             if (inputTags[item].split("/")[0] != "directory") {
                 tags.push(inputTags[item]);
             }
-        };
+        }
         return tags;
     } else {
         return [];
@@ -186,15 +186,15 @@ sakai.api.Util.formatTagsExcludeLocation = function(inputTags){
  * @param {String} inputTags Unformatted, comma separated, string of tags put in by a user
  * @return {Array} Array of formatted tags
  */
-sakai.api.Util.getDirectoryTags = function(inputTags){
-    var inputTags = sakai.api.Util.formatTags(inputTags);
+sakai.api.Util.getDirectoryTags = function(input){
+    var inputTags = sakai.api.Util.formatTags(input);
     if (inputTags.length) {
         var tags = [];
         for (var item in inputTags){
             if (inputTags[item].split("/")[0] == "directory") {
                 tags.push(inputTags[item].split("directory/")[1].split("/"));
             }
-        };
+        }
         return tags;
     } else {
         return [];
