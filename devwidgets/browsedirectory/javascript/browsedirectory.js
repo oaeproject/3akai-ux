@@ -101,15 +101,16 @@ sakai.browsedirectory = function(tuid, showSettings){
      * @param {String} id  the unique id for node to select on load for example firstyearcourses or empty
      */
     var renderDirectoryTree = function (id) {
+        // destroy any existing jstree instance
+        $browsedirectoryTree.jstree("destroy");
+        var browsedirectoryData = sakai.api.UI.getDirectoryStructure();
+
         // get item 
-        var initiallySelect = "firstyearcourses";
+        var initiallySelect = browsedirectoryData[0].attr.id;
         // if id is passed set inital select as id
         if (id !== "") {
             initiallySelect = id;
         }
-        // destroy any existing jstree instance
-        $browsedirectoryTree.jstree("destroy");
-        var browsedirectoryData = sakai.api.UI.getDirectoryStructure();
 
         // set up new jstree for directory 
         var pluginArray = [ "themes", "json_data", "ui", "cookies", "dnd" ];
