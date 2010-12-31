@@ -5,3 +5,4 @@
 #assignlocation_jstree_selected_container ul{margin:0;}
 #assignlocation_container li.jstree-closed > ul {display: inline !important; }
 #assignlocation_secondcolumn_header {position:absolute; left:48%;}
+#assignlocation_ajax_loader {background: url("/dev/images/ajax_load.gif") no-repeat scroll 8px 8px transparent; height: 18px; width: 87px; float:right;}

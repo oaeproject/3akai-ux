@@ -88,7 +88,11 @@
         {if saveddirectory.length != 0}
             <ul>
                 {for dir in saveddirectory}
-                    <li><a href="/dev/search.html#tag=/tags/directory/${dir.toString().replace(/,/g, '/')}" target="_blank" class="s3d-action threedots_text contentmetadata_locations_link" title="Search content located at ${dir.toString().replace(/,/g, ' ')}"><span class="ellipsis_text contentmetadata_directory_location">${dir.toString().replace(/,/g, " <span class='contentmetadata_select_seperator'>&raquo;</span> ")}</span></a></li>
+                    <li><a href="/dev/search.html#tag=/tags/directory/${dir.toString().replace(/,/g, '/')}" target="_blank" class="s3d-action threedots_text contentmetadata_locations_link" title="Search content located at ${dir.toString().replace(/,/g, ' ')}"><span class="ellipsis_text contentmetadata_directory_location">
+                        {for dirpiece in dir}
+                            ${sakai.api.UI.getValueForDirectoryKey(dirpiece)} {if dirpiece_index < dir.length - 1} <span class='contentmetadata_select_seperator'>&raquo;</span>{/if}
+                        {/for}
+                    </span></a></li>
                 {/for}
             </ul>
         {else}

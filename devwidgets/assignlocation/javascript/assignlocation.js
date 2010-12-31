@@ -64,6 +64,10 @@ sakai.assignlocation = function(tuid, showSettings) {
 
     // Actions
     var $assignlocationSaveButton = $("#assignlocation_save_button");
+    var $assignlocationActions = $("#assignlocation_actions");
+
+    // Elements
+    var $assignlocationAjaxLoader = $("#assignlocation_ajax_loader");
 
     var renderSelected = function(init) {
         var locations = {
@@ -92,9 +96,13 @@ sakai.assignlocation = function(tuid, showSettings) {
     };
 
     var saveLocations = function(){
+        $assignlocationActions.hide();
+        $assignlocationAjaxLoader.show();
+
+
         var locations = [];
         $("#assignlocation_locations_selected li").each(function(index, val){
-            locations.push("directory/" + $(val).text());
+            locations.push("directory/" + $(val)[0].id);
         });
 
         // Concatenate the tags with the new locations
@@ -116,6 +124,8 @@ sakai.assignlocation = function(tuid, showSettings) {
             $assignlocationContainer.jqmHide();
             sakai.api.Util.notification.show($(assignlocationLocationSaved).html(), $(assignlocationLocationSuccessfullySaved).html());
             $(window).trigger("sakai-contentmetadata-renderlocations", contextVariables);
+            $assignlocationActions.show();
+            $assignlocationAjaxLoader.hide();
         });
     };
 

@@ -1026,6 +1026,38 @@ sakai.api.UI.getDirectoryStructure = function(){
     return convertToHierarchy(sakai.config.Directory);
 };
 
+/**
+ * Recursive function that gets the title corresponding to an ID in the directory
+ * @param {Object} key Key to get title for
+ * @param {Object} child Object to check for children next, if not supplied start with first child
+ */
+sakai.api.UI.getValueForDirectoryKey = function(key){
+    var directory = sakai.api.UI.getDirectoryStructure();
+
+    var searchDirectoryForKey = function(key, child){
+        if (!child) {
+            child = directory[0];
+        }
+        if (key == child.attr.id) {
+            return child.data.title;
+        }
+        else {
+            if (child.children) {
+                for (var item in child.children) {
+                    if (child.children.hasOwnProperty(item)) {
+                        var result = searchDirectoryForKey(key, child.children[item]);
+                        if(result){
+                            return result;
+                        }
+                    }
+                }
+            }
+        }
+    };
+
+    return searchDirectoryForKey(key, false);
+};
+
 // -----------------------------------------------------------------------------
 
 /**

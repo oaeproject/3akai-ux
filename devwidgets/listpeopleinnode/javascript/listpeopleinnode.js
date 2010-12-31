@@ -106,7 +106,7 @@ sakai.listpeopleinnode = function(tuid, showSettings){
         $listpeopleinnodeAjaxLoader.show();
         // Set title
         var obj = {
-            "location" : selected.split("/")[selected.split("/").length - 1]
+            "location" : sakai.api.UI.getValueForDirectoryKey(selected.split("/")[selected.split("/").length - 1])
         };
         $listpeopleinnodeTitle.text($.TemplateRenderer(listpeopleinnodeTitleTemplate, obj));
         $listpeopleinnodeSeeAllLink[0].href = searchQuery.replace("${query}", "directory/" + selected);
