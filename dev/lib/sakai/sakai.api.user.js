@@ -34,30 +34,6 @@
  */
 sakai.api.User = sakai.api.User || {};
 
-sakai.api.User.parseDirectoryTags = function(userInfo){
-    if ((typeof(userInfo["sakai:tags"]) !== "object") && userInfo["sakai:tags"]) {
-        userInfo["sakai:tags"] = [userInfo["sakai:tags"]];
-    }
-    var saveddirectory = [];
-    currentTags = userInfo["sakai:tags"];
-    $(currentTags).each(function(i){
-        var splitDir = currentTags[i].split("/");
-        if (splitDir[0] === "directory") {
-            var item = [];
-            for (var j in splitDir) {
-                if (splitDir.hasOwnProperty(j)) {
-                    if (splitDir[j] !== "directory") {
-                        item.push(splitDir[j]);
-                    }
-                }
-            }
-            saveddirectory.push(item);
-        }
-    });
-
-    return saveddirectory;
-};
-
 /**
  * @param {Object} extraOptions can include recaptcha: {challenge, response}, locale : "user_LOCALE", template: "templateName"
  */
@@ -283,6 +259,13 @@ sakai.api.User.loadMeData = function(callback) {
             }
             if (sakai.api.User.getProfileBasicElementValue(sakai.data.me.profile, "lastName") === "") {
                 sakai.api.User.setProfileBasicElementValue(sakai.data.me.profile, "lastName", sakai.data.me.profile["rep:userId"]);
+            }
+
+            // Parse the directory locations
+            var directory = [];
+            if(sakai.data.me.profile && sakai.data.me.profile["sakai:tags"]){
+                directory = sakai.api.Util.getDirectoryTags(sakai.data.me.profile["sakai:tags"].toString());
+                sakai.data.me.profile.saveddirectory = directory;
             }
 
             // Call callback function if set

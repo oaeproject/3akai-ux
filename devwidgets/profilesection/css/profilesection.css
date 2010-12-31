@@ -71,7 +71,7 @@
     margin: 0 0 0 243px;
     padding: 3px;
 }
-#profilesection_generalinfo a.profilesection_add_section {
+#profilesection_generalinfo a.profilesection_add_section, #profilesection_generalinfo a.profilesection_add_location_section {
     font-size:14px;
     float:left;
     margin:10px 0px 0px 240px;
