@@ -50,8 +50,8 @@ sakai.nextleveldown = function(tuid,showSettings){
     var renderChildren = function(data){
         $nextleveldownContent.html($.TemplateRenderer(nextleveldownContentTemplate, {
             "data": data
-        }))
-    }
+        }));
+    };
 
     /**
      * Fire the JSTree event associated with this location
@@ -59,7 +59,7 @@ sakai.nextleveldown = function(tuid,showSettings){
      */
     var clickedChild = function(id){
         $("li#" + id).children("a").click();
-    }
+    };
 
     $(nextleveldownChild).live("click",function(){
         clickedChild(this.id);

@@ -57,8 +57,6 @@ sakai.listpeopleinnode = function(tuid, showSettings){
         $listpeopleinnodeAjaxLoader.hide();
         if(success){
             $listpeopleinnodePeopleContainer.html($.TemplateRenderer(listpeopleinnodePeopleTemplate, results));
-        }else{
-            
         }
     };
 

@@ -68,13 +68,15 @@ sakai.assignlocation = function(tuid, showSettings) {
     var renderSelected = function(init) {
         var locations = {
             "newlyAssignedLocations" : newlyAssignedLocations
-        }
+        };
         $assignlocationJSTreeSelectedContainer.html($.TemplateRenderer(assignlocationJSTreeSelectedTemplate, locations));
         // Check the boxes that were previously saved
         if (init) {
             var initiallySelect = [];
             for (var location in contextVariables.saveddirectory){
-                $.jstree._reference($assignlocationJSTreeContainer).change_state($("#" + contextVariables.saveddirectory[location][contextVariables.saveddirectory[location].length - 1]), false);
+                if (contextVariables.saveddirectory.hasOwnProperty(location)) {
+                    $.jstree._reference($assignlocationJSTreeContainer).change_state($("#" + contextVariables.saveddirectory[location][contextVariables.saveddirectory[location].length - 1]), false);
+                }
             }
         }
     };
@@ -154,7 +156,7 @@ sakai.assignlocation = function(tuid, showSettings) {
                         "tags": sakai.data.me.profile["sakai:tags"],
                         "path": "/~" + sakai.data.me.profile["rep:userId"] + "/public/authprofile",
                         "context" : "user"
-                    }
+                    };
                     break;
                 case "group":
                     break;
@@ -164,7 +166,7 @@ sakai.assignlocation = function(tuid, showSettings) {
                         "tags": sakai.content_profile.content_data.data["sakai:tags"],
                         "path": "/p/" + sakai.content_profile.content_data.data["jcr:name"],
                         "context" : "content"
-                    }
+                    };
                     break;
             }
             addTreebinding();
