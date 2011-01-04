@@ -241,7 +241,7 @@ sakai.s23_site = function(){
             success: function(data){
 
                 completeJSON = $.extend(data, {}, true);
-                
+
                 // Parse the Sakai2 info
                 parseSakai2SiteInfo();
             },
@@ -250,12 +250,12 @@ sakai.s23_site = function(){
             }
         });
     };
-    
+
     var hideNotification = function(){
         var json = {"sakai2notificaiton":false};
         sakai.api.Util.notification.removeAll();
         sakai.api.Server.saveJSON("/~" + sakai.data.me.user.userid+"/private/sakai2notification", json, function(success, data){});
-    }
+    };
 
     /////////////////////////////
     // Initialisation function //
@@ -272,7 +272,7 @@ sakai.s23_site = function(){
                 $(".s23_gritter_notification_cancel").click(hideNotification);
             }
         });
-        
+
 
         // Check if the query string contains the parameter id
         if (qs.contains("id")) {

@@ -92,7 +92,7 @@ sakai.addtocontacts = function(tuid, showSettings){
      */
     var fillInUserInfo = function(user){
         if (user) {
-            
+
             $(addToContactsInfoDisplayName).text(sakai.api.User.getDisplayName(user));
 
             // Check for picture
@@ -147,8 +147,8 @@ sakai.addtocontacts = function(tuid, showSettings){
             // send message to other person
             var userstring = sakai.api.User.getDisplayName(me.profile);
 
-            var title = $("#addtocontacts_invitation_title_key").html();
-            var message = $("#addtocontacts_invitation_body_key").html()+","+personalnote;
+            var title = $("#addtocontacts_invitation_title_key").html().replace(/\$\{user\}/g, userstring);
+            var message = $("#addtocontacts_invitation_body_key").html().replace(/\$\{user\}/g, userstring).replace(/\$\{br\}/g,"\n") + "," + personalnote;
 
             // Do the invite and send a message
             $.ajax({
@@ -164,7 +164,7 @@ sakai.addtocontacts = function(tuid, showSettings){
                     $(addToContactsDialog).jqmHide();
                     sakai.api.Communication.sendMessage(userid, title, message, "invitation");
                     callbackWhenDone(friend);
-                    //reset the form to set original note 
+                    //reset the form to set original note
                     $(addToContactsForm)[0].reset();
                     sakai.api.Util.notification.show("", $(addToContactsDone).text());
                 },
@@ -262,7 +262,7 @@ sakai.addtocontacts = function(tuid, showSettings){
         // Invite this person.
         doInvite(friend.uuid);
     });
-    
+
     // Bind the cancel button
     $(addToContactsFormButtonCancel).click(function(){
         $(addToContactsForm)[0].reset();

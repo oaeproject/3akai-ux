@@ -115,7 +115,7 @@ sakai.contentmetadata = function(tuid,showSettings){
 
             $(contentmetadataInputEdit).blur(editInputBlur);
         }
-    }
+    };
 
     /**
      * Render the Description template
@@ -145,13 +145,13 @@ sakai.contentmetadata = function(tuid,showSettings){
                 type : "POST",
                 cache: false,
                 data: {
-                    "sakai:pooled-content-file-name":$("#contentmetadata_name_text").val()
+                    "sakai:pooled-content-file-name":sakai.api.Security.escapeHTML($("#contentmetadata_name_text").val())
                 }, success: function(){
-                    sakai.content_profile.content_data.data["sakai:pooled-content-file-name"] = $("#contentmetadata_name_text").val();
+                    sakai.content_profile.content_data.data["sakai:pooled-content-file-name"] = sakai.api.Security.escapeHTML($("#contentmetadata_name_text").val());
                 }
             });
         });
-    }
+    };
 
     /**
      * Render the Tags template
@@ -186,9 +186,9 @@ sakai.contentmetadata = function(tuid,showSettings){
     var createActivity = function(activityMessage){
         var activityData = {
             "sakai:activityMessage": activityMessage
-        }
+        };
         sakai.api.Activity.createActivity("/p/" + sakai.content_profile.content_data.data["jcr:name"], "content", "default", activityData);
-    }
+    };
 
     //////////////////////////////////
     /////// DIRECTORY EDITTING ///////
@@ -214,8 +214,8 @@ sakai.contentmetadata = function(tuid,showSettings){
     };
 
     var updateDirectory = function(){
-        if(sakai.content_profile.content_data.data["sakai:tags"] == undefined){
-            sakai.content_profile.content_data.data["sakai:tags"] = []
+        if(sakai.content_profile.content_data.data["sakai:tags"] === undefined){
+            sakai.content_profile.content_data.data["sakai:tags"] = [];
         }
         var originalTags = sakai.content_profile.content_data.data["sakai:tags"].slice(0);
 
@@ -287,14 +287,16 @@ sakai.contentmetadata = function(tuid,showSettings){
 
         var tagsAfterDeletion = currentTags.slice(0);
         var sliced = 0;
-        for (var tag in tags){
-            if($.inArray(tags[tag],tagsAfterDeletion) > -1){
-                tagsAfterDeletion.splice($.inArray(tags[tag],tagsAfterDeletion), 1);
-            }
-            for (dir in sakai.content_profile.content_data.saveddirectory) {
-                if ($.inArray(tags[tag], sakai.content_profile.content_data.saveddirectory[dir]) > -1) {
-                    sakai.content_profile.content_data.saveddirectory[dir].splice(tag + sliced, 1);
-                    sliced -= 1;
+        for (var tag in tags) {
+            if (tags.hasOwnProperty(tag)) {
+                if ($.inArray(tags[tag], tagsAfterDeletion) > -1) {
+                    tagsAfterDeletion.splice($.inArray(tags[tag], tagsAfterDeletion), 1);
+                }
+                for (var dir in sakai.content_profile.content_data.saveddirectory) {
+                    if ($.inArray(tags[tag], sakai.content_profile.content_data.saveddirectory[dir]) > -1) {
+                        sakai.content_profile.content_data.saveddirectory[dir].splice(tag + sliced, 1);
+                        sliced -= 1;
+                    }
                 }
             }
         }
@@ -344,11 +346,11 @@ sakai.contentmetadata = function(tuid,showSettings){
 
         $(contentmetadataRemoveLocation).live("click", function(){
             removeDirectoryLocation($(this).parent());
-        })
+        });
 
         $(contentmetadataRemoveNewLocation).live("click", function(){
             $(this).parent().remove();
-        })
+        });
 
         $contentmetadataLocationsDialogContainer.html($.TemplateRenderer(contentmetadataLocationsDialogTemplate, sakai.content_profile.content_data));
     };
@@ -415,20 +417,21 @@ sakai.contentmetadata = function(tuid,showSettings){
         renderedDiv.html(renderedTemplate);
         $(contentmetadataLocationsNewLocationsContainer).append(renderedDiv);
         $(renderedDiv).addClass("contentmetadata_added_directory");
-    }
+    };
 
     ////////////////////////
     /////// EDITTING ///////
     ////////////////////////
 
     var updateTags = function() {
-        var tags = sakai.api.Util.formatTags($("#contentmetadata_tags_tags").val());
+        var tags = sakai.api.Util.formatTags(sakai.api.Security.escapeHTML($("#contentmetadata_tags_tags").val()));
         // Since directory tags are filtered out of the textarea we should put them back to save them
         $(sakai.content_profile.content_data.data["sakai:tags"]).each(function(index, tag){
             if(tag.split("/")[0] === "directory"){
                 tags.push(tag);
-            };
-        })
+            }
+        });
+
         sakai.api.Util.tagEntity("/p/" + sakai.content_profile.content_data.data["jcr:name"], tags, sakai.content_profile.content_data.data["sakai:tags"], function(){
             sakai.content_profile.content_data.data["sakai:tags"] = tags;
             renderTags(false);
@@ -446,7 +449,7 @@ sakai.contentmetadata = function(tuid,showSettings){
             type : "POST",
             cache: false,
             data: {
-                "sakai:description":$("#contentmetadata_description_description").val()
+                "sakai:description":sakai.api.Security.escapeHTML($("#contentmetadata_description_description").val())
             }, success: function(){
                 sakai.content_profile.content_data.data["sakai:description"] = $("#contentmetadata_description_description").val();
                 renderDescription(false);
@@ -454,7 +457,7 @@ sakai.contentmetadata = function(tuid,showSettings){
                 createActivity("__MSG__UPDATED_DESCRIPTION__");
             }
         });
-    }
+    };
 
     /**
      * Update the copyright of the content
@@ -473,13 +476,6 @@ sakai.contentmetadata = function(tuid,showSettings){
                 createActivity("__MSG__UPDATED_COPYRIGHT__");
             }
         });
-    }
-
-    /**
-     * Capitalize first letter of every word in the string
-     */
-    String.prototype.capitalize = function(){
-        return this.charAt(0).toUpperCase() + this.slice(1);
     };
 
     /**
@@ -487,12 +483,30 @@ sakai.contentmetadata = function(tuid,showSettings){
      * @param {Object} ev Trigger event
      */
     var editData = function(ev){
+        var dataToEdit = "";
         if (ev.target.nodeName.toLowerCase() !== "a" && ev.target.nodeName.toLowerCase() !== "select" && ev.target.nodeName.toLowerCase() !== "option") {
             target = $(ev.target).closest(".contentmetadata_editable");
             if (target[0] !== undefined) {
                 editTarget = target;
-                var dataToEdit = editTarget[0].id.split("_")[1];
-                eval("render" + dataToEdit.capitalize() + "(\"edit\")");
+                dataToEdit = editTarget[0].id.split("_")[1];
+
+                switch (dataToEdit){
+                    case "description":
+                        renderDescription("edit");
+                        break;
+                    case "tags":
+                        renderTags("edit");
+                        break;
+                    case "locations":
+                        renderLocations("edit");
+                        break;
+                    case "copyright":
+                        renderCopyright("edit");
+                        break;
+                    case "name":
+                        renderName("edit");
+                        break;
+                }
             }
         }
     };
@@ -565,7 +579,7 @@ sakai.contentmetadata = function(tuid,showSettings){
 
         $(contentmetadataViewRevisions).die("click");
         $(contentmetadataViewRevisions).live("click", function(){
-            sakai.filerevisions.initialise(sakai.content_profile.content_data)
+            sakai.filerevisions.initialise(sakai.content_profile.content_data);
         });
 
         $contentmetadataLocationsAddAnother.unbind("click", addAnotherLocation);
@@ -593,7 +607,16 @@ sakai.contentmetadata = function(tuid,showSettings){
         addBinding();
     };
 
-    $(window).bind("sakai-fileupload-complete", function(){sakai.content_profile.loadContentProfile(renderDetails);})
+    $(window).bind("sakai-fileupload-complete", function(){
+        sakai.content_profile.loadContentProfile(renderDetails);
+    });
+
+    // Bind Enter key to input fields to save on keyup
+    $("input").bind("keyup", function(ev){
+        if(ev.keyCode == 13){
+            $(this).blur();
+        }
+    });
 
     /**
      * Initialize the widget from outside of the widget

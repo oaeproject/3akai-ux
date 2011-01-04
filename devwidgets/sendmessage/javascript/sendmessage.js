@@ -513,7 +513,7 @@ if (!sakai.sendmessage){
             if(checkFieldsForErrors(recipients)) {
                 sakai.api.Communication.sendMessage(recipients,
                     $(messageFieldSubject).val(), $(messageFieldBody).val(),
-                    "message", null, handleSentMessage);
+                    "message", null, handleSentMessage,false);
             } else {
                 sakai.api.Util.notification.show("All fields are required.","",sakai.api.Util.notification.type.ERROR);
             }
