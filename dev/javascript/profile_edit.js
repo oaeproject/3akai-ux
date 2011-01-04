@@ -46,6 +46,7 @@ sakai.profile = function(){
     var querystring; // Variable that will contain the querystring object of the page
     var authprofileURL;
     var readySections = []; // Profile sections that have saved their data to sakai.profile.main
+    var currentTags = [];
 
     ///////////////////
     // CSS SELECTORS //

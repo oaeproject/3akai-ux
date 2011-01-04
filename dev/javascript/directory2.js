@@ -21,7 +21,6 @@ var sakai = sakai || {};
 
 sakai.directory2 = function(){
 
-    
     /**
      * Initialize directory page functionality
      */
@@ -30,6 +29,10 @@ sakai.directory2 = function(){
         // bind events
         bindEvents();
     };
+
+    sakai.directory2.getIsDirectory = function(){
+        return true;
+    }
 
     /**
      * Add event bindings for the jstree pages navigation tree

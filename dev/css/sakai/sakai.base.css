@@ -634,7 +634,14 @@ label.error {color:#9f3333;font-weight:bold;}
 .dialog_footer{background:url(/dev/images/dialog_br.png) top right no-repeat;padding:0 8px 0 0;}
 .dialog_footer_inner{background:url(/dev/images/dialog_bl.png) top left no-repeat;height:6px;}
 
-/* highlighted areas */
+/* Lists */
+.s3d-list-item {list-style: none outside none; padding: 5px 0 5px 10px !important; margin:0 !important; clear:both; overflow:hidden;}
+.s3d-list-entity-picture {float: left; height: 32px; margin-right: 10px; width: 32px;}
+.s3d-entity-displayname {padding-top:4px; margin:4px 0 0 8px; float:left;}
+.s3d-list-link-full-space {clear: both; height: 100%;}
+ul li.s3d-list-item:hover{background-color: #99CCFF;}
+
+/* Highlighted areas */
 .s3d-highlight_area_background {background-color:#EFF2F4; padding: 0 10px; margin: 0 0 15px 0;}
 
 .s3d-highlight_area_background_tl {height:7px; margin-left: -10px;  background: url("/dev/images/highlight_area_background_tl.png") no-repeat scroll left 0 transparent;}

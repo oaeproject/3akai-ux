@@ -261,6 +261,13 @@ sakai.api.User.loadMeData = function(callback) {
                 sakai.api.User.setProfileBasicElementValue(sakai.data.me.profile, "lastName", sakai.data.me.profile["rep:userId"]);
             }
 
+            // Parse the directory locations
+            var directory = [];
+            if(sakai.data.me.profile && sakai.data.me.profile["sakai:tags"]){
+                directory = sakai.api.Util.getDirectoryTags(sakai.data.me.profile["sakai:tags"].toString());
+                sakai.data.me.profile.saveddirectory = directory;
+            }
+
             // Call callback function if set
             if ($.isFunction(callback)) {
                 callback(true, sakai.data.me);

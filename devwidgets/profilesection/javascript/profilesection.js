@@ -48,6 +48,8 @@ sakai.profilesection = function(tuid, showSettings){
 
     var $profilesection_default_template = $("#profilesection_default_template", $rootel);
     var $profilesection_add_section_template = $("#profilesection_add_section_template", $rootel);
+    var $profilesection_add_locations_template = $("#profilesection_add_locations_template", $rootel);
+    var profilesection_add_location_section = ".profilesection_add_location_section";
     var $profilesection_remove_section_template = $("#profilesection_remove_section_template", $rootel);
     var $profilesection_section_divider_template = $("#profilesection_section_divider_template", $rootel);
     var $profilesection_field_default_template = $("#profilesection_field_default_template", $rootel);
@@ -163,7 +165,17 @@ sakai.profilesection = function(tuid, showSettings){
                if (sakai.profile.main.mode.value === "edit") {
                    sections = "<div class='profilesection_section' id='profilesection_section_0'>";
                    sakai.profile.main.data[currentsection].elements = [];
-                   sections += $.TemplateRenderer($profilesection_add_section_template, {"config": sectionObject, "parentid": "0"});
+                   if (currentsection !== "locations") {
+                       sections += $.TemplateRenderer($profilesection_add_section_template, {
+                           "config": sectionObject,
+                           "parentid": "0"
+                       });
+                   } else {
+                       sections += $.TemplateRenderer($profilesection_add_locations_template, {
+                           "config": sectionObject,
+                           "parentid": "0"
+                       });
+                   }
                    sections += "</div>";
                }
             } else {
@@ -253,6 +265,11 @@ sakai.profilesection = function(tuid, showSettings){
         // Render the General info
         $profilesection_generalinfo.html(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, null, null)));
 
+        if (currentsection == "locations") {
+            sakai.api.Util.include.js("/dev/lib/jquery/plugins/jsTree/jquery.jstree.sakai-edit.js");
+            sakai.api.Widgets.widgetLoader.insertWidgets("assignlocation");
+        }
+
     };
 
     var renderAdditionalTemplateEditSection = function(profilesection, $parentSection, addLink) {
@@ -313,6 +330,10 @@ sakai.profilesection = function(tuid, showSettings){
         // Check to see if a previous element has been created
         var $parentSection = $(this).parent();
         renderAdditionalTemplateEditSection(currentsection, $parentSection, this);
+    });
+
+    $(profilesection_add_location_section).live("click", function(){
+        $("#assignlocation_container").jqmShow();
     });
 
     $profilesection_remove_section.live("click", function(e) {

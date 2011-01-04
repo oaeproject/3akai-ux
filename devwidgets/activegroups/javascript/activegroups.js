@@ -40,22 +40,48 @@ sakai.activegroups = function(tuid, showSettings) {
 
     var groupData = {};
 
-    var loadData = function(callback){
-       $.ajax({
-            url: "/var/search/public/mostactivegroups.json?page=0&items=5",
-            cache: false,
-            success: function(data) {
-                groupData = data;
-                callback();
-            }
+    var renderPopularGroups = function(){
+        var output = $.TemplateRenderer($activegroups_main_template, {
+            data: groupData
         });
+        $activegroups_main.html(output).show();
+    };
+
+    var loadData = function(directory, callback){
+        if (directory) {
+            /*$.ajax({
+                url: "/var/search/public/mostactivegroups.json?page=0&items=5",
+                cache: false,
+                success: function(data){
+                    groupData = data;
+                    callback();
+                }
+            });*/
+        }
+        else {
+            $.ajax({
+                url: "/var/search/public/mostactivegroups.json?page=0&items=5",
+                cache: false,
+                success: function(data){
+                    groupData = data;
+                    callback();
+                }
+            });
+        }
     };
 
     var doInit = function(){
-        loadData(function() {
-            var output = $.TemplateRenderer($activegroups_main_template, {data:groupData});
-            $activegroups_main.html(output).show();
-        });
+        if (! sakai.api.Widgets.isOnDashboard(tuid)){
+            $(".activegroups-widget-border").show();
+            $("#activegroups_widget").addClass("fl-widget s3d-widget");
+        }
+
+        // If the widget is initialized on the directory page then listen to the event to catch specified tag results
+        if (sakai.directory2 && sakai.directory2.getIsDirectory()) {
+            loadData(true, renderPopularGroups);
+        }else{
+            loadData(false, renderPopularGroups);
+        }
     };
 
     doInit();

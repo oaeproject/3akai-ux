@@ -40,21 +40,48 @@ sakai.popularcontent = function(tuid, showSettings) {
 
     var contentData = {};
 
-    var loadData = function(callback){
-       $.ajax({
-            url: "/var/search/public/mostactivecontent.json?page=0&items=5",
-            cache: false,
-            success: function(data) {
-                contentData = data;
-                callback();
-            }
-        });
+    var renderPopularContent = function(){
+        $popularcontent_main.html($.TemplateRenderer($popularcontent_main_template, {
+            data: contentData
+        })).show();
+    };
+
+    var loadData = function(directory, callback){
+        if (directory) {
+            /*$.ajax({
+                url: "/var/search/public/mostactivecontent.json?page=0&items=5", // New feed in the backend
+                cache: false,
+                success: function(data){
+                    contentData = data;
+                    callback();
+                }
+            });*/
+        }
+        else {
+            $.ajax({
+                url: "/var/search/public/mostactivecontent.json?page=0&items=5",
+                cache: false,
+                success: function(data){
+                    contentData = data;
+                    callback();
+                }
+            });
+        }
     };
 
     var doInit = function(){
-        loadData(function() {
-            $popularcontent_main.html($.TemplateRenderer($popularcontent_main_template, {data:contentData})).show();
-        });
+        if (! sakai.api.Widgets.isOnDashboard(tuid)){
+            $(".popularcontent-widget-border").show();
+            $("#popularcontent_widget").addClass("fl-widget s3d-widget");
+        }
+
+        // If the widget is initialized on the directory page then listen to the event to catch specified tag results
+        if (sakai.directory2 && sakai.directory2.getIsDirectory()) {
+            loadData(true, renderPopularContent);
+        }
+        else {
+            loadData(false, renderPopularContent);
+        }
     };
 
     doInit();

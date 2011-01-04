@@ -51,73 +51,6 @@ sakai.browsedirectory = function(tuid, showSettings){
     var $browsedirectoryNoPages = $("#browsedirectory_no_pages", $rootel);
     var $browsedirectoryError = $("#browsedirectory_error", $rootel);
 
-    ///////////////////////
-    // Render Directory  //
-    ///////////////////////
-
-    /**
-     * Converts directory array into a node structure
-     * so that it can be rendered into the jstree.
-     * 
-     * @param {Object} directory list of directories
-     * @return result the json object in the structure necessary to render in jstree
-     */
-    var convertToHierarchy = function(directory) {
-        var item, path;
-
-        var result = [];
-        // loop through all the directory
-        for (var item in directory) {
-            // url for the first level nodes
-            var url = "/dev/directory2.html#"+item;
-            // call buildnoderecursive to get the node structure to render.
-            result.push(buildNodeRecursive(item, directory, url));
-        }
-        return result;
-    };
-
-    /**
-     * Recursive method that create the node structure
-     * so that it can be rendered into the jstree.
-     * 
-     * @param {String} node_id  the unique id for each node for example firstyearcourses
-     * @param {Object} directory directory list json object for example "collegeofengineering": { ... } 
-     * @param {String} url the url of the page to render when directory node is clicked for example /dev/directory2.html#collegeofengineering
-     *  
-     * @return node the json object in the structure necessary to render in jstree
-     */
-    var buildNodeRecursive = function(node_id, directory ,url) {
-        // node title
-        var p_title = directory[node_id].title;
-        // node id
-        var p_id = node_id;
-        // icon url
-        var p_url = directory[node_id].icon;
-        // description
-        var p_description = directory[node_id].description;
-
-        // create the node based on the parameters
-        var node = {
-            attr: { id: p_id ,"data-url":p_url, "data-description": p_description },
-            data: {
-                title: p_title,
-                attr: {"href": url, "title": p_title},
-            },
-            children:[]
-        };
-
-        // if current node has any children
-        // call buildNoderecursive method create the node structure for
-        // all level of child         
-        for (child in directory[node_id].children) {
-            // for each child node, call buildnoderecursive to build the node structure
-            // pass current child(id), the list of all sibligs(json object) and url append/child
-            // for example first level node /dev/directory2.html#courses/firstyearcourses
-            // for second level node /dev/directory2.html#course/firstyearcourses/chemistry
-            node.children.push(buildNodeRecursive(child, directory[node_id].children, url+"/"+child));
-        }
-        return node;
-    };
 
     //////////////////////////////
     // Initialization Functions //
@@ -168,15 +101,16 @@ sakai.browsedirectory = function(tuid, showSettings){
      * @param {String} id  the unique id for node to select on load for example firstyearcourses or empty
      */
     var renderDirectoryTree = function (id) {
+        // destroy any existing jstree instance
+        $browsedirectoryTree.jstree("destroy");
+        var browsedirectoryData = sakai.api.UI.getDirectoryStructure();
+
         // get item 
-        var initiallySelect = "firstyearcourses";
+        var initiallySelect = browsedirectoryData[0].attr.id;
         // if id is passed set inital select as id
         if (id !== "") {
             initiallySelect = id;
         }
-        // destroy any existing jstree instance
-        $browsedirectoryTree.jstree("destroy");
-        var browsedirectoryData = convertToHierarchy(sakai.config.Directory);
 
         // set up new jstree for directory 
         var pluginArray = [ "themes", "json_data", "ui", "cookies", "dnd" ];

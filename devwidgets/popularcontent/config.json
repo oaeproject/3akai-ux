@@ -1,9 +1,10 @@
 {
+    "personalportal":true,
     "userpages": false,
     "userdashboard": false,
     "grouppages": false,
     "groupdashboard": false,
-    "description": "",
+    "description": "Most active content",
     "hasSettings": false,
     "id": "popularcontent",
     "name": "Most active content",
