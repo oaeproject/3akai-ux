@@ -58,6 +58,7 @@ sakai.systemtour = function(tuid, showSettings){
     var $systemtourCloseWidget = $("#systemtour_close_widget", $rootel);
 
     // Progress bar buttons
+    var $systemtourButton = $(".systemtour_button", $rootel);
     var $systemtourAddPhoto = $("#systemtour_add_photo", $rootel);
     var $systemtourUploadFile = $("#systemtour_upload_file", $rootel);
     var $systemtourShareContent = $("#systemtour_share_content", $rootel);
@@ -134,6 +135,17 @@ sakai.systemtour = function(tuid, showSettings){
         });
     };
 
+    /**
+     * Hides selected buttons
+     */
+    var hideSelected = function(){
+        $systemtourButton.removeClass("systemtour_add_photo_selected");
+        $systemtourButton.removeClass("systemtour_edit_profile_selected");
+        $systemtourButton.removeClass("systemtour_upload_file_selected");
+        $systemtourButton.removeClass("systemtour_share_content_selected");
+        $systemtourButton.removeClass("systemtour_add_contacts_selected");
+    };
+
 
     ////////////////////
     // Event Handlers //
@@ -143,9 +155,35 @@ sakai.systemtour = function(tuid, showSettings){
      * Add binding to widget elements
      */
     var addBinding = function(){
-        $systemtourAddPhoto.bind("click", function () {
-            var tooltipData = {"profileFlag": "photoHelpTooltip","whichHelp": "tooltip_photo","tooltip":"true","toolTipSelector":"#changepic_container_trigger"};
-            $(window).trigger("sakai-help-init", tooltipData);
+        $(window).bind("sakai-help-close", function() {
+            hideSelected();
+        });
+
+        $systemtourButton.bind("click", function () {
+            hideSelected();
+
+            var id = $(this).attr("id");
+            switch (id) {
+                case "systemtour_add_photo":
+                    $(".systemtour_add_photo").addClass("systemtour_add_photo_selected");
+                    var tooltipData = {"profileFlag": "photoHelpTooltip","whichHelp": "tooltip_photo","tooltip":"true","toolTipSelector":"#changepic_container_trigger"};
+                    $(window).trigger("sakai-help-init", tooltipData);
+                    break;
+                case "systemtour_edit_profile":
+                    $(".systemtour_edit_profile").addClass("systemtour_edit_profile_selected");
+                    //var tooltipData = {"profileFlag": "photoHelpTooltip","whichHelp": "tooltip_profile","tooltip":"true","toolTipSelector":"#entity_edit_profile"};
+                    //$(window).trigger("sakai-help-init", tooltipData);
+                    break;
+                case "systemtour_upload_file":
+                    $(".systemtour_upload_file").addClass("systemtour_upload_file_selected");
+                    break;
+                case "systemtour_share_content":
+                    $(".systemtour_share_content").addClass("systemtour_share_content_selected");
+                    break;
+                case "systemtour_add_contacts":
+                    $(".systemtour_add_contacts").addClass("systemtour_add_contacts_selected");
+                    break;
+            }
             return false;
         });
 

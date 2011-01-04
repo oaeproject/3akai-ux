@@ -43,6 +43,7 @@ sakai.help = function(tuid, showSettings) {
         $help_content = $(".help_content", $rootel),
         $help_close = $(".help_close", $rootel),
         $help_dont_show = $(".help_dont_show", $rootel);
+        $help_tooltip_dialog = $(".help_tooltip_dialog", $rootel);
 
 
     $help_widget.jqm({
@@ -82,6 +83,7 @@ sakai.help = function(tuid, showSettings) {
 
     var hideHelp = function() {
         $help_widget.jqmHide();
+        $(window).trigger("sakai-help-close");
     };
 
     /**
@@ -145,6 +147,7 @@ sakai.help = function(tuid, showSettings) {
             alreadySet = false;
             tooltip = helpObj.tooltip || false;
             toolTipSelector = helpObj.toolTipSelector || false;
+            $help_tooltip_dialog.hide();
             if (tooltip){
                 $help_widget.removeClass("help_dialog");
                 $help_widget.addClass("help_tooltip_dialog");

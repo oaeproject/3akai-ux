@@ -17,11 +17,79 @@
  */
 
 /* Main container */
-#systemtour_container.fl-widget-content {padding:10px 10px 0 10px;border: 1px solid #d4dade;}
+#systemtour_container.fl-widget-content {padding:10px 10px 0 10px;border: 1px solid #d4dade;height:50px;}
+#systemtour_container {background: url("../images/bg.png") no-repeat;}
 
-/* LINK BUTTON */
-.systemtour-button-link-2-state {background: url("/dev/images/button_link_2_state.png") no-repeat scroll right -40px transparent;}
-.systemtour-button-link-2-state-inner {background: url("/dev/images/button_link_2_state.png") no-repeat scroll left 0px transparent !important; margin: 0 !important; color: #333 !important;font-size:11px;}
-.systemtour-button-link-2-state-inner-secondary {font-size:9px;}
-.s3d-button:hover .systemtour-button-link-2-state-inner {background: url("/dev/images/button_link_2_state.png") no-repeat scroll left -80px transparent !important; color: #FFF !important;}
+/* PROGRESS BAR */
+#systemtour_progress_bar {
+    position: relative;
+    top: 4px;
+    left: 3px;
+}
+.systemtour_progress_bar_text {
+    position: relative;
+    top: 8px;
+    left: 8px;
+    font-weight: bold;
+}
 
+/* PROGRESS BAR BUTTONS */
+#systemtour_progress_bar_buttons {
+    position: relative;
+    top: 8px;
+    margin-left: 20px;
+}
+#systemtour_progress_bar_buttons a {
+    text-decoration: none;
+}
+.systemtour_innertext, .systemtour_innertext_complete {
+    font-size:12px;
+    font-weight: bold;
+}
+.systemtour_add_photo .systemtour_innertext {
+    padding: 0 2px 0 35px;
+}
+.systemtour_add_photo .systemtour_innertext_complete {
+    padding: 0 4px 0 13px;
+}
+.systemtour_edit_profile .systemtour_innertext {
+    padding: 0 2px 0 35px;
+}
+.systemtour_edit_profile .systemtour_innertext_complete {
+    padding: 0 4px 0 13px;
+}
+.systemtour_upload_file .systemtour_innertext {
+    padding: 0 2px 0 35px;
+}
+.systemtour_upload_file .systemtour_innertext_complete {
+    padding: 0 4px 0 13px;
+}
+.systemtour_share_content .systemtour_innertext {
+    padding: 0 2px 0 25px;
+}
+.systemtour_share_content .systemtour_innertext_complete {
+    padding: 0 4px 0 13px;
+}
+.systemtour_add_contacts .systemtour_innertext {
+    padding: 0 12px 0 25px;
+}
+.systemtour_add_contacts .systemtour_innertext_complete {
+    padding: 0 14px 0 13px;
+}
+#systemtour_add_photo, #systemtour_edit_profile {
+    padding: 10px 0 10px 0;
+    position: relative;
+    left: 2px;
+    top: 1px;
+}
+.systemtour_add_photo_selected, .systemtour_edit_profile_selected, .systemtour_upload_file_selected, .systemtour_share_content_selected, .systemtour_add_contacts_selected {
+    background: url("../images/bg-selected.png") no-repeat scroll left 0px transparent !important;
+    color: #FFF;
+}
+#systemtour_add_photo_complete {
+    padding: 7px 0 11px 2px;
+    position: relative;
+}
+.systemtour_item_complete {
+    background:url("/dev/images/accept.png") no-repeat scroll transparent; height:14px; width:18px; padding-right:20px;
+}
