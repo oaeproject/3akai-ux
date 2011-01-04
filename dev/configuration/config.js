@@ -506,6 +506,11 @@ sakai.config = {
         DefaultMember: "viewers"
     },
 
+    SystemTour: {
+        "enableReminders":true,
+        "reminderIntervalHours": "168"
+    },
+
     Messages: {
         Types: {
             inbox: "inbox",

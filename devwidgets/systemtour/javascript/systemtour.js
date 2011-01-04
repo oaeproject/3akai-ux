@@ -217,6 +217,9 @@ sakai.systemtour = function(tuid, showSettings){
             sakai.data.me.profile.userprogress = {};
         }
 
+        // checks user progress and displays reminder tooltips
+        sakai.api.User.checkUserProgress();
+
         updateProgressData();
 
         // if user has not removed the tour progress bar or completed all actions

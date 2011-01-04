@@ -498,3 +498,96 @@ sakai.api.User.addUserProgress = function(type) {
         });
     }
 };
+
+/**
+ * Checks system tour progress for the user and display tooltip reminders
+ */
+sakai.api.User.checkUserProgress = function() {
+    if (!sakai.data.me.profile.userprogress){
+        sakai.data.me.profile.userprogress = {};
+    }
+    var me = sakai.data.me;
+    var progressData = "";
+    var tooltipProfileFlag = "";
+    var tooltipSelector = "";
+    var tooltipTitle = "";
+    var tooltipDescription = "";
+    var displayTooltip = false;
+    var curDate = new Date();
+    var curTimestamp = curDate.getTime();
+    var intervalTimestamp = parseInt(sakai.config.SystemTour.reminderIntervalHours, 10) * 60 * 60 * 1000;
+
+    if (sakai.config.SystemTour.enableReminders && me.profile.userprogress.hideSystemTour && !me.profile.userprogress.hideSystemTourReminders) {
+        if (!me.profile.userprogress.uploadedProfilePhoto && 
+            (!me.profile.userprogress.uploadedProfilePhotoReminder || 
+                (!me.profile.userprogress.uploadedProfilePhoto && me.profile.userprogress.uploadedProfilePhotoReminder && 
+                    ((me.profile.userprogress.uploadedProfilePhotoReminder + intervalTimestamp) < curTimestamp)))) {
+            progressData = {"uploadedProfilePhotoReminder": curTimestamp};
+            tooltipProfileFlag = "photoHelpTooltip";
+            tooltipSelector = "#changepic_container_trigger";
+            tooltipTitle = "ADD_YOUR_PICTURE";
+            tooltipDescription = "ADD_YOUR_PICTURE_P1";
+            displayTooltip = true;
+        } else if (!me.profile.userprogress.uploadedContent && 
+            (!me.profile.userprogress.uploadedContentReminder || 
+                (!me.profile.userprogress.uploadedContent && me.profile.userprogress.uploadedContentReminder && 
+                    ((me.profile.userprogress.uploadedContentReminder + intervalTimestamp) < curTimestamp)))) {
+            progressData = {"uploadedContentReminder": curTimestamp};
+            tooltipProfileFlag = "";
+            tooltipSelector = "#";
+            tooltipTitle = "";
+            tooltipDescription = "";
+            //displayTooltip = true;
+        } else if (!me.profile.userprogress.sharedContent && 
+            (!me.profile.userprogress.sharedContentReminder || 
+                (!me.profile.userprogress.sharedContent && me.profile.userprogress.sharedContentReminder && 
+                    ((me.profile.userprogress.sharedContentReminder + intervalTimestamp) < curTimestamp)))) {
+            progressData = {"sharedContentReminder": curTimestamp};
+            tooltipProfileFlag = "";
+            tooltipSelector = "#";
+            tooltipTitle = "";
+            tooltipDescription = "";
+            //displayTooltip = true;
+        } else if (!me.profile.userprogress.madeContactRequest && 
+            (!me.profile.userprogress.madeContactRequestReminder || 
+                (!me.profile.userprogress.madeContactRequest && me.profile.userprogress.madeContactRequestReminder && 
+                    ((me.profile.userprogress.madeContactRequestReminder + intervalTimestamp) < curTimestamp)))) {
+            progressData = {"madeContactRequestReminder": curTimestamp};
+            tooltipProfileFlag = "";
+            tooltipSelector = "#";
+            tooltipTitle = "";
+            tooltipDescription = "";
+            //displayTooltip = true;
+        } else if (!me.profile.userprogress.halfCompletedProfile && 
+            (!me.profile.userprogress.halfCompletedProfileReminder || 
+                (!me.profile.userprogress.halfCompletedProfile && me.profile.userprogress.halfCompletedProfileReminder && 
+                    ((me.profile.userprogress.halfCompletedProfileReminder + intervalTimestamp) < curTimestamp)))) {
+            progressData = {"halfCompletedProfileReminder": curTimestamp};
+            tooltipProfileFlag = "";
+            tooltipSelector = "#";
+            tooltipTitle = "";
+            tooltipDescription = "";
+            //displayTooltip = true;
+        }
+    }
+
+    if (displayTooltip){
+        var tooltipData = {
+            "profileFlag": tooltipProfileFlag,
+            "whichHelp": "tooltip",
+            "tooltip": "true",
+            "tooltipSelector": tooltipSelector,
+            "tooltipTitle": tooltipTitle,
+            "tooltipDescription": tooltipDescription
+        };
+
+        var authprofileURL = "/~" + me.user.userid + "/public/authprofile/userprogress";
+        sakai.api.Server.saveJSON(authprofileURL, progressData, function(success, data){
+            // Check whether save was successful
+            if (success) {
+                // Display the tooltip
+                $(window).trigger("sakai-help-init", tooltipData);
+            }
+        });
+    }
+};
