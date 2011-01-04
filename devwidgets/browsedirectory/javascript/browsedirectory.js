@@ -127,7 +127,7 @@ sakai.browsedirectory = function(tuid, showSettings){
             },
             "themes": {
                 "dots": false,
-                "icons": true
+                "icons": false
             },
             "ui": {
                 "select_limit": 1,
