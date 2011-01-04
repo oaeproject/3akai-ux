@@ -52,6 +52,11 @@ sakai.activegroups = function(tuid, showSettings) {
     };
 
     var doInit = function(){
+        if (! sakai.api.Widgets.isOnDashboard(tuid)){
+            $(".activegroups-widget-border").show();
+            $("#activegroups_widget").addClass("fl-widget s3d-widget");
+        }
+
         loadData(function() {
             var output = $.TemplateRenderer($activegroups_main_template, {data:groupData});
             $activegroups_main.html(output).show();
