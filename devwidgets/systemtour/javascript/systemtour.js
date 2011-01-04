@@ -166,7 +166,7 @@ sakai.systemtour = function(tuid, showSettings){
             switch (id) {
                 case "systemtour_add_photo":
                     $(".systemtour_add_photo").addClass("systemtour_add_photo_selected");
-                    var tooltipData = {"profileFlag": "photoHelpTooltip","whichHelp": "tooltip_photo","tooltip":"true","toolTipSelector":"#changepic_container_trigger"};
+                    var tooltipData = {"profileFlag": "photoHelpTooltip","whichHelp": "tooltip","tooltip":"true","tooltipSelector":"#changepic_container_trigger","tooltipTitle":"ADD_YOUR_PICTURE","tooltipDescription":"ADD_YOUR_PICTURE_P1"};
                     $(window).trigger("sakai-help-init", tooltipData);
                     break;
                 case "systemtour_edit_profile":

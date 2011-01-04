@@ -76,19 +76,15 @@
 .systemtour_add_contacts .systemtour_innertext_complete {
     padding: 0 14px 0 13px;
 }
-#systemtour_add_photo, #systemtour_edit_profile {
-    padding: 10px 0 10px 0;
+
+.systemtour_add_photo, .systemtour_edit_profile, .systemtour_upload_file, .systemtour_share_content, .systemtour_add_contacts {
+    padding: 7px 0 10px 0;
     position: relative;
-    left: 2px;
-    top: 1px;
 }
+
 .systemtour_add_photo_selected, .systemtour_edit_profile_selected, .systemtour_upload_file_selected, .systemtour_share_content_selected, .systemtour_add_contacts_selected {
     background: url("../images/bg-selected.png") no-repeat scroll left 0px transparent !important;
     color: #FFF;
-}
-#systemtour_add_photo_complete {
-    padding: 7px 0 11px 2px;
-    position: relative;
 }
 .systemtour_item_complete {
     background:url("/dev/images/accept.png") no-repeat scroll transparent; height:14px; width:18px; padding-right:20px;
