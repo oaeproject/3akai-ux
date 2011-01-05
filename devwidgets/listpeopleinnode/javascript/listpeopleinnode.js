@@ -48,6 +48,7 @@ sakai.listpeopleinnode = function(tuid, showSettings){
 
     var searchQuery = "/dev/search_people.html#tag=${query}";
 
+    var listpeopleinnodeEllipsisContainer = ".listinpeopleinnode_ellipsis_container";
     /**
      * 
      * @param {Object} results
@@ -108,8 +109,12 @@ sakai.listpeopleinnode = function(tuid, showSettings){
         var obj = {
             "location" : sakai.api.UI.getValueForDirectoryKey(selected.split("/")[selected.split("/").length - 1])
         };
-        $listpeopleinnodeTitle.text($.TemplateRenderer(listpeopleinnodeTitleTemplate, obj));
+        $listpeopleinnodeTitle.html($.TemplateRenderer(listpeopleinnodeTitleTemplate, obj));
         $listpeopleinnodeSeeAllLink[0].href = searchQuery.replace("${query}", "directory/" + selected);
+        // Use three dot plugin to show ... for long title
+        $(listpeopleinnodeEllipsisContainer).ThreeDots({
+            max_rows: 1
+        });
         searchUsersInNode(selected);
     });
 };
