@@ -30,21 +30,35 @@ sakai.help = function(tuid, showSettings) {
         profileData = null,
         forced = false,
         alreadySet = false,
+        tooltip = false,
+        tooltipSelector = false,
+        tooltipTitle = null,
+        tooltipDescription = null,
         authprofileURL = "/~" +
                         sakai.data.me.user.userid +
                         "/public/authprofile";
     
     var $rootel = $("#" + tuid);
     var $help_widget = $("#help_widget", $rootel),
+        $help_tooltip_widget = $("#help_widget", $rootel),
         $help_nav_ul_li_a = $(".help_nav ul li a", $rootel),
         $help_content = $(".help_content", $rootel),
         $help_close = $(".help_close", $rootel),
-        $help_dont_show = $(".help_dont_show", $rootel);
+        $help_dont_show = $(".help_dont_show", $rootel),
+        $help_tooltip_dialog = $(".help_tooltip_dialog", $rootel),
+        $help_tooltip_title = $("#help_tooltip_title", $rootel),
+        $help_tooltip_description = $("#help_tooltip_description", $rootel);
 
 
     $help_widget.jqm({
         modal: true,
         overlay: 20,
+        toTop: true
+    });
+
+    $help_tooltip_widget.jqm({
+        modal: true,
+        overlay: 0,
         toTop: true
     });
 
@@ -62,13 +76,18 @@ sakai.help = function(tuid, showSettings) {
                 } else {
                     $help_dont_show.removeAttr("checked");
                 }
-                $help_widget.jqmShow();
+                if (tooltip){
+                    $help_tooltip_widget.jqmShow();
+                } else {
+                    $help_widget.jqmShow();
+                }
             }
         }
     };
 
     var hideHelp = function() {
         $help_widget.jqmHide();
+        $(window).trigger("sakai-help-close");
     };
 
     /**
@@ -130,6 +149,23 @@ sakai.help = function(tuid, showSettings) {
             whichHelp = helpObj.whichHelp;
             forced = helpObj.force || false;
             alreadySet = false;
+            tooltip = helpObj.tooltip || false;
+            tooltipSelector = helpObj.tooltipSelector || false;
+            $help_tooltip_dialog.hide();
+            if (tooltip){
+                tooltipTitle = helpObj.tooltipTitle || false;
+                tooltipDescription = helpObj.tooltipDescription || false;
+                $help_tooltip_title.html(sakai.api.i18n.General.getValueForKey(tooltipTitle));
+                $help_tooltip_description.html(sakai.api.i18n.General.getValueForKey(tooltipDescription));
+                $help_widget.removeClass("help_dialog");
+                $help_widget.addClass("help_tooltip_dialog");
+                // position tooltip
+                if (tooltipSelector) {
+                    var eleOffset = $(tooltipSelector).offset();
+                    $help_widget.css("top", 20 + eleOffset.top);
+                    $help_widget.css("left", 430 + eleOffset.left);
+                }
+            }
             $.ajax({
                 url: authprofileURL + ".infinity.json",
                 success: function(profile) {

@@ -1,4 +1,6 @@
-#help_widget { width:900px; margin-left:-450px;}
+#help_widget { margin-left:-450px; }
+
+.help_dialog { width:900px; }
 
 .help_nav { width:230px; float:left; display:inline; }
 .help_nav h4 {margin-bottom:20px;}
@@ -14,3 +16,9 @@
 .help_content img {float:right; margin:0px 0px 10px 10px; border:1px solid #666;}
 
 .help_footer {text-align:right;}
+
+/* Help Tooltips */
+.help_tooltip_dialog { width:200px; }
+.help_tooltip {background-color:orange;}
+.help_tooltip_content {width:200px; display:inline;}
+.help_tooltip_content h2 { border-bottom:1px solid black; margin:0px 0px 10px 0px; padding-bottom:5px;}

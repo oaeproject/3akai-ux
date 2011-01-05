@@ -1,0 +1,91 @@
+/*
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+
+/* Main container */
+#systemtour_container.fl-widget-content {padding:10px 10px 0 10px;border: 1px solid #d4dade;height:50px;}
+#systemtour_container {background: url("../images/bg.png") no-repeat;}
+
+/* PROGRESS BAR */
+#systemtour_progress_bar {
+    position: relative;
+    top: 4px;
+    left: 3px;
+}
+.systemtour_progress_bar_text {
+    position: relative;
+    top: 8px;
+    left: 8px;
+    font-weight: bold;
+}
+
+/* PROGRESS BAR BUTTONS */
+#systemtour_progress_bar_buttons {
+    position: relative;
+    top: 8px;
+    margin-left: 20px;
+}
+#systemtour_progress_bar_buttons a {
+    text-decoration: none;
+}
+.systemtour_innertext, .systemtour_innertext_complete {
+    font-size:12px;
+    font-weight: bold;
+}
+.systemtour_add_photo .systemtour_innertext {
+    padding: 0 2px 0 35px;
+}
+.systemtour_add_photo .systemtour_innertext_complete {
+    padding: 0 4px 0 13px;
+}
+.systemtour_edit_profile .systemtour_innertext {
+    padding: 0 2px 0 35px;
+}
+.systemtour_edit_profile .systemtour_innertext_complete {
+    padding: 0 4px 0 13px;
+}
+.systemtour_upload_file .systemtour_innertext {
+    padding: 0 2px 0 35px;
+}
+.systemtour_upload_file .systemtour_innertext_complete {
+    padding: 0 4px 0 13px;
+}
+.systemtour_share_content .systemtour_innertext {
+    padding: 0 2px 0 25px;
+}
+.systemtour_share_content .systemtour_innertext_complete {
+    padding: 0 4px 0 13px;
+}
+.systemtour_add_contacts .systemtour_innertext {
+    padding: 0 12px 0 25px;
+}
+.systemtour_add_contacts .systemtour_innertext_complete {
+    padding: 0 14px 0 13px;
+}
+
+.systemtour_add_photo, .systemtour_edit_profile, .systemtour_upload_file, .systemtour_share_content, .systemtour_add_contacts {
+    padding: 7px 0 10px 0;
+    position: relative;
+}
+
+.systemtour_add_photo_selected, .systemtour_edit_profile_selected, .systemtour_upload_file_selected, .systemtour_share_content_selected, .systemtour_add_contacts_selected {
+    background: url("../images/bg-selected.png") no-repeat scroll left 0px transparent !important;
+    color: #FFF;
+}
+.systemtour_item_complete {
+    background:url("/dev/images/accept.png") no-repeat scroll transparent; height:14px; width:18px; padding-right:20px;
+}

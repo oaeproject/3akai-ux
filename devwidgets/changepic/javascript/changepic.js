@@ -487,6 +487,10 @@ sakai.changepic = function(tuid, showSettings){
                         // Hide the layover.
                         $(container).jqmHide();
 
+                        if (mode !== "group") {
+                            // record that user uploaded their profile picture
+                            sakai.api.User.addUserProgress("uploadedProfilePhoto");
+                        }
                     },
                     error: function(xhr, textStatus, thrownError) {
                         sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("AN_ERROR_HAS_OCCURRED"),"",sakai.api.Util.notification.type.ERROR);
