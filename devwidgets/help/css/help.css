@@ -16,9 +16,3 @@
 .help_content img {float:right; margin:0px 0px 10px 10px; border:1px solid #666;}
 
 .help_footer {text-align:right;}
-
-/* Help Tooltips */
-.help_tooltip_dialog { width:200px; }
-.help_tooltip {background-color:orange;}
-.help_tooltip_content {width:200px; display:inline;}
-.help_tooltip_bold {font-weight:bold;}

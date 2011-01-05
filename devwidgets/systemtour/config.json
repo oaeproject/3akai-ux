@@ -12,7 +12,7 @@
     "name":"System Tour",
     "showinsakaigoodies":false,
     "siteportal":false,
-    "type":"core",
+    "type":"sakai",
     "enabled":true,
     "url":"/devwidgets/systemtour/systemtour.html"
 }

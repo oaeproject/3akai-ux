@@ -538,7 +538,6 @@ sakai.api.User.checkUserProgress = function() {
                 (!me.profile.userprogress.uploadedProfilePhoto && me.profile.userprogress.uploadedProfilePhotoReminder && 
                     ((me.profile.userprogress.uploadedProfilePhotoReminder + intervalTimestamp) < curTimestamp)))) {
             progressData = {"uploadedProfilePhotoReminder": curTimestamp};
-            tooltipProfileFlag = "photoHelpTooltip";
             tooltipSelector = "#changepic_container_trigger";
             tooltipTitle = "TOOLTIP_ADD_MY_PHOTO";
             tooltipDescription = "TOOLTIP_ADD_MY_PHOTO_P1";
@@ -548,7 +547,6 @@ sakai.api.User.checkUserProgress = function() {
                 (!me.profile.userprogress.uploadedContent && me.profile.userprogress.uploadedContentReminder && 
                     ((me.profile.userprogress.uploadedContentReminder + intervalTimestamp) < curTimestamp)))) {
             progressData = {"uploadedContentReminder": curTimestamp};
-            tooltipProfileFlag = "";
             tooltipSelector = "#";
             tooltipTitle = "";
             tooltipDescription = "";
@@ -558,7 +556,6 @@ sakai.api.User.checkUserProgress = function() {
                 (!me.profile.userprogress.sharedContent && me.profile.userprogress.sharedContentReminder && 
                     ((me.profile.userprogress.sharedContentReminder + intervalTimestamp) < curTimestamp)))) {
             progressData = {"sharedContentReminder": curTimestamp};
-            tooltipProfileFlag = "";
             tooltipSelector = "#";
             tooltipTitle = "";
             tooltipDescription = "";
@@ -568,7 +565,6 @@ sakai.api.User.checkUserProgress = function() {
                 (!me.profile.userprogress.madeContactRequest && me.profile.userprogress.madeContactRequestReminder && 
                     ((me.profile.userprogress.madeContactRequestReminder + intervalTimestamp) < curTimestamp)))) {
             progressData = {"madeContactRequestReminder": curTimestamp};
-            tooltipProfileFlag = "";
             tooltipSelector = "#";
             tooltipTitle = "";
             tooltipDescription = "";
@@ -578,7 +574,6 @@ sakai.api.User.checkUserProgress = function() {
                 (!me.profile.userprogress.halfCompletedProfile && me.profile.userprogress.halfCompletedProfileReminder && 
                     ((me.profile.userprogress.halfCompletedProfileReminder + intervalTimestamp) < curTimestamp)))) {
             progressData = {"halfCompletedProfileReminder": curTimestamp};
-            tooltipProfileFlag = "";
             tooltipSelector = "#entity_edit_profile";
             tooltipTitle = "TOOLTIP_EDIT_MY_PROFILE";
             tooltipDescription = "TOOLTIP_EDIT_MY_PROFILE_P1";
@@ -589,9 +584,6 @@ sakai.api.User.checkUserProgress = function() {
 
     if (displayTooltip){
         var tooltipData = {
-            "profileFlag": tooltipProfileFlag,
-            "whichHelp": "tooltip",
-            "tooltip": "true",
             "tooltipSelector": tooltipSelector,
             "tooltipTitle": tooltipTitle,
             "tooltipDescription": tooltipDescription,
@@ -603,7 +595,13 @@ sakai.api.User.checkUserProgress = function() {
             // Check whether save was successful
             if (success) {
                 // Display the tooltip
-                $(window).trigger("sakai-help-init", tooltipData);
+                if (!sakai.tooltip || !sakai.tooltip.isReady) {
+                    $(window).bind("sakai-tooltip-ready", function() {
+                        $(window).trigger("sakai-tooltip-init", tooltipData);
+                    });
+                } else {
+                    $(window).trigger("sakai-tooltip-init", tooltipData);
+                }
             }
         });
     }

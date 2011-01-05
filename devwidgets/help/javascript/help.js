@@ -30,13 +30,6 @@ sakai.help = function(tuid, showSettings) {
         profileData = null,
         forced = false,
         alreadySet = false,
-        tooltip = false,
-        tooltipSelector = false,
-        tooltipTitle = null,
-        tooltipDescription = null,
-        tooltipArrow = null,
-        tooltipTop = null,
-        tooltipLeft = null,
         authprofileURL = "/~" +
                         sakai.data.me.user.userid +
                         "/public/authprofile";
@@ -47,13 +40,7 @@ sakai.help = function(tuid, showSettings) {
         $help_nav_ul_li_a = $(".help_nav ul li a", $rootel),
         $help_content = $(".help_content", $rootel),
         $help_close = $(".help_close", $rootel),
-        $help_dont_show = $(".help_dont_show", $rootel),
-        $help_tooltip_dialog = $(".help_tooltip_dialog", $rootel),
-        $help_tooltip_title = $("#help_tooltip_title", $rootel),
-        $help_tooltip_description = $("#help_tooltip_description", $rootel);
-        $help_tooltip_header_arrow = $(".dialog_tooltip_header_arrow", $rootel);
-        $help_tooltip_left_arrow = $(".dialog_tooltip_left_arrow", $rootel);
-        $help_tooltip_footer_arrow = $(".dialog_tooltip_footer_arrow", $rootel);
+        $help_dont_show = $(".help_dont_show", $rootel);
 
 
     $help_widget.jqm({
@@ -62,14 +49,8 @@ sakai.help = function(tuid, showSettings) {
         toTop: true
     });
 
-    $help_tooltip_widget.jqm({
-        modal: false,
-        overlay: 0,
-        toTop: true
-    });
-
     var showHelp = function() {
-        if (profileFlag && !tooltip) {
+        if (profileFlag) {
             if ((!profileData[profileFlag] || 
                 profileData[profileFlag] === false) || forced) {
 
@@ -84,18 +65,12 @@ sakai.help = function(tuid, showSettings) {
                 }
                 $help_widget.jqmShow();
             }
-        } else if (tooltip) {
-            $("#help_" + whichHelp).show();
-            $help_tooltip_widget.jqmShow();
         }
     };
 
     var hideHelp = function() {
         $help_widget.jqmHide();
         $(window).trigger("sakai-help-close");
-        if (tooltip) {
-            $(window).unbind("sakai-help-tooltip-update");
-        }
     };
 
     /**
@@ -120,50 +95,6 @@ sakai.help = function(tuid, showSettings) {
             debug.error("Cannot disable repeat show, no profile flag set");
         }
     };
-
-    /**
-     * toggleTooltip sets tooltip configuration and displays the tooltip
-     */
-    var toggleTooltip = function() {
-        $help_tooltip_title.html(sakai.api.i18n.General.getValueForKey(tooltipTitle));
-        $help_tooltip_description.html(sakai.api.i18n.General.getValueForKey(tooltipDescription));
-        $help_widget.removeClass("help_dialog");
-        $help_widget.addClass("help_tooltip_dialog");
-        // position tooltip and display directional arrow
-        var topOffset = 20;
-        var leftOffset = 430;
-        if (tooltipTop){
-            topOffset = topOffset + tooltipTop;
-        }
-        if (tooltipLeft){
-            leftOffset = leftOffset + tooltipLeft;
-        }
-        $help_tooltip_header_arrow.hide();
-        $help_tooltip_footer_arrow.hide();
-        showHelp();
-        if (tooltipArrow === "bottom"){
-            topOffset = ($(".help_tooltip_dialog").height() + topOffset) * -1;
-            $help_tooltip_footer_arrow.show();
-        } else if (tooltipArrow === "top"){
-            $help_tooltip_header_arrow.show();
-        }
-        if (tooltipSelector) {
-            var eleOffset = $(tooltipSelector).offset();
-            $help_widget.css("top", topOffset + eleOffset.top);
-            $help_widget.css("left", leftOffset + eleOffset.left);
-        }
-        // bind tooltip movement
-        $(window).bind("sakai-help-tooltip-update", function(e, tooltipData) {
-            hideHelp();
-            $(window).trigger("sakai-help-init", tooltipData);
-        });
-        // bind tooltip close
-        $(window).bind("sakai-help-tooltip-close", function() {
-            $(window).unbind("sakai-help-tooltip-close");
-            hideHelp();
-        });
-    };
-
 
     $help_nav_ul_li_a.bind("click", function() {
         if (!$(this).hasClass("active")) {
@@ -200,25 +131,13 @@ sakai.help = function(tuid, showSettings) {
             whichHelp = helpObj.whichHelp;
             forced = helpObj.force || false;
             alreadySet = false;
-            tooltip = helpObj.tooltip || false;
-            tooltipSelector = helpObj.tooltipSelector || false;
-            tooltipArrow = helpObj.tooltipArrow || false;
-            tooltipTop = helpObj.tooltipTop || false;
-            tooltipLeft = helpObj.tooltipLeft || false;
-            tooltipTitle = helpObj.tooltipTitle || false;
-            tooltipDescription = helpObj.tooltipDescription || false;
-            $help_tooltip_dialog.hide();
-            if (tooltip) {
-                toggleTooltip();
-            } else {
-                $.ajax({
+            $.ajax({
                     url: authprofileURL + ".infinity.json",
                     success: function(profile){
                         profileData = $.extend(true, {}, profile);
                         showHelp();
                     }
-                });
-            }
+            });
         } else {
             debug.error("No help mode specifed");
         }

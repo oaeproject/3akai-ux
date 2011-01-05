@@ -90,8 +90,13 @@ sakai.systemtour = function(tuid, showSettings){
 
         if (halfCompletedProfile && halfCompletedProfileInProgress){
             // display tooltip
-            var tooltipData = {"profileFlag": "photoHelpTooltip","whichHelp": "tooltip","tooltip":"true","tooltipSelector":".systemtour_edit_profile","tooltipTitle":"TOOLTIP_EDIT_MY_PROFILE","tooltipDescription":"TOOLTIP_EDIT_MY_PROFILE_P4","tooltipArrow":"top"};
-            $(window).trigger("sakai-help-tooltip-update", tooltipData);
+            var tooltipData = {
+                "tooltipSelector":".systemtour_edit_profile",
+                "tooltipTitle":"TOOLTIP_EDIT_MY_PROFILE",
+                "tooltipDescription":"TOOLTIP_EDIT_MY_PROFILE_P4",
+                "tooltipArrow":"top"
+            };
+            $(window).trigger("sakai-tooltip-update", tooltipData);
 
             // remove edit my profile tour InProgress flag
             sakai.api.User.addUserProgress("halfCompletedProfileInProgressRemove");
@@ -166,7 +171,7 @@ sakai.systemtour = function(tuid, showSettings){
      * Add binding to widget elements
      */
     var addBinding = function(){
-        $(window).bind("sakai-help-close", function() {
+        $(window).bind("sakai-tooltip-close", function() {
             hideSelected();
         });
 
@@ -178,13 +183,23 @@ sakai.systemtour = function(tuid, showSettings){
             switch (id) {
                 case "systemtour_add_photo":
                     $(".systemtour_add_photo").addClass("systemtour_add_photo_selected");
-                    tooltipData = {"profileFlag": "photoHelpTooltip","whichHelp": "tooltip","tooltip":"true","tooltipSelector":"#changepic_container_trigger","tooltipTitle":"TOOLTIP_ADD_MY_PHOTO","tooltipDescription":"TOOLTIP_ADD_MY_PHOTO_P1","tooltipArrow":"top"};
-                    $(window).trigger("sakai-help-init", tooltipData);
+                    tooltipData = {
+                        "tooltipSelector":"#changepic_container_trigger",
+                        "tooltipTitle":"TOOLTIP_ADD_MY_PHOTO",
+                        "tooltipDescription":"TOOLTIP_ADD_MY_PHOTO_P1",
+                        "tooltipArrow":"top"
+                    };
+                    $(window).trigger("sakai-tooltip-init", tooltipData);
                     break;
                 case "systemtour_edit_profile":
                     $(".systemtour_edit_profile").addClass("systemtour_edit_profile_selected");
-                    tooltipData = {"profileFlag": "photoHelpTooltip","whichHelp": "tooltip","tooltip":"true","tooltipSelector":"#entity_edit_profile","tooltipTitle":"TOOLTIP_EDIT_MY_PROFILE","tooltipDescription":"TOOLTIP_EDIT_MY_PROFILE_P1","tooltipArrow":"top"};
-                    $(window).trigger("sakai-help-init", tooltipData);
+                    tooltipData = {
+                        "tooltipSelector":"#entity_edit_profile",
+                        "tooltipTitle":"TOOLTIP_EDIT_MY_PROFILE",
+                        "tooltipDescription":"TOOLTIP_EDIT_MY_PROFILE_P1",
+                        "tooltipArrow":"top"
+                    };
+                    $(window).trigger("sakai-tooltip-init", tooltipData);
                     sakai.api.User.addUserProgress("halfCompletedProfileInProgress");
                     break;
                 case "systemtour_upload_file":
