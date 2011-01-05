@@ -454,9 +454,6 @@ sakai.profile = function(){
 
                 // display help tooltip
                 var tooltipData = {
-                    "profileFlag": "photoHelpTooltip",
-                    "whichHelp": "tooltip",
-                    "tooltip":"true",
                     "tooltipSelector":".navigation_first_link",
                     "tooltipTitle":"TOOLTIP_EDIT_MY_PROFILE",
                     "tooltipDescription":"TOOLTIP_EDIT_MY_PROFILE_P3",
@@ -464,7 +461,7 @@ sakai.profile = function(){
                     "tooltipTop":5,
                     "tooltipLeft":15
                 };
-                $(window).trigger("sakai-help-tooltip-update", tooltipData);
+                $(window).trigger("sakai-tooltip-update", tooltipData);
             }
             else {
                 $("#profile_footer_button_update").removeAttr("disabled");
@@ -727,9 +724,6 @@ sakai.profile = function(){
             if (sakai.data.me.profile.userprogress && sakai.data.me.profile.userprogress.halfCompletedProfileInProgress){
                 // display tooltip
                 var tooltipData = {
-                    "profileFlag": "photoHelpTooltip",
-                    "whichHelp": "tooltip",
-                    "tooltip":"true",
                     "tooltipSelector":"#user_link_container",
                     "tooltipTitle":"TOOLTIP_EDIT_MY_PROFILE",
                     "tooltipDescription":"TOOLTIP_EDIT_MY_PROFILE_P2",
@@ -737,12 +731,12 @@ sakai.profile = function(){
                     "tooltipTop":50,
                     "tooltipLeft":50
                 };
-                if (!sakai.help || !sakai.help.isReady) {
-                    $(window).bind("sakai-help-ready", function() {
-                        $(window).trigger("sakai-help-init", tooltipData);
+                if (!sakai.tooltip || !sakai.tooltip.isReady) {
+                    $(window).bind("sakai-tooltip-ready", function() {
+                        $(window).trigger("sakai-tooltip-init", tooltipData);
                     });
                 } else {
-                    $(window).trigger("sakai-help-init", tooltipData);
+                    $(window).trigger("sakai-tooltip-init", tooltipData);
                 }
             }
         });

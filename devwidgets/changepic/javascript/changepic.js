@@ -233,7 +233,7 @@ sakai.changepic = function(tuid, showSettings){
     $("#changepic_container .jqmClose").click(function(){
         resetUploadField();
         // hide any tooltips if they are open
-        $(window).trigger("sakai-help-tooltip-close");
+        $(window).trigger("sakai-tooltip-close");
     });
 
     /**
@@ -410,8 +410,13 @@ sakai.changepic = function(tuid, showSettings){
             showSelectTab();
 
             // display help tooltip
-            var tooltipData = {"profileFlag": "photoHelpTooltip","whichHelp": "tooltip","tooltip":"true","tooltipSelector":"#save_new_selection","tooltipTitle":"TOOLTIP_ADD_MY_PHOTO","tooltipDescription":"TOOLTIP_ADD_MY_PHOTO_P4","tooltipArrow":"bottom"};
-            $(window).trigger("sakai-help-tooltip-update", tooltipData);
+            var tooltipData = {
+                "tooltipSelector":"#save_new_selection",
+                "tooltipTitle":"TOOLTIP_ADD_MY_PHOTO",
+                "tooltipDescription":"TOOLTIP_ADD_MY_PHOTO_P4",
+                "tooltipArrow":"bottom"
+            };
+            $(window).trigger("sakai-tooltip-update", tooltipData);
         }
         else {
             // The user hasn't uploaded a picture yet.
@@ -425,8 +430,13 @@ sakai.changepic = function(tuid, showSettings){
     $("#profilepicture").bind("change", function(){
         $("#changepic_nofile_error").hide();
         // display help tooltip
-        var tooltipData = {"profileFlag": "photoHelpTooltip","whichHelp": "tooltip","tooltip":"true","tooltipSelector":"#profile_upload","tooltipTitle":"TOOLTIP_ADD_MY_PHOTO","tooltipDescription":"TOOLTIP_ADD_MY_PHOTO_P3","tooltipArrow":"bottom"};
-        $(window).trigger("sakai-help-tooltip-update", tooltipData);
+        var tooltipData = {
+            "tooltipSelector":"#profile_upload",
+            "tooltipTitle":"TOOLTIP_ADD_MY_PHOTO",
+            "tooltipDescription":"TOOLTIP_ADD_MY_PHOTO_P3",
+            "tooltipArrow":"bottom"
+        };
+        $(window).trigger("sakai-tooltip-update", tooltipData);
     });
 
     // This is the function that will be called when a user has cut out a selection
@@ -493,8 +503,13 @@ sakai.changepic = function(tuid, showSettings){
                         }
 
                         // display help tooltip
-                        var tooltipData = {"profileFlag": "photoHelpTooltip","whichHelp": "tooltip","tooltip":"true","tooltipSelector":".systemtour_add_photo","tooltipTitle":"TOOLTIP_ADD_MY_PHOTO","tooltipDescription":"TOOLTIP_ADD_MY_PHOTO_P5","tooltipArrow":"top"};
-                        $(window).trigger("sakai-help-tooltip-update", tooltipData);
+                        var tooltipData = {
+                            "tooltipSelector":".systemtour_add_photo",
+                            "tooltipTitle":"TOOLTIP_ADD_MY_PHOTO",
+                            "tooltipDescription":"TOOLTIP_ADD_MY_PHOTO_P5",
+                            "tooltipArrow":"top"
+                        };
+                        $(window).trigger("sakai-tooltip-update", tooltipData);
 
                         // Hide the layover.
                         $(container).jqmHide();
@@ -548,8 +563,13 @@ sakai.changepic = function(tuid, showSettings){
         sakai.changepic.doInit();
         hash.w.show();
         // display help tooltip
-        var tooltipData = {"profileFlag": "photoHelpTooltip","whichHelp": "tooltip","tooltip":"true","tooltipSelector":"#profilepicture","tooltipTitle":"TOOLTIP_ADD_MY_PHOTO","tooltipDescription":"TOOLTIP_ADD_MY_PHOTO_P2","tooltipArrow":"bottom"};
-        $(window).trigger("sakai-help-tooltip-update", tooltipData);
+        var tooltipData = {
+            "tooltipSelector":"#profilepicture",
+            "tooltipTitle":"TOOLTIP_ADD_MY_PHOTO",
+            "tooltipDescription":"TOOLTIP_ADD_MY_PHOTO_P2",
+            "tooltipArrow":"bottom"
+        };
+        $(window).trigger("sakai-tooltip-update", tooltipData);
     };
 
     // This will make the widget popup as a layover.
