@@ -232,6 +232,8 @@ sakai.changepic = function(tuid, showSettings){
     // Since file upload form is reset every time overlay closes do this in init function
     $("#changepic_container .jqmClose").click(function(){
         resetUploadField();
+        // hide any tooltips if they are open
+        $(window).trigger("sakai-help-tooltip-close");
     });
 
     /**
@@ -407,6 +409,9 @@ sakai.changepic = function(tuid, showSettings){
             });
             showSelectTab();
 
+            // display help tooltip
+            var tooltipData = {"profileFlag": "photoHelpTooltip","whichHelp": "tooltip","tooltip":"true","tooltipSelector":"#save_new_selection","tooltipTitle":"TOOLTIP_ADD_MY_PHOTO","tooltipDescription":"TOOLTIP_ADD_MY_PHOTO_P4","tooltipArrow":"bottom"};
+            $(window).trigger("sakai-help-tooltip-update", tooltipData);
         }
         else {
             // The user hasn't uploaded a picture yet.
@@ -418,7 +423,10 @@ sakai.changepic = function(tuid, showSettings){
 
     // Remove error notification when a new file is chosen
     $("#profilepicture").bind("change", function(){
-        $("#changepic_nofile_error").hide(); 
+        $("#changepic_nofile_error").hide();
+        // display help tooltip
+        var tooltipData = {"profileFlag": "photoHelpTooltip","whichHelp": "tooltip","tooltip":"true","tooltipSelector":"#profile_upload","tooltipTitle":"TOOLTIP_ADD_MY_PHOTO","tooltipDescription":"TOOLTIP_ADD_MY_PHOTO_P3","tooltipArrow":"bottom"};
+        $(window).trigger("sakai-help-tooltip-update", tooltipData);
     });
 
     // This is the function that will be called when a user has cut out a selection
@@ -484,6 +492,10 @@ sakai.changepic = function(tuid, showSettings){
                             $(imagesToChange[i]).attr("src", "/~" + id + "/public/profile/" + tosave.name + "?sid=" + Math.random());
                         }
 
+                        // display help tooltip
+                        var tooltipData = {"profileFlag": "photoHelpTooltip","whichHelp": "tooltip","tooltip":"true","tooltipSelector":".systemtour_add_photo","tooltipTitle":"TOOLTIP_ADD_MY_PHOTO","tooltipDescription":"TOOLTIP_ADD_MY_PHOTO_P5","tooltipArrow":"top"};
+                        $(window).trigger("sakai-help-tooltip-update", tooltipData);
+
                         // Hide the layover.
                         $(container).jqmHide();
 
@@ -515,7 +527,6 @@ sakai.changepic = function(tuid, showSettings){
      * @param {Object} hash the object that represents the layover
      */
     var hideArea = function(hash){
-
         // Remove the selecting of an area on an image.
         if (imageareaobject) {
             imageareaobject.setOptions({
@@ -536,6 +547,9 @@ sakai.changepic = function(tuid, showSettings){
     var showArea = function(hash){
         sakai.changepic.doInit();
         hash.w.show();
+        // display help tooltip
+        var tooltipData = {"profileFlag": "photoHelpTooltip","whichHelp": "tooltip","tooltip":"true","tooltipSelector":"#profilepicture","tooltipTitle":"TOOLTIP_ADD_MY_PHOTO","tooltipDescription":"TOOLTIP_ADD_MY_PHOTO_P2","tooltipArrow":"bottom"};
+        $(window).trigger("sakai-help-tooltip-update", tooltipData);
     };
 
     // This will make the widget popup as a layover.

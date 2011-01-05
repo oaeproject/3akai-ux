@@ -454,6 +454,7 @@ sakai.api.User.addUserProgress = function(type) {
     }
     var me = sakai.data.me;
     var progressData = "";
+    var refresh = true;
 
     switch(type) {
         case "uploadedProfilePhoto":
@@ -486,13 +487,27 @@ sakai.api.User.addUserProgress = function(type) {
                 sakai.data.me.profile.userprogress.halfCompletedProfile = true;
             }
             break;
+        case "halfCompletedProfileInProgress":
+            if (!me.profile.userprogress.halfCompletedProfileInProgress) {
+                progressData = {"halfCompletedProfileInProgress": true};
+                sakai.data.me.profile.userprogress.halfCompletedProfileInProgress = true;
+                refresh = false;
+            }
+            break;
+        case "halfCompletedProfileInProgressRemove":
+            if (me.profile.userprogress.halfCompletedProfileInProgress) {
+                progressData = {"halfCompletedProfileInProgress": false};
+                sakai.data.me.profile.userprogress.halfCompletedProfileInProgress = false;
+                refresh = false;
+            }
+            break;
     }
 
     if (progressData !== ""){
         var authprofileURL = "/~" + me.user.userid + "/public/authprofile/userprogress";
         sakai.api.Server.saveJSON(authprofileURL, progressData, function(success, data){
             // Check whether save was successful
-            if (success) {
+            if (success && refresh) {
                 // Refresh the widget
                 $(window).trigger("sakai-systemtour-update");
             }
@@ -526,8 +541,8 @@ sakai.api.User.checkUserProgress = function() {
             progressData = {"uploadedProfilePhotoReminder": curTimestamp};
             tooltipProfileFlag = "photoHelpTooltip";
             tooltipSelector = "#changepic_container_trigger";
-            tooltipTitle = "ADD_YOUR_PICTURE";
-            tooltipDescription = "ADD_YOUR_PICTURE_P1";
+            tooltipTitle = "TOOLTIP_ADD_MY_PHOTO";
+            tooltipDescription = "TOOLTIP_ADD_MY_PHOTO_P1";
             displayTooltip = true;
         } else if (!me.profile.userprogress.uploadedContent && 
             (!me.profile.userprogress.uploadedContentReminder || 
@@ -565,10 +580,11 @@ sakai.api.User.checkUserProgress = function() {
                     ((me.profile.userprogress.halfCompletedProfileReminder + intervalTimestamp) < curTimestamp)))) {
             progressData = {"halfCompletedProfileReminder": curTimestamp};
             tooltipProfileFlag = "";
-            tooltipSelector = "#";
-            tooltipTitle = "";
-            tooltipDescription = "";
-            //displayTooltip = true;
+            tooltipSelector = "#entity_edit_profile";
+            tooltipTitle = "TOOLTIP_EDIT_MY_PROFILE";
+            tooltipDescription = "TOOLTIP_EDIT_MY_PROFILE_P1";
+            displayTooltip = true;
+            sakai.api.User.addUserProgress("halfCompletedProfileInProgress");
         }
     }
 
@@ -579,7 +595,8 @@ sakai.api.User.checkUserProgress = function() {
             "tooltip": "true",
             "tooltipSelector": tooltipSelector,
             "tooltipTitle": tooltipTitle,
-            "tooltipDescription": tooltipDescription
+            "tooltipDescription": tooltipDescription,
+            "tooltipArrow": "top"
         };
 
         var authprofileURL = "/~" + me.user.userid + "/public/authprofile/userprogress";
