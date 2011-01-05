@@ -74,6 +74,15 @@ sakai.assignlocation = function(tuid, showSettings) {
             "newlyAssignedLocations" : newlyAssignedLocations
         };
         $assignlocationJSTreeSelectedContainer.html($.TemplateRenderer(assignlocationJSTreeSelectedTemplate, locations));
+
+        // add event binding to the items
+        $(".assignlocation_close_link").bind("click", function(ev){
+            // get the id for the node (list item id)
+            var id = $(ev.target).parent().attr("id").split("/").pop();
+            // unchecked the node
+            $assignlocationJSTreeContainer.jstree("uncheck_node", $("#"+id));
+        });
+
         // Check the boxes that were previously saved
         if (init) {
             var initiallySelect = [];
