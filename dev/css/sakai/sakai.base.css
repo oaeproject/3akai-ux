@@ -183,6 +183,10 @@ a.s3d-regular-links, .s3d-regular-links a{
     border-right: 3px solid #D4DADE;
 }
 
+.s3d-widget-small-content {
+    padding: 5px 0px !important;
+}
+
 .s3d-widget .s3d-widget-options-footer-left {
     background-image:url("/dev/images/block_footer_bl.png");
     background-position:left bottom;
@@ -291,6 +295,10 @@ a.s3d-action, .s3d-actions a {
     color: #006E96;
     font-weight: bold;
     font-size: 13px;
+}
+
+a.s3d-action-seeall {
+    font-size: 11px !important;
 }
 
 .s3d-action-series a {

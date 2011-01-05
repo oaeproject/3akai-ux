@@ -12,24 +12,15 @@
 
     <!-- WIDGET BODY -->
     <div class="fl-widget-content s3d-widget-content">
-        <div id="listpeopleinnode_ajax_loader" style="display:none;"><!-- --></div>
+        <!-- <div id="listpeopleinnode_ajax_loader" style="display:none;"></div>-->
         <div id="listpeopleinnode_people_container"><!-- --></div>
     </div>
 
-    <!-- WIDGET FOOTER -->
-    <div class="fl-widget-options fl-fix">
-        <div class="widget-options-inner">
-            <ul>
-                <li id="listpeopleinnode_see_all_link">
-                    <a href="/dev/search_people.html#tag=${query}" target="_blank">__MSG__SEE_ALL__</a>
-                </li>
-            </ul>
-        </div>
-        <div class="s3d-widget-options-footer-left">
-            <div class="s3d-widget-options-footer-right">
-            </div>
+    <div class="s3d-widget-no-options fl-fix">
+        <div class="s3d-widget-no-options-inner">
         </div>
     </div>
+
 </div>
 
 <!-- TITLE TEMPLATE -->
@@ -58,6 +49,11 @@
         </ul>
     {else}
         <span id="listpeopleinnode_no_people">__MSG__NO_PEOPLE_IN_THIS_LOCATION__</span>
+    {/if}
+    {if items < total}
+        <div class="fl-text-align-right">
+            <a href="/dev/search_people.html#tag=${selected}" target="_blank" class="s3d-action s3d-action-seeall listpeopleinnode_seeall">__MSG__SEE_ALL__</a>
+        </div>
     {/if}
 --></div>
 

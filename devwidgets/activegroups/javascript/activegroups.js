@@ -72,7 +72,8 @@ sakai.activegroups = function(tuid, showSettings) {
                     groups.push(group);
                 }
                 groupData.results[0] = {"groups": groups};
-                callback();        
+                groupData.moreLink = "/dev/search_groups.html#tag=/tags/directory/" + selected;
+                callback();
             }
         });
     };
@@ -83,6 +84,7 @@ sakai.activegroups = function(tuid, showSettings) {
             cache: false,
             success: function(data){
                 groupData = data;
+                groupData.moreLink = "/dev/search_groups.html#q=*";
                 callback();
             }
         });
