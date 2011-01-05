@@ -63,7 +63,7 @@ sakai.help = function(tuid, showSettings) {
     });
 
     var showHelp = function() {
-        if (profileFlag) {
+        if (profileFlag && !tooltip) {
             if ((!profileData[profileFlag] || 
                 profileData[profileFlag] === false) || forced) {
 
@@ -76,12 +76,11 @@ sakai.help = function(tuid, showSettings) {
                 } else {
                     $help_dont_show.removeAttr("checked");
                 }
-                if (tooltip){
-                    $help_tooltip_widget.jqmShow();
-                } else {
-                    $help_widget.jqmShow();
-                }
+                $help_widget.jqmShow();
             }
+        } else if (tooltip) {
+            $("#help_" + whichHelp).show();
+            $help_tooltip_widget.jqmShow();
         }
     };
 
@@ -152,7 +151,7 @@ sakai.help = function(tuid, showSettings) {
             tooltip = helpObj.tooltip || false;
             tooltipSelector = helpObj.tooltipSelector || false;
             $help_tooltip_dialog.hide();
-            if (tooltip){
+            if (tooltip) {
                 tooltipTitle = helpObj.tooltipTitle || false;
                 tooltipDescription = helpObj.tooltipDescription || false;
                 $help_tooltip_title.html(sakai.api.i18n.General.getValueForKey(tooltipTitle));
@@ -165,14 +164,24 @@ sakai.help = function(tuid, showSettings) {
                     $help_widget.css("top", 20 + eleOffset.top);
                     $help_widget.css("left", 430 + eleOffset.left);
                 }
+                // bind window click to close tooltip on outside click
+                $(document).click(function(e){
+                    var $clicked = $(e.target);
+                    // Check if one of the parents is the help_tooltip
+                    if (!$clicked.parents().is("#help_tooltip") && tooltip) {
+                        hideHelp();
+                    }
+                });
+                showHelp();
+            } else {
+                $.ajax({
+                    url: authprofileURL + ".infinity.json",
+                    success: function(profile){
+                        profileData = $.extend(true, {}, profile);
+                        showHelp();
+                    }
+                });
             }
-            $.ajax({
-                url: authprofileURL + ".infinity.json",
-                success: function(profile) {
-                    profileData = $.extend(true, {}, profile);
-                    showHelp();
-                }
-            });
         } else {
             debug.error("No help mode specifed");
         }

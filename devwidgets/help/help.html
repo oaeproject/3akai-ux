@@ -2,6 +2,7 @@
 <link rel="stylesheet" type="text/css" href="/devwidgets/help/css/help.css" />
 
 <div id="help_widget" class="dialog help_dialog" style="display:none">
+    <!-- HELP DIALOG -->
     <div id="help_group" style="display:none">
         <div class="dialog_header">
             <div class="dialog_header_inner">
@@ -67,16 +68,20 @@
         </div>
     </div>
 
+    <!-- TOOLTIP DIALOG -->
     <div id="help_tooltip" class="help_tooltip_dialog" style="display:none">
+        <!-- TOOLTIP HEADER -->
+        <div class="dialog_tooltip_header_arrow"></div>
         <div class="dialog_tooltip_header">
             <div class="dialog_tooltip_header_inner"><!-- --></div>
         </div>
+        <!-- TOOLTIP CONTENT -->
         <div class="dialog_tooltip_content clearfix">
+            <a href="#" class="dialog_tooltip_close help_close" title="__MSG__CLOSE__"><img src="/dev/images/close_icon_small.png" alt="__MSG__CLOSE__" /></span>
             <h2 id="help_tooltip_title"></h2>
             <p id="help_tooltip_description"></p>
-                <a href="#" class="jqmClose dialog_close_image help_close" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
         </div>
-        <!-- DIALOG TOOLTIP FOOTER -->
+        <!-- TOOLTIP FOOTER -->
         <div class="dialog_tooltip_footer">
             <div class="dialog_tooltip_footer_inner"><!-- --></div>
         </div>
