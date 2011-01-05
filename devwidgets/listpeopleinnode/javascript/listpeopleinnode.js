@@ -70,7 +70,6 @@ sakai.listpeopleinnode = function(tuid, showSettings){
             page: 0,
             items: 10,
             q: selected,
-            sortOn: "public/authprofile/basic/elements/firstName/@value",
             sortOrder: "descending"
         };
 
