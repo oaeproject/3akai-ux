@@ -34,6 +34,7 @@ sakai.help = function(tuid, showSettings) {
         tooltipSelector = false,
         tooltipTitle = null,
         tooltipDescription = null,
+        tooltipArrow = null,
         authprofileURL = "/~" +
                         sakai.data.me.user.userid +
                         "/public/authprofile";
@@ -48,6 +49,9 @@ sakai.help = function(tuid, showSettings) {
         $help_tooltip_dialog = $(".help_tooltip_dialog", $rootel),
         $help_tooltip_title = $("#help_tooltip_title", $rootel),
         $help_tooltip_description = $("#help_tooltip_description", $rootel);
+        $help_tooltip_header_arrow = $(".dialog_tooltip_header_arrow", $rootel);
+        $help_tooltip_left_arrow = $(".dialog_tooltip_left_arrow", $rootel);
+        $help_tooltip_footer_arrow = $(".dialog_tooltip_footer_arrow", $rootel);
 
 
     $help_widget.jqm({
@@ -57,7 +61,7 @@ sakai.help = function(tuid, showSettings) {
     });
 
     $help_tooltip_widget.jqm({
-        modal: true,
+        modal: false,
         overlay: 0,
         toTop: true
     });
@@ -87,6 +91,9 @@ sakai.help = function(tuid, showSettings) {
     var hideHelp = function() {
         $help_widget.jqmHide();
         $(window).trigger("sakai-help-close");
+        if (tooltip) {
+            $(window).unbind("sakai-help-tooltip-update");
+        }
     };
 
     /**
@@ -150,6 +157,7 @@ sakai.help = function(tuid, showSettings) {
             alreadySet = false;
             tooltip = helpObj.tooltip || false;
             tooltipSelector = helpObj.tooltipSelector || false;
+            tooltipArrow = helpObj.tooltipArrow || false;
             $help_tooltip_dialog.hide();
             if (tooltip) {
                 tooltipTitle = helpObj.tooltipTitle || false;
@@ -158,21 +166,33 @@ sakai.help = function(tuid, showSettings) {
                 $help_tooltip_description.html(sakai.api.i18n.General.getValueForKey(tooltipDescription));
                 $help_widget.removeClass("help_dialog");
                 $help_widget.addClass("help_tooltip_dialog");
-                // position tooltip
+                // position tooltip and display directional arrow
+                var topOffset = 20;
+                var leftOffset = 430;
+                $help_tooltip_header_arrow.hide();
+                $help_tooltip_footer_arrow.hide();
+                showHelp();
+                if (tooltipArrow === "bottom"){
+                    topOffset = ($(".help_tooltip_dialog").height() + topOffset) * -1;
+                    $help_tooltip_footer_arrow.show();
+                } else if (tooltipArrow === "top"){
+                    $help_tooltip_header_arrow.show();
+                }
                 if (tooltipSelector) {
                     var eleOffset = $(tooltipSelector).offset();
-                    $help_widget.css("top", 20 + eleOffset.top);
-                    $help_widget.css("left", 430 + eleOffset.left);
+                    $help_widget.css("top", topOffset + eleOffset.top);
+                    $help_widget.css("left", leftOffset + eleOffset.left);
                 }
-                // bind window click to close tooltip on outside click
-                $(document).click(function(e){
-                    var $clicked = $(e.target);
-                    // Check if one of the parents is the help_tooltip
-                    if (!$clicked.parents().is("#help_tooltip") && tooltip) {
-                        hideHelp();
-                    }
+                // bind tooltip movement
+                $(window).bind("sakai-help-tooltip-update", function(e, tooltipData) {
+                    hideHelp();
+                    $(window).trigger("sakai-help-init", tooltipData);
                 });
-                showHelp();
+                // bind tooltip close
+                $(window).bind("sakai-help-tooltip-close", function() {
+                    $(window).unbind("sakai-help-tooltip-close");
+                    hideHelp();
+                });
             } else {
                 $.ajax({
                     url: authprofileURL + ".infinity.json",
