@@ -641,8 +641,9 @@ label.error {color:#9f3333;font-weight:bold;}
 
 /* Dialog tooltip content */
 .dialog_tooltip_close{float:right;}
-.dialog_tooltip_content{background:url(/dev/images/dialog_tooltip_content_bg.png) top left no-repeat;padding:7px 20px 7px;}
-.dialog_tooltip_content h1{font-size:1.1em;font-weight:bold;color:#333;margin:0;padding:5px 0;}
+.dialog_tooltip_content{background:url(/dev/images/dialog_tooltip_content_bg.png) top left no-repeat;padding:7px 20px 0 20px;}
+.dialog_tooltip_content h2{font-size:1.1em;font-weight:bold;color:#333;margin:0;padding:0 0 5px 0;}
+.dialog_tooltip_content p{font-size:0.9em;}
 .dialog_tooltip_content textarea {height:80px;width:98%;}
 
 /* Dialog tooltip footer */

@@ -21,4 +21,4 @@
 .help_tooltip_dialog { width:200px; }
 .help_tooltip {background-color:orange;}
 .help_tooltip_content {width:200px; display:inline;}
-.help_tooltip_content h2 { border-bottom:1px solid black; margin:0px 0px 10px 0px; padding-bottom:5px;}
+.help_tooltip_bold {font-weight:bold;}

@@ -492,9 +492,9 @@ sakai.changepic = function(tuid, showSettings){
                             $(imagesToChange[i]).attr("src", "/~" + id + "/public/profile/" + tosave.name + "?sid=" + Math.random());
                         }
 
-                            // display help tooltip
-                            var tooltipData = {"profileFlag": "photoHelpTooltip","whichHelp": "tooltip","tooltip":"true","tooltipSelector":".systemtour_add_photo","tooltipTitle":"TOOLTIP_ADD_MY_PHOTO","tooltipDescription":"TOOLTIP_ADD_MY_PHOTO_P5","tooltipArrow":"top"};
-                            $(window).trigger("sakai-help-tooltip-update", tooltipData);
+                        // display help tooltip
+                        var tooltipData = {"profileFlag": "photoHelpTooltip","whichHelp": "tooltip","tooltip":"true","tooltipSelector":".systemtour_add_photo","tooltipTitle":"TOOLTIP_ADD_MY_PHOTO","tooltipDescription":"TOOLTIP_ADD_MY_PHOTO_P5","tooltipArrow":"top"};
+                        $(window).trigger("sakai-help-tooltip-update", tooltipData);
 
                         // Hide the layover.
                         $(container).jqmHide();
