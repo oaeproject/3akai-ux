@@ -396,6 +396,30 @@ sakai.profile = function(){
 
     };
 
+    /**
+     * Checks if user is in the edit profile tour and displays tooltips
+     */
+    var checkEditProfileTour = function(){
+        var querystring = new Querystring();
+        if (querystring.contains("editprofiletour") && querystring.get("editprofiletour") === "true") {
+            // display tooltip
+            var tooltipData = {
+                "tooltipSelector":"#user_link_container",
+                "tooltipTitle":"TOOLTIP_EDIT_MY_PROFILE",
+                "tooltipDescription":"TOOLTIP_EDIT_MY_PROFILE_P2",
+                "tooltipArrow":"",
+                "tooltipTop":50,
+                "tooltipLeft":50
+            };
+            if (!sakai.tooltip || !sakai.tooltip.isReady) {
+                $(window).bind("sakai-tooltip-ready", function() {
+                    $(window).trigger("sakai-tooltip-init", tooltipData);
+                });
+            } else {
+                $(window).trigger("sakai-tooltip-init", tooltipData);
+            }
+        }
+    };
 
     $(window).bind("sakai-profile-data-ready", function(e, sectionName) {
 
@@ -721,24 +745,7 @@ sakai.profile = function(){
             addBinding();
 
             // check for edit profile tour in progress
-            if (sakai.data.me.profile.userprogress && sakai.data.me.profile.userprogress.halfCompletedProfileInProgress){
-                // display tooltip
-                var tooltipData = {
-                    "tooltipSelector":"#user_link_container",
-                    "tooltipTitle":"TOOLTIP_EDIT_MY_PROFILE",
-                    "tooltipDescription":"TOOLTIP_EDIT_MY_PROFILE_P2",
-                    "tooltipArrow":"",
-                    "tooltipTop":50,
-                    "tooltipLeft":50
-                };
-                if (!sakai.tooltip || !sakai.tooltip.isReady) {
-                    $(window).bind("sakai-tooltip-ready", function() {
-                        $(window).trigger("sakai-tooltip-init", tooltipData);
-                    });
-                } else {
-                    $(window).trigger("sakai-tooltip-init", tooltipData);
-                }
-            }
+            checkEditProfileTour();
         });
     };
 

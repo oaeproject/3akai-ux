@@ -486,20 +486,6 @@ sakai.api.User.addUserProgress = function(type) {
                 sakai.data.me.profile.userprogress.halfCompletedProfile = true;
             }
             break;
-        case "halfCompletedProfileInProgress":
-            if (!me.profile.userprogress.halfCompletedProfileInProgress) {
-                progressData = {"halfCompletedProfileInProgress": true};
-                sakai.data.me.profile.userprogress.halfCompletedProfileInProgress = true;
-                refresh = false;
-            }
-            break;
-        case "halfCompletedProfileInProgressRemove":
-            if (me.profile.userprogress.halfCompletedProfileInProgress) {
-                progressData = {"halfCompletedProfileInProgress": false};
-                sakai.data.me.profile.userprogress.halfCompletedProfileInProgress = false;
-                refresh = false;
-            }
-            break;
     }
 
     if (progressData !== ""){

@@ -200,7 +200,7 @@ sakai.systemtour = function(tuid, showSettings){
                         "tooltipArrow":"top"
                     };
                     $(window).trigger("sakai-tooltip-init", tooltipData);
-                    sakai.api.User.addUserProgress("halfCompletedProfileInProgress");
+                    $("#entity_edit_profile").attr("href", $("#entity_edit_profile").attr("href") + "?editprofiletour=true");
                     break;
                 case "systemtour_upload_file":
                     $(".systemtour_upload_file").addClass("systemtour_upload_file_selected");
