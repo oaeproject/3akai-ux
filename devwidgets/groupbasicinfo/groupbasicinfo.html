@@ -77,31 +77,23 @@
                     </option>
                 </select>
             </div>
+
+            <div class="groupbasicinfo_generalinfo_header">
+                <h2>__MSG__LOCATIONS__</h2>
+            </div>
+
             <div class="groupbasicinfo_generalinfo_subcontainer">
                 <label class="groupbasicinfo_generalinfo_label" for="groupbasicinfo_generalinfo">
-                __MSG__WHERE_GROUP_FOUND_IN_DIRECTORY__:
+                    __MSG__LOCATIONS__:
                 </label>
                 <div id="groupbasicinfo_content_directory_contents">
-                    {if saveddirectory.length === 0}
-                        <div id="groupbasicinfo_add_another_container">
-                        </div>
-                        <p id="groupbasicinfo_add_another_location" class="s3d-add_another_location_container">
-                            <a href="javascript:;" title="Add a location" class="s3d-add_another_location"><span id="groupbasicinfo_add_another_location_link">Add a location</span></a>
-                        </p>
-                    {else}
-                        <ul class="groupbasicinfo_saveddirectory">
-                            {for savedDir in saveddirectory}
-                                <li class="${savedDir}">
-                                    <span class="groupbasicinfo_saveddirectory_information">${savedDir.toString().replace(/,/g, " <span class='groupbasicinfo_selected_and_saved_seperator'>&raquo;</span> ")}</span>
-                                    <a href="javascript:;" class="s3d-remove-link s3d-action groupbasicinfo_remove_location" title="__MSG__REMOVE__">__MSG__REMOVE__</a>
-                                </li>
-                            {/for}
-                        </ul>
-                        <div id="groupbasicinfo_add_another_container"></div>
-                        <p id="groupbasicinfo_add_another_location" class="s3d-add_another_location_container">
-                            <a href="javascript:;" title="Add a location" class="s3d-add_another_location"><span id="groupbasicinfo_add_another_location_link">Add a location</span></a>
-                        </p>
-                    {/if}
+                    <div class="groupbasicinfo_saveddirectory">
+                    </div>
+                    <div id="groupbasicinfo_add_another_container"></div>
+                    
+                    <p id="groupbasicinfo_add_another_location" class="s3d-add_another_location_container">
+                        <a href="javascript:;" title="Add a location" class="s3d-add_another_location"><span id="groupbasicinfo_add_another_location_link">__MSG__ADD_A_LOCATION__</span></a>
+                    </p>
                 </div>
             </div>
 
@@ -171,54 +163,18 @@
     {/if}
 
 --></div>
-
-    <div id="groupbasicinfo_firstlevel_template"><!--
-        <select class="groupbasicinfo_content groupbasicinfo_hierarchy_select groupbasicinfo_generalinfo_group_directory_lvlone">
-            <option value="no_value">__MSG__PLEASE_SELECT__</option>
-            {for i in directory}
-                <option value="${i.name}">${i.name}</option>
-            {/for}
-        </select>
-        <div id="groupbasicinfo_secondlevel_template_container"></div>
-        <div id="groupbasicinfo_thirdlevel_template_container"></div>
-        <a href="javascript:;" class="s3d-remove-link s3d-action groupbasicinfo_remove_new_location" title="__MSG__REMOVE_LOCATION__">__MSG__REMOVE__</a>
+    <div id="groupbasicinfo_generalinfo_directory_list_template"><!--
+        <ul id="groupbasicinfo_directory">
+        {for savedDir in saveddirectory}
+            
+            <li class="${savedDir.toString().replace(/,/g,"/")}">
+                <span class="groupbasicinfo_saveddirectory_information">${savedDir.toString().replace(/,/g, " <span class='groupbasicinfo_selected_and_saved_seperator'>&raquo;</span> ")}</span>
+            </li>
+        {/for}
+        </ul>
     --></div>
 
-    <div id="groupbasicinfo_secondlevel_template" style="display:none;"><!--
-        <span class="groupbasicinfo_select_seperator"> &raquo; </span>
-        <select class="groupbasicinfo_content groupbasicinfo_hierarchy_select groupbasicinfo_generalinfo_group_directory_lvltwo">
-            <option value="no_value">__MSG__PLEASE_SELECT__</option>
-            {for i in directory}
-                {if i.name === changedboxvalue}
-                    {for j in i.secondlevels}
-                        <option value="${j.name}">${j.name}</option>
-                    {/for}
-                {/if}
-            {/for}
-        </select>
-    --></div>
-
-    <div id="groupbasicinfo_thirdlevel_template" style="display:none;"><!--
-        <span class="groupbasicinfo_select_seperator"> &raquo; </span>
-        <select class="groupbasicinfo_content groupbasicinfo_hierarchy_select groupbasicinfo_generalinfo_group_directory_lvlthree">
-            <option value="no_value">__MSG__PLEASE_SELECT__</option>
-            {for i in directory}
-                {if i.name === firstlevelvalue}
-                    {for j in i.secondlevels}
-                        {if j.name === changedboxvalue}
-                            {for k in j.thirdlevels}
-                                <option value="${k.name}">${k.name}</option>
-                            {/for}
-                        {/if}
-                    {/for}
-                {/if}
-            {/for}
-        </select>
-    --></div>
-
-    <!-- i18n -->
-    <div id="groupbasicinfo_select_directory" style="display:none;">__MSG__SELECT_DIRECTORY__</div>
-    <div id="groupbasicinfo_select_at_least_one_directory" style="display:none;">__MSG__SELECT_AT_LEAST_ONE_DIRECTORY__</div>
+    <div id="widget_assignlocation" class="widget_inline"></div>
 
 <!-- JAVASCRIPT -->
 <script src="/devwidgets/groupbasicinfo/javascript/groupbasicinfo.js" language="JavaScript" type="text/javascript"></script>

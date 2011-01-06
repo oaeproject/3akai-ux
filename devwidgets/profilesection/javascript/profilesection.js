@@ -129,8 +129,20 @@ sakai.profilesection = function(tuid, showSettings){
             if (sakai.profile.main.data[currentsection] &&
                 sakai.profile.main.data[currentsection].elements &&
                 sakai.profile.main.data[currentsection].elements[fieldName]) {
+                var value = unescape(sakai.profile.main.data[currentsection].elements[fieldName].value)
 
-                sakai.profile.main.data[currentsection].elements[fieldName].value = unescape(sakai.profile.main.data[currentsection].elements[fieldName].value);
+                // if it is tag filter the directory
+                if (fieldName === "tags") {
+                    var splitDir = value.split(",");
+                    var tagList = [];
+                    $.each(splitDir, function(i, tag){
+                        if(tag.split("/")[0] !== "directory"){
+                            tagList.push(tag);
+                        }
+                    });
+                    value = tagList.toString();
+                }
+                sakai.profile.main.data[currentsection].elements[fieldName].value = value;
                 json_config.data = sakai.profile.main.data[currentsection].elements[fieldName];
             }
             json_config.path = currentsection + ".elements." + fieldName;
@@ -470,11 +482,6 @@ sakai.profilesection = function(tuid, showSettings){
 
         // if there is no assigned id for the element generate random number and assign one
         var locationId = false;
-        if (sakai.profile.main.data[currentsection].elements.length > 0) {
-            locationId = "" + Math.round(Math.random() * 1000000000)
-        } else{
-            locationId = sakai.profile.main.data[currentsection].elements[0].id.value;
-        }
         // clear old location information
         sakai.profile.main.data[currentsection].elements = [];
         $.each(data.saveddirectory, function(ind,value){
@@ -486,6 +493,7 @@ sakai.profilesection = function(tuid, showSettings){
             json.id = {};
             json.id.display = false;
     
+            var locationId = "" + Math.round(Math.random() * 1000000000);
             json.id.value = locationId;
             
             // push in the sakai.profile.main
@@ -496,7 +504,7 @@ sakai.profilesection = function(tuid, showSettings){
         $("#profilesection-locations").children().children(":first").children().remove();
 
         // render locations template again.
-        renderTemplateGeneralInfo("locations" , true);
+        renderTemplateGeneralInfo("locations", true)
         $(window).trigger("sakai-" + $rootel.selector.replace("#", ""), renderTemplateGeneralInfo, true);
     };
 
