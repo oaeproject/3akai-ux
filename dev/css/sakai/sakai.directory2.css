@@ -21,7 +21,7 @@
 .browse_directory {padding: 10px 10px 10px 0; width: 25%;}
 
 /* DIRECOTRY CONTENT */
-.content {width:48%; min-height: 50px; margin-top: 10px;}
+.content {width:48%; min-height: 40px; margin-top: 15px;}
 .node_content_area {width:48%;}
 .node_content_area .s3d-widget .s3d-widget-content, .s3d-content {
     border-left: none !important;
@@ -37,3 +37,6 @@
 
 /* INFORMATION WIDGETS */
 .directory_information_widgets_container {width:25%; float:right; padding-top:10px;}
+
+#profile_picture { width: 32px; height: 32px; margin-right: 10px;}
+.jstree ins {width: 20px !important;}

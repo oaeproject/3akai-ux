@@ -752,8 +752,8 @@ sakai.config = {
     Directory: {
         "indianauniversity": {
             title: "Indiana University",
-            description: "A description of Indiana University",
-            icon: "/dev/images/hierarchy.png",
+            description: '<h3><img width="100" height="90" _mce_style="float: right;" style="float: right;" _mce_src="http://upload.wikimedia.org/wikipedia/commons/d/d6/StudentBuilding_IUBloomington.jpg" src="http://upload.wikimedia.org/wikipedia/commons/d/d6/StudentBuilding_IUBloomington.jpg"/>Indiana University is the flagship campus of the Indiana University system. It is also referred to as Indiana, or simply IU, and is located in Bloomington, Indiana, United States. The name Indiana University Bloomington is not an official campus name, and is only used for clarity.<br/></h3><p>Indiana University is among the top 100 universities in the world. In 2010, the Academic Ranking of World Universities gave Indiana University a world rank of 90 and a national rank of 50. Time named Indiana University its "2001 College of the Year" among major research universities. Indiana is one of 60 members of the Association of American Universities, the leading American research universities. Additionally, IU has over 110 academic programs ranked in the top twenty nationwide.</p><p>The tenth annual Newsweek-Kaplan College Guide, which appeared in the August 22, 2005 issue of Newsweek magazine, chose IU as its "Hottest Big State School" and extolled the campus&quot;s blend of tradition with emerging technologies.</p><p>In January 2010 Kiplinger&quot;s Personal Finance ranked Bloomington the 28th out of the "100 Best Values in Public Colleges 2009-10".</p><p><a href="http://www.iub.edu/%7Eiubmap/IUBcampusmap.pdf" _mce_href="http://www.iub.edu/~iubmap/IUBcampusmap.pdf">Official Website</a><br/><a href="http://www.iub.edu/%7Eiubmap/IUBcampusmap.pdf" _mce_href="http://www.iub.edu/~iubmap/IUBcampusmap.pdf">Campus Map<br/></a></p>',
+            icon: "http://upload.wikimedia.org/wikipedia/en/2/26/Indiana_U_seal.png",
             children: {
                 "universityadministration": {
                     title: "University Administration",

@@ -51,6 +51,11 @@ a:hover {
     text-decoration: underline;
 }
 
+.s3d-freetext-container a {
+    color: #006E96;
+    text-decoration: none;
+}
+
 /* '+ Add another' link */
 .s3d-add_another_location {clear:both;color:#3399CC; font-size:13px; font-weight:bold; background: url("/dev/images/add_blue_icon.png") left no-repeat; padding-left:25px; height:16px; display:block; margin-right:15px;}
 .s3d-add_another_location_container {clear:both; display:block; padding:7px 0; width:200px;}
@@ -178,6 +183,10 @@ a.s3d-regular-links, .s3d-regular-links a{
     border-right: 3px solid #D4DADE;
 }
 
+.s3d-widget-small-content {
+    padding: 5px 0px !important;
+}
+
 .s3d-widget .s3d-widget-options-footer-left {
     background-image:url("/dev/images/block_footer_bl.png");
     background-position:left bottom;
@@ -286,6 +295,10 @@ a.s3d-action, .s3d-actions a {
     color: #006E96;
     font-weight: bold;
     font-size: 13px;
+}
+
+a.s3d-action-seeall {
+    font-size: 11px !important;
 }
 
 .s3d-action-series a {

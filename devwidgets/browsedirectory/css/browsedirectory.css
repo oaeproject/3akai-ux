@@ -19,6 +19,7 @@
 /* LAYOUT */
 #browsedirectory_no_pages {padding:20px 30px;}
 #browsedirectory_main {overflow:hidden;}
+#browsedirectory_title {padding-left: 15px !important;}
 
 /* browsedirectory TREE STYLES */
 #browsedirectory_tree ul.jstree-no-dots li.jstree-leaf,

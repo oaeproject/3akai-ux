@@ -43,8 +43,7 @@ sakai.listpeopleinnode = function(tuid, showSettings){
     var listpeopleinnodePeopleTemplate = "listpeopleinnode_people_template";
 
     // Elements
-    var $listpeopleinnodeSeeAllLink = $("#listpeopleinnode_see_all_link a");
-    var $listpeopleinnodeAjaxLoader = $("#listpeopleinnode_ajax_loader");
+    //var $listpeopleinnodeAjaxLoader = $("#listpeopleinnode_ajax_loader");
 
     var searchQuery = "/dev/search_people.html#tag=${query}";
 
@@ -55,7 +54,7 @@ sakai.listpeopleinnode = function(tuid, showSettings){
      * @param {Object} success
      */
     var renderResults = function(results, success){
-        $listpeopleinnodeAjaxLoader.hide();
+        //$listpeopleinnodeAjaxLoader.hide();
         if(success){
             $listpeopleinnodePeopleContainer.html($.TemplateRenderer(listpeopleinnodePeopleTemplate, results));
         }
@@ -70,7 +69,6 @@ sakai.listpeopleinnode = function(tuid, showSettings){
             page: 0,
             items: 10,
             q: selected,
-            sortOn: "public/authprofile/basic/elements/firstName/@value",
             sortOrder: "descending"
         };
 
@@ -88,6 +86,8 @@ sakai.listpeopleinnode = function(tuid, showSettings){
                     data.results[p].picture = $.parseJSON(data.results[p].picture);
                 }
             }
+            
+            data.selected = selected;
 
                 renderResults(data, true);
             },
@@ -104,13 +104,12 @@ sakai.listpeopleinnode = function(tuid, showSettings){
 
     $(window).bind("sakai-directory-selected", function(ev, selected){
         $listpeopleinnodePeopleContainer.text("");
-        $listpeopleinnodeAjaxLoader.show();
+        //$listpeopleinnodeAjaxLoader.show();
         // Set title
         var obj = {
             "location" : sakai.api.UI.getValueForDirectoryKey(selected.split("/")[selected.split("/").length - 1])
         };
         $listpeopleinnodeTitle.html($.TemplateRenderer(listpeopleinnodeTitleTemplate, obj));
-        $listpeopleinnodeSeeAllLink[0].href = searchQuery.replace("${query}", "directory/" + selected);
         // Use three dot plugin to show ... for long title
         $(listpeopleinnodeEllipsisContainer).ThreeDots({
             max_rows: 1

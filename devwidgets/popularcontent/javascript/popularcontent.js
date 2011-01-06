@@ -45,28 +45,47 @@ sakai.popularcontent = function(tuid, showSettings) {
             data: contentData
         })).show();
     };
+    
+    $(window).bind("sakai-directory-selected", function(ev, selected){
+        loadDataDirectory(selected, renderPopularContent);
+    });
+    
+    var loadDataDirectory = function(selected, callback){
+        var params = {
+            page: 0,
+            items: 10,
+            q: selected,
+            sortOrder: "descending"
+        };
 
-    var loadData = function(directory, callback){
-        if (directory) {
-            /*$.ajax({
-                url: "/var/search/public/mostactivecontent.json?page=0&items=5", // New feed in the backend
-                cache: false,
-                success: function(data){
-                    contentData = data;
-                    callback();
+        $.ajax({
+        	url: sakai.config.URL.SEARCH_ALL_FILES,
+            data: params,
+            success: function(data){
+                contentData = {"results":[], "items": data.items, "total": data.total};
+                var content = [];
+                for (var i = 0; i < data.results.length; i++){
+                    var item = {};
+                    item["id"] = data.results[i]["jcr:name"];
+                    item["name"] = data.results[i]["sakai:pooled-content-file-name"];
+                    content.push(item);
                 }
-            });*/
-        }
-        else {
-            $.ajax({
-                url: "/var/search/public/mostactivecontent.json?page=0&items=5",
-                cache: false,
-                success: function(data){
-                    contentData = data;
-                    callback();
-                }
-            });
-        }
+                contentData.results[0] = {"content": content};
+                contentData.moreLink = "/dev/search_content.html#tag=/tags/directory/" + selected;
+                callback();
+            }
+        });
+    };
+
+    var loadData = function(callback){
+        $.ajax({
+        	url: "/var/search/public/mostactivecontent.json?page=0&items=5",
+            cache: false,
+            success: function(data){
+            	contentData = data;
+                callback();
+            }
+        });
     };
 
     var doInit = function(){
@@ -76,11 +95,8 @@ sakai.popularcontent = function(tuid, showSettings) {
         }
 
         // If the widget is initialized on the directory page then listen to the event to catch specified tag results
-        if (sakai.directory2 && sakai.directory2.getIsDirectory()) {
-            loadData(true, renderPopularContent);
-        }
-        else {
-            loadData(false, renderPopularContent);
+        if (!(sakai.directory2 && sakai.directory2.getIsDirectory())) {
+           loadData(renderPopularContent);
         }
     };
 
