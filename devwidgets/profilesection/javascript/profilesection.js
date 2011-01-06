@@ -470,11 +470,6 @@ sakai.profilesection = function(tuid, showSettings){
 
         // if there is no assigned id for the element generate random number and assign one
         var locationId = false;
-        if (sakai.profile.main.data[currentsection].elements.length > 0) {
-            locationId = "" + Math.round(Math.random() * 1000000000)
-        } else{
-            locationId = sakai.profile.main.data[currentsection].elements[0].id.value;
-        }
         // clear old location information
         sakai.profile.main.data[currentsection].elements = [];
         $.each(data.saveddirectory, function(ind,value){
@@ -486,6 +481,7 @@ sakai.profilesection = function(tuid, showSettings){
             json.id = {};
             json.id.display = false;
     
+            var locationId = "" + Math.round(Math.random() * 1000000000);
             json.id.value = locationId;
             
             // push in the sakai.profile.main
@@ -496,7 +492,7 @@ sakai.profilesection = function(tuid, showSettings){
         $("#profilesection-locations").children().children(":first").children().remove();
 
         // render locations template again.
-        renderTemplateGeneralInfo("locations" , true);
+        renderTemplateGeneralInfo("locations", true)
         $(window).trigger("sakai-" + $rootel.selector.replace("#", ""), renderTemplateGeneralInfo, true);
     };
 
