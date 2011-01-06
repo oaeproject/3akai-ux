@@ -573,7 +573,9 @@ sakai.api.User.checkUserProgress = function() {
             "tooltipSelector": tooltipSelector,
             "tooltipTitle": tooltipTitle,
             "tooltipDescription": tooltipDescription,
-            "tooltipArrow": "top"
+            "tooltipArrow": "top",
+            "tooltipTop":"30",
+            "tooltipAutoClose":true
         };
 
         var authprofileURL = "/~" + me.user.userid + "/public/authprofile/userprogress";

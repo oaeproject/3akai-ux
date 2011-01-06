@@ -21,13 +21,14 @@
 var sakai = sakai || {};
 
 /**
- * sakai.help
- * a multi-purpose help dialog box
+ * sakai.tooltip
+ * a multi-purpose tooltip dialog box
  */
 sakai.tooltip = function(tuid, showSettings) {
     var tooltipSelector = false,
         tooltipTitle = null,
         tooltipDescription = null,
+        tooltipAutoClose = null,
         tooltipArrow = null,
         tooltipTop = null,
         tooltipLeft = null;
@@ -46,6 +47,7 @@ sakai.tooltip = function(tuid, showSettings) {
     $tooltip_widget.jqm({
         modal: false,
         overlay: 0,
+        zIndex: 6000,
         toTop: true
     });
 
@@ -91,10 +93,25 @@ sakai.tooltip = function(tuid, showSettings) {
             hideTooltip();
             $(window).trigger("sakai-tooltip-init", tooltipData);
         });
+        // bind tooltip close
         $(window).bind("sakai-tooltip-close", function() {
             $(window).unbind("sakai-tooltip-close");
             hideTooltip();
         });
+        $(".tooltip_close").bind("click", function () {
+            $(window).unbind(".tooltip_close");
+            hideTooltip();
+        });
+        // bind auto close of tooltip on outside mouse click
+        if (tooltipAutoClose) {
+            $(document).click(function(e){
+                var $clicked = $(e.target);
+                // Check if one of the parents is the help_tooltip
+                if (!$clicked.parents().is("#tooltip") && tooltipAutoClose) {
+                    hideTooltip();
+                }
+            });
+        }
     };
 
     $tooltip_close.bind("click", function() {
@@ -102,16 +119,20 @@ sakai.tooltip = function(tuid, showSettings) {
     });
 
     /* helpObj should contain
-     * {String} whichHelp Which version of help to display
-     * {String} profileFlag Flag on the current user's authprofile that
-     *          determines if we should show the help or not
-     * {Boolean} force If we can ignore the profile flag
+     * {String} tooltipSelector JQuery selector for where to place the tooltip
+     * {String} tooltipTitle Title for the tooltip
+     * {String} tooltipDescription Description for the tooltip
+     * {Boolean} tooltipAutoClose If we close the tooltip on an outside click
+     * {String} tooltipArrow Direction for where the tooltip arrow is placed
+     * {Integer} tooltipTop Value added to the top offset used when placing the tooltip
+     * {Integer} tooltipLeft Value added to the left offset used when placing the tooltip
      */
     $(window).bind("sakai-tooltip-init", function(e, helpObj) {
         if (helpObj) {
             tooltipSelector = helpObj.tooltipSelector || false;
             tooltipTitle = helpObj.tooltipTitle || false;
             tooltipDescription = helpObj.tooltipDescription || false;
+            tooltipAutoClose = helpObj.tooltipAutoClose || false;
             tooltipArrow = helpObj.tooltipArrow || false;
             tooltipTop = helpObj.tooltipTop || false;
             tooltipLeft = helpObj.tooltipLeft || false;
