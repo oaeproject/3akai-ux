@@ -200,10 +200,28 @@ sakai.search = function() {
 
     };
 
+    var buildQuerystring = function() {
+        var querystring = "#";
+        if (tagterm) {
+            querystring += "tag=" + tagterm;
+        }
+        if (searchterm !== $(searchConfig.global.text).attr("title").toLowerCase() + " ...") {
+            if (querystring !== "#") {
+                querystring += "&";
+            }
+            querystring += "q=" + searchterm;
+        } else {
+            if (querystring !== "#") {
+                querystring += "&";
+            }
+            querystring += "q=*";
+        }
+        return querystring;
+    };
 
     /**
      * This will render the results for the found content and media. It will add the nr of results to the total
-     * If nessecary it will show the link to dispolay more.
+     * If nessecary it will show the link to display more.
      * @param {Object} results Response from the REST service.
      */
     var renderCM = function(foundCM) {
@@ -218,10 +236,12 @@ sakai.search = function() {
         // Adjust total search result count
         updateTotalHitCount(foundCM.results.length);
 
-        $("#search_content_title").attr("href", "search_content.html#q=" + searchterm);
+        var querystring = buildQuerystring();
+
+        $("#search_content_title").attr("href", "search_content.html" + querystring);
         if (Math.abs(foundCM.total) > cmToSearch) {
             $(searchConfig.cm.displayMore).show();
-            $(searchConfig.cm.displayMore).attr("href", "search_content.html#q=" + searchterm);
+            $(searchConfig.cm.displayMore).attr("href", "search_content.html" + querystring);
         }
 
         if (foundCM && foundCM.results) {
@@ -259,10 +279,12 @@ sakai.search = function() {
 
             updateTotalHitCount(foundSites.results.length);
 
-            $("#search_groups_title").attr("href", "search_groups.html#q=" + searchterm);
+            var querystring = buildQuerystring();
+
+            $("#search_groups_title").attr("href", "search_groups.html" + querystring);
             if (Math.abs(foundSites.total) > sitesToSearch) {
                 $(searchConfig.sites.displayMore).show();
-                $(searchConfig.sites.displayMore).attr("href", "search_groups.html#q=" + searchterm);
+                $(searchConfig.sites.displayMore).attr("href", "search_groups.html" + querystring);
             }
 
             if (foundSites && foundSites.results) {
@@ -327,9 +349,11 @@ sakai.search = function() {
         // Adjust total search result count
         updateTotalHitCount(results.results.length);
 
-        $("#search_people_title").attr("href", "search_people.html#q=" + searchterm);
+        var querystring = buildQuerystring();
+
+        $("#search_people_title").attr("href", "search_people.html" + querystring);
         if ((Math.abs(results.total) > peopleToSearch) && (results.results.length > 0)) {
-            $(searchConfig.people.displayMore).attr("href", "search_people.html#q=" + searchterm).show();
+            $(searchConfig.people.displayMore).attr("href", "search_people.html" + querystring).show();
         }
 
         if (results && results.results) {
