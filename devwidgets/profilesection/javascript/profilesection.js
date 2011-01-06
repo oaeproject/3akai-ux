@@ -129,8 +129,20 @@ sakai.profilesection = function(tuid, showSettings){
             if (sakai.profile.main.data[currentsection] &&
                 sakai.profile.main.data[currentsection].elements &&
                 sakai.profile.main.data[currentsection].elements[fieldName]) {
+                var value = unescape(sakai.profile.main.data[currentsection].elements[fieldName].value)
 
-                sakai.profile.main.data[currentsection].elements[fieldName].value = unescape(sakai.profile.main.data[currentsection].elements[fieldName].value);
+                // if it is tag filter the directory
+                if (fieldName === "tags") {
+                    var splitDir = value.split(",");
+                    var tagList = [];
+                    $.each(splitDir, function(i, tag){
+                        if(tag.split("/")[0] !== "directory"){
+                            tagList.push(tag);
+                        }
+                    });
+                    value = tagList.toString();
+                }
+                sakai.profile.main.data[currentsection].elements[fieldName].value = value;
                 json_config.data = sakai.profile.main.data[currentsection].elements[fieldName];
             }
             json_config.path = currentsection + ".elements." + fieldName;
