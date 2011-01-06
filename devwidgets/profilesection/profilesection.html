@@ -119,7 +119,9 @@
     {if mode.value === "edit"}
         {if data}
             <div class="profilesection_generalinfo_subcontainer">
-                <label class="profilesection_generalinfo_label" for="profilesection_generalinfo_${path.replace(/\./g,"_")}">${config.label}:</label>
+                {if !config.nolabel}
+                    <label class="profilesection_generalinfo_label" for="profilesection_generalinfo_${path.replace(/\./g,"_")}">${config.label}:</label>
+                {/if}
                 {if config.editable === false}
                     <span class="profilesection_generalinfo_content">${data.value}</span>
                 {else}
@@ -129,6 +131,8 @@
                         <textarea rows="3" 
                     {elseif config.type === "select"}
                         <select
+                    {else}
+                        <span
                     {/if}
                         class="profilesection_generalinfo_content
                         {if config.required} required{/if}
@@ -154,6 +158,9 @@
                         </select>
                     {elseif config.type === "textarea"}
                         >${data.value}</textarea>
+                    {else}
+                        />${data.value}
+                        </span>
                     {/if}
                     {if config.example}
                         <p class="profilesection_generalinfo_example">
