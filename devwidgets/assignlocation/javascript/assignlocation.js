@@ -74,6 +74,15 @@ sakai.assignlocation = function(tuid, showSettings) {
             "newlyAssignedLocations" : newlyAssignedLocations
         };
         $assignlocationJSTreeSelectedContainer.html($.TemplateRenderer(assignlocationJSTreeSelectedTemplate, locations));
+
+        // add event binding to the items
+        $(".assignlocation_close_link").bind("click", function(ev){
+            // get the id for the node (list item id)
+            var id = $(ev.target).parent().attr("id").split("/").pop();
+            // unchecked the node
+            $assignlocationJSTreeContainer.jstree("uncheck_node", $("#"+id));
+        });
+
         // Check the boxes that were previously saved
         if (init) {
             var initiallySelect = [];
@@ -88,7 +97,8 @@ sakai.assignlocation = function(tuid, showSettings) {
     var addTreebinding = function(){
         $assignlocationJSTreeContainer.bind("change_state.jstree", function(ev){
             newlyAssignedLocations = [];
-            $(".jstree-leaf.jstree-checked a").each(function(index, val){
+            $(".jstree-checked>a").each(function(index, val){
+                console.log(val);
                 newlyAssignedLocations.push(val.href.split("#")[1]);
             });
             renderSelected();
@@ -216,6 +226,9 @@ sakai.assignlocation = function(tuid, showSettings) {
             },
             "search" : {
                 "case_insensitive" : true
+            },
+            "checkbox": {
+                "multi_select": false  
             },
             "plugins": pluginArray
         });
