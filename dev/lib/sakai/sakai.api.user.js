@@ -487,20 +487,6 @@ sakai.api.User.addUserProgress = function(type) {
                 sakai.data.me.profile.userprogress.halfCompletedProfile = true;
             }
             break;
-        case "halfCompletedProfileInProgress":
-            if (!me.profile.userprogress.halfCompletedProfileInProgress) {
-                progressData = {"halfCompletedProfileInProgress": true};
-                sakai.data.me.profile.userprogress.halfCompletedProfileInProgress = true;
-                refresh = false;
-            }
-            break;
-        case "halfCompletedProfileInProgressRemove":
-            if (me.profile.userprogress.halfCompletedProfileInProgress) {
-                progressData = {"halfCompletedProfileInProgress": false};
-                sakai.data.me.profile.userprogress.halfCompletedProfileInProgress = false;
-                refresh = false;
-            }
-            break;
     }
 
     if (progressData !== ""){
@@ -588,7 +574,9 @@ sakai.api.User.checkUserProgress = function() {
             "tooltipSelector": tooltipSelector,
             "tooltipTitle": tooltipTitle,
             "tooltipDescription": tooltipDescription,
-            "tooltipArrow": "top"
+            "tooltipArrow": "top",
+            "tooltipTop":"30",
+            "tooltipAutoClose":true
         };
 
         var authprofileURL = "/~" + me.user.userid + "/public/authprofile/userprogress";

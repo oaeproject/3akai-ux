@@ -17,75 +17,111 @@
  */
 
 /* Main container */
-#systemtour_container.fl-widget-content {padding:10px 10px 0 10px;border: 1px solid #d4dade;height:50px;}
-#systemtour_container {background: url("../images/bg.png") no-repeat;}
+#systemtour_container.fl-widget-content {padding:10px 0 0 0;}
 
 /* PROGRESS BAR */
-#systemtour_progress_bar {
-    position: relative;
-    top: 4px;
-    left: 3px;
+.systemtour_left {
+    background:url(../images/bgl.png) no-repeat;
+    padding: 10px 10px 30px 10px;
 }
-.systemtour_progress_bar_text {
+.systemtour_left_text {
     position: relative;
-    top: 8px;
+    top: 12px;
     left: 8px;
     font-weight: bold;
+    font-size: 0.9em;
 }
-
-/* PROGRESS BAR BUTTONS */
-#systemtour_progress_bar_buttons {
-    position: relative;
-    top: 8px;
-    margin-left: 20px;
-}
-#systemtour_progress_bar_buttons a {
+#systemtour_progress_bar a {
     text-decoration: none;
 }
-.systemtour_innertext, .systemtour_innertext_complete {
-    font-size:12px;
-    font-weight: bold;
+.systemtour_button {
+    padding: 10px 10px 30px 30px;
 }
-.systemtour_add_photo .systemtour_innertext {
-    padding: 0 2px 0 35px;
+.systemtour_1 {
+    background:url(../images/bg1.png);
 }
-.systemtour_add_photo .systemtour_innertext_complete {
-    padding: 0 4px 0 13px;
+.systemtour_2 {
+    background:url(../images/bg2.png);
 }
-.systemtour_edit_profile .systemtour_innertext {
-    padding: 0 2px 0 35px;
+.systemtour_3 {
+    background:url(../images/bg3.png);
 }
-.systemtour_edit_profile .systemtour_innertext_complete {
-    padding: 0 4px 0 13px;
+.systemtour_4 {
+    background:url(../images/bg4.png);
 }
-.systemtour_upload_file .systemtour_innertext {
-    padding: 0 2px 0 35px;
+.systemtour_5 {
+    background:url(../images/bg5.png);
 }
-.systemtour_upload_file .systemtour_innertext_complete {
-    padding: 0 4px 0 13px;
+.systemtour_1_selected {
+    background:url(../images/bg1selected.png);
 }
-.systemtour_share_content .systemtour_innertext {
-    padding: 0 2px 0 25px;
+.systemtour_2_selected {
+    background:url(../images/bg2selected.png);
 }
-.systemtour_share_content .systemtour_innertext_complete {
-    padding: 0 4px 0 13px;
+.systemtour_3_selected {
+    background:url(../images/bg3selected.png);
 }
-.systemtour_add_contacts .systemtour_innertext {
-    padding: 0 12px 0 25px;
+.systemtour_4_selected {
+    background:url(../images/bg4selected.png);
 }
-.systemtour_add_contacts .systemtour_innertext_complete {
-    padding: 0 14px 0 13px;
+.systemtour_5_selected {
+    background:url(../images/bg5selected.png);
 }
-
-.systemtour_add_photo, .systemtour_edit_profile, .systemtour_upload_file, .systemtour_share_content, .systemtour_add_contacts {
-    padding: 7px 0 10px 0;
-    position: relative;
-}
-
-.systemtour_add_photo_selected, .systemtour_edit_profile_selected, .systemtour_upload_file_selected, .systemtour_share_content_selected, .systemtour_add_contacts_selected {
-    background: url("../images/bg-selected.png") no-repeat scroll left 0px transparent !important;
+.systemtour_button_selected {
     color: #FFF;
 }
+.systemtour_button_text_1 {
+    position: relative;
+    top: 12px;
+    left: 2px;
+    font-weight: bold;
+    font-size: 0.9em;
+}
+.systemtour_button_text {
+    position: relative;
+    top: 12px;
+    left: 8px;
+    font-weight: bold;
+    font-size: 0.9em;
+}
 .systemtour_item_complete {
-    background:url("/dev/images/accept.png") no-repeat scroll transparent; height:14px; width:18px; padding-right:20px;
+    position: relative;
+    top: 13px;
+    left: 10px;
+    background:url("/dev/images/accept.png") no-repeat; padding-right: 18px;
+}
+.systemtour_item_complete_5 {
+    position: relative;
+    top: 13px;
+    left: 10px;
+    background:url("/dev/images/accept.png") no-repeat; padding-right: 26px;
+}
+
+.systemtour_item_filler {
+    padding-right: 18px;
+}
+.systemtour_item_filler_5 {
+    padding-right: 26px;
+}
+.systemtour_right {
+    background:url(../images/bgr.png) no-repeat;
+    padding: 10px 10px 30px 0;
+}
+.systemtour_right_text {
+    position: relative;
+    top: 12px;
+    left: 8px;
+    font-weight: bold;
+    font-size: 0.9em;
+    text-decoration: underline !important;
+}
+.systemtour_end {
+    
+}
+.systemtour_end_top {
+    
+}
+.systemtour_end_bottom {
+    /*background:url(../images/bgeb.png) no-repeat;
+    padding: 10px 15px 0 0;*/
 }

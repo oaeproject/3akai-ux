@@ -92,6 +92,7 @@ var widgetList = [
     "systemtour",
     "tags",
     "text",
+    "tooltip",
     "topnavigation",
     "uploadcontent",
     "userprofile",

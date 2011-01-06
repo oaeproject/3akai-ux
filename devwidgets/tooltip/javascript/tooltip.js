@@ -21,25 +21,17 @@
 var sakai = sakai || {};
 
 /**
- * sakai.help
- * a multi-purpose help dialog box
+ * sakai.tooltip
+ * a multi-purpose tooltip dialog box
  */
 sakai.tooltip = function(tuid, showSettings) {
-    var profileFlag = null,
-        whichHelp = null,
-        profileData = null,
-        forced = false,
-        alreadySet = false,
-        tooltip = false,
-        tooltipSelector = false,
+    var tooltipSelector = false,
         tooltipTitle = null,
         tooltipDescription = null,
+        tooltipAutoClose = null,
         tooltipArrow = null,
         tooltipTop = null,
-        tooltipLeft = null,
-        authprofileURL = "/~" +
-                        sakai.data.me.user.userid +
-                        "/public/authprofile";
+        tooltipLeft = null;
     
     var $rootel = $("#" + tuid);
     var $tooltip_widget = $("#tooltip_widget", $rootel),
@@ -55,15 +47,14 @@ sakai.tooltip = function(tuid, showSettings) {
     $tooltip_widget.jqm({
         modal: false,
         overlay: 0,
+        zIndex: 6000,
         toTop: true
     });
 
     var hideTooltip = function() {
         $tooltip_widget.jqmHide();
-        $(window).trigger("sakai-tooltip-close");
-        if (tooltip) {
-            $(window).unbind("sakai-tooltip-update");
-        }
+        $(window).trigger("sakai-tooltip-closed");
+        $(window).unbind("sakai-tooltip-update");
     };
 
     /**
@@ -72,7 +63,6 @@ sakai.tooltip = function(tuid, showSettings) {
     var toggleTooltip = function() {
         $tooltip_title.html(sakai.api.i18n.General.getValueForKey(tooltipTitle));
         $tooltip_description.html(sakai.api.i18n.General.getValueForKey(tooltipDescription));
-        //$tooltip_widget.addClass("tooltip_dialog");
         // position tooltip and display directional arrow
         var topOffset = 20;
         var leftOffset = 430;
@@ -85,17 +75,14 @@ sakai.tooltip = function(tuid, showSettings) {
         $tooltip_header_arrow.hide();
         $tooltip_footer_arrow.hide();
         $tooltip_widget.jqmShow();
-        
-        // hide 2 backgrounds, show main bg
-        
+
         if (tooltipArrow === "bottom"){
             topOffset = ($(".tooltip_dialog").height() + topOffset) * -1;
             $tooltip_footer_arrow.show();
         } else if (tooltipArrow === "top"){
             $tooltip_header_arrow.show();
         }
-        //else if left/right
-        
+
         if (tooltipSelector) {
             var eleOffset = $(tooltipSelector).offset();
             $tooltip_widget.css("top", topOffset + eleOffset.top);
@@ -111,6 +98,20 @@ sakai.tooltip = function(tuid, showSettings) {
             $(window).unbind("sakai-tooltip-close");
             hideTooltip();
         });
+        $(".tooltip_close").bind("click", function () {
+            $(window).unbind(".tooltip_close");
+            hideTooltip();
+        });
+        // bind auto close of tooltip on outside mouse click
+        if (tooltipAutoClose) {
+            $(document).click(function(e){
+                var $clicked = $(e.target);
+                // Check if one of the parents is the help_tooltip
+                if (!$clicked.parents().is("#tooltip") && tooltipAutoClose) {
+                    hideTooltip();
+                }
+            });
+        }
     };
 
     $tooltip_close.bind("click", function() {
@@ -118,16 +119,20 @@ sakai.tooltip = function(tuid, showSettings) {
     });
 
     /* helpObj should contain
-     * {String} whichHelp Which version of help to display
-     * {String} profileFlag Flag on the current user's authprofile that
-     *          determines if we should show the help or not
-     * {Boolean} force If we can ignore the profile flag
+     * {String} tooltipSelector JQuery selector for where to place the tooltip
+     * {String} tooltipTitle Title for the tooltip
+     * {String} tooltipDescription Description for the tooltip
+     * {Boolean} tooltipAutoClose If we close the tooltip on an outside click
+     * {String} tooltipArrow Direction for where the tooltip arrow is placed
+     * {Integer} tooltipTop Value added to the top offset used when placing the tooltip
+     * {Integer} tooltipLeft Value added to the left offset used when placing the tooltip
      */
     $(window).bind("sakai-tooltip-init", function(e, helpObj) {
         if (helpObj) {
             tooltipSelector = helpObj.tooltipSelector || false;
             tooltipTitle = helpObj.tooltipTitle || false;
             tooltipDescription = helpObj.tooltipDescription || false;
+            tooltipAutoClose = helpObj.tooltipAutoClose || false;
             tooltipArrow = helpObj.tooltipArrow || false;
             tooltipTop = helpObj.tooltipTop || false;
             tooltipLeft = helpObj.tooltipLeft || false;

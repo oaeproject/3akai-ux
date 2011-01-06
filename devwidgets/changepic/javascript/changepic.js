@@ -504,10 +504,12 @@ sakai.changepic = function(tuid, showSettings){
 
                         // display help tooltip
                         var tooltipData = {
-                            "tooltipSelector":".systemtour_add_photo",
+                            "tooltipSelector":"#systemtour_add_photo",
                             "tooltipTitle":"TOOLTIP_ADD_MY_PHOTO",
                             "tooltipDescription":"TOOLTIP_ADD_MY_PHOTO_P5",
-                            "tooltipArrow":"top"
+                            "tooltipArrow":"top",
+                            "tooltipTop":"30",
+                            "tooltipAutoClose":true
                         };
                         $(window).trigger("sakai-tooltip-update", tooltipData);
 
@@ -567,7 +569,7 @@ sakai.changepic = function(tuid, showSettings){
             "tooltipSelector":"#profilepicture",
             "tooltipTitle":"TOOLTIP_ADD_MY_PHOTO",
             "tooltipDescription":"TOOLTIP_ADD_MY_PHOTO_P2",
-            "tooltipArrow":"bottom"
+            "tooltipArrow":"top"
         };
         $(window).trigger("sakai-tooltip-update", tooltipData);
     };

@@ -146,6 +146,16 @@ sakai.fileupload = function(tuid, showSettings){
                 }
                 $("#fileupload_add_link_option").hide();
             }
+            // display tooltip
+            tooltipData = {
+                "tooltipSelector":"#fileupload_form_submit",
+                "tooltipTitle":"TOOLTIP_UPLOAD_CONTENT",
+                "tooltipDescription":"TOOLTIP_UPLOAD_CONTENT_P3",
+                "tooltipArrow":"bottom",
+                "tooltipTop":-40,
+                "tooltipLeft":20
+            };
+            $(window).trigger("sakai-tooltip-update", tooltipData);
         } else {
             $fileUploadAddLinkButton.removeAttr("disabled");
             $fileUploadLinkBoxInput.removeAttr("disabled");
@@ -337,6 +347,11 @@ sakai.fileupload = function(tuid, showSettings){
         $rootel = $("#" + tuid);
         hash.o.remove();
         hash.w.hide();
+
+        if (!filesUploaded) {
+            // hide any tooltips if they are open
+            $(window).trigger("sakai-tooltip-close");
+        }
     };
 
     /**
@@ -350,6 +365,7 @@ sakai.fileupload = function(tuid, showSettings){
         // Close the jqm box
         $fileUploadContainer.jqmHide();
         $(window).trigger("sakai-fileupload-complete", {"files": dataResponse});
+
         // Show notification
         if (context !== "new_version") {
             /* if (uploadedLink) {
@@ -371,6 +387,17 @@ sakai.fileupload = function(tuid, showSettings){
             }
             if (filesUploaded) {
                 sakai.api.Util.notification.show($(fileUploadFilesUploaded).html(), $(fileUploadFilesSuccessfullyUploaded).html());
+
+                // display tooltip
+                tooltipData = {
+                    "tooltipSelector":"#systemtour_upload_file",
+                    "tooltipTitle":"TOOLTIP_UPLOAD_CONTENT",
+                    "tooltipDescription":"TOOLTIP_UPLOAD_CONTENT_P4",
+                    "tooltipArrow":"top",
+                    "tooltipTop":30,
+                    "tooltipAutoClose":true
+                };
+                $(window).trigger("sakai-tooltip-update", tooltipData);
             }
         } else {
             if(newVersion){
@@ -881,6 +908,8 @@ sakai.fileupload = function(tuid, showSettings){
     $(fileUploadCloseDialog).die("click");
     $(fileUploadCloseDialog).live("click", function() {
         $fileUploadContainer.jqmHide();
+        // hide any tooltips if they are open
+        $(window).trigger("sakai-tooltip-close");
     });
 
     /**
@@ -938,6 +967,17 @@ sakai.fileupload = function(tuid, showSettings){
                 context = "user";
                 $('#uploadfilescontainer').show();
                 initialise();
+
+                // display tooltip
+                tooltipData = {
+                    "tooltipSelector":"#fileupload_limit_container",
+                    "tooltipTitle":"TOOLTIP_UPLOAD_CONTENT",
+                    "tooltipDescription":"TOOLTIP_UPLOAD_CONTENT_P2",
+                    "tooltipArrow":"top",
+                    "tooltipTop":10,
+                    "tooltipLeft":150
+                };
+                $(window).trigger("sakai-tooltip-update", tooltipData);
             }
         }
     });

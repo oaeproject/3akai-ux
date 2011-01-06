@@ -65,11 +65,16 @@ sakai.systemtour = function(tuid, showSettings){
     var $systemtourShareContent = $("#systemtour_share_content", $rootel);
     var $systemtourInvitedSomeone = $("#systemtour_invited_someone", $rootel);
     var $systemtourHalfCompleteProfile = $("#systemtour_half_complete_profile", $rootel);
-    var $systemtourAddPhotoComplete = $("#systemtour_add_photo_complete", $rootel);
-    var $systemtourUploadFileComplete = $("#systemtour_upload_file_complete", $rootel);
-    var $systemtourShareContentComplete = $("#systemtour_share_content_complete", $rootel);
-    var $systemtourInvitedSomeoneComplete = $("#systemtour_invited_someone_complete", $rootel);
-    var $systemtourHalfCompleteProfileComplete = $("#systemtour_half_complete_profile_complete", $rootel);
+    var $systemtourAddPhotoFiller = $("#systemtour_add_photo .systemtour_item_filler", $rootel);
+    var $systemtourUploadFileFiller = $("#systemtour_upload_file .systemtour_item_filler", $rootel);
+    var $systemtourShareContentFiller = $("#systemtour_share_content .systemtour_item_filler", $rootel);
+    var $systemtourInvitedSomeoneFiller = $("#systemtour_invited_someone .systemtour_item_filler", $rootel);
+    var $systemtourHalfCompleteProfileFiller = $("#systemtour_half_complete_profile .systemtour_item_filler", $rootel);
+    var $systemtourAddPhotoComplete = $("#systemtour_add_photo .systemtour_item_complete", $rootel);
+    var $systemtourUploadFileComplete = $("#systemtour_upload_file .systemtour_item_complete", $rootel);
+    var $systemtourShareContentComplete = $("#systemtour_share_content .systemtour_item_complete", $rootel);
+    var $systemtourInvitedSomeoneComplete = $("#systemtour_invited_someone .systemtour_item_complete", $rootel);
+    var $systemtourHalfCompleteProfileComplete = $("#systemtour_half_complete_profile .systemtour_item_complete", $rootel);
 
 
     ////////////////////////
@@ -108,23 +113,23 @@ sakai.systemtour = function(tuid, showSettings){
      */
     var updateProgressBar = function(){
         if (uploadedProfilePhoto) {
-            $systemtourAddPhoto.hide();
+            $systemtourAddPhotoFiller.hide();
             $systemtourAddPhotoComplete.show();
         }
         if (uploadedContent) {
-            $systemtourUploadFile.hide();
+            $systemtourUploadFileFiller.hide();
             $systemtourUploadFileComplete.show();
         }
         if (sharedContent) {
-            $systemtourShareContent.hide();
+            $systemtourShareContentFiller.hide();
             $systemtourShareContentComplete.show();
         }
         if (invitedSomeone) {
-            $systemtourInvitedSomeone.hide();
+            $systemtourInvitedSomeoneFiller.hide();
             $systemtourInvitedSomeoneComplete.show();
         }
         if (halfCompletedProfile) {
-            $systemtourHalfCompleteProfile.hide();
+            $systemtourHalfCompleteProfileFiller.hide();
             $systemtourHalfCompleteProfileComplete.show();
         }
     };
@@ -155,11 +160,95 @@ sakai.systemtour = function(tuid, showSettings){
      * Hides selected buttons
      */
     var hideSelected = function(){
-        $systemtourButton.removeClass("systemtour_add_photo_selected");
-        $systemtourButton.removeClass("systemtour_edit_profile_selected");
-        $systemtourButton.removeClass("systemtour_upload_file_selected");
-        $systemtourButton.removeClass("systemtour_share_content_selected");
-        $systemtourButton.removeClass("systemtour_add_contacts_selected");
+        $systemtourButton.removeClass("systemtour_1_selected");
+        $systemtourButton.removeClass("systemtour_2_selected");
+        $systemtourButton.removeClass("systemtour_3_selected");
+        $systemtourButton.removeClass("systemtour_4_selected");
+        $systemtourButton.removeClass("systemtour_5_selected");
+        $systemtourButton.removeClass("systemtour_button_selected");
+    };
+
+    /**
+     * Starts the specified tour
+     * {String} id The tour we want to start
+     */
+    var startTour = function(id){
+        $(window).trigger("sakai-tooltip-close");
+        hideSelected();
+        var tooltipData;
+        switch (id) {
+            case "systemtour_add_photo":
+                $(".systemtour_1").addClass("systemtour_1_selected");
+                $(".systemtour_1").addClass("systemtour_button_selected");
+                tooltipData = {
+                    "tooltipSelector":"#changepic_container_trigger",
+                    "tooltipTitle":"TOOLTIP_ADD_MY_PHOTO",
+                    "tooltipDescription":"TOOLTIP_ADD_MY_PHOTO_P1",
+                    "tooltipArrow":"top"
+                };
+                $(window).trigger("sakai-tooltip-init", tooltipData);
+                break;
+            case "systemtour_edit_profile":
+                $(".systemtour_2").addClass("systemtour_2_selected");
+                $(".systemtour_2").addClass("systemtour_button_selected");
+                tooltipData = {
+                    "tooltipSelector":"#entity_edit_profile",
+                    "tooltipTitle":"TOOLTIP_EDIT_MY_PROFILE",
+                    "tooltipDescription":"TOOLTIP_EDIT_MY_PROFILE_P1",
+                    "tooltipArrow":"top"
+                };
+                $(window).trigger("sakai-tooltip-init", tooltipData);
+                if ($("#entity_edit_profile").attr("href") && $("#entity_edit_profile").attr("href").indexOf("editprofiletour") === -1) {
+                    $("#entity_edit_profile").attr("href", $("#entity_edit_profile").attr("href") + "?editprofiletour=true");
+                }
+                break;
+            case "systemtour_upload_file":
+                $(".systemtour_3").addClass("systemtour_3_selected");
+                $(".systemtour_3").addClass("systemtour_button_selected");
+                tooltipData = {
+                    "tooltipSelector":"#mycontent_footer_upload_link",
+                    "tooltipTitle":"TOOLTIP_UPLOAD_CONTENT",
+                    "tooltipDescription":"TOOLTIP_UPLOAD_CONTENT_P1",
+                    "tooltipArrow":"bottom"
+                };
+                $(window).trigger("sakai-tooltip-init", tooltipData);
+                break;
+            case "systemtour_share_content":
+                $(".systemtour_4").addClass("systemtour_4_selected");
+                $(".systemtour_4").addClass("systemtour_button_selected");
+                if (!uploadedContent){
+                    tooltipData = {
+                        "tooltipSelector":"#mycontent_footer_upload_link",
+                        "tooltipTitle":"TOOLTIP_SHARE_CONTENT",
+                        "tooltipDescription":"TOOLTIP_SHARE_CONTENT_P1",
+                        "tooltipArrow":"bottom",
+                        "tooltipTop":45
+                    };
+                } else {
+                    tooltipData = {
+                        "tooltipSelector":"#mycontent_footer_upload_link",
+                        "tooltipTitle":"TOOLTIP_SHARE_CONTENT",
+                        "tooltipDescription":"TOOLTIP_SHARE_CONTENT_P2",
+                        "tooltipArrow":"bottom",
+                        "tooltipTop":70,
+                        "tooltipLeft":-100
+                    };
+                    $(".mycontent_item_link").each(function(index) {
+                        if ($(this).attr("href") && $(this).attr("href").indexOf("editprofiletour") === -1) {
+                            var contentLink = $(this).attr("href");
+                            var hashPos = contentLink.indexOf("#");
+                            var newContentLink = contentLink.substr(0, hashPos) + "?sharecontenttour=true" + contentLink.substr(hashPos);
+                            $(this).attr("href", newContentLink);
+                        }
+                    });
+                }
+                $(window).trigger("sakai-tooltip-init", tooltipData);
+                break;
+            case "systemtour_add_contacts":
+                $(".systemtour_5").addClass("systemtour_5_selected");
+                $(".systemtour_5").addClass("systemtour_button_selected");
+                break;
+        }
     };
 
 
@@ -171,47 +260,18 @@ sakai.systemtour = function(tuid, showSettings){
      * Add binding to widget elements
      */
     var addBinding = function(){
-        $(window).bind("sakai-tooltip-close", function() {
+        $(window).bind("sakai-tooltip-closed", function() {
             hideSelected();
         });
 
-        $systemtourButton.bind("click", function () {
-            hideSelected();
-            var tooltipData;
-
+        $systemtourButton.live("click", function () {
             var id = $(this).attr("id");
-            switch (id) {
-                case "systemtour_add_photo":
-                    $(".systemtour_add_photo").addClass("systemtour_add_photo_selected");
-                    tooltipData = {
-                        "tooltipSelector":"#changepic_container_trigger",
-                        "tooltipTitle":"TOOLTIP_ADD_MY_PHOTO",
-                        "tooltipDescription":"TOOLTIP_ADD_MY_PHOTO_P1",
-                        "tooltipArrow":"top"
-                    };
-                    $(window).trigger("sakai-tooltip-init", tooltipData);
-                    break;
-                case "systemtour_edit_profile":
-                    $(".systemtour_edit_profile").addClass("systemtour_edit_profile_selected");
-                    tooltipData = {
-                        "tooltipSelector":"#entity_edit_profile",
-                        "tooltipTitle":"TOOLTIP_EDIT_MY_PROFILE",
-                        "tooltipDescription":"TOOLTIP_EDIT_MY_PROFILE_P1",
-                        "tooltipArrow":"top"
-                    };
-                    $(window).trigger("sakai-tooltip-init", tooltipData);
-                    sakai.api.User.addUserProgress("halfCompletedProfileInProgress");
-                    break;
-                case "systemtour_upload_file":
-                    $(".systemtour_upload_file").addClass("systemtour_upload_file_selected");
-                    break;
-                case "systemtour_share_content":
-                    $(".systemtour_share_content").addClass("systemtour_share_content_selected");
-                    break;
-                case "systemtour_add_contacts":
-                    $(".systemtour_add_contacts").addClass("systemtour_add_contacts_selected");
-                    break;
-            }
+            startTour(id);
+            return false;
+        });
+
+        $("#systemtour_tooltip_upload_file").live("click", function () {
+            startTour("systemtour_upload_file");
             return false;
         });
 
