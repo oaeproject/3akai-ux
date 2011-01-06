@@ -97,7 +97,8 @@ sakai.assignlocation = function(tuid, showSettings) {
     var addTreebinding = function(){
         $assignlocationJSTreeContainer.bind("change_state.jstree", function(ev){
             newlyAssignedLocations = [];
-            $(".jstree-leaf.jstree-checked a").each(function(index, val){
+            $(".jstree-checked>a").each(function(index, val){
+                console.log(val);
                 newlyAssignedLocations.push(val.href.split("#")[1]);
             });
             renderSelected();
@@ -225,6 +226,9 @@ sakai.assignlocation = function(tuid, showSettings) {
             },
             "search" : {
                 "case_insensitive" : true
+            },
+            "checkbox": {
+                "multi_select": false  
             },
             "plugins": pluginArray
         });
