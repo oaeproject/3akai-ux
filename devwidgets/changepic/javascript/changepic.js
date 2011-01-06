@@ -504,10 +504,11 @@ sakai.changepic = function(tuid, showSettings){
 
                         // display help tooltip
                         var tooltipData = {
-                            "tooltipSelector":".systemtour_add_photo",
+                            "tooltipSelector":"#systemtour_add_photo",
                             "tooltipTitle":"TOOLTIP_ADD_MY_PHOTO",
                             "tooltipDescription":"TOOLTIP_ADD_MY_PHOTO_P5",
-                            "tooltipArrow":"top"
+                            "tooltipArrow":"top",
+                            "tooltipTop":"30"
                         };
                         $(window).trigger("sakai-tooltip-update", tooltipData);
 

@@ -25,21 +25,12 @@ var sakai = sakai || {};
  * a multi-purpose help dialog box
  */
 sakai.tooltip = function(tuid, showSettings) {
-    var profileFlag = null,
-        whichHelp = null,
-        profileData = null,
-        forced = false,
-        alreadySet = false,
-        tooltip = false,
-        tooltipSelector = false,
+    var tooltipSelector = false,
         tooltipTitle = null,
         tooltipDescription = null,
         tooltipArrow = null,
         tooltipTop = null,
-        tooltipLeft = null,
-        authprofileURL = "/~" +
-                        sakai.data.me.user.userid +
-                        "/public/authprofile";
+        tooltipLeft = null;
     
     var $rootel = $("#" + tuid);
     var $tooltip_widget = $("#tooltip_widget", $rootel),
@@ -60,10 +51,8 @@ sakai.tooltip = function(tuid, showSettings) {
 
     var hideTooltip = function() {
         $tooltip_widget.jqmHide();
-        $(window).trigger("sakai-tooltip-close");
-        if (tooltip) {
-            $(window).unbind("sakai-tooltip-update");
-        }
+        $(window).trigger("sakai-tooltip-closed");
+        $(window).unbind("sakai-tooltip-update");
     };
 
     /**
@@ -72,7 +61,6 @@ sakai.tooltip = function(tuid, showSettings) {
     var toggleTooltip = function() {
         $tooltip_title.html(sakai.api.i18n.General.getValueForKey(tooltipTitle));
         $tooltip_description.html(sakai.api.i18n.General.getValueForKey(tooltipDescription));
-        //$tooltip_widget.addClass("tooltip_dialog");
         // position tooltip and display directional arrow
         var topOffset = 20;
         var leftOffset = 430;
@@ -85,17 +73,14 @@ sakai.tooltip = function(tuid, showSettings) {
         $tooltip_header_arrow.hide();
         $tooltip_footer_arrow.hide();
         $tooltip_widget.jqmShow();
-        
-        // hide 2 backgrounds, show main bg
-        
+
         if (tooltipArrow === "bottom"){
             topOffset = ($(".tooltip_dialog").height() + topOffset) * -1;
             $tooltip_footer_arrow.show();
         } else if (tooltipArrow === "top"){
             $tooltip_header_arrow.show();
         }
-        //else if left/right
-        
+
         if (tooltipSelector) {
             var eleOffset = $(tooltipSelector).offset();
             $tooltip_widget.css("top", topOffset + eleOffset.top);
@@ -106,7 +91,6 @@ sakai.tooltip = function(tuid, showSettings) {
             hideTooltip();
             $(window).trigger("sakai-tooltip-init", tooltipData);
         });
-        // bind tooltip close
         $(window).bind("sakai-tooltip-close", function() {
             $(window).unbind("sakai-tooltip-close");
             hideTooltip();
