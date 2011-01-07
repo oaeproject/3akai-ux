@@ -1,4 +1,4 @@
-#tooltip_widget { margin-left:-450px; }
+#tooltip_widget { margin-left:-450px; width:200px !important; }
 
 /* Tooltips */
 .tooltip_dialog { width:200px; }

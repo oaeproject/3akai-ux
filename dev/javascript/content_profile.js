@@ -339,6 +339,30 @@ sakai.content_profile = function(){
         }
     };
 
+    /**
+     * Checks if user is in the share content tour and displays tooltips
+     */
+    var checkShareContentTour = function(){
+        var querystring = new Querystring();
+        if (querystring.contains("sharecontenttour") && querystring.get("sharecontenttour") === "true") {
+            // display tooltip
+            var tooltipData = {
+                "tooltipSelector":"#entity_content_share_button",
+                "tooltipTitle":"TOOLTIP_SHARE_CONTENT",
+                "tooltipDescription":"TOOLTIP_SHARE_CONTENT_P3",
+                "tooltipArrow":"top",
+                "tooltipLeft":30
+            };
+            if (!sakai.tooltip || !sakai.tooltip.isReady) {
+                $(window).bind("sakai-tooltip-ready", function() {
+                    $(window).trigger("sakai-tooltip-init", tooltipData);
+                });
+            } else {
+                $(window).trigger("sakai-tooltip-init", tooltipData);
+            }
+        }
+    };
+
     $(window).bind("sakai-sharecontent-finished", function(e, peopleList){
         if(!peopleList.mode || peopleList.mode === undefined){
             peopleList.mode = "viewers";
@@ -361,6 +385,9 @@ sakai.content_profile = function(){
             handleHashChange();
         });
         handleHashChange();
+
+        // check for share content tour in progress
+        checkShareContentTour();
     };
 
     // Initialise the content profile page
