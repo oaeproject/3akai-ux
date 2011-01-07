@@ -153,16 +153,27 @@ sakai.browsedirectory = function(tuid, showSettings){
             var link = $(data.rslt.obj[0]).children('a').attr("href");
             // redirect page to the link
             document.location.href = link;
+            var directorystructure = link.split("#")[1];
+
             // get node at same level
             var sib = $("#"+selectedPageUrl).siblings();
+
             // check if node at same level is opened.
             // if it is open closed it.
             if ($browsedirectoryTree.jstree("is_open", sib)) {
                 $browsedirectoryTree.jstree("close_node", sib);
             }
-            var directorystructure = link.split("#")[1];
-            // open the selected node
-            $browsedirectoryTree.jstree("open_node");
+
+            // if the node is root node 
+            if (directorystructure.split("/")[0] === selectedPageUrl) {
+                $browsedirectoryTree.jstree("open_node");
+
+            } else {
+                $.each(directorystructure.split("/"), function(ind, directory){
+                    $browsedirectoryTree.jstree("open_node", $("#"+directory)); 
+                });
+            }
+
             $(window).trigger("sakai-directory-selected", directorystructure);
         });
     };

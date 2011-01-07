@@ -86,6 +86,7 @@ sakai.assignlocation = function(tuid, showSettings) {
         // Check the boxes that were previously saved
         if (init) {
             var initiallySelect = [];
+            console.log(contextVariables);
             for (var location in contextVariables.saveddirectory){
                 if (contextVariables.saveddirectory.hasOwnProperty(location)) {
                     $.jstree._reference($assignlocationJSTreeContainer).change_state($("#" + contextVariables.saveddirectory[location][contextVariables.saveddirectory[location].length - 1]), false);
@@ -98,7 +99,6 @@ sakai.assignlocation = function(tuid, showSettings) {
         $assignlocationJSTreeContainer.bind("change_state.jstree", function(ev){
             newlyAssignedLocations = [];
             $(".jstree-checked>a").each(function(index, val){
-                console.log(val);
                 newlyAssignedLocations.push(val.href.split("#")[1]);
             });
             renderSelected();
@@ -108,7 +108,6 @@ sakai.assignlocation = function(tuid, showSettings) {
     var saveLocations = function(){
         $assignlocationActions.hide();
         $assignlocationAjaxLoader.show();
-
 
         var locations = [];
         $("#assignlocation_locations_selected li").each(function(index, val){
@@ -183,6 +182,12 @@ sakai.assignlocation = function(tuid, showSettings) {
                     };
                     break;
                 case "group":
+                    contextVariables = {
+                        "saveddirectory":sakai.currentgroup.data.authprofile.saveddirectory,
+                        "tags": sakai.currentgroup.data.authprofile["sakai:tags"],
+                        "path": "/~" + sakai.currentgroup.id + "/public/authprofile",
+                        "context": "group"    
+                    };
                     break;
                 case "content":
                     contextVariables = {
