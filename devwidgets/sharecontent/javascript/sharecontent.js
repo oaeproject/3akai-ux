@@ -101,6 +101,7 @@ sakai.sharecontent = function(tuid, showSettings) {
     var userList = [];
     var initialized = false;
     var callback = false;
+    var memberAdded = false;
 
     var pickerData = {
       "selected": {},
@@ -321,6 +322,26 @@ sakai.sharecontent = function(tuid, showSettings) {
             reset();
             $(window).trigger("sakai-sharecontent-close");
             $sharecontent_container.jqmHide();
+
+            if (memberAdded) {
+                // display help tooltip
+                var tooltipData = {
+                    "tooltipSelector": "#entity_content_share_button",
+                    "tooltipTitle": "TOOLTIP_SHARE_CONTENT",
+                    "tooltipDescription": "TOOLTIP_SHARE_CONTENT_P7",
+                    "tooltipTop": -50,
+                    "tooltipLeft": -200
+                };
+                $(window).trigger("sakai-tooltip-update", tooltipData);
+            } else {
+                // hide any tooltips if they are open
+                $(window).trigger("sakai-tooltip-close");
+            }
+        });
+
+        $(".jqmClose").bind("click", function(){
+            // hide any tooltips if they are open
+            $(window).trigger("sakai-tooltip-close");
         });
 
         $(sharecontentChangeGlobalPermissions).live("click", function(){
@@ -469,6 +490,18 @@ sakai.sharecontent = function(tuid, showSettings) {
                 $sharecontent_add_button.show();
                 $(sharecontent_dont_share_button).show();
                 $(sharecontentMessageNewMembers).show();
+
+                // display help tooltip
+                var tooltipData = {
+                    "tooltipSelector":sharecontentNewMembersPermissions,
+                    "tooltipTitle":"TOOLTIP_SHARE_CONTENT",
+                    "tooltipDescription":"TOOLTIP_SHARE_CONTENT_P5",
+                    "tooltipArrow":"bottom",
+                    "tooltipTop":30,
+                    "tooltipLeft":340
+                };
+                $(window).trigger("sakai-tooltip-update", tooltipData);
+                memberAdded = true;
             },
             selectionRemoved: function(elem) {
                 elem.remove();
@@ -547,6 +580,16 @@ sakai.sharecontent = function(tuid, showSettings) {
         $(sharecontent_dont_share_button).hide();
         $(sharecontentNewMembersPermissions).hide();
         $(sharecontent_close_button).show();
+
+        // display help tooltip
+        var tooltipData = {
+            "tooltipSelector":sharecontent_close_button,
+            "tooltipTitle":"TOOLTIP_SHARE_CONTENT",
+            "tooltipDescription":"TOOLTIP_SHARE_CONTENT_P6",
+            "tooltipArrow":"bottom",
+            "tooltipLeft":15
+        };
+        $(window).trigger("sakai-tooltip-update", tooltipData);
 
         if (!initialized) {
             addBinding();

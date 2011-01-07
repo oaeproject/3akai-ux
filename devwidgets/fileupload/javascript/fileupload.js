@@ -394,7 +394,8 @@ sakai.fileupload = function(tuid, showSettings){
                     "tooltipTitle":"TOOLTIP_UPLOAD_CONTENT",
                     "tooltipDescription":"TOOLTIP_UPLOAD_CONTENT_P4",
                     "tooltipArrow":"top",
-                    "tooltipTop":30,
+                    "tooltipTop":25,
+                    "tooltipLeft":40,
                     "tooltipAutoClose":true
                 };
                 $(window).trigger("sakai-tooltip-update", tooltipData);

@@ -508,7 +508,8 @@ sakai.changepic = function(tuid, showSettings){
                             "tooltipTitle":"TOOLTIP_ADD_MY_PHOTO",
                             "tooltipDescription":"TOOLTIP_ADD_MY_PHOTO_P5",
                             "tooltipArrow":"top",
-                            "tooltipTop":"30",
+                            "tooltipTop":25,
+                            "tooltipLeft":40,
                             "tooltipAutoClose":true
                         };
                         $(window).trigger("sakai-tooltip-update", tooltipData);

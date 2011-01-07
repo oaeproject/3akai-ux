@@ -45,7 +45,6 @@ sakai.systemtour = function(tuid, showSettings){
     var sharedContent;
     var invitedSomeone;
     var halfCompletedProfile;
-    var halfCompletedProfileInProgress;
 
 
     ///////////////////
@@ -91,21 +90,6 @@ sakai.systemtour = function(tuid, showSettings){
         sharedContent = me.profile.userprogress.sharedContent;
         invitedSomeone = me.profile.userprogress.invitedSomeone;
         halfCompletedProfile = me.profile.userprogress.halfCompletedProfile;
-        halfCompletedProfileInProgress = me.profile.userprogress.halfCompletedProfileInProgress;
-
-        if (halfCompletedProfile && halfCompletedProfileInProgress){
-            // display tooltip
-            var tooltipData = {
-                "tooltipSelector":".systemtour_edit_profile",
-                "tooltipTitle":"TOOLTIP_EDIT_MY_PROFILE",
-                "tooltipDescription":"TOOLTIP_EDIT_MY_PROFILE_P4",
-                "tooltipArrow":"top"
-            };
-            $(window).trigger("sakai-tooltip-update", tooltipData);
-
-            // remove edit my profile tour InProgress flag
-            sakai.api.User.addUserProgress("halfCompletedProfileInProgressRemove");
-        }
     };
 
     /**
@@ -234,7 +218,7 @@ sakai.systemtour = function(tuid, showSettings){
                         "tooltipLeft":-100
                     };
                     $(".mycontent_item_link").each(function(index) {
-                        if ($(this).attr("href") && $(this).attr("href").indexOf("editprofiletour") === -1) {
+                        if ($(this).attr("href") && $(this).attr("href").indexOf("sharecontenttour") === -1) {
                             var contentLink = $(this).attr("href");
                             var hashPos = contentLink.indexOf("#");
                             var newContentLink = contentLink.substr(0, hashPos) + "?sharecontenttour=true" + contentLink.substr(hashPos);
@@ -248,6 +232,33 @@ sakai.systemtour = function(tuid, showSettings){
                 $(".systemtour_5").addClass("systemtour_5_selected");
                 $(".systemtour_5").addClass("systemtour_button_selected");
                 break;
+        }
+    };
+
+    /**
+     * Checks if user is in the edit profile tour and displays the final tooltip
+     */
+    var checkEditProfileTour = function(){
+        if (halfCompletedProfile){
+            // display tooltip
+            var tooltipData = {
+                "tooltipSelector":"#systemtour_edit_profile",
+                "tooltipTitle":"TOOLTIP_EDIT_MY_PROFILE",
+                "tooltipDescription":"TOOLTIP_EDIT_MY_PROFILE_P4",
+                "tooltipArrow":"top",
+                "tooltipTop":25,
+                "tooltipLeft":40,
+                "tooltipAutoClose":true
+            };
+            $(".systemtour_2").addClass("systemtour_2_selected");
+            $(".systemtour_2").addClass("systemtour_button_selected");
+            if (!sakai.tooltip || !sakai.tooltip.isReady) {
+                $(window).bind("sakai-tooltip-ready", function() {
+                    $(window).trigger("sakai-tooltip-init", tooltipData);
+                });
+            } else {
+                $(window).trigger("sakai-tooltip-init", tooltipData);
+            }
         }
     };
 
@@ -310,8 +321,14 @@ sakai.systemtour = function(tuid, showSettings){
 
         updateProgressData();
 
-        // if user has not removed the tour progress bar or completed all actions
-        if (!me.profile.userprogress.hideSystemTour && (!uploadedProfilePhoto || !uploadedContent || !sharedContent || !invitedSomeone || !halfCompletedProfile)) {
+        var checkEditProfileProgress = false
+        var querystring = new Querystring();
+        if (querystring.contains("editprofiletour") && querystring.get("editprofiletour") === "true"){
+            checkEditProfileProgress = true;
+        }
+
+        // if user has not removed the tour progress bar or completed all actions or edit profile tour is in progress
+        if (!me.profile.userprogress.hideSystemTour && ((!uploadedProfilePhoto || !uploadedContent || !sharedContent || !invitedSomeone || !halfCompletedProfile) || (checkEditProfileProgress))) {
             // update progress bar
             updateProgressBar();
 
@@ -320,6 +337,10 @@ sakai.systemtour = function(tuid, showSettings){
 
             // show widget
             $systemtourContainer.show();
+
+            if (checkEditProfileProgress){
+                checkEditProfileTour();
+            }
         }
     };
     doInit();

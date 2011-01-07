@@ -513,6 +513,9 @@ sakai.api.User.checkUserProgress = function() {
     var tooltipSelector = "";
     var tooltipTitle = "";
     var tooltipDescription = "";
+    var tooltipArrow = "top";
+    var tooltipTop = 0;
+    var tooltipLeft = 0;
     var displayTooltip = false;
     var curDate = new Date();
     var curTimestamp = curDate.getTime();
@@ -528,24 +531,33 @@ sakai.api.User.checkUserProgress = function() {
             tooltipTitle = "TOOLTIP_ADD_MY_PHOTO";
             tooltipDescription = "TOOLTIP_ADD_MY_PHOTO_P1";
             displayTooltip = true;
+            $(".systemtour_1").addClass("systemtour_1_selected");
+            $(".systemtour_1").addClass("systemtour_button_selected");
         } else if (!me.profile.userprogress.uploadedContent && 
             (!me.profile.userprogress.uploadedContentReminder || 
                 (!me.profile.userprogress.uploadedContent && me.profile.userprogress.uploadedContentReminder && 
                     ((me.profile.userprogress.uploadedContentReminder + intervalTimestamp) < curTimestamp)))) {
             progressData = {"uploadedContentReminder": curTimestamp};
-            tooltipSelector = "#";
-            tooltipTitle = "";
-            tooltipDescription = "";
-            //displayTooltip = true;
+            tooltipSelector = "#mycontent_footer_upload_link";
+            tooltipTitle = "TOOLTIP_UPLOAD_CONTENT";
+            tooltipDescription = "TOOLTIP_UPLOAD_CONTENT_P1";
+            displayTooltip = true;
+            $(".systemtour_3").addClass("systemtour_3_selected");
+            $(".systemtour_3").addClass("systemtour_button_selected");
         } else if (!me.profile.userprogress.sharedContent && 
-            (!me.profile.userprogress.sharedContentReminder || 
-                (!me.profile.userprogress.sharedContent && me.profile.userprogress.sharedContentReminder && 
+            (!me.profile.userprogress.sharedContentReminder && me.profile.userprogress.uploadedContent || 
+                (!me.profile.userprogress.sharedContent && me.profile.userprogress.sharedContentReminder && me.profile.userprogress.uploadedContent && 
                     ((me.profile.userprogress.sharedContentReminder + intervalTimestamp) < curTimestamp)))) {
             progressData = {"sharedContentReminder": curTimestamp};
-            tooltipSelector = "#";
-            tooltipTitle = "";
-            tooltipDescription = "";
-            //displayTooltip = true;
+            tooltipSelector = "#mycontent_footer_upload_link";
+            tooltipTitle = "TOOLTIP_SHARE_CONTENT";
+            tooltipDescription = "TOOLTIP_SHARE_CONTENT_P2";
+            tooltipArrow = "bottom";
+            tooltipTop = 70;
+            tooltipLeft = 100;
+            displayTooltip = true;
+            $(".systemtour_4").addClass("systemtour_1_selected");
+            $(".systemtour_4").addClass("systemtour_button_selected");
         } else if (!me.profile.userprogress.madeContactRequest && 
             (!me.profile.userprogress.madeContactRequestReminder || 
                 (!me.profile.userprogress.madeContactRequest && me.profile.userprogress.madeContactRequestReminder && 
@@ -555,6 +567,8 @@ sakai.api.User.checkUserProgress = function() {
             tooltipTitle = "";
             tooltipDescription = "";
             //displayTooltip = true;
+            $(".systemtour_5").addClass("systemtour_5_selected");
+            $(".systemtour_5").addClass("systemtour_button_selected");
         } else if (!me.profile.userprogress.halfCompletedProfile && 
             (!me.profile.userprogress.halfCompletedProfileReminder || 
                 (!me.profile.userprogress.halfCompletedProfile && me.profile.userprogress.halfCompletedProfileReminder && 
@@ -565,6 +579,8 @@ sakai.api.User.checkUserProgress = function() {
             tooltipDescription = "TOOLTIP_EDIT_MY_PROFILE_P1";
             displayTooltip = true;
             sakai.api.User.addUserProgress("halfCompletedProfileInProgress");
+            $(".systemtour_2").addClass("systemtour_2_selected");
+            $(".systemtour_2").addClass("systemtour_button_selected");
         }
     }
 
@@ -573,8 +589,9 @@ sakai.api.User.checkUserProgress = function() {
             "tooltipSelector": tooltipSelector,
             "tooltipTitle": tooltipTitle,
             "tooltipDescription": tooltipDescription,
-            "tooltipArrow": "top",
-            "tooltipTop":"30",
+            "tooltipArrow": tooltipArrow,
+            "tooltipTop": tooltipTop,
+            "tooltipLeft" : tooltipLeft,
             "tooltipAutoClose":true
         };
 

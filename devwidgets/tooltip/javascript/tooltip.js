@@ -89,18 +89,21 @@ sakai.tooltip = function(tuid, showSettings) {
             $tooltip_widget.css("left", leftOffset + eleOffset.left);
         }
         // bind tooltip movement
+        $(window).unbind("sakai-tooltip-update");
         $(window).bind("sakai-tooltip-update", function(e, tooltipData) {
             hideTooltip();
             $(window).trigger("sakai-tooltip-init", tooltipData);
         });
         // bind tooltip close
+        $(window).unbind("sakai-tooltip-close");
         $(window).bind("sakai-tooltip-close", function() {
-            $(window).unbind("sakai-tooltip-close");
             hideTooltip();
         });
+        $(".tooltip_close").unbind("click");
         $(".tooltip_close").bind("click", function () {
             $(window).unbind(".tooltip_close");
             hideTooltip();
+            return false;
         });
         // bind auto close of tooltip on outside mouse click
         if (tooltipAutoClose) {
@@ -127,6 +130,7 @@ sakai.tooltip = function(tuid, showSettings) {
      * {Integer} tooltipTop Value added to the top offset used when placing the tooltip
      * {Integer} tooltipLeft Value added to the left offset used when placing the tooltip
      */
+    $(window).unbind("sakai-tooltip-init");
     $(window).bind("sakai-tooltip-init", function(e, helpObj) {
         if (helpObj) {
             tooltipSelector = helpObj.tooltipSelector || false;
