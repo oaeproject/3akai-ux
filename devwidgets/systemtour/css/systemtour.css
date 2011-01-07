@@ -47,9 +47,14 @@
     float: left; 
     height:32px; 
     border-right: 1px solid #d8dce0;
+    padding-right: 5px;
 }
 .systemtour_button:hover {
     text-decoration: none;
+}
+.systemtour_button {
+    padding-right: 15px; 
+    display: block;
 }
 .systemtour_1 {
     background:url(../images/bg1.png);
@@ -92,9 +97,9 @@
 }
 .systemtour_item_complete_full {
     background:url("/dev/images/accept.png") no-repeat;
+    background-position: right;
 }
 .systemtour_item_complete {
-    padding-right:20px;
 }
 .systemtour_item_complete_5 {
     position: relative;

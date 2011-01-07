@@ -92,19 +92,19 @@ sakai.systemtour = function(tuid, showSettings){
      */
     var updateProgressBar = function(){
         if (uploadedProfilePhoto) {
-            $systemtourAddPhotoComplete.addClass("systemtour_item_complete_full");
+            $systemtourAddPhoto.addClass("systemtour_item_complete_full");
         }
         if (uploadedContent) {
-            $systemtourUploadFileComplete.addClass("systemtour_item_complete_full");
+            $systemtourUploadFile.addClass("systemtour_item_complete_full");
         }
         if (sharedContent) {
-            $systemtourShareContentComplete.addClass("systemtour_item_complete_full");
+            $systemtourShareContent.addClass("systemtour_item_complete_full");
         }
         if (madeContactRequest) {
-            $systemtourInvitedSomeoneComplete.addClass("systemtour_item_complete_full");
+            $systemtourInvitedSomeone.addClass("systemtour_item_complete_full");
         }
         if (halfCompletedProfile) {
-            $systemtourHalfCompleteProfileComplete.addClass("systemtour_item_complete_full");
+            $systemtourHalfCompleteProfile.addClass("systemtour_item_complete_full");
         }
     };
 
@@ -134,11 +134,11 @@ sakai.systemtour = function(tuid, showSettings){
      * Hides selected buttons
      */
     var hideSelected = function(){
-        $systemtourButton.removeClass("systemtour_1_selected");
-        $systemtourButton.removeClass("systemtour_2_selected");
-        $systemtourButton.removeClass("systemtour_3_selected");
-        $systemtourButton.removeClass("systemtour_4_selected");
-        $systemtourButton.removeClass("systemtour_5_selected");
+        $systemtourButton.parent().removeClass("systemtour_1_selected");
+        $systemtourButton.parent().removeClass("systemtour_2_selected");
+        $systemtourButton.parent().removeClass("systemtour_3_selected");
+        $systemtourButton.parent().removeClass("systemtour_4_selected");
+        $systemtourButton.parent().removeClass("systemtour_5_selected");
         $systemtourButton.removeClass("systemtour_button_selected");
     };
 
@@ -156,7 +156,7 @@ sakai.systemtour = function(tuid, showSettings){
         switch (id) {
             case "systemtour_add_photo":
                 $(".systemtour_1").addClass("systemtour_1_selected");
-                $(".systemtour_1").addClass("systemtour_button_selected");
+                $(".systemtour_1 a").addClass("systemtour_button_selected");
                 tooltipData = {
                     "tooltipSelector":"#changepic_container_trigger",
                     "tooltipTitle":"TOOLTIP_ADD_MY_PHOTO",
@@ -167,7 +167,7 @@ sakai.systemtour = function(tuid, showSettings){
                 break;
             case "systemtour_edit_profile":
                 $(".systemtour_2").addClass("systemtour_2_selected");
-                $(".systemtour_2").addClass("systemtour_button_selected");
+                $(".systemtour_2 a").addClass("systemtour_button_selected");
                 tooltipData = {
                     "tooltipSelector":"#entity_edit_profile",
                     "tooltipTitle":"TOOLTIP_EDIT_MY_PROFILE",
@@ -181,7 +181,7 @@ sakai.systemtour = function(tuid, showSettings){
                 break;
             case "systemtour_upload_file":
                 $(".systemtour_3").addClass("systemtour_3_selected");
-                $(".systemtour_3").addClass("systemtour_button_selected");
+                $(".systemtour_3 a").addClass("systemtour_button_selected");
                 tooltipData = {
                     "tooltipSelector":"#mycontent_footer_upload_link",
                     "tooltipTitle":"TOOLTIP_UPLOAD_CONTENT",
@@ -192,7 +192,7 @@ sakai.systemtour = function(tuid, showSettings){
                 break;
             case "systemtour_share_content":
                 $(".systemtour_4").addClass("systemtour_4_selected");
-                $(".systemtour_4").addClass("systemtour_button_selected");
+                $(".systemtour_4 a").addClass("systemtour_button_selected");
                 if (!uploadedContent){
                     tooltipData = {
                         "tooltipSelector":"#mycontent_footer_upload_link",
@@ -223,7 +223,7 @@ sakai.systemtour = function(tuid, showSettings){
                 break;
             case "systemtour_add_contacts":
                 $(".systemtour_5").addClass("systemtour_5_selected");
-                $(".systemtour_5").addClass("systemtour_button_selected");
+                $(".systemtour_5 a").addClass("systemtour_button_selected");
                 tooltipData = {
                     "tooltipSelector":"#mycontacts_footer_search",
                     "tooltipTitle":"TOOLTIP_ADD_CONTACTS",
@@ -263,7 +263,7 @@ sakai.systemtour = function(tuid, showSettings){
                 "tooltipAutoClose":true
             };
             $(".systemtour_2").addClass("systemtour_2_selected");
-            $(".systemtour_2").addClass("systemtour_button_selected");
+            $(".systemtour_2 a").addClass("systemtour_button_selected");
             if (!sakai.tooltip || !sakai.tooltip.isReady) {
                 $(window).bind("sakai-tooltip-ready", function() {
                     $(window).trigger("sakai-tooltip-init", tooltipData);
