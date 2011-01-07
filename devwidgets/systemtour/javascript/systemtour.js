@@ -43,7 +43,7 @@ sakai.systemtour = function(tuid, showSettings){
     var uploadedProfilePhoto;
     var uploadedContent;
     var sharedContent;
-    var invitedSomeone;
+    var madeContactRequest;
     var halfCompletedProfile;
 
 
@@ -63,17 +63,17 @@ sakai.systemtour = function(tuid, showSettings){
     var $systemtourUploadFile = $("#systemtour_upload_file", $rootel);
     var $systemtourShareContent = $("#systemtour_share_content", $rootel);
     var $systemtourInvitedSomeone = $("#systemtour_invited_someone", $rootel);
-    var $systemtourHalfCompleteProfile = $("#systemtour_half_complete_profile", $rootel);
+    var $systemtourHalfCompleteProfile = $("#systemtour_edit_profile", $rootel);
     var $systemtourAddPhotoFiller = $("#systemtour_add_photo .systemtour_item_filler", $rootel);
     var $systemtourUploadFileFiller = $("#systemtour_upload_file .systemtour_item_filler", $rootel);
     var $systemtourShareContentFiller = $("#systemtour_share_content .systemtour_item_filler", $rootel);
     var $systemtourInvitedSomeoneFiller = $("#systemtour_invited_someone .systemtour_item_filler", $rootel);
-    var $systemtourHalfCompleteProfileFiller = $("#systemtour_half_complete_profile .systemtour_item_filler", $rootel);
+    var $systemtourHalfCompleteProfileFiller = $("#systemtour_edit_profile .systemtour_item_filler", $rootel);
     var $systemtourAddPhotoComplete = $("#systemtour_add_photo .systemtour_item_complete", $rootel);
     var $systemtourUploadFileComplete = $("#systemtour_upload_file .systemtour_item_complete", $rootel);
     var $systemtourShareContentComplete = $("#systemtour_share_content .systemtour_item_complete", $rootel);
     var $systemtourInvitedSomeoneComplete = $("#systemtour_invited_someone .systemtour_item_complete", $rootel);
-    var $systemtourHalfCompleteProfileComplete = $("#systemtour_half_complete_profile .systemtour_item_complete", $rootel);
+    var $systemtourHalfCompleteProfileComplete = $("#systemtour_edit_profile .systemtour_item_complete", $rootel);
 
 
     ////////////////////////
@@ -88,7 +88,7 @@ sakai.systemtour = function(tuid, showSettings){
         uploadedProfilePhoto = me.profile.userprogress.uploadedProfilePhoto;
         uploadedContent = me.profile.userprogress.uploadedContent;
         sharedContent = me.profile.userprogress.sharedContent;
-        invitedSomeone = me.profile.userprogress.invitedSomeone;
+        madeContactRequest = me.profile.userprogress.madeContactRequest;
         halfCompletedProfile = me.profile.userprogress.halfCompletedProfile;
     };
 
@@ -108,7 +108,7 @@ sakai.systemtour = function(tuid, showSettings){
             $systemtourShareContentFiller.hide();
             $systemtourShareContentComplete.show();
         }
-        if (invitedSomeone) {
+        if (madeContactRequest) {
             $systemtourInvitedSomeoneFiller.hide();
             $systemtourInvitedSomeoneComplete.show();
         }
@@ -159,7 +159,10 @@ sakai.systemtour = function(tuid, showSettings){
     var startTour = function(id){
         $(window).trigger("sakai-tooltip-close");
         hideSelected();
-        var tooltipData;
+        var tooltipData,
+            contentLink,
+            hashPos,
+            newContentLink;
         switch (id) {
             case "systemtour_add_photo":
                 $(".systemtour_1").addClass("systemtour_1_selected");
@@ -219,9 +222,9 @@ sakai.systemtour = function(tuid, showSettings){
                     };
                     $(".mycontent_item_link").each(function(index) {
                         if ($(this).attr("href") && $(this).attr("href").indexOf("sharecontenttour") === -1) {
-                            var contentLink = $(this).attr("href");
-                            var hashPos = contentLink.indexOf("#");
-                            var newContentLink = contentLink.substr(0, hashPos) + "?sharecontenttour=true" + contentLink.substr(hashPos);
+                            contentLink = $(this).attr("href");
+                            hashPos = contentLink.indexOf("#");
+                            newContentLink = contentLink.substr(0, hashPos) + "?sharecontenttour=true" + contentLink.substr(hashPos);
                             $(this).attr("href", newContentLink);
                         }
                     });
@@ -231,6 +234,25 @@ sakai.systemtour = function(tuid, showSettings){
             case "systemtour_add_contacts":
                 $(".systemtour_5").addClass("systemtour_5_selected");
                 $(".systemtour_5").addClass("systemtour_button_selected");
+                tooltipData = {
+                    "tooltipSelector":"#mycontacts_footer_search",
+                    "tooltipTitle":"TOOLTIP_ADD_CONTACTS",
+                    "tooltipDescription":"TOOLTIP_ADD_CONTACTS_P1",
+                    "tooltipArrow":"bottom"
+                };
+                if ($("#mycontacts_footer_search").attr("href") && $("#mycontacts_footer_search").attr("href").indexOf("addcontactstour") === -1) {
+                    contentLink = $("#mycontacts_footer_search").attr("href");
+                    hashPos = contentLink.indexOf("#");
+                    newContentLink = contentLink.substr(0, hashPos) + "?addcontactstour=true" + contentLink.substr(hashPos);
+                    $("#mycontacts_footer_search").attr("href", newContentLink);
+                }
+                if ($("#navigation_people_link").attr("href") && $("#navigation_people_link").attr("href").indexOf("addcontactstour") === -1) {
+                    contentLink = $("#navigation_people_link").attr("href");
+                    hashPos = contentLink.indexOf("#");
+                    newContentLink = contentLink.substr(0, hashPos) + "?addcontactstour=true" + contentLink.substr(hashPos);
+                    $("#navigation_people_link").attr("href", newContentLink);
+                }
+                $(window).trigger("sakai-tooltip-init", tooltipData);
                 break;
         }
     };
@@ -317,7 +339,14 @@ sakai.systemtour = function(tuid, showSettings){
         }
 
         // checks user progress and displays reminder tooltips
-        sakai.api.User.checkUserProgress();
+        // wait for some widgets to load before checking
+        if (!sakai.mycontent || !sakai.mycontent.isReady) {
+            $(window).bind("sakai-mycontent-ready", function() {
+                sakai.api.User.checkUserProgress();
+            });
+        } else {
+            sakai.api.User.checkUserProgress();
+        }
 
         updateProgressData();
 
@@ -328,7 +357,7 @@ sakai.systemtour = function(tuid, showSettings){
         }
 
         // if user has not removed the tour progress bar or completed all actions or edit profile tour is in progress
-        if (!me.profile.userprogress.hideSystemTour && ((!uploadedProfilePhoto || !uploadedContent || !sharedContent || !invitedSomeone || !halfCompletedProfile) || (checkEditProfileProgress))) {
+        if (!me.profile.userprogress.hideSystemTour && ((!uploadedProfilePhoto || !uploadedContent || !sharedContent || !madeContactRequest || !halfCompletedProfile || checkEditProfileProgress))) {
             // update progress bar
             updateProgressBar();
 

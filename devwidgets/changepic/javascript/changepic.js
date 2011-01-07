@@ -133,6 +133,7 @@ sakai.changepic = function(tuid, showSettings){
     var thumbnailContainer = "#thumbnail_container";
     var profilePicture = "#profilepicture";
     var fileName = false;
+    var existingPicture = false;
 
     // An array with selectors pointing to images that need to be changed.
     var imagesToChange = ["#picture_holder img", "#entity_profile_picture", "#myprofile_pic", "#chat_available_me .chat_available_image img", "#profile_userinfo_picture"];
@@ -333,6 +334,7 @@ sakai.changepic = function(tuid, showSettings){
             // The user has already uploaded a picture.
             // Show the edit tab.
             // Show tab in header
+            existingPicture = true;
             $(tabSelect).show();
 
             // Set the unvisible image to the full blown image. (make sure to filter the # out)
@@ -565,14 +567,16 @@ sakai.changepic = function(tuid, showSettings){
     var showArea = function(hash){
         sakai.changepic.doInit();
         hash.w.show();
-        // display help tooltip
-        var tooltipData = {
-            "tooltipSelector":"#profilepicture",
-            "tooltipTitle":"TOOLTIP_ADD_MY_PHOTO",
-            "tooltipDescription":"TOOLTIP_ADD_MY_PHOTO_P2",
-            "tooltipArrow":"top"
-        };
-        $(window).trigger("sakai-tooltip-update", tooltipData);
+        if (!existingPicture) {
+            // display help tooltip
+            var tooltipData = {
+                "tooltipSelector": "#profilepicture",
+                "tooltipTitle": "TOOLTIP_ADD_MY_PHOTO",
+                "tooltipDescription": "TOOLTIP_ADD_MY_PHOTO_P2",
+                "tooltipArrow": "top"
+            };
+            $(window).trigger("sakai-tooltip-update", tooltipData);
+        }
     };
 
     // This will make the widget popup as a layover.

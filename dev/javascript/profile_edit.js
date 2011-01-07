@@ -478,7 +478,7 @@ sakai.profile = function(){
 
                 // display help tooltip
                 var tooltipData = {
-                    "tooltipSelector":".navigation_first_link",
+                    "tooltipSelector":"#navigation_my_sakai_link",
                     "tooltipTitle":"TOOLTIP_EDIT_MY_PROFILE",
                     "tooltipDescription":"TOOLTIP_EDIT_MY_PROFILE_P3",
                     "tooltipArrow":"top",
@@ -486,8 +486,8 @@ sakai.profile = function(){
                     "tooltipLeft":15
                 };
                 $(window).trigger("sakai-tooltip-update", tooltipData);
-                if ($("#navigation_first_link").attr("href") && $("#navigation_first_link").attr("href").indexOf("editprofiletour") === -1) {
-                    $("#navigation_first_link").attr("href", $("#navigation_first_link").attr("href") + "?editprofiletour=true");
+                if ($("#navigation_my_sakai_link").attr("href") && $("#navigation_my_sakai_link").attr("href").indexOf("editprofiletour") === -1) {
+                    $("#navigation_my_sakai_link").attr("href", $("#navigation_my_sakai_link").attr("href") + "?editprofiletour=true");
                 }
             }
             else {

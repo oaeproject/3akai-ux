@@ -330,7 +330,8 @@ sakai.sharecontent = function(tuid, showSettings) {
                     "tooltipTitle": "TOOLTIP_SHARE_CONTENT",
                     "tooltipDescription": "TOOLTIP_SHARE_CONTENT_P7",
                     "tooltipTop": -50,
-                    "tooltipLeft": -200
+                    "tooltipLeft": -200,
+                    "tooltipAutoClose":true
                 };
                 $(window).trigger("sakai-tooltip-update", tooltipData);
             } else {

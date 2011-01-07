@@ -169,6 +169,16 @@ sakai.addtocontacts = function(tuid, showSettings){
                     sakai.api.Util.notification.show("", $(addToContactsDone).text());
                     // record that user made contact request
                     sakai.api.User.addUserProgress("madeContactRequest");
+                    // display tooltip
+                    var tooltipData = {
+                        "tooltipSelector":"#search_button",
+                        "tooltipTitle":"TOOLTIP_ADD_CONTACTS",
+                        "tooltipDescription":"TOOLTIP_ADD_CONTACTS_P5",
+                        "tooltipTop":-175,
+                        "tooltipLeft":0,
+                        "tooltipAutoClose":true
+                    };
+                    $(window).trigger("sakai-tooltip-update", tooltipData);
                 },
                 error: function(xhr, textStatus, thrownError){
                     $(addToContactsResponse).text(sakai.api.Security.saneHTML($(addToContactsErrorRequest).text()));
@@ -264,10 +274,32 @@ sakai.addtocontacts = function(tuid, showSettings){
         // Invite this person.
         doInvite(friend.uuid);
     });
-    
+
     // Bind the cancel button
     $(addToContactsFormButtonCancel).click(function(){
         $(addToContactsForm)[0].reset();
+
+        // display tooltip
+        var tooltipData = {
+            "tooltipSelector":"#search_button",
+            "tooltipTitle":"TOOLTIP_ADD_CONTACTS",
+            "tooltipDescription":"TOOLTIP_ADD_CONTACTS_P3",
+            "tooltipTop":-150,
+            "tooltipLeft":-200
+        };
+        $(window).trigger("sakai-tooltip-update", tooltipData);
+    });
+
+    $(".jqmClose").bind("click", function(){
+        // display tooltip
+        var tooltipData = {
+            "tooltipSelector":"#search_button",
+            "tooltipTitle":"TOOLTIP_ADD_CONTACTS",
+            "tooltipDescription":"TOOLTIP_ADD_CONTACTS_P3",
+            "tooltipTop":-150,
+            "tooltipLeft":-200
+        };
+        $(window).trigger("sakai-tooltip-update", tooltipData);
     });
 
     // Bind the jqModal

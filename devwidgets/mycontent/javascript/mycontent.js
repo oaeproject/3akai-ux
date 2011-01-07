@@ -142,6 +142,8 @@ sakai.mycontent = function(tuid, showSettings) {
             // display something useful to the user
             $(dataErrorMsg, rootel).show();
         }
+        sakai.mycontent.isReady = true;
+        $(window).trigger("sakai-mycontent-ready");
     };
 
 

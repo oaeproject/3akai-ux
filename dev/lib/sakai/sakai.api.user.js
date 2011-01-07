@@ -507,16 +507,19 @@ sakai.api.User.checkUserProgress = function() {
     if (!sakai.data.me.profile.userprogress){
         sakai.data.me.profile.userprogress = {};
     }
-    var me = sakai.data.me;
-    var progressData = "";
-    var tooltipProfileFlag = "";
-    var tooltipSelector = "";
-    var tooltipTitle = "";
-    var tooltipDescription = "";
-    var tooltipArrow = "top";
-    var tooltipTop = 0;
-    var tooltipLeft = 0;
-    var displayTooltip = false;
+    var me = sakai.data.me,
+        progressData = "",
+        tooltipProfileFlag = "",
+        tooltipSelector = "",
+        tooltipTitle = "",
+        tooltipDescription = "",
+        tooltipArrow = "top",
+        tooltipTop = 0,
+        tooltipLeft = 0,
+        displayTooltip = false,
+        contentLink = "",
+        hashPos = "",
+        newContentLink = "";
     var curDate = new Date();
     var curTimestamp = curDate.getTime();
     var intervalTimestamp = parseInt(sakai.config.SystemTour.reminderIntervalHours, 10) * 60 * 60 * 1000;
@@ -554,21 +557,42 @@ sakai.api.User.checkUserProgress = function() {
             tooltipDescription = "TOOLTIP_SHARE_CONTENT_P2";
             tooltipArrow = "bottom";
             tooltipTop = 70;
-            tooltipLeft = 100;
+            tooltipLeft = -100;
             displayTooltip = true;
             $(".systemtour_4").addClass("systemtour_1_selected");
             $(".systemtour_4").addClass("systemtour_button_selected");
+            $(".mycontent_item_link").each(function(index) {
+                if ($(this).attr("href") && $(this).attr("href").indexOf("sharecontenttour") === -1) {
+                    contentLink = $(this).attr("href");
+                    hashPos = contentLink.indexOf("#");
+                    newContentLink = contentLink.substr(0, hashPos) + "?sharecontenttour=true" + contentLink.substr(hashPos);
+                    $(this).attr("href", newContentLink);
+                }
+            });
         } else if (!me.profile.userprogress.madeContactRequest && 
             (!me.profile.userprogress.madeContactRequestReminder || 
                 (!me.profile.userprogress.madeContactRequest && me.profile.userprogress.madeContactRequestReminder && 
                     ((me.profile.userprogress.madeContactRequestReminder + intervalTimestamp) < curTimestamp)))) {
             progressData = {"madeContactRequestReminder": curTimestamp};
-            tooltipSelector = "#";
-            tooltipTitle = "";
-            tooltipDescription = "";
-            //displayTooltip = true;
+            tooltipSelector = "#mycontacts_footer_search";
+            tooltipTitle = "TOOLTIP_ADD_CONTACTS";
+            tooltipDescription = "TOOLTIP_ADD_CONTACTS_P1";
+            tooltipArrow = "bottom";
+            displayTooltip = true;
             $(".systemtour_5").addClass("systemtour_5_selected");
             $(".systemtour_5").addClass("systemtour_button_selected");
+            if ($("#mycontacts_footer_search").attr("href") && $("#mycontacts_footer_search").attr("href").indexOf("addcontactstour") === -1) {
+                contentLink = $("#mycontacts_footer_search").attr("href");
+                hashPos = contentLink.indexOf("#");
+                newContentLink = contentLink.substr(0, hashPos) + "?addcontactstour=true" + contentLink.substr(hashPos);
+                $("#mycontacts_footer_search").attr("href", newContentLink);
+            }
+            if ($("#navigation_people_link").attr("href") && $("#navigation_people_link").attr("href").indexOf("addcontactstour") === -1) {
+                contentLink = $("#navigation_people_link").attr("href");
+                hashPos = contentLink.indexOf("#");
+                newContentLink = contentLink.substr(0, hashPos) + "?addcontactstour=true" + contentLink.substr(hashPos);
+                $("#navigation_people_link").attr("href", newContentLink);
+            }
         } else if (!me.profile.userprogress.halfCompletedProfile && 
             (!me.profile.userprogress.halfCompletedProfileReminder || 
                 (!me.profile.userprogress.halfCompletedProfile && me.profile.userprogress.halfCompletedProfileReminder && 
@@ -581,6 +605,9 @@ sakai.api.User.checkUserProgress = function() {
             sakai.api.User.addUserProgress("halfCompletedProfileInProgress");
             $(".systemtour_2").addClass("systemtour_2_selected");
             $(".systemtour_2").addClass("systemtour_button_selected");
+            if ($("#entity_edit_profile").attr("href") && $("#entity_edit_profile").attr("href").indexOf("editprofiletour") === -1) {
+                $("#entity_edit_profile").attr("href", $("#entity_edit_profile").attr("href") + "?editprofiletour=true");
+            }
         }
     }
 
@@ -592,7 +619,7 @@ sakai.api.User.checkUserProgress = function() {
             "tooltipArrow": tooltipArrow,
             "tooltipTop": tooltipTop,
             "tooltipLeft" : tooltipLeft,
-            "tooltipAutoClose":true
+            "tooltipAutoClose": false
         };
 
         var authprofileURL = "/~" + me.user.userid + "/public/authprofile/userprogress";
