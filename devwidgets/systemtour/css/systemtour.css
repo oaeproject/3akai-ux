@@ -17,7 +17,7 @@
  */
 
 /* Main container */
-#systemtour_container.fl-widget-content {padding:10px 0 0 0;}
+#systemtour_container {background:transparent url(../images/bgl.png) no-repeat scroll 0 0; line-height: 60px; height: 60px;}
 
 /* PROGRESS BAR */
 .systemtour_left {
@@ -25,17 +25,31 @@
     padding: 10px 10px 30px 10px;
 }
 .systemtour_left_text {
-    position: relative;
-    top: 12px;
-    left: 8px;
-    font-weight: bold;
-    font-size: 0.9em;
+    font-size:0.9em; 
+    font-weight:bold; 
+    line-height: 60px; 
+    margin-left: 20px; 
+    padding-right: 5px;
 }
 #systemtour_progress_bar a {
     text-decoration: none;
 }
-.systemtour_button {
-    padding: 10px 10px 30px 30px;
+#systemtour_container ul {
+    list-style: none; 
+    display: inline-block; 
+    margin: 0px; 
+    line-height:30px; 
+    position: relative; 
+    top: 12px;
+}
+#systemtour_container li {
+    list-style:none; 
+    float: left; 
+    height:32px; 
+    border-right: 1px solid #d8dce0;
+}
+.systemtour_button:hover {
+    text-decoration: none;
 }
 .systemtour_1 {
     background:url(../images/bg1.png);
@@ -70,25 +84,17 @@
 .systemtour_button_selected {
     color: #FFF;
 }
-.systemtour_button_text_1 {
-    position: relative;
-    top: 12px;
-    left: 2px;
-    font-weight: bold;
-    font-size: 0.9em;
-}
 .systemtour_button_text {
-    position: relative;
-    top: 12px;
-    left: 8px;
     font-weight: bold;
     font-size: 0.9em;
+    margin-left:35px; 
+    padding-right:5px;
+}
+.systemtour_item_complete_full {
+    background:url("/dev/images/accept.png") no-repeat;
 }
 .systemtour_item_complete {
-    position: relative;
-    top: 13px;
-    left: 10px;
-    background:url("/dev/images/accept.png") no-repeat; padding-right: 18px;
+    padding-right:20px;
 }
 .systemtour_item_complete_5 {
     position: relative;
@@ -104,19 +110,19 @@
     padding-right: 26px;
 }
 .systemtour_right {
-    background:url(../images/bgr.png) no-repeat;
-    padding: 10px 10px 30px 0;
+
 }
 .systemtour_right_text {
-    position: relative;
-    top: 12px;
-    left: 8px;
     font-weight: bold;
     font-size: 0.9em;
     text-decoration: underline !important;
 }
 .systemtour_end {
-    
+    float:right; 
+    background:transparent url(../images/bgr2.png) no-repeat scroll 0 0; 
+    height: 60px; 
+    width: 25px; 
+    line-height: 40px;
 }
 .systemtour_end_top {
     

@@ -64,11 +64,6 @@ sakai.systemtour = function(tuid, showSettings){
     var $systemtourShareContent = $("#systemtour_share_content", $rootel);
     var $systemtourInvitedSomeone = $("#systemtour_invited_someone", $rootel);
     var $systemtourHalfCompleteProfile = $("#systemtour_edit_profile", $rootel);
-    var $systemtourAddPhotoFiller = $("#systemtour_add_photo .systemtour_item_filler", $rootel);
-    var $systemtourUploadFileFiller = $("#systemtour_upload_file .systemtour_item_filler", $rootel);
-    var $systemtourShareContentFiller = $("#systemtour_share_content .systemtour_item_filler", $rootel);
-    var $systemtourInvitedSomeoneFiller = $("#systemtour_invited_someone .systemtour_item_filler", $rootel);
-    var $systemtourHalfCompleteProfileFiller = $("#systemtour_edit_profile .systemtour_item_filler", $rootel);
     var $systemtourAddPhotoComplete = $("#systemtour_add_photo .systemtour_item_complete", $rootel);
     var $systemtourUploadFileComplete = $("#systemtour_upload_file .systemtour_item_complete", $rootel);
     var $systemtourShareContentComplete = $("#systemtour_share_content .systemtour_item_complete", $rootel);
@@ -97,24 +92,19 @@ sakai.systemtour = function(tuid, showSettings){
      */
     var updateProgressBar = function(){
         if (uploadedProfilePhoto) {
-            $systemtourAddPhotoFiller.hide();
-            $systemtourAddPhotoComplete.show();
+            $systemtourAddPhotoComplete.addClass("systemtour_item_complete_full");
         }
         if (uploadedContent) {
-            $systemtourUploadFileFiller.hide();
-            $systemtourUploadFileComplete.show();
+            $systemtourUploadFileComplete.addClass("systemtour_item_complete_full");
         }
         if (sharedContent) {
-            $systemtourShareContentFiller.hide();
-            $systemtourShareContentComplete.show();
+            $systemtourShareContentComplete.addClass("systemtour_item_complete_full");
         }
         if (madeContactRequest) {
-            $systemtourInvitedSomeoneFiller.hide();
-            $systemtourInvitedSomeoneComplete.show();
+            $systemtourInvitedSomeoneComplete.addClass("systemtour_item_complete_full");
         }
         if (halfCompletedProfile) {
-            $systemtourHalfCompleteProfileFiller.hide();
-            $systemtourHalfCompleteProfileComplete.show();
+            $systemtourHalfCompleteProfileComplete.addClass("systemtour_item_complete_full");
         }
     };
 
