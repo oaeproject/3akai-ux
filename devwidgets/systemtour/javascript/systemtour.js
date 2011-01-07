@@ -321,7 +321,7 @@ sakai.systemtour = function(tuid, showSettings){
 
         updateProgressData();
 
-        var checkEditProfileProgress = false
+        var checkEditProfileProgress = false;
         var querystring = new Querystring();
         if (querystring.contains("editprofiletour") && querystring.get("editprofiletour") === "true"){
             checkEditProfileProgress = true;
