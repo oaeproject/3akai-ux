@@ -45,6 +45,7 @@ sakai.api.User.createUser = function(username, firstName, lastName, email, passw
     profileData.basic.elements["lastName"].value = lastName;
     profileData.basic.elements["email"] = {};
     profileData.basic.elements["email"].value = email;
+    profileData["email"] = email;
     profileData.basic.access = "everybody";
     var user = {
         "_charset_": "utf-8",
