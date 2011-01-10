@@ -464,15 +464,15 @@ sakai.entity = function(tuid, showSettings){
         // Do a batch request to get contacts, invited and pending
         var reqs = [
             {
-                "url" : "/var/contacts/accepted.json?page=0&items=100",
+                "url" : sakai.config.URL.CONTACTS_FIND + "?state=ACCEPTED&page=0&items=100",
                 "method" : "GET"
             },
             {
-                "url" : "/var/contacts/invited.json?page=0&items=100",
+                "url" : sakai.config.URL.CONTACTS_FIND + "?state=INVITED&page=0&items=100",
                 "method" : "GET"
             },
             {
-                "url" : "/var/contacts/pending.json?page=0&items=100",
+                "url" : sakai.config.URL.CONTACTS_FIND + "?state=PENDING&page=0&items=100",
                 "method" : "GET"
             },
             {
@@ -1255,6 +1255,17 @@ sakai.entity = function(tuid, showSettings){
 
             $(window).trigger("sakai-sharecontent-init", pl_config, function(people){
             });
+
+            // display help tooltip
+            var tooltipData = {
+                "tooltipSelector":"#sharecontent_add_people",
+                "tooltipTitle":"TOOLTIP_SHARE_CONTENT",
+                "tooltipDescription":"TOOLTIP_SHARE_CONTENT_P4",
+                "tooltipArrow":"bottom",
+                "tooltipTop":3,
+                "tooltipLeft":120
+            };
+            $(window).trigger("sakai-tooltip-update", tooltipData);
 
             return false;
         });

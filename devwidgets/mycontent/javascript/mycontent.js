@@ -39,7 +39,7 @@ sakai.mycontent = function(tuid, showSettings) {
 
     // DOM identifiers
     var rootel = $("#" + tuid);
-    var uploadLink = "#upload_link";
+    var uploadLink = ".upload_link";
     var fileuploadContainer = "#fileupload_container";
     var noContentMsg = "#mycontent_nocontent";
     var dataErrorMsg = "#mycontent_data_error";
@@ -142,6 +142,8 @@ sakai.mycontent = function(tuid, showSettings) {
             // display something useful to the user
             $(dataErrorMsg, rootel).show();
         }
+        sakai.mycontent.isReady = true;
+        $(window).trigger("sakai-mycontent-ready");
     };
 
 

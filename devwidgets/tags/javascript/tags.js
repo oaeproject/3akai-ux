@@ -52,6 +52,11 @@ sakai.tags = function(tuid, showSettings) {
     };
 
     var doInit = function(){
+        if (! sakai.api.Widgets.isOnDashboard(tuid)){
+            $(".tags-widget-border").show();
+            $("#tags_widget").addClass("fl-widget s3d-widget");
+        }
+
         loadData(function() {
             var newtags = [];
             // Filter out directory tags

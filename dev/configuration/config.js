@@ -54,14 +54,10 @@ sakai.config = {
         CAPTCHA_SERVICE: "/system/captcha",
         CHAT_GET_SERVICE: "/var/message/chat/__KIND__.json",
         CHAT_UPDATE_SERVICE: "/var/message.chatupdate.json",
-        CONTACTS_ACCEPTED: "/var/contacts/accepted.infinity.json",
-        CONTACTS_ALL: "/var/contacts/all.json",
-        CONTACTS_INVITED: "/var/contacts/invited.infinity.json",
-        CONTACTS_PENDING: "/var/contacts/pending.infinity.json",
+        CONTACTS_FIND: "/var/contacts/find.json",
         CREATE_USER_SERVICE: "/system/userManager/user.create.html",
         DISCUSSION_GETPOSTS_THREADED: "/var/search/discussions/threaded.json?path=__PATH__&marker=__MARKER__",
         DISCUSSION_INITIALPOSTS_SERVICE: "/var/search/discussions/initialdiscussionposts.json?path=__PATH__&items=__ITEMS__&page=__PAGE__",
-        FRIEND_ACCEPTED_SERVICE: "/var/contacts/accepted.json",
         GOOGLE_CHARTS_API: "http://chart.apis.google.com/chart",
         GROUP_CREATE_SERVICE: "/system/userManager/group.create.json",
         GROUPS_MANAGER: "/system/me/managedgroups.json",
@@ -506,6 +502,11 @@ sakai.config = {
         DefaultMember: "viewers"
     },
 
+    SystemTour: {
+        "enableReminders":true,
+        "reminderIntervalHours": "168"
+    },
+
     Messages: {
         Types: {
             inbox: "inbox",
@@ -664,25 +665,30 @@ sakai.config = {
     Navigation: [
         {
             "url" : "/dev/my_sakai.html",
+            "id" : "navigation_my_sakai_link",
             "label" : "MY_SAKAI"
         },
         {
             "url" : "/dev/search_content.html#q=*&facet=manage",
             "anonUrl" : "/dev/search_content.html#q=*",
+            "id" : "navigation_content_link",
             "label" : "CONTENT_AND_MEDIA"
         },
         {
             "url" : "/dev/search_groups.html#q=*&facet=manage",
             "anonUrl" : "/dev/search_groups.html#q=*",
+            "id" : "navigation_groups_link",
             "label" : "GROUPS"
         },
         {
             "url" : "/dev/search_people.html#q=*&facet=contacts",
             "anonUrl" : "/dev/search_people.html#q=*",
+            "id" : "navigation_people_link",
             "label" : "PEOPLE"
         },
         {
             "url" : "/dev/directory.html",
+            "id" : "navigation_directory_link",
             "label" : "DIRECTORY"
         }
     ],
