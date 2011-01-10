@@ -62,12 +62,12 @@ sakai.systemtour = function(tuid, showSettings){
     var $systemtourAddPhoto = $("#systemtour_add_photo", $rootel);
     var $systemtourUploadFile = $("#systemtour_upload_file", $rootel);
     var $systemtourShareContent = $("#systemtour_share_content", $rootel);
-    var $systemtourInvitedSomeone = $("#systemtour_invited_someone", $rootel);
+    var $systemtourInvitedSomeone = $("#systemtour_add_contacts", $rootel);
     var $systemtourHalfCompleteProfile = $("#systemtour_edit_profile", $rootel);
     var $systemtourAddPhotoComplete = $("#systemtour_add_photo .systemtour_item_complete", $rootel);
     var $systemtourUploadFileComplete = $("#systemtour_upload_file .systemtour_item_complete", $rootel);
     var $systemtourShareContentComplete = $("#systemtour_share_content .systemtour_item_complete", $rootel);
-    var $systemtourInvitedSomeoneComplete = $("#systemtour_invited_someone .systemtour_item_complete", $rootel);
+    var $systemtourInvitedSomeoneComplete = $("#systemtour_add_contacts .systemtour_item_complete", $rootel);
     var $systemtourHalfCompleteProfileComplete = $("#systemtour_edit_profile .systemtour_item_complete", $rootel);
 
 
