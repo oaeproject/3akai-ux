@@ -3,3 +3,4 @@
 /* Tooltips */
 .tooltip_dialog { width:200px; }
 .tooltip_bold {font-weight:bold;}
+#tooltip_widget #tooltip_description {margin-bottom:0; padding-bottom:10px;}

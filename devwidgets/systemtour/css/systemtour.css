@@ -41,6 +41,14 @@
     line-height:30px; 
     position: relative; 
     top: 12px;
+    /* IE6 and IE7 hack to support display:inline-block */
+    zoom:1; 
+    *display:inline; /* IE7 and below*/
+    *padding-top:3px; /* IE7 and below*/
+    *margin-top:-20px; /* IE7 and below*/
+    _height: 30px; /* IE6 and below*/
+    _margin-top:0px; /* IE6 and below*/
+    /* */
 }
 #systemtour_container li {
     list-style:none; 
