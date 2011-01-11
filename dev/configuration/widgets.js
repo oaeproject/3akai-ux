@@ -37,7 +37,7 @@ sakai.widgets = {
     "defaults": {
         "personalportal": {
             "layout": "dev",
-            "columns": [["mygroups", "mycontacts"], ["myprofile", "mycontent"]]
+            "columns": [["mygroups", "mycontacts","recentmessages"], ["myprofile", "mycontent"]]
         },
         "siteportal": {
             "layout": "dev",
