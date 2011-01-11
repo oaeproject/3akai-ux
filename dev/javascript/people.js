@@ -50,7 +50,7 @@ sakai.search = function(){
         $("#contacts_search_result").html(loadingHTML);
 
         $.ajax({
-            url: "/var/contacts/accepted.infinity.json?page=" + (page - 1) + "&items=" + peopleToSearch,
+            url: sakai.config.URL.SEARCH_USERS_ACCEPTED + "?state=ACCEPTED&page=" + (page - 1) + "&items=" + peopleToSearch,
             cache: false,
             success: function(data){
                 foundContacts = $.extend(data, {}, true);
@@ -163,7 +163,7 @@ sakai.search = function(){
         $("#invited_search_result").html(loadingHTML);
 
         $.ajax({
-            url: "/var/contacts/invited.infinity.json?page=0&items=100",
+            url: sakai.config.URL.SEARCH_USERS_ACCEPTED + "?state=INVITED&page=0&items=100",
             cache: false,
             success: function(data){
                 foundInvitations = $.extend(data, {}, true);
@@ -267,7 +267,7 @@ sakai.search = function(){
         $("#invited_search_result").html(loadingHTML);
 
         $.ajax({
-            url: "/var/contacts/pending.infinity.json?page=0&items=100",
+            url: sakai.config.URL.SEARCH_USERS_ACCEPTED + "?state=PENDING&page=0&items=100",
             cache: false,
             success: function(data){
                 foundPending = $.extend(data, {}, true);

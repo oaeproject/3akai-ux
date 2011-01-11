@@ -464,15 +464,15 @@ sakai.entity = function(tuid, showSettings){
         // Do a batch request to get contacts, invited and pending
         var reqs = [
             {
-                "url" : "/var/contacts/accepted.json?page=0&items=100",
+                "url" : sakai.config.URL.CONTACTS_FIND + "?state=ACCEPTED&page=0&items=100",
                 "method" : "GET"
             },
             {
-                "url" : "/var/contacts/invited.json?page=0&items=100",
+                "url" : sakai.config.URL.CONTACTS_FIND + "?state=INVITED&page=0&items=100",
                 "method" : "GET"
             },
             {
-                "url" : "/var/contacts/pending.json?page=0&items=100",
+                "url" : sakai.config.URL.CONTACTS_FIND + "?state=PENDING&page=0&items=100",
                 "method" : "GET"
             },
             {
@@ -1161,6 +1161,10 @@ sakai.entity = function(tuid, showSettings){
                         }
                         entityconfig.data.profile.activity.results[j]["sakai:activityMessage"] = messageArray.join(" ");
                     }
+
+                    // get the time since the activity happened
+                    var activityDate = sakai.api.Datetime.parseDateString(entityconfig.data.profile.activity.results[j]["jcr:created"]);
+                    entityconfig.data.profile.activity.results[j].timeAgo = sakai.api.Datetime.getTimeAgo(activityDate);
                 }
             }
         }

@@ -514,7 +514,7 @@ sakai.sitemembers = function(tuid, showSettings){
      */
     var getContacts = function(){
         $.ajax({
-            url: sakai.config.URL.FRIEND_ACCEPTED_SERVICE,
+            url: sakai.config.URL.CONTACTS_FIND + "?state=ACCEPTED",
             success: function(data){
                 if (data.results) {
                     contacts = data.results;

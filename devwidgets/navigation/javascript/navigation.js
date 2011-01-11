@@ -71,6 +71,7 @@ sakai.navigation = function(tuid, showSettings){
     var $navigation_admin_options = $("#navigation_admin_options", $rootel);
     var $navigation_footer_edit = $("#navigation_footer_edit", $rootel);
     var $navigation_footer_noedit = $("#navigation_footer_noedit", $rootel);
+    var $navigation_threedots = $("#navigation_threedots", $rootel);
 
     // Settings view
     var $settingsView = $("#navigation_settings", $rootel);
@@ -209,19 +210,24 @@ sakai.navigation = function(tuid, showSettings){
 
         // Navigation node data
         var p_title = "";
+        var p_title_short = "";
         var p_id = "";
         var p_pagePosition;
         if (page_info["pageTitle"]) {
             p_title = sakai.api.Security.saneHTML(page_info["pageTitle"]);
             p_id = "nav_" + page_info["pageURLName"];
             p_pagePosition = parseInt(page_info.pagePosition, 10);
+            p_title_short = p_title;
+            if (p_title_short.length > 25){
+                p_title_short = p_title_short.substr(0, 24) + $navigation_threedots.text();
+            }
         }
 
         var node = {
             attr: { id: p_id },
             data: {
-                title: p_title,
-                attr: {"href": "#"},
+                title: p_title_short,
+                attr: {"href": "#", "title": p_title},
                 pagePosition: p_pagePosition
             },
             children:[]
