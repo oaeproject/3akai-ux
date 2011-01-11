@@ -368,6 +368,7 @@ sakai.config = {
                     "access": "everybody",
                     "modifyacl": true,
                     "multiple": true,
+                    "directory": true,
                     "multipleLabel": "__MSG__PROFILE_LOCATION_LABEL__",
                     "elements": {
                         "locationtitle": {

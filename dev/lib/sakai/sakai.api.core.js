@@ -938,7 +938,7 @@ sakai.api.UI.getPageContext = function(){
         return "content";
     } else if (sakai.group || sakai.groupedit) {
         return "group";
-    } else if (sakai.directory2) {
+    } else if (sakai.directory) {
         return "directory";
     } else if (sakai.content_profile || sakai.profile){
         return "user";
@@ -963,7 +963,7 @@ sakai.api.UI.getDirectoryStructure = function(){
         for (item in directory) {
             if (directory.hasOwnProperty(item)) {
                 // url for the first level nodes
-                var url = "/dev/directory2.html#" + item;
+                var url = "/dev/directory.html#" + item;
                 // call buildnoderecursive to get the node structure to render.
                 result.push(buildNodeRecursive(item, directory, url));
             }
@@ -977,7 +977,7 @@ sakai.api.UI.getDirectoryStructure = function(){
      *
      * @param {String} node_id  the unique id for each node for example firstyearcourses
      * @param {Object} directory directory list json object for example "collegeofengineering": { ... }
-     * @param {String} url the url of the page to render when directory node is clicked for example /dev/directory2.html#collegeofengineering
+     * @param {String} url the url of the page to render when directory node is clicked for example /dev/directory.html#collegeofengineering
      *
      * @return node the json object in the structure necessary to render in jstree
      */
@@ -1015,8 +1015,8 @@ sakai.api.UI.getDirectoryStructure = function(){
             if (directory[node_id].children.hasOwnProperty(child)) {
                 // for each child node, call buildnoderecursive to build the node structure
                 // pass current child(id), the list of all sibligs(json object) and url append/child
-                // for example first level node /dev/directory2.html#courses/firstyearcourses
-                // for second level node /dev/directory2.html#course/firstyearcourses/chemistry
+                // for example first level node /dev/directory.html#courses/firstyearcourses
+                // for second level node /dev/directory.html#course/firstyearcourses/chemistry
                 node.children.push(buildNodeRecursive(child, directory[node_id].children, url + "/" + child));
             }
         }
@@ -1150,11 +1150,15 @@ sakai.api.UI.getValueForDirectoryKey = function(key){
         }
 
         // Run the template and feed it the given JSON object
-        var render = templateCache[templateName].process(templateData);
-
-        // Run the rendered html through the sanitizer
-        if (sanitize) {
-            render = sakai.api.Security.saneHTML(render);
+        try {
+            var render = templateCache[templateName].process(templateData);
+            
+            // Run the rendered html through the sanitizer
+            if (sanitize) {
+                render = sakai.api.Security.saneHTML(render);
+            }
+        } catch (err){
+            alert(err);
         }
 
         // Check it there was an output element defined

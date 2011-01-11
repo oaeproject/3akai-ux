@@ -21,68 +21,40 @@ var sakai = sakai || {};
 
 sakai.directory = function(){
 
-    // Data
-    var directoryJSON = [];
-
-    // Containers
-    var directoryTemplateContainer = "#directory_template_container";
-
-    // Templates
-    var directoryTemplate = "#directory_template";
-
-    /**
-     * Render the directory structure on the page
-     */
-    var renderDirectoryStructure = function(){
-        var obj = {};
-        obj.directory = directoryJSON;
-        $(directoryTemplateContainer).html($.TemplateRenderer(directoryTemplate, obj));
-    };
-
-    /**
-     * Get a list of nodes representing the directory structure to be rendered
-     */
-    var getDirectoryStructure = function(){
-        // Get directory structure from config file
-        for(var i in sakai.config.Directory){
-            if (sakai.config.Directory.hasOwnProperty(i)) {
-                // Create first level of content
-                var temp = {};
-                temp.name = i;
-
-                // Create second level of content
-                temp.secondlevels = [];
-                for (var j in sakai.config.Directory[i]) {
-                    if (sakai.config.Directory[i].hasOwnProperty(j)) {
-                        var secondlevel = {};
-                        secondlevel.name = j;
-
-                        // Create third level of content
-                        secondlevel.thirdlevels = [];
-                        for (var k in sakai.config.Directory[i][j]) {
-                            if (sakai.config.Directory[i][j].hasOwnProperty(k)) {
-                                var thirdlevel = {};
-                                thirdlevel.name = sakai.config.Directory[i][j][k];
-                                secondlevel.thirdlevels.push(thirdlevel);
-                            }
-                        }
-
-                        temp.secondlevels.push(secondlevel);
-                    }
-                }
-                directoryJSON.push(temp);
-            }
-        }
-        // Render template with retrieved structure
-        renderDirectoryStructure();
-    };
-
     /**
      * Initialize directory page functionality
      */
     var doInit = function(){
-        // Get directory structure
-        getDirectoryStructure();
+        
+        // bind events
+        bindEvents();
+    };
+
+    sakai.directory.getIsDirectory = function(){
+        return true;
+    }
+
+    /**
+     * Add event bindings for the jstree pages navigation tree
+     */
+    var bindEvents = function() {
+        // bind sakai-directory-selected event.
+        // that event is triggered when directory in browsedirectory widget is selected.
+        $(window).bind("sakai-directory-selected", function(e, id){
+
+            // get directory json object called method from browsedirectory widget
+            var nodeId = id.split("/").reverse().shift();
+            var directoryJson = sakai.browsedirectory.getDirectoryNodeJson(nodeId);
+
+            // prepare result json
+            var resultJson = {};
+            resultJson.title = directoryJson[0].data;
+            resultJson.icon = directoryJson[0].attr["data-url"];
+            resultJson.id = directoryJson[0].attr["id"];
+
+            // render directory information 
+            $(".directory_info").html($.TemplateRenderer("#directory_template", resultJson));
+        });
     };
 
     doInit();

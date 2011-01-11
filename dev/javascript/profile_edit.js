@@ -240,6 +240,34 @@ sakai.profile = function(){
             sakai.profile.main.config = sakai.config.Profile.configuration[userType];
         }
     };
+    
+    sakai.profile.parseDirectory = function(){
+        var obj = {"elements":[]};
+        for (var i in sakai.profile.main.data["sakai:tags"]){
+        	var tag = sakai.profile.main.data["sakai:tags"][i];
+            if (tag.substring(0, 10) === "directory/"){
+                var finalTag = "";
+                var split = tag.split("/");
+                for (var ii = 1; ii < split.length; ii++){
+                	finalTag += sakai.api.UI.getValueForDirectoryKey(split[ii]);
+                    if (ii < split.length -1){
+                    	finalTag += "<span class='profilesection_location_divider'>&raquo;</span>";
+                    }
+                }
+                obj.elements.push({
+                	"locationtitle": {
+                    	"value": tag,
+                        "title": finalTag
+                    },
+                    "id": {
+                    	"display": false,
+                        "value": "" + Math.round(Math.random() * 1000000000)
+                    }
+                })
+            }
+        }
+        return obj;
+    }
 
     /**
      * Set the profile data for the user such as the status and profile picture
@@ -260,7 +288,10 @@ sakai.profile = function(){
 
             // Set the profile data object
             sakai.profile.main.data = $.extend(true, {}, sakai.data.me.profile);
-
+            
+            sakai.profile.main.directory = sakai.profile.parseDirectory();
+            sakai.profile.main.data["locations"] = sakai.profile.main.directory;
+                        
             // Check user profile type
             checkProfileType();
 
