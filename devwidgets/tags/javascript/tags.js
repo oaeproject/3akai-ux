@@ -77,17 +77,7 @@ sakai.tags = function(tuid, showSettings) {
     };
 
     var loadData = function(directory, callback){
-        if (directory) {
-            /*$.ajax({
-                url: "/var/search/public/tagcloud.json", // New feed in the backend
-                cache: false,
-                success: function(data){
-                    tagData = data;
-                    callback();
-                }
-            });*/
-        }
-        else {
+        if (!directory) {
             $.ajax({
                 url: "/var/search/public/tagcloud.json",
                 cache: false,

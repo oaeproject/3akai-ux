@@ -32,7 +32,7 @@ sakai.directory = function(){
 
     sakai.directory.getIsDirectory = function(){
         return true;
-    }
+    };
 
     /**
      * Add event bindings for the jstree pages navigation tree

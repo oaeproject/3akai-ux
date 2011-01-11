@@ -1150,15 +1150,11 @@ sakai.api.UI.getValueForDirectoryKey = function(key){
         }
 
         // Run the template and feed it the given JSON object
-        try {
-            var render = templateCache[templateName].process(templateData);
-            
-            // Run the rendered html through the sanitizer
-            if (sanitize) {
-                render = sakai.api.Security.saneHTML(render);
-            }
-        } catch (err){
-            alert(err);
+        var render = templateCache[templateName].process(templateData);
+
+        // Run the rendered html through the sanitizer
+        if (sanitize) {
+            render = sakai.api.Security.saneHTML(render);
         }
 
         // Check it there was an output element defined

@@ -167,7 +167,7 @@ sakai.assignlocation = function(tuid, showSettings) {
     var closeContainer = function(){
         $assignlocationActions.show();
         $assignlocationAjaxLoader.hide();
-    }
+    };
 
     var determineContext = function(){
         var context = sakai.api.UI.getPageContext();

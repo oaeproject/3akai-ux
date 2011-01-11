@@ -131,7 +131,7 @@ sakai.profilesection = function(tuid, showSettings){
             if (sakai.profile.main.data[currentsection] &&
                 sakai.profile.main.data[currentsection].elements &&
                 sakai.profile.main.data[currentsection].elements[fieldName]) {
-                var value = unescape(sakai.profile.main.data[currentsection].elements[fieldName].value)
+                var value = unescape(sakai.profile.main.data[currentsection].elements[fieldName].value);
 
                 // if it is tag filter the directory
                 if (fieldName === "tags") {
@@ -178,7 +178,7 @@ sakai.profilesection = function(tuid, showSettings){
                 sections += $.TemplateRenderer($profilesection_field_location_template, {
                     "config": sectionObject,
                     "data": sakai.profile.main.directory,
-                	"parentid": "0"
+                    "parentid": "0"
                 });
             } else if (sakai.profile.main.data[currentsection] === undefined || sakai.profile.main.data[currentsection].elements === undefined || sakai.profile.main.data[currentsection].elements.length === 0) {
                if (sakai.profile.main.mode.value === "edit") {
@@ -498,7 +498,7 @@ sakai.profilesection = function(tuid, showSettings){
         $("#profilesection-locations").children().children(":first").children().remove();
 
         // render locations template again.
-        renderTemplateGeneralInfo("locations", true)
+        renderTemplateGeneralInfo("locations", true);
         $(window).trigger("sakai-" + $rootel.selector.replace("#", ""), renderTemplateGeneralInfo, true);
     };
 

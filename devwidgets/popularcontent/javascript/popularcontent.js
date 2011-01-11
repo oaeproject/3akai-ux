@@ -59,7 +59,7 @@ sakai.popularcontent = function(tuid, showSettings) {
         };
 
         $.ajax({
-        	url: sakai.config.URL.SEARCH_ALL_FILES,
+            url: sakai.config.URL.SEARCH_ALL_FILES,
             data: params,
             success: function(data){
                 contentData = {"results":[], "items": data.items, "total": data.total};
@@ -79,10 +79,10 @@ sakai.popularcontent = function(tuid, showSettings) {
 
     var loadData = function(callback){
         $.ajax({
-        	url: "/var/search/public/mostactivecontent.json?page=0&items=5",
+            url: "/var/search/public/mostactivecontent.json?page=0&items=5",
             cache: false,
             success: function(data){
-            	contentData = data;
+                contentData = data;
                 callback();
             }
         });

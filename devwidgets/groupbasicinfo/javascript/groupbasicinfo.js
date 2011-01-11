@@ -247,12 +247,12 @@ sakai.groupbasicinfo = function(tuid, showSettings){
                 }
                 directoryJSON.push(curLocation);
                 directory.push({
-                	"locationtitle": {
-                    	"value": sakai.currentgroup.data.authprofile["sakai:tags"][i],
+                    "locationtitle": {
+                        "value": sakai.currentgroup.data.authprofile["sakai:tags"][i],
                         "title": title
                     },
                     "id": {
-                    	"display": false,
+                        "display": false,
                         "value": "" + Math.round(Math.random() * 1000000000)
                     }
                 });
@@ -278,7 +278,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
             "perSectionPermissions" : false
         };
         return json;
-    }
+    };
 
     var renderLocations = function(data){
         sakai.currentgroup.data.authprofile["sakai:tags"] = data.tags;

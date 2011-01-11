@@ -60,7 +60,7 @@ sakai.activegroups = function(tuid, showSettings) {
         };
 
         $.ajax({
-        	url: sakai.config.URL.SEARCH_GROUPS,
+            url: sakai.config.URL.SEARCH_GROUPS,
             data: params,
             success: function(data){
                 groupData = {"results":[], "items": data.items, "total": data.total};

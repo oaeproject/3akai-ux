@@ -452,26 +452,28 @@ sakai.api.User.checkIfConnected = function(userid) {
 sakai.api.User.parseDirectory = function(){
 	var obj = {"elements":[]};
     for (var i in sakai.profile.main.data["sakai:tags"]){
-    	var tag = sakai.profile.main.data["sakai:tags"][i];
-        if (tag.substring(0, 10) === "directory/"){
-        	var finalTag = "";
-            var split = tag.split("/");
-            for (var ii = 1; ii < split.length; ii++){
-            	finalTag += sakai.api.UI.getValueForDirectoryKey(split[ii]);
-                if (ii < split.length -1){
-                	finalTag += "<span class='profilesection_location_divider'>&raquo;</span>";
+        if (sakai.profile.main.data["sakai:tags"].hasOwnProperty(i)) {
+            var tag = sakai.profile.main.data["sakai:tags"][i];
+            if (tag.substring(0, 10) === "directory/") {
+                var finalTag = "";
+                var split = tag.split("/");
+                for (var ii = 1; ii < split.length; ii++) {
+                    finalTag += sakai.api.UI.getValueForDirectoryKey(split[ii]);
+                    if (ii < split.length - 1) {
+                        finalTag += "<span class='profilesection_location_divider'>&raquo;</span>";
+                    }
                 }
+                obj.elements.push({
+                    "locationtitle": {
+                        "value": tag,
+                        "title": finalTag
+                    },
+                    "id": {
+                        "display": false,
+                        "value": "" + Math.round(Math.random() * 1000000000)
+                    }
+                });
             }
-            obj.elements.push({
-            	"locationtitle": {
-                    "value": tag,
-                    "title": finalTag
-                },
-                "id": {
-                	"display": false,
-                    "value": "" + Math.round(Math.random() * 1000000000)
-                }
-            })
         }
     }
     return obj;
