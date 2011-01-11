@@ -161,17 +161,17 @@
                         </a>
                     </div>
                     <div class="fl-force-left entity_content_used_by">
-                        <p class="entity_usedby">__MSG__USED_IN__
+                        <p class="entity_usedby">__MSG__USED_BY__
                             <a href="#" class="entity_content_places s3d-regular-light-links s3d-bold">
                                 ${data.profile.groupcount}
-                                {if data.profile.groupcount === 1}__MSG__PLACE__{else}__MSG__PLACES__{/if}</a>
-                            __MSG__BY__
+                                {if data.profile.groupcount === 1}__MSG__PERSON__{else}__MSG__PEOPLE__{/if}</a>
+                            __MSG__AND__
                             <a href="#" class="entity_content_people s3d-regular-light-links s3d-bold">
                                 ${data.profile.usercount}
                                 {if data.profile.usercount === 1}
-                                    __MSG__PERSON__
+                                    __MSG__GROUP__
                                 {else}
-                                    __MSG__PEOPLE__
+                                    __MSG__GROUPS__
                                 {/if}
                             </a>
                         </p>
