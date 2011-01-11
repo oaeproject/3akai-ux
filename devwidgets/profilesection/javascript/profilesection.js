@@ -173,6 +173,8 @@ sakai.profilesection = function(tuid, showSettings){
                 }
             }
             if (sectionObject.directory) {
+                sakai.profile.main.directory = sakai.api.User.parseDirectory();
+                sakai.profile.main.data["locations"] = sakai.profile.main.directory;
                 sections += $.TemplateRenderer($profilesection_field_location_template, {
                     "config": sectionObject,
                     "data": sakai.profile.main.directory,
@@ -400,7 +402,6 @@ sakai.profilesection = function(tuid, showSettings){
                         tagsArray.push(tag.replace(/\\/g, ""));
                     });
                     for (var i = 0; i < sakai.profile.main.directory.elements.length; i++){
-                        alert($.toJSON(sakai.profile.main.directory.elements[i]));
                         tagsArray.push(sakai.profile.main.directory.elements[i].locationtitle.value);                        
                     }
                     var profileURL = "/~" + sakai.profile.main.data["rep:userId"] + "/public/authprofile";
@@ -491,7 +492,7 @@ sakai.profilesection = function(tuid, showSettings){
     var renderLocation = function(data){
         
         sakai.profile.main.data["sakai:tags"] = data.tags;
-        sakai.profile.main.directory = sakai.profile.parseDirectory();
+        sakai.profile.main.directory = sakai.api.User.parseDirectory();
 
         // remove exisiting elements in the locations
         $("#profilesection-locations").children().children(":first").children().remove();

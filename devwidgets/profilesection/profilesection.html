@@ -116,15 +116,16 @@
     <div class="profilesection_generalinfo_subcontainer">
     {if data.elements.length > 0}
         <label class="profilesection_generalinfo_label" for="profilesection_generalinfo_locations}">Locations:</label>
-        <span class="profilesection_generalinfo_content" id="profilesection_generalinfo_locations">
+        <ul class="{if sakai.profile.main.mode.value !== 'edit'}profilesection_generalinfo_locations_rendered{/if}  profilesection_generalinfo_content" id="profilesection_generalinfo_locations">
         {for i in data.elements}
-            ${i.locationtitle.title}
-            <br/>
+            <li>${i.locationtitle.title}</li>
         {/for}
-        </span>
+        </ul>
     {/if}
     </div>
-    <a href="javascript:;" class="profilesection_add_location_section s3d-add_another_location"><span>Add or remove locations</span></a>
+    {if sakai.profile.main.mode.value === 'edit'}
+        <a href="javascript:;" class="profilesection_add_location_section s3d-add_another_location"><span>Add or remove locations</span></a>
+    {/if}
 --></div>
 
 <!-- FIELD TEMPLATES -->

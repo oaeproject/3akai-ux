@@ -99,6 +99,9 @@ sakai.activegroups = function(tuid, showSettings) {
         // If the widget is initialized on the directory page then listen to the event to catch specified tag results
         if (!(sakai.directory && sakai.directory.getIsDirectory())) {
             loadData(renderPopularGroups);
+            $("#activegroups_title_popular").show();
+        } else {
+            $("#activegroups_title_recent").show();
         }
     };
 

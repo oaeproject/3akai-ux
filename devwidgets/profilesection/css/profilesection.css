@@ -112,3 +112,18 @@
 .profilesection_saved_seperator {float:left; margin-top: 2px;}
 .profilesection_locations_link {margin-bottom: 3px;}
 .profilesection_remove_location {float: right;}
+.profilesection_location_divider {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+#profilesection_generalinfo_locations {
+    margin: 5px;
+    display: inline-block;
+}
+.profilesection_generalinfo_locations_rendered {
+    width: 350px;
+}
+#profilesection_generalinfo_locations li {
+    list-style-type: none;
+    margin-bottom: 5px;
+}

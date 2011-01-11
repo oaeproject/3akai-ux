@@ -77,14 +77,9 @@
                     </option>
                 </select>
             </div>
-
-            <div class="groupbasicinfo_generalinfo_header">
-                <h2>__MSG__LOCATIONS__</h2>
-            </div>
-
             <div class="groupbasicinfo_generalinfo_subcontainer">
                 <label class="groupbasicinfo_generalinfo_label" for="groupbasicinfo_generalinfo">
-                    __MSG__LOCATIONS__:
+                    __MSG__WHERE_CAN_THIS_GROUP_BE_FOUND__:
                 </label>
                 <div id="groupbasicinfo_content_directory_contents">
                     <div class="groupbasicinfo_saveddirectory">
@@ -158,20 +153,33 @@
                     <div class="groupbasicinfo_generalinfo_content">${data['sakai:group-description']}</div>
                 </div>
             {/if}
+            {if directory && directory.length > 0}
+                <div class="groupbasicinfo_generalinfo_subcontainer">
+                    <label class="groupbasicinfo_generalinfo_label" for="groupbasicinfo_generalinfo">
+                        __MSG__WHERE_CAN_THIS_GROUP_BE_FOUND__:
+                    </label>
+                    <div id="groupbasicinfo_content_directory_contents">
+                        <div class="groupbasicinfo_saveddirectory">
+                        </div>
+                        <div id="groupbasicinfo_add_another_container"></div>
+                    </div>
+                </div>
+            {/if}
         {/if}
 
     {/if}
 
 --></div>
     <div id="groupbasicinfo_generalinfo_directory_list_template"><!--
-        <ul id="groupbasicinfo_directory">
-        {for savedDir in saveddirectory}
-            
-            <li class="${savedDir.toString().replace(/,/g,"/")}">
-                <span class="groupbasicinfo_saveddirectory_information">${savedDir.toString().replace(/,/g, " <span class='groupbasicinfo_selected_and_saved_seperator'>&raquo;</span> ")}</span>
-            </li>
-        {/for}
-        </ul>
+        {if directory.length > 0}
+            <ul id="groupbasicinfo_directory">
+                {for dir in directory}
+                    <li class="${dir.locationtitle.value}">
+                        <span class="groupbasicinfo_saveddirectory_information">${dir.locationtitle.title}</span>
+                    </li>
+                {/for}
+            </ul>
+        {/if}
     --></div>
 
     <div id="widget_assignlocation" class="widget_inline"></div>

@@ -97,6 +97,9 @@ sakai.popularcontent = function(tuid, showSettings) {
         // If the widget is initialized on the directory page then listen to the event to catch specified tag results
         if (!(sakai.directory && sakai.directory.getIsDirectory())) {
            loadData(renderPopularContent);
+           $("#popularcontent_title_popular").show();
+        } else {
+            $("#popularcontent_title_recent").show();
         }
     };
 

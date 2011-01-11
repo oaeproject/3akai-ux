@@ -78,16 +78,19 @@ sakai.groupbasicinfo = function(tuid, showSettings){
      */
     var addBinding = function(){
 
+        $(groupbasicinfo_dontupdate, $rootel).unbind("click");
         $(groupbasicinfo_dontupdate, $rootel).bind("click", function(){
             sakai.api.Widgets.Container.informCancel(tuid, "groupbasicinfo");
         });
 
+        $(groupbasicinfo_update, $rootel).unbind("click");
         $(groupbasicinfo_update, $rootel).bind("click", function(){
             // disable all basic info input elements while update is processed
             sakai.api.UI.groupbasicinfo.disableInputElements();
             updateGroup();
         });
 
+        $(groupBasicInfoAddAnotherLocation).die("click");
         $(groupBasicInfoAddAnotherLocation).live("click", function(){
             //addAnotherLocation();
             $("#assignlocation_container").jqmShow();
@@ -110,40 +113,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         if (showSettings) {
             mode = 'edit';
         }
-        // Extract tags that start with "directory:"
-        var directory = [];
-        var tags = [];
-        $(sakai.currentgroup.data.authprofile["sakai:tags"]).each(function(i){
-            var splitDir = sakai.currentgroup.data.authprofile["sakai:tags"][i].split("/");
-            if (splitDir[0] === "directory") {
-                var item = [];
-                for (var j in splitDir) {
-                    if (splitDir.hasOwnProperty(j)) {
-                        if (splitDir[j] !== "directory") {
-                            item.push(splitDir[j]);
-                        }
-                    }
-                }
-                directory.push(item);
-            } else {
-                tags.push(sakai.currentgroup.data.authprofile["sakai:tags"][i]);
-            }
-        });
-        // Get the group information out of the global group info object
-        json = {
-            "groupid" : sakai.currentgroup.id,
-            "url" : document.location.protocol + "//" + document.location.host + "/~" + sakai.currentgroup.id,
-            "data" : sakai.currentgroup.data.authprofile,
-            "mode" : mode,
-            "tags" : tags,
-            "directory" : directoryJSON,
-            "saveddirectory" : directory,
-            /* the following perSectionPermissions switch is used to turn off
-               the "Who can view or search this?" permissions dropdown for now.
-               The dropdown will need to be enabled and fully implemented later
-               on and the following switch can be removed. */
-            "perSectionPermissions" : false
-        };
+        var json = processTagsAndDirectory(mode);
 
         $groupbasicinfo_generalinfo.html($.TemplateRenderer("#groupbasicinfo_default_template", json));
         $(groupBasicInfoSavedInfo).html($.TemplateRenderer("#groupbasicinfo_generalinfo_directory_list_template", json));
@@ -219,8 +189,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         // For every groupbasicinfo_added_directory we create tags
         $("#groupbasicinfo_directory li").each(function(ev, value){
             var directory = $(value).attr("class");
-            var directoryString = "directory/" + directory;
-            sakai.currentgroup.data.authprofile["sakai:tags"].push(directoryString);
+            sakai.currentgroup.data.authprofile["sakai:tags"].push(directory);
         });
         
         // group description (can be blank)
@@ -257,9 +226,69 @@ sakai.groupbasicinfo = function(tuid, showSettings){
     var addAnotherLocation = function(){
         $("#assignlocation_container").jqmShow();
     };
+    
+    var processTagsAndDirectory = function(mode){
+        // Extract tags that start with "directory:"
+        var directory = [];
+        var tags = [];
+        $(sakai.currentgroup.data.authprofile["sakai:tags"]).each(function(i){
+            var splitDir = sakai.currentgroup.data.authprofile["sakai:tags"][i].split("/");
+            if (splitDir[0] === "directory") {
+                var title = "";
+                var curLocation = [];
+                for (var j = 1; j < splitDir.length; j++) {
+                    if (splitDir.hasOwnProperty(j)) {
+                        title += sakai.api.UI.getValueForDirectoryKey(splitDir[j]);
+                        curLocation.push(splitDir[j]);
+                    }
+                    if (j < splitDir.length - 1){
+                        title += "<span class='groupbasicinfo_location_divider'>&raquo;</span>";
+                    }
+                }
+                directoryJSON.push(curLocation);
+                directory.push({
+                	"locationtitle": {
+                    	"value": sakai.currentgroup.data.authprofile["sakai:tags"][i],
+                        "title": title
+                    },
+                    "id": {
+                    	"display": false,
+                        "value": "" + Math.round(Math.random() * 1000000000)
+                    }
+                });
+            } else {
+                tags.push(sakai.currentgroup.data.authprofile["sakai:tags"][i]);
+            }
+        });
+        sakai.currentgroup.data.authprofile.directory = directory;
+        sakai.currentgroup.data.authprofile.saveddirectory = directoryJSON;
+        // Get the group information out of the global group info object
+        json = {
+            "groupid" : sakai.currentgroup.id,
+            "url" : document.location.protocol + "//" + document.location.host + "/~" + sakai.currentgroup.id,
+            "data" : sakai.currentgroup.data.authprofile,
+            "mode" : mode,
+            "tags" : tags,
+            "directory" : directory,
+            //"saveddirectory" : directoryJSON,
+            /* the following perSectionPermissions switch is used to turn off
+               the "Who can view or search this?" permissions dropdown for now.
+               The dropdown will need to be enabled and fully implemented later
+               on and the following switch can be removed. */
+            "perSectionPermissions" : false
+        };
+        return json;
+    }
 
     var renderLocations = function(data){
-        $(groupBasicInfoSavedInfo).html($.TemplateRenderer("#groupbasicinfo_generalinfo_directory_list_template", data));        
+        sakai.currentgroup.data.authprofile["sakai:tags"] = data.tags;
+        var mode = '';
+        // Show in Edit mode
+        if (showSettings) {
+            mode = 'edit';
+        }
+        var json = processTagsAndDirectory(mode);
+        $(groupBasicInfoSavedInfo).html($.TemplateRenderer("#groupbasicinfo_generalinfo_directory_list_template", json));
     };
 
     //////////////////////
