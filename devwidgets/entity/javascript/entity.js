@@ -1256,6 +1256,17 @@ sakai.entity = function(tuid, showSettings){
             $(window).trigger("sakai-sharecontent-init", pl_config, function(people){
             });
 
+            // display help tooltip
+            var tooltipData = {
+                "tooltipSelector":"#sharecontent_add_people",
+                "tooltipTitle":"TOOLTIP_SHARE_CONTENT",
+                "tooltipDescription":"TOOLTIP_SHARE_CONTENT_P4",
+                "tooltipArrow":"bottom",
+                "tooltipTop":3,
+                "tooltipLeft":120
+            };
+            $(window).trigger("sakai-tooltip-update", tooltipData);
+
             return false;
         });
 

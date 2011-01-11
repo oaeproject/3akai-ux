@@ -15,14 +15,11 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-/*global $, fluid, window */
 
-var sakai = sakai || {};
-
-sakai.directory = function(){
-
-	    
-
-};
-
-sakai.api.Widgets.Container.registerForLoad("sakai.directory");
+.nextleveldown_content {border-left: 1px solid #CCCCCC !important;border-right: 1px solid #CCCCCC !important; border: 1px solid #CCCCCC !important; -moz-border-radius: 4px;}
+.nextleveldown_child_container {width:209px; float:left;  margin: 10px 0;}
+.nextleveldown_child_header {clear:both; overflow: hidden; margin-bottom: 7px;}
+.nextleveldown_child_image {float:left;}
+.nextleveldown_child_title{float: left; margin: 2px 0 0 9px; width: 165px;}
+.nextleveldown_subchild_title {clear:both; margin-left: 40px; display:block; padding-bottom: 3px;}
+.nextleveldown_subchild_title > a {font-weight:normal;}

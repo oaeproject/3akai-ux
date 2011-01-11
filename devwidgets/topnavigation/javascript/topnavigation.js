@@ -520,6 +520,7 @@ sakai.topnavigation = function(tuid, showSettings){
                   temp.url = sakai.config.Navigation[i].url;
                 }
                 temp.label = sakai.api.i18n.General.getValueForKey(sakai.config.Navigation[i].label);
+                temp.id = sakai.config.Navigation[i].id;
                 temp.cleanurl = temp.url || "";
                 if (temp.cleanurl) {
                     if (temp.cleanurl.indexOf('?') && temp.cleanurl.indexOf('?') > 0) {

@@ -170,8 +170,9 @@ sakai.mygroups = function(tuid){
     // Event Handlers //
     ////////////////////
 
-    $(mygroupsCreateNewGroup, rootel).bind("click", function(ev){
-        createNewGroup();
+    $(".mygroups_create_new_group", rootel).die("click");
+    $(".mygroups_create_new_group", rootel).live("click", function(ev){
+        createNewGroup(); 
     });
 
     // Start the request

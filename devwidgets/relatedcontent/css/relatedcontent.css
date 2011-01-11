@@ -52,3 +52,11 @@
 .relatedcontent .relatedcontent_no_content {
     padding-top: 20px;
 }
+
+.relatedcontent .threedots_text {
+    width: 145px;
+}
+
+.relatedcontent .threedots_text span {
+    word-wrap: break-word;
+}
