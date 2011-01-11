@@ -183,12 +183,12 @@ a.s3d-regular-links, .s3d-regular-links a{
 .s3d-widget .s3d-widget-options-footer-right { background: url("/dev/images/dashboard_sprite.png") no-repeat scroll right -456px #D5DBDF; float: right; height: 12px; width: 16px;}
 
 .s3d-widget .s3d-widget-no-options, .s3d-no-options{
-    background: url('/dev/images/content_br.png') top right no-repeat; 
+    background: url("/dev/images/dashboard_sprite.png") no-repeat scroll right -1453px transparent;
     padding: 0 5px 0 0; 
     margin: 0;
 }
 .s3d-widget .s3d-widget-no-options-inner, .s3d-no-options-inner {
-    background: url('/dev/images/content_bl.png') 0 0 no-repeat; 
+    background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -10px -1433px transparent;
     margin: 0; 
     height: 6px;
 }
@@ -312,7 +312,7 @@ a.s3d-action, .s3d-actions a {
 }
 
 .s3d-button-link-2-state:hover {
-    background-position: right -120px;
+    background-position: right -1357px;
 }
 
 .s3d-button::-moz-focus-inner {
@@ -451,10 +451,10 @@ html > body .s3d-button .s3d-button-inner {
 }
 
 /* LINK BUTTON */
-.s3d-button-link-2-state {background: url("/dev/images/button_link_2_state.png") no-repeat scroll right -40px transparent;}
-.s3d-button-link-2-state-inner {background: url("/dev/images/button_link_2_state.png") no-repeat scroll left 0px transparent !important; margin: 0 !important; color: #333 !important;font-size:11px;}
+.s3d-button-link-2-state {background: url("/dev/images/dashboard_sprite.png") no-repeat scroll right -1277px transparent;}
+.s3d-button-link-2-state-inner {background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -10px -1237px transparent !important; margin: 0 !important; color: #333 !important;font-size:11px;}
 .s3d-button-link-2-state-inner-secondary {font-size:9px;}
-.s3d-button:hover .s3d-button-link-2-state-inner {background: url("/dev/images/button_link_2_state.png") no-repeat scroll left -80px transparent !important; color: #FFF !important;}
+.s3d-button:hover .s3d-button-link-2-state-inner {background:url("/dev/images/dashboard_sprite.png") no-repeat scroll -10px -1317px transparent !important; color: #FFF !important;}
 
 .s3d-button.s3d-button-tab { background: url("/dev/images/tab_button_bg.png") no-repeat scroll right -25px transparent; margin-top: 3px; }
 .s3d-button.s3d-button-tab .s3d-button-inner { background: url("/dev/images/tab_button_bg.png") no-repeat scroll left top transparent; }
@@ -611,10 +611,10 @@ label.error {color:#9f3333;font-weight:bold;}
 .jqmOverlay{background-color:#000;}
 
 /* Dialog header */
-.dialog_header{background:url(/dev/images/dialog_tr.png) top right no-repeat;padding:0 8px 0 0;}
-.dialog_header_inner{background:url(/dev/images/dialog_tl.png) top left no-repeat;}
+.dialog_header{background:url("/dev/images/dashboard_sprite.png") no-repeat scroll right -641px transparent;padding:0 8px 0 0;}
+.dialog_header_inner{background:url("/dev/images/dashboard_sprite.png") no-repeat scroll -10px -819px transparent;}
 .dialog_header h1{color:#fff;display:block;font-size:1.1em;margin:0;padding:15px 20px;}
-.dialog_header .dialog_close_image{background:url(/dev/images/close_dialog.png) no-repeat top right;cursor:pointer;display:block;height:15px;overflow:hidden;position:absolute;right:20px;top:17px;text-indent:-5000px;width:14px;}
+.dialog_header .dialog_close_image{background:url("/dev/images/dashboard_sprite.png") no-repeat scroll -40px -641px transparent;cursor:pointer;display:block;height:15px;overflow:hidden;position:absolute;right:20px;top:17px;text-indent:-5000px;width:14px;}
 
 /* Dialog content */
 .dialog_content{background-color:#fff;border-left:3px #454a4f solid;border-right:3px #454a4f solid;padding:7px 20px 7px;}
@@ -625,8 +625,8 @@ label.error {color:#9f3333;font-weight:bold;}
 .dialog_buttons{clear:both;margin-top:20px;}
 
 /* Dialog footer */
-.dialog_footer{background:url(/dev/images/dialog_br.png) top right no-repeat;padding:0 8px 0 0;}
-.dialog_footer_inner{background:url(/dev/images/dialog_bl.png) top left no-repeat;height:6px;}
+.dialog_footer{background:url("/dev/images/dashboard_sprite.png") no-repeat scroll right -957px transparent;padding:0 8px 0 0;}
+.dialog_footer_inner{background:url("/dev/images/dashboard_sprite.png") no-repeat scroll -10px -937px transparent;height:6px;}
 
 /** Chat bullets **/
 .chat_available_status_online {background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -33px -396px transparent; }
@@ -636,25 +636,25 @@ label.error {color:#9f3333;font-weight:bold;}
 /* highlighted areas */
 .s3d-highlight_area_background {background-color:#EFF2F4; padding: 0 10px; margin: 0 0 15px 0;}
 
-.s3d-highlight_area_background_tl {height:7px; margin-left: -10px;  background: url("/dev/images/highlight_area_background_tl.png") no-repeat scroll left 0 transparent;}
-.s3d-highlight_area_background_tinner {height:7px; margin-right: -10px;  background: url("/dev/images/highlight_area_background_tr.png") no-repeat scroll right 0 transparent;}
-.s3d-highlight_area_background_bl {clear:both; height:7px; margin-left: -10px;  background: url("/dev/images/highlight_area_background_bl.png") no-repeat scroll left 0 transparent;}
-.s3d-highlight_area_background_binner {clear:both; height:7px; margin-right: -10px;  background: url("/dev/images/highlight_area_background_br.png") no-repeat scroll right 0 transparent;}
+.s3d-highlight_area_background_tl {height:7px; margin-left: -10px;  background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -10px -1037px transparent;}
+.s3d-highlight_area_background_tinner {height:7px; margin-right: -10px;  background: url("/dev/images/dashboard_sprite.png") no-repeat scroll right -1047px transparent;}
+.s3d-highlight_area_background_bl {clear:both; height:7px; margin-left: -10px;  background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -10px -1057px transparent;}
+.s3d-highlight_area_background_binner {clear:both; height:7px; margin-right: -10px;  background: url("/dev/images/dashboard_sprite.png") no-repeat scroll right -1067px transparent;}
 
-.s3d-highlight_area_background_white_content_tl {height:7px; margin-left: -10px;  background: url("/dev/images/highlight_area_background_white_content_tl.png") no-repeat scroll left 0 transparent;}
-.s3d-highlight_area_background_white_content_tinner {height:7px; margin-right: -10px;  background: url("/dev/images/highlight_area_background_white_content_tr.png") no-repeat scroll right 0 transparent;}
-.s3d-highlight_area_background_white_content_bl {clear:both; height:7px; margin-left: -10px;  background: url("/dev/images/highlight_area_background_white_content_bl.png") no-repeat scroll left 0 transparent;}
-.s3d-highlight_area_background_white_content_binner {clear:both; height:7px; margin-right: -10px;  background: url("/dev/images/highlight_area_background_white_content_br.png") no-repeat scroll right 0 transparent;}
+.s3d-highlight_area_background_white_content_tl {height:7px; margin-left: -10px; background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -10px -1198px transparent;}
+.s3d-highlight_area_background_white_content_tinner {height:7px; margin-right: -10px;  background: url("/dev/images/dashboard_sprite.png") no-repeat scroll right -1208px transparent;}
+.s3d-highlight_area_background_white_content_bl {clear:both; height:7px; margin-left: -10px;  background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -10px -1217px transparent;}
+.s3d-highlight_area_background_white_content_binner {clear:both; height:7px; margin-right: -10px;  background: url("/dev/images/dashboard_sprite.png") no-repeat scroll right -1227px transparent;}
 
 .s3d-highlight_area_background_darker1 {background-color:#d5dbdf; padding: 0 10px; margin: 0 0 15px 0;}
-.s3d-highlight_area_background_darker1_tl {height:7px; margin-left: -10px;  background: url("/dev/images/highlight_area_background_darker1_tl.png") no-repeat scroll left 0 transparent;}
-.s3d-highlight_area_background_darker1_tinner {height:7px; margin-right: -10px;  background: url("/dev/images/highlight_area_background_darker1_tr.png") no-repeat scroll right 0 transparent;}
-.s3d-highlight_area_background_darker1_bl {height:7px; margin-left: -10px;  background: url("/dev/images/highlight_area_background_darker1_bl.png") no-repeat scroll left 0 transparent;}
-.s3d-highlight_area_background_darker1_binner {height:7px; margin-right: -10px;  background: url("/dev/images/highlight_area_background_darker1_br.png") no-repeat scroll right 0 transparent;}
+.s3d-highlight_area_background_darker1_tl {height:7px; margin-left: -10px;  background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -10px -1077px transparent;}
+.s3d-highlight_area_background_darker1_tinner {height:7px; margin-right: -10px;  background: url("/dev/images/dashboard_sprite.png") no-repeat scroll right -1087px transparent;}
+.s3d-highlight_area_background_darker1_bl {height:7px; margin-left: -10px;  background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -10px -1097px transparent;}
+.s3d-highlight_area_background_darker1_binner {height:7px; margin-right: -10px;  background: url("/dev/images/dashboard_sprite.png") no-repeat scroll right -1107px transparent;}
 
-.s3d-highlight_area_background_darker1_white_content_tl {height:7px; margin-left: -10px;  background: url("/dev/images/highlight_area_background_darker1_white_content_tl.png") no-repeat scroll left 0 transparent;}
-.s3d-highlight_area_background_darker1_white_content_tinner {height:7px; margin-right: -10px;  background: url("/dev/images/highlight_area_background_darker1_white_content_tr.png") no-repeat scroll right 0 transparent;}
-.s3d-highlight_area_background_darker1_white_content_bl {clear:both; height:7px; margin-left: -10px;  background: url("/dev/images/highlight_area_background_darker1_white_content_bl.png") no-repeat scroll left 0 transparent;}
-.s3d-highlight_area_background_darker1_white_content_binner {clear:both; height:7px; margin-right: -10px;  background: url("/dev/images/highlight_area_background_darker1_white_content_br.png") no-repeat scroll right 0 transparent;}
+.s3d-highlight_area_background_darker1_white_content_tl {height:7px; margin-left: -10px;  background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -10px -1117px transparent;}
+.s3d-highlight_area_background_darker1_white_content_tinner {height:7px; margin-right: -10px;  background: url("/dev/images/dashboard_sprite.png") no-repeat scroll right -1127px transparent;}
+.s3d-highlight_area_background_darker1_white_content_bl {clear:both; height:7px; margin-left: -10px;  background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -10px -1137px transparent;}
+.s3d-highlight_area_background_darker1_white_content_binner {clear:both; height:7px; margin-right: -10px;  background: url("/dev/images/dashboard_sprite.png") no-repeat scroll right -1147px transparent;}
 
 .chat_available_status_offline, .chat_available_status_busy, .chat_available_status_online {padding-left:15px;}
