@@ -78,7 +78,7 @@ sakai.assignlocation = function(tuid, showSettings) {
         // add event binding to the items
         $(".assignlocation_close_link").bind("click", function(ev){
             // get the id for the node (list item id)
-            var id = $(ev.target).parent().attr("id").split("/").pop();
+            var id = $(this).parent().attr("id").split("/").pop();
             // unchecked the node
             $assignlocationJSTreeContainer.jstree("uncheck_node", $("#"+id));
         });
@@ -86,7 +86,6 @@ sakai.assignlocation = function(tuid, showSettings) {
         // Check the boxes that were previously saved
         if (init) {
             var initiallySelect = [];
-            console.log(contextVariables);
             for (var location in contextVariables.saveddirectory){
                 if (contextVariables.saveddirectory.hasOwnProperty(location)) {
                     $.jstree._reference($assignlocationJSTreeContainer).change_state($("#" + contextVariables.saveddirectory[location][contextVariables.saveddirectory[location].length - 1]), false);
@@ -139,6 +138,7 @@ sakai.assignlocation = function(tuid, showSettings) {
     };
 
     var addWidgetBinding = function(){
+        $assignlocationSaveButton.unbind("click");
         $assignlocationSaveButton.bind("click", function(){
             saveLocations();
         });
@@ -172,6 +172,7 @@ sakai.assignlocation = function(tuid, showSettings) {
     var determineContext = function(){
         var context = sakai.api.UI.getPageContext();
         if (context) {
+            $("#assignlocation_secondcolumn_header_" + context).show();
             switch (context) {
                 case "user":
                     contextVariables = {

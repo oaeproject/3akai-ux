@@ -106,7 +106,7 @@ sakai.tags = function(tuid, showSettings) {
         }
 
         // If the widget is initialized on the directory page then listen to the event to catch specified tag results
-        if (sakai.directory2 && sakai.directory2.getIsDirectory()) {
+        if (sakai.directory && sakai.directory.getIsDirectory()) {
             loadData(true, generateTagCloud);
         }
         else {

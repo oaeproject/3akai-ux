@@ -179,7 +179,7 @@ sakai.browsedirectory = function(tuid, showSettings){
     };
 
     /**
-     * Function that is available to other functions and called by directory2.js
+     * Function that is available to other functions and called by directory.js
      * It return the directorynode json object based on the id passed
      * 
      * @param {String} id  the unique id for each node for example firstyearcourses

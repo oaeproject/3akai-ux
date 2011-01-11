@@ -16,7 +16,9 @@
                 <div class='s3d-highlight_area_background_tinner'>
                 </div>
             </div>
-            <h1 id="assignlocation_secondcolumn_header">__MSG__CONTENT_WILL_BE_INCLUDED_IN_THESE_LOCATIONS__</h1><h1>__MSG__SELECT_LOCATION_OR_SEARCH__</h1>
+            <h1 id="assignlocation_secondcolumn_header_content" class="assignlocation_secondcolumn_header" style="display:none">__MSG__CONTENT_WILL_BE_INCLUDED_IN_THESE_LOCATIONS__</h1>
+            <h1 id="assignlocation_secondcolumn_header_group" class="assignlocation_secondcolumn_header" style="display:none">__MSG__GROUP_WILL_BE_INCLUDED_IN_THESE_LOCATIONS__</h1>
+            <h1 id="assignlocation_secondcolumn_header_user" class="assignlocation_secondcolumn_header" style="display:none">__MSG__USER_WILL_BE_INCLUDED_IN_THESE_LOCATIONS__</h1><h1>__MSG__SELECT_LOCATION_OR_SEARCH__</h1>
             <div id="assignlocation_jstree_container">
             </div>
             <div id="assignlocation_jstree_selected_container">
@@ -50,10 +52,10 @@
         {for location in newlyAssignedLocations}
             <li {if location_index % 2 != 0} class="s3d-list-item s3d-highlight_area_background" {else} class="s3d-list-item" {/if} id="${location}">
                 <a class="assignlocation_close_link" href="javascript:;">
+                    <img class="assignlocation_close_image" src="/dev/images/close_dialog.png" />
                     {for locationpiece in location.split("/")}
                         ${sakai.api.UI.getValueForDirectoryKey(locationpiece)} {if locationpiece_index < location.split("/").length - 1} <span class='assignlocation_select_seperator'>&raquo;</span>{/if}
                     {/for}
-                    <img class="assignlocation_close_image" src="/dev/images/close_dialog.png" />
                 </a>
             </li>
         {/for}

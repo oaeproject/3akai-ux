@@ -108,8 +108,23 @@
 
 <!-- ADD LOCATIONS TEMPLATE -->
 <div id="profilesection_add_locations_template"><!--
+    
+--></div>
+
+<!-- LOCATION TEMPLATE -->
+<div id="profilesection_field_location_template"><!--
+    <div class="profilesection_generalinfo_subcontainer">
+    {if data.elements.length > 0}
+        <label class="profilesection_generalinfo_label" for="profilesection_generalinfo_locations}">Locations:</label>
+        <span class="profilesection_generalinfo_content" id="profilesection_generalinfo_locations">
+        {for i in data.elements}
+            ${i.locationtitle.title}
+            <br/>
+        {/for}
+        </span>
+    {/if}
+    </div>
     <a href="javascript:;" class="profilesection_add_location_section s3d-add_another_location"><span>Add or remove locations</span></a>
-    <div id="widget_assignlocation" class="widget_inline"></div>
 --></div>
 
 <!-- FIELD TEMPLATES -->
