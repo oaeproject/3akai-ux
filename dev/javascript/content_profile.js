@@ -306,12 +306,38 @@ sakai.content_profile = function(){
                     if (task === 'add') {
                         sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_added_text").text()) + " " + users.toAddNames.toString().replace(/,/g, ", "));
                         sakai.content_profile.loadContentProfile();
+                        // record that user shared content
+                        sakai.api.User.addUserProgress("sharedContent");
                     }
                     else {
                         sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_removed_text").text()) + " " + users.toAddNames.toString().replace(/,/g, ", "));
                     }
                 }
             });
+        }
+    };
+
+    /**
+     * Checks if user is in the share content tour and displays tooltips
+     */
+    var checkShareContentTour = function(){
+        var querystring = new Querystring();
+        if (querystring.contains("sharecontenttour") && querystring.get("sharecontenttour") === "true") {
+            // display tooltip
+            var tooltipData = {
+                "tooltipSelector":"#entity_content_share_button",
+                "tooltipTitle":"TOOLTIP_SHARE_CONTENT",
+                "tooltipDescription":"TOOLTIP_SHARE_CONTENT_P3",
+                "tooltipArrow":"top",
+                "tooltipLeft":30
+            };
+            if (!sakai.tooltip || !sakai.tooltip.isReady) {
+                $(window).bind("sakai-tooltip-ready", function() {
+                    $(window).trigger("sakai-tooltip-init", tooltipData);
+                });
+            } else {
+                $(window).trigger("sakai-tooltip-init", tooltipData);
+            }
         }
     };
 
@@ -337,6 +363,9 @@ sakai.content_profile = function(){
             handleHashChange();
         });
         handleHashChange();
+
+        // check for share content tour in progress
+        checkShareContentTour();
     };
 
     // Initialise the content profile page

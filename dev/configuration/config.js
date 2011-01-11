@@ -547,6 +547,11 @@ sakai.config = {
         DefaultMember: "viewers"
     },
 
+    SystemTour: {
+        "enableReminders":true,
+        "reminderIntervalHours": "168"
+    },
+
     Messages: {
         Types: {
             inbox: "inbox",
@@ -695,25 +700,37 @@ sakai.config = {
         }
     },
 
-    Navigation: [{
-        "url": "/dev/my_sakai.html",
-        "label": "MY_SAKAI"
-    }, {
-        "url": "/dev/search_content.html#q=*&facet=manage",
-        "anonUrl": "/dev/search_content.html#q=*",
-        "label": "CONTENT_AND_MEDIA"
-    }, {
-        "url": "/dev/search_groups.html#q=*&facet=manage",
-        "anonUrl": "/dev/search_groups.html#q=*",
-        "label": "GROUPS"
-    }, {
-        "url": "/dev/search_people.html#q=*&facet=contacts",
-        "anonUrl": "/dev/search_people.html#q=*",
-        "label": "PEOPLE"
-    }, {
-        "url": "/dev/directory.html",
-        "label": "DIRECTORY"
-    }],
+    Navigation: [
+        {
+            "url" : "/dev/my_sakai.html",
+            "id" : "navigation_my_sakai_link",
+            "label" : "MY_SAKAI"
+        },
+        {
+            "url" : "/dev/search_content.html#q=*&facet=manage",
+            "anonUrl" : "/dev/search_content.html#q=*",
+            "id" : "navigation_content_link",
+            "label" : "CONTENT_AND_MEDIA"
+        },
+        {
+            "url" : "/dev/search_groups.html#q=*&facet=manage",
+            "anonUrl" : "/dev/search_groups.html#q=*",
+            "id" : "navigation_groups_link",
+            "label" : "GROUPS"
+        },
+        {
+            "url" : "/dev/search_people.html#q=*&facet=contacts",
+            "anonUrl" : "/dev/search_people.html#q=*",
+            "id" : "navigation_people_link",
+            "label" : "PEOPLE"
+        },
+        {
+            "url" : "/dev/directory.html",
+            "id" : "navigation_directory_link",
+            "label" : "DIRECTORY"
+        }
+    ],
+
     /*
      * Are anonymous users allowed to browse/search
      */
