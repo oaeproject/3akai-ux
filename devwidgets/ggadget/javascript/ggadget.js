@@ -48,7 +48,7 @@ sakai.ggadget = function(tuid, showSettings){
     var defaultHeight = 400;
 
     // Links and labels
-    var remotecontent = "#remotecontent";
+    var remotecontent = "#ggadget_remotecontent";
     var remotecontentSettings = remotecontent + "_settings";
     var remotecontentSettingsAdvanced = remotecontentSettings + "_advanced";
     var remotecontentSettingsAdvancedDown = remotecontentSettingsAdvanced + "_down";
@@ -70,13 +70,13 @@ sakai.ggadget = function(tuid, showSettings){
     var remotecontentMainContainer = remotecontent + "_main_container";
 
     // Classes
-    var remotecontentSettingsWidthUnitClass = ".remotecontent_settings_width_unit";
-    var remotecontentSettingsWidthUnitSelectedClass = "remotecontent_settings_width_unit_selected";
+    var remotecontentSettingsWidthUnitClass = ".ggadget_remotecontent_settings_width_unit";
+    var remotecontentSettingsWidthUnitSelectedClass = "ggadget_remotecontent_settings_width_unit_selected";
 
     // Templates
-    var $remotecontentSettingsColorContainerTemplate = $("#remotecontent_settings_color_container_template", rootel);
-    var $remotecontentSettingsTemplate = $("#remotecontent_settings_template", rootel);
-    var $remotecontentSettingsPreviewTemplate = $("#remotecontent_settings_preview_template", rootel);
+    var $remotecontentSettingsColorContainerTemplate = $("#ggadget_remotecontent_settings_color_container_template", rootel);
+    var $remotecontentSettingsTemplate = $("#ggadget_remotecontent_settings_template", rootel);
+    var $remotecontentSettingsPreviewTemplate = $("#ggadget_remotecontent_settings_preview_template", rootel);
 
     ///////////////////////
     // Utility functions //
@@ -219,7 +219,7 @@ sakai.ggadget = function(tuid, showSettings){
      * Add binding to the color boxes
      */
     var addColorBinding = function(){
-        $(".remotecontent_settings_color").click(function(){
+        $(".ggadget_remotecontent_settings_color").click(function(){
             json.border_color = $(this).attr("id").split("_")[$(this).attr("id").split("_").length - 1];
             renderIframeSettings(false);
             renderColorContainer();
@@ -282,7 +282,6 @@ sakai.ggadget = function(tuid, showSettings){
 
         // Preview gadget
         $(".ggadget_preview_button", rootel).bind("click", function() {
-
             if ($(remotecontentSettingsUrl).val() !== "") {
                 previewGadget();
             }

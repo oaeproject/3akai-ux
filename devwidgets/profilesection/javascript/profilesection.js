@@ -39,6 +39,7 @@ sakai.profilesection = function(tuid, showSettings){
     /////////////////////////////
 
     var currentsection;
+    var assignlocationLoaded = false;
 
     ///////////////////
     // CSS Selectors //
@@ -48,6 +49,9 @@ sakai.profilesection = function(tuid, showSettings){
 
     var $profilesection_default_template = $("#profilesection_default_template", $rootel);
     var $profilesection_add_section_template = $("#profilesection_add_section_template", $rootel);
+    var $profilesection_add_locations_template = $("#profilesection_add_locations_template", $rootel);
+    var $profilesection_field_location_template = $("#profilesection_field_location_template", $rootel);
+    var profilesection_add_location_section = ".profilesection_add_location_section";
     var $profilesection_remove_section_template = $("#profilesection_remove_section_template", $rootel);
     var $profilesection_section_divider_template = $("#profilesection_section_divider_template", $rootel);
     var $profilesection_field_default_template = $("#profilesection_field_default_template", $rootel);
@@ -75,7 +79,6 @@ sakai.profilesection = function(tuid, showSettings){
     var getProperty = function(obj, nodename) {
 
         nodename = nodename.split('.');
-
         while (obj && nodename[0]){
             obj = obj[nodename.shift()];
         }
@@ -113,12 +116,10 @@ sakai.profilesection = function(tuid, showSettings){
 
         if (multi) {
             json_config.path = currentsection + ".elements." + id + "." + fieldName;
-
             // set the data if it exists
             if (sakai.profile.main.data[currentsection] &&
                 sakai.profile.main.data[currentsection].elements &&
                 sakai.profile.main.data[currentsection].elements.length) {
-
                 $(sakai.profile.main.data[currentsection].elements).each(function(i, elts) {
                     if (elts.id.value === id) {
                         json_config.data = elts[fieldName];
@@ -130,12 +131,25 @@ sakai.profilesection = function(tuid, showSettings){
             if (sakai.profile.main.data[currentsection] &&
                 sakai.profile.main.data[currentsection].elements &&
                 sakai.profile.main.data[currentsection].elements[fieldName]) {
+                var value = unescape(sakai.profile.main.data[currentsection].elements[fieldName].value);
 
-                sakai.profile.main.data[currentsection].elements[fieldName].value = unescape(sakai.profile.main.data[currentsection].elements[fieldName].value);
+                // if it is tag filter the directory
+                if (fieldName === "tags") {
+                    var splitDir = value.split(",");
+                    var tagList = [];
+                    $.each(splitDir, function(i, tag){
+                        if(tag.split("/")[0] !== "directory"){
+                            tagList.push(tag);
+                        }
+                    });
+                    value = tagList.toString();
+                }
+                sakai.profile.main.data[currentsection].elements[fieldName].value = value;
                 json_config.data = sakai.profile.main.data[currentsection].elements[fieldName];
             }
             json_config.path = currentsection + ".elements." + fieldName;
         }
+        
         var ret = $.TemplateRenderer(fieldTemplate, json_config);
         var localDateString = sakai.api.l10n.getDateFormatString();
         ret = ret.replace("MM/DD/YYYY", localDateString);
@@ -149,7 +163,6 @@ sakai.profilesection = function(tuid, showSettings){
      * @param {Object} sectionObject The object you need to pass into the template
      */
     var renderTemplateSection = function(sectionTemplate, sectionObject) {
-
         var sections = "";
         var lastID = "";
         if (sectionObject.multiple) {
@@ -159,11 +172,29 @@ sakai.profilesection = function(tuid, showSettings){
                     sakai.profile.main.data[currentsection] = {};
                 }
             }
-            if (sakai.profile.main.data[currentsection] === undefined || sakai.profile.main.data[currentsection].elements === undefined || sakai.profile.main.data[currentsection].elements.length === 0) {
+            if (sectionObject.directory) {
+                sakai.profile.main.directory = sakai.api.User.parseDirectory();
+                sakai.profile.main.data["locations"] = sakai.profile.main.directory;
+                sections += $.TemplateRenderer($profilesection_field_location_template, {
+                    "config": sectionObject,
+                    "data": sakai.profile.main.directory,
+                    "parentid": "0"
+                });
+            } else if (sakai.profile.main.data[currentsection] === undefined || sakai.profile.main.data[currentsection].elements === undefined || sakai.profile.main.data[currentsection].elements.length === 0) {
                if (sakai.profile.main.mode.value === "edit") {
                    sections = "<div class='profilesection_section' id='profilesection_section_0'>";
                    sakai.profile.main.data[currentsection].elements = [];
-                   sections += $.TemplateRenderer($profilesection_add_section_template, {"config": sectionObject, "parentid": "0"});
+                   if (currentsection !== "locations") {
+                       sections += $.TemplateRenderer($profilesection_add_section_template, {
+                           "config": sectionObject,
+                           "parentid": "0"
+                       });
+                   } else {
+                       sections += $.TemplateRenderer($profilesection_add_locations_template, {
+                           "config": sectionObject,
+                           "parentid": "0"
+                       });
+                   }
                    sections += "</div>";
                }
             } else {
@@ -191,7 +222,8 @@ sakai.profilesection = function(tuid, showSettings){
                     }
 
                     // only need to do the following on edit
-                    if (sakai.profile.main.mode.value === "edit") {
+                    // in the case of location we do not need divider like publications
+                    if (sakai.profile.main.mode.value === "edit" && currentsection !== "locations") {
                         sections += $.TemplateRenderer($profilesection_remove_section_template, {"config": sectionObject, "parentid": elts.id.value});
                         sections += "</div>";
                         if (i === sakai.profile.main.data[currentsection].elements.length-1) {
@@ -231,16 +263,17 @@ sakai.profilesection = function(tuid, showSettings){
     /**
      * Render function for the profile section widget
      * @param {String} profilesection
+     * @param {Boolean} isLocation boolean value for location or not
      *  The name of the profile section you want to render in this widget
      */
-    var renderTemplateGeneralInfo = function(profilesection) {
-
+    var renderTemplateGeneralInfo = function(profilesection , isLocation) {
         // Variable that contains the rendered output for a section
         var generalinfo = "";
 
         // Set the currentsection variable so this can be used in other methods as well
         currentsection = profilesection;
         setTags();
+
         // Set the section template, if there is no template defined, user the default one
         var sectionTemplate = sakai.profile.main.config[currentsection].template ? $("#" + sakai.profile.main.config[currentsection].template, $rootel) : $profilesection_default_template;
 
@@ -250,12 +283,17 @@ sakai.profilesection = function(tuid, showSettings){
         // Render the template section
         generalinfo += renderTemplateSection(sectionTemplate, sectionConfig);
 
-        // Render the General info
-        $profilesection_generalinfo.html(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, null, null)));
+        if (!isLocation) {
+            // Render the General info
+            $profilesection_generalinfo.html(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, null, null)));
+        } else {
+            $("#profilesection-locations").children().children(":first").append(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, null, null)));
+            $profilesection_generalinfo.html(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, null, null)));
+        }
 
     };
 
-    var renderAdditionalTemplateEditSection = function(profilesection, $parentSection, addLink) {
+    var renderAdditionalTemplateEditSection = function(profilesection, $parentSection, addLink, value) {
         // setup new sub-section
         var elt = {};
         elt.id = {};
@@ -270,6 +308,7 @@ sakai.profilesection = function(tuid, showSettings){
 
         // merge this element with the config elements
         $.extend(true, elt, sectionObject.elements);
+
         sakai.profile.main.data[currentsection].elements.push(elt);
         for(var j in elt){
             if(elt.hasOwnProperty(j) && elt[j].display){
@@ -281,7 +320,12 @@ sakai.profilesection = function(tuid, showSettings){
                 sections += renderTemplateField(fieldTemplate, j, true, elt.id.value);
             }
         }
-        sections += $.TemplateRenderer($profilesection_remove_section_template, {"config": sectionObject, "parentid": elt.id.value});
+        if (currentsection !== "locations") {
+            sections += $.TemplateRenderer($profilesection_remove_section_template, {
+                "config": sectionObject,
+                "parentid": elt.id.value
+            });
+        } 
         sections += "</div>";
         $parentSection.append(sakai.api.i18n.General.process(sections, sakai.data.i18n.localBundle, sakai.data.i18n.defaultBundle));
         $parentSection.append(sakai.api.i18n.General.process($.TemplateRenderer($profilesection_add_section_template, {"config": sectionObject, "parentid": elt.id.value}), sakai.data.i18n.localBundle, sakai.data.i18n.defaultBundle));
@@ -315,6 +359,10 @@ sakai.profilesection = function(tuid, showSettings){
         renderAdditionalTemplateEditSection(currentsection, $parentSection, this);
     });
 
+    $(profilesection_add_location_section).live("click", function(){
+        $("#assignlocation_container").jqmShow();
+    });
+
     $profilesection_remove_section.live("click", function(e) {
         var $parentSection = $(this).parent("div");
         var sectionID = $(this).attr("id").split("profilesection_remove_link_")[1];
@@ -330,91 +378,102 @@ sakai.profilesection = function(tuid, showSettings){
      * Save the values to the main sakai.profile object
      */
     var saveValues = function() {
-
-        // Reinitialize the jQuery selector
-        $profilesection_generalinfo_content_items = $($profilesection_generalinfo_content_items.selector);
-        $profilesection_generalinfo_access_items = $($profilesection_generalinfo_access_items.selector);
-        $profilesection_save_items = $($profilesection_save_items.selector);
-
-        // Run over all the items where we need to set the values for
-        $profilesection_save_items.each(function(index, element){
-
-            // Cache the element so we don't select it multiple times
-            var $selected_element = $(element);
-
-            // Get the attribute that contains the path
-            var title = $selected_element.attr("id").split("profilesection_generalinfo_")[1].replace(/\_/g,".");
-
-            // Check whether the element has a correct attribute
-            // TODO replace title by data-path as soon as the sanitizer allows it SAKIII-543
-
-            if (title === "basic.elements.tags") { // tags are special, we save them differently than the rest of the data
-                var currentTags = sakai.profile.main.data["sakai:tags"] || [];
-                var tagsArray = [];
-                $($selected_element.val().split(",")).each(function(i, tag){
-                    tagsArray.push(tag.replace(/\\/g,""));
-                });
-                var profileURL = "/~" + sakai.profile.main.data["rep:userId"] + "/public/authprofile";
-                sakai.api.Util.tagEntity(profileURL, tagsArray, currentTags, function() {
-                    debug.info("user tags saved");
-                });
-            } else if (title) {
-
-                // Get the property if it exists
-                var prop = getProperty(sakai.profile.main.data, title);
-                var parentProp = getParentProperty(sakai.profile.main.data, title);
-                var propName = title.split(".")[title.split(".").length-1];
-                var nodeName = title.split(".")[0];
-                if ($selected_element.val()) {
-                    // This is a multiple-assigned section if there are 3 .'s in the title
-                    if (title.split(".").length == 4) {
-                        $(sakai.profile.main.data[nodeName].elements).each(function(i, elts) {
-                           if (elts.id.value === title.split(".")[2]) {
-                               prop = elts[propName];
-                               return;
-                           }
-                        });
-                    // when trying to add data into a new section that doesn't currently have any data,
-                    // we have to create the section's data object
-                    } else if (!parentProp) {
-                        sakai.profile.main.data[nodeName] = {};
-                        sakai.profile.main.data[nodeName].elements = {};
-                        sakai.profile.main.data[nodeName].elements["jcr:name"] = "elements";
+        
+            // Reinitialize the jQuery selector
+            $profilesection_generalinfo_content_items = $($profilesection_generalinfo_content_items.selector);
+            $profilesection_generalinfo_access_items = $($profilesection_generalinfo_access_items.selector);
+            $profilesection_save_items = $($profilesection_save_items.selector);
+            
+            // Run over all the items where we need to set the values for
+            $profilesection_save_items.each(function(index, element){
+            
+                // Cache the element so we don't select it multiple times
+                var $selected_element = $(element);
+                
+                // Get the attribute that contains the path
+                var title = $selected_element.attr("id").split("profilesection_generalinfo_")[1].replace(/\_/g, ".");
+                // Check whether the element has a correct attribute
+                // TODO replace title by data-path as soon as the sanitizer allows it SAKIII-543
+                
+                if (title === "basic.elements.tags") { // tags are special, we save them differently than the rest of the data
+                    var currentTags = sakai.profile.main.data["sakai:tags"] || [];
+                    var tagsArray = [];
+                    $($selected_element.val().split(",")).each(function(i, tag){
+                        tagsArray.push(tag.replace(/\\/g, ""));
+                    });
+                    for (var i = 0; i < sakai.profile.main.directory.elements.length; i++){
+                        tagsArray.push(sakai.profile.main.directory.elements[i].locationtitle.value);                        
                     }
-
-                    // add the property in if it doesn't already exist
-                    if (parentProp && parentProp["jcr:name"] == "elements" && prop === undefined) {
-                        parentProp[propName] = {};
-                        parentProp[propName].value = escape($selected_element.val());
-                    } else if (prop) { // it exists, just change its value
-                        var val = $selected_element.val();
-                        if ($(element).hasClass("date") || $(element).hasClass("oldDate")) { // localize dates
-                            // convert the date into a Date object for storage
-                            val = Globalization.parseDate(val);
-                        }
-                        if ($.isPlainObject(prop)) {
-                            // Set the correct value
-                            prop.value = sakai.api.Security.saneHTML(escape(val));
-                        } else {
-                            // This is an access attribute
-                            sakai.profile.main.data[title.split(".")[0]].access = val;
-                        }
-                    } else {
-                        sakai.profile.main.data[title.split(".")[0]].access = escape($selected_element.val());
-                    }
-                } else {
-                    if (prop && $.isPlainObject(prop) && parentProp) {
-                        delete parentProp[prop["jcr:name"]];
-                    }
+                    var profileURL = "/~" + sakai.profile.main.data["rep:userId"] + "/public/authprofile";
+                    sakai.api.Util.tagEntity(profileURL, tagsArray, currentTags, function(){
+                        debug.info("user tags saved");
+                    });
                 }
-
-            }
-            else {
-                debug.warn("sakai.profilesection - saveValues - the specificied element doesn't have the correct attribute: " + $selected_element.selector);
-            }
-
-        });
-
+                else 
+                    if (title) {
+                    
+                        // Get the property if it exists
+                        var prop = getProperty(sakai.profile.main.data, title);
+                        var parentProp = getParentProperty(sakai.profile.main.data, title);
+                        var propName = title.split(".")[title.split(".").length - 1];
+                        var nodeName = title.split(".")[0];
+                        if ($selected_element.val()) {
+                            // This is a multiple-assigned section if there are 3 .'s in the title
+                            if (title.split(".").length == 4) {
+                                $(sakai.profile.main.data[nodeName].elements).each(function(i, elts){
+                                    if (elts.id.value === title.split(".")[2]) {
+                                        prop = elts[propName];
+                                        return;
+                                    }
+                                });
+                            // when trying to add data into a new section that doesn't currently have any data,
+                            // we have to create the section's data object
+                            }
+                            else 
+                                if (!parentProp) {
+                                    sakai.profile.main.data[nodeName] = {};
+                                    sakai.profile.main.data[nodeName].elements = {};
+                                    sakai.profile.main.data[nodeName].elements["jcr:name"] = "elements";
+                                }
+                            
+                            // add the property in if it doesn't already exist
+                            if (parentProp && parentProp["jcr:name"] == "elements" && prop === undefined) {
+                                parentProp[propName] = {};
+                                parentProp[propName].value = escape($selected_element.val());
+                            }
+                            else 
+                                if (prop) { // it exists, just change its value
+                                    var val = $selected_element.val();
+                                    if ($(element).hasClass("date") || $(element).hasClass("oldDate")) { // localize dates
+                                        // convert the date into a Date object for storage
+                                        val = Globalization.parseDate(val);
+                                    }
+                                    if ($.isPlainObject(prop)) {
+                                        // Set the correct value
+                                        prop.value = sakai.api.Security.saneHTML(escape(val));
+                                    }
+                                    else {
+                                        // This is an access attribute
+                                        sakai.profile.main.data[title.split(".")[0]].access = val;
+                                    }
+                                }
+                                else {
+                                    sakai.profile.main.data[title.split(".")[0]].access = escape($selected_element.val());
+                                }
+                        }
+                        else {
+                            if (prop && $.isPlainObject(prop) && parentProp) {
+                                delete parentProp[prop["jcr:name"]];
+                            }
+                        }
+                        
+                    }
+                    else {
+                        debug.warn("sakai.profilesection - saveValues - the specificied element doesn't have the correct attribute: " + $selected_element.selector);
+                    }
+                
+            });
+            
         // tell the profile that this section has finished saving its data
         $(window).trigger("sakai-profile-data-ready", currentsection);
 
@@ -428,6 +487,19 @@ sakai.profilesection = function(tuid, showSettings){
             }
             sakai.profile.main.data.basic.elements.tags.value = sakai.profile.main.data["sakai:tags"];
         }
+    };
+
+    var renderLocation = function(data){
+        
+        sakai.profile.main.data["sakai:tags"] = data.tags;
+        sakai.profile.main.directory = sakai.api.User.parseDirectory();
+
+        // remove exisiting elements in the locations
+        $("#profilesection-locations").children().children(":first").children().remove();
+
+        // render locations template again.
+        renderTemplateGeneralInfo("locations", true);
+        $(window).trigger("sakai-" + $rootel.selector.replace("#", ""), renderTemplateGeneralInfo, true);
     };
 
     ////////////////////
@@ -446,9 +518,16 @@ sakai.profilesection = function(tuid, showSettings){
 
         // Bind to the global save function
         $(window).bind("sakai-profile-save", function(){
-
             // Save the values to the global object
             saveValues();
+
+        });
+
+        // Bind to the global update location
+        $(window).bind("sakai-contentmetadata-renderlocations", function(ev, data){
+            ev.stopImmediatePropagation();
+            // render location in profile Section
+            renderLocation(data);
 
         });
 

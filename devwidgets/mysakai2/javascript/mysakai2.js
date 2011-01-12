@@ -85,14 +85,14 @@ sakai.mysakai2 = function(tuid){
                             }
                         }
                     } else {
-                        for (var i = 0; i < fulllist.display; i++){
-                            if (fulllist.sites[i]) {
-                                resultJson.sites.push(fulllist.sites[i]);
+                        for (var j = 0; j < fulllist.display; j++){
+                            if (fulllist.sites[j]) {
+                                resultJson.sites.push(fulllist.sites[j]);
                             }
                         }
                     }
                     sakai.data.me.sakai2List = resultJson;
-                    doRender(sakai.data.me.sakai2List);                    
+                    doRender(sakai.data.me.sakai2List);
                 }
             });
         });
@@ -109,7 +109,7 @@ sakai.mysakai2 = function(tuid){
     });
 
     $("#mysakai2_add_files_link").click(function(ev){
-        sakai.sakai2favourites.initialise(); 
+        sakai.sakai2favourites.initialise();
     });
 
     /**

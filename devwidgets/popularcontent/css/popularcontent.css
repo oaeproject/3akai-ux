@@ -1,6 +1,6 @@
-#popularcontent_main {margin:0px 10px 0px 15px;}
+#popularcontent_main {margin:0px 10px 0px 15px; overflow: hidden;}
 #popularcontent_main ul li {list-style-type: none;}
-#popularcontent_title {padding-left: 15px !important;}
+.popularcontent_title {padding-left: 15px !important;}
 .popularcontent_widget {overflow: hidden;}
 
 /* Widget icon */

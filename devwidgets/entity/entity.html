@@ -23,11 +23,11 @@
         <div class="entity_header">
             <a class="entity_header_text" href="/~${unescape(data.profile["rep:userId"])}">${sakai.api.Util.shortenString(unescape(sakai.api.User.getDisplayName(data.profile)), 30)}</a>
             {if mode === "myprofile" && (!sakai.profile)}
-                <a class="s3d-action" href="/dev/profile_edit.html">__MSG__EDIT_PROFILE__</a>
+                <a class="s3d-action" id="entity_edit_profile" href="/dev/profile_edit.html">__MSG__EDIT_PROFILE__</a>
                 |
                 <a class="s3d-action" href="/~${unescape(data.profile["rep:userId"])}">__MSG__MY_PERSONAL_PAGES__</a>
             {elseif mode === "myprofile" && (sakai.profile.main.mode.value === "view")}
-                <a class="s3d-action" href="/dev/profile_edit.html">__MSG__EDIT_PROFILE__</a>
+                <a class="s3d-action" id="entity_edit_profile" href="/dev/profile_edit.html">__MSG__EDIT_PROFILE__</a>
             {elseif mode === "myprofile"}
                 <a class="s3d-action" href="/~${data.profile["rep:userId"]}">__MSG__MY_PERSONAL_PAGES__</a>
             {/if}

@@ -94,14 +94,14 @@
 
 	// jQuery plugin wrapper (thanks to jquery UI widget function)
 	$.fn.jstree = function (settings) {
-		var isMethodCall = (typeof settings == 'string'), // is this a method call like $().jstree("open_node")
+        var isMethodCall = (typeof settings == 'string'), // is this a method call like $().jstree("open_node")
 			args = Array.prototype.slice.call(arguments, 1), 
 			returnValue = this;
 
 		// extend settings and allow for multiple hashes and metadata
 		if(!isMethodCall && $.meta) { args.push($.metadata.get(this).jstree); }
 		settings = !isMethodCall && args.length ? $.extend.apply(null, [true, settings].concat(args)) : settings;
-		// block calls to "private" methods
+        // block calls to "private" methods
 		if(isMethodCall && settings.substring(0, 1) == '_') { return returnValue; }
 
 		// if a method call execute the method on all selected instances
@@ -123,16 +123,15 @@
 				// store the jstree instance id to the container element
 				$.data(this, "jstree-instance-id", instance_id);
 				// clean up all plugins
-				if(!settings) { settings = {}; }
+                if(!settings) { settings = {}; }
 				settings.plugins = $.isArray(settings.plugins) ? settings.plugins : $.jstree.defaults.plugins;
 				if($.inArray("core", settings.plugins) === -1) { settings.plugins.unshift("core"); }
 				
 				// only unique plugins (NOT WORKING)
 				// settings.plugins = settings.plugins.sort().join(",,").replace(/(,|^)([^,]+)(,,\2)+(,|$)/g,"$1$2$4").replace(/,,+/g,",").replace(/,$/,"").split(",");
-
-				// extend defaults with passed data
+                // extend defaults with passed data
 				s = $.extend(true, {}, $.jstree.defaults, settings);
-				s.plugins = settings.plugins;
+                s.plugins = settings.plugins;
 				$.each(plugins, function (i, val) { if($.inArray(i, s.plugins) === -1) { s[i] = null; delete s[i]; } });
 				// push the new object to the instances array (at the same time set the default classes to the container) and init
 				instances[instance_id] = new $.jstree._instance(instance_id, $(this).addClass("jstree jstree-" + instance_id), s); 
@@ -143,7 +142,7 @@
 				instances[instance_id].init();
 			});
 		}
-		// return the jquery selection (or if it was a method call that returned a value - the returned value)
+        // return the jquery selection (or if it was a method call that returned a value - the returned value)
 		return returnValue;
 	};
 	// object to store exposed functions and objects
@@ -162,7 +161,7 @@
 			return instances[o.closest(".jstree").data("jstree-instance-id")] || null; 
 		},
 		_instance : function (index, container, settings) { 
-			// for plugins to store data in
+        	// for plugins to store data in
 			this.data = { core : {} };
 			this.get_settings	= function () { return $.extend(true, {}, settings); };
 			this._get_settings	= function () { return settings; };
@@ -174,7 +173,7 @@
 		},
 		_fn : { },
 		plugin : function (pname, pdata) {
-			pdata = $.extend({}, {
+            pdata = $.extend({}, {
 				__init		: $.noop, 
 				__destroy	: $.noop,
 				_fn			: {},
@@ -182,6 +181,7 @@
 			}, pdata);
 			plugins[pname] = pdata;
 
+            
 			$.jstree.defaults[pname] = pdata.defaults;
 			$.each(pdata._fn, function (i, val) {
 				val.plugin		= pname;
@@ -257,11 +257,11 @@
 			v = (u.match( /.+?(?:rv|it|ra|ie)[\/: ]([\d.]+)/ ) || [0,'0'])[1],
 			css_string = '' + 
 				'.jstree ul, .jstree li { display:block; margin:0 0 0 0; padding:0 0 0 0; list-style-type:none; } ' + 
-				'.jstree li { display:block; min-height:18px; line-height:18px; white-space:nowrap; margin-left:18px; } ' + 
+				'.jstree li { display:block; min-height:18px; line-height:18px; white-space:nowrap; margin-left:10px; } ' + 
 				'.jstree-rtl li { margin-left:0; margin-right:18px; } ' + 
 				'.jstree > ul > li { margin-left:0px; } ' + 
 				'.jstree-rtl > ul > li { margin-right:0px; } ' + 
-				'.jstree ins { display:inline-block; text-decoration:none; width:18px; height:18px; margin:0 0 0 0; padding:0; } ' + 
+				'.jstree ins { display:inline-block; text-decoration:none; width:20px; height:18px; margin:0 0 0 0; padding:0; } ' + 
 				'.jstree a { display:inline-block; line-height:16px; height:16px; color:black; white-space:nowrap; text-decoration:none; padding:1px 2px; margin:0; } ' + 
 				'.jstree a:focus { outline: none; } ' + 
 				'.jstree a > ins { height:16px; width:16px; } ' + 
@@ -1180,7 +1180,6 @@
 						var s = this._get_settings().themes;
 						this.data.themes.dots = s.dots; 
 						this.data.themes.icons = s.icons; 
-						//alert(s.dots);
 						this.set_theme(s.theme, s.url);
 					}, this))
 				.bind("loaded.jstree", $.proxy(function () {
@@ -2246,6 +2245,9 @@
 						e.preventDefault();
 					}, this));
 		},
+        defaults : {
+            multi_select : false
+        },     
 		__destroy : function () {
 			this.get_container().find(".jstree-checkbox").remove();
 		},
@@ -2261,44 +2263,65 @@
 				if(obj.is("li")) { this._repair_state(obj); }
 				else { obj.find("> ul > li").each(function () { _this._repair_state(this); }); }
 			},
-			change_state : function (obj, state) {
-				obj = this._get_node(obj);
-				state = (state === false || state === true) ? state : obj.hasClass("jstree-checked");
-				if(state) { obj.find("li").andSelf().removeClass("jstree-checked jstree-undetermined").addClass("jstree-unchecked"); }
-				else { 
-					obj.find("li").andSelf().removeClass("jstree-unchecked jstree-undetermined").addClass("jstree-checked"); 
-					if(this.data.ui) { this.data.ui.last_selected = obj; }
-					this.data.checkbox.last_selected = obj;
-				}
-				obj.parentsUntil(".jstree", "li").each(function () {
-					var $this = $(this);
-					if(state) {
-						if($this.children("ul").children(".jstree-checked, .jstree-undetermined").length) {
-							$this.parentsUntil(".jstree", "li").andSelf().removeClass("jstree-checked jstree-unchecked").addClass("jstree-undetermined");
-							return false;
-						}
-						else {
-							$this.removeClass("jstree-checked jstree-undetermined").addClass("jstree-unchecked");
-						}
-					}
-					else {
-						if($this.children("ul").children(".jstree-unchecked, .jstree-undetermined").length) {
-							$this.parentsUntil(".jstree", "li").andSelf().removeClass("jstree-checked jstree-unchecked").addClass("jstree-undetermined");
-							return false;
-						}
-						else {
-							$this.removeClass("jstree-unchecked jstree-undetermined").addClass("jstree-checked");
-						}
-					}
-				});
-				if(this.data.ui) { this.data.ui.selected = this.get_checked(); }
+			change_state : function (obj, state, s) {
+                obj = this._get_node(obj);
+                state = (state === false || state === true) ? state : obj.hasClass("jstree-checked");
+                if (state) {
+                        if(s) obj.find("li").andSelf().removeClass("jstree-checked jstree-undetermined").addClass("jstree-unchecked");
+                        else obj.removeClass("jstree-checked jstree-undetermined").addClass("jstree-unchecked");
+                }
+                else {
+                        if(s) obj.find("li").andSelf().removeClass("jstree-unchecked jstree-undetermined").addClass("jstree-checked");
+                        else obj.removeClass("jstree-unchecked jstree-undetermined").addClass("jstree-checked");
+                    if (this.data.ui) {
+                        this.data.ui.last_selected = obj;
+                    }
+                    this.data.checkbox.last_selected = obj;
+                }
+                // check and unchecked all the child elements. not necessary if multi_select is false
+                if (s) {
+                    obj.parentsUntil(".jstree", "li").each(function(){
+                        var $this = $(this);
+                        if (state) {
+                            if ($this.children("ul").children(".jstree-checked, .jstree-undetermined").length) {
+                                $this.parentsUntil(".jstree", "li").andSelf().removeClass("jstree-checked jstree-unchecked").addClass("jstree-undetermined");
+                                return false;
+                            }
+                            else {
+                                $this.removeClass("jstree-checked jstree-undetermined").addClass("jstree-unchecked");
+                            }
+                        }
+                        else {
+                            if ($this.children("ul").children(".jstree-unchecked, .jstree-undetermined").length) {
+                                $this.parentsUntil(".jstree", "li").andSelf().removeClass("jstree-checked jstree-unchecked").addClass("jstree-undetermined");
+                                return false;
+                            }
+                            else {
+                                $this.removeClass("jstree-unchecked jstree-undetermined").addClass("jstree-checked");
+                            }
+                        }
+                    });
+                }
+                if(this.data.ui) { this.data.ui.selected = this.get_checked(); }
 				this.__callback(obj);
 			},
 			check_node : function (obj) {
-				this.change_state(obj, false);
+                var s = this._get_settings().checkbox;
+                if(s.multi_select){
+                    s = true;
+                } else {
+                    s = false;
+                }
+                this.change_state(obj, false , s);
 			},
 			uncheck_node : function (obj) {
-				this.change_state(obj, true);
+                var s = this._get_settings().checkbox;
+                if(s.multi_select){
+                    s = true;
+                } else {
+                    s = false;
+                }
+                this.change_state(obj, true , s);
 			},
 			check_all : function () {
 				var _this = this;

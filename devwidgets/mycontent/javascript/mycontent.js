@@ -39,7 +39,7 @@ sakai.mycontent = function(tuid, showSettings) {
 
     // DOM identifiers
     var rootel = $("#" + tuid);
-    var uploadLink = "#upload_link";
+    var uploadLink = ".upload_link";
     var fileuploadContainer = "#fileupload_container";
     var noContentMsg = "#mycontent_nocontent";
     var dataErrorMsg = "#mycontent_data_error";
@@ -65,7 +65,7 @@ sakai.mycontent = function(tuid, showSettings) {
         var item = {
             name: result["sakai:pooled-content-file-name"],
             path: "/p/" + result["jcr:name"],
-            type: sakai.config.MimeTypes.other.description,
+            type: sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes.other.description),
             type_img_url: sakai.config.MimeTypes.other.URL,
             size: ""
         };
@@ -74,7 +74,7 @@ sakai.mycontent = function(tuid, showSettings) {
         var type = result["jcr:content"]["jcr:mimeType"];
         if(sakai.config.MimeTypes[type]) {
             // we have a recognized file type - set the description and img URL
-            item.type = sakai.config.MimeTypes[type].description;
+            item.type = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[type].description);
             item.type_img_url = sakai.config.MimeTypes[type].URL;
         }
 
@@ -142,6 +142,8 @@ sakai.mycontent = function(tuid, showSettings) {
             // display something useful to the user
             $(dataErrorMsg, rootel).show();
         }
+        sakai.mycontent.isReady = true;
+        $(window).trigger("sakai-mycontent-ready");
     };
 
 

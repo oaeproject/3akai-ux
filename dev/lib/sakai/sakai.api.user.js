@@ -45,12 +45,14 @@ sakai.api.User.createUser = function(username, firstName, lastName, email, passw
     profileData.basic.elements["lastName"].value = lastName;
     profileData.basic.elements["email"] = {};
     profileData.basic.elements["email"].value = email;
+    profileData["email"] = email;
     profileData.basic.access = "everybody";
     var user = {
         "_charset_": "utf-8",
         "locale": sakai.api.l10n.getUserDefaultLocale(),
         "pwd": password,
         "pwdConfirm": passwordConfirm,
+        "email": email,
         ":name": username,
         ":sakai:pages-template": "/var/templates/site/" + sakai.config.defaultUserTemplate,
         ":sakai:profile-import": $.toJSON(profileData)
@@ -261,6 +263,13 @@ sakai.api.User.loadMeData = function(callback) {
                 sakai.api.User.setProfileBasicElementValue(sakai.data.me.profile, "lastName", sakai.data.me.profile["rep:userId"]);
             }
 
+            // Parse the directory locations
+            var directory = [];
+            if(sakai.data.me.profile && sakai.data.me.profile["sakai:tags"]){
+                directory = sakai.api.Util.getDirectoryTags(sakai.data.me.profile["sakai:tags"].toString());
+                sakai.data.me.profile.saveddirectory = directory;
+            }
+
             // Call callback function if set
             if ($.isFunction(callback)) {
                 callback(true, sakai.data.me);
@@ -440,4 +449,231 @@ sakai.api.User.checkIfConnected = function(userid) {
         }
     });
     return ret;
+};
+
+sakai.api.User.parseDirectory = function(){
+	var obj = {"elements":[]};
+    for (var i in sakai.profile.main.data["sakai:tags"]){
+        if (sakai.profile.main.data["sakai:tags"].hasOwnProperty(i)) {
+            var tag = sakai.profile.main.data["sakai:tags"][i];
+            if (tag.substring(0, 10) === "directory/") {
+                var finalTag = "";
+                var split = tag.split("/");
+                for (var ii = 1; ii < split.length; ii++) {
+                    finalTag += sakai.api.UI.getValueForDirectoryKey(split[ii]);
+                    if (ii < split.length - 1) {
+                        finalTag += "<span class='profilesection_location_divider'>&raquo;</span>";
+                    }
+                }
+                obj.elements.push({
+                    "locationtitle": {
+                        "value": tag,
+                        "title": finalTag
+                    },
+                    "id": {
+                        "display": false,
+                        "value": "" + Math.round(Math.random() * 1000000000)
+                    }
+                });
+            }
+        }
+    }
+    return obj;
+};
+
+/**
+ * Adds system tour progress for the user to be tracked by the systemtour widget
+ *
+ * @param {String} type The type of progress the user as achieved
+ */
+sakai.api.User.addUserProgress = function(type) {
+    if (!sakai.data.me.profile.userprogress){
+        sakai.data.me.profile.userprogress = {};
+    }
+    var me = sakai.data.me;
+    var progressData = "";
+    var refresh = true;
+
+    switch(type) {
+        case "uploadedProfilePhoto":
+            if (!me.profile.userprogress.uploadedProfilePhoto) {
+                progressData = {"uploadedProfilePhoto": true};
+                sakai.data.me.profile.userprogress.uploadedProfilePhoto = true;
+            }
+            break;
+        case "uploadedContent":
+            if (!me.profile.userprogress.uploadedContent) {
+                progressData = {"uploadedContent": true};
+                sakai.data.me.profile.userprogress.uploadedContent = true;
+            }
+            break;
+        case "sharedContent":
+            if (!me.profile.userprogress.sharedContent) {
+                progressData = {"sharedContent": true};
+                sakai.data.me.profile.userprogress.sharedContent = true;
+            }
+            break;
+        case "madeContactRequest":
+            if (!me.profile.userprogress.madeContactRequest) {
+                progressData = {"madeContactRequest": true};
+                sakai.data.me.profile.userprogress.madeContactRequest = true;
+            }
+            break;
+        case "halfCompletedProfile":
+            if (!me.profile.userprogress.halfCompletedProfile) {
+                progressData = {"halfCompletedProfile": true};
+                sakai.data.me.profile.userprogress.halfCompletedProfile = true;
+            }
+            break;
+    }
+
+    if (progressData !== ""){
+        var authprofileURL = "/~" + me.user.userid + "/public/authprofile/userprogress";
+        sakai.api.Server.saveJSON(authprofileURL, progressData, function(success, data){
+            // Check whether save was successful
+            if (success && refresh) {
+                // Refresh the widget
+                $(window).trigger("sakai-systemtour-update");
+            }
+        });
+    }
+};
+
+/**
+ * Checks system tour progress for the user and display tooltip reminders
+ */
+sakai.api.User.checkUserProgress = function() {
+    if (!sakai.data.me.profile.userprogress){
+        sakai.data.me.profile.userprogress = {};
+    }
+    var me = sakai.data.me,
+        progressData = "",
+        tooltipProfileFlag = "",
+        tooltipSelector = "",
+        tooltipTitle = "",
+        tooltipDescription = "",
+        tooltipArrow = "top",
+        tooltipTop = 0,
+        tooltipLeft = 0,
+        displayTooltip = false,
+        contentLink = "",
+        hashPos = "",
+        newContentLink = "";
+    var curDate = new Date();
+    var curTimestamp = curDate.getTime();
+    var intervalTimestamp = parseInt(sakai.config.SystemTour.reminderIntervalHours, 10) * 60 * 60 * 1000;
+
+    if (sakai.config.SystemTour.enableReminders && me.profile.userprogress.hideSystemTour && !me.profile.userprogress.hideSystemTourReminders) {
+        if (!me.profile.userprogress.uploadedProfilePhoto && 
+            (!me.profile.userprogress.uploadedProfilePhotoReminder || 
+                (!me.profile.userprogress.uploadedProfilePhoto && me.profile.userprogress.uploadedProfilePhotoReminder && 
+                    ((me.profile.userprogress.uploadedProfilePhotoReminder + intervalTimestamp) < curTimestamp)))) {
+            progressData = {"uploadedProfilePhotoReminder": curTimestamp};
+            tooltipSelector = "#changepic_container_trigger";
+            tooltipTitle = "TOOLTIP_ADD_MY_PHOTO";
+            tooltipDescription = "TOOLTIP_ADD_MY_PHOTO_P1";
+            displayTooltip = true;
+            $(".systemtour_1").addClass("systemtour_1_selected");
+            $(".systemtour_1").addClass("systemtour_button_selected");
+        } else if (!me.profile.userprogress.uploadedContent && 
+            (!me.profile.userprogress.uploadedContentReminder || 
+                (!me.profile.userprogress.uploadedContent && me.profile.userprogress.uploadedContentReminder && 
+                    ((me.profile.userprogress.uploadedContentReminder + intervalTimestamp) < curTimestamp)))) {
+            progressData = {"uploadedContentReminder": curTimestamp};
+            tooltipSelector = "#mycontent_footer_upload_link";
+            tooltipTitle = "TOOLTIP_UPLOAD_CONTENT";
+            tooltipDescription = "TOOLTIP_UPLOAD_CONTENT_P1";
+            displayTooltip = true;
+            $(".systemtour_3").addClass("systemtour_3_selected");
+            $(".systemtour_3").addClass("systemtour_button_selected");
+        } else if (!me.profile.userprogress.sharedContent && 
+            (!me.profile.userprogress.sharedContentReminder && me.profile.userprogress.uploadedContent || 
+                (!me.profile.userprogress.sharedContent && me.profile.userprogress.sharedContentReminder && me.profile.userprogress.uploadedContent && 
+                    ((me.profile.userprogress.sharedContentReminder + intervalTimestamp) < curTimestamp)))) {
+            progressData = {"sharedContentReminder": curTimestamp};
+            tooltipSelector = "#mycontent_footer_upload_link";
+            tooltipTitle = "TOOLTIP_SHARE_CONTENT";
+            tooltipDescription = "TOOLTIP_SHARE_CONTENT_P2";
+            tooltipArrow = "bottom";
+            tooltipTop = 70;
+            tooltipLeft = -100;
+            displayTooltip = true;
+            $(".systemtour_4").addClass("systemtour_1_selected");
+            $(".systemtour_4").addClass("systemtour_button_selected");
+            $(".mycontent_item_link").each(function(index) {
+                if ($(this).attr("href") && $(this).attr("href").indexOf("sharecontenttour") === -1) {
+                    contentLink = $(this).attr("href");
+                    hashPos = contentLink.indexOf("#");
+                    newContentLink = contentLink.substr(0, hashPos) + "?sharecontenttour=true" + contentLink.substr(hashPos);
+                    $(this).attr("href", newContentLink);
+                }
+            });
+        } else if (!me.profile.userprogress.madeContactRequest && 
+            (!me.profile.userprogress.madeContactRequestReminder || 
+                (!me.profile.userprogress.madeContactRequest && me.profile.userprogress.madeContactRequestReminder && 
+                    ((me.profile.userprogress.madeContactRequestReminder + intervalTimestamp) < curTimestamp)))) {
+            progressData = {"madeContactRequestReminder": curTimestamp};
+            tooltipSelector = "#mycontacts_footer_search";
+            tooltipTitle = "TOOLTIP_ADD_CONTACTS";
+            tooltipDescription = "TOOLTIP_ADD_CONTACTS_P1";
+            tooltipArrow = "bottom";
+            displayTooltip = true;
+            $(".systemtour_5").addClass("systemtour_5_selected");
+            $(".systemtour_5").addClass("systemtour_button_selected");
+            if ($("#mycontacts_footer_search").attr("href") && $("#mycontacts_footer_search").attr("href").indexOf("addcontactstour") === -1) {
+                contentLink = $("#mycontacts_footer_search").attr("href");
+                hashPos = contentLink.indexOf("#");
+                newContentLink = contentLink.substr(0, hashPos) + "?addcontactstour=true" + contentLink.substr(hashPos);
+                $("#mycontacts_footer_search").attr("href", newContentLink);
+            }
+            if ($("#navigation_people_link").attr("href") && $("#navigation_people_link").attr("href").indexOf("addcontactstour") === -1) {
+                contentLink = $("#navigation_people_link").attr("href");
+                hashPos = contentLink.indexOf("#");
+                newContentLink = contentLink.substr(0, hashPos) + "?addcontactstour=true" + contentLink.substr(hashPos);
+                $("#navigation_people_link").attr("href", newContentLink);
+            }
+        } else if (!me.profile.userprogress.halfCompletedProfile && 
+            (!me.profile.userprogress.halfCompletedProfileReminder || 
+                (!me.profile.userprogress.halfCompletedProfile && me.profile.userprogress.halfCompletedProfileReminder && 
+                    ((me.profile.userprogress.halfCompletedProfileReminder + intervalTimestamp) < curTimestamp)))) {
+            progressData = {"halfCompletedProfileReminder": curTimestamp};
+            tooltipSelector = "#entity_edit_profile";
+            tooltipTitle = "TOOLTIP_EDIT_MY_PROFILE";
+            tooltipDescription = "TOOLTIP_EDIT_MY_PROFILE_P1";
+            displayTooltip = true;
+            sakai.api.User.addUserProgress("halfCompletedProfileInProgress");
+            $(".systemtour_2").addClass("systemtour_2_selected");
+            $(".systemtour_2").addClass("systemtour_button_selected");
+            if ($("#entity_edit_profile").attr("href") && $("#entity_edit_profile").attr("href").indexOf("editprofiletour") === -1) {
+                $("#entity_edit_profile").attr("href", $("#entity_edit_profile").attr("href") + "?editprofiletour=true");
+            }
+        }
+    }
+
+    if (displayTooltip){
+        var tooltipData = {
+            "tooltipSelector": tooltipSelector,
+            "tooltipTitle": tooltipTitle,
+            "tooltipDescription": tooltipDescription,
+            "tooltipArrow": tooltipArrow,
+            "tooltipTop": tooltipTop,
+            "tooltipLeft" : tooltipLeft,
+            "tooltipAutoClose": false
+        };
+
+        var authprofileURL = "/~" + me.user.userid + "/public/authprofile/userprogress";
+        sakai.api.Server.saveJSON(authprofileURL, progressData, function(success, data){
+            // Check whether save was successful
+            if (success) {
+                // Display the tooltip
+                if (!sakai.tooltip || !sakai.tooltip.isReady) {
+                    $(window).bind("sakai-tooltip-ready", function() {
+                        $(window).trigger("sakai-tooltip-init", tooltipData);
+                    });
+                } else {
+                    $(window).trigger("sakai-tooltip-init", tooltipData);
+                }
+            }
+        });
+    }
 };

@@ -1,6 +1,6 @@
-#activegroups_main {margin:0px 10px 0px 15px;}
+#activegroups_main {margin:0px 10px 0px 15px; overflow: hidden;}
 #activegroups_main ul li {list-style-type: none;}
-#activegroups_title {padding-left: 15px !important;}
+.activegroups_title {padding-left: 15px !important;}
 .activegroups_widget {overflow: hidden;}
 
 /* Widget icon */

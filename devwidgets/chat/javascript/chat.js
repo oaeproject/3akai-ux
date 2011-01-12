@@ -312,6 +312,22 @@ sakai.chat = function(tuid, showSettings){
     };
 
     /**
+     * This method escape meta charcaters(!"#$%&'()*+,./:;?@[\]^`{|}~) for userid.
+     * If id contain any of those character jquery selector wont work.
+     * For example, userid : kkyaw@ will not open the chat window at all SAKIII-1855.
+     * These characters are escaped by adding \\ in front of them.
+     * For kkyaw@ , it change to kkyaw\\@
+     * @param {Object} userid    Userid of the user for which a* 
+     * 
+     */
+    var escapeCharacters = function(userid){
+        // replace !"#$%&'()*+,./:;?@[\]^`{|}~ ) with \\ those characters
+        // for example userid kkyaw@ will be returned as kkyaw\\@.
+        // reference: http://api.jquery.com/category/selectors/
+        return userid.replace(/([!\"#$%&'\(\)\*\+,.\/:;?@\[\\\]^\`{|}~])$/gim,"\\$1");
+    };
+
+    /**
      * Open the chat window for a given user that already has a chat
      * window open
      * @param {Object} userid    Userid of the user for which a
@@ -319,6 +335,7 @@ sakai.chat = function(tuid, showSettings){
      */
     var openChatWindow = function(userid){
         setOpenWindows(userid);
+        userid = escapeCharacters(userid);
         $("#chat_online_button_" + userid).addClass("chat_online_button_visible");
         $("#chat_with_" + userid).show();
         $("#chat_with_" + userid + "_txt").focus();
@@ -502,6 +519,7 @@ sakai.chat = function(tuid, showSettings){
         }
     };
 
+
     /**
      * Detect when a user wants to send a message to a user
      * @param {Object} event
@@ -511,11 +529,13 @@ sakai.chat = function(tuid, showSettings){
         if (event.keyCode == '13') {
             var messageField = $(this);
             var message = $.trim(messageField.val());
+
             // Check whether the user is trying to send a valid message
             if (message){
                 var userid = messageField.attr("id").substring(10);
                 userid = userid.substring(0, userid.length - 4);
-                message = replaceURL(message); 
+                message = replaceURL(message);
+                message = sakai.api.Security.escapeHTML(message); 
                 sendMessage(userid, message);
                 messageField.val("");
             }
@@ -645,6 +665,9 @@ sakai.chat = function(tuid, showSettings){
                         }
                     });
                 }
+            },
+            error: function(){
+                clearInterval(loadNewMessagesTimer);
             }
         });
     };
@@ -806,20 +829,6 @@ sakai.chat = function(tuid, showSettings){
         }
     };
 
-    /**
-     * Change chat status to the current chat status
-     * @param {Object} new chatstatus status
-     */
-    var updateChatStatusElement = function(chatstatus){
-        var chatClass = $(".chat_available_name").attr("class");
-        // get current chat status
-        var currentStatus = chatClass.substr(str.indexOf("chat_available_status_"),str.length);
-        // remove the current chat status class
-        $(".chat_available_name").removeClass(currentStatus);
-        // add new chat status class
-        $(".chat_available_name").addClass("chat_available_status_"+chatstatus);
-    };
-
     ////////////////////
     // Event Handlers //
     ////////////////////
@@ -867,13 +876,6 @@ sakai.chat = function(tuid, showSettings){
     $(".chat_close").live("click", function(){
         var clicked = $(this).attr("id").substring(11);
         removeChatWindow(clicked);
-    });
-
-    // Add binding to set the status
-    $(window).bind("chat_status_change", function(event, currentChatStatus){
-        updateChatStatusElement(currentChatStatus);
-        /*updateChatStatusElement($(profileNameID), currentChatStatus);
-        chatStatus = currentChatStatus;*/
     });
 
 

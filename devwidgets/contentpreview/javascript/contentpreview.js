@@ -51,24 +51,24 @@ sakai.contentpreview = function(tuid,showSettings){
         } else if (mimeType.substring(0, 6) === "audio/") {
             callback = renderAudioPlayer;
         } else if (mimeType === "application/x-shockwave-flash") {
-        	callback = renderFlashPlayer;
+            callback = renderFlashPlayer;
         } else if (mimeType === "text/plain") {
-        	callback = renderTextPreview;
+            callback = renderTextPreview;
         } else if (mimeType === "text/html") {
-        	callback = renderHTMLPreview;
+            callback = renderHTMLPreview;
         } else if (mimeType === "image/vnd.adobe.photoshop") {
             callback = renderStoredPreview;
         } else  if (mimeType.substring(0, 6) === "image/") {
             callback = renderImagePreview;
         } else if (sakai.content_profile.content_data.data["sakai:needsprocessing"] === "false") {
-            callback = renderStoredPreview                   
+            callback = renderStoredPreview;
         } else {
             callback = renderDefaultPreview;
             obj.type = "default";
         }
         $.TemplateRenderer("contentpreview_widget_main_template", obj, $("#contentpreview_widget_main_container"));
         callback(arg);
-    }
+    };
 
     //TODO: Clean this mess up
     var renderImagePreview = function(contentURL){
@@ -99,18 +99,16 @@ sakai.contentpreview = function(tuid,showSettings){
                 $("#contentpreview_image_rendered").css("width", "640px");
             } else if (height > 390 && width / height * 390 <= 640){
                 $("#contentpreview_image_rendered").css("height", "390px");
-            } else if (width <= 640 && height <= 390){
-                // Do nothing, just show the image as is
             }
             $("#contentpreview_image_preview").append($("#contentpreview_image_rendered"));
         });
-    }
-    
+    };
+
     var renderTextPreview = function(){
         if (sakai.content_profile.content_data.data["jcr:content"][":jcr:data"] > 1500000){
             renderDefaultPreview();
             return;
-        };
+        }
         $(".contentpreview_text_preview").show();
         $.ajax({
            url: sakai.content_profile.content_data.path,
@@ -119,8 +117,8 @@ sakai.contentpreview = function(tuid,showSettings){
                $(".contentpreview_text_preview").html(data.replace(/\n/g, "<br/>"));
            }
         });
-    }
-    
+    };
+
     var renderHTMLPreview = function(){
         $(".contentpreview_html_preview").show();
         $.TemplateRenderer("contentpreview_html_template", json, $("#contentpreview_html_preview"));
@@ -128,8 +126,8 @@ sakai.contentpreview = function(tuid,showSettings){
         $("#contentpreview_html_iframe").attr("width", "640px");
         $("#contentpreview_html_iframe").attr("height", "390px");
         $("#contentpreview_html_iframe").attr("frameborder", "0");
-    }
-    
+    };
+
     var renderVideoPlayer = function(){
         $(".contentpreview_videoaudio_preview").show();
         var so = createSWFObject(false, {}, {});
@@ -139,8 +137,8 @@ sakai.contentpreview = function(tuid,showSettings){
         }
         so.addVariable('stretching','fill');
         so.write("contentpreview_videoaudio_preview");
-    }
-    
+    };
+
     var renderAudioPlayer = function(){
         $(".contentpreview_videoaudio_preview").show();
         var so = createSWFObject(false, {}, {});
@@ -148,15 +146,15 @@ sakai.contentpreview = function(tuid,showSettings){
         so.addVariable('image', "/devwidgets/contentpreview/images/content_preview_audio.jpg");
         so.addVariable('stretching','fill');
         so.write("contentpreview_videoaudio_preview");
-    }
-    
+    };
+
     var renderFlashPlayer = function(){
         $(".contentpreview_flash_preview").show();
         var so = createSWFObject(sakai.content_profile.content_data.path, {'allowscriptaccess':'never'}, {});
         so.addParam('scale','exactfit');
         so.write("contentpreview_flash_preview");
-    }
-    
+    };
+
     var createSWFObject = function(url, params, flashvars){
         if (!url){
             url = "/devwidgets/video/jwplayer/player-licensed.swf";
@@ -170,20 +168,20 @@ sakai.contentpreview = function(tuid,showSettings){
         }
         so.addParam('wmode','opaque');
         return so;
-    }
-    
+    };
+
     var renderStoredPreview = function(){
         renderImagePreview("/p/" + sakai.content_profile.content_data.data["jcr:name"] + ".preview.jpg");
-    }
-    
+    };
+
     var renderDefaultPreview = function(){
         //Nothing really, it's all part of the template
-    }
-    
+    };
+
     var hidePreview = function(){
         $("#contentpreview_widget_main_container").html("");
         $("#contentpreview_image_preview").html("");
-    }
+    };
 
     var bindButtons = function(){
         $("#content_preview_delete").unbind("click");
@@ -204,8 +202,8 @@ sakai.contentpreview = function(tuid,showSettings){
         $("#upload_content").bind("click", function(){
             $(window).trigger("sakai-fileupload-init");
         });
-    }
-    
+    };
+
     var determineFileCreator = function(){
         $.ajax({
             url: "/~" + sakai.content_profile.content_data.data["sakai:pool-content-created-for"] + "/public/authprofile.infinity.json",
@@ -219,12 +217,12 @@ sakai.contentpreview = function(tuid,showSettings){
                 bindButtons();
             }
         });
-    }
+    };
 
     $(window).bind("sakai.contentpreview.start", function(){
         determineFileCreator();
     });
-    
+
     // Indicate that the widget has finished loading
     sakai.contentpreview.isReady = true;
     $(window).trigger("sakai.contentpreview.ready", {});

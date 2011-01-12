@@ -46,6 +46,7 @@ sakai.profile = function(){
     var querystring; // Variable that will contain the querystring object of the page
     var authprofileURL;
     var readySections = []; // Profile sections that have saved their data to sakai.profile.main
+    var currentTags = [];
 
     ///////////////////
     // CSS SELECTORS //
@@ -239,7 +240,7 @@ sakai.profile = function(){
             sakai.profile.main.config = sakai.config.Profile.configuration[userType];
         }
     };
-
+    
     /**
      * Set the profile data for the user such as the status and profile picture
      */
@@ -259,7 +260,7 @@ sakai.profile = function(){
 
             // Set the profile data object
             sakai.profile.main.data = $.extend(true, {}, sakai.data.me.profile);
-
+                        
             // Check user profile type
             checkProfileType();
 
@@ -396,6 +397,30 @@ sakai.profile = function(){
 
     };
 
+    /**
+     * Checks if user is in the edit profile tour and displays tooltips
+     */
+    var checkEditProfileTour = function(){
+        var querystring = new Querystring();
+        if (querystring.contains("editprofiletour") && querystring.get("editprofiletour") === "true") {
+            // display tooltip
+            var tooltipData = {
+                "tooltipSelector":"#user_link_container",
+                "tooltipTitle":"TOOLTIP_EDIT_MY_PROFILE",
+                "tooltipDescription":"TOOLTIP_EDIT_MY_PROFILE_P2",
+                "tooltipArrow":"",
+                "tooltipTop":50,
+                "tooltipLeft":50
+            };
+            if (!sakai.tooltip || !sakai.tooltip.isReady) {
+                $(window).bind("sakai-tooltip-ready", function() {
+                    $(window).trigger("sakai-tooltip-init", tooltipData);
+                });
+            } else {
+                $(window).trigger("sakai-tooltip-init", tooltipData);
+            }
+        }
+    };
 
     $(window).bind("sakai-profile-data-ready", function(e, sectionName) {
 
@@ -413,6 +438,24 @@ sakai.profile = function(){
             }
         }
 
+        // determine how much profile data has been entered
+        var elementItemCount = 0;
+        var dataItemCount = 0;
+        for (var i in sakai.profile.main.config) {
+            if (sakai.profile.main.config.hasOwnProperty(i)) {
+                if (sakai.profile.main.config[i].elements && i !== "publications") {
+                    for (var ii in sakai.profile.main.config[i].elements) {
+                        elementItemCount++;
+                        if (sakai.profile.main.data[i] && sakai.profile.main.data[i].elements && sakai.profile.main.data[i].elements[ii]) {
+                            dataItemCount++;
+                        }
+                    }
+                }
+            }
+        }
+
+        var profilePercentageComplete = dataItemCount / elementItemCount * 100;
+
         readySections = [];
         // Filter some JCR properties
         sakai.api.Server.filterJCRProperties(sakai.profile.main.data);
@@ -429,6 +472,24 @@ sakai.profile = function(){
                 // Save the profile acl
                 saveProfileACL();
 
+                // if user has completed over half their profile add user progress
+                if (profilePercentageComplete > 49){
+                    sakai.api.User.addUserProgress("halfCompletedProfile");
+                }
+
+                // display help tooltip
+                var tooltipData = {
+                    "tooltipSelector":"#navigation_my_sakai_link",
+                    "tooltipTitle":"TOOLTIP_EDIT_MY_PROFILE",
+                    "tooltipDescription":"TOOLTIP_EDIT_MY_PROFILE_P3",
+                    "tooltipArrow":"top",
+                    "tooltipTop":5,
+                    "tooltipLeft":15
+                };
+                $(window).trigger("sakai-tooltip-update", tooltipData);
+                if ($("#navigation_my_sakai_link").attr("href") && $("#navigation_my_sakai_link").attr("href").indexOf("editprofiletour") === -1) {
+                    $("#navigation_my_sakai_link").attr("href", $("#navigation_my_sakai_link").attr("href") + "?editprofiletour=true");
+                }
             }
             else {
                 $("#profile_footer_button_update").removeAttr("disabled");
@@ -687,8 +748,9 @@ sakai.profile = function(){
             // Add binding to all the elements
             addBinding();
 
+            // check for edit profile tour in progress
+            checkEditProfileTour();
         });
-
     };
 
     doInit();

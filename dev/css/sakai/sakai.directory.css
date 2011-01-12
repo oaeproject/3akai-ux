@@ -15,15 +15,27 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-.directory-container hr {clear:both;border:none; height:0; margin:0; padding:0;}
-.directory-container p {margin-bottom:7px;}
+/* Directory 2 CSS */
 
-#directory_jump_to_header {color:#444444; padding-left:7px;}
-#directory_jumpbox {padding:10px; background-color:#ddd}
-.directory_jumpbox_box {padding:10px; background-color:#fff;}
-.directory_jumpbox_box_hierarchybox {width:250px; float:left;}
+/* BROWSE DIRECTORY WIDGET PLACEMENT*/
+.browse_directory {padding: 10px 10px 10px 0; width: 25%;}
 
-.directory_level_one_header {border-bottom:1px solid #DDDDDD; color:#444444; font-size:18px; font-weight:normal; padding:10px 0; clear:both;}
-.directory_level_two_header {font-size:14px; font-weight:bold; margin-top:0;}
+/* DIRECOTRY CONTENT */
+.content {width:48%; min-height: 40px; margin-top: 15px;}
+.node_content_area {width:48%;}
+.node_content_area .s3d-widget .s3d-widget-content, .s3d-content {
+    border-left: none !important;
+    border-right: none !important;
+}
 
-.directory_block {float:left; width:305px; margin-bottom:12px;}
+.node_content_area .content_top_inner, .node_content_area .content_top, .node_content_area .s3d-no-options-inner, .node_content_area .s3d-no-options {
+    background: none !important;
+}
+
+/* DIRECTORY TITLE */
+.directory_header { font-size:22px; line-height:28px; margin-right:10px;}
+
+/* INFORMATION WIDGETS */
+.directory_information_widgets_container {width:25%; float:right; padding-top:10px;}
+
+#profile_picture { width: 32px; height: 32px; margin-right: 10px;}

@@ -133,6 +133,7 @@ sakai.changepic = function(tuid, showSettings){
     var thumbnailContainer = "#thumbnail_container";
     var profilePicture = "#profilepicture";
     var fileName = false;
+    var existingPicture = false;
 
     // An array with selectors pointing to images that need to be changed.
     var imagesToChange = ["#picture_holder img", "#entity_profile_picture", "#myprofile_pic", "#chat_available_me .chat_available_image img", "#profile_userinfo_picture"];
@@ -232,6 +233,8 @@ sakai.changepic = function(tuid, showSettings){
     // Since file upload form is reset every time overlay closes do this in init function
     $("#changepic_container .jqmClose").click(function(){
         resetUploadField();
+        // hide any tooltips if they are open
+        $(window).trigger("sakai-tooltip-close");
     });
 
     /**
@@ -331,6 +334,7 @@ sakai.changepic = function(tuid, showSettings){
             // The user has already uploaded a picture.
             // Show the edit tab.
             // Show tab in header
+            existingPicture = true;
             $(tabSelect).show();
 
             // Set the unvisible image to the full blown image. (make sure to filter the # out)
@@ -407,6 +411,14 @@ sakai.changepic = function(tuid, showSettings){
             });
             showSelectTab();
 
+            // display help tooltip
+            var tooltipData = {
+                "tooltipSelector":"#save_new_selection",
+                "tooltipTitle":"TOOLTIP_ADD_MY_PHOTO",
+                "tooltipDescription":"TOOLTIP_ADD_MY_PHOTO_P4",
+                "tooltipArrow":"bottom"
+            };
+            $(window).trigger("sakai-tooltip-update", tooltipData);
         }
         else {
             // The user hasn't uploaded a picture yet.
@@ -418,7 +430,15 @@ sakai.changepic = function(tuid, showSettings){
 
     // Remove error notification when a new file is chosen
     $("#profilepicture").bind("change", function(){
-        $("#changepic_nofile_error").hide(); 
+        $("#changepic_nofile_error").hide();
+        // display help tooltip
+        var tooltipData = {
+            "tooltipSelector":"#profile_upload",
+            "tooltipTitle":"TOOLTIP_ADD_MY_PHOTO",
+            "tooltipDescription":"TOOLTIP_ADD_MY_PHOTO_P3",
+            "tooltipArrow":"bottom"
+        };
+        $(window).trigger("sakai-tooltip-update", tooltipData);
     });
 
     // This is the function that will be called when a user has cut out a selection
@@ -484,9 +504,25 @@ sakai.changepic = function(tuid, showSettings){
                             $(imagesToChange[i]).attr("src", "/~" + id + "/public/profile/" + tosave.name + "?sid=" + Math.random());
                         }
 
+                        // display help tooltip
+                        var tooltipData = {
+                            "tooltipSelector":"#systemtour_add_photo",
+                            "tooltipTitle":"TOOLTIP_ADD_MY_PHOTO",
+                            "tooltipDescription":"TOOLTIP_ADD_MY_PHOTO_P5",
+                            "tooltipArrow":"top",
+                            "tooltipTop":25,
+                            "tooltipLeft":40,
+                            "tooltipAutoClose":true
+                        };
+                        $(window).trigger("sakai-tooltip-update", tooltipData);
+
                         // Hide the layover.
                         $(container).jqmHide();
 
+                        if (mode !== "group") {
+                            // record that user uploaded their profile picture
+                            sakai.api.User.addUserProgress("uploadedProfilePhoto");
+                        }
                     },
                     error: function(xhr, textStatus, thrownError) {
                         sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("AN_ERROR_HAS_OCCURRED"),"",sakai.api.Util.notification.type.ERROR);
@@ -511,7 +547,6 @@ sakai.changepic = function(tuid, showSettings){
      * @param {Object} hash the object that represents the layover
      */
     var hideArea = function(hash){
-
         // Remove the selecting of an area on an image.
         if (imageareaobject) {
             imageareaobject.setOptions({
@@ -532,6 +567,16 @@ sakai.changepic = function(tuid, showSettings){
     var showArea = function(hash){
         sakai.changepic.doInit();
         hash.w.show();
+        if (!existingPicture) {
+            // display help tooltip
+            var tooltipData = {
+                "tooltipSelector": "#profilepicture",
+                "tooltipTitle": "TOOLTIP_ADD_MY_PHOTO",
+                "tooltipDescription": "TOOLTIP_ADD_MY_PHOTO_P2",
+                "tooltipArrow": "top"
+            };
+            $(window).trigger("sakai-tooltip-update", tooltipData);
+        }
     };
 
     // This will make the widget popup as a layover.
