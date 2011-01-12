@@ -47,6 +47,7 @@ sakai.profile = function(){
     var authprofileURL;
     var readySections = []; // Profile sections that have saved their data to sakai.profile.main
     var currentTags = [];
+    var editProfileTour = false;
 
     ///////////////////
     // CSS SELECTORS //
@@ -403,6 +404,7 @@ sakai.profile = function(){
     var checkEditProfileTour = function(){
         var querystring = new Querystring();
         if (querystring.contains("editprofiletour") && querystring.get("editprofiletour") === "true") {
+            editProfileTour = true;
             // display tooltip
             var tooltipData = {
                 "tooltipSelector":"#user_link_container",
@@ -487,7 +489,7 @@ sakai.profile = function(){
                     "tooltipLeft":15
                 };
                 $(window).trigger("sakai-tooltip-update", tooltipData);
-                if ($("#navigation_my_sakai_link").attr("href") && $("#navigation_my_sakai_link").attr("href").indexOf("editprofiletour") === -1) {
+                if (editProfileTour && $("#navigation_my_sakai_link").attr("href") && $("#navigation_my_sakai_link").attr("href").indexOf("editprofiletour") === -1) {
                     $("#navigation_my_sakai_link").attr("href", $("#navigation_my_sakai_link").attr("href") + "?editprofiletour=true");
                 }
             }
