@@ -166,12 +166,12 @@ a.s3d-regular-links, .s3d-regular-links a{
  * WIDGET LAYOUT
  */
 .s3d-widget-titlebar {
-    background:transparent url(/dev/images/block_tr.png) no-repeat scroll right top; 
+    background:url("/dev/images/dashboard_sprite.png") no-repeat scroll right -473px transparent;
     padding: 0 10px 0 0; 
     height:49px;
 }
 .s3d-widget-titlebar-inner {
-    background:transparent url(/dev/images/block_tl.png) no-repeat scroll left top; 
+    background:url("/dev/images/dashboard_sprite.png") no-repeat scroll -10px -570px transparent;
     padding: 0px 0 0 5px; 
     height:50px;
 }
@@ -409,7 +409,7 @@ html > body .s3d-button .s3d-button-inner {
 
 .s3d-search-button .s3d-button-icon-right {
      background-image: url("/dev/images/dashboard_sprite.png");
-     background-position: 38px -394px;
+     background-position: 37px -394px;
      display:inline
 }
 .s3d-button.s3d-button-inline {
@@ -492,11 +492,11 @@ html > body .s3d-button .s3d-button-inner {
 }
 
 .s3d-button.s3d-button-light-gray-square {
-    background:url('/dev/images/light_gray_soft_square_button.png') no-repeat scroll right -21px transparent;
+    background:url("/dev/images/dashboard_sprite.png") no-repeat scroll right -1277px transparent;
 }
 
 .s3d-button.s3d-button-light-gray-square .s3d-button-inner {
-    background:url('/dev/images/light_gray_soft_square_button.png') no-repeat scroll left top transparent;
+    background:url("/dev/images/dashboard_sprite.png") no-repeat scroll -10px -1237px transparent;
     color: #292929;
 }
 
@@ -525,7 +525,7 @@ input[type="text"]:hover, input[type="password"]:hover, textarea:hover, .as-sele
  */
 
 .s3d-primary-tabs {
-    background:url("/dev/images/tab_bg.png") no-repeat scroll right -30px transparent;
+    background:url("/dev/images/dashboard_sprite.png") no-repeat scroll right -1622px transparent;
 }
 
 .s3d-primary-tabs, .s3d-primary-tabs-inner {
@@ -540,7 +540,7 @@ input[type="text"]:hover, input[type="password"]:hover, textarea:hover, .as-sele
     padding: 0;
     margin: 0;
     float: right;
-    background:url("/dev/images/tab_bg.png") no-repeat scroll left top transparent;
+    background:url("/dev/images/dashboard_sprite.png") no-repeat scroll left -1592px transparent;
     padding-left:20px;
 }
 
@@ -575,7 +575,7 @@ input[type="text"]:hover, input[type="password"]:hover, textarea:hover, .as-sele
 
 .s3d-primary-tabs ul li.fl-tabs-active, .s3d-primary-tabs ul li.fl-tabs-active a {
     background-color: #FFF;
-    background-image: url('/dev/images/primary-tabs-sprite.png');
+    background-image: url("/dev/images/dashboard_sprite.png");
     background-attachment: scroll;
     height: 30px;
     bottom: 0px !important;
@@ -584,11 +584,11 @@ input[type="text"]:hover, input[type="password"]:hover, textarea:hover, .as-sele
 
 .s3d-primary-tabs ul li.fl-tabs-active {
     padding-left: 5px;
-    background-position: left top;
+    background-position: left -1664px;
 }
 
 .s3d-primary-tabs ul li.fl-tabs-active a {
-    background-position: right -40px;
+    background-position: right -1714px;
     font-weight: normal;
     border: none;
     padding-left: 15px;
@@ -653,21 +653,21 @@ label.error {color:#9f3333;font-weight:bold;}
 ul li.s3d-list-item:hover{background-color: #99CCFF;}
 
 /* Dialog tooltip header */
-.dialog_tooltip_header_arrow{background:url(/dev/images/dialog_tooltip_arrowup.png) bottom left no-repeat;height:18px;margin:0 0 0 20px;}
-.dialog_tooltip_header{background:url(/dev/images/dialog_tooltip_tr.png) top right no-repeat;padding:0 22px 0 0;}
-.dialog_tooltip_header_inner{background:url(/dev/images/dialog_tooltip_tl.png) top left no-repeat;height:14px;}
+.dialog_tooltip_header_arrow{background: url("/dev/images/tour_sprite.png") no-repeat scroll -254px -76px transparent; height: 18px; margin: 0 0 0 20px; width: 35px;}
+.dialog_tooltip_header{background:url("/dev/images/tour_sprite.png") no-repeat scroll right -20px transparent;padding:0 22px 0 0;}
+.dialog_tooltip_header_inner{background:url("/dev/images/tour_sprite.png") no-repeat scroll left top transparent;height:14px;}
 
 /* Dialog tooltip content */
 .dialog_tooltip_close{float:right;}
-.dialog_tooltip_content{background:url(/dev/images/dialog_tooltip_content_bg.png) top left no-repeat;padding:7px 20px 0 20px;}
+.dialog_tooltip_content{background:url("/dev/images/tour_sprite.png") no-repeat scroll left -80px transparent;padding:7px 20px 0 20px;}
 .dialog_tooltip_content h2{font-size:1.1em;font-weight:bold;color:#333;margin:0;padding:0 0 5px 0;}
 .dialog_tooltip_content p{font-size:0.9em;}
 .dialog_tooltip_content textarea {height:80px;width:98%;}
 
 /* Dialog tooltip footer */
-.dialog_tooltip_footer{background:url(/dev/images/dialog_tooltip_br.png) top right no-repeat;padding:0 22px 0 0;}
-.dialog_tooltip_footer_inner{background:url(/dev/images/dialog_tooltip_bl.png) top left no-repeat;height:14px;}
-.dialog_tooltip_footer_arrow{background:url(/dev/images/dialog_tooltip_arrowdown.png) top left no-repeat;height:18px;margin:0 0 0 20px;}
+.dialog_tooltip_footer{background:url("/dev/images/tour_sprite.png") no-repeat scroll right -60px transparent;padding:0 22px 0 0;}
+.dialog_tooltip_footer_inner{background:url("/dev/images/tour_sprite.png") no-repeat scroll left -40px transparent;height:14px;}
+.dialog_tooltip_footer_arrow{background:url("/dev/images/tour_sprite.png") no-repeat scroll -217px -80px transparent;width:35px;height:18px;margin:0 0 0 20px;}
 
 /* Highlighted areas */
 .s3d-highlight_area_background {background-color:#EFF2F4; padding: 0 10px; margin: 0 0 15px 0;}

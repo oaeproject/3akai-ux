@@ -56,12 +56,12 @@
     min-height: 350px;
 }
 .search_tab_content_top {
-    background: url('/dev/images/content_tr.gif') top right no-repeat;
+    background: url("/dev/images/dashboard_sprite.png") no-repeat scroll right -1567px transparent;
     padding: 0 5px 0 0;
     margin: 0;
 }
 .search_tab_content_top_inner {
-    background: url('/dev/images/content_tl.gif') 0 0 no-repeat;
+    background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -10px -1393px transparent;
     margin: 0;
     height: 6px;
 }
@@ -93,6 +93,12 @@
     float: left;
     width: 100%;
 }
+
+.search_content_main .search_results_container .s3d-highlight_area_background_tl, .search_content_main .search_results_container .s3d-highlight_area_background_tinner, .search_content_main .search_results_container .s3d-highlight_area_background_bl, .search_content_main .search_results_container .s3d-highlight_area_background_binner {
+    margin-left:0;
+    margin-right:0;
+}
+
 .search_content_main .search_results_container_sub {
     width: 74% !important;
 }

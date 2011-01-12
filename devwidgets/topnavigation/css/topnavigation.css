@@ -32,7 +32,7 @@
 .explore_nav .explore li a.explore_inactive {color: #888;}
 .explore_nav .explore li small { color:#ddd; font-size: 0.85em; }
 .explore_nav .explore li span { height:16px; color:#fff; padding: 8px 20px; text-align: center; display: block; float: left; font-weight: bold;}
-#topnavigation_mail_icon {background:url("/dev/images/mail_icon.png") no-repeat scroll 4px 3px transparent; float:left; height:14px; width:18px;}
+#topnavigation_mail_icon {background:url("/dev/images/dashboard_sprite.png") no-repeat scroll -362px -394px transparent; float:left; height:14px; width:18px;}
 
 .explore-bg {height: 100px; background-color: #868b91; position:absolute; top: 32px; left: 0; right:0; z-index: -1;}
 
@@ -93,7 +93,7 @@
 .search_left:hover, .search_right:hover{ background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -96px -258px transparent; color:black;}
 .search_right { color:white; background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -13px -315px transparent; border-top-right-radius: 10px;-webkit-border-top-right-radius:10px; -moz-border-radius-topright : 10px; -moz-border-radius-bottomright : 10px;-webkit-border-bottom-right-radius:10px; border-bottom-right-radius: 10px;}
 .search_drop{ background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -68px -235px transparent; width:15px; height:15px; margin:5px 7px 0 0; float:right;}
-.search_right:hover .search_icon{ background: url("/dev/images/search_dark.png") no-repeat transparent; width:15px; height:15px; margin: 4px 10px 0 0; float:right;}
+.search_right:hover .search_icon{ background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -245px -395px transparent; width:15px; height:15px; margin: 4px 10px 0 0; float:right;}
 .search_icon{ background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -7px -396px transparent; width:15px; height:15px; margin: 5px 10px 0 0; float:right;}
 .search_string { padding: 3px 0px 0px 3px; color: #aaa; font-size: 1em; margin-top:px; border: 1px solid grey; width:15em!important; height:19px; vertical-align:top;}
 .search_string:hover { background-color : #CCC!important;}

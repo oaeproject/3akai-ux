@@ -98,7 +98,7 @@
 { width: 670px; margin: 0; border-spacing: 0; *border-collapse: collapse; }
 
 .inbox_main .top_decor
-{ background: transparent url(/dev/images/inbox_table_top.png) no-repeat top left; height: 32px; width: 673px; border: none; padding: 9px 0 0 7px; }
+{ background: url("/dev/images/dashboard_sprite.png") no-repeat scroll left -1823px transparent; height: 32px; width: 673px; border: none; padding: 9px 0 0 7px; }
 
 /** Buttons **/
 .inbox_main .top_button_bar
@@ -147,7 +147,7 @@
 
 
 .inbox_main .bottom_decor
-{ background: transparent url(/dev/images/inbox_table_bottom.png) no-repeat top left; height: 41px; width: 676px; border: none; }
+{ background: url("/dev/images/dashboard_sprite.png") no-repeat scroll left -1873px transparent; height: 41px; width: 676px; border: none; }
 
 
 /** INBOX COMPOSE PANE **/
@@ -298,7 +298,7 @@
 
 
 
-.inbox_main .inbox_arrow_down {float:right !important;width:6px;height:3px;display:inline;margin-top:5px;background:url("/dev/images/arrow_down_inbox.png") no-repeat scroll 0 0 transparent;}
+.inbox_main .inbox_arrow_down {float:right !important;width:6px;height:3px;display:inline;margin-top:5px;background:url("/dev/images/dashboard_sprite.png") no-repeat scroll -400px -401px transparent;}
 .inbox_main .inbox_arrow_up {float:right !important;width:6px;height:3px;display:inline;margin-top:5px;background:url("/dev/images/arrow_up_inbox.png") no-repeat scroll 0 0 transparent;}
 
 

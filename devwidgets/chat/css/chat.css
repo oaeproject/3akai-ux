@@ -50,6 +50,7 @@
 .chat_button_image {position:absolute;top:7px;right:7px;}
 .chat_user_button_image {float:right;padding:0px 3px 0 0;}
 .chat_content_message {color: #000;}
+#chat_people_icon {background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -334px -394px transparent; float: left; height: 17px; margin: 5px 0 0 10px; width: 19px;}
 
 /* user_chat */
 .user_chat {border-right:1px solid #666;cursor:pointer;float:left;height:30px;line-height:24px;margin-left:auto;padding-left:10px;text-align:left;width:140px;}

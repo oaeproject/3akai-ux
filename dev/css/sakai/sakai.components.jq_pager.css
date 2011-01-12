@@ -3,7 +3,8 @@
 .jq_pager {text-align: center; }
 .sakai_pager { text-align: center; display: inline-block; }
 .sakai_pager li.hidden { visibility:hidden; }
-.sakai_pager li { float: left; display:inline-block; list-style:none; font-size:0.95em; height:18px; background: transparent url(/dev/images/pager-left.png) top left no-repeat; margin:0px 5px;} .sakai_pager li > span {display:inline-block;background: url(/dev/images/pager-right.png) top right no-repeat; margin:0;  border: none; font-weight: bold; cursor: pointer; height: 18px; margin-right: -5px;padding:1px 10px 0px 10px;color:#006e96;}
+.sakai_pager li { float: left; display:inline-block; list-style:none; font-size:0.95em; height:18px; background: url("/dev/images/dashboard_sprite.png") no-repeat scroll left -1764px transparent; margin:0px 5px;}
+.sakai_pager li > span {display:inline-block;background: url("/dev/images/dashboard_sprite.png") no-repeat scroll right -1794px transparent; margin:0;  border: none; font-weight: bold; cursor: pointer; height: 18px; margin-right: -5px;padding:1px 10px 0px 10px;color:#006e96;}
 .sakai_pager li.pgCurrent, .sakai_pager li.pgCurrent > span, .sakai_pager li.dots {background:none;color:#454a4f;}
 .sakai_pager li.dots {margin-left:10px; }
 .sakai_pager li.pgNext, .sakai_pager li.pgPrev {margin:0px 10px;}
@@ -13,3 +14,5 @@
 .sakai_pager li.page-number {margin:0px 5px;}
 .sakai_pager li.pgCurrent {text-decoration:none;font-weight:bold;color:#4b4b4b;}
 .sakai_pager li.pgEmpty { visibility:hidden !important; }
+.sakai_pager .sakai_pager_prev {background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -281px -399px transparent; float: left; height: 8px; margin: 5px 5px 0 0; width: 5px;}
+.sakai_pager .sakai_pager_next{background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -310px -399px transparent; float: right; height: 8px; margin: 5px 0 0 5px; width: 5px;}
