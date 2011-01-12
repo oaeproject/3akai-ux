@@ -40,22 +40,69 @@ sakai.activegroups = function(tuid, showSettings) {
 
     var groupData = {};
 
+    var renderPopularGroups = function(){
+        var output = $.TemplateRenderer($activegroups_main_template, {
+            data: groupData
+        });
+        $activegroups_main.html(output).show();
+    };
+    
+    $(window).bind("sakai-directory-selected", function(ev, selected){
+        loadDataDirectory(selected, renderPopularGroups);
+    });
+    
+    var loadDataDirectory = function(selected, callback){
+        var params = {
+            page: 0,
+            items: 10,
+            q: selected,
+            sortOrder: "descending"
+        };
+
+        $.ajax({
+            url: sakai.config.URL.SEARCH_GROUPS,
+            data: params,
+            success: function(data){
+                groupData = {"results":[], "items": data.items, "total": data.total};
+                var groups = [];
+                for (var i = 0; i < data.results.length; i++){
+                    var group = {};
+                    group["id"] = data.results[i]["sakai:group-id"];
+                    group["name"] = data.results[i]["sakai:group-title"];
+                    groups.push(group);
+                }
+                groupData.results[0] = {"groups": groups};
+                groupData.moreLink = "/dev/search_groups.html#tag=/tags/directory/" + selected;
+                callback();
+            }
+        });
+    };
+
     var loadData = function(callback){
-       $.ajax({
+        $.ajax({
             url: "/var/search/public/mostactivegroups.json?page=0&items=5",
             cache: false,
-            success: function(data) {
+            success: function(data){
                 groupData = data;
+                groupData.moreLink = "/dev/search_groups.html#q=*";
                 callback();
             }
         });
     };
 
     var doInit = function(){
-        loadData(function() {
-            var output = $.TemplateRenderer($activegroups_main_template, {data:groupData});
-            $activegroups_main.html(output).show();
-        });
+        if (! sakai.api.Widgets.isOnDashboard(tuid)){
+            $(".activegroups-widget-border").show();
+            $("#activegroups_widget").addClass("fl-widget s3d-widget");
+        }
+
+        // If the widget is initialized on the directory page then listen to the event to catch specified tag results
+        if (!(sakai.directory && sakai.directory.getIsDirectory())) {
+            loadData(renderPopularGroups);
+            $("#activegroups_title_popular").show();
+        } else {
+            $("#activegroups_title_recent").show();
+        }
     };
 
     doInit();

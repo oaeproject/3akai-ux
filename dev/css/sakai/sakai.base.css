@@ -51,6 +51,11 @@ a:hover {
     text-decoration: underline;
 }
 
+.s3d-freetext-container a {
+    color: #006E96;
+    text-decoration: none;
+}
+
 /* '+ Add another' link */
 .s3d-add_another_location {clear:both;color:#3399CC; font-size:13px; font-weight:bold; background: url("/dev/images/add_blue_icon.png") left no-repeat; padding-left:25px; height:16px; display:block; margin-right:15px;}
 .s3d-add_another_location_container {clear:both; display:block; padding:7px 0; width:200px;}
@@ -178,6 +183,10 @@ a.s3d-regular-links, .s3d-regular-links a{
     border-right: 3px solid #D4DADE;
 }
 
+.s3d-widget-small-content {
+    padding: 5px 0px !important;
+}
+
 .s3d-widget .s3d-widget-options-footer-left {
     background-image:url("/dev/images/block_footer_bl.png");
     background-position:left bottom;
@@ -286,6 +295,10 @@ a.s3d-action, .s3d-actions a {
     color: #006E96;
     font-weight: bold;
     font-size: 13px;
+}
+
+a.s3d-action-seeall {
+    font-size: 11px !important;
 }
 
 .s3d-action-series a {
@@ -634,7 +647,31 @@ label.error {color:#9f3333;font-weight:bold;}
 .dialog_footer{background:url(/dev/images/dialog_br.png) top right no-repeat;padding:0 8px 0 0;}
 .dialog_footer_inner{background:url(/dev/images/dialog_bl.png) top left no-repeat;height:6px;}
 
-/* highlighted areas */
+/* Lists */
+.s3d-list-item {list-style: none outside none; padding: 5px 0 5px 10px !important; margin:0 !important; clear:both; overflow:hidden;}
+.s3d-list-entity-picture {float: left; height: 32px; margin-right: 10px; width: 32px;}
+.s3d-entity-displayname {padding-top:4px; margin:4px 0 0 8px; float:left;}
+.s3d-list-link-full-space {clear: both; height: 100%;}
+ul li.s3d-list-item:hover{background-color: #99CCFF;}
+
+/* Dialog tooltip header */
+.dialog_tooltip_header_arrow{background:url(/dev/images/dialog_tooltip_arrowup.png) bottom left no-repeat;height:18px;margin:0 0 0 20px;}
+.dialog_tooltip_header{background:url(/dev/images/dialog_tooltip_tr.png) top right no-repeat;padding:0 22px 0 0;}
+.dialog_tooltip_header_inner{background:url(/dev/images/dialog_tooltip_tl.png) top left no-repeat;height:14px;}
+
+/* Dialog tooltip content */
+.dialog_tooltip_close{float:right;}
+.dialog_tooltip_content{background:url(/dev/images/dialog_tooltip_content_bg.png) top left no-repeat;padding:7px 20px 0 20px;}
+.dialog_tooltip_content h2{font-size:1.1em;font-weight:bold;color:#333;margin:0;padding:0 0 5px 0;}
+.dialog_tooltip_content p{font-size:0.9em;}
+.dialog_tooltip_content textarea {height:80px;width:98%;}
+
+/* Dialog tooltip footer */
+.dialog_tooltip_footer{background:url(/dev/images/dialog_tooltip_br.png) top right no-repeat;padding:0 22px 0 0;}
+.dialog_tooltip_footer_inner{background:url(/dev/images/dialog_tooltip_bl.png) top left no-repeat;height:14px;}
+.dialog_tooltip_footer_arrow{background:url(/dev/images/dialog_tooltip_arrowdown.png) top left no-repeat;height:18px;margin:0 0 0 20px;}
+
+/* Highlighted areas */
 .s3d-highlight_area_background {background-color:#EFF2F4; padding: 0 10px; margin: 0 0 15px 0;}
 
 .s3d-highlight_area_background_tl {height:7px; margin-left: -10px;  background: url("/dev/images/highlight_area_background_tl.png") no-repeat scroll left 0 transparent;}

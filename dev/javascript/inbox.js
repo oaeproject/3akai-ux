@@ -641,6 +641,11 @@ sakai.inbox = function() {
         }
 
         var totalUnread = 0 + unreadMessages + unreadInvitations + unreadAnnouncements;
+
+        // if unread messages return minus value set to 0.
+        if (totalUnread < 0) {
+            totalUnread = 0;
+        }
         $(chatUnreadMessages).text(sakai.api.Security.saneHTML(totalUnread));
     };
 
@@ -761,7 +766,7 @@ sakai.inbox = function() {
                     messageBody = message["sakai:body"];
                     key = messageBody.substr(0,messageBody.lastIndexOf(","));
                     comment = messageBody.substr(messageBody.lastIndexOf(",")+1,messageBody.length);
-                    if (key) {
+                    if (key && sakai.api.i18n.General.getValueForKey(key)) {
                         message["sakai:body"] = sakai.api.i18n.General.getValueForKey(key).replace(/\$\{comment\}/gi, comment).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(message.userFrom[i]));
                     } else {
                         message["sakai:body"] = comment;
@@ -804,7 +809,7 @@ sakai.inbox = function() {
                 } else {
                     // Check whether this request is still pending
                     $.ajax({
-                        url: "/var/contacts/invited?page=0&items=100",
+                        url: sakai.config.URL.CONTACTS_FIND + "?state=INVITED&page=0&items=100",
                         success: function(data) {
                             var pending = false;
                             for (var i = 0; i < data.results.length; i++){

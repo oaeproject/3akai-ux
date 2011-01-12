@@ -38,6 +38,7 @@
 #contentmetadata_container ul li {list-style: none outside none;}
 #contentmetadata_container {word-wrap: break-word; clear: both;}
 .threedots_text {width: 350px; display:block;}
+.contentmetadata_manager_edit {font-style: italic; font-weight: normal;}
 
 /* DIRECTORY */
 #contentmetadata_locations_dialog {width:750px; margin-left: -370px;}

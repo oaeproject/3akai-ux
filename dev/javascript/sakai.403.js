@@ -18,7 +18,7 @@
 
 var sakai = sakai || {};
 sakai.nopermissions = function(tuid, showSettings) {
-    
+
     var permissionsErrorLoggedOutTemplate = "permission_error_logged_out_template";
     var permissionsErrorLoggedInTemplate = "permission_error_logged_in_template";
     var permissionsError = ".permissions_error";
@@ -28,7 +28,7 @@ sakai.nopermissions = function(tuid, showSettings) {
         var renderedTemplate = false;
         if (sakai.data.me.user.anon){
             $(window).bind("sakai-login-ready", function(e) {
-                $(window).trigger("sakai-login-relayout", false)
+                $(window).trigger("sakai-login-relayout", false);
             });
 
             $('html').addClass("requireAnon");

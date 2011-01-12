@@ -1,0 +1,61 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/listpeopleinnode/css/listpeopleinnode.css" />
+
+<div class="listpeopleinnode_widget fl-widget s3d-widget">
+
+    <!-- WIDGET HEADER -->
+    <div class="fl-widget-titlebar s3d-widget-titlebar">
+        <div class="widget-titlebar-inner s3d-widget-titlebar-inner">
+            <h2 id="listpeopleinnode_title" class="widget_title"></h2>
+        </div>
+    </div>
+
+    <!-- WIDGET BODY -->
+    <div class="fl-widget-content s3d-widget-content">
+        <!-- <div id="listpeopleinnode_ajax_loader" style="display:none;"></div>-->
+        <div id="listpeopleinnode_people_container"><!-- --></div>
+    </div>
+
+    <div class="s3d-widget-no-options fl-fix">
+        <div class="s3d-widget-no-options-inner">
+        </div>
+    </div>
+
+</div>
+
+<!-- TITLE TEMPLATE -->
+<div id="listpeopleinnode_title_template"><!--
+    <div class="listinpeopleinnode_ellipsis_container"><span class='ellipsis_text'>
+        __MSG__PEOPLE_IN__ ${location}
+    </span></div>
+--></div>
+
+<div id="listpeopleinnode_people_template"><!--
+    {if total}
+        <ul>
+            {for person in results}
+                <li {if person_index % 2 != 0} class="s3d-list-item s3d-highlight_area_background" {else} class="s3d-list-item" {/if}>
+                    <a href="/~${person["rep:userId"]}" target="_blank" class="s3d-list-link-full-space s3d-action">
+                        {if person.picture != null}
+                            <img src="/~${person["rep:userId"]}/public/profile/${person.picture.name}" alt="${person.basic.elements.firstName.value}" class="s3d-list-entity-picture"/>
+                        {else}
+                            <img src="/dev/images/user_avatar_icon_32x32.png" alt="${person.basic.elements.firstName.value}" class="s3d-list-entity-picture"/>
+                         {/if}
+                        <span class="s3d-entity-displayname s3d-bold">${sakai.api.User.getDisplayName(person)}</span>
+                        <hr class="fl-push fl-hidden">
+                    </a>
+                </li>
+            {/for}
+        </ul>
+    {else}
+        <span id="listpeopleinnode_no_people">__MSG__NO_PEOPLE_IN_THIS_LOCATION__</span>
+    {/if}
+    {if items < total}
+        <div class="fl-text-align-right">
+            <a href="/dev/search_people.html#tag=${selected}" target="_blank" class="s3d-action s3d-action-seeall listpeopleinnode_seeall">__MSG__SEE_ALL__</a>
+        </div>
+    {/if}
+--></div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/listpeopleinnode/javascript/listpeopleinnode.js"></script>

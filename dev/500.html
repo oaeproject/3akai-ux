@@ -60,35 +60,41 @@
             </div>
 
             <div class="login-box">
-                <div id="internal_user_error">
-                    <div class="preview-box">
-                        <span id="error_title">__MSG__THE_USER_ACCOUNT_YOU_ARE_TRYING_TO_ACCESS_DOES_NOT_EXIST__</span>
-                        <p>
-                            __MSG__YOU_TRIED_TO_SIGN_IN_OR_VIEW_ACCOUNT_WHICH_DOES_NOT_EXIST__
-                        </p>
-                        __MSG__YOU_CAN__
-                        <ul>
-                            <li>
-                                __MSG__SIGN_INTO_SAKAI_WITH_A_DIFFERENT_ACCOUNT__
-                            </li>
-                            <li>
-                                __MSG__NOTIFY_HELPDESK_OR_SYSADMIN_ABOUT_THIS_PROBLEM__
-                            </li>
-                            <li>
-                                __MSG__TRY_AGAIN_LATER_IN_CASE_ACCOUNT_IS_SCHEDULED_TO_BE_READY_LATER__
-                            </li>
-                        </ul>
+                <div class="login-box-top">
+                </div>
+                <div class="login-box-content">
+                    <div id="internal_user_error">
+                        <div class="preview-box">
+                            <span id="error_title">__MSG__THE_USER_ACCOUNT_YOU_ARE_TRYING_TO_ACCESS_DOES_NOT_EXIST__</span>
+                            <p>
+                                __MSG__YOU_TRIED_TO_SIGN_IN_OR_VIEW_ACCOUNT_WHICH_DOES_NOT_EXIST__
+                            </p>
+                            __MSG__YOU_CAN__
+                            <ul>
+                                <li>
+                                    __MSG__SIGN_INTO_SAKAI_WITH_A_DIFFERENT_ACCOUNT__
+                                </li>
+                                <li>
+                                    __MSG__NOTIFY_HELPDESK_OR_SYSADMIN_ABOUT_THIS_PROBLEM__
+                                </li>
+                                <li>
+                                    __MSG__TRY_AGAIN_LATER_IN_CASE_ACCOUNT_IS_SCHEDULED_TO_BE_READY_LATER__
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="login-container">
+                            <a href="/dev/logout.html">
+                                <button class="s3d-button s3d-button-primary" type="submit">
+                                    <span class="s3d-button-inner">__MSG__TRY_WITH_A_DIFFERENT_USER__</span>
+                                </button>
+                            </a>
+                            <p>
+                                __MSG__USE_BUTTON_ABOVE_TO_TRY_WITH_A_DIFFERENT_ACCOUNT__
+                            </p>
+                        </div>
                     </div>
-                    <div class="login-container">
-                        <a href="/dev/logout.html">
-                            <button class="s3d-button s3d-button-primary" type="submit">
-                                <span class="s3d-button-inner">__MSG__TRY_WITH_A_DIFFERENT_USER__</span>
-                            </button>
-                        </a>
-                        <p>
-                            __MSG__USE_BUTTON_ABOVE_TO_TRY_WITH_A_DIFFERENT_ACCOUNT__
-                        </p>
-                    </div>
+                </div>
+                <div class="login-box-bottom">
                 </div>
             </div>
         </div>

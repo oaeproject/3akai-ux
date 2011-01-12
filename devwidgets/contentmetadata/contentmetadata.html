@@ -33,7 +33,7 @@
     {if mode === "edit"}
         <textarea id="contentmetadata_description_description" class="contentmetadata_edit_input">${data["sakai:description"]}</textarea>
     {else}
-            <span id="contentmetadata_description_display" class="contentmetadata_click">{if $.trim(data["sakai:description"]) != ""}${data["sakai:description"]}{else}__MSG__NO_DESCRIPTION__{/if}</span>
+            <span id="contentmetadata_description_display" class="contentmetadata_click">{if $.trim(data["sakai:description"]) != ""}${sakai.api.Security.escapeHTML(data["sakai:description"])}{else}{if isManager}<span class="contentmetadata_manager_edit">__MSG__CLICK_TO_EDIT_DESCRIPTION__</span>{else}__MSG__NO_DESCRIPTION__{/if}{/if}</span>
     {/if}
     <div class='s3d-highlight_area_background_darker1_white_content_bl'><div class='s3d-highlight_area_background_darker1_white_content_binner'></div></div>
 --></div>
@@ -41,16 +41,20 @@
 <div id="contentmetadata_tags_template" style="display:none;"><!--
     <div class='s3d-highlight_area_background_darker1_white_content_tl'><div class='s3d-highlight_area_background_darker1_white_content_tinner'></div></div>
         {if mode === "edit"}
-            <textarea id="contentmetadata_tags_tags" class="contentmetadata_edit_input">{if typeof data["sakai:tags"] != "undefined"}${data["sakai:tags"]}{/if}</textarea>
+            <textarea id="contentmetadata_tags_tags" class="contentmetadata_edit_input">{if typeof data["sakai:tags"] != "undefined"}{for tag in data["sakai:tags"]}{if tag.split("/")[0] !== "directory"}{if tag_index > 0},{/if}${tag}{/if}{/for}{/if}</textarea>
         {else}
             <span class="contentmetadata_first_column">__MSG__TAGS__:</span>
-            {if typeof data["sakai:tags"] != "undefined"}
+            {if data["sakai:tags"] && $.trim(data["sakai:tags"].toString()) != ""}
                 <span class="contentmetadata_second_column">
-                    {for tag in data["sakai:tags"]}{if tag.split("/")[0] !== "directory"}{if tag_index > 0},{/if} <a href="/dev/search.html#tag=/tags/${tag}" target="_blank" class="s3d-action" title="__MSG__SEARCH_CONTENT_TAGGED_WITH__ '${tag}'"">${tag}</a>{/if}{/for}
+                    {var dirCount = 0;}
+                    {for tag in data["sakai:tags"]}{if tag.split("/")[0] !== "directory"}{if tag_index - dirCount > 0},{/if} <a href="/dev/search.html#tag=/tags/${tag}" target="_blank" class="s3d-action" title="__MSG__SEARCH_CONTENT_TAGGED_WITH__ '${tag}'"">${sakai.api.Security.escapeHTML(tag)}</a>{else}{var dirCount = dirCount + 1;}{/if}{/for}
                 </span>
+                {if data["sakai:tags"].length == dirCount}
+                    {if isManager}<span class="contentmetadata_manager_edit">__MSG__CLICK_TO_EDIT_TAGS__</span>{else}__MSG__NO_TAGS__{/if}
+                {/if}
             {else}
                 <span class="contentmetadata_click">
-                    __MSG__NO_TAGS__
+                {if isManager}<span class="contentmetadata_manager_edit">__MSG__CLICK_TO_EDIT_TAGS__</span>{else}__MSG__NO_TAGS__{/if}
                 </span>
             {/if}
         {/if}
@@ -60,7 +64,7 @@
 <div id="contentmetadata_copyright_template" style="display:none;"><!--
     <div class='s3d-highlight_area_background_darker1_white_content_tl'><div class='s3d-highlight_area_background_darker1_white_content_tinner'></div></div>
         {if mode === "edit"}
-            <select id="contentmetadata_copyright_copyright"  class="contentmetadata_edit_input">
+            <select id="contentmetadata_copyright_copyright" class="contentmetadata_edit_input">
                 {for copyrightLabel in sakai.config.Permissions.Copyright}
                     <option {if data["sakai:copyright"] === copyrightLabel_index} selected="selected"{/if} value="${copyrightLabel_index}">${sakai.api.i18n.Widgets.getValueForKey("contentmetadata", "", copyrightLabel)}</option>
                 {/for}
@@ -84,11 +88,15 @@
         {if saveddirectory.length != 0}
             <ul>
                 {for dir in saveddirectory}
-                    <li><a href="/dev/search.html#tag=/tags/directory/${dir.toString().replace(/,/g, '/')}" target="_blank" class="s3d-action threedots_text contentmetadata_locations_link" title="Search content located at ${dir.toString().replace(/,/g, ' ')}"><span class="ellipsis_text contentmetadata_directory_location">${dir.toString().replace(/,/g, " <span class='contentmetadata_select_seperator'>&raquo;</span> ")}</span></a></li>
+                    <li><a href="/dev/search.html#tag=/tags/directory/${dir.toString().replace(/,/g, '/')}" target="_blank" class="s3d-action threedots_text contentmetadata_locations_link" title="Search content located at ${dir.toString().replace(/,/g, ' ')}"><span class="ellipsis_text contentmetadata_directory_location">
+                        {for dirpiece in dir}
+                            ${sakai.api.UI.getValueForDirectoryKey(dirpiece)} {if dirpiece_index < dir.length - 1} <span class='contentmetadata_select_seperator'>&raquo;</span>{/if}
+                        {/for}
+                    </span></a></li>
                 {/for}
             </ul>
         {else}
-            __MSG__NO_LOCATIONS__
+            {if isManager}<span class="contentmetadata_manager_edit">__MSG__CLICK_TO_EDIT_LOCATIONS__</span>{else}__MSG__NO_LOCATIONS__{/if}
         {/if}
     <div class='s3d-highlight_area_background_darker1_white_content_bl'><div class='s3d-highlight_area_background_darker1_white_content_binner'></div></div>
 --></div>

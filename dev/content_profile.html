@@ -57,6 +57,7 @@
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.MultiFile.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.autoSuggest.sakai-edited.js"></script>
         <script type="text/javascript" src="/devwidgets/video/jwplayer/swfobject.js"></script>
+        <script type="text/javascript" src="/dev/lib/jquery/plugins/jsTree/jquery.jstree.sakai-edit.js"></script>
 
     </head>
 
@@ -106,6 +107,9 @@
         <!-- VIEW FILE REVISIONS WIDGET -->
         <div id="widget_filerevisions" class="widget_inline"></div>
 
+        <!-- TOOLTIP WIDGET -->
+        <div id="widget_tooltip" class="widget_inline"></div>
+
         <!-- SEND MESSAGE -->
         <div id="widget_sendmessage" class="widget_inline"></div>
 
@@ -114,13 +118,16 @@
             <div id="widget_sharecontent" class="widget_inline"></div>
 
             <span style="display:none;" id="content_profile_text">__MSG__CONTENT_PROFILE__</span>
-            <span style="display:none;" id="content_profile_users_added_text">__MSG__THE_FOLLOWING_USERS_AND_GROUPS_HAVE_BEEN_ADDED_TO__</span>
+            <span style="display:none;" id="content_profile_users_added_text">__MSG__THE_FILE_HAS_BEEN_SUCCESSFULLY_SHARED_WITH__</span>
             <span style="display:none;" id="content_profile_users_removed_text">__MSG__ALL_SELECTED_USERS_AND_GROUPS_HAVE_BEEN_REMOVED_FROM__</span>
             <span style="display:none;" id="content_profile_viewers_text">__MSG__VIEWERS__</span>
             <span style="display:none;" id="content_profile_managers_text">__MSG__MANAGERS__</span>
             <span style="display:none;" id="content_profile_cannot_remove_everyone">__MSG__CONTENT_CANNOT_REMOVE_ALL_MANAGERS__</span>
 
         </div>
+
+        <!-- ASSIGN LOCATION WIDGET -->
+        <div id="widget_assignlocation" class="widget_inline"></div>
 
         <!-- FOOTER WIDGET -->
         <div id="widget_footer" class="widget_inline footercontainer"></div>

@@ -1,0 +1,15 @@
+{
+    "description": "Browsing the directory",
+    "hasSettings": true,
+    "i18n": {
+        "default": "/devwidgets/browsedirectory/bundles/default.properties"
+    },
+    "id": "browsedirectory",
+    "img": "/devwidgets/browsedirectory/images/icon.png",
+    "name": "directory",
+    "showinsidebar": true,
+    "showinsakaigoodies": true,
+    "type":"core",
+    "enabled":true,
+    "url": "/devwidgets/browsedirectory/browsedirectory.html"
+}

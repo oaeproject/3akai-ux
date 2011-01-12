@@ -30,6 +30,7 @@ ul.as-selections li.as-selection-item.embedcontent_selection_notfound a.as-close
 #embedcontent_settings .content_top_inner { background: url('/dev/images/content_tl_leftalign.gif') 0 0 no-repeat; margin: 0; height: 6px; }
 
 /* Display settings */
+#embedcontent_settings .s3d-highlight_area_background {padding:10px;}
 #embedcontent_display_style {width:336px;}
 #embedcontent_display_style, #embedcontent_include {float:left; display:inline;}
 #embedcontent_display_style div.s3d-highlight_area_background {width:316px; cursor:pointer;}

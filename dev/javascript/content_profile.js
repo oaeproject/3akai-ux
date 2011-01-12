@@ -28,30 +28,6 @@ sakai.content_profile = function(){
     var ready_event_fired = 0;
     var list_event_fired = false;
 
-    sakai.content_profile.parseDirectoryTags = function(contentInfo){
-        if ((typeof(contentInfo["sakai:tags"]) !== "object") && contentInfo["sakai:tags"]) {
-            contentInfo["sakai:tags"] = [contentInfo["sakai:tags"]];
-        }
-        var saveddirectory = [];
-        currentTags = contentInfo["sakai:tags"];
-        $(currentTags).each(function(i){
-            var splitDir = currentTags[i].split("/");
-            if (splitDir[0] === "directory") {
-                var item = [];
-                for (var j in splitDir) {
-                    if (splitDir.hasOwnProperty(j)) {
-                        if (splitDir[j] !== "directory") {
-                            item.push(splitDir[j]);
-                        }
-                    }
-                }
-                saveddirectory.push(item);
-            }
-        });
-
-        return saveddirectory;
-    }
-
     /**
      * Load the content profile for the current content path
      */
@@ -73,7 +49,7 @@ sakai.content_profile = function(){
                     "dataType":"json"
                 },
                 {
-                    "url": content_path + ".members.json",
+                    "url": content_path + ".members.detailed.json",
                     "method":"GET",
                     "cache":false,
                     "dataType":"json"
@@ -144,7 +120,7 @@ sakai.content_profile = function(){
                     }
 
                     if (data.results.hasOwnProperty(2)) {
-                        versionInfo =$.parseJSON(data.results[2].body)
+                        versionInfo =$.parseJSON(data.results[2].body);
                         var versions = [];
                         for (var i in versionInfo.versions) {
                             if(versionInfo.versions.hasOwnProperty(i)){
@@ -156,15 +132,11 @@ sakai.content_profile = function(){
                         versionInfo.versions = versions.reverse();
                     }
 
-                    if (data.results.hasOwnProperty(3)) {
-                        //contentActivity = $.parseJSON(data.results[2].body);
-                    }
-
                     var manager = false;
                     var anon = true;
                     if (!sakai.data.me.user.anon){
-                        for (var i in contentMembers.managers) {
-                            if (contentMembers.managers[i].userid === sakai.data.me.user.userid) {
+                        for (var ii in contentMembers.managers) {
+                            if (contentMembers.managers[ii]["rep:userId"] === sakai.data.me.user.userid) {
                                 manager = true;
                             }
                         }
@@ -173,17 +145,19 @@ sakai.content_profile = function(){
                     var directory = [];
                     // When only one tag is put in this will not be an array but a string
                     // We need an array to parse and display the results
-                    directory = sakai.content_profile.parseDirectoryTags(contentInfo);
+                    if (contentInfo && contentInfo['sakai:tags']) {
+                        directory = sakai.api.Util.getDirectoryTags(contentInfo["sakai:tags"].toString());
+                    }
 
-                    var fullPath = content_path; // + "/" + contentInfo["sakai:pooled-content-file-name"];
-                    //if (contentInfo["sakai:pooled-content-file-name"].substring(contentInfo["sakai:pooled-content-file-name"].lastIndexOf("."), contentInfo["sakai:pooled-content-file-name"].length) !== contentInfo["sakai:fileextension"]) {
-                    //    fullPath += contentInfo["sakai:fileextension"];
-                    //}
+                    var fullPath = content_path + "/" + contentInfo["sakai:pooled-content-file-name"];
+                    if (contentInfo["sakai:pooled-content-file-name"].substring(contentInfo["sakai:pooled-content-file-name"].lastIndexOf("."), contentInfo["sakai:pooled-content-file-name"].length) !== contentInfo["sakai:fileextension"]) {
+                        fullPath += contentInfo["sakai:fileextension"];
+                    }
 
                     // filter out the the everyone group and the anonymous user
                     contentMembers.viewers = $.grep(contentMembers.viewers, function(resultObject, index){
-                        if (resultObject['groupid'] !== 'everyone' &&
-                            resultObject['userid'] !== 'anonymous') {
+                        if (resultObject['sakai:group-id'] !== 'everyone' &&
+                            resultObject['rep:userId'] !== 'anonymous') {
                             return true;
                         }
                         return false;
@@ -211,11 +185,8 @@ sakai.content_profile = function(){
             });
 
         } else {
-
             sakai.api.Security.send404();
-
         }
-
     };
 
     var handleHashChange = function() {
@@ -261,7 +232,6 @@ sakai.content_profile = function(){
                     ready_event_fired++;
                 });
             }
-
 
             sakai.api.Security.showPage();
 
@@ -334,23 +304,51 @@ sakai.content_profile = function(){
                 },
                 success: function(data){
                     if (task === 'add') {
-                        sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_added_text").text() + " " + notificationType) + ": " + users.toAddNames.toString().replace(/,/g, ", "));
+                        sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_added_text").text()) + " " + users.toAddNames.toString().replace(/,/g, ", "));
                         sakai.content_profile.loadContentProfile();
+                        // record that user shared content
+                        sakai.api.User.addUserProgress("sharedContent");
                     }
                     else {
-                        sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_removed_text").text() + " " + notificationType) + " " + users.toAddNames.toString().replace(/,/g, ", "));
+                        sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_removed_text").text()) + " " + users.toAddNames.toString().replace(/,/g, ", "));
                     }
                 }
             });
         }
     };
 
-    $(window).bind("sakai-pickeruser-finished", function(e, peopleList){
-        if(!peopleList.mode || peopleList.mode == undefined){
+    /**
+     * Checks if user is in the share content tour and displays tooltips
+     */
+    var checkShareContentTour = function(){
+        var querystring = new Querystring();
+        if (querystring.contains("sharecontenttour") && querystring.get("sharecontenttour") === "true") {
+            // display tooltip
+            var tooltipData = {
+                "tooltipSelector":"#entity_content_share_button",
+                "tooltipTitle":"TOOLTIP_SHARE_CONTENT",
+                "tooltipDescription":"TOOLTIP_SHARE_CONTENT_P3",
+                "tooltipArrow":"top",
+                "tooltipLeft":30
+            };
+            if (!sakai.tooltip || !sakai.tooltip.isReady) {
+                $(window).bind("sakai-tooltip-ready", function() {
+                    $(window).trigger("sakai-tooltip-init", tooltipData);
+                });
+            } else {
+                $(window).trigger("sakai-tooltip-init", tooltipData);
+            }
+        }
+    };
+
+    $(window).bind("sakai-sharecontent-finished", function(e, peopleList){
+        if(!peopleList.mode || peopleList.mode === undefined){
             peopleList.mode = "viewers";
         }
         addRemoveUsers(peopleList.mode, peopleList, 'add');
     });
+
+
     ////////////////////
     // Initialisation //
     ////////////////////
@@ -365,6 +363,9 @@ sakai.content_profile = function(){
             handleHashChange();
         });
         handleHashChange();
+
+        // check for share content tour in progress
+        checkShareContentTour();
     };
 
     // Initialise the content profile page
@@ -740,6 +741,6 @@ var old_function = function(){
 
     // Initialise the content profile page
     init();
-}
+};
 
 sakai.api.Widgets.Container.registerForLoad("sakai.content_profile");

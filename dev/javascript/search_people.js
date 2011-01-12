@@ -41,8 +41,8 @@ sakai.search = function() {
     var searchURLmap = {
         allusers : sakai.config.URL.SEARCH_USERS,
         mycontacts : sakai.config.URL.SEARCH_USERS_ACCEPTED,
-        invitedcontacts : sakai.config.URL.CONTACTS_INVITED,
-        pendingcontacts : sakai.config.URL.CONTACTS_PENDING,
+        invitedcontacts : sakai.config.URL.SEARCH_USERS_ACCEPTED + '?state=INVITED',
+        pendingcontacts : sakai.config.URL.SEARCH_USERS_ACCEPTED + '?state=PENDING',
         onlinecontacts : sakai.config.URL.PRESENCE_CONTACTS_SERVICE
     };
 
@@ -213,6 +213,29 @@ sakai.search = function() {
         return person;
     };
 
+    /**
+     * Checks if user is in the add contacts tour and displays tooltips
+     */
+    var checkAddContactsTour = function(){
+        var querystring = new Querystring();
+        if (querystring.contains("addcontactstour") && querystring.get("addcontactstour") === "true") {
+            // display tooltip
+            var tooltipData = {
+                "tooltipSelector":"#search_button",
+                "tooltipTitle":"TOOLTIP_ADD_CONTACTS",
+                "tooltipDescription":"TOOLTIP_ADD_CONTACTS_P2",
+                "tooltipArrow":"bottom",
+                "tooltipLeft":15
+            };
+            if (!sakai.tooltip || !sakai.tooltip.isReady) {
+                $(window).bind("sakai-tooltip-ready", function() {
+                    $(window).trigger("sakai-tooltip-init", tooltipData);
+                });
+            } else {
+                $(window).trigger("sakai-tooltip-init", tooltipData);
+            }
+        }
+    };
 
 
     //////////////////////////////
@@ -247,6 +270,16 @@ sakai.search = function() {
         currentpage = page;
         //    This will invoke the sakai._search.doSearch function and change the url.
         History.addBEvent(page, encodeURIComponent(searchquery), searchwhere, facet);
+
+        // display tooltip
+        var tooltipData = {
+            "tooltipSelector":"#search_button",
+            "tooltipTitle":"TOOLTIP_ADD_CONTACTS",
+            "tooltipDescription":"TOOLTIP_ADD_CONTACTS_P3",
+            "tooltipTop":-150,
+            "tooltipLeft":-200
+        };
+        $(window).trigger("sakai-tooltip-update", tooltipData);
     };
 
     /**
@@ -310,7 +343,6 @@ sakai.search = function() {
             $(searchConfig.global.pagerClass).hide();
         }
         foundPeople = finaljson.items;
-        $(searchConfig.results.header).show();
 
         //    Render the results.
         $(searchConfig.results.container).html($.TemplateRenderer(searchConfig.results.template, finaljson));
@@ -470,18 +502,21 @@ sakai.search = function() {
                     }
 
                     renderResults(data, true);
+                    $(searchConfig.results.header).show();
                 },
                 error: function(xhr, textStatus, thrownError) {
                     sakai.data.search.results_people = {};
                     renderResults(sakai.data.search.results_people, false);
+                    $(searchConfig.results.header).show();
                 }
             });
 
         } else if (tagterm) {
+            // add text to search input
+            $(searchConfig.global.text).val(tagterm);
+
             // Show and hide the correct elements.
             showSearchContent();
-            $(searchConfig.results.header).hide();
-            $(searchConfig.results.tagHeader).show();
 
             // Search based on tags and render each search section
             $.ajax({
@@ -497,10 +532,12 @@ sakai.search = function() {
                     json.items = json.results.length;
 
                     renderResults(json, true);
+                    $(searchConfig.results.tagHeader).show();
                 },
                 error: function(xhr, textStatus, thrownError) {
                     var json = {};
                     renderResults(json, false);
+                    $(searchConfig.results.tagHeader).show();
                 }
             });
         } else {
@@ -573,6 +610,16 @@ sakai.search = function() {
     $(searchConfig.global.addToContactsLink).live("click", function(ev) {
         contactclicked = (this.id.substring(searchConfig.global.addToContactsFiller.length));
         sakai.addtocontacts.initialise(contactclicked, mainSearch.removeAddContactLinks);
+
+        // display tooltip
+        var tooltipData = {
+            "tooltipSelector":"#addtocontacts_profilepicture",
+            "tooltipTitle":"TOOLTIP_ADD_CONTACTS",
+            "tooltipDescription":"TOOLTIP_ADD_CONTACTS_P4",
+            "tooltipTop":-50,
+            "tooltipLeft":350
+        };
+        $(window).trigger("sakai-tooltip-update", tooltipData);
     });
 
 
@@ -599,6 +646,8 @@ sakai.search = function() {
         // display faceted panel
         mainSearch.addFacetedPanel();
 
+        // check for add contacts tour in progress
+        checkAddContactsTour();
     };
     doInit();
 };

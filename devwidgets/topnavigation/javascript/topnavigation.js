@@ -92,6 +92,7 @@ sakai.topnavigation = function(tuid, showSettings){
     var searchInputFocusClass = "search_input_focus";
 
     var userLinkChatStatusClass = ".user_link_chat_status";
+    var userLinkName = ".user_link_name";
 
     var showLogin = true;
     if (-1 !== $.inArray(window.location.pathname.replace(/\/$/,""), sakai.config.Authentication.hideLoginOn)) {
@@ -219,6 +220,10 @@ sakai.topnavigation = function(tuid, showSettings){
         $search_group.live("click", function(ev){
             showHideMoreMenu(false);
             $search_links.html($search_group_text.html());
+        });
+
+        $(userLinkName).bind("click", function(ev){
+            showHideUserLinkMenu(false);            
         });
 
         $(userLinkChatStatusClass).bind("click", function(ev){
@@ -515,6 +520,7 @@ sakai.topnavigation = function(tuid, showSettings){
                   temp.url = sakai.config.Navigation[i].url;
                 }
                 temp.label = sakai.api.i18n.General.getValueForKey(sakai.config.Navigation[i].label);
+                temp.id = sakai.config.Navigation[i].id;
                 temp.cleanurl = temp.url || "";
                 if (temp.cleanurl) {
                     if (temp.cleanurl.indexOf('?') && temp.cleanurl.indexOf('?') > 0) {

@@ -77,7 +77,9 @@ sakai.api.l10n.parseDateString = function(dateString){
     d.setMinutes(parseInt(dateString.substring(14,16),10));
     d.setSeconds(parseInt(dateString.substring(17,19),10));
     // Localization
-    d.setTime(d.getTime() - (parseInt(dateString.substring(19,22),10)*60*60*1000));
+    if (!isNaN((parseInt(dateString.substring(19,22),10)))){
+        d.setTime(d.getTime() - (parseInt(dateString.substring(19,22),10)*60*60*1000));
+    }
     if (sakai.data.me.user.locale) {
         d.setTime(d.getTime() + sakai.data.me.user.locale.timezone.GMT * 60 * 60 * 1000);
     }

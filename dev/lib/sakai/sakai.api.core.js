@@ -149,7 +149,6 @@ sakai.api.Activity.createActivity = function(nodeUrl, appID, templateID, extraDa
 
     // Create event url with appropriate selector
     var activityUrl = nodeUrl + ".activity.json";
-
     // Create data object to send
     var dataToSend = {
         "sakai:activity-appid": appID,
@@ -194,13 +193,47 @@ sakai.api.Activity.createActivity = function(nodeUrl, appID, templateID, extraDa
 sakai.api.Datetime = sakai.api.Datetime || {};
 
 /**
- * Function that returns how many years, months, days or hours since the dateinput
+ * Parse a date string into a date object
+ * @param {Object} dateString    date to parse in the format 2010-10-06T14:45:54+01:00
+ */
+sakai.api.Datetime.parseDateString = function(dateString){
+    var d = new Date();
+    d.setFullYear(parseInt(dateString.substring(0,4),10));
+    d.setMonth(parseInt(dateString.substring(5,7),10) - 1);
+    d.setDate(parseInt(dateString.substring(8,10),10));
+    d.setHours(parseInt(dateString.substring(11,13),10));
+    d.setMinutes(parseInt(dateString.substring(14,16),10));
+    d.setSeconds(parseInt(dateString.substring(17,19),10));
+    return d;
+};
+
+/**
+ * Function that will return the date in GMT time
+ *
+ * @param {Date} date
+ */
+sakai.api.Datetime.toGMT = function(date){
+    date.setFullYear(date.getUTCFullYear());
+    date.setMonth(date.getUTCMonth());
+    date.setDate(date.getUTCDate());
+    date.setHours(date.getUTCHours());
+    return date;
+};
+
+/**
+ * Function that returns how many years, months, days or hours since the dateinput based on GMT time
  *
  * @param {Date} date
  */
 sakai.api.Datetime.getTimeAgo = function(date){
     if (date !== null) {
+        // convert date input to GMT time
+        date = sakai.api.Datetime.toGMT(date);
+
         var currentDate = new Date();
+        // convert current date to GMT time
+        currentDate = sakai.api.Datetime.toGMT(currentDate);
+
         var iTimeAgo = (currentDate - date) / (1000);
         if (iTimeAgo < 60) {
             if (Math.floor(iTimeAgo) === 1) {
@@ -900,7 +933,130 @@ sakai.api.Server.createSearchString = function(searchString) {
  */
 sakai.api.UI = sakai.api.UI || {};
 
+sakai.api.UI.getPageContext = function(){
+    if (sakai.content_profile) {
+        return "content";
+    } else if (sakai.group || sakai.groupedit) {
+        return "group";
+    } else if (sakai.directory) {
+        return "directory";
+    } else if (sakai.content_profile || sakai.profile){
+        return "user";
+    } else {
+        return false;
+    }
+};
 
+sakai.api.UI.getDirectoryStructure = function(){
+    /**
+     * Converts directory array into a node structure
+     * so that it can be rendered into the jstree.
+     *
+     * @param {Object} directory list of directories
+     * @return result the json object in the structure necessary to render in jstree
+     */
+    var convertToHierarchy = function(directory){
+        var item, path;
+
+        var result = [];
+        // loop through all the directory
+        for (item in directory) {
+            if (directory.hasOwnProperty(item)) {
+                // url for the first level nodes
+                var url = "/dev/directory.html#" + item;
+                // call buildnoderecursive to get the node structure to render.
+                result.push(buildNodeRecursive(item, directory, url));
+            }
+        }
+        return result;
+    };
+
+    /**
+     * Recursive method that create the node structure
+     * so that it can be rendered into the jstree.
+     *
+     * @param {String} node_id  the unique id for each node for example firstyearcourses
+     * @param {Object} directory directory list json object for example "collegeofengineering": { ... }
+     * @param {String} url the url of the page to render when directory node is clicked for example /dev/directory.html#collegeofengineering
+     *
+     * @return node the json object in the structure necessary to render in jstree
+     */
+    var buildNodeRecursive = function(node_id, directory, url){
+        // node title
+        var p_title = directory[node_id].title;
+        // node id
+        var p_id = node_id;
+        // icon url
+        var p_url = directory[node_id].icon;
+        // description
+        var p_description = directory[node_id].description;
+
+        // create the node based on the parameters
+        var node = {
+            attr: {
+                id: p_id,
+                "data-url": p_url,
+                "data-description": p_description
+            },
+            data: {
+                title: p_title,
+                attr: {
+                    "href": url,
+                    "title": p_title
+                }
+            },
+            children: []
+        };
+
+        // if current node has any children
+        // call buildNoderecursive method create the node structure for
+        // all level of child
+        for (var child in directory[node_id].children) {
+            if (directory[node_id].children.hasOwnProperty(child)) {
+                // for each child node, call buildnoderecursive to build the node structure
+                // pass current child(id), the list of all sibligs(json object) and url append/child
+                // for example first level node /dev/directory.html#courses/firstyearcourses
+                // for second level node /dev/directory.html#course/firstyearcourses/chemistry
+                node.children.push(buildNodeRecursive(child, directory[node_id].children, url + "/" + child));
+            }
+        }
+        return node;
+    };
+
+    return convertToHierarchy(sakai.config.Directory);
+};
+
+/**
+ * Recursive function that gets the title corresponding to an ID in the directory
+ * @param {Object} key Key to get title for
+ * @param {Object} child Object to check for children next, if not supplied start with first child
+ */
+sakai.api.UI.getValueForDirectoryKey = function(key){
+    var directory = sakai.api.UI.getDirectoryStructure();
+
+    var searchDirectoryForKey = function(key, child){
+        if (!child) {
+            child = directory[0];
+        }
+        if (key == child.attr.id) {
+            return child.data.title;
+        }
+        else {
+            if (child.children) {
+                for (var item in child.children) {
+                    if (child.children.hasOwnProperty(item)) {
+                        var result = searchDirectoryForKey(key, child.children[item]);
+                        if(result){
+                            return result;
+                        }
+                    }
+                }
+            }
+        }
+    };
+
+    return searchDirectoryForKey(key, false);
+};
 
 // -----------------------------------------------------------------------------
 

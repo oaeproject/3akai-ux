@@ -283,7 +283,7 @@ sakai.contentcomments = function(tuid, showSettings){
             items = widgetSettings.perPage;
         }
 
-        var url = contentPath + ".comments?sortOn=" + sortOn + "&sortOrder=" + sortOrder + "&page=" + (clickedPage - 1) + "&items=" + items;
+        var url = "/p/" + sakai.content_profile.content_data.data["jcr:name"] + ".comments?sortOn=" + sortOn + "&sortOrder=" + sortOrder + "&page=" + (clickedPage - 1) + "&items=" + items;
 
         $.ajax({
             url: url,
@@ -357,7 +357,7 @@ sakai.contentcomments = function(tuid, showSettings){
                 "comment": body
             };
 
-            var url = contentPath + ".comments";
+            var url = "/p/" + sakai.content_profile.content_data.data["jcr:name"] + ".comments";
             $.ajax({
                 url: url,
                 type: "POST",
@@ -370,7 +370,7 @@ sakai.contentcomments = function(tuid, showSettings){
                     $(commentsNamePosterTxt, rootel).val("");
                     $(commentsMailPosterTxt, rootel).val("");
                     // Add an acitivty
-                    sakai.api.Activity.createActivity(contentPath, "content", "default", {"sakai:activityMessage": "__MSG__CONTENT_ADDED_COMMENT__"});
+                    sakai.api.Activity.createActivity("/p/" + sakai.content_profile.content_data.data["jcr:name"], "content", "default", {"sakai:activityMessage": "__MSG__CONTENT_ADDED_COMMENT__"});
                     // Get the comments.
                     getComments();
                 },

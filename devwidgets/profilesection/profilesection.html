@@ -92,7 +92,7 @@
 
 <!-- MULTIPLE INSTANCE ADD ANOTHER TEMPLATE -->
 <div id="profilesection_add_section_template"><!--
-<a href="javascript:;" class="profilesection_add_section s3d-add_another_location" id="profilesection_add_link_${parentid}"><span>Add another ${config.multipleLabel}</span></a>
+    <a href="javascript:;" class="profilesection_add_section s3d-add_another_location" id="profilesection_add_link_${parentid}"><span>Add another ${config.multipleLabel}</span></a>
 --></div>
 
 <!-- MULTIPLE INSTANCE REMOVE SECTION TEMPLATE -->
@@ -106,6 +106,28 @@
     <hr/>
 --></div>
 
+<!-- ADD LOCATIONS TEMPLATE -->
+<div id="profilesection_add_locations_template"><!--
+    
+--></div>
+
+<!-- LOCATION TEMPLATE -->
+<div id="profilesection_field_location_template"><!--
+    <div class="profilesection_generalinfo_subcontainer">
+    {if data.elements.length > 0}
+        <label class="profilesection_generalinfo_label" for="profilesection_generalinfo_locations}">Locations:</label>
+        <ul class="{if sakai.profile.main.mode.value !== 'edit'}profilesection_generalinfo_locations_rendered{/if}  profilesection_generalinfo_content" id="profilesection_generalinfo_locations">
+        {for i in data.elements}
+            <li>${i.locationtitle.title}</li>
+        {/for}
+        </ul>
+    {/if}
+    </div>
+    {if sakai.profile.main.mode.value === 'edit'}
+        <a href="javascript:;" class="profilesection_add_location_section s3d-add_another_location"><span>Add or remove locations</span></a>
+    {/if}
+--></div>
+
 <!-- FIELD TEMPLATES -->
 <div id="profilesection_field_default_template"><!--
     {var mode = sakai.profile.main.mode}
@@ -113,7 +135,9 @@
     {if mode.value === "edit"}
         {if data}
             <div class="profilesection_generalinfo_subcontainer">
-                <label class="profilesection_generalinfo_label" for="profilesection_generalinfo_${path.replace(/\./g,"_")}">${config.label}:</label>
+                {if !config.nolabel}
+                    <label class="profilesection_generalinfo_label" for="profilesection_generalinfo_${path.replace(/\./g,"_")}">${config.label}:</label>
+                {/if}
                 {if config.editable === false}
                     <span class="profilesection_generalinfo_content">${data.value}</span>
                 {else}
@@ -123,6 +147,8 @@
                         <textarea rows="3" 
                     {elseif config.type === "select"}
                         <select
+                    {else}
+                        <span
                     {/if}
                         class="profilesection_generalinfo_content
                         {if config.required} required{/if}
@@ -148,6 +174,9 @@
                         </select>
                     {elseif config.type === "textarea"}
                         >${data.value}</textarea>
+                    {else}
+                        />${data.value}
+                        </span>
                     {/if}
                     {if config.example}
                         <p class="profilesection_generalinfo_example">

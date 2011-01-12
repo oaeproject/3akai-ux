@@ -445,6 +445,9 @@ sakai.search = function() {
             });
 
         } else if (tagterm) {
+            // add text to search input
+            $(searchConfig.global.text).val(tagterm);
+
             // Show and hide the correct elements.
             showSearchContent();
             $(searchConfig.global.resultTitle).hide();

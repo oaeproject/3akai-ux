@@ -1,4 +1,6 @@
-.tags_widget .fl-widget-content {background-color:#FFF;}
 #tags_main {margin:0px 10px 0px 15px;}
 #tags_main ul li {list-style-type: none;}
 #tags_title {padding-left: 15px !important;}
+
+/* Widget icon */
+.tags.fl-widget .fl-widget-titlebar .widget_title {background: url('/devwidgets/tags/images/icon.png') 14px 15px no-repeat;}

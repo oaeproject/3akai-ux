@@ -481,6 +481,7 @@ if (!sakai.sendmessage){
             } else {
                 sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("YOUR_MESSAGE_FAILED_DELIVERED"),"",sakai.api.Util.notification.type.ERROR);
             }
+            $(buttonSendMessage).removeAttr("disabled");
         };
 
         /**
@@ -489,6 +490,8 @@ if (!sakai.sendmessage){
          * call to the server for the selected recipients.
          */
         $(buttonSendMessage).bind("click", function(ev) {
+            // disable the button to prevent clicking button repeatedly
+            $(buttonSendMessage).attr("disabled", "disabled");
             var recipients = [];
             if (allowOthers) {
                 // fetch list of selected recipients

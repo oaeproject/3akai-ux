@@ -27,7 +27,6 @@
 #discussion_main_container textarea.error,
 #discussion_settings textarea.error {border-color:#9f3333;background-color:#ffdede;}
 
-
 /* Header */
 #discussion_widget_header_wrapper { margin-bottom: 5px;padding-bottom: 5px;border-bottom: 2px solid #d9d9d9; }
 #discussion_widget_title_wrapper { clear:right; }
