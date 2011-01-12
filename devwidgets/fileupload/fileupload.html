@@ -104,10 +104,12 @@
             </div>
             <div class="dialog_buttons">
                 {if context !== "new_version"}
+                    
                     <button type="button" id="fileupload_cancel" class="fileupload_close s3d-button jqmClose dialog_close_image">
                         <span class="s3d-button-inner">__MSG__DONT_ADD__</span>
                     </button>
 
+                    <span id="fileupload_ajax_loader" style="display:none;"><img src="/dev/images/ajax_load.gif" alt="__MSG__LOADING_PLEASE_HOLD_ON__." /></span>
                     <button id="fileupload_form_submit" type="button" class="s3d-button s3d-button-primary">
                         <span class="s3d-button-inner">__MSG__ADD_CONTENT__</span>
                     </button>
