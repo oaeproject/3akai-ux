@@ -92,7 +92,7 @@ sakai.api.l10n.parseDateString = function(dateString){
  * @param {Date} date
  *  JavaScript date object that we would like to transform in a
  *  date string
- * @return {String} Localized fomatted date string
+ * @return {String} Localized formatted date string
  */
 sakai.api.l10n.transformDate = function(date){
     return Globalization.format(date, 'd');
@@ -104,7 +104,7 @@ sakai.api.l10n.transformDate = function(date){
  * @param {Date} date
  *  JavaScript date object that we would like to transform in a
  *  time string
- * @return {String} Localized fomatted time string
+ * @return {String} Localized formatted time string
  */
 sakai.api.l10n.transformTime = function(date){
     return Globalization.format(date, 't');
@@ -165,7 +165,7 @@ sakai.api.l10n.transformDecimal = function(num, decimalplaces) {
  *  Date object, that will have transformed the given date and time into
  *  GMT date and time
  */
-sakai.api.l10ntoGMT = function(date){
+sakai.api.l10n.toGMT = function(date){
     date.setHours(date.getHours() - sakai.data.me.user.locale.timezone.GMT);
     return date;
 };
