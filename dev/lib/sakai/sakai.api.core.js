@@ -603,7 +603,7 @@ sakai.api.Server.bundleRequests = function(id, request){
                     "responseId": sakai.api.Server.intialRequests.requestId,
                     "responseData": data.results
                 }
-                $(window).trigger("sakai-api-bundleRequest-complete", jsonData);
+                $(window).trigger("sakai-api-Server-bundleRequest-complete", jsonData);
             }
         });
     }
