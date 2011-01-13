@@ -102,6 +102,7 @@ sakai.entity = function(tuid, showSettings){
     var profileChatStatusClass = ".myprofile_chat_status";
     var profileChatStatusID = "#myprofile_chat_status_";
     var $entity_profile_status_title = "#entity_profile_status_title";
+    var $entity_profile_status_body = "#entity_profile_status_body";
 
     // Tags Link
     var tagsLink = "#entity_tags_link";
@@ -648,13 +649,13 @@ sakai.entity = function(tuid, showSettings){
 
                         sakai.data.me.profile = $.extend(true, sakai.data.me.profile, {"status": inputValue});
 
-                        sakai.api.Util.notification.show($($entity_profile_status_title).text(), inputValue);
+                        sakai.api.Util.notification.show($($entity_profile_status_title).text(), $($entity_profile_status_body).text());
 
                         //trigger chat_status_message_change to update the status message on chat widget.
                         $(window).trigger("chat_status_message_change", inputValue);
 
                         sakai.api.Activity.createActivity(nodeUrl, "status", "default", activityData);
-                        $entity_profile_status_input.val("");
+                        
                     } else {
                         // Log an error message
                         debug.error("Entity widget - the saving of the profile status failed");
