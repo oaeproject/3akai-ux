@@ -200,6 +200,9 @@ sakai.search = function() {
 
     };
 
+    /*
+    * This will build the search querystring from the tagterm and searchterm
+    */
     var buildQuerystring = function() {
         var querystring = "#";
         if (tagterm) {
