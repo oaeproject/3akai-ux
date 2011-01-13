@@ -101,7 +101,7 @@ sakai.entity = function(tuid, showSettings){
     var entityProfileChatstatus = "#entity_profile_chatstatus";
     var profileChatStatusClass = ".myprofile_chat_status";
     var profileChatStatusID = "#myprofile_chat_status_";
-    var $entity_profile_status_title = "#entity_profile_status_title"
+    var $entity_profile_status_title = "#entity_profile_status_title";
 
     // Tags Link
     var tagsLink = "#entity_tags_link";

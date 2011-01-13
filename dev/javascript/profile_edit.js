@@ -443,13 +443,15 @@ sakai.profile = function(){
         // determine how much profile data has been entered
         var elementItemCount = 0;
         var dataItemCount = 0;
-        for (var i in sakai.profile.main.config) {
-            if (sakai.profile.main.config.hasOwnProperty(i)) {
-                if (sakai.profile.main.config[i].elements && i !== "publications") {
-                    for (var ii in sakai.profile.main.config[i].elements) {
-                        elementItemCount++;
-                        if (sakai.profile.main.data[i] && sakai.profile.main.data[i].elements && sakai.profile.main.data[i].elements[ii]) {
-                            dataItemCount++;
+        for (var prop in sakai.profile.main.config) {
+            if (sakai.profile.main.config.hasOwnProperty(prop)) {
+                if (sakai.profile.main.config[prop].elements && prop !== "publications") {
+                    for (var ii in sakai.profile.main.config[prop].elements) {
+                        if (sakai.profile.main.config[prop].hasOwnProperty(ii)) {
+                            elementItemCount++;
+                            if (sakai.profile.main.data[prop] && sakai.profile.main.data[prop].elements && sakai.profile.main.data[prop].elements[ii]) {
+                                dataItemCount++;
+                            }
                         }
                     }
                 }
