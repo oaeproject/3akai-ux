@@ -123,11 +123,11 @@ sakai.displayprofilesection = function(tuid, showSettings){
      */
     var displaySettings = function(data){
         var objArr = {configuration : [], selectedsection : data.sectionid};
-        for(var s in sakai.config.Profile.configuration){
-            if(sakai.config.Profile.configuration[s].display){
+        for(var s in sakai.config.Profile.configuration.defaultConfig){
+            if(sakai.config.Profile.configuration.defaultConfig[s].display){
                 var obj = {
                     "id" : s,
-                    "label" : sakai.api.i18n.General.getValueForKey(sakai.config.Profile.configuration[s].label.split("__MSG__")[1].split("__")[0])
+                    "label" : sakai.api.i18n.General.getValueForKey(sakai.config.Profile.configuration.defaultConfig[s].label.split("__MSG__")[1].split("__")[0])
                 };
                 objArr.configuration.push(obj);
             }

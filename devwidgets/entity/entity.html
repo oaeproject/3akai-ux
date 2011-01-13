@@ -23,11 +23,11 @@
         <div class="entity_header">
             <a class="entity_header_text" href="/~${unescape(data.profile["rep:userId"])}">${sakai.api.Util.shortenString(unescape(sakai.api.User.getDisplayName(data.profile)), 30)}</a>
             {if mode === "myprofile" && (!sakai.profile)}
-                <a class="s3d-action" href="/dev/profile_edit.html">__MSG__EDIT_PROFILE__</a>
+                <a class="s3d-action" id="entity_edit_profile" href="/dev/profile_edit.html">__MSG__EDIT_PROFILE__</a>
                 |
                 <a class="s3d-action" href="/~${unescape(data.profile["rep:userId"])}">__MSG__MY_PERSONAL_PAGES__</a>
             {elseif mode === "myprofile" && (sakai.profile.main.mode.value === "view")}
-                <a class="s3d-action" href="/dev/profile_edit.html">__MSG__EDIT_PROFILE__</a>
+                <a class="s3d-action" id="entity_edit_profile" href="/dev/profile_edit.html">__MSG__EDIT_PROFILE__</a>
             {elseif mode === "myprofile"}
                 <a class="s3d-action" href="/~${data.profile["rep:userId"]}">__MSG__MY_PERSONAL_PAGES__</a>
             {/if}
@@ -39,6 +39,7 @@
                     <span id="entity_profile_status_input_dummy" style="display:none;">__MSG__WHAT_ARE_YOU_DOING_NOW__</span>
                     <button type="submit" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">__MSG__UPDATE__</span></button>
                     <span id="entity_profile_status_input_saving" style="display:none;">__MSG__SAVING__...</span>
+                    <span id="entity_profile_status_title" style="display:none;">__MSG__STATUS_CHANGED__</span>
                     <span id="entity_profile_status_input_saving_failed" style="display:none;">__MSG__SAVING_FAILED__</span>
                 </div>
             </form>
@@ -161,17 +162,17 @@
                         </a>
                     </div>
                     <div class="fl-force-left entity_content_used_by">
-                        <p class="entity_usedby">__MSG__USED_IN__
+                        <p class="entity_usedby">__MSG__USED_BY__
                             <a href="#" class="entity_content_places s3d-regular-light-links s3d-bold">
                                 ${data.profile.groupcount}
-                                {if data.profile.groupcount === 1}__MSG__PLACE__{else}__MSG__PLACES__{/if}</a>
-                            __MSG__BY__
+                                {if data.profile.groupcount === 1}__MSG__PERSON__{else}__MSG__PEOPLE__{/if}</a>
+                            __MSG__AND__
                             <a href="#" class="entity_content_people s3d-regular-light-links s3d-bold">
                                 ${data.profile.usercount}
                                 {if data.profile.usercount === 1}
-                                    __MSG__PERSON__
+                                    __MSG__GROUP__
                                 {else}
-                                    __MSG__PEOPLE__
+                                    __MSG__GROUPS__
                                 {/if}
                             </a>
                         </p>

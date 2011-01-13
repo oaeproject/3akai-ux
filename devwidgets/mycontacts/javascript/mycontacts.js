@@ -141,7 +141,7 @@ sakai.mycontacts = function(tuid,showSettings){
      */
     var getFriends = function(){
         $.ajax({
-            url: sakai.config.URL.CONTACTS_ACCEPTED + "?page=0&items=6",
+            url: sakai.config.URL.SEARCH_USERS_ACCEPTED + "?state=ACCEPTED&page=0&items=6",
             cache: false,
             success: function(data){
 

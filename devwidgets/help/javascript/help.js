@@ -36,6 +36,7 @@ sakai.help = function(tuid, showSettings) {
     
     var $rootel = $("#" + tuid);
     var $help_widget = $("#help_widget", $rootel),
+        $help_tooltip_widget = $("#help_widget", $rootel),
         $help_nav_ul_li_a = $(".help_nav ul li a", $rootel),
         $help_content = $(".help_content", $rootel),
         $help_close = $(".help_close", $rootel),
@@ -69,6 +70,7 @@ sakai.help = function(tuid, showSettings) {
 
     var hideHelp = function() {
         $help_widget.jqmHide();
+        $(window).trigger("sakai-help-close");
     };
 
     /**
@@ -93,7 +95,6 @@ sakai.help = function(tuid, showSettings) {
             debug.error("Cannot disable repeat show, no profile flag set");
         }
     };
-
 
     $help_nav_ul_li_a.bind("click", function() {
         if (!$(this).hasClass("active")) {
@@ -131,11 +132,11 @@ sakai.help = function(tuid, showSettings) {
             forced = helpObj.force || false;
             alreadySet = false;
             $.ajax({
-                url: authprofileURL + ".infinity.json",
-                success: function(profile) {
-                    profileData = $.extend(true, {}, profile);
-                    showHelp();
-                }
+                    url: authprofileURL + ".infinity.json",
+                    success: function(profile){
+                        profileData = $.extend(true, {}, profile);
+                        showHelp();
+                    }
             });
         } else {
             debug.error("No help mode specifed");

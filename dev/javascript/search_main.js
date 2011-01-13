@@ -111,7 +111,7 @@ sakai._search = function(config, callback) {
      */
     var fetchMyFriends = function() {
         $.ajax({
-            url: "/var/contacts/all.json?page=0&n=100",
+            url: sakai.config.URL.CONTACTS_FIND + "?state=*&page=0&n=100",
             cache: false,
             async: false,
             success: function(data) {
@@ -315,7 +315,11 @@ sakai._search = function(config, callback) {
                 if (getMyFriends().results) {
                     for (var ii = 0, jj = getMyFriends().results.length; ii<jj; ii++) {
                         var friend = getMyFriends().results[ii];
-                        if (friend.target === user.userid) {
+                        // if invited state set invited to true
+                        if(friend.details["sakai:state"] === "INVITED"){
+                            user.invited = true;
+                        }
+                        else if (friend.target === user.userid) {
                             user.connected = true;
                         }
                     }

@@ -97,10 +97,15 @@ sakai.sharecontent = function(tuid, showSettings) {
     var $sharecontentIWouldLikeToShareFilenameWithYou = $("#sharecontent_i_would_like_to_share_filename_with_you");
     var $sharecontentYouCanFindItOn = $("#sharecontent_you_can_find_it_on");
     var $sharecontentRegards = $("#sharecontent_regards");
+    var shareThroughInternalMessageContent = $sharecontentHi.html() + ",\n\n" + $sharecontentIWouldLikeToShareFilenameWithYou.html().replace("${filename}", "\"" + sakai.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"") + "\n" + $sharecontentYouCanFindItOn.html().replace("${path}", window.location) + "\n\n" + $sharecontentRegards.html() + ",\n" + sakai.data.me.profile.basic.elements.firstName.value;
+    var shareThroughInternalMessageSubject = $sharecontentWantsToShareAFileWithYou.html().replace("${user}", sakai.data.me.profile.basic.elements.firstName.value + " " + sakai.data.me.profile.basic.elements.lastName.value);
+    var shareThroughMailSubject = $sharecontentWantsToShareAFileWithYou.html().replace("${user}", sakai.data.me.profile.basic.elements.firstName.value + " " + sakai.data.me.profile.basic.elements.lastName.value);
+    var shareThroughMailContent = $sharecontentHi.html() + ",%0A%0A" + $sharecontentIWouldLikeToShareFilenameWithYou.html().replace("${filename}", "\"" + sakai.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"") + "%0A" + $sharecontentYouCanFindItOn.html().replace("${path}", window.location) + "%0A%0A" + $sharecontentRegards.html() + ",%0A" + sakai.data.me.profile.basic.elements.firstName.value;
 
     var userList = [];
     var initialized = false;
     var callback = false;
+    var memberAdded = false;
 
     var pickerData = {
       "selected": {},
@@ -170,9 +175,9 @@ sakai.sharecontent = function(tuid, showSettings) {
     var createActivity = function(activityMessage){
         var activityData = {
             "sakai:activityMessage": activityMessage
-        }
+        };
         sakai.api.Activity.createActivity("/p/" + sakai.content_profile.content_data.data["jcr:name"], "content", "default", activityData);
-    }
+    };
 
     var removeMembers = function(selectedUserId, listItem){
         var permission = selectedUserId.split("-")[0];
@@ -321,6 +326,27 @@ sakai.sharecontent = function(tuid, showSettings) {
             reset();
             $(window).trigger("sakai-sharecontent-close");
             $sharecontent_container.jqmHide();
+
+            if (memberAdded) {
+                // display help tooltip
+                var tooltipData = {
+                    "tooltipSelector": "#entity_content_share_button",
+                    "tooltipTitle": "TOOLTIP_SHARE_CONTENT",
+                    "tooltipDescription": "TOOLTIP_SHARE_CONTENT_P7",
+                    "tooltipTop": -50,
+                    "tooltipLeft": -200,
+                    "tooltipAutoClose":true
+                };
+                $(window).trigger("sakai-tooltip-update", tooltipData);
+            } else {
+                // hide any tooltips if they are open
+                $(window).trigger("sakai-tooltip-close");
+            }
+        });
+
+        $(".jqmClose").bind("click", function(){
+            // hide any tooltips if they are open
+            $(window).trigger("sakai-tooltip-close");
         });
 
         $(sharecontentChangeGlobalPermissions).live("click", function(){
@@ -345,13 +371,15 @@ sakai.sharecontent = function(tuid, showSettings) {
         });
 
         $(sharecontentMessageLink).live("click", function(){
-            sakai.sendmessage.initialise(null, true, false, null, $sharecontentWantsToShareAFileWithYou.html().replace("${user}", sakai.data.me.profile.basic.elements.firstName.value + " " + sakai.data.me.profile.basic.elements.lastName.value), $sharecontentHi.html() + ",\n\n" + $sharecontentIWouldLikeToShareFilenameWithYou.html().replace("${filename}", "\"" + sakai.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"") + "\n" + $sharecontentYouCanFindItOn.html().replace("${path}", window.location) + "\n\n" + $sharecontentRegards.html() + ",\n" + sakai.data.me.profile.basic.elements.firstName.value);
+            sakai.sendmessage.initialise(null, true, false, null, shareThroughInternalMessageSubject, shareThroughInternalMessageContent);
         });
 
         $(sharecontentEmailLink).live("click", function(){
-            location.href = "mailto:?subject=" + $sharecontentWantsToShareAFileWithYou.html().replace("${user}", sakai.data.me.profile.basic.elements.firstName.value + " " + sakai.data.me.profile.basic.elements.lastName.value) +
-            "&body=" + $sharecontentHi.html() + ",%0A%0A" + $sharecontentIWouldLikeToShareFilenameWithYou.html().replace("${filename}", "\"" + sakai.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"") + "%0A" + $sharecontentYouCanFindItOn.html().replace("${path}", window.location) + "%0A%0A" + $sharecontentRegards.html() + ",%0A" + sakai.data.me.profile.basic.elements.firstName.value;
+            location.href = "mailto:?subject=" + shareThroughMailSubject +
+            "&body=" + shareThroughMailContent;
         });
+
+        $(sharecontentMessageNewMembers).val(shareThroughInternalMessageContent);
 
         $(sharecontentLinkInput).live("focus", function(){
             this.select();
@@ -469,6 +497,18 @@ sakai.sharecontent = function(tuid, showSettings) {
                 $sharecontent_add_button.show();
                 $(sharecontent_dont_share_button).show();
                 $(sharecontentMessageNewMembers).show();
+
+                // display help tooltip
+                var tooltipData = {
+                    "tooltipSelector":sharecontentNewMembersPermissions,
+                    "tooltipTitle":"TOOLTIP_SHARE_CONTENT",
+                    "tooltipDescription":"TOOLTIP_SHARE_CONTENT_P5",
+                    "tooltipArrow":"bottom",
+                    "tooltipTop":30,
+                    "tooltipLeft":340
+                };
+                $(window).trigger("sakai-tooltip-update", tooltipData);
+                memberAdded = true;
             },
             selectionRemoved: function(elem) {
                 elem.remove();
@@ -548,6 +588,16 @@ sakai.sharecontent = function(tuid, showSettings) {
         $(sharecontentNewMembersPermissions).hide();
         $(sharecontent_close_button).show();
 
+        // display help tooltip
+        var tooltipData = {
+            "tooltipSelector":sharecontent_close_button,
+            "tooltipTitle":"TOOLTIP_SHARE_CONTENT",
+            "tooltipDescription":"TOOLTIP_SHARE_CONTENT_P6",
+            "tooltipArrow":"bottom",
+            "tooltipLeft":15
+        };
+        $(window).trigger("sakai-tooltip-update", tooltipData);
+
         if (!initialized) {
             addBinding();
         }
@@ -603,6 +653,14 @@ sakai.sharecontent = function(tuid, showSettings) {
             addChoicesFromPickeradvanced(data.toAdd);
         });
         callback = callbackFn;
+    });
+
+    $(document).bind("click", function(e){
+        if (!$(e.target).is(".sharecontent_edit_permission") && !$(e.target).is(sharecontentPermissionsLink)) {
+            if($(sharecontentEditPermissionsLink).is(":visible")){
+                $(sharecontentEditPermissionsLink).toggle();
+            }
+        }
     });
 
     // Reset to defaults

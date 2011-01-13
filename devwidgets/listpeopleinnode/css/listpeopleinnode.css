@@ -15,15 +15,15 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-.directory-container hr {clear:both;border:none; height:0; margin:0; padding:0;}
-.directory-container p {margin-bottom:7px;}
 
-#directory_jump_to_header {color:#444444; padding-left:7px;}
-#directory_jumpbox {padding:10px; background-color:#ddd}
-.directory_jumpbox_box {padding:10px; background-color:#fff;}
-.directory_jumpbox_box_hierarchybox {width:250px; float:left;}
+/* Widget icon */
+.listpeopleinnode_widget.fl-widget .fl-widget-titlebar .widget_title {background: url('/dev/images/contacts_icon.png') 16px 16px no-repeat;}
 
-.directory_level_one_header {border-bottom:1px solid #DDDDDD; color:#444444; font-size:18px; font-weight:normal; padding:10px 0; clear:both;}
-.directory_level_two_header {font-size:14px; font-weight:bold; margin-top:0;}
+/* Content */
+.listpeopleinnode_widget .s3d-widget-content {padding:0 !important;}
+.listpeopleinnode_widget .s3d-list-item{cursor:pointer;}
+#listpeopleinnode_no_people {padding:10px; line-height: 25px;}
+#listpeopleinnode_ajax_loader {background: url("/dev/images/ajax_load.gif") no-repeat scroll 8px 8px transparent; height: 18px; width: 87px;}
 
-.directory_block {float:left; width:305px; margin-bottom:12px;}
+.listpeopleinnode_ellipsis_container {word-wrap:break-word;}
+.listpeopleinnode_seeall {padding-right: 10px;}

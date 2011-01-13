@@ -1,0 +1,18 @@
+{
+    "description":"Tracks System Tour Progress",
+    "userpages": false,
+    "userdashboard": false,
+    "grouppages": false,
+    "groupdashboard": false,
+    "hasSettings":false,
+    "id":"systemtour",
+    "i18n": {
+        "default": "/devwidgets/systemtour/bundles/default.properties"
+    },
+    "name":"System Tour",
+    "showinsakaigoodies":false,
+    "siteportal":false,
+    "type":"sakai",
+    "enabled":true,
+    "url":"/devwidgets/systemtour/systemtour.html"
+}

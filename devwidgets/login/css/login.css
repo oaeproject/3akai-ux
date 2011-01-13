@@ -25,7 +25,7 @@ label {color:#888; font-weight: bold; font-size: 1em;}
 
 
 /* Log-in container */
-.login-container {padding: 0; float: right; margin-top: -25px;}
+.login-container {padding: 0; float: right; margin-top: -18px;}
 .login-container-button {margin: 0 0 0 0; float: none; display: inline;}
 .login-container-textfield {border: 1px solid #888; height: 18px; padding: 3px 0 0 3px; width:125px !important;}
 
