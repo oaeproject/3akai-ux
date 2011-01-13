@@ -12,7 +12,7 @@
  *  - enabled {Boolean} sets whether or not this widget may be used by Sakai OAE
  *  - groupdashboard {Boolean} sets whether or not this widget can be placed in
  *    a group's dashboard pages
- *  - grouppages {Boolean} sets whether or not this widget can be placed in
+ *  - grouppages {Boolean} sets whether or not this widget can be placed in 
  *    a group's standard pages (showinsakaigoodies must also be enabled to
  *    access this widget from the page editor)
  *  - hasSettings {Boolean} sets whether or not this widget has a settings menu
@@ -39,25 +39,25 @@
  *    when Sakai OAE wants to display the widget
  *  - userdashboard {Boolean} sets whether or not this widget can be placed in
  *    a user's dashboard pages
- *  - userpages {Boolean} sets whether or not this widget can be placed in
+ *  - userpages {Boolean} sets whether or not this widget can be placed in 
  *    a user's standard pages (showinsakaigoodies must also be enabled to
  *    access this widget from the page editor)
  */
 {
-    "description":        "Sakai OAE Widget SDK Demonstration Widget",
+    "description":        "WIDGET DESCRIPTION",
     "enabled":            false,
     "groupdashboard":     false,
     "grouppages":         false,
-    "hasSettings":        true,
+    "hasSettings":        false,
     "i18n": {
-        "default":        "/devwidgets/helloworld/bundles/default.properties"
+        "default":        "/devwidgets/WIDGET_ID/bundles/default.properties"
     },
-    "id":                 "helloworld",
-    "name":               "Hello World",
+    "id":                 "WIDGET_ID",
+    "name":               "WIDGET NAME",
     "personalportal":     false,
     "showinsakaigoodies": false,
-    "type":               "sakai",
-    "url":                "/devwidgets/helloworld/helloworld.html",
+    "type":               "contrib",
+    "url":                "/devwidgets/WIDGET_ID/WIDGET_ID.html",
     "userdashboard":      false,
     "userpages":          false
 }
