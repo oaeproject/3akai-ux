@@ -601,17 +601,6 @@
 
     </target>
 
-    <!-- Target: Create archives -->
-    <target name="compress" depends="create_target_folders">
-
-        <echo message="Creating ZIP file..." />
-        <zip destfile="${TARGET_ZIP_FILE}" basedir="${TARGET_RESOURCES}" encoding="UTF-8"/>
-
-        <echo message="Creating gzipped TAR file..." />
-        <tar destfile="${TARGET_TAR_FILE}" basedir="${TARGET_RESOURCES}" compression="gzip"/>
-
-    </target>
-
     <!-- Create documentation -->
     <target name="documentation" depends="create_target_folders">
 
@@ -662,7 +651,7 @@
     </target>
 
     <!-- Target: Release Builds-->
-    <target name="release" depends="init, create_target_folders, copy_prod, permissions, formatting, concatenate_js, minify_css, minify_js, compress, documentation">
+    <target name="release" depends="init, create_target_folders, copy_prod, permissions, formatting, concatenate_js, minify_css, minify_js">
         <echo message="Sakai 3 UX Build: Build complete." />
     </target>
 
