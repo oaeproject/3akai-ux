@@ -191,7 +191,7 @@ sakai.api.Util.getDirectoryTags = function(input){
     if (inputTags.length) {
         var tags = [];
         for (var item in inputTags){
-            if (inputTags[item].split("/")[0] == "directory") {
+            if (inputTags.hasOwnProperty(item) && inputTags[item] && inputTags[item].split("/")[0] == "directory") {
                 tags.push(inputTags[item].split("directory/")[1].split("/"));
             }
         }
