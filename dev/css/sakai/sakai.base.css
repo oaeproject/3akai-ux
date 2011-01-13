@@ -21,7 +21,7 @@
  * ----------------------------------------------------------------------------
  */
 .requireUser {
-    background: url("/dev/images/body_bg_sprite.png") repeat-x scroll left -56px #75ADD7;
+    background: url("/dev/images/body_bg_sprite.png") repeat-x scroll left -91px #75ADD7;
     font-family: Arial, Helvetica, sans-serif;
     line-height: 120%;
 }
@@ -503,11 +503,11 @@ html > body .s3d-button .s3d-button-inner {
 }
 
 .s3d-button.s3d-button-grad .s3d-button-inner .s3d-button-icon-right.down {
-    background-image: url("/dev/images/arrow_down.png");
+    background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -68px -235px transparent;
 }
 
 .s3d-button.s3d-button-grad .s3d-button-inner .s3d-button-icon-right.up {
-    background-image: url("/dev/images/arrow_up.png");
+    background-image: url("/dev/images/dashboard_sprite.png") no-repeat scroll -218px -400px transparent;
 }
 
 .s3d-button.s3d-button-light-gray-square {

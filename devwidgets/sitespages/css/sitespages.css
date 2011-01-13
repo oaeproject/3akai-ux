@@ -46,7 +46,7 @@
 { background: url("/dev/images/dashboard_sprite.png") no-repeat scroll right -1567px transparent; padding: 0 5px 0 0; margin: 0; }
 
 .sakai_site .content_top.content_top_rounded
-{ background: url('/dev/images/content_tr_flip.png') top right no-repeat; padding: 0 5px 0 0; margin: 0; }
+{ background: url("/dev/images/dashboard_sprite.png") no-repeat scroll right -1413px transparent; padding: 0 5px 0 0; margin: 0; }
 
 .sakai_site .content_top_inner
 { background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -10px -1393px transparent; margin: 0; height: 6px; }
@@ -78,7 +78,7 @@
 { margin:0; padding: 0; border: none; }
 
 .site_management .sm_titlebar
-{ background:transparent url(/dev/images/block_tr.png) no-repeat scroll right top; padding: 0 10px 0 0; height:50px; }
+{ background:transparent url("/dev/images/dashboard_sprite.png") no-repeat scroll right -472px transparent; padding: 0 10px 0 0; height:50px; }
 
 .site_management .sm_title
 { background:transparent url(/dev/images/site_management_icon.png) no-repeat scroll left top; color:#878A8C; font-size:1em; padding-left: 25px; }
@@ -170,7 +170,7 @@
 { background: none; padding: 0 5px 0 0; margin: 0; border-right:3px solid #D3DBDE;}
 
 .edit_view .content_top_inner
-{ background: url('/dev/images/content_tl.gif') 0 0 no-repeat; margin: 0; height: 6px; }
+{ background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -10px -1393px transparent; margin: 0; height: 6px; }
 
 .edit_view .sitespages_add_button
 { background: url('/dev/images/add_button_bg.png') no-repeat top left; padding:5px; cursor:pointer; margin-top:-4px;}
