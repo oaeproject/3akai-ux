@@ -300,12 +300,11 @@ sakai.api.i18n.init = function(){
     var loadLanguageBundles = function(){
         var localeSet = false;
         var getGlobalization = false;
-        var langCode = sakai.data.me.user.locale.language + "_" + sakai.data.me.user.locale.country.replace("_", "-");
-        var i10nCode = langCode.replace("_", "-");
-        var loadDefaultBundleRequest, loadLocalBundleRequest, globalizationRequest; 
+        var langCode, i10nCode, loadDefaultBundleRequest, loadLocalBundleRequest, globalizationRequest; 
 
-        if (sakai.data && sakai.data.me && sakai.data.me.user && sakai.data.me.user.locale) {
-            //loadLocalBundle(sakai.data.me.user.locale.language + "_" + sakai.data.me.user.locale.country);
+        if (sakai.data && sakai.data.me && sakai.data.me.user && sakai.data.me.user.locale && sakai.data.me.user.locale.country) {
+            langCode = sakai.data.me.user.locale.language + "_" + sakai.data.me.user.locale.country.replace("_", "-");
+            i10nCode = langCode.replace("_", "-");
             localeSet = true;
         }
 
@@ -348,7 +347,7 @@ sakai.api.i18n.init = function(){
         }
 
         // bind response from batch request
-        $(window).bind("sakai-api-bundleRequest-complete", function(e, reqData) {
+        $(window).bind("sakai-api-Server-bundleRequest-complete", function(e, reqData) {
             var loadDefaultBundleSuccess,
                 loadDefaultBundleData,
                 loadLocalBundleSuccess,
