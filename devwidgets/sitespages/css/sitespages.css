@@ -237,22 +237,3 @@
 .sitepages_fullwidth { margin-left: 0px !important;}
 
 /* Page Options Dialog */
-.s3d-button.s3d-button-inline {width:144px; height:28px;}
-.s3d-button.s3d-button-inline .s3d-button-inner {float:left;display:inline;}
-.s3d-button.s3d-button-inline .s3d-button-inner .s3d-button-inner-text {width:90px;}
-
-.s3d-button.s3d-button-inline .s3d-button-inner .s3d-button-icon-left {
-    background: url("/dev/images/page-options-button-sprite.png") no-repeat left top transparent;
-}
-.s3d-button.s3d-button-inline:hover .s3d-button-inner .s3d-button-icon-left {
-    background-position:-20px top;
-}
-.s3d-button.s3d-button-inline.clicked .s3d-button-inner .s3d-button-icon-left {
-    background-position:-40px top;
-}
-.s3d-button.s3d-button-inline .s3d-button-inner .s3d-button-icon-right {
-    background: url("/dev/images/page-options-button-sprite.png") no-repeat -60px top transparent;
-}
-.s3d-button.s3d-button-inline.clicked .s3d-button-inner .s3d-button-icon-right {
-    background: url("/dev/images/white_subnav_arrow.png") no-repeat right center transparent;
-}

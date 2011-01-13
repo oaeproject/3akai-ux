@@ -16,27 +16,6 @@ strong {color: #000;}
 
 #mysakai_edit_page #mysakai_edit_page_container {float:right;}
 
-/* Inline Button */
-.s3d-button.s3d-button-inline {width:114px; height:28px;}
-.s3d-button.s3d-button-inline .s3d-button-inner {float:left;display:inline;}
-.s3d-button.s3d-button-inline .s3d-button-inner .s3d-button-inner-text {width:60px;}
-
-.s3d-button.s3d-button-inline .s3d-button-inner .s3d-button-icon-left {
-    background: url("/dev/images/dashboard_sprite.png") no-repeat -11px -235px transparent;
-}
-.s3d-button.s3d-button-inline:hover .s3d-button-inner .s3d-button-icon-left {
-    background-position:-31px -235px
-}
-.s3d-button.s3d-button-inline.clicked .s3d-button-inner .s3d-button-icon-left {
-    background-position:-51px -235px;
-}
-.s3d-button.s3d-button-inline .s3d-button-inner .s3d-button-icon-right {
-    background: url("/dev/images/dashboard_sprite.png") no-repeat -68px -235px transparent;
-}
-.s3d-button.s3d-button-inline.clicked .s3d-button-inner .s3d-button-icon-right {
-    background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -155px -394px transparent;
-}
-
 /** EDIT PAGE MENU **/
 #mysakai_edit_page .content_page_options .more_link
 { background: transparent url(/dev/images/more_bg_18.png) top left no-repeat; padding: 1px 21px 2px 12px; }
