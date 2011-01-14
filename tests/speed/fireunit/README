@@ -1,0 +1,7 @@
+Requirements:
+
+Firefox
+Firebug
+Fireunit
+
+Firebug's extensions.firebug.throttleMessages config set to false
