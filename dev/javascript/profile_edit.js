@@ -47,6 +47,7 @@ sakai.profile = function(){
     var authprofileURL;
     var readySections = []; // Profile sections that have saved their data to sakai.profile.main
     var currentTags = [];
+    var editProfileTour = false;
 
     ///////////////////
     // CSS SELECTORS //
@@ -403,6 +404,7 @@ sakai.profile = function(){
     var checkEditProfileTour = function(){
         var querystring = new Querystring();
         if (querystring.contains("editprofiletour") && querystring.get("editprofiletour") === "true") {
+            editProfileTour = true;
             // display tooltip
             var tooltipData = {
                 "tooltipSelector":"#user_link_container",
@@ -441,13 +443,15 @@ sakai.profile = function(){
         // determine how much profile data has been entered
         var elementItemCount = 0;
         var dataItemCount = 0;
-        for (var i in sakai.profile.main.config) {
-            if (sakai.profile.main.config.hasOwnProperty(i)) {
-                if (sakai.profile.main.config[i].elements && i !== "publications") {
-                    for (var ii in sakai.profile.main.config[i].elements) {
-                        elementItemCount++;
-                        if (sakai.profile.main.data[i] && sakai.profile.main.data[i].elements && sakai.profile.main.data[i].elements[ii]) {
-                            dataItemCount++;
+        for (var prop in sakai.profile.main.config) {
+            if (sakai.profile.main.config.hasOwnProperty(prop)) {
+                if (sakai.profile.main.config[prop].elements && prop !== "publications") {
+                    for (var ii in sakai.profile.main.config[prop].elements) {
+                        if (sakai.profile.main.config[prop].hasOwnProperty(ii)) {
+                            elementItemCount++;
+                            if (sakai.profile.main.data[prop] && sakai.profile.main.data[prop].elements && sakai.profile.main.data[prop].elements[ii]) {
+                                dataItemCount++;
+                            }
                         }
                     }
                 }
@@ -487,7 +491,7 @@ sakai.profile = function(){
                     "tooltipLeft":15
                 };
                 $(window).trigger("sakai-tooltip-update", tooltipData);
-                if ($("#navigation_my_sakai_link").attr("href") && $("#navigation_my_sakai_link").attr("href").indexOf("editprofiletour") === -1) {
+                if (editProfileTour && $("#navigation_my_sakai_link").attr("href") && $("#navigation_my_sakai_link").attr("href").indexOf("editprofiletour") === -1) {
                     $("#navigation_my_sakai_link").attr("href", $("#navigation_my_sakai_link").attr("href") + "?editprofiletour=true");
                 }
             }
