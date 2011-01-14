@@ -384,10 +384,13 @@ sakai.api.Widgets.widgetLoader = {
                     success: function(data){
                         // sort widget html and bundles into separate arrays
                         for (h in data.results) {
-                            for (hh in bundles) {
+                            for (hh in urls) {
                                 if (data.results[h].url && urls[hh].url && data.results[h].url === urls[hh].url) {
                                     requestedURLsResults.push(data.results[h]);
-                                } else if (data.results[h].url && bundles[hh].url && data.results[h].url === bundles[hh].url) {
+                                }
+                            }
+                            for (hhh in bundles) {
+                                if (data.results[h].url && bundles[hhh].url && data.results[h].url === bundles[hhh].url) {
                                     requestedBundlesResults.push(data.results[h]);
                                 }
                             }
