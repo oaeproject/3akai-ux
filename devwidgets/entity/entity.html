@@ -23,11 +23,11 @@
         <div class="entity_header">
             <a class="entity_header_text" href="/~${unescape(data.profile["rep:userId"])}">${sakai.api.Util.shortenString(unescape(sakai.api.User.getDisplayName(data.profile)), 30)}</a>
             {if mode === "myprofile" && (!sakai_global.profile)}
-                <a class="s3d-action" id="entity_edit_profile" href="/dev/profile_edit.html">__MSG__EDIT_PROFILE__</a>
+                <a class="s3d-action" id="entity_edit_profile" href="/profile/edit">__MSG__EDIT_PROFILE__</a>
                 |
                 <a class="s3d-action" href="/~${unescape(data.profile["rep:userId"])}">__MSG__MY_PERSONAL_PAGES__</a>
             {elseif mode === "myprofile" && (sakai_global.profile.main.mode.value === "view")}
-                <a class="s3d-action" id="entity_edit_profile" href="/dev/profile_edit.html">__MSG__EDIT_PROFILE__</a>
+                <a class="s3d-action" id="entity_edit_profile" href="/profile/edit">__MSG__EDIT_PROFILE__</a>
             {elseif mode === "myprofile"}
                 <a class="s3d-action" href="/~${data.profile["rep:userId"]}">__MSG__MY_PERSONAL_PAGES__</a>
             {/if}
@@ -117,7 +117,7 @@
                 <div class="entity_tags_link_menu_border" id="entity_tags_link_menu" style="display:none;">
                     <div class="entity_tags_link_menu_list">
                         {var count = 0}
-                        {for t in data.profile["sakai:tags"]}{if t.split("/")[0] !== "directory"}{var count = count +1}{if t_index > 0},{/if} <a href="/dev/search.html#tag=/tags/${escape(t)}" class="s3d-action">${unescape(t)}</a>{/if}{/for}
+                        {for t in data.profile["sakai:tags"]}{if t.split("/")[0] !== "directory"}{var count = count +1}{if t_index > 0},{/if} <a href="/search#tag=/tags/${escape(t)}" class="s3d-action">${unescape(t)}</a>{/if}{/for}
                     </div>
                 </div>
                 <a id="entity_tags_link" class="entity_tags_link" href="javascript:;">
@@ -263,7 +263,7 @@
             {/if}
             {if data.profile.role === "manager"}
                 {if sakai_global.profile.main.mode.value === "view"}
-                    <a class="s3d-action entity_group_edit" href="/dev/group_edit.html?id=${data.profile["sakai:group-id"]}">__MSG__MANAGE_GROUP__</a>
+                    <a class="s3d-action entity_group_edit" href="/group/edit?id=${data.profile["sakai:group-id"]}">__MSG__MANAGE_GROUP__</a>
                 {/if}
             {/if}
             {if sakai_global.profile.main.mode.value === "edit"}
@@ -289,7 +289,7 @@
                 <div class="entity_tags_link_menu_border" id="entity_tags_link_menu" style="display:none;">
                     <div class="entity_tags_link_menu_list">
                         {var count = 0}
-                        {for t in data.profile["sakai:tags"]}{if t.split("/")[0] !== "directory"}{var count = count +1}{if t_index > 0},{/if} <a href="/dev/search.html#tag=/tags/${escape(t)}" class="s3d-action">${unescape(t)}</a>{/if}{/for}
+                        {for t in data.profile["sakai:tags"]}{if t.split("/")[0] !== "directory"}{var count = count +1}{if t_index > 0},{/if} <a href="/search#tag=/tags/${escape(t)}" class="s3d-action">${unescape(t)}</a>{/if}{/for}
                     </div>
                 </div>
                 <a id="entity_tags_link" class="entity_tags_link" href="javascript:;">

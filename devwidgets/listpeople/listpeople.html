@@ -102,7 +102,7 @@
             {/if}
                 {if selectable}<input type="checkbox" name="selected" value="${i.content_id}" />{/if}
                 {if i.avatar}
-                    <a href="/dev/content_profile.html#content_path=/p/${i.content_id}" target="_blank"><img src="${i.avatar}" alt="__MSG__CONTENT_PICTURE_FOR__ ${i["sakai:pooled-content-file-name"]}" class="listpeople_ppicture"/></a>
+                    <a href="/content/profile#content_path=/p/${i.content_id}" target="_blank"><img src="${i.avatar}" alt="__MSG__CONTENT_PICTURE_FOR__ ${i["sakai:pooled-content-file-name"]}" class="listpeople_ppicture"/></a>
                 {/if}
                 <a class="listpeople_name s3d-regular-links s3d-bold" href="/dev/content_profile.html#content_path=/p/${i.content_id}" target="_blank">${i["sakai:pooled-content-file-name"]}</a>
                 <br />

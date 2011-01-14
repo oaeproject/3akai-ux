@@ -39,7 +39,7 @@
                         <img src="${sakai.config.MimeTypes['other'].URL}" alt="${sakai.config.MimeTypes['other'].description}"/>
                     {/if}
                     <div class="embedcontent_details">
-                        {if name}<span><a href="/dev/content_profile.html#content_path=${item.path}" class="s3d-action embedcontent_include_name">${item.name}</a></span>{/if}
+                        {if name}<span><a href="/content/profile#content_path=${item.path}" class="s3d-action embedcontent_include_name">${item.name}</a></span>{/if}
                         {if details}<span class="embedcontent_include_details">${item.description}</span>{/if}
                         {if download}<span><a href="${item.link}" class="s3d-action embedcontent_include_download">__MSG__DOWNLOAD__</a></span>{/if}
                     </div>

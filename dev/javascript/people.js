@@ -26,6 +26,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             Config variables
          */
 
+
         var peopleToSearch = 6;
 
         var meObj = false;
