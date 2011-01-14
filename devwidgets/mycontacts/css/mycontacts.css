@@ -33,3 +33,5 @@
 
 /* Widget icon */
 .mycontacts.fl-widget .fl-widget-titlebar .widget_title {background: url('/dev/images/contacts_icon.png') 17px 18px no-repeat;}
+
+#mycontacts_requests {padding-left:0px;}

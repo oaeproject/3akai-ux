@@ -7,8 +7,8 @@
 
 <div id="contentpreview_widget_main_template" style="display:none"><!--
     {if type === "default"}
-        <div class="contentpreview_default_preview" id="contentpreview_default_preview" style="background-color:#EEF2F5; height:60px; margin-bottom:15px; padding-bottom:20px; padding-left:15px; padding-right:20px; padding-top:20px;">
-            <div style="width: 240px; padding-top: 7px; float: right">
+        <div class="contentpreview_default_preview" id="contentpreview_default_preview" style="background-color:#EEF2F5; height:70px; margin-bottom:15px; padding-bottom:20px; padding-left:15px; padding-right:20px; padding-top:20px;">
+            <div style="width: 240px; float: right">
                 {if sakai.content_profile.content_data.data["jcr:content"]["jcr:mimeType"] === "x-sakai/link"}
                     <a id="contentpreview_download_button" href="${sakai.content_profile.content_data.data["sakai:pooled-content-url"]}" style="text-align:center; width:216px;" class="s3d-button s3d-button-primary" target="_blank"><span class="s3d-button-inner">Open Link</span></a>
                 {else}

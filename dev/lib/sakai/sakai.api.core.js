@@ -572,7 +572,7 @@ sakai.api.Server.batchPost = function() {
  *
  * @param {String} i_url The path to the preference where it needs to be
  * saved
- * @param {Object} i_data A JSON object whic we would like to save
+ * @param {Object} i_data A JSON object which we would like to save
  * (max 200 child object of each object)
  * @param {Function} callback A callback function which is executed at the
  * end of the operation
