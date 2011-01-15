@@ -38,5 +38,6 @@ post '/' do
     out << "\t|" << stat[1]["r"].to_s << "\t|" << stat[0] << "\t|" << (stat[1]["w"]/1000.0).to_f.to_s << "kb\t|\n"
   end
   out << "--------------------------\n"
-  File.open("yslow_results.txt", 'a') {|f| f.write(out)}
+  filename = "results/yslow_results_" + Time.now.month.to_s + "_" + Time.now.day.to_s + ".txt"
+  File.open(filename, 'w') {|f| f.write(out)}
 end
