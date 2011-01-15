@@ -1,5 +1,15 @@
 $(function() {
-    var pageArray = ["/dev/my_sakai.html", "/dev/inbox.js", "/~user1", "/dev/directory.html", "/dev/profile_edit.html", "/dev/account_preferences.html", "/dev/search_people.html#q=*&facet=contacts"];
+    var pageArray = [
+        "/dev/my_sakai.html",
+        "/dev/inbox.js",
+        "/~user1",
+        "/dev/directory.html",
+        "/dev/profile_edit.html",
+        "/dev/account_preferences.html",
+        "/dev/search_people.html#q=*&facet=contacts",
+        "http://localhost:8080/dev/search.html#q=user"
+    ];
+
     var currentPage = "", activePage = "";
     $("table").tablesorter();
     var runProfiler = function(page) {
@@ -32,12 +42,23 @@ $(function() {
                 if (currentPage) {
                     runProfiler(currentPage);
                 } else {
-                    var sorting = [[4,1]]; 
-                    $("table").trigger("sorton",[sorting]);
+                    var data = $("table").html();
+                    // POST results to the format_results_server
+                    $.ajax({
+                        url: "http://localhost:4567/",
+                        type: "POST",
+                        data: data,
+                        contentType: "text/plain",
+                        success: function(data) {
+                            console.log("posted data successfully");
+                        },
+                        error: function() {
+                            console.log("error posting data");
+                        }
+                    });
                 }
             }, 10000);
         });
-        
     };
     currentPage = pageArray.pop();
     runProfiler(currentPage);
