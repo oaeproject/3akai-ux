@@ -229,7 +229,8 @@ sakai.sharecontent = function(tuid, showSettings) {
                 }
             });
         } else {
-            sakai.api.Util.notification.show($sharecontentManagerCouldNotBeRemoved.text(), $sharecontentThereShouldBeAtLeastOneManager.text());
+            sakai.api.Util.notification.show($sharecontentManagerCouldNotBeRemoved.text(),
+                $sharecontentThereShouldBeAtLeastOneManager.text());
         }
 
     };
@@ -238,40 +239,73 @@ sakai.sharecontent = function(tuid, showSettings) {
         return (this.indexOf(str) === 0);
     };
 
-    var changePermission = function(userid, permission){
+    var changePermission = function(userid, permission) {
         var data = [];
         if (permission === "viewer") {
-            item = {
-                "url": "/p/" + sakai.content_profile.content_data.data["jcr:name"] + ".members.json",
-                "method": "POST",
-                "parameters": {
+            $.ajax({
+                url: "/p/" + sakai.content_profile.content_data.data["jcr:name"] + ".members.json",
+                type: "POST",
+                data: {
                     ":viewer": userid,
                     ":manager@Delete": userid
+                },
+                success: function () {
+                    // update cached data (move this user from managers to viewers)
+                    var managers = sakai.content_profile.content_data.members.managers;
+                    for (var i = 0; i < managers.length; i++) {
+                        var manager = managers[i];
+                        if (manager["rep:userId"] === userid) {
+                            // append this user to viewers
+                            sakai.content_profile.content_data.members.viewers.push(manager);
+                            // remove from managers
+                            managers.splice(i, 1);
+                        }
+                    }
+
+                    // create activity
+                    createActivity("__MSG__CHANGED_PERMISSIONS_FOR_MEMBER__");
+
+                    // if the current viewer changed themselves from a manager
+                    // to a viewer, reload the page so they can't make any changes
+                    if (userid === sakai.data.me.user.userid) {
+                        window.location.reload();
+                    }
+                },
+                error: function (data) {
+                    debug.error("sharecontent failed to change content " +
+                        "permission to 'viewer' for user: " + userid);
+                    debug.error("xhr data returned: " + data);
                 }
-            };
-            data.push(item);
+            });
         } else {
-            item = {
-                "url": "/p/" + sakai.content_profile.content_data.data["jcr:name"] + ".members.json",
-                "method": "POST",
-                "parameters": {
+            $.ajax({
+                url: "/p/" + sakai.content_profile.content_data.data["jcr:name"] + ".members.json",
+                type: "POST",
+                data: {
                     ":manager": userid,
                     ":viewer@Delete": userid
+                },
+                success: function (data) {
+                    // update cached data (move this user from viewers to managers)
+                    var viewers = sakai.content_profile.content_data.members.viewers;
+                    for (var i = 0; i < viewers.length; i++) {
+                        var viewer = viewers[i];
+                        if (viewer["rep:userId"] === userid) {
+                            // append this user to managers
+                            sakai.content_profile.content_data.members.managers.push(viewer);
+                            // remove from viewers
+                            viewers.splice(i, 1);
+                        }
+                    }
+                    createActivity("__MSG__CHANGED_PERMISSIONS_FOR_MEMBER__");
+                },
+                error: function (data) {
+                    debug.error("sharecontent failed to change content " +
+                        "permission to 'manager' for user: " + userid);
+                    debug.error("xhr data returned: " + data);
                 }
-            };
-            data.push(item);
+            });
         }
-        // batch request to update user access for the content
-        $.ajax({
-            url: sakai.config.URL.BATCH,
-            traditional: true,
-            type: "POST",
-            data: {
-                requests: $.toJSON(data)
-            }, success : function(){
-                createActivity("__MSG__CHANGED_PERMISSIONS_FOR_MEMBER__");
-            }
-        });
     };
 
     var setGlobalPermission = function(){
@@ -417,11 +451,19 @@ sakai.sharecontent = function(tuid, showSettings) {
 
             if (changeTo === "viewer") {
                 if ($sharecontentSelectedSharerSpan.html() !== $(sharecontentCanView).html()) {
-                    $sharecontentSelectedSharerSpan.html($(sharecontentCanView).html());
-                    if (sharecontentSelectedSharer !== "") {
-                        changePermission(sharecontentSelectedSharer, changeTo);
+                    if (sakai.content_profile.content_data.members.managers.length <= 1) {
+                        // do not allow the last manager to become a viewer
+                        sakai.api.Util.notification.show(
+                            $sharecontentManagerCouldNotBeRemoved.text(),
+                            $sharecontentThereShouldBeAtLeastOneManager.text());
                     } else {
-                        $(sharecontentNewMembersPermissions).val("viewer");
+                        // there is more than one manager; OK to become viewer
+                        $sharecontentSelectedSharerSpan.html($(sharecontentCanView).html());
+                        if (sharecontentSelectedSharer !== "") {
+                            changePermission(sharecontentSelectedSharer, changeTo);
+                        } else {
+                            $(sharecontentNewMembersPermissions).val("viewer");
+                        }
                     }
                 }
             }
