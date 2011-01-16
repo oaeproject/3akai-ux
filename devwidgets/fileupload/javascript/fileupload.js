@@ -809,6 +809,9 @@ sakai.fileupload = function(tuid, showSettings){
             }
         });
         if (!nameError){
+            // hide cancel and add content buttons
+            $("#fileupload_form_submit").hide();
+            $("#fileupload_cancel").hide();
             // show ajax loader
             $(fileUploadAjaxLoader).show();
             $multiFileForm.submit();
