@@ -74,7 +74,7 @@ sakai.fileupload = function(tuid, showSettings){
     var $fileUploadWidgetTitle= $("#fileupload_widget_title", $rootel);
     var $fileUploadWidgetTitleNewVersion= $("#fileupload_widget_title_new_version", $rootel);
     var $fileUploadAddVersionDescription = $("#fileupload_add_version_description", $rootel);
-    var $fileUploadAjaxLoader = $("#fileupload_ajax_loader");
+    var fileUploadAjaxLoader = "#fileupload_ajax_loader";
 
     var $fileUploadLinkBox = $("#fileupload_link_box", $rootel);
     var $fileUploadLinkBoxInput= $("#fileupload_link_box_input", $rootel);
@@ -809,11 +809,8 @@ sakai.fileupload = function(tuid, showSettings){
             }
         });
         if (!nameError){
-            // hide cancel and add content buttons
-            $("#fileupload_form_submit").hide();
-            $("#fileupload_cancel").hide();
             // show ajax loader
-            $fileUploadAjaxLoader.show();
+            $(fileUploadAjaxLoader).show();
             $multiFileForm.submit();
         }
     });
