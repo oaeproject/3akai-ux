@@ -187,6 +187,8 @@ a.s3d-regular-links, .s3d-regular-links a{
 .s3d-widget-small-content {
     padding: 5px 0px !important;
 }
+.fl-widget .fl-widget-options-footer-top {background:url("/dev/images/dashboard_sprite.png") no-repeat scroll -10px -540px #D5DBDF;height:16px;}
+.fl-widget .fl-widget-options .fl-widget-options-top-right {background:url("/dev/images/dashboard_sprite.png") no-repeat scroll right -432px transparent;float:right;height:16px;padding:0 0 7px 14px;width:16px;}
 
 .s3d-widget .s3d-widget-options-footer-right { background: url("/dev/images/dashboard_sprite.png") no-repeat scroll right -456px #D5DBDF; float: right; height: 12px; width: 16px;}
 
@@ -229,29 +231,6 @@ a.s3d-regular-links, .s3d-regular-links a{
 .s3d-site-heading h1 {
     margin: 0;
     padding: 0;
-}
-
-.site_secondary_heading {
-    font-weight: bold;
-    font-size: 20px;
-    padding: 30px 0px 20px 25px;
-}
-
-.site_secondary_heading a {
-    color: #0C91C5;
-    font-size: 14px;
-    padding-left: 10px;
-}
-
-.basic_appearance .site_secondary_heading {
-    color: #454A4F;
-    padding: 10px 0 20px 0;
-    border: none;
-}
-
-.basic_appearance .site_secondary_heading a {
-    background: #fff url('/dev/images/arrow_left_sm2_blue.gif') center left no-repeat;
-    padding: 0 0 0 10px;
 }
 
 
