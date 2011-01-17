@@ -53,7 +53,7 @@
 .comments_txtMessage {height:50px;width:auto;}
 .commentsTable {width:100%;}
 .comments_arrowLeftFiller {height:1px;margin: 20px 0 0 44px; width: 5px;}
-.comments_arrowLeft {height:15px;background:#fff url(../images/comments_arrowleft.jpg) no-repeat top left;margin: 15px 0 0 50px; width: 15px;}
+.comments_arrowLeft {height:15px;background:url("/dev/images/dashboard_sprite.png") no-repeat scroll -10px -712px transparent;margin: 15px 0 0 50px; width: 15px;}
 #comments_fillInComment {background-color:#EBEFF1;margin:-31px 0 0 58px;padding:0 15px 0 15px;}
 #comments_mainContainer .dialog_buttons {padding: 6px 0 6px 6px; height:30px; margin-top:0;}
 #comments_mainContainer .dialog_buttons.right button {float:right;}

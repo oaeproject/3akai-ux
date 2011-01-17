@@ -42,7 +42,7 @@
 .add-members .fl-col-flex .flex-container{padding: 0 25px 0 0; margin:0;}
 .add-members .fl-col-flex .flex-container .member-search{padding-bottom: 23px; border-bottom: 1px solid #ccc;}
 .add-members .fl-col-flex .flex-container .member-search .member-search-field{color: #ccc; border: 1px solid #ccc; width: 375px; padding: 4px 4px 4px 4px; margin-left: 12px;}
-.add-members .fl-col-flex .flex-container .member-search a{float: left;  display: block; padding: 4px 4px 4px 4px; border: 1px solid #ccc; width: 162px; color: #666; background: url(/dev/images/arrow_down_sm2.png) no-repeat 95% 60%;}
+.add-members .fl-col-flex .flex-container .member-search a{float: left;  display: block; padding: 4px 4px 4px 4px; border: 1px solid #ccc; width: 162px; color: #666; background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -68px -235px transparent}
 .add-members .fl-col-flex .flex-container .explore_nav{background: #fff; padding: 0; margin: 0;}
 .add-members .fl-col-flex .flex-container .explore_nav .user-personal li{padding: 0 7px 0 10px;}
 .add-members .fl-col-flex .flex-container .explore_nav .user-personal .first{padding-left: 0px;}

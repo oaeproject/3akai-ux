@@ -71,11 +71,6 @@ strong {
 }
 */
 
-.search_tab_content {
-    background-image: url(/dev/images/body_bg2.png);
-    background-repeat: repeat-x;
-}
-
 /* SEARCH BAR */
 .search_bar {
     width: 640px;

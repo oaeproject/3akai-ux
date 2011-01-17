@@ -4,12 +4,12 @@
 }
 /** MAIN CONTENT **/
 .account_preferences .outline-top {
-    background: url('/dev/images/content_tr_flip.png') top right no-repeat;
+    background: url("/dev/images/dashboard_sprite.png") no-repeat scroll right -1413px transparent;
     padding: 0 5px 0 0;
     margin: 0;
 }
 .account_preferences .outline-top-inner {
-    background: url('/dev/images/content_tl.gif') 0 0 no-repeat;
+    background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -10px -1393px transparent;
     margin: 0;
     height: 6px;
 }

@@ -104,7 +104,7 @@ a.jScrollArrowUp {
     right: 0;
     text-indent: -2000px;
     overflow: hidden;
-    background-image: url(../images/scroll_arrow_up.png);
+    background-image: url("/dev/images/dashboard_sprite.png") no-repeat scroll -218px -400px transparent;
     height: 16px;
 }
 a.jScrollArrowUp:hover {
@@ -119,7 +119,7 @@ a.jScrollArrowDown {
     right: 0;
     text-indent: -2000px;
     overflow: hidden;
-    background-image: url(../images/scroll_arrow_down.png);
+    background:url("/dev/images/dashboard_sprite.png") no-repeat scroll -68px -235px transparent;
     height: 16px;
 }
 a.jScrollArrowDown:hover {

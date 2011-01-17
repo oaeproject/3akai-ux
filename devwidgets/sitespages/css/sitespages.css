@@ -8,13 +8,13 @@
 { height:25px; display:block; margin: 5px 0px 0 0;  }
 
 .sakai_site .content_page_options
-{ background: transparent url('/dev/images/tab_bg_right.png') top right no-repeat; height: 25px; border: none;  padding: 0 10px 0 0; display: block; float:right; margin-top:3px;}
+{ background: url("/dev/images/dashboard_sprite.png") no-repeat scroll right -1624px transparent; height: 25px; border: none;  padding: 0 10px 0 0; display: block; float:right; margin-top:3px;}
 
 .sakai_site #content_edit_page_options.content_page_options
 { background: transparent url('/dev/images/edit_button_bg.png') right -27px no-repeat; }
 
 .sakai_site .content_page_options ul
-{ padding: 5px 0 0 12px; background: #fff url('/dev/images/tab_bg_left.png') top left no-repeat; }
+{ padding: 5px 0 0 12px; background: url("/dev/images/dashboard_sprite.png") no-repeat scroll left -1592px transparent; }
 
 .sakai_site #content_edit_page_options.content_page_options ul
 { background: #fff url('/dev/images/edit_button_bg.png') top left no-repeat; }
@@ -43,13 +43,13 @@
 { margin: 0; padding: 10px; min-height: 350px; }
 
 .sakai_site .content_top
-{ background: url('/dev/images/content_tr.gif') top right no-repeat; padding: 0 5px 0 0; margin: 0; }
+{ background: url("/dev/images/dashboard_sprite.png") no-repeat scroll right -1567px transparent; padding: 0 5px 0 0; margin: 0; }
 
 .sakai_site .content_top.content_top_rounded
-{ background: url('/dev/images/content_tr_flip.png') top right no-repeat; padding: 0 5px 0 0; margin: 0; }
+{ background: url("/dev/images/dashboard_sprite.png") no-repeat scroll right -1413px transparent; padding: 0 5px 0 0; margin: 0; }
 
 .sakai_site .content_top_inner
-{ background: url('/dev/images/content_tl.gif') 0 0 no-repeat; margin: 0; height: 6px; }
+{ background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -10px -1393px transparent; margin: 0; height: 6px; }
 
 .sakai_site .content_bottom.content_bottom_edit
 { float:left; width:916px; }
@@ -78,7 +78,7 @@
 { margin:0; padding: 0; border: none; }
 
 .site_management .sm_titlebar
-{ background:transparent url(/dev/images/block_tr.png) no-repeat scroll right top; padding: 0 10px 0 0; height:50px; }
+{ background:transparent url("/dev/images/dashboard_sprite.png") no-repeat scroll right -472px transparent; padding: 0 10px 0 0; height:50px; }
 
 .site_management .sm_title
 { background:transparent url(/dev/images/site_management_icon.png) no-repeat scroll left top; color:#878A8C; font-size:1em; padding-left: 25px; }
@@ -170,7 +170,7 @@
 { background: none; padding: 0 5px 0 0; margin: 0; border-right:3px solid #D3DBDE;}
 
 .edit_view .content_top_inner
-{ background: url('/dev/images/content_tl.gif') 0 0 no-repeat; margin: 0; height: 6px; }
+{ background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -10px -1393px transparent; margin: 0; height: 6px; }
 
 .edit_view .sitespages_add_button
 { background: url('/dev/images/add_button_bg.png') no-repeat top left; padding:5px; cursor:pointer; margin-top:-4px;}
@@ -237,22 +237,3 @@
 .sitepages_fullwidth { margin-left: 0px !important;}
 
 /* Page Options Dialog */
-.s3d-button.s3d-button-inline {width:144px; height:28px;}
-.s3d-button.s3d-button-inline .s3d-button-inner {float:left;display:inline;}
-.s3d-button.s3d-button-inline .s3d-button-inner .s3d-button-inner-text {width:90px;}
-
-.s3d-button.s3d-button-inline .s3d-button-inner .s3d-button-icon-left {
-    background: url("/dev/images/page-options-button-sprite.png") no-repeat left top transparent;
-}
-.s3d-button.s3d-button-inline:hover .s3d-button-inner .s3d-button-icon-left {
-    background-position:-20px top;
-}
-.s3d-button.s3d-button-inline.clicked .s3d-button-inner .s3d-button-icon-left {
-    background-position:-40px top;
-}
-.s3d-button.s3d-button-inline .s3d-button-inner .s3d-button-icon-right {
-    background: url("/dev/images/page-options-button-sprite.png") no-repeat -60px top transparent;
-}
-.s3d-button.s3d-button-inline.clicked .s3d-button-inner .s3d-button-icon-right {
-    background: url("/dev/images/white_subnav_arrow.png") no-repeat right center transparent;
-}
