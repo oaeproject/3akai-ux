@@ -251,6 +251,30 @@ sakai._search = function(config, callback) {
         return finaljson;
     };
 
+    $(".link_accept_invitation").live("click", function(e) {
+        var userid = $(this).attr("id").split("link_accept_invitation_")[1];
+        acceptInvitation(userid);
+        $(this).siblings("a.search_result_person_divider").remove();
+        $(this).siblings("a.search_result_person_link_divider_message").removeClass("search_result_person_link_divider_message");
+        $(this).remove();
+    });
+
+    var acceptInvitation = function(userid) {
+        var $userContainer = $("div div a#link_accept_invitation_" + userid).parent("div").parent("div");
+        $.ajax({
+            url: "/~" + sakai.data.me.user.userid + "/contacts.accept.html",
+            type: "POST",
+            data : {"targetUserId": userid},
+            success: function(data) {
+                $(window).trigger("hashchange", true);
+
+            },
+            error: function(xhr, textStatus, thrownError) {
+                sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("AN_ERROR_HAS_OCCURRED"),"",sakai.api.Util.notification.type.ERROR);
+            }
+        });
+    };
+
     /**
      * This will take a peopel result set and prep it so it can be rendered.
      * @param {Object} results The results that have to be rendered.
@@ -319,7 +343,7 @@ sakai._search = function(config, callback) {
                         if(friend.details["sakai:state"] === "INVITED"){
                             user.invited = true;
                         }
-                        else if (friend.target === user.userid) {
+                        if (friend.target === user.userid) {
                             user.connected = true;
                         }
                     }
