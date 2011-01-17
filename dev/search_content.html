@@ -79,9 +79,9 @@
 
                         <div class="search_results_faceted">
                             <span id="search_result_title" style="display:none;">__MSG__REFINE_YOUR_SEARCH__</span>
-                            <span id="search_result_all_content" style="display:none;">__MSG__ALL_CONTENT__</span>
-                            <span id="search_result_content_I_manage" style="display:none;">__MSG__CONTENT_I_MANAGE__</span>
-                            <span id="search_result_content_I_m_a_viewer_of" style="display:none;">__MSG__CONTENT_I_M_A_VIEWER_OF__</span>
+                            <span id="search_result_all_content" style="display:none;">__MSG__ALL_CONTENT_I_CAN_SEE__</span>
+                            <span id="search_result_content_I_manage" style="display:none;">__MSG__CONTENT_I_CAN_EDIT__</span>
+                            <span id="search_result_content_I_m_a_viewer_of" style="display:none;">__MSG__CONTENT_SHARED_WITH_ME__</span>
                             <!-- FACETED WIDGET -->
                             <div id="widget_faceted" class="widget_inline"></div>
                         </div>
@@ -135,17 +135,17 @@
                                         {/if}
                                         <a href="/dev/content_profile.html#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['jcr:path']}" title="${i['jcr:name']}"{/if}>
                                         {if (mimeType=="image/jpg" || mimeType=="image/png" || mimeType=="image/gif") && sakai.config.MimeTypes[mimeType]}
-                                            {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
+                                            {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
                                             {if i['jcr:primaryType'] && i['jcr:primaryType'] === "sakai:pooled-content"}
                                                 <img src="/p/${i['jcr:name']}" alt="${mimeTypeDescription}" />
                                             {else}
                                                 <img src="${i['jcr:path']}" alt="${mimeTypeDescription}" />
                                             {/if}
                                         {elseif sakai.config.MimeTypes[mimeType]}
-                                            {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
+                                            {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
                                             <img src="${sakai.config.MimeTypes[mimeType].URL}" alt="${mimeTypeDescription}" />
                                         {else}
-                                            {var mimeTypeDescription = sakai.config.MimeTypes["other"].description}
+                                            {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes["other"].description)}
                                             <img src="${sakai.config.MimeTypes["other"].URL}" alt="${mimeTypeDescription}" />
                                         {/if}
                                         </a>

@@ -20,10 +20,10 @@
 
 #creategroupcontainer, creategroupcontainer>div {width:100%;}
 
-.my_groups_widget .fl-widget-content ul li {list-style-type: none; padding: 5px 5px 5px 40px; margin: 0; border-bottom: 1px solid #CCC; background: url('/dev/images/folder_icon.png') 11px 5px no-repeat;}
+.my_groups_widget .fl-widget-content ul li {list-style-type: none; padding: 5px 5px 5px 40px; margin: 0; border-bottom: 1px solid #CCC;}
 .mygroups_left_padding {padding-left: 15px;}
+.my_groups_widget .fl-widget-content ul li .group_icon{ background: url("/dev/images/icons_sprite.png") no-repeat scroll -242px -21px transparent; display: block; float: left; height: 16px; margin-left: -23px; width: 14px;}
 
 /* Widget icon */
-.mygroups.fl-widget .fl-widget-titlebar .widget_title {background: url('/devwidgets/mygroups/images/mygroups_headericon.png') 17px 15px no-repeat;}
-
+.mygroups.fl-widget .fl-widget-titlebar .widget_title_icon {background: url("/dev/images/icons_sprite.png") no-repeat scroll -600px -20px transparent;}
 .mygroups_ellipsis_container {word-wrap:break-word;}

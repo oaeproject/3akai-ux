@@ -54,7 +54,6 @@
 .add-members .fl-col-flex .flex-container .members-container .member-title{color: #999;}
 
 /* site_management_basic_settings.html */
-.basic_management .delete_site{float: right; background: url(/dev/images/delete_site.png) no-repeat top right; width: 119px; height: 27px; display: block; margin: 12px 10px 0 0; text-align: center; color: #888; vertical-align: middle; line-height: 26px; font-size: 12px;}
 .basic_management .delete_site span{margin-left: 22px;}
 .basic_management .delete_site_warning{color: #D32F2F;}
 .basic_management .delete_site_warning strong{color:#D32F2F;}

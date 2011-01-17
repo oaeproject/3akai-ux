@@ -695,16 +695,27 @@ sakai.dashboard = function(tuid, showSettings) {
     var bindLayoutPickerEventHandlers = function() {
         $(".layout-picker", $rootelClass).bind("click",
         function(ev) {
-            var selected = this.id.split("-")[this.id.split("-").length - 1];
-            var newjson = {};
-            newjson.layouts = sakai.widgets.layouts;
-            newjson.selected = selected;
-            currentlySelectedLayout = selected;
-            $("#layouts_list", $rootelClass).html($.TemplateRenderer("layouts_template", newjson));
-            // once template is render, it loses the event handling
-            // so need to call again
-            bindLayoutPickerEventHandlers();
+            var layoutid = this.id.split("-")[this.id.split("-").length - 1];
+            updateLayout(layoutid);
         });
+        $("table.layout_picker_item,table.layout_picker_item_unselected", $rootelClass).bind("click",
+        function(ev) {
+            var layoutid = this.id.split("-")[this.id.split("-").length - 1];
+            var radio = $("#layout-picker-" + layoutid);
+            radio.checked = true;
+            updateLayout(layoutid);
+        });
+    };
+
+    var updateLayout = function(selected) {
+        var newjson = {};
+        newjson.layouts = sakai.widgets.layouts;
+        newjson.selected = selected;
+        currentlySelectedLayout = selected;
+        $("#layouts_list", $rootelClass).html($.TemplateRenderer("layouts_template", newjson));
+        // once template is render, it loses the event handling
+        // so need to call again
+        bindLayoutPickerEventHandlers();
     };
 
     var beforeFinishAddWidgets = function() {

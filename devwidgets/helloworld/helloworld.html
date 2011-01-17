@@ -2,33 +2,30 @@
 <link rel="stylesheet" type="text/css" href="/devwidgets/helloworld/css/helloworld.css" />
 
 <div class="helloworld_widget">
-    <div class="fl-widget-content s3d-widget-content">
-        <!--
-        MAIN VIEW -->
-        <div id="helloworld_main" style="display:none">
-            <p>
-                __MSG__HELLO_WORLD__, <span id="helloworld_username"></span>
-            </p>
+    <!-- WIDGET CONTENT CONTAINER -->
+    <div class="s3d-widget-content">
+        <!-- MAIN VIEW -->
+        <div id="helloworld_main" style="display:none;">
+            <p>__MSG__HELLO_WORLD__, <span id="helloworld_username"></span></p>
         </div>
         <!-- SETTINGS VIEW -->
         <div id="helloworld_settings" style="display:none;">
-            <p>
-                Color to use:
-                <select id="helloworld_color">
-                    <option value="#000000">__MSG__BLACK__</option>
-                    <option value="#FF0000">__MSG__RED__</option>
-                    <option value="#00FF00">__MSG__GREEN__</option>
-                    <option value="#0000FF">__MSG__BLUE__</option>
-                </select>
-            </p>
-            <p>
-                <input type="button" value="Save" id="helloworld_save"/>
-            </p>
+            <form id="helloworld_settings_form" action="javascript:;">
+                <p>__MSG__COLOR_TO_USE__:
+                    <select id="helloworld_color">
+                        <option value="#000000">__MSG__BLACK__</option>
+                        <option value="#FF0000">__MSG__RED__</option>
+                        <option value="#00FF00">__MSG__GREEN__</option>
+                        <option value="#0000FF">__MSG__BLUE__</option>
+                    </select>
+                </p>
+                <p><button type="submit">__MSG__SAVE__</button></p>
+            </form>
         </div>
     </div>
-    <div class="s3d-widget-no-options fl-fix">
-        <div class="s3d-widget-no-options-inner">
-        </div>
+    <!-- WIDGET FOOTER WITH NO OPTIONS -->
+    <div class="s3d-widget-no-options">
+        <div class="s3d-widget-no-options-inner"></div>
     </div>
 </div>
 

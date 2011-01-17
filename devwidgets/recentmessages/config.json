@@ -1,5 +1,5 @@
 {
-    "description":"Your recent messages",
+    "description":"My recent messages",
     "i18n": {
         "default": "/devwidgets/recentmessages/bundles/default.properties",
         "en_US": "/devwidgets/recentmessages/bundles/en_US.properties"

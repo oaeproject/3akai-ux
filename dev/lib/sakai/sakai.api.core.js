@@ -557,14 +557,39 @@ sakai.api.Security.showPage = function(callback){
  */
 sakai.api.Server = sakai.api.Server || {};
 
-/** Description - TO DO */
-sakai.api.Server.batchGet = function() {
+/**
+ * Perform a batch request to the server
+ *
+ * @param {String} requests The JSON string of requests
+ * @param {Function} callback Callback function, passes ({Boolean} success, {Object} data)
+ * @param {Boolean} cache If we should cache this request or not
+ */
+sakai.api.Server.batch = function(_requests, _callback, _cache) {
+    var method = "GET",
+        cache = _cache || true;
 
-};
-
-/** Description - TO DO */
-sakai.api.Server.batchPost = function() {
-
+    // IE can't handle GETs over 2048 chars, so lets check for that and POST if we need to
+    if ($.browser.msie && ("http://" + document.location.host + sakai.config.URL.BATCH + encodeURI(_requests)).length > 2048) {
+        method = "POST";
+    }
+    $.ajax({
+        url: sakai.config.URL.BATCH,
+        type: method,
+        cache: cache,
+        data: {
+            requests: _requests
+        },
+        success: function(data) {
+            if ($.isFunction(_callback)) {
+                _callback(true, data);
+            }
+        },
+        error: function(xhr) {
+            if ($.isFunction(_callback)) {
+                _callback(false);
+            }
+        }
+    });
 };
 
 /**
@@ -592,13 +617,8 @@ sakai.api.Server.bundleRequests = function(id, request){
     }
 
     if (sakai.api.Server.loadDefaultBundle && sakai.api.Server.loadLocalBundle && sakai.api.Server.globalization) {
-        $.ajax({
-            url: sakai.config.URL.BATCH,
-            type: "POST",
-            data: {
-                requests: $.toJSON(sakai.api.Server.intialRequests.requests)
-            },
-            success: function(data){
+        sakai.api.Server.batch($.toJSON(sakai.api.Server.intialRequests.requests), function(success, data) {
+            if (success) {
                 var jsonData = {
                     "responseId": sakai.api.Server.intialRequests.requestId,
                     "responseData": data.results
@@ -620,7 +640,7 @@ sakai.api.Server.globalization = false;
  *
  * @param {String} i_url The path to the preference where it needs to be
  * saved
- * @param {Object} i_data A JSON object whic we would like to save
+ * @param {Object} i_data A JSON object which we would like to save
  * (max 200 child object of each object)
  * @param {Function} callback A callback function which is executed at the
  * end of the operation

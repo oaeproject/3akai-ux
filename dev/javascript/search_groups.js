@@ -95,7 +95,7 @@ sakai.search = function() {
             value : "Groups",
             facets: {
                 "all": {
-                    "category": "All Groups",
+                    "category": "All groups",
                     "searchurl": searchURLmap.allgroups
                 }
             }

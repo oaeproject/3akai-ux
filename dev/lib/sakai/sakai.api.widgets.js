@@ -373,15 +373,8 @@ sakai.api.Widgets.widgetLoader = {
                 }
 
                 var urlsAndBundles = urls.concat(bundles);
-
-                $.ajax({
-                    url: sakai.config.URL.BATCH,
-                    traditional: true,
-                    cache: false,
-                    data: {
-                        requests: $.toJSON(urlsAndBundles)
-                    },
-                    success: function(data){
+                sakai.api.Server.batch($.toJSON(urlsAndBundles), function(success, data) {
+                    if (success) {
                         // sort widget html and bundles into separate arrays
                         for (var h in data.results) {
                             if (data.results.hasOwnProperty(h)) {
@@ -512,7 +505,7 @@ sakai.api.Widgets.widgetLoader = {
                             }
                         }
                     }
-                });
+                }, false);
             }
         };
 

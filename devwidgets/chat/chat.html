@@ -44,7 +44,8 @@
                                 {/if}
                             </td>
                             <td>
-                                <a href="javascript:;" class="chat_available_status_${i.profile.chatstatus} initiate_chat_window s3d-regular-light-link">${sakai.api.Util.shortenString(i.profile.name, 14)}</a><br />
+                                <span class="chat_available_status_${i.profile.chatstatus}"></span>
+                                <a href="javascript:;" class="initiate_chat_window s3d-regular-light-link">${sakai.api.Util.shortenString(i.profile.name, 14)}</a><br />
                                 <span id="chat_mystatusmessage" class="chat_available_statusmessage">
                                     {if i.profile.status}
                                         ${sakai.api.Util.shortenString(i.profile.status, 20)}
@@ -72,7 +73,8 @@
 <div style="display:none" id="chat_windows_template"><!--
     <span class="active_window">
         <span id="chat_online_button_${profile.userid}" class="user_chat">
-            <a href="javascript:;" id="chat_window_chatstatus_${profile.userid}" class="chat_name_link chat_available_status_${profile.chatstatus}">${profile.name}</a>
+            <span class="chat_available_status_${profile.chatstatus}"></span>
+            <a href="javascript:;" id="chat_window_chatstatus_${profile.userid}" class="chat_name_link">${profile.name}</a>
         </span>
     </span>
 --></div>
@@ -92,12 +94,8 @@
                     </td>
                     <td>
                         <span class="chat_user_button_image">
-                            <a href="javascript:;" id="chat_minimize_${profile.userid}" class="chat_minimize">
-                                <img src="/devwidgets/chat/images/chat_minimize.png" alt="__MSG__MINIMIZE_THIS_CHAT_WINDOW__" />
-                            </a>
-                            <a href="javascript:;" id="chat_close_${profile.userid}" class="chat_close">
-                                <img src="/devwidgets/chat/images/chat_close.png" alt="__MSG__CLOSE_THIS_CHAT_WINDOW__" />
-                            </a>
+                            <a class="chat_minimize chat_available_minimize" id="chat_minimize_user1" href="javascript:;"></a>
+                            <a class="chat_close chat_available_close" id="chat_close_${profile.userid}" href="javascript:;"></a>
                         </span>
                         <a href="/~${profile.userid}" id="chat_window_name_${profile.userid}" class="chat_window_name">${sakai.api.Util.shortenString(profile.name, 14)}</a><br />
                         <span id="chat_window_statusmessage_${profile.userid}" class="chat_available_statusmessage">

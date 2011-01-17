@@ -19,12 +19,6 @@
 .basic_appearance .site_appereance_contents_main
 { border-left: 3px solid #D3DBDE; border-right: 3px solid #D3DBDE; margin: 0; padding: 10px; }
 
-.basic_appearance .site_secondary_heading
-{ color: #454a4f; padding: 10px 0 20px 0; border: none; }
-
-.basic_appearance .site_secondary_heading a
-{ background: #fff url('/dev/images/arrow_left_sm2_blue.gif') center left no-repeat; padding: 0 0 0 10px; }
-
 
 /** TAB CONTENTS **/
 .basic_appearance .site_appearance_container
@@ -32,14 +26,6 @@
 
 .basic_appearance .site_appereance_contents_main
 { border-left: 3px solid #D3DBDE; border-right: 3px solid #D3DBDE; margin: 0; padding: 10px; }
-
-
-.basic_appearance .content_top
-{ background: url('/dev/images/content_tr_leftalign.gif') top right no-repeat; padding: 0 5px 0 0; margin: 0; }
-
-
-.basic_appearance .content_top_inner
-{ background: url('/dev/images/content_tl_leftalign.gif') 0 0 no-repeat; margin: 0; height: 6px; }
 
 /* PAGE CONTENTS */
 

@@ -25,9 +25,9 @@ ul.as-selections li.as-selection-item.embedcontent_selection_notfound a.as-close
 
 #embedcontent_tab_content {border-right: 3px solid #D4DADE; border-left: 3px solid #D4DADE; padding:20px 20px 10px 20px;}
 
-#embedcontent_settings .content_top { background: url('/dev/images/content_tr.gif') top right no-repeat; padding: 0 5px 0 0; margin: 0; }
-#embedcontent_settings .content_top.content_top_rounded { background: url('/dev/images/content_tr_flip.png') top right no-repeat; padding: 0 5px 0 0; margin: 0; }
-#embedcontent_settings .content_top_inner { background: url('/dev/images/content_tl_leftalign.gif') 0 0 no-repeat; margin: 0; height: 6px; }
+#embedcontent_settings .content_top { background:url("/dev/images/dashboard_sprite.png") no-repeat scroll right -1413px transparent; padding: 0 5px 0 0; margin: 0; }
+#embedcontent_settings .content_top.content_top_rounded { background: url("/dev/images/dashboard_sprite.png") no-repeat scroll right -1413px transparent; padding: 0 5px 0 0; margin: 0; }
+#embedcontent_settings .content_top_inner { background: url("/dev/images/dashboard_sprite.png") no-repeat scroll left -1958px transparent; margin: 0; height: 6px; }
 
 /* Display settings */
 #embedcontent_settings .s3d-highlight_area_background {padding:10px;}

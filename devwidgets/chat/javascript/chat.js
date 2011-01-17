@@ -105,14 +105,8 @@ sakai.chat = function(tuid, showSettings){
         
         batchRequests.push(acceptedContacts);
         batchRequests.push(contactsOnline);
-
-        $.ajax({
-        url: sakai.config.URL.BATCH,
-            type: "POST",
-            data: {
-                requests: $.toJSON(batchRequests)
-            },
-            success: function(data){
+        sakai.api.Server.batch($.toJSON(batchRequests), function(success, data) {
+            if (success) {
                 // contact list
                 if (data.results.hasOwnProperty(0)) {
                     acceptedContactList = $.parseJSON(data.results[0].body);
@@ -123,14 +117,11 @@ sakai.chat = function(tuid, showSettings){
                     // load the list of contact onlines
                     loadContactFinished($.parseJSON(data.results[1].body));
                 }
-            },
-            complete: function(){
-                if ($.isFunction(callback)) {
-                    callback();
-                }
+            }
+            if ($.isFunction(callback)) {
+                callback();
             }
         });
-
     };
 
     /**
@@ -534,8 +525,8 @@ sakai.chat = function(tuid, showSettings){
             if (message){
                 var userid = messageField.attr("id").substring(10);
                 userid = userid.substring(0, userid.length - 4);
-                message = replaceURL(message);
                 message = sakai.api.Security.escapeHTML(message); 
+                message = replaceURL(message);
                 sendMessage(userid, message);
                 messageField.val("");
             }

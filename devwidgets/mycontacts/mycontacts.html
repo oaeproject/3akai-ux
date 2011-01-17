@@ -42,12 +42,11 @@
 
     <div id="mycontacts_requests_template"><!--
         {if ((invited > 0) && (invited < 1000))}
-            <span>
-                ${invited}
+            <span>__MSG__RESPOND_TO__ ${invited}
                 {if invited == 1}
-                    __MSG__CONTACT_REQUEST__
+                    __MSG__INVITATION__
                 {else}
-                    __MSG__CONTACT_REQUESTS__
+                    __MSG__INVITATIONS__
                 {/if}
             </span>
         {/if}

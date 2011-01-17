@@ -32,4 +32,4 @@
 #myprofile_chat_status {float:left; padding-left:17px;}
 
 /* Widget icon */
-.myprofile.fl-widget .fl-widget-titlebar .widget_title {background:transparent url(/devwidgets/myprofile/images/myprofile_icon.png) no-repeat scroll 17px 18px;}
+.myprofile.fl-widget .fl-widget-titlebar .widget_title_icon {background:url("/dev/images/icons_sprite.png") no-repeat scroll -640px -19px transparent;}
