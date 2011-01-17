@@ -568,6 +568,54 @@ sakai.api.Server.batchPost = function() {
 };
 
 /**
+ * Performs a batch request for a number of specified requests.
+ *
+ * @param {String} id Identifier for the request so we can map it
+ * @param {Object} request Request object for the batch request
+ */
+sakai.api.Server.bundleRequests = function(id, request){
+    switch(id) {
+        case "loadLocalBundle":
+            sakai.api.Server.loadLocalBundle = true;
+            break;
+        case "loadDefaultBundle":
+            sakai.api.Server.loadDefaultBundle = true;
+            break;
+        case "globalization":
+            sakai.api.Server.globalization = true;
+            break;
+    }
+
+    if (request) {
+        sakai.api.Server.intialRequests.requestId.push(id);
+        sakai.api.Server.intialRequests.requests.push(request);
+    }
+
+    if (sakai.api.Server.loadDefaultBundle && sakai.api.Server.loadLocalBundle && sakai.api.Server.globalization) {
+        $.ajax({
+            url: sakai.config.URL.BATCH,
+            type: "POST",
+            data: {
+                requests: $.toJSON(sakai.api.Server.intialRequests.requests)
+            },
+            success: function(data){
+                var jsonData = {
+                    "responseId": sakai.api.Server.intialRequests.requestId,
+                    "responseData": data.results
+                }
+                $(window).trigger("sakai-api-Server-bundleRequest-complete", jsonData);
+            }
+        });
+    }
+}
+sakai.api.Server.intialRequests = sakai.api.Server.intialRequests || {};
+sakai.api.Server.intialRequests.requests = [];
+sakai.api.Server.intialRequests.requestId = [];
+sakai.api.Server.loadLocalBundle = false;
+sakai.api.Server.loadDefaultBundle = false;
+sakai.api.Server.globalization = false;
+
+/**
  * Saves a specified JSON object to a specified URL in JCR. The structure of JSON data will be re-created in JCR as a node hierarchy.
  *
  * @param {String} i_url The path to the preference where it needs to be
