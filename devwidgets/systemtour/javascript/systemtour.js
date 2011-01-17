@@ -92,19 +92,19 @@ sakai.systemtour = function(tuid, showSettings){
      */
     var updateProgressBar = function(){
         if (uploadedProfilePhoto) {
-            $systemtourAddPhoto.addClass("systemtour_item_complete_full");
+            $systemtourAddPhoto.find(".systemtour_item_complete").addClass("systemtour_item_complete_full");
         }
         if (uploadedContent) {
-            $systemtourUploadFile.addClass("systemtour_item_complete_full");
+            $systemtourUploadFile.find(".systemtour_item_complete").addClass("systemtour_item_complete_full");
         }
         if (sharedContent) {
-            $systemtourShareContent.addClass("systemtour_item_complete_full");
+            $systemtourShareContent.find(".systemtour_item_complete").addClass("systemtour_item_complete_full");
         }
         if (madeContactRequest) {
-            $systemtourInvitedSomeone.addClass("systemtour_item_complete_full");
+            $systemtourInvitedSomeone.find(".systemtour_item_complete").addClass("systemtour_item_complete_full");
         }
         if (halfCompletedProfile) {
-            $systemtourHalfCompleteProfile.addClass("systemtour_item_complete_full");
+            $systemtourHalfCompleteProfile.find(".systemtour_item_complete").addClass("systemtour_item_complete_full");
         }
     };
 

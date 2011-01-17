@@ -36,7 +36,8 @@
 #chat_available_others table {width: 200px;}
 #chat_available_others tr {border-top:1px #ebebeb solid;}
 #chat_online_list_activator {cursor: pointer; cursor: hand;}
-#chat_available_minimize {background:url("/dev/images/dashboard_sprite.png") no-repeat scroll -131px -639px transparent;display:block;width:12px; height: 14px;}
+#chat_available_minimize, .chat_available_minimize {background:url("/dev/images/dashboard_sprite.png") no-repeat scroll -131px -639px transparent;display:block;width:12px; height: 14px; float:left;}
+.chat_available_close {background:url("/dev/images/dashboard_sprite.png") no-repeat scroll -161px -639px transparent;display:block;width:12px; height: 14px;float:left; margin-left:2px;}
 .initiate_chat_window {font-weight:700;}
 
 /* show online */

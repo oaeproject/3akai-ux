@@ -27,7 +27,8 @@
 #sharecontent_container #sharecontent_basic_container #sharecontent_share_link {margin:5px 0 0;}
 #sharecontent_container #sharecontent_basic_container #sharecontent_share_link input{width:355px; margin-right:10px;}
 #sharecontent_message_link, #sharecontent_email_link {margin:0 0px;}
-#sharecontent_content_link {margin-right:10px; padding-left:23px; background:url("/dev/images/link.png") no-repeat scroll 0 0 transparent}
+#sharecontent_content_link {margin-right:10px; padding-left:12px;}
+#sharecontent_content_link_icon {background: url("/dev/images/icons_sprite.png") no-repeat scroll -400px -21px transparent; float: left;height: 7px;margin-top: 7px; width: 15px;}
 
 /* FOOTER */
 #sharecontent_container #sharecontent_footer{float:right;width:445px;}
@@ -59,9 +60,11 @@ img.sm_suggestion_img{height:16px;width:16px;margin-right:5px;}
 #sharecontent_you {font-weight:normal;}
 .sharecontent_list_item_alternating_row {background-color: #EFF2F4;}
 
-#sharecontent_add_people {background: url("/dev/images/add_people.png") no-repeat scroll 0 0 transparent; float: left; font-size: 12px; margin: 9px 0 0 9px; padding: 0 8px 0 25px;}
+#sharecontent_add_people {float: left; font-size: 12px; margin: 9px 0 0 9px; padding: 0 8px 0 25px;}
 #sharecontent_form_container .as-selections {width:310px; float:left;}
 #sharecontent_init_search {display: block; font-size: 12px; margin: 8px 0;}
+
+#sharecontent_add_people_icon {background: url("/dev/images/icons_sprite.png") no-repeat scroll -120px -21px transparent; display: block; float: left; height: 15px; margin-left: -25px; width: 17px;}
 
 /* PERMISSIONS */
 #sharecontent_edit_permission {font-size:.95em!important;left:110px;list-style-image:none;position:absolute;z-index:10;margin:0;}
@@ -74,8 +77,8 @@ img.sm_suggestion_img{height:16px;width:16px;margin-right:5px;}
 #sharecontent_permission_settings_container .s3d-highlight_area_background {clear:both;}
 #sharecontent_permission_settings_container .s3d-highlight_area_background_white_content_tl {height: 12px;}
 #sharecontent_permission_settings_container .s3d-highlight_area_background_white_content_binner {margin-top:5px;}
-#permissions_settings_item_public {background: url("/dev/images/globe_fuge.png") no-repeat scroll 0 5px transparent; padding: 6px 0 6px 25px;}
-#permissions_settings_item_everyone {background: url("/dev/images/lock_fuge.png") no-repeat scroll 0 5px transparent; padding: 6px 0 6px 25px;}
-#permissions_settings_item_private {background: url("/dev/images/people_icon.png") no-repeat scroll 0 3px transparent; padding: 6px 0 6px 25px;}
+#permissions_settings_item_public {background: url("/dev/images/icons_sprite.png") no-repeat scroll -220px -16px transparent; padding: 6px 0 6px 20px; margin-right:6px;}
+#permissions_settings_item_everyone {background: url("/dev/images/icons_sprite.png") no-repeat scroll -380px -16px transparent; padding: 6px 0 6px 20px; margin-right:6px;}
+#permissions_settings_item_private {background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -335px -390px transparent; padding: 6px 0 6px 20px; margin-right:6px;}
 
 .sharecontent_permission_anon {display: block; padding-right: 170px;}

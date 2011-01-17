@@ -12,6 +12,6 @@ a.mycontent_item_link {font-weight:bold; font-size:1.1em;}
 p.mycontent_item_meta {font-size:0.9em; color:#444444;}
    
 /* Widget icon */
-.mycontent.fl-widget .fl-widget-titlebar .widget_title {background:transparent url(/devwidgets/mycontent/images/mycontent_icon.png) no-repeat scroll 14px 16px;}
+.mycontent.fl-widget .fl-widget-titlebar .widget_title_icon {background:url("/dev/images/icons_sprite.png") no-repeat scroll -620px -21px transparent;}
 
 .mycontent_ellipsis_container {word-wrap:break-word;}
