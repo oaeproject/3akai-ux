@@ -229,17 +229,10 @@ sakai.api.Util.tagEntity = function(tagLocation, newTags, currentTags, callback)
                     }
                 });
             });
-            $.ajax({
-                url: sakai.config.URL.BATCH,
-                traditional: true,
-                type: "POST",
-                data: {
-                    requests: $.toJSON(requests)
-                },
-                success: function() {
+            sakai.api.Server.batch($.toJSON(requests), function(success, data) {
+                if (success) {
                     doSetTags(tags);
-                },
-                error: function(xhr, response){
+                } else {
                     debug.error(val + " failed to be created");
                     if ($.isFunction(callback)) {
                         callback();
@@ -265,19 +258,12 @@ sakai.api.Util.tagEntity = function(tagLocation, newTags, currentTags, callback)
                     }
                 });
             });
-            $.ajax({
-                url: sakai.config.URL.BATCH,
-                traditional: true,
-                type: "POST",
-                data: {
-                    requests: $.toJSON(requests)
-                },
-                success: function() {
+            sakai.api.Server.batch($.toJSON(requests), function(success, data) {
+                if (success) {
                     if ($.isFunction(callback)) {
                         callback();
                     }
-                },
-                error: function(xhr, response){
+                } else {
                     debug.error(tagLocation + " failed to be tagged as " + val);
                 }
             });
@@ -305,20 +291,12 @@ sakai.api.Util.tagEntity = function(tagLocation, newTags, currentTags, callback)
                     }
                 });
             });
-            $.ajax({
-                url: sakai.config.URL.BATCH,
-                traditional: true,
-                type: "POST",
-                data: {
-                    requests: $.toJSON(requests)
-                },
-                error: function(xhr, response) {
+            sakai.api.Server.batch($.toJSON(requests), function(success, data) {
+                if (!success) {
                     debug.error(val + " tag failed to be removed from " + tagLocation);
-                },
-                complete: function() {
-                    if ($.isFunction(callback)) {
-                        callback();
-                    }
+                }
+                if ($.isFunction(callback)) {
+                    callback();
                 }
             });
         } else {
