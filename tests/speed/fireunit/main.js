@@ -7,11 +7,10 @@ $(function() {
         "/dev/profile_edit.html",
         "/dev/account_preferences.html",
         "/dev/search_people.html#q=*&facet=contacts",
-        "http://localhost:8080/dev/search.html#q=user"
+        "/dev/search.html#q=user"
     ];
 
     var currentPage = "", activePage = "";
-    $("table").tablesorter();
     var runProfiler = function(page) {
         console.log("starting profile on ", page);
         console.profile();
@@ -29,15 +28,14 @@ $(function() {
                 var res = [];
                 for (var i=0,j=profile.data.length; i<j; i++) {
                     var fn = profile.data[i];
-                    if (fn.fileName.indexOf("jquery") === -1 && fn.fileName.indexOf("main.js") === -1 && fn.time > 50) {
+                    if (fn.fileName.indexOf("main.js") === -1 && fn.fileName.indexOf("tablesorter.js") === -1 && (fn.ownTime > 30 || fn.time > 100)) {
                         res.push(fn);
                     }
                 }
                 for (var x=0,y=res.length; x<y; x++) {
                     var sfn = res[x];
-                    $("table tbody").append("<tr><td>" + currentPage + "</td><td>" + sfn.name + "</td><td>" + sfn.fileName + "</td><td>" + sfn.calls + "</td><td>" + sfn.time + "</td><td>" + sfn.maxTime + "</td><td>" + sfn.avgTime + "</td></tr>");
+                    $("table tbody").append("<tr><td>" + currentPage + "</td><td>" + sfn.name + "</td><td>" + sfn.fileName + "</td><td>" + sfn.calls + "</td><td>" + sfn.ownTime + "</td><td>" + sfn.time + "</td><td>" + sfn.maxTime + "</td><td>" + sfn.avgTime + "</td></tr>");
                 }
-                $("table").trigger("update");
                 currentPage = pageArray.pop();
                 if (currentPage) {
                     runProfiler(currentPage);
