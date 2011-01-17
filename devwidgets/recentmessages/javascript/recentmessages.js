@@ -104,6 +104,8 @@ sakai.recentmessages = function(tuid, showSettings){
         var params = $.param({
             box: "inbox",
             items: 4,
+            sortOn: "sakai:created",
+            sortOrder: "descending",
             page: 0
         });
 

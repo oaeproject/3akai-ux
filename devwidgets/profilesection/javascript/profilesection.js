@@ -497,9 +497,15 @@ sakai.profilesection = function(tuid, showSettings){
         // remove exisiting elements in the locations
         $("#profilesection-locations").children().children(":first").children().remove();
 
-        // render locations template again.
-        renderTemplateGeneralInfo("locations", true);
-        $(window).trigger("sakai-" + $rootel.selector.replace("#", ""), renderTemplateGeneralInfo, true);
+        // Set the section template, if there is no template defined, user the default one
+        var sectionTemplate = $profilesection_default_template;
+        // Copy the config so we don't write into it ever
+        var sectionConfig = $.extend(true, {}, sakai.profile.main.config["locations"]);
+        // Render the template section for location
+        var generalinfo = renderTemplateSection(sectionTemplate, sectionConfig);
+        
+        // Render append the location div to the UI.
+        $("#profilesection-locations").children().children(":first").html(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, null, null)));
     };
 
     ////////////////////
