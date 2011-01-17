@@ -466,29 +466,10 @@ html > body .s3d-button .s3d-button-inner {
 .s3d-button-link-2-state-inner-secondary {font-size:9px;}
 .s3d-button:hover .s3d-button-link-2-state-inner {background:url("/dev/images/dashboard_sprite.png") no-repeat scroll -10px -1317px transparent !important; color: #FFF !important;}
 
-.s3d-button.s3d-button-tab { background: url("/dev/images/tab_button_bg.png") no-repeat scroll right -25px transparent; margin-top: 3px; }
-.s3d-button.s3d-button-tab .s3d-button-inner { background: url("/dev/images/tab_button_bg.png") no-repeat scroll left top transparent; }
-.s3d-button.s3d-button-tab .s3d-button-inner { font-size:11px; }
-
+.s3d-primary-tabs .fl-tabs-right li {margin-top:6px;}
 /*
  * Gradient-style button
  */
-.s3d-button.s3d-button-grad {
-    background:url('/dev/images/gradient_button_bg.png') no-repeat scroll right -24px transparent;
-}
-.s3d-button.s3d-button-grad .s3d-button-inner {
-    background:url('/dev/images/gradient_button_bg.png') no-repeat scroll left top transparent;
-    color:#2a2a2a;
-}
-
-.s3d-button.s3d-button-grad .s3d-button-inner .s3d-button-icon-right.down {
-    background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -68px -235px transparent;
-}
-
-.s3d-button.s3d-button-grad .s3d-button-inner .s3d-button-icon-right.up {
-    background-image: url("/dev/images/dashboard_sprite.png") no-repeat scroll -218px -400px transparent;
-}
-
 .s3d-button.s3d-button-light-gray-square {
     background:url("/dev/images/dashboard_sprite.png") no-repeat scroll right -1277px transparent;
 }

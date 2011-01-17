@@ -97,8 +97,5 @@
 .chat_has_dropdown img, .chat_has_dropdown span { float:left; position:relative;}
 .chat_has_dropdown img { padding:1px 0px 0px 0px; margin:0px 0px 0px 5px;}
 
-.dropdown_bottom_part_left {width: 960px; margin: 0 auto; background: url(/dev/images/dropdown_bottom_left.png) no-repeat; height: 10px;}
-.dropdown_bottom_part_right {background: url(/dev/images/dropdown_bottom_right.png) no-repeat top right; height: 10px;}
-
 .hidden {display:none;}
 #chat_windows_container {position:relative;}

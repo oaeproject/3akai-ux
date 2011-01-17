@@ -64,20 +64,6 @@
 .people .search_results_part_header {
     margin-top: 0;
 }
-.people .search_top_rounded {
-    background:transparent url(/dev/images/search_results_tl.png) no-repeat scroll left top;
-}
-.people .search_top_rounded_inner {
-    background:transparent url(/dev/images/search_results_tr.png) no-repeat scroll right top;
-    height:10px;
-}
-.people .search_bottom_rounded {
-    background:transparent url(/dev/images/search_results_bl.png) no-repeat scroll left bottom;
-}
-.people .search_bottom_rounded_inner {
-    background:transparent url(/dev/images/search_results_br.png) no-repeat scroll right bottom;
-    height:10px;
-}
 
 /* search results people */
 .search_result_person {
