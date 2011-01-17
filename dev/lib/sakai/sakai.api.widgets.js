@@ -356,11 +356,11 @@ sakai.api.Widgets.widgetLoader = {
                     var widgetname = batchWidgets[jsonpath];
                     if ($.isPlainObject(sakai.widgets.widgets[widgetname].i18n)) {
                         if (sakai.widgets.widgets[widgetname].i18n["default"]){
-                            var item = {
+                            var bundleItem = {
                                 "url" : sakai.widgets.widgets[widgetname].i18n["default"],
                                 "method" : "GET"
                             };
-                            bundles.push(item);
+                            bundles.push(bundleItem);
                         }
                         if (sakai.widgets.widgets[widgetname].i18n[current_locale_string]) {
                             var item1 = {
@@ -373,15 +373,8 @@ sakai.api.Widgets.widgetLoader = {
                 }
 
                 var urlsAndBundles = urls.concat(bundles);
-
-                $.ajax({
-                    url: sakai.config.URL.BATCH,
-                    traditional: true,
-                    cache: false,
-                    data: {
-                        requests: $.toJSON(urlsAndBundles)
-                    },
-                    success: function(data){
+                sakai.api.Server.batch($.toJSON(urlsAndBundles), function(success, data) {
+                    if (success) {
                         // sort widget html and bundles into separate arrays
                         for (h in data.results) {
                             for (hh in urls) {
@@ -510,7 +503,7 @@ sakai.api.Widgets.widgetLoader = {
                             }
                         }
                     }
-                });
+                }, false);
             }
         };
 

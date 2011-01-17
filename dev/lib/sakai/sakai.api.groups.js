@@ -330,14 +330,8 @@ sakai.api.Groups.setPermissions = function(groupid, joinable, visible, callback)
         }
 
         // issue the BATCH POST
-        $.ajax({
-            url: sakai.config.URL.BATCH,
-            traditional: true,
-            type: "POST",
-            data: {
-                requests: $.toJSON(batchRequests)
-            },
-            success: function(data){
+        sakai.api.Server.batch($.toJSON(batchRequests), function(success, data) {
+            if (success) {
                 // update group context and call callback
                 if(sakai.currentgroup && sakai.currentgroup.data && sakai.currentgroup.data.authprofile) {
                     sakai.currentgroup.data.authprofile["sakai:group-joinable"] = joinable;
@@ -346,8 +340,7 @@ sakai.api.Groups.setPermissions = function(groupid, joinable, visible, callback)
                 if ($.isFunction(callback)) {
                     callback(true);
                 }
-            },
-            error: function(xhr, textStatus, thrownError){
+            } else {
                 // Log an error message
                 debug.error("Setting permissions on the group failed");
                 if ($.isFunction(callback)) {
@@ -597,20 +590,12 @@ sakai.api.Groups.addUsersToGroup = function(groupID, list, users, callback) {
 
     if (reqData.length > 0) {
         // batch request to add users to group
-        $.ajax({
-            url: sakai.config.URL.BATCH,
-            traditional: true,
-            type: "POST",
-            data: {
-                requests: $.toJSON(reqData)
-            },
-            error: function() {
+        sakai.api.Server.batch($.toJSON(reqData), function(success, data) {
+            if (!success) {
                 debug.error("Could not add users to group");
-            },
-            complete: function(xhr, textStatus) {
-                if ($.isFunction(callback)) {
-                    callback(textStatus === "success");
-                }
+            }
+            if ($.isFunction(callback)) {
+                callback(success);
             }
         });
     }
@@ -638,20 +623,12 @@ sakai.api.Groups.addContentToGroup = function(groupID, contentIDs, callback) {
 
     if (reqData.length > 0) {
         // batch request to add content to group
-        $.ajax({
-            url: sakai.config.URL.BATCH,
-            traditional: true,
-            type: "POST",
-            data: {
-                requests: $.toJSON(reqData)
-            },
-            error: function() {
+        sakai.api.Server.batch($.toJSON(reqData), function(success, data) {
+            if (!success) {
                 debug.error("Error adding content to the group");
-            },
-            complete: function(xhr, textStatus) {
-                if ($.isFunction(callback)) {
-                    callback(textStatus === "success");
-                }
+            }
+            if ($.isFunction(callback)) {
+                callback(success);
             }
         });
     }
@@ -685,20 +662,12 @@ sakai.api.Groups.removeUsersFromGroup = function(groupID, list, users, callback)
 
     if (reqData.length > 0) {
         // batch request to remove users from group
-        $.ajax({
-            url: sakai.config.URL.BATCH,
-            traditional: true,
-            type: "POST",
-            data: {
-                requests: $.toJSON(reqData)
-            },
-            error: function() {
+        sakai.api.Server.batch($.toJSON(reqData), function(success, data) {
+            if (!success) {
                 debug.error("Error removing users from the group");
-            },
-            complete: function(xhr, textStatus) {
-                if ($.isFunction(callback)) {
-                    callback(textStatus === "success");
-                }
+            }
+            if ($.isFunction(callback)) {
+                callback(success);
             }
         });
     }
@@ -728,20 +697,12 @@ sakai.api.Groups.removeContentFromGroup = function(groupID, contentIDs, callback
 
     if (reqData.length > 0) {
         // batch request to remove content from group
-        $.ajax({
-            url: sakai.config.URL.BATCH,
-            traditional: true,
-            type: "POST",
-            data: {
-                requests: $.toJSON(reqData)
-            },
-            error: function() {
+        sakai.api.Server.batch($.toJSON(reqData), function(success, data) {
+            if (!success) {
                 debug.error("Error removing content from the group");
-            },
-            complete: function(xhr, textStatus) {
-                if ($.isFunction(callback)) {
-                    callback(textStatus === "success");
-                }
+            }
+            if ($.isFunction(callback)) {
+                callback(success);
             }
         });
     }
