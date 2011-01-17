@@ -1,6 +1,6 @@
 {
-    "description":"My Personal Profile",
-    "name":"My Profile",
+    "description":"My profile",
+    "name":"My profile",
     "id":"myprofile",
     "personalportal":true,
     "i18n": {

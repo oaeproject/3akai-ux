@@ -534,8 +534,8 @@ sakai.chat = function(tuid, showSettings){
             if (message){
                 var userid = messageField.attr("id").substring(10);
                 userid = userid.substring(0, userid.length - 4);
-                message = replaceURL(message);
                 message = sakai.api.Security.escapeHTML(message); 
+                message = replaceURL(message);
                 sendMessage(userid, message);
                 messageField.val("");
             }

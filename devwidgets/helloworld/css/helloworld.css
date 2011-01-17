@@ -16,8 +16,11 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/* Main */
-.helloworld_widget .fl-widget-content {padding: 10px 20px;}
+ /* Widget Container CSS */
+.helloworld_widget .s3d-widget-content {padding: 10px 20px;}
 
-/* Widget icon */
-.helloworld.fl-widget .fl-widget-titlebar .widget_title {background: url('/devwidgets/helloworld/images/helloworld_icon.png') 17px 18px no-repeat;}
+/* Dashboard Widget Icon */
+.helloworld.s3d-widget .s3d-widget-titlebar .widget_title {
+    background: url('/devwidgets/helloworld/images/helloworld_icon.png')
+        17px 18px no-repeat;
+}

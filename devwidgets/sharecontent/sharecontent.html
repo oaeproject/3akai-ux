@@ -29,6 +29,7 @@
             <div class="s3d-highlight_area_background fl-push">
                 <div class='s3d-highlight_area_background_tl'><div class='s3d-highlight_area_background_tinner'></div></div>
                     <span id="sharecontent_share_link" class="fl-force-left fl-push">
+                        <span id="sharecontent_content_link_icon"></span>
                         <span id="sharecontent_content_link" class="s3d-bold">__MSG__LINK__</span><input type="text" value="${window.location}" readonly="readonly" dir="rtl"/>
                         {if !data.me.user.anon}
                             <button type="submit" class="s3d-button s3d-button-link-2-state" id="sharecontent_message_link"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__MESSAGE_LINK__</span></button>
@@ -142,7 +143,7 @@
 
             {if !data.me.user.anon && content_profile.content_data.isManager}
                 <div class="s3d-highlight_area_background_darker1 sharecontent_search_container">
-                    <span class="s3d-bold" id="sharecontent_add_people">__MSG__ADD_PEOPLE__<a href="javascript:;" id="sharecontent_init_search" class="s3d-action">__MSG__SEARCH__</a></span>
+                    <span class="s3d-bold" id="sharecontent_add_people"><span id="sharecontent_add_people_icon"></span>__MSG__ADD_PEOPLE__<a href="javascript:;" id="sharecontent_init_search" class="s3d-action">__MSG__SEARCH__</a></span>
                     <span id="sharecontent_form_container"><input name="sharecontent_search_query" id="sharecontent_search_query" type="text" autocomplete="off"/></span>
                     <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_permission_link sharecontent_new_members_permission_link" style="display:none;" value="viewer"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CAN_VIEW__<span class="sharecontent_permission"></span></span></button>
                     <hr class="fl-push fl-hidden"/>
@@ -208,24 +209,24 @@
                 <li id="permissions_settings_container_public" class="permissions_settings_item">
                     <div class='s3d-highlight_area_background_white_content_tl'><div class='s3d-highlight_area_background_white_content_tinner'></div></div>
                     <input type="radio" id="permission_settings_rbt_public" name="permission_settings" value="public" {if data["sakai:permissions"] == "public"}checked{/if}/>
-                    <label id="permissions_settings_item_public" for="permission_settings_rbt_public">
-                        __MSG__VISIBLE_TO_ANYONE__
+                    <label for="permission_settings_rbt_public">
+                        <span id="permissions_settings_item_public"></span>__MSG__VISIBLE_TO_ANYONE__
                     </label>
                     <div class='s3d-highlight_area_background_white_content_bl'><div class='s3d-highlight_area_background_white_content_binner'></div></div>
                 </li>
                 <li id="permissions_settings_container_loggedin" class="permissions_settings_item">
                     <div class='s3d-highlight_area_background_white_content_tl'><div class='s3d-highlight_area_background_white_content_tinner'></div></div>
                     <input type="radio" id="permission_settings_rbt_everyone" name="permission_settings" value="everyone" {if data["sakai:permissions"] == "everyone"}checked{/if}/>
-                    <label id="permissions_settings_item_everyone" for="permission_settings_rbt_everyone">
-                        __MSG__VISIBLE_TO_ANYONE_WHOS_LOGGED_IN__
+                    <label for="permission_settings_rbt_everyone">
+                        <span id="permissions_settings_item_everyone"></span>__MSG__VISIBLE_TO_ANYONE_WHOS_LOGGED_IN__
                     </label>
                     <div class='s3d-highlight_area_background_white_content_bl'><div class='s3d-highlight_area_background_white_content_binner'></div></div>
                 </li>
                 <li id="permissions_settings_container_private" class="permissions_settings_item">
                     <div class='s3d-highlight_area_background_white_content_tl'><div class='s3d-highlight_area_background_white_content_tinner'></div></div>
                     <input type="radio" id="permission_settings_rbt_private" name="permission_settings" value="private" {if data["sakai:permissions"] == "private"}checked{/if}/>
-                    <label id="permissions_settings_item_private" for="permission_settings_rbt_private">
-                        __MSG__PRIVATE_TO_WHO_I_SHARE_THIS_WITH__
+                    <label for="permission_settings_rbt_private">
+                        <span id="permissions_settings_item_private"></span>__MSG__PRIVATE_TO_WHO_I_SHARE_THIS_WITH__
                     </label>
                     <div class='s3d-highlight_area_background_white_content_bl'><div class='s3d-highlight_area_background_white_content_binner'></div></div>
                 </li>

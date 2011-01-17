@@ -44,10 +44,10 @@ body { margin-bottom: 50px !important; }
 { background: url(/dev/images/content_top.png) top left no-repeat; padding: 0; width: 960px; height: 20px; }
 
 .create_account .content_top
-{ background: url(/dev/images/content_tr_leftalign.gif) top right no-repeat; padding: 0 5px 0 0; margin: 0; }
+{ background: url("/dev/images/dashboard_sprite.png") no-repeat scroll right -1413px transparent; padding: 0 5px 0 0; margin: 0; }
 
 .create_account .content_top_inner
-{ background: url(/dev/images/content_tl.gif) 0 0 no-repeat; margin: 0; height: 6px; }
+{ background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -10px -1393px transparent; margin: 0; height: 6px; }
 
 .create_account .content_main
 { border-left: 3px solid #D3DBDE; border-right: 3px solid #D3DBDE; margin: 0; padding: 10px; }

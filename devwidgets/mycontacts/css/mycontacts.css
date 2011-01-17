@@ -32,4 +32,6 @@
 .mycontacts_widget #mycontacts_nocontacts {font-size:0.95em; padding-bottom: 10px; display: block;}
 
 /* Widget icon */
-.mycontacts.fl-widget .fl-widget-titlebar .widget_title {background: url('/dev/images/contacts_icon.png') 17px 18px no-repeat;}
+.mycontacts.fl-widget .fl-widget-titlebar .widget_title_icon {background:url("/dev/images/icons_sprite.png") no-repeat scroll -180px -21px transparent;}
+
+#mycontacts_requests {padding-left:0px;}

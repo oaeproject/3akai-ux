@@ -16,32 +16,32 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/* Widget title icon */
-.recentmessages .widget_title_icon {
-    background: url("/dev/images/icons_sprite.png") no-repeat scroll -420px -19px transparent;
+/*
+ * The below CSS sections may not be necesary for your widget, but best practice
+ * is to organize your CSS into sections like these (or add new sections)
+ */
+
+/*
+ * Widget Container CSS
+ */
+
+/* padding around all your widget's content */
+.WIDGET_ID_widget .s3d-widget-content {padding: 10px 20px;}
+
+/* widget icon (for widgets that may appear on a dashboard) 
+   icons are usually around 18 x 18 pixels */
+.WIDGET_ID.s3d-widget .s3d-widget-titlebar .widget_title {
+    background: url('/devwidgets/WIDGET_ID/images/WIDGET_ID_icon.png') 
+        17px 18px no-repeat;
 }
 
-/* Error messages */
-.recentmessages_error {
-    padding: 5px 0px 0px 15px;
-}
 
-/* Container text */
-#recentmessages_container ul li {
-    color: #333;
-}
+/*
+ * Main View CSS
+ */
 
-/* List items */
-#recentmessages_container ul li {
-    border-bottom: 1px solid #ccc;
-    list-style: none;
-    padding: 5px 15px;
-    margin: 0;
-}
-#recentmessages_container .recentmessages_alterrow {
-    background-color: #f5f6f6;
-}
-#recentmessages_container ul li .recentmessages_notread {
-    color: #000;
-    font-weight: bold;
-}
+
+/*
+ * Settings View CSS
+ */
+ 

@@ -96,10 +96,10 @@
 { color: #999999; }
 
 .site_management .sm_bottom
-{ background:transparent url(/dev/images/content_bl.png) no-repeat scroll left bottom; height: 5px; padding: 0 0 0 10px; }
+{ background:transparent url("/dev/images/dashboard_sprite.png") no-repeat scroll -10px -1433px transparent; height: 5px; padding: 0 0 0 10px; }
 
 .site_management .sm_bottom_inner
-{ background:transparent url(/dev/images/content_br.png) no-repeat scroll right bottom; height: 5px; }
+{ background:transparent url("/dev/images/dashboard_sprite.png") no-repeat scroll right -1453px transparent; height: 5px; }
 
 
 

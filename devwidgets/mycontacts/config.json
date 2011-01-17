@@ -1,5 +1,5 @@
 {
-    "description":"A list of my contacts",
+    "description":"My recent contacts",
     "id":"mycontacts",
     "multipleinstance": false,
     "i18n": {

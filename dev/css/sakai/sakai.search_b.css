@@ -102,22 +102,6 @@
 .search_content_main .search_results_container_sub {
     width: 74% !important;
 }
-.search_top_rounded {
-    background: transparent url(/dev/images/search_results_tl.png) top left no-repeat;
-}
-.search_top_rounded_inner {
-    background: transparent url(/dev/images/search_results_tr.png) top right no-repeat;
-    height: 10px;
-    width: auto;
-}
-.search_bottom_rounded {
-    background: transparent url(/dev/images/search_results_bl.png) bottom left no-repeat;
-}
-.search_bottom_rounded_inner {
-    background: transparent url(/dev/images/search_results_br.png) bottom right no-repeat;
-    height: 10px;
-    width: auto;
-}
 .search_result_title {
     text-align: left;
     margin: 10px;

@@ -104,8 +104,11 @@
     padding-right:5px;
 }
 .systemtour_item_complete_full {
-    background:url("/dev/images/accept.png") no-repeat;
-    background-position: right;
+    background: url("/dev/images/icons_sprite.png") no-repeat scroll -40px -21px transparent;
+    float: right;
+    height: 16px;
+    margin: 7px -12px 0 0;
+    width: 16px;
 }
 .systemtour_item_complete {
 }
