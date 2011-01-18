@@ -174,17 +174,17 @@
                                         {/if}
                                         <a href="/dev/content_profile.html#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['jcr:path']}" title="${i['jcr:name']}"{/if}>
                                         {if (mimeType=="image/jpg" || mimeType=="image/png" || mimeType=="image/gif") && sakai.config.MimeTypes[mimeType]}
-                                            {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
+                                            {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
                                             {if i['jcr:primaryType'] && i['jcr:primaryType'] === "sakai:pooled-content"}
                                                 <img src="/p/${i['jcr:name']}" alt="${mimeTypeDescription}" />
                                             {else}
                                                 <img src="${i['jcr:path']}" alt="${mimeTypeDescription}" />
                                             {/if}
                                         {elseif sakai.config.MimeTypes[mimeType]}
-                                            {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
+                                            {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
                                             <img src="${sakai.config.MimeTypes[mimeType].URL}" alt="${mimeTypeDescription}" />
                                         {else}
-                                            {var mimeTypeDescription = sakai.config.MimeTypes["other"].description}
+                                            {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes["other"].description)}
                                             <img src="${sakai.config.MimeTypes["other"].URL}" alt="${mimeTypeDescription}" />
                                         {/if}
                                         </a>
