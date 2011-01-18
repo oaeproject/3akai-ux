@@ -768,12 +768,12 @@ define(function() {
         /*
          * List of pages that require a logged in user
          */
-        requireUser: ["/home", "/preferences", "/group/edit", "/inbox", "/profile/edit"],
+        requireUser: ["/home", "/preferences", "/group/edit", "/inbox", "/profile/edit", "/dev/my_sakai.html", "/dev/account_preferences.html", "/dev/group_edit.html", "/dev/inbox.html", "/dev/profile_edit.html"],
 
         /*
          * List of pages that require an anonymous user
          */
-        requireAnonymous: ["/index", "/register", "/", "/index"],
+        requireAnonymous: ["/index", "/register", "/", "/index", "/dev/index.html", "/dev/create_new_account.html", "/dev/", "/dev",  "/index.html"],
         /*
          * List of pages that will be added to requireUser if
          * anonAllowed is false

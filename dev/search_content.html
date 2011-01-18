@@ -35,11 +35,11 @@
                 <!-- TAB NAVIGATION -->
                 <div class="s3d-primary-tabs">
                     <ul class="fl-tabs fl-tabs-right">
-                        <li><a id="tab_search_all" href="../search#">__MSG__ALL__</a></li>
+                        <li><a id="tab_search_all" href="/search">__MSG__ALL__</a></li>
                         <li class="fl-tabs-active search_tab_selected"><a href="../search/content#" id="tab_search_content">__MSG__CONTENT_AND_MEDIA__</a></li>
-                        <li><a href="../search/groups#" id="tab_search_sites">__MSG__GROUPS__</a></li>
-                        <li><a href="../search/sakai2#" id="tab_search_sakai2">__MSG__SAKAI2__</a></li>
-                        <li><a href="../search/people#" id="tab_search_people">__MSG__PEOPLE__</a></li>
+                        <li><a href="/search/groups" id="tab_search_sites">__MSG__GROUPS__</a></li>
+                        <li><a href="/search/sakai2" id="tab_search_sakai2">__MSG__SAKAI2__</a></li>
+                        <li><a href="/search/people" id="tab_search_people">__MSG__PEOPLE__</a></li>
                     </ul>
                 </div>
 
@@ -126,7 +126,7 @@
                                         {elseif i['jcr:primaryType'] === "sling:Folder"}
                                             {var mimeType = 'folder'}
                                         {/if}
-                                        <a href="/content/profile#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['jcr:path']}" title="${i['jcr:name']}"{/if}>
+                                        <a href="/content#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['jcr:path']}" title="${i['jcr:name']}"{/if}>
                                         {if (mimeType=="image/jpg" || mimeType=="image/png" || mimeType=="image/gif") && sakai.config.MimeTypes[mimeType]}
                                             {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
                                             {if i['jcr:primaryType'] && i['jcr:primaryType'] === "sakai:pooled-content"}
@@ -166,7 +166,7 @@
                                                     {for t in i["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0},{/if} ${t}{/if}{/for}
                                                 </div>
                                             {/if}
-                                            {if mimeTypeDescription}<div class="search_result_type s3d-content-type-link"><a href="/content/profile#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}{else}${i['jcr:path']}{/if}">${mimeTypeDescription}</a></div>{/if}
+                                            {if mimeTypeDescription}<div class="search_result_type s3d-content-type-link"><a href="/content#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}{else}${i['jcr:path']}{/if}">${mimeTypeDescription}</a></div>{/if}
                                         </div>
                                     </div>
                                     {/if}
