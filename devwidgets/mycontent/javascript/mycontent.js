@@ -67,6 +67,7 @@ sakai.mycontent = function(tuid, showSettings) {
             path: "/p/" + result["jcr:name"],
             type: sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes.other.description),
             type_img_url: sakai.config.MimeTypes.other.URL,
+            css_class: sakai.config.MimeTypes.other.cssClass,
             size: ""
         };
 
@@ -76,6 +77,7 @@ sakai.mycontent = function(tuid, showSettings) {
             // we have a recognized file type - set the description and img URL
             item.type = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[type].description);
             item.type_img_url = sakai.config.MimeTypes[type].URL;
+            item.css_class = sakai.config.MimeTypes[type].cssClass;
         }
 
         // set file name without the extension

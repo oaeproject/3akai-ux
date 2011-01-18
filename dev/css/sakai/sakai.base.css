@@ -71,10 +71,6 @@ a:hover {
     display: none;
 }
 
-/*
- *  LINKS
- */
-
 .s3d-bold {
     font-weight: bold;
 }
@@ -673,3 +669,22 @@ ul li.s3d-list-item:hover{background-color: #99CCFF;}
 .s3d-highlight_area_background_darker1_white_content_binner {clear:both; height:7px; margin-right: -10px;  background: url("/dev/images/dashboard_sprite.png") no-repeat scroll right -1147px transparent;}
 
 .chat_available_status_offline, .chat_available_status_busy, .chat_available_status_online {padding-left:15px;}
+
+
+/* ----------------------------------------------------------------------------
+ *    MIMETYPE ICONS
+ * ----------------------------------------------------------------------------
+ */
+.icon-doc-sprite {background: url("/dev/images/icons_sprite.png") no-repeat scroll -112px 0 transparent;}
+.icon-pdf-sprite {background: url("/dev/images/icons_sprite.png") no-repeat scroll -750px 0 transparent;}
+.icon-pps-sprite {background: url("/dev/images/icons_sprite.png") no-repeat scroll -463px 0 transparent;}
+.icon-swf-sprite {background: url("/dev/images/icons_sprite.png") no-repeat scroll -1040px 0 transparent;}
+.icon-zip-sprite {background: url("/dev/images/icons_sprite.png") no-repeat scroll -1056px 0 transparent;}
+.icon-spreadsheet-sprite {background: url("/dev/images/icons_sprite.png") no-repeat scroll -560px 0 transparent;}
+.icon-txt-sprite {background: url("/dev/images/icons_sprite.png") no-repeat scroll -1086px 0 transparent;}
+.icon-image-sprite {background: url("/dev/images/icons_sprite.png") no-repeat scroll -320px 0 transparent;}
+.icon-html-sprite {background: url("/dev/images/icons_sprite.png") no-repeat scroll -302px 0 transparent;}
+.icon-video-sprite {background: url("/dev/images/icons_sprite.png") no-repeat scroll -1118px 0 transparent;}
+.icon-kmultiple-sprite {background: url("/dev/images/icons_sprite.png") no-repeat scroll -430px 0 transparent;}
+.icon-url-sprite {background: url("/dev/images/icons_sprite.png") no-repeat scroll -304px 0 transparent;}
+.icon-unknown-sprite {background: url("/dev/images/icons_sprite.png") no-repeat scroll -143px 0 transparent;}

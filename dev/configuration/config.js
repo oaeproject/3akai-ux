@@ -613,6 +613,7 @@ sakai.config = {
             description: "POWERPOINT_DOCUMENT"
         },
         "application/vnd.oasis.opendocument.text": {
+            cssClass: "icon-doc-sprite",
             URL: "/dev/images/mimetypes/doc.png",
             description: "OPEN_OFFICE_DOCUMENT"
         },
@@ -682,6 +683,11 @@ sakai.config = {
             description: "VIDEO_FILE"
         },
         "video/mp4": {
+            cssClass: "icon-video-sprite",
+            URL: "/dev/images/mimetypes/video.png",
+            description: "VIDEO_FILE"
+        },
+        "video/quicktime":{
             cssClass: "icon-video-sprite",
             URL: "/dev/images/mimetypes/video.png",
             description: "VIDEO_FILE"

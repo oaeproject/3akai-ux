@@ -1,11 +1,12 @@
 /*** LAYOUT ***/
 div.mycontent_item {padding:10px 10px 10px 0}
 div.mycontent_item:first-child {padding:0 10px 10px 0;}
-img.mycontent_item_mime {height:16px; width:16px;}
+.mycontent_item_mime {height:16px; width:16px; display:block;}
 div.mycontent_item_img {margin:6px 0 0 12px;}
 div.mycontent_item_info {margin-left:40px;}
 p.mycontent_item_title, p.mycontent_item_meta, p.mycontent_error_msg {margin:0;}
 p.mycontent_error_msg {padding-left:15px;}
+.mycontent .s3d-highlight_area_background {margin:0px;}
 
 /*** TYPOGRAPHY ***/
 a.mycontent_item_link {font-weight:bold; font-size:1.1em;}
