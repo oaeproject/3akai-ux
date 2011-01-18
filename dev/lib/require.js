@@ -1591,12 +1591,8 @@ var require, define;
         if (cfg.baseUrlMatch) {
             rePkg = cfg.baseUrlMatch;
         } else {
-            
-            
-            
-                        rePkg = /(allplugins-)?require\.js(\W|$)/i;
-            
-                    }
+            rePkg = /(allplugins-)?require\.js(\W|$)/i;
+        }
 
         for (i = scripts.length - 1; i > -1 && (script = scripts[i]); i--) {
             //Set the "head" where we can append children by
@@ -1794,4 +1790,3 @@ var require, define;
         }, 0);
     }
 }());
-
