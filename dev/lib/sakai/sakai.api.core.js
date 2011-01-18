@@ -595,45 +595,39 @@ sakai.api.Server.batch = function(_requests, _callback, _cache) {
 /**
  * Performs a batch request for a number of specified requests.
  *
- * @param {String} id Identifier for the request so we can map it
- * @param {Object} request Request object for the batch request
+ * @param {String} groupId Identifier for the group of requests so we can keep the requests grouped separatly
+ * @param {Integer} numRequests The number of requests for the group, so we know when to fire off the request
+ * @param {String} requestId Identifier for the request so we can map it
+ * @param {Object} request Request object for the batch request. If this is false the request is not added to the queue.
  */
-sakai.api.Server.bundleRequests = function(id, request){
-    switch(id) {
-        case "loadLocalBundle":
-            sakai.api.Server.loadLocalBundle = true;
-            break;
-        case "loadDefaultBundle":
-            sakai.api.Server.loadDefaultBundle = true;
-            break;
-        case "globalization":
-            sakai.api.Server.globalization = true;
-            break;
+sakai.api.Server.bundleRequests = function(groupId, numRequests, requestId, request){
+    if (!sakai.api.Server.intialRequests) {
+        sakai.api.Server.intialRequests = sakai.api.Server.intialRequests || {};
     }
-
+    if (!sakai.api.Server.intialRequests[groupId]){
+        sakai.api.Server.intialRequests[groupId] = {};
+        sakai.api.Server.intialRequests[groupId].count = 0;
+        sakai.api.Server.intialRequests[groupId].requests = [];
+        sakai.api.Server.intialRequests[groupId].requestId = [];
+    }
     if (request) {
-        sakai.api.Server.intialRequests.requestId.push(id);
-        sakai.api.Server.intialRequests.requests.push(request);
+        sakai.api.Server.intialRequests[groupId].requests.push(request);
+        sakai.api.Server.intialRequests[groupId].requestId.push(requestId);
     }
+    sakai.api.Server.intialRequests[groupId].count++;
 
-    if (sakai.api.Server.loadDefaultBundle && sakai.api.Server.loadLocalBundle && sakai.api.Server.globalization) {
-        sakai.api.Server.batch($.toJSON(sakai.api.Server.intialRequests.requests), function(success, data) {
+    if (numRequests === sakai.api.Server.intialRequests[groupId].count) {
+        sakai.api.Server.batch($.toJSON(sakai.api.Server.intialRequests[groupId].requests), function(success, data) {
             if (success) {
                 var jsonData = {
-                    "responseId": sakai.api.Server.intialRequests.requestId,
+                    "responseId": sakai.api.Server.intialRequests[groupId].requestId,
                     "responseData": data.results
-                }
+                };
                 $(window).trigger("sakai-api-Server-bundleRequest-complete", jsonData);
             }
         });
     }
-}
-sakai.api.Server.intialRequests = sakai.api.Server.intialRequests || {};
-sakai.api.Server.intialRequests.requests = [];
-sakai.api.Server.intialRequests.requestId = [];
-sakai.api.Server.loadLocalBundle = false;
-sakai.api.Server.loadDefaultBundle = false;
-sakai.api.Server.globalization = false;
+};
 
 /**
  * Saves a specified JSON object to a specified URL in JCR. The structure of JSON data will be re-created in JCR as a node hierarchy.
