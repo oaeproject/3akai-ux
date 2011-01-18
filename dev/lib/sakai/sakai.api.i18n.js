@@ -321,12 +321,6 @@ sakai.api.i18n.init = function(){
             "method": "GET"
         };
 
-        globalizationRequest = {
-            "url": sakai.config.URL.I10N_BUNDLE_URL.replace("__CODE__", i10nCode),
-            "dataType": "script",
-            "method": "GET"
-        };
-
         if (localeSet) {
             loadLocalBundleRequest = {
                 "url": sakai.config.URL.I18N_BUNDLE_ROOT + langCode + ".properties",
@@ -343,7 +337,7 @@ sakai.api.i18n.init = function(){
                 "method": "GET"
             };
         } else {
-            getGlobalization = false;
+            globalizationRequest = false;
         }
 
         // bind response from batch request
@@ -403,11 +397,11 @@ sakai.api.i18n.init = function(){
             }
         });
         // add default language bundle to batch request
-        sakai.api.Server.bundleRequests("loadDefaultBundle", loadDefaultBundleRequest);
+        sakai.api.Server.bundleRequests("i18n", 3, "loadDefaultBundle", loadDefaultBundleRequest);
         // add local language bundle to batch request
-        sakai.api.Server.bundleRequests("loadLocalBundle", loadLocalBundleRequest);
+        sakai.api.Server.bundleRequests("i18n", 3, "loadLocalBundle", loadLocalBundleRequest);
         // add globalization script to batch request
-        sakai.api.Server.bundleRequests("globalization", globalizationRequest);
+        sakai.api.Server.bundleRequests("i18n", 3, "globalization", globalizationRequest);
     };
 
 
