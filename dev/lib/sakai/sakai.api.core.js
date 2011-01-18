@@ -601,30 +601,30 @@ sakai.api.Server.batch = function(_requests, _callback, _cache) {
  * @param {Object} request Request object for the batch request. If this is false the request is not added to the queue.
  */
 sakai.api.Server.bundleRequests = function(groupId, numRequests, requestId, request){
-    if (!sakai.api.Server.intialRequests) {
-        sakai.api.Server.intialRequests = sakai.api.Server.intialRequests || {};
+    if (!sakai.api.Server.initialRequests) {
+        sakai.api.Server.initialRequests = sakai.api.Server.initialRequests || {};
     }
-    if (!sakai.api.Server.intialRequests[groupId]){
-        sakai.api.Server.intialRequests[groupId] = {};
-        sakai.api.Server.intialRequests[groupId].count = 0;
-        sakai.api.Server.intialRequests[groupId].requests = [];
-        sakai.api.Server.intialRequests[groupId].requestId = [];
+    if (!sakai.api.Server.initialRequests[groupId]){
+        sakai.api.Server.initialRequests[groupId] = {};
+        sakai.api.Server.initialRequests[groupId].count = 0;
+        sakai.api.Server.initialRequests[groupId].requests = [];
+        sakai.api.Server.initialRequests[groupId].requestId = [];
     }
     if (request) {
-        sakai.api.Server.intialRequests[groupId].requests.push(request);
-        sakai.api.Server.intialRequests[groupId].requestId.push(requestId);
+        sakai.api.Server.initialRequests[groupId].requests.push(request);
+        sakai.api.Server.initialRequests[groupId].requestId.push(requestId);
     }
-    sakai.api.Server.intialRequests[groupId].count++;
+    sakai.api.Server.initialRequests[groupId].count++;
 
-    if (numRequests === sakai.api.Server.intialRequests[groupId].count) {
-        sakai.api.Server.batch($.toJSON(sakai.api.Server.intialRequests[groupId].requests), function(success, data) {
+    if (numRequests === sakai.api.Server.initialRequests[groupId].count) {
+        sakai.api.Server.batch($.toJSON(sakai.api.Server.initialRequests[groupId].requests), function(success, data) {
             if (success) {
                 var jsonData = {
                     "groupId": groupId,
-                    "responseId": sakai.api.Server.intialRequests[groupId].requestId,
+                    "responseId": sakai.api.Server.initialRequests[groupId].requestId,
                     "responseData": data.results
                 };
-                $(window).trigger("sakai-api-Server-bundleRequest-complete", jsonData);
+                $(window).trigger("sakai.api.Server.bundleRequest.complete", jsonData);
             }
         });
     }

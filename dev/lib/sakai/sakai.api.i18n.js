@@ -341,7 +341,7 @@ sakai.api.i18n.init = function(){
         }
 
         // bind response from batch request
-        $(window).bind("sakai-api-Server-bundleRequest-complete", function(e, reqData) {
+        $(window).bind("sakai.api.Server.bundleRequest.complete", function(e, reqData) {
             if (reqData.groupId === "i18n") {
                 var loadDefaultBundleSuccess, loadDefaultBundleData, loadLocalBundleSuccess, loadLocalBundleData, globalizationSuccess, globalizationData;
                 // loop through and allocate response data to their request
