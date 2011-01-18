@@ -620,6 +620,7 @@ sakai.api.Server.bundleRequests = function(groupId, numRequests, requestId, requ
         sakai.api.Server.batch($.toJSON(sakai.api.Server.intialRequests[groupId].requests), function(success, data) {
             if (success) {
                 var jsonData = {
+                    "groupId": groupId,
                     "responseId": sakai.api.Server.intialRequests[groupId].requestId,
                     "responseData": data.results
                 };
