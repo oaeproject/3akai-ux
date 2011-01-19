@@ -120,6 +120,16 @@
 
     </target>
 
+    <!-- Target: Copy optimized source -->
+    <target name="copy_optimized" depends="optimize" description="Copy optimized files to target folders">
+        <antcall target="copy_prod">
+            <param name="SRC_DIR" value="${OPTIMIZED_DIR}/${SRC_DIR}" />
+            <param name="SRC_DIR_W" value="${OPTIMIZED_DIR}/${SRC_DIR_W}" />
+            <param name="SRC_DIR_VAR" value="${OPTIMIZED_DIR}/${SRC_DIR_VAR}" />
+            <param name="SRC_DIR_APPS" value="${OPTIMIZED_DIR}/${SRC_DIR_APPS}" />
+        </antcall>
+    </target>
+
     <!-- Target: Normalise permissions -->
     <target name="permissions">
 
@@ -203,7 +213,7 @@
     </target>
 
     <!-- Target: Release Builds-->
-    <target name="release" depends="init, create_target_folders, copy_prod, permissions, formatting, optimize">
+    <target name="release" depends="init, create_target_folders, copy_optimized, permissions, formatting, optimize">
         <echo message="Sakai 3 UX Build: Build complete." />
     </target>
 
