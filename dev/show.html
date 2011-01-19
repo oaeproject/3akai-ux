@@ -23,7 +23,6 @@
         <link rel="stylesheet" type="text/css" href="/dev/lib/jquery/plugins/imgareaselect/imgareaselect-default.css" />
         <link rel="stylesheet" type="text/css" href="/dev/css/lib/jquery.autoSuggest.css" />
 
-
     </head>
     <body class="fl-centered show i18nable">
 
@@ -79,9 +78,10 @@
         <!-- Help -->
         <div id="widget_help" class="widget_inline"></div>
 
-        <script data-main="/dev/javascript/depends.js" src="/dev/lib/jquery/require-jquery.js"></script>
+        <!-- Dependency JS -->
+        <script data-main="/dev/javascript/dependencies.js" src="/dev/lib/jquery/requireplugins-jquery.js"></script>
 
         <!-- GROUP JS -->
-        <script type="text/javascript">require(["/dev/javascript/show.js", "/dev/lib/tinymce/tiny_mce.js"]);</script>
+        <script type="text/javascript">require(["/dev/javascript/history/site_history.js", "/dev/javascript/show.js", "/dev/lib/tinymce/tiny_mce.js"]);</script>
     </body>
 </html>
