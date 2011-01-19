@@ -15,48 +15,13 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-.relatedcontent {
-    margin: 0px 10px 10px;
-    padding: 15px;
-    border: 1px solid #d4dade;
-    overflow: hidden;
-}
-.relatedcontent .relatedcontent_title {
-    color: #333333;
-    font-size: 1.25em;
-    font-weight: bold;
-    padding: 5px 10px;
-}
-.relatedcontent .relatedcontent_content {
-    color: #333;
-    padding: 2px 0;
-    display: table;
-}
-.relatedcontent .relatedcontent_content img {
-    float: left;
-    padding: 5px 10px;
-    width: 30px;
-}
-.relatedcontent .relatedcontent_list {
-    padding: 5px 0;
-}
-.relatedcontent_content_right {
-    display: table-cell;
-    vertical-align: middle;
-}
-.relatedcontent_list a {
-    color: #3399cc;
-    font-weight: bold;
-    font-size: 0.9em;
-}
-.relatedcontent .relatedcontent_no_content {
-    padding-top: 20px;
-}
-
-.relatedcontent .threedots_text {
-    width: 145px;
-}
-
-.relatedcontent .threedots_text span {
-    word-wrap: break-word;
-}
+.relatedcontent{margin:0 10px 10px;padding:15px;border:1px solid #d4dade;overflow:hidden;}
+.relatedcontent .relatedcontent_title{color:#333;font-size:1.25em;font-weight:bold;padding:5px 10px;}
+.relatedcontent .relatedcontent_content{color:#333;padding:2px 0;display:table;}
+.relatedcontent .relatedcontent_content img{float:left;padding:5px 10px;width:30px;}
+.relatedcontent .relatedcontent_list{padding:5px 0;}
+.relatedcontent_content_right{display:table-cell;vertical-align:middle;}
+.relatedcontent_list a{color:#39c;font-weight:bold;font-size:.9em;}
+.relatedcontent .relatedcontent_no_content{padding-top:20px;}
+.relatedcontent .threedots_text{width:145px;}
+.relatedcontent .threedots_text span{word-wrap:break-word;}

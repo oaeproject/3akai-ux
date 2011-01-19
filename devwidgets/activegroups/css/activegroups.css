@@ -1,7 +1,7 @@
-#activegroups_main {margin:0px 10px 0px 15px; overflow: hidden;}
-#activegroups_main ul li {list-style-type: none;}
-.activegroups_title {padding-left: 15px !important;}
-.activegroups_widget {overflow: hidden;}
+#activegroups_main{margin:0 10px 0 15px;overflow:hidden;}
+#activegroups_main ul li{list-style-type:none;}
+.activegroups_title{padding-left:15px!important;}
+.activegroups_widget{overflow:hidden;}
 
 /* Widget icon */
-.activegroups.fl-widget .fl-widget-titlebar .widget_title_icon {background: url("/dev/images/icons_sprite.png") no-repeat scroll -678px -21px transparent; height: 22px; width: 20px;}
+.activegroups.fl-widget .fl-widget-titlebar .widget_title_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -678px -21px transparent;height:22px;width:20px;}
