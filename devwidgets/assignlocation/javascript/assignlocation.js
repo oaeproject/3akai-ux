@@ -156,7 +156,7 @@ sakai.assignlocation = function(tuid, showSettings) {
         }
         else
             if (docScrollPos > 0) {
-                $contentmetadataLocationsDialog.css({
+                $assignlocationContainer.css({
                     "top": docScrollPos + 100 + "px"
                 });
             }
