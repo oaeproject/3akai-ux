@@ -504,6 +504,9 @@ sakai.profilesection = function(tuid, showSettings){
         // Render the template section for location
         var generalinfo = renderTemplateSection(sectionTemplate, sectionConfig);
         
+        // add access for the object
+        sakai.profile.main.data["locations"].access = {};
+        sakai.profile.main.data["locations"].access = sectionConfig.access;
         // Render append the location div to the UI.
         $("#profilesection-locations").children().children(":first").html(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, null, null)));
     };
