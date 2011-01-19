@@ -16,7 +16,7 @@
     //then all the files from the app directory will be copied to the dir:
     //output area, and baseUrl will assume to be a relative path under
     //this directory.
-    //appDir: "some/path/",
+    appDir: "./",
 
     //By default, all modules are located relative to this path. If baseUrl
     //is not explicitly set, then all modules are loaded relative to
@@ -25,6 +25,7 @@
 
     //Set paths for modules. If relative paths, set relative to baseUrl above.
     paths: {
+        "jquery": "dev/lib/jquery/requireplugins-jquery"
     },
 
     //The directory path to save the output. If not specified, then
@@ -102,6 +103,11 @@
     //done. If that module or any of its dependencies includes i18n bundles,
     //only the root bundles will be included unless the locale: section is set above.
     modules: [
+        {
+            name: "dev/javascript/dependencies",
+            exclude: ["jquery"]
+        }
+
         //Just specifying a module name means that module will be converted into
         //a built file that contains all of its dependencies. If that module or any
         //of its dependencies includes i18n bundles, they may not be included in the
