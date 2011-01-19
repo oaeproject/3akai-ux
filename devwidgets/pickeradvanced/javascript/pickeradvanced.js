@@ -40,7 +40,6 @@ sakai.pickeradvanced = function(tuid, showSettings) {
     var $rootel = $("#" + tuid);
 
     var $pickeradvanced_container = $("#pickeradvanced_container", $rootel);
-    var $pickeradvanced_content_search = $("#pickeradvanced_content_search");
     var $pickeradvanced_content_list = $("#pickeradvanced_content_list", $rootel);
     var $pickeradvanced_search_query = $("#pickeradvanced_search_query", $rootel);
     var $pickeradvanced_search_button = $("#pickeradvanced_search_button", $rootel);
@@ -72,7 +71,8 @@ sakai.pickeradvanced = function(tuid, showSettings) {
     var $pickeradvanced_search_files = $("#pickeradvanced_search_files", $rootel);
 
     var pickeradvanced_page = ".pickeradvanced_page";
-
+    var pickeradvanced_content_search = "#pickeradvanced_content_search";
+    
     var pickerlist = false;
     var firstTime = true;
 
@@ -99,8 +99,8 @@ sakai.pickeradvanced = function(tuid, showSettings) {
      * @returns void
      */
     var reset = function() {
-        $pickeradvanced_content_search.html("");
-        $pickeradvanced_content_search.unbind("scroll");
+        $(pickeradvanced_content_search).html("");
+        $(pickeradvanced_content_search).unbind("scroll");
         pickerData.selected = {};
         pickerData.currentElementCount = 0;
         pickerData.selectCount = 0;
@@ -236,7 +236,7 @@ sakai.pickeradvanced = function(tuid, showSettings) {
         }
 
         // Display empty new container with loading anim
-        $pickeradvanced_content_search.append($pl_pageContainer);
+        $(pickeradvanced_content_search).append($pl_pageContainer);
 
         // Make the request
         $.ajax({
@@ -281,10 +281,10 @@ sakai.pickeradvanced = function(tuid, showSettings) {
                 $pl_pageContainer.html(pageHTML);
                 // Wire loading the next page when user scrolls to the bottom of the list
                 if ((rawData.total > searchQuery.items) || (rawData.total === -1)) {
-                    $pickeradvanced_content_search.bind("scroll", function(e){
+                    $(pickeradvanced_content_search).bind("scroll", function(e){
 
                         if ((e.target.scrollHeight - e.target.scrollTop - $(e.target).height() ) === 0) {
-                            $pickeradvanced_content_search.unbind("scroll");
+                            $(pickeradvanced_content_search).unbind("scroll");
                             addPage(tuid, (pageNumber + 1), searchQuery);
                         }
                     });

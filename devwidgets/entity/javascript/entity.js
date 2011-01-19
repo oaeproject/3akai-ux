@@ -1254,7 +1254,7 @@ sakai.entity = function(tuid, showSettings){
             return false;
         });
 
-        $(".entity_content_places").live("click", function(){
+        $(".entity_content_group").live("click", function(){
             $entityContentUsersDialog.jqmShow();
 
             var userList = sakai.content_profile.content_data.members.managers.concat(sakai.content_profile.content_data.members.viewers);
