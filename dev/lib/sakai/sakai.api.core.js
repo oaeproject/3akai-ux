@@ -984,8 +984,6 @@ sakai.api.UI.getDirectoryStructure = function(){
     var buildNodeRecursive = function(node_id, directory, url){
         // node title
         var p_title = directory[node_id].title;
-        // short node title
-        var p_title_short = p_title;
         // node id
         var p_id = node_id;
         // icon url
@@ -993,10 +991,6 @@ sakai.api.UI.getDirectoryStructure = function(){
         // description
         var p_description = directory[node_id].description;
 
-        // if title is too long show with threedots.
-        if(p_title_short.length> 20) {
-            p_title_short = p_title_short.substr(0, 19) + "...";
-        }
         // create the node based on the parameters
         var node = {
             attr: {
@@ -1005,7 +999,7 @@ sakai.api.UI.getDirectoryStructure = function(){
                 "data-description": p_description
             },
             data: {
-                title: p_title_short,
+                title: p_title,
                 attr: {
                     "href": url,
                     "title": p_title
