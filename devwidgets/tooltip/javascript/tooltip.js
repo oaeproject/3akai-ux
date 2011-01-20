@@ -16,6 +16,12 @@
  * specific language governing permissions and limitations under the License.
  */
 
+/*
+ * Dependencies
+ *
+ * /dev/lib/jquery/plugins/jqmodal.sakai-edited.js
+ */
+
 /*global $ */
 
 var sakai = sakai || {};

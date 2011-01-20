@@ -16,6 +16,14 @@
  * specific language governing permissions and limitations under the License.
  */
 
+/*
+ * Dependencies
+ *
+ * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
+ * /dev/lib/misc/querystring.js (Querystring)
+ * /dev/lib/jquery/plugins/jquery.pager.js (pager)
+ */
+
 /*global $, Config, Querystring, DOMParser */
 
 var sakai = sakai || {};

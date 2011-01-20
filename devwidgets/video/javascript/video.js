@@ -16,6 +16,14 @@
  * specific language governing permissions and limitations under the License.
  */
 
+/*
+ * Dependencies
+ *
+ * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
+ * /dev/lib/jquery/plugins/jquery.validate.sakai-edited.js (validate)
+ * /dev/lib/misc/querystring.js (Querystring)
+ */
+
 /*global $, Config, Querystring, SWFID, swfobject */
 
 

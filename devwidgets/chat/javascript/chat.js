@@ -16,6 +16,14 @@
  * specific language governing permissions and limitations under the License.
  */
 
+/*
+ * Dependencies
+ *
+ * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
+ * /dev/lib/jquery/plugins/jquery.cookie.js (cookie)
+ * /dev/lib/jquery/plugins/jquery.json.js (toJSON)
+ */
+
 /*global $, sakai */
 
 /**
@@ -86,7 +94,7 @@ sakai.chat = function(tuid, showSettings){
      */
     var loadOnlineContacts = function(callback){
         var batchRequests = [];
-        
+
         // accepted contacts
         var acceptedContacts = {
             "url":sakai.config.URL.SEARCH_USERS_ACCEPTED + "?state=ACCEPTED&page=0&items=6",
@@ -102,7 +110,7 @@ sakai.chat = function(tuid, showSettings){
             "cache":false,
             "dataType":"json" 
         };
-        
+
         batchRequests.push(acceptedContacts);
         batchRequests.push(contactsOnline);
         sakai.api.Server.batch($.toJSON(batchRequests), function(success, data) {

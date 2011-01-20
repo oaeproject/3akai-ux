@@ -16,6 +16,11 @@
  * specific language governing permissions and limitations under the License.
  */
 
+/*
+ * Dependencies
+ *
+ * http://www.google.com/recaptcha/api/js/recaptcha_ajax.js (Recaptcha)
+ */
 
 /*global Config, $, */
 
@@ -29,9 +34,9 @@ var sakai = sakai || {};
  * @param {Boolean} showSettings Show the settings of the widget or not
  */
 sakai.captcha = function(tuid, showSettings) {
-    
+
     var $rootel = $("#" + tuid);
-    
+
     /**
      * @returns {Object} Data that should be used in a request to send to a captcha validator.
      */
@@ -41,14 +46,14 @@ sakai.captcha = function(tuid, showSettings) {
         values["recaptcha-response"] = Recaptcha.get_response();
         return values;
     };
-    
+
     /**
      * Invalidates the current captcha
      */
     sakai.captcha.destroy = function() {
       Recaptcha.destroy();  
     };
-    
+
     /**
      * Reload the current captcha
      */
@@ -74,9 +79,9 @@ sakai.captcha = function(tuid, showSettings) {
             }
         });
     };
-    
+
     sakai.captcha.init();
-        
+
 };
 
 sakai.api.Widgets.widgetLoader.informOnLoad("captcha");

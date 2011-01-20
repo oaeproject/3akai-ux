@@ -16,6 +16,11 @@
  * specific language governing permissions and limitations under the License.
  */
 
+/*
+ * Dependencies
+ *
+ */
+
 /*global $ */
 
 var sakai = sakai || {};

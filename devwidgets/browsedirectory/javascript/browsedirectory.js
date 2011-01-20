@@ -16,6 +16,12 @@
  * specific language governing permissions and limitations under the License.
  */
 
+/*
+ * Dependencies
+ *
+ * /dev/lib/jquery/plugins/jsTree/jquery.jstree.sakai-edit.js (JsTree)
+ */
+
 /*global $ */
 
 var sakai = sakai || {};
