@@ -18,7 +18,7 @@
 
 
 /*global Querystring, Config, $,  set_cookie */
-
+require(["jquery","/dev/lib/sakai/sakai.api.widgets.js"]);
 
 var sakai = sakai || {};
 

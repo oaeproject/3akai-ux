@@ -18,15 +18,18 @@
 
 
 /*global Querystring, Config, $,  set_cookie */
+require(["/dev/javascript/dependencies.js"], function(){
+    require.ready(function() {
+        debug.log("page.js");
 
-debug.log("page.js");
+        var sakai = sakai || {};
 
-var sakai = sakai || {};
+        sakai.requirejs = function(){
 
-sakai.requirejs = function(){
+            sakai.api.requireJs();
 
-    sakai.api.requireJs();
+        };
 
-};
-
-sakai.api.Widgets.Container.registerForLoad("sakai.requirejs");
+        sakai.api.Widgets.Container.registerForLoad("sakai.requirejs");
+    });
+});

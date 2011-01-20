@@ -75,6 +75,6 @@
         <script data-main="/dev/javascript/dependencies.js" src="/dev/lib/jquery/requireplugins-jquery.js"></script>
 
         <!-- Page JS -->
-        <script type="text/javascript" src="/dev/javascript/mysakai.js"></script>
+        <script type="text/javascript">require([],function(){require.ready(function(){require(["/dev/javascript/mysakai.js"])})});</script>
     </body>
 </html>

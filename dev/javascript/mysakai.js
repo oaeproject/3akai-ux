@@ -18,6 +18,7 @@
 
 
 /*global Config, $ */
+require(["/dev/lib/jquery/plugins/gritter/jquery.gritter.js"]);
 
 var sakai = sakai || {};
 
