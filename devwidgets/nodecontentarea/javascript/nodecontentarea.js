@@ -16,6 +16,12 @@
  * specific language governing permissions and limitations under the License.
  */
 
+/*
+ * Dependencies
+ *
+ * /dev/lib/tinymce/tiny_mce.js (tinyMCE)
+ */
+
 /*global $ */
 
 var sakai = sakai || {};

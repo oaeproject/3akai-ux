@@ -16,6 +16,16 @@
  * specific language governing permissions and limitations under the License.
  */
 
+/*
+ * Dependencies
+ *
+ * /dev/lib/jquery/plugins/jquery.json.js (toJSON)
+ * /dev/lib/jquery/plugins/jqmodal.sakai-edited.js
+ * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
+ * /dev/lib/jquery/plugins/jquery.ba-bbq.js (BBQ)
+ * /dev/lib/jquery/plugins/jsTree/jquery.jstree.sakai-edit.js (jstree)
+ */
+
 /*global $ */
 
 var sakai = sakai || {};

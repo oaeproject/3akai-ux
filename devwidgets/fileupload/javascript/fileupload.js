@@ -16,6 +16,18 @@
  * specific language governing permissions and limitations under the License.
  */
 
+/*
+ * Dependencies
+ *
+ * /dev/lib/jquery/plugins/jquery.json.js (toJSON)
+ * /dev/lib/jquery/plugins/jqmodal.sakai-edited.js
+ * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
+ * /dev/lib/jquery/plugins/jquery.validate.sakai-edited.js (validate)
+ * /dev/lib/misc/querystring.js (Querystring)
+ * /dev/lib/jquery/plugins/jquery.form.js (ajaxForm)
+ * /dev/lib/jquery/plugins/jquery.MultiFile.js (MultiFile)
+ */
+
 /*global $, Querystring */
 
 var sakai = sakai || {};

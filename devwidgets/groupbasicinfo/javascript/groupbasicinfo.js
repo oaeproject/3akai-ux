@@ -15,6 +15,12 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
+/*
+ * Dependencies
+ *
+ * /dev/lib/jquery/plugins/jqmodal.sakai-edited.js
+ * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
+ */
 /*global $ */
 
 var sakai = sakai || {};

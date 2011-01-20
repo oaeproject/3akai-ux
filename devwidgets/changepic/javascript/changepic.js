@@ -16,6 +16,14 @@
  * specific language governing permissions and limitations under the License.
  */
 
+/*
+ * Dependencies
+ *
+ * /dev/lib/jquery/plugins/imgareaselect/jquery.imgareaselect.js (imgAreaSelect)
+ * /dev/lib/jquery/plugins/jqmodal.sakai-edited.js
+ * /dev/lib/jquery/plugins/jquery.json.js (toJSON)
+ */
+
 /*global $ */
 
 require(["/dev/lib/jquery/plugins/imgareaselect/jquery.imgareaselect.js"]);
