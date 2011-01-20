@@ -506,6 +506,7 @@ sakai.profilesection = function(tuid, showSettings){
         
         // Render append the location div to the UI.
         $("#profilesection-locations").children().children(":first").html(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, null, null)));
+        $(window).trigger("sakai-" + $rootel.selector.replace("#", ""), renderTemplateGeneralInfo, true);
     };
 
     ////////////////////
