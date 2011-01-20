@@ -41,7 +41,7 @@ sakai.directory = function(){
         // bind sakai-directory-selected event.
         // that event is triggered when directory in browsedirectory widget is selected.
         $(window).bind("sakai-directory-selected", function(e, id){
-
+            
             // get directory json object called method from browsedirectory widget
             var nodeId = id.split("/").reverse().shift();
             var directoryJson = sakai.browsedirectory.getDirectoryNodeJson(nodeId);

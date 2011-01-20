@@ -106,6 +106,7 @@ sakai.sharecontent = function(tuid, showSettings) {
     var initialized = false;
     var callback = false;
     var memberAdded = false;
+    var entityTypes = {};
 
     var pickerData = {
       "selected": {},
@@ -142,7 +143,7 @@ sakai.sharecontent = function(tuid, showSettings) {
         });
 
         var returnValue = {"list":list, "toAddNames":toAddNames};
-
+        
         return returnValue;
     };
 
@@ -501,11 +502,11 @@ sakai.sharecontent = function(tuid, showSettings) {
                                 type = "file";
                             } else if (data.results[i]["rep:userId"]) {
                                 name = sakai.api.Security.saneHTML(sakai.api.User.getDisplayName(data.results[i]));
-                                value = data.results[i]["rep:userId"];
+                                value = "user/" + data.results[i]["rep:userId"];
                                 type = "user";
                             } else if (data.results[i]["sakai:group-id"]) {
                                 name = data.results[i]["sakai:group-title"];
-                                value = data.results[i]["sakai:group-id"];
+                                value = "group/" + data.results[i]["sakai:group-id"];
                                 type = "group";
                             }
                             if (pickerData.excludeList.length === 0 || $.inArray(value, pickerData.excludeList) === -1) {
