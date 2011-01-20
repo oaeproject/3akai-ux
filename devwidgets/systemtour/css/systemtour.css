@@ -17,7 +17,7 @@
  */
 
 /* Main container */
-#systemtour_container{background:transparent url(../images/bgl.png) no-repeat scroll 0 0; line-height: 60px; height: 60px;}
+#systemtour_container{background:url("/dev/images/tour_sprite.png") no-repeat scroll left -832px transparent; line-height: 60px; height: 60px;}
 
 /* PROGRESS BAR */
 .systemtour_left{background:url(../images/bgl.png) no-repeat;padding:10px 10px 30px;}
@@ -41,7 +41,7 @@
 .systemtour_button_text {font-weight: bold;font-size: 0.9em;margin-left:35px;padding-right:5px;}
 .systemtour_item_complete_full{background:url(/dev/images/icons_sprite.png) no-repeat scroll -40px -21px transparent;float:right;height:16px;margin:7px -12px 0 0;width:16px;}
 .systemtour_item_complete {}
-.systemtour_item_complete_5{position:relative;top:13px;left:10px;background:url(/dev/images/accept.png) no-repeat;padding-right:26px;}
+.systemtour_item_complete_5{position:relative;top:13px;left:10px;background:url(/dev/images/icons_sprite.png) no-repeat scroll -40px -21px transparent;padding-right:26px;}
 .systemtour_item_filler {padding-right: 18px;}
 .systemtour_item_filler_5 {padding-right: 26px;}
 .systemtour_right {}
