@@ -30,7 +30,7 @@
  * @namespace
  * Language localisation
  */
-define(["/dev/configuration/config.js", "/dev/lib/misc/l10n/globalization.js"], function(sakai_conf) {
+define(["/dev/configuration/config.js", "./sakai.api.user.js", "/dev/lib/misc/l10n/globalization.js"], function(sakai_conf, sakai_user) {
     return {
 
         /**
@@ -82,8 +82,8 @@ define(["/dev/configuration/config.js", "/dev/lib/misc/l10n/globalization.js"], 
             if (!isNaN((parseInt(dateString.substring(19,22),10)))){
                 d.setTime(d.getTime() - (parseInt(dateString.substring(19,22),10)*60*60*1000));
             }
-            if (sakai.data.me.user.locale) {
-                d.setTime(d.getTime() + sakai.data.me.user.locale.timezone.GMT * 60 * 60 * 1000);
+            if (sakai_user.data.me.user.locale) {
+                d.setTime(d.getTime() + sakai_user.data.me.user.locale.timezone.GMT * 60 * 60 * 1000);
             }
             return d;
         },
@@ -168,7 +168,7 @@ define(["/dev/configuration/config.js", "/dev/lib/misc/l10n/globalization.js"], 
          *  GMT date and time
          */
         toGMT : function(date){
-            date.setHours(date.getHours() - sakai.data.me.user.locale.timezone.GMT);
+            date.setHours(date.getHours() - sakai_user.data.me.user.locale.timezone.GMT);
             return date;
         },
 
@@ -185,7 +185,7 @@ define(["/dev/configuration/config.js", "/dev/lib/misc/l10n/globalization.js"], 
          *  a local date and time
          */
         fromGMT : function(date){
-            date.setHours(date.getHours() + sakai.data.me.user.locale.timezone.GMT);
+            date.setHours(date.getHours() + sakai_user.data.me.user.locale.timezone.GMT);
             return date;
         },
 

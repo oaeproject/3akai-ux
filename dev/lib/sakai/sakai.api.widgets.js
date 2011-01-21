@@ -28,8 +28,12 @@
  * @namespace
  * Widget related convenience functions
  */
-define(["/dev/lib/jquery/requireplugins-jquery.js", "./sakai.api.server.js", "./sakai.api.util.js", "./sakai.api.i18n.js"], function($, sakai_serv, sakai_util, sakai_i18n) {
+define(["/dev/lib/jquery/requireplugins-jquery.js", "./sakai.api.server.js", "./sakai.api.util.js", "./sakai.api.i18n.js", "./sakai.api.user.js"], function($, sakai_serv, sakai_util, sakai_i18n, sakai_user) {
     return {
+
+        widgets : {
+            widgets : []
+        },
 
         /**
          * @class Container
@@ -126,7 +130,7 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "./sakai.api.server.js", "./
             performLoad : function() {
                 var i;
                 for (i = 0, il = this.Container.toLoad.length; i<il; i++){
-                    var fct = window["sakai"][this.Container.toLoad[i]];
+                    var fct = window.sakai[this.Container.toLoad[i]];
                     if ($.isFunction(fct)) {
                         fct();
                     } else {
@@ -346,24 +350,24 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "./sakai.api.server.js", "./
 
                     if(urls.length > 0){
                         var current_locale_string = false;
-                        if (typeof sakai.data.me.user.locale === "object") {
-                            current_locale_string = sakai.data.me.user.locale.language + "_" + sakai.data.me.user.locale.country;
+                        if (typeof sakai_user.data.me.user.locale === "object") {
+                            current_locale_string = sakai_user.data.me.user.locale.language + "_" + sakai_user.data.me.user.locale.country;
                         }
                         var bundles = [];
                         for (var i = 0, j = urls.length; i<j; i++) {
                             var jsonpath = urls[i].url;
                             var widgetname = batchWidgets[jsonpath];
-                            if ($.isPlainObject(sakai.widgets.widgets[widgetname].i18n)) {
-                                if (sakai.widgets.widgets[widgetname].i18n["default"]){
+                            if ($.isPlainObject(this.widgets.widgets[widgetname].i18n)) {
+                                if (this.widgets.widgets[widgetname].i18n["default"]){
                                     var bundleItem = {
-                                        "url" : sakai.widgets.widgets[widgetname].i18n["default"],
+                                        "url" : this.widgets.widgets[widgetname].i18n["default"],
                                         "method" : "GET"
                                     };
                                     bundles.push(bundleItem);
                                 }
-                                if (sakai.widgets.widgets[widgetname].i18n[current_locale_string]) {
+                                if (this.widgets.widgets[widgetname].i18n[current_locale_string]) {
                                     var item1 = {
-                                        "url" : sakai.widgets.widgets[widgetname].i18n[current_locale_string],
+                                        "url" : this.widgets.widgets[widgetname].i18n[current_locale_string],
                                         "method" : "GET"
                                     };
                                     bundles.push(item1);
@@ -403,12 +407,12 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "./sakai.api.server.js", "./
                                         if (widgetName === requestedBundlesResults[ii].url.split("/")[2]) {
                                             hasBundles = true;
                                             if (requestedBundlesResults[ii].url.split("/")[4].split(".")[0] === "default") {
-                                                sakai.data.i18n.widgets[widgetName] = sakai.data.i18n.widgets[widgetName] || {};
-                                                sakai.data.i18n.widgets[widgetName]["default"] = sakai.data.i18n.changeToJSON(requestedBundlesResults[ii].body);
+                                                sakai_i18n.data.widgets[widgetName] = sakai_i18n.data.widgets[widgetName] || {};
+                                                sakai_i18n.data.widgets[widgetName]["default"] = sakai_i18n.data.changeToJSON(requestedBundlesResults[ii].body);
                                             }
                                             else {
-                                                sakai.data.i18n.widgets[widgetName] = sakai.data.i18n.widgets[widgetName] || {};
-                                                sakai.data.i18n.widgets[widgetName][current_locale_string] = sakai.data.i18n.changeToJSON(requestedBundlesResults[ii].body);
+                                                sakai_i18n.data.widgets[widgetName] = sakai_i18n.data.widgets[widgetName] || {};
+                                                sakai_i18n.data.widgets[widgetName][current_locale_string] = sakai_i18n.data.changeToJSON(requestedBundlesResults[ii].body);
                                             }
                                         }
                                     }
@@ -431,7 +435,7 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "./sakai.api.server.js", "./
                                             }
                                             var toreplace;
                                             // check for i18n debug
-                                            if (sakai_conf.config.displayDebugInfo === true && sakai.data.me.user.locale && sakai.data.me.user.locale.language === "lu" && sakai.data.me.user.locale.country === "GB") {
+                                            if (sakai_conf.config.displayDebugInfo === true && sakai_user.data.me.user.locale && sakai_user.data.me.user.locale.language === "lu" && sakai_user.data.me.user.locale.country === "GB") {
                                                 toreplace = quotes + replace.substr(7, replace.length - 9) + quotes;
                                                 translated_content += requestedURLsResults[i].body.substring(lastend, expression.lastIndex - replace.length) + toreplace;
                                                 lastend = expression.lastIndex;
@@ -445,7 +449,7 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "./sakai.api.server.js", "./
                                         translated_content += requestedURLsResults[i].body.substring(lastend);
                                     }
                                     else {
-                                        translated_content = sakai_i18n.General.process(requestedURLsResults[i].body, sakai.data.i18n.localBundle, sakai.data.i18n.defaultBundle);
+                                        translated_content = sakai_i18n.General.process(requestedURLsResults[i].body, sakai_i18n.data.localBundle, sakai_i18n.data.defaultBundle);
                                     }
                                     var ss = sethtmlover(translated_content, widgets, widgetName);
                                     for (var s = 0; s < ss.length; s++) {
@@ -543,10 +547,10 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "./sakai.api.server.js", "./
                         }
 
                         // Check if the widget is an iframe widget
-                        if (sakai.widgets.widgets[widgetname] && sakai.widgets.widgets[widgetname].iframe){
+                        if (this.widgets.widgets[widgetname] && this.widgets.widgets[widgetname].iframe){
 
                             // Get the information about the widget in the widgets.js file
-                            var portlet = sakai.widgets.widgets[widgetname];
+                            var portlet = this.widgets.widgets[widgetname];
 
                             // Check if the scrolling property has been set to true
                             var scrolling = portlet.scrolling ? "auto" : "no";
@@ -568,7 +572,7 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "./sakai.api.server.js", "./
                         }
 
                         // The widget isn't an iframe widget
-                        else if (sakai.widgets.widgets[widgetname]){
+                        else if (this.widgets.widgets[widgetname]){
 
                             // Set the placement for the widget
                             var placement = "";
@@ -609,7 +613,7 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "./sakai.api.server.js", "./
                                 $(document.getElementById(widgets[i][ii].id)).replaceWith($('<div id="'+widgets[i][ii].uid+'" class="' + widgets[i][ii].floating + '"></div>'));
                             }
 
-                            var url = sakai.widgets.widgets[i].url;
+                            var url = this.widgets.widgets[i].url;
                             batchWidgets[url] = i; //i is the widgetname
                         }
                     }
