@@ -124,6 +124,9 @@ sakai.contentmetadata = function(tuid,showSettings){
     var renderDescription = function(mode){
         if (mode) {
             sakai.content_profile.content_data.mode = mode;
+        } else {
+            // once the field has been updated the mode is edit so need to reset that
+            sakai.content_profile.content_data.mode = false;
         }
         $contentmetadataDescriptionContainer.html($.TemplateRenderer(contentmetadataDescriptionTemplate, sakai.content_profile.content_data));
         addEditBinding(mode);
@@ -281,6 +284,8 @@ sakai.contentmetadata = function(tuid,showSettings){
      * @param {Object} ev Trigger event
      */
     var editData = function(ev){
+        // unbind click event to let user move the cursor by clicking mouse button in textarea
+        $(".contentmetadata_editable").die("click");
         var dataToEdit = "";
         if (ev.target.nodeName.toLowerCase() !== "a" && ev.target.nodeName.toLowerCase() !== "select" && ev.target.nodeName.toLowerCase() !== "option") {
             target = $(ev.target).closest(".contentmetadata_editable");
@@ -326,6 +331,8 @@ sakai.contentmetadata = function(tuid,showSettings){
                 updateCopyright();
                 break;
         }
+        // bind event again after saving the data
+        $(".contentmetadata_editable").live("click", editData);
     };
 
     ////////////////////////
