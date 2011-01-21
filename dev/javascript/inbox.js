@@ -355,7 +355,7 @@ sakai.inbox = function() {
 
         // A chat message doesn't really have subject, only a body.
         if(message["sakai:category"] === "chat"){
-            message.subject = "Chat message";
+            message["sakai:subject"] = "Chat message";
         }
 
         // pictures
@@ -399,6 +399,7 @@ sakai.inbox = function() {
         for (var j = 0, l = response.results.length; j < l; j++) {
             // temporary internal id.
             // Use the name for the id.
+            response.results[j] = formatMessage(response.results[j]);
             response.results[j].nr = j;
             var messageSubject = response.results[j]["sakai:subject"];
             if (messageSubject) {
@@ -420,7 +421,6 @@ sakai.inbox = function() {
             }
             response.results[j].body = response.results[j]["sakai:body"];
             response.results[j].messagebox = response.results[j]["sakai:messagebox"];
-            response.results[j] = formatMessage(response.results[j]);
         }
 
         allMessages = response.results;
@@ -755,7 +755,6 @@ sakai.inbox = function() {
                 for (var i = 0, j = message.userFrom.length; i < j; i++) {
                     // in chat message message subject is in subject not in sakai:subject
                     var messageSubject = message["sakai:subject"];
-                    messageSubject = (messageSubject) ? messageSubject : message["subject"];
                     key = messageSubject.substr(0,messageSubject.lastIndexOf(","));
                     comment = messageSubject.substr(messageSubject.lastIndexOf(",")+1,messageSubject.length);
                     // title , groupid from pickeruser
