@@ -507,7 +507,7 @@ sakai.inbox = function() {
     /**
      * Gets all the messages from the JCR.
      */
-    getAllMessages = function(callback) {
+    getAllMessages = function(callback, isDirectMessage) {
         toggleLoading(true);
         box = "inbox";
         if (selectedType === "sent"){
@@ -538,8 +538,8 @@ sakai.inbox = function() {
                 cats = "chat";
             }
             url = sakai.config.URL.MESSAGE_BOXCATEGORY_SERVICE + "?box=" + box + "&category=" + cats + "&items=" + messagesPerPage + "&page=" + currentPage;
-        } else if (box === "inbox") {
-            // default to just the messages so your inbox isn't clogged up with chat messages
+        } else if (box === "inbox" && !isDirectMessage) {
+            // default to just the messages if we do not need to show the message itself so your inbox isn't clogged up with chat messages
             url = sakai.config.URL.MESSAGE_BOXCATEGORY_SERVICE + "?box=" + box + "&category=message&items=" + messagesPerPage + "&page=" + currentPage;
         }
 
@@ -1350,6 +1350,16 @@ sakai.inbox = function() {
 
     var doInit = function() {
 
+        // if user enter message url directly need to show related message
+        // /dev/inbox.html#message=72c5c01dc3618b303904134fee6d5d8f2993f1cf
+        var isDirectMessage = false;
+        var locationStr = document.location.toString();
+        // if there is message id attached, needs to show the message directly
+        if(locationStr.split("#")[1] !== ""){
+            isDirectMessage = true;        
+        }
+
+
         // We are logged in. Do all the nescecary stuff.
         // load the list of messages.
         showUnreadMessages();
@@ -1361,7 +1371,7 @@ sakai.inbox = function() {
             if (getMsgsReady && sendMsgReady) {
                 $(window).trigger("hashchange");
             }
-        });
+        }, isDirectMessage);
         $(window).bind("sakai-sendmessage-ready", function() {
             sendMsgReady = true;
             if (getMsgsReady && sendMsgReady) {
