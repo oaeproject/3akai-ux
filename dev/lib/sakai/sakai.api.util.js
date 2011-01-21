@@ -167,7 +167,7 @@ sakai.api.Util.formatTagsExcludeLocation = function(input){
     if (inputTags.length) {
         var tags = [];
         for (var item in inputTags){
-            if (inputTags[item].split("/")[0] != "directory") {
+            if (typeof inputTags[item] === "string" && inputTags[item].split("/")[0] != "directory") {
                 tags.push(inputTags[item]);
             }
         }

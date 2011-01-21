@@ -86,6 +86,7 @@ sakai.assignlocation = function(tuid, showSettings) {
         // Check the boxes that were previously saved
         if (init) {
             var initiallySelect = [];
+            // clear all the selected container
             for (var location in contextVariables.saveddirectory){
                 if (contextVariables.saveddirectory.hasOwnProperty(location)) {
                     $.jstree._reference($assignlocationJSTreeContainer).change_state($("#" + contextVariables.saveddirectory[location][contextVariables.saveddirectory[location].length - 1]), false);
@@ -145,6 +146,7 @@ sakai.assignlocation = function(tuid, showSettings) {
     };
 
     var showContainer = function(){
+        determineContext();
         // position dialog box at users scroll position
         var htmlScrollPos = $("html").scrollTop();
         var docScrollPos = $(document).scrollTop();
@@ -156,7 +158,7 @@ sakai.assignlocation = function(tuid, showSettings) {
         }
         else
             if (docScrollPos > 0) {
-                $contentmetadataLocationsDialog.css({
+                $assignlocationContainer.css({
                     "top": docScrollPos + 100 + "px"
                 });
             }
@@ -197,24 +199,18 @@ sakai.assignlocation = function(tuid, showSettings) {
                         "path": "/p/" + sakai.content_profile.content_data.data["jcr:name"],
                         "context" : "content"
                     };
+                    newlyAssignedLocations = [];
                     break;
             }
+            initTree();
             addTreebinding();
             addWidgetBinding();
         }
     };
-
-    var doInit = function(){
-
-        $assignlocationContainer.jqm({
-            modal: true,
-            toTop: true,
-            onShow: showContainer,
-            onClose: closeContainer
-        });
-
+    
+    var initTree = function(){
         // set up new jstree for directory
-        var pluginArray = ["themes", "json_data", "cookies", "dnd", "search", "checkbox"];
+        var pluginArray = ["themes", "json_data", "cookies", "search", "checkbox"];
         $assignlocationJSTreeContainer.jstree({
             "core": {
                 "animation": 0,
@@ -238,7 +234,18 @@ sakai.assignlocation = function(tuid, showSettings) {
             },
             "plugins": pluginArray
         });
-        determineContext();
+
+    }
+
+    var doInit = function(){
+        $assignlocationContainer.jqm({
+            modal: true,
+            toTop: true,
+            onShow: showContainer,
+            onClose: closeContainer
+        });
+
+        //determineContext();
     };
 
     doInit();

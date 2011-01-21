@@ -211,7 +211,7 @@ a.s3d-regular-links, .s3d-regular-links a{
 
 .s3d-main-container {
     background: #ffffff;
-    padding-bottom: 20px;
+    padding-bottom: 20px !important;
 }
 
 /*

@@ -355,7 +355,7 @@ sakai.inbox = function() {
 
         // A chat message doesn't really have subject, only a body.
         if(message["sakai:category"] === "chat"){
-            message.subject = "Chat message";
+            message["sakai:subject"] = "Chat message";
         }
 
         // pictures
@@ -399,6 +399,7 @@ sakai.inbox = function() {
         for (var j = 0, l = response.results.length; j < l; j++) {
             // temporary internal id.
             // Use the name for the id.
+            response.results[j] = formatMessage(response.results[j]);
             response.results[j].nr = j;
             var messageSubject = response.results[j]["sakai:subject"];
             if (messageSubject) {
@@ -407,7 +408,7 @@ sakai.inbox = function() {
 
                 // title , groupid from pickeruser
                 if (key) {
-                    response.results[j].subject = sakai.api.Security.escapeHTML(sakai.api.i18n.General.getValueForKey(key) + " " + comment);
+                    response.results[j].subject = sakai.api.Security.escapeHTML(key + " " + comment);
                 // just title with ${user} add to contacts
                 }
                 else if(sakai.api.i18n.General.getValueForKey(response.results[j]["sakai:subject"])){
@@ -420,7 +421,6 @@ sakai.inbox = function() {
             }
             response.results[j].body = response.results[j]["sakai:body"];
             response.results[j].messagebox = response.results[j]["sakai:messagebox"];
-            response.results[j] = formatMessage(response.results[j]);
         }
 
         allMessages = response.results;
@@ -507,7 +507,7 @@ sakai.inbox = function() {
     /**
      * Gets all the messages from the JCR.
      */
-    getAllMessages = function(callback) {
+    getAllMessages = function(callback, isDirectMessage) {
         toggleLoading(true);
         box = "inbox";
         if (selectedType === "sent"){
@@ -538,8 +538,8 @@ sakai.inbox = function() {
                 cats = "chat";
             }
             url = sakai.config.URL.MESSAGE_BOXCATEGORY_SERVICE + "?box=" + box + "&category=" + cats + "&items=" + messagesPerPage + "&page=" + currentPage;
-        } else if (box === "inbox") {
-            // default to just the messages so your inbox isn't clogged up with chat messages
+        } else if (box === "inbox" && !isDirectMessage) {
+            // default to just the messages if we do not need to show the message itself so your inbox isn't clogged up with chat messages
             url = sakai.config.URL.MESSAGE_BOXCATEGORY_SERVICE + "?box=" + box + "&category=message&items=" + messagesPerPage + "&page=" + currentPage;
         }
 
@@ -753,12 +753,13 @@ sakai.inbox = function() {
 
             if (message.userFrom) {
                 for (var i = 0, j = message.userFrom.length; i < j; i++) {
+                    // in chat message message subject is in subject not in sakai:subject
                     var messageSubject = message["sakai:subject"];
                     key = messageSubject.substr(0,messageSubject.lastIndexOf(","));
                     comment = messageSubject.substr(messageSubject.lastIndexOf(",")+1,messageSubject.length);
                     // title , groupid from pickeruser
                     if (key) {
-                        message["sakai:subject"] = sakai.api.Security.escapeHTML(sakai.api.i18n.General.getValueForKey(key)+" "+comment);
+                        message["sakai:subject"] = sakai.api.Security.escapeHTML(key+" "+comment);
                         // just title with ${user} add to contacts
                     } else if (sakai.api.i18n.General.getValueForKey(message["sakai:subject"])){
                         message["sakai:subject"] = sakai.api.Security.escapeHTML(sakai.api.i18n.General.getValueForKey(message["sakai:subject"]).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(message.userFrom[0])));
@@ -1348,6 +1349,16 @@ sakai.inbox = function() {
 
     var doInit = function() {
 
+        // if user enter message url directly need to show related message
+        // /dev/inbox.html#message=72c5c01dc3618b303904134fee6d5d8f2993f1cf
+        var isDirectMessage = false;
+        var locationStr = document.location.toString();
+        // if there is message id attached, needs to show the message directly
+        if(locationStr.split("#")[1] !== ""){
+            isDirectMessage = true;        
+        }
+
+
         // We are logged in. Do all the nescecary stuff.
         // load the list of messages.
         showUnreadMessages();
@@ -1359,7 +1370,7 @@ sakai.inbox = function() {
             if (getMsgsReady && sendMsgReady) {
                 $(window).trigger("hashchange");
             }
-        });
+        }, isDirectMessage);
         $(window).bind("sakai-sendmessage-ready", function() {
             sendMsgReady = true;
             if (getMsgsReady && sendMsgReady) {

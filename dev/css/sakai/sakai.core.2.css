@@ -40,6 +40,7 @@
 
 
 /* HEADER */
+.header { padding: 0 0 0 0; }
 .s3d-header .fixed-container { background-color: #FFF;}
 .s3d-header .fixed-container .decor_left {background:url("/dev/images/dashboard_sprite.png") no-repeat scroll left -10px transparent; float:left; height:5px; margin-left:-20px; width:5px;}
 .s3d-header .fixed-container .decor { background: url("/dev/images/dashboard_sprite.png") no-repeat scroll right -10px transparent; height: 5px; margin-right: -20px; }

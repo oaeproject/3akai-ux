@@ -839,6 +839,10 @@ sakai.chat = function(tuid, showSettings){
         closeOnlineContactsList();
     });
 
+    $(window).bind("user-logged-out", function(event){
+        clearInterval(loadOnlineContactsTimer);
+    });
+
     $(window).bind("chat_status_message_change", function(event,newChatStatusMessage){
         updateChatStatusMessage(newChatStatusMessage);
     });

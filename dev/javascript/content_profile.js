@@ -252,13 +252,25 @@ sakai.content_profile = function(){
         var notificationType = sakai.api.Security.saneHTML($("#content_profile_viewers_text").text());
         var reqData = [];
         $.each(users.toAdd, function(index, user){
+            // Determine the type of the added entity and
+            // what the entity ID is
+            var entityId = false;
+            var entityType = false;
+            if (user.substring(0, 5) === "user/"){
+                entityType = "user";
+                entityId = user.substring(5);
+            } else if (user.substring(0, 6) === "group/"){
+                entityType = "group";
+                entityId = user.substring(6);
+            }
+            
             var data = {
-                ":viewer": user
+                ":viewer": entityId
             };
             if (tuid === 'managers' && task === 'add') {
                 notificationType = sakai.api.Security.saneHTML($("#content_profile_managers_text").text());
                 data = {
-                    ":manager": user
+                    ":manager": entityId
                 };
             }
             else
@@ -284,7 +296,7 @@ sakai.content_profile = function(){
                         };
                     }
                 }
-            if (user) {
+            if (entityId) {
                 reqData.push({
                     "url": content_path + ".members.json",
                     "method": "POST",
