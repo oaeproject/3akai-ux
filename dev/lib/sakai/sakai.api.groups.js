@@ -29,7 +29,7 @@
  * @namespace
  * Group related convenience functions
  */
-define(["/dev/lib/jquery/requireplugins-jquery.js", "/dev/configuration/conf.js", "./sakai.api.server.js", "./sakai.api.user.js"], function($, sakai_conf, sakai_serv, sakai_user){
+define(["/dev/lib/jquery/requireplugins-jquery.js", "/dev/configuration/conf.js", "./sakai.api.server.js", "./sakai.api.user.js", "./sakai.api.security.js"], function($, sakai_conf, sakai_serv, sakai_user, sakai_security){
     return {
         /**
          * Get the data for the specified group
@@ -208,8 +208,8 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "/dev/configuration/conf.js"
          */
         setPermissions : function(groupid, joinable, visible, callback) {
             if(groupid && typeof(groupid) === "string" &&
-               sakai.api.Security.isValidPermissionsProperty(sakai_conf.config.Permissions.Groups.joinable, joinable) &&
-               sakai.api.Security.isValidPermissionsProperty(sakai_conf.config.Permissions.Groups.visible, visible)) {
+               sakai_security.isValidPermissionsProperty(sakai_conf.config.Permissions.Groups.joinable, joinable) &&
+               sakai_security.isValidPermissionsProperty(sakai_conf.config.Permissions.Groups.visible, visible)) {
 
                 // issue a BATCH POST to update Jackrabbit group & Home Folder group
                 var batchRequests = [];

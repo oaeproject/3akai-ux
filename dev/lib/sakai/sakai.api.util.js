@@ -29,7 +29,7 @@
  * @namespace
  * General utility functions
  */
-define(["/dev/lib/jquery/requireplugins-jquery.js", "./sakai.api.server.js", "/dev/configuration/config.js"],function($, sakai_serv, sakai_conf) {
+define(["/dev/lib/jquery/requireplugins-jquery.js", "./sakai.api.server.js", "./sakai.api.l10n.js", "./sakai.api.security.js", "/dev/configuration/config.js"],function($, sakai_serv, sakai_l10n, sakai_security, sakai_conf) {
     return {
 
         /**
@@ -124,7 +124,7 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "./sakai.api.server.js", "/d
                 }
             }
             // Return the human readable filesize (and localized)
-            return sakai.api.l10n.transformDecimal(filesize, 1) + " " + lengthunits;
+            return sakai_l10n.transformDecimal(filesize, 1) + " " + lengthunits;
         },
 
         /**
@@ -314,7 +314,7 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "./sakai.api.server.js", "/d
             $(newTags).each(function(i,val) {
                 val = $.trim(val).replace(/#/g,"");
                 if (val && $.inArray(val,currentTags) === -1) {
-                    if (sakai.api.Security.escapeHTML(val) === val && val.length) {
+                    if (sakai_security.escapeHTML(val) === val && val.length) {
                         if ($.inArray(val, tagsToAdd) < 0) {
                             tagsToAdd.push(val);
                         }
@@ -324,7 +324,7 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "./sakai.api.server.js", "/d
             $(currentTags).each(function(i,val) {
                 val = $.trim(val).replace(/#/g,"");
                 if (val && $.inArray(val,newTags) == -1) {
-                    if (sakai.api.Security.escapeHTML(val) === val && val.length) {
+                    if (sakai_security.escapeHTML(val) === val && val.length) {
                         if ($.inArray(val, tagsToDelete) < 0) {
                             tagsToDelete.push(val);
                         }
@@ -784,6 +784,18 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "./sakai.api.server.js", "/d
                 }
                 return 0;
            }
+        },
+
+        /**
+         * loadSkins
+         * Loads in any skins defined in sakai.config.skinCSS
+         */
+        loadSkinsFromConfig = function() {
+            if (sakai_conf.config.skinCSS && sakai.config.skinCSS.length) {
+                $(sakai_conf.config.skinCSS).each(function(i,val) {
+                    this.include.css(val);
+                });
+            }
         }
     };
 });

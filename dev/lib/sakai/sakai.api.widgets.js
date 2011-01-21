@@ -185,12 +185,12 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "./sakai.api.server.js", "./
          * Will be used for detecting widget declerations inside the page and load those
          * widgets into the page
          */
-        cssCache : {};
+        cssCache : {},
 
         /**
          * @name sakai.api.Widgets.widgetLoader
          */
-        this.widgetLoader : {
+        widgetLoader : {
 
             loaded : [],
             widgets : [],
