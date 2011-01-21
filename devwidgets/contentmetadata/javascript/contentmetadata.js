@@ -112,8 +112,6 @@ sakai.contentmetadata = function(tuid,showSettings){
             if ($(".contentmetadata_edit_input")[0] !== undefined) {
                 $(".contentmetadata_edit_input")[0].focus();
             }
-
-            //$(contentmetadataInputEdit).blur(editInputBlur);
         }
     };
 
