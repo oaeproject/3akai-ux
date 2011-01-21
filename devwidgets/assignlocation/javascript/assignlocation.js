@@ -210,7 +210,7 @@ sakai.assignlocation = function(tuid, showSettings) {
     
     var initTree = function(){
         // set up new jstree for directory
-        var pluginArray = ["themes", "json_data", "cookies", "dnd", "search", "checkbox"];
+        var pluginArray = ["themes", "json_data", "cookies", "search", "checkbox"];
         $assignlocationJSTreeContainer.jstree({
             "core": {
                 "animation": 0,

@@ -113,7 +113,7 @@ sakai.browsedirectory = function(tuid, showSettings){
         }
 
         // set up new jstree for directory 
-        var pluginArray = [ "themes", "json_data", "ui", "cookies", "dnd" ];
+        var pluginArray = [ "themes", "json_data", "ui", "cookies"];
         $browsedirectoryTree.jstree({
             "core": {
                 "animation": 0,
