@@ -432,7 +432,7 @@ sakai.sharecontent = function(tuid, showSettings) {
                 }
             });
             sharecontentEditPermissionsLink = $("#sharecontent_edit_permission");
-            sharecontentEditPermissionsLink.css("width", $(this).width() + 11);
+            sharecontentEditPermissionsLink.css("width", $(this).width() + 11 + "px");
             sharecontentEditPermissionsLink.css("left",$(this).position().left + 2 + "px");
             sharecontentEditPermissionsLink.css("top",$(this).position().top + 21 + "px");
             sharecontentEditPermissionsLink.toggle();
@@ -698,10 +698,13 @@ sakai.sharecontent = function(tuid, showSettings) {
         callback = callbackFn;
     });
 
-    $(document).bind("click", function(e){
-        if (!$(e.target).is(".sharecontent_edit_permission") && !$(e.target).is(sharecontentPermissionsLink)) {
-            if($(sharecontentEditPermissionsLink).is(":visible")){
-                $(sharecontentEditPermissionsLink).toggle();
+    $(document).bind("click", function(e) {
+        var $target = $(e.target);
+        if (!$target.hasClass("sharecontent_permission_link") &&
+            !$target.hasClass("s3d-button-link-2-state-inner") &&
+            !$target.hasClass("sharecontent_permission")) {
+            if($(sharecontentEditPermissionsLink).is(":visible")) {
+                $(sharecontentEditPermissionsLink).hide();
             }
         }
     });
