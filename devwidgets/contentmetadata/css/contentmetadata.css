@@ -15,41 +15,39 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
-#contentmetadata_description_container, #contentmetadata_tags_container, #contentmetadata_details_container, #contentmetadata_locations_container, #contentmetadata_copyright_container {padding: 0 10px;; background-color:#FFF; margin-bottom: 10px; width: 520px; float:right; font-weight:bold;}
-#contentmetadata_container h1 {color: #555555; font-size: 1.2em; font-weight: normal; float:left; margin:5px 0 0;}
-#contentmetadata_show_more {float:right; clear:both;}
-#contentmetadata_show_more_arrow {background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -128px -400px transparent; float: right; height: 5px; margin-top: 7px; width: 12px;}
-#contentmetadata_show_less_arrow {background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -218px -400px transparent; float: right; height: 5px; margin-top: 7px; width: 12px;}
-#contentmetadata_see_more {padding-right: 6px;}
-#contentmetadata_see_less {; padding-right: 6px;}
-.contentmetadata_first_column {display: block; float: left; width: 100px; font-weight:normal; margin-bottom:3px;}
-.contentmetadata_content_row {clear:both; float:left;}
-.contentmetadata_second_column {display:block; overflow:hidden;}
+#contentmetadata_description_container,#contentmetadata_tags_container,#contentmetadata_details_container,#contentmetadata_locations_container,#contentmetadata_copyright_container{padding:0 10px;background-color:#FFF;margin-bottom:10px;width:520px;float:right;font-weight:bold;}
+#contentmetadata_container h1{color:#555;font-size:1.2em;font-weight:normal;float:left;margin:5px 0 0;}
+#contentmetadata_show_more{float:right;clear:both;}
+#contentmetadata_show_more_arrow{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -128px -400px transparent;float:right;height:5px;margin-top:7px;width:12px;}
+#contentmetadata_show_less_arrow{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -218px -400px transparent;float:right;height:5px;margin-top:7px;width:12px;}
+#contentmetadata_see_more{padding-right:6px;}
+#contentmetadata_see_less{padding-right:6px;}
+.contentmetadata_first_column{display:block;float:left;width:100px;font-weight:normal;margin-bottom:3px;}
+.contentmetadata_content_row{clear:both;float:left;}
+.contentmetadata_second_column{display:block;overflow:hidden;}
 
 /* EDITABLE FIELDS */
-.contentmetadata_editable {padding:5px;}
-.contentmetadata_editable:hover {background-color:#fcecb2 !important; cursor:pointer;}
-.contentmetadata_editable:hover .s3d-highlight_area_background_darker1_white_content_tl {background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -10px -1157px transparent;}
-.contentmetadata_editable:hover .s3d-highlight_area_background_darker1_white_content_tinner {background: url("/dev/images/dashboard_sprite.png") no-repeat scroll right -1167px transparent;}
-.contentmetadata_editable:hover .s3d-highlight_area_background_darker1_white_content_bl {background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -10px -1177px transparent;}
-.contentmetadata_editable:hover .s3d-highlight_area_background_darker1_white_content_binner {background: url("/dev/images/dashboard_sprite.png") no-repeat scroll right -1187px transparent;}
-.contentmetadata_edit_input {width:100%; margin: 7px 0;}
-
-#contentmetadata_container ul { margin: 0; overflow: hidden;}
-#contentmetadata_container ul li {list-style: none outside none;}
-#contentmetadata_container {word-wrap: break-word; clear: both;}
-.threedots_text {width: 350px; display:block;}
-.contentmetadata_manager_edit {font-style: italic; font-weight: normal;}
+.contentmetadata_editable{padding:5px;}
+.contentmetadata_editable:hover{background-color:#fcecb2!important;cursor:pointer;}
+.contentmetadata_editable:hover .s3d-highlight_area_background_darker1_white_content_tl{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -1157px transparent;}
+.contentmetadata_editable:hover .s3d-highlight_area_background_darker1_white_content_tinner{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -1167px transparent;}
+.contentmetadata_editable:hover .s3d-highlight_area_background_darker1_white_content_bl{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -1177px transparent;}
+.contentmetadata_editable:hover .s3d-highlight_area_background_darker1_white_content_binner{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -1187px transparent;}
+.contentmetadata_edit_input{width:100%;margin:7px 0;}
+#contentmetadata_container ul{margin:0;overflow:hidden;}
+#contentmetadata_container ul li{list-style:none outside none;}
+#contentmetadata_container{word-wrap:break-word;clear:both;}
+.threedots_text{width:350px;display:block;}
+.contentmetadata_manager_edit{font-style:italic;font-weight:normal;}
 
 /* DIRECTORY */
-#contentmetadata_locations_dialog {width:750px; margin-left: -370px;}
-.contentmetadata_added_directory {clear:both;}
-.contentmetadata_location_content {float:left; margin:7px 0 0;}
-.contentmetadata_saved_seperator, .contentmetadata_select_seperator {padding:0 10px;}
-.contentmetadata_saved_seperator {float:left; margin-top: 7px;}
-#contentmetadata_locations_add_another{clear:both; float:left;}
-.contentmetadata_locations_dialog_actions {float:right;}
-.contentmetadata_locations_link {margin-bottom: 3px;}
-.contentmetadata_remove_location {float:right; margin-right:10px; height:16px;}
-.contentmetadata_remove_new_location {float: right; margin-right: 10px; margin-top: 9px;}
+#contentmetadata_locations_dialog{width:750px;margin-left:-370px;}
+.contentmetadata_added_directory{clear:both;}
+.contentmetadata_location_content{float:left;margin:7px 0 0;}
+.contentmetadata_saved_seperator,.contentmetadata_select_seperator{padding:0 10px;}
+.contentmetadata_saved_seperator{float:left;margin-top:7px;}
+#contentmetadata_locations_add_another{clear:both;float:left;}
+.contentmetadata_locations_dialog_actions{float:right;}
+.contentmetadata_locations_link{margin-bottom:3px;}
+.contentmetadata_remove_location{float:right;margin-right:10px;height:16px;}
+.contentmetadata_remove_new_location{float:right;margin-right:10px;margin-top:9px;}

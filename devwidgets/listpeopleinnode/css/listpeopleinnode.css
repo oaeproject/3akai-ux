@@ -17,13 +17,12 @@
  */
 
 /* Widget icon */
-.listpeopleinnode_widget.fl-widget .fl-widget-titlebar .widget_title {background: url('/dev/images/contacts_icon.png') 16px 16px no-repeat;}
+.listpeopleinnode_widget.fl-widget .fl-widget-titlebar .widget_title{background:url(/dev/images/contacts_icon.png) 16px 16px no-repeat;}
 
 /* Content */
-.listpeopleinnode_widget .s3d-widget-content {padding:0 !important;}
+.listpeopleinnode_widget .s3d-widget-content{padding:0!important;}
 .listpeopleinnode_widget .s3d-list-item{cursor:pointer;}
-#listpeopleinnode_no_people {padding:10px; line-height: 25px;}
-#listpeopleinnode_ajax_loader {background: url("/dev/images/ajax_load.gif") no-repeat scroll 8px 8px transparent; height: 18px; width: 87px;}
-
-.listpeopleinnode_ellipsis_container {word-wrap:break-word;}
-.listpeopleinnode_seeall {padding-right: 10px;}
+#listpeopleinnode_no_people{padding:10px;line-height:25px;}
+#listpeopleinnode_ajax_loader{background:url(/dev/images/ajax_load.gif) no-repeat scroll 8px 8px transparent;height:18px;width:87px;}
+.listpeopleinnode_ellipsis_container{word-wrap:break-word;}
+.listpeopleinnode_seeall{padding-right:10px;}

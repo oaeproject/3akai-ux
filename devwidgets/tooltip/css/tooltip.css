@@ -1,7 +1,7 @@
-#tooltip_widget { margin-left:-450px; width:200px !important; }
+#tooltip_widget{margin-left:-450px;width:200px!important;}
 
 /* Tooltips */
-.tooltip_dialog { width:200px; }
-.tooltip_bold {font-weight:bold;}
-#tooltip_widget #tooltip_description {margin-bottom:0; padding-bottom:10px;}
-#tooltip_close {background: url("/dev/images/tour_sprite.png") no-repeat scroll -389px -79px transparent; height: 16px; width: 16px;}
+.tooltip_dialog{width:200px;}
+.tooltip_bold{font-weight:bold;}
+#tooltip_widget #tooltip_description{margin-bottom:0;padding-bottom:10px;}
+#tooltip_close{background:url(/dev/images/tour_sprite.png) no-repeat scroll -389px -79px transparent;height:16px;width:16px;}

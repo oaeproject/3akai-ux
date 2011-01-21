@@ -16,22 +16,20 @@
  * specific language governing permissions and limitations under the License.
  */
 
-
-.mycontacts_widget #mycontacts_list {padding: 10px 20px 0px;}
+.mycontacts_widget #mycontacts_list{padding:10px 20px 0;}
 
 /* Friends list */
-.mycontacts_list_contact {float:left;height:80px; margin:5px 10px 0px 0px;overflow:hidden;padding:0 20px 5px 0;width:70px;}
-.mycontacts_list_contact .mycontacts_list_contact_picture {margin:0;padding:0;display: block;}
-.mycontacts_list_contact .mycontacts_list_contact_picture img {height:48px;width:48px;}
-.mycontacts_list_contact .mycontacts_list_contact_name {font-size:0.95em;}
+.mycontacts_list_contact{float:left;height:80px;margin:5px 10px 0 0;overflow:hidden;padding:0 20px 5px 0;width:70px;}
+.mycontacts_list_contact .mycontacts_list_contact_picture{margin:0;padding:0;display:block;}
+.mycontacts_list_contact .mycontacts_list_contact_picture img{height:48px;width:48px;}
+.mycontacts_list_contact .mycontacts_list_contact_name{font-size:.95em;}
 
 /* Contact requests */
-.mycontacts_requests {font-size:0.85em; color:#666; padding-left: 20px; }
+.mycontacts_requests{font-size:.85em;color:#666;padding-left:20px;}
 
 /* No contacts */
-.mycontacts_widget #mycontacts_nocontacts {font-size:0.95em; padding-bottom: 10px; display: block;}
+.mycontacts_widget #mycontacts_nocontacts{font-size:.95em;padding-bottom:10px;display:block;}
 
 /* Widget icon */
-.mycontacts.fl-widget .fl-widget-titlebar .widget_title_icon {background:url("/dev/images/icons_sprite.png") no-repeat scroll -180px -21px transparent;}
-
-#mycontacts_requests {padding-left:0px;}
+.mycontacts.fl-widget .fl-widget-titlebar .widget_title_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -180px -21px transparent;}
+#mycontacts_requests{padding-left:0;}

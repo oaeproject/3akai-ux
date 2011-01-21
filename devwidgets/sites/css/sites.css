@@ -16,8 +16,6 @@
  * specific language governing permissions and limitations under the License.
  */
 
-.sites_error {font-size:0.95em; padding:10px 20px !important;}
-
-#createsitecontainer, createsitecontainer>div {width:100%;}
-
-.my_course_sites_widget .fl-widget-content ul li {list-style: none; padding: 5px 5px 5px 40px; margin: 0; border-bottom: 1px solid #CCC; background: url('/dev/images/folder_icon.png') 11px 5px no-repeat; display:block;}
+.sites_error{font-size:.95em;padding:10px 20px!important;}
+#createsitecontainer,createsitecontainer>div{width:100%;}
+.my_course_sites_widget .fl-widget-content ul li{list-style:none;padding:5px 5px 5px 40px;margin:0;border-bottom:1px solid #CCC;background:url(/dev/images/folder_icon.png) 11px 5px no-repeat;display:block;}
