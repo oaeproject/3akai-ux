@@ -407,7 +407,7 @@ sakai.inbox = function() {
 
                 // title , groupid from pickeruser
                 if (key) {
-                    response.results[j].subject = sakai.api.Security.escapeHTML(sakai.api.i18n.General.getValueForKey(key) + " " + comment);
+                    response.results[j].subject = sakai.api.Security.escapeHTML(key + " " + comment);
                 // just title with ${user} add to contacts
                 }
                 else if(sakai.api.i18n.General.getValueForKey(response.results[j]["sakai:subject"])){
@@ -760,7 +760,7 @@ sakai.inbox = function() {
                     comment = messageSubject.substr(messageSubject.lastIndexOf(",")+1,messageSubject.length);
                     // title , groupid from pickeruser
                     if (key) {
-                        message["sakai:subject"] = sakai.api.Security.escapeHTML(sakai.api.i18n.General.getValueForKey(key)+" "+comment);
+                        message["sakai:subject"] = sakai.api.Security.escapeHTML(key+" "+comment);
                         // just title with ${user} add to contacts
                     } else if (sakai.api.i18n.General.getValueForKey(message["sakai:subject"])){
                         message["sakai:subject"] = sakai.api.Security.escapeHTML(sakai.api.i18n.General.getValueForKey(message["sakai:subject"]).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(message.userFrom[0])));
