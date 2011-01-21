@@ -28,7 +28,7 @@
  * @namespace
  * Widget related convenience functions
  */
-define(["/dev/lib/jquery/requireplugins-jquery.js", "./sakai.api.server.js", "./sakai.api.util.js"], function($, sakai_serv, sakai_util) {
+define(["/dev/lib/jquery/requireplugins-jquery.js", "./sakai.api.server.js", "./sakai.api.util.js", "./sakai.api.i18n.js"], function($, sakai_serv, sakai_util, sakai_i18n) {
     return {
 
         /**
@@ -124,7 +124,8 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "./sakai.api.server.js", "./
             },
 
             performLoad : function() {
-                for (var i = 0, il = this.Container.toLoad.length; i<il; i++){
+                var i;
+                for (i = 0, il = this.Container.toLoad.length; i<il; i++){
                     var fct = window["sakai"][this.Container.toLoad[i]];
                     if ($.isFunction(fct)) {
                         fct();
@@ -436,7 +437,7 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "./sakai.api.server.js", "./
                                                 lastend = expression.lastIndex;
                                             }
                                             else {
-                                                toreplace = quotes + sakai.api.i18n.Widgets.getValueForKey(widgetName, current_locale_string, lastParen) + quotes;
+                                                toreplace = quotes + sakai_i18n.Widgets.getValueForKey(widgetName, current_locale_string, lastParen) + quotes;
                                                 translated_content += requestedURLsResults[i].body.substring(lastend, expression.lastIndex - replace.length) + toreplace;
                                                 lastend = expression.lastIndex;
                                             }
@@ -444,7 +445,7 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "./sakai.api.server.js", "./
                                         translated_content += requestedURLsResults[i].body.substring(lastend);
                                     }
                                     else {
-                                        translated_content = sakai.api.i18n.General.process(requestedURLsResults[i].body, sakai.data.i18n.localBundle, sakai.data.i18n.defaultBundle);
+                                        translated_content = sakai_i18n.General.process(requestedURLsResults[i].body, sakai.data.i18n.localBundle, sakai.data.i18n.defaultBundle);
                                     }
                                     var ss = sethtmlover(translated_content, widgets, widgetName);
                                     for (var s = 0; s < ss.length; s++) {

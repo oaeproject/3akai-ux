@@ -30,7 +30,7 @@
  * @namespace
  * Security and authorisation related functionality
  */
-define(["/dev/lib/jquery/requireplugins-jquery.js", "/dev/configuration/config.js", "./sakai.api.util.js"], function($, sakai_conf, sakai_util) {
+define(["/dev/lib/jquery/requireplugins-jquery.js", "/dev/configuration/config.js", "./sakai.api.util.js", "./sakai.api.i18n.js"], function($, sakai_conf, sakai_util, sakai_i18n) {
     return {
 
         /**
@@ -260,9 +260,9 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "/dev/configuration/config.j
             }
             sakai_util.loadSkinsFromConfig();
             // Put the title inside the page
-            var pageTitle = sakai.api.i18n.General.getValueForKey(sakai_conf.config.PageTitles.prefix);
+            var pageTitle = sakai_i18n.General.getValueForKey(sakai_conf.config.PageTitles.prefix);
             if (sakai_conf.config.PageTitles.pages[window.location.pathname]){
-                pageTitle += sakai.api.i18n.General.getValueForKey(sakai_conf.config.PageTitles.pages[window.location.pathname]);
+                pageTitle += sakai_i18n.General.getValueForKey(sakai_conf.config.PageTitles.pages[window.location.pathname]);
             }
             document.title = pageTitle;
             // Show the actual page content
