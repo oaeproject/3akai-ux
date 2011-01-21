@@ -113,7 +113,7 @@ sakai.contentmetadata = function(tuid,showSettings){
                 $(".contentmetadata_edit_input")[0].focus();
             }
 
-            $(contentmetadataInputEdit).blur(editInputBlur);
+            //$(contentmetadataInputEdit).blur(editInputBlur);
         }
     };
 
@@ -122,27 +122,18 @@ sakai.contentmetadata = function(tuid,showSettings){
      * @param {String|Boolean} mode Can be false or 'edit' depending on the mode you want to be in
      */
     var renderDescription = function(mode){
-        if (mode) {
-            sakai.content_profile.content_data.mode = mode;
-        } else {
-            // once the field has been updated the mode is edit so need to reset that
-            sakai.content_profile.content_data.mode = false;
-        }
         $contentmetadataDescriptionContainer.html($.TemplateRenderer(contentmetadataDescriptionTemplate, sakai.content_profile.content_data));
         addEditBinding(mode);
     };
 
     var renderName = function(mode){
-        if (mode) {
-            sakai.content_profile.content_data.mode = mode;
-        }
         if (mode === "edit"){
             $("#contentmetadata_name_name").hide();
             $("#contentmetadata_name_text").val($.trim($("#contentmetadata_name_name").text()));
             $("#contentmetadata_name_edit").show(); 
             $("#contentmetadata_name_text").focus(); 
         }
-        $("#contentmetadata_name_text").die("blur");
+        $("#contentmetadata_name_text").unbind("blur");
         $("#contentmetadata_name_text").bind("blur", function(){
             $("#contentmetadata_name_edit").hide();
             $("#contentmetadata_name_name").text($("#contentmetadata_name_text").val());
@@ -155,6 +146,8 @@ sakai.contentmetadata = function(tuid,showSettings){
                     "sakai:pooled-content-file-name":sakai.api.Security.escapeHTML($("#contentmetadata_name_text").val())
                 }, success: function(){
                     sakai.content_profile.content_data.data["sakai:pooled-content-file-name"] = sakai.api.Security.escapeHTML($("#contentmetadata_name_text").val());
+                    // bind event again after saving the data
+                    $(".contentmetadata_editable").live("click", editData);
                 }
             });
         });
@@ -165,7 +158,6 @@ sakai.contentmetadata = function(tuid,showSettings){
      * @param {String|Boolean} mode Can be false or 'edit' depending on the mode you want to be in
      */
     var renderTags = function(mode){
-        sakai.content_profile.content_data.mode = mode;
         $contentmetadataTagsContainer.html($.TemplateRenderer(contentmetadataTagsTemplate, sakai.content_profile.content_data));
         addEditBinding(mode);
     };
@@ -175,7 +167,6 @@ sakai.contentmetadata = function(tuid,showSettings){
      * @param {String|Boolean} mode Can be false or 'edit' depending on the mode you want to be in
      */
     var renderCopyright = function(mode){
-        sakai.content_profile.content_data.mode = mode;
         $contentmetadataCopyrightContainer.html($.TemplateRenderer(contentmetadataCopyrightTemplate, sakai.content_profile.content_data));
         addEditBinding(mode);
     };
@@ -185,7 +176,6 @@ sakai.contentmetadata = function(tuid,showSettings){
      * @param {String|Boolean} mode Can be false or 'edit' depending on the mode you want to be in
      */
     var renderDetails = function(mode){
-        sakai.content_profile.content_data.mode = mode;
         $contentmetadataDetailsContainer.html($.TemplateRenderer(contentmetadataDetailsTemplate, sakai.content_profile.content_data));
         addEditBinding(mode);
     };
@@ -214,10 +204,11 @@ sakai.contentmetadata = function(tuid,showSettings){
         }
         else {
             $contentmetadataLocationsContainer.html("");
-            sakai.content_profile.content_data.mode = mode;
             $contentmetadataLocationsContainer.html($.TemplateRenderer(contentmetadataLocationsTemplate, sakai.content_profile.content_data));
             applyThreeDots();
         }
+        // bind event again after saving the data
+        $(".contentmetadata_editable").live("click", editData);
     };
 
     ////////////////////////
@@ -232,7 +223,7 @@ sakai.contentmetadata = function(tuid,showSettings){
                 tags.push(tag);
             }
         });
-
+        
         sakai.api.Util.tagEntity("/p/" + sakai.content_profile.content_data.data["jcr:name"], tags, sakai.content_profile.content_data.data["sakai:tags"], function(){
             sakai.content_profile.content_data.data["sakai:tags"] = tags;
             renderTags(false);
@@ -245,15 +236,16 @@ sakai.contentmetadata = function(tuid,showSettings){
      * Update the description of the content
      */
     var updateDescription = function(){
+        var description = $("#contentmetadata_description_description").val();
+        sakai.content_profile.content_data.data["sakai:description"] = description;
+        renderDescription(false);
         $.ajax({
             url: "/p/" + sakai.content_profile.content_data.data["jcr:name"] + ".html",
             type : "POST",
             cache: false,
             data: {
-                "sakai:description":sakai.api.Security.escapeHTML($("#contentmetadata_description_description").val())
+                "sakai:description":sakai.api.Security.escapeHTML(description)
             }, success: function(){
-                sakai.content_profile.content_data.data["sakai:description"] = $("#contentmetadata_description_description").val();
-                renderDescription(false);
                 // Create an activity
                 createActivity("__MSG__UPDATED_DESCRIPTION__");
             }
@@ -264,15 +256,16 @@ sakai.contentmetadata = function(tuid,showSettings){
      * Update the copyright of the content
      */
     var updateCopyright = function(){
+        var copyright = $("#contentmetadata_copyright_copyright").val();
+        sakai.content_profile.content_data.data["sakai:copyright"] = copyright;
+        renderCopyright(false);
         $.ajax({
             url: "/p/" + sakai.content_profile.content_data.data["jcr:name"] + ".html",
             type : "POST",
             cache: false,
             data: {
-                "sakai:copyright":$("#contentmetadata_copyright_copyright").val()
+                "sakai:copyright":copyright
             }, success: function(){
-                sakai.content_profile.content_data.data["sakai:copyright"] = $("#contentmetadata_copyright_copyright").val();
-                renderCopyright(false);
                 // Create an activity
                 createActivity("__MSG__UPDATED_COPYRIGHT__");
             }
@@ -292,25 +285,27 @@ sakai.contentmetadata = function(tuid,showSettings){
             if (target[0] !== undefined) {
                 editTarget = target;
                 dataToEdit = editTarget[0].id.split("_")[1];
-
+                var mode = "edit";
+                sakai.content_profile.content_data.mode = mode;
                 switch (dataToEdit){
                     case "description":
-                        renderDescription("edit");
+                        renderDescription(mode);
                         break;
                     case "tags":
-                        renderTags("edit");
+                        renderTags(mode);
                         break;
                     case "locations":
-                        renderLocations("edit");
+                        renderLocations(mode);
                         break;
                     case "copyright":
-                        renderCopyright("edit");
+                        renderCopyright(mode);
                         break;
                     case "name":
-                        renderName("edit");
+                        renderName(mode);
                         break;
                 }
             }
+            
         }
     };
 
@@ -318,8 +313,9 @@ sakai.contentmetadata = function(tuid,showSettings){
      * Handle losing of focus on an input element
      * @param {Object} el Element that lost the focus
      */
-    var editInputBlur = function(el){
-        edittingElement = $(el.target)[0].id.split("_")[2];
+    var editInputBlur = function(ev){
+        edittingElement = $(ev.target)[0].id.split("_")[2];
+        sakai.content_profile.content_data.mode = false;
         switch (edittingElement){
             case "description":
                 updateDescription();
@@ -414,10 +410,15 @@ sakai.contentmetadata = function(tuid,showSettings){
     });
 
     // Bind Enter key to input fields to save on keyup
-    $("input").bind("keyup", function(ev){
+    $("input .content_metadata_input").die("keyup");
+    $("input .content_metadata_input").live("keyup", function(ev){
         if(ev.keyCode == 13){
             $(this).blur();
         }
+    });
+    $(".contentmetadata_edit_input").die("blur");
+    $(".contentmetadata_edit_input").live("blur", function(ev){
+        editInputBlur(ev); 
     });
 
     /**
