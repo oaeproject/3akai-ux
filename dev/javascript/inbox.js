@@ -753,7 +753,9 @@ sakai.inbox = function() {
 
             if (message.userFrom) {
                 for (var i = 0, j = message.userFrom.length; i < j; i++) {
+                    // in chat message message subject is in subject not in sakai:subject
                     var messageSubject = message["sakai:subject"];
+                    messageSubject = (messageSubject) ? messageSubject : message["subject"];
                     key = messageSubject.substr(0,messageSubject.lastIndexOf(","));
                     comment = messageSubject.substr(messageSubject.lastIndexOf(",")+1,messageSubject.length);
                     // title , groupid from pickeruser
