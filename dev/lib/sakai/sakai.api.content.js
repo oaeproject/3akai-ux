@@ -18,7 +18,7 @@
  *
  */
 
-define(["/dev/configuration/config"],function(sakai_conf) {
+define(["/dev/configuration/config.js"],function(sakai_conf) {
     return {
         /**
          * Set the permissions for an array of uploaded files or links
@@ -30,100 +30,101 @@ define(["/dev/configuration/config"],function(sakai_conf) {
         setFilePermissions : function(permissionValue, filesArray, callback, groupID){
             // Check which value was selected and fill in the data object accordingly
             var data = [];
+            var file;
             for (file in filesArray) {
                 if (filesArray.hasOwnProperty(file)) {
                     var contentPath = "/p/" + filesArray[file].hashpath;
                     var item;
                     switch (permissionValue) {
-                        // Logged in only
-                        case "everyone":
-                            item = {
-                                "url": contentPath + ".members.html",
-                                "method": "POST",
-                                "parameters": {
-                                    ":viewer": "everyone",
-                                    ":viewer@Delete": "anonymous"
-                                }
-                            };
-                            data[data.length] = item;
-                            item = {
-                                "url": contentPath + ".modifyAce.html",
-                                "method": "POST",
-                                "parameters": {
-                                    "principalId": "everyone",
-                                    "privilege@jcr:read": "granted"
-                                }
-                            };
-                            data[data.length] = item;
-                            item = {
-                                "url": contentPath + ".modifyAce.html",
-                                "method": "POST",
-                                "parameters": {
-                                    "principalId": "anonymous",
-                                    "privilege@jcr:read": "denied"
-                                }
-                            };
-                            data[data.length] = item;
-                            break;
-                        // Public
-                        case "public":
-                            item = {
-                                "url": contentPath + ".members.html",
-                                "method": "POST",
-                                "parameters": {
-                                    ":viewer": ["everyone", "anonymous"]
-                                }
-                            };
-                            data[data.length] = item;
-                            item = {
-                                "url": contentPath + ".modifyAce.html",
-                                "method": "POST",
-                                "parameters": {
-                                    "principalId": ["everyone", "anonymous"],
-                                    "privilege@jcr:read": "granted"
-                                }
-                            };
-                            data[data.length] = item;
-                            break;
-                        // Managers and viewers only
-                        case "private":
-                            item = {
-                                "url": contentPath + ".members.html",
-                                "method": "POST",
-                                "parameters": {
-                                    ":viewer@Delete": ["anonymous", "everyone"]
-                                }
-                            };
-                            data[data.length] = item;
-                            item = {
-                                "url": contentPath + ".modifyAce.html",
-                                "method": "POST",
-                                "parameters": {
-                                    "principalId": ["everyone", "anonymous"],
-                                    "privilege@jcr:read": "denied"
-                                }
-                            };
-                            data[data.length] = item;
-                            break;
-                        case "group":
-                            item = {
-                                "url": contentPath + ".members.html",
-                                "method": "POST",
-                                "parameters": {
-                                    ":viewer": groupID
-                                }
-                            };
-                            data[data.length] = item;
-                            item = {
-                                "url": contentPath + ".modifyAce.html",
-                                "method": "POST",
-                                "parameters": {
-                                    "principalId": ["everyone", "anonymous"],
-                                    "privilege@jcr:read": "denied"
-                                }
-                            };
-                            data[data.length] = item;
-                            break;
+                    // Logged in only
+                    case "everyone":
+                        item = {
+                            "url": contentPath + ".members.html",
+                            "method": "POST",
+                            "parameters": {
+                                ":viewer": "everyone",
+                                ":viewer@Delete": "anonymous"
+                            }
+                        };
+                        data[data.length] = item;
+                        item = {
+                            "url": contentPath + ".modifyAce.html",
+                            "method": "POST",
+                            "parameters": {
+                                "principalId": "everyone",
+                                "privilege@jcr:read": "granted"
+                            }
+                        };
+                        data[data.length] = item;
+                        item = {
+                            "url": contentPath + ".modifyAce.html",
+                            "method": "POST",
+                            "parameters": {
+                                "principalId": "anonymous",
+                                "privilege@jcr:read": "denied"
+                            }
+                        };
+                        data[data.length] = item;
+                        break;
+                    // Public
+                    case "public":
+                        item = {
+                            "url": contentPath + ".members.html",
+                            "method": "POST",
+                            "parameters": {
+                                ":viewer": ["everyone", "anonymous"]
+                            }
+                        };
+                        data[data.length] = item;
+                        item = {
+                            "url": contentPath + ".modifyAce.html",
+                            "method": "POST",
+                            "parameters": {
+                                "principalId": ["everyone", "anonymous"],
+                                "privilege@jcr:read": "granted"
+                            }
+                        };
+                        data[data.length] = item;
+                        break;
+                    // Managers and viewers only
+                    case "private":
+                        item = {
+                            "url": contentPath + ".members.html",
+                            "method": "POST",
+                            "parameters": {
+                                ":viewer@Delete": ["anonymous", "everyone"]
+                            }
+                        };
+                        data[data.length] = item;
+                        item = {
+                            "url": contentPath + ".modifyAce.html",
+                            "method": "POST",
+                            "parameters": {
+                                "principalId": ["everyone", "anonymous"],
+                                "privilege@jcr:read": "denied"
+                            }
+                        };
+                        data[data.length] = item;
+                        break;
+                    case "group":
+                        item = {
+                            "url": contentPath + ".members.html",
+                            "method": "POST",
+                            "parameters": {
+                                ":viewer": groupID
+                            }
+                        };
+                        data[data.length] = item;
+                        item = {
+                            "url": contentPath + ".modifyAce.html",
+                            "method": "POST",
+                            "parameters": {
+                                "principalId": ["everyone", "anonymous"],
+                                "privilege@jcr:read": "denied"
+                            }
+                        };
+                        data[data.length] = item;
+                        break;
                     }
                 }
             }

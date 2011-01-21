@@ -586,7 +586,7 @@ define(function() {
                 "application/vnd.oasis.opendocument.text": {
                     cssClass: "icon-doc-sprite",
                     URL: "/dev/images/mimetypes/doc.png",
-                    description: "Open Office document"
+                    description: "OPEN_OFFICE_DOCUMENT"
                 },
                 "application/vnd.openxmlformats-officedocument.wordprocessingml.document": {
                     cssClass: "icon-doc-sprite",
@@ -612,10 +612,6 @@ define(function() {
                     cssClass: "icon-pps-sprite",
                     URL: "/dev/images/mimetypes/pps.png",
                     description: "POWERPOINT_DOCUMENT"
-                },
-                "application/vnd.oasis.opendocument.text": {
-                    URL: "/dev/images/mimetypes/doc.png",
-                    description: "OPEN_OFFICE_DOCUMENT"
                 },
                 "application/x-shockwave-flash": {
                     cssClass: "icon-swf-sprite",
@@ -1838,6 +1834,6 @@ define(function() {
             defaultGroupTemplate: "defaultgroup",
 
             widgets: {}
-        };
-    }
+        }
+    };
 });

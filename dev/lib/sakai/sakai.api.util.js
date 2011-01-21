@@ -29,7 +29,7 @@
  * @namespace
  * General utility functions
  */
-define(function() {
+define(["/dev/lib/jquery/requireplugins-jquery.js", "./sakai.api.server.js", "/dev/configuration/config.js"],function($, sakai_serv, sakai_conf) {
     return {
 
         /**
@@ -84,7 +84,7 @@ define(function() {
             if (format > 2) { str += "-" + zeropad(date.getUTCDate()); }
             if (format > 3) {
                 str += "T" + zeropad(date.getUTCHours()) +
-                       ":" + zeropad(date.getUTCMinutes());
+                    ":" + zeropad(date.getUTCMinutes());
             }
             if (format > 4) { str += ":" + zeropad(date.getUTCSeconds()); }
             if (format > 3) { str += offset; }
@@ -103,13 +103,14 @@ define(function() {
          */
 
         convertToHumanReadableFileSize : function(filesize) {
+            var i;
             if (filesize.indexOf("binary-length:") > -1) {
                 filesize = filesize.replace("binary-length:", "");
             }
             // Divide the length into its largest unit
             var units = [[1024 * 1024 * 1024, 'GB'], [1024 * 1024, 'MB'], [1024, 'KB'], [1, 'bytes']];
             var lengthunits;
-            for (var i = 0, j=units.length; i < j; i++) {
+            for (i = 0, j=units.length; i < j; i++) {
 
                 var unitsize = units[i][0];
                 var unittext = units[i][1];
@@ -146,8 +147,7 @@ define(function() {
                     }
                 });
                 return tags;
-            }
-            else {
+            } else {
                 return [];
             }
         },
@@ -163,11 +163,12 @@ define(function() {
          * @return {Array} Array of formatted tags
          */
         formatTagsExcludeLocation : function(input){
-            var inputTags = sakai.api.Util.formatTags(input);
+            var item;
+            var inputTags = this.formatTags(input);
             if (inputTags.length) {
                 var tags = [];
-                for (var item in inputTags){
-                    if (inputTags[item].split("/")[0] != "directory") {
+                for (item in inputTags){
+                    if (inputTags[item].split("/")[0] !== "directory") {
                         tags.push(inputTags[item]);
                     }
                 }
@@ -187,11 +188,12 @@ define(function() {
          * @return {Array} Array of formatted tags
          */
         getDirectoryTags : function(input){
-            var inputTags = sakai.api.Util.formatTags(input);
+            var item;
+            var inputTags = this.formatTags(input);
             if (inputTags.length) {
                 var tags = [];
-                for (var item in inputTags){
-                    if (inputTags.hasOwnProperty(item) && inputTags[item] && inputTags[item].split("/")[0] == "directory") {
+                for (item in inputTags){
+                    if (inputTags.hasOwnProperty(item) && inputTags[item] && inputTags[item].split("/")[0] === "directory") {
                         tags.push(inputTags[item].split("directory/")[1].split("/"));
                     }
                 }
@@ -229,7 +231,7 @@ define(function() {
                             }
                         });
                     });
-                    sakai.api.Server.batch($.toJSON(requests), function(success, data) {
+                    sakai_serv.batch($.toJSON(requests), function(success, data) {
                         if (success) {
                             doSetTags(tags);
                         } else {
@@ -258,7 +260,7 @@ define(function() {
                             }
                         });
                     });
-                    sakai.api.Server.batch($.toJSON(requests), function(success, data) {
+                    sakai_serv.batch($.toJSON(requests), function(success, data) {
                         if (success) {
                             if ($.isFunction(callback)) {
                                 callback();
@@ -291,7 +293,7 @@ define(function() {
                             }
                         });
                     });
-                    sakai.api.Server.batch($.toJSON(requests), function(success, data) {
+                    sakai_serv.batch($.toJSON(requests), function(success, data) {
                         if (!success) {
                             debug.error(val + " tag failed to be removed from " + tagLocation);
                         }
@@ -311,7 +313,7 @@ define(function() {
             // determine which tags to add and which to delete
             $(newTags).each(function(i,val) {
                 val = $.trim(val).replace(/#/g,"");
-                if (val && $.inArray(val,currentTags) == -1) {
+                if (val && $.inArray(val,currentTags) === -1) {
                     if (sakai.api.Security.escapeHTML(val) === val && val.length) {
                         if ($.inArray(val, tagsToAdd) < 0) {
                             tagsToAdd.push(val);
@@ -383,7 +385,7 @@ define(function() {
                 }
 
                 // Set the notification type
-                var notification = type || sakai.api.Util.notification.type.INFORMATION;
+                var notification = type || this.notification.type.INFORMATION;
 
                 // Set the title and text
                 notification.title = title;
@@ -422,12 +424,12 @@ define(function() {
                 /**
                  * Object containing settings for the information notification type
                  */
-                INFORMATION : $.extend(true, {}, sakai.config.notification.type.INFORMATION);
+                INFORMATION : $.extend(true, {}, sakai_conf.config.notification.type.INFORMATION),
 
                 /**
                  * Object containing settings for the error notification type
                  */
-                ERROR : $.extend(true, {}, sakai.config.notification.type.ERROR);
+                ERROR : $.extend(true, {}, sakai_conf.config.notification.type.ERROR)
                 }
         },
 
@@ -646,8 +648,7 @@ define(function() {
         },
 
 
-        (function($){
-            sakai.api.Util.include = {};
+        include : {
             /**
              * Generic function that will insert an HTML tag into the head of the document. This
              * will be used to both insert CSS and JS files
@@ -699,7 +700,7 @@ define(function() {
              * Load a JavaScript file into the document
              * @param {String} URL of the JavaScript file relative to the parent dom.
              */
-            sakai.api.Util.include.js = function(url) {
+            this.include.js = function(url) {
                 var attributes = {"src": url, "type": "text/javascript"};
                 var existingScript = checkForTag("script", attributes);
                 if (existingScript) {
@@ -709,13 +710,13 @@ define(function() {
                     existingScript.remove();
                 }
                 insertTag("script", {"src" : url, "type" : "text/javascript"});
-            };
+            },
 
             /**
              * Load a CSS file into the document
              * @param {String} URL of the CSS file relative to the parent dom.
              */
-            sakai.api.Util.include.css = function(url) {
+            this.include.css = function(url) {
                 var attributes = {"href" : url, "type" : "text/css", "rel" : "stylesheet"};
                 var existingStylesheet = checkForTag("link", attributes);
                 // if the stylesheet already exists, don't add it again
@@ -724,7 +725,7 @@ define(function() {
                 }
             };
 
-        })(jQuery);
+        },
 
         /**
          * @class Sorting

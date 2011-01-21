@@ -29,7 +29,7 @@
  * @namespace
  * Group related convenience functions
  */
-define(["/dev/configuration/conf", "./sakai.api.server", "./sakai.api.user"], function(sakai_conf, sakai_serv, sakai_user){
+define(["/dev/lib/jquery/requireplugins-jquery.js", "/dev/configuration/conf.js", "./sakai.api.server.js", "./sakai.api.user.js"], function($, sakai_conf, sakai_serv, sakai_user){
     return {
         /**
          * Get the data for the specified group
@@ -57,7 +57,7 @@ define(["/dev/configuration/conf", "./sakai.api.server", "./sakai.api.user"], fu
                     }
                 }
             });
-        };
+        },
 
         /**
          * Create a group
@@ -94,7 +94,7 @@ define(["/dev/configuration/conf", "./sakai.api.server", "./sakai.api.user"], fu
              * @param {Function} callback the callback function for when the group save is complete. It will pass
              *                            two params, success {Boolean} and nameTaken {Boolean}
             */
-            var saveGroup = function(groupid, grouptitle, groupdescription, callback){
+            saveGroup = function(groupid, grouptitle, groupdescription, callback){
                 $.ajax({
                     url: sakai_conf.config.URL.GROUP_CREATE_SERVICE,
                     data: {
@@ -110,7 +110,7 @@ define(["/dev/configuration/conf", "./sakai.api.server", "./sakai.api.user"], fu
                     type: "POST",
                     success: function(data, textStatus) {
                         // set default permissions for this group
-                        sakai.api.Groups.setPermissions(groupid,
+                        this.setPermissions(groupid,
                             sakai_conf.config.Permissions.Groups.joinable.manager_add,
                             sakai_conf.config.Permissions.Groups.visible["public"],
                             function (success, errorMessage) {
@@ -144,7 +144,7 @@ define(["/dev/configuration/conf", "./sakai.api.server", "./sakai.api.user"], fu
                     callback(false, true);
                 }
             }
-        };
+        },
 
         /**
          * Update group basic information
@@ -176,7 +176,7 @@ define(["/dev/configuration/conf", "./sakai.api.server", "./sakai.api.user"], fu
                     }
                 }
             });
-        };
+        },
 
         /**
          * Update group profile
@@ -192,7 +192,7 @@ define(["/dev/configuration/conf", "./sakai.api.server", "./sakai.api.user"], fu
                     callback(success);
                 }
             });
-        };
+        },
 
 
         /**
@@ -354,7 +354,7 @@ define(["/dev/configuration/conf", "./sakai.api.server", "./sakai.api.user"], fu
                     callback(false);
                 }
             }
-        };
+        },
 
 
         /**
@@ -375,7 +375,7 @@ define(["/dev/configuration/conf", "./sakai.api.server", "./sakai.api.user"], fu
             } else {
                 return false;
             }
-        };
+        },
 
 
         /**
@@ -397,7 +397,7 @@ define(["/dev/configuration/conf", "./sakai.api.server", "./sakai.api.user"], fu
             } else {
                 return false;
             }
-        };
+        },
 
         /**
          * Creates a join request for the given user for the specified group
@@ -432,7 +432,7 @@ define(["/dev/configuration/conf", "./sakai.api.server", "./sakai.api.user"], fu
                     callback(false);
                 }
             }
-        };
+        },
 
         /**
          * Removes a join request for the given user for the specified group
@@ -470,7 +470,7 @@ define(["/dev/configuration/conf", "./sakai.api.server", "./sakai.api.user"], fu
                     callback(false);
                 }
             }
-        };
+        },
 
         /**
          * Returns all join requests for the specified group
@@ -510,7 +510,7 @@ define(["/dev/configuration/conf", "./sakai.api.server", "./sakai.api.user"], fu
                     callback(false);
                 }
             }
-        };
+        },
 
         /**
          * Returns all the users who are member of a certain group
@@ -534,7 +534,7 @@ define(["/dev/configuration/conf", "./sakai.api.server", "./sakai.api.user"], fu
                     }
                 }
             });
-        };
+        },
 
         /**
          * Returns all the users who are managers of a certain group
@@ -558,7 +558,7 @@ define(["/dev/configuration/conf", "./sakai.api.server", "./sakai.api.user"], fu
                     }
                 }
             });
-        };
+        },
 
         /**
          * Add users to the specified group
@@ -599,7 +599,7 @@ define(["/dev/configuration/conf", "./sakai.api.server", "./sakai.api.user"], fu
                     }
                 });
             }
-        };
+        },
 
         /**
          * Add content items to the specified group
@@ -632,7 +632,7 @@ define(["/dev/configuration/conf", "./sakai.api.server", "./sakai.api.user"], fu
                     }
                 });
             }
-        };
+        },
 
         /**
          * Remove users from the specified group
@@ -671,7 +671,7 @@ define(["/dev/configuration/conf", "./sakai.api.server", "./sakai.api.user"], fu
                     }
                 });
             }
-        };
+        },
 
         /**
          * Add users to the specified group
@@ -706,6 +706,6 @@ define(["/dev/configuration/conf", "./sakai.api.server", "./sakai.api.user"], fu
                     }
                 });
             }
-        };
+        }
     };
 });

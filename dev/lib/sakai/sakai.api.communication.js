@@ -30,7 +30,7 @@
  * @namespace
  * Communication related convenience functions
  */
-define(["./sakai.api.user"], function(sakai_user) {
+define(["./sakai.api.user.js"], function(sakai_user) {
     return {
         /**
          * Sends a Sakai message to one or more users. If a group id is received, the
