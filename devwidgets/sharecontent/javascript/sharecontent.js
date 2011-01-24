@@ -639,6 +639,16 @@ sakai.sharecontent = function(tuid, showSettings) {
           $(sharecontent_dont_share_button).show();
       });
       $("input#" + tuid).val('').focus();
+
+      // display help tooltip
+      var tooltipData = {
+          "tooltipSelector":sharecontentNewMembersPermissions,
+          "tooltipTitle":"TOOLTIP_SHARE_CONTENT",
+          "tooltipDescription":"TOOLTIP_SHARE_CONTENT_P5",
+          "tooltipArrow":"bottom",
+          "tooltipLeft":25
+      };
+      $(window).trigger("sakai-tooltip-update", tooltipData);
     };
 
     ////////////
