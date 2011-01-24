@@ -18,26 +18,18 @@
 
 
 /*global Querystring, Config, $,  set_cookie */
-require(["jquery","/dev/lib/sakai/sakai.api.core.js"], function($, sakai) {
-    console.log("here", sakai);
-    if (sakai.config.anonAllowed){
-        $("#login_right_col").show();
-    }
+require(["/dev/javascript/dependencies.js"], function(){
+    require.ready(function() {
+        debug.log("page.js");
 
-    $(window).bind("sakai-login-ready", function(e) {
-        $(window).trigger("sakai-login-render", true);
+        var sakai = sakai || {};
+
+        sakai.requirejs = function(){
+
+            sakai.api.requireJs();
+
+        };
+
+        sakai.api.Widgets.Container.registerForLoad("sakai.requirejs");
     });
-
-    //////////
-    // Chat //
-    //////////
-
-    /*
-     * The chat bar keeps a cookie during your session that remembers which
-     * chat windows were open or active, so that state can be restored across
-     * all of the pages. When we have reached this page, it means that our
-     * session has ended and we can remove this cookie.
-     */
-    $.cookie('sakai_chat','');
-
 });

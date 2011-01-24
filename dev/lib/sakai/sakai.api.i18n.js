@@ -30,7 +30,12 @@
  * @namespace
  * Internationalisation
  */
-define(["/dev/lib/jquery/requireplugins-jquery.js", "/dev/configuration/conf.js", "./sakai.api.security.js", "./sakai.api.server.js", "./sakai.api.widgets.js", "./sakai.api.user.js"], function($, sakai_config, sakai_security, sakai_serv, sakai_widgets, sakai_user) {
+define(["jquery",
+        "/dev/configuration/config.js",
+        "./sakai.api.util.js",
+        "./sakai.api.server.js"],
+        function($, sakai_config, sakai_util, sakai_serv) {
+
     return {
 
         data : {
@@ -46,9 +51,11 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "/dev/configuration/conf.js"
          * bundle. We then look for i18n keys inside the HTML, and replace with the values from the
          * language bundles. We always first check whether the key is available in the user specific
          * bundle and only if that one doesn't exist, we will take the value out of the default bundle.</p>
+         *
+         * @param {Object} meData the data from sakai.api.User.data.me
          */
-        init : function(){
-
+        init : function(meData){
+            console.log("init");
 
             ////////////////////
             // HELP VARIABLES //
@@ -118,9 +125,9 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "/dev/configuration/conf.js"
                     sakai_conf.config.requireUser = sakai_conf.config.requireUser.concat(sakai_conf.config.requireUserAnonNotAllowed);
                     sakai_conf.config.requireAnonymous = sakai_conf.config.requireAnonymous.concat(sakai_conf.config.requireAnonymousAnonNotAllowed);
                 }
-                if (sakai_user.data.me && sakai_user.data.me.user && sakai_user.data.me.user.anon) {
+                if (meData && meData.user && meData.user.anon) {
                     if ($.inArray(currentPage, sakai_conf.config.requireUser) > -1){
-                        sakai_security.sendToLogin();
+                        sakai_util.Security.sendToLogin();
                         return false;
                     }
                 } else {
@@ -130,10 +137,9 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "/dev/configuration/conf.js"
                     }
                 }
                 if ($.inArray(currentPage, sakai_conf.config.requireProcessing) === -1 && window.location.pathname.substring(0, 2) !== "/~"){
-                    sakai_security.showPage();
+                    sakai_util.Security.showPage();
                 }
-                sakai_widgets.Container.setReadyToLoad(true);
-                sakai_widgets.widgetLoader.insertWidgets(null, false);
+                require("./sakai.api.widgets.js").initialLoad();
                 this.done = true;
                 $(window).trigger("sakai-i18n-done");
                 return true;
@@ -165,7 +171,7 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "/dev/configuration/conf.js"
              * This function will load the general language bundle specific to the language chosen by
              * the user and will store it in a global variable. This language will either be the prefered
              * user language or the prefered server language. The language will be available in the me feed
-             * and we'll use the global sakai_user.data.me object to extract it from. If there is no prefered langauge,
+             * and we'll use the global meData object to extract it from. If there is no prefered langauge,
              * we'll use the default bundle to translate everything.
              */
             var loadLocalBundle = function(langCode){
@@ -208,8 +214,8 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "/dev/configuration/conf.js"
                         var siteJSON = data;
                         if (siteJSON.language && siteJSON.language !== "default_default") {
                             loadLocalBundle(siteJSON.language);
-                        } else if (sakai_user.data.me.user.locale) {
-                            loadLocalBundle(sakai_user.data.me.user.locale.language + "_" + sakai_user.data.me.user.locale.country);
+                        } else if (meData.user.locale) {
+                            loadLocalBundle(meData.user.locale.language + "_" + meData.user.locale.country);
                         } else {
                             // There is no locale set for the current user. We'll switch to using the default bundle only
                             doI18N(null, this.data.defaultBundle);
@@ -252,8 +258,8 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "/dev/configuration/conf.js"
                         this.data.defaultBundle = data;
                         var site = getSiteId();
                         if (!site) {
-                            if (sakai_user.data.me && sakai_user.data.me.user && sakai_user.data.me.user.locale) {
-                                loadLocalBundle(sakai_user.data.me.user.locale.language + "_" + sakai_user.data.me.user.locale.country);
+                            if (meData && meData.user && meData.user.locale) {
+                                loadLocalBundle(meData.user.locale.language + "_" + meData.user.locale.country);
                             } else {
                                 // There is no locale set for the current user. We'll switch to using the default bundle only
                                 doI18N(null, this.data.defaultBundle);
@@ -275,7 +281,7 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "/dev/configuration/conf.js"
              * This function will load the general language bundle specific to the language chosen by
              * the user and will store it in a global variable. This language will either be the prefered
              * user language or the prefered server language. The language will be available in the me feed
-             * and we'll use the global sakai_user.data.me object to extract it from. If there is no prefered langauge,
+             * and we'll use the global sakai.api.User.data.me object to extract it from. If there is no prefered langauge,
              * we'll use the default bundle to translate everything.
              */
             var loadLanguageBundles = function(){
@@ -283,8 +289,8 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "/dev/configuration/conf.js"
                 var getGlobalization = false;
                 var langCode, i10nCode, loadDefaultBundleRequest, loadLocalBundleRequest, globalizationRequest; 
 
-                if (sakai_user.data.me && sakai_user.data.me.user && sakai_user.data.me.user.locale && sakai_user.data.me.user.locale.country) {
-                    langCode = sakai_user.data.me.user.locale.language + "_" + sakai_user.data.me.user.locale.country.replace("_", "-");
+                if (meData && meData.user && meData.user.locale && meData.user.locale.country) {
+                    langCode = meData.user.locale.language + "_" + meData.user.locale.country.replace("_", "-");
                     i10nCode = langCode.replace("_", "-");
                     localeSet = true;
                 }
@@ -416,9 +422,10 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "/dev/configuration/conf.js"
              * @param {Object} defaultbundle
              *  JSON object where the keys are the keys we expect in the HTML and the values are the translated strings
              *  in the default language
+             * @param {Object} meData the data from sakai.api.User.data.me
              * @return {String} A processed string where all the messages are replaced with values from the language bundles
              */
-            process : function(toprocess, localbundle, defaultbundle) {
+            process : function(toprocess, localbundle, defaultbundle, meData) {
 
                 if(!toprocess){
                     return "";
@@ -440,7 +447,7 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "/dev/configuration/conf.js"
                     }
                     var toreplace;
                     // check for i18n debug
-                    if (sakai_conf.config.displayDebugInfo === true && sakai_user.data.me.user.locale && sakai_user.data.me.user.locale.language === "lu" && sakai_user.data.me.user.locale.country === "GB"){
+                    if (sakai_conf.config.displayDebugInfo === true && meData.user.locale && meData.user.locale.language === "lu" && meData.user.locale.country === "GB"){
                         toreplace = quotes + replace.substr(7, replace.length - 9) + quotes;
                         processed += toprocess.substring(lastend, expression.lastIndex - replace.length) + toreplace;
                         lastend = expression.lastIndex;

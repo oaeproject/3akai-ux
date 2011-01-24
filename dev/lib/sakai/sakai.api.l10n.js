@@ -30,7 +30,7 @@
  * @namespace
  * Language localisation
  */
-define(["/dev/configuration/config.js", "./sakai.api.user.js", "/dev/lib/misc/l10n/globalization.js"], function(sakai_conf, sakai_user) {
+define(["/dev/configuration/config.js", "/dev/lib/misc/l10n/globalization.js"], function(sakai_conf, Globalization) {
     return {
 
         /**
@@ -69,8 +69,9 @@ define(["/dev/configuration/config.js", "./sakai.api.user.js", "/dev/lib/misc/l1
          * Parse a date string into a date object and adjust that date to the timezone
          * set by the current user.
          * @param {Object} dateString    date to parse in the format 2010-10-06T14:45:54+01:00
+         * @param {Object} meData the data from sakai.api.User.data.me
          */
-        parseDateString : function(dateString){
+        parseDateString : function(dateString, meData){
             var d = new Date();
             d.setFullYear(parseInt(dateString.substring(0,4),10));
             d.setMonth(parseInt(dateString.substring(5,7),10) - 1);
@@ -82,8 +83,8 @@ define(["/dev/configuration/config.js", "./sakai.api.user.js", "/dev/lib/misc/l1
             if (!isNaN((parseInt(dateString.substring(19,22),10)))){
                 d.setTime(d.getTime() - (parseInt(dateString.substring(19,22),10)*60*60*1000));
             }
-            if (sakai_user.data.me.user.locale) {
-                d.setTime(d.getTime() + sakai_user.data.me.user.locale.timezone.GMT * 60 * 60 * 1000);
+            if (meData && meData.user.locale) {
+                d.setTime(d.getTime() + meData.user.locale.timezone.GMT * 60 * 60 * 1000);
             }
             return d;
         },
@@ -163,12 +164,13 @@ define(["/dev/configuration/config.js", "./sakai.api.user.js", "/dev/lib/misc/l1
          * @param {Date} date
          *  JavaScript date object that we would like to transform in a
          *  GMT date object
+         * @param {Object} meData the data from sakai.api.User.data.me
          * @return {Date}
          *  Date object, that will have transformed the given date and time into
          *  GMT date and time
          */
-        toGMT : function(date){
-            date.setHours(date.getHours() - sakai_user.data.me.user.locale.timezone.GMT);
+        toGMT : function(date, meData){
+            date.setHours(date.getHours() - meData.user.locale.timezone.GMT);
             return date;
         },
 
@@ -180,12 +182,13 @@ define(["/dev/configuration/config.js", "./sakai.api.user.js", "/dev/lib/misc/l1
          * personal preferences page
          * @param {Date} date
          *  JavaScript GMT date object that we would like to transform to a local date object
+         * @param {Object} meData the data from sakai.api.User.data.me
          * @return {Date}
          *  Date object, that will have transformed the given GMT date and time into
          *  a local date and time
          */
-        fromGMT : function(date){
-            date.setHours(date.getHours() + sakai_user.data.me.user.locale.timezone.GMT);
+        fromGMT : function(date, meData){
+            date.setHours(date.getHours() + meData.user.locale.timezone.GMT);
             return date;
         },
 

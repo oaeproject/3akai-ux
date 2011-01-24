@@ -16,28 +16,13 @@
  * specific language governing permissions and limitations under the License.
  */
 
+debug.log("core.js");
 
-/*global Querystring, Config, $,  set_cookie */
-require(["jquery","/dev/lib/sakai/sakai.api.core.js"], function($, sakai) {
-    console.log("here", sakai);
-    if (sakai.config.anonAllowed){
-        $("#login_right_col").show();
-    }
+var sakai = sakai || {};
 
-    $(window).bind("sakai-login-ready", function(e) {
-        $(window).trigger("sakai-login-render", true);
-    });
+sakai.api = sakai.api || {};
 
-    //////////
-    // Chat //
-    //////////
-
-    /*
-     * The chat bar keeps a cookie during your session that remembers which
-     * chat windows were open or active, so that state can be restored across
-     * all of the pages. When we have reached this page, it means that our
-     * session has ended and we can remove this cookie.
-     */
-    $.cookie('sakai_chat','');
-
-});
+sakai.api.requireJs = function(){
+    $("#requirejs-working").show();
+    $("#requirejs-not-working").hide();
+};

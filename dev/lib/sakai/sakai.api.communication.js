@@ -30,7 +30,7 @@
  * @namespace
  * Communication related convenience functions
  */
-define(["./sakai.api.user.js"], function(sakai_user) {
+define(["jquery"], function($) {
     return {
         /**
          * Sends a Sakai message to one or more users. If a group id is received, the
@@ -38,6 +38,7 @@ define(["./sakai.api.user.js"], function(sakai_user) {
          *
          * @param {Array|String} to Array with the ids of the users or groups to post a
          *   message to or a String with one user or group id.
+         * @param {String} from Who the message is from - userid
          * @param {String} subject The subject for this message
          * @param {String} body The text that this message will contain
          * @param {String} [category="message"] The category for this message
@@ -47,7 +48,7 @@ define(["./sakai.api.user.js"], function(sakai_user) {
          * @param {Boolean|String} [mailContent] False or String of content that contains HTML or regular text
          *
          */
-        sendMessage: function(to, subject, body, category, reply, callback, sendMail) {
+        sendMessage: function(to, from, subject, body, category, reply, callback, sendMail) {
 
             /////////////////////////////
             // CONFIGURATION VARIABLES //
@@ -87,7 +88,7 @@ define(["./sakai.api.user.js"], function(sakai_user) {
                     "sakai:sendstate": "pending",
                     "sakai:messagebox": "outbox",
                     "sakai:to": toUsers,
-                    "sakai:from": sakai_user.data.me.user.userid,
+                    "sakai:from": from,
                     "sakai:subject": subject,
                     "sakai:body": body,
                     "sakai:category": "message",
@@ -108,7 +109,7 @@ define(["./sakai.api.user.js"], function(sakai_user) {
 
                 // Send message
                 $.ajax({
-                    url: "/~" + sakai_user.data.me.user.userid + "/message.create.html",
+                    url: "/~" + from + "/message.create.html",
                     type: "POST",
                     data: toSend,
                     success: function(data) {
@@ -138,7 +139,7 @@ define(["./sakai.api.user.js"], function(sakai_user) {
                     "sakai:sendstate": "pending",
                     "sakai:messagebox": "outbox",
                     "sakai:to": toUsers,
-                    "sakai:from": sakai_user.data.me.user.userid,
+                    "sakai:from": from,
                     "sakai:subject": subject,
                     "sakai:body":body,
                     "_charset_":"utf-8"
@@ -158,7 +159,7 @@ define(["./sakai.api.user.js"], function(sakai_user) {
 
                 // Send message
                 $.ajax({
-                    url: "/~" + sakai_user.data.me.user.userid + "/message.create.html",
+                    url: "/~" + from + "/message.create.html",
                     type: "POST",
                     data: toSend,
                     success: function(data){

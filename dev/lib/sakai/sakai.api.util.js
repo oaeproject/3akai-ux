@@ -29,7 +29,12 @@
  * @namespace
  * General utility functions
  */
-define(["/dev/lib/jquery/requireplugins-jquery.js", "./sakai.api.server.js", "./sakai.api.l10n.js", "./sakai.api.security.js", "/dev/configuration/config.js"],function($, sakai_serv, sakai_l10n, sakai_security, sakai_conf) {
+define(["jquery",
+        "./sakai.api.server.js",
+        "./sakai.api.l10n.js",
+        "/dev/configuration/config.js",
+        "/dev/lib/misc/trimpath.template.js"],
+        function($, sakai_serv, sakai_l10n, sakai_conf, TrimPath) {
     return {
 
         /**
@@ -314,7 +319,7 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "./sakai.api.server.js", "./
             $(newTags).each(function(i,val) {
                 val = $.trim(val).replace(/#/g,"");
                 if (val && $.inArray(val,currentTags) === -1) {
-                    if (sakai_security.escapeHTML(val) === val && val.length) {
+                    if (this.Security.escapeHTML(val) === val && val.length) {
                         if ($.inArray(val, tagsToAdd) < 0) {
                             tagsToAdd.push(val);
                         }
@@ -324,7 +329,7 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "./sakai.api.server.js", "./
             $(currentTags).each(function(i,val) {
                 val = $.trim(val).replace(/#/g,"");
                 if (val && $.inArray(val,newTags) == -1) {
-                    if (sakai_security.escapeHTML(val) === val && val.length) {
+                    if (this.Security.escapeHTML(val) === val && val.length) {
                         if ($.inArray(val, tagsToDelete) < 0) {
                             tagsToDelete.push(val);
                         }
@@ -579,40 +584,6 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "./sakai.api.server.js", "./
 
         },
 
-
-        /**
-         * Removes JCR or Sling properties from a JSON object
-         * @param {Object} i_object The JSON object you want to remove the JCR object from
-         * @returns void
-         */
-        removeJCRObjects : function(i_object) {
-
-            if (i_object["jcr:primaryType"]) {
-                delete i_object["jcr:primaryType"];
-            }
-
-            if (i_object["jcr:created"]) {
-                delete i_object["jcr:created"];
-            }
-
-            if (i_object["jcr:createdBy"]) {
-                delete i_object["jcr:createdBy"];
-            }
-
-            if (i_object["jcr:mixinTypes"]) {
-                delete i_object["jcr:mixinTypes"];
-            }
-
-            // Loop through keys and call itself recursively for the next level if an object is found
-            for (var i in i_object) {
-                if (i_object.hasOwnProperty(i) && $.isPlainObject(i_object[i])) {
-                  this.removeJCRObjects(i_object[i]);
-                }
-            }
-
-        },
-
-
         /**
          * Shorten a string and add 3 dots if the string is too long
          *
@@ -659,7 +630,7 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "./sakai.api.server.js", "./
              *  inserting. The keys in this object are the attribute names, the values in the object
              *  are the attribute values
              */
-            var insertTag = function(tagname, attributes) {
+            insertTag : function(tagname, attributes) {
                 var tag = document.createElement(tagname);
                 var head = document.getElementsByTagName('head').item(0);
                 for (var a in attributes){
@@ -668,7 +639,7 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "./sakai.api.server.js", "./
                     }
                 }
                 head.appendChild(tag);
-            };
+            },
 
             /**
              * Check to see if the tag+attributes combination currently exists in the DOM
@@ -681,7 +652,7 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "./sakai.api.server.js", "./
              *  are the attribute values
              * @return {jQuery|Boolean} returns the selected objects if found, otherwise returns false
              */
-            var checkForTag = function(tagname, attributes) {
+            checkForTag : function(tagname, attributes) {
                 var selector = tagname;
                 for (var i in attributes) {
                     if (i && attributes.hasOwnProperty(i)) {
@@ -694,37 +665,37 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "./sakai.api.server.js", "./
                 else {
                     return false;
                 }
-            };
+            },
 
             /**
              * Load a JavaScript file into the document
              * @param {String} URL of the JavaScript file relative to the parent dom.
              */
-            this.include.js = function(url) {
-                var attributes = {"src": url, "type": "text/javascript"};
-                var existingScript = checkForTag("script", attributes);
-                if (existingScript) {
-                    // Remove the existing script so we can place in a new one
-                    // We need to do this otherwise the init functions that need to be called
-                    // at the end of widgets never get called again
-                    existingScript.remove();
+            include : {
+                js : function(url) {
+                    var attributes = {"src": url, "type": "text/javascript"};
+                    var existingScript = checkForTag("script", attributes);
+                    if (existingScript) {
+                        // Remove the existing script so we can place in a new one
+                        // We need to do this otherwise the init functions that need to be called
+                        // at the end of widgets never get called again
+                        existingScript.remove();
+                    }
+                    this.insertTag("script", {"src" : url, "type" : "text/javascript"});
+                },
+                /**
+                 * Load a CSS file into the document
+                 * @param {String} URL of the CSS file relative to the parent dom.
+                 */
+                css : function(url) {
+                    var attributes = {"href" : url, "type" : "text/css", "rel" : "stylesheet"};
+                    var existingStylesheet = checkForTag("link", attributes);
+                    // if the stylesheet already exists, don't add it again
+                    if (!existingStylesheet) {
+                        this.insertTag("link", attributes);
+                    }
                 }
-                insertTag("script", {"src" : url, "type" : "text/javascript"});
-            },
-
-            /**
-             * Load a CSS file into the document
-             * @param {String} URL of the CSS file relative to the parent dom.
-             */
-            this.include.css = function(url) {
-                var attributes = {"href" : url, "type" : "text/css", "rel" : "stylesheet"};
-                var existingStylesheet = checkForTag("link", attributes);
-                // if the stylesheet already exists, don't add it again
-                if (!existingStylesheet) {
-                    insertTag("link", attributes);
-                }
-            };
-
+            }
         },
 
         /**
@@ -790,11 +761,571 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "./sakai.api.server.js", "./
          * loadSkins
          * Loads in any skins defined in sakai.config.skinCSS
          */
-        loadSkinsFromConfig = function() {
+        loadSkinsFromConfig : function() {
             if (sakai_conf.config.skinCSS && sakai.config.skinCSS.length) {
                 $(sakai_conf.config.skinCSS).each(function(i,val) {
                     this.include.css(val);
                 });
+            }
+        },
+
+        // TODO need to refactor this, this won't work with the new system
+        getPageContext : function() {
+            if (sakai.content_profile) {
+                return "content";
+            } else if (sakai.group || sakai.groupedit) {
+                return "group";
+            } else if (sakai.directory) {
+                return "directory";
+            } else if (sakai.content_profile || sakai.profile){
+                return "user";
+            } else {
+                return false;
+            }
+        },
+
+        getDirectoryStructure : function(){
+            /**
+             * Converts directory array into a node structure
+             * so that it can be rendered into the jstree.
+             *
+             * @param {Object} directory list of directories
+             * @return result the json object in the structure necessary to render in jstree
+             */
+            var convertToHierarchy = function(directory){
+                var item, path;
+
+                var result = [];
+                // loop through all the directory
+                for (item in directory) {
+                    if (directory.hasOwnProperty(item)) {
+                        // url for the first level nodes
+                        var url = "/dev/directory.html#" + item;
+                        // call buildnoderecursive to get the node structure to render.
+                        result.push(buildNodeRecursive(item, directory, url));
+                    }
+                }
+                return result;
+            };
+
+            /**
+             * Recursive method that create the node structure
+             * so that it can be rendered into the jstree.
+             *
+             * @param {String} node_id  the unique id for each node for example firstyearcourses
+             * @param {Object} directory directory list json object for example "collegeofengineering": { ... }
+             * @param {String} url the url of the page to render when directory node is clicked for example /dev/directory.html#collegeofengineering
+             *
+             * @return node the json object in the structure necessary to render in jstree
+             */
+            var buildNodeRecursive = function(node_id, directory, url){
+                // node title
+                var p_title = directory[node_id].title;
+                // node id
+                var p_id = node_id;
+                // icon url
+                var p_url = directory[node_id].icon;
+                // description
+                var p_description = directory[node_id].description;
+
+                // create the node based on the parameters
+                var node = {
+                    attr: {
+                        id: p_id,
+                        "data-url": p_url,
+                        "data-description": p_description
+                    },
+                    data: {
+                        title: p_title,
+                        attr: {
+                            "href": url,
+                            "title": p_title
+                        }
+                    },
+                    children: []
+                };
+
+                // if current node has any children
+                // call buildNoderecursive method create the node structure for
+                // all level of child
+                for (var child in directory[node_id].children) {
+                    if (directory[node_id].children.hasOwnProperty(child)) {
+                        // for each child node, call buildnoderecursive to build the node structure
+                        // pass current child(id), the list of all sibligs(json object) and url append/child
+                        // for example first level node /dev/directory.html#courses/firstyearcourses
+                        // for second level node /dev/directory.html#course/firstyearcourses/chemistry
+                        node.children.push(buildNodeRecursive(child, directory[node_id].children, url + "/" + child));
+                    }
+                }
+                return node;
+            };
+
+            return convertToHierarchy(sakai.config.Directory);
+        },
+
+        /**
+         * Recursive function that gets the title corresponding to an ID in the directory
+         * @param {Object} key Key to get title for
+         * @param {Object} child Object to check for children next, if not supplied start with first child
+         */
+        getValueForDirectoryKey : function(key){
+            var directory = getDirectoryStructure();
+
+            var searchDirectoryForKey = function(key, child){
+                var ret;
+                if (!child) {
+                    child = directory[0];
+                }
+                if (key == child.attr.id) {
+                    ret = child.data.title;
+                }
+                else {
+                    if (child.children) {
+                        for (var item in child.children) {
+                            if (child.children.hasOwnProperty(item)) {
+                                var result = searchDirectoryForKey(key, child.children[item]);
+                                if(result){
+                                    ret = result;
+                                }
+                            }
+                        }
+                    }
+                }
+                return ret;
+            };
+
+            return searchDirectoryForKey(key, false);
+        },
+
+        Activity : {
+            /**
+             * Wrapper function for creating a Nakamura activity
+             *
+             * @param nodeUrl {String} The URL of the node we would like the activity to be
+             * stored on
+             * @param appID {String} The ID of the application/functionality creating the
+             * activity
+             * @param templateID {String} The ID of the activity template
+             * @param extraData {Object} Any extra data which will be stored on the activity
+             * node
+             * @param callback {Function} Callback function executed at the end of the
+             * operation
+             * @returns void
+             */
+             createActivity : function(nodeUrl, appID, templateID, extraData, callback) {
+
+                // Check required params
+                if (typeof appID !== "string" || appID === "") {
+                    debug.error("sakai.api.Activity.createActivity(): appID is required argument!");
+                    return;
+                }
+                if (typeof templateID !== "string" || templateID === "") {
+                    debug.error("sakai.api.Activity.createActivity(): templateID is required argument!");
+                }
+
+                // Create event url with appropriate selector
+                var activityUrl = nodeUrl + ".activity.json";
+                // Create data object to send
+                var dataToSend = {
+                    "sakai:activity-appid": appID,
+                    "sakai:activity-templateid": templateID
+                };
+                for (var i in extraData) {
+                    if (extraData.hasOwnProperty(i)) {
+                        dataToSend[i] = extraData[i];
+                    }
+                }
+
+                // Send request to create the activity
+                $.ajax({
+                    url: activityUrl,
+                    traditional: true,
+                    type: "POST",
+                    data: dataToSend,
+                    success: function(data){
+
+                        if ($.isFunction(callback)) {
+                            callback(data, true);
+                        }
+                    },
+                    error: function(xhr, textStatus, thrownError) {
+
+                        if ($.isFunction(callback)) {
+                            callback(xhr.status, false);
+                        }
+                    }
+                });
+            }
+        },
+        Datetime: {
+            parseDateString : function(dateString){
+                var d = new Date();
+                d.setFullYear(parseInt(dateString.substring(0,4),10));
+                d.setMonth(parseInt(dateString.substring(5,7),10) - 1);
+                d.setDate(parseInt(dateString.substring(8,10),10));
+                d.setHours(parseInt(dateString.substring(11,13),10));
+                d.setMinutes(parseInt(dateString.substring(14,16),10));
+                d.setSeconds(parseInt(dateString.substring(17,19),10));
+                return d;
+            },
+            toGMT : function(date){
+                date.setFullYear(date.getUTCFullYear());
+                date.setMonth(date.getUTCMonth());
+                date.setDate(date.getUTCDate());
+                date.setHours(date.getUTCHours());
+                return date;
+            },
+            getTimeAgo : function(date){
+                if (date !== null) {
+                    // convert date input to GMT time
+                    date = sakai.api.Datetime.toGMT(date);
+
+                    var currentDate = new Date();
+                    // convert current date to GMT time
+                    currentDate = sakai.api.Datetime.toGMT(currentDate);
+
+                    var iTimeAgo = (currentDate - date) / (1000);
+                    if (iTimeAgo < 60) {
+                        if (Math.floor(iTimeAgo) === 1) {
+                            return Math.floor(iTimeAgo) +" " + sakai_i18n.General.getValueForKey("SECOND");
+                        }
+                        return Math.floor(iTimeAgo) + " "+sakai_i18n.General.getValueForKey("SECONDS");
+                    } else if (iTimeAgo < 3600) {
+                        if (Math.floor(iTimeAgo / 60) === 1) {
+                            return Math.floor(iTimeAgo / 60) + " "+sakai_i18n.General.getValueForKey("MINUTE");
+                        }
+                        return Math.floor(iTimeAgo / 60) + " "+sakai_i18n.General.getValueForKey("MINUTES");
+                    } else if (iTimeAgo < (3600 * 60)) {
+                        if (Math.floor(iTimeAgo / (3600)) === 1) {
+                            return Math.floor(iTimeAgo / (3600)) + " "+sakai_i18n.General.getValueForKey("HOUR");
+                        }
+                        return Math.floor(iTimeAgo / (3600)) + " "+sakai_i18n.General.getValueForKey("HOURS");
+                    } else if (iTimeAgo < (3600 * 60 * 30)) {
+                        if (Math.floor(iTimeAgo / (3600 * 60)) === 1) {
+                            return Math.floor(iTimeAgo / (3600 * 60)) + " "+sakai_i18n.General.getValueForKey("DAY");
+                        }
+                        return Math.floor(iTimeAgo / (3600 * 60)) + " "+sakai_i18n.General.getValueForKey("DAYS");
+                    } else if (iTimeAgo < (3600 * 60 * 30 * 12)) {
+                        if (Math.floor(iTimeAgo / (3600 * 60 * 30)) === 1) {
+                            return Math.floor(iTimeAgo / (3600 * 60 * 30)) + " "+sakai_i18n.General.getValueForKey("MONTH");
+                        }
+                        return Math.floor(iTimeAgo / (3600 * 60 * 30)) + " "+sakai_i18n.General.getValueForKey("MONTHS");
+                    } else {
+                        if (Math.floor(iTimeAgo / (3600 * 60 * 30 * 12) === 1)) {
+                            return Math.floor(iTimeAgo / (3600 * 60 * 30 * 12)) + " "+sakai_i18n.General.getValueForKey("YEAR");
+                        }
+                        return Math.floor(iTimeAgo / (3600 * 60 * 30 * 12)) + " "+sakai_i18n.General.getValueForKey("YEARS");
+                    }
+                }
+                return null;
+            }
+        },
+        /*
+         * Functionality that allows you to create HTML Templates and give that template
+         * a JSON object. That template will then be rendered and all of the values from
+         * the JSON object can be used to insert values into the rendered HTML. More information
+         * and examples can be found over here:
+         *
+         * http://code.google.com/p/trimpath/wiki/JavaScriptTemplates
+         *
+         * Template should be defined like this:
+         *  <div><!--
+         *   // Template here
+         *  --></div>
+         *
+         *  IMPORTANT: There should be no line breaks in between the div and the <!-- declarations,
+         *  because that line break will be recognized as a node and the template won't show up, as
+         *  it's expecting the comments tag as the first one.
+         *
+         *  We do this because otherwise a template wouldn't validate in an HTML validator and
+         *  also so that our template isn't visible in our page.
+         */
+
+        /**
+         * A cache that will keep a copy of every template we have parsed so far. Like this,
+         * we avoid having to parse the same template over and over again.
+         */
+        templateCache : [],
+
+        /**
+        * Trimpath Template Renderer: Renders the template with the given JSON object, inserts it into a certain HTML
+        * element if required, and returns the rendered HTML string
+        * @function
+        * @param {String|Object} templateElement The name of the template HTML ID or a jQuery selection object.
+        * @param {Object} templateData JSON object containing the template data
+        * @param {Object} outputElement (Optional) jQuery element in which the template needs to be rendered
+        * @param {Boolean} doSanitize (Optional) perform html sanitization. Defaults to true
+        */
+        TemplateRenderer : function (templateElement, templateData, outputElement, doSanitize) {
+
+            var templateName;
+            var sanitize = true;
+            if (doSanitize !== undefined) {
+                sanitize = doSanitize;
+            }
+
+            // The template name and the context object should be defined
+            if(!templateElement || !templateData){
+                throw " TemplateRenderer: the template name or the templateData is not defined";
+            }
+
+            if(templateElement instanceof jQuery && templateElement[0]){
+                templateName = templateElement[0].id;
+            }
+            else if (typeof templateElement === "string"){
+                templateName = templateElement.replace("#", "");
+                templateElement = $("#" + templateName);
+            }
+            else {
+                throw "TemplateRenderer: The templateElement '" + templateElement + "' is not in a valid format or the template couldn't be found.";
+            }
+
+            if (!templateCache[templateName]) {
+                var templateNode = templateElement.get(0);
+                if (templateNode) {
+                    var firstNode = templateNode.firstChild;
+                    var template = null;
+                    // Check whether the template is wrapped in <!-- -->
+                    if (firstNode && (firstNode.nodeType === 8 || firstNode.nodeType === 4)) {
+                        template = firstNode.data.toString();
+                    }
+                    else {
+                        template = templateNode.innerHTML.toString();
+                    }
+                    // Parse the template through TrimPath and add the parsed template to the template cache
+                    templateCache[templateName] = TrimPath.parseTemplate(template, templateName);
+
+                }
+                else {
+                    throw "TemplateRenderer: The template '" + templateName + "' could not be found";
+                }
+            }
+
+            // Run the template and feed it the given JSON object
+            var render = templateCache[templateName].process(templateData);
+
+            // Run the rendered html through the sanitizer
+            if (sanitize) {
+                render = this.Security.saneHTML(render);
+            }
+
+            // Check it there was an output element defined
+            // If so, put the rendered template in there
+            if (outputElement) {
+                outputElement.html(render);
+            }
+            return render;
+        },
+        Security: {
+            /**
+             * Encodes the HTML characters inside a string so that the HTML characters (e.g. <, >, ...)
+             * are treated as text and not as HTML entities
+             *
+             * @param {String} inputString  String of which the HTML characters have to be encoded
+             *
+             * @returns {String} HTML Encoded string
+             */
+            escapeHTML : function(inputString){
+                if (inputString) {
+                    return $("<div/>").text(inputString).html().replace(/"/g,"&quot;");
+                } else {
+                    return "";
+                }
+            },
+
+            /**
+             * Sanitizes HTML content. All untrusted (user) content should be run through
+             * this function before putting it into the DOM
+             *
+             * @param inputHTML {String} The content string we would like to sanitize
+             *
+             * @returns {String} Escaped and sanitized string
+             */
+            saneHTML : function(inputHTML) {
+
+                if (inputHTML === "") {
+                    return "";
+                }
+
+                // Filter which runs through every url in inputHTML
+                var filterUrl = function(url) {
+
+                    // test for javascript in the URL and remove it
+                    var testUrl = decodeURIComponent(url.replace(/\s+/g,""));
+                    var js = "javascript"; // for JSLint to be happy, this needs to be broken up
+                    js += ":;";
+                    var jsRegex = new RegExp("^(.*)javascript:(.*)+$");
+                    var vbRegex = new RegExp("^(.*)vbscript:(.*)+$");
+                    if ((jsRegex.test(testUrl) || vbRegex.test(testUrl)) && testUrl !== js) {
+                        url = null;
+                    } else if (testUrl !== js) {
+                        // check for utf-8 unicode encoding without semicolons
+                        testUrl = testUrl.replace(/&/g,";&");
+                        testUrl = testUrl.replace(";&","&") + ";";
+
+                        var nulRe = /\0/g;
+                        testUrl = html.unescapeEntities(testUrl.replace(nulRe, ''));
+
+                        if (jsRegex.test(testUrl) || vbRegex.test(testUrl)) {
+                            url = null;
+                        }
+                    }
+
+                    return url;
+
+                };
+
+                // Filter which runs through every name id and class
+                var filterNameIdClass = function(nameIdClass) {
+
+                    return nameIdClass;
+
+                };
+
+                html4.ELEMENTS["video"] = 0;
+                html4.ATTRIBS["video::src"] = 0;
+                html4.ATTRIBS["video::class"] = 0;
+                html4.ATTRIBS["video::autoplay"] = 0;
+                html4.ELEMENTS["embed"] = 0;
+                html4.ELEMENTS["i"] = 0;
+                html4.ATTRIBS["embed::src"] = 0;
+                html4.ATTRIBS["embed::class"] = 0;
+                html4.ATTRIBS["embed::autostart"] = 0;
+                // A slightly modified version of Caja's sanitize_html function to allow style="display:none;"
+                var sakaiHtmlSanitize = function(htmlText, opt_urlPolicy, opt_nmTokenPolicy) {
+                    var out = [];
+                    html.makeHtmlSanitizer(
+                        function sanitizeAttribs(tagName, attribs) {
+                            for (var i = 0; i < attribs.length; i += 2) {
+                                var attribName = attribs[i];
+                                var value = attribs[i + 1];
+                                var atype = null, attribKey;
+                                if (html4.ATTRIBS.hasOwnProperty(tagName + '::' + attribName)) {
+                                    attribKey = tagName + '::' + attribName;
+                                    atype = html4.ATTRIBS[attribKey];
+                                } else if (html4.ATTRIBS.hasOwnProperty('*::' + attribName)) {
+                                    attribKey = '*::' + attribName;
+                                    atype = html4.ATTRIBS[attribKey];
+                                }
+                                if (atype !== null) {
+                                    switch (atype) {
+                                        case html4.atype.SCRIPT:
+                                        case html4.atype.STYLE:
+                                            var accept = ["color", "display", "background-color", "font-weight", "font-family",
+                                                          "padding", "padding-left", "padding-right", "text-align", "font-style",
+                                                          "text-decoration", "border"];
+                                            var sanitizedValue = "";
+                                            if (value){
+                                                var vals = value.split(";");
+                                                for (var attrid = 0; attrid < vals.length; attrid++){
+                                                    var attrValue = $.trim(vals[attrid].split(":")[0]).toLowerCase();
+                                                    if ($.inArray(attrValue, accept)){
+                                                        sanitizedValue += vals[i];
+                                                    }
+                                                }
+                                                if (!sanitizedValue) {
+                                                    value = null;
+                                                }
+                                            } else {
+                                                value = sanitizedValue;
+                                            }
+                                            break;
+                                        case html4.atype.IDREF:
+                                        case html4.atype.IDREFS:
+                                        case html4.atype.GLOBAL_NAME:
+                                        case html4.atype.LOCAL_NAME:
+                                        case html4.atype.CLASSES:
+                                            value = opt_nmTokenPolicy ? opt_nmTokenPolicy(value) : value;
+                                            break;
+                                        case html4.atype.URI:
+                                            value = opt_urlPolicy && opt_urlPolicy(value);
+                                            break;
+                                        case html4.atype.URI_FRAGMENT:
+                                            if (value && '#' === value.charAt(0)) {
+                                                value = opt_nmTokenPolicy ? opt_nmTokenPolicy(value) : value;
+                                                if (value) {
+                                                    value = '#' + value;
+                                                }
+                                            } else {
+                                                value = null;
+                                            }
+                                            break;
+                                    }
+                                } else {
+                                    value = null;
+                                }
+                                attribs[i + 1] = value;
+                            }
+                            return attribs;
+                        })(htmlText, out);
+                    return out.join('');
+                };
+
+                // Call a slightly modified version of Caja's sanitizer
+                return sakaiHtmlSanitize(inputHTML, filterUrl, filterNameIdClass);
+
+            },
+
+
+            /** Description - TO DO */
+            setPermissions : function(target, type, permissions_object) {
+
+            },
+
+            /** Description - TO DO */
+            getPermissions : function(target, type, permissions_object) {
+
+            },
+
+            /**
+             * Function that can be called by pages that can't find the content they are supposed to
+             * show.
+             */
+            send404 : function(){
+                var redurl = window.location.pathname + window.location.hash;
+                document.location = "/dev/404.html?url=" + escape(window.location.pathname + window.location.search + window.location.hash);
+                return false;
+            },
+
+            /**
+             * Function that can be called by pages that don't have the permission to show the content
+             * they should be showing
+             */
+            send403 : function(){
+                var redurl = window.location.pathname + window.location.hash;
+                document.location = "/dev/403.html?url=" + escape(window.location.pathname + window.location.search + window.location.hash);
+                return false;
+            },
+
+            /**
+             * Function that can be called by pages that require a login first
+             */
+            sendToLogin : function(){
+                var redurl = window.location.pathname + window.location.hash;
+                document.location = sakai_conf.config.URL.GATEWAY_URL + "?url=" + escape(window.location.pathname + window.location.search + window.location.hash);
+                return false;
+            },
+
+            showPage : function(callback){
+                // Show the background images used on anonymous user pages
+                if ($.inArray(window.location.pathname, sakai_conf.config.requireAnonymous) > -1){
+                    $('html').addClass("requireAnon");
+                // Show the normal background
+                } else {
+                    $('html').addClass("requireUser");
+                }
+                this.loadSkinsFromConfig();
+                // Put the title inside the page
+                var pageTitle = sakai_i18n.General.getValueForKey(sakai_conf.config.PageTitles.prefix);
+                if (sakai_conf.config.PageTitles.pages[window.location.pathname]){
+                    pageTitle += sakai_i18n.General.getValueForKey(sakai_conf.config.PageTitles.pages[window.location.pathname]);
+                }
+                document.title = pageTitle;
+                // Show the actual page content
+                $('body').show();
+                if ($.isFunction(callback)) {
+                    callback();
+                }
             }
         }
     };

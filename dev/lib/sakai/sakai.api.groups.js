@@ -29,7 +29,7 @@
  * @namespace
  * Group related convenience functions
  */
-define(["/dev/lib/jquery/requireplugins-jquery.js", "/dev/configuration/conf.js", "./sakai.api.server.js", "./sakai.api.user.js", "./sakai.api.security.js"], function($, sakai_conf, sakai_serv, sakai_user, sakai_security){
+define(["jquery", "/dev/configuration/config.js", "./sakai.api.server.js"], function($, sakai_conf, sakai_serv){
     return {
         /**
          * Get the data for the specified group
@@ -91,16 +91,17 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "/dev/configuration/conf.js"
              * @param {String} groupid the id of the group that's being created
              * @param {String} grouptitle the title of the group that's being created
              * @param {String} groupdescription the description of the group that's being created
+             * @param {Object} meData the data from sakai.api.User.data.me
              * @param {Function} callback the callback function for when the group save is complete. It will pass
              *                            two params, success {Boolean} and nameTaken {Boolean}
             */
-            saveGroup = function(groupid, grouptitle, groupdescription, callback){
+            saveGroup = function(groupid, grouptitle, groupdescription, meData, callback){
                 $.ajax({
                     url: sakai_conf.config.URL.GROUP_CREATE_SERVICE,
                     data: {
                         "_charset_":"utf-8",
                         ":name": groupid,
-                        ":sakai:manager": sakai_user.data.me.user.userid,
+                        ":sakai:manager": meData.user.userid,
                         "sakai:group-title" : grouptitle,
                         "sakai:group-description" : groupdescription,
                         "sakai:group-id": groupid,
@@ -194,6 +195,32 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "/dev/configuration/conf.js"
             });
         },
 
+        /**
+         * Checks whether the given value is valid as defined by the given
+         * permissionsProperty.
+         *
+         * @param {Object} permissionsProperty Permissions property object
+         *   (i.e. sakai.config.Permissions.Groups.joinable) with valid values to check
+         *   against
+         * @param {Object} value Value to investigate
+         * @return true if the value has a valid property value, false otherwise
+         */
+        isValidPermissionsProperty : function(permissionsProperty, value) {
+            if(!value || value === "") {
+                // value is empty - not valid
+                return false;
+            }
+            for(var index in permissionsProperty) {
+                if(permissionsProperty.hasOwnProperty(index)) {
+                    if(value === permissionsProperty[index]) {
+                        // value is valid
+                        return true;
+                    }
+                }
+            }
+            // value is not valid
+            return false;
+        },
 
         /**
          * Public function used to set joinability and visibility permissions for a
@@ -208,8 +235,8 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "/dev/configuration/conf.js"
          */
         setPermissions : function(groupid, joinable, visible, callback) {
             if(groupid && typeof(groupid) === "string" &&
-               sakai_security.isValidPermissionsProperty(sakai_conf.config.Permissions.Groups.joinable, joinable) &&
-               sakai_security.isValidPermissionsProperty(sakai_conf.config.Permissions.Groups.visible, visible)) {
+               this.isValidPermissionsProperty(sakai_conf.config.Permissions.Groups.joinable, joinable) &&
+               this.isValidPermissionsProperty(sakai_conf.config.Permissions.Groups.visible, visible)) {
 
                 // issue a BATCH POST to update Jackrabbit group & Home Folder group
                 var batchRequests = [];
@@ -361,15 +388,16 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "/dev/configuration/conf.js"
          * Determines whether the current user is a manager of the given group.
          *
          * @param groupid {String} id of the group to check
+         * @param {Object} meData the data from sakai.api.User.data.me
          * @return true if the current user is a manager, false otherwise
          */
-        isCurrentUserAManager : function(groupid) {
+        isCurrentUserAManager : function(groupid, meData) {
             if(!groupid || typeof(groupid) !== "string") {
                 return false;
             }
 
             var managersGroupId = groupid + "-managers";
-            if($.inArray(managersGroupId, sakai_user.data.me.user.subjects) !== -1) {
+            if($.inArray(managersGroupId, meData.user.subjects) !== -1) {
                 // current user is a group manager
                 return true;
             } else {
@@ -384,14 +412,15 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "/dev/configuration/conf.js"
          * of the group, this function will return true.
          *
          * @param groupid {String} id of the group to check
+         * @param {Object} meData the data from sakai.api.User.data.me
          * @return true if the current user is a member or manager, false otherwise
          */
-        isCurrentUserAMember : function(groupid) {
+        isCurrentUserAMember : function(groupid, meData) {
             if(!groupid || typeof(groupid) !== "string") {
                 return false;
             }
 
-            if($.inArray(groupid, sakai_user.data.me.user.subjects) !== -1) {
+            if($.inArray(groupid, meData.user.subjects) !== -1) {
                 // current user is a group member
                 return true;
             } else {

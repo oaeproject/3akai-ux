@@ -29,7 +29,7 @@
 * @namespace
 * Server related convenience functions and communication
 */
-define(["/dev/lib/jquery/requireplugins-jquery.js", "/dev/configuration/config.js", "./sakai.api.util.js"], function($, sakai_conf, sakai_util) {
+define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
     return {
         /**
          * Perform a batch request to the server
@@ -231,6 +231,38 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "/dev/configuration/config.j
         },
 
         /**
+         * Removes JCR or Sling properties from a JSON object
+         * @param {Object} i_object The JSON object you want to remove the JCR object from
+         * @returns void
+         */
+        removeJCRObjects : function(i_object) {
+
+            if (i_object["jcr:primaryType"]) {
+                delete i_object["jcr:primaryType"];
+            }
+
+            if (i_object["jcr:created"]) {
+                delete i_object["jcr:created"];
+            }
+
+            if (i_object["jcr:createdBy"]) {
+                delete i_object["jcr:createdBy"];
+            }
+
+            if (i_object["jcr:mixinTypes"]) {
+                delete i_object["jcr:mixinTypes"];
+            }
+
+            // Loop through keys and call itself recursively for the next level if an object is found
+            for (var i in i_object) {
+                if (i_object.hasOwnProperty(i) && $.isPlainObject(i_object[i])) {
+                  this.removeJCRObjects(i_object[i]);
+                }
+            }
+
+        },
+
+        /**
          * Loads structured preference data from a specified URL (and it's node subtree)
          *
          * @param {String} i_url The path to the preference which needs to be loaded
@@ -269,7 +301,7 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "/dev/configuration/config.j
                 success: function(data) {
 
                     // Remove keys which are created by JCR or Sling
-                    sakai_util.removeJCRObjects(data);
+                    this.removeJCRObjects(data);
 
                     // Convert the special objects to arrays
                     data = this.loadJSON.convertObjectToArray(data, null, null);

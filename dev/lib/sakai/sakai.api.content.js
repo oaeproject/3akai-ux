@@ -18,7 +18,7 @@
  *
  */
 
-define(["/dev/configuration/config.js"],function(sakai_conf) {
+define(["jquery", "/dev/configuration/config.js"],function($, sakai_conf) {
     return {
         /**
          * Set the permissions for an array of uploaded files or links

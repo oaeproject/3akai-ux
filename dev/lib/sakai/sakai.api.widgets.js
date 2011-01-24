@@ -28,7 +28,13 @@
  * @namespace
  * Widget related convenience functions
  */
-define(["/dev/lib/jquery/requireplugins-jquery.js", "./sakai.api.server.js", "./sakai.api.util.js", "./sakai.api.i18n.js", "./sakai.api.user.js"], function($, sakai_serv, sakai_util, sakai_i18n, sakai_user) {
+define(["jquery",
+        "./sakai.api.server.js",
+        "./sakai.api.util.js",
+        "./sakai.api.i18n.js",
+        "./sakai.api.user.js"], 
+        function($, sakai_serv, sakai_util, sakai_i18n, sakai_user) {
+
     return {
 
         widgets : {
@@ -449,7 +455,7 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "./sakai.api.server.js", "./
                                         translated_content += requestedURLsResults[i].body.substring(lastend);
                                     }
                                     else {
-                                        translated_content = sakai_i18n.General.process(requestedURLsResults[i].body, sakai_i18n.data.localBundle, sakai_i18n.data.defaultBundle);
+                                        translated_content = sakai_i18n.General.process(requestedURLsResults[i].body, sakai_i18n.data.localBundle, sakai_i18n.data.defaultBundle, sakai_user.data.me);
                                     }
                                     var ss = sethtmlover(translated_content, widgets, widgetName);
                                     for (var s = 0; s < ss.length; s++) {
@@ -697,6 +703,11 @@ define(["/dev/lib/jquery/requireplugins-jquery.js", "./sakai.api.server.js", "./
             } else {
                 return false;
             }
+        },
+
+        initialLoad : function() {
+            this.Container.setReadyToLoad(true);
+            this.widgetLoader.insertWidgets(null, false);
         }
     };
 });
