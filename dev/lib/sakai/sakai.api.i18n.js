@@ -32,8 +32,8 @@
  */
 define(["jquery",
         "/dev/configuration/config.js",
-        "./sakai.api.util.js",
-        "./sakai.api.server.js"],
+        "sakai/sakai.api.util",
+        "sakai/sakai.api.server"],
         function($, sakai_config, sakai_util, sakai_serv) {
 
     return {

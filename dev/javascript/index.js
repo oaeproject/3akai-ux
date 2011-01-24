@@ -18,7 +18,11 @@
 
 
 /*global Querystring, Config, $,  set_cookie */
-require(["jquery","/dev/lib/sakai/sakai.api.core.js"], function($, sakai) {
+require(
+    {
+        baseURL: "/dev/lib"
+    },
+    ["jquery","sakai/sakai.api.core"], function($, sakai) {
     console.log("here", sakai);
     if (sakai.config.anonAllowed){
         $("#login_right_col").show();

@@ -104,7 +104,7 @@
     //only the root bundles will be included unless the locale: section is set above.
     modules: [
         {
-            name: "dev/javascript/dependencies",
+            name: "dev/lib/sakai/sakai.dependencies",
             exclude: ["jquery"]
         }
 

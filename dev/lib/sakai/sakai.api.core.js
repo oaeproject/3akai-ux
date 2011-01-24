@@ -17,16 +17,19 @@
  * specific language governing permissions and limitations under the License.
  *
  */
-define(["./sakai.api.communication.js",
-        "./sakai.api.content.js",
-        "./sakai.api.groups.js",
-        "./sakai.api.i18n.js",
-        "./sakai.api.l10n.js",
-        "./sakai.api.server.js",
-        "./sakai.api.user.js",
-        "./sakai.api.util.js",
-        "./sakai.api.widgets.js",
-        "/dev/configuration/config.js"],
+define(
+    [
+        "sakai/sakai.api.communication",
+        "sakai/sakai.api.content",
+        "sakai/sakai.api.groups",
+        "sakai/sakai.api.i18n",
+        "sakai/sakai.api.l10n",
+        "sakai/sakai.api.server",
+        "sakai/sakai.api.user",
+        "sakai/sakai.api.util",
+        "sakai/sakai.api.widgets",
+        "/dev/configuration/config.js"
+    ],
         function(sakai_comm,
                 sakai_content,
                 sakai_groups,
@@ -37,7 +40,7 @@ define(["./sakai.api.communication.js",
                 sakai_util,
                 sakai_widgets,
                 sakai_conf) {
-        console.log("returning");
+
     return {
 
         api : {

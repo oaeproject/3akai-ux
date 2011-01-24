@@ -30,7 +30,7 @@
  * @namespace
  * Security and authorisation related functionality
  */
-define(["jquery", "/dev/configuration/config.js", "./sakai.api.util.js", "./sakai.api.i18n.js"], function($, sakai_conf, sakai_util, sakai_i18n) {
+define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.util", "sakai/sakai.api.i18n"], function($, sakai_conf, sakai_util, sakai_i18n) {
     return {
 
         /**
