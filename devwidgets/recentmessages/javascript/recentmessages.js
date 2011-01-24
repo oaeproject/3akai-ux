@@ -45,7 +45,7 @@ sakai.recentmessages = function(tuid, showSettings){
     var $recentmessagesErrorNotConnected = $("#recentmessages_error_notconnected", rootel);
     var $recentmessagesListItems = $("#recentmessages_container ul li a", rootel);
     var recentmessagesTemplate = "recentmessages_template";
-
+    var ellipsisContainer = ".recentmessages_ellipsis_container";
 
     ///////////////////////
     // Utility functions //
@@ -72,8 +72,17 @@ sakai.recentmessages = function(tuid, showSettings){
             // Only if everything went fine, show the recent messages
             $recentmessagesContainer.html($.TemplateRenderer(recentmessagesTemplate, response));
 
-            // Activate the ThreeDots plug-in
-            $("#recentmessages_container ul li a", rootel).ThreeDots({max_rows:1});
+            // make sure the newly added content is properly styled with
+            // threedots truncation
+            $(ellipsisContainer, rootel).ThreeDots({
+                max_rows: 1,
+                text_span_class: "recentmessages_ellipsis_text",
+                e_span_class: "recentmessages_e_span_class",
+                whole_word: false,
+                alt_text_t: true
+            });
+            // need to define for chrome...if 
+            $(ellipsisContainer).css("display","inline");
         }
     };
 
