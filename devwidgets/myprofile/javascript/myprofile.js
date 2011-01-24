@@ -141,10 +141,10 @@ sakai.myprofile = function (tuid, showSettings) {
         if (json.picture) {
             var pict = $.parseJSON(json.picture);
             if (pict.name) {
-                $(profilePictureID, rootel).attr("src", "/~" + sakai.data.me.user.userid + "/public/profile/" + pict.name );
+                $(profilePictureID, rootel).html('<img alt="' + $("#myprofile_pic_alt").html() + '" src="/~' + sakai.data.me.user.userid + '/public/profile/' + pict.name + '" class="myprofile_picture" />');
             }
         } else {
-            $(profilePictureID, rootel).attr("src", sakai.config.URL.USER_DEFAULT_ICON_URL);
+            $(profilePictureID, rootel).html('<img alt="' + $("#myprofile_pic_alt").html() + '" src="' + sakai.config.URL.USER_DEFAULT_ICON_URL + '" class="myprofile_picture" />');
         }
 
         // Any extra information we may have.

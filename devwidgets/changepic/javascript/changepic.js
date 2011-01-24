@@ -128,8 +128,10 @@ sakai.changepic = function(tuid, showSettings){
     var pictureMeasurer = "#picture_measurer";
     var pictureMeasurerImage = "#picture_measurer_image";
     var saveNewSelection = "#save_new_selection";
-    var fullPicture = '#changepic_fullpicture';
-    var thumbnail = "#thumbnail";
+    var fullPicture = '#changepic_fullpicture_img';
+    var fullPictureSpan = '#changepic_fullpicture';
+    var thumbnail = "#thumbnail_img";
+    var thumbnailSpan = "#thumbnail";
     var thumbnailContainer = "#thumbnail_container";
     var profilePicture = "#profilepicture";
     var fileName = false;
@@ -348,8 +350,8 @@ sakai.changepic = function(tuid, showSettings){
                 realh = $(pictureMeasurerImage).height();
 
                 // Set the images
-                $(fullPicture).attr("src", "/~" + id + "/public/profile/" + picture._name + "?sid=" + Math.random());
-                $(thumbnail).attr("src", "/~" + id + "/public/profile/" + picture._name + "?sid=" + Math.random());
+                $(fullPictureSpan).html('<img alt="' + $("#changepic_fullpicture_alt").html() + '" id="changepic_fullpicture_img" src="/~' + id + "/public/profile/" + picture._name + "?sid=" + Math.random() + '" />');
+                $(thumbnailSpan).html('<img alt="' + $("#thumbnail_alt").html() + '" id="thumbnail_img" src="/~' + id + "/public/profile/" + picture._name + "?sid=" + Math.random() + '" />');
 
                 // Reset ratio
                 ratio = 1;

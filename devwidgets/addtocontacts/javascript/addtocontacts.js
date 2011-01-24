@@ -97,10 +97,10 @@ sakai.addtocontacts = function(tuid, showSettings){
 
             // Check for picture
             if (user.picture && $.parseJSON(user.picture).name) {
-                $(addToContactsInfoProfilePicture).attr("src", "/~" + user.uuid + "/public/profile/" + $.parseJSON(user.picture).name);
+                $(addToContactsInfoProfilePicture).html('<img alt="' + $("#addtocontacts_profilepicture_alt").html() + '" src="/~' + user.uuid + "/public/profile/" + $.parseJSON(user.picture).name + '" width="60" height="60" />');
             }
             else {
-                $(addToContactsInfoProfilePicture).attr("src", sakai.config.URL.USER_DEFAULT_ICON_URL);
+                $(addToContactsInfoProfilePicture).html('<img alt="' + $("#addtocontacts_profilepicture_alt").html() + '" src="' + sakai.config.URL.USER_DEFAULT_ICON_URL + '" width="60" height="60" />');
             }
         }
     };
