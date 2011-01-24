@@ -113,6 +113,8 @@ sakai.systemtour = function(tuid, showSettings){
      */
     var hideProgressBar = function(){
         $systemtourContainer.hide();
+        // set a cookie to hide widget for the session
+        $.cookie("sakai.systemtour.hide", "true");
     };
 
     /**
@@ -346,8 +348,10 @@ sakai.systemtour = function(tuid, showSettings){
             checkEditProfileProgress = true;
         }
 
+        var hide = $.cookie("sakai.systemtour.hide");
+
         // if user has not removed the tour progress bar or completed all actions or edit profile tour is in progress
-        if (!me.profile.userprogress.hideSystemTour && ((!uploadedProfilePhoto || !uploadedContent || !sharedContent || !madeContactRequest || !halfCompletedProfile || checkEditProfileProgress))) {
+        if (!hide && !me.profile.userprogress.hideSystemTour && ((!uploadedProfilePhoto || !uploadedContent || !sharedContent || !madeContactRequest || !halfCompletedProfile || checkEditProfileProgress))) {
             // update progress bar
             updateProgressBar();
 

@@ -209,6 +209,9 @@ sakai.api.User.login = function(credentials, callback) {
  */
 sakai.api.User.logout = function(callback) {
 
+    // clear the systemtour widget cookie
+    $.cookie("sakai.systemtour.hide", null);
+
     /*
      * POST request to the logout service,
      * which will destroy the session.
