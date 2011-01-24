@@ -323,7 +323,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // replace !"#$%&'()*+,./:;?@[\]^`{|}~ ) with \\ those characters
             // for example userid kkyaw@ will be returned as kkyaw\\@.
             // reference: http://api.jquery.com/category/selectors/
-            return userid.replace(/([!\"#$%&'\(\)\*\+,.\/:;?@\[\\\]^\`{|}~])$/gim,"\\$1");
+            // ^\`{|}~
+            var re = new RegExp("([!\"#$%&\'()*+,.\/:;?@[\\]^`{|}~])", "g");
+            return userid.replace(re,"\\$1");
         };
 
         /**
@@ -612,7 +614,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             message.time = sakai.api.l10n.transformTime(sentDate);
             message.message = messageText;
             var escapeWindow = escapeCharacters(window);
-            var chatwindow = $("#chat_with_" + window + "_content");
+            var chatwindow = $("#chat_with_" + escapeWindow + "_content");
             chatwindow.append(sakai.api.Util.TemplateRenderer("chat_content_template", message));
             // Scroll to the bottom
             chatwindow.attr("scrollTop", chatwindow.attr("scrollHeight"));
@@ -632,9 +634,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 loadNewMessagesTimer = setInterval(checkNewMessages, loadNewMessagesInterval);
             }
         };
-
-        // Variable that keeps track of when we last checked for new messages
-        var lastCheckDate = new Date().getTime();
 
         /**
          * Check whether there are new unread chat messages waiting
@@ -718,7 +717,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         // Pulse if it is not currently open
                         chatWindow = getChatWindow(from.userid);
                         if (!chatWindow.open && message["sakai:read"] === false) {
-                            $("#chat_online_button_" + from.userid).effect("pulsate", {times: 5}, 500);
+                            var userid = escapeCharacters(from.userid);
+                            $("#chat_online_button_" + userid).effect("pulsate", {times: 5}, 500);
                         } else if (message["sakai:read"] !== true) {
                             // the window is open, lets mark the message as read
                             message["sakai:read"] = true;
