@@ -93,7 +93,7 @@
 .search_drop{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -68px -235px transparent;width:15px;height:15px;margin:5px 7px 0 0;float:right;}
 .search_right:hover .search_icon{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -245px -395px transparent;width:15px;height:15px;margin:4px 10px 0 0;float:right;}
 .search_icon{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -7px -396px transparent;width:15px;height:15px;margin:5px 10px 0 0;float:right;}
-.search_string{padding:3px 0 0 3px;color:#aaa;font-size:1em;margin-top:px;border:1px solid grey;width:15em!important;height:19px;vertical-align:top;}
+.search_string{padding:3px 0 0 3px;color:#aaa;font-size:1em;margin-top:0px;border:1px solid #736F6E;width:15em!important;height:19px;vertical-align:top;}
 .search_string:hover{background-color:#CCC!important;}
 #search_more_menu{background-color:transparent;z-index:2;}
 #search_more_menu ul{background-color:#FFF;}

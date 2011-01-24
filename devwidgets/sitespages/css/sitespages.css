@@ -34,14 +34,14 @@
 
 /* SITE MANAGEMENT NAV */
 .site_management{margin:0;padding:0;border:none;}
-.site_management .sm_titlebar{background:transparent url(/dev/images/dashboard_sprite.png) no-repeat scroll right -472px transparent;padding:0 10px 0 0;height:50px;}
+.site_management .sm_titlebar{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -472px transparent;padding:0 10px 0 0;height:50px;}
 .site_management .sm_title{background:transparent url(/dev/images/site_management_icon.png) no-repeat scroll left top;color:#878A8C;font-size:1em;padding-left:25px;}
 .site_management .sm_content ul{margin:0;padding:0;}
 .site_management .sm_content ul li{list-style-type:none;padding:5px 0;}
 .site_management .sm_content ul li a{color:#058EC4;font-weight:bold;}
 .site_management .sm_content ul li p{color:#999;}
-.site_management .sm_bottom{background:transparent url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -1433px transparent;height:5px;padding:0 0 0 10px;}
-.site_management .sm_bottom_inner{background:transparent url(/dev/images/dashboard_sprite.png) no-repeat scroll right -1453px transparent;height:5px;}
+.site_management .sm_bottom{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -1433px transparent;height:5px;padding:0 0 0 10px;}
+.site_management .sm_bottom_inner{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -1453px transparent;height:5px;}
 
 /** SITE EDIT **/.content_page_options ul{padding:0;margin:0;}
 .content_page_options li{display:inline;list-style-type:none;}
