@@ -363,7 +363,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 text_span_class: "ellipsis_text",
                 e_span_class: "threedots_a",
                 whole_word: false,
-                alt_text_t: true
+                alt_text_e: false
             });
         };
     
