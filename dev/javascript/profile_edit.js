@@ -450,7 +450,7 @@ sakai.profile = function(){
             if (sakai.profile.main.config.hasOwnProperty(prop)) {
                 if (sakai.profile.main.config[prop].elements && prop !== "publications") {
                     for (var ii in sakai.profile.main.config[prop].elements) {
-                        if (sakai.profile.main.config[prop].hasOwnProperty(ii)) {
+                        if (sakai.profile.main.config[prop].elements.hasOwnProperty(ii)) {
                             elementItemCount++;
                             if (sakai.profile.main.data[prop] && sakai.profile.main.data[prop].elements && sakai.profile.main.data[prop].elements[ii]) {
                                 dataItemCount++;
