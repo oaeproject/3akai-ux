@@ -384,6 +384,9 @@ sakai.profile = function(){
                 // Show a successful notification to the user
                 sakai.api.Util.notification.show("", $profile_message_form_successful.text() , sakai.api.Util.notification.type.INFORMATION);
 
+                // scroll to top of the page
+                $(window).scrollTop(0);
+
             },
             error: function(xhr, textStatus, thrownError){
 
