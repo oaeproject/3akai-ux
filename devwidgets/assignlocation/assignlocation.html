@@ -52,7 +52,7 @@
         {for location in newlyAssignedLocations}
             <li {if location_index % 2 != 0} class="s3d-list-item s3d-highlight_area_background" {else} class="s3d-list-item" {/if} id="${location}">
                 <a class="assignlocation_close_link" href="javascript:;">
-                    <img class="assignlocation_close_image" src="/dev/images/close_dialog.png" />
+                    <div class="assignlocation_close_image"></div>
                     {for locationpiece in location.split("/")}
                         ${sakai.api.UI.getValueForDirectoryKey(locationpiece)} {if locationpiece_index < location.split("/").length - 1} <span class='assignlocation_select_seperator'>&raquo;</span>{/if}
                     {/for}

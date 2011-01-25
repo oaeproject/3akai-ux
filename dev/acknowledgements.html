@@ -16,38 +16,6 @@
 
         <!-- Sakai Page CSS -->
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.acknowledgements.css" />
-
-        <!-- 3rd party CSS -->
-
-        <!-- Sakai Config JS -->
-        <script type="text/javascript" src="/dev/configuration/widgets.js"></script>
-        <script type="text/javascript" src="/var/widgets.json?callback=sakai.storeWidgets"></script>
-        <script type="text/javascript" src="/dev/configuration/config.js"></script>
-        <script type="text/javascript" src="/dev/configuration/config_custom.js"></script>
-
-        <!-- Core 3rd-party JS -->
-        <script type="text/javascript" src="/dev/lib/jquery/jquery.js"></script>
-        <script type="text/javascript" src="/dev/lib/jquery/jquery-ui.full.js"></script>
-        <script type="text/javascript" src="/dev/lib/fluid/3akai_Infusion.js"></script>
-        <script type="text/javascript" src="/dev/lib/misc/l10n/globalization.js"></script>
-        <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.json.js"></script>
-        <script type="text/javascript" src="/dev/lib/misc/google/html-sanitizer-minified.js"></script>
-
-        <!-- Sakai Core JS -->
-        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.core.js"></script>
-        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.util.js"></script>
-        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.i18n.js"></script>
-        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.l10n.js"></script>
-        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.user.js"></script>
-        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.widgets.js"></script>
-
-        <!-- 3rd party JS -->
-        <script type="text/javascript" src="/dev/lib/misc/trimpath.template.js"></script>
-        <script type="text/javascript" src="/dev/lib/misc/querystring.js"></script>
-        <script type="text/javascript" src="/dev/lib/jquery/plugins/jqmodal.sakai-edited.js"></script>
-        <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.cookie.js"></script>
-        <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.pager.js"></script>
-
     </head>
 
     <body class="fl-centered fl-container acknowledgements i18nable">
@@ -61,6 +29,7 @@
         <!-- TITLE BAR  -->
         <div class="fl-container-flex header s3d-header">
             <div class="fl-fix fl-centered fixed-container s3d-fixed-container">
+                <div class="s3d-decor-left"><!-- --></div>
                 <div class="s3d-decor"></div>
 
                 <!-- TITLE BAR  -->
@@ -413,7 +382,10 @@
         <!-- CHAT -->
         <div id="widget_chat" class="widget_inline"></div>
 
-        <script type="text/javascript" src="/dev/javascript/mysakai.js"></script>
+        <!-- Dependency JS -->
+        <script data-main="/dev/javascript/dependencies.js" src="/dev/lib/jquery/requireplugins-jquery.js"></script>
 
+        <!-- Page JS -->
+        <script type="text/javascript" src="/dev/javascript/mysakai.js"></script>
     </body>
 </html>

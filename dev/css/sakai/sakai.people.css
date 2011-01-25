@@ -13,13 +13,19 @@
 }
 
 .people .find_more_people a {
-    background: url(/dev/images/arrow_right_sm2_blue.png) no-repeat scroll right center;
     color: #058EC4;
     font-size: 14px;
     font-weight: bold;
     padding-right: 10px;
-    margin-right: 15px;
     line-height: 2.0em;
+}
+
+.people .find_more_people a div{
+    background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -490px -398px transparent;
+    float: right;
+    height: 9px;
+    margin: 10px 10px 0 0;
+    width: 5px;
 }
 
 /** CONTENT **/
@@ -32,12 +38,12 @@
 }
 
 .people .outline-top {
-    background: url('/dev/images/content_tr_flip.png') top right no-repeat;
+    background: url("/dev/images/dashboard_sprite.png") no-repeat scroll right -1413px transparent;
     padding: 0 5px 0 0;
     margin: 0;
 }
 .people .outline-top-inner {
-    background: url('/dev/images/content_tl.gif') 0 0 no-repeat;
+    background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -10px -1393px transparent;
     margin: 0;
     height: 6px;
 }
@@ -57,20 +63,6 @@
 }
 .people .search_results_part_header {
     margin-top: 0;
-}
-.people .search_top_rounded {
-    background:transparent url(/dev/images/search_results_tl.png) no-repeat scroll left top;
-}
-.people .search_top_rounded_inner {
-    background:transparent url(/dev/images/search_results_tr.png) no-repeat scroll right top;
-    height:10px;
-}
-.people .search_bottom_rounded {
-    background:transparent url(/dev/images/search_results_bl.png) no-repeat scroll left bottom;
-}
-.people .search_bottom_rounded_inner {
-    background:transparent url(/dev/images/search_results_br.png) no-repeat scroll right bottom;
-    height:10px;
 }
 
 /* search results people */

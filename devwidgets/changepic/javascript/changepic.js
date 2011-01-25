@@ -18,6 +18,8 @@
 
 /*global $ */
 
+require(["/dev/lib/jquery/plugins/imgareaselect/jquery.imgareaselect.js"]);
+
 var sakai = sakai || {};
 
 var AIM = {

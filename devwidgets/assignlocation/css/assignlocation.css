@@ -5,5 +5,5 @@
 #assignlocation_jstree_selected_container ul{margin:0;}
 .assignlocation_secondcolumn_header {position:absolute; left:48%;}
 #assignlocation_ajax_loader {background: url("/dev/images/ajax_load.gif") no-repeat scroll 8px 8px transparent; height: 18px; width: 87px; float:right;}
-.assignlocation_close_image { float:right; padding-right :5px;}
+.assignlocation_close_image {float:right; padding-right :5px; background:url("/dev/images/dashboard_sprite.png") no-repeat scroll -40px -641px transparent;cursor:pointer;display:block;height:15px;overflow:hidden;width:14px;}
 .assignlocation_close_link {text-decoration:none !important;}

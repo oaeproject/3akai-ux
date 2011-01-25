@@ -161,6 +161,7 @@ sakai.mygroups = function(tuid){
      * Will initiate a request to the my groups service.
      */
     var doInit = function(){
+        sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
         //get groups list info from me object, filter and then render groups
         loadGroupList(sakai.data.me.groups);
     };

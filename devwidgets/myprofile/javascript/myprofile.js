@@ -172,7 +172,7 @@ sakai.myprofile = function (tuid, showSettings) {
         }
 
         // Set the status in front of the user his name/
-        $(profileNameID).addClass(profileChatStatus + chatstatus);
+        sakai.api.Util.updateChatStatusElement($("#myprofile_chat_status"), chatstatus);
         $(profileChatStatusID + chatstatus).show();
 
         // Show the widget after everything is loaded
@@ -248,7 +248,7 @@ sakai.myprofile = function (tuid, showSettings) {
 
     // Add binding to set the status
     $(window).bind("chat_status_change", function(event, currentChatStatus){
-        sakai.api.Util.updateChatStatusElement($(profileNameID), currentChatStatus);
+        sakai.api.Util.updateChatStatusElement($("#myprofile_chat_status"), currentChatStatus);
         chatStatus = currentChatStatus;
         $(profileChatStatusClass).hide();
         $(profileChatStatusID + currentChatStatus).show();

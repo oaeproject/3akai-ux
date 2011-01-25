@@ -105,14 +105,8 @@ sakai.chat = function(tuid, showSettings){
         
         batchRequests.push(acceptedContacts);
         batchRequests.push(contactsOnline);
-
-        $.ajax({
-        url: sakai.config.URL.BATCH,
-            type: "POST",
-            data: {
-                requests: $.toJSON(batchRequests)
-            },
-            success: function(data){
+        sakai.api.Server.batch($.toJSON(batchRequests), function(success, data) {
+            if (success) {
                 // contact list
                 if (data.results.hasOwnProperty(0)) {
                     acceptedContactList = $.parseJSON(data.results[0].body);
@@ -123,14 +117,11 @@ sakai.chat = function(tuid, showSettings){
                     // load the list of contact onlines
                     loadContactFinished($.parseJSON(data.results[1].body));
                 }
-            },
-            complete: function(){
-                if ($.isFunction(callback)) {
-                    callback();
-                }
+            }
+            if ($.isFunction(callback)) {
+                callback();
             }
         });
-
     };
 
     /**
@@ -628,7 +619,7 @@ sakai.chat = function(tuid, showSettings){
         }
         // Start polling regurarly to get new messages
         if (!loadNewMessagesTimer) {
-	        loadNewMessagesTimer = setInterval(checkNewMessages, loadNewMessagesInterval);
+            loadNewMessagesTimer = setInterval(checkNewMessages, loadNewMessagesInterval);
         }
     };
 
@@ -816,8 +807,8 @@ sakai.chat = function(tuid, showSettings){
             var chatWindows = storedState.windows;
             var validWindows = [];
             for (var i = 0; i < chatWindows.length; i++) {
-	            appendChatWindow({"profile": chatWindows[i].profile}, chatWindows[i].open);
-	            validWindows.push(chatWindows[i].profile.userid);
+                appendChatWindow({"profile": chatWindows[i].profile}, chatWindows[i].open);
+                validWindows.push(chatWindows[i].profile.userid);
             }
             // grab the session's saved chat messages if they exist
             if (supportsSessionStorage) {
@@ -854,7 +845,7 @@ sakai.chat = function(tuid, showSettings){
 
     // Add binding to set the status
     $(window).bind("chat_status_change", function(event, currentChatStatus){
-        sakai.api.Util.updateChatStatusElement($(".chat_available_name"), currentChatStatus);
+        sakai.api.Util.updateChatStatusElement($(".chat_status"), currentChatStatus);
     });
 
     $(".user_chat").live("click", function(){

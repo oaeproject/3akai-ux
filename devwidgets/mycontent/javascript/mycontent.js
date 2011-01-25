@@ -173,6 +173,7 @@ sakai.mycontent = function(tuid, showSettings) {
      * @return None
      */
     var init = function() {
+        sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
         // get list of content items
         sakai.api.Server.loadJSON("/var/search/pool/me/manager.1.json",
             handleContentData, {

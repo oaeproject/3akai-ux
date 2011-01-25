@@ -288,12 +288,124 @@ sakai.api.i18n.init = function(){
         });
     };
 
+    /**
+     * This will load the default language bundle and will store it in a global variable. This default bundle
+     * will be saved in a file called bundle/default.properties.
+     * This function will load the general language bundle specific to the language chosen by
+     * the user and will store it in a global variable. This language will either be the prefered
+     * user language or the prefered server language. The language will be available in the me feed
+     * and we'll use the global sakai.data.me object to extract it from. If there is no prefered langauge,
+     * we'll use the default bundle to translate everything.
+     */
+    var loadLanguageBundles = function(){
+        var localeSet = false;
+        var getGlobalization = false;
+        var langCode, i10nCode, loadDefaultBundleRequest, loadLocalBundleRequest, globalizationRequest; 
+
+        if (sakai.data && sakai.data.me && sakai.data.me.user && sakai.data.me.user.locale && sakai.data.me.user.locale.country) {
+            langCode = sakai.data.me.user.locale.language + "_" + sakai.data.me.user.locale.country.replace("_", "-");
+            i10nCode = langCode.replace("_", "-");
+            localeSet = true;
+        }
+
+        if (Globalization.cultures) { // check if jquery.glob has been defined yet, should always be but just a sanity check
+            if (Globalization.cultures[i10nCode]) { // probably will never be true, but just in case, no need to get the script again
+                Globalization.preferCulture(i10nCode);
+            } else {
+                getGlobalization = true;
+            }
+        }
+
+        loadDefaultBundleRequest = {
+            "url": sakai.config.URL.I18N_BUNDLE_ROOT + "default.properties",
+            "method": "GET"
+        };
+
+        if (localeSet) {
+            loadLocalBundleRequest = {
+                "url": sakai.config.URL.I18N_BUNDLE_ROOT + langCode + ".properties",
+                "method":"GET"
+            };
+        } else {
+            loadLocalBundleRequest = false;
+        }
+
+        if (getGlobalization && localeSet) {
+            globalizationRequest = {
+                "url": sakai.config.URL.I10N_BUNDLE_URL.replace("__CODE__", i10nCode),
+                "dataType": "script",
+                "method": "GET"
+            };
+        } else {
+            globalizationRequest = false;
+        }
+
+        // bind response from batch request
+        $(window).bind("sakai.api.Server.bundleRequest.complete", function(e, reqData) {
+            if (reqData.groupId === "i18n") {
+                var loadDefaultBundleSuccess, loadDefaultBundleData, loadLocalBundleSuccess, loadLocalBundleData, globalizationSuccess, globalizationData;
+                // loop through and allocate response data to their request
+                for (var i in reqData.responseId) {
+                    if (reqData.responseId.hasOwnProperty(i)) {
+                        if (reqData.responseId[i] === "loadDefaultBundle") {
+                            loadDefaultBundleSuccess = reqData.responseData[i].success;
+                            loadDefaultBundleData = reqData.responseData[i].body;
+                        }
+                        if (reqData.responseId[i] === "loadLocalBundle") {
+                            loadLocalBundleSuccess = reqData.responseData[i].success;
+                            loadLocalBundleData = reqData.responseData[i].body;
+                        }
+                        if (reqData.responseId[i] === "loadLocalBundle") {
+                            globalizationSuccess = reqData.responseData[i].success;
+                            globalizationData = reqData.responseData[i].body;
+                        }
+                    }
+                }
+
+                // process the responses
+                if (loadDefaultBundleSuccess) {
+                    loadDefaultBundleData = sakai.data.i18n.changeToJSON(loadDefaultBundleData);
+                    sakai.data.i18n.defaultBundle = loadDefaultBundleData;
+                    var site = getSiteId();
+                    if (!site) {
+                        if (localeSet) {
+                            if (getGlobalization && globalizationSuccess) {
+                                Globalization.preferCulture(i10nCode);
+                            }
+                            if (loadLocalBundleSuccess) {
+                                loadLocalBundleData = sakai.data.i18n.changeToJSON(loadLocalBundleData);
+                                sakai.data.i18n.localBundle = loadLocalBundleData;
+                                doI18N(sakai.data.i18n.localBundle, sakai.data.i18n.defaultBundle);
+                            } else {
+                                doI18N(null, sakai.data.i18n.defaultBundle);
+                            }
+                        } else {
+                            // There is no locale set for the current user. We'll switch to using the default bundle only
+                            doI18N(null, sakai.data.i18n.defaultBundle);
+                        }
+                    } else {
+                        loadSiteLanguage(site);
+                    }
+                } else {
+                    finishI18N();
+                }
+            }
+        });
+        // add default language bundle to batch request
+        sakai.api.Server.bundleRequests("i18n", 3, "loadDefaultBundle", loadDefaultBundleRequest);
+        // add local language bundle to batch request
+        sakai.api.Server.bundleRequests("i18n", 3, "loadLocalBundle", loadLocalBundleRequest);
+        // add globalization script to batch request
+        sakai.api.Server.bundleRequests("i18n", 3, "globalization", globalizationRequest);
+    };
+
 
     /////////////////////////////
     // INITIALIZATION FUNCTION //
     /////////////////////////////
 
-    loadDefaultBundle();
+    //loadDefaultBundle();
+    loadLanguageBundles();
 };
 
 /**

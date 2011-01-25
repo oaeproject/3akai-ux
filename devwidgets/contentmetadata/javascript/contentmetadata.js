@@ -357,7 +357,7 @@ sakai.contentmetadata = function(tuid,showSettings){
         }, 400, function(){
             applyThreeDots();
         });
-        $("#contentmetadata_show_more span").toggle();
+        $("#contentmetadata_show_more > span").toggle();
     };
 
     /**
