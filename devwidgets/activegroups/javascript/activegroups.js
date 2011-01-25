@@ -27,7 +27,7 @@
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     /**
-     * @name sakai.activegroups
+     * @name sakai_global.activegroups
      *
      * @class activegroups
      *

@@ -237,7 +237,7 @@ sakai.listpeople = function(tuid, showSettings) {
         json_data.pageNumber = pageNumber;
 
         // Render the results data template
-        var pageHTML = $.TemplateRenderer($listpeople_content_pagetemplate, json_data);
+        var pageHTML = sakai.api.Util.TemplateRenderer($listpeople_content_pagetemplate, json_data);
 
         // Display count of items
         $listpeople_count.html(sakai.data.listpeople[listType].total);

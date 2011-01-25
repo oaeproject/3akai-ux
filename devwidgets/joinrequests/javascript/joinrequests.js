@@ -75,7 +75,7 @@ sakai.joinrequests = function (tuid, showSettings) {
             var json = {
                 "joinrequests": joinrequests
             };
-            $joinrequests.html($.TemplateRenderer($joinrequestsTemplate, json));
+            $joinrequests.html(sakai.api.Util.TemplateRenderer($joinrequestsTemplate, json));
             // set images for users that have a profile picture
             for (var i in joinrequests) {
                 if (joinrequests.hasOwnProperty(i)) {

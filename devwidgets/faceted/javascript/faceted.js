@@ -66,7 +66,7 @@ sakai.faceted = function(tuid){
           $(facetedContainer).hide();
         } else {
           // Render the faceted.
-          $(facetedContainer).html($.TemplateRenderer(facetedDefaultTemplate, facetedConfig));
+          $(facetedContainer).html(sakai.api.Util.TemplateRenderer(facetedDefaultTemplate, facetedConfig));
 
           addBinding();
         }

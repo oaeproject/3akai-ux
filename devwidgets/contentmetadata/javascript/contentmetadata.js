@@ -133,7 +133,7 @@ sakai.contentmetadata = function(tuid,showSettings){
         if (mode) {
             sakai.content_profile.content_data.mode = mode;
         }
-        $contentmetadataDescriptionContainer.html($.TemplateRenderer(contentmetadataDescriptionTemplate, sakai.content_profile.content_data));
+        $contentmetadataDescriptionContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataDescriptionTemplate, sakai.content_profile.content_data));
         addEditBinding(mode);
     };
 
@@ -171,7 +171,7 @@ sakai.contentmetadata = function(tuid,showSettings){
      */
     var renderTags = function(mode){
         sakai.content_profile.content_data.mode = mode;
-        $contentmetadataTagsContainer.html($.TemplateRenderer(contentmetadataTagsTemplate, sakai.content_profile.content_data));
+        $contentmetadataTagsContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataTagsTemplate, sakai.content_profile.content_data));
         addEditBinding(mode);
     };
 
@@ -181,7 +181,7 @@ sakai.contentmetadata = function(tuid,showSettings){
      */
     var renderCopyright = function(mode){
         sakai.content_profile.content_data.mode = mode;
-        $contentmetadataCopyrightContainer.html($.TemplateRenderer(contentmetadataCopyrightTemplate, sakai.content_profile.content_data));
+        $contentmetadataCopyrightContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataCopyrightTemplate, sakai.content_profile.content_data));
         addEditBinding(mode);
     };
 
@@ -191,7 +191,7 @@ sakai.contentmetadata = function(tuid,showSettings){
      */
     var renderDetails = function(mode){
         sakai.content_profile.content_data.mode = mode;
-        $contentmetadataDetailsContainer.html($.TemplateRenderer(contentmetadataDetailsTemplate, sakai.content_profile.content_data));
+        $contentmetadataDetailsContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataDetailsTemplate, sakai.content_profile.content_data));
         addEditBinding(mode);
     };
 
@@ -220,7 +220,7 @@ sakai.contentmetadata = function(tuid,showSettings){
         else {
             $contentmetadataLocationsContainer.html("");
             sakai.content_profile.content_data.mode = mode;
-            $contentmetadataLocationsContainer.html($.TemplateRenderer(contentmetadataLocationsTemplate, sakai.content_profile.content_data));
+            $contentmetadataLocationsContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataLocationsTemplate, sakai.content_profile.content_data));
             applyThreeDots();
         }
     };

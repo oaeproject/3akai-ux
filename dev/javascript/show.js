@@ -109,7 +109,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             });
         };
 
-        sakai.show.canEdit = function() {
+        sakai_global.show.canEdit = function() {
             return canEdit;
         };
 

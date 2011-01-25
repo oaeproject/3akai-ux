@@ -74,7 +74,7 @@ sakai.siterecentactivity = function(tuid, showSettings){
             };
 
             // Render the recent sites
-            $(siterecentactivityContainer).html($.TemplateRenderer(siterecentactivityContainerTemplate, reversedItems));
+            $(siterecentactivityContainer).html(sakai.api.Util.TemplateRenderer(siterecentactivityContainerTemplate, reversedItems));
         }else{
             sakai.siterecentactivity.getRecentActivity(sakai.siterecentactivity.render);
         }

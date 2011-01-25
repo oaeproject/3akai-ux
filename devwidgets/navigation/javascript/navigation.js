@@ -347,7 +347,7 @@ sakai.navigation = function(tuid, showSettings){
             groupname: sakai_global.currentgroup.data.authprofile["sakai:group-title"],
             visible: sakai_global.currentgroup.data.authprofile["sakai:pages-visible"]
         };
-        $settingsView.html($.TemplateRenderer($navigationSettingsTemplate, json));
+        $settingsView.html(sakai.api.Util.TemplateRenderer($navigationSettingsTemplate, json));
         $mainView.hide();
         $settingsMenu.hide();
         $settingsIcon.hide();
@@ -778,7 +778,7 @@ sakai.navigation = function(tuid, showSettings){
             pagesVisibility = sakai_global.currentgroup.data.authprofile["sakai:pages-visible"];
         }
 
-        if (sakai.show.canEdit() === true) {
+        if (sakai_global.show.canEdit() === true) {
             // current user is a manager
             renderReadWritePages(selectedPageUrlName, site_info_object);
         } else if(pagesVisibility === sakai.config.Permissions.Groups.visible["public"] ||

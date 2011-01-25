@@ -54,7 +54,7 @@ sakai.nextleveldown = function(tuid,showSettings){
      * @param {Object} data Data containing the JSTree
      */
     var renderChildren = function(data){
-        $nextleveldownContent.html($.TemplateRenderer(nextleveldownContentTemplate, {
+        $nextleveldownContent.html(sakai.api.Util.TemplateRenderer(nextleveldownContentTemplate, {
             "data": data
         }));
     };

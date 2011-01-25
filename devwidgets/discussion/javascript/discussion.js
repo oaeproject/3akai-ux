@@ -383,7 +383,7 @@ sakai.discussion = function(tuid, showSettings){
         if (currentDisplayMode === 'full') {
 
             // Render the compact view template
-            $(discussionContainer, rootel).html($.TemplateRenderer(discussionCompactContainerTemplate, event.data));
+            $(discussionContainer, rootel).html(sakai.api.Util.TemplateRenderer(discussionCompactContainerTemplate, event.data));
             $('#discussion_post' + event.data.posts[0].post["sakai:id"]).show();
 
         }
@@ -406,7 +406,7 @@ sakai.discussion = function(tuid, showSettings){
         jsonPosts.curr = me;
 
         // Render the posts with the template engine
-        $(discussionContainer, rootel).html($.TemplateRenderer(discussionContainerTemplate, jsonPosts));
+        $(discussionContainer, rootel).html(sakai.api.Util.TemplateRenderer(discussionContainerTemplate, jsonPosts));
 
         currentDisplayMode = 'full';
     };
@@ -976,7 +976,7 @@ sakai.discussion = function(tuid, showSettings){
                         }
                     }
 
-                    $(discussionSettingsExistingContainer, rootel).html($.TemplateRenderer(discussionSettingsExistingContainerTemplate, data));
+                    $(discussionSettingsExistingContainer, rootel).html(sakai.api.Util.TemplateRenderer(discussionSettingsExistingContainerTemplate, data));
                 }
                 else {
                     // No discussions available.

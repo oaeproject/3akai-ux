@@ -336,7 +336,7 @@ sakai.rss = function(tuid, showSettings){
             }
             // if all the feed are retrieved render the rss
             else{
-                $(rssFeedListContainer, rootel).html($.TemplateRenderer(rssFeedListTemplate, resultJSON));
+                $(rssFeedListContainer, rootel).html(sakai.api.Util.TemplateRenderer(rssFeedListTemplate, resultJSON));
                 $(rootel + " " + rssRemove).bind("click", function(e,ui){
                     var index = parseInt(e.target.parentNode.id.replace(rssRemoveNoDot, ""),10);
                     resultJSON.feeds.splice(index,1);
@@ -377,7 +377,7 @@ sakai.rss = function(tuid, showSettings){
         // first get the entries that need to be shown on this page
         resultJSON.shownEntries = getShownEntries(clicked);
         // render these entries
-        $(rssOutput, rootel).html($.TemplateRenderer(rssOutputTemplate, resultJSON));
+        $(rssOutput, rootel).html(sakai.api.Util.TemplateRenderer(rssOutputTemplate, resultJSON));
         // change the pageNumeber
         $(rssPager,rootel).pager({
             pagenumber: clicked,
@@ -463,7 +463,7 @@ sakai.rss = function(tuid, showSettings){
         if(rssFeed !== false){
             resultJSON.feeds = resultJSON.feeds || [];
             resultJSON.feeds.push(rssFeed);
-            $(rssFeedListContainer, rootel).html($.TemplateRenderer(rssFeedListTemplate, resultJSON));
+            $(rssFeedListContainer, rootel).html(sakai.api.Util.TemplateRenderer(rssFeedListTemplate, resultJSON));
             $(rootel + " " + rssRemove).bind("click", function(e,ui){
                 var index = parseInt(e.target.parentNode.id.replace(rssRemoveNoDot, ""),10);
                 resultJSON.feeds.splice(index,1);

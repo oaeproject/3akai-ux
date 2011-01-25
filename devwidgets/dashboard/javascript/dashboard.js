@@ -26,7 +26,7 @@
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     /**
-     * @name sakai.dashboard
+     * @name sakai_global.dashboard
      *
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
@@ -81,7 +81,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var decideExists = function(exists, response) {
             if (exists === false) {
                 if (response.status === 401) { // uesr is not logged in
-                    $(window).trigger("sakai.dashboard.notLoggedIn"); // let the embedding page decide how to handle not logged in
+                    $(window).trigger("sakai_global.dashboard.notLoggedIn"); // let the embedding page decide how to handle not logged in
                 }
                 doInit();
             } else {
@@ -181,9 +181,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var person = sakai.data.me;
 
             if (!person.user.userid) {
-                $(window).trigger("sakai.dashboard.notUsersDashboard");
+                $(window).trigger("sakai_global.dashboard.notUsersDashboard");
             } else if (person.user.anon) {
-                $(window).trigger("sakai.dashboard.notLoggedIn");
+                $(window).trigger("sakai_global.dashboard.notLoggedIn");
             }
 
             $(".body-container", $rootel).show();
@@ -983,7 +983,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * loaded successfully
          */
 
-        $(window).trigger("sakai.dashboard.ready", tuid);
+        $(window).trigger("sakai_global.dashboard.ready", tuid);
         sakai_global.dashboard.isReady = true;
     };
 

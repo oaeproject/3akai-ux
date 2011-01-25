@@ -31,7 +31,7 @@
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     /**
-     * @name sakai.fileupload
+     * @name sakai_global.fileupload
      *
      * @class fileupload
      *

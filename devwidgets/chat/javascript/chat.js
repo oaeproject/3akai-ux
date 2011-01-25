@@ -27,7 +27,7 @@
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     /**
-     * @name sakai.chat
+     * @name sakai_global.chat
      *
      * @class chat
      *

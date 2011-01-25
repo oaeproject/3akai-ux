@@ -63,7 +63,7 @@ sakai.listpeopleinnode = function(tuid, showSettings){
     var renderResults = function(results, success){
         //$listpeopleinnodeAjaxLoader.hide();
         if(success){
-            $listpeopleinnodePeopleContainer.html($.TemplateRenderer(listpeopleinnodePeopleTemplate, results));
+            $listpeopleinnodePeopleContainer.html(sakai.api.Util.TemplateRenderer(listpeopleinnodePeopleTemplate, results));
         }
     };
 
@@ -116,7 +116,7 @@ sakai.listpeopleinnode = function(tuid, showSettings){
         var obj = {
             "location" : sakai.api.UI.getValueForDirectoryKey(selected.split("/")[selected.split("/").length - 1])
         };
-        $listpeopleinnodeTitle.html($.TemplateRenderer(listpeopleinnodeTitleTemplate, obj));
+        $listpeopleinnodeTitle.html(sakai.api.Util.TemplateRenderer(listpeopleinnodeTitleTemplate, obj));
         // Use three dot plugin to show ... for long title
         $(listpeopleinnodeEllipsisContainer).ThreeDots({
             max_rows: 1

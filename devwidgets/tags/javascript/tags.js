@@ -27,7 +27,7 @@
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     /**
-     * @name sakai.tags
+     * @name sakai_global.tags
      *
      * @class tags
      *

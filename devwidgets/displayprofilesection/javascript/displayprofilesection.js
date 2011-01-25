@@ -100,7 +100,7 @@ sakai.displayprofilesection = function(tuid, showSettings){
         sakai.api.Widgets.changeWidgetTitle(tuid, data.sectiontitle);
 
         // Construct the html for the widget
-        var toAppend = $.TemplateRenderer($(displayprofilesectionSectionWidgetsContainerTemplate, rootel)[0].id, sectionobject);
+        var toAppend = sakai.api.Util.TemplateRenderer($(displayprofilesectionSectionWidgetsContainerTemplate, rootel)[0].id, sectionobject);
         $(displayprofilesectionContentWidgetHolder, rootel).html(toAppend);
 
         // Bind a global event that can be triggered by the profilesection widgets
@@ -139,7 +139,7 @@ sakai.displayprofilesection = function(tuid, showSettings){
             }
         }
 
-        $(displayprofilesectionSelectSection, rootel).html($.TemplateRenderer(displayprofilesectionSelectSectionTemplate, objArr));
+        $(displayprofilesectionSelectSection, rootel).html(sakai.api.Util.TemplateRenderer(displayprofilesectionSelectSectionTemplate, objArr));
         $(displayprofilesectionSectionTitle, rootel).val(data.sectiontitle);
 
         if (typeof data.sectionid != "undefined"){

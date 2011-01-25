@@ -28,7 +28,7 @@
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     /**
-     * @name sakai.entity
+     * @name sakai_global.entity
      *
      * @class entity
      *

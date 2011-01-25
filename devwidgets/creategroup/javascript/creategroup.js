@@ -26,7 +26,7 @@
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     /**
-     * @name sakai.creategroup
+     * @name sakai_global.creategroup
      *
      * @class creategroup
      *

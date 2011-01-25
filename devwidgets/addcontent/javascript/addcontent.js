@@ -80,7 +80,7 @@ sakai.addcontent = function(tuid, showSettings){
     var renderTemplate = function(data){
 
         // Execute the render function
-        $.TemplateRenderer($addcontent_container_content_template, data, $addcontent_container_content);
+        sakai.api.Util.TemplateRenderer($addcontent_container_content_template, data, $addcontent_container_content);
 
         // Show the content container
         $addcontent_container_content.show();
@@ -97,7 +97,7 @@ sakai.addcontent = function(tuid, showSettings){
     var renderTemplateShow = function(data){
 
         // Execute the render function
-        $.TemplateRenderer($addcontent_container_show_template, data, $addcontent_container_show);
+        sakai.api.Util.TemplateRenderer($addcontent_container_show_template, data, $addcontent_container_show);
 
         // Show the show container
         $addcontent_container_show.show();

@@ -133,7 +133,7 @@ sakai.ggadget = function(tuid, showSettings){
             jsonDefaultSize.width = defaultWidth;
             jsonDefaultSize.width_unit = defaultWidthUnit;
             jsonDefaultSize.height = defaultHeight;
-            $(remotecontentSettingsPreview).html($.TemplateRenderer($remotecontentSettingsPreviewTemplate, json, null, false));
+            $(remotecontentSettingsPreview).html(sakai.api.Util.TemplateRenderer($remotecontentSettingsPreviewTemplate, json, null, false));
         }
         else {
             $(remotecontentSettingsPreviewFrame).attr("style", "border: " + json.border_size + "px #" + json.border_color + " solid");
@@ -145,7 +145,7 @@ sakai.ggadget = function(tuid, showSettings){
      */
     var renderIframe = function(){
         if (json) {
-            $(remotecontentMainContainer, rootel).html($.TemplateRenderer($remotecontentSettingsPreviewTemplate, json, null, false));
+            $(remotecontentMainContainer, rootel).html(sakai.api.Util.TemplateRenderer($remotecontentSettingsPreviewTemplate, json, null, false));
 
             // SAKIII-314 We need to show the container, otherwise the second item won't be shown.
             $(remotecontentMainContainer, rootel).show();
@@ -157,7 +157,7 @@ sakai.ggadget = function(tuid, showSettings){
      */
     var renderRemoteContentSettings = function(){
         if (json) {
-            $(remotecontentSettings).html($.TemplateRenderer($remotecontentSettingsTemplate, json));
+            $(remotecontentSettings).html(sakai.api.Util.TemplateRenderer($remotecontentSettingsTemplate, json));
         }
     };
 
@@ -166,7 +166,7 @@ sakai.ggadget = function(tuid, showSettings){
      */
     var renderColorContainer = function(){
         if (json) {
-            $(remotecontentSettingsColorContainer).html($.TemplateRenderer($remotecontentSettingsColorContainerTemplate, json));
+            $(remotecontentSettingsColorContainer).html(sakai.api.Util.TemplateRenderer($remotecontentSettingsColorContainerTemplate, json));
         }
     };
 

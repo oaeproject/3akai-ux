@@ -82,7 +82,7 @@ sakai.contentpicker = function(tuid, showSettings) {
         } else {
             $contentpicker_placing_content_label.show();
         }
-        $.TemplateRenderer($contentpicker_page_name_template, {"name": pickerConfig.name}, $contentpicker_page_name);
+        sakai.api.Util.TemplateRenderer($contentpicker_page_name_template, {"name": pickerConfig.name}, $contentpicker_page_name);
 
         if (firstTime) {
             setupAutoSuggest();

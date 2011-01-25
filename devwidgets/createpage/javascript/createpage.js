@@ -121,7 +121,7 @@ sakai.createpage = function(tuid, showSettings){
             }
         }
         // pass the array to HTML view
-        $createpageTemplates.html($.TemplateRenderer($createpageTemplatesTemplate,
+        $createpageTemplates.html(sakai.api.Util.TemplateRenderer($createpageTemplatesTemplate,
             json));
         $createpageTemplates.show();
 

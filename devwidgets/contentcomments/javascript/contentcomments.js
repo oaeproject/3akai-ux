@@ -239,7 +239,7 @@ sakai.contentcomments = function(tuid, showSettings){
 
             jsonDisplay.comments[i] = comment;
         }
-        $(commentsShowComments, rootel).html($.TemplateRenderer(commentsShowCommentsTemplate, jsonDisplay));
+        $(commentsShowComments, rootel).html(sakai.api.Util.TemplateRenderer(commentsShowCommentsTemplate, jsonDisplay));
     };
 
     /**

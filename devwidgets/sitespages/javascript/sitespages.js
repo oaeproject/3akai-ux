@@ -394,7 +394,7 @@ sakai.sitespages = function(tuid,showSettings){
             $(".sakai_site .content_top").addClass("content_top_rounded");
         } else {
             $("#sitespages_page_options #page_save_options").hide();
-            $("#sitespages_page_options #page_options").show().html($.TemplateRenderer("#sitespages_page_options_container", {})); // todo don't do this
+            $("#sitespages_page_options #page_options").show().html(sakai.api.Util.TemplateRenderer("#sitespages_page_options_container", {})); // todo don't do this
             $more_revision_history = $($more_revision_history.selector);
             $more_save_as_template = $($more_save_as_template.selector);
             if (pageType === "webpage") {
@@ -519,7 +519,7 @@ sakai.sitespages = function(tuid,showSettings){
         return url_safe_title;
     };
 
-    $(window).bind("sakai.dashboard.ready", function(e, tuid) {
+    $(window).bind("sakai_global.dashboard.ready", function(e, tuid) {
         var split = $(sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"]).attr("id").split("_");
         var entityID = false;
         if (sakai.profile.main.data["rep:userId"]) {
@@ -1008,7 +1008,7 @@ sakai.sitespages = function(tuid,showSettings){
             $elm1_ifr.attr({'scrolling':'no','frameborder':'0'});
 
             if (!sakai.sitespages.toolbarSetupReady) {
-                $(".mceToolbarEnd").before($.TemplateRenderer("editor_extra_buttons", {}));
+                $(".mceToolbarEnd").before(sakai.api.Util.TemplateRenderer("editor_extra_buttons", {}));
                 $(".insert_more_dropdown_activator").bind("click", function(ev){ toggleInsertMore(); });
             }
 
@@ -1167,7 +1167,7 @@ sakai.sitespages = function(tuid,showSettings){
         var pagetitle = "";
         sakai.sitespages.inEditView = true;
         $("#sitespages_page_options #page_options").hide();
-        $("#sitespages_page_options #page_save_options").show().html($.TemplateRenderer("#edit_page_action_buttons_template", {}));
+        $("#sitespages_page_options #page_save_options").show().html(sakai.api.Util.TemplateRenderer("#edit_page_action_buttons_template", {}));
         // Edit page title
         document.title = document.title.replace(sakai.api.i18n.General.getValueForKey("SITE_VIEW"), sakai.api.i18n.General.getValueForKey("PAGE_EDIT"));
 
@@ -1266,7 +1266,7 @@ sakai.sitespages = function(tuid,showSettings){
         // Edit page title
         document.title = document.title.replace(sakai.api.i18n.General.getValueForKey("PAGE_EDIT"), sakai.api.i18n.General.getValueForKey("SITE_VIEW"));
         $("#sitespages_page_options #page_save_options").hide();
-        $("#sitespages_page_options #page_options").show().html($.TemplateRenderer("#sitespages_page_options_container", {}));
+        $("#sitespages_page_options #page_options").show().html(sakai.api.Util.TemplateRenderer("#sitespages_page_options_container", {}));
         if (sakai.sitespages.isEditingNewPage) {
 
             // Display previous page content
@@ -1393,7 +1393,7 @@ sakai.sitespages = function(tuid,showSettings){
         $(window).trigger("sakai_sitespages_exitedit");
 
         $("#sitespages_page_options #page_save_options").hide();
-        $("#sitespages_page_options #page_options").show().html($.TemplateRenderer("#sitespages_page_options_container", {}));
+        $("#sitespages_page_options #page_options").show().html(sakai.api.Util.TemplateRenderer("#sitespages_page_options_container", {}));
         // Edit page title
         document.title = document.title.replace(sakai.api.i18n.General.getValueForKey("PAGE_EDIT"), sakai.api.i18n.General.getValueForKey("SITE_VIEW"));
 
@@ -2238,7 +2238,7 @@ sakai.sitespages = function(tuid,showSettings){
                 if (tinyMCE.activeEditor === null) { // Probably a more robust checking will be necessary
                     init_tinyMCE();
                     $("#sitespages_page_options #page_options").hide();
-                    $("#sitespages_page_options #page_save_options").show().html($.TemplateRenderer("#edit_page_action_buttons_template", {}));
+                    $("#sitespages_page_options #page_save_options").show().html(sakai.api.Util.TemplateRenderer("#edit_page_action_buttons_template", {}));
                 } else {
                     editPage(pageUniques.urlName);
                 }

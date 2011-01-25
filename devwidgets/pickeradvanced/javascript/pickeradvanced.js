@@ -160,7 +160,7 @@ sakai.pickeradvanced = function(tuid, showSettings) {
     var getGroups = function() {
         $pickeradvanced_group_specific_filters.html('');
         $(sakai.data.me.groups).each(function(i,val) {
-            var groupItem = $.TemplateRenderer($pickeradvanced_group_search_template, {"data":val});
+            var groupItem = sakai.api.Util.TemplateRenderer($pickeradvanced_group_search_template, {"data":val});
             $pickeradvanced_group_specific_filters.append(groupItem);
         });
     };
@@ -278,7 +278,7 @@ sakai.pickeradvanced = function(tuid, showSettings) {
                 rawData.total = newData.length;
 
                 // Render the results data template
-                var pageHTML = $.TemplateRenderer($pickeradvanced_content_search_pagetemplate, rawData);
+                var pageHTML = sakai.api.Util.TemplateRenderer($pickeradvanced_content_search_pagetemplate, rawData);
 
                 // Remove loading animation
                 $pl_pageContainer = $(".pickeradvanced_page.pickeradvanced_page_list.loadinganim");

@@ -533,7 +533,7 @@ sakai.userprofile = function(tuid,showSettings){
         };
 
         // Construct the html for the widget
-        var toAppend = $.TemplateRenderer($profile_sectionwidgets_container_template, sectionobject);
+        var toAppend = sakai.api.Util.TemplateRenderer($profile_sectionwidgets_container_template, sectionobject);
         $profile_sectionwidgets_container.append(toAppend);
 
         // Bind a global event that can be triggered by the profilesection widgets
@@ -569,14 +569,14 @@ sakai.userprofile = function(tuid,showSettings){
     var renderTemplateFooter = function(){
 
         // Render the profile footer
-        $profile_footer.html($.TemplateRenderer($profile_footer_template, sakai.profile.main));
+        $profile_footer.html(sakai.api.Util.TemplateRenderer($profile_footer_template, sakai.profile.main));
 
     };
 
     var renderTemplateActions = function(){
 
         // Render the actions for the profile
-        $.TemplateRenderer($profile_actions_template, sakai.profile.main, $profile_actions);
+        sakai.api.Util.TemplateRenderer($profile_actions_template, sakai.profile.main, $profile_actions);
 
     };
 

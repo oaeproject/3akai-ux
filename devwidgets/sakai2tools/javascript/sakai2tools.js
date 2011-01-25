@@ -157,7 +157,7 @@ sakai.sakai2tools = function(tuid, showSettings){
     var renderIframeSettings = function(complete){
         if (complete) {
             json.launchDataUrl = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_widgets").replace(/__TUID__/, tuid).replace(/__NAME__/, "basiclti") + '.launch.html';
-            $(basicltiSettingsPreview).html($.TemplateRenderer($basicltiSettingsPreviewTemplate, json));
+            $(basicltiSettingsPreview).html(sakai.api.Util.TemplateRenderer($basicltiSettingsPreviewTemplate, json));
         }
         else {
             $(basicltiSettingsPreviewFrame).attr("style", "border: " + json.border_size + "px #" + json.border_color + " solid");
@@ -171,7 +171,7 @@ sakai.sakai2tools = function(tuid, showSettings){
         if (json) {
             json.launchDataUrl = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_widgets").replace(/__TUID__/, tuid).replace(/__NAME__/, "basiclti") + '.launch.html';
             json.tuidFrame = basicltiSettingsPreviewId;
-            $(basicltiMainContainer, rootel).html($.TemplateRenderer($basicltiSettingsPreviewTemplate, json));
+            $(basicltiMainContainer, rootel).html(sakai.api.Util.TemplateRenderer($basicltiSettingsPreviewTemplate, json));
             // SAKIII-542 Basic LTI no longer renders IFRAME content (workaround)
             $("#" + json.tuidFrame).attr("src", json.launchDataUrl);
             // resize the iframe to match inner body height if in the same origin (i.e. same protocol/domain/port)
@@ -191,7 +191,7 @@ sakai.sakai2tools = function(tuid, showSettings){
      */
     var renderRemoteContentSettings = function(){
         if (json) {
-            $(basicltiSettings).html($.TemplateRenderer($basicltiSettingsTemplate, json));
+            $(basicltiSettings).html(sakai.api.Util.TemplateRenderer($basicltiSettingsTemplate, json));
             $(basicltiSettingsVirtualToolId).val(json.lti_virtual_tool_id);
         }
     };
@@ -201,7 +201,7 @@ sakai.sakai2tools = function(tuid, showSettings){
      */
     var renderColorContainer = function(){
         if (json) {
-            $(basicltiSettingsColorContainer).html($.TemplateRenderer($basicltiSettingsColorContainerTemplate, json));
+            $(basicltiSettingsColorContainer).html(sakai.api.Util.TemplateRenderer($basicltiSettingsColorContainerTemplate, json));
         }
     };
 

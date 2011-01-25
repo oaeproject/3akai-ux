@@ -420,7 +420,7 @@ sakai.api.UI.listGeneral.sortAndDisplay = function(tuid, pageNumber) {
     } else {
 
         // Render the results data template
-        var newPageHTML = $.TemplateRenderer("#" + tuid + " .listgeneral_content_template", sakai.data.listgeneral[tuid].aggregateResults);
+        var newPageHTML = sakai.api.Util.TemplateRenderer("#" + tuid + " .listgeneral_content_template", sakai.data.listgeneral[tuid].aggregateResults);
 
         // Add rendered result HTML to DOM and set viewmode class
         $resultPage.removeClass("loadinganim").addClass("listgeneral_result_viewmode_" + sakai.config.widgets.listgeneral[tuid].viewMode).append(newPageHTML);

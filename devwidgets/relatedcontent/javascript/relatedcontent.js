@@ -80,7 +80,7 @@ sakai.relatedcontent = function(tuid,showSettings){
      */
     var renderTemplate = function(relatedcontentData){
         // Render the relatedcontent
-        $(relatedcontentContainer).html($.TemplateRenderer(relatedcontentDefaultTemplate, relatedcontentData));
+        $(relatedcontentContainer).html(sakai.api.Util.TemplateRenderer(relatedcontentDefaultTemplate, relatedcontentData));
         $(relatedcontentContainer).show();
         applyThreeDots();
     };

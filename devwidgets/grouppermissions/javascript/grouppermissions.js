@@ -72,7 +72,7 @@ sakai.grouppermissions = function(tuid, showSettings){
                 "visible": visible
             };
             // pass data to HTML view
-            $rootel.html($.TemplateRenderer($(template), gp_data));
+            $rootel.html(sakai.api.Util.TemplateRenderer($(template), gp_data));
             $(template, $rootel).show();
         } else {
             debug.error("grouppermissions.js - ERROR getting permissions properties from sakai_global.currentgroup");

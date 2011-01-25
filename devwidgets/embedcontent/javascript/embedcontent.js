@@ -102,7 +102,7 @@ sakai.embedcontent = function(tuid, showSettings) {
      */
     var renderSettings = function() {
         selectedItems = [];
-        $.TemplateRenderer($embedcontent_page_name_template, {"name": embedConfig.name}, $embedcontent_page_name);
+        sakai.api.Util.TemplateRenderer($embedcontent_page_name_template, {"name": embedConfig.name}, $embedcontent_page_name);
         if (firstTime) {
             setupAutoSuggest();
             sakai.api.Widgets.widgetLoader.insertWidgets("embedcontent_settings", false, "#"+tuid);
@@ -125,7 +125,7 @@ sakai.embedcontent = function(tuid, showSettings) {
     };
 
     var renderWidget = function() {
-        $.TemplateRenderer($embedcontent_content_html_template, widgetData, $embedcontent_content);
+        sakai.api.Util.TemplateRenderer($embedcontent_content_html_template, widgetData, $embedcontent_content);
         sakai.api.Widgets.widgetLoader.insertWidgets("embedcontent_main_container", false, "#"+tuid);
     };
 

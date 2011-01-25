@@ -58,7 +58,7 @@ sakai.mysakai2 = function(tuid){
         if (resultJson.sites.length === 0) {
             $(mysakai2List, rootel).html(sakai.api.Security.saneHTML($(mysakai2ErrorNosites).html())).addClass("sites_error");
         } else {
-            $(mysakai2List, rootel).html($.TemplateRenderer(mysakai2ListTemplate.replace(/#/, ''), resultJson));
+            $(mysakai2List, rootel).html(sakai.api.Util.TemplateRenderer(mysakai2ListTemplate.replace(/#/, ''), resultJson));
         }
     };
 

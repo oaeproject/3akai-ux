@@ -117,7 +117,7 @@ sakai.video = function(tuid, showSettings) {
             // This is needed as a parameter for the sakai-player
             //var isTouTube = (video.URL.search(youtubeUrl) !== -1);
             // Renders the video-template (title, source and conatiner to place flash-player in)
-            //$(container, rootel).html($.TemplateRenderer(videoTemplate, video));
+            //$(container, rootel).html(sakai.api.Util.TemplateRenderer(videoTemplate, video));
             // some more parameters needed for the sakai-videoplayer
             //var flashvars = {
             //    videoURL: video.URL,
@@ -147,7 +147,7 @@ sakai.video = function(tuid, showSettings) {
             //}
 
               video.videoContainer = tuid + "_video_container";
-              $(container, rootel).html($.TemplateRenderer(videoTemplate, video));
+              $(container, rootel).html(sakai.api.Util.TemplateRenderer(videoTemplate, video));
 
               var videoWidth = rootel.width() - 6 + "px";
               var so = new SWFObject('/devwidgets/video/jwplayer/player-licensed.swf','ply', videoWidth, '100%','9','#ffffff');

@@ -62,10 +62,10 @@ sakai.filerevisions = function(tuid, showSettings){
         data.data = baseFileData;
         data.linkrevision = $("#content_profile_details_view_revisions").hasClass("link_revision");
 
-        var renderedTemplate = $.TemplateRenderer(filerevisionsTemplate, data);
+        var renderedTemplate = sakai.api.Util.TemplateRenderer(filerevisionsTemplate, data);
         $(filerevisionsTemplateContainer).html(renderedTemplate);
 
-        renderedTemplate = $.TemplateRenderer("#filerevision_header_text_template", data);
+        renderedTemplate = sakai.api.Util.TemplateRenderer("#filerevision_header_text_template", data);
         $("#filerevision_header_text").html(renderedTemplate);
     };
 

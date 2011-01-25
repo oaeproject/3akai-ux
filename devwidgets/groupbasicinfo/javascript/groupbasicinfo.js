@@ -121,8 +121,8 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         }
         var json = processTagsAndDirectory(mode);
 
-        $groupbasicinfo_generalinfo.html($.TemplateRenderer("#groupbasicinfo_default_template", json));
-        $(groupBasicInfoSavedInfo).html($.TemplateRenderer("#groupbasicinfo_generalinfo_directory_list_template", json));
+        $groupbasicinfo_generalinfo.html(sakai.api.Util.TemplateRenderer("#groupbasicinfo_default_template", json));
+        $(groupBasicInfoSavedInfo).html(sakai.api.Util.TemplateRenderer("#groupbasicinfo_generalinfo_directory_list_template", json));
 
         if (mode === "edit") {
             addBinding();
@@ -294,7 +294,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
             mode = 'edit';
         }
         var json = processTagsAndDirectory(mode);
-        $(groupBasicInfoSavedInfo).html($.TemplateRenderer("#groupbasicinfo_generalinfo_directory_list_template", json));
+        $(groupBasicInfoSavedInfo).html(sakai.api.Util.TemplateRenderer("#groupbasicinfo_generalinfo_directory_list_template", json));
     };
 
     //////////////////////

@@ -19,7 +19,7 @@
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     /**
-     * @name sakai.myprofile
+     * @name sakai_global.myprofile
      *
      * @class myprofile
      *

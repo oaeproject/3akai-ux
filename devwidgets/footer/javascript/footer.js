@@ -23,7 +23,7 @@
 
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     /**
-     * @name sakai.footer
+     * @name sakai_global.footer
      *
      * @class footer
      *

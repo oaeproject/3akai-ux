@@ -110,9 +110,9 @@ sakai.admin_widgets = function(tuid, showSettings){
         sakaiWidgets.items.sort(sortWidgets);
         contribWidgets.items.sort(sortWidgets);
 
-        $(coreWidgetsTemplateContainer).html($.TemplateRenderer(coreWidgetsTemplate, coreWidgets));
-        $(sakaiWidgetsTemplateContainer).html($.TemplateRenderer(sakaiWidgetsTemplate, sakaiWidgets));
-        $(contribWidgetsTemplateContainer).html($.TemplateRenderer(contribWidgetsTemplate, contribWidgets));
+        $(coreWidgetsTemplateContainer).html(sakai.api.Util.TemplateRenderer(coreWidgetsTemplate, coreWidgets));
+        $(sakaiWidgetsTemplateContainer).html(sakai.api.Util.TemplateRenderer(sakaiWidgetsTemplate, sakaiWidgets));
+        $(contribWidgetsTemplateContainer).html(sakai.api.Util.TemplateRenderer(contribWidgetsTemplate, contribWidgets));
     };
 
     /**

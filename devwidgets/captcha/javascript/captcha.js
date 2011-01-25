@@ -25,63 +25,64 @@
 /*global Config, $, */
 
 
-var sakai = sakai || {};
-
-/**
- * @name sakai.captcha
- *
- * @param {String} tuid Unique id of the widget
- * @param {Boolean} showSettings Show the settings of the widget or not
- */
-sakai.captcha = function(tuid, showSettings) {
-
-    var $rootel = $("#" + tuid);
+require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     /**
-     * @returns {Object} Data that should be used in a request to send to a captcha validator.
+     * @name sakai_global.captcha
+     *
+     * @param {String} tuid Unique id of the widget
+     * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai.captcha.getProperties = function() {
-        var values = {};
-        values["recaptcha-challenge"] = Recaptcha.get_challenge();
-        values["recaptcha-response"] = Recaptcha.get_response();
-        return values;
+    sakai_global.captcha = function(tuid, showSettings) {
+
+        var $rootel = $("#" + tuid);
+
+        /**
+         * @returns {Object} Data that should be used in a request to send to a captcha validator.
+         */
+        sakai_global.captcha.getProperties = function() {
+            var values = {};
+            values["recaptcha-challenge"] = Recaptcha.get_challenge();
+            values["recaptcha-response"] = Recaptcha.get_response();
+            return values;
+        };
+
+        /**
+         * Invalidates the current captcha
+         */
+        sakai_global.captcha.destroy = function() {
+          Recaptcha.destroy();  
+        };
+
+        /**
+         * Reload the current captcha
+         */
+        sakai_global.captcha.reload = function() {
+            Recaptcha.reload();  
+        };
+
+        /**
+         * Performs an AJAX request to the captcha service and fetches all the properties.
+         * We assume that we always use reCAPTCHA
+         */
+        sakai_global.captcha.init = function() {
+            $.ajax({
+                "url" : sakai.config.URL.CAPTCHA_SERVICE,
+                "type" : "GET",
+                "success" : function (data, status) {
+                    var captchaContainer = $("#captcha_container", $rootel).get()[0];
+                    Recaptcha.create(data["public-key"], captchaContainer,
+                        {
+                            theme: "red"
+                        }
+                    );
+                }
+            });
+        };
+
+        sakai_global.captcha.init();
+
     };
 
-    /**
-     * Invalidates the current captcha
-     */
-    sakai.captcha.destroy = function() {
-      Recaptcha.destroy();  
-    };
-
-    /**
-     * Reload the current captcha
-     */
-    sakai.captcha.reload = function() {
-        Recaptcha.reload();  
-    };
-
-    /**
-     * Performs an AJAX request to the captcha service and fetches all the properties.
-     * We assume that we always use reCAPTCHA
-     */
-    sakai.captcha.init = function() {
-        $.ajax({
-            "url" : sakai.config.URL.CAPTCHA_SERVICE,
-            "type" : "GET",
-            "success" : function (data, status) {
-                var captchaContainer = $("#captcha_container", $rootel).get()[0];
-                Recaptcha.create(data["public-key"], captchaContainer,
-                    {
-                        theme: "red"
-                    }
-                );
-            }
-        });
-    };
-
-    sakai.captcha.init();
-
-};
-
-sakai.api.Widgets.widgetLoader.informOnLoad("captcha");
+    sakai.api.Widgets.widgetLoader.informOnLoad("captcha");
+});

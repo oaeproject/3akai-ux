@@ -72,7 +72,7 @@ sakai.sakai2favourites = function(tuid, showSettings){
      * This method render Category List.
      */
     var loadSakai2SiteList = function(){
-        $(sakai2CategoryList).html($.TemplateRenderer(sakai2CategoryListTemplate.replace(/#/, ''), siteListsjson));
+        $(sakai2CategoryList).html(sakai.api.Util.TemplateRenderer(sakai2CategoryListTemplate.replace(/#/, ''), siteListsjson));
     };
 
    /**
@@ -104,7 +104,7 @@ sakai.sakai2favourites = function(tuid, showSettings){
             }
         }
         // render the sites
-        $("#sakai2_site_list").html($.TemplateRenderer("#sakai2_site_list_template".replace(/#/, ''),siteListJson));
+        $("#sakai2_site_list").html(sakai.api.Util.TemplateRenderer("#sakai2_site_list_template".replace(/#/, ''),siteListJson));
         // select related checkboxes based on the selectedlistjson
         setSite();
     };
@@ -113,7 +113,7 @@ sakai.sakai2favourites = function(tuid, showSettings){
      * This method render all sites selected to display in my sakai2 favourites
      */
     var renderSelectedList = function(){
-        $("#sakai2favourites_selected_site_list").html($.TemplateRenderer("#sakai2_selected_site_list_template".replace(/#/, ''),sakai.data.me.sakai2List));
+        $("#sakai2favourites_selected_site_list").html(sakai.api.Util.TemplateRenderer("#sakai2_selected_site_list_template".replace(/#/, ''),sakai.data.me.sakai2List));
     };
 
 
