@@ -121,7 +121,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             }
             // pass the array to HTML view
-            $createpageTemplates.html($.TemplateRenderer($createpageTemplatesTemplate,
+            $createpageTemplates.html(sakai.api.Util.TemplateRenderer($createpageTemplatesTemplate,
                 json));
             $createpageTemplates.show();
 
