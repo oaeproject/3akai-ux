@@ -153,7 +153,11 @@
                     <div class="fl-force-left entity_content_new_events">
                         <a id="entity_content_activity" href="#" class="s3d-regular-light-links s3d-bold">
                             {if data.profile.activity}
+                                {if data.profile.activity.total === -100}
+                                    More than ${Math.abs(data.profile.activity.total)}
+                                {else}
                                 ${data.profile.activity.total}
+                                {/if}
                                 {if data.profile.activity.total === 1}
                                     __MSG__THING_HAS_HAPPENED__
                                 {else}
