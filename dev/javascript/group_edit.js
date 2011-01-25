@@ -91,7 +91,7 @@ sakai.groupedit = function(){
     $(window).bind("sakai.api.UI.entity.ready", function(e){
         readyToRender = true;
         if (sakai.currentgroup.data) {
-            sakai.api.UI.entity.render("group", sakai.currentgroup.data);
+            $(window).trigger("render.entity.sakai", ["group", sakai.currentgroup.data]);
             hasRendered = true;
         }
     });
@@ -110,7 +110,7 @@ sakai.groupedit = function(){
                     triggerEditable(true);
                 }
                 if (readyToRender && !hasRendered) {
-                    sakai.api.UI.entity.render("group", sakai.currentgroup.data);
+                    $(window).trigger("render.entity.sakai", ["group", sakai.currentgroup.data]);
                 }
                 renderGroupBasicInfo();
                 // per section permissions to be fully implemented later; hiding
@@ -150,7 +150,7 @@ sakai.groupedit = function(){
                                          sakai.api.Security.saneHTML($("#group_edit_updated_successfully_text").text()),
                                          sakai.api.Util.notification.type.INFORMATION);
         // Re-render the Entity Summary widget so the changes are reflected
-        sakai.api.UI.entity.render("group", sakai.currentgroup.data);
+        $(window).trigger("render.entity.sakai", ["group", sakai.currentgroup.data]);
     });
 
     /**

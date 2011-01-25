@@ -267,10 +267,10 @@ sakai.show = function() {
                 var data = sakai.profile.main.isme ? false : sakai.profile.main.data;
 
                 // Render the entity widget
-                sakai.api.UI.entity.render(whichprofile, data);
+                $(window).trigger("render.entity.sakai", [whichprofile, data]);
                 break;
             case "group":
-                sakai.api.UI.entity.render("group", sakai.currentgroup.data);
+                $(window).trigger("render.entity.sakai", ["group", sakai.currentgroup.data]);
                 break;
         }
     };

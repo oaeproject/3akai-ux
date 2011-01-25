@@ -18,7 +18,7 @@
 
 
 /*global Querystring, Config, $,  set_cookie */
-require(["/dev/javascript/dependencies.js"], function(){
+require(["/dev/lib/sakai/sakai.dependencies.js"], function(){
     require.ready(function() {
         debug.log("page.js");
 

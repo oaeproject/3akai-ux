@@ -22,7 +22,7 @@
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.index.css" />
 
         <!-- Dependency JS -->
-        <script data-main="/dev/javascript/dependencies.js" src="/dev/lib/jquery/requireplugins-jquery.js"></script>
+        <script data-main="/dev/lib/sakai/sakai.dependencies.js" src="/dev/lib/jquery/requireplugins-jquery.js"></script>
 
         <!-- 403 JS -->
         <script type="text/javascript" src="/dev/javascript/sakai.403.js"></script>

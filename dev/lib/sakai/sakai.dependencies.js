@@ -1,6 +1,6 @@
 
 /* Define globals */
-
+sakai_global = {};
 /**
  * window.debug, a console dot log wrapper
  * adapted from html5boilerplate.com's window.log and Ben Alman's window.debug
@@ -79,8 +79,6 @@ require(
     [
         "order!jquery",
         "order!/dev/lib/sakai/sakai.jquery-extensions.js",
-        "order!/dev/configuration/widgets.js",
-        "order!/var/widgets.json?callback=sakai.storeWidgets",
         "order!/dev/configuration/config.js",
         "order!/dev/configuration/config_custom.js",
         "order!/dev/lib/jquery/jquery-ui.full.js",
@@ -103,11 +101,9 @@ require(
         "order!/dev/lib/jquery/plugins/jsTree/jquery.jstree.sakai-edit.js",
         "order!/dev/lib/jquery/plugins/gritter/jquery.gritter.js"
     ],
-    function($, a, b, c, d, e, f, g, h, i, j, k, l, sakai) {
+    function($, a, b, c, d, e, f, g, h, i, j, sakai) {
         require.ready(function() {
-            debug.log("dependencies.js ready", sakai);
             sakai.api.User.loadMeData(function(success, data){
-                console.log("callback");
                 // Start i18n
                 sakai.api.i18n.init(data);
             });

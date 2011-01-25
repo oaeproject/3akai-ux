@@ -100,7 +100,6 @@ Groups
  - jquery
  - configuration
  - server
- - security
  
 i18n
  - jquery

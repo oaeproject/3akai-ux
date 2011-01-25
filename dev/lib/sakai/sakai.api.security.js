@@ -246,13 +246,13 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.util", "sakai
          */
         sendToLogin : function(){
             var redurl = window.location.pathname + window.location.hash;
-            document.location = sakai_conf.config.URL.GATEWAY_URL + "?url=" + escape(window.location.pathname + window.location.search + window.location.hash);
+            document.location = sakai_conf.URL.GATEWAY_URL + "?url=" + escape(window.location.pathname + window.location.search + window.location.hash);
             return false;
         },
 
         showPage : function(callback){
             // Show the background images used on anonymous user pages
-            if ($.inArray(window.location.pathname, sakai_conf.config.requireAnonymous) > -1){
+            if ($.inArray(window.location.pathname, sakai_conf.requireAnonymous) > -1){
                 $('html').addClass("requireAnon");
             // Show the normal background
             } else {
@@ -260,9 +260,9 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.util", "sakai
             }
             sakai_util.loadSkinsFromConfig();
             // Put the title inside the page
-            var pageTitle = sakai_i18n.General.getValueForKey(sakai_conf.config.PageTitles.prefix);
-            if (sakai_conf.config.PageTitles.pages[window.location.pathname]){
-                pageTitle += sakai_i18n.General.getValueForKey(sakai_conf.config.PageTitles.pages[window.location.pathname]);
+            var pageTitle = sakai_i18n.General.getValueForKey(sakai_conf.PageTitles.prefix);
+            if (sakai_conf.PageTitles.pages[window.location.pathname]){
+                pageTitle += sakai_i18n.General.getValueForKey(sakai_conf.PageTitles.pages[window.location.pathname]);
             }
             document.title = pageTitle;
             // Show the actual page content

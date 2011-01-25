@@ -292,7 +292,7 @@
        // Add a new file to the list
        MultiFile.addToList = function( slave, slave_count ){
         // increase number of selected files
-        sakai.fileupload.increaseSelectedFiles();
+        $(window).trigger("increaseSelectedFiles.fileupload.sakai");
 
         //if(window.console) console.log('MultiFile.addToList',slave_count);
 
@@ -316,7 +316,7 @@
 
         b
 								.click(function(){
-          sakai.fileupload.decreaseSelectedFiles();
+          $(window).trigger("decreaseSelectedFiles.fileupload.sakai");
           //# Trigger Event! onFileRemove
           if(!MultiFile.trigger('onFileRemove', slave, MultiFile)) return false;
           //# End Event!

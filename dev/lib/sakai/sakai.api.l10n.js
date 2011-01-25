@@ -30,7 +30,7 @@
  * @namespace
  * Language localisation
  */
-define(["/dev/configuration/config.js", "/dev/lib/misc/l10n/globalization.js"], function(sakai_conf, Globalization) {
+define(["/dev/configuration/config.js", "/dev/lib/misc/l10n/globalization.js"], function(sakai_conf) {
     return {
 
         /**
@@ -43,14 +43,14 @@ define(["/dev/configuration/config.js", "/dev/lib/misc/l10n/globalization.js"], 
         },
 
         getUserDefaultLocale : function() {
-            var ret = sakai_conf.config.defaultLanguage;
+            var ret = sakai_conf.defaultLanguage;
             // Get the browser language preference - IE uses userLanguage, all other browsers user language
             var locale = navigator.language ? navigator.language : navigator.userLanguage;
             if (locale) {
                 var split = locale.split("-");
                 if (split.length > 1) {
                     split[1] = split[1].toUpperCase();
-                    var langs = sakai_conf.config.Languages;
+                    var langs = sakai_conf.Languages;
                     // Loop over all the available languages - if the user's browser language preference matches
                     // then set their locale to that so they don't have to set it manually
                     var i;

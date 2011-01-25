@@ -238,7 +238,7 @@ sakai.addtocontacts = function(tuid, showSettings){
      * @param {Object} user The userid or the /rest/me info for this user.
      * @param {Function} callback The callback function that will be executed after the request.
      */
-    sakai.addtocontacts.initialise = function(user, callback){
+    var initialize = function(user, callback){
         callbackWhenDone = callback;
         // Check if we have a JSON object or a userid String.
         if (!user.preferences) {
@@ -272,6 +272,12 @@ sakai.addtocontacts = function(tuid, showSettings){
             "setPersonalNote": setPersonalNote
         };
     };
+
+    $(window).bind("initialize.addToContacts.sakai", function(e, obj) {
+        var user = obj.user;
+        var callback = obj.callback;
+        initialize(user, callback);
+    });
 
     /////////////////////
     // Event listeners //

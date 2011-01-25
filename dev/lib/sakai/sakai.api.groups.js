@@ -97,7 +97,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
             */
             saveGroup = function(groupid, grouptitle, groupdescription, meData, callback){
                 $.ajax({
-                    url: sakai_conf.config.URL.GROUP_CREATE_SERVICE,
+                    url: sakai_conf.URL.GROUP_CREATE_SERVICE,
                     data: {
                         "_charset_":"utf-8",
                         ":name": groupid,
@@ -105,15 +105,15 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                         "sakai:group-title" : grouptitle,
                         "sakai:group-description" : groupdescription,
                         "sakai:group-id": groupid,
-                        ":sakai:pages-template": "/var/templates/site/" + sakai_conf.config.defaultGroupTemplate,
-                        "sakai:pages-visible": sakai_conf.config.Permissions.Groups.visible["public"]
+                        ":sakai:pages-template": "/var/templates/site/" + sakai_conf.defaultGroupTemplate,
+                        "sakai:pages-visible": sakai_conf.Permissions.Groups.visible["public"]
                     },
                     type: "POST",
                     success: function(data, textStatus) {
                         // set default permissions for this group
                         this.setPermissions(groupid,
-                            sakai_conf.config.Permissions.Groups.joinable.manager_add,
-                            sakai_conf.config.Permissions.Groups.visible["public"],
+                            sakai_conf.Permissions.Groups.joinable.manager_add,
+                            sakai_conf.Permissions.Groups.visible["public"],
                             function (success, errorMessage) {
                                 if(success) {
                                     if ($.isFunction(callback)) {
@@ -235,8 +235,8 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
          */
         setPermissions : function(groupid, joinable, visible, callback) {
             if(groupid && typeof(groupid) === "string" &&
-               this.isValidPermissionsProperty(sakai_conf.config.Permissions.Groups.joinable, joinable) &&
-               this.isValidPermissionsProperty(sakai_conf.config.Permissions.Groups.visible, visible)) {
+               this.isValidPermissionsProperty(sakai_conf.Permissions.Groups.joinable, joinable) &&
+               this.isValidPermissionsProperty(sakai_conf.Permissions.Groups.visible, visible)) {
 
                 // issue a BATCH POST to update Jackrabbit group & Home Folder group
                 var batchRequests = [];
@@ -244,7 +244,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                 var homeFolderUrl = "/~" + groupid + ".modifyAce.html";
 
                 // determine visibility state
-                if(visible == sakai_conf.config.Permissions.Groups.visible.managers) {
+                if(visible == sakai_conf.Permissions.Groups.visible.managers) {
                     // visible to managers only
                     batchRequests.push({
                         "url": jackrabbitUrl,
@@ -272,7 +272,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                             "privilege@jcr:read": "denied"
                         }
                     });
-                } else if(visible == sakai_conf.config.Permissions.Groups.visible.members) {
+                } else if(visible == sakai_conf.Permissions.Groups.visible.members) {
                     // visible to members only
                     batchRequests.push({
                         "url": jackrabbitUrl,
@@ -300,7 +300,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                             "privilege@jcr:read": "denied"
                         }
                     });
-                } else if(visible == sakai_conf.config.Permissions.Groups.visible.allusers) {
+                } else if(visible == sakai_conf.Permissions.Groups.visible.allusers) {
                     // visible to all logged in users
                     batchRequests.push({
                         "url": jackrabbitUrl,

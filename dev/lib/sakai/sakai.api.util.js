@@ -34,9 +34,9 @@ define(["jquery",
         "sakai/sakai.api.l10n",
         "/dev/configuration/config.js",
         "/dev/lib/misc/trimpath.template.js"],
-        function($, sakai_serv, sakai_l10n, sakai_conf, TrimPath) {
-    return {
-
+        function($, sakai_serv, sakai_l10n, sakai_conf) {
+    
+    var util = {
         /**
          * Parse a JavaScript date object to a JCR date string (2009-10-12T10:25:19)
          *
@@ -319,7 +319,7 @@ define(["jquery",
             $(newTags).each(function(i,val) {
                 val = $.trim(val).replace(/#/g,"");
                 if (val && $.inArray(val,currentTags) === -1) {
-                    if (this.Security.escapeHTML(val) === val && val.length) {
+                    if (util.Security.escapeHTML(val) === val && val.length) {
                         if ($.inArray(val, tagsToAdd) < 0) {
                             tagsToAdd.push(val);
                         }
@@ -329,7 +329,7 @@ define(["jquery",
             $(currentTags).each(function(i,val) {
                 val = $.trim(val).replace(/#/g,"");
                 if (val && $.inArray(val,newTags) == -1) {
-                    if (this.Security.escapeHTML(val) === val && val.length) {
+                    if (util.Security.escapeHTML(val) === val && val.length) {
                         if ($.inArray(val, tagsToDelete) < 0) {
                             tagsToDelete.push(val);
                         }
@@ -429,12 +429,12 @@ define(["jquery",
                 /**
                  * Object containing settings for the information notification type
                  */
-                INFORMATION : $.extend(true, {}, sakai_conf.config.notification.type.INFORMATION),
+                INFORMATION : $.extend(true, {}, sakai_conf.notification.type.INFORMATION),
 
                 /**
                  * Object containing settings for the error notification type
                  */
-                ERROR : $.extend(true, {}, sakai_conf.config.notification.type.ERROR)
+                ERROR : $.extend(true, {}, sakai_conf.notification.type.ERROR)
                 }
         },
 
@@ -671,31 +671,30 @@ define(["jquery",
              * Load a JavaScript file into the document
              * @param {String} URL of the JavaScript file relative to the parent dom.
              */
-            include : {
-                js : function(url) {
-                    var attributes = {"src": url, "type": "text/javascript"};
-                    var existingScript = checkForTag("script", attributes);
-                    if (existingScript) {
-                        // Remove the existing script so we can place in a new one
-                        // We need to do this otherwise the init functions that need to be called
-                        // at the end of widgets never get called again
-                        existingScript.remove();
-                    }
-                    this.insertTag("script", {"src" : url, "type" : "text/javascript"});
-                },
-                /**
-                 * Load a CSS file into the document
-                 * @param {String} URL of the CSS file relative to the parent dom.
-                 */
-                css : function(url) {
-                    var attributes = {"href" : url, "type" : "text/css", "rel" : "stylesheet"};
-                    var existingStylesheet = checkForTag("link", attributes);
-                    // if the stylesheet already exists, don't add it again
-                    if (!existingStylesheet) {
-                        this.insertTag("link", attributes);
-                    }
+            js : function(url) {
+                var attributes = {"src": url, "type": "text/javascript"};
+                var existingScript = this.checkForTag("script", attributes);
+                if (existingScript) {
+                    // Remove the existing script so we can place in a new one
+                    // We need to do this otherwise the init functions that need to be called
+                    // at the end of widgets never get called again
+                    existingScript.remove();
+                }
+                this.insertTag("script", {"src" : url, "type" : "text/javascript"});
+            },
+            /**
+             * Load a CSS file into the document
+             * @param {String} URL of the CSS file relative to the parent dom.
+             */
+            css : function(url) {
+                var attributes = {"href" : url, "type" : "text/css", "rel" : "stylesheet"};
+                var existingStylesheet = this.checkForTag("link", attributes);
+                // if the stylesheet already exists, don't add it again
+                if (!existingStylesheet) {
+                    this.insertTag("link", attributes);
                 }
             }
+            
         },
 
         /**
@@ -762,8 +761,8 @@ define(["jquery",
          * Loads in any skins defined in sakai.config.skinCSS
          */
         loadSkinsFromConfig : function() {
-            if (sakai_conf.config.skinCSS && sakai.config.skinCSS.length) {
-                $(sakai_conf.config.skinCSS).each(function(i,val) {
+            if (sakai_conf.skinCSS && sakai_conf.skinCSS.length) {
+                $(sakai_conf.skinCSS).each(function(i,val) {
                     this.include.css(val);
                 });
             }
@@ -771,13 +770,13 @@ define(["jquery",
 
         // TODO need to refactor this, this won't work with the new system
         getPageContext : function() {
-            if (sakai.content_profile) {
+            if (sakai_global.content_profile) {
                 return "content";
-            } else if (sakai.group || sakai.groupedit) {
+            } else if (sakai_global.group || sakai_global.groupedit) {
                 return "group";
-            } else if (sakai.directory) {
+            } else if (sakai_global.directory) {
                 return "directory";
-            } else if (sakai.content_profile || sakai.profile){
+            } else if (sakai_global.content_profile || sakai_global.profile){
                 return "user";
             } else {
                 return false;
@@ -860,7 +859,7 @@ define(["jquery",
                 return node;
             };
 
-            return convertToHierarchy(sakai.config.Directory);
+            return convertToHierarchy(sakai_conf.Directory);
         },
 
         /**
@@ -1080,7 +1079,7 @@ define(["jquery",
                 throw "TemplateRenderer: The templateElement '" + templateElement + "' is not in a valid format or the template couldn't be found.";
             }
 
-            if (!templateCache[templateName]) {
+            if (!this.templateCache[templateName]) {
                 var templateNode = templateElement.get(0);
                 if (templateNode) {
                     var firstNode = templateNode.firstChild;
@@ -1093,7 +1092,12 @@ define(["jquery",
                         template = templateNode.innerHTML.toString();
                     }
                     // Parse the template through TrimPath and add the parsed template to the template cache
-                    templateCache[templateName] = TrimPath.parseTemplate(template, templateName);
+                    try {
+                        this.templateCache[templateName] = TrimPath.parseTemplate(template, templateName);
+                    } catch (e) {
+                        debug.error("TemplateRenderer:", e);
+                    }
+                    
 
                 }
                 else {
@@ -1102,11 +1106,17 @@ define(["jquery",
             }
 
             // Run the template and feed it the given JSON object
-            var render = templateCache[templateName].process(templateData);
+            var render = "";
+            try {
+                render = this.templateCache[templateName].process(templateData);
+            } catch (e) {
+                debug.error("TemplateRenderer:", e);
+            }
+            
 
             // Run the rendered html through the sanitizer
             if (sanitize) {
-                render = this.Security.saneHTML(render);
+                render = util.Security.saneHTML(render);
             }
 
             // Check it there was an output element defined
@@ -1302,23 +1312,24 @@ define(["jquery",
              */
             sendToLogin : function(){
                 var redurl = window.location.pathname + window.location.hash;
-                document.location = sakai_conf.config.URL.GATEWAY_URL + "?url=" + escape(window.location.pathname + window.location.search + window.location.hash);
+                document.location = sakai_conf.URL.GATEWAY_URL + "?url=" + escape(window.location.pathname + window.location.search + window.location.hash);
                 return false;
             },
 
             showPage : function(callback){
                 // Show the background images used on anonymous user pages
-                if ($.inArray(window.location.pathname, sakai_conf.config.requireAnonymous) > -1){
+                if ($.inArray(window.location.pathname, sakai_conf.requireAnonymous) > -1){
                     $('html').addClass("requireAnon");
                 // Show the normal background
                 } else {
                     $('html').addClass("requireUser");
                 }
-                this.loadSkinsFromConfig();
+                util.loadSkinsFromConfig();
+
                 // Put the title inside the page
-                var pageTitle = sakai_i18n.General.getValueForKey(sakai_conf.config.PageTitles.prefix);
-                if (sakai_conf.config.PageTitles.pages[window.location.pathname]){
-                    pageTitle += sakai_i18n.General.getValueForKey(sakai_conf.config.PageTitles.pages[window.location.pathname]);
+                var pageTitle = require("sakai/sakai.api.i18n").General.getValueForKey(sakai_conf.PageTitles.prefix);
+                if (sakai_conf.PageTitles.pages[window.location.pathname]){
+                    pageTitle += require("sakai/sakai.api.i18n").General.getValueForKey(sakai_conf.PageTitles.pages[window.location.pathname]);
                 }
                 document.title = pageTitle;
                 // Show the actual page content
@@ -1329,4 +1340,6 @@ define(["jquery",
             }
         }
     };
+    
+    return util;
 });

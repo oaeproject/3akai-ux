@@ -129,7 +129,7 @@ define(["jquery", "/dev/configuration/config.js"],function($, sakai_conf) {
                 }
             }
             $.ajax({
-                url: sakai_conf.config.URL.BATCH,
+                url: sakai_conf.URL.BATCH,
                 traditional: true,
                 type: "POST",
                 cache: false,

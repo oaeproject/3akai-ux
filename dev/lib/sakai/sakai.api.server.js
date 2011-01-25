@@ -30,7 +30,8 @@
 * Server related convenience functions and communication
 */
 define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
-    return {
+
+    var sakaiServerAPI = {
         /**
          * Perform a batch request to the server
          *
@@ -43,11 +44,11 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                 cache = _cache || true;
 
             // IE can't handle GETs over 2048 chars, so lets check for that and POST if we need to
-            if ($.browser.msie && ("http://" + document.location.host + sakai_conf.config.URL.BATCH + encodeURI(_requests)).length > 2048) {
+            if ($.browser.msie && ("http://" + document.location.host + sakai_conf.URL.BATCH + encodeURI(_requests)).length > 2048) {
                 method = "POST";
             }
             $.ajax({
-                url: sakai_conf.config.URL.BATCH,
+                url: sakai_conf.URL.BATCH,
                 type: method,
                 cache: cache,
                 data: {
@@ -89,13 +90,13 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                 this.initialRequests[groupId].requestId.push(requestId);
             }
             this.initialRequests[groupId].count++;
-
+            var that = this;
             if (numRequests === this.initialRequests[groupId].count) {
-                this.batch($.toJSON(this.initialRequests[groupId].requests), function(success, data) {
+                this.batch($.toJSON(that.initialRequests[groupId].requests), function(success, data) {
                     if (success) {
                         var jsonData = {
                             "groupId": groupId,
-                            "responseId": this.initialRequests[groupId].requestId,
+                            "responseId": that.initialRequests[groupId].requestId,
                             "responseData": data.results
                         };
                         $(window).trigger("sakai.api.Server.bundleRequest.complete", jsonData);
@@ -301,10 +302,10 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                 success: function(data) {
 
                     // Remove keys which are created by JCR or Sling
-                    this.removeJCRObjects(data);
+                    sakaiServerAPI.removeJCRObjects(data);
 
                     // Convert the special objects to arrays
-                    data = this.loadJSON.convertObjectToArray(data, null, null);
+                    data = sakaiServerAPI.convertObjectToArray(data, null, null);
 
                     // Call callback function if present
                     if ($.isFunction(callback)) {
@@ -490,4 +491,6 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
             return ret;
         }
     };
+
+    return sakaiServerAPI;
 });

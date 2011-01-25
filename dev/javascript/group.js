@@ -88,7 +88,7 @@ sakai.group = function(){
     $(window).bind("sakai.api.UI.entity.ready", function(e){
         readyToRender = true;
         if (sakai.currentgroup.data) {
-            sakai.api.UI.entity.render("group", sakai.currentgroup.data);
+            $(window).trigger("render.entity.sakai", ["group", sakai.currentgroup.data]);
             hasRendered = true;
         }
     });
@@ -105,7 +105,7 @@ sakai.group = function(){
                     sakai.currentgroup.manager = true;
                 }
                 if (readyToRender && !hasRendered) {
-                    sakai.api.UI.entity.render("group", data);
+                    $(window).trigger("render.entity.sakai", ["group", data]);
                 }
                 groupinfoready = true;
                 if (widgetready){

@@ -584,7 +584,7 @@ sakai.search = function() {
     /** A user want to make a new friend. */
     $(searchConfig.global.addToContactsLink).live("click", function(ev) {
         contactclicked = (this.id.substring(searchConfig.global.addToContactsFiller.length));
-        sakai.addtocontacts.initialise(contactclicked, mainSearch.removeAddContactLinks);
+        $(window).trigger("initialize.addToContacts.sakai", { user: contactclicked, callback: mainSearch.removeAddContactLinks });
 
         // display tooltip
         var tooltipData = {

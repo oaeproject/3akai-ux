@@ -429,7 +429,7 @@ sakai.search = function() {
     var createNewGroup = function(){
         $(createGroupContainer).show();
         // Load the creategroup widget.
-        sakai.creategroup.initialise();
+        $(window).trigger("init.creategroup.sakai");
     };
 
 

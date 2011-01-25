@@ -16,14 +16,8 @@
  * specific language governing permissions and limitations under the License.
  */
 
+require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
-/*global Querystring, Config, $,  set_cookie */
-require(
-    {
-        baseURL: "/dev/lib"
-    },
-    ["jquery","sakai/sakai.api.core"], function($, sakai) {
-    console.log("here", sakai);
     if (sakai.config.anonAllowed){
         $("#login_right_col").show();
     }

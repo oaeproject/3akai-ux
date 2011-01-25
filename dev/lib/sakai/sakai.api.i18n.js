@@ -36,14 +36,32 @@ define(["jquery",
         "sakai/sakai.api.server"],
         function($, sakai_config, sakai_util, sakai_serv) {
 
-    return {
-
+    var sakaii18nAPI = {
         data : {
             localBundle : false,
             defaultBundle : false,
-            widgets : {},
-            changeToJSON : {}
+            widgets : {}
         },
+
+        /**
+         * This changes properties file into a json object
+         */
+        changeToJSON : function(input){
+            var json = {};
+            var inputLine = input.split(/\n/);
+            var i;
+            for (i in inputLine) {
+                // IE 8 i has indexof as well which breaks the page.
+                if (inputLine.hasOwnProperty(i)) {
+                    var keyValuePair = inputLine[i].split(/\s*\=\s*/);
+                    var key = keyValuePair.shift();
+                    var value = keyValuePair.join(" = ");
+                    json[key] = value;
+                }
+            }
+            return json;
+        },
+
         /**
          * <p>Main i18n process</p>
          * <p>This function will be executed once the entire DOM has been loaded. The function will take
@@ -55,8 +73,6 @@ define(["jquery",
          * @param {Object} meData the data from sakai.api.User.data.me
          */
         init : function(meData){
-            console.log("init");
-
             ////////////////////
             // HELP VARIABLES //
             ////////////////////
@@ -90,11 +106,11 @@ define(["jquery",
             var getSiteId = function(){
                 var site = false;
                 var loc = ("" + document.location);
-                var siteid = loc.indexOf(sakai_conf.config.URL.SITE_CONFIGFOLDER.replace(/__SITEID__/, ""));
+                var siteid = loc.indexOf(sakai_config.URL.SITE_CONFIGFOLDER.replace(/__SITEID__/, ""));
                 if (siteid !== -1) {
                     var mark = (loc.indexOf("?") === -1) ? loc.length : loc.indexOf("?");
                     var uri = loc.substring(0, mark);
-                    site = uri.substring(siteid, loc.length).replace(sakai_conf.config.URL.SITE_CONFIGFOLDER.replace(/__SITEID__/, ""), "");
+                    site = uri.substring(siteid, loc.length).replace(sakai_config.URL.SITE_CONFIGFOLDER.replace(/__SITEID__/, ""), "");
                     site = site.substring(0, site.indexOf("#"));
                 }
                 return site;
@@ -121,25 +137,26 @@ define(["jquery",
              */
             var finishI18N = function(){
                 var currentPage = window.location.pathname;
-                if (!sakai_conf.config.anonAllowed) {
-                    sakai_conf.config.requireUser = sakai_conf.config.requireUser.concat(sakai_conf.config.requireUserAnonNotAllowed);
-                    sakai_conf.config.requireAnonymous = sakai_conf.config.requireAnonymous.concat(sakai_conf.config.requireAnonymousAnonNotAllowed);
+                if (!sakai_config.anonAllowed) {
+                    sakai_config.requireUser = sakai_config.requireUser.concat(sakai_config.requireUserAnonNotAllowed);
+                    sakai_config.requireAnonymous = sakai_config.requireAnonymous.concat(sakai_config.requireAnonymousAnonNotAllowed);
                 }
                 if (meData && meData.user && meData.user.anon) {
-                    if ($.inArray(currentPage, sakai_conf.config.requireUser) > -1){
+                    if ($.inArray(currentPage, sakai_config.requireUser) > -1){
                         sakai_util.Security.sendToLogin();
                         return false;
                     }
                 } else {
-                    if ($.inArray(currentPage, sakai_conf.config.requireAnonymous) > -1){
-                        document.location = sakai_conf.config.URL.MY_DASHBOARD_URL;
+                    if ($.inArray(currentPage, sakai_config.requireAnonymous) > -1){
+                        document.location = sakai_config.URL.MY_DASHBOARD_URL;
                         return false;
                     }
                 }
-                if ($.inArray(currentPage, sakai_conf.config.requireProcessing) === -1 && window.location.pathname.substring(0, 2) !== "/~"){
+                
+                if ($.inArray(currentPage, sakai_config.requireProcessing) === -1 && window.location.pathname.substring(0, 2) !== "/~"){
                     sakai_util.Security.showPage();
                 }
-                require("./sakai.api.widgets.js").initialLoad();
+                require("sakai/sakai.api.widgets").initialLoad();
                 this.done = true;
                 $(window).trigger("sakai-i18n-done");
                 return true;
@@ -156,14 +173,14 @@ define(["jquery",
              *  in the default language
              */
             var doI18N = function(localjson, defaultjson){
-                var newstring = this.General.process(tostring, localjson, defaultjson);
+                var newstring = sakaii18nAPI.General.process(tostring, localjson, defaultjson, meData);
                 // We actually use the old innerHTML function here because the $.html() function will
                 // try to reload all of the JavaScript files declared in the HTML, which we don't want as they
                 // will already be loaded
                 if($i18nable.length > 0){
                     $i18nable[0].innerHTML = newstring;
                 }
-                document.title = this.General.process(document.title, localjson, defaultjson);
+                document.title = sakaii18nAPI.General.process(document.title, localjson, defaultjson, meData);
                 finishI18N();
             };
 
@@ -181,23 +198,23 @@ define(["jquery",
                     if (Globalization.cultures[i10nCode]) { // probably will never be true, but just in case, no need to get the script again
                         Globalization.preferCulture(i10nCode);
                     } else {
-                        $.getScript(sakai_conf.config.URL.I10N_BUNDLE_URL.replace("__CODE__", i10nCode), function(success, textStatus) {
+                        $.getScript(sakai_config.URL.I10N_BUNDLE_URL.replace("__CODE__", i10nCode), function(success, textStatus) {
                             Globalization.preferCulture(i10nCode);
                         });
                     }
                 }
                 // language bundles
                 $.ajax({
-                    url: sakai_conf.config.URL.I18N_BUNDLE_ROOT + langCode + ".properties",
+                    url: sakai_config.URL.I18N_BUNDLE_ROOT + langCode + ".properties",
                     success: function(data){
-                        data = this.data.changeToJSON(data);
-                        this.data.localBundle = data;
-                        doI18N(this.data.i18n.localBundle, this.data.defaultBundle);
+                        data = sakaii18nAPI.changeToJSON(data);
+                        sakaii18nAPI.data.localBundle = data;
+                        doI18N(sakaii18nAPI.data.i18n.localBundle, sakaii18nAPI.data.defaultBundle);
                     },
                     error: function(xhr, textStatus, thrownError){
                         // There is no language file for the language chosen by the user
                         // We'll switch to using the default bundle only
-                        doI18N(null, this.data.defaultBundle);
+                        doI18N(null, sakaii18nAPI.data.defaultBundle);
                     }
                 });
             };
@@ -208,7 +225,7 @@ define(["jquery",
              */
             var loadSiteLanguage = function(site){
                 $.ajax({
-                    url: sakai_conf.config.URL.SITE_CONFIGFOLDER.replace("__SITEID__", site) + ".json",
+                    url: sakai_config.URL.SITE_CONFIGFOLDER.replace("__SITEID__", site) + ".json",
                     cache: false,
                     success: function(data){
                         var siteJSON = data;
@@ -228,33 +245,14 @@ define(["jquery",
             };
 
             /**
-             * This change properties file into json object.
-             */
-            this.data.changeToJSON = function(input){
-                var json = {};
-                var inputLine = input.split(/\n/);
-                var i;
-                for (i in inputLine) {
-                    // IE 8 i has indexof as well which breaks the page.
-                    if (inputLine.hasOwnProperty(i)) {
-                        var keyValuePair = inputLine[i].split(/\s*\=\s*/);
-                        var key = keyValuePair.shift();
-                        var value = keyValuePair.join(" = ");
-                        json[key] = value;
-                    }
-                }
-                return json;
-            };
-
-            /**
              * This will load the default language bundle and will store it in a global variable. This default bundle
              * will be saved in a file called bundle/default.properties.
              */
             var loadDefaultBundle = function(){
                 $.ajax({
-                    url: sakai_conf.config.URL.I18N_BUNDLE_ROOT + "default.properties",
+                    url: sakai_config.URL.I18N_BUNDLE_ROOT + "default.properties",
                     success: function(data){
-                        data = this.data.changeToJSON(data);
+                        data =sakaii18nAPI.changeToJSON(data);
                         this.data.defaultBundle = data;
                         var site = getSiteId();
                         if (!site) {
@@ -304,13 +302,13 @@ define(["jquery",
                 }
 
                 loadDefaultBundleRequest = {
-                    "url": sakai_conf.config.URL.I18N_BUNDLE_ROOT + "default.properties",
+                    "url": sakai_config.URL.I18N_BUNDLE_ROOT + "default.properties",
                     "method": "GET"
                 };
-
+                
                 if (localeSet) {
                     loadLocalBundleRequest = {
-                        "url": sakai_conf.config.URL.I18N_BUNDLE_ROOT + langCode + ".properties",
+                        "url": sakai_config.URL.I18N_BUNDLE_ROOT + langCode + ".properties",
                         "method":"GET"
                     };
                 } else {
@@ -319,7 +317,7 @@ define(["jquery",
 
                 if (getGlobalization && localeSet) {
                     globalizationRequest = {
-                        "url": sakai_conf.config.URL.I10N_BUNDLE_URL.replace("__CODE__", i10nCode),
+                        "url": sakai_config.URL.I10N_BUNDLE_URL.replace("__CODE__", i10nCode),
                         "dataType": "script",
                         "method": "GET"
                     };
@@ -349,11 +347,11 @@ define(["jquery",
                                 }
                             }
                         }
-
+                        
                         // process the responses
                         if (loadDefaultBundleSuccess) {
-                            loadDefaultBundleData = this.data.changeToJSON(loadDefaultBundleData);
-                            this.data.defaultBundle = loadDefaultBundleData;
+                            loadDefaultBundleData = sakaii18nAPI.changeToJSON(loadDefaultBundleData);
+                            sakaii18nAPI.data.defaultBundle = loadDefaultBundleData;
                             var site = getSiteId();
                             if (!site) {
                                 if (localeSet) {
@@ -361,15 +359,15 @@ define(["jquery",
                                         Globalization.preferCulture(i10nCode);
                                     }
                                     if (loadLocalBundleSuccess) {
-                                        loadLocalBundleData = this.data.changeToJSON(loadLocalBundleData);
-                                        this.data.localBundle = loadLocalBundleData;
-                                        doI18N(this.data.localBundle, this.data.defaultBundle);
+                                        loadLocalBundleData = sakaii18nAPI.changeToJSON(loadLocalBundleData);
+                                        sakaii18nAPI.data.localBundle = loadLocalBundleData;
+                                        doI18N(sakaii18nAPI.data.localBundle, sakaii18nAPI.data.defaultBundle);
                                     } else {
-                                        doI18N(null, this.data.defaultBundle);
+                                        doI18N(null, sakaii18nAPI.data.defaultBundle);
                                     }
                                 } else {
                                     // There is no locale set for the current user. We'll switch to using the default bundle only
-                                    doI18N(null, this.data.defaultBundle);
+                                    doI18N(null, sakaii18nAPI.data.defaultBundle);
                                 }
                             } else {
                                 loadSiteLanguage(site);
@@ -377,6 +375,7 @@ define(["jquery",
                         } else {
                             finishI18N();
                         }
+                        
                     }
                 });
                 // add default language bundle to batch request
@@ -425,6 +424,7 @@ define(["jquery",
              * @param {Object} meData the data from sakai.api.User.data.me
              * @return {String} A processed string where all the messages are replaced with values from the language bundles
              */
+
             process : function(toprocess, localbundle, defaultbundle, meData) {
 
                 if(!toprocess){
@@ -447,12 +447,12 @@ define(["jquery",
                     }
                     var toreplace;
                     // check for i18n debug
-                    if (sakai_conf.config.displayDebugInfo === true && meData.user.locale && meData.user.locale.language === "lu" && meData.user.locale.country === "GB"){
+                    if (sakai_config.displayDebugInfo === true && meData.user.locale && meData.user.locale.language === "lu" && meData.user.locale.country === "GB"){
                         toreplace = quotes + replace.substr(7, replace.length - 9) + quotes;
                         processed += toprocess.substring(lastend, expression.lastIndex - replace.length) + toreplace;
                         lastend = expression.lastIndex;
                     } else {
-                        toreplace = quotes + this.General.getValueForKey(lastParen) + quotes;
+                        toreplace = quotes + this.getValueForKey(lastParen) + quotes;
                         processed += toprocess.substring(lastend, expression.lastIndex - replace.length) + toreplace;
                         lastend = expression.lastIndex;
                     }
@@ -471,12 +471,12 @@ define(["jquery",
              */
             getValueForKey : function(key) {
                 // First check if the key can be found in the locale bundle
-                if (this.data.localBundle[key]) {
-                    return this.data.localBundle[key];
+                if (sakaii18nAPI.data.localBundle && sakaii18nAPI.data.localBundle[key]) {
+                    return sakaii18nAPI.data.localBundle[key];
                 }
                 // If the key wasn't found in the localbundle, search in the default bundle
-                else if (this.data.defaultBundle[key]) {
-                    return this.data.defaultBundle[key];
+                else if (sakaii18nAPI.data.defaultBundle && sakaii18nAPI.data.defaultBundle[key]) {
+                    return sakaii18nAPI.data.defaultBundle[key];
                 }
                 // If none of the about found something, log an error message
                 else {
@@ -508,21 +508,23 @@ define(["jquery",
             getValueForKey : function(widgetname, locale, key) {
 
                 // Get a message key value in priority order: local widget language file -> widget default language file -> system local bundle -> system default bundle
-                if ((typeof this.data.widgets[widgetname][locale] === "object") && (typeof this.data.widgets[widgetname][locale][key] === "string")){
-                    return this.data.widgets[widgetname][locale][key];
+                if ((typeof sakaii18nAPI.data.widgets[widgetname][locale] === "object") && (typeof sakaii18nAPI.data.widgets[widgetname][locale][key] === "string")){
+                    return sakaii18nAPI.data.widgets[widgetname][locale][key];
 
-                } else if ((typeof this.data.widgets[widgetname]["default"][key] === "string") && (typeof this.data.widgets[widgetname]["default"] === "object")) {
-                    return this.data.widgets[widgetname]["default"][key];
+                } else if ((typeof sakaii18nAPI.data.widgets[widgetname]["default"][key] === "string") && (typeof sakaii18nAPI.data.widgets[widgetname]["default"] === "object")) {
+                    return sakaii18nAPI.data.widgets[widgetname]["default"][key];
 
-                } else if (this.data.localBundle[key]) {
-                    return this.data.localBundle[key];
+                } else if (sakaii18nAPI.data.localBundle[key]) {
+                    return sakaii18nAPI.data.localBundle[key];
 
-                } else if (this.data.defaultBundle[key]) {
-                    return this.data.defaultBundle[key];
+                } else if (sakaii18nAPI.data.defaultBundle[key]) {
+                    return sakaii18nAPI.data.defaultBundle[key];
 
                 }
 
             }
         }
     };
+
+    return sakaii18nAPI;
 });

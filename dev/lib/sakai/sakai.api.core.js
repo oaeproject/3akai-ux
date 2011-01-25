@@ -28,21 +28,22 @@ define(
         "sakai/sakai.api.user",
         "sakai/sakai.api.util",
         "sakai/sakai.api.widgets",
-        "/dev/configuration/config.js"
+        "/dev/configuration/config.js",
+        "/var/widgets.json?callback=define"
     ],
-        function(sakai_comm,
-                sakai_content,
-                sakai_groups,
-                sakai_i18n,
-                sakai_l10n,
-                sakai_server,
-                sakai_user,
-                sakai_util,
-                sakai_widgets,
-                sakai_conf) {
-
-    return {
-
+    function(sakai_comm,
+            sakai_content,
+            sakai_groups,
+            sakai_i18n,
+            sakai_l10n,
+            sakai_server,
+            sakai_user,
+            sakai_util,
+            sakai_widgets,
+            sakai_conf,
+            sakai_widget_config) {
+    
+    var sakai = {
         api : {
             Communication : sakai_comm,
             Groups : sakai_groups,
@@ -54,7 +55,10 @@ define(
             Util : sakai_util,
             Widgets : sakai_widgets
         },
-        config : sakai_conf
+        config : sakai_conf,
+        data : sakai_user.data,
+        widgets : sakai_widget_config
     };
+    return sakai;
     
 });

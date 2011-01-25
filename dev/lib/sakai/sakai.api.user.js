@@ -246,49 +246,83 @@ define(["jquery",
 
         },
 
+        /**
+         * Safely retrieves an element value from the user's profile
+         *
+         * @param {Object} profile the user's profile (data.me.profile for the current user)
+         * @param {String} eltName the element name to retrieve the value for
+         * @return {String} the value of the element name provided
+         */
+        getProfileBasicElementValue : function(profile, eltName) {
+            var ret = "";
+            if (profile !== undefined &&
+                profile.basic !== undefined &&
+                profile.basic.elements !== undefined &&
+                profile.basic.elements[eltName] !== undefined &&
+                profile.basic.elements[eltName].value !== undefined) {
+                    ret = profile.basic.elements[eltName].value;
+                }
+            return unescape(sakai_util.Security.saneHTML($.trim(ret)));
+        },
 
         /**
-         * Retrieves all available information about a logged in user and stores it under this.data.me object. When ready it will call a specified callback function
+         * Sets a value to the user's basic profile information
+         *
+         * @param {Object} profile the user's profile (data.me.profile for the current user)
+         * @param {String} eltName the element name to retrieve the value for
+         * @param {String} eltValue the value to place in the element
+         */
+        setProfileBasicElementValue : function(profile, eltName, eltValue) {
+            if (profile !== undefined &&
+                profile.basic !== undefined &&
+                profile.basic.elements !== undefined &&
+                profile.basic.elements[eltName] !== undefined) {
+
+                profile.basic.elements[eltName].value = eltValue;
+            }
+        },
+
+
+        /**
+         * Retrieves all available information about a logged in user and stores it under data.me object. When ready it will call a specified callback function
          *
          * @param {Function} [callback] A function which will be called when the information is retrieved from the server.
          * The first argument of the callback is a boolean whether it was successful or not, the second argument will contain the retrieved data or the xhr object
          * @return {Void}
          */
         loadMeData : function(callback) {
-            console.log("loadMeData", sakai_conf);
             // Get the service url from the config file
-            var data_url = sakai_conf.config.URL.ME_SERVICE;
-            debug.log("data_url", data_url);
+            var data_url = sakai_conf.URL.ME_SERVICE;
+            var that = this;
             // Start a request to the service
             $.ajax({
                 url: data_url,
                 cache: false,
                 success: function(data) {
-                    console.log("success");
-                    this.data.me = sakai_serv.convertObjectToArray(data, null, null);
+                    that.data.me = sakai_serv.convertObjectToArray(data, null, null);
 
                     // Check for firstName and lastName property - if not present use "rep:userId" for both (admin for example)
-                    if (getProfileBasicElementValue(this.data.me.profile, "firstName") === "") {
-                        setProfileBasicElementValue(this.data.me.profile, "firstName", this.data.me.profile["rep:userId"]);
+                    if (that.getProfileBasicElementValue(that.data.me.profile, "firstName") === "") {
+                        that.setProfileBasicElementValue(that.data.me.profile, "firstName", data.me.profile["rep:userId"]);
                     }
-                    if (getProfileBasicElementValue(this.data.me.profile, "lastName") === "") {
-                        setProfileBasicElementValue(this.data.me.profile, "lastName", this.data.me.profile["rep:userId"]);
+                    if (that.getProfileBasicElementValue(that.data.me.profile, "lastName") === "") {
+                        that.setProfileBasicElementValue(that.data.me.profile, "lastName", data.me.profile["rep:userId"]);
                     }
 
                     // Parse the directory locations
                     var directory = [];
-                    if(this.data.me.profile && this.data.me.profile["sakai:tags"]){
-                        directory = sakai_util.getDirectoryTags(this.data.me.profile["sakai:tags"].toString());
-                        this.data.me.profile.saveddirectory = directory;
+                    if(that.data.me.profile && that.data.me.profile["sakai:tags"]){
+                        directory = sakai_util.getDirectoryTags(data.me.profile["sakai:tags"].toString());
+                        that.data.me.profile.saveddirectory = directory;
                     }
 
                     // Call callback function if set
                     if ($.isFunction(callback)) {
-                        callback(true, this.data.me);
+                        callback(true, that.data.me);
                     }
                 },
                 error: function(xhr, textStatus, thrownError) {
-                    console.log("error");
+
                     // Log error
                     debug.error("sakai.api.User.loadMeData: Could not load logged in user data from the me service!");
 
@@ -310,7 +344,7 @@ define(["jquery",
          * Retrieves the display name to use for the user from config
          * and parses it from the profile elements
          *
-         * @param {Object} profile the user's profile (this.data.me.profile for the current user)
+         * @param {Object} profile the user's profile (data.me.profile for the current user)
          * @return {String} the name to show for a user
          */
         getDisplayName : function(profile) {
@@ -340,42 +374,6 @@ define(["jquery",
             }
 
             return unescape(sakai_util.Security.saneHTML($.trim(nameToReturn)));
-        },
-
-        /**
-         * Safely retrieves an element value from the user's profile
-         *
-         * @param {Object} profile the user's profile (this.data.me.profile for the current user)
-         * @param {String} eltName the element name to retrieve the value for
-         * @return {String} the value of the element name provided
-         */
-        getProfileBasicElementValue : function(profile, eltName) {
-            var ret = "";
-            if (profile !== undefined &&
-                profile.basic !== undefined &&
-                profile.basic.elements !== undefined &&
-                profile.basic.elements[eltName] !== undefined &&
-                profile.basic.elements[eltName].value !== undefined) {
-                    ret = profile.basic.elements[eltName].value;
-                }
-            return unescape(sakai_util.Security.saneHTML($.trim(ret)));
-        },
-
-        /**
-         * Sets a value to the user's basic profile information
-         *
-         * @param {Object} profile the user's profile (this.data.me.profile for the current user)
-         * @param {String} eltName the element name to retrieve the value for
-         * @param {String} eltValue the value to place in the element
-         */
-        setProfileBasicElementValue : function(profile, eltName, eltValue) {
-            if (profile !== undefined &&
-                profile.basic !== undefined &&
-                profile.basic.elements !== undefined &&
-                profile.basic.elements[eltName] !== undefined) {
-
-                profile.basic.elements[eltName].value = eltValue;
-            }
         },
 
         /**
@@ -429,7 +427,7 @@ define(["jquery",
         },
 
         getContacts : function(callback) {
-            if (this.data.me.mycontacts) {
+            if (data.me.mycontacts) {
                 if ($.isFunction(callback)) {
                     callback();
                 }
@@ -440,7 +438,7 @@ define(["jquery",
                     data: {"q": "*"},
                     async: false,
                     success: function(data) {
-                        this.data.me.mycontacts = data.results;
+                        data.me.mycontacts = data.results;
                         if ($.isFunction(callback)) {
                             callback();
                         }
@@ -452,9 +450,9 @@ define(["jquery",
         checkIfConnected : function(userid) {
             var ret = false;
             getContacts(function() {
-                for (var i in this.data.me.mycontacts) {
-                    if (i && this.data.me.mycontacts.hasOwnProperty(i)) {
-                        if (this.data.me.mycontacts[i].user === userid) {
+                for (var i in data.me.mycontacts) {
+                    if (i && data.me.mycontacts.hasOwnProperty(i)) {
+                        if (data.me.mycontacts[i].user === userid) {
                             ret = true;
                         }
                     }
@@ -463,11 +461,11 @@ define(["jquery",
             return ret;
         },
 
-        parseDirectory : function(){
+        parseDirectory : function(profile){
         	var obj = {"elements":[]};
-            for (var i in sakai.profile.main.data["sakai:tags"]){
-                if (sakai.profile.main.data["sakai:tags"].hasOwnProperty(i)) {
-                    var tag = sakai.profile.main.data["sakai:tags"][i];
+            for (var i in profile.main.data["sakai:tags"]){
+                if (profile.main.data["sakai:tags"].hasOwnProperty(i)) {
+                    var tag = profile.main.data["sakai:tags"][i];
                     if (tag.substring(0, 10) === "directory/") {
                         var finalTag = "";
                         var split = tag.split("/");
@@ -499,10 +497,10 @@ define(["jquery",
          * @param {String} type The type of progress the user as achieved
          */
         addUserProgress : function(type) {
-            if (!this.data.me.profile.userprogress){
-                this.data.me.profile.userprogress = {};
+            if (!data.me.profile.userprogress){
+                data.me.profile.userprogress = {};
             }
-            var me = this.data.me;
+            var me = data.me;
             var progressData = "";
             var refresh = true;
 
@@ -510,31 +508,31 @@ define(["jquery",
                 case "uploadedProfilePhoto":
                     if (!me.profile.userprogress.uploadedProfilePhoto) {
                         progressData = {"uploadedProfilePhoto": true};
-                        this.data.me.profile.userprogress.uploadedProfilePhoto = true;
+                        data.me.profile.userprogress.uploadedProfilePhoto = true;
                     }
                     break;
                 case "uploadedContent":
                     if (!me.profile.userprogress.uploadedContent) {
                         progressData = {"uploadedContent": true};
-                        this.data.me.profile.userprogress.uploadedContent = true;
+                        data.me.profile.userprogress.uploadedContent = true;
                     }
                     break;
                 case "sharedContent":
                     if (!me.profile.userprogress.sharedContent) {
                         progressData = {"sharedContent": true};
-                        this.data.me.profile.userprogress.sharedContent = true;
+                        data.me.profile.userprogress.sharedContent = true;
                     }
                     break;
                 case "madeContactRequest":
                     if (!me.profile.userprogress.madeContactRequest) {
                         progressData = {"madeContactRequest": true};
-                        this.data.me.profile.userprogress.madeContactRequest = true;
+                        data.me.profile.userprogress.madeContactRequest = true;
                     }
                     break;
                 case "halfCompletedProfile":
                     if (!me.profile.userprogress.halfCompletedProfile) {
                         progressData = {"halfCompletedProfile": true};
-                        this.data.me.profile.userprogress.halfCompletedProfile = true;
+                        data.me.profile.userprogress.halfCompletedProfile = true;
                     }
                     break;
                 default:

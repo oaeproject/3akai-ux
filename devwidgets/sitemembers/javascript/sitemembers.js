@@ -713,9 +713,9 @@ sakai.sitemembers = function(tuid, showSettings){
     $(sitemembers_normal_result_addtocontacts, rootel).live("click", function(e, ui){
         var id = e.target.id.split('_');
         id = id[id.length - 1];
-        sakai.addtocontacts.initialise(id, function(){
+        $(window).trigger("initialize.addToContacts.sakai", { user: contactclicked, callback: function(){
             renderAndAppendSiteMembers(allMembers);
-        });
+        }});
     });
 
     /**

@@ -2520,7 +2520,7 @@ sakai.sitespages = function(tuid,showSettings){
     $('#more_change_layout').live("click", function(){
         // get page title
         var title = sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageTitle"];
-        sakai.dashboard.changeLayout(title);
+        $(window).trigger("changeLayout.dashboard.sakai", title);
     });
 
 
