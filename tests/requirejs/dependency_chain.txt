@@ -75,7 +75,7 @@ Need to refactor calls for:
   - *.toGMT
   - *.fromGMT
  - sakai.api.Util.removeJCRObjects -> sakai.api.Server.removeJCRObjects
- - sakai.api.Util.TemplateRenderer -> sakai.api.Util.TemplateRenderer
+ - $.TemplateRenderer -> sakai.api.Util.TemplateRenderer
  - sakai.api.Security.* -> sakai.api.Util.Security.* ---- BUT we can remap this in sakai.api.core.js, so the only remapping that needs to take place is inside the api files
  - sakai.api.i18n.init() now takes meData as an arg
  - sakai.api.i18n.process, fourth arg is now meData

@@ -23,145 +23,146 @@
  */
 
 /*global $, Config, jQuery, sakai */
-
-/**
- * @name sakai.sites
- *
- * @class sites
- *
- * @description
- * Initialize the sites widget
- *
- * @version 0.0.1
- * @param {String} tuid Unique id of the widget
- * @param {Boolean} showSettings Show the settings of the widget or not
- */
-sakai.sites = function(tuid,showSettings){
-
-
-    /////////////////////////////
-    // Configuration variables //
-    /////////////////////////////
-
-    var rootel = $("#" + tuid);
-
-    // IDs
-    var sitesMainContainer = "#mainSitesContainer";
-    var sitesList = "#sites_list";
-    var sitesListTemplate = "#sites_list_template";
-    var sitesErrorNoSites = "#sites_error_nosites";
-    var sitesErrorNoSettings = "#sites_error_nosettings";
-    var sitesCreateNewSite = "#create_new_site_link";
-    var createSiteContainer = "#createsitecontainer";
-
-    var sites_error_class = "sites_error";
-
-
-    ///////////////////////
-    // Utility functions //
-    ///////////////////////
-
+require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     /**
-     * Compare the names of 2 objects
-     * @param {Object} a
-     * @param {Object} b
-     * @return 1, 0 or -1
+     * @name sakai_global.sites
+     *
+     * @class sites
+     *
+     * @description
+     * Initialize the sites widget
+     *
+     * @version 0.0.1
+     * @param {String} tuid Unique id of the widget
+     * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    var doSort = function(a,b){
-        if (a.site.name > b.site.name) {
-            return 1;
-        } else if (a.site.name === b.site.name) {
-            return 0;
-        } else {
-            return -1;
-        }
-    };
+    sakai_global.sites = function(tuid,showSettings){
 
-    /**
-     * Show the popup to create a new site.
-     */
-    var createNewSite = function(){
-        $(createSiteContainer, rootel).show();
 
-        // Load the createsite widget.
-        sakai.createsite.initialise();
-    };
+        /////////////////////////////
+        // Configuration variables //
+        /////////////////////////////
 
-    /**
-     * Takes a set of json and renders the sites.
-     * @param {Object} newjson
-     */
-    var doRender = function(newjson){
+        var rootel = $("#" + tuid);
 
-        // If the user is not registered for any sites, show the no sites error.
-        if (newjson.entry.length === 0){
-            $(sitesList, rootel).html(sakai.api.Security.saneHTML($(sitesErrorNoSites).html())).addClass(sites_error_class);
+        // IDs
+        var sitesMainContainer = "#mainSitesContainer";
+        var sitesList = "#sites_list";
+        var sitesListTemplate = "#sites_list_template";
+        var sitesErrorNoSites = "#sites_error_nosites";
+        var sitesErrorNoSettings = "#sites_error_nosettings";
+        var sitesCreateNewSite = "#create_new_site_link";
+        var createSiteContainer = "#createsitecontainer";
+
+        var sites_error_class = "sites_error";
+
+
+        ///////////////////////
+        // Utility functions //
+        ///////////////////////
+
+        /**
+         * Compare the names of 2 objects
+         * @param {Object} a
+         * @param {Object} b
+         * @return 1, 0 or -1
+         */
+        var doSort = function(a,b){
+            if (a.site.name > b.site.name) {
+                return 1;
+            } else if (a.site.name === b.site.name) {
+                return 0;
+            } else {
+                return -1;
+            }
+        };
+
+        /**
+         * Show the popup to create a new site.
+         */
+        var createNewSite = function(){
+            $(createSiteContainer, rootel).show();
+
+            // Load the createsite widget.
+            sakai.createsite.initialise();
+        };
+
+        /**
+         * Takes a set of json and renders the sites.
+         * @param {Object} newjson
+         */
+        var doRender = function(newjson){
+
+            // If the user is not registered for any sites, show the no sites error.
+            if (newjson.entry.length === 0){
+                $(sitesList, rootel).html(sakai.api.Security.saneHTML($(sitesErrorNoSites).html())).addClass(sites_error_class);
+            }
+            else {
+                // Sort the sites by their name
+                newjson.entry = newjson.entry.sort(doSort);
+                for (var site in newjson.entry){
+                    if (newjson.entry.hasOwnProperty(site)) {
+                        newjson.entry[site].site.name = sakai.api.Security.escapeHTML(newjson.entry[site].site.name);
+                    }
+                }
+                $(sitesList, rootel).html($.TemplateRenderer(sitesListTemplate.replace(/#/,''), newjson));
+            }
+        };
+
+        /**
+         * Takes the json info from the server places it in a useable format and execute the doRender method
+         * @param {Object} response    response from the server
+         * @param {Boolean} succes did the request succeed or did it fail.
+         */
+        var loadSiteList = function(response, succes){
+            // Check if the request was ok
+            if (succes) {
+                var newjson = {
+                    entry : []
+                };
+                for (var i = 0, il = response.length; i < il; i++) {
+                    newjson.entry.push(response[i]);
+                }
+                // Render all the sites.
+                doRender(newjson);
+            }
+        };
+
+        /**
+         * Will initiate a request to the site service.
+         */
+        var doInit = function() {
+            $.ajax({
+                url: sakai.config.URL.SITES_SERVICE,
+                cache: false,
+                dataType: "json",
+                success: function(data){
+                    data = data.results;
+                    loadSiteList(data, true);
+                },
+                error: function(xhr, textStatus, thrownError) {
+                    loadSiteList("", false);
+                }
+            });
+        };
+
+
+        ////////////////////
+        // Event Handlers //
+        ////////////////////
+
+        $(sitesCreateNewSite, rootel).bind("click", function(ev){
+            createNewSite();
+        });
+
+        if (showSettings) {
+            $(sitesMainContainer, rootel).html(sakai.api.Security.saneHTML($(sitesErrorNoSettings).html())).addClass(sites_error_class);
         }
         else {
-            // Sort the sites by their name
-            newjson.entry = newjson.entry.sort(doSort);
-            for (var site in newjson.entry){
-                if (newjson.entry.hasOwnProperty(site)) {
-                    newjson.entry[site].site.name = sakai.api.Security.escapeHTML(newjson.entry[site].site.name);
-                }
-            }
-            $(sitesList, rootel).html(sakai.api.Util.TemplateRenderer(sitesListTemplate.replace(/#/,''), newjson));
+            sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
+            // Start the request
+            doInit();
         }
     };
-
-    /**
-     * Takes the json info from the server places it in a useable format and execute the doRender method
-     * @param {Object} response    response from the server
-     * @param {Boolean} succes did the request succeed or did it fail.
-     */
-    var loadSiteList = function(response, succes){
-        // Check if the request was ok
-        if (succes) {
-            var newjson = {
-                entry : []
-            };
-            for (var i = 0, il = response.length; i < il; i++) {
-                newjson.entry.push(response[i]);
-            }
-            // Render all the sites.
-            doRender(newjson);
-        }
-    };
-
-    /**
-     * Will initiate a request to the site service.
-     */
-    var doInit = function() {
-        $.ajax({
-            url: sakai.config.URL.SITES_SERVICE,
-            cache: false,
-            dataType: "json",
-            success: function(data){
-                data = data.results;
-                loadSiteList(data, true);
-            },
-            error: function(xhr, textStatus, thrownError) {
-                loadSiteList("", false);
-            }
-        });
-    };
-
-
-    ////////////////////
-    // Event Handlers //
-    ////////////////////
-
-    $(sitesCreateNewSite, rootel).bind("click", function(ev){
-        createNewSite();
-    });
-
-    if (showSettings) {
-        $(sitesMainContainer, rootel).html(sakai.api.Security.saneHTML($(sitesErrorNoSettings).html())).addClass(sites_error_class);
-    }
-    else {
-        sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
-        // Start the request
-        doInit();
-    }
-};
-sakai.api.Widgets.widgetLoader.informOnLoad("sites");
+    sakai.api.Widgets.widgetLoader.informOnLoad("sites");
+});

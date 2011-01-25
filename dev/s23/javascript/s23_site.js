@@ -124,7 +124,7 @@ sakai.s23_site = function(){
             }else{
 
                 // Render the tools of the site and add them to the page container
-                s23SiteIframeContainer.append(sakai.api.Util.TemplateRenderer(s23SiteIframeContainerTemplate, page));
+                s23SiteIframeContainer.append($.TemplateRenderer(s23SiteIframeContainerTemplate, page));
                 var loadIframe = function() {
                     $(this).height($(this).contents().find("body").height() + 15); // add 10px for IE and 5px more for Gradebook weirdness
                 };
@@ -212,7 +212,7 @@ sakai.s23_site = function(){
             s23SiteTitle.text(sakai.api.Security.saneHTML(completeJSON.site.title));
 
             // Render the menu of the workspace
-            s23SiteMenuContainer.html(sakai.api.Util.TemplateRenderer(s23SiteMenuContainerTemplate, completeJSON));
+            s23SiteMenuContainer.html($.TemplateRenderer(s23SiteMenuContainerTemplate, completeJSON));
 
             // Create xid's
             createxids();

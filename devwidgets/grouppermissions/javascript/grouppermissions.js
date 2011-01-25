@@ -21,107 +21,108 @@
  * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
  */
 /*global $, Config, jQuery, sakai */
-
-/**
- * @name sakai.grouppermissions
- *
- * @class grouppermissions
- *
- * @description
- * The Group Permissions widget currently allows users to edit permission
- * properties on their groups. This widget is currently intended to be used
- * on the group_edit.html page only. 
- *
- * @version 0.0.1
- * @param {String} tuid Unique id of the widget
- * @param {Boolean} showSettings Show the settings of the widget or not
- */
-sakai.grouppermissions = function(tuid, showSettings){
-
-
-    /////////////////////////////
-    // Configuration variables //
-    /////////////////////////////
-
-    // DOM identifiers
-    var $rootel = $("#grouppermissions_widget");
-    var template = "#grouppermissions_template";
-    var dataError = "#grouppermissions_data_error";
-    var selectJoinable = "#grouppermissions_joinable";
-    var selectVisible = "#grouppermissions_visible";
-
-
-    ///////////////////////
-    // Utility functions //
-    ///////////////////////
-
+require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     /**
-     * Checks to make sure the correct data is available and then renders the
-     * Group Permissions widget.
-     * @param None
-     * @return None
+     * @name sakai_global.grouppermissions
+     *
+     * @class grouppermissions
+     *
+     * @description
+     * The Group Permissions widget currently allows users to edit permission
+     * properties on their groups. This widget is currently intended to be used
+     * on the group_edit.html page only. 
+     *
+     * @version 0.0.1
+     * @param {String} tuid Unique id of the widget
+     * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    var render = function() {
-        var joinable = sakai_global.currentgroup.data.authprofile["sakai:group-joinable"];
-        var visible = sakai_global.currentgroup.data.authprofile["sakai:group-visible"];
+    sakai_global.grouppermissions = function(tuid, showSettings){
 
-        if(sakai.api.Security.isValidPermissionsProperty(sakai.config.Permissions.Groups.joinable, joinable) &&
-            sakai.api.Security.isValidPermissionsProperty(sakai.config.Permissions.Groups.visible, visible)) {
-            var gp_data = {
-                "joinable": joinable,
-                "visible": visible
-            };
-            // pass data to HTML view
-            $rootel.html(sakai.api.Util.TemplateRenderer($(template), gp_data));
-            $(template, $rootel).show();
-        } else {
-            debug.error("grouppermissions.js - ERROR getting permissions properties from sakai_global.currentgroup");
-            $(dataError).show();
-        }
+
+        /////////////////////////////
+        // Configuration variables //
+        /////////////////////////////
+
+        // DOM identifiers
+        var $rootel = $("#grouppermissions_widget");
+        var template = "#grouppermissions_template";
+        var dataError = "#grouppermissions_data_error";
+        var selectJoinable = "#grouppermissions_joinable";
+        var selectVisible = "#grouppermissions_visible";
+
+
+        ///////////////////////
+        // Utility functions //
+        ///////////////////////
+
+        /**
+         * Checks to make sure the correct data is available and then renders the
+         * Group Permissions widget.
+         * @param None
+         * @return None
+         */
+        var render = function() {
+            var joinable = sakai.currentgroup.data.authprofile["sakai:group-joinable"];
+            var visible = sakai.currentgroup.data.authprofile["sakai:group-visible"];
+
+            if(sakai.api.Security.isValidPermissionsProperty(sakai.config.Permissions.Groups.joinable, joinable) &&
+                sakai.api.Security.isValidPermissionsProperty(sakai.config.Permissions.Groups.visible, visible)) {
+                var gp_data = {
+                    "joinable": joinable,
+                    "visible": visible
+                };
+                // pass data to HTML view
+                $rootel.html($.TemplateRenderer($(template), gp_data));
+                $(template, $rootel).show();
+            } else {
+                debug.error("grouppermissions.js - ERROR getting permissions properties from sakai.currentgroup");
+                $(dataError).show();
+            }
+        };
+
+
+        /**
+         * Updates the group permissions that have been set by the user only if the
+         * values have been changed.
+         */
+        var updateGroupPermissions = function() {
+            // get current input values
+            var joinable = $(selectJoinable, $rootel).val();
+            var visible = $(selectVisible, $rootel).val();
+
+            // only POST if user has changed values
+            if(joinable !== sakai.currentgroup.data.authprofile["sakai:group-joinable"] ||
+                visible !== sakai.currentgroup.data.authprofile["sakai:group-visible"]) {
+                // set new group permissions
+                sakai.api.Groups.setPermissions(sakai.currentgroup.id, joinable, visible);
+            }
+        };
+
+
+        //////////////
+        // Bindings //
+        //////////////
+        
+        $(window).bind("sakai_global.grouppermissions.update", function() {
+            updateGroupPermissions();
+        });
+
+
+        /////////////////////////////
+        // Initialization function //
+        /////////////////////////////
+
+        /**
+         * Renders group permissions data
+         * @return None
+         */
+        var init = function() {
+            render();
+        };
+
+        // run init() function when sakai.content object loads
+        init();
     };
 
-
-    /**
-     * Updates the group permissions that have been set by the user only if the
-     * values have been changed.
-     */
-    var updateGroupPermissions = function() {
-        // get current input values
-        var joinable = $(selectJoinable, $rootel).val();
-        var visible = $(selectVisible, $rootel).val();
-
-        // only POST if user has changed values
-        if(joinable !== sakai_global.currentgroup.data.authprofile["sakai:group-joinable"] ||
-            visible !== sakai_global.currentgroup.data.authprofile["sakai:group-visible"]) {
-            // set new group permissions
-            sakai.api.Groups.setPermissions(sakai_global.currentgroup.id, joinable, visible);
-        }
-    };
-
-
-    //////////////
-    // Bindings //
-    //////////////
-    
-    $(window).bind("sakai.grouppermissions.update", function() {
-        updateGroupPermissions();
-    });
-
-
-    /////////////////////////////
-    // Initialization function //
-    /////////////////////////////
-
-    /**
-     * Renders group permissions data
-     * @return None
-     */
-    var init = function() {
-        render();
-    };
-
-    // run init() function when sakai.content object loads
-    init();
-};
-
-sakai.api.Widgets.widgetLoader.informOnLoad("grouppermissions");
+    sakai.api.Widgets.widgetLoader.informOnLoad("grouppermissions");
+});

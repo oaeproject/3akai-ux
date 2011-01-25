@@ -262,13 +262,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var renderGroupUpload = function(){
             // Render template to show title
-            var groupName = sakai_global.currentgroup.data.authprofile["sakai:group-title"];
+            var groupName = sakai.currentgroup.data.authprofile["sakai:group-title"];
 
             // Fill the data needed for the group
             contextData = {
                 "context": context,
                 "name": groupName,
-                "id": sakai_global.currentgroup.id
+                "id": sakai.currentgroup.id
             };
             // Render the template
             var renderedTemplate = sakai.api.Util.TemplateRenderer($fileUploadAddToTemplate, contextData).replace(/\r/g, '');
@@ -965,7 +965,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 contentPath = data.contentPath || "";
             }
             // Check if the uploads need to be associated with a group or not
-            if (sakai_global.currentgroup && sakai_global.currentgroup.id && !$.isEmptyObject(sakai_global.currentgroup.id)) {
+            if (sakai.currentgroup && sakai.currentgroup.id && !$.isEmptyObject(sakai.currentgroup.id)) {
                 groupContext = true;
                 context = "group";
                 $('#uploadfilescontainer').show();

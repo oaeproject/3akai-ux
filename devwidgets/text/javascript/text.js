@@ -24,70 +24,71 @@
 
 /*global $ */
 
-var sakai = sakai || {};
+require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
-/**
- * @name sakai.helloworld
- *
- * @class helloworld
- *
- * @description
- * Initialize the helloworld widget
- *
- * @version 0.0.1
- * @param {String} tuid Unique id of the widget
- * @param {Boolean} showSettings Show the settings of the widget or not
- */
-sakai.text = function(tuid, showSettings) {
+    /**
+     * @name sakai.helloworld
+     *
+     * @class helloworld
+     *
+     * @description
+     * Initialize the helloworld widget
+     *
+     * @version 0.0.1
+     * @param {String} tuid Unique id of the widget
+     * @param {Boolean} showSettings Show the settings of the widget or not
+     */
+    sakai_global.text = function(tuid, showSettings) {
 
-    var $rootel = $("#"+tuid),
-        $text_main = $("#text_main", $rootel),
-        $text_main_template = $("#text_main_template", $rootel),
-        $text_settings = $("#text_settings", $rootel),
-        $text_settings_template = $("#text_settings_template", $rootel),
-        $text_save = $("#text_save", $rootel),
-        $text_cancel = $("#text_cancel", $rootel);
+        var $rootel = $("#"+tuid),
+            $text_main = $("#text_main", $rootel),
+            $text_main_template = $("#text_main_template", $rootel),
+            $text_settings = $("#text_settings", $rootel),
+            $text_settings_template = $("#text_settings_template", $rootel),
+            $text_save = $("#text_save", $rootel),
+            $text_cancel = $("#text_cancel", $rootel);
 
-    var widgetData = {title:"", text:""};
+        var widgetData = {title:"", text:""};
 
 
-    $text_cancel.die("click");
-    $text_cancel.live("click", function(e) {
-        sakai.api.Widgets.Container.informCancel(tuid);
-    });
-
-    $text_save.die("click");
-    $text_save.live("click", function(e) {
-        widgetData.title = $("#text_title", $rootel).val();
-        widgetData.text = $("#text_text", $rootel).val();
-        sakai.api.Widgets.saveWidgetData(tuid, {data:widgetData}, function(success, data){
-            sakai.api.Widgets.Container.informFinish(tuid, "text");
+        $text_cancel.die("click");
+        $text_cancel.live("click", function(e) {
+            sakai.api.Widgets.Container.informCancel(tuid);
         });
-    });
 
-    var loadData = function(callback){
-        sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
-            if (success) {
-                widgetData = data.data;
-            }
-            callback();
+        $text_save.die("click");
+        $text_save.live("click", function(e) {
+            widgetData.title = $("#text_title", $rootel).val();
+            widgetData.text = $("#text_text", $rootel).val();
+            sakai.api.Widgets.saveWidgetData(tuid, {data:widgetData}, function(success, data){
+                sakai.api.Widgets.Container.informFinish(tuid, "text");
+            });
         });
-    };
 
-    var doInit = function(){
-        loadData(function() {
-            if (showSettings) {
-                $text_settings.html(sakai.api.Util.TemplateRenderer($text_settings_template, {data:widgetData})).show();
-            } else {
-                if (widgetData.title) {
-                    sakai.api.Widgets.changeWidgetTitle(tuid, widgetData.title);
+        var loadData = function(callback){
+            sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
+                if (success) {
+                    widgetData = data.data;
                 }
-                $text_main.html(sakai.api.Util.TemplateRenderer($text_main_template, {data:widgetData})).show();
-            }
-        });
+                callback();
+            });
+        };
+
+        var doInit = function(){
+            loadData(function() {
+                if (showSettings) {
+                    $text_settings.html($.TemplateRenderer($text_settings_template, {data:widgetData})).show();
+                } else {
+                    if (widgetData.title) {
+                        sakai.api.Widgets.changeWidgetTitle(tuid, widgetData.title);
+                    }
+                    $text_main.html($.TemplateRenderer($text_main_template, {data:widgetData})).show();
+                }
+            });
+        };
+
+        doInit();
     };
 
-    doInit();
-};
-
-sakai.api.Widgets.widgetLoader.informOnLoad("text");
+    sakai.api.Widgets.widgetLoader.informOnLoad("text");
+});

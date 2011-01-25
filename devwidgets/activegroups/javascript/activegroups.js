@@ -103,7 +103,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
 
             // If the widget is initialized on the directory page then listen to the event to catch specified tag results
-            if (!(sakai_global.directory && sakai_global.directory.getIsDirectory())) {
+            if (!(sakai.directory && sakai.directory.getIsDirectory())) {
                 loadData(renderPopularGroups);
                 $("#activegroups_title_popular").show();
             } else {

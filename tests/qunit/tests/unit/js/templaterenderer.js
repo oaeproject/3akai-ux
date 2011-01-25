@@ -32,75 +32,75 @@ var $container = $("#qunit_body"),
     };
 
 test("Rendering a string in a template", function() {
-    var html = sakai.api.Util.TemplateRenderer($template1, {data:data1});
+    var html = $.TemplateRenderer($template1, {data:data1});
     $container.html(html);
     equal($.trim($container.html()), data1);
 
-    sakai.api.Util.TemplateRenderer($template1, {data:data1}, $container);
-    equal($.trim($container.html()), data1, "Testing html replacement via sakai.api.Util.TemplateRenderer");
+    $.TemplateRenderer($template1, {data:data1}, $container);
+    equal($.trim($container.html()), data1, "Testing html replacement via $.TemplateRenderer");
 });
 
 test("Rendering an array in a template", function() {
-    sakai.api.Util.TemplateRenderer($template2, {data:data2}, $container);
+    $.TemplateRenderer($template2, {data:data2}, $container);
     equal($.trim($container.html()), data1);
 });
 
 test("Rendering an object in a template", function() {
-    sakai.api.Util.TemplateRenderer($template3, {data:data3}, $container);
+    $.TemplateRenderer($template3, {data:data3}, $container);
     equal($.trim($container.html()), data1);
 });
 
 test("Rendering an array of objects in a template", function() {
-    sakai.api.Util.TemplateRenderer($template4, {data:data4}, $container);
+    $.TemplateRenderer($template4, {data:data4}, $container);
     equal($.trim($container.html()), data1);
 });
 
 test("Rendering a nested object in a template", function() {
-    sakai.api.Util.TemplateRenderer($template5, {data:data5}, $container);
+    $.TemplateRenderer($template5, {data:data5}, $container);
     equal($.trim($container.html()), data1);
 });
 
 test("Rendering null and undefined", function() {
-    sakai.api.Util.TemplateRenderer($template6, {data:undefined}, $container);
+    $.TemplateRenderer($template6, {data:undefined}, $container);
     equal($.trim($container.html()), "", "Testing undefined");
 
-    sakai.api.Util.TemplateRenderer($template6, {data:null}, $container);
+    $.TemplateRenderer($template6, {data:null}, $container);
     equal($.trim($container.html()), "", "Testing null");
 });
 
 test("Testing if, elseif, and else conditionals", function() {
-    sakai.api.Util.TemplateRenderer($template7, {data:"Hi"}, $container);
+    $.TemplateRenderer($template7, {data:"Hi"}, $container);
     equal($.trim($container.html()), "Hi", "Testing if condition");
 
-    sakai.api.Util.TemplateRenderer($template7, {data:"from"}, $container);
+    $.TemplateRenderer($template7, {data:"from"}, $container);
     equal($.trim($container.html()), "from", "Testing elseif condition");
 
-    sakai.api.Util.TemplateRenderer($template7, {data:"Sakai"}, $container);
+    $.TemplateRenderer($template7, {data:"Sakai"}, $container);
     equal($.trim($container.html()), "Sakai", "Testing else");
 
-    sakai.api.Util.TemplateRenderer($template7, {data:"Sakai231"}, $container);
+    $.TemplateRenderer($template7, {data:"Sakai231"}, $container);
     equal($.trim($container.html()), "Sakai", "Testing else");
 });
 
 test("Testing for and forelse", function() {
-    sakai.api.Util.TemplateRenderer($template8, {data:["data"]}, $container);
+    $.TemplateRenderer($template8, {data:["data"]}, $container);
     equal($.trim($container.html()), "Data", "Testing for condition");
 
-    sakai.api.Util.TemplateRenderer($template8, {data:[]}, $container);
+    $.TemplateRenderer($template8, {data:[]}, $container);
     equal($.trim($container.html()), "No data", "Testing forelse condition with empty array");
 
-    sakai.api.Util.TemplateRenderer($template8, {data:""}, $container);
+    $.TemplateRenderer($template8, {data:""}, $container);
     equal($.trim($container.html()), "No data", "Testing forelse condition with empty string");
 
-    sakai.api.Util.TemplateRenderer($template8, {data:null}, $container);
+    $.TemplateRenderer($template8, {data:null}, $container);
     equal($.trim($container.html()), "No data", "Testing forelse condition with null");
 
-    sakai.api.Util.TemplateRenderer($template8, {data:undefined}, $container);
+    $.TemplateRenderer($template8, {data:undefined}, $container);
     equal($.trim($container.html()), "No data", "Testing forelse condition with undefined");
 });
 
 test("Testing var", function() {
-    sakai.api.Util.TemplateRenderer($template10, {data:data1}, $container);
+    $.TemplateRenderer($template10, {data:data1}, $container);
     equal($.trim($container.html()), data1);
 });
 
