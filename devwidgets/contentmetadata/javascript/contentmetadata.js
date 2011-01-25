@@ -419,6 +419,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(this).blur();
             }
         });
+<<<<<<< HEAD
     
         /**
          * Initialize the widget from outside of the widget
@@ -428,6 +429,48 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
     
         sakai_global.contentmetadata.isReady = true;
+=======
+    };
+
+    /**
+     * Initialize the widget
+     */
+    var doInit = function(){
+        // Render all information
+        renderDescription(false);
+        renderTags(false);
+        renderCopyright(false);
+        renderLocations(false);
+        renderDetails(false);
+
+        // Add binding
+        addBinding();
+    };
+
+    $(window).bind("sakai-fileupload-complete", function(){
+        $(window).bind("load.content_profile.sakai", function(success) {
+            renderDetails(success);
+        });
+    });
+
+    $(window).bind("sakai-contentmetadata-renderlocations", function(ev, val){
+        sakai.content_profile.content_data.saveddirectory = val.saveddirectory;
+        sakai.content_profile.content_data.data["sakai:tags"] = val.tags;
+        renderLocations(false);
+    });
+
+    // Bind Enter key to input fields to save on keyup
+    $("input").bind("keyup", function(ev){
+        if(ev.keyCode == 13){
+            $(this).blur();
+        }
+    });
+
+    /**
+     * Initialize the widget from outside of the widget
+     */
+    sakai.api.UI.contentmetadata.render = function(){
+>>>>>>> daa000a... requirejs wip on page js files
         doInit();
     
     };

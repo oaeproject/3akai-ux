@@ -181,9 +181,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         break;
                     case "group":
                         contextVariables = {
-                            "saveddirectory":sakai.currentgroup.data.authprofile.saveddirectory,
-                            "tags": sakai.currentgroup.data.authprofile["sakai:tags"],
-                            "path": "/~" + sakai.currentgroup.id + "/public/authprofile",
+                            "saveddirectory":sakai_global.currentgroup.data.authprofile.saveddirectory,
+                            "tags": sakai_global.currentgroup.data.authprofile["sakai:tags"],
+                            "path": "/~" + sakai_global.currentgroup.id + "/public/authprofile",
                             "context": "group"    
                         };
                         break;

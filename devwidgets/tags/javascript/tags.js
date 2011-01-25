@@ -102,7 +102,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
 
             // If the widget is initialized on the directory page then listen to the event to catch specified tag results
-            if (sakai.directory && sakai.directory.getIsDirectory()) {
+            if (sakai_global.directory && sakai_global.directory.getIsDirectory()) {
                 loadData(true, generateTagCloud);
             }
             else {

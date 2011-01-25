@@ -16,8 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-require(["jquery","sakai/sakai.api.core"], 
-    function($, sakai) {
+require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
     sakai_global.mysakai = function() {
         
@@ -96,10 +95,10 @@ require(["jquery","sakai/sakai.api.core"],
             // of insertWidgets to reduce HTTP requests
             $("#widget_changepic").before(sakai.api.Security.saneHTML("<div id='widget_dashboard_mysakaidashboard_/~" + sakai.data.me.user.userid + "/dashboard/' class='widget_inline'></div>"));
 
-            if (sakai.dashboard && sakai.dashboard.isReady) {
+            if (sakai_global.dashboard && sakai_global.dashboard.isReady) {
                 initDashboard();
             } else {
-                $(window).bind("sakai.dashboard.ready", function(e, tuid) {
+                $(window).bind("sakai_global.dashboard.ready", function(e, tuid) {
                     initDashboard();
                 });
             }

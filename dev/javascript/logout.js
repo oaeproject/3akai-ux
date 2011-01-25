@@ -16,8 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-require(["jquery","sakai/sakai.api.core"], 
-    function($, sakai) {
+require(["jquery","sakai/sakai.api.core"], function($, sakai) {
     /*
      * Log the user out. Redirect to the login page on completion.
      */

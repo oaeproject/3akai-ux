@@ -1262,7 +1262,28 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             $.post(store, {"sling:resourceType":"sakai/messagestore"} );
                         }
                     }
+<<<<<<< HEAD
                 });
+=======
+                }
+            });
+        }
+        var isGroup = false;
+        if (sakai_global.currentgroup && typeof sakai_global.currentgroup.id === "string") {
+            currentSite = sakai_global.currentgroup.id;
+            isGroup = true;
+        } else {
+            currentSite = sakai.profile.main.data["rep:userId"];
+        }
+        getWidgetSettings();
+        if (showSettings) {
+            $(discussionMainContainer, rootel).hide();
+            $(discussionSettings, rootel).show();
+            if (isGroup) {
+                $("#discussion_settings_visibility_group", rootel).show();
+            } else {
+                $("#discussion_settings_visibility_user", rootel).show();
+>>>>>>> daa000a... requirejs wip on page js files
             }
             var isGroup = false;
             if (sakai.currentgroup && typeof sakai.currentgroup.id === "string") {

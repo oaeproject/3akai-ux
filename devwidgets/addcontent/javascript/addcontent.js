@@ -180,6 +180,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             });
 
+<<<<<<< HEAD
         };
 
         var filesLoaded = function(bool, data){
@@ -205,6 +206,42 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     sortOrder: "descending"
                 };
                 sakai.api.Server.loadJSON("/var/search/pool/me/manager.1", filesLoaded, data);
+=======
+    /**
+     * Load the information about a file
+     */
+    var loadFileInfo = function(){
+
+        // Load the widget data
+        sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
+
+            // Only do something on success
+            // TODO show a valid error message if something goes wrong
+            if(success && data.path){
+                if (sakai.content_profile.content_data && sakai.content_profile.content_data.data) {
+                    json = sakai.content_profile.content_data;
+                    var splitslash = sakai.content_profile.content_data.contentpath.split("/");
+                    json.data.name = splitslash[splitslash.length -1];
+                    // Render the show template
+                    renderTemplateShow(json);
+
+                    // Add binding to the show container
+                    addBindingShow(json);
+                } else {
+                    $(window).bind("load.content_profile.sakai", function(success) {
+                        if (success) {
+                            json = sakai.content_profile.content_data;
+                            var splitslash = sakai.content_profile.content_data.contentpath.split("/");
+                            json.data.name = splitslash[splitslash.length -1];
+                            // Render the show template
+                            renderTemplateShow(json);
+
+                            // Add binding to the show container
+                            addBindingShow(json);
+                        }
+                    });
+                }
+>>>>>>> daa000a... requirejs wip on page js files
             }
 
         };

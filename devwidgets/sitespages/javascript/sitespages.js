@@ -622,6 +622,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var urlsafe_title = sakai_global.sitespages.createURLSafeTitle(title);
             var counter = 0;
 
+<<<<<<< HEAD
             while (!new_urlsafe_name){
                 if (counter > 0){
                     urlsafe_title += "-" + counter;
@@ -631,6 +632,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (!sakai_global.sitespages.site_info._pages[test_url_safe_name]) {
                     new_urlsafe_name = test_url_safe_name;
                 }
+=======
+    $(window).bind("sakai.dashboard.ready", function(e, tuid) {
+        var split = $(sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"]).attr("id").split("_");
+        var entityID = false;
+        if (sakai.profile.main.data["rep:userId"]) {
+            entityID = sakai.profile.main.data["rep:userId"];
+        } else if (sakai_global.currentgroup && sakai_global.currentgroup.id && !$.isEmptyObject(sakai_global.currentgroup.id)) {
+            entityID = sakai_global.currentgroup.id;
+        }
+        // make sure the dashboard that said it's ready is the one we just got the data for
+        if (split[2] === tuid) {
+            if (config.editMode) {
+                sakai.dashboard.init(sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["jcr:path"] + "/_widgets/", true, config.dashboardEmbedProperty, false);
+            } else {
+                sakai.dashboard.init(sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["jcr:path"] + "/_widgets/", false, config.dashboardEmbedProperty, false);
+>>>>>>> daa000a... requirejs wip on page js files
             }
 
             return_object = {
@@ -1631,6 +1648,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         };
 
+<<<<<<< HEAD
+=======
+    /**
+     * Displays current page's location within a site, also adds a 'Move...' button
+     * @return void
+     */
+    var showPageLocation = function(){
+        //http://localhost:8080/~resources#page=resourcespagesthird-page
+        if (!$.isEmptyObject(sakai_global.currentgroup.id)){
+            $("#new_page_path").html(sakai.api.Security.saneHTML("<span>Page location: </span>" + sakai.config.SakaiDomain + "/~" + sakai_global.currentgroup.id + "#page=" + sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage].pageURLName));
+        } else {
+            $("#new_page_path").html(sakai.api.Security.saneHTML("<span>Page location: </span>" + sakai.config.SakaiDomain + "/~" + sakai.data.me.user.userid + "#page=" + sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage].pageURLName));
+        }
+>>>>>>> daa000a... requirejs wip on page js files
 
         /**
          * Remove autosave file from JCR

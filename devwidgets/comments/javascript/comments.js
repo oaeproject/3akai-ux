@@ -792,6 +792,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             $.post(store, {"sling:resourceType":"sakai/messagestore"} );
                         }
                     }
+<<<<<<< HEAD
                 });
             }
             if (sakai.currentgroup && !$.isEmptyObject(sakai.currentgroup.id)) {
@@ -807,6 +808,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             getWidgetSettings();
         };
         doInit();
+=======
+                }
+            });
+        }
+        if (sakai_global.currentgroup && !$.isEmptyObject(sakai_global.currentgroup.id)) {
+            currentSite = sakai_global.currentgroup.id;
+        } else {
+            currentSite = sakai.profile.main.data["rep:userId"];
+        }
+        if (!showSettings) {
+            // Show the main view.
+            $(commentsSettingsContainer, rootel).hide();
+            $(commentsOutputContainer, rootel).show();
+        }
+        getWidgetSettings();
+>>>>>>> daa000a... requirejs wip on page js files
     };
 
     sakai.api.Widgets.widgetLoader.informOnLoad("comments");

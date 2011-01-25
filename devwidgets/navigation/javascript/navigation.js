@@ -325,6 +325,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // MANAGING SETTINGS    //
         //////////////////////////
 
+<<<<<<< HEAD
 
         /**
          * Switches from the Settings view to the Main view
@@ -335,6 +336,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $mainView.show();
             $navigation_footer_edit.show();
             $navigation_footer_noedit.hide();
+=======
+    /**
+     * Switches from the Main view to the Settings view
+     */
+    var showSettingsView = function () {
+        // set up the template with data from current group's context
+        var json = {
+            groupname: sakai_global.currentgroup.data.authprofile["sakai:group-title"],
+            visible: sakai_global.currentgroup.data.authprofile["sakai:pages-visible"]
+>>>>>>> daa000a... requirejs wip on page js files
         };
 
 
@@ -389,7 +400,40 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 ).show();
                 justShown = true;
             }
+<<<<<<< HEAD
         });
+=======
+        } else {
+            justShown = false;
+        }
+    });
+
+    // Toggle settings view when the user clicks 'Settings' in settings menu
+    $settingsLink.click(function () {
+        showSettingsView();
+    });
+
+    // Update group settings when the settings form is submit
+    $settingsForm.live("submit", function () {
+        // manual selector necessary since this is a templated field
+        var selectedValue = $("#navigation_pages_visibility").val();
+
+        // only update if value has changed
+        if(selectedValue !== sakai_global.currentgroup.data.authprofile["sakai:pages-visible"]) {
+            sakai_global.currentgroup.data.authprofile["sakai:pages-visible"] = selectedValue;
+            // update group on the server
+            $.ajax({
+                url: "/system/userManager/group/" + sakai_global.currentgroup.id + ".update.html",
+                data: {
+                    "sakai:pages-visible": selectedValue
+                },
+                type: "POST",
+                error: function(xhr, textStatus, thrownError) {
+                    debug.error("ERROR-navigation.js settings update: " + xhr.status + " " + xhr.statusText);
+                }
+            });
+        }
+>>>>>>> daa000a... requirejs wip on page js files
 
 
         $(document).bind("click", function(e) {
@@ -443,9 +487,43 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
 
+<<<<<<< HEAD
         //////////////////////////////
         // Initialization Functions //
         //////////////////////////////
+=======
+    /**
+     * Renders no pages in the navigation widget along with a message explaining
+     * why no pages are viewable.
+     *
+     * @param {Boolean} error true if pages are not visible due to an error in
+     * loading pages, false if pages are not visible because the current user
+     * has insufficient privileges
+     * @return None
+     */
+    var renderNoPages = function (error) {
+        if(error) {
+            $navigationError.show();
+        } else {
+            $navigationNotAllowed.show();
+            // show the message with the lowest level of security
+            switch(sakai_global.currentgroup.data.authprofile["sakai:pages-visible"]) {
+                case sakai.config.Permissions.Groups.visible.allusers:
+                    $("#navigation_no_pages_unless_loggedin", $rootel).show();
+                    break;
+                case sakai.config.Permissions.Groups.visible.members:
+                    $("#navigation_no_pages_unless_member", $rootel).show();
+                    break;
+                default:
+                    $("#navigation_no_pages_unless_manager", $rootel).show();
+                    break;
+            }
+        }
+        disableEditing();
+        $navigationNoPages.show();
+        $mainView.show();
+    };
+>>>>>>> daa000a... requirejs wip on page js files
 
 
         /**
@@ -767,6 +845,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 return;
             }
 
+<<<<<<< HEAD
             // determine what the current user is allowed to see
             // only managers are allowed to edit pages
             var pagesVisibility;
@@ -791,6 +870,32 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 renderNoPages(false);
             }
         };
+=======
+        // determine what the current user is allowed to see
+        // only managers are allowed to edit pages
+        var pagesVisibility;
+        if ($.isEmptyObject(sakai_global.currentgroup.data)) {
+            pagesVisibility = sakai.config.Permissions.Groups.visible["public"];
+            $settingsIcon.remove();
+            $settingsMenu.remove();
+        } else {
+            pagesVisibility = sakai_global.currentgroup.data.authprofile["sakai:pages-visible"];
+        }
+
+        if (sakai.show.canEdit() === true) {
+            // current user is a manager
+            renderReadWritePages(selectedPageUrlName, site_info_object);
+        } else if(pagesVisibility === sakai.config.Permissions.Groups.visible["public"] ||
+            (pagesVisibility === sakai.config.Permissions.Groups.visible.allusers && !sakai.data.me.user.anon) ||
+            (pagesVisibility === sakai.config.Permissions.Groups.visible.members && sakai.api.Groups.isCurrentUserAMember(sakai_global.currentgroup.id))) {
+            // we have a non-manager that can only view pages, not edit
+            renderReadOnlyPages(selectedPageUrlName, site_info_object);
+        } else {
+            // we have a non-manager that is not allowed to view pages
+            renderNoPages(false);
+        }
+    };
+>>>>>>> daa000a... requirejs wip on page js files
 
         sakai.sitespages.navigation.addNode = function(nodeID, nodeTitle, nodePosition) {
             if (nodeID && nodeTitle && nodePosition) {

@@ -264,6 +264,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             selectedItems = newItems;
         };
 
+<<<<<<< HEAD
         var setCurrentFiles = function() {
             $.each(widgetData.items, function(i,val) {
                 autosuggestSelectionAdded(val);
@@ -278,6 +279,25 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 toggleAddTitleAndDescription(true);
                 $embedcontent_title.val(widgetData.title);
                 $embedcontent_description.val(widgetData.description);
+=======
+    /**
+     * Once the content has been placed on the page it has to be associated with the group
+     * The group is set as a viewer of the content
+     * @param {Object} embeddedItems Array of object containing information about the selected items. Only the path variable is used.
+     */
+    var associatedEmbeddedItemsWithGroup = function(embeddedItems){
+        var data = [];
+        for (var embeddedItem in embeddedItems) {
+            if (embeddedItems.hasOwnProperty(embeddedItem)) {
+                var item = {
+                    "url": embeddedItems[embeddedItem].path + ".members.json",
+                    "method": "POST",
+                    "parameters": {
+                        ":viewer": sakai_global.currentgroup.id
+                    }
+                };
+                data[data.length] = item;
+>>>>>>> daa000a... requirejs wip on page js files
             }
             if (widgetData.layout !== "single") {
                 $embedcontent_display_form.find("img.selected").removeClass('selected');
@@ -345,6 +365,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
           $("input[id='" + tuid + "']").val('').focus();
           toggleButtons();
         };
+<<<<<<< HEAD
+=======
+        var videoBatchData = [];
+        for (var i in selectedItems){
+            if(selectedItems.hasOwnProperty(i)){
+                if(selectedItems[i].filetype === "video"){
+                    // Set random ID to the video
+                    selectedItems[i].uId = Math.ceil(Math.random() * 999999999);
+
+                    var itemUrl;
+                    if (sakai_global.currentgroup.data.authprofile) {
+                        itemUrl = "/~" + sakai_global.currentgroup.data.authprofile["sakai:group-title"] + "/pages/_widgets/id" + selectedItems[i].uId + "/video";
+                    } else {
+                        itemUrl = "/~" + sakai.data.me.user.userid + "/pages/_widgets/id" + selectedItems[i].uId + "/video";
+                    }
+>>>>>>> daa000a... requirejs wip on page js files
 
         /**
          * Once the content has been placed on the page it has to be associated with the group
@@ -366,6 +402,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             }
 
+<<<<<<< HEAD
             $.ajax({
                 url: sakai.config.URL.BATCH,
                 traditional: true,
@@ -376,6 +413,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             });
         };
+=======
+        if (sakai_global.currentgroup) {
+            // Associate embedded items with the group
+            associatedEmbeddedItemsWithGroup(selectedItems);
+        }
+>>>>>>> daa000a... requirejs wip on page js files
 
         var registerVideo = function(videoBatchData){
             $.ajax({
