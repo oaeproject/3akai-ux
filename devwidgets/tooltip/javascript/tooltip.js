@@ -25,7 +25,7 @@
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     /**
-     * sakai.tooltip
+     * sakai_global.tooltip
      * a multi-purpose tooltip dialog box
      */
     sakai_global.tooltip = function(tuid, showSettings) {

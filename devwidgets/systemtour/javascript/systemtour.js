@@ -24,7 +24,7 @@
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     /**
-     * @name sakai.systemtour
+     * @name sakai_global.systemtour
      *
      * @class systemtour
      *

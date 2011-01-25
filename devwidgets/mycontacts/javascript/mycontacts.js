@@ -25,7 +25,7 @@
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     /**
-     * @name sakai.mycontacts
+     * @name sakai_global.mycontacts
      *
      * @class mycontacts
      *

@@ -27,7 +27,7 @@
 require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js"], function($, sakai) {
 
     /**
-     * @name sakai.popularcontent
+     * @name sakai_global.popularcontent
      *
      * @class popularcontent
      *

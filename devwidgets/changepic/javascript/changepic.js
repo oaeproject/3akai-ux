@@ -78,7 +78,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     };
 
     /**
-     * @name sakai.changepic
+     * @name sakai_global.changepic
      *
      * @class changepic
      *

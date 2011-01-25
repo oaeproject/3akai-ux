@@ -29,7 +29,7 @@
 require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js"], function($, sakai) {
 
     /**
-     * @name sakai.login
+     * @name sakai_global.login
      *
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not

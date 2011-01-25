@@ -26,7 +26,7 @@
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     /**
-     * @name sakai.recentmessages
+     * @name sakai_global.recentmessages
      *
      * @class recentmessages
      *

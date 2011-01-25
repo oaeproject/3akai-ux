@@ -26,7 +26,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     
 
     /**
-     * @name sakai.topnavigation
+     * @name sakai_global.topnavigation
      *
      * @class topnavigation
      *

@@ -27,7 +27,7 @@
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     /**
-     * @name sakai.assignlocation
+     * @name sakai_global.assignlocation
      *
      * @class assignlocation
      *
