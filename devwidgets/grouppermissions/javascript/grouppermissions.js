@@ -62,8 +62,8 @@ sakai.grouppermissions = function(tuid, showSettings){
      * @return None
      */
     var render = function() {
-        var joinable = sakai.currentgroup.data.authprofile["sakai:group-joinable"];
-        var visible = sakai.currentgroup.data.authprofile["sakai:group-visible"];
+        var joinable = sakai_global.currentgroup.data.authprofile["sakai:group-joinable"];
+        var visible = sakai_global.currentgroup.data.authprofile["sakai:group-visible"];
 
         if(sakai.api.Security.isValidPermissionsProperty(sakai.config.Permissions.Groups.joinable, joinable) &&
             sakai.api.Security.isValidPermissionsProperty(sakai.config.Permissions.Groups.visible, visible)) {
@@ -75,7 +75,7 @@ sakai.grouppermissions = function(tuid, showSettings){
             $rootel.html($.TemplateRenderer($(template), gp_data));
             $(template, $rootel).show();
         } else {
-            debug.error("grouppermissions.js - ERROR getting permissions properties from sakai.currentgroup");
+            debug.error("grouppermissions.js - ERROR getting permissions properties from sakai_global.currentgroup");
             $(dataError).show();
         }
     };
@@ -91,10 +91,10 @@ sakai.grouppermissions = function(tuid, showSettings){
         var visible = $(selectVisible, $rootel).val();
 
         // only POST if user has changed values
-        if(joinable !== sakai.currentgroup.data.authprofile["sakai:group-joinable"] ||
-            visible !== sakai.currentgroup.data.authprofile["sakai:group-visible"]) {
+        if(joinable !== sakai_global.currentgroup.data.authprofile["sakai:group-joinable"] ||
+            visible !== sakai_global.currentgroup.data.authprofile["sakai:group-visible"]) {
             // set new group permissions
-            sakai.api.Groups.setPermissions(sakai.currentgroup.id, joinable, visible);
+            sakai.api.Groups.setPermissions(sakai_global.currentgroup.id, joinable, visible);
         }
     };
 

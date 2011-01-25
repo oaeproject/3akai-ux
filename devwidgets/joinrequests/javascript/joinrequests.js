@@ -123,7 +123,7 @@ sakai.joinrequests = function (tuid, showSettings) {
      */
     var getJoinRequestsData = function () {
         // get join requests from server
-        sakai.api.Groups.getJoinRequests(sakai.currentgroup.id, function (success, data) {
+        sakai.api.Groups.getJoinRequests(sakai_global.currentgroup.id, function (success, data) {
             if (success) {
                 // process joinrequest data for UI
                 if (data && data.total && data.total > 0) {
@@ -155,7 +155,7 @@ sakai.joinrequests = function (tuid, showSettings) {
      */
     var addUser = function (userid) {
         // add user to group
-        sakai.api.Groups.addUsersToGroup(sakai.currentgroup.id, "members", [userid], function (success) {
+        sakai.api.Groups.addUsersToGroup(sakai_global.currentgroup.id, "members", [userid], function (success) {
             if (success) {
                 // show notification
                 sakai.api.Util.notification.show($joinrequestsTitle.html(),
@@ -181,7 +181,7 @@ sakai.joinrequests = function (tuid, showSettings) {
      */
     var removeJoinRequest = function (userid) {
         // remove join request from server
-        sakai.api.Groups.removeJoinRequest(userid, sakai.currentgroup.id,
+        sakai.api.Groups.removeJoinRequest(userid, sakai_global.currentgroup.id,
         function (success) {
             if (success) {
                 // remove the UI joinrequest element

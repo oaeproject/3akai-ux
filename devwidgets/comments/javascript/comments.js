@@ -794,8 +794,8 @@ sakai.comments = function(tuid, showSettings){
                 }
             });
         }
-        if (sakai.currentgroup && !$.isEmptyObject(sakai.currentgroup.id)) {
-            currentSite = sakai.currentgroup.id;
+        if (sakai_global.currentgroup && !$.isEmptyObject(sakai_global.currentgroup.id)) {
+            currentSite = sakai_global.currentgroup.id;
         } else {
             currentSite = sakai.profile.main.data["rep:userId"];
         }

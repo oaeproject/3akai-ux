@@ -344,8 +344,8 @@ sakai.navigation = function(tuid, showSettings){
     var showSettingsView = function () {
         // set up the template with data from current group's context
         var json = {
-            groupname: sakai.currentgroup.data.authprofile["sakai:group-title"],
-            visible: sakai.currentgroup.data.authprofile["sakai:pages-visible"]
+            groupname: sakai_global.currentgroup.data.authprofile["sakai:group-title"],
+            visible: sakai_global.currentgroup.data.authprofile["sakai:pages-visible"]
         };
         $settingsView.html($.TemplateRenderer($navigationSettingsTemplate, json));
         $mainView.hide();
@@ -415,11 +415,11 @@ sakai.navigation = function(tuid, showSettings){
         var selectedValue = $("#navigation_pages_visibility").val();
 
         // only update if value has changed
-        if(selectedValue !== sakai.currentgroup.data.authprofile["sakai:pages-visible"]) {
-            sakai.currentgroup.data.authprofile["sakai:pages-visible"] = selectedValue;
+        if(selectedValue !== sakai_global.currentgroup.data.authprofile["sakai:pages-visible"]) {
+            sakai_global.currentgroup.data.authprofile["sakai:pages-visible"] = selectedValue;
             // update group on the server
             $.ajax({
-                url: "/system/userManager/group/" + sakai.currentgroup.id + ".update.html",
+                url: "/system/userManager/group/" + sakai_global.currentgroup.id + ".update.html",
                 data: {
                     "sakai:pages-visible": selectedValue
                 },
@@ -476,7 +476,7 @@ sakai.navigation = function(tuid, showSettings){
         } else {
             $navigationNotAllowed.show();
             // show the message with the lowest level of security
-            switch(sakai.currentgroup.data.authprofile["sakai:pages-visible"]) {
+            switch(sakai_global.currentgroup.data.authprofile["sakai:pages-visible"]) {
                 case sakai.config.Permissions.Groups.visible.allusers:
                     $("#navigation_no_pages_unless_loggedin", $rootel).show();
                     break;
@@ -770,12 +770,12 @@ sakai.navigation = function(tuid, showSettings){
         // determine what the current user is allowed to see
         // only managers are allowed to edit pages
         var pagesVisibility;
-        if ($.isEmptyObject(sakai.currentgroup.data)) {
+        if ($.isEmptyObject(sakai_global.currentgroup.data)) {
             pagesVisibility = sakai.config.Permissions.Groups.visible["public"];
             $settingsIcon.remove();
             $settingsMenu.remove();
         } else {
-            pagesVisibility = sakai.currentgroup.data.authprofile["sakai:pages-visible"];
+            pagesVisibility = sakai_global.currentgroup.data.authprofile["sakai:pages-visible"];
         }
 
         if (sakai.show.canEdit() === true) {
@@ -783,7 +783,7 @@ sakai.navigation = function(tuid, showSettings){
             renderReadWritePages(selectedPageUrlName, site_info_object);
         } else if(pagesVisibility === sakai.config.Permissions.Groups.visible["public"] ||
             (pagesVisibility === sakai.config.Permissions.Groups.visible.allusers && !sakai.data.me.user.anon) ||
-            (pagesVisibility === sakai.config.Permissions.Groups.visible.members && sakai.api.Groups.isCurrentUserAMember(sakai.currentgroup.id))) {
+            (pagesVisibility === sakai.config.Permissions.Groups.visible.members && sakai.api.Groups.isCurrentUserAMember(sakai_global.currentgroup.id))) {
             // we have a non-manager that can only view pages, not edit
             renderReadOnlyPages(selectedPageUrlName, site_info_object);
         } else {

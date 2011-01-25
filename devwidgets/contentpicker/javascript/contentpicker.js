@@ -251,7 +251,7 @@ sakai.contentpicker = function(tuid, showSettings) {
                     "url": embeddedItems[embeddedItem].path + ".members.json",
                     "method": "POST",
                     "parameters": {
-                        ":viewer": sakai.currentgroup.id
+                        ":viewer": sakai_global.currentgroup.id
                     }
                 };
                 data[data.length] = item;

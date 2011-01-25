@@ -230,7 +230,7 @@ sakai.addcontent = function(tuid, showSettings){
                     // Add binding to the show container
                     addBindingShow(json);
                 } else {
-                    sakai.content_profile.loadContentProfile(function(success) {
+                    $(window).bind("load.content_profile.sakai", function(success) {
                         if (success) {
                             json = sakai.content_profile.content_data;
                             var splitslash = sakai.content_profile.content_data.contentpath.split("/");

@@ -73,8 +73,8 @@ sakai.groupbasicinfo = function(tuid, showSettings){
 
     var groupBasicInfoSavedInfo = ".groupbasicinfo_saveddirectory";
 
-    var groupId = sakai.currentgroup.id;
-    var groupStoragePrefix = sakai.currentgroup.data.authprofile.path;
+    var groupId = sakai_global.currentgroup.id;
+    var groupStoragePrefix = sakai_global.currentgroup.data.authprofile.path;
     var tagsPath = "/~" + groupId + "/public/tags/";
     var tagsPathForLinking = "/_group" + groupStoragePrefix + "/public/tags/";
     var groupProfileURL = "";
@@ -130,7 +130,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
 
         // If this widget is not shown on the group profile (i.e. when rendered inside a page)
         // we show the widget's own update button
-        if (!sakai.currentgroup.profileView){
+        if (!sakai_global.currentgroup.profileView){
             $(groupbasicinfo_buttons, $rootel).show();
         }
 
@@ -142,10 +142,10 @@ sakai.groupbasicinfo = function(tuid, showSettings){
     var getGroupData = function(){
         sakai.api.Groups.getGroupData(groupid, function(success, data) {
             if (success) {
-                sakai.currentgroup.id = groupId;
-                sakai.currentgroup.data = data;
+                sakai_global.currentgroup.id = groupId;
+                sakai_global.currentgroup.data = data;
                 if (data.authprofile['rep:policy']) {
-                    sakai.currentgroup.manager = true;
+                    sakai_global.currentgroup.manager = true;
                 }
                 renderTemplateBasicInfo();
             }
@@ -166,7 +166,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         // group title (cannot be blank)
         var groupTitle = $.trim($(groupBasicInfoGroupTitle, $rootel).val());
         if (!groupTitle) {
-            groupTitle = sakai.currentgroup.data.authprofile["sakai:group-title"];
+            groupTitle = sakai_global.currentgroup.data.authprofile["sakai:group-title"];
         }
 
         // group kind (should be preset values)
@@ -174,18 +174,18 @@ sakai.groupbasicinfo = function(tuid, showSettings){
 
         // group tags
         var currentTags = [];
-        if (sakai.currentgroup.data.authprofile["sakai:tags"]) {
-            currentTags = sakai.currentgroup.data.authprofile["sakai:tags"].slice(0);
+        if (sakai_global.currentgroup.data.authprofile["sakai:tags"]) {
+            currentTags = sakai_global.currentgroup.data.authprofile["sakai:tags"].slice(0);
         }
         var enteredTags = $.trim($(groupBasicInfoGroupTags).val()).split(",");
         if (enteredTags !== currentTags) {
             // user has changed tags
-            sakai.currentgroup.data.authprofile["sakai:tags"] = [];
+            sakai_global.currentgroup.data.authprofile["sakai:tags"] = [];
             $(enteredTags).each(function(i, tag) {
                 tag = $.trim(tag).replace(/#/g,"");
                 if (sakai.api.Security.escapeHTML(tag) === tag && tag.replace(/\\/g,"").length) {
-                    if ($.inArray(tag, sakai.currentgroup.data.authprofile["sakai:tags"]) < 0) {
-                        sakai.currentgroup.data.authprofile["sakai:tags"].push(tag.replace(/\\/g,""));
+                    if ($.inArray(tag, sakai_global.currentgroup.data.authprofile["sakai:tags"]) < 0) {
+                        sakai_global.currentgroup.data.authprofile["sakai:tags"].push(tag.replace(/\\/g,""));
                     }
                 }
             });
@@ -195,7 +195,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         // For every groupbasicinfo_added_directory we create tags
         $("#groupbasicinfo_directory li").each(function(ev, value){
             var directory = $(value).attr("class");
-            sakai.currentgroup.data.authprofile["sakai:tags"].push(directory);
+            sakai_global.currentgroup.data.authprofile["sakai:tags"].push(directory);
         });
         
         // group description (can be blank)
@@ -204,24 +204,24 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         // group permissions settings
         var joinable = $(groupBasicInfoGroupJoinable).val();
         var visible = $(groupBasicInfoGroupVisible).val();
-        if(joinable !== sakai.currentgroup.data.authprofile["sakai:group-joinable"] ||
-            visible !== sakai.currentgroup.data.authprofile["sakai:group-visible"]) {
+        if(joinable !== sakai_global.currentgroup.data.authprofile["sakai:group-joinable"] ||
+            visible !== sakai_global.currentgroup.data.authprofile["sakai:group-visible"]) {
             // only POST if user has changed values
-            sakai.currentgroup.data.authprofile["sakai:group-joinable"] = joinable;
-            sakai.currentgroup.data.authprofile["sakai:group-visible"] = visible;
-            sakai.api.Groups.setPermissions(sakai.currentgroup.id, joinable, visible);
+            sakai_global.currentgroup.data.authprofile["sakai:group-joinable"] = joinable;
+            sakai_global.currentgroup.data.authprofile["sakai:group-visible"] = visible;
+            sakai.api.Groups.setPermissions(sakai_global.currentgroup.id, joinable, visible);
         }
 
         // Update the group object
-        sakai.currentgroup.data.authprofile["sakai:group-title"] = sakai.api.Security.escapeHTML(groupTitle);
-        sakai.currentgroup.data.authprofile["sakai:group-kind"] = groupKind;
-        sakai.currentgroup.data.authprofile["sakai:group-description"] = sakai.api.Security.escapeHTML(groupDesc);
+        sakai_global.currentgroup.data.authprofile["sakai:group-title"] = sakai.api.Security.escapeHTML(groupTitle);
+        sakai_global.currentgroup.data.authprofile["sakai:group-kind"] = groupKind;
+        sakai_global.currentgroup.data.authprofile["sakai:group-description"] = sakai.api.Security.escapeHTML(groupDesc);
 
-        sakai.api.Groups.updateGroupInfo(sakai.currentgroup.id, groupTitle, groupDesc, groupKind, function(success) {
+        sakai.api.Groups.updateGroupInfo(sakai_global.currentgroup.id, groupTitle, groupDesc, groupKind, function(success) {
             if (success) {
-                groupProfileURL = "/~" + sakai.currentgroup.id + "/public/authprofile";
-                sakai.api.Util.tagEntity(groupProfileURL, sakai.currentgroup.data.authprofile["sakai:tags"], currentTags, function() {
-                    sakai.currentgroup.data.authprofile["sakai:tags"] = currentTags;
+                groupProfileURL = "/~" + sakai_global.currentgroup.id + "/public/authprofile";
+                sakai.api.Util.tagEntity(groupProfileURL, sakai_global.currentgroup.data.authprofile["sakai:tags"], currentTags, function() {
+                    sakai_global.currentgroup.data.authprofile["sakai:tags"] = currentTags;
                 });
             }
             sakai.api.Widgets.Container.informFinish(tuid, "groupbasicinfo");
@@ -237,8 +237,8 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         // Extract tags that start with "directory:"
         var directory = [];
         var tags = [];
-        $(sakai.currentgroup.data.authprofile["sakai:tags"]).each(function(i){
-            var splitDir = sakai.currentgroup.data.authprofile["sakai:tags"][i].split("/");
+        $(sakai_global.currentgroup.data.authprofile["sakai:tags"]).each(function(i){
+            var splitDir = sakai_global.currentgroup.data.authprofile["sakai:tags"][i].split("/");
             if (splitDir[0] === "directory") {
                 var title = "";
                 var curLocation = [];
@@ -254,7 +254,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
                 directoryJSON.push(curLocation);
                 directory.push({
                     "locationtitle": {
-                        "value": sakai.currentgroup.data.authprofile["sakai:tags"][i],
+                        "value": sakai_global.currentgroup.data.authprofile["sakai:tags"][i],
                         "title": title
                     },
                     "id": {
@@ -263,16 +263,16 @@ sakai.groupbasicinfo = function(tuid, showSettings){
                     }
                 });
             } else {
-                tags.push(sakai.currentgroup.data.authprofile["sakai:tags"][i]);
+                tags.push(sakai_global.currentgroup.data.authprofile["sakai:tags"][i]);
             }
         });
-        sakai.currentgroup.data.authprofile.directory = directory;
-        sakai.currentgroup.data.authprofile.saveddirectory = directoryJSON;
+        sakai_global.currentgroup.data.authprofile.directory = directory;
+        sakai_global.currentgroup.data.authprofile.saveddirectory = directoryJSON;
         // Get the group information out of the global group info object
         json = {
-            "groupid" : sakai.currentgroup.id,
-            "url" : document.location.protocol + "//" + document.location.host + "/~" + sakai.currentgroup.id,
-            "data" : sakai.currentgroup.data.authprofile,
+            "groupid" : sakai_global.currentgroup.id,
+            "url" : document.location.protocol + "//" + document.location.host + "/~" + sakai_global.currentgroup.id,
+            "data" : sakai_global.currentgroup.data.authprofile,
             "mode" : mode,
             "tags" : tags,
             "directory" : directory,
@@ -287,7 +287,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
     };
 
     var renderLocations = function(data){
-        sakai.currentgroup.data.authprofile["sakai:tags"] = data.tags;
+        sakai_global.currentgroup.data.authprofile["sakai:tags"] = data.tags;
         var mode = '';
         // Show in Edit mode
         if (showSettings) {

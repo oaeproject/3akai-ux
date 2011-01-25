@@ -405,7 +405,9 @@ sakai.contentmetadata = function(tuid,showSettings){
     };
 
     $(window).bind("sakai-fileupload-complete", function(){
-        sakai.content_profile.loadContentProfile(renderDetails);
+        $(window).bind("load.content_profile.sakai", function(success) {
+            renderDetails(success);
+        });
     });
 
     $(window).bind("sakai-contentmetadata-renderlocations", function(ev, val){

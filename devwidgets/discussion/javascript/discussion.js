@@ -1265,8 +1265,8 @@ sakai.discussion = function(tuid, showSettings){
             });
         }
         var isGroup = false;
-        if (sakai.currentgroup && typeof sakai.currentgroup.id === "string") {
-            currentSite = sakai.currentgroup.id;
+        if (sakai_global.currentgroup && typeof sakai_global.currentgroup.id === "string") {
+            currentSite = sakai_global.currentgroup.id;
             isGroup = true;
         } else {
             currentSite = sakai.profile.main.data["rep:userId"];

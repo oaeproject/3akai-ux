@@ -359,7 +359,7 @@ sakai.embedcontent = function(tuid, showSettings) {
                     "url": embeddedItems[embeddedItem].path + ".members.json",
                     "method": "POST",
                     "parameters": {
-                        ":viewer": sakai.currentgroup.id
+                        ":viewer": sakai_global.currentgroup.id
                     }
                 };
                 data[data.length] = item;
@@ -422,8 +422,8 @@ sakai.embedcontent = function(tuid, showSettings) {
                     selectedItems[i].uId = Math.ceil(Math.random() * 999999999);
 
                     var itemUrl;
-                    if (sakai.currentgroup.data.authprofile) {
-                        itemUrl = "/~" + sakai.currentgroup.data.authprofile["sakai:group-title"] + "/pages/_widgets/id" + selectedItems[i].uId + "/video";
+                    if (sakai_global.currentgroup.data.authprofile) {
+                        itemUrl = "/~" + sakai_global.currentgroup.data.authprofile["sakai:group-title"] + "/pages/_widgets/id" + selectedItems[i].uId + "/video";
                     } else {
                         itemUrl = "/~" + sakai.data.me.user.userid + "/pages/_widgets/id" + selectedItems[i].uId + "/video";
                     }
@@ -448,7 +448,7 @@ sakai.embedcontent = function(tuid, showSettings) {
 
         registerVideo(videoBatchData);
 
-        if (sakai.currentgroup) {
+        if (sakai_global.currentgroup) {
             // Associate embedded items with the group
             associatedEmbeddedItemsWithGroup(selectedItems);
         }

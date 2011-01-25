@@ -360,9 +360,9 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                 sakai_serv.batch($.toJSON(batchRequests), function(success, data) {
                     if (success) {
                         // update group context and call callback
-                        if(sakai.currentgroup && sakai.currentgroup.data && sakai.currentgroup.data.authprofile) {
-                            sakai.currentgroup.data.authprofile["sakai:group-joinable"] = joinable;
-                            sakai.currentgroup.data.authprofile["sakai:group-visible"] = visible;
+                        if(sakai_global.currentgroup && sakai_global.currentgroup.data && sakai_global.currentgroup.data.authprofile) {
+                            sakai_global.currentgroup.data.authprofile["sakai:group-joinable"] = joinable;
+                            sakai_global.currentgroup.data.authprofile["sakai:group-visible"] = visible;
                         }
                         if ($.isFunction(callback)) {
                             callback(true);

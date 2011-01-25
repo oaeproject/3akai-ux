@@ -524,8 +524,8 @@ sakai.sitespages = function(tuid,showSettings){
         var entityID = false;
         if (sakai.profile.main.data["rep:userId"]) {
             entityID = sakai.profile.main.data["rep:userId"];
-        } else if (sakai.currentgroup && sakai.currentgroup.id && !$.isEmptyObject(sakai.currentgroup.id)) {
-            entityID = sakai.currentgroup.id;
+        } else if (sakai_global.currentgroup && sakai_global.currentgroup.id && !$.isEmptyObject(sakai_global.currentgroup.id)) {
+            entityID = sakai_global.currentgroup.id;
         }
         // make sure the dashboard that said it's ready is the one we just got the data for
         if (split[2] === tuid) {
@@ -1562,8 +1562,8 @@ sakai.sitespages = function(tuid,showSettings){
      */
     var showPageLocation = function(){
         //http://localhost:8080/~resources#page=resourcespagesthird-page
-        if (!$.isEmptyObject(sakai.currentgroup.id)){
-            $("#new_page_path").html(sakai.api.Security.saneHTML("<span>Page location: </span>" + sakai.config.SakaiDomain + "/~" + sakai.currentgroup.id + "#page=" + sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage].pageURLName));
+        if (!$.isEmptyObject(sakai_global.currentgroup.id)){
+            $("#new_page_path").html(sakai.api.Security.saneHTML("<span>Page location: </span>" + sakai.config.SakaiDomain + "/~" + sakai_global.currentgroup.id + "#page=" + sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage].pageURLName));
         } else {
             $("#new_page_path").html(sakai.api.Security.saneHTML("<span>Page location: </span>" + sakai.config.SakaiDomain + "/~" + sakai.data.me.user.userid + "#page=" + sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage].pageURLName));
         }
