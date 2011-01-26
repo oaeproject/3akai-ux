@@ -42,8 +42,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             checkElements($("#qunit-fixture"));
         });
 
-        for (var j = 0; j < sakai.qunit.allHtmlFiles.length; j++) {
-            var urlToCheck = sakai.qunit.allHtmlFiles[j];
+        for (var j = 0; j < sakai_global.qunit.allHtmlFiles.length; j++) {
+            var urlToCheck = sakai_global.qunit.allHtmlFiles[j];
             (function(url){
                 asyncTest(url, function() {
                     $.ajax({
@@ -67,7 +67,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * Run the test
      */
 
-    if (sakai.qunit && sakai.qunit.ready) {
+    if (sakai_global.qunit && sakai_global.qunit.ready) {
         testWCAGCompliance();
     } else {
         $(window).bind("sakai-qunit-ready", function() {

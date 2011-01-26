@@ -124,19 +124,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         callback();
     };
 
+    var makeWidgetPropertiesTest = function(widgetObj) {
+        stop();
+        asyncTest(widgetObj.id, function() {
+            checkWidgetProperties(widgetObj, function() {
+                start();
+            });
+        });
+    };
+
     var testWidgetProperties = function() {
         module("Widgets - Valid Properties");
         for (var i in sakai.widgets.widgets) {
             if (sakai.widgets.widgets.hasOwnProperty(i)) {
                 var widgetObject = sakai.widgets.widgets[i];
-                (function(widgetObj) {
-                    stop();
-                    asyncTest(widgetObj.id, function() {
-                        checkWidgetProperties(widgetObj, function() {
-                            start();
-                        });
-                    });
-                })(widgetObject);
+                makeWidgetPropertiesTest(widgetObject);
             }  
         }
     };
@@ -168,21 +170,35 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         return subproperties;
     };
 
+    var makePropertiesTest = function(propertyURL, propertyName, last) {
+        $.ajax({
+            url: propertyURL,
+            async: false,
+            complete: function(xhr, status) {
+                ok(status === "success", propertyURL + " on the " + propertyName);
+                if ($.isFunction(callback)) {
+                    callback();
+                }
+            }
+        });
+    };
+
     var testAllProperties = function(subproperties, widgetName, callback) {
         for (var l = 0, m = subproperties.length; l < m; l++) {
-            (function(propertyURL, propertyName, last) {
-                $.ajax({
-                    url: propertyURL,
-                    async: false,
-                    complete: function(xhr, status) {
-                        ok(status === "success", propertyURL + " on the " + propertyName);
-                        if ($.isFunction(callback)) {
-                            callback();
-                        }
-                    }
-                });
-            })(subproperties[l].url, subproperties[l].name);
+            makePropertiesTest(subproperties[l].url, subproperties[l].name);
         }
+    };
+
+    var makeWidgetURLTest = function(widgetName, subprops) {
+        asyncTest(widgetName, subprops.length, function() {
+            var counter = 0;
+             testAllProperties(subprops, widgetName, function() {
+                 counter++;
+                 if (counter === subprops.length) {
+                     start();
+                 }
+             });
+        });
     };
 
     var testWidgetURLs = function() {
@@ -192,17 +208,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var theWidget = sakai.widgets.widgets[i];
                 var subproperties = getWidgetProperties(theWidget);
                 if (subproperties.length > 0) {
-                    (function(widgetName, subprops) {
-                        asyncTest(widgetName, subprops.length, function() {
-                            var counter = 0;
-                             testAllProperties(subprops, widgetName, function() {
-                                 counter++;
-                                 if (counter === subprops.length) {
-                                     start();
-                                 }
-                             });
-                        });
-                    })(theWidget.id, subproperties);  
+                    makeWidgetURLTest(theWidget.id, subproperties);  
                 }
             }
         }
@@ -215,7 +221,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         QUnit.start();
     };
 
-    if (sakai.qunit && sakai.qunit.ready) {
+    if (sakai_global.qunit && sakai_global.qunit.ready) {
         testWidgets();
     } else {
         $(window).bind("sakai-qunit-ready", function() {

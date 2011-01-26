@@ -20,13 +20,13 @@
  * Definitions of the js and html files inside the /dev folder to test
  */
 
-var sakai = sakai || {};
-sakai.qunit = sakai.qunit || {};
-sakai.qunit.devfilesdone = false;
+var sakai_global = sakai_global|| {};
+sakai_global.qunit = sakai_global.qunit || {};
+sakai_global.qunit.devfilesdone = false;
 
 $(function() {
 
-sakai.qunit.devJsFiles = [
+sakai_global.qunit.devJsFiles = [
     "/dev/javascript/account_preferences.js",
     "/dev/javascript/content_profile.js",
     "/dev/javascript/createnewaccount.js",
@@ -66,7 +66,7 @@ sakai.qunit.devJsFiles = [
     "/dev/configuration/widgets.js"
 ];
 
-sakai.qunit.devHtmlFiles = [
+sakai_global.qunit.devHtmlFiles = [
     "/dev/403.html",
     "/dev/404.html",
     "/dev/500.html",
@@ -91,7 +91,7 @@ sakai.qunit.devHtmlFiles = [
     "/dev/admin/widgets.html"
 ];
 
-sakai.qunit.devfilesdone = true;
+sakai_global.qunit.devfilesdone = true;
 $(window).trigger("sakai-qunit-devfilesdone");
 
 });

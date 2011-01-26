@@ -208,49 +208,53 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             ok(!sakai.data.i18n.defaultBundle.ABOUT123456, "Testing for a missing value for ABOUT123456");
         });
 
-        // Check all the core HTML files
-        for (var i=0,j=sakai.qunit.devHtmlFiles.length; i<j; i++) {
-            var urlToCheck = sakai.qunit.devHtmlFiles[i];
-            (function(url) {
-                asyncTest(url, function() {
-                    $.ajax({
-                        url: url,
-                        async: false,
-                        success: function(data){
-                            var div = document.createElement('div');
-                            div.innerHTML = data;
-                            checkElements($(div));
-                            checkAttrs($(div));
-                            checkKeys($(div), function() {
-                                start();
-                            });
-                        }
-                    });
-                });
-            })(urlToCheck);
-        }
-
-        // Check all the widgets
-        for (var z=0,y=sakai.qunit.widgets.length; z<y; z++) {
-            var widgetURLToCheck = sakai.qunit.widgets[z].html;
-            var widgetObject = sakai.qunit.widgets[z];
-            (function(url, widget) {
+        var makeCoreTest = function(url) {
+            asyncTest(url, function() {
                 $.ajax({
                     url: url,
                     async: false,
                     success: function(data){
                         var div = document.createElement('div');
                         div.innerHTML = data;
-                        asyncTest(url, function() {
-                            checkElements($(div));
-                            checkAttrs($(div));
-                            checkWidgetKeys($(div), widget, function() {
-                                start();
-                            });
+                        checkElements($(div));
+                        checkAttrs($(div));
+                        checkKeys($(div), function() {
+                            start();
                         });
                     }
                 });
-            })(widgetURLToCheck, widgetObject);
+            });
+        };
+
+        // Check all the core HTML files
+        for (var i=0,j=sakai_global.qunit.devHtmlFiles.length; i<j; i++) {
+            var urlToCheck = sakai_global.qunit.devHtmlFiles[i];
+            makeCoreTest(urlToCheck);
+        }
+
+        var makeWidgetTest = function(url, widget) {
+            $.ajax({
+                url: url,
+                async: false,
+                success: function(data){
+                    var div = document.createElement('div');
+                    div.innerHTML = data;
+                    asyncTest(url, function() {
+                        checkElements($(div));
+                        checkAttrs($(div));
+                        checkWidgetKeys($(div), widget, function() {
+                            start();
+                        });
+                    });
+                }
+            });
+        };
+
+        // Check all the widgets
+        for (var z=0,y=sakai_global.qunit.widgets.length; z<y; z++) {
+            var widgetURLToCheck = sakai_global.qunit.widgets[z].html;
+            var widgetObject = sakai_global.qunit.widgets[z];
+            makeWidgetTest(widgetURLToCheck, widgetObject);
         }
         QUnit.start();
 
@@ -259,7 +263,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     /**
      * Run the test
      */
-    if (sakai.qunit && sakai.qunit.ready) {
+    if (sakai_global.qunit && sakai_global.qunit.ready) {
         testInternationalization();
     } else {
         $(window).bind("sakai-qunit-ready", function() {

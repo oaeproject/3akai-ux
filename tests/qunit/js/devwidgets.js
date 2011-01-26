@@ -16,12 +16,12 @@
  * specific language governing permissions and limitations under the License.
  */
 
-var sakai = sakai || {};
+var sakai_global = sakai_global || {};
 sakai.widgets = sakai.widgets || {};
 sakai.widgets.widgets = {};
-sakai.qunit = sakai.qunit || {};
-sakai.qunit.widgets = sakai.qunit.widgets || [];
-sakai.qunit.widgetsdone = false;
+sakai_global.qunit = sakai_global.qunit || {};
+sakai_global.qunit.widgets = sakai_global.qunit.widgets || [];
+sakai_global.qunit.widgetsdone = false;
 
 $(function() {
 
@@ -114,8 +114,8 @@ var widgetList = [
  */
  
 var loadWidgets = function() {
-    sakai.qunit.allJSFiles = $.merge([], sakai.qunit.devJsFiles);
-    sakai.qunit.allHtmlFiles = $.merge([], sakai.qunit.devHtmlFiles);
+    sakai_global.qunit.allJSFiles = $.merge([], sakai_global.qunit.devJsFiles);
+    sakai_global.qunit.allHtmlFiles = $.merge([], sakai_global.qunit.devHtmlFiles);
     for (var i=0, j=widgetList.length; i<j; i++) {
         var widget = widgetList[i];
 
@@ -134,9 +134,9 @@ var loadWidgets = function() {
                     }
                     sakai.widgets.widgets[widgetName] = data;
                     widgetHTML = sakai.widgets.widgets[widgetName].url;
-                    sakai.qunit.widgets.push({name:widgetName, html: widgetHTML, js: widgetJS});
-                    if (widgetList.length === sakai.qunit.widgets.length) {
-                        sakai.qunit.widgetsdone = true;
+                    sakai_global.qunit.widgets.push({name:widgetName, html: widgetHTML, js: widgetJS});
+                    if (widgetList.length === sakai_global.qunit.widgets.length) {
+                        sakai_global.qunit.widgetsdone = true;
                         $(window).trigger("sakai-qunit-widgetsdone");
                     }
                 }
@@ -145,7 +145,7 @@ var loadWidgets = function() {
     }
 };
 
-if (sakai.qunit.devfilesdone) {
+if (sakai_global.qunit.devfilesdone) {
     loadWidgets();
 } else {
     $(window).bind("sakai-qunit-devfilesdone", function() {

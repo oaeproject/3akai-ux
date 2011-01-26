@@ -67,7 +67,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
          * @param {Function} callback the callback function for when the group save is complete. It will pass
          *                            two params, success {Boolean} and nameTaken {Boolean}
         */
-        createGroup : function(id, title, description, callback) {
+        createGroup : function(id, title, description, meData, callback) {
             /**
              * Check if the group is created correctly and exists
              * @param {String} groupid
@@ -139,7 +139,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
 
             // check if the group exists
             if (!groupExists(id)) {
-                saveGroup(id, title, description, callback);
+                saveGroup(id, title, description, meData, callback);
             } else {
                 if ($.isFunction(callback)) {
                     callback(false, true);

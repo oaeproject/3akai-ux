@@ -47,30 +47,32 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         callback();
     };
 
-    var cleanJSTest = function() {
-        for (var i=0, j=sakai.qunit.allJSFiles.length; i<j; i++) {
-            var file = sakai.qunit.allJSFiles[i];
-            (function(filename) {
-                asyncTest(filename, function() {
-                    $.ajax({
-                        async: false,
-                        dataType: "text",
-                        url: filename,
-                        success: function(data) {
-                            checkForConsoleLog(data, filename);
-                            checkForAlert(data);
-                            jslintfile(data, function() {
-                                start();
-                            });
-                        }
+    var makeCleanJSTest = function(filename) {
+        asyncTest(filename, function() {
+            $.ajax({
+                async: false,
+                dataType: "text",
+                url: filename,
+                success: function(data) {
+                    checkForConsoleLog(data, filename);
+                    checkForAlert(data);
+                    jslintfile(data, function() {
+                        start();
                     });
-                });
-            })(file);
+                }
+            });
+        });
+    };
+
+    var cleanJSTest = function() {
+        for (var i=0, j=sakai_global.qunit.allJSFiles.length; i<j; i++) {
+            var file = sakai_global.qunit.allJSFiles[i];
+            makeCleanJSTest(file);
         }
         QUnit.start();
     };
 
-    if (sakai.qunit && sakai.qunit.ready) {
+    if (sakai_global.qunit && sakai_global.qunit.ready) {
         cleanJSTest();
     } else {
         $(window).bind("sakai-qunit-ready", function() {
