@@ -29,10 +29,10 @@
  * Widget related convenience functions
  */
 define(["jquery",
-        "/dev/lib/sakai/sakai.api.server.js",
-        "/dev/lib/sakai/sakai.api.util.js",
-        "/dev/lib/sakai/sakai.api.i18n.js",
-        "/dev/lib/sakai/sakai.api.user.js",
+        "sakai/sakai.api.server",
+        "sakai/sakai.api.util",
+        "sakai/sakai.api.i18n",
+        "sakai/sakai.api.user",
         "/dev/configuration/config.js",
         "/var/widgets.json?callback=define"], 
         function($, sakai_serv, sakai_util, sakai_i18n, sakai_user, sakai_config, sakai_widgets_config) {

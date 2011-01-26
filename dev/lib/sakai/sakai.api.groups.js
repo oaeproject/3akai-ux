@@ -29,7 +29,7 @@
  * @namespace
  * Group related convenience functions
  */
-define(["jquery", "/dev/configuration/config.js", "/dev/lib/sakai/sakai.api.server.js"], function($, sakai_conf, sakai_serv){
+define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], function($, sakai_conf, sakai_serv){
     return {
         /**
          * Get the data for the specified group

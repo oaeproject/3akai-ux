@@ -88,7 +88,7 @@ require(
         "order!/dev/lib/misc/l10n/globalization.js",
         "order!/dev/lib/jquery/plugins/jquery.json.js",
         "order!/dev/lib/misc/google/html-sanitizer-minified.js",
-        "order!/dev/lib/sakai/sakai.api.core.js",
+        "order!sakai/sakai.api.core",
         "order!/dev/lib/misc/querystring.js",
         "order!/dev/lib/jquery/plugins/jquery.timeago.js",
         "order!/dev/lib/jquery/plugins/jqmodal.sakai-edited.js",
