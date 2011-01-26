@@ -28,7 +28,7 @@
     font-size:0.9em; 
     font-weight:bold; 
     line-height: 60px; 
-    margin-left: 10px; 
+    margin-left: 20px; 
     padding-right: 5px;
 }
 #systemtour_progress_bar a {
@@ -61,7 +61,7 @@
     text-decoration: none;
 }
 .systemtour_button {
-    padding-right: 10px; 
+    padding-right: 15px; 
     display: block;
 }
 .systemtour_1 {
