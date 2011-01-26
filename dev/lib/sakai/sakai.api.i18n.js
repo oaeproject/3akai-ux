@@ -157,7 +157,7 @@ define(["jquery",
                     sakai_util.Security.showPage();
                 }
                 require("sakai/sakai.api.widgets").initialLoad();
-                this.done = true;
+                sakaii18nAPI.done = true;
                 $(window).trigger("sakai-i18n-done");
                 return true;
             };
@@ -235,7 +235,7 @@ define(["jquery",
                             loadLocalBundle(meData.user.locale.language + "_" + meData.user.locale.country);
                         } else {
                             // There is no locale set for the current user. We'll switch to using the default bundle only
-                            doI18N(null, this.data.defaultBundle);
+                            doI18N(null, sakaii18nAPI.data.defaultBundle);
                         }
                     },
                     error: function(xhr, textStatus, thrownError){
@@ -253,14 +253,14 @@ define(["jquery",
                     url: sakai_config.URL.I18N_BUNDLE_ROOT + "default.properties",
                     success: function(data){
                         data =sakaii18nAPI.changeToJSON(data);
-                        this.data.defaultBundle = data;
+                        sakaii18nAPI.data.defaultBundle = data;
                         var site = getSiteId();
                         if (!site) {
                             if (meData && meData.user && meData.user.locale) {
                                 loadLocalBundle(meData.user.locale.language + "_" + meData.user.locale.country);
                             } else {
                                 // There is no locale set for the current user. We'll switch to using the default bundle only
-                                doI18N(null, this.data.defaultBundle);
+                                doI18N(null, sakaii18nAPI.data.defaultBundle);
                             }
                         } else {
                             loadSiteLanguage(site);
@@ -332,7 +332,7 @@ define(["jquery",
                         // loop through and allocate response data to their request
                         var i;
                         for (i in reqData.responseId) {
-                            if (reqData.responseId.hasOwnProperty(i)) {
+                            if (reqData.responseId.hasOwnProperty(i) && reqData.responseData[i]) {
                                 if (reqData.responseId[i] === "loadDefaultBundle") {
                                     loadDefaultBundleSuccess = reqData.responseData[i].success;
                                     loadDefaultBundleData = reqData.responseData[i].body;

@@ -1,5 +1,15 @@
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
-    $(function() {
+require(
+    [
+    "jquery",
+    "sakai/sakai.api.core",
+    "../../../../../tests/qunit/js/qunit.js",
+    "../../../../../tests/qunit/js/sakai_qunit_lib.js",
+    "../../../../../tests/qunit/js/dev.js",
+    "../../../../../tests/qunit/js/devwidgets.js"
+    ], 
+    function($, sakai) {
+
+    require.ready(function() {
 
     module("WCAG 2.0 Compliance - 1.1.1 Non-text Content / Text Alternatives");
 

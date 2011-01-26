@@ -1,5 +1,13 @@
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
-    $(function() {
+require(
+    [
+    "jquery",
+    "sakai/sakai.api.core",
+    "../../../../../tests/qunit/js/qunit.js",
+    "../../../../../tests/qunit/js/sakai_qunit_lib.js"
+    ], 
+    function($, sakai) {
+
+    require.ready(function() {
 
     module("Sorting");
 

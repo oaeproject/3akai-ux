@@ -123,8 +123,8 @@
                     });
                     var $dialog_content = $("#dialog_content");
                     var id = "widget_embedcontent_123";
-                    $dialog_content.html(sakai.api.Security.saneHTML('<img src="' + sakai.widgets.widgets['embedcontent'].img + '" id="' + id + '" class="widget_inline" border="1"/>'));
-                    $("#dialog_title").html(sakai.widgets.widgets['embedcontent'].name);
+                    $dialog_content.html(sakai.api.Security.saneHTML('<img src="' + sakai.widgets['embedcontent'].img + '" id="' + id + '" class="widget_inline" border="1"/>'));
+                    $("#dialog_title").html(sakai.widgets['embedcontent'].name);
                     sakai.api.Widgets.widgetLoader.insertWidgets('embedcontent_test', true);
                     $dialog_content.show();
                     $('#insert_dialog').jqmShow();

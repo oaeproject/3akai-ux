@@ -16,13 +16,20 @@
  * specific language governing permissions and limitations under the License.
  */
 
-var sakai_global = sakai_global || {};
-sakai_global.qunit = sakai_global.qunit || {};
-sakai_global.qunit.ready = false;
+require(
+    {
+        baseUrl: "../../../../dev/lib/"
+    },
+    [
+    "jquery", 
+    "sakai/sakai.api.core",
+    "../../../../tests/qunit/js/qunit.js"
+    ],
+    function($, sakai) {
 
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
-    $(function() {
-
+    sakai_global = sakai_global || {};
+    sakai_global.qunit = sakai_global.qunit || {};
+    sakai_global.qunit.ready = false;
 
     var doLocalBinding = function() {
         /**
@@ -153,6 +160,4 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
         });
     };
-
-    });
 });

@@ -1,6 +1,13 @@
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(
+    [
+    "jquery",
+    "sakai/sakai.api.core",
+    "../../../../../tests/qunit/js/qunit.js",
+    "../../../../../tests/qunit/js/sakai_qunit_lib.js"
+    ], 
+    function($, sakai) {
 
-    $(function() {
+    require.ready(function() {
 
     module("Security");
 
