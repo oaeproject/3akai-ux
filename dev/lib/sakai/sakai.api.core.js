@@ -19,15 +19,15 @@
  */
 define(
     [
-        "sakai/sakai.api.communication",
-        "sakai/sakai.api.content",
-        "sakai/sakai.api.groups",
-        "sakai/sakai.api.i18n",
-        "sakai/sakai.api.l10n",
-        "sakai/sakai.api.server",
-        "sakai/sakai.api.user",
-        "sakai/sakai.api.util",
-        "sakai/sakai.api.widgets",
+        "/dev/lib/sakai/sakai.api.communication.js",
+        "/dev/lib/sakai/sakai.api.content.js",
+        "/dev/lib/sakai/sakai.api.groups.js",
+        "/dev/lib/sakai/sakai.api.i18n.js",
+        "/dev/lib/sakai/sakai.api.l10n.js",
+        "/dev/lib/sakai/sakai.api.server.js",
+        "/dev/lib/sakai/sakai.api.user.js",
+        "/dev/lib/sakai/sakai.api.util.js",
+        "/dev/lib/sakai/sakai.api.widgets.js",
         "/dev/configuration/config.js",
         "/var/widgets.json?callback=define"
     ],

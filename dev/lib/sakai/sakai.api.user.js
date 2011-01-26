@@ -33,10 +33,10 @@
  * that originate from a logged in user.
  */
 define(["jquery",
-        "sakai/sakai.api.server",
-        "sakai/sakai.api.l10n",
-        "sakai/sakai.api.i18n",
-        "sakai/sakai.api.util",
+        "/dev/lib/sakai/sakai.api.server.js",
+        "/dev/lib/sakai/sakai.api.l10n.js",
+        "/dev/lib/sakai/sakai.api.i18n.js",
+        "/dev/lib/sakai/sakai.api.util.js",
         "/dev/configuration/config.js"],
         function($, sakai_serv, sakai_l10n, sakai_i18n, sakai_util, sakai_conf) {
 

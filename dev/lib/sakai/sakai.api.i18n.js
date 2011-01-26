@@ -32,8 +32,8 @@
  */
 define(["jquery",
         "/dev/configuration/config.js",
-        "sakai/sakai.api.util",
-        "sakai/sakai.api.server"],
+        "/dev/lib/sakai/sakai.api.util.js",
+        "/dev/lib/sakai/sakai.api.server.js"],
         function($, sakai_config, sakai_util, sakai_serv) {
 
     var sakaii18nAPI = {

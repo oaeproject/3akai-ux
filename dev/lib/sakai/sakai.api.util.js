@@ -30,8 +30,8 @@
  * General utility functions
  */
 define(["jquery",
-        "sakai/sakai.api.server",
-        "sakai/sakai.api.l10n",
+        "/dev/lib/sakai/sakai.api.server.js",
+        "/dev/lib/sakai/sakai.api.l10n.js",
         "/dev/configuration/config.js",
         "/dev/lib/misc/trimpath.template.js"],
         function($, sakai_serv, sakai_l10n, sakai_conf) {
