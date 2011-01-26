@@ -153,7 +153,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 json_config.path = currentsection + ".elements." + fieldName;
             }
-
+            json_config.sakai = sakai;
             var ret = sakai.api.Util.TemplateRenderer(fieldTemplate, json_config);
             var localDateString = sakai.api.l10n.getDateFormatString();
             ret = ret.replace("MM/DD/YYYY", localDateString);
@@ -182,7 +182,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     sections += sakai.api.Util.TemplateRenderer($profilesection_field_location_template, {
                         "config": sectionObject,
                         "data": sakai_global.profile.main.directory,
-                        "parentid": "0"
+                        "parentid": "0",
+                        sakai: sakai
                     });
                 } else if (sakai_global.profile.main.data[currentsection] === undefined || sakai_global.profile.main.data[currentsection].elements === undefined || sakai_global.profile.main.data[currentsection].elements.length === 0) {
                    if (sakai_global.profile.main.mode.value === "edit") {
@@ -191,12 +192,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                        if (currentsection !== "locations") {
                            sections += sakai.api.Util.TemplateRenderer($profilesection_add_section_template, {
                                "config": sectionObject,
-                               "parentid": "0"
+                               "parentid": "0",
+                               sakai: sakai
                            });
                        } else {
                            sections += sakai.api.Util.TemplateRenderer($profilesection_add_locations_template, {
                                "config": sectionObject,
-                               "parentid": "0"
+                               "parentid": "0",
+                               sakai: sakai
                            });
                        }
                        sections += "</div>";
@@ -228,10 +231,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         // only need to do the following on edit
                         // in the case of location we do not need divider like publications
                         if (sakai_global.profile.main.mode.value === "edit" && currentsection !== "locations") {
-                            sections += sakai.api.Util.TemplateRenderer($profilesection_remove_section_template, {"config": sectionObject, "parentid": elts.id.value});
+                            sections += sakai.api.Util.TemplateRenderer($profilesection_remove_section_template, {"config": sectionObject, "parentid": elts.id.value, sakai: sakai});
                             sections += "</div>";
                             if (i === sakai_global.profile.main.data[currentsection].elements.length-1) {
-                                sections += sakai.api.Util.TemplateRenderer($profilesection_add_section_template, {"config": sectionObject, "parentid": elts.id.value});
+                                sections += sakai.api.Util.TemplateRenderer($profilesection_add_section_template, {"config": sectionObject, "parentid": elts.id.value, sakai: sakai});
                             }
                         } else if (i !== sakai_global.profile.main.data[currentsection].elements.length-1) {
                             sections += "</div>";
@@ -257,7 +260,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "data" : sakai_global.profile.main.data[currentsection],
                 "config" : sakai_global.profile.main.config[currentsection],
                 "fields" : $.trim(sections),
-                "currentsection": currentsection
+                "currentsection": currentsection,
+                sakai: sakai
             };
 
             return sakai.api.Util.TemplateRenderer(sectionTemplate, json_config);
@@ -327,12 +331,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (currentsection !== "locations") {
                 sections += sakai.api.Util.TemplateRenderer($profilesection_remove_section_template, {
                     "config": sectionObject,
-                    "parentid": elt.id.value
+                    "parentid": elt.id.value,
+                    sakai: sakai
                 });
             } 
             sections += "</div>";
             $parentSection.append(sakai.api.i18n.General.process(sections, sakai.data.i18n.localBundle, sakai.data.i18n.defaultBundle));
-            $parentSection.append(sakai.api.i18n.General.process(sakai.api.Util.TemplateRenderer($profilesection_add_section_template, {"config": sectionObject, "parentid": elt.id.value}), sakai.data.i18n.localBundle, sakai.data.i18n.defaultBundle));
+            var dataForTemplate = {
+                "config": sectionObject, 
+                "parentid": elt.id.value,
+                sakai: sakai
+            }
+            $parentSection.append(sakai.api.i18n.General.process(sakai.api.Util.TemplateRenderer($profilesection_add_section_template, dataForTemplate), sakai.data.i18n.localBundle, sakai.data.i18n.defaultBundle));
         };
 
         var removeSection = function($parentSection, sectionIDToRemove) {
@@ -348,7 +358,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
               var sections = "<div class='profilesection_section' id='profilesection_section_0'>";
               if (sakai_global.profile.main.mode.value === "edit") {
                   sakai_global.profile.main.data[currentsection].elements = [];
-                  sections += sakai.api.i18n.General.process(sakai.api.Util.TemplateRenderer($profilesection_add_section_template, {"config": sakai_global.profile.main.config[currentsection], "parentid": "0"}), sakai.data.i18n.localBundle, sakai.data.i18n.defaultBundle);
+                  var dataForTemplate = {
+                      "config": sakai_global.profile.main.config[currentsection], 
+                      "parentid": "0",
+                      sakai: sakai
+                  }
+                  sections += sakai.api.i18n.General.process(sakai.api.Util.TemplateRenderer($profilesection_add_section_template, dataForTemplate), sakai.data.i18n.localBundle, sakai.data.i18n.defaultBundle);
               }
               sections += "</div>";
               $parentSection.parent("div").append(sections);

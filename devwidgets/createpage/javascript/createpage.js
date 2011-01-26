@@ -107,14 +107,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var json = {
                 templates: []
             };
-            if(sakai.sitespages && sakai.sitespages.mytemplates) {
+            if(sakai_global.sitespages && sakai_global.sitespages.mytemplates) {
                 // create a custom list of templates with just the info we care about
-                for(var t in sakai.sitespages.mytemplates) {
-                    if(sakai.sitespages.mytemplates.hasOwnProperty(t)) {
+                for(var t in sakai_global.sitespages.mytemplates) {
+                    if(sakai_global.sitespages.mytemplates.hasOwnProperty(t)) {
                         var template = {
                             "id": t,
-                            "name": sakai.sitespages.mytemplates[t].name,
-                            "desc": sakai.sitespages.mytemplates[t].description
+                            "name": sakai_global.sitespages.mytemplates[t].name,
+                            "desc": sakai_global.sitespages.mytemplates[t].description
                         };
                         json.templates.push(template);
                     }
@@ -168,21 +168,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 showProcessing();  // display "Processing..."
                 var pageType = $selectPageType.val();
                 if(pageType === "blank") {
-                    sakai.sitespages.createNewPage(pageTitle, "", handleNewPageCreation);
+                    sakai_global.sitespages.createNewPage(pageTitle, "", handleNewPageCreation);
                 } else if(pageType === "template") {
                     // fetch the selected template and its content to create a new page
                     var selectedTemplate = $("input:radio:checked", $createpageContainer).val();
-                    sakai.sitespages.createNewPage(pageTitle,
-                        sakai.sitespages.mytemplates[selectedTemplate]["pageContent"]["sakai:pagecontent"],
+                    sakai_global.sitespages.createNewPage(pageTitle,
+                        sakai_global.sitespages.mytemplates[selectedTemplate]["pageContent"]["sakai:pagecontent"],
                         handleNewPageCreation);
                 } else {
-                    sakai.sitespages.addDashboardPage(pageTitle, handleNewPageCreation);
+                    sakai_global.sitespages.addDashboardPage(pageTitle, handleNewPageCreation);
                 }
             }
         });
 
         /**
-         * Callback function called upon completion of sakai.sitespages.createNewPage
+         * Callback function called upon completion of sakai_global.sitespages.createNewPage
          * called on submit event of the create page form.
          * @param {Boolean} success true if the call succeeded, false otherwise
          */
@@ -223,12 +223,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $createpageContainer.delegate("a.createpage_delete_template_link", "click",
         function () {
             var templateDeleted = this.id.split("_")[1];
-            delete sakai.sitespages.mytemplates[templateDeleted];
+            delete sakai_global.sitespages.mytemplates[templateDeleted];
             // Save updated template preferences
             // -- this has a bug right now. The save is not overwriting the templates
             // -- at /~userid/private/templates as expected - maybe a special jcr flag (i.e. :replace)?
             sakai.api.Server.saveJSON("/~" + sakai.data.me.user.userid + "/private/templates",
-                sakai.sitespages.mytemplates, function(success, response) {
+                sakai_global.sitespages.mytemplates, function(success, response) {
                 if (success) {
                     showTemplates();
                 } else {
@@ -255,7 +255,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             .jqmAddClose($createpageCancel);
             
             // Load page templates
-            sakai.sitespages.loadTemplates();
+            sakai_global.sitespages.loadTemplates();
             $createpageSubmit.removeAttr("disabled");
             // show container
             $createpageContainer.jqmShow();

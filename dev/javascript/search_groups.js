@@ -276,7 +276,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             else {
                 $(searchConfig.global.pagerClass).hide();
             }
-
+            finaljson.sakai = sakai;
             // Render the results.
             $(searchConfig.results.container).html(sakai.api.Util.TemplateRenderer(searchConfig.results.template, finaljson));
             $(".search_results_container").show();

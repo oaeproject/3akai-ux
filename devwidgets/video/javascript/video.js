@@ -27,7 +27,7 @@
 /*global $, Config, Querystring, SWFID, swfobject */
 
 
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(["jquery", "sakai/sakai.api.core", "/devwidgets/video/jwplayer/swfobject.js"], function($, sakai) {
 
     /**
      * @name sakai_global.video
@@ -117,7 +117,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // This is needed as a parameter for the sakai-player
                 //var isTouTube = (video.URL.search(youtubeUrl) !== -1);
                 // Renders the video-template (title, source and conatiner to place flash-player in)
-                //$(container, rootel).html($.TemplateRenderer(videoTemplate, video));
+                //$(container, rootel).html(sakai.api.Util.TemplateRenderer(videoTemplate, video));
                 // some more parameters needed for the sakai-videoplayer
                 //var flashvars = {
                 //    videoURL: video.URL,
@@ -147,7 +147,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 //}
 
                   video.videoContainer = tuid + "_video_container";
-                  $(container, rootel).html($.TemplateRenderer(videoTemplate, video));
+                  $(container, rootel).html(sakai.api.Util.TemplateRenderer(videoTemplate, video));
 
                   var videoWidth = rootel.width() - 6 + "px";
                   var so = new SWFObject('/devwidgets/video/jwplayer/player-licensed.swf','ply', videoWidth, '100%','9','#ffffff');

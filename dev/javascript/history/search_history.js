@@ -7,9 +7,9 @@ var History = {
         }
         var url = e.fragment;
         if (url != History.prev_url || force){ // should be checking individual params, not just the string composition
-            if (url !== undefined && !sakai._search.waitForFacets){
-                if (sakai._search.doSearch) {
-                  sakai._search.doSearch($.bbq.getState('page'), $.bbq.getState('q'), $.bbq.getState('filter'), $.bbq.getState('facet'), $.bbq.getState('tag'));
+            if (url !== undefined && !sakai_global._search.waitForFacets){
+                if (sakai_global._search.doSearch) {
+                  sakai_global._search.doSearch($.bbq.getState('page'), $.bbq.getState('q'), $.bbq.getState('filter'), $.bbq.getState('facet'), $.bbq.getState('tag'));
                   History.prev_url = url;
                 } else { // is hasn't loaded in yet, so lets try every 10ms, using the jQuery animate version of setTimeout
                   $('html').animate({ borderWidth:0},10, function() {
@@ -17,8 +17,8 @@ var History = {
                   });
                 }
             } else {
-                if (sakai._search.reset && !sakai._search.waitForFacets) {
-                  sakai._search.reset();
+                if (sakai_global._search.reset && !sakai_global._search.waitForFacets) {
+                  sakai_global._search.reset();
                   History.prev_url = url;
                 } else {
                   $('html').animate({ borderWidth:0},10, function() {

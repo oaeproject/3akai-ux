@@ -144,7 +144,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var body = resultJSON.entries[((pageClicked - 1) * 3) + index].description + "\n";
                 body += "read more: " + resultJSON.entries[((pageClicked - 1) * 3) + index].link;
                 // initialize the sendmessage-widget
-                var o = sakai.sendmessage.initialise(null, true, false);
+                var o = $(window).trigger("initialize.sendmessage.sakai", [null, true, false]);
                 o.setSubject(subject);
                 o.setBody(body);
             });
@@ -336,7 +336,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 // if all the feed are retrieved render the rss
                 else{
-                    $(rssFeedListContainer, rootel).html($.TemplateRenderer(rssFeedListTemplate, resultJSON));
+                    $(rssFeedListContainer, rootel).html(sakai.api.Util.TemplateRenderer(rssFeedListTemplate, resultJSON));
                     $(rootel + " " + rssRemove).bind("click", function(e,ui){
                         var index = parseInt(e.target.parentNode.id.replace(rssRemoveNoDot, ""),10);
                         resultJSON.feeds.splice(index,1);
@@ -377,7 +377,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // first get the entries that need to be shown on this page
             resultJSON.shownEntries = getShownEntries(clicked);
             // render these entries
-            $(rssOutput, rootel).html($.TemplateRenderer(rssOutputTemplate, resultJSON));
+            $(rssOutput, rootel).html(sakai.api.Util.TemplateRenderer(rssOutputTemplate, resultJSON));
             // change the pageNumeber
             $(rssPager,rootel).pager({
                 pagenumber: clicked,
@@ -463,7 +463,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if(rssFeed !== false){
                 resultJSON.feeds = resultJSON.feeds || [];
                 resultJSON.feeds.push(rssFeed);
-                $(rssFeedListContainer, rootel).html($.TemplateRenderer(rssFeedListTemplate, resultJSON));
+                $(rssFeedListContainer, rootel).html(sakai.api.Util.TemplateRenderer(rssFeedListTemplate, resultJSON));
                 $(rootel + " " + rssRemove).bind("click", function(e,ui){
                     var index = parseInt(e.target.parentNode.id.replace(rssRemoveNoDot, ""),10);
                     resultJSON.feeds.splice(index,1);

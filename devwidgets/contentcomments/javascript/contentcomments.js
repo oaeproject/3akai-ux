@@ -191,7 +191,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var tempDate = comment.created;
                 try {
                     // if the date is not a string this should generate en exception
-                    comment.date = sakai.api.l10n.parseDateString(tempDate);
+                    comment.date = sakai.api.l10n.parseDateString(tempDate, sakai.data.me);
                 }
                 catch (ex) {
                     comment.date = tempDate;
@@ -238,7 +238,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     
                 jsonDisplay.comments[i] = comment;
             }
-            $(commentsShowComments, rootel).html($.TemplateRenderer(commentsShowCommentsTemplate, jsonDisplay));
+            $(commentsShowComments, rootel).html(sakai.api.Util.TemplateRenderer(commentsShowCommentsTemplate, jsonDisplay));
         };
     
         /**

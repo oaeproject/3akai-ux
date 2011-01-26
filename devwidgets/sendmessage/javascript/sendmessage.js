@@ -396,7 +396,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              * @param {String} insertInId Insert the HTML into another element instead of showing it as a popup
              * @param {Object} callback When the message is sent this function will be called. If no callback is provided a standard message will be shown that fades out.
              */
-            sakai_global.sendmessage.initialise = function(userObj, allowOtherReceivers, insertInId, callback, subject, body) {
+            var initialize = function(userObj, allowOtherReceivers, insertInId, callback, subject, body) {
 
                 // Make sure that everything is standard.
                 resetView();
@@ -471,6 +471,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 return o;
             };
 
+            $(window).bind("initialize.sendmessage.sakai", function(e, userObj, allowOtherReceivers, insertInId, callback, subject, body) {
+                initialize(userObj, allowOtherReceivers, insertInId, callback, subject, body);
+            });
 
             ////////////////////
             // EVENT HANDLING //
@@ -521,7 +524,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                 // Check the fields if there are any required fields that are not filled in.
                 if(checkFieldsForErrors(recipients)) {
-                    sakai.api.Communication.sendMessage(recipients,
+                    sakai.api.Communication.sendMessage(recipients, me.user.userid,
                         $(messageFieldSubject).val(), $(messageFieldBody).val(),
                         "message", null, handleSentMessage);
                 } else {

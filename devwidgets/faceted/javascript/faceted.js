@@ -25,12 +25,6 @@
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     /**
-     * @name sakai.api.UI.faceted
-     */
-    sakai.api.UI.faceted = sakai.api.UI.faceted || {};
-    sakai.api.UI.faceted.render = sakai.api.UI.faceted.render || {};
-
-    /**
      * @name sakai_global.faceted
      *
      * @class faceted
@@ -66,7 +60,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
               $(facetedContainer).hide();
             } else {
               // Render the faceted.
-              $(facetedContainer).html($.TemplateRenderer(facetedDefaultTemplate, facetedConfig));
+              $(facetedContainer).html(sakai.api.Util.TemplateRenderer(facetedDefaultTemplate, facetedConfig));
 
               addBinding();
             }
@@ -108,10 +102,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Render function
          */
-        sakai.api.UI.faceted.render = function(facetedConfig){
+        var render = function(facetedConfig){
             renderTemplateFaceted(facetedConfig);
         };
-        
+
+        $(window).bind("render.faceted.sakai", function(e, config) {
+            render(config);
+        });
+
         // Indicate that the widget has finished loading
         $(window).trigger("sakai.api.UI.faceted.ready", {});
     };

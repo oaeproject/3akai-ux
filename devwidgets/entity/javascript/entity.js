@@ -275,10 +275,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     entityconfig.data.profile["managerCount"] = groupManagers.length;
 
                     // set whether the current user's role
-                    if (sakai.api.Groups.isCurrentUserAManager(groupid)) {
+                    if (sakai.api.Groups.isCurrentUserAManager(groupid, sakai.data.me)) {
                         // current user is a manager
                         entityconfig.data.profile["role"] = "manager";
-                    } else if (sakai.api.Groups.isCurrentUserAMember(groupid)) {
+                    } else if (sakai.api.Groups.isCurrentUserAMember(groupid, sakai.data.me)) {
                         // current user must be a member and not a manager
                         // because of the structure of the if/else if
                         entityconfig.data.profile["role"] = "member";
@@ -362,7 +362,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     var groupmanagers = groupid + "-managers";
 
                     // send message
-                    sakai.api.Communication.sendMessage(groupmanagers,
+                    sakai.api.Communication.sendMessage(groupmanagers, sakai.data.me.user.userid, 
                         subject, body, "message", null, function (success, data) {
                             if (success) {
                                 // show a notification and change the button
@@ -480,7 +480,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             ];
 
             var handleChatUpdate = function(e) {
-                var contactProfile = sakai.chat.getOnlineContact(userid).profile;
+                var contactProfile = sakai_global.chat.getOnlineContact(userid).profile;
                 if (contactProfile && contactProfile.chatstatus) {
                     if (entityconfig.data.profile.chatstatus !== contactProfile.chatstatus) {
                         $("#entity_contact_" + entityconfig.data.profile.chatstatus).hide();
@@ -929,13 +929,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             getGroupMembersManagers();
 
             // configure the changepic widget to look at the group profile image
-            if (sakai.api.UI.changepic){
-                sakai.api.UI.changepic["mode"] = "group";
-                sakai.api.UI.changepic["id"] = entityconfig.data.profile["sakai:group-id"];
+            if (sakai_global.changepic) {
+                $(window).trigger("setData.changepic.sakai", ["group", entityconfig.data.profile["sakai:group-id"]]);
             } else {
                 $(window).bind("sakai-changepic-ready", function(e){
-                    sakai.api.UI.changepic["mode"] = "group";
-                    sakai.api.UI.changepic["id"] = entityconfig.data.profile["sakai:group-id"];
+                    $(window).trigger("setData.changepic.sakai", ["group", entityconfig.data.profile["sakai:group-id"]]);
                 });
             }
 
@@ -1197,7 +1195,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var userList = sakai.content_profile.content_data.members.managers.concat(sakai.content_profile.content_data.members.viewers);
                 var json = {
                     "userList": userList,
-                    "type": "people"
+                    "type": "people",
+                    sakai: sakai
                 };
 
                 // render dialog template
@@ -1214,7 +1213,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var userList = sakai.content_profile.content_data.members.managers.concat(sakai.content_profile.content_data.members.viewers);
                 var json = {
                     "userList": userList,
-                    "type": "places"
+                    "type": "places",
+                    sakai: sakai
                 };
 
                 // render users dialog template
@@ -1229,7 +1229,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $entityContentActivityDialog.jqmShow();
 
                 var activity = {
-                    "results": false
+                    "results": false,
+                    sakai: sakai
                 };
 
                 if (entityconfig.data.profile.activity) {

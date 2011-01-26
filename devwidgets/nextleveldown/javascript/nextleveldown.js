@@ -54,7 +54,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} data Data containing the JSTree
          */
         var renderChildren = function(data){
-            $nextleveldownContent.html($.TemplateRenderer(nextleveldownContentTemplate, {
+            $nextleveldownContent.html(sakai.api.Util.TemplateRenderer(nextleveldownContentTemplate, {
                 "data": data
             }));
         };
@@ -72,7 +72,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         $(window).bind("sakai-directory-selected", function(ev, selectedpath, selected){
-            renderChildren(sakai.browsedirectory.getDirectoryNodeJson(selectedpath.split("/")[selectedpath.split("/").length -1]));
+            renderChildren(sakai_global.browsedirectory.getDirectoryNodeJson(selectedpath.split("/")[selectedpath.split("/").length -1]));
         });
     };
 

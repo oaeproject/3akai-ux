@@ -45,7 +45,9 @@ define(
     
     var sakai = {
         api : {
+            Activity : sakai_util.Activity,
             Communication : sakai_comm,
+            Content: sakai_content,
             Groups : sakai_groups,
             i18n : sakai_i18n,
             l10n : sakai_l10n,

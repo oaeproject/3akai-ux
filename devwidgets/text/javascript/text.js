@@ -77,12 +77,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var doInit = function(){
             loadData(function() {
                 if (showSettings) {
-                    $text_settings.html($.TemplateRenderer($text_settings_template, {data:widgetData})).show();
+                    $text_settings.html(sakai.api.Util.TemplateRenderer($text_settings_template, {data:widgetData})).show();
                 } else {
                     if (widgetData.title) {
                         sakai.api.Widgets.changeWidgetTitle(tuid, widgetData.title);
                     }
-                    $text_main.html($.TemplateRenderer($text_main_template, {data:widgetData})).show();
+                    $text_main.html(sakai.api.Util.TemplateRenderer($text_main_template, {data:widgetData})).show();
                 }
             });
         };

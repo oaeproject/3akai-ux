@@ -22,7 +22,7 @@
  */
 
 require(["jquery","sakai/sakai.api.core"], function($, sakai) {
-
+    sakai_global.data = sakai_global.data || {};
     sakai_global.data.search = sakai_global.data.search || {};
     sakai_global._search = function(config, callback) {
 
@@ -246,6 +246,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     }
                 }
             }
+            finaljson.sakai = sakai;
             return finaljson;
         };
 
@@ -360,6 +361,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     finaljson.items.push(user);
                 }
             }
+            finaljson.sakai = sakai;
             return finaljson;
         };
 
@@ -437,7 +439,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          */
         var addFacetedPanel = function() {
             $(window).bind("sakai.api.UI.faceted.ready", function(e){
-                sakai.api.UI.faceted.render(searchConfig.facetedConfig);
+                $(window).trigger("render.faceted.sakai", searchConfig.facetedConfig);
 
                 var currentfacet = $.bbq.getState('facet');
                 if (currentfacet) {

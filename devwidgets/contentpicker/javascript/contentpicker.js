@@ -82,7 +82,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             } else {
                 $contentpicker_placing_content_label.show();
             }
-            $.TemplateRenderer($contentpicker_page_name_template, {"name": pickerConfig.name}, $contentpicker_page_name);
+            sakai.api.Util.TemplateRenderer($contentpicker_page_name_template, {"name": pickerConfig.name}, $contentpicker_page_name);
 
             if (firstTime) {
                 setupAutoSuggest();
@@ -251,7 +251,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         "url": embeddedItems[embeddedItem].path + ".members.json",
                         "method": "POST",
                         "parameters": {
-                            ":viewer": sakai.currentgroup.id
+                            ":viewer": sakai_global.currentgroup.id
                         }
                     };
                     data[data.length] = item;
@@ -305,7 +305,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             addChoicesFromPickeradvanced(data.toAdd);
         });
 
-<<<<<<< HEAD
         $(window).unbind("sakai-contentpicker-init");
         $(window).bind("sakai-contentpicker-init", function(e, config) {
 
@@ -316,35 +315,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $contentpicker_dialog.css({"top": htmlScrollPos + 50 + "px"});
             } else if (docScrollPos > 0) {
                 $contentpicker_dialog.css({"top": docScrollPos + 50 + "px"});
-=======
-    /**
-     * Once the content has been placed on the page it has to be associated with the group
-     * The group is set as a viewer of the content
-     * @param {Object} embeddedItems Array of object containing information about the selected items. Only the path variable is used.
-     */
-    var associatedEmbeddedItemsWithGroup = function(embeddedItems){
-        var data = [];
-        for (var embeddedItem in embeddedItems) {
-            if (embeddedItems.hasOwnProperty(embeddedItem)) {
-                var item = {
-                    "url": embeddedItems[embeddedItem].path + ".members.json",
-                    "method": "POST",
-                    "parameters": {
-                        ":viewer": sakai_global.currentgroup.id
-                    }
-                };
-                data[data.length] = item;
-            }
-        }
-
-        $.ajax({
-            url: sakai.config.URL.BATCH,
-            traditional: true,
-            type: "POST",
-            cache: false,
-            data: {
-                requests: $.toJSON(data)
->>>>>>> daa000a... requirejs wip on page js files
             }
 
             pickerConfig = $.extend(true, pickerConfig, config);

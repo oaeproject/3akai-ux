@@ -16,7 +16,6 @@
  * specific language governing permissions and limitations under the License.
  */
 
-
 require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
     sakai_global.nopermissions = function(tuid, showSettings) {

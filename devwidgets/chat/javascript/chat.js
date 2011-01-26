@@ -190,7 +190,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $("#chat_online").text("(" + onlineContacts.contacts.length + ")");
             updateChatWindows();
-
+            onlineContacts.sakai = sakai;
             var renderedContacts = sakai.api.Util.TemplateRenderer("chat_available_template", onlineContacts).replace(/\r/g, '');
             var renderedDiv = $(document.createElement("div"));
             renderedDiv.html(renderedContacts);
@@ -695,7 +695,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     if (from.userid !== sakai.data.me.user.userid){
                         // Check whether there is already a chatwindow for it
                         var chatWindow = getChatWindow(from.userid);
-                        var sentDate = sakai.api.l10n.parseDateString(message["sakai:created"]);
+                        var sentDate = sakai.api.l10n.parseDateString(message["sakai:created"], sakai.data.me);
                         var messageText = message["sakai:body"];
                         if (!chatWindow) {
                             // If not, create a new chat window
@@ -749,7 +749,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var chatWindow = getChatWindow(from.userid);
                 var sentDate;
                 if (message["sakai:created"]) {
-                    sentDate = sakai.api.l10n.parseDateString(message["sakai:created"]);
+                    sentDate = sakai.api.l10n.parseDateString(message["sakai:created"], sakai.data.me);
                 } else if (message["sentDate"]) {
                     sentDate = new Date(message["sentDate"]);
                 }

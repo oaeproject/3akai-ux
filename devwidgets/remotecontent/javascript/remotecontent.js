@@ -150,7 +150,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 jsonDefaultSize.width = defaultWidth;
                 jsonDefaultSize.width_unit = defaultWidthUnit;
                 jsonDefaultSize.height = defaultHeight;
-                $(remotecontentSettingsPreview).html($.TemplateRenderer($remotecontentSettingsPreviewTemplate, json, null, false));
+                $(remotecontentSettingsPreview).html(sakai.api.Util.TemplateRenderer($remotecontentSettingsPreviewTemplate, json, null, false));
             }
             else {
                 $(remotecontentSettingsPreviewFrame).attr("style", "border: " + json.border_size + "px #" + json.border_color + " solid");
@@ -162,7 +162,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var renderIframe = function(){
             if (json) {
-                $(remotecontentMainContainer, rootel).html($.TemplateRenderer($remotecontentSettingsPreviewTemplate, json, null, false));
+                $(remotecontentMainContainer, rootel).html(sakai.api.Util.TemplateRenderer($remotecontentSettingsPreviewTemplate, json, null, false));
 
                 // SAKIII-314 We need to show the container, otherwise the second item won't be shown.
                 $(remotecontentMainContainer, rootel).show();
@@ -174,7 +174,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var renderRemoteContentSettings = function(){
             if (json) {
-                $(remotecontentSettings).html($.TemplateRenderer($remotecontentSettingsTemplate, json));
+                $(remotecontentSettings).html(sakai.api.Util.TemplateRenderer($remotecontentSettingsTemplate, json));
             }
         };
 
@@ -183,7 +183,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var renderColorContainer = function(){
             if (json) {
-                $(remotecontentSettingsColorContainer).html($.TemplateRenderer($remotecontentSettingsColorContainerTemplate, json));
+                $(remotecontentSettingsColorContainer).html(sakai.api.Util.TemplateRenderer($remotecontentSettingsColorContainerTemplate, json));
             }
         };
 
@@ -423,7 +423,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     if (showSettings) {
                         displaySettings(null, false);
                     } else {
-                        $(remotecontentMainContainer, rootel).html($.TemplateRenderer($noRemoteContentSet, {}));
+                        $(remotecontentMainContainer, rootel).html(sakai.api.Util.TemplateRenderer($noRemoteContentSet, {}));
                         $(remotecontentMainContainer, rootel).show();
                     }
                 }

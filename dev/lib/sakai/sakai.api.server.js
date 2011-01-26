@@ -38,13 +38,14 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
          * @param {String} requests The JSON string of requests
          * @param {Function} callback Callback function, passes ({Boolean} success, {Object} data)
          * @param {Boolean} cache If we should cache this request or not
+         * @param {Boolean} forcePOST if we need to force a POST
          */
-        batch : function(_requests, _callback, _cache) {
-            var method = "GET",
+        batch : function(_requests, _callback, _cache, _forcePOST) {
+            var method = _forcePOST ? "POST" : "GET",
                 cache = _cache || true;
 
             // IE can't handle GETs over 2048 chars, so lets check for that and POST if we need to
-            if ($.browser.msie && ("http://" + document.location.host + sakai_conf.URL.BATCH + encodeURI(_requests)).length > 2048) {
+            if (!_forcePOST && $.browser.msie && ("http://" + document.location.host + sakai_conf.URL.BATCH + encodeURI(_requests)).length > 2048) {
                 method = "POST";
             }
             $.ajax({

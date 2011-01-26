@@ -74,7 +74,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 };
 
                 // Render the recent sites
-                $(siterecentactivityContainer).html($.TemplateRenderer(siterecentactivityContainerTemplate, reversedItems));
+                $(siterecentactivityContainer).html(sakai.api.Util.TemplateRenderer(siterecentactivityContainerTemplate, reversedItems));
             }else{
                 sakai_global.siterecentactivity.getRecentActivity(sakai.siterecentactivity.render);
             }

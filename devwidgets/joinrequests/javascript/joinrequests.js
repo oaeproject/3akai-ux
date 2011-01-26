@@ -75,7 +75,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var json = {
                     "joinrequests": joinrequests
                 };
-                $joinrequests.html($.TemplateRenderer($joinrequestsTemplate, json));
+                $joinrequests.html(sakai.api.Util.TemplateRenderer($joinrequestsTemplate, json));
                 // set images for users that have a profile picture
                 for (var i in joinrequests) {
                     if (joinrequests.hasOwnProperty(i)) {
@@ -117,14 +117,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
-
-<<<<<<< HEAD
         /**
          * Fetches join requests from the server
          */
         var getJoinRequestsData = function () {
             // get join requests from server
-            sakai.api.Groups.getJoinRequests(sakai.currentgroup.id, function (success, data) {
+            sakai.api.Groups.getJoinRequests(sakai_global.currentgroup.id, function (success, data) {
                 if (success) {
                     // process joinrequest data for UI
                     if (data && data.total && data.total > 0) {
@@ -141,29 +139,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                     "pic_src": jr.picture
                                 });
                             }
-=======
-    /**
-     * Fetches join requests from the server
-     */
-    var getJoinRequestsData = function () {
-        // get join requests from server
-        sakai.api.Groups.getJoinRequests(sakai_global.currentgroup.id, function (success, data) {
-            if (success) {
-                // process joinrequest data for UI
-                if (data && data.total && data.total > 0) {
-                    numJoinrequests = data.total;
-                    var joinrequests = [];
-                    for (var i in data.results) {
-                        if (data.results.hasOwnProperty(i)) {
-                            var jr = data.results[i];
-                            joinrequests.push({
-                                "userid": jr.userid,
-                                "firstName": jr.basic.elements.firstName.value,
-                                "lastName": jr.basic.elements.lastName.value,
-                                "request_age": $.timeago(jr["jcr:created"]),
-                                "pic_src": jr.picture
-                            });
->>>>>>> daa000a... requirejs wip on page js files
                         }
                         renderJoinRequests(joinrequests);
                     }
@@ -171,8 +146,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
         };
 
-
-<<<<<<< HEAD
         /**
          * Adds a user to the current group
          *
@@ -180,27 +153,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var addUser = function (userid) {
             // add user to group
-            sakai.api.Groups.addUsersToGroup(sakai.currentgroup.id, "members", [userid], function (success) {
+            sakai.api.Groups.addUsersToGroup(sakai_global.currentgroup.id, "members", [userid], function (success) {
                 if (success) {
                     // show notification
                     sakai.api.Util.notification.show($joinrequestsTitle.html(),
                         $("#joinrequests_username_link_" + userid).html() +
                         " "+$joinrequestsSuccess.html());
-=======
-    /**
-     * Adds a user to the current group
-     *
-     * @param {String} userid The ID of the user to add to the current group
-     */
-    var addUser = function (userid) {
-        // add user to group
-        sakai.api.Groups.addUsersToGroup(sakai_global.currentgroup.id, "members", [userid], function (success) {
-            if (success) {
-                // show notification
-                sakai.api.Util.notification.show($joinrequestsTitle.html(),
-                    $("#joinrequests_username_link_" + userid).html() +
-                    " "+$joinrequestsSuccess.html());
->>>>>>> daa000a... requirejs wip on page js files
 
                     // trigger the member list on group_edit.html to refresh
                     $(window).trigger("sakai-listpeople-ready", "members");
@@ -213,8 +171,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
         };
 
-
-<<<<<<< HEAD
         /**
          * Removes a join request from the UI and the server
          *
@@ -222,7 +178,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var removeJoinRequest = function (userid) {
             // remove join request from server
-            sakai.api.Groups.removeJoinRequest(userid, sakai.currentgroup.id,
+            sakai.api.Groups.removeJoinRequest(userid, sakai_global.currentgroup.id,
             function (success) {
                 if (success) {
                     // remove the UI joinrequest element
@@ -233,22 +189,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 } else {
                     sakai.api.Util.notification.show($joinrequestsTitle.html(), $joinrequestsError.html());
                     hideSpinner(userid);
-=======
-    /**
-     * Removes a join request from the UI and the server
-     *
-     * @param {String} userid The ID of the user whose join request to remove
-     */
-    var removeJoinRequest = function (userid) {
-        // remove join request from server
-        sakai.api.Groups.removeJoinRequest(userid, sakai_global.currentgroup.id,
-        function (success) {
-            if (success) {
-                // remove the UI joinrequest element
-                $("#joinrequests_joinrequest_" + userid, $rootel).remove();
-                if (--numJoinrequests === 0) {
-                    $joinrequestsWidget.hide();
->>>>>>> daa000a... requirejs wip on page js files
                 }
             });
         };

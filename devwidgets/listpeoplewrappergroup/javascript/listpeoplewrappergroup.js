@@ -35,7 +35,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * @version 0.0.1
      * @param {String} tuid Unique id of the widget
      */
-<<<<<<< HEAD
     sakai_global.listpeoplewrappergroup = function(tuid, showSettings){
 
         var rootel = "#" + tuid;
@@ -62,7 +61,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var renderTemplateListpeople = function() {
             var listTitle = listType.charAt(0).toUpperCase() + listType.substring(1,listType.length);
-            $(listpeoplewrappergroupContainer, rootel).html($.TemplateRenderer(listpeoplewrappergroupDefaultTemplate, {listType: listType, tuid: tuid, listTitle: listTitle}));
+            $(listpeoplewrappergroupContainer, rootel).html(sakai.api.Util.TemplateRenderer(listpeoplewrappergroupDefaultTemplate, {listType: listType, tuid: tuid, listTitle: listTitle}));
             var newTitle = $(".listpeoplewrappergroup_header", rootel).text();
             if (sakai.api.Widgets.isOnDashboard(tuid)) {
                 sakai.api.Widgets.changeWidgetTitle(tuid, newTitle);
@@ -80,69 +79,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             if (listType === "members") {
                 // get group members
-                url = "/system/userManager/group/" + sakai.currentgroup.data.authprofile["sakai:group-id"] + ".members.detailed.json";
+                url = "/system/userManager/group/" + sakai_global.currentgroup.data.authprofile["sakai:group-id"] + ".members.detailed.json";
             } else if (listType === "managers") {
                 // get group managers
-                url = "/system/userManager/group/" + sakai.currentgroup.data.authprofile["sakai:group-id"] + ".managers.detailed.json";
+                url = "/system/userManager/group/" + sakai_global.currentgroup.data.authprofile["sakai:group-id"] + ".managers.detailed.json";
             } else if (listType === "content") {
                 // get group content
-                url = "/var/search/pool/files?group=" + sakai.currentgroup.data.authprofile["sakai:group-id"];
+                url = "/var/search/pool/files?group=" + sakai_global.currentgroup.data.authprofile["sakai:group-id"];
             }
-=======
-    var renderTemplateListpeople = function() {
-        var listTitle = listType.charAt(0).toUpperCase() + listType.substring(1,listType.length);
-        $(listpeoplewrappergroupContainer, rootel).html($.TemplateRenderer(listpeoplewrappergroupDefaultTemplate, {listType: listType, tuid: tuid, listTitle: listTitle}));
-        var newTitle = $(".listpeoplewrappergroup_header", rootel).text();
-        if (sakai.api.Widgets.isOnDashboard(tuid)) {
-            sakai.api.Widgets.changeWidgetTitle(tuid, newTitle);
-        } else {
-            $(".listpeoplewrappergroup_header", rootel).show();
-        }
-    };
 
-    /**
-     * Render Widget with group data
-     */
-    var loadGroupElements = function(){
-        var pl_config = {"selectable":false, "subNameInfoUser": "", "subNameInfoGroup": "sakai:group-description", "sortOn": "lastName", "sortOrder": "ascending", "items": 1000, "function": "getSelection" },
-            url = "";
-
-        if (listType === "members") {
-            // get group members
-            url = "/system/userManager/group/" + sakai_global.currentgroup.data.authprofile["sakai:group-id"] + ".members.detailed.json";
-        } else if (listType === "managers") {
-            // get group managers
-            url = "/system/userManager/group/" + sakai_global.currentgroup.data.authprofile["sakai:group-id"] + ".managers.detailed.json";
-        } else if (listType === "content") {
-            // get group content
-            url = "/var/search/pool/files?group=" + sakai_global.currentgroup.data.authprofile["sakai:group-id"];
-        }
-
-        $(window).trigger("sakai-listpeople-render", {"tuid": listType+tuid, "listType": listType, "pl_config": pl_config, "url": url, "id": sakai_global.currentgroup.data.authprofile["sakai:group-id"]});
-    };
-
-    //////////////
-    // Bindings //
-    //////////////
-
-    /**
-     * Bind the listpeople widget
-     */
-    var addListpeopleBinding = function(){
-        // Bind the listpeople widget
-        if (sakai.listpeople && sakai.listpeople.isReady && sakai.data.listpeople[(listType+tuid)] && sakai.data.listpeople[(listType+tuid)].isReady) {
-            loadGroupElements();
-        } else {
-            $(window).bind("sakai-listpeople-ready", function(e, iTuid) {
-                if (iTuid === (listType+tuid)) {
-                    loadGroupElements();
-                }
-            });
-        }
-    };
->>>>>>> daa000a... requirejs wip on page js files
-
-            $(window).trigger("sakai-listpeople-render", {"tuid": listType+tuid, "listType": listType, "pl_config": pl_config, "url": url, "id": sakai.currentgroup.data.authprofile["sakai:group-id"]});
+            $(window).trigger("sakai-listpeople-render", {"tuid": listType+tuid, "listType": listType, "pl_config": pl_config, "url": url, "id": sakai_global.currentgroup.data.authprofile["sakai:group-id"]});
         };
 
         //////////////
@@ -163,7 +109,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                 });
             }
-<<<<<<< HEAD
         };
 
         /**
@@ -185,40 +130,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             sakai.api.Widgets.Container.informFinish(tuid, "listpeoplewrappergroup");
                         }
                     });
-=======
-        });
-    };
-
-    ////////////////////
-    // Initialization //
-    ////////////////////
-
-    /**
-     * Shows or hides the settings screen
-     * @param {Object} show
-     */
-    var showHideSettings = function(show){
-        if(show){
-            addSettingBinding();
-            $(listpeoplewrappergroupSettings, rootel).show();
-        } else if (sakai_global.currentgroup.data) {
-            $(listpeoplewrappergroupSettings, rootel).hide();
-            renderTemplateListpeople();
-            addListpeopleBinding();
-        }
-    };
-
-    /**
-     * doInit
-     */
-    var doInit = function(){
-        sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
-            if (success) {
-                resultJSON = data;
-                if (data.listType) {
-                    listType = data.listType;
-                    $(listpeoplewrappergroupSettingsSelect, rootel).val(listType);
->>>>>>> daa000a... requirejs wip on page js files
                 }
             });
         };
@@ -235,7 +146,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if(show){
                 addSettingBinding();
                 $(listpeoplewrappergroupSettings, rootel).show();
-            } else if (sakai.currentgroup.data) {
+            } else if (sakai_global.currentgroup.data) {
                 $(listpeoplewrappergroupSettings, rootel).hide();
                 renderTemplateListpeople();
                 addListpeopleBinding();

@@ -576,7 +576,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     person.firstName = person.uuid;
                     person.lastName = "";
                 }
-                sakai.sendmessage.initialise(person, true);
+                $(window).trigger("initialize.sendmessage.sakai", [person, true]);
             }
         });
 

@@ -105,7 +105,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         newjson.entry[site].site.name = sakai.api.Security.escapeHTML(newjson.entry[site].site.name);
                     }
                 }
-                $(sitesList, rootel).html($.TemplateRenderer(sitesListTemplate.replace(/#/,''), newjson));
+                $(sitesList, rootel).html(sakai.api.Util.TemplateRenderer(sitesListTemplate.replace(/#/,''), newjson));
             }
         };
 

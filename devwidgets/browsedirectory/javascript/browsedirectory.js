@@ -109,7 +109,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var renderDirectoryTree = function (id) {
             // destroy any existing jstree instance
             $browsedirectoryTree.jstree("destroy");
-            var browsedirectoryData = sakai.api.UI.getDirectoryStructure();
+            var browsedirectoryData = sakai.api.Util.getDirectoryStructure();
 
             // get item 
             var initiallySelect = browsedirectoryData[0].attr.id;

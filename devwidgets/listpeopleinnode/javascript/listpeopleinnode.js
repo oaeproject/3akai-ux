@@ -114,7 +114,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             //$listpeopleinnodeAjaxLoader.show();
             // Set title
             var obj = {
-                "location" : sakai.api.UI.getValueForDirectoryKey(selected.split("/")[selected.split("/").length - 1])
+                "location" : sakai.api.Util.getValueForDirectoryKey(selected.split("/")[selected.split("/").length - 1])
             };
             $listpeopleinnodeTitle.html(sakai.api.Util.TemplateRenderer(listpeopleinnodeTitleTemplate, obj));
             // Use three dot plugin to show ... for long title

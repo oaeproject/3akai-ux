@@ -90,7 +90,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(window).bind("sakai-directory-selected", function(e, id){
                 // get directory json object called method from browsedirectory widget
                 var nodeId = id.split("/").reverse().shift();
-                var directoryJson = sakai.browsedirectory.getDirectoryNodeJson(nodeId);
+                var directoryJson = sakai_global.browsedirectory.getDirectoryNodeJson(nodeId);
                 
                 // show description
                 $(mainContentDivPreview).html(directoryJson[0].attr["data-description"]);
