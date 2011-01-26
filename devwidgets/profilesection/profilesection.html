@@ -115,16 +115,26 @@
 <div id="profilesection_field_location_template"><!--
     <div class="profilesection_generalinfo_subcontainer">
     {if data.elements.length > 0}
+<<<<<<< HEAD
+        <label class="profilesection_generalinfo_label" for="profilesection_generalinfo_locations}">__MSG__LOCATIONS__:</label>
+        <ul class="{if sakai.profile.main.mode.value !== 'edit'}profilesection_generalinfo_locations_rendered{/if}  profilesection_generalinfo_content" id="profilesection_generalinfo_locations">
+=======
         <label class="profilesection_generalinfo_label" for="profilesection_generalinfo_locations}">Locations:</label>
         <ul class="{if sakai_global.profile.main.mode.value !== 'edit'}profilesection_generalinfo_locations_rendered{/if}  profilesection_generalinfo_content" id="profilesection_generalinfo_locations">
+>>>>>>> croby/modulization
         {for i in data.elements}
             <li>${i.locationtitle.title}</li>
         {/for}
         </ul>
     {/if}
     </div>
+<<<<<<< HEAD
+    {if sakai.profile.main.mode.value === 'edit'}
+        <a href="javascript:;" class="profilesection_add_location_section s3d-add_another_location"><span>__MSG__ADD_REMOVE_LOCATIONS__</span></a>
+=======
     {if sakai_global.profile.main.mode.value === 'edit'}
         <a href="javascript:;" class="profilesection_add_location_section s3d-add_another_location"><span>Add or remove locations</span></a>
+>>>>>>> croby/modulization
     {/if}
 --></div>
 

@@ -462,7 +462,7 @@ define(["jquery",
         },
 
         parseDirectory : function(profile){
-        	var obj = {"elements":[]};
+            var obj = {"elements":[]};
             for (var i in profile.main.data["sakai:tags"]){
                 if (profile.main.data["sakai:tags"].hasOwnProperty(i)) {
                     var tag = profile.main.data["sakai:tags"][i];
