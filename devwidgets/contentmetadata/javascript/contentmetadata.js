@@ -134,20 +134,26 @@ sakai.contentmetadata = function(tuid,showSettings){
         $("#contentmetadata_name_text").unbind("blur");
         $("#contentmetadata_name_text").bind("blur", function(){
             $("#contentmetadata_name_edit").hide();
-            $("#contentmetadata_name_name").text($("#contentmetadata_name_text").val());
-            $("#contentmetadata_name_name").show();
-            $.ajax({
-                url: "/p/" + sakai.content_profile.content_data.data["jcr:name"] + ".html",
-                type : "POST",
-                cache: false,
-                data: {
-                    "sakai:pooled-content-file-name":sakai.api.Security.escapeHTML($("#contentmetadata_name_text").val())
-                }, success: function(){
-                    sakai.content_profile.content_data.data["sakai:pooled-content-file-name"] = sakai.api.Security.escapeHTML($("#contentmetadata_name_text").val());
-                    // bind event again after saving the data
-                    $(".contentmetadata_editable").live("click", editData);
-                }
-            });
+            if ($.trim($("#contentmetadata_name_text").val())) {
+                $("#contentmetadata_name_name").text($("#contentmetadata_name_text").val());
+                $("#contentmetadata_name_name").show();
+                $.ajax({
+                    url: "/p/" + sakai.content_profile.content_data.data["jcr:name"] + ".html",
+                    type: "POST",
+                    cache: false,
+                    data: {
+                        "sakai:pooled-content-file-name": sakai.api.Security.escapeHTML($("#contentmetadata_name_text").val())
+                    },
+                    success: function(){
+                        sakai.content_profile.content_data.data["sakai:pooled-content-file-name"] = sakai.api.Security.escapeHTML($("#contentmetadata_name_text").val());
+                        // bind event again after saving the data
+                        $(".contentmetadata_editable").live("click", editData);
+                    }
+                });
+            } else {
+                $("#contentmetadata_name_name").show();
+                $(".contentmetadata_editable").live("click", editData);
+            }
         });
     };
 
