@@ -467,7 +467,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         /**
          * Save the poll to the database
-         * @param {function} functionOnComplete Function that will be executed after a save
+         * @param {Function} functionOnComplete Function that will be executed after a save
          * @param {Boolean} saveAll Save all the posts
          */
         var savePollToDatabase = function(functionOnComplete, saveAll){

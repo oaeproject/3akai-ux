@@ -21,11 +21,12 @@
     //By default, all modules are located relative to this path. If baseUrl
     //is not explicitly set, then all modules are loaded relative to
     //the directory that holds the build file.
-    baseUrl: "./",
+    baseUrl: ".",
 
     //Set paths for modules. If relative paths, set relative to baseUrl above.
     paths: {
-        "jquery": "dev/lib/jquery/requireplugins-jquery"
+        "jquery": "dev/lib/jquery/requireplugins-jquery",
+        "sakai": "dev/lib/sakai"
     },
 
     //The directory path to save the output. If not specified, then
@@ -55,7 +56,7 @@
     //of CSS.
     //- "standard.keepLines": like "standard" but keeps line returns.
     //- "none": skip CSS optimizations.
-    optimizeCss: "standard.keepLines",
+    optimizeCss: "standard",
 
     //If optimizeCss is in use, a list of of files to ignore for the @import
     //inlining. The value of this option should be a comma separated list
