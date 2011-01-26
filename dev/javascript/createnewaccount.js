@@ -95,7 +95,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
 
             // Get the values from the captcha form.
-            var captchaValues = sakai.captcha.getProperties();
+            var captchaValues = sakai_global.captcha.getProperties();
 
             // Add them to the form values.
             values = $.extend(true, {}, values, captchaValues);
@@ -123,7 +123,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     // This will hide the Create and Cancel button and offer a link back to the login page
 
                     // Destroy the captcha
-                    sakai.captcha.destroy();
+                    sakai_global.captcha.destroy();
 
                     sakai.api.Util.notification.show($(successMessageTitle).html(), $(successMessageValue).html());
 
@@ -138,7 +138,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     if (data.status === 500 || data.status === 401) {
                         if (data.responseText.indexOf("Untrusted request") !== -1) {
                             $(captchaNoMatch).show();
-                            sakai.captcha.reload();
+                            sakai_global.captcha.reload();
                         }
                     }
                 }
