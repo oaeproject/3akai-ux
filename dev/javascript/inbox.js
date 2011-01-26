@@ -328,7 +328,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
             // 2010-10-06T14:45:54+01:00
             var dateString = message["sakai:created"];
-            var d = sakai.api.l10n.parseDateString(dateString);
+            var d = sakai.api.l10n.parseDateString(dateString, sakai.data.me);
             //Jan 22, 2009 10:25 PM
             message.date = sakai.api.l10n.transformDateTimeShort(d);
 
@@ -399,7 +399,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 // temporary internal id.
                 // Use the name for the id.
                 response.results[j].nr = j;
-                var messageSubject = response.results[j]["sakai:subject"];
+                var messageSubject = response.results[j]["sakai:subject"] + "";
                 if (messageSubject) {
                     var key = messageSubject.substr(0, messageSubject.lastIndexOf(","));
                     comment = messageSubject.substr(messageSubject.lastIndexOf(",") + 1, messageSubject.length);
@@ -424,7 +424,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
             // Show messages
             var tplData = {
-                "messages": response.results
+                "messages": response.results,
+                sakai: sakai
             };
 
             // remove previous messages
@@ -750,7 +751,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
                 if (message.userFrom) {
                     for (var i = 0, j = message.userFrom.length; i < j; i++) {
-                        var messageSubject = message["sakai:subject"];
+                        var messageSubject = message["sakai:subject"] + "";
                         key = messageSubject.substr(0,messageSubject.lastIndexOf(","));
                         comment = messageSubject.substr(messageSubject.lastIndexOf(",")+1,messageSubject.length);
                         // title , groupid from pickeruser
@@ -760,7 +761,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         } else if (sakai.api.i18n.General.getValueForKey(message["sakai:subject"])){
                             message["sakai:subject"] = sakai.api.Security.escapeHTML(sakai.api.i18n.General.getValueForKey(message["sakai:subject"]).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(message.userFrom[0])));
                         }
-                        messageBody = message["sakai:body"];
+                        messageBody = message["sakai:body"] + "";
                         key = messageBody.substr(0,messageBody.lastIndexOf(","));
                         comment = messageBody.substr(messageBody.lastIndexOf(",")+1,messageBody.length);
                         if (key && sakai.api.i18n.General.getValueForKey(key)) {
@@ -838,7 +839,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         replieshtml += sakai.api.Util.TemplateRenderer(inboxSpecificMessageRepliesTemplateChats, message);
                     }
                     else {
-                        var json = {"message" : message};
+                        var json = {"message" : message, sakai: sakai};
                         replieshtml += sakai.api.Util.TemplateRenderer(inboxSpecificMessageRepliesTemplate, json);
                     }
                     $(inboxSpecificMessageReplies).html(replieshtml);
@@ -1268,7 +1269,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             var subject = $(inboxSpecificMessageComposeSubject).val();
             var body = $(inboxSpecificMessageComposeBody).val();
 
-            sakai.api.Communication.sendMessage(selectedMessage["sakai:from"], subject, body, "message", selectedMessage["sakai:id"], sendMessageFinished);
+            sakai.api.Communication.sendMessage(selectedMessage["sakai:from"], me.user.userid, subject, body, "message", selectedMessage["sakai:id"], sendMessageFinished);
             showGeneralMessage($(inboxGeneralMessagesSent).text());
             // Clear all the input fieldst
             clearInputFields();
@@ -1289,7 +1290,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 showPane(inboxPaneCompose);
                 // initialise the sendmessage widget
                 // we tell it to show it in our id and NOT as a layover.
-                sakai.sendmessage.initialise(null, true, inboxComposeNewContainer, sendMessageFinished);
+                $(window).trigger("initialize.sendmessage.sakai", [null, true, inboxComposeNewContainer, sendMessageFinished]);
             } else if (msg) {
                 displayMessage(msg);
             } else if (box) {

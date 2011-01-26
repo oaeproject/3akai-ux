@@ -305,7 +305,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     }
                 }
             }
-
+            finaljson.sakai = sakai;
             $(searchConfig.sites.searchResult).html(sakai.api.Util.TemplateRenderer(searchConfig.sites.searchResultTemplate, finaljson));
         };
 
@@ -528,7 +528,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     person.firstName = person.uuid;
                     person.lastName = "";
                 }
-                sakai.sendmessage.initialise(person, true);
+                $(window).trigger("initialize.sendmessage.sakai", [person, true]);
             }
         });
 

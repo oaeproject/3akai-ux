@@ -24,10 +24,7 @@
  * /dev/lib/jquery/plugins/jquery.json.js (toJSON)
  */
 
-/*global $ */
-
-require(["/dev/lib/jquery/plugins/imgareaselect/jquery.imgareaselect.js"]);
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselect/jquery.imgareaselect.js"], function($, sakai) {
 
     var AIM = {
 
@@ -210,7 +207,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} img    The thumbnail
          * @param {Object} selection The selection object from imgAreaSelect
          */
-        function preview(img, selection){
+        var preview = function(img, selection){
             // Save the user his selection in a global variable.
             userSelection = selection;
 
@@ -225,7 +222,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 marginLeft: '-' + Math.round(scaleX * selection.x1) + 'px',
                 marginTop: '-' + Math.round(scaleY * selection.y1) + 'px'
             });
-        }
+        };
 
          /**
          * Empty upload field by resetting the form
@@ -597,6 +594,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         $(containerTrigger).live("click", function(){
             $(container).jqmShow();
+        });
+
+        $(window).bind("setData.changepic.sakai", function(e, _mode, _id) {
+            mode = _mode;
+            id = _id;
         });
 
         $(window).trigger("sakai-changepic-ready");

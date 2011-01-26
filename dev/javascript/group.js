@@ -69,7 +69,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             var url = "/~" + sakai_global.currentgroup.id;
             var editMode = sakai_global.currentgroup.manager;
             var homePage = "";
-            sakai.sitespages.doInit(basepath, fullpath, url, editMode, homePage, "grouppages", "groupdashboard");
+            $(window).trigger("init.sitespages.sakai", [basepath, fullpath, url, editMode, homePage, "grouppages", "groupdashboard"]);
         };
 
         /**

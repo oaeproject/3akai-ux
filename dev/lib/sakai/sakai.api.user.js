@@ -40,7 +40,7 @@ define(["jquery",
         "/dev/configuration/config.js"],
         function($, sakai_serv, sakai_l10n, sakai_i18n, sakai_util, sakai_conf) {
 
-    return {
+    var sakaiUserAPI = {
         data : {
             me: {}
         },
@@ -427,7 +427,7 @@ define(["jquery",
         },
 
         getContacts : function(callback) {
-            if (data.me.mycontacts) {
+            if (this.data.me.mycontacts) {
                 if ($.isFunction(callback)) {
                     callback();
                 }
@@ -438,7 +438,7 @@ define(["jquery",
                     data: {"q": "*"},
                     async: false,
                     success: function(data) {
-                        data.me.mycontacts = data.results;
+                        sakaiUserAPI.data.me.mycontacts = data.results;
                         if ($.isFunction(callback)) {
                             callback();
                         }
@@ -449,10 +449,10 @@ define(["jquery",
 
         checkIfConnected : function(userid) {
             var ret = false;
-            getContacts(function() {
-                for (var i in data.me.mycontacts) {
-                    if (i && data.me.mycontacts.hasOwnProperty(i)) {
-                        if (data.me.mycontacts[i].user === userid) {
+            this.getContacts(function() {
+                for (var i in sakaiUserAPI.data.me.mycontacts) {
+                    if (i && sakaiUserAPI.data.me.mycontacts.hasOwnProperty(i)) {
+                        if (sakaiUserAPI.data.me.mycontacts[i].user === userid) {
                             ret = true;
                         }
                     }
@@ -497,10 +497,10 @@ define(["jquery",
          * @param {String} type The type of progress the user as achieved
          */
         addUserProgress : function(type) {
-            if (!data.me.profile.userprogress){
-                data.me.profile.userprogress = {};
+            if (!this.data.me.profile.userprogress){
+                this.data.me.profile.userprogress = {};
             }
-            var me = data.me;
+            var me = this.data.me;
             var progressData = "";
             var refresh = true;
 
@@ -508,31 +508,31 @@ define(["jquery",
                 case "uploadedProfilePhoto":
                     if (!me.profile.userprogress.uploadedProfilePhoto) {
                         progressData = {"uploadedProfilePhoto": true};
-                        data.me.profile.userprogress.uploadedProfilePhoto = true;
+                        this.data.me.profile.userprogress.uploadedProfilePhoto = true;
                     }
                     break;
                 case "uploadedContent":
                     if (!me.profile.userprogress.uploadedContent) {
                         progressData = {"uploadedContent": true};
-                        data.me.profile.userprogress.uploadedContent = true;
+                        this.data.me.profile.userprogress.uploadedContent = true;
                     }
                     break;
                 case "sharedContent":
                     if (!me.profile.userprogress.sharedContent) {
                         progressData = {"sharedContent": true};
-                        data.me.profile.userprogress.sharedContent = true;
+                        this.data.me.profile.userprogress.sharedContent = true;
                     }
                     break;
                 case "madeContactRequest":
                     if (!me.profile.userprogress.madeContactRequest) {
                         progressData = {"madeContactRequest": true};
-                        data.me.profile.userprogress.madeContactRequest = true;
+                        this.data.me.profile.userprogress.madeContactRequest = true;
                     }
                     break;
                 case "halfCompletedProfile":
                     if (!me.profile.userprogress.halfCompletedProfile) {
                         progressData = {"halfCompletedProfile": true};
-                        data.me.profile.userprogress.halfCompletedProfile = true;
+                        this.data.me.profile.userprogress.halfCompletedProfile = true;
                     }
                     break;
                 default:
@@ -690,4 +690,6 @@ define(["jquery",
             }
         }
     };
+
+    return sakaiUserAPI;
 });

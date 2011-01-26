@@ -52,7 +52,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 resultJson.id = directoryJson[0].attr["id"];
 
                 // render directory information 
-                $(".directory_info").html($.TemplateRenderer("#directory_template", resultJson));
+                $(".directory_info").html(sakai.api.Util.TemplateRenderer("#directory_template", resultJson));
             });
         };
 

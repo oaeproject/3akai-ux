@@ -87,11 +87,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * It renders the contacts types and the personal note
          */
         var renderTemplates = function(){
-            $.TemplateRenderer(addToContactsFormTypeTemplate.replace(/#/gi, ""), sakai.config.Relationships, $(addToContactsInfoTypes));
+            sakai.api.Util.TemplateRenderer(addToContactsFormTypeTemplate.replace(/#/gi, ""), sakai.config.Relationships, $(addToContactsInfoTypes));
             var json = {
                 me: me
             };
-            $.TemplateRenderer(addToContactsFormPersonalNoteTemplate.replace(/#/gi, ""), json, $(addToContactsFormPersonalNote));
+            sakai.api.Util.TemplateRenderer(addToContactsFormPersonalNoteTemplate.replace(/#/gi, ""), json, $(addToContactsFormPersonalNote));
         };
 
         /**
@@ -170,7 +170,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     },
                     success: function(data){
                         $(addToContactsDialog).jqmHide();
-                        sakai.api.Communication.sendMessage(userid, title, message, "invitation");
+                        sakai.api.Communication.sendMessage(userid, sakai.data.me.user.userid, title, message, "invitation");
                         callbackWhenDone(friend);
                         //reset the form to set original note
                         $(addToContactsForm)[0].reset();

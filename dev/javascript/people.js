@@ -139,7 +139,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 $(".jq_pager").hide();
             }
 
-            $("#contacts_search_result").html($.TemplateRenderer("contacts_search_result_template", finaljson));
+            $("#contacts_search_result").html(sakai.api.Util.TemplateRenderer("contacts_search_result_template", finaljson));
 
             $(".link_remove_contact").bind("click", function(ev){
                 var user = this.id.substring(20);
@@ -238,7 +238,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 }
             }
 
-            $("#invited_search_result").html($.TemplateRenderer("invited_search_result_template", finaljson));
+            $("#invited_search_result").html(sakai.api.Util.TemplateRenderer("invited_search_result_template", finaljson));
 
             $(".link_accept_contact").bind("click", function(ev){
                 var user = this.id.substring(20);
@@ -341,7 +341,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 }
             }
 
-            $("#pending_search_result").html($.TemplateRenderer("pending_search_result_template", finaljson));
+            $("#pending_search_result").html(sakai.api.Util.TemplateRenderer("pending_search_result_template", finaljson));
 
         };
 
@@ -349,7 +349,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
             var userid = this.id.split("_")[this.id.split("_").length - 1];
             if (profiles[userid]){
-                sakai.sendmessage.initialise(profiles[userid].profile);
+                $(window).trigger("initialize.sendmessage.sakai", [profiles[userid].profile]);
             }
 
         });

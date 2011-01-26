@@ -149,7 +149,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     'degrees': user.education
                 };
             }
-            return $.TemplateRenderer(sitemembers_normal_data_degrees.replace("#", ''), json);
+            return sakai.api.Util.TemplateRenderer(sitemembers_normal_data_degrees.replace("#", ''), json);
         };
 
         /**
@@ -165,7 +165,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     'talks': user.talks
                 };
             }
-            return $.TemplateRenderer(sitemembers_normal_data_talks.replace("#", ''), json);
+            return sakai.api.Util.TemplateRenderer(sitemembers_normal_data_talks.replace("#", ''), json);
         };
 
 
@@ -182,7 +182,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     'publications': user.academic
                 };
             }
-            return $.TemplateRenderer(sitemembers_normal_data_publications.replace("#", ''), json);
+            return sakai.api.Util.TemplateRenderer(sitemembers_normal_data_publications.replace("#", ''), json);
         };
 
         /**
@@ -198,7 +198,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     'jobs': user.job
                 };
             }
-            return $.TemplateRenderer(sitemembers_normal_data_profexperience.replace("#", ''), json);
+            return sakai.api.Util.TemplateRenderer(sitemembers_normal_data_profexperience.replace("#", ''), json);
         };
 
         /**
@@ -231,7 +231,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             }
             }
 
-            return $.TemplateRenderer(template.replace("#", ''), json);
+            return sakai.api.Util.TemplateRenderer(template.replace("#", ''), json);
         };
 
         ////////////////////
@@ -351,7 +351,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Add it too the global var.
             displayMembers = displayMembers.concat(members);
             // Render template.
-            $(sitemembers_normal_container, rootel).append($.TemplateRenderer(sitemembers_normal_results_template.replace(/#/, ''), json));
+            $(sitemembers_normal_container, rootel).append(sakai.api.Util.TemplateRenderer(sitemembers_normal_results_template.replace(/#/, ''), json));
             // Add rounded corners to results (Not fully working)
             // $(sitemembers_normal_result, rootel).corners();
         };
@@ -702,7 +702,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 'firstName': firstName,
                 'lastName': lastName
             };
-            sakai.sendmessage.initialise(o);
+            $(window).trigger("initialize.sendmessage.sakai", [o]);
         });
 
         /**

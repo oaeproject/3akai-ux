@@ -254,9 +254,9 @@ define(["jquery",
 
                 // set the tag on the entity
                 var doSetTags = function(tags) {
-                    var requests = [];
+                    var setTagsRequests = [];
                     $(tags).each(function(i,val) {
-                        requests.push({
+                        setTagsRequests.push({
                             "url": tagLocation,
                             "method": "POST",
                             "parameters": {
@@ -265,7 +265,7 @@ define(["jquery",
                             }
                         });
                     });
-                    sakai_serv.batch($.toJSON(requests), function(success, data) {
+                    sakai_serv.batch($.toJSON(setTagsRequests), function(success, data) {
                         if (success) {
                             if ($.isFunction(callback)) {
                                 callback();
@@ -273,7 +273,7 @@ define(["jquery",
                         } else {
                             debug.error(tagLocation + " failed to be tagged as " + val);
                         }
-                    });
+                    }, false, true);
                 };
             };
 
@@ -365,7 +365,7 @@ define(["jquery",
              * @param {Constant} [type] The type of the notification. If this is not supplied, we use the type "information"
              * @param {Boolean} sticky The sticky (if it is true, the notification doesn't disappear without using action)
              */
-            show : function(title, text, type , sticky){
+            show : function(title, text, type, sticky){
 
                 // Check whether the text parameter is supplied.
                 if(!text){
@@ -390,7 +390,7 @@ define(["jquery",
                 }
 
                 // Set the notification type
-                var notification = type || this.notification.type.INFORMATION;
+                var notification = type || this.type.INFORMATION;
 
                 // Set the title and text
                 notification.title = title;
@@ -868,7 +868,7 @@ define(["jquery",
          * @param {Object} child Object to check for children next, if not supplied start with first child
          */
         getValueForDirectoryKey : function(key){
-            var directory = getDirectoryStructure();
+            var directory = this.getDirectoryStructure();
 
             var searchDirectoryForKey = function(key, child){
                 var ret;

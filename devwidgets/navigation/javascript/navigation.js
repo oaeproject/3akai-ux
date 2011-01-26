@@ -36,15 +36,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * @description
      * Contains the functionality for sites
      */
-    sakai.sitespages = sakai.sitespages || {};
+    sakai_global.sitespages = sakai_global.sitespages || {};
 
     /**
-     * @name sakai.sitespages.navigation
+     * @name sakai_global.sitespages.navigation
      *
      * @description
      * Contains public functions for the navigation widget
      */
-    sakai.sitespages.navigation = sakai.sitespages.navigation || {};
+    sakai_global.sitespages.navigation = sakai_global.sitespages.navigation || {};
 
     /**
      * @name sakai_global.navigation
@@ -142,12 +142,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     var path_elements = [];
                     var raw_path_element = "";
 
-                    for (var j=1; j<sakai.sitespages.config.startlevel; j++) {
+                    for (var j=1; j<sakai_global.sitespages.config.startlevel; j++) {
                         raw_path_element += "/" + raw_path_elements[j];
                     }
 
                     // Consider only elements below the start level, and discard "_pages" or empty entries
-                    for (var i=sakai.sitespages.config.startlevel , current_level = raw_path_elements.length; i<current_level; i++) {
+                    for (var i=sakai_global.sitespages.config.startlevel , current_level = raw_path_elements.length; i<current_level; i++) {
                         raw_path_element += "/" + raw_path_elements[i];
                         if ((raw_path_elements[i] !== "_pages") && (raw_path_elements[i] !== "")) {
                             path_elements.push(raw_path_element);
@@ -164,15 +164,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var getPageInfoByLastURLElement = function(i_jcr_path) {
             var return_object = {},
                 jcr_path;
-            for (var i in sakai.sitespages.site_info._pages) {
-                if (sakai.sitespages.site_info._pages.hasOwnProperty(i)) {
-                    if (sakai.sitespages.site_info._pages[i]["jcr:path"]) {
-                        jcr_path = sakai.sitespages.site_info._pages[i]["jcr:path"];
+            for (var i in sakai_global.sitespages.site_info._pages) {
+                if (sakai_global.sitespages.site_info._pages.hasOwnProperty(i)) {
+                    if (sakai_global.sitespages.site_info._pages[i]["jcr:path"]) {
+                        jcr_path = sakai_global.sitespages.site_info._pages[i]["jcr:path"];
                     } else {
                         continue;
                     }
                     if (jcr_path === i_jcr_path) {
-                        return_object = sakai.sitespages.site_info._pages[i];
+                        return_object = sakai_global.sitespages.site_info._pages[i];
                     }
                 }
             }
@@ -302,18 +302,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // Show the Create Page widget overlay when the user clicks 'Create page'
         $createPageLink.click(function () {
-            sakai.createpage.initialise();
+            sakai_global.createpage.initialise();
         });
 
         // Show the Delete confirmation window when the user clicks 'Delete page'
         $deletePageLink.click(function () {
-            var pageTitle = sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage].pageTitle;
+            var pageTitle = sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage].pageTitle;
             if(pageTitle) {
                 $deleteConfirmPageTitle.html("&quot;" + pageTitle + "&quot;");
             } else {
                 $deleteConfirmPageTitle.html($navigation_delete_confirm_title.html());
             }
-            if (sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage].deletable === false) {
+            if (sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage].deletable === false) {
                 $nodeleteDialog.jqmShow();
             } else {
                 $deleteDialog.jqmShow();
@@ -325,8 +325,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // MANAGING SETTINGS    //
         //////////////////////////
 
-<<<<<<< HEAD
-
         /**
          * Switches from the Settings view to the Main view
          */
@@ -336,16 +334,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $mainView.show();
             $navigation_footer_edit.show();
             $navigation_footer_noedit.hide();
-=======
-    /**
-     * Switches from the Main view to the Settings view
-     */
-    var showSettingsView = function () {
-        // set up the template with data from current group's context
-        var json = {
-            groupname: sakai_global.currentgroup.data.authprofile["sakai:group-title"],
-            visible: sakai_global.currentgroup.data.authprofile["sakai:pages-visible"]
->>>>>>> daa000a... requirejs wip on page js files
         };
 
 
@@ -355,10 +343,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var showSettingsView = function () {
             // set up the template with data from current group's context
             var json = {
-                groupname: sakai.currentgroup.data.authprofile["sakai:group-title"],
-                visible: sakai.currentgroup.data.authprofile["sakai:pages-visible"]
+                groupname: sakai_global.currentgroup.data.authprofile["sakai:group-title"],
+                visible: sakai_global.currentgroup.data.authprofile["sakai:pages-visible"],
+                sakai: sakai
             };
-            $settingsView.html($.TemplateRenderer($navigationSettingsTemplate, json));
+            $settingsView.html(sakai.api.Util.TemplateRenderer($navigationSettingsTemplate, json));
             $mainView.hide();
             $settingsMenu.hide();
             $settingsIcon.hide();
@@ -400,41 +389,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 ).show();
                 justShown = true;
             }
-<<<<<<< HEAD
+
         });
-=======
-        } else {
-            justShown = false;
-        }
-    });
-
-    // Toggle settings view when the user clicks 'Settings' in settings menu
-    $settingsLink.click(function () {
-        showSettingsView();
-    });
-
-    // Update group settings when the settings form is submit
-    $settingsForm.live("submit", function () {
-        // manual selector necessary since this is a templated field
-        var selectedValue = $("#navigation_pages_visibility").val();
-
-        // only update if value has changed
-        if(selectedValue !== sakai_global.currentgroup.data.authprofile["sakai:pages-visible"]) {
-            sakai_global.currentgroup.data.authprofile["sakai:pages-visible"] = selectedValue;
-            // update group on the server
-            $.ajax({
-                url: "/system/userManager/group/" + sakai_global.currentgroup.id + ".update.html",
-                data: {
-                    "sakai:pages-visible": selectedValue
-                },
-                type: "POST",
-                error: function(xhr, textStatus, thrownError) {
-                    debug.error("ERROR-navigation.js settings update: " + xhr.status + " " + xhr.statusText);
-                }
-            });
-        }
->>>>>>> daa000a... requirejs wip on page js files
-
 
         $(document).bind("click", function(e) {
             if (!justShown) {
@@ -459,11 +415,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var selectedValue = $("#navigation_pages_visibility").val();
 
             // only update if value has changed
-            if(selectedValue !== sakai.currentgroup.data.authprofile["sakai:pages-visible"]) {
-                sakai.currentgroup.data.authprofile["sakai:pages-visible"] = selectedValue;
+            if(selectedValue !== sakai_global.currentgroup.data.authprofile["sakai:pages-visible"]) {
+                sakai_global.currentgroup.data.authprofile["sakai:pages-visible"] = selectedValue;
                 // update group on the server
                 $.ajax({
-                    url: "/system/userManager/group/" + sakai.currentgroup.id + ".update.html",
+                    url: "/system/userManager/group/" + sakai_global.currentgroup.id + ".update.html",
                     data: {
                         "sakai:pages-visible": selectedValue
                     },
@@ -485,45 +441,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $settingsCancel.live("click", function () {
             showMainView();
         });
-
-
-<<<<<<< HEAD
-        //////////////////////////////
-        // Initialization Functions //
-        //////////////////////////////
-=======
-    /**
-     * Renders no pages in the navigation widget along with a message explaining
-     * why no pages are viewable.
-     *
-     * @param {Boolean} error true if pages are not visible due to an error in
-     * loading pages, false if pages are not visible because the current user
-     * has insufficient privileges
-     * @return None
-     */
-    var renderNoPages = function (error) {
-        if(error) {
-            $navigationError.show();
-        } else {
-            $navigationNotAllowed.show();
-            // show the message with the lowest level of security
-            switch(sakai_global.currentgroup.data.authprofile["sakai:pages-visible"]) {
-                case sakai.config.Permissions.Groups.visible.allusers:
-                    $("#navigation_no_pages_unless_loggedin", $rootel).show();
-                    break;
-                case sakai.config.Permissions.Groups.visible.members:
-                    $("#navigation_no_pages_unless_member", $rootel).show();
-                    break;
-                default:
-                    $("#navigation_no_pages_unless_manager", $rootel).show();
-                    break;
-            }
-        }
-        disableEditing();
-        $navigationNoPages.show();
-        $mainView.show();
-    };
->>>>>>> daa000a... requirejs wip on page js files
 
 
         /**
@@ -554,7 +471,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             } else {
                 $navigationNotAllowed.show();
                 // show the message with the lowest level of security
-                switch(sakai.currentgroup.data.authprofile["sakai:pages-visible"]) {
+                switch(sakai_global.currentgroup.data.authprofile["sakai:pages-visible"]) {
                     case sakai.config.Permissions.Groups.visible.allusers:
                         $("#navigation_no_pages_unless_loggedin", $rootel).show();
                         break;
@@ -623,7 +540,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var renderPages = function (selectedPageUrlName, site_info_object, allowDnd) {
             // set the number of pages in the group
-            $pageCount.html("(" + sakai.sitespages.site_info.number_of_pages() + ")");
+            $pageCount.html("(" + sakai_global.sitespages.site_info.number_of_pages() + ")");
 
             // Create navigation data object
             var navigationData = convertToHierarchy(fullURLs(site_info_object));
@@ -679,7 +596,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $navigationTree.bind("select_node.jstree", function(e, data) {
                 var selectedPageUrl = $(data.rslt.obj[0]).attr("id").replace("nav_","");
                 // If page is not the current page load it
-                if (sakai.sitespages.selectedpage !== selectedPageUrl) {
+                if (sakai_global.sitespages.selectedpage !== selectedPageUrl) {
                     History.addBEvent(selectedPageUrl);
                 }
             });
@@ -697,15 +614,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                 // Source data - the element being moved
                 var src_url_name = $moved_node.attr("id").replace("nav_","");
-                var src_url = sakai.sitespages.site_info._pages[src_url_name]["jcr:path"];
-                var src_url_title = sakai.sitespages.site_info._pages[src_url_name]["pageURLTitle"];
-                var src_url_depth = sakai.sitespages.site_info._pages[src_url_name]["pageDepth"];
+                var src_url = sakai_global.sitespages.site_info._pages[src_url_name]["jcr:path"];
+                var src_url_title = sakai_global.sitespages.site_info._pages[src_url_name]["pageURLTitle"];
+                var src_url_depth = sakai_global.sitespages.site_info._pages[src_url_name]["pageDepth"];
 
                 // Reference data - the element being moved next to
                 var ref_url_name = $reference_node.attr("id").replace("nav_","");
-                var ref_url = sakai.sitespages.site_info._pages[ref_url_name]["jcr:path"];
-                var ref_url_title = sakai.sitespages.site_info._pages[ref_url_name]["pageURLTitle"];
-                var ref_url_depth = sakai.sitespages.site_info._pages[ref_url_name]["pageDepth"];
+                var ref_url = sakai_global.sitespages.site_info._pages[ref_url_name]["jcr:path"];
+                var ref_url_title = sakai_global.sitespages.site_info._pages[ref_url_name]["pageURLTitle"];
+                var ref_url_depth = sakai_global.sitespages.site_info._pages[ref_url_name]["pageDepth"];
 
                 // Construct target URL
                 var ref_url_elements = ref_url.split("/");
@@ -725,7 +642,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // If there is a depth difference or putting a node inside another the move is a move within a hierarchy
                 if ((src_url_depth !== ref_url_depth) || (position === "inside")) {
                     // Move page
-                    sakai.sitespages.movePage(src_url, tgt_url, function(newName){
+                    sakai_global.sitespages.movePage(src_url, tgt_url, function(newName){
                         // update reference to the page in the nav
                         var newID = "nav_" + newName;
                         $moved_node.attr("id", newID);
@@ -734,8 +651,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     });
 
                 } else if((position ==='before') ||(position ==='after')){
-                    var currentNodePage = parseFloat(sakai.sitespages.site_info._pages[src_url_name].pagePosition, 10);
-                    var referenceNodePage = parseFloat(sakai.sitespages.site_info._pages[ref_url_name].pagePosition, 10);
+                    var currentNodePage = parseFloat(sakai_global.sitespages.site_info._pages[src_url_name].pagePosition, 10);
+                    var referenceNodePage = parseFloat(sakai_global.sitespages.site_info._pages[ref_url_name].pagePosition, 10);
 
                     var toUpdatePages = [],
                         nodePage;
@@ -745,41 +662,41 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         //Check if the user dragged the node to another node which is higher in the list or not
                         if (currentNodePage < referenceNodePage) {
                             // Loop over all the nodes
-                            for (var c in sakai.sitespages.site_info._pages) {
-                                if (sakai.sitespages.site_info._pages.hasOwnProperty(c)) {
-                                    nodePage = parseFloat(sakai.sitespages.site_info._pages[c].pagePosition, 10);
+                            for (var c in sakai_global.sitespages.site_info._pages) {
+                                if (sakai_global.sitespages.site_info._pages.hasOwnProperty(c)) {
+                                    nodePage = parseFloat(sakai_global.sitespages.site_info._pages[c].pagePosition, 10);
                                     // make sure that the dropped node isn't in this list, because it has to be updated speratly
-                                    if (sakai.sitespages.site_info._pages[c].pageTitle !== sakai.sitespages.site_info._pages[src_url_name].pageTitle) {
+                                    if (sakai_global.sitespages.site_info._pages[c].pageTitle !== sakai_global.sitespages.site_info._pages[src_url_name].pageTitle) {
                                         // Check if the node in the list is smaller than the current node (dragged node) and the smaller than the reference node. Because these will have to get a lower position value
                                         // These are in fact the nodes that are in front of the reference node
                                         if ((nodePage > currentNodePage) && (nodePage < referenceNodePage)) {
-                                            sakai.sitespages.site_info._pages[c].pagePosition = nodePage - 200000;
-                                            toUpdatePages.push(sakai.sitespages.site_info._pages[c]);
+                                            sakai_global.sitespages.site_info._pages[c].pagePosition = nodePage - 200000;
+                                            toUpdatePages.push(sakai_global.sitespages.site_info._pages[c]);
                                         }
                                         // IF this is not the case this means that the node will be after the reference node and it just has to be parsed
                                         else {
-                                            sakai.sitespages.site_info._pages[c].pagePosition = nodePage;
-                                            toUpdatePages.push(sakai.sitespages.site_info._pages[c]);
+                                            sakai_global.sitespages.site_info._pages[c].pagePosition = nodePage;
+                                            toUpdatePages.push(sakai_global.sitespages.site_info._pages[c]);
                                         }
                                     }
                                 }
                             }
                             // The node will get the value of the reference node - 2000000, because the node is dragged from underneath the reference node which means that all the nodes
                             // underneath the referance node will have received a lower value because 1 is gone.
-                            sakai.sitespages.site_info._pages[src_url_name].pagePosition = referenceNodePage - 200000;
-                            toUpdatePages.push(sakai.sitespages.site_info._pages[src_url_name]);
+                            sakai_global.sitespages.site_info._pages[src_url_name].pagePosition = referenceNodePage - 200000;
+                            toUpdatePages.push(sakai_global.sitespages.site_info._pages[src_url_name]);
                             updatePagePosition(toUpdatePages);
                         } else {
                             // This happends when a user drags a node from the top, this means that nothing will change to the nodes that are under the reference node,only the nodes above the reference node will have to be updated
-                            sakai.sitespages.site_info._pages[src_url_name].pagePosition = referenceNodePage;
-                            //updateSite(sakai.sitespages.site_info._pages[src_url_name]);
-                            toUpdatePages.push(sakai.sitespages.site_info._pages[src_url_name]);
-                            for (var k in sakai.sitespages.site_info._pages) {
-                                if (sakai.sitespages.site_info._pages.hasOwnProperty(k)) {
-                                    nodePage = parseFloat(sakai.sitespages.site_info._pages[k].pagePosition,10);
-                                    if(nodePage >= parseFloat(sakai.sitespages.site_info._pages[src_url_name].pagePosition,10)&&(sakai.sitespages.site_info._pages[k].pageTitle !==sakai.sitespages.site_info._pages[src_url_name].pageTitle )){
-                                        sakai.sitespages.site_info._pages[k].pagePosition = nodePage + 200000;
-                                        toUpdatePages.push(sakai.sitespages.site_info._pages[k]);
+                            sakai_global.sitespages.site_info._pages[src_url_name].pagePosition = referenceNodePage;
+                            //updateSite(sakai_global.sitespages.site_info._pages[src_url_name]);
+                            toUpdatePages.push(sakai_global.sitespages.site_info._pages[src_url_name]);
+                            for (var k in sakai_global.sitespages.site_info._pages) {
+                                if (sakai_global.sitespages.site_info._pages.hasOwnProperty(k)) {
+                                    nodePage = parseFloat(sakai_global.sitespages.site_info._pages[k].pagePosition,10);
+                                    if(nodePage >= parseFloat(sakai_global.sitespages.site_info._pages[src_url_name].pagePosition,10)&&(sakai_global.sitespages.site_info._pages[k].pageTitle !==sakai_global.sitespages.site_info._pages[src_url_name].pageTitle )){
+                                        sakai_global.sitespages.site_info._pages[k].pagePosition = nodePage + 200000;
+                                        toUpdatePages.push(sakai_global.sitespages.site_info._pages[k]);
                                     }
                                 }
                             }
@@ -789,36 +706,36 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         // This is almost exactly the same as the "before" part, there are small diffrences because the reference node is in front of the node when it is dropped
                         // This means that the nodes before the reference node will have an extra node and the nodes after the reference node will have one less
                         if (currentNodePage < referenceNodePage) {
-                            for (var z in sakai.sitespages.site_info._pages) {
-                                if (sakai.sitespages.site_info._pages.hasOwnProperty(z)) {
-                                    nodePage = parseFloat(sakai.sitespages.site_info._pages[z].pagePosition, 10);
-                                    if (sakai.sitespages.site_info._pages[z].pageTitle !== sakai.sitespages.site_info._pages[src_url_name].pageTitle) {
+                            for (var z in sakai_global.sitespages.site_info._pages) {
+                                if (sakai_global.sitespages.site_info._pages.hasOwnProperty(z)) {
+                                    nodePage = parseFloat(sakai_global.sitespages.site_info._pages[z].pagePosition, 10);
+                                    if (sakai_global.sitespages.site_info._pages[z].pageTitle !== sakai_global.sitespages.site_info._pages[src_url_name].pageTitle) {
                                         if ((nodePage > currentNodePage) && (nodePage <= referenceNodePage)) {
-                                            sakai.sitespages.site_info._pages[z].pagePosition = nodePage - 200000;
-                                            //updateSite(sakai.sitespages.site_info._pages[c]);
-                                            toUpdatePages.push(sakai.sitespages.site_info._pages[z]);
+                                            sakai_global.sitespages.site_info._pages[z].pagePosition = nodePage - 200000;
+                                            //updateSite(sakai_global.sitespages.site_info._pages[c]);
+                                            toUpdatePages.push(sakai_global.sitespages.site_info._pages[z]);
                                         }
                                         else {
-                                            sakai.sitespages.site_info._pages[z].pagePosition = nodePage;
-                                            toUpdatePages.push(sakai.sitespages.site_info._pages[z]);
+                                            sakai_global.sitespages.site_info._pages[z].pagePosition = nodePage;
+                                            toUpdatePages.push(sakai_global.sitespages.site_info._pages[z]);
                                         }
                                     }
                                 }
                             }
-                            sakai.sitespages.site_info._pages[src_url_name].pagePosition = referenceNodePage + 200000;
-                            toUpdatePages.push(sakai.sitespages.site_info._pages[src_url_name]);
+                            sakai_global.sitespages.site_info._pages[src_url_name].pagePosition = referenceNodePage + 200000;
+                            toUpdatePages.push(sakai_global.sitespages.site_info._pages[src_url_name]);
                             updatePagePosition(toUpdatePages);
                         }
                         else {
                             // This is the part where the user drags a node from the top of the list, which again means that only the nodes after the reference node will have to be updated
-                            sakai.sitespages.site_info._pages[src_url_name].pagePosition = referenceNodePage + 200000;
-                            //updateSite(sakai.sitespages.site_info._pages[src_url_name]);
-                            toUpdatePages.push(sakai.sitespages.site_info._pages[src_url_name]);
-                            for (var t in sakai.sitespages.site_info._pages) {
-                                if(parseFloat(sakai.sitespages.site_info._pages[t].pagePosition,10) >= parseFloat(sakai.sitespages.site_info._pages[src_url_name].pagePosition,10)&&(sakai.sitespages.site_info._pages[t].pageTitle !==sakai.sitespages.site_info._pages[src_url_name].pageTitle )){
-                                    sakai.sitespages.site_info._pages[t].pagePosition = parseFloat(sakai.sitespages.site_info._pages[t].pagePosition,10) + 200000;
-                                    //updateSite(sakai.sitespages.site_info._pages[c]);
-                                    toUpdatePages.push(sakai.sitespages.site_info._pages[t]);
+                            sakai_global.sitespages.site_info._pages[src_url_name].pagePosition = referenceNodePage + 200000;
+                            //updateSite(sakai_global.sitespages.site_info._pages[src_url_name]);
+                            toUpdatePages.push(sakai_global.sitespages.site_info._pages[src_url_name]);
+                            for (var t in sakai_global.sitespages.site_info._pages) {
+                                if(parseFloat(sakai_global.sitespages.site_info._pages[t].pagePosition,10) >= parseFloat(sakai_global.sitespages.site_info._pages[src_url_name].pagePosition,10)&&(sakai_global.sitespages.site_info._pages[t].pageTitle !==sakai_global.sitespages.site_info._pages[src_url_name].pageTitle )){
+                                    sakai_global.sitespages.site_info._pages[t].pagePosition = parseFloat(sakai_global.sitespages.site_info._pages[t].pagePosition,10) + 200000;
+                                    //updateSite(sakai_global.sitespages.site_info._pages[c]);
+                                    toUpdatePages.push(sakai_global.sitespages.site_info._pages[t]);
                                 }
                             }
                             updatePagePosition(toUpdatePages);
@@ -838,31 +755,30 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          *   load of the navigation tree. If null, a default page is selected.
          * @param {Object} site_info_object Contains an array with all the pages, each page is an object.
          */
-        sakai.sitespages.navigation.renderNavigation = function(selectedPageUrlName, site_info_object) {
+        sakai_global.sitespages.navigation.renderNavigation = function(selectedPageUrlName, site_info_object) {
             // check arguments
             if(!site_info_object || site_info_object.length === 0) {
                 renderNoPages(true);
                 return;
             }
 
-<<<<<<< HEAD
             // determine what the current user is allowed to see
             // only managers are allowed to edit pages
             var pagesVisibility;
-            if ($.isEmptyObject(sakai.currentgroup.data)) {
+            if ($.isEmptyObject(sakai_global.currentgroup.data)) {
                 pagesVisibility = sakai.config.Permissions.Groups.visible["public"];
                 $settingsIcon.remove();
                 $settingsMenu.remove();
             } else {
-                pagesVisibility = sakai.currentgroup.data.authprofile["sakai:pages-visible"];
+                pagesVisibility = sakai_global.currentgroup.data.authprofile["sakai:pages-visible"];
             }
 
-            if (sakai.show.canEdit() === true) {
+            if (sakai_global.show.canEdit() === true) {
                 // current user is a manager
                 renderReadWritePages(selectedPageUrlName, site_info_object);
             } else if(pagesVisibility === sakai.config.Permissions.Groups.visible["public"] ||
                 (pagesVisibility === sakai.config.Permissions.Groups.visible.allusers && !sakai.data.me.user.anon) ||
-                (pagesVisibility === sakai.config.Permissions.Groups.visible.members && sakai.api.Groups.isCurrentUserAMember(sakai.currentgroup.id))) {
+                (pagesVisibility === sakai.config.Permissions.Groups.visible.members && sakai.api.Groups.isCurrentUserAMember(sakai_global.currentgroup.id, sakai.data.me))) {
                 // we have a non-manager that can only view pages, not edit
                 renderReadOnlyPages(selectedPageUrlName, site_info_object);
             } else {
@@ -870,34 +786,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 renderNoPages(false);
             }
         };
-=======
-        // determine what the current user is allowed to see
-        // only managers are allowed to edit pages
-        var pagesVisibility;
-        if ($.isEmptyObject(sakai_global.currentgroup.data)) {
-            pagesVisibility = sakai.config.Permissions.Groups.visible["public"];
-            $settingsIcon.remove();
-            $settingsMenu.remove();
-        } else {
-            pagesVisibility = sakai_global.currentgroup.data.authprofile["sakai:pages-visible"];
-        }
 
-        if (sakai.show.canEdit() === true) {
-            // current user is a manager
-            renderReadWritePages(selectedPageUrlName, site_info_object);
-        } else if(pagesVisibility === sakai.config.Permissions.Groups.visible["public"] ||
-            (pagesVisibility === sakai.config.Permissions.Groups.visible.allusers && !sakai.data.me.user.anon) ||
-            (pagesVisibility === sakai.config.Permissions.Groups.visible.members && sakai.api.Groups.isCurrentUserAMember(sakai_global.currentgroup.id))) {
-            // we have a non-manager that can only view pages, not edit
-            renderReadOnlyPages(selectedPageUrlName, site_info_object);
-        } else {
-            // we have a non-manager that is not allowed to view pages
-            renderNoPages(false);
-        }
-    };
->>>>>>> daa000a... requirejs wip on page js files
-
-        sakai.sitespages.navigation.addNode = function(nodeID, nodeTitle, nodePosition) {
+        sakai_global.sitespages.navigation.addNode = function(nodeID, nodeTitle, nodePosition) {
             if (nodeID && nodeTitle && nodePosition) {
                 var newNode = {
                     "children": [],
@@ -924,15 +814,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
-        sakai.sitespages.navigation.deleteNode = function(nodeID) {
+        sakai_global.sitespages.navigation.deleteNode = function(nodeID) {
             if (!$.bbq.getState("page")) {
-                $pageCount.html("(" + sakai.sitespages.site_info.number_of_pages() + ")");
-                var navigationData = convertToHierarchy(fullURLs(sakai.sitespages.site_info._pages));
+                $pageCount.html("(" + sakai_global.sitespages.site_info.number_of_pages() + ")");
+                var navigationData = convertToHierarchy(fullURLs(sakai_global.sitespages.site_info._pages));
                 sortOnPagePosition(navigationData);
 
                 // determine which page to initially select
                 var initiallySelect = navigationData[0].attr.id.toString().replace("nav_", "");
-                sakai.sitespages.navigation.selectNode(initiallySelect);
+                sakai_global.sitespages.navigation.selectNode(initiallySelect);
             }
             if (nodeID) {
                 var $nodeToDelete = $navigationTree.find("#nav_" + nodeID);
@@ -943,21 +833,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
-        sakai.sitespages.navigation.renameNode = function(nodeID, newLabel) {
+        sakai_global.sitespages.navigation.renameNode = function(nodeID, newLabel) {
             if (nodeID && newLabel) {
                 var $nodeToRename = $navigationTree.find("#nav_" + nodeID);
                 $navigationTree.jstree("rename_node", $nodeToRename, newLabel);
             }
         };
 
-        sakai.sitespages.navigation.selectNode = function(nodeID) {
+        sakai_global.sitespages.navigation.selectNode = function(nodeID) {
             if (nodeID) {
                 var $nodeToSelect = $navigationTree.find("#nav_" + nodeID);
                 $navigationTree.jstree("select_node", $nodeToSelect);
             }
         };
 
-        sakai.sitespages.navigation.deselectCurrentNode = function() {
+        sakai_global.sitespages.navigation.deselectCurrentNode = function() {
             $navigationTree.jstree("deselect_node", $navigationTree.jstree("get_selected"));
         };
 
@@ -967,11 +857,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         ///////////////////////
 
         // Render navigation when navigation widget is loaded
-        if (sakai.sitespages.isReady) {
-            sakai.sitespages.navigation.renderNavigation(sakai.sitespages.selectedpage, sakai.sitespages.site_info._pages);
+        if (sakai_global.sitespages.isReady) {
+            sakai_global.sitespages.navigation.renderNavigation(sakai_global.sitespages.selectedpage, sakai_global.sitespages.site_info._pages);
         } else {
             $(window).bind("sakai-sitespages-ready", function() {
-                sakai.sitespages.navigation.renderNavigation(sakai.sitespages.selectedpage, sakai.sitespages.site_info._pages);
+                sakai_global.sitespages.navigation.renderNavigation(sakai_global.sitespages.selectedpage, sakai_global.sitespages.site_info._pages);
             });
         }
 

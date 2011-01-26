@@ -132,7 +132,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         contentjson.items.push(parseDataResult(data.results[i]));
                     }
                     // pass the array to HTML view
-                    $(contentList, rootel).html($.TemplateRenderer($(listTemplate), contentjson));
+                    $(contentList, rootel).html(sakai.api.Util.TemplateRenderer($(listTemplate), contentjson));
                     $(contentList, rootel).show();
 
                     // make sure the newly added content is properly styled with

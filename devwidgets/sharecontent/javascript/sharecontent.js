@@ -306,7 +306,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     success: function(){
                         sakai.content_profile.content_data.data["sakai:permissions"] = selectedVal;
                         $(window).trigger("sakai-sharecontent-setGlobalPermission");
-                        $(sharecontentVisibilityHeader).html($.TemplateRenderer(sharecontentVisibilityHeaderTemplate, sakai));
+                        $(sharecontentVisibilityHeader).html(sakai.api.Util.TemplateRenderer(sharecontentVisibilityHeaderTemplate, sakai));
                         $(sharecontentPermissionSettingsContainer).jqmHide();
                         // Post activity
                         createActivity("__MSG__CHANGED_FILE_PERMISSIONS__");
@@ -366,7 +366,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     zIndex: 3100
                 });
 
-                $(sharecontentPermissionSettingsContainerContent).html($.TemplateRenderer(sharecontentPermissionSettingsTemplate, sakai.content_profile.content_data));
+                $(sharecontentPermissionSettingsContainerContent).html(sakai.api.Util.TemplateRenderer(sharecontentPermissionSettingsTemplate, sakai.content_profile.content_data));
                 $(sharecontentPermissionSettingsContainer).jqmShow();
 
                 $(sharecontentPermissionSettingsDontSave).bind("click", function(){
@@ -380,7 +380,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             $(sharecontentMessageLink).live("click", function(){
-                sakai.sendmessage.initialise(null, true, false, null, shareThroughInternalMessageSubject, shareThroughInternalMessageContent);
+                $(window).trigger("initialize.sendmessage.sakai", [null, true, false, null, shareThroughInternalMessageSubject, shareThroughInternalMessageContent]);
             });
 
             $(sharecontentEmailLink).live("click", function(){
@@ -542,7 +542,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // send the message if its not empty
             var messageText = $.trim($(sharecontentMessageNewMembers).val());
             if (messageText !== "") {
-                sakai.api.Communication.sendMessage(userList.list, sakai.api.i18n.Widgets.getValueForKey("sharecontent", "", "I_WANT_TO_SHARE") + " \"" + sakai.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"", messageText, false, false, false);
+                sakai.api.Communication.sendMessage(userList.list, sakai.data.me.user.userid, sakai.api.i18n.Widgets.getValueForKey("sharecontent", "", "I_WANT_TO_SHARE") + " \"" + sakai.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"", messageText, false, false, false);
             }
 
             var mode = $(sharecontentNewMembersPermissions).val();
@@ -574,7 +574,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             // bind elements, replace some text
             $sharecontent_i_want_to_share.html(sakai.api.i18n.Widgets.getValueForKey("sharecontent", "", "I_WANT_TO_SHARE") + " \"" + sakai.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"");
-            $(sharecontentBasicContainer).html($.TemplateRenderer(sharecontentBasicTemplate, sakai));
+            $(sharecontentBasicContainer).html(sakai.api.Util.TemplateRenderer(sharecontentBasicTemplate, sakai));
 
             // Inserts the listpeople widget
             sakai.api.Widgets.widgetLoader.insertWidgets(tuid);

@@ -45,8 +45,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
     sakai_global.listpeople = sakai.listpeople || {};
-    sakai.data.listpeople = sakai.data.listpeople || {};
-    sakai.config.listpeople = sakai.config.listpeople || {};
+    sakai_global.data = sakai_global.data || {};
+    sakai_global.data.listpeople = sakai_global.data.listpeople || {};
+    sakai_global.config = sakai_global.config || {};
+    sakai_global.config.listpeople = sakai_global.config.listpeople || {};
 
     sakai_global.listpeople = function(tuid, showSettings) {
 
@@ -83,9 +85,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $listpeople_content.unbind("scroll");
             $listpeople_sort_order.unbind("change");
 
-            sakai.data.listpeople[listType].selected = {};
-            sakai.data.listpeople[listType].currentElementCount = 0;
-            sakai.data.listpeople[listType].selectCount = 0;
+            sakai_global.data.listpeople[listType].selected = {};
+            sakai_global.data.listpeople[listType].currentElementCount = 0;
+            sakai_global.data.listpeople[listType].selectCount = 0;
         };
 
         /**
@@ -93,7 +95,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Renders the people lister with a specified set of data. The function uses
          * a search query initially, then does the paginating and subsequent requests
          * for data automatically
-         * @param iConfig {Object} Optional sakai.config.listpeople[listType] overrides
+         * @param iConfig {Object} Optional sakai_global.config.listpeople[listType] overrides
          * @param url {String} URL to request data from
          * @param id {String} Unique id related to the data we're listing
          * @returns void
@@ -102,18 +104,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (iTuid !== tuid) { return; }
             reset();
 
-            // Merge user defined sakai.config.listpeople[tuid] with defaults
+            // Merge user defined sakai_global.config.listpeople[tuid] with defaults
             for (var element in iConfig) {
                 if (iConfig.hasOwnProperty(element)) {
-                    sakai.config.listpeople[listType][element] = iConfig[element];
+                    sakai_global.config.listpeople[listType][element] = iConfig[element];
                 }
             }
 
-            if (sakai.config.listpeople[listType].items) {
+            if (sakai_global.config.listpeople[listType].items) {
                 if (url.indexOf("?", 0) > 0) {
-                    url = url + "&items=" + sakai.config.listpeople[listType].items;
+                    url = url + "&items=" + sakai_global.config.listpeople[listType].items;
                 } else {
-                    url = url + "?items=" + sakai.config.listpeople[listType].items;
+                    url = url + "?items=" + sakai_global.config.listpeople[listType].items;
                 }
             }
 
@@ -133,24 +135,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             if (data.managers.length !== 0) {
                                 for (var i in data.managers) {
                                     if (data.managers[i]["rep:userId"] === sakai.data.me.user.userid) {
-                                        sakai.config.listpeople[listType].anon = false;
+                                        sakai_global.config.listpeople[listType].anon = false;
                                         break;
                                     }
                                     else {
-                                        sakai.config.listpeople[listType].anon = true;
+                                        sakai_global.config.listpeople[listType].anon = true;
                                     }
                                 }
                             }
                             else {
-                                sakai.config.listpeople[listType].anon = true;
+                                sakai_global.config.listpeople[listType].anon = true;
                             }
                         } else {
-                            sakai.config.listpeople[listType].anon = true;
+                            sakai_global.config.listpeople[listType].anon = true;
 
                         }
 
                         // Check to set the buttons visible or invisible according to logged in user
-                        if (!sakai.config.listpeople[listType].anon) {
+                        if (!sakai_global.config.listpeople[listType].anon) {
                             $(".content_profile_list_buttons").show();
                         }
 
@@ -211,8 +213,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @returns void
          */
         var renderList = function(pageNumber, objects) {
-            sakai.data.listpeople[listType].userList = {};
-            sakai.data.listpeople[listType].total = 0;
+            sakai_global.data.listpeople[listType].userList = {};
+            sakai_global.data.listpeople[listType].total = 0;
             var rawData = objects;
 
             // main container
@@ -225,22 +227,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             addToList(rawData);
 
             var json_data = {
-                "userList" : sakai.data.listpeople[listType].userList,
-                "selectable" : sakai.config.listpeople[listType].selectable
+                "userList" : sakai_global.data.listpeople[listType].userList,
+                "selectable" : sakai_global.config.listpeople[listType].selectable
             };
 
             // Override selectable property if needed
             // This should be overridden when a user is not a manager of the content and set to false
-            if (sakai.config.listpeople[listType].anon){
+            if (sakai_global.config.listpeople[listType].anon){
                 json_data.selectable = false;
             }
             json_data.pageNumber = pageNumber;
 
             // Render the results data template
-            var pageHTML = $.TemplateRenderer($listpeople_content_pagetemplate, json_data);
+            var pageHTML = sakai.api.Util.TemplateRenderer($listpeople_content_pagetemplate, json_data);
 
             // Display count of items
-            $listpeople_count.html(sakai.data.listpeople[listType].total);
+            $listpeople_count.html(sakai_global.data.listpeople[listType].total);
 
             // Remove loading animation
             //$listpeople_page_container.removeClass("loadinganim");
@@ -249,7 +251,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $listpeople_container.html(pageHTML);
 
             // Wire item selection
-            if (sakai.config.listpeople[listType].selectable) {
+            if (sakai_global.config.listpeople[listType].selectable) {
 
                 $(".listpeople_page" + " li", $rootel).addClass("selectable");
                 $("#listpeople_page_" + pageNumber + " li", $rootel).bind("click", function(e){
@@ -259,17 +261,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         if ($(this).hasClass("listpeople_selected")) {
                             $(this).removeClass("listpeople_selected");
                             $(this).children("input").attr('checked', false);
-                            delete sakai.data.listpeople[listType]["selected"][$(this).attr("id")];
-                            sakai.data.listpeople[listType].selectCount -= 1;
+                            delete sakai_global.data.listpeople[listType]["selected"][$(this).attr("id")];
+                            sakai_global.data.listpeople[listType].selectCount -= 1;
                         } else {
                             // Add to selected list
                             $(this).addClass("listpeople_selected");
                             $(this).children("input").attr('checked', true);
-                            sakai.data.listpeople[listType].selectCount += 1;
+                            sakai_global.data.listpeople[listType].selectCount += 1;
 
-                            for (var i = 0; i < sakai.data.listpeople[listType].total; i++) {
-                                if (sakai.data.listpeople[listType].userList[$(this).attr("id")]['rep:userId'] == [$(this).attr("id")] || sakai.data.listpeople[listType].userList[$(this).attr("id")]['userid'] == [$(this).attr("id")] || sakai.data.listpeople[listType].userList[$(this).attr("id")]['sakai:group-id'] == [$(this).attr("id")] || sakai.data.listpeople[listType].userList[$(this).attr("id")]['content_id'] == [$(this).attr("id")]) {
-                                    sakai.data.listpeople[listType]["selected"][$(this).attr("id")] = sakai.data.listpeople[listType].userList[$(this).attr("id")];
+                            for (var i = 0; i < sakai_global.data.listpeople[listType].total; i++) {
+                                if (sakai_global.data.listpeople[listType].userList[$(this).attr("id")]['rep:userId'] == [$(this).attr("id")] || sakai_global.data.listpeople[listType].userList[$(this).attr("id")]['userid'] == [$(this).attr("id")] || sakai_global.data.listpeople[listType].userList[$(this).attr("id")]['sakai:group-id'] == [$(this).attr("id")] || sakai_global.data.listpeople[listType].userList[$(this).attr("id")]['content_id'] == [$(this).attr("id")]) {
+                                    sakai_global.data.listpeople[listType]["selected"][$(this).attr("id")] = sakai_global.data.listpeople[listType].userList[$(this).attr("id")];
                                 }
                             }
                         }
@@ -281,16 +283,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $listpeople_count_total.show();
                     $listpeople_count_selected.show();
                     $(".listpeople_page" + " li", $rootel).addClass("selectable");
-                    $listpeople_count.html(sakai.data.listpeople[listType].selectCount);
+                    $listpeople_count.html(sakai_global.data.listpeople[listType].selectCount);
                 });
             }
 
             //Update known total amount of displayed elements
-            sakai.data.listpeople[listType].currentElementCount += sakai.data.listpeople[listType].total;
+            sakai_global.data.listpeople[listType].currentElementCount += sakai_global.data.listpeople[listType].total;
 
             //Set search result count
             // If we know the exact total display it
-            $listpeople_count_total.html(sakai.data.listpeople[listType].total);
+            $listpeople_count_total.html(sakai_global.data.listpeople[listType].total);
 
             // Wire sorting select dropdown
             $listpeople_sort_order.bind("change", function(e){
@@ -299,7 +301,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             // sort list
-            sortList(pageNumber, sakai.config.listpeople[listType].sortOrder);
+            sortList(pageNumber, sakai_global.config.listpeople[listType].sortOrder);
             pagerClickHandler(1);
             // SAKIII-1714 - In IE7, the list didn't rerender properly. Adding in this
             // resolved the problem
@@ -312,7 +314,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         
         var pagerClickHandler = function(clicked){
-           if (sakai.data.listpeople[listType].total > totalResult) {
+           if (sakai_global.data.listpeople[listType].total > totalResult) {
                 var pageNumber = (parseInt(clicked, 10) - 1) * totalResult;
                 var listItems = $("#listpeople_page_0", $rootel).children('li');
                 
@@ -324,7 +326,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $(listItems).eq(i).show();
                 }
                 
-                var totalNumberItems = sakai.data.listpeople[listType].total;
+                var totalNumberItems = sakai_global.data.listpeople[listType].total;
                 $('.jq_pager', $rootel).pager({
                     pagenumber: pageNumber,
                     pagecount: Math.ceil(totalNumberItems / totalResult),
@@ -362,7 +364,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @returns array
          */
         sakai_global.listpeople.getSelection = function(iListType) {
-            return sakai.data.listpeople[iListType]["selected"];
+            return sakai_global.data.listpeople[iListType]["selected"];
         };
 
 
@@ -377,57 +379,57 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if(!$.isEmptyObject(object)){
                 // Get display name and subName for each user or group and add to the list object. This should also filter out the anonymous user
                 $.each(object.results, function(index, resultObject) {
-                    var iSubNameInfoGroup = sakai.config.listpeople[listType]["subNameInfoGroup"];
-                    var iSubNameInfoUser = sakai.config.listpeople[listType]["subNameInfoUser"];
-                    var iSubNameInfoContent = sakai.widgets.widgets.listpeople.subNameInfoContent;
+                    var iSubNameInfoGroup = sakai_global.config.listpeople[listType]["subNameInfoGroup"];
+                    var iSubNameInfoUser = sakai_global.config.listpeople[listType]["subNameInfoUser"];
+                    var iSubNameInfoContent = sakai.widgets.listpeople.subNameInfoContent;
                     if (resultObject.userid) {
                         // get user details
-                        sakai.data.listpeople[listType].userList[resultObject.userid] = resultObject;
-                        sakai.data.listpeople[listType].total += 1;
+                        sakai_global.data.listpeople[listType].userList[resultObject.userid] = resultObject;
+                        sakai_global.data.listpeople[listType].total += 1;
                         if (sakai.api.User.getDisplayName(resultObject)) {
-                            sakai.data.listpeople[listType].userList[resultObject.userid]["displayName"] = sakai.api.User.getDisplayName(resultObject);
+                            sakai_global.data.listpeople[listType].userList[resultObject.userid]["displayName"] = sakai.api.User.getDisplayName(resultObject);
                         } else if (resultObject["firstName"] && resultObject["lastName"]) {
-                            sakai.data.listpeople[listType].userList[resultObject.userid]["displayName"] = resultObject["firstName"] + ' ' + resultObject["lastName"];
+                            sakai_global.data.listpeople[listType].userList[resultObject.userid]["displayName"] = resultObject["firstName"] + ' ' + resultObject["lastName"];
                         } else {
-                            sakai.data.listpeople[listType].userList[resultObject.userid]["displayName"] = resultObject.userid;
+                            sakai_global.data.listpeople[listType].userList[resultObject.userid]["displayName"] = resultObject.userid;
                         }
                         if (resultObject.picture && typeof(resultObject.picture) === 'string') {
-                            sakai.data.listpeople[listType].userList[resultObject.userid]["picture"] = $.parseJSON(resultObject.picture);
+                            sakai_global.data.listpeople[listType].userList[resultObject.userid]["picture"] = $.parseJSON(resultObject.picture);
                         }
-                        if (!sakai.data.listpeople[listType].userList[resultObject.userid]["subNameInfo"]) {
-                            sakai.data.listpeople[listType].userList[resultObject.userid]["subNameInfo"] = resultObject[iSubNameInfoUser];
+                        if (!sakai_global.data.listpeople[listType].userList[resultObject.userid]["subNameInfo"]) {
+                            sakai_global.data.listpeople[listType].userList[resultObject.userid]["subNameInfo"] = resultObject[iSubNameInfoUser];
                         }
                     } else if (resultObject.groupid) {
                         // get group details
-                        sakai.data.listpeople[listType].userList[resultObject.groupid] = resultObject;
-                        sakai.data.listpeople[listType].total += 1;
+                        sakai_global.data.listpeople[listType].userList[resultObject.groupid] = resultObject;
+                        sakai_global.data.listpeople[listType].total += 1;
                         if (resultObject.picture && typeof(resultObject.picture) === 'string') {
-                            sakai.data.listpeople[listType].userList[resultObject.userid]["picture"] = $.parseJSON(resultObject.picture);
+                            sakai_global.data.listpeople[listType].userList[resultObject.userid]["picture"] = $.parseJSON(resultObject.picture);
                         }
-                        if (!sakai.data.listpeople[listType].userList[resultObject.groupid]["subNameInfo"]) {
-                            sakai.data.listpeople[listType].userList[resultObject.groupid]["subNameInfo"] = resultObject[iSubNameInfoGroup];
+                        if (!sakai_global.data.listpeople[listType].userList[resultObject.groupid]["subNameInfo"]) {
+                            sakai_global.data.listpeople[listType].userList[resultObject.groupid]["subNameInfo"] = resultObject[iSubNameInfoGroup];
                         }
                     } else if (resultObject['sakai:group-id']) {
                         // get group details
-                        sakai.data.listpeople[listType].userList[resultObject['sakai:group-id']] = resultObject;
-                        sakai.data.listpeople[listType].total += 1;
+                        sakai_global.data.listpeople[listType].userList[resultObject['sakai:group-id']] = resultObject;
+                        sakai_global.data.listpeople[listType].total += 1;
                         if (resultObject.picture && typeof(resultObject.picture) === 'string') {
-                            sakai.data.listpeople[listType].userList[resultObject['sakai:group-id']]["picture"] = $.parseJSON(resultObject.picture);
+                            sakai_global.data.listpeople[listType].userList[resultObject['sakai:group-id']]["picture"] = $.parseJSON(resultObject.picture);
                         }
-                        if (!sakai.data.listpeople[listType].userList[resultObject['sakai:group-id']]["subNameInfo"]) {
-                            sakai.data.listpeople[listType].userList[resultObject['sakai:group-id']]["subNameInfo"] = resultObject[iSubNameInfoGroup];
+                        if (!sakai_global.data.listpeople[listType].userList[resultObject['sakai:group-id']]["subNameInfo"]) {
+                            sakai_global.data.listpeople[listType].userList[resultObject['sakai:group-id']]["subNameInfo"] = resultObject[iSubNameInfoGroup];
                         }
                     } else if (sakai.api.User.getDisplayName(resultObject) && resultObject['rep:userId']) {
                         // get user details
-                        sakai.data.listpeople[listType].userList[resultObject['rep:userId']] = resultObject;
-                        sakai.data.listpeople[listType].userList[resultObject['rep:userId']]["displayName"] = sakai.api.User.getDisplayName(resultObject);
+                        sakai_global.data.listpeople[listType].userList[resultObject['rep:userId']] = resultObject;
+                        sakai_global.data.listpeople[listType].userList[resultObject['rep:userId']]["displayName"] = sakai.api.User.getDisplayName(resultObject);
                         if (resultObject.picture && typeof(resultObject.picture) === 'string') {
-                            sakai.data.listpeople[listType].userList[resultObject['rep:userId']]["picture"] = $.parseJSON(resultObject.picture);
+                            sakai_global.data.listpeople[listType].userList[resultObject['rep:userId']]["picture"] = $.parseJSON(resultObject.picture);
                         }
-                        if (!sakai.data.listpeople[listType].userList[resultObject['rep:userId']]["subNameInfo"]) {
-                            sakai.data.listpeople[listType].userList[resultObject['rep:userId']]["subNameInfo"] = resultObject[iSubNameInfoUser];
+                        if (!sakai_global.data.listpeople[listType].userList[resultObject['rep:userId']]["subNameInfo"]) {
+                            sakai_global.data.listpeople[listType].userList[resultObject['rep:userId']]["subNameInfo"] = resultObject[iSubNameInfoUser];
                         }
-                        sakai.data.listpeople[listType].total += 1;
+                        sakai_global.data.listpeople[listType].total += 1;
                     } else if (resultObject["jcr:primaryType"] === "sakai:pooled-content") {
                         // get content details
                         if (!resultObject["jcr:name"] && resultObject["content_id"]) {
@@ -441,18 +443,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             async: false,
                             success: function(data){
 
-                                sakai.data.listpeople[listType].userList[resultObject["jcr:name"]] = data;
-                                sakai.data.listpeople[listType].userList[resultObject["jcr:name"]]['content_id'] = resultObject["jcr:name"];
-                                sakai.data.listpeople[listType].total += 1;
+                                sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]] = data;
+                                sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]]['content_id'] = resultObject["jcr:name"];
+                                sakai_global.data.listpeople[listType].total += 1;
                                 if (sakai.config.MimeTypes[data["jcr:content"]["jcr:mimeType"]]) {
-                                    sakai.data.listpeople[listType].userList[resultObject["jcr:name"]]['avatar'] = sakai.config.MimeTypes[data["jcr:content"]["jcr:mimeType"]].URL;
-                                    sakai.data.listpeople[listType].userList[resultObject["jcr:name"]]['mimeTypeDescripton'] = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[data["jcr:content"]["jcr:mimeType"]].description);
+                                    sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]]['avatar'] = sakai.config.MimeTypes[data["jcr:content"]["jcr:mimeType"]].URL;
+                                    sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]]['mimeTypeDescripton'] = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[data["jcr:content"]["jcr:mimeType"]].description);
                                 } else {
-                                    sakai.data.listpeople[listType].userList[resultObject["jcr:name"]]['avatar'] = "/dev/images/mimetypes/empty.png";
-                                    sakai.data.listpeople[listType].userList[resultObject["jcr:name"]]['mimeTypeDescripton'] = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes.other.description);
+                                    sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]]['avatar'] = "/dev/images/mimetypes/empty.png";
+                                    sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]]['mimeTypeDescripton'] = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes.other.description);
                                 }
-                                if (!sakai.data.listpeople[listType].userList[resultObject["jcr:name"]]["subNameInfo"]) {
-                                    sakai.data.listpeople[listType].userList[resultObject["jcr:name"]]["subNameInfo"] = data[iSubNameInfoContent];
+                                if (!sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]]["subNameInfo"]) {
+                                    sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]]["subNameInfo"] = data[iSubNameInfoContent];
                                 }
                             }
                         });
@@ -468,11 +470,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @returns viod
          */
         sakai_global.listpeople.removeFromList = function() {
-            $.each(sakai.data.listpeople[listType]["selected"], function(index, resultObject) {
-                delete sakai.data.listpeople[listType].userList[index];
+            $.each(sakai_global.data.listpeople[listType]["selected"], function(index, resultObject) {
+                delete sakai_global.data.listpeople[listType].userList[index];
             });
             var tempList = {};
-            tempList.results = sakai.data.listpeople[listType].userList;
+            tempList.results = sakai_global.data.listpeople[listType].userList;
 
             reset();
 
@@ -489,14 +491,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(window).bind("sakai-listpeople-render", function(e, data) {
                 if (data.tuid === tuid) {
                     listType = data.listType;
-                    sakai.data.listpeople[listType] = {
+                    sakai_global.data.listpeople[listType] = {
                         "selected": {},
                         "currentElementCount": 0,
                         "selectCount": 0,
                         "total": 0,
                         "userList": {}
                     };
-                    sakai.config.listpeople[listType] = {
+                    sakai_global.config.listpeople[listType] = {
                         "items": 1000,
                         "selectable": false,
                         "sortOn": "lastName",
@@ -509,8 +511,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
             $(window).trigger("sakai-listpeople-ready", tuid);
             sakai_global.listpeople.isReady = true;
-            sakai.data.listpeople[tuid] = sakai.data.listpeople[tuid] || {};
-            sakai.data.listpeople[tuid].isReady = true;
+            sakai_global.data.listpeople[tuid] = sakai_global.data.listpeople[tuid] || {};
+            sakai_global.data.listpeople[tuid].isReady = true;
         };
         init();
 

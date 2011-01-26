@@ -72,7 +72,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 callback = renderDefaultPreview;
                 obj.type = "default";
             }
-            $.TemplateRenderer("contentpreview_widget_main_template", obj, $("#contentpreview_widget_main_container"));
+            sakai.api.Util.TemplateRenderer("contentpreview_widget_main_template", obj, $("#contentpreview_widget_main_container"));
             callback(arg);
         };
 
@@ -89,7 +89,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("#contentpreview_image_rendered").css("margin-top", "");
             var json = {};
             json.contentURL = contentURL || sakai.content_profile.content_data.path;
-            $.TemplateRenderer("contentpreview_image_template", json, $("#contentpreview_image_calculatesize"));
+            sakai.api.Util.TemplateRenderer("contentpreview_image_template", json, $("#contentpreview_image_calculatesize"));
             $("#contentpreview_image_rendered").bind('load', function(ev){
                 var width = $("#contentpreview_image_rendered").width();
                 var height = $("#contentpreview_image_rendered").height();
@@ -127,7 +127,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var renderHTMLPreview = function(){
             $(".contentpreview_html_preview").show();
-            $.TemplateRenderer("contentpreview_html_template", json, $("#contentpreview_html_preview"));
+            sakai.api.Util.TemplateRenderer("contentpreview_html_template", json, $("#contentpreview_html_preview"));
             $("#contentpreview_html_iframe").attr("src", sakai.content_profile.content_data.path);
             $("#contentpreview_html_iframe").attr("width", "640px");
             $("#contentpreview_html_iframe").attr("height", "390px");

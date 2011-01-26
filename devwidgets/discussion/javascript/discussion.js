@@ -383,7 +383,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (currentDisplayMode === 'full') {
 
                 // Render the compact view template
-                $(discussionContainer, rootel).html($.TemplateRenderer(discussionCompactContainerTemplate, event.data));
+                $(discussionContainer, rootel).html(sakai.api.Util.TemplateRenderer(discussionCompactContainerTemplate, event.data));
                 $('#discussion_post' + event.data.posts[0].post["sakai:id"]).show();
 
             }
@@ -406,7 +406,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             jsonPosts.curr = me;
 
             // Render the posts with the template engine
-            $(discussionContainer, rootel).html($.TemplateRenderer(discussionContainerTemplate, jsonPosts));
+            $(discussionContainer, rootel).html(sakai.api.Util.TemplateRenderer(discussionContainerTemplate, jsonPosts));
 
             currentDisplayMode = 'full';
         };
@@ -976,7 +976,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             }
                         }
 
-                        $(discussionSettingsExistingContainer, rootel).html($.TemplateRenderer(discussionSettingsExistingContainerTemplate, data));
+                        $(discussionSettingsExistingContainer, rootel).html(sakai.api.Util.TemplateRenderer(discussionSettingsExistingContainerTemplate, data));
                     }
                     else {
                         // No discussions available.
@@ -1262,35 +1262,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             $.post(store, {"sling:resourceType":"sakai/messagestore"} );
                         }
                     }
-<<<<<<< HEAD
                 });
-=======
-                }
-            });
-        }
-        var isGroup = false;
-        if (sakai_global.currentgroup && typeof sakai_global.currentgroup.id === "string") {
-            currentSite = sakai_global.currentgroup.id;
-            isGroup = true;
-        } else {
-            currentSite = sakai.profile.main.data["rep:userId"];
-        }
-        getWidgetSettings();
-        if (showSettings) {
-            $(discussionMainContainer, rootel).hide();
-            $(discussionSettings, rootel).show();
-            if (isGroup) {
-                $("#discussion_settings_visibility_group", rootel).show();
-            } else {
-                $("#discussion_settings_visibility_user", rootel).show();
->>>>>>> daa000a... requirejs wip on page js files
             }
             var isGroup = false;
-            if (sakai.currentgroup && typeof sakai.currentgroup.id === "string") {
-                currentSite = sakai.currentgroup.id;
+            if (sakai_global.currentgroup && typeof sakai_global.currentgroup.id === "string") {
+                currentSite = sakai_global.currentgroup.id;
                 isGroup = true;
             } else {
-                currentSite = sakai.profile.main.data["rep:userId"];
+                currentSite = sakai_global.profile.main.data["rep:userId"];
             }
             getWidgetSettings();
             if (showSettings) {
@@ -1308,7 +1287,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                 var canAddTopics = false;
                 if (isGroup) {
-                    if (sakai.api.Groups.isCurrentUserAManager(currentSite) || sakai.api.Groups.isCurrentUserAMember(currentSite)) {
+                    if (sakai.api.Groups.isCurrentUserAManager(currentSite, sakai.data.me) || sakai.api.Groups.isCurrentUserAMember(currentSite, sakai.data.me)) {
                         canAddTopics = true;
                     }
                 } else {

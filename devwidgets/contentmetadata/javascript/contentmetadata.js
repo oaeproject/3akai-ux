@@ -132,7 +132,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (mode) {
                 sakai.content_profile.content_data.mode = mode;
             }
-            $contentmetadataDescriptionContainer.html($.TemplateRenderer(contentmetadataDescriptionTemplate, sakai.content_profile.content_data));
+            $contentmetadataDescriptionContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataDescriptionTemplate, sakai.content_profile.content_data));
             addEditBinding(mode);
         };
     
@@ -170,7 +170,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var renderTags = function(mode){
             sakai.content_profile.content_data.mode = mode;
-            $contentmetadataTagsContainer.html($.TemplateRenderer(contentmetadataTagsTemplate, sakai.content_profile.content_data));
+            $contentmetadataTagsContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataTagsTemplate, sakai.content_profile.content_data));
             addEditBinding(mode);
         };
     
@@ -180,7 +180,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var renderCopyright = function(mode){
             sakai.content_profile.content_data.mode = mode;
-            $contentmetadataCopyrightContainer.html($.TemplateRenderer(contentmetadataCopyrightTemplate, sakai.content_profile.content_data));
+            $contentmetadataCopyrightContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataCopyrightTemplate, sakai.content_profile.content_data));
             addEditBinding(mode);
         };
     
@@ -190,7 +190,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var renderDetails = function(mode){
             sakai.content_profile.content_data.mode = mode;
-            $contentmetadataDetailsContainer.html($.TemplateRenderer(contentmetadataDetailsTemplate, sakai.content_profile.content_data));
+            $contentmetadataDetailsContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataDetailsTemplate, sakai.content_profile.content_data));
             addEditBinding(mode);
         };
     
@@ -219,7 +219,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             else {
                 $contentmetadataLocationsContainer.html("");
                 sakai.content_profile.content_data.mode = mode;
-                $contentmetadataLocationsContainer.html($.TemplateRenderer(contentmetadataLocationsTemplate, sakai.content_profile.content_data));
+                $contentmetadataLocationsContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataLocationsTemplate, sakai.content_profile.content_data));
                 applyThreeDots();
             }
         };
@@ -387,7 +387,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 sakai.filerevisions.initialise(sakai.content_profile.content_data);
             });
         };
-    
+
         /**
          * Initialize the widget
          */
@@ -398,79 +398,36 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             renderCopyright(false);
             renderLocations(false);
             renderDetails(false);
-    
+
             // Add binding
             addBinding();
         };
-    
+
         $(window).bind("sakai-fileupload-complete", function(){
             sakai.content_profile.loadContentProfile(renderDetails);
         });
-    
+
         $(window).bind("sakai-contentmetadata-renderlocations", function(ev, val){
             sakai.content_profile.content_data.saveddirectory = val.saveddirectory;
             sakai.content_profile.content_data.data["sakai:tags"] = val.tags;
             renderLocations(false);
         });
-    
+
         // Bind Enter key to input fields to save on keyup
         $("input").bind("keyup", function(ev){
             if(ev.keyCode == 13){
                 $(this).blur();
             }
         });
-<<<<<<< HEAD
-    
+
         /**
          * Initialize the widget from outside of the widget
          */
         sakai.api.UI.contentmetadata.render = function(){
             doInit();
         };
-    
+
         sakai_global.contentmetadata.isReady = true;
-=======
-    };
-
-    /**
-     * Initialize the widget
-     */
-    var doInit = function(){
-        // Render all information
-        renderDescription(false);
-        renderTags(false);
-        renderCopyright(false);
-        renderLocations(false);
-        renderDetails(false);
-
-        // Add binding
-        addBinding();
-    };
-
-    $(window).bind("sakai-fileupload-complete", function(){
-        $(window).bind("load.content_profile.sakai", function(success) {
-            renderDetails(success);
-        });
-    });
-
-    $(window).bind("sakai-contentmetadata-renderlocations", function(ev, val){
-        sakai.content_profile.content_data.saveddirectory = val.saveddirectory;
-        sakai.content_profile.content_data.data["sakai:tags"] = val.tags;
-        renderLocations(false);
-    });
-
-    // Bind Enter key to input fields to save on keyup
-    $("input").bind("keyup", function(ev){
-        if(ev.keyCode == 13){
-            $(this).blur();
-        }
-    });
-
-    /**
-     * Initialize the widget from outside of the widget
-     */
-    sakai.api.UI.contentmetadata.render = function(){
->>>>>>> daa000a... requirejs wip on page js files
         doInit();
     
     };

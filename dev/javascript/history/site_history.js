@@ -8,11 +8,11 @@ var History = {
         var url = e.fragment;
         if (url != History.prev_url){ // should be checking individual params, not just the string composition
             if (url){
-                if (sakai.sitespages.openPageH) {
+                if (sakai_global.sitespages.openPageH) {
                     if ($.bbq.getState("page") === "") {
-                        sakai.sitespages.openPageH(url);
+                        sakai_global.sitespages.openPageH(url);
                     } else {
-                        sakai.sitespages.openPageH($.bbq.getState("page"));
+                        sakai_global.sitespages.openPageH($.bbq.getState("page"));
                     }
                     History.prev_url = url;
                 } else { // is hasn't loaded in yet, so lets try every 10ms, using the jQuery animate version of setTimeout
@@ -21,7 +21,7 @@ var History = {
                     });
                 }
             } else {
-                sakai.sitespages.openPageH();
+                sakai_global.sitespages.openPageH();
                 History.prev_url = url;
             }
         }

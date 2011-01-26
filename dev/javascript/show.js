@@ -224,7 +224,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     }
                     break;
                 case "group":
-                    if (sakai.api.Groups.isCurrentUserAManager(sakai_global.currentgroup.id)) {
+                    if (sakai.api.Groups.isCurrentUserAManager(sakai_global.currentgroup.id, sakai.data.me)) {
                         sakai_global.currentgroup.manager = true;
                         canEdit = true;
                     }
@@ -281,7 +281,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             var url = "/~" + entityID;
             var editMode = sakai_global.currentgroup.manager || sakai_global.profile.main.isme;
             var homePage = "";
-            sakai.sitespages.doInit(basepath, fullpath, url, canEdit, homePage, entityType+"pages", entityType+"dashboard");
+            $(window).trigger("init.sitespages.sakai", [basepath, fullpath, url, canEdit, homePage, entityType+"pages", entityType+"dashboard"]);
         };
 
         $(window).bind("sakai.api.UI.entity.ready", function(e){
@@ -291,7 +291,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
         });
 
-        $(window).bind("sakai.sitespages.ready", function(e){
+        $(window).bind("sakai_global.sitespages.ready", function(e){
             pagesWidgetReady = true;
             if (entityDataReady && !renderedPagesWidget) {
                 loadPagesWidget();

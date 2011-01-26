@@ -104,7 +104,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     sakai_global.currentgroup.id = groupid;
                     sakai_global.currentgroup.data = data;
                     sakai_global.currentgroup.data["sakai:group-id"] = groupid;
-                    if (sakai.api.Groups.isCurrentUserAManager(groupid)) {
+                    if (sakai.api.Groups.isCurrentUserAManager(groupid, sakai.data.me)) {
                         triggerEditable(true);
                     }
                     if (readyToRender && !hasRendered) {
@@ -140,9 +140,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * When the Basic Group Info widget has finished updating the group details, it will come
          * back to this function
          */
-        $(window).bind("sakai.groupbasicinfo.updateFinished", function () {
+        $(window).bind("sakai_global.groupbasicinfo.updateFinished", function () {
             // enable group basic info input elements
-            sakai.api.UI.groupbasicinfo.enableInputElements();
+            sakai_global.groupbasicinfo.enableInputElements();
             // Show a notification on the screen
             sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_basic_info_text").text()),
                                              sakai.api.Security.saneHTML($("#group_edit_updated_successfully_text").text()),
@@ -417,8 +417,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          */
         var getManagers = function() {
             var list = [];
-            for (var j in sakai.data.listpeople["managers"]["userList"]) {
-                if (sakai.data.listpeople["managers"]["userList"].hasOwnProperty(j)) {
+            for (var j in sakai_global.data.listpeople["managers"]["userList"]) {
+                if (sakai_global.data.listpeople["managers"]["userList"].hasOwnProperty(j)) {
                     list.push(j);
                 }
             }
@@ -543,7 +543,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             groupid = getGroupId();
 
             // check to see whether this user is authorized to see this page
-            if (sakai.api.Groups.isCurrentUserAManager(groupid)) {
+            if (sakai.api.Groups.isCurrentUserAManager(groupid, sakai.data.me)) {
                 if (groupid) {
                     getGroupData(groupid);
                 }

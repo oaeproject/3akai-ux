@@ -50,7 +50,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var userprofile;
         var querystring; // Variable that will contain the querystring object of the page
         var authprofileURL;
-        var readySections = []; // Profile sections that have saved their data to sakai.profile.main
+        var readySections = []; // Profile sections that have saved their data to sakai_global.profile.main
 
         ///////////////////
         // CSS SELECTORS //
@@ -86,16 +86,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var setProfileMode = function(mode){
 
             // Check the mode parameter
-            if ($.inArray(mode, sakai.profile.main.mode.options) !== -1) {
+            if ($.inArray(mode, sakai_global.profile.main.mode.options) !== -1) {
 
                 // Set the correct profile mode
-                sakai.profile.main.mode.value = mode;
+                sakai_global.profile.main.mode.value = mode;
 
             }
             else {
 
                 // Use the standard profile mode
-                sakai.profile.main.mode.value = sakai.profile.main.mode.options[0];
+                sakai_global.profile.main.mode.value = sakai_global.profile.main.mode.options[0];
 
                 // Print a log message that the supplied mode isn't valid
                 debug.info("profile - setProfileMode - the supplied mode '" + mode + "' is not a valid profile mode. Using the default mode instead");
@@ -124,17 +124,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var changeProfileMode = function(mode){
 
              // Check the mode parameter
-            if ($.inArray(mode, sakai.profile.main.mode.options) !== -1) {
+            if ($.inArray(mode, sakai_global.profile.main.mode.options) !== -1) {
 
                 // Perform the redirect
                 //window.location = window.location.pathname + "?mode=" + mode; // TODO fix this, jquery.bbq it, and do not force a refresh
 
                 switch (mode) {
                     case "edit":
-                        window.location = sakai.config.URL.PROFILE_EDIT_URL + "?user=" + sakai.profile.main.currentuser;
+                        window.location = sakai.config.URL.PROFILE_EDIT_URL + "?user=" + sakai_global.profile.main.currentuser;
                         break;
                     case "view":
-                        window.location = "/~" + sakai.profile.main.currentuser;
+                        window.location = "/~" + sakai_global.profile.main.currentuser;
                         break;
                 }
             }
@@ -151,12 +151,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Check whether there is a user parameter in the querystring,
             // if so, check whether the userid is not the same as the user parameter
             if (querystring.contains("user") && querystring.get("user") !== sakai.data.me.user.userid) {
-                sakai.profile.main.isme = false;
-                sakai.profile.main.currentuser = querystring.get("user");
+                sakai_global.profile.main.isme = false;
+                sakai_global.profile.main.currentuser = querystring.get("user");
             }
             else {
-                sakai.profile.main.isme = true;
-                sakai.profile.main.currentuser = sakai.data.me.user.userid;
+                sakai_global.profile.main.isme = true;
+                sakai_global.profile.main.currentuser = sakai.data.me.user.userid;
             }
 
         };
@@ -165,9 +165,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Checks if the user has a custom profile type set
          */
         var checkProfileType = function() {
-            var userType = sakai.profile.main.data.userType;
+            var userType = sakai_global.profile.main.data.userType;
             if (userType && sakai.config.Profile.configuration[userType]) {
-                sakai.profile.main.config = sakai.config.Profile.configuration[userType];
+                sakai_global.profile.main.config = sakai.config.Profile.configuration[userType];
             }
         };
 
@@ -176,7 +176,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var constructACL = function(){
 
-            sakai.profile.main.acls = {
+            sakai_global.profile.main.acls = {
                 "options": {
                     "everybody": {
                         "label": "__MSG__EVERYBODY__",
@@ -187,10 +187,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             "principalId": "everyone",
                             "privilege@jcr:read": "granted"
                         }, {
-                            "principalId": "g-contacts-" + sakai.profile.main.currentuser,
+                            "principalId": "g-contacts-" + sakai_global.profile.main.currentuser,
                             "privilege@jcr:read": "granted"
                         }, {
-                            "principalId": sakai.profile.main.currentuser,
+                            "principalId": sakai_global.profile.main.currentuser,
                             "privilege@jcr:read": "granted",
                             "privilege@jcr:write": "granted"
                         }]
@@ -204,10 +204,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             "principalId": "everyone",
                             "privilege@jcr:read": "granted"
                         }, {
-                            "principalId": "g-contacts-" + sakai.profile.main.currentuser,
+                            "principalId": "g-contacts-" + sakai_global.profile.main.currentuser,
                             "privilege@jcr:read": "none"
                         }, {
-                            "principalId": sakai.profile.main.currentuser,
+                            "principalId": sakai_global.profile.main.currentuser,
                             "privilege@jcr:read": "granted",
                             "privilege@jcr:write": "granted"
                         }]
@@ -221,10 +221,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             "principalId": "everyone",
                             "privilege@jcr:read": "denied"
                         }, {
-                            "principalId": "g-contacts-" + sakai.profile.main.currentuser,
+                            "principalId": "g-contacts-" + sakai_global.profile.main.currentuser,
                             "privilege@jcr:read": "granted"
                         }, {
-                            "principalId": sakai.profile.main.currentuser,
+                            "principalId": sakai_global.profile.main.currentuser,
                             "privilege@jcr:read": "granted",
                             "privilege@jcr:write": "granted"
                         }]
@@ -238,10 +238,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             "principalId": "everyone",
                             "privilege@jcr:read": "denied"
                         }, {
-                            "principalId": "g-contacts-" + sakai.profile.main.currentuser,
+                            "principalId": "g-contacts-" + sakai_global.profile.main.currentuser,
                             "privilege@jcr:read": "denied"
                         }, {
-                            "principalId": sakai.profile.main.currentuser,
+                            "principalId": sakai_global.profile.main.currentuser,
                             "privilege@jcr:read": "granted",
                             "privilege@jcr:write": "granted"
                         }]
@@ -304,22 +304,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "url": authprofileURL + ".deleteAce.html",
                 "method": "POST",
                 "parameters": {
-                    ":applyTo": [sakai.profile.main.currentuser, "anonymous", "everyone"]
+                    ":applyTo": [sakai_global.profile.main.currentuser, "anonymous", "everyone"]
                 }
             };
 
             // Run over all the elements in the config file
-            for (var i in sakai.profile.main.config) {
-                if (sakai.profile.main.config.hasOwnProperty(i) && $.isPlainObject(sakai.profile.main.config[i])) {
+            for (var i in sakai_global.profile.main.config) {
+                if (sakai_global.profile.main.config.hasOwnProperty(i) && $.isPlainObject(sakai_global.profile.main.config[i])) {
 
                     // Create a sectionobject for caching purposes
-                    var sectionObject = sakai.profile.main.data[i];
+                    var sectionObject = sakai_global.profile.main.data[i];
 
                     // Check whether it is also in the data object
-                    if (sakai.profile.main.data[i] && $.isPlainObject(sakai.profile.main.data[i])) {
+                    if (sakai_global.profile.main.data[i] && $.isPlainObject(sakai_global.profile.main.data[i])) {
 
                         // Array containing the postparams for the specific access property
-                        var aclArray = sakai.profile.main.acls.options[sectionObject.access].postparams;
+                        var aclArray = sakai_global.profile.main.acls.options[sectionObject.access].postparams;
 
                         // Run over all the elements in the array
                         for (var j = 0, jl = aclArray.length; j < jl; j++) {
@@ -367,7 +367,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     sakai.api.Util.notification.show("", $profile_error_form_error_server.text() , sakai.api.Util.notification.type.ERROR);
 
                     // Log an error message
-                    debug.error("sakai.profile - saveProfileACL - the profile ACL's couldn't be saved successfully");
+                    debug.error("sakai_global.profile - saveProfileACL - the profile ACL's couldn't be saved successfully");
 
                 }
             });
@@ -392,8 +392,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
 
             // if all sections are ready, we'll pass over this loop. otherwise, return and wait
-            for (var i in sakai.profile.main.config) {
-                if (sakai.profile.main.config.hasOwnProperty(i)) {
+            for (var i in sakai_global.profile.main.config) {
+                if (sakai_global.profile.main.config.hasOwnProperty(i)) {
                     if ($.inArray(i, readySections) < 0) {
                         return;
                     }
@@ -401,10 +401,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
 
             // Filter some JCR properties
-            filterJCRProperties(sakai.profile.main.data);
+            filterJCRProperties(sakai_global.profile.main.data);
 
             // Save the profile properties
-            sakai.api.Server.saveJSON(authprofileURL, sakai.profile.main.data, function(success, data){
+            sakai.api.Server.saveJSON(authprofileURL, sakai_global.profile.main.data, function(success, data){
 
                 // Check whether is was successful
                 if (success) {
@@ -419,7 +419,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     sakai.api.Util.notification.show("", $profile_error_form_error_server.text() , sakai.api.Util.notification.type.ERROR);
 
                     // Log an error message
-                    debug.error("sakai.profile - saveProfileData - the profile data couldn't be saved successfully");
+                    debug.error("sakai_global.profile - saveProfileData - the profile data couldn't be saved successfully");
 
                 }
 
@@ -529,11 +529,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Create a JSON object to pass the sectionname along
             // Trimpath needs an object to be passed (not only a variable)
             var sectionobject = {
-                "sectionname": "profilesection-" + sectionname
+                "sectionname": "profilesection-" + sectionname,
+                sakai: sakai
             };
 
             // Construct the html for the widget
-            var toAppend = $.TemplateRenderer($profile_sectionwidgets_container_template, sectionobject);
+            var toAppend = sakai.api.Util.TemplateRenderer($profile_sectionwidgets_container_template, sectionobject);
             $profile_sectionwidgets_container.append(toAppend);
 
             // Bind a global event that can be triggered by the profilesection widgets
@@ -552,8 +553,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var insertProfileSectionWidgets = function(){
 
-            for(var i in sakai.profile.main.config){
-                if(sakai.profile.main.config.hasOwnProperty(i)){
+            for(var i in sakai_global.profile.main.config){
+                if(sakai_global.profile.main.config.hasOwnProperty(i)){
 
                     // Insert a separate widget for each profile section widget
                     insertProfileSectionWidget(i);
@@ -569,14 +570,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var renderTemplateFooter = function(){
 
             // Render the profile footer
-            $profile_footer.html($.TemplateRenderer($profile_footer_template, sakai.profile.main));
+            $profile_footer.html(sakai.api.Util.TemplateRenderer($profile_footer_template, sakai_global.profile.main));
 
         };
 
         var renderTemplateActions = function(){
 
             // Render the actions for the profile
-            $.TemplateRenderer($profile_actions_template, sakai.profile.main, $profile_actions);
+            sakai.api.Util.TemplateRenderer($profile_actions_template, sakai_global.profile.main, $profile_actions);
 
         };
 
@@ -615,7 +616,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             setIsMe();
 
             // Construct the authprofile URL
-            authprofileURL = "/~" + sakai.profile.main.currentuser + "/public/authprofile";
+            authprofileURL = "/~" + sakai_global.profile.main.currentuser + "/public/authprofile";
 
             // Construct the ACL list
             constructACL();

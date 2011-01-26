@@ -109,7 +109,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var renderTemplate = function(){
 
-            $.TemplateRenderer($uploadcontent_main_container_template, {}, $uploadcontent_main_container);
+            sakai.api.Util.TemplateRenderer($uploadcontent_main_container_template, {}, $uploadcontent_main_container);
 
             // Show the main container
             $uploadcontent_main_container.show();
