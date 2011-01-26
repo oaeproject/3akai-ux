@@ -16,118 +16,127 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config, jQuery, sakai */
-
-/**
- * @name sakai.recentmessages
+/*
+ * Dependencies
  *
- * @class recentmessages
- *
- * @description
- * Initialize the recentmessages widget
- *
- * @version 0.0.1
- * @param {String} tuid Unique id of the widget
- * @param {Boolean} showSettings Show the settings of the widget or not
+ * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
+ * /dev/lib/jquery/plugins/jquery.threedots.js (ThreeDots)
  */
-sakai.recentmessages = function(tuid, showSettings){
 
-
-    /////////////////////////////
-    // Configuration variables //
-    /////////////////////////////
-
-    var rootel = $("#" + tuid);
-
-    // IDs
-    var $recentmessagesContainer = $("#recentmessages_container", rootel);
-    var $recentmessagesErrorNomessages = $("#recentmessages_error_nomessages", rootel);
-    var $recentmessagesErrorNotConnected = $("#recentmessages_error_notconnected", rootel);
-    var $recentmessagesListItems = $("#recentmessages_container ul li a", rootel);
-    var recentmessagesTemplate = "recentmessages_template";
-
-
-    ///////////////////////
-    // Utility functions //
-    ///////////////////////
+require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     /**
-     * Render the json object in the browser.
-     * @param {Object|String} response
-     *     This is the json response from the server.
-     *     If this parameter is a string, it is an error.
+     * @name sakai_global.recentmessages
+     *
+     * @class recentmessages
+     *
+     * @description
+     * Initialize the recentmessages widget
+     *
+     * @version 0.0.1
+     * @param {String} tuid Unique id of the widget
+     * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    var renderRecentMessages = function(response){
+    sakai_global.recentmessages = function(tuid, showSettings){
 
-        if(response === "NOT_CONNECTED"){
 
-            // If it wasn't possible to connect to the server, show the not connected error
-            $recentmessagesContainer.html($recentmessagesErrorNotConnected);
-        } else if (response.total === 0){
+        /////////////////////////////
+        // Configuration variables //
+        /////////////////////////////
 
-            // If the user doesn't have any messages, show the no messages error.
-            $recentmessagesContainer.html($recentmessagesErrorNomessages);
-        } else {
+        var rootel = $("#" + tuid);
 
-            // Only if everything went fine, show the recent messages
-            $recentmessagesContainer.html($.TemplateRenderer(recentmessagesTemplate, response));
+        // IDs
+        var $recentmessagesContainer = $("#recentmessages_container", rootel);
+        var $recentmessagesErrorNomessages = $("#recentmessages_error_nomessages", rootel);
+        var $recentmessagesErrorNotConnected = $("#recentmessages_error_notconnected", rootel);
+        var $recentmessagesListItems = $("#recentmessages_container ul li a", rootel);
+        var recentmessagesTemplate = "recentmessages_template";
 
-            // Activate the ThreeDots plug-in
-            $("#recentmessages_container ul li a", rootel).ThreeDots({max_rows:1});
-        }
-    };
 
-    /**
-     * Load the recent messages for the current user
-     * @param {Object|Boolean} response
-     *     The response that the server has send.
-     *     If the response is false, it means we were not able to connect to the server
-     */
-    var loadRecentMessages = function(response){
+        ///////////////////////
+        // Utility functions //
+        ///////////////////////
 
-        // Check if the request was successful
-        if (response) {
+        /**
+         * Render the json object in the browser.
+         * @param {Object|String} response
+         *     This is the json response from the server.
+         *     If this parameter is a string, it is an error.
+         */
+        var renderRecentMessages = function(response){
 
-            // Render the recent message for the current user.
-            renderRecentMessages(response);
-        }else {
-            renderRecentMessages("NOT_CONNECTED");
-        }
-    };
+            if(response === "NOT_CONNECTED"){
 
-    /**
-     * Send a request to the message service.to get your recent messages
-     */
-    var doInit = function() {
+                // If it wasn't possible to connect to the server, show the not connected error
+                $recentmessagesContainer.html($recentmessagesErrorNotConnected);
+            } else if (response.total === 0){
 
-        // Set a params object to set which params should be passed into the request
-        var params = $.param({
-            box: "inbox",
-            items: 4,
-            sortOn: "sakai:created",
-            sortOrder: "descending",
-            page: 0
-        });
+                // If the user doesn't have any messages, show the no messages error.
+                $recentmessagesContainer.html($recentmessagesErrorNomessages);
+            } else {
 
-        // Fire an Ajax request to get the recent messages for the current user
-        $.ajax({
-            url: sakai.config.URL.MESSAGE_BOX_SERVICE + "?" + params,
-            cache: false,
-            success: function(data){
-                loadRecentMessages(data);
-            },
-            error: function() {
-                loadRecentMessages(false);
+                // Only if everything went fine, show the recent messages
+                $recentmessagesContainer.html(sakai.api.Util.TemplateRenderer(recentmessagesTemplate, response));
+
+                // Activate the ThreeDots plug-in
+                $("#recentmessages_container ul li a", rootel).ThreeDots({max_rows:1});
             }
-        });
+        };
+
+        /**
+         * Load the recent messages for the current user
+         * @param {Object|Boolean} response
+         *     The response that the server has send.
+         *     If the response is false, it means we were not able to connect to the server
+         */
+        var loadRecentMessages = function(response){
+
+            // Check if the request was successful
+            if (response) {
+
+                // Render the recent message for the current user.
+                renderRecentMessages(response);
+            }else {
+                renderRecentMessages("NOT_CONNECTED");
+            }
+        };
+
+        /**
+         * Send a request to the message service.to get your recent messages
+         */
+        var doInit = function() {
+
+            // Set a params object to set which params should be passed into the request
+            var params = $.param({
+                box: "inbox",
+                items: 4,
+                sortOn: "sakai:created",
+                sortOrder: "descending",
+                page: 0
+            });
+
+            // Fire an Ajax request to get the recent messages for the current user
+            $.ajax({
+                url: sakai.config.URL.MESSAGE_BOX_SERVICE + "?" + params,
+                cache: false,
+                success: function(data){
+                    loadRecentMessages(data);
+                },
+                error: function() {
+                    loadRecentMessages(false);
+                }
+            });
+        };
+
+
+        ////////////////////
+        // Event Handlers //
+        ////////////////////
+
+        doInit();
+
     };
+    sakai.api.Widgets.widgetLoader.informOnLoad("recentmessages");
 
-
-    ////////////////////
-    // Event Handlers //
-    ////////////////////
-
-    doInit();
-
-};
-sakai.api.Widgets.widgetLoader.informOnLoad("recentmessages");
+});

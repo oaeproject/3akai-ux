@@ -17,66 +17,67 @@
  */
 
 // load the master sakai object to access all Sakai OAE API methods
-var sakai = sakai || {};
- 
-/**
- * @name sakai.WIDGET_ID
- *
- * @class WIDGET_ID
- *
- * @description
- * WIDGET DESCRIPTION
- *
- * @version 0.0.1
- * @param {String} tuid Unique id of the widget
- * @param {Boolean} showSettings Show the settings of the widget or not
- */
-sakai.WIDGET_ID = function (tuid, showSettings) {
+require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      
-    /////////////////////////////
-    // Configuration variables //
-    /////////////////////////////
-
-
-
-    ///////////////////////
-    // Utility functions //
-    ///////////////////////
-
-
-
-    /////////////////////////
-    // Main View functions //
-    /////////////////////////
-
-
-
-    /////////////////////////////
-    // Settings View functions //
-    /////////////////////////////
-
-
-
-    ////////////////////
-    // Event Handlers //
-    ////////////////////
-
-
-
-    /////////////////////////////
-    // Initialization function //
-    /////////////////////////////
-    
     /**
-     * Initialization function DOCUMENTATION
+     * @name sakai.WIDGET_ID
+     *
+     * @class WIDGET_ID
+     *
+     * @description
+     * WIDGET DESCRIPTION
+     *
+     * @version 0.0.1
+     * @param {String} tuid Unique id of the widget
+     * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    var doInit = function () {
-        // your widget initialization code here
-    };
-    
-    // run the initialization function when the widget object loads
-    doInit();
-};
+    sakai_global.WIDGET_ID = function (tuid, showSettings) {
+         
+        /////////////////////////////
+        // Configuration variables //
+        /////////////////////////////
 
-// inform Sakai OAE that this widget has loaded and is ready to run
-sakai.api.Widgets.widgetLoader.informOnLoad("WIDGET_ID");
+
+
+        ///////////////////////
+        // Utility functions //
+        ///////////////////////
+
+
+
+        /////////////////////////
+        // Main View functions //
+        /////////////////////////
+
+
+
+        /////////////////////////////
+        // Settings View functions //
+        /////////////////////////////
+
+
+
+        ////////////////////
+        // Event Handlers //
+        ////////////////////
+
+
+
+        /////////////////////////////
+        // Initialization function //
+        /////////////////////////////
+        
+        /**
+         * Initialization function DOCUMENTATION
+         */
+        var doInit = function () {
+            // your widget initialization code here
+        };
+        
+        // run the initialization function when the widget object loads
+        doInit();
+    };
+
+    // inform Sakai OAE that this widget has loaded and is ready to run
+    sakai.api.Widgets.widgetLoader.informOnLoad("WIDGET_ID");
+});

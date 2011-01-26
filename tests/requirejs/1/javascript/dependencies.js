@@ -30,5 +30,14 @@ require(["order!jquery",
     "order!/dev/lib/jquery/plugins/jquery.form.js",
     "order!/dev/lib/jquery/plugins/jquery.MultiFile.js",
     "order!/dev/lib/jquery/plugins/jsTree/jquery.jstree.sakai-edit.js",
-    "order!/dev/lib/jquery/plugins/gritter/jquery.gritter.js"
- ]);
+    "order!/dev/lib/jquery/plugins/gritter/jquery.gritter.js",
+    "order!/dev/requirejs/lib/core.js"
+    
+    ], function(){
+        require.ready(function(){
+            debug.log("dependencies.js ready");
+                        
+            //require(["/dev/requirejs/javascript/page.js"]);
+        });
+    }
+);

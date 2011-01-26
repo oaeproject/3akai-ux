@@ -153,7 +153,7 @@
 								// Create a wrapper for the list
 								// * OPERA BUG: NO_MODIFICATION_ALLOWED_ERR ('list' is a read-only property)
 								// this change allows us to keep the files in the order they were selected
-								MultiFile.wrapper.append( '<div class="MultiFile-list" id="'+MultiFile.wrapID+'_list"><p id="fileupload_filename_label">' + sakai.api.i18n.General.getValueForKey('SELECTED_FILES_TO_UPLOAD') + ':</p></div>' );
+								MultiFile.wrapper.append( '<div class="MultiFile-list" id="'+MultiFile.wrapID+'_list"></div>' );
 								MultiFile.list = $('#'+MultiFile.wrapID+'_list');
 							};
        MultiFile.list = $(MultiFile.list);
@@ -292,7 +292,7 @@
        // Add a new file to the list
        MultiFile.addToList = function( slave, slave_count ){
         // increase number of selected files
-        sakai.fileupload.increaseSelectedFiles();
+        $(window).trigger("increaseSelectedFiles.fileupload.sakai");
 
         //if(window.console) console.log('MultiFile.addToList',slave_count);
 
@@ -316,7 +316,7 @@
 
         b
 								.click(function(){
-          sakai.fileupload.decreaseSelectedFiles();
+          $(window).trigger("decreaseSelectedFiles.fileupload.sakai");
           //# Trigger Event! onFileRemove
           if(!MultiFile.trigger('onFileRemove', slave, MultiFile)) return false;
           //# End Event!

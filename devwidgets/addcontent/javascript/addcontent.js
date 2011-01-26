@@ -16,255 +16,262 @@
  * specific language governing permissions and limitations under the License.
  */
 
+/*
+ * Dependencies
+ *
+ * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
+ * /dev/lib/jquery/plugins/jqmodal.sakai-edited.js
+ */
+
 /*global $ */
 
-var sakai = sakai || {};
-
-/**
- * @name sakai.addcontent
- *
- * @class addcontent
- *
- * @description
- * Initialize the add content widget - This widget adds content to a site
- *
- * @version 0.0.1
- * @param {String} tuid Unique id of the widget
- * @param {Boolean} showSettings Show the settings of the widget or not
- */
-sakai.addcontent = function(tuid, showSettings){
-
-
-    /////////////////////////////
-    // Configuration variables //
-    /////////////////////////////
-
-
-    ///////////////////
-    // CSS selectors //
-    ///////////////////
-
-    var $rootel = $("#" + tuid);
-    var $addcontent_button = $("#addcontent_button", $rootel);
-    var $addcontent_button_cancel = $("#addcontent_button_cancel", $rootel);
-    var $addcontent_container_buttons = $("#addcontent_container_buttons", $rootel);
-    var $addcontent_container = $("#addcontent_container", $rootel);
-    var $addcontent_container_content = $("#addcontent_container_content", $rootel);
-    var $addcontent_container_content_box_container = $(".addcontent_container_content_box_container", $rootel);
-    var $addcontent_container_content_box_selected = $(".addcontent_container_content_box_selected", $rootel);
-    var $addcontent_container_content_template = $("#addcontent_container_content_template", $rootel);
-    var $addcontent_container_show = $("#addcontent_container_show", $rootel);
-    var $addcontent_container_show_box_download = $("#addcontent_container_show_box_download", $rootel);
-    var $addcontent_container_show_box_profile = $("#addcontent_container_show_box_profile", $rootel);
-    var $addcontent_container_show_template = $("#addcontent_container_show_template", $rootel);
-
-    var addcontent_container_content_box_selected = "addcontent_container_content_box_selected";
-    var addcontent_container_place_selected = "addcontent_container_place_selected";
-
-
-    //////////////////////
-    // General function //
-    //////////////////////
+require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     /**
-     * Render the general template
-     * @param {Object} data A JSON object that is used by the main template
+     * @name sakai_global.addcontent
+     *
+     * @class addcontent
+     *
+     * @description
+     * Initialize the add content widget - This widget adds content to a site
+     *
+     * @version 0.0.1
+     * @param {String} tuid Unique id of the widget
+     * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    var renderTemplate = function(data){
+    sakai_global.addcontent = function(tuid, showSettings){
 
-        // Execute the render function
-        $.TemplateRenderer($addcontent_container_content_template, data, $addcontent_container_content);
 
-        // Show the content container
-        $addcontent_container_content.show();
+        /////////////////////////////
+        // Configuration variables //
+        /////////////////////////////
 
-        // Show the buttons
-        $addcontent_container_buttons.show();
 
-    };
+        ///////////////////
+        // CSS selectors //
+        ///////////////////
 
-    /**
-     * Render the show template (in non settings mode)
-     * @param {Object} data The JSON data you get back from the server
-     */
-    var renderTemplateShow = function(data){
+        var $rootel = $("#" + tuid);
+        var $addcontent_button = $("#addcontent_button", $rootel);
+        var $addcontent_button_cancel = $("#addcontent_button_cancel", $rootel);
+        var $addcontent_container_buttons = $("#addcontent_container_buttons", $rootel);
+        var $addcontent_container = $("#addcontent_container", $rootel);
+        var $addcontent_container_content = $("#addcontent_container_content", $rootel);
+        var $addcontent_container_content_box_container = $(".addcontent_container_content_box_container", $rootel);
+        var $addcontent_container_content_box_selected = $(".addcontent_container_content_box_selected", $rootel);
+        var $addcontent_container_content_template = $("#addcontent_container_content_template", $rootel);
+        var $addcontent_container_show = $("#addcontent_container_show", $rootel);
+        var $addcontent_container_show_box_download = $("#addcontent_container_show_box_download", $rootel);
+        var $addcontent_container_show_box_profile = $("#addcontent_container_show_box_profile", $rootel);
+        var $addcontent_container_show_template = $("#addcontent_container_show_template", $rootel);
 
-        // Execute the render function
-        $.TemplateRenderer($addcontent_container_show_template, data, $addcontent_container_show);
+        var addcontent_container_content_box_selected = "addcontent_container_content_box_selected";
+        var addcontent_container_place_selected = "addcontent_container_place_selected";
 
-        // Show the show container
-        $addcontent_container_show.show();
 
-    };
+        //////////////////////
+        // General function //
+        //////////////////////
 
-    /**
-     * The general add binding function
-     */
-    var addBinding = function(){
+        /**
+         * Render the general template
+         * @param {Object} data A JSON object that is used by the main template
+         */
+        var renderTemplate = function(data){
 
-        // Reinitialize the jQuery object(s)
-        $addcontent_container_content_box_container = $($addcontent_container_content_box_container.selector);
+            // Execute the render function
+            sakai.api.Util.TemplateRenderer($addcontent_container_content_template, data, $addcontent_container_content);
 
-        // Bind the click event to the content box container
-        $addcontent_container_content_box_container.bind("click", function(){
+            // Show the content container
+            $addcontent_container_content.show();
+
+            // Show the buttons
+            $addcontent_container_buttons.show();
+
+        };
+
+        /**
+         * Render the show template (in non settings mode)
+         * @param {Object} data The JSON data you get back from the server
+         */
+        var renderTemplateShow = function(data){
+
+            // Execute the render function
+            sakai.api.Util.TemplateRenderer($addcontent_container_show_template, data, $addcontent_container_show);
+
+            // Show the show container
+            $addcontent_container_show.show();
+
+        };
+
+        /**
+         * The general add binding function
+         */
+        var addBinding = function(){
 
             // Reinitialize the jQuery object(s)
-            $addcontent_container_content_box_selected = $($addcontent_container_content_box_selected.selector);
+            $addcontent_container_content_box_container = $($addcontent_container_content_box_container.selector);
 
-            // Remove the previous selection(s)
-            $addcontent_container_content_box_selected.removeClass(addcontent_container_content_box_selected);
+            // Bind the click event to the content box container
+            $addcontent_container_content_box_container.bind("click", function(){
 
-            // Add the selected class
-            $(this).addClass(addcontent_container_content_box_selected);
-        });
+                // Reinitialize the jQuery object(s)
+                $addcontent_container_content_box_selected = $($addcontent_container_content_box_selected.selector);
 
-        // Bind the add content button
-        $addcontent_button.bind("click", function(){
+                // Remove the previous selection(s)
+                $addcontent_container_content_box_selected.removeClass(addcontent_container_content_box_selected);
 
-            // Reinitialize the jQuery object(s)
-            $addcontent_container_content_box_selected = $($addcontent_container_content_box_selected.selector);
-
-            var data ={
-                path: $addcontent_container_content_box_selected.find("img").attr("src")
-            };
-
-            // Save the widget data
-            sakai.api.Widgets.saveWidgetData(tuid, data, function(success){
-                if(success){
-                    sakai.api.Widgets.Container.informFinish(tuid, "addcontent");
-                } else {
-                    debug.warn("Widget data could not be saved");
-                    // TODO show a valid error message to the user
-                }
+                // Add the selected class
+                $(this).addClass(addcontent_container_content_box_selected);
             });
 
-        });
+            // Bind the add content button
+            $addcontent_button.bind("click", function(){
 
-        // Bind the cancel buttons
-        $addcontent_button_cancel.bind("click", function(){
-            sakai.api.Widgets.Container.informCancel(tuid, "addcontent");
-        });
+                // Reinitialize the jQuery object(s)
+                $addcontent_container_content_box_selected = $($addcontent_container_content_box_selected.selector);
 
-    };
+                var data ={
+                    path: $addcontent_container_content_box_selected.find("img").attr("src")
+                };
 
-    /**
-     * Add binding to the show container
-     * @param {Object} json JSON object containing useful data
-     */
-    var addBindingShow = function(json){
+                // Save the widget data
+                sakai.api.Widgets.saveWidgetData(tuid, data, function(success){
+                    if(success){
+                        sakai.api.Widgets.Container.informFinish(tuid, "addcontent");
+                    } else {
+                        debug.warn("Widget data could not be saved");
+                        // TODO show a valid error message to the user
+                    }
+                });
 
-        // Reinitialise the jQuery selectors
-        $addcontent_container_show_box_download = $($addcontent_container_show_box_download.selector);
-        $addcontent_container_show_box_profile = $($addcontent_container_show_box_profile.selector);
+            });
 
-        // Add binding to the download button
-        $addcontent_container_show_box_download.bind("click", function(){
+            // Bind the cancel buttons
+            $addcontent_button_cancel.bind("click", function(){
+                sakai.api.Widgets.Container.informCancel(tuid, "addcontent");
+            });
 
-            // Open a new window to download the actual resource
-            window.open(json.url);
+        };
 
-        });
+        /**
+         * Add binding to the show container
+         * @param {Object} json JSON object containing useful data
+         */
+        var addBindingShow = function(json){
 
-        // Add binding to the profile button
-        $addcontent_container_show_box_profile.bind("click", function(){
+            // Reinitialise the jQuery selectors
+            $addcontent_container_show_box_download = $($addcontent_container_show_box_download.selector);
+            $addcontent_container_show_box_profile = $($addcontent_container_show_box_profile.selector);
 
-            // Redirect the user to the profile page
-            document.location = "/dev/content_profile.html#content_path=" + json.url.replace(sakai.config.SakaiDomain, "/");
+            // Add binding to the download button
+            $addcontent_container_show_box_download.bind("click", function(){
 
-        });
+                // Open a new window to download the actual resource
+                window.open(json.url);
 
-    };
+            });
 
-    var filesLoaded = function(bool, data){
-        // Render the template for a file
-        renderTemplate(data);
-        
-        // Add binding
-        addBinding();
-        
-        // Show the container
-        $addcontent_container.show();
-    };
+            // Add binding to the profile button
+            $addcontent_container_show_box_profile.bind("click", function(){
 
-    /**
-     * Load the files from a specific location
-     * @param {String} location The location where you want to load the files from
-     */
-    var loadFiles = function(location){
-        if(location === "myfiles"){
-            var data = {
-                q: "*",
-                sortOn: "jcr:created",
-                sortOrder: "descending"
-            };
-            sakai.api.Server.loadJSON("/var/search/pool/me/manager.1", filesLoaded, data);
-        }
+                // Redirect the user to the profile page
+                document.location = "/dev/content_profile.html#content_path=" + json.url.replace(sakai.config.SakaiDomain, "/");
 
-    };
+            });
+        };
 
-    /**
-     * Load the information about a file
-     */
-    var loadFileInfo = function(){
+        var filesLoaded = function(bool, data){
+            // Render the template for a file
+            renderTemplate(data);
+            
+            // Add binding
+            addBinding();
+            
+            // Show the container
+            $addcontent_container.show();
+        };
 
-        // Load the widget data
-        sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
-
-            // Only do something on success
-            // TODO show a valid error message if something goes wrong
-            if(success && data.path){
-                if (sakai.content_profile.content_data && sakai.content_profile.content_data.data) {
-                    json = sakai.content_profile.content_data;
-                    var splitslash = sakai.content_profile.content_data.contentpath.split("/");
-                    json.data.name = splitslash[splitslash.length -1];
-                    // Render the show template
-                    renderTemplateShow(json);
-
-                    // Add binding to the show container
-                    addBindingShow(json);
-                } else {
-                    sakai.content_profile.loadContentProfile(function(success) {
-                        if (success) {
-                            json = sakai.content_profile.content_data;
-                            var splitslash = sakai.content_profile.content_data.contentpath.split("/");
-                            json.data.name = splitslash[splitslash.length -1];
-                            // Render the show template
-                            renderTemplateShow(json);
-
-                            // Add binding to the show container
-                            addBindingShow(json);
-                        }
-                    });
-                }
+        /**
+         * Load the files from a specific location
+         * @param {String} location The location where you want to load the files from
+         */
+        var loadFiles = function(location){
+            if(location === "myfiles"){
+                var data = {
+                    q: "*",
+                    sortOn: "jcr:created",
+                    sortOrder: "descending"
+                };
+                sakai.api.Server.loadJSON("/var/search/pool/me/manager.1", filesLoaded, data);
             }
-        });
+
+        };
+
+        /**
+         * Load the information about a file
+         */
+        var loadFileInfo = function(){
+
+            // Load the widget data
+            sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
+
+                // Only do something on success
+                // TODO show a valid error message if something goes wrong
+                if(success && data.path){
+                    if (sakai.content_profile.content_data && sakai.content_profile.content_data.data) {
+                        json = sakai.content_profile.content_data;
+                        var splitslash = sakai.content_profile.content_data.contentpath.split("/");
+                        json.data.name = splitslash[splitslash.length -1];
+                        // Render the show template
+                        renderTemplateShow(json);
+
+                        // Add binding to the show container
+                        addBindingShow(json);
+                    } else {
+                        sakai.content_profile.loadContentProfile(function(success) {
+                            if (success) {
+                                json = sakai.content_profile.content_data;
+                                var splitslash = sakai.content_profile.content_data.contentpath.split("/");
+                                json.data.name = splitslash[splitslash.length -1];
+                                // Render the show template
+                                renderTemplateShow(json);
+
+                                // Add binding to the show container
+                                addBindingShow(json);
+                            }
+                        });
+                    }
+                }
+            });
+        };
+
+
+        ////////////////////
+        // Initialisation //
+        ////////////////////
+
+        /**
+         * The main initialisation function
+         */
+        var init = function(){
+
+            // Check whether it is in settings mode or not
+            if (showSettings) {
+
+                loadFiles("myfiles");
+
+            }
+            else {
+
+                loadFileInfo();
+
+            }
+
+        };
+
+        // Execute the init function
+        init();
     };
-
-
-    ////////////////////
-    // Initialisation //
-    ////////////////////
-
-    /**
-     * The main initialisation function
-     */
-    var init = function(){
-
-        // Check whether it is in settings mode or not
-        if (showSettings) {
-
-            loadFiles("myfiles");
-
-        }
-        else {
-
-            loadFileInfo();
-
-        }
-
-    };
-
-    // Execute the init function
-    init();
-};
-sakai.api.Widgets.widgetLoader.informOnLoad("addcontent");
+    sakai.api.Widgets.widgetLoader.informOnLoad("addcontent");
+});
