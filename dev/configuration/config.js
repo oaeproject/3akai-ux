@@ -18,7 +18,6 @@
 
 define(function() {
     var config = {
-
         URL: {
             // Static URLs
             CONTENT_MEDIA_URL: "/dev/content_media.html",

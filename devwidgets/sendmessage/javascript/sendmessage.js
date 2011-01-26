@@ -526,7 +526,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if(checkFieldsForErrors(recipients)) {
                     sakai.api.Communication.sendMessage(recipients, me.user.userid,
                         $(messageFieldSubject).val(), $(messageFieldBody).val(),
-                        "message", null, handleSentMessage);
+                        "message", null, handleSentMessage, true, "new_message");
                 } else {
                     sakai.api.Util.notification.show("All fields are required.","",sakai.api.Util.notification.type.ERROR);
                 }

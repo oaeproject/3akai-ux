@@ -48,11 +48,7 @@ define(["jquery"], function($) {
          * @param {Boolean|String} [mailContent] False or String of content that contains HTML or regular text
          *
          */
-        sendMessage: function(to, from, subject, body, category, reply, callback, sendMail) {
-
-            /////////////////////////////
-            // CONFIGURATION VARIABLES //
-            /////////////////////////////
+        sendMessage : function(to, from, subject, body, category, reply, callback, sendMail, context) {
 
             var toUsers = "";              // aggregates all message recipients
             var sendDone = false;          // has the send been issued?
@@ -81,14 +77,13 @@ define(["jquery"], function($) {
                 }
             };
 
-            var doSendMail = function(){
-                // Basic message details
+            var buildEmailParams = function(){
                 var toSend = {
                     "sakai:type": "smtp",
                     "sakai:sendstate": "pending",
                     "sakai:messagebox": "outbox",
                     "sakai:to": toUsers,
-                    "sakai:from": from,
+                    "sakai:from": sakai.data.me.user.userid,
                     "sakai:subject": subject,
                     "sakai:body": body,
                     "sakai:category": "message",
@@ -142,6 +137,13 @@ define(["jquery"], function($) {
                 if (reply) {
                     toSend["sakai:previousmessage"] = reply;
                 }
+                return toSend;
+            };
+
+            var doSendMail = function() {
+                // Basic message details
+                var toSend = buildEmailParams();
+
 
                 // Send message
                 $.ajax({
@@ -163,11 +165,6 @@ define(["jquery"], function($) {
                 sendDone = true;
             };
 
-            /**
-             * Sets up and initiates an AJAX POST to send this message to its recipients
-             * @param None
-             * @return None
-             */
             var doSendMessage = function() {
                 // Basic message details
                 var toSend = {
