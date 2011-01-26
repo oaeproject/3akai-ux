@@ -490,7 +490,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          * Set up the auto suggest box to enable search suggestions upon typing in the field
          */
         var setupAutoSuggest = function() {
-            alert("set up");
             $(sharecontent_search_query).autoSuggest("",{
                 source: function(query, add) {
                     var searchUrl = sakai.config.URL.SEARCH_USERS_GROUPS;
@@ -527,6 +526,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 asHtmlID: tuid,
                 selectedItemProp: "name",
                 searchObjProps: "name",
+                startText: "Enter name here",
                 formatList: function(data, elem) {
                     // formats each line to be presented in autosuggest list
                     // add the correct image, wrap name in a class
