@@ -24,8 +24,10 @@ define(function() {
             CONTENT_MEDIA_URL: "/dev/content_media.html",
             COURSES_SITES_URL: "/dev/courses_sites.html",
             GATEWAY_URL: "/dev/index.html",
+            GROUP_EDIT_URL: "/dev/group_edit.html",
             I10N_BUNDLE_URL: "/dev/lib/misc/l10n/globinfo/Globalization.__CODE__.min.js",
             I18N_BUNDLE_ROOT: "/dev/bundle/",
+            INBOX_URL: "/dev/inbox.html",
             LOGOUT_URL: "/dev/logout.html",
             MY_DASHBOARD_URL: "/dev/my_sakai.html",
             PEOPLE_URL: "/dev/people.html",
@@ -45,7 +47,6 @@ define(function() {
             TINY_MCE_EDITOR_CSS: "/dev/css/sakai/tinymce_editor_styling.css",
             USER_DEFAULT_ICON_URL: "/dev/images/user_avatar_icon_48x48.png",
             USER_DEFAULT_UPLOAD_FOLDER: "/private/uploads",
-
 
             // Services
             ACTIVITY_PERSONAL: "/var/search/activity/myfeed.json",
