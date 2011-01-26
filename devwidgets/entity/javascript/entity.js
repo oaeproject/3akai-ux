@@ -924,11 +924,16 @@ sakai.entity = function(tuid, showSettings){
      * Set the profile group data such as the users role, member count and profile picture
      */
     var setGroupData = function(){
+        // determine users role and get the count of members and managers
+        getGroupMembersManagers();
+
         // Set the profile picture for the group you are looking at
         entityconfig.data.profile.picture = constructProfilePicture(entityconfig.data.profile);
 
-        // determine users role and get the count of members and managers
-        getGroupMembersManagers();
+        // if the user is a manager we want to make sure the image is not cached if they change it and the entity widget rerenders
+        if (entityconfig.data.profile.picture && entityconfig.data.profile["role"] === "manager") {
+            entityconfig.data.profile.picture = entityconfig.data.profile.picture + "?sid=" + Math.random();
+        }
 
         // configure the changepic widget to look at the group profile image
         if (sakai.api.UI.changepic){

@@ -550,7 +550,7 @@ sakai.api.User.checkUserProgress = function() {
         sakai.data.me.profile.userprogress = {};
     }
     var me = sakai.data.me,
-        progressData = "",
+        progressData = {},
         tooltipProfileFlag = "",
         tooltipSelector = "",
         tooltipTitle = "",
@@ -566,11 +566,12 @@ sakai.api.User.checkUserProgress = function() {
     var curTimestamp = curDate.getTime();
     var intervalTimestamp = parseInt(sakai.config.SystemTour.reminderIntervalHours, 10) * 60 * 60 * 1000;
 
-    if (sakai.config.SystemTour.enableReminders && me.profile.userprogress.hideSystemTour && !me.profile.userprogress.hideSystemTourReminders) {
+    // check if user has hidden the system tour, reminders are enabled, and the interval time has passed since the system tour was closed or the last reminder
+    if (sakai.config.SystemTour.enableReminders && me.profile.userprogress.hideSystemTour && !me.profile.userprogress.hideSystemTourReminders && ((me.profile.userprogress.reminderTimestamp + intervalTimestamp) < curTimestamp)) {
         if (!me.profile.userprogress.uploadedProfilePhoto && 
             (!me.profile.userprogress.uploadedProfilePhotoReminder || 
                 (!me.profile.userprogress.uploadedProfilePhoto && me.profile.userprogress.uploadedProfilePhotoReminder && 
-                    ((me.profile.userprogress.uploadedProfilePhotoReminder + intervalTimestamp) < curTimestamp)))) {
+                    (me.profile.userprogress.uploadedProfilePhotoReminder < me.profile.userprogress.halfCompletedProfileReminder)))) {
             progressData = {"uploadedProfilePhotoReminder": curTimestamp};
             tooltipSelector = "#changepic_container_trigger";
             tooltipTitle = "TOOLTIP_ADD_MY_PHOTO";
@@ -581,7 +582,7 @@ sakai.api.User.checkUserProgress = function() {
         } else if (!me.profile.userprogress.uploadedContent && 
             (!me.profile.userprogress.uploadedContentReminder || 
                 (!me.profile.userprogress.uploadedContent && me.profile.userprogress.uploadedContentReminder && 
-                    ((me.profile.userprogress.uploadedContentReminder + intervalTimestamp) < curTimestamp)))) {
+                    (me.profile.userprogress.uploadedContentReminder < me.profile.userprogress.madeContactRequestReminder)))) {
             progressData = {"uploadedContentReminder": curTimestamp};
             tooltipSelector = "#mycontent_footer_upload_link";
             tooltipTitle = "TOOLTIP_UPLOAD_CONTENT";
@@ -592,7 +593,7 @@ sakai.api.User.checkUserProgress = function() {
         } else if (!me.profile.userprogress.sharedContent && 
             (!me.profile.userprogress.sharedContentReminder && me.profile.userprogress.uploadedContent || 
                 (!me.profile.userprogress.sharedContent && me.profile.userprogress.sharedContentReminder && me.profile.userprogress.uploadedContent && 
-                    ((me.profile.userprogress.sharedContentReminder + intervalTimestamp) < curTimestamp)))) {
+                    (me.profile.userprogress.sharedContentReminder < me.profile.userprogress.madeContactRequestReminder)))) {
             progressData = {"sharedContentReminder": curTimestamp};
             tooltipSelector = "#mycontent_footer_upload_link";
             tooltipTitle = "TOOLTIP_SHARE_CONTENT";
@@ -614,7 +615,7 @@ sakai.api.User.checkUserProgress = function() {
         } else if (!me.profile.userprogress.madeContactRequest && 
             (!me.profile.userprogress.madeContactRequestReminder || 
                 (!me.profile.userprogress.madeContactRequest && me.profile.userprogress.madeContactRequestReminder && 
-                    ((me.profile.userprogress.madeContactRequestReminder + intervalTimestamp) < curTimestamp)))) {
+                    (me.profile.userprogress.madeContactRequestReminder < me.profile.userprogress.halfCompletedProfileReminder)))) {
             progressData = {"madeContactRequestReminder": curTimestamp};
             tooltipSelector = "#mycontacts_footer_search";
             tooltipTitle = "TOOLTIP_ADD_CONTACTS";
@@ -637,8 +638,7 @@ sakai.api.User.checkUserProgress = function() {
             }
         } else if (!me.profile.userprogress.halfCompletedProfile && 
             (!me.profile.userprogress.halfCompletedProfileReminder || 
-                (!me.profile.userprogress.halfCompletedProfile && me.profile.userprogress.halfCompletedProfileReminder && 
-                    ((me.profile.userprogress.halfCompletedProfileReminder + intervalTimestamp) < curTimestamp)))) {
+                (!me.profile.userprogress.halfCompletedProfile && me.profile.userprogress.halfCompletedProfileReminder))) {
             progressData = {"halfCompletedProfileReminder": curTimestamp};
             tooltipSelector = "#entity_edit_profile";
             tooltipTitle = "TOOLTIP_EDIT_MY_PROFILE";
@@ -663,6 +663,8 @@ sakai.api.User.checkUserProgress = function() {
             "tooltipLeft" : tooltipLeft,
             "tooltipAutoClose": false
         };
+
+        progressData.reminderTimestamp = curTimestamp;
 
         var authprofileURL = "/~" + me.user.userid + "/public/authprofile/userprogress";
         sakai.api.Server.saveJSON(authprofileURL, progressData, function(success, data){

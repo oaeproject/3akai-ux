@@ -522,6 +522,8 @@ sakai.changepic = function(tuid, showSettings){
                         if (mode !== "group") {
                             // record that user uploaded their profile picture
                             sakai.api.User.addUserProgress("uploadedProfilePhoto");
+                        } else if (sakai.currentgroup && sakai.currentgroup.data && sakai.currentgroup.data.authprofile) {
+                            sakai.currentgroup.data.authprofile.picture = $.toJSON(tosave);
                         }
                     },
                     error: function(xhr, textStatus, thrownError) {

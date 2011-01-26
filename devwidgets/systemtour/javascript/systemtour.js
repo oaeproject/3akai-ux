@@ -121,7 +121,12 @@ sakai.systemtour = function(tuid, showSettings){
      * Permanently hides the progress bar
      */
     var removeProgressBar = function(){
-        var progressData = {"hideSystemTour": true};
+        var curDate = new Date();
+        var curTimestamp = curDate.getTime();
+        var progressData = {
+            "hideSystemTour": true,
+            "reminderTimestamp": curTimestamp
+        };
         var authprofileURL = "/~" + me.user.userid + "/public/authprofile/userprogress";
         sakai.api.Server.saveJSON(authprofileURL, progressData, function(success, data){
             // Check whether save was successful
