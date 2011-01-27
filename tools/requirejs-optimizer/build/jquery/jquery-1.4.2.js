@@ -1,4 +1,5 @@
-/*!
+/**
+ * @license
  * jQuery JavaScript Library v1.4.2
  * http://jquery.com/
  *
@@ -13,6 +14,7 @@
  *
  * Date: Sat Feb 13 22:33:48 2010 -0500
  */
+
 (function( window, undefined ) {
 
 // Define a local copy of jQuery
@@ -60,6 +62,8 @@ var jQuery = function( selector, context ) {
 	
 	// The functions to execute on DOM ready
 	readyList = [],
+
+        useRequire = !!( typeof require !== "undefined" && require.def ),
 
 	// The ready event handler
 	DOMContentLoaded,
@@ -250,14 +254,17 @@ jQuery.fn = jQuery.prototype = {
 		jQuery.bindReady();
 
 		// If the DOM is already ready
-		if ( jQuery.isReady ) {
+		if ( jQuery.isReady && (!useRequire || require.s.isDone) ) {
 			// Execute the function immediately
 			fn.call( document, jQuery );
 
 		// Otherwise, remember the function for later
-		} else if ( readyList ) {
-			// Add the function to the wait list
-			readyList.push( fn );
+		} else {
+                    if ( !readyList ) {
+                        readyList = [];
+                    }
+		    // Add the function to the wait list
+		    readyList.push( fn );
 		}
 
 		return this;
@@ -384,25 +391,31 @@ jQuery.extend({
 			// Remember that the DOM is ready
 			jQuery.isReady = true;
 
-			// If there are functions bound, to execute
-			if ( readyList ) {
-				// Execute all of them
-				var fn, i = 0;
-				while ( (fn = readyList[ i++ ]) ) {
-					fn.call( document, jQuery );
-				}
-
-				// Reset the list of functions
-				readyList = null;
-			}
-
-			// Trigger any bound ready events
-			if ( jQuery.fn.triggerHandler ) {
-				jQuery( document ).triggerHandler( "ready" );
-			}
+                        jQuery.callReady();
 		}
 	},
-	
+
+        callReady: function() {
+            if ( jQuery.isReady && (!useRequire || require.s.isDone) ) {
+                // If there are functions bound, to execute
+                if ( readyList ) {
+                        // Execute all of them
+                        var fn, i = 0;
+                        while ( (fn = readyList[ i++ ]) ) {
+                                fn.call( document, jQuery );
+                        }
+
+                        // Reset the list of functions
+                        readyList = null;
+                }
+
+                // Trigger any bound ready events
+                if ( jQuery.fn.triggerHandler ) {
+                        jQuery( document ).triggerHandler( "ready" );
+                }
+            }
+        },
+
 	bindReady: function() {
 		if ( readyBound ) {
 			return;
@@ -6236,5 +6249,17 @@ jQuery.each([ "Height", "Width" ], function( i, name ) {
 });
 // Expose jQuery to the global object
 window.jQuery = window.$ = jQuery;
+
+if (useRequire) {
+    var oldReqCallReady = require.callReady;
+    require.callReady = function () {
+        if (oldReqCallReady) {
+            oldReqCallReady();
+        }
+        jQuery.callReady();
+    };
+    require.def("jquery", function() { return jQuery; });
+    require.def("jQuery", function() { return jQuery; });
+}
 
 })(window);

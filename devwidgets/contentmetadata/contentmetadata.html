@@ -113,11 +113,11 @@
         </span>
         <span class="contentmetadata_content_row">
             <span class="contentmetadata_first_column">__MSG__CREATED__: </span>
-            <span>${sakai.api.l10n.transformDate(sakai.api.l10n.parseDateString(data["jcr:created"]))}</span>
+            <span>${sakai.api.l10n.transformDate(sakai.api.l10n.parseDateString(data["jcr:created"], sakai.data.me))}</span>
         </span>
         <span class="contentmetadata_content_row">
             <span class="contentmetadata_first_column">__MSG__LAST_MODIFIED__: </span>
-            <span>${sakai.api.l10n.transformDate(sakai.api.l10n.parseDateString(data["jcr:content"]["jcr:lastModified"]))}</span>
+            <span>${sakai.api.l10n.transformDate(sakai.api.l10n.parseDateString(data["jcr:content"]["jcr:lastModified"]), sakai.data.me)}</span>
         </span>
         <span class="contentmetadata_content_row">
             <span class="contentmetadata_first_column">__MSG__REVISIONS__: </span>

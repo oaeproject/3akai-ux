@@ -20,6 +20,8 @@
         <link rel="stylesheet" type="text/css" href="/dev/lib/jquery/plugins/imgareaselect/imgareaselect-default.css" />
         <link rel="stylesheet" type="text/css" href="/dev/css/lib/jquery.autoSuggest.css" />
 
+        <script type="text/javascript" src="/dev/lib/require.js"></script>
+
         <!-- Sakai Config JS -->
         <script type="text/javascript" src="/dev/configuration/widgets.js"></script>
         <script type="text/javascript" src="/var/widgets.json?callback=sakai.storeWidgets"></script>
@@ -62,7 +64,6 @@
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.MultiFile.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.jeditable.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.validate.sakai-edited.js"></script>
-        <script type="text/javascript" src="/dev/lib/jquery/plugins/imgareaselect/jquery.imgareaselect.js"></script>
 
     </head>
 
@@ -120,8 +121,8 @@
                     });
                     var $dialog_content = $("#dialog_content");
                     var id = "widget_embedcontent_123";
-                    $dialog_content.html(sakai.api.Security.saneHTML('<img src="' + sakai.widgets.widgets['embedcontent'].img + '" id="' + id + '" class="widget_inline" border="1"/>'));
-                    $("#dialog_title").html(sakai.widgets.widgets['embedcontent'].name);
+                    $dialog_content.html(sakai.api.Security.saneHTML('<img src="' + sakai.widgets['embedcontent'].img + '" id="' + id + '" class="widget_inline" border="1"/>'));
+                    $("#dialog_title").html(sakai.widgets['embedcontent'].name);
                     sakai.api.Widgets.widgetLoader.insertWidgets('embedcontent_test', true);
                     $dialog_content.show();
                     $('#insert_dialog').jqmShow();
