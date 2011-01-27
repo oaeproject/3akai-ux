@@ -45,3 +45,5 @@
     color: #000;
     font-weight: bold;
 }
+
+.recentmessages_ellipsis_container {word-wrap:break-word!important; width:300px;}

@@ -324,7 +324,9 @@ sakai.chat = function(tuid, showSettings){
         // replace !"#$%&'()*+,./:;?@[\]^`{|}~ ) with \\ those characters
         // for example userid kkyaw@ will be returned as kkyaw\\@.
         // reference: http://api.jquery.com/category/selectors/
-        return userid.replace(/([!\"#$%&'\(\)\*\+,.\/:;?@\[\\\]^\`{|}~])$/gim,"\\$1");
+        // ^\`{|}~
+        var re = new RegExp("([!\"#$%&\'()*+,.\/:;?@[\\]^`{|}~])", "g");
+        return userid.replace(re,"\\$1");
     };
 
     /**
@@ -611,7 +613,8 @@ sakai.chat = function(tuid, showSettings){
         }
         message.time = sakai.api.l10n.transformTime(sentDate);
         message.message = messageText;
-        var chatwindow = $("#chat_with_" + window + "_content");
+        var escapeWindow = escapeCharacters(window);
+        var chatwindow = $("#chat_with_" + escapeWindow + "_content");
         chatwindow.append($.TemplateRenderer("chat_content_template", message));
         // Scroll to the bottom
         chatwindow.attr("scrollTop", chatwindow.attr("scrollHeight"));
@@ -717,7 +720,8 @@ sakai.chat = function(tuid, showSettings){
                     // Pulse if it is not currently open
                     chatWindow = getChatWindow(from.userid);
                     if (!chatWindow.open && message["sakai:read"] === false) {
-                        $("#chat_online_button_" + from.userid).effect("pulsate", {times: 5}, 500);
+                        var userid = escapeCharacters(from.userid);
+                        $("#chat_online_button_" + userid).effect("pulsate", {times: 5}, 500);
                     } else if (message["sakai:read"] !== true) {
                         // the window is open, lets mark the message as read
                         message["sakai:read"] = true;
