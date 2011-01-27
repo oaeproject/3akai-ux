@@ -192,7 +192,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if($("#creategroup_form").valid()) {
                 // Hide the buttons and show the process status
                 showProcess(true);
-                sakai.api.Groups.createGroup(groupid, grouptitle, groupdescription, function(success, nameTaken) {
+                sakai.api.Groups.createGroup(groupid, grouptitle, groupdescription, sakai.data.me, function(success, nameTaken) {
                     if (success) {
                         document.location = "/~" + groupid;
                     } else if (!success) {

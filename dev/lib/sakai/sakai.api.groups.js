@@ -30,7 +30,7 @@
  * Group related convenience functions
  */
 define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], function($, sakai_conf, sakai_serv){
-    return {
+    var sakaiGroupsAPI = {
         /**
          * Get the data for the specified group
          *
@@ -116,7 +116,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                     type: "POST",
                     success: function(data, textStatus) {
                         // set default permissions for this group
-                        this.setPermissions(groupid,
+                        sakaiGroupsAPI.setPermissions(groupid,
                             sakai_conf.Permissions.Groups.joinable.manager_add,
                             sakai_conf.Permissions.Groups.visible["public"],
                             function (success, errorMessage) {
@@ -742,4 +742,5 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
             }
         }
     };
+    return sakaiGroupsAPI;
 });
