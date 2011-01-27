@@ -92,7 +92,7 @@
 
 <!-- MULTIPLE INSTANCE ADD ANOTHER TEMPLATE -->
 <div id="profilesection_add_section_template"><!--
-    <a href="javascript:;" class="profilesection_add_section s3d-regular-links s3d-bold" id="profilesection_add_link_${parentid}"><span class="s3d-add_another_location"></span><span>Add another ${config.multipleLabel}</span></a>
+    <a href="javascript:;" class="profilesection_add_section s3d-add_another_location" id="profilesection_add_link_${parentid}"><span>Add another ${config.multipleLabel}</span></a>
 --></div>
 
 <!-- MULTIPLE INSTANCE REMOVE SECTION TEMPLATE -->
@@ -123,9 +123,11 @@
         </ul>
     {/if}
     </div>
-    {if sakai.profile.main.mode.value === 'edit'}
-        <a href="javascript:;" class="profilesection_add_location_section s3d-regular-links s3d-bold"><span class="s3d-add_another_location"></span><span>Add or remove locations</span></a>
-    {/if}
+    <div class="profilesection_section">
+        {if sakai.profile.main.mode.value === 'edit'}
+            <a href="javascript:;" class="profilesection_add_location_section s3d-add_another_location"><span>__MSG__ADD_REMOVE_LOCATIONS__</span></a>
+        {/if}
+    </div>
 --></div>
 
 <!-- FIELD TEMPLATES -->

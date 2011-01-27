@@ -384,6 +384,9 @@ sakai.profile = function(){
                 // Show a successful notification to the user
                 sakai.api.Util.notification.show("", $profile_message_form_successful.text() , sakai.api.Util.notification.type.INFORMATION);
 
+                // scroll to top of the page
+                $(window).scrollTop(0);
+
             },
             error: function(xhr, textStatus, thrownError){
 
@@ -447,7 +450,7 @@ sakai.profile = function(){
             if (sakai.profile.main.config.hasOwnProperty(prop)) {
                 if (sakai.profile.main.config[prop].elements && prop !== "publications") {
                     for (var ii in sakai.profile.main.config[prop].elements) {
-                        if (sakai.profile.main.config[prop].hasOwnProperty(ii)) {
+                        if (sakai.profile.main.config[prop].elements.hasOwnProperty(ii)) {
                             elementItemCount++;
                             if (sakai.profile.main.data[prop] && sakai.profile.main.data[prop].elements && sakai.profile.main.data[prop].elements[ii]) {
                                 dataItemCount++;
