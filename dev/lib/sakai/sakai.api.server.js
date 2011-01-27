@@ -47,6 +47,16 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
             // no GETs over 2048 chars, so lets check for that and POST if we need to
             if (!_forcePOST && ("http://" + document.location.host + sakai_conf.URL.BATCH + encodeURI(_requests)).length > 2048) {
                 method = "POST";
+            } else {
+                // if any request contains a POST, we should be POSTing so the request isn't cached
+                // maybe just GET with no cache? not sure
+                var requestsJSON = $.parseJSON(_requests);
+                for (var i=0; i<requestsJSON.length; i++) {
+                    if (requestsJSON[i].method === "POST") {
+                        method = "POST";
+                        break;
+                    }
+                }
             }
             $.ajax({
                 url: sakai_conf.URL.BATCH,

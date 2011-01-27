@@ -16,7 +16,7 @@ sakai_global = {};
  */
 window.debug = (function() {
     var that = {},
-        methods = [ 'error', 'warn', 'info', 'debug', 'log' ],
+        methods = [ 'error', 'warn', 'info', 'debug', 'log', 'trace'],
         idx = methods.length;
 
     var createLogMethod = function(method) {
