@@ -304,9 +304,9 @@ define(["jquery",
                         // SAKIII-1524 - Instead of loading all of the widget CSS files independtly,
                         // we collect all CSS file declarations from all widgets in the current pass
                         // of the WidgetLoader. These will then be loaded in 1 go.
-                        if ($.browser.msie && !this.cssCache[CSSTags.URL[i]]) {
+                        if ($.browser.msie && !sakaiWidgetsAPI.cssCache[CSSTags.URL[i]]) {
                             stylesheets.push(CSSTags.URL[i]);
-                            this.cssCache[CSSTags.URL[i]] = true;
+                            sakaiWidgetsAPI.cssCache[CSSTags.URL[i]] = true;
                         } else {
                             sakai_util.include.css(CSSTags.URL[i]);
                         }
@@ -481,8 +481,8 @@ define(["jquery",
                                     var totalImportsInCurrentSS = 0;
                                     // Merge in the previously created style tags
                                     if (numberCSS >= 30) {
-                                        for (var k in this.cssCache) {
-                                            if (this.cssCache.hasOwnProperty(k)) {
+                                        for (var k in sakaiWidgetsAPI.cssCache) {
+                                            if (sakaiWidgetsAPI.cssCache.hasOwnProperty(k)) {
                                                 if (totalImportsInCurrentSS >= 30) {
                                                     allSS.push(newSS);
                                                     newSS = document.createStyleSheet();

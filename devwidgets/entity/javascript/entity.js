@@ -462,20 +462,35 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Do a batch request to get contacts, invited and pending
             var reqs = [
                 {
-                    "url" : sakai.config.URL.CONTACTS_FIND + "?state=ACCEPTED&page=0&items=100",
-                    "method" : "GET"
+                    url : sakai.config.URL.CONTACTS_FIND,
+                    method : "GET",
+                    parameters : {
+                        items: 100,
+                        page: 0,
+                        state: "ACCEPTED"
+                    }
                 },
                 {
-                    "url" : sakai.config.URL.CONTACTS_FIND + "?state=INVITED&page=0&items=100",
-                    "method" : "GET"
+                    url : sakai.config.URL.CONTACTS_FIND,
+                    method : "GET",
+                    parameters : {
+                        items: 100,
+                        page: 0,
+                        state: "INVITED"
+                    }
                 },
                 {
-                    "url" : sakai.config.URL.CONTACTS_FIND + "?state=PENDING&page=0&items=100",
-                    "method" : "GET"
+                    url : sakai.config.URL.CONTACTS_FIND,
+                    method : "GET",
+                    parameters : {
+                        items: 100,
+                        page: 0,
+                        state: "PENDING"
+                    }
                 },
                 {
-                    "url" : sakai.config.URL.PRESENCE_CONTACTS_SERVICE,
-                    "method" : "GET"
+                    url : sakai.config.URL.PRESENCE_CONTACTS_SERVICE,
+                    method : "GET"
                 }
             ];
 
@@ -495,6 +510,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             };
 
             $.ajax({
+                cache: false,
                 url: "/system/batch",
                 type: "POST",
                 data: {
@@ -525,6 +541,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     var invited = $.parseJSON(data.results[1].body);
                     for (var j in invited.results){
                         if (invited.results[j].target === userid){
+                            // is this a request to automatically accept an invitation?
+                            var request = new Querystring();
+                            if (request.get("accept", "false") === "true") {
+                                // automatically accept the invitation
+                                acceptInvitation(userid);
+                            }
                             $("#entity_contact_invited").show();
                             return true;
                         }
@@ -545,7 +567,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Accept a contact invitation
          */
-        var acceptInvitation = function(userid){
+        var acceptInvitation = function (userid) {
             $.ajax({
                 url: "/~" + sakai.data.me.user.userid + "/contacts.accept.html",
                 type: "POST",
@@ -553,6 +575,28 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 success: function(data){
                     $("#entity_contact_invited").hide();
                     $("#entity_contact_accepted").show();
+                    var notificationMsg = sakai.api.i18n.General.getValueForKey(
+                        "YOU_HAVE_ACCEPTED_CONTACT_INVITATION").replace(
+                        /\$\{displayName\}/gi, sakai.api.User.getDisplayName(
+                            entityconfig.data.profile
+                        )
+                    );
+                    sakai.api.Util.notification.show(
+                        sakai.api.i18n.General.getValueForKey("MY_CONTACTS"),
+                        notificationMsg
+                    );
+                },
+                error: function (data) {
+                    var notificationMsg = sakai.api.i18n.General.getValueForKey(
+                        "THERE_WAS_AN_ERROR_ACCEPTING_CONTACT").replace(
+                        /\$\{displayName\}/gi, sakai.api.User.getDisplayName(
+                            entityconfig.data.profile
+                        )
+                    );
+                    sakai.api.Util.notification.show(
+                        sakai.api.i18n.General.getValueForKey("MY_CONTACTS"),
+                        notificationMsg
+                    );
                 }
             });
         };

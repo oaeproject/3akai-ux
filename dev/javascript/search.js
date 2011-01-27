@@ -201,10 +201,31 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         };
 
+    /*
+    * This will build the search querystring from the tagterm and searchterm
+    */
+    var buildQuerystring = function() {
+        var querystring = "#";
+        if (tagterm) {
+            querystring += "tag=" + tagterm;
+        }
+        if (searchterm !== $(searchConfig.global.text).attr("title").toLowerCase() + " ...") {
+            if (querystring !== "#") {
+                querystring += "&";
+            }
+            querystring += "q=" + searchterm;
+        } else {
+            if (querystring !== "#") {
+                querystring += "&";
+            }
+            querystring += "q=*";
+        }
+        return querystring;
+    };
 
         /**
          * This will render the results for the found content and media. It will add the nr of results to the total
-         * If nessecary it will show the link to dispolay more.
+         * If nessecary it will show the link to display more.
          * @param {Object} results Response from the REST service.
          */
         var renderCM = function(foundCM) {
@@ -219,10 +240,12 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             // Adjust total search result count
             updateTotalHitCount(foundCM.results.length);
 
-            $("#search_content_title").attr("href", "search_content.html#q=" + searchterm);
+            var querystring = buildQuerystring();
+
+            $("#search_content_title").attr("href", "search_content.html" + querystring);
             if (Math.abs(foundCM.total) > cmToSearch) {
                 $(searchConfig.cm.displayMore).show();
-                $(searchConfig.cm.displayMore).attr("href", "search_content.html#q=" + searchterm);
+                $(searchConfig.cm.displayMore).attr("href", "search_content.html" + querystring);
             }
 
             if (foundCM && foundCM.results) {
@@ -260,10 +283,12 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
                 updateTotalHitCount(foundSites.results.length);
 
-                $("#search_groups_title").attr("href", "search_groups.html#q=" + searchterm);
+                var querystring = buildQuerystring();
+
+                $("#search_groups_title").attr("href", "search_groups.html" + querystring);
                 if (Math.abs(foundSites.total) > sitesToSearch) {
                     $(searchConfig.sites.displayMore).show();
-                    $(searchConfig.sites.displayMore).attr("href", "search_groups.html#q=" + searchterm);
+                    $(searchConfig.sites.displayMore).attr("href", "search_groups.html" + querystring);
                 }
 
                 if (foundSites && foundSites.results) {
@@ -333,9 +358,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 $(searchConfig.people.displayMore).attr("href", "search_people.html#q=" + searchterm).show();
             }
 
-            if (results && results.results) {
-                // Prepare the finaljson object for rendering
-                finaljson = mainSearch.preparePeopleForRender(results.results, finaljson);
+            var querystring = buildQuerystring();
+
+            $("#search_people_title").attr("href", "search_people.html" + querystring);
+            if ((Math.abs(results.total) > peopleToSearch) && (results.results.length > 0)) {
+                $(searchConfig.people.displayMore).attr("href", "search_people.html" + querystring).show();
             }
 
             foundPeople = finaljson.items;

@@ -143,19 +143,24 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             $("#contentmetadata_name_text").unbind("blur");
             $("#contentmetadata_name_text").bind("blur", function(){
                 $("#contentmetadata_name_edit").hide();
-                $("#contentmetadata_name_name").text($("#contentmetadata_name_text").val());
-                $("#contentmetadata_name_name").show();
-                $.ajax({
-                    url: "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".html",
-                    type : "POST",
-                    cache: false,
-                    data: {
-                        "sakai:pooled-content-file-name":sakai.api.Security.escapeHTML($("#contentmetadata_name_text").val())
-                    }, 
-					success: function() {
-                        sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] = sakai.api.Security.escapeHTML($("#contentmetadata_name_text").val());
-                    }
-                });
+                if ($.trim($("#contentmetadata_name_text").val())) {
+                    $("#contentmetadata_name_name").text($("#contentmetadata_name_text").val());
+                    $("#contentmetadata_name_name").show();
+                    $.ajax({
+                        url: "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".html",
+                        type : "POST",
+                        cache: false,
+                        data: {
+                            "sakai:pooled-content-file-name":sakai.api.Security.escapeHTML($("#contentmetadata_name_text").val())
+                        }, 
+                        success: function() {
+                            sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] = sakai.api.Security.escapeHTML($("#contentmetadata_name_text").val());
+                        }
+                    });
+                } else {
+                    $("#contentmetadata_name_name").show();
+                    $(".contentmetadata_editable").live("click", editData);
+                }
             });
         };
     
@@ -240,7 +245,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         ////////////////////////
     
         var updateTags = function() {
-            var tags = sakai.api.Util.formatTags(sakai.api.Security.escapeHTML($("#contentmetadata_tags_tags").val()));
+            var tags = sakai.api.Util.formatTags($("#contentmetadata_tags_tags").val());
             // Since directory tags are filtered out of the textarea we should put them back to save them
             $(sakai_global.content_profile.content_data.data["sakai:tags"]).each(function(index, tag){
                 if(tag.split("/")[0] === "directory"){
@@ -260,16 +265,16 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          * Update the description of the content
          */
         var updateDescription = function(){
+            var description = $("#contentmetadata_description_description").val();
+            sakai.content_profile.content_data.data["sakai:description"] = description;
+            renderDescription(false);
             $.ajax({
                 url: "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".html",
                 type : "POST",
                 cache: false,
                 data: {
-                    "sakai:description":sakai.api.Security.escapeHTML($("#contentmetadata_description_description").val())
-                }, success: function(){
-                    sakai_global.content_profile.content_data.data["sakai:description"] = $("#contentmetadata_description_description").val();
-                    renderDescription(false);
-                    // Create an activity
+                    "sakai:description": description
+                }, success: function() {
                     createActivity("__MSG__UPDATED_DESCRIPTION__");
                 }
             });
@@ -279,16 +284,16 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          * Update the copyright of the content
          */
         var updateCopyright = function(){
+            var copyright = $("#contentmetadata_copyright_copyright").val();
+            sakai.content_profile.content_data.data["sakai:copyright"] = copyright;
+            renderCopyright(false);
             $.ajax({
                 url: "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".html",
                 type : "POST",
                 cache: false,
                 data: {
                     "sakai:copyright":$("#contentmetadata_copyright_copyright").val()
-                }, success: function(){
-                    sakai_global.content_profile.content_data.data["sakai:copyright"] = $("#contentmetadata_copyright_copyright").val();
-                    renderCopyright(false);
-                    // Create an activity
+                }, success: function() {
                     createActivity("__MSG__UPDATED_COPYRIGHT__");
                 }
             });

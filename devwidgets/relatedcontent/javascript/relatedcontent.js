@@ -113,44 +113,45 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             var managersList = "";
             var viewersList = "";
+            var ajaxSuccess = function(data) {
+                var json = {
+                    "content": contentData,
+                    "relatedContent": data
+                };
+                renderTemplate(json);
+            };
+            var ajaxError = function() {
+                renderTemplate({});
+            };
 
             for (var i = 0; i < contentData.members.managers.length; i++) {
                 if (contentData.members.managers[i]) {
-                    managersList += " " + contentData.members.managers[i].userid;
+                    managersList += " " + (contentData.members.managers[i]["rep:userId"] || contentData.members.managers[i]["sakai:group-id"]);
                 }
             }
             for (var j = 0; j < contentData.members.viewers.length; j++) {
                 if (contentData.members.viewers[j]) {
-                    viewersList += " " + contentData.members.viewers[j].userid;
+                    viewersList += " " + (contentData.members.viewers[j]["rep:userId"] || contentData.members.viewers[j]["sakai:group-id"]);
                 }
-            }
 
-            var searchterm = contentData.data["sakai:pooled-content-file-name"] + " " + managersList + " " + viewersList;
-            if (contentData.data["sakai:tags"]){
-                searchterm = searchterm + " " + contentData.data["sakai:tags"].join(" ");
-            }
-            searchquery = prepSearchTermForURL(searchterm);
-
-            // get related content for contentData
-            // return some search results for now
-            $.ajax({
-                url: sakai.config.URL.SEARCH_ALL_FILES.replace(".json", ".infinity.json"),
-                data: {
-                    "q" : searchquery,
-                    "items" : "11"
-                },
-                success: function(data) {
-                    var json = {
-                        "content": contentData,
-                        "relatedContent": data
-                    };
-                    renderTemplate(json);
-                },
-                error: function(xhr, textStatus, thrownError) {
-                    var json = {};
-                    renderTemplate(json);
+                var searchterm = contentData.data["sakai:pooled-content-file-name"] + " " + managersList + " " + viewersList;
+                if (contentData.data["sakai:tags"]){
+                    searchterm = searchterm + " " + contentData.data["sakai:tags"].join(" ");
                 }
-            });
+                searchquery = prepSearchTermForURL(searchterm);
+
+                // get related content for contentData
+                // return some search results for now
+                $.ajax({
+                    url: sakai.config.URL.SEARCH_ALL_FILES.replace(".json", ".infinity.json"),
+                    data: {
+                        "q" : searchquery,
+                        "items" : "11"
+                    },
+                    success: ajaxSuccess,
+                    error: ajaxError
+                });
+            }
         };
 
 
