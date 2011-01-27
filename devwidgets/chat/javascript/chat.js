@@ -372,14 +372,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (chatWindowExists && openWindow){
                 openChatWindow(contactObject.profile.userid);
             } else if (!chatWindowExists) {
-                var window = contactObject;
-                window.open = openWindow;
-                window.index = globalChatWindows.length;
-                globalChatWindows.push(window);
-                $("#chat_windows").append(sakai.api.Util.TemplateRenderer("chat_windows_template", window));
-                $("#chat_windows_container").append(sakai.api.Util.TemplateRenderer("chat_windows_windows_template", window));
+                var chatWindow = contactObject;
+                chatWindow.open = openWindow;
+                chatWindow.index = globalChatWindows.length;
+                chatWindow.sakai = sakai;
+                globalChatWindows.push(chatWindow);
+                $("#chat_windows").append(sakai.api.Util.TemplateRenderer("chat_windows_template", chatWindow));
+                $("#chat_windows_container").append(sakai.api.Util.TemplateRenderer("chat_windows_windows_template", chatWindow));
                 // Position the chat window as the last chat window in the row
-                $("#chat_with_" + window.profile.userid).css("left", (window.index * 150) + "px");
+                $("#chat_with_" + chatWindow.profile.userid).css("left", (chatWindow.index * 150) + "px");
                 if (openWindow) {
                     closeAllChatWindows();
                     openChatWindow(contactObject.profile.userid);
