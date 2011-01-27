@@ -134,20 +134,26 @@ sakai.contentmetadata = function(tuid,showSettings){
         $("#contentmetadata_name_text").unbind("blur");
         $("#contentmetadata_name_text").bind("blur", function(){
             $("#contentmetadata_name_edit").hide();
-            $("#contentmetadata_name_name").text($("#contentmetadata_name_text").val());
-            $("#contentmetadata_name_name").show();
-            $.ajax({
-                url: "/p/" + sakai.content_profile.content_data.data["jcr:name"] + ".html",
-                type : "POST",
-                cache: false,
-                data: {
-                    "sakai:pooled-content-file-name":sakai.api.Security.escapeHTML($("#contentmetadata_name_text").val())
-                }, success: function(){
-                    sakai.content_profile.content_data.data["sakai:pooled-content-file-name"] = sakai.api.Security.escapeHTML($("#contentmetadata_name_text").val());
-                    // bind event again after saving the data
-                    $(".contentmetadata_editable").live("click", editData);
-                }
-            });
+            if ($.trim($("#contentmetadata_name_text").val())) {
+                $("#contentmetadata_name_name").text($("#contentmetadata_name_text").val());
+                $("#contentmetadata_name_name").show();
+                $.ajax({
+                    url: "/p/" + sakai.content_profile.content_data.data["jcr:name"] + ".html",
+                    type: "POST",
+                    cache: false,
+                    data: {
+                        "sakai:pooled-content-file-name": $("#contentmetadata_name_text").val()
+                    },
+                    success: function(){
+                        sakai.content_profile.content_data.data["sakai:pooled-content-file-name"] = $("#contentmetadata_name_text").val();
+                        // bind event again after saving the data
+                        $(".contentmetadata_editable").live("click", editData);
+                    }
+                });
+            } else {
+                $("#contentmetadata_name_name").show();
+                $(".contentmetadata_editable").live("click", editData);
+            }
         });
     };
 
@@ -214,7 +220,7 @@ sakai.contentmetadata = function(tuid,showSettings){
     ////////////////////////
 
     var updateTags = function() {
-        var tags = sakai.api.Util.formatTags(sakai.api.Security.escapeHTML($("#contentmetadata_tags_tags").val()));
+        var tags = sakai.api.Util.formatTags($("#contentmetadata_tags_tags").val());
         // Since directory tags are filtered out of the textarea we should put them back to save them
         $(sakai.content_profile.content_data.data["sakai:tags"]).each(function(index, tag){
             if(tag.split("/")[0] === "directory"){
@@ -242,7 +248,7 @@ sakai.contentmetadata = function(tuid,showSettings){
             type : "POST",
             cache: false,
             data: {
-                "sakai:description":sakai.api.Security.escapeHTML(description)
+                "sakai:description":description
             }, success: function(){
                 // Create an activity
                 createActivity("__MSG__UPDATED_DESCRIPTION__");
