@@ -89,6 +89,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var renderTemplates = function(){
             sakai.api.Util.TemplateRenderer(addToContactsFormTypeTemplate.replace(/#/gi, ""), sakai.config.Relationships, $(addToContactsInfoTypes));
             var json = {
+                sakai: sakai,
                 me: me
             };
             sakai.api.Util.TemplateRenderer(addToContactsFormPersonalNoteTemplate.replace(/#/gi, ""), json, $(addToContactsFormPersonalNote));
