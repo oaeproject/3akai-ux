@@ -55,13 +55,13 @@
     float: left; 
     height:32px; 
     border-right: 1px solid #d8dce0;
-    padding-right: 5px;
+    padding-right: 3px;
 }
 .systemtour_button:hover {
     text-decoration: none;
 }
 .systemtour_button {
-    padding-right: 15px; 
+    padding-right: 13px; 
     display: block;
 }
 .systemtour_1 {
