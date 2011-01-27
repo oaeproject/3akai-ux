@@ -117,12 +117,12 @@ sakai.relatedcontent = function(tuid,showSettings){
 
         for (var i = 0; i < contentData.members.managers.length; i++) {
             if (contentData.members.managers[i]) {
-                managersList += " " + contentData.members.managers[i].userid;
+                managersList += " " + (contentData.members.managers[i]["rep:userId"] || contentData.members.managers[i]["sakai:group-id"]);
             }
         }
         for (var j = 0; j < contentData.members.viewers.length; j++) {
             if (contentData.members.viewers[j]) {
-                viewersList += " " + contentData.members.viewers[j].userid;
+                viewersList += " " + (contentData.members.viewers[j]["rep:userId"] || contentData.members.viewers[j]["sakai:group-id"]);
             }
         }
 
