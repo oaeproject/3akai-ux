@@ -26,7 +26,7 @@
 
 require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselect/jquery.imgareaselect.js"], function($, sakai) {
 
-    var AIM = {
+    AIM = {
 
         frame : function(c) {
             var n = 'f' + Math.floor(Math.random() * 99999);
@@ -343,9 +343,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
                 existingPicture = true;
                 $(tabSelect).show();
 
-                // Set the images
-                $(fullPictureSpan).html('<img alt="' + $("#changepic_fullpicture_alt").html() + '" id="changepic_fullpicture_img" src="/~' + id + "/public/profile/" + picture._name + "?sid=" + Math.random() + '" />');
-                $(thumbnailSpan).html('<img alt="' + $("#thumbnail_alt").html() + '" id="thumbnail_img" src="/~' + id + "/public/profile/" + picture._name + "?sid=" + Math.random() + '" />');
+                // Set the unvisible image to the full blown image. (make sure to filter the # out)
+                $(pictureMeasurer).html(sakai.api.Security.saneHTML("<img src='" + "/~" + id + "/public/profile/" + picture._name + "?sid=" + Math.random() + "' id='" + pictureMeasurerImage.replace(/#/gi, '') + "' />"));
 
                 // Check the current picture's size
                 $(pictureMeasurerImage).bind("load", function(ev){
@@ -355,8 +354,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
                     realh = $(pictureMeasurerImage).height();
 
                     // Set the images
-                    $(fullPicture).attr("src", "/~" + id + "/public/profile/" + picture._name + "?sid=" + Math.random());
-                    $(thumbnail).attr("src", "/~" + id + "/public/profile/" + picture._name + "?sid=" + Math.random());
+                    $(fullPictureSpan).html('<img alt="' + $("#changepic_fullpicture_alt").html() + '" id="changepic_fullpicture_img" src="/~' + id + "/public/profile/" + picture._name + "?sid=" + Math.random() + '" />');
+                    $(thumbnailSpan).html('<img alt="' + $("#thumbnail_alt").html() + '" id="thumbnail_img" src="/~' + id + "/public/profile/" + picture._name + "?sid=" + Math.random() + '" />');
 
                     // Reset ratio
                     ratio = 1;

@@ -635,7 +635,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 url: "/p/" + dataResponse[0].hashpath + ".2.json",
                 type : "GET",
                 success: function(data){
-                    sakai.content_profile.content_data.data = data;
+                    sakai_global.content_profile.content_data.data = data;
                     resetFields();
                 }
             });

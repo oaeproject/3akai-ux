@@ -172,7 +172,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             isManager: manager
                         };
 
-                        sakai.content_profile.content_data = json;
+                        sakai_global.content_profile.content_data = json;
                         $(window).trigger("sakai-contentprofile-ready");
                         if ($.isFunction(callback)) {
                             callback(true);
@@ -194,37 +194,37 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             loadContentProfile(function() {
                 // The request was successful so initialise the entity widget
                 if (sakai.entity && sakai.entity.isReady) {
-                    $(window).trigger("render.entity.sakai", ["content", sakai.content_profile.content_data]);
+                    $(window).trigger("render.entity.sakai", ["content", sakai_global.content_profile.content_data]);
                 }
                 else {
                     $(window).bind("sakai.api.UI.entity.ready", function(e){
-                        $(window).trigger("render.entity.sakai", ["content", sakai.content_profile.content_data]);
+                        $(window).trigger("render.entity.sakai", ["content", sakai_global.content_profile.content_data]);
                         ready_event_fired++;
                     });
                 }
                 // The request was successful so initialise the relatedcontent widget
                 if (sakai.relatedcontent && sakai.relatedcontent.isReady) {
-                    sakai.api.UI.relatedcontent.render(sakai.content_profile.content_data);
+                    $(window).trigger("render.relatedcontent.sakai", sakai_global.content_profile.content_data);
                 }
                 else {
                     $(window).bind("sakai.api.UI.relatedcontent.ready", function(e){
-                        sakai.api.UI.relatedcontent.render(sakai.content_profile.content_data);
+                        $(window).trigger("render.relatedcontent.sakai", sakai_global.content_profile.content_data);
                         ready_event_fired++;
                     });
                 }
                 // The request was successful so initialise the relatedcontent widget
                 if (sakai.contentpreview && sakai.contentpreview.isReady) {
-                    $(window).trigger("sakai.contentpreview.start");
+                    $(window).trigger("sakai_global.contentpreview.start");
                 }
                 else {
-                    $(window).bind("sakai.contentpreview.ready", function(e){
-                        $(window).trigger("sakai.contentpreview.start");
+                    $(window).bind("sakai_global.contentpreview.ready", function(e){
+                        $(window).trigger("sakai_global.contentpreview.start");
                         ready_event_fired++;
                     });
                 }
                 // The request was successful so initialise the metadata widget
                 if (sakai.contentmetadata && sakai.contentmetadata.isReady) {
-                    sakai.api.UI.contentmetadata.render();
+                    $(window).trigger("render.contentmetadata.sakai");
                 }
                 else {
                     $(window).bind("sakai.contentmetadata.ready", function(e){
@@ -373,5 +373,5 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
     };
 
-    sakai.api.Widgets.Container.registerForLoad("sakai.content_profile");    
+    sakai.api.Widgets.Container.registerForLoad("content_profile");
 });

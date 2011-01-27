@@ -44,8 +44,8 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
             var method = _forcePOST ? "POST" : "GET",
                 cache = _cache || true;
 
-            // IE can't handle GETs over 2048 chars, so lets check for that and POST if we need to
-            if (!_forcePOST && $.browser.msie && ("http://" + document.location.host + sakai_conf.URL.BATCH + encodeURI(_requests)).length > 2048) {
+            // no GETs over 2048 chars, so lets check for that and POST if we need to
+            if (!_forcePOST && ("http://" + document.location.host + sakai_conf.URL.BATCH + encodeURI(_requests)).length > 2048) {
                 method = "POST";
             }
             $.ajax({

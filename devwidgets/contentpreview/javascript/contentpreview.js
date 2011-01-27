@@ -51,7 +51,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             obj.type = "showpreview";
             var callback = null;
             var arg = null;
-            var mimeType = sakai.content_profile.content_data.data["jcr:content"]["jcr:mimeType"];
+            var mimeType = sakai_global.content_profile.content_data.data["jcr:content"]["jcr:mimeType"];
             if (mimeType.substring(0, 6) === "video/") {
                 callback = renderVideoPlayer;
             } else if (mimeType.substring(0, 6) === "audio/") {
@@ -66,12 +66,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 callback = renderStoredPreview;
             } else  if (mimeType.substring(0, 6) === "image/") {
                 callback = renderImagePreview;
-            } else if (sakai.content_profile.content_data.data["sakai:needsprocessing"] === "false") {
+            } else if (sakai_global.content_profile.content_data.data["sakai:needsprocessing"] === "false") {
                 callback = renderStoredPreview;
             } else {
                 callback = renderDefaultPreview;
                 obj.type = "default";
             }
+            obj.sakai = sakai;
             sakai.api.Util.TemplateRenderer("contentpreview_widget_main_template", obj, $("#contentpreview_widget_main_container"));
             callback(arg);
         };
@@ -88,7 +89,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("#contentpreview_image_preview").css("overflow", "");
             $("#contentpreview_image_rendered").css("margin-top", "");
             var json = {};
-            json.contentURL = contentURL || sakai.content_profile.content_data.path;
+            json.contentURL = contentURL || sakai_global.content_profile.content_data.path;
+            json.sakai = sakai;
             sakai.api.Util.TemplateRenderer("contentpreview_image_template", json, $("#contentpreview_image_calculatesize"));
             $("#contentpreview_image_rendered").bind('load', function(ev){
                 var width = $("#contentpreview_image_rendered").width();
@@ -111,13 +113,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var renderTextPreview = function(){
-            if (sakai.content_profile.content_data.data["jcr:content"][":jcr:data"] > 1500000){
+            if (sakai_global.content_profile.content_data.data["jcr:content"][":jcr:data"] > 1500000){
                 renderDefaultPreview();
                 return;
             }
             $(".contentpreview_text_preview").show();
             $.ajax({
-               url: sakai.content_profile.content_data.path,
+               url: sakai_global.content_profile.content_data.path,
                type: "GET",
                success: function(data){
                    $(".contentpreview_text_preview").html(data.replace(/\n/g, "<br/>"));
@@ -127,8 +129,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var renderHTMLPreview = function(){
             $(".contentpreview_html_preview").show();
+            json.sakai = sakai;
             sakai.api.Util.TemplateRenderer("contentpreview_html_template", json, $("#contentpreview_html_preview"));
-            $("#contentpreview_html_iframe").attr("src", sakai.content_profile.content_data.path);
+            $("#contentpreview_html_iframe").attr("src", sakai_global.content_profile.content_data.path);
             $("#contentpreview_html_iframe").attr("width", "640px");
             $("#contentpreview_html_iframe").attr("height", "390px");
             $("#contentpreview_html_iframe").attr("frameborder", "0");
@@ -137,9 +140,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var renderVideoPlayer = function(){
             $(".contentpreview_videoaudio_preview").show();
             var so = createSWFObject(false, {}, {});
-            so.addVariable('file', sakai.content_profile.content_data.path);
-            if (sakai.content_profile.content_data.data.previewImage) {
-                so.addVariable('image', sakai.content_profile.content_data.data.previewImage);
+            so.addVariable('file', sakai_global.content_profile.content_data.path);
+            if (sakai_global.content_profile.content_data.data.previewImage) {
+                so.addVariable('image', sakai_global.content_profile.content_data.data.previewImage);
             }
             so.addVariable('stretching','fill');
             so.write("contentpreview_videoaudio_preview");
@@ -148,7 +151,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var renderAudioPlayer = function(){
             $(".contentpreview_videoaudio_preview").show();
             var so = createSWFObject(false, {}, {});
-            so.addVariable('file', sakai.content_profile.content_data.path);
+            so.addVariable('file', sakai_global.content_profile.content_data.path);
             so.addVariable('image', "/devwidgets/contentpreview/images/content_preview_audio.jpg");
             so.addVariable('stretching','fill');
             so.write("contentpreview_videoaudio_preview");
@@ -156,7 +159,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var renderFlashPlayer = function(){
             $(".contentpreview_flash_preview").show();
-            var so = createSWFObject(sakai.content_profile.content_data.path, {'allowscriptaccess':'never'}, {});
+            var so = createSWFObject(sakai_global.content_profile.content_data.path, {'allowscriptaccess':'never'}, {});
             so.addParam('scale','exactfit');
             so.write("contentpreview_flash_preview");
         };
@@ -177,7 +180,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var renderStoredPreview = function(){
-            renderImagePreview("/p/" + sakai.content_profile.content_data.data["jcr:name"] + ".preview.jpg");
+            renderImagePreview("/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".preview.jpg");
         };
 
         var renderDefaultPreview = function(){
@@ -195,14 +198,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Open the delete content pop-up
             $("#content_preview_delete").bind("click", function(){
                 window.scrollTo(0,0);
-                sakai.deletecontent.init(sakai.content_profile.content_data);
+                sakai.deletecontent.init(sakai_global.content_profile.content_data);
             });
             $("#upload_content").die("click");
             $("#upload_content").live("click", function() {
                 $(window).trigger("sakai-fileupload-init", {
                     newVersion: true,
-                    isLink: sakai.content_profile.content_data.data["jcr:content"]["jcr:mimeType"] === "x-sakai/link",
-                    contentPath: sakai.content_profile.content_data.data["jcr:name"]
+                    isLink: sakai_global.content_profile.content_data.data["jcr:content"]["jcr:mimeType"] === "x-sakai/link",
+                    contentPath: sakai_global.content_profile.content_data.data["jcr:name"]
                 });
             });
             $("#upload_content").bind("click", function(){
@@ -212,9 +215,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var determineFileCreator = function(){
             $.ajax({
-                url: "/~" + sakai.content_profile.content_data.data["sakai:pool-content-created-for"] + "/public/authprofile.infinity.json",
+                url: "/~" + sakai_global.content_profile.content_data.data["sakai:pool-content-created-for"] + "/public/authprofile.infinity.json",
                 success: function(profile){
-                    sakai.content_profile.content_data.creator = sakai.api.User.getDisplayName(profile);
+                    sakai_global.content_profile.content_data.creator = sakai.api.User.getDisplayName(profile);
                     determineDataType();
                     bindButtons();
                 },

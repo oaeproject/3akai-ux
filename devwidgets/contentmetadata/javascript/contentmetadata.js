@@ -26,11 +26,7 @@
 
 /*global $ */
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
-    
-    sakai.api.UI.contentmetadata = sakai.api.UI.contentmetadata || {};
-    sakai.api.UI.contentmetadata.data = sakai.api.UI.contentmetadata.data || {};
-    sakai.api.UI.contentmetadata.render = sakai.api.UI.contentmetadata.render || {};
-    
+
     /**
      * @name sakai_global.contentmetadata
      *
@@ -129,7 +125,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {String|Boolean} mode Can be false or 'edit' depending on the mode you want to be in
          */
         var renderDescription = function(mode){
-            $contentmetadataDescriptionContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataDescriptionTemplate, sakai.content_profile.content_data));
+            sakai_global.content_profile.content_data.mode = mode;
+            var json = {
+                data: sakai_global.content_profile.content_data,
+                sakai: sakai
+            };
+            debug.debug(sakai.api.Util.TemplateRenderer(contentmetadataDescriptionTemplate, json), json);
+            $contentmetadataDescriptionContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataDescriptionTemplate, json));
             addEditBinding(mode);
         };
     
@@ -146,14 +148,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $("#contentmetadata_name_name").text($("#contentmetadata_name_text").val());
                 $("#contentmetadata_name_name").show();
                 $.ajax({
-                    url: "/p/" + sakai.content_profile.content_data.data["jcr:name"] + ".html",
+                    url: "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".html",
                     type : "POST",
                     cache: false,
                     data: {
                         "sakai:pooled-content-file-name":sakai.api.Security.escapeHTML($("#contentmetadata_name_text").val())
                     }, 
 					success: function() {
-                        sakai.content_profile.content_data.data["sakai:pooled-content-file-name"] = sakai.api.Security.escapeHTML($("#contentmetadata_name_text").val());
+                        sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] = sakai.api.Security.escapeHTML($("#contentmetadata_name_text").val());
                     }
                 });
             });
@@ -164,8 +166,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {String|Boolean} mode Can be false or 'edit' depending on the mode you want to be in
          */
         var renderTags = function(mode){
-            sakai.content_profile.content_data.mode = mode;
-            $contentmetadataTagsContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataTagsTemplate, sakai.content_profile.content_data));
+            sakai_global.content_profile.content_data.mode = mode;
+            var json = {
+                data: sakai_global.content_profile.content_data,
+                sakai: sakai
+            };
+            $contentmetadataTagsContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataTagsTemplate, json));
             addEditBinding(mode);
         };
     
@@ -174,8 +180,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {String|Boolean} mode Can be false or 'edit' depending on the mode you want to be in
          */
         var renderCopyright = function(mode){
-            sakai.content_profile.content_data.mode = mode;
-            $contentmetadataCopyrightContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataCopyrightTemplate, sakai.content_profile.content_data));
+            sakai_global.content_profile.content_data.mode = mode;
+            var json = {
+                data: sakai_global.content_profile.content_data,
+                sakai: sakai
+            };
+            $contentmetadataCopyrightContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataCopyrightTemplate, json));
             addEditBinding(mode);
         };
     
@@ -184,8 +194,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {String|Boolean} mode Can be false or 'edit' depending on the mode you want to be in
          */
         var renderDetails = function(mode){
-            sakai.content_profile.content_data.mode = mode;
-            $contentmetadataDetailsContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataDetailsTemplate, sakai.content_profile.content_data));
+            sakai_global.content_profile.content_data.mode = mode;
+            var json = {
+                data: sakai_global.content_profile.content_data,
+                sakai: sakai
+            };
+            $contentmetadataDetailsContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataDetailsTemplate, json));
             addEditBinding(mode);
         };
     
@@ -193,7 +207,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var activityData = {
                 "sakai:activityMessage": activityMessage
             };
-            sakai.api.Activity.createActivity("/p/" + sakai.content_profile.content_data.data["jcr:name"], "content", "default", activityData);
+            sakai.api.Activity.createActivity("/p/" + sakai_global.content_profile.content_data.data["jcr:name"], "content", "default", activityData);
         };
     
         //////////////////////////////////
@@ -213,8 +227,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
             else {
                 $contentmetadataLocationsContainer.html("");
-                sakai.content_profile.content_data.mode = mode;
-                $contentmetadataLocationsContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataLocationsTemplate, sakai.content_profile.content_data));
+                sakai_global.content_profile.content_data.mode = mode;
+                var json = {
+                    data: sakai_global.content_profile.content_data,
+                    sakai: sakai
+                };
+                $contentmetadataLocationsContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataLocationsTemplate, json));
                 applyThreeDots();
             }
         };
@@ -226,14 +244,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var updateTags = function() {
             var tags = sakai.api.Util.formatTags(sakai.api.Security.escapeHTML($("#contentmetadata_tags_tags").val()));
             // Since directory tags are filtered out of the textarea we should put them back to save them
-            $(sakai.content_profile.content_data.data["sakai:tags"]).each(function(index, tag){
+            $(sakai_global.content_profile.content_data.data["sakai:tags"]).each(function(index, tag){
                 if(tag.split("/")[0] === "directory"){
                     tags.push(tag);
                 }
             });
     
-            sakai.api.Util.tagEntity("/p/" + sakai.content_profile.content_data.data["jcr:name"], tags, sakai.content_profile.content_data.data["sakai:tags"], function(){
-                sakai.content_profile.content_data.data["sakai:tags"] = tags;
+            sakai.api.Util.tagEntity("/p/" + sakai_global.content_profile.content_data.data["jcr:name"], tags, sakai_global.content_profile.content_data.data["sakai:tags"], function(){
+                sakai_global.content_profile.content_data.data["sakai:tags"] = tags;
                 renderTags(false);
                 // Create an activity
                 createActivity("__MSG__UPDATED_TAGS__");
@@ -245,13 +263,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var updateDescription = function(){
             $.ajax({
-                url: "/p/" + sakai.content_profile.content_data.data["jcr:name"] + ".html",
+                url: "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".html",
                 type : "POST",
                 cache: false,
                 data: {
                     "sakai:description":sakai.api.Security.escapeHTML($("#contentmetadata_description_description").val())
                 }, success: function(){
-                    sakai.content_profile.content_data.data["sakai:description"] = $("#contentmetadata_description_description").val();
+                    sakai_global.content_profile.content_data.data["sakai:description"] = $("#contentmetadata_description_description").val();
                     renderDescription(false);
                     // Create an activity
                     createActivity("__MSG__UPDATED_DESCRIPTION__");
@@ -264,13 +282,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var updateCopyright = function(){
             $.ajax({
-                url: "/p/" + sakai.content_profile.content_data.data["jcr:name"] + ".html",
+                url: "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".html",
                 type : "POST",
                 cache: false,
                 data: {
                     "sakai:copyright":$("#contentmetadata_copyright_copyright").val()
                 }, success: function(){
-                    sakai.content_profile.content_data.data["sakai:copyright"] = $("#contentmetadata_copyright_copyright").val();
+                    sakai_global.content_profile.content_data.data["sakai:copyright"] = $("#contentmetadata_copyright_copyright").val();
                     renderCopyright(false);
                     // Create an activity
                     createActivity("__MSG__UPDATED_COPYRIGHT__");
@@ -367,7 +385,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var addBinding = function(){
             $(".contentmetadata_editable_for_maintainers").removeClass("contentmetadata_editable");
-            if (sakai.content_profile.content_data.isManager) {
+            if (sakai_global.content_profile.content_data.isManager) {
                 $(".contentmetadata_editable_for_maintainers").addClass("contentmetadata_editable");
             }
             
@@ -379,7 +397,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     
             $(contentmetadataViewRevisions).die("click");
             $(contentmetadataViewRevisions).live("click", function(){
-                sakai.filerevisions.initialise(sakai.content_profile.content_data);
+                $(window).trigger("initialize.filerevisions.sakai", sakai_global.content_profile.content_data);
             });
         };
 
@@ -399,12 +417,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         $(window).bind("sakai-fileupload-complete", function(){
-            sakai.content_profile.loadContentProfile(renderDetails);
+            sakai_global.content_profile.loadContentProfile(renderDetails);
         });
 
         $(window).bind("sakai-contentmetadata-renderlocations", function(ev, val){
-            sakai.content_profile.content_data.saveddirectory = val.saveddirectory;
-            sakai.content_profile.content_data.data["sakai:tags"] = val.tags;
+            sakai_global.content_profile.content_data.saveddirectory = val.saveddirectory;
+            sakai_global.content_profile.content_data.data["sakai:tags"] = val.tags;
             renderLocations(false);
         });
 
@@ -418,9 +436,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Initialize the widget from outside of the widget
          */
-        sakai.api.UI.contentmetadata.render = function(){
+        $(window).bind("render.contentmetadata.sakai", function(){
             doInit();
-        };
+        });
 
         sakai_global.contentmetadata.isReady = true;
         doInit();

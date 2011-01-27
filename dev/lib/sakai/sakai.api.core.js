@@ -48,6 +48,7 @@ define(
             Activity : sakai_util.Activity,
             Communication : sakai_comm,
             Content: sakai_content,
+            Datetime: sakai_util.Datetime,
             Groups : sakai_groups,
             i18n : sakai_i18n,
             l10n : sakai_l10n,

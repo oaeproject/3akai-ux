@@ -208,7 +208,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // User
                 // Puts the userinformation in a better structure for trimpath
                 if (comment.userid) {
-                    if (sakai.content_profile.content_data.isManager){
+                    if (sakai_global.content_profile.content_data.isManager){
                         comment.canDelete = true;
                     }
                     var profile = comment;
@@ -233,11 +233,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         comment.profile.email = comment['sakai:email'];
                     }
                 }
-    
+
                 comment.user = user;
-    
+
                 jsonDisplay.comments[i] = comment;
             }
+            jsonDisplay.sakai = sakai;
             $(commentsShowComments, rootel).html(sakai.api.Util.TemplateRenderer(commentsShowCommentsTemplate, jsonDisplay));
         };
     
@@ -288,7 +289,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 items = widgetSettings.perPage;
             }
     
-            var url = "/p/" + sakai.content_profile.content_data.data["jcr:name"] + ".comments?sortOn=" + sortOn + "&sortOrder=" + sortOrder + "&page=" + (clickedPage - 1) + "&items=" + items;
+            var url = "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".comments?sortOn=" + sortOn + "&sortOrder=" + sortOrder + "&page=" + (clickedPage - 1) + "&items=" + items;
     
             $.ajax({
                 url: url,
@@ -362,7 +363,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "comment": body
                 };
     
-                var url = "/p/" + sakai.content_profile.content_data.data["jcr:name"] + ".comments";
+                var url = "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".comments";
                 $.ajax({
                     url: url,
                     type: "POST",
@@ -375,7 +376,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         $(commentsNamePosterTxt, rootel).val("");
                         $(commentsMailPosterTxt, rootel).val("");
                         // Add an acitivty
-                        sakai.api.Activity.createActivity("/p/" + sakai.content_profile.content_data.data["jcr:name"], "content", "default", {"sakai:activityMessage": "__MSG__CONTENT_ADDED_COMMENT__"});
+                        sakai.api.Activity.createActivity("/p/" + sakai_global.content_profile.content_data.data["jcr:name"], "content", "default", {"sakai:activityMessage": "__MSG__CONTENT_ADDED_COMMENT__"});
                         // Get the comments.
                         getComments();
                     },
@@ -727,8 +728,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var doInit = function(){
     
             // configure widget placement if on the content profile page
-            /*if (sakai.content_profile && sakai.content_profile.content_data && sakai.api.Widgets.widgetLoader.widgets[tuid].placement.substr(0,3) !== "/p/"){
-                sakai.api.Widgets.widgetLoader.widgets[tuid].placement = "/p/" + sakai.content_profile.content_data.data["jcr:name"] + "/_widgets/" + sakai.api.Widgets.widgetLoader.widgets[tuid].placement;
+            /*if (sakai_global.content_profile && sakai_global.content_profile.content_data && sakai.api.Widgets.widgetLoader.widgets[tuid].placement.substr(0,3) !== "/p/"){
+                sakai.api.Widgets.widgetLoader.widgets[tuid].placement = "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + "/_widgets/" + sakai.api.Widgets.widgetLoader.widgets[tuid].placement;
             }
     
             widgeturl = sakai.api.Widgets.widgetLoader.widgets[tuid] ? sakai.api.Widgets.widgetLoader.widgets[tuid].placement : false;
@@ -750,9 +751,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                 });
             }*/
-            if (sakai.content_profile && sakai.content_profile.content_data){
-                currentSite = sakai.content_profile.content_data.data["sakai:pooled-content-file-name"];
-                contentPath = sakai.content_profile.content_data.path;
+            if (sakai_global.content_profile && sakai_global.content_profile.content_data){
+                currentSite = sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"];
+                contentPath = sakai_global.content_profile.content_data.path;
             }
             if (!showSettings) {
                 // Show the main view.

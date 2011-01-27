@@ -27,14 +27,6 @@
 
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
-    /**
-     * @name sakai.api.UI.relatedcontent
-     *
-     * @class relatedcontent
-     *
-     */
-    sakai.api.UI.relatedcontent = sakai.api.UI.relatedcontent || {};
-    sakai.api.UI.relatedcontent.render = sakai.api.UI.relatedcontent.render || {};
 
     /**
      * @name sakai_global.relatedcontent
@@ -181,10 +173,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Render function
          */
-        sakai.api.UI.relatedcontent.render = function(contentData){
+       $(window).bind("render.relatedcontent.sakai", function(e, contentData){
             addBinding();
             getRelatedContent(contentData);
-        };
+        });
 
         // Indicate that the widget has finished loading
         $(window).trigger("sakai.api.UI.relatedcontent.ready", {});

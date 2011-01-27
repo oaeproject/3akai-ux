@@ -293,32 +293,31 @@ define(["jquery",
         loadMeData : function(callback) {
             // Get the service url from the config file
             var data_url = sakai_conf.URL.ME_SERVICE;
-            var that = this;
             // Start a request to the service
             $.ajax({
                 url: data_url,
                 cache: false,
                 success: function(data) {
-                    that.data.me = sakai_serv.convertObjectToArray(data, null, null);
+                    sakaiUserAPI.data.me = sakai_serv.convertObjectToArray(data, null, null);
 
                     // Check for firstName and lastName property - if not present use "rep:userId" for both (admin for example)
-                    if (that.getProfileBasicElementValue(that.data.me.profile, "firstName") === "") {
-                        that.setProfileBasicElementValue(that.data.me.profile, "firstName", data.me.profile["rep:userId"]);
+                    if (sakaiUserAPI.getProfileBasicElementValue(sakaiUserAPI.data.me.profile, "firstName") === "") {
+                        sakaiUserAPI.setProfileBasicElementValue(sakaiUserAPI.data.me.profile, "firstName", data.me.profile["rep:userId"]);
                     }
-                    if (that.getProfileBasicElementValue(that.data.me.profile, "lastName") === "") {
-                        that.setProfileBasicElementValue(that.data.me.profile, "lastName", data.me.profile["rep:userId"]);
+                    if (sakaiUserAPI.getProfileBasicElementValue(sakaiUserAPI.data.me.profile, "lastName") === "") {
+                        sakaiUserAPI.setProfileBasicElementValue(sakaiUserAPI.data.me.profile, "lastName", data.me.profile["rep:userId"]);
                     }
 
                     // Parse the directory locations
                     var directory = [];
-                    if(that.data.me.profile && that.data.me.profile["sakai:tags"]){
-                        directory = sakai_util.getDirectoryTags(data.me.profile["sakai:tags"].toString());
-                        that.data.me.profile.saveddirectory = directory;
+                    if(sakaiUserAPI.data.me.profile && sakaiUserAPI.data.me.profile["sakai:tags"]){
+                        directory = sakai_util.getDirectoryTags(sakaiUserAPI.data.me.profile["sakai:tags"].toString());
+                        sakaiUserAPI.data.me.profile.saveddirectory = directory;
                     }
 
                     // Call callback function if set
                     if ($.isFunction(callback)) {
-                        callback(true, that.data.me);
+                        callback(true, sakaiUserAPI.data.me);
                     }
                 },
                 error: function(xhr, textStatus, thrownError) {

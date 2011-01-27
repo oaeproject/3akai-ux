@@ -61,7 +61,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             baseFileData.created = sakai.api.l10n.transformDate(new Date(baseFileData.data["jcr:created"]));
             data.data = baseFileData;
             data.linkrevision = $("#content_profile_details_view_revisions").hasClass("link_revision");
-
+            data.sakai = sakai;
             var renderedTemplate = sakai.api.Util.TemplateRenderer(filerevisionsTemplate, data);
             $(filerevisionsTemplateContainer).html(renderedTemplate);
 
@@ -139,7 +139,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * This function can be called from anywhere within Sakai
          * @param {Object} data Contains data needed to call all revisions for the file
          */
-        sakai_global.filerevisions.initialise = function(data){
+        var initialize = function(data){
             // position dialog box at users scroll position
             var htmlScrollPos = $("html").scrollTop();
             var docScrollPos = $(document).scrollTop();
@@ -159,6 +159,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             getRevisionInformationDetails();
             $fileRevisionsDialog.jqmShow();
         };
+
+        $(window).bind("initialize.filerevisions.sakai", function(e, data) {
+            initialize(data);
+        });
 
         $fileRevisionsDialog.jqm({
             modal: true,

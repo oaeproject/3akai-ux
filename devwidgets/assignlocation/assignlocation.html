@@ -54,7 +54,7 @@
                 <a class="assignlocation_close_link" href="javascript:;">
                     <div class="assignlocation_close_image"></div>
                     {for locationpiece in location.split("/")}
-                        ${sakai.api.UI.getValueForDirectoryKey(locationpiece)} {if locationpiece_index < location.split("/").length - 1} <span class='assignlocation_select_seperator'>&raquo;</span>{/if}
+                        ${sakai.api.Util.getValueForDirectoryKey(locationpiece)} {if locationpiece_index < location.split("/").length - 1} <span class='assignlocation_select_seperator'>&raquo;</span>{/if}
                     {/for}
                 </a>
             </li>

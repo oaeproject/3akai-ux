@@ -142,7 +142,7 @@
         {if mode === "content"}
             {if data.profile}
                 <div class="fl-force-left entity_content_header">
-                    <span id="contentmetadata_name_name" class="entity_content_header_text {if sakai.content_profile.content_data.isManager} contentmetadata_editable {/if}">
+                    <span id="contentmetadata_name_name" class="entity_content_header_text {if sakai_global.content_profile.content_data.isManager} contentmetadata_editable {/if}">
                         ${data.profile.name}
                     </span>
                     <span id="contentmetadata_name_edit" style="display:none">
@@ -190,8 +190,8 @@
                                 __MSG__VISIBLE_TO_ANYONE_LOGGED_IN__
                             {elseif data.profile.permissions === "private"}
                                 __MSG__PRIVATE__
-                                {if sakai.content_profile.content_data.members.managers}
-                                    __MSG__TO__ ${unescape(sakai.api.User.getDisplayName(sakai.content_profile.content_data.members.managers[0]))}
+                                {if sakai_global.content_profile.content_data.members.managers}
+                                    __MSG__TO__ ${unescape(sakai.api.User.getDisplayName(sakai_global.content_profile.content_data.members.managers[0]))}
                                     {if data.profile.usercount + data.profile.groupcount > 1}
                                         + ${data.profile.usercount + data.profile.groupcount - 1}
                                         {if (data.profile.usercount + data.profile.groupcount) === 2}

@@ -1107,17 +1107,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // get the count of users and groups who have access to the content
             var userCount = 0;
             var groupCount = 0;
-            for (var i in sakai.content_profile.content_data.members.viewers) {
-                if (sakai.content_profile.content_data.members.viewers[i]["rep:userId"]) {
+            for (var i in sakai_global.content_profile.content_data.members.viewers) {
+                if (sakai_global.content_profile.content_data.members.viewers[i]["rep:userId"]) {
                     userCount++;
-                } else if (sakai.content_profile.content_data.members.viewers[i]['sakai:group-id']) {
+                } else if (sakai_global.content_profile.content_data.members.viewers[i]['sakai:group-id']) {
                     groupCount++;
                 }
             }
-            for (var ii in sakai.content_profile.content_data.members.managers) {
-                if (sakai.content_profile.content_data.members.managers[ii]["rep:userId"]) {
+            for (var ii in sakai_global.content_profile.content_data.members.managers) {
+                if (sakai_global.content_profile.content_data.members.managers[ii]["rep:userId"]) {
                     userCount++;
-                } else if (sakai.content_profile.content_data.members.managers[ii]['sakai:group-id']) {
+                } else if (sakai_global.content_profile.content_data.members.managers[ii]['sakai:group-id']) {
                     groupCount++;
                 }
             }
@@ -1125,12 +1125,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             entityconfig.data.profile.groupcount = groupCount;
 
             // Set the recent activity for the file
-            if (sakai.content_profile.content_data.activity) {
-                entityconfig.data.profile.activity = sakai.content_profile.content_data.activity;
+            if (sakai_global.content_profile.content_data.activity) {
+                entityconfig.data.profile.activity = sakai_global.content_profile.content_data.activity;
                 entityconfig.data.profile.activity.results.sort(sortActivity);
 
                 // find a user for each action from the users list
-                var userList = sakai.content_profile.content_data.members.managers.concat(sakai.content_profile.content_data.members.viewers);
+                var userList = sakai_global.content_profile.content_data.members.managers.concat(sakai_global.content_profile.content_data.members.viewers);
                 var foundUser = false;
 
                 // loop through each activity
@@ -1197,7 +1197,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(".entity_content_people").live("click", function(){
                 $entityContentUsersDialog.jqmShow();
 
-                var userList = sakai.content_profile.content_data.members.managers.concat(sakai.content_profile.content_data.members.viewers);
+                var userList = sakai_global.content_profile.content_data.members.managers.concat(sakai_global.content_profile.content_data.members.viewers);
                 var json = {
                     "userList": userList,
                     "type": "people",
@@ -1215,7 +1215,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(".entity_content_group").live("click", function(){
                 $entityContentUsersDialog.jqmShow();
 
-                var userList = sakai.content_profile.content_data.members.managers.concat(sakai.content_profile.content_data.members.viewers);
+                var userList = sakai_global.content_profile.content_data.members.managers.concat(sakai_global.content_profile.content_data.members.viewers);
                 var json = {
                     "userList": userList,
                     "type": "places",
@@ -1234,14 +1234,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $entityContentActivityDialog.jqmShow();
 
                 var activity = {
-                    "results": false,
-                    sakai: sakai
+                    "results": false
                 };
 
                 if (entityconfig.data.profile.activity) {
                     activity = entityconfig.data.profile.activity;
                 }
-
+                activity.sakai = sakai;
                 // render activity dialog template
                 sakai.api.Util.TemplateRenderer($entityContentActivityDialogTemplate, activity, $entityContentActivityDialogContainer);
                 $entityContentActivityDialogContainer.show();
@@ -1258,8 +1257,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "items": 50,
                     "type": "people",
                     "what": "Viewers",
-                    "where": sakai.content_profile.content_data.data["sakai:pooled-content-file-name"],
-                    "URL": sakai.content_profile.content_data.url + "/" + sakai.content_profile.content_data.data["sakai:pooled-content-file-name"]
+                    "where": sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"],
+                    "URL": sakai_global.content_profile.content_data.url + "/" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"]
                 };
 
                 $(window).trigger("sakai-sharecontent-init", pl_config, function(people){
@@ -1304,7 +1303,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         var displayName = data.user.toAddNames[i];
                         if (data.access === "viewer"){
                             viewerAdded = true;
-                            sakai.content_profile.content_data.members.viewers.push({
+                            sakai_global.content_profile.content_data.members.viewers.push({
                                 "userid": entityId,
                                 "displayName": displayName
                             });
@@ -1315,7 +1314,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             }
                             managerLinks = managerLinks + comma + ' <a href="/~' + userid + '" target="_blank" class="s3d-regular-light-links">' + displayName + '</a>';
                             managerAdded = true;
-                            sakai.content_profile.content_data.members.managers.push({
+                            sakai_global.content_profile.content_data.members.managers.push({
                                 "userid": entityId,
                                 "displayName": displayName
                             });
@@ -1341,7 +1340,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $(window).bind("sakai-sharecontent-removeUser", function(e, data) {
                 // filter out the user that was removed and render template
-                sakai.content_profile.content_data.members.managers = $.grep(sakai.content_profile.content_data.members.managers, function(resultObject, index){
+                sakai_global.content_profile.content_data.members.managers = $.grep(sakai_global.content_profile.content_data.members.managers, function(resultObject, index){
                     if (resultObject["sakai:group-id"] === data.user) {
                         entityconfig.data.profile.groupcount--;
                         return false;
@@ -1351,7 +1350,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                     return true;
                 });
-                sakai.content_profile.content_data.members.viewers = $.grep(sakai.content_profile.content_data.members.viewers, function(resultObject, index){
+                sakai_global.content_profile.content_data.members.viewers = $.grep(sakai_global.content_profile.content_data.members.viewers, function(resultObject, index){
                     if (resultObject["sakai:group-id"] === data.user) {
                         entityconfig.data.profile.groupcount--;
                         return false;
@@ -1366,7 +1365,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $(window).bind("sakai-sharecontent-setGlobalPermission", function() {
                 // update content permission and render template
-                entityconfig.data.profile.permissions = sakai.content_profile.content_data.data["sakai:permissions"];
+                entityconfig.data.profile.permissions = sakai_global.content_profile.content_data.data["sakai:permissions"];
                 renderTemplate();
             });
         };
@@ -1476,7 +1475,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
 
         $(window).bind("render.entity.sakai", function(e, mode, data) {
-            debug.log("render.entity.sakai");
             // Clear the previous containers
             $entity_container.empty().hide();
             $entity_container_actions.empty();
@@ -1503,7 +1501,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         $(window).bind("sakai-fileupload-complete", function(){
             if (sakai.hasOwnProperty("content_profile")) {
-                $(window).trigger("render.entity.sakai", ["content", sakai.content_profile.content_data]);
+                $(window).trigger("render.entity.sakai", ["content", sakai_global.content_profile.content_data]);
             }
         });
 

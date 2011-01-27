@@ -219,9 +219,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // Only do something on success
                 // TODO show a valid error message if something goes wrong
                 if(success && data.path){
-                    if (sakai.content_profile.content_data && sakai.content_profile.content_data.data) {
-                        json = sakai.content_profile.content_data;
-                        var splitslash = sakai.content_profile.content_data.contentpath.split("/");
+                    if (sakai_global.content_profile.content_data && sakai_global.content_profile.content_data.data) {
+                        json = sakai_global.content_profile.content_data;
+                        var splitslash = sakai_global.content_profile.content_data.contentpath.split("/");
                         json.data.name = splitslash[splitslash.length -1];
                         // Render the show template
                         renderTemplateShow(json);
@@ -229,10 +229,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         // Add binding to the show container
                         addBindingShow(json);
                     } else {
-                        sakai.content_profile.loadContentProfile(function(success) {
+                        sakai_global.content_profile.loadContentProfile(function(success) {
                             if (success) {
-                                json = sakai.content_profile.content_data;
-                                var splitslash = sakai.content_profile.content_data.contentpath.split("/");
+                                json = sakai_global.content_profile.content_data;
+                                var splitslash = sakai_global.content_profile.content_data.contentpath.split("/");
                                 json.data.name = splitslash[splitslash.length -1];
                                 // Render the show template
                                 renderTemplateShow(json);

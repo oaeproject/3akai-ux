@@ -68,7 +68,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var renderSelected = function(init) {
             var locations = {
-                "newlyAssignedLocations" : newlyAssignedLocations
+                "newlyAssignedLocations" : newlyAssignedLocations,
+                sakai: sakai
             };
             $assignlocationJSTreeSelectedContainer.html(sakai.api.Util.TemplateRenderer(assignlocationJSTreeSelectedTemplate, locations));
 
@@ -141,7 +142,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
         };
 
-        var showContainer = function(){
+        var showContainer = function(hash){
             determineContext();
             // position dialog box at users scroll position
             var htmlScrollPos = $("html").scrollTop();
@@ -151,14 +152,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $assignlocationContainer.css({
                     "top": htmlScrollPos + 100 + "px"
                 });
-            }
-            else
+            } else {
                 if (docScrollPos > 0) {
                     $contentmetadataLocationsDialog.css({
                         "top": docScrollPos + 100 + "px"
                     });
                 }
-            $assignlocationContainer.show();
+            }
+            hash.w.show();
             renderSelected(true);
         };
 
@@ -190,9 +191,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         break;
                     case "content":
                         contextVariables = {
-                            "saveddirectory": sakai.content_profile.content_data.saveddirectory,
-                            "tags": sakai.content_profile.content_data.data["sakai:tags"],
-                            "path": "/p/" + sakai.content_profile.content_data.data["jcr:name"],
+                            "saveddirectory": sakai_global.content_profile.content_data.saveddirectory,
+                            "tags": sakai_global.content_profile.content_data.data["sakai:tags"],
+                            "path": "/p/" + sakai_global.content_profile.content_data.data["jcr:name"],
                             "context" : "content"
                         };
                         break;
@@ -237,7 +238,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 },
                 "plugins": pluginArray
             });
-            determineContext();
         };
 
         var doInit = function(){
