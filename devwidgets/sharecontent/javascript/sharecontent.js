@@ -28,15 +28,7 @@
 /*global $ */
 
 // Namespaces
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
-
-    /**
-     * @name sakai_global.sharecontent
-     *
-     * @description
-     * Public functions for the content share widget
-     */
-    sakai_global.sharecontent = {};
+require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"], function($, sakai) {
 
     /**
      * @name sakai_global.sharecontent
@@ -106,10 +98,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $sharecontentIWouldLikeToShareFilenameWithYou = $("#sharecontent_i_would_like_to_share_filename_with_you");
         var $sharecontentYouCanFindItOn = $("#sharecontent_you_can_find_it_on");
         var $sharecontentRegards = $("#sharecontent_regards");
-        var shareThroughInternalMessageContent = $sharecontentHi.html() + ",\n\n" + $sharecontentIWouldLikeToShareFilenameWithYou.html().replace("${filename}", "\"" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"") + "\n" + $sharecontentYouCanFindItOn.html().replace("${path}", window.location) + "\n\n" + $sharecontentRegards.html() + ",\n" + sakai.data.me.profile.basic.elements.firstName.value;
-        var shareThroughInternalMessageSubject = $sharecontentWantsToShareAFileWithYou.html().replace("${user}", sakai.data.me.profile.basic.elements.firstName.value + " " + sakai.data.me.profile.basic.elements.lastName.value);
-        var shareThroughMailSubject = $sharecontentWantsToShareAFileWithYou.html().replace("${user}", sakai.data.me.profile.basic.elements.firstName.value + " " + sakai.data.me.profile.basic.elements.lastName.value);
-        var shareThroughMailContent = $sharecontentHi.html() + ",%0A%0A" + $sharecontentIWouldLikeToShareFilenameWithYou.html().replace("${filename}", "\"" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"") + "%0A" + $sharecontentYouCanFindItOn.html().replace("${path}", window.location) + "%0A%0A" + $sharecontentRegards.html() + ",%0A" + sakai.data.me.profile.basic.elements.firstName.value;
+        var shareThroughInternalMessageContent = "";
+        var shareThroughInternalMessageSubject = "";
+        var shareThroughMailSubject = "";
+        var shareThroughMailContent = "";
 
         var userList = [];
         var initialized = false;
@@ -656,6 +648,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         $(window).unbind("sakai-sharecontent-init");
         $(window).bind("sakai-sharecontent-init", function(e, config, callbackFn) {
+            shareThroughInternalMessageContent = $sharecontentHi.html() + ",\n\n" + $sharecontentIWouldLikeToShareFilenameWithYou.html().replace("${filename}", "\"" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"") + "\n" + $sharecontentYouCanFindItOn.html().replace("${path}", window.location) + "\n\n" + $sharecontentRegards.html() + ",\n" + sakai.data.me.profile.basic.elements.firstName.value;
+            shareThroughInternalMessageSubject = $sharecontentWantsToShareAFileWithYou.html().replace("${user}", sakai.data.me.profile.basic.elements.firstName.value + " " + sakai.data.me.profile.basic.elements.lastName.value);
+            shareThroughMailSubject = $sharecontentWantsToShareAFileWithYou.html().replace("${user}", sakai.data.me.profile.basic.elements.firstName.value + " " + sakai.data.me.profile.basic.elements.lastName.value);
+            shareThroughMailContent = $sharecontentHi.html() + ",%0A%0A" + $sharecontentIWouldLikeToShareFilenameWithYou.html().replace("${filename}", "\"" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"") + "%0A" + $sharecontentYouCanFindItOn.html().replace("${path}", window.location) + "%0A%0A" + $sharecontentRegards.html() + ",%0A" + sakai.data.me.profile.basic.elements.firstName.value;
             $sharecontent_container.jqmShow();
             render(config);
             $(window).unbind("sakai-pickeradvanced-finished");

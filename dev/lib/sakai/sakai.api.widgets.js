@@ -257,12 +257,7 @@ define(["jquery",
 
                                 // Run the widget's main JS function
                                 var initfunction = window[widgetNameSpace][widgetname];
-                                try {
-                                    initfunction(widgets[widgetname][i].uid, settings);
-                                } catch (e) {
-                                    debug.error(e);
-                                }
-
+                                initfunction(widgets[widgetname][i].uid, settings);
 
                                 // Send out a "loaded" event for this widget
                                 $(window).trigger(widgetname + "_loaded", [widgets[widgetname][i].uid]);

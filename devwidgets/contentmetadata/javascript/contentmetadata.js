@@ -25,7 +25,7 @@
  */
 
 /*global $ */
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"], function($, sakai) {
 
     /**
      * @name sakai_global.contentmetadata
@@ -40,7 +40,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
     sakai_global.contentmetadata = function(tuid,showSettings){
-    
     
         ////////////////////////
         ////// VARIABLES ///////
@@ -130,7 +129,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 data: sakai_global.content_profile.content_data,
                 sakai: sakai
             };
-            debug.debug(sakai.api.Util.TemplateRenderer(contentmetadataDescriptionTemplate, json), json);
             $contentmetadataDescriptionContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataDescriptionTemplate, json));
             addEditBinding(mode);
         };
@@ -439,10 +437,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $(window).bind("render.contentmetadata.sakai", function(){
             doInit();
         });
-
         sakai_global.contentmetadata.isReady = true;
-        doInit();
-    
+        $(window).trigger("sakai.contentmetadata.ready");
     };
     
     sakai.api.Widgets.widgetLoader.informOnLoad("contentmetadata");

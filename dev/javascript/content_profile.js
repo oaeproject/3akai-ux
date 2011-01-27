@@ -193,42 +193,38 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             content_path = $.bbq.getState("content_path") || "";
             loadContentProfile(function() {
                 // The request was successful so initialise the entity widget
-                if (sakai.entity && sakai.entity.isReady) {
+                if (sakai_global.entity && sakai_global.entity.isReady) {
                     $(window).trigger("render.entity.sakai", ["content", sakai_global.content_profile.content_data]);
-                }
-                else {
+                } else {
                     $(window).bind("sakai.api.UI.entity.ready", function(e){
                         $(window).trigger("render.entity.sakai", ["content", sakai_global.content_profile.content_data]);
                         ready_event_fired++;
                     });
                 }
                 // The request was successful so initialise the relatedcontent widget
-                if (sakai.relatedcontent && sakai.relatedcontent.isReady) {
+                if (sakai_global.relatedcontent && sakai_global.relatedcontent.isReady) {
                     $(window).trigger("render.relatedcontent.sakai", sakai_global.content_profile.content_data);
-                }
-                else {
+                } else {
                     $(window).bind("sakai.api.UI.relatedcontent.ready", function(e){
                         $(window).trigger("render.relatedcontent.sakai", sakai_global.content_profile.content_data);
                         ready_event_fired++;
                     });
                 }
                 // The request was successful so initialise the relatedcontent widget
-                if (sakai.contentpreview && sakai.contentpreview.isReady) {
+                if (sakai_global.contentpreview && sakai_global.contentpreview.isReady) {
                     $(window).trigger("sakai_global.contentpreview.start");
-                }
-                else {
+                } else {
                     $(window).bind("sakai_global.contentpreview.ready", function(e){
                         $(window).trigger("sakai_global.contentpreview.start");
                         ready_event_fired++;
                     });
                 }
                 // The request was successful so initialise the metadata widget
-                if (sakai.contentmetadata && sakai.contentmetadata.isReady) {
+                if (sakai_global.contentmetadata && sakai_global.contentmetadata.isReady) {
                     $(window).trigger("render.contentmetadata.sakai");
-                }
-                else {
+                } else {
                     $(window).bind("sakai.contentmetadata.ready", function(e){
-                        $(window).trigger("sakai.contentmetadata.start");
+                        $(window).trigger("render.contentmetadata.sakai");
                         ready_event_fired++;
                     });
                 }
