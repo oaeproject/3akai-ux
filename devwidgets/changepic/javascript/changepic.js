@@ -290,7 +290,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
         var doInit = function(newpic){
             picture = false;
 
-            id = sakai.data.me.user.userid;
+            if (!id) {
+                id = sakai.data.me.user.userid;
+                mode = "user";
+            }
 
             var json;
 
