@@ -40,7 +40,7 @@
     line-height: 3px;
     height:3px;
     font-size:3px;
-    background: url(/dev/images/simpletree/line_bg.gif) 0 0 no-repeat transparent;
+    background: url(/dev/images/simpletree/line_bg.png) 0 0 no-repeat transparent;
 }
 .simpleTree .line-last
 {
@@ -58,7 +58,7 @@
     line-height: 3px;
     height:3px;
     font-size:3px;
-    background: url(/dev/images/simpletree/line_bg_over.gif) 0 0 no-repeat transparent;
+    background: url(/dev/images/simpletree/line_bg_over.png) 0 0 no-repeat transparent;
 }
 .simpleTree .line-over-last
 {
@@ -72,32 +72,32 @@
 .simpleTree .folder-open
 {
     margin-left:-16px;
-    background: url(/dev/images/simpletree/collapsable-last.gif) -1px -1px no-repeat #fff;
+    background: url(/dev/images/simpletree/collapsable-last.png) -1px -1px no-repeat #fff;
 }
 .simpleTree .folder-open-last
 {
     margin-left:-16px;
-    background: url(/dev/images/simpletree/collapsable-last.gif) -1px -2px no-repeat #fff;
+    background: url(/dev/images/simpletree/collapsable-last.png) -1px -2px no-repeat #fff;
 }
 .simpleTree .folder-close
 {
     margin-left:-16px;
-    background: url(/dev/images/simpletree/expandable.gif) -1px -1px no-repeat #fff;
+    background: url(/dev/images/simpletree/expandable.png) -1px -1px no-repeat #fff;
 }
 .simpleTree .folder-close-last
 {
     margin-left:-16px;
-    background: url(/dev/images/simpletree/expandable.gif) -1px -1px no-repeat #fff;
+    background: url(/dev/images/simpletree/expandable.png) -1px -1px no-repeat #fff;
 }
 .simpleTree .doc
 {
     margin-left:-16px;
-    background: url(/dev/images/simpletree/leaf.gif) 0 -1px no-repeat #fff;
+    background: url(/dev/images/simpletree/leaf.png) 0 -1px no-repeat #fff;
 }
 .simpleTree .doc-last
 {
     margin-left:-16px;
-    background: url(/dev/images/simpletree/leaf.gif) 0 -1px no-repeat #fff;
+    background: url(/dev/images/simpletree/leaf.png) 0 -1px no-repeat #fff;
 }
 .simpleTree .ajax
 {
@@ -161,14 +161,14 @@
 
 #drag_container li.doc, #drag_container li.doc-last
 {
-    background: url(/dev/images/simpletree/leaf.gif) no-repeat -17px 0 #ffffff;
+    background: url(/dev/images/simpletree/leaf.png) no-repeat -17px 0 #ffffff;
 }
 #drag_container .folder-close, #drag_container .folder-close-last
 {
-    background: url(/dev/images/simpletree/leaf.gif) no-repeat -17px 0 #ffffff;
+    background: url(/dev/images/simpletree/leaf.png) no-repeat -17px 0 #ffffff;
 }
 
 #drag_container .folder-open, #drag_container .folder-open-last
 {
-    background: url(/dev/images/simpletree/leaf.gif) no-repeat -17px 0 #ffffff;
+    background: url(/dev/images/simpletree/leaf.png) no-repeat -17px 0 #ffffff;
 }
