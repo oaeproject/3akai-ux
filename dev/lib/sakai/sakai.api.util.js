@@ -223,7 +223,7 @@ define(["jquery",
          */
 
         tagEntity : function(tagLocation, newTags, currentTags, callback) {
-            var setTags = function(tagLocation, tags, callback) {
+            var setTags = function(tagLocation, tags, setTagsCallback) {
                 if (tags.length) {
                     var requests = [];
                     $(tags).each(function(i, val){
@@ -238,22 +238,24 @@ define(["jquery",
                     });
                     sakai_serv.batch($.toJSON(requests), function(success, data) {
                         if (success) {
-                            doSetTags(tags);
+                            doSetTags(tags, function(_success) {
+                                setTagsCallback(_success);
+                            });
                         } else {
                             debug.error(val + " failed to be created");
-                            if ($.isFunction(callback)) {
-                                callback();
+                            if ($.isFunction(setTagsCallback)) {
+                                setTagsCallback();
                             }
                         }
                     });
                 } else {
-                    if ($.isFunction(callback)) {
-                        callback();
+                    if ($.isFunction(setTagsCallback)) {
+                        setTagsCallback();
                     }
                 }
 
                 // set the tag on the entity
-                var doSetTags = function(tags) {
+                var doSetTags = function(tags, doSetTagsCallback) {
                     var setTagsRequests = [];
                     $(tags).each(function(i,val) {
                         setTagsRequests.push({
@@ -266,12 +268,11 @@ define(["jquery",
                         });
                     });
                     sakai_serv.batch($.toJSON(setTagsRequests), function(success, data) {
-                        if (success) {
-                            if ($.isFunction(callback)) {
-                                callback();
-                            }
-                        } else {
+                        if (!success) {
                             debug.error(tagLocation + " failed to be tagged as " + val);
+                        }
+                        if ($.isFunction(doSetTagsCallback)) {
+                            doSetTagsCallback(success);
                         }
                     }, false, true);
                 };
@@ -285,7 +286,7 @@ define(["jquery",
              * @param (Function) callback The callback function
              */
 
-            var deleteTags = function(tagLocation, tags, callback) {
+            var deleteTags = function(tagLocation, tags, deleteTagsCallback) {
                 if (tags.length) {
                     var requests = [];
                     $(tags).each(function(i,val) {
@@ -302,13 +303,13 @@ define(["jquery",
                         if (!success) {
                             debug.error(val + " tag failed to be removed from " + tagLocation);
                         }
-                        if ($.isFunction(callback)) {
-                            callback();
+                        if ($.isFunction(deleteTagsCallback)) {
+                            deleteTagsCallback();
                         }
                     });
                 } else {
-                    if ($.isFunction(callback)) {
-                        callback();
+                    if ($.isFunction(deleteTagsCallback)) {
+                        deleteTagsCallback();
                     }
                 }
             };
@@ -337,9 +338,9 @@ define(["jquery",
                 }
             });
             deleteTags(tagLocation, tagsToDelete, function() {
-                setTags(tagLocation, tagsToAdd, function() {
+                setTags(tagLocation, tagsToAdd, function(success) {
                     if ($.isFunction(callback)) {
-                        callback();
+                        callback(success);
                     }
                 });
             });
