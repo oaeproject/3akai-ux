@@ -1,6 +1,10 @@
 .jq_pager ul.pages{margin:10px 0 0!important;}
 .search_results_part{padding-bottom:20px!important;}
 
+.search_results_part_title {
+    color: #5A6A7C !important;
+}
+
 /** HEADER **/
 .people .find_more_people a{color:#058EC4;font-size:14px;font-weight:bold;padding-right:10px;line-height:2em;}
 .people .find_more_people a div{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -490px -398px transparent;float:right;height:9px;margin:10px 10px 0 0;width:5px;}

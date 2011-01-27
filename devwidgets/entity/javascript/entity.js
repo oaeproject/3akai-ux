@@ -1284,13 +1284,24 @@ sakai.entity = function(tuid, showSettings){
             var managerLinks = "";
             var viewerActivityMessage = "__MSG__CONTENT_SHARED_WITH_SOMEONE__";
             for (var i in data.user.toAddNames){
-                if (data.user.toAddNames.hasOwnProperty(i)) {
-                    var userid = data.user.list[i];
+                if (data.user.toAddNames.hasOwnProperty(i) && data.user.toAddNames[i]) {
+                    var id = data.user.list[i];
+                    var entityId = false;
+                    var entityType = false;
+                    if (id.substring(0,5) === "user/"){
+                        entityType = "user";
+                        entityId = id.substring(5);
+                        entityconfig.data.profile.usercount++;
+                    } else if (id.substring(0,6) === "group/"){
+                        entityType = "group";
+                        entityId = id.substring(6);
+                        entityconfig.data.profile.groupcount++;
+                    }
                     var displayName = data.user.toAddNames[i];
                     if (data.access === "viewer"){
                         viewerAdded = true;
                         sakai.content_profile.content_data.members.viewers.push({
-                            "userid": userid,
+                            "userid": entityId,
                             "displayName": displayName
                         });
                     } else if (data.access === "manager"){
@@ -1298,14 +1309,13 @@ sakai.entity = function(tuid, showSettings){
                             comma = ",";
                             managerActivityMessage = "__MSG__CONTENT_ADDED_NEW_MANAGERS__ -";
                         }
-                        managerLinks = managerLinks + comma + ' <a href="/~' + userid + '" target="_blank" class="s3d-regular-light-links">' + displayName + '</a>';
+                        managerLinks = managerLinks + comma + ' <a href="/~' + entityId + '" target="_blank" class="s3d-regular-light-links">' + displayName + '</a>';
                         managerAdded = true;
                         sakai.content_profile.content_data.members.managers.push({
-                            "userid": userid,
+                            "userid": entityId,
                             "displayName": displayName
                         });
                     }
-                    entityconfig.data.profile.usercount++;
                 }
             }
             if (viewerAdded) {
@@ -1328,20 +1338,24 @@ sakai.entity = function(tuid, showSettings){
         $(window).bind("sakai-sharecontent-removeUser", function(e, data) {
             // filter out the user that was removed and render template
             sakai.content_profile.content_data.members.managers = $.grep(sakai.content_profile.content_data.members.managers, function(resultObject, index){
-                if (resultObject["sakai:group-id"] !== data.user &&
-                    resultObject["rep:userId"] !== data.user) {
-                    return true;
+                if (resultObject["sakai:group-id"] === data.user){
+                    entityconfig.data.profile.groupcount--;
+                    return false;
+                } else if (resultObject["rep:userId"] === data.user){
+                    entityconfig.data.profile.usercount--;
+                    return false;
                 }
-                entityconfig.data.profile.usercount--;
-                return false;
+                return true;
             });
             sakai.content_profile.content_data.members.viewers = $.grep(sakai.content_profile.content_data.members.viewers, function(resultObject, index){
-                if (resultObject["sakai:group-id"] !== data.user &&
-                    resultObject["rep:userId"] !== data.user) {
-                    return true;
+                if (resultObject["sakai:group-id"] === data.user){
+                    entityconfig.data.profile.groupcount--;
+                    return false;
+                } else if (resultObject["rep:userId"] === data.user){
+                    entityconfig.data.profile.usercount--;
+                    return false;
                 }
-                entityconfig.data.profile.usercount--;
-                return false;
+                return true;
             });
             renderTemplate();
         });

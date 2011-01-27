@@ -266,8 +266,7 @@ sakai._search = function(config, callback) {
             type: "POST",
             data : {"targetUserId": userid},
             success: function(data) {
-                $(window).trigger("hashchange", true);
-
+                fetchMyFriends();
             },
             error: function(xhr, textStatus, thrownError) {
                 sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("AN_ERROR_HAS_OCCURRED"),"",sakai.api.Util.notification.type.ERROR);
@@ -339,12 +338,12 @@ sakai._search = function(config, callback) {
                 if (getMyFriends().results) {
                     for (var ii = 0, jj = getMyFriends().results.length; ii<jj; ii++) {
                         var friend = getMyFriends().results[ii];
-                        // if invited state set invited to true
-                        if(friend.details["sakai:state"] === "INVITED"){
-                            user.invited = true;
-                        }
                         if (friend.target === user.userid) {
                             user.connected = true;
+                            // if invited state set invited to true
+                            if(friend.details["sakai:state"] === "INVITED"){
+                                user.invited = true;
+                            }
                         }
                     }
                 }

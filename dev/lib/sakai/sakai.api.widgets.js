@@ -337,11 +337,11 @@ sakai.api.Widgets.widgetLoader = {
 
             for(var k in batchWidgets){
                 if(batchWidgets.hasOwnProperty(k)){
-                    var item = {
+                    var urlItem = {
                         "url" : k,
                         "method" : "GET"
                     };
-                    urls[urls.length] = item;
+                    urls[urls.length] = urlItem;
                 }
             }
 
@@ -376,15 +376,17 @@ sakai.api.Widgets.widgetLoader = {
                 sakai.api.Server.batch($.toJSON(urlsAndBundles), function(success, data) {
                     if (success) {
                         // sort widget html and bundles into separate arrays
-                        for (h in data.results) {
-                            for (hh in urls) {
-                                if (data.results[h].url && urls[hh].url && data.results[h].url === urls[hh].url) {
-                                    requestedURLsResults.push(data.results[h]);
+                        for (var h in data.results) {
+                            if (data.results.hasOwnProperty(h)) {
+                                for (var hh in urls) {
+                                    if (data.results[h].url && urls[hh].url && data.results[h].url === urls[hh].url) {
+                                        requestedURLsResults.push(data.results[h]);
+                                    }
                                 }
-                            }
-                            for (hhh in bundles) {
-                                if (data.results[h].url && bundles[hhh].url && data.results[h].url === bundles[hhh].url) {
-                                    requestedBundlesResults.push(data.results[h]);
+                                for (var hhh in bundles) {
+                                    if (data.results[h].url && bundles[hhh].url && data.results[h].url === bundles[hhh].url) {
+                                        requestedBundlesResults.push(data.results[h]);
+                                    }
                                 }
                             }
                         }
