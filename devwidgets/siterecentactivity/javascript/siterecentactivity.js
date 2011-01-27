@@ -56,14 +56,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if(sakai_global.siterecentactivity.recentactivity){
                 for (i = 0, j = sakai_global.siterecentactivity.recentactivity.items.length; i < j; i++) {
 
-                    sakai_global.siterecentactivity.recentactivity.items[i].page_url = "/sites/" + sakai.siterecentactivity.recentactivity.items[i].site_id + "#page=" + sakai.siterecentactivity.recentactivity.items[i].page_id;
+                    sakai_global.siterecentactivity.recentactivity.items[i].page_url = "/sites/" + sakai_global.siterecentactivity.recentactivity.items[i].site_id + "#page=" + sakai_global.siterecentactivity.recentactivity.items[i].page_id;
 
-                    sakai_global.siterecentactivity.recentactivity.items[i].date_parsed = humane_date(sakai.siterecentactivity.recentactivity.items[i].date+ "Z");
+                    sakai_global.siterecentactivity.recentactivity.items[i].date_parsed = humane_date(sakai_global.siterecentactivity.recentactivity.items[i].date+ "Z");
 
-                    //if (sakai.site.site_info._pages[sakai_global.siterecentactivity.recentactivity.items[i].page_id]) {
-                    //    sakai_global.siterecentactivity.recentactivity.items[i].page_title = sakai.site.site_info._pages[sakai.siterecentactivity.recentactivity.items[i].page_id]["pageTitle"];
+                    //if (sakai_global.site.site_info._pages[sakai_global.siterecentactivity.recentactivity.items[i].page_id]) {
+                    //    sakai_global.siterecentactivity.recentactivity.items[i].page_title = sakai_global.site.site_info._pages[sakai_global.siterecentactivity.recentactivity.items[i].page_id]["pageTitle"];
                     //} else {
-                    //     sakai_global.siterecentactivity.recentactivity.items[i].page_title = sakai.siterecentactivity.recentactivity.items[i].page_id;
+                    //     sakai_global.siterecentactivity.recentactivity.items[i].page_title = sakai_global.siterecentactivity.recentactivity.items[i].page_id;
                     //}
 
                 }
@@ -76,7 +76,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // Render the recent sites
                 $(siterecentactivityContainer).html(sakai.api.Util.TemplateRenderer(siterecentactivityContainerTemplate, reversedItems));
             }else{
-                sakai_global.siterecentactivity.getRecentActivity(sakai.siterecentactivity.render);
+                sakai_global.siterecentactivity.getRecentActivity(sakai_global.siterecentactivity.render);
             }
         };
 
@@ -106,7 +106,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var saveRecentActivity = function(){
 
             // Save the recentactivity json file
-            sakai.api.Server.saveJSON("/~" + sakai.data.me.user.userid + "/private/recentactivity", sakai_global.siterecentactivity.recentactivity, sakai.siterecentactivity.render());
+            sakai.api.Server.saveJSON("/~" + sakai.data.me.user.userid + "/private/recentactivity", sakai_global.siterecentactivity.recentactivity, sakai_global.siterecentactivity.render());
         };
 
 

@@ -111,7 +111,7 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/video/jwplayer/swfobject
          * @param {String} video: the url to the video
          * @param {String} container: the container where the video should be placed (settings or output)
          */
-        var ShowVideoSakaiPlayer = function(video, container) {
+        var showVideoSakaiPlayer = function(video, container) {
             try {
                 // Checks if the video is a youtube-video
                 // This is needed as a parameter for the sakai-player
@@ -171,7 +171,7 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/video/jwplayer/swfobject
          */
         var showVideo = function(video, container, isSakaiPlayer) {
             //if (isSakaiPlayer) {
-                ShowVideoSakaiPlayer(video, container);
+                showVideoSakaiPlayer(video, container);
             //}
             //else {
             //  ShowVideoYoutubePlayer(video, container);
@@ -341,10 +341,9 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/video/jwplayer/swfobject
          * @param {Boolean} showSettings Show the settings of the widget or not
          */
         sakai.api.Widgets.loadWidgetData(tuid, function (success, data) {
-
             if (success) {
                 // we have a video set
-                ShowVideoSakaiPlayer(data, videoShowMain);
+                showVideoSakaiPlayer(data, videoShowMain);
                 if (showSettings) {
                     showSettingsScreen(data, true);
                 } else {
