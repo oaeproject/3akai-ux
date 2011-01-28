@@ -15,24 +15,23 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
-#message_dialog {width: 566px;}
-.dialogue_box {background:#FFFFFF none repeat scroll 0 0;border:none;height:auto;left:auto;margin-left:0px;margin-top:0px;position:relative;top:0%;width:100%;z-index:101;}
-.sendmessage_error_message {font-weight:bold;margin:10px;padding:10px;border:1px solid #ff0000;background-color:#f7d8d8;}
-.sendmessage_normal_message {margin:10px;padding:10px;border:1px solid #00ff00;background-color:#d9f7d8;}
-.sendmessage_invalid {background-color:#FFCCCC !important;}
+#message_dialog{width:566px;}
+.dialogue_box{background:#FFF none repeat scroll 0 0;border:none;height:auto;left:auto;margin-left:0;margin-top:0;position:relative;top:0;width:100%;z-index:101;}
+.sendmessage_error_message{font-weight:bold;margin:10px;padding:10px;border:1px solid red;background-color:#f7d8d8;}
+.sendmessage_normal_message{margin:10px;padding:10px;border:1px solid #0f0;background-color:#d9f7d8;}
+.sendmessage_invalid{background-color:#FCC!important;}
 
 /* send_message_lightbox.html */
-.send_message .compose-form input, .send_message .compose-form textarea {font-weight:normal;}
-.send_message .compose-form #message_from, .send_message .compose-form #message_to {font-weight:bold; padding-left:4px;}
-.send_message .compose-form div {padding:0px 10px 10px 0px;}
-.send_message .compose-form .compose-subject {width:500px;}
-.send_message .compose-form .compose-body {height:150px; width:500px;}
-#send_message {font-weight:bold}
+.send_message .compose-form input,.send_message .compose-form textarea{font-weight:normal;}
+.send_message .compose-form #message_from,.send_message .compose-form #message_to{font-weight:bold;padding-left:4px;}
+.send_message .compose-form div{padding:0 10px 10px 0;}
+.send_message .compose-form .compose-subject{width:500px;}
+.send_message .compose-form .compose-body{height:150px;width:500px;}
+#send_message{font-weight:bold;}
 
 /* AutoSuggest Styles */
-.send_message ul.as-selections {margin:5px 3px 0px; width:500px; border-color:#CCCCCC #E6E6E6 #E6E6E6 #CCCCCC; border-style:solid; border-width:1px;-moz-box-shadow:none;-webkit-box-shadow:none;box-shadow:none;}
-.send_message ul.as-list {margin:-2px 0 0 3px;}
-.send_message #sendmessage_to_container {margin-bottom:10px;}
-.send_message img.sm_suggestion_img {height:16px; width:16px; margin-right:5px;}
-.send_message input#sendmessage_to_autoSuggest {width:175px;}
+.send_message ul.as-selections{margin:5px 3px 0;width:500px;border-color:#CCC #E6E6E6 #E6E6E6 #CCC;border-style:solid;border-width:1px;-moz-box-shadow:none;-webkit-box-shadow:none;box-shadow:none;}
+.send_message ul.as-list{margin:-2px 0 0 3px;}
+.send_message #sendmessage_to_container{margin-bottom:10px;}
+.send_message img.sm_suggestion_img{height:16px;width:16px;margin-right:5px;}
+.send_message input#sendmessage_to_autoSuggest{width:175px;}

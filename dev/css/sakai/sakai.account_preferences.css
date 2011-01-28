@@ -1,58 +1,31 @@
-/** HEADER **/
-.account_preferences .s3d-site-heading {
-    padding: 15px 0;
-}
+/*
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+
 /** MAIN CONTENT **/
-.account_preferences .outline-top {
-    background: url("/dev/images/dashboard_sprite.png") no-repeat scroll right -1413px transparent;
-    padding: 0 5px 0 0;
-    margin: 0;
-}
-.account_preferences .outline-top-inner {
-    background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -10px -1393px transparent;
-    margin: 0;
-    height: 6px;
-}
-.account_preferences .outline {
-    padding: 14px 20px;
-}
-.account_preferences .section_header {
-    color: #5A697B;
-    font-size: 1.1em;
-}
-.account_preferences .password {
-    margin-top: 10px;
-}
-.account_preferences .password-preferences-input {
-    border: 1px solid #ccc;
-    height: 25px;
-    width: 300px;
-}
-.account_preferences .save-preferences {
-    float: right;
-    height: auto;
-    margin-right: 382px;
-    margin-top:5px;
-}
-.account_preferences .form-item {
-    margin: 0 0 15px 15px;
-}
-.account_preferences .form-item label {
-    float: left;
-    font-weight: bold;
-    margin-right: 15px;
-    text-align: right;
-    width: 155px;
-}
-.account_preferences .preferences-form {
-    margin-top: 25px;
-}
-.account_preferences .preferences-form select {
-    height: 21px;
-    width: 300px;
-}
-div.account_preferences_error {
-    margin-left: 170px;
-    color:#9f3333;
-    font-weight:bold;
-}
+.account_preferences .outline-top{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -1413px transparent;padding:0 5px 0 0;margin:0;}
+.account_preferences .outline-top-inner{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -1393px transparent;margin:0;height:6px;}
+.account_preferences .outline{padding:14px 20px;}
+.account_preferences .section_header{color:#5A697B;font-size:1.1em;}
+.account_preferences .password{margin-top:10px;}
+.account_preferences .password-preferences-input{border:1px solid #ccc;height:25px;width:300px;}
+.account_preferences .save-preferences{float:right;height:auto;margin-right:382px;margin-top:5px;}
+.account_preferences .form-item{margin:0 0 15px 15px;}
+.account_preferences .form-item label{float:left;font-weight:bold;margin-right:15px;text-align:right;width:155px;}
+.account_preferences .preferences-form{margin-top:25px;}
+.account_preferences .preferences-form select{height:21px;width:300px;}
+div.account_preferences_error{margin-left:170px;color:#9f3333;font-weight:bold;}

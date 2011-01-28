@@ -17,18 +17,18 @@
             {for message in results}
                 <li {if message_index % 2} class="recentmessages_alterrow"{/if}>
                     <span {if message["sakai:read"]==="false"} class="recentmessages_notread" {/if} title="${sakai.api.User.getDisplayName(message.userFrom[0])}">${sakai.api.User.getDisplayName(message.userFrom[0])} {if message.userFrom.length > 1} __MSG__AND_OTHERS__...{/if}:</span>
-                    
-                    <a href="inbox.html#message=${message.id}" class="s3d-regular-links s3d-bold">
-                        {if message["sakai:type"] === "chat"}
-                            <span class="ellipsis_text" title="__MSG__CHAT_MESSAGE__">
-                                __MSG__CHAT_MESSAGE__
+
+                        <a href="inbox.html#message=${message.id}" class="s3d-regular-links s3d-bold">
+                            <div class="recentmessages_ellipsis_container">
+                            <span class="recentmessages_ellipsis_text">
+                            {if message["sakai:type"] === "chat"}
+                                    __MSG__CHAT_MESSAGE__
+                            {else}
+                                    ${message["sakai:subject"]}
+                            {/if}
                             </span>
-                        {else}
-                            <span class="ellipsis_text" title="${message["sakai:subject"]}">
-                                ${message["sakai:subject"]}
-                            </span>
-                        {/if}
-                    </a>
+                            </div>
+                        </a>
                 </li>
             {/for}
         </ul>

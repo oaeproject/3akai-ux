@@ -16,13 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-
-/*global $ */
-
-var sakai = sakai || {};
-
-sakai.logout = function(){
-
+require(["jquery","sakai/sakai.api.core"], function($, sakai) {
     /*
      * Log the user out. Redirect to the login page on completion.
      */
@@ -30,6 +24,4 @@ sakai.logout = function(){
         window.location = sakai.config.URL.GATEWAY_URL;
     });
 
-};
-
-sakai.api.Widgets.Container.registerForLoad("sakai.logout");
+});

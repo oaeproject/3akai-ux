@@ -1,9 +1,27 @@
-#assignlocation_container {margin-left: -450px; width: 900px;}
-#assignlocation_jstree_container, #assignlocation_jstree_selected_container {background-color:#fff; float:left; padding:10px; margin:0 0 6px 1px; height:300px; border: 1px solid #878A8C; overflow: auto;}
-#assignlocation_jstree_container {width:45%; }
-#assignlocation_jstree_selected_container{width:51%; padding:0px; height:320px;}
+/*
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+
+#assignlocation_container{margin-left:-450px;width:900px;}
+#assignlocation_jstree_container,#assignlocation_jstree_selected_container{background-color:#fff;float:left;padding:10px;margin:0 0 6px 1px;height:300px;border:1px solid #878A8C;overflow:auto;}
+#assignlocation_jstree_container{width:45%;}
+#assignlocation_jstree_selected_container{width:51%;padding:0;height:320px;}
 #assignlocation_jstree_selected_container ul{margin:0;}
-.assignlocation_secondcolumn_header {position:absolute; left:48%;}
-#assignlocation_ajax_loader {background: url("/dev/images/ajax_load.gif") no-repeat scroll 8px 8px transparent; height: 18px; width: 87px; float:right;}
-.assignlocation_close_image {float:right; padding-right :5px; background:url("/dev/images/dashboard_sprite.png") no-repeat scroll -40px -641px transparent;cursor:pointer;display:block;height:15px;overflow:hidden;width:14px;}
-.assignlocation_close_link {text-decoration:none !important;}
+.assignlocation_secondcolumn_header{position:absolute;left:48%;}
+#assignlocation_ajax_loader{background:url(/dev/images/ajax_load.gif) no-repeat scroll 8px 8px transparent;height:18px;width:87px;float:right;}
+.assignlocation_close_image{float:right;padding-right:5px;background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -40px -641px transparent;cursor:pointer;display:block;height:15px;overflow:hidden;width:14px;}
+.assignlocation_close_link{text-decoration:none!important;}

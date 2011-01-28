@@ -92,9 +92,9 @@ sakai.admin_widgets = function(tuid, showSettings){
         var contribWidgets = {}; contribWidgets.items = [];
 
         // Fill in the widget types
-        for (var i in sakai.widgets.widgets){
+        for (var i in sakai.widgets){
             if (i) {
-                var widget = sakai.widgets.widgets[i];
+                var widget = sakai.widgets[i];
                 if (widget.type && widget.type.toLowerCase() === "core") {
                     coreWidgets.items.push(widget);
                 } else if (widget.type && widget.type.toLowerCase() === "sakai") {
@@ -110,9 +110,9 @@ sakai.admin_widgets = function(tuid, showSettings){
         sakaiWidgets.items.sort(sortWidgets);
         contribWidgets.items.sort(sortWidgets);
 
-        $(coreWidgetsTemplateContainer).html($.TemplateRenderer(coreWidgetsTemplate, coreWidgets));
-        $(sakaiWidgetsTemplateContainer).html($.TemplateRenderer(sakaiWidgetsTemplate, sakaiWidgets));
-        $(contribWidgetsTemplateContainer).html($.TemplateRenderer(contribWidgetsTemplate, contribWidgets));
+        $(coreWidgetsTemplateContainer).html(sakai.api.Util.TemplateRenderer(coreWidgetsTemplate, coreWidgets));
+        $(sakaiWidgetsTemplateContainer).html(sakai.api.Util.TemplateRenderer(sakaiWidgetsTemplate, sakaiWidgets));
+        $(contribWidgetsTemplateContainer).html(sakai.api.Util.TemplateRenderer(contribWidgetsTemplate, contribWidgets));
     };
 
     /**

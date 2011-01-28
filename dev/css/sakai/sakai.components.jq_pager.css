@@ -1,5 +1,4 @@
 /* Pager CSS */
-
 .jq_pager {text-align: center; }
 .sakai_pager { text-align: center; display: inline-block; }
 .sakai_pager li.hidden { visibility:hidden; }
