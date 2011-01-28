@@ -79,9 +79,25 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // Only if everything went fine, show the recent messages
                 $recentmessagesContainer.html(sakai.api.Util.TemplateRenderer(recentmessagesTemplate, response));
 
+                var nameWidth = 0;
+                // loop through each name span tag
+                for(var i=0; i< $(".recentmessages_sendername").length; i++){
+                    // get each name span tag
+                    var obj = $(".recentmessages_sendername").eq(i);
+                    // get th width of tag and check if it is greater than nameWidth
+                    // nameWidth store the highest amount so if span is greater
+                    // assign it widths to namewidth
+                    if(nameWidth < $(obj).width()){
+                        nameWidth = $(obj).width();
+                    }
+                }
+
+                // add 5 to name width for the padding 5 px;
+                nameWidth += 5;
+
                 // make sure the newly added content is properly styled with
-                // -80 for the name besides the type
-                $(ellipsisContainer).css("width", $(ellipsisContainer).width()-80 + "px");
+                // -nameWidth for the name besides the type
+                $(ellipsisContainer).css("width", $(ellipsisContainer).width()-nameWidth + "px");
                 // threedots truncation
                 $(ellipsisContainer, rootel).ThreeDots({
                     max_rows: 1,
