@@ -72,6 +72,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var renderTemplate = function(relatedcontentData){
             // Render the relatedcontent
+            relatedcontentData.sakai = sakai;
             $(relatedcontentContainer).html(sakai.api.Util.TemplateRenderer(relatedcontentDefaultTemplate, relatedcontentData));
             $(relatedcontentContainer).show();
             applyThreeDots();
