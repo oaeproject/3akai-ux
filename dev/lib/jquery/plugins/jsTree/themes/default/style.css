@@ -60,7 +60,7 @@
 .jstree-default ins,
 #vakata-dragged.jstree-default .jstree-invalid, 
 #vakata-dragged.jstree-default .jstree-ok, 
-#jstree-marker.jstree-default { _background-image:url("d.gif"); }
+#jstree-marker.jstree-default { _background-image:url("d.png"); }
 .jstree-default .jstree-open ins { _background-position:-72px 0; }
 .jstree-default .jstree-closed ins { _background-position:-54px 0; }
 .jstree-default .jstree-leaf ins { _background-position:-36px 0; }
