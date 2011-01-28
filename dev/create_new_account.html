@@ -15,10 +15,6 @@
         <!-- 3rd party CSS -->
         <link rel="stylesheet" type="text/css" href="/dev/lib/jquery/plugins/gritter/css/jquery.gritter.css" />
 
-        <!-- Dependency JS -->
-        <script data-main="/dev/lib/sakai/sakai.dependencies.js" src="/dev/lib/jquery/requireplugins-jquery.js"></script>
-        <script src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
-
     </head>
 
     <body class="fl-centered create_account i18nable">
@@ -197,8 +193,8 @@
 
         <!-- FOOTER WIDGET -->
         <div id="widget_footer" class="widget_inline footercontainer"></div>
-
-        <script type="text/javascript" src="/dev/javascript/createnewaccount.js"></script>
+        <!-- Dependency JS -->
+        <script data-main="/dev/lib/sakai/sakai.dependencies.js" src="/dev/lib/jquery/requireplugins-jquery.js"></script>
+        <script>require(["/dev/javascript/createnewaccount.js", "http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"]);</script>
     </body>
-
 </html>

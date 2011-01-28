@@ -15,9 +15,6 @@
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.components.jq_pager.css" />
         <link rel="stylesheet" type="text/css" href="/dev/lib/jquery/plugins/imgareaselect/imgareaselect-default.css" />
 
-        <!-- Dependency JS -->
-        <script data-main="/dev/lib/sakai/sakai.dependencies.js" src="/dev/lib/jquery/requireplugins-jquery.js"></script>
-
     </head>
 
     <body id="root" class="fl-centered fl-container i18nable directory-container">
@@ -82,6 +79,8 @@
         <!-- CHAT -->
         <div id="widget_chat" class="widget_inline"></div>
 
-        <script type="text/javascript" src="/dev/javascript/directory.js"></script>
+        <!-- Dependency JS -->
+        <script data-main="/dev/lib/sakai/sakai.dependencies.js" src="/dev/lib/jquery/requireplugins-jquery.js"></script>
+        <script>require(["/dev/javascript/directory.js"]);</script>
     </body>
 </html>
