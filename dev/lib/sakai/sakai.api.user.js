@@ -464,7 +464,7 @@ define(["jquery",
             var obj = {"elements":[]};
             for (var i in profile.main.data["sakai:tags"]){
                 if (profile.main.data["sakai:tags"].hasOwnProperty(i)) {
-                    var tag = profile.main.data["sakai:tags"][i];
+                    var tag = profile.main.data["sakai:tags"][i]+"";
                     if (tag.substring(0, 10) === "directory/") {
                         var finalTag = "";
                         var split = tag.split("/");

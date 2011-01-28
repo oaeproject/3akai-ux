@@ -44,7 +44,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.listpeople = sakai.listpeople || {};
+    sakai_global.listpeople = sakai_global.listpeople || {};
     sakai_global.data = sakai_global.data || {};
     sakai_global.data.listpeople = sakai_global.data.listpeople || {};
     sakai_global.config = sakai_global.config || {};

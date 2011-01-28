@@ -266,7 +266,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          */
         var updateDescription = function(){
             var description = $("#contentmetadata_description_description").val();
-            sakai.content_profile.content_data.data["sakai:description"] = description;
+            sakai_global.content_profile.content_data.data["sakai:description"] = description;
             renderDescription(false);
             $.ajax({
                 url: "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".html",
@@ -285,7 +285,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          */
         var updateCopyright = function(){
             var copyright = $("#contentmetadata_copyright_copyright").val();
-            sakai.content_profile.content_data.data["sakai:copyright"] = copyright;
+            sakai_global.content_profile.content_data.data["sakai:copyright"] = copyright;
             renderCopyright(false);
             $.ajax({
                 url: "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".html",

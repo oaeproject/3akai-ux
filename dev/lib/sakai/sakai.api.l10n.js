@@ -206,7 +206,7 @@ define(["/dev/configuration/config.js", "/dev/lib/misc/l10n/globalization.js"], 
         },
 
         getDateFormatString : function() {
-            var pattern = Globalization.culture.calendar.patterns.d;
+            var pattern = Globalization.cultures[require("sakai/sakai.api.i18n").data.culture].calendar.patterns.d;
             var split = pattern.split("/");
             var i;
             for (i=0, j=split.length; i<j; i++) {

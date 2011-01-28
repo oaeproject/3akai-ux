@@ -100,7 +100,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var addListpeopleBinding = function(){
             // Bind the listpeople widget
-            if (sakai.listpeople && sakai.listpeople.isReady && sakai.data.listpeople[(listType+tuid)] && sakai.data.listpeople[(listType+tuid)].isReady) {
+            if (sakai_global.listpeople && sakai_global.listpeople.isReady && sakai_global.data.listpeople[(listType+tuid)] && sakai_global.data.listpeople[(listType+tuid)].isReady) {
                 loadGroupElements();
             } else {
                 $(window).bind("sakai-listpeople-ready", function(e, iTuid) {

@@ -199,14 +199,14 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             // disable button
             toggleButtons(listType,true);
 
-            if (sakai.data.listpeople[listType].selectCount === sakai.data.listpeople[listType].currentElementCount && listType === "managers") {
+            if (sakai_global.data.listpeople[listType].selectCount === sakai_global.data.listpeople[listType].currentElementCount && listType === "managers") {
                 sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()),
                                                  sakai.api.Security.saneHTML($("#group_edit_cannot_remove_everyone").text()),
                                                  sakai.api.Util.notification.type.ERROR);
             } else {
                 var removeList = [];
 
-                $.each(sakai.data.listpeople[listType]["selected"], function(index, resultObject) {
+                $.each(sakai_global.data.listpeople[listType]["selected"], function(index, resultObject) {
                     if (resultObject['userid']) {
                         removeList.push(resultObject['userid']);
                     } else if (resultObject['sakai:group-id']) {
@@ -238,7 +238,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             toggleButtons(listType, true);
             var contentIDs = [];
 
-            $.each(sakai.data.listpeople[listType]["selected"], function(index, resultObject) {
+            $.each(sakai_global.data.listpeople[listType]["selected"], function(index, resultObject) {
                 if (resultObject['content_id']) {
                     removeContent = resultObject['content_id'];
                     contentIDs.push(removeContent);
@@ -247,7 +247,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
             sakai.api.Groups.removeContentFromGroup(groupid, contentIDs, function(success) {
                 if (success) {
-                    sakai.listpeople.removeFromList(listType);
+                    sakai_global.listpeople.removeFromList(listType);
                     sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()),
                                                      sakai.api.Security.saneHTML($("#group_edit_content_removed_text").text()),
                                                      sakai.api.Util.notification.type.INFORMATION);
@@ -340,13 +340,13 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             var peopleToAdd = [];
             $(peopleList).each(function(i,val) {
                 var reason = "";
-                for (var j in sakai.data.listpeople["managers"]["userList"]) {
-                    if (sakai.data.listpeople["managers"]["userList"].hasOwnProperty(j) && j === val) {
+                for (var j in sakai_global.data.listpeople["managers"]["userList"]) {
+                    if (sakai_global.data.listpeople["managers"]["userList"].hasOwnProperty(j) && j === val) {
                         reason = "manager";
                     }
                 }
-                for (var k in sakai.data.listpeople["members"]["userList"]) {
-                    if (sakai.data.listpeople["members"]["userList"].hasOwnProperty(k) && k === val && accessType !== 'managers') {
+                for (var k in sakai_global.data.listpeople["members"]["userList"]) {
+                    if (sakai_global.data.listpeople["members"]["userList"].hasOwnProperty(k) && k === val && accessType !== 'managers') {
                         reason = "member";
                     }
                 }
@@ -375,13 +375,13 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          */
         var getMembersAndManagers = function() {
             var list = [];
-            for (var j in sakai.data.listpeople["managers"]["userList"]) {
-                if (sakai.data.listpeople["managers"]["userList"].hasOwnProperty(j)) {
+            for (var j in sakai_global.data.listpeople["managers"]["userList"]) {
+                if (sakai_global.data.listpeople["managers"]["userList"].hasOwnProperty(j)) {
                     list.push(j);
                 }
             }
-            for (var k in sakai.data.listpeople["members"]["userList"]) {
-                if (sakai.data.listpeople["members"]["userList"].hasOwnProperty(k)) {
+            for (var k in sakai_global.data.listpeople["members"]["userList"]) {
+                if (sakai_global.data.listpeople["members"]["userList"].hasOwnProperty(k)) {
                     list.push(k);
                 }
             }
@@ -395,7 +395,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             // if disable is true
             if (!isDisable) {
                 // if there is selected list
-                if (sakai.data.listpeople[tuid].selectCount) {
+                if (sakai_global.data.listpeople[tuid].selectCount) {
                     // enable the button
                     $("#group_editing_remove_" + tuid).removeAttr("disabled");
                 }

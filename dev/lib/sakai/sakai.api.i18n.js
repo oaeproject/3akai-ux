@@ -40,7 +40,8 @@ define(["jquery",
         data : {
             localBundle : false,
             defaultBundle : false,
-            widgets : {}
+            widgets : {},
+            culture : "default"
         },
 
         /**
@@ -203,6 +204,7 @@ define(["jquery",
                         });
                     }
                 }
+                sakaii18nAPI.data.culture = i10nCode;
                 // language bundles
                 $.ajax({
                     url: sakai_config.URL.I18N_BUNDLE_ROOT + langCode + ".properties",
