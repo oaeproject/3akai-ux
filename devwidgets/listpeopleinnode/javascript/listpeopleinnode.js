@@ -63,6 +63,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var renderResults = function(results, success){
             //$listpeopleinnodeAjaxLoader.hide();
             if(success){
+                results.sakai = sakai;
                 $listpeopleinnodePeopleContainer.html(sakai.api.Util.TemplateRenderer(listpeopleinnodePeopleTemplate, results));
             }
         };
