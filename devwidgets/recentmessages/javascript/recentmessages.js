@@ -76,7 +76,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // If the user doesn't have any messages, show the no messages error.
                 $recentmessagesContainer.html($recentmessagesErrorNomessages);
             } else {
-
+                response.sakai = sakai;
                 // Only if everything went fine, show the recent messages
                 $recentmessagesContainer.html(sakai.api.Util.TemplateRenderer(recentmessagesTemplate, response));
 
