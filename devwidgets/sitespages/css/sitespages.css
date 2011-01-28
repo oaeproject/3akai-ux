@@ -79,6 +79,17 @@
 #insert_links_availablelinks li{display:block;font-size:11pt;color:#333;padding:5px;cursor:pointer;font-weight:normal;}
 #insert_links_availablelinks li.selected{color:#39C;font-weight:bold;}
 
+/** Insert Dropdown **/
+#sitepages_insert_dropdown_button{width:90px;}
+#sitepages_insert_dropdown_button .s3d-button-inline{}
+#sitepages_insert_dropdown_button_inner {margin-left:15px;width:40px;}
+#sitepages_insert_dropdown{width:150px;border-width:1px;border-style:solid;border-color:#cbd0d4;}
+#sitepages_insert_dropdown ul{border:none;}
+#sitepages_insert_dropdown ul li{width:100%;}
+#sitepages_insert_dropdown ul li a{width:80%;}
+.sitepages_insert_dropdown_header{color:#aaaaaa;cursor:default !important;background-color:#FFFFFF !important;padding:5px 0 !important;}
+.sitepages_insert_dropdown_header span{padding-left:12px;}
+
 /** TAB CONTENTS **/
 .edit_view .edit_container{padding:0;margin:0 0 20px;}
 .edit_view .edit_contents_main{border-left:3px solid #D3DBDE;border-right:3px solid #D3DBDE;margin:0;padding:0 10px 10px;float:left;}

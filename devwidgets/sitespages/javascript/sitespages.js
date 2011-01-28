@@ -811,6 +811,92 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
 
+        /**
+         * Shows or hides the insert dropdown menu
+         */
+        var showHideInsertDropdown = function(hideOnly){
+            var el = $("#sitepages_insert_dropdown");
+            if (el) {
+                if ((el.css("display") && el.css("display").toLowerCase() !== "none") || hideOnly) {
+                    $("#sitepages_insert_dropdown_button").removeClass("clicked");
+                    el.hide();
+                } else if (el.css("display")) {
+                    $("#sitepages_insert_dropdown_button").addClass("clicked");
+                    var x = $("#sitepages_insert_dropdown_button").position().left;
+                    var y = $("#sitepages_insert_dropdown_button").position().top;
+                    el.css(
+                            {
+                              "top": y + 28 + "px",
+                              "left": x + "px"
+                            }
+                        ).show();
+                }
+            }
+        };
+
+        /**
+         * Renders the insert dropdown menu
+         */
+        var renderInsertDropdown = function(){
+            // Vars for media and goodies
+            var media = {}; media.items = [];
+            var goodies = {}; goodies.items = [];
+            var sidebar = {}; sidebar.items = [];
+
+            // Fill in media and goodies
+            for (var i in sakai.widgets){
+                if (i) {
+                    var widget = sakai.widgets[i];
+                    if (widget[sakai_global.sitespages.config.pageEmbedProperty] && widget.showinmedia) {
+                        media.items.push(widget);
+                    }
+                    if (widget[sakai_global.sitespages.config.pageEmbedProperty] && widget.showinsakaigoodies) {
+                        goodies.items.push(widget);
+                    }
+                    if (widget[sakai_global.sitespages.config.pageEmbedProperty] && widget.showinsidebar){
+                        sidebar.items.push(widget);
+                    }
+                }
+            }
+
+            var jsonData = {
+                "media": media,
+                "goodies": goodies,
+                "sidebar": sidebar
+            };
+
+            // Renderer dropdown list
+            sakai.api.Util.TemplateRenderer($("#sitepages_insert_dropdown_template"), jsonData, $("#sitepages_insert_dropdown_container"));
+
+            // Event handler
+            $('#insert_dialog').jqm({
+                modal: true,
+                overlay: 20,
+                toTop: true,
+                onHide: hideSelectedWidget
+            });
+
+            // add bindings
+            $("#sitepages_insert_dropdown_button").bind("click", function(){
+                // hide dropdown
+                showHideInsertDropdown();
+            });
+
+            $(".insert_dropdown_widget_link").live("click", function(){
+                // hide dropdown
+                showHideInsertDropdown(true);
+                var id = $(this).attr("id");
+                if (id==="link") {
+                    $('#link_dialog').jqmShow();
+                } else if (id==="hr") {
+                    tinyMCE.get("elm1").execCommand('InsertHorizontalRule');
+                } else {
+                    renderSelectedWidget(id);
+                }
+            });
+        };
+
+
         /////////////////////////////
         // tinyMCE FUNCTIONS
         /////////////////////////////
@@ -902,10 +988,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 theme: "advanced",
 
                 // For a built-in list of plugins with doc: http://wiki.moxiecode.com/index.php/TinyMCE:Plugins
-                plugins: "safari,advhr,inlinepopups,preview,noneditable,nonbreaking,xhtmlxtras,template,table,insertmore,autoresize",
+                //plugins: "safari,advhr,inlinepopups,preview,noneditable,nonbreaking,xhtmlxtras,template,table,insertmore,autoresize",
+                plugins: "safari,advhr,inlinepopups,preview,noneditable,nonbreaking,xhtmlxtras,template,table,autoresize",
 
                 // Context Menu
-                theme_advanced_buttons1: "formatselect,fontselect,fontsizeselect,bold,italic,underline,|,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,|,table,link,insertmore",
+                //theme_advanced_buttons1: "formatselect,fontselect,fontsizeselect,bold,italic,underline,|,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,|,table,link,insertmore",
+                theme_advanced_buttons1: "formatselect,fontselect,fontsizeselect,bold,italic,underline,|,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,|,table,link",
                 theme_advanced_buttons2:"",
                 theme_advanced_buttons3:"",
                 // set this to external|top|bottom
@@ -1142,6 +1230,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $(document).bind("click", function(e) {
             if ($context_menu.is(":visible") && $(e.target).parents($context_menu.selector).length === 0) {
                 $context_menu.hide();
+            }
+            if (!($(e.target).is("#sitepages_insert_dropdown_button") || $(e.target).parents("#sitepages_insert_dropdown_button").length || $(e.target).is(".sitepages_insert_dropdown_header") || $(e.target).parents(".sitepages_insert_dropdown_header").length)) {
+                showHideInsertDropdown(true);
             }
         });
 
@@ -1500,10 +1591,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /////////////////////////////
 
         var didInit = false;
+        var didInsertDropdownInit = false;
         // Bind Edit page link click event
         $("#edit_page").bind("click", function(ev){
             sakai_global.sitespages.isEditingNewPage = false;
             sakai_global.sitespages.inEditView = true;
+
+            if (!didInsertDropdownInit) {
+                renderInsertDropdown();
+                didInsertDropdownInit = true;
+            }
 
             //Check if tinyMCE has been loaded before - probably a more robust check will be needed
             if (sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage]["pageType"] === "dashboard") {
