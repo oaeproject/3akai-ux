@@ -243,7 +243,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             var data = [];
             if (permission === "viewer") {
                 $.ajax({
-                    url: "/p/" + sakai.content_profile.content_data.data["jcr:name"] + ".members.json",
+                    url: "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".members.json",
                     type: "POST",
                     data: {
                         ":viewer": userid,
@@ -251,12 +251,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     },
                     success: function () {
                         // update cached data (move this user from managers to viewers)
-                        var managers = sakai.content_profile.content_data.members.managers;
+                        var managers = sakai_global.content_profile.content_data.members.managers;
                         for (var i = 0; i < managers.length; i++) {
                             var manager = managers[i];
                             if (manager["rep:userId"] === userid) {
                                 // append this user to viewers
-                                sakai.content_profile.content_data.members.viewers.push(manager);
+                                sakai_global.content_profile.content_data.members.viewers.push(manager);
                                 // remove from managers
                                 managers.splice(i, 1);
                             }
@@ -279,7 +279,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 });
             } else {
                 $.ajax({
-                    url: "/p/" + sakai.content_profile.content_data.data["jcr:name"] + ".members.json",
+                    url: "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".members.json",
                     type: "POST",
                     data: {
                         ":manager": userid,
@@ -287,12 +287,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     },
                     success: function (data) {
                         // update cached data (move this user from viewers to managers)
-                        var viewers = sakai.content_profile.content_data.members.viewers;
+                        var viewers = sakai_global.content_profile.content_data.members.viewers;
                         for (var i = 0; i < viewers.length; i++) {
                             var viewer = viewers[i];
                             if (viewer["rep:userId"] === userid) {
                                 // append this user to managers
-                                sakai.content_profile.content_data.members.managers.push(viewer);
+                                sakai_global.content_profile.content_data.members.managers.push(viewer);
                                 // remove from viewers
                                 viewers.splice(i, 1);
                             }
@@ -451,7 +451,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
 
                 if (changeTo === "viewer") {
                     if ($sharecontentSelectedSharerSpan.html() !== $(sharecontentCanView).html()) {
-                        if (sakai.content_profile.content_data.members.managers.length <= 1) {
+                        if (sakai_global.content_profile.content_data.members.managers.length <= 1) {
                             // do not allow the last manager to become a viewer
                             sakai.api.Util.notification.show(
                                 $sharecontentManagerCouldNotBeRemoved.text(),
