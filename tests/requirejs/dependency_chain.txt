@@ -1,0 +1,138 @@
+communication - done
+ - user
+   - messages, can eliminate this dependency by passing the user in with the function call
+
+content - done
+
+groups - done
+ - server
+ - user
+   - saveGroup - can eliminate this by passing in user as arg
+   - isCurrentUseraManager - same
+   - isCurrentUserAMember - same
+ - security
+
+i18n
+ - security
+ - server
+ - widgets
+   - finishi18n calls setReadyToLoad and insertWidgets
+ - user
+   - me data
+
+l10n - done
+ - user
+   - parseDateString, takes the users's locale
+   - toGMT, takes the user's locale
+   - fromGMT, ""
+      - Can move all these out and just pass in the user as an argument
+
+security 
+ - util
+   - showPage - to get the skins from config
+ - i18n
+   - showPage, uses i18n to get the value for the <title>
+
+server - done
+ - util
+   - removeJCRObjects
+
+user
+ - server
+   - saveJSON & loadJSON
+ - l10n
+   - createUser, to get the default locale - could just be passed in instad
+ - i18n
+   - getShortDescription, to get the short description of a user - not even sure we're using this
+ - util
+   - loadMeData - getDirectoryTags & getValueForDirectoryKey
+ - security
+   - saneHTML
+
+util
+ - server
+   - tagging batch requests
+ - l10n
+   - convertToHumanReadableFileSize
+ - security
+   - escape/sanehtml
+
+widgets
+ - server
+ - util
+ - i18n
+   - setting widget i18n bundles
+   - getValueForKey for widget name
+   - processing widgets
+ - user
+   - me data
+
+
+Need to refactor calls for:
+ - sakai.api.Groups.saveGroup, fourth param should be sakai.api.User.data.me, callback becomes 5th param
+ - sakai.api.Communication.sendMessage, second param becomes 'from' which is me data's userid, everything else pushed back
+ - sakai.api.l10n.parseDateString, adds second param meData
+  - *.toGMT
+  - *.fromGMT
+ - sakai.api.Util.removeJCRObjects -> sakai.api.Server.removeJCRObjects
+ - $.TemplateRenderer -> sakai.api.Util.TemplateRenderer
+ - sakai.api.i18n.init() now takes meData as an arg
+ - sakai.api.i18n.process, fourth arg is now meData
+
+modules that should be able to be included anywhere
+ - server
+ - security
+ - util
+ - config
+
+
+New Dependencies
+
+Communication
+ - jquery
+
+Content
+ - jquery
+ - config
+
+Groups
+ - jquery
+ - configuration
+ - server
+ 
+i18n
+ - jquery
+ - config
+ - server
+ - util
+ - includes a require() to widgets for setting ready to load -- might be able to just fire an event for this
+
+l10n
+ - config
+ - Globalization
+
+Server
+ - jquery
+ - config
+
+User
+ - jquery
+ - server
+ - l10n
+ - i18n
+ - util
+ - config
+
+Util
+ - jquery
+ - l10n
+ - server
+ - config
+ - trimpath
+
+Widgets
+ - jquery
+ - server
+ - util
+ - i18n
+ - user

@@ -16,96 +16,104 @@
  * specific language governing permissions and limitations under the License.
  */
 
+/*
+ * Dependencies
+ *
+ * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
+ */
+
 /*global $ */
 
-var sakai = sakai || {};
+require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
-/**
- * @name sakai.activegroups
- *
- * @class activegroups
- *
- * @description
- * Initialize the activegroups widget
- *
- * @version 0.0.1
- * @param {String} tuid Unique id of the widget
- * @param {Boolean} showSettings Show the settings of the widget or not
- */
-sakai.activegroups = function(tuid, showSettings) {
+    /**
+     * @name sakai_global.activegroups
+     *
+     * @class activegroups
+     *
+     * @description
+     * Initialize the activegroups widget
+     *
+     * @version 0.0.1
+     * @param {String} tuid Unique id of the widget
+     * @param {Boolean} showSettings Show the settings of the widget or not
+     */
+    sakai_global.activegroups = function(tuid, showSettings) {
 
-    var $rootel = $("#"+tuid),
-        $activegroups_main = $("#activegroups_main", $rootel),
-        $activegroups_main_template = $("#activegroups_main_template", $rootel);
+        var $rootel = $("#"+tuid),
+            $activegroups_main = $("#activegroups_main", $rootel),
+            $activegroups_main_template = $("#activegroups_main_template", $rootel);
 
-    var groupData = {};
+        var groupData = {};
 
-    var renderPopularGroups = function(){
-        var output = $.TemplateRenderer($activegroups_main_template, {
-            data: groupData
-        });
-        $activegroups_main.html(output).show();
-    };
-    
-    $(window).bind("sakai-directory-selected", function(ev, selected){
-        loadDataDirectory(selected, renderPopularGroups);
-    });
-    
-    var loadDataDirectory = function(selected, callback){
-        var params = {
-            page: 0,
-            items: 10,
-            q: selected,
-            sortOrder: "descending"
+        var renderPopularGroups = function(){
+            var output = sakai.api.Util.TemplateRenderer($activegroups_main_template, {
+                data: groupData
+            });
+            $activegroups_main.html(output).show();
         };
 
-        $.ajax({
-            url: sakai.config.URL.SEARCH_GROUPS,
-            data: params,
-            success: function(data){
-                groupData = {"results":[], "items": data.items, "total": data.total};
-                var groups = [];
-                for (var i = 0; i < data.results.length; i++){
-                    var group = {};
-                    group["id"] = data.results[i]["sakai:group-id"];
-                    group["name"] = data.results[i]["sakai:group-title"];
-                    groups.push(group);
+        $(window).bind("sakai-directory-selected", function(ev, selected){
+            loadDataDirectory(selected, renderPopularGroups);
+        });
+
+        var loadDataDirectory = function(selected, callback){
+            var params = {
+                page: 0,
+                items: 10,
+                q: selected,
+                sortOrder: "descending"
+            };
+
+            $.ajax({
+                url: sakai.config.URL.SEARCH_GROUPS,
+                data: params,
+                success: function(data){
+                    groupData = {"results":[], "items": data.items, "total": data.total};
+                    var groups = [];
+                    for (var i = 0; i < data.results.length; i++){
+                        var group = {};
+                        group["id"] = data.results[i]["sakai:group-id"];
+                        group["name"] = data.results[i]["sakai:group-title"];
+                        groups.push(group);
+                    }
+                    groupData.results[0] = {"groups": groups};
+                    groupData.moreLink = "/dev/search_groups.html#tag=/tags/directory/" + selected;
+                    callback();
                 }
-                groupData.results[0] = {"groups": groups};
-                groupData.moreLink = "/dev/search_groups.html#tag=/tags/directory/" + selected;
-                callback();
+            });
+        };
+
+        var loadData = function(callback){
+            $.ajax({
+                url: "/var/search/public/mostactivegroups.json?page=0&items=5",
+                cache: false,
+                success: function(data){
+                    groupData = data;
+                    groupData.moreLink = "/dev/search_groups.html#q=*";
+                    callback();
+                }
+            });
+        };
+
+        var doInit = function(){
+            if (! sakai.api.Widgets.isOnDashboard(tuid)){
+                $(".activegroups-widget-border").show();
+                $("#activegroups_widget").addClass("fl-widget s3d-widget");
             }
-        });
-    };
 
-    var loadData = function(callback){
-        $.ajax({
-            url: "/var/search/public/mostactivegroups.json?page=0&items=5",
-            cache: false,
-            success: function(data){
-                groupData = data;
-                groupData.moreLink = "/dev/search_groups.html#q=*";
-                callback();
+            // If the widget is initialized on the directory page then listen to the event to catch specified tag results
+            if (!(sakai_global.directory && sakai_global.directory.getIsDirectory())) {
+                loadData(renderPopularGroups);
+                $("#activegroups_title_popular").show();
+            } else {
+                $("#activegroups_title_recent").show();
             }
-        });
+        };
+
+        doInit();
     };
 
-    var doInit = function(){
-        if (! sakai.api.Widgets.isOnDashboard(tuid)){
-            $(".activegroups-widget-border").show();
-            $("#activegroups_widget").addClass("fl-widget s3d-widget");
-        }
+    sakai.api.Widgets.widgetLoader.informOnLoad("activegroups");
 
-        // If the widget is initialized on the directory page then listen to the event to catch specified tag results
-        if (!(sakai.directory && sakai.directory.getIsDirectory())) {
-            loadData(renderPopularGroups);
-            $("#activegroups_title_popular").show();
-        } else {
-            $("#activegroups_title_recent").show();
-        }
-    };
-
-    doInit();
-};
-
-sakai.api.Widgets.widgetLoader.informOnLoad("activegroups");
+});

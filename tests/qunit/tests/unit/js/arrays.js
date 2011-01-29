@@ -1,36 +1,46 @@
-$(function() {
+require(
+    [
+    "jquery",
+    "sakai/sakai.api.core",
+    "../../../../../tests/qunit/js/qunit.js",
+    "../../../../../tests/qunit/js/sakai_qunit_lib.js"
+    ], 
+    function($, sakai) {
 
-module("Arrays");
+    require.ready(function() {
 
-var dummyArray = ["apple","pear","banana","cherry"];
+    module("Arrays");
 
-/**
- * Test if the indexof returns the expected index
- */
-var testCustomIndexOf = function(){
+    var dummyArray = ["apple","pear","banana","cherry"];
 
-    //in IE the indexOf function from sakai.api.core.js will be used
-    var index = dummyArray.indexOf("pear");
+    /**
+     * Test if the indexof returns the expected index
+     */
+    var testCustomIndexOf = function(){
 
-    //check if it is the same as expected
-    same(index, 1,"Finding the index of the item");
+        //in IE the indexOf function from sakai.api.core.js will be used
+        var index = dummyArray.indexOf("pear");
 
-    //check for the last item in the array
-    index = dummyArray.indexOf("cherry");
-    same(index, dummyArray.length - 1, "Finding last item");
+        //check if it is the same as expected
+        same(index, 1,"Finding the index of the item");
 
-    //check for unknown item
-    index = dummyArray.indexOf("foo");
-    same(index, -1, "Not finding unknown item");
+        //check for the last item in the array
+        index = dummyArray.indexOf("cherry");
+        same(index, dummyArray.length - 1, "Finding last item");
 
-};
+        //check for unknown item
+        index = dummyArray.indexOf("foo");
+        same(index, -1, "Not finding unknown item");
 
-/**
- * Run a test
- */
-test("Get the first occurence of an item in an array", function(){
-    //test to see if the custom index of works correctly
-    testCustomIndexOf();
-});
+    };
 
+    /**
+     * Run a test
+     */
+    test("Get the first occurence of an item in an array", function(){
+        //test to see if the custom index of works correctly
+        testCustomIndexOf();
+    });
+
+    });
 });

@@ -16,58 +16,65 @@
  * specific language governing permissions and limitations under the License.
  */
 
+/*
+ * Dependencies
+ *
+ * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
+ */
+
 /*global $ */
 
-var sakai = sakai || {};
-
-/**
- * @name sakai.nextleveldown
- *
- * @class nextleveldown
- *
- * @description
- * Initialize the nextleveldown widget
- *
- * @version 0.0.1
- * @param {String} tuid Unique id of the widget
- * @param {Boolean} showSettings Show the settings of the widget or not
- */
-sakai.nextleveldown = function(tuid,showSettings){
-
-    // Containers
-    var $nextleveldownContent = $(".nextleveldown_content");
-
-    // Templates
-    var nextleveldownContentTemplate = "nextleveldown_content_template";
-
-    // Elements
-    var nextleveldownChild= ".nextleveldown_child";
+require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     /**
-     * Render the first 2 children levels of the current location
-     * @param {Object} data Data containing the JSTree
+     * @name sakai_global.nextleveldown
+     *
+     * @class nextleveldown
+     *
+     * @description
+     * Initialize the nextleveldown widget
+     *
+     * @version 0.0.1
+     * @param {String} tuid Unique id of the widget
+     * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    var renderChildren = function(data){
-        $nextleveldownContent.html($.TemplateRenderer(nextleveldownContentTemplate, {
-            "data": data
-        }));
+    sakai_global.nextleveldown = function(tuid,showSettings){
+
+        // Containers
+        var $nextleveldownContent = $(".nextleveldown_content");
+
+        // Templates
+        var nextleveldownContentTemplate = "nextleveldown_content_template";
+
+        // Elements
+        var nextleveldownChild= ".nextleveldown_child";
+
+        /**
+         * Render the first 2 children levels of the current location
+         * @param {Object} data Data containing the JSTree
+         */
+        var renderChildren = function(data){
+            $nextleveldownContent.html(sakai.api.Util.TemplateRenderer(nextleveldownContentTemplate, {
+                "data": data
+            }));
+        };
+
+        /**
+         * Fire the JSTree event associated with this location
+         * @param {Object} id ID of the clicked element
+         */
+        var clickedChild = function(id){
+            $("li#" + id).children("a").click();
+        };
+
+        $(nextleveldownChild).live("click",function(){
+            clickedChild(this.id);
+        });
+
+        $(window).bind("sakai-directory-selected", function(ev, selectedpath, selected){
+            renderChildren(sakai_global.browsedirectory.getDirectoryNodeJson(selectedpath.split("/")[selectedpath.split("/").length -1]));
+        });
     };
 
-    /**
-     * Fire the JSTree event associated with this location
-     * @param {Object} id ID of the clicked element
-     */
-    var clickedChild = function(id){
-        $("li#" + id).children("a").click();
-    };
-
-    $(nextleveldownChild).live("click",function(){
-        clickedChild(this.id);
-    });
-
-    $(window).bind("sakai-directory-selected", function(ev, selectedpath, selected){
-        renderChildren(sakai.browsedirectory.getDirectoryNodeJson(selectedpath.split("/")[selectedpath.split("/").length -1]));
-    });
-};
-
-sakai.api.Widgets.widgetLoader.informOnLoad("nextleveldown");
+    sakai.api.Widgets.widgetLoader.informOnLoad("nextleveldown");
+});

@@ -179,7 +179,7 @@ input.fl-icon{padding-left:16px;}
 .fl-widget .fl-widget-titlebar h2{padding:0;margin:0;font-size:105%;}
 .fl-widget .fl-widget-titlebar .fl-button-inner{font-size:.8em;padding-bottom:.2em;padding-top:.2em;}
 .fl-widget .fl-widget-controls{margin:-1.3em 0 1.5em 0;}
-.fl-widget .fl-widget-options{margin-top:5px;padding:0 10px;}
+.fl-widget .fl-widget-options{background-color:#D5DBDF;}
 .fl-widget .fl-widget-options ul{margin:0;padding:0;overflow:hidden;zoom:1;}
 .fl-widget .fl-widget-options li{list-style-type:none;float:left;display:inline;padding:0 5px 0 5px;margin-left:-5px;}
 .fl-widget .fl-widget-options a{margin-right:5px;}

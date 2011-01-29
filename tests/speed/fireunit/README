@@ -1,0 +1,15 @@
+Requirements:
+
+Firefox
+Firebug
+Fireunit
+ - https://github.com/jeresig/fireunit - download, unzip, run make
+
+Firebug's extensions.firebug.throttleMessages config set to false
+
+To run format_results_server
+
+ruby
+rubygems
+ - sinatra
+ - hpricot
