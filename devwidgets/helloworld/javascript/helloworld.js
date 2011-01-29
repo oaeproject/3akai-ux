@@ -17,170 +17,171 @@
  */
 
 // load the master sakai object to access all Sakai OAE API methods
-var sakai = sakai || {};
-
-/**
- * @name sakai.helloworld
- *
- * @class helloworld
- *
- * @description
- * My Hello World is a dashboard widget that says hello to the current user
- * with text in the color of their choosing
- *
- * @version 0.0.1
- * @param {String} tuid Unique id of the widget
- * @param {Boolean} showSettings Show the settings of the widget or not
- */
-sakai.helloworld = function (tuid, showSettings) {
-
-    /////////////////////////////
-    // Configuration variables //
-    /////////////////////////////
-
-    var DEFAULT_COLOR = "#000000";  // default text color is black
-
-    // DOM jQuery Objects
-    var $rootel = $("#" + tuid);  // unique container for each widget instance
-    var $mainContainer = $("#helloworld_main", $rootel);
-    var $settingsContainer = $("#helloworld_settings", $rootel);
-    var $settingsForm = $("#helloworld_settings_form", $rootel);
-    var $colorPicker = $("#helloworld_color", $rootel);
-    var $usernameContainer = $("#helloworld_username", $rootel);
-
-
-    ///////////////////////
-    // Utility functions //
-    ///////////////////////
+require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     /**
-     * Checks if the provided color argument is non-empty and returns the color
-     * if not empty; if empty, returns the DEFAULT_COLOR
+     * @name sakai_global.helloworld
      *
-     * @param {String} color The hex value of the color
-     */
-    var checkColorArgument = function (color) {
-        // check if color exists and is not an empty string
-        return (color && $.trim(color)) ? $.trim(color) : DEFAULT_COLOR;
-    };
-
-    /**
-     * Gets the preferred color from the server using an asynchronous request
+     * @class helloworld
      *
-     * @param {Object} callback Function to call when the request returns. This
-     * function will be sent a String with the hex value of the preferred color.
-     */
-    var getPreferredColor = function (callback) {
-        // get the data associated with this widget
-        sakai.api.Widgets.loadWidgetData(tuid, function (success, data) {
-            if (success) {
-                // fetching the data succeeded, send it to the callback function
-                callback(checkColorArgument(data.color));
-            } else {
-                // fetching the data failed, we use the DEFAULT_COLOR
-                callback(DEFAULT_COLOR);
-            }
-        });
-    };
-
-
-    /////////////////////////
-    // Main View functions //
-    /////////////////////////
-
-    /**
-     * Shows the Main view that contains the Hello World text colored in the
-     * provided color argument
+     * @description
+     * My Hello World is a dashboard widget that says hello to the current user
+     * with text in the color of their choosing
      *
-     * @param {String} color The hex value of the color to set the text
-     * (i.e. "#00FF00")
+     * @version 0.0.1
+     * @param {String} tuid Unique id of the widget
+     * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    var showMainView = function (color) {
-        // set the color of the text
-        $("p", $mainContainer).css("color", checkColorArgument(color));
+    sakai_global.helloworld = function (tuid, showSettings) {
 
-        // show the Main container
-        $mainContainer.show();
-    };
+        /////////////////////////////
+        // Configuration variables //
+        /////////////////////////////
 
+        var DEFAULT_COLOR = "#000000";  // default text color is black
 
-    /////////////////////////////
-    // Settings View functions //
-    /////////////////////////////
-
-    /**
-     * Sets the color dropdown in the Settings view to the given color
-     *
-     * @param {String} color The hex value of the color
-     */
-    var setDropdownColor = function (color) {
-        // set the color dropdown to the given value
-        $colorPicker.val(checkColorArgument(color));
-    };
+        // DOM jQuery Objects
+        var $rootel = $("#" + tuid);  // unique container for each widget instance
+        var $mainContainer = $("#helloworld_main", $rootel);
+        var $settingsContainer = $("#helloworld_settings", $rootel);
+        var $settingsForm = $("#helloworld_settings_form", $rootel);
+        var $colorPicker = $("#helloworld_color", $rootel);
+        var $usernameContainer = $("#helloworld_username", $rootel);
 
 
-    ////////////////////
-    // Event Handlers //
-    ////////////////////
+        ///////////////////////
+        // Utility functions //
+        ///////////////////////
 
-    /** Binds Settings form */
-    $settingsForm.bind("submit", function (ev) {
-        // get the selected color
-        var selectedColor = $colorPicker.val();
+        /**
+         * Checks if the provided color argument is non-empty and returns the color
+         * if not empty; if empty, returns the DEFAULT_COLOR
+         *
+         * @param {String} color The hex value of the color
+         */
+        var checkColorArgument = function (color) {
+            // check if color exists and is not an empty string
+            return (color && $.trim(color)) ? $.trim(color) : DEFAULT_COLOR;
+        };
 
-        // save the selected color
-        sakai.api.Widgets.saveWidgetData(tuid, {color:selectedColor},
-            function (success, data) {
+        /**
+         * Gets the preferred color from the server using an asynchronous request
+         *
+         * @param {Object} callback Function to call when the request returns. This
+         * function will be sent a String with the hex value of the preferred color.
+         */
+        var getPreferredColor = function (callback) {
+            // get the data associated with this widget
+            sakai.api.Widgets.loadWidgetData(tuid, function (success, data) {
                 if (success) {
-                    // Settings finished, switch to Main view
-                    sakai.api.Widgets.Container.informFinish(tuid, "helloworld");
+                    // fetching the data succeeded, send it to the callback function
+                    callback(checkColorArgument(data.color));
+                } else {
+                    // fetching the data failed, we use the DEFAULT_COLOR
+                    callback(DEFAULT_COLOR);
                 }
-            }
-        );
-    });
+            });
+        };
 
 
-    /////////////////////////////
-    // Initialization function //
-    /////////////////////////////
+        /////////////////////////
+        // Main View functions //
+        /////////////////////////
 
-    /**
-     * Initialization function that is run when the widget is loaded. Determines
-     * which mode the widget is in (settings or main), loads the necessary data
-     * and shows the correct view.
-     */
-    var doInit = function () {
-        if (showSettings) {
-            // set up Settings view
+        /**
+         * Shows the Main view that contains the Hello World text colored in the
+         * provided color argument
+         *
+         * @param {String} color The hex value of the color to set the text
+         * (i.e. "#00FF00")
+         */
+        var showMainView = function (color) {
+            // set the color of the text
+            $("p", $mainContainer).css("color", checkColorArgument(color));
 
-            // get the preferred color & set the color picker dropdown
-            getPreferredColor(setDropdownColor);
+            // show the Main container
+            $mainContainer.show();
+        };
 
-            // show the Settings view
-            $settingsContainer.show();
-        } else {
-            // set up Main view
 
-            // get data about the current user
-            var me = sakai.data.me;
+        /////////////////////////////
+        // Settings View functions //
+        /////////////////////////////
 
-            // set the text of the usernameContainer <span> element to
-            // the current user's first name
-            $usernameContainer.text(
-                sakai.api.Security.saneHTML(
-                    sakai.api.User.getProfileBasicElementValue(me.profile,
-                        "firstName")
-                )
+        /**
+         * Sets the color dropdown in the Settings view to the given color
+         *
+         * @param {String} color The hex value of the color
+         */
+        var setDropdownColor = function (color) {
+            // set the color dropdown to the given value
+            $colorPicker.val(checkColorArgument(color));
+        };
+
+
+        ////////////////////
+        // Event Handlers //
+        ////////////////////
+
+        /** Binds Settings form */
+        $settingsForm.bind("submit", function (ev) {
+            // get the selected color
+            var selectedColor = $colorPicker.val();
+
+            // save the selected color
+            sakai.api.Widgets.saveWidgetData(tuid, {color:selectedColor},
+                function (success, data) {
+                    if (success) {
+                        // Settings finished, switch to Main view
+                        sakai.api.Widgets.Container.informFinish(tuid, "helloworld");
+                    }
+                }
             );
+        });
 
-            // get the preferred color and show the Main view
-            getPreferredColor(showMainView);
-        }
+
+        /////////////////////////////
+        // Initialization function //
+        /////////////////////////////
+
+        /**
+         * Initialization function that is run when the widget is loaded. Determines
+         * which mode the widget is in (settings or main), loads the necessary data
+         * and shows the correct view.
+         */
+        var doInit = function () {
+            if (showSettings) {
+                // set up Settings view
+
+                // get the preferred color & set the color picker dropdown
+                getPreferredColor(setDropdownColor);
+
+                // show the Settings view
+                $settingsContainer.show();
+            } else {
+                // set up Main view
+
+                // get data about the current user
+                var me = sakai.data.me;
+
+                // set the text of the usernameContainer <span> element to
+                // the current user's first name
+                $usernameContainer.text(
+                    sakai.api.Security.saneHTML(
+                        sakai.api.User.getProfileBasicElementValue(me.profile,
+                            "firstName")
+                    )
+                );
+
+                // get the preferred color and show the Main view
+                getPreferredColor(showMainView);
+            }
+        };
+
+        // run the initialization function when the widget object loads
+        doInit();
     };
 
-    // run the initialization function when the widget object loads
-    doInit();
-};
-
-// inform Sakai OAE that this widget has loaded and is ready to run
-sakai.api.Widgets.widgetLoader.informOnLoad("helloworld");
+    // inform Sakai OAE that this widget has loaded and is ready to run
+    sakai.api.Widgets.widgetLoader.informOnLoad("helloworld");
+});
