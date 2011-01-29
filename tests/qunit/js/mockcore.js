@@ -19,17 +19,18 @@
 /**
  * MockCore - Default mocking for sakai unit tests
  */
-
-$.mockjax(function(settings) {
-  var url = settings.url.match(/\/dev\/(.*)$/);
-  if ( url ) {
-    return { responseTime:10, proxy: '../../../../dev/' + url[1] };
-  } else {
-      var widgetURL = settings.url.match(/\/devwidgets\/(.*)$/);
-      if ( widgetURL ) {
-          return { responseTime:10, proxy: '../../../../devwidgets/' + widgetURL[1] };
+require(["jquery", "../../../../tests/qunit/js/jquery.mockjax.js"], function($){
+    $.mockjax(function(settings) {
+      var url = settings.url.match(/\/dev\/(.*)$/);
+      if ( url ) {
+        return { responseTime:10, proxy: '../../../../dev/' + url[1] };
+      } else {
+          var widgetURL = settings.url.match(/\/devwidgets\/(.*)$/);
+          if ( widgetURL ) {
+              return { responseTime:10, proxy: '../../../../devwidgets/' + widgetURL[1] };
+          }
+          return null;
       }
       return null;
-  }
-  return null;
+    }); 
 });

@@ -6,7 +6,7 @@
 
     <div id="sharecontent_container_header" class="dialog_header">
         <div class="dialog_header_inner">
-            <h1 id="sharecontent_i_want_to_share" class="sharecontent_adding_titles" style="display:none">__MSG__I_WANT_TO_SHARE__</h1>
+            <h1 id="sharecontent_i_want_to_share" class="sharecontent_adding_titles" style="display:none">__MSG__VISIBILITY_AND_PERMISSION_FOR__</h1>
             <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
         </div>
     </div>
@@ -15,21 +15,21 @@
 
         <div id="sharecontent_basic_template" style="display:none"><!--
             <h1 id="sharecontent_visibility_header">
-                {if content_profile.content_data.data["sakai:permissions"] == "public"}
+                {if sakai_global.content_profile.content_data.data["sakai:permissions"] == "public"}
                     __MSG__VISIBLE_TO_ANYONE__
-                {elseif content_profile.content_data.data["sakai:permissions"] == "private"}
+                {elseif sakai_global.content_profile.content_data.data["sakai:permissions"] == "private"}
                     __MSG__PRIVATE_TO_WHO_I_SHARE_THIS_WITH__
-                {elseif content_profile.content_data.data["sakai:permissions"] == "everyone"}
+                {elseif sakai_global.content_profile.content_data.data["sakai:permissions"] == "everyone"}
                     __MSG__VISIBLE_TO_ANYONE_WHOS_LOGGED_IN__
                 {/if}
             </h1>
-            {if !data.me.user.anon && content_profile.content_data.isManager}
+            {if !data.me.user.anon && sakai_global.content_profile.content_data.isManager}
                 <a href="javascript:;" id="sharecontent_change_global_permissions" class="s3d-bold s3d-regular-links">__MSG__CHANGE__</a>
             {/if}
             <div class="s3d-highlight_area_background fl-push">
                 <div class='s3d-highlight_area_background_tl'><div class='s3d-highlight_area_background_tinner'></div></div>
                     <span id="sharecontent_share_link" class="fl-force-left fl-push">
-                        <span id="sharecontent_content_link" class="s3d-bold">__MSG__LINK__</span><input type="text" value="${window.location}" readonly="readonly" dir="rtl"/>
+                        <span id="sharecontent_content_link" class="s3d-bold">__MSG__URL__</span><input type="text" value="${window.location}" readonly="readonly" dir="rtl"/>
                         {if !data.me.user.anon}
                             <button type="submit" class="s3d-button s3d-button-link-2-state" id="sharecontent_message_link"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__MESSAGE_LINK__</span></button>
                         {/if}
@@ -39,10 +39,10 @@
                 <div class="s3d-highlight_area_background_bl"><div class="s3d-highlight_area_background_binner"></div></div>
             </div>
 
-            <h1 class="fl-force-left">__MSG__CONTENT_HAS_BEEN_SHARED_WITH__</h1>
+            <h1 class="fl-force-left">__MSG__VIEWER_AND_EDITORS_OF_THIS_ITEM__</h1>
             <div id="sharecontent_listpeople">
                 <ul>
-                    {for manager in content_profile.content_data.members.managers}
+                    {for manager in sakai_global.content_profile.content_data.members.managers}
                         {if manager["rep:userId"] !== "anonymous"}
                             <li {if manager_index % 2 != 0} class="sharecontent_list_item_alternating_row"{/if}>
                                 {if manager.picture != null}
@@ -61,7 +61,7 @@
                                 {if manager.hasOwnProperty("sakai:group-id")}
                                     <span class="sharecontent_manager_name s3d-bold">${unescape(manager["sakai:group-title"])}</span>
                                     <span class="sharecontent_right_floats">
-                                        {if !data.me.user.anon && content_profile.content_data.isManager}
+                                        {if !data.me.user.anon && sakai_global.content_profile.content_data.isManager}
                                             <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_permission_link sharecontent_permission_link_${manager["sakai:group-id"]}"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CAN_EDIT__<span class="sharecontent_permission"></span></span></button>
                                             <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_remove" id="manager-${manager["sakai:group-id"]}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__REMOVE__</span></button>
                                         {else}
@@ -71,7 +71,7 @@
                                 {else}
                                     <span class="sharecontent_manager_name s3d-bold">${unescape(manager.basic.elements.firstName.value)} ${unescape(manager.basic.elements.lastName.value)}{if data.me.user.userid == manager["rep:userId"]}<span id="sharecontent_you">(__MSG__YOU__)</span>{/if}</span>
                                     <span class="sharecontent_right_floats">
-                                        {if !data.me.user.anon && content_profile.content_data.isManager}
+                                        {if !data.me.user.anon && sakai_global.content_profile.content_data.isManager}
                                             <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_permission_link sharecontent_permission_link_${manager["rep:userId"]}"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CAN_EDIT__<span class="sharecontent_permission"></span></span></button>
                                             <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_remove" id="manager-${manager["rep:userId"]}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__REMOVE__</span></button>
                                         {else}
@@ -83,11 +83,11 @@
                         {/if}
                     {/for}
 
-                    {if content_profile.content_data.members.hasOwnProperty("viewers")}
-                        {for viewer in content_profile.content_data.members.viewers}
+                    {if sakai_global.content_profile.content_data.members.hasOwnProperty("viewers")}
+                        {for viewer in sakai_global.content_profile.content_data.members.viewers}
                             {if viewer["rep:userId"] !== "anonymous"}
                                 {if !data.me.user.anon}
-                                    <li {if content_profile.content_data.members.managers.length % 2 != 0}{if viewer_index % 2 == 0} class="sharecontent_list_item_alternating_row"{/if}{else}{if viewer_index % 2 != 0} class="sharecontent_list_item_alternating_row"{/if}{/if}>
+                                    <li {if sakai_global.content_profile.content_data.members.managers.length % 2 != 0}{if viewer_index % 2 == 0} class="sharecontent_list_item_alternating_row"{/if}{else}{if viewer_index % 2 != 0} class="sharecontent_list_item_alternating_row"{/if}{/if}>
                                         {if viewer.picture != null}
                                             {if viewer.hasOwnProperty("sakai:group-id")}
                                                 <img src="/~${viewer["sakai:group-id"]}/public/profile/${viewer.picture.name}" alt="${unescape(viewer["sakai:group-title"])}" class="sharecontent_people_picture"/>
@@ -104,7 +104,7 @@
                                         {if viewer.hasOwnProperty("sakai:group-id")}
                                             <span class="sharecontent_viewer_name s3d-bold">${unescape(viewer["sakai:group-title"])}</span>
                                             <span class="sharecontent_right_floats">
-                                                {if !data.me.user.anon && content_profile.content_data.isManager}
+                                                {if !data.me.user.anon && sakai_global.content_profile.content_data.isManager}
                                                     <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_permission_link sharecontent_permission_link_${viewer["sakai:group-id"]}"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CAN_VIEW__<span class="sharecontent_permission"></span></span></button>
                                                     <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_remove" id="viewer-${viewer["sakai:group-id"]}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__REMOVE__</span></button>
                                                 {else}
@@ -114,7 +114,7 @@
                                         {else}
                                             <span class="sharecontent_viewer_name s3d-bold">${unescape(viewer.basic.elements.firstName.value)} ${unescape(viewer.basic.elements.lastName.value)}{if data.me.user.userid == viewer["rep:userId"]}<span id="sharecontent_you">(__MSG__YOU__)</span>{/if}</span>
                                             <span class="sharecontent_right_floats">
-                                                {if !data.me.user.anon && content_profile.content_data.isManager}
+                                                {if !data.me.user.anon && sakai_global.content_profile.content_data.isManager}
                                                     <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_permission_link sharecontent_permission_link_${viewer["rep:userId"]}"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CAN_VIEW__<span class="sharecontent_permission"></span></span></button>
                                                     <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_remove" id="viewer-${viewer["rep:userId"]}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__REMOVE__</span></button>
                                                 {else}
@@ -140,9 +140,9 @@
                 </ul>
             </div>
 
-            {if !data.me.user.anon && content_profile.content_data.isManager}
+            {if !data.me.user.anon && sakai_global.content_profile.content_data.isManager}
                 <div class="s3d-highlight_area_background_darker1 sharecontent_search_container">
-                    <span class="s3d-bold" id="sharecontent_add_people">__MSG__ADD_PEOPLE__<a href="javascript:;" id="sharecontent_init_search" class="s3d-action">__MSG__SEARCH__</a></span>
+                    <span class="s3d-bold" id="sharecontent_add_people">__MSG__ADD_PEOPLE__<a href="javascript:;" id="sharecontent_init_search" class="s3d-action">__MSG__SEARCH_FOR_PEOPLE_OR_GROUP__</a></span>
                     <span id="sharecontent_form_container"><input name="sharecontent_search_query" id="sharecontent_search_query" type="text" autocomplete="off"/></span>
                     <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_permission_link sharecontent_new_members_permission_link" style="display:none;" value="viewer"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CAN_VIEW__<span class="sharecontent_permission"></span></span></button>
                     <hr class="fl-push fl-hidden"/>
@@ -153,11 +153,11 @@
         --></div>
 
         <div id="sharecontent_visibility_header_template"><!--
-            {if content_profile.content_data.data["sakai:permissions"] == "public"}
+            {if sakai_global.content_profile.content_data.data["sakai:permissions"] == "public"}
                 __MSG__VISIBLE_TO_ANYONE__
-            {elseif content_profile.content_data.data["sakai:permissions"] == "private"}
+            {elseif sakai_global.content_profile.content_data.data["sakai:permissions"] == "private"}
                 __MSG__PRIVATE_TO_WHO_I_SHARE_THIS_WITH__
-            {elseif content_profile.content_data.data["sakai:permissions"] == "everyone"}
+            {elseif sakai_global.content_profile.content_data.data["sakai:permissions"] == "everyone"}
                 __MSG__VISIBLE_TO_ANYONE_WHOS_LOGGED_IN__
             {/if}
         --></div>
@@ -185,7 +185,7 @@
 <div id="sharecontent_permission_settings_container" style="display:none" class="dialog">
     <div id="sharecontent_permission_settings_container_header" class="dialog_header">
         <div class="dialog_header_inner">
-            <h1 id="sharecontent_permission_settings_container_header" class="sharecontent_adding_titles">__MSG__THE_FOLLOWING_GROUPS_AND_USERS_ARE_USING_THIS_CONTENT__</h1>
+            <h1 id="sharecontent_permission_settings_container_header" class="sharecontent_adding_titles">__MSG__WHO_CAN_SEE_THIS__</h1>
             <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
         </div>
     </div>
@@ -201,31 +201,30 @@
 </div>
 
     <div id="sharecontent_permission_settings_template"><!--
-        <h1 class="fl-force-left">__MSG__WHO_CAN_SEE_THIS__</h1>
         <div class="s3d-highlight_area_background">
             <div class="s3d-highlight_area_background_tl"><div class="s3d-highlight_area_background_tinner"></div></div>
             <ul>
                 <li id="permissions_settings_container_public" class="permissions_settings_item">
                     <div class='s3d-highlight_area_background_white_content_tl'><div class='s3d-highlight_area_background_white_content_tinner'></div></div>
                     <input type="radio" id="permission_settings_rbt_public" name="permission_settings" value="public" {if data["sakai:permissions"] == "public"}checked{/if}/>
-                    <label id="permissions_settings_item_public" for="permission_settings_rbt_public">
-                        __MSG__VISIBLE_TO_ANYONE__
+                    <label for="permission_settings_rbt_public">
+                        <span id="permissions_settings_item_public"></span>__MSG__VISIBLE_TO_ANYONE__
                     </label>
                     <div class='s3d-highlight_area_background_white_content_bl'><div class='s3d-highlight_area_background_white_content_binner'></div></div>
                 </li>
                 <li id="permissions_settings_container_loggedin" class="permissions_settings_item">
                     <div class='s3d-highlight_area_background_white_content_tl'><div class='s3d-highlight_area_background_white_content_tinner'></div></div>
                     <input type="radio" id="permission_settings_rbt_everyone" name="permission_settings" value="everyone" {if data["sakai:permissions"] == "everyone"}checked{/if}/>
-                    <label id="permissions_settings_item_everyone" for="permission_settings_rbt_everyone">
-                        __MSG__VISIBLE_TO_ANYONE_WHOS_LOGGED_IN__
+                    <label for="permission_settings_rbt_everyone">
+                        <span id="permissions_settings_item_everyone"></span>__MSG__VISIBLE_TO_ANYONE_WHOS_LOGGED_IN__
                     </label>
                     <div class='s3d-highlight_area_background_white_content_bl'><div class='s3d-highlight_area_background_white_content_binner'></div></div>
                 </li>
                 <li id="permissions_settings_container_private" class="permissions_settings_item">
                     <div class='s3d-highlight_area_background_white_content_tl'><div class='s3d-highlight_area_background_white_content_tinner'></div></div>
                     <input type="radio" id="permission_settings_rbt_private" name="permission_settings" value="private" {if data["sakai:permissions"] == "private"}checked{/if}/>
-                    <label id="permissions_settings_item_private" for="permission_settings_rbt_private">
-                        __MSG__PRIVATE_TO_WHO_I_SHARE_THIS_WITH__
+                    <label for="permission_settings_rbt_private">
+                        <span id="permissions_settings_item_private"></span>__MSG__PRIVATE_TO_WHO_I_SHARE_THIS_WITH__
                     </label>
                     <div class='s3d-highlight_area_background_white_content_bl'><div class='s3d-highlight_area_background_white_content_binner'></div></div>
                 </li>
