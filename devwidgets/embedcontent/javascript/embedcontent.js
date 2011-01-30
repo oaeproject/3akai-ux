@@ -125,6 +125,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var renderWidget = function() {
+            widgetData.sakai = sakai;
             sakai.api.Util.TemplateRenderer($embedcontent_content_html_template, widgetData, $embedcontent_content);
             sakai.api.Widgets.widgetLoader.insertWidgets("embedcontent_main_container", false, "#"+tuid);
         };
