@@ -18,24 +18,17 @@
 /* Directory 2 CSS */
 
 /* BROWSE DIRECTORY WIDGET PLACEMENT*/
-.browse_directory {padding: 10px 10px 10px 0; width: 25%;}
+.browse_directory{padding:10px 10px 10px 0;width:25%;}
 
 /* DIRECOTRY CONTENT */
-.content {width:48%; min-height: 40px; margin-top: 15px;}
-.node_content_area {width:48%;}
-.node_content_area .s3d-widget .s3d-widget-content, .s3d-content {
-    border-left: none !important;
-    border-right: none !important;
-}
-
-.node_content_area .content_top_inner, .node_content_area .content_top, .node_content_area .s3d-no-options-inner, .node_content_area .s3d-no-options {
-    background: none !important;
-}
+.content{width:48%;min-height:40px;margin-top:15px;}
+.node_content_area{width:48%;}
+.node_content_area .s3d-widget .s3d-widget-content,.s3d-content{border-left:none!important;border-right:none!important;}
+.node_content_area .content_top_inner,.node_content_area .content_top,.node_content_area .s3d-no-options-inner,.node_content_area .s3d-no-options{background:none!important;}
 
 /* DIRECTORY TITLE */
-.directory_header { font-size:22px; line-height:28px; margin-right:10px;}
+.directory_header{font-size:22px;line-height:28px;margin-right:10px;}
 
 /* INFORMATION WIDGETS */
-.directory_information_widgets_container {width:25%; float:right; padding-top:10px;}
-
-#profile_picture { width: 32px; height: 32px; margin-right: 10px;}
+.directory_information_widgets_container{width:25%;float:right;padding-top:10px;}
+#profile_picture{width:32px;height:32px;margin-right:10px;}

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>JavaScript Profiling - FireUnit</title>
+        <link rel="stylesheet" href="tablesorter/blue/style.css" type="text/css"/>
+    </head>
+    <body>
+        <script src="/dev/lib/jquery/jquery.js"></script>
+        <script src="tablesorter/jquery.tablesorter.js"></script>
+        <script>
+          $.ajax({
+            url:"http://localhost:4567/",
+            type: "POST",
+            data: '<thead><tr><th class="header">page</th><th class="header">function name</th><th class="header">filename</th><th class="header">calls</th><th class="header">total runtime</th><th class="header">max call runtime</th><th class="header">average call runtime</th></tr></thead> <tbody> <tr><td>/dev/my_sakai.html</td><td>insertTag</td><td>sakai.api.util.js (line 686)</td><td>33</td><td>354.044</td><td>28.283</td><td>10.729</td></tr><tr><td>/dev/my_sakai.html</td><td>success</td><td>sakai....gets.js (line 390)</td><td>2</td><td>448.938</td><td>277.901</td><td>224.469</td></tr><tr><td>/dev/my_sakai.html</td><td>doI18N</td><td>sakai.api.i18n.js (line 169)</td><td>1</td><td>55.088</td><td>55.088</td><td>55.088</td></tr><tr><td>/dev/my_sakai.html</td><td>informOnLoad</td><td>sakai....gets.js (line 236)</td><td>21</td><td>476.718</td><td>269.245</td><td>22.701</td></tr><tr><td>/dev/my_sakai.html</td><td>sethtmlover</td><td>sakai....gets.js (line 291)</td><td>16</td><td>437.172</td><td>37.732</td><td>27.323</td></tr><tr><td>/dev/my_sakai.html</td><td>showDashboard</td><td>dashboard.js (line 204)</td><td>1</td><td>60.502</td><td>60.502</td><td>60.502</td></tr><tr><td>/dev/my_sakai.html</td><td>js</td><td>sakai.api.util.js (line 727)</td><td>16</td><td>61.002</td><td>4.325</td><td>3.813</td></tr><tr><td>/dev/my_sakai.html</td><td>css</td><td>sakai.api.util.js (line 743)</td><td>17</td><td>342.784</td><td>29.229</td><td>20.164</td></tr><tr><td>/dev/my_sakai.html</td><td>informOnLoad</td><td>sakai....gets.js (line 627)</td><td>16</td><td>476.807</td><td>269.255</td><td>29.8</td></tr><tr><td>/dev/my_sakai.html</td><td>finishI18N</td><td>sakai.api.i18n.js (line 132)</td><td>1</td><td>52.665</td><td>52.665</td><td>52.665</td></tr><tr><td>/dev/my_sakai.html</td><td>doRender</td><td>mygroups.js (line 110)</td><td>1</td><td>268.043</td><td>268.043</td><td>268.043</td></tr><tr><td>/dev/my_sakai.html</td><td>success</td><td>sakai.api.core.js (line 734)</td><td>2</td><td>63.086</td><td>61.014</td><td>31.543</td></tr><tr><td>/dev/my_sakai.html</td><td>mygroups</td><td>mygroups.js (line 34)</td><td>1</td><td>268.952</td><td>268.952</td><td>268.952</td></tr><tr><td>/dev/my_sakai.html</td><td>decideExists</td><td>dashboard.js (line 74)</td><td>1</td><td>60.713</td><td>60.713</td><td>60.713</td></tr><tr><td>/dev/my_sakai.html</td><td>doInit</td><td>dashboard.js (line 169)</td><td>1</td><td>60.689</td><td>60.689</td><td>60.689</td></tr><tr><td>/dev/my_sakai.html</td><td>success</td><td>sakai.api.i18n.js (line 203)</td><td>1</td><td>56.339</td><td>56.339</td><td>56.339</td></tr><tr><td>/dev/my_sakai.html</td><td>loadGroupList</td><td>mygroups.js (line 148)</td><td>1</td><td>268.061</td><td>268.061</td><td>268.061</td></tr><tr><td>/dev/my_sakai.html</td><td>doInit</td><td>mygroups.js (line 164)</td><td>1</td><td>268.065</td><td>268.065</td><td>268.065</td></tr></tbody>',
+            contentType: "text/plain"
+          });
+        </script>
+    </body>
+</html>
