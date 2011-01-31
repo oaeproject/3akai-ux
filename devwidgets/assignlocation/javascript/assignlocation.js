@@ -114,7 +114,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Concatenate the tags with the new locations
             var newTags = [];
             if (contextVariables.tags) {
-                newTags = sakai.api.Util.formatTagsExcludeLocation(contextVariables.tags.toString()).slice(0);
+                newTags = sakai.api.Util.formatTagsExcludeLocation(contextVariables.tags.toString()).slice(1,-1);
             }
             newTags = newTags.concat(locations);
 
@@ -154,7 +154,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 });
             } else {
                 if (docScrollPos > 0) {
-                    $contentmetadataLocationsDialog.css({
+                    $assignlocationContainer.css({
                         "top": docScrollPos + 100 + "px"
                     });
                 }
@@ -250,7 +250,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             //determineContext();
         };
-
         doInit();
 
     };
