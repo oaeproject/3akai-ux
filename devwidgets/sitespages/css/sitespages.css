@@ -79,6 +79,25 @@
 #insert_links_availablelinks li{display:block;font-size:11pt;color:#333;padding:5px;cursor:pointer;font-weight:normal;}
 #insert_links_availablelinks li.selected{color:#39C;font-weight:bold;}
 
+/** Insert Dropdown **/
+#sitepages_insert_dropdown_button{background:transparent;}
+#sitepages_insert_dropdown_button .s3d-button-inner{background:transparent;}
+#sitepages_insert_dropdown_button .s3d-button-inner .s3d-button-icon-left{background:transparent;}
+#sitepages_insert_dropdown_button:hover{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -284px transparent;}
+#sitepages_insert_dropdown_button.clicked{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -342px transparent;}
+#sitepages_insert_dropdown_button:hover .s3d-button-inner{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -255px transparent;}
+#sitepages_insert_dropdown_button.clicked .s3d-button-inner{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -313px transparent;color:#fff;}
+#sitepages_insert_dropdown_button:hover .s3d-button-inner .s3d-button-icon-left{background-position:-31px -235px;}
+#sitepages_insert_dropdown_button.clicked .s3d-button-inner .s3d-button-icon-left{background-position:-51px -235px;}
+#sitepages_insert_dropdown_button{width:90px;}
+#sitepages_insert_dropdown_button_inner {margin-left:15px;width:40px;}
+#sitepages_insert_dropdown{width:150px;border-width:1px;border-style:solid;border-color:#cbd0d4;padding-bottom:4px;z-index:70000}
+#sitepages_insert_dropdown ul{border:none;}
+#sitepages_insert_dropdown ul li{width:100%;}
+#sitepages_insert_dropdown ul li a{width:80%;color:#006e96;padding: 0 12px;}
+.sitepages_insert_dropdown_header{color:#aaaaaa;cursor:default !important;background-color:#FFFFFF !important;padding:0 !important;}
+.sitepages_insert_dropdown_header span{padding-left:12px;}
+
 /** TAB CONTENTS **/
 .edit_view .edit_container{padding:0;margin:0 0 20px;}
 .edit_view .edit_contents_main{border-left:3px solid #D3DBDE;border-right:3px solid #D3DBDE;margin:0;padding:0 10px 10px;float:left;}
