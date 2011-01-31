@@ -1213,8 +1213,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         }
 
                         // get the time since the activity happened
-                        var activityDate = sakai.api.Datetime.parseDateString(entityconfig.data.profile.activity.results[j]["jcr:created"]);
-                        entityconfig.data.profile.activity.results[j].timeAgo = sakai.api.Datetime.getTimeAgo(activityDate);
+                        entityconfig.data.profile.activity.results[j].timeAgo = $.timeago(new Date(entityconfig.data.profile.activity.results[j]["jcr:created"]));
                     }
                 }
             }
