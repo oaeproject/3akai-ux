@@ -543,7 +543,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         if (invited.results[j].target === userid){
                             // is this a request to automatically accept an invitation?
                             var request = new Querystring();
-                            if (request.get("accept", "false") === "true") {
+                            if (request.get("accepttrue") === "accepttrue") {
                                 // automatically accept the invitation
                                 acceptInvitation(userid);
                             }

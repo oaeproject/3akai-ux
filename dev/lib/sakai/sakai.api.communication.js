@@ -95,6 +95,42 @@ define(["jquery"], function($) {
                     "_charset_": "utf-8"
                 };
 
+                switch(context){
+                    case "new_message":
+                        toSend["sakai:templatePath"] = "/var/templates/email/new_message";
+                        toSend["sakai:templateParams"] = "sender=" + sakai_user.data.me.profile.basic.elements.firstName.value + " " + sakai_user.data.me.profile.basic.elements.lastName.value +
+                        "|system=Sakai|subject=" + subject + "|body=" + body + "|link=" + sakai_conf.SakaiDomain + sakai_conf.URL.INBOX_URL;
+                        break;
+                    case "join_request":
+                        toSend["sakai:templatePath"] = "/var/templates/email/join_request";
+                        toSend["sakai:templateParams"] = "sender=" + sakai_user.data.me.profile.basic.elements.firstName.value + " " + sakai_user.data.me.profile.basic.elements.lastName.value + 
+                        "|system=Sakai|name=" + sakai.currentgroup.data.authprofile["sakai:group-title"] +
+                        "|profilelink=" + sakai_conf.SakaiDomain + "~" + sakai_user.data.me.user.userid + 
+                        "|acceptlink=" + sakai_conf.SakaiDomain + sakai_conf.URL.GROUP_EDIT_URL + "?id=" +  sakai.currentgroup.id;
+                        break;
+                    case "group_invitation":
+                        toSend["sakai:templatePath"] = "/var/templates/email/group_invitation";
+                        toSend["sakai:templateParams"] = "sender=" + sakai_user.data.me.profile.basic.elements.firstName.value + " " + sakai_user.data.me.profile.basic.elements.lastName.value + 
+                        "|system=Sakai|name=" + sakai.currentgroup.data.authprofile["sakai:group-title"] +
+                        "|body=" + body + 
+                        "|link=" + sakai_conf.SakaiDomain + "/~" + sakai.currentgroup.id;
+                        break;
+                    case "shared_content":
+                        toSend["sakai:templatePath"] = "/var/templates/email/shared_content";
+                        toSend["sakai:templateParams"] = "sender=" + sakai_user.data.me.profile.basic.elements.firstName.value + " " + sakai_user.data.me.profile.basic.elements.lastName.value + 
+                        "|system=Sakai|name=" + sakai.content_profile.content_data.data["sakai:pooled-content-file-name"] +
+                        "|description=" + sakai.content_profile.content_data.data["sakai:description"] +
+                        "|body=" + body + 
+                        "|link=" + sakai.content_profile.content_data.url;
+                        break;
+                    case "contact_invitation":
+                        toSend["sakai:templatePath"] = "/var/templates/email/contact_invitation";
+                        toSend["sakai:templateParams"] = "sender=" + sakai_user.data.me.profile.basic.elements.firstName.value + " " + sakai_user.data.me.profile.basic.elements.lastName.value + 
+                        "|system=Sakai|body=" + body +
+                        "|link=" + sakai_conf.SakaiDomain + "/~" + sakai_user.data.me.user.userid +"?accepttrue";
+                        break;
+                }
+
                 // Message category
                 if (category) {
                     toSend["sakai:category"] = category;
