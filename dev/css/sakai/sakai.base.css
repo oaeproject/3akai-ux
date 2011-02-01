@@ -228,7 +228,7 @@ html > body .s3d-button .s3d-button-inner{white-space:normal;/* only do the whit
 
 /* Search button */
 .s3d-search-button{padding-right:8px;}
-.s3d-search-button .s3d-button-icon-right{background-image:url(/dev/images/dashboard_sprite.png);background-position:37px -394px;display:inline;}
+.s3d-search-button .s3d-button-icon-right{padding-right:22px;background-image:url(/dev/images/dashboard_sprite.png);background-position:42px -394px;display:inline;}
 
 /* Inline button */
 .s3d-button.s3d-button-inline{background-image:none;background-color:#fff;padding-right:4px;}
