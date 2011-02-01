@@ -539,7 +539,19 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             }
 
             var mode = $(sharecontentNewMembersPermissions).val();
-            $(window).trigger("sakai-sharecontent-finished", {"toAdd": userList.list, "toAddNames": userList.toAddNames, "mode": mode});
+            var toAddList = userList.list.slice();
+
+            for (var i in toAddList){
+                if (toAddList.hasOwnProperty(i) && toAddList[i]) {
+                    if (toAddList[i].substring(0,5) === "user/") {
+                        toAddList[i] = toAddList[i].substring(5, toAddList[i].length);
+                    } else if (toAddList[i].substring(0,6) === "group/") {
+                        toAddList[i] = toAddList[i].substring(6, toAddList[i].length);
+                    }
+                }
+            }
+
+            $(window).trigger("sakai-sharecontent-finished", {"toAdd": toAddList, "toAddNames": userList.toAddNames, "mode": mode});
 
             $(window).trigger("sakai-sharecontent-addUser", {
                 "user": userList,
