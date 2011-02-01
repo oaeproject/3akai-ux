@@ -28,7 +28,7 @@
 *:focus{outline:1px dotted #000;}
 
 /* HTML TAG OVERRIDES - on top of the FSS reset */
-h1{font-size:2em;font-family:Arial,Helvetica,sans-serif;font-weight:bolder;line-height:normal;}
+h1{font-size:2em;font-family:Arial,Helvetica,sans-serif;font-weight:bolder;line-height:normal;margin:5px 0px 10px 0;}
 
 
 /* 
