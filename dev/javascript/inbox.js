@@ -793,7 +793,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 $(inboxSpecificMessageDate).text(sakai.api.Security.saneHTML(message.date));
 
                 // Reply part.
-                $(inboxSpecificMessageComposeSubject).val("Re: " + message.subject);
+                $(inboxSpecificMessageComposeSubject).val("Re: " + message["sakai:subject"]);
 
                 if (message["sakai:category"] === "invitation"){
                     if (message["sakai:subcategory"] === "joinrequest") {
