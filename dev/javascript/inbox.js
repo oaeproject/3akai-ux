@@ -411,9 +411,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     // just title with ${user} add to contacts
                     }
                     else if(sakai.api.i18n.General.getValueForKey(response.results[j]["sakai:subject"])){
-                        response.results[j].subject = sakai.api.Security.escapeHTML(sakai.api.i18n.General.getValueForKey(response.results[j]["sakai:subject"]).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(response.results[j].userFrom[0])));
+                        response.results[j]["sakai:subject"] = sakai.api.Security.escapeHTML(sakai.api.i18n.General.getValueForKey(response.results[j]["sakai:subject"]).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(response.results[j].userFrom[0])));
                     } else {
-                        response.results[j].subject = messageSubject;
+                        response.results[j]["sakai:subject"] = messageSubject;
                     }
                 }
                 response.results[j].body = response.results[j]["sakai:body"];
