@@ -365,6 +365,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 $(searchConfig.people.displayMore).attr("href", "search_people.html" + querystring).show();
             }
 
+            if (results && results.results) {
+                finaljson = mainSearch.preparePeopleForRender(results.results, finaljson);
+            }
             foundPeople = finaljson.items;
 
             $(searchConfig.people.searchResult).html(sakai.api.Util.TemplateRenderer(searchConfig.people.searchResultTemplate, finaljson));
