@@ -414,20 +414,20 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
                             imageareaobject.setOptions({show: true, enable: true});
                             imageareaobject.update();
                             preview($("img" + fullPicture)[0], selectionObj);
+                            // display help tooltip
+                            var tooltipData = {
+                                "tooltipSelector":"#save_new_selection",
+                                "tooltipTitle":"TOOLTIP_ADD_MY_PHOTO",
+                                "tooltipDescription":"TOOLTIP_ADD_MY_PHOTO_P4",
+                                "tooltipArrow":"top",
+                                "tooltipLeft":50
+                            };
+                            $(window).trigger("sakai-tooltip-update", tooltipData);
                         },
                         onSelectChange: preview
                     });
                 });
                 showSelectTab();
-
-                // display help tooltip
-                var tooltipData = {
-                    "tooltipSelector":"#save_new_selection",
-                    "tooltipTitle":"TOOLTIP_ADD_MY_PHOTO",
-                    "tooltipDescription":"TOOLTIP_ADD_MY_PHOTO_P4",
-                    "tooltipArrow":"bottom"
-                };
-                $(window).trigger("sakai-tooltip-update", tooltipData);
             }
             else {
                 // The user hasn't uploaded a picture yet.
