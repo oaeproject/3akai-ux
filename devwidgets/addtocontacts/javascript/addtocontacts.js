@@ -171,7 +171,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     },
                     success: function(data){
                         $(addToContactsDialog).jqmHide();
-                        sakai.api.Communication.sendMessage(userid, sakai.data.me.user.userid, title, message, "invitation", false,false,true,"contact_invitation");
+                        sakai.api.Communication.sendMessage(userid, sakai.data.me, title, message, "invitation", false,false,true,"contact_invitation");
                         callbackWhenDone(friend);
                         //reset the form to set original note
                         $(addToContactsForm)[0].reset();

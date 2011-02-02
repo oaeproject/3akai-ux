@@ -30,7 +30,7 @@
  * @namespace
  * Communication related convenience functions
  */
-define(["jquery"], function($) {
+define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
     return {
         /**
          * Sends a Sakai message to one or more users. If a group id is received, the
@@ -38,7 +38,7 @@ define(["jquery"], function($) {
          *
          * @param {Array|String} to Array with the ids of the users or groups to post a
          *   message to or a String with one user or group id.
-         * @param {String} from Who the message is from - userid
+         * @param {String} meData Who the message is from - sakai.data.me (or equivolent profile)
          * @param {String} subject The subject for this message
          * @param {String} body The text that this message will contain
          * @param {String} [category="message"] The category for this message
@@ -48,7 +48,7 @@ define(["jquery"], function($) {
          * @param {Boolean|String} [mailContent] False or String of content that contains HTML or regular text
          *
          */
-        sendMessage : function(to, from, subject, body, category, reply, callback, sendMail, context) {
+        sendMessage : function(to, meData, subject, body, category, reply, callback, sendMail, context) {
 
             var toUsers = "";              // aggregates all message recipients
             var sendDone = false;          // has the send been issued?
@@ -83,7 +83,7 @@ define(["jquery"], function($) {
                     "sakai:sendstate": "pending",
                     "sakai:messagebox": "outbox",
                     "sakai:to": toUsers,
-                    "sakai:from": sakai.data.me.user.userid,
+                    "sakai:from": meData.user.userid,
                     "sakai:subject": subject,
                     "sakai:body": body,
                     "sakai:category": "message",
@@ -147,7 +147,7 @@ define(["jquery"], function($) {
 
                 // Send message
                 $.ajax({
-                    url: "/~" + from + "/message.create.html",
+                    url: "/~" + meData.user.userid + "/message.create.html",
                     type: "POST",
                     data: toSend,
                     success: function(data) {
@@ -172,7 +172,7 @@ define(["jquery"], function($) {
                     "sakai:sendstate": "pending",
                     "sakai:messagebox": "outbox",
                     "sakai:to": toUsers,
-                    "sakai:from": from,
+                    "sakai:from": meData.user.userid,
                     "sakai:subject": subject,
                     "sakai:body":body,
                     "_charset_":"utf-8"
@@ -192,7 +192,7 @@ define(["jquery"], function($) {
 
                 // Send message
                 $.ajax({
-                    url: "/~" + from + "/message.create.html",
+                    url: "/~" + meData.user.userid + "/message.create.html",
                     type: "POST",
                     data: toSend,
                     success: function(data){
@@ -249,6 +249,7 @@ define(["jquery"], function($) {
                     // send now if we have only a list of users ("thread" safe?)
                     if (!sendDone) {
                         if (sendMail) {
+                            debug.log("send mail", sendMail);
                             doSendMail();
                         } else {
                             doSendMessage();

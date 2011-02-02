@@ -362,7 +362,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     var groupmanagers = groupid + "-managers";
 
                     // send message
-                    sakai.api.Communication.sendMessage(groupmanagers, sakai.data.me.user.userid, 
+                    sakai.api.Communication.sendMessage(groupmanagers, sakai.data.me,
                         subject, body, "message", null, function (success, data) {
                             if (success) {
                                 // show a notification and change the button

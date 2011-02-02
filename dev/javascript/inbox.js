@@ -1271,7 +1271,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             var subject = $(inboxSpecificMessageComposeSubject).val();
             var body = $(inboxSpecificMessageComposeBody).val();
 
-            sakai.api.Communication.sendMessage(selectedMessage["sakai:from"], me.user.userid, subject, body, "message", selectedMessage["sakai:id"], sendMessageFinished);
+            sakai.api.Communication.sendMessage(selectedMessage["sakai:from"], me, subject, body, "message", selectedMessage["sakai:id"], sendMessageFinished);
             showGeneralMessage($(inboxGeneralMessagesSent).text());
             // Clear all the input fieldst
             clearInputFields();

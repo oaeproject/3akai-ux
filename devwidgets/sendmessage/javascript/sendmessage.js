@@ -524,7 +524,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                 // Check the fields if there are any required fields that are not filled in.
                 if(checkFieldsForErrors(recipients)) {
-                    sakai.api.Communication.sendMessage(recipients, me.user.userid,
+                    sakai.api.Communication.sendMessage(recipients, me,
                         $(messageFieldSubject).val(), $(messageFieldBody).val(),
                         "message", null, handleSentMessage, true, "new_message");
                 } else {
