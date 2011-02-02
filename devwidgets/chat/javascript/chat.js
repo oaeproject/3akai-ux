@@ -396,7 +396,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var removeChatWindow = function(uid){
             var toremoveIndex = -1;
-            userid = escapeCharacters(uid);
+            var userid = escapeCharacters(uid);
             for (var i = 0; i < globalChatWindows.length; i++){
                 if (globalChatWindows[i].profile.userid === uid){
                     $("#chat_online_button_" + userid).remove();
