@@ -17,7 +17,7 @@
  */
 
 .sites_error{font-size:.95em;padding:10px 20px!important;}
-.mysakai2.fl-widget .fl-widget-titlebar .widget_title{background:url(/devwidgets/mysakai2/images/mysakai2_headericon.png) 17px 15px no-repeat;}
+.fl-widget .fl-widget-titlebar .widget_title_icon{background:url(/devwidgets/mysakai2/images/mysakai2_headericon.png) left top no-repeat; width:18px; height:18px;}
 .mysakai2_widget .fl-widget-content ul li{list-style-type:none;padding:5px 5px 5px 40px;margin:0;border-bottom:1px solid #CCC;background:url(/devwidgets/mysakai2/images/s2icon.png) no-repeat scroll 15px 7px transparent;}
 .mysakai2_widget .fl-widget-content ul li a{vertical-align:top;padding-bottom:20px;}
 .mysakai2_site_title{padding-bottom:7px;display:block;}
