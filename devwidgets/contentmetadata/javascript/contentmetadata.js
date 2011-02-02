@@ -114,7 +114,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 if ($(".contentmetadata_edit_input")[0] !== undefined) {
                     $(".contentmetadata_edit_input")[0].focus();
                 }
-    
+
                 $(contentmetadataInputEdit).blur(editInputBlur);
             }
         };
@@ -305,7 +305,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          */
         var editData = function(ev){
             var dataToEdit = "";
-            if (ev.target.nodeName.toLowerCase() !== "a" && ev.target.nodeName.toLowerCase() !== "select" && ev.target.nodeName.toLowerCase() !== "option") {
+            if (ev.target.nodeName.toLowerCase() !== "a" && ev.target.nodeName.toLowerCase() !== "select" && ev.target.nodeName.toLowerCase() !== "option" && ev.target.nodeName.toLowerCase() !== "textarea") {
                 target = $(ev.target).closest(".contentmetadata_editable");
                 if (target[0] !== undefined) {
                     editTarget = target;
