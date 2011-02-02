@@ -160,7 +160,7 @@
             //"prev" : "<span><img src=\"/dev/images/pager_next_left.png\" alt=\"\" /> <span class=\"t\">Prev</span></span>",
             //"next" : "<span><span class=\"t\">Next</span> <img src=\"/dev/images/pager_next_right.png\" alt=\"\" /></span>"
             "prev" : "<span><div class=\"sakai_pager_prev\"></div> <span class=\"t\">Prev</span></span>",
-            "next" : "<span><span class=\"t\">Next</span> <div class=\"sakai_pager_next\"></div></span>"
+            "next" : "<span><span class=\"t\">Next</span><div class=\"sakai_pager_next\"></div></span>"
         }
     };
 
