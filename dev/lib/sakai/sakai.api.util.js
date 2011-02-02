@@ -172,11 +172,11 @@ define(["jquery",
             var inputTags = this.formatTags(input);
             if (inputTags.length) {
                 var tags = [];
-                for (item in inputTags){
-                    if (inputTags[item].split("/")[0] !== "directory") {
-                        tags.push(inputTags[item]);
+                $.each(inputTags, function(index, value){
+                    if (value.split("/")[0] !== "directory") {
+                        tags.push(value);
                     }
-                }
+                });
                 return tags;
             } else {
                 return [];

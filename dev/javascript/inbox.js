@@ -411,9 +411,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     // just title with ${user} add to contacts
                     }
                     else if(sakai.api.i18n.General.getValueForKey(response.results[j]["sakai:subject"])){
-                        response.results[j].subject = sakai.api.Security.escapeHTML(sakai.api.i18n.General.getValueForKey(response.results[j]["sakai:subject"]).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(response.results[j].userFrom[0])));
+                        response.results[j]["sakai:subject"] = sakai.api.Security.escapeHTML(sakai.api.i18n.General.getValueForKey(response.results[j]["sakai:subject"]).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(response.results[j].userFrom[0])));
                     } else {
-                        response.results[j].subject = messageSubject;
+                        response.results[j]["sakai:subject"] = messageSubject;
                     }
                 }
                 response.results[j].body = response.results[j]["sakai:body"];
@@ -793,7 +793,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 $(inboxSpecificMessageDate).text(sakai.api.Security.saneHTML(message.date));
 
                 // Reply part.
-                $(inboxSpecificMessageComposeSubject).val("Re: " + message.subject);
+                $(inboxSpecificMessageComposeSubject).val("Re: " + message["sakai:subject"]);
 
                 if (message["sakai:category"] === "invitation"){
                     if (message["sakai:subcategory"] === "joinrequest") {
@@ -1271,7 +1271,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             var subject = $(inboxSpecificMessageComposeSubject).val();
             var body = $(inboxSpecificMessageComposeBody).val();
 
-            sakai.api.Communication.sendMessage(selectedMessage["sakai:from"], me.user.userid, subject, body, "message", selectedMessage["sakai:id"], sendMessageFinished);
+            sakai.api.Communication.sendMessage(selectedMessage["sakai:from"], me, subject, body, "message", selectedMessage["sakai:id"], sendMessageFinished);
             showGeneralMessage($(inboxGeneralMessagesSent).text());
             // Clear all the input fieldst
             clearInputFields();

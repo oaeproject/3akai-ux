@@ -13,11 +13,6 @@
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.search.css" />
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.search_b.css" />
 
-        <!-- 3rd party CSS -->
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.components.jq_pager.css" />
-        <link rel="stylesheet" type="text/css" href="/dev/lib/jquery/plugins/gritter/css/jquery.gritter.css"/>
-        <link rel="stylesheet" type="text/css" href="/dev/css/lib/jquery.autoSuggest.css" />
-
     </head>
 
     <body id="root" class="fl-centered fl-container i18nable search-container">
@@ -59,8 +54,7 @@
                         <div class="fl-left fl-container fl-fix search_bar">
                             <div class="fl-left fl-container" id="introduction_text">
                                 <h4>__MSG__FIND_CONTENT_MEDIA_GROUPS_AND_PEOPLE_ON_SAKAI_3__</h4>
-                                <p> __MSG__SAKAI_3_MAKES_IT_EASY_FOR_YOU_TO_FIND_CONTENT_MEDIA_GROUPS_AND_PEOPLE__. <br/>
-                                    __MSG__YOULL_FIND_PAGES_AND_SITES_OF_YOUR_INTEREST_AND_PEOPLE_WITH_WHO_YOU_CAN_CONNECT__. </p>
+                                <p> __MSG__YOULL_FIND_PAGES_AND_SITES_OF_YOUR_INTEREST_AND_PEOPLE_WITH_WHO_YOU_CAN_CONNECT__. </p>
                             </div>
                             <div id="search_form" >
                                 <!-- <select class="skinned_select" title="__MSG__SEARCH_SCOPE__">
@@ -218,7 +212,7 @@
                                 <div id="people_search_result_template"><!--
                                 {for i in items}
                                     {if !i.isAnonymous && i.userid}
-                                    {var peopleFound = true}
+                                        {var peopleFound = true}
                                         <div class="fl-container fl-fix search_result_person">
                                             {if ! i.picture}
                                                 <a href="/~${i.userid}" class="fl-icon search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"></a>

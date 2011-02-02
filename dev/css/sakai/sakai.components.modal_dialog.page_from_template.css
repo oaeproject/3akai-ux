@@ -13,7 +13,7 @@
 .jScrollPaneDrag{position:absolute;background:#333;background-image:url(../images/scroll_handle.png);background-repeat:no-repeat;cursor:pointer;overflow:hidden;}
 .jScrollPaneDragTop{position:absolute;top:0;left:0;overflow:hidden;background-color:#ddd;background-image:url(../images/scroll_dragarea.png);background-repeat:repeat-y;}
 .jScrollPaneDragBottom{position:absolute;bottom:0;left:0;overflow:hidden;background-color:#ddd;background-image:url(../images/scroll_dragarea.png);background-repeat:repeat-y;}
-a.jScrollArrowUp{display:block;position:absolute;z-index:1;top:0;right:0;text-indent:-2000px;overflow:hidden;background-image:url(/dev/images/dashboard_sprite.png) no-repeat scroll -218px -400px transparent;height:16px;}
+a.jScrollArrowUp{display:block;position:absolute;z-index:1;top:0;right:0;text-indent:-2000px;overflow:hidden;background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -218px -400px transparent;height:16px;}
 a.jScrollArrowUp:hover{/*background-color: #f60;*/}
 a.jScrollArrowDown{display:block;position:absolute;z-index:1;bottom:0;right:0;text-indent:-2000px;overflow:hidden;background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -68px -235px transparent;height:16px;}
 a.jScrollArrowDown:hover{/*background-color: #f60;*/}

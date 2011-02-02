@@ -34,14 +34,14 @@
 
 /* SITE MANAGEMENT NAV */
 .site_management{margin:0;padding:0;border:none;}
-.site_management .sm_titlebar{background:transparent url(/dev/images/dashboard_sprite.png) no-repeat scroll right -472px transparent;padding:0 10px 0 0;height:50px;}
+.site_management .sm_titlebar{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -472px transparent;padding:0 10px 0 0;height:50px;}
 .site_management .sm_title{background:transparent url(/dev/images/site_management_icon.png) no-repeat scroll left top;color:#878A8C;font-size:1em;padding-left:25px;}
 .site_management .sm_content ul{margin:0;padding:0;}
 .site_management .sm_content ul li{list-style-type:none;padding:5px 0;}
 .site_management .sm_content ul li a{color:#058EC4;font-weight:bold;}
 .site_management .sm_content ul li p{color:#999;}
-.site_management .sm_bottom{background:transparent url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -1433px transparent;height:5px;padding:0 0 0 10px;}
-.site_management .sm_bottom_inner{background:transparent url(/dev/images/dashboard_sprite.png) no-repeat scroll right -1453px transparent;height:5px;}
+.site_management .sm_bottom{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -1433px transparent;height:5px;padding:0 0 0 10px;}
+.site_management .sm_bottom_inner{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -1453px transparent;height:5px;}
 
 /** SITE EDIT **/.content_page_options ul{padding:0;margin:0;}
 .content_page_options li{display:inline;list-style-type:none;}
@@ -78,6 +78,25 @@
 #insert_links_availablelinks{height:250px;overflow:auto;}
 #insert_links_availablelinks li{display:block;font-size:11pt;color:#333;padding:5px;cursor:pointer;font-weight:normal;}
 #insert_links_availablelinks li.selected{color:#39C;font-weight:bold;}
+
+/** Insert Dropdown **/
+#sitepages_insert_dropdown_button{background:transparent;}
+#sitepages_insert_dropdown_button .s3d-button-inner{background:transparent;}
+#sitepages_insert_dropdown_button .s3d-button-inner .s3d-button-icon-left{background:transparent;}
+#sitepages_insert_dropdown_button:hover{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -284px transparent;}
+#sitepages_insert_dropdown_button.clicked{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -342px transparent;}
+#sitepages_insert_dropdown_button:hover .s3d-button-inner{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -255px transparent;}
+#sitepages_insert_dropdown_button.clicked .s3d-button-inner{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -313px transparent;color:#fff;}
+#sitepages_insert_dropdown_button:hover .s3d-button-inner .s3d-button-icon-left{background-position:-31px -235px;}
+#sitepages_insert_dropdown_button.clicked .s3d-button-inner .s3d-button-icon-left{background-position:-51px -235px;}
+#sitepages_insert_dropdown_button{width:90px;}
+#sitepages_insert_dropdown_button_inner {margin-left:15px;width:40px;}
+#sitepages_insert_dropdown{width:150px;border-width:1px;border-style:solid;border-color:#cbd0d4;padding-bottom:4px;z-index:70000}
+#sitepages_insert_dropdown ul{border:none;}
+#sitepages_insert_dropdown ul li{width:100%;}
+#sitepages_insert_dropdown ul li a{width:80%;color:#006e96;padding: 0 12px;}
+.sitepages_insert_dropdown_header{color:#aaaaaa;cursor:default !important;background-color:#FFFFFF !important;padding:0 !important;}
+.sitepages_insert_dropdown_header span{padding-left:12px;}
 
 /** TAB CONTENTS **/
 .edit_view .edit_container{padding:0;margin:0 0 20px;}
@@ -124,3 +143,10 @@
 
 /* Full width pages */
 .sitepages_fullwidth{margin-left:0!important;}
+
+/* Widget context menu */
+#context_menu.s3d-sprites-buttons{width:160px;}
+#context_menu.s3d-sprites-buttons .s3d-button-inline{cursor:default;}
+#context_menu.s3d-sprites-buttons .s3d-button-inline:hover{background:none;}
+#context_menu.s3d-sprites-buttons .s3d-button-inline:hover .s3d-button-inner{background:none;}
+#context_menu.s3d-sprites-buttons .s3d-button-inline:hover .s3d-button-inner .s3d-button-icon-left {background:url("/dev/images/dashboard_sprite.png") no-repeat scroll -11px -235px transparent;}

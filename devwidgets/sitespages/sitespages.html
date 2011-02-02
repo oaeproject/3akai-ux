@@ -108,7 +108,18 @@
 
                     <div class="s3d-primary-tabs">
                         <ul class="fl-tabs fl-tabs-left">
-                            <li id="sitespages_embed_content_button" class="sitespages_add_button"><img src="/dev/images/add_image.png" alt="__MSG__ADD_CONTENT__" /></li>
+
+                            <!-- INSERT DROPDOWN MENU -->
+                            <span class="s3d-button s3d-button-inline" id="sitepages_insert_dropdown_button">
+                                <span class="s3d-button-inner">
+                                    <span class=""></span>
+                                    <span class="s3d-button-inner-text" id="sitepages_insert_dropdown_button_inner">__MSG__INSERT__</span>
+                                    <span class="s3d-button-icon-right"></span>
+                                </span>
+                            </span>
+                            <div id="sitepages_insert_dropdown_container"></div>
+
+                            <!-- <li id="sitespages_embed_content_button" class="sitespages_add_button"><img src="/dev/images/add_image.png" alt="__MSG__ADD_CONTENT__" /></li> -->
                             <!-- <li id="embed_video" class="add_button"><img src="/dev/images/add_video.png" alt="__MSG__ADD_VIDEO__" /></li> -->
                         </ul>
                         <ul class="fl-tabs fl-tabs-right">
@@ -188,6 +199,26 @@
         </div>
     --></div>
 
+    <!-- INSERT MORE DROPDOWN MENU -->
+    <div id="sitepages_insert_dropdown_template" style="display:none"><!--
+        <div class="s3d-sprites-buttons" id="sitepages_insert_dropdown" style="display:none;">
+            <ul>
+                <li><a href="#" id="link" class="insert_dropdown_widget_link s3d-action">__MSG__PAGE_LINK__</a></li>
+                <li><a href="#" id="hr" class="insert_dropdown_widget_link s3d-action">__MSG__HORIZONTAL_LINE__</a></li>
+                <li class="sitepages_insert_dropdown_header"><span>__MSG__MEDIA__:</span></li>
+                {for i in media.items}
+                    <li><a href="#" id="${i.id}" class="insert_dropdown_widget_link s3d-action">${i.name}</a></li>
+                {forelse}
+                    <li class="sitepages_insert_dropdown_header"><span>__MSG__NOT_AVAILABLE__</span></li>
+                {/for}
+                <li class="sitepages_insert_dropdown_header"><span>__MSG__SAKAI_GOODIES__:</span></li>
+                {for ii in goodies.items}
+                    <li><a href="#" id="${ii.id}" class="insert_dropdown_widget_link s3d-action">${ii.name}</a></li>
+                {/for}
+                <li class="sitepages_insert_dropdown_header"><span>(__MSG__MORE_COMING_SOON__)</span></li>
+            </ul>
+        </div>
+    --></div>
 
     <!-- INSERT MORE MENU -->
     <div id="insert_more_menu" class="insert_more_menu" style="display:none">

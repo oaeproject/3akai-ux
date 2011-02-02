@@ -479,7 +479,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     saveProfileACL();
 
                     // if user has completed over half their profile add user progress
-                    if (profilePercentageComplete > 49){
+                    if (profilePercentageComplete > 0){
                         sakai.api.User.addUserProgress("halfCompletedProfile");
                     }
 

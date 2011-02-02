@@ -12,11 +12,6 @@
         <!-- Sakai Page CSS -->
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.inbox.css" />
 
-        <!-- 3rd party CSS -->
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.components.jq_pager.css" />
-        <link rel="stylesheet" type="text/css" href="/dev/lib/jquery/plugins/gritter/css/jquery.gritter.css" />
-        <link rel="stylesheet" type="text/css" href="/dev/css/lib/jquery.autoSuggest.css" />
-
     </head>
 
     <body class="fl-centered inbox_main inbox_detail i18nable">
@@ -199,7 +194,7 @@
                                                 <td><a class="inbox_inbox_message_from" href="/~${m['sakai:from']}">${m['sakai:to']}</a></td>
                                             {/if}
                                         {/if}
-                                        <td id="inbox_table_subject_${m.id}"><a href="javascript:;" class="inbox_inbox_message s3d-regular-light-links" id="inbox_inbox_message_${m['jcr:name']}">${m.subject}</a></td>
+                                        <td id="inbox_table_subject_${m.id}"><a href="javascript:;" class="inbox_inbox_message s3d-regular-light-links" id="inbox_inbox_message_${m['jcr:name']}">${m["sakai:subject"]}</a></td>
                                         <td>${m.category}</td>
                                         <td>${m.date}</td>
                                 </tr>

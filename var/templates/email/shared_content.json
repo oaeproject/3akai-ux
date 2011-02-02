@@ -1,0 +1,6 @@
+{
+    "sakai:content-type": "text/plain",
+    "sling:resourceType": "sakai/template",
+    "sakai:template": "${sender} has shared the following item with you in ${system}. Name: ${name} Description: ${description} ${body} Follow this link to view the item: ${link}",
+    "jcr:primaryType": "sling:Folder"
+}

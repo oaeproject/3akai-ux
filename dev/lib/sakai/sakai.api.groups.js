@@ -75,7 +75,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
             var groupExists = function(groupid){
                 // Check if the group exists.
                 var groupExists = false,
-                    created = false;
+                created = false;
                 $.ajax({
                     url: "/~" + groupid + ".json",
                     type: "GET",
@@ -85,9 +85,6 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                         created = true;
                     }
                 });
-                if ($.isFunction(callback)) {
-                    callback(created, groupExists);
-                }
                 return groupExists;
             };
 

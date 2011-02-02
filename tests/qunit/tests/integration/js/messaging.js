@@ -32,7 +32,7 @@ require(
         });
 
         asyncTest("Send message to one person", 3, function(){
-            sakai.api.Communication.sendMessage(dummyUser, sakai.data.me.user.userid, dummySubject, dummyMessage, "", "", function(success, data) {
+            sakai.api.Communication.sendMessage(dummyUser, sakai.data.me, dummySubject, dummyMessage, "", "", function(success, data) {
                 ok(data, "The message was sent succesfully");
 
                 //check the body of the response
@@ -49,7 +49,7 @@ require(
         });
 
         asyncTest("Send a reply to the message", 3, function() {
-            sakai.api.Communication.sendMessage(dummyUser, sakai.data.me.user.userid, dummySubject, "RE:" + dummyMessage, "", responseID, function(success, data) {
+            sakai.api.Communication.sendMessage(dummyUser, sakai.data.me, dummySubject, "RE:" + dummyMessage, "", responseID, function(success, data) {
                 //test that some data came in
                 ok(success && data, "The reply was successful");
 
@@ -66,7 +66,7 @@ require(
 
         asyncTest("Send message to one person with a different category", 4, function(){
             //send a message with a custom category
-            sakai.api.Communication.sendMessage(dummyUser, sakai.data.me.user.userid, dummySubject, dummyMessage, dummyCategory, "", function(success, data) {
+            sakai.api.Communication.sendMessage(dummyUser, sakai.data.me, dummySubject, dummyMessage, dummyCategory, "", function(success, data) {
                 ok(success && data, "The message was sent succesfully");
 
                 //check the body of the response
@@ -90,7 +90,7 @@ require(
             dummyUser = ["user1","user2"];
 
             //send message with multiple users
-            sakai.api.Communication.sendMessage(dummyUser, sakai.data.me.user.userid, dummySubject, dummyMessage, "", "", function(success, data) {
+            sakai.api.Communication.sendMessage(dummyUser, sakai.data.me, dummySubject, dummyMessage, "", "", function(success, data) {
                 ok(data, "The message was sent succesfully");
 
                 //check the body of the response
