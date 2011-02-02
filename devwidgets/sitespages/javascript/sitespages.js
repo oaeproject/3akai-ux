@@ -775,7 +775,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     ":operation": "import",
                     ":contentType": "json",
                     ":content": jsonString,
-                    ":replace": true,
+                    ":replace": false,
                     ":replaceProperties": true,
                     "_charset_": "utf-8"
                 },
