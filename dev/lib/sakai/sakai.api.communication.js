@@ -53,6 +53,7 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
             var toUsers = "";              // aggregates all message recipients
             var sendDone = false;          // has the send been issued?
 
+
             ///////////////////////
             // UTILITY FUNCTIONS //
             ///////////////////////
@@ -93,7 +94,7 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                 switch(context){
                     case "new_message":
                         toSend["sakai:templatePath"] = "/var/templates/email/new_message";
-                        toSend["sakai:templateParams"] = "sender=" + sakai_user.data.me.profile.basic.elements.firstName.value + " " + sakai_user.data.me.profile.basic.elements.lastName.value +
+                        toSend["sakai:templateParams"] = "sender=" + meData.profile.basic.elements.firstName.value + " " + meData.profile.basic.elements.lastName.value +
                         "|system=Sakai|subject=" + subject + "|body=" + body + "|link=" + sakai_conf.SakaiDomain + sakai_conf.URL.INBOX_URL;
                         break;
                     case "join_request":
@@ -120,9 +121,9 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                         break;
                     case "contact_invitation":
                         toSend["sakai:templatePath"] = "/var/templates/email/contact_invitation";
-                        toSend["sakai:templateParams"] = "sender=" + sakai_user.data.me.profile.basic.elements.firstName.value + " " + sakai_user.data.me.profile.basic.elements.lastName.value + 
+                        toSend["sakai:templateParams"] = "sender=" + meData.profile.basic.elements.firstName.value + " " + meData.profile.basic.elements.lastName.value + 
                         "|system=Sakai|body=" + body +
-                        "|link=" + sakai_conf.SakaiDomain + "/~" + sakai_user.data.me.user.userid +"?accepttrue";
+                        "|link=" + sakai_conf.SakaiDomain + "/~" + meData.user.userid +"?accepttrue";
                         break;
                 }
 
@@ -140,10 +141,9 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                 return toSend;
             };
 
-            var doSendMail = function() {
+            var doSendMail = function(){
                 // Basic message details
                 var toSend = buildEmailParams();
-
 
                 // Send message
                 $.ajax({
@@ -161,7 +161,6 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                         }
                     }
                 });
-                // the send has been issued
                 sendDone = true;
             };
 
@@ -196,6 +195,9 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                     type: "POST",
                     data: toSend,
                     success: function(data){
+                        if (sendMail) {
+                            doSendMail();
+                        }
                         if ($.isFunction(callback)) {
                             callback(true, data);
                         }
@@ -248,12 +250,7 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                     addRecipient(to);
                     // send now if we have only a list of users ("thread" safe?)
                     if (!sendDone) {
-                        if (sendMail) {
-                            debug.log("send mail", sendMail);
-                            doSendMail();
-                        } else {
-                            doSendMessage();
-                        }
+                        doSendMessage();
                     }
                 }
             });
