@@ -186,12 +186,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             var removeAllowed = true;
             var itemArr = [];
             var item;
+            var userid = selectedUserId.substring(selectedUserId.indexOf("-") + 1, selectedUserId.length);
             if (permission !== "manager") {
                 item = {
                     "url": "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".members.json",
                     "method": "POST",
                     "parameters": {
-                        ":viewer@Delete": selectedUserId.substring(selectedUserId.indexOf("-") + 1, selectedUserId.length)
+                        ":viewer@Delete": userid
                     }
                 };
             } else {
@@ -203,7 +204,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                         "url": "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".members.json",
                         "method": "POST",
                         "parameters": {
-                            ":manager@Delete": selectedUserId.substring(selectedUserId.indexOf("-") + 1, selectedUserId.length)
+                            ":manager@Delete": userid
                         }
                     };
                 }
@@ -222,11 +223,16 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     },
                     success: function(data){
                         $(window).trigger("sakai-sharecontent-removeUser", {
-                            "user": selectedUserId.substring(selectedUserId.indexOf("-") + 1, selectedUserId.length),
+                            "user": userid,
                             "access": permission
                         });
                         listItem.remove();
                         createActivity("__MSG__MEMBERS_REMOVED_FROM_CONTENT__");
+
+                        // reload if the current user removed themselves
+                        if (userid === sakai.data.me.user.userid) {
+                            window.location.reload();
+                        }
                     }
                 });
             } else {
@@ -265,7 +271,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                         // create activity
                         createActivity("__MSG__CHANGED_PERMISSIONS_FOR_MEMBER__");
 
-                        // if the current viewer changed themselves from a manager
+                        // if the current user changed themselves from a manager
                         // to a viewer, reload the page so they can't make any changes
                         if (userid === sakai.data.me.user.userid) {
                             window.location.reload();
