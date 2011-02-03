@@ -419,12 +419,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Show Nav Container
             if (sakai.config.anonAllowed){
                 $(exploreNavigationContainer).show();
-
-                var indexPaths = ["/dev", "/dev/index.html", "/dev/", "/", "/dev/404.html", "/dev/403.html", "/index", "/404", "/403"];
-                if (-1 !== $.inArray(window.location.pathname.replace(/\/$/,""), indexPaths)) {
-                    $(".explore-bg").show();
-                }
-
+                
                 // Show anonymous elements
                 $("#other_logins_button_container").show();
                 $(".log_in").addClass("help_none");
@@ -446,11 +441,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $("#nav_courses_sites_link a").attr("href", sakai.config.URL.PUBLIC_COURSES_SITES_URL);
                 $("#nav_search_link a").attr("href", sakai.config.URL.PUBLIC_SEARCH_URL_PAGE);
 
-                if (window.location.pathname.split("/")[2] === "403.html" ||
-                    window.location.pathname.split("/")[2] === "404.html" ||
-                    window.location.pathname.split("/")[2] === "403" ||
-                    window.location.pathname.split("/")[2] === "404") {
-                    // hide register and login links
+                var indexPaths = ["/", "/index", "/dev", "/dev/index.html", "/dev/", "/dev/404.html", 
+                    "/dev/403.html", "/dev/500.html", "/index", "/404", "/403", "/500"];
+
+                if (-1 !== $.inArray(window.location.pathname.replace(/\/$/,""), indexPaths)) {
+                    $(".explore-bg").show();
+                }
+                
+                indexPaths.push("/register", "/dev/create_new_account.html");
+                
+                if (-1 !== $.inArray(window.location.pathname.replace(/\/$/,""), indexPaths)){
                     $("#register_button_container").hide();
                     $("#login_button_container").hide();
                 }
