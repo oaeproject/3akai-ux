@@ -537,22 +537,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     var userid = messageField.attr("id").substring(10);
                     userid = userid.substring(0, userid.length - 4);
                     message = sakai.api.Security.escapeHTML(message);
-                    message = replaceURL(message);
+                    message = sakai.api.Security.replaceURL(message);
                     sendMessage(userid, message);
                     messageField.val("");
                 }
             }
         });
-
-        /**
-         * Represent URL if any in an anchor tag.
-         * @param {Object} message Message that user has entered.
-         */
-        var replaceURL = function(message){
-            // get the regex code from
-            // http://www.codeproject.com/KB/scripting/replace_url_in_ajax_chat.aspx
-            return message.replace(/(\w+):\/\/[\S]+(\b|$)/gim,'<a href="$&" class="my_link" target="_blank">$&</a>');
-        };
 
         /**
          * Send a chat message to a given contact
