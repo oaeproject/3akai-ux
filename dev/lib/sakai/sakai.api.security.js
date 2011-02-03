@@ -227,7 +227,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.util", "sakai
          */
         send404 : function(){
             var redurl = window.location.pathname + window.location.hash;
-            document.location = "/dev/404.html?url=" + escape(window.location.pathname + window.location.search + window.location.hash);
+            document.location = "/404?url=" + escape(window.location.pathname + window.location.search + window.location.hash);
             return false;
         },
 
@@ -237,7 +237,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.util", "sakai
          */
         send403 : function(){
             var redurl = window.location.pathname + window.location.hash;
-            document.location = "/dev/403.html?url=" + escape(window.location.pathname + window.location.search + window.location.hash);
+            document.location = "/403?url=" + escape(window.location.pathname + window.location.search + window.location.hash);
             return false;
         },
 

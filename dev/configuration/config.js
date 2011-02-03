@@ -22,26 +22,26 @@ define(function() {
             // Static URLs
             CONTENT_MEDIA_URL: "/dev/content_media.html",
             COURSES_SITES_URL: "/dev/courses_sites.html",
-            GATEWAY_URL: "/dev/index.html",
-            GROUP_EDIT_URL: "/dev/group_edit.html",
+            GATEWAY_URL: "/index",
+            GROUP_EDIT_URL: "/group/edit",
             I10N_BUNDLE_URL: "/dev/lib/misc/l10n/globinfo/Globalization.__CODE__.min.js",
             I18N_BUNDLE_ROOT: "/dev/bundle/",
-            INBOX_URL: "/dev/inbox.html",
-            LOGOUT_URL: "/dev/logout.html",
-            MY_DASHBOARD_URL: "/dev/my_sakai.html",
-            PEOPLE_URL: "/dev/people.html",
-            PROFILE_EDIT_URL: "/dev/profile_edit.html",
+            INBOX_URL: "/inbox",
+            LOGOUT_URL: "/logout",
+            MY_DASHBOARD_URL: "/home",
+            PEOPLE_URL: "/people",
+            PROFILE_EDIT_URL: "/profile/edit",
             PUBLIC_CONTENT_MEDIA_URL: "/dev/public_content_media.html",
             PUBLIC_COURSES_SITES_URL: "/dev/public_courses_sites.html",
             PUBLIC_INSTITUTIONAL_LOGIN_URL: "/dev/i_index.html",
-            PUBLIC_MY_DASHBOARD_URL: "/dev/my_sakai.html",
+            PUBLIC_MY_DASHBOARD_URL: "/home",
             PUBLIC_PEOPLE_URL: "/dev/public_people.html",
             PUBLIC_SEARCH_URL: "/dev/public_search.html",
-            SEARCH_CONTENT_URL: "/dev/search_content.html",
-            SEARCH_GENERAL_URL: "/dev/search.html",
-            SEARCH_PEOPLE_URL: "search_people.html",
-            SEARCH_GROUP_URL: "search_groups.html",
-            SEARCH_SITES_URL: "search_sites.html",
+            SEARCH_CONTENT_URL: "/search/content",
+            SEARCH_GENERAL_URL: "/search",
+            SEARCH_PEOPLE_URL: "/search/people",
+            SEARCH_GROUP_URL: "/search/groups",
+            SEARCH_SITES_URL: "/search/sites",
             TINY_MCE_CONTENT_CSS: "/dev/css/FSS/fss-base.css,/dev/css/sakai/sakai.base.css,/dev/css/sakai/sakai.editor.css,/dev/css/sakai/sakai.show.css",
             TINY_MCE_EDITOR_CSS: "/dev/css/sakai/tinymce_editor_styling.css",
             USER_DEFAULT_ICON_URL: "/dev/images/user_avatar_icon_48x48.png",
@@ -134,40 +134,56 @@ define(function() {
                 /**  500.html  **/
                 /**  account_preferences.html  **/
                 "/dev/account_preferences.html": "ACCOUNT_PREFERENCES",
+                "/preferences": "ACCOUNT_PREFERENCES",
                 /**  acknowledgements.html  **/
                 "/dev/acknowledgements.html": "ACKNOWLEDGEMENTS",
+                "/acknowledgements": "ACKNOWLEDGEMENTS",
                 /**  content_profile.html  **/
                 "/dev/content_profile.html": "CONTENT_PROFILE",
+                "/content": "CONTENT_PROFILE",
                 /**  create_new_account.html  **/
                 "/dev/create_new_account.html": "CREATE_A_NEW_ACCOUNT",
+                "/register": "CREATE_A_NEW_ACCOUNT",
                 /**  directory.html  **/
                 "/dev/directory.html": "DIRECTORY",
+                "/directory": "DIRECTORY",
                 /**  group_edit.html  **/
                 "/dev/group_edit.html": "MANAGE_GROUP",
+                "/group/edit": "MANAGE_GROUP",
                 /**  inbox.html  **/
                 "/dev/inbox.html": "MY_MESSAGES",
+                "/inbox": "MY_MESSAGES",
                 /**  index.html  **/
                 "/": "SIGN_IN",
                 "/dev": "SIGN_IN",
                 "/dev/": "SIGN_IN",
                 "/index.html": "SIGN_IN",
                 "/dev/index.html": "SIGN_IN",
+                "/index": "SIGN_IN",
                 /**  logout.html  **/
                 "/dev/logout.html": "LOGGING_OUT",
+                "/logout": "LOGGING_OUT",
                 /**  my_sakai.html  **/
                 "/dev/my_sakai.html": "MY_SAKAI",
+                "/home": "MY_SAKAI",
                 /**  people.html  **/
                 "/dev/people.html": "PEOPLE",
+                "/people": "PEOPLE",
                 /**  profile_edit.html  **/
                 "/dev/profile_edit.html": "EDIT_MY_PROFILE",
+                "/profile/edit": "EDIT_MY_PROFILE",
                 /**  search.html  **/
                 "/dev/search.html": "SEARCH_ALL",
+                "/search": "SEARCH_ALL",
                 /**  search_groups.html  **/
                 "/dev/search_groups.html": "SEARCH_GROUPS",
+                "/search/groups": "SEARCH_GROUPS",
                 /**  search_people.html  **/
                 "/dev/search_people.html": "SEARCH_PEOPLE",
+                "/search/people": "SEARCH_PEOPLE",
                 /**  search_content.html  **/
-                "/dev/search_content.html": "SEARCH_CONTENT_AND_MEDIA"
+                "/dev/search_content.html": "SEARCH_CONTENT_AND_MEDIA",
+                "/search/content": "SEARCH_CONTENT_AND_MEDIA"
                 /**  show.html  **/
             }
         },
@@ -732,30 +748,30 @@ define(function() {
 
         Navigation: [
             {
-                "url" : "/dev/my_sakai.html",
+                "url" : "/home",
                 "id" : "navigation_my_sakai_link",
                 "label" : "MY_SAKAI"
             },
             {
-                "url" : "/dev/search_content.html#q=*&facet=manage",
-                "anonUrl" : "/dev/search_content.html#q=*",
+                "url" : "/search/content#q=*&facet=manage",
+                "anonUrl" : "/search/content#q=*",
                 "id" : "navigation_content_link",
                 "label" : "CONTENT_AND_MEDIA"
             },
             {
-                "url" : "/dev/search_groups.html#q=*&facet=manage",
-                "anonUrl" : "/dev/search_groups.html#q=*",
+                "url" : "/search/groups#q=*&facet=manage",
+                "anonUrl" : "/search/groups#q=*",
                 "id" : "navigation_groups_link",
                 "label" : "GROUPS"
             },
             {
-                "url" : "/dev/search_people.html#q=*&facet=contacts",
-                "anonUrl" : "/dev/search_people.html#q=*",
+                "url" : "/search/people#q=*&facet=contacts",
+                "anonUrl" : "/search/people#q=*",
                 "id" : "navigation_people_link",
                 "label" : "PEOPLE"
             },
             {
-                "url" : "/dev/directory.html",
+                "url" : "/directory",
                 "id" : "navigation_directory_link",
                 "label" : "DIRECTORY"
             }
@@ -768,12 +784,12 @@ define(function() {
         /*
          * List of pages that require a logged in user
          */
-        requireUser: ["/dev/my_sakai.html", "/dev/account_preferences.html", "/dev/group_edit.html", "/dev/inbox.html", "/dev/profile_edit.html"],
+        requireUser: ["/home", "/preferences", "/group/edit", "/inbox", "/profile/edit", "/dev/my_sakai.html", "/dev/account_preferences.html", "/dev/group_edit.html", "/dev/inbox.html", "/dev/profile_edit.html"],
 
         /*
          * List of pages that require an anonymous user
          */
-        requireAnonymous: ["/dev/index.html", "/dev/create_new_account.html", "/dev/", "/dev", "/", "/index.html"],
+        requireAnonymous: ["/index", "/register", "/", "/index", "/dev/index.html", "/dev/create_new_account.html", "/dev/", "/dev",  "/index.html"],
         /*
          * List of pages that will be added to requireUser if
          * anonAllowed is false

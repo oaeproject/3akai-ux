@@ -1,0 +1,4 @@
+{
+  'sling:match': '^[^/]+/[^/]+/register',
+  'sling:internalRedirect': '/dev/create_new_account.html'
+}
