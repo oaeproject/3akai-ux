@@ -245,23 +245,23 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             return (this.indexOf(str) === 0);
         };
 
-        var changePermission = function(userid, permission) {
+        var changePermission = function(memberid, permission) {
             var data = [];
             if (permission === "viewer") {
                 $.ajax({
                     url: "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".members.json",
                     type: "POST",
                     data: {
-                        ":viewer": userid,
-                        ":manager@Delete": userid
+                        ":viewer": memberid,
+                        ":manager@Delete": memberid
                     },
                     success: function () {
-                        // update cached data (move this user from managers to viewers)
+                        // update cached data (move this member from managers to viewers)
                         var managers = sakai_global.content_profile.content_data.members.managers;
                         for (var i = 0; i < managers.length; i++) {
                             var manager = managers[i];
-                            if (manager["rep:userId"] === userid) {
-                                // append this user to viewers
+                            if (manager["rep:userId"] === memberid || manager["sakai:group-id"] === memberid) {
+                                // append this member to viewers
                                 sakai_global.content_profile.content_data.members.viewers.push(manager);
                                 // remove from managers
                                 managers.splice(i, 1);
@@ -273,13 +273,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
 
                         // if the current user changed themselves from a manager
                         // to a viewer, reload the page so they can't make any changes
-                        if (userid === sakai.data.me.user.userid) {
+                        if (memberid === sakai.data.me.user.userid) {
                             window.location.reload();
                         }
                     },
                     error: function (data) {
                         debug.error("sharecontent failed to change content " +
-                            "permission to 'viewer' for user: " + userid);
+                            "permission to 'viewer' for member: " + memberid);
                         debug.error("xhr data returned: " + data);
                     }
                 });
@@ -288,16 +288,16 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     url: "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".members.json",
                     type: "POST",
                     data: {
-                        ":manager": userid,
-                        ":viewer@Delete": userid
+                        ":manager": memberid,
+                        ":viewer@Delete": memberid
                     },
                     success: function (data) {
-                        // update cached data (move this user from viewers to managers)
+                        // update cached data (move this member from viewers to managers)
                         var viewers = sakai_global.content_profile.content_data.members.viewers;
                         for (var i = 0; i < viewers.length; i++) {
                             var viewer = viewers[i];
-                            if (viewer["rep:userId"] === userid) {
-                                // append this user to managers
+                            if (viewer["rep:userId"] === memberid || viewer["sakai:group-id"] === memberid) {
+                                // append this member to managers
                                 sakai_global.content_profile.content_data.members.managers.push(viewer);
                                 // remove from viewers
                                 viewers.splice(i, 1);
@@ -307,7 +307,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     },
                     error: function (data) {
                         debug.error("sharecontent failed to change content " +
-                            "permission to 'manager' for user: " + userid);
+                            "permission to 'manager' for member: " + memberid);
                         debug.error("xhr data returned: " + data);
                     }
                 });
