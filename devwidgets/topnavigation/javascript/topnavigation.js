@@ -419,7 +419,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Show Nav Container
             if (sakai.config.anonAllowed){
                 $(exploreNavigationContainer).show();
-                
+
                 // Show anonymous elements
                 $("#other_logins_button_container").show();
                 $(".log_in").addClass("help_none");
