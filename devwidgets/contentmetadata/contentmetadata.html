@@ -88,7 +88,14 @@
         {if data.saveddirectory.length != 0}
             <ul>
                 {for dir in data.saveddirectory}
-                    <li><a href="/search#tag=/tags/directory/${dir.toString().replace(/,/g, '/')}" target="_blank" class="s3d-action threedots_text contentmetadata_locations_link" title="Search content located at ${dir.toString().replace(/,/g, ' ')}"><span class="ellipsis_text contentmetadata_directory_location">
+                    {var dirString=""}
+                    {for dirpiece in dir}
+                        ${dirString+=sakai.api.Util.getValueForDirectoryKey(dirpiece)|eat}
+                        {if dirpiece_index < dir.length - 1}
+                            ${dirString+="&nbsp;&#187;&nbsp;"|eat}
+                        {/if}
+                    {/for}
+                    <li><a href="/search#tag=/tags/directory/${dir.toString().replace(/,/g, '/')}" target="_blank" class="s3d-action threedots_text contentmetadata_locations_link" title="Search content located at ${dirString}"><span class="ellipsis_text contentmetadata_directory_location">
                         {for dirpiece in dir}
                             ${sakai.api.Util.getValueForDirectoryKey(dirpiece)} {if dirpiece_index < dir.length - 1} <span class='contentmetadata_select_seperator'>&raquo;</span>{/if}
                         {/for}
