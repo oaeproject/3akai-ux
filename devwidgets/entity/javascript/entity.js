@@ -1112,7 +1112,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 entityconfig.data.profile.permissions = filedata["sakai:permissions"];
             }
 
-            if (document.location.pathname === "/dev/content_profile.html"){
+            if (document.location.pathname === "/dev/content_profile.html" || document.location.pathname === "/content"){
                 entityconfig.data["link_name"] = false;
             } else {
                 entityconfig.data["link_name"] = true;

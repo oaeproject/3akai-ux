@@ -1,0 +1,4 @@
+{
+  'sling:match': '^[^/]+/[^/]+/search+/groups',
+  'sling:internalRedirect': '/dev/search_groups.html'
+}

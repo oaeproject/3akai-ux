@@ -8,7 +8,8 @@
     <!-- WIDGET HEADER -->
     <div class="fl-widget-titlebar s3d-widget-titlebar">
         <div class="widget-titlebar-inner s3d-widget-titlebar-inner">
-            <h2 id="listpeopleinnode_title" class="widget_title"></h2>
+            <h2 id="listpeopleinnode_title" class="widget_title"></h2>    
+            <h2><div class="listinpeopleinnode_ellipsis_container"></div></h2>
         </div>
     </div>
 
@@ -27,7 +28,7 @@
 
 <!-- TITLE TEMPLATE -->
 <div id="listpeopleinnode_title_template"><!--
-    <div class="listinpeopleinnode_ellipsis_container"><span class='ellipsis_text'>
+    <div class="listinpeopleinnode_ellipsis_container"><span class="ellipsis_text">
         __MSG__PEOPLE_IN__ ${location}
     </span></div>
 --></div>
@@ -54,7 +55,7 @@
     {/if}
     {if items < total}
         <div class="fl-text-align-right">
-            <a href="/dev/search_people.html#tag=${selected}" target="_blank" class="s3d-action s3d-action-seeall listpeopleinnode_seeall">__MSG__SEE_ALL__</a>
+            <a href="/search/people#tag=${selected}" target="_blank" class="s3d-action s3d-action-seeall listpeopleinnode_seeall">__MSG__SEE_ALL__</a>
         </div>
     {/if}
 --></div>

@@ -330,7 +330,7 @@ sakai.admin_widgets = function(tuid, showSettings){
     var doInit = function(){
         // redirect to 500 error page if not admin
         if (sakai.data.me.user.userid !== "admin") {
-            document.location = "/dev/500.html";
+            document.location = "/500";
         } else {
             renderCurrentWidgets();
             addBinding();
