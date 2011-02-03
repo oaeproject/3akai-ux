@@ -23,13 +23,13 @@
 .inbox_main .inbox-folders .if_content .tab{margin:10px 0;}
 .inbox_main .inbox-folders .if_content .tab a{font-size:1.2em;padding:0 0 10px;}
 .if_content .inbox_filter span{height:20px;margin:0 10px 0 4px;padding:0 0 0 20px;}
-.inbox_main .inbox-folders #inbox_filter_inbox span{background:url(/dev/images/icons_sprite.png) no-repeat scroll -280px -19px transparent;}
-.inbox_main .inbox-folders #inbox_filter_messages span{background:url(/dev/images/icons_sprite.png) no-repeat scroll -280px -21px transparent;}
-.inbox_main .inbox-folders #inbox_filter_announcements span{background:url(/dev/images/icons_sprite.png) no-repeat scroll -360px -21px transparent;}
-.inbox_main .inbox-folders #inbox_filter_chats span{background:url(/dev/images/icons_sprite.png) no-repeat scroll -340px -21px transparent;}
-.inbox_main .inbox-folders #inbox_filter_invitations span{background:url(/dev/images/icons_sprite.png) no-repeat scroll -320px -21px transparent;}
-.inbox_main .inbox-folders #inbox_filter_sent span{background:url(/dev/images/icons_sprite.png) no-repeat scroll -280px -19px transparent;}
-.inbox_main .inbox-folders #inbox_filter_trash span{background:url(/dev/images/icons_sprite.png) no-repeat scroll -260px -19px transparent;}
+.inbox_main .inbox-folders #inbox_filter_inbox div{background:url(/dev/images/icons_sprite.png) no-repeat scroll -280px -19px transparent;float: left;height: 17px;margin-right: 5px;width: 16px;}
+.inbox_main .inbox-folders #inbox_filter_messages div{background:url(/dev/images/icons_sprite.png) no-repeat scroll -280px -21px transparent;float: left;height: 17px;margin-right: 5px;width: 16px;}
+.inbox_main .inbox-folders #inbox_filter_announcements div{background:url(/dev/images/icons_sprite.png) no-repeat scroll -360px -21px transparent;float: left;height: 17px;margin-right: 5px;width: 16px;}
+.inbox_main .inbox-folders #inbox_filter_chats div{background:url(/dev/images/icons_sprite.png) no-repeat scroll -340px -21px transparent;float: left;height: 17px;margin-right: 5px;width: 16px;}
+.inbox_main .inbox-folders #inbox_filter_invitations div{background:url(/dev/images/icons_sprite.png) no-repeat scroll -320px -21px transparent;float: left;height: 17px;margin-right: 5px;width: 16px;}
+.inbox_main .inbox-folders #inbox_filter_sent div{background:url(/dev/images/icons_sprite.png) no-repeat scroll -280px -19px transparent;float: left;height: 17px;margin-right: 5px;width: 16px;}
+.inbox_main .inbox-folders #inbox_filter_trash div{background:url(/dev/images/icons_sprite.png) no-repeat scroll -260px -19px transparent;float: left;height: 17px;margin-right: 5px;width: 16px;}
 
 /** INBOX MAIN PANE **/
 .inbox_main .inbox-heading{font-weight:bold;color:#333;font-size:17px;padding:4px 0 0 5px;}
