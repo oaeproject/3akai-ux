@@ -257,19 +257,21 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         ":manager": user
                     };
                 }
-                else
+                else {
                     if (task === 'remove') {
                         if (user['userid']) {
                             user = user['userid'];
                         }
-                        else
+                        else {
                             if (user['sakai:group-id']) {
                                 user = user['sakai:group-id'];
                             }
-                            else
+                            else {
                                 if (user['rep:userId']) {
                                     user = user['rep:userId'];
                                 }
+                            }
+                        }
                         data = {
                             ":viewer@Delete": user
                         };
@@ -280,6 +282,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             };
                         }
                     }
+                }
                 if (user) {
                     reqData.push({
                         "url": content_path + ".members.json",
