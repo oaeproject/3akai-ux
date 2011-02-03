@@ -126,6 +126,7 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                         "|link=" + sakai_conf.SakaiDomain + "/~" + meData.user.userid +"?accepttrue";
                         break;
                 }
+                return toSend;
             };
 
             var doSendMail = function(){
