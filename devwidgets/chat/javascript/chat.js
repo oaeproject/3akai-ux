@@ -636,6 +636,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
+        // Variable that keeps track of when we last checked for new messages
+        var lastCheckDate = new Date().getTime();
+
         /**
          * Check whether there are new unread chat messages waiting
          */
