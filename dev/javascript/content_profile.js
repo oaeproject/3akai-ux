@@ -130,10 +130,21 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
                         var manager = false;
                         var anon = true;
+                        var groups = [];
                         if (!sakai.data.me.user.anon){
                             for (var ii in contentMembers.managers) {
-                                if (contentMembers.managers[ii]["rep:userId"] === sakai.data.me.user.userid) {
-                                    manager = true;
+                                if (contentMembers.managers.hasOwnProperty(ii)) {
+                                    if (contentMembers.managers[ii].hasOwnProperty("rep:userId")) {
+                                        if (contentMembers.managers[ii]["rep:userId"] === sakai.data.me.user.userid) {
+                                            manager = true;
+                                        }
+                                    } else if (contentMembers.managers[ii].hasOwnProperty("sakai:group-id")) {
+                                        if (sakai.api.Groups.isCurrentUserAMember(
+                                            contentMembers.managers[ii]["sakai:group-id"],
+                                            sakai.data.me)) {
+                                            manager = true;
+                                        }
+                                    }
                                 }
                             }
                         }

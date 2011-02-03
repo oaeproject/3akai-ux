@@ -181,6 +181,31 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             sakai.api.Activity.createActivity("/p/" + sakai_global.content_profile.content_data.data["jcr:name"], "content", "default", activityData);
         };
 
+
+        /**
+         * Checks whether the current user can edit the current content item
+         *
+         * @return Boolean  true if member can edit content, false otherwise
+         */
+        var canCurrentUserEdit = function () {
+            var managers = sakai_global.content_profile.content_data.members.managers;
+            for (var i in managers) {
+                if (managers.hasOwnProperty(i)) {
+                    if (managers[i].hasOwnProperty("rep:userId")) {
+                        if (sakai.data.me.user.userid === managers[i]["rep:userId"]) {
+                            return true;
+                        }
+                    } else if (managers[i].hasOwnProperty("sakai:group-id")) {
+                        if (sakai.api.Groups.isCurrentUserAMember(
+                            managers[i]["sakai:group-id"], sakai.data.me)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        };
+
         var removeMembers = function(selectedUserId, listItem){
             var permission = selectedUserId.split("-")[0];
             var removeAllowed = true;
@@ -229,8 +254,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                         listItem.remove();
                         createActivity("__MSG__MEMBERS_REMOVED_FROM_CONTENT__");
 
-                        // reload if the current user removed themselves
-                        if (userid === sakai.data.me.user.userid) {
+                        // reload if the current user can no longer edit
+                        if (!canCurrentUserEdit()) {
                             window.location.reload();
                         }
                     }
@@ -271,9 +296,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                         // create activity
                         createActivity("__MSG__CHANGED_PERMISSIONS_FOR_MEMBER__");
 
-                        // if the current user changed themselves from a manager
-                        // to a viewer, reload the page so they can't make any changes
-                        if (memberid === sakai.data.me.user.userid) {
+                        // reload if the current user can no longer edit
+                        if (!canCurrentUserEdit()) {
                             window.location.reload();
                         }
                     },
