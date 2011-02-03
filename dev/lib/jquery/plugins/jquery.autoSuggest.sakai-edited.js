@@ -23,7 +23,7 @@
     $.fn.autoSuggest = function(data, options) {
         var defaults = { 
             asHtmlID: false,
-            startText: "Enter name here",
+            startText: "Enter Name Here",
             emptyText: "No Results Found",
             preFill: {},
             limitText: "No More Selections Are Allowed",
