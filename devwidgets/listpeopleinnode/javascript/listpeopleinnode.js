@@ -130,7 +130,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             var ellipsis = "";
             if ($(".listinpeopleinnode_ellipsis_container .threedots_ellipsis").length) {
-                ellipsis = $(".listinpeopleinnode_ellipsis_container .threedots_ellipsis").html()
+                ellipsis = $(".listinpeopleinnode_ellipsis_container .threedots_ellipsis").html();
             }
 
             $listpeopleinnodeTitle.html($(".listinpeopleinnode_ellipsis_container .ellipsis_text").html() + ellipsis);
