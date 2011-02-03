@@ -60,6 +60,7 @@ define(["jquery",
             var user = {
                 "_charset_": "utf-8",
                 "locale": sakai_l10n.getUserDefaultLocale(),
+                "timezone": sakai_l10n.getUserDefaultTimezone(),
                 "pwd": password,
                 "pwdConfirm": passwordConfirm,
                 "email": email,
