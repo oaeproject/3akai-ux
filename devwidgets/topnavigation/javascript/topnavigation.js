@@ -352,7 +352,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
 
             // Only enable button if the location is the search page
-            if (window.location.pathname.split("/")[2] === "search.html") {
+            if (window.location.pathname.split("/")[2] === "search.html" || window.location.pathname.split("/")[2] === "search") {
                 $generalSearchSubmitButton.attr("disabled", false);
                 // if user is on the search page use the history event to perform the search
                 History.addBEvent("1", encodeURIComponent(tosearch));
@@ -446,7 +446,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $("#nav_courses_sites_link a").attr("href", sakai.config.URL.PUBLIC_COURSES_SITES_URL);
                 $("#nav_search_link a").attr("href", sakai.config.URL.PUBLIC_SEARCH_URL_PAGE);
 
-                if (window.location.pathname.split("/")[2] === "403.html" || window.location.pathname.split("/")[2] === "404.html") {
+                if (window.location.pathname.split("/")[2] === "403.html" ||
+                    window.location.pathname.split("/")[2] === "404.html" ||
+                    window.location.pathname.split("/")[2] === "403" ||
+                    window.location.pathname.split("/")[2] === "404") {
                     // hide register and login links
                     $("#register_button_container").hide();
                     $("#login_button_container").hide();
