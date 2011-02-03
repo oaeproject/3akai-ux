@@ -380,7 +380,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             }, 400, function(){
                 applyThreeDots();
             });
-            $("#contentmetadata_show_more > span").toggle();
+            $("#contentmetadata_show_more > div").toggle();
         };
     
         /**
