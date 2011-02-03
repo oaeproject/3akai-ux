@@ -17,8 +17,7 @@
             {for message in results}
                 <li {if message_index % 2} class="recentmessages_alterrow"{/if}>
                     <span {if message["sakai:read"]==="false"} class="recentmessages_notread" {/if} title="${sakai.api.User.getDisplayName(message.userFrom[0])}">${sakai.api.User.getDisplayName(message.userFrom[0])} {if message.userFrom.length > 1} __MSG__AND_OTHERS__...{/if}:</span>
-
-                        <a href="inbox.html#message=${message.id}" class="s3d-regular-links s3d-bold">
+                        <a href="/inbox#message=${message.id}" class="s3d-regular-links s3d-bold">
                             <div class="recentmessages_ellipsis_container">
                             <span class="recentmessages_ellipsis_text">
                             {if message["sakai:type"] === "chat"}
@@ -39,7 +38,7 @@
         </div>
         <div class="widget-options-inner">
             <ul>
-                <li><a href="inbox.html">__MSG__VIEW_AND_MANAGE_ALL_MY_MESSAGES__</a></li>
+                <li><a href="/inbox">__MSG__VIEW_AND_MANAGE_ALL_MY_MESSAGES__</a></li>
             </ul>
         </div>
         <div class="s3d-widget-options-footer-left">

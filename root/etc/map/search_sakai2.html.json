@@ -1,0 +1,4 @@
+{
+  'sling:match': '^[^/]+/[^/]+/search/sakai2',
+  'sling:internalRedirect': '/dev/search_sakai2.html'
+}

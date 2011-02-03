@@ -52,7 +52,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Elements
         //var $listpeopleinnodeAjaxLoader = $("#listpeopleinnode_ajax_loader");
 
-        var searchQuery = "/dev/search_people.html#tag=${query}";
+        var searchQuery = "/search/people#tag=${query}";
 
         var listpeopleinnodeEllipsisContainer = ".listinpeopleinnode_ellipsis_container";
         /**

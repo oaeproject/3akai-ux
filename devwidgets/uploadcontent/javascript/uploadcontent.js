@@ -161,7 +161,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 success: function(data){
 
                     // Redirect to the profile page of the newly updated link
-                    document.location = "/dev/content_profile.html#content_path=" + this.url;
+                    document.location = "/content#content_path=" + this.url;
 
                     // Reset the current form
                     resetForm();

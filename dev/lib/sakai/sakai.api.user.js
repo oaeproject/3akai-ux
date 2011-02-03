@@ -325,8 +325,8 @@ define(["jquery",
                     // Log error
                     debug.error("sakai.api.User.loadMeData: Could not load logged in user data from the me service!");
 
-                    if (xhr.status === 500 && window.location.pathname !== "/dev/500.html"){
-                        document.location = "/dev/500.html";
+                    if (xhr.status === 500 && window.location.pathname !== "/dev/500.html" && window.location.pathname !== "/500") {
+                        document.location = "/500";
                     }
 
                     // Call callback function if set

@@ -19,7 +19,7 @@
                 <div class="profilesection_generalinfo_acl fl-force-right">
                     {if mode.value === "viewmy"}
                         <span>__MSG__WHO_CAN_VIEW_OR_SEARCH_THIS__</span>
-                        <a href="profile_edit.html">${sakai_global.profile.main.acls.options[_access].label}</a>
+                        <a href="/profile/edit">${sakai_global.profile.main.acls.options[_access].label}</a>
                     {else}
                         <label for="profilesection_generalinfo_access_${i_index}">__MSG__WHO_CAN_VIEW_OR_SEARCH_THIS__</label>
                         <select id="profilesection_generalinfo_access_${i_index}" name="profilesection_generalinfo_access_${i_index}" class="profilesection_generalinfo_access">
@@ -72,7 +72,7 @@
                     <div class="profilesection_generalinfo_acl fl-force-right">
                         {if mode.value === "viewmy"}
                             <span>__MSG__WHO_CAN_VIEW_OR_SEARCH_THIS__</span>
-                            <a href="profile_edit.html">${sakai_global.profile.main.acls.options[_access].label}</a>
+                            <a href="/profile/edit">${sakai_global.profile.main.acls.options[_access].label}</a>
                         {else}
                             <label for="profilesection_generalinfo_access_${currentsection}">__MSG__WHO_CAN_VIEW_OR_SEARCH_THIS__</label>
                             <select id="profilesection_generalinfo_${currentsection}_access" name="profilesection_generalinfo_access_${currentsection}" class="profilesection_generalinfo_access">
@@ -196,7 +196,7 @@
                 {if config.tagField}
                     {var tagsArray = data.value.split(",")}
                     {for tag in tagsArray}
-                        <a href="/dev/search.html#tag=/tags/${escape(tag)}" class="s3d-action">${tag}</a>{if tag_index < tagsArray.length-1},{/if}
+                        <a href="/search#tag=/tags/${escape(tag)}" class="s3d-action">${tag}</a>{if tag_index < tagsArray.length-1},{/if}
                     {/for}
                 {elseif config.type !== "select"}
                     {if config.limitDisplayLength}
