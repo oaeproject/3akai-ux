@@ -79,32 +79,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // Only if everything went fine, show the recent messages
                 $recentmessagesContainer.html(sakai.api.Util.TemplateRenderer(recentmessagesTemplate, response));
 
-                var nameWidth = 0;
-                // loop through each name span tag
-                for(var i=0; i< $(".recentmessages_sendername").length; i++){
-                    // get each name span tag
-                    var obj = $(".recentmessages_sendername").eq(i);
-                    // get th width of tag and check if it is greater than nameWidth
-                    // nameWidth store the highest amount so if span is greater
-                    // assign it widths to namewidth
-                    if(nameWidth < $(obj).width()){
-                        nameWidth = $(obj).width();
-                    }
-                }
-
-                // add 5 to name width for the padding 5 px;
-                nameWidth += 5;
-
                 // make sure the newly added content is properly styled with
                 // -nameWidth for the name besides the type
-                $(ellipsisContainer).css("width", $(ellipsisContainer).width()-nameWidth + "px");
-                // threedots truncation
-                $(ellipsisContainer, rootel).ThreeDots({
-                    max_rows: 1,
-                    text_span_class: "recentmessages_ellipsis_text",
-                    e_span_class: "recentmessages_e_span_class",
-                    whole_word: false,
-                    alt_text_t: true
+                $(ellipsisContainer).each(function(idx, elt) {
+                    var $senderName = $(elt).parent("a").siblings(".recentmessages_sendername");
+                    var nameWidth = $senderName.width() + 5;
+                    $(elt).css("width", $(elt).parent("a").parent("li").width()-nameWidth + "px");
+                    // threedots truncation
+                    $(elt).ThreeDots({
+                        max_rows: 1,
+                        text_span_class: "recentmessages_ellipsis_text",
+                        e_span_class: "recentmessages_e_span_class",
+                        whole_word: false,
+                        alt_text_t: true
+                    });
                 });
                 // need to define for chrome...if
                 $(ellipsisContainer).css("display","inline");
