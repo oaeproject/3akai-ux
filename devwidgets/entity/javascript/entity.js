@@ -1364,20 +1364,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
                         }
                     }
                 }
-                if (viewerAdded) {
-                    var viewerActivityData = {
-                        "sakai:activityMessage": viewerActivityMessage
-                    };
-                    sakai.api.Activity.createActivity(entityconfig.data.profile.contentpath, "content", "default", viewerActivityData);
-                }
-                if (managerAdded) {
-                    var replaceIdx = managerLinks.lastIndexOf(",");
-                    managerLinks = managerLinks.substring(0, replaceIdx) + " AND" + managerLinks.substring(replaceIdx + 1);
-                    var managerActivityData = {
-                        "sakai:activityMessage": managerActivityMessage + managerLinks
-                    };
-                    sakai.api.Activity.createActivity(entityconfig.data.profile.contentpath, "content", "default", managerActivityData);
-                }
                 renderTemplate();
             });
 
