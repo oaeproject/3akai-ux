@@ -1,0 +1,4 @@
+{
+  'sling:match': '^[^/]+/[^/]+/inbox',
+  'sling:internalRedirect': '/dev/inbox.html'
+}

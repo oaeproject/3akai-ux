@@ -10,12 +10,15 @@
 
     <!-- FOOTER LINKS -->
     <div class="fl-widget-options fl-fix" style="overflow:hidden;">
+        <div class="fl-widget-options-footer-top">
+            <div class="fl-widget-options-top-right"></div>
+        </div>
         <div class="widget-options-inner">
             <ul>
-                <li><a href="people.html">__MSG__VIEW_AND_EDIT_ALL_MY_CONTACTS__</a></li>
+                <li><a href="/people">__MSG__VIEW_AND_EDIT_ALL_MY_CONTACTS__</a></li>
                 <li><span class="pipe_divider">|</span></li>
-                <li><a id="mycontacts_footer_search" href="search_people.html#q=*&page=1">__MSG__SEARCH_PEOPLE__</a></li>
-                <li><a href="people.html" class="mycontacts_requests" id="mycontacts_requests"><!-- --></a></li>
+                <li><a id="mycontacts_footer_search" href="/search/people#q=*&page=1">__MSG__SEARCH_PEOPLE__</a></li>
+                <li><a href="/people" class="mycontacts_requests" id="mycontacts_requests"><!-- --></a></li>
             </ul>
 
         </div>
@@ -32,7 +35,7 @@
                 <a href="/~${i.id}" class="mycontacts_list_contact_name s3d-regular-links s3d-bold">${i.name}</a>
             </div>
         {forelse}
-            <span id="mycontacts_nocontacts">__MSG__YOU_CURRENTLY_HAVE_NO_CONTACTS__ | <a href="/dev/search_people.html#q=*&amp;facet=all" class="s3d-regular-links s3d-bold">__MSG__SEARCH_FOR_CONTACTS__</a></span>
+            <span id="mycontacts_nocontacts">__MSG__YOU_CURRENTLY_HAVE_NO_CONTACTS__ | <a href="/search/people#q=*&amp;facet=all" class="s3d-regular-links s3d-bold">__MSG__SEARCH_FOR_CONTACTS__</a></span>
         {/for}
         <hr class="fl-push fl-hidden"/>
     --></div>

@@ -1,67 +1,24 @@
-
-.listpeople_container
-{ height: 330px; border: 1px solid #E4E4E4; }
+.listpeople_container{height:330px;border:1px solid #E4E4E4;}
 
 /* HEADER */
-.listpeople_container .listpeople_header
-{ height: 30px; line-height: 30px; padding: 5px 10px 5px 10px; background-color: #E4E4E4 }
-
-.listpeople_container .listpeople_header .listpeople_count
-{ color: #333; font-size: 14px; font-weight: bold; }
-
-.listpeople_container .listpeople_header .listpeople_count_items,
-.listpeople_container .listpeople_header .listpeople_count_total,
-.listpeople_container .listpeople_header .listpeople_count_selected,
-.listpeople_container .listpeople_header .listpeople_count_of,
-.listpeople_container .listpeople_header .listpeople_count
-{ color: #333;  font-size: 14px; float:left; margin-right:3px;}
-
-.listpeople_container .listpeople_header .listpeople_sort_on
-{ margin: 6px 0 0 0; }
-
+.listpeople_container .listpeople_header{height:30px;line-height:30px;padding:5px 10px;background-color:#E4E4E4;}
+.listpeople_container .listpeople_header .listpeople_count{color:#333;font-size:14px;font-weight:bold;}
+.listpeople_container .listpeople_header .listpeople_count_items,.listpeople_container .listpeople_header .listpeople_count_total,.listpeople_container .listpeople_header .listpeople_count_selected,.listpeople_container .listpeople_header .listpeople_count_of,.listpeople_container .listpeople_header .listpeople_count{color:#333;font-size:14px;float:left;margin-right:3px;}
+.listpeople_container .listpeople_header .listpeople_sort_on{margin:6px 0 0;}
 
 /* CONTENT */
-.listpeople_container .listpeople_content
-{ height: 289px; overflow: auto; }
-
-.listpeople_sort_order
-{ margin: 4px 0 0 0; float:right; }
-
-#listpeople_sort_order
-{ margin: 7px 5px 0 0; float:right; }
-
-.listpeople_container .listpeople_content .listpeople_page
-{ margin: 0; padding: 0; }
-
-.listpeople_container .listpeople_content .listpeople_page li
-{ display: block; list-style: none; clear: both; padding: 5px 0 5px 10px; border-bottom: 1px solid #FFFFFF; border-top: 1px solid #FFFFFF; overflow: hidden; }
-
-.listpeople_container .listpeople_content .listpeople_page li.selectable:hover
-{ background-color: #99CCFF; }
-
-.listpeople_container .listpeople_content .listpeople_page .selectable
-{ cursor: pointer; }
-
-.listpeople_container .listpeople_content .listpeople_page li input
-{ float: left; margin: 10px 5px 0 0; cursor: pointer; }
-
-.listpeople_container .listpeople_content .listpeople_page .listpeople_selected
-{ background: #006E96; border-bottom: 1px solid #FFFFFF; }
-
-.listpeople_container .listpeople_content .listpeople_page .listpeople_ppicture
-{ float: left; display: block; height: 32px; width: 32px; }
-
-.listpeople_container .listpeople_content .listpeople_page .listpeople_name
-{ font-size: 14px; position: relative; top: 1px; left: 5px; }
-
-.listpeople_container .listpeople_content .listpeople_page .listpeople_subnameinfo
-{ color: #999; font-size: 11px; position: relative; top: 1px; left: 7px; }
-
-.listpeople_container .listpeople_content .listpeople_page .listpeople_selected .listpeople_name
-{ color: #FFFFFF; }
-
-.listpeople_container .listpeople_content .listpeople_page .listpeople_selected .listpeople_subnameinfo
-{ color: #FFFFFF; }
-
-.loadinganim
-{ background: #fff url(/dev/images/ajax_load.gif) center 8px no-repeat; min-height: 50px; }
+.listpeople_container .listpeople_content{height:289px;overflow:auto;}
+.listpeople_sort_order{margin:4px 0 0;float:right;}
+#listpeople_sort_order{margin:7px 5px 0 0;float:right;}
+.listpeople_container .listpeople_content .listpeople_page{margin:0;padding:0;}
+.listpeople_container .listpeople_content .listpeople_page li{display:block;list-style:none;clear:both;padding:5px 0 5px 10px;border-bottom:1px solid #FFF;border-top:1px solid #FFF;overflow:hidden;}
+.listpeople_container .listpeople_content .listpeople_page li.selectable:hover{background-color:#9CF;}
+.listpeople_container .listpeople_content .listpeople_page .selectable{cursor:pointer;}
+.listpeople_container .listpeople_content .listpeople_page li input{float:left;margin:10px 5px 0 0;cursor:pointer;}
+.listpeople_container .listpeople_content .listpeople_page .listpeople_selected{background:#006E96;border-bottom:1px solid #FFF;}
+.listpeople_container .listpeople_content .listpeople_page .listpeople_ppicture{float:left;display:block;height:32px;width:32px;}
+.listpeople_container .listpeople_content .listpeople_page .listpeople_name{font-size:14px;position:relative;top:1px;left:5px;}
+.listpeople_container .listpeople_content .listpeople_page .listpeople_subnameinfo{color:#999;font-size:11px;position:relative;top:1px;left:7px;}
+.listpeople_container .listpeople_content .listpeople_page .listpeople_selected .listpeople_name{color:#FFF;}
+.listpeople_container .listpeople_content .listpeople_page .listpeople_selected .listpeople_subnameinfo{color:#FFF;}
+.loadinganim{background:#fff url(/dev/images/ajax_load.gif) center 8px no-repeat;min-height:50px;}

@@ -17,29 +17,16 @@
  */
 
 /* LAYOUT */
-#browsedirectory_no_pages {padding:20px 30px;}
-#browsedirectory_main {overflow:hidden;}
-#browsedirectory_title {padding-left: 15px !important;}
+#browsedirectory_no_pages{padding:20px 30px;}
+#browsedirectory_main{overflow:hidden;}
+#browsedirectory_title{padding-left:15px!important;}
 
 /* browsedirectory TREE STYLES */
-#browsedirectory_tree ul.jstree-no-dots li.jstree-leaf,
-#browsedirectory_tree ul.jstree-no-dots li.jstree-open,
-#browsedirectory_tree ul.jstree-no-dots li.jstree-closed
-    {padding:4px 4px;}
-#browsedirectory_tree ul.jstree-no-dots li.jstree-leaf a,
-#browsedirectory_tree ul.jstree-no-dots li.jstree-open a,
-#browsedirectory_tree ul.jstree-no-dots li.jstree-closed a
-    {font-weight:normal; color:#006E96; white-space:normal; display:inline; padding:4px; line-height:19px;}
-#browsedirectory_tree ul.jstree-no-dots li.jstree-open > a,
-#browsedirectory_tree ul.jstree-no-dots li.jstree-closed > a
-    {font-weight:normal;}
-#browsedirectory_tree ul.jstree-no-dots li.jstree-leaf a.jstree-clicked,
-#browsedirectory_tree ul.jstree-no-dots li.jstree-open a.jstree-clicked,
-#browsedirectory_tree ul.jstree-no-dots li.jstree-closed a.jstree-clicked
-    {color:#FFFFFF; font-weight:normal; background-color:#006E96; border:none;}
-#browsedirectory_tree ul.jstree-no-dots li.jstree-leaf a.jstree-hovered,
-#browsedirectory_tree ul.jstree-no-dots li.jstree-open a.jstree-hovered,
-#browsedirectory_tree ul.jstree-no-dots li.jstree-closed a.jstree-hovered
-    {color:#006E96; background-color:#D3EDF5; border:none;}
-#browsedirectory_tree.jstree-default.jstree-focused {background-color:#fff;}
-#browsedirectory_tree.jstree-default a .jstree-icon:hover {cursor:move;}
+#browsedirectory_tree ul.jstree-no-dots li.jstree-leaf,#browsedirectory_tree ul.jstree-no-dots li.jstree-open,#browsedirectory_tree ul.jstree-no-dots li.jstree-closed{padding:4px;}
+#browsedirectory_tree ul.jstree-no-dots li.jstree-leaf a,#browsedirectory_tree ul.jstree-no-dots li.jstree-open a,#browsedirectory_tree ul.jstree-no-dots li.jstree-closed a{font-weight:normal;color:#006E96;white-space:normal;display:inline;padding:4px;line-height:19px;}
+#browsedirectory_tree ul.jstree-no-dots li.jstree-open > a,#browsedirectory_tree ul.jstree-no-dots li.jstree-closed > a{font-weight:normal;}
+#browsedirectory_tree ul.jstree-no-dots li.jstree-leaf a.jstree-clicked,#browsedirectory_tree ul.jstree-no-dots li.jstree-open a.jstree-clicked,#browsedirectory_tree ul.jstree-no-dots li.jstree-closed a.jstree-clicked{color:#FFF;font-weight:normal;background-color:#006E96;border:none;}
+#browsedirectory_tree ul.jstree-no-dots li.jstree-leaf a.jstree-hovered,#browsedirectory_tree ul.jstree-no-dots li.jstree-open a.jstree-hovered,#browsedirectory_tree ul.jstree-no-dots li.jstree-closed a.jstree-hovered{color:#006E96;background-color:#D3EDF5;border:none;}
+#browsedirectory_tree.jstree-default.jstree-focused{background-color:#fff;}
+#browsedirectory_tree.jstree-default a .jstree-icon:hover{cursor:move;}
+#browsedirectory_tree {margin-left:23px;text-indent:-23px;}

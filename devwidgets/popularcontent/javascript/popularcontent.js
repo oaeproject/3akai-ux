@@ -16,94 +16,102 @@
  * specific language governing permissions and limitations under the License.
  */
 
+/*
+ * Dependencies
+ *
+ * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
+ */
+
 /*global $ */
 
-var sakai = sakai || {};
+require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js"], function($, sakai) {
 
-/**
- * @name sakai.popularcontent
- *
- * @class popularcontent
- *
- * @description
- * Initialize the popularcontent widget
- *
- * @version 0.0.1
- * @param {String} tuid Unique id of the widget
- * @param {Boolean} showSettings Show the settings of the widget or not
- */
-sakai.popularcontent = function(tuid, showSettings) {
+    /**
+     * @name sakai_global.popularcontent
+     *
+     * @class popularcontent
+     *
+     * @description
+     * Initialize the popularcontent widget
+     *
+     * @version 0.0.1
+     * @param {String} tuid Unique id of the widget
+     * @param {Boolean} showSettings Show the settings of the widget or not
+     */
+    sakai_global.popularcontent = function(tuid, showSettings) {
 
-    var $rootel = $("#"+tuid),
-        $popularcontent_main = $("#popularcontent_main", $rootel),
-        $popularcontent_main_template = $("#popularcontent_main_template", $rootel);
+        var $rootel = $("#"+tuid),
+            $popularcontent_main = $("#popularcontent_main", $rootel),
+            $popularcontent_main_template = $("#popularcontent_main_template", $rootel);
 
-    var contentData = {};
+        var contentData = {};
 
-    var renderPopularContent = function(){
-        $popularcontent_main.html($.TemplateRenderer($popularcontent_main_template, {
-            data: contentData
-        })).show();
-    };
-    
-    $(window).bind("sakai-directory-selected", function(ev, selected){
-        loadDataDirectory(selected, renderPopularContent);
-    });
-    
-    var loadDataDirectory = function(selected, callback){
-        var params = {
-            page: 0,
-            items: 10,
-            q: selected,
-            sortOrder: "descending"
+        var renderPopularContent = function(){
+            $popularcontent_main.html(sakai.api.Util.TemplateRenderer($popularcontent_main_template, {
+                data: contentData
+            })).show();
         };
 
-        $.ajax({
-            url: sakai.config.URL.SEARCH_ALL_FILES,
-            data: params,
-            success: function(data){
-                contentData = {"results":[], "items": data.items, "total": data.total};
-                var content = [];
-                for (var i = 0; i < data.results.length; i++){
-                    var item = {};
-                    item["id"] = data.results[i]["jcr:name"];
-                    item["name"] = data.results[i]["sakai:pooled-content-file-name"];
-                    content.push(item);
+        $(window).bind("sakai-directory-selected", function(ev, selected){
+            loadDataDirectory(selected, renderPopularContent);
+        });
+
+        var loadDataDirectory = function(selected, callback){
+            var params = {
+                page: 0,
+                items: 10,
+                q: selected,
+                sortOrder: "descending"
+            };
+
+            $.ajax({
+                url: sakai.config.URL.SEARCH_ALL_FILES,
+                data: params,
+                success: function(data){
+                    contentData = {"results":[], "items": data.items, "total": data.total};
+                    var content = [];
+                    for (var i = 0; i < data.results.length; i++){
+                        var item = {};
+                        item["id"] = data.results[i]["jcr:name"];
+                        item["name"] = data.results[i]["sakai:pooled-content-file-name"];
+                        content.push(item);
+                    }
+                    contentData.results[0] = {"content": content};
+                    contentData.moreLink = "/search/content#tag=/tags/directory/" + selected;
+                    callback();
                 }
-                contentData.results[0] = {"content": content};
-                contentData.moreLink = "/dev/search_content.html#tag=/tags/directory/" + selected;
-                callback();
+            });
+        };
+
+        var loadData = function(callback){
+            $.ajax({
+                url: "/var/search/public/mostactivecontent.json?page=0&items=5",
+                cache: false,
+                success: function(data){
+                    contentData = data;
+                    callback();
+                }
+            });
+        };
+
+        var doInit = function(){
+            if (! sakai.api.Widgets.isOnDashboard(tuid)){
+                $(".popularcontent-widget-border").show();
+                $("#popularcontent_widget").addClass("fl-widget s3d-widget");
             }
-        });
-    };
 
-    var loadData = function(callback){
-        $.ajax({
-            url: "/var/search/public/mostactivecontent.json?page=0&items=5",
-            cache: false,
-            success: function(data){
-                contentData = data;
-                callback();
+            // If the widget is initialized on the directory page then listen to the event to catch specified tag results
+            if (!(sakai_global.directory && sakai_global.directory.getIsDirectory())) {
+               loadData(renderPopularContent);
+               $("#popularcontent_title_popular").show();
+            } else {
+                $("#popularcontent_title_recent").show();
             }
-        });
+        };
+
+        doInit();
     };
 
-    var doInit = function(){
-        if (! sakai.api.Widgets.isOnDashboard(tuid)){
-            $(".popularcontent-widget-border").show();
-            $("#popularcontent_widget").addClass("fl-widget s3d-widget");
-        }
-
-        // If the widget is initialized on the directory page then listen to the event to catch specified tag results
-        if (!(sakai.directory && sakai.directory.getIsDirectory())) {
-           loadData(renderPopularContent);
-           $("#popularcontent_title_popular").show();
-        } else {
-            $("#popularcontent_title_recent").show();
-        }
-    };
-
-    doInit();
-};
-
-sakai.api.Widgets.widgetLoader.informOnLoad("popularcontent");
+    sakai.api.Widgets.widgetLoader.informOnLoad("popularcontent");
+    
+});

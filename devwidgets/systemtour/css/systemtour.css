@@ -17,130 +17,36 @@
  */
 
 /* Main container */
-#systemtour_container {background:transparent url(../images/bgl.png) no-repeat scroll 0 0; line-height: 60px; height: 60px;}
+#systemtour_container{background:url("/dev/images/tour_sprite.png") no-repeat scroll left -832px transparent; line-height: 60px; height: 60px;}
 
 /* PROGRESS BAR */
-.systemtour_left {
-    background:url(../images/bgl.png) no-repeat;
-    padding: 10px 10px 30px 10px;
-}
-.systemtour_left_text {
-    font-size:0.9em; 
-    font-weight:bold; 
-    line-height: 60px; 
-    margin-left: 20px; 
-    padding-right: 5px;
-}
-#systemtour_progress_bar a {
-    text-decoration: none;
-}
-#systemtour_container ul {
-    list-style: none; 
-    display: inline-block; 
-    margin: 0px; 
-    line-height:30px; 
-    position: relative; 
-    top: 12px;
-    /* IE6 and IE7 hack to support display:inline-block */
-    zoom:1; 
-    *display:inline; /* IE7 and below*/
-    *padding-top:3px; /* IE7 and below*/
-    *margin-top:-20px; /* IE7 and below*/
-    _height: 30px; /* IE6 and below*/
-    _margin-top:0px; /* IE6 and below*/
-    /* */
-}
-#systemtour_container li {
-    list-style:none; 
-    float: left; 
-    height:32px; 
-    border-right: 1px solid #d8dce0;
-    padding-right: 5px;
-}
-.systemtour_button:hover {
-    text-decoration: none;
-}
-.systemtour_button {
-    padding-right: 15px; 
-    display: block;
-}
-.systemtour_1 {
-    background:url(../images/bg1.png);
-}
-.systemtour_2 {
-    background:url(../images/bg2.png);
-}
-.systemtour_3 {
-    background:url(../images/bg3.png);
-}
-.systemtour_4 {
-    background:url(../images/bg4.png);
-}
-.systemtour_5 {
-    background:url(../images/bg5.png);
-}
-.systemtour_1_selected {
-    background:url(../images/bg1selected.png);
-}
-.systemtour_2_selected {
-    background:url(../images/bg2selected.png);
-}
-.systemtour_3_selected {
-    background:url(../images/bg3selected.png);
-}
-.systemtour_4_selected {
-    background:url(../images/bg4selected.png);
-}
-.systemtour_5_selected {
-    background:url(../images/bg5selected.png);
-}
-.systemtour_button_selected {
-    color: #FFF;
-}
-.systemtour_button_text {
-    font-weight: bold;
-    font-size: 0.9em;
-    margin-left:35px; 
-    padding-right:5px;
-}
-.systemtour_item_complete_full {
-    background:url("/dev/images/accept.png") no-repeat;
-    background-position: right;
-}
-.systemtour_item_complete {
-}
-.systemtour_item_complete_5 {
-    position: relative;
-    top: 13px;
-    left: 10px;
-    background:url("/dev/images/accept.png") no-repeat; padding-right: 26px;
-}
-
-.systemtour_item_filler {
-    padding-right: 18px;
-}
-.systemtour_item_filler_5 {
-    padding-right: 26px;
-}
-.systemtour_right {
-
-}
-.systemtour_right_text {
-    font-weight: bold;
-    font-size: 0.9em;
-    text-decoration: underline !important;
-}
-.systemtour_end {
-    float:right; 
-    background:transparent url(../images/bgr2.png) no-repeat scroll 0 0; 
-    height: 60px; 
-    width: 25px; 
-    line-height: 40px;
-}
-.systemtour_end_top {
-    
-}
-.systemtour_end_bottom {
-    /*background:url(../images/bgeb.png) no-repeat;
-    padding: 10px 15px 0 0;*/
-}
+.systemtour_left{background:url(../images/bgl.png) no-repeat;padding:10px 10px 30px;}
+.systemtour_left_text {font-size:0.9em;font-weight:bold;line-height: 60px;margin-left: 20px;padding-right: 5px;}
+#systemtour_progress_bar a {text-decoration: none;}
+#systemtour_container ul {list-style: none;display: inline-block; margin: 0px;line-height:30px;position: relative;top: 12px;/* IE6 and IE7 hack to support display:inline-block */zoom:1;*display:inline; /* IE7 and below*/*padding-top:3px;/* IE7 and below*/*margin-top:-20px;/* IE7 and below*/_height: 30px;/* IE6 and below*/_margin-top:0px;/* IE6 and below*/}
+#systemtour_container li {list-style:none;float: left;height:32px;border-right: 1px solid #d8dce0;padding-right: 0;*width:138px;}
+.systemtour_button:hover {text-decoration: none;}
+.systemtour_button {padding-right: 13px;display: block;}
+.systemtour_1{background:url(/dev/images/tour_sprite.png) no-repeat scroll -220px -120px transparent;}
+.systemtour_2{background:url(/dev/images/tour_sprite.png) no-repeat scroll -220px -200px transparent;}
+.systemtour_3{background:url(/dev/images/tour_sprite.png) no-repeat scroll -220px -280px transparent;}
+.systemtour_4{background:url(/dev/images/tour_sprite.png) no-repeat scroll -220px -360px transparent;}
+.systemtour_5{background:url(/dev/images/tour_sprite.png) no-repeat scroll -220px -440px transparent;}
+.systemtour_1_selected{background:url(/dev/images/tour_sprite.png) no-repeat scroll -220px -160px transparent;}
+.systemtour_2_selected{background:url(/dev/images/tour_sprite.png) no-repeat scroll -220px -240px transparent;}
+.systemtour_3_selected{background:url(/dev/images/tour_sprite.png) no-repeat scroll -220px -320px transparent;}
+.systemtour_4_selected{background:url(/dev/images/tour_sprite.png) no-repeat scroll -220px -400px transparent;}
+.systemtour_5_selected{background:url(/dev/images/tour_sprite.png) no-repeat scroll -220px -480px transparent;}
+.systemtour_button_selected {color: #FFF;}
+.systemtour_button_text {font-weight: bold;font-size: 0.9em;margin-left:35px;padding-right:6px;*padding-right:2px;}
+.systemtour_item_complete_full{background:url(/dev/images/icons_sprite.png) no-repeat scroll -41px -20px transparent;float:right;height:16px;margin:7px -10px 0 0;width:14px;}
+.systemtour_item_complete {}
+.systemtour_item_complete_5{position:relative;top:13px;left:10px;background:url(/dev/images/icons_sprite.png) no-repeat scroll -40px -21px transparent;padding-right:26px;}
+.systemtour_item_filler {padding-right: 18px;}
+.systemtour_item_filler_5 {padding-right: 26px;}
+.systemtour_right {}
+.systemtour_right_text {font-weight: bold;font-size: 0.9em;text-decoration: underline !important;}
+.systemtour_end{float:right;background:url(/dev/images/tour_sprite.png) no-repeat scroll right -100px transparent;height:60px;width:25px;line-height:40px;}
+.systemtour_end_top {}
+.systemtour_end_bottom {/*background:url(../images/bgeb.png) no-repeat;padding: 10px 15px 0 0;*/}
+#systemtour_end_cross{background:url(/dev/images/tour_sprite.png) no-repeat scroll -429px -80px transparent;height:27px;width:27px;}

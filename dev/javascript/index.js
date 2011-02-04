@@ -16,13 +16,8 @@
  * specific language governing permissions and limitations under the License.
  */
 
+require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
-/*global Querystring, Config, $,  set_cookie */
-
-
-var sakai = sakai || {};
-
-sakai.index = function(){
     if (sakai.config.anonAllowed){
         $("#login_right_col").show();
     }
@@ -43,6 +38,4 @@ sakai.index = function(){
      */
     $.cookie('sakai_chat','');
 
-};
-
-sakai.api.Widgets.Container.registerForLoad("sakai.index");
+});

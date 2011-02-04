@@ -1,6 +1,6 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/contentpreview/css/contentpreview.css" />
-
+<div style="display:none;">IE Fix</div>
 <div id="contentpreview_widget_main_container" class="contentpreview_widget">
     
 </div>
@@ -9,12 +9,12 @@
     {if type === "default"}
         <div class="contentpreview_default_preview" id="contentpreview_default_preview" style="background-color:#EEF2F5; height:70px; margin-bottom:15px; padding-bottom:20px; padding-left:15px; padding-right:20px; padding-top:20px;">
             <div style="width: 240px; float: right">
-                {if sakai.content_profile.content_data.data["jcr:content"]["jcr:mimeType"] === "x-sakai/link"}
-                    <a id="contentpreview_download_button" href="${sakai.content_profile.content_data.data["sakai:pooled-content-url"]}" style="text-align:center; width:216px;" class="s3d-button s3d-button-primary" target="_blank"><span class="s3d-button-inner">Open Link</span></a>
+                {if sakai_global.content_profile.content_data.data["jcr:content"]["jcr:mimeType"] === "x-sakai/link"}
+                    <a id="contentpreview_download_button" href="${sakai_global.content_profile.content_data.data["sakai:pooled-content-url"]}" style="text-align:center; width:216px;" class="s3d-button s3d-button-primary" target="_blank"><span class="s3d-button-inner">Open Link</span></a>
                 {else}
-                    <a id="contentpreview_download_button" href="${sakai.content_profile.content_data.path}" style="text-align:center; width:216px;" class="s3d-button s3d-button-primary" target="_blank"><span class="s3d-button-inner">Download</span></a>
+                    <a id="contentpreview_download_button" href="${sakai_global.content_profile.content_data.path}" style="text-align:center; width:216px;" class="s3d-button s3d-button-primary" target="_blank"><span class="s3d-button-inner">Download</span></a>
                 {/if}
-                {if sakai.content_profile.content_data.isManager}
+                {if sakai_global.content_profile.content_data.isManager}
                     <div id="contentpreview_actions_container">
                         <button type="submit" class="s3d-button s3d-button-secondary" id="content_preview_delete"><span class="s3d-button-inner">Delete</span></button>
                         <button type="submit" class="s3d-button s3d-button-secondary new_version" id="upload_content"><span class="s3d-button-inner">Upload new version</span></button>
@@ -22,17 +22,17 @@
                 {/if}
             </div>
             <div style="float:left; width:80px;">
-            {if sakai.config.MimeTypes[sakai.content_profile.content_data.data["jcr:content"]["jcr:mimeType"]]}
-            	<img id="entity_profile_picture" src="${sakai.config.MimeTypes[sakai.content_profile.content_data.data["jcr:content"]["jcr:mimeType"]].URL}" alt="${sakai.config.MimeTypes[sakai.content_profile.content_data.data["jcr:content"]["jcr:mimeType"]].description}"/>
+            {if sakai.config.MimeTypes[sakai_global.content_profile.content_data.data["jcr:content"]["jcr:mimeType"]]}
+              <img id="entity_profile_picture" src="${sakai.config.MimeTypes[sakai_global.content_profile.content_data.data["jcr:content"]["jcr:mimeType"]].URL}" alt="${sakai.config.MimeTypes[sakai_global.content_profile.content_data.data["jcr:content"]["jcr:mimeType"]].description}"/>
             {else}
-            	<img id="entity_profile_picture" src="${sakai.config.MimeTypes["other"].URL}" alt="${sakai.config.MimeTypes["other"].description}"/>
+              <img id="entity_profile_picture" src="${sakai.config.MimeTypes["other"].URL}" alt="${sakai.config.MimeTypes["other"].description}"/>
             {/if}
             </div>
             <div style="width: 280px; float:left; padding-top:7px; font-weight: bold;">
-                Created by <a class="s3d-action" href="/~${sakai.content_profile.content_data.data["sakai:pool-content-created-for"]}">${sakai.content_profile.content_data.creator}</a> <br/>
-                ${sakai.api.Util.convertToHumanReadableFileSize(sakai.content_profile.content_data.data["jcr:content"]["jcr:data"].split(":")[1])}<br/>
-                {if sakai.content_profile.content_data.data["jcr:content"]["jcr:mimeType"] !== "x-sakai/link"}
-                    ${sakai.content_profile.content_data.data["jcr:content"]["jcr:mimeType"]}
+                Created by <a class="s3d-action" href="/~${sakai_global.content_profile.content_data.data["sakai:pool-content-created-for"]}">${sakai_global.content_profile.content_data.creator}</a> <br/>
+                ${sakai.api.Util.convertToHumanReadableFileSize(sakai_global.content_profile.content_data.data["jcr:content"]["jcr:data"].split(":")[1])}<br/>
+                {if sakai_global.content_profile.content_data.data["jcr:content"]["jcr:mimeType"] !== "x-sakai/link"}
+                    ${sakai_global.content_profile.content_data.data["jcr:content"]["jcr:mimeType"]}
                 {/if}
             </div>
         </div>
@@ -43,8 +43,8 @@
         <div class="contentpreview_html_preview" id="contentpreview_html_preview" style="width:640px; height: 390px; border: 1px solid #D4DADE; display:none; "></div>
         <div class="contentpreview_image_preview" id="contentpreview_image_preview" style="padding: 0px; display:none; "></div>
         <div style="padding: 15px 20px 15px 10px; height: 25px;">
-            <a id="contentpreview_download_button" href="${sakai.content_profile.content_data.path}" class="s3d-button s3d-button-primary" style="float:right" target="_blank"><span class="s3d-button-inner">Download</span></a>
-            {if sakai.content_profile.content_data.isManager}
+            <a id="contentpreview_download_button" href="${sakai_global.content_profile.content_data.path}" class="s3d-button s3d-button-primary" style="float:right" target="_blank"><span class="s3d-button-inner">Download</span></a>
+            {if sakai_global.content_profile.content_data.isManager}
                 <div id="contentpreview_actions_container">
                     <button type="submit" class="s3d-button s3d-button-secondary" id="content_preview_delete"><span class="s3d-button-inner">Delete</span></button>
                     <button type="submit" class="s3d-button s3d-button-secondary new_version" id="upload_content"><span class="s3d-button-inner">Upload new version</span></button>

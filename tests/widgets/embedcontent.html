@@ -6,21 +6,16 @@
         <title>__MSG__WIDGET_PLAYGROUND__ - Embed Content</title>
 
         <!-- Sakai Core CSS -->
-        <link rel="stylesheet" type="text/css" href="/dev/css/FSS/fss-base.css" />
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.base.css" />
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.core.2.css" />
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.3.css" />
+        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/main.css" />
 
         <!-- Sakai Page CSS -->
-        <!-- <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.group.css" /> -->
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.show.css" />
 
         <!-- 3rd party CSS -->
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.treeview.css" />
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.components.jq_pager.css" />
-        <link rel="stylesheet" type="text/css" href="/dev/lib/jquery/plugins/gritter/css/jquery.gritter.css" />
         <link rel="stylesheet" type="text/css" href="/dev/lib/jquery/plugins/imgareaselect/imgareaselect-default.css" />
-        <link rel="stylesheet" type="text/css" href="/dev/css/lib/jquery.autoSuggest.css" />
+
+        <script type="text/javascript" src="/dev/lib/require.js"></script>
 
         <!-- Sakai Config JS -->
         <script type="text/javascript" src="/dev/configuration/widgets.js"></script>
@@ -64,7 +59,6 @@
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.MultiFile.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.jeditable.js"></script>
         <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.validate.sakai-edited.js"></script>
-        <script type="text/javascript" src="/dev/lib/jquery/plugins/imgareaselect/jquery.imgareaselect.js"></script>
 
     </head>
 
@@ -122,8 +116,8 @@
                     });
                     var $dialog_content = $("#dialog_content");
                     var id = "widget_embedcontent_123";
-                    $dialog_content.html(sakai.api.Security.saneHTML('<img src="' + sakai.widgets.widgets['embedcontent'].img + '" id="' + id + '" class="widget_inline" border="1"/>'));
-                    $("#dialog_title").html(sakai.widgets.widgets['embedcontent'].name);
+                    $dialog_content.html(sakai.api.Security.saneHTML('<img src="' + sakai.widgets['embedcontent'].img + '" id="' + id + '" class="widget_inline" border="1"/>'));
+                    $("#dialog_title").html(sakai.widgets['embedcontent'].name);
                     sakai.api.Widgets.widgetLoader.insertWidgets('embedcontent_test', true);
                     $dialog_content.show();
                     $('#insert_dialog').jqmShow();

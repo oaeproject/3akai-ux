@@ -18,7 +18,7 @@
         <div id="tags_main_template" style="display:none"><!--
             {if data.results}<ul>{for result in data.results}
                 {for tag in result.tags}
-                    <li style="display:inline; margin-right: 6px;"><a href="/dev/search.html?#tag=/tags/${tag.name}" style="font-size:${1.00 + Math.log(tag.count)/2}em" class="s3d-regular-links">${tag.name}</a></li>
+                    <li style="display:inline; margin-right: 6px;"><a href="/search?#tag=/tags/${tag.name}" style="font-size:${1.00 + Math.log(tag.count)/2}em" class="s3d-regular-links">${tag.name}</a></li>
                 {forelse}
                     <li>__MSG__NO_TAGS_FOUND__</li>
                 {/for}
@@ -26,14 +26,6 @@
         --></div>
     <div class="s3d-widget-no-options fl-fix">
         <div class="s3d-widget-no-options-inner">
-        </div>
-    </div>
-
-    <!-- WIDGET FOOTER -->
-    <div class="fl-widget-options fl-fix tags-widget-border" id="tags_footer_edit" style="display:none">
-        <div class="s3d-widget-options-footer-left">
-            <div class="s3d-widget-options-footer-right">
-            </div>
         </div>
     </div>
 </div>

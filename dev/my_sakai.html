@@ -6,57 +6,13 @@
         <title></title>
 
         <!-- Sakai Core CSS -->
-        <link rel="stylesheet" type="text/css" href="/dev/css/FSS/fss-base.css" />
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.base.css" />
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.core.2.css" />
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.3.css" />
+        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/main.css" />
 
         <!-- Sakai Page CSS -->
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.my_sakai.css" />
 
         <!-- 3rd party CSS -->
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.components.jq_pager.css" />
         <link rel="stylesheet" type="text/css" href="/dev/lib/jquery/plugins/imgareaselect/imgareaselect-default.css" />
-        <link rel="stylesheet" type="text/css" href="/dev/lib/jquery/plugins/gritter/css/jquery.gritter.css" />
-
-        <!-- Sakai Config JS -->
-        <script type="text/javascript" src="/dev/configuration/widgets.js"></script>
-        <script type="text/javascript" src="/var/widgets.json?callback=sakai.storeWidgets"></script>
-        <script type="text/javascript" src="/dev/configuration/config.js"></script>
-        <script type="text/javascript" src="/dev/configuration/config_custom.js"></script>
-
-        <!-- Core 3rd-party JS -->
-        <script type="text/javascript" src="/dev/lib/jquery/jquery.js"></script>
-        <script type="text/javascript" src="/dev/lib/jquery/jquery-ui.full.js"></script>
-        <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.validate.sakai-edited.js"></script>
-        <script type="text/javascript" src="/dev/lib/fluid/3akai_Infusion.js"></script>
-        <script type="text/javascript" src="/dev/lib/misc/l10n/globalization.js"></script>
-        <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.json.js"></script>
-        <script type="text/javascript" src="/dev/lib/misc/google/html-sanitizer-minified.js"></script>
-
-        <!-- Sakai Core JS -->
-        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.core.js"></script>
-        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.util.js"></script>
-        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.i18n.js"></script>
-        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.l10n.js"></script>
-        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.user.js"></script>
-        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.widgets.js"></script>
-        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.groups.js"></script>
-        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.communication.js"></script>
-        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.content.js"></script>
-
-        <!-- 3rd party JS -->
-        <script type="text/javascript" src="/dev/lib/misc/trimpath.template.js"></script>
-        <script type="text/javascript" src="/dev/lib/misc/querystring.js"></script>
-        <script type="text/javascript" src="/dev/lib/jquery/plugins/jqmodal.sakai-edited.js"></script>
-        <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.cookie.js"></script>
-        <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.pager.js"></script>
-        <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.threedots.js"></script>
-        <script type="text/javascript" src="/dev/lib/jquery/plugins/imgareaselect/jquery.imgareaselect.js"></script>
-        <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.form.js"></script>
-        <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.MultiFile.js"></script>
-        <script type="text/javascript" src="/dev/lib/jquery/plugins/gritter/jquery.gritter.js"></script>
-
     </head>
 
     <body id="root" class="body-container fl-centered fl-container i18nable my-sakai">
@@ -70,6 +26,7 @@
         <!-- HEADER -->
         <div class="fl-container-flex header s3d-header">
             <div class="fl-fix fl-centered fixed-container s3d-fixed-container">
+                <div class="s3d-decor-left"><!-- --></div>
                 <div class="s3d-decor"><!-- --></div>
 
                 <!-- TOOLTIP -->
@@ -96,28 +53,7 @@
                                 <li id="mysakai_more_change_layout" class="more_option option_last"><a href="javascript:;" class="s3d-action">__MSG__CHANGE_LAYOUT__</a></li>
                             </ul>
                         </div>
-                        <span style="display:none;" id="pagetitle">__MSG__PERSONAL_DASHBOARD__</span>
                     </div>
-                </div>
-
-                <!-- CONTAINER FOR THE CREATEGROUP CONTAINER -->
-                <div id="creategroupcontainer" style="display:none;">
-                    <!-- We need this container to show the pop-up where you can add a group -->
-                    <div id="widget_creategroup" class="widget_inline"></div>
-                </div>
-
-                <!-- CONTAINER FOR THE CREATEGROUP CONTAINER -->
-                <div id="creategroupcontainer" style="display:none;">
-                    <!-- We need this container to show the pop-up where you can add a group -->
-                    <div id="widget_sakai2favourites" class="widget_inline">
-                    </div>
-                </div>
-
-                <!-- CONTAINER FOR THE UPLOAD FILES CONTAINER -->
-                <div id="uploadfilescontainer" style="display:none;">
-                    <!-- We need this container to show the pop-up where you can upload files -->
-                    <div id="widget_fileupload" class="widget_inline"></div>
-                </div>
             </div>
         </div>
 
@@ -130,8 +66,10 @@
         <!-- CHAT -->
         <div id="widget_chat" class="widget_inline"></div>
 
-        <script type="text/javascript" src="/dev/javascript/mysakai.js"></script>
+        <!-- Dependency JS -->
+        <script data-main="/dev/lib/sakai/sakai.dependencies.js" src="/dev/lib/jquery/requireplugins-jquery.js"></script>
 
+        <!-- Page JS -->
+        <script>require(["/dev/javascript/mysakai.js"]);</script>
     </body>
-
 </html>

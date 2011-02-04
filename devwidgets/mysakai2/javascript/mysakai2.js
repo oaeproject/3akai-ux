@@ -15,115 +15,123 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
+/*
+ * Dependencies
+ *
+ * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
+ */
 /*global $ */
 
-var sakai = sakai || {};
-
-/**
- * @name sakai.mysakai2
- *
- * @class mysakai2
- *
- * @description
- * Initialize the mysakai2 w    idget
- *
- * @version 0.0.1
- * @param {String} tuid Unique id of the widget
- */
-sakai.mysakai2 = function(tuid){
-
-
-    /////////////////////////////
-    // Configuration variables //
-    /////////////////////////////
-
-    var rootel = $("#" + tuid);
-
-    var mysakai2List = "#mysakai2_list";
-    var mysakai2ListTemplate = "#mysakai2_list_template";
-    var mysakai2ErrorNosites = "#mysakai2_error_nosites";
-
+require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     /**
-     * Takes a set of json and renders the sakai2 sites.
-     * @param {Object} newjson sakai 2 list object
+     * @name sakai_global.mysakai2
+     *
+     * @class mysakai2
+     *
+     * @description
+     * Initialize the mysakai2 w    idget
+     *
+     * @version 0.0.1
+     * @param {String} tuid Unique id of the widget
      */
-    var doRender = function(resultJson , useDisplayProperties){
-        // If the user is not registered for any sites, show the no sites error.
-        if (resultJson.sites.length === 0) {
-            $(mysakai2List, rootel).html(sakai.api.Security.saneHTML($(mysakai2ErrorNosites).html())).addClass("sites_error");
-        } else {
-            $(mysakai2List, rootel).html($.TemplateRenderer(mysakai2ListTemplate.replace(/#/, ''), resultJson));
-        }
-    };
+    sakai_global.mysakai2 = function(tuid){
 
-    /**
-     *
-     *
-     */
-    var loadSakai2SiteList = function(){
-        // get sakai2favouriteList
-        sakai.api.Server.loadJSON("/~" + sakai.data.me.user.userid + "/private/sakai2favouriteList",function(savedsuccess,saveddata){
-            var url = "/dev/s23/bundles/sites.json";
-            if (sakai.config.useLiveSakai2Feeds){
-                url = "/var/proxy/s23/sitesUnread.json?unread=true";
+
+        /////////////////////////////
+        // Configuration variables //
+        /////////////////////////////
+
+        var rootel = $("#" + tuid);
+
+        var mysakai2List = "#mysakai2_list";
+        var mysakai2ListTemplate = "#mysakai2_list_template";
+        var mysakai2ErrorNosites = "#mysakai2_error_nosites";
+
+
+        /**
+         * Takes a set of json and renders the sakai2 sites.
+         * @param {Object} newjson sakai 2 list object
+         */
+        var doRender = function(resultJson , useDisplayProperties){
+            // If the user is not registered for any sites, show the no sites error.
+            if (resultJson.sites.length === 0) {
+                $(mysakai2List, rootel).html(sakai.api.Security.saneHTML($(mysakai2ErrorNosites).html())).addClass("sites_error");
+            } else {
+                $(mysakai2List, rootel).html(sakai.api.Util.TemplateRenderer(mysakai2ListTemplate.replace(/#/, ''), resultJson));
             }
-            $.ajax({
-                url: url,
-                type : "GET",
-                dataType: "json",
-                success: function(fulllist){
-                    var resultJson = {};
-                    resultJson.sites = [];
-                    if(savedsuccess){
-                        for (var ii = 0; ii < fulllist.sites.length; ii++){
-                            for (var i = 0; i < saveddata.id.length; i++){
-                                if (fulllist.sites[ii].id === saveddata.id[i]){
-                                    resultJson.sites.push(fulllist.sites[ii]);
-                                    break;
+        };
+
+        /**
+         *
+         *
+         */
+        var loadSakai2SiteList = function(){
+            // get sakai2favouriteList
+            sakai.api.Server.loadJSON("/~" + sakai.data.me.user.userid + "/private/sakai2favouriteList",function(savedsuccess,saveddata){
+                var url = "/dev/s23/bundles/sites.json";
+                if (sakai.config.useLiveSakai2Feeds){
+                    url = "/var/proxy/s23/sitesUnread.json?unread=true";
+                }
+                $.ajax({
+                    url: url,
+                    type : "GET",
+                    dataType: "json",
+                    success: function(fulllist){
+                        var resultJson = {};
+                        resultJson.sites = [];
+                        if(savedsuccess){
+                            for (var ii = 0; ii < fulllist.sites.length; ii++){
+                                for (var i = 0; i < saveddata.id.length; i++){
+                                    if (fulllist.sites[ii].id === saveddata.id[i]){
+                                        resultJson.sites.push(fulllist.sites[ii]);
+                                        break;
+                                    }
+                                }
+                            }
+                        } else {
+                            for (var j = 0; j < fulllist.display; j++){
+                                if (fulllist.sites[j]) {
+                                    resultJson.sites.push(fulllist.sites[j]);
                                 }
                             }
                         }
-                    } else {
-                        for (var j = 0; j < fulllist.display; j++){
-                            if (fulllist.sites[j]) {
-                                resultJson.sites.push(fulllist.sites[j]);
-                            }
-                        }
+                        sakai.data.me.sakai2List = resultJson;
+                        doRender(sakai.data.me.sakai2List);
                     }
-                    sakai.data.me.sakai2List = resultJson;
-                    doRender(sakai.data.me.sakai2List);
-                }
+                });
             });
+        };
+
+        ////////////////////
+        // Event Handlers //
+        ////////////////////
+
+        // Listen for completion of sakai2 favourites site addition
+        // to refresh this widget's sites listing
+        $(window).bind("sakai2-favourites-selected", function() {
+            doInit();
         });
-    };
 
-    ////////////////////
-    // Event Handlers //
-    ////////////////////
+        $("#mysakai2_add_files_link").click(function(ev){
+            // Load the sakai 2 favourites widget.
+            $(window).trigger("sakai.sakai2favourites.init");
+        });
 
-    // Listen for completion of sakai2 favourites site addition
-    // to refresh this widget's sites listing
-    $(window).bind("sakai2-favourites-selected", function() {
+        /**
+         * Will initiate a request to the my groups service.
+         */
+        var doInit = function(){
+            //get sakai2 list information and then render in my sakai2 widget
+            loadSakai2SiteList();
+            sakai.api.Widgets.widgetLoader.insertWidgets("sakai2favourites_container", false);
+        };
+
+
+        // Start the request
         doInit();
-    });
 
-    $("#mysakai2_add_files_link").click(function(ev){
-        sakai.sakai2favourites.initialise();
-    });
-
-    /**
-     * Will initiate a request to the my groups service.
-     */
-    var doInit = function(){
-        //get sakai2 list information and then render in my sakai2 widget
-        loadSakai2SiteList();
     };
 
-
-    // Start the request
-    doInit();
-
-};
-
-sakai.api.Widgets.widgetLoader.informOnLoad("mysakai2");
+    sakai.api.Widgets.widgetLoader.informOnLoad("mysakai2");
+});

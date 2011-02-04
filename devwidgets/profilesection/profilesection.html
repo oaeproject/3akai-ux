@@ -13,17 +13,17 @@
 
             {if (mode.value === "viewmy" || mode.value === "edit") && config.modifyacl !== false}
                 {var _access = "everybody"}
-                {if sakai.profile.main.data[i_index].access}
-                    {var _access = sakai.profile.main.data[i_index].access}
+                {if sakai_global.profile.main.data[i_index].access}
+                    {var _access = sakai_global.profile.main.data[i_index].access}
                 {/if}
                 <div class="profilesection_generalinfo_acl fl-force-right">
                     {if mode.value === "viewmy"}
                         <span>__MSG__WHO_CAN_VIEW_OR_SEARCH_THIS__</span>
-                        <a href="profile_edit.html">${sakai.profile.main.acls.options[_access].label}</a>
+                        <a href="/profile/edit">${sakai_global.profile.main.acls.options[_access].label}</a>
                     {else}
                         <label for="profilesection_generalinfo_access_${i_index}">__MSG__WHO_CAN_VIEW_OR_SEARCH_THIS__</label>
                         <select id="profilesection_generalinfo_access_${i_index}" name="profilesection_generalinfo_access_${i_index}" class="profilesection_generalinfo_access">
-                            {for ace in sakai.profile.main.acls.options}
+                            {for ace in sakai_global.profile.main.acls.options}
                                 <option{if _access === ace_index} selected="selected"{/if}>${ace.label}</option>
                             {/for}
                         </select>
@@ -35,7 +35,7 @@
 
         {for element in i.elements}
 
-            {var _elements = sakai.profile.main.data[i_index].elements}
+            {var _elements = sakai_global.profile.main.data[i_index].elements}
             {var _element = _elements[element_index]}
             {var isarray = $.isArray(_elements)}
 
@@ -58,7 +58,7 @@
 
 <!-- SECTION TEMPLATES -->
 <div id="profilesection_default_template"><!--
-    {var mode = sakai.profile.main.mode}
+    {var mode = sakai_global.profile.main.mode}
     {if fields}
         {if config && config.label}
             <div class="profilesection_generalinfo_header">
@@ -72,11 +72,11 @@
                     <div class="profilesection_generalinfo_acl fl-force-right">
                         {if mode.value === "viewmy"}
                             <span>__MSG__WHO_CAN_VIEW_OR_SEARCH_THIS__</span>
-                            <a href="profile_edit.html">${sakai.profile.main.acls.options[_access].label}</a>
+                            <a href="/profile/edit">${sakai_global.profile.main.acls.options[_access].label}</a>
                         {else}
                             <label for="profilesection_generalinfo_access_${currentsection}">__MSG__WHO_CAN_VIEW_OR_SEARCH_THIS__</label>
                             <select id="profilesection_generalinfo_${currentsection}_access" name="profilesection_generalinfo_access_${currentsection}" class="profilesection_generalinfo_access">
-                                {for ace in sakai.profile.main.acls.options}
+                                {for ace in sakai_global.profile.main.acls.options}
                                     <option{if _access === ace_index} selected="selected"{/if} value="${ace_index}">${ace.label}</option>
                                 {/for}
                             </select>
@@ -92,7 +92,7 @@
 
 <!-- MULTIPLE INSTANCE ADD ANOTHER TEMPLATE -->
 <div id="profilesection_add_section_template"><!--
-    <a href="javascript:;" class="profilesection_add_section s3d-add_another_location" id="profilesection_add_link_${parentid}"><span>Add another ${config.multipleLabel}</span></a>
+    <a class="profilesection_add_section s3d-regular-links s3d-bold" href="javascript:;" id="profilesection_add_link_${parentid}"><span class="s3d-add_another_location"></span><span>Add another ${config.multipleLabel}</span></a>
 --></div>
 
 <!-- MULTIPLE INSTANCE REMOVE SECTION TEMPLATE -->
@@ -116,21 +116,23 @@
     <div class="profilesection_generalinfo_subcontainer">
     {if data.elements.length > 0}
         <label class="profilesection_generalinfo_label" for="profilesection_generalinfo_locations}">__MSG__LOCATIONS__:</label>
-        <ul class="{if sakai.profile.main.mode.value !== 'edit'}profilesection_generalinfo_locations_rendered{/if}  profilesection_generalinfo_content" id="profilesection_generalinfo_locations">
+        <ul class="{if sakai_global.profile.main.mode.value !== 'edit'}profilesection_generalinfo_locations_rendered{/if}  profilesection_generalinfo_content" id="profilesection_generalinfo_locations">
         {for i in data.elements}
             <li>${i.locationtitle.title}</li>
         {/for}
         </ul>
     {/if}
     </div>
-    {if sakai.profile.main.mode.value === 'edit'}
-        <a href="javascript:;" class="profilesection_add_location_section s3d-add_another_location"><span>__MSG__ADD_REMOVE_LOCATIONS__</span></a>
-    {/if}
+    <div class="profilesection_section">
+        {if sakai_global.profile.main.mode.value === 'edit'}
+            <a href="javascript:;" class="profilesection_add_location_section s3d-bold s3d-regular-links"><span class="s3d-add_another_location"></span><span>__MSG__ADD_REMOVE_LOCATIONS__</span></a>
+        {/if}
+    </div>
 --></div>
 
 <!-- FIELD TEMPLATES -->
 <div id="profilesection_field_default_template"><!--
-    {var mode = sakai.profile.main.mode}
+    {var mode = sakai_global.profile.main.mode}
     {var stringtypes = ["string", "date", "email", "oldDate"]}
     {if mode.value === "edit"}
         {if data}
@@ -194,7 +196,7 @@
                 {if config.tagField}
                     {var tagsArray = data.value.split(",")}
                     {for tag in tagsArray}
-                        <a href="/dev/search.html#tag=/tags/${escape(tag)}" class="s3d-action">${tag}</a>{if tag_index < tagsArray.length-1},{/if}
+                        <a href="/search#tag=/tags/${escape(tag)}" class="s3d-action">${tag}</a>{if tag_index < tagsArray.length-1},{/if}
                     {/for}
                 {elseif config.type !== "select"}
                     {if config.limitDisplayLength}

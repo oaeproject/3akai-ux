@@ -1,0 +1,6 @@
+{
+    "sakai:content-type": "text/plain",
+    "sling:resourceType": "sakai/template",
+    "sakai:template": "${sender} wants to join the group named ${name} in ${system}. To view ${sender}'s profile before responding, follow this link: ${profilelink} To accept this request, follow this link: ${acceptlink}",
+    "jcr:primaryType": "sling:Folder"
+}

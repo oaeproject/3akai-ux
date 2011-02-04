@@ -39,7 +39,7 @@
                         <img src="${sakai.config.MimeTypes['other'].URL}" alt="${sakai.config.MimeTypes['other'].description}"/>
                     {/if}
                     <div class="embedcontent_details">
-                        {if name}<span><a href="/dev/content_profile.html#content_path=${item.path}" class="s3d-action embedcontent_include_name">${item.name}</a></span>{/if}
+                        {if name}<span><a href="/content#content_path=${item.path}" class="s3d-action embedcontent_include_name">${item.name}</a></span>{/if}
                         {if details}<span class="embedcontent_include_details">${item.description}</span>{/if}
                         {if download}<span><a href="${item.link}" class="s3d-action embedcontent_include_download">__MSG__DOWNLOAD__</a></span>{/if}
                     </div>
@@ -161,8 +161,8 @@
                                 </div>
                                 <div id="embedcontent_add_title_description" class="s3d-highlight_area_background clearfix">
                                     <h2>__MSG__ADD_TITLE_DESCRIPTION__</h2>
-                                    <button class="s3d-button s3d-button-grad" id="embedcontent_add_title_description_button">
-                                        <span class="s3d-button-inner">
+                                    <button class="s3d-button s3d-button-link-2-state" id="embedcontent_add_title_description_button">
+                                        <span class="s3d-button-inner s3d-button-link-2-state-inner">
                                             <span class="s3d-button-icon-right down">__MSG__ADD__</span>
                                         </span>
                                     </button>

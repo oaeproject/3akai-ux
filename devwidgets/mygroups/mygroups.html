@@ -3,7 +3,7 @@
 <!-- ERRORS -->
 <div id="mygroups_error_nosites" style="display:none;">
     <span class="mygroups_left_padding">__MSG__YOU_ARE_NOT_CURRENTLY_A_MEMBER_OF_ANY_GROUPS__</span>
-    | <a href="javascript:;" class="mygroups_create_new_group s3d-regular-links s3d-bold">__MSG__CREATE_A_GROUP__</a>
+    | <a href="javascript:;" class="mygroups_create_new_group s3d-regular-links s3d-bold">__MSG__CREATE_A_GROUP__?</a>
 </div>
 <div id="mygroups_error_nosettings" style="display:none;">
     <span class="mygroups_left_padding">__MSG__NO_SETTINGS_AVAILABLE__.</span>
@@ -15,15 +15,18 @@
     <div id="mygroups_list_template"><!--
         <ul>
             {for group in entry}
-                <li><a class="s3d-regular-links s3d-bold" href="/~${group.groupid}"><div class="mygroups_ellipsis_container"><span class="mygroups_ellipsis_text">${group["sakai:group-title"]}</span></div></a></li>
+                <li><span class="group_icon"></span><a class="s3d-regular-links s3d-bold" href="/~${group.groupid}"><div class="mygroups_ellipsis_container"><span class="mygroups_ellipsis_text">${group["sakai:group-title"]}</span></div></a></li>
             {/for}
         </ul>
     --></div>
     <div class="fl-widget-options fl-fix" id="mygroups_top">
+        <div class="fl-widget-options-footer-top">
+            <div class="fl-widget-options-top-right"></div>
+        </div>
         <div class="widget-options-inner">
             <ul>
                 <li>
-                    <a href="/dev/search_groups.html#q=*&filter=&facet=manage&page=1">__MSG__VIEW_ALL_GROUPS_I_MANAGED__</a>
+                    <a href="/search/groups#q=*&filter=&facet=manage&page=1">__MSG__VIEW_ALL_GROUPS_I_MANAGED__</a>
                 </li>
                 <li><span class="pipe_divider">|</span></li>
                 <li>

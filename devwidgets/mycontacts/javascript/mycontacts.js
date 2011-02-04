@@ -16,175 +16,181 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $ */
-
-var sakai = sakai || {};
-
-/**
- * @name sakai.mycontacts
+/*
+ * Dependencies
  *
- * @class mycontacts
- *
- * @description
- * Initialize the mycontacts widget
- *
- * @version 0.0.1
- * @param {String} tuid Unique id of the widget
- * @param {Boolean} showSettings Show the settings of the widget or not
+ * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
  */
-sakai.mycontacts = function(tuid,showSettings){
 
-    /////////////////////////////
-    // Configuration variables //
-    /////////////////////////////
-
-    var rootel = $("#" + tuid);
-    var numberFriends = 5; // The number of contacts that will be shown
-
-    // - ID
-    var mycontacts = "#mycontacts";
-
-    // Contact request
-    var mycontactsRequests = mycontacts + "_requests";
-
-    // Error
-    var mycontactsError = mycontacts + "_error";
-    var mycontactsErrorContactserver = mycontactsError + "_contactserver";
-
-    // List
-    var mycontactsList = mycontacts + "_list";
-
-    // Templates
-    var mycontactsListTemplate = "mycontacts_list_template";
-    var mycontactsRequestsTemplate = "mycontacts_requests_template";
-
-
-    ///////////////////////
-    // Utility functions //
-    ///////////////////////
+require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     /**
-     * Parse the name for a user
-     * @param {String} uuid Uuid of the user
-     * @param {String} firstName Firstname of the user
-     * @param {String} lastName Lastname of the user
+     * @name sakai_global.mycontacts
+     *
+     * @class mycontacts
+     *
+     * @description
+     * Initialize the mycontacts widget
+     *
+     * @version 0.0.1
+     * @param {String} tuid Unique id of the widget
+     * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    var parseName = function(uuid, profile){
-        var displayName = sakai.api.User.getDisplayName(profile);
-        if (displayName) {
-            return displayName;
-        }
-        else {
-            return uuid;
-        }
-    };
+    sakai_global.mycontacts = function(tuid,showSettings){
 
-    /**
-     * Parse the picture for a user
-     * @param {String} picture The picture path for a user
-     * @param {String} userStoragePrefix The user's storage prefix
-     */
-    var parsePicture = function(profile, uuid){
-        // Check if the picture is undefined or not
-        // The picture will be undefined if the other user is in process of
-        // changing his/her picture
-        if (profile && profile.picture && $.parseJSON(profile.picture).name) {
-            return "/~" + profile["rep:userId"] + "/public/profile/" + $.parseJSON(profile.picture).name;
-        }
-        return sakai.config.URL.USER_DEFAULT_ICON_URL;
-    };
+        /////////////////////////////
+        // Configuration variables //
+        /////////////////////////////
+
+        var rootel = $("#" + tuid);
+        var numberFriends = 5; // The number of contacts that will be shown
+
+        // - ID
+        var mycontacts = "#mycontacts";
+
+        // Contact request
+        var mycontactsRequests = mycontacts + "_requests";
+
+        // Error
+        var mycontactsError = mycontacts + "_error";
+        var mycontactsErrorContactserver = mycontactsError + "_contactserver";
+
+        // List
+        var mycontactsList = mycontacts + "_list";
+
+        // Templates
+        var mycontactsListTemplate = "mycontacts_list_template";
+        var mycontactsRequestsTemplate = "mycontacts_requests_template";
 
 
-    ///////////////////////////
-    // Get & process contacts //
-    ///////////////////////////
+        ///////////////////////
+        // Utility functions //
+        ///////////////////////
 
-    /**
-     * Process the information for each friend
-     * @param {Object} contacts JSON object containing all the contacts the current user
-     */
-    var doProcessing = function(contacts){
-        var jsonFriends = {};
+        /**
+         * Parse the name for a user
+         * @param {String} uuid Uuid of the user
+         * @param {String} firstName Firstname of the user
+         * @param {String} lastName Lastname of the user
+         */
+        var parseName = function(uuid, profile){
+            var displayName = sakai.api.User.getDisplayName(profile);
+            if (displayName) {
+                return displayName;
+            }
+            else {
+                return uuid;
+            }
+        };
 
-        // Array that will contain a specified number of contacts of the current user
-        jsonFriends.items = [];
+        /**
+         * Parse the picture for a user
+         * @param {String} picture The picture path for a user
+         * @param {String} userStoragePrefix The user's storage prefix
+         */
+        var parsePicture = function(profile, uuid){
+            // Check if the picture is undefined or not
+            // The picture will be undefined if the other user is in process of
+            // changing his/her picture
+            if (profile && profile.picture && $.parseJSON(profile.picture).name) {
+                return "/~" + profile["rep:userId"] + "/public/profile/" + $.parseJSON(profile.picture).name;
+            }
+            return sakai.config.URL.USER_DEFAULT_ICON_URL;
+        };
 
-        if (contacts.results) {
-            // Run process each friend
-            for (var i = 0, j = contacts.results.length; i < j; i++) {
-                if (i <= numberFriends) {
-                    var friend = contacts.results[i];
 
-                    // Set the id of the friend
-                    friend.id = friend.target;
+        ///////////////////////////
+        // Get & process contacts //
+        ///////////////////////////
 
-                    // Parse the name of the friend
-                    friend.name = parseName(friend.target, friend.profile);
+        /**
+         * Process the information for each friend
+         * @param {Object} contacts JSON object containing all the contacts the current user
+         */
+        var doProcessing = function(contacts){
+            var jsonFriends = {};
 
-                    // Parse the picture of the friend
-                    friend.photo = parsePicture(friend.profile, friend.target);
+            // Array that will contain a specified number of contacts of the current user
+            jsonFriends.items = [];
 
-                    // Add the friend to the array
-                    jsonFriends.items.push(friend);
+            if (contacts.results) {
+                // Run process each friend
+                for (var i = 0, j = contacts.results.length; i < j; i++) {
+                    if (i <= numberFriends) {
+                        var friend = contacts.results[i];
+
+                        // Set the id of the friend
+                        friend.id = friend.target;
+
+                        // Parse the name of the friend
+                        friend.name = parseName(friend.target, friend.profile);
+
+                        // Parse the picture of the friend
+                        friend.photo = parsePicture(friend.profile, friend.target);
+
+                        // Add the friend to the array
+                        jsonFriends.items.push(friend);
+                    }
                 }
             }
-        }
-        // Render the template with the contacts
-        $(mycontactsList).html($.TemplateRenderer(mycontactsListTemplate, jsonFriends));
+            // Render the template with the contacts
+            $(mycontactsList).html(sakai.api.Util.TemplateRenderer(mycontactsListTemplate, jsonFriends));
+        };
+
+
+        /**
+         * Get all the contacts for the current user.
+         * It only gets the contacts that have an accepted status
+         * and the request is ordered by the first and last name of the contacts
+         */
+        var getFriends = function(){
+            $.ajax({
+                url: sakai.config.URL.SEARCH_USERS_ACCEPTED + "?state=ACCEPTED&page=0&items=6",
+                cache: false,
+                success: function(data){
+
+                    // Process the contacts: username, picture, ...
+                    doProcessing(data);
+                },
+                error: function(xhr, textStatus, thrownError) {
+
+                    // Show the contact error
+                    $(mycontactsErrorContactserver, rootel).show();
+                }
+            });
+        };
+
+
+        //////////////////////
+        // Contact requests //
+        //////////////////////
+
+        /**
+         * Get all the contact request for the current user and show
+         * them on the page.
+         */
+        var getContactRequests = function(){
+            $(mycontactsRequests).html(sakai.api.Util.TemplateRenderer(mycontactsRequestsTemplate, sakai.data.me.contacts));
+        };
+
+
+        /////////////////////////////
+        // Initialisation function //
+        /////////////////////////////
+
+        var doInit = function() {
+
+            // Get the firends for the current user
+            getFriends();
+
+            // Get the contacts requests for the current user
+            getContactRequests();
+        };
+
+        doInit();
+
     };
 
-
-    /**
-     * Get all the contacts for the current user.
-     * It only gets the contacts that have an accepted status
-     * and the request is ordered by the first and last name of the contacts
-     */
-    var getFriends = function(){
-        $.ajax({
-            url: sakai.config.URL.SEARCH_USERS_ACCEPTED + "?state=ACCEPTED&page=0&items=6",
-            cache: false,
-            success: function(data){
-
-                // Process the contacts: username, picture, ...
-                doProcessing(data);
-            },
-            error: function(xhr, textStatus, thrownError) {
-
-                // Show the contact error
-                $(mycontactsErrorContactserver, rootel).show();
-            }
-        });
-    };
-
-
-    //////////////////////
-    // Contact requests //
-    //////////////////////
-
-    /**
-     * Get all the contact request for the current user and show
-     * them on the page.
-     */
-    var getContactRequests = function(){
-        $(mycontactsRequests).html($.TemplateRenderer(mycontactsRequestsTemplate, sakai.data.me.contacts));
-    };
-
-
-    /////////////////////////////
-    // Initialisation function //
-    /////////////////////////////
-
-    var doInit = function() {
-
-        // Get the firends for the current user
-        getFriends();
-
-        // Get the contacts requests for the current user
-        getContactRequests();
-    };
-
-    doInit();
-
-};
-
-sakai.api.Widgets.widgetLoader.informOnLoad("mycontacts");
+    sakai.api.Widgets.widgetLoader.informOnLoad("mycontacts");
+ 
+});
