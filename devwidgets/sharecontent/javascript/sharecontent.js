@@ -178,7 +178,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             var activityData = {
                 "sakai:activityMessage": activityMessage
             };
-            sakai.api.Activity.createActivity("/p/" + sakai_global.content_profile.content_data.data["jcr:name"], "content", "default", activityData);
+            sakai.api.Activity.createActivity("/p/" + sakai_global.content_profile.content_data.data["jcr:name"], "content", "default", activityData, function(){$(window).trigger("load.content_profile.sakai", function(){$(window).trigger("render.entity.sakai", ["content", sakai_global.content_profile.content_data]);});});
         };
 
 
@@ -609,7 +609,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             // send the message if its not empty
             var messageText = $.trim($(sharecontentMessageNewMembers).val());
             if (messageText !== "") {
-                sakai.api.Communication.sendMessage(userList.list, sakai.data.me, sakai.api.i18n.Widgets.getValueForKey("sharecontent", "", "I_WANT_TO_SHARE") + " \"" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"", messageText, "message", false, false, true, "shared_content");
+                sakai.api.Communication.sendMessage(userList.list, sakai.data.me, sakai.api.i18n.Widgets.getValueForKey("sharecontent", "", "I_WANT_TO_SHARE") + " \"" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"", messageText, "message", false, false, false, "shared_content");
             }
 
             var mode = $(sharecontentNewMembersPermissions).val();
@@ -633,6 +633,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             });
 
             createActivity("__MSG__ADDED_A_MEMBER__");
+
+            //reset form
+            reset();
         };
 
         /**
@@ -666,12 +669,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
 
             $sharecontent_container_search.removeClass("no_message");
             $(sharecontent_search_query).focus();
-            $sharecontent_add_button.unbind("click");
-            $sharecontent_add_button.bind("click", function(){
-                addPeople(iConfig);
-                //reset form
-                reset();
-            });
 
             $sharecontent_add_button.hide();
             $(sharecontent_dont_share_button).hide();
@@ -692,6 +689,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 addBinding();
             }
             setupAutoSuggest();
+
+            $sharecontent_add_button.unbind("click", addPeople);
+            $sharecontent_add_button.bind("click", iConfig, addPeople);
         };
 
         $sharecontent_container.jqm({

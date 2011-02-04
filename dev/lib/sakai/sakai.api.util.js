@@ -943,7 +943,6 @@ define(["jquery",
                     type: "POST",
                     data: dataToSend,
                     success: function(data){
-
                         if ($.isFunction(callback)) {
                             callback(data, true);
                         }
