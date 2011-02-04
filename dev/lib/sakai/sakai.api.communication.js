@@ -126,18 +126,6 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                         "|link=" + sakai_conf.SakaiDomain + "/~" + meData.user.userid +"?accepttrue";
                         break;
                 }
-
-                // Message category
-                if (category) {
-                    toSend["sakai:category"] = category;
-                } else {
-                    toSend["sakai:category"] = "message";
-                }
-
-                // See if this is a reply or not
-                if (reply) {
-                    toSend["sakai:previousmessage"] = reply;
-                }
                 return toSend;
             };
 

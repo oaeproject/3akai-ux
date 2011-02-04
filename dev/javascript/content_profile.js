@@ -130,10 +130,21 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
                         var manager = false;
                         var anon = true;
+                        var groups = [];
                         if (!sakai.data.me.user.anon){
                             for (var ii in contentMembers.managers) {
-                                if (contentMembers.managers[ii]["rep:userId"] === sakai.data.me.user.userid) {
-                                    manager = true;
+                                if (contentMembers.managers.hasOwnProperty(ii)) {
+                                    if (contentMembers.managers[ii].hasOwnProperty("rep:userId")) {
+                                        if (contentMembers.managers[ii]["rep:userId"] === sakai.data.me.user.userid) {
+                                            manager = true;
+                                        }
+                                    } else if (contentMembers.managers[ii].hasOwnProperty("sakai:group-id")) {
+                                        if (sakai.api.Groups.isCurrentUserAMember(
+                                            contentMembers.managers[ii]["sakai:group-id"],
+                                            sakai.data.me)) {
+                                            manager = true;
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -257,19 +268,21 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         ":manager": user
                     };
                 }
-                else
+                else {
                     if (task === 'remove') {
                         if (user['userid']) {
                             user = user['userid'];
                         }
-                        else
+                        else {
                             if (user['sakai:group-id']) {
                                 user = user['sakai:group-id'];
                             }
-                            else
+                            else {
                                 if (user['rep:userId']) {
                                     user = user['rep:userId'];
                                 }
+                            }
+                        }
                         data = {
                             ":viewer@Delete": user
                         };
@@ -280,6 +293,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             };
                         }
                     }
+                }
                 if (user) {
                     reqData.push({
                         "url": content_path + ".members.json",

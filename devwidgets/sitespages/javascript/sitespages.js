@@ -1591,16 +1591,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /////////////////////////////
 
         var didInit = false;
-        var didInsertDropdownInit = false;
         // Bind Edit page link click event
         $("#edit_page").bind("click", function(ev){
             sakai_global.sitespages.isEditingNewPage = false;
             sakai_global.sitespages.inEditView = true;
-
-            if (!didInsertDropdownInit) {
-                renderInsertDropdown();
-                didInsertDropdownInit = true;
-            }
 
             //Check if tinyMCE has been loaded before - probably a more robust check will be needed
             if (sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage]["pageType"] === "dashboard") {
@@ -1622,6 +1616,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             return false;
         });
 
+        var didInsertDropdownInit = false;
         var addEditPageBinding = function(){
             // Bind cancel button click
             $(".cancel-button").live("click", function(ev){
@@ -1632,6 +1627,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(".save_button").live("click", function(ev){
                 saveEdit();
             });
+
+            // Bind insert dropdown
+            if (!didInsertDropdownInit) {
+                renderInsertDropdown();
+                didInsertDropdownInit = true;
+            }
         };
 
         /**
@@ -1782,7 +1783,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // Bind Widget Context Settings click event
         $("#context_settings").bind("click", function(ev){
-            debug.log("click");
             var ed = tinyMCE.get('elm1');
             var selected = ed.selection.getNode();
             $("#dialog_content").hide();

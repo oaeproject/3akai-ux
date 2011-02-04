@@ -21,8 +21,8 @@
         <!-- -->
     </div>
     <a href="javascript:;" id="contentmetadata_show_more">
-        <span id="contentmetadata_see_more">__MSG__SEE_MORE__<span id="contentmetadata_show_more_arrow"><!-- --></span></span>
-        <span id="contentmetadata_see_less" style="display:none;">__MSG__SEE_LESS__<span id="contentmetadata_show_less_arrow"><!-- --></span></span>
+        <div id="contentmetadata_see_more" class="s3d-dropdownlisttwo-text">__MSG__SEE_MORE__<div id="contentmetadata_show_more_arrow" class="s3d-dropdownlisttwo-arrow-down"><!-- --></div></div>
+        <div id="contentmetadata_see_less" style="display:none;" class="s3d-dropdownlisttwo-text">__MSG__SEE_LESS__<div id="contentmetadata_show_less_arrow" class="s3d-dropdownlisttwo-arrow-up"><!-- --></div></div>
     </a>
     <hr class="fl-hidden fl-push">
     <div class='s3d-highlight_area_background_darker1_bl'><div class='s3d-highlight_area_background_darker1_binner'></div></div>
@@ -88,7 +88,14 @@
         {if data.saveddirectory.length != 0}
             <ul>
                 {for dir in data.saveddirectory}
-                    <li><a href="/search#tag=/tags/directory/${dir.toString().replace(/,/g, '/')}" target="_blank" class="s3d-action threedots_text contentmetadata_locations_link" title="Search content located at ${dir.toString().replace(/,/g, ' ')}"><span class="ellipsis_text contentmetadata_directory_location">
+                    {var dirString=""}
+                    {for dirpiece in dir}
+                        ${dirString+=sakai.api.Util.getValueForDirectoryKey(dirpiece)|eat}
+                        {if dirpiece_index < dir.length - 1}
+                            ${dirString+="&nbsp;&#187;&nbsp;"|eat}
+                        {/if}
+                    {/for}
+                    <li><a href="/search#tag=/tags/directory/${dir.toString().replace(/,/g, '/')}" target="_blank" class="s3d-action threedots_text contentmetadata_locations_link" title="Search content located at ${dirString}"><span class="ellipsis_text contentmetadata_directory_location">
                         {for dirpiece in dir}
                             ${sakai.api.Util.getValueForDirectoryKey(dirpiece)} {if dirpiece_index < dir.length - 1} <span class='contentmetadata_select_seperator'>&raquo;</span>{/if}
                         {/for}

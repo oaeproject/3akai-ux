@@ -22,7 +22,6 @@
  * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
  * /dev/lib/jquery/plugins/jquery.threedots.js (ThreeDots)
  */
-
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     /**
@@ -81,13 +80,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $recentmessagesContainer.html(sakai.api.Util.TemplateRenderer(recentmessagesTemplate, response));
 
                 // make sure the newly added content is properly styled with
-                // threedots truncation
-                $(ellipsisContainer, rootel).ThreeDots({
-                    max_rows: 1,
-                    text_span_class: "recentmessages_ellipsis_text",
-                    e_span_class: "recentmessages_e_span_class",
-                    whole_word: false,
-                    alt_text_t: true
+                // -nameWidth for the name besides the type
+                $(ellipsisContainer).each(function(idx, elt) {
+                    var $senderName = $(elt).parent("a").siblings(".recentmessages_sendername");
+                    var nameWidth = $senderName.width() + 5;
+                    $(elt).css("width", $(elt).parent("a").parent("li").width()-nameWidth + "px");
+                    // threedots truncation
+                    $(elt).ThreeDots({
+                        max_rows: 1,
+                        text_span_class: "recentmessages_ellipsis_text",
+                        e_span_class: "recentmessages_e_span_class",
+                        whole_word: false,
+                        alt_text_t: true
+                    });
                 });
                 // need to define for chrome...if
                 $(ellipsisContainer).css("display","inline");
