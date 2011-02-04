@@ -28,7 +28,7 @@
 *:focus{outline:1px dotted #000;}
 
 /* HTML TAG OVERRIDES - on top of the FSS reset */
-h1{font-size:2em;font-family:Arial,Helvetica,sans-serif;font-weight:bolder;line-height:normal;}
+h1{font-size:2em;font-family:Arial,Helvetica,sans-serif;font-weight:bolder;line-height:normal;margin:5px 0px 10px 0;}
 
 
 /* 
@@ -164,7 +164,7 @@ a.s3d-regular-links,.s3d-regular-links a{color:#006E96;}
  * CONTENT LAYOUT 
  */
 .s3d-header .s3d-fixed-container .s3d-decor-left{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll 0 -10px transparent;float:left;height:5px;margin-left:-20px;overflow:visible;width:5px;}
-.s3d-header .s3d-fixed-container .s3d-decor{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -10px transparent;float:right;height:5px;margin-right:-20px;position:relative;width:5px;}
+.s3d-header .s3d-fixed-container .s3d-decor{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -10px transparent;float:right;height:5px;margin-right:-20px;width:5px;position:relative;*right:-15px;}
 .s3d-main-container{background:#fff;padding-bottom:20px;}
 
 
