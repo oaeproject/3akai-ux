@@ -46,11 +46,16 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                 requestsJSON = $.parseJSON(_requests),
                 url = sakai_conf.URL.BATCH;
 
-            // if (requestsJSON.length === 1) {
-            //     debug.log(requestsJSON[0]);
-            // } else {
-                // no GETs over 2048 chars, so lets check for that and POST if we need to
-                if (!_forcePOST && ("http://" + document.location.host + sakai_conf.URL.BATCH + encodeURI(_requests)).length > 2048) {
+                // ie7 and lower don't support GETs over 2032 chars,
+                // so lets check for that and POST if we need to
+                var hasIELongUrlBug = false;
+                $.each($.browser, function(i, val) {
+                    if(i=="msie" && $.browser.version.substr(0,1)<="7"){
+                        hasIELongUrlBug = true;
+                    }
+                });
+
+                if (!_forcePOST && hasIELongUrlBug && (document.location.protocol + "://" + document.location.host + sakai_conf.URL.BATCH + "?requests=" + _requests.replace(/[^A-Za-z0-9._]/g, "%XX")).length > 2032) {
                     method = "POST";
                 } else {
                     // if any request contains a POST, we should be POSTing so the request isn't cached
@@ -62,7 +67,6 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                         }
                     }
                 }
-            // }
             $.ajax({
                 url: sakai_conf.URL.BATCH,
                 type: method,
