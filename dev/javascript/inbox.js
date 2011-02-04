@@ -793,10 +793,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         key = messageBody.substr(0, messageBody.lastIndexOf(","));
                         comment = messageBody.substr(messageBody.lastIndexOf(",") + 1, messageBody.length);
                         if (key && sakai.api.i18n.General.getValueForKey(key)) {
+                            console.log("yes");
                             message["sakai:body"] = sakai.api.i18n.General.getValueForKey(key).replace(/\$\{comment\}/gi, comment).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(message.userFrom[i]));
                         }
                         else {
-                            message["sakai:body"] = comment;
+                            message["sakai:body"] = key.replace(/\$\{comment\}/gi, comment).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(message.userFrom[i]));
                         }
                         $(inboxSpecificMessageFrom).attr("href", "/~" + message.userFrom[i].userid);
                         $(inboxSpecificMessageFromPicture).attr("href", "/~" + message.userFrom[i].userid);
