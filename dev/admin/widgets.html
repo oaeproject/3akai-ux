@@ -102,6 +102,8 @@
                             {/if}
                         </div>
                     </div>
+                {forelse}
+                    <p>No Widgets Found</p>
                 {/for}
                 <hr/>
             </div>
@@ -132,6 +134,8 @@
                             {/if}
                         </div>
                     </div>
+                {forelse}
+                    <p>No Widgets Found</p>
                 {/for}
                 <hr/>
             </div>
@@ -143,7 +147,7 @@
             <h2 id="admin_widgets_header">__MSG__CONTRIB_WIDGETS__</h2>
             <div class="admin_widgets_jumpbox_box">
                 {for i in items}
-                    <div class="admin_widgets_jumpbox_box_widget admin_widgets_widget_${i.id}">
+                    <div class="admin_widgets_contrib admin_widgets_jumpbox_box_widget admin_widgets_widget_${i.id}">
                         {if i.name}
                             <span class="admin_widgets_name admin_widgets_widget_name_${i.id}">${i.name}</span>
                         {else}
@@ -163,6 +167,8 @@
                             <button class="s3d-button admin_widgets_button_delete" id="admin_widgets_delete_${i.id}"><span class="s3d-button-inner">__MSG__DELETE_WIDGET__</span></button>
                         </div>
                     </div>
+                {forelse}
+                    <p>No Widgets Found</p>
                 {/for}
                 <hr/>
             </div>
@@ -242,8 +248,8 @@
         <!-- CHAT -->
         <div id="widget_chat" class="widget_inline"></div>
 
-        <!-- JAVASCRIPT -->
-        <script type="text/javascript" src="javascript/admin_widgets.js"></script>
+        <!-- Page JS -->
+        <script>require(["/dev/admin/javascript/admin_widgets.js"]);</script>
 
     </body>
 </html>
