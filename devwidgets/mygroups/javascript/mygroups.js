@@ -130,15 +130,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                 // make sure the newly added content is properly styled with
                 // threedots truncation
-                $(ellipsisContainer).css("width", $(ellipsisContainer).width() + "px");
-                $(ellipsisContainer, rootel).ThreeDots({
-                    max_rows: 1,
-                    text_span_class: "mygroups_ellipsis_text",
-                    e_span_class: "mygroups_e_span_class",
-                    whole_word: false,
-                    alt_text_t: true
-                });
-
+                if (rootel.is(":visible")) {
+                    $(ellipsisContainer).css("width", $(ellipsisContainer).width() + "px");
+                    $(ellipsisContainer, rootel).ThreeDots({
+                        max_rows: 1,
+                        text_span_class: "mygroups_ellipsis_text",
+                        e_span_class: "mygroups_e_span_class",
+                        whole_word: false,
+                        alt_text_t: true
+                    });
+                }
             }
         };
 
