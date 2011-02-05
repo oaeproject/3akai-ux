@@ -40,7 +40,7 @@ require(
 
         asyncTest("/system/me membership test", 1, function() {
             sakai.api.User.loadMeData(function(success, data) {
-                ok(success && sakai.api.Groups.isCurrentUserAManager(group_id), "/system/me says the user who created the group is a manager of the group");
+                ok(success && sakai.api.Groups.isCurrentUserAManager(group_id, sakai.data.me), "/system/me says the user who created the group is a manager of the group");
                 start();
             });
         });
@@ -168,7 +168,7 @@ require(
                                 ok(data[0]["rep:userId"] === user_random, "User shows up in list of group members, join was successful");
                                 if (success) {
                                     sakai.api.User.loadMeData(function() {
-                                        ok(sakai.api.Groups.isCurrentUserAMember(group_id), "/system/me says the current user is a member of the groups");
+                                        ok(sakai.api.Groups.isCurrentUserAMember(group_id, sakai.data.me), "/system/me says the current user is a member of the groups");
                                         start();
                                     });
                                 }

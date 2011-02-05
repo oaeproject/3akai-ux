@@ -14,29 +14,31 @@ require(
     module("WCAG 2.0 Compliance - 1.1.1 Non-text Content / Text Alternatives");
 
     var checkElements = function($elt, callback){
+        $.each($elt.find("a"), function(i, elt) {
+            ok($(elt).text() || $(elt).find("*").text() || ($(elt).html() === "<!-- -->") || $(elt).find("img").attr("alt"), "A tag has text or children that have text: " + $("<div/>").html(elt).html());
+        });
+
         $.each($elt.find("img"), function(i, elt) {
-            ok($(elt).attr("alt") || $(elt).prev('img').attr("src") === $(elt).attr("src"), "IMG tag has ALT attribute:" + $('<div/>').html(elt).html());
+            ok($(elt).attr("alt") || $(elt).prev('img').attr("src") === $(elt).attr("src"), "IMG tag has ALT attribute:" + $("<div/>").html(elt).html());
         });
 
         $.each($elt.find("applet"), function(i, elt) {
-            ok($(elt).attr("alt"), "APPLET tag has ALT attribute: " + $('<div/>').html(elt).html());
+            ok($(elt).attr("alt"), "APPLET tag has ALT attribute: " + $("<div/>").html(elt).html());
         });
 
         $.each($elt.find("object"), function(i, elt) {
-            ok($(elt).children().length > 0, "OBJECT tag has contents: " + $('<div/>').html(elt).html());
+            ok($(elt).children().length > 0, "OBJECT tag has contents: " + $("<div/>").html(elt).html());
         });
 
         $.each($elt.find("area"), function(i, elt) {
-            ok($(elt).attr("alt"), "AREA tag has ALT attribute: " + $('<div/>').html(elt).html());
+            ok($(elt).attr("alt"), "AREA tag has ALT attribute: " + $("<div/>").html(elt).html());
         });
 
         $.each($elt.find("abbr"), function(i, elt) {
-            ok($(elt).attr("title"), "ABBR tag has TITLE attribute: " + $('<div/>').html(elt).html());
+            ok($(elt).attr("title"), "ABBR tag has TITLE attribute: " + $("<div/>").html(elt).html());
         });
 
-        $.each($elt.find("a"), function(i, elt) {
-            ok($(elt).text() || $(elt).find("*").text() || ($(elt).html() === "<!-- -->") || $(elt).find("img").attr("alt"), "A tag has text or children that have text: " + $('<div/>').html(elt).html());
-        });
+
         if ($.isFunction(callback)) {
             callback();
         }
@@ -62,6 +64,10 @@ require(
                         success: function(data){
                             var div = document.createElement('div');
                             div.innerHTML = data;
+                            $(div).find("script").remove();
+                            $(div).find("link").remove();
+                            $(div).find("meta").remove();
+                            $(div).find("title").remove();
                             checkElements($(div), function() {
                                 start();
                             });

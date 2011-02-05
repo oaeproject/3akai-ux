@@ -99,7 +99,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             "filename": "\"" +  sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"",
             "path": window.location,
             "user": sakai.data.me.profile.basic.elements.firstName.value
-        }
+        };
 
         var userList = [];
         var initialized = false;
