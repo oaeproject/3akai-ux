@@ -50,7 +50,7 @@
             resultClick: function(data){},
             resultsComplete: function(){},
             source: false // function to take over processing the query
-        };  
+        };
         var opts = $.extend(defaults, options);     
         
         var d_type = "object";
@@ -298,7 +298,7 @@
                                         var data = raw_data.attributes;
                                         input.val("").focus();
                                         prev = "";
-                                        $.fn.autoSuggest.add_selected_item(data, number);
+                                        add_selected_item(data, number);
                                         opts.resultClick.call(this, raw_data);
                                         $("li", results_ul).removeClass("active");
                                         results_holder.hide();
@@ -337,6 +337,34 @@
                     results_holder.show();
                     opts.resultsComplete.call(this);
                 }
+
+                /**
+                 * a hack for getting multiple autoSuggest instances on one page
+                 * to work - replica of the $.fn.autoSuggest.add_selected_item
+                 * function. When there are more than one autoSuggest, it's not
+                 * clear which $.fn.autoSuggest.add_selected_item function gets
+                 * called and it can end up with bad state.
+                 *
+                 * @param data
+                 * @param num
+                 */
+                function add_selected_item(data, num) {
+                    values_input.val(values_input.val()+data[opts.selectedValuesProp]+",");
+                    var item = $('<li class="as-selection-item" id="as-selection-'+num+'"></li>').click(function(){
+                            opts.selectionClick.call(this, $(this));
+                            selections_holder.children().removeClass("selected");
+                            $(this).addClass("selected");
+                        }).mousedown(function(){ input_focus = false; });
+                    var close = $('<a class="as-close">&times;</a>').click(function(){
+                            values_input.val(values_input.val().replace(data[opts.selectedValuesProp]+",",""));
+                            opts.selectionRemoved.call(this, item);
+                            input_focus = true;
+                            input.focus();
+                            return false;
+                        });
+                    org_li.before(item.html(data[opts.selectedItemProp]).prepend(close));
+                    opts.selectionAdded.call(this, org_li.prev());
+                }
                 
                 $.fn.autoSuggest.add_selected_item = function(data, num){
                     values_input.val(values_input.val()+data[opts.selectedValuesProp]+",");
@@ -353,8 +381,8 @@
                             return false;
                         });
                     org_li.before(item.html(data[opts.selectedItemProp]).prepend(close));
-                    opts.selectionAdded.call(this, org_li.prev());  
-                }
+                    opts.selectionAdded.call(this, org_li.prev());
+                };
                 
                 function moveSelection(direction){
                     if($(":visible",results_holder).length > 0){
