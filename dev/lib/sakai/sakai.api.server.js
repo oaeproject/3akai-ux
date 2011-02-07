@@ -49,11 +49,11 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                 // ie7 and lower don't support GETs over 2032 chars,
                 // so lets check for that and POST if we need to
                 var hasIELongUrlBug = false;
-                $.each($.browser, function(i, val) {
-                    if(i=="msie" && $.browser.version.substr(0,1)<="7"){
-                        hasIELongUrlBug = true;
-                    }
-                });
+                // Long requests are overflowing the Jetty header cache
+                // so lets use POST for long requests on all browsers until that's fixed
+                //if($.browser.msie && $.browser.version.substr(0,1)<="7"){
+                    hasIELongUrlBug = true;
+                //}
 
                 if (!_forcePOST && hasIELongUrlBug && (document.location.protocol + "://" + document.location.host + sakai_conf.URL.BATCH + "?requests=" + _requests.replace(/[^A-Za-z0-9._]/g, "%XX")).length > 2032) {
                     method = "POST";
