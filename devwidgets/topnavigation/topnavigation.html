@@ -6,7 +6,7 @@
         <ul class="explore">
 
         </ul>
-        
+
         <!-- NAVIGATION TEMPLATE -->
         <div id="navigation_template" style="display:none"><!--
             {for i in links}
@@ -16,64 +16,84 @@
                     </li>
                 {else}
                     <li class="{if i.firstlink}navigation_first_link{else}navigation_link{/if}">
-                        <a class="{if i.url === "javascript:;"}navigation_grey_link{else}navigation_normal_link{/if}" href="${i.url}" title="${i.label}">${i.label}</a>
+                        <a class="{if i.url === "javascript:;"}navigation_grey_link{else}navigation_normal_link{/if}" {if i.id}id="${i.id}" {/if}href="${i.url}" title="${i.label}">${i.label}</a>
                     </li>
                 {/if}
             {/for}
         --></div>
 
-        <!-- PERSONAL CONTAINER -->
-        <div class="personal-container fl-force-right">
-
-            <div class="personal">
-
-                <ul id="top_navigation">
-                    <li id="register_button_container" style="display: none;"><a class="register" href="/dev/create_new_account.html">__MSG__REGISTER__</a></li>
-                    <li id="login_button_container" style="display: none;"><a class="log_in" href="/dev/index.html">__MSG__LOGIN__</a></li>
-
-                    <!-- CHAT STATUS DROPDOWN -->
-                    <li id="user_link_container">
-                        <a id="user_link" class="user_link" href="javascript:;">
-                            <span id="userid"></span>
-                        </a>
-                    </li>
-
-                    <li><a class="mail" href="/dev/inbox.html"><p id="topnavigation_mail_icon"></p> (<span id="chat_unreadMessages">0</span>)</a></li>
-                    <li><a class="help" href="/dev/account_preferences.html">__MSG__MY_ACCOUNT__</a></li>
-                    <li><a class="sign_out" href="/dev/logout.html">__MSG__SIGN_OUT__</a></li>
-                </ul>
-
-                <div id="login_container" style="display: none;">
-                    <form id="login_form" method="POST">
-                        <label for="login_username">__MSG__USERNAME__</label>
-                        <br/>
-                        <input type="text" alt="__MSG__USERNAME__" id="login_username" name="login_username" />
-                        <br />
-                        <label for="login_password">__MSG__PASSWORD__</label>
-                        <br />
-                        <input type="password" alt="__MSG__PASSWORD__" id="login_password" name="login_password" />
-
-                        <div id="login_error_message" style="display: none;">__MSG__LOGIN_FAILED__!</div>
-                        <div id="login_busy" class="fl-force-right" style="display:none;"></div>
-
-                        <div class="login-container-button fl-force-right">
-                            <button id="login_cancel_button" type="button" class="s3d-button s3d-button"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
-                            <button id="login_submit_button" type="button" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">__MSG__SIGN_IN__</span></button>
-                        </div>
-                    </form>
+        <!-- SEARCH -->
+        <div id="general_search_container">
+            <form class="fl-force-right" method="post">
+                <div class="search_box">
+                    <span class="search_left search_type"><span class="search_drop"></span><span class="search_links">__MSG__GLOBAL__</span></span><input type="text" id="general_search_input" title="__MSG__PLEASE_INPUT_SEARCH_KEYWORD__" class="general_search_input search_string" /><span class="search_right search_type" id="general_search_submit_button"><span class="search_icon"></span><span class="search_text">__MSG__SEARCH__</span></span>
                 </div>
+                <div id="search_more_menu" style="display:none" class="s3d-sprites-buttons">
+                    <ul>
+                        <li id="search_global" class="more_option"><a href="javascript:;" class="s3d-regular-light-links s3d-bold"><span id="search_global_text">__MSG__GLOBAL__</span></a></li>
+                        <li id="search_content" class="more_option"><a href="javascript:;" class="s3d-regular-light-links s3d-bold"><span id="search_content_text">__MSG__CONTENT__</span></a></li>
+                        <li id="search_people" class="more_option"><a href="javascript:;" class="s3d-regular-light-links s3d-bold"><span id="search_people_text">__MSG__PEOPLE__</span></a></li>
+                        <li id="search_group" class="more_option option_last"><a href="javascript:;" class="s3d-regular-light-links s3d-bold"><span id="search_group_text">__MSG__GROUP__</span></a></li>
+                    </ul>
+                </div>
+                <span style="display:none" id="general_search_default_value">__MSG__SEARCH_FOR__</span>
+            </form>
+        </div>
+    </div>
+</div>
 
+<div class="explore-bg" style="display:none">
+</div>
+
+<!-- PERSONAL CONTAINER -->
+<div id="explore_nav_container" class="personal_container">
+
+    <div class="fl-container explore_nav">
+        <div class="personal">
+            <ul id="top_navigation">
+                <li id="login_button_container" style="display: none;"><a class="log_in" href="/index" title="__MSG__LOGGING_IN_ALLOWS__">__MSG__LOGIN__</a></li>
+                <li id="register_button_container" style="display: none;"><a class="register" href="/register">__MSG__REGISTER__</a></li>
+
+                <!-- CHAT STATUS DROPDOWN -->
+                <li id="user_link_container">
+                    <a id="user_link" class="s3d-dropdownlistone-text" href="javascript:;">
+                        <span id="topnavigation_chat_status">&nbsp;</span><span id="userid" class="user_link_chat_status"></span><span class="dropdownlistone_arrow">&nbsp;</span>
+                    </a>
+                </li>
+
+                <li><a class="mail" href="/inbox"><span id="topnavigation_mail_icon"></span> (<span id="chat_unreadMessages">0</span>)</a></li>
+                <li><a class="help" href="/preferences">__MSG__MY_ACCOUNT__</a></li>
+                <li><a class="sign_out" href="/logout">__MSG__SIGN_OUT__</a></li>
+            </ul>
+
+            <div id="login_container" style="display: none;">
+                <form id="login_form" method="POST">
+                    <label for="login_username">__MSG__USERNAME__</label>
+                    <br/>
+                    <input type="text" alt="__MSG__USERNAME__" id="login_username" name="login_username" />
+                    <br />
+                    <label for="login_password">__MSG__PASSWORD__</label>
+                    <br />
+                    <input type="password" alt="__MSG__PASSWORD__" id="login_password" name="login_password" />
+
+                    <div id="login_error_message" style="display: none;">__MSG__LOGIN_FAILED__!</div>
+                    <div id="login_busy" class="fl-force-right" style="display:none;"></div>
+
+                    <div class="login-container-button fl-force-right">
+                        <button id="login_cancel_button" type="button" class="s3d-button s3d-button"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
+                        <button id="login_submit_button" type="button" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">__MSG__SIGN_IN__</span></button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-
 </div>
 
 <!-- USER LINK MENU -->
-<div id="user_link_menu" style="display:none">
-    <div class="user_link_menu_border">
+<div id="user_link_menu" class="s3d-dropdownlistone-menu" style="display:none">
+    <div class="s3d-dropdownlistone-menu-border">
         <ul>
-            <li class="insert_more_menu_inactive">__MSG__CHAT_STATUS__</li>
+            <li class="s3d-dropdownlistone-link-inactive">__MSG__CHAT_STATUS__</li>
             <li><a id="user_link_chat_status_online" class="user_link_chat_status" href="javascript:;">__MSG__AVAILABLE__</a></li>
             <li><a id="user_link_chat_status_busy" class="user_link_chat_status" href="javascript:;">__MSG__BUSY__</a></li>
             <li><a id="user_link_chat_status_offline" class="user_link_chat_status" href="javascript:;">__MSG__OFFLINE__</a></li>
@@ -84,16 +104,6 @@
             <li><a href="javascript;" id="topnavigation_my_profile">__MSG__MY_PROFILE__</a></li>
         </ul>
     </div>
-</div>
-
-<!-- SEARCH -->
-<div id="general_search_container">
-    <form class="fl-force-right" method="post" action="">
-        <span style="display:none" id="general_search_default_value">__MSG__SEARCH_FOR__</span>
-        <input type="text" id="general_search_input" title="__MSG__PLEASE_INPUT_SEARCH_KEYWORD__" class="general_search_input" value="__MSG__SEARCH_FOR__" />
-        <button id="general_search_submit_button" class="s3d-search-button s3d-button s3d-button-primary" type="submit"><span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span></button>
-        <br class="clear"/>
-    </form>
 </div>
 
 <!-- JAVASCRIPT -->

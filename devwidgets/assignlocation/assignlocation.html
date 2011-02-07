@@ -1,0 +1,69 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/assignlocation/css/assignlocation.css" />
+
+<!-- MAIN VIEW -->
+<div id="assignlocation_container" style="display:none" class="dialog">
+    <div id="assignlocation_container_header" class="dialog_header">
+        <div class="dialog_header_inner">
+            <h1>__MSG__ASSIGN_A_LOCATION__</h1>
+            <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+        </div>
+    </div>
+
+    <div id="assignlocation_container_search" class="dialog_content">
+        <div class="s3d-highlight_area_background fl-push">
+            <div class='s3d-highlight_area_background_tl'>
+                <div class='s3d-highlight_area_background_tinner'>
+                </div>
+            </div>
+            <h1 id="assignlocation_secondcolumn_header_content" class="assignlocation_secondcolumn_header" style="display:none">__MSG__CONTENT_WILL_BE_INCLUDED_IN_THESE_LOCATIONS__</h1>
+            <h1 id="assignlocation_secondcolumn_header_group" class="assignlocation_secondcolumn_header" style="display:none">__MSG__GROUP_WILL_BE_INCLUDED_IN_THESE_LOCATIONS__</h1>
+            <h1 id="assignlocation_secondcolumn_header_user" class="assignlocation_secondcolumn_header" style="display:none">__MSG__USER_WILL_BE_INCLUDED_IN_THESE_LOCATIONS__</h1><h1>__MSG__SELECT_LOCATION_OR_SEARCH__</h1>
+            <div id="assignlocation_jstree_container">
+            </div>
+            <div id="assignlocation_jstree_selected_container">
+            </div>
+            <div id="assignlocation_ajax_loader" style="display:none;"><!-- --></div>
+            <div id="assignlocation_actions">
+                <button type="button" class="s3d-button s3d-button-primary fl-force-right" id="assignlocation_save_button">
+                    <span class="s3d-button-inner">__MSG__SAVE__</span>
+                </button>
+                <button type="button" class="jqmClose s3d-button fl-force-right" id="assignlocation_dont_save_button">
+                    <span class="s3d-button-inner">__MSG__DONT_SAVE__</span>
+                </button>
+            </div>
+            <div class="s3d-highlight_area_background_bl">
+                <div class="s3d-highlight_area_background_binner">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DIALOG FOOTER -->
+    <div class="dialog_footer">
+        <div class="dialog_footer_inner">
+            <!-- -->
+        </div>
+    </div>
+</div>
+
+<div id="assignlocation_jstree_selected_template"><!--
+    <ul id="assignlocation_locations_selected">
+        {for location in newlyAssignedLocations}
+            <li {if location_index % 2 != 0} class="s3d-list-item s3d-highlight_area_background" {else} class="s3d-list-item" {/if} id="${location}">
+                <a class="assignlocation_close_link" href="javascript:;">
+                    <div class="assignlocation_close_image"></div>
+                    {for locationpiece in location.split("/")}
+                        ${sakai.api.Util.getValueForDirectoryKey(locationpiece)} {if locationpiece_index < location.split("/").length - 1} <span class='assignlocation_select_seperator'>&raquo;</span>{/if}
+                    {/for}
+                </a>
+            </li>
+        {/for}
+    </ul>
+--></div>
+
+<div id="assignlocation_location_saved" style="display:none;">__MSG__LOCATION_SAVED__</div>
+<div id="assignlocation_location_successfully_saved" style="display:none;">__MSG__LOCATION_SUCCESSFULLY_SAVED__</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/assignlocation/javascript/assignlocation.js"></script>

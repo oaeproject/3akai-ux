@@ -1,0 +1,4 @@
+{
+  'sling:match': '^[^/]+/[^/]+/people',
+  'sling:internalRedirect': '/dev/people.html'
+}

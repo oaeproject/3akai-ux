@@ -17,38 +17,26 @@
  */
 
 /* LAYOUT */
-#navigation_settings {padding:10px;}
-#navigation_no_pages {padding:20px 30px;}
+#navigation_settings{padding:10px;}
+#navigation_no_pages{padding:20px 30px;}
+#navigation_main{overflow:hidden;}
 
 /* TYPOGRAPHY */
-#navigation_groupname {font-weight:bold;}
+#navigation_groupname{font-weight:bold;}
 
 /* NAVIGATION TREE STYLES */
-#navigation_tree ul.jstree-no-dots li.jstree-leaf,
-#navigation_tree ul.jstree-no-dots li.jstree-open,
-#navigation_tree ul.jstree-no-dots li.jstree-closed
-    {padding:4px 4px;}
-#navigation_tree ul.jstree-no-dots li.jstree-leaf a,
-#navigation_tree ul.jstree-no-dots li.jstree-open a,
-#navigation_tree ul.jstree-no-dots li.jstree-closed a
-    {font-weight:normal; color:#006E96; white-space:normal; display:inline; padding:4px; line-height:19px;}
-#navigation_tree ul.jstree-no-dots li.jstree-open > a,
-#navigation_tree ul.jstree-no-dots li.jstree-closed > a
-    {font-weight:normal;}
-#navigation_tree ul.jstree-no-dots li.jstree-leaf a.jstree-clicked,
-#navigation_tree ul.jstree-no-dots li.jstree-open a.jstree-clicked,
-#navigation_tree ul.jstree-no-dots li.jstree-closed a.jstree-clicked
-    {color:#FFFFFF; font-weight:normal; background-color:#006E96; border:none;}
-#navigation_tree ul.jstree-no-dots li.jstree-leaf a.jstree-hovered,
-#navigation_tree ul.jstree-no-dots li.jstree-open a.jstree-hovered,
-#navigation_tree ul.jstree-no-dots li.jstree-closed a.jstree-hovered
-    {color:#006E96; background-color:#D3EDF5; border:none;}
-#navigation_tree.jstree-default.jstree-focused {background-color:#fff;}
-#navigation_tree.jstree-default a .jstree-icon {background:url("/dev/images/page_icon_small_blue.png") 0px 0px no-repeat;}
-#navigation_tree.jstree-default a .jstree-icon:hover {cursor:move;}
+#navigation_tree ul.jstree-no-dots li.jstree-leaf,#navigation_tree ul.jstree-no-dots li.jstree-open,#navigation_tree ul.jstree-no-dots li.jstree-closed{padding:4px;}
+#navigation_tree ul.jstree-no-dots li.jstree-leaf a,#navigation_tree ul.jstree-no-dots li.jstree-open a,#navigation_tree ul.jstree-no-dots li.jstree-closed a{font-weight:normal;color:#006E96;white-space:normal;display:inline;padding:4px;line-height:19px;}
+#navigation_tree ul.jstree-no-dots li.jstree-open > a,#navigation_tree ul.jstree-no-dots li.jstree-closed > a{font-weight:normal;}
+#navigation_tree ul.jstree-no-dots li.jstree-leaf a.jstree-clicked,#navigation_tree ul.jstree-no-dots li.jstree-open a.jstree-clicked,#navigation_tree ul.jstree-no-dots li.jstree-closed a.jstree-clicked{color:#FFF;font-weight:normal;background-color:#006E96;border:none;}
+#navigation_tree ul.jstree-no-dots li.jstree-leaf a.jstree-hovered,#navigation_tree ul.jstree-no-dots li.jstree-open a.jstree-hovered,#navigation_tree ul.jstree-no-dots li.jstree-closed a.jstree-hovered{color:#006E96;background-color:#D3EDF5;border:none;}
+#navigation_tree.jstree-default.jstree-focused{background-color:#fff;}
+#navigation_tree.jstree-default a .jstree-icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -460px -21px transparent;}
+#navigation_tree.jstree-default a .jstree-icon:hover{cursor:move;}
 
 /* BACKGROUND IMAGES */
-#navigation_title {background:transparent url(/dev/images/pages_icon.png) no-repeat scroll 16px 17px;}
-#navigation_create_page {padding-left:15px; background:transparent url(/dev/images/add_action_icon.png) no-repeat scroll 3px 3px;}
-#navigation_delete_page {padding-left:15px; background:transparent url(/dev/images/delete_action_icon.png) no-repeat scroll 3px 3px;}
-
+.navigation_widget .widget_title_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -500px -21px transparent;}
+#navigation_create_page{padding-left:3px;}
+#navigation_create_page_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -20px -17px transparent;display:block;float:left;height:13px;width:13px;}
+#navigation_delete_page{padding-left:3px;}
+#navigation_delete_page_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -720px -17px transparent;display:block;float:left;height:13px;width:13px;}

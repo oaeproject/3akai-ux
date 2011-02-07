@@ -1,0 +1,32 @@
+<!-- Sakai Page CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/nodecontentarea/css/nodecontentarea.css"></link>
+
+<div class="nodecontentarea_widget fl-widget s3d-widget">
+
+    <!-- MAIN CONTENT -->
+    <div class="nodecontentarea_content s3d-content fl-fix">
+        <a href="#" style="display:none;" class="s3d-action fl-force-right" id="edit_page">__MSG__EDIT__</a>
+
+        <!-- CONTENT -->
+        <div id="main-content-div-preview" class="s3d-actions"></div>
+
+        <!-- EDITOR AREA -->
+        <div id="main-content-div" style="display:none;">
+            <!-- Gets replaced with TinyMCE, remember HTML in a textarea should be encoded -->
+            <textarea id="elm1" name="elm1" style="width: 420px; height:430px">
+                &nbsp;
+            </textarea>
+
+            <!-- BUTTONS -->
+            <div class="fl-force-right" style="padding:20px;">
+                <button class="s3d-button s3d-button-primary save_button"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
+                <button class="s3d-button cancel_button"><span class="s3d-button-inner">__MSG__DONT_SAVE__</span></button>
+            </div>
+        </div>    
+
+    </div>
+
+    <div class="s3d-no-options"><div class="s3d-no-options-inner"><!-- --></div></div>
+</div>
+
+<script type="text/javascript" src="/devwidgets/nodecontentarea/javascript/nodecontentarea.js"></script>

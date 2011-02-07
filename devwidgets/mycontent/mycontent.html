@@ -5,7 +5,7 @@
     <div class="fl-widget-content s3d-widget-content">
         <!-- ERRORS -->
         <div id="mycontent_nocontent" style="display:none;">
-            <p class="mycontent_error_msg">__MSG__NO_CONTENT__</p>
+            <p class="mycontent_error_msg">__MSG__NO_CONTENT__ | <a href="" class="s3d-regular-links s3d-bold upload_link">__MSG__ADD_CONTENT__</a></p>
         </div>
         <div id="mycontent_data_error" style="display:none;">
             <p class="mycontent_error_msg">__MSG__DATA_ERROR__</p>
@@ -20,12 +20,12 @@
                 {eval} i++; {/eval}
                 <div class="mycontent_item{if i % 2 == 0} s3d-highlight_area_background{/if}">
                     <div class="mycontent_item_img fl-force-left">
-                        <img class="mycontent_item_mime" src="${item.type_img_url}" />
+                        <span class="mycontent_item_mime ${item.css_class}"></span>
                     </div>
                     <div class="mycontent_item_info">
                         <p class="mycontent_item_title">
                             <a class="mycontent_item_link s3d-regular-links"
-                                href="/dev/content_profile.html#content_path=${item.path}">
+                                href="/content#content_path=${item.path}">
                                 <div class="mycontent_ellipsis_container">
                                     <span class="mycontent_ellipsis_text">${item.name}</span>
                                 </div>
@@ -40,14 +40,17 @@
 
     <!-- WIDGET FOOTER -->
     <div class="fl-widget-options fl-fix">
+        <div class="fl-widget-options-footer-top">
+            <div class="fl-widget-options-top-right"></div>
+        </div>
         <div class="widget-options-inner">
             <ul>
                 <li>
-                    <a href="/dev/search_content.html#q=*&facet=manage">__MSG__VIEW_ALL_CONTENT_I_MANAGED__</a>
+                    <a href="/search/content#q=*&facet=manage">__MSG__VIEW_ALL_CONTENT_I_MANAGED__</a>
                 </li>
                 <li><span class="pipe_divider">|</span></li>
                 <li>
-                    <a href="javascript:;" id="upload_link">__MSG__ADD_FILES_OR_LINKS__</a>
+                    <a href="javascript:;" id="mycontent_footer_upload_link" class="upload_link">__MSG__ADD_FILES_OR_LINKS__</a>
                 </li>
             </ul>
         </div>

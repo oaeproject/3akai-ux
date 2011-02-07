@@ -1,104 +1,36 @@
 /* General info */
-#profilesection_generalinfo {
-    color: #222;
-}
-#profilesection_generalinfo input[type="text"], #profilesection_generalinfo input[type="password"], textarea {
-    border: 1px solid #999;
-    padding: 3px;
-    width:  410px
-}
-#profile_heading a, #profile_userinfo a, #profile_generalinfo a {
-    color: #3399CC;
-    font-weight: bold;
-}
-#profilesection_generalinfo .profilesection_generalinfo_header {
-    border-bottom:1px solid #999;
-    margin:15px 0;
-    padding:7px 0 15px;
-    width:100%;
-    float:left;
-    display:inline;
-    height:18px;
-    clear:both;
-}
-#profilesection_generalinfo .profilesection_generalinfo_header_first {
-    padding-top: 0;
-}
-#profilesection_generalinfo h2 {
-    color:#333;
-    font-size: 24px;
-    font-weight:normal;
-    margin: 0;
-    padding-right: 5px;
-    width: 65%;
-    line-height:30px;
-}
-#profilesection_generalinfo .profilesection_generalinfo_content {
-    font-weight: bold;
-}
-#profilesection_generalinfo div.profilesection_generalinfo_content {
-    padding: 3px 0;
-    width:400px;
-    float:left;
-    display:inline;
-}
-#profilesection_generalinfo span.profilesection_generalinfo_content {
-    float:left;
-    display:inline;
-    margin-top:3px;
-}
-#profilesection_generalinfo .profilesection_generalinfo_subcontainer {
-    clear: both;
-    margin: 4px 0;
-    padding: 1px 0;
-    width:100%;
-    float:left;
-    display:inline;
-}
-#profilesection_generalinfo .profilesection_generalinfo_label, .profilesection_generalinfo label {
-    color: #666;
-    display: block;
-    float: left;
-    margin-right: 5px;
-    padding: 3px 0;
-    text-align: right;
-    width: 240px;
-}
-#profilesection_generalinfo .profilesection_generalinfo_example {
-    color: #666;
-    display: block;
-    font-size: 11.5px;
-    margin: 0 0 0 243px;
-    padding: 3px;
-}
-#profilesection_generalinfo a.profilesection_add_section {
-    font-size:14px;
-    float:left;
-    margin:10px 0px 0px 240px;
-}
-#profilesection_generalinfo a.profilesection_add_section img {
-    margin-right:5px;
-}
-#profilesection_generalinfo a.profilesection_add_section span {
-    top:1px;
-}
-#profilesection_generalinfo a.profilesection_remove_section {
-    color:#3399CC;
-    font-size:12px;
-    font-weight:bold;
-    margin:5px 0px 5px 245px;
-}
-#profilesection_generalinfo hr {
-    margin:10px 0px 10px 5%;
-    border-bottom:1px solid #999999;
-    color:transparent;
-    height:1px;
-    width:90%;
-}
+#profilesection_generalinfo{color:#222;}
+#profilesection_generalinfo input[type="text"],#profilesection_generalinfo input[type="password"],textarea{border:1px solid #999;padding:3px;width:410px;}
+#profile_heading a,#profile_userinfo a,#profile_generalinfo a{color:#39C;font-weight:bold;}
+#profilesection_generalinfo .profilesection_generalinfo_header{border-bottom:1px solid #999;margin:15px 0;padding:7px 0 15px;width:100%;float:left;display:inline;height:18px;clear:both;}
+#profilesection_generalinfo .profilesection_generalinfo_header_first{padding-top:0;}
+#profilesection_generalinfo h2{color:#333;font-size:24px;font-weight:normal;margin:0;padding-right:5px;width:65%;line-height:30px;}
+#profilesection_generalinfo .profilesection_generalinfo_content{font-weight:bold;}
+#profilesection_generalinfo div.profilesection_generalinfo_content{padding:3px 0;width:400px;float:left;display:inline;}
+#profilesection_generalinfo span.profilesection_generalinfo_content{float:left;display:inline;margin-top:3px;}
+#profilesection_generalinfo .profilesection_generalinfo_subcontainer{clear:both;margin:4px 0;padding:1px 0;width:100%;float:left;display:inline;}
+#profilesection_generalinfo .profilesection_generalinfo_label,.profilesection_generalinfo label{color:#666;display:block;float:left;margin-right:5px;padding:3px 0;text-align:right;width:240px;}
+#profilesection_generalinfo .profilesection_generalinfo_example{color:#666;display:block;font-size:11.5px;margin:0 0 0 243px;padding:3px;}
+#profilesection_generalinfo a.profilesection_add_section,#profilesection_generalinfo a.profilesection_add_location_section{font-size:14px;float:left;margin:10px 0 0 240px;}
+#profilesection_generalinfo a.profilesection_add_section img{margin-right:5px;}
+#profilesection_generalinfo a.profilesection_add_section span{top:1px;}
+#profilesection_generalinfo a.profilesection_remove_section{color:#39C;font-size:12px;font-weight:bold;margin:5px 0 5px 245px;}
+#profilesection_generalinfo hr{margin:10px 0 10px 5%;border-bottom:1px solid #999;color:transparent;height:1px;width:90%;}
+
 /* Validation errors */
 /* Errors */
-#profilesection_generalinfo label.error {
-    display: block;
-    margin-left: 243px;
-    padding: 3px;
-}
+#profilesection_generalinfo label.error{display:block;margin-left:243px;padding:3px;}
+
+/* DIRECTORY */
+#profilesection_locations_dialog{width:750px;margin-left:-370px;}
+.profilesection_saved_locations{margin:10px 0 15px 245px;}
+.profilesection_saved_locations li{list-style:none;margin:7px 0;}
+.profilesection_content_location{float:left;margin:2px 0 0;}
+.profilesection_saved_seperator,.profilesection_select_seperator{padding:0 10px;}
+.profilesection_saved_seperator{float:left;margin-top:2px;}
+.profilesection_locations_link{margin-bottom:3px;}
+.profilesection_remove_location{float:right;}
+.profilesection_location_divider{margin-left:5px;margin-right:5px;}
+#profilesection_generalinfo_locations{margin:5px;display:inline-block;}
+.profilesection_generalinfo_locations_rendered{width:350px;}
+#profilesection_generalinfo_locations li{list-style-type:none;margin-bottom:5px;}

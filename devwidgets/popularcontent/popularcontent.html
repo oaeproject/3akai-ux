@@ -1,0 +1,51 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/popularcontent/css/popularcontent.css" />
+
+<div id="popularcontent_widget">
+        <!-- WIDGET HEADER -->
+        <div class="fl-widget-titlebar s3d-widget-titlebar popularcontent-widget-border" style="display:none">
+            <div class="widget-titlebar-inner s3d-widget-titlebar-inner">
+                <h2 id="popularcontent_title_popular" class="popularcontent_title widget_title" style="display:none">__MSG__MOST_VIEWED__</h2>
+                <h2 id="popularcontent_title_recent" class="popularcontent_title widget_title" style="display:none">__MSG__RECENT_CONTENT__</h2>
+            </div>
+        </div>
+
+        <!-- WIDGET BODY -->
+        <div class="fl-widget-content s3d-widget-content s3d-widget-small-content">
+            <div id="popularcontent_main" style="display:none">
+            </div>
+        </div>
+        <div id="popularcontent_main_template" style="display:none"><!--
+            {if data.results}<ul>{for result in data.results}
+                {var index = 0}
+                {for item in result.content}
+                    {if index < 5}
+                        <li><a href="/content#content_path=/p/${item.id}" class="s3d-regular-links">${item.name}</a></li>
+                    {/if}
+                    ${index++|eat}
+                {forelse}
+                    <li>__MSG__NO_CONTENT_FOUND__</li>
+                {/for}
+            {/for}</ul>{/if}
+            {if Math.abs(data.total) > 5}
+                <div class="fl-text-align-right">
+                    <a href="/search/content#q=*" class="s3d-action s3d-action-seeall">__MSG__SEE_ALL__</a>
+                </div>
+            {/if}
+        --></div>
+    <div class="s3d-widget-no-options fl-fix">
+        <div class="s3d-widget-no-options-inner">
+        </div>
+    </div>
+
+    <!-- WIDGET FOOTER -->
+    <div class="fl-widget-options fl-fix popularcontent-widgit-border" id="popularcontent_footer_edit" style="display:none">
+        <div class="s3d-widget-options-footer-left">
+            <div class="s3d-widget-options-footer-right">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/popularcontent/javascript/popularcontent.js"></script>

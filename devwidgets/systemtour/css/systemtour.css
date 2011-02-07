@@ -1,0 +1,52 @@
+/*
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+
+/* Main container */
+#systemtour_container{background:url("/dev/images/tour_sprite.png") no-repeat scroll left -832px transparent; line-height: 60px; height: 60px;}
+
+/* PROGRESS BAR */
+.systemtour_left{background:url(../images/bgl.png) no-repeat;padding:10px 10px 30px;}
+.systemtour_left_text {font-size:0.9em;font-weight:bold;line-height: 60px;margin-left: 20px;padding-right: 5px;}
+#systemtour_progress_bar a {text-decoration: none;}
+#systemtour_container ul {list-style: none;display: inline-block; margin: 0px;line-height:30px;position: relative;top: 12px;/* IE6 and IE7 hack to support display:inline-block */zoom:1;*display:inline; /* IE7 and below*/*padding-top:3px;/* IE7 and below*/*margin-top:-20px;/* IE7 and below*/_height: 30px;/* IE6 and below*/_margin-top:0px;/* IE6 and below*/}
+#systemtour_container li {list-style:none;float: left;height:32px;border-right: 1px solid #d8dce0;padding-right: 0;*width:138px;}
+.systemtour_button:hover {text-decoration: none;}
+.systemtour_button {padding-right: 13px;display: block;}
+.systemtour_1{background:url(/dev/images/tour_sprite.png) no-repeat scroll -220px -120px transparent;}
+.systemtour_2{background:url(/dev/images/tour_sprite.png) no-repeat scroll -220px -200px transparent;}
+.systemtour_3{background:url(/dev/images/tour_sprite.png) no-repeat scroll -220px -280px transparent;}
+.systemtour_4{background:url(/dev/images/tour_sprite.png) no-repeat scroll -220px -360px transparent;}
+.systemtour_5{background:url(/dev/images/tour_sprite.png) no-repeat scroll -220px -440px transparent;}
+.systemtour_1_selected{background:url(/dev/images/tour_sprite.png) no-repeat scroll -220px -160px transparent;}
+.systemtour_2_selected{background:url(/dev/images/tour_sprite.png) no-repeat scroll -220px -240px transparent;}
+.systemtour_3_selected{background:url(/dev/images/tour_sprite.png) no-repeat scroll -220px -320px transparent;}
+.systemtour_4_selected{background:url(/dev/images/tour_sprite.png) no-repeat scroll -220px -400px transparent;}
+.systemtour_5_selected{background:url(/dev/images/tour_sprite.png) no-repeat scroll -220px -480px transparent;}
+.systemtour_button_selected {color: #FFF;}
+.systemtour_button_text {font-weight: bold;font-size: 0.9em;margin-left:35px;padding-right:6px;*padding-right:2px;}
+.systemtour_item_complete_full{background:url(/dev/images/icons_sprite.png) no-repeat scroll -41px -20px transparent;float:right;height:16px;margin:7px -10px 0 0;width:14px;}
+.systemtour_item_complete {}
+.systemtour_item_complete_5{position:relative;top:13px;left:10px;background:url(/dev/images/icons_sprite.png) no-repeat scroll -40px -21px transparent;padding-right:26px;}
+.systemtour_item_filler {padding-right: 18px;}
+.systemtour_item_filler_5 {padding-right: 26px;}
+.systemtour_right {}
+.systemtour_right_text {font-weight: bold;font-size: 0.9em;text-decoration: underline !important;}
+.systemtour_end{float:right;background:url(/dev/images/tour_sprite.png) no-repeat scroll right -100px transparent;height:60px;width:25px;line-height:40px;}
+.systemtour_end_top {}
+.systemtour_end_bottom {/*background:url(../images/bgeb.png) no-repeat;padding: 10px 15px 0 0;*/}
+#systemtour_end_cross{background:url(/dev/images/tour_sprite.png) no-repeat scroll -429px -80px transparent;height:27px;width:27px;}

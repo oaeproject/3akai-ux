@@ -1,0 +1,6 @@
+{
+    "sakai:content-type": "text/plain",
+    "sling:resourceType": "sakai/template",
+    "sakai:template": "${sender} has added you to the group named ${name} in ${system}. ${body} Follow this link to go to the group: ${link}",
+    "jcr:primaryType": "sling:Folder"
+}

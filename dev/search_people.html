@@ -7,53 +7,11 @@
         <title></title>
 
         <!-- Sakai Core CSS -->
-        <link rel="stylesheet" type="text/css" href="/dev/css/FSS/fss-base.css" />
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.base.css" />
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.core.2.css" />
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.3.css" />
+        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/main.css" />
 
         <!-- Sakai Page CSS -->
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.search.css" />
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.search_b.css" />
-
-        <!-- 3rd party CSS -->
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.components.jq_pager.css" />
-        <link rel="stylesheet" type="text/css" href="/dev/lib/jquery/plugins/gritter/css/jquery.gritter.css"/>
-        <link rel="stylesheet" type="text/css" href="/dev/css/lib/jquery.autoSuggest.css" />
-
-        <!-- Sakai Config JS -->
-        <script type="text/javascript" src="/dev/configuration/widgets.js"></script>
-        <script type="text/javascript" src="/var/widgets.json?callback=sakai.storeWidgets"></script>
-        <script type="text/javascript" src="/dev/configuration/config.js"></script>
-        <script type="text/javascript" src="/dev/configuration/config_custom.js"></script>
-
-        <!-- Core 3rd-party JS -->
-        <script type="text/javascript" src="/dev/lib/jquery/jquery.js"></script>
-        <script type="text/javascript" src="/dev/lib/jquery/jquery-ui.full.js"></script>
-        <script type="text/javascript" src="/dev/lib/fluid/3akai_Infusion.js"></script>
-        <script type="text/javascript" src="/dev/lib/misc/l10n/globalization.js"></script>
-        <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.json.js"></script>
-        <script type="text/javascript" src="/dev/lib/misc/google/html-sanitizer-minified.js"></script>
-
-        <!-- Sakai Core JS -->
-        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.core.js"></script>
-        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.util.js"></script>
-        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.i18n.js"></script>
-        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.l10n.js"></script>
-        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.user.js"></script>
-        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.widgets.js"></script>
-        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.communication.js"></script>
-
-        <!-- 3rd party JS -->
-        <script type="text/javascript" src="/dev/lib/misc/trimpath.template.js"></script>
-        <script type="text/javascript" src="/dev/lib/misc/querystring.js"></script>
-        <script type="text/javascript" src="/dev/lib/jquery/plugins/jqmodal.sakai-edited.js"></script>
-        <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.cookie.js"></script>
-        <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.pager.js"></script>
-        <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.ba-bbq.js"></script>
-        <script type="text/javascript" src="/dev/javascript/history/search_history.js"></script>
-        <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.threedots.js"></script>
-        <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.autoSuggest.sakai-edited.js"></script>
 
     </head>
 
@@ -68,6 +26,7 @@
         <!-- CONTENT -->
         <div class="fl-container-flex content content_search s3d-regular-links s3d-header">
             <div class="fl-fix fl-centered fixed-container s3d-fixed-container">
+                <div class="s3d-decor-left"><!-- --></div>
                 <div class="s3d-decor"></div>
 
                 <!-- TITLE -->
@@ -76,10 +35,11 @@
                 <!-- TAB NAVIGATION -->
                 <div class="s3d-primary-tabs">
                     <ul class="fl-tabs fl-tabs-right">
-                        <li><a id="tab_search_all" href="search.html#">__MSG__ALL__</a></li>
-                        <li><a href="search_content.html#" id="tab_search_content">__MSG__CONTENT_AND_MEDIA__</a></li>
-                        <li><a href="search_groups.html#" id="tab_search_sites">__MSG__GROUPS__</a></li>
-                        <li class="fl-tabs-active search_tab_selected"><a href="search_people.html#" id="tab_search_people">__MSG__PEOPLE__</a></li>
+                        <li><a id="tab_search_all" href="/search">__MSG__ALL__</a></li>
+                        <li><a href="/search/content" id="tab_search_content">__MSG__CONTENT_AND_MEDIA__</a></li>
+                        <li><a href="/search/groups" id="tab_search_sites">__MSG__GROUPS__</a></li>
+                        <li><a href="/search/sakai2" id="tab_search_sakai2">__MSG__SAKAI2__</a></li>
+                        <li class="fl-tabs-active search_tab_selected"><a href="/search/people" id="tab_search_people">__MSG__PEOPLE__</a></li>
                     </ul>
                 </div>
 
@@ -121,7 +81,10 @@
                                 <a id="create_site_these_people_link" href="javascript:;">__MSG__CREATE_SITE_WITH_THESE_PEOPLE__</a>
                             </div>
 
-                            <div class="search_top_rounded"><div class="search_top_rounded_inner"><!-- --></div></div>
+                                <div class="s3d-highlight_area_background_tl">
+                                    <div class="s3d-highlight_area_background_tinner">
+                                    </div>
+                                </div>
 
 
                             <!-- CONTENT -->
@@ -165,7 +128,7 @@
                                         {/if}
 
                                         <div class="search_result_person_links">
-                                        {if ! i.isMe}
+                                        {if ! i.isMe && ! sakai.data.me.user.anon}
                                             {if ! i.connected}
                                             <a href="javascript:;" class="search_result_person_link link_add_to_contacts" id="link_add_to_contacts_${i.userid}">__MSG__ADD_TO_CONTACTS__</a>
                                             <a href="javascript:;" id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider">|</a>
@@ -186,7 +149,10 @@
                                     <div class="search_no_results">__MSG__NO_PEOPLE_FOUND__.</span>
                                 {/if}
                             --></div>
-                              <div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"><!-- --></div></div>
+                                <div class="s3d-highlight_area_background_bl">
+                                    <div class="s3d-highlight_area_background_binner">
+                                    </div>
+                                </div>
                         </div>
                         </div>
                     </div>
@@ -213,12 +179,14 @@
         <!-- CHAT -->
         <div id="widget_chat" class="widget_inline"></div>
 
+        <!-- TOOLTIP -->
+        <div id="widget_tooltip" class="widget_inline"></div>
+
         <div id="widget_createsite" class="widget_inline"></div>
 
-        <script type="text/javascript" src="/dev/javascript/search_main.js"></script>
-        <script type="text/javascript" src="/dev/javascript/search_people.js"></script>
-        <script type="text/javascript" src="/dev/lib/jquery/plugins/gritter/jquery.gritter.js"></script>
+        <!-- Dependency JS -->
+        <script data-main="/dev/lib/sakai/sakai.dependencies.js" src="/dev/lib/jquery/requireplugins-jquery.js"></script>
 
+        <script>require(["/dev/javascript/history/search_history.js", "/dev/javascript/search_main.js", "/dev/javascript/search_people.js"]);</script>
     </body>
-
 </html>

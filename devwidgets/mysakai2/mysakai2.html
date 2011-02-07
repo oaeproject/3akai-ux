@@ -1,0 +1,53 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/mysakai2/css/mysakai2.css" />
+<div id="mysakai2_error_nosites" style="display:none;">
+    <span class="mysakai2_left_padding">__MSG__YOU_CURRENTLY_DONT_HAVE_ANY_SAKAI2_SITES_SELECTED__</span>
+</div>
+<!-- CONTENT -->
+<div class="mysakai2_widget">
+    <div class="fl-widget-content s3d-widget-content" id="mysakai2_list">
+    </div>
+    <div id="mysakai2_list_template"><!--
+        <ul>
+            {for site in sites}
+                <li>
+                    <span class="mysakai2_site_title"><a class="s3d-regular-links s3d-bold" href="/dev/s23/s23_site.html?id=${site.id}">${site.title}</a></span>
+                    {if site.messages}
+                        <span id="mysakai2_messages">${site.messages} message{if site.messages > 1}s{/if}</span>
+                    {/if}
+                    {if site.forums}
+                        <span id="mysakai2_forums">${site.forums} post{if site.forums > 1}s{/if}</span>
+                    {/if}
+                </li>
+            {/for}
+        </ul>
+    --></div>
+    <div class="fl-widget-options fl-fix" id="mysakai2_top">
+        <div class="fl-widget-options-footer-top">
+            <div class="fl-widget-options-top-right"></div>
+        </div>
+        <div class="widget-options-inner">
+            <ul>
+                <li>
+                    <a href="/search/sakai2" id="mysakai2_show_all_sites">__MSG__VIEW_ALL_MY_SITES__</a>
+                </li>
+                <li><span class="pipe_divider">|</span></li>
+                <li>
+                    <a href="javascript:;" id="mysakai2_add_files_link">__MSG__SETTINGS__</a>
+                </li>
+            </ul>
+        </div>
+        <div class="s3d-widget-options-footer-left">
+            <div class="s3d-widget-options-footer-right">
+            </div>
+        </div>
+    </div>
+</div>
+<!-- CONTAINER FOR THE SAKAI 2 FAVOURITES WIDGET -->
+<div id="mysakai2_sakai2favourites_container" style="display:none;">
+    <!-- We need this container to show the pop-up where you can add a group -->
+    <div id="widget_sakai2favourites" class="widget_inline">
+    </div>
+</div>
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/mysakai2/javascript/mysakai2.js" />

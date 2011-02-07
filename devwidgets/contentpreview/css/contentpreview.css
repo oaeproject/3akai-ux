@@ -1,0 +1,43 @@
+/*
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+
+ #contentpreview_download_button:hover { text-decoration: none; }
+ /* Default type*/
+ #contentpreview_default_preview {background-color:#EEF2F5; height:70px; margin-bottom:15px; padding-bottom:20px; padding-left:15px; padding-right:20px; padding-top:20px;}
+ #contentpreview_default_preivew_button { width: 240px; float: right }
+ #contentpreview_download_button { text-align:center; width:216px; float:right}
+ #contentpreview_default_preview_image { float:left; width:80px; }
+ #contentpreivew_default_preivew_data { width: 280px; float:left; padding-top:7px; font-weight: bold;}
+ 
+ /* Non default type */
+ #contentpreview_text_preview { font-family: 'Courier New'; padding: 5px; overflow: auto;}
+ #contentpreview_image_preview { padding: 0px; display:none; }
+ #contentpreview_other_preview_buttons { padding: 15px 20px 15px 10px; height: 25px; }
+ 
+ /*Content Preview template*/
+ #contentpreview_image_rendered { border: 1px solid #D4DADE; }
+ #contentpreview_html_iframe { width: 640px; height: 390px; frameborder: 0; }
+ #contentpreview_image_calculatesize_container { position: absolute; left: -10000px; top: -10000px; }
+
+ /* Image formatting */
+ .contentpreview_other_preview { width:640px; height: 390px; border: 1px solid #D4DADE; display:none; }
+ .contentpreview_image_preview_width { width:640px;}
+ .contentpreview_image_preview_height { height:390px;}
+ .contentpreview_noborder { border:none;}
+ .contentpreview_overflowhidden { overflow: hidden}
+ 

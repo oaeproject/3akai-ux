@@ -6,42 +6,11 @@
         <title></title>
 
         <!-- Sakai Core CSS -->
-        <link rel="stylesheet" type="text/css" href="/dev/css/FSS/fss-base.css" />
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.base.css" />
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.core.2.css" />
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.3.css" />
+        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/main.css" />
 
         <!-- Sakai Page CSS -->
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.create_new_account.css" />
-
-        <!-- 3rd party CSS -->
-        <link rel="stylesheet" type="text/css" href="/dev/lib/jquery/plugins/gritter/css/jquery.gritter.css" />
-
-        <!-- Sakai Config JS -->
-        <script type="text/javascript" src="/dev/configuration/widgets.js"></script>
-        <script type="text/javascript" src="/var/widgets.json?callback=sakai.storeWidgets"></script>
-        <script type="text/javascript" src="/dev/configuration/config.js"></script>
-        <script type="text/javascript" src="/dev/configuration/config_custom.js"></script>
-
-        <!-- Core 3rd-party JS -->
-        <script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
-        <script type="text/javascript" src="/dev/lib/jquery/jquery.js"></script>
-        <script type="text/javascript" src="/dev/lib/jquery/jquery-ui.full.js"></script>
-        <script type="text/javascript" src="/dev/lib/fluid/3akai_Infusion.js"></script>
-        <script type="text/javascript" src="/dev/lib/misc/l10n/globalization.js"></script>
-        <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.json.js"></script>
-        <script type="text/javascript" src="/dev/lib/misc/google/html-sanitizer-minified.js"></script>
-        <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.form.js"></script>
-        <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.validate.sakai-edited.js"></script>
-        <script type="text/javascript" src="/dev/lib/jquery/plugins/gritter/jquery.gritter.js"></script>
-
-        <!-- Sakai Core JS -->
-        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.core.js"></script>
-        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.util.js"></script>
-        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.i18n.js"></script>
-        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.l10n.js"></script>
-        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.user.js"></script>
-        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.widgets.js"></script>
+        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.index.css" />
 
     </head>
 
@@ -49,6 +18,9 @@
 
         <!-- TOP BANNER -->
         <div id="top_banner"><!-- --></div>
+
+        <!-- NAVIGATION -->
+        <div id="widget_topnavigation" class="widget_inline"></div>
 
         <!-- TOP NAV BAR -->
         <div class="topnav" style="display: none;">
@@ -61,9 +33,11 @@
 
         <!-- HEADER -->
         <div class="fl-fix fl-centered header_container">
+            <!-- HEADER -->
             <div class="header-title">
-                <img src="/dev/images/sakai_logo_index.png" alt="__MSG__INSTANCE_NAME__"/>
+                <p class="sakai_logo_index"><!-- --></p>
             </div>
+
             <div class="header-byline">
                 __MSG__HEADER_BYLINE__
             </div>
@@ -74,7 +48,7 @@
 
             <div class="content_top_corners"><!-- --></div>
 
-            <div class="content_inside s3d-main-container">
+            <div class="content_inside s3d-main-container s3d-widget">
 
                 <!-- CONTENT HEADER -->
                 <h3>__MSG__CREATE_A_NEW_ACCOUNT__</h3>
@@ -186,7 +160,7 @@
                             </tr>
                             <tr>
                                 <td><span id="success_message_title" style="display:none;">__MSG__ACCOUNT_CREATED__</span></td>
-                                <td><div id="success_message" class="success_message"><span id="success_message_value">__MSG__ACCOUNT_SUCCESSFULLY_CREATED__.</span> <a href="index.html">__MSG__CLICK_HERE_TO_LOGIN__.</a></div></td>
+                                <td><div id="success_message" class="success_message"><span id="success_message_value">__MSG__ACCOUNT_SUCCESSFULLY_CREATED__.</span> <a href="/index">__MSG__CLICK_HERE_TO_LOGIN__.</a></div></td>
                             </tr>
 
                         </table>
@@ -216,8 +190,8 @@
 
         <!-- FOOTER WIDGET -->
         <div id="widget_footer" class="widget_inline footercontainer"></div>
-
-        <script type="text/javascript" src="/dev/javascript/createnewaccount.js"></script>
+        <!-- Dependency JS -->
+        <script data-main="/dev/lib/sakai/sakai.dependencies.js" src="/dev/lib/jquery/requireplugins-jquery.js"></script>
+        <script>require(["/dev/javascript/createnewaccount.js", "http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"]);</script>
     </body>
-
 </html>

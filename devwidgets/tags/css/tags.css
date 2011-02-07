@@ -1,0 +1,6 @@
+#tags_main{margin:0 10px 0 15px;}
+#tags_main ul li{list-style-type:none;}
+#tags_title{padding-left:15px!important;}
+
+/* Widget icon */
+.tags.fl-widget .fl-widget-titlebar .widget_title_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -699px -21px transparent;height:22px;width:20px;}

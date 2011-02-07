@@ -1,0 +1,34 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/tags/css/tags.css" />
+
+<div id="tags_widget">
+        <!-- WIDGET HEADER -->
+        <div class="fl-widget-titlebar s3d-widget-titlebar tags-widget-border" style="display:none;">
+            <div class="widget-titlebar-inner s3d-widget-titlebar-inner">
+                <h2 id="tags_title" class="widget_title">__MSG__MOST_USED_PUBLIC__</h2>
+            </div>
+        </div>
+
+        <!-- WIDGET BODY -->
+        <div class="fl-widget-content s3d-widget-content">
+            <div id="tags_main" style="display:none">
+            </div>
+        </div>
+
+        <div id="tags_main_template" style="display:none"><!--
+            {if data.results}<ul>{for result in data.results}
+                {for tag in result.tags}
+                    <li style="display:inline; margin-right: 6px;"><a href="/search?#tag=/tags/${tag.name}" style="font-size:${1.00 + Math.log(tag.count)/2}em" class="s3d-regular-links">${tag.name}</a></li>
+                {forelse}
+                    <li>__MSG__NO_TAGS_FOUND__</li>
+                {/for}
+            {/for}</ul>{/if}
+        --></div>
+    <div class="s3d-widget-no-options fl-fix">
+        <div class="s3d-widget-no-options-inner">
+        </div>
+    </div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/tags/javascript/tags.js"></script>

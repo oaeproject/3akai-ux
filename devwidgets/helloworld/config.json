@@ -1,12 +1,18 @@
 {
-    "description":"Hello World",
-    "name":"Hello World",
-    "id":"helloworld",
-    "hasSettings":true,
-    "type":"sakai",
-    "enabled":true,
+    "description":        "Sakai OAE Widget SDK Demonstration Widget",
+    "enabled":            false,
+    "groupdashboard":     false,
+    "grouppages":         false,
+    "hasSettings":        true,
     "i18n": {
-        "default": "/devwidgets/helloworld/bundles/default.properties"
+        "default":        "/devwidgets/helloworld/bundles/default.properties"
     },
-    "url":"/devwidgets/helloworld/helloworld.html"
+    "id":                 "helloworld",
+    "name":               "Hello World",
+    "personalportal":     false,
+    "showinsakaigoodies": false,
+    "type":               "sakai",
+    "url":                "/devwidgets/helloworld/helloworld.html",
+    "userdashboard":      false,
+    "userpages":          false
 }

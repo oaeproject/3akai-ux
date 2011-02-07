@@ -1,0 +1,40 @@
+<!-- Sakai Page CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/nextleveldown/css/nextleveldown.css"></link>
+
+<div style="display:none">IE Placeholder Bug Fix</div>
+
+<div class="nextleveldown_widget fl-widget s3d-widget">
+
+    <div class="content_top"><div class="content_top_inner"><!-- --></div></div>
+
+    <!-- MAIN CONTENT -->
+    <div class="nextleveldown_content s3d-content fl-fix s3d-highlight_area_background">
+
+    </div>
+
+    <div class="s3d-no-options"><div class="s3d-no-options-inner"><!-- --></div></div>
+</div>
+
+<div id="nextleveldown_content_template"><!--
+    {if data[0].children}
+        {for child in data[0].children}
+            <div class="nextleveldown_child_container">
+                <div class="nextleveldown_child_header">
+                    <img src="${child.attr["data-url"]}" alt="${child.data}" class="nextleveldown_child_image"/>
+                    <span class="nextleveldown_child_title"><a id="${child.attr.id}" href="javascript:;" class="s3d-action nextleveldown_child">${child.data}</a></span>
+                </div>
+                {if child.children}
+                    {for subChild in child.children}
+                        <span class="nextleveldown_subchild_title"><a id="${subChild.attr.id}" href="javascript:;" class="s3d-action nextleveldown_child">${subChild.data}</a></span>
+                    {/for}
+                {/if}
+            </div>
+        {/for}
+    {else}
+        <div class="nextleveldown_child_container">
+            __MSG__NO_MORE_LOCATIONS_BEYOND_THIS_POINT__
+        </div>
+    {/if}
+--></div>
+
+<script type="text/javascript" src="/devwidgets/nextleveldown/javascript/nextleveldown.js"></script>

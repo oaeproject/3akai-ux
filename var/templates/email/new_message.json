@@ -1,0 +1,6 @@
+{
+    "sakai:content-type": "text/plain",
+    "sling:resourceType": "sakai/template",
+    "sakai:template": "You have a new message from ${sender} in ${system}. Message Subject: ${subject} ${body} To reply to this message, follow this link: ${link}",
+    "jcr:primaryType": "sling:Folder"
+}

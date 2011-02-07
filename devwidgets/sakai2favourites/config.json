@@ -1,0 +1,9 @@
+{
+    "id":"sakai2favourites",
+    "i18n": {
+        "default": "/devwidgets/sakai2favourites/bundles/default.properties"
+    },
+    "type":"core",
+    "enabled":true,
+    "url":"/devwidgets/sakai2favourites/sakai2favourites.html"
+}
