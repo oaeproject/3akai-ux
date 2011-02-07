@@ -30,7 +30,7 @@
  * @namespace
  * Language localisation
  */
-define(["/dev/configuration/config.js", "/dev/lib/misc/l10n/globalization.js"], function(sakai_conf) {
+define(["/dev/configuration/config.js", "/dev/lib/misc/l10n/globalization.js", "/dev/lib/misc/l10n/detect_timezone.js"], function(sakai_conf) {
     return {
 
         /**
@@ -63,6 +63,12 @@ define(["/dev/configuration/config.js", "/dev/lib/misc/l10n/globalization.js"], 
                 }
             }
             return ret;
+        },
+
+        getUserDefaultTimezone : function() {
+            var tz = determine_timezone().timezone;
+            tz.ambiguity_check();
+            return tz.olson_tz;
         },
 
         /**

@@ -1144,6 +1144,16 @@ define(["jquery",
             },
 
             /**
+             * Represent URL if any in an anchor tag.
+             * @param {Object} message Message that user has entered.
+             */
+            replaceURL : function(message){
+                // get the regex code from
+                // http://www.codeproject.com/KB/scripting/replace_url_in_ajax_chat.aspx
+                return message.replace(/(\w+):\/\/[\S]+(\b|$)/gim,'<a href="$&" class="my_link s3d-regular-links s3d-bold" target="_blank">$&</a>');
+            },
+
+            /**
              * Sanitizes HTML content. All untrusted (user) content should be run through
              * this function before putting it into the DOM
              *

@@ -770,8 +770,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 else {
                     $(inboxSpecificMessageSubject).text(sakai.api.Security.saneHTML(message["sakai:subject"]));
                 }
-                var messageBody = "" + message["sakai:body"], key = ""; // coerce to string in case the body is all numbers
-                $(inboxSpecificMessageBody).html(sakai.api.Security.saneHTML(messageBody.replace(/\n/gi, "<br />")));
+                var messageBody = ""+message["sakai:body"],
+                    key = ""; // coerce to string in case the body is all numbers
+                $(inboxSpecificMessageBody).html(sakai.api.Security.replaceURL(sakai.api.Security.saneHTML(messageBody.replace(/\n/gi, " <br />"))));
                 $(inboxSpecificMessageDate).text(sakai.api.Security.saneHTML(message.date));
 
                 if (message.userFrom) {
@@ -793,7 +794,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         key = messageBody.substr(0, messageBody.lastIndexOf(","));
                         comment = messageBody.substr(messageBody.lastIndexOf(",") + 1, messageBody.length);
                         if (key && sakai.api.i18n.General.getValueForKey(key)) {
-                            console.log("yes");
                             message["sakai:body"] = sakai.api.i18n.General.getValueForKey(key).replace(/\$\{comment\}/gi, comment).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(message.userFrom[i]));
                         }
                         else {
@@ -817,9 +817,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
                 // Fill in this message values.
                 $(inboxSpecificMessageSubject).text(sakai.api.Security.saneHTML(message["sakai:subject"]));
-                messageBody = "" + message["sakai:body"]; // coerce to string in case the body is all numbers
-                $(inboxSpecificMessageBody).html(sakai.api.Security.saneHTML(messageBody.replace(/\n/gi, "<br />")));
-                $(inboxSpecificMessageDate).text(sakai.api.Security.saneHTML(message.date));
+                messageBody = ""+message["sakai:body"]; // coerce to string in case the body is all numbers
+                //$(inboxSpecificMessageBody).html(sakai.api.Security.saneHTML(messageBody.replace(/\n/gi, "<br />")));
+                //$(inboxSpecificMessageDate).text(sakai.api.Security.saneHTML(message.date));
 
                 // Reply part.
                 $(inboxSpecificMessageComposeSubject).val("Re: " + message["sakai:subject"]);
