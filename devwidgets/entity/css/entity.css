@@ -81,7 +81,7 @@
 #entity_contact_invited{padding-left:10px;}
 
 /* List box for tags and locations */
-#entity_tags_link div,#entity_locations_link div{padding:5px;width:70px;}
+#entity_tags_link div,#entity_locations_link div{padding:5px;width:80px;}
 .entity_tags_link div,.entity_locations_link div{border:1px solid #fff;}
 .entity_tags_link:hover div,.entity_locations_link:hover div{border:1px solid #ddd;}
 .entity_list_open div{border:1px solid #ddd!important;}

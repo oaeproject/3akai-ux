@@ -240,9 +240,12 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             },2000);
                         }
                         else {
-                            // Show successful regional setting change through gritter
-                            sakai.api.Util.notification.show($(messageChangeLang).html(), $(messageChangeLang).html());
+                            // Show successful regional setting change through gritter and reload the page
                             me.user.locale.timezone.name = $(timezonesContainer).val();
+                            sakai.api.Util.notification.show($(messageChangeLang).html(), $(messageChangeLang).html());
+                                window.setTimeout(function(){
+                                document.location.reload();
+                            },2000);
                         }
 
                     },

@@ -352,7 +352,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
 
             // Only enable button if the location is the search page
-            if (window.location.pathname.split("/")[2] === "search.html") {
+            if (window.location.pathname.split("/")[2] === "search.html" || window.location.pathname.split("/")[2] === "search") {
                 $generalSearchSubmitButton.attr("disabled", false);
                 // if user is on the search page use the history event to perform the search
                 History.addBEvent("1", encodeURIComponent(tosearch));
@@ -405,7 +405,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         });
 
-
         /**
          * Switch navigation bar to anonymous mode
          * @returns void
@@ -420,11 +419,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Show Nav Container
             if (sakai.config.anonAllowed){
                 $(exploreNavigationContainer).show();
-
-                var indexPaths = ["/dev", "/dev/index.html", "/dev/", "/", "/dev/404.html", "/dev/403.html"];
-                if (-1 !== $.inArray(window.location.pathname.replace(/\/$/,""), indexPaths)) {
-                    $(".explore-bg").show();
-                }
 
                 // Show anonymous elements
                 $("#other_logins_button_container").show();
@@ -447,8 +441,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $("#nav_courses_sites_link a").attr("href", sakai.config.URL.PUBLIC_COURSES_SITES_URL);
                 $("#nav_search_link a").attr("href", sakai.config.URL.PUBLIC_SEARCH_URL_PAGE);
 
-                if (window.location.pathname.split("/")[2] === "403.html" || window.location.pathname.split("/")[2] === "404.html") {
-                    // hide register and login links
+                var indexPaths = ["/", "/index", "/dev", "/dev/index.html", "/dev/", "/dev/404.html", 
+                    "/dev/403.html", "/dev/500.html", "/index", "/404", "/403", "/500"];
+
+                if (-1 !== $.inArray(window.location.pathname.replace(/\/$/,""), indexPaths)) {
+                    $(".explore-bg").show();
+                }
+                
+                indexPaths.push("/register", "/dev/create_new_account.html");
+                
+                if (-1 !== $.inArray(window.location.pathname.replace(/\/$/,""), indexPaths)){
                     $("#register_button_container").hide();
                     $("#login_button_container").hide();
                 }

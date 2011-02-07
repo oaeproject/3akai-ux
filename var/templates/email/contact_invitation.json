@@ -1,0 +1,6 @@
+{
+    "sakai:content-type": "text/plain",
+    "sling:resourceType": "sakai/template",
+    "sakai:template": "${sender} has invited you to become a contact in ${system}. ${body} Follow this link to view the invitation: ${link}",
+    "jcr:primaryType": "sling:Folder"
+}

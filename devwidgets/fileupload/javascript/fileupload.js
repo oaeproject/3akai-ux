@@ -15,7 +15,6 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
 /*
  * Dependencies
  *
@@ -27,8 +26,7 @@
  * /dev/lib/jquery/plugins/jquery.form.js (ajaxForm)
  * /dev/lib/jquery/plugins/jquery.MultiFile.js (MultiFile)
  */
-
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
     /**
      * @name sakai_global.fileupload
@@ -81,13 +79,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $fileUploadAddTags = $("#fileupload_add_tags");
         var $fileUploadProgressId = $("#fileupload_upload_progress", $rootel);
         var $fileUploadPermissionsSelect = $("#fileupload_permissions_select");
-        var $fileUploadWidgetTitle= $("#fileupload_widget_title", $rootel);
-        var $fileUploadWidgetTitleNewVersion= $("#fileupload_widget_title_new_version", $rootel);
+        var $fileUploadWidgetTitle = $("#fileupload_widget_title", $rootel);
+        var $fileUploadWidgetTitleNewVersion = $("#fileupload_widget_title_new_version", $rootel);
         var $fileUploadAddVersionDescription = $("#fileupload_add_version_description", $rootel);
         var fileUploadAjaxLoader = "#fileupload_ajax_loader";
 
         var $fileUploadLinkBox = $("#fileupload_link_box", $rootel);
-        var $fileUploadLinkBoxInput= $("#fileupload_link_box_input", $rootel);
+        var $fileUploadLinkBoxInput = $("#fileupload_link_box_input", $rootel);
         var $fileUploadAddLinkButton = $("#fileupload_add_link_button", $rootel);
 
         // Form
@@ -159,15 +157,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 // display tooltip
                 tooltipData = {
-                    "tooltipSelector":"#fileupload_form_submit",
-                    "tooltipTitle":"TOOLTIP_UPLOAD_CONTENT",
-                    "tooltipDescription":"TOOLTIP_UPLOAD_CONTENT_P3",
-                    "tooltipArrow":"bottom",
-                    "tooltipTop":-40,
-                    "tooltipLeft":20
+                    "tooltipSelector": "#fileupload_form_submit",
+                    "tooltipTitle": "TOOLTIP_UPLOAD_CONTENT",
+                    "tooltipDescription": "TOOLTIP_UPLOAD_CONTENT_P3",
+                    "tooltipArrow": "bottom",
+                    "tooltipTop": -40,
+                    "tooltipLeft": 20
                 };
                 $(window).trigger("sakai-tooltip-update", tooltipData);
-            } else {
+            }
+            else {
                 $fileUploadAddLinkButton.removeAttr("disabled");
                 $fileUploadLinkBoxInput.removeAttr("disabled");
                 $multiFileList.hide();
@@ -180,12 +179,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Increase the number of selected files
          * Check if the detailed information should be displayed
          */
-         var increaseSelectedFiles = function(){
+        var increaseSelectedFiles = function(){
             numberOfSelectedFiles++;
             checkSelectedFiles();
         };
 
-        $(window).bind("increaseSelectedFiles.fileupload.sakai", function() {
+        $(window).bind("increaseSelectedFiles.fileupload.sakai", function(){
             increaseSelectedFiles();
         });
 
@@ -198,7 +197,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             checkSelectedFiles();
         };
 
-        $(window).bind("decreaseSelectedFiles.fileupload.sakai", function() {
+        $(window).bind("decreaseSelectedFiles.fileupload.sakai", function(){
             decreaseSelectedFiles();
         });
 
@@ -207,7 +206,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * has already been rendered. So created two templates to render accordingly
          */
         var renderUnlimitedUpload = function(){
-            var obj =[];
+            var obj = [];
             var renderedTemplate = sakai.api.Util.TemplateRenderer($fileUploadNoLimitToUploadTemplate, obj).replace(/\r/g, '');
             $fileuploadLimitContainer.html(renderedTemplate);
             // Set multiFile on the rendered box
@@ -229,7 +228,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var renderLimitedUpload = function(){
             $newUploaderForm.attr("action", uploadPath + ".createfile." + oldVersionPath);
-            var obj =[];
+            var obj = [];
             var renderedTemplate = sakai.api.Util.TemplateRenderer($fileUploadLimitToOneUploadTemplate, obj).replace(/\r/g, '');
             $fileuploadLimitContainer.html(renderedTemplate);
             // Set multiFile on the rendered box
@@ -301,7 +300,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             if (context === "new_version") {
                 renderLimitedUpload();
-            } else {
+            }
+            else {
                 renderUnlimitedUpload();
             }
         };
@@ -311,34 +311,43 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * (e.g. chat and sites widget)
          * It initializes the fileupload widget and shows the jqmodal (ligthbox)
          */
-         var initialise = function(){
+        var initialise = function(){
             // position dialog box at users scroll position
             var htmlScrollPos = $("html").scrollTop();
             var docScrollPos = $(document).scrollTop();
             if (htmlScrollPos > 0) {
-                $fileUploadContainer.css({"top": htmlScrollPos + 100 + "px"});
-            } else if (docScrollPos > 0) {
-                $fileUploadContainer.css({"top": docScrollPos + 100 + "px"});
+                $fileUploadContainer.css({
+                    "top": htmlScrollPos + 100 + "px"
+                });
             }
+            else
+                if (docScrollPos > 0) {
+                    $fileUploadContainer.css({
+                        "top": docScrollPos + 100 + "px"
+                    });
+                }
 
             // always appear in upload file mode
             $fileUploadLinkBox.hide();
             $("#new_uploader").show();
 
-            if (groupContext){
+            if (groupContext) {
                 renderGroupUpload();
-            } else if (newVersion){
-                renderUserOrNewUpload();
-            } else {
-                renderUserOrNewUpload();
             }
+            else
+                if (newVersion) {
+                    renderUserOrNewUpload();
+                }
+                else {
+                    renderUserOrNewUpload();
+                }
         };
 
         /**
          * Show the upload dialog box and reset the rootel
          * @param {Object} hash jqm data
          */
-        var showUploadDialog = function(hash) {
+        var showUploadDialog = function(hash){
             hash.w.show();
             $rootel = $("#" + hash.w.attr("id") + "." + hash.w.attr("class").split(" ").join("."));
             $fileUploadAddDescription = $("#fileupload_add_description", $rootel);
@@ -383,24 +392,26 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             // Close the jqm box
             $fileUploadContainer.jqmHide();
-            $(window).trigger("sakai-fileupload-complete", {"files": dataResponse});
+            $(window).trigger("sakai-fileupload-complete", {
+                "files": dataResponse
+            });
 
             // Show notification
             if (context !== "new_version") {
                 /* if (uploadedLink) {
-                    if (filesUploaded) {
-                        sakai.api.Util.notification.show($(fileUploadLinkUploaded, $rootel).html(), $(fileUploadLinkSuccessfullyUploaded, $rootel).html());
-                    } else {
-                        sakai.api.Util.notification.show("", $(fileUploadFilesNotUploaded, $rootel).html());
-                    }
-                }
-                else {
-                    if (filesUploaded) {
-                        sakai.api.Util.notification.show($(fileUploadFilesUploaded, $rootel).html(), $(fileUploadFilesSuccessfullyUploaded, $rootel).html());
-                    } else {
-                        sakai.api.Util.notification.show("", $(fileUploadFilesNotUploaded, $rootel).html());
-                    }
-                } */
+                 if (filesUploaded) {
+                 sakai.api.Util.notification.show($(fileUploadLinkUploaded, $rootel).html(), $(fileUploadLinkSuccessfullyUploaded, $rootel).html());
+                 } else {
+                 sakai.api.Util.notification.show("", $(fileUploadFilesNotUploaded, $rootel).html());
+                 }
+                 }
+                 else {
+                 if (filesUploaded) {
+                 sakai.api.Util.notification.show($(fileUploadFilesUploaded, $rootel).html(), $(fileUploadFilesSuccessfullyUploaded, $rootel).html());
+                 } else {
+                 sakai.api.Util.notification.show("", $(fileUploadFilesNotUploaded, $rootel).html());
+                 }
+                 } */
                 if (uploadedLink) {
                     sakai.api.Util.notification.show($(fileUploadLinkUploaded).html(), $(fileUploadLinkSuccessfullyUploaded).html());
                 }
@@ -409,18 +420,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                     // display tooltip
                     tooltipData = {
-                        "tooltipSelector":"#systemtour_upload_file",
-                        "tooltipTitle":"TOOLTIP_UPLOAD_CONTENT",
-                        "tooltipDescription":"TOOLTIP_UPLOAD_CONTENT_P4",
-                        "tooltipArrow":"top",
-                        "tooltipTop":25,
-                        "tooltipLeft":40,
-                        "tooltipAutoClose":true
+                        "tooltipSelector": "#systemtour_upload_file",
+                        "tooltipTitle": "TOOLTIP_UPLOAD_CONTENT",
+                        "tooltipDescription": "TOOLTIP_UPLOAD_CONTENT_P4",
+                        "tooltipArrow": "top",
+                        "tooltipTop": 25,
+                        "tooltipLeft": 40,
+                        "tooltipAutoClose": true
                     };
                     $(window).trigger("sakai-tooltip-update", tooltipData);
                 }
-            } else {
-                if(newVersion){
+            }
+            else {
+                if (newVersion) {
                     sakai.api.Util.notification.show($(fileUploadNewVersionUploaded).html(), $(fileUploadNewVersionForFileUploaded).html());
                 }
             }
@@ -463,7 +475,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     for (var k in data) {
                         if (data.hasOwnProperty(k)) {
                             pathHash = data[k];
-                            url = k.substring(0,k.length-4); // remove .lnk from the end of it
+                            url = k.substring(0, k.length - 4); // remove .lnk from the end of it
                             break;
                         }
                     }
@@ -480,7 +492,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     };
                     batchDescriptionData[batchDescriptionData.length] = item2;
                 }
-            } else {
+            }
+            else {
                 for (var i in uploadedFiles) {
                     if (uploadedFiles.hasOwnProperty(i)) {
                         var item3 = {
@@ -504,7 +517,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $.ajax({
                 url: sakai.config.URL.BATCH,
                 traditional: true,
-                type : "POST",
+                type: "POST",
                 cache: false,
                 data: {
                     requests: $.toJSON(batchDescriptionData)
@@ -535,7 +548,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "url": "/p/" + results[$fileUploadLinkBoxInput.val()],
                 "method": "POST",
                 "parameters": {
-                    "sakai:groupresource" : true,
+                    "sakai:groupresource": true,
                     "sakai:directory": "default",
                     "sakai:permissions": "group"
                 }
@@ -612,7 +625,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                     if (context === "group") {
                         setLinkAsGroupResource(data);
-                    } else {
+                    }
+                    else {
                         // Set permissions on the files
                         sakai.api.Content.setFilePermissions("public", linkArray, function(permissionsSet){
                         });
@@ -633,7 +647,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var getVersionDetails = function(){
             $.ajax({
                 url: "/p/" + dataResponse[0].hashpath + ".2.json",
-                type : "GET",
+                type: "GET",
                 success: function(data){
                     sakai_global.content_profile.content_data.data = data;
                     resetFields();
@@ -647,12 +661,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var saveVersion = function(){
             $.ajax({
                 url: "/p/" + oldVersionPath + ".save.json",
-                type : "POST",
+                type: "POST",
                 success: function(data){
                     newVersion = true;
-                    if (newVersionIsLink){
+                    if (newVersionIsLink) {
                         uploadLink();
-                    }else {
+                    }
+                    else {
                         $multiFileForm.submit();
                     }
                 },
@@ -757,7 +772,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         $multiFileList = $($multiFileList.selector);
                         // Get the values out of the name boxes
                         $multiFileList.find("input").each(function(index){
-                            for (var i in extractedData){
+                            for (var i in extractedData) {
                                 if (extractedData.hasOwnProperty(i)) {
                                     // Fix IE7 issue where full path is used as a name for an upload
                                     // Cut off the extra path information with the following replace functions
@@ -803,13 +818,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 batchSetDescriptionAndName();
                             }, contextData.id);
 
-                        } else {
+                        }
+                        else {
                             // Set the new file extension
                             setFileExtension(uploadedFiles[0].filename.substring(uploadedFiles[0].filename.lastIndexOf("."), uploadedFiles[0].filename.length));
                         }
                     }
                 },
-                error : function(){
+                error: function(){
                     noFilesUploaded();
                 }
             });
@@ -819,14 +835,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var nameError = false;
             $fileUploadNameError.hide();
             $multiFileList.find("input").each(function(index){
-                if($.trim($(this)[0].value).length === 0){
+                if ($.trim($(this)[0].value).length === 0) {
                     var errorLabel = $(this).parent().next();
                     errorLabel.css("display", "block");
                     errorLabel.html($(fileUploadEnterNameFor).html() + " \"" + $(this)[0].defaultValue + "\"");
                     nameError = true;
                 }
             });
-            if (!nameError){
+            if (!nameError) {
                 // hide cancel and add content buttons
                 $("#fileupload_form_submit").hide();
                 $("#fileupload_cancel").hide();
@@ -850,7 +866,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $fileUploadPermissionsSelect.attr("disabled", "disabled");
                 $fileUploadLinkBoxInput.attr("disabled", "disabled");
                 $fileUploadAddLinkButton.attr("disabled", "disabled");
-            } else {
+            }
+            else {
                 $fileUploadAddVersionDescription.attr("disabled", "disabled");
             }
             $(".fileupload_file_name input").attr("disabled", "disabled");
@@ -858,10 +875,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
 
-        jQuery.validator.addMethod("appendhttp", function(value, element) {
-            if(value.substring(0,7) !== "http://" &&
-            value.substring(0,6) !== "ftp://" &&
-            value.substring(0,8) !== "https://" &&
+        jQuery.validator.addMethod("appendhttp", function(value, element){
+            if (value.substring(0, 7) !== "http://" &&
+            value.substring(0, 6) !== "ftp://" &&
+            value.substring(0, 8) !== "https://" &&
             $.trim(value) !== "") {
                 $(element).val("http://" + value);
             }
@@ -877,8 +894,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         });
 
-        $("#fileupload_link_box form").bind("submit",function(e){
-            $("#fileupload_link_submit").attr("disabled","disabled");
+        $("#fileupload_link_box form").bind("submit", function(e){
+            $("#fileupload_link_submit").attr("disabled", "disabled");
             $fileUploadAddLinkButton.attr("disabled", "disabled");
 
             if ($("#fileupload_link_box form").valid() && !performedSubmit) {
@@ -886,11 +903,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 performedSubmit = true;
                 if (context !== "new_version") {
                     uploadLink();
-                } else {
+                }
+                else {
                     newVersionIsLink = true;
                     saveVersion();
                 }
-            } else {
+            }
+            else {
                 // validation plugin will show error
                 $("#fileupload_link_submit").removeAttr("disabled");
                 $fileUploadAddLinkButton.removeAttr("disabled");
@@ -930,7 +949,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         $(fileUploadCloseDialog).die("click");
-        $(fileUploadCloseDialog).live("click", function() {
+        $(fileUploadCloseDialog).live("click", function(){
             $fileUploadContainer.jqmHide();
             // hide any tooltips if they are open
             $(window).trigger("sakai-tooltip-close");
@@ -939,12 +958,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Invoke 'sakai-fileupload-init' to initialize the upload widget
          * There are 2 modes in which the widget can operate
-         * 
+         *
          * - The normal mode doesn't require any extra action by the developer, just fire the event and the widget pops up.
-         * 
+         *
          * - The new version mode requires an extra class to be added on the button that invokes the widget. The extra class is 'new_version'
          *   If you add another class 'new_link' then the new version will be considered to be a link.
-         * 
+         *
          * In both modes the button that invokes the uploader has the id 'upload_content'
          */
         $(window).unbind("sakai-fileupload-init");
@@ -953,10 +972,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          *
          * @param {Object} ev The event
          * @param {Object} data Data to configure the fileupload widget. Can contain:
-                    {Boolean} newVersion If this is a new version, defaults to false
-                    {Boolean} isLink If this new version of a file is a link, defaults to false
-                    {String} contentPath The path to the existing content to add a new version to
-        */
+         {Boolean} newVersion If this is a new version, defaults to false
+         {Boolean} isLink If this new version of a file is a link, defaults to false
+         {String} contentPath The path to the existing content to add a new version to
+         */
         $(window).bind("sakai-fileupload-init", function(ev, data){
             var contentPath = "";
             if (data) {
@@ -970,12 +989,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 context = "group";
                 $('#uploadfilescontainer').show();
                 initialise();
-            } else {
+            }
+            else {
                 if (uploadingNewVersion) {
                     // If the base version is a link then only a new link can be uploaded
-                    if(uploadingNewLink){
+                    if (uploadingNewLink) {
                         $multiFileForm.hide();
-                    } else{
+                    }
+                    else {
                         $multiFileForm.find("p").hide();
                         $fileUploadLinkBox.hide();
                     }
@@ -994,24 +1015,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                     // display tooltip
                     tooltipData = {
-                        "tooltipSelector":"#fileupload_limit_container",
-                        "tooltipTitle":"TOOLTIP_UPLOAD_CONTENT",
-                        "tooltipDescription":"TOOLTIP_UPLOAD_CONTENT_P2",
-                        "tooltipArrow":"top",
-                        "tooltipTop":10,
-                        "tooltipLeft":150
+                        "tooltipSelector": "#fileupload_limit_container",
+                        "tooltipTitle": "TOOLTIP_UPLOAD_CONTENT",
+                        "tooltipDescription": "TOOLTIP_UPLOAD_CONTENT_P2",
+                        "tooltipArrow": "top",
+                        "tooltipTop": 10,
+                        "tooltipLeft": 150
                     };
                     $(window).trigger("sakai-tooltip-update", tooltipData);
                 }
             }
         });
 
-        $("#fileupload_add_link").click(function () {
+        $("#fileupload_add_link").click(function(){
             $("#new_uploader").hide();
             $fileUploadLinkBox.show();
         });
 
-        $("#fileupload_upload_file").click(function () {
+        $("#fileupload_upload_file").click(function(){
             $fileUploadLinkBox.hide();
             $("#new_uploader").show();
         });

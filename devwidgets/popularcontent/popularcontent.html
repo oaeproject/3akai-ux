@@ -20,16 +20,16 @@
                 {var index = 0}
                 {for item in result.content}
                     {if index < 5}
-                        <li><a href="/dev/content_profile.html#content_path=/p/${item.id}" class="s3d-regular-links">${item.name}</a></li>
+                        <li><a href="/content#content_path=/p/${item.id}" class="s3d-regular-links">${item.name}</a></li>
                     {/if}
                     ${index++|eat}
                 {forelse}
                     <li>__MSG__NO_CONTENT_FOUND__</li>
                 {/for}
             {/for}</ul>{/if}
-            {if 5 < Math.abs(data.total)}
+            {if Math.abs(data.total) > 5}
                 <div class="fl-text-align-right">
-                    <a href="${data.moreLink}" class="s3d-action s3d-action-seeall">__MSG__SEE_ALL__</a>
+                    <a href="/search/content#q=*" class="s3d-action s3d-action-seeall">__MSG__SEE_ALL__</a>
                 </div>
             {/if}
         --></div>

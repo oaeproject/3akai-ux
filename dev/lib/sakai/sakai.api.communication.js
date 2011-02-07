@@ -30,7 +30,7 @@
  * @namespace
  * Communication related convenience functions
  */
-define(["jquery"], function($) {
+define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
     return {
         /**
          * Sends a Sakai message to one or more users. If a group id is received, the
@@ -38,7 +38,7 @@ define(["jquery"], function($) {
          *
          * @param {Array|String} to Array with the ids of the users or groups to post a
          *   message to or a String with one user or group id.
-         * @param {String} from Who the message is from - userid
+         * @param {String} meData Who the message is from - sakai.data.me (or equivolent profile)
          * @param {String} subject The subject for this message
          * @param {String} body The text that this message will contain
          * @param {String} [category="message"] The category for this message
@@ -48,14 +48,11 @@ define(["jquery"], function($) {
          * @param {Boolean|String} [mailContent] False or String of content that contains HTML or regular text
          *
          */
-        sendMessage: function(to, from, subject, body, category, reply, callback, sendMail) {
-
-            /////////////////////////////
-            // CONFIGURATION VARIABLES //
-            /////////////////////////////
+        sendMessage : function(to, meData, subject, body, category, reply, callback, sendMail, context) {
 
             var toUsers = "";              // aggregates all message recipients
             var sendDone = false;          // has the send been issued?
+
 
             ///////////////////////
             // UTILITY FUNCTIONS //
@@ -81,35 +78,64 @@ define(["jquery"], function($) {
                 }
             };
 
-            var doSendMail = function(){
-                // Basic message details
+            var buildEmailParams = function(){
                 var toSend = {
                     "sakai:type": "smtp",
                     "sakai:sendstate": "pending",
                     "sakai:messagebox": "outbox",
                     "sakai:to": toUsers,
-                    "sakai:from": from,
+                    "sakai:from": meData.user.userid,
                     "sakai:subject": subject,
                     "sakai:body": body,
                     "sakai:category": "message",
                     "_charset_": "utf-8"
                 };
 
-                // Message category
-                if (category) {
-                    toSend["sakai:category"] = category;
-                } else {
-                    toSend["sakai:category"] = "message";
+                switch(context){
+                    case "new_message":
+                        toSend["sakai:templatePath"] = "/var/templates/email/new_message";
+                        toSend["sakai:templateParams"] = "sender=" + meData.profile.basic.elements.firstName.value + " " + meData.profile.basic.elements.lastName.value +
+                        "|system=Sakai|subject=" + subject + "|body=" + body + "|link=" + sakai_conf.SakaiDomain + sakai_conf.URL.INBOX_URL;
+                        break;
+                    case "join_request":
+                        toSend["sakai:templatePath"] = "/var/templates/email/join_request";
+                        toSend["sakai:templateParams"] = "sender=" + meData.profile.basic.elements.firstName.value + " " + meData.profile.basic.elements.lastName.value + 
+                        "|system=Sakai|name=" + sakai_global.currentgroup.data.authprofile["sakai:group-title"] +
+                        "|profilelink=" + sakai_conf.SakaiDomain + "~" + meData.user.userid + 
+                        "|acceptlink=" + sakai_conf.SakaiDomain + sakai_conf.URL.GROUP_EDIT_URL + "?id=" +  sakai_global.currentgroup.id;
+                        break;
+                    case "group_invitation":
+                        toSend["sakai:templatePath"] = "/var/templates/email/group_invitation";
+                        toSend["sakai:templateParams"] = "sender=" + meData.profile.basic.elements.firstName.value + " " + meData.profile.basic.elements.lastName.value + 
+                        "|system=Sakai|name=" + sakai_global.currentgroup.data.authprofile["sakai:group-title"] +
+                        "|body=" + body + 
+                        "|link=" + sakai_conf.SakaiDomain + "/~" + sakai_global.currentgroup.id;
+                        break;
+                    case "shared_content":
+                        toSend["sakai:templatePath"] = "/var/templates/email/shared_content";
+                        toSend["sakai:templateParams"] = "sender=" + meData.profile.basic.elements.firstName.value + " " + meData.profile.basic.elements.lastName.value + 
+                        "|system=Sakai|name=" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] +
+                        "|description=" + sakai_global.content_profile.content_data.data["sakai:description"] +
+                        "|body=" + body + 
+                        "|link=" + sakai_global.content_profile.content_data.url;
+                        break;
+                    case "contact_invitation":
+                        toSend["sakai:templatePath"] = "/var/templates/email/contact_invitation";
+                        toSend["sakai:templateParams"] = "sender=" + meData.profile.basic.elements.firstName.value + " " + meData.profile.basic.elements.lastName.value + 
+                        "|system=Sakai|body=" + body +
+                        "|link=" + sakai_conf.SakaiDomain + "/~" + meData.user.userid +"?accepttrue";
+                        break;
                 }
+                return toSend;
+            };
 
-                // See if this is a reply or not
-                if (reply) {
-                    toSend["sakai:previousmessage"] = reply;
-                }
+            var doSendMail = function(){
+                // Basic message details
+                var toSend = buildEmailParams();
 
                 // Send message
                 $.ajax({
-                    url: "/~" + from + "/message.create.html",
+                    url: "/~" + meData.user.userid + "/message.create.html",
                     type: "POST",
                     data: toSend,
                     success: function(data) {
@@ -123,15 +149,9 @@ define(["jquery"], function($) {
                         }
                     }
                 });
-                // the send has been issued
                 sendDone = true;
             };
 
-            /**
-             * Sets up and initiates an AJAX POST to send this message to its recipients
-             * @param None
-             * @return None
-             */
             var doSendMessage = function() {
                 // Basic message details
                 var toSend = {
@@ -139,7 +159,7 @@ define(["jquery"], function($) {
                     "sakai:sendstate": "pending",
                     "sakai:messagebox": "outbox",
                     "sakai:to": toUsers,
-                    "sakai:from": from,
+                    "sakai:from": meData.user.userid,
                     "sakai:subject": subject,
                     "sakai:body":body,
                     "_charset_":"utf-8"
@@ -159,10 +179,13 @@ define(["jquery"], function($) {
 
                 // Send message
                 $.ajax({
-                    url: "/~" + from + "/message.create.html",
+                    url: "/~" + meData.user.userid + "/message.create.html",
                     type: "POST",
                     data: toSend,
                     success: function(data){
+                        if (sendMail) {
+                            doSendMail();
+                        }
                         if ($.isFunction(callback)) {
                             callback(true, data);
                         }
@@ -215,11 +238,7 @@ define(["jquery"], function($) {
                     addRecipient(to);
                     // send now if we have only a list of users ("thread" safe?)
                     if (!sendDone) {
-                        if (sendMail) {
-                            doSendMail();
-                        } else {
-                            doSendMessage();
-                        }
+                        doSendMessage();
                     }
                 }
             });

@@ -12,11 +12,6 @@
         <!-- Sakai Page CSS -->
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.inbox.css" />
 
-        <!-- 3rd party CSS -->
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.components.jq_pager.css" />
-        <link rel="stylesheet" type="text/css" href="/dev/lib/jquery/plugins/gritter/css/jquery.gritter.css" />
-        <link rel="stylesheet" type="text/css" href="/dev/css/lib/jquery.autoSuggest.css" />
-
     </head>
 
     <body class="fl-centered inbox_main inbox_detail i18nable">
@@ -62,18 +57,18 @@
                         </div>
                         <div class="if_content s3d-content s3d-regular-light-links">
 
-                            <div class="tab s3d-bold"><div><a href="javascript:;" class="inbox_filter" id="inbox_filter_inbox"><span><!-- --></span>__MSG__INBOX__</a></div></div>
+                            <div class="tab s3d-bold"><div><a href="javascript:;" class="inbox_filter" id="inbox_filter_inbox"><div class="inbox_icon"><!-- --></div>__MSG__INBOX__</a></div></div>
 
                             <ul>
-                                <li><a href="javascript:;" class="inbox_filter" id="inbox_filter_messages"><span><!-- --></span>__MSG__MESSAGES__</a> <span id="inbox_unread_nr_messages"></span></li>
-                                <li><a href="javascript:;" class="inbox_filter" id="inbox_filter_announcements"><span><!-- --></span>__MSG__ANNOUNCEMENTS__</a> <span id="inbox_unread_nr_announcements"></span></li>
-                                <li><a href="javascript:;" class="inbox_filter" id="inbox_filter_chats"><span><!-- --></span>__MSG__CHATS__</a> <span id="inbox_unread_nr_chats"></span></li>
-                                <li><a href="javascript:;" class="inbox_filter" id="inbox_filter_invitations"><span><!-- --></span>__MSG__INVITATIONS__</a> <span id="inbox_unread_nr_invitations"></span></li>
+                                <li><a href="javascript:;" class="inbox_filter" id="inbox_filter_messages"><div class="inbox_icon"><!-- --></div>__MSG__MESSAGES__</a> <span id="inbox_unread_nr_messages"></span></li>
+                                <li><a href="javascript:;" class="inbox_filter" id="inbox_filter_announcements"><div class="inbox_icon"><!-- --></div>__MSG__ANNOUNCEMENTS__</a> <span id="inbox_unread_nr_announcements"></span></li>
+                                <li><a href="javascript:;" class="inbox_filter" id="inbox_filter_chats"><div class="inbox_icon"><!-- --></div>__MSG__CHATS__</a> <span id="inbox_unread_nr_chats"></span></li>
+                                <li><a href="javascript:;" class="inbox_filter" id="inbox_filter_invitations"><div class="inbox_icon"><!-- --></div>__MSG__INVITATIONS__</a> <span id="inbox_unread_nr_invitations"></span></li>
                             </ul>
 
-                            <div class="tab s3d-bold"><div><a href="javascript:;" class="inbox_filter" id="inbox_filter_sent"><span><!-- --></span>__MSG__SENT__</a></div></div>
+                            <div class="tab s3d-bold"><div><a href="javascript:;" class="inbox_filter" id="inbox_filter_sent"><div class="inbox_icon"><!-- --></div>__MSG__SENT__</a></div></div>
 
-                            <div class="tab s3d-bold"><div><a href="javascript:;" class="inbox_filter" id="inbox_filter_trash"><span><!-- --></span>__MSG__TRASH__</a></div></div>
+                            <div class="tab s3d-bold"><div><a href="javascript:;" class="inbox_filter" id="inbox_filter_trash"><div class="inbox_icon"><!-- --></div>__MSG__TRASH__</a></div></div>
 
                         </div>
                         <div class="s3d-no-options">
@@ -199,7 +194,7 @@
                                                 <td><a class="inbox_inbox_message_from" href="/~${m['sakai:from']}">${m['sakai:to']}</a></td>
                                             {/if}
                                         {/if}
-                                        <td id="inbox_table_subject_${m.id}"><a href="javascript:;" class="inbox_inbox_message s3d-regular-light-links" id="inbox_inbox_message_${m['jcr:name']}">${m.subject}</a></td>
+                                        <td id="inbox_table_subject_${m.id}"><a href="javascript:;" class="inbox_inbox_message s3d-regular-light-links" id="inbox_inbox_message_${m['jcr:name']}">${m["sakai:subject"]}</a></td>
                                         <td>${m.category}</td>
                                         <td>${m.date}</td>
                                 </tr>
@@ -242,7 +237,7 @@
                             <!-- Sender details -->
                             <div class="sender_details">
                                 <div class="sender_picture_container">
-                                    <a href="javascript:;" title="__MSG__TO_SEE_THE_SENDERS_PROFILE__" id="inbox_message_from_picture"><img src="/dev/images/profile_picture.gif" class="sender-picture" id="inbox_message_picture" alt="__MSG__SENDERS_PROFILE_PIC__" /></a>
+                                    <a href="javascript:;" title="__MSG__TO_SEE_THE_SENDERS_PROFILE__" id="inbox_message_from_picture"><img src="/dev/images/profile_picture.gif" class="sender-picture" id="inbox_message_picture" alt="__MSG__SENDERS_PROFILE_PIC__"/></a>
                                 </div>
                                 <div class="inbox_message_user">
                                     <a href="javascript:;" class="sender-name s3d-regular-light-links s3d-bold" id="inbox_message_from" title="__MSG__FROM__"><!-- --></a>
@@ -289,6 +284,7 @@
                                     {else}
                                         <img src="/dev/images/person_icon.jpg" class="sender-picture" alt="__MSG__TO_SEE_THE_USERS_PROFILE_INFORMATION__" id="inbox_message_picture" />
                                     {/if}
+                                    </a>
                                 </div>
                                 <div class="inbox_message_user">
                                     {for fromUser in r.userFrom}

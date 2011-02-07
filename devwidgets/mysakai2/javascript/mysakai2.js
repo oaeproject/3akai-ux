@@ -114,7 +114,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         $("#mysakai2_add_files_link").click(function(ev){
-            sakai.sakai2favourites.initialise();
+            // Load the sakai 2 favourites widget.
+            $(window).trigger("sakai.sakai2favourites.init");
         });
 
         /**
@@ -123,6 +124,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var doInit = function(){
             //get sakai2 list information and then render in my sakai2 widget
             loadSakai2SiteList();
+            sakai.api.Widgets.widgetLoader.insertWidgets("sakai2favourites_container", false);
         };
 
 

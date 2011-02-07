@@ -97,27 +97,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
 
         /**
-         * Returns a human readable date and time based on the given jcr:created
-         * timestamp. WARNING--THIS FUNCTION IS NOT SAFE TO USE IN ALL BROWSERS
-         *
-         * @param {String} jcr_created jcr:created timestamp to convert
-         * @return {String} human readable date
-         */
-        var getReadableRequestAge = function (jcr_created) {
-            if (jcr_created && typeof(jcr_created) === "string") {
-                var date = new Date(jcr_created);
-                if (date) {
-                    return date.toLocaleString();
-                } else {
-                    return jcr_created;
-                }
-            } else {
-                // not sure what this is - just send it back
-                return jcr_created;
-            }
-        };
-
-        /**
          * Fetches join requests from the server
          */
         var getJoinRequestsData = function () {
@@ -131,13 +110,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         for (var i in data.results) {
                             if (data.results.hasOwnProperty(i)) {
                                 var jr = data.results[i];
-                                joinrequests.push({
-                                    "userid": jr.userid,
-                                    "firstName": jr.basic.elements.firstName.value,
-                                    "lastName": jr.basic.elements.lastName.value,
-                                    "request_age": $.timeago(jr["jcr:created"]),
-                                    "pic_src": jr.picture
-                                });
+                                if (automaticallyAcceptUser(jr.userid)) {
+                                    var displayName = jr.basic.elements.firstName.value +
+                                        " " + jr.basic.elements.lastName.value;
+                                    addUser(jr.userid, displayName);
+                                } else {
+                                    joinrequests.push({
+                                        "userid": jr.userid,
+                                        "firstName": jr.basic.elements.firstName.value,
+                                        "lastName": jr.basic.elements.lastName.value,
+                                        "request_age": $.timeago(jr["jcr:created"]),
+                                        "pic_src": jr.picture
+                                    });
+                                }
                             }
                         }
                         renderJoinRequests(joinrequests);
@@ -146,19 +131,42 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
         };
 
+
+        /**
+         * Returns whether or not the given user should automatically be accepted
+         * based on the 'accept' URL param.
+         *
+         * @param {String} userid The ID of the user that may need to be
+         * automatically accepted
+         * @return {Boolean} true if the given user's join request should be
+         * automatically accepted, false otherwise
+         */
+        var automaticallyAcceptUser = function (userid) {
+            if (userid && typeof(userid) == "string") {
+                var request = new Querystring();
+                return request.get("accept", null) == userid;
+            } else {
+                return false;
+            }
+        };
+
+
         /**
          * Adds a user to the current group
          *
          * @param {String} userid The ID of the user to add to the current group
          */
-        var addUser = function (userid) {
+        var addUser = function (userid, displayName) {
             // add user to group
             sakai.api.Groups.addUsersToGroup(sakai_global.currentgroup.id, "members", [userid], function (success) {
                 if (success) {
                     // show notification
+                    var name = displayName;
+                    if (!name) {
+                        name = $("#joinrequests_username_link_" + userid).html();
+                    }
                     sakai.api.Util.notification.show($joinrequestsTitle.html(),
-                        $("#joinrequests_username_link_" + userid).html() +
-                        " "+$joinrequestsSuccess.html());
+                        name + " " + $joinrequestsSuccess.html());
 
                     // trigger the member list on group_edit.html to refresh
                     $(window).trigger("sakai-listpeople-ready", "members");
@@ -170,6 +178,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             });
         };
+
 
         /**
          * Removes a join request from the UI and the server

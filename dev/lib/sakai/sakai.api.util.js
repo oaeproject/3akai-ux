@@ -800,7 +800,7 @@ define(["jquery",
                 for (item in directory) {
                     if (directory.hasOwnProperty(item)) {
                         // url for the first level nodes
-                        var url = "/dev/directory.html#" + item;
+                        var url = "/directory#" + item;
                         // call buildnoderecursive to get the node structure to render.
                         result.push(buildNodeRecursive(item, directory, url));
                     }
@@ -814,7 +814,7 @@ define(["jquery",
              *
              * @param {String} node_id  the unique id for each node for example firstyearcourses
              * @param {Object} directory directory list json object for example "collegeofengineering": { ... }
-             * @param {String} url the url of the page to render when directory node is clicked for example /dev/directory.html#collegeofengineering
+             * @param {String} url the url of the page to render when directory node is clicked for example /directory#collegeofengineering
              *
              * @return node the json object in the structure necessary to render in jstree
              */
@@ -852,8 +852,8 @@ define(["jquery",
                     if (directory[node_id].children.hasOwnProperty(child)) {
                         // for each child node, call buildnoderecursive to build the node structure
                         // pass current child(id), the list of all sibligs(json object) and url append/child
-                        // for example first level node /dev/directory.html#courses/firstyearcourses
-                        // for second level node /dev/directory.html#course/firstyearcourses/chemistry
+                        // for example first level node /directory#courses/firstyearcourses
+                        // for second level node /directory#course/firstyearcourses/chemistry
                         node.children.push(buildNodeRecursive(child, directory[node_id].children, url + "/" + child));
                     }
                 }
@@ -943,7 +943,6 @@ define(["jquery",
                     type: "POST",
                     data: dataToSend,
                     success: function(data){
-
                         if ($.isFunction(callback)) {
                             callback(data, true);
                         }
@@ -1145,6 +1144,16 @@ define(["jquery",
             },
 
             /**
+             * Represent URL if any in an anchor tag.
+             * @param {Object} message Message that user has entered.
+             */
+            replaceURL : function(message){
+                // get the regex code from
+                // http://www.codeproject.com/KB/scripting/replace_url_in_ajax_chat.aspx
+                return message.replace(/(\w+):\/\/[\S]+(\b|$)/gim,'<a href="$&" class="my_link s3d-regular-links s3d-bold" target="_blank">$&</a>');
+            },
+
+            /**
              * Sanitizes HTML content. All untrusted (user) content should be run through
              * this function before putting it into the DOM
              *
@@ -1294,7 +1303,7 @@ define(["jquery",
              */
             send404 : function(){
                 var redurl = window.location.pathname + window.location.hash;
-                document.location = "/dev/404.html?url=" + escape(window.location.pathname + window.location.search + window.location.hash);
+                document.location = "/404?url=" + escape(window.location.pathname + window.location.search + window.location.hash);
                 return false;
             },
 
@@ -1304,7 +1313,7 @@ define(["jquery",
              */
             send403 : function(){
                 var redurl = window.location.pathname + window.location.hash;
-                document.location = "/dev/403.html?url=" + escape(window.location.pathname + window.location.search + window.location.hash);
+                document.location = "/403?url=" + escape(window.location.pathname + window.location.search + window.location.hash);
                 return false;
             },
 

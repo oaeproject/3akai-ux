@@ -1,0 +1,4 @@
+{
+  'sling:match': '^[^/]+/[^/]+/logout',
+  'sling:internalRedirect': '/dev/logout.html'
+}

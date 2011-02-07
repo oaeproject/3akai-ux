@@ -55,7 +55,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * (e.g. chat and sites widget)
          * It initializes the creategroup widget and shows the jqmodal (ligthbox)
          */
-        sakai_global.sakai2favourites.initialise = function(){
+        $(window).bind("sakai.sakai2favourites.init", function(){
             // render Category List
             loadSakai2SiteList();
             // render all sites list
@@ -66,7 +66,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("#sakai2favourites_container").jqmShow();
             // bind events
             bindEvents();
-        };
+        });
 
         /**
          * This method render Category List.

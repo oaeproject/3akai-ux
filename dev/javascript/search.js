@@ -242,10 +242,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
             var querystring = buildQuerystring();
 
-            $("#search_content_title").attr("href", "search_content.html" + querystring);
+            $("#search_content_title").attr("href", "/search/content" + querystring);
             if (Math.abs(foundCM.total) > cmToSearch) {
                 $(searchConfig.cm.displayMore).show();
-                $(searchConfig.cm.displayMore).attr("href", "search_content.html" + querystring);
+                $(searchConfig.cm.displayMore).attr("href", "/search/content" + querystring);
             }
 
             if (foundCM && foundCM.results) {
@@ -285,10 +285,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
                 var querystring = buildQuerystring();
 
-                $("#search_groups_title").attr("href", "search_groups.html" + querystring);
+                $("#search_groups_title").attr("href", "/search/groups" + querystring);
                 if (Math.abs(foundSites.total) > sitesToSearch) {
                     $(searchConfig.sites.displayMore).show();
-                    $(searchConfig.sites.displayMore).attr("href", "search_groups.html" + querystring);
+                    $(searchConfig.sites.displayMore).attr("href", "/search/groups" + querystring);
                 }
 
                 if (foundSites && foundSites.results) {
@@ -353,18 +353,21 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             // Adjust total search result count
             updateTotalHitCount(results.results.length);
 
-            $("#search_people_title").attr("href", "search_people.html#q=" + searchterm);
+            $("#search_people_title").attr("href", "/search/people#q=" + searchterm);
             if ((Math.abs(results.total) > peopleToSearch) && (results.results.length > 0)) {
-                $(searchConfig.people.displayMore).attr("href", "search_people.html#q=" + searchterm).show();
+                $(searchConfig.people.displayMore).attr("href", "/search/people#q=" + searchterm).show();
             }
 
             var querystring = buildQuerystring();
 
-            $("#search_people_title").attr("href", "search_people.html" + querystring);
+            $("#search_people_title").attr("href", "/search/people" + querystring);
             if ((Math.abs(results.total) > peopleToSearch) && (results.results.length > 0)) {
-                $(searchConfig.people.displayMore).attr("href", "search_people.html" + querystring).show();
+                $(searchConfig.people.displayMore).attr("href", "/search/people" + querystring).show();
             }
 
+            if (results && results.results) {
+                finaljson = mainSearch.preparePeopleForRender(results.results, finaljson);
+            }
             foundPeople = finaljson.items;
 
             $(searchConfig.people.searchResult).html(sakai.api.Util.TemplateRenderer(searchConfig.people.searchResultTemplate, finaljson));

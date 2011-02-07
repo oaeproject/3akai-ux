@@ -14,12 +14,11 @@
                 <p class="profile_chat_status_dropdown_link">
                         <span>__MSG__CHAT_STATUS__: </span>
                         <!-- THESE ARE FOR THE STATUS A USER HAS RIGHT NOW -->
-                        <a href="javascript:;" id="myprofile_chat_status_online" style="display:none" class="myprofile_chat_status">__MSG__AVAILABLE__</a>
-                        <a href="javascript:;" id="myprofile_chat_status_busy" style="display:none" class="myprofile_chat_status">__MSG__BUSY__</a>
-                        <a href="javascript:;" id="myprofile_chat_status_offline" style="display:none" class="myprofile_chat_status">__MSG__OFFLINE__</a>
+                        <a href="javascript:;" id="myprofile_chat_status_online" style="display:none" class="myprofile_chat_status s3d-dropdownlisttwo-text"><div class="s3d-dropdownlisttwo-arrow-down"></div>__MSG__AVAILABLE__</a>
+                        <a href="javascript:;" id="myprofile_chat_status_busy" style="display:none" class="myprofile_chat_status s3d-dropdownlisttwo-text"><div class="s3d-dropdownlisttwo-arrow-down"></div>__MSG__BUSY__</a>
+                        <a href="javascript:;" id="myprofile_chat_status_offline" style="display:none" class="myprofile_chat_status s3d-dropdownlisttwo-text"><div class="s3d-dropdownlisttwo-arrow-down"></div>__MSG__OFFLINE__</a>
                 </p>
-                <a href="javascript:;" class="fl-icon myprofile_chat_status_dropdown myprofile_chat_status_dropdown_link"></a>
-                <div id="myprofile_status" style="display:none">
+                <div id="myprofile_status" class="s3d-dropdownlisttwo-menu" style="display:none">
                     <!-- THIS IS THE DROP DOWN LIST -->
                     <ul>
                         <li><a id="user_link_chat_status_online" class="myprofile_chat_status_picker" href="javascript:;">__MSG__AVAILABLE__</a></li>
@@ -39,7 +38,7 @@
         </div>
         <div class="widget-options-inner">
             <ul>
-                <li><a href="profile_edit.html">__MSG__EDIT_PROFILE__</a></li>
+                <li><a href="/profile/edit">__MSG__EDIT_PROFILE__</a></li>
                 <li><span class="pipe_divider">|</span></li>
                 <li><a href="javascript:;" id="myprofile_preview_profile">__MSG__PREVIEW_PROFILE__</a></li>
             </ul>

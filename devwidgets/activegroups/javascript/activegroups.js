@@ -78,7 +78,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         groups.push(group);
                     }
                     groupData.results[0] = {"groups": groups};
-                    groupData.moreLink = "/dev/search_groups.html#tag=/tags/directory/" + selected;
+                    groupData.moreLink = "/search/groups#tag=/tags/directory/" + selected;
                     callback();
                 }
             });
@@ -90,7 +90,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 cache: false,
                 success: function(data){
                     groupData = data;
-                    groupData.moreLink = "/dev/search_groups.html#q=*";
+                    groupData.moreLink = "/search/groups";
                     callback();
                 }
             });
@@ -101,7 +101,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(".activegroups-widget-border").show();
                 $("#activegroups_widget").addClass("fl-widget s3d-widget");
             }
-
             // If the widget is initialized on the directory page then listen to the event to catch specified tag results
             if (!(sakai_global.directory && sakai_global.directory.getIsDirectory())) {
                 loadData(renderPopularGroups);

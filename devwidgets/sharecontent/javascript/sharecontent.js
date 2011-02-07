@@ -86,6 +86,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var sharecontentBasicTemplate = "sharecontent_basic_template";
         var sharecontentPermissionSettingsTemplate = "sharecontent_permission_settings_template";
         var sharecontentVisibilityHeaderTemplate = "#sharecontent_visibility_header_template";
+        var sharecontentMessageTemplate = "sharecontent_share_message_template";
+        var sharecontentSubjectTemplate = "sharecontent_share_subject_template";
 
         // i18n
         var sharecontentCanEdit = "#sharecontent_can_edit";
@@ -93,15 +95,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var $sharecontentThereShouldBeAtLeastOneManager = $("#sharecontent_there_should_be_at_least_one_manager");
         var $sharecontentManagerCouldNotBeRemoved = $("#sharecontent_manager_could_not_be_removed");
 
-        var $sharecontentWantsToShareAFileWithYou = $("#sharecontent_wants_to_share_a_file_with_you");
-        var $sharecontentHi = $("#sharecontent_hi");
-        var $sharecontentIWouldLikeToShareFilenameWithYou = $("#sharecontent_i_would_like_to_share_filename_with_you");
-        var $sharecontentYouCanFindItOn = $("#sharecontent_you_can_find_it_on");
-        var $sharecontentRegards = $("#sharecontent_regards");
-        var shareThroughInternalMessageContent = "";
-        var shareThroughInternalMessageSubject = "";
-        var shareThroughMailSubject = "";
-        var shareThroughMailContent = "";
+        var shareData = {
+            "filename": "\"" +  sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"",
+            "path": window.location,
+            "user": sakai.data.me.profile.basic.elements.firstName.value
+        };
 
         var userList = [];
         var initialized = false;
@@ -178,7 +176,36 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             var activityData = {
                 "sakai:activityMessage": activityMessage
             };
-            sakai.api.Activity.createActivity("/p/" + sakai_global.content_profile.content_data.data["jcr:name"], "content", "default", activityData);
+            sakai.api.Activity.createActivity("/p/" + sakai_global.content_profile.content_data.data["jcr:name"], "content", "default", activityData, function(){
+                $(window).trigger("load.content_profile.sakai", function(){
+                    $(window).trigger("render.entity.sakai", ["content", sakai_global.content_profile.content_data]);
+                });
+            });
+        };
+
+
+        /**
+         * Checks whether the current user can edit the current content item
+         *
+         * @return Boolean  true if member can edit content, false otherwise
+         */
+        var canCurrentUserEdit = function () {
+            var managers = sakai_global.content_profile.content_data.members.managers;
+            for (var i in managers) {
+                if (managers.hasOwnProperty(i)) {
+                    if (managers[i].hasOwnProperty("rep:userId")) {
+                        if (sakai.data.me.user.userid === managers[i]["rep:userId"]) {
+                            return true;
+                        }
+                    } else if (managers[i].hasOwnProperty("sakai:group-id")) {
+                        if (sakai.api.Groups.isCurrentUserAMember(
+                            managers[i]["sakai:group-id"], sakai.data.me)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
         };
 
         var removeMembers = function(selectedUserId, listItem){
@@ -186,12 +213,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             var removeAllowed = true;
             var itemArr = [];
             var item;
+            var userid = selectedUserId.substring(selectedUserId.indexOf("-") + 1, selectedUserId.length);
             if (permission !== "manager") {
                 item = {
                     "url": "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".members.json",
                     "method": "POST",
                     "parameters": {
-                        ":viewer@Delete": selectedUserId.substring(selectedUserId.indexOf("-") + 1, selectedUserId.length)
+                        ":viewer@Delete": userid
                     }
                 };
             } else {
@@ -203,7 +231,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                         "url": "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".members.json",
                         "method": "POST",
                         "parameters": {
-                            ":manager@Delete": selectedUserId.substring(selectedUserId.indexOf("-") + 1, selectedUserId.length)
+                            ":manager@Delete": userid
                         }
                     };
                 }
@@ -217,63 +245,99 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     url: sakai.config.URL.BATCH,
                     traditional: true,
                     type: "POST",
-                    cache: false,
                     data: {
                         requests: $.toJSON(itemArr)
                     },
                     success: function(data){
                         $(window).trigger("sakai-sharecontent-removeUser", {
-                            "user": selectedUserId.substring(selectedUserId.indexOf("-") + 1, selectedUserId.length),
+                            "user": userid,
                             "access": permission
                         });
                         listItem.remove();
                         createActivity("__MSG__MEMBERS_REMOVED_FROM_CONTENT__");
+
+                        // reload if the current user can no longer edit
+                        if (!canCurrentUserEdit()) {
+                            window.location.reload();
+                        }
                     }
                 });
             } else {
-                sakai.api.Util.notification.show($sharecontentManagerCouldNotBeRemoved.text(), $sharecontentThereShouldBeAtLeastOneManager.text());
+                sakai.api.Util.notification.show($sharecontentManagerCouldNotBeRemoved.text(),
+                    $sharecontentThereShouldBeAtLeastOneManager.text());
             }
-
         };
 
         String.prototype.startsWith = function(str){
             return (this.indexOf(str) === 0);
         };
 
-        var changePermission = function(userid, permission){
+        var changePermission = function(memberid, permission) {
             var data = [];
             if (permission === "viewer") {
-                item = {
-                    "url": "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".members.json",
-                    "method": "POST",
-                    "parameters": {
-                        ":viewer": userid,
-                        ":manager@Delete": userid
+                $.ajax({
+                    url: "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".members.json",
+                    type: "POST",
+                    data: {
+                        ":viewer": memberid,
+                        ":manager@Delete": memberid
+                    },
+                    success: function () {
+                        // update cached data (move this member from managers to viewers)
+                        var managers = sakai_global.content_profile.content_data.members.managers;
+                        for (var i = 0; i < managers.length; i++) {
+                            var manager = managers[i];
+                            if (manager["rep:userId"] === memberid || manager["sakai:group-id"] === memberid) {
+                                // append this member to viewers
+                                sakai_global.content_profile.content_data.members.viewers.push(manager);
+                                // remove from managers
+                                managers.splice(i, 1);
+                            }
+                        }
+
+                        // create activity
+                        createActivity("__MSG__CHANGED_PERMISSIONS_FOR_MEMBER__");
+
+                        // reload if the current user can no longer edit
+                        if (!canCurrentUserEdit()) {
+                            window.location.reload();
+                        }
+                    },
+                    error: function (data) {
+                        debug.error("sharecontent failed to change content " +
+                            "permission to 'viewer' for member: " + memberid);
+                        debug.error("xhr data returned: " + data);
                     }
-                };
-                data.push(item);
+                });
             } else {
-                item = {
-                    "url": "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".members.json",
-                    "method": "POST",
-                    "parameters": {
-                        ":manager": userid,
-                        ":viewer@Delete": userid
+                $.ajax({
+                    url: "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".members.json",
+                    type: "POST",
+                    data: {
+                        ":manager": memberid,
+                        ":viewer@Delete": memberid
+                    },
+                    success: function (data) {
+                        // update cached data (move this member from viewers to managers)
+                        var viewers = sakai_global.content_profile.content_data.members.viewers;
+                        for (var i = 0; i < viewers.length; i++) {
+                            var viewer = viewers[i];
+                            if (viewer["rep:userId"] === memberid || viewer["sakai:group-id"] === memberid) {
+                                // append this member to managers
+                                sakai_global.content_profile.content_data.members.managers.push(viewer);
+                                // remove from viewers
+                                viewers.splice(i, 1);
+                            }
+                        }
+                        createActivity("__MSG__CHANGED_PERMISSIONS_FOR_MEMBER__");
+                    },
+                    error: function (data) {
+                        debug.error("sharecontent failed to change content " +
+                            "permission to 'manager' for member: " + memberid);
+                        debug.error("xhr data returned: " + data);
                     }
-                };
-                data.push(item);
+                });
             }
-            // batch request to update user access for the content
-            $.ajax({
-                url: sakai.config.URL.BATCH,
-                traditional: true,
-                type: "POST",
-                data: {
-                    requests: $.toJSON(data)
-                }, success : function(){
-                    createActivity("__MSG__CHANGED_PERMISSIONS_FOR_MEMBER__");
-                }
-            });
         };
 
         var setGlobalPermission = function(){
@@ -373,15 +437,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             });
 
             $(sharecontentMessageLink).live("click", function(){
-                $(window).trigger("initialize.sendmessage.sakai", [null, true, false, null, shareThroughInternalMessageSubject, shareThroughInternalMessageContent]);
+                $(window).trigger("initialize.sendmessage.sakai", [null, true, false, null, sakai.api.Util.TemplateRenderer(sharecontentSubjectTemplate, shareData), sakai.api.Util.TemplateRenderer(sharecontentMessageTemplate, shareData)]);
             });
 
             $(sharecontentEmailLink).live("click", function(){
-                location.href = "mailto:?subject=" + shareThroughMailSubject +
-                "&body=" + shareThroughMailContent;
+                location.href = "mailto:?subject=" + sakai.api.Util.TemplateRenderer(sharecontentSubjectTemplate, shareData) +
+                "&body=" + sakai.api.Util.TemplateRenderer(sharecontentMessageTemplate, shareData);
             });
-
-            $(sharecontentMessageNewMembers).val(shareThroughInternalMessageContent);
 
             $(sharecontentLinkInput).live("focus", function(){
                 this.select();
@@ -399,7 +461,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     }
                 });
                 sharecontentEditPermissionsLink = $("#sharecontent_edit_permission");
-                sharecontentEditPermissionsLink.css("width", $(this).width() + 11);
+                sharecontentEditPermissionsLink.css("width", $(this).width() + 11 + "px");
                 sharecontentEditPermissionsLink.css("left",$(this).position().left + 2 + "px");
                 sharecontentEditPermissionsLink.css("top",$(this).position().top + 21 + "px");
                 sharecontentEditPermissionsLink.toggle();
@@ -419,11 +481,19 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
 
                 if (changeTo === "viewer") {
                     if ($sharecontentSelectedSharerSpan.html() !== $(sharecontentCanView).html()) {
-                        $sharecontentSelectedSharerSpan.html($(sharecontentCanView).html());
-                        if (sharecontentSelectedSharer !== "") {
-                            changePermission(sharecontentSelectedSharer, changeTo);
+                        if (sakai_global.content_profile.content_data.members.managers.length <= 1) {
+                            // do not allow the last manager to become a viewer
+                            sakai.api.Util.notification.show(
+                                $sharecontentManagerCouldNotBeRemoved.text(),
+                                $sharecontentThereShouldBeAtLeastOneManager.text());
                         } else {
-                            $(sharecontentNewMembersPermissions).val("viewer");
+                            // there is more than one manager; OK to become viewer
+                            $sharecontentSelectedSharerSpan.html($(sharecontentCanView).html());
+                            if (sharecontentSelectedSharer !== "") {
+                                changePermission(sharecontentSelectedSharer, changeTo);
+                            } else {
+                                $(sharecontentNewMembersPermissions).val("viewer");
+                            }
                         }
                     }
                 }
@@ -480,6 +550,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 asHtmlID: tuid,
                 selectedItemProp: "name",
                 searchObjProps: "name",
+                startText: "Enter name here",
                 formatList: function(data, elem) {
                     // formats each line to be presented in autosuggest list
                     // add the correct image, wrap name in a class
@@ -532,14 +603,29 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          */
         var addPeople = function(iConfig){
             var userList = getSelectedList();
+            $.each(userList.list, function(i, val){
+                userList.list[i] = val.split("/")[1];
+            });
             // send the message if its not empty
             var messageText = $.trim($(sharecontentMessageNewMembers).val());
             if (messageText !== "") {
-                sakai.api.Communication.sendMessage(userList.list, sakai.data.me.user.userid, sakai.api.i18n.Widgets.getValueForKey("sharecontent", "", "I_WANT_TO_SHARE") + " \"" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"", messageText, false, false, false);
+                sakai.api.Communication.sendMessage(userList.list, sakai.data.me, sakai.api.i18n.Widgets.getValueForKey("sharecontent", "", "I_WANT_TO_SHARE") + " \"" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"", messageText, "message", false, false, false, "shared_content");
             }
 
             var mode = $(sharecontentNewMembersPermissions).val();
-            $(window).trigger("sakai-sharecontent-finished", {"toAdd": userList.list, "toAddNames": userList.toAddNames, "mode": mode});
+            var toAddList = userList.list.slice();
+
+            for (var i in toAddList){
+                if (toAddList.hasOwnProperty(i) && toAddList[i]) {
+                    if (toAddList[i].substring(0,5) === "user/") {
+                        toAddList[i] = toAddList[i].substring(5, toAddList[i].length);
+                    } else if (toAddList[i].substring(0,6) === "group/") {
+                        toAddList[i] = toAddList[i].substring(6, toAddList[i].length);
+                    }
+                }
+            }
+
+            $(window).trigger("sakai-sharecontent-finished", {"toAdd": toAddList, "toAddNames": userList.toAddNames, "mode": mode});
 
             $(window).trigger("sakai-sharecontent-addUser", {
                 "user": userList,
@@ -547,6 +633,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             });
 
             createActivity("__MSG__ADDED_A_MEMBER__");
+
+            //reset form
+            reset();
         };
 
         /**
@@ -566,8 +655,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             }
 
             // bind elements, replace some text
-            $sharecontent_i_want_to_share.html(sakai.api.i18n.Widgets.getValueForKey("sharecontent", "", "VISIBILITY_AND_PERMISSION_FOR") + " \"" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"");
+            $sharecontent_i_want_to_share.html(sakai.api.i18n.Widgets.getValueForKey("sharecontent", "", "I_WANT_TO_SHARE") + " \"" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"");
             $(sharecontentBasicContainer).html(sakai.api.Util.TemplateRenderer(sharecontentBasicTemplate, sakai));
+
+
+            // Render the default sharing message
+            $(sharecontentMessageNewMembers).html(sakai.api.Util.TemplateRenderer(sharecontentMessageTemplate, shareData));
 
             // Inserts the listpeople widget
             sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
@@ -578,12 +671,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
 
             $sharecontent_container_search.removeClass("no_message");
             $(sharecontent_search_query).focus();
-            $sharecontent_add_button.unbind("click");
-            $sharecontent_add_button.bind("click", function(){
-                addPeople(iConfig);
-                //reset form
-                reset();
-            });
 
             $sharecontent_add_button.hide();
             $(sharecontent_dont_share_button).hide();
@@ -604,6 +691,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 addBinding();
             }
             setupAutoSuggest();
+
+            $sharecontent_add_button.unbind("click", addPeople);
+            $sharecontent_add_button.bind("click", iConfig, addPeople);
         };
 
         $sharecontent_container.jqm({
@@ -648,10 +738,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
 
         $(window).unbind("sakai-sharecontent-init");
         $(window).bind("sakai-sharecontent-init", function(e, config, callbackFn) {
-            shareThroughInternalMessageContent = $sharecontentHi.html() + ",\n\n" + $sharecontentIWouldLikeToShareFilenameWithYou.html().replace("${filename}", "\"" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"") + "\n" + $sharecontentYouCanFindItOn.html().replace("${path}", window.location) + "\n\n" + $sharecontentRegards.html() + ",\n" + sakai.data.me.profile.basic.elements.firstName.value;
-            shareThroughInternalMessageSubject = $sharecontentWantsToShareAFileWithYou.html().replace("${user}", sakai.data.me.profile.basic.elements.firstName.value + " " + sakai.data.me.profile.basic.elements.lastName.value);
-            shareThroughMailSubject = $sharecontentWantsToShareAFileWithYou.html().replace("${user}", sakai.data.me.profile.basic.elements.firstName.value + " " + sakai.data.me.profile.basic.elements.lastName.value);
-            shareThroughMailContent = $sharecontentHi.html() + ",%0A%0A" + $sharecontentIWouldLikeToShareFilenameWithYou.html().replace("${filename}", "\"" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"") + "%0A" + $sharecontentYouCanFindItOn.html().replace("${path}", window.location) + "%0A%0A" + $sharecontentRegards.html() + ",%0A" + sakai.data.me.profile.basic.elements.firstName.value;
             $sharecontent_container.jqmShow();
             render(config);
             $(window).unbind("sakai-pickeradvanced-finished");
@@ -661,10 +747,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             callback = callbackFn;
         });
 
-        $(document).bind("click", function(e){
-            if (!$(e.target).is(".sharecontent_edit_permission") && !$(e.target).is(sharecontentPermissionsLink)) {
-                if($(sharecontentEditPermissionsLink).is(":visible")){
-                    $(sharecontentEditPermissionsLink).toggle();
+        $(document).bind("click", function(e) {
+            var $target = $(e.target);
+            if (!$target.hasClass("sharecontent_permission_link") &&
+                !$target.hasClass("s3d-button-link-2-state-inner") &&
+                !$target.hasClass("sharecontent_permission")) {
+                if($(sharecontentEditPermissionsLink).is(":visible")) {
+                    $(sharecontentEditPermissionsLink).hide();
                 }
             }
         });

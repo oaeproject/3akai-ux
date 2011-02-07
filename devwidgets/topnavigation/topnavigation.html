@@ -51,19 +51,19 @@
     <div class="fl-container explore_nav">
         <div class="personal">
             <ul id="top_navigation">
-                <li id="login_button_container" style="display: none;"><a class="log_in" href="/dev/index.html" title="__MSG__LOGGING_IN_ALLOWS__">__MSG__LOGIN__</a></li>
-                <li id="register_button_container" style="display: none;"><a class="register" href="/dev/create_new_account.html">__MSG__REGISTER__</a></li>
+                <li id="login_button_container" style="display: none;"><a class="log_in" href="/index" title="__MSG__LOGGING_IN_ALLOWS__">__MSG__LOGIN__</a></li>
+                <li id="register_button_container" style="display: none;"><a class="register" href="/register">__MSG__REGISTER__</a></li>
 
                 <!-- CHAT STATUS DROPDOWN -->
                 <li id="user_link_container">
-                    <a id="user_link" class="user_link" href="javascript:;">
-                        <span id="topnavigation_chat_status">&nbsp;</span><span id="userid" class="user_link_chat_status"></span><span id="userid_dropdown_arrow">&nbsp;</span>
+                    <a id="user_link" class="s3d-dropdownlistone-text" href="javascript:;">
+                        <span id="topnavigation_chat_status">&nbsp;</span><span id="userid" class="user_link_chat_status"></span><span class="dropdownlistone_arrow">&nbsp;</span>
                     </a>
                 </li>
 
-                <li><a class="mail" href="/dev/inbox.html"><span id="topnavigation_mail_icon"></span> (<span id="chat_unreadMessages">0</span>)</a></li>
-                <li><a class="help" href="/dev/account_preferences.html">__MSG__MY_ACCOUNT__</a></li>
-                <li><a class="sign_out" href="/dev/logout.html">__MSG__SIGN_OUT__</a></li>
+                <li><a class="mail" href="/inbox"><span id="topnavigation_mail_icon"></span> (<span id="chat_unreadMessages">0</span>)</a></li>
+                <li><a class="help" href="/preferences">__MSG__MY_ACCOUNT__</a></li>
+                <li><a class="sign_out" href="/logout">__MSG__SIGN_OUT__</a></li>
             </ul>
 
             <div id="login_container" style="display: none;">
@@ -90,10 +90,10 @@
 </div>
 
 <!-- USER LINK MENU -->
-<div id="user_link_menu" style="display:none">
-    <div class="user_link_menu_border">
+<div id="user_link_menu" class="s3d-dropdownlistone-menu" style="display:none">
+    <div class="s3d-dropdownlistone-menu-border">
         <ul>
-            <li class="insert_more_menu_inactive">__MSG__CHAT_STATUS__</li>
+            <li class="s3d-dropdownlistone-link-inactive">__MSG__CHAT_STATUS__</li>
             <li><a id="user_link_chat_status_online" class="user_link_chat_status" href="javascript:;">__MSG__AVAILABLE__</a></li>
             <li><a id="user_link_chat_status_busy" class="user_link_chat_status" href="javascript:;">__MSG__BUSY__</a></li>
             <li><a id="user_link_chat_status_offline" class="user_link_chat_status" href="javascript:;">__MSG__OFFLINE__</a></li>

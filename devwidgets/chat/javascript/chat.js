@@ -310,15 +310,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             toggleOnlineContactsList();
         };
 
-       /**
-        * This method escape meta charcaters(!"#$%&'()*+,./:;?@[\]^`{|}~) for userid.
-        * If id contain any of those character jquery selector wont work.
-        * For example, userid : kkyaw@ will not open the chat window at all SAKIII-1855.
-        * These characters are escaped by adding \\ in front of them.
-        * For kkyaw@ , it change to kkyaw\\@
-        * @param {Object} userid    Userid of the user for which a*
-        *
-        */
+        /**
+         * This method escape meta charcaters(!"#$%&'()*+,./:;?@[\]^`{|}~) for userid.
+         * If id contain any of those character jquery selector wont work.
+         * For example, userid : kkyaw@ will not open the chat window at all SAKIII-1855.
+         * These characters are escaped by adding \\ in front of them.
+         * For kkyaw@ , it change to kkyaw\\@
+         * @param {Object} userid    Userid of the user for which a* 
+         * 
+         */
         var escapeCharacters = function(userid){
             // replace !"#$%&'()*+,./:;?@[\]^`{|}~ ) with \\ those characters
             // for example userid kkyaw@ will be returned as kkyaw\\@.
@@ -394,10 +394,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} userid    Userid of the user for which
          * we want to remove the chat window
          */
-        var removeChatWindow = function(userid){
+        var removeChatWindow = function(uid){
             var toremoveIndex = -1;
+            var userid = escapeCharacters(uid);
             for (var i = 0; i < globalChatWindows.length; i++){
-                if (globalChatWindows[i].profile.userid === userid){
+                if (globalChatWindows[i].profile.userid === uid){
                     $("#chat_online_button_" + userid).remove();
                     $("#chat_with_" + userid).remove();
                     toremoveIndex = i;
@@ -537,22 +538,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     var userid = messageField.attr("id").substring(10);
                     userid = userid.substring(0, userid.length - 4);
                     message = sakai.api.Security.escapeHTML(message);
-                    message = replaceURL(message);
+                    message = sakai.api.Security.replaceURL(message);
                     sendMessage(userid, message);
                     messageField.val("");
                 }
             }
         });
-
-        /**
-         * Represent URL if any in an anchor tag.
-         * @param {Object} message Message that user has entered.
-         */
-        var replaceURL = function(message){
-            // get the regex code from
-            // http://www.codeproject.com/KB/scripting/replace_url_in_ajax_chat.aspx
-            return message.replace(/(\w+):\/\/[\S]+(\b|$)/gim,'<a href="$&" class="my_link" target="_blank">$&</a>');
-        };
 
         /**
          * Send a chat message to a given contact
@@ -614,7 +605,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             message.time = sakai.api.l10n.transformTime(sentDate);
             message.message = messageText;
             var escapeWindow = escapeCharacters(window);
-            var chatwindow = $("#chat_with_" + window + "_content");
+            var chatwindow = $("#chat_with_" + escapeWindow + "_content");
             chatwindow.append(sakai.api.Util.TemplateRenderer("chat_content_template", message));
             // Scroll to the bottom
             chatwindow.attr("scrollTop", chatwindow.attr("scrollHeight"));
@@ -720,7 +711,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         // Pulse if it is not currently open
                         chatWindow = getChatWindow(from.userid);
                         if (!chatWindow.open && message["sakai:read"] === false) {
-                            $("#chat_online_button_" + from.userid).effect("pulsate", {times: 5}, 500);
+                            var userid = escapeCharacters(from.userid);
+                            $("#chat_online_button_" + userid).effect("pulsate", {times: 5}, 500);
                         } else if (message["sakai:read"] !== true) {
                             // the window is open, lets mark the message as read
                             message["sakai:read"] = true;

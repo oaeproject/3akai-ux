@@ -362,7 +362,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     var groupmanagers = groupid + "-managers";
 
                     // send message
-                    sakai.api.Communication.sendMessage(groupmanagers, sakai.data.me.user.userid, 
+                    sakai.api.Communication.sendMessage(groupmanagers, sakai.data.me,
                         subject, body, "message", null, function (success, data) {
                             if (success) {
                                 // show a notification and change the button
@@ -543,7 +543,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         if (invited.results[j].target === userid){
                             // is this a request to automatically accept an invitation?
                             var request = new Querystring();
-                            if (request.get("accept", "false") === "true") {
+                            if (request.get("accepttrue") === "accepttrue") {
                                 // automatically accept the invitation
                                 acceptInvitation(userid);
                             }
@@ -1112,7 +1112,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 entityconfig.data.profile.permissions = filedata["sakai:permissions"];
             }
 
-            if (document.location.pathname === "/dev/content_profile.html"){
+            if (document.location.pathname === "/dev/content_profile.html" || document.location.pathname === "/content"){
                 entityconfig.data["link_name"] = false;
             } else {
                 entityconfig.data["link_name"] = true;
@@ -1213,8 +1213,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         }
 
                         // get the time since the activity happened
-                        var activityDate = sakai.api.Datetime.parseDateString(entityconfig.data.profile.activity.results[j]["jcr:created"]);
-                        entityconfig.data.profile.activity.results[j].timeAgo = sakai.api.Datetime.getTimeAgo(activityDate);
+                        entityconfig.data.profile.activity.results[j].timeAgo = $.timeago(new Date(entityconfig.data.profile.activity.results[j]["jcr:created"]));
                     }
                 }
             }
@@ -1364,20 +1363,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             });
                         }
                     }
-                }
-                if (viewerAdded) {
-                    var viewerActivityData = {
-                        "sakai:activityMessage": viewerActivityMessage
-                    };
-                    sakai.api.Activity.createActivity(entityconfig.data.profile.contentpath, "content", "default", viewerActivityData);
-                }
-                if (managerAdded) {
-                    var replaceIdx = managerLinks.lastIndexOf(",");
-                    managerLinks = managerLinks.substring(0, replaceIdx) + " AND" + managerLinks.substring(replaceIdx + 1);
-                    var managerActivityData = {
-                        "sakai:activityMessage": managerActivityMessage + managerLinks
-                    };
-                    sakai.api.Activity.createActivity(entityconfig.data.profile.contentpath, "content", "default", managerActivityData);
                 }
                 renderTemplate();
             });

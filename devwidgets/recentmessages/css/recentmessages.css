@@ -28,4 +28,4 @@
 #recentmessages_container ul li{border-bottom:1px solid #ccc;list-style:none;padding:5px 15px;margin:0;}
 #recentmessages_container .recentmessages_alterrow{background-color:#f5f6f6;}
 #recentmessages_container ul li .recentmessages_notread{color:#000;font-weight:bold;}
-.recentmessages_ellipsis_container {word-wrap:break-word!important; width:300px;}
+.recentmessages_ellipsis_container {word-wrap:break-word!important; display:inline-block;}

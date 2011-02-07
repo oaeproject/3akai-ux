@@ -113,44 +113,13 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/video/jwplayer/swfobject
          */
         var showVideoSakaiPlayer = function(video, container) {
             try {
-                // Checks if the video is a youtube-video
-                // This is needed as a parameter for the sakai-player
-                //var isTouTube = (video.URL.search(youtubeUrl) !== -1);
-                // Renders the video-template (title, source and conatiner to place flash-player in)
-                //$(container, rootel).html(sakai.api.Util.TemplateRenderer(videoTemplate, video));
-                // some more parameters needed for the sakai-videoplayer
-                //var flashvars = {
-                //    videoURL: video.URL,
-                //    isYoutubeUrl: isTouTube
-                //};
-
-                // videoPlayer: url to the swf file
-                // id: id of the container where the videoplayer should be placed
-                // width
-                // height
-                // version
-                // expressInstall: url to the expressInstall swf
-                // flashvars: JSON-object containing the url and boolean stating if video is YouTube or not
-                // flashPlayerVars: Some variables specieing some extra features for the video
-                     // menu: show a menu or not (when right click should the user have the possibility to zoom in and such)
-                         // allowScriptAccess: does the player allow sript access
-                     // scale: should the player be scaled down
-                     // allowFullScreen: can the player go full screen
-                //swfobject.embedSWF(videoPlayer, videoTempShowMain.replace("#", ""), 320, 305, "9.0.0", expressInstall, flashvars, FlashPlayerParams);
-
-                //init the youTubeLoader javascript methods
-                //if (isTouTube) {
-                    // By putting this variable to the container of the videoPlayer, the streamingprocess for the youtube-video is started
-                    // This uses the youtubeloader.js file and is the main problem for showing multiple youtubevideos in the sakaiplayer on 1 page
-                    // this will give a global violation in jsLint, however this is how the youtubeloader works so this can be ignored
-                //    SWFID = videoTempShowMain.replace("#", "");
-                //}
 
                   video.videoContainer = tuid + "_video_container";
                   $(container, rootel).html(sakai.api.Util.TemplateRenderer(videoTemplate, video));
 
-                  var videoWidth = rootel.width() - 6 + "px";
-                  var so = new SWFObject('/devwidgets/video/jwplayer/player-licensed.swf','ply', videoWidth, '100%','9','#ffffff');
+                  var videoWidth = rootel.width() - 6;
+                  var videoHeight = videoWidth * 3 / 4; 
+                  var so = new SWFObject('/devwidgets/video/jwplayer/player-licensed.swf','ply', videoWidth + "px", videoHeight + "px",'9','#ffffff');
                   so.addParam('allowfullscreen','true');
                   so.addParam('allowscriptaccess','always');
                   so.addParam('wmode','opaque');
@@ -170,12 +139,7 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/video/jwplayer/swfobject
          * @param {Boolean} isSakaiPlayer: should the video be displayed in a sakai-player or not
          */
         var showVideo = function(video, container, isSakaiPlayer) {
-            //if (isSakaiPlayer) {
-                showVideoSakaiPlayer(video, container);
-            //}
-            //else {
-            //  ShowVideoYoutubePlayer(video, container);
-            //}
+            showVideoSakaiPlayer(video, container);
         };
 
 
@@ -290,47 +254,6 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/video/jwplayer/swfobject
         function(e, ui) {
             sakai.api.Widgets.Container.informCancel(tuid, "video");
         });
-
-        /** Bind the insert placeholder button -- NOT FOR Q1
-        $(videoPlaceholder, rootel).bind("click",
-        function(e, ui) {
-            // When adding a placeholder we just add an empty video-object
-            var video = {
-                "uid": me.user.userid,
-                "title": "",
-                "source": "",
-                "URL": "",
-                "sourceChose": "",
-                "checkviews": "",
-                "isSakaiVideoPlayer": true
-            }; // Fill in the JSON post object
-            addVideo(video);
-        }); */
-
-        /** Bind the Preview button -- NOT FOR Q1
-        $(videoPreview, rootel).bind("click",
-        function(e, ui) {
-            if ($(videoUrl, rootel).val() !== "") {
-                // Show and hide screens and buttons
-                $(videoPreview, rootel).hide();
-                $(videoSubmit, rootel).show();
-                $(videoBack, rootel).show();
-                $(videoShowPreview, rootel).show();
-                $(videoFillInfo, rootel).hide();
-                $("input[name=" + videoChoosePlayer + "][value=" + videoChoosePlayerSakai + "]", rootel).attr("checked", true);
-                var isYouTube = ($(videoUrl, rootel).val().search(youtubeUrl) !== -1);
-                // If the url is a YouTube-video the player should be the YouTubePlayer by default
-                if (isYouTube) {
-                    $("input[name=" + videoChoosePlayer + "][value=" + videoChoosePlayerYoutube + "]", rootel).attr("checked", true);
-                }
-                showVideo(getVideoJson(), videoPreviewContainer, !isYouTube);
-            }
-            else {
-                sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("PLEASE_FILL_IN_A_URL"),"",sakai.api.Util.notification.type.ERROR);
-            }
-
-        }); */
-
 
         /////////////////////////////
         // Initialisation function //

@@ -75,7 +75,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
             var groupExists = function(groupid){
                 // Check if the group exists.
                 var groupExists = false,
-                    created = false;
+                created = false;
                 $.ajax({
                     url: "/~" + groupid + ".json",
                     type: "GET",
@@ -85,9 +85,6 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                         created = true;
                     }
                 });
-                if ($.isFunction(callback)) {
-                    callback(created, groupExists);
-                }
                 return groupExists;
             };
 
@@ -402,12 +399,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
             }
 
             var managersGroupId = groupid + "-managers";
-            if($.inArray(managersGroupId, meData.user.subjects) !== -1) {
-                // current user is a group manager
-                return true;
-            } else {
-                return false;
-            }
+            return $.inArray(managersGroupId, meData.user.subjects) !== -1;
         },
 
 
@@ -425,12 +417,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                 return false;
             }
 
-            if($.inArray(groupid, meData.user.subjects) !== -1) {
-                // current user is a group member
-                return true;
-            } else {
-                return false;
-            }
+            return $.inArray(groupid, meData.user.subjects) !== -1;
         },
 
         /**
