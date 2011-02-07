@@ -43,15 +43,26 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var obj = {};
         obj.type = "showpreview";
 
+        var isJwPlayerSupportedVideo = function(mimeType) {
+            supported = false;
+            if (mimeType.substring(0, 6) === "video/" ){
+                var mimeSuffix = mimeType.substring(6);
+                if (mimeSuffix === "x-flv" || mimeSuffix === "mp4" || mimeSuffix === "3gpp") {
+                    supported = true;
+                }
+            }
+            return supported;
+        };
+
         var determineDataType = function(){
             hidePreview();
             obj.type = "showpreview";
             var callback = null;
             var arg = null;
             var mimeType = sakai_global.content_profile.content_data.data["jcr:content"]["jcr:mimeType"];
-            if (mimeType.substring(0, 6) === "video/") {
+            if (isJwPlayerSupportedVideo(mimeType)){
                 callback = renderVideoPlayer;
-            } else if (mimeType.substring(0, 6) === "audio/") {
+            } else if (mimeType === "audio/mp3" || mimeType === "audio/x-aac") {
                 callback = renderAudioPlayer;
             } else if (mimeType === "application/x-shockwave-flash") {
                 callback = renderFlashPlayer;
