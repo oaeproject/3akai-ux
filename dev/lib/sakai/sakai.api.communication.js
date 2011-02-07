@@ -115,7 +115,7 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                         toSend["sakai:templatePath"] = "/var/templates/email/shared_content";
                         toSend["sakai:templateParams"] = "sender=" + meData.profile.basic.elements.firstName.value + " " + meData.profile.basic.elements.lastName.value + 
                         "|system=Sakai|name=" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] +
-                        "|description=" + sakai_global.content_profile.content_data.data["sakai:description"] +
+                        "|description=" + (sakai_global.content_profile.content_data.data["sakai:description"] || "none")+
                         "|body=" + body + 
                         "|link=" + sakai_global.content_profile.content_data.url;
                         break;
