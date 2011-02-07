@@ -25,7 +25,7 @@
  * /dev/lib/jquery/plugins/jquery.timeago.js (Timeago)
  * /dev/lib/jquery/plugins/jquery.threedots.js (ThreeDots)
  */
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timeago.js"], function($, sakai) {
 
     /**
      * @name sakai_global.entity
@@ -1032,7 +1032,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 // Set the last modified date
                 if (jcr_content["jcr:lastModified"]) {
-                    entityconfig.data.profile.lastmodified = $.timeago(new Date(jcr_content["jcr:lastModified"]));
+                    entityconfig.data.profile.lastmodified = $.timeago(sakai.api.Util.parseSakaiDate(jcr_content["jcr:lastModified"]));
                 }
                 // Set the size of the file
                 if (jcr_content["jcr:data"]) {
@@ -1066,7 +1066,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
 
             if (filedata["jcr:created"]) {
-                entityconfig.data.profile.created = $.timeago(new Date(filedata["jcr:created"]));
+                entityconfig.data.profile.created = $.timeago(sakai.api.Util.parseSakaiDate(filedata["jcr:created"]));
             }
 
             if (filedata["sakai:pooled-content-file-name"]) {
@@ -1213,7 +1213,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         }
 
                         // get the time since the activity happened
-                        entityconfig.data.profile.activity.results[j].timeAgo = $.timeago(new Date(entityconfig.data.profile.activity.results[j]["jcr:created"]));
+                        entityconfig.data.profile.activity.results[j].timeAgo = $.timeago(sakai.api.Util.parseSakaiDate(entityconfig.data.profile.activity.results[j]["jcr:created"]));
                     }
                 }
             }
