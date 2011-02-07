@@ -6,6 +6,7 @@
     "hasSettings": true,
     "showinsakaigoodies": true,
     "type": "sakai",
+    "img":"/devwidgets/displayprofilesection/images/displayprofilesection.png",
     "description":"Display a profile section",
     "name":"Display profile section",
     "id":"displayprofilesection",
