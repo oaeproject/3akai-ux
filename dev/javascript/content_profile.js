@@ -315,7 +315,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     success: function(data){
                         if (task === 'add') {
                             sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_added_text").text()) + " " + users.toAddNames.toString().replace(/,/g, ", "));
-                            loadContentProfile(function(){$(window).trigger("render.entity.sakai", ["content", sakai_global.content_profile.content_data]);});
+                            loadContentProfile(function(){
+                                $(window).trigger("render.entity.sakai", ["content", sakai_global.content_profile.content_data]);
+                            });
                             // record that user shared content
                             sakai.api.User.addUserProgress("sharedContent");
                         }
