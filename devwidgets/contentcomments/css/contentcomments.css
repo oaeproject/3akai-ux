@@ -36,7 +36,7 @@
 .comments_posterDataName,.comments_posterData a{font-size:1em;text-decoration:none;font-weight:bold;margin:0;}
 .comments_posterData{float:left;padding-left:10px;height:25px;}
 .comments_posterData a:hover{text-decoration:underline;}
-.comments_commentMessage{width:95%;/*background-color:#eee;*/color:#333;padding:0 10px;}
+.comments_commentMessage{width:95%;color:#333;padding:0 10px;}
 .comments_commentMessage ul{float:right;margin-top:5px;margin-bottom:1px;}
 .comments_commentMessage ul span{text-align:center;}
 .comments_message{width:79%;margin-top:-5px;}
@@ -44,7 +44,7 @@
 .comments_commentLinks{overflow:auto;width:20%;float:right;}
 .comments_commentMessage ul li{display:inline;color:#BBB;}
 .comments_arrowUp{height:10px;background:#fff url(../images/comments_arrowup.jpg) no-repeat bottom left;}
-.comments_avatar{height:40px;float:left;padding:1px;border:1px solid #DEDEDE;}
+.comments_avatar{height:40px;float:left;padding:1px;border:1px solid #DEDEDE;clear:left;*margin-top:18px;/* IE margin fix */}
 .comments_dateComment{font-size:1em;color:#000;margin-left:5px;}
 .comments_leftCommentBar{float:left;margin-right:15px;}
 .comments_topCommentBar{margin-top:15px;overflow:auto;}
@@ -61,6 +61,6 @@
 .comments_noComments{color:#333;font-style:italic;padding-top:25px;}
 .comments_delete,.comments_undelete{float:right;}
 .comments_comment{padding-bottom:5px;}
-#comments_mainContainer textarea,#comments_settings textarea{margin:2px 0;width:100%;border:#999 solid 1px;resize:none;}
+#comments_mainContainer textarea,#comments_settings textarea{margin:2px 0;width:100%;border:#999 solid 1px;resize:none; height:50px; float:left;}
 #comments_settings textarea{height:140px;}
 #comments_mainContainer input[type=text].error,#comments_settings input[type=text].error,#comments_mainContainer textarea.error,#comments_settings textarea.error{border-color:#9f3333;background-color:#ffdede;}
