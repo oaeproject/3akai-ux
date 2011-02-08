@@ -6,8 +6,8 @@
     "hasSettings": true,
     "showinsakaigoodies": true,
     "type": "sakai",
-    "description":"Display a profile section",
-    "name":"Display profile section",
+    "description":"Profile Section",
+    "name":"Profile Section",
     "id":"displayprofilesection",
     "i18n": {
         "default": "/devwidgets/displayprofilesection/bundles/default.properties"
