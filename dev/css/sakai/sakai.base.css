@@ -45,10 +45,10 @@ h1{font-size:2em;font-family:Arial,Helvetica,sans-serif;font-weight:bolder;line-
 .fl-widget {padding: 0;}
 .fl-widget .fl-widget-titlebar h2 {padding-left:3px}
 .fl-widget .fl-widget-titlebar { padding: 0 4px 0 0; width: auto;}
-.fl-widget .fl-widget-titlebar .widget-titlebar-inner {background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -10px -570px transparent; height: 49px}
+.fl-widget .fl-widget-titlebar .widget-titlebar-inner {background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -10px -570px transparent; min-height:30px;}
 .fl-widget .fl-widget-options ul {margin: 0; padding: 0}
-.fl-widget .fl-widget-titlebar .widget_title {color: #878a8c; font-size: 1.0em; float: left; padding-left: 24px; line-height: 49px}
-.fl-widget .fl-widget-titlebar .widget_title_icon {display: block; float: left; height: 17px; left: 1px; position: relative; top: 1px; width: 17px;}
+.fl-widget .fl-widget-titlebar .widget_title {color: #878a8c; font-size: 1.0em; float: left; padding-left: 24px; line-height: 25px}
+.fl-widget .fl-widget-titlebar .widget_title_icon {display: block; float: left; height: 17px; left: 10px; position: relative; top: 7px; width: 17px;}
 .fl-widget .fl-widget-titlebar .settings {background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -186px -393px transparent; position: relative; height: 18px; margin-top: 15px}
 .fl-widget .fl-widget-options ul li {float: left; margin: 0; padding: 0 6px 0;}
 .fl-widget .fl-widget-options ul li a {color: #666; font-size: .85em; font-weight: bold}
