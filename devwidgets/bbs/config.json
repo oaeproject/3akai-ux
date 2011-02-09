@@ -16,5 +16,5 @@
     "hasSettings": true,
     "type":"sakai",
     "enabled":true,
-    "url":"/devwidgets/bbs/bbs"
+    "url":"/devwidgets/bbs/bbs.html"
 }

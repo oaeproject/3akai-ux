@@ -1,5 +1,59 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/bbs/css/bbs.css" />
 
+<!-- MAIN VIEW -->
+<div id="bbs_main_container" style="display:none">
+    <div class="fl-widget-content s3d-widget-content">
+        <!-- MAIN CONTAINER FOR DISCUSSIONS -->
+        <div id="bbs_container" class="s3d-regular-light-links">
+        
+        </div>
+    </div>
+</div>
+
+<!-- SETTINGS VIEW -->
+<div id="bbs_settings" style="display:none">
+    <div class="fl-widget-content s3d-widget">
+        <div class="s3d-primary-tabs">
+            <ul class="fl-tabs fl-tabs-right">
+                <li class="fl-tabs-active"><a class="bbs_settings_tab_selected" href="javascript:;" id="bbs_settings_reply_options_tab">__MSG__REPLY_OPTIONS__</a></li>
+                <li><a class="bbs_settings_tab" href="javascript:;" id="bbs_settings_permissions_tab">__MSG__PERMISSIONS__</a></li>
+            </ul>
+        </div>
+        <div id="bbs_tab_content_top">
+            <div id="bbs_tab_content_top_inner"><!-- --></div>
+        </div>
+        <div id="bbs_tab_content">
+            <div id="bbs_settings_reply_options_container" class="bbs_settings_container">
+                <ul id="bbs_settings_reply_options">
+                    <li><input type="radio" id="bbs_settings_reply_options_reply_topic_only" name="bbs_settings_reply_options" value="topic_only" checked/><label for="bbs_settings_reply_options_reply_topic_only">__MSG__ALLOW_REPLIES_TO_TOPIC_ONLY__</label></li>
+                    <li><input type="radio" id="bbs_settings_reply_options_reply_to_reply" name="bbs_settings_reply_options" value="reply_to_reply"/><label for="bbs_settings_reply_options_reply_to_reply">__MSG__ALLOW_REPLIES_TO_REPLIES__</label></li>
+                </ul>
+            </div>
+            <div id="bbs_settings_permissions_container" class="bbs_settings_container" style="display:none;">
+                <span>__MSG__WHO_CAN_ADD_NEW_TOPIC__:</span>
+                <ul id="bbs_settings_permissions_add_new">
+                    <li><input type="radio" id="bbs_settings_permissions_add_new_managers_only" name="bbs_settings_permissions_add_new" value="managers_only" checked/><label for="bbs_settings_permissions_add_new_managers_only">__MSG__MANAGERS_ONLY__</label></li>
+                    <li><input type="radio" id="bbs_settings_permissions_add_new_managers_and_members" name="bbs_settings_permissions_add_new" value="managers_and_members"/><label for="bbs_settings_permissions_add_new_managers_and_members">__MSG__MANAGERS_AND_MEMBERS__</label></li>
+                </ul>
+                <span>__MSG__WHO_CAN_REPLY__:</span>
+                <ul id="bbs_settings_permissions_who_can_reply">
+                    <li><input type="radio" id="bbs_settings_permissions_who_can_reply_managers_and_members" name="bbs_settings_permissions_who_can_reply" value="managers_and_members" checked/><label for="bbs_settings_permissions_who_can_reply_managers_and_members">__MSG__MANAGERS_AND_MEMBERS_ONLY__</label></li>
+                    <li><input type="radio" id="bbs_settings_permissions_who_can_reply_everyone" name="bbs_settings_permissions_who_can_reply" value="everyone"/><label for="bbs_settings_permissions_who_can_reply_everyone">__MSG__ALL_LOGGED_IN_PEOPLE__</label></li>
+                </ul>
+            </div>
+            <div class="dialog_buttons">
+                <button type="button" class="s3d-button s3d-button-primary" id="bbs_settings_submit"><span class="s3d-button-inner">__MSG__SAVE_SETTINGS__</span></button>
+                <button type="button" class="s3d-button" id="bbs_settings_cancel"><span class="s3d-button-inner">__MSG__DONT_SAVE__</span></button>
+                <hr class="fl-push fl-hidden"/>
+            </div>
+        </div>
+        <div class="s3d-no-options"><div class="s3d-no-options-inner"><!-- --></div></div>
+    </div>
+    <div class="s3d-widget-no-options fl-fix">
+        <div class="s3d-widget-no-options-inner"></div>
+    </div>
+</div>
+
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/bbs/javascript/bbs.js"></script>
