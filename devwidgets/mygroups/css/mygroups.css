@@ -24,4 +24,4 @@
 
 /* Widget icon */
 .mygroups.fl-widget .fl-widget-titlebar .widget_title_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -600px -20px transparent;}
-.mygroups_ellipsis_container{word-wrap:break-word;}
+.mygroups_ellipsis_text, .mygroups_ellipsis_container{word-wrap:break-word;}

@@ -14,4 +14,4 @@ p.mycontent_item_meta{font-size:.9em;color:#444;}
 
 /* Widget icon */
 .mycontent.fl-widget .fl-widget-titlebar .widget_title_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -620px -21px transparent;}
-.mycontent_ellipsis_container{word-wrap:break-word;}
+.mycontent_ellipsis_text, .mycontent_ellipsis_container{word-wrap:break-word;}
