@@ -18,10 +18,8 @@
 
 require(["jquery","sakai/sakai.api.core"], function($, sakai) {
     /*
-     * Log the user out. Redirect to the login page on completion.
+     * Log the user out.
      */
-    sakai.api.User.logout(function(){
-        window.location = sakai.config.URL.GATEWAY_URL;
-    });
+    sakai.api.User.logout();
 
 });

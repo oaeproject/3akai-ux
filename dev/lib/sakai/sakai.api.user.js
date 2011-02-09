@@ -238,13 +238,7 @@ define(["jquery",
                 },
                 complete: function(xhr, textStatus) {
                     // hit the logout service to destroy the session
-                    $.ajax({
-                        url: sakai_conf.URL.LOGOUT_SERVICE,
-                        type: "GET",
-                        complete: function(xhrInner, textStatusInner) {
-                            callback(textStatusInner === "success");
-                        }
-                    });
+                    window.location = sakai_conf.URL.LOGOUT_SERVICE;
                 }
             });
 
