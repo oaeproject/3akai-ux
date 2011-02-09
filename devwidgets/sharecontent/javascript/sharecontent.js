@@ -369,13 +369,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         };
 
         var fillShareData = function(hash){
-            hash.w.show();
             shareData = {
                 "filename": "\"" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"",
                 "path": window.location,
                 "user": sakai.data.me.profile.basic.elements.firstName.value
             };
-        }
+            hash.w.show();
+        };
 
         var addBinding = function() {
             initialized = true;
