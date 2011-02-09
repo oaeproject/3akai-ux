@@ -751,7 +751,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             }*/
             if (sakai_global.content_profile && sakai_global.content_profile.content_data){
                 currentSite = sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"];
-                contentPath = sakai_global.content_profile.content_data.path;
+                contentPath = "/p/" + sakai_global.content_profile.content_data.path.split("/")[2];
             }
             if (!showSettings) {
                 // Show the main view.
