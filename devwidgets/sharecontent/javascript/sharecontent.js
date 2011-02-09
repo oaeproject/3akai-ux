@@ -96,7 +96,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var $sharecontentManagerCouldNotBeRemoved = $("#sharecontent_manager_could_not_be_removed");
 
         var shareData = {};
-
         var userList = [];
         var initialized = false;
         var callback = false;
