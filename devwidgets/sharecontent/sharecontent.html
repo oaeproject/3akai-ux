@@ -30,19 +30,21 @@
                 {/if}
             </div>
             <div id="sharecontent_body_container">
-                <h1 id="sharecontent_link_header">__MSG__SHARE_BY_USING_THIS_LINK__</h1>
-                <div class="s3d-highlight_area_background fl-push">
-                    <div class='s3d-highlight_area_background_tl'><div class='s3d-highlight_area_background_tinner'></div></div>
-                        <span id="sharecontent_share_link" class="fl-force-left fl-push">
-                            <span id="sharecontent_content_link" class="s3d-bold">__MSG__URL__</span><input type="text" value="${window.location}" readonly="readonly" dir="rtl"/>
-                            {if !data.me.user.anon}
-                                <button type="submit" class="s3d-button s3d-button-link-2-state" id="sharecontent_message_link"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__MESSAGE_LINK__</span></button>
-                            {/if}
-                            <button type="submit" class="s3d-button s3d-button-link-2-state" id="sharecontent_email_link"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__EMAIL_THE_LINK__</span></button>
-                        </span>
-                        <hr class="fl-push fl-hidden"/>
-                    <div class="s3d-highlight_area_background_bl"><div class="s3d-highlight_area_background_binner"></div></div>
-                </div>
+                {if sakai_global.content_profile.content_data.data["sakai:permissions"] != "private"}
+                    <h1>__MSG__SHARE_BY_USING_THIS_LINK__</h1>
+                    <div class="s3d-highlight_area_background fl-push">
+                        <div class='s3d-highlight_area_background_tl'><div class='s3d-highlight_area_background_tinner'></div></div>
+                            <span id="sharecontent_share_link" class="fl-force-left fl-push">
+                                <span id="sharecontent_content_link" class="s3d-bold">__MSG__URL__</span><input type="text" value="${window.location}" readonly="readonly" dir="rtl"/>
+                                {if !data.me.user.anon}
+                                    <button type="submit" class="s3d-button s3d-button-link-2-state" id="sharecontent_message_link"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__MESSAGE_LINK__</span></button>
+                                {/if}
+                                <button type="submit" class="s3d-button s3d-button-link-2-state" id="sharecontent_email_link"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__EMAIL_THE_LINK__</span></button>
+                            </span>
+                            <hr class="fl-push fl-hidden"/>
+                        <div class="s3d-highlight_area_background_bl"><div class="s3d-highlight_area_background_binner"></div></div>
+                    </div>
+                {/if}
 
                 <h1 class="fl-force-left">__MSG__EDITORS_AND_VIEWERS_OF_THIS_ITEM__</h1>
                 <div id="sharecontent_listpeople">
