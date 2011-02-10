@@ -55,6 +55,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var currentSite = "";
         var contentPath = "";
         var store = "";
+        var showCommentsChecked = true;
 
         // Main Ids
         var comments = "#comments";
@@ -80,10 +81,15 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var commentsEditSave = commentsClass + "_editComment_save";
         var commentsEditCancel = commentsClass + "_editComment_cancel";
         var commentsPath = comments + "_path_";
+        var commentsEditorOptions = comments + "_editorOptions";
 
         // Delete
         var commentsDelete = commentsClass + "_delete";
         var commentsUnDelete = commentsClass + "_undelete";
+
+        // Comment permissions
+        var commentsShowCheckbox = comments + "_showCommentsCheckbox";
+        var commentsAllowCheckbox = comments + "_allowCommentsCheckbox";
 
         // Output textboxes
         var commentsMessageTxt = comments + "_txtMessage";
@@ -533,6 +539,34 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
 
         };
 
+        /**
+         * Gets the comment allow/show settings and shows the appropriate view.
+         * @param {Boolean} getComments true = fetch comments if comments are to be shown, false = do not fetch comments.
+         */
+        var checkCommentsPermissions = function(getComments){
+            var showComments = sakai_global.content_profile.content_data.data["sakai:showcomments"];
+            var allowComments = sakai_global.content_profile.content_data.data["sakai:allowcomments"];
+            if (showComments === "true") {
+                if (getComments) {
+                    pagerClickHandler(1);
+                }
+                if (allowComments === "false") {
+                    // hide comments entry box
+                    $("#comments_userCommentContainer", rootel).hide();
+                } else {
+                    $("#comments_userCommentContainer", rootel).show();
+                }
+                $("#comments_commentsDisabled", rootel).hide();
+                $("#comments_showComments", rootel).show();
+            } else {
+                // hide comments entry box and existing comments
+                $("#comments_userCommentContainer", rootel).hide();
+                $("#comments_showComments", rootel).hide();
+                $("#comments_commentsDisabled", rootel).show();
+            }
+        };
+
+
         ////////////////////
         // Event Handlers //
         ////////////////////
@@ -619,6 +653,82 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         /** Bind the settings cancel button */
         $(commentsCancel, rootel).bind("click", function(e, ui){
             sakai.api.Widgets.Container.informCancel(tuid, "comments");
+        });
+
+        /** Bind the checkboxes */
+        $("#comments_allowCommentsOption label, #comments_allowCommentsCheckbox", rootel).bind("click", function(e){
+            if (showCommentsChecked) {
+                var allowComments = "false";
+                if ($(commentsAllowCheckbox, rootel).attr("checked")) {
+                    if ($(this).attr("id") !== "comments_allowCommentsCheckbox") {
+                        $(commentsAllowCheckbox, rootel).attr("checked", false);
+                    } else {
+                        allowComments = "true";
+                    }
+                }
+                else {
+                    if ($(this).attr("id") !== "comments_allowCommentsCheckbox") {
+                        $(commentsAllowCheckbox, rootel).attr("checked", true);
+                        allowComments = "true";
+                    }
+                }
+
+                $.ajax({
+                    url: "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".html",
+                    type: "POST",
+                    cache: false,
+                    data: {
+                        "sakai:allowcomments": allowComments
+                    },
+                    success: function(data){
+                        sakai_global.content_profile.content_data.data["sakai:allowcomments"] = allowComments;
+                        checkCommentsPermissions(false);
+                    }
+                });
+            }
+        });
+        $("#comments_showCommentsOption label, #comments_showCommentsCheckbox", rootel).bind("click", function(e){
+            var showComments = "false";
+            if ($(commentsShowCheckbox, rootel).attr("checked")){
+                if ($(this).attr("id") !== "comments_showCommentsCheckbox"){
+                    showCommentsChecked = false;
+                    $(commentsShowCheckbox, rootel).attr("checked", false);
+                    $(commentsAllowCheckbox, rootel).attr("checked", false);
+                    $(commentsAllowCheckbox, rootel).attr("disabled", true);
+                } else {
+                    showComments = "true";
+                    showCommentsChecked = true;
+                    $(commentsAllowCheckbox, rootel).attr("checked", false);
+                    $(commentsAllowCheckbox, rootel).attr("disabled", false);
+                }
+            } else {
+                if ($(this).attr("id") !== "comments_showCommentsCheckbox"){
+                    showComments = "true";
+                    showCommentsChecked = true;
+                    $(commentsShowCheckbox, rootel).attr("checked", true);
+                    $(commentsAllowCheckbox, rootel).attr("checked", false);
+                    $(commentsAllowCheckbox, rootel).attr("disabled", false);
+                } else {
+                    showCommentsChecked = false;
+                    $(commentsAllowCheckbox, rootel).attr("checked", false);
+                    $(commentsAllowCheckbox, rootel).attr("disabled", true);
+                }
+            }
+
+            $.ajax({
+                url: "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".html",
+                type: "POST",
+                cache: false,
+                data: {
+                    "sakai:showcomments": showComments,
+                    "sakai:allowcomments": "false"
+                },
+                success: function(data){
+                    sakai_global.content_profile.content_data.data["sakai:showcomments"] = showComments;
+                    sakai_global.content_profile.content_data.data["sakai:allowcomments"] = "false";
+                    checkCommentsPermissions(true);
+                }
+            });
         });
 
 
@@ -752,6 +862,27 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             if (sakai_global.content_profile && sakai_global.content_profile.content_data){
                 currentSite = sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"];
                 contentPath = "/p/" + sakai_global.content_profile.content_data.path.split("/")[2];
+
+                // check if comments are allowed or shown and display the checkbox options for the manager
+                if (sakai_global.content_profile.content_data.isManager){
+                    if (sakai_global.content_profile.content_data.data["sakai:allowcomments"] === "false"){
+                        $(commentsAllowCheckbox, rootel).attr("checked", false);
+                    } else {
+                        sakai_global.content_profile.content_data.data["sakai:allowcomments"] = "true";
+                        $(commentsAllowCheckbox, rootel).attr("checked", true);
+                    }
+                    if (sakai_global.content_profile.content_data.data["sakai:showcomments"] === "false"){
+                        $(commentsShowCheckbox, rootel).attr("checked", false);
+                        $(commentsAllowCheckbox, rootel).attr("checked", false);
+                        $(commentsAllowCheckbox, rootel).attr("disabled", true);
+                        showCommentsChecked = false;
+                    } else {
+                        sakai_global.content_profile.content_data.data["sakai:showcomments"] = "true";
+                        $(commentsShowCheckbox, rootel).attr("checked", true);
+                        $(commentsAllowCheckbox, rootel).attr("disabled", false);
+                    }
+                    $(commentsEditorOptions).show();
+                }
             }
             if (!showSettings) {
                 // Show the main view.
@@ -764,7 +895,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 }
             }
             //getWidgetSettings();
-            pagerClickHandler(1);
+            //pagerClickHandler(1);
+            checkCommentsPermissions(true);
 
             // listen for event if new content profile is loaded
             $(window).unbind("content_profile_hash_change");

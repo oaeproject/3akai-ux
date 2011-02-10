@@ -5,6 +5,16 @@
 <div id="comments_mainContainer" class="fl-widget-content s3d-widget-content" style="display:none;">
     <div id="comments_titlebar">
         <span class="comments_titleLeft">__MSG__COMMENTS__</span><!--<span class="comments_titleRight">__MSG__DISPLAYING__ <span id="comments_numCommentsDisplayed"></span> __MSG__OUT_OF__ <span id="comments_numComments" >0</span id="comments_commentscomment"> __MSG__COMMENTS__</span>-->
+        <span class="comments_titleRight" id="comments_editorOptions" style="display:none;">
+            <span id="comments_allowCommentsOption">
+                <input type="checkbox" id="comments_allowCommentsCheckbox" name="allowComments" value="" checked="checked" />
+                <label for="allowComments">__MSG__ALLOW_COMMENTS__</label>
+            </span>
+            <span id="comments_showCommentsOption">
+                <input type="checkbox" id="comments_showCommentsCheckbox" name="showComments" value="" checked="checked" />
+                <label for="showComments">__MSG__SHOW_COMMENTS__</label>
+            </span>
+        </span>
     </div>
 
     <div id="comments_userCommentContainer">
@@ -34,6 +44,10 @@
 
     <div class="comments_nextButtons">
         <div class="jq_pager comments_jqpager" style="display:none;"><!-- In this container the pager on top will be shown --></div>
+    </div>
+
+    <div id="comments_commentsDisabled" style="display:none;">
+        <p>Comments are currently disabled</p>
     </div>
 
     <div id="comments_showComments">
