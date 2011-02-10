@@ -6,7 +6,7 @@
 
     <div id="sharecontent_container_header" class="dialog_header">
         <div class="dialog_header_inner">
-            <h1 id="sharecontent_i_want_to_share" class="sharecontent_adding_titles" style="display:none">__MSG__I_WANT_TO_SHARE__</h1>
+            <h1 id="sharecontent_i_want_to_share" class="sharecontent_adding_titles" style="display:none">__MSG__VISIBILITY_AND_PERMISSIONS_FOR__</h1>
             <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
         </div>
     </div>
@@ -19,13 +19,14 @@
                     {if sakai_global.content_profile.content_data.data["sakai:permissions"] == "public"}
                         __MSG__VISIBLE_TO_ANYONE__
                     {elseif sakai_global.content_profile.content_data.data["sakai:permissions"] == "private"}
-                        __MSG__PRIVATE_TO_WHO_I_SHARE_THIS_WITH__
+                        __MSG__VISIBLE_TO_SELECTED_PEOPLE_GROUPS__
                     {elseif sakai_global.content_profile.content_data.data["sakai:permissions"] == "everyone"}
                         __MSG__VISIBLE_TO_ANYONE_WHOS_LOGGED_IN__
                     {/if}
                 </h1>
                 {if !data.me.user.anon && sakai_global.content_profile.content_data.isManager}
                     <a href="javascript:;" id="sharecontent_change_global_permissions" class="s3d-bold s3d-regular-links">__MSG__CHANGE__</a>
+                    <p id="sharecontent_editors_note">__MSG__EDITORS_CAN_SHARE_THIS__</p>
                 {/if}
             </div>
             <div id="sharecontent_body_container">
@@ -43,7 +44,7 @@
                     <div class="s3d-highlight_area_background_bl"><div class="s3d-highlight_area_background_binner"></div></div>
                 </div>
 
-                <h1 class="fl-force-left">__MSG__SHARE_BY_SPECIFYING_PEOPLE__</h1>
+                <h1 class="fl-force-left">__MSG__EDITORS_AND_VIEWERS_OF_THIS_ITEM__</h1>
                 <div id="sharecontent_listpeople">
                     <ul>
                         {for manager in sakai_global.content_profile.content_data.members.managers}
@@ -161,7 +162,7 @@
             {if sakai_global.content_profile.content_data.data["sakai:permissions"] == "public"}
                 __MSG__VISIBLE_TO_ANYONE__
             {elseif sakai_global.content_profile.content_data.data["sakai:permissions"] == "private"}
-                __MSG__PRIVATE_TO_WHO_I_SHARE_THIS_WITH__
+                __MSG__VISIBLE_TO_SELECTED_PEOPLE_GROUPS__
             {elseif sakai_global.content_profile.content_data.data["sakai:permissions"] == "everyone"}
                 __MSG__VISIBLE_TO_ANYONE_WHOS_LOGGED_IN__
             {/if}
@@ -229,7 +230,7 @@
                     <div class='s3d-highlight_area_background_white_content_tl'><div class='s3d-highlight_area_background_white_content_tinner'></div></div>
                     <input type="radio" id="permission_settings_rbt_private" name="permission_settings" value="private" {if data["sakai:permissions"] == "private"}checked{/if}/>
                     <label for="permission_settings_rbt_private">
-                        <span id="permissions_settings_item_private"></span>__MSG__PRIVATE_TO_WHO_I_SHARE_THIS_WITH__
+                        <span id="permissions_settings_item_private"></span>__MSG__VISIBLE_TO_SELECTED_PEOPLE_GROUPS__
                     </label>
                     <div class='s3d-highlight_area_background_white_content_bl'><div class='s3d-highlight_area_background_white_content_binner'></div></div>
                 </li>
