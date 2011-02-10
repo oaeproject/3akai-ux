@@ -19,6 +19,7 @@
  * Dependencies
  *
  * /dev/lib/misc/querystring.js (Querystring)
+ * /dev/lib/jquery/plugins/jquery.cookie.js (cookie)
  */
 
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
