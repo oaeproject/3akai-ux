@@ -2064,8 +2064,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @return void
          */
         var switchtab = function(inactiveid, inactivetext, activeid, activetext){
-            $("#tab_" + inactiveid + " button").removeClass("s3d-button-primary");
-            $("#tab_" + activeid + " button").addClass("s3d-button-primary");
+            //$("#tab_" + inactiveid + " button").removeClass("s3d-button-primary");
+            //$("#tab_" + activeid + " button").addClass("s3d-button-primary");
         };
 
 
