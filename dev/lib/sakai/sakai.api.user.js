@@ -303,10 +303,10 @@ define(["jquery",
 
                     // Check for firstName and lastName property - if not present use "rep:userId" for both (admin for example)
                     if (sakaiUserAPI.getProfileBasicElementValue(sakaiUserAPI.data.me.profile, "firstName") === "") {
-                        sakaiUserAPI.setProfileBasicElementValue(sakaiUserAPI.data.me.profile, "firstName", data.me.profile["rep:userId"]);
+                        sakaiUserAPI.setProfileBasicElementValue(sakaiUserAPI.data.me.profile, "firstName", sakaiUserAPI.data.me.profile["rep:userId"]);
                     }
                     if (sakaiUserAPI.getProfileBasicElementValue(sakaiUserAPI.data.me.profile, "lastName") === "") {
-                        sakaiUserAPI.setProfileBasicElementValue(sakaiUserAPI.data.me.profile, "lastName", data.me.profile["rep:userId"]);
+                        sakaiUserAPI.setProfileBasicElementValue(sakaiUserAPI.data.me.profile, "lastName", sakaiUserAPI.data.me.profile["rep:userId"]);
                     }
 
                     // Parse the directory locations
