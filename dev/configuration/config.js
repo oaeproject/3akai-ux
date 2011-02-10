@@ -568,6 +568,15 @@ define(function() {
             "reminderIntervalHours": "168"
         },
 
+        Institution: {
+            /*
+             * Institution contact details are displayed in the footer
+             */
+            helpLinkText: false,
+            helpLinkUrl: false,
+            helpPhone: false
+        },
+
         Messages: {
             Types: {
                 inbox: "inbox",
