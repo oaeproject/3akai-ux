@@ -46,6 +46,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var $rootel = $("#" + tuid); // Get the main div used by the widget
         var widgeturl = sakai.api.Widgets.widgetLoader.widgets[tuid] ? sakai.api.Widgets.widgetLoader.widgets[tuid].placement : false;
+        var store = "";
         var widgetSettings = {};
         // Each post gets a marker which is basicly the widget ID.
         // If we are using another discussion this marker will be the ID of that widget.
@@ -54,9 +55,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Containers
         var $bbsContainer = $("#bbs_container", $rootel);
         var $bbsMainContainer = $("#bbs_main_container", $rootel);
+        var bbsTabContentSettingsContainer = "#bbs_tab_content_settings_container";
         var bbsSettingsReplyOptionsContainer = "#bbs_settings_reply_options_container";
         var bbsSettingsPermissionsContainer = "#bbs_settings_permissions_container";
+        var bbsNoInitialTopic = "#bbs_no_initial_topic";
+        var bbsCreateNewTopic = "#bbs_create_new_topic";
+        var $bbsListTopics = $("#bbs_list_topics", $rootel);
+        var bbsListTopicsContainer = "#bbs_list_topics_container";
 
+        // Templates
+        var bbsTabContentSettingsTemplate = "bbs_tab_content_settings_template";
+        var bbsListTopicsTemplate = "bbs_list_topics_template";
 
         // Settings
         var $bbsSettings = $("#bbs_settings", $rootel);
@@ -64,6 +73,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $bbsSettingsCancel = $("#bbs_settings_cancel", $rootel);
         var bbsSettingsReplyOptionsTab = "#bbs_settings_reply_options_tab";
         var bbsSettingsPermissionsTab = "#bbs_settings_permissions_tab";
+
+        // Add new topic
+        var bbsAddNewTopic = "#bbs_add_new_topic";
+        var bbsDontAddTopic= "#bbs_dont_add_topic";
+        var bbsAddTopic= "#bbs_add_topic";
 
         /**
          * Check if the message store already exists
@@ -92,17 +106,58 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         /**
-         * Check if the widget has been inited in a group or not
-         * @return{Boolean} True if the widget has been inited in a group
+         * Parse the picture for a user
+         * @param {String} profile The profile for a user
+         * @param {String} uuid Uuid of the user
          */
-        var checkIsGroup = function(){
-            if (sakai_global.currentgroup && typeof sakai_global.currentgroup.id === "string") {
-                currentSite = sakai_global.currentgroup.id;
-                return true;
+        var parsePicture = function(uuid, pictureData){
+            if (pictureData && $.parseJSON(pictureData).name) {
+                return "/~" + uuid + "/public/profile/" + $.parseJSON(pictureData).name;
             } else {
-                currentSite = sakai_global.profile.main.data["rep:userId"];
-                return false;
+                return "/dev/images/user_avatar_icon_32x32.png";
             }
+        };
+
+        /**
+         * Parse a json integer to a valid date
+         * @param {Integer} dateInput Integer of a date that needs to be parsed
+         * @returns {Date}
+         */
+        var parseDate = function(dateInput){
+            //2009-08-19 11:29:53+0100
+            //2009-08-19T10:58:27
+            if (dateInput !== null) {
+                /** Get the date with the use of regular expressions */
+                var match = /([0-9]{4})\-([0-9]{2})\-([0-9]{2}).([0-9]{2}):([0-9]{2}):([0-9]{2})/.exec(dateInput); // 2009-08-14T12:18:50
+                var d = new Date();
+                if (match !== undefined) {
+                    d.setYear(match[1]);
+                    d.setMonth(match[2] - 1);
+                    d.setDate(match[3]);
+                    d.setHours(match[4]);
+                    d.setMinutes(match[5]);
+                    d.setSeconds(match[6]);
+                }
+                return d;
+            }
+            return null;
+        };
+
+        var renderPosts = function(arrPosts){
+            // Loop fetched posts and do markup
+            for (var i = 0, j = arrPosts.length; i < j; i++) {
+                arrPosts[i].post.profile[0].picture = parsePicture(arrPosts[i].post["sakai:from"], arrPosts[i].post.profile[0].picture);
+                arrPosts[i].post["sakai:created"] = sakai.api.l10n.transformDateTimeShort(parseDate(arrPosts[i].post["sakai:created"]));
+            }
+
+            console.log({
+                "postData": arrPosts
+            });
+
+            // Render formatted posts
+            sakai.api.Util.TemplateRenderer(bbsListTopicsTemplate, {
+                "postData":arrPosts
+            }, $(bbsListTopicsContainer, $rootel));
         };
 
         /**
@@ -111,14 +166,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Boolean} exists Check if the discussion exists
          */
         var showPosts = function(response, exists){
-            if (exists) {
+            if (exists && response.total != 0) {
                 try {
-                    getPostInfo(response.results);
+                    renderPosts(response.results);
+                    $bbsListTopics.show();
                 } catch (err) {
                     debug.error(err);
                 }
             } else {
-                debug.warn('Failed to show the posts.');
+                // No topics yet
+                addNewTopicBinding();
+                $(bbsNoInitialTopic, $rootel).show();
             }
         };
 
@@ -128,7 +186,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {String} tab Available options: reply_options, permissions
          */
         var showTab = function(tab){
-            $(".fl-tabs-active").removeClass("fl-tabs-active");
+            $(".fl-tabs-active", $rootel).removeClass("fl-tabs-active");
             switch (tab) {
                 case "reply_options":
                     $(bbsSettingsReplyOptionsTab, $rootel).parent("li").addClass("fl-tabs-active");
@@ -150,7 +208,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Render settings
             sakai.api.Util.TemplateRenderer("bbs_tab_content_settings_template", {
                 "settings":widgetSettings
-            }, $("#bbs_tab_content_settings_container"));
+            }, $("#bbs_tab_content_settings_container", $rootel));
             // Hide/Show elements
             $bbsMainContainer.hide();
             $bbsSettings.show();
@@ -170,7 +228,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     showPosts(data, true);
                 },
                 error: function(xhr, textStatus, thrownError){
-                    showPosts(xhr.status, false);
+                    //showPosts(xhr.status, false);
                 }
             });
         };
@@ -188,7 +246,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     if (showSettings) {
                         displaySettings();
                     } else {
-                        //getPostsFromJCR();
+                        getPostsFromJCR();
                     }
                 }
                 else {
@@ -208,12 +266,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Widgets.Container.informFinish(tuid, "discussion");
         };
 
+        /**
+         * Saves the settings for the widget
+         * @param {Object} callback Function to be executed after saving the data
+         */
         var saveSettings = function(callback){
             var data = widgetSettings;
 
-            widgetSettings['sakai:replytype'] = $("#bbs_settings_reply_options input[type='radio']:checked").val();
-            widgetSettings['sakai:whocanaddtopic'] = $("#bbs_settings_permissions_add_new input[type='radio']:checked").val();
-            widgetSettings['sakai:whocanreply'] = $("#bbs_settings_permissions_who_can_reply input[type='radio']:checked").val();
+            widgetSettings['sakai:replytype'] = $("#bbs_settings_reply_options input[type='radio']:checked", $rootel).val();
+            widgetSettings['sakai:whocanaddtopic'] = $("#bbs_settings_permissions_add_new input[type='radio']:checked", $rootel).val();
+            widgetSettings['sakai:whocanreply'] = $("#bbs_settings_permissions_who_can_reply input[type='radio']:checked", $rootel).val();
+            widgetSettings['marker'] = marker;
 
             // JCR properties are not necessary.
             delete data["jcr:primaryType"];
@@ -224,12 +287,52 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Widgets.saveWidgetData(tuid, data, callback);
         };
 
+        /**
+         * Create the post data for the new topic
+         */
+        var createPostObject = function(){
+            var post = {};
+            post["sakai:type"] = "discussion";
+            post["sling:resourceType"] = "sakai/message";
+            post["sakai:to"] = "discussion:w-" + store;
+            post['sakai:subject'] = $("#bbs_create_new_topic_title", $rootel).val();
+            post['sakai:body'] = $("#bbs_create_new_topic_message_text", $rootel).val();
+            post['sakai:initialpost'] = true;
+            post['sakai:writeto'] = store;
+            post['sakai:marker'] = tuid;
+            post['sakai:messagebox'] = "outbox";
+            post['sakai:sendstate'] = "pending";
+            post['_charset_'] = "utf-8";
+            return post;
+        };
+
+        /**
+         * Creates a new topic
+         */
+        var createTopic = function(){
+            var postData = createPostObject();
+            $.ajax({
+                url: store + ".create.html",
+                cache: false,
+                type: 'POST',
+                data: postData,
+                success: function(data){
+                    console.log(data);
+                    $(bbsCreateNewTopic, $rootel).hide();
+                    getWidgetSettings();
+                },
+                error: function(xhr, textStatus, thrownError){
+                    debug.error("Unable to save your post.");
+                }
+            });
+        };
+
 
         ////////////////////
         // Event Handlers //
         ////////////////////
-        var addBinding = function() {
 
+        var addBinding = function() {
             // SETTINGS //
             // Submit button.
             $bbsSettingsSubmit.bind("click", function(e, ui){
@@ -251,6 +354,23 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 showTab("permissions");
             });
 
+            // NEW TOPIC //
+            $(bbsAddNewTopic, $rootel).live("click", function(){
+                $(bbsNoInitialTopic, $rootel).hide();
+                $(bbsCreateNewTopic, $rootel).show();
+            });
+
+            $(bbsDontAddTopic, $rootel).bind("click", function(){
+                $(bbsCreateNewTopic, $rootel).hide();
+                getWidgetSettings();
+            });
+
+            $("#bbs_create_new_topic form", $rootel).validate({
+                submitHandler: function(form){
+                    createTopic();
+                    return false;
+                }
+            });
         };
 
 
@@ -270,7 +390,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $bbsMainContainer.show();
                 $bbsSettings.hide();
             }
-
         };
 
         init();

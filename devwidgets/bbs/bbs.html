@@ -4,34 +4,118 @@
 <!-- MAIN VIEW -->
 <div id="bbs_main_container" style="display:none">
     <div class="fl-widget-content s3d-widget-content">
-        <!-- MAIN CONTAINER FOR DISCUSSIONS -->
-        <div id="bbs_container" class="s3d-regular-light-links">
-        
+        <!-- MAIN CONTAINER FOR BBS -->
+        <div id="bbs_container">
+            <!-- Show that no initial posts are made -->
+            <div id="bbs_no_initial_topic" style="display:none;">
+                <a href="javascript:;" id="bbs_add_new_topic" class="s3d-bold s3d-regular-links">__MSG__ADD_NEW_TOPIC__</a>
+                <hr class="bbs_horizontal_rule"/>
+                __MSG__NO_TOPICS_TO_DISPLAY__
+            </div>
+
+            <!-- Show the create new topic screen -->
+            <div id="bbs_create_new_topic" style="display:none;">
+                <form>
+                    <label for="bbs_create_new_topic_title" class="s3d-bold">
+                        __MSG__TOPIC_TITLE__
+                    </label>
+                    <input type="text" id="bbs_create_new_topic_title" class="required"/>
+                    <label for="bbs_create_new_topic_message_text" class="s3d-bold">
+                        __MSG__MESSAGE_TEXT__
+                    </label>
+                    <textarea id="bbs_create_new_topic_message_text" class="required" rows="10" name="Message Text"></textarea>
+                    <div class="dialog_buttons">
+                        <button type="button" class="s3d-button" id="bbs_dont_add_topic">
+                            <span class="s3d-button-inner">__MSG__DONT_ADD_TOPIC__</span>
+                        </button>
+                        <button type="submit" class="s3d-button s3d-button-primary" id="bbs_add_topic">
+                            <span class="s3d-button-inner">__MSG__ADD_TOPIC__</span>
+                        </button>
+                        <hr class="fl-push fl-hidden"/>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Show the topics and replies -->
+            <div id="bbs_list_topics" style="display:none;">
+                <a href="javascript:;" id="bbs_add_new_topic" class="s3d-bold s3d-regular-links">__MSG__ADD_NEW_TOPIC__</a><span class="bbs_pipe_divider">|</span>
+                <a href="javascript:;" id="bbs_add_new_topic" class="s3d-bold s3d-regular-links">__MSG__EXPAND_ALL__</a>
+                <hr class="bbs_horizontal_rule"/>
+                <div id="bbs_list_topics_container"><!-- --></div>
+            </div>
         </div>
     </div>
 </div>
+
+<div id="bbs_list_topics_template"><!--
+    {for topic in postData}
+        <button type="button" class="s3d-button bbs_reply_topic" id="bbs_reply_topic">
+            <span class="s3d-button-inner">__MSG__REPLY__</span>
+        </button>
+        <h1 class="bbs_topic_subject">${topic.post["sakai:subject"]}</h1>
+        <div class="bbs_show_replies_icon"></div><span class="bbs_topic_number_of_replies">${topic.replies.length} __MSG__REPLIES__</span>
+
+        <div class="s3d-highlight_area_background">
+            <div class="s3d-highlight_area_background_tl">
+                <div class="s3d-highlight_area_background_tinner"></div>
+            </div>
+            <div class="bbs_entity_container">
+                <img src="${topic.post.profile[0].picture}" alt="${topic.post.profile[0].basic.elements.firstName.value} ${topic.post.profile[0].basic.elements.lastName.value}" class="bbs_entity_picture"/>
+                <span class="bbs_poster_name">${topic.post.profile[0].basic.elements.firstName.value} ${topic.post.profile[0].basic.elements.lastName.value}</span>
+                <span class="bbs_posting_date">${topic.post["sakai:created"]}</span>
+                <hr class="fl-push fl-hidden"/>
+            </div>
+            
+            <span class="bbs_post_message">${topic.post["sakai:body"]}</span>
+
+            <a href="javascript:;" id="bbs_quote" class="s3d-bold s3d-regular-links">__MSG__QUOTE__</a><span class="bbs_pipe_divider">|</span>
+            <a href="javascript:;" id="bbs_edit" class="s3d-bold s3d-regular-links">__MSG__EDIT__</a>
+
+            <div class="s3d-highlight_area_background_bl">
+                <div class="s3d-highlight_area_background_binner"></div>
+            </div>
+        </div>
+        <hr class="bbs_horizontal_rule"/>
+    {/for}
+--></div>
 
 <!-- SETTINGS VIEW -->
 <div id="bbs_settings" style="display:none">
     <div class="fl-widget-content s3d-widget">
         <div class="s3d-primary-tabs">
             <ul class="fl-tabs fl-tabs-right">
-                <li class="fl-tabs-active"><a class="bbs_settings_tab_selected" href="javascript:;" id="bbs_settings_reply_options_tab">__MSG__REPLY_OPTIONS__</a></li>
-                <li><a class="bbs_settings_tab" href="javascript:;" id="bbs_settings_permissions_tab">__MSG__PERMISSIONS__</a></li>
+                <li class="fl-tabs-active">
+                    <a class="bbs_settings_tab_selected" href="javascript:;" id="bbs_settings_reply_options_tab">__MSG__REPLY_OPTIONS__</a>
+                </li>
+                <li>
+                    <a class="bbs_settings_tab" href="javascript:;" id="bbs_settings_permissions_tab">__MSG__PERMISSIONS__</a>
+                </li>
             </ul>
         </div>
         <div id="bbs_tab_content_top">
-            <div id="bbs_tab_content_top_inner"><!-- --></div>
+            <div id="bbs_tab_content_top_inner">
+                <!-- -->
+            </div>
         </div>
         <div id="bbs_tab_content">
-            <div id="bbs_tab_content_settings_container"><!-- --></div>
+            <div id="bbs_tab_content_settings_container">
+                <!-- -->
+            </div>
             <div class="dialog_buttons">
-                <button type="button" class="s3d-button s3d-button-primary" id="bbs_settings_submit"><span class="s3d-button-inner">__MSG__SAVE_SETTINGS__</span></button>
-                <button type="button" class="s3d-button" id="bbs_settings_cancel"><span class="s3d-button-inner">__MSG__DONT_SAVE__</span></button>
+                <button type="button" class="s3d-button s3d-button-primary" id="bbs_settings_submit">
+                    <span class="s3d-button-inner">__MSG__SAVE_SETTINGS__</span>
+                </button>
+                <button type="button" class="s3d-button" id="bbs_settings_cancel">
+                    <span class="s3d-button-inner">__MSG__DONT_SAVE__</span>
+                </button>
                 <hr class="fl-push fl-hidden"/>
             </div>
         </div>
-        <div class="s3d-no-options"><div class="s3d-no-options-inner"><!-- --></div></div>
+        <div class="s3d-no-options">
+            <div class="s3d-no-options-inner">
+                <!-- -->
+            </div>
+        </div>
     </div>
     <div class="s3d-widget-no-options fl-fix">
         <div class="s3d-widget-no-options-inner"></div>
