@@ -24,24 +24,7 @@
             <div id="bbs_tab_content_top_inner"><!-- --></div>
         </div>
         <div id="bbs_tab_content">
-            <div id="bbs_settings_reply_options_container" class="bbs_settings_container">
-                <ul id="bbs_settings_reply_options">
-                    <li><input type="radio" id="bbs_settings_reply_options_reply_topic_only" name="bbs_settings_reply_options" value="topic_only" checked/><label for="bbs_settings_reply_options_reply_topic_only">__MSG__ALLOW_REPLIES_TO_TOPIC_ONLY__</label></li>
-                    <li><input type="radio" id="bbs_settings_reply_options_reply_to_reply" name="bbs_settings_reply_options" value="reply_to_reply"/><label for="bbs_settings_reply_options_reply_to_reply">__MSG__ALLOW_REPLIES_TO_REPLIES__</label></li>
-                </ul>
-            </div>
-            <div id="bbs_settings_permissions_container" class="bbs_settings_container" style="display:none;">
-                <span>__MSG__WHO_CAN_ADD_NEW_TOPIC__:</span>
-                <ul id="bbs_settings_permissions_add_new">
-                    <li><input type="radio" id="bbs_settings_permissions_add_new_managers_only" name="bbs_settings_permissions_add_new" value="managers_only" checked/><label for="bbs_settings_permissions_add_new_managers_only">__MSG__MANAGERS_ONLY__</label></li>
-                    <li><input type="radio" id="bbs_settings_permissions_add_new_managers_and_members" name="bbs_settings_permissions_add_new" value="managers_and_members"/><label for="bbs_settings_permissions_add_new_managers_and_members">__MSG__MANAGERS_AND_MEMBERS__</label></li>
-                </ul>
-                <span>__MSG__WHO_CAN_REPLY__:</span>
-                <ul id="bbs_settings_permissions_who_can_reply">
-                    <li><input type="radio" id="bbs_settings_permissions_who_can_reply_managers_and_members" name="bbs_settings_permissions_who_can_reply" value="managers_and_members" checked/><label for="bbs_settings_permissions_who_can_reply_managers_and_members">__MSG__MANAGERS_AND_MEMBERS_ONLY__</label></li>
-                    <li><input type="radio" id="bbs_settings_permissions_who_can_reply_everyone" name="bbs_settings_permissions_who_can_reply" value="everyone"/><label for="bbs_settings_permissions_who_can_reply_everyone">__MSG__ALL_LOGGED_IN_PEOPLE__</label></li>
-                </ul>
-            </div>
+            <div id="bbs_tab_content_settings_container"><!-- --></div>
             <div class="dialog_buttons">
                 <button type="button" class="s3d-button s3d-button-primary" id="bbs_settings_submit"><span class="s3d-button-inner">__MSG__SAVE_SETTINGS__</span></button>
                 <button type="button" class="s3d-button" id="bbs_settings_cancel"><span class="s3d-button-inner">__MSG__DONT_SAVE__</span></button>
@@ -54,6 +37,57 @@
         <div class="s3d-widget-no-options-inner"></div>
     </div>
 </div>
+
+<div id="bbs_tab_content_settings_template"><!-- 
+    <div id="bbs_settings_reply_options_container" class="bbs_settings_container">
+        <ul id="bbs_settings_reply_options">
+            <li>
+                <input type="radio" id="bbs_settings_reply_options_reply_topic_only" name="bbs_settings_reply_options" value="topic_only" {if settings["sakai:replytype"] == "topic_only"}checked{/if}/>
+                <label for="bbs_settings_reply_options_reply_topic_only">
+                    __MSG__ALLOW_REPLIES_TO_TOPIC_ONLY__
+                </label>
+            </li>
+            <li>
+                <input type="radio" id="bbs_settings_reply_options_reply_to_reply" name="bbs_settings_reply_options" value="reply_to_reply" {if settings["sakai:replytype"] == "reply_to_reply" || settings["sakai:replytype"] == undefined}checked{/if}/>
+                <label for="bbs_settings_reply_options_reply_to_reply">
+                    __MSG__ALLOW_REPLIES_TO_REPLIES__
+                </label>
+            </li>
+        </ul>
+    </div>
+    <div id="bbs_settings_permissions_container" class="bbs_settings_container" style="display:none;">
+        <span>__MSG__WHO_CAN_ADD_NEW_TOPIC__:</span>
+        <ul id="bbs_settings_permissions_add_new">
+            <li>
+                <input type="radio" id="bbs_settings_permissions_add_new_managers_only" name="bbs_settings_permissions_add_new" value="managers_only" {if settings["sakai:whocanaddtopic"] == "managers_only"}checked{/if}/>
+                <label for="bbs_settings_permissions_add_new_managers_only">
+                    __MSG__MANAGERS_ONLY__
+                </label>
+            </li>
+            <li>
+                <input type="radio" id="bbs_settings_permissions_add_new_managers_and_members" name="bbs_settings_permissions_add_new" value="managers_and_members" {if settings["sakai:whocanaddtopic"] == "managers_and_members" || settings["sakai:whocanaddtopic"] == undefined}checked{/if}/>
+                <label for="bbs_settings_permissions_add_new_managers_and_members">
+                    __MSG__MANAGERS_AND_MEMBERS__
+                </label>
+            </li>
+        </ul>
+        <span>__MSG__WHO_CAN_REPLY__:</span>
+        <ul id="bbs_settings_permissions_who_can_reply">
+            <li>
+                <input type="radio" id="bbs_settings_permissions_who_can_reply_managers_and_members" name="bbs_settings_permissions_who_can_reply" value="managers_and_members" {if settings["sakai:whocanreply"] == "managers_and_members"}checked{/if}/>
+                <label for="bbs_settings_permissions_who_can_reply_managers_and_members">
+                    __MSG__MANAGERS_AND_MEMBERS_ONLY__
+                </label>
+            </li>
+            <li>
+                <input type="radio" id="bbs_settings_permissions_who_can_reply_everyone" name="bbs_settings_permissions_who_can_reply" value="everyone" {if settings["sakai:whocanreply"] == "everyone" || settings["sakai:whocanreply"] == undefined}checked{/if}/>
+                <label for="bbs_settings_permissions_who_can_reply_everyone">
+                    __MSG__ALL_LOGGED_IN_PEOPLE__
+                </label>
+            </li>
+        </ul>
+    </div>
+--></div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/bbs/javascript/bbs.js"></script>

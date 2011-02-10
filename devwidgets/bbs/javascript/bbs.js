@@ -54,17 +54,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Containers
         var $bbsContainer = $("#bbs_container", $rootel);
         var $bbsMainContainer = $("#bbs_main_container", $rootel);
-        var $bbsSettingsReplyOptionsContainer = $("#bbs_settings_reply_options_container", $rootel);
-        var $bbsSettingsPermissionsContainer = $("#bbs_settings_permissions_container", $rootel);
+        var bbsSettingsReplyOptionsContainer = "#bbs_settings_reply_options_container";
+        var bbsSettingsPermissionsContainer = "#bbs_settings_permissions_container";
 
 
         // Settings
         var $bbsSettings = $("#bbs_settings", $rootel);
-
         var $bbsSettingsSubmit = $("#bbs_settings_submit", $rootel);
         var $bbsSettingsCancel = $("#bbs_settings_cancel", $rootel);
-        var $bbsSettingsReplyOptionsTab = $("#bbs_settings_reply_options_tab", $rootel);
-        var $bbsSettingsPermissionsTab = $("#bbs_settings_permissions_tab", $rootel);
+        var bbsSettingsReplyOptionsTab = "#bbs_settings_reply_options_tab";
+        var bbsSettingsPermissionsTab = "#bbs_settings_permissions_tab";
 
         /**
          * Check if the message store already exists
@@ -132,22 +131,27 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(".fl-tabs-active").removeClass("fl-tabs-active");
             switch (tab) {
                 case "reply_options":
-                    $bbsSettingsReplyOptionsTab.parent("li").addClass("fl-tabs-active");
-                    $bbsSettingsPermissionsContainer.hide();
-                    $bbsSettingsReplyOptionsContainer.show();
+                    $(bbsSettingsReplyOptionsTab, $rootel).parent("li").addClass("fl-tabs-active");
+                    $(bbsSettingsPermissionsContainer, $rootel).hide();
+                    $(bbsSettingsReplyOptionsContainer, $rootel).show();
                     break;
                 case "permissions":
-                    $bbsSettingsPermissionsTab.parent("li").addClass("fl-tabs-active");
-                    $bbsSettingsReplyOptionsContainer.hide();
-                    $bbsSettingsPermissionsContainer.show();
+                    $(bbsSettingsPermissionsTab, $rootel).parent("li").addClass("fl-tabs-active");
+                    $(bbsSettingsReplyOptionsContainer, $rootel).hide();
+                    $(bbsSettingsPermissionsContainer, $rootel).show();
                     break;
             }
         };
 
         /**
-         * Displays the settings, and depending on the settings the main or existing view of it.
+         * Displays the settings.
          */
         var displaySettings = function(){
+            // Render settings
+            sakai.api.Util.TemplateRenderer("bbs_tab_content_settings_template", {
+                "settings":widgetSettings
+            }, $("#bbs_tab_content_settings_container"));
+            // Hide/Show elements
             $bbsMainContainer.hide();
             $bbsSettings.show();
             showTab("reply_options");
@@ -207,7 +211,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var saveSettings = function(callback){
             var data = widgetSettings;
 
-            widgetSettings['sling:replytype'] = $("#bbs_settings_reply_options input[type='radio']:checked").val();
+            widgetSettings['sakai:replytype'] = $("#bbs_settings_reply_options input[type='radio']:checked").val();
             widgetSettings['sakai:whocanaddtopic'] = $("#bbs_settings_permissions_add_new input[type='radio']:checked").val();
             widgetSettings['sakai:whocanreply'] = $("#bbs_settings_permissions_who_can_reply input[type='radio']:checked").val();
 
@@ -238,12 +242,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             // Reply options tab
-            $bbsSettingsReplyOptionsTab.bind("click", function(e, ui){
+            $(bbsSettingsReplyOptionsTab, $rootel).bind("click", function(e, ui){
                 showTab("reply_options");
             });
 
             // Permissions tab
-            $bbsSettingsPermissionsTab.bind("click", function(e, ui){
+            $(bbsSettingsPermissionsTab, $rootel).bind("click", function(e, ui){
                 showTab("permissions");
             });
 
