@@ -758,11 +758,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         $(commentsDelete, rootel).live("click", function(e, ui){
             var id = e.target.id.replace(commentsDelete.replace(/\./g, ""), "");
             doDelete(id, true);
+            return false;
         });
 
         $(commentsUnDelete, rootel).live("click", function(e, ui){
             var id = e.target.id.replace(commentsUnDelete.replace(/\./g, ""), "");
             doDelete(id, false);
+            return false;
         });
 
 

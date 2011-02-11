@@ -69,9 +69,9 @@
                 </div>
                 {if i.canDelete && i.canDelete === true}
                 	{if i["sakai:deleted"] && i["sakai:deleted"] === true}
-                    	<button type="button" class="s3d-button s3d-button-link-2-state comments_undelete" id="comments_undelete${i['sakai:id']}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__UNDELETE__</span></button>
+                        <a href="#" class="comments_undelete s3d-regular-light-links" id="comments_undelete${i['sakai:id']}">__MSG__UNDELETE__</a>
                     {else}
-                    	<button type="button" class="s3d-button s3d-button-link-2-state comments_delete" id="comments_delete${i['sakai:id']}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__DELETE__</span></button>
+                        <a href="#" class="comments_delete s3d-regular-light-links" id="comments_delete${i['sakai:id']}">__MSG__DELETE__</a>
                     {/if}
                 {/if}
                 <div class="comments_commentMessage">
