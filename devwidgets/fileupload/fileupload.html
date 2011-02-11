@@ -64,7 +64,7 @@
 
         <div id="fileupload_tagging_template" style="display:none;"><!--
             <div class="fileupload_section s3d-highlight_area_background">
-                {if context !== "new_version"}<h2>__MSG__BASIC_INFORMATION__</h2>
+                {if contextData.context !== "new_version"}<h2>__MSG__BASIC_INFORMATION__</h2>
                 <div id="fileupload_tags" class="fileupload_inputblock">
                     <label for="fileupload_add_tags">
                         __MSG__TAGS__
@@ -77,11 +77,21 @@
                     </label>
                     <textarea cols="50" rows="3" id="fileupload_add_description" class="fileupload_textarea" value="" />
                 </div>
+                <div id="fileupload_copyright" class="fileupload_inputblock">
+                    <label for="fileupload_copyright_select">
+                        __MSG__COPYRIGHT__
+                    </label>
+                    <select id="fileupload_copyright_select">
+                        {for copyrightLabel in sakai.config.Permissions.Copyright}
+                            <option {if copyrightLabel.default === true} selected="selected"{/if} value="${copyrightLabel_index}">${sakai.api.i18n.Widgets.getValueForKey("fileupload", "", copyrightLabel.title)}</option>
+                        {/for}
+                    </select>
+                </div>
                 <div id="fileupload_permissions" class="fileupload_inputblock">
                     <label for="fileupload_permissions_select">
                         __MSG__WHO_CAN_SEE_THIS_CONTENT__?
                     </label>
-                    {if context === "group" || context === "new_version"}
+                    {if contextData.context === "group" || contextData.context === "new_version"}
                     <select id="fileupload_permissions_select">
                         <option value="public">__MSG__PUBLIC__</option>
                         <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
@@ -103,7 +113,7 @@
                 {/if}
             </div>
             <div class="dialog_buttons">
-                {if context !== "new_version"}
+                {if contextData.context !== "new_version"}
                     <span id="fileupload_ajax_loader" style="display:none;"><img src="/dev/images/ajax_load.gif" alt="__MSG__LOADING_PLEASE_HOLD_ON__." /></span>
                     <button type="button" id="fileupload_cancel" class="fileupload_close s3d-button jqmClose dialog_close_image">
                         <span class="s3d-button-inner">__MSG__DONT_ADD__</span>

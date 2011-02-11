@@ -234,11 +234,22 @@ define(function() {
                 }
             },
             Copyright: {
-                "creativecommons": "CREATIVE_COMMONS_LICENSE",
-                "copyrighted": "COPYRIGHTED",
-                "nocopyright": "NO_COPYRIGHT",
-                "licensed": "LICENSED",
-                "waivecopyright": "WAIVE_COPYRIGHT"
+                "creativecommons": {
+                    "title": "CREATIVE_COMMONS_LICENSE",
+                    "default": true
+                },
+                "copyrighted": {
+                    "title": "COPYRIGHTED"
+                },
+                "nocopyright": {
+                    "title": "NO_COPYRIGHT"
+                },
+                "licensed": {
+                    "title": "LICENSED"
+                },
+                "waivecopyright": {
+                    "title": "WAIVE_COPYRIGHT"
+                }
             }
         },
 
@@ -572,9 +583,9 @@ define(function() {
             /*
              * Institution contact details are displayed in the footer
              */
-            helpLinkText: false,
-            helpLinkUrl: false,
-            helpPhone: false
+            helpLinkText: "Contact Us",
+            helpLinkUrl: "http://www.sakaiproject.org/contact",
+            helpPhone: "+0123456789"
         },
 
         Messages: {
