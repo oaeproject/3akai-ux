@@ -222,6 +222,9 @@ define(["jquery",
          */
         logout : function(callback) {
 
+            // clear the systemtour widget cookie
+            $.cookie("sakai.systemtour.hide", null);
+
             /*
              * POST request to the logout service,
              * which will destroy the session.

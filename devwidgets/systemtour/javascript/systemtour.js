@@ -22,7 +22,7 @@
  * /dev/lib/jquery/plugins/jquery.cookie.js (cookie)
  */
 
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js", "/dev/lib/jquery/plugins/jquery.cookie.js"], function($, sakai) {
 
     /**
      * @name sakai_global.systemtour
@@ -275,7 +275,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 };
                 $(".systemtour_2").addClass("systemtour_2_selected");
                 $(".systemtour_2 a").addClass("systemtour_button_selected");
-                if (!sakai.tooltip || !sakai.tooltip.isReady) {
+                if (!sakai_global.tooltip || !sakai_global.tooltip.isReady) {
                     $(window).bind("sakai-tooltip-ready", function() {
                         $(window).trigger("sakai-tooltip-init", tooltipData);
                     });
