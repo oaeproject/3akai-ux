@@ -19,7 +19,7 @@
 /* Main Container */
 #bbs_main_container .fl-widget-content{padding:10px;}
 #bbs_main_container input[type=text]{margin:5px 0;width:100%;border:#D9D9D9 solid 1px;padding-left:0;padding-right:0;height:18px;padding-top:2px;}
-#bbs_main_container textarea{margin:5px 0;width:100%;height:140px;border:#D9D9D9 solid 1px;resize:none;}
+#bbs_main_container textarea{margin:5px 0;width:100%;border:#D9D9D9 solid 1px;resize:none;}
 #bbs_main_container input[type=text].error,#bbs_main_container textarea.error{border-color:#9f3333;background-color:#ffdede;}
 .bbs_horizontal_rule {border:1px solid #DDD; margin:10px 0;}
 .bbs_pipe_divider {margin:0 5px;}
@@ -30,12 +30,16 @@
 /* Topic list */
 .bbs_topic_subject{font-size:16px; color:#444; margin-bottom:2px; font-weight:normal;}
 .bbs_topic_number_of_replies, .bbs_poster_name, .bbs_posting_date{color:#878A8C; display: block; margin-bottom: 4px;}
+.bbs_topic_number_of_replies{display:inline-block;}
 .bbs_reply_topic{float:right;}
 .bbs_poster_name {font-size:15px; color:#666;}
 .bbs_post_message{margin-bottom:10px; display:block;}
-.bbs_show_replies_icon{background: url("/dev/images/icons_sprite.png") no-repeat scroll -24px -21px transparent;height: 9px;width: 9px;margin:4px 4px 0 0; float:left;}
+.bbs_hide_replies_icon, .bbs_show_replies_icon{height: 9px;width: 9px;margin:4px 4px 0 0; float:left;}
+.bbs_show_replies_icon{background: url("/dev/images/icons_sprite.png") no-repeat scroll -24px -21px transparent;}
+.bbs_hide_replies_icon{background: url("/dev/images/icons_sprite.png") no-repeat scroll -745px -21px transparent;}
 .bbs_entity_container {margin-bottom:10px;}
 .bbs_entity_container .bbs_entity_picture{width:40px; height:40px; float:left; margin-right:6px;}
+.bbs_quoted_text_container{background-color:#fff;}
 
 /* Settings */
 #bbs_settings .fl-widget-content{font-size:.95em;padding:10px;}

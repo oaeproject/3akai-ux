@@ -39,7 +39,7 @@
             <!-- Show the topics and replies -->
             <div id="bbs_list_topics" style="display:none;">
                 <a href="javascript:;" id="bbs_add_new_topic" class="s3d-bold s3d-regular-links">__MSG__ADD_NEW_TOPIC__</a><span class="bbs_pipe_divider">|</span>
-                <a href="javascript:;" id="bbs_add_new_topic" class="s3d-bold s3d-regular-links">__MSG__EXPAND_ALL__</a>
+                <a href="javascript:;" id="bbs_expand_all" class="s3d-bold s3d-regular-links bbs_expand_all">__MSG__EXPAND_ALL__</a>
                 <hr class="bbs_horizontal_rule"/>
                 <div id="bbs_list_topics_container"><!-- --></div>
             </div>
@@ -47,35 +47,105 @@
     </div>
 </div>
 
-<div id="bbs_list_topics_template"><!--
-    {for topic in postData}
-        <button type="button" class="s3d-button bbs_reply_topic" id="bbs_reply_topic">
+<div id="bbs_topic_reply_template"><!--
+    {if quoted}
+        <label for="bbs_topic_reply_text" class="s3d-bold">
+            __MSG__QUOTED_TEXT__
+        </label>
+        <textarea id="bbs_topic_quoted_text" class="required" rows="4" name="Quoted Text">${quotedMessage}</textarea>
+    {/if}
+    <label for="bbs_topic_reply_text" class="s3d-bold">
+        __MSG__MESSAGE_TEXT__
+    </label>
+    <textarea id="bbs_topic_reply_text" class="required" rows="10" name="Message Text"></textarea>
+    <div class="dialog_buttons">
+        <button type="button" class="s3d-button" id="bbs_dont_add_reply">
+            <span class="s3d-button-inner">__MSG__DONT_REPLY__</span>
+        </button>
+        <button type="submit" class="s3d-button s3d-button-primary" id="bbs_add_reply">
             <span class="s3d-button-inner">__MSG__REPLY__</span>
         </button>
-        <h1 class="bbs_topic_subject">${topic.post["sakai:subject"]}</h1>
-        <div class="bbs_show_replies_icon"></div><span class="bbs_topic_number_of_replies">${topic.replies.length} __MSG__REPLIES__</span>
+        <hr class="fl-push fl-hidden"/>
+    </div>
+--></div>
 
-        <div class="s3d-highlight_area_background">
-            <div class="s3d-highlight_area_background_tl">
-                <div class="s3d-highlight_area_background_tinner"></div>
-            </div>
-            <div class="bbs_entity_container">
-                <img src="${topic.post.profile[0].picture}" alt="${topic.post.profile[0].basic.elements.firstName.value} ${topic.post.profile[0].basic.elements.lastName.value}" class="bbs_entity_picture"/>
-                <span class="bbs_poster_name">${topic.post.profile[0].basic.elements.firstName.value} ${topic.post.profile[0].basic.elements.lastName.value}</span>
-                <span class="bbs_posting_date">${topic.post["sakai:created"]}</span>
-                <hr class="fl-push fl-hidden"/>
-            </div>
-            
-            <span class="bbs_post_message">${topic.post["sakai:body"]}</span>
+<div id="bbs_list_topics_template"><!--
+    {for topic in postData}
+        <div id="bbs_post_${topic.post["sakai:id"]}" class="bbs_topic_container">
+            <button type="button" class="s3d-button bbs_reply_topic" id="bbs_reply_topic">
+                <span class="s3d-button-inner">__MSG__REPLY__</span>
+            </button>
+            <h1 class="bbs_topic_subject">${topic.post["sakai:subject"]}</h1>
+            <a href="javascript:;" class="bbs_show_topic_replies"><div class="bbs_replies_icon bbs_show_replies_icon"></div><span class="bbs_topic_number_of_replies">${topic.replies.length} __MSG__REPLIES__</span></a>
 
-            <a href="javascript:;" id="bbs_quote" class="s3d-bold s3d-regular-links">__MSG__QUOTE__</a><span class="bbs_pipe_divider">|</span>
-            <a href="javascript:;" id="bbs_edit" class="s3d-bold s3d-regular-links">__MSG__EDIT__</a>
+            <div class="s3d-highlight_area_background">
+                <div class="s3d-highlight_area_background_tl">
+                    <div class="s3d-highlight_area_background_tinner"></div>
+                </div>
+                <div class="bbs_entity_container">
+                    <img src="${topic.post.profile[0].picture}" alt="${topic.post.profile[0].basic.elements.firstName.value} ${topic.post.profile[0].basic.elements.lastName.value}" class="bbs_entity_picture"/>
+                    <span class="bbs_poster_name">${topic.post.profile[0].basic.elements.firstName.value} ${topic.post.profile[0].basic.elements.lastName.value}</span>
+                    <span class="bbs_posting_date">${topic.post["sakai:created"]}</span>
+                    <hr class="fl-push fl-hidden"/>
+                </div>
 
-            <div class="s3d-highlight_area_background_bl">
-                <div class="s3d-highlight_area_background_binner"></div>
+                <span class="bbs_post_message">${topic.post["sakai:body"]}</span>
+
+                <a href="javascript:;" class="bbs_quote s3d-bold s3d-regular-links">__MSG__QUOTE__</a><span class="bbs_pipe_divider">|</span>
+                <a href="javascript:;" class="bbs_edit s3d-bold s3d-regular-links">__MSG__EDIT__</a>
+
+                <div class="s3d-highlight_area_background_bl">
+                    <div class="s3d-highlight_area_background_binner"></div>
+                </div>
             </div>
+
+            <div class="bbs_topic_replies_container" style="display:none;">
+                {for reply in topic.replies}
+                    <div class="s3d-highlight_area_background">
+                        <div class="s3d-highlight_area_background_tl">
+                            <div class="s3d-highlight_area_background_tinner"></div>
+                        </div>
+                        <div class="bbs_entity_container">
+                            <img src="${reply.post.profile[0].picture}" alt="${reply.post.profile[0].basic.elements.firstName.value} ${reply.post.profile[0].basic.elements.lastName.value}" class="bbs_entity_picture"/>
+                            <span class="bbs_poster_name">${reply.post.profile[0].basic.elements.firstName.value} ${reply.post.profile[0].basic.elements.lastName.value}</span>
+                            <span class="bbs_posting_date">${reply.post["sakai:created"]}</span>
+                            <hr class="fl-push fl-hidden"/>
+                        </div>
+
+                        {if reply.post["sakai:quoted"]}
+                            <div class="bbs_quoted_text_container s3d-highlight_area_background">
+                                <div class="s3d-highlight_area_background_white_content_tl">
+                                    <div class="s3d-highlight_area_background_white_content_tinner">
+                                    </div>
+                                </div>
+                                <p>${reply.post["sakai:quoted"].by} __MSG__WROTE__:</p>
+                                <p>${reply.post["sakai:quoted"].quote}</p>
+                                <div class="s3d-highlight_area_background_white_content_bl">
+                                    <div class="s3d-highlight_area_background_white_content_binner">
+                                    </div>
+                                </div>
+                            </div>
+                        {/if}
+
+                        <span class="bbs_post_message">${reply.post["sakai:body"]}</span>
+
+                        <a href="javascript:;" class="bbs_quote s3d-bold s3d-regular-links">__MSG__QUOTE__</a><span class="bbs_pipe_divider">|</span>
+                        <a href="javascript:;" class="bbs_edit s3d-bold s3d-regular-links">__MSG__EDIT__</a><span class="bbs_pipe_divider">|</span>
+                        <a href="javascript:;" class="bbs_delete s3d-bold s3d-regular-links">__MSG__DELETE__</a>
+
+                        <div class="s3d-highlight_area_background_bl">
+                            <div class="s3d-highlight_area_background_binner"></div>
+                        </div>
+                    </div>
+                {/for}
+            </div>
+
+            <div id="bbs_topic_reply_container" style="display:none;"></div>
+            <button type="button" class="s3d-button bbs_reply_topic" id="bbs_reply_topic">
+                <span class="s3d-button-inner">__MSG__REPLY__</span>
+            </button>
+            <hr class="bbs_horizontal_rule fl-push"/>
         </div>
-        <hr class="bbs_horizontal_rule"/>
     {/for}
 --></div>
 
@@ -122,7 +192,7 @@
     </div>
 </div>
 
-<div id="bbs_tab_content_settings_template"><!-- 
+<div id="bbs_tab_content_settings_template"><!--
     <div id="bbs_settings_reply_options_container" class="bbs_settings_container">
         <ul id="bbs_settings_reply_options">
             <li>
@@ -172,6 +242,9 @@
         </ul>
     </div>
 --></div>
+
+<div id="bbs_i18n_expand_all" style="display:none;">__MSG__EXPAND_ALL__</div>
+<div id="bbs_i18n_collapse_all" style="display:none;">__MSG__COLLAPSE_ALL__</div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/bbs/javascript/bbs.js"></script>

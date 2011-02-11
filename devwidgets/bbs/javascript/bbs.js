@@ -79,6 +79,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var bbsDontAddTopic= "#bbs_dont_add_topic";
         var bbsAddTopic= "#bbs_add_topic";
 
+        // i18n
+        var $bbsCollapseAll = $("#bbs_i18n_collapse_all", $rootel);
+        var $bbsExpandAll = $("#bbs_i18n_expand_all", $rootel);
+
         /**
          * Check if the message store already exists
          * If it does not exists we need to create one
@@ -143,11 +147,34 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             return null;
         };
 
+        var parseQuote = function(message){
+            var quote = false;
+            if(message.substring(0,6) == "[quote"){
+                // Parse the quoted message
+                quote = message.split("[/quote]")[0]
+                quote = quote.substring(quote.indexOf("]") + 1, quote.length)
+                // Parse the original author
+                var by = message.split("[/quote]")[0]
+                by = by.substring(by.indexOf("\"") + 1, by.indexOf("]") - 1);
+                return {"quote":quote, "by":by}
+            }else{
+                return quote;
+            }
+        };
+
         var renderPosts = function(arrPosts){
             // Loop fetched posts and do markup
             for (var i = 0, j = arrPosts.length; i < j; i++) {
                 arrPosts[i].post.profile[0].picture = parsePicture(arrPosts[i].post["sakai:from"], arrPosts[i].post.profile[0].picture);
                 arrPosts[i].post["sakai:created"] = sakai.api.l10n.transformDateTimeShort(parseDate(arrPosts[i].post["sakai:created"]));
+                for(var ii = 0, jj = arrPosts[i].replies.length; ii < jj; ii++){
+                    arrPosts[i].replies[ii].post.profile[0].picture = parsePicture(arrPosts[i].replies[ii].post["sakai:from"], arrPosts[i].replies[ii].post.profile[0].picture);
+                    arrPosts[i].replies[ii].post["sakai:created"] = sakai.api.l10n.transformDateTimeShort(parseDate(arrPosts[i].replies[ii].post["sakai:created"]));
+                    arrPosts[i].replies[ii].post["sakai:quoted"] = parseQuote(arrPosts[i].replies[ii].post["sakai:body"])
+                    if(arrPosts[i].replies[ii].post["sakai:body"].split(["[/quote]"])[1]){
+                        arrPosts[i].replies[ii].post["sakai:body"] = arrPosts[i].replies[ii].post["sakai:body"].split(["[/quote]"])[1]
+                    }
+                }
             }
 
             console.log({
@@ -156,7 +183,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             // Render formatted posts
             sakai.api.Util.TemplateRenderer(bbsListTopicsTemplate, {
-                "postData":arrPosts
+                "postData":arrPosts,
             }, $(bbsListTopicsContainer, $rootel));
         };
 
@@ -175,13 +202,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             } else {
                 // No topics yet
-                addNewTopicBinding();
                 $(bbsNoInitialTopic, $rootel).show();
             }
         };
 
         /**
-         * Shows a setting tab. 
+         * Shows a setting tab.
          * Workflow is: Hide previous tab, remove classes, add new classes, show new tab.
          * @param {String} tab Available options: reply_options, permissions
          */
@@ -255,7 +281,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         displaySettings();
                     }
                 }
-                
+
             });
         };
 
@@ -288,36 +314,31 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         /**
-         * Create the post data for the new topic
-         */
-        var createPostObject = function(){
-            var post = {};
-            post["sakai:type"] = "discussion";
-            post["sling:resourceType"] = "sakai/message";
-            post["sakai:to"] = "discussion:w-" + store;
-            post['sakai:subject'] = $("#bbs_create_new_topic_title", $rootel).val();
-            post['sakai:body'] = $("#bbs_create_new_topic_message_text", $rootel).val();
-            post['sakai:initialpost'] = true;
-            post['sakai:writeto'] = store;
-            post['sakai:marker'] = tuid;
-            post['sakai:messagebox'] = "outbox";
-            post['sakai:sendstate'] = "pending";
-            post['_charset_'] = "utf-8";
-            return post;
-        };
-
-        /**
          * Creates a new topic
          */
         var createTopic = function(){
-            var postData = createPostObject();
+            var postData = {
+                "sakai:type": "discussion",
+                "sling:resourceType": "sakai/message",
+                "sakai:to": "discussion:w-" + store,
+                'sakai:subject': $("#bbs_create_new_topic_title", $rootel).val(),
+                'sakai:body': $("#bbs_create_new_topic_message_text", $rootel).val(),
+                'sakai:initialpost': true,
+                'sakai:writeto': store,
+                'sakai:marker': tuid,
+                'sakai:messagebox': "outbox",
+                'sakai:sendstate': "pending",
+                '_charset_': "utf-8"
+            }
+
             $.ajax({
                 url: store + ".create.html",
                 cache: false,
                 type: 'POST',
                 data: postData,
                 success: function(data){
-                    console.log(data);
+                    $("#bbs_create_new_topic_title", $rootel).val("");
+                    $("#bbs_create_new_topic_message_text", $rootel).val("");
                     $(bbsCreateNewTopic, $rootel).hide();
                     getWidgetSettings();
                 },
@@ -327,12 +348,80 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
         };
 
+        /**
+         * Reply to a post.
+         * @param {String} id The ID of the topic that's being replied on
+         * @param {String} body The message in the reply
+         * @param {String} $parentDiv the parent div that should be hidden on success
+         */
+        var replyToTopic = function(id, body, $parentDiv){
+            var object = {
+                'sakai:body': body,
+                'sakai:marker': marker,
+                'sakai:type': 'discussion',
+                'sling:resourceType': 'sakai/message',
+                'sakai:replyon': id,
+                'sakai:messagebox': 'outbox',
+                'sakai:sendstate': 'pending',
+                'sakai:to': "discussion:w-" + store,
+                '_charset_': 'utf-8'
+            };
+            var url = store + ".create.html";
+            $.ajax({
+                url: url,
+                type: 'POST',
+                success: function(data){
+                    $parentDiv.hide();
+                    getWidgetSettings();
+                },
+                error: function(xhr, textStatus, thrownError){
+                    if (xhr.status === 401) {
+                        $parentDiv.hide();
+                        sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("YOU_CANT_REPLY"), "", sakai.api.Util.notification.type.ERROR);
+                    }
+                    else {
+                        sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("FAILED_ADD_REPLY"), "", sakai.api.Util.notification.type.ERROR);
+                    }
+                },
+                data: object
+            });
+        };
+
+        var doAddReply = function(){
+            var replyParent = $(this).parents(".bbs_topic_container");
+            var topicId = replyParent[0].id.split("bbs_post_")[1];
+            var message = replyParent.children("#bbs_topic_reply_container").children("#bbs_topic_reply_text").val();
+
+            if(replyParent.children("#bbs_topic_reply_container").children("#bbs_topic_quoted_text").length){
+                message = "[quote=\"Bert Pareyn\"]" + replyParent.children("#bbs_topic_reply_container").children("#bbs_topic_quoted_text").val() + "[/quote]" + message;
+            }
+
+            replyToTopic(topicId, message, $(this).parents("#bbs_topic_reply_container"));
+        };
 
         ////////////////////
         // Event Handlers //
         ////////////////////
 
         var addBinding = function() {
+            $("#bbs_expand_all", $rootel).bind("click", function(){
+                if($("#bbs_expand_all", $rootel).hasClass("bbs_expand_all")){
+                    $(this).removeClass("bbs_expand_all");
+                    $(this).addClass("bbs_collapse_all");
+                    $(this).text($bbsCollapseAll.text());
+                    $(".bbs_replies_icon").addClass("bbs_show_replies_icon");
+                    $(".bbs_replies_icon").removeClass("bbs_hide_replies_icon");
+                    $(".bbs_show_topic_replies", $rootel).click();
+                }else{
+                    $(this).removeClass("bbs_collapse_all");
+                    $(this).addClass("bbs_expand_all");
+                    $(this).text($bbsExpandAll.text());
+                    $(".bbs_replies_icon").removeClass("bbs_show_replies_icon");
+                    $(".bbs_replies_icon").addClass("bbs_hide_replies_icon");
+                    $(".bbs_show_topic_replies", $rootel).click();
+                }
+            });
+
             // SETTINGS //
             // Submit button.
             $bbsSettingsSubmit.bind("click", function(e, ui){
@@ -356,6 +445,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             // NEW TOPIC //
             $(bbsAddNewTopic, $rootel).live("click", function(){
+                $bbsListTopics.hide();
                 $(bbsNoInitialTopic, $rootel).hide();
                 $(bbsCreateNewTopic, $rootel).show();
             });
@@ -371,6 +461,42 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     return false;
                 }
             });
+
+            // REPLY TOPIC //
+            $(".bbs_show_topic_replies").live("click",function(){
+                var $repliesIcon = $(this).children(".bbs_replies_icon");
+                if($repliesIcon.hasClass("bbs_show_replies_icon")){
+                    $(this).nextAll(".bbs_topic_replies_container").show();
+                    $repliesIcon.removeClass("bbs_show_replies_icon");
+                    $repliesIcon.addClass("bbs_hide_replies_icon");
+                }else{
+                    $(this).nextAll(".bbs_topic_replies_container").hide();
+                    $repliesIcon.addClass("bbs_show_replies_icon");
+                    $repliesIcon.removeClass("bbs_hide_replies_icon");
+                }
+            });
+
+            // Open quoted reply fields
+            $(".bbs_quote").live("click", function(){
+                var replyParent = $(this).parents(".bbs_topic_container");
+                sakai.api.Util.TemplateRenderer("bbs_topic_reply_template", {"quoted":true, "quotedMessage":$(this).prev(".bbs_post_message").text()}, replyParent.children("#bbs_topic_reply_container"));
+                replyParent.children("#bbs_topic_reply_container").show();
+            });
+
+            // Open reply fields
+            $("#bbs_reply_topic").live("click", function(){
+                var replyParent = $(this).parents(".bbs_topic_container");
+                sakai.api.Util.TemplateRenderer("bbs_topic_reply_template", {"quoted":false}, replyParent.children("#bbs_topic_reply_container"));
+                replyParent.children("#bbs_topic_reply_container").show();
+            });
+
+            $("#bbs_dont_add_reply", $rootel).live("click", function(){
+                $(this).parents("#bbs_topic_reply_container").hide()
+            });
+
+            // Make the actual reply
+            $("#bbs_add_reply", $rootel).die("click", doAddReply);
+            $("#bbs_add_reply", $rootel).live("click", doAddReply);
         };
 
 
