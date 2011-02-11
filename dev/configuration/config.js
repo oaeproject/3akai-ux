@@ -234,11 +234,22 @@ define(function() {
                 }
             },
             Copyright: {
-                "creativecommons": "CREATIVE_COMMONS_LICENSE",
-                "copyrighted": "COPYRIGHTED",
-                "nocopyright": "NO_COPYRIGHT",
-                "licensed": "LICENSED",
-                "waivecopyright": "WAIVE_COPYRIGHT"
+                "creativecommons": {
+                    "title": "CREATIVE_COMMONS_LICENSE",
+                    "default": true
+                },
+                "copyrighted": {
+                    "title": "COPYRIGHTED"
+                },
+                "nocopyright": {
+                    "title": "NO_COPYRIGHT"
+                },
+                "licensed": {
+                    "title": "LICENSED"
+                },
+                "waivecopyright": {
+                    "title": "WAIVE_COPYRIGHT"
+                }
             }
         },
 
