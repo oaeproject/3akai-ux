@@ -22,7 +22,7 @@
         {for item in items}
             {if item.type === "notfound"}
                 <div class="s3d-highlight_area_background embedcontent_thumbnail_content clearfix ${layout}">
-                    <img src="/dev/images/not_found.png" class="not_found" alt="__MSG__NOT_FOUND__"/>
+                    <a href="/content/content_path=${item.path}"><img src="/dev/images/not_found.png" class="not_found" alt="__MSG__NOT_FOUND__"/></a>
                     <div class="embedcontent_details">
                         <span class="embedcontent_include_details">__MSG__NO_LONGER_AVAILABLE__</span>
                     </div>
@@ -30,13 +30,13 @@
             {else}
                 <div class="${embedClass} ${layout}">
                     {if item.filetype === "image"}
-                        <img src="${item.link}" alt="${sakai.config.MimeTypes[item.mimetype].description}" />
+                        <a href="/content/content_path=${item.path}"><img src="${item.link}" alt="${sakai.config.MimeTypes[item.mimetype].description}" /></a>
                     {elseif item.filetype === "video"}
-                        <img border="1" style="display: block; padding: 10px; margin: 4px;" class="widget_inline" id="widget_video_id${item.uId}" src="/devwidgets/video/images/video.png">
+                        <a href="/content/content_path=${item.path}"><img border="1" style="display: block; padding: 10px; margin: 4px;" class="widget_inline" id="widget_video_id${item.uId}" src="/devwidgets/video/images/video.png"></a>
                     {elseif sakai.config.MimeTypes[item.mimetype]}
-                        <img src="${sakai.config.MimeTypes[item.mimetype].URL}" alt="${sakai.config.MimeTypes[item.mimetype].description}"/>
+                        <a href="/content/content_path=${item.path}"><img src="${sakai.config.MimeTypes[item.mimetype].URL}" alt="${sakai.config.MimeTypes[item.mimetype].description}"/></a>
                     {else}
-                        <img src="${sakai.config.MimeTypes['other'].URL}" alt="${sakai.config.MimeTypes['other'].description}"/>
+                        <a href="/content/content_path=${item.path}"><img src="${sakai.config.MimeTypes['other'].URL}" alt="${sakai.config.MimeTypes['other'].description}"/></a>
                     {/if}
                     <div class="embedcontent_details">
                         {if name}<span><a href="/content#content_path=${item.path}" class="s3d-action embedcontent_include_name">${item.name}</a></span>{/if}
