@@ -661,14 +661,14 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 var allowComments = "false";
                 if ($(commentsAllowCheckbox, rootel).attr("checked")) {
                     if ($(this).attr("id") !== "comments_allowCommentsCheckbox") {
-                        $(commentsAllowCheckbox, rootel).attr("checked", false);
+                        $(commentsAllowCheckbox, rootel).removeAttr("checked");
                     } else {
                         allowComments = "true";
                     }
                 }
                 else {
                     if ($(this).attr("id") !== "comments_allowCommentsCheckbox") {
-                        $(commentsAllowCheckbox, rootel).attr("checked", true);
+                        $(commentsAllowCheckbox, rootel).attr("checked", "checked");
                         allowComments = "true";
                     }
                 }
@@ -692,26 +692,26 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             if ($(commentsShowCheckbox, rootel).attr("checked")){
                 if ($(this).attr("id") !== "comments_showCommentsCheckbox"){
                     showCommentsChecked = false;
-                    $(commentsShowCheckbox, rootel).attr("checked", false);
-                    $(commentsAllowCheckbox, rootel).attr("checked", false);
-                    $(commentsAllowCheckbox, rootel).attr("disabled", true);
+                    $(commentsShowCheckbox, rootel).removeAttr("checked");
+                    $(commentsAllowCheckbox, rootel).removeAttr("checked");
+                    $(commentsAllowCheckbox, rootel).attr("disabled", "disabled");
                 } else {
                     showComments = "true";
                     showCommentsChecked = true;
-                    $(commentsAllowCheckbox, rootel).attr("checked", false);
-                    $(commentsAllowCheckbox, rootel).attr("disabled", false);
+                    $(commentsAllowCheckbox, rootel).removeAttr("checked");
+                    $(commentsAllowCheckbox, rootel).removeAttr("disabled");
                 }
             } else {
                 if ($(this).attr("id") !== "comments_showCommentsCheckbox"){
                     showComments = "true";
                     showCommentsChecked = true;
-                    $(commentsShowCheckbox, rootel).attr("checked", true);
-                    $(commentsAllowCheckbox, rootel).attr("checked", false);
-                    $(commentsAllowCheckbox, rootel).attr("disabled", false);
+                    $(commentsShowCheckbox, rootel).attr("checked", "checked");
+                    $(commentsAllowCheckbox, rootel).removeAttr("checked");
+                    $(commentsAllowCheckbox, rootel).removeAttr("disabled");
                 } else {
                     showCommentsChecked = false;
-                    $(commentsAllowCheckbox, rootel).attr("checked", false);
-                    $(commentsAllowCheckbox, rootel).attr("disabled", true);
+                    $(commentsAllowCheckbox, rootel).removeAttr("checked");
+                    $(commentsAllowCheckbox, rootel).attr("disabled", "disabled");
                 }
             }
 
@@ -868,20 +868,20 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 // check if comments are allowed or shown and display the checkbox options for the manager
                 if (sakai_global.content_profile.content_data.isManager){
                     if (sakai_global.content_profile.content_data.data["sakai:allowcomments"] === "false"){
-                        $(commentsAllowCheckbox, rootel).attr("checked", false);
+                        $(commentsAllowCheckbox, rootel).removeAttr("checked");
                     } else {
                         sakai_global.content_profile.content_data.data["sakai:allowcomments"] = "true";
-                        $(commentsAllowCheckbox, rootel).attr("checked", true);
+                        $(commentsAllowCheckbox, rootel).attr("checked", "checked");
                     }
                     if (sakai_global.content_profile.content_data.data["sakai:showcomments"] === "false"){
-                        $(commentsShowCheckbox, rootel).attr("checked", false);
-                        $(commentsAllowCheckbox, rootel).attr("checked", false);
-                        $(commentsAllowCheckbox, rootel).attr("disabled", true);
+                        $(commentsShowCheckbox, rootel).removeAttr("checked");
+                        $(commentsAllowCheckbox, rootel).removeAttr("checked");
+                        $(commentsAllowCheckbox, rootel).attr("disabled", "disabled");
                         showCommentsChecked = false;
                     } else {
                         sakai_global.content_profile.content_data.data["sakai:showcomments"] = "true";
-                        $(commentsShowCheckbox, rootel).attr("checked", true);
-                        $(commentsAllowCheckbox, rootel).attr("disabled", false);
+                        $(commentsShowCheckbox, rootel).attr("checked", "checked");
+                        $(commentsAllowCheckbox, rootel).removeAttr("disabled");
                     }
                     $(commentsEditorOptions).show();
                 }
