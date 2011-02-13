@@ -8,8 +8,8 @@
 #sharecontent_container .as-results {margin-top:32px;margin-left: 200px;}
 #sharecontent_container ul.as-selections li.as-original input {background: none repeat scroll 0 0 transparent;}
 #sharecontent_container .s3d-highlight_area_background_darker1 {padding: 12px 10px 0; width: 638px;}
-#sharecontent_basic_container .sharecontent_search_container .sharecontent_permission_link {margin-top: 5px;}
-#sharecontent_basic_container .sharecontent_search_container ul.as-selections {-moz-box-shadow: none; overflow: visible;}
+#sharecontent_basic_container .sharecontent_search_container .sharecontent_permission_link {margin-top: 5px; float: right;}
+#sharecontent_basic_container .sharecontent_search_container ul.as-selections {-moz-box-shadow: none;}
 #sharecontent_basic_container .s3d-highlight_area_background_darker1 {background-color: #D5DBDF; margin: 0;}
 
 /* HEADER */
@@ -46,6 +46,7 @@
 #sharecontent_container_search ul li{list-style:none;}
 #sharecontent_form_container{width:100%;}
 img.sm_suggestion_img{height:16px;width:16px;margin-right:5px;}
+#sharecontent_form_container ul.as-list {margin:-30px 0 0 -7px;}
 
 /* LIST PEOPLE */
 #sharecontent_listpeople{border:1px solid #878A8C;height:214px;width:100%;margin-bottom:0;clear:both;overflow:auto;}
@@ -62,7 +63,7 @@ img.sm_suggestion_img{height:16px;width:16px;margin-right:5px;}
 #sharecontent_you{font-weight:normal;}
 .sharecontent_list_item_alternating_row{background-color:#EFF2F4;}
 #sharecontent_add_people {background: url("/dev/images/add_people.png") no-repeat scroll 0 0 transparent; float: left; font-size: 12px; margin: 9px 0 0 9px; padding: 0 0 0 25px;}
-#sharecontent_form_container .as-selections {width:310px; float:left;}
+#sharecontent_form_container .as-selections {width:310px;}
 #sharecontent_init_search{display:block;font-size:12px;margin:8px 0;}
 #sharecontent_add_people_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -120px -21px transparent;display:block;float:left;height:15px;margin-left:-25px;width:17px;}
 
