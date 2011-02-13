@@ -134,25 +134,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (contentData.members.viewers[j]) {
                     viewersList += " " + (contentData.members.viewers[j]["rep:userId"] || contentData.members.viewers[j]["sakai:group-id"]);
                 }
-
-                var searchterm = contentData.data["sakai:pooled-content-file-name"] + " " + managersList + " " + viewersList;
-                if (contentData.data["sakai:tags"]){
-                    searchterm = searchterm + " " + contentData.data["sakai:tags"].join(" ");
-                }
-                searchquery = prepSearchTermForURL(searchterm);
-
-                // get related content for contentData
-                // return some search results for now
-                $.ajax({
-                    url: sakai.config.URL.SEARCH_ALL_FILES.replace(".json", ".infinity.json"),
-                    data: {
-                        "q" : searchquery,
-                        "items" : "11"
-                    },
-                    success: ajaxSuccess,
-                    error: ajaxError
-                });
             }
+            var searchterm = contentData.data["sakai:pooled-content-file-name"] + " " + managersList + " " + viewersList;
+            if (contentData.data["sakai:tags"]){
+                searchterm = searchterm + " " + contentData.data["sakai:tags"].join(" ");
+            }
+            searchquery = prepSearchTermForURL(searchterm);
+
+            // get related content for contentData
+            // return some search results for now
+            $.ajax({
+                url: sakai.config.URL.SEARCH_ALL_FILES.replace(".json", ".infinity.json"),
+                data: {
+                    "q" : searchquery,
+                    "items" : "11"
+                },
+                success: ajaxSuccess,
+                error: ajaxError
+            });
         };
 
 
