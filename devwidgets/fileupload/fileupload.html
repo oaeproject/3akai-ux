@@ -83,7 +83,7 @@
                     </label>
                     <select id="fileupload_copyright_select">
                         {for copyrightLabel in sakai.config.Permissions.Copyright}
-                            <option {if copyrightLabel.default === true} selected="selected"{/if} value="${copyrightLabel_index}">${sakai.api.i18n.Widgets.getValueForKey("fileupload", "", copyrightLabel.title)}</option>
+                            <option {if copyrightLabel["default"] === true} selected="selected"{/if} value="${copyrightLabel_index}">${sakai.api.i18n.Widgets.getValueForKey("fileupload", "", copyrightLabel.title)}</option>
                         {/for}
                     </select>
                 </div>
