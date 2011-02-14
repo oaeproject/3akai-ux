@@ -148,7 +148,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 $fileUploadLinkBoxInput.attr("disabled", "disabled");
                 // Check to see if it's already rendered
                 if ($fileUploadRenderedTagging.html() === "") {
-                    var renderedTemplate = sakai.api.Util.TemplateRenderer($fileUploadTaggingTemplate, contextData).replace(/\r/g, '');
+                    var json = {
+                        "contextData": contextData,
+                        "sakai": sakai
+                    };
+                    var renderedTemplate = sakai.api.Util.TemplateRenderer($fileUploadTaggingTemplate, json).replace(/\r/g, '');
                     $fileUploadRenderedTagging.html(renderedTemplate);
                     if (context !== "new_version") {
                         $("#multifile_upload_wrap_list").show();
@@ -352,6 +356,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $rootel = $("#" + hash.w.attr("id") + "." + hash.w.attr("class").split(" ").join("."));
             $fileUploadAddDescription = $("#fileupload_add_description", $rootel);
             $fileUploadAddTags = $("#fileupload_add_tags", $rootel);
+            $fileUploadCopyrightSelect = $("#fileupload_copyright_select", $rootel);
             $fileUploadPermissionsSelect = $("#fileupload_permissions_select", $rootel);
             $cancelButton = $(".fileupload_close", $rootel);
             $fileUploadUpdateSubmit = $("#fileupload_update_submit", $rootel);
@@ -455,6 +460,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var batchSetDescriptionAndName = function(data){
             $fileUploadAddDescription = $($fileUploadAddDescription.selector);
             $fileUploadAddTags = $($fileUploadAddTags.selector);
+            $fileUploadCopyrightSelect = $($fileUploadCopyrightSelect.selector);
             $fileUploadPermissionsSelect = $($fileUploadPermissionsSelect.selector);
             // Batch link the files with the tags
             var batchDescriptionData = [];
@@ -505,7 +511,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                                 "sakai:pooled-content-file-name": uploadedFiles[i].name,
                                 "sakai:directory": "default",
                                 "sakai:permissions": $fileUploadPermissionsSelect.val(),
-                                "sakai:copyright": "creativecommons"
+                                "sakai:copyright": $fileUploadCopyrightSelect.val()
                             }
                         };
                         batchDescriptionData[batchDescriptionData.length] = item3;

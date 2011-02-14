@@ -30,7 +30,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var selectedMessage = {}; // The current message
         var selectedType = 'inbox';
         var selectedCategory = "";
-        var sortOrder = "descending";
+        var sortOrder = "desc";
         var sortBy = "date";
         var currentPage = 0;
         var messagesForTypeCat; // The number of messages for this type/cat.
@@ -1277,8 +1277,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         $(inboxTableHeaderSort).bind("click", function(){
             $(inboxTable + " " + inboxArrow).remove();
             sortBy = $(this).attr("id").replace(/inbox_table_header_/gi, "");
-            sortOrder = (sortOrder === "descending") ? "ascending" : "descending";
-            if (sortOrder === "descending") {
+            sortOrder = (sortOrder === "desc") ? "asc" : "desc";
+            if (sortOrder === "desc") {
                 $(this).append(sakai.api.Security.saneHTML($(inboxInboxSortDown).html()));
             }
             else {

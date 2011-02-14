@@ -323,10 +323,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var getComments = function(){
             var sortOn = "sakai:created";
-            var sortOrder = "descending";
+            var sortOrder = "desc";
             var items = 10;
             if (widgetSettings.direction && widgetSettings.direction === "comments_FirstDown") {
-                sortOrder = "ascending";
+                sortOrder = "asc";
             }
             if (widgetSettings.perPage) {
                 items = widgetSettings.perPage;

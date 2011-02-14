@@ -119,7 +119,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                         "userid": jr.userid,
                                         "firstName": jr.basic.elements.firstName.value,
                                         "lastName": jr.basic.elements.lastName.value,
-                                        "request_age": $.timeago(jr["jcr:created"]),
+                                        "request_age": $.timeago(jr["created"]),
                                         "pic_src": jr.picture
                                     });
                                 }

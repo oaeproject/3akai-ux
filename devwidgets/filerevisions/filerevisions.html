@@ -44,14 +44,14 @@
                     <li class="{if Math.round(i_index % 2) != 1}s3d-highlight_area_background{/if}">
                         <a {if linkrevision} href="${data.revisionFileDetails[i_index]["sakai:pooled-content-revurl"]}" {else} href="${data.path}.version.,${i["jcr:name"]},/${data.revisionFileDetails[i_index]["sakai:pooled-content-file-name"]}{if data.revisionFileDetails[i_index]["sakai:pooled-content-file-name"].substring(data.revisionFileDetails[1]["sakai:pooled-content-file-name"].lastIndexOf("."), data.revisionFileDetails[i_index]["sakai:pooled-content-file-name"].length) !== data.revisionFileDetails[i_index]["sakai:fileextension"]}${data.revisionFileDetails[i_index]["sakai:fileextension"]}{/if}"{/if} title="__MSG__SHOW_VERSION__ ${data.versions.versions[i_index]["jcr:name"]}" target="_blank" class="filerevisions_download_version">{if linkrevision} __MSG__OPEN_THIS_LINK__{else} __MSG__DOWNLOAD__{/if}</a>
                         <span class="filerevisions_lefthand_description">__MSG__REVISED__</span>
-                        <span class="filerevisions_list_content">${data.versions.versions[i_index]["jcr:created"]} __MSG__BY__: <a href="/~${data.versions.versions[i_index - 1]["sakai:savedBy"]["rep:userId"]}" class="filerevisions_editor_name"> ${sakai.api.User.getDisplayName(data.versions.versions[i_index - 1]["sakai:savedBy"])}</a></span>
+                        <span class="filerevisions_list_content">${data.versions.versions[i_index]["created"]} __MSG__BY__: <a href="/~${data.versions.versions[i_index - 1]["sakai:savedBy"]["rep:userId"]}" class="filerevisions_editor_name"> ${sakai.api.User.getDisplayName(data.versions.versions[i_index - 1]["sakai:savedBy"])}</a></span>
                     </li>
                 {/if}
                 {var count = count + 1}
             {/for}
             <li class="{if Math.round(data.numberOfRevisions % 2) != 1}s3d-highlight_area_background{/if}">
                 <span class="filerevisions_lefthand_description">__MSG__CURRENT_VERSION__</span>
-                <span class="filerevisions_list_content">${data.versions.versions[0]["jcr:created"]} __MSG__BY__: <a href="/~${data.versions.versions[count - 1]["sakai:savedBy"]["rep:userId"]}" class="filerevisions_editor_name"> ${sakai.api.User.getDisplayName(data.versions.versions[count - 1]["sakai:savedBy"])} </a></span>
+                <span class="filerevisions_list_content">${data.versions.versions[0]["created"]} __MSG__BY__: <a href="/~${data.versions.versions[count - 1]["sakai:savedBy"]["rep:userId"]}" class="filerevisions_editor_name"> ${sakai.api.User.getDisplayName(data.versions.versions[count - 1]["sakai:savedBy"])} </a></span>
             </li>
             <button type="button" id="filerevisions_close" class="s3d-button s3d-button-primary jqmClose dialog_close_image">
                 <span class="s3d-button-inner">__MSG__CLOSE__</span>

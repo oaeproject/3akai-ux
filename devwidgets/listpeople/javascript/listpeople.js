@@ -349,7 +349,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             listitems.sort(function(a, b) {
                 var compA = $(a).text().toUpperCase();
                 var compB = $(b).text().toUpperCase();
-                if (sortOrder === 'ascending') {
+                if (sortOrder === 'asc') {
                     return (compA < compB) ? -1 : (compA > compB) ? 1 : 0;
                 }
                 return (compB < compA) ? -1 : (compB > compA) ? 1 : 0;
@@ -502,7 +502,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         "items": 1000,
                         "selectable": false,
                         "sortOn": "lastName",
-                        "sortOrder": "ascending",
+                        "sortOrder": "asc",
                         "function": "getSelection",
                         "anon": false
                     };

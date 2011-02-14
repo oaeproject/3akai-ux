@@ -17,7 +17,7 @@
  */
 
 /* Widget icon */
-.listpeopleinnode_widget.fl-widget .fl-widget-titlebar .widget_title{background:url(/dev/images/contacts_icon.png) 16px 16px no-repeat;height:32px;padding-left:35px;}
+.listpeopleinnode_widget .fl-widget-titlebar .widget_title_icon{background:url("/dev/images/contacts_icon.png") no-repeat scroll left top transparent}
 
 /* Content */
 .listpeopleinnode_widget .s3d-widget-content{padding:0!important;}

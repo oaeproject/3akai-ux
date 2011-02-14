@@ -21,8 +21,8 @@
         <!-- -->
     </div>
     <a href="javascript:;" id="contentmetadata_show_more">
-        <div id="contentmetadata_see_more" class="s3d-dropdownlisttwo-text">__MSG__SEE_MORE__<div id="contentmetadata_show_more_arrow" class="s3d-dropdownlisttwo-arrow-down"><!-- --></div></div>
-        <div id="contentmetadata_see_less" style="display:none;" class="s3d-dropdownlisttwo-text">__MSG__SEE_LESS__<div id="contentmetadata_show_less_arrow" class="s3d-dropdownlisttwo-arrow-up"><!-- --></div></div>
+        <div id="contentmetadata_see_more" class="s3d-dropdownlisttwo-text"><span id="contentmetadata_show_more_arrow" class="s3d-dropdownlisttwo-arrow-down"><!-- --></span><span>__MSG__SEE_MORE__</span></div>
+        <div id="contentmetadata_see_less" style="display:none;" class="s3d-dropdownlisttwo-text"><span id="contentmetadata_show_less_arrow" class="s3d-dropdownlisttwo-arrow-up"><!-- --></span><span>__MSG__SEE_LESS__</span></div>
     </a>
     <hr class="fl-hidden fl-push">
     <div class='s3d-highlight_area_background_darker1_bl'><div class='s3d-highlight_area_background_darker1_binner'></div></div>
@@ -66,7 +66,7 @@
         {if data.mode === "edit"}
             <select id="contentmetadata_copyright_copyright" class="contentmetadata_edit_input">
                 {for copyrightLabel in sakai.config.Permissions.Copyright}
-                    <option {if data.data["sakai:copyright"] === copyrightLabel_index} selected="selected"{/if} value="${copyrightLabel_index}">${sakai.api.i18n.Widgets.getValueForKey("contentmetadata", "", copyrightLabel)}</option>
+                    <option {if data.data["sakai:copyright"] === copyrightLabel_index} selected="selected"{/if} value="${copyrightLabel_index}">${sakai.api.i18n.Widgets.getValueForKey("contentmetadata", "", copyrightLabel.title)}</option>
                 {/for}
             </select>
         {else}
@@ -74,7 +74,7 @@
             {for copyrightLabel in sakai.config.Permissions.Copyright}
                 {if data.data["sakai:copyright"] === copyrightLabel_index}
                     <label class="content_profile_basic_info_form_anon_label">
-                        ${sakai.api.i18n.Widgets.getValueForKey("contentmetadata", "", copyrightLabel)}
+                        ${sakai.api.i18n.Widgets.getValueForKey("contentmetadata", "", copyrightLabel.title)}
                     </label>
                 {/if}
             {/for}
@@ -112,23 +112,23 @@
     <div class='s3d-highlight_area_background_darker1_white_content_tl'><div class='s3d-highlight_area_background_darker1_white_content_tinner'></div></div>
         <span class="contentmetadata_content_row">
             <span class="contentmetadata_first_column">__MSG__SIZE__: </span>
-            <span>${sakai.api.Util.convertToHumanReadableFileSize(data.data["jcr:content"]["jcr:data"].split(":")[1])}</span>
+            <span>${sakai.api.Util.convertToHumanReadableFileSize(data.data["length"])}</span>
         </span>
         <span class="contentmetadata_content_row">
             <span class="contentmetadata_first_column">__MSG__TYPE__: </span>
-            <span>${data.data["jcr:content"]["jcr:mimeType"]}</span>
+            <span>${data.data["mimeType"]}</span>
         </span>
         <span class="contentmetadata_content_row">
             <span class="contentmetadata_first_column">__MSG__CREATED__: </span>
-            <span>${sakai.api.l10n.transformDate(sakai.api.l10n.parseDateString(data.data["jcr:created"], sakai.data.me))}</span>
+            <span>${sakai.api.l10n.transformDate(sakai.api.l10n.parseDateString(data.data["created"], sakai.data.me))}</span>
         </span>
         <span class="contentmetadata_content_row">
             <span class="contentmetadata_first_column">__MSG__LAST_MODIFIED__: </span>
-            <span>${sakai.api.l10n.transformDate(sakai.api.l10n.parseDateString(data.data["jcr:content"]["jcr:lastModified"]), sakai.data.me)}</span>
+            <span>${sakai.api.l10n.transformDate(sakai.api.l10n.parseDateString(data.data["lastModified"]), sakai.data.me)}</span>
         </span>
         <span class="contentmetadata_content_row">
             <span class="contentmetadata_first_column">__MSG__REVISIONS__: </span>
-            <span>{if data.versions.total -1 <= 0}__MSG__NO_REVISIONS__{else}<a href="javascript:;" id="contentmetadata_view_revisions" {if data.data["jcr:content"]["jcr:mimeType"] === "x-sakai/link"}class="link_revision s3d-action"{else}class="s3d-action"{/if}>${data.versions.total -1} __MSG__VERSIONS__</a> __MSG__AVAILABLE__{/if}</span>
+            <span>{if data.versions.total -1 <= 0}__MSG__NO_REVISIONS__{else}<a href="javascript:;" id="contentmetadata_view_revisions" {if data.data["mimeType"] === "x-sakai/link"}class="link_revision s3d-action"{else}class="s3d-action"{/if}>${data.versions.total -1} __MSG__VERSIONS__</a> __MSG__AVAILABLE__{/if}</span>
         </span>
     <div class='s3d-highlight_area_background_darker1_white_content_bl'><div class='s3d-highlight_area_background_darker1_white_content_binner'></div></div>
 --></div>
