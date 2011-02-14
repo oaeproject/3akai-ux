@@ -74,7 +74,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Render Widget with group data
          */
         var loadGroupElements = function(){
-            var pl_config = {"selectable":false, "subNameInfoUser": "", "subNameInfoGroup": "sakai:group-description", "sortOn": "lastName", "sortOrder": "ascending", "items": 1000, "function": "getSelection" },
+            var pl_config = {"selectable":false, "subNameInfoUser": "", "subNameInfoGroup": "sakai:group-description", "sortOn": "lastName", "sortOrder": "asc", "items": 1000, "function": "getSelection" },
                 url = "";
 
             if (listType === "members") {

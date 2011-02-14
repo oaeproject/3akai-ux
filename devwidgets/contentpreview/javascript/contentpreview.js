@@ -48,7 +48,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             obj.type = "showpreview";
             var callback = null;
             var arg = null;
-            var mimeType = sakai_global.content_profile.content_data.data["jcr:content"]["jcr:mimeType"];
+            var mimeType = sakai_global.content_profile.content_data.data["mimeType"];
             if (mimeType.substring(0, 6) === "video/") {
                 callback = renderVideoPlayer;
             } else if (mimeType.substring(0, 6) === "audio/") {
@@ -191,7 +191,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("#upload_content").live("click", function() {
                 $(window).trigger("sakai-fileupload-init", {
                     newVersion: true,
-                    isLink: sakai_global.content_profile.content_data.data["jcr:content"]["jcr:mimeType"] === "x-sakai/link",
+                    isLink: sakai_global.content_profile.content_data.data["mimeType"] === "x-sakai/link",
                     contentPath: sakai_global.content_profile.content_data.data["jcr:name"]
                 });
             });

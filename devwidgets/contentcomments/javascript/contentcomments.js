@@ -200,7 +200,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     comment.date = sakai.api.l10n.parseDateString(tempDate, sakai.data.me);
                 }
                 catch (ex) {
-                    comment.date = tempDate;
+                    if (comment.date instanceof Date) {
+                        comment.date = tempDate;
+                    } else {
+                        comment.date = new Date(comment.date);
+                    }
                 }
 
                 comment.timeAgo = "about " + getTimeAgo(comment.date) + " "+sakai.api.i18n.General.getValueForKey("AGO");
@@ -286,10 +290,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          */
         var getComments = function(){
             var sortOn = "sakai:created";
-            var sortOrder = "descending";
+            var sortOrder = "desc";
             var items = 10;
             if (widgetSettings.direction && widgetSettings.direction === "comments_FirstDown") {
-                sortOrder = "ascending";
+                sortOrder = "asc";
             }
             if (widgetSettings.perPage) {
                 items = widgetSettings.perPage;

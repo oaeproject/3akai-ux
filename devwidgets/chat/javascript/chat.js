@@ -649,7 +649,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 "items": 1000,
                                 "t": resp1.pulltime,
                                 "sortOn": "sakai:created",
-                                "sortOrder": "descending"
+                                "sortOrder": "desc"
                             },
                             cache: false,
                             success: function(data){
