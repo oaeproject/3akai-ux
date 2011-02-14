@@ -22,7 +22,7 @@
 .myprofile_widget .profile .myprofile_name{font-weight:700;font-size:1.1em;color:#39C;display:block;margin-left:56px;}
 .myprofile_widget .profile .myprofile_dept{color:#999;display:block;margin-left:80px;font-size:.95em;position:relative;}
 .myprofile_widget .profile p{margin-top:10px;color:#999;float:left;}
-.myprofile_widget .chat_status_label{float:left;}
+.myprofile_widget .chat_status_label{padding-right:5px;float:left;}
 
 /* Profile status */
 #myprofile_chat_status{float:left;padding-left:17px;}
