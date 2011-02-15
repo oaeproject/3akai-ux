@@ -438,8 +438,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         page: (currentpage - 1),
                         items: resultsToDisplay,
                         q: urlsearchterm,
-                        sortOn: "public/authprofile/basic/elements/lastName/@value",
-                        sortOrder: "ascending"
+                        sortOn: "lastName",
+                        sortOrder: "asc"
                     };
                 }
 
@@ -450,8 +450,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         page: (currentpage - 1),
                         items: resultsToDisplay,
                         q: urlsearchterm,
-                        sortOn: "public/authprofile/basic/elements/firstName/@value",
-                        sortOrder: "ascending"
+                        sortOn: "firstName",
+                        sortOrder: "asc"
                     };
                 }
 

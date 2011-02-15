@@ -77,7 +77,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 page: 0,
                 items: 10,
                 q: selected,
-                sortOrder: "descending"
+                sortOrder: "desc"
             };
 
             $.ajax({

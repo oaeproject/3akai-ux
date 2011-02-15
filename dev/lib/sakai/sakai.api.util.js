@@ -109,7 +109,7 @@ define(["jquery",
 
         convertToHumanReadableFileSize : function(filesize) {
             var i;
-            if (filesize.indexOf("binary-length:") > -1) {
+            if (filesize.indexOf && filesize.indexOf("binary-length:") > -1) {
                 filesize = filesize.replace("binary-length:", "");
             }
             // Divide the length into its largest unit
