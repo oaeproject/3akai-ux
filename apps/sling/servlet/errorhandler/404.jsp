@@ -10,8 +10,7 @@
         <title></title>
 
         <!-- Sakai Core CSS -->
-        <link rel="stylesheet" type="text/css" href="/dev/css/FSS/fss-base.css" />
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.base.css" />
+        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/main.css" />
 
         <!-- Sakai Error CSS -->
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.error.css" />
@@ -19,17 +18,9 @@
         <!-- Sakai Page CSS -->
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.index.css" />
 
-        <!-- 3rd party CSS -->
-
-        <!-- Dependency JS -->
-        <script data-main="/dev/lib/sakai/sakai.dependencies.js" src="/dev/lib/jquery/require-jquery.js"></script>
-
-        <!-- 404 JS -->
-        <script type="text/javascript" src="/dev/javascript/sakai.404.js"></script>
-
     </head>
 
-    <body class="fl-centered index i18nable">
+    <body class="fl-centered error404 i18nable">
 
         <!-- TOP BANNER -->
         <div id="top_banner"><!-- --></div>
@@ -130,5 +121,11 @@
                 <div id="widget_chat" class="widget_inline"></div>
             --></div>
         </div>
+
+        <!-- Dependency JS -->
+        <script data-main="/dev/lib/sakai/sakai.dependencies.js" src="/dev/lib/jquery/require-jquery.js"></script>
+
+        <!-- 404 JS -->
+        <script>require(["/dev/javascript/sakai.404.js"]);</script>
     </body>
 </html>
