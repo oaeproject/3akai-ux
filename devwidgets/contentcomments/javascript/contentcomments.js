@@ -197,7 +197,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 var tempDate = comment.created;
                 try {
                     // if the date is not a string this should generate en exception
-                    comment.date = sakai.api.l10n.parseDateString(tempDate, sakai.data.me);
+                    comment.date = sakai.api.l10n.fromEpoch(tempDate, sakai.data.me);
                 }
                 catch (ex) {
                     if (comment.date instanceof Date) {
