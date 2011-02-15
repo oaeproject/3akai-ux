@@ -80,7 +80,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             };
 
             // set the mimetype and corresponding image
-            var type = result["jcr:content"]["jcr:mimeType"];
+            var type = result["mimeType"];
             if(sakai.config.MimeTypes[type]) {
                 // we have a recognized file type - set the description and img URL
                 item.type = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[type].description);
@@ -99,8 +99,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
 
             // set the file size
-            var size = result["jcr:content"]["jcr:data"];
-            if(size && size.indexOf("binary-length:") !== -1) {
+            var size = result["length"];
+            if(size && size.indexOf && size.indexOf("binary-length:") !== -1) {
                 // the value exists and contains a binary length that we can turn
                 // into a human readable file size
                 item.size = "(" + sakai.api.Util.convertToHumanReadableFileSize(size.split(":")[1]) + ")";
@@ -187,8 +187,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Server.loadJSON("/var/search/pool/me/manager.1.json",
                 handleContentData, {
                     "q": "*",
-                    "sortOn": "jcr:created",
-                    "sortOrder": "descending",
+                    "sortOn": "created",
+                    "sortOrder": "desc",
                     "page": "0",
                     "items": "5"
                 }

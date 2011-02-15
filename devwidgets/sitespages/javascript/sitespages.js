@@ -86,6 +86,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         //////////////////////////
 
         var config = {};
+        var insertDropdownPositionSet = false;
 
         var doInit = function(basepath, fullpath, url, editMode, homepage, pageEmbedProperty, dashboardEmbedProperty){
             config.basepath = basepath;
@@ -822,14 +823,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     el.hide();
                 } else if (el.css("display")) {
                     $("#sitepages_insert_dropdown_button").addClass("clicked");
-                    var x = $("#sitepages_insert_dropdown_button").position().left;
-                    var y = $("#sitepages_insert_dropdown_button").position().top;
-                    el.css(
-                            {
-                              "top": y + 28 + "px",
-                              "left": x + "px"
-                            }
-                        ).show();
+                    if (!insertDropdownPositionSet) {
+                        var x = $("#sitepages_insert_dropdown_button").position().left;
+                        var y = $("#sitepages_insert_dropdown_button").position().top;
+                        el.css({
+                            "top": y + 28 + "px",
+                            "left": x + "px"
+                        }).show();
+                        insertDropdownPositionSet = true;
+                    }
+                    el.show();
                 }
             }
         };
@@ -2483,7 +2486,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             var name = "Version " + (ver);
 
                             // Transform date
-                            var date = data.versions[ver]["jcr:created"];
+                            var date = data.versions[ver]["created"];
                             var datestring = sakai.api.l10n.transformDateTimeShort(new Date(date));
 
                             name += " - " + datestring;

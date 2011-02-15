@@ -583,9 +583,9 @@ define(function() {
             /*
              * Institution contact details are displayed in the footer
              */
-            helpLinkText: false,
-            helpLinkUrl: false,
-            helpPhone: false
+            helpLinkText: "Contact Us",
+            helpLinkUrl: "http://www.sakaiproject.org/contact",
+            helpPhone: "+0123456789"
         },
 
         Messages: {

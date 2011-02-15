@@ -437,8 +437,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         page: 0,
                         items: peopleToSearch,
                         q: urlsearchterm,
-                        sortOn: "public/authprofile/basic/elements/lastName/@value",
-                        sortOrder: "ascending"
+                        sortOn: "lastName",
+                        sortOrder: "asc"
                     },
                     success: function(data) {
 
