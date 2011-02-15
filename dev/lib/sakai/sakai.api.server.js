@@ -179,7 +179,7 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
              */
             var convertArrayToObject = function(obj) {
 
-                var i,j;
+                var i,j,jl;
                 // Since the native createTree method doesn't support an array of objects natively,
                 // we need to write extra functionality for this.
                 for(i in obj){
@@ -376,7 +376,7 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
          */
         convertObjectToArray : function(specficObj, globalObj, objIndex){
 
-            var i,j,k;
+            var i,j,k,kl;
             // Run over all the items in the object
             for (i in specficObj) {
 
