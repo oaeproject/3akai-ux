@@ -29,15 +29,17 @@
                 </div>
             {else}
                 <div class="${embedClass} ${layout}">
+                    <a href="/content/content_path=${item.path}">
                     {if item.filetype === "image"}
-                        <a href="/content/content_path=${item.path}"><img src="${item.link}" alt="${sakai.config.MimeTypes[item.mimetype].description}" /></a>
+                        <img src="${item.link}" alt="${sakai.config.MimeTypes[item.mimetype].description}" />
                     {elseif item.filetype === "video"}
-                        <a href="/content/content_path=${item.path}"><img border="1" style="display: block; padding: 10px; margin: 4px;" class="widget_inline" id="widget_video_id${item.uId}" src="/devwidgets/video/images/video.png"></a>
+                        <img border="1" style="display: block; padding: 10px; margin: 4px;" class="widget_inline" id="widget_video_id${item.uId}" src="/devwidgets/video/images/video.png">
                     {elseif sakai.config.MimeTypes[item.mimetype]}
-                        <a href="/content/content_path=${item.path}"><img src="${sakai.config.MimeTypes[item.mimetype].URL}" alt="${sakai.config.MimeTypes[item.mimetype].description}"/></a>
+                        <img src="${sakai.config.MimeTypes[item.mimetype].URL}" alt="${sakai.config.MimeTypes[item.mimetype].description}"/>
                     {else}
-                        <a href="/content/content_path=${item.path}"><img src="${sakai.config.MimeTypes['other'].URL}" alt="${sakai.config.MimeTypes['other'].description}"/></a>
+                        <img src="${sakai.config.MimeTypes['other'].URL}" alt="${sakai.config.MimeTypes['other'].description}"/>
                     {/if}
+                    </a>
                     <div class="embedcontent_details">
                         {if name}<span><a href="/content#content_path=${item.path}" class="s3d-action embedcontent_include_name">${item.name}</a></span>{/if}
                         {if details}<span class="embedcontent_include_details">${item.description}</span>{/if}
