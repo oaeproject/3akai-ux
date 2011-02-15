@@ -77,7 +77,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Server.loadJSON("/~" + entityID + "/public/authprofile", function(success, data) {
                 if (success){
 
-                    if (data["sakai:group-id"]){
+                    if (data["sling:resourceType"] && data["sling:resourceType"] === "sakai/group-profile"){
                         var newdata = {};
                         newdata["authprofile"] = data;
                         data = newdata;
