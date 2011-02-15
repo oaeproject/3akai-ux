@@ -95,14 +95,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("#contentpreview_image_rendered").bind('load', function(ev){
                 var width = $("#contentpreview_image_rendered").width();
                 var height = $("#contentpreview_image_rendered").height();
-                if (width >= 640 && height / width * 640 > 390){
+                // Too wide but when scaled to width won't be too tall
+                if (width > 640 && height / width * 640 <= 390){
                     $("#contentpreview_image_rendered").addClass("contentpreview_image_preview_width");
-                    $("#contentpreview_image_rendered").addClass("contentpreview_noborder");
-                    $("#contentpreview_image_preview").addClass("contentpreview_other_preview");
-                    $("#contentpreview_image_preview").addClass("contentpreview_overflowhidden");
-                    $("#contentpreview_image_rendered").css("margin-top", - ((height / width * 640) - 390) / 2 + "px");
-                } else if (width > 640 && height / width * 640 <= 390){
-                    $("#contentpreview_image_rendered").addClass("contentpreview_image_preview_width");
+                // Too tall but when scaled to height won't be too wide
                 } else if (height > 390 && width / height * 390 <= 640){
                     $("#contentpreview_image_rendered").addClass("contentpreview_image_preview_height");
                 }
