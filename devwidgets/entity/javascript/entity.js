@@ -1027,12 +1027,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
             if (jcr_content) {
 
                 // Set the person that last modified the resource
-                if (jcr_content["jcr:lastModifiedBy"]) {
-                    entityconfig.data.profile.lastmodifiedby = jcr_content["jcr:lastModifiedBy"];
+                if (jcr_content["lastModifiedBy"]) {
+                    entityconfig.data.profile.lastmodifiedby = jcr_content["lastModifiedBy"];
                 }
                 // Set the last modified date
-                if (jcr_content["jcr:lastModified"]) {
-                    entityconfig.data.profile.lastmodified = $.timeago(sakai.api.Util.parseSakaiDate(jcr_content["jcr:lastModified"]));
+                if (jcr_content["lastModified"]) {
+                    entityconfig.data.profile.lastmodified = $.timeago(sakai.api.Util.parseSakaiDate(jcr_content["lastModified"]));
                 }
                 // Set the size of the file
                 if (jcr_content["jcr:data"]) {
@@ -1061,12 +1061,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
             }
 
             // Set the created by and created (date) variables
-            if (filedata["jcr:createdBy"]) {
-                entityconfig.data.profile.createdby = filedata["jcr:createdBy"];
+            if (filedata["createdBy"]) {
+                entityconfig.data.profile.createdby = filedata["createdBy"];
             }
 
-            if (filedata["jcr:created"]) {
-                entityconfig.data.profile.created = $.timeago(sakai.api.Util.parseSakaiDate(filedata["jcr:created"]));
+            if (filedata["created"]) {
+                entityconfig.data.profile.created = $.timeago(sakai.api.Util.parseSakaiDate(filedata["created"]));
             }
 
             if (filedata["sakai:pooled-content-file-name"]) {
@@ -1138,7 +1138,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
          * Callback function to sort activity based on created date
          */
         var sortActivity = function(a, b){
-            return a["jcr:created"] < b["jcr:created"] ? 1 : -1;
+            return a["created"] < b["created"] ? 1 : -1;
         };
 
         /**
@@ -1213,7 +1213,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
                         }
 
                         // get the time since the activity happened
-                        entityconfig.data.profile.activity.results[j].timeAgo = $.timeago(sakai.api.Util.parseSakaiDate(entityconfig.data.profile.activity.results[j]["jcr:created"]));
+                        entityconfig.data.profile.activity.results[j].timeAgo = $.timeago(sakai.api.Util.parseSakaiDate(entityconfig.data.profile.activity.results[j]["created"]));
                     }
                 }
             }

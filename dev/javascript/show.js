@@ -74,13 +74,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     entityID = sakai.data.me.user.userid;
                 }
             }
-            sakai.api.Server.loadJSON("/~" + entityID + "/public/authprofile", function(success, data) {
+            sakai.api.Server.loadJSON("/~" + entityID + "/public.infinity.json", function(success, data) {
                 if (success){
 
-                    if (data["sakai:group-id"]){
-                        var newdata = {};
-                        newdata["authprofile"] = data;
-                        data = newdata;
+                    if (data.authprofile && data.authprofile["sakai:group-id"]){
                         entityType = "group";
                     } else {
                         entityType = "user";
@@ -121,7 +118,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * Will be an empty string if there is no picture
          */
         var constructProfilePicture = function(profile){
-            if (profile.basic.elements.picture && profile.basic.elements.picture.value && profile["rep:userId"]) {
+            if (profile.basic && profile.basic.elements.picture && profile.basic.elements.picture.value && profile["rep:userId"]) {
                 return "/~" + profile["rep:userId"] + "/public/profile/" + profile.basic.elements.picture.value.name;
             } else {
                 return "";

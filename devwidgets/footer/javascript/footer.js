@@ -75,7 +75,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @return {Boolean} True when it is the index page
          */
         var checkIndexPage = function(){
-            return document.URL.match(/index.html[?a-zA-Z0-9=]*/);
+            return ($('body').hasClass('index'));
         };
 
 

@@ -96,6 +96,20 @@ define(["/dev/configuration/config.js", "/dev/lib/misc/l10n/globalization.js", "
         },
 
         /**
+         * Determines date from an epoch string and returns a date object and adjust that date to the timezone
+         * set by the current user.
+         * @param {Object} dateString    date epoch
+         * @param {Object} meData the data from sakai.api.User.data.me
+         */
+        fromEpoch : function(dateString, meData){
+            var d = new Date(parseInt(dateString,10));
+            if (meData && meData.user.locale) {
+                d.setTime(d.getTime() + meData.user.locale.timezone.GMT * 60 * 60 * 1000);
+            }
+            return d;
+        },
+
+        /**
          * Function that will take in a date object and will transform that
          * date object into a date only string
          * @param {Date} date
