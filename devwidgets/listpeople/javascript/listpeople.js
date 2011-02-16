@@ -328,7 +328,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 
                 var totalNumberItems = sakai_global.data.listpeople[listType].total;
                 $('.jq_pager', $rootel).pager({
-                    pagenumber: pageNumber,
+                    pagenumber: clicked,
                     pagecount: Math.ceil(totalNumberItems / totalResult),
                     buttonClickCallback: pagerClickHandler
                 });
