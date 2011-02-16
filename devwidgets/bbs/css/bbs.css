@@ -31,7 +31,7 @@
 .bbs_topic_subject{font-size:16px; color:#444; margin-bottom:2px; font-weight:normal;}
 .bbs_topic_number_of_replies, .bbs_poster_name, .bbs_posting_date{color:#878A8C; display: block; margin-bottom: 4px;}
 .bbs_topic_number_of_replies{display:inline-block;}
-.bbs_reply_topic{float:right;}
+.bbs_reply_topic, .bbs_hide_reply{float:right;}
 .bbs_poster_name {font-size:15px; color:#666;}
 .bbs_post_message{margin-bottom:10px; display:block;}
 .bbs_hide_replies_icon, .bbs_show_replies_icon{height: 9px;width: 9px;margin:4px 4px 0 0; float:left;}
@@ -40,6 +40,10 @@
 .bbs_entity_container {margin-bottom:10px;}
 .bbs_entity_container .bbs_entity_picture{width:40px; height:40px; float:left; margin-right:6px;}
 .bbs_quoted_text_container{background-color:#fff;}
+
+/* Deleted posts */
+.bbs_deleted_reply{color:#878A8C !important;}
+.bbs_deleted_reply_info, .bbs_delete_date{font-style:italic;}
 
 /* Settings */
 #bbs_settings .fl-widget-content{font-size:.95em;padding:10px;}
