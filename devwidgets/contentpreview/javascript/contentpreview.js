@@ -138,7 +138,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (sakai_global.content_profile.content_data.data.previewImage) {
                 so.addVariable('image', sakai_global.content_profile.content_data.data.previewImage);
             }
-            so.addVariable('stretching','fill');
+            so.addVariable('stretching','uniform');
             so.write("contentpreview_videoaudio_preview");
         };
 
@@ -162,7 +162,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (!url){
                 url = "/devwidgets/video/jwplayer/player-licensed.swf";
             }
-            var so = new SWFObject(url,'ply', '100%', '100%','9','#ffffff');
+            var so = new SWFObject(url,'ply', '640', '390','9','#ffffff');
             so.addParam('allowfullscreen','true');
             if (params.allowscriptaccess) {
                 so.addParam('allowscriptaccess', params.allowscriptaccess);
