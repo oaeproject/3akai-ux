@@ -74,10 +74,13 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     entityID = sakai.data.me.user.userid;
                 }
             }
-            sakai.api.Server.loadJSON("/~" + entityID + "/public.infinity.json", function(success, data) {
+            sakai.api.Server.loadJSON("/~" + entityID + "/public/authprofile", function(success, data) {
                 if (success){
 
-                    if (data.authprofile && data.authprofile["sakai:group-id"]){
+                    if (data["sling:resourceType"] && data["sling:resourceType"] === "sakai/group-profile"){
+                        var newdata = {};
+                        newdata["authprofile"] = data;
+                        data = newdata;
                         entityType = "group";
                     } else {
                         entityType = "user";
