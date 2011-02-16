@@ -47,6 +47,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $footer_date_end = $("#footer_date_end");
         var $footer_root = $(".footer_main");
         var $footer_logo = $("#footer_logo");
+        var $footer_contactinfo = $("#footer_contactinfo");
+        var $footer_www = $("#footer_www");
+        var $footer_divider = $("#footer_divider");
+        var $footer_phone = $("#footer_phone");
 
 
         //////////////////////
@@ -71,7 +75,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @return {Boolean} True when it is the index page
          */
         var checkIndexPage = function(){
-            return document.URL.match(/index.html[?a-zA-Z0-9=]*/);
+            return ($('body').hasClass('index'));
         };
 
 
@@ -117,6 +121,40 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         /**
+         * Display Institution contact details if available
+         */
+        var getContactDetails = function() {
+            if (sakai.config.Institution){
+                var helpLinkUrl = false, helpPhone = false;
+                if (sakai.config.Institution.helpLinkText) {
+                    $footer_www.html(sakai.config.Institution.helpLinkText);
+                    $footer_www.attr("alt", sakai.api.Security.saneHTML(sakai.config.Institution.helpLinkText));
+                } else if (sakai.config.Institution.helpLinkUrl){
+                    helpLinkUrl = true;
+                    $footer_www.html(sakai.config.Institution.helpLinkUrl);
+                    $footer_www.attr("alt", sakai.api.Security.saneHTML(sakai.config.Institution.helpLinkUrl));
+                }
+                if (sakai.config.Institution.helpLinkUrl) {
+                    helpLinkUrl = true;
+                    $footer_www.attr("href", sakai.api.Security.saneHTML(sakai.config.Institution.helpLinkUrl));
+                }
+                if (sakai.config.Institution.helpPhone) {
+                    helpPhone = true;
+                    $footer_phone.html(sakai.api.Security.saneHTML(sakai.config.Institution.helpPhone));
+                }
+                if (helpLinkUrl){
+                    $footer_www.show();
+                }
+                if (helpLinkUrl && helpPhone){
+                    $footer_divider.show();
+                }
+                if (helpLinkUrl || helpPhone){
+                    $footer_contactinfo.show();
+                }
+            }
+        };
+
+        /**
          * This event handler will make sure that the Top link
          * that's available in every page footer will scroll back
          * to the top of the page
@@ -158,6 +196,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }).addClass("footer_clickable");
 
             }
+
+            // check if contact info is set in config and display it
+            getContactDetails();
 
             // index.html mods
             if (checkIndexPage() || doc_name === "") {

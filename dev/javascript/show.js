@@ -77,7 +77,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Server.loadJSON("/~" + entityID + "/public/authprofile", function(success, data) {
                 if (success){
 
-                    if (data["sakai:group-id"]){
+                    if (data["sling:resourceType"] && data["sling:resourceType"] === "sakai/group-profile"){
                         var newdata = {};
                         newdata["authprofile"] = data;
                         data = newdata;
@@ -121,7 +121,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * Will be an empty string if there is no picture
          */
         var constructProfilePicture = function(profile){
-            if (profile.basic.elements.picture && profile.basic.elements.picture.value && profile["rep:userId"]) {
+            if (profile.basic && profile.basic.elements.picture && profile.basic.elements.picture.value && profile["rep:userId"]) {
                 return "/~" + profile["rep:userId"] + "/public/profile/" + profile.basic.elements.picture.value.name;
             } else {
                 return "";

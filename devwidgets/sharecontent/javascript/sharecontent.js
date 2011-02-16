@@ -95,12 +95,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var $sharecontentThereShouldBeAtLeastOneManager = $("#sharecontent_there_should_be_at_least_one_manager");
         var $sharecontentManagerCouldNotBeRemoved = $("#sharecontent_manager_could_not_be_removed");
 
-        var shareData = {
-            "filename": "\"" +  sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"",
-            "path": window.location,
-            "user": sakai.data.me.profile.basic.elements.firstName.value
-        };
-
+        var shareData = {};
         var userList = [];
         var initialized = false;
         var callback = false;
@@ -117,8 +112,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
           "spaceName": "Space",
           "items": 50,
           "selectable": true,
-          "sortOn": "public/authprofile/basic/elements/lastName/@value",
-          "sortOrder": "ascending",
+          "sortOn": "lastName",
+          "sortOrder": "asc",
           "what": "People",
           "where": "Group",
           "excludeList": []
@@ -370,6 +365,15 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     }
                 });
             }, false);
+        };
+
+        var fillShareData = function(hash){
+            shareData = {
+                "filename": "\"" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"",
+                "path": window.location,
+                "user": sakai.data.me.profile.basic.elements.firstName.value
+            };
+            hash.w.show();
         };
 
         var addBinding = function() {
@@ -655,7 +659,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             }
 
             // bind elements, replace some text
-            $sharecontent_i_want_to_share.html(sakai.api.i18n.Widgets.getValueForKey("sharecontent", "", "I_WANT_TO_SHARE") + " \"" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"");
+            $sharecontent_i_want_to_share.html(sakai.api.i18n.Widgets.getValueForKey("sharecontent", "", "VISIBILITY_AND_PERMISSIONS_FOR") + " \"" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"");
             $(sharecontentBasicContainer).html(sakai.api.Util.TemplateRenderer(sharecontentBasicTemplate, sakai));
 
 
@@ -700,7 +704,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             modal: true,
             overlay: 20,
             toTop: true,
-            zIndex: 3000
+            zIndex: 3000,
+            onShow: fillShareData
         });
 
         /**
