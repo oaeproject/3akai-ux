@@ -60,10 +60,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var bbsCreateNewTopic = "#bbs_create_new_topic";
         var $bbsListTopics = $("#bbs_list_topics", $rootel);
         var bbsListTopicsContainer = "#bbs_list_topics_container";
+        var bbsTabContentSettingsContainer = "#bbs_tab_content_settings_container";
+        var bbsTopicContainer = ".bbs_topic_container";
+        var bbsTopicReplyContainer = "#bbs_topic_reply_container";
+        var bbsTopicRepliesContainer = ".bbs_topic_replies_container";
+        var bbsQuotedTextContainer = ".bbs_quoted_text_container";
+        var bbsEntityContainer = ".bbs_entity_container"
 
         // Templates
         var bbsTabContentSettingsTemplate = "bbs_tab_content_settings_template";
         var bbsListTopicsTemplate = "bbs_list_topics_template";
+        var bbsNoInitialTopicTemplate = "bbs_no_initial_topic_template";
+        var bbsTopicReplyTemplate = "bbs_topic_reply_template";
 
         // Settings
         var parsedSettings = {};
@@ -75,6 +83,44 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var bbsAddNewTopic = "#bbs_add_new_topic";
         var bbsDontAddTopic= "#bbs_dont_add_topic";
         var bbsAddTopic= "#bbs_add_topic";
+        var bbsCreateNewTopicTitle = "#bbs_create_new_topic_title";
+        var bbsCreateNewTopicMessageText = "#bbs_create_new_topic_message_text";
+        var bbsCreateNewTopicForm = "#bbs_create_new_topic form";
+
+        // Replies
+        var bbsRepliesIcon = ".bbs_replies_icon";
+        var bbsTopicReplyText = "#bbs_topic_reply_text";
+        var bbsTopicQuotedText = "#bbs_topic_quoted_text";
+        var bbsExpandAll = "#bbs_expand_all";
+        var bbsShowTopicReplies = ".bbs_show_topic_replies";
+        var bbsQuote = ".bbs_quote";
+        var bbsPostMessage = ".bbs_post_message";
+        var bbsReplyTopic = "#bbs_reply_topic";
+        var bbsDontAddReply = "#bbs_dont_add_reply";
+        var bbsAddReply = "#bbs_add_reply";
+        var bbsHideReply = ".bbs_hide_reply";
+        var bbsReplyContents = ".bbs_reply_contents";
+        var bbsReplyContentsText = ".bbs_reply_contents_text";
+        var bbsTopicReplyQuotedUser = "#bbs_topic_reply_quoted_user";
+        var bbsReplyContentsTextQuoted = ".bbs_reply_contents_text_quoted";
+        var bbsPosterName = ".bbs_poster_name";
+
+        // Edit
+        var bbsEdit = ".bbs_edit";
+        var bbsEditContainer = ".bbs_edit_container";
+        var bbsDontSaveEdit = "#bbs_dont_save_edit";
+        var bbsSaveEdit = "#bbs_save_edit"
+
+        // Delete
+        var bbsDelete = ".bbs_delete";
+        var bbsRestore = ".bbs_restore";
+
+        // Classes
+        var bbsExpandAllClass = "bbs_expand_all";
+        var bbsCollapseAllClass = "bbs_collapse_all";
+        var bbsShowRepliesIcon = "bbs_show_replies_icon";
+        var bbsHideRepliesIcon = "bbs_hide_replies_icon";
+        var s3dHighlightBackgroundClass = ".s3d-highlight_area_background";
 
         // i18n
         var $bbsCollapseAll = $("#bbs_i18n_collapse_all", $rootel);
@@ -183,6 +229,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         arrPosts[i].replies[ii].post["sakai:body"] = arrPosts[i].replies[ii].post["sakai:body"].split(["[/quote]"])[1];
                     }
                 }
+                arrPosts[i].replies.reverse();
             }
 
             console.log({
@@ -211,7 +258,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             } else {
                 // No topics yet
-                sakai.api.Util.TemplateRenderer("bbs_no_initial_topic_template", {
+                sakai.api.Util.TemplateRenderer(bbsNoInitialTopicTemplate, {
                     "settings": parsedSettings
                 }, $(bbsNoInitialTopic, $rootel));
                 $(bbsNoInitialTopic, $rootel).show();
@@ -223,9 +270,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var displaySettings = function(){
             // Render settings
-            sakai.api.Util.TemplateRenderer("bbs_tab_content_settings_template", {
+            sakai.api.Util.TemplateRenderer(bbsTabContentSettingsTemplate, {
                 "settings":widgetSettings
-            }, $("#bbs_tab_content_settings_container", $rootel));
+            }, $(bbsTabContentSettingsContainer, $rootel));
             // Hide/Show elements
             $bbsMainContainer.hide();
             $bbsSettings.show();
@@ -362,8 +409,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "sakai:type": "discussion",
                 "sling:resourceType": "sakai/message",
                 "sakai:to": "discussion:w-" + store,
-                'sakai:subject': $("#bbs_create_new_topic_title", $rootel).val(),
-                'sakai:body': $("#bbs_create_new_topic_message_text", $rootel).val(),
+                'sakai:subject': $(bbsCreateNewTopicTitle, $rootel).val(),
+                'sakai:body': $(bbsCreateNewTopicMessageText, $rootel).val(),
                 'sakai:initialpost': true,
                 'sakai:writeto': store,
                 'sakai:marker': tuid,
@@ -378,8 +425,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 type: 'POST',
                 data: postData,
                 success: function(data){
-                    $("#bbs_create_new_topic_title", $rootel).val("");
-                    $("#bbs_create_new_topic_message_text", $rootel).val("");
+                    $(bbsCreateNewTopicTitle, $rootel).val("");
+                    $(bbsCreateNewTopicMessageText, $rootel).val("");
                     $(bbsCreateNewTopic, $rootel).hide();
                     getWidgetSettings();
                 },
@@ -430,15 +477,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var doAddReply = function(){
-            var replyParent = $(this).parents(".bbs_topic_container");
+            var replyParent = $(this).parents(bbsTopicContainer);
             var topicId = replyParent[0].id.split("bbs_post_")[1];
-            var message = replyParent.children("#bbs_topic_reply_container").children("#bbs_topic_reply_text").val();
+            var message = replyParent.children(bbsTopicReplyContainer).children(bbsTopicReplyText).val();
 
-            if(replyParent.children("#bbs_topic_reply_container").children("#bbs_topic_quoted_text").length){
-                message = "[quote=\"Bert Pareyn\"]" + replyParent.children("#bbs_topic_reply_container").children("#bbs_topic_quoted_text").val() + "[/quote]" + message;
+            if(replyParent.children(bbsTopicReplyContainer).children(bbsTopicQuotedText).length){
+                message = "[quote=\"" + $(bbsTopicReplyQuotedUser, $rootel).text() + "\"]" + replyParent.children(bbsTopicReplyContainer).children(bbsTopicQuotedText).val() + "[/quote]" + message;
             }
 
-            replyToTopic(topicId, message, $(this).parents("#bbs_topic_reply_container"));
+            replyToTopic(topicId, message, $(this).parents(bbsTopicReplyContainer));
         };
 
         /**
@@ -478,7 +525,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
         };
 
-        var updatePost = function(id, body, quote){
+        var updatePost = function(id, body, quote, quoted, post){
             var url = store + "/" + replyId(id);
             var data = {
                 "sakai:edited": true,
@@ -487,7 +534,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "sakai:body": body
             };
             if(quote){
-                data["sakai:body"] = "[quote=\"Bert Pareyn\"]" + quote + "[/quote]" + body;
+                data["sakai:body"] = "[quote=\"" + quoted + "\"]" + quote + "[/quote]" + body;
             }
 
             $.ajax({
@@ -495,7 +542,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 type: "POST",
                 data: data,
                 success: function(){
-                    getPosts();
+                    // remove edit divs
+                    post.find(".bbs_edit_container").children().remove();
+
+                    // Set post data
+                    post.find(".bbs_post_message").text(body)
+
+                    // Set entity data
+                    post.children(".bbs_entity_container").find(".bbs_updating_date").children("span").text(sakai.api.User.getDisplayName(sakai.data.me.profile) + " " + sakai.api.l10n.transformDateTimeShort(parseDate(sakai.api.Util.createSakaiDate(new Date()))));
+                    post.children(".bbs_entity_container").children(".bbs_posting_date").children().show()
+
+                    // Show all
+                    post.children(".bbs_entity_container, .bbs_reply_contents").show()
+                    //getPosts();
                 },
                 error: function(xhr, textStatus, thrownError){
                     console.log(textStatus);
@@ -508,22 +567,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         ////////////////////
 
         var addBinding = function() {
-            $("#bbs_expand_all", $rootel).live("click", function(){
-                if($("#bbs_expand_all", $rootel).hasClass("bbs_expand_all")){
-                    $(this).removeClass("bbs_expand_all");
-                    $(this).addClass("bbs_collapse_all");
+            $(bbsExpandAll, $rootel).live("click", function(){
+                if($(bbsExpandAll, $rootel).hasClass(bbsExpandAllClass)){
+                    $(this).removeClass(bbsExpandAllClass);
+                    $(this).addClass(bbsCollapseAllClass);
                     $(this).text($bbsCollapseAll.text());
-                    $(".bbs_replies_icon", $rootel).addClass("bbs_show_replies_icon");
-                    $(".bbs_replies_icon", $rootel).removeClass("bbs_hide_replies_icon");
-                    $(".bbs_show_topic_replies", $rootel).click();
+                    $(bbsRepliesIcon, $rootel).addClass(bbsShowRepliesIcon);
+                    $(bbsRepliesIcon, $rootel).removeClass(bbsHideRepliesIcon);
                 }else{
-                    $(this).removeClass("bbs_collapse_all");
-                    $(this).addClass("bbs_expand_all");
+                    $(this).removeClass(bbsCollapseAllClass);
+                    $(this).addClass(bbsExpandAllClass);
                     $(this).text($bbsExpandAll.text());
-                    $(".bbs_replies_icon", $rootel).removeClass("bbs_show_replies_icon");
-                    $(".bbs_replies_icon", $rootel).addClass("bbs_hide_replies_icon");
-                    $(".bbs_show_topic_replies", $rootel).click();
+                    $(bbsRepliesIcon, $rootel).removeClass(bbsShowRepliesIcon);
+                    $(bbsRepliesIcon, $rootel).addClass(bbsHideRepliesIcon);
                 }
+                $(bbsShowTopicReplies, $rootel).click();
             });
 
             // SETTINGS //
@@ -549,7 +607,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 getWidgetSettings();
             });
 
-            $("#bbs_create_new_topic form", $rootel).validate({
+            $(bbsCreateNewTopicForm, $rootel).validate({
                 submitHandler: function(form){
                     createTopic();
                     return false;
@@ -557,89 +615,93 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             // REPLY TOPIC //
-            $(".bbs_show_topic_replies").live("click",function(){
-                var $repliesIcon = $(this).children(".bbs_replies_icon");
-                if($repliesIcon.hasClass("bbs_show_replies_icon")){
-                    $(this).nextAll(".bbs_topic_replies_container").show();
-                    $repliesIcon.removeClass("bbs_show_replies_icon");
-                    $repliesIcon.addClass("bbs_hide_replies_icon");
+            $(bbsShowTopicReplies, $rootel).live("click",function(){
+                var $repliesIcon = $(this).children(bbsRepliesIcon);
+                if($repliesIcon.hasClass(bbsShowRepliesIcon)){
+                    $(this).nextAll(bbsTopicRepliesContainer).show();
+                    $repliesIcon.removeClass(bbsShowRepliesIcon);
+                    $repliesIcon.addClass(bbsHideRepliesIcon);
                 }else{
-                    $(this).nextAll(".bbs_topic_replies_container").hide();
-                    $repliesIcon.addClass("bbs_show_replies_icon");
-                    $repliesIcon.removeClass("bbs_hide_replies_icon");
+                    $(this).nextAll(bbsTopicRepliesContainer).hide();
+                    $repliesIcon.addClass(bbsShowRepliesIcon);
+                    $repliesIcon.removeClass(bbsHideRepliesIcon);
                 }
             });
 
             // Open quoted reply fields
-            $(".bbs_quote").live("click", function(){
-                var replyParent = $(this).parents(".bbs_topic_container");
-                sakai.api.Util.TemplateRenderer("bbs_topic_reply_template", {"edit":false, "quoted":true, "quotedMessage":$(this).prev(".bbs_post_message").text()}, replyParent.children("#bbs_topic_reply_container"));
-                replyParent.children("#bbs_topic_reply_container").show();
+            $(bbsQuote, $rootel).live("click", function(){
+                var replyParent = $(this).parents(bbsTopicContainer);
+                sakai.api.Util.TemplateRenderer(bbsTopicReplyTemplate, {"edit":false, "quoted":true, "quotedUser":$(this).parents(s3dHighlightBackgroundClass).find(bbsPosterName).text(), "quotedMessage":$(this).prev(bbsPostMessage).text()}, replyParent.children(bbsTopicReplyContainer));
+                replyParent.children(bbsTopicReplyContainer).show();
             });
 
             // Open reply fields
-            $("#bbs_reply_topic").live("click", function(){
-                var replyParent = $(this).parents(".bbs_topic_container");
-                sakai.api.Util.TemplateRenderer("bbs_topic_reply_template", {"edit":false, "quoted":false}, replyParent.children("#bbs_topic_reply_container"));
-                replyParent.children("#bbs_topic_reply_container").show();
+            $(bbsReplyTopic, $rootel).live("click", function(){
+                var replyParent = $(this).parents(bbsTopicContainer);
+                sakai.api.Util.TemplateRenderer(bbsTopicReplyTemplate, {"edit":false, "quoted":false}, replyParent.children(bbsTopicReplyContainer));
+                replyParent.children(bbsTopicReplyContainer).show();
             });
 
-            $("#bbs_dont_add_reply", $rootel).live("click", function(){
-                $(this).parents("#bbs_topic_reply_container").hide()
+            $(bbsDontAddReply, $rootel).live("click", function(){
+                $(this).parents(bbsTopicReplyContainer).hide()
             });
 
             // Make the actual reply
-            $("#bbs_add_reply", $rootel).die("click", doAddReply);
-            $("#bbs_add_reply", $rootel).live("click", doAddReply);
+            $(bbsAddReply, $rootel).die("click", doAddReply);
+            $(bbsAddReply, $rootel).live("click", doAddReply);
 
             // DELETE REPLIES //
             // Delete reply
-            $(".bbs_delete", $rootel).live("click", function(){
-                deletePost($(this).parents(".s3d-highlight_area_background")[0].id, true);
+            $(bbsDelete, $rootel).live("click", function(){
+                deletePost($(this).parents(s3dHighlightBackgroundClass)[0].id, true);
             });
 
             // Restore reply
-            $(".bbs_restore", $rootel).live("click", function(){
-                deletePost($(this).parents(".s3d-highlight_area_background")[0].id, false);
+            $(bbsRestore, $rootel).live("click", function(){
+                deletePost($(this).parents(s3dHighlightBackgroundClass)[0].id, false);
             });
 
-            $(".bbs_hide_reply", $rootel).live("click", function(){
+            $(bbsHideReply, $rootel).live("click", function(){
                 $(this).children("span").toggle();
-                $(this).parent().nextAll(".bbs_reply_contents").toggle();
+                $(this).parent().nextAll(bbsReplyContents).toggle();
             });
 
             // EDIT POST //
-            $(".bbs_edit", $rootel).live("click", function(){
+            $(bbsEdit, $rootel).live("click", function(){
                 var renderData = {};
-                if ($(this).prevAll(".bbs_quoted_text_container").length) {
+                if ($(this).prevAll(bbsQuotedTextContainer).length) {
                     renderData = {
                         "edit": true,
                         "quoted": true,
-                        "quotedMessage": $.trim($(this).prevAll(".bbs_quoted_text_container").children(".bbs_reply_contents_text").text()),
-                        "body": $.trim($(this).prevAll(".bbs_post_message").text())
+                        "quotedUser": $(this).parents(s3dHighlightBackgroundClass).find(bbsReplyContentsTextQuoted).text(),
+                        "quotedMessage": $.trim($(this).prevAll(bbsQuotedTextContainer).children(bbsReplyContentsText).text()),
+                        "body": $.trim($(this).prevAll(bbsPostMessage).text())
                     };
                 } else {
                     renderData = {
                         "edit": true,
                         "quoted": false,
-                        "body": $.trim($(this).prevAll(".bbs_post_message").text())
+                        "quotedUser": false,
+                        "body": $.trim($(this).prevAll(bbsPostMessage).text())
                     };
                 }
-                $(this).parents(".s3d-highlight_area_background").children(".bbs_entity_container,.bbs_reply_contents").hide();
-                sakai.api.Util.TemplateRenderer("bbs_topic_reply_template", renderData, $(this).parents(".s3d-highlight_area_background").children(".bbs_edit_container"));
+                $(this).parents(s3dHighlightBackgroundClass).children( bbsEntityContainer + "," + bbsReplyContents).hide();
+                sakai.api.Util.TemplateRenderer(bbsTopicReplyTemplate, renderData, $(this).parents(s3dHighlightBackgroundClass).children(bbsEditContainer));
             });
 
-            $("#bbs_dont_save_edit", $rootel).live("click", function(){
-                $(this).parents(".s3d-highlight_area_background").children(".bbs_entity_container,.bbs_reply_contents").show();
-                $(this).parents(".bbs_edit_container").text("");
+            $(bbsDontSaveEdit, $rootel).live("click", function(){
+                $(this).parents(s3dHighlightBackgroundClass).children(bbsEntityContainer + "," + bbsReplyContents).show();
+                $(this).parents(bbsEditContainer).text("");
             });
 
-            $("#bbs_save_edit", $rootel).live("click", function(){
-                var editParent = $(this).parents(".bbs_edit_container");
-                var id = $(this).parents(".s3d-highlight_area_background")[0].id;
-                var body = editParent.children("#bbs_topic_reply_text").val();
-                var quote = editParent.children("#bbs_topic_quoted_text").val();
-                updatePost(id, body, quote);
+            $(bbsSaveEdit, $rootel).live("click", function(){
+                var editParent = $(this).parents(bbsEditContainer);
+                var id = $(this).parents(s3dHighlightBackgroundClass)[0].id;
+                var body = editParent.children(bbsTopicReplyText).val();
+                var quote = editParent.children(bbsTopicQuotedText).val();
+                var quoted = $(this).parents(s3dHighlightBackgroundClass).find(bbsReplyContentsTextQuoted).text();
+                var post = $(this).parents(s3dHighlightBackgroundClass);
+                updatePost(id, body, quote, quoted, post);
             });
         };
 
