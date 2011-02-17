@@ -123,7 +123,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     sakai.api.Security.send404();
                 }
 
-            }, null, true);
+            }, null, false);
         };
 
         /**
