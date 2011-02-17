@@ -235,10 +235,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var setEntityPath = function() {
             switch (entityType) {
                 case "user":
-                    entityPath = entityPrefix + sakai_global.profile.main.data.path;
+                    entityPath = "/" + sakai_global.profile.main.data.homePath;
                     break;
                 case "group":
-                    entityPath = entityPrefix + sakai_global.currentgroup.data.authprofile.path;
+                    entityPath = "/" + sakai_global.currentgroup.data.authprofile.homePath;
                     break;
             }
         };
