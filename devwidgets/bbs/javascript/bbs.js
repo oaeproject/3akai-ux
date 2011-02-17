@@ -505,7 +505,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {String} id The id of the post.
          * @param {boolean} deleteValue true = delete, false = undelete
          */
-        var deletePost = function(id, deleteValue){
+        var deletePost = function(id, deleteValue, post){
             var url = store + "/" + replyId(id);
             var data = {
                 "sakai:deleted": deleteValue,
@@ -517,7 +517,26 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 type: "POST",
                 data: data,
                 success: function(){
-                    getPosts();
+                    if (deleteValue) {
+                        // Apply grey class
+                        post.addClass("bbs_deleted_reply");
+
+                        // Remove/add links and information
+                        post.find(".bbs_post_message").nextAll().remove()
+                        post.find(".bbs_post_message").after(sakai.api.Util.TemplateRenderer("bbs_deleted_post_actions_template", {}));
+                        post.find(".bbs_posting_date").after(sakai.api.Util.TemplateRenderer("bbs_deleted_post_entity_info_template", {
+                            "deletedBy": sakai.api.User.getDisplayName(sakai.data.me.profile),
+                            "deletedOn": sakai.api.l10n.transformDateTimeShort(parseDate(sakai.api.Util.createSakaiDate(new Date())))
+                        }));
+                    }else{
+                        // Apply grey class
+                        post.removeClass("bbs_deleted_reply");
+                        
+                        // Remove links
+                        post.find(".bbs_posting_date").next().remove();
+                        post.find(".bbs_post_message").nextAll().remove();
+                        post.find(".bbs_post_message").after(sakai.api.Util.TemplateRenderer("bbs_restored_post_actions_template", {}));
+                    }
                 },
                 error: function(xhr, textStatus, thrownError){
                     sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("FAILED_DELETE_POST"),"",sakai.api.Util.notification.type.ERROR);
@@ -554,7 +573,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                     // Show all
                     post.children(".bbs_entity_container, .bbs_reply_contents").show()
-                    //getPosts();
                 },
                 error: function(xhr, textStatus, thrownError){
                     console.log(textStatus);
@@ -653,12 +671,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // DELETE REPLIES //
             // Delete reply
             $(bbsDelete, $rootel).live("click", function(){
-                deletePost($(this).parents(s3dHighlightBackgroundClass)[0].id, true);
+                deletePost($(this).parents(s3dHighlightBackgroundClass)[0].id, true, $(this).parents(s3dHighlightBackgroundClass));
             });
 
             // Restore reply
             $(bbsRestore, $rootel).live("click", function(){
-                deletePost($(this).parents(s3dHighlightBackgroundClass)[0].id, false);
+                deletePost($(this).parents(s3dHighlightBackgroundClass)[0].id, false, $(this).parents(s3dHighlightBackgroundClass));
             });
 
             $(bbsHideReply, $rootel).live("click", function(){
