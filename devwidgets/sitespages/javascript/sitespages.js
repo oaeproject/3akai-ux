@@ -87,6 +87,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var config = {};
         var insertDropdownPositionSet = false;
+        var bookmark = false;
 
         var doInit = function(basepath, fullpath, url, editMode, homepage, pageEmbedProperty, dashboardEmbedProperty){
             config.basepath = basepath;
@@ -888,6 +889,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(".insert_dropdown_widget_link").live("click", function(){
                 // hide dropdown
                 showHideInsertDropdown(true);
+
+                // restore the cursor position in the editor
+                if (bookmark) {
+                    tinyMCE.get("elm1").focus();
+                    tinyMCE.get("elm1").selection.moveToBookmark(bookmark);
+                }
+                bookmark = false;
+
                 var id = $(this).attr("id");
                 if (id==="link") {
                     $('#link_dialog').jqmShow();
@@ -1084,7 +1093,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "tt[],"+
                     "u[],"+
                     "ul[align|clear|height|start|type|width]"+
-                    "video[src|class|autoplay|controls|height|width|preload|loop]"
+                    "video[src|class|autoplay|controls|height|width|preload|loop]",
+                //onchange_callback : "sakai_global.sitespages.myCustomHandler"
+                handle_event_callback : "sakai_global.sitespages.myCustomHandler"
             });
         }
 
@@ -1228,6 +1239,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $context_menu.css({"top": pos.y + $("#elm1_ifr").position().top + 15 + "px", "left": pos.x + $("#elm1_ifr").position().left + 15 + "px", "position": "absolute"}).show();
             }
         };
+
+        // save the cursor position in the editor
+        sakai_global.sitespages.myCustomHandler = function(e) {
+debug.log("event triggered");
+debug.log(e);
+debug.log("e.type: "+e.type);
+            if (e.type == "blur") {
+                bookmark = tinyMCE.get("elm1").selection.getBookmark(1);
+            }
+        }
 
         // hide the context menu when it is shown and a click happens elsewhere on the document
         $(document).bind("click", function(e) {
