@@ -95,14 +95,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("#contentpreview_image_rendered").bind('load', function(ev){
                 var width = $("#contentpreview_image_rendered").width();
                 var height = $("#contentpreview_image_rendered").height();
-                if (width >= 640 && height / width * 640 > 390){
+                // Too wide but when scaled to width won't be too tall
+                if (width > 640 && height / width * 640 <= 390){
                     $("#contentpreview_image_rendered").addClass("contentpreview_image_preview_width");
-                    $("#contentpreview_image_rendered").addClass("contentpreview_noborder");
-                    $("#contentpreview_image_preview").addClass("contentpreview_other_preview");
-                    $("#contentpreview_image_preview").addClass("contentpreview_overflowhidden");
-                    $("#contentpreview_image_rendered").css("margin-top", - ((height / width * 640) - 390) / 2 + "px");
-                } else if (width > 640 && height / width * 640 <= 390){
-                    $("#contentpreview_image_rendered").addClass("contentpreview_image_preview_width");
+                // Too tall but when scaled to height won't be too wide
                 } else if (height > 390 && width / height * 390 <= 640){
                     $("#contentpreview_image_rendered").addClass("contentpreview_image_preview_height");
                 }
@@ -142,7 +138,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (sakai_global.content_profile.content_data.data.previewImage) {
                 so.addVariable('image', sakai_global.content_profile.content_data.data.previewImage);
             }
-            so.addVariable('stretching','fill');
+            so.addVariable('stretching','uniform');
             so.write("contentpreview_videoaudio_preview");
         };
 
@@ -166,7 +162,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (!url){
                 url = "/devwidgets/video/jwplayer/player-licensed.swf";
             }
-            var so = new SWFObject(url,'ply', '100%', '100%','9','#ffffff');
+            var so = new SWFObject(url,'ply', '640', '390','9','#ffffff');
             so.addParam('allowfullscreen','true');
             if (params.allowscriptaccess) {
                 so.addParam('allowscriptaccess', params.allowscriptaccess);
