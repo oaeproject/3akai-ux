@@ -492,7 +492,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         }
 
                 });
-
+            // basic access is always public
+            sakai_global.profile.main.data["basic"].access = "everybody";
             // tell the profile that this section has finished saving its data
             $(window).trigger("sakai-profile-data-ready", currentsection);
 
