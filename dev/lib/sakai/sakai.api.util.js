@@ -319,7 +319,7 @@ define(["jquery",
             // determine which tags to add and which to delete
             $(newTags).each(function(i,val) {
                 val = $.trim(val).replace(/#/g,"");
-                if (val && $.inArray(val,currentTags) === -1) {
+                if (val && (!currentTags || $.inArray(val,currentTags) === -1)) {
                     if (util.Security.escapeHTML(val) === val && val.length) {
                         if ($.inArray(val, tagsToAdd) < 0) {
                             tagsToAdd.push(val);

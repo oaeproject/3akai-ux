@@ -421,7 +421,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         };
 
         $(window).bind("sakai-fileupload-complete", function(){
-            sakai_global.content_profile.loadContentProfile(renderDetails);
+            $(window).trigger("load.content_profile.sakai", renderDetails);
         });
 
         $(window).bind("sakai-contentmetadata-renderlocations", function(ev, val){

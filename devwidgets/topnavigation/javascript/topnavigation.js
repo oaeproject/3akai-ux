@@ -441,16 +441,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $("#nav_courses_sites_link a").attr("href", sakai.config.URL.PUBLIC_COURSES_SITES_URL);
                 $("#nav_search_link a").attr("href", sakai.config.URL.PUBLIC_SEARCH_URL_PAGE);
 
-                var indexPaths = ["/", "/index", "/dev", "/dev/index.html", "/dev/", "/dev/404.html", 
+                var indexPaths = ["/", "/index", "/dev", "/dev/index.html", "/dev/", "/dev/404.html",
                     "/dev/403.html", "/dev/500.html", "/index", "/404", "/403", "/500"];
 
-                if (-1 !== $.inArray(window.location.pathname.replace(/\/$/,""), indexPaths)) {
+                if ($.inArray(window.location.pathname.replace(/\/$/,""), indexPaths) !== -1 || $(".page_not_found_error").length) {
                     $(".explore-bg").show();
                 }
-                
+
                 indexPaths.push("/register", "/dev/create_new_account.html");
-                
-                if (-1 !== $.inArray(window.location.pathname.replace(/\/$/,""), indexPaths)){
+
+                if ($.inArray(window.location.pathname.replace(/\/$/,""), indexPaths) !== -1 || $(".page_not_found_error").length){
                     $("#register_button_container").hide();
                     $("#login_button_container").hide();
                 }

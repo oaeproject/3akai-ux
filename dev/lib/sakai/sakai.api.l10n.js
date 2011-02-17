@@ -102,7 +102,7 @@ define(["/dev/configuration/config.js", "/dev/lib/misc/l10n/globalization.js", "
          * @param {Object} meData the data from sakai.api.User.data.me
          */
         fromEpoch : function(dateString, meData){
-            var d = new Date(parseInt(dateString));
+            var d = new Date(parseInt(dateString,10));
             if (meData && meData.user.locale) {
                 d.setTime(d.getTime() + meData.user.locale.timezone.GMT * 60 * 60 * 1000);
             }
