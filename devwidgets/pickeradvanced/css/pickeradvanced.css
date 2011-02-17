@@ -28,7 +28,7 @@
 #pickeradvanced_container #pickeradvanced_content_list .pickeradvanced_selected_list,#pickeradvanced_container #pickeradvanced_content_list .pickeradvanced_selected_list:hover{background:#9CF;}
 
 /* SEARCH */
-#pickeradvanced_container #pickeradvanced_content_search{height:269px;width:530px;margin-left:10px;overflow:auto;background-color:#fff;}
+#pickeradvanced_container #pickeradvanced_content_search{height:269px;width:530px;margin-left:10px;overflow:auto;background-color:#fff;position:relative;}
 #pickeradvanced_container #pickeradvanced_content_search .pickeradvanced_page{margin:0;padding:0;}
 #pickeradvanced_container #pickeradvanced_content_search .pickeradvanced_page_list li{display:block;list-style:none;clear:both;padding:5px 0 5px 10px;border-bottom:1px solid #DBF3FF;overflow:hidden;cursor:pointer;}
 #pickeradvanced_container #pickeradvanced_content_search .pickeradvanced_page_thumbnails li{display:block;list-style:none;width:190px;float:left;padding:5px 10px;overflow:hidden;cursor:pointer;}
