@@ -107,7 +107,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var renderTextPreview = function(){
-            if (sakai_global.content_profile.content_data.data["jcr:content"][":jcr:data"] > 1500000){
+            if (sakai_global.content_profile.content_data.data.length > 1500000){
                 renderDefaultPreview();
                 return;
             }
