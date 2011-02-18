@@ -33,13 +33,20 @@
 .bbs_topic_number_of_replies{display:inline-block;}
 .bbs_reply_topic, .bbs_hide_reply{float:right;}
 .bbs_poster_name {font-size:15px; color:#666;}
-.bbs_post_message{margin-bottom:10px; display:block;}
+.bbs_post_message{margin-bottom:10px;white-space: pre-line;}
+.bbs_topic_replies_container .bbs_post_message{display:block;}
+.bbs_reply_contents_text{white-space:pre-line;}
 .bbs_hide_replies_icon, .bbs_show_replies_icon{height: 9px;width: 9px;margin:4px 4px 0 0; float:left;}
 .bbs_show_replies_icon{background: url("/dev/images/icons_sprite.png") no-repeat scroll -24px -21px transparent;}
 .bbs_hide_replies_icon{background: url("/dev/images/icons_sprite.png") no-repeat scroll -745px -21px transparent;}
 .bbs_entity_container {margin-bottom:10px;}
 .bbs_entity_container .bbs_entity_picture{width:40px; height:40px; float:left; margin-right:6px;}
 .bbs_quoted_text_container{background-color:#fff;}
+.bbs_ellipsis_text {word-wrap: break-word;}
+.bbs_show_all_ellipsis_text{display:block;}
+.bbs_quote{display: inline-block;margin-top: 10px;}
+.bbs_topic_replies_container .bbs_quote{margin-top:0px;}
+.bbs_show_all_ellipsis_text {margin-top: 2px;}
 
 /* Deleted posts */
 .bbs_deleted_reply{color:#878A8C !important;}

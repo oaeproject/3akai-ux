@@ -51,7 +51,7 @@
 --></div>
 
 <div id="bbs_topic_reply_template"><!--
-    <a href="javascript:;" name="reply_${postId}" style="display:hidden">&nbsp;</a>
+    {if typeof(postId) != "undefined"}<a href="javascript:;" name="reply_${postId}" style="display:hidden">&nbsp;</a>{/if}
     {if quoted}
         <span id="bbs_topic_reply_quoted_user" style="display:none;">${quotedUser}</span>
         <label for="bbs_topic_reply_text" class="s3d-bold">
@@ -84,6 +84,55 @@
     </div>
 --></div>
 
+<div id="bbs_topic_newly_posted_reply_template"><!--
+    <div class="s3d-highlight_area_background" id="${post.message["jcr:name"]}">
+        <div class="s3d-highlight_area_background_tl">
+            <div class="s3d-highlight_area_background_tinner"></div>
+        </div>
+        <div class="bbs_entity_container">
+            <img src="${post.message.profile.picture}" alt="${post.message.profile.basic.elements.firstName.value} ${post.message.profile.basic.elements.lastName.value}" class="bbs_entity_picture"/>
+            <span class="bbs_poster_name">${post.message.profile.basic.elements.firstName.value} ${post.message.profile.basic.elements.lastName.value}</span>
+            <span class="bbs_posting_date">${post.message["sakai:created"]}<span class="bbs_updating_date" {if !post.message["sakai:editedOn"]}style="display:none;"{/if}>(__MSG__EDITED_BY__ <span></span>)</span></span>
+            <hr class="fl-push fl-hidden"/>
+        </div>
+
+        <div class="bbs_reply_contents">
+            {if post.message["sakai:quoted"]}
+                <div class="bbs_quoted_text_container s3d-highlight_area_background">
+                    <div class="s3d-highlight_area_background_white_content_tl">
+                        <div class="s3d-highlight_area_background_white_content_tinner"></div>
+                    </div>
+                    <p><span class="bbs_reply_contents_text_quoted">${post.message["sakai:quoted"].by}</span> __MSG__WROTE__:</p>
+                    <p class="bbs_reply_contents_text">${post.message["sakai:quoted"].quote}</p>
+                    <div class="s3d-highlight_area_background_white_content_bl">
+                        <div class="s3d-highlight_area_background_white_content_binner"></div>
+                    </div>
+                </div>
+            {/if}
+
+            <div><span class="bbs_post_message">${post.message["sakai:body"]}</span></div>
+
+            {if settings.anon != true && settings.canreply == true}
+                <a href="javascript:;" class="bbs_quote s3d-bold s3d-regular-links">__MSG__QUOTE__</a>
+                {if post.message["sakai:from"] == settings.userid || settings.addtopic}
+                    <span class="bbs_pipe_divider">|</span>
+                    <a href="javascript:;" class="bbs_edit s3d-bold s3d-regular-links">__MSG__EDIT__</a>
+                {/if}
+                {if settings.addtopic}
+                    <span class="bbs_pipe_divider">|</span>
+                    <a href="javascript:;" class="bbs_delete s3d-bold s3d-regular-links">__MSG__DELETE__</a>
+                {/if}
+            {/if}
+        </div>
+
+        <div class="bbs_edit_container"></div>
+
+        <div class="s3d-highlight_area_background_bl">
+            <div class="s3d-highlight_area_background_binner"></div>
+        </div>
+    </div>
+--></div>
+
 <div id="bbs_list_topics_template"><!--
     {if settings.addtopic == true}
         <a href="javascript:;" id="bbs_add_new_topic" class="s3d-bold s3d-regular-links">__MSG__ADD_NEW_TOPIC__</a><span class="bbs_pipe_divider">|</span>
@@ -98,7 +147,7 @@
                 </button>
             {/if}
             <h1 class="bbs_topic_subject">${topic.post["sakai:subject"]}</h1>
-            <a href="javascript:;" class="bbs_show_topic_replies"><div class="bbs_replies_icon bbs_show_replies_icon"></div><span class="bbs_topic_number_of_replies">${topic.replies.length} __MSG__REPLIES__</span></a>
+            <a href="javascript:;" class="bbs_show_topic_replies"><div class="bbs_replies_icon bbs_show_replies_icon"></div><span class="bbs_topic_number_of_replies"><span class="bbs_number_of_replies">${topic.replies.length}</span> __MSG__REPLIES__</span></a>
 
             <div class="s3d-highlight_area_background" id="${topic.post["sakai:id"]}">
                 <div class="s3d-highlight_area_background_tl">
@@ -112,7 +161,9 @@
                 </div>
 
                 <div class="bbs_reply_contents">
-                    <span class="bbs_post_message">${topic.post["sakai:body"]}</span>
+                    <div class="bbs_ellipsis_container">
+                        <span class="bbs_post_message bbs_ellipsis_text">${topic.post["sakai:body"]}</span>
+                    </div>
                     {if settings.anon != true && settings.canreply == true}
                         <a href="javascript:;" class="bbs_quote s3d-bold s3d-regular-links">__MSG__QUOTE__</a>
                         {if settings.addtopic == true}
@@ -164,7 +215,7 @@
                                 </div>
                             {/if}
 
-                            <span class="bbs_post_message">${reply.post["sakai:body"]}</span>
+                            <div><span class="bbs_post_message">${reply.post["sakai:body"]}</span></div>
 
                             {if reply.post["sakai:deleted"] && reply.post["sakai:deleted"] == "true"}
                                 {if settings.addtopic}
@@ -201,7 +252,7 @@
 
             <div id="bbs_topic_reply_container" style="display:none;"></div>
             {if settings.anon != true && settings.canreply == true}
-                <button type="button" class="s3d-button bbs_reply_topic" id="bbs_reply_topic">
+                <button type="button" class="s3d-button bbs_reply_topic bbs_reply_topic_bottom" id="bbs_reply_topic" style="display:none;">
                     <span class="s3d-button-inner">__MSG__REPLY__</span>
                 </button>
             {/if}
