@@ -65,7 +65,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var bbsTopicReplyContainer = "#bbs_topic_reply_container";
         var bbsTopicRepliesContainer = ".bbs_topic_replies_container";
         var bbsQuotedTextContainer = ".bbs_quoted_text_container";
-        var bbsEntityContainer = ".bbs_entity_container"
+        var bbsEntityContainer = ".bbs_entity_container";
 
         // Templates
         var bbsTabContentSettingsTemplate = "bbs_tab_content_settings_template";
@@ -117,7 +117,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var bbsEdit = ".bbs_edit";
         var bbsEditContainer = ".bbs_edit_container";
         var bbsDontSaveEdit = "#bbs_dont_save_edit";
-        var bbsSaveEdit = "#bbs_save_edit"
+        var bbsSaveEdit = "#bbs_save_edit";
 
         // Delete
         var bbsDelete = ".bbs_delete";
@@ -205,12 +205,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var quote = false;
             if(message.substring(0,6) == "[quote"){
                 // Parse the quoted message
-                quote = message.split("[/quote]")[0]
-                quote = quote.substring(quote.indexOf("]") + 1, quote.length)
+                quote = message.split("[/quote]")[0];
+                quote = quote.substring(quote.indexOf("]") + 1, quote.length);
                 // Parse the original author
-                var by = message.split("[/quote]")[0]
+                var by = message.split("[/quote]")[0];
                 by = by.substring(by.indexOf("\"") + 1, by.indexOf("]") - 1);
-                return {"quote":quote, "by":by}
+                return {"quote":quote, "by":by};
             }else{
                 return quote;
             }
@@ -233,7 +233,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     if(arrPosts[i].replies[ii].post["sakai:editedOn"]){
                         arrPosts[i].replies[ii].post["sakai:editedOn"] = sakai.api.l10n.transformDateTimeShort(parseDate(arrPosts[i].replies[ii].post["sakai:editedOn"]));
                     }
-                    arrPosts[i].replies[ii].post["sakai:quoted"] = parseQuote(arrPosts[i].replies[ii].post["sakai:body"])
+                    arrPosts[i].replies[ii].post["sakai:quoted"] = parseQuote(arrPosts[i].replies[ii].post["sakai:body"]);
                     if(arrPosts[i].replies[ii].post["sakai:body"].split(["[/quote]"])[1]){
                         arrPosts[i].replies[ii].post["sakai:body"] = arrPosts[i].replies[ii].post["sakai:body"].split(["[/quote]"])[1];
                     }
@@ -267,13 +267,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Boolean} exists Check if the discussion exists
          */
         var showPosts = function(response, exists){
-            if (exists && response.total != 0) {
+            if (exists && response.total !== 0) {
                 try {
                     renderPosts(response.results);
                     $bbsListTopics.show();
                     setEllipsis();
                 } catch (err) {
-                    debug.error(err);
                 }
             } else {
                 // No topics yet
@@ -308,9 +307,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 cache: false,
                 success: function(data){
                     showPosts(data, true);
-                },
-                error: function(xhr, textStatus, thrownError){
-                    //showPosts(xhr.status, false);
                 }
             });
         };
@@ -362,7 +358,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                 }
             }
-        }
+        };
 
         /**
          * Fetches the widget settings and places it in the widgetSettings var.
@@ -436,7 +432,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 'sakai:messagebox': "outbox",
                 'sakai:sendstate': "pending",
                 '_charset_': "utf-8"
-            }
+            };
 
             $.ajax({
                 url: store + ".create.html",
@@ -448,9 +444,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $(bbsCreateNewTopicMessageText, $rootel).val("");
                     $(bbsCreateNewTopic, $rootel).hide();
                     getWidgetSettings();
-                },
-                error: function(xhr, textStatus, thrownError){
-                    debug.error("Unable to save your post.");
                 }
             });
         };
@@ -483,9 +476,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                     data.message["profile"] = $.extend(data.message["profile"], sakai.data.me.profile);
                     data.message.profile.picture = parsePicture(data.message["sakai:from"], data.message.profile.picture);
-                    data.message["sakai:created"] = sakai.api.l10n.transformDateTimeShort(parseDate(data.message["sakai:created"]))
+                    data.message["sakai:created"] = sakai.api.l10n.transformDateTimeShort(parseDate(data.message["sakai:created"]));
 
-                    data.message["sakai:quoted"] = parseQuote(data.message["sakai:body"])
+                    data.message["sakai:quoted"] = parseQuote(data.message["sakai:body"]);
                     if (data.message["sakai:body"].split(["[/quote]"])[1]) {
                         data.message["sakai:body"] = data.message["sakai:body"].split(["[/quote]"])[1];
                     }
@@ -497,7 +490,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                     $parentDiv.prevAll(bbsTopicRepliesContainer).append(renderedTemplate);
 
-                    $parentDiv.parents(bbsTopicContainer).find(bbsNumberOfReplies).text(parseInt($parentDiv.parents(bbsTopicContainer).find(bbsNumberOfReplies).text()) + 1);
+                    $parentDiv.parents(bbsTopicContainer).find(bbsNumberOfReplies).text(parseInt($parentDiv.parents(bbsTopicContainer).find(bbsNumberOfReplies).text(), 10) + 1);
                 },
                 error: function(xhr, textStatus, thrownError){
                     if (xhr.status === 401) {
@@ -558,7 +551,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         post.addClass(bbsDeletedReplyClass);
 
                         // Remove/add links and information
-                        post.find(bbsPostMessage).nextAll().remove()
+                        post.find(bbsPostMessage).nextAll().remove();
                         post.find(bbsPostMessage).after(sakai.api.Util.TemplateRenderer(bbsDeletedPostActionsTemplate, {}));
                         post.find(bbsPostingDate).after(sakai.api.Util.TemplateRenderer(bbsDeletedPostEntityInfoTemplate, {
                             "deletedBy": sakai.api.User.getDisplayName(sakai.data.me.profile),
@@ -567,7 +560,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }else{
                         // Apply grey class
                         post.removeClass(bbsDeletedReplyClass);
-                        
+
                         // Remove links
                         post.find(bbsPostingDate).next().remove();
                         post.find(bbsPostMessage).nextAll().remove();
@@ -601,18 +594,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     post.find(bbsEditContainer).children().remove();
 
                     // Set post data
-                    post.find(bbsPostMessage).text(body)
-                    post.find(bbsReplyContentsText).text(quote)
+                    post.find(bbsPostMessage).text(body);
+                    post.find(bbsReplyContentsText).text(quote);
 
                     // Set entity data
                     post.children(bbsEntityContainer).find(bbsUpdatingDate).children("span").text(sakai.api.User.getDisplayName(sakai.data.me.profile) + " " + sakai.api.l10n.transformDateTimeShort(parseDate(sakai.api.Util.createSakaiDate(new Date()))));
-                    post.children(bbsEntityContainer).children(bbsPostingDate).children().show()
+                    post.children(bbsEntityContainer).children(bbsPostingDate).children().show();
 
                     // Show all
-                    post.children(".bbs_entity_container, .bbs_reply_contents").show()
-                },
-                error: function(xhr, textStatus, thrownError){
-                    console.log(textStatus);
+                    post.children(".bbs_entity_container, .bbs_reply_contents").show();
                 }
             });
         };
@@ -696,7 +686,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(bbsQuote, $rootel).live("click", function(){
                 var replyParent = $(this).parents(bbsTopicContainer);
                 var postId = replyParent[0].id.split("bbs_post_")[1];
-                console.log($(this).prev().children(bbsPostMessage).text());
                 sakai.api.Util.TemplateRenderer(bbsTopicReplyTemplate, {"edit":false, "quoted":true, "quotedUser":$(this).parents(s3dHighlightBackgroundClass).find(bbsPosterName).text(), "quotedMessage":$(this).prev().children(bbsPostMessage).text(), "postId": postId}, replyParent.children(bbsTopicReplyContainer));
                 replyParent.children(bbsTopicReplyContainer).show();
                 window.location.hash = "reply_" + postId;
@@ -712,7 +701,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             $(bbsDontAddReply, $rootel).live("click", function(){
-                $(this).parents(bbsTopicReplyContainer).hide()
+                $(this).parents(bbsTopicReplyContainer).hide();
             });
 
             // Make the actual reply
