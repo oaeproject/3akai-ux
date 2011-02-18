@@ -214,9 +214,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var setupAutoSuggest = function() {
             $pickeruser_search_query.autoSuggest("",{
                 source: function(query, add) {
+                    var q = sakai.api.Server.createSearchString(query)
                     var searchUrl = sakai.config.URL.SEARCH_USERS_GROUPS;
                     if (pickerData.type === 'content') {
                         searchUrl = sakai.config.URL.POOLED_CONTENT_MANAGER;
+                        if (q === '*' || q === '**') {
+                            searchUrl = sakai.config.URL.POOLED_CONTENT_MANAGER_ALL;
+                        }
+                    } else if (q === '*' || q === '**') {
+                        searchUrl = sakai.config.URL.SEARCH_USERS_GROUPS_ALL;
                     }
                     sakai.api.Server.loadJSON(searchUrl.replace(".json", ""), function(success, data){
                         if (success) {
@@ -242,7 +248,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             });
                             add(suggestions);
                         }
-                    }, {"q": sakai.api.Server.createSearchString(query), "page": 0, "items": 15});
+                    }, {"q": q, "page": 0, "items": 15});
                 },
                 retrieveLimit: 10,
                 asHtmlID: tuid,

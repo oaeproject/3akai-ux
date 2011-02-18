@@ -86,6 +86,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var pickerData = {
           "selected": {},
           "searchIn": "",
+          "searchInAll": "",
           "currentElementCount": 0,
           "selectCount": 0,
           "mode": "search",
@@ -142,6 +143,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $pickeradvanced_sort_on.hide();
                 $pickeradvanced_search_files.show();
                 pickerData["searchIn"] = sakai.config.URL.SEARCH_ALL_FILES.replace("all.json", "me/manager.infinity.json") + "?page=0&items=12&_=&q=";
+                pickerData["searchInAll"] = sakai.config.URL.SEARCH_ALL_FILES_ALL;
             }
             $("ul.pickeradvanced_search_" + pickerData["type"]).show();
             $pickeradvanced_search_query.focus();
@@ -178,7 +180,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             } else {
                 searchQuery = sakai.api.Server.createSearchString(searchQuery);
             }
-            var pl_query = pickerData["searchIn"] + searchQuery + "&page=0&items=12&_=" + (Math.random() * 100000000000000000);
+            var searchUrl = pickerData['searchIn'];
+            if ((searchQuery === '*' || searchQuery === '**') && pickerData['searchInAll']) {
+                searchUrl = pickerData['searchInAll']
+            }
+            var pl_query = searchUrl + searchQuery + "&page=0&items=12&_=" + (Math.random() * 100000000000000000);
             renderSearch(pl_query);
         };
 
@@ -466,6 +472,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
            $(".pickeradvanced_selected_list").removeClass("pickeradvanced_selected_list");
            $(this).parent("li").addClass("pickeradvanced_selected_list");
            var searchURL = false;
+           var searchURLAll = false;
            var searchingInGroup = false;
            switch (searchType) {
                case "contacts":
@@ -474,14 +481,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                    break;
                case "users":
                    searchURL = sakai.config.URL.SEARCH_USERS;
+                   searchURLAll = sakai.config.URL.SEARCH_USERS_ALL;
                    $pickeradvanced_sort_on.show();
                    break;
                case "groups":
                    searchURL = sakai.config.URL.SEARCH_GROUPS;
+                   searchURLAll = sakai.config.URL.SEARCH_GROUPS_ALL;
                    $pickeradvanced_sort_on.hide();
                    break;
                case "groups_member":
                    searchURL = sakai.config.URL.SEARCH_GROUPS;
+                   searchURLAll = sakai.config.URL.SEARCH_GROUPS_ALL;
                    $pickeradvanced_sort_on.hide();
                    break;
                case "groups_manager":
@@ -490,10 +500,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                    break;
                case "files_all":
                    searchURL = sakai.config.URL.SEARCH_ALL_FILES.replace(".json", ".infinity.json");
+                   searchURLAll = sakai.config.URL.SEARCH_ALL_FILES_ALL;
                    $pickeradvanced_sort_on.hide();
                    break;
                case "files_mine":
                    searchURL = sakai.config.URL.POOLED_CONTENT_MANAGER.replace(".json", ".infinity.json");
+                   searchURLAll = sakai.config.URL.POOLED_CONTENT_MANAGER_ALL;
                    $pickeradvanced_sort_on.hide();
                    break;
                case "files_view":
@@ -502,6 +514,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                    break;
                default: // should be any group specific search
                    searchURL = sakai.config.URL.SEARCH_GROUP_MEMBERS.replace(".json", ".3.json");
+                   searchURLAll = sakai.config.URL.SEARCH_GROUP_MEMBERS_ALL;
                    $pickeradvanced_sort_on.hide();
                    searchingInGroup = true;
                    break;
@@ -511,6 +524,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
            } else {
                pickerData["searchIn"] = searchURL + "?group=" + searchType.split("groups_")[1] + "&q=";
            }
+           pickerData['searchInAll'] = searchURLAll;
            submitSearch();
         });
 

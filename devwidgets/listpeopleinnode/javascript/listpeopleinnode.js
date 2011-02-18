@@ -80,8 +80,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 sortOrder: "desc"
             };
 
+            searchURL = sakai.config.URL.SEARCH_USERS;
+            if (selected === "*" || selected === "**") {
+                searchURL = sakai.config.URL.SEARCH_USERS_ALL;
+            }
             $.ajax({
-                url: sakai.config.URL.SEARCH_USERS,
+                url: searchUrl,
                 cache: false,
                 data: params,
                 success: function(data){

@@ -434,6 +434,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     };
                 }  else {
                     searchURL = sakai.config.URL.SEARCH_USERS;
+                    if (urlsearchterm === "*" || urlsearchterm === "**") {
+                        searchURL = sakai.config.URL.SEARCH_USERS_ALL;
+                    }
                     params = {
                         page: (currentpage - 1),
                         items: resultsToDisplay,
