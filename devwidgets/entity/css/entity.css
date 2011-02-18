@@ -70,7 +70,7 @@
 .entity_content_users_dialog_list .entity_content_name{line-height:30px;}
 .entity_content_users_dialog_list .entity_content_even{background:#f1f1f1;border-bottom:1px solid #f1f1f1;}
 .entity_content_users_dialog_list .entity_content_list_empty,.entity_content_activity_dialog_list .entity_content_list_empty{text-align:center;line-height:300px;}
-.entity_content_activity_dialog_list{margin:12px 0 0;padding:0;height:310px;overflow:auto;border:1px solid #d4dade;}
+.entity_content_activity_dialog_list{margin:12px 0 0;padding:0;height:310px;overflow:auto;border:1px solid #d4dade;position:relative;}
 .entity_content_activity_dialog_list li{display:block;list-style:none;clear:both;padding:10px 0 10px 10px;border-bottom:9px solid #FFF;border-top:1px solid #FFF;overflow:hidden;background:#f1f1f1;}
 .entity_content_activity_dialog_list .entity_content_picture{float:left;display:block;height:32px;width:32px;padding-right:10px;}
 .entity_content_activity_dialog_list .entity_content_activity{position:relative;top:1px;}
