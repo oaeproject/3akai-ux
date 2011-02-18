@@ -85,7 +85,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var readyToRender = false;
         var hasRendered = false;
 
-        $(window).bind("sakai.api.UI.entity.ready", function(e){
+        $(window).bind("ready.entity.sakai", function(e){
             readyToRender = true;
             if (sakai_global.currentgroup.data) {
                 $(window).trigger("render.entity.sakai", ["group", sakai_global.currentgroup.data]);
@@ -129,7 +129,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 getGroupData(groupid);
             }
 
-            /*$(window).bind("sakai.api.UI.groupbasicinfo.ready", function(e){
+            /*$(window).bind("ready.groupbasicinfo.sakai", function(e){
                 getGroupData(groupid);
             });*/
 

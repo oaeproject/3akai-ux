@@ -284,7 +284,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             $(window).trigger("init.sitespages.sakai", [basepath, fullpath, url, canEdit, homePage, entityType+"pages", entityType+"dashboard"]);
         };
 
-        $(window).bind("sakai.api.UI.entity.ready", function(e){
+        $(window).bind("ready.entity.sakai", function(e){
             entityWidgetReady = true;
             if (entityDataReady && !renderedEntityWidget) {
                 loadEntityWidget();

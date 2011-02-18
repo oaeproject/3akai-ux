@@ -1520,7 +1520,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
             getEntityData(mode, data);
         });
 
-        $(window).trigger("sakai.api.UI.entity.ready", {});
+        $(window).trigger("ready.entity.sakai", {});
         sakai_global.entity.isReady = true;
 
         // Add binding to update the chat status
