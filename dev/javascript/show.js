@@ -75,10 +75,13 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     entityID = sakai.data.me.user.userid;
                 }
             }
-            sakai.api.Server.loadJSON("/~" + entityID + "/public.infinity.json", function(success, data) {
+            sakai.api.Server.loadJSON("/~" + entityID + "/public/authprofile", function(success, data) {
                 if (success){
 
-                    if (data.authprofile && data.authprofile["sakai:group-id"]){
+                    if (data["sling:resourceType"] && data["sling:resourceType"] === "sakai/group-profile"){
+                        var newdata = {};
+                        newdata["authprofile"] = data;
+                        data = newdata;
                         entityType = "group";
                     } else {
                         entityType = "user";
@@ -237,10 +240,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var setEntityPath = function() {
             switch (entityType) {
                 case "user":
-                    entityPath = entityPrefix + sakai_global.profile.main.data.path;
+                    entityPath = "/" + sakai_global.profile.main.data.homePath;
                     break;
                 case "group":
-                    entityPath = entityPrefix + sakai_global.currentgroup.data.authprofile.path;
+                    entityPath = "/" + sakai_global.currentgroup.data.authprofile.homePath;
                     break;
             }
         };
@@ -286,7 +289,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             $(window).trigger("init.sitespages.sakai", [basepath, fullpath, url, canEdit, homePage, entityType+"pages", entityType+"dashboard"]);
         };
 
-        $(window).bind("sakai.api.UI.entity.ready", function(e){
+        $(window).bind("ready.entity.sakai", function(e){
             entityWidgetReady = true;
             if (entityDataReady && !renderedEntityWidget) {
                 loadEntityWidget();

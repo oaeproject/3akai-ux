@@ -86,7 +86,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * available
          * @param {Object} e    Event that caused this function
          */
-        $(window).bind("sakai.api.UI.entity.ready", function(e){
+        $(window).bind("ready.entity.sakai", function(e){
             readyToRender = true;
             if (sakai_global.currentgroup.data) {
                 $(window).trigger("render.entity.sakai", ["group", sakai_global.currentgroup.data]);
@@ -123,7 +123,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     sakai.api.Security.send404();
                 }
 
-            });
+            }, null, false);
         };
 
         /**
@@ -176,7 +176,16 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 listSelectable = true;
             }
             var url;
-            var pl_config = {"selectable":listSelectable, "subNameInfoUser": "", "subNameInfoGroup": "sakai:group-description", "sortOn": "lastName", "sortOrder": "asc", "items": 1000, "function": "getSelection" };
+            var pl_config = {
+                "selectable": listSelectable,
+                "subNameInfoUser": "",
+                "subNameInfoGroup": "sakai:group-description",
+                "sortOn": "lastName",
+                "sortOrder": "asc",
+                "items": 1000,
+                "function": "getSelection",
+                "listType": listType
+            };
 
             if (listType === 'members') {
                 // get group members

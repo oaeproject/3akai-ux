@@ -119,6 +119,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             }
 
+            // list if items are managers or members
+            if (listType === "managers") {
+                $listpeople_count_items.html(sakai.api.i18n.Widgets.getValueForKey("listpeople", "", "MANAGERS"));
+            } else if (listType === "members") {
+                $listpeople_count_items.html(sakai.api.i18n.Widgets.getValueForKey("listpeople", "", "MEMBERS"));
+            }
+
             // get data
             $.ajax({
                 url: url,

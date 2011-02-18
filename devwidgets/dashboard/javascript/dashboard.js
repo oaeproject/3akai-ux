@@ -90,7 +90,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
                     var cleanContinue = true;
 
                     for (var c in settings.columns) {
-                        if (settings.columns.hasOwnProperty(c)) {
+                        if (settings.columns.hasOwnProperty(c) && c.indexOf("column") > -1) {
                             for (var pi in settings.columns[c]) {
                                 if (settings.columns[c].hasOwnProperty(pi)) {
                                     if (pi !== "contains") {
@@ -107,6 +107,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
                     }
                     doInit();
                 } catch(err) {
+                    debug.error(err);
                     doInit();
                 }
             }

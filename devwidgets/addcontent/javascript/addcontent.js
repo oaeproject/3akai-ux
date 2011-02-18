@@ -229,7 +229,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         // Add binding to the show container
                         addBindingShow(json);
                     } else {
-                        sakai_global.content_profile.loadContentProfile(function(success) {
+                        $(window).trigger("load.content_profile.sakai", function(success) {
                             if (success) {
                                 json = sakai_global.content_profile.content_data;
                                 var splitslash = sakai_global.content_profile.content_data.contentpath.split("/");

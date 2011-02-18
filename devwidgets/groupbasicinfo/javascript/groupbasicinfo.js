@@ -337,7 +337,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         // Indicate that the widget has finished loading
-        $(window).trigger("sakai.api.UI.groupbasicinfo.ready", {});
+        $(window).trigger("ready.groupbasicinfo.sakai", {});
 
         // Bind to the global update location
         $(window).bind("sakai-contentmetadata-renderlocations", function(ev, data){

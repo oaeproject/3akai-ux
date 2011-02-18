@@ -231,7 +231,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          * has already been rendered. So created two templates to render accordingly
          */
         var renderLimitedUpload = function(){
-            $newUploaderForm.attr("action", uploadPath + ".createfile." + oldVersionPath);
+            $newUploaderForm.attr("action", uploadPath + "." + oldVersionPath);
             var obj = [];
             var renderedTemplate = sakai.api.Util.TemplateRenderer($fileUploadLimitToOneUploadTemplate, obj).replace(/\r/g, '');
             $fileuploadLimitContainer.html(renderedTemplate);

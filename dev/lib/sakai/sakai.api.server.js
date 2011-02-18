@@ -390,7 +390,7 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                         var arr = [];
                         var count = 0;
                         for (j in specficObj) {
-                            if (specficObj.hasOwnProperty(j)) {
+                            if (specficObj.hasOwnProperty(j) && j.indexOf("__array__") > -1) {
                                 count++;
                             }
                         }
