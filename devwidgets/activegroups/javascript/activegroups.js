@@ -65,8 +65,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 sortOrder: "desc"
             };
 
+            var url = sakai.config.URL.SEARCH_GROUPS;
+            if (selected === '*' || selected === '**') {
+                url = sakai.config.URL.SEARCH_GROUPS_ALL;
+            }
             $.ajax({
-                url: sakai.config.URL.SEARCH_GROUPS,
+                url: url,
                 data: params,
                 success: function(data){
                     groupData = {"results":[], "items": data.items, "total": data.total};

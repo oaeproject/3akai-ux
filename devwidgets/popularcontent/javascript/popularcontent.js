@@ -64,8 +64,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js"], func
                 sortOrder: "desc"
             };
 
+            var url = sakai.config.URL.SEARCH_ALL_FILES;
+            if (selected === '*' || selected === '**') {
+                url = sakai.config.URL.SEARCH_ALL_FILES_ALL;
+            }
             $.ajax({
-                url: sakai.config.URL.SEARCH_ALL_FILES,
+                url: url,
                 data: params,
                 success: function(data){
                     contentData = {"results":[], "items": data.items, "total": data.total};

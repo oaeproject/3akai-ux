@@ -99,6 +99,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     "all" : {
                         "category": $("#search_result_all_content").html(),
                         "searchurl": searchURLmap.allfiles
+                        "searchurlall": searchURLmap.allfilesall;
                     }
                 }
             }

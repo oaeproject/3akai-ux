@@ -142,8 +142,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $("#pickeradvanced_search_files_mine").parent("li").addClass("pickeradvanced_selected_list");
                 $pickeradvanced_sort_on.hide();
                 $pickeradvanced_search_files.show();
-                pickerData["searchIn"] = sakai.config.URL.SEARCH_ALL_FILES.replace("all.json", "me/manager.infinity.json") + "?page=0&items=12&_=&q=";
-                pickerData["searchInAll"] = sakai.config.URL.SEARCH_ALL_FILES_ALL;
+                pickerData["searchIn"] = sakai.config.URL.POOLED_CONTENT_MANAGER.replace(".json", ".infinity.json") + "?page=0&items=12&_=&q=";
+                pickerData["searchInAll"] = sakai.config.URL.POOLED_CONTENT_MANAGER_ALL;
             }
             $("ul.pickeradvanced_search_" + pickerData["type"]).show();
             $pickeradvanced_search_query.focus();

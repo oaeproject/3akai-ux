@@ -234,7 +234,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             });
                             add(suggestions);
                         }
-                    }, {"q": , "page": 0, "items": 15});
+                    }, {"q": q, "page": 0, "items": 15});
                 },
                 retrieveLimit: 10,
                 asHtmlID: tuid,

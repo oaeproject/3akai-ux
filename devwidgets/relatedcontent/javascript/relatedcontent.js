@@ -143,8 +143,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             // get related content for contentData
             // return some search results for now
+            var url = sakai.config.URL.SEARCH_ALL_FILES.replace(".json", ".infinity.json");
+            if (searchquery === '*' || searchquery === '**') {
+                url = sakai.config.URL.SEARCH_ALL_FILES_ALL;
+            }
             $.ajax({
-                url: sakai.config.URL.SEARCH_ALL_FILES.replace(".json", ".infinity.json"),
+                url: url,
                 data: {
                     "q" : searchquery,
                     "items" : "11"

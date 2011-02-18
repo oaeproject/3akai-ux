@@ -40,7 +40,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         // Search URL mapping
         var searchURLmap = {
             allgroups : sakai.config.URL.SEARCH_GROUPS,
+            allgroupsall : sakai.config.URL.SEARCH_GROUPS_ALL,
             visiblegroups : sakai.config.URL.SEARCH_GROUPS,
+            visiblegroupsall : sakai.config.URL.SEARCH_GROUPS_ALL,
             managergroups : sakai.config.URL.GROUPS_MANAGER,
             membergroups : sakai.config.URL.GROUPS_MEMBER
         };
@@ -95,7 +97,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 facets: {
                     "all": {
                         "category": "All groups",
-                        "searchurl": searchURLmap.allgroups
+                        "searchurl": searchURLmap.allgroups,
+                        "searchurlall": searchURLmap.allgroupsall
                     }
                 }
             }
@@ -310,8 +313,15 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
             facetedurl = mainSearch.getFacetedUrl();
 
+            // Get the search term out of the input box.
+            // If we were redirected to this page it will be added previously already.
+            searchterm = $(searchConfig.global.text).val();
+
             if (facet && searchConfig.facetedConfig.facets[facet]){
                 facetedurl = searchConfig.facetedConfig.facets[facet].searchurl;
+                if ((searchterm === '*' || searchterm === '**') && searchConfig.facetedConfig.facets[facet].searchurlall) {
+                    facetedurl = searchConfig.facetedConfig.facets[facet].searchurlall;
+                }
             } else {
                 facet = "";
             }
@@ -332,10 +342,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             // Set all the input fields and paging correct.
             mainSearch.fillInElements(page, searchquery, searchwhere);
 
-            // Get the search term out of the input box.
-            // If we were redirected to this page it will be added previously already.
-            searchterm = $(searchConfig.global.text).val();
-
             // Rebind everything
             mainSearch.addEventListeners(searchterm, searchwhere);
 
@@ -352,6 +358,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 var urlsearchterm = sakai.api.Server.createSearchString(searchterm);
 
                 var searchURL = sakai.config.URL.SEARCH_GROUPS;
+                if (urlsearchterm === '*' || urlsearchterm === '**') {
+                    searchURL = sakai.config.URL.SEARCH_GROUPS_ALL;
+                }
                 var params = {
                     page: (currentpage - 1),
                     items: resultsToDisplay,
