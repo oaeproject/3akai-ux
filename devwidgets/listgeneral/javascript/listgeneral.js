@@ -28,14 +28,6 @@
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     /**
-     * @name sakai.api.UI.listGeneral
-     *
-     * @description
-     * Public functions for the general lister widget
-     */
-    sakai.api.UI.listGeneral = {};
-
-    /**
      * @name sakai_global.listgeneral
      *
      * @class listgeneral
@@ -49,6 +41,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
+    sakai_global.listgeneral = sakai_global.listgeneral || {};
+    sakai_global.data = sakai_global.data || {};
+    sakai_global.data.listgeneral = sakai_global.data.listgeneral || {};
+    sakai_global.config = sakai_global.config || {};
+    sakai_global.config.listgeneral = sakai_global.config.listgeneral || {};
     sakai_global.listgeneral = function(tuid, showSettings){
 
         // Config defaults
@@ -58,16 +55,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         // Create a config object for this instance
-        sakai.config.widgets.listgeneral = sakai.config.widgets.listgeneral || {};
-        sakai.config.widgets.listgeneral[tuid] = default_config;
+        sakai_global.config.listgeneral[tuid] = default_config;
 
         // Create a data object for this instance
-        sakai.data.listgeneral = sakai.data.listgeneral || {};
-        sakai.data.listgeneral[tuid] = {};
-        sakai.data.listgeneral[tuid].selected = 0;
+        sakai_global.data.listgeneral[tuid] = {};
+        sakai_global.data.listgeneral[tuid].selected = 0;
 
         // Reset to defaults
-        sakai.api.UI.listGeneral.reset(tuid);
+        reset(tuid);
 
         // Send out an event that says the widget is ready to
         // accept a search query to process and display. This event can be picked up
@@ -82,13 +77,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * @param tuid {String} Unique id of the widget
      * @returns void
      */
-    sakai.api.UI.listGeneral.reset = function(tuid) {
+    var reset = function(tuid) {
 
         //Clear results from DOM
         $("#"+tuid+" .listgeneral_search_results").html("");
 
         // Reset selected items
-        sakai.data.listgeneral[tuid].selected = {};
+        sakai_global.data.listgeneral[tuid].selected = {};
 
     };
 
@@ -102,12 +97,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * @param iConfig {Object} Optional config overrides
      * @returns void
      */
-    sakai.api.UI.listGeneral.render = function(tuid, iSearchQuery, iConfig) {
+    $(window).bind("ready.listgeneral.sakai", function(e, tuid, iSearchQuery, iConfig) {
 
         // Merge user defined config with defaults
         for (var element in iConfig) {
             if (iConfig.hasOwnProperty(element)) {
-                sakai.config.widgets.listgeneral[tuid][element] = iConfig[element];
+                sakai_global.config.listgeneral[tuid][element] = iConfig[element];
             }
         }
 
@@ -125,7 +120,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
 
             // Alter search query according to config
-            searchQueryObject.items = sakai.config.widgets.listgeneral[tuid].items[i];
+            searchQueryObject.items = sakai_global.config.listgeneral[tuid].items[i];
 
             // Add hash to search query in case it's not there to prevent caching
             if (!searchQueryObject["_"]) {
@@ -137,36 +132,36 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         }
         // Set up sorting drop-down according to the type of list
-        $(".listgeneral_sortview").prepend($(".listgeneral_sorttemplate_" + sakai.config.widgets.listgeneral[tuid].type).html());
+        $(".listgeneral_sortview").prepend($(".listgeneral_sorttemplate_" + sakai_global.config.listgeneral[tuid].type).html());
 
 
         // Sorting
-        if (!sakai.config.widgets.listgeneral[tuid].sortOn) {
-            sakai.config.widgets.listgeneral[tuid].sortOn = $("#" + tuid + " .listgeneral_sorttemplate_" + sakai.config.widgets.listgeneral[tuid].type+" option[default='true']").attr("value");
+        if (!sakai_global.config.listgeneral[tuid].sortOn) {
+            sakai_global.config.listgeneral[tuid].sortOn = $("#" + tuid + " .listgeneral_sorttemplate_" + sakai_global.config.listgeneral[tuid].type+" option[default='true']").attr("value");
         }
-        if (!sakai.config.widgets.listgeneral[tuid].sortOrder) {
-            sakai.config.widgets.listgeneral[tuid].sortOrder = $("#" + tuid + " .listgeneral_sorttemplate_" + sakai.config.widgets.listgeneral[tuid].type+" option[default='true']").attr("data-sortorder");
+        if (!sakai_global.config.listgeneral[tuid].sortOrder) {
+            sakai_global.config.listgeneral[tuid].sortOrder = $("#" + tuid + " .listgeneral_sorttemplate_" + sakai_global.config.listgeneral[tuid].type+" option[default='true']").attr("data-sortorder");
         }
 
         // View mode
-        sakai.config.widgets.listgeneral[tuid].viewMode = $("#" + tuid + " .listgeneral_sortview_view option[default='true']").attr("value");
+        sakai_global.config.listgeneral[tuid].viewMode = $("#" + tuid + " .listgeneral_sortview_view option[default='true']").attr("value");
 
 
         // Wire up sort button
         $("#" + tuid + " .listgeneral_sort_button").bind("click", function(e) {
 
             // Get sorting flag from the dropdown
-            sakai.config.widgets.listgeneral[tuid].sortOn = $("#" + tuid + " .listgeneral_sortview_sort option:selected").attr("value");
-            sakai.config.widgets.listgeneral[tuid].sortOrder = $("#" + tuid + " .listgeneral_sortview_sort option:selected").attr("data-sortorder");
+            sakai.sakai_global.config.widgets.listgeneral[tuid].sortOn = $("#" + tuid + " .listgeneral_sortview_sort option:selected").attr("value");
+            sakai_global.config.listgeneral[tuid].sortOrder = $("#" + tuid + " .listgeneral_sortview_sort option:selected").attr("data-sortorder");
 
             // Get view mode from the dropdown
-            sakai.config.widgets.listgeneral[tuid].viewMode =  $("#" + tuid + " .listgeneral_sortview_view option:selected").attr("value");
+            sakai_global.config.listgeneral[tuid].viewMode =  $("#" + tuid + " .listgeneral_sortview_view option:selected").attr("value");
 
             // Reset everything
-            sakai.api.UI.listGeneral.reset(tuid);
+            reset(tuid);
 
             // Get new results with new sorting
-            sakai.api.UI.listGeneral.addPage(tuid, 0, searchQuery);
+            addPage(tuid, 0, searchQuery);
         });
 
 
@@ -174,9 +169,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
 
         // Render the first page of results
-        sakai.api.UI.listGeneral.addPage(tuid, 0, searchQuery);
+        addPage(tuid, 0, searchQuery);
 
-    };
+    });
 
     /**
      * addPage
@@ -186,19 +181,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * @searchQuery {Array} An array containing objects of the search query elements
      * @returns void
      */
-    sakai.api.UI.listGeneral.addPage = function(tuid, pageNumber, searchQuery) {
+    addPage = function(tuid, pageNumber, searchQuery) {
 
         // Store number of requests we need to process to make sure we process all at the end of the ajax requests
-        sakai.data.listgeneral[tuid].numOfQueriesToProcess = searchQuery.length;
+        sakai_global.data.listgeneral[tuid].numOfQueriesToProcess = searchQuery.length;
 
         // Create storage for aggregate results
-        sakai.data.listgeneral[tuid].aggregateResults = {};
-        sakai.data.listgeneral[tuid].aggregateResults.results = [];
+        sakai_global.data.listgeneral[tuid].aggregateResults = {};
+        sakai_global.data.listgeneral[tuid].aggregateResults.results = [];
 
 
         var handleSuccess = function(rawData) {
             // Keep track of queries which needs to be processed
-            sakai.data.listgeneral[tuid].numOfQueriesToProcess--;
+            sakai_global.data.listgeneral[tuid].numOfQueriesToProcess--;
 
             for (var j = 0, jl = rawData.results.length; j < jl; j++) {
 
@@ -316,7 +311,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     // University role
                     if (result.basic) {
                         result.basic = $.parseJSON(result.basic);
-                        result.listgeneral.role = result.basic.unirole;
+                        //result.listgeneral.role = result.basic.unirole;
                     } else {
                         result.listgeneral.role = "";
                     }
@@ -334,12 +329,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
 
                 // Add result to the collection of aggregate results
-                sakai.data.listgeneral[tuid].aggregateResults.results.push(rawData.results[j]);
+                sakai_global.data.listgeneral[tuid].aggregateResults.results.push(rawData.results[j]);
             }
 
             // If this is the last search query to process
-            if (sakai.data.listgeneral[tuid].numOfQueriesToProcess === 0) {
-                sakai.api.UI.listGeneral.sortAndDisplay(tuid, pageNumber);
+            if (sakai_global.data.listgeneral[tuid].numOfQueriesToProcess === 0) {
+                sortAndDisplay(tuid, pageNumber);
             }
 
 
@@ -347,10 +342,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var handleError = function(xhr, status, thrown) {
             // Keep track of queries which needs to be processed
-            sakai.data.listgeneral[tuid].numOfQueriesToProcess--;
+            sakai_global.data.listgeneral[tuid].numOfQueriesToProcess--;
 
-            if (sakai.data.listgeneral[tuid].numOfQueriesToProcess === 0) {
-                sakai.api.UI.listGeneral.sortAndDisplay(tuid, pageNumber);
+            if (sakai_global.data.listgeneral[tuid].numOfQueriesToProcess === 0) {
+                sortAndDisplay(tuid, pageNumber);
             }
 
             // Log error in console
@@ -359,7 +354,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var handleMoreButtonClick = function(e) {
             $(this).remove();
-            sakai.api.UI.listGeneral.addPage(tuid, pageNumber + 1, searchQuery);
+            addPage(tuid, pageNumber + 1, searchQuery);
         };
         // Create new container for the bit we load. This is then appended to the
         // main container
@@ -367,8 +362,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             // Add relevant config elements to the search query
             searchQuery[i].page = pageNumber;
-            searchQuery[i].sortOn = sakai.config.widgets.listgeneral[tuid].sortOn;
-            searchQuery[i].sortOrder = sakai.config.widgets.listgeneral[tuid].sortOrder;
+            searchQuery[i].sortOn = sakai_global.config.listgeneral[tuid].sortOn;
+            searchQuery[i].sortOrder = sakai_global.config.listgeneral[tuid].sortOrder;
 
             // Construct search query
             var sq = searchQuery[i].url + "?";
@@ -405,14 +400,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * @param tuid {String} The instance ID of the widget
      * @param pageNumber {Int} The page number we wuld like to render
      */
-    sakai.api.UI.listGeneral.sortAndDisplay = function(tuid, pageNumber) {
+    sortAndDisplay = function(tuid, pageNumber) {
 
         var $resultPage = $("#" + tuid + " .listgeneral_resultpage[data-pagenumber='"+pageNumber+"']");
 
         // No sorting of aggregate results for now...
 
         // If there are no search results, display message template
-        if (sakai.data.listgeneral[tuid].aggregateResults.results.length === 0) {
+        if (sakai_global.data.listgeneral[tuid].aggregateResults.results.length === 0) {
 
             $("#" + tuid + " .listgeneral_more_button").hide();
             $resultPage.removeClass("loadinganim").html($("#"+tuid+" .listgeneral_noresults_template").html());
@@ -420,10 +415,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         } else {
 
             // Render the results data template
-            var newPageHTML = sakai.api.Util.TemplateRenderer("#" + tuid + " .listgeneral_content_template", sakai.data.listgeneral[tuid].aggregateResults);
+            var newPageHTML = sakai.api.Util.TemplateRenderer("#" + tuid + " .listgeneral_content_template", sakai_global.data.listgeneral[tuid].aggregateResults);
 
             // Add rendered result HTML to DOM and set viewmode class
-            $resultPage.removeClass("loadinganim").addClass("listgeneral_result_viewmode_" + sakai.config.widgets.listgeneral[tuid].viewMode).append(newPageHTML);
+            $resultPage.removeClass("loadinganim").addClass("listgeneral_result_viewmode_" + sakai_global.config.listgeneral[tuid].viewMode).append(newPageHTML);
         }
     };
 
