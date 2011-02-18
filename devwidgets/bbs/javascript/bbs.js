@@ -649,15 +649,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Open quoted reply fields
             $(bbsQuote, $rootel).live("click", function(){
                 var replyParent = $(this).parents(bbsTopicContainer);
-                sakai.api.Util.TemplateRenderer(bbsTopicReplyTemplate, {"edit":false, "quoted":true, "quotedUser":$(this).parents(s3dHighlightBackgroundClass).find(bbsPosterName).text(), "quotedMessage":$(this).prev(bbsPostMessage).text()}, replyParent.children(bbsTopicReplyContainer));
+                var postId = replyParent[0].id.split("bbs_post_")[1];
+                sakai.api.Util.TemplateRenderer(bbsTopicReplyTemplate, {"edit":false, "quoted":true, "quotedUser":$(this).parents(s3dHighlightBackgroundClass).find(bbsPosterName).text(), "quotedMessage":$(this).prev(bbsPostMessage).text(), "postId": postId}, replyParent.children(bbsTopicReplyContainer));
                 replyParent.children(bbsTopicReplyContainer).show();
+                window.location.hash = "reply_" + postId;
             });
 
             // Open reply fields
             $(bbsReplyTopic, $rootel).live("click", function(){
                 var replyParent = $(this).parents(bbsTopicContainer);
-                sakai.api.Util.TemplateRenderer(bbsTopicReplyTemplate, {"edit":false, "quoted":false}, replyParent.children(bbsTopicReplyContainer));
+                var postId = replyParent[0].id.split("bbs_post_")[1];
+                sakai.api.Util.TemplateRenderer(bbsTopicReplyTemplate, {"edit":false, "quoted":false, "postId": postId}, replyParent.children(bbsTopicReplyContainer));
                 replyParent.children(bbsTopicReplyContainer).show();
+                window.location.hash = "reply_" + postId;
             });
 
             $(bbsDontAddReply, $rootel).live("click", function(){

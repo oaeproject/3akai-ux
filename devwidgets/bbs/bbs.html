@@ -51,17 +51,18 @@
 --></div>
 
 <div id="bbs_topic_reply_template"><!--
+    <a href="javascript:;" name="reply_${postId}" style="display:hidden">&nbsp;</a>
     {if quoted}
         <span id="bbs_topic_reply_quoted_user" style="display:none;">${quotedUser}</span>
         <label for="bbs_topic_reply_text" class="s3d-bold">
             __MSG__QUOTED_TEXT__
         </label>
-        <textarea id="bbs_topic_quoted_text" class="required" rows="4" name="Quoted Text">${quotedMessage}</textarea>
+        <textarea id="bbs_topic_quoted_text" class="required" rows="4" name="quoted_text">${quotedMessage}</textarea>
     {/if}
     <label for="bbs_topic_reply_text" class="s3d-bold">
         __MSG__MESSAGE_TEXT__
     </label>
-    <textarea id="bbs_topic_reply_text" class="required" rows="6" name="Message Text">{if edit == true}${body}{/if}</textarea>
+    <textarea id="bbs_topic_reply_text" class="required" rows="6" name="message_text">{if edit == true}${body}{/if}</textarea>
     <div class="dialog_buttons">
         {if edit == true}
             <button type="button" class="s3d-button" id="bbs_dont_save_edit">
