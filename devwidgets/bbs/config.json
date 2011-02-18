@@ -3,15 +3,15 @@
     "userdashboard": true,
     "grouppages": true,
     "groupdashboard": true,
-    "description":"Bulletin Board System widget",
+    "description":"Discussion widget",
     "id":"bbs",
-    "img":"/devwidgets/bbs/images/bbs.png",
+    "img":"/devwidgets/bbs/images/discussion.png",
     "i18n": {
         "default": "/devwidgets/bbs/bundles/default.properties",
         "en_US": "/devwidgets/bbs/bundles/en_US.properties",
         "zh_CN": "/devwidgets/bbs/bundles/zh_CN.properties"
     },
-    "name":"Bulletin Board System",
+    "name":"Discussion",
     "showinsakaigoodies":true,
     "hasSettings": true,
     "type":"sakai",
