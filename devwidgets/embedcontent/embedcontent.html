@@ -22,14 +22,14 @@
         {for item in items}
             {if item.type === "notfound"}
                 <div class="s3d-highlight_area_background embedcontent_thumbnail_content clearfix ${layout}">
-                    <a href="/content/content_path=${item.path}"><img src="/dev/images/not_found.png" class="not_found" alt="__MSG__NOT_FOUND__"/></a>
+                    <img src="/dev/images/not_found.png" class="not_found" alt="__MSG__NOT_FOUND__"/>
                     <div class="embedcontent_details">
                         <span class="embedcontent_include_details">__MSG__NO_LONGER_AVAILABLE__</span>
                     </div>
                 </div>
             {else}
                 <div class="${embedClass} ${layout}">
-                    <a href="/content/content_path=${item.path}">
+                    <a href="/content/content_path#${item.path}">
                     {if item.filetype === "image"}
                         <img src="${item.link}" alt="${sakai.config.MimeTypes[item.mimetype].description}" />
                     {elseif item.filetype === "video"}
