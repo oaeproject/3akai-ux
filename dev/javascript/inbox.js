@@ -903,14 +903,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          *
          */
         $("#inbox_message_accept_invitation").live("click", function(ev){
-            var accepting = selectedMessage["sakai:from"];
-            $.ajax({
-                url: "/~" + sakai.data.me.user.userid + "/contacts.accept.html",
-                type: "POST",
-                data: {
-                    "targetUserId": accepting
-                },
-                success: function(data){
+            sakai.api.User.acceptContactInvite(selectedMessage["sakai:from"], sakai.data.me.user.userid, function(success) {
+                if (success) {
                     $("#inbox-invitation-accept").hide();
                     $("#inbox-invitation-ignore").hide();
                     $("#inbox-invitation-already").show();
@@ -924,26 +918,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          *
          */
         $("#inbox_message_ignore_invitation").live("click", function(ev){
-            var accepting = selectedMessage["sakai:from"];
-            $.ajax({
-                url: "/~" + sakai.data.me.user.userid + "/contacts.ignore.html",
-                type: "POST",
-                data: {
-                    "targetUserId": accepting
-                },
-                success: function(data){
-                    $.ajax({
-                        url: "/~" + sakai.data.me.user.userid + "/contacts.remove.html",
-                        type: "POST",
-                        data: {
-                            "targetUserId": accepting
-                        },
-                        success: function(data){
-                            $("#inbox-invitation-accept").hide();
-                            $("#inbox-invitation-ignore").hide();
-                            $("#inbox-invitation-already").show();
-                        }
-                    });
+            sakai.api.User.ignoreContactInvite(selectedMessage["sakai:from"], sakai.data.me.user.userid, function(success) {
+                if (success) {
+                    $("#inbox-invitation-accept").hide();
+                    $("#inbox-invitation-ignore").hide();
+                    $("#inbox-invitation-already").show();
                 }
             });
         });
@@ -956,13 +935,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         $("#inbox_message_accept_sitejoin").live("click", function(ev){
             var from = selectedMessage["sakai:from"];
             var sitePath = selectedMessage["sakai:sitepath"];
-            $.ajax({
-                url: sitePath + ".approve.html",
-                type: "POST",
-                data: {
-                    "user": from
-                },
-                success: function(data){
+            sakai.api.User.respondToSiteJoinRequest(from, sitePath, true, function(success) {
+                if (success) {
                     $("#inbox-sitejoin-accept").hide();
                     $("#inbox-sitejoin-deny").hide();
                     $("#inbox-sitejoin-already").show();
@@ -978,17 +952,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         $("#inbox_message_deny_sitejoin").live("click", function(ev){
             var from = selectedMessage["sakai:from"];
             var sitePath = selectedMessage["sakai:sitepath"];
-            $.ajax({
-                url: sitePath + ".deny.html",
-                type: "POST",
-                data: {
-                    "user": from
-                },
-                success: function(data){
-                    $("#inbox-sitejoin-accept").hide();
-                    $("#inbox-sitejoin-deny").hide();
-                    $("#inbox-sitejoin-already").show();
-                }
+            sakai.api.User.respondToSiteJoinRequest(from, sitePath, false, function(success) {
+                $("#inbox-sitejoin-accept").hide();
+                $("#inbox-sitejoin-deny").hide();
+                $("#inbox-sitejoin-already").show();
             });
         });
 
@@ -1045,39 +1012,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         /**
-         * This will do a DELETE request to the specified path and harddelete that message.
-         * @param {String[]} path The message that you want to delete.
-         * @param {int} index The index of the array that needs to be deleted.
-         */
-        var hardDeleteMessage = function(pathToMessages){
-            var requests = [];
-            $(pathToMessages).each(function(i, val){
-                var req = {
-                    "url": val,
-                    "method": "POST",
-                    "parameters": {
-                        ":operation": "delete"
-                    }
-                };
-                requests.push(req);
-            });
-            $.ajax({
-                url: sakai.config.URL.BATCH,
-                traditional: true,
-                type: "POST",
-                data: {
-                    requests: $.toJSON(requests)
-                },
-                success: function(data){
-                    deleteMessagesFinished(pathToMessages, true);
-                },
-                error: function(xhr, textStatus, thrownError){
-                    deleteMessagesFinished(pathToMessages, false);
-                }
-            });
-        };
-
-        /**
          * Delete all the messages that are in ids
          * @param {Array} ids    An array of ids that have to be deleted.
          */
@@ -1089,9 +1023,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $("#inbox_table input[type='checkbox']").removeAttr("checked");
             if (hardDelete) {
                 // We will have to do a hard delete to all the JCR files.
-                hardDeleteMessage(pathToMessages);
-            }
-            else {
+                sakai.api.Communication.deleteMessages(pathToMessages, true, function(success) {
+                    deleteMessagesFinished(pathToMessages, success);
+                });
+            } else {
                 var toDelete = pathToMessages.length;
                 var deleted = 0;
 
@@ -1124,25 +1059,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 unreadInvitations -= deletedUnreadInvitations;
                 updateUnreadNumbers();
                 $.bbq.removeState("message");
-
-                var handleComplete = function(xhr, textStatus){
-                    deleted++;
-                    if (deleted === toDelete) {
-                        deleteMessagesFinished(pathToMessages, textStatus === "success");
-                    }
-                };
-
-                for (var d = 0, e = pathToMessages.length; d < e; d++) {
-                    $.ajax({
-                        url: pathToMessages[d],
-                        type: "POST",
-                        complete: handleComplete,
-                        data: {
-                            "sakai:messagebox": "trash",
-                            "_charset_": "utf-8"
-                        }
-                    });
-                }
+                sakai.api.Communication.deleteMessages(pathToMessages, false, function(success) {
+                    deleteMessagesFinished(pathToMessages, success);
+                });
             }
         };
 

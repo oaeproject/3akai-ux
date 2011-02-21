@@ -244,6 +244,48 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
             });
         },
 
+        deleteMessages : function(messagePaths, hardDelete, callback) {
+            var requests = [],
+                params = {};
+
+            if (hardDelete) {
+                params = {":operation": "delete"};
+            } else {
+                params = {"sakai:messagebox": "trash"};
+            }
+            $.each(messagePaths, function(i, val){
+                var req = {
+                    "url": val,
+                    "method": "POST",
+                    "parameters": params
+                };
+                requests.push(req);
+            });
+
+            $.ajax({
+                url: sakai.config.URL.BATCH,
+                traditional: true,
+                type: "POST",
+                data: {
+                    requests: $.toJSON(requests)
+                },
+                success: function(data) {
+                    if ($.isFunction(callback)) {
+                        callback(true, data);
+                    }
+                },
+                error: function(xhr, textStatus, thrownError){
+                    if ($.isFunction(callback)) {
+                        callback(false, {});
+                    }
+                }
+            });
+        },
+
+        markMessagesAsRead : function(messagePaths, callback) {
+
+        },
+
         /**
          * Sends a message to all members of a group
          *
