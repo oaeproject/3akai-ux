@@ -476,7 +476,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                             sakai_global.profile.main.data[title.split(".")[0]].access = val;
                                         }
                                     }
-                                    else {
+                                    else if ($selected_element.hasClass("profilesection_generalinfo_access")){
                                         sakai_global.profile.main.data[title.split(".")[0]].access = escape($selected_element.val());
                                     }
                             }
@@ -492,7 +492,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         }
 
                 });
-
             // tell the profile that this section has finished saving its data
             $(window).trigger("sakai-profile-data-ready", currentsection);
 
