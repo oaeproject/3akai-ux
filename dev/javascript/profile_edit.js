@@ -732,7 +732,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             setProfileData(function(){
 
                 // Initialise the entity widget
-                $(window).bind("sakai.api.UI.entity.ready", function(e){
+                $(window).bind("ready.entity.sakai", function(e){
 
                     // Check whether we need to load the myprofile or the profile mode
                     var whichprofile = sakai_global.profile.main.isme ? "myprofile" : "profile";

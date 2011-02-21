@@ -86,7 +86,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * available
          * @param {Object} e    Event that caused this function
          */
-        $(window).bind("sakai.api.UI.entity.ready", function(e){
+        $(window).bind("ready.entity.sakai", function(e){
             readyToRender = true;
             if (sakai_global.currentgroup.data) {
                 $(window).trigger("render.entity.sakai", ["group", sakai_global.currentgroup.data]);
