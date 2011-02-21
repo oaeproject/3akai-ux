@@ -51,7 +51,7 @@
 .explore_nav .personal .mail img{position:relative;top:-1px;}
 
 /* User Link Dropdown */
-#user_link_container{position:relative;text-align:left;min-width:50px;max-width:195px;}
+#user_link_container{position:relative;text-align:left;min-width:50px;max-width:200px;}
 
 /* Anonymous Login */
 #login_container{background:none repeat scroll 0 0 #878A8C;left:785px;padding:10px;position:absolute;top:32px;width:246px;z-index:1000;text-align:right;color:#eee;}
