@@ -207,7 +207,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 if (sakai_global.entity && sakai_global.entity.isReady) {
                     $(window).trigger("render.entity.sakai", ["content", sakai_global.content_profile.content_data]);
                 } else {
-                    $(window).bind("sakai.api.UI.entity.ready", function(e){
+                    $(window).bind("ready.entity.sakai", function(e){
                         $(window).trigger("render.entity.sakai", ["content", sakai_global.content_profile.content_data]);
                         ready_event_fired++;
                     });
@@ -216,7 +216,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 if (sakai_global.relatedcontent && sakai_global.relatedcontent.isReady) {
                     $(window).trigger("render.relatedcontent.sakai", sakai_global.content_profile.content_data);
                 } else {
-                    $(window).bind("sakai.api.UI.relatedcontent.ready", function(e){
+                    $(window).bind("ready.relatedcontent.sakai", function(e){
                         $(window).trigger("render.relatedcontent.sakai", sakai_global.content_profile.content_data);
                         ready_event_fired++;
                     });

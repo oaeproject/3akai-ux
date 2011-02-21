@@ -22,15 +22,17 @@
 
         <div class="entity_header">
             <a class="entity_header_text" href="/~${unescape(data.profile["rep:userId"])}">${sakai.api.Util.shortenString(unescape(sakai.api.User.getDisplayName(data.profile)), 30)}</a>
-            {if mode === "myprofile" && (!sakai_global.profile)}
-                <a class="s3d-action" id="entity_edit_profile" href="/profile/edit">__MSG__EDIT_PROFILE__</a>
-                |
-                <a class="s3d-action" href="/~${unescape(data.profile["rep:userId"])}">__MSG__MY_PERSONAL_PAGES__</a>
-            {elseif mode === "myprofile" && (sakai_global.profile.main.mode.value === "view")}
-                <a class="s3d-action" id="entity_edit_profile" href="/profile/edit">__MSG__EDIT_PROFILE__</a>
-            {elseif mode === "myprofile"}
-                <a class="s3d-action" href="/~${data.profile["rep:userId"]}">__MSG__MY_PERSONAL_PAGES__</a>
-            {/if}
+            <span class="entity_header_links">
+                {if mode === "myprofile" && (!sakai_global.profile)}
+                    <a class="s3d-action" id="entity_edit_profile" href="/profile/edit">__MSG__EDIT_PROFILE__</a>
+                    |
+                    <a class="s3d-action" href="/~${unescape(data.profile["rep:userId"])}">__MSG__MY_PERSONAL_PAGES__</a>
+                {elseif mode === "myprofile" && (sakai_global.profile.main.mode.value === "view")}
+                    <a class="s3d-action" id="entity_edit_profile" href="/profile/edit">__MSG__EDIT_PROFILE__</a>
+                {elseif mode === "myprofile"}
+                    <a class="s3d-action" href="/~${data.profile["rep:userId"]}">__MSG__MY_PERSONAL_PAGES__</a>
+                {/if}
+            </span>
         </div>
         <div>
             <form id="entity_profile_status" method="POST" action="javascript:;">
@@ -297,14 +299,16 @@
             {if data.profile["sakai:group-title"]}
                 <a class="entity_header_text" href="/~${data.profile["sakai:group-id"]}" title="${data.profile["sakai:group-title"]}">${sakai.api.Util.shortenString(data.profile["sakai:group-title"], 115)}</a>
             {/if}
-            {if data.profile.role === "manager"}
-                {if sakai_global.profile.main.mode.value === "view"}
-                    <a class="s3d-action entity_group_edit" href="/group/edit?id=${data.profile["sakai:group-id"]}">__MSG__MANAGE_GROUP__</a>
+            <span class="entity_header_links">
+                {if data.profile.role === "manager"}
+                    {if sakai_global.profile.main.mode.value === "view"}
+                        <a class="s3d-action entity_group_edit" href="/group/edit?id=${data.profile["sakai:group-id"]}">__MSG__MANAGE_GROUP__</a>
+                    {/if}
                 {/if}
-            {/if}
-            {if sakai_global.profile.main.mode.value === "edit"}
-                <a class="s3d-action" href="/~${data.profile["sakai:group-id"]}">__MSG__GROUP_PAGES__</a>
-            {/if}
+                {if sakai_global.profile.main.mode.value === "edit"}
+                    <a class="s3d-action" href="/~${data.profile["sakai:group-id"]}">__MSG__GROUP_PAGES__</a>
+                {/if}
+            </span>
         </div>
         <div class="fl-force-left entity_description">
             {if data.profile["sakai:group-description"] && data.profile["sakai:group-description"].length > 115}

@@ -180,7 +180,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         // Indicate that the widget has finished loading
-        $(window).trigger("sakai.api.UI.relatedcontent.ready", {});
+        $(window).trigger("ready.relatedcontent.sakai", {});
         sakai_global.relatedcontent.isReady = true;
     };
 
