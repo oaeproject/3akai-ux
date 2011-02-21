@@ -426,8 +426,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
                         },
                         onSelectChange: preview
                     });
+                    showSelectTab();
                 });
-                showSelectTab();
+
+                // if there is upload error show the error message
+                $(pictureMeasurerImage).bind("error", function(){
+                    $(picInputError).show();
+                });
             }
             else {
                 // The user hasn't uploaded a picture yet.

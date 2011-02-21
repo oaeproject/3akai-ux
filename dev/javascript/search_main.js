@@ -437,7 +437,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * Adds the faceted panel to the page if a search is performed
          */
         var addFacetedPanel = function() {
-            $(window).bind("sakai.api.UI.faceted.ready", function(e){
+            $(window).bind("ready.faceted.sakai", function(e){
                 $(window).trigger("render.faceted.sakai", searchConfig.facetedConfig);
 
                 var currentfacet = $.bbq.getState('facet');

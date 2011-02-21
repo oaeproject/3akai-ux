@@ -235,10 +235,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var setEntityPath = function() {
             switch (entityType) {
                 case "user":
-                    entityPath = "/" + sakai_global.profile.main.data.homePath;
+                    entityPath = sakai_global.profile.main.data.homePath;
                     break;
                 case "group":
-                    entityPath = "/" + sakai_global.currentgroup.data.authprofile.homePath;
+                    entityPath = sakai_global.currentgroup.data.authprofile.homePath;
                     break;
             }
         };
@@ -284,7 +284,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             $(window).trigger("init.sitespages.sakai", [basepath, fullpath, url, canEdit, homePage, entityType+"pages", entityType+"dashboard"]);
         };
 
-        $(window).bind("sakai.api.UI.entity.ready", function(e){
+        $(window).bind("ready.entity.sakai", function(e){
             entityWidgetReady = true;
             if (entityDataReady && !renderedEntityWidget) {
                 loadEntityWidget();

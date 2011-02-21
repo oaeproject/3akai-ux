@@ -87,7 +87,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          */
         var init = function(){
             // Initialise the entity widget
-            $(window).bind("sakai.api.UI.entity.ready", function(e){
+            $(window).bind("ready.entity.sakai", function(e){
                 $(window).trigger("render.entity.sakai", ["myprofile", false]);
             });
 

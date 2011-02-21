@@ -12,32 +12,8 @@
         <!-- Sakai Page CSS -->
         <!-- <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.profile.css" /> -->
 
-        <!-- Sakai Config JS -->
-        <script type="text/javascript" src="/dev/configuration/widgets.js"></script>
-        <script type="text/javascript" src="/var/widgets.json?callback=sakai.storeWidgets"></script>
-        <script type="text/javascript" src="/dev/configuration/config.js"></script>
-
-        <!-- Core 3rd-party JS -->
-        <script type="text/javascript" src="/dev/lib/jquery/jquery.js"></script>
-        <script type="text/javascript" src="/dev/lib/jquery/jquery-ui.full.js"></script>
-        <script type="text/javascript" src="/dev/lib/fluid/3akai_Infusion.js"></script>
-        <script type="text/javascript" src="/dev/lib/jquery/plugins/jquery.json.js"></script>
-        <script type="text/javascript" src="/dev/lib/misc/google/html-sanitizer-minified.js"></script>
-
-        <!-- Sakai Core JS -->
-        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.core.js"></script>
-        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.util.js"></script>
-        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.i18n.js"></script>
-        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.l10n.js"></script>
-        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.user.js"></script>
-        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.widgets.js"></script>
-        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.groups.js"></script>
-        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.communication.js"></script>
-        <script type="text/javascript" src="/dev/lib/sakai/sakai.api.content.js"></script>
-        <script type="text/javascript" src="/dev/lib/sakai_util/i18n.js"></script>
-
-        <!-- 3rd party JS -->
-        <script type="text/javascript" src="/dev/lib/misc/trimpath.template.js"></script>
+        <!-- Dependency JS -->
+        <script data-main="/dev/lib/sakai/sakai.dependencies.js" src="/dev/lib/jquery/require-jquery.js"></script>
 
     </head>
 
@@ -66,26 +42,26 @@
         <div id="widget_footer" class="widget_inline footercontainer"></div>
 
         <script>
-
+        require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             // Page code
             // Bind to the event which signals the listgeneral widget is loaded and ready
             $(window).bind("listgeneral_ready", function(e, tuid){
-
                 // Example/tested queries
                 //var lg_query = ["/var/search/sites.json?q=*&items=10"];
                 //var lg_query = ["/var/search/sitecontent.json?page=0&items=10&q=welcome&sites=*"];
-                var lg_query = ["/var/search/files/allfiles.json?q=*&items=5"];
+                //var lg_query = ["/var/search/files/allfiles.json?q=*&items=5"];
                 //var lg_query = ["/var/search/users.json?page=0&items=5&q=*&s=sakai:firstName&s=sakai:lastName"];
-
+                //var lg_query = [sakai.config.URL.SEARCH_ALL_FILES + "?page=0&items=5"];
+                var lg_query = [sakai.config.URL.SEARCH_USERS + "?q=*&items=5"];
 
                 // type can be one of these: sites, spaces, people, content, mixed
                 // config data will overwrite arguments in the url
                 // it supports an array of queries, but it is not reliable yet
                 var lg_config = {"selectable":true, "type": "people", "items": [100] };
                 // Render list
-                sakai.api.UI.listGeneral.render(tuid, lg_query, lg_config);
-
+                $(window).trigger("ready.listgeneral.sakai", [tuid, lg_query, lg_config]);
             });
+        });
 
         </script>
 

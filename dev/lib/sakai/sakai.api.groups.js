@@ -42,10 +42,8 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
             if (async === null || async === undefined) {
                 async = true;
             }
-            if (cache === null || cache === undefined || cache === true) {
+            if (cache !== false) {
                 cache = true;
-            } else if (cache === false) {
-                cache = false;
             }
             $.ajax({
                 url: "/~" + groupid + "/public.infinity.json",
