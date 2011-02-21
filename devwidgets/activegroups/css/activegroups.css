@@ -2,6 +2,7 @@
 #activegroups_main ul li{list-style-type:none;}
 .activegroups_title{padding-left:15px!important;}
 .activegroups_widget{overflow:hidden;}
+.activegroups_ellipsis_text, .activegroups_ellipsis_container {word-wrap:break-word;}
 
 /* Widget icon */
 .activegroups.fl-widget .fl-widget-titlebar .widget_title_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -678px -21px transparent;height:22px;width:20px;}

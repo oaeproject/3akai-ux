@@ -46,10 +46,20 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js"], func
 
         var contentData = {};
 
+        var popularContentEllipsisContainer = ".popularcontent_ellipsis_container";
+
         var renderPopularContent = function(){
             $popularcontent_main.html(sakai.api.Util.TemplateRenderer($popularcontent_main_template, {
                 data: contentData
             })).show();
+            $(popularContentEllipsisContainer).css("width", $(popularContentEllipsisContainer).width() + "px");
+            $(popularContentEllipsisContainer).ThreeDots({
+                max_rows: 1,
+                text_span_class: "popularcontent_ellipsis_text",
+                e_span_class: "popularcontent_e_span_class",
+                whole_word: false,
+                alt_text_t: true
+            });
         };
 
         $(window).bind("sakai-directory-selected", function(ev, selected){

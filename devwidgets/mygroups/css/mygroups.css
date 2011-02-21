@@ -18,10 +18,11 @@
 
 .sites_error{font-size:.95em;padding:10px 20px!important;}
 #creategroupcontainer,creategroupcontainer>div{width:100%;}
-.my_groups_widget .fl-widget-content ul li{list-style-type:none;padding:5px 5px 5px 40px;margin:0;border-bottom:1px solid #CCC;}
+.my_groups_widget .fl-widget-content .mygroups_list_item{padding:5px 5px 5px 40px;margin:0;border-bottom:1px solid #CCC;}
+.my_groups_widget .fl-widget-content .mygroups_list_item a{}
 .mygroups_left_padding{padding-left:15px;}
-.my_groups_widget .fl-widget-content ul li .group_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -242px -21px transparent;display:block;float:left;height:16px;margin-left:-23px;width:14px;}
+.my_groups_widget .fl-widget-content .mygroups_list_item .group_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -242px -21px transparent;float:left;height:16px;width:14px;margin-left:-23px;}
+.mygroups_ellipsis_text, .mygroups_ellipsis_container{word-wrap:break-word;}
 
 /* Widget icon */
 .mygroups.fl-widget .fl-widget-titlebar .widget_title_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -600px -20px transparent;}
-.mygroups_ellipsis_text, .mygroups_ellipsis_container{word-wrap:break-word;}
