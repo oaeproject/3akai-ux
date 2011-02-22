@@ -212,13 +212,20 @@
         </exec>
     </target>
 
+    <!-- Target: Unpack MathJax Font Images -->
+    <target name="unpackMathFonts" depends="init">
+        <property name="MATH_FONTS_DIR" value="${SRC_DIR}/lib/MathJax/fonts/HTML-CSS/TeX" />
+        <delete dir="${MATH_FONTS_DIR}/png" includeemptydirs="true" />
+        <unzip src="${MATH_FONTS_DIR}/png.zip" dest="${MATH_FONTS_DIR}"/>
+    </target>
+
     <!-- Target: Release Builds-->
-    <target name="release" depends="init, create_target_folders, copy_optimized, permissions, formatting, optimize">
+    <target name="release" depends="init, create_target_folders, copy_optimized, permissions, formatting, optimize, unpackMathFonts">
         <echo message="Sakai 3 UX Build: Build complete." />
     </target>
 
     <!-- Target: Development Builds -->
-    <target name="development" depends="copy_test, documentation">
+    <target name="development" depends="copy_test, documentation, unpackMathFonts">
         <echo message="Sakai 3 UX Development Build: Build complete." />
     </target>
 
