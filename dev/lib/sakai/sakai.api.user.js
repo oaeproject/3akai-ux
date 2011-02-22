@@ -319,6 +319,11 @@ define(["jquery",
                         sakaiUserAPI.data.me.profile.saveddirectory = directory;
                     }
 
+                    // SAKIII-2419 server isn't saving basic access param
+                    if (sakaiUserAPI.data.me.profile.basic.access === undefined){
+                        sakaiUserAPI.data.me.profile.basic.access = "everybody";
+                    }
+
                     // Call callback function if set
                     if ($.isFunction(callback)) {
                         callback(true, sakaiUserAPI.data.me);
