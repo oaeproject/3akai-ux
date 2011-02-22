@@ -29,7 +29,7 @@
                 </div>
             {else}
                 <div class="${embedClass} ${layout}">
-                    <a href="/content/content_path#${item.path}">
+                    <a href="/content#content_path=${item.path}">
                     {if item.filetype === "image"}
                         <img src="${item.link}" alt="${sakai.config.MimeTypes[item.mimetype].description}" />
                     {elseif item.filetype === "video"}
