@@ -39,6 +39,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         // Search URL mapping
         var searchURLmap = {
             allusers : sakai.config.URL.SEARCH_USERS,
+            allusersall : sakai.config.URL.SEARCH_USERS_ALL,
             mycontacts : sakai.config.URL.SEARCH_USERS_ACCEPTED,
             invitedcontacts : sakai.config.URL.SEARCH_USERS_ACCEPTED + '?state=INVITED',
             pendingcontacts : sakai.config.URL.SEARCH_USERS_ACCEPTED + '?state=PENDING',
@@ -124,7 +125,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 facets: {
                     "all" : {
                         "category": $("#search_result_all_people").html(),
-                        "searchurl": searchURLmap.allusers
+                        "searchurl": searchURLmap.allusers,
+                        "searchurlall": searchURLmap.allusersall
                     }
                 }
             }
@@ -382,9 +384,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             tagterm = mainSearch.getSearchTags();
 
             facetedurl = mainSearch.getFacetedUrl();
+            facetedurlall = '';
 
             if (facet){
                 facetedurl = searchConfig.facetedConfig.facets[facet].searchurl;
+                facetedurlall = searchConfig.facetedConfig.facets[facet].searchurlall;
             }
 
             $(".faceted_category").removeClass("faceted_category_selected");
@@ -453,14 +457,18 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
                 // Check if we want to search using a faceted link
                 if (facetedurl){
-                   searchURL = facetedurl;
                    params = {
                         page: (currentpage - 1),
                         items: resultsToDisplay,
-                        q: urlsearchterm,
                         sortOn: "firstName",
                         sortOrder: "asc"
                     };
+                   if ((urlsearchterm === '*' || urlsearchterm === '**') && facetedurlall) {
+                       searchURL = facetedurlall;
+                   } else {
+                       searchURL = facetedurl;
+                       params['q'] = urlsearchterm;
+                   }
                 }
 
                 searchAjaxCall = $.ajax({
