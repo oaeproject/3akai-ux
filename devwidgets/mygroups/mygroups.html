@@ -13,13 +13,13 @@
     <div class="fl-widget-content s3d-widget-content" id="mygroups_list">
     </div>
     <div id="mygroups_list_template"><!--
-        <ul>
+        <div>
             {for group in entry}
-                <li><span class="group_icon">&nbsp;</span>
+                <div class="mygroup_item"><div class="mygroup_item_img fl-force-left"><span class="group_icon">&nbsp;</span></div>
                     <a class="s3d-regular-links s3d-bold" href="/~${group.groupid}"><div class="mygroups_ellipsis_container"><span class="mygroups_ellipsis_text">${group["sakai:group-title"]}</span></div></a>
-                </li>
+                </div>
             {/for}
-        </ul>
+        </div>
     --></div>
     <div class="fl-widget-options fl-fix" id="mygroups_top">
         <div class="fl-widget-options-footer-top">
