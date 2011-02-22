@@ -432,13 +432,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 var params = {};
 
                 if(searchWhere === "mycontacts") {
-                    if (urlsearchterm === "*" || urlsearchterm === "*") {
+                    if (urlsearchterm === "*" || urlsearchterm === "**") {
                         searchURL = sakai.config.URL.CONTACTS_FIND_STATE;
                     } else {
                         searchURL = sakai.config.URL.CONTACTS_FIND;
-                        params = {
-                            q: urlsearchterm
-                        };
+                        params['q'] = urlsearchterm;
                     }
                 }  else {
                     params = {
@@ -463,8 +461,12 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         sortOn: "firstName",
                         sortOrder: "asc"
                     };
-                   if ((urlsearchterm === '*' || urlsearchterm === '**') && facetedurlall) {
-                       searchURL = facetedurlall;
+                   if (urlsearchterm === '*' || urlsearchterm === '**') {
+					   if (facetedurlall) {
+	                       searchURL = facetedurlall;
+					   } else {
+						   searchURL = facetedurl;
+					   }
                    } else {
                        searchURL = facetedurl;
                        params['q'] = urlsearchterm;
