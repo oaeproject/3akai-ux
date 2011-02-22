@@ -437,18 +437,18 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         };
                     }
                 }  else {
-                    if (urlsearchterm === "*" || urlsearchterm === "**") {
-                        searchURL = sakai.config.URL.SEARCH_USERS_ALL;
-                    } else {
-                        searchURL = sakai.config.URL.SEARCH_USERS;
-                    }
                     params = {
                         page: (currentpage - 1),
                         items: resultsToDisplay,
-                        q: urlsearchterm,
                         sortOn: "lastName",
                         sortOrder: "asc"
                     };
+                    if (urlsearchterm === "*" || urlsearchterm === "**") {
+                        searchURL = sakai.config.URL.SEARCH_USERS_ALL;
+                    } else {
+                        params['q'] = urlsearchterm;
+                        searchURL = sakai.config.URL.SEARCH_USERS;
+                    }
                 }
 
                 // Check if we want to search using a faceted link

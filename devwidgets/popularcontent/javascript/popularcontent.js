@@ -60,13 +60,14 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js"], func
             var params = {
                 page: 0,
                 items: 10,
-                q: selected,
                 sortOrder: "desc"
             };
 
             var url = sakai.config.URL.SEARCH_ALL_FILES;
             if (selected === '*' || selected === '**') {
                 url = sakai.config.URL.SEARCH_ALL_FILES_ALL;
+            } else {
+                params['q'] = selected;
             }
             $.ajax({
                 url: url,

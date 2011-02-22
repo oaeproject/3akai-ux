@@ -61,13 +61,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var params = {
                 page: 0,
                 items: 10,
-                q: selected,
                 sortOrder: "desc"
             };
 
             var url = sakai.config.URL.SEARCH_GROUPS;
             if (selected === '*' || selected === '**') {
                 url = sakai.config.URL.SEARCH_GROUPS_ALL;
+            } else {
+                params['q'] = selected;
             }
             $.ajax({
                 url: url,
