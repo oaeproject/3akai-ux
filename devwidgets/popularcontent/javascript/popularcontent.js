@@ -53,7 +53,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js"], func
                 data: contentData
             })).show();
             $(popularContentEllipsisContainer).css("width", $(popularContentEllipsisContainer).width() + "px");
-            $(popularContentEllipsisContainer).ThreeDots({
+            $(popularContentEllipsisContainer, $rootel).ThreeDots({
                 max_rows: 1,
                 text_span_class: "popularcontent_ellipsis_text",
                 e_span_class: "popularcontent_e_span_class",
