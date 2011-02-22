@@ -203,7 +203,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js", "/dev
                 };
 
                 var authprofileURL = "/~" + me.user.userid + "/public/authprofile/userprogress";
-                sakai_serv.saveJSON(authprofileURL, progressData, function(success, data){
+                sakai.api.Server.saveJSON(authprofileURL, progressData, function(success, data){
                     // Check whether save was successful
                     if (success) {
                         // Display the tooltip
