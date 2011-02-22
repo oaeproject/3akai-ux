@@ -53,7 +53,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 data: groupData
             });
             $activegroups_main.html(output).show();
-            $(activeGroupsEllipsisContainer).css("width", $(activeGroupsEllipsisContainer).width() + "px");
+            $(activeGroupsEllipsisContainer, $rootel).css("width", $(activeGroupsEllipsisContainer).width() + "px");
             $(activeGroupsEllipsisContainer, $rootel).ThreeDots({
                 max_rows: 1,
                 text_span_class: "activegroups_ellipsis_text",
