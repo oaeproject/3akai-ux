@@ -86,6 +86,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var firstTime = true,
             firstLoad = true;
         var widgetData = false;
+        var isPreviewExist = true;
         var active_content_class = "tab_content_active",
             tab_id_prefix = "embedcontent_tab_",
             active_tab_class = "fl-tabs-active";
@@ -185,6 +186,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "link": "/p/" + (name || result['jcr:name']) + "/" + result['sakai:pooled-content-file-name'],
                 "extension": result['sakai:fileextension']
             };
+
+            // if the type is application need to auto check the display name so set ispreviewexist false
+            if(dataObj.filetype === "application") {
+                isPreviewExist = false;
+            }
+
             return dataObj;
         };
 
@@ -539,6 +546,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         var toggleTabs = function(target) {
+            if(!isPreviewExist) $("#embedcontent_name_checkbox").selected(true);
             $("." + active_tab_class).removeClass(active_tab_class);
             $(target).parent("li").addClass(active_tab_class);
             $("." + active_content_class).hide();
