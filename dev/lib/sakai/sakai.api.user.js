@@ -557,7 +557,7 @@ define(["jquery",
                     }
                 });
             }
-        },
+        }
     };
 
     return sakaiUserAPI;

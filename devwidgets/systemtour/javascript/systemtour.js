@@ -84,10 +84,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js", "/dev
          * Checks system tour progress for the user and display tooltip reminders
          */
         var checkUserProgress = function() {
-            if (!this.data.me.profile.userprogress){
-                this.data.me.profile.userprogress = {};
+            if (!sakai.data.me.profile.userprogress){
+                sakai.data.me.profile.userprogress = {};
             }
-            var me = this.data.me,
+            var me = sakai.data.me,
                 progressData = "",
                 tooltipProfileFlag = "",
                 tooltipSelector = "",
@@ -102,9 +102,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js", "/dev
                 newContentLink = "";
             var curDate = new Date();
             var curTimestamp = curDate.getTime();
-            var intervalTimestamp = parseInt(sakai_conf.SystemTour.reminderIntervalHours, 10) * 60 * 60 * 1000;
+            var intervalTimestamp = parseInt(sakai.config.SystemTour.reminderIntervalHours, 10) * 60 * 60 * 1000;
 
-            if (sakai_conf.SystemTour.enableReminders && me.profile.userprogress.hideSystemTour && !me.profile.userprogress.hideSystemTourReminders) {
+            if (sakai.config.SystemTour.enableReminders && me.profile.userprogress.hideSystemTour && !me.profile.userprogress.hideSystemTourReminders) {
                 if (!me.profile.userprogress.uploadedProfilePhoto && 
                     (!me.profile.userprogress.uploadedProfilePhotoReminder || 
                         (!me.profile.userprogress.uploadedProfilePhoto && me.profile.userprogress.uploadedProfilePhotoReminder && 
