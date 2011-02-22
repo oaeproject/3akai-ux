@@ -121,7 +121,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @returns void
          */
         var render = function(iConfig) {
-            pickerData["searchIn"] = sakai.config.URL.SEARCH_USERS_ACCEPTED + "?page=0&items=12&_=&q=";
+            pickerData["searchIn"] = sakai.config.URL.CONTACTS_FIND + "?page=0&items=12&_=&q=";
+            pickerData["searchInAll"] = sakai.config.URL.CONTACTS_FIND_STATE;
 
             // Merge user defined config with default
             for (var element in iConfig) {
@@ -476,7 +477,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
            var searchingInGroup = false;
            switch (searchType) {
                case "contacts":
-                   searchURL = sakai.config.URL.SEARCH_USERS_ACCEPTED;
+                   searchURL = sakai.config.URL.CONTACTS_FIND_STATE;
                    $pickeradvanced_sort_on.show();
                    break;
                case "users":

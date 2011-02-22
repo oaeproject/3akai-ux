@@ -103,7 +103,7 @@ define(function() {
             SEARCH_GROUPS_ALL: "/var/search/groups-all.json",
             SEARCH_PAGES: "/var/search/page.json",
             SEARCH_SITES: "/var/search/sites.json",
-            SEARCH_USERS_ACCEPTED: "/var/contacts/find.infinity.json",
+            SEARCH_USERS_ACCEPTED: "/var/contacts/findstate.infinity.json",
             SEARCH_USERS: "/var/search/users.infinity.json",
             SEARCH_USERS_ALL: "/var/search/users-all.json",
             SEARCH_USERS_GROUPS: "/var/search/usersgroups.json",

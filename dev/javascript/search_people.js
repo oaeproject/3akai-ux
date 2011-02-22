@@ -428,14 +428,19 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 var params = {};
 
                 if(searchWhere === "mycontacts") {
-                    searchURL = sakai.config.URL.SEARCH_USERS_ACCEPTED;
-                    params = {
-                        q: urlsearchterm
-                    };
+                    if (urlsearchterm === "*" || urlsearchterm === "*") {
+                        searchURL = sakai.config.URL.CONTACTS_FIND_STATE;
+                    } else {
+                        searchURL = sakai.config.URL.CONTACTS_FIND;
+                        params = {
+                            q: urlsearchterm
+                        };
+                    }
                 }  else {
-                    searchURL = sakai.config.URL.SEARCH_USERS;
                     if (urlsearchterm === "*" || urlsearchterm === "**") {
                         searchURL = sakai.config.URL.SEARCH_USERS_ALL;
+                    } else {
+                        searchURL = sakai.config.URL.SEARCH_USERS;
                     }
                     params = {
                         page: (currentpage - 1),
