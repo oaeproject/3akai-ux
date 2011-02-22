@@ -34,7 +34,7 @@ MathJax.Hub.Config({
   //  Example:    config: ["local/local.js"],
   //  Example:    config: ["local/local.js","MMLtoHTML.js"],
   //
-  config: ["MMLorHTML.js"],
+  config: ["MMLorHTML.js", "local/local.js"],
   
   //
   //  A comma-separated list of CSS stylesheet files to be loaded
@@ -439,7 +439,7 @@ MathJax.Hub.Config({
     //  will be required to to download and install either the STIX fonts or the
     //  MathJax TeX fonts.
     //
-    imageFont: "TeX",
+    imageFont: null,
     
     //
     //  This controls whether the MathJax contextual menu will be available

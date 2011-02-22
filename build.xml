@@ -213,19 +213,31 @@
     </target>
 
     <!-- Target: Unpack MathJax Font Images -->
-    <target name="unpackMathFonts" depends="init">
-        <property name="MATH_FONTS_DIR" value="${SRC_DIR}/lib/MathJax/fonts/HTML-CSS/TeX" />
-        <delete dir="${MATH_FONTS_DIR}/png" includeemptydirs="true" />
-        <unzip src="${MATH_FONTS_DIR}/png.zip" dest="${MATH_FONTS_DIR}"/>
+    <target name="unpackMathFonts" depends="copy_prod">
+        <property name="MATH_DIR" value="${TARGET_DIR}/lib/MathJax"/>
+        <property name="MATH_FONTS_DIR" value="${MATH_DIR}/fonts/HTML-CSS/TeX" />
+        <if>
+            <isset property="with-math"/>
+            <then>
+                <echo message="Unpacking MathJax Font images"/>
+                <unzip src="${MATH_FONTS_DIR}/png.zip" dest="${MATH_FONTS_DIR}"/>
+                <copy file="${MATH_DIR}/config/local/imageFonts.js" tofile="${MATH_DIR}/config/local/local.js"/>
+            </then>
+            <else>
+                <echo message="Not unpacking MathJax Font images, Math formulas on FireFox versions prior to 3.5 will not be supported!"/>
+            </else>
+        </if>
+        <delete file="${MATH_FONTS_DIR}/png.zip"/>
+        <delete file="${MATH_DIR}/config/local/imageFonts.js"/>
     </target>
 
     <!-- Target: Release Builds-->
-    <target name="release" depends="init, create_target_folders, copy_optimized, permissions, formatting, optimize, unpackMathFonts">
+    <target name="release" depends="init, create_target_folders, copy_optimized, permissions, formatting, unpackMathFonts, optimize">
         <echo message="Sakai 3 UX Build: Build complete." />
     </target>
 
     <!-- Target: Development Builds -->
-    <target name="development" depends="copy_test, documentation, unpackMathFonts">
+    <target name="development" depends="copy_test, unpackMathFonts, documentation">
         <echo message="Sakai 3 UX Development Build: Build complete." />
     </target>
 
