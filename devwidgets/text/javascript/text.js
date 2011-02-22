@@ -53,7 +53,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         $text_cancel.die("click");
         $text_cancel.live("click", function(e) {
-            sakai.api.Widgets.Container.informCancel(tuid);
+            sakai.api.Widgets.Container.informCancel(tuid, "text");
         });
 
         $text_save.die("click");

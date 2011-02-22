@@ -49,7 +49,7 @@ img.sm_suggestion_img{height:16px;width:16px;margin-right:5px;}
 #sharecontent_form_container ul.as-list {margin:-30px 0 0 -7px;}
 
 /* LIST PEOPLE */
-#sharecontent_listpeople{border:1px solid #878A8C;height:214px;width:100%;margin-bottom:0;clear:both;overflow:auto;}
+#sharecontent_listpeople{border:1px solid #878A8C;height:214px;width:100%;margin-bottom:0;clear:both;overflow:auto;position:relative;}
 #sharecontent_listpeople ul{margin:0;padding:0;}
 #sharecontent_listpeople ul li{clear:both;display:block;list-style:none outside none;overflow:hidden;padding:5px 0 5px 10px;}
 #sharecontent_listpeople ul li span{margin:4px 0 0 8px;}
