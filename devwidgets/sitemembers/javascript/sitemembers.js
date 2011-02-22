@@ -520,7 +520,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var getContacts = function(){
             $.ajax({
-                url: sakai.config.URL.CONTACTS_FIND + "?state=ACCEPTED",
+                url: sakai.config.URL.CONTACTS_FIND_STATE + "?state=ACCEPTED",
                 success: function(data){
                     if (data.results) {
                         contacts = data.results;

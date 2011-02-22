@@ -55,6 +55,8 @@ define(function() {
             CHAT_GET_SERVICE: "/var/message/chat/__KIND__.json",
             CHAT_UPDATE_SERVICE: "/var/message.chatupdate.json",
             CONTACTS_FIND: "/var/contacts/find.json",
+            CONTACTS_FIND_STATE: "/var/contacts/findstate.json",
+            CONTACTS_FIND_ALL: "/var/contacts/find-all.json",
             CREATE_USER_SERVICE: "/system/userManager/user.create.html",
             DISCUSSION_GETPOSTS_THREADED: "/var/search/discussions/threaded.json?path=__PATH__&marker=__MARKER__",
             DISCUSSION_INITIALPOSTS_SERVICE: "/var/search/discussions/initialdiscussionposts.json?path=__PATH__&items=__ITEMS__&page=__PAGE__",
