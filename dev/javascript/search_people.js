@@ -460,12 +460,13 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         items: resultsToDisplay,
                         sortOn: "firstName",
                         sortOrder: "asc"
-                    };
+                   };
                    if (urlsearchterm === '*' || urlsearchterm === '**') {
                        if (facetedurlall) {
                            searchURL = facetedurlall;
                        } else {
                            searchURL = facetedurl;
+                           params['q'] = urlsearchterm;
                        }
                    } else {
                        searchURL = facetedurl;

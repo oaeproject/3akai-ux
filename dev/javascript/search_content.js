@@ -98,8 +98,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 facets : {
                     "all" : {
                         "category": $("#search_result_all_content").html(),
-                        "searchurl": searchURLmap.allfiles
-                        "searchurlall": searchURLmap.allfilesall;
+                        "searchurl": searchURLmap.allfiles,
+                        "searchurlall": searchURLmap.allfilesall
                     }
                 }
             }

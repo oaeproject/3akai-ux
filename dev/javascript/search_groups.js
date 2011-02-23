@@ -318,9 +318,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             searchterm = $(searchConfig.global.text).val();
 
             if (facet && searchConfig.facetedConfig.facets[facet]){
-                facetedurl = searchConfig.facetedConfig.facets[facet].searchurl;
                 if ((searchterm === '*' || searchterm === '**') && searchConfig.facetedConfig.facets[facet].searchurlall) {
                     facetedurl = searchConfig.facetedConfig.facets[facet].searchurlall;
+                } else {
+                    facetedurl = searchConfig.facetedConfig.facets[facet].searchurl;
                 }
             } else {
                 facet = "";
@@ -345,7 +346,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             // Rebind everything
             mainSearch.addEventListeners(searchterm, searchwhere);
 
-            if (searchquery && searchterm && searchterm !== $(searchConfig.global.text).attr("title")) {
+            var title = $(searchConfig.global.text).attr("title");
+            if (searchterm === title) {
+                searchterm = '*';
+            }
+            if (searchquery && searchterm) {
 
                 // Show and hide the correct elements.
                 showSearchContent();
@@ -356,16 +361,18 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 var searchWhere = mainSearch.getSearchWhereSites();
 
                 var urlsearchterm = sakai.api.Server.createSearchString(searchterm);
-
-                var searchURL = sakai.config.URL.SEARCH_GROUPS;
-                if (urlsearchterm === '*' || urlsearchterm === '**') {
-                    searchURL = sakai.config.URL.SEARCH_GROUPS_ALL;
-                }
                 var params = {
                     page: (currentpage - 1),
                     items: resultsToDisplay,
-                    q: urlsearchterm
                 };
+
+                var searchURL = null;
+                if (urlsearchterm === '*' || urlsearchterm === '**') {
+                    searchURL = sakai.config.URL.SEARCH_GROUPS_ALL;
+                } else {
+                    searchURL = sakai.config.URL.SEARCH_GROUPS;
+                    params['q'] = urlsearchterm;
+                }
 
                 // Check if we want to search using a faceted link
                 if (facetedurl) {

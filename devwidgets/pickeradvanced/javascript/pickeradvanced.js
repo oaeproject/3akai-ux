@@ -177,7 +177,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             reset();
             var searchQuery = $pickeradvanced_search_query.val();
             if (!searchQuery) {
-                searchQuery = "";
+                searchQuery = "*";
             } else {
                 searchQuery = sakai.api.Server.createSearchString(searchQuery);
             }
