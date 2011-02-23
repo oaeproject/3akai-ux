@@ -139,6 +139,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         whole_word: false,
                         alt_text_t: true
                     });
+                    $(ellipsisContainer).css("display","inline");
                 }
             }
         };
