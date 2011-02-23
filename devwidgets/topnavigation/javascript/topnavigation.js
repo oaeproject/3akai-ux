@@ -444,13 +444,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var indexPaths = ["/", "/index", "/dev", "/dev/index.html", "/dev/", "/dev/404.html",
                     "/dev/403.html", "/dev/500.html", "/index", "/404", "/403", "/500"];
 
-                if ($.inArray(window.location.pathname.replace(/\/$/,""), indexPaths) !== -1 || $(".page_not_found_error").length) {
+                if ($.inArray(window.location.pathname, indexPaths) !== -1 || $(".page_not_found_error").length) {
                     $(".explore-bg").show();
                 }
 
                 indexPaths.push("/register", "/dev/create_new_account.html");
 
-                if ($.inArray(window.location.pathname.replace(/\/$/,""), indexPaths) !== -1 || $(".page_not_found_error").length){
+                if ($.inArray(window.location.pathname, indexPaths) !== -1 || $(".page_not_found_error").length){
                     $("#register_button_container").hide();
                     $("#login_button_container").hide();
                 }
