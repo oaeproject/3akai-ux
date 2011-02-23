@@ -453,7 +453,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                     });
                                 // when trying to add data into a new section that doesn't currently have any data,
                                 // we have to create the section's data object
-                                } else if (!parentProp) {
+                                } else if (!parentProp[0]) {
                                     sakai_global.profile.main.data[nodeName] = {};
                                     sakai_global.profile.main.data[nodeName].elements = {};
                                 }

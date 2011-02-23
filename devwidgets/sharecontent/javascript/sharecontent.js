@@ -133,7 +133,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             // Create list to show in the notification
             var toAddNames = [];
             $("#sharecontent_container .as-selection-item").each(function(){
-                toAddNames.push($(this).html().split("</a>")[1]);
+                // In IE 7 </A> is returned and in firefox </a>
+                toAddNames.push($(this).html().split(/<\/[aA]?>/g)[1]);
             });
 
             var returnValue = {"list":list, "toAddNames":toAddNames};
