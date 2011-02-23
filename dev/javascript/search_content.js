@@ -44,7 +44,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             mysites : sakai.config.URL.SEARCH_MY_SITES,
             pooledcontentmanager: sakai.config.URL.POOLED_CONTENT_MANAGER,
             pooledcontentmanagerall: sakai.config.URL.POOLED_CONTENT_MANAGER_ALL,
-            pooledcontentviewer: sakai.config.URL.POOLED_CONTENT_VIEWER
+            pooledcontentviewer: sakai.config.URL.POOLED_CONTENT_VIEWER,
+            pooledcontentviewerall: sakai.config.URL.POOLED_CONTENT_VIEWER_ALL
         };
 
         // CSS IDs
@@ -113,7 +114,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             };
             searchConfig.facetedConfig.facets.member = {
                 "category": $("#search_result_content_I_m_a_viewer_of").html(),
-                "searchurl": searchURLmap.pooledcontentviewer
+                "searchurl": searchURLmap.pooledcontentviewer,
+                "searchurlall": searchURLmap.pooledcontentviewerall
             };
         }
 
@@ -323,7 +325,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             // Rebind everything
             mainSearch.addEventListeners(searchterm, searchwhere);
 
-            if (searchquery && searchterm && searchterm !== $(searchConfig.global.text).attr("title")) {
+            var title = $(searchConfig.global.text).attr("title");
+            if (searchterm === title) {
+                searchterm = "*";
+            }
+            if (searchquery && searchterm) {
                 // Show and hide the correct elements.
                 showSearchContent();
 
@@ -335,21 +341,27 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
                 var url = "";
                 var usedIn = [];
+                var params = {
+                    "page" : (currentpage - 1),
+                    "items" : resultsToDisplay
+                };
 
                 // Check if there is a site defined, if so we need to change the url to all files
-                if(searchWhere === "mysites"){
+
+                if (searchWhere === "mysites"){
                     url = searchURLmap[searchWhere];
-                }
-                else if(searchWhere === "*"){
+                    params['q'] = urlsearchterm;
+                } else if (searchWhere === "*"){
                     url = searchURLmap.allfilesall;
-                }else {
+                } else {
                     url = searchURLmap.allfiles.replace(".json", ".infinity.json");
-                    usedIn = searchWhere;
+                    params['usedin'] = searchWhere;
+                    params['q'] = urlsearchterm;
                 }
 
                 // Check if we want to search using a faceted link
                 if (facetedurl) {
-                    if (searchWhere === '*') {
+                    if (urlsearchterm === '**') {
                         url = facetedurlall;
                     } else {
                         url = facetedurl.replace(".json", ".infinity.json");
@@ -358,12 +370,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
                 searchAjaxCall = $.ajax({
                     url: url,
-                    data: {
-                        "q" : urlsearchterm,
-                        "page" : (currentpage - 1),
-                        "items" : resultsToDisplay,
-                        "usedin" : usedIn
-                    },
+                    data: params,
                     success: function(data) {
                         renderResults(data, true);
                         $(searchConfig.results.header).show();

@@ -55,7 +55,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             global : {
                 resultTemp : search + "_result_temp",
                 button : search + "_button",
-                text  :search + '_text',
+                text : search + '_text',
                 numberFound : search + '_numberFound',
                 searchTerm : search + "_mysearchterm",
                 tagTerm : search + "_mytagterm",
@@ -313,10 +313,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
             facetedurl = mainSearch.getFacetedUrl();
 
-            // Get the search term out of the input box.
-            // If we were redirected to this page it will be added previously already.
-            searchterm = $(searchConfig.global.text).val();
-
             if (facet && searchConfig.facetedConfig.facets[facet]){
                 if ((searchterm === '*' || searchterm === '**') && searchConfig.facetedConfig.facets[facet].searchurlall) {
                     facetedurl = searchConfig.facetedConfig.facets[facet].searchurlall;
@@ -346,6 +342,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             // Rebind everything
             mainSearch.addEventListeners(searchterm, searchwhere);
 
+            searchterm = $(searchConfig.global.text).val();
             var title = $(searchConfig.global.text).attr("title");
             if (searchterm === title) {
                 searchterm = '*';
@@ -363,7 +360,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 var urlsearchterm = sakai.api.Server.createSearchString(searchterm);
                 var params = {
                     page: (currentpage - 1),
-                    items: resultsToDisplay,
+                    items: resultsToDisplay
                 };
 
                 var searchURL = null;
