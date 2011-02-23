@@ -1236,6 +1236,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var pos = tinymce.DOM.getPos(selected);
                 $context_menu.css({"top": pos.y + $("#elm1_ifr").position().top + 15 + "px", "left": pos.x + $("#elm1_ifr").position().left + 15 + "px", "position": "absolute"}).show();
             }
+
+            // save the cursor position in the editor
+            bookmark = tinyMCE.get("elm1").selection.getBookmark(1);
         };
 
         // hide the context menu when it is shown and a click happens elsewhere on the document
@@ -1659,14 +1662,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     editPage("_navigation");
                 } else {
                     editPage(sakai_global.sitespages.selectedpage);
-
-                    if (document.all) {
-                        tinyMCE.get("elm1").getWin().attachEvent('onblur', function() { 
-                            // save the cursor position in the editor
-debug.log("saving bookmark");
-                            bookmark = tinyMCE.get("elm1").selection.getBookmark(1);
-                        });
-                    }
             }
             addEditPageBinding();
 
