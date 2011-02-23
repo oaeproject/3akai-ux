@@ -53,6 +53,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var mygroupsCreateNewGroup = "#create_new_group_link";
         var createGroupContainer = "#creategroupcontainer";
         var ellipsisContainer = ".mygroups_ellipsis_container";
+        var mygroupsItemsList = ".mygroup_items_list";
 
         var mygroups_error_class = "mygroups_error";
 
@@ -131,7 +132,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // make sure the newly added content is properly styled with
                 // threedots truncation
                 if (rootel.is(":visible")) {
-                    $(ellipsisContainer, rootel).css("width", $(ellipsisContainer).width() - 50 + "px");
+                    $(ellipsisContainer, rootel).css("width", $(mygroupsItemsList, rootel).width() - 50 + "px");
                     $(ellipsisContainer, rootel).ThreeDots({
                         max_rows: 1,
                         text_span_class: "mygroups_ellipsis_text",
