@@ -385,7 +385,7 @@ ul li.s3d-list-item:hover{background-color:#9CF;}
 /* 
  * HIGHLIGHTED AREAS
  */
-.s3d-highlight_area_background{background-color:#EFF2F4;padding:0 10px;margin:0 0 15px;}
+.s3d-highlight_area_background{background-color:#EFF2F4;padding:0 10px;margin:0 0 15px;overflow:auto;}
 .s3d-highlight_area_background_tl{height:7px;margin-left:-10px;background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -1037px transparent;}
 .s3d-highlight_area_background_tinner{height:7px;margin-right:-10px;background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -1047px transparent;}
 .s3d-highlight_area_background_bl{clear:both;height:7px;margin-left:-10px;background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -1057px transparent;}
