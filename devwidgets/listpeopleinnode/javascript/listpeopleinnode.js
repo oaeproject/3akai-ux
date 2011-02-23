@@ -112,29 +112,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         $(window).bind("sakai-directory-selected", function(ev, selected){
             $listpeopleinnodePeopleContainer.text("");
-            //$listpeopleinnodeAjaxLoader.show();
 
             // Set title
             var obj = {
                 "location" : sakai.api.Util.getValueForDirectoryKey(selected.split("/")[selected.split("/").length - 1])
             };
 
-            // Use three dot plugin to show ... for long title
-            $(listpeopleinnodeEllipsisContainer).show();
-            $listpeopleinnodeTitle.html("");
-            $(listpeopleinnodeEllipsisContainer).html($.trim(sakai.api.Util.TemplateRenderer(listpeopleinnodeTitleTemplate, obj)));
-
-            $(listpeopleinnodeEllipsisContainer).ThreeDots({
-                max_rows: 1
-            });
-
-            var ellipsis = "";
-            if ($(".listinpeopleinnode_ellipsis_container .threedots_ellipsis").length) {
-                ellipsis = $(".listinpeopleinnode_ellipsis_container .threedots_ellipsis").html();
-            }
-
-            $listpeopleinnodeTitle.html($(".listinpeopleinnode_ellipsis_container .ellipsis_text").html() + ellipsis);
-            $(listpeopleinnodeEllipsisContainer).hide();
+            // Apply threedots to title
+            var body = $.trim(sakai.api.Util.TemplateRenderer(listpeopleinnodeTitleTemplate, obj));
+            var ellipsis = sakai.api.Util.applyThreeDots(body, $("#listpeopleinnode_title").width() - 30, {max_rows: 1,whole_word: false});
+            $listpeopleinnodeTitle.html(ellipsis);
 
             searchUsersInNode(selected);
         });
