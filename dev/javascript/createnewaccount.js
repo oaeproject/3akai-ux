@@ -291,6 +291,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 },
                 submitHandler: function(form, validator) {
                     doCreateUser();
+                    return false;
                 },
                 errorPlacement: function(error, element) {
                     error.appendTo(element.parent("td").parent("tr").next("tr").children("td")[1]);

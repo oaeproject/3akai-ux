@@ -575,6 +575,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     $("#profile_footer_button_update").attr("disabled", "disabled");
                     // Trigger the profile save method, this is event is bound in every sakai section
                     $(window).trigger("sakai-profile-save");
+                    return false;
                 },
                 onclick:false,
                 onkeyup:false,

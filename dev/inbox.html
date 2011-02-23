@@ -57,18 +57,18 @@
                         </div>
                         <div class="if_content s3d-content s3d-regular-light-links">
 
-                            <div class="tab s3d-bold"><div><a href="javascript:;" class="inbox_filter" id="inbox_filter_inbox"><div class="inbox_icon"><!-- --></div>__MSG__INBOX__</a></div></div>
+                            <div class="tab s3d-bold"><div><button type="button" class="inbox_filter s3d-link-button s3d-action s3d-bold" id="inbox_filter_inbox"><div class="inbox_icon"><!-- --></div>__MSG__INBOX__</button></div></div>
 
                             <ul>
-                                <li><a href="javascript:;" class="inbox_filter" id="inbox_filter_messages"><div class="inbox_icon"><!-- --></div>__MSG__MESSAGES__</a> <span id="inbox_unread_nr_messages"></span></li>
-                                <li><a href="javascript:;" class="inbox_filter" id="inbox_filter_announcements"><div class="inbox_icon"><!-- --></div>__MSG__ANNOUNCEMENTS__</a> <span id="inbox_unread_nr_announcements"></span></li>
-                                <li><a href="javascript:;" class="inbox_filter" id="inbox_filter_chats"><div class="inbox_icon"><!-- --></div>__MSG__CHATS__</a> <span id="inbox_unread_nr_chats"></span></li>
-                                <li><a href="javascript:;" class="inbox_filter" id="inbox_filter_invitations"><div class="inbox_icon"><!-- --></div>__MSG__INVITATIONS__</a> <span id="inbox_unread_nr_invitations"></span></li>
+                                <li><button type="button" class="inbox_filter s3d-link-button s3d-action" id="inbox_filter_messages"><div class="inbox_icon"><!-- --></div>__MSG__MESSAGES__</button> <span id="inbox_unread_nr_messages"></span></li>
+                                <li><button type="button" class="inbox_filter s3d-link-button s3d-action" id="inbox_filter_announcements"><div class="inbox_icon"><!-- --></div>__MSG__ANNOUNCEMENTS__</button> <span id="inbox_unread_nr_announcements"></span></li>
+                                <li><button type="button" class="inbox_filter s3d-link-button s3d-action" id="inbox_filter_chats"><div class="inbox_icon"><!-- --></div>__MSG__CHATS__</button> <span id="inbox_unread_nr_chats"></span></li>
+                                <li><button type="button" class="inbox_filter s3d-link-button s3d-action" id="inbox_filter_invitations"><div class="inbox_icon"><!-- --></div>__MSG__INVITATIONS__</button> <span id="inbox_unread_nr_invitations"></span></li>
                             </ul>
 
-                            <div class="tab s3d-bold"><div><a href="javascript:;" class="inbox_filter" id="inbox_filter_sent"><div class="inbox_icon"><!-- --></div>__MSG__SENT__</a></div></div>
+                            <div class="tab s3d-bold"><div><button type="button" class="inbox_filter s3d-link-button s3d-action s3d-bold" id="inbox_filter_sent"><div class="inbox_icon"><!-- --></div>__MSG__SENT__</button></div></div>
 
-                            <div class="tab s3d-bold"><div><a href="javascript:;" class="inbox_filter" id="inbox_filter_trash"><div class="inbox_icon"><!-- --></div>__MSG__TRASH__</a></div></div>
+                            <div class="tab s3d-bold"><div><button type="button" class="inbox_filter s3d-link-button s3d-action s3d-bold" id="inbox_filter_trash"><div class="inbox_icon"><!-- --></div>__MSG__TRASH__</button></div></div>
 
                         </div>
                         <div class="s3d-no-options">
@@ -92,11 +92,11 @@
 
                                 <!-- General msg -->
                                 <span class="light-button">
-                                    <a href="javascript:;" id="inbox_general_message" style="display:none;">__MSG__THE_CONVERSATION_HAS_BEEN_MARKED_AS_READ__.</a>
+                                    <button type="button" id="inbox_general_message" class="s3d-link-button s3d-action" style="display:none;">__MSG__THE_CONVERSATION_HAS_BEEN_MARKED_AS_READ__.</button>
                                 </span>
 
                                 <!-- Delete-->
-                                <a class="inbox_inbox_delete s3d-regular-light-links" href="javascript:;" id="inbox_inbox_delete">__MSG__DELETE__</a>
+                                <button type="button" class="inbox_inbox_delete s3d-regular-light-links s3d-link-button s3d-action" id="inbox_inbox_delete">__MSG__DELETE__</button>
                             </div>
 
                             <div class="top_decor">
@@ -194,7 +194,7 @@
                                                 <td><a class="inbox_inbox_message_from" href="/~${m['sakai:from']}">${m['sakai:to']}</a></td>
                                             {/if}
                                         {/if}
-                                        <td id="inbox_table_subject_${m.id}"><a href="javascript:;" class="inbox_inbox_message s3d-regular-light-links" id="inbox_inbox_message_${m['jcr:name']}">${m["sakai:subject"]}</a></td>
+                                        <td id="inbox_table_subject_${m.id}"><button type="button" class="inbox_inbox_message s3d-regular-light-links s3d-link-button s3d-action" id="inbox_inbox_message_${m['jcr:name']}">${m["sakai:subject"]}</button></td>
                                         <td>${m.category}</td>
                                         <td>${m.date}</td>
                                 </tr>
@@ -225,7 +225,7 @@
                             </div>
 
                             <div class="fl-force-right sender-options s3d-regular-light-links">
-                                <a href="javascript:;" id="inbox_message_option_delete">__MSG__DELETE__</a>
+                                <button type="button" id="inbox_message_option_delete" class="s3d-link-button s3d-action">__MSG__DELETE__</button>
                             </div>
                         </div>
 
@@ -237,10 +237,10 @@
                             <!-- Sender details -->
                             <div class="sender_details">
                                 <div class="sender_picture_container">
-                                    <a href="javascript:;" title="__MSG__TO_SEE_THE_SENDERS_PROFILE__" id="inbox_message_from_picture"><img src="/dev/images/profile_picture.gif" class="sender-picture" id="inbox_message_picture" alt="__MSG__SENDERS_PROFILE_PIC__"/></a>
+                                    <a href="#" title="__MSG__TO_SEE_THE_SENDERS_PROFILE__" id="inbox_message_from_picture"><img src="/dev/images/profile_picture.gif" class="sender-picture" id="inbox_message_picture" alt="__MSG__SENDERS_PROFILE_PIC__"/></a>
                                 </div>
                                 <div class="inbox_message_user">
-                                    <a href="javascript:;" class="sender-name s3d-regular-light-links s3d-bold" id="inbox_message_from" title="__MSG__FROM__"><!-- --></a>
+                                    <a href="#" class="sender-name s3d-regular-light-links s3d-bold" id="inbox_message_from" title="__MSG__FROM__"><!-- --></a>
                                     <br />
                                     <div class="sender-timestamp">__MSG__SENT_THIS_ON__ <span id="inbox_message_date"></span></div>
                                 </div>
@@ -258,13 +258,13 @@
                                         <div id="inbox_message_body"></div>
 
                                         <div class="message-options s3d-regular-light-links s3d-bold">
-                                            <span id="inbox-sitejoin-accept" style="display:none"><a href="javascript:;" id="inbox_message_accept_sitejoin">__MSG__ACCEPT_SITEJOIN__</a> |</span>
-                                            <span id="inbox-sitejoin-deny" style="display:none"><a href="javascript:;" id="inbox_message_deny_sitejoin">__MSG__DENY_SITEJOIN__</a> |</span>
+                                            <span id="inbox-sitejoin-accept" style="display:none"><button type="button" class="s3d-link-button s3d-action s3d-bold" id="inbox_message_accept_sitejoin">__MSG__ACCEPT_SITEJOIN__</button> |</span>
+                                            <span id="inbox-sitejoin-deny" style="display:none"><button type="button" class="s3d-link-button s3d-action s3d-bold" id="inbox_message_deny_sitejoin">__MSG__DENY_SITEJOIN__</button> |</span>
                                             <span id="inbox-sitejoin-already" style="display:none; color: #666">__MSG__YOU_HAVE_REPLIED_TO_THIS_REQUEST_TO_JOIN_THIS_SITE__ |</span>
-                                            <span id="inbox-invitation-accept" style="display:none"><a href="javascript:;" id="inbox_message_accept_invitation">__MSG__ACCEPT_INVITATION__</a> |</span>
-                                            <span id="inbox-invitation-ignore" style="display:none"><a href="javascript:;" id="inbox_message_ignore_invitation">__MSG__IGNORE_INVITATION__</a> |</span>
+                                            <span id="inbox-invitation-accept" style="display:none"><button type="button" class="s3d-link-button s3d-action s3d-bold" id="inbox_message_accept_invitation">__MSG__ACCEPT_INVITATION__</button> |</span>
+                                            <span id="inbox-invitation-ignore" style="display:none"><button type="button" class="s3d-link-button s3d-action s3d-bold" id="inbox_message_ignore_invitation">__MSG__IGNORE_INVITATION__</button> |</span>
                                             <span id="inbox-invitation-already" style="display:none; color: #666">__MSG__YOU_HAVE_ACCEPTED_THIS_PERSON_AS_A_CONTACT__ |</span>
-                                            <a href="javascript:;" id="inbox_message_option_reply">__MSG__REPLY__</a>
+                                            <button type="button" class="s3d-link-button s3d-action s3d-bold" id="inbox_message_option_reply">__MSG__REPLY__</button>
                                         </div>
 
                                     </div>
@@ -278,7 +278,7 @@
                             {macro showReply(r)}
                             <div class="sender_details">
                                 <div class="sender_picture_container">
-                                    <a href="javascript:;" title="__MSG__TO_SEE_THE_PERSON_PROFILE__">
+                                    <a href="#" title="__MSG__TO_SEE_THE_PERSON_PROFILE__">
                                     {if r.userFrom[0].picture}
                                         <img src="/~${r.userFrom[0]["userid"]}/public/profile/${r.userFrom[0].photo}" alt="__MSG__TO_SEE_THE_USERS_PROFILE_INFORMATION__" class="sender-picture" id="inbox_message_picture" />
                                     {else}
@@ -302,7 +302,7 @@
                                         <div class="message-header" id="inbox_message_subject">${r["sakai:subject"]}</div>
                                         <div id="inbox_message_body s3d-regular-light-links s3d-bold">${r["sakai:body"].replace(/\n/gi, "<br />")}</div>
                                         <div class="message-options s3d-regular-light-links s3d-bold" style="display:none">
-                                            <a href="javascript:;" id="inbox_message_option_reply_${r["sakai:id"]}">__MSG__REPLY__</a>
+                                            <button type="button" class="s3d-link-button s3d-action s3d-bold" id="inbox_message_option_reply_${r["sakai:id"]}">__MSG__REPLY__</button>
                                         </div>
                                     </div>
                                 </div>
