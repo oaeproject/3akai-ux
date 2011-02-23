@@ -97,7 +97,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             // accepted contacts
             var acceptedContacts = {
-                "url":sakai.config.URL.SEARCH_USERS_ACCEPTED + "?state=ACCEPTED&page=0&items=6",
+                "url":sakai.config.URL.CONTACTS_FIND_STATE + "?state=ACCEPTED&page=0&items=6",
                 "method":"GET",
                 "cache":false,
                 "dataType":"json"
