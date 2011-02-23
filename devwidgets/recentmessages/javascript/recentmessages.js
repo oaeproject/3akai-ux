@@ -127,7 +127,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 box: "inbox",
                 items: 4,
                 sortOn: "sakai:created",
-                sortOrder: "descending",
+                sortOrder: "desc",
                 page: 0
             });
 

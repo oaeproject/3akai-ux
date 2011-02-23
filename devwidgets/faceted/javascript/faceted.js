@@ -111,7 +111,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         // Indicate that the widget has finished loading
-        $(window).trigger("sakai.api.UI.faceted.ready", {});
+        $(window).trigger("ready.faceted.sakai", {});
     };
 
     sakai.api.Widgets.widgetLoader.informOnLoad("faceted");

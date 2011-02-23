@@ -38,13 +38,17 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
          * @param {Function} callback Callback function, passes (success, (data|xhr))
          * @param {Boolean} async If this call should be ascynronous, defaults to true
          */
-        getGroupData : function(groupid, callback, async) {
+        getGroupData : function(groupid, callback, async, cache) {
             if (async === null || async === undefined) {
                 async = true;
+            }
+            if (cache !== false) {
+                cache = true;
             }
             $.ajax({
                 url: "/~" + groupid + "/public.infinity.json",
                 async: async,
+                cache: cache,
                 success: function(data) {
                     if ($.isFunction(callback)) {
                         callback(true, data);

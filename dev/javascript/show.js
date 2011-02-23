@@ -77,7 +77,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Server.loadJSON("/~" + entityID + "/public/authprofile", function(success, data) {
                 if (success){
 
-                    if (data["sakai:group-id"]){
+                    if (data["sling:resourceType"] && data["sling:resourceType"] === "sakai/group-profile"){
                         var newdata = {};
                         newdata["authprofile"] = data;
                         data = newdata;
@@ -121,7 +121,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * Will be an empty string if there is no picture
          */
         var constructProfilePicture = function(profile){
-            if (profile.basic.elements.picture && profile.basic.elements.picture.value && profile["rep:userId"]) {
+            if (profile.basic && profile.basic.elements.picture && profile.basic.elements.picture.value && profile["rep:userId"]) {
                 return "/~" + profile["rep:userId"] + "/public/profile/" + profile.basic.elements.picture.value.name;
             } else {
                 return "";
@@ -235,10 +235,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var setEntityPath = function() {
             switch (entityType) {
                 case "user":
-                    entityPath = entityPrefix + sakai_global.profile.main.data.path;
+                    entityPath = sakai_global.profile.main.data.homePath;
                     break;
                 case "group":
-                    entityPath = entityPrefix + sakai_global.currentgroup.data.authprofile.path;
+                    entityPath = sakai_global.currentgroup.data.authprofile.homePath;
                     break;
             }
         };
@@ -284,7 +284,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             $(window).trigger("init.sitespages.sakai", [basepath, fullpath, url, canEdit, homePage, entityType+"pages", entityType+"dashboard"]);
         };
 
-        $(window).bind("sakai.api.UI.entity.ready", function(e){
+        $(window).bind("ready.entity.sakai", function(e){
             entityWidgetReady = true;
             if (entityDataReady && !renderedEntityWidget) {
                 loadEntityWidget();

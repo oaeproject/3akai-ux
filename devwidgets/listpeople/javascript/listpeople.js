@@ -119,6 +119,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             }
 
+            // list if items are managers or members
+            if (listType === "managers") {
+                $listpeople_count_items.html(sakai.api.i18n.Widgets.getValueForKey("listpeople", "", "MANAGERS"));
+            } else if (listType === "members") {
+                $listpeople_count_items.html(sakai.api.i18n.Widgets.getValueForKey("listpeople", "", "MEMBERS"));
+            }
+
             // get data
             $.ajax({
                 url: url,
@@ -328,7 +335,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 
                 var totalNumberItems = sakai_global.data.listpeople[listType].total;
                 $('.jq_pager', $rootel).pager({
-                    pagenumber: pageNumber,
+                    pagenumber: clicked,
                     pagecount: Math.ceil(totalNumberItems / totalResult),
                     buttonClickCallback: pagerClickHandler
                 });
@@ -349,7 +356,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             listitems.sort(function(a, b) {
                 var compA = $(a).text().toUpperCase();
                 var compB = $(b).text().toUpperCase();
-                if (sortOrder === 'ascending') {
+                if (sortOrder === 'asc') {
                     return (compA < compB) ? -1 : (compA > compB) ? 1 : 0;
                 }
                 return (compB < compA) ? -1 : (compB > compA) ? 1 : 0;
@@ -502,7 +509,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         "items": 1000,
                         "selectable": false,
                         "sortOn": "lastName",
-                        "sortOrder": "ascending",
+                        "sortOrder": "asc",
                         "function": "getSelection",
                         "anon": false
                     };

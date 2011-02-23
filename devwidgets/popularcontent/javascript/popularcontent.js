@@ -71,7 +71,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js"], func
                 page: 0,
                 items: 10,
                 q: selected,
-                sortOrder: "descending"
+                sortOrder: "desc"
             };
 
             $.ajax({

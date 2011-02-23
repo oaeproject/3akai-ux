@@ -90,7 +90,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
                     var cleanContinue = true;
 
                     for (var c in settings.columns) {
-                        if (settings.columns.hasOwnProperty(c)) {
+                        if (settings.columns.hasOwnProperty(c) && c.indexOf("column") > -1) {
                             for (var pi in settings.columns[c]) {
                                 if (settings.columns[c].hasOwnProperty(pi)) {
                                     if (pi !== "contains") {
@@ -107,6 +107,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
                     }
                     doInit();
                 } catch(err) {
+                    debug.error(err);
                     doInit();
                 }
             }
@@ -751,7 +752,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
 
                 var index = 0;
                 for (var l in settings.columns) {
-                    if (settings.columns.hasOwnProperty(l) && index < newlength) {
+                    if (settings.columns.hasOwnProperty(l) && index < newlength && l.indexOf("column") > -1) {
                         for (i = 0, j = settings.columns[l].length; i < j; i++) {
                             columns[index][i] = {};
                             columns[index][i].name = settings.columns[l][i].name;
@@ -765,7 +766,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
                 index = 0;
                 if (newlength < initlength) {
                     for (var z in settings.columns) {
-                        if (settings.columns.hasOwnProperty(z)) {
+                        if (settings.columns.hasOwnProperty(z) && z.indexOf("column") > -1) {
                             if (index >= newlength) {
                                 for (i = 0, j = settings.columns[z].length; i < j; i++) {
                                     var lowestnumber = -1;

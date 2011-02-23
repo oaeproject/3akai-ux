@@ -102,8 +102,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
           "spaceName": "Space",
           "items": 50,
           "selectable": true,
-          "sortOn": "public/authprofile/basic/elements/lastName/@value",
-          "sortOrder": "ascending",
+          "sortOn": "lastName",
+          "sortOrder": "asc",
           "what": "People",
           "where": "Group",
           "excludeList": []
