@@ -351,7 +351,7 @@ define(["jquery",
          * Truncate a string of text using the threedots plugin
          * @param {String} body String of text to be truncated
          * @param {int} width Width of the parent element
-         * @param {Object} params Object containing parameters, Threedots plugin specific
+         * @param {Object} params Object containing parameters, Threedots plugin specific. The row limit for widget headers should be 4 rows.
          */
         applyThreeDots : function(body, width, params){
             $container = $("<div style=\"width:" + width + "px; word-wrap:break-word; display:hidden;\"><span style=\"word-wrap:break-word;\" class=\"ellipsis_text\">" + body + "</span></div>");
