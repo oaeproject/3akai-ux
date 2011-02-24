@@ -414,8 +414,16 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
                 // Set off the 3 AJAX requests
                 // Content & Media Search
+                var filesUrl = sakai.config.URL.SEARCH_ALL_FILES.replace(".json", ".infinity.json");
+                var usersUrl = sakai.config.URL.SEARCH_USERS;
+                var groupsUrl = sakai.config.URL.SEARCH_GROUPS;
+                if (urlsearchterm === "*" || urlsearchterm === "**") {
+                    filesUrl = sakai.config.URL.SEARCH_ALL_FILES_ALL;
+                    usersUrl = sakai.config.URL.SEARCH_USERS_ALL;
+                    groupsUrl = sakai.config.URL.SEARCH_GROUPS_ALL;
+                }
                 $.ajax({
-                    url: sakai.config.URL.SEARCH_ALL_FILES.replace(".json", ".infinity.json"),
+                    url: filesUrl,
                     data: {
                         "q" : urlsearchterm,
                         "items" : cmToSearch
@@ -432,7 +440,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 // People Search
                 $.ajax({
                     cache: false,
-                    url: sakai.config.URL.SEARCH_USERS,
+                    url: usersUrl,
                     data: {
                         page: 0,
                         items: peopleToSearch,
@@ -461,7 +469,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 // Sites search
                 $.ajax({
                     cache: false,
-                    url: sakai.config.URL.SEARCH_GROUPS,
+                    url: groupsUrl,
                     data: {
                          page: 0,
                          items: 5,
