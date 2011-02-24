@@ -840,7 +840,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     else {
                         // Check whether this request is still pending
                         $.ajax({
-                            url: sakai.config.URL.CONTACTS_FIND + "?state=INVITED&page=0&items=100",
+                            url: sakai.config.URL.CONTACTS_FIND_STATE + "?state=INVITED&page=0&items=100",
                             success: function(data){
                                 var pending = false;
                                 for (var i = 0; i < data.results.length; i++) {

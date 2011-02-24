@@ -315,7 +315,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         return line_item;
                     },
                     source: function(query, add) {
+                        var q = sakai.api.Server.createSearchString(query);
+                        var options = {"page": 0, "items": 15};
                         var searchUrl = sakai.config.URL.SEARCH_USERS_GROUPS;
+                        if (q === '*' || q === '**') {
+                            searchUrl = sakai.config.URL.SEARCH_USERS_GROUPS_ALL;
+                        } else {
+                            options['q'] = q;
+                        }
                         sakai.api.Server.loadJSON(searchUrl.replace(".json", ""), function(success, data){
                             if (success) {
                                 var suggestions = [];
@@ -330,7 +337,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 });
                                 add(suggestions);
                             }
-                        }, {"q": sakai.api.Server.createSearchString(query), "page": 0, "items": 15});
+                        }, options);
                     }
                 });
             };

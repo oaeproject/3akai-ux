@@ -184,9 +184,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var init = function() {
             sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
             // get list of content items
-            sakai.api.Server.loadJSON("/var/search/pool/me/manager.1.json",
+            sakai.api.Server.loadJSON("/var/search/pool/me/manager-all.1.json",
                 handleContentData, {
-                    "q": "*",
                     "sortOn": "created",
                     "sortOrder": "desc",
                     "page": "0",

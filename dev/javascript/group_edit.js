@@ -285,29 +285,12 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             });
         };
 
-        /**
-         * Add users
-         * Function that gets the list of selected users from the people picker widget and adds them to the group
-         * @param {String} tuid Identifier for the widget/type of user we're removing (member or a manager)
-         */
-        var addContent = function(contentList) {
-            // only pass the IDs of the content
-            var contentArray = [];
-            $(contentList).each(function(i, content) {
-                if (content && content.value) {
-                    contentArray.push(content.value);
-                }
-            });
-
-            sakai.api.Groups.addContentToGroup(groupid, contentList, function(success) {
-                if (success) {
-                    renderItemLists('content');
-                    sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_content_text").text()),
-                                                     sakai.api.Security.saneHTML($("#group_edit_content_added_text").text()),
-                                                     sakai.api.Util.notification.type.INFORMATION);
-                    $("#group_editing_add_content").focus();
-                }
-            });
+        var addContent = function() {
+            renderItemLists('content');
+            sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_content_text").text()),
+                                             sakai.api.Security.saneHTML($("#group_edit_content_added_text").text()),
+                                             sakai.api.Util.notification.type.INFORMATION);
+            $("#group_editing_add_content").focus();
         };
 
         /**
@@ -530,7 +513,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     $(window).unbind("sakai-contentpicker-finished");
                     $(window).bind("sakai-contentpicker-finished", function(e, fileList) {
                         if (fileList.items.length) {
-                            addContent(fileList.items);
+                            addContent();
                         }
                     });
                 });
