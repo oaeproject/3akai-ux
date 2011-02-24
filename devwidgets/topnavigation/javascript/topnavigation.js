@@ -442,7 +442,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $("#nav_search_link a").attr("href", sakai.config.URL.PUBLIC_SEARCH_URL_PAGE);
 
                 var indexPaths = ["/", "/index", "/dev", "/dev/index.html", "/dev/", "/dev/404.html",
-                    "/dev/403.html", "/dev/500.html", "/index", "/404", "/403", "/500"];
+                    "/dev/403.html", "/dev/500.html", "/index.html", "/404", "/403", "/500"];
 
                 if ($.inArray(window.location.pathname, indexPaths) !== -1 || $(".page_not_found_error").length) {
                     $(".explore-bg").show();
