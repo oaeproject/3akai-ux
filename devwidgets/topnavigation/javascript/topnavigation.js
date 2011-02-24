@@ -131,7 +131,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * online/offline or busy
          */
         var sendChatStatus = function(chatstatus){
-            if (currentChatStatus !== chatstatus){
+            if (currentChatStatus !== chatstatus && $.inArray(chatstatus, ["online", "busy", "offline"]) >= 0){
                 currentChatStatus = chatstatus;
 
                 var data = {
