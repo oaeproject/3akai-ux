@@ -1239,7 +1239,7 @@ define(["jquery",
                                                 var vals = value.split(";");
                                                 for (var attrid = 0; attrid < vals.length; attrid++){
                                                     var attrValue = $.trim(vals[attrid].split(":")[0]).toLowerCase();
-                                                    if ($.inArray(attrValue, accept)){
+                                                    if ($.inArray(attrValue, accept) !== -1){
                                                         sanitizedValue += vals[i];
                                                     }
                                                 }
@@ -1270,6 +1270,9 @@ define(["jquery",
                                                 value = null;
                                             }
                                             break;
+                                        case html4.atype.NONE:
+                                            value = null;
+                                        break;
                                     }
                                 } else {
                                     value = null;
