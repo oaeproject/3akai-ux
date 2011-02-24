@@ -143,12 +143,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             // get related content for contentData
             // return some search results for now
+            var params = {
+                "items" : "11"
+            };
+            var url = sakai.config.URL.SEARCH_ALL_FILES.replace(".json", ".infinity.json");
+            if (searchquery === '*' || searchquery === '**') {
+                url = sakai.config.URL.SEARCH_ALL_FILES_ALL;
+            } else {
+                params["q"] = searchquery;
+            }
             $.ajax({
-                url: sakai.config.URL.SEARCH_ALL_FILES.replace(".json", ".infinity.json"),
-                data: {
-                    "q" : searchquery,
-                    "items" : "11"
-                },
+                url: url,
+                data: params,
                 success: ajaxSuccess,
                 error: ajaxError
             });

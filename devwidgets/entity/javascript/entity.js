@@ -462,7 +462,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
             // Do a batch request to get contacts, invited and pending
             var reqs = [
                 {
-                    url : sakai.config.URL.CONTACTS_FIND,
+                    url : sakai.config.URL.CONTACTS_FIND_STATE,
                     method : "GET",
                     parameters : {
                         items: 100,
@@ -471,7 +471,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
                     }
                 },
                 {
-                    url : sakai.config.URL.CONTACTS_FIND,
+                    url : sakai.config.URL.CONTACTS_FIND_STATE,
                     method : "GET",
                     parameters : {
                         items: 100,
@@ -480,7 +480,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
                     }
                 },
                 {
-                    url : sakai.config.URL.CONTACTS_FIND,
+                    url : sakai.config.URL.CONTACTS_FIND_STATE,
                     method : "GET",
                     parameters : {
                         items: 100,

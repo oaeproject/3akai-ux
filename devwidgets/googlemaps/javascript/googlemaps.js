@@ -168,6 +168,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $("#googlemaps_input_text_location", rootel).val(json.mapinput);
                     
                 } else {
+                    var tempJson = {
+                        "lat": sakai.widgets.googlemaps.defaultLat,
+                        "lng": sakai.widgets.googlemaps.defaultLng,
+                        "mapzoom": sakai.widgets.googlemaps.defaultZoom
+                    };
+                    iframeContentWindow.setMap(tempJson);
                     if (showSettings) {
                         // Show the search input textfield and save, search, cancel buttons
                         $("#googlemaps_form_search", rootel).show();
