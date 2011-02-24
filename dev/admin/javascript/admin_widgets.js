@@ -262,12 +262,12 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             // Clicking to upload widget
             $("#admin_widgets_upload_link").click(function(ev) {
                 // will need to mod fileupload to take a config object or use something else
-                $(window).trigger("sakai-fileupload-init");
+                $(window).trigger("init.fileupload.sakai");
             });
 
-            // Listen for sakai-fileupload-complete event (from the fileupload widget)
+            // Listen for complete.fileupload.sakai event (from the fileupload widget)
             // to refresh widget listing
-            $(window).bind("sakai-fileupload-complete", function() {
+            $(window).bind("complete.fileupload.sakai", function() {
                 // re render contrib widgets list
                 // notification of success or error
             });

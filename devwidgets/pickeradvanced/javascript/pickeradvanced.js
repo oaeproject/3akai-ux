@@ -433,7 +433,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
           // this value is a comma-delimited list
           // split it and get rid of any empty values in the array
           $pickeradvanced_container.jqmHide();
-          $(window).trigger("sakai-pickeradvanced-finished", {"toAdd":pickerData["selected"]});
+          $(window).trigger("finished.pickeradvanced.sakai", {"toAdd":pickerData["selected"]});
         };
 
 
@@ -441,8 +441,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Events //
         ////////////
 
-        $(window).unbind("sakai-pickeradvanced-init");
-        $(window).bind("sakai-pickeradvanced-init", function(e, config) {
+        $(window).unbind("init.pickeradvanced.sakai");
+        $(window).bind("init.pickeradvanced.sakai", function(e, config) {
             // position dialog box at users scroll position
             var htmlScrollPos = $("html").scrollTop();
             var docScrollPos = $(document).scrollTop();
@@ -537,7 +537,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // accept a search query to process and display. This event can be picked up
         // in a page JS code
 
-        $(window).trigger("sakai-pickeradvanced-ready");
+        $(window).trigger("ready.pickeradvanced.sakai");
 
     };
 

@@ -76,7 +76,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var hideHelp = function() {
             $help_widget.jqmHide();
-            $(window).trigger("sakai-help-close");
+            $(window).trigger("close.help.sakai");
         };
 
         /**
@@ -131,7 +131,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          *          determines if we should show the help or not
          * {Boolean} force If we can ignore the profile flag
          */
-        $(window).bind("sakai-help-init", function(e, helpObj) {
+        $(window).bind("init.help.sakai", function(e, helpObj) {
             if (helpObj) {
                 profileFlag = helpObj.profileFlag;
                 whichHelp = helpObj.whichHelp;
@@ -151,7 +151,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         sakai_global.help.isReady = true;
-        $(window).trigger("sakai-help-ready");
+        $(window).trigger("ready.help.sakai");
     };
 
     sakai.api.Widgets.widgetLoader.informOnLoad("help");

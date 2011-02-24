@@ -235,11 +235,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     "tooltipLeft":15
                 };
                 if (!sakai.tooltip || !sakai.tooltip.isReady) {
-                    $(window).bind("sakai-tooltip-ready", function() {
-                        $(window).trigger("sakai-tooltip-init", tooltipData);
+                    $(window).bind("ready.tooltip.sakai", function() {
+                        $(window).trigger("init.tooltip.sakai", tooltipData);
                     });
                 } else {
-                    $(window).trigger("sakai-tooltip-init", tooltipData);
+                    $(window).trigger("init.tooltip.sakai", tooltipData);
                 }
             }
         };
@@ -286,7 +286,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 "tooltipTop":-150,
                 "tooltipLeft":-200
             };
-            $(window).trigger("sakai-tooltip-update", tooltipData);
+            $(window).trigger("update.tooltip.sakai", tooltipData);
         };
 
         /**
@@ -618,7 +618,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 "tooltipTop":-50,
                 "tooltipLeft":350
             };
-            $(window).trigger("sakai-tooltip-update", tooltipData);
+            $(window).trigger("update.tooltip.sakai", tooltipData);
         });
 
 
