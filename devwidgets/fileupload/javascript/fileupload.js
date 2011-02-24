@@ -513,7 +513,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 tags = [];
                 tags = sakai.api.Util.formatTags($fileUploadAddTags.val());
                 for (var l in data) {
-                    sakai.api.Util.tagEntity("/p/" + data[l], tags, []);
+                    if (data.hasOwnProperty(l)) {
+                        sakai.api.Util.tagEntity("/p/" + data[l], tags, []);
+                    }
                 }
             }
             else {
