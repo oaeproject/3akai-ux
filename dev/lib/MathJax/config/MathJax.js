@@ -57,9 +57,6 @@ MathJax.Hub.Config({
   //      },
   //
   styles: {
-      "#MathJax_Message": {
-          display: "none"
-      }
   },
   
   //
