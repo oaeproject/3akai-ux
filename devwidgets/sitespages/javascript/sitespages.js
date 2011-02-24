@@ -526,7 +526,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             return url_safe_title;
         };
 
-        $(window).bind("sakai_global.dashboard.ready", function(e, tuid) {
+        $(window).bind("ready.dashboard.sakai", function(e, tuid) {
             var split = $(sakai_global.sitespages.pagecontents[sakai_global.sitespages.selectedpage]["sakai:pagecontent"]).attr("id").split("_");
             var entityID = false;
             if (sakai_global.profile.main.data["rep:userId"]) {
@@ -1368,7 +1368,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             clearInterval(sakai_global.sitespages.timeoutid);
 
-            $(window).trigger("sakai_sitespages_exitedit");
+            $(window).trigger("exitedit.sitespages.sakai");
 
             $context_menu.hide();
             sakai_global.sitespages.inEditView = false;
@@ -1500,7 +1500,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Remove autosave
             removeAutoSaveFile();
 
-            $(window).trigger("sakai_sitespages_exitedit");
+            $(window).trigger("exitedit.sitespages.sakai");
 
             $("#sitespages_page_options #page_save_options").hide();
             $("#sitespages_page_options #page_options").show().html(sakai.api.Util.TemplateRenderer("#sitespages_page_options_container", {}));
@@ -1614,7 +1614,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             //Check if tinyMCE has been loaded before - probably a more robust check will be needed
             if (sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage]["pageType"] === "dashboard") {
                 var dashboardTUID = $("#" + sakai_global.sitespages.selectedpage).children("div").attr("id");
-                $(window).trigger("sakai-dashboard-showAddWidgetDialog", dashboardTUID);
+                $(window).trigger("showAddWidgetDialog.dashboard.sakai", dashboardTUID);
             } else {
                 if (tinyMCE.activeEditor === null) {
                     init_tinyMCE();
@@ -2902,7 +2902,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
 
         // INIT CODE
-        $(window).trigger("sakai_global.sitespages.ready");
+        $(window).trigger("ready.sitespages.sakai");
         sakai_global.sitespages.isReady = true;
     };
 

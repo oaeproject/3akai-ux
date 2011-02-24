@@ -22,8 +22,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         $("#login_right_col").show();
     }
 
-    $(window).bind("sakai-login-ready", function(e) {
-        $(window).trigger("sakai-login-render", true);
+    $(window).bind("ready.login.sakai", function(e) {
+        $(window).trigger("render.login.sakai", true);
     });
 
     //////////

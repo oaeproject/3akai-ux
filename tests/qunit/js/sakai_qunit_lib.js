@@ -75,11 +75,11 @@ require(
         }
         if (sakai.api && sakai.api.i18n && sakai.api.i18n.done) { // wait for i18n to finish, then let the tests start that need file access
             sakai_global.qunit.ready = true;
-            $(window).trigger("sakai-qunit-ready");
+            $(window).trigger("ready.qunit.sakai");
         } else {
-            $(window).bind("sakai-i18n-done", function() {
+            $(window).bind("done.i18n.sakai", function() {
                 sakai_global.qunit.ready = true;
-                $(window).trigger("sakai-qunit-ready");
+                $(window).trigger("ready.qunit.sakai");
             });
         }
     };
@@ -87,7 +87,7 @@ require(
     if (sakai_global.qunit.widgetsdone) {
         setupWidgets();
     } else {
-        $(window).bind("sakai-qunit-widgetsdone", function() {
+        $(window).bind("widgetsdone.qunit.sakai", function() {
             setupWidgets();
         });
     }

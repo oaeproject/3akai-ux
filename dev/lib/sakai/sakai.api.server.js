@@ -119,7 +119,7 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                             "responseId": that.initialRequests[groupId].requestId,
                             "responseData": data.results
                         };
-                        $(window).trigger("sakai.api.Server.bundleRequest.complete", jsonData);
+                        $(window).trigger("complete.bundleRequest.Server.api.sakai", jsonData);
                     }
                 });
             }

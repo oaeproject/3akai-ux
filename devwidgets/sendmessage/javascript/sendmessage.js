@@ -550,7 +550,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 toTop: true,
                 onShow: loadMessageDialog
             });
-            $(window).trigger("sakai-sendmessage-ready");
+            $(window).trigger("ready.sendmessage.sakai");
         };
     }
 

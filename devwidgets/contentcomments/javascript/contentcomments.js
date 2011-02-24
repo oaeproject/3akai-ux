@@ -913,7 +913,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         if (sakai_global.content_profile && sakai_global.content_profile.content_data) {
             doInit();
         } else {
-            $(window).bind("sakai-contentprofile-ready", function() {
+            $(window).bind("ready.contentprofile.sakai", function() {
                 doInit();
             });
         }

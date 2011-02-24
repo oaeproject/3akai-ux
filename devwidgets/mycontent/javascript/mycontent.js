@@ -152,7 +152,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // display something useful to the user
                 $(dataErrorMsg, rootel).show();
             }
-            $(window).trigger("sakai-mycontent-ready");
+            $(window).trigger("ready.mycontent.sakai");
         };
 
 
@@ -162,13 +162,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // Clicking to upload content
         $(uploadLink, rootel).click(function(ev) {
-            $(window).trigger("sakai-fileupload-init");
+            $(window).trigger("init.fileupload.sakai");
             return false;
         });
 
-        // Listen for sakai-fileupload-complete event (from the fileupload widget)
+        // Listen for complete.fileupload.sakai event (from the fileupload widget)
         // to refresh this widget's file listing
-        $(window).bind("sakai-fileupload-complete", function() {
+        $(window).bind("complete.fileupload.sakai", function() {
             init();
         });
 

@@ -52,7 +52,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js"], func
             })).show();
         };
 
-        $(window).bind("sakai-directory-selected", function(ev, selected){
+        $(window).bind("selected.directory.sakai", function(ev, selected){
             loadDataDirectory(selected, renderPopularContent);
         });
 
