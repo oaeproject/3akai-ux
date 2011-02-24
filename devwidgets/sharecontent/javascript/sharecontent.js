@@ -133,7 +133,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             // Create list to show in the notification
             var toAddNames = [];
             $("#sharecontent_container .as-selection-item").each(function(){
-                toAddNames.push($(this).html().split("</a>")[1]);
+                // In IE 7 </A> is returned and in firefox </a>
+                toAddNames.push($(this).html().split(/<\/[aA]?>/g)[1]);
             });
 
             var returnValue = {"list":list, "toAddNames":toAddNames};
@@ -520,9 +521,19 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var setupAutoSuggest = function() {
             $(sharecontent_search_query).autoSuggest("",{
                 source: function(query, add) {
+                    var q = sakai.api.Server.createSearchString(query);
+                    var options = {"page": 0, "items": 15};
                     var searchUrl = sakai.config.URL.SEARCH_USERS_GROUPS;
                     if (pickerData.type === 'content') {
                         searchUrl = sakai.config.URL.POOLED_CONTENT_MANAGER;
+                        if (q === '*' || q === '**') {
+                            searchUrl = sakai.config.URL.POOLED_CONTENT_MANAGER_ALL;
+                        }
+                    } else if (q === '*' || q === '**') {
+                        searchUrl = sakai.config.URL.SEARCH_USERS_GROUPS_ALL;
+                    }
+                    if (q !== '*' && q !== '**') {
+                        options['q'] = q;
                     }
                     sakai.api.Server.loadJSON(searchUrl.replace(".json", ""), function(success, data){
                         if (success) {
@@ -548,7 +559,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                             });
                             add(suggestions);
                         }
-                    }, {"q": sakai.api.Server.createSearchString(query), "page": 0, "items": 15});
+                    }, options);
                 },
                 retrieveLimit: 10,
                 asHtmlID: tuid,

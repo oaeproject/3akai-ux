@@ -99,11 +99,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
 
             // set the file size
-            var size = result["length"];
-            if(size && size.indexOf && size.indexOf("binary-length:") !== -1) {
-                // the value exists and contains a binary length that we can turn
-                // into a human readable file size
-                item.size = "(" + sakai.api.Util.convertToHumanReadableFileSize(size.split(":")[1]) + ")";
+            if(result.hasOwnProperty("length") && result["length"]) {
+                item.size = "(" + sakai.api.Util.convertToHumanReadableFileSize(result["length"]) + ")";
             }
 
             return item;
@@ -184,9 +181,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var init = function() {
             sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
             // get list of content items
-            sakai.api.Server.loadJSON("/var/search/pool/me/manager.1.json",
+            sakai.api.Server.loadJSON("/var/search/pool/me/manager-all.1.json",
                 handleContentData, {
-                    "q": "*",
                     "sortOn": "created",
                     "sortOrder": "desc",
                     "page": "0",

@@ -39,9 +39,13 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         // Search URL mapping
         var searchURLmap = {
             allusers : sakai.config.URL.SEARCH_USERS,
-            mycontacts : sakai.config.URL.SEARCH_USERS_ACCEPTED,
-            invitedcontacts : sakai.config.URL.SEARCH_USERS_ACCEPTED + '?state=INVITED',
-            pendingcontacts : sakai.config.URL.SEARCH_USERS_ACCEPTED + '?state=PENDING',
+            allusersall : sakai.config.URL.SEARCH_USERS_ALL,
+            mycontacts : sakai.config.URL.CONTACTS_FIND,
+            mycontactsall : sakai.config.URL.SEARCH_USERS_ACCEPTED,
+            invitedcontacts : sakai.config.URL.CONTACTS_FIND + '?state=INVITED',
+            invitedcontactsall : sakai.config.URL.SEARCH_USERS_ACCEPTED + '?state=INVITED',
+            pendingcontacts : sakai.config.URL.CONTACTS_FIND + '?state=PENDING',
+            pendingcontactsall : sakai.config.URL.SEARCH_USERS_ACCEPTED + '?state=PENDING',
             onlinecontacts : sakai.config.URL.PRESENCE_CONTACTS_SERVICE
         };
 
@@ -124,7 +128,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 facets: {
                     "all" : {
                         "category": $("#search_result_all_people").html(),
-                        "searchurl": searchURLmap.allusers
+                        "searchurl": searchURLmap.allusers,
+                        "searchurlall": searchURLmap.allusersall
                     }
                 }
             }
@@ -133,15 +138,18 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         if (!sakai.data.me.user.anon) {
             searchConfig.facetedConfig.facets.contacts = {
                 "category": $("#search_result_my_contacts").html(),
-                "searchurl": searchURLmap.mycontacts
+                "searchurl": searchURLmap.mycontacts,
+                "searchurlall": searchURLmap.mycontactsall
             };
             searchConfig.facetedConfig.facets.invited = {
                 "category": $("#search_result_my_contacts_invitation").html(),
-                "searchurl": searchURLmap.invitedcontacts
+                "searchurl": searchURLmap.invitedcontacts,
+                "searchurlall": searchURLmap.invitedcontactsall
             };
             searchConfig.facetedConfig.facets.requested = {
                 "category": $("#search_result_pending_invitations").html(),
-                "searchurl": searchURLmap.pendingcontacts
+                "searchurl": searchURLmap.pendingcontacts,
+                "searchurlall": searchURLmap.pendingcontactsall
             };
         }
 
@@ -382,9 +390,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             tagterm = mainSearch.getSearchTags();
 
             facetedurl = mainSearch.getFacetedUrl();
+            facetedurlall = '';
 
             if (facet){
                 facetedurl = searchConfig.facetedConfig.facets[facet].searchurl;
+                facetedurlall = searchConfig.facetedConfig.facets[facet].searchurlall;
             }
 
             $(".faceted_category").removeClass("faceted_category_selected");
@@ -406,12 +416,12 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
             //    Get the search term out of the input box.
             //    If we were redirected to this page it will be added previously already.
-            searchterm = $(searchConfig.global.text).val().toLowerCase();
+            searchterm = $(searchConfig.global.text).val();
 
             //    Rebind everything
             mainSearch.addEventListeners(searchterm, searchwhere);
 
-            if (searchquery && searchterm && searchterm !== $(searchConfig.global.text).attr("title").toLowerCase()) {
+            if (searchquery && searchterm && searchterm !== $(searchConfig.global.text).attr("title")) {
                 // Show and hide the correct elements.
                 showSearchContent();
 
@@ -427,32 +437,47 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 var searchURL;
                 var params = {};
 
-                if(searchWhere === "mycontacts") {
-                    searchURL = sakai.config.URL.SEARCH_USERS_ACCEPTED;
-                    params = {
-                        q: urlsearchterm
-                    };
-                }  else {
-                    searchURL = sakai.config.URL.SEARCH_USERS;
+                if (searchWhere === "mycontacts") {
+                    if (urlsearchterm === "*" || urlsearchterm === "**") {
+                        searchURL = sakai.config.URL.CONTACTS_FIND_STATE;
+                    } else {
+                        searchURL = sakai.config.URL.CONTACTS_FIND;
+                        params['q'] = urlsearchterm;
+                    }
+                } else {
                     params = {
                         page: (currentpage - 1),
                         items: resultsToDisplay,
-                        q: urlsearchterm,
                         sortOn: "lastName",
                         sortOrder: "asc"
                     };
+                    if (urlsearchterm === "*" || urlsearchterm === "**") {
+                        searchURL = sakai.config.URL.SEARCH_USERS_ALL;
+                    } else {
+                        params['q'] = urlsearchterm;
+                        searchURL = sakai.config.URL.SEARCH_USERS;
+                    }
                 }
 
                 // Check if we want to search using a faceted link
                 if (facetedurl){
-                   searchURL = facetedurl;
                    params = {
                         page: (currentpage - 1),
                         items: resultsToDisplay,
-                        q: urlsearchterm,
                         sortOn: "firstName",
                         sortOrder: "asc"
-                    };
+                   };
+                   if (urlsearchterm === '*' || urlsearchterm === '**') {
+                       if (facetedurlall) {
+                           searchURL = facetedurlall;
+                       } else {
+                           searchURL = facetedurl;
+                           params['q'] = urlsearchterm;
+                       }
+                   } else {
+                       searchURL = facetedurl;
+                       params['q'] = urlsearchterm;
+                   }
                 }
 
                 searchAjaxCall = $.ajax({

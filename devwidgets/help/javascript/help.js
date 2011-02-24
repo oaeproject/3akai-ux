@@ -138,7 +138,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 forced = helpObj.force || false;
                 alreadySet = false;
                 $.ajax({
-                        url: authprofileURL + ".infinity.json",
+                        url: authprofileURL + ".profile.json",
+                        dataType: "json",
                         success: function(profile){
                             profileData = $.extend(true, {}, profile);
                             showHelp();

@@ -11,8 +11,8 @@
         <!-- SETUP - Source and target paths -->
         <property name="SRC_DIR" value="dev" description="Core source folder" />
         <property name="QUNIT_SRC_DIR" value="tests" description="QUnit test folder" />
-        <property name="INSTRUMENTED_DIR" value="${SRC_DIR}-i" description="Instrumented source folder" />
         <property name="TARGET" value="target" description="Core target folder" />
+        <property name="INSTRUMENTED_DIR" value="${TARGET}/instrumented" description="Instrumented source folder" />
         <property name="TARGET_RESOURCES" value="${TARGET}/processed-resources" description="Top directory for JARs, archives" />
         <property name="TARGET_COMPRESSED_DIR" value="${TARGET}/compressed" description="Core compressed folder" />
         <property name="OPTIMIZED_DIR" value="${TARGET}/optimized" description="RequireJS optimized folder" />
@@ -80,7 +80,7 @@
     <!-- Target: Copy source tree -->
     <target name="copy_prod" depends="create_target_folders" description="Copy source files to target folders">
 
-        <echo message="Making a copy of core source files..." />
+        <echo message="Making a copy of core source files from ${SRC_DIR}..." />
         <copy todir="${TARGET_DIR}">
             <fileset dir="${SRC_DIR}" />
         </copy>
@@ -128,6 +128,23 @@
             <param name="SRC_DIR_VAR" value="${OPTIMIZED_DIR}/${SRC_DIR_VAR}" />
             <param name="SRC_DIR_APPS" value="${OPTIMIZED_DIR}/${SRC_DIR_APPS}" />
         </antcall>
+    </target>
+
+    <!-- Target: Copy instrumented source -->
+    <target name="copy_instrumented" depends="instrument" description="Copy instrumented files to target folders">
+        <if>
+            <equals arg1="${instrumentResult}" arg2="0"/>
+            <then>
+                <echo message="Copying instrumented files"/>
+                <antcall target="copy_test">
+                    <param name="SRC_DIR" value="${INSTRUMENTED_DIR}" />
+                </antcall>
+            </then>
+            <else>
+                <echo message="Instrumenting failed, copying uninstrumented files"/>
+                <antcall target="copy_test"/>
+            </else>
+        </if>
     </target>
 
     <!-- Target: Normalise permissions -->
@@ -181,15 +198,15 @@
     <!-- Target: Instrument with JSCoverage -->
     <target name="instrument" depends="init">
         <delete dir="${INSTRUMENTED_DIR}" includeemptydirs="true" />
-        <exec executable="jscoverage">
+        <exec executable="jscoverage" failifexecutionfails="false" resultproperty="instrumentResult">
             <arg value="--no-instrument" />
-            <arg value="lib${file.separator}google" />
+            <arg value="lib${file.separator}misc" />
             <arg value="--no-instrument" />
             <arg value="lib${file.separator}fluid" />
             <arg value="--no-instrument" />
             <arg value="lib${file.separator}jquery" />
             <arg value="--no-instrument" />
-            <arg value="lib${file.separator}sakai_util${file.separator}trimpath.template.js" />
+            <arg value="lib${file.separator}tinymce" />
             <arg value="${SRC_DIR}" />
             <arg value="${INSTRUMENTED_DIR}" />
         </exec>
@@ -237,14 +254,13 @@
     </target>
 
     <!-- Target: Development Builds -->
-    <target name="development" depends="copy_test, unpackMathFonts, documentation">
+    <target name="development" depends="copy_instrumented, documentation, unpackMathFonts, instrument">
         <echo message="Sakai 3 UX Development Build: Build complete." />
     </target>
 
     <!-- Target: Remove the build folder -->
     <target name="clean" depends="init" description="Remove the build folder">
         <delete dir="${TARGET}" includeemptydirs="true" />
-        <delete dir="${INSTRUMENTED_DIR}" includeemptydirs="true" />
     </target>
 
 </project>
