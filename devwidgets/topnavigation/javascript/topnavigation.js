@@ -96,7 +96,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // CSS Classes
         var searchInputFocusClass = "search_input_focus";
 
-        var userLinkChatStatusClass = ".user_link_chat_status";
+        var userLinkChatStatusClass = ".user_link_chat_status_choice";
         var userLinkName = ".user_link_name";
 
         var showLogin = true;
@@ -131,7 +131,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * online/offline or busy
          */
         var sendChatStatus = function(chatstatus){
-            if (currentChatStatus !== chatstatus && $.inArray(chatstatus, ["online", "busy", "offline"]) >= 0){
+            if (currentChatStatus !== chatstatus){
                 currentChatStatus = chatstatus;
 
                 var data = {
