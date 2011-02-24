@@ -99,11 +99,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
 
             // set the file size
-            var size = result["length"];
-            if(size && size.indexOf && size.indexOf("binary-length:") !== -1) {
-                // the value exists and contains a binary length that we can turn
-                // into a human readable file size
-                item.size = "(" + sakai.api.Util.convertToHumanReadableFileSize(size.split(":")[1]) + ")";
+            if(result.hasOwnProperty("length") && result["length"]) {
+                item.size = "(" + sakai.api.Util.convertToHumanReadableFileSize(result["length"]) + ")";
             }
 
             return item;
