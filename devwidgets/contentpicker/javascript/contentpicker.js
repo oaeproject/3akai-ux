@@ -108,7 +108,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var getMimeType = function(file) {
             var mimetype = "";
-            mimetype = file["jcr:content"] ? file["jcr:content"]["jcr:mimeType"] : "";
+            mimetype = file["mimeType"] || "";
             return mimetype;
         };
 
@@ -128,7 +128,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "mimetype": mimetype,
                 "description": result["sakai:description"] || "",
                 "path": "/p/" + (name || result['jcr:name']),
-                "fileSize": sakai.api.Util.convertToHumanReadableFileSize(result["jcr:content"]["jcr:data"]),
+                "fileSize": sakai.api.Util.convertToHumanReadableFileSize(result["length"]),
                 "link": "/p/" + (name || result['jcr:name']) + "/" + result['sakai:pooled-content-file-name'],
                 "extension": result['sakai:fileextension']
             };
@@ -141,7 +141,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var setupAutoSuggest = function() {
             $contentpicker_content_input.autoSuggest("",{
                 source: function(query, add) {
-                    searchUrl = sakai.config.URL.POOLED_CONTENT_MANAGER;
+                    var q = sakai.api.Server.createSearchString(query);
+                    var options = {"page": 0, "items": 15};
+                    var searchUrl = sakai.config.URL.POOLED_CONTENT_MANAGER;
+                    if (q === "*") {
+                        searchUrl = sakai.config.URL.POOLED_CONTENT_MANAGER_ALL;
+                    } else {
+                        options['q'] = q;
+                    }
                     sakai.api.Server.loadJSON(searchUrl.replace(".json", ""), function(success, data){
                         if (success) {
                             var suggestions = [];
@@ -159,7 +166,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             });
                             add(suggestions);
                         }
-                    }, {"q": sakai.api.Server.createSearchString(query), "page": 0, "items": 15});
+                    }, options);
                 },
                 retrieveLimit: 10,
                 asHtmlID: tuid,

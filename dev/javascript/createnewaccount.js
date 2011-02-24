@@ -310,12 +310,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             else {
                 $('body').show();
             }
-            // Input field hover
-            // The jQuery hover strangely has a bug in FF 3.5 - fast mouse movement doesn't fire the out event...
-            //$(".create_account_input").hover(function(ev) { $(ev.target).addClass(inputFieldHoverClass); }, function(ev) { $(ev.target).removeClass(inputFieldHoverClass); });
-            // so we use this for now:
 
-            $(inputFields).bind("mousenter mouseleave", function(ev) { $(this).toggleClass(inputFieldHoverClass); });
+            $(inputFields).bind("mouseenter mouseleave", function(ev) { $(this).toggleClass(inputFieldHoverClass); });
 
             // Hide success message
             $(successMessage).hide();

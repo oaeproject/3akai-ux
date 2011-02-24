@@ -29,6 +29,7 @@
 .fileupload_help{color:#666;font-size:.9em;margin-bottom:18px;}
 #fileupload_container .fileupload_textarea{width:380px!important;}
 #fileupload_container #fileupload_rendered_tagging label{vertical-align:top; width:170px; display:inline-block;}
+#fileupload_container #fileupload_rendered_tagging_link label{vertical-align:top; width:170px; display:inline-block;}
 #fileupload_container .fileupload_upload_progress{background:url(/dev/images/ajax_load.gif) no-repeat scroll 0 0 transparent;clear:both;float:right;height:10px;width:80px;}
 #fileupload_container .fileupload_file_name{margin-left:25px;margin-top:5px;}
 #fileupload_container .fileupload_file_name input[type="text"],#fileupload_container #fileupload_link_box input[type="text"]{width:500px;padding:4px;margin:0 5px 5px 0;font-weight:bold;}
@@ -36,9 +37,9 @@
 #fileupload_container .fileupload_fill_in_file_name_input{border:1px solid #FF0101;}
 #fileupload_container .fileupload_name_error{clear:both;color:#9F3333;font-weight:bold;margin:0 0 10px 50px;float:left;}
 #fileupload_container h1{clear:both;}
-#fileupload_container #fileupload_rendered_tagging h1{margin-top:10px;}
-#fileupload_container #fileupload_rendered_tagging #fileupload_tags .fileupload_add_tags{width:450px!important;margin:0 150px 5px 0;float:right;}
-#fileupload_container #fileupload_rendered_tagging #fileupload_action_buttons{margin-top:10px;float:right;}
+#fileupload_container #fileupload_rendered_tagging h1, #fileupload_container #fileupload_rendered_tagging_link h1{margin-top:10px;}
+#fileupload_container #fileupload_rendered_tagging #fileupload_tags .fileupload_add_tags, #fileupload_container #fileupload_rendered_tagging_link #fileupload_tags .fileupload_add_tags{width:450px!important;margin:0 150px 5px 0;float:right;}
+#fileupload_container #fileupload_rendered_tagging #fileupload_action_buttons, #fileupload_container #fileupload_rendered_tagging_link #fileupload_action_buttons{margin-top:10px;float:right;}
 #fileupload_container .MultiFile-remove{padding-left:10px;}
 #fileupload_container .MultiFile-list{display:none;margin:10px 0;}
 #fileupload_container{width:800px!important;left:40%!important;}
