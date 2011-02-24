@@ -183,7 +183,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
             var searchUrl = pickerData['searchIn'];
             if ((searchQuery === '*' || searchQuery === '**') && pickerData['searchInAll']) {
-                searchUrl = pickerData['searchInAll']
+                searchUrl = pickerData['searchInAll'];
                 searchQuery = "";
             }
             var pl_query = searchUrl + searchQuery + "&page=0&items=12&_=" + (Math.random() * 100000000000000000);

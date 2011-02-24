@@ -217,7 +217,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js", "/dev
                     }
                 });
             }
-        }
+        };
 
         /**
          * Updates the progress data based
