@@ -67,6 +67,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var acceptedContactList = false; // to store accepted contact list
 
+        // i18n
+        var $chatStatusNoMessage = $("#chat_no_status_message");
+
         ///////////////////////
         ///////////////////////
         // Chat Working Code //
@@ -849,6 +852,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         $(window).bind("chat_status_message_change", function(event,newChatStatusMessage){
+            if(!$.trim(newChatStatusMessage)){
+                newChatStatusMessage = $chatStatusNoMessage.text();
+            }
             updateChatStatusMessage(newChatStatusMessage);
         });
 
