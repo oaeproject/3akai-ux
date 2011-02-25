@@ -202,7 +202,9 @@ a.s3d-action-seeall{font-size:11px!important;}
 /*
  * BUTTONS
  */
-.s3d-button{display:inline-block;position:relative;border:none;margin:0 5px 5px 0;padding:0 13px 0 0;cursor:pointer;overflow:visible;/* removes extra side padding in IE */background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -30px transparent;font-size:.9em;font-weight:bold;}
+.s3d-button{display:inline-block;position:relative;border:none;margin:0 5px 5px 0;
+    padding:0 13px 0 0;cursor:pointer;overflow:visible;/* removes extra side padding in IE */
+    background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -30px transparent;font-size:.9em;font-weight:bold;zoom:1;}
 .s3d-button:hover,.s3d-button-hover{background-position:right -70px;}
 .s3d-button::-moz-focus-inner{border:none;/* overrides extra padding in Firefox */}
 .s3d-button .s3d-button-inner{position:relative;display:block;background:url(/dev/images/dashboard_sprite.png) no-repeat scroll left -30px transparent;margin:0;height:23px;line-height:23px;white-space:nowrap!important;padding:0 0 0 15px;color:#fff;}
@@ -217,11 +219,18 @@ a.s3d-action-seeall{font-size:11px!important;}
 html > body .s3d-button .s3d-button-inner{white-space:normal;/* only do the white-space fix on IE6 */}
 
 /* Link button */
-.s3d-button-link-2-state{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -1277px transparent;}
-.s3d-button-link-2-state-inner{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -1237px transparent!important;margin:0!important;color:#333!important;font-size:11px;}
+.s3d-button-link-2-state{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -1277px transparent;
+    min-width:69px;}
+.s3d-button-link-2-state-inner{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -1237px transparent!important;
+    margin:0!important;color:#333!important;font-size:11px;}
 .s3d-button-link-2-state-inner-secondary{font-size:9px;}
 .s3d-button:hover .s3d-button-link-2-state-inner{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -1317px transparent!important;color:#FFF!important;}
 .s3d-button-link-2-state:hover{background-position:right -1357px;}
+.s3d-button-link-2-state-inner span {float:left;}
+.s3d-button-link-2-state-inner .s3d-button-arrow-down {width:15px;height:15px;margin-top:5px;
+    background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -123px -396px transparent;}
+.s3d-button-link-2-state-inner .s3d-button-arrow-up {width:15px;height:15px;margin-top:5px;
+    background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -213px -396px transparent;}
 
 /* Primary button */
 .s3d-button-primary{background-position:right -110px;}

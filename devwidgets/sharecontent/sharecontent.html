@@ -70,9 +70,9 @@
                                         <span class="sharecontent_positioned sharecontent_right_floats">
                                             {if !data.me.user.anon && sakai_global.content_profile.content_data.isManager}
                                                 <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_permission_link sharecontent_permission_link_${manager["sakai:group-id"]}">
-                                                    <span class="sharecontent_button_textbox s3d-button-inner s3d-button-link-2-state-inner">
-                                                        <span class="sharecontent_button_text">__MSG__CAN_EDIT__</span>
-                                                        <span class="sharecontent_arrow"></span>
+                                                    <span class="s3d-button-inner s3d-button-link-2-state-inner">
+                                                        <span>__MSG__CAN_EDIT__</span>
+                                                        <span class="s3d-button-arrow-down"></span>
                                                     </span>
                                                 </button>
                                                 <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_remove" id="manager-${manager["sakai:group-id"]}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__REMOVE__</span></button>
@@ -85,9 +85,9 @@
                                         <span class="sharecontent_positioned sharecontent_right_floats">
                                             {if !data.me.user.anon && sakai_global.content_profile.content_data.isManager}
                                                 <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_permission_link sharecontent_permission_link_${manager["rep:userId"]}">
-                                                    <span class="sharecontent_button_textbox s3d-button-inner s3d-button-link-2-state-inner">
-                                                        <span class="sharecontent_button_text">__MSG__CAN_EDIT__</span>
-                                                        <span class="sharecontent_arrow"></span>
+                                                    <span class="s3d-button-inner s3d-button-link-2-state-inner">
+                                                        <span>__MSG__CAN_EDIT__</span>
+                                                        <span class="s3d-button-arrow-down"></span>
                                                     </span>
                                                 </button>
                                                 <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_remove" id="manager-${manager["rep:userId"]}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__REMOVE__</span></button>
@@ -123,9 +123,9 @@
                                                 <span class="sharecontent_positioned sharecontent_right_floats">
                                                     {if !data.me.user.anon && sakai_global.content_profile.content_data.isManager}
                                                         <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_permission_link sharecontent_permission_link_${viewer["sakai:group-id"]}">
-                                                            <span class="sharecontent_button_textbox s3d-button-inner s3d-button-link-2-state-inner">
-                                                                <span class="sharecontent_button_text">__MSG__CAN_VIEW__</span>
-                                                                <span class="sharecontent_arrow"></span>
+                                                            <span class="s3d-button-inner s3d-button-link-2-state-inner">
+                                                                <span>__MSG__CAN_VIEW__</span>
+                                                                <span class="s3d-button-arrow-down"></span>
                                                             </span>
                                                         </button>
                                                         <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_remove" id="viewer-${viewer["sakai:group-id"]}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__REMOVE__</span></button>
@@ -138,9 +138,9 @@
                                                 <span class="sharecontent_positioned sharecontent_right_floats">
                                                     {if !data.me.user.anon && sakai_global.content_profile.content_data.isManager}
                                                         <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_permission_link sharecontent_permission_link_${viewer["rep:userId"]}">
-                                                            <span class="sharecontent_button_textbox s3d-button-inner s3d-button-link-2-state-inner">
-                                                                <span class="sharecontent_button_text">__MSG__CAN_VIEW__</span>
-                                                                <span class="sharecontent_arrow"></span>
+                                                            <span class="s3d-button-inner s3d-button-link-2-state-inner">
+                                                                <span>__MSG__CAN_VIEW__</span>
+                                                                <span class="s3d-button-arrow-down"></span>
                                                             </span>
                                                         </button>
                                                         <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_remove" id="viewer-${viewer["rep:userId"]}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__REMOVE__</span></button>
@@ -170,9 +170,9 @@
                 {if !data.me.user.anon && sakai_global.content_profile.content_data.isManager}
                     <div class="s3d-highlight_area_background_darker1 sharecontent_search_container">
                         <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_permission_link sharecontent_new_members_permission_link" style="display:none;" value="viewer">
-                            <span class="sharecontent_button_textbox s3d-button-inner s3d-button-link-2-state-inner">
-                                <span class="sharecontent_button_text">__MSG__CAN_VIEW__</span>
-                                <span class="sharecontent_arrow"></span>
+                            <span class="s3d-button-inner s3d-button-link-2-state-inner">
+                                <span>__MSG__CAN_VIEW__</span>
+                                <span class="s3d-button-arrow-down"></span>
                             </span>
                         </button>
                         <span class="s3d-bold" id="sharecontent_add_people">__MSG__ADD_PEOPLE__<a href="javascript:;" id="sharecontent_init_search" class="s3d-action">__MSG__SEARCH_FOR_PEOPLE_OR_GROUP__</a></span>
@@ -274,12 +274,12 @@
     --></div>
 
     <div id="sharecontent_can_edit" style="display:none;">
-        <span class="sharecontent_button_text">__MSG__CAN_EDIT__</span>
-        <span class="sharecontent_arrow"></span>
+        <span>__MSG__CAN_EDIT__</span>
+        <span class="s3d-button-arrow-down"></span>
     </div>
     <div id="sharecontent_can_view" style="display:none;">
-        <span class="sharecontent_button_text">__MSG__CAN_VIEW__</span>
-        <span class="sharecontent_arrow"></span>
+        <span>__MSG__CAN_VIEW__</span>
+        <span class="s3d-button-arrow-down"></span>
     </div>
 
     <div id="sharecontent_share_message_template" style="display:none;"><!-- __MSG__HI__
