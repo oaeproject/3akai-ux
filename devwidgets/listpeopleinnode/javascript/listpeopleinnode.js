@@ -115,7 +115,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Initialization functions //
         //////////////////////////////
 
-        $(window).bind("sakai-directory-selected", function(ev, selected){
+        $(window).bind("selected.directory.sakai", function(ev, selected){
             $listpeopleinnodePeopleContainer.text("");
 
             // Set title
