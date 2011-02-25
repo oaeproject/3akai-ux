@@ -6,7 +6,7 @@
     <div id="assignlocation_container_header" class="dialog_header">
         <div class="dialog_header_inner">
             <h1>__MSG__ASSIGN_A_LOCATION__</h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+            <button type="button" class="jqmClose dialog_close_image s3d-link-button s3d-action" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</button>
         </div>
     </div>
 
@@ -51,7 +51,7 @@
     <ul id="assignlocation_locations_selected">
         {for location in newlyAssignedLocations}
             <li {if location_index % 2 != 0} class="s3d-list-item s3d-highlight_area_background" {else} class="s3d-list-item" {/if} id="${location}">
-                <a class="assignlocation_close_link" href="javascript:;">
+                <a class="assignlocation_close_link" href="#">
                     <div class="assignlocation_close_image"></div>
                     {for locationpiece in location.split("/")}
                         ${sakai.api.Util.getValueForDirectoryKey(locationpiece)} {if locationpiece_index < location.split("/").length - 1} <span class='assignlocation_select_seperator'>&raquo;</span>{/if}

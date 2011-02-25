@@ -288,6 +288,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $(addToContactsFormButtonInvite).bind("click", function(){
             // Invite this person.
             doInvite(friend.uuid);
+            return false;
         });
 
         // Bind the cancel button

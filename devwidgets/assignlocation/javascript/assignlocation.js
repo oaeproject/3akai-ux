@@ -79,6 +79,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var id = $(this).parent().attr("id").split("/").pop();
                 // unchecked the node
                 $assignlocationJSTreeContainer.jstree("uncheck_node", $("#"+id));
+                return false;
             });
 
             // Check the boxes that were previously saved

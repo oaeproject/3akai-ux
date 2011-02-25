@@ -102,6 +102,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         ":operation" : "delete"
                     }
                 });
+                return false;
             });
         };
 

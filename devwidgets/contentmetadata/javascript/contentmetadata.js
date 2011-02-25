@@ -49,13 +49,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var $contentmetadataCopyrightContainer = $("#contentmetadata_copyright_container");
         var $contentmetadataDetailsContainer = $("#contentmetadata_details_container");
         var $contentmetadataLocationsContainer = $("#contentmetadata_locations_container");
-        var $contentmetadataLocationsDialogContainer = $("#contentmetadata_locations_dialog_container");
-        var contentmetadataLocationsNewLocationsContainer = "#contentmetadata_locations_newlocations_container";
-        var contentmetadataLocationsSecondLevelTemplateContainer = "#contentmetadata_location_secondlevel_template_container";
-        var contentmetadataLocationsThirdLevelTemplateContainer = "#contentmetadata_location_thirdlevel_template_container";
-
-        // Dialogs
-        //var $contentmetadataLocationsDialog = $("#contentmetadata_locations_dialog");
 
         // Elements
         var contentmetadataDescriptionDisplay = "#contentmetadata_description_display";
@@ -65,13 +58,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var contentmetadataCancelSave = ".contentmetadata_cancel_save";
         var contentmetadataSave = ".contentmetadata_save";
         var contentmetadataInputEdit = ".contentmetadata_edit_input";
-        var $contentmetadataLocationsAddAnother = $("#contentmetadata_locations_add_another");
-        var contentmetadataLocationLvlOne = ".contentmetadata_location_directory_lvlone";
-        var contentmetadataLocationLvlTwo = ".contentmetadata_location_directory_lvltwo";
-        var contentmetadataLocationLvlThree = ".contentmetadata_location_directory_lvlthree";
-        var $contentmetadataLocationsDialogUpdate = $("#contentmetadata_locations_dialog_update");
-        var contentmetadataRemoveLocation = ".contentmetadata_remove_location";
-        var contentmetadataRemoveNewLocation = ".contentmetadata_remove_new_location";
 
         // See more
         var $contentmetadataShowMore = $("#contentmetadata_show_more");
@@ -84,10 +70,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var contentmetadataCopyrightTemplate = "contentmetadata_copyright_template";
         var contentmetadataDetailsTemplate = "contentmetadata_details_template";
         var contentmetadataLocationsTemplate = "contentmetadata_locations_template";
-        var contentmetadataLocationsDialogTemplate = "contentmetadata_locations_dialog_template";
-        var contentmetadataLocationFirstLevelTemplate = "contentmetadata_location_firstlevel_template";
-        var contentmetadataLocationSecondLevelTemplate = "contentmetadata_location_secondlevel_template";
-        var contentmetadataLocationThirdLevelTemplate = "contentmetadata_location_thirdlevel_template";
 
         // i18n
         var $contentmetadataUpdatedCopyright = $("#contentmetadata_updated_copyright");
