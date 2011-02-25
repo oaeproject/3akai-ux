@@ -51,6 +51,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var groupbasicinfo_update = "#groupbasicinfo_editing_button_update";
 
         // Fields that will contain the group data
+        var groupBasicInfoFormInputs = "#groupbasicinfo_generalinfo input, #groupbasicinfo_generalinfo select, #groupbasicinfo_generalinfo textarea";
         var groupBasicInfoGroup = "#groupbasicinfo_generalinfo_group";
         var groupBasicInfoGroupTitle = groupBasicInfoGroup + "_title";
         var groupBasicInfoGroupKind = groupBasicInfoGroup + "_kind";
@@ -61,6 +62,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var directoryJSON = [];
         var json = {};
+        var updateData = false;
 
         var groupBasicInfoAddAnotherLocation = "#groupbasicinfo_add_another_location";
         var groupBasicInfoAddAnotherLocationtext = "#groupbasicinfo_add_another_location_text";
@@ -86,15 +88,23 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $(groupbasicinfo_update, $rootel).unbind("click");
             $(groupbasicinfo_update, $rootel).bind("click", function(){
-                // disable all basic info input elements while update is processed
-                sakai_global.groupbasicinfo.disableInputElements();
-                updateGroup();
+                // check if group data needs updating
+                if (updateData){
+                    // disable all basic info input elements while update is processed
+                    sakai_global.groupbasicinfo.disableInputElements();
+                    updateGroup();
+                    updateData = false;
+                }
             });
 
             $(groupBasicInfoAddAnotherLocation).die("click");
             $(groupBasicInfoAddAnotherLocation).live("click", function(){
                 //addAnotherLocation();
                 $("#assignlocation_container").jqmShow();
+            });
+
+            $(groupBasicInfoFormInputs).change(function() {
+                updateData = true;
             });
 
         };
