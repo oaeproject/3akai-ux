@@ -622,16 +622,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var toggleAddTitleAndDescription = function(show) {
             if (show) {
-                $embedcontent_add_title_description_button.find("span.down").removeClass("down").addClass("up");
+                $embedcontent_add_title_description_button.find("span.embedcontent_down").removeClass("embedcontent_down").addClass("embedcontent_up");
                 $embedcontent_add_title_description_fields.show();
             } else {
-                $embedcontent_add_title_description_button.find("span.up").removeClass("up").addClass("down");
+                $embedcontent_add_title_description_button.find("span.embedcontent_up").removeClass("embedcontent_up").addClass("embedcontent_down");
                 $embedcontent_add_title_description_fields.hide();
             }
         };
 
         $embedcontent_add_title_description_button.bind("click", function(e) {
-            toggleAddTitleAndDescription($(this).find("span.down").length > 0);
+            toggleAddTitleAndDescription($(this).find("span.embedcontent_down").length > 0);
             return false;
         });
 
