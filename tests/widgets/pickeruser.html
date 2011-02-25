@@ -80,7 +80,7 @@
         <script>
 
             // Page code
-            $(window).bind("sakai-pickeruser-ready", function(e){
+            $(window).bind("ready.pickeruser.sakai", function(e){
                 var pl_config = {
 					"mode": "search",
 					"type": "people",
@@ -93,11 +93,11 @@
 				};
 
                 $("#pick_user_link").bind("click", function() {
-                    $(window).trigger("sakai-pickeruser-init", pl_config, function(people) {
+                    $(window).trigger("init.pickeruser.sakai", pl_config, function(people) {
                         console.log("people:", people);
                     });
-					$(window).unbind("sakai-pickeruser-finished");
-					$(window).bind("sakai-pickeruser-finished", function(e, peopleList) {
+					$(window).unbind("finished.pickeruser.sakai");
+					$(window).bind("finished.pickeruser.sakai", function(e, peopleList) {
 						console.log("To add: ", peopleList.toAdd);
 					});
                 });

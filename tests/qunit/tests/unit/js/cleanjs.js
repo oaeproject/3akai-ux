@@ -84,7 +84,7 @@ require(
         if (sakai_global.qunit && sakai_global.qunit.ready) {
             cleanJSTest();
         } else {
-            $(window).bind("sakai-qunit-ready", function() {
+            $(window).bind("ready.qunit.sakai", function() {
                 cleanJSTest();
             });
         }

@@ -95,6 +95,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
     ];
 
     sakai_global.qunit.devfilesdone = true;
-    $(window).trigger("sakai-qunit-devfilesdone");
+    $(window).trigger("devfilesdone.qunit.sakai");
 
 });

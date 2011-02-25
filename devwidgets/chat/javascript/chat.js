@@ -145,7 +145,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 loadOnlineContactsTimer = setInterval(loadOnlineContacts, loadOnlineContactsInterval);
                 checkNewMessages();
             }
-            $(window).trigger("sakai-chat-update");
+            $(window).trigger("update.chat.sakai");
 
         };
 

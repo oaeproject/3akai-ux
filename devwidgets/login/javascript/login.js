@@ -188,7 +188,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js"], func
             // Check whether we are already logged in
             decideLoggedIn();
 
-            $(window).trigger("sakai-login-ready");
+            $(window).trigger("ready.login.sakai");
         };
 
         doInit();

@@ -417,16 +417,16 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     "tooltipLeft":50
                 };
                 if (!sakai.tooltip || !sakai.tooltip.isReady) {
-                    $(window).bind("sakai-tooltip-ready", function() {
-                        $(window).trigger("sakai-tooltip-init", tooltipData);
+                    $(window).bind("ready.tooltip.sakai", function() {
+                        $(window).trigger("init.tooltip.sakai", tooltipData);
                     });
                 } else {
-                    $(window).trigger("sakai-tooltip-init", tooltipData);
+                    $(window).trigger("init.tooltip.sakai", tooltipData);
                 }
             }
         };
 
-        $(window).bind("sakai-profile-data-ready", function(e, sectionName) {
+        $(window).bind("ready.data.profile.sakai", function(e, sectionName) {
 
             // keep track of all the sections that are ready
             if ($.inArray(sectionName, readySections) < 0) {
@@ -492,7 +492,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         "tooltipTop":5,
                         "tooltipLeft":15
                     };
-                    $(window).trigger("sakai-tooltip-update", tooltipData);
+                    $(window).trigger("update.tooltip.sakai", tooltipData);
                     if (editProfileTour && $("#navigation_my_sakai_link").attr("href") && $("#navigation_my_sakai_link").attr("href").indexOf("editprofiletour") === -1) {
                         $("#navigation_my_sakai_link").attr("href", $("#navigation_my_sakai_link").attr("href") + "?editprofiletour=true");
                     }

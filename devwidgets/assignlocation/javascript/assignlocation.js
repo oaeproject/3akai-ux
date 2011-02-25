@@ -130,7 +130,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 contextVariables.saveddirectory = sakai.api.Util.getDirectoryTags(newTags.toString());
                 $assignlocationContainer.jqmHide();
                 sakai.api.Util.notification.show($(assignlocationLocationSaved).html(), $(assignlocationLocationSuccessfullySaved).html());
-                $(window).trigger("sakai-contentmetadata-renderlocations", contextVariables);
+                $(window).trigger("renderlocations.contentmetadata.sakai", contextVariables);
                 $assignlocationActions.show();
                 $assignlocationAjaxLoader.hide();
             });

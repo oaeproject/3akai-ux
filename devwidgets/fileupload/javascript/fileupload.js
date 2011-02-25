@@ -170,7 +170,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     "tooltipTop": -40,
                     "tooltipLeft": 20
                 };
-                $(window).trigger("sakai-tooltip-update", tooltipData);
+                $(window).trigger("update.tooltip.sakai", tooltipData);
             }
             else {
                 $fileUploadAddLinkButton.removeAttr("disabled");
@@ -386,7 +386,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
             if (!filesUploaded) {
                 // hide any tooltips if they are open
-                $(window).trigger("sakai-tooltip-close");
+                $(window).trigger("close.tooltip.sakai");
             }
         };
 
@@ -401,7 +401,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
             // Close the jqm box
             $fileUploadContainer.jqmHide();
-            $(window).trigger("sakai-fileupload-complete", {
+            $(window).trigger("complete.fileupload.sakai", {
                 "files": dataResponse
             });
 
@@ -437,7 +437,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         "tooltipLeft": 40,
                         "tooltipAutoClose": true
                     };
-                    $(window).trigger("sakai-tooltip-update", tooltipData);
+                    $(window).trigger("update.tooltip.sakai", tooltipData);
                 }
             }
             else {
@@ -513,7 +513,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 tags = [];
                 tags = sakai.api.Util.formatTags($fileUploadAddTags.val());
                 for (var l in data) {
-                    sakai.api.Util.tagEntity("/p/" + data[l], tags, []);
+                    if (data.hasOwnProperty(l)) {
+                        sakai.api.Util.tagEntity("/p/" + data[l], tags, []);
+                    }
                 }
             }
             else {
@@ -976,11 +978,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         $(fileUploadCloseDialog).live("click", function(){
             $fileUploadContainer.jqmHide();
             // hide any tooltips if they are open
-            $(window).trigger("sakai-tooltip-close");
+            $(window).trigger("close.tooltip.sakai");
         });
 
         /**
-         * Invoke 'sakai-fileupload-init' to initialize the upload widget
+         * Invoke 'init.fileupload.sakai' to initialize the upload widget
          * There are 2 modes in which the widget can operate
          *
          * - The normal mode doesn't require any extra action by the developer, just fire the event and the widget pops up.
@@ -990,9 +992,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          *
          * In both modes the button that invokes the uploader has the id 'upload_content'
          */
-        $(window).unbind("sakai-fileupload-init");
+        $(window).unbind("init.fileupload.sakai");
         /**
-         * Bind to sakai-fileupload-init
+         * Bind to init.fileupload.sakai
          *
          * @param {Object} ev The event
          * @param {Object} data Data to configure the fileupload widget. Can contain:
@@ -1000,7 +1002,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          {Boolean} isLink If this new version of a file is a link, defaults to false
          {String} contentPath The path to the existing content to add a new version to
          */
-        $(window).bind("sakai-fileupload-init", function(ev, data){
+        $(window).bind("init.fileupload.sakai", function(ev, data){
             var contentPath = "";
             if (data) {
                 uploadingNewVersion = data.newVersion || false;
@@ -1046,7 +1048,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         "tooltipTop": 10,
                         "tooltipLeft": 150
                     };
-                    $(window).trigger("sakai-tooltip-update", tooltipData);
+                    $(window).trigger("update.tooltip.sakai", tooltipData);
                 }
             }
         });

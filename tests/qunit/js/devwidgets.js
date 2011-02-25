@@ -137,7 +137,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         sakai_global.qunit.widgets.push({name:widgetName, html: widgetHTML, js: widgetJS});
                         if (widgetList.length === sakai_global.qunit.widgets.length) {
                             sakai_global.qunit.widgetsdone = true;
-                            $(window).trigger("sakai-qunit-widgetsdone");
+                            $(window).trigger("widgetsdone.qunit.sakai");
                         }
                     }
                 });
@@ -148,7 +148,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
     if (sakai_global.qunit.devfilesdone) {
         loadWidgets();
     } else {
-        $(window).bind("sakai-qunit-devfilesdone", function() {
+        $(window).bind("devfilesdone.qunit.sakai", function() {
             loadWidgets();
         });
     }

@@ -184,7 +184,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         };
 
                         sakai_global.content_profile.content_data = json;
-                        $(window).trigger("sakai-contentprofile-ready");
+                        $(window).trigger("ready.contentprofile.sakai");
                         if ($.isFunction(callback)) {
                             callback(true);
                         }
@@ -223,10 +223,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 }
                 // The request was successful so initialise the relatedcontent widget
                 if (sakai_global.contentpreview && sakai_global.contentpreview.isReady) {
-                    $(window).trigger("sakai_global.contentpreview.start");
+                    $(window).trigger("start.contentpreview.sakai");
                 } else {
-                    $(window).bind("sakai_global.contentpreview.ready", function(e){
-                        $(window).trigger("sakai_global.contentpreview.start");
+                    $(window).bind("ready.contentpreview.sakai", function(e){
+                        $(window).trigger("start.contentpreview.sakai");
                         ready_event_fired++;
                     });
                 }
@@ -234,7 +234,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 if (sakai_global.contentmetadata && sakai_global.contentmetadata.isReady) {
                     $(window).trigger("render.contentmetadata.sakai");
                 } else {
-                    $(window).bind("sakai.contentmetadata.ready", function(e){
+                    $(window).bind("ready.contentmetadata.sakai", function(e){
                         $(window).trigger("render.contentmetadata.sakai");
                         ready_event_fired++;
                     });
@@ -344,16 +344,16 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     "tooltipLeft":30
                 };
                 if (!sakai.tooltip || !sakai.tooltip.isReady) {
-                    $(window).bind("sakai-tooltip-ready", function() {
-                        $(window).trigger("sakai-tooltip-init", tooltipData);
+                    $(window).bind("ready.tooltip.sakai", function() {
+                        $(window).trigger("init.tooltip.sakai", tooltipData);
                     });
                 } else {
-                    $(window).trigger("sakai-tooltip-init", tooltipData);
+                    $(window).trigger("init.tooltip.sakai", tooltipData);
                 }
             }
         };
 
-        $(window).bind("sakai-sharecontent-finished", function(e, peopleList){
+        $(window).bind("finished.sharecontent.sakai", function(e, peopleList){
             if(!peopleList.mode || peopleList.mode === undefined){
                 peopleList.mode = "viewers";
             }

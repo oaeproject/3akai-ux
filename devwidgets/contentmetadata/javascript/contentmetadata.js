@@ -402,11 +402,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             addBinding();
         };
 
-        $(window).bind("sakai-fileupload-complete", function(){
+        $(window).bind("complete.fileupload.sakai", function(){
             $(window).trigger("load.content_profile.sakai", renderDetails);
         });
 
-        $(window).bind("sakai-contentmetadata-renderlocations", function(ev, val){
+        $(window).bind("renderlocations.contentmetadata.sakai", function(ev, val){
             sakai_global.content_profile.content_data.saveddirectory = val.saveddirectory;
             sakai_global.content_profile.content_data.data["sakai:tags"] = val.tags;
             renderLocations(false);
@@ -426,7 +426,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             doInit();
         });
         sakai_global.contentmetadata.isReady = true;
-        $(window).trigger("sakai.contentmetadata.ready");
+        $(window).trigger("ready.contentmetadata.sakai");
     };
 
     sakai.api.Widgets.widgetLoader.informOnLoad("contentmetadata");
