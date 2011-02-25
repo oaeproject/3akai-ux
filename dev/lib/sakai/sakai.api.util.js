@@ -354,7 +354,7 @@ define(["jquery",
          * @param {Object} params Object containing parameters, Threedots plugin specific. The row limit for widget headers should be 4 rows.
          */
         applyThreeDots : function(body, width, params){
-            $container = $("<div style=\"width:" + width + "px; word-wrap:break-word; display:hidden;\"><span style=\"word-wrap:break-word;\" class=\"ellipsis_text\">" + body + "</span></div>");
+            $container = $("<div class=\"s3d-bold\" style=\"width:" + width + "px; ; word-wrap:break-word; display:hidden;\"><span style=\"word-wrap:break-word;\" class=\"ellipsis_text\">" + body + "</span></div>");
             $("body").append($container);
             $container.ThreeDots(params);
             var dotted = $container.children("span").text();
