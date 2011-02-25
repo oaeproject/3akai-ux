@@ -188,6 +188,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
             var pl_query = searchUrl + searchQuery + "&page=0&items=12&_=" + (Math.random() * 100000000000000000);
             renderSearch(pl_query);
+            return false;
         };
 
         /**

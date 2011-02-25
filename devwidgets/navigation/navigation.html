@@ -7,8 +7,7 @@
     <div class="fl-widget-titlebar s3d-widget-titlebar">
         <div class="widget-titlebar-inner s3d-widget-titlebar-inner">
             <span class="widget_title_icon"></span>
-            <a id="navigation_settings_icon" class="fl-force-right fl-icon settings"
-                href="javascript:;" title="__MSG__SETTINGS__" style="display:none;">__MSG__SETTINGS__</a>
+            <button type="button" id="navigation_settings_icon" class="fl-force-right fl-icon settings s3d-link-button s3d-action" title="__MSG__SETTINGS__" style="display:none;">__MSG__SETTINGS__</button>
             <h2 id="navigation_title" class="widget_title">__MSG__PAGES__
                 <span id="navigation_page_count"></span></h2>
         </div>
@@ -33,7 +32,7 @@
         <!-- SETTINGS VIEW -->
         <div id="navigation_settings" style="display:none;"><!-- TEMPLATE HERE --></div>
         <div id="navigation_settings_template"><!--
-            <form id="navigation_settings_form" method="post" action="javascript:;">
+            <form id="navigation_settings_form" method="post" action="#">
                 <p>__MSG__WHO_WOULD_YOU_LIKE_TO_SEE__ <span id="navigation_groupname">${groupname}</span>?</p>
                 <p><select id="navigation_pages_visibility">
                         <option{if visible===sakai.config.Permissions.Groups.visible.public}
@@ -69,10 +68,10 @@
             <div id="navigation_admin_options">
             <ul>
                 <li>
-                    <a href="javascript:;" id="navigation_create_page"><span id="navigation_create_page_icon"></span>__MSG__CREATE_PAGE__</a>
+                    <button type="button" id="navigation_create_page" class="s3d-link-button"><span id="navigation_create_page_icon"></span>__MSG__CREATE_PAGE__</button>
                 </li>
                 <li>
-                    <a href="javascript:;" id="navigation_delete_page"><span id="navigation_delete_page_icon"></span>__MSG__DELETE_PAGE__</a>
+                    <button type="button" id="navigation_delete_page" class="s3d-link-button"><span id="navigation_delete_page_icon"></span>__MSG__DELETE_PAGE__</button>
                 </li>
             </ul>
             </div>
@@ -89,7 +88,7 @@
     <!-- WIDGET SETTINGS MENU -->
     <div id="widget_settings_menu" style="display:none;">
         <ul>
-            <li id="settings_settings" class="more_option"><a id="settings_settings_link" href="javascript:;">__MSG__SETTINGS__</a></li>
+            <li id="settings_settings" class="more_option"><button type="button" class="s3d-link-button s3d-action" id="settings_settings_link">__MSG__SETTINGS__</button></li>
         </ul>
     </div>
 

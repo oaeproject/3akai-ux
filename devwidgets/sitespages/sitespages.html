@@ -33,7 +33,7 @@
             <div id="content_page_options_container">
                 <div class="content_page_options" id="content_page_options" style="display:none">
                     <ul class="fl-force-right">
-                        <li id="li_edit_page"><a href="javascript:;" id="edit_page">__MSG__EDIT__</a></li>
+                        <li id="li_edit_page"><button type="button" id="edit_page" class="s3d-link-button s3d-bold">__MSG__EDIT__</button></li>
                     </ul>
                 </div>
             </div>
@@ -95,7 +95,7 @@
                     <div class="content_page_options" id="content_edit_page_options">
                         <a href="http://confluence.sakaiproject.org/display/2ACC/Draft+TinyMCE+User+Documentation+for+Sakai+3" id="sitespages_accessibility_help" class="s3d-action" target="_blank">__MSG__ACCESSIBILITY_HELP__</a>
                         <ul class="fl-force-left">
-                            <li id="li_edit_page"><a href="javascript:;" id="edit_page_revert">__MSG__EDIT__</a></li>
+                            <li id="li_edit_page"><button type="button" id="edit_page_revert" class="s3d-link-button s3d-bold">__MSG__EDIT__</button></li>
                         </ul>
                     </div>
                 </div>
@@ -191,10 +191,10 @@
 
         <div class="s3d-sprites-buttons" id="more_menu" style="display:none">
             <ul>
-                <li id="more_revision_history" class="more_option"><a href="javascript:;" class="s3d-action">__MSG__REVISION_HISTORY__</a></li>
-                <li id="more_save_as_template" class="more_option"><a href="javascript:;" class="s3d-action">__MSG__SAVE_AS_TEMPLATE__</a></li>
-                <li id="more_change_layout" class="more_option"><a href="javascript:;" class="s3d-action">__MSG__CHANGE_LAYOUT__</a></li>
-                <li id="more_delete" class="more_option option_last"><a href="javascript:;" class="s3d-action">__MSG__DELETE__</a></li>
+                <li id="more_revision_history" class="more_option"><button type="button" class="s3d-action s3d-link-button">__MSG__REVISION_HISTORY__</button><hr class="fl-hidden fl-push"/></li>
+                <li id="more_save_as_template" class="more_option"><button type="button" class="s3d-action s3d-link-button">__MSG__SAVE_AS_TEMPLATE__</button><hr class="fl-hidden fl-push"/></li>
+                <li id="more_change_layout" class="more_option"><button type="button" class="s3d-action s3d-link-button">__MSG__CHANGE_LAYOUT__</button><hr class="fl-hidden fl-push"/></li>
+                <li id="more_delete" class="more_option option_last"><button type="button" class="s3d-action s3d-link-button">__MSG__DELETE__</button><hr class="fl-hidden fl-push"/></li>
             </ul>
         </div>
     --></div>
@@ -225,8 +225,8 @@
     <div id="insert_more_menu" class="insert_more_menu" style="display:none">
         <div class="insert_more_menu_border">
             <ul>
-                <li><a href="javascript:;" id="link_dialog_trigger">__MSG__LINK__</a></li>
-                <li><a href="javascript:;" id="horizontal_line_insert">__MSG__HORIZONTAL_LINE__</a></li>
+                <li><button type="button" id="link_dialog_trigger" class="s3d-link-button">__MSG__LINK__</button></li>
+                <li><button type="button" id="horizontal_line_insert" class="s3d-link-button">__MSG__HORIZONTAL_LINE__</button></li>
             </ul>
         </div>
         <div id="insert_more_media" class="insert_more_menu_border">
@@ -244,7 +244,7 @@
         <ul>
             <li class="insert_more_menu_inactive">__MSG__MEDIA__:</li>
             {for i in items}
-                <li><a href="javascript:;" id="insert_more_widget_${i.id}" class="insert_more_widget">${i.name}</a></li>
+                <li><button stype="button" id="insert_more_widget_${i.id}" class="insert_more_widget s3d-link-button">${i.name}</button></li>
             {forelse}
                 <li class="insert_more_menu_inactive"><i>__MSG__NOT_AVAILABLE__</i></li>
             {/for}
@@ -255,7 +255,7 @@
         <ul>
             <li class="insert_more_menu_inactive">__MSG__SAKAI_GOODIES__:</li>
             {for i in items}
-                <li><a href="javascript:;" id="insert_more_widget_${i.id}" class="insert_more_widget">${i.name}</a></li>
+                <li><button type="button" id="insert_more_widget_${i.id}" class="insert_more_widget s3d-link-button">${i.name}</button></li>
             {/for}
             <li class="insert_more_menu_inactive">(__MSG__MORE_COMING_SOON__)</li>
         </ul>
@@ -265,7 +265,7 @@
         <ul>
             <li class="insert_more_menu_inactive">__MSG__SIDEBAR_GOODIES__:</li>
             {for i in items}
-                <li><a href="javascript:;" id="insert_more_widget_${i.id}" class="insert_more_widget">${i.name}</a></li>
+                <li><button type="button" id="insert_more_widget_${i.id}" class="insert_more_widget s3d-link-button">${i.name}</button></li>
             {/for}
         </ul>
     --></div>
@@ -277,7 +277,7 @@
         <div class="dialog_header">
             <div class="dialog_header_inner">
             <h1 id="dialog_title"></h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+            <button type="button" class="jqmClose dialog_close_image s3d-link-button" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</button>
             </div>
         </div>
         <!-- DIALOG CONTENT -->
@@ -294,7 +294,7 @@
         <div class="dialog_header">
             <div class="dialog_header_inner">
             <h1>__MSG__APPEARANCE__</h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+            <button type="button" class="jqmClose dialog_close_image s3d-link-button" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</button>
             </div>
         </div>
 
@@ -303,9 +303,9 @@
             <h3 style="margin-top:0px">__MSG__SELECT_WRAPPING_FOR_YOUR_WIDGET__</h3>
 
             <ul style="margin-left:1em">
-                <li style="list-style-type:none; padding-l"><a id="wrapping_no" href="javascript:;">__MSG__NO_WRAPPING__</a></li>
-                <li style="list-style-type:none"><a id="wrapping_left" href="javascript:;">__MSG__LEFT_WRAPPING__</a></li>
-                <li style="list-style-type:none"><a id="wrapping_right" href="javascript:;">__MSG__RIGHT_WRAPPING__</a></li>
+                <li style="list-style-type:none; padding-l"><button type="button" id="wrapping_no" class="s3d-link-button s3d-bold">__MSG__NO_WRAPPING__</button></li>
+                <li style="list-style-type:none"><button type="button" id="wrapping_left" class="s3d-link-button s3d-bold">__MSG__LEFT_WRAPPING__</button></li>
+                <li style="list-style-type:none"><button type="button" id="wrapping_right" class="s3d-link-button s3d-bold">__MSG__RIGHT_WRAPPING__</button></li>
             </ul>
 
             <div class="dialog_buttons">
@@ -324,7 +324,7 @@
         <div class="dialog_header">
             <div class="dialog_header_inner">
             <h1>__MSG__AUTO__ __MSG__SAVE__</h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+            <button type="button" class="jqmClose dialog_close_image s3d-link-button" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</button>
             </div>
         </div>
 
@@ -350,7 +350,7 @@
         <div class="dialog_header">
             <div class="dialog_header_inner">
             <h1>__MSG__DELETE_A_PAGE__</h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+            <button type="button" class="jqmClose dialog_close_image s3d-link-button" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</button>
             </div>
         </div>
 
@@ -376,7 +376,7 @@
         <div class="dialog_header">
             <div class="dialog_header_inner">
             <h1>__MSG__DELETE_A_PAGE__</h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+            <button type="button" class="jqmClose dialog_close_image s3d-link-button" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</button>
             </div>
         </div>
 
@@ -399,7 +399,7 @@
         <div class="dialog_header">
             <div class="dialog_header_inner">
             <h1>__MSG__INSERT_A_LINK__</h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+            <button type="button" class="jqmClose dialog_close_image s3d-link-button" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</button>
             </div>
         </div>
 
@@ -431,13 +431,13 @@
         <div class="context_more">
             <ul>
                 <li id="context_settings" class="more_option">
-                    <a href="javascript:;" class="s3d-action">__MSG__SETTINGS__</a>
+                    <button type="button" class="s3d-action s3d-link-button">__MSG__SETTINGS__</button>
                 </li>
                 <li id="context_remove" class="more_option">
-                    <a href="javascript:;" class="s3d-action">__MSG__REMOVE__</a>
+                    <button type="button" class="s3d-action s3d-link-button">__MSG__REMOVE__</button>
                 </li>
                 <li id="context_appearance_trigger" class="more_option option_last">
-                    <a href="javascript:;" class="s3d-action">__MSG__WRAPPING__</a>
+                    <button type="button" class="s3d-action s3d-link-button">__MSG__WRAPPING__</button>
                 </li>
             </ul>
         </div>
@@ -449,7 +449,7 @@
         <div class="dialog_header">
             <div class="dialog_header_inner">
             <h1>__MSG__SAVE_AS_TEMPLATE__</h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+            <button type="button" class="jqmClose dialog_close_image s3d-link-button" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</button>
             </div>
         </div>
 
@@ -481,7 +481,7 @@
         <div class="dialog_header">
             <div class="dialog_header_inner">
             <h1>__MSG__ADD_PAGE_FROM_TEMPLATE__</h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+            <button type="button" class="jqmClose dialog_close_image s3d-link-button" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</button>
             </div>
         </div>
 
@@ -494,11 +494,11 @@
                 <ul class="fl-list-menu template_list">
                     {for i in items}
                 <li>
-                        <a class="fl-icon fl-force-right delete template_delete" id="template_delete_${i.id}" href="javascript:;"></a>
-                        <a href="javascript:;" id="page_template_selection_${i.id}" class="page_template_selection">
+                        <button type="button" class="fl-icon fl-force-right delete template_delete s3d-link-button s3d-bold" id="template_delete_${i.id}"></button>
+                        <button type="button" id="page_template_selection_${i.id}" class="page_template_selection s3d-link-button s3d-bold">
                             <span class="menu_title">${i.name}</span>
                             <span class="description">${i.description}</span>
-                        </a>
+                        </button>
                     </li>
                     {/for}
             </ul>
@@ -523,12 +523,12 @@
         <div class="dialog_header">
             <div class="dialog_header_inner">
             <h1>__MSG__ADD_A_DASHBOARD_PAGE__.</h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+            <button type="button" class="jqmClose dialog_close_image s3d-link-button" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</button>
             </div>
         </div>
 
         <div class="dialog_content">
-            <form method="POST" action="javascript:;">
+            <form method="POST" action="#">
                 <label for="dashboard_addpage_title">__MSG__WHAT_IS_THE_TITLE_FOR_DASHBOARD_PAGE__.</label><br />
                 <input type="text" maxlength="255" id="dashboard_addpage_title" />
 
@@ -554,7 +554,7 @@
         <li><a id="site_management_files_link" href="/dev/content_media.html?siteid=">__MSG__SITE_FILES__</a></li>
         <li><a id="site_management_members_link" href="/dev/site_management_members_manage.html?siteid=">__MSG__MEMBERS__</a></li>
         <li><a id="site_management_appearance_link" href="/dev/site_management_appearance.html?siteid=">__MSG__APPEARANCE__</a></li>
-        <li><a href="javascript:;" id="edit_sidebar">__MSG__EDIT_SIDEBAR__</a></li>
+        <li><button type="button" id="edit_sidebar" class="s3d-link-button s3d-bold">__MSG__EDIT_SIDEBAR__</button></li>
     </ul>
 </div> -->
 

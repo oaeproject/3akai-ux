@@ -247,8 +247,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var $clicked = $(e.target);
 
                 // Check if one of the parents is the userLink
-                if (!$clicked.parents().is(userLink)) {
-                    showHideUserLinkMenu(true);
+                if ($clicked.is(userLink)) {
+                    showHideUserLinkMenu(false);
                 }
             });
 
@@ -259,7 +259,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $(window).bind("click", function(e){
                 // if menu is visible and the target element clicked is not menu hide dropdown
-                if ($(userLinkMenu).is(":visible") && !$(e.target).parents().is(userLink)){
+                if ($(userLinkMenu).is(":visible") && !$(e.target).is(userLink)){
                     showHideUserLinkMenu(true);
                 }
             });
