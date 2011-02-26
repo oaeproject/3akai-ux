@@ -219,17 +219,16 @@ a.s3d-action-seeall{font-size:11px!important;}
 html > body .s3d-button .s3d-button-inner{white-space:normal;/* only do the white-space fix on IE6 */}
 
 /* Link button */
-.s3d-button-link-2-state{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -1277px transparent;
-    min-width:69px;}
+.s3d-button-link-2-state{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -1277px transparent;}
 .s3d-button-link-2-state-inner{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -1237px transparent!important;
     margin:0!important;color:#333!important;font-size:11px;}
 .s3d-button-link-2-state-inner-secondary{font-size:9px;}
 .s3d-button:hover .s3d-button-link-2-state-inner{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -1317px transparent!important;color:#FFF!important;}
 .s3d-button-link-2-state:hover{background-position:right -1357px;}
-.s3d-button-link-2-state-inner span {float:left;}
-.s3d-button-link-2-state-inner .s3d-button-arrow-down {width:15px;height:15px;margin-top:5px;
+.s3d-button-link-2-state-inner span {zoom:1; /* only affects IE - proprietary property */}
+.s3d-button-link-2-state-inner .s3d-button-arrow-down {width:15px;height:15px;margin-top:5px;padding-right:15px;
     background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -123px -396px transparent;}
-.s3d-button-link-2-state-inner .s3d-button-arrow-up {width:15px;height:15px;margin-top:5px;
+.s3d-button-link-2-state-inner .s3d-button-arrow-up {width:15px;height:15px;margin-top:5px;padding-right:15px;
     background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -213px -396px transparent;}
 
 /* Primary button */
