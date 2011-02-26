@@ -76,7 +76,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var hideHelp = function() {
             $help_widget.jqmHide();
-            $(window).trigger("close.help.sakai");
+            $(window).trigger("done.help.sakai");
         };
 
         /**

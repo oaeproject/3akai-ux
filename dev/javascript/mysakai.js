@@ -104,7 +104,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
             // If the user isn't logged in, redirect them to do so, as the dashboard is relevant
             // only when you're logged in
-            $(window).bind("sakai.dashboard.notLoggedIn sakai.dashboard.notUsersDashboard", function(e) {
+            $(window).bind("notLoggedIn.dashboard.sakai notUsersDashboard.dashboard.sakai", function(e) {
                 document.location = sakai.config.URL.GATEWAY_URL;
             });
         };
