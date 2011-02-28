@@ -185,7 +185,7 @@
                 </div>
                 <div class="fl-force-left entity_content_description">
                     <div class="fl-force-left entity_content_new_events">
-                        <a id="entity_content_activity" href="#" class="s3d-regular-light-links s3d-bold">
+                        <button type="button" id="entity_content_activity" class="s3d-regular-light-links s3d-bold s3d-link-button">
                             {if data.profile.activity}
                                 {if data.profile.activity.total < 0}
                                     More than ${Math.abs(data.profile.activity.total)}
@@ -200,15 +200,15 @@
                             {else}
                             0 __MSG__THINGS_HAVE_HAPPENED__
                             {/if}
-                        </a>
+                        </button>
                     </div>
                     <div class="fl-force-left entity_content_used_by">
                         <p class="entity_usedby">__MSG__USED_BY__
-                            <a href="#" class="entity_content_people s3d-regular-light-links s3d-bold">
+                            <button type="button" class="entity_content_people s3d-regular-light-links s3d-bold s3d-link-button">
                                 ${data.profile.usercount}
-                                {if data.profile.usercount === 1}__MSG__PERSON__{else}__MSG__PEOPLE__{/if}</a>
+                                {if data.profile.usercount === 1}__MSG__PERSON__{else}__MSG__PEOPLE__{/if}</button>
                             __MSG__AND__
-                            <a href="#" class="entity_content_group s3d-regular-light-links s3d-bold">
+                            <button type="button" class="entity_content_group s3d-regular-light-links s3d-bold s3d-link-button">
                                 
                                 ${data.profile.groupcount}
                                 {if data.profile.groupcount === 1}
@@ -216,11 +216,11 @@
                                 {else}
                                     __MSG__GROUPS__
                                 {/if}
-                            </a>
+                            </button>
                         </p>
                     </div>
                     <div class="fl-force-left entity_content_permissions">
-                        <a id="entity_content_share_link" href="#" class="s3d-regular-light-links s3d-bold">
+                        <button type="button" id="entity_content_share_link" class="s3d-regular-light-links s3d-bold s3d-link-button">
                         <p class="entity_content_link_icon"></p>
                             {if data.profile.permissions === "public"}
                                 __MSG__VISIBLE_TO_ANYONE__
@@ -242,7 +242,7 @@
                             {else}
                                 __MSG__VISIBLE_TO_ANYONE__
                             {/if}
-                        </a>
+                        </button>
                     </div>
                 </div>
             {/if}

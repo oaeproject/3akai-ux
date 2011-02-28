@@ -86,7 +86,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 params['q'] = selected;
             }
             $.ajax({
-                url: searchUrl,
+                url: searchURL,
                 cache: false,
                 data: params,
                 success: function(data){

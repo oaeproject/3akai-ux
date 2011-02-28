@@ -64,12 +64,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} id ID of the clicked element
          */
         var clickedChild = function(id){
-            $("li#" + id).children("button").click();
+            $("li#" + id).children("a").click();
         };
 
         $(nextleveldownChild).live("click",function(){
             clickedChild(this.id);
-            return false;
         });
 
         $(window).bind("selected.directory.sakai", function(ev, selectedpath, selected){
