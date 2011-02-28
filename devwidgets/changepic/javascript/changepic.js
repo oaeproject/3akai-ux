@@ -241,7 +241,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
         $("#changepic_container .jqmClose").click(function(){
             resetUploadField();
             // hide any tooltips if they are open
-            $(window).trigger("close.tooltip.sakai");
+            $(window).trigger("done.tooltip.sakai");
         });
 
         /**
