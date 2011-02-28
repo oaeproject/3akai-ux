@@ -272,6 +272,8 @@ html > body .s3d-button .s3d-button-inner{white-space:normal;/* only do the whit
 /*
  * INPUT FIELDS
  */input[type="text"]:hover,input[type="password"]:hover,textarea:hover,.as-selections:hover,.as-selections:hover input{background:none repeat scroll 0 0 #D3EDF5;}
+/* Textarea default border in IE 8 make the text area look bigger SAKIII-2466*/
+textarea:hover { border-width:1px; }
 
 
 /*
