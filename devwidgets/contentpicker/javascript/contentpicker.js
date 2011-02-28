@@ -312,8 +312,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             addChoicesFromPickeradvanced(data.toAdd);
         });
 
-        $(window).unbind("sakai-contentpicker-init");
-        $(window).bind("sakai-contentpicker-init", function(e, config) {
+        $(window).unbind("init.contentpicker.sakai");
+        $(window).bind("init.contentpicker.sakai", function(e, config) {
 
             // position dialog box at users scroll position
             var htmlScrollPos = $("html").scrollTop();

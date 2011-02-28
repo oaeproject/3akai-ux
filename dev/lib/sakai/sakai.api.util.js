@@ -1138,7 +1138,10 @@ define(["jquery",
             // If so, put the rendered template in there
             if (outputElement) {
                 outputElement.html(render);
+                // tell MathJax about the updated element
+                //MathJax.Hub.Queue(["Typeset", MathJax.Hub, outputElement]);
             }
+
             return render;
         },
         Security: {
@@ -1363,6 +1366,19 @@ define(["jquery",
                     callback();
                 }
             }
+        },
+        /**
+        * Runs MathJax over an element replacing any math TeX with rendered 
+        * rendered formulas
+        *
+        * @param element {String} The element (or it's id) that should be checked for math
+        */
+        renderMath : function(element) {
+            if (element instanceof jQuery && element[0])
+            {
+                element = element[0];
+            }
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub, element]);
         }
     };
     

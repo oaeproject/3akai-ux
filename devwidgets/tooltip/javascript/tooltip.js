@@ -99,8 +99,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(window).trigger("init.tooltip.sakai", tooltipData);
             });
             // bind tooltip close
-            $(window).unbind("close.tooltip.sakai");
-            $(window).bind("close.tooltip.sakai", function() {
+            $(window).unbind("done.tooltip.sakai");
+            $(window).bind("done.tooltip.sakai", function() {
                 hideTooltip();
             });
             $(".tooltip_close").unbind("click");
