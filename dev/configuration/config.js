@@ -22,7 +22,7 @@ define(function() {
             // Static URLs
             CONTENT_MEDIA_URL: "/dev/content_media.html",
             COURSES_SITES_URL: "/dev/courses_sites.html",
-            GATEWAY_URL: "/index",
+            GATEWAY_URL: "/",
             GROUP_EDIT_URL: "/group/edit",
             I10N_BUNDLE_URL: "/dev/lib/misc/l10n/globinfo/Globalization.__CODE__.min.js",
             I18N_BUNDLE_ROOT: "/dev/bundle/",
