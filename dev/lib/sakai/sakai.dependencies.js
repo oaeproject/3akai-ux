@@ -95,6 +95,7 @@ require(
         "/dev/lib/jquery/plugins/jquery.cookie.js",
         "/dev/lib/jquery/plugins/jquery.ba-bbq.js",
         "/dev/lib/jquery/plugins/jquery.pager.js",
+        "/dev/lib/jquery/plugins/jquery.scrollTo.js",
         "/dev/lib/jquery/plugins/jquery.threedots.js",
         "/dev/lib/jquery/plugins/jquery.form.js",
         "/dev/lib/jquery/plugins/jquery.MultiFile.js",

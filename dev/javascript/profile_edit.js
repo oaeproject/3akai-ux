@@ -550,6 +550,14 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
             });
 
+            $("#profile_form input").live("focus", function(){
+                if ($(this).offset().top > $(window).height() - 20) {
+                    $(this).focus(function(){
+                        $.scrollTo('+=30px');
+                    });
+                }
+            });
+
         };
 
         jQuery.validator.addMethod("appendhttp", function(value, element) {
