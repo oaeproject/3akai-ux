@@ -140,7 +140,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * When the Basic Group Info widget has finished updating the group details, it will come
          * back to this function
          */
-        $(window).bind("sakai_global.groupbasicinfo.updateFinished", function () {
+        $(window).bind("updateFinished.groupbasicinfo.sakai", function () {
             // enable group basic info input elements
             sakai_global.groupbasicinfo.enableInputElements();
             // Show a notification on the screen
@@ -196,7 +196,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             } else if (listType === 'content') {
                 url = "/var/search/pool/files?group=" + groupid;
             }
-            $(window).trigger("sakai-listpeople-render", {"tuid": listType, "listType": listType, "pl_config": pl_config, "url": url, "id": groupid});
+            $(window).trigger("render.listpeople.sakai", {"tuid": listType, "listType": listType, "pl_config": pl_config, "url": url, "id": groupid});
         };
 
         /**
@@ -285,29 +285,12 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             });
         };
 
-        /**
-         * Add users
-         * Function that gets the list of selected users from the people picker widget and adds them to the group
-         * @param {String} tuid Identifier for the widget/type of user we're removing (member or a manager)
-         */
-        var addContent = function(contentList) {
-            // only pass the IDs of the content
-            var contentArray = [];
-            $(contentList).each(function(i, content) {
-                if (content && content.value) {
-                    contentArray.push(content.value);
-                }
-            });
-
-            sakai.api.Groups.addContentToGroup(groupid, contentList, function(success) {
-                if (success) {
-                    renderItemLists('content');
-                    sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_content_text").text()),
-                                                     sakai.api.Security.saneHTML($("#group_edit_content_added_text").text()),
-                                                     sakai.api.Util.notification.type.INFORMATION);
-                    $("#group_editing_add_content").focus();
-                }
-            });
+        var addContent = function() {
+            renderItemLists('content');
+            sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_content_text").text()),
+                                             sakai.api.Security.saneHTML($("#group_edit_content_added_text").text()),
+                                             sakai.api.Util.notification.type.INFORMATION);
+            $("#group_editing_add_content").focus();
         };
 
         /**
@@ -444,7 +427,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var addBinding = function(){
 
             // Bind the listpeople widgets
-            $(window).bind("sakai-listpeople-ready", function(e, tuid){
+            $(window).bind("ready.listpeople.sakai", function(e, tuid){
                 renderItemLists(tuid);
             });
 
@@ -455,7 +438,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
             // Bind the update button
             $("#group_editing_button_update").bind("click", function(){
-                $(window).trigger("sakai.groupbasicinfo.update");
+                $(window).trigger("update.groupbasicinfo.sakai");
             });
 
             // Bind the don't update button
@@ -484,7 +467,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * Add binding to the pickeruser widget buttons for adding users
          */
         var addPickUserBinding = function(){
-            $(window).bind("sakai-pickeruser-ready", function(e){
+            $(window).bind("ready.pickeruser.sakai", function(e){
                 var pl_config = {
                     "mode": "search",
                     "selectable":true,
@@ -501,10 +484,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     pl_config.type = "people";
                     pl_config.what = "Members";
                     pl_config.excludeList = getMembersAndManagers();
-                    $(window).trigger("sakai-pickeruser-init", pl_config, function(people) {
+                    $(window).trigger("init.pickeruser.sakai", pl_config, function(people) {
                     });
-                    $(window).unbind("sakai-pickeruser-finished");
-                    $(window).bind("sakai-pickeruser-finished", function(e, peopleList) {
+                    $(window).unbind("finished.pickeruser.sakai");
+                    $(window).bind("finished.pickeruser.sakai", function(e, peopleList) {
                         var peopleToAdd = filterUsers(peopleList.toAdd, 'members');
                         addUsers('members', peopleToAdd);
                     });
@@ -515,10 +498,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     pl_config.type = "people";
                     pl_config.what = "Managers";
                     pl_config.excludeList = getManagers();
-                    $(window).trigger("sakai-pickeruser-init", pl_config, function(people) {
+                    $(window).trigger("init.pickeruser.sakai", pl_config, function(people) {
                     });
-                    $(window).unbind("sakai-pickeruser-finished");
-                    $(window).bind("sakai-pickeruser-finished", function(e, peopleList) {
+                    $(window).unbind("finished.pickeruser.sakai");
+                    $(window).bind("finished.pickeruser.sakai", function(e, peopleList) {
                         var peopleToAdd = filterUsers(peopleList.toAdd, 'managers');
                         addUsers('managers', peopleToAdd);
                     });
@@ -527,10 +510,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 // Bind the add content button
                 $("#group_editing_add_content").bind("click", function(){
                     $(window).trigger('sakai-contentpicker-init', {"name":sakai_global.currentgroup.data.authprofile["sakai:group-title"], "mode": "picker", "type": "share", "limit": false, "filter": false});
-                    $(window).unbind("sakai-contentpicker-finished");
-                    $(window).bind("sakai-contentpicker-finished", function(e, fileList) {
+                    $(window).unbind("finished.contentpicker.sakai");
+                    $(window).bind("finished.contentpicker.sakai", function(e, fileList) {
                         if (fileList.items.length) {
-                            addContent(fileList.items);
+                            addContent();
                         }
                     });
                 });

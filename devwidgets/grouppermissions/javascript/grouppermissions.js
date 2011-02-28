@@ -103,7 +103,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Bindings //
         //////////////
         
-        $(window).bind("sakai_global.grouppermissions.update", function() {
+        $(window).bind("update.grouppermissions.sakai", function() {
             updateGroupPermissions();
         });
 

@@ -71,7 +71,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             clickedChild(this.id);
         });
 
-        $(window).bind("sakai-directory-selected", function(ev, selectedpath, selected){
+        $(window).bind("selected.directory.sakai", function(ev, selectedpath, selected){
             renderChildren(sakai_global.browsedirectory.getDirectoryNodeJson(selectedpath.split("/")[selectedpath.split("/").length -1]));
         });
     };

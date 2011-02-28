@@ -241,7 +241,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
         $("#changepic_container .jqmClose").click(function(){
             resetUploadField();
             // hide any tooltips if they are open
-            $(window).trigger("sakai-tooltip-close");
+            $(window).trigger("done.tooltip.sakai");
         });
 
         /**
@@ -422,7 +422,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
                                 "tooltipArrow":"top",
                                 "tooltipLeft":50
                             };
-                            $(window).trigger("sakai-tooltip-update", tooltipData);
+                            $(window).trigger("update.tooltip.sakai", tooltipData);
                         },
                         onSelectChange: preview
                     });
@@ -452,7 +452,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
                 "tooltipDescription":"TOOLTIP_ADD_MY_PHOTO_P3",
                 "tooltipArrow":"bottom"
             };
-            $(window).trigger("sakai-tooltip-update", tooltipData);
+            $(window).trigger("update.tooltip.sakai", tooltipData);
         });
 
         // This is the function that will be called when a user has cut out a selection
@@ -528,7 +528,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
                                 "tooltipLeft":40,
                                 "tooltipAutoClose":true
                             };
-                            $(window).trigger("sakai-tooltip-update", tooltipData);
+                            $(window).trigger("update.tooltip.sakai", tooltipData);
 
                             // Hide the layover.
                             $(container).jqmHide();
@@ -594,7 +594,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
                     "tooltipDescription": "TOOLTIP_ADD_MY_PHOTO_P2",
                     "tooltipArrow": "top"
                 };
-                $(window).trigger("sakai-tooltip-update", tooltipData);
+                $(window).trigger("update.tooltip.sakai", tooltipData);
             }
         };
 
@@ -616,7 +616,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
             id = _id;
         });
 
-        $(window).trigger("sakai-changepic-ready");
+        $(window).trigger("ready.changepic.sakai");
     };
 
     sakai.api.Widgets.widgetLoader.informOnLoad("changepic");

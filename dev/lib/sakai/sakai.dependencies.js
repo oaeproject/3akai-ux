@@ -85,11 +85,11 @@ require(
         "/dev/lib/jquery/jquery-ui.full.js",
         "/dev/lib/jquery/plugins/jquery.validate.sakai-edited.js",
         "/dev/lib/jquery/plugins/jquery.autoSuggest.sakai-edited.js",
-        "/dev/lib/fluid/3akai_Infusion.js",
         "/dev/lib/misc/l10n/globalization.js",
         "/dev/lib/jquery/plugins/jquery.json.js",
         "/dev/lib/misc/google/html-sanitizer-minified.js",
         "/dev/lib/misc/querystring.js",
+        "/dev/lib/fluid/3akai_Infusion.js",
         "/dev/lib/jquery/plugins/jquery.timeago.js",
         "/dev/lib/jquery/plugins/jqmodal.sakai-edited.js",
         "/dev/lib/jquery/plugins/jquery.cookie.js",
@@ -107,6 +107,22 @@ require(
                 // Start i18n
                 sakai.api.i18n.init(data);
             });
+            // I know this is hideous
+            (function () {
+                var script = document.createElement("script");
+                script.type = "text/javascript";
+                script.src = "/dev/lib/MathJax/MathJax.js";
+
+                var config = 'MathJax.Hub.Config({ messageStyle: "none" }); ' +
+                             'MathJax.Hub.Config({ config: "MathJax.js" }); ' +
+                             'MathJax.Hub.Startup.onload();';
+
+                if (window.opera) {script.innerHTML = config;}
+                else {script.text = config;}
+
+                $("head")[0].appendChild(script);
+              })();
+
         });
         return sakai;
     }

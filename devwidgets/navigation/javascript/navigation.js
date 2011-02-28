@@ -901,7 +901,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         if (sakai_global.sitespages.isReady) {
             sakai_global.sitespages.navigation.renderNavigation(sakai_global.sitespages.selectedpage, sakai_global.sitespages.site_info._pages);
         } else {
-            $(window).bind("sakai-sitespages-ready", function() {
+            $(window).bind("ready.sitespages.sakai", function() {
                 sakai_global.sitespages.navigation.renderNavigation(sakai_global.sitespages.selectedpage, sakai_global.sitespages.site_info._pages);
             });
         }

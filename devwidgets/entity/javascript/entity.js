@@ -462,7 +462,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
             // Do a batch request to get contacts, invited and pending
             var reqs = [
                 {
-                    url : sakai.config.URL.CONTACTS_FIND,
+                    url : sakai.config.URL.CONTACTS_FIND_STATE,
                     method : "GET",
                     parameters : {
                         items: 100,
@@ -471,7 +471,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
                     }
                 },
                 {
-                    url : sakai.config.URL.CONTACTS_FIND,
+                    url : sakai.config.URL.CONTACTS_FIND_STATE,
                     method : "GET",
                     parameters : {
                         items: 100,
@@ -480,7 +480,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
                     }
                 },
                 {
-                    url : sakai.config.URL.CONTACTS_FIND,
+                    url : sakai.config.URL.CONTACTS_FIND_STATE,
                     method : "GET",
                     parameters : {
                         items: 100,
@@ -528,7 +528,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
                             $("#entity_contact_" + entityconfig.data.profile.chatstatus).show();
 
                             // Add binding to chat status updates for the contact
-                            $(window).bind("sakai-chat-update", handleChatUpdate);
+                            $(window).bind("update.chat.sakai", handleChatUpdate);
                         }
                     }
                     var contacts = $.parseJSON(data.results[0].body);
@@ -981,7 +981,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
             if (sakai_global.changepic) {
                 $(window).trigger("setData.changepic.sakai", ["group", entityconfig.data.profile["sakai:group-id"]]);
             } else {
-                $(window).bind("sakai-changepic-ready", function(e){
+                $(window).bind("ready.changepic.sakai", function(e){
                     $(window).trigger("setData.changepic.sakai", ["group", entityconfig.data.profile["sakai:group-id"]]);
                 });
             }
@@ -1304,7 +1304,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
                     "URL": sakai_global.content_profile.content_data.url + "/" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"]
                 };
 
-                $(window).trigger("sakai-sharecontent-init", pl_config, function(people){
+                $(window).trigger("init.sharecontent.sakai", pl_config, function(people){
                 });
 
                 // display help tooltip
@@ -1316,12 +1316,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
                     "tooltipTop":3,
                     "tooltipLeft":120
                 };
-                $(window).trigger("sakai-tooltip-update", tooltipData);
+                $(window).trigger("update.tooltip.sakai", tooltipData);
 
                 return false;
             });
 
-            $(window).bind("sakai-sharecontent-addUser", function(e, data) {
+            $(window).bind("addUser.sharecontent.sakai", function(e, data) {
                 // add users that were added to content member list and render template
                 var comma = "";
                 var managerAdded = false;
@@ -1367,7 +1367,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
                 renderTemplate();
             });
 
-            $(window).bind("sakai-sharecontent-removeUser", function(e, data) {
+            $(window).bind("removeUser.sharecontent.sakai", function(e, data) {
                 // filter out the user that was removed and render template
                 sakai_global.content_profile.content_data.members.managers = $.grep(sakai_global.content_profile.content_data.members.managers, function(resultObject, index){
                     if (resultObject["sakai:group-id"] === data.user) {
@@ -1392,7 +1392,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
                 renderTemplate();
             });
 
-            $(window).bind("sakai-sharecontent-setGlobalPermission", function() {
+            $(window).bind("setGlobalPermission.sharecontent.sakai", function() {
                 // update content permission and render template
                 entityconfig.data.profile.permissions = sakai_global.content_profile.content_data.data["sakai:permissions"];
                 renderTemplate();
@@ -1528,7 +1528,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
             updateChatStatusElement(newChatStatus);
         });
 
-        $(window).bind("sakai-fileupload-complete", function(){
+        $(window).bind("complete.fileupload.sakai", function(){
             if (sakai.hasOwnProperty("content_profile")) {
                 $(window).trigger("render.entity.sakai", ["content", sakai_global.content_profile.content_data]);
             }

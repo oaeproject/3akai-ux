@@ -87,6 +87,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var config = {};
         var insertDropdownPositionSet = false;
+        var bookmark = false;
 
         var doInit = function(basepath, fullpath, url, editMode, homepage, pageEmbedProperty, dashboardEmbedProperty){
             config.basepath = basepath;
@@ -474,6 +475,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                         // Add element to the DOM
                         $main_content_div.append($el);
+
+                        // Tell MathJax the element is updated
+                        sakai.api.Util.renderMath(sakai_global.sitespages.selectedpage);
                     }
 
                 // Insert widgets
@@ -525,7 +529,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             return url_safe_title;
         };
 
-        $(window).bind("sakai_global.dashboard.ready", function(e, tuid) {
+        $(window).bind("ready.dashboard.sakai", function(e, tuid) {
             var split = $(sakai_global.sitespages.pagecontents[sakai_global.sitespages.selectedpage]["sakai:pagecontent"]).attr("id").split("_");
             var entityID = false;
             if (sakai_global.profile.main.data["rep:userId"]) {
@@ -555,6 +559,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var pagecontent = sakai_global.sitespages.pagecontents[sakai_global.sitespages.selectedpage]["sakai:pagecontent"] || "";
                 $("#" + sakai_global.sitespages.selectedpage).html(pagecontent);
                 sakai.api.Widgets.widgetLoader.insertWidgets(sakai_global.sitespages.selectedpage, null, config.basepath);
+                sakai.api.Util.renderMath(sakai_global.sitespages.selectedpage);
             }
 
         };
@@ -888,6 +893,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(".insert_dropdown_widget_link").live("click", function(){
                 // hide dropdown
                 showHideInsertDropdown(true);
+
+                // restore the cursor position in the editor
+                if (bookmark) {
+                    tinyMCE.get("elm1").focus();
+                    tinyMCE.get("elm1").selection.moveToBookmark(bookmark);
+                }
+                bookmark = false;
+
                 var id = $(this).attr("id");
                 if (id==="link") {
                     $('#link_dialog').jqmShow();
@@ -1056,10 +1069,50 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "img[align|alt|border|height|hspace|src|vspace|width],"+
                     "li[align|clear|height|type|value|width],"+
                     "marquee[behavior|bgcolor|direction|height|hspace|loop|scrollamount|scrolldelay|vspace|width],"+
+                    "maction[],"+
+                    "maligngroup[],"+
+                    "malignmark[],"+
+                    "math[],"+
+                    "menclose[],"+
+                    "merror[],"+
+                    "mfenced[],"+
+                    "mfrac[],"+
+                    "mglyph[],"+
+                    "mi[],"+
+                    "mlabeledtr[],"+
+                    "mlongdiv[],"+
+                    "mmultiscripts[],"+
+                    "mn[],"+
+                    "mo[],"+
+                    "mover[],"+
+                    "mpadded[],"+
+                    "mphantom[],"+
+                    "mroot[],"+
+                    "mrow[],"+
+                    "ms[],"+
+                    "mscarries[],"+
+                    "mscarry[],"+
+                    "msgroup[],"+
+                    "msline[],"+
+                    "mspace[],"+
+                    "msqrt[],"+
+                    "msrow[],"+
+                    "mstack[],"+
+                    "mstyle[],"+
+                    "msub[],"+
+                    "msup[],"+
+                    "msubsup[],"+
+                    "mtable[],"+
+                    "mtd[],"+
+                    "mtext[],"+
+                    "mtr[],"+
+                    "munder[],"+
+                    "munderover[],"+
                     "ol[align|clear|height|start|type|width],"+
                     "p[align|clear|height|width],"+
                     "pre[clear|width|wrap],"+
                     "s[],"+
+                    "semantics[],"+
                     "small[],"+
                     "span[align],"+
                     "strike[],"+
@@ -1227,6 +1280,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var pos = tinymce.DOM.getPos(selected);
                 $context_menu.css({"top": pos.y + $("#elm1_ifr").position().top + 15 + "px", "left": pos.x + $("#elm1_ifr").position().left + 15 + "px", "position": "absolute"}).show();
             }
+
+            // save the cursor position in the editor
+            bookmark = tinyMCE.get("elm1").selection.getBookmark(1);
         };
 
         // hide the context menu when it is shown and a click happens elsewhere on the document
@@ -1356,7 +1412,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             clearInterval(sakai_global.sitespages.timeoutid);
 
-            $(window).trigger("sakai_sitespages_exitedit");
+            $(window).trigger("exitedit.sitespages.sakai");
 
             $context_menu.hide();
             sakai_global.sitespages.inEditView = false;
@@ -1459,6 +1515,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var pagecontent = sakai_global.sitespages.pagecontents[sakai_global.sitespages.selectedpage]["sakai:pagecontent"] || "";
             $("#" + sakai_global.sitespages.selectedpage).html(sakai.api.Security.saneHTML(pagecontent));
             $("#" + sakai_global.sitespages.selectedpage).show();
+            sakai.api.Util.renderMath(sakai_global.sitespages.selectedpage);
             if (sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage]["pageType"] === "webpage") {
                 $("#webpage_edit").show();
             }
@@ -1488,7 +1545,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Remove autosave
             removeAutoSaveFile();
 
-            $(window).trigger("sakai_sitespages_exitedit");
+            $(window).trigger("exitedit.sitespages.sakai");
 
             $("#sitespages_page_options #page_save_options").hide();
             $("#sitespages_page_options #page_options").show().html(sakai.api.Util.TemplateRenderer("#sitespages_page_options_container", {}));
@@ -1602,7 +1659,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             //Check if tinyMCE has been loaded before - probably a more robust check will be needed
             if (sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage]["pageType"] === "dashboard") {
                 var dashboardTUID = $("#" + sakai_global.sitespages.selectedpage).children("div").attr("id");
-                $(window).trigger("sakai-dashboard-showAddWidgetDialog", dashboardTUID);
+                $(window).trigger("showAddWidgetDialog.dashboard.sakai", dashboardTUID);
             } else {
                 if (tinyMCE.activeEditor === null) {
                     init_tinyMCE();
@@ -2535,6 +2592,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     var pagecontent = data["sakai:pagecontent"] || "";
                     if (type === "webpage") {
                         $("#" + sakai_global.sitespages.selectedpage).html(sakai.api.Security.saneHTML(pagecontent));
+                        sakai.api.Util.renderMath(sakai_global.sitespages.selectedpage);
                         sakai.api.Widgets.widgetLoader.insertWidgets(sakai_global.sitespages.selectedpage, null, sakai_global.sitespages.config.basepath + "_widgets/");
                         sakai_global.sitespages.pagecontents[sakai_global.sitespages.selectedpage]["sakai:pagecontent"] = pagecontent;
 
@@ -2596,6 +2654,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     var pagecontent = data["sakai:pagecontent"] || "";
                     if (type === "webpage") {
                         $("#" + sakai_global.sitespages.selectedpage).html(sakai.api.Security.saneHTML(pagecontent));
+                        sakai.api.Util.renderMath(sakai_global.sitespages.selectedpage);
                         sakai.api.Widgets.widgetLoader.insertWidgets(sakai_global.sitespages.selectedpage, null, sakai_global.sitespages.config.basepath + "_widgets/");
                     } else if (type === "dashboard") {
                         $("#" + sakai_global.sitespages.selectedpage).remove();
@@ -2890,7 +2949,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
 
         // INIT CODE
-        $(window).trigger("sakai_global.sitespages.ready");
+        $(window).trigger("ready.sitespages.sakai");
         sakai_global.sitespages.isReady = true;
     };
 

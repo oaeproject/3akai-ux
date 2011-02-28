@@ -58,7 +58,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             });
 
             $("#mysakai_more_customize_page").live("click", function() {
-                $(window).trigger("sakai-dashboard-showAddWidgetDialog", "mysakaidashboard");
+                $(window).trigger("showAddWidgetDialog.dashboard.sakai", "mysakaidashboard");
                 showHideMoreMenu(true);
             });
 
@@ -98,13 +98,13 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             if (sakai_global.dashboard && sakai_global.dashboard.isReady) {
                 initDashboard();
             } else {
-                $(window).bind("sakai_global.dashboard.ready", function(e, tuid) {
+                $(window).bind("ready.dashboard.sakai", function(e, tuid) {
                     initDashboard();
                 });
             }
             // If the user isn't logged in, redirect them to do so, as the dashboard is relevant
             // only when you're logged in
-            $(window).bind("sakai.dashboard.notLoggedIn sakai.dashboard.notUsersDashboard", function(e) {
+            $(window).bind("notLoggedIn.dashboard.sakai notUsersDashboard.dashboard.sakai", function(e) {
                 document.location = sakai.config.URL.GATEWAY_URL;
             });
         };

@@ -442,8 +442,7 @@ define(["jquery",
             } else {
                 // has to be synchronous
                 $.ajax({
-                    url: sakai_conf.URL.SEARCH_USERS_ACCEPTED,
-                    data: {"q": "*"},
+                    url: sakai.config.URL.CONTACTS_FIND_STATE,
                     async: false,
                     success: function(data) {
                         sakaiUserAPI.data.me.mycontacts = data.results;
@@ -623,146 +622,7 @@ define(["jquery",
                     // Check whether save was successful
                     if (success && refresh) {
                         // Refresh the widget
-                        $(window).trigger("sakai-systemtour-update");
-                    }
-                });
-            }
-        },
-
-        /**
-         * Checks system tour progress for the user and display tooltip reminders
-         */
-        checkUserProgress : function() {
-            if (!this.data.me.profile.userprogress){
-                this.data.me.profile.userprogress = {};
-            }
-            var me = this.data.me,
-                progressData = "",
-                tooltipProfileFlag = "",
-                tooltipSelector = "",
-                tooltipTitle = "",
-                tooltipDescription = "",
-                tooltipArrow = "top",
-                tooltipTop = 0,
-                tooltipLeft = 0,
-                displayTooltip = false,
-                contentLink = "",
-                hashPos = "",
-                newContentLink = "";
-            var curDate = new Date();
-            var curTimestamp = curDate.getTime();
-            var intervalTimestamp = parseInt(sakai_conf.SystemTour.reminderIntervalHours, 10) * 60 * 60 * 1000;
-
-            if (sakai_conf.SystemTour.enableReminders && me.profile.userprogress.hideSystemTour && !me.profile.userprogress.hideSystemTourReminders) {
-                if (!me.profile.userprogress.uploadedProfilePhoto && 
-                    (!me.profile.userprogress.uploadedProfilePhotoReminder || 
-                        (!me.profile.userprogress.uploadedProfilePhoto && me.profile.userprogress.uploadedProfilePhotoReminder && 
-                            ((me.profile.userprogress.uploadedProfilePhotoReminder + intervalTimestamp) < curTimestamp)))) {
-                    progressData = {"uploadedProfilePhotoReminder": curTimestamp};
-                    tooltipSelector = "#changepic_container_trigger";
-                    tooltipTitle = "TOOLTIP_ADD_MY_PHOTO";
-                    tooltipDescription = "TOOLTIP_ADD_MY_PHOTO_P1";
-                    displayTooltip = true;
-                    $(".systemtour_1").addClass("systemtour_1_selected");
-                    $(".systemtour_1").addClass("systemtour_button_selected");
-                } else if (!me.profile.userprogress.uploadedContent && 
-                    (!me.profile.userprogress.uploadedContentReminder || 
-                        (!me.profile.userprogress.uploadedContent && me.profile.userprogress.uploadedContentReminder && 
-                            ((me.profile.userprogress.uploadedContentReminder + intervalTimestamp) < curTimestamp)))) {
-                    progressData = {"uploadedContentReminder": curTimestamp};
-                    tooltipSelector = "#mycontent_footer_upload_link";
-                    tooltipTitle = "TOOLTIP_UPLOAD_CONTENT";
-                    tooltipDescription = "TOOLTIP_UPLOAD_CONTENT_P1";
-                    displayTooltip = true;
-                    $(".systemtour_3").addClass("systemtour_3_selected");
-                    $(".systemtour_3").addClass("systemtour_button_selected");
-                } else if (!me.profile.userprogress.sharedContent && 
-                    (!me.profile.userprogress.sharedContentReminder && me.profile.userprogress.uploadedContent || 
-                        (!me.profile.userprogress.sharedContent && me.profile.userprogress.sharedContentReminder && me.profile.userprogress.uploadedContent && 
-                            ((me.profile.userprogress.sharedContentReminder + intervalTimestamp) < curTimestamp)))) {
-                    progressData = {"sharedContentReminder": curTimestamp};
-                    tooltipSelector = "#mycontent_footer_upload_link";
-                    tooltipTitle = "TOOLTIP_SHARE_CONTENT";
-                    tooltipDescription = "TOOLTIP_SHARE_CONTENT_P2";
-                    tooltipArrow = "bottom";
-                    tooltipTop = 70;
-                    tooltipLeft = -100;
-                    displayTooltip = true;
-                    $(".systemtour_4").addClass("systemtour_1_selected");
-                    $(".systemtour_4").addClass("systemtour_button_selected");
-                    $(".mycontent_item_link").each(function(index) {
-                        if ($(this).attr("href") && $(this).attr("href").indexOf("sharecontenttour") === -1) {
-                            contentLink = $(this).attr("href");
-                            hashPos = contentLink.indexOf("#");
-                            newContentLink = contentLink.substr(0, hashPos) + "?sharecontenttour=true" + contentLink.substr(hashPos);
-                            $(this).attr("href", newContentLink);
-                        }
-                    });
-                } else if (!me.profile.userprogress.madeContactRequest && 
-                    (!me.profile.userprogress.madeContactRequestReminder || 
-                        (!me.profile.userprogress.madeContactRequest && me.profile.userprogress.madeContactRequestReminder && 
-                            ((me.profile.userprogress.madeContactRequestReminder + intervalTimestamp) < curTimestamp)))) {
-                    progressData = {"madeContactRequestReminder": curTimestamp};
-                    tooltipSelector = "#mycontacts_footer_search";
-                    tooltipTitle = "TOOLTIP_ADD_CONTACTS";
-                    tooltipDescription = "TOOLTIP_ADD_CONTACTS_P1";
-                    tooltipArrow = "bottom";
-                    displayTooltip = true;
-                    $(".systemtour_5").addClass("systemtour_5_selected");
-                    $(".systemtour_5").addClass("systemtour_button_selected");
-                    if ($("#mycontacts_footer_search").attr("href") && $("#mycontacts_footer_search").attr("href").indexOf("addcontactstour") === -1) {
-                        contentLink = $("#mycontacts_footer_search").attr("href");
-                        hashPos = contentLink.indexOf("#");
-                        newContentLink = contentLink.substr(0, hashPos) + "?addcontactstour=true" + contentLink.substr(hashPos);
-                        $("#mycontacts_footer_search").attr("href", newContentLink);
-                    }
-                    if ($("#navigation_people_link").attr("href") && $("#navigation_people_link").attr("href").indexOf("addcontactstour") === -1) {
-                        contentLink = $("#navigation_people_link").attr("href");
-                        hashPos = contentLink.indexOf("#");
-                        newContentLink = contentLink.substr(0, hashPos) + "?addcontactstour=true" + contentLink.substr(hashPos);
-                        $("#navigation_people_link").attr("href", newContentLink);
-                    }
-                } else if (!me.profile.userprogress.halfCompletedProfile && 
-                    (!me.profile.userprogress.halfCompletedProfileReminder || 
-                        (!me.profile.userprogress.halfCompletedProfile && me.profile.userprogress.halfCompletedProfileReminder && 
-                            ((me.profile.userprogress.halfCompletedProfileReminder + intervalTimestamp) < curTimestamp)))) {
-                    progressData = {"halfCompletedProfileReminder": curTimestamp};
-                    tooltipSelector = "#entity_edit_profile";
-                    tooltipTitle = "TOOLTIP_EDIT_MY_PROFILE";
-                    tooltipDescription = "TOOLTIP_EDIT_MY_PROFILE_P1";
-                    displayTooltip = true;
-                    addUserProgress("halfCompletedProfileInProgress");
-                    $(".systemtour_2").addClass("systemtour_2_selected");
-                    $(".systemtour_2").addClass("systemtour_button_selected");
-                    if ($("#entity_edit_profile").attr("href") && $("#entity_edit_profile").attr("href").indexOf("editprofiletour") === -1) {
-                        $("#entity_edit_profile").attr("href", $("#entity_edit_profile").attr("href") + "?editprofiletour=true");
-                    }
-                }
-            }
-
-            if (displayTooltip){
-                var tooltipData = {
-                    "tooltipSelector": tooltipSelector,
-                    "tooltipTitle": tooltipTitle,
-                    "tooltipDescription": tooltipDescription,
-                    "tooltipArrow": tooltipArrow,
-                    "tooltipTop": tooltipTop,
-                    "tooltipLeft" : tooltipLeft,
-                    "tooltipAutoClose": false
-                };
-
-                var authprofileURL = "/~" + me.user.userid + "/public/authprofile/userprogress";
-                sakai_serv.saveJSON(authprofileURL, progressData, function(success, data){
-                    // Check whether save was successful
-                    if (success) {
-                        // Display the tooltip
-                        if (!sakai.tooltip || !sakai.tooltip.isReady) {
-                            $(window).bind("sakai-tooltip-ready", function() {
-                                $(window).trigger("sakai-tooltip-init", tooltipData);
-                            });
-                        } else {
-                            $(window).trigger("sakai-tooltip-init", tooltipData);
-                        }
+                        $(window).trigger("update.systemtour.sakai");
                     }
                 });
             }

@@ -6,7 +6,7 @@ require(
     "../../../../../tests/qunit/js/sakai_qunit_lib.js",
     "../../../../../tests/qunit/js/dev.js",
     "../../../../../tests/qunit/js/devwidgets.js",
-    "../../../../../tests/qunit/js/fulljslint.js"
+    "../../../../../tests/qunit/js/jshint.js"
     ], function($, sakai) {
 
     require.ready(function() {
@@ -39,17 +39,17 @@ require(
             }
         };
 
-        var jslintfile = function(data, callback) {
-            var result = JSLINT(data, {
+        var JSHintfile = function(data, callback) {
+            var result = JSHINT(data, {
                 sub:true // ignore dot notation recommendations - ie ["userid"] should be .userid
                 });
             if (result) {
-                ok(result, "JSLint clean");
+                ok(result, "JSHint clean");
             } else {
-                for (var i=0,j=JSLINT.errors.length; i<j; i++) {
-                    var error = JSLINT.errors[i];
+                for (var i=0,j=JSHINT.errors.length; i<j; i++) {
+                    var error = JSHINT.errors[i];
                     if (error) {
-                        ok(false, "JSLint error on line " + error.line + " character " + error.character + ": " + error.reason + error.evidence);
+                        ok(false, "JSHint error on line " + error.line + " character " + error.character + ": " + error.reason + error.evidence);
                     }
                 }
             }
@@ -65,7 +65,7 @@ require(
                     success: function(data) {
                         checkForConsoleLog(data, filename);
                         checkForAlert(data);
-                        jslintfile(data, function() {
+                        JSHintfile(data, function() {
                             start();
                         });
                     }
@@ -84,7 +84,7 @@ require(
         if (sakai_global.qunit && sakai_global.qunit.ready) {
             cleanJSTest();
         } else {
-            $(window).bind("sakai-qunit-ready", function() {
+            $(window).bind("ready.qunit.sakai", function() {
                 cleanJSTest();
             });
         }
