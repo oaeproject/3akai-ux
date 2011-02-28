@@ -169,7 +169,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         name + " " + $joinrequestsSuccess.html());
 
                     // trigger the member list on group_edit.html to refresh
-                    $(window).trigger("sakai-listpeople-ready", "members");
+                    $(window).trigger("ready.listpeople.sakai", "members");
 
                     // remove join request from UI and server
                     removeJoinRequest(userid);

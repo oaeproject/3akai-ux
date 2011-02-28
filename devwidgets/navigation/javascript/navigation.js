@@ -64,6 +64,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Configuration variables //
         /////////////////////////////
 
+        // global pagecount variable
+        sakai_global.sitespages.navigation.pagecount = 0;
+
         // DOM jQuery objects
         var $rootel = $("#" + tuid);
         var $navigationWidget = $(".navigation_widget", $rootel);
@@ -749,6 +752,39 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
 
         /**
+         * Function used to update the number of pages within the navigation
+         * tree. The updated pagecount is stored in the
+         * sakai_global.sitespages.navigation.pagecount global variable and
+         * returned by this function.
+         */
+        var update_pagecount = function () {
+
+            /**
+             * Function used to recursively count the number of pages in the tree
+             *
+             * @param tree  JSON object representing the tree
+             * @param start_index  the top-level page index of the tree to start at
+             */
+            var count_pages = function (tree, start_index) {
+                if (start_index < tree.length) {
+                    var page = tree[start_index];
+                    sakai_global.sitespages.navigation.pagecount++;
+                    if (page.hasOwnProperty("children")) {
+                        count_pages(page["children"], 0);
+                    }
+                    if (start_index + 1 < tree.length) {
+                        count_pages(tree, start_index + 1);
+                    }
+                }
+            };
+
+            sakai_global.sitespages.navigation.pagecount = 0;
+            count_pages($navigationTree.jstree("get_json", -1), 0);
+            return sakai_global.sitespages.navigation.pagecount;
+        };
+
+
+        /**
          * Function that is available to other functions and called by site.js
          * It fires the event to render the navigation
          * @param {String} selectedPageUrlName id of the page to select upon initial
@@ -810,7 +846,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 });
 
                 // update page count
-                $pageCount.html("(" + $navigationTree.jstree("get_json", -1).length + ")");
+                $pageCount.html("(" + update_pagecount() + ")");
             }
         };
 
@@ -829,7 +865,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $navigationTree.jstree("delete_node", $nodeToDelete);
 
                 // update page count
-                $pageCount.html("(" + $navigationTree.jstree("get_json", -1).length + ")");
+                var pagecount = update_pagecount();
+                if (pagecount > 0) {
+                    $pageCount.html("(" + pagecount + ")");
+                } else {
+                    $pageCount.html("");
+                }
             }
         };
 
@@ -860,7 +901,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         if (sakai_global.sitespages.isReady) {
             sakai_global.sitespages.navigation.renderNavigation(sakai_global.sitespages.selectedpage, sakai_global.sitespages.site_info._pages);
         } else {
-            $(window).bind("sakai-sitespages-ready", function() {
+            $(window).bind("ready.sitespages.sakai", function() {
                 sakai_global.sitespages.navigation.renderNavigation(sakai_global.sitespages.selectedpage, sakai_global.sitespages.site_info._pages);
             });
         }

@@ -81,7 +81,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
         var decideExists = function(exists, response) {
             if (exists === false) {
                 if (response.status === 401) { // uesr is not logged in
-                    $(window).trigger("sakai_global.dashboard.notLoggedIn"); // let the embedding page decide how to handle not logged in
+                    $(window).trigger("notLoggedIn.dashboard.sakai"); // let the embedding page decide how to handle not logged in
                 }
                 doInit();
             } else {
@@ -133,7 +133,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
             });
         };
 
-        $(window).bind("sakai_sitespages_exitedit", function(ev){
+        $(window).bind("exitedit.sitespages.sakai", function(ev){
             registerWidgetFunctions();
         });
 
@@ -182,9 +182,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
             var person = sakai.data.me;
 
             if (!person.user.userid) {
-                $(window).trigger("sakai_global.dashboard.notUsersDashboard");
+                $(window).trigger("notUsersDashboard.dashboard.sakai");
             } else if (person.user.anon) {
-                $(window).trigger("sakai_global.dashboard.notLoggedIn");
+                $(window).trigger("notLoggedIn.dashboard.sakai");
             }
 
             $(".body-container", $rootel).show();
@@ -225,7 +225,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
 
                 var initlength = 0;
                 for (var l in settings.columns) {
-                    if (settings.columns.hasOwnProperty(l)) {
+                    if (settings.columns.hasOwnProperty(l) && l.indexOf("column") > -1) {
                         initlength++;
                     }
                 }
@@ -233,7 +233,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
 
 
                 for (var z in settings.columns) {
-                    if (settings.columns.hasOwnProperty(z)) {
+                    if (settings.columns.hasOwnProperty(z) && z.indexOf("column") > -1) {
                         if (index < newlength) {
                             for (i = 0, j = settings.columns[z].length; i < j; i++) {
                                 columns[index][i] = {};
@@ -249,7 +249,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
                 index = 0;
                 if (newlength < initlength) {
                     for (var q in settings.columns) {
-                        if (settings.columns.hasOwnProperty(q)) {
+                        if (settings.columns.hasOwnProperty(q) && q.indexOf("column") > -1) {
                             if (index >= newlength) {
                                 for (var ii = 0, jj = settings.columns[q].length; ii < jj; ii++) {
                                     var lowestnumber = -1;
@@ -304,7 +304,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
 
             try {
                 for (var c in settings.columns) {
-                    if (settings.columns.hasOwnProperty(c)) {
+                    if (settings.columns.hasOwnProperty(c) && c.indexOf("column") > -1) {
                         currentindex++;
                         index = final2.columns.length;
                         final2.columns[index] = {};
@@ -453,7 +453,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
                       var newel = document.createElement("div");
                       newel.id = generic;
                       newel.className = "widget_inline";
-                      old.parentNode.replaceChild(newel, old);
+                      if (old) {
+                          old.parentNode.replaceChild(newel, old);
+                      }
                       $("#widget_settings_menu", $rootel).hide();
                       currentSettingsOpen = false;
                       sakai.api.Widgets.widgetLoader.insertWidgets(newel.parentNode.id, true);
@@ -545,7 +547,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
                             var id = node.style.display;
                             var uid = Math.round(Math.random() * 100000000000);
                             for (var y = 0, z = node.childNodes.length; y < z; y++) {
-                                if (node.childNodes[y].style) {
+                                if (node.childNodes[y].style && node.childNodes[y].id.indexOf("_") > -1) {
                                     if (nowAt == 1) {
                                         if (node.childNodes[y].style.display.toLowerCase() === "none") {
                                             widgetdisplay = "none";
@@ -579,7 +581,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
 
             var isEmpty = true;
             for (i in settings.columns) {
-                if (settings.columns.hasOwnProperty(i)) {
+                if (settings.columns.hasOwnProperty(i) && i.indexOf("column") > -1) {
                     if (settings.columns[i].length > 0) {
                         isEmpty = false;
                     }
@@ -614,7 +616,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
 
             var index = 0;
             for (var l in settings.columns) {
-                if (index < newlength) {
+                if (index < newlength && l.indexOf("column") > -1) {
                     for (i = 0, j = settings.columns[l].length; i < j; i++) {
                         columns[index][i] = settings.columns[l][i];
                     }
@@ -626,7 +628,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
             var lowestnumber, lowestcolumn, number, _i;
             if (settings.layout !== selectedlayout && newlength < initlength) {
                 for (l in settings.columns) {
-                    if (settings.columns.hasOwnProperty(l)) {
+                    if (settings.columns.hasOwnProperty(l) && l.indexOf("column") > -1) {
                         if (index >= newlength) {
                             for (i = 0, j = settings.columns[l].length; i < j; i++) {
                                 lowestnumber = -1;
@@ -752,7 +754,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
 
                 var index = 0;
                 for (var l in settings.columns) {
-                    if (settings.columns.hasOwnProperty(l) && index < newlength) {
+                    if (settings.columns.hasOwnProperty(l) && index < newlength && l.indexOf("column") > -1) {
                         for (i = 0, j = settings.columns[l].length; i < j; i++) {
                             columns[index][i] = {};
                             columns[index][i].name = settings.columns[l][i].name;
@@ -766,7 +768,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
                 index = 0;
                 if (newlength < initlength) {
                     for (var z in settings.columns) {
-                        if (settings.columns.hasOwnProperty(z)) {
+                        if (settings.columns.hasOwnProperty(z) && z.indexOf("column") > -1) {
                             if (index >= newlength) {
                                 for (i = 0, j = settings.columns[z].length; i < j; i++) {
                                     var lowestnumber = -1;
@@ -896,7 +898,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
                     // whether the current widget is already on the dashboard (so show the Remove row),
                     // or whether the current widget is not on the dashboard (and thus show the Add row)
                     for (var c in settings.columns) {
-                        if (settings.columns.hasOwnProperty(c)) {
+                        if (settings.columns.hasOwnProperty(c) && c.indexOf("column") > -1) {
                             for (var ii = 0; ii < settings.columns[c].length; ii++) {
                                 if (settings.columns[c][ii].name === l) {
                                     alreadyIn = true;
@@ -935,8 +937,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
              onShow: renderGoodies
          });
 
-         $(window).unbind("sakai-dashboard-showAddWidgetDialog");
-         $(window).bind("sakai-dashboard-showAddWidgetDialog", function(e, iTuid) {
+         $(window).unbind("showAddWidgetDialog.dashboard.sakai");
+         $(window).bind("showAddWidgetDialog.dashboard.sakai", function(e, iTuid) {
              if (iTuid === tuid && (widgetDialogShown[tuid] === false || widgetDialogShown[tuid] === undefined)) {
                  widgetDialogShown[tuid] = true;
                  $(addGoodiesDialog, $rootel).jqmShow();
@@ -984,7 +986,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
          * loaded successfully
          */
 
-        $(window).trigger("sakai_global.dashboard.ready", tuid);
+        $(window).trigger("ready.dashboard.sakai", tuid);
         sakai_global.dashboard.isReady = true;
     };
 

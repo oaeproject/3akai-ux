@@ -53,7 +53,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $activegroups_main.html(output).show();
         };
 
-        $(window).bind("sakai-directory-selected", function(ev, selected){
+        $(window).bind("selected.directory.sakai", function(ev, selected){
             loadDataDirectory(selected, renderPopularGroups);
         });
 
@@ -61,12 +61,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var params = {
                 page: 0,
                 items: 10,
-                q: selected,
                 sortOrder: "desc"
             };
 
+            var url = sakai.config.URL.SEARCH_GROUPS;
+            if (selected === '*' || selected === '**') {
+                url = sakai.config.URL.SEARCH_GROUPS_ALL;
+            } else {
+                params['q'] = selected;
+            }
             $.ajax({
-                url: sakai.config.URL.SEARCH_GROUPS,
+                url: url,
                 data: params,
                 success: function(data){
                     groupData = {"results":[], "items": data.items, "total": data.total};

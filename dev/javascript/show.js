@@ -75,7 +75,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     entityID = sakai.data.me.user.userid;
                 }
             }
-            sakai.api.Server.loadJSON("/~" + entityID + "/public/authprofile", function(success, data) {
+            sakai.api.Server.loadJSON("/~" + entityID + "/public/authprofile.profile.json", function(success, data) {
                 if (success){
 
                     if (data["sling:resourceType"] && data["sling:resourceType"] === "sakai/group-profile"){
@@ -240,10 +240,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var setEntityPath = function() {
             switch (entityType) {
                 case "user":
-                    entityPath = "/" + sakai_global.profile.main.data.homePath;
+                    entityPath = sakai_global.profile.main.data.homePath;
                     break;
                 case "group":
-                    entityPath = "/" + sakai_global.currentgroup.data.authprofile.homePath;
+                    entityPath = sakai_global.currentgroup.data.authprofile.homePath;
                     break;
             }
         };
@@ -296,7 +296,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
         });
 
-        $(window).bind("sakai_global.sitespages.ready", function(e){
+        $(window).bind("ready.sitespages.sakai", function(e){
             pagesWidgetReady = true;
             if (entityDataReady && !renderedPagesWidget) {
                 loadPagesWidget();
@@ -308,7 +308,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             if (canEdit) {
                 $launch_help.show();
                 $launch_help.bind("click", function() {
-                    $(window).trigger("sakai-help-init", {
+                    $(window).trigger("init.help.sakai", {
                         profileFlag: profileFlag,
                         whichHelp: whichHelp,
                         force: true
@@ -319,7 +319,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 sakai_global.currentgroup.data &&
                 sakai_global.currentgroup.data.authprofile &&
                 !sakai_global.currentgroup.data.authprofile.beenVisited) {
-                    $(window).trigger("sakai-help-init", {
+                    $(window).trigger("init.help.sakai", {
                         profileFlag: profileFlag,
                         whichHelp: whichHelp
                     });
@@ -331,7 +331,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         var loadHelp = function(profileFlag, whichHelp) {
             if (!sakai.help || !sakai.help.isReady) {
-                $(window).bind("sakai-help-ready", function() {
+                $(window).bind("ready.help.sakai", function() {
                     triggerHelp(profileFlag, whichHelp);
                 });
             } else {
