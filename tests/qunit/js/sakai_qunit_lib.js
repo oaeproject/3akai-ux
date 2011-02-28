@@ -40,7 +40,7 @@ require(
         $(window).bind('sakai-qunit-done', function(e, obj) {
             // trigger this event in the parent document
             if (parent && $(parent.document).length) {
-                parent.$(parent.document).trigger("sakai-qunit-done", obj);
+                parent.$(parent.document).trigger("done.qunit.sakai", obj);
             }
         });
 

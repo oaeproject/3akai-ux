@@ -386,7 +386,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
             if (!filesUploaded) {
                 // hide any tooltips if they are open
-                $(window).trigger("close.tooltip.sakai");
+                $(window).trigger("done.tooltip.sakai");
             }
         };
 
@@ -990,7 +990,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         $(fileUploadCloseDialog).live("click", function(){
             $fileUploadContainer.jqmHide();
             // hide any tooltips if they are open
-            $(window).trigger("close.tooltip.sakai");
+            $(window).trigger("done.tooltip.sakai");
         });
 
         /**

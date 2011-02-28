@@ -56,7 +56,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var widgetready = false;
         var groupinfoready = false;
 
-        $(window).bind("sakai.sitespages.ready", function(e){
+        $(window).bind("ready.sitespages.sakai", function(e){
             widgetready = true;
             if (groupinfoready) {
                 loadPagesWidget();

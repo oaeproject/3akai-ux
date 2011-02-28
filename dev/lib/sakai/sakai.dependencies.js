@@ -107,6 +107,22 @@ require(
                 // Start i18n
                 sakai.api.i18n.init(data);
             });
+            // I know this is hideous
+            (function () {
+                var script = document.createElement("script");
+                script.type = "text/javascript";
+                script.src = "/dev/lib/MathJax/MathJax.js";
+
+                var config = 'MathJax.Hub.Config({ messageStyle: "none" }); ' +
+                             'MathJax.Hub.Config({ config: "MathJax.js" }); ' +
+                             'MathJax.Hub.Startup.onload();';
+
+                if (window.opera) {script.innerHTML = config;}
+                else {script.text = config;}
+
+                $("head")[0].appendChild(script);
+              })();
+
         });
         return sakai;
     }
