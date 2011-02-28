@@ -180,7 +180,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     });
                 }
 
-                $(window).trigger("sakai-directory-selected", directorystructure);
+                $(window).trigger("selected.directory.sakai", directorystructure);
             });
         };
 

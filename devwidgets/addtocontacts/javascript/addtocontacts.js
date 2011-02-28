@@ -187,7 +187,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             "tooltipLeft":0,
                             "tooltipAutoClose":true
                         };
-                        $(window).trigger("sakai-tooltip-update", tooltipData);
+                        $(window).trigger("update.tooltip.sakai", tooltipData);
                     },
                     error: function(xhr, textStatus, thrownError){
                         $(addToContactsResponse).text(sakai.api.Security.saneHTML($(addToContactsErrorRequest).text()));
@@ -302,7 +302,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "tooltipTop":-150,
                 "tooltipLeft":-200
             };
-            $(window).trigger("sakai-tooltip-update", tooltipData);
+            $(window).trigger("update.tooltip.sakai", tooltipData);
         });
 
         $(".jqmClose").bind("click", function(){
@@ -314,7 +314,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "tooltipTop":-150,
                 "tooltipLeft":-200
             };
-            $(window).trigger("sakai-tooltip-update", tooltipData);
+            $(window).trigger("update.tooltip.sakai", tooltipData);
         });
 
         // Bind the jqModal
