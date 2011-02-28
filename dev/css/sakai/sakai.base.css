@@ -45,9 +45,9 @@ h1{font-size:2em;font-family:Arial,Helvetica,sans-serif;font-weight:bolder;line-
 .fl-widget {padding: 0;}
 .fl-widget .fl-widget-titlebar h2 {padding-left:3px}
 .fl-widget .fl-widget-titlebar {background: url("/dev/images/dashboard_sprite.png") no-repeat scroll right -473px transparent; padding: 0 4px 0 0; width: auto; min-height: 39px;}
-.fl-widget .fl-widget-titlebar .widget-titlebar-inner {background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -10px -557px transparent; min-height: 39px;}
+.fl-widget .fl-widget-titlebar .widget-titlebar-inner {background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -10px -544px transparent; min-height: 39px;}
 .fl-widget .fl-widget-options ul {margin: 0; padding: 0}
-.fl-widget .fl-widget-titlebar .widget_title {color: #878a8c; font-size: 1.0em; padding: 13px 30px 3px 40px; vertical-align: text-top; word-wrap:break-word;}
+.fl-widget .fl-widget-titlebar .widget_title {color: #878a8c; font-size: 1.0em; padding: 13px 30px 10px 40px; vertical-align: text-top; word-wrap:break-word;}
 .fl-widget .fl-widget-titlebar .widget_title_icon {display: block; float: left; height: 17px; left: 16px; position: relative; top: 14px; width: 17px;}
 .fl-widget .fl-widget-titlebar .settings {background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -186px -393px transparent; position: relative; height: 18px; margin-top: 15px;}
 .fl-widget .fl-widget-options ul li {float: left; margin: 0; padding: 0 6px 0;}
@@ -158,7 +158,7 @@ a.s3d-regular-links,.s3d-regular-links a{color:#006E96;}
 .s3d-widget .s3d-widget-content,.s3d-content{padding:10px 0;margin:0!important;border-left:3px solid #D4DADE;border-right:3px solid #D4DADE;}
 .s3d-widget .s3d-widget-options-footer-left{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -70px -436px #D5DBDF;height:12px;}
 .s3d-widget-small-content{padding:5px 0!important;}
-.fl-widget .fl-widget-options-footer-top{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -540px #D5DBDF;height:16px;}
+.fl-widget .fl-widget-options-footer-top{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -528px #D5DBDF;height:16px;}
 .fl-widget .fl-widget-options .fl-widget-options-top-right{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -432px transparent;float:right;height:16px;padding:0 0 7px 14px;width:16px;}
 .s3d-widget .s3d-widget-options-footer-right{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -456px #D5DBDF;float:right;height:12px;width:16px;}
 .s3d-widget .s3d-widget-no-options,.s3d-no-options{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -1453px transparent;padding:0 5px 0 0;margin:0;}
