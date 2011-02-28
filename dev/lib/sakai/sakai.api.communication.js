@@ -283,7 +283,34 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
         },
 
         markMessagesAsRead : function(messagePaths, callback) {
+            var requests = [];
 
+            if (typeof messagePaths === 'string'){
+                messagePaths = [messagePaths];
+            }
+
+            $.each(messagePaths, function(i, message) {
+               var req = {url: message + ".json", method: "POST", parameters: {"sakai:read": "true"}}; 
+               requests.push(req);
+            });
+
+            $.ajax({
+                url: "/system/batch",
+                method: "POST",
+                data: {
+                    "requests": $.toJSON(requests)
+                },
+                success: function(data) {
+                    if ($.isFunction(callback)) {
+                        callback(true, data);
+                    }
+                },
+                error: function(xhr, textStatus, thrownError){
+                    if ($.isFunction(callback)) {
+                        callback(false, {});
+                    }
+                }
+            });
         },
 
         /**

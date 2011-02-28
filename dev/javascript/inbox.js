@@ -695,15 +695,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          * @param {String} id The id for this message.
          */
         var markMessageRead = function(message, id){
-            var postParameters = {
-                "sakai:read": "true"
-            };
-
-            $.ajax({
-                type: "POST",
-                url: message["jcr:path"] + ".json",
-                data: postParameters,
-                success: function(userdata){
+            sakai.api.Communication.markMessagesAsRead(message, function(success, userdata){
+                if (success) {
                     for (var i = 0, j = allMessages.length; i < j; i++) {
                         if (allMessages[i].id === message.id) {
                             allMessages[i]["sakai:read"] = true;
@@ -728,8 +721,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
                     updateUnreadNumbers();
 
-                },
-                error: function(xhr, textStatus, thrownError){
+                } else {
                     showGeneralMessage($(inboxGeneralMessagesErrorReadFail).text());
                 }
             });
