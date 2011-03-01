@@ -550,10 +550,16 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
             });
 
-            $("#profile_form input").live("focus", function(){
-                if ($(this).offset().top > $(window).height() - 20) {
+            $("#profile_form input, #profile_form textarea").live("focus", function(){
+                if ($(this).offset().top > $("#chat_main_container").offset().top - 30) {
                     $(this).focus(function(){
-                        $.scrollTo('+=30px');
+                        // IE needs different calculation for offset
+                        if (!jQuery.support.leadingWhitespace) {
+                            window.scroll(0, $(this).offset().top + document.documentElement.scrollTop);
+                        }
+                        else {
+                            window.scroll(0, $(this).offset().top);
+                        }
                     });
                 }
             });
