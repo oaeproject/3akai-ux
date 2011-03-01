@@ -528,6 +528,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         $(messageFieldSubject).val(), $(messageFieldBody).val(),
                         "message", null, handleSentMessage, true, "new_message");
                 } else {
+                    $(buttonSendMessage).removeAttr("disabled");
                     sakai.api.Util.notification.show("All fields are required.","",sakai.api.Util.notification.type.ERROR);
                 }
             });
