@@ -203,18 +203,18 @@
     <div id="sitepages_insert_dropdown_template" style="display:none"><!--
         <div class="s3d-sprites-buttons" id="sitepages_insert_dropdown" style="display:none;">
             <ul>
-                <li><a href="#" id="link" class="insert_dropdown_widget_link s3d-action">__MSG__PAGE_LINK__</a></li>
-                <li><a href="#" id="hr" class="insert_dropdown_widget_link s3d-action">__MSG__HORIZONTAL_LINE__</a></li>
+                <li><a href="${currenthash}" id="link" class="insert_dropdown_widget_link s3d-action">__MSG__PAGE_LINK__</a></li>
+                <li><a href="${currenthash}" id="hr" class="insert_dropdown_widget_link s3d-action">__MSG__HORIZONTAL_LINE__</a></li>
                 <li class="sitepages_insert_dropdown_header"><span>__MSG__MEDIA__:</span></li>
-                <li id="sitespages_embed_content_button"><a href="#" class="insert_dropdown_widget_link s3d-action">__MSG__FILES_AND_DOCUMENTS__</a></li>
+                <li id="sitespages_embed_content_button"><a href="${currenthash}" class="insert_dropdown_widget_link s3d-action">__MSG__FILES_AND_DOCUMENTS__</a></li>
                 {for i in media.items}
-                    <li><a href="#" id="${i.id}" class="insert_dropdown_widget_link s3d-action">${i.name}</a></li>
+                    <li><a href="${currenthash}" id="${i.id}" class="insert_dropdown_widget_link s3d-action">${i.name}</a></li>
                 {forelse}
                     <li class="sitepages_insert_dropdown_header"><span>__MSG__NOT_AVAILABLE__</span></li>
                 {/for}
                 <li class="sitepages_insert_dropdown_header"><span>__MSG__SAKAI_GOODIES__:</span></li>
                 {for ii in goodies.items}
-                    <li><a href="#" id="${ii.id}" class="insert_dropdown_widget_link s3d-action">${ii.name}</a></li>
+                    <li><a href="${currenthash}" id="${ii.id}" class="insert_dropdown_widget_link s3d-action">${ii.name}</a></li>
                 {/for}
                 <li class="sitepages_insert_dropdown_header"><span>(__MSG__MORE_COMING_SOON__)</span></li>
             </ul>

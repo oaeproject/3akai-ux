@@ -867,10 +867,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             }
 
+            var currenthash = "#";
+            if (window.location.hash){
+                currenthash = window.location.hash;
+            }
+
             var jsonData = {
                 "media": media,
                 "goodies": goodies,
-                "sidebar": sidebar
+                "sidebar": sidebar,
+                "currenthash": currenthash
             };
 
             // Renderer dropdown list
