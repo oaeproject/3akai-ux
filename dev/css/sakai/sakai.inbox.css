@@ -12,10 +12,10 @@
 .inbox_main .drop-box ul li{list-style-type:none;padding:5px 5px 5px 12px;}
 
 /** Folders **/
-.inbox_main .fl-widget .fl-widget-titlebar .widget_title_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -420px -17px transparent;}
+.inbox_main .fl-widget .fl-widget-titlebar .widget_title_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -420px -19px transparent;}
 .inbox_main .inbox-folders{width:230px;margin:0;padding:0;overflow:hidden;}
 .inbox_main .inbox-folders .if_titlebar_inner{padding:18px 0 0 17px;}
-.inbox_main .inbox-folders .if_title{color:#878A8C;font-size:1em;padding:17px 0 0 30px;margin:0;}
+.inbox_main .inbox-folders .if_title{color:#878A8C;font-size:1em;padding:13px 0 0 40px;margin:0;}
 .inbox_main .inbox-folders .if_content ul{padding:0 0 0 20px;margin:0;}
 .inbox_main .inbox-folders .if_content ul li{list-style-type:none;padding:3px 0;}
 .inbox_main .inbox-folders .if_content ul li a{font-weight:normal;}
