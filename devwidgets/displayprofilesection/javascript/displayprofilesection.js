@@ -104,7 +104,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(displayprofilesectionContentWidgetHolder, rootel).html(toAppend);
 
             // Bind a global event that can be triggered by the profilesection widgets
-            $(window).bind("sakai-" + sectionobject.sectionid, function(eventtype, callback){
+            $(window).bind(sectionobject.sectionid + ".sakai", function(eventtype, callback){
                 if ($.isFunction(callback)) {
                     callback(data.sectionid);
                 }

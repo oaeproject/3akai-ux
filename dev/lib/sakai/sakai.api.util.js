@@ -348,6 +348,28 @@ define(["jquery",
         },
 
         /**
+         * Truncate a string of text using the threedots plugin
+         * @param {String} body String of text to be truncated
+         * @param {int} width Width of the parent element
+         * @param {Object} params Object containing parameters, Threedots plugin specific. The row limit for widget headers should be 4 rows.
+         * @param {String} Optional class(es) to give container div. Used to give specific mark-up to the content to avoid wrong calculations. e.g. s3d-bold 
+         */
+        applyThreeDots : function(body, width, params, optClass){
+            // IE7 and IE6 have trouble with width
+            if(!jQuery.support.leadingWhitespace){
+                width = width - 10;
+            }
+
+            // Create elements to apply threedots
+            $container = $("<div class=\"" + optClass + "\" style=\"width:" + width + "px; ; word-wrap:break-word; display:hidden;\"><span style=\"word-wrap:break-word;\" class=\"ellipsis_text\">" + body + "</span></div>");
+            $("body").append($container);
+            $container.ThreeDots(params);
+            var dotted = $container.children("span").text();
+            $container.remove();
+            return (dotted);
+        },
+
+        /**
          * @class notification
          *
          * @description
@@ -1123,7 +1145,10 @@ define(["jquery",
             // If so, put the rendered template in there
             if (outputElement) {
                 outputElement.html(render);
+                // tell MathJax about the updated element
+                //MathJax.Hub.Queue(["Typeset", MathJax.Hub, outputElement]);
             }
+
             return render;
         },
         Security: {
@@ -1348,6 +1373,19 @@ define(["jquery",
                     callback();
                 }
             }
+        },
+        /**
+        * Runs MathJax over an element replacing any math TeX with rendered 
+        * rendered formulas
+        *
+        * @param element {String} The element (or it's id) that should be checked for math
+        */
+        renderMath : function(element) {
+            if (element instanceof jQuery && element[0])
+            {
+                element = element[0];
+            }
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub, element]);
         }
     };
     
