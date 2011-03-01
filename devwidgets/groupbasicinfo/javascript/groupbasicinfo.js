@@ -93,9 +93,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
 
             // group tags
-            var currentTags = [""];
+            var currentTags = [];
             if (sakai_global.currentgroup.data.authprofile["sakai:tags"]) {
-                currentTags = sakai_global.currentgroup.data.authprofile["sakai:tags"].slice(0);
+                $(sakai_global.currentgroup.data.authprofile["sakai:tags"]).each(function(i){
+                    var splitDir = sakai_global.currentgroup.data.authprofile["sakai:tags"][i].split("/");
+                    if (splitDir[0] !== "directory") {
+                        currentTags.push(sakai_global.currentgroup.data.authprofile["sakai:tags"][i]);
+                    }
+                });
             }
             var enteredTags = $.trim($(groupBasicInfoGroupTags).val()).split(",");
             if (enteredTags.toString() !== currentTags.toString()) {
@@ -268,7 +273,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (success) {
                     groupProfileURL = "/~" + sakai_global.currentgroup.id + "/public/authprofile";
                     sakai.api.Util.tagEntity(groupProfileURL, sakai_global.currentgroup.data.authprofile["sakai:tags"], currentTags, function() {
-                        sakai_global.currentgroup.data.authprofile["sakai:tags"] = currentTags;
+                        // currentTags does not reflect tag changes
+                        //sakai_global.currentgroup.data.authprofile["sakai:tags"] = currentTags;
                     });
                 }
                 sakai.api.Widgets.Container.informFinish(tuid, "groupbasicinfo");
