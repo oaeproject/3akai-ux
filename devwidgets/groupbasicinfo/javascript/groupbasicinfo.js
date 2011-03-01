@@ -62,7 +62,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var directoryJSON = [];
         var json = {};
-        var updateData = false;
 
         var groupBasicInfoAddAnotherLocation = "#groupbasicinfo_add_another_location";
         var groupBasicInfoAddAnotherLocationtext = "#groupbasicinfo_add_another_location_text";
@@ -75,6 +74,55 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var tagsPath = "/~" + groupId + "/public/tags/";
         var tagsPathForLinking = "/_group" + groupStoragePrefix + "/public/tags/";
         var groupProfileURL = "";
+
+
+        /**
+         * Checks if the entered data has changed and if we need to do a post request with new group data
+         */
+        var checkGroupData = function(){
+            // group title (cannot be blank)
+            var groupTitle = $.trim($(groupBasicInfoGroupTitle, $rootel).val());
+            if (groupTitle && groupTitle !== sakai_global.currentgroup.data.authprofile["sakai:group-title"]) {
+                return true;
+            }
+
+            // group kind (should be preset values)
+            var groupKind = $(groupBasicInfoGroupKind, $rootel).val();
+            if (groupKind !== sakai_global.currentgroup.data.authprofile["sakai:group-kind"]) {
+                return true;
+            }
+
+            // group tags
+            var currentTags = [""];
+            if (sakai_global.currentgroup.data.authprofile["sakai:tags"]) {
+                currentTags = sakai_global.currentgroup.data.authprofile["sakai:tags"].slice(0);
+            }
+            var enteredTags = $.trim($(groupBasicInfoGroupTags).val()).split(",");
+            if (enteredTags.toString() !== currentTags.toString()) {
+                // user has changed tags
+                return true;
+            }
+
+            // group description (can be blank)
+            var groupDesc = $.trim($(groupBasicInfoGroupDesc, $rootel).val());
+            if (!sakai_global.currentgroup.data.authprofile["sakai:group-description"]) {
+                sakai_global.currentgroup.data.authprofile["sakai:group-description"] = "";
+            }
+            if (groupDesc !== sakai_global.currentgroup.data.authprofile["sakai:group-description"]) {
+                return true;
+            }
+
+            // group permissions settings
+            var joinable = $(groupBasicInfoGroupJoinable).val();
+            var visible = $(groupBasicInfoGroupVisible).val();
+            if(joinable !== sakai_global.currentgroup.data.authprofile["sakai:group-joinable"] ||
+                visible !== sakai_global.currentgroup.data.authprofile["sakai:group-visible"]) {
+                return true;
+            }
+
+            return false;
+        };
+
 
         /**
          * Bind the widget's internal Cancel and Save Settings button
@@ -89,11 +137,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(groupbasicinfo_update, $rootel).unbind("click");
             $(groupbasicinfo_update, $rootel).bind("click", function(){
                 // check if group data needs updating
+                var updateData = checkGroupData();
                 if (updateData){
                     // disable all basic info input elements while update is processed
                     sakai_global.groupbasicinfo.disableInputElements();
                     updateGroup();
-                    updateData = false;
                 }
             });
 
@@ -102,11 +150,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 //addAnotherLocation();
                 $("#assignlocation_container").jqmShow();
             });
-
-            $(groupBasicInfoFormInputs).change(function() {
-                updateData = true;
-            });
-
         };
 
 
@@ -236,7 +279,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var addAnotherLocation = function(){
             $("#assignlocation_container").jqmShow();
         };
-        
+
         var processTagsAndDirectory = function(mode){
             // Extract tags that start with "directory:"
             var directory = [];
