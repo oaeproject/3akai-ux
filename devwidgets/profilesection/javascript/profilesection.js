@@ -426,7 +426,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         var currentTags = sakai_global.profile.main.data["sakai:tags"] || [];
                         var tagsArray = [];
                         $($selected_element.val().split(",")).each(function(i, tag){
-                            tagsArray.push(tag.replace(/\\/g, ""));
+                            tagsArray.push($.trim(tag.replace(/\\/g, "").replace(/\n/g, "")));
                         });
                         for (var i = 0; i < sakai_global.profile.main.directory.elements.length; i++){
                             tagsArray.push(sakai_global.profile.main.directory.elements[i].locationtitle.value);
