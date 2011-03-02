@@ -103,8 +103,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 });
             }
             var enteredTags = $.trim($(groupBasicInfoGroupTags).val()).split(",");
-            if (enteredTags.toString() !== currentTags.toString()) {
-                // user has changed tags
+            var equal = currentTags.length == enteredTags.length;
+            if (equal) {
+                var update = false;
+                $.each(currentTags, function (i, tag) {
+                    if (update) return false;
+                    if ($.inArray(tag, enteredTags) == -1) {
+                        update = true;
+                    } else {
+                        update = false;
+                    }
+                });
+                if (update) return true;
+            } else if (currentTags.length && enteredTags.length) {
                 return true;
             }
 
