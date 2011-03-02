@@ -234,16 +234,19 @@
                         </div>
 
                         <div class="main_content_container">
-                            <!-- Sender details -->
-                            <div class="sender_details">
+                            <div id="sender_details_template" style="display:none;"><!--
                                 <div class="sender_picture_container">
-                                    <a href="#" title="__MSG__TO_SEE_THE_SENDERS_PROFILE__" id="inbox_message_from_picture"><img src="/dev/images/profile_picture.gif" class="sender-picture" id="inbox_message_picture" alt="__MSG__SENDERS_PROFILE_PIC__"/></a>
+                                    <a href="${from_href}" title="__MSG__TO_SEE_THE_SENDERS_PROFILE__" id="inbox_message_from_picture"><img src="${picture}" class="sender-picture" id="inbox_message_picture" alt="__MSG__SENDERS_PROFILE_PIC__"/></a>
                                 </div>
                                 <div class="inbox_message_user">
-                                    <a href="#" class="sender-name s3d-regular-light-links s3d-bold" id="inbox_message_from" title="__MSG__FROM__"><!-- --></a>
+                                    <a href="${from_href}" class="sender-name s3d-regular-light-links s3d-bold" id="inbox_message_from" title="__MSG__FROM__">${from_name}</a>
                                     <br />
-                                    <div class="sender-timestamp">__MSG__SENT_THIS_ON__ <span id="inbox_message_date"></span></div>
+                                    <div class="sender-timestamp">__MSG__SENT_THIS_ON__ <span id="inbox_message_date">${message_date}</span></div>
                                 </div>
+                            --></div>
+                            <!-- Sender details -->
+                            <div class="sender_details">
+
                             </div>
 
                             <!-- Message -->

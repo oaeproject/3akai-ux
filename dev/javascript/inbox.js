@@ -795,23 +795,28 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         comment = messageBody.substr(messageBody.lastIndexOf(",") + 1, messageBody.length);
                         if (key && sakai.api.i18n.General.getValueForKey(key)) {
                             message["sakai:body"] = sakai.api.i18n.General.getValueForKey(key).replace(/\$\{comment\}/gi, comment).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(message.userFrom[i]));
-                        }
-                        else {
+                        } else {
                             message["sakai:body"] = key.replace(/\$\{comment\}/gi, comment).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(message.userFrom[i]));
                         }
-                        $(inboxSpecificMessageFrom).attr("href", "/~" + message.userFrom[i].userid);
-                        $(inboxSpecificMessageFrom).text(sakai.api.User.getDisplayName(message.userFrom[i]));
+                        var obj = {
+                            "from_href" : "/~" + message.userFrom[i].userid,
+                            "from_name" : sakai.api.User.getDisplayName(message.userFrom[i]),
+                            "message_date" : sakai.api.Security.saneHTML(message.date)
+                        }
                         if (message.userFrom[i].photo) {
-                            $(inboxSpecificMessagePicture).attr("src", "/~" + message.userFrom[i]["userid"] + "/public/profile/" + message.userFrom[i].photo);
+                            obj["picture"] = "/~" + message.userFrom[i]["userid"] + "/public/profile/" + message.userFrom[i].photo;
+                        } else {
+                            obj["picture"] = sakai.config.URL.USER_DEFAULT_ICON_URL;
                         }
-                        else {
-                            $(inboxSpecificMessagePicture).attr("src", sakai.config.URL.USER_DEFAULT_ICON_URL);
-                        }
+                        $(".sender_details").html(sakai.api.Util.TemplateRenderer("sender_details_template",obj));
                     }
                 }
                 else {
-                    $(inboxSpecificMessageFrom).text(sakai.api.Security.saneHTML(message["sakai:from"]));
-                    $(inboxSpecificMessagePicture).attr("src", sakai.config.URL.USER_DEFAULT_ICON_URL);
+                    var obj = {
+                        "from_name": sakai.api.Security.saneHTML(message["sakai:from"]),
+                        "picture": sakai.config.URL.USER_DEFAULT_ICON_URL
+                    }
+                    $(".sender_details").html(sakai.api.Util.TemplateRenderer("sender_details_template",obj));
                 }
 
                 // Fill in this message values.
