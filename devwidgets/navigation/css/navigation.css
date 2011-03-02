@@ -26,7 +26,7 @@
 
 /* NAVIGATION TREE STYLES */
 #navigation_tree ul.jstree-no-dots li.jstree-leaf,#navigation_tree ul.jstree-no-dots li.jstree-open,#navigation_tree ul.jstree-no-dots li.jstree-closed{padding:4px;}
-#navigation_tree ul.jstree-no-dots li.jstree-leaf a,#navigation_tree ul.jstree-no-dots li.jstree-open a,#navigation_tree ul.jstree-no-dots li.jstree-closed a{font-weight:normal;color:#006E96;white-space:normal;display:inline;padding:4px;line-height:19px;}
+#navigation_tree ul.jstree-no-dots li.jstree-leaf a,#navigation_tree ul.jstree-no-dots li.jstree-open a,#navigation_tree ul.jstree-no-dots li.jstree-closed a{font-weight:normal;color:#006E96;white-space:normal;display:inline;padding:4px;}
 #navigation_tree ul.jstree-no-dots li.jstree-open > a,#navigation_tree ul.jstree-no-dots li.jstree-closed > a{font-weight:normal;}
 #navigation_tree ul.jstree-no-dots li.jstree-leaf a.jstree-clicked,#navigation_tree ul.jstree-no-dots li.jstree-open a.jstree-clicked,#navigation_tree ul.jstree-no-dots li.jstree-closed a.jstree-clicked{color:#FFF;font-weight:normal;background-color:#006E96;border:none;}
 #navigation_tree ul.jstree-no-dots li.jstree-leaf a.jstree-hovered,#navigation_tree ul.jstree-no-dots li.jstree-open a.jstree-hovered,#navigation_tree ul.jstree-no-dots li.jstree-closed a.jstree-hovered{color:#006E96;background-color:#D3EDF5;border:none;}

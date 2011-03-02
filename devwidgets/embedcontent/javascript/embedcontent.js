@@ -663,13 +663,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var doInit = function() {
             getWidgetData(function() {
                 if (showSettings) {
-                    if (sakai.sitespages &&
-                        sakai.sitespages.site_info &&
-                        sakai.sitespages.site_info._pages &&
-                        sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage] &&
-                        sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageTitle"]) {
+                    if (sakai_global.sitespages &&
+                        sakai_global.sitespages.site_info &&
+                        sakai_global.sitespages.site_info._pages &&
+                        sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage] &&
+                        sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage]["pageTitle"]) {
 
-                        embedConfig.name = sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageTitle"];
+                        embedConfig.name = sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage]["pageTitle"];
                     } else {
                         embedConfig.name = "";
                     }
