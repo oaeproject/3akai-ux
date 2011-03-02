@@ -63,6 +63,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var performedSubmit = false;
         var oldVersionPath = "";
         var context = "";
+        var type = "file";
 
         var numberOfSelectedFiles = 0;
 
@@ -95,7 +96,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         // Templates
         var $fileUploadTaggingTemplate = $("#fileupload_tagging_template", $rootel);
-        var $fileUploadTaggingLinkTemplate = $("#fileupload_tagging_link_template", $rootel);
         var $fileUploadAddToTemplate = $("#fileupload_add_to_template", $rootel);
         var $fileUploadNoLimitToUploadTemplate = $("#fileupload_no_limit_to_upload_template", $rootel);
         var $fileUploadLimitToOneUploadTemplate = $("#fileupload_limit_to_one_upload_template", $rootel);
@@ -856,24 +856,56 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             });
         };
 
-        $("#fileupload_form_submit").live("click", function(){
-            var nameError = false;
-            $fileUploadNameError.hide();
-            $multiFileList.find("input").each(function(index){
-                if ($.trim($(this)[0].value).length === 0) {
-                    var errorLabel = $(this).parent().next();
-                    errorLabel.css("display", "block");
-                    errorLabel.html($(fileUploadEnterNameFor).html() + " \"" + $(this)[0].defaultValue + "\"");
-                    nameError = true;
+        /**
+         * Save the link
+         */
+        var linkFormSubmit = function(){
+            $(".fileupload_link_submit").attr("disabled", "disabled");
+            $fileUploadAddLinkButton.attr("disabled", "disabled");
+
+            if ($("#fileupload_link_box form").valid() && !performedSubmit) {
+                $fileUploadLinkBoxInput.attr("disabled", "disabled");
+                performedSubmit = true;
+                if (context !== "new_version") {
+                    uploadLink();
                 }
-            });
-            if (!nameError) {
-                // hide cancel and add content buttons
-                $("#fileupload_form_submit").hide();
-                $("#fileupload_cancel").hide();
-                // show ajax loader
-                $(fileUploadAjaxLoader).show();
-                $multiFileForm.submit();
+                else {
+                    newVersionIsLink = true;
+                    saveVersion();
+                }
+            }
+            else {
+                // validation plugin will show error
+                $(".fileupload_link_submit").removeAttr("disabled");
+                $fileUploadAddLinkButton.removeAttr("disabled");
+                $fileUploadLinkBoxInput.removeAttr("disabled");
+                performedSubmit = false;
+            }
+        };
+
+        $("#fileupload_form_submit").live("click", function(){
+            if (type === "link") {
+                linkFormSubmit();
+            }
+            else {
+                var nameError = false;
+                $fileUploadNameError.hide();
+                $multiFileList.find("input").each(function(index){
+                    if ($.trim($(this)[0].value).length === 0) {
+                        var errorLabel = $(this).parent().next();
+                        errorLabel.css("display", "block");
+                        errorLabel.html($(fileUploadEnterNameFor).html() + " \"" + $(this)[0].defaultValue + "\"");
+                        nameError = true;
+                    }
+                });
+                if (!nameError) {
+                    // hide cancel and add content buttons
+                    $("#fileupload_form_submit").hide();
+                    $("#fileupload_cancel").hide();
+                    // show ajax loader
+                    $(fileUploadAjaxLoader).show();
+                    $multiFileForm.submit();
+                }
             }
         });
 
@@ -920,27 +952,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         });
 
         $("#fileupload_link_box form").bind("submit", function(e){
-            $(".fileupload_link_submit").attr("disabled", "disabled");
-            $fileUploadAddLinkButton.attr("disabled", "disabled");
-
-            if ($("#fileupload_link_box form").valid() && !performedSubmit) {
-                $fileUploadLinkBoxInput.attr("disabled", "disabled");
-                performedSubmit = true;
-                if (context !== "new_version") {
-                    uploadLink();
-                }
-                else {
-                    newVersionIsLink = true;
-                    saveVersion();
-                }
-            }
-            else {
-                // validation plugin will show error
-                $(".fileupload_link_submit").removeAttr("disabled");
-                $fileUploadAddLinkButton.removeAttr("disabled");
-                $fileUploadLinkBoxInput.removeAttr("disabled");
-                performedSubmit = false;
-            }
+            linkFormSubmit();
             e.stopImmediatePropagation();
             return false;
         });
@@ -1054,6 +1066,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         });
 
         $("#fileupload_add_link").click(function(){
+            type = "link";
             $("#new_uploader").hide();
             $fileUploadLinkBox.show();
 
@@ -1063,12 +1076,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     "contextData": contextData,
                     "sakai": sakai
                 };
-                var renderedTemplate = sakai.api.Util.TemplateRenderer($fileUploadTaggingLinkTemplate, json).replace(/\r/g, '');
+                var renderedTemplate = sakai.api.Util.TemplateRenderer($fileUploadTaggingTemplate, json).replace(/\r/g, '');
                 $fileUploadRenderedTaggingLink.html(renderedTemplate);
+                $("#fileupload_rendered_tagging_link #fileupload_form_submit", $rootel).addClass("fileupload_link_submit");
             }
         });
 
         $("#fileupload_upload_file").click(function(){
+            type = "file";
             $fileUploadLinkBox.hide();
             $("#new_uploader").show();
         });

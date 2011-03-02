@@ -4,7 +4,6 @@
         <title>Sakai 3 Javascript Test Suite</title>
         <link rel="stylesheet" href="../../../../tests/qunit/css/qunit.css" type="text/css" media="screen">
         <script data-main="../../../../tests/qunit/js/sakai.mockdependencies.js" src="../../../../dev/lib/jquery/require-jquery.js"></script>
-        <script type="text/javascript">require(["../../../../tests/qunit/tests/unit/js/internationalization.js"]);</script>
 
     </head>
     <body>
@@ -28,5 +27,6 @@
             document.getElementById("coveragebutton").style.display="none";
           }
         </script>
+        <script>require(["./js/internationalization.js"]);</script>
     </body>
 </html>

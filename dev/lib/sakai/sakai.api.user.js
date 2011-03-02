@@ -237,17 +237,20 @@ define(["jquery",
                     "_charset_": "utf-8"
                 },
                 complete: function(xhr, textStatus) {
-                    // hit the logout service to destroy the session
-                    $.ajax({
-                        url: sakai_conf.URL.LOGOUT_SERVICE,
-                        type: "GET",
-                        complete: function(xhrInner, textStatusInner) {
-                            callback(textStatusInner === "success");
-                        }
-                    });
+                    if (sakai_conf.followLogoutRedirects) {
+                        window.location = sakai_conf.URL.LOGOUT_SERVICE;
+                    } else {
+                        // hit the logout service to destroy the session
+                        $.ajax({
+                            url: sakai_conf.URL.LOGOUT_SERVICE,
+                            type: "GET",
+                            complete: function(xhrInner, textStatusInner) {
+                                callback(textStatusInner === "success");
+                            }
+                        });
+                    }
                 }
             });
-
         },
 
         /**

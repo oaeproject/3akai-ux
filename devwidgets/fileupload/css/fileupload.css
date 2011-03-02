@@ -28,8 +28,7 @@
 .fileupload_or_padding{margin-right:50px;}
 .fileupload_help{color:#666;font-size:.9em;margin-bottom:18px;}
 #fileupload_container .fileupload_textarea{width:380px!important;}
-#fileupload_container #fileupload_rendered_tagging label{vertical-align:top; width:170px; display:inline-block;}
-#fileupload_container #fileupload_rendered_tagging_link label{vertical-align:top; width:170px; display:inline-block;}
+#fileupload_container #fileupload_rendered_tagging label, #fileupload_container #fileupload_rendered_tagging_link label{vertical-align:top; width:170px; display:inline-block;}
 #fileupload_container .fileupload_upload_progress{background:url(/dev/images/ajax_load.gif) no-repeat scroll 0 0 transparent;clear:both;float:right;height:10px;width:80px;}
 #fileupload_container .fileupload_file_name{margin-left:25px;margin-top:5px;}
 #fileupload_container .fileupload_file_name input[type="text"],#fileupload_container #fileupload_link_box input[type="text"]{width:500px;padding:4px;margin:0 5px 5px 0;font-weight:bold;}
@@ -45,4 +44,4 @@
 #fileupload_container{width:800px!important;left:40%!important;}
 #fileupload_add_version_description_label{margin-top:10px;}
 #fileupload_container .hide_remove_link{visibility:hidden;}
-#fileupload_rendered_tagging textarea{height:80px;margin-top:7px;width:100%;}
+#fileupload_rendered_tagging textarea, #fileupload_rendered_tagging_link textarea{height:80px;margin-top:7px;width:100%;}
