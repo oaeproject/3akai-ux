@@ -1505,10 +1505,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
          */
 
         $(window).bind("render.entity.sakai", function(e, mode, data) {
-            // Clear the previous containers
-            $entity_container.empty().hide();
-            $entity_container_actions.empty();
-
             //Set initial chat status
             if (mode === entitymodes[0]) {
                 if (!sakai.data.me.profile.chatstatus) {
