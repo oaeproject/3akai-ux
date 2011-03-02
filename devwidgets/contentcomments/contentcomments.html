@@ -70,10 +70,10 @@
                     <span class="comments_dateComment">${i.formatDate}</span>
                 </div>
                 {if i.canDelete && i.canDelete === true}
-                	{if i["sakai:deleted"] && i["sakai:deleted"] === true}
-                        <a href="#" class="comments_undelete s3d-regular-light-links" id="comments_undelete${i['sakai:id']}">__MSG__UNDELETE__</a>
+                    {if i["sakai:deleted"] && i["sakai:deleted"] === true}
+                        <button type="button" class="comments_undelete s3d-regular-light-links s3d-link-button" id="comments_undelete_${i['sakai:id']}">__MSG__UNDELETE__</button>
                     {else}
-                        <a href="#" class="comments_delete s3d-regular-light-links" id="comments_delete${i['sakai:id']}">__MSG__DELETE__</a>
+                        <button type="button" class="comments_delete s3d-regular-light-links s3d-link-button" id="comments_delete_${i['sakai:id']}">__MSG__DELETE__</button>
                     {/if}
                 {/if}
                 <div class="comments_commentMessage">

@@ -93,6 +93,15 @@ require(
         }, {
             "name": "settingsWidth",
             "type": "number"
+        }, {
+            "name": "defaultLat",
+            "type": "number"
+        }, {
+            "name": "defaultLng",
+            "type": "number"
+        }, {
+            "name": "defaultZoom",
+            "type": "number"
         }];
 
 

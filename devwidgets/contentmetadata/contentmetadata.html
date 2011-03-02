@@ -20,10 +20,10 @@
     <div id="contentmetadata_details_container" class="collapsible_container" style="display:none;">
         <!-- -->
     </div>
-    <a href="javascript:;" id="contentmetadata_show_more">
+    <button type="button" id="contentmetadata_show_more" class="s3d-link-button s3d-action">
         <div id="contentmetadata_see_more" class="s3d-dropdownlisttwo-text"><span id="contentmetadata_show_more_arrow" class="s3d-dropdownlisttwo-arrow-down"><!-- --></span><span>__MSG__SEE_MORE__</span></div>
         <div id="contentmetadata_see_less" style="display:none;" class="s3d-dropdownlisttwo-text"><span id="contentmetadata_show_less_arrow" class="s3d-dropdownlisttwo-arrow-up"><!-- --></span><span>__MSG__SEE_LESS__</span></div>
-    </a>
+    </button>
     <hr class="fl-hidden fl-push">
     <div class='s3d-highlight_area_background_darker1_bl'><div class='s3d-highlight_area_background_darker1_binner'></div></div>
 </div>
@@ -128,107 +128,10 @@
         </span>
         <span class="contentmetadata_content_row">
             <span class="contentmetadata_first_column">__MSG__REVISIONS__: </span>
-            <span>{if data.versions.total -1 <= 0}__MSG__NO_REVISIONS__{else}<a href="javascript:;" id="contentmetadata_view_revisions" {if data.data["mimeType"] === "x-sakai/link"}class="link_revision s3d-action"{else}class="s3d-action"{/if}>${data.versions.total -1} __MSG__VERSIONS__</a> __MSG__AVAILABLE__{/if}</span>
+            <span>{if data.versions.total -1 <= 0}__MSG__NO_REVISIONS__{else}<button type="button" id="contentmetadata_view_revisions" {if data.data["mimeType"] === "x-sakai/link"}class="link_revision s3d-link-button s3d-action{else}class="s3d-action"{/if}>${data.versions.total -1} __MSG__VERSIONS__</button> __MSG__AVAILABLE__{/if}</span>
         </span>
     <div class='s3d-highlight_area_background_darker1_white_content_bl'><div class='s3d-highlight_area_background_darker1_white_content_binner'></div></div>
 --></div>
-
-<!-- DIALOG -->
-<div class="dialog" id="contentmetadata_locations_dialog" style="display:none;">
-    <!-- HEADER -->
-    <div class="dialog_header">
-        <div class="dialog_header_inner">
-            <h1>__MSG__CONTENT_LOCATION_IN_DIRECTORY__</h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
-        </div>
-    </div>
-
-    <!-- CONTENT -->
-    <div class="dialog_content">
-        <p>__MSG__WHERE_CAN_THIS_CONTENT_BE_FOUND__</p>
-            <div id="contentmetadata_locations_dialog_container" class="s3d-highlight_area_background"><!-- --></div>
-            <a href="javascript:;" class="s3d-action" id="contentmetadata_locations_add_another" title="__MSG__ADD_ANOTHER_LOCATION__">__MSG__ADD_ANOTHER_LOCATION__</a>
-            <div class="contentmetadata_locations_dialog_actions">
-                <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__DONT_UPDATE__</span></button>
-                <button type="button" class="s3d-button s3d-button-primary" id="contentmetadata_locations_dialog_update"><span class="s3d-button-inner">__MSG__UPDATE__</span></button>
-            </div>
-            <hr class="fl-push fl-hidden"/>
-    </div>
-
-    <!-- DIALOG FOOTER -->
-    <div class="dialog_footer">
-        <div class="dialog_footer_inner"><!-- --></div>
-    </div>
-</div>
-
-<div id="contentmetadata_locations_dialog_template"><!--
-    <div class='s3d-highlight_area_background_tl'>
-        <div class='s3d-highlight_area_background_tinner'>
-        </div>
-    </div>
-    <div id="contentmetadata_locations_savedlocations">
-        {if data.saveddirectory.length === 0}
-            <span id="contentmetadata_no_locations">__MSG__NO_LOCATIONS__</span>
-        {else}
-            {for dir in data.saveddirectory}
-                <li class="contentmetadata_locations_link" id="${dir}">
-                    <a href="javascript:;" class="s3d-remove-link s3d-action contentmetadata_remove_location" title="__MSG__REMOVE_LOCATION__">__MSG__REMOVE__</a>
-                    <span class="s3d-bold contentmetadata_directory_location contentmetadata_locations_link">${dir.toString().replace(/,/g, " <span class='contentmetadata_select_seperator'>&raquo;</span> ")}</span>
-                </li>
-            {/for}
-        {/if}
-    </div>
-    <div id="contentmetadata_locations_newlocations_container"></div>
-    <hr class="fl-push fl-hidden"/>
-    <div class="s3d-highlight_area_background_bl">
-        <div class="s3d-highlight_area_background_binner">
-        </div>
-    </div>
---></div>
-
-    <div id="contentmetadata_location_firstlevel_template"><!--
-        <a href="javascript:;" class="s3d-remove-link s3d-action contentmetadata_remove_new_location" title="__MSG__REMOVE_LOCATION__">__MSG__REMOVE__</a>
-        <select class="contentmetadata_location_content contentmetadata_location_hierarchy_select contentmetadata_location_directory_lvlone required" name="contentmetadata_location_directory_lvlone">
-            <option value="no_value">__MSG__PLEASE_SELECT__</option>
-            {for i in directory}
-                <option value="${i.name}">${i.name}</option>
-            {/for}
-        </select>
-        <div id="contentmetadata_location_secondlevel_template_container"></div>
-        <div id="contentmetadata_location_thirdlevel_template_container"></div>
-    --></div>
-
-    <div id="contentmetadata_location_secondlevel_template" style="display:none;"><!--
-        <span class="contentmetadata_saved_seperator"> &raquo; </span>
-        <select class="contentmetadata_location_content contentmetadata_location_hierarchy_select contentmetadata_location_directory_lvltwo" name="Content directory location">
-            <option value="no_value">__MSG__PLEASE_SELECT__</option>
-            {for i in directory}
-                {if i.name === changedboxvalue}
-                    {for j in i.secondlevels}
-                        <option value="${j.name}">${j.name}</option>
-                    {/for}
-                {/if}
-            {/for}
-        </select>
-    --></div>
-
-    <div id="contentmetadata_location_thirdlevel_template" style="display:none;"><!--
-        <span class="contentmetadata_saved_seperator"> &raquo; </span>
-        <select class="contentmetadata_location_content contentmetadata_location_hierarchy_select contentmetadata_location_directory_lvlthree" name="Content directory location">
-            <option value="no_value">__MSG__PLEASE_SELECT__</option>
-            {for i in directory}
-                {if i.name === firstlevelvalue}
-                    {for j in i.secondlevels}
-                        {if j.name === changedboxvalue}
-                            {for k in j.thirdlevels}
-                                <option value="${k.name}">${k.name}</option>
-                            {/for}
-                        {/if}
-                    {/for}
-                {/if}
-            {/for}
-        </select>
-    --></div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/contentmetadata/javascript/contentmetadata.js"></script>

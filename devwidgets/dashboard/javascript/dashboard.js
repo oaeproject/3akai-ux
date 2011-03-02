@@ -80,8 +80,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
 
         var decideExists = function(exists, response) {
             if (exists === false) {
-                if (response.status === 401) { // uesr is not logged in
-                    $(window).trigger("notLoggedIn.dashboard.sakai"); // let the embedding page decide how to handle not logged in
+                if (response.status === 401) { // user is not logged in
+                    $(window).trigger("sakai_global.dashboard.notLoggedIn"); // let the embedding page decide how to handle not logged in
                 }
                 doInit();
             } else {

@@ -188,6 +188,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
             var pl_query = searchUrl + searchQuery + "&page=0&items=12&_=" + (Math.random() * 100000000000000000);
             renderSearch(pl_query);
+            return false;
         };
 
         /**
@@ -203,10 +204,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var searchQuery = {};
             var main_parts = iSearchQuery.split("?");
             searchQuery.url = main_parts[0];
-            var args = main_parts[1].split("&");
-            for (var i=0, il = args.length; i < il; i++) {
-                var kv_pair = args[i].split("=");
-                searchQuery[kv_pair[0]] = kv_pair[1];
+            if (main_parts[1]) {
+                var args = main_parts[1].split("&");
+                for (var i=0, il = args.length; i < il; i++) {
+                    var kv_pair = args[i].split("=");
+                    searchQuery[kv_pair[0]] = kv_pair[1];
+                }
             }
 
             // Alter search query according to config

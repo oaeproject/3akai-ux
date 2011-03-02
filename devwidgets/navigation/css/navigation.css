@@ -26,7 +26,7 @@
 
 /* NAVIGATION TREE STYLES */
 #navigation_tree ul.jstree-no-dots li.jstree-leaf,#navigation_tree ul.jstree-no-dots li.jstree-open,#navigation_tree ul.jstree-no-dots li.jstree-closed{padding:4px;}
-#navigation_tree ul.jstree-no-dots li.jstree-leaf a,#navigation_tree ul.jstree-no-dots li.jstree-open a,#navigation_tree ul.jstree-no-dots li.jstree-closed a{font-weight:normal;color:#006E96;white-space:normal;display:inline;padding:4px;line-height:19px;}
+#navigation_tree ul.jstree-no-dots li.jstree-leaf a,#navigation_tree ul.jstree-no-dots li.jstree-open a,#navigation_tree ul.jstree-no-dots li.jstree-closed a{font-weight:normal;color:#006E96;white-space:normal;display:inline;padding:4px;}
 #navigation_tree ul.jstree-no-dots li.jstree-open > a,#navigation_tree ul.jstree-no-dots li.jstree-closed > a{font-weight:normal;}
 #navigation_tree ul.jstree-no-dots li.jstree-leaf a.jstree-clicked,#navigation_tree ul.jstree-no-dots li.jstree-open a.jstree-clicked,#navigation_tree ul.jstree-no-dots li.jstree-closed a.jstree-clicked{color:#FFF;font-weight:normal;background-color:#006E96;border:none;}
 #navigation_tree ul.jstree-no-dots li.jstree-leaf a.jstree-hovered,#navigation_tree ul.jstree-no-dots li.jstree-open a.jstree-hovered,#navigation_tree ul.jstree-no-dots li.jstree-closed a.jstree-hovered{color:#006E96;background-color:#D3EDF5;border:none;}
@@ -37,6 +37,10 @@
 /* BACKGROUND IMAGES */
 .navigation_widget .widget_title_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -500px -21px transparent;}
 #navigation_create_page{padding-left:3px;}
-#navigation_create_page_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -20px -17px transparent;display:block;float:left;height:13px;width:13px;}
+#navigation_create_page_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -22px -18px transparent;display:block;float:left;height:13px;width:13px;}
 #navigation_delete_page{padding-left:3px;}
-#navigation_delete_page_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -720px -17px transparent;display:block;float:left;height:13px;width:13px;}
+#navigation_delete_page_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -722px -18px transparent;display:block;float:left;height:13px;width:13px;}
+
+/* SETTINGS */
+#settings_settings_link{color:#333}
+#navigation_admin_options {margin-top:5px;}

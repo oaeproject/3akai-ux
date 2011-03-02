@@ -5,5 +5,5 @@
 .faceted .faceted_back{background-color:#FFF;padding:5px 10px;margin-top:10px;}
 .faceted .faceted_list{background-color:#FFF;padding:5px 10px;margin-top:10px;}
 .faceted .faceted_value span{color:#333;font-size:1.15em;font-weight:bold;}
-.faceted .faceted_category a{display:block;}
+.faceted .faceted_category button{display:block;}
 .faceted .faceted_category_selected{font-weight:bold;}
