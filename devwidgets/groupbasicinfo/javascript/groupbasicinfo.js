@@ -115,7 +115,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                 });
                 if (update) return true;
-            } else if (currentTags.length && enteredTags.length) {
+            } else if (currentTags.toString() !== enteredTags.toString()) {
                 return true;
             }
 
