@@ -9,7 +9,7 @@
         <div class="dialog_header">
             <div class="dialog_header_inner">
                 <h1>__MSG__CHANGE_LAYOUT__</h1>
-                <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+                <button type="button" class="jqmClose dialog_close_image s3d-link-button s3d-action" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</button>
             </div>
         </div>
         <div class="dialog_content">
@@ -62,7 +62,7 @@
         <div class="dialog_header">
             <div class="dialog_header_inner">
                 <h1>__MSG__ADD_WIDGETS__</h1>
-                <a href="javascript:;" class="close_goodies_dialog dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+                <button type="button" class="close_goodies_dialog dialog_close_image s3d-link-button s3d-action" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</button>
             </div>
         </div>
 
@@ -138,8 +138,8 @@
                         <div {if p.display=="none"} class="fl-widget-titlebar s3d-widget-titlebar widget1-head hiddenwidget" {else} class="fl-widget-titlebar widget1-head s3d-widget-titlebar" {/if} id="draghandle_${p.id}_${p.uid}">
                             <div class="widget-titlebar-inner s3d-widget-titlebar-inner">
                                 <span class="widget_title_icon"></span>
-                                <a href="javascript:;" id="${p.id}_${p.uid}_settings" class="fl-force-right fl-icon settings" style="display:none">__MSG__SETTINGS__</a>
-                                <div class="ellipsis_container"><h2 class="widget_title ellipsis_text">${p.title}</h2></div>
+                                <button type="button" id="${p.id}_${p.uid}_settings" class="fl-force-right fl-icon settings s3d-link-button s3d-action" style="display:none">__MSG__SETTINGS__</button>
+                                <h2 class="widget_title">${p.title}</h2>
                             </div>
                         </div>
                         <div class="widget-titlebar-end"><div class="widget-titlebar-end-inner"></div></div>
@@ -167,9 +167,9 @@
     <!-- Dropdown menu shown when clicking on a widget's pencil -->
     <div id="widget_settings_menu" style="display:none">
         <ul>
-            <li id="settings_remove" class="more_option"><a href="javascript:;">__MSG__REMOVE__</a></li>
-            <li id="settings_hide" class="more_option"><a id="settings_hide_link" href="javascript:;">__MSG__HIDE__</a></li>
-            <li id="settings_settings" class="more_option"><a id="settings_settings_link" href="javascript:;">__MSG__SETTINGS__</a></li>
+            <li id="settings_remove" class="more_option"><button type="button" id="settings_settings_link" class="s3d-link-button s3d-action">__MSG__REMOVE__</button></li>
+            <li id="settings_hide" class="more_option"><button type="button" id="settings_settings_link" class="s3d-link-button s3d-action">__MSG__HIDE__</button></li>
+            <li id="settings_settings" class="more_option"><button type="button" id="settings_settings_link" class="s3d-link-button s3d-action">__MSG__SETTINGS__</button></li>
         </ul>
     </div>
 </div>
