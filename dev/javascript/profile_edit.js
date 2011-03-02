@@ -555,10 +555,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     $(this).focus(function(){
                         // IE needs different calculation for offset
                         if (!jQuery.support.leadingWhitespace) {
-                            window.scroll(0, $(this).offset().top + document.documentElement.scrollTop);
+                            window.scroll(0, document.documentElement.scrollTop + 50);
                         }
                         else {
-                            window.scroll(0, $(this).offset().top);
+                            window.scrollBy(0, window.pageYOffset);
                         }
                     });
                 }
