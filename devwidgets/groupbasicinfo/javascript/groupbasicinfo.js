@@ -179,7 +179,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     tag = $.trim(tag).replace(/#/g,"");
                     if (sakai.api.Security.escapeHTML(tag) === tag && tag.replace(/\\/g,"").length) {
                         if ($.inArray(tag, sakai_global.currentgroup.data.authprofile["sakai:tags"]) < 0) {
-                            sakai_global.currentgroup.data.authprofile["sakai:tags"].push(tag.replace(/\\/g,""));
+                            sakai_global.currentgroup.data.authprofile["sakai:tags"].push(tag.replace(/\\/g,"").replace(/\n/g, ""));
                         }
                     }
                 });
