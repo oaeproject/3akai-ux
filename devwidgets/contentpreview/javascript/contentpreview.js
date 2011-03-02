@@ -27,7 +27,7 @@
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     /**
-     * @name sakai.contenpreview
+     * @name sakai.contentpreview
      *
      * @class contentpreview
      *
@@ -224,6 +224,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         $(window).bind("start.contentpreview.sakai", function(){
             determineFileCreator();
+        });
+
+        $(window).bind("updated.version.content.sakai",function() {
+            determineDataType();
         });
 
         // Indicate that the widget has finished loading

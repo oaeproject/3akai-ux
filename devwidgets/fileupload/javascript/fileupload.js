@@ -675,6 +675,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 type: "GET",
                 success: function(data){
                     sakai_global.content_profile.content_data.data = data;
+                    $(window).trigger("updated.version.content.sakai");
                     resetFields();
                 }
             });
@@ -743,15 +744,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         "sakai:fileextension": extension,
                         "sakai:pooled-content-file-name": oldName + extension
                     },
-                    success: function(data){
-                        // Get the version details in order to update the GUI
-                        getVersionDetails();
-                    },
-                    error: function(xhr, textStatus, thrownError){
+                    complete: function(data){
                         // Get the version details in order to update the GUI
                         getVersionDetails();
                     }
                 });
+            } else {
+              getVersionDetails();
             }
         };
 
