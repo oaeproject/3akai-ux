@@ -125,7 +125,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             // Apply threedots to title
             var body = $.trim(sakai.api.Util.TemplateRenderer(listpeopleinnodeTitleTemplate, obj));
-            var ellipsis = sakai.api.Util.applyThreeDots(body, $("#listpeopleinnode_title").width() - 30, {max_rows: 1,whole_word: false});
+            var ellipsis = sakai.api.Util.applyThreeDots(body, $("#listpeopleinnode_title").width() - 30, {max_rows: 4,whole_word: false});
             $listpeopleinnodeTitle.html(ellipsis);
 
             searchUsersInNode(selected);
