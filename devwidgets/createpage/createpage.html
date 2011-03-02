@@ -6,12 +6,12 @@
     <div class="dialog_header">
         <div class="dialog_header_inner">
             <h1>__MSG__WIDGET_TITLE__</h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+            <button type="button" class="jqmClose dialog_close_image s3d-link-button s3d-action" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</button>
         </div>
     </div>
 
     <div class="dialog_content">
-        <form id="createpage_form" method="post" action="javascript:;">
+        <form id="createpage_form" method="post" action="#">
             <p><label for="createpage_page_type" class="createpage_form_label">__MSG__PAGE_TYPE__:</label>
                 <select id="createpage_page_type">
                     <option value="blank">__MSG__BLANK_PAGE__</option>
@@ -33,9 +33,7 @@
                         <label for="createpagetemplate_${t.id}"><span
                             class="createpagetemplate_name">${t.name}</span><span
                             class="createpagetemplate_desc">${t.desc}</span></label>
-                        (<a id="createpagedeletetemplate_${t.id}"
-                            class="createpage_delete_template_link"
-                            href="javascript:;">__MSG__DELETE__</a>)
+                        (<button type="button" id="createpagedeletetemplate_${t.id}" class="createpage_delete_template_link s3d-link-button s3d-action">__MSG__DELETE__</a>)
                     </li>
                 {/for}
                 </ul>

@@ -92,12 +92,12 @@
 
 <!-- MULTIPLE INSTANCE ADD ANOTHER TEMPLATE -->
 <div id="profilesection_add_section_template"><!--
-    <a class="profilesection_add_section s3d-regular-links s3d-bold" href="javascript:;" id="profilesection_add_link_${parentid}"><span class="s3d-add_another_location"></span><span>Add another ${config.multipleLabel}</span></a>
+    <button type="button" class="profilesection_add_section s3d-link-button s3d-bold" id="profilesection_add_link_${parentid}"><span class="s3d-add_another_location"></span><span>Add another ${config.multipleLabel}</span></button>
 --></div>
 
 <!-- MULTIPLE INSTANCE REMOVE SECTION TEMPLATE -->
 <div id="profilesection_remove_section_template"><!--
-    <a href="javascript:;" class="profilesection_remove_section" id="profilesection_remove_link_${parentid}"><span>Remove this ${config.multipleLabel}</span></a>
+    <button type="button" class="profilesection_remove_section s3d-bold s3d-link-button" id="profilesection_remove_link_${parentid}"><span>Remove this ${config.multipleLabel}</span></button>
     <hr/>
 --></div>
 
@@ -125,7 +125,7 @@
     </div>
     <div class="profilesection_section">
         {if sakai_global.profile.main.mode.value === 'edit'}
-            <a href="javascript:;" class="profilesection_add_location_section s3d-bold s3d-regular-links"><span class="s3d-add_another_location"></span><span>__MSG__ADD_REMOVE_LOCATIONS__</span></a>
+            <button type="button" class="profilesection_add_location_section s3d-bold s3d-link-button"><span class="s3d-add_another_location"></span><span>__MSG__ADD_REMOVE_LOCATIONS__</span></button>
         {/if}
     </div>
 --></div>

@@ -179,6 +179,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     sakai_global.sitespages.addDashboardPage(pageTitle, handleNewPageCreation);
                 }
             }
+            return false;
         });
 
         /**

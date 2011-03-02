@@ -12,12 +12,13 @@
                         <span class="s3d-button-inner">__MSG__ADD_NEW_TOPIC__</span>
                     </button>
                     <div class="discussion_view_options fl-force-right s3d-regular-light-links">
-                        <a id="discussion_compact_link" title="__MSG__COMPACT_VIEW_ALT__" href="javascript:;" class="s3d-action">__MSG__C_COMPACT_VIEW__</a>
-                        <a id="discussion_full_link" title="__MSG__FULL_VIEW_ALT__" href="javascript:;" class="s3d-action">__MSG__C_FULL_VIEW__</a>
-                        <a id="discussion_expand_link" title="__MSG__SHOW_ALL_ALT__" href="javascript:;" class="s3d-action">__MSG__SHOW_ALL__</a>
-                        <a id="discussion_collapse_link" title="__MSG__HIDE_ALL_ALT__" href="javascript:;" class="s3d-action">__MSG__HIDE_ALL__</a>
+                        <button type="button" id="discussion_compact_link" title="__MSG__COMPACT_VIEW_ALT__" class="s3d-link-button s3d-action s3d-bold">__MSG__C_COMPACT_VIEW__</button>
+                        <button type="button" id="discussion_full_link" title="__MSG__FULL_VIEW_ALT__" class="s3d-link-button s3d-action s3d-bold">__MSG__C_FULL_VIEW__</button>
+                        <button type="button" id="discussion_expand_link" title="__MSG__SHOW_ALL_ALT__" class="s3d-link-button s3d-action s3d-bold">__MSG__SHOW_ALL__</button>
+                        <button type="button" id="discussion_collapse_link" title="__MSG__HIDE_ALL_ALT__" class="s3d-link-button s3d-action s3d-bold">__MSG__HIDE_ALL__</button>
                     </div>
                 </div>
+                <hr class="fl-hidden fl-push"/>
             </div>
             <!-- ADD TOPIC CONTAINER -->
             <div id="discussion_add_container" style="display:none;">
@@ -84,15 +85,15 @@
                         {if loggedIn}
                             <div id="discussion_content_actions_${o.post["sakai:id"]}" class="discussion_content_actions link">
                                 <ul>
-                                    <li class="discussion_content_no_border"><a id="discussion_content_reply_${o.post["sakai:id"]}" class="discussion_content_reply" href="javascript:;">__MSG__REPLY__</a></li>
+                                    <li class="discussion_content_no_border"><button type="button" id="discussion_content_reply_${o.post["sakai:id"]}" class="discussion_content_reply s3d-link-button s3d-action">__MSG__REPLY__</button></li>
                                     {if o.post.canEdit}
-                                        <li><a id="discussion_content_edit_${o.post["sakai:id"]}" class="discussion_content_edit" href="javascript:;">__MSG__EDIT__</a></li>
+                                        <li><button type="button" id="discussion_content_edit_${o.post["sakai:id"]}" class="discussion_content_edit s3d-link-button s3d-action">__MSG__EDIT__</button></li>
                                     {/if}
                                     {if o.post.canDelete && first !== true && o.post["sakai:initialpost"] !== true}
                                         {if o.post["sakai:deleted"]}
-                                            <li><a id="discussion_content_undelete_${o.post["sakai:id"]}" class="discussion_content_undelete" href="javascript:;">__MSG__UNDELETE__</a></li>
+                                            <li><button type="button" id="discussion_content_undelete_${o.post["sakai:id"]}" class="discussion_content_undelete s3d-link-button s3d-action">__MSG__UNDELETE__</button></li>
                                         {else}
-                                             <li><a id="discussion_content_delete_${o.post["sakai:id"]}" class="discussion_content_delete" href="javascript:;">__MSG__DELETE__</a></li>
+                                             <li><button type="button" id="discussion_content_delete_${o.post["sakai:id"]}" class="discussion_content_delete s3d-link-button s3d-action">__MSG__DELETE__</button></li>
                                         {/if}
                                     {/if}
                                 </ul>
@@ -149,10 +150,10 @@
                         {/if}
                         {if o.post.nrOfReplies != "0"}
                             <span class="discussion_showAllContainer">
-                            (<a class="discussion_toggle_showhideall" id="discussion_toggle_showhideall_${o.post["sakai:id"]}" href="javascript:;">
+                            (<button type="button" class="discussion_toggle_showhideall s3d-link-button s3d-action" id="discussion_toggle_showhideall_${o.post["sakai:id"]}">
                                 <span class="discussion_toggle_showhideall_text${o.post["sakai:id"]}">__MSG__HIDE_ALL__</span>
                                 <span class="discussion_toggle_showhideall_text${o.post["sakai:id"]}" style="display:none;">__MSG__SHOW_ALL__</span>
-                            </a>)
+                            </button>)
                             </span>
                         {/if}
                     </span>
@@ -176,15 +177,15 @@
                     {if loggedIn}
                         <div id="discussion_content_actions_${o.post["sakai:id"]}" class="discussion_content_actions link">
                             <ul>
-                                <li class="discussion_content_no_border"><a id="discussion_content_reply_${o.post["sakai:id"]}" class="discussion_content_reply" href="javascript:;">__MSG__REPLY__</a></li>
+                                <li class="discussion_content_no_border"><button type="button" id="discussion_content_reply_${o.post["sakai:id"]}" class="discussion_content_reply s3d-link-button s3d-action">__MSG__REPLY__</button></li>
                                 {if o.post.canEdit}
-                                    <li><a id="discussion_content_edit_${o.post["sakai:id"]}" class="discussion_content_edit" href="javascript:;">__MSG__EDIT__</a></li>
+                                    <li><button type="button" id="discussion_content_edit_${o.post["sakai:id"]}" class="discussion_content_edit s3d-link-button s3d-action">__MSG__EDIT__</button></li>
                                 {/if}
                                 {if o.post.canDelete && first !== true && o.post["sakai:initialpost"] !== true}
                                     {if o.post["sakai:deleted"]}
-                                        <li><a id="discussion_content_undelete_${o.post["sakai:id"]}" class="discussion_content_undelete" href="javascript:;">__MSG__UNDELETE__</a></li>
+                                        <li><button type="button" id="discussion_content_undelete_${o.post["sakai:id"]}" class="discussion_content_undelete s3d-link-button s3d-action">__MSG__UNDELETE__</button></li>
                                     {else}
-                                         <li><a id="discussion_content_delete_${o.post["sakai:id"]}" class="discussion_content_delete" href="javascript:;">__MSG__DELETE__</a></li>
+                                         <li><button id="discussion_content_delete_${o.post["sakai:id"]}" class="discussion_content_delete s3d-link-button s3d-action">__MSG__DELETE__</button></li>
                                     {/if}
                                 {/if}
                             </ul>
@@ -243,9 +244,9 @@
         <form>
             <div class="s3d-primary-tabs">
                 <ul class="fl-tabs fl-tabs-right">
-                    <li class="fl-tabs-active"><a class="discussion_settings_tab_selected" href="javascript:;" id="discussion_settings_new_tab">__MSG__POST_NEW__</a></li>
-                    <li><a class="discussion_settings_tab" href="javascript:;" id="discussion_settings_existing_tab">__MSG__INSERT_EXISTING__</a></li>
-                    <li><a class="discussion_settings_tab" href="javascript:;" id="discussion_settings_display_options_tab">__MSG__DISPLAY_OPTIONS__</a></li>
+                    <li class="fl-tabs-active"><button type="button" class="discussion_settings_tab_selected s3d-link-button s3d-action s3d-bold" id="discussion_settings_new_tab">__MSG__POST_NEW__</button></li>
+                    <li><button type="button" class="discussion_settings_tab s3d-link-button s3d-action s3d-bold" id="discussion_settings_existing_tab">__MSG__INSERT_EXISTING__</button></li>
+                    <li><button type="button" class="discussion_settings_tab s3d-link-button s3d-action s3d-bold" id="discussion_settings_display_options_tab">__MSG__DISPLAY_OPTIONS__</button></li>
                 </ul>
             </div>
             <div id="discussion_tab_content_top">

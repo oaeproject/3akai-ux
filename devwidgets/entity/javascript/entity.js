@@ -711,6 +711,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
                         }
                     });
                 }
+                return false;
             });
 
         };
