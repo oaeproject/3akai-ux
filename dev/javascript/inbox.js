@@ -800,7 +800,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             message["sakai:body"] = key.replace(/\$\{comment\}/gi, comment).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(message.userFrom[i]));
                         }
                         $(inboxSpecificMessageFrom).attr("href", "/~" + message.userFrom[i].userid);
-                        $(inboxSpecificMessageFromPicture).attr("href", "/~" + message.userFrom[i].userid);
                         $(inboxSpecificMessageFrom).text(sakai.api.User.getDisplayName(message.userFrom[i]));
                         if (message.userFrom[i].photo) {
                             $(inboxSpecificMessagePicture).attr("src", "/~" + message.userFrom[i]["userid"] + "/public/profile/" + message.userFrom[i].photo);

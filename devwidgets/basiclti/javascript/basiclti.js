@@ -370,7 +370,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(basicltiSettingsWidthUnitClass).removeClass(basicltiSettingsWidthUnitSelectedClass);
                 $(this).addClass(basicltiSettingsWidthUnitSelectedClass);
                 renderIframeSettings(false);
-                return false;
             });
 
             // When you push the save button..

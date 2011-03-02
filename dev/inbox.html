@@ -278,7 +278,7 @@
                             {macro showReply(r)}
                             <div class="sender_details">
                                 <div class="sender_picture_container">
-                                    <a href="#" title="__MSG__TO_SEE_THE_PERSON_PROFILE__">
+                                    <a href="/~${r.userFrom[0]["userid"]}" title="__MSG__TO_SEE_THE_PERSON_PROFILE__">
                                     {if r.userFrom[0].picture}
                                         <img src="/~${r.userFrom[0]["userid"]}/public/profile/${r.userFrom[0].photo}" alt="__MSG__TO_SEE_THE_USERS_PROFILE_INFORMATION__" class="sender-picture" id="inbox_message_picture" />
                                     {else}

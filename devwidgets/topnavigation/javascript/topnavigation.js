@@ -92,6 +92,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // Containers
         var exploreNavigationContainer = "#explore_nav_container";
+        var topnavigationMyProfileContainer = "#topnavigation_my_profile_container";
+
+        // Templates
+        var topnavigationMyProfileTemplate = "topnavigation_my_profile_template";
 
         // CSS Classes
         var searchInputFocusClass = "search_input_focus";
@@ -564,7 +568,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var doInit = function(){
 
-            $(navMyProfile).attr("href", "/~" + sakai.data.me.user.userid);
+            $(topnavigationMyProfileContainer).html(sakai.api.Util.TemplateRenderer(topnavigationMyProfileTemplate,{"href":"/~" + sakai.data.me.user.userid}))
 
             renderMenu();
 
