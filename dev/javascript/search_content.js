@@ -462,11 +462,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             $("#search_results_page1").removeClass("search_results_container_sub");
         } else {
             $uploadContentLink.bind("click", function() {
-                $(window).trigger("sakai-fileupload-init");
+                $(window).trigger("init.fileupload.sakai");
             });
         }
 
-        $(window).bind("sakai-fileupload-complete", function(){
+        $(window).bind("complete.fileupload.sakai", function(){
            window.location = window.location + "&_=" + Math.random(); 
         });
 

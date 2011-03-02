@@ -115,7 +115,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         $("#mysakai2_add_files_link").click(function(ev){
             // Load the sakai 2 favourites widget.
-            $(window).trigger("sakai.sakai2favourites.init");
+            $(window).trigger("init.sakai2favourites.sakai");
         });
 
         /**

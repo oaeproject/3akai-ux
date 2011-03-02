@@ -57,8 +57,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var hideTooltip = function() {
             $tooltip_widget.jqmHide();
-            $(window).trigger("sakai-tooltip-closed");
-            $(window).unbind("sakai-tooltip-update");
+            $(window).trigger("closed.tooltip.sakai");
+            $(window).unbind("update.tooltip.sakai");
         };
 
         /**
@@ -93,14 +93,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $tooltip_widget.css("left", leftOffset + eleOffset.left);
             }
             // bind tooltip movement
-            $(window).unbind("sakai-tooltip-update");
-            $(window).bind("sakai-tooltip-update", function(e, tooltipData) {
+            $(window).unbind("update.tooltip.sakai");
+            $(window).bind("update.tooltip.sakai", function(e, tooltipData) {
                 hideTooltip();
-                $(window).trigger("sakai-tooltip-init", tooltipData);
+                $(window).trigger("init.tooltip.sakai", tooltipData);
             });
             // bind tooltip close
-            $(window).unbind("sakai-tooltip-close");
-            $(window).bind("sakai-tooltip-close", function() {
+            $(window).unbind("done.tooltip.sakai");
+            $(window).bind("done.tooltip.sakai", function() {
                 hideTooltip();
             });
             $(".tooltip_close").unbind("click");
@@ -134,8 +134,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * {Integer} tooltipTop Value added to the top offset used when placing the tooltip
          * {Integer} tooltipLeft Value added to the left offset used when placing the tooltip
          */
-        $(window).unbind("sakai-tooltip-init");
-        $(window).bind("sakai-tooltip-init", function(e, helpObj) {
+        $(window).unbind("init.tooltip.sakai");
+        $(window).bind("init.tooltip.sakai", function(e, helpObj) {
             if (helpObj) {
                 tooltipSelector = helpObj.tooltipSelector || false;
                 tooltipTitle = helpObj.tooltipTitle || false;
@@ -151,7 +151,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         sakai_global.tooltip.isReady = true;
-        $(window).trigger("sakai-tooltip-ready");
+        $(window).trigger("ready.tooltip.sakai");
     };
 
     sakai.api.Widgets.widgetLoader.informOnLoad("tooltip");

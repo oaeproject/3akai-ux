@@ -245,7 +245,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                         requests: $.toJSON(itemArr)
                     },
                     success: function(data){
-                        $(window).trigger("sakai-sharecontent-removeUser", {
+                        $(window).trigger("removeUser.sharecontent.sakai", {
                             "user": userid,
                             "access": permission
                         });
@@ -358,7 +358,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     type: "POST",
                     success: function(){
                         sakai_global.content_profile.content_data.data["sakai:permissions"] = selectedVal;
-                        $(window).trigger("sakai-sharecontent-setGlobalPermission");
+                        $(window).trigger("setGlobalPermission.sharecontent.sakai");
                         $(sharecontentVisibilityHeader).html(sakai.api.Util.TemplateRenderer(sharecontentVisibilityHeaderTemplate, sakai));
                         $(sharecontentPermissionSettingsContainer).jqmHide();
                         // Post activity
@@ -380,13 +380,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var addBinding = function() {
             initialized = true;
 
-            $(window).bind("sakai-contentprofile-ready", function(){
+            $(window).bind("ready.contentprofile.sakai", function(){
                 render();
             });
 
             $(sharecontent_init_search).live("click", function() {
                 var currentSelections = getSelectedList();
-                $(window).trigger("sakai-pickeradvanced-init", {"list":currentSelections.list, "config": {"type": pickerData["type"]}});
+                $(window).trigger("init.pickeradvanced.sakai", {"list":currentSelections.list, "config": {"type": pickerData["type"]}});
             });
 
             $(sharecontent_dont_share_button).live("click", function() {
@@ -395,7 +395,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
 
             $(sharecontent_close_button).live("click", function(){
                 reset();
-                $(window).trigger("sakai-sharecontent-close");
+                $(window).trigger("done.sharecontent.sakai");
                 $sharecontent_container.jqmHide();
 
                 if (memberAdded) {
@@ -408,16 +408,16 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                         "tooltipLeft": -200,
                         "tooltipAutoClose":true
                     };
-                    $(window).trigger("sakai-tooltip-update", tooltipData);
+                    $(window).trigger("update.tooltip.sakai", tooltipData);
                 } else {
                     // hide any tooltips if they are open
-                    $(window).trigger("sakai-tooltip-close");
+                    $(window).trigger("done.tooltip.sakai");
                 }
             });
 
             $(".jqmClose").bind("click", function(){
                 // hide any tooltips if they are open
-                $(window).trigger("sakai-tooltip-close");
+                $(window).trigger("done.tooltip.sakai");
             });
 
             $(sharecontentChangeGlobalPermissions).live("click", function(){
@@ -595,7 +595,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                         "tooltipTop":30,
                         "tooltipLeft":340
                     };
-                    $(window).trigger("sakai-tooltip-update", tooltipData);
+                    $(window).trigger("update.tooltip.sakai", tooltipData);
                     memberAdded = true;
                 },
                 selectionRemoved: function(elem) {
@@ -640,9 +640,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 }
             }
 
-            $(window).trigger("sakai-sharecontent-finished", {"toAdd": toAddList, "toAddNames": userList.toAddNames, "mode": mode});
+            $(window).trigger("finished.sharecontent.sakai", {"toAdd": toAddList, "toAddNames": userList.toAddNames, "mode": mode});
 
-            $(window).trigger("sakai-sharecontent-addUser", {
+            $(window).trigger("addUser.sharecontent.sakai", {
                 "user": userList,
                 "access": mode
             });
@@ -700,7 +700,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 "tooltipArrow":"bottom",
                 "tooltipLeft":15
             };
-            $(window).trigger("sakai-tooltip-update", tooltipData);
+            $(window).trigger("update.tooltip.sakai", tooltipData);
 
             if (!initialized) {
                 addBinding();
@@ -752,12 +752,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         // Events //
         ////////////
 
-        $(window).unbind("sakai-sharecontent-init");
-        $(window).bind("sakai-sharecontent-init", function(e, config, callbackFn) {
+        $(window).unbind("init.sharecontent.sakai");
+        $(window).bind("init.sharecontent.sakai", function(e, config, callbackFn) {
             $sharecontent_container.jqmShow();
             render(config);
-            $(window).unbind("sakai-pickeradvanced-finished");
-            $(window).bind("sakai-pickeradvanced-finished", function(e, data) {
+            $(window).unbind("finished.pickeradvanced.sakai");
+            $(window).bind("finished.pickeradvanced.sakai", function(e, data) {
                 addChoicesFromPickeradvanced(data.toAdd);
             });
             callback = callbackFn;
@@ -783,7 +783,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         // Send out an event that says the widget is ready to
         // accept a search query to process and display. This event can be picked up
         // in a page JS code
-        $(window).trigger("sakai-sharecontent-ready");
+        $(window).trigger("ready.sharecontent.sakai");
         sakai_global.sharecontent.isReady = true;
 
     };

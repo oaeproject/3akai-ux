@@ -196,14 +196,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
             $("#upload_content").die("click");
             $("#upload_content").live("click", function() {
-                $(window).trigger("sakai-fileupload-init", {
+                $(window).trigger("init.fileupload.sakai", {
                     newVersion: true,
                     isLink: sakai_global.content_profile.content_data.data["mimeType"] === "x-sakai/link",
                     contentPath: sakai_global.content_profile.content_data.data["jcr:name"]
                 });
             });
             $("#upload_content").bind("click", function(){
-                $(window).trigger("sakai-fileupload-init");
+                $(window).trigger("init.fileupload.sakai");
             });
         };
 
@@ -222,13 +222,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
         };
 
-        $(window).bind("sakai_global.contentpreview.start", function(){
+        $(window).bind("start.contentpreview.sakai", function(){
             determineFileCreator();
         });
 
         // Indicate that the widget has finished loading
         sakai_global.contentpreview.isReady = true;
-        $(window).trigger("sakai_global.contentpreview.ready", {});
+        $(window).trigger("ready.contentpreview.sakai", {});
 
     };
 
