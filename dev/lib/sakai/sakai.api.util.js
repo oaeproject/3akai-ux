@@ -1231,11 +1231,6 @@ define(["jquery",
                 html4.ATTRIBS["video::src"] = 0;
                 html4.ATTRIBS["video::class"] = 0;
                 html4.ATTRIBS["video::autoplay"] = 0;
-                html4.ELEMENTS["embed"] = 0;
-                html4.ELEMENTS["i"] = 0;
-                html4.ATTRIBS["embed::src"] = 0;
-                html4.ATTRIBS["embed::class"] = 0;
-                html4.ATTRIBS["embed::autostart"] = 0;
                 // A slightly modified version of Caja's sanitize_html function to allow style="display:none;"
                 var sakaiHtmlSanitize = function(htmlText, opt_urlPolicy, opt_nmTokenPolicy) {
                     var out = [];
@@ -1264,7 +1259,7 @@ define(["jquery",
                                                 var vals = value.split(";");
                                                 for (var attrid = 0; attrid < vals.length; attrid++){
                                                     var attrValue = $.trim(vals[attrid].split(":")[0]).toLowerCase();
-                                                    if ($.inArray(attrValue, accept)){
+                                                    if ($.inArray(attrValue, accept) !== -1){
                                                         sanitizedValue += vals[i];
                                                     }
                                                 }
