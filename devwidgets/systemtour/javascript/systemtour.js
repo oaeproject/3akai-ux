@@ -297,7 +297,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js", "/dev
          * {String} id The tour we want to start
          */
         var startTour = function(id){
-            $(window).trigger("close.tooltip.sakai");
+            $(window).trigger("done.tooltip.sakai");
             hideSelected();
             var tooltipData,
                 contentLink,

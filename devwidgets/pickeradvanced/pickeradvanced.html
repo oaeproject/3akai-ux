@@ -7,13 +7,13 @@
         <div class="dialog_header_inner">
             <h1 id="pickeradvanced_search_people" class="pickeradvanced_search_titles" style="display:none">__MSG__SEARCH_FOR_PEOPLE_TO_ADD__</h1>
             <h1 id="pickeradvanced_search_files"  class="pickeradvanced_search_titles" style="display:none">__MSG__SEARCH_FOR_CONTENT_TO_ADD__</h1>
-            <a href="javascript:;" class="dialog_close_image pickeradvanced_close_dialog" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+            <button type="button" class="dialog_close_image pickeradvanced_close_dialog s3d-link-button" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</button>
         </div>
     </div>
     <div id="pickeradvanced_container_search" class="dialog_content">
         <div id="pickeradvanced_header">
             <span class="fl-force-left">
-                <form id="pickeradvanced_content_search_form" method="post" action="javascript:;">
+                <form id="pickeradvanced_content_search_form" method="post" action="#">
                     __MSG__SEARCH_FOR__ <input name="pickeradvanced_search_query" id="pickeradvanced_search_query" />
                     <button type="button" class="s3d-button" id="pickeradvanced_search_button">
                         <span class="s3d-button-inner">__MSG__SEARCH__</span>
@@ -32,21 +32,21 @@
         </div>
 
         <div id="pickeradvanced_content" class="s3d-highlight_area_background">
-            <div id="pickeradvanced_results_header" class="fl-force-left"><span><a href="javascript:;" id="pickeradvanced_select_all_button" class="s3d-action">__MSG__SELECT_ALL__</a></span></div>
+            <div id="pickeradvanced_results_header" class="fl-force-left"><span><button type="button" id="pickeradvanced_select_all_button" class="s3d-action s3d-link-button s3d-bold">__MSG__SELECT_ALL__</button></span></div>
             <div id="pickeradvanced_content_list" class="fl-force-left">
                 <ul id="pickeradvanced_file_filters" style="display:none" class="pickeradvanced_search_content">
-                    <li><a href="javascript:;" id="pickeradvanced_search_files_all" class="pickeradvanced_search_filter s3d-action">__MSG__ALL_CONTENT_I_CAN_SEE__</a></li>
-                    <li><a href="javascript:;" id="pickeradvanced_search_files_mine" class="pickeradvanced_search_filter s3d-action">__MSG__CONTENT_I_CAN_EDIT__</a></li>
-                    <li><a href="javascript:;" id="pickeradvanced_search_files_view" class="pickeradvanced_search_filter s3d-action">__MSG__CONTENT_SHARED_WITH_ME__</a></li>
+                    <li><button type="button" id="pickeradvanced_search_files_all" class="pickeradvanced_search_filter s3d-action s3d-link-button s3d-bold">__MSG__ALL_CONTENT_I_CAN_SEE__</button></li>
+                    <li><button type="button" id="pickeradvanced_search_files_mine" class="pickeradvanced_search_filter s3d-action s3d-link-button s3d-bold">__MSG__CONTENT_I_CAN_EDIT__</button></li>
+                    <li><button type="button" id="pickeradvanced_search_files_view" class="pickeradvanced_search_filter s3d-action s3d-link-button s3d-bold">__MSG__CONTENT_SHARED_WITH_ME__</button></li>
                 </ul>
                 <ul id="pickeradvanced_people_filters" style="display:none" class="pickeradvanced_search_people">
-                    <li><a href="javascript:;" id="pickeradvanced_search_contacts" class="pickeradvanced_search_filter s3d-action">__MSG__ALL_CONTACTS__</a></li>
-                    <li><a href="javascript:;" id="pickeradvanced_search_users" class="pickeradvanced_search_filter s3d-action">__MSG__ALL_USERS__</a></li>
-                    <li><a href="javascript:;" id="pickeradvanced_search_groups" class="pickeradvanced_search_filter s3d-action">__MSG__ALL_GROUPS__</a></li>
+                    <li><button type="button" id="pickeradvanced_search_contacts" class="pickeradvanced_search_filter s3d-action s3d-link-button s3d-bold">__MSG__ALL_CONTACTS__</button></li>
+                    <li><button type="button" id="pickeradvanced_search_users" class="pickeradvanced_search_filter s3d-action s3d-link-button s3d-bold">__MSG__ALL_USERS__</button></li>
+                    <li><button type="button" id="pickeradvanced_search_groups" class="pickeradvanced_search_filter s3d-action s3d-link-button s3d-bold">__MSG__ALL_GROUPS__</button></li>
                 </ul>
                 <ul id="pickeradvanced_group_filters" style="display:none" class="pickeradvanced_search_people">
-                    <li><a href="javascript:;" id="pickeradvanced_search_groups_member" class="pickeradvanced_search_filter s3d-action">__MSG__GROUPS_I_CAN_SEE__</a></li>
-                    <li><a href="javascript:;" id="pickeradvanced_search_groups_manager" class="pickeradvanced_search_filter s3d-action">__MSG__GROUPS_I_MANAGE__</a></li>
+                    <li><button type="button" id="pickeradvanced_search_groups_member" class="pickeradvanced_search_filter s3d-action s3d-link-button s3d-bold">__MSG__GROUPS_I_CAN_SEE__</button></li>
+                    <li><button type="button" id="pickeradvanced_search_groups_manager" class="pickeradvanced_search_filter s3d-action s3d-link-button s3d-bold">__MSG__GROUPS_I_MANAGE__</button></li>
                 </ul>
                 <ul id="pickeradvanced_group_specific_filters" class="last pickeradvanced_search_people" style="display:none">
                 </ul>
@@ -143,7 +143,7 @@
         </div>
 
         <div id="pickeradvanced_group_search_template" style="display:none"><!--
-            <li><a href="javascript:;" id="pickeradvanced_search_groups_${data.groupid}" class="pickeradvanced_search_filter s3d-action">${data["sakai:group-title"]}</a></li>
+            <li><button type="button" id="pickeradvanced_search_groups_${data.groupid}" class="pickeradvanced_search_filter s3d-action s3d-bold s3d-link-button">${data["sakai:group-title"]}</button></li>
         --></div>
 
         <div id="pickeradvanced_error_template" style="display:none;">

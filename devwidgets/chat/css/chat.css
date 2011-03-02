@@ -65,7 +65,7 @@
 .chat_with_txt{border:none!important;border-top:1px #d3d3d3 solid!important;padding:8px;width:199px!important;}
 .chat_main_container{position:fixed;bottom:0;height:30px;width:100%;z-index:99;left:0;}
 .chat_online_button_visible{background:url(/dev/images/body_bg_sprite.png) repeat-x scroll left -56px #75ADD7;color:#666;border-right:1px solid #454A4F;border-left:1px solid #454A4F;}
-.chat_online_button_visible a{color:#666;}
+.chat_online_button_visible button{color:#666;}
 
 /* chat_content */
 .chat_with_content_overflow,.chat_with_content_nooverflow{background-color:#fff;border-top:1px #d3d3d3 solid!important;height:185px;}
@@ -92,7 +92,7 @@
 
 /* MAIN */
 .chat_friend_name,.chat_straight_link{color:#fff;cursor:pointer;font-size:90%;}
-.dropdown .dropdown_contacts .dropdown_person_name,.dropdown ul li a{color:#006e96;font-weight:700;}
+.dropdown .dropdown_contacts .dropdown_person_name,.dropdown ul li button{color:#006e96;font-weight:700;}
 #people_dropdown_main .button,#mysites_dropdown_main .button{float:none;display:inline;}
 #people_dropdown_my_contacts_list{padding-bottom:10px;}
 .chat_has_dropdown img,.chat_has_dropdown span{float:left;position:relative;}

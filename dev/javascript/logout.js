@@ -21,7 +21,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
      * Log the user out. Redirect to the login page on completion.
      */
     sakai.api.User.logout(function(){
-        window.location = sakai.config.URL.GATEWAY_URL;
+        if (! sakai.config.followLogoutRedirects) {
+            window.location = sakai.config.URL.GATEWAY_URL;
+        }
     });
 
 });

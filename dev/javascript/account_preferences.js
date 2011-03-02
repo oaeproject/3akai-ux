@@ -354,6 +354,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         /** Binds the save regional button **/
         $(saveRegional).click(function(){
             saveRegionalToMe();
+            return false;
         });
 
 

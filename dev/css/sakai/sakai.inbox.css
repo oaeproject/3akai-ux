@@ -12,16 +12,16 @@
 .inbox_main .drop-box ul li{list-style-type:none;padding:5px 5px 5px 12px;}
 
 /** Folders **/
-.inbox_main .fl-widget .fl-widget-titlebar .widget_title_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -420px -17px transparent;}
+.inbox_main .fl-widget .fl-widget-titlebar .widget_title_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -420px -19px transparent;}
 .inbox_main .inbox-folders{width:230px;margin:0;padding:0;overflow:hidden;}
 .inbox_main .inbox-folders .if_titlebar_inner{padding:18px 0 0 17px;}
-.inbox_main .inbox-folders .if_title{color:#878A8C;font-size:1em;padding-left:25px;margin:0;}
+.inbox_main .inbox-folders .if_title{color:#878A8C;font-size:1em;padding:13px 0 0 40px;margin:0;}
 .inbox_main .inbox-folders .if_content ul{padding:0 0 0 20px;margin:0;}
-.inbox_main .inbox-folders .if_content ul li{list-style-type:none;padding:3px 0;}
-.inbox_main .inbox-folders .if_content ul li a{font-weight:normal;}
+.inbox_main .inbox-folders .if_content ul li{list-style-type:none;}
+.inbox_main .inbox-folders .if_content ul li button{font-weight:normal;}
 .inbox_main .inbox-folders .if_content ul li span{font-weight:normal;color:#999;}
 .inbox_main .inbox-folders .if_content .tab{margin:10px 0;}
-.inbox_main .inbox-folders .if_content .tab a{font-size:1.2em;padding:0 0 10px;}
+.inbox_main .inbox-folders .if_content .tab button{font-size:1.2em;}
 .if_content .inbox_filter .inbox_icon{float: left;height: 17px;margin-right: 10px;width: 16px;}
 .inbox_main .inbox-folders #inbox_filter_inbox .inbox_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -280px -19px transparent;}
 .inbox_main .inbox-folders #inbox_filter_messages .inbox_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -280px -21px transparent;}
@@ -32,7 +32,7 @@
 .inbox_main .inbox-folders #inbox_filter_trash .inbox_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -260px -19px transparent;}
 
 /** INBOX MAIN PANE **/
-.inbox_main .inbox-heading{font-weight:bold;color:#333;font-size:17px;padding:4px 0 0 5px;}
+.inbox_main .inbox-heading{font-weight:bold;color:#333 !important;font-size:17px;padding:4px 0 0 5px;}
 /** Table **/.inbox_main .main_content_container{width:670px;border-left:3px solid #d5dbdf;border-right:3px solid #d5dbdf;min-height:400px;padding-bottom:10px;}
 .inbox_main .inbox-table{width:670px;margin:0;border-spacing:0;border-collapse:collapse;}
 .inbox_main .top_decor{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll left -1823px transparent;height:32px;width:673px;border:none;padding:9px 0 0 7px;}

@@ -395,7 +395,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
 
             $(sharecontent_close_button).live("click", function(){
                 reset();
-                $(window).trigger("close.sharecontent.sakai");
+                $(window).trigger("done.sharecontent.sakai");
                 $sharecontent_container.jqmHide();
 
                 if (memberAdded) {
@@ -411,13 +411,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     $(window).trigger("update.tooltip.sakai", tooltipData);
                 } else {
                     // hide any tooltips if they are open
-                    $(window).trigger("close.tooltip.sakai");
+                    $(window).trigger("done.tooltip.sakai");
                 }
             });
 
             $(".jqmClose").bind("click", function(){
                 // hide any tooltips if they are open
-                $(window).trigger("close.tooltip.sakai");
+                $(window).trigger("done.tooltip.sakai");
             });
 
             $(sharecontentChangeGlobalPermissions).live("click", function(){
