@@ -137,6 +137,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $bbsShow = $("#bbs_i18n_show", $rootel);
         var $bbsHide = $("#bbs_i18n_hide", $rootel);
 
+        var continueInit = function(){
+            getWidgetSettings();
+
+            if (showSettings) {
+                $bbsMainContainer.hide();
+                $bbsSettings.show();
+            }else{
+                $bbsMainContainer.show();
+                $bbsSettings.hide();
+            }
+        }
+
         /**
          * Check if the message store already exists
          * If it does not exists we need to create one
@@ -149,10 +161,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     type: "GET",
                     dataType: "json",
                     success: function(data){
-                        // no op
+                        continueInit();
                     },
                     error: function(xhr, textStatus, thrownError){
                         if (xhr.status == 404) {
+                            showSettings = true;
+                            continueInit();
                             // we need to create the initial message store
                             $.post(store, {
                                 "sling:resourceType": "sakai/messagestore"
@@ -771,15 +785,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var init = function(){
             addBinding();
             checkMessageStore();
-            getWidgetSettings();
-
-            if (showSettings) {
-                $bbsMainContainer.hide();
-                $bbsSettings.show();
-            }else{
-                $bbsMainContainer.show();
-                $bbsSettings.hide();
-            }
         };
 
         init();
