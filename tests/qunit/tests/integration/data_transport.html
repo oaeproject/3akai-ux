@@ -4,7 +4,6 @@
         <title>Sakai 3 Javascript Test Suite</title>
         <link rel="stylesheet" href="../../../../tests/qunit/css/qunit.css" type="text/css" media="screen">
         <script data-main="../../../../tests/qunit/js/sakai.testdependencies.js" src="../../../../dev/lib/jquery/require-jquery.js"></script>
-        <script type="text/javascript">require(["../../../../tests/qunit/tests/integration/js/json_load_save_remove.js", "../../../../tests/qunit/tests/integration/js/loadmedata.js"]);</script>
 
     </head>
     <body>
@@ -25,5 +24,6 @@
             document.getElementById("coveragebutton").style.display="none";
           }
         </script>
+        <script>require(["./js/json_load_save_remove.js", "./js/loadmedata.js"]);</script>
     </body>
 </html>
