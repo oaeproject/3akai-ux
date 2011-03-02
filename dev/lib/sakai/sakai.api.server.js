@@ -225,7 +225,8 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                     ":contentType": "json",
                     ":content": $.toJSON(i_data),
                     ":replace": true,
-                    ":replaceProperties": true
+                    ":replaceProperties": true,
+                    "_charset_":"utf-8"
                 },
                 dataType: "json",
 

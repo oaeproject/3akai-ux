@@ -67,7 +67,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Send out an event that says the widget is ready to
         // accept a search query to process and display. This event can be picked up
         // in a page JS code
-        $(window).trigger("listgeneral_ready", [tuid]);
+        $(window).trigger("ready.listgeneral.sakai", [tuid]);
     };
 
 

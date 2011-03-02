@@ -432,7 +432,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             });
 
             // Bind event when selection in the list change
-            $(window).bind("list-people-selected-change", function(e, tuid){
+            $(window).bind("listchange.listpeople.sakai", function(e, tuid){
                 toggleButtons(tuid);
             });
 
@@ -509,7 +509,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
                 // Bind the add content button
                 $("#group_editing_add_content").bind("click", function(){
-                    $(window).trigger('sakai-contentpicker-init', {"name":sakai_global.currentgroup.data.authprofile["sakai:group-title"], "mode": "picker", "type": "share", "limit": false, "filter": false});
+                    $(window).trigger('init.contentpicker.sakai', {"name":sakai_global.currentgroup.data.authprofile["sakai:group-title"], "mode": "picker", "type": "share", "limit": false, "filter": false});
                     $(window).unbind("finished.contentpicker.sakai");
                     $(window).bind("finished.contentpicker.sakai", function(e, fileList) {
                         if (fileList.items.length) {

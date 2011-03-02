@@ -46,7 +46,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $footer_debug_info = $("#footer_debug_info");
         var $footer_date_end = $("#footer_date_end");
         var $footer_root = $(".footer_main");
-        var $footer_logo = $("#footer_logo");
+        var $footer_logo = $("#footer_logo_button");
         var $footer_contactinfo = $("#footer_contactinfo");
         var $footer_www = $("#footer_www");
         var $footer_divider = $("#footer_divider");
