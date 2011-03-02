@@ -141,7 +141,7 @@
                     <label class="profilesection_generalinfo_label" for="profilesection_generalinfo_${path.replace(/\./g,"_")}">${config.label}:</label>
                 {/if}
                 {if config.editable === false}
-                    <span class="profilesection_generalinfo_content">${data.value}</span>
+                    <span class="profilesection_generalinfo_content" id="profilesection_generalinfo_${path.replace(/\./g,"_")}">${data.value}</span>
                 {else}
                     {if !config.type || $.inArray(config.type, stringtypes) >= 0}
                         <input type="text"
