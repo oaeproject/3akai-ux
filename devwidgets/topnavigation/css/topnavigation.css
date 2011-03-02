@@ -75,8 +75,8 @@
 /* Search Bar */
 .search_box{margin:0;padding:0;}
 .search_box .search_type{display:inline-block;font-weight:normal;font-size:11px;text-align:center;cursor:pointer;height:22px;margin-top:1px;padding:0;}
-.search_text,.search_links{display:inline-block;padding-top:4px;padding-left:6px;}
-.search_links{padding-left:10px;}
+.search_text,.search_links{display:inline-block;padding:4px 8px 0 11px;}
+.search_links{padding:4px 10px 0 17px;}
 .search_text{font-weight:bold;}
 .search_left{background:url("/dev/images/dashboard_sprite.png") no-repeat scroll -12px -958px transparent;}
 .search_left:hover{background:url("/dev/images/dashboard_sprite.png") no-repeat scroll left -1969px transparent;color:#000;}
