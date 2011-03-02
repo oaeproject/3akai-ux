@@ -1038,6 +1038,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // Replace tabs by spaces.
                 nonbreaking_force_tab : true,
 
+                // Determine classes to show to users (e.g. to mock up links). Format: "Header 1=header1;Header 2=header2;..."
+                theme_advanced_styles : "Regular link=s3d-regular-links",
+
                 // Security
                 verify_html : true,
                 cleanup : true,
