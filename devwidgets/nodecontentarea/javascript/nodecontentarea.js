@@ -85,9 +85,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 cancelEdit();
             });
 
-            // bind sakai-directory-selected event.
+            // bind selected.directory.sakai event.
             // that event is triggered when directory in browsedirectory widget is selected.
-            $(window).bind("sakai-directory-selected", function(e, id){
+            $(window).bind("selected.directory.sakai", function(e, id){
                 // get directory json object called method from browsedirectory widget
                 var nodeId = id.split("/").reverse().shift();
                 var directoryJson = sakai_global.browsedirectory.getDirectoryNodeJson(nodeId);

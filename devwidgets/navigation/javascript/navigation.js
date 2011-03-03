@@ -558,6 +558,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // destroy any existing jstree instance
             $navigationTree.jstree("destroy");
 
+            for(var i in navigationData){
+                if (navigationData.hasOwnProperty(i)) {
+                    navigationData[i].data.attr.href = "#page=" + navigationData[i].attr.id.split("nav_")[1];
+                }
+            }
+
             // set up new jstree navigation tree
             var pluginArray = allowDnd ?
                 [ "themes", "json_data", "ui", "cookies", "dnd" ] :
@@ -597,7 +603,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              * When a page is selected in the navigation tree, show it
              */
             $navigationTree.bind("select_node.jstree", function(e, data) {
-                var selectedPageUrl = $(data.rslt.obj[0]).attr("id").replace("nav_","");
+                var selectedPageUrl = $(data.rslt.obj[0]).children("a").attr("href").split("#page=")[1];
                 // If page is not the current page load it
                 if (sakai_global.sitespages.selectedpage !== selectedPageUrl) {
                     History.addBEvent(selectedPageUrl);
@@ -829,7 +835,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "children": [],
                     "data": {
                         "attr": {
-                            "href": "javascript;"
+                            "href": "#page=" + nodeID
                         },
                         "pagePosition": nodePosition,
                         "title": nodeTitle
@@ -901,7 +907,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         if (sakai_global.sitespages.isReady) {
             sakai_global.sitespages.navigation.renderNavigation(sakai_global.sitespages.selectedpage, sakai_global.sitespages.site_info._pages);
         } else {
-            $(window).bind("sakai-sitespages-ready", function() {
+            $(window).bind("ready.sitespages.sakai", function() {
                 sakai_global.sitespages.navigation.renderNavigation(sakai_global.sitespages.selectedpage, sakai_global.sitespages.site_info._pages);
             });
         }

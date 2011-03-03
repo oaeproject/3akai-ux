@@ -17,9 +17,6 @@
  */
 
 require(
-    {
-        baseUrl: "../../../../dev/lib/"
-    },
     [
     "jquery", 
     "sakai/sakai.api.core",
@@ -37,10 +34,10 @@ require(
          * This is verbose, but its here for now in case we
          * need to use this event on an individual test page in the future
          */
-        $(window).bind('sakai-qunit-done', function(e, obj) {
+        $(window).bind('done.qunit.sakai', function(e, obj) {
             // trigger this event in the parent document
             if (parent && $(parent.document).length) {
-                parent.$(parent.document).trigger("sakai-qunit-done", obj);
+                parent.$(parent.document).trigger("done.qunit.sakai", obj);
             }
         });
 
@@ -51,7 +48,7 @@ require(
         QUnit.done = function(failures, total) {
             var location = window.location.href.split('/');
             location = "tests/" + location[location.length-1];
-            $(window).trigger('sakai-qunit-done', {url: location, failures:failures, total:total});
+            $(window).trigger('done.qunit.sakai', {url: location, failures:failures, total:total});
         };
     };
 
@@ -75,11 +72,11 @@ require(
         }
         if (sakai.api && sakai.api.i18n && sakai.api.i18n.done) { // wait for i18n to finish, then let the tests start that need file access
             sakai_global.qunit.ready = true;
-            $(window).trigger("sakai-qunit-ready");
+            $(window).trigger("ready.qunit.sakai");
         } else {
-            $(window).bind("sakai-i18n-done", function() {
+            $(window).bind("done.i18n.sakai", function() {
                 sakai_global.qunit.ready = true;
-                $(window).trigger("sakai-qunit-ready");
+                $(window).trigger("ready.qunit.sakai");
             });
         }
     };
@@ -87,7 +84,7 @@ require(
     if (sakai_global.qunit.widgetsdone) {
         setupWidgets();
     } else {
-        $(window).bind("sakai-qunit-widgetsdone", function() {
+        $(window).bind("widgetsdone.qunit.sakai", function() {
             setupWidgets();
         });
     }

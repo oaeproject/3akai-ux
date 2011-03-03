@@ -593,6 +593,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (selectedValue === "comments_PerPage") {
                 $(commentsPageTxt, rootel).focus();
             }
+            return false;
         });
 
         /** Bind the choose permissions radiobuttons button */
@@ -601,7 +602,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // If a login is required the user shouldn't have the posibility to check Name-required or Email-required
             $(commentsNameReqChk, rootel).attr("disabled", selectedValue === "comments_RequireLogIn");
             $(commentsEmailReqChk, rootel).attr("disabled", selectedValue === "comments_RequireLogIn");
-
+            return false;
         });
 
         /** Bind the settings submit button*/
@@ -621,7 +622,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 });
 
             }
-
+            return false;
         });
 
         /** Bind the insert comment button*/
@@ -651,6 +652,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Show the form.
             $(commentsFillInComment, rootel).show();
             $(txtToFocus, rootel).focus();
+            return false;
         });
 
         /**
@@ -722,6 +724,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Show the textarea
             $(commentsMessage + id, rootel).hide();
             $(commentsMessageEditContainer + id, rootel).show();
+            return false;
         });
 
         /**
@@ -757,6 +760,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             else {
                 sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("PLEASE_ENTER_MESSAGE"),"",sakai.api.Util.notification.type.ERROR);
             }
+            return false;
         });
 
         /**

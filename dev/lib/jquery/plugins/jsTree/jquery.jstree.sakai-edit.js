@@ -261,8 +261,8 @@
 				'.jstree-rtl li { margin-left:0; margin-right:18px; } ' + 
 				'.jstree > ul > li { margin-left:0px; } ' + 
 				'.jstree-rtl > ul > li { margin-right:0px; } ' + 
-				'.jstree ins { display:inline-block; text-decoration:none; width:20px; height:18px; margin:0 0 0 0; padding:0; } ' + 
-				'.jstree a { display:inline-block; line-height:16px; height:16px; color:black; white-space:nowrap; text-decoration:none; padding:1px 2px; margin:0; } ' + 
+				'.jstree ins {cursor:pointer; display:inline-block; text-decoration:none; width:20px; height:18px; margin:0 0 0 0; padding:0; } ' + 
+				'.jstree a { display:inline-block; line-height:18px; height:20px; color:black; white-space:nowrap; text-decoration:none; padding:1px 2px; margin:0; } ' + 
 				'.jstree a:focus { outline: none; } ' + 
 				'.jstree a > ins { height:16px; width:16px; } ' + 
 				'.jstree a > .jstree-icon { margin-right:3px; } ' + 
@@ -310,13 +310,13 @@
 				if(this._get_settings().core.rtl) {
 					this.get_container().addClass("jstree-rtl").css("direction", "rtl");
 				}
-				this.get_container().html("<ul><li class='jstree-last jstree-leaf'><ins>&#160;</ins><a class='jstree-loading' href='#'><ins class='jstree-icon'>&#160;</ins>" + this._get_settings().core.strings.loading + "</a></li></ul>");
+				this.get_container().html("<ul><li class='jstree-last jstree-leaf'><ins>&nbsp;</ins><a class='jstree-loading' href='#'><ins class='jstree-icon'>&nbsp;</ins>" + this._get_settings().core.strings.loading + "</a></li></ul>");
 				this.data.core.li_height = this.get_container().find("ul li.jstree-closed, ul li.jstree-leaf").eq(0).height() || 18;
 
 				this.get_container()
 					.delegate("li > ins", "click.jstree", $.proxy(function (event) {
 							var trgt = $(event.target);
-							if(trgt.is("ins") && event.pageY - trgt.offset().top < this.data.core.li_height) { this.toggle_node(trgt); }
+							if(trgt.is("ins")) {this.toggle_node(trgt); }
 						}, this))
 					.bind("mousedown.jstree", $.proxy(function () { 
 							this.set_focus(); // This used to be setTimeout(set_focus,0) - why?
@@ -605,14 +605,14 @@
 						tmp.attr(m.attr)[ s.html_titles ? "html" : "text" ](m.title);
 						if(m.language) { tmp.addClass(m.language); }
 					}
-					tmp.prepend("<ins class='jstree-icon'>&#160;</ins>");
+					tmp.prepend("<ins class='jstree-icon'>&nbsp;</ins>");
 					if(m.icon) { 
 						if(m.icon.indexOf("/") === -1) { tmp.children("ins").addClass(m.icon); }
 						else { tmp.children("ins").css("background","url('" + m.icon + "') center center no-repeat"); }
 					}
 					d.append(tmp);
 				});
-				d.prepend("<ins class='jstree-icon'>&#160;</ins>");
+				d.prepend("<ins class='jstree-icon'>&nbsp;</ins>");
 				if(obj === -1) {
 					obj = this.get_container();
 					if(position === "before") { position = "first"; }
@@ -1463,7 +1463,7 @@
 							tmp.attr(m.attr)[ t ? "html" : "text" ](m.title);
 							if(m.language) { tmp.addClass(m.language); }
 						}
-						tmp.prepend("<ins class='jstree-icon'>&#160;</ins>");
+						tmp.prepend("<ins class='jstree-icon'>&nbsp;</ins>");
 						if(!m.icon && js.icon) { m.icon = js.icon; }
 						if(m.icon) { 
 							if(m.icon.indexOf("/") === -1) { tmp.children("ins").addClass(m.icon); }
@@ -1471,7 +1471,7 @@
 						}
 						d.append(tmp);
 					});
-					d.prepend("<ins class='jstree-icon'>&#160;</ins>");
+					d.prepend("<ins class='jstree-icon'>&nbsp;</ins>");
 					if(js.children) { 
 						if(s.progressive_render && js.state !== "open") {
 							d.addClass("jstree-closed").data("jstree-children", js.children);
@@ -2258,7 +2258,7 @@
 				obj.each(function () {
 					t = $(this);
 					c = t.is("li") && t.hasClass("jstree-checked") ? "jstree-checked" : "jstree-unchecked";
-					t.find("a").not(":has(.jstree-checkbox)").prepend("<ins class='jstree-checkbox'>&#160;</ins>").parent().not(".jstree-checked, .jstree-unchecked").addClass(c);
+					t.find("a").not(":has(.jstree-checkbox)").prepend("<ins class='jstree-checkbox'>&nbsp;</ins>").parent().not(".jstree-checked, .jstree-unchecked").addClass(c);
 				});
 				if(obj.is("li")) { this._repair_state(obj); }
 				else { obj.find("> ul > li").each(function () { _this._repair_state(this); }); }
@@ -2891,7 +2891,7 @@
 				str += "<li class='" + (val._class || "") + (val._disabled ? " jstree-contextmenu-disabled " : "") + "'><ins ";
 				if(val.icon && val.icon.indexOf("/") === -1) { str += " class='" + val.icon + "' "; }
 				if(val.icon && val.icon.indexOf("/") !== -1) { str += " style='background:url(" + val.icon + ") center center no-repeat;' "; }
-				str += ">&#160;</ins><a href='#' rel='" + i + "'>";
+				str += ">&nbsp;</ins><a href='#' rel='" + i + "'>";
 				if(val.submenu) {
 					str += "<span style='float:right;'>&raquo;</span>";
 				}
@@ -3304,7 +3304,7 @@
 							this.get_container()
 								.children("ul").empty()
 								.append(this.data.html_data.original_container_html)
-								.find("li, a").filter(function () { return this.firstChild.tagName !== "INS"; }).prepend("<ins class='jstree-icon'>&#160;</ins>").end()
+								.find("li, a").filter(function () { return this.firstChild.tagName !== "INS"; }).prepend("<ins class='jstree-icon'>&nbsp;</ins>").end()
 								.filter("a").children("ins:first-child").not(".jstree-icon").addClass("jstree-icon");
 							this.clean_node();
 						}
@@ -3316,7 +3316,7 @@
 							if(!d.is("ul")) { d = $("<ul>").append(d); }
 							this.get_container()
 								.children("ul").empty().append(d.children())
-								.find("li, a").filter(function () { return this.firstChild.tagName !== "INS"; }).prepend("<ins class='jstree-icon'>&#160;</ins>").end()
+								.find("li, a").filter(function () { return this.firstChild.tagName !== "INS"; }).prepend("<ins class='jstree-icon'>&nbsp;</ins>").end()
 								.filter("a").children("ins:first-child").not(".jstree-icon").addClass("jstree-icon");
 							this.clean_node();
 						}
@@ -3346,8 +3346,8 @@
 							if(d) {
 								d = $(d);
 								if(!d.is("ul")) { d = $("<ul>").append(d); }
-								if(obj == -1 || !obj) { this.get_container().children("ul").empty().append(d.children()).find("li, a").filter(function () { return this.firstChild.tagName !== "INS"; }).prepend("<ins class='jstree-icon'>&#160;</ins>").end().filter("a").children("ins:first-child").not(".jstree-icon").addClass("jstree-icon"); }
-								else { obj.children(".jstree-loading").removeClass("jstree-loading"); obj.append(d).find("li, a").filter(function () { return this.firstChild.tagName !== "INS"; }).prepend("<ins class='jstree-icon'>&#160;</ins>").end().filter("a").children("ins:first-child").not(".jstree-icon").addClass("jstree-icon"); obj.data("jstree-is-loading",false); }
+								if(obj == -1 || !obj) { this.get_container().children("ul").empty().append(d.children()).find("li, a").filter(function () { return this.firstChild.tagName !== "INS"; }).prepend("<ins class='jstree-icon'>&nbsp;</ins>").end().filter("a").children("ins:first-child").not(".jstree-icon").addClass("jstree-icon"); }
+								else { obj.children(".jstree-loading").removeClass("jstree-loading"); obj.append(d).find("li, a").filter(function () { return this.firstChild.tagName !== "INS"; }).prepend("<ins class='jstree-icon'>&nbsp;</ins>").end().filter("a").children("ins:first-child").not(".jstree-icon").addClass("jstree-icon"); obj.data("jstree-is-loading",false); }
 								this.clean_node(obj);
 								if(s_call) { s_call.call(this); }
 							}

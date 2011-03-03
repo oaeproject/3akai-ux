@@ -548,7 +548,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         $uploadContentLink.bind("click", function() {
-            $(window).trigger("sakai-fileupload-init");
+            $(window).trigger("init.fileupload.sakai");
             return false;
         });
 
@@ -635,19 +635,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             return false;
         });
 
-        $(window).unbind("sakai-fileupload-complete");
-        $(window).bind("sakai-fileupload-complete", function(e, data) {
+        $(window).unbind("complete.fileupload.sakai");
+        $(window).bind("complete.fileupload.sakai", function(e, data) {
             var files = data.files;
             addChoicesFromFileUpload(files);
         });
 
-        $(window).unbind("sakai-pickeradvanced-finished");
-        $(window).bind("sakai-pickeradvanced-finished", function(e, data) {
+        $(window).unbind("finished.pickeradvanced.sakai");
+        $(window).bind("finished.pickeradvanced.sakai", function(e, data) {
             addChoicesFromPickeradvanced(data.toAdd);
         });
 
-        $(window).unbind("sakai-pickeradvanced-ready");
-        $(window).bind("sakai-pickeradvanced-ready", function(e) {
+        $(window).unbind("ready.pickeradvanced.sakai");
+        $(window).bind("ready.pickeradvanced.sakai", function(e) {
             $embedcontent_search_for_content.bind("click", function() {
                 var pickerConfig = {
                     "type": "content"
@@ -655,7 +655,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (embedConfig.limit) {
                     pickerConfig.limit = embedConfig.limit;
                 }
-                $(window).trigger("sakai-pickeradvanced-init", {"config": pickerConfig});
+                $(window).trigger("init.pickeradvanced.sakai", {"config": pickerConfig});
                 return false;
             });
         });
@@ -663,13 +663,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var doInit = function() {
             getWidgetData(function() {
                 if (showSettings) {
-                    if (sakai.sitespages &&
-                        sakai.sitespages.site_info &&
-                        sakai.sitespages.site_info._pages &&
-                        sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage] &&
-                        sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageTitle"]) {
+                    if (sakai_global.sitespages &&
+                        sakai_global.sitespages.site_info &&
+                        sakai_global.sitespages.site_info._pages &&
+                        sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage] &&
+                        sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage]["pageTitle"]) {
 
-                        embedConfig.name = sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageTitle"];
+                        embedConfig.name = sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage]["pageTitle"];
                     } else {
                         embedConfig.name = "";
                     }

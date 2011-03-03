@@ -63,6 +63,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var performedSubmit = false;
         var oldVersionPath = "";
         var context = "";
+        var type = "file";
 
         var numberOfSelectedFiles = 0;
 
@@ -95,7 +96,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         // Templates
         var $fileUploadTaggingTemplate = $("#fileupload_tagging_template", $rootel);
-        var $fileUploadTaggingLinkTemplate = $("#fileupload_tagging_link_template", $rootel);
         var $fileUploadAddToTemplate = $("#fileupload_add_to_template", $rootel);
         var $fileUploadNoLimitToUploadTemplate = $("#fileupload_no_limit_to_upload_template", $rootel);
         var $fileUploadLimitToOneUploadTemplate = $("#fileupload_limit_to_one_upload_template", $rootel);
@@ -170,7 +170,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     "tooltipTop": -40,
                     "tooltipLeft": 20
                 };
-                $(window).trigger("sakai-tooltip-update", tooltipData);
+                $(window).trigger("update.tooltip.sakai", tooltipData);
             }
             else {
                 $fileUploadAddLinkButton.removeAttr("disabled");
@@ -386,7 +386,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
             if (!filesUploaded) {
                 // hide any tooltips if they are open
-                $(window).trigger("sakai-tooltip-close");
+                $(window).trigger("done.tooltip.sakai");
             }
         };
 
@@ -401,7 +401,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
             // Close the jqm box
             $fileUploadContainer.jqmHide();
-            $(window).trigger("sakai-fileupload-complete", {
+            $(window).trigger("complete.fileupload.sakai", {
                 "files": dataResponse
             });
 
@@ -437,7 +437,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         "tooltipLeft": 40,
                         "tooltipAutoClose": true
                     };
-                    $(window).trigger("sakai-tooltip-update", tooltipData);
+                    $(window).trigger("update.tooltip.sakai", tooltipData);
                 }
             }
             else {
@@ -513,7 +513,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 tags = [];
                 tags = sakai.api.Util.formatTags($fileUploadAddTags.val());
                 for (var l in data) {
-                    sakai.api.Util.tagEntity("/p/" + data[l], tags, []);
+                    if (data.hasOwnProperty(l)) {
+                        sakai.api.Util.tagEntity("/p/" + data[l], tags, []);
+                    }
                 }
             }
             else {
@@ -854,24 +856,56 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             });
         };
 
-        $("#fileupload_form_submit").live("click", function(){
-            var nameError = false;
-            $fileUploadNameError.hide();
-            $multiFileList.find("input").each(function(index){
-                if ($.trim($(this)[0].value).length === 0) {
-                    var errorLabel = $(this).parent().next();
-                    errorLabel.css("display", "block");
-                    errorLabel.html($(fileUploadEnterNameFor).html() + " \"" + $(this)[0].defaultValue + "\"");
-                    nameError = true;
+        /**
+         * Save the link
+         */
+        var linkFormSubmit = function(){
+            $(".fileupload_link_submit").attr("disabled", "disabled");
+            $fileUploadAddLinkButton.attr("disabled", "disabled");
+
+            if ($("#fileupload_link_box form").valid() && !performedSubmit) {
+                $fileUploadLinkBoxInput.attr("disabled", "disabled");
+                performedSubmit = true;
+                if (context !== "new_version") {
+                    uploadLink();
                 }
-            });
-            if (!nameError) {
-                // hide cancel and add content buttons
-                $("#fileupload_form_submit").hide();
-                $("#fileupload_cancel").hide();
-                // show ajax loader
-                $(fileUploadAjaxLoader).show();
-                $multiFileForm.submit();
+                else {
+                    newVersionIsLink = true;
+                    saveVersion();
+                }
+            }
+            else {
+                // validation plugin will show error
+                $(".fileupload_link_submit").removeAttr("disabled");
+                $fileUploadAddLinkButton.removeAttr("disabled");
+                $fileUploadLinkBoxInput.removeAttr("disabled");
+                performedSubmit = false;
+            }
+        };
+
+        $("#fileupload_form_submit").live("click", function(){
+            if (type === "link") {
+                linkFormSubmit();
+            }
+            else {
+                var nameError = false;
+                $fileUploadNameError.hide();
+                $multiFileList.find("input").each(function(index){
+                    if ($.trim($(this)[0].value).length === 0) {
+                        var errorLabel = $(this).parent().next();
+                        errorLabel.css("display", "block");
+                        errorLabel.html($(fileUploadEnterNameFor).html() + " \"" + $(this)[0].defaultValue + "\"");
+                        nameError = true;
+                    }
+                });
+                if (!nameError) {
+                    // hide cancel and add content buttons
+                    $("#fileupload_form_submit").hide();
+                    $("#fileupload_cancel").hide();
+                    // show ajax loader
+                    $(fileUploadAjaxLoader).show();
+                    $multiFileForm.submit();
+                }
             }
         });
 
@@ -918,27 +952,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         });
 
         $("#fileupload_link_box form").bind("submit", function(e){
-            $(".fileupload_link_submit").attr("disabled", "disabled");
-            $fileUploadAddLinkButton.attr("disabled", "disabled");
-
-            if ($("#fileupload_link_box form").valid() && !performedSubmit) {
-                $fileUploadLinkBoxInput.attr("disabled", "disabled");
-                performedSubmit = true;
-                if (context !== "new_version") {
-                    uploadLink();
-                }
-                else {
-                    newVersionIsLink = true;
-                    saveVersion();
-                }
-            }
-            else {
-                // validation plugin will show error
-                $(".fileupload_link_submit").removeAttr("disabled");
-                $fileUploadAddLinkButton.removeAttr("disabled");
-                $fileUploadLinkBoxInput.removeAttr("disabled");
-                performedSubmit = false;
-            }
+            linkFormSubmit();
             e.stopImmediatePropagation();
             return false;
         });
@@ -976,11 +990,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         $(fileUploadCloseDialog).live("click", function(){
             $fileUploadContainer.jqmHide();
             // hide any tooltips if they are open
-            $(window).trigger("sakai-tooltip-close");
+            $(window).trigger("done.tooltip.sakai");
         });
 
         /**
-         * Invoke 'sakai-fileupload-init' to initialize the upload widget
+         * Invoke 'init.fileupload.sakai' to initialize the upload widget
          * There are 2 modes in which the widget can operate
          *
          * - The normal mode doesn't require any extra action by the developer, just fire the event and the widget pops up.
@@ -990,9 +1004,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          *
          * In both modes the button that invokes the uploader has the id 'upload_content'
          */
-        $(window).unbind("sakai-fileupload-init");
+        $(window).unbind("init.fileupload.sakai");
         /**
-         * Bind to sakai-fileupload-init
+         * Bind to init.fileupload.sakai
          *
          * @param {Object} ev The event
          * @param {Object} data Data to configure the fileupload widget. Can contain:
@@ -1000,7 +1014,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          {Boolean} isLink If this new version of a file is a link, defaults to false
          {String} contentPath The path to the existing content to add a new version to
          */
-        $(window).bind("sakai-fileupload-init", function(ev, data){
+        $(window).bind("init.fileupload.sakai", function(ev, data){
             var contentPath = "";
             if (data) {
                 uploadingNewVersion = data.newVersion || false;
@@ -1046,12 +1060,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         "tooltipTop": 10,
                         "tooltipLeft": 150
                     };
-                    $(window).trigger("sakai-tooltip-update", tooltipData);
+                    $(window).trigger("update.tooltip.sakai", tooltipData);
                 }
             }
         });
 
         $("#fileupload_add_link").click(function(){
+            type = "link";
             $("#new_uploader").hide();
             $fileUploadLinkBox.show();
 
@@ -1061,12 +1076,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     "contextData": contextData,
                     "sakai": sakai
                 };
-                var renderedTemplate = sakai.api.Util.TemplateRenderer($fileUploadTaggingLinkTemplate, json).replace(/\r/g, '');
+                var renderedTemplate = sakai.api.Util.TemplateRenderer($fileUploadTaggingTemplate, json).replace(/\r/g, '');
                 $fileUploadRenderedTaggingLink.html(renderedTemplate);
+                $("#fileupload_rendered_tagging_link #fileupload_form_submit", $rootel).addClass("fileupload_link_submit");
             }
         });
 
         $("#fileupload_upload_file").click(function(){
+            type = "file";
             $fileUploadLinkBox.hide();
             $("#new_uploader").show();
         });

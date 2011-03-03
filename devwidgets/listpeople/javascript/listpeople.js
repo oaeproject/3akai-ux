@@ -283,7 +283,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             }
                         }
                         // trigger event when add/remove from the list
-                        $(window).trigger("list-people-selected-change",tuid);
+                        $(window).trigger("listchange.listpeople.sakai",tuid);
                     }
                     $listpeople_count_items.hide();
                     $listpeople_count_of.show();
@@ -495,7 +495,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Send out an event that says the widget is ready to
             // accept a search query to process and display. This event can be picked up
             // in a page JS code
-            $(window).bind("sakai-listpeople-render", function(e, data) {
+            $(window).bind("render.listpeople.sakai", function(e, data) {
                 if (data.tuid === tuid) {
                     listType = data.listType;
                     sakai_global.data.listpeople[listType] = {
@@ -516,7 +516,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     render(data.tuid, data.pl_config, data.url, data.id);
                 }
             });
-            $(window).trigger("sakai-listpeople-ready", tuid);
+            $(window).trigger("ready.listpeople.sakai", tuid);
             sakai_global.listpeople.isReady = true;
             sakai_global.data.listpeople[tuid] = sakai_global.data.listpeople[tuid] || {};
             sakai_global.data.listpeople[tuid].isReady = true;

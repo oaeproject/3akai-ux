@@ -380,11 +380,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var saveProfileData = function(){
 
             // Trigger the profile save method, this is event is bound in every sakai section
-            $(window).trigger("sakai-profile-save");
-
+            $(window).trigger("save.profile.sakai");
+            return false;
         };
 
-        $(window).bind("sakai-profile-data-ready", function(e, sectionName) {
+        $(window).bind("ready.data.profile.sakai", function(e, sectionName) {
 
             // keep track of all the sections that are ready
             if ($.inArray(sectionName, readySections) < 0) {
@@ -538,7 +538,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $profile_sectionwidgets_container.append(toAppend);
 
             // Bind a global event that can be triggered by the profilesection widgets
-            $(window).bind("sakai-" + sectionobject.sectionname, function(eventtype, callback){
+            $(window).bind(sectionobject.sectionname + ".sakai", function(eventtype, callback){
 
                 if ($.isFunction(callback)) {
                     callback(sectionname);

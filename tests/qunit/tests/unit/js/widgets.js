@@ -93,6 +93,15 @@ require(
         }, {
             "name": "settingsWidth",
             "type": "number"
+        }, {
+            "name": "defaultLat",
+            "type": "number"
+        }, {
+            "name": "defaultLng",
+            "type": "number"
+        }, {
+            "name": "defaultZoom",
+            "type": "number"
         }];
 
 
@@ -236,7 +245,7 @@ require(
         if (sakai_global.qunit && sakai_global.qunit.ready) {
             testWidgets();
         } else {
-            $(window).bind("sakai-qunit-ready", function() {
+            $(window).bind("ready.qunit.sakai", function() {
                 testWidgets();
             });
         }
