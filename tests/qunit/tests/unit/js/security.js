@@ -276,15 +276,11 @@ require(
             '<ABBR lang="es" title="Do&ntilde;a">Do&ntilde;a</ABBR>',
             '<acronym>data</acronym>',
             '<ADDRESS><A href="../People/Raggett/">Dave Raggett</A>,<A href="../People/Arnaud/">Arnaud Le Hors</A>,contact persons for the <A href="Activity">W3C HTML Activity</A><BR>$Date: 1999/12/24 23:37:50 $</ADDRESS>',
-            '<APPLET code="Bubbles.class" width="500" height="500">Java applet that draws animated bubbles.</APPLET>',
             '<AREA href="guide.html" alt="Access Guide" shape="rect" coords="0,0,118,28">',
             '<b>bold</b>',
-            '<BASE href="http://www.aviary.com/products/intro.html">',
-            '<basefont size="2"></basefont>',
             '<BDO dir="LTR">english1 2WERBEH english3</BDO>',
             '<big>big</big>',
             '<BLOCKQUOTE cite="http://www.mycom.com/tolkien/twotowers.html"><P>They went in single file, running like hounds on a strong scent, and an eager light was in their eyes. Nearly due west the broad swath of the marching Orcs tramped its ugly slot; the sweet grass of Rohan had been bruised and blackened as they passed.</P></BLOCKQUOTE>',
-            '<BODY>  ... document body...</BODY>',
             '<br>',
             '<BUTTON name="submit" value="submit" type="submit">Send<IMG src="/icons/wow.gif" alt="wow"></BUTTON>',
             '<CAPTION>Cups of coffee consumed by each senator</CAPTION>',
@@ -299,47 +295,54 @@ require(
             '<em>data</em>',
             '<FIELDSET><LEGEND>Personal Information</LEGEND>Last Name: <INPUT name="personal_lastname" type="text" tabindex="1">First Name: <INPUT name="personal_firstname" type="text" tabindex="2"> Address: <INPUT name="personal_address" type="text" tabindex="3">  ...more personal information... </FIELDSET>',
             '<FORM action="http://somesite.com/prog/adduser" method="post"><P><LABEL for="firstname">First name: </LABEL><INPUT type="text" id="firstname"><BR><LABEL for="lastname">Last name: </LABEL><INPUT type="text" id="lastname"><BR><LABEL for="email">email: </LABEL><INPUT type="text" id="email"><BR><INPUT type="radio" name="sex" value="Male"> Male<BR><INPUT type="radio" name="sex" value="Female"> Female<BR><INPUT type="submit" value="Send"> <INPUT type="reset"></P></FORM>',
-            '<FRAMESET cols="33%,33%,33%"><FRAMESET rows="*,200"><FRAME src="contents_of_frame1.html"><FRAME src="contents_of_frame2.gif"></FRAMESET><FRAME src="contents_of_frame3.html"><FRAME src="contents_of_frame4.html"></FRAMESET>',
             '<h1>data</h1>',
             '<h2>data</h2>',
             '<h3>data</h3>',
             '<h4>data</h4>',
             '<h5>data</h5>',
             '<h6>data</h6>',
-            '<HEAD><TITLE>A study of population dynamics</TITLE></HEAD>',
             '<hr>',
             '<i>italic</i>',
-            '<IFRAME src="foo.html" width="400" height="500" scrolling="auto" frameborder="1">[Your user agent does not support frames or is currently configured not to display frames. However, you may visit <A href="foo.html">the related document.</A>]</IFRAME>',
             '<IMG src="http://www.somecompany.com/People/Ian/vacation/family.png" alt="A photo of my family at the lake.">',
             '<kbd>data</kbd>',
             '<LEGEND>Personal Information</LEGEND>',
             '<ol><li value="30"> makes this list item number 30.<li value="40"> makes this list item number 40.<li> makes this list item number 41.</ol>',
-            '<LINK rel="Index" href="../index.html">',
             '<MAP name="map1"><P>Navigate the site:<A href="guide.html" shape="rect" coords="0,0,118,28">Access Guide</a> | <A href="shortcut.html" shape="rect" coords="118,0,184,28">Go</A> | <A href="search.html" shape="circle" coords="184,200,60">Search</A> | <A href="top10.html" shape="poly" coords="276,0,276,28,100,200,50,50,276,0">Top Ten</A></MAP>',
             '<menu><li>Command 1</li><li>Command 2</li><li>Command 3</li></menu>',
-            '<META name="Author" content="Dave Raggett">',
-            '<NOFRAMES><P>Here is the <A href="main-noframes.html"> non-frame based version of the document.</A></NOFRAMES>',
-            '<NOSCRIPT><P>Access the <A href="http://someplace.com/data">data.</A></NOSCRIPT>',
-            '<OBJECT codetype="application/java" classid="java:Bubbles.class" width="500" height="500">Java applet that draws animated bubbles.</OBJECT>',
-            '<SELECT name="ComOS"><OPTION selected label="none" value="none">None</OPTION><OPTGROUP label="PortMaster 3"><OPTION label="3.7.1" value="pm3_3.7.1">PortMaster 3 with ComOS 3.7.1</OPTION><OPTION label="3.7" value="pm3_3.7">PortMaster 3 with ComOS 3.7</OPTION><OPTION label="3.5" value="pm3_3.5">PortMaster 3 with ComOS 3.5</OPTION></OPTGROUP><OPTGROUP label="PortMaster 2"><OPTION label="3.7" value="pm2_3.7">PortMaster 2 with ComOS 3.7</OPTION><OPTION label="3.5" value="pm2_3.5">PortMaster 2 with ComOS 3.5</OPTION></OPTGROUP><OPTGROUP label="IRX"><OPTION label="3.7R" value="IRX_3.7R">IRX with ComOS 3.7R</OPTION><OPTION label="3.5R" value="IRX_3.5R">IRX with ComOS 3.5R</OPTION></OPTGROUP></SELECT>',
+            '<SELECT name="ComOS"><OPTION selected="selected" label="none" value="none">None</OPTION><OPTGROUP label="PortMaster 3"><OPTION label="3.7.1" value="pm3_3.7.1">PortMaster 3 with ComOS 3.7.1</OPTION><OPTION label="3.7" value="pm3_3.7">PortMaster 3 with ComOS 3.7</OPTION><OPTION label="3.5" value="pm3_3.5">PortMaster 3 with ComOS 3.5</OPTION></OPTGROUP><OPTGROUP label="PortMaster 2"><OPTION label="3.7" value="pm2_3.7">PortMaster 2 with ComOS 3.7</OPTION><OPTION label="3.5" value="pm2_3.5">PortMaster 2 with ComOS 3.5</OPTION></OPTGROUP><OPTGROUP label="IRX"><OPTION label="3.7R" value="IRX_3.7R">IRX with ComOS 3.7R</OPTION><OPTION label="3.5R" value="IRX_3.5R">IRX with ComOS 3.5R</OPTION></OPTGROUP></SELECT>',
             '<p>data</p>',
-            '<PARAM name="width" value="40" valuetype="data">',
             '<PRE>Higher still and higher         From the earth thou springest       Like a cloud of fire;         The blue deep thou wingest, And singing still dost soar, and soaring ever singest.</PRE>',
             'John said, <Q lang="en-us">I saw Lucy at lunch, she told me <Q lang="en-us">Mary wants you to get some ice cream on your way home.</Q> I think I will get some at Ben and Jerry\'s, on Gloucester Road.</Q>',
             '<samp>data</samp>',
-            '<script>data</script>',
             '<small>small</small>',
             '<SPAN class="client-title">Client information:</SPAN>',
             '<strong>data</strong>',
-            '<STYLE type="text/css">H1 {border-width: 1; border: solid; text-align: center}</STYLE>',
             'H<sub>2</sub>O E = mc<sup>2</sup><SPAN lang="fr">M<sup>lle</sup> Dupont</SPAN>',
             '<TABLE><THEAD><TR><TH>...header information...</TH></THEAD><TFOOT><TR> ...footer information...</TFOOT><TBODY><TR> ...first row of block one data...<TR><TD>...second row of block one data...</TD></TBODY><TBODY><TR> ...first row of block two data...<TR> ...second row of block two data...<TR> ...third row of block two data...</TBODY></TABLE>',
             '<TEXTAREA name="thetext" rows="20" cols="80">First line of initial text.Second line of initial text.</TEXTAREA>',
-            '<TITLE>A study of population dynamics</TITLE>',
             '<tt>teletype text</tt>',
             '<u>data</u>',
             '<UL><LI> ... first list item...<LI> ... second list item......</UL>',
             '<var>data</var>'
+        ];
+
+        //HTML4 Elements we expect to be removed
+        var html4ElementStripList = [
+            '<APPLET code="Bubbles.class" width="500" height="500">Java applet that draws animated bubbles.</APPLET>',
+            '<BASE href="http://www.aviary.com/products/intro.html">',
+            '<basefont size="2"></basefont>',
+            '<BODY>  ... document body...</BODY>',
+            '<FRAMESET cols="33%,33%,33%"><FRAMESET rows="*,200"><FRAME src="contents_of_frame1.html"><FRAME src="contents_of_frame2.gif"></FRAMESET><FRAME src="contents_of_frame3.html"><FRAME src="contents_of_frame4.html"></FRAMESET>',
+            '<HEAD><TITLE>A study of population dynamics</TITLE></HEAD>',
+            '<IFRAME src="foo.html" width="400" height="500" scrolling="auto" frameborder="1">[Your user agent does not support frames or is currently configured not to display frames. However, you may visit <A href="foo.html">the related document.</A>]</IFRAME>',
+            '<LINK rel="Index" href="../index.html">',
+            '<NOFRAMES><P>Here is the <A href="main-noframes.html"> non-frame based version of the document.</A></NOFRAMES>',
+            '<NOSCRIPT><P>Access the <A href="http://someplace.com/data">data.</A></NOSCRIPT>',
+            '<OBJECT codetype="application/java" classid="java:Bubbles.class" width="500" height="500">Java applet that draws animated bubbles.</OBJECT>',
+            '<PARAM name="width" value="40" valuetype="data">',
+            '<script>data</script>',
+            '<STYLE type="text/css">H1 {border-width: 1; border: solid; text-align: center}</STYLE>',
+            '<TITLE>A study of population dynamics</TITLE>'
         ];
 
         var html5ElementList = [
@@ -374,7 +377,7 @@ require(
             '<p>And the world record for the longest place name in an English-speaking country is...<br><i>Taumata<wbr>whakatangihanga<wbr>koauau<wbr>o<wbr>tamatea<wbr>turi<wbr>pukakapiki<wbr>maunga<wbr>horo<wbr>nuku<wbr>pokai<wbr>whenua<wbr>kitanatahu</i></p><p>This is the name of a hill in New Zealand.</p><p>Here\'s what it looks like without using the <code>wbr</code> tag...<i>Taumatawhakatangihangakoauauotamateaturipukakapikimaungahoronukupokaiwhenuakitanatahu</i></p>'
         ];
 
-        expect(html4ElementList.length + html5ElementList.length);
+        expect(html4ElementList.length + html4ElementStripList.length + html5ElementList.length);
 
         var htmlString = "", sanitizedHtmlString = "";
 
@@ -383,6 +386,14 @@ require(
                  htmlString = html4ElementList[i].toLowerCase();
                  sanitizedHtmlString = sakai.api.Security.saneHTML(htmlString);
                  equals(sanitizedHtmlString.indexOf(htmlString), 0, "Keep HTML4 element intact: " + htmlString);
+            }
+        }
+
+        for (var i in html4ElementStripList) {
+            if (html4ElementStripList.hasOwnProperty(i)) {
+                 htmlString = html4ElementStripList[i].toLowerCase();
+                 sanitizedHtmlString = sakai.api.Security.saneHTML(htmlString);
+                 equals(sanitizedHtmlString.indexOf(htmlString), -1, "Strip HTML4 element: " + htmlString);
             }
         }
 
