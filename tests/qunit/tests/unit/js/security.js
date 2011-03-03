@@ -266,6 +266,11 @@ require(
 
     test("saneHTML elements", function() {
 
+        /*
+         * HTML4 elements from: http://www.w3.org/TR/html4/index/elements.html
+         * HTML5 elements from: http://www.quackit.com/html_5/tags/ and http://www.w3schools.com/html5/
+         */
+
         var html4ElementList = [
             '<A href="http://www.w3.org/">W3C Web site</A>',
             '<ABBR lang="es" title="Do&ntilde;a">Do&ntilde;a</ABBR>',
@@ -371,21 +376,21 @@ require(
 
         expect(html4ElementList.length + html5ElementList.length);
 
-        var htmlString = "";
+        var htmlString = "", sanitizedHtmlString = "";
 
         for (var i in html4ElementList) {
             if (html4ElementList.hasOwnProperty(i)) {
                  htmlString = html4ElementList[i].toLowerCase();
-                 htmlString = sakai.api.Security.saneHTML(htmlString);
-                 equals(htmlString.indexOf(html4ElementList[i].toLowerCase()), 0, "Keep HTML4 element intact: " + html4ElementList[i].toLowerCase());
+                 sanitizedHtmlString = sakai.api.Security.saneHTML(htmlString);
+                 equals(sanitizedHtmlString.indexOf(htmlString), 0, "Keep HTML4 element intact: " + htmlString);
             }
         }
 
         for (var j in html5ElementList) {
             if (html5ElementList.hasOwnProperty(j)) {
                  htmlString = html5ElementList[j].toLowerCase();
-                 htmlString = sakai.api.Security.saneHTML(htmlString);
-                 equals(htmlString.indexOf(html5ElementList[j].toLowerCase()), 0, "Keep HTML5 element intact: " + html5ElementList[j].toLowerCase());
+                 sanitizedHtmlString = sakai.api.Security.saneHTML(htmlString);
+                 equals(sanitizedHtmlString.indexOf(htmlString), 0, "Keep HTML5 element intact: " + htmlString);
             }
         }
     });
