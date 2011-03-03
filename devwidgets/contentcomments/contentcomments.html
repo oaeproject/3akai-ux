@@ -36,7 +36,9 @@
                 </div>
                 <textarea id="comments_txtMessage" class="comments_inputFields" cols="20"></textarea>
                 <div class="dialog_buttons right">
-                    <button type="button" class="s3d-button s3d-button-link-2-state comment_postCommentTopBottom" id="comments_postComment"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__COMMENT__</span></button>
+                    <button type="button" class="s3d-button s3d-button-link-2-state comment_postCommentTopBottom" id="comments_postComment">
+                        <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__COMMENT__</span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -81,7 +83,10 @@
                             {if i.canEdit && i.canEdit === true}
                                 <ul>
                                     <span class="dialog_buttons right">
-                                        <li><button type="button" class="s3d-button s3d-button-link-2-state comments_edit" id="comments_edit_${i['sakai:id']}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__EDIT__</span></button></li>
+                                        <li><button type="button" class="s3d-button s3d-button-link-2-state comments_edit" id="comments_edit_${i['sakai:id']}">
+                                                <span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__EDIT__</span>
+                                            </button>
+                                        </li>
                                     </span>
                                 </ul>
                             {/if}
