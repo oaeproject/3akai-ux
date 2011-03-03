@@ -426,6 +426,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         var profileURL = "/~" + sakai_global.profile.main.data["rep:userId"] + "/public/authprofile";
                         sakai.api.Util.tagEntity(profileURL, tagsArray, currentTags, function(){
                             debug.info("user tags saved");
+                            sakai_global.profile.main.data["sakai:tags"] = tagsArray;
+                            sakai.data.me.profile = $.extend(true, {}, sakai_global.profile.main.data);
                         });
                     }
                     else
