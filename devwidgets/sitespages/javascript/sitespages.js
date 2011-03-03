@@ -749,7 +749,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         type: "POST",
                         data: {
                             "sling:resourceType": "sakai/pagecontent",
-                            "sakai:pagecontent": content
+                            "sakai:pagecontent": content,
+                            "_charset_": "utf-8"
                         },
                         success: function (data) {
                             callback(true, data);

@@ -110,7 +110,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
 
                 if ($.trim($("#profilesection_generalinfo", rootel).html()) === "") {
-                    if (sakai.data.me.user.userid === sakai.profile.main.data["rep:userId"]) {
+                    if (sakai.data.me.user.userid === sakai_global.profile.main.data["rep:userId"]) {
                         $(displayprofilesectionNoProfileInfoInserted, rootel).show();
                     } else {
                         $(displayprofilesectionNoProfileInfoInsertedViewMode, rootel).show();
