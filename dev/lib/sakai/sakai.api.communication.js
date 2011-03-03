@@ -30,7 +30,7 @@
  * @namespace
  * Communication related convenience functions
  */
-define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
+define(["jquery", "sakai/sakai.api.user", "/dev/configuration/config.js"], function($, sakai_user, sakai_conf) {
     return {
         /**
          * Sends a Sakai message to one or more users. If a group id is received, the
@@ -308,6 +308,57 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                 error: function(xhr, textStatus, thrownError){
                     if ($.isFunction(callback)) {
                         callback(false, {});
+                    }
+                }
+            });
+        },
+
+        /**
+        * Gets all messages from a box
+        * 
+        * @param {String} box The name of the box to get messages from
+        * @param {String} category The type of messages to get from the box
+        * @param {Number} messagesPerPage The number of messages to fetch
+        * @param {Number} currentPage The page offset to start from
+        * @param {String} sortBy The name of the field to sort on
+        * @param {String} sortOrder Sort messages asc or desc
+        * @param {Function} callback The function that will be called on completion
+        */  
+        getAllMessages : function(box, category, messagesPerPage, currentPage, sortBy, sortOrder, callback) {
+            var url = sakai_conf.URL.MESSAGE_BOXCATEGORY_SERVICE + "?box=" + box + "&category=" + category + "&items=" + messagesPerPage + "&page=" + currentPage + "&sortBy=" + sortBy + "&sortOrder=" + sortOrder;
+            $.ajax({
+                url: url,
+                cache: false,
+                success: function(data){
+                    if ($.isFunction(callback)) {
+                        callback(true, data);
+                    }
+                },
+                error: function(xhr, textStatus, thrownError){
+                    if ($.isFunction(callback)) {
+                        callback(false, {});
+                    }
+                }
+            });
+        },
+
+        /**
+         * Gets a count of the unread messages in a box belonging 
+         * to the current user
+         */
+        getUnreadMessageCount : function(box, callback) {
+            var url = "~" + sakai_user.data.me.user.userid + "/message.count.json?filters=sakai:messagebox,sakai:read&values=" + box + ",false&groupedby=sakai:category";
+            $.ajax({
+                url: url,
+                cache: false,
+                success: function(data){
+                    if ($.isFunction(callback)) {
+                        callback(true, data);
+                    }
+                },
+                error: function(xhr, textStatus, thrownError) {
+                    if ($.isFunction(callback)) {
+                        callback(false,{});
                     }
                 }
             });

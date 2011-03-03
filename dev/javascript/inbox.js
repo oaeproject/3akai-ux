@@ -518,8 +518,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     box = "trash";
                 }
 
-            var url = sakai.config.URL.MESSAGE_BOX_SERVICE + "?box=" + box + "&items=" + messagesPerPage + "&page=" + currentPage;
-
             var types = "&types=" + selectedType;
             if (typeof selectedType === "undefined" || selectedType === "") {
                 types = "";
@@ -546,12 +544,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             if (selectedCategory === "Chat") {
                                 cats = "chat";
                             }
-                url = sakai.config.URL.MESSAGE_BOXCATEGORY_SERVICE + "?box=" + box + "&category=" + cats + "&items=" + messagesPerPage + "&page=" + currentPage;
             }
             else
                 if (box === "inbox" && !isDirectMessage) {
-                    // default to just the messages if we do not need to show the message itself so your inbox isn't clogged up with chat messages
-                    url = sakai.config.URL.MESSAGE_BOXCATEGORY_SERVICE + "?box=" + box + "&category=message&items=" + messagesPerPage + "&page=" + currentPage;
+                    cats = "message";
                 }
 
             switch (sortBy) {
@@ -572,12 +568,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     break;
             }
 
-            url += "&sortOn=" + sortBy + "&sortOrder=" + sortOrder;
-
-            $.ajax({
-                url: url,
-                cache: false,
-                success: function(data){
+            sakai.api.Communication.getAllMessages(box, cats, messagesPerPage, currentPage, sortBy, sortOrder, function(success, data){
+                if (success){ 
                     if (data.results) {
                         toggleLoading();
                         // Render the messages
@@ -588,8 +580,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         callback();
                     }
 
-                },
-                error: function(xhr, textStatus, thrownError){
+                } else {
                     showGeneralMessage($(inboxGeneralMessagesErrorGeneral).text());
                     $(inboxResults).html(sakai.api.Security.saneHTML($(inboxGeneralMessagesErrorGeneral).text()));
                 }
@@ -602,10 +593,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          */
         var showUnreadMessages = function(){
 
-            $.ajax({
-                url: "/~" + sakai.data.me.user.userid + "/message.count.json?filters=sakai:messagebox,sakai:read&values=inbox,false&groupedby=sakai:category",
-                cache: false,
-                success: function(data){
+            sakai.api.getUnreadMessageCount("inbox", function(success, data){
+                if (success) {
 
                     var totalcount = 0;
 
@@ -629,9 +618,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     }
 
                     updateUnreadNumbers();
-
-                },
-                error: function(xhr, textStatus, thrownError){
+                } else {
                     showGeneralMessage($(inboxGeneralMessagesErrorGeneral).text());
                 }
             });
