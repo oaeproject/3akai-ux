@@ -234,6 +234,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 }
             });
 
+            for(var tag in tags){
+                tags[tag] = tags[tag].replace(/\s+/g, " ");
+            }
+
             sakai.api.Util.tagEntity("/p/" + sakai_global.content_profile.content_data.data["jcr:name"], tags, sakai_global.content_profile.content_data.data["sakai:tags"], function(){
                 sakai_global.content_profile.content_data.data["sakai:tags"] = tags;
                 renderTags(false);
