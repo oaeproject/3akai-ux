@@ -11,6 +11,7 @@
 .sakai_site #content_edit_page_options.content_page_options ul{background:#fff url(/dev/images/edit_button_bg.png) top left no-repeat;}
 .sakai_site .content_page_options ul li{display:block;float:left;height:20px;padding:0 6px 0 0;}
 .sakai_site .content_page_options #edit_page,.sakai_site .content_page_options #edit_page_revert{font-weight:bold;font-size:11px;}
+.sakai_site .content_page_options #edit_page {color:#333;}
 .sakai_site .content_page_options .print_page_admin{background:transparent url(/dev/images/printer_18.png) top left no-repeat;padding:2px 15px 0 20px;border-right:1px solid #888;}
 .sakai_site .content_page_options .print_page_view{background:transparent url(/dev/images/printer_18.png) top left no-repeat;padding:2px 0 0 20px;}
 .sakai_site .content_page_options #sitespages_accessibility_help{float:left;font-size:11px;margin-right:10px;margin-top:5px;}
@@ -48,6 +49,7 @@
 .content_page_options li{display:inline;list-style-type:none;}
 .content_page_options li a{padding:0 0 0 5px;font-size:.95em;}
 
+#page_options .s3d-sprites-buttons {width:116px;}
 /** TABS VARIANT **/
 .edit_view .s3d-primary-tabs{background:#FFF url(/dev/images/edit_toolbar_bg.png) top left repeat-x;border-left:3px solid #D3DBDE;border-right:3px solid #D3DBDE;height:40px;}
 .edit_view .s3d-primary-tabs ul.fl-tabs{background:none;}

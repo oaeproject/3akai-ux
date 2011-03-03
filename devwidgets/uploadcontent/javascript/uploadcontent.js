@@ -223,7 +223,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     return false;
 
                 }
-
+                return false;
             });
 
             $uploadcontent_form_content.attr("action", defaultposturl.substr(0, defaultposturl.length -1));
@@ -242,7 +242,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     else {
                         showError("filenotuploaded");
                     }
-
+                    return false;
                 }
             });
 

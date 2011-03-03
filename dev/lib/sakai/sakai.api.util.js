@@ -358,6 +358,8 @@ define(["jquery",
             // IE7 and IE6 have trouble with width
             if(!jQuery.support.leadingWhitespace){
                 width = width - 10;
+            } else {
+                width = width - 5;
             }
 
             // Create elements to apply threedots

@@ -283,7 +283,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             }
                         }
                         // trigger event when add/remove from the list
-                        $(window).trigger("list-people-selected-change",tuid);
+                        $(window).trigger("listchange.listpeople.sakai",tuid);
                     }
                     $listpeople_count_items.hide();
                     $listpeople_count_of.show();

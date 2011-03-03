@@ -19,7 +19,7 @@
     <div class="dialog_header">
         <div class="dialog_header_inner">
             <h1>__MSG__ADD_RESOURCE__</h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+            <button type="button" class="jqmClose dialog_close_image s3d-link-button" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</button>
         </div>
     </div>
 
@@ -41,12 +41,12 @@
 
     <!-- TEMPLATES -->
     <div id="uploadcontent_main_container_template"><!--
-        <form id="uploadcontent_form_link" method="post" action="javascript:;">
+        <form id="uploadcontent_form_link" method="post" action="#">
             <label for="uploadcontent_form_link_input">__MSG__PLEASE_TYPE_IN_A_URL__:</label><br />
             <input id="uploadcontent_form_link_input" type="text"/><br />
             <button type="submit" class="s3d-button s3d-button-primary" id="uploadcontent_action_addcontent"><span class="s3d-button-inner">__MSG__ADD_LINK__</span></button>
         </form>
-        <form id="uploadcontent_form_content" method="post" action="javascript:;" enctype="multipart/form-data">
+        <form id="uploadcontent_form_content" method="post" action="#" enctype="multipart/form-data">
             <label for="uploadcontent_fileupload">__MSG__OR_SELECT_FILES_TO_UPLOAD__:</label><br />
             <input type="file" name="*" multiple="true" id="uploadcontent_fileupload" />
             <input type="hidden" name="*@TypeHint" value="nt:file" /><br />

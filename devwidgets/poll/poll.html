@@ -40,7 +40,7 @@
     <!-- Main template for the settings view -->
     <div id="poll_settings_template" style="display:none"><!--
     <ul id="poll_tabs">
-        <li><a href="javascript:;" id="poll_create_new_tab" class="poll_selectedtab">__MSG__CREATE_NEW_POLL__</a></li>
+        <li><button type="button" id="poll_create_new_tab" class="poll_selectedtab s3d-link-button s3d-bold">__MSG__CREATE_NEW_POLL__</button></li>
     </ul>
     <div id="poll_create_new">
         <form>
@@ -88,10 +88,10 @@
                 <hr />
                 <label>__MSG__POLL_TYPE__:</label>
                 <ul id="poll_polltype">
-                    <li{if poll.poll_type == 0} class="poll_polltype_active"{/if} id="poll_polltype_vertical"><a href="javascript:;"><span>__MSG__VERTICAL__</span></a></li>
-                    <li{if poll.poll_type == 1} class="poll_polltype_active"{/if} id="poll_polltype_horizontal"><a href="javascript:;"><span>__MSG__HORIZONTAL__</span></a></li>
-                    <li{if poll.poll_type == 2} class="poll_polltype_active"{/if} id="poll_polltype_pie"><a href="javascript:;"><span>__MSG__PIECHART__</span></a></li>
-                    <li{if poll.poll_type == 3} class="poll_polltype_active"{/if} id="poll_polltype_text"><a href="javascript:;"><span>__MSG__TEXT_ONLY__</span></a></li>
+                    <li{if poll.poll_type == 0} class="poll_polltype_active"{/if} id="poll_polltype_vertical"><button type="button" class="s3d-link-button s3d-bold"><span>__MSG__VERTICAL__</span></button></li>
+                    <li{if poll.poll_type == 1} class="poll_polltype_active"{/if} id="poll_polltype_horizontal"><button type="button" class="s3d-link-button s3d-bold"><span>__MSG__HORIZONTAL__</span></button></li>
+                    <li{if poll.poll_type == 2} class="poll_polltype_active"{/if} id="poll_polltype_pie"><button type="button" class="s3d-link-button s3d-bold"><span>__MSG__PIECHART__</span></button></li>
+                    <li{if poll.poll_type == 3} class="poll_polltype_active"{/if} id="poll_polltype_text"><button type="button" class="s3d-link-button s3d-bold"><span>__MSG__TEXT_ONLY__</span></button></li>
                 </ul>
                 <br class="poll_cls" />
                 <input id="poll_not_see_chart_view" {if poll.not_see_chart_view}checked="checked"{/if} type="checkbox"/><label for="poll_not_see_chart_view" class="poll_radiocheck_label">__MSG__USER_CAN_NOT_SEE_THE_CHART_VIEW__</label><br class="poll_cls" />
@@ -111,7 +111,7 @@
     <div id="poll_options_template"><!--
         {for option in poll.options}
             <div id="poll_question${option_index}">
-                <input type="text" id="poll_question_input${option_index}" value="${option}" /><a class="poll_close" href="javascript:;">x</a>
+                <input type="text" id="poll_question_input${option_index}" value="${option}" /><button type="button" class="poll_close s3d-link-button s3d-bold">x</button>
             </div>
         {/for}
     --></div>
