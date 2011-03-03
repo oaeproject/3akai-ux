@@ -22,11 +22,11 @@
 /* PROGRESS BAR */
 .systemtour_left{background:url(../images/bgl.png) no-repeat;padding:10px 10px 30px;}
 .systemtour_left_text {font-size:0.9em;font-weight:bold;line-height: 60px;margin-left: 20px;padding-right: 5px;}
-#systemtour_progress_bar a {text-decoration: none;}
+#systemtour_progress_bar s3d-link-button {text-decoration: none;}
 #systemtour_container ul {list-style: none;display: inline-block; margin: 0px;line-height:30px;position: relative;top: 12px;/* IE6 and IE7 hack to support display:inline-block */zoom:1;*display:inline; /* IE7 and below*/*padding-top:3px;/* IE7 and below*/*margin-top:-20px;/* IE7 and below*/_height: 30px;/* IE6 and below*/_margin-top:0px;/* IE6 and below*/}
 #systemtour_container li {list-style:none;float: left;height:32px;border-right: 1px solid #d8dce0;padding-right: 0;*width:138px;}
 .systemtour_button:hover {text-decoration: none;}
-.systemtour_button {padding-right: 13px;display: block;}
+.systemtour_button {padding:8px 13px 0 0;display: block;}
 .systemtour_1{background:url(/dev/images/tour_sprite.png) no-repeat scroll -220px -120px transparent;}
 .systemtour_2{background:url(/dev/images/tour_sprite.png) no-repeat scroll -220px -200px transparent;}
 .systemtour_3{background:url(/dev/images/tour_sprite.png) no-repeat scroll -220px -280px transparent;}

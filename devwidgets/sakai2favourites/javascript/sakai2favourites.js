@@ -171,8 +171,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // bind events
                 bindEvents();
             });
-            $(".sakai2_selected_site_title").unbind("click");
-            $(".sakai2_selected_site_title").click(function(ev){
+            $(".sakai2_selected_site").unbind("click");
+            $(".sakai2_selected_site").click(function(ev){
                 var siteId = ev.currentTarget.id;
                 var ind = getToRemoveIndex(siteId);
                 sakai.data.me.sakai2List.sites.splice(ind,1);
