@@ -551,14 +551,14 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             });
 
             $("#profile_form input, #profile_form textarea").live("focus", function(){
-                if ($(this).offset().top > $("#chat_main_container").offset().top - 30) {
+                if ($(this).offset().top + $(this).height() > $("#chat_main_container").offset().top - 30) {
                     $(this).focus(function(){
                         // IE needs different calculation for offset
                         if (!jQuery.support.leadingWhitespace) {
                             window.scroll(0, document.documentElement.scrollTop + 50);
                         }
                         else {
-                            window.scrollBy(0, window.pageYOffset);
+                            window.scrollBy(0, 20 + $(this).height());
                         }
                     });
                 }
