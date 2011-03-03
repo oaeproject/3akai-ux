@@ -46,7 +46,7 @@ ul.as-selections li.as-selection-item.embedcontent_selection_notfound a.as-close
 #embedcontent_add_title_description{background-color:#d5dbdf;}
 #embedcontent_add_title_description h2{margin:6px;float:left;}
 #embedcontent_description{height:100px;}
-#embedcontent_add_title_description button{float:right;margin:0;}
+#embedcontent_add_title_description button {float:right;margin:3px 0 0 0;}
 #embedcontent_add_title_description_fields label{float:left;width:100%;margin:6px 0 2px 6px;}
 #embedcontent_add_title_description_fields input,#embedcontent_add_title_description_fields textarea{float:left;width:302px;border:1px solid #898c8f;margin:6px 0 10px 6px;}
 #embedcontent_add_title_description_fields input{height:20px;}

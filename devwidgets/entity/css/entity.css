@@ -58,6 +58,7 @@
 .entity_content_threedots{display:block;width:670px;}
 .entity_content_filetype{color:#aaa;padding-right:5px;}
 .entity_content_description{width:670px;font-size:11px;font-weight:bold;}
+#entity_container .s3d-link-button{font-size:11px;}
 .entity_content_new_events,.entity_content_used_by{padding-right:35px;}
 .entity_content_link_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -400px -18px transparent;float:left;height:14px;width:16px;padding-right:3px;}
 .entity_content_right{float:right;}
