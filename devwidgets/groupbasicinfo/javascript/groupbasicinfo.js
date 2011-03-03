@@ -284,8 +284,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (success) {
                     groupProfileURL = "/~" + sakai_global.currentgroup.id + "/public/authprofile";
                     sakai.api.Util.tagEntity(groupProfileURL, sakai_global.currentgroup.data.authprofile["sakai:tags"], currentTags, function() {
-                        // currentTags does not reflect tag changes
-                        //sakai_global.currentgroup.data.authprofile["sakai:tags"] = currentTags;
+                        sakai_global.currentgroup.data.authprofile["sakai:tags"] = currentTags;
                     });
                 }
                 sakai.api.Widgets.Container.informFinish(tuid, "groupbasicinfo");
