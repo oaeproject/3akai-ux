@@ -25,7 +25,7 @@
                 </div>
                 {if child.children}
                     {for subChild in child.children}
-                        <span class="nextleveldown_subchild_title"><a id="${subChild.attr.id}" href="${hash}/${subChild.attr.id}" class="s3d-action nextleveldown_child">${subChild.data}</a></span>
+                        <span class="nextleveldown_subchild_title"><a id="${subChild.attr.id}" href="${hash}/${child.attr.id}/${subChild.attr.id}" class="s3d-action nextleveldown_child">${subChild.data}</a></span>
                     {/for}
                 {/if}
             </div>
