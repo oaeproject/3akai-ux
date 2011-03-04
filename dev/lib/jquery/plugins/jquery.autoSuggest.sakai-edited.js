@@ -285,7 +285,7 @@
                         }
                         if(str){
                             if (!opts.matchCase){ str = str.toLowerCase(); }
-                            query = query.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"); // http://simonwillison.net/2006/Jan/20/escape/
+//                            query = query.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"); // http://simonwillison.net/2006/Jan/20/escape/
                             if(str.search(query) != -1 && values_input.val().search(data[num][opts.selectedValuesProp]+",") == -1){
                                 forward = true;
                             }   

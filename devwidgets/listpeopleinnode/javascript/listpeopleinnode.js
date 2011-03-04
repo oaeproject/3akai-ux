@@ -56,7 +56,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var listpeopleinnodeEllipsisContainer = ".listinpeopleinnode_ellipsis_container";
         /**
-         * 
+         *
          * @param {Object} results
          * @param {Object} success
          */
@@ -69,7 +69,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         /**
-         * 
+         *
          * @param {Object} selected
          */
         var searchUsersInNode = function(selected){
@@ -99,7 +99,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         data.results[p].picture = $.parseJSON(data.results[p].picture);
                     }
                 }
-                
+
                 data.selected = selected;
 
                     renderResults(data, true);
@@ -115,7 +115,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Initialization functions //
         //////////////////////////////
 
-        $(window).bind("selected.directory.sakai", function(ev, selected){
+        var handleHashChange = function() {
+            var selected = $.bbq.getState("location");
             $listpeopleinnodePeopleContainer.text("");
 
             // Set title
@@ -129,7 +130,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $listpeopleinnodeTitle.html(ellipsis);
 
             searchUsersInNode(selected);
-        });
+        };
+
+        $(window).bind("hashchange", handleHashChange);
+
+        var init = function() {
+            handleHashChange();
+        };
+        init();
     };
 
     sakai.api.Widgets.widgetLoader.informOnLoad("listpeopleinnode");
