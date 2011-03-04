@@ -103,7 +103,8 @@ require(
     ],
     function($, sakai) {
         require.ready(function() {
-            sakai.api.User.loadMeData(function(success, data){
+            sakai.api.User.loadMeData(function(success, data) {
+                sakai.api.Util.startup();
                 // Start i18n
                 sakai.api.i18n.init(data);
             });

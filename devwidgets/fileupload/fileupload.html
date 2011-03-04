@@ -7,7 +7,7 @@
         <div class="dialog_header_inner">
             <h1 id="fileupload_widget_title">__MSG__WIDGET_TITLE__</h1>
             <h1 id="fileupload_widget_title_new_version" style="display:none;">__MSG__UPLOAD_NEW_VERSION__</h1>
-            <a href="javascript:;" class="dialog_close_image" id="fileupload_close_dialog" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+            <button type="button" class="dialog_close_image s3d-link-button s3d-action" id="fileupload_close_dialog" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</button>
         </div>
     </div>
 
@@ -21,7 +21,7 @@
                     <div id="fileupload_limit_container"></div>
                 </form>
                 <p id="fileupload_add_link_option">__MSG__OR_LOWER__
-                    <a href="javascript:;" id="fileupload_add_link">__MSG__ADD_A_NEW_LINK__</a>
+                    <button type="button" class="s3d-link-button s3d-action s3d-bold" id="fileupload_add_link">__MSG__ADD_A_NEW_LINK__</button>
                 </p>
             </div>
             <div id="fileupload_rendered_tagging"></div>
@@ -35,17 +35,8 @@
                         <input id="fileupload_link_box_input" type="text" name="fileupload_link_box_input" class="appendhttp url required"/>
                     </p>
                     <p id="fileupload_upload_option">__MSG__OR_LOWER__
-                        <a href="javascript:;" id="fileupload_upload_file">__MSG__UPLOAD_A_NEW_FILE__</a>
+                        <button type="button" class="s3d-link-button s3d-action s3d-bold" id="fileupload_upload_file">__MSG__UPLOAD_A_NEW_FILE__</button>
                     </p>
-                </div>
-                <div class="dialog_buttons">
-                    <button type="button" id="fileupload_link_cancel" class="fileupload_close s3d-button jqmClose dialog_close_image">
-                        <span class="s3d-button-inner">__MSG__DONT_ADD__</span>
-                    </button>
-                    <button type="submit" class="fileupload_link_submit s3d-button s3d-button-primary">
-                        <span class="s3d-button-inner">__MSG__ADD_CONTENT__</span>
-                    </button>
-                    <div id="fileupload_upload_progress"></div>
                 </div>
                 <div id="fileupload_rendered_tagging_link"></div>
             </form>
@@ -133,68 +124,6 @@
                     </button>
                 {/if}
                 <div id="fileupload_upload_progress"></div>
-            </div>
-        --></div>
-
-        <div id="fileupload_tagging_link_template" style="display:none;"><!--
-            <div class="fileupload_section s3d-highlight_area_background">
-                {if contextData.context !== "new_version"}<h2>__MSG__BASIC_INFORMATION__</h2>
-                <div id="fileupload_tags" class="fileupload_inputblock">
-                    <label for="fileupload_add_tags">
-                        __MSG__TAGS__
-                    </label>
-                    <textarea cols="50" rows="3" id="fileupload_add_tags" class="fileupload_textarea" value="" />
-                </div>
-                <div id="fileupload_description" class="fileupload_inputblock">
-                    <label for="fileupload_add_description">
-                        __MSG__DESCRIPTION__
-                    </label>
-                    <textarea cols="50" rows="3" id="fileupload_add_description" class="fileupload_textarea" value="" />
-                </div>
-                <div id="fileupload_copyright" class="fileupload_inputblock">
-                    <label for="fileupload_copyright_select">
-                        __MSG__COPYRIGHT__
-                    </label>
-                    <select id="fileupload_copyright_select">
-                        {for copyrightLabel in sakai.config.Permissions.Copyright}
-                            <option {if copyrightLabel["default"] === true} selected="selected"{/if} value="${copyrightLabel_index}">${sakai.api.i18n.Widgets.getValueForKey("fileupload", "", copyrightLabel.title)}</option>
-                        {/for}
-                    </select>
-                </div>
-                <div id="fileupload_permissions" class="fileupload_inputblock">
-                    <label for="fileupload_permissions_select">
-                        __MSG__WHO_CAN_SEE_THIS_CONTENT__?
-                    </label>
-                    {if contextData.context === "group" || contextData.context === "new_version"}
-                    <select id="fileupload_permissions_select">
-                        <option value="public">__MSG__PUBLIC__</option>
-                        <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
-                        <option value="group" selected="selected">__MSG__MANAGERS_AND_MEMBERS_OF_GROUP__</option>
-                    </select>
-                    {else}
-                    <select id="fileupload_permissions_select">
-                        <option value="public" selected="selected">__MSG__PUBLIC__</option>
-                        <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
-                        <option value="private">__MSG__ONLY_ME__</option>
-                    </select>
-                    {/if}
-                </div>
-                {else}
-                    <label for="fileupload_add_version_description" id="fileupload_add_version_description_label">
-                        __MSG__MESSAGE_OTHER_MANAGERS_REASON__
-                    </label>
-                    <textarea cols="50" rows="3" id="fileupload_add_version_description" value="" />
-                {/if}
-            </div>
-            <div class="dialog_buttons">
-                <span id="fileupload_ajax_loader" style="display:none;"><img src="/dev/images/ajax_load.gif" alt="__MSG__LOADING_PLEASE_HOLD_ON__." /></span>
-                <button type="button" id="fileupload_cancel" class="fileupload_close s3d-button jqmClose dialog_close_image">
-                    <span class="s3d-button-inner">__MSG__DONT_ADD__</span>
-                </button>
-
-                <button type="submit" class="fileupload_link_submit s3d-button s3d-button-primary">
-                    <span class="s3d-button-inner">__MSG__ADD_CONTENT__</span>
-                </button>
             </div>
         --></div>
 

@@ -78,7 +78,7 @@
 
                             <!-- CREATE SITE WITH THESE PEOPLE -->
                             <div id="create_site_these_people" style="float:right; padding: 20px 10px 10px 10px; display:none;">
-                                <a id="create_site_these_people_link" href="javascript:;">__MSG__CREATE_SITE_WITH_THESE_PEOPLE__</a>
+                                <button type="button" id="create_site_these_people_link" class="s3d-link-button s3d-action">__MSG__CREATE_SITE_WITH_THESE_PEOPLE__</button>
                             </div>
 
                                 <div class="s3d-highlight_area_background_tl">
@@ -116,29 +116,29 @@
                                     {var peopleFound = true}
                                     <div class="fl-container fl-fix search_result_person">
                                         {if ! i.picture}
-                                        <a href="/~${i.userid}" class="fl-icon search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"></a>
+                                            <a href="/~${i.userid}" class="fl-icon search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"></a>
                                         {else}
-                                        <a href="/~${i.userid}" class="search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"><img alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" src="${i.picture}" width="48px" height="48px"/></a>
+                                            <a href="/~${i.userid}" class="search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"><img alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" src="${i.picture}" width="48px" height="48px"/></a>
                                         {/if}
                                         <a href="/~${i.userid}" class="search_result_person_name">${sakai.api.Util.shortenString(i.name, 25)}</a>
                                         {if i.extra}
-                                        <a href="javascript:;" class="search_result_person_dept">${i.extra}</a>
+                                            <span class="search_result_person_dept">${i.extra}</span>
                                         {else}
-                                        <a href="javascript:;" class="search_result_person_dept">&nbsp;</a>
+                                            <span class="search_result_person_dept">&nbsp;</span>
                                         {/if}
 
                                         <div class="search_result_person_links">
                                         {if ! i.isMe && ! sakai.data.me.user.anon}
                                             {if ! i.connected}
-                                            <a href="javascript:;" class="search_result_person_link link_add_to_contacts" id="link_add_to_contacts_${i.userid}">__MSG__ADD_TO_CONTACTS__</a>
-                                            <a href="javascript:;" id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider">|</a>
-                                            <a href="javascript:;" class="search_result_person_link search_result_person_link_message search_result_person_link_divider_message" id="search_result_person_link_message_${i.userid}">__MSG__MESSAGE__</a>
+                                                <button type="button"class="search_result_person_link link_add_to_contacts s3d-link-button s3d-action" id="link_add_to_contacts_${i.userid}">__MSG__ADD_TO_CONTACTS__</button>
+                                                <span id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider">|</span>
+                                                <button type="button"class="search_result_person_link search_result_person_link_message search_result_person_link_divider_message s3d-link-button s3d-action" id="search_result_person_link_message_${i.userid}">__MSG__MESSAGE__</button>
                                             {elseif i.invited}
-                                            <a href="javascript:;" class="search_result_person_link link_accept_invitation" id="link_accept_invitation_${i.userid}">__MSG__ACCEPT_INVITATION__</a>
-                                            <a href="javascript:;" id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider">|</a>
-                                            <a href="javascript:;" class="search_result_person_link search_result_person_link_message search_result_person_link_divider_message" id="search_result_person_link_message_${i.userid}">__MSG__MESSAGE__</a>
+                                                <button type="button"class="search_result_person_link link_accept_invitation s3d-link-button s3d-action" id="link_accept_invitation_${i.userid}">__MSG__ACCEPT_INVITATION__</button>
+                                                <span id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider">|</span>
+                                                <button type="button"class="search_result_person_link search_result_person_link_message search_result_person_link_divider_message s3d-link-button s3d-action" id="search_result_person_link_message_${i.userid}">__MSG__MESSAGE__</button>
                                             {else}
-                                            <a href="javascript:;" class="search_result_person_link search_result_person_link_message" id="search_result_person_link_message_${i.userid}">__MSG__MESSAGE__</a>
+                                                <button type="button" class="search_result_person_link search_result_person_link_message s3d-link-button s3d-action" id="search_result_person_link_message_${i.userid}">__MSG__MESSAGE__</button>
                                             {/if}
                                         {/if}
                                         </div>

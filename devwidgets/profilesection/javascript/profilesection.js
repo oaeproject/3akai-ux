@@ -461,7 +461,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 // add the property in if it doesn't already exist
                                 if (parentProp[0] && parentProp[1]["jcr:name"] == "elements" && prop === undefined) {
                                     parentProp[0][propName] = {};
-                                    parentProp[0][propName].value = escape($selected_element.val());
+                                    parentProp[0][propName].value = $selected_element.val();
                                 } else if (prop) { // it exists, just change its value
                                     var val = $selected_element.val();
                                     if ($(element).hasClass("date") || $(element).hasClass("oldDate")) { // localize dates
@@ -470,13 +470,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                     }
                                     if ($.isPlainObject(prop)) {
                                         // Set the correct value
-                                        prop.value = sakai.api.Security.saneHTML(escape(val));
+                                        prop.value = sakai.api.Security.saneHTML(val);
                                     } else {
                                         // This is an access attribute
                                         sakai_global.profile.main.data[title.split(".")[0]].access = val;
                                     }
                                 } else if ($selected_element.hasClass("profilesection_generalinfo_access")){
-                                    sakai_global.profile.main.data[title.split(".")[0]].access = escape($selected_element.val());
+                                    sakai_global.profile.main.data[title.split(".")[0]].access = $selected_element.val();
                                 }
                             } else {
                                 if (prop && $.isPlainObject(prop) && parentProp[0]) {
@@ -490,7 +490,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                 });
             // tell the profile that this section has finished saving its data
-            $(window).trigger("sakai-profile-data-ready", currentsection);
+            $(window).trigger("ready.data.profile.sakai", currentsection);
 
         };
 
@@ -539,17 +539,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             currentsection = $rootel.selector.replace("#", "").replace("profilesection-", "");
 
             // Trigger the profile section event, so we let the container know that the widget is loaded
-            $(window).trigger("sakai-" + $rootel.selector.replace("#", ""), renderTemplateGeneralInfo);
+            $(window).trigger($rootel.selector.replace("#", "") + ".sakai", renderTemplateGeneralInfo);
 
             // Bind to the global save function
-            $(window).bind("sakai-profile-save", function(){
+            $(window).bind("save.profile.sakai", function(){
                 // Save the values to the global object
                 saveValues();
 
             });
 
             // Bind to the global update location
-            $(window).bind("sakai-contentmetadata-renderlocations", function(ev, data){
+            $(window).bind("renderlocations.contentmetadata.sakai", function(ev, data){
                 ev.stopImmediatePropagation();
                 // render location in profile Section
                 renderLocation(data);

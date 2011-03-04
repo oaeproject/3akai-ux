@@ -219,7 +219,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     });
                 }
                 sakai.api.Widgets.Container.informFinish(tuid, "groupbasicinfo");
-                $(window).trigger("sakai_global.groupbasicinfo.updateFinished");
+                $(window).trigger("updateFinished.groupbasicinfo.sakai");
             });
         };
 
@@ -340,7 +340,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $(window).trigger("ready.groupbasicinfo.sakai", {});
 
         // Bind to the global update location
-        $(window).bind("sakai-contentmetadata-renderlocations", function(ev, data){
+        $(window).bind("renderlocations.contentmetadata.sakai", function(ev, data){
             ev.stopImmediatePropagation();
             // render location in profile Section
             renderLocations(data);

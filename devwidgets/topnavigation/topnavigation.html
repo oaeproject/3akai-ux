@@ -26,14 +26,14 @@
         <div id="general_search_container">
             <form class="fl-force-right" method="post">
                 <div class="search_box">
-                    <span class="search_left search_type"><span class="search_drop"></span><span class="search_links">__MSG__GLOBAL__</span></span><input type="text" id="general_search_input" title="__MSG__PLEASE_INPUT_SEARCH_KEYWORD__" class="general_search_input search_string" /><span class="search_right search_type" id="general_search_submit_button"><span class="search_icon"></span><span class="search_text">__MSG__SEARCH__</span></span>
+                    <div class="search_left search_type"><div class="search_links">__MSG__GLOBAL__</div><div class="search_drop"></div></div><input type="text" id="general_search_input" title="__MSG__PLEASE_INPUT_SEARCH_KEYWORD__" class="general_search_input search_string" /><div class="search_right search_type" id="general_search_submit_button"><div class="search_text">__MSG__SEARCH__</div><div class="search_icon"></div></div>
                 </div>
                 <div id="search_more_menu" style="display:none" class="s3d-sprites-buttons">
                     <ul>
-                        <li id="search_global" class="more_option"><a href="javascript:;" class="s3d-regular-light-links s3d-bold"><span id="search_global_text">__MSG__GLOBAL__</span></a></li>
-                        <li id="search_content" class="more_option"><a href="javascript:;" class="s3d-regular-light-links s3d-bold"><span id="search_content_text">__MSG__CONTENT__</span></a></li>
-                        <li id="search_people" class="more_option"><a href="javascript:;" class="s3d-regular-light-links s3d-bold"><span id="search_people_text">__MSG__PEOPLE__</span></a></li>
-                        <li id="search_group" class="more_option option_last"><a href="javascript:;" class="s3d-regular-light-links s3d-bold"><span id="search_group_text">__MSG__GROUP__</span></a></li>
+                        <li id="search_global" class="more_option"><button type="button" class="s3d-link-button"><span id="search_global_text">__MSG__GLOBAL__</span></button></li>
+                        <li id="search_content" class="more_option"><button type="button" class="s3d-link-button"><span id="search_content_text">__MSG__CONTENT__</span></button></li>
+                        <li id="search_people" class="more_option"><button type="button" class="s3d-link-button"><span id="search_people_text">__MSG__PEOPLE__</span></button></li>
+                        <li id="search_group" class="more_option option_last"><button type="button" class="s3d-link-button"><span id="search_group_text">__MSG__GROUP__</span></button></li>
                     </ul>
                 </div>
                 <span style="display:none" id="general_search_default_value">__MSG__SEARCH_FOR__</span>
@@ -56,9 +56,9 @@
 
                 <!-- CHAT STATUS DROPDOWN -->
                 <li id="user_link_container">
-                    <a id="user_link" class="s3d-dropdownlistone-text" href="javascript:;">
+                    <button type="button" id="user_link" class="s3d-dropdownlistone-text s3d-link-button">
                         <span id="topnavigation_chat_status">&nbsp;</span><span id="userid" class="user_link_chat_status"></span><span class="dropdownlistone_arrow">&nbsp;</span>
-                    </a>
+                    </button>
                 </li>
 
                 <li><a class="mail" href="/inbox"><span id="topnavigation_mail_icon"></span> (<span id="chat_unreadMessages">0</span>)</a></li>
@@ -94,17 +94,21 @@
     <div class="s3d-dropdownlistone-menu-border">
         <ul>
             <li class="s3d-dropdownlistone-link-inactive">__MSG__CHAT_STATUS__</li>
-            <li><a id="user_link_chat_status_online" class="user_link_chat_status" href="javascript:;">__MSG__AVAILABLE__</a></li>
-            <li><a id="user_link_chat_status_busy" class="user_link_chat_status" href="javascript:;">__MSG__BUSY__</a></li>
-            <li><a id="user_link_chat_status_offline" class="user_link_chat_status" href="javascript:;">__MSG__OFFLINE__</a></li>
+            <li><button type="button" id="user_link_chat_status_online" class="user_link_chat_status s3d-link-button">__MSG__AVAILABLE__</button></li>
+            <li><button type="button" id="user_link_chat_status_busy" class="user_link_chat_status s3d-link-button">__MSG__BUSY__</button></li>
+            <li><button type="button" id="user_link_chat_status_offline" class="user_link_chat_status s3d-link-button">__MSG__OFFLINE__</button></li>
         </ul>
     </div>
     <div>
         <ul>
-            <li><a href="javascript;" id="topnavigation_my_profile">__MSG__MY_PROFILE__</a></li>
+            <li id="topnavigation_my_profile_container"></li>
         </ul>
     </div>
 </div>
+
+<div id="topnavigation_my_profile_template"><!--
+    <a href="${href}" id="topnavigation_my_profile">__MSG__MY_PROFILE__</a>
+--></div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/topnavigation/javascript/topnavigation.js"></script>

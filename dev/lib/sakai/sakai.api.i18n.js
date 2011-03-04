@@ -159,7 +159,7 @@ define(["jquery",
                 }
                 require("sakai/sakai.api.widgets").initialLoad();
                 sakaii18nAPI.done = true;
-                $(window).trigger("sakai-i18n-done");
+                $(window).trigger("done.i18n.sakai");
                 return true;
             };
 
@@ -328,7 +328,7 @@ define(["jquery",
                 }
 
                 // bind response from batch request
-                $(window).bind("sakai.api.Server.bundleRequest.complete", function(e, reqData) {
+                $(window).bind("complete.bundleRequest.Server.api.sakai", function(e, reqData) {
                     if (reqData.groupId === "i18n") {
                         var loadDefaultBundleSuccess, loadDefaultBundleData, loadLocalBundleSuccess, loadLocalBundleData, globalizationSuccess, globalizationData;
                         // loop through and allocate response data to their request

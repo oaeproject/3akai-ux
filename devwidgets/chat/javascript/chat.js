@@ -67,6 +67,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var acceptedContactList = false; // to store accepted contact list
 
+        // i18n
+        var $chatStatusNoMessage = $("#chat_no_status_message");
+
         ///////////////////////
         ///////////////////////
         // Chat Working Code //
@@ -145,7 +148,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 loadOnlineContactsTimer = setInterval(loadOnlineContacts, loadOnlineContactsInterval);
                 checkNewMessages();
             }
-            $(window).trigger("sakai-chat-update");
+            $(window).trigger("update.chat.sakai");
 
         };
 
@@ -849,6 +852,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         $(window).bind("chat_status_message_change", function(event,newChatStatusMessage){
+            if(!$.trim(newChatStatusMessage)){
+                newChatStatusMessage = $chatStatusNoMessage.text();
+            }
             updateChatStatusMessage(newChatStatusMessage);
         });
 
@@ -888,7 +894,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * contacts and show the chat bar if the user is
          * authenticated
          */
-        if (!sakai.data.me.user.anon){
+        if (!sakai.data.me.user.anon && sakai.config.enableChat){
             showChatBar();
             // the following line is from Modernizr http://www.modernizr.com/, licensed under a dual MIT-BSD license
             supportsSessionStorage = ('sessionStorage' in window) && window['sessionStorage'] !== null;

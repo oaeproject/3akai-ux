@@ -2,7 +2,7 @@
 
 <div id="chat_available_template" style="display:none"><!--
     <span class="chat_button_image">
-        <a href="javascript:;" id="chat_available_minimize"></a>
+        <button type="button" id="chat_available_minimize" class="s3d-link-button s3d-action"></button>
     </span>
     <table>
         <tbody>
@@ -45,7 +45,7 @@
                             </td>
                             <td>
                                 <span class="chat_available_status_${i.profile.chatstatus}"></span>
-                                <a href="javascript:;" class="initiate_chat_window s3d-regular-light-link">${sakai.api.Util.shortenString(i.profile.name, 14)}</a><br />
+                                <button type="button" class="s3d-link-button s3d-action initiate_chat_window s3d-regular-light-link">${sakai.api.Util.shortenString(i.profile.name, 14)}</button><br />
                                 <span id="chat_mystatusmessage" class="chat_available_statusmessage">
                                     {if i.profile.status}
                                         ${sakai.api.Util.shortenString(i.profile.status, 20)}
@@ -74,7 +74,7 @@
     <span class="active_window">
         <span id="chat_online_button_${profile.userid}" class="user_chat">
             <span class="chat_available_status_${profile.chatstatus}"></span>
-            <a href="javascript:;" id="chat_window_chatstatus_${profile.userid}" class="chat_name_link">${profile.name}</a>
+            <button type="button" id="chat_window_chatstatus_${profile.userid}" class="chat_name_link s3d-link-button s3d-action">${profile.name}</button>
         </span>
     </span>
 --></div>
@@ -94,8 +94,8 @@
                     </td>
                     <td>
                         <span class="chat_user_button_image">
-                            <a class="chat_minimize chat_available_minimize" id="chat_minimize_user1" href="javascript:;"></a>
-                            <a class="chat_close chat_available_close" id="chat_close_${profile.userid}" href="javascript:;"></a>
+                            <button type="button" class="chat_minimize chat_available_minimize s3d-link-button s3d-action" id="chat_minimize_user1"</button>
+                            <button type="button" class="chat_close chat_available_close s3d-link-button s3d-action" id="chat_close_${profile.userid}"></button>
                         </span>
                         <a href="/~${profile.userid}" id="chat_window_name_${profile.userid}" class="chat_window_name">${sakai.api.Util.shortenString(profile.name, 14)}</a><br />
                         <span id="chat_window_statusmessage_${profile.userid}" class="chat_available_statusmessage">
@@ -147,6 +147,8 @@
         <div id="chat_windows_container"><!-- --></div>
     </div>
 </div>
+
+<div id="chat_no_status_message" style="display:none;">__MSG__NO_STATUS_MESSAGE__</div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/chat/javascript/chat.js"></script>

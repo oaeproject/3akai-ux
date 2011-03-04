@@ -284,7 +284,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Associate embedded items with the group
             associatedEmbeddedItemsWithGroup(selectedItems);
 
-            $(window).trigger("sakai-contentpicker-finished", {"items": selectedItems});
+            $(window).trigger("finished.contentpicker.sakai", {"items": selectedItems});
             $contentpicker_dialog.jqmHide();
         };
 
@@ -298,22 +298,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         $uploadContentLink.bind("click", function() {
-            $(window).trigger("sakai-fileupload-init");
+            $(window).trigger("init.fileupload.sakai");
         });
 
-        $(window).unbind("sakai-fileupload-complete");
-        $(window).bind("sakai-fileupload-complete", function(e, data) {
+        $(window).unbind("complete.fileupload.sakai");
+        $(window).bind("complete.fileupload.sakai", function(e, data) {
             var files = data.files;
             addChoicesFromFileUpload(files);
         });
 
-        $(window).unbind("sakai-pickeradvanced-finished");
-        $(window).bind("sakai-pickeradvanced-finished", function(e, data) {
+        $(window).unbind("finished.pickeradvanced.sakai");
+        $(window).bind("finished.pickeradvanced.sakai", function(e, data) {
             addChoicesFromPickeradvanced(data.toAdd);
         });
 
-        $(window).unbind("sakai-contentpicker-init");
-        $(window).bind("sakai-contentpicker-init", function(e, config) {
+        $(window).unbind("init.contentpicker.sakai");
+        $(window).bind("init.contentpicker.sakai", function(e, config) {
 
             // position dialog box at users scroll position
             var htmlScrollPos = $("html").scrollTop();
@@ -329,8 +329,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $contentpicker_dialog.jqmShow();
         });
 
-        $(window).unbind("sakai-pickeradvanced-ready");
-        $(window).bind("sakai-pickeradvanced-ready", function(e) {
+        $(window).unbind("ready.pickeradvanced.sakai");
+        $(window).bind("ready.pickeradvanced.sakai", function(e) {
             $contentpicker_search_for_content.bind("click", function() {
                 var pickerConfig = {
                     "type": "content"
@@ -338,7 +338,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (pickerConfig.limit) {
                     pickerConfig.limit = pickerConfig.limit;
                 }
-                $(window).trigger("sakai-pickeradvanced-init", {"config": pickerConfig});
+                $(window).trigger("init.pickeradvanced.sakai", {"config": pickerConfig});
             });
         });
 
@@ -350,7 +350,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         var doInit = function() {
-            $(window).trigger("sakai-contentpicker-ready");
+            $(window).trigger("ready.contentpicker.sakai");
             sakai.api.Widgets.widgetLoader.insertWidgets("#"+tuid);
         };
 

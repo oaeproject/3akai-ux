@@ -203,7 +203,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
               sakai.api.Communication.sendMessage(messageList, sakai.data.me, sakai.api.Security.saneHTML($("#pickeruser_subject_text").text())+ "," + iConfig.where, messageText);
           }
           $pickeruser_container.jqmHide();
-          $(window).trigger("sakai-pickeruser-finished", {"toAdd":userList});
+          $(window).trigger("finished.pickeruser.sakai", {"toAdd":userList});
         };
 
         var clearAutoSuggest = function() {
@@ -307,8 +307,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Events //
         ////////////
 
-        $(window).unbind("sakai-pickeruser-init");
-        $(window).bind("sakai-pickeruser-init", function(e, config, callbackFn) {
+        $(window).unbind("init.pickeruser.sakai");
+        $(window).bind("init.pickeruser.sakai", function(e, config, callbackFn) {
 
             // position dialog box at users scroll position
             var htmlScrollPos = $("html").scrollTop();
@@ -321,8 +321,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $pickeruser_container.jqmShow();
             render(config);
-            $(window).unbind("sakai-pickeradvanced-finished");
-            $(window).bind("sakai-pickeradvanced-finished", function(e, data) {
+            $(window).unbind("finished.pickeradvanced.sakai");
+            $(window).bind("finished.pickeradvanced.sakai", function(e, data) {
                 addChoicesFromPickeradvanced(data.toAdd);
             });
             callback = callbackFn;
@@ -330,7 +330,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         $pickeruser_init_search.bind("click", function() {
             var currentSelections = getSelectedList();
-            $(window).trigger("sakai-pickeradvanced-init", {"list":currentSelections, "config": {"type": pickerData["type"]}});
+            $(window).trigger("init.pickeradvanced.sakai", {"list":currentSelections, "config": {"type": pickerData["type"]}});
         });
 
         $pickeruser_close_button.bind("click", function() {
@@ -351,7 +351,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // accept a search query to process and display. This event can be picked up
         // in a page JS code
 
-        $(window).trigger("sakai-pickeruser-ready");
+        $(window).trigger("ready.pickeruser.sakai");
         sakai_global.pickeruser.isReady = true;
 
     };

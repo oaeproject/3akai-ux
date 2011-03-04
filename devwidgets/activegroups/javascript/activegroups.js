@@ -53,7 +53,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $activegroups_main.html(output).show();
         };
 
-        $(window).bind("sakai-directory-selected", function(ev, selected){
+        $(window).bind("selected.directory.sakai", function(ev, selected){
             loadDataDirectory(selected, renderPopularGroups);
         });
 
