@@ -263,7 +263,7 @@ define(["jquery", "sakai/sakai.api.user", "/dev/configuration/config.js"], funct
             });
 
             $.ajax({
-                url: sakai.config.URL.BATCH,
+                url: sakai_conf.URL.BATCH,
                 traditional: true,
                 type: "POST",
                 data: {
