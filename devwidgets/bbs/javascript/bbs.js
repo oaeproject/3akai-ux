@@ -669,7 +669,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(bbsCreateNewTopicForm, $rootel).validate({
                 submitHandler: function(form){
                     createTopic();
-                    return false;
                 }
             });
 
