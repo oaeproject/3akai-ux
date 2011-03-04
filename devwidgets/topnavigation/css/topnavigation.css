@@ -75,18 +75,18 @@
 
 /* Search Bar */
 .search_box{margin:0;padding:0;}
-.search_box .search_type{display:inline-block;font-weight:normal;font-size:11px;text-align:center;cursor:pointer;height:22px;margin-top:1px;padding:0;}
+.search_box .search_type{display:inline-block;font-weight:normal;font-size:11px;text-align:center;cursor:pointer;height:22px;margin-top:1px;padding:0;*display:inline;zoom:1;}
 .search_text,.search_links{display:inline-block;padding:4px 8px 0 11px;}
-.search_links{padding:4px 10px 0 17px;}
-.search_text{font-weight:bold;}
+.search_links{padding:4px 10px 0 17px; float:left;}
+.search_text{font-weight:bold;float:left;}
 .search_left{background:url("/dev/images/dashboard_sprite.png") no-repeat scroll -12px -958px transparent;}
 .search_left:hover{background:url("/dev/images/dashboard_sprite.png") no-repeat scroll left -1969px transparent;color:#000;}
 .search_right:hover{background:url("/dev/images/dashboard_sprite.png") no-repeat scroll right -1995px transparent;color:#000;}
 .search_right{color:#FFF;background:url("/dev/images/dashboard_sprite.png") no-repeat scroll right -2049px transparent;}
-.search_drop{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -68px -235px transparent;width:15px;height:15px;margin:5px 7px 0 0;float:right;}
-.search_right:hover .search_icon{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -245px -395px transparent;width:15px;height:15px;margin:4px 10px 0 0;float:right;}
-.search_icon{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -7px -396px transparent;width:15px;height:15px;margin:5px 10px 0 0;float:right;}
-.search_string{padding:3px 0 0 3px;color:#aaa;font-size:1em;margin-top:0px;border:1px solid #736F6E;width:15em!important;height:19px;vertical-align:top;}
+.search_drop{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -68px -235px transparent;width:15px;height:15px;margin:5px 7px 0 0;float:left;}
+.search_right:hover .search_icon{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -245px -395px transparent;}
+.search_icon{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -7px -396px transparent;width:15px;height:15px;margin:5px 10px 0 0;float:left;}
+.search_string{padding:3px 0 0 3px;color:#aaa;font-size:1em;margin-top:0px;border:1px solid #736F6E;width:15em!important;height:19px;vertical-align:top;*margin-left:0px;margin-left:22px\0/;} /* \0/ is IE8 specific fix */
 .search_string:hover{background-color:#CCC!important;}
 #search_more_menu{background-color:transparent;z-index:2;}
 #search_more_menu ul{background-color:#FFF;}
