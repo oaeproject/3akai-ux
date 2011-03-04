@@ -1889,6 +1889,8 @@ define(function() {
         defaultUserTemplate: "defaultuser",
         defaultGroupTemplate: "defaultgroup",
 
+        enableChat: false,
+
         widgets: {
             "groups":[
                 "Administrators",
