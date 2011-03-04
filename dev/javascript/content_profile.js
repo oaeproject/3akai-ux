@@ -24,61 +24,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var ready_event_fired = 0;
         var list_event_fired = false;
 
-         //////////////////////////////
-         // GLOBAL UTILITY FUNCTIONS //
-         //////////////////////////////
 
-        /**
-         * Returns true if the user is a viewer for the current content item,
-         * false otherwise. This function should be called after content profile
-         * data has been loaded.
-         *
-         * @param userid  the id of the user to search for
-         */
-        sakai_global.content_profile.isUserViewer = function (userid) {
-            if (sakai_global.content_profile.hasOwnProperty("content_data") &&
-                sakai_global.content_profile.content_data.hasOwnProperty("members") &&
-                sakai_global.content_profile.content_data.members.hasOwnProperty("viewers")) {
-                var viewers = sakai_global.content_profile.content_data.members.viewers;
-                for (i in viewers) {
-                    if (viewers.hasOwnProperty(i)) {
-                        if (userid === viewers[i].userid) {
-                            return true;
-                        }
-                    }
-                }
-            }
-            return false;
-        };
-
-
-        /**
-         * Returns true if the user is a manager for the current content item,
-         * false otherwise. This function should be called after content profile
-         * data has been loaded.
-         *
-         * @param userid  the id of the user to search for
-         */
-        sakai_global.content_profile.isUserManager = function (userid) {
-            if (sakai_global.content_profile.hasOwnProperty("content_data") &&
-                sakai_global.content_profile.content_data.hasOwnProperty("members") &&
-                sakai_global.content_profile.content_data.members.hasOwnProperty("managers")) {
-                var managers = sakai_global.content_profile.content_data.members.managers;
-                for (i in managers) {
-                    if (managers.hasOwnProperty(i)) {
-                        if (userid === managers[i].userid) {
-                            return true;
-                        }
-                    }
-                }
-            }
-            return false;
-        };
-
-
-         ///////////////////////////////
-         // PRIVATE UTILITY FUNCTIONS //
-         ///////////////////////////////
+        ///////////////////////////////
+        // PRIVATE UTILITY FUNCTIONS //
+        ///////////////////////////////
 
         /**
          * Load the content profile for the current content path
@@ -319,7 +268,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 var data = {
                     ":viewer": user
                 };
-                if (sakai_global.content_profile.isUserManager(user)) {
+                if (sakai.api.Content.isUserAManager(user)) {
                     data = {
                         ":viewer": user,
                         ":manager@Delete": user
@@ -327,7 +276,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 }
                 if (tuid === 'managers' && task === 'add') {
                     notificationType = sakai.api.Security.saneHTML($("#content_profile_managers_text").text());
-                    if (sakai_global.content_profile.isUserViewer(user)) {
+                    if (sakai.api.Content.isUserAViewer(user)) {
                         data = {
                             ":manager": user,
                             ":viewer@Delete": user

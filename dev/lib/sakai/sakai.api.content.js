@@ -143,6 +143,53 @@ define(["jquery", "/dev/configuration/config.js"],function($, sakai_conf) {
                     callback(false);
                 }
             });
+        },
+
+        /**
+         * Returns true if the user is a viewer for the current content item,
+         * false otherwise. This function should be called after content profile
+         * data has been loaded for the current content item.
+         *
+         * @param userid  the id of the user to search for
+         */
+        isUserAViewer: function (userid) {
+            if (sakai_global.content_profile.hasOwnProperty("content_data") &&
+                sakai_global.content_profile.content_data.hasOwnProperty("members") &&
+                sakai_global.content_profile.content_data.members.hasOwnProperty("viewers")) {
+                var viewers = sakai_global.content_profile.content_data.members.viewers;
+                for (var i in viewers) {
+                    if (viewers.hasOwnProperty(i)) {
+                        if (userid === viewers[i].userid) {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        },
+
+
+        /**
+         * Returns true if the user is a manager for the current content item,
+         * false otherwise. This function should be called after content profile
+         * data has been loaded for the current content item.
+         *
+         * @param userid  the id of the user to search for
+         */
+        isUserAManager: function (userid) {
+            if (sakai_global.content_profile.hasOwnProperty("content_data") &&
+                sakai_global.content_profile.content_data.hasOwnProperty("members") &&
+                sakai_global.content_profile.content_data.members.hasOwnProperty("managers")) {
+                var managers = sakai_global.content_profile.content_data.members.managers;
+                for (var i in managers) {
+                    if (managers.hasOwnProperty(i)) {
+                        if (userid === managers[i].userid) {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
         }
     };
 });

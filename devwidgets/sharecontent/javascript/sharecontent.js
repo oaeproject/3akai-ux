@@ -524,12 +524,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var updatePickerExcludeList = function () {
             pickerData.excludeList = [];
             var members = sakai_global.content_profile.content_data.members;
-            for (i in members.viewers) {
+            for (var i in members.viewers) {
                 if (members.viewers.hasOwnProperty(i)) {
                     pickerData.excludeList.push("user/" + members.viewers[i]["userid"]);
                 }
             }
-            for (i in members.managers) {
+            for (var i in members.managers) {
                 if (members.managers.hasOwnProperty(i)) {
                     pickerData.excludeList.push("user/" + members.managers[i]["userid"]);
                 }
