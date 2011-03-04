@@ -55,7 +55,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var renderChildren = function(data){
             $nextleveldownContent.html(sakai.api.Util.TemplateRenderer(nextleveldownContentTemplate, {
-                "data": data
+                "data": data,
+                "hash": window.location.hash
             }));
         };
 
