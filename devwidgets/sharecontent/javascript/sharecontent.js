@@ -472,7 +472,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 sharecontentEditPermissionsLink.toggle();
             });
 
-            $(sharecontentEditPermissionsLink + " a").live("click", function(){
+            $(sharecontentEditPermissionsLink + " button").live("click", function(){
                 $(sharecontentEditPermissionsLink).toggle();
                 var changeTo;
                 if (sharecontentSelectedSharer !== "") {

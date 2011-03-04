@@ -437,7 +437,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             sakai_global.data.listpeople[listType].userList[resultObject['rep:userId']]["subNameInfo"] = resultObject[iSubNameInfoUser];
                         }
                         sakai_global.data.listpeople[listType].total += 1;
-                    } else if (resultObject["jcr:primaryType"] === "sakai:pooled-content") {
+                    } else if (resultObject["sling:resourceType"] === "sakai/pooled-content") {
                         // get content details
                         if (!resultObject["jcr:name"] && resultObject["content_id"]) {
                             resultObject["jcr:name"] = resultObject["content_id"];
@@ -453,9 +453,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]] = data;
                                 sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]]['content_id'] = resultObject["jcr:name"];
                                 sakai_global.data.listpeople[listType].total += 1;
-                                if (sakai.config.MimeTypes[data["jcr:content"]["jcr:mimeType"]]) {
-                                    sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]]['avatar'] = sakai.config.MimeTypes[data["jcr:content"]["jcr:mimeType"]].URL;
-                                    sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]]['mimeTypeDescripton'] = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[data["jcr:content"]["jcr:mimeType"]].description);
+                                if (sakai.config.MimeTypes[data["mimeType"]]) {
+                                    sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]]['avatar'] = sakai.config.MimeTypes[data["mimeType"]].URL;
+                                    sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]]['mimeTypeDescripton'] = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[data["mimeType"]].description);
                                 } else {
                                     sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]]['avatar'] = "/dev/images/mimetypes/empty.png";
                                     sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]]['mimeTypeDescripton'] = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes.other.description);
