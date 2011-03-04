@@ -593,7 +593,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          */
         var showUnreadMessages = function(){
 
-            sakai.api.getUnreadMessageCount("inbox", function(success, data){
+            sakai.api.Communication.getUnreadMessageCount("inbox", function(success, data){
                 if (success) {
 
                     var totalcount = 0;
@@ -1326,7 +1326,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             var isDirectMessage = false;
             var locationStr = document.location.toString();
             // if there is message id attached, needs to show the message directly
-            if (locationStr.split("#")[1] !== "") {
+            var msgId = locationStr.split("#")[1];
+            if (msgId !== undefined && msgId !== "") {
                 isDirectMessage = true;
             }
 
