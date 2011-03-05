@@ -150,16 +150,16 @@ define(["jquery", "/dev/configuration/config.js"],function($, sakai_conf) {
          * false otherwise. This function should be called after content profile
          * data has been loaded for the current content item.
          *
-         * @param userid  the id of the user to search for
+         * @param content  content profile data as defined in loadContentProfile()
+         *   of /dev/javascript/content_profile.js
+         * @param userid   the id of the user to search for
          */
-        isUserAViewer: function (userid) {
-            if (sakai_global.content_profile.hasOwnProperty("content_data") &&
-                sakai_global.content_profile.content_data.hasOwnProperty("members") &&
-                sakai_global.content_profile.content_data.members.hasOwnProperty("viewers")) {
-                var viewers = sakai_global.content_profile.content_data.members.viewers;
-                for (var i in viewers) {
-                    if (viewers.hasOwnProperty(i)) {
-                        if (userid === viewers[i].userid) {
+        isUserAViewer: function (content, userid) {
+            if (content && userid && content.hasOwnProperty("members") &&
+                content.members.hasOwnProperty("viewers")) {
+                for (var i in content.members.viewers) {
+                    if (content.members.viewers.hasOwnProperty(i)) {
+                        if (userid === content.members.viewers[i].userid) {
                             return true;
                         }
                     }
@@ -174,16 +174,16 @@ define(["jquery", "/dev/configuration/config.js"],function($, sakai_conf) {
          * false otherwise. This function should be called after content profile
          * data has been loaded for the current content item.
          *
+         * @param content  content profile data as defined in loadContentProfile()
+         *   of /dev/javascript/content_profile.js
          * @param userid  the id of the user to search for
          */
-        isUserAManager: function (userid) {
-            if (sakai_global.content_profile.hasOwnProperty("content_data") &&
-                sakai_global.content_profile.content_data.hasOwnProperty("members") &&
-                sakai_global.content_profile.content_data.members.hasOwnProperty("managers")) {
-                var managers = sakai_global.content_profile.content_data.members.managers;
-                for (var i in managers) {
-                    if (managers.hasOwnProperty(i)) {
-                        if (userid === managers[i].userid) {
+        isUserAManager: function (content, userid) {
+            if (content && userid && content.hasOwnProperty("members") &&
+                content.members.hasOwnProperty("managers")) {
+                for (var i in content.members.managers) {
+                    if (content.members.managers.hasOwnProperty(i)) {
+                        if (userid === content.members.managers[i].userid) {
                             return true;
                         }
                     }

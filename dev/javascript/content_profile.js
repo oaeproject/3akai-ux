@@ -268,7 +268,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 var data = {
                     ":viewer": user
                 };
-                if (sakai.api.Content.isUserAManager(user)) {
+                if (sakai.api.Content.isUserAManager(sakai_global.content_profile.content_data, user)) {
                     data = {
                         ":viewer": user,
                         ":manager@Delete": user
@@ -276,7 +276,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 }
                 if (tuid === 'managers' && task === 'add') {
                     notificationType = sakai.api.Security.saneHTML($("#content_profile_managers_text").text());
-                    if (sakai.api.Content.isUserAViewer(user)) {
+                    if (sakai.api.Content.isUserAViewer(sakai_global.content_profile.content_data, user)) {
                         data = {
                             ":manager": user,
                             ":viewer@Delete": user
