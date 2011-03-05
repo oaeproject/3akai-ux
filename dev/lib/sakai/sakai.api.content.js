@@ -146,9 +146,8 @@ define(["jquery", "/dev/configuration/config.js"],function($, sakai_conf) {
         },
 
         /**
-         * Returns true if the user is a viewer for the current content item,
-         * false otherwise. This function should be called after content profile
-         * data has been loaded for the current content item.
+         * Returns true if the user is a viewer for the given content item,
+         * false otherwise.
          *
          * @param content  content profile data as defined in loadContentProfile()
          *   of /dev/javascript/content_profile.js
@@ -170,9 +169,8 @@ define(["jquery", "/dev/configuration/config.js"],function($, sakai_conf) {
 
 
         /**
-         * Returns true if the user is a manager for the current content item,
-         * false otherwise. This function should be called after content profile
-         * data has been loaded for the current content item.
+         * Returns true if the user is a manager for the given content item,
+         * false otherwise.
          *
          * @param content  content profile data as defined in loadContentProfile()
          *   of /dev/javascript/content_profile.js
