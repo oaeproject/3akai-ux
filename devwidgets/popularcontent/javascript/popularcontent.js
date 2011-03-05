@@ -52,9 +52,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js"], func
             })).show();
         };
 
-        $(window).bind("selected.directory.sakai", function(ev, selected){
+        var handleHashChange = function() {
+            var selected = $.bbq.getState("location");
             loadDataDirectory(selected, renderPopularContent);
-        });
+        };
+
+        $(window).bind("hashchange", handleHashChange);
 
         var loadDataDirectory = function(selected, callback){
             var params = {
@@ -112,11 +115,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js"], func
             } else {
                 $("#popularcontent_title_recent").show();
             }
+            handleHashChange();
         };
 
         doInit();
     };
 
     sakai.api.Widgets.widgetLoader.informOnLoad("popularcontent");
-    
+
 });
