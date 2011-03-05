@@ -23,7 +23,7 @@
 #footer_logo_button{float:left;}
 .footer_main #footer_debug_info{margin:5px 0 0 76px;}
 .footer_main .footer_clickable{cursor:pointer;}
-#footer_contactinfo {float:right;margin-top:-12px;}
+#footer_contactinfo p{float:right;margin-top:-12px;}
 #footer_divider {font-weight:bold;}
 
 /* Fixed Container */

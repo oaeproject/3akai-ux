@@ -96,7 +96,7 @@
                     <span class="listpeople_subnameinfo">${i.subNameInfo}</span>
                 {/if}
             </li>
-            {elseif i["jcr:primaryType"] === "sakai:pooled-content"}
+            {elseif i["sling:resourceType"] === "sakai/pooled-content"}
             {if selectable} <li id="${i.content_id}" class="selectable">
             {else} <li id="${i.content_id}">
             {/if}
