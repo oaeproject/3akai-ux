@@ -37,9 +37,11 @@
 /* BACKGROUND IMAGES */
 .navigation_widget .widget_title_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -500px -21px transparent;}
 #navigation_admin_options li {padding:0;}
-#navigation_create_page, navigation_delete_page { width:85px;}
-#navigation_create_page_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -22px -18px transparent;display:inline-block;height:13px;width:12px;}
-#navigation_delete_page_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -722px -18px transparent;display:inline-block;height:13px;width:12px;}
+#navigation_create_page{padding-left:2px;}
+#navigation_create_page, navigation_delete_page { width:96px;}
+#navigation_create_page_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -22px -18px transparent;display:inline-block;height:12px;width:13px; }
+#navigation_delete_page{padding-left:2px;}
+#navigation_delete_page_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -722px -18px transparent;display:inline-block;height:12px;width:13px;}
 
 /* SETTINGS */
 #settings_settings_link{color:#333}
