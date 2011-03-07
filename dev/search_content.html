@@ -116,7 +116,7 @@
                                 {for i in items}
                                     {if i['sakai:pooled-content-file-name']}
                                     {var contentFound = true}
-                                    <div class="fl-container fl-fix search_result">
+                                    <div class="fl-container search_result">
                                         {if i['jcr:mimeType']}
                                             {var mimeType = i['jcr:mimeType']}
                                         {elseif i.file && i.file['jcr:mimeType']}
