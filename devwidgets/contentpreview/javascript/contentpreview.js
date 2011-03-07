@@ -92,6 +92,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $contentpreviewImagePreview.show();
             var json = {};
             json.contentURL = contentURL || sakai_global.content_profile.content_data.path;
+            // cache busting, would be better if we could use the lastModified from metadata
+            json.contentURL = json.contentURL + "?rand=" + parseInt(Math.random()*99999999, 10);
             json.sakai = sakai;
             sakai.api.Util.TemplateRenderer("contentpreview_image_template", json, $("#contentpreview_image_calculatesize"));
             $("#contentpreview_image_rendered").bind('load', function(ev){
