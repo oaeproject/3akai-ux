@@ -33,27 +33,29 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             return true;
         };
 
+        var handleHashChange = function() {
+            var id = $.bbq.getState("location");
+            // get directory json object called method from browsedirectory widget
+            var nodeId = id.split("/").reverse().shift();
+            var directoryJson = sakai_global.browsedirectory.getDirectoryNodeJson(nodeId);
+
+            // prepare result json
+            var resultJson = {};
+            resultJson.title = directoryJson[0].data;
+            resultJson.icon = directoryJson[0].attr["data-url"];
+            resultJson.id = directoryJson[0].attr["id"];
+
+            // render directory information
+            $(".directory_info").html(sakai.api.Util.TemplateRenderer("#directory_template", resultJson));
+        };
+
         /**
          * Add event bindings for the jstree pages navigation tree
          */
         var bindEvents = function() {
-            // bind selected.directory.sakai event.
+            // bind hashchange event.
             // that event is triggered when directory in browsedirectory widget is selected.
-            $(window).bind("selected.directory.sakai", function(e, id){
-
-                // get directory json object called method from browsedirectory widget
-                var nodeId = id.split("/").reverse().shift();
-                var directoryJson = sakai_global.browsedirectory.getDirectoryNodeJson(nodeId);
-
-                // prepare result json
-                var resultJson = {};
-                resultJson.title = directoryJson[0].data;
-                resultJson.icon = directoryJson[0].attr["data-url"];
-                resultJson.id = directoryJson[0].attr["id"];
-
-                // render directory information 
-                $(".directory_info").html(sakai.api.Util.TemplateRenderer("#directory_template", resultJson));
-            });
+            $(window).bind("hashchange ready.browsedirectory.sakai", handleHashChange);
         };
 
         doInit();
