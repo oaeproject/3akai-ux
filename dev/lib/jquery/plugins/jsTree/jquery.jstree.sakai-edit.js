@@ -832,7 +832,9 @@
 
 			this.get_container()
 				.delegate("a", "click.jstree", $.proxy(function (event) {
-						event.preventDefault();
+				        if (this._get_settings().ui.preventDefault) {
+						    event.preventDefault();
+					    }
 						this.select_node(event.currentTarget, true, event);
 					}, this))
 				.delegate("a", "mouseenter.jstree", $.proxy(function (event) {
@@ -877,6 +879,7 @@
 					}, this));
 		},
 		defaults : {
+		    preventDefault : true,
 			select_limit : -1, // 0, 1, 2 ... or -1 for unlimited
 			select_multiple_modifier : "ctrl", // on, or ctrl, shift, alt
 			selected_parent_close : "select_parent", // false, "deselect", "select_parent"

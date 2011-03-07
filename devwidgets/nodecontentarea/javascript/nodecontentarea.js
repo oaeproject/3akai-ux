@@ -43,7 +43,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         //////////////////////////
         // CONFIG and HELP VARS //
         //////////////////////////
-        
+
         var mainContentDivPreview = "#main-content-div-preview";
         var mainContentDiv = "#main-content-div";
 
@@ -51,11 +51,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var editPage = "#edit_page";
         var saveButton = ".save_button";
         var cancelButton = ".cancel_button";
-        
+
+        var handleHashChange = function() {
+            var id = $.bbq.getState("location");
+            // get directory json object called method from browsedirectory widget
+            var nodeId = id.split("/").reverse().shift();
+            var directoryJson = sakai_global.browsedirectory.getDirectoryNodeJson(nodeId);
+
+            // show description
+            $(mainContentDivPreview).html(directoryJson[0].attr["data-description"]);
+        };
 
         /**
          * Bind events
-         */    
+         */
         var bindEvents = function(){
             // Bind Edit page link click event
             $(editPage).bind("click", function(ev){
@@ -74,7 +83,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // show editor
                 switchToEditorMode(true);
             });
-            
+
             // Bind Save button click
             $(saveButton).live("click", function(ev){
                 saveEdit();
@@ -87,22 +96,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             // bind selected.directory.sakai event.
             // that event is triggered when directory in browsedirectory widget is selected.
-            $(window).bind("selected.directory.sakai", function(e, id){
-                // get directory json object called method from browsedirectory widget
-                var nodeId = id.split("/").reverse().shift();
-                var directoryJson = sakai_global.browsedirectory.getDirectoryNodeJson(nodeId);
-                
-                // show description
-                $(mainContentDivPreview).html(directoryJson[0].attr["data-description"]);
-            });
+            $(window).bind("hashchange", handleHashChange);
         };
 
         /**
          * Show and Hide the div and links based on parameter passed
          * if parameter is true show the editor, hide edit link and content link(editor mode)
          * if parameter is false hide the editor, show edit link and content link(preview mode)
-         * 
-         * @param {Boolean} mode boolean value to switch mode true(editor mode), false(preview  mode)  
+         *
+         * @param {Boolean} mode boolean value to switch mode true(editor mode), false(preview  mode)
          */
         var switchToEditorMode = function(mode){
             if (mode) {
@@ -121,8 +123,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var cancelEdit = function() {
             // hide editor
-            switchToEditorMode(false);       
-        };    
+            switchToEditorMode(false);
+        };
 
         /**
          * Save the description, hide editor and show content and edit link
@@ -177,7 +179,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 theme_advanced_buttons1: "formatselect,fontselect,fontsizeselect,|,forecolor,backcolor",
                 theme_advanced_buttons2: "bold,italic,underline,|,numlist,bullist,|,outdent,indent,|,justifyleft,justifycenter,justifyright,justifyfull,|,link,|,image,|",
                 theme_advanced_buttons3:"",
-                
+
                 // set this to external|top|bottom
                 theme_advanced_toolbar_location: "top",
                 theme_advanced_toolbar_align: "left",
@@ -187,10 +189,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         }
 
         //////////////////////////
-        // INITIALIZATION METHOD 
+        // INITIALIZATION METHOD
         //////////////////////////
         var doInit = function() {
             bindEvents();
+            handleHashChange();
         };
 
         doInit();

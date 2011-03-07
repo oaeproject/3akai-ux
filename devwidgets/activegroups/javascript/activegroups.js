@@ -53,9 +53,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $activegroups_main.html(output).show();
         };
 
-        $(window).bind("selected.directory.sakai", function(ev, selected){
+        var handleHashChange = function() {
+            var selected = $.bbq.getState("location");
             loadDataDirectory(selected, renderPopularGroups);
-        });
+        };
+
+        $(window).bind("hashchange", handleHashChange);
 
         var loadDataDirectory = function(selected, callback){
             var params = {
@@ -113,6 +116,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             } else {
                 $("#activegroups_title_recent").show();
             }
+            handleHashChange();
         };
 
         doInit();

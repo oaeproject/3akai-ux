@@ -612,19 +612,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     for (var i = 0, j = data.count.length; i < j; i++) {
                         if (data.count[i].group === "message") {
                             unreadMessages = data.count[i].count;
+                        } else if (data.count[i].group === "announcement") {
+                            unreadAnnouncements = data.count[i].count;
+                        } else if (data.count[i].group === "invitation") {
+                            unreadInvitations = data.count[i].count;
+                        } else if (data.count[i].group === "chat") {
+                            $(inboxFilterChats).append(data.count[i].count);
                         }
-                        else
-                            if (data.count[i].group === "announcement") {
-                                unreadAnnouncements = data.count[i].count;
-                            }
-                            else
-                                if (data.count[i].group === "invitation") {
-                                    unreadInvitations = data.count[i].count;
-                                }
-                                else
-                                    if (data.count[i].group === "chat") {
-                                        $(inboxFilterChats).append(sakai.api.Security.saneHTML(tpl.replace(/__NR__/gi, data.count[i].count)));
-                                    }
                         totalcount += data.count[i].count;
                     }
 
@@ -802,7 +796,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             "from_href" : "/~" + message.userFrom[i].userid,
                             "from_name" : sakai.api.User.getDisplayName(message.userFrom[i]),
                             "message_date" : sakai.api.Security.saneHTML(message.date)
-                        }
+                        };
                         if (message.userFrom[i].photo) {
                             obj["picture"] = "/~" + message.userFrom[i]["userid"] + "/public/profile/" + message.userFrom[i].photo;
                         } else {
@@ -812,11 +806,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     }
                 }
                 else {
-                    var obj = {
+                    var obj1 = {
                         "from_name": sakai.api.Security.saneHTML(message["sakai:from"]),
                         "picture": sakai.config.URL.USER_DEFAULT_ICON_URL
-                    }
-                    $(".sender_details").html(sakai.api.Util.TemplateRenderer("sender_details_template",obj));
+                    };
+                    $(".sender_details").html(sakai.api.Util.TemplateRenderer("sender_details_template",obj1));
                 }
 
                 // Fill in this message values.
