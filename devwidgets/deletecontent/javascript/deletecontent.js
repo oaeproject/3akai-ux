@@ -127,7 +127,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             addBinding();
             $deletecontent_dialog.jqmShow();
         };
-        $(window).bind("init.deletecontent.sakai", function (data) {
+        $(window).bind("init.deletecontent.sakai", function (e, data) {
             load(data);
         });
 
