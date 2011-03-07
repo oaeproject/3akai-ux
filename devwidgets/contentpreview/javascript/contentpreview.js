@@ -87,7 +87,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         //TODO: Clean this mess up
         var renderImagePreview = function(contentURL){
-            $(".contentpreview_image_preview").show();
+            var $contentpreviewImagePreview = $(".contentpreview_image_preview");
+            $contentpreviewImagePreview.html("");
+            $contentpreviewImagePreview.show();
             var json = {};
             json.contentURL = contentURL || sakai_global.content_profile.content_data.path;
             json.sakai = sakai;
