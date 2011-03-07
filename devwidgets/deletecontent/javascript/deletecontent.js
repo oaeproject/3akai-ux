@@ -113,18 +113,23 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         /**
          * Load the delete content widget with the appropriate data
-         * This function can be called from anywhere within Sakai
+         * This function can be called from anywhere within Sakai by triggering the
+         * 'init.deletecontent.sakai' event
+         *
          * @param {Object} data A JSON object containing the necessary information.
          * @example
-         *     sakai_global.deletecontent.init({
+         *     $(window).trigger('init.deletecontent.sakai', {
          *         "path": "/test.jpg"
          *     });
          */
-        sakai_global.deletecontent.init = function(data){
+        var load = function(data){
             deletedata = $.extend(true, {}, data);
             addBinding();
             $deletecontent_dialog.jqmShow();
         };
+        $(window).bind("init.deletecontent.sakai", function (data) {
+            load(data);
+        });
 
         /**
          * Initialize the delete content widget
