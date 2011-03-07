@@ -272,7 +272,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var addUsers = function(listType, users) {
             sakai.api.Groups.addUsersToGroup(groupid, listType, users, function(success) {
                 if (success) {
-                    if (users.length > 1) {
+                    if (users.length && users.length > 1) {
                         sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_users_added_text").text()));
                     } else if (users.length == 1) {
                         sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_user_added_text").text()));
