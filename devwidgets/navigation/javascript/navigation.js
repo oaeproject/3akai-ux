@@ -345,7 +345,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $nodeleteDialogChildTitle.hide();
                 if (childpage) {
                     $nodeleteDialogChild.show();
-                    $nodeleteDialogChildTitle.html(childPageTitle.join(", "));
+                    $nodeleteDialogChildTitle.html(sakai.api.Security.saneHTML(childPageTitle.join(", ")));
                     $nodeleteDialogChildTitle.show();
                 }
                 $nodeleteDialog.jqmShow();
