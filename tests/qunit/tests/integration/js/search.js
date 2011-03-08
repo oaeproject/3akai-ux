@@ -23,24 +23,25 @@ require(
         /////// CREATE USERS /////////
         //////////////////////////////
 
-        asyncTest("Create 5 Sakai 3 users", 1 , function(){
+        asyncTest("Create 5 Sakai 3 users", 5 , function(){
             var count = 0;
             function createUser(){
-                if (count < 4) {
+                if (count <= 4) {
                     var user_random = "userrandom_" + (new Date()).getTime();
                     sakai.api.User.createUser(user_random, user_random, "Lastname_" + user_random, user_random + "_" + "@sakatest.edu", "test", "test", null, function(success, data){
                         if(success){
                             createdUsers.push(user_random);
                             sakai.api.Util.tagEntity("~" + user_random + "/public/authprofile", user_random + "_tag" + count, "", function(){
-                                createUser();
+                                ok(true, "The user has been successfully created");
                                 count++;
+                                createUser();
                             });
                         }else{
+                            ok(false, "The user could not be created");
                             createUser();
                         }
                     });
                 }else{
-                    ok(true, "The users have been successfully created");
                     start();
                 }
             };
@@ -52,26 +53,27 @@ require(
         /////// CREATE GROUPS ////////
         //////////////////////////////
 
-        asyncTest("Create 5 groups", 1, function(){
+        asyncTest("Create 5 groups", 5, function(){
             var count = 0;
             function createGroup(){
-                if (count < 4) {
+                if (count <= 4) {
                     var group_random = "grouprandom_" + (new Date()).getTime();
                     sakai.api.Groups.createGroup(group_random, group_random + "_group_title", group_random + "_group_description", sakai.data.me, function(success, nameTaken){
                         if (success) {
                             createdGroups.push(group_random);
                             sakai.api.Util.tagEntity("~" + group_random + "/public/authprofile", group_random + "_tag" + count, "", function(){
-                                createGroup();
+                                ok(true, "The group has been successfully created");
                                 count++;
+                                createGroup();
                             });
                         }
                         else {
+                            ok(false, "The group could not be created");
                             createGroup();
                         }
                     });
                 }
                 else {
-                    ok(true, "The groups have been successfully created");
                     start();
                 }
             };
