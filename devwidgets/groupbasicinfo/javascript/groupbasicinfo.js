@@ -176,7 +176,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // user has changed tags
                 sakai_global.currentgroup.data.authprofile["sakai:tags"] = [];
                 $(enteredTags).each(function(i, tag) {
-                    tag = $.trim(tag).replace(/#/g,"");
+                    tag = tag.replace(/\s+/g, " ");
                     if (sakai.api.Security.escapeHTML(tag) === tag && tag.replace(/\\/g,"").length) {
                         if ($.inArray(tag, sakai_global.currentgroup.data.authprofile["sakai:tags"]) < 0) {
                             sakai_global.currentgroup.data.authprofile["sakai:tags"].push(tag.replace(/\\/g,""));
@@ -215,7 +215,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (success) {
                     groupProfileURL = "/~" + sakai_global.currentgroup.id + "/public/authprofile";
                     sakai.api.Util.tagEntity(groupProfileURL, sakai_global.currentgroup.data.authprofile["sakai:tags"], currentTags, function() {
-                        sakai_global.currentgroup.data.authprofile["sakai:tags"] = currentTags;
+                        $(groupBasicInfoGroupTags).val(sakai_global.currentgroup.data.authprofile["sakai:tags"].toString().replace(/,/g, ", "));
                     });
                 }
                 sakai.api.Widgets.Container.informFinish(tuid, "groupbasicinfo");

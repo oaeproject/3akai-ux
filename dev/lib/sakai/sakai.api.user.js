@@ -445,7 +445,7 @@ define(["jquery",
             } else {
                 // has to be synchronous
                 $.ajax({
-                    url: sakai.config.URL.CONTACTS_FIND_STATE,
+                    url: sakai_conf.URL.CONTACTS_FIND_STATE,
                     async: false,
                     success: function(data) {
                         sakaiUserAPI.data.me.mycontacts = data.results;

@@ -597,7 +597,7 @@ define(function() {
              */
             helpLinkText: "Contact Us",
             helpLinkUrl: "http://www.sakaiproject.org/contact",
-            helpPhone: "+0123456789"
+            helpPhone: "212-555-1212"
         },
 
         // Set this to true if you have an authentication system such as CAS

@@ -492,6 +492,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         "tooltipTop":5,
                         "tooltipLeft":15
                     };
+                    // update entity widget
+                    sakai.data.me.profile = $.extend(true, {}, sakai_global.profile.main.data);
+                    $(window).trigger("render.entity.sakai", ["myprofile", sakai_global.profile.main.data]);
+
                     $(window).trigger("update.tooltip.sakai", tooltipData);
                     if (editProfileTour && $("#navigation_my_sakai_link").attr("href") && $("#navigation_my_sakai_link").attr("href").indexOf("editprofiletour") === -1) {
                         $("#navigation_my_sakai_link").attr("href", $("#navigation_my_sakai_link").attr("href") + "?editprofiletour=true");
