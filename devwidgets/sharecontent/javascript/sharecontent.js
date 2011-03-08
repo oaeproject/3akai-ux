@@ -165,6 +165,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             pickerData.selected = {};
             pickerData.currentElementCount = 0;
             pickerData.selectCount = 0;
+            updatePickerExcludeList();
             clearAutoSuggest();
         };
 
@@ -515,6 +516,26 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             });
         };
 
+
+        /**
+         * Update the picker data exclude list so that existing members of the
+         * current content item do not appear in the people search
+         */
+        var updatePickerExcludeList = function () {
+            pickerData.excludeList = [];
+            var members = sakai_global.content_profile.content_data.members;
+            for (var i in members.viewers) {
+                if (members.viewers.hasOwnProperty(i)) {
+                    pickerData.excludeList.push("user/" + members.viewers[i]["userid"]);
+                }
+            }
+            for (var i in members.managers) {
+                if (members.managers.hasOwnProperty(i)) {
+                    pickerData.excludeList.push("user/" + members.managers[i]["userid"]);
+                }
+            }
+        };
+
         /**
          * Set up the auto suggest box to enable search suggestions upon typing in the field
          */
@@ -671,8 +692,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
 
             // bind elements, replace some text
             $sharecontent_i_want_to_share.html(sakai.api.i18n.Widgets.getValueForKey("sharecontent", "", "VISIBILITY_AND_PERMISSIONS_FOR") + " \"" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"");
-            $(sharecontentBasicContainer).html(sakai.api.Util.TemplateRenderer(sharecontentBasicTemplate, sakai));
 
+            // render the widget's main content
+            $(sharecontentBasicContainer).html(sakai.api.Util.TemplateRenderer(sharecontentBasicTemplate, sakai));
 
             // Render the default sharing message
             $(sharecontentMessageNewMembers).html(sakai.api.Util.TemplateRenderer(sharecontentMessageTemplate, shareData));
@@ -691,6 +713,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             $(sharecontent_dont_share_button).hide();
             $(sharecontentNewMembersPermissions).hide();
             $(sharecontent_close_button).show();
+
+            // update the list of people that should be excluded from people search
+            updatePickerExcludeList();
 
             // display help tooltip
             var tooltipData = {
