@@ -81,6 +81,13 @@ require(
         });
 
 
+        /////////////////////////////////
+        /////// LOGOUT WITH ADMIN ///////
+        /////////////////////////////////
+
+        sakai_global.qunit.logout();
+
+
         ////////////////////////
         ///// SEARCH UTILS /////
         ////////////////////////
@@ -113,7 +120,9 @@ require(
                 success : function(data){
                     var names = [];
                     for(var item in data.results){
-                        names.push(data.results[item].basic.elements.firstName.value);
+                        if (data.results.hasOwnProperty(item)) {
+                            names.push(data.results[item].basic.elements.firstName.value);
+                        }
                     }
                     decideSuccess(names, createdUsers[0] + "_tag" + 0);
                     start();
@@ -132,7 +141,9 @@ require(
                 success : function(data){
                     var names = [];
                     for(var item in data.results){
-                        names.push(data.results[item].basic.elements.lastName.value);
+                        if (data.results.hasOwnProperty(item)) {
+                            names.push(data.results[item].basic.elements.lastName.value);
+                        }
                     }
                     decideSuccess(names, "Lastname_" + createdUsers[1]);
                     start();
@@ -151,7 +162,9 @@ require(
                 success : function(data){
                     var emails = [];
                     for(var item in data.results){
-                        emails.push(data.results[item].basic.elements.email.value);
+                        if (data.results.hasOwnProperty(item)) {
+                            emails.push(data.results[item].basic.elements.email.value);
+                        }
                     }
                     decideSuccess(emails, createdUsers[2] + "_" + "@sakatest.edu");
                     start();
@@ -175,7 +188,9 @@ require(
                 success : function(data){
                     var titles = [];
                     for(var item in data.results){
-                        titles.push(data.results[item]["sakai:group-title"]);
+                        if (data.results.hasOwnProperty(item)) {
+                            titles.push(data.results[item]["sakai:group-title"]);
+                        }
                     }
                     decideSuccess(titles, createdGroups[0] + "_group_title");
                     start();
@@ -194,7 +209,9 @@ require(
                 success : function(data){
                     var descriptions = [];
                     for(var item in data.results){
-                        descriptions.push(data.results[item]["sakai:group-description"]);
+                        if (data.results.hasOwnProperty(item)) {
+                            descriptions.push(data.results[item]["sakai:group-description"]);
+                        }
                     }
                     decideSuccess(descriptions, createdGroups[1] + "_group_description");
                     start();
