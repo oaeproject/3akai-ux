@@ -60,12 +60,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }));
         };
 
-        var handleHashChange = function() {
-            var selectedpath = $.bbq.getState("location");
-            renderChildren(sakai_global.browsedirectory.getDirectoryNodeJson(selectedpath.split("/")[selectedpath.split("/").length -1]), selectedpath);
+        var handleHashChange = function(e, node) {
+            var selectedpath = node || $.bbq.getState("location");
+            if (selectedpath) {
+                renderChildren(sakai_global.browsedirectory.getDirectoryNodeJson(selectedpath.split("/")[selectedpath.split("/").length -1]), selectedpath);
+            }
         };
 
-        $(window).bind("hashchange", handleHashChange);
+        $(window).bind("hashchange nohash.browsedirectory.sakai", handleHashChange);
 
         var init = function() {
             handleHashChange();
