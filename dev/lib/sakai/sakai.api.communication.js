@@ -185,8 +185,7 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                     success: function(data){
                         if (sendMail) {
                             doSendMail();
-                        }
-                        if ($.isFunction(callback)) {
+                        }else if($.isFunction(callback)) {
                             callback(true, data);
                         }
                     },
