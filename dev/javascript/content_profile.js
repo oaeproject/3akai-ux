@@ -24,6 +24,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var ready_event_fired = 0;
         var list_event_fired = false;
 
+
+        ///////////////////////////////
+        // PRIVATE UTILITY FUNCTIONS //
+        ///////////////////////////////
+
         /**
          * Load the content profile for the current content path
          */
@@ -259,14 +264,28 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             var notificationType = sakai.api.Security.saneHTML($("#content_profile_viewers_text").text());
             var reqData = [];
             $.each(users.toAdd, function(index, user){
+                // set the default data value to tuid=='viewer' and task=='add'
                 var data = {
                     ":viewer": user
                 };
+                if (sakai.api.Content.isUserAManager(sakai_global.content_profile.content_data, user)) {
+                    data = {
+                        ":viewer": user,
+                        ":manager@Delete": user
+                    };
+                }
                 if (tuid === 'managers' && task === 'add') {
                     notificationType = sakai.api.Security.saneHTML($("#content_profile_managers_text").text());
-                    data = {
-                        ":manager": user
-                    };
+                    if (sakai.api.Content.isUserAViewer(sakai_global.content_profile.content_data, user)) {
+                        data = {
+                            ":manager": user,
+                            ":viewer@Delete": user
+                        };
+                    } else {
+                        data = {
+                            ":manager": user
+                        };
+                    }
                 }
                 else {
                     if (task === 'remove') {

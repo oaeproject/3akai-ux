@@ -426,14 +426,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         var currentTags = sakai_global.profile.main.data["sakai:tags"] || [];
                         var tagsArray = [];
                         $($selected_element.val().split(",")).each(function(i, tag){
-                            tagsArray.push(tag.replace(/\\/g, ""));
+                            tagsArray.push($.trim(tag.replace(/\\/g, "").replace(/\s+/g, " ")));
                         });
                         for (var i = 0; i < sakai_global.profile.main.directory.elements.length; i++){
                             tagsArray.push(sakai_global.profile.main.directory.elements[i].locationtitle.value);
                         }
                         var profileURL = "/~" + sakai_global.profile.main.data["rep:userId"] + "/public/authprofile";
                         sakai.api.Util.tagEntity(profileURL, tagsArray, currentTags, function(){
-                            debug.info("user tags saved");
+                            $selected_element.val(tagsArray.toString().replace(/,/g, ", "));
                         });
                     } else if (title) {
 
@@ -500,7 +500,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (!sakai_global.profile.main.data.basic.elements.tags) {
                     sakai_global.profile.main.data.basic.elements.tags = {};
                 }
-                sakai_global.profile.main.data.basic.elements.tags.value = sakai_global.profile.main.data["sakai:tags"];
+                sakai_global.profile.main.data.basic.elements.tags.value = sakai_global.profile.main.data["sakai:tags"].toString().replace(/,/g, ", ");
             }
         };
 

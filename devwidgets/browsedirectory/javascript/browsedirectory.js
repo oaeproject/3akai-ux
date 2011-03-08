@@ -73,7 +73,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
 
         /**
-         * Renders no directory in the browsedirectory widget. 
+         * Renders no directory in the browsedirectory widget.
          */
         var renderNoPages = function () {
             $browsedirectoryError.show();
@@ -103,7 +103,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Thie method create directory jstree.
          * It deletes existing jstree, create new jstree and bind event for the jstree nodes.
-         * 
+         *
          * @param {String} id  the unique id for node to select on load for example firstyearcourses or empty
          */
         var renderDirectoryTree = function (id) {
@@ -111,14 +111,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $browsedirectoryTree.jstree("destroy");
             var browsedirectoryData = sakai.api.Util.getDirectoryStructure();
 
-            // get item 
+            // get item
             var initiallySelect = browsedirectoryData[0].attr.id;
             // if id is passed set inital select as id
-            if (id !== "") {
+            if (id) {
                 initiallySelect = id;
             }
 
-            // set up new jstree for directory 
+            // set up new jstree for directory
             var pluginArray = [ "themes", "json_data", "ui", "cookies"];
             $browsedirectoryTree.jstree({
                 "core": {
@@ -137,7 +137,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 },
                 "ui": {
                     "select_limit": 1,
-                    "initially_select": [initiallySelect.toString()]
+                    "initially_select": [initiallySelect.toString()],
+                    "preventDefault": false
                 },
                 "plugins" : pluginArray
             });
@@ -158,7 +159,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // get anchor tag href attribute that has been set in buildNodeRecursive method
                 var link = $(data.rslt.obj[0]).children('a').attr("href");
                 // redirect page to the link
-                document.location.href = link;
                 var directorystructure = link.split("#")[1];
 
                 // get node at same level
@@ -170,42 +170,52 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $browsedirectoryTree.jstree("close_node", sib);
                 }
 
-                // if the node is root node 
+                // if the node is root node
                 if (directorystructure.split("/")[0] === selectedPageUrl) {
                     $browsedirectoryTree.jstree("open_node");
 
                 } else {
                     $.each(directorystructure.split("/"), function(ind, directory){
-                        $browsedirectoryTree.jstree("open_node", $("#"+directory)); 
+                        $browsedirectoryTree.jstree("open_node", $("#"+directory));
                     });
                 }
-
-                $(window).trigger("selected.directory.sakai", directorystructure);
+                if ($.bbq.getState("location") === "" || !$.bbq.getState("location")) {
+                    $.bbq.pushState({location:directorystructure});
+                }
             });
+            $(window).trigger("ready.browsedirectory.sakai");
         };
+
+        var handleHashChange = function() {
+            var nodeId = $.bbq.getState("location").split("/").reverse().shift();
+            var $nodeToSelect = $browsedirectoryTree.find("#" + nodeId);
+            $browsedirectoryTree.jstree("deselect_node", $browsedirectoryTree.jstree("get_selected"));
+            $browsedirectoryTree.jstree("select_node", $nodeToSelect);
+        };
+
+        $(window).bind("hashchange", handleHashChange);
 
         /**
          * Function that is available to other functions and called by directory.js
          * It return the directorynode json object based on the id passed
-         * 
+         *
          * @param {String} id  the unique id for each node for example firstyearcourses
          */
         sakai_global.browsedirectory.getDirectoryNodeJson = function(id) {
             // call get_json from jstree with parameter selector object and attribute for li
             // id, title, data-url and data-description is passed when creating the jstree in buildNodeRecursive.
             var directoryNodeJsonObject = $browsedirectoryTree.jstree("get_json", $("#"+id),["id","title","data-url","data-description"]);
-            return directoryNodeJsonObject;        
+            return directoryNodeJsonObject;
         };
 
         ///////////////////////
         // Initial functions //
         ///////////////////////
         var doInit = function(){
-            var url = document.location.toString();
-            var id = (url.split("#").length < 2)?"":url.split("#")[1].split("/").reverse().shift();
+            var id = $.bbq.getState("location");
             renderDirectories(id);
         };
-        
+
         doInit();
     };
 

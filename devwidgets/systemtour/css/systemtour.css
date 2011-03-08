@@ -24,22 +24,22 @@
 .systemtour_left_text {font-size:0.9em;font-weight:bold;line-height: 60px;margin-left: 20px;padding-right: 5px;}
 #systemtour_progress_bar s3d-link-button {text-decoration: none;}
 #systemtour_container ul {list-style: none;display: inline-block; margin: 0px;line-height:30px;position: relative;top: 12px;/* IE6 and IE7 hack to support display:inline-block */zoom:1;*display:inline; /* IE7 and below*/*padding-top:3px;/* IE7 and below*/*margin-top:-20px;/* IE7 and below*/_height: 30px;/* IE6 and below*/_margin-top:0px;/* IE6 and below*/}
-#systemtour_container li {list-style:none;float: left;height:32px;border-right: 1px solid #d8dce0;padding-right: 0;*width:138px;}
+#systemtour_container li {list-style:none;float: left;height:32px;border-right: 1px solid #d8dce0;padding-right: 0;*width:130px;}
 .systemtour_button:hover {text-decoration: none;}
-.systemtour_button {padding:8px 13px 0 0;display: block;}
-.systemtour_1{background:url(/dev/images/tour_sprite.png) no-repeat scroll -220px -120px transparent;}
-.systemtour_2{background:url(/dev/images/tour_sprite.png) no-repeat scroll -220px -200px transparent;}
-.systemtour_3{background:url(/dev/images/tour_sprite.png) no-repeat scroll -220px -280px transparent;}
-.systemtour_4{background:url(/dev/images/tour_sprite.png) no-repeat scroll -220px -360px transparent;}
-.systemtour_5{background:url(/dev/images/tour_sprite.png) no-repeat scroll -220px -440px transparent;}
-.systemtour_1_selected{background:url(/dev/images/tour_sprite.png) no-repeat scroll -220px -160px transparent;}
-.systemtour_2_selected{background:url(/dev/images/tour_sprite.png) no-repeat scroll -220px -240px transparent;}
-.systemtour_3_selected{background:url(/dev/images/tour_sprite.png) no-repeat scroll -220px -320px transparent;}
-.systemtour_4_selected{background:url(/dev/images/tour_sprite.png) no-repeat scroll -220px -400px transparent;}
-.systemtour_5_selected{background:url(/dev/images/tour_sprite.png) no-repeat scroll -220px -480px transparent;}
+.systemtour_button {padding:8px 13px 0 0;display: block; /* IE7 and below*/*padding:0;*width:125px;}
+.systemtour_1{background:url(/dev/images/tour_sprite.png) no-repeat scroll -225px -120px transparent;}
+.systemtour_2{background:url(/dev/images/tour_sprite.png) no-repeat scroll -225px -200px transparent;}
+.systemtour_3{background:url(/dev/images/tour_sprite.png) no-repeat scroll -225px -280px transparent;}
+.systemtour_4{background:url(/dev/images/tour_sprite.png) no-repeat scroll -225px -360px transparent;}
+.systemtour_5{background:url(/dev/images/tour_sprite.png) no-repeat scroll -225px -440px transparent;}
+.systemtour_1_selected{background:url(/dev/images/tour_sprite.png) no-repeat scroll -225px -160px transparent;}
+.systemtour_2_selected{background:url(/dev/images/tour_sprite.png) no-repeat scroll -225px -240px transparent;}
+.systemtour_3_selected{background:url(/dev/images/tour_sprite.png) no-repeat scroll -225px -320px transparent;}
+.systemtour_4_selected{background:url(/dev/images/tour_sprite.png) no-repeat scroll -225px -400px transparent;}
+.systemtour_5_selected{background:url(/dev/images/tour_sprite.png) no-repeat scroll -225px -480px transparent;}
 .systemtour_button_selected {color: #FFF;}
-.systemtour_button_text {font-weight: bold;font-size: 0.9em;margin-left:33px;padding-right:6px;*padding-right:2px;}
-.systemtour_item_complete_full{background:url(/dev/images/icons_sprite.png) no-repeat scroll -41px -20px transparent;float:right;height:16px;margin:7px -12px 0 0;width:14px;}
+.systemtour_button_text {font-weight: bold;font-size: 0.9em;margin-left:25px;padding-right:6px;*padding-right:0px;}
+.systemtour_item_complete_full{background:url(/dev/images/icons_sprite.png) no-repeat scroll -41px -20px transparent;float:right;height:16px;margin:0 -12px 0 0;width:14px;*margin:7px 0 0 0;}
 .systemtour_item_complete {}
 .systemtour_item_complete_5{position:relative;top:13px;left:10px;background:url(/dev/images/icons_sprite.png) no-repeat scroll -40px -21px transparent;padding-right:26px;}
 .systemtour_item_filler {padding-right: 18px;}
