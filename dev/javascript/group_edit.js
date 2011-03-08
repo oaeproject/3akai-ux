@@ -196,7 +196,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             } else if (listType === 'content') {
                 url = "/var/search/pool/files?group=" + groupid;
             }
-            $(window).trigger("render.listpeople.sakai", {"tuid": listType, "listType": listType, "pl_config": pl_config, "url": url, "id": groupid});
+            $(window).trigger(listType + ".render.listpeople.sakai", {"listType": listType, "pl_config": pl_config, "url": url, "id": groupid});
         };
 
         /**
@@ -426,6 +426,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          */
         var addBinding = function(){
 
+            $(window).unbind("listpeople.sakai");
             // Bind the listpeople widgets
             $(window).bind("ready.listpeople.sakai", function(e, tuid){
                 renderItemLists(tuid);
