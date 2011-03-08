@@ -16,13 +16,19 @@
         </div>
 
         <div id="tags_main_template" style="display:none"><!--
-            {if data.results}<ul>{for result in data.results}
+            {if data.results}
+              <ul>
+              {for result in data.results}
                 {for tag in result.tags}
-                    <li style="display:inline; margin-right: 6px;"><a href="/search?#tag=/tags/${tag.name}" style="font-size:${1.00 + Math.log(tag.count)/2}em" class="s3d-regular-links">${tag.name}</a></li>
+                  <li style="display:inline; margin-right: 6px;"><a href="/search?#tag=/tags/${tag.name}" style="font-size:${1.00 + Math.log(tag.count)/2}em" class="s3d-regular-links">${tag.name}</a></li>
                 {forelse}
-                    <li>__MSG__NO_TAGS_FOUND__</li>
+                  <li>__MSG__NO_TAGS_FOUND__</li>
                 {/for}
-            {/for}</ul>{/if}
+              {forelse}
+                <li>__MSG__NO_TAGS_FOUND__</li>
+              {/for}
+              </ul>
+            {/if}
         --></div>
     <div class="s3d-widget-no-options">
         <div class="s3d-widget-no-options-inner">
