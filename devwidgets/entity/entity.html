@@ -88,7 +88,7 @@
                         __MSG__TAG__
                     {/if}
                     </span>
-                    <span id="entity_tags_dropdown_arrow"></span>
+                    <span id="entity_tags_dropdown_arrow">&nbsp;</span>
                 </div>
                 </button>
             </div>
@@ -162,7 +162,7 @@
                             __MSG__TAG__
                         {/if}
                         </span>
-                        <span id="entity_tags_dropdown_arrow"></span>
+                        <span id="entity_tags_dropdown_arrow">&nbsp;</span>
                     </div>
                 </button>
             </div>
@@ -221,27 +221,29 @@
                     </div>
                     <div class="fl-force-left entity_content_permissions">
                         <button type="button" id="entity_content_share_link" class="s3d-regular-light-links s3d-bold s3d-link-button">
-                        <p class="entity_content_link_icon"></p>
-                            {if data.profile.permissions === "public"}
-                                __MSG__VISIBLE_TO_ANYONE__
-                            {elseif data.profile.permissions === "everyone"}
-                                __MSG__VISIBLE_TO_ANYONE_LOGGED_IN__
-                            {elseif data.profile.permissions === "private"}
-                                __MSG__PRIVATE__
-                                {if sakai_global.content_profile.content_data.members.managers}
-                                    __MSG__TO__ ${unescape(sakai.api.User.getDisplayName(sakai_global.content_profile.content_data.members.managers[0]))}
-                                    {if data.profile.usercount + data.profile.groupcount > 1}
-                                        + ${data.profile.usercount + data.profile.groupcount - 1}
-                                        {if (data.profile.usercount + data.profile.groupcount) === 2}
-                                            __MSG__OTHER__
-                                        {else}
-                                            __MSG__OTHERS__
+                            <span>
+                                <span class="entity_content_link_icon">&nbsp;</span>
+                                {if data.profile.permissions === "public"}
+                                    __MSG__VISIBLE_TO_ANYONE__
+                                {elseif data.profile.permissions === "everyone"}
+                                    __MSG__VISIBLE_TO_ANYONE_LOGGED_IN__
+                                {elseif data.profile.permissions === "private"}
+                                    __MSG__PRIVATE__
+                                    {if sakai_global.content_profile.content_data.members.managers}
+                                        __MSG__TO__ ${unescape(sakai.api.User.getDisplayName(sakai_global.content_profile.content_data.members.managers[0]))}
+                                        {if data.profile.usercount + data.profile.groupcount > 1}
+                                            + ${data.profile.usercount + data.profile.groupcount - 1}
+                                            {if (data.profile.usercount + data.profile.groupcount) === 2}
+                                                __MSG__OTHER__
+                                            {else}
+                                                __MSG__OTHERS__
+                                            {/if}
                                         {/if}
                                     {/if}
+                                {else}
+                                    __MSG__VISIBLE_TO_ANYONE__
                                 {/if}
-                            {else}
-                                __MSG__VISIBLE_TO_ANYONE__
-                            {/if}
+                            </span>
                         </button>
                     </div>
                 </div>
@@ -356,7 +358,7 @@
                             __MSG__TAG__
                         {/if}
                         </span>
-                        <span id="entity_tags_dropdown_arrow"></span>
+                        <span id="entity_tags_dropdown_arrow">&nbsp;</span>
                     </div>
                 </button>
             </div>

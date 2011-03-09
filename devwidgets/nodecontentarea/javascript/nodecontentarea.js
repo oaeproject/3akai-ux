@@ -52,14 +52,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var saveButton = ".save_button";
         var cancelButton = ".cancel_button";
 
-        var handleHashChange = function() {
-            var id = $.bbq.getState("location");
-            // get directory json object called method from browsedirectory widget
-            var nodeId = id.split("/").reverse().shift();
-            var directoryJson = sakai_global.browsedirectory.getDirectoryNodeJson(nodeId);
+        var handleHashChange = function(e, node) {
+            var id = node || $.bbq.getState("location");
+            if (id) {
+                // get directory json object called method from browsedirectory widget
+                var nodeId = id.split("/").reverse().shift();
+                var directoryJson = sakai_global.browsedirectory.getDirectoryNodeJson(nodeId);
 
-            // show description
-            $(mainContentDivPreview).html(directoryJson[0].attr["data-description"]);
+                // show description
+                $(mainContentDivPreview).html(directoryJson[0].attr["data-description"]);
+            }
         };
 
         /**
@@ -96,7 +98,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             // bind selected.directory.sakai event.
             // that event is triggered when directory in browsedirectory widget is selected.
-            $(window).bind("hashchange", handleHashChange);
+            $(window).bind("hashchange nohash.browsedirectory.sakai", handleHashChange);
         };
 
         /**

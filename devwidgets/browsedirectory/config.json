@@ -5,7 +5,6 @@
         "default": "/devwidgets/browsedirectory/bundles/default.properties"
     },
     "id": "browsedirectory",
-    "img": "/devwidgets/browsedirectory/images/icon.png",
     "name": "directory",
     "showinsidebar": true,
     "showinsakaigoodies": true,
