@@ -37,6 +37,35 @@ define(["jquery",
         function($, sakai_serv, sakai_l10n, sakai_conf) {
     
     var util = {
+
+        startup : function() {
+            // I know this is hideous
+            (function () {
+                var script = document.createElement("script");
+                script.type = "text/javascript";
+                script.src = "/dev/lib/MathJax/MathJax.js";
+
+                var config = 'MathJax.Hub.Config({ messageStyle: "none" }); ' +
+                             'MathJax.Hub.Config({ config: "MathJax.js" }); ' +
+                             'MathJax.Hub.Startup.onload();';
+
+                if (window.opera) {script.innerHTML = config;}
+                else {script.text = config;}
+
+                $("head")[0].appendChild(script);
+              })();
+
+              if (sakai_conf.enableChat) {
+                  // scroll more on focus if the focused element is obscrured by the chat bar
+                  $("input:not(.chat_with_txt), textarea, select, button:not(.chat_name_link), a:not(.chat_window_name)").live("focus", function(){
+                      if (($(this).offset().top + $(this).height()) - $(window).scrollTop() > $(window).height() - 40) {
+                          var scrollByAmt = 40 + $(this).height() + ($(this).offset().top - $(window).scrollTop()) - $(window).height();
+                          window.scrollBy(0, scrollByAmt);
+                      }
+                  });
+            }
+        },
+
         /**
          * Parse a JavaScript date object to a JCR date string (2009-10-12T10:25:19)
          *
@@ -836,7 +865,7 @@ define(["jquery",
                 for (item in directory) {
                     if (directory.hasOwnProperty(item)) {
                         // url for the first level nodes
-                        var url = "/directory#" + item;
+                        var url = "/directory#location=" + item;
                         // call buildnoderecursive to get the node structure to render.
                         result.push(buildNodeRecursive(item, directory, url));
                     }

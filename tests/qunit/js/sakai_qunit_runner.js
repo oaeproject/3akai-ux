@@ -73,6 +73,7 @@ require(
         // clear the old results, clear the iframes
         $("#run_all_results_individual table tbody").empty();
         $("#run_all_results_individual table tfoot").empty();
+        totalFailures = totalSuccesses = totalTime = startTime = endTime = 0;
         $("#run_all_iframes").empty();
         $run_all_results_num_finished.text('0');
         $run_all_results_num_to_go.text(tests.length);

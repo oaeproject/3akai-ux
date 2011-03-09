@@ -185,8 +185,7 @@ define(["jquery", "sakai/sakai.api.user", "/dev/configuration/config.js"], funct
                     success: function(data){
                         if (sendMail) {
                             doSendMail();
-                        }
-                        if ($.isFunction(callback)) {
+                        }else if($.isFunction(callback)) {
                             callback(true, data);
                         }
                     },

@@ -413,7 +413,7 @@ define(["jquery",
                     if (sakai_conf.Profile.configuration.defaultConfig.basic.elements[profileNode].type === "select") {
                         lastReplacementValue = profile.basic.elements[profileNode].value;
                         lastReplacementValue = sakai_conf.Profile.configuration.defaultConfig.basic.elements[profileNode].select_elements[lastReplacementValue];
-                        lastReplacementValue = sakai_i18n.General.process(lastReplacementValue, sakai_i18n.data.localBundle, sakai_i18n.data.defaultBundle);
+                        lastReplacementValue = sakai_i18n.General.process(lastReplacementValue);
                     } else {
                         lastReplacementValue = profile.basic.elements[profileNode].value;
                     }
@@ -445,7 +445,7 @@ define(["jquery",
             } else {
                 // has to be synchronous
                 $.ajax({
-                    url: sakai.config.URL.CONTACTS_FIND_STATE,
+                    url: sakai_conf.URL.CONTACTS_FIND_STATE,
                     async: false,
                     success: function(data) {
                         sakaiUserAPI.data.me.mycontacts = data.results;

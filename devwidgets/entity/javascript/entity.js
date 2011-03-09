@@ -731,7 +731,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
          */
         var addBindingTagsLink = function(){
             // Add the click event to the tagsLink link
-            $(tagsLink).bind("click", function(){
+            $(tagsLink).die("click");
+            $(tagsLink).live("click", function(){
                 showHideListLinkMenu(tagsLinkMenu, tagsLink, false);
             });
         };
@@ -740,7 +741,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
         $(document).click(function(e){
             var $clicked = $(e.target);
             // if element clicked is not tag Link only then hide the menu.
-            if (!$clicked.parents().is(tagsLink)) {
+            if (!$clicked.is(tagsLink)) {
                 showHideListLinkMenu(tagsLinkMenu, tagsLink, true);
             }
         });

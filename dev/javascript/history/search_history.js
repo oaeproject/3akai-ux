@@ -38,6 +38,9 @@ require(["jquery", "/dev/javascript/search_main.js"], function() {
           state['filter'] = filter || "";
           state['facet'] = facet || "";
           state['page'] = page || "1";
+          if (!tag || $.trim(tag) === "") {
+              $.bbq.removeState("tag");
+          }
           $.bbq.pushState(state);
         }
     };
