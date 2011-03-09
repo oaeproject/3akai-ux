@@ -234,6 +234,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(userLinkChatStatusClass).bind("click",function(ev){
                 var clicked = ev.currentTarget.id.split("_")[ev.currentTarget.id.split("_").length - 1];
                 sendChatStatus(clicked);
+                showHideUserLinkMenu(true);
             });
 
             $(userLink).bind("click", function(ev){
@@ -253,7 +254,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $(document).bind("click", function(e){
                 // if menu is visible and the target element clicked is not menu hide dropdown
-                if ($(userLinkMenu).is(":visible") && !$(e.target).is(userLink) && !$(e.target).parents(userLink).length){
+                debug.log($(e.target), $(e.target).parents(userLink).length);
+                if ($(userLinkMenu).is(":visible") && !$(e.target).is(userLink) && !$(e.target).parents(userLink).length && !$(e.target).parents(userLinkMenu).length){
                     showHideUserLinkMenu(true);
                 }
             });
