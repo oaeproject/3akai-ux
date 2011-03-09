@@ -115,24 +115,26 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Initialization functions //
         //////////////////////////////
 
-        var handleHashChange = function() {
-            var selected = $.bbq.getState("location");
-            $listpeopleinnodePeopleContainer.text("");
+        var handleHashChange = function(e, node) {
+            var selected = node || $.bbq.getState("location");
+            if (selected) {
+                $listpeopleinnodePeopleContainer.text("");
 
-            // Set title
-            var obj = {
-                "location" : sakai.api.Util.getValueForDirectoryKey(selected.split("/")[selected.split("/").length - 1])
-            };
+                // Set title
+                var obj = {
+                    "location" : sakai.api.Util.getValueForDirectoryKey(selected.split("/")[selected.split("/").length - 1])
+                };
 
-            // Apply threedots to title
-            var body = $.trim(sakai.api.Util.TemplateRenderer(listpeopleinnodeTitleTemplate, obj));
-            var ellipsis = sakai.api.Util.applyThreeDots(body, $("#listpeopleinnode_title").width() - 30, {max_rows: 4,whole_word: false});
-            $listpeopleinnodeTitle.html(ellipsis);
+                // Apply threedots to title
+                var body = $.trim(sakai.api.Util.TemplateRenderer(listpeopleinnodeTitleTemplate, obj));
+                var ellipsis = sakai.api.Util.applyThreeDots(body, $("#listpeopleinnode_title").width() - 30, {max_rows: 4,whole_word: false});
+                $listpeopleinnodeTitle.html(ellipsis);
 
-            searchUsersInNode(selected);
+                searchUsersInNode(selected);
+            }
         };
 
-        $(window).bind("hashchange", handleHashChange);
+        $(window).bind("hashchange nohash.browsedirectory.sakai", handleHashChange);
 
         var init = function() {
             handleHashChange();
