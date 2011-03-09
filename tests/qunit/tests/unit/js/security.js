@@ -346,26 +346,24 @@ require(
         ];
 
         var html5ElementList = [
-            '<address>This document was written by:<br /><a href="mailto:homer@example.com">Homer Simpson</address>',
+            '<address>This document was written by:<br><a href="mailto:homer@example.com">Homer Simpson</a></address>',
             '<article><h4>Environmentally Friendly City</h4><p>A <a href="http://www.natural-environment.com/blog/2008/12/14/masdar-city-the-worlds-first-zero-carbon-zero-waste-city/" target="_blank">brand new city</a> is being built in Abu Dhabi in the United Arab Emirates which, when finished, will be the world’s first zero carbon, zero waste city.</p><p>Masdar City, a completely self sustaining city, will be powered by renewable energy and all waste will be recycled or reused.</p></article>',
             '<aside style="font-size:larger;font-style:italic;color:green;float:right;width:120px;">70% of the world\'s reefs will be destroyed over the next 40 years.</aside><p>Global warming is affecting coral reefs all over the world. At the current rate, 70% of the world\'s reefs will be destroyed over the next 40 years.</p><p>As hopeless as this may sound, there are things we can do to help. By developing greener habits, we can all do our part in reducing global warming. For example, here are <a href="http://www.natural-environment.com/blog/2008/01/29/5-easy-ways-to-reduce-greenhouse-gas/" target="_blank">5 ways to reduce greenhouse gases</a>.  And here are some simple steps you can take to <a href="http://www.natural-environment.com/sustainable_living/sustainable_habits.php" target="_blank">live sustainably</a>.</p>',
             '<audio src="/music/lostmojo.wav"><p>If you are reading this, it is because your browser does not support the audio element.</p></audio>',
             '<bdo dir="rtl">How to override text direction? I think you already know!</bdo>',
             '<command type="command">Click Me!</command>',
-            '<h4>Example 1 (for HTML 5 browsers)</h4><p> <label>  Enter your favorite cartoon character:<br />  <input type="text" name="favCharacter" list="characters">  <datalist id="characters">   <option value="Homer Simpson">   <option value="Bart">   <option value="Fred Flinstone">  </datalist> </label><br /></p><h4>Example 2 (for both legacy and HTML 5 browsers)</h4><p> <label>  Enter your favorite cartoon character:<br />  <input type="text" name="favCharacter" list="characters"><br /> </label> <datalist id="characters">  <label>   or select one from the list:<br />   <select name="favCharacter">    <option>Homer Simpson    <option>Bart    <option>Fred Flinstone   </select>  </label> </datalist></p>',
+            '<h4>Example 1 (for HTML 5 browsers)</h4><p> <label>  Enter your favorite cartoon character:<br>  <input type="text" name="favCharacter" list="characters">  <datalist id="characters">   <option value="Homer Simpson">   <option value="Bart">   <option value="Fred Flinstone">  </datalist> </label><br></p><h4>Example 2 (for both legacy and HTML 5 browsers)</h4><p> <label>  Enter your favorite cartoon character:<br>  <input type="text" name="favCharacter" list="characters"><br> </label> <datalist id="characters">  <label>   or select one from the list:<br>   <select name="favCharacter">    <option>Homer Simpson    <option>Bart    <option>Fred Flinstone   </select>  </label> </datalist></p>',
             '<details open="open"><p>If your browser supports this element, it should allow you to expand and collapse these details.</p></details>',
-            '<canvas id="myCanvas" width="300" height="200">Your browser does not support the canvas tag. At the time of writing, Firefox, Opera, and Chrome support this tag.</p><p>Here\'s an <a href="/pix/html_5/tags/html_canvas_tag.gif">image of what it\'s supposed to look like</a>.</canvas>',
-            '<embed type="video/quicktime" src="/web_design/paris_vegas.mov" width="340" height="140" />',
-            '<eventsource></eventsource>',
+            '<canvas id="myCanvas" width="300" height="200"><p>Your browser does not support the canvas tag. At the time of writing, Firefox, Opera, and Chrome support this tag.</p><p>Here\'s an <a href="/pix/html_5/tags/html_canvas_tag.gif">image of what it\'s supposed to look like</a>.</p></canvas>',
             '<figure id="1"><figcaption>Figure 1. JavaScript Alert Box.</figcaption><pre><code>alert(\'Hello!\');</code></pre></figure>',
             '<footer>2009 Woofer Dog Corporation</footer>',
             '<header><span style="color:brown;font-style:italic;">Woofer Dog: Version 1.0</span><hr><hgroup><h1>Talking Dogs</h1><h2>Humans aren\'t the only talkers!</h2></hgroup></header>',
             '<hgroup><h1>Talking Dogs</h1><h2>Humans aren\'t the only talkers!</h2></hgroup>',
-            '<keygen name="security" />',
+            '<keygen name="security">',
             '<mark style="background-color:yellow;">increased by 100 percent</mark>',
             '<ul><li><meter>25%</meter></li><li><meter>1/4</meter></li><li><meter>200 out of 800</meter></li><li><meter>max: 100; current: 25</meter></li><li><meter min="0" max="100" value="25"></meter></li></ul>',
             '<nav><a href="/css/" target="_blank">CSS</a> | <a href="/html/" target="_blank">HTML</a> | <a href="/javascript/" target="_blank">JavaScript</a> | <a href="/sql/tutorial/" target="_blank">SQL</a></nav>',
-            '<input name="numa" type="number"> +<input name="numb" type="number"> =<output name="result" onforminput="value=numa.valueAsNumber + numb.valueAsNumber"></output>',
+            //'<input name="numa" type="number"> +<input name="numb" type="number"> =<output name="result" onforminput="value=numa.valueAsNumber + numb.valueAsNumber"></output>',
             'Downloading now. Progress...<progress value="250" max="1000"><span id="downloadProgress">25</span>%</progress>',
             '<p lang="zh-CN">...<ruby>  <rt> hn </rt>  <rt> z  </rt></ruby>...</p>',
             '<p lang="ja">... <ruby>  <rp>(</rp><rt></rt><rp>)</rp>  <rp>(</rp><rt></rt><rp>)</rp></ruby>...</p>',
@@ -373,11 +371,11 @@ require(
             '<details><summary>Name</summary><p>Homer J Simpson</p></details>',
             '<p>On Saturdays, we open at <time>09:00</time>.</p>',
             'At the bottom of the search results screen, we have added "Next <var>n</var>" functionality to allow the user to view more than one screen of search results.',
-            '<video src="/video/pass-countdown.ogg" width="300" height="150" controls><p>If you are reading this, it is because your browser does not support the HTML5 video element.</p></video>',
+            '<video src="/video/pass-countdown.ogg" width="300" height="150" controls="controls"><p>If you are reading this, it is because your browser does not support the HTML5 video element.</p></video>',
             '<p>And the world record for the longest place name in an English-speaking country is...<br><i>Taumata<wbr>whakatangihanga<wbr>koauau<wbr>o<wbr>tamatea<wbr>turi<wbr>pukakapiki<wbr>maunga<wbr>horo<wbr>nuku<wbr>pokai<wbr>whenua<wbr>kitanatahu</i></p><p>This is the name of a hill in New Zealand.</p><p>Here\'s what it looks like without using the <code>wbr</code> tag...<i>Taumatawhakatangihangakoauauotamateaturipukakapikimaungahoronukupokaiwhenuakitanatahu</i></p>'
         ];
 
-        expect(html4ElementList.length + html4ElementStripList.length);
+        expect(html4ElementList.length + html4ElementStripList.length + html5ElementList.length);
 
         var htmlString = "", sanitizedHtmlString = "";
 
@@ -398,13 +396,13 @@ require(
         }
 
         // html5 elements not yet supported by google caja - SAKIII-2473
-        /*for (var j in html5ElementList) {
+        for (var j in html5ElementList) {
             if (html5ElementList.hasOwnProperty(j)) {
                  htmlString = html5ElementList[j].toLowerCase();
                  sanitizedHtmlString = sakai.api.Security.saneHTML(htmlString);
                  equals(sanitizedHtmlString.indexOf(htmlString), 0, "Keep HTML5 element intact: " + htmlString);
             }
-        }*/
+        }
     });
 
     });
