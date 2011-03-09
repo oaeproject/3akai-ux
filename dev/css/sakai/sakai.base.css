@@ -149,7 +149,7 @@ a.s3d-regular-links,.s3d-regular-links a, button.s3d-regular-links, .s3d-regular
 .s3d-sprites-buttons ul li.more_option.option_last{border-bottom:0;}
 .s3d-sprites-buttons .more_link{background:transparent url(/dev/images/more_bg_18.png) top left no-repeat;padding:1px 21px 2px 12px;}
 
-.s3d-link-button {margin:0; padding:0;background: none repeat scroll 0 0 transparent;border: medium none;color: #006E96;font-family: Arial,Helvetica,sans-serif;font-size: 12px;display: inline-block;text-align:left;}
+.s3d-link-button {margin:0; padding:0;background: none repeat scroll 0 0 transparent;border: medium none;color: #006E96;font-family: Arial,Helvetica,sans-serif;font-size: 13px;display: inline-block;text-align:left;}
 .s3d-link-button:hover {cursor:pointer; text-decoration:underline;}
 
 
@@ -407,7 +407,7 @@ ul li.s3d-list-item:hover{background-color:#9CF;}
 /* 
  * HIGHLIGHTED AREAS
  */
-.s3d-highlight_area_background{background-color:#EFF2F4;padding:0 10px;margin:0 0 15px;overflow:auto;}
+.s3d-highlight_area_background{background-color:#EFF2F4;padding:0 10px;margin:0 0 15px;}
 .s3d-highlight_area_background_tl{height:7px;margin-left:-10px;background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -1037px transparent;}
 .s3d-highlight_area_background_tinner{height:7px;margin-right:-10px;background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -1047px transparent;}
 .s3d-highlight_area_background_bl{clear:both;height:7px;margin-left:-10px;background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -1057px transparent;}

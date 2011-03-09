@@ -150,7 +150,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         var splitDir = value.split(",");
                         var tagList = [];
                         $.each(splitDir, function(i, tag){
-                            if(tag.split("/")[0] !== "directory"){
+                            if($.trim(tag.split("/")[0]) !== "directory"){
                                 tagList.push(tag);
                             }
                         });
@@ -433,7 +433,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         }
                         var profileURL = "/~" + sakai_global.profile.main.data["rep:userId"] + "/public/authprofile";
                         sakai.api.Util.tagEntity(profileURL, tagsArray, currentTags, function(){
-                            $selected_element.val(tagsArray.toString().replace(/,/g, ", "));
+                            var tagList = [];
+                            $.each(tagsArray, function(i, tag){
+                                if ($.trim(tag.split("/")[0]) !== "directory") {
+                                    tagList.push(tag);
+                                }
+                            });
+                            $selected_element.val(tagList.toString().replace(/,/g, ", "));
                         });
                     } else if (title) {
 

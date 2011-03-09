@@ -159,7 +159,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 else if (json.unidepartment) {
                     extra = json.unidepartment;
                 }
-                $(profileDepartementID, rootel).html(sakai.api.Security.saneHTML(extra));
+
+                // if there is extra show the profile department div
+                if (extra !== "") {
+                    $(profileDepartementID, rootel).html(sakai.api.Security.saneHTML(extra));
+                    $(profileDepartementID).show();
+                }
             }
 
             var chatstatus = "online";

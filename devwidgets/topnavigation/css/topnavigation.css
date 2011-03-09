@@ -49,7 +49,7 @@
 .explore_nav .personal .sign_out{border:none;}
 .explore_nav .personal .user_link img{position:relative;top:-1px;padding:0 3px;}
 .explore_nav .personal .mail img{position:relative;top:-1px;}
-.user_link_chat_status{color:#fff;}
+.user_link_chat_status, .user_link_chat_status_link{color:#fff;}
 
 /* User Link Dropdown */
 #user_link_container{position:relative;text-align:left;min-width:50px;max-width:200px;}
