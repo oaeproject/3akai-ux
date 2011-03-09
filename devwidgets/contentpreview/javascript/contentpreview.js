@@ -27,7 +27,7 @@
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     /**
-     * @name sakai.contenpreview
+     * @name sakai.contentpreview
      *
      * @class contentpreview
      *
@@ -87,9 +87,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         //TODO: Clean this mess up
         var renderImagePreview = function(contentURL){
-            $(".contentpreview_image_preview").show();
+            var $contentpreviewImagePreview = $(".contentpreview_image_preview");
+            $contentpreviewImagePreview.html("");
+            $contentpreviewImagePreview.show();
             var json = {};
             json.contentURL = contentURL || sakai_global.content_profile.content_data.path;
+            json.contentURL = json.contentURL + "?_=" + sakai_global.content_profile.content_data.data._bodyLastModified;
             json.sakai = sakai;
             sakai.api.Util.TemplateRenderer("contentpreview_image_template", json, $("#contentpreview_image_calculatesize"));
             $("#contentpreview_image_rendered").bind('load', function(ev){
@@ -224,6 +227,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         $(window).bind("start.contentpreview.sakai", function(){
             determineFileCreator();
+        });
+
+        $(window).bind("updated.version.content.sakai",function() {
+            determineDataType();
         });
 
         // Indicate that the widget has finished loading

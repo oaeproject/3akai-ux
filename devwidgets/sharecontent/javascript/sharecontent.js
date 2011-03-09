@@ -529,9 +529,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     pickerData.excludeList.push("user/" + members.viewers[i]["userid"]);
                 }
             }
-            for (var i in members.managers) {
-                if (members.managers.hasOwnProperty(i)) {
-                    pickerData.excludeList.push("user/" + members.managers[i]["userid"]);
+            for (var k in members.managers) {
+                if (members.managers.hasOwnProperty(k)) {
+                    pickerData.excludeList.push("user/" + members.managers[k]["userid"]);
                 }
             }
         };

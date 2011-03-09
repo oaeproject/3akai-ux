@@ -9,7 +9,7 @@
     "i18n": {
         "default": "/devwidgets/contentcomments/bundles/default.properties"
     },
-    "img":"/devwidgets/contentcomments/images/contentcomments.png",
+    "img":"/devwidgets/contentcomments/images/comments.png",
     "name":"Content Comments",
     "showinsakaigoodies":false,
     "siteportal":false,

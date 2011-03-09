@@ -301,10 +301,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             if (!isLocation) {
                 // Render the General info
-                $profilesection_generalinfo.html(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, null, null, sakai.data.me)));
+                $profilesection_generalinfo.html(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, sakai.data.me)));
             } else {
-                $("#profilesection-locations").children().children(":first").append(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, null, null, sakai.data.me)));
-                $profilesection_generalinfo.html(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, null, null, sakai.data.me)));
+                $("#profilesection-locations").children().children(":first").append(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, sakai.data.me)));
+                $profilesection_generalinfo.html(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, sakai.data.me)));
             }
 
         };
@@ -344,13 +344,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 });
             }
             sections += "</div>";
-            $parentSection.append(sakai.api.i18n.General.process(sections, sakai.api.i18n.localBundle, sakai.api.i18n.defaultBundle, sakai.data.me));
+            $parentSection.append(sakai.api.i18n.General.process(sections, sakai.data.me));
             var dataForTemplate = {
                 "config": sectionObject,
                 "parentid": elt.id.value,
                 sakai: sakai
             };
-            $parentSection.append(sakai.api.i18n.General.process(sakai.api.Util.TemplateRenderer($profilesection_add_section_template, dataForTemplate), sakai.api.i18n.localBundle, sakai.api.i18n.defaultBundle, sakai.data.me));
+            $parentSection.append(sakai.api.i18n.General.process(sakai.api.Util.TemplateRenderer($profilesection_add_section_template, dataForTemplate), sakai.data.me));
         };
 
         var removeSection = function($parentSection, sectionIDToRemove) {
@@ -371,7 +371,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                       "parentid": "0",
                       sakai: sakai
                   };
-                  sections += sakai.api.i18n.General.process(sakai.api.Util.TemplateRenderer($profilesection_add_section_template, dataForTemplate), sakai.api.i18n.localBundle, sakai.api.i18n.defaultBundle, sakai.data.me);
+                  sections += sakai.api.i18n.General.process(sakai.api.Util.TemplateRenderer($profilesection_add_section_template, dataForTemplate), sakai.data.me);
               }
               sections += "</div>";
               $parentSection.parent("div").append(sections);
@@ -524,7 +524,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai_global.profile.main.data["locations"].access = sectionConfig.access;
 
             // Render append the location div to the UI.
-            $("#profilesection-locations").children().children(":first").html(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, null, null, sakai.data.me)));
+            $("#profilesection-locations").children().children(":first").html(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, sakai.data.me)));
         };
 
         ////////////////////

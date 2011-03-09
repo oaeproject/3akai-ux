@@ -174,14 +174,14 @@ define(["jquery",
              *  in the default language
              */
             var doI18N = function(localjson, defaultjson){
-                var newstring = sakaii18nAPI.General.process(tostring, localjson, defaultjson, meData);
+                var newstring = sakaii18nAPI.General.process(tostring, meData);
                 // We actually use the old innerHTML function here because the $.html() function will
                 // try to reload all of the JavaScript files declared in the HTML, which we don't want as they
                 // will already be loaded
                 if($i18nable.length > 0){
                     $i18nable[0].innerHTML = newstring;
                 }
-                document.title = sakaii18nAPI.General.process(document.title, localjson, defaultjson, meData);
+                document.title = sakaii18nAPI.General.process(document.title, meData);
                 finishI18N();
             };
 
@@ -418,16 +418,12 @@ define(["jquery",
              * @param {String} toprocess
              *  HTML string in which we want to replace messages. Messages have the following
              *  format: __MSG__KEY__
-             * @param {Object} localbundle
-             *  JSON object where the keys are the keys we expect in the HTML and the values are the translated strings
-             * @param {Object} defaultbundle
-             *  JSON object where the keys are the keys we expect in the HTML and the values are the translated strings
              *  in the default language
              * @param {Object} meData the data from sakai.api.User.data.me
              * @return {String} A processed string where all the messages are replaced with values from the language bundles
              */
 
-            process : function(toprocess, localbundle, defaultbundle, meData) {
+            process : function(toprocess, meData) {
 
                 if(!toprocess){
                     return "";

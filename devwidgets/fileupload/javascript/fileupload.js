@@ -675,6 +675,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 type: "GET",
                 success: function(data){
                     sakai_global.content_profile.content_data.data = data;
+                    $(window).trigger("updated.version.content.sakai");
                     resetFields();
                 }
             });
@@ -732,21 +733,25 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          * @param {String} extension eg '.jpg'
          */
         var setFileExtension = function(extension){
-            $.ajax({
-                url: "/p/" + oldVersionPath + ".json",
-                type: "POST",
-                data: {
-                    "sakai:fileextension": extension
-                },
-                success: function(data){
-                    // Get the version details in order to update the GUI
-                    getVersionDetails();
-                },
-                error: function(xhr, textStatus, thrownError){
-                    // Get the version details in order to update the GUI
-                    getVersionDetails();
-                }
-            });
+            var oldName = sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"].split(".");
+            var oldExt = "." + oldName.pop();
+            oldName = oldName.join(".");
+            if (oldExt !== extension) {
+                $.ajax({
+                    url: "/p/" + oldVersionPath + ".json",
+                    type: "POST",
+                    data: {
+                        "sakai:fileextension": extension,
+                        "sakai:pooled-content-file-name": oldName + extension
+                    },
+                    complete: function(data){
+                        // Get the version details in order to update the GUI
+                        getVersionDetails();
+                    }
+                });
+            } else {
+              getVersionDetails();
+            }
         };
 
         /**
