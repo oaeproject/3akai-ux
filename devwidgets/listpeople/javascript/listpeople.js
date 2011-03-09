@@ -495,27 +495,27 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Send out an event that says the widget is ready to
             // accept a search query to process and display. This event can be picked up
             // in a page JS code
-            $(window).bind("render.listpeople.sakai", function(e, data) {
-                if (data.tuid === tuid) {
-                    listType = data.listType;
-                    sakai_global.data.listpeople[listType] = {
-                        "selected": {},
-                        "currentElementCount": 0,
-                        "selectCount": 0,
-                        "total": 0,
-                        "userList": {}
-                    };
-                    sakai_global.config.listpeople[listType] = {
-                        "items": 1000,
-                        "selectable": false,
-                        "sortOn": "lastName",
-                        "sortOrder": "asc",
-                        "function": "getSelection",
-                        "anon": false
-                    };
-                    render(data.tuid, data.pl_config, data.url, data.id);
-                }
+            $(window).unbind(tuid + ".render.listpeople.sakai");
+            $(window).bind(tuid + ".render.listpeople.sakai", function(e, data) {
+                listType = data.listType;
+                sakai_global.data.listpeople[listType] = {
+                    "selected": {},
+                    "currentElementCount": 0,
+                    "selectCount": 0,
+                    "total": 0,
+                    "userList": {}
+                };
+                sakai_global.config.listpeople[listType] = {
+                    "items": 1000,
+                    "selectable": false,
+                    "sortOn": "lastName",
+                    "sortOrder": "asc",
+                    "function": "getSelection",
+                    "anon": false
+                };
+                render(tuid, data.pl_config, data.url, data.id);
             });
+            $(window).trigger(tuid + ".ready.listpeople.sakai", tuid);
             $(window).trigger("ready.listpeople.sakai", tuid);
             sakai_global.listpeople.isReady = true;
             sakai_global.data.listpeople[tuid] = sakai_global.data.listpeople[tuid] || {};

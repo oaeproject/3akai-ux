@@ -49,37 +49,37 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var generateTagCloud = function(){
             var newtags = [];
             // Filter out directory tags
-            for (var i = 0; i < tagData.results[0].tags.length; i++) {
-                if (tagData.results[0].tags[i].name.substring(0, 10) !== "directory/") {
-                    newtags.push(tagData.results[0].tags[i]);
+            if (tagData.results.length && tagData.results[0].tags) {
+                for (var i = 0; i < tagData.results[0].tags.length; i++) {
+                    if (tagData.results[0].tags[i].name.substring(0, 10) !== "directory/") {
+                        newtags.push(tagData.results[0].tags[i]);
+                    }
                 }
+                tagData.results[0].tags = newtags;
+                // Sort the tags in alphabetical order so we can generate a tag cloud
+                tagData.results[0].tags.sort(function(a, b){
+                    var nameA = a.name.toLowerCase();
+                    var nameB = b.name.toLowerCase();
+                    if (nameA < nameB) {
+                        return -1;
+                    }
+                    if (nameA > nameB) {
+                        return 1;
+                    }
+                    return 0;
+                });
+                // Only show the first 20 tags
+                var totalAdded = 0;
+                newtags = [];
+                for (var ii = 0; ii < tagData.results[0].tags.length; ii++) {
+                    if (totalAdded < 20) {
+                        newtags.push(tagData.results[0].tags[ii]);
+                        totalAdded++;
+                    }
+                }
+                tagData.results[0].tags = newtags;
             }
-            tagData.results[0].tags = newtags;
-            // Sort the tags in alphabetical order so we can generate a tag cloud
-            tagData.results[0].tags.sort(function(a, b){
-                var nameA = a.name.toLowerCase();
-                var nameB = b.name.toLowerCase();
-                if (nameA < nameB) {
-                    return -1;
-                }
-                if (nameA > nameB) {
-                    return 1;
-                }
-                return 0;
-            });
-            // Only show the first 20 tags
-            var totalAdded = 0;
-            newtags = [];
-            for (var ii = 0; ii < tagData.results[0].tags.length; ii++) {
-                if (totalAdded < 20) {
-                    newtags.push(tagData.results[0].tags[ii]);
-                    totalAdded++;
-                }
-            }
-            tagData.results[0].tags = newtags;
-            $tags_main.html(sakai.api.Util.TemplateRenderer($tags_main_template, {
-                data: tagData
-            })).show();
+            $tags_main.html(sakai.api.Util.TemplateRenderer($tags_main_template, {data: tagData})).show();
         };
 
         var loadData = function(directory, callback){

@@ -408,12 +408,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
                     // title , groupid from pickeruser
                     if (key) {
-                        response.results[j].subject = sakai.api.Security.escapeHTML(sakai.api.i18n.General.getValueForKey(key) + " " + comment);
+                        response.results[j].subject = sakai.api.Security.escapeHTML(sakai.api.i18n.General.process(key) + " " + comment);
                         // just title with ${user} add to contacts
                     }
                     else
-                        if (sakai.api.i18n.General.getValueForKey(response.results[j]["sakai:subject"])) {
-                            response.results[j]["sakai:subject"] = sakai.api.Security.escapeHTML(sakai.api.i18n.General.getValueForKey(response.results[j]["sakai:subject"]).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(response.results[j].userFrom[0])));
+                        if (sakai.api.i18n.General.process(response.results[j]["sakai:subject"])) {
+                            response.results[j]["sakai:subject"] = sakai.api.Security.escapeHTML(sakai.api.i18n.General.process(response.results[j]["sakai:subject"]).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(response.results[j].userFrom[0])));
                         }
                         else {
                             response.results[j]["sakai:subject"] = messageSubject;
@@ -777,18 +777,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         comment = messageSubject.substr(messageSubject.lastIndexOf(",") + 1, messageSubject.length);
                         // title , groupid from pickeruser
                         if (key) {
-                            message["sakai:subject"] = sakai.api.Security.escapeHTML(sakai.api.i18n.General.getValueForKey(key) + " " + comment);
+                            message["sakai:subject"] = sakai.api.Security.escapeHTML(sakai.api.i18n.General.process(key) + " " + comment);
                             // just title with ${user} add to contacts
                         }
                         else
-                            if (sakai.api.i18n.General.getValueForKey(message["sakai:subject"])) {
-                                message["sakai:subject"] = sakai.api.Security.escapeHTML(sakai.api.i18n.General.getValueForKey(message["sakai:subject"]).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(message.userFrom[0])));
+                            if (sakai.api.i18n.General.process(message["sakai:subject"])) {
+                                message["sakai:subject"] = sakai.api.Security.escapeHTML(sakai.api.i18n.General.process(message["sakai:subject"]).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(message.userFrom[0])));
                             }
                         messageBody = message["sakai:body"] + "";
                         key = messageBody.substr(0, messageBody.lastIndexOf(","));
                         comment = messageBody.substr(messageBody.lastIndexOf(",") + 1, messageBody.length);
-                        if (key && sakai.api.i18n.General.getValueForKey(key)) {
-                            message["sakai:body"] = sakai.api.i18n.General.getValueForKey(key).replace(/\$\{comment\}/gi, comment).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(message.userFrom[i]));
+                        if (key && sakai.api.i18n.General.process(key)) {
+                            message["sakai:body"] = sakai.api.i18n.General.process(key).replace(/\$\{comment\}/gi, comment).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(message.userFrom[i]));
                         } else {
                             message["sakai:body"] = key.replace(/\$\{comment\}/gi, comment).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(message.userFrom[i]));
                         }
