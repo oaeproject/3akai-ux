@@ -58,9 +58,9 @@
 .entity_content_threedots{display:block;width:670px;}
 .entity_content_filetype{color:#aaa;padding-right:5px;}
 .entity_content_description{width:670px;font-size:11px;font-weight:bold;}
-#entity_container .s3d-link-button{font-size:11px;}
+#entity_container .s3d-link-button{font-size:11px;*height:16px;*margin-left:5px;}
 .entity_content_new_events,.entity_content_used_by{padding-right:35px;}
-.entity_content_link_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -400px -18px transparent;float:left;height:14px;width:16px;padding-right:3px;}
+.entity_content_link_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -400px -18px transparent;float:left;height:14px;width:16px;padding-right:3px;*padding-right:16px;*float:none;}
 .entity_content_right{float:right;}
 .entity_content_view_count{background-color:#000;color:#FFF;font-weight:normal;font-size:12px;padding:2px 4px;}
 .entity_content_share{margin-top:10px;text-align:center;}
@@ -84,10 +84,11 @@
 
 /* List box for tags and locations */
 #entity_tags_link div,#entity_locations_link div{padding:5px;width:80px;}
+#entity_tags_link:hover {text-decoration:none;}
 .entity_tags_link div,.entity_locations_link div{border:1px solid #fff;}
 .entity_tags_link:hover div,.entity_locations_link:hover div{border:1px solid #ddd;}
 .entity_list_open div{border:1px solid #ddd!important;}
-#entity_tags_link span,#entity_locations_link span{padding:0 10px 0 5px;}
+#entity_tags_link span,#entity_locations_link span{padding:0 10px 0 5px; font-size:12px; font-weight:bold;}
 #entity_tags_dropdown_arrow{height:8px;width:8px;background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -129px -395px transparent;}
 #entity_tags_link_menu,#entity_locations_link_menu{background-color:#FFF;position:absolute;z-index:400;min-width:100px;max-width:300px;border:1px solid #ddd;}
 #entity_tags_link_menu .entity_tags_link_menu_list,#entity_locations_link_menu .entity_locations_link_menu_list{padding:5px;}

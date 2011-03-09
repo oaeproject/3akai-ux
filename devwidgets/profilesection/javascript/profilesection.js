@@ -301,10 +301,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             if (!isLocation) {
                 // Render the General info
-                $profilesection_generalinfo.html(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, null, null, sakai.data.me)));
+                $profilesection_generalinfo.html(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, sakai.data.me)));
             } else {
-                $("#profilesection-locations").children().children(":first").append(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, null, null, sakai.data.me)));
-                $profilesection_generalinfo.html(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, null, null, sakai.data.me)));
+                $("#profilesection-locations").children().children(":first").append(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, sakai.data.me)));
+                $profilesection_generalinfo.html(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, sakai.data.me)));
             }
 
         };
@@ -344,13 +344,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 });
             }
             sections += "</div>";
-            $parentSection.append(sakai.api.i18n.General.process(sections, sakai.api.i18n.localBundle, sakai.api.i18n.defaultBundle, sakai.data.me));
+            $parentSection.append(sakai.api.i18n.General.process(sections, sakai.data.me));
             var dataForTemplate = {
                 "config": sectionObject,
                 "parentid": elt.id.value,
                 sakai: sakai
             };
-            $parentSection.append(sakai.api.i18n.General.process(sakai.api.Util.TemplateRenderer($profilesection_add_section_template, dataForTemplate), sakai.api.i18n.localBundle, sakai.api.i18n.defaultBundle, sakai.data.me));
+            $parentSection.append(sakai.api.i18n.General.process(sakai.api.Util.TemplateRenderer($profilesection_add_section_template, dataForTemplate), sakai.data.me));
         };
 
         var removeSection = function($parentSection, sectionIDToRemove) {
@@ -371,7 +371,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                       "parentid": "0",
                       sakai: sakai
                   };
-                  sections += sakai.api.i18n.General.process(sakai.api.Util.TemplateRenderer($profilesection_add_section_template, dataForTemplate), sakai.api.i18n.localBundle, sakai.api.i18n.defaultBundle, sakai.data.me);
+                  sections += sakai.api.i18n.General.process(sakai.api.Util.TemplateRenderer($profilesection_add_section_template, dataForTemplate), sakai.data.me);
               }
               sections += "</div>";
               $parentSection.parent("div").append(sections);
@@ -426,14 +426,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         var currentTags = sakai_global.profile.main.data["sakai:tags"] || [];
                         var tagsArray = [];
                         $($selected_element.val().split(",")).each(function(i, tag){
-                            tagsArray.push(tag.replace(/\\/g, ""));
+                            tagsArray.push($.trim(tag.replace(/\\/g, "").replace(/\s+/g, " ")));
                         });
                         for (var i = 0; i < sakai_global.profile.main.directory.elements.length; i++){
                             tagsArray.push(sakai_global.profile.main.directory.elements[i].locationtitle.value);
                         }
                         var profileURL = "/~" + sakai_global.profile.main.data["rep:userId"] + "/public/authprofile";
                         sakai.api.Util.tagEntity(profileURL, tagsArray, currentTags, function(){
-                            debug.info("user tags saved");
+                            $selected_element.val(tagsArray.toString().replace(/,/g, ", "));
                         });
                     } else if (title) {
 
@@ -500,7 +500,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (!sakai_global.profile.main.data.basic.elements.tags) {
                     sakai_global.profile.main.data.basic.elements.tags = {};
                 }
-                sakai_global.profile.main.data.basic.elements.tags.value = sakai_global.profile.main.data["sakai:tags"];
+                sakai_global.profile.main.data.basic.elements.tags.value = sakai_global.profile.main.data["sakai:tags"].toString().replace(/,/g, ", ");
             }
         };
 
@@ -524,7 +524,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai_global.profile.main.data["locations"].access = sectionConfig.access;
 
             // Render append the location div to the UI.
-            $("#profilesection-locations").children().children(":first").html(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, null, null, sakai.data.me)));
+            $("#profilesection-locations").children().children(":first").html(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, sakai.data.me)));
         };
 
         ////////////////////

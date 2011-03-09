@@ -196,7 +196,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             } else if (listType === 'content') {
                 url = "/var/search/pool/files?group=" + groupid;
             }
-            $(window).trigger("render.listpeople.sakai", {"tuid": listType, "listType": listType, "pl_config": pl_config, "url": url, "id": groupid});
+            $(window).trigger(listType + ".render.listpeople.sakai", {"listType": listType, "pl_config": pl_config, "url": url, "id": groupid});
         };
 
         /**
@@ -272,7 +272,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var addUsers = function(listType, users) {
             sakai.api.Groups.addUsersToGroup(groupid, listType, users, function(success) {
                 if (success) {
-                    if (users.length > 1) {
+                    if (users.length && users.length > 1) {
                         sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_users_added_text").text()));
                     } else if (users.length == 1) {
                         sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_user_added_text").text()));
@@ -426,6 +426,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          */
         var addBinding = function(){
 
+            $(window).unbind("listpeople.sakai");
             // Bind the listpeople widgets
             $(window).bind("ready.listpeople.sakai", function(e, tuid){
                 renderItemLists(tuid);

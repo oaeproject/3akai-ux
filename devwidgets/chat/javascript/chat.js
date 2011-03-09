@@ -894,7 +894,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * contacts and show the chat bar if the user is
          * authenticated
          */
-        if (!sakai.data.me.user.anon){
+        if (!sakai.data.me.user.anon && sakai.config.enableChat){
             showChatBar();
             // the following line is from Modernizr http://www.modernizr.com/, licensed under a dual MIT-BSD license
             supportsSessionStorage = ('sessionStorage' in window) && window['sessionStorage'] !== null;

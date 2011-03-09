@@ -53,27 +53,26 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Render the first 2 children levels of the current location
          * @param {Object} data Data containing the JSTree
          */
-        var renderChildren = function(data){
+        var renderChildren = function(data, path){
             $nextleveldownContent.html(sakai.api.Util.TemplateRenderer(nextleveldownContentTemplate, {
-                "data": data
+                "data": data,
+                "hash": "#location=" + path
             }));
         };
 
-        /**
-         * Fire the JSTree event associated with this location
-         * @param {Object} id ID of the clicked element
-         */
-        var clickedChild = function(id){
-            $("li#" + id).children("a").click();
+        var handleHashChange = function(e, node) {
+            var selectedpath = node || $.bbq.getState("location");
+            if (selectedpath) {
+                renderChildren(sakai_global.browsedirectory.getDirectoryNodeJson(selectedpath.split("/")[selectedpath.split("/").length -1]), selectedpath);
+            }
         };
 
-        $(nextleveldownChild).live("click",function(){
-            clickedChild(this.id);
-        });
+        $(window).bind("hashchange nohash.browsedirectory.sakai", handleHashChange);
 
-        $(window).bind("selected.directory.sakai", function(ev, selectedpath, selected){
-            renderChildren(sakai_global.browsedirectory.getDirectoryNodeJson(selectedpath.split("/")[selectedpath.split("/").length -1]));
-        });
+        var init = function() {
+            handleHashChange();
+        };
+        init();
     };
 
     sakai.api.Widgets.widgetLoader.informOnLoad("nextleveldown");

@@ -56,7 +56,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var listpeopleinnodeEllipsisContainer = ".listinpeopleinnode_ellipsis_container";
         /**
-         * 
+         *
          * @param {Object} results
          * @param {Object} success
          */
@@ -69,7 +69,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         /**
-         * 
+         *
          * @param {Object} selected
          */
         var searchUsersInNode = function(selected){
@@ -99,7 +99,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         data.results[p].picture = $.parseJSON(data.results[p].picture);
                     }
                 }
-                
+
                 data.selected = selected;
 
                     renderResults(data, true);
@@ -115,21 +115,31 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Initialization functions //
         //////////////////////////////
 
-        $(window).bind("selected.directory.sakai", function(ev, selected){
-            $listpeopleinnodePeopleContainer.text("");
+        var handleHashChange = function(e, node) {
+            var selected = node || $.bbq.getState("location");
+            if (selected) {
+                $listpeopleinnodePeopleContainer.text("");
 
-            // Set title
-            var obj = {
-                "location" : sakai.api.Util.getValueForDirectoryKey(selected.split("/")[selected.split("/").length - 1])
-            };
+                // Set title
+                var obj = {
+                    "location" : sakai.api.Util.getValueForDirectoryKey(selected.split("/")[selected.split("/").length - 1])
+                };
 
-            // Apply threedots to title
-            var body = $.trim(sakai.api.Util.TemplateRenderer(listpeopleinnodeTitleTemplate, obj));
-            var ellipsis = sakai.api.Util.applyThreeDots(body, $("#listpeopleinnode_title").width() - 30, {max_rows: 4,whole_word: false});
-            $listpeopleinnodeTitle.html(ellipsis);
+                // Apply threedots to title
+                var body = $.trim(sakai.api.Util.TemplateRenderer(listpeopleinnodeTitleTemplate, obj));
+                var ellipsis = sakai.api.Util.applyThreeDots(body, $("#listpeopleinnode_title").width() - 30, {max_rows: 4,whole_word: false});
+                $listpeopleinnodeTitle.html(ellipsis);
 
-            searchUsersInNode(selected);
-        });
+                searchUsersInNode(selected);
+            }
+        };
+
+        $(window).bind("hashchange nohash.browsedirectory.sakai", handleHashChange);
+
+        var init = function() {
+            handleHashChange();
+        };
+        init();
     };
 
     sakai.api.Widgets.widgetLoader.informOnLoad("listpeopleinnode");
