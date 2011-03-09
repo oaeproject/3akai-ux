@@ -100,7 +100,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // CSS Classes
         var searchInputFocusClass = "search_input_focus";
 
-        var userLinkChatStatusClass = ".user_link_chat_status";
+        var userLinkChatStatusClass = ".user_link_chat_status_link";
         var userLinkName = ".user_link_name";
 
         var showLogin = true;
@@ -231,14 +231,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $search_links.html($search_group_text.html());
             });
 
-            $(userLinkName).bind("click", function(ev){
-                showHideUserLinkMenu(false);
-            });
-
-            $(userLinkChatStatusClass).bind("click", function(ev){
-                showHideUserLinkMenu(false);
+            $(userLinkChatStatusClass).bind("click",function(ev){
                 var clicked = ev.currentTarget.id.split("_")[ev.currentTarget.id.split("_").length - 1];
                 sendChatStatus(clicked);
+            });
+
+            $(userLink).bind("click", function(ev){
+                showHideUserLinkMenu(false);
             });
 
             $.each($(topNavigationBar + " a"), function(){
@@ -247,23 +246,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             });
 
-            $(document).bind("click", function(e){
-                var $clicked = $(e.target);
-
-                // Check if one of the parents is the userLink
-                if ($clicked.is(userLink)) {
-                    showHideUserLinkMenu(false);
-                }
-            });
-
             $(window).bind("chat_status_change", function(event, chatstatus){
                 currentChatStatus = chatstatus;
                 sakai.api.Util.updateChatStatusElement($("#topnavigation_chat_status"), chatstatus);
             });
 
-            $(window).bind("click", function(e){
+            $(document).bind("click", function(e){
                 // if menu is visible and the target element clicked is not menu hide dropdown
-                if ($(userLinkMenu).is(":visible") && !$(e.target).is(userLink)){
+                if ($(userLinkMenu).is(":visible") && !$(e.target).is(userLink) && !$(e.target).parents(userLink).length){
                     showHideUserLinkMenu(true);
                 }
             });
