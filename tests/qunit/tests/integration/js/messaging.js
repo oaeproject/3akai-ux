@@ -198,5 +198,6 @@ require(
             });
         });
 
+        sakai_global.qunit.logout();
     });
 });
