@@ -48,6 +48,62 @@ require(
             });
         });
 
+        asyncTest("Count Unread Messages", 2, function() {
+            var expected = {"count": [{"group": "message", "count": 1}]};
+            sakai.api.Communication.sendMessage(userlist[0], sakai.data.me, dummySubject, dummyMessage, "", "", function(success, data) {
+                sakai.api.User.logout(function(success) {
+                    sakai.api.User.login({
+                        "username": userlist[0],
+                        "password": "test"
+                    }, function(success, data){
+                        // logging in doesn't set this!
+                        sakai.api.User.data.me.user.userid = userlist[0];
+                        sakai.api.User.loadMeData();
+                        // have to wait for the indexer to run
+                        setTimeout(function(){
+                            sakai.api.Communication.getUnreadMessageCount("inbox", function(success, data) {
+                                ok(success);
+                                same(data, expected, "User has one message");
+                                start();
+                            })
+                        ;}, 6000);
+                    });
+                });
+            });
+        });
+
+        asyncTest("Get the messages in a user's inbox", 2, function() {
+            sakai.api.Communication.getAllMessages("inbox", "message", 13, 0, "sakai:created", "asc", function(success, data) {
+                ok(success);
+                equals(data.results.length, 1, "Got one message from inbox");
+                start();
+            });
+        });
+
+        asyncTest("Mark Message Read", 2, function() {
+            sakai.api.Communication.getAllMessages("inbox", "message", 13, 0, "sakai:created", "asc", function(success, data) {
+                var messagePath = data.results[0]["jcr:path"];
+                sakai.api.Communication.markMessagesAsRead([messagePath], function(success, data) {
+                    ok(success);
+                    ok(data.results[0].success, "Message marked as read");
+                    start();
+                });
+            });
+        });
+
+        asyncTest("Move Message to Trash", 2, function() {
+            sakai.api.Communication.getAllMessages("inbox", "message", 13, 0, "sakai:created", "asc", function(success, data) {
+                var messagePath = data.results[0]["jcr:path"];
+                sakai.api.Communication.deleteMessages([messagePath], false, function(success, data) {
+                    ok(success);
+                    ok(data.results[0].success, "Message moved to trash");
+                    start();
+                });
+            });
+        });
+
+        sakai_global.qunit.loginWithAdmin();
+
         asyncTest("Send a reply to the message", 3, function() {
             sakai.api.Communication.sendMessage(dummyUser, sakai.data.me, dummySubject, "RE:" + dummyMessage, "", responseID, function(success, data) {
                 //test that some data came in
@@ -108,7 +164,7 @@ require(
             });
         });
 
-        asyncTest("Cleanup users and messages", 2, function() {
+        asyncTest("Cleanup users and messages", 3, function() {
 
             // remove users
             var requests = [];
@@ -131,26 +187,14 @@ require(
             });
 
             // remove messages
-            requests = [];
-            for (var i=0,j=pathToMessages.length;i<j;i++) {
-                var request = {
-                    "url":pathToMessages[i],
-                    "method":"DELETE"
-                };
-                requests.push(request);
-            }
-
-            $.ajax({
-                url: sakai.config.URL.BATCH,
-                type: "POST",
-                async:false,
-                data: {
-                    requests: $.toJSON(requests)
-                },
-                complete: function(xhr, textStatus){
-                    ok(textStatus === "success", "Deleted the messages");
-                    start();
-                }
+            sakai.api.Communication.deleteMessages(pathToMessages, true, function(success, data){
+                ok(success);
+                var stat = true;
+                $.each(data.results, function(i, result){
+                    stat = stat && result.success;
+                });
+                ok(stat, "Deleted " + data.results.length + " messages");
+                start();
             });
         });
 

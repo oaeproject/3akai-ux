@@ -294,8 +294,9 @@ define(["jquery", "sakai/sakai.api.user", "/dev/configuration/config.js"], funct
             });
 
             $.ajax({
-                url: "/system/batch",
-                method: "POST",
+                url: sakai_conf.URL.BATCH,
+                traditional: true,
+                type: "POST",
                 data: {
                     "requests": $.toJSON(requests)
                 },
@@ -346,7 +347,7 @@ define(["jquery", "sakai/sakai.api.user", "/dev/configuration/config.js"], funct
          * to the current user
          */
         getUnreadMessageCount : function(box, callback) {
-            var url = "~" + sakai_user.data.me.user.userid + "/message.count.json?filters=sakai:messagebox,sakai:read&values=" + box + ",false&groupedby=sakai:category";
+            var url = "/~" + sakai_user.data.me.user.userid + "/message.count.json?filters=sakai:messagebox,sakai:read&values=" + box + ",false&groupedby=sakai:category";
             $.ajax({
                 url: url,
                 cache: false,
