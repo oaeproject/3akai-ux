@@ -33,172 +33,25 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * Load the content profile for the current content path
          */
         var loadContentProfile = function(callback){
-            // Check whether there is actually a content path in the URL
 
-            // http://localhost:8080/p/YjsKgQ8wNtTga1qadZwjQCe.2.json
-            // http://localhost:8080/p/YjsKgQ8wNtTga1qadZwjQCe.members.json
-            // http://localhost:8080/var/search/pool/activityfeed.json?p=/p/YjsKgQ8wNtTga1qadZwjQCe&items=1000
-
-            if (content_path) {
-
-                // Get the content information, the members and managers and version information
-                var batchRequests = [
-                    {
-                        "url": content_path + ".2.json",
-                        "method":"GET",
-                        "cache":false,
-                        "dataType":"json"
-                    },
-                    {
-                        "url": content_path + ".members.detailed.json",
-                        "method":"GET",
-                        "cache":false,
-                        "dataType":"json"
-                    },
-                    {
-                        "url": content_path + ".versions.json",
-                        "method":"GET",
-                        "cache":false,
-                        "dataType":"json"
-                    },
-                    {
-                        "url": sakai.config.URL.POOLED_CONTENT_ACTIVITY_FEED + "?p=" + content_path,
-                        "method":"GET",
-                        "cache":false,
-                        "dataType":"json"
+           sakai.api.Content.loadContentProfile(content_path, function(success, data) {
+                if (success) {
+                    sakai_global.content_profile.content_data = data;
+                    $(window).trigger("ready.contentprofile.sakai");
+                    if ($.isFunction(callback)) {
+                        callback(true);
                     }
-                ];
-
-                var contentInfo = false;
-                var contentMembers = false;
-                var contentActivity = false;
-                var versionInfo = false;
-
-                // temporary request that returns data
-                $.ajax({
-                    url: sakai.config.URL.POOLED_CONTENT_ACTIVITY_FEED + "?p=" + content_path  + "&items=1000",
-                    type: "GET",
-                    "async":false,
-                    "cache":false,
-                    "dataType":"json",
-                    success: function(data){
-                        if (data.results.hasOwnProperty(0)) {
-                            contentActivity = data;
-                        }
+                } else {
+                    switch (data.error) {
+                        case (404):
+                            sakai.api.Security.send404();
+                            break;
+                        case (403):
+                            sakai.api.Security.send403();
+                            break;
                     }
-                });
-
-                $.ajax({
-                    url: sakai.config.URL.BATCH,
-                    type: "POST",
-                    data: {
-                        requests: $.toJSON(batchRequests)
-                    },
-                    success: function(data){
-
-                        if (data.results.hasOwnProperty(0)) {
-                            if (data.results[0].status === 404){
-                                sakai.api.Security.send404();
-                                return;
-                            } else if (data.results[0].stats === 403){
-                                sakai.api.Security.send403();
-                                return;
-                            } else {
-                                contentInfo = $.parseJSON(data.results[0].body);
-                            }
-                        }
-
-                        if (data.results.hasOwnProperty(1)) {
-                            contentMembers = $.parseJSON(data.results[1].body);
-                            contentMembers.viewers = contentMembers.viewers || {};
-                            $.each(contentMembers.viewers, function(index, resultObject) {
-                                contentMembers.viewers[index].picture = $.parseJSON(contentMembers.viewers[index].picture);
-                            });
-                            contentMembers.managers = contentMembers.managers || {};
-                            $.each(contentMembers.managers, function(index, resultObject) {
-                                contentMembers.managers[index].picture = $.parseJSON(contentMembers.managers[index].picture);
-                            });
-                        }
-
-                        if (data.results.hasOwnProperty(2)) {
-                            versionInfo =$.parseJSON(data.results[2].body);
-                            var versions = [];
-                            for (var i in versionInfo.versions) {
-                                if(versionInfo.versions.hasOwnProperty(i)){
-                                    var splitDate = versionInfo.versions[i]["created"];
-                                    versionInfo.versions[i]["created"] = sakai.api.l10n.transformDate(new Date(splitDate));
-                                    versions.push(versionInfo.versions[i]);
-                                }
-                            }
-                            versionInfo.versions = versions.reverse();
-                        }
-
-                        var manager = false;
-                        var anon = true;
-                        var groups = [];
-                        if (!sakai.data.me.user.anon){
-                            for (var ii in contentMembers.managers) {
-                                if (contentMembers.managers.hasOwnProperty(ii)) {
-                                    if (contentMembers.managers[ii].hasOwnProperty("rep:userId")) {
-                                        if (contentMembers.managers[ii]["rep:userId"] === sakai.data.me.user.userid) {
-                                            manager = true;
-                                        }
-                                    } else if (contentMembers.managers[ii].hasOwnProperty("sakai:group-id")) {
-                                        if (sakai.api.Groups.isCurrentUserAMember(
-                                            contentMembers.managers[ii]["sakai:group-id"],
-                                            sakai.data.me)) {
-                                            manager = true;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                        var directory = [];
-                        // When only one tag is put in this will not be an array but a string
-                        // We need an array to parse and display the results
-                        if (contentInfo && contentInfo['sakai:tags']) {
-                            directory = sakai.api.Util.getDirectoryTags(contentInfo["sakai:tags"].toString());
-                        }
-
-                        var fullPath = content_path + "/" + contentInfo["sakai:pooled-content-file-name"];
-                        if (contentInfo["sakai:pooled-content-file-name"].substring(contentInfo["sakai:pooled-content-file-name"].lastIndexOf("."), contentInfo["sakai:pooled-content-file-name"].length) !== contentInfo["sakai:fileextension"]) {
-                            fullPath += contentInfo["sakai:fileextension"];
-                        }
-
-                        // filter out the the everyone group and the anonymous user
-                        contentMembers.viewers = $.grep(contentMembers.viewers, function(resultObject, index){
-                            if (resultObject['sakai:group-id'] !== 'everyone' &&
-                                resultObject['rep:userId'] !== 'anonymous') {
-                                return true;
-                            }
-                            return false;
-                        });
-
-                        json = {
-                            data: contentInfo,
-                            members: contentMembers,
-                            activity: contentActivity,
-                            mode: "content",
-                            url: sakai.config.SakaiDomain + fullPath,
-                            path: fullPath,
-                            saveddirectory : directory,
-                            versions : versionInfo,
-                            anon: anon,
-                            isManager: manager
-                        };
-
-                        sakai_global.content_profile.content_data = json;
-                        $(window).trigger("ready.contentprofile.sakai");
-                        if ($.isFunction(callback)) {
-                            callback(true);
-                        }
-                    }
-                });
-
-            } else {
-                sakai.api.Security.send404();
-            }
+                }
+            });
         };
 
         $(window).bind("load.content_profile.sakai", function(e, callback) {

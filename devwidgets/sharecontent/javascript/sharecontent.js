@@ -270,16 +270,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         };
 
         var changePermission = function(memberid, permission) {
-            var data = [];
-            if (permission === "viewer") {
-                $.ajax({
-                    url: "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".members.json",
-                    type: "POST",
-                    data: {
-                        ":viewer": memberid,
-                        ":manager@Delete": memberid
-                    },
-                    success: function () {
+            sakai.api.Content.changePermission("/p/" + sakai_global.content_profile.content_data.data["jcr:name"], memberid, permission, function(success, data){
+                if (success) {
+                    if (permission === "viewer") {
                         // update cached data (move this member from managers to viewers)
                         var managers = sakai_global.content_profile.content_data.members.managers;
                         for (var i = 0; i < managers.length; i++) {
@@ -291,50 +284,32 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                                 managers.splice(i, 1);
                             }
                         }
-
-                        // create activity
-                        createActivity("__MSG__CHANGED_PERMISSIONS_FOR_MEMBER__");
-
-                        // reload if the current user can no longer edit
-                        if (!canCurrentUserEdit()) {
-                            window.location.reload();
-                        }
-                    },
-                    error: function (data) {
-                        debug.error("sharecontent failed to change content " +
-                            "permission to 'viewer' for member: " + memberid);
-                        debug.error("xhr data returned: " + data);
-                    }
-                });
-            } else {
-                $.ajax({
-                    url: "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".members.json",
-                    type: "POST",
-                    data: {
-                        ":manager": memberid,
-                        ":viewer@Delete": memberid
-                    },
-                    success: function (data) {
+                    } else {
                         // update cached data (move this member from viewers to managers)
                         var viewers = sakai_global.content_profile.content_data.members.viewers;
-                        for (var i = 0; i < viewers.length; i++) {
-                            var viewer = viewers[i];
+                        for (var j = 0; j < viewers.length; j++) {
+                            var viewer = viewers[j];
                             if (viewer["rep:userId"] === memberid || viewer["sakai:group-id"] === memberid) {
                                 // append this member to managers
                                 sakai_global.content_profile.content_data.members.managers.push(viewer);
                                 // remove from viewers
-                                viewers.splice(i, 1);
+                                viewers.splice(j, 1);
                             }
                         }
-                        createActivity("__MSG__CHANGED_PERMISSIONS_FOR_MEMBER__");
-                    },
-                    error: function (data) {
-                        debug.error("sharecontent failed to change content " +
-                            "permission to 'manager' for member: " + memberid);
-                        debug.error("xhr data returned: " + data);
                     }
-                });
-            }
+                    // create activity
+                    createActivity("__MSG__CHANGED_PERMISSIONS_FOR_MEMBER__");
+
+                    // reload if the current user can no longer edit
+                    if (!canCurrentUserEdit()) {
+                        window.location.reload();
+                    }
+                } else {
+                    debug.error("sharecontent failed to change content " +
+                        "permission to '" + permission + "' for member: " + memberid);
+                    debug.error("xhr data returned: " + data);
+                }
+            });
         };
 
         var setGlobalPermission = function(){
@@ -349,9 +324,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 "sakai:permissions" : selectedVal
             };
 
-            sakai.api.Content.setFilePermissions(selectedVal, [{
-                "hashpath": sakai_global.content_profile.content_data.data["jcr:name"]
-            }], function(){
+            sakai.api.Content.setFilePermissions(selectedVal, [sakai_global.content_profile.content_data.data["jcr:path"]], function(){
                 $.ajax({
                     url: "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".json",
                     data: data,

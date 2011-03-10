@@ -636,7 +636,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             var obj = {};
                             obj.filename = i;
                             obj.hashpath = data[i];
-                            linkArray.push(obj);
+                            linkArray.push("/p/" + obj["jcr:path"]);
                         }
                     }
                     dataResponse = data;
@@ -844,7 +844,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
                             // Set permissions on the files
                             $fileUploadPermissionsSelect = $($fileUploadPermissionsSelect.selector);
-                            sakai.api.Content.setFilePermissions($fileUploadPermissionsSelect.val(), uploadedFiles, function(permissionsSet){
+                            var uploadedPaths = [];
+                            $.each(uploadedFiles, function(i, val) {
+                                uploadedPaths.push("/p/" + val["jcr:path"]);
+                            });
+                            sakai.api.Content.setFilePermissions($fileUploadPermissionsSelect.val(), uploadedPaths, function(permissionsSet){
                                 batchSetDescriptionAndName();
                             }, contextData.id);
 

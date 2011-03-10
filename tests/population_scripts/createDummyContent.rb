@@ -3,6 +3,7 @@ require 'net/http'
 
 @name = 'admin';
 @password = 'admin';
+@host = 'http://localhost:8080'
 
 def file_to_multipart(key,filename,mime_type,content)
   if ( filename != nil )
@@ -34,8 +35,8 @@ def execute_file_post(path, fieldname, filename, data, content_type)
   pwd = "#{@name}:#{@password}"
   # base64 encode
   pwd = [pwd].pack('m').chop
-  res = Net::HTTP.new(uri.host, uri.port).start {|http| http.request_post(path,query,"Content-type" => "multipart/form-data; boundary=" + boundary, "Authorization" => "Basic #{pwd}") }
+  res = Net::HTTP.new(uri.host, uri.port).start {|http| http.request_post(path,query,"Content-type" => "multipart/form-data; boundary=" + boundary, "Authorization" => "Basic #{pwd}", "referer" => @host) }
   return res
 end
 
-res = execute_file_post('http://localhost:8080/system/pool/createfile', 'lorem', 'lorem'+Time.now.to_i.to_s , 'lorem ipsum dolor sit amet', 'text/plain');
+puts execute_file_post("#{@host}/system/pool/createfile", 'lorem', 'lorem'+Time.now.to_i.to_s , 'lorem ipsum dolor sit amet', 'text/plain');
