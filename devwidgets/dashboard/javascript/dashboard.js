@@ -174,7 +174,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
 
             settings = jsonobj;
 
-            sakai.api.Widgets.saveWidgetData(tuid, settings, showDashboard);
+            sakai.api.Widgets.saveWidgetData(tuid, settings, showDashboard, true);
 
         };
 
@@ -293,7 +293,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
 
                 settings = $.parseJSON(jsonstring);
 
-                sakai.api.Widgets.saveWidgetData(tuid, settings);
+                sakai.api.Widgets.saveWidgetData(tuid, settings, null, true);
             }
 
             var final2 = {};
@@ -589,7 +589,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
             }
 
             if ($.toJSON(tempSettings) !== $.toJSON(settings)) {
-                sakai.api.Widgets.saveWidgetData(tuid, settings, checkSuccess);
+                sakai.api.Widgets.saveWidgetData(tuid, settings, checkSuccess, true);
             }
 
             tempSettings = settings;
@@ -684,7 +684,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
 
             settings = $.parseJSON(jsonstring);
 
-            sakai.api.Widgets.saveWidgetData(tuid, settings, finishAddWidgets);
+            sakai.api.Widgets.saveWidgetData(tuid, settings, finishAddWidgets, true);
 
 
         };
@@ -802,7 +802,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
                     }
                 }
 
-                sakai.api.Widgets.saveWidgetData(tuid, settings, beforeFinishAddWidgets);
+                sakai.api.Widgets.saveWidgetData(tuid, settings, beforeFinishAddWidgets, true);
 
             }
         });
