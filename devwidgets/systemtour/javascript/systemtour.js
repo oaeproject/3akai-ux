@@ -115,7 +115,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js", "/dev
                     tooltipDescription = "TOOLTIP_ADD_MY_PHOTO_P1";
                     displayTooltip = true;
                     $(".systemtour_1").addClass("systemtour_1_selected");
-                    $(".systemtour_1").addClass("systemtour_button_selected");
+                    $(".systemtour_1 button").addClass("systemtour_button_selected");
                 } else if (!me.profile.userprogress.uploadedContent && 
                     (!me.profile.userprogress.uploadedContentReminder || 
                         (!me.profile.userprogress.uploadedContent && me.profile.userprogress.uploadedContentReminder && 
@@ -126,7 +126,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js", "/dev
                     tooltipDescription = "TOOLTIP_UPLOAD_CONTENT_P1";
                     displayTooltip = true;
                     $(".systemtour_3").addClass("systemtour_3_selected");
-                    $(".systemtour_3").addClass("systemtour_button_selected");
+                    $(".systemtour_3 button").addClass("systemtour_button_selected");
                 } else if (!me.profile.userprogress.sharedContent && 
                     (!me.profile.userprogress.sharedContentReminder && me.profile.userprogress.uploadedContent || 
                         (!me.profile.userprogress.sharedContent && me.profile.userprogress.sharedContentReminder && me.profile.userprogress.uploadedContent && 
@@ -140,7 +140,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js", "/dev
                     tooltipLeft = -100;
                     displayTooltip = true;
                     $(".systemtour_4").addClass("systemtour_1_selected");
-                    $(".systemtour_4").addClass("systemtour_button_selected");
+                    $(".systemtour_4 button").addClass("systemtour_button_selected");
                     $(".mycontent_item_link").each(function(index) {
                         if ($(this).attr("href") && $(this).attr("href").indexOf("sharecontenttour") === -1) {
                             contentLink = $(this).attr("href");
@@ -160,7 +160,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js", "/dev
                     tooltipArrow = "bottom";
                     displayTooltip = true;
                     $(".systemtour_5").addClass("systemtour_5_selected");
-                    $(".systemtour_5").addClass("systemtour_button_selected");
+                    $(".systemtour_5 button").addClass("systemtour_button_selected");
                     if ($("#mycontacts_footer_search").attr("href") && $("#mycontacts_footer_search").attr("href").indexOf("addcontactstour") === -1) {
                         contentLink = $("#mycontacts_footer_search").attr("href");
                         hashPos = contentLink.indexOf("#");
@@ -184,7 +184,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js", "/dev
                     displayTooltip = true;
                     addUserProgress("halfCompletedProfileInProgress");
                     $(".systemtour_2").addClass("systemtour_2_selected");
-                    $(".systemtour_2").addClass("systemtour_button_selected");
+                    $(".systemtour_2 button").addClass("systemtour_button_selected");
                     if ($("#entity_edit_profile").attr("href") && $("#entity_edit_profile").attr("href").indexOf("editprofiletour") === -1) {
                         $("#entity_edit_profile").attr("href", $("#entity_edit_profile").attr("href") + "?editprofiletour=true");
                     }
@@ -306,7 +306,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js", "/dev
             switch (id) {
                 case "systemtour_add_photo":
                     $(".systemtour_1").addClass("systemtour_1_selected");
-                    $(".systemtour_1 a").addClass("systemtour_button_selected");
+                    $(".systemtour_1 button").addClass("systemtour_button_selected");
                     tooltipData = {
                         "tooltipSelector":"#changepic_container_trigger",
                         "tooltipTitle":"TOOLTIP_ADD_MY_PHOTO",
@@ -317,7 +317,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js", "/dev
                     break;
                 case "systemtour_edit_profile":
                     $(".systemtour_2").addClass("systemtour_2_selected");
-                    $(".systemtour_2 a").addClass("systemtour_button_selected");
+                    $(".systemtour_2 button").addClass("systemtour_button_selected");
                     tooltipData = {
                         "tooltipSelector":"#entity_edit_profile",
                         "tooltipTitle":"TOOLTIP_EDIT_MY_PROFILE",
@@ -331,7 +331,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js", "/dev
                     break;
                 case "systemtour_upload_file":
                     $(".systemtour_3").addClass("systemtour_3_selected");
-                    $(".systemtour_3 a").addClass("systemtour_button_selected");
+                    $(".systemtour_3 button").addClass("systemtour_button_selected");
                     tooltipData = {
                         "tooltipSelector":"#mycontent_footer_upload_link",
                         "tooltipTitle":"TOOLTIP_UPLOAD_CONTENT",
@@ -342,7 +342,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js", "/dev
                     break;
                 case "systemtour_share_content":
                     $(".systemtour_4").addClass("systemtour_4_selected");
-                    $(".systemtour_4 a").addClass("systemtour_button_selected");
+                    $(".systemtour_4 button").addClass("systemtour_button_selected");
                     if (!uploadedContent){
                         tooltipData = {
                             "tooltipSelector":"#mycontent_footer_upload_link",
@@ -373,7 +373,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js", "/dev
                     break;
                 case "systemtour_add_contacts":
                     $(".systemtour_5").addClass("systemtour_5_selected");
-                    $(".systemtour_5 a").addClass("systemtour_button_selected");
+                    $(".systemtour_5 button").addClass("systemtour_button_selected");
                     tooltipData = {
                         "tooltipSelector":"#mycontacts_footer_search",
                         "tooltipTitle":"TOOLTIP_ADD_CONTACTS",
@@ -413,7 +413,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js", "/dev
                     "tooltipAutoClose":true
                 };
                 $(".systemtour_2").addClass("systemtour_2_selected");
-                $(".systemtour_2 a").addClass("systemtour_button_selected");
+                $(".systemtour_2 button").addClass("systemtour_button_selected");
                 if (!sakai_global.tooltip || !sakai_global.tooltip.isReady) {
                     $(window).bind("ready.tooltip.sakai", function() {
                         $(window).trigger("init.tooltip.sakai", tooltipData);
