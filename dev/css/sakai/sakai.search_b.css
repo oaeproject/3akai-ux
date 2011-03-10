@@ -47,7 +47,7 @@ a.search_results_part_title{color:#5a6a7c;}
 .search_result_person_link{color:#000;font-size:.85em;}
 .search_result_person_divider{color:#ddd;margin:0 0 0 0px!important;}
 .search_result_course_site{padding:5px 0 10px 10px;}
-.search_result_course_site_title a{margin:0 0 5px;font-size:1em;}
+.search_result_course_site_title a, .search_result_content_title a{margin:0 0 5px;font-size:1em;}
 .search_result_course_site_url a{font-size:.95em;color:#999;}
 .search_result_course_site_excerpt{font-size:.95em;color:#666;}
 .search_result_course_site_excerpt strong{font-size:.95em;color:#333;}
