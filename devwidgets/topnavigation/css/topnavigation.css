@@ -53,6 +53,8 @@
 
 /* User Link Dropdown */
 #user_link_container{position:relative;text-align:left;min-width:50px;max-width:200px;}
+#user_link {background:none;border:medium none;margin:0; padding:0;}
+#user_link .dropdownlistone_arrow { *padding-right:8px;}
 
 /* Anonymous Login */
 #login_container{background:none repeat scroll 0 0 #878A8C;left:785px;padding:10px;position:absolute;top:32px;width:246px;z-index:1000;text-align:right;color:#eee;}
