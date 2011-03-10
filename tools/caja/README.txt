@@ -15,6 +15,13 @@ UPDATED
 
 STEPS TO BUILD HTML SANATISER WITH WHITELIST MODIFICATIONS
 
+Commands:
+    svn checkout http://google-caja.googlecode.com/svn/trunk/ google-caja-read-only
+    *edit whitelist*
+    cd google-caja-read-only
+    ant
+    *follow step 4 below*
+
 1.  Check out the google caja source with subversion
     http://code.google.com/p/google-caja/source/checkout
 
