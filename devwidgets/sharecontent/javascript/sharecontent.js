@@ -467,10 +467,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     }
                 });
                 var left = Math.round($(this).position().left + $("#sharecontent_listpeople").position().left + 3);
-                var top = Math.round($(this).position().top + $("#sharecontent_listpeople").position().top + 21);
+                var top = Math.round($(this).position().top + $("#sharecontent_listpeople").position().top + 22);
                 if ($(this).parent(".sharecontent_search_container").length > 0) {
                     left = Math.round($(this).position().left + 2);
-                    top = Math.round($(this).position().top + 25);
+                    top = Math.round($(this).position().top + 26);
                 }
                 sharecontentEditPermissionsLink = $("#sharecontent_edit_permission");
                 sharecontentEditPermissionsLink.css("width", $(this).width() + 11 + "px");
