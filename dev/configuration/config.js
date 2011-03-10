@@ -22,7 +22,7 @@ define(function() {
             // Static URLs
             CONTENT_MEDIA_URL: "/dev/content_media.html",
             COURSES_SITES_URL: "/dev/courses_sites.html",
-            GATEWAY_URL: "/index",
+            GATEWAY_URL: "/",
             GROUP_EDIT_URL: "/group/edit",
             I10N_BUNDLE_URL: "/dev/lib/misc/l10n/globinfo/Globalization.__CODE__.min.js",
             I18N_BUNDLE_ROOT: "/dev/bundle/",
@@ -597,8 +597,12 @@ define(function() {
              */
             helpLinkText: "Contact Us",
             helpLinkUrl: "http://www.sakaiproject.org/contact",
-            helpPhone: "+0123456789"
+            helpPhone: "212-555-1212"
         },
+
+        // Set this to true if you have an authentication system such as CAS
+        // that needs to redirect the user's browser on logout
+        followLogoutRedirects: false,
 
         Messages: {
             Types: {
@@ -1884,6 +1888,8 @@ define(function() {
 
         defaultUserTemplate: "defaultuser",
         defaultGroupTemplate: "defaultgroup",
+
+        enableChat: false,
 
         widgets: {
             "groups":[

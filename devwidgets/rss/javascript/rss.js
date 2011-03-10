@@ -144,9 +144,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var body = resultJSON.entries[((pageClicked - 1) * 3) + index].description + "\n";
                 body += "read more: " + resultJSON.entries[((pageClicked - 1) * 3) + index].link;
                 // initialize the sendmessage-widget
-                var o = $(window).trigger("initialize.sendmessage.sakai", [null, true, false]);
-                o.setSubject(subject);
-                o.setBody(body);
+                $(window).trigger("initialize.sendmessage.sakai", [null, true, false, null, subject, body]);
             });
 
             $(rootel + " " + rssOrderBySource).bind("click", function(e, ui){
@@ -213,14 +211,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     var item = $(this);
                     var pubDate = "";
                     var timeNow = new Date();
-                    var parseDate = formatDate(timeNow);
+                    var parseDate = timeNow;
                     if ($("pubDate",item).length > 0){
 
                         // We have to parse the RFC 822 date to help IE understand it, as it is something dodgy there...
                         pubDate = sakai.api.l10n.transformDateTimeShort(sakai.api.Util.parseRFC822Date($("pubDate",item).text()));
 
                     }
-                      rss.items.push({
+
+                    // check for malformed date from rss feed
+                    if (pubDate.indexOf("NaN") !== -1) {
+                        pubDate = $("pubDate",item).text();
+                    }
+
+                    rss.items.push({
                         "title" : $("title",item).text(),
                         "link" : $("link",item).text(),
                         "description" : $("description",item).text(),

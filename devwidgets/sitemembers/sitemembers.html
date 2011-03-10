@@ -49,20 +49,20 @@
 
     <div id="sitemembers_normal_fetchBar">
         <span id="sitemembers_normal_fetching">__MSG__FETCHED__ <span class="sitemembers_normal_nrFetched">0</span> __MSG__OUT_OF__ <span class="sitemembers_normal_count">1</span> __MSG__MEMBERS__.</span>
-        <a class="sitemembers_normal_more" style="display:none;" href="javascript:;">__MSG__MORE__ &#187;</a>
+        <button type="button" class="sitemembers_normal_more s3d-bold s3d-link-button" style="display:none;">__MSG__MORE__ &#187;</button>
         <br class="fl-push" />
     </div>
 
     <div id="sitemembers_normal_footer">
-        <a href="javascript:;" id="sitemembers_normal_footer_onlycontacts">__MSG__ONLY_MY_CONTACTS__</a>
-        <a href="javascript:;" id="sitemembers_normal_footer_all" style="display:none;">__MSG__SHOW_ALL__</a>
-        <a href="javascript:;" id="sitemembers_normal_footer_filter">__MSG__FILTER__</a>
+        <button type="button" class="s3d-bold s3d-link-button" id="sitemembers_normal_footer_onlycontacts">__MSG__ONLY_MY_CONTACTS__</button>
+        <button type="button" class="s3d-bold s3d-link-button" id="sitemembers_normal_footer_all" style="display:none;">__MSG__SHOW_ALL__</button>
+        <button type="button" class="s3d-bold s3d-link-button" id="sitemembers_normal_footer_filter">__MSG__FILTER__</button>
         <input type="text" id="sitemembers_normal_footer_text" />
     </div>
 </div>
 
 <!-- WIDGET FOOTER-->
-<div class="s3d-widget-no-options fl-fix"><div class="s3d-widget-no-options-inner"><!-- --></div></div>
+<div class="s3d-widget-no-options"><div class="s3d-widget-no-options-inner"><!-- --></div></div>
 
 <!-- MEMBERS TEMPLATE -->
 <div id="sitemembers_normal_results_template" style="display:none;"><!--
@@ -86,10 +86,10 @@
                 </span><br />
                 {if !m.isMe}
                     {if !m.isContact}
-                        <a href="javascript:;" id="sitemembers_normal_result_addtocontacts_${m.userid}" class="sitemembers_normal_result_addtocontacts">__MSG__ADD_TO_CONTACTS__</a>
+                        <button type="button" id="sitemembers_normal_result_addtocontacts_${m.userid}" class="sitemembers_normal_result_addtocontacts s3d-bold s3d-link-button">__MSG__ADD_TO_CONTACTS__</button>
                         <span id="sitemembers_normal_result_addtocontactsdivider_${m.userid}_divider">|</span>
                     {/if}
-                    <a href="javascript:;" id="sitemembers_normal_result_message_${m.userid}" class="sitemembers_normal_result_message">__MSG__MESSAGE__</a>
+                    <button type="button" id="sitemembers_normal_result_message_${m.userid}" class="sitemembers_normal_result_message s3d-bold s3d-link-button">__MSG__MESSAGE__</button>
                 {/if}
             </div>
             <div class="sitemembers_normal_result_data">

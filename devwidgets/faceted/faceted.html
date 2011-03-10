@@ -14,27 +14,27 @@
                 ${title}
             </div>
             <div class="faceted_back" style="display:none;">
-                <a href="javascript:;" class="faceted_back_link">Back</a>
+                <button type="button" class="faceted_back_link s3d-link-button s3d-action">Back</button>
             </div>
             <div class="faceted_list">
                 <div class="faceted_value">
                     <span style="display:none">${value}</span>
                     {if facets.length > 9}
-                    <a href="javascript:;" id="faceted_listall">List All</a>
+                    <button type="button" id="faceted_listall" class="s3d-link-button s3d-action">List All</button>
                     {/if}
                 </div>
                 {var facet_index = 0}
                 {for f in facets}
                     {if facet_index > 9}
-                        <div class="faceted_list_expanded" style="display:none;"><span class="faceted_category"><a href="javascript:;" id="${f.category.replace(/[^a-zA-Z0-9]+/g,'')}">${f.category}</a></span></div>
+                        <div class="faceted_list_expanded" style="display:none;"><span class="faceted_category"><button type="button" class="s3d-bold s3d-link-button s3d-action" id="${f.category.replace(/[^a-zA-Z0-9]+/g,'')}">${f.category}</button></span></div>
                     {else}
-                        <span class="faceted_category" id="${f_index.replace(/[^a-zA-Z0-9]+/g,'')}"><a href="javascript:;">${f.category}</a></span>
+                        <span class="faceted_category" id="${f_index.replace(/[^a-zA-Z0-9]+/g,'')}"><button type="button" class="s3d-bold s3d-link-button s3d-action">${f.category}</button></span>
                     {/if}
                     ${facet_index++|eat}
                 {/for}
                 </div>
             <div class="faceted_back" style="display:none;">
-                <a href="javascript:;" class="faceted_back_link">Back</a>
+                <button type="button" class="faceted_back_link s3d-link-button s3d-action">Back</button>
             </div>
         </div>
     </div>

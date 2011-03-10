@@ -247,6 +247,7 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/video/jwplayer/swfobject
             if ($(videoForm, rootel).valid()) {
                 addVideo(getVideoJson());
             }
+            return false;
         });
 
         /** Bind the 'Don't Add' button */

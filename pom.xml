@@ -108,8 +108,8 @@
   <properties>
     <ant.target>development</ant.target>
     <dev.content>
-        SLING-INF/content/tests;path:=/tests,
-        SLING-INF/content/jsdoc;path:=/jsdoc,
+        SLING-INF/content/tests;path:=/tests;uninstall:=false;overwrite:=true,
+        SLING-INF/content/jsdoc;path:=/jsdoc;uninstall:=false;overwrite:=true,
     </dev.content>
   </properties>
   <profiles>
@@ -141,14 +141,14 @@
         <configuration>
           <instructions>
             <Sling-Initial-Content>
-                SLING-INF/content/dev;path:=/dev;ignoreImportProviders:="xml,json,html,jar,zip";uninstall:=false,
-                SLING-INF/content/devwidgets;path:=/devwidgets;ignoreImportProviders:="xml,json,html,jar,zip";uninstall:=false,
-                SLING-INF/content/var/templates/site;path:=/var/templates/site;uninstall:=false,
-		SLING-INF/content/var/templates/email;path:=/var/templates/email;uninstall:=false,
-                SLING-INF/content/var/ux-version;path:=/var/ux-version;uninstall:=false;overwriteProperties:=true,
-                SLING-INF/content/apps;path:=/apps;uninstall:=false,
+                SLING-INF/content/dev;path:=/dev;ignoreImportProviders:="xml,json,html,jar,zip";uninstall:=false;overwrite:=true,
+                SLING-INF/content/devwidgets;path:=/devwidgets;ignoreImportProviders:="xml,json,html,jar,zip";uninstall:=false;overwrite:=true,
+                SLING-INF/content/var/templates/site;path:=/var/templates/site;uninstall:=false;overwrite:=true,
+                SLING-INF/content/var/templates/email;path:=/var/templates/email;uninstall:=false;overwrite:=true,
+                SLING-INF/content/var/ux-version;path:=/var/ux-version;uninstall:=false;overwriteProperties:=true;overwrite:=true,
+                SLING-INF/content/apps;path:=/apps;uninstall:=false;overwrite:=true,
                 ${dev.content}
-                SLING-INF/content/root;path:=/;uninstall:=false
+                SLING-INF/content/root;path:=/;uninstall:=false;overwrite:=true
             </Sling-Initial-Content>
           </instructions>
         </configuration>

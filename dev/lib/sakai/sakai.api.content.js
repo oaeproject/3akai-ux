@@ -143,6 +143,51 @@ define(["jquery", "/dev/configuration/config.js"],function($, sakai_conf) {
                     callback(false);
                 }
             });
+        },
+
+        /**
+         * Returns true if the user is a viewer for the given content item,
+         * false otherwise.
+         *
+         * @param content  content profile data as defined in loadContentProfile()
+         *   of /dev/javascript/content_profile.js
+         * @param userid   the id of the user to search for
+         */
+        isUserAViewer: function (content, userid) {
+            if (content && userid && content.hasOwnProperty("members") &&
+                content.members.hasOwnProperty("viewers")) {
+                for (var i in content.members.viewers) {
+                    if (content.members.viewers.hasOwnProperty(i)) {
+                        if (userid === content.members.viewers[i].userid) {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        },
+
+
+        /**
+         * Returns true if the user is a manager for the given content item,
+         * false otherwise.
+         *
+         * @param content  content profile data as defined in loadContentProfile()
+         *   of /dev/javascript/content_profile.js
+         * @param userid  the id of the user to search for
+         */
+        isUserAManager: function (content, userid) {
+            if (content && userid && content.hasOwnProperty("members") &&
+                content.members.hasOwnProperty("managers")) {
+                for (var i in content.members.managers) {
+                    if (content.members.managers.hasOwnProperty(i)) {
+                        if (userid === content.members.managers[i].userid) {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
         }
     };
 });

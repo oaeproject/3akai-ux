@@ -80,7 +80,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
 
         var decideExists = function(exists, response) {
             if (exists === false) {
-                if (response.status === 401) { // uesr is not logged in
+                if (response.status === 401) { // user is not logged in
                     $(window).trigger("sakai_global.dashboard.notLoggedIn"); // let the embedding page decide how to handle not logged in
                 }
                 doInit();
@@ -133,7 +133,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
             });
         };
 
-        $(window).bind("sakai_sitespages_exitedit", function(ev){
+        $(window).bind("exitedit.sitespages.sakai", function(ev){
             registerWidgetFunctions();
         });
 
@@ -182,9 +182,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
             var person = sakai.data.me;
 
             if (!person.user.userid) {
-                $(window).trigger("sakai_global.dashboard.notUsersDashboard");
+                $(window).trigger("notUsersDashboard.dashboard.sakai");
             } else if (person.user.anon) {
-                $(window).trigger("sakai_global.dashboard.notLoggedIn");
+                $(window).trigger("notLoggedIn.dashboard.sakai");
             }
 
             $(".body-container", $rootel).show();
@@ -937,8 +937,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
              onShow: renderGoodies
          });
 
-         $(window).unbind("sakai-dashboard-showAddWidgetDialog");
-         $(window).bind("sakai-dashboard-showAddWidgetDialog", function(e, iTuid) {
+         $(window).unbind("showAddWidgetDialog.dashboard.sakai");
+         $(window).bind("showAddWidgetDialog.dashboard.sakai", function(e, iTuid) {
              if (iTuid === tuid && (widgetDialogShown[tuid] === false || widgetDialogShown[tuid] === undefined)) {
                  widgetDialogShown[tuid] = true;
                  $(addGoodiesDialog, $rootel).jqmShow();
@@ -986,7 +986,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
          * loaded successfully
          */
 
-        $(window).trigger("sakai_global.dashboard.ready", tuid);
+        $(window).trigger("ready.dashboard.sakai", tuid);
         sakai_global.dashboard.isReady = true;
     };
 

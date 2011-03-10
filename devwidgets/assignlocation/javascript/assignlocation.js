@@ -74,11 +74,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $assignlocationJSTreeSelectedContainer.html(sakai.api.Util.TemplateRenderer(assignlocationJSTreeSelectedTemplate, locations));
 
             // add event binding to the items
-            $(".assignlocation_close_link").bind("click", function(ev){
+            $(".assignlocation_close_image").bind("click", function(ev){
                 // get the id for the node (list item id)
                 var id = $(this).parent().attr("id").split("/").pop();
                 // unchecked the node
                 $assignlocationJSTreeContainer.jstree("uncheck_node", $("#"+id));
+                return false;
             });
 
             // Check the boxes that were previously saved
@@ -96,7 +97,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $assignlocationJSTreeContainer.bind("change_state.jstree", function(ev){
                 newlyAssignedLocations = [];
                 $(".jstree-checked>a").each(function(index, val){
-                    newlyAssignedLocations.push(val.href.split("#")[1]);
+                    newlyAssignedLocations.push(val.href.split("=")[1]);
                 });
                 renderSelected();
             });
@@ -129,7 +130,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 contextVariables.saveddirectory = sakai.api.Util.getDirectoryTags(newTags.toString());
                 $assignlocationContainer.jqmHide();
                 sakai.api.Util.notification.show($(assignlocationLocationSaved).html(), $(assignlocationLocationSuccessfullySaved).html());
-                $(window).trigger("sakai-contentmetadata-renderlocations", contextVariables);
+                $(window).trigger("renderlocations.contentmetadata.sakai", contextVariables);
                 $assignlocationActions.show();
                 $assignlocationAjaxLoader.hide();
             });

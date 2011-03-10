@@ -34,13 +34,13 @@
                     <input type="hidden" id="comments_path_${i['sakai:id']}" value="${i['jcr:path']}" />
                     <ul>
                         {if i.canEdit && i.canEdit === true}
-                            <li><a href="javascript:;" class="comments_edit" id="comments_edit_${i['sakai:id']}">__MSG__EDIT__</a></li>
+                            <li><button type="button" class="comments_edit s3d-link-button s3d-action" id="comments_edit_${i['sakai:id']}">__MSG__EDIT__</button></li>
                         {/if}
                         {if i.canDelete && i.canDelete === true}
                             {if i["sakai:deleted"] && i["sakai:deleted"] === true}
-                                <li>| <a href="javascript:;" class="comments_undelete" id="comments_undelete${i['sakai:id']}">__MSG__UNDELETE__</a></li>
+                                <li>| <button type="button" class="comments_undelete s3d-link-button s3d-action" id="comments_undelete${i['sakai:id']}">__MSG__UNDELETE__</button></li>
                             {else}
-                                <li>| <a href="javascript:;" class="comments_delete" id="comments_delete${i['sakai:id']}">__MSG__DELETE__</a></li>
+                                <li>| <button type="button" class="comments_delete s3d-link-button s3d-action" id="comments_delete${i['sakai:id']}">__MSG__DELETE__</button></li>
                             {/if}
                         {/if}
                     </ul>
@@ -166,7 +166,7 @@
     </form>
 </div>
 <!-- WIDGET FOOTER-->
-<div class="s3d-widget-no-options fl-fix"><div class="s3d-widget-no-options-inner"><!-- --></div></div>
+<div class="s3d-widget-no-options"><div class="s3d-widget-no-options-inner"><!-- --></div></div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/comments/javascript/comments.js"></script>

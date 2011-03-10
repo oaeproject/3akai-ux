@@ -88,7 +88,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 url = "/var/search/pool/files?group=" + sakai_global.currentgroup.data.authprofile["sakai:group-id"];
             }
 
-            $(window).trigger("sakai-listpeople-render", {"tuid": listType+tuid, "listType": listType, "pl_config": pl_config, "url": url, "id": sakai_global.currentgroup.data.authprofile["sakai:group-id"]});
+            $(window).trigger(listType+tuid + ".render.listpeople.sakai", {"listType": listType, "pl_config": pl_config, "url": url, "id": sakai_global.currentgroup.data.authprofile["sakai:group-id"]});
         };
 
         //////////////
@@ -103,10 +103,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (sakai_global.listpeople && sakai_global.listpeople.isReady && sakai_global.data.listpeople[(listType+tuid)] && sakai_global.data.listpeople[(listType+tuid)].isReady) {
                 loadGroupElements();
             } else {
-                $(window).bind("sakai-listpeople-ready", function(e, iTuid) {
-                    if (iTuid === (listType+tuid)) {
-                        loadGroupElements();
-                    }
+                $(window).unbind(listType+tuid + ".ready.listpeople.sakai");
+                $(window).bind(listType+tuid + ".ready.listpeople.sakai", function(e) {
+                    loadGroupElements();
                 });
             }
         };

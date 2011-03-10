@@ -237,17 +237,20 @@ define(["jquery",
                     "_charset_": "utf-8"
                 },
                 complete: function(xhr, textStatus) {
-                    // hit the logout service to destroy the session
-                    $.ajax({
-                        url: sakai_conf.URL.LOGOUT_SERVICE,
-                        type: "GET",
-                        complete: function(xhrInner, textStatusInner) {
-                            callback(textStatusInner === "success");
-                        }
-                    });
+                    if (sakai_conf.followLogoutRedirects) {
+                        window.location = sakai_conf.URL.LOGOUT_SERVICE;
+                    } else {
+                        // hit the logout service to destroy the session
+                        $.ajax({
+                            url: sakai_conf.URL.LOGOUT_SERVICE,
+                            type: "GET",
+                            complete: function(xhrInner, textStatusInner) {
+                                callback(textStatusInner === "success");
+                            }
+                        });
+                    }
                 }
             });
-
         },
 
         /**
@@ -410,7 +413,7 @@ define(["jquery",
                     if (sakai_conf.Profile.configuration.defaultConfig.basic.elements[profileNode].type === "select") {
                         lastReplacementValue = profile.basic.elements[profileNode].value;
                         lastReplacementValue = sakai_conf.Profile.configuration.defaultConfig.basic.elements[profileNode].select_elements[lastReplacementValue];
-                        lastReplacementValue = sakai_i18n.General.process(lastReplacementValue, sakai_i18n.data.localBundle, sakai_i18n.data.defaultBundle);
+                        lastReplacementValue = sakai_i18n.General.process(lastReplacementValue);
                     } else {
                         lastReplacementValue = profile.basic.elements[profileNode].value;
                     }
@@ -442,7 +445,7 @@ define(["jquery",
             } else {
                 // has to be synchronous
                 $.ajax({
-                    url: sakai.config.URL.CONTACTS_FIND_STATE,
+                    url: sakai_conf.URL.CONTACTS_FIND_STATE,
                     async: false,
                     success: function(data) {
                         sakaiUserAPI.data.me.mycontacts = data.results;
@@ -552,7 +555,7 @@ define(["jquery",
                     // Check whether save was successful
                     if (success && refresh) {
                         // Refresh the widget
-                        $(window).trigger("sakai-systemtour-update");
+                        $(window).trigger("update.systemtour.sakai");
                     }
                 });
             }

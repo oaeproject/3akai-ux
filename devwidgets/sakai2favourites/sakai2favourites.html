@@ -6,21 +6,21 @@
     <div class="dialog_header">
         <div class="dialog_header_inner">
             <h1>__MSG__WIDGET_TITLE__</h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+            <button type="button" class="jqmClose dialog_close_image s3d-link-button" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</button>
         </div>
     </div>
 
     <div class="dialog_content">
         <div class="s3d-highlight_area_background" id="sakai2favourites_sub_container">
             <div class="fl-force-left">
-                <span>Select category</span>
+                <span>__MSG__SELECT_CATEGORY__</span>
                 <div class="fl-widget-content s3d-widget-content sakai2favourites_site_list" id="sakai2_category_list">
                 </div>
                 <div id="sakai2_category_list_template"><!--
                     <ul>
                         {var index = 0}
                         {for category in categories}
-                            <li {if index === 0} class="selected" {/if}><span class="sakai2_category_title {if index === 0} selected_category {/if}" id=${category.category.replace(/ /g, "_")}><a class="s3d-regular-links s3d-bold" href="javascript:;">${category.category}</a></span></li>
+                            <li {if index === 0} class="selected" {/if}><span class="sakai2_category_title {if index === 0} selected_category {/if}" id=${category.category.replace(/ /g, "_")}><button type="button" class="s3d-regular-links s3d-bold s3d-link-button">${category.category}</button></span></li>
                             ${index++|eat}
                         {/for}
                     </ul>
@@ -28,7 +28,7 @@
                 
             </div>
             <div class="fl-force-left" style="margin-left:5px;">
-                <span>Select sites to add to favourites</span>
+                <span>__MSG__SELECT_SITES__</span>
                 <div class="fl-widget-content s3d-widget-content sakai2favourites_site_list" id="sakai2_site_list">
                 </div>
                 <div id="sakai2_site_list_template"><!--
@@ -50,7 +50,7 @@
                     <div class="sakai2favourites_site_list">
                         <ul>
                             {for site in sites}
-                                <li><a class="s3d-regular-links s3d-bold" href="javascript:;"><span class="sakai2_selected_site_title" id=${site.id}><div class="sakai2_selected_site_icon"></div>${site.title}</span></a></li>
+                                <li><button type="button" id=${site.id} class="s3d-regular-links s3d-bold s3d-link-button sakai2_selected_site"><span class="sakai2_selected_site_title"><div class="sakai2_selected_site_icon"></div>${site.title}</span></button></li>
                             {/for}
                         </ul>
                     </div>

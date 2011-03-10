@@ -16,7 +16,9 @@
             </div>
         </div>
         <div id="popularcontent_main_template" style="display:none"><!--
-            {if data.results}<ul>{for result in data.results}
+            {if data.results}
+              <ul>
+              {for result in data.results}
                 {var index = 0}
                 {for item in result.content}
                     {if index < 5}
@@ -26,14 +28,18 @@
                 {forelse}
                     <li>__MSG__NO_CONTENT_FOUND__</li>
                 {/for}
-            {/for}</ul>{/if}
+              {forelse}
+                <li>__MSG__NO_CONTENT_FOUND__</li>
+              {/for}
+              </ul>
+            {/if}
             {if Math.abs(data.total) > 5}
                 <div class="fl-text-align-right">
                     <a href="/search/content#q=*" class="s3d-action s3d-action-seeall">__MSG__SEE_ALL__</a>
                 </div>
             {/if}
         --></div>
-    <div class="s3d-widget-no-options fl-fix">
+    <div class="s3d-widget-no-options">
         <div class="s3d-widget-no-options-inner">
         </div>
     </div>

@@ -24,7 +24,7 @@
             {for i in feeds}
             <div class="rss_settings_rssFeedListItem">
                 <span class="rss_bold rss_setting_listLeft">${i.title}</span>
-                <a href="javascript:;" id="rss_settings_removeFeed${feeds.indexOf(i)}" class="rss_settings_removeFeed rss_setting_listRight"><img src="/dev/images/close_icon_small.png" alt="X"></img></a>
+                <button type="button" id="rss_settings_removeFeed${feeds.indexOf(i)}" class="rss_settings_removeFeed rss_setting_listRight s3d-bold s3d-link-button"><img src="/dev/images/close_icon_small.png" alt="X"></img></button>
                 <div class="fl-push"></div>
                 <span>
                     ${i.items.length}
@@ -59,7 +59,7 @@
 </div>
 
 <!-- WIDGET FOOTER-->
-<div class="s3d-widget-no-options fl-fix"><div class="s3d-widget-no-options-inner"><!-- --></div></div>
+<div class="s3d-widget-no-options"><div class="s3d-widget-no-options-inner"><!-- --></div></div>
 
 <div id="rss_output_template" style="display:none"><!--
         <div class="rss_output_header">
@@ -90,8 +90,7 @@
                 {if displaySource}
                     <span class="fl-force-left"><span class="rss_title">__MSG__SOURCE__: </span><a href="${i.feed.id}">${i.feed.title}</a></span>
                 {/if}
-                <a class="rss_sendToFriend fl-force-right" id="rss_sendToFriend${i_index}" href="javascript:;">__MSG__SEND_ARTICLE_TO_A_FRIEND__</a>
-
+                <button type="button" class="rss_sendToFriend fl-force-right s3d-bold s3d-link-button" id="rss_sendToFriend${i_index}">__MSG__SEND_ARTICLE_TO_A_FRIEND__</button>
             </div>
         {/for}
         <div class="jq_pager rss_jq_pager"></div>

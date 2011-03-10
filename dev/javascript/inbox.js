@@ -408,12 +408,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
                     // title , groupid from pickeruser
                     if (key) {
-                        response.results[j].subject = sakai.api.Security.escapeHTML(sakai.api.i18n.General.getValueForKey(key) + " " + comment);
+                        response.results[j].subject = sakai.api.Security.escapeHTML(sakai.api.i18n.General.process(key) + " " + comment);
                         // just title with ${user} add to contacts
                     }
                     else
-                        if (sakai.api.i18n.General.getValueForKey(response.results[j]["sakai:subject"])) {
-                            response.results[j]["sakai:subject"] = sakai.api.Security.escapeHTML(sakai.api.i18n.General.getValueForKey(response.results[j]["sakai:subject"]).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(response.results[j].userFrom[0])));
+                        if (sakai.api.i18n.General.process(response.results[j]["sakai:subject"])) {
+                            response.results[j]["sakai:subject"] = sakai.api.Security.escapeHTML(sakai.api.i18n.General.process(response.results[j]["sakai:subject"]).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(response.results[j].userFrom[0])));
                         }
                         else {
                             response.results[j]["sakai:subject"] = messageSubject;
@@ -612,19 +612,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     for (var i = 0, j = data.count.length; i < j; i++) {
                         if (data.count[i].group === "message") {
                             unreadMessages = data.count[i].count;
+                        } else if (data.count[i].group === "announcement") {
+                            unreadAnnouncements = data.count[i].count;
+                        } else if (data.count[i].group === "invitation") {
+                            unreadInvitations = data.count[i].count;
+                        } else if (data.count[i].group === "chat") {
+                            $(inboxFilterChats).append(data.count[i].count);
                         }
-                        else
-                            if (data.count[i].group === "announcement") {
-                                unreadAnnouncements = data.count[i].count;
-                            }
-                            else
-                                if (data.count[i].group === "invitation") {
-                                    unreadInvitations = data.count[i].count;
-                                }
-                                else
-                                    if (data.count[i].group === "chat") {
-                                        $(inboxFilterChats).append(sakai.api.Security.saneHTML(tpl.replace(/__NR__/gi, data.count[i].count)));
-                                    }
                         totalcount += data.count[i].count;
                     }
 
@@ -783,36 +777,40 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         comment = messageSubject.substr(messageSubject.lastIndexOf(",") + 1, messageSubject.length);
                         // title , groupid from pickeruser
                         if (key) {
-                            message["sakai:subject"] = sakai.api.Security.escapeHTML(sakai.api.i18n.General.getValueForKey(key) + " " + comment);
+                            message["sakai:subject"] = sakai.api.Security.escapeHTML(sakai.api.i18n.General.process(key) + " " + comment);
                             // just title with ${user} add to contacts
                         }
                         else
-                            if (sakai.api.i18n.General.getValueForKey(message["sakai:subject"])) {
-                                message["sakai:subject"] = sakai.api.Security.escapeHTML(sakai.api.i18n.General.getValueForKey(message["sakai:subject"]).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(message.userFrom[0])));
+                            if (sakai.api.i18n.General.process(message["sakai:subject"])) {
+                                message["sakai:subject"] = sakai.api.Security.escapeHTML(sakai.api.i18n.General.process(message["sakai:subject"]).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(message.userFrom[0])));
                             }
                         messageBody = message["sakai:body"] + "";
                         key = messageBody.substr(0, messageBody.lastIndexOf(","));
                         comment = messageBody.substr(messageBody.lastIndexOf(",") + 1, messageBody.length);
-                        if (key && sakai.api.i18n.General.getValueForKey(key)) {
-                            message["sakai:body"] = sakai.api.i18n.General.getValueForKey(key).replace(/\$\{comment\}/gi, comment).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(message.userFrom[i]));
-                        }
-                        else {
+                        if (key && sakai.api.i18n.General.process(key)) {
+                            message["sakai:body"] = sakai.api.i18n.General.process(key).replace(/\$\{comment\}/gi, comment).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(message.userFrom[i]));
+                        } else {
                             message["sakai:body"] = key.replace(/\$\{comment\}/gi, comment).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(message.userFrom[i]));
                         }
-                        $(inboxSpecificMessageFrom).attr("href", "/~" + message.userFrom[i].userid);
-                        $(inboxSpecificMessageFromPicture).attr("href", "/~" + message.userFrom[i].userid);
-                        $(inboxSpecificMessageFrom).text(sakai.api.User.getDisplayName(message.userFrom[i]));
+                        var obj = {
+                            "from_href" : "/~" + message.userFrom[i].userid,
+                            "from_name" : sakai.api.User.getDisplayName(message.userFrom[i]),
+                            "message_date" : sakai.api.Security.saneHTML(message.date)
+                        };
                         if (message.userFrom[i].photo) {
-                            $(inboxSpecificMessagePicture).attr("src", "/~" + message.userFrom[i]["userid"] + "/public/profile/" + message.userFrom[i].photo);
+                            obj["picture"] = "/~" + message.userFrom[i]["userid"] + "/public/profile/" + message.userFrom[i].photo;
+                        } else {
+                            obj["picture"] = sakai.config.URL.USER_DEFAULT_ICON_URL;
                         }
-                        else {
-                            $(inboxSpecificMessagePicture).attr("src", sakai.config.URL.USER_DEFAULT_ICON_URL);
-                        }
+                        $(".sender_details").html(sakai.api.Util.TemplateRenderer("sender_details_template",obj));
                     }
                 }
                 else {
-                    $(inboxSpecificMessageFrom).text(sakai.api.Security.saneHTML(message["sakai:from"]));
-                    $(inboxSpecificMessagePicture).attr("src", sakai.config.URL.USER_DEFAULT_ICON_URL);
+                    var obj1 = {
+                        "from_name": sakai.api.Security.saneHTML(message["sakai:from"]),
+                        "picture": sakai.config.URL.USER_DEFAULT_ICON_URL
+                    };
+                    $(".sender_details").html(sakai.api.Util.TemplateRenderer("sender_details_template",obj1));
                 }
 
                 // Fill in this message values.
@@ -1440,7 +1438,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     $(window).trigger("hashchange");
                 }
             }, isDirectMessage);
-            $(window).bind("sakai-sendmessage-ready", function(){
+            $(window).bind("ready.sendmessage.sakai", function(){
                 sendMsgReady = true;
                 if (getMsgsReady && sendMsgReady) {
                     $(window).trigger("hashchange");

@@ -23,9 +23,11 @@
 .myprofile_widget .profile .myprofile_dept{color:#999;display:block;margin-left:80px;font-size:.95em;position:relative;}
 .myprofile_widget .profile p{margin-top:10px;color:#999;float:left;}
 .myprofile_widget .chat_status_label{padding-right:5px;float:left;}
+.myprofile_chat_status_picker {color:#333;}
 
 /* Profile status */
 #myprofile_chat_status{float:left;padding-left:17px;}
+.myprofile_chat_status{*width:70px;}
 
 /* Widget icon */
 .myprofile.fl-widget .fl-widget-titlebar .widget_title_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -640px -19px transparent;}

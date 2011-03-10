@@ -3,7 +3,7 @@
 
 <div class="mycontacts_widget">
 
-    <div class="fl-widget-content s3d-widget-content" id="mycontacts_list"><!-- --></div>
+    <div class="fl-widget-content s3d-widget-content fl-fix" id="mycontacts_list"><!-- --></div>
 
     <!-- ERROR MESSAGES -->
     <span id="mycontacts_error_contactserver" style="display:none;">__MSG__UNABLE_TO_CONTACT_THE_SERVER_PLEASE_TRY_AGAIN_LATER__.</span>
@@ -37,7 +37,6 @@
         {forelse}
             <span id="mycontacts_nocontacts">__MSG__YOU_CURRENTLY_HAVE_NO_CONTACTS__ | <a href="/search/people#q=*&amp;facet=all" class="s3d-regular-links s3d-bold">__MSG__SEARCH_FOR_CONTACTS__</a></span>
         {/for}
-        <hr class="fl-push fl-hidden"/>
     --></div>
 
     <div id="mycontacts_requests_template"><!--

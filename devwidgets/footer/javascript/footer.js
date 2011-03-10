@@ -46,11 +46,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $footer_debug_info = $("#footer_debug_info");
         var $footer_date_end = $("#footer_date_end");
         var $footer_root = $(".footer_main");
-        var $footer_logo = $("#footer_logo");
-        var $footer_contactinfo = $("#footer_contactinfo");
+        var $footer_logo = $("#footer_logo_button");
         var $footer_www = $("#footer_www");
         var $footer_divider = $("#footer_divider");
         var $footer_phone = $("#footer_phone");
+        var $footer_contactinfo = $("#footer_contactinfo");
+        var $footer_contactinfo_template = $("#footer_contactinfo_template");
 
 
         //////////////////////
@@ -125,32 +126,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var getContactDetails = function() {
             if (sakai.config.Institution){
-                var helpLinkUrl = false, helpPhone = false;
-                if (sakai.config.Institution.helpLinkText) {
-                    $footer_www.html(sakai.config.Institution.helpLinkText);
-                    $footer_www.attr("alt", sakai.api.Security.saneHTML(sakai.config.Institution.helpLinkText));
-                } else if (sakai.config.Institution.helpLinkUrl){
-                    helpLinkUrl = true;
-                    $footer_www.html(sakai.config.Institution.helpLinkUrl);
-                    $footer_www.attr("alt", sakai.api.Security.saneHTML(sakai.config.Institution.helpLinkUrl));
-                }
-                if (sakai.config.Institution.helpLinkUrl) {
-                    helpLinkUrl = true;
-                    $footer_www.attr("href", sakai.api.Security.saneHTML(sakai.config.Institution.helpLinkUrl));
-                }
-                if (sakai.config.Institution.helpPhone) {
-                    helpPhone = true;
-                    $footer_phone.html(sakai.api.Security.saneHTML(sakai.config.Institution.helpPhone));
-                }
-                if (helpLinkUrl){
-                    $footer_www.show();
-                }
-                if (helpLinkUrl && helpPhone){
-                    $footer_divider.show();
-                }
-                if (helpLinkUrl || helpPhone){
-                    $footer_contactinfo.show();
-                }
+                helpLinkURL = sakai.config.Institution.helpLinkUrl || "";
+                helpPhone = sakai.config.Institution.helpPhone ? sakai.api.Security.saneHTML(sakai.config.Institution.helpPhone) : "";
+                helpLinkAlt = sakai.config.Institution.helpLinkText ? sakai.api.Security.saneHTML(sakai.config.Institution.helpLinkText) : "";
+                var helpObj = {
+                    href : helpLinkURL,
+                    phone : helpPhone,
+                    alt : helpLinkAlt
+                };
+                $footer_contactinfo.html(sakai.api.Util.TemplateRenderer($footer_contactinfo_template, helpObj));
             }
         };
 

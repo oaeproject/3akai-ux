@@ -37,7 +37,7 @@
 
                 <!-- ENTITY WIDGET -->
                 <div id="widget_entity" class="widget_inline" style="float:left"></div>
-                <a href="#" class="s3d-action" id="launch_help" style="display:none">__MSG__HELP__</a>
+                <button type="button" class="s3d-action s3d-link-button s3d-bold" id="launch_help" style="display:none">__MSG__HELP__</button>
                 <div id="sitespages_page_options">
                     <div id="page_options"></div>
                     <div id="page_save_options"></div>
@@ -72,10 +72,12 @@
         <!-- Help -->
         <div id="widget_help" class="widget_inline"></div>
 
+        <script type="text/javascript" src="/dev/lib/tinymce/tiny_mce.js"></script>
+
         <!-- Dependency JS -->
         <script data-main="/dev/lib/sakai/sakai.dependencies.js" src="/dev/lib/jquery/require-jquery.js"></script>
 
         <!-- GROUP JS -->
-        <script>require(["/dev/javascript/history/site_history.js", "/dev/javascript/show.js", "/dev/lib/tinymce/tiny_mce.js"]);</script>
+        <script>require(["/dev/javascript/history/site_history.js", "/dev/javascript/show.js"]);</script>
     </body>
 </html>

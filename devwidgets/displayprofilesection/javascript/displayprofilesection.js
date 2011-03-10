@@ -94,7 +94,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Create a JSON object to pass the sectionid along
             // Trimpath needs an object to be passed (not only a variable)
             var sectionobject = {
-                "sectionid": "profilesection-" + data.sectionid
+                "sectionid": "profilesection-" + data.sectionid + "-" + Math.ceil(Math.random() * 999999999)
             };
 
             sakai.api.Widgets.changeWidgetTitle(tuid, data.sectiontitle);
@@ -104,13 +104,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(displayprofilesectionContentWidgetHolder, rootel).html(toAppend);
 
             // Bind a global event that can be triggered by the profilesection widgets
-            $(window).bind("sakai-" + sectionobject.sectionid, function(eventtype, callback){
+            $(window).bind(sectionobject.sectionid + ".sakai", function(eventtype, callback){
                 if ($.isFunction(callback)) {
                     callback(data.sectionid);
                 }
 
                 if ($.trim($("#profilesection_generalinfo", rootel).html()) === "") {
-                    if (sakai.data.me.user.userid === sakai.profile.main.data["rep:userId"]) {
+                    if (sakai.data.me.user.userid === sakai_global.profile.main.data["rep:userId"]) {
                         $(displayprofilesectionNoProfileInfoInserted, rootel).show();
                     } else {
                         $(displayprofilesectionNoProfileInfoInsertedViewMode, rootel).show();

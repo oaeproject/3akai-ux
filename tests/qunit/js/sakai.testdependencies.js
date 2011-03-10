@@ -1,4 +1,3 @@
-
 /* Define globals */
 sakai_global = {};
 /**
@@ -16,7 +15,7 @@ sakai_global = {};
  */
 window.debug = (function() {
     var that = {},
-        methods = [ 'error', 'warn', 'info', 'debug', 'log' ],
+        methods = [ 'error', 'warn', 'info', 'debug', 'log', 'trace' ],
         idx = methods.length;
 
     var createLogMethod = function(method) {
@@ -74,10 +73,11 @@ if(Array.hasOwnProperty("indexOf") === false){
 
 require(
     {
-        baseUrl: "../../../../dev/lib/"
+        baseUrl: "/dev/lib/"
     },
     [
         "jquery",
+        "sakai/sakai.api.core",
         "../../../../dev/lib/sakai/sakai.jquery-extensions.js",
         "../../../../dev/configuration/config.js",
         "../../../../dev/configuration/config_custom.js",
@@ -88,7 +88,6 @@ require(
         "../../../../dev/lib/misc/l10n/globalization.js",
         "../../../../dev/lib/jquery/plugins/jquery.json.js",
         "../../../../dev/lib/misc/google/html-sanitizer-minified.js",
-        "sakai/sakai.api.core",
         "../../../../dev/lib/misc/querystring.js",
         "../../../../dev/lib/jquery/plugins/jquery.timeago.js",
         "../../../../dev/lib/jquery/plugins/jqmodal.sakai-edited.js",
@@ -102,13 +101,14 @@ require(
         "../../../../dev/lib/jquery/plugins/gritter/jquery.gritter.js",
         "../../../../tests/qunit/js/qunit.js"
     ],
-    function($, a, b, c, d, e, f, g, h, i, j, sakai) {
+    function($, sakai) {
         require.ready(function() {
-            if (document.location.pathname !== "/tests/qunit/" && document.location.pathname !== "/tests/qunit/index.html")
-            sakai.api.User.loadMeData(function(success, data){
-                // Start i18n
-                sakai.api.i18n.init(data);
-            });
+            if (document.location.pathname !== "/tests/qunit/" && document.location.pathname !== "/tests/qunit/index.html") {
+                sakai.api.User.loadMeData(function(success, data) {
+                    // Start i18n
+                    sakai.api.i18n.init(data);
+                });
+            }
         });
         return sakai;
     }

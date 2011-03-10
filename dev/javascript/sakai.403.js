@@ -28,8 +28,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var doInit = function(){
             var renderedTemplate = false;
             if (sakai.data.me.user.anon){
-                $(window).bind("sakai-login-ready", function(e) {
-                    $(window).trigger("sakai-login-relayout", false);
+                $(window).bind("ready.login.sakai", function(e) {
+                    $(window).trigger("relayout.login.sakai", false);
                 });
 
                 $('html').addClass("requireAnon");

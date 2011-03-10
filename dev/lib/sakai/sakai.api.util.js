@@ -37,6 +37,35 @@ define(["jquery",
         function($, sakai_serv, sakai_l10n, sakai_conf) {
     
     var util = {
+
+        startup : function() {
+            // I know this is hideous
+            (function () {
+                var script = document.createElement("script");
+                script.type = "text/javascript";
+                script.src = "/dev/lib/MathJax/MathJax.js";
+
+                var config = 'MathJax.Hub.Config({ messageStyle: "none" }); ' +
+                             'MathJax.Hub.Config({ config: "MathJax.js" }); ' +
+                             'MathJax.Hub.Startup.onload();';
+
+                if (window.opera) {script.innerHTML = config;}
+                else {script.text = config;}
+
+                $("head")[0].appendChild(script);
+              })();
+
+              if (sakai_conf.enableChat) {
+                  // scroll more on focus if the focused element is obscrured by the chat bar
+                  $("input:not(.chat_with_txt), textarea, select, button:not(.chat_name_link), a:not(.chat_window_name)").live("focus", function(){
+                      if (($(this).offset().top + $(this).height()) - $(window).scrollTop() > $(window).height() - 40) {
+                          var scrollByAmt = 40 + $(this).height() + ($(this).offset().top - $(window).scrollTop()) - $(window).height();
+                          window.scrollBy(0, scrollByAmt);
+                      }
+                  });
+            }
+        },
+
         /**
          * Parse a JavaScript date object to a JCR date string (2009-10-12T10:25:19)
          *
@@ -345,6 +374,30 @@ define(["jquery",
                 });
             });
 
+        },
+
+        /**
+         * Truncate a string of text using the threedots plugin
+         * @param {String} body String of text to be truncated
+         * @param {int} width Width of the parent element
+         * @param {Object} params Object containing parameters, Threedots plugin specific. The row limit for widget headers should be 4 rows.
+         * @param {String} Optional class(es) to give container div. Used to give specific mark-up to the content to avoid wrong calculations. e.g. s3d-bold 
+         */
+        applyThreeDots : function(body, width, params, optClass){
+            // IE7 and IE6 have trouble with width
+            if(!jQuery.support.leadingWhitespace){
+                width = width - 10;
+            } else {
+                width = width - 5;
+            }
+
+            // Create elements to apply threedots
+            $container = $("<div class=\"" + optClass + "\" style=\"width:" + width + "px; ; word-wrap:break-word; display:hidden;\"><span style=\"word-wrap:break-word;\" class=\"ellipsis_text\">" + body + "</span></div>");
+            $("body").append($container);
+            $container.ThreeDots(params);
+            var dotted = $container.children("span").text();
+            $container.remove();
+            return (dotted);
         },
 
         /**
@@ -724,34 +777,46 @@ define(["jquery",
            naturalSort: function(a, b) {
 
                 /*
-                 * Natural Sort algorithm for Javascript
-                 * Version 0.3
+                 * Natural Sort algorithm for Javascript - Version 0.5 - Released under MIT license
                  * Author: Jim Palmer (based on chunking idea from Dave Koelle)
-                 *  optimizations and safari fix by Mike Grier (mgrier.com)
+                 * Contributors: Mike Grier (mgrier.com), Clint Priest, Kyle Adams, guillermo
                  * Released under MIT license.
                  * http://code.google.com/p/js-naturalsort/source/browse/trunk/naturalSort.js
                  */
 
-                // Setup temp-scope variables for comparison evalutation
-                var re = /(-?[0-9\.]+)/g,
-                    x = a.toString().toLowerCase() || '',
-                    y = b.toString().toLowerCase() || '',
-                    nC = String.fromCharCode(0),
-                    xN = x.replace( re, nC + '$1' + nC ).split(nC),
-                    yN = y.replace( re, nC + '$1' + nC ).split(nC),
-                    xD = (new Date(x)).getTime(),
-                    yD = xD ? (new Date(y)).getTime() : null;
-                // Natural sorting of dates
-                if (yD) {
-                    if (xD < yD) { return -1; }
-                    else if (xD > yD) { return 1; }
-                }
-                // Natural sorting through split numeric strings and default strings
-                for( var cLoc = 0, numS = Math.max(xN.length, yN.length); cLoc < numS; cLoc++ ) {
-                    var oFxNcL = parseFloat(xN[cLoc]) || xN[cLoc];
-                    var oFyNcL = parseFloat(yN[cLoc]) || yN[cLoc];
-                    if (oFxNcL < oFyNcL) { return -1; }
-                    else if (oFxNcL > oFyNcL) { return 1; }
+                // setup temp-scope variables for comparison evauluation
+                var re = /(^-?[0-9]+(\.?[0-9]*)[df]?e?[0-9]?$|^0x[0-9a-f]+$|-?[0-9]+)/gi,
+                    sre = /(^[ ]*|[ ]*$)/g,
+                    hre = /^0x[0-9a-f]+$/i,
+                    dre = /(^[0-9\-\.\/]{5,}$)|[0-9]+:[0-9]+|( [0-9]{4})/i,
+                    ore = /^0/,
+                    // convert all to strings and trim()
+                    x = a.toString().replace(sre, '') || '',
+                    y = b.toString().replace(sre, '') || '',
+                    // chunk/tokenize
+                    xN = x.replace(re, String.fromCharCode(0) + "$1" + String.fromCharCode(0)).replace(/\0$/,'').replace(/^\0/,'').split(String.fromCharCode(0)),
+                    yN = y.replace(re, String.fromCharCode(0) + "$1" + String.fromCharCode(0)).replace(/\0$/,'').replace(/^\0/,'').split(String.fromCharCode(0)),
+                    // numeric, hex or date detection
+                    xD = parseInt(x.match(hre), 10) || (xN.length != 1 && x.match(dre) && (new Date(x)).getTime()),
+                    yD = parseInt(y.match(hre), 10) || xD && (new Date(y)).getTime() || null;
+                // natural sorting of hex or dates - prevent '1.2.3' valid date
+                if (yD)
+                    if ( xD < yD ) return -1;
+                    else if ( xD > yD ) return 1;
+                // natural sorting through split numeric strings and default strings
+                for(var cLoc=0, numS=Math.max(xN.length, yN.length); cLoc < numS; cLoc++) {
+                    // find floats not starting with '0', string or 0 if not defined (Clint Priest)
+                    oFxNcL = !(xN[cLoc] || '').match(ore) && parseFloat(xN[cLoc]) || xN[cLoc] || 0;
+                    oFyNcL = !(yN[cLoc] || '').match(ore) && parseFloat(yN[cLoc]) || yN[cLoc] || 0;
+                    // handle numeric vs string comparison - number < string - (Kyle Adams)
+                    if (isNaN(oFxNcL) !== isNaN(oFyNcL)) return (isNaN(oFxNcL)) ? 1 : -1;
+                    // rely on string comparison if different types - i.e. '02' < 2 != '02' < '2'
+                    else if (typeof oFxNcL !== typeof oFyNcL) {
+                        oFxNcL += '';
+                        oFyNcL += '';
+                    }
+                    if (oFxNcL < oFyNcL) return -1;
+                    if (oFxNcL > oFyNcL) return 1;
                 }
                 return 0;
            }
@@ -800,7 +865,7 @@ define(["jquery",
                 for (item in directory) {
                     if (directory.hasOwnProperty(item)) {
                         // url for the first level nodes
-                        var url = "/directory#" + item;
+                        var url = "/directory#location=" + item;
                         // call buildnoderecursive to get the node structure to render.
                         result.push(buildNodeRecursive(item, directory, url));
                     }
@@ -1123,7 +1188,10 @@ define(["jquery",
             // If so, put the rendered template in there
             if (outputElement) {
                 outputElement.html(render);
+                // tell MathJax about the updated element
+                //MathJax.Hub.Queue(["Typeset", MathJax.Hub, outputElement]);
             }
+
             return render;
         },
         Security: {
@@ -1206,11 +1274,6 @@ define(["jquery",
                 html4.ATTRIBS["video::src"] = 0;
                 html4.ATTRIBS["video::class"] = 0;
                 html4.ATTRIBS["video::autoplay"] = 0;
-                html4.ELEMENTS["embed"] = 0;
-                html4.ELEMENTS["i"] = 0;
-                html4.ATTRIBS["embed::src"] = 0;
-                html4.ATTRIBS["embed::class"] = 0;
-                html4.ATTRIBS["embed::autostart"] = 0;
                 // A slightly modified version of Caja's sanitize_html function to allow style="display:none;"
                 var sakaiHtmlSanitize = function(htmlText, opt_urlPolicy, opt_nmTokenPolicy) {
                     var out = [];
@@ -1239,7 +1302,7 @@ define(["jquery",
                                                 var vals = value.split(";");
                                                 for (var attrid = 0; attrid < vals.length; attrid++){
                                                     var attrValue = $.trim(vals[attrid].split(":")[0]).toLowerCase();
-                                                    if ($.inArray(attrValue, accept)){
+                                                    if ($.inArray(attrValue, accept) !== -1){
                                                         sanitizedValue += vals[i];
                                                     }
                                                 }
@@ -1348,6 +1411,19 @@ define(["jquery",
                     callback();
                 }
             }
+        },
+        /**
+        * Runs MathJax over an element replacing any math TeX with rendered 
+        * rendered formulas
+        *
+        * @param element {String} The element (or it's id) that should be checked for math
+        */
+        renderMath : function(element) {
+            if (element instanceof jQuery && element[0])
+            {
+                element = element[0];
+            }
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub, element]);
         }
     };
     

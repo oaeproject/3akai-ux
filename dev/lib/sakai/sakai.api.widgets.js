@@ -453,7 +453,7 @@ define(["jquery",
                                         translated_content += requestedURLsResults[i].body.substring(lastend);
                                     }
                                     else {
-                                        translated_content = sakai_i18n.General.process(requestedURLsResults[i].body, sakai_i18n.data.localBundle, sakai_i18n.data.defaultBundle, sakai_user.data.me);
+                                        translated_content = sakai_i18n.General.process(requestedURLsResults[i].body, sakai_user.data.me);
                                     }
                                     var ss = sethtmlover(translated_content, widgets, widgetName);
                                     for (var s = 0; s < ss.length; s++) {
@@ -685,6 +685,7 @@ define(["jquery",
          * @param {String} title The title to change to
          */
         changeWidgetTitle : function(tuid, title) {
+            title = sakai_util.applyThreeDots(title, $("#"+tuid).parent("div").siblings("div.fl-widget-titlebar").width() - 70, {max_rows:4}, "s3d-bold");
             $("#"+tuid).parent("div").siblings("div.fl-widget-titlebar").find("h2.widget_title").text(title);
         },
 

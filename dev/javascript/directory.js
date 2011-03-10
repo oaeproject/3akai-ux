@@ -33,14 +33,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             return true;
         };
 
-        /**
-         * Add event bindings for the jstree pages navigation tree
-         */
-        var bindEvents = function() {
-            // bind sakai-directory-selected event.
-            // that event is triggered when directory in browsedirectory widget is selected.
-            $(window).bind("sakai-directory-selected", function(e, id){
-
+        var handleHashChange = function(e, node) {
+            var id = node || $.bbq.getState("location");
+            if (id) {
                 // get directory json object called method from browsedirectory widget
                 var nodeId = id.split("/").reverse().shift();
                 var directoryJson = sakai_global.browsedirectory.getDirectoryNodeJson(nodeId);
@@ -51,9 +46,18 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 resultJson.icon = directoryJson[0].attr["data-url"];
                 resultJson.id = directoryJson[0].attr["id"];
 
-                // render directory information 
+                // render directory information
                 $(".directory_info").html(sakai.api.Util.TemplateRenderer("#directory_template", resultJson));
-            });
+            }
+        };
+
+        /**
+         * Add event bindings for the jstree pages navigation tree
+         */
+        var bindEvents = function() {
+            // bind hashchange event.
+            // that event is triggered when directory in browsedirectory widget is selected.
+            $(window).bind("hashchange nohash.browsedirectory.sakai", handleHashChange);
         };
 
         doInit();

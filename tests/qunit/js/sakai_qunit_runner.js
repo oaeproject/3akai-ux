@@ -18,9 +18,6 @@
 
 
 require(
-    {
-        baseUrl: "../../../../dev/lib/"
-    },
     [
     "jquery", 
     "sakai/sakai.api.core",
@@ -76,6 +73,7 @@ require(
         // clear the old results, clear the iframes
         $("#run_all_results_individual table tbody").empty();
         $("#run_all_results_individual table tfoot").empty();
+        totalFailures = totalSuccesses = totalTime = startTime = endTime = 0;
         $("#run_all_iframes").empty();
         $run_all_results_num_finished.text('0');
         $run_all_results_num_to_go.text(tests.length);
@@ -118,14 +116,14 @@ require(
         var html = "<tr><td></td><td>" + totalFailures + "</td><td>" + totalSuccesses + "</td><td>" + totalTime/1000 + "</td></tr>";
         $("#run_all_results_individual table tfoot").append(html);
         // trigger an event for anything listening that we're done with our tests
-        $(window).trigger('sakai-qunit-tests-complete', {failures: totalFailures, successes: totalSuccesses});
+        $(window).trigger('complete.tests.qunit.sakai', {failures: totalFailures, successes: totalSuccesses});
     };
 
     /**
      * The event sakai-qunit-done is called from sakai_qunit_lib.js which is
      * included in each qunit html file
      */
-    $(document).bind('sakai-qunit-done', function(e, obj) {
+    $(document).bind('done.qunit.sakai', function(e, obj) {
         finishCurrentTest(obj);
         if (tests.length) {
             runTest(tests.pop());

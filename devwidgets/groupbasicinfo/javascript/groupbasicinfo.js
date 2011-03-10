@@ -176,7 +176,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // user has changed tags
                 sakai_global.currentgroup.data.authprofile["sakai:tags"] = [];
                 $(enteredTags).each(function(i, tag) {
-                    tag = $.trim(tag).replace(/#/g,"");
+                    tag = tag.replace(/\s+/g, " ");
                     if (sakai.api.Security.escapeHTML(tag) === tag && tag.replace(/\\/g,"").length) {
                         if ($.inArray(tag, sakai_global.currentgroup.data.authprofile["sakai:tags"]) < 0) {
                             sakai_global.currentgroup.data.authprofile["sakai:tags"].push(tag.replace(/\\/g,""));
@@ -191,7 +191,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var directory = $(value).attr("class");
                 sakai_global.currentgroup.data.authprofile["sakai:tags"].push(directory);
             });
-            
+
             // group description (can be blank)
             var groupDesc = $.trim($(groupBasicInfoGroupDesc, $rootel).val());
 
@@ -215,11 +215,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (success) {
                     groupProfileURL = "/~" + sakai_global.currentgroup.id + "/public/authprofile";
                     sakai.api.Util.tagEntity(groupProfileURL, sakai_global.currentgroup.data.authprofile["sakai:tags"], currentTags, function() {
-                        sakai_global.currentgroup.data.authprofile["sakai:tags"] = currentTags;
+                        $(groupBasicInfoGroupTags).val($(groupBasicInfoGroupTags).val().replace(/\s+/g, " "));
                     });
                 }
                 sakai.api.Widgets.Container.informFinish(tuid, "groupbasicinfo");
-                $(window).trigger("sakai_global.groupbasicinfo.updateFinished");
+                $(window).trigger("updateFinished.groupbasicinfo.sakai");
             });
         };
 
@@ -340,7 +340,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $(window).trigger("ready.groupbasicinfo.sakai", {});
 
         // Bind to the global update location
-        $(window).bind("sakai-contentmetadata-renderlocations", function(ev, data){
+        $(window).bind("renderlocations.contentmetadata.sakai", function(ev, data){
             ev.stopImmediatePropagation();
             // render location in profile Section
             renderLocations(data);

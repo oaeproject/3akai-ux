@@ -8,32 +8,32 @@
         <div class="dialog_header_inner">
             <h1 id="pickeruser_adding_people" class="pickeruser_adding_titles" style="display:none">__MSG__ADDING_PEOPLE__</h1>
             <h1 id="pickeruser_adding_files"  class="pickeruser_adding_titles" style="display:none">__MSG__ADDING_CONTENT__</h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+            <button type="button" class="jqmClose dialog_close_image s3d-link-button" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</button>
         </div>
     </div>
     <div id="pickeruser_container_search" class="dialog_content">
         <div id="pickeruser_basic">
-			<span class="fl-force-left" id="pickeruser_add_header">__MSG__ADDING__ <span id="pickeruser_add_header_what"></span> __MSG__TO__ <span id="pickeruser_add_header_where"></span></span>
-			<span class="fl-force-left" id="pickeruser_people"><span id="pickeruser_instruction">__MSG__TYPE_NAME_PERSON_GROUP__ __MSG__OR__</span><a href="javascript:;" id="pickeruser_init_search" class="s3d-action">__MSG__SEARCH__</a></span>
-			<span class="fl-force-left" id="pickeruser_people_text" style="display:none;">__MSG__TYPE_NAME_PERSON_GROUP__ __MSG__OR__ </span>
-			<span class="fl-force-left" id="pickeruser_content_text" style="display:none;">__MSG__TYPE_NAME_CONTENT__ </span>
+            <span class="fl-force-left" id="pickeruser_add_header">__MSG__ADDING__ <span id="pickeruser_add_header_what"></span> __MSG__TO__ <span id="pickeruser_add_header_where"></span></span>
+            <span class="fl-force-left" id="pickeruser_people"><span id="pickeruser_instruction">__MSG__TYPE_NAME_PERSON_GROUP__ __MSG__OR__</span><button type="button" id="pickeruser_init_search" class="s3d-action s3d-bold s3d-link-button">__MSG__SEARCH__</button></span>
+            <span class="fl-force-left" id="pickeruser_people_text" style="display:none;">__MSG__TYPE_NAME_PERSON_GROUP__ __MSG__OR__ </span>
+            <span class="fl-force-left" id="pickeruser_content_text" style="display:none;">__MSG__TYPE_NAME_CONTENT__ </span>
             <span class="fl-force-left" id="pickeruser_form_container">
-            	<input name="pickeruser_search_query" id="pickeruser_search_query" type="text" autocomplete="off"/>
+                <input name="pickeruser_search_query" id="pickeruser_search_query" type="text" autocomplete="off"/>
             </span>
-			<div id="pickeruser_send_message" class="fl-force-left s3d-highlight_area_background">
-				<span class="fl-force-left">__MSG__SEND_PERSONAL_MESSAGE__</span>
-				<span class="fl-force-left">
-					<textarea id="pickeruser_message"></textarea>
-				</span>
-				<span class="fl-force-left">
-					<input type="checkbox" name="pickeruser_copy_myself" id="pickeruser_copy_myself"/>
-					<label for="pickeruser_copy_myself">__MSG__SEND_COPY_TO_MYSELF__</label>
-				</span>
-				<span style="display:none;" id="pickeruser_subject_text">__MSG__YOU_HAVE_BEEN_ADDED_TO__</span>
-			</div>
+            <div id="pickeruser_send_message" class="fl-force-left s3d-highlight_area_background">
+                <span class="fl-force-left">__MSG__SEND_PERSONAL_MESSAGE__</span>
+                <span class="fl-force-left">
+                    <textarea id="pickeruser_message"></textarea>
+                </span>
+                <span class="fl-force-left">
+                    <input type="checkbox" name="pickeruser_copy_myself" id="pickeruser_copy_myself"/>
+                    <label for="pickeruser_copy_myself">__MSG__SEND_COPY_TO_MYSELF__</label>
+                    </span>
+                <span style="display:none;" id="pickeruser_subject_text">__MSG__YOU_HAVE_BEEN_ADDED_TO__</span>
+            </div>
         </div>
 
-		<div id="pickeruser_footer_options" class="fl-force-left">
+        <div id="pickeruser_footer_options" class="fl-force-left">
             <button type="button" class="s3d-button s3d-button-primary fl-force-right" id="pickeruser_add_button" disabled="disabled">
                 <span class="s3d-button-inner">__MSG__ADD__</span>
             </button>
@@ -71,8 +71,9 @@
         </div>
 
         <div id="pickeruser_error_template" style="display:none;">
-            <span>Sorry, could not retrieve the list of users form the server!</span>
+            <span>__MSG__ERROR__</span>
         </div>
+
     </div>
     <!-- DIALOG FOOTER -->
     <div class="dialog_footer">

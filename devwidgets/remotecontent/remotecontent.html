@@ -34,9 +34,9 @@
                         <div class="remotecontent_settings_block">
                             <label for="remotecontent_settings_width">__MSG__WIDTH__:</label>
                             <input type="text" id="remotecontent_settings_width" value="${width}" />
-                            <a href="javascript:;" id="remotecontent_settings_width_unit_px" class="remotecontent_settings_width_unit {if width_unit == "px"} remotecontent_settings_width_unit_selected{/if}"> px</a>
+                            <button type="button" id="remotecontent_settings_width_unit_px" class="remotecontent_settings_width_unit s3d-bold s3d-link-button {if width_unit == "px"} remotecontent_settings_width_unit_selected{/if}"> px</button>
                             <span> or </span>
-                            <a href="javascript:;" id="remotecontent_settings_width_unit_percent" class="remotecontent_settings_width_unit {if width_unit == "%"} remotecontent_settings_width_unit_selected{/if}"> %</a>
+                            <button type="button" id="remotecontent_settings_width_unit_percent" class="remotecontent_settings_width_unit s3d-bold s3d-link-button {if width_unit == "%"} remotecontent_settings_width_unit_selected{/if}"> %</button>
                             <br />
                             <label for="remotecontent_settings_height">__MSG__HEIGHT__:</label>
                             <input type="text" id="remotecontent_settings_height" value="${height}" /><span> px</span>
@@ -90,7 +90,7 @@
         <div id="remotecontent_main_container" style="display:none;">
         </div>
     </div>
-    <div class="s3d-widget-no-options fl-fix">
+    <div class="s3d-widget-no-options">
         <div class="s3d-widget-no-options-inner">
         </div>
     </div>

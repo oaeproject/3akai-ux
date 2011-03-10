@@ -16,7 +16,7 @@
                 <img id="entity_profile_picture" src="/dev/images/default_profile_picture_64.png" alt="__MSG__PLACEHOLDER_PICTURE_FOR__ ${sakai.api.User.getDisplayName(data.profile)}" />
             {/if}
             <div class="fl-text-align-center">
-                <a href="javascript:;" class="s3d-action" id="changepic_container_trigger">__MSG__CHANGE__</a>
+                <button type="button" class="s3d-link-button s3d-action s3d-bold" id="changepic_container_trigger">__MSG__CHANGE__</button>
             </div>
         </div>
 
@@ -35,7 +35,7 @@
             </span>
         </div>
         <div>
-            <form id="entity_profile_status" method="POST" action="javascript:;">
+            <form id="entity_profile_status" method="POST" action="#">
                 <div>
                     <input id="entity_profile_status_input" title="__MSG__WHAT_ARE_YOU_DOING_NOW__" maxlength="255" type="text" {if !data.profile.status}class="entity_profile_status_input_dummy" value="__MSG__WHAT_ARE_YOU_DOING_NOW__"{else}value="${data.profile.status}"{/if} />
                     <span id="entity_profile_status_input_dummy" style="display:none;">__MSG__WHAT_ARE_YOU_DOING_NOW__</span>
@@ -49,7 +49,7 @@
         </div>
     </div>
     <div class="fl-col entity_container_right s3d-actions">
-        <form method="POST" action="javascript:;">
+        <form method="POST" action="#">
             <select id="entity_profile_chatstatus" title="__MSG__CHAT_STATUS__">
                 <option value="online" {if data.profile.chatstatus === "online"}selected="selected"{/if}>__MSG__AVAILABLE_TO_CHAT__</option>
                 <option value="busy" {if data.profile.chatstatus === "busy"}selected="selected"{/if}>__MSG__BUSY__</option>
@@ -77,7 +77,7 @@
                         {/for}
                     </div>
                 </div>
-                <a id="entity_tags_link" class="entity_tags_link" href="javascript:;">
+                <button type="button" id="entity_tags_link" class="entity_tags_link s3d-link-button s3d-action">
                 <div>
                     <span>${count}
                     {if count > 1}
@@ -88,9 +88,9 @@
                         __MSG__TAG__
                     {/if}
                     </span>
-                    <span id="entity_tags_dropdown_arrow"></span>
+                    <span id="entity_tags_dropdown_arrow">&nbsp;</span>
                 </div>
-                </a>
+                </button>
             </div>
             {/if}
         {/if}
@@ -128,7 +128,7 @@
             <button style="display:none" id="entity_add_to_contacts" class="s3d-button entity_action_button"><span class="s3d-button-inner">__MSG__ADD_TO_CONTACTS__</span></button>
             <span style="display:none" id="entity_contact_pending" class="entity_contact_span">__MSG__THIS_PERSON_HAS_BEEN_INVITED_AS_CONTACT__</span>
             <span style="display:none" id="entity_contact_accepted" class="entity_contact_span">__MSG__THIS PERSON IS A CONTACT__</span>
-            <a href="javascript:;" style="display:none" id="entity_contact_invited">__MSG__ACCEPT_INVITATION__</a>
+            <button type="button" style="display:none" id="entity_contact_invited" class="s3d-link-button s3d-action">__MSG__ACCEPT_INVITATION__</button>
         {/if}
         {if data.profile && data.profile["sakai:tags"] && data.profile["sakai:tags"].length > 0}
             {var displayTags = false}
@@ -151,7 +151,7 @@
                         {/for}
                     </div>
                 </div>
-                <a id="entity_tags_link" class="entity_tags_link" href="javascript:;">
+                <button type="button" id="entity_tags_link" class="entity_tags_link s3d-link-button s3d-action">
                     <div>
                         <span>${count}
                         {if count > 1}
@@ -162,9 +162,9 @@
                             __MSG__TAG__
                         {/if}
                         </span>
-                        <span id="entity_tags_dropdown_arrow"></span>
+                        <span id="entity_tags_dropdown_arrow">&nbsp;</span>
                     </div>
-                </a>
+                </button>
             </div>
             {/if}
         {/if}
@@ -185,7 +185,7 @@
                 </div>
                 <div class="fl-force-left entity_content_description">
                     <div class="fl-force-left entity_content_new_events">
-                        <a id="entity_content_activity" href="#" class="s3d-regular-light-links s3d-bold">
+                        <button type="button" id="entity_content_activity" class="s3d-regular-light-links s3d-bold s3d-link-button">
                             {if data.profile.activity}
                                 {if data.profile.activity.total < 0}
                                     More than ${Math.abs(data.profile.activity.total)}
@@ -200,15 +200,15 @@
                             {else}
                             0 __MSG__THINGS_HAVE_HAPPENED__
                             {/if}
-                        </a>
+                        </button>
                     </div>
                     <div class="fl-force-left entity_content_used_by">
                         <p class="entity_usedby">__MSG__USED_BY__
-                            <a href="#" class="entity_content_people s3d-regular-light-links s3d-bold">
+                            <button type="button" class="entity_content_people s3d-regular-light-links s3d-bold s3d-link-button">
                                 ${data.profile.usercount}
-                                {if data.profile.usercount === 1}__MSG__PERSON__{else}__MSG__PEOPLE__{/if}</a>
+                                {if data.profile.usercount === 1}__MSG__PERSON__{else}__MSG__PEOPLE__{/if}</button>
                             __MSG__AND__
-                            <a href="#" class="entity_content_group s3d-regular-light-links s3d-bold">
+                            <button type="button" class="entity_content_group s3d-regular-light-links s3d-bold s3d-link-button">
                                 
                                 ${data.profile.groupcount}
                                 {if data.profile.groupcount === 1}
@@ -216,33 +216,35 @@
                                 {else}
                                     __MSG__GROUPS__
                                 {/if}
-                            </a>
+                            </button>
                         </p>
                     </div>
                     <div class="fl-force-left entity_content_permissions">
-                        <a id="entity_content_share_link" href="#" class="s3d-regular-light-links s3d-bold">
-                        <p class="entity_content_link_icon"></p>
-                            {if data.profile.permissions === "public"}
-                                __MSG__VISIBLE_TO_ANYONE__
-                            {elseif data.profile.permissions === "everyone"}
-                                __MSG__VISIBLE_TO_ANYONE_LOGGED_IN__
-                            {elseif data.profile.permissions === "private"}
-                                __MSG__PRIVATE__
-                                {if sakai_global.content_profile.content_data.members.managers}
-                                    __MSG__TO__ ${unescape(sakai.api.User.getDisplayName(sakai_global.content_profile.content_data.members.managers[0]))}
-                                    {if data.profile.usercount + data.profile.groupcount > 1}
-                                        + ${data.profile.usercount + data.profile.groupcount - 1}
-                                        {if (data.profile.usercount + data.profile.groupcount) === 2}
-                                            __MSG__OTHER__
-                                        {else}
-                                            __MSG__OTHERS__
+                        <button type="button" id="entity_content_share_link" class="s3d-regular-light-links s3d-bold s3d-link-button">
+                            <span>
+                                <span class="entity_content_link_icon">&nbsp;</span>
+                                {if data.profile.permissions === "public"}
+                                    __MSG__VISIBLE_TO_ANYONE__
+                                {elseif data.profile.permissions === "everyone"}
+                                    __MSG__VISIBLE_TO_ANYONE_LOGGED_IN__
+                                {elseif data.profile.permissions === "private"}
+                                    __MSG__PRIVATE__
+                                    {if sakai_global.content_profile.content_data.members.managers}
+                                        __MSG__TO__ ${unescape(sakai.api.User.getDisplayName(sakai_global.content_profile.content_data.members.managers[0]))}
+                                        {if data.profile.usercount + data.profile.groupcount > 1}
+                                            + ${data.profile.usercount + data.profile.groupcount - 1}
+                                            {if (data.profile.usercount + data.profile.groupcount) === 2}
+                                                __MSG__OTHER__
+                                            {else}
+                                                __MSG__OTHERS__
+                                            {/if}
                                         {/if}
                                     {/if}
+                                {else}
+                                    __MSG__VISIBLE_TO_ANYONE__
                                 {/if}
-                            {else}
-                                __MSG__VISIBLE_TO_ANYONE__
-                            {/if}
-                        </a>
+                            </span>
+                        </button>
                     </div>
                 </div>
             {/if}
@@ -291,7 +293,7 @@
             </div>
             {if data.profile.role === "manager"}
             <div class="fl-text-align-center entity_padding_top">
-                <a href="javascript:;" class="s3d-action" id="changepic_container_trigger">__MSG__CHANGE__</a>
+                <button type="button" class="s3d-link-button s3d-action s3d-bold" id="changepic_container_trigger">__MSG__CHANGE__</button>
             </div>
             {/if}
         </div>
@@ -345,7 +347,7 @@
                         {/for}
                     </div>
                 </div>
-                <a id="entity_tags_link" class="entity_tags_link" href="javascript:;">
+                <button type="button" id="entity_tags_link" class="entity_tags_link s3d-link-button s3d-action">
                     <div>
                         <span>${count}
                         {if count > 1}
@@ -356,9 +358,9 @@
                             __MSG__TAG__
                         {/if}
                         </span>
-                        <span id="entity_tags_dropdown_arrow"></span>
+                        <span id="entity_tags_dropdown_arrow">&nbsp;</span>
                     </div>
-                </a>
+                </button>
             </div>
             {/if}
         {/if}
@@ -370,7 +372,7 @@
     <div class="dialog_header">
         <div class="dialog_header_inner">
         <h1 id="entity_content_users_dialog_heading"><!-- --></h1>
-        <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+        <button type="button" class="jqmClose dialog_close_image s3d-link-button s3d-action" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</button>
         </div>
     </div>
 
@@ -443,7 +445,7 @@
     <div class="dialog_header">
         <div class="dialog_header_inner">
         <h1 id="entity_content_activity_dialog_heading">__MSG__WHATS_HAPPENING__</h1>
-        <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE__</a>
+        <button type="button" class="jqmClose dialog_close_image s3d-link-button s3d-action" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE__</button>
         </div>
     </div>
 
