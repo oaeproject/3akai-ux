@@ -53,6 +53,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var mygroupsCreateNewGroup = "#create_new_group_link";
         var createGroupContainer = "#creategroupcontainer";
         var ellipsisContainer = ".mygroups_ellipsis_container";
+        var mygroupsItemsList = ".mygroup_items_list";
 
         var mygroups_error_class = "mygroups_error";
 

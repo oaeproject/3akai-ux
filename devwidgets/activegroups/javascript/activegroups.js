@@ -46,11 +46,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var groupData = {};
 
+        var activeGroupsEllipsisContainer = ".activegroups_ellipsis_container";
+
         var renderPopularGroups = function(){
             var output = sakai.api.Util.TemplateRenderer($activegroups_main_template, {
                 data: groupData
             });
             $activegroups_main.html(output).show();
+            $(activeGroupsEllipsisContainer, $rootel).css("width", $(activeGroupsEllipsisContainer, $rootel).width() + "px");
+            $(activeGroupsEllipsisContainer, $rootel).ThreeDots({
+                max_rows: 1,
+                text_span_class: "activegroups_ellipsis_text",
+                e_span_class: "activegroups_e_span_class",
+                whole_word: false,
+                alt_text_t: true
+            });
         };
 
         var handleHashChange = function() {

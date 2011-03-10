@@ -13,9 +13,9 @@
     <div class="fl-widget-content s3d-widget-content" id="mygroups_list">
     </div>
     <div id="mygroups_list_template"><!--
-        <ul>
+        <ul class="mygroup_items_list">
             {for group in entry}
-                <li><span class="group_icon">&nbsp;</span>
+                <li class="mygroup_item"><div class="mygroup_item_img fl-force-left group_icon">&nbsp;</div>
                     <a class="s3d-regular-links s3d-bold" href="/~${group.groupid}"><div class="mygroups_ellipsis_container"><span class="mygroups_ellipsis_text">${group["sakai:group-title"]}</span></div></a>
                 </li>
             {/for}

@@ -20,7 +20,7 @@
                   {var index = 0}
                   {for group in result.groups}
                       {if index < 5}
-                          <li><a href="/~${group.id}" class="s3d-regular-links">${group.name}</a></li>
+                          <li><a href="/~${group.id}" class="s3d-regular-links"><div class="activegroups_ellipsis_container"><span class="activegroups_ellipsis_text">${group.name}</span></div></a></li>
                       {/if}
                       ${index++|eat}
                   {forelse}

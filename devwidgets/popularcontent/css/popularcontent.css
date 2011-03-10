@@ -2,6 +2,7 @@
 #popularcontent_main ul li{list-style-type:none;}
 .popularcontent_title{padding-left:15px!important;}
 .popularcontent_widget{overflow:hidden;}
+.popularcontent_ellipsis_text, .popularcontent_ellipsis_container {word-wrap:break-word;}
 
 /* Widget icon */
 .popularcontent.fl-widget .fl-widget-titlebar .widget_title_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -658px -21px transparent;height:22px;width:20px;}
