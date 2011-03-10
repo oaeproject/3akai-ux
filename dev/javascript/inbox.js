@@ -676,7 +676,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          * @param {String} id The id for this message.
          */
         var markMessageRead = function(message, id){
-            sakai.api.Communication.markMessagesAsRead(message, function(success, userdata){
+            sakai.api.Communication.markMessagesAsRead(message["jcr:path"], function(success, userdata){
                 if (success) {
                     for (var i = 0, j = allMessages.length; i < j; i++) {
                         if (allMessages[i].id === message.id) {
