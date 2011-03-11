@@ -98,24 +98,29 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(sakai_global.currentgroup.data.authprofile["sakai:tags"]).each(function(i){
                     var splitDir = sakai_global.currentgroup.data.authprofile["sakai:tags"][i].split("/");
                     if (splitDir[0] !== "directory") {
-                        currentTags.push(sakai_global.currentgroup.data.authprofile["sakai:tags"][i]);
+                        currentTags.push($.trim(sakai_global.currentgroup.data.authprofile["sakai:tags"][i]));
                     }
                 });
             }
             var enteredTags = $.trim($(groupBasicInfoGroupTags).val()).split(",");
+            $.each(enteredTags, function (i, tag) {
+                enteredTags[i] = $.trim(tag);
+            });
             var equal = currentTags.length == enteredTags.length;
             if (equal) {
                 var update = false;
-                $.each(currentTags, function (i, tag) {
+                $.each(enteredTags, function (i, tag) {
                     if (update) return false;
-                    if ($.inArray(tag, enteredTags) == -1) {
+                    if ($.inArray($.trim(tag), currentTags) == -1) {
+                        update = true;
+                    } else if ($.inArray($.trim(currentTags[i]), enteredTags) == -1){
                         update = true;
                     } else {
                         update = false;
                     }
                 });
                 if (update) return true;
-            } else {
+            } else if (currentTags.toString() !== enteredTags.toString()){
                 return true;
             }
 
