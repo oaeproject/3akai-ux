@@ -53,14 +53,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 data: groupData
             });
             $activegroups_main.html(output).show();
-            $(activeGroupsEllipsisContainer, $rootel).css("width", $(activeGroupsEllipsisContainer, $rootel).width() + "px");
-            $(activeGroupsEllipsisContainer, $rootel).ThreeDots({
-                max_rows: 1,
-                text_span_class: "activegroups_ellipsis_text",
-                e_span_class: "activegroups_e_span_class",
-                whole_word: false,
-                alt_text_t: true
-            });
         };
 
         var handleHashChange = function() {
@@ -92,7 +84,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     for (var i = 0; i < data.results.length; i++){
                         var group = {};
                         group["id"] = data.results[i]["sakai:group-id"];
-                        group["name"] = data.results[i]["sakai:group-title"];
+                        group["name"] = sakai.api.Util.applyThreeDots(data.results[i]["sakai:group-title"], $(".activegroups_widget").width() - 80, {max_rows: 1,whole_word: false}, "s3d-bold");
                         groups.push(group);
                     }
                     groupData.results[0] = {"groups": groups};

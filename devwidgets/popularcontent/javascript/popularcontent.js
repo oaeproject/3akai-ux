@@ -52,14 +52,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js"], func
             $popularcontent_main.html(sakai.api.Util.TemplateRenderer($popularcontent_main_template, {
                 data: contentData
             })).show();
-            $(popularContentEllipsisContainer, $rootel).css("width", $(popularContentEllipsisContainer, $rootel).width() + "px");
-            $(popularContentEllipsisContainer, $rootel).ThreeDots({
-                max_rows: 1,
-                text_span_class: "popularcontent_ellipsis_text",
-                e_span_class: "popularcontent_e_span_class",
-                whole_word: false,
-                alt_text_t: true
-            });
         };
 
         var handleHashChange = function() {
@@ -91,7 +83,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js"], func
                     for (var i = 0; i < data.results.length; i++){
                         var item = {};
                         item["id"] = data.results[i]["jcr:name"];
-                        item["name"] = data.results[i]["sakai:pooled-content-file-name"];
+                        item["name"] = sakai.api.Util.applyThreeDots(data.results[i]["sakai:pooled-content-file-name"], $(".popularcontent_widget").width() - 80, {max_rows: 1,whole_word: false}, "s3d-bold");
                         content.push(item);
                     }
                     contentData.results[0] = {"content": content};
