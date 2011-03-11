@@ -32,7 +32,7 @@ label{color:#888;font-weight:bold;font-size:1em;}
 .login-external-content{display:table-cell;vertical-align:middle;margin-top:-25px;float:right;}
 .login-external-system{margin-bottom:30px;}
 .login-external-description{color:#999;}
-#loginbutton {margin-bottom:0;}
+#loginbutton {margin-bottom:0;font-size:11px;}
 
 /* Register here */
 #register_here{color:#fefefe;font-size:.95em;clear:both; margin-top:5px;}
