@@ -48,6 +48,17 @@ require(
             });
         });
 
+        asyncTest("Get the messages in admin's sent box", 2, function() {
+            sakai.api.Communication.getAllMessages("sent", "message", 13, 0, "sakai:created", "asc", function(success, data) {
+                // Make sure the indexer has run
+                setTimeout(function(){
+                    ok(success);
+                    ok(data.results.length > 1, "Got at least one message from sent box");
+                    start();
+                }, 5500);
+            });
+        });
+
         asyncTest("Count Unread Messages", 2, function() {
             var expected = {"count": [{"group": "message", "count": 1}]};
             sakai.api.Communication.sendMessage(userlist[0], sakai.data.me, dummySubject, dummyMessage, "", "", function(success, data) {
@@ -66,7 +77,7 @@ require(
                                 same(data, expected, "User has one message");
                                 start();
                             })
-                        ;}, 6000);
+                        ;}, 5500);
                     });
                 });
             });
