@@ -23,6 +23,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var content_path = ""; // The current path of the content
         var ready_event_fired = 0;
         var list_event_fired = false;
+        var tooltip_opened = false;
 
 
         ///////////////////////////////
@@ -353,16 +354,18 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          */
         var checkShareContentTour = function(){
             var querystring = new Querystring();
-            if (querystring.contains("sharecontenttour") && querystring.get("sharecontenttour") === "true") {
+            if (querystring.contains("sharecontenttour") && querystring.get("sharecontenttour") === "true" && !tooltip_opened) {
+                tooltip_opened = true;
                 // display tooltip
                 var tooltipData = {
                     "tooltipSelector":"#entity_content_share_button",
                     "tooltipTitle":"TOOLTIP_SHARE_CONTENT",
                     "tooltipDescription":"TOOLTIP_SHARE_CONTENT_P3",
                     "tooltipArrow":"top",
-                    "tooltipLeft":30
+                    "tooltipLeft":30,
+                    "tooltipTop":0
                 };
-                if (!sakai.tooltip || !sakai.tooltip.isReady) {
+                if (!sakai_global.tooltip || !sakai_global.tooltip.isReady) {
                     $(window).bind("ready.tooltip.sakai", function() {
                         $(window).trigger("init.tooltip.sakai", tooltipData);
                     });
@@ -395,8 +398,15 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             });
             handleHashChange();
 
-            // check for share content tour in progress
-            checkShareContentTour();
+            if (sakai_global.entity && sakai_global.entity.isRendered) {
+                // check for share content tour in progress
+                checkShareContentTour();
+            } else {
+                $(window).bind("rendered.entity.sakai", function(){
+                    // check for share content tour in progress
+                    checkShareContentTour();
+                });
+            }
         };
 
         // Initialise the content profile page

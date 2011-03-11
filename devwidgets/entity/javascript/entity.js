@@ -1316,7 +1316,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
                     "tooltipDescription":"TOOLTIP_SHARE_CONTENT_P4",
                     "tooltipArrow":"bottom",
                     "tooltipTop":3,
-                    "tooltipLeft":120
+                    "tooltipLeft":220
                 };
                 $(window).trigger("update.tooltip.sakai", tooltipData);
 
@@ -1478,7 +1478,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
 
             // Add binding
             addBinding(mode);
-
         };
 
         /**
@@ -1516,6 +1515,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
 
             //Get the content data
             getEntityData(mode, data);
+
+            $(window).trigger("rendered.entity.sakai", {});
+            sakai_global.entity.isRendered = true;
         });
 
         $(window).trigger("ready.entity.sakai", {});

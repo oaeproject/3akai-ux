@@ -619,8 +619,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                         "tooltipTitle":"TOOLTIP_SHARE_CONTENT",
                         "tooltipDescription":"TOOLTIP_SHARE_CONTENT_P5",
                         "tooltipArrow":"bottom",
-                        "tooltipTop":30,
-                        "tooltipLeft":340
+                        "tooltipTop":0,
+                        "tooltipLeft":20
                     };
                     $(window).trigger("update.tooltip.sakai", tooltipData);
                     memberAdded = true;
