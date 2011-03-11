@@ -26,7 +26,7 @@
 #systemtour_container ul {list-style: none;display: inline-block; margin: 0px;line-height:30px;position: relative;top: 12px;/* IE6 and IE7 hack to support display:inline-block */zoom:1;*display:inline; /* IE7 and below*/*padding-top:3px;/* IE7 and below*/*margin-top:-20px;/* IE7 and below*/_height: 30px;/* IE6 and below*/_margin-top:0px;/* IE6 and below*/}
 #systemtour_container li {list-style:none;float: left;height:32px;border-right: 1px solid #d8dce0;padding-right: 0;*width:130px;}
 .systemtour_button:hover {text-decoration: none;}
-.systemtour_button {padding:6px 13px 0 0;display: block; /* IE7 and below*/*padding:0;*width:125px;}
+.systemtour_button {padding:6px 13px 8px 0;display: block; /* IE7 and below*/*padding:0;*width:125px;}
 .systemtour_1{background:url(/dev/images/tour_sprite.png) no-repeat scroll -225px -120px transparent;}
 .systemtour_2{background:url(/dev/images/tour_sprite.png) no-repeat scroll -225px -200px transparent;}
 .systemtour_3{background:url(/dev/images/tour_sprite.png) no-repeat scroll -225px -280px transparent;}

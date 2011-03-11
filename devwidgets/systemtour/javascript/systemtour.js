@@ -297,7 +297,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js", "/dev
             switch (id) {
                 case "systemtour_add_photo":
                     $(".systemtour_1").addClass("selected");
-                    $(".systemtour_1 a").addClass("selected");
                     tooltipData = {
                         "tooltipSelector":"#changepic_container_trigger",
                         "tooltipTitle":"TOOLTIP_ADD_MY_PHOTO",
@@ -308,7 +307,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js", "/dev
                     break;
                 case "systemtour_edit_profile":
                     $(".systemtour_2").addClass("selected");
-                    $(".systemtour_2 a").addClass("selected");
                     tooltipData = {
                         "tooltipSelector":"#entity_edit_profile",
                         "tooltipTitle":"TOOLTIP_EDIT_MY_PROFILE",
@@ -322,7 +320,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js", "/dev
                     break;
                 case "systemtour_upload_file":
                     $(".systemtour_3").addClass("selected");
-                    $(".systemtour_3 a").addClass("selected");
                     tooltipData = {
                         "tooltipSelector":"#mycontent_footer_upload_link",
                         "tooltipTitle":"TOOLTIP_UPLOAD_CONTENT",
@@ -333,7 +330,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js", "/dev
                     break;
                 case "systemtour_share_content":
                     $(".systemtour_4").addClass("selected");
-                    $(".systemtour_4 a").addClass("selected");
                     if (!uploadedContent){
                         tooltipData = {
                             "tooltipSelector":"#mycontent_footer_upload_link",
@@ -364,7 +360,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js", "/dev
                     break;
                 case "systemtour_add_contacts":
                     $(".systemtour_5").addClass("selected");
-                    $(".systemtour_5 a").addClass("selected");
                     tooltipData = {
                         "tooltipSelector":"#mycontacts_footer_search",
                         "tooltipTitle":"TOOLTIP_ADD_CONTACTS",
@@ -404,7 +399,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js", "/dev
                     "tooltipAutoClose":true
                 };
                 $(".systemtour_2").addClass("selected");
-                $(".systemtour_2 a").addClass("selected");
                 if (!sakai_global.tooltip || !sakai_global.tooltip.isReady) {
                     $(window).bind("ready.tooltip.sakai", function() {
                         $(window).trigger("init.tooltip.sakai", tooltipData);
