@@ -1414,7 +1414,7 @@ define(["jquery",
         },
         /**
         * Runs MathJax over an element replacing any math TeX with rendered 
-        * rendered formulas
+        * formulas
         *
         * @param element {String} The element (or it's id) that should be checked for math
         */

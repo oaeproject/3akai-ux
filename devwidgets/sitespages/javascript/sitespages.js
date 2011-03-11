@@ -446,6 +446,25 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         };
 
+
+        /**
+         * Creates a DOM element for the currently selected page and adds it to
+         * the main content div. This function does not show or hide any DOM elements.
+         *
+         * @param content  The page's content
+         */
+        var createSelectedPageDOMElement = function (content) {
+            var $el = $("<div id=\""+ sakai_global.sitespages.selectedpage +"\" class=\"content\"></div>");
+
+            // Add sanitized content
+            var sanitizedContent = sakai.api.Security.saneHTML(content);
+            $el.html(sanitizedContent);
+
+            // Add element to the DOM
+            $main_content_div.append($el);
+        };
+
+
         /**
          * Displays a page
          * @param {Object} response
@@ -464,25 +483,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var element_to_test = $("#" + sakai_global.sitespages.selectedpage);
                 if (element_to_test.length > 0){
                     element_to_test.show();
-                } else
-                    {
-                        // Create element
-                        var $el = $("<div id=\""+ sakai_global.sitespages.selectedpage +"\" class=\"content\"></div>");
-
-                        // Add sanitized content
-                        var sanitizedContent = sakai.api.Security.saneHTML(response);
-                        $el.html(sanitizedContent);
-
-                        // Add element to the DOM
-                        $main_content_div.append($el);
-
-                        // Tell MathJax the element is updated
-                        sakai.api.Util.renderMath(sakai_global.sitespages.selectedpage);
-                    }
+                } else {
+                    createSelectedPageDOMElement(response);
+                }
+                // Tell MathJax the element is updated
+                sakai.api.Util.renderMath(sakai_global.sitespages.selectedpage);
 
                 // Insert widgets
                 sakai.api.Widgets.widgetLoader.insertWidgets(sakai_global.sitespages.selectedpage,null, config.basepath + "_widgets/");
-
             }
             else {
                 // Page does not exist
@@ -1517,9 +1525,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var viewSelectedPage = function () {
             // show newly updated title and content
             var pagecontent = sakai_global.sitespages.pagecontents[sakai_global.sitespages.selectedpage]["sakai:pagecontent"] || "";
-            $("#" + sakai_global.sitespages.selectedpage).html(sakai.api.Security.saneHTML(pagecontent));
-            $("#" + sakai_global.sitespages.selectedpage).show();
+            var $page = $("#" + sakai_global.sitespages.selectedpage);
+            if (!$page.length) {
+                // page content has not yet been added to the DOM
+                createSelectedPageDOMElement(pagecontent);
+            } else {
+                $page.html(pagecontent);
+            }
             sakai.api.Util.renderMath(sakai_global.sitespages.selectedpage);
+            $page.show();
             if (sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage]["pageType"] === "webpage") {
                 $("#webpage_edit").show();
             }

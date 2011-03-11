@@ -134,10 +134,11 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
          * (max 200 child object of each object)
          * @param {Function} callback A callback function which is executed at the
          * end of the operation
+         * @param {Boolean} removeTree If we should replace the entire tree of saved data or just update it
          *
          * @returns {Void}
          */
-        saveJSON : function(i_url, i_data, callback) {
+        saveJSON : function(i_url, i_data, callback, removeTree) {
 
             // Argument check
             if (!i_url || !i_data) {
@@ -215,19 +216,23 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
             // Convert the array of objects to only objects
             // We also need to deep copy the object so we don't modify the input parameter
             i_data = convertArrayToObject($.extend(true, {}, i_data));
+            var postData = {
+                ":operation": "import",
+                ":contentType": "json",
+                ":content": $.toJSON(i_data),
+                ":replace": true,
+                ":replaceProperties": true,
+                "_charset_":"utf-8"
+            };
+            if (removeTree) {
+                postData[":removeTree"] = removeTree;
+            }
 
             // Send request
             $.ajax({
                 url: i_url,
                 type: "POST",
-                data: {
-                    ":operation": "import",
-                    ":contentType": "json",
-                    ":content": $.toJSON(i_data),
-                    ":replace": true,
-                    ":replaceProperties": true,
-                    "_charset_":"utf-8"
-                },
+                data: postData,
                 dataType: "json",
 
                 success: function(data){

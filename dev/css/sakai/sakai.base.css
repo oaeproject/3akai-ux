@@ -384,16 +384,16 @@ label.error{color:#9f3333;font-weight:bold;}
 .s3d-list-link-full-space{clear:both;height:100%;}
 ul li.s3d-list-item:hover{background-color:#9CF;}
 
-.s3d-dropdownlistone-text{font-size:8.5pt;padding:0 7px;border-right:1px solid #878a8c;color:#fff;}
+.s3d-dropdownlistone-text{padding:0 7px;border-right:none;color:#fff;font-size:11px;}
 .s3d-dropdownlistone-text .dropdownlistone_arrow{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -149px -394px transparent;padding-right:17px;padding-left:8px;}
-.s3d-dropdownlistone-menu{background-color:#868a8d;font-size:9pt;line-height:16px;position:absolute;z-index:500;padding:0 0 6px;min-width:100px;}
+.s3d-dropdownlistone-menu{background-color:#868a8d;line-height:16px;position:absolute;z-index:500;padding:0 0 6px;min-width:100px;}
 .s3d-dropdownlistone-menu div{margin-top:5px;}
 .s3d-dropdownlistone-menu ul{margin:0;padding:0;}
 .s3d-dropdownlistone-menu li{display:block;list-style-type:none;margin:0;padding:3px 5px 6px 13px;}
-.s3d-dropdownlistone-menu li a{border:none;color:#fff;font-size:9pt;padding:0;}
+.s3d-dropdownlistone-menu li a{border:none;color:#fff;padding:0;}
 .s3d-dropdownlistone-menu li a:hover, .s3d-dropdownlistone-menu li button:hover{color:#ddd;}
 .s3d-dropdownlistone-menu-border{border-bottom:1px solid #777;}
-.s3d-dropdownlistone-link-inactive {font-size:9pt;color:#aaa;}
+.s3d-dropdownlistone-link-inactive {color:#aaa;}
 
 .s3d-dropdownlisttwo-text{color: #666666;}
 .s3d-dropdownlisttwo-text span{float:left;}
