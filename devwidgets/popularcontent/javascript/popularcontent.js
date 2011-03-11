@@ -113,9 +113,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js"], func
                loadData(renderPopularContent);
                $("#popularcontent_title_popular").show();
             } else {
+                handleHashChange();
                 $("#popularcontent_title_recent").show();
             }
-            handleHashChange();
         };
 
         doInit();

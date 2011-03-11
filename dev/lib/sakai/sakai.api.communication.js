@@ -30,7 +30,7 @@
  * @namespace
  * Communication related convenience functions
  */
-define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
+define(["jquery", "sakai/sakai.api.user", "/dev/configuration/config.js"], function($, sakai_user, sakai_conf) {
     return {
         /**
          * Sends a Sakai message to one or more users. If a group id is received, the
@@ -185,8 +185,7 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                     success: function(data){
                         if (sendMail) {
                             doSendMail();
-                        }
-                        if ($.isFunction(callback)) {
+                        }else if($.isFunction(callback)) {
                             callback(true, data);
                         }
                     },
@@ -239,6 +238,127 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                     // send now if we have only a list of users ("thread" safe?)
                     if (!sendDone) {
                         doSendMessage();
+                    }
+                }
+            });
+        },
+
+        deleteMessages : function(messagePaths, hardDelete, callback) {
+            var requests = [],
+                params = {};
+
+            if (hardDelete) {
+                params = {":operation": "delete"};
+            } else {
+                params = {"sakai:messagebox": "trash"};
+            }
+            $.each(messagePaths, function(i, val){
+                var req = {
+                    "url": val,
+                    "method": "POST",
+                    "parameters": params
+                };
+                requests.push(req);
+            });
+
+            $.ajax({
+                url: sakai_conf.URL.BATCH,
+                traditional: true,
+                type: "POST",
+                data: {
+                    requests: $.toJSON(requests)
+                },
+                success: function(data) {
+                    if ($.isFunction(callback)) {
+                        callback(true, data);
+                    }
+                },
+                error: function(xhr, textStatus, thrownError){
+                    if ($.isFunction(callback)) {
+                        callback(false, {});
+                    }
+                }
+            });
+        },
+
+        markMessagesAsRead : function(messagePaths, callback) {
+            var requests = [];
+
+            if (typeof messagePaths === 'string'){
+                messagePaths = [messagePaths];
+            }
+
+            $.each(messagePaths, function(i, message) {
+               var req = {url: message + ".json", method: "POST", parameters: {"sakai:read": "true"}}; 
+               requests.push(req);
+            });
+
+            $.ajax({
+                url: sakai_conf.URL.BATCH,
+                traditional: true,
+                type: "POST",
+                data: {
+                    "requests": $.toJSON(requests)
+                },
+                success: function(data) {
+                    if ($.isFunction(callback)) {
+                        callback(true, data);
+                    }
+                },
+                error: function(xhr, textStatus, thrownError){
+                    if ($.isFunction(callback)) {
+                        callback(false, {});
+                    }
+                }
+            });
+        },
+
+        /**
+        * Gets all messages from a box
+        * 
+        * @param {String} box The name of the box to get messages from
+        * @param {String} category The type of messages to get from the box
+        * @param {Number} messagesPerPage The number of messages to fetch
+        * @param {Number} currentPage The page offset to start from
+        * @param {String} sortBy The name of the field to sort on
+        * @param {String} sortOrder Sort messages asc or desc
+        * @param {Function} callback The function that will be called on completion
+        */  
+        getAllMessages : function(box, category, messagesPerPage, currentPage, sortBy, sortOrder, callback) {
+            var url = sakai_conf.URL.MESSAGE_BOXCATEGORY_SERVICE + "?box=" + box + "&category=" + category + "&items=" + messagesPerPage + "&page=" + currentPage + "&sortBy=" + sortBy + "&sortOrder=" + sortOrder;
+            $.ajax({
+                url: url,
+                cache: false,
+                success: function(data){
+                    if ($.isFunction(callback)) {
+                        callback(true, data);
+                    }
+                },
+                error: function(xhr, textStatus, thrownError){
+                    if ($.isFunction(callback)) {
+                        callback(false, {});
+                    }
+                }
+            });
+        },
+
+        /**
+         * Gets a count of the unread messages in a box belonging 
+         * to the current user
+         */
+        getUnreadMessageCount : function(box, callback) {
+            var url = "/~" + sakai_user.data.me.user.userid + "/message.count.json?filters=sakai:messagebox,sakai:read&values=" + box + ",false&groupedby=sakai:category";
+            $.ajax({
+                url: url,
+                cache: false,
+                success: function(data){
+                    if ($.isFunction(callback)) {
+                        callback(true, data);
+                    }
+                },
+                error: function(xhr, textStatus, thrownError) {
+                    if ($.isFunction(callback)) {
+                        callback(false,{});
                     }
                 }
             });

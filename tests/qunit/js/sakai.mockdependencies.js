@@ -15,7 +15,7 @@ sakai_global = {};
  */
 window.debug = (function() {
     var that = {},
-        methods = [ 'error', 'warn', 'info', 'debug', 'log' ],
+        methods = [ 'error', 'warn', 'info', 'debug', 'log', 'trace' ],
         idx = methods.length;
 
     var createLogMethod = function(method) {
@@ -87,7 +87,7 @@ require(
         "../../../../dev/lib/fluid/3akai_Infusion.js",
         "../../../../dev/lib/misc/l10n/globalization.js",
         "../../../../dev/lib/jquery/plugins/jquery.json.js",
-        "../../../../dev/lib/misc/google/html-sanitizer-minified.js",
+        "../../../../dev/lib/misc/google/html-sanitizer.js",
         "../../../../dev/lib/misc/querystring.js",
         "../../../../dev/lib/jquery/plugins/jquery.timeago.js",
         "../../../../dev/lib/jquery/plugins/jqmodal.sakai-edited.js",

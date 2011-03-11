@@ -16,7 +16,7 @@
 .search_bar{padding:20px 5px;}
 .search_bar #introduction_text h4{font-weight:normal;font-size:1.1em;color:#999;padding:0;margin:0 0 10px;}
 .search_content_main .search_bar{width:auto;}
-.search_content_main .search_results{display:block;}
+.search_content_main .search_results{display:block; overflow:hidden;}
 .search_content_main .search_results_faceted{float:left;width:24%;}
 .search_content_main .search_results_container{padding:0;margin:0 0 10px;display:none;float:left;width:100%;overflow-y:hidden;}
 .search_content_main .search_results_container .s3d-highlight_area_background_tl,.search_content_main .search_results_container .s3d-highlight_area_background_tinner,.search_content_main .search_results_container .s3d-highlight_area_background_bl,.search_content_main .search_results_container .s3d-highlight_area_background_binner{margin-left:0;margin-right:0;}

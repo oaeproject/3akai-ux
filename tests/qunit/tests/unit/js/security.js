@@ -264,5 +264,147 @@ require(
         equals(htmlString.indexOf("z-index"), -1, "Strip CSS positioning");
     });
 
+    test("saneHTML elements", function() {
+
+        /*
+         * HTML4 elements from: http://www.w3.org/TR/html4/index/elements.html
+         * HTML5 elements from: http://www.quackit.com/html_5/tags/ and http://www.w3schools.com/html5/
+         */
+
+        var html4ElementList = [
+            '<A href="http://www.w3.org/">W3C Web site</A>',
+            '<ABBR lang="es" title="Doa">Do&ntilde;a</ABBR>',
+            '<acronym>data</acronym>',
+            '<ADDRESS><A href="../People/Raggett/">Dave Raggett</A>,<A href="../People/Arnaud/">Arnaud Le Hors</A>,contact persons for the <A href="Activity">W3C HTML Activity</A><BR>$Date: 1999/12/24 23:37:50 $</ADDRESS>',
+            '<AREA href="guide.html" alt="Access Guide" shape="rect" coords="0,0,118,28">',
+            '<b>bold</b>',
+            '<BDO dir="LTR">english1 2WERBEH english3</BDO>',
+            '<big>big</big>',
+            '<BLOCKQUOTE cite="http://www.mycom.com/tolkien/twotowers.html"><P>They went in single file, running like hounds on a strong scent, and an eager light was in their eyes. Nearly due west the broad swath of the marching Orcs tramped its ugly slot; the sweet grass of Rohan had been bruised and blackened as they passed.</P></BLOCKQUOTE>',
+            '<br>',
+            '<BUTTON name="submit" value="submit" type="submit">Send<IMG src="/icons/wow.gif" alt="wow"></BUTTON>',
+            '<CAPTION>Cups of coffee consumed by each senator</CAPTION>',
+            '<center>data</center>',
+            '<CITE>[ISO-0000]</CITE>',
+            '<col>',
+            '<COLGROUP width="20"><COL span="39"><COL id="format-me-specially"></COLGROUP>',
+            '<DL><DT>Center<DT>Centre<DD> A point equidistant from all points on the surface of a sphere.<DD> In some field sports, the player who holds the middle position on the field, court, or forward line.</DL>',
+            '<P>A Sheriff can employ <DEL>3</DEL><INS>5</INS> deputies.</P>',
+            '<dfn>data</dfn>',
+            '<DIV id="client-boyera" class="client"><P><SPAN class="client-title">Client information:</SPAN><TABLE class="client-data"><TR><TH>Last name:<TD>Boyera</TR><TR><TH>First name:<TD>Stephane</TR><TR><TH>Tel:<TD>(212) 555-1212</TR><TR><TH>Email:<TD>sb@foo.org</TR></TABLE></DIV>',
+            '<em>data</em>',
+            '<FIELDSET><LEGEND>Personal Information</LEGEND>Last Name: <INPUT name="personal_lastname" type="text" tabindex="1">First Name: <INPUT name="personal_firstname" type="text" tabindex="2"> Address: <INPUT name="personal_address" type="text" tabindex="3">  ...more personal information... </FIELDSET>',
+            '<FORM action="http://somesite.com/prog/adduser" method="post"><P><LABEL for="firstname">First name: </LABEL><INPUT type="text" id="firstname"><BR><LABEL for="lastname">Last name: </LABEL><INPUT type="text" id="lastname"><BR><LABEL for="email">email: </LABEL><INPUT type="text" id="email"><BR><INPUT type="radio" name="sex" value="Male"> Male<BR><INPUT type="radio" name="sex" value="Female"> Female<BR><INPUT type="submit" value="Send"> <INPUT type="reset"></P></FORM>',
+            '<h1>data</h1>',
+            '<h2>data</h2>',
+            '<h3>data</h3>',
+            '<h4>data</h4>',
+            '<h5>data</h5>',
+            '<h6>data</h6>',
+            '<hr>',
+            '<i>italic</i>',
+            '<IMG src="http://www.somecompany.com/People/Ian/vacation/family.png" alt="A photo of my family at the lake.">',
+            '<kbd>data</kbd>',
+            '<LEGEND>Personal Information</LEGEND>',
+            '<ol><li value="30"> makes this list item number 30.<li value="40"> makes this list item number 40.<li> makes this list item number 41.</ol>',
+            '<MAP name="map1"><P>Navigate the site:<A href="guide.html" shape="rect" coords="0,0,118,28">Access Guide</a> | <A href="shortcut.html" shape="rect" coords="118,0,184,28">Go</A> | <A href="search.html" shape="circle" coords="184,200,60">Search</A> | <A href="top10.html" shape="poly" coords="276,0,276,28,100,200,50,50,276,0">Top Ten</A></MAP>',
+            '<menu><li>Command 1</li><li>Command 2</li><li>Command 3</li></menu>',
+            '<SELECT name="ComOS"><OPTION selected="selected" label="none" value="none">None</OPTION><OPTGROUP label="PortMaster 3"><OPTION label="3.7.1" value="pm3_3.7.1">PortMaster 3 with ComOS 3.7.1</OPTION><OPTION label="3.7" value="pm3_3.7">PortMaster 3 with ComOS 3.7</OPTION><OPTION label="3.5" value="pm3_3.5">PortMaster 3 with ComOS 3.5</OPTION></OPTGROUP><OPTGROUP label="PortMaster 2"><OPTION label="3.7" value="pm2_3.7">PortMaster 2 with ComOS 3.7</OPTION><OPTION label="3.5" value="pm2_3.5">PortMaster 2 with ComOS 3.5</OPTION></OPTGROUP><OPTGROUP label="IRX"><OPTION label="3.7R" value="IRX_3.7R">IRX with ComOS 3.7R</OPTION><OPTION label="3.5R" value="IRX_3.5R">IRX with ComOS 3.5R</OPTION></OPTGROUP></SELECT>',
+            '<p>data</p>',
+            '<PRE>Higher still and higher         From the earth thou springest       Like a cloud of fire;         The blue deep thou wingest, And singing still dost soar, and soaring ever singest.</PRE>',
+            'John said, <Q lang="en-us">I saw Lucy at lunch, she told me <Q lang="en-us">Mary wants you to get some ice cream on your way home.</Q> I think I will get some at Ben and Jerry\'s, on Gloucester Road.</Q>',
+            '<samp>data</samp>',
+            '<small>small</small>',
+            '<SPAN class="client-title">Client information:</SPAN>',
+            '<strong>data</strong>',
+            'H<sub>2</sub>O E = mc<sup>2</sup><SPAN lang="fr">M<sup>lle</sup> Dupont</SPAN>',
+            '<TABLE><THEAD><TR><TH>...header information...</TH></THEAD><TFOOT><TR> ...footer information...</TFOOT><TBODY><TR> ...first row of block one data...<TR><TD>...second row of block one data...</TD></TBODY><TBODY><TR> ...first row of block two data...<TR> ...second row of block two data...<TR> ...third row of block two data...</TBODY></TABLE>',
+            '<TEXTAREA name="thetext" rows="20" cols="80">First line of initial text.Second line of initial text.</TEXTAREA>',
+            '<tt>teletype text</tt>',
+            '<u>data</u>',
+            '<UL><LI> ... first list item...<LI> ... second list item......</UL>',
+            '<var>data</var>'
+        ];
+
+        //HTML4 Elements we expect to be removed
+        var html4ElementStripList = [
+            '<APPLET code="Bubbles.class" width="500" height="500">Java applet that draws animated bubbles.</APPLET>',
+            '<BASE href="http://www.aviary.com/products/intro.html">',
+            '<basefont size="2"></basefont>',
+            '<BODY>  ... document body...</BODY>',
+            '<FRAMESET cols="33%,33%,33%"><FRAMESET rows="*,200"><FRAME src="contents_of_frame1.html"><FRAME src="contents_of_frame2.gif"></FRAMESET><FRAME src="contents_of_frame3.html"><FRAME src="contents_of_frame4.html"></FRAMESET>',
+            '<HEAD><TITLE>A study of population dynamics</TITLE></HEAD>',
+            '<IFRAME src="foo.html" width="400" height="500" scrolling="auto" frameborder="1">[Your user agent does not support frames or is currently configured not to display frames. However, you may visit <A href="foo.html">the related document.</A>]</IFRAME>',
+            '<LINK rel="Index" href="../index.html">',
+            '<NOFRAMES><P>Here is the <A href="main-noframes.html"> non-frame based version of the document.</A></NOFRAMES>',
+            '<NOSCRIPT><P>Access the <A href="http://someplace.com/data">data.</A></NOSCRIPT>',
+            '<OBJECT codetype="application/java" classid="java:Bubbles.class" width="500" height="500">Java applet that draws animated bubbles.</OBJECT>',
+            '<PARAM name="width" value="40" valuetype="data">',
+            '<script>data</script>',
+            '<STYLE type="text/css">H1 {border-width: 1; border: solid; text-align: center}</STYLE>',
+            '<TITLE>A study of population dynamics</TITLE>'
+        ];
+
+        var html5ElementList = [
+            '<A href="http://www.w3.org/" media="media">W3C Web site</A>',
+            '<address>This document was written by:<br><a href="mailto:homer@example.com">Homer Simpson</a></address>',
+            '<article><h4>Environmentally Friendly City</h4><p>A <a href="http://www.natural-environment.com/blog/2008/12/14/masdar-city-the-worlds-first-zero-carbon-zero-waste-city/" target="_blank">brand new city</a> is being built in Abu Dhabi in the United Arab Emirates which, when finished, will be the world’s first zero carbon, zero waste city.</p><p>Masdar City, a completely self sustaining city, will be powered by renewable energy and all waste will be recycled or reused.</p></article>',
+            '<aside style="font-size:larger;font-style:italic;color:green;float:right;width:120px;">70% of the world\'s reefs will be destroyed over the next 40 years.</aside><p>Global warming is affecting coral reefs all over the world. At the current rate, 70% of the world\'s reefs will be destroyed over the next 40 years.</p><p>As hopeless as this may sound, there are things we can do to help. By developing greener habits, we can all do our part in reducing global warming. For example, here are <a href="http://www.natural-environment.com/blog/2008/01/29/5-easy-ways-to-reduce-greenhouse-gas/" target="_blank">5 ways to reduce greenhouse gases</a>.  And here are some simple steps you can take to <a href="http://www.natural-environment.com/sustainable_living/sustainable_habits.php" target="_blank">live sustainably</a>.</p>',
+            '<audio src="/music/lostmojo.wav"><p>If you are reading this, it is because your browser does not support the audio element.</p></audio>',
+            '<bdo dir="rtl">How to override text direction? I think you already know!</bdo>',
+            '<command type="command">Click Me!</command>',
+            '<h4>Example 1 (for HTML 5 browsers)</h4><p> <label>  Enter your favorite cartoon character:<br>  <input type="text" name="favCharacter" list="characters">  <datalist id="characters">   <option value="Homer Simpson">   <option value="Bart">   <option value="Fred Flinstone">  </datalist> </label><br></p><h4>Example 2 (for both legacy and HTML 5 browsers)</h4><p> <label>  Enter your favorite cartoon character:<br>  <input type="text" name="favCharacter" list="characters"><br> </label> <datalist id="characters">  <label>   or select one from the list:<br>   <select name="favCharacter">    <option>Homer Simpson    <option>Bart    <option>Fred Flinstone   </select>  </label> </datalist></p>',
+            '<details open="open"><p>If your browser supports this element, it should allow you to expand and collapse these details.</p></details>',
+            '<canvas id="myCanvas" width="300" height="200"><p>Your browser does not support the canvas tag. At the time of writing, Firefox, Opera, and Chrome support this tag.</p><p>Here\'s an <a href="/pix/html_5/tags/html_canvas_tag.gif">image of what it\'s supposed to look like</a>.</p></canvas>',
+            '<figure id="1"><figcaption>Figure 1. JavaScript Alert Box.</figcaption><pre><code>alert(\'Hello!\');</code></pre></figure>',
+            '<footer>2009 Woofer Dog Corporation</footer>',
+            '<header><span style="color:brown;font-style:italic;">Woofer Dog: Version 1.0</span><hr><hgroup><h1>Talking Dogs</h1><h2>Humans aren\'t the only talkers!</h2></hgroup></header>',
+            '<hgroup><h1>Talking Dogs</h1><h2>Humans aren\'t the only talkers!</h2></hgroup>',
+            '<keygen name="security">',
+            '<mark style="background-color:yellow;">increased by 100 percent</mark>',
+            '<ul><li><meter>25%</meter></li><li><meter>1/4</meter></li><li><meter>200 out of 800</meter></li><li><meter>max: 100; current: 25</meter></li><li><meter min="0" max="100" value="25"></meter></li></ul>',
+            '<nav><a href="/css/" target="_blank">CSS</a> | <a href="/html/" target="_blank">HTML</a> | <a href="/javascript/" target="_blank">JavaScript</a> | <a href="/sql/tutorial/" target="_blank">SQL</a></nav>',
+            //'<input name="numa" type="number"> +<input name="numb" type="number"> =<output name="result" onforminput="value=numa.valueAsNumber + numb.valueAsNumber"></output>',
+            'Downloading now. Progress...<progress value="250" max="1000"><span id="downloadProgress">25</span>%</progress>',
+            '<p lang="zh-CN">...<ruby>  <rt> hn </rt>  <rt> z  </rt></ruby>...</p>',
+            '<p lang="ja">... <ruby>  <rp>(</rp><rt></rt><rp>)</rp>  <rp>(</rp><rt></rt><rp>)</rp></ruby>...</p>',
+            '<audio><source src="/music/good_enough.wma" type="audio/x-ms-wma"><source src="/music/good_enough.mp3" type="audio/mpeg"><p>If you are reading this, it is because your browser does not support the HTML \'audio\' element.</p></audio>',
+            '<details><summary>Name</summary><p>Homer J Simpson</p></details>',
+            '<p>On Saturdays, we open at <time>09:00</time>.</p>',
+            'At the bottom of the search results screen, we have added "Next <var>n</var>" functionality to allow the user to view more than one screen of search results.',
+            '<video src="/video/pass-countdown.ogg" width="300" height="150" controls="controls"><p>If you are reading this, it is because your browser does not support the HTML5 video element.</p></video>',
+            '<p>And the world record for the longest place name in an English-speaking country is...<br><i>Taumata<wbr>whakatangihanga<wbr>koauau<wbr>o<wbr>tamatea<wbr>turi<wbr>pukakapiki<wbr>maunga<wbr>horo<wbr>nuku<wbr>pokai<wbr>whenua<wbr>kitanatahu</i></p><p>This is the name of a hill in New Zealand.</p><p>Here\'s what it looks like without using the <code>wbr</code> tag...<i>Taumatawhakatangihangakoauauotamateaturipukakapikimaungahoronukupokaiwhenuakitanatahu</i></p>'
+        ];
+
+        expect(html4ElementList.length + html4ElementStripList.length + html5ElementList.length);
+
+        var htmlString = "", sanitizedHtmlString = "";
+
+        for (var i in html4ElementList) {
+            if (html4ElementList.hasOwnProperty(i)) {
+                 htmlString = html4ElementList[i].toLowerCase();
+                 sanitizedHtmlString = sakai.api.Security.saneHTML(htmlString);
+                 equals(sanitizedHtmlString.indexOf(htmlString), 0, "Keep HTML4 element intact: " + htmlString);
+            }
+        }
+
+        for (var i in html4ElementStripList) {
+            if (html4ElementStripList.hasOwnProperty(i)) {
+                 htmlString = html4ElementStripList[i].toLowerCase();
+                 sanitizedHtmlString = sakai.api.Security.saneHTML(htmlString);
+                 equals(sanitizedHtmlString.indexOf(htmlString), -1, "Strip HTML4 element: " + htmlString);
+            }
+        }
+
+        // html5 elements not yet supported by google caja - SAKIII-2473
+        for (var j in html5ElementList) {
+            if (html5ElementList.hasOwnProperty(j)) {
+                 htmlString = html5ElementList[j].toLowerCase();
+                 sanitizedHtmlString = sakai.api.Security.saneHTML(htmlString);
+                 equals(sanitizedHtmlString.indexOf(htmlString), 0, "Keep HTML5 element intact: " + htmlString);
+            }
+        }
+    });
+
     });
 });
