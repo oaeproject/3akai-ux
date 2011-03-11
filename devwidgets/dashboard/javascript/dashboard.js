@@ -387,9 +387,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
 
                           var el = $("#" + currentSettingsOpen.split("_")[1] + "_container", $rootel);
                           if (el.is(":visible")) {
-                              $("#settings_hide_link", $rootel).text("Hide");
+                              $("#settings_hide_link", $rootel).text(sakai.api.i18n.General.getValueForKey("HIDE"));
                           } else {
-                              $("#settings_hide_link", $rootel).text("Show");
+                              $("#settings_hide_link", $rootel).text(sakai.api.i18n.General.getValueForKey("SHOW"));
                           }
 
                           var x = $(this).position().left;
