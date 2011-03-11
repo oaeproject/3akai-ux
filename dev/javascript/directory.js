@@ -33,20 +33,22 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             return true;
         };
 
-        var handleHashChange = function() {
-            var id = $.bbq.getState("location");
-            // get directory json object called method from browsedirectory widget
-            var nodeId = id.split("/").reverse().shift();
-            var directoryJson = sakai_global.browsedirectory.getDirectoryNodeJson(nodeId);
+        var handleHashChange = function(e, node) {
+            var id = node || $.bbq.getState("location");
+            if (id) {
+                // get directory json object called method from browsedirectory widget
+                var nodeId = id.split("/").reverse().shift();
+                var directoryJson = sakai_global.browsedirectory.getDirectoryNodeJson(nodeId);
 
-            // prepare result json
-            var resultJson = {};
-            resultJson.title = directoryJson[0].data;
-            resultJson.icon = directoryJson[0].attr["data-url"];
-            resultJson.id = directoryJson[0].attr["id"];
+                // prepare result json
+                var resultJson = {};
+                resultJson.title = directoryJson[0].data;
+                resultJson.icon = directoryJson[0].attr["data-url"];
+                resultJson.id = directoryJson[0].attr["id"];
 
-            // render directory information
-            $(".directory_info").html(sakai.api.Util.TemplateRenderer("#directory_template", resultJson));
+                // render directory information
+                $(".directory_info").html(sakai.api.Util.TemplateRenderer("#directory_template", resultJson));
+            }
         };
 
         /**
@@ -55,7 +57,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var bindEvents = function() {
             // bind hashchange event.
             // that event is triggered when directory in browsedirectory widget is selected.
-            $(window).bind("hashchange ready.browsedirectory.sakai", handleHashChange);
+            $(window).bind("hashchange nohash.browsedirectory.sakai", handleHashChange);
         };
 
         doInit();

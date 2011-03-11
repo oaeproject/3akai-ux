@@ -466,10 +466,16 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                         sharecontentSelectedSharer = val.split("sharecontent_permission_link_")[1];
                     }
                 });
+                var left = Math.round($(this).position().left + $("#sharecontent_listpeople").position().left + 3);
+                var top = Math.round($(this).position().top + $("#sharecontent_listpeople").position().top + 22);
+                if ($(this).parent(".sharecontent_search_container").length > 0) {
+                    left = Math.round($(this).position().left + 2);
+                    top = Math.round($(this).position().top + 26);
+                }
                 sharecontentEditPermissionsLink = $("#sharecontent_edit_permission");
                 sharecontentEditPermissionsLink.css("width", $(this).width() + 11 + "px");
-                sharecontentEditPermissionsLink.css("left",$(this).position().left + 2 + "px");
-                sharecontentEditPermissionsLink.css("top",$(this).position().top + 21 + "px");
+                sharecontentEditPermissionsLink.css("left", left + "px");
+                sharecontentEditPermissionsLink.css("top", top + "px");
                 sharecontentEditPermissionsLink.toggle();
             });
 
@@ -529,9 +535,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     pickerData.excludeList.push("user/" + members.viewers[i]["userid"]);
                 }
             }
-            for (var i in members.managers) {
-                if (members.managers.hasOwnProperty(i)) {
-                    pickerData.excludeList.push("user/" + members.managers[i]["userid"]);
+            for (var k in members.managers) {
+                if (members.managers.hasOwnProperty(k)) {
+                    pickerData.excludeList.push("user/" + members.managers[k]["userid"]);
                 }
             }
         };
@@ -790,12 +796,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
 
         $(document).bind("click", function(e) {
             var $target = $(e.target);
-            if (!$target.hasClass("sharecontent_permission_link") &&
-                !$target.hasClass("s3d-button-link-2-state-inner") &&
-                !$target.hasClass("sharecontent_permission")) {
-                if($(sharecontentEditPermissionsLink).is(":visible")) {
-                    $(sharecontentEditPermissionsLink).hide();
-                }
+            if ($target.hasClass("sharecontent_permission_link") ||
+                $target.parents(".sharecontent_permission_link").length > 0) {
+                return;
+            } else if ($(sharecontentEditPermissionsLink).is(":visible")) {
+                $(sharecontentEditPermissionsLink).hide();
             }
         });
 

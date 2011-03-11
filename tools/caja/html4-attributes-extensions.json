@@ -1,0 +1,270 @@
+{
+  "description": "HTML4 plus some other stuff - SAKIII-2473",
+  "inherits": [
+      "html4-attributes.json",
+      "html4-attributes-extensions-defs.json"
+      ],
+
+  "allowed": [
+      "AUDIO::SRC",
+      "AUDIO::PRELOAD",
+      "AUDIO::AUTOPLAY",
+      "AUDIO::LOOP",
+      "AUDIO::CONTROLS",
+      "CANVAS::WIDTH",
+      "CANVAS::HEIGHT"
+      "COMMAND::TYPE"
+      "COMMAND::LABEL"
+      "COMMAND::ICON"
+      "COMMAND::DISABLED"
+      "COMMAND::CHECKED"
+      "COMMAND::RADIOGROUP"
+      "DETAILS::OPEN"
+      "KEYGEN::OPEN"
+      "KEYGEN::AUTOFOCUS"
+      "KEYGEN::CHALLENGE"
+      "KEYGEN::DISABLED"
+      "KEYGEN::FORM"
+      "KEYGEN::KEYTYPE"
+      "KEYGEN::NAME"
+      "METER::VALUE"
+      "METER::MIN"
+      "METER::LOW"
+      "METER::HIGH"
+      "METER::MAX"
+      "METER::OPTIMUM"
+      "OUTPUT::NAME"
+      "OUTPUT::FORM"
+      "OUTPUT::FOR"
+      "PROGRESS::VALUE"
+      "PROGRESS::MAX"
+      "SOURCE::SRC"
+      "SOURCE::TYPE"
+      "SOURCE::MEDIA"
+      "TIME::DATETIME"
+      "TIME::PUBDATE"
+      "VIDEO::AUTOPLAY"
+      "VIDEO::PRELOAD"
+      "VIDEO::CONTROLS"
+      "VIDEO::LOOP"
+      "VIDEO::POSTER"
+      "VIDEO::HEIGHT"
+      "VIDEO::WIDTH"
+      "VIDEO::AUDIO"
+      "VIDEO::SRC"
+      "INPUT::LIST"
+      "A::MEDIA"
+      "INPUT::TYPE"
+      "INPUT::FORM"
+      "INPUT::AUTOCOMPLETE"
+      "INPUT::AUTOFOCUS"
+      "INPUT::LIST"
+      "INPUT::MIN"
+      "INPUT::MAX"
+      "INPUT::PATTERN"
+      "INPUT::PLACEHOLDER"
+      "INPUT::REQUIRED"
+      "INPUT::STEP"
+      "MENU::TYPE"
+      "MENU::LABEL"
+      ],
+
+  "types": [
+      { "key": "AUDIO::SRC",
+        "mimeTypes": "*/*", "optional": true, "type": "URI"
+      },
+      { "key": "AUDIO::PRELOAD",
+        "optional": true, "values": "none,metadata,auto"
+      },
+      { "key": "AUDIO::AUTOPLAY",
+        "optional": true, "values": "autoplay"
+      },
+      { "key": "AUDIO::LOOP",
+        "optional": true, "values": "loop"
+      },
+      { "key": "AUDIO::CONTROLS",
+        "optional": true, "values": "controls"
+      },
+      { "key": "CANVAS::WIDTH",
+        "pattern": "[0-9]+", "optional": true
+      },
+      { "key": "CANVAS::HEIGHT",
+        "pattern": "[0-9]+", "optional": true
+      },
+      { "key": "COMMAND::TYPE",
+        "optional": true, "values": "command,radio,checkbox"
+      },
+      { "key": "COMMAND::LABEL",
+        "optional": true
+      },
+      { "key": "COMMAND::ICON",
+        "optional": true, "type": "URI"
+      },
+      { "key": "COMMAND::DISABLED",
+        "optional": true, "values": "disabled"
+      },
+      { "key": "COMMAND::CHECKED",
+        "optional": true, "values": "checked"
+      },
+      { "key": "COMMAND::RADIOGROUP",
+        "optional": true
+      },
+      { "key": "DETAILS::OPEN",
+        "optional": true, "values": "OPEN"
+      },
+      { "key": "KEYGEN::AUTOFOCUS",
+        "optional": true, "values": "autofocus"
+      },
+      { "key": "KEYGEN::CHALLENGE",
+        "optional": true
+      },
+      { "key": "KEYGEN::DISABLED",
+        "optional": true, "values": "disabled"
+      },
+      { "key": "KEYGEN::FORM",
+        "optional": true
+      },
+      { "key": "KEYGEN::KEYTYPE",
+        "optional": true
+      },
+      { "key": "KEYGEN::NAME",
+        "optional": true
+      },
+      { "key": "METER::VALUE",
+        "optional": true
+      },
+      { "key": "METER::MIN",
+        "optional": true
+      },
+      { "key": "METER::LOW",
+        "optional": true
+      },
+      { "key": "METER::HIGH",
+        "optional": true
+      },
+      { "key": "METER::MAX",
+        "optional": true
+      },
+      { "key": "METER::OPTIMUM",
+        "optional": true
+      },
+      { "key": "OUTPUT::NAME",
+        "optional": true
+      },
+      { "key": "OUTPUT::FORM",
+        "optional": true
+      },
+      { "key": "OUTPUT::FOR",
+        "optional": true
+      },
+      { "key": "PROGRESS::VALUE",
+        "optional": true
+      },
+      { "key": "PROGRESS::MAX",
+        "optional": true
+      },
+      { "key": "SOURCE::SRC",
+        "mimeTypes": "*/*", "optional": true, "type": "URI"
+      },
+      { "key": "SOURCE::TYPE",
+        "optional": true
+      },
+      { "key": "SOURCE::MEDIA",
+        "optional": true
+      },
+      { "key": "TIME::DATETIME",
+        "optional": true
+      },
+      { "key": "TIME::PUBDATE",
+        "optional": true, "values": "pubdate"
+      },
+      { "key": "TRACK::KIND",
+        "optional": true, "values": "subtitles,captions,descriptions,chapters,metadata"
+      },
+      { "key": "TRACK::SRC",
+        "mimeTypes": "*/*", "optional": true, "type": "URI"
+      },
+      { "key": "TRACK::SRCLANG",
+        "optional": true
+      },
+      { "key": "TRACK::LABEL",
+        "optional": true
+      },
+      { "key": "TRACK::DEFAULT",
+        "optional": true, "values": "default"
+      },
+      { "key": "VIDEO::AUTOPLAY",
+        "optional": true, "values": "autoplay"
+      },
+      { "key": "VIDEO::PRELOAD",
+        "optional": true, "values": "none,metadata,auto"
+      },
+      { "key": "VIDEO::CONTROLS",
+        "optional": true, "values": "controls"
+      },
+      { "key": "VIDEO::LOOP",
+        "optional": true, "values": "loop"
+      },
+      { "key": "VIDEO::POSTER",
+        "mimeTypes": "image/*", "optional": true, "type": "URI"
+      },
+      { "key": "VIDEO::HEIGHT",
+        "optional": true
+      },
+      { "key": "VIDEO::WIDTH",
+        "optional": true
+      },
+      { "key": "VIDEO::AUDIO",
+        "optional": true
+      },
+      { "key": "VIDEO::SRC",
+        "mimeTypes": "*/*", "optional": true, "type": "URI"
+      },
+      { "key": "A::MEDIA",
+        "optional": true
+      },
+      { "key": "INPUT::LIST",
+        "optional": true
+      },
+      { "key": "INPUT::TYPE",
+        "values": "text,password,checkbox,radio,submit,reset,file,hidden,image,button,datetime,datetime-local,date,month,time,week,number,range,email,url,search,tel,color",
+        "default": "TEXT", "optional": true
+      },
+      { "key": "INPUT::FORM",
+        "optional": true
+      },
+      { "key": "INPUT::AUTOCOMPLETE",
+        "optional": true, "values": "on,off"
+      },
+      { "key": "INPUT::AUTOFOCUS",
+        "optional": true, "values": "autofocus"
+      },
+      { "key": "INPUT::LIST",
+        "optional": true
+      },
+      { "key": "INPUT::MIN",
+        "optional": true
+      },
+      { "key": "INPUT::MAX",
+        "optional": true
+      },
+      { "key": "INPUT::PATTERN",
+        "optional": true
+      },
+      { "key": "INPUT::PLACEHOLDER",
+        "optional": true
+      },
+      { "key": "INPUT::REQUIRED",
+        "optional": true, "values": "required"
+      },
+      { "key": "INPUT::STEP",
+        "optional": true
+      },
+      { "key": "MENU::TYPE",
+        "optional": true
+      },
+      { "key": "MENU::LABEL",
+        "optional": true
+      }
+      ]
+}
