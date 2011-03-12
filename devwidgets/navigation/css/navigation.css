@@ -45,3 +45,4 @@
 /* SETTINGS */
 #settings_settings_link{color:#333}
 #navigation_admin_options {margin-top:5px;}
+#navigation_footer_edit .widget-options-inner {overflow:visible;}
