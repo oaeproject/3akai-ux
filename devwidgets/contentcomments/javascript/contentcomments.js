@@ -212,7 +212,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 comment.messageTxt = comment.comment;
                 comment.message = tidyInput(comment.comment);
                 comment.canEdit = false;
-                comment["sakai:id"] = comment.commentId;
+                comment["sakai:id"] = comment.commentId.substring((comment.commentId.lastIndexOf("/") + 1),comment.commentId.length);
 
                 var user = {};
                 // User
@@ -746,7 +746,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          * @param {Boolean} deleteValue true = delete it, false = undelete it.
          */
         var doDelete = function(id, deleteValue){
-            var url = contentPath + ".comments?commentId=" + $(commentsPath+id).val();
+            var url = contentPath + ".comments?commentId=" + id;
             $.ajax({
                 url: url,
                 type: 'DELETE',
@@ -760,7 +760,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         };
 
         $(commentsDelete, rootel).live("click", function(e, ui){
-            var id = e.target.id.replace(commentsDelete.replace(/\./g, ""), "");
+            var id = e.target.id.replace(commentsDelete.replace(/\./g, "") + "_", "");
             doDelete(id, true);
             return false;
         });
