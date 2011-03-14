@@ -2456,16 +2456,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Create unique page elements
             var pageUniques = sakai_global.sitespages.createPageUniqueElements(pageTitle.toLowerCase(), sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage]["pageFolder"]);
 
-            // Assign the content to the sakai_global.sitespages.pagecontents array
-            if (sakai_global.sitespages.pagecontents[pageUniques.urlName]) {
-                sakai_global.sitespages.pagecontents[pageUniques.urlName]["sakai:pagecontent"] = content;
-            } else {
-                sakai_global.sitespages.pagecontents[pageUniques.urlName] = {};
-                sakai_global.sitespages.pagecontents[pageUniques.urlName]["sakai:pagecontent"] = content;
-            }
-            // Default dasboard content
+            // Default dashboard content
             var dashboardUID = 'sitedashboard' + Math.round(Math.random() * 10000000000000);
             var defaultDashboardContent = '<div id="widget_dashboard_' + dashboardUID + '_' + sakai_global.sitespages.config.basepath + "_widgets/" + '" class="widget_inline"></div>';
+
+            // Assign the content to the sakai_global.sitespages.pagecontents array
+            if (sakai_global.sitespages.pagecontents[pageUniques.urlName]) {
+                sakai_global.sitespages.pagecontents[pageUniques.urlName]["sakai:pagecontent"] = defaultDashboardContent;
+            } else {
+                sakai_global.sitespages.pagecontents[pageUniques.urlName] = {};
+                sakai_global.sitespages.pagecontents[pageUniques.urlName]["sakai:pagecontent"] = defaultDashboardContent;
+            }
 
             // Create page node for dashboard page
             var newPosition = determineHighestPosition() + 200000;

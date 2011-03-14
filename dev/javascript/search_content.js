@@ -221,6 +221,16 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 // If we have results we add them to the object.
                 if (results && results.results) {
                     finaljson = mainSearch.prepareCMforRendering(results.results, finaljson, searchterm);
+                    for(var item in finaljson.items){
+                        if(finaljson.items.hasOwnProperty(item)){
+                            if (finaljson.items[item]["sakai:description"]) {
+                                finaljson.items[item]["sakai:description"] = sakai.api.Util.applyThreeDots(finaljson.items[item]["sakai:description"], $(".search_results").width() - $("#faceted_container").width() - 115, {max_rows: 1,whole_word: false}, "search_result_course_site_excerpt");
+                            }
+                            if(finaljson.items[item]["sakai:pooled-content-file-name"]){
+                                finaljson.items[item]["sakai:pooled-content-file-name"] = sakai.api.Util.applyThreeDots(finaljson.items[item]["sakai:pooled-content-file-name"], $(".search_results").width() - $("#faceted_container").width() - 115, {max_rows: 1,whole_word: false}, "s3d-bold");
+                            }
+                        }
+                    }
                 }
 
                 // if we're searching tags we need to hide the pager since it doesnt work too well
