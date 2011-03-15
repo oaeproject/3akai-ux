@@ -59,11 +59,7 @@
 
                             <div class="tab s3d-bold"><div><button type="button" class="inbox_filter s3d-link-button s3d-action s3d-bold" id="inbox_filter_inbox"><div class="inbox_icon"><!-- --></div>__MSG__INBOX__</button></div></div>
 
-                            <ul>
-                                <li><button type="button" class="inbox_filter s3d-link-button s3d-action" id="inbox_filter_messages"><div class="inbox_icon"><!-- --></div>__MSG__MESSAGES__</button> <span id="inbox_unread_nr_messages"></span></li>
-                                <li><button type="button" class="inbox_filter s3d-link-button s3d-action" id="inbox_filter_announcements"><div class="inbox_icon"><!-- --></div>__MSG__ANNOUNCEMENTS__</button> <span id="inbox_unread_nr_announcements"></span></li>
-                                <li><button type="button" class="inbox_filter s3d-link-button s3d-action" id="inbox_filter_chats"><div class="inbox_icon"><!-- --></div>__MSG__CHATS__</button> <span id="inbox_unread_nr_chats"></span></li>
-                                <li><button type="button" class="inbox_filter s3d-link-button s3d-action" id="inbox_filter_invitations"><div class="inbox_icon"><!-- --></div>__MSG__INVITATIONS__</button> <span id="inbox_unread_nr_invitations"></span></li>
+                            <ul id="inbox_filters">
                             </ul>
 
                             <div class="tab s3d-bold"><div><button type="button" class="inbox_filter s3d-link-button s3d-action s3d-bold" id="inbox_filter_sent"><div class="inbox_icon"><!-- --></div>__MSG__SENT__</button></div></div>
@@ -136,6 +132,12 @@
 
                             <div id="inbox_inbox_sort_up" style="display:none;"><span class="inbox_arrow inbox_arrow_up"></span></div>
                             <div id="inbox_inbox_sort_down" style="display:none;"><span class="inbox_arrow inbox_arrow_down"></span></div>
+
+                            <div id="inbox_inbox_filters_template"><!--
+                                {for filter in filters}
+                                    <li><button type="button" class="inbox_filter s3d-link-button s3d-action" id="inbox_filter_${filter}"><div class="inbox_icon"><!-- --></div>${sakai.api.i18n.General.getValueForKey(filter.toUpperCase())}</button><span id="inbox_unread_nr_${filter}"></span></li>
+                                {/for}
+                            --></div>
 
                             <div id="inbox_inbox_messages_template" title=""><!--
                             {for m in messages}

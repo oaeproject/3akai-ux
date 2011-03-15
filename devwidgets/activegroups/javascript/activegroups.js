@@ -46,6 +46,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var groupData = {};
 
+        var activeGroupsEllipsisContainer = ".activegroups_ellipsis_container";
+
         var renderPopularGroups = function(){
             var output = sakai.api.Util.TemplateRenderer($activegroups_main_template, {
                 data: groupData
@@ -82,7 +84,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     for (var i = 0; i < data.results.length; i++){
                         var group = {};
                         group["id"] = data.results[i]["sakai:group-id"];
-                        group["name"] = data.results[i]["sakai:group-title"];
+                        group["name"] = sakai.api.Util.applyThreeDots(data.results[i]["sakai:group-title"], $(".activegroups_widget").width() - 80, {max_rows: 1,whole_word: false}, "s3d-bold");
                         groups.push(group);
                     }
                     groupData.results[0] = {"groups": groups};

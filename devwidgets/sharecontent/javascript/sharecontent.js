@@ -481,19 +481,20 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
 
             $(sharecontentEditPermissionsLink + " button").live("click", function(){
                 $(sharecontentEditPermissionsLink).toggle();
-                var changeTo;
+                var changeTo = this.id.split("sharecontent_edit_permission_picker_")[1];
+                var newMember = false;
                 if (sharecontentSelectedSharer !== "") {
                     // Change the permissions if the user selected a different one
                     $sharecontentSelectedSharerSpan = $(".sharecontent_permission_link_" + sharecontentSelectedSharer + " span");
-                    changeTo = $(this)[0].id.split("sharecontent_edit_permission_picker_")[1];
                 } else {
                     $sharecontentSelectedSharerSpan = $(".sharecontent_new_members_permission_link span");
-                    changeTo = $(this)[0].id.split("sharecontent_edit_permission_picker_")[1];
+                    newMember = true;
                 }
 
                 if (changeTo === "viewer") {
                     if ($sharecontentSelectedSharerSpan.html() !== $(sharecontentCanView).html()) {
-                        if (sakai_global.content_profile.content_data.members.managers.length <= 1) {
+                        if (!newMember &&
+                            sakai_global.content_profile.content_data.members.managers.length <= 1) {
                             // do not allow the last manager to become a viewer
                             sakai.api.Util.notification.show(
                                 $sharecontentManagerCouldNotBeRemoved.text(),
@@ -504,7 +505,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                             if (sharecontentSelectedSharer !== "") {
                                 changePermission(sharecontentSelectedSharer, changeTo);
                             } else {
-                                $(sharecontentNewMembersPermissions).val("viewer");
+                                shareData.permission = "viewer";
                             }
                         }
                     }
@@ -515,7 +516,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                         if (sharecontentSelectedSharer !== "") {
                             changePermission(sharecontentSelectedSharer, changeTo);
                         } else {
-                            $(sharecontentNewMembersPermissions).val("managers");
+                            shareData.permission = "managers";
                         }
                     }
                 }
@@ -654,7 +655,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 sakai.api.Communication.sendMessage(userList.list, sakai.data.me, sakai.api.i18n.Widgets.getValueForKey("sharecontent", "", "I_WANT_TO_SHARE") + " \"" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"", messageText, "message", false, false, false, "shared_content");
             }
 
-            var mode = $(sharecontentNewMembersPermissions).val();
+            var mode = shareData.permission;
             var toAddList = userList.list.slice();
 
             for (var i in toAddList){

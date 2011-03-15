@@ -230,7 +230,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     finaljson.items = results.results;
                     for (var group in finaljson.items){
                         if (finaljson.items.hasOwnProperty(group) && finaljson.items[group]["sakai:group-title"]) {
-                            finaljson.items[group]["sakai:group-title"] = sakai.api.Security.escapeHTML(finaljson.items[group]["sakai:group-title"]);
+                            finaljson.items[group]["sakai:group-title"] = sakai.api.Util.applyThreeDots(sakai.api.Security.escapeHTML(finaljson.items[group]["sakai:group-title"]), $(".search_results").width() - $("#faceted_container").width() - 115, {max_rows: 1,whole_word: false}, "s3d-bold");
+                        }
+                        if (finaljson.items.hasOwnProperty(group) && finaljson.items[group]["sakai:group-description"]) {
+                            finaljson.items[group]["sakai:group-description"] = sakai.api.Util.applyThreeDots(sakai.api.Security.escapeHTML(finaljson.items[group]["sakai:group-description"]), $(".search_results").width() - $("#faceted_container").width() - 115, {max_rows: 1,whole_word: false}, "search_result_course_site_excerpt");
                         }
                     }
 
@@ -252,6 +255,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
                         }
                         finaljson.items[i]["pagepath"] = page_path;
+                        finaljson.items[i]["dottedpagepath"] = sakai.api.Util.applyThreeDots(page_path, $(".search_results").width() - $("#faceted_container").width() - 115, {max_rows: 1,whole_word: false}, "search_result_course_site_url");
 
                         if (finaljson.items[i].picture && typeof finaljson.items[i].picture === "string") {
                             finaljson.items[i].picture = $.parseJSON(finaljson.items[i].picture);

@@ -21,7 +21,7 @@
 .footer_main.footer_index{width:955px;}
 #footer_logo{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -49px -712px transparent;width:61px;height:28px;float:left;margin-right:15px;}
 #footer_logo_button{float:left;}
-.footer_main #footer_debug_info{margin:5px 0 0 76px;}
+.footer_main #footer_debug_info{margin:5px 0 0 81px;}
 .footer_main .footer_clickable{cursor:pointer;}
 #footer_contactinfo p{float:right;margin-top:-12px;}
 #footer_divider {font-weight:bold;}

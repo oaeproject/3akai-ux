@@ -164,15 +164,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
         var renderTemplate = function(){
             sakai.api.Util.TemplateRenderer($entity_container_template, {data: entityconfig.data, mode: entityconfig.mode, sakai: sakai}, $entity_container);
             $entity_container.show();
-            // make sure the newly added content is properly styled with
-            // threedots truncation
-            if ($(".entity_threedots").length) {
-                $(".entity_threedots").ThreeDots({
-                    max_rows: 1,
-                    text_span_class: "threedots",
-                    alt_text_t: true
-                });
-            }
         };
 
         /**
