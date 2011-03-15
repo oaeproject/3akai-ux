@@ -723,7 +723,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
         var addBindingTagsLink = function(){
             // Add the click event to the tagsLink link
             $(tagsLink).die("click");
-            $(tagsLink).live("click", function(){
+            $(tagsLink).live("click", function(e){
+                // in chrome it call showHideListLinkMenu twice
+                e.stopImmediatePropagation();
                 showHideListLinkMenu(tagsLinkMenu, tagsLink, false);
             });
         };
