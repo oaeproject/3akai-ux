@@ -41,6 +41,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var openedBox = false;
 
+        var filters = {filters : ["messages", "announcements", "invitations"]};
 
         /**
          *
@@ -1314,6 +1315,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          *
          */
         var doInit = function(){
+
+            // Render the filter buttons
+            if (sakai.config.enableChat) {
+              filters.filters.splice(2, 0, "chats");
+            }
+            filters.sakai = sakai;
+            sakai.api.Util.TemplateRenderer($("#inbox_inbox_filters_template"), filters, $("#inbox_filters"));
 
             // if user enter message url directly need to show related message
             // /dev/inbox.html#message=72c5c01dc3618b303904134fee6d5d8f2993f1cf
