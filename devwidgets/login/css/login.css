@@ -24,15 +24,15 @@ label{color:#888;font-weight:bold;font-size:1em;}
 #login-loader{display:none;color:#fff;padding-left:5px;padding-right:1px;margin-bottom:8px;}
 
 /* Log-in container */
-.login-container{padding:0;float:right;margin-top:-18px;width:345px;}
-.login-container-button{margin:0;float:none; float:right; *margin:1px 0 0 /* IE7 fix */}
+.login-container{padding:0;float:right;margin-top:-18px;width:350px;}
+.login-container-button{margin:0;float:right; *margin:1px 0 0 /* IE7 fix */}
 .login-container-textfield{border:1px solid #888;height:18px;padding:3px 0 0 3px;width:125px!important;}
 
 /* External Log-in */
 .login-external-content{display:table-cell;vertical-align:middle;margin-top:-25px;float:right;}
 .login-external-system{margin-bottom:30px;}
 .login-external-description{color:#999;}
-#loginbutton {margin-bottom:0;}
+#loginbutton {margin-bottom:0;font-size:11px;}
 
 /* Register here */
 #register_here{color:#fefefe;font-size:.95em;clear:both; margin-top:5px;}

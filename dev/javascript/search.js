@@ -249,13 +249,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
             }
             $(searchConfig.cm.searchResult).html(sakai.api.Util.TemplateRenderer(searchConfig.cm.searchResultTemplate, finaljson));
-
-            $(".search_result_person_threedots").ThreeDots({
-                max_rows: 1,
-                text_span_class: "threedots",
-                alt_text_t: true
-            });
-
         };
 
         /**
@@ -283,12 +276,13 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
                 if (foundSites && foundSites.results) {
 
-                    finaljson.items = [];
-
                     for (var group in foundSites.results){
                         if (foundSites.results.hasOwnProperty(group)) {
                             if (foundSites.results[group]["sakai:group-title"]) {
-                                foundSites.results[group]["sakai:group-title"] = sakai.api.Security.escapeHTML(foundSites.results[group]["sakai:group-title"]);
+                                foundSites.results[group]["sakai:group-title"] = sakai.api.Util.applyThreeDots(sakai.api.Security.escapeHTML(foundSites.results[group]["sakai:group-title"]), $(".search_results .search_results_container").width() - 80, {max_rows: 1,whole_word: false}, "s3d-bold");
+                            }
+                            if (foundSites.results[group]["sakai:group-description"]) {
+                                foundSites.results[group]["sakai:group-description"] = sakai.api.Util.applyThreeDots(sakai.api.Security.escapeHTML(foundSites.results[group]["sakai:group-description"]), $(".search_results .search_results_container").width() - 80, {max_rows: 1,whole_word: false}, "search_result_course_site_excerpt");
                             }
                             finaljson.items.push(foundSites.results[group]);
                         }
@@ -312,6 +306,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             page_path = site_path + "#" + page_path;
                         }
                         finaljson.items[i]["pagepath"] = page_path;
+                        finaljson.items[i]["dottedpagepath"] = sakai.api.Util.applyThreeDots(page_path, $(".search_results .search_results_container").width() - 80, {max_rows: 1,whole_word: false},"search_result_course_site_excerpt");
 
                         if (finaljson.items[i].picture && typeof finaljson.items[i].picture === "string") {
                             finaljson.items[i].picture = $.parseJSON(finaljson.items[i].picture);

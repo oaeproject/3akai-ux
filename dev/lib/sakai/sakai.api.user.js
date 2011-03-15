@@ -471,6 +471,76 @@ define(["jquery",
             return ret;
         },
 
+        acceptContactInvite : function(inviteFrom, inviteTo, callback) {
+            $.ajax({
+                url: "/~" + inviteTo + "/contacts.accept.html",
+                type: "POST",
+                data: {
+                    "targetUserId": inviteFrom
+                },
+                success: function(data) {
+                    if ($.isFunction(callback)) {
+                        callback(true, data);
+                    }
+                },
+                error: function() {
+                    if ($.isFunction(callback)) {
+                        callback(false, {});
+                    }
+                }
+            });
+        },
+
+        ignoreContactInvite : function(inviteFrom, inviteTo, callback) {
+            $.ajax({
+                url: "/~" + inviteTo + "/contacts.ignore.html",
+                type: "POST",
+                data: {
+                    "targetUserId": accepting
+                },
+                success: function(data){
+                    $.ajax({
+                        url: "/~" + inviteTo + "/contacts.remove.html",
+                        type: "POST",
+                        data: {
+                            "targetUserId": inviteFrom
+                        },
+                        success: function(data) {
+                            if ($.isFunction(callback)) {
+                                callback(true, data);
+                            }
+                        },
+                        error: function() {
+                            if ($.isFunction(callback)) {
+                                callback(false, {});
+                            }
+                        }
+                    });
+                }
+            });
+        },
+
+        respondToSiteJoinRequest : function(inviteFrom, siteToJoin, accept, callback) {
+            var action = accept ? "approve" : "deny";
+            $.ajax({
+                url: siteToJoin + "." + action + ".html",
+                type: "POST",
+                data: {
+                    "user": inviteFrom
+                },
+                success: function(data) {
+                    if ($.isFunction(callback)) {
+                        callback(true, data);
+                    }
+                },
+                error: function() {
+                    if ($.isFunction(callback)) {
+                        callback(false, {});
+                    }
+                }
+            });
+        },
+
         parseDirectory : function(profile){
             var obj = {"elements":[]};
             for (var i in profile.main.data["sakai:tags"]){

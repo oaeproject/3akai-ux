@@ -649,15 +649,16 @@ define(["jquery",
          * @param {String} id The unique id of the widget
          * @param {Object} content A JSON object that contains the data for the widget
          * @param {Function} callback Callback function that gets executed after the save is complete
+         * @param {Boolean} removeTree If we should replace the entire tree of saved data or just update it
          * @return {Void}
          */
-        saveWidgetData : function(id, content, callback) {
+        saveWidgetData : function(id, content, callback, removeTree) {
 
             // Get the URL from the widgetloader
             var url = sakaiWidgetsAPI.widgetLoader.widgets[id].placement;
 
             // Send a POST request to update/save the data for the widget
-            sakai_serv.saveJSON(url, content, callback);
+            sakai_serv.saveJSON(url, content, callback, removeTree);
 
         },
 

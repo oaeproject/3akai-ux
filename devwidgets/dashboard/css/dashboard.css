@@ -6,7 +6,7 @@
 #dashboard_container .dashboard_options{text-align:right;width:620px;padding-right:10px;}
 #dashboard_container .dashboard_options.fixed-container{padding:0 20px;width:920px;}
 #dashboard_container .dashboard_options a{font-size:9pt;color:#454A4F;font-weight:bold;}
-#dashboard_container #widget_settings_menu #settings_settings_link {color:#333;}
+#dashboard_container #widget_settings_menu button {color:#333;}
 
 /* TOOLS CONTAINER - RIGHT COLUMN */
 #dashboard_container #toolscontainer{margin-left:20px;}

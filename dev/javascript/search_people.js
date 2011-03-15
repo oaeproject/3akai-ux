@@ -354,13 +354,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             //    Render the results.
             $(searchConfig.results.container).html(sakai.api.Util.TemplateRenderer(searchConfig.results.template, finaljson));
             $("#search_results_page1").show();
-
-
-            $(".search_result_person_threedots").ThreeDots({
-                max_rows: 1,
-                text_span_class: "threedots",
-                alt_text_t: true
-            });
         };
 
 
