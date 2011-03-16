@@ -20,10 +20,11 @@
  *
  * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
  * /dev/lib/jquery/plugins/jquery.validate.sakai-edited.js (validate)
+ * /dev/lib/jquery/plugins/jquery.cookie.js (cookie)
  */
 /*global Config, $ */
 
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cookie.js"], function($, sakai) {
 
     /**
      * @name sakai_global.bbs
@@ -147,7 +148,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $bbsMainContainer.show();
                 $bbsSettings.hide();
             }
-        }
+        };
 
         /**
          * Check if the message store already exists
@@ -286,6 +287,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     renderPosts(response.results);
                     $bbsListTopics.show();
                     setEllipsis();
+
+                    var cookieData = $.parseJSON($.cookie(tuid));
+                    // loop through the posts
+                    for (var i in response.results) {
+                        if (response.results[i].post) {
+                            var postId = "bbs_post_" + response.results[i].post["sakai:id"];
+                            if (!(cookieData && cookieData[postId] && cookieData[postId].option === "hide")){
+                                // expand the thread
+                                $("#" + postId + " a" + bbsShowTopicReplies, $rootel).click();
+                            }
+                        }
+                    }
                 } catch (err) {
                 }
             } else {
@@ -621,6 +634,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
         };
 
+        /**
+         * Set thread view for the user by cookie
+         * @param {String} postId The post ID
+         * @param {String} option Option to show or hide replies
+         */
+        var setPostView = function(postId, option){
+            if (postId) {
+                var cookieData = $.parseJSON($.cookie(tuid));
+                if (!cookieData) {
+                    cookieData = {};
+                }
+                cookieData[postId] = {"option": option};
+                $.cookie(tuid, $.toJSON(cookieData));
+            }
+        };
+
         ////////////////////
         // Event Handlers //
         ////////////////////
@@ -680,6 +709,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // REPLY TOPIC //
             $(bbsShowTopicReplies, $rootel).live("click",function(){
                 var $repliesIcon = $(this).children(bbsRepliesIcon);
+                var postId = $(this).parent().attr("id");
                 if($repliesIcon.hasClass(bbsShowRepliesIcon)){
                     $(this).nextAll(bbsTopicRepliesContainer).show();
                     $repliesIcon.removeClass(bbsShowRepliesIcon);
@@ -687,11 +717,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     if ($repliesIcon.next().children(bbsNumberOfReplies).text() != "0") {
                         $(this).nextAll(bbsReplyTopicBottom).show();
                     }
+                    setPostView(postId, "show");
                 }else{
                     $(this).nextAll(bbsTopicRepliesContainer).hide();
                     $repliesIcon.addClass(bbsShowRepliesIcon);
                     $repliesIcon.removeClass(bbsHideRepliesIcon);
                     $(this).nextAll(bbsReplyTopicBottom).hide();
+                    setPostView(postId, "hide");
                 }
             });
 
