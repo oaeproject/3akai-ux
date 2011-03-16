@@ -32,7 +32,7 @@
 .footer_main .fixed-container p{font-size:11px;margin-bottom:0;padding-bottom:0;line-height:1.3em;color:#fff;}
 .footer_main .fixed-container a{color:#c4e4fb;}
 .footer_main .fixed-container button.back-top{color:#fff;display:block;float:right;font-size:13px;font-weight:bold;padding-right:7px;}
-.footer_main .fixed-container div.back-top{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -102px -639px transparent;height:13px;width:10px;float:right;cursor:pointer;}
+.footer_main .fixed-container div.back-top{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -102px -640px transparent;height:13px;width:10px;float:right;cursor:pointer;}
 #footer_main_br{width:100%;height:9px;background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -763px transparent;float:left;}
 #footer_main_bl{width:16px;height:9px;background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -11px -763px transparent;float:left;}
 #footer_main_footer{background:url(/dev/images/body_bg_sprite.png) repeat-x scroll left -42px transparent;height:9px;margin:0 16px;}
