@@ -33,6 +33,7 @@
 .topnavigation_explore .navigation_link_dropdown li:hover {background-color:#c4e6fd}
 .topnavigation_explore .navigation_link_dropdown .navigation_link_dropdown_bottom{background: url("/devwidgets/topnavigation/images/topnav_nav_hover_list_bottom_border.png") no-repeat scroll -1px 0 transparent;height: 7px;}
 .topnavigation_explore .navigation_link_dropdown .navigation_link_dropdown_tr {background: url("/devwidgets/topnavigation/images/topnav_nav_hover_list_border_tr.png") no-repeat scroll right top #97A1AB;height: 6px;left: 145px;position: absolute;top: -1px;width: 5px;}
+.topnavigation_explore .navigation_link_dropdown .navigation_subnav_split {background-color: #D4D4D4;border: medium none;height: 1px;margin: 5px 9px;}
 
 /* SEARCH */
 .topnavigation_search {float:left;margin-top:10px;height: 22px;margin-left: 120px;}

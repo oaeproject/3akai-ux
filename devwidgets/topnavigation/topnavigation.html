@@ -21,9 +21,13 @@
                 {if i.subnav}
                     <ul>
                         {for subnav in i.subnav}
+                            {if subnav !== "hr"}
                             <li>
                                 <a href="${subnav.url}" title="${subnav.label}" id="${subnav.id}">${subnav.label}</a>
                             </li>
+                            {else}
+                                <hr class="navigation_subnav_split"/>
+                            {/if}
                         {/for}
                     </ul>
                     <div class="navigation_link_dropdown_bottom"></div>

@@ -844,6 +844,9 @@ define(function() {
                         "label": "ADD_CONTACTS"
                     },
                     {
+                        "id": "subnavigation_hr",
+                    },
+                    {
                         "id": "subnavigation_simple_group_link",
                         "label": "SIMPLE_GROUP"
                     },
@@ -859,7 +862,29 @@ define(function() {
             },
             {
                 "id" : "navigation_explore_link",
-                "label" : "EXPLORE"
+                "label" : "EXPLORE",
+                "subnav": [
+                    {
+                        "id": "subnavigation_explore_stanford_link",
+                        "label": "STANFORD"
+                    },
+                    {
+                        "id": "subnavigation_explore_content_link",
+                        "label": "CONTENT"
+                    },
+                    {
+                        "id": "subnavigation_explore_groups_link",
+                        "label": "GROUPS"
+                    },
+                    {
+                        "id": "subnavigation_explore_courses_link",
+                        "label": "COURSES"
+                    },
+                    {
+                        "id": "subnavigation_explore_people_link",
+                        "label": "PEOPLE"
+                    }
+                ]
             }
         ],
 
