@@ -386,7 +386,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     }
                     else
                         if (sakai.api.i18n.General.process(response.results[j]["sakai:subject"])) {
-                            response.results[j]["sakai:subject"] = sakai.api.Security.escapeHTML(sakai.api.i18n.General.process(response.results[j]["sakai:subject"]).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(response.results[j].userFrom[0])));
+                            response.results[j]["sakai:subject"] = sakai.api.Security.saneHTML(sakai.api.i18n.General.process(response.results[j]["sakai:subject"]).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(response.results[j].userFrom[0])));
                         }
                         else {
                             response.results[j]["sakai:subject"] = messageSubject;
@@ -481,7 +481,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          * Gets all the messages from the JCR.
          */
         getAllMessages = function(callback, isDirectMessage){
-            console.debug("getAllMessages");
             toggleLoading(true);
             box = "inbox";
             if (selectedType === "sent") {
@@ -707,12 +706,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         comment = messageSubject.substr(messageSubject.lastIndexOf(",") + 1, messageSubject.length);
                         // title , groupid from pickeruser
                         if (key) {
-                            message["sakai:subject"] = sakai.api.Security.escapeHTML(sakai.api.i18n.General.process(key) + " " + comment);
+                            message["sakai:subject"] = sakai.api.i18n.General.process(key) + " " + comment;
                             // just title with ${user} add to contacts
                         }
                         else
                             if (sakai.api.i18n.General.process(message["sakai:subject"])) {
-                                message["sakai:subject"] = sakai.api.Security.escapeHTML(sakai.api.i18n.General.process(message["sakai:subject"]).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(message.userFrom[0])));
+                                message["sakai:subject"] = sakai.api.i18n.General.process(message["sakai:subject"]).replace(/\$\{user\}/gi, sakai.api.User.getDisplayName(message.userFrom[0]));
                             }
                         messageBody = message["sakai:body"] + "";
                         key = messageBody.substr(0, messageBody.lastIndexOf(","));
@@ -744,7 +743,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 }
 
                 // Fill in this message values.
-                $(inboxSpecificMessageSubject).text(sakai.api.Security.saneHTML(message["sakai:subject"]));
+                $(inboxSpecificMessageSubject).text(message["sakai:subject"]);
                 messageBody = ""+message["sakai:body"]; // coerce to string in case the body is all numbers
                 //$(inboxSpecificMessageBody).html(sakai.api.Security.saneHTML(messageBody.replace(/\n/gi, "<br />")));
                 //$(inboxSpecificMessageDate).text(sakai.api.Security.saneHTML(message.date));
