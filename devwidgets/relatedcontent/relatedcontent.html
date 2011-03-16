@@ -17,12 +17,12 @@
                     {if i['sakai:pooled-content-file-name'] && relatedcontent_index < 10 && i['jcr:name'] !== content.data["jcr:name"]}
                         {var contentFound = true}
                         <div class="relatedcontent_content">
-                            {if i['jcr:mimeType']}
-                                {var mimeType = i['jcr:mimeType']}
-                            {elseif i.file && i.file['jcr:mimeType']}
+                            {if i['mimeType']}
+                                {var mimeType = i['mimeType']}
+                            {elseif i.file && i.file['mimeType']}
                                 {var mimeType = i.file['jcr:mimeType']}
-                            {elseif i['jcr:content'] && i['jcr:content']['jcr:mimeType']}
-                                {var mimeType = i['jcr:content']['jcr:mimeType']}
+                            {elseif i['jcr:content'] && i['jcr:content']['mimeType']}
+                                {var mimeType = i['jcr:content']['mimeType']}
                             {elseif i['jcr:primaryType'] === "sling:Folder"}
                                 {var mimeType = 'folder'}
                             {/if}
