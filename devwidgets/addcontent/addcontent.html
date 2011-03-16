@@ -20,10 +20,10 @@
     {for resource in results}
         <div class="addcontent_container_content_box_container" data-sakai_widget_addcontent="/p/${resource["jcr:name"]}">
             <div class="addcontent_container_content_box">
-                {if resource["jcr:content"]["jcr:mimeType"] === "image/jpeg" || resource["jcr:content"]["jcr:mimeType"] === "image/png" || resource["jcr:content"]["jcr:mimeType"] === "image/gif"}
-                    <img class="addcontent_container_content_box_image" src="/p/${resource["jcr:name"]}" alt="${sakai.config.MimeTypes[resource["jcr:content"]["jcr:mimeType"]].description}" width="80"/>
-                {elseif sakai.config.MimeTypes[resource["jcr:content"]["jcr:mimeType"]]}
-                    <img class="addcontent_container_content_box_image" src="${sakai.config.MimeTypes[resource["jcr:content"]["jcr:mimeType"]].URL}" alt="${sakai.config.MimeTypes[resource["jcr:content"]["jcr:mimeType"]].description}" />
+                {if resource["jcr:content"]["mimeType"] === "image/jpeg" || resource["jcr:content"]["mimeType"] === "image/png" || resource["jcr:content"]["mimeType"] === "image/gif"}
+                    <img class="addcontent_container_content_box_image" src="/p/${resource["jcr:name"]}" alt="${sakai.config.MimeTypes[resource["jcr:content"]["mimeType"]].description}" width="80"/>
+                {elseif sakai.config.MimeTypes[resource["jcr:content"]["mimeType"]]}
+                    <img class="addcontent_container_content_box_image" src="${sakai.config.MimeTypes[resource["jcr:content"]["mimeType"]].URL}" alt="${sakai.config.MimeTypes[resource["jcr:content"]["mimeType"]].description}" />
                 {else}
                     <img class="addcontent_container_content_box_image" src="${sakai.config.MimeTypes["other"].URL}" alt="${sakai.config.MimeTypes["other"].description}" />
                 {/if}
@@ -41,10 +41,10 @@
     {if data}
         <div class="addcontent_container_show_box_container"">
             <div class="addcontent_container_show_box">
-                {if data["jcr:content"]["jcr:mimeType"] === "image/jpeg" || data["jcr:content"]["jcr:mimeType"] === "image/png" || data["jcr:content"]["jcr:mimeType"] === "image/gif"}
-                    <img class="addcontent_container_show_box_image" src="${url}" alt="${sakai.config.MimeTypes[data["jcr:content"]["jcr:mimeType"]].description}" width="155"/>
-                {elseif sakai.config.MimeTypes[data["jcr:content"]["jcr:mimeType"]]}
-                    <img class="addcontent_container_show_box_image" src="${sakai.config.MimeTypes[data["jcr:content"]["jcr:mimeType"]].URL}" alt="${sakai.config.MimeTypes[data["jcr:content"]["jcr:mimeType"]].description}" />
+                {if data["jcr:content"]["mimeType"] === "image/jpeg" || data["jcr:content"]["mimeType"] === "image/png" || data["jcr:content"]["mimeType"] === "image/gif"}
+                    <img class="addcontent_container_show_box_image" src="${url}" alt="${sakai.config.MimeTypes[data["jcr:content"]["mimeType"]].description}" width="155"/>
+                {elseif sakai.config.MimeTypes[data["jcr:content"]["mimeType"]]}
+                    <img class="addcontent_container_show_box_image" src="${sakai.config.MimeTypes[data["jcr:content"]["mimeType"]].URL}" alt="${sakai.config.MimeTypes[data["jcr:content"]["mimeType"]].description}" />
                 {else}
                     <img class="addcontent_container_show_box_image" src="${sakai.config.MimeTypes["other"].URL}" alt="${sakai.config.MimeTypes["other"].description}" />
                 {/if}

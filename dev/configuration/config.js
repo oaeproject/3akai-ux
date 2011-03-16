@@ -644,6 +644,11 @@ define(function() {
                 URL: "/dev/images/mimetypes/pdf.png",
                 description: "PDF_DOCUMENT"
             },
+            "application/x-download": {
+                cssClass: "icon-pdf-sprite",
+                URL: "/dev/images/mimetypes/pdf.png",
+                description: "PDF_DOCUMENT" 
+            },
             "application/x-pdf": {
                 cssClass: "icon-pdf-sprite",
                 URL: "/dev/images/mimetypes/pdf.png",
@@ -1973,7 +1978,7 @@ define(function() {
             "defaults": {
                 "personalportal": {
                     "layout": "dev",
-                    "columns": [["mygroups", "mycontacts","recentmessages"], ["myprofile", "mycontent"]]
+                    "columns": [["mygroups", "mycontacts"], ["mycontent","recentmessages"]]
                 },
                 "siteportal": {
                     "layout": "dev",
