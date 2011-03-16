@@ -1106,54 +1106,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             }, 2);
         });
 
-        /* Filter the messages. */
-
-        $(inboxFilterMessages).click(function(){
-            openedBox = "messages";
-            $.bbq.pushState({
-                "box": "messages"
-            }, 2);
-        });
-        $(inboxFilterAnnouncements).click(function(){
-            openedBox = "announcements";
-            $.bbq.pushState({
-                "box": "announcements"
-            }, 2);
-        });
-        $(inboxFilterChats).click(function(){
-            openedBox = "chats";
-            $.bbq.pushState({
-                "box": "chats"
-            }, 2);
-        });
-        $(inboxFilterInvitations).click(function(){
-            openedBox = "invitations";
-            $.bbq.pushState({
-                "box": "invitations"
-            }, 2);
-        });
-        $(inboxFilterInbox).click(function(){
-            openedBox = "inbox";
-            $.bbq.pushState({
-                "box": "inbox"
-            }, 2);
-        });
-        $(inboxFilterSent).click(function(){
-            openedBox = "sent";
-            $.bbq.pushState({
-                "box": "sent"
-            }, 2);
-        });
-        $(inboxFilterTrash).click(function(){
-            openedBox = "trash";
-            $.bbq.pushState({
-                "box": "trash"
-            }, 2);
-        });
-
-
-
-
         // Check all message
         $(inboxInboxCheckAll).change(function(){
             tickMessages();
@@ -1309,6 +1261,52 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         });
 
 
+        var bindFilterButtons = function() {
+            /* Filter the messages. */
+            $(inboxFilterMessages).click(function(){
+                openedBox = "messages";
+                $.bbq.pushState({
+                    "box": "messages"
+                }, 2);
+            });
+            $(inboxFilterAnnouncements).click(function(){
+                openedBox = "announcements";
+                $.bbq.pushState({
+                    "box": "announcements"
+                }, 2);
+            });
+            $(inboxFilterChats).click(function(){
+                openedBox = "chats";
+                $.bbq.pushState({
+                    "box": "chats"
+                }, 2);
+            });
+            $(inboxFilterInvitations).click(function(){
+                openedBox = "invitations";
+                $.bbq.pushState({
+                    "box": "invitations"
+                }, 2);
+            });
+            $(inboxFilterInbox).click(function(){
+                openedBox = "inbox";
+                $.bbq.pushState({
+                    "box": "inbox"
+                }, 2);
+            });
+            $(inboxFilterSent).click(function(){
+                openedBox = "sent";
+                $.bbq.pushState({
+                    "box": "sent"
+                }, 2);
+            });
+            $(inboxFilterTrash).click(function(){
+                openedBox = "trash";
+                $.bbq.pushState({
+                    "box": "trash"
+                }, 2);
+            });
+        };
+
         /**
          *
          * Init
@@ -1322,6 +1320,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             }
             filters.sakai = sakai;
             sakai.api.Util.TemplateRenderer($("#inbox_inbox_filters_template"), filters, $("#inbox_filters"));
+            bindFilterButtons();
 
             // if user enter message url directly need to show related message
             // /dev/inbox.html#message=72c5c01dc3618b303904134fee6d5d8f2993f1cf
