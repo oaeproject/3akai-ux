@@ -116,15 +116,17 @@
             <div><span class="bbs_post_message">${post.message["sakai:body"]}</span></div>
 
             {if settings.anon != true && settings.canreply == true}
-                <a href="javascript:;" class="bbs_quote s3d-bold s3d-regular-links">__MSG__QUOTE__</a>
-                {if post.message["sakai:from"] == settings.userid || settings.addtopic}
-                    <span class="bbs_pipe_divider">|</span>
-                    <a href="javascript:;" class="bbs_edit s3d-bold s3d-regular-links">__MSG__EDIT__</a>
-                {/if}
-                {if settings.addtopic}
-                    <span class="bbs_pipe_divider">|</span>
-                    <a href="javascript:;" class="bbs_delete s3d-bold s3d-regular-links">__MSG__DELETE__</a>
-                {/if}
+                <span class="bbs_message_options">
+                    <a href="javascript:;" class="bbs_quote s3d-bold s3d-regular-links">__MSG__QUOTE__</a>
+                    {if post.message["sakai:from"] == settings.userid || settings.addtopic}
+                        <span class="bbs_pipe_divider">|</span>
+                        <a href="javascript:;" class="bbs_edit s3d-bold s3d-regular-links">__MSG__EDIT__</a>
+                    {/if}
+                    {if settings.addtopic}
+                        <span class="bbs_pipe_divider">|</span>
+                        <a href="javascript:;" class="bbs_delete s3d-bold s3d-regular-links">__MSG__DELETE__</a>
+                    {/if}
+                </span>
             {/if}
         </div>
 
@@ -168,11 +170,13 @@
                         <span class="bbs_post_message bbs_ellipsis_text">${topic.post["sakai:body"]}</span>
                     </div>
                     {if settings.anon != true && settings.canreply == true}
-                        <a href="javascript:;" class="bbs_quote s3d-bold s3d-regular-links">__MSG__QUOTE__</a>
-                        {if settings.addtopic == true}
-                            <span class="bbs_pipe_divider">|</span>
-                            <a href="javascript:;" class="bbs_edit s3d-bold s3d-regular-links">__MSG__EDIT__</a>
-                        {/if}
+                        <span class="bbs_message_options">
+                            <a href="javascript:;" class="bbs_quote s3d-bold s3d-regular-links">__MSG__QUOTE__</a>
+                            {if settings.addtopic == true}
+                                <span class="bbs_pipe_divider">|</span>
+                                <a href="javascript:;" class="bbs_edit s3d-bold s3d-regular-links">__MSG__EDIT__</a>
+                            {/if}
+                        </span>
                     {/if}
                 </div>
 
@@ -231,15 +235,17 @@
                                 {/if}
                             {else}
                                 {if settings.anon != true && settings.canreply == true}
-                                    <a href="javascript:;" class="bbs_quote s3d-bold s3d-regular-links">__MSG__QUOTE__</a>
-                                    {if reply.post["sakai:from"] == settings.userid || settings.addtopic}
-                                        <span class="bbs_pipe_divider">|</span>
-                                        <a href="javascript:;" class="bbs_edit s3d-bold s3d-regular-links">__MSG__EDIT__</a>
-                                    {/if}
-                                    {if settings.addtopic}
-                                        <span class="bbs_pipe_divider">|</span>
-                                        <a href="javascript:;" class="bbs_delete s3d-bold s3d-regular-links">__MSG__DELETE__</a>
-                                    {/if}
+                                    <span class="bbs_message_options">
+                                        <a href="javascript:;" class="bbs_quote s3d-bold s3d-regular-links">__MSG__QUOTE__</a>
+                                        {if reply.post["sakai:from"] == settings.userid || settings.addtopic}
+                                            <span class="bbs_pipe_divider">|</span>
+                                            <a href="javascript:;" class="bbs_edit s3d-bold s3d-regular-links">__MSG__EDIT__</a>
+                                        {/if}
+                                        {if settings.addtopic}
+                                            <span class="bbs_pipe_divider">|</span>
+                                            <a href="javascript:;" class="bbs_delete s3d-bold s3d-regular-links">__MSG__DELETE__</a>
+                                        {/if}
+                                    </span>
                                 {/if}
                             {/if}
                         </div>

@@ -122,6 +122,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Delete
         var bbsDelete = ".bbs_delete";
         var bbsRestore = ".bbs_restore";
+        var bbsMessageOptions = ".bbs_message_options";
 
         // Classes
         var bbsExpandAllClass = "bbs_expand_all";
@@ -564,6 +565,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         // Apply grey class
                         post.addClass(bbsDeletedReplyClass);
 
+                        // show message option links
+                        $("#"+id+" "+bbsMessageOptions).hide();
+
                         // Remove/add links and information
                         post.find(bbsPostMessage).nextAll().remove();
                         post.find(bbsPostMessage).after(sakai.api.Util.TemplateRenderer(bbsDeletedPostActionsTemplate, {}));
@@ -575,10 +579,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         // Apply grey class
                         post.removeClass(bbsDeletedReplyClass);
 
+                        // hide message option links
+                        $("#" + id + " " + bbsMessageOptions).show();
+
                         // Remove links
                         post.find(bbsPostingDate).next().remove();
                         post.find(bbsPostMessage).nextAll().remove();
-                        post.find(bbsPostMessage).after(sakai.api.Util.TemplateRenderer(bbsRestoredPostActionsTemplate, {}));
+                        //post.find(bbsPostMessage).after(sakai.api.Util.TemplateRenderer(bbsRestoredPostActionsTemplate, {}));
                     }
                 },
                 error: function(xhr, textStatus, thrownError){
