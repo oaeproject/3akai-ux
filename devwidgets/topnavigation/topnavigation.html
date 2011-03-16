@@ -1,113 +1,22 @@
 <link rel="stylesheet" type="text/css" href="/devwidgets/topnavigation/css/topnavigation.css"/>
 
-<!-- EXPLORE NAV CONTAINER -->
-<div id="explore_nav_container" style="display:none">
-    <div class="fl-container explore_nav">
-        <ul class="explore">
-
-        </ul>
-
-        <!-- NAVIGATION TEMPLATE -->
-        <div id="navigation_template" style="display:none"><!--
-            {for i in links}
-                {if i.cleanurl === window.location.pathname}
-                    <li class="{if i.firstlink}navigation_first_link{else}navigation_link{/if} explore_nav_selected">
-                        <span class="navigation_normal_link" title="${i.label}">${i.label}</a>
-                    </li>
-                {else}
-                    <li class="{if i.firstlink}navigation_first_link{else}navigation_link{/if}">
-                        <a class="{if i.url === "javascript:;"}navigation_grey_link{else}navigation_normal_link{/if}" {if i.id}id="${i.id}" {/if}href="${i.url}" title="${i.label}">${i.label}</a>
-                    </li>
-                {/if}
-            {/for}
-        --></div>
-
-        <!-- SEARCH -->
-        <div id="general_search_container">
-            <form class="fl-force-right" method="post">
-                <div class="search_box">
-                    <div class="search_left search_type"><div class="search_links">__MSG__GLOBAL__</div><div class="search_drop"></div></div><input type="text" id="general_search_input" title="__MSG__PLEASE_INPUT_SEARCH_KEYWORD__" class="general_search_input search_string" /><div class="search_right search_type" id="general_search_submit_button"><div class="search_text">__MSG__SEARCH__</div><div class="search_icon"></div></div>
-                </div>
-                <div id="search_more_menu" style="display:none" class="s3d-sprites-buttons">
-                    <ul>
-                        <li id="search_global" class="more_option"><button type="button" class="s3d-link-button"><span id="search_global_text">__MSG__GLOBAL__</span></button></li>
-                        <li id="search_content" class="more_option"><button type="button" class="s3d-link-button"><span id="search_content_text">__MSG__CONTENT__</span></button></li>
-                        <li id="search_people" class="more_option"><button type="button" class="s3d-link-button"><span id="search_people_text">__MSG__PEOPLE__</span></button></li>
-                        <li id="search_group" class="more_option option_last"><button type="button" class="s3d-link-button"><span id="search_group_text">__MSG__GROUP__</span></button></li>
-                    </ul>
-                </div>
-                <span style="display:none" id="general_search_default_value">__MSG__SEARCH_FOR__</span>
-            </form>
-        </div>
+<div id="topnavigation_container">
+    <ul class="topnavigation_explore"><!----></ul>
+    <div class="topnavigation_search">
+        <input type="text" id="topnavigation_search_input" title="__MSG__PLEASE_INPUT_SEARCH_KEYWORD__" />
+    </div>
+    <div class="topnavigation_user">
+        <div class="topnavigation_user_inbox"><p id="topnavigation_user_inbox_messages" class="s3d-bold">5</p></div>
+        <div class="topnavigation_user_options"><p id="topnavigation_user_options_name" class="s3d-bold">Bert Pareyn</p></div>
     </div>
 </div>
 
-<div class="explore-bg" style="display:none">
-</div>
-
-<!-- PERSONAL CONTAINER -->
-<div id="explore_nav_container" class="personal_container">
-
-    <div class="fl-container explore_nav">
-        <div class="personal">
-            <ul id="top_navigation">
-                <li id="login_button_container" style="display: none;"><a class="log_in" href="/index" title="__MSG__LOGGING_IN_ALLOWS__">__MSG__LOGIN__</a></li>
-                <li id="register_button_container" style="display: none;"><a class="register" href="/register">__MSG__REGISTER__</a></li>
-
-                <!-- CHAT STATUS DROPDOWN -->
-                <li id="user_link_container">
-                    <button type="button" id="user_link" class="s3d-dropdownlistone-text s3d-link-button">
-                        <span id="topnavigation_chat_status">&nbsp;</span><span id="userid" class="user_link_chat_status"></span><span class="dropdownlistone_arrow">&nbsp;</span>
-                    </button>
-                </li>
-
-                <li><a class="mail" href="/inbox"><span id="topnavigation_mail_icon"></span> (<span id="chat_unreadMessages">0</span>)</a></li>
-                <li><a class="help" href="/preferences">__MSG__MY_ACCOUNT__</a></li>
-                <li><a class="sign_out" href="/logout">__MSG__SIGN_OUT__</a></li>
-            </ul>
-
-            <div id="login_container" style="display: none;">
-                <form id="login_form" method="POST">
-                    <label for="login_username">__MSG__USERNAME__</label>
-                    <br/>
-                    <input type="text" alt="__MSG__USERNAME__" id="login_username" name="login_username" />
-                    <br />
-                    <label for="login_password">__MSG__PASSWORD__</label>
-                    <br />
-                    <input type="password" alt="__MSG__PASSWORD__" id="login_password" name="login_password" />
-
-                    <div id="login_error_message" style="display: none;">__MSG__LOGIN_FAILED__!</div>
-                    <div id="login_busy" class="fl-force-right" style="display:none;"></div>
-
-                    <div class="login-container-button fl-force-right">
-                        <button id="login_cancel_button" type="button" class="s3d-button s3d-button"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
-                        <button id="login_submit_button" type="button" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">__MSG__SIGN_IN__</span></button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- USER LINK MENU -->
-<div id="user_link_menu" class="s3d-dropdownlistone-menu" style="display:none">
-    <div class="s3d-dropdownlistone-menu-border">
-        <ul>
-            <li class="s3d-dropdownlistone-link-inactive">__MSG__CHAT_STATUS__</li>
-            <li><button type="button" id="user_link_chat_status_online" class="user_link_chat_status_link s3d-link-button">__MSG__AVAILABLE__</button></li>
-            <li><button type="button" id="user_link_chat_status_busy" class="user_link_chat_status_link s3d-link-button">__MSG__BUSY__</button></li>
-            <li><button type="button" id="user_link_chat_status_offline" class="user_link_chat_status_link s3d-link-button">__MSG__OFFLINE__</button></li>
-        </ul>
-    </div>
-    <div>
-        <ul>
-            <li id="topnavigation_my_profile_container"></li>
-        </ul>
-    </div>
-</div>
-
-<div id="topnavigation_my_profile_template"><!--
-    <a href="${href}" id="topnavigation_my_profile">__MSG__MY_PROFILE__</a>
+<div id="navigation_template" style="display:none"><!--
+    {for i in links}
+        <li class="s3d-bold">
+            <a class="{if i.url === "javascript:;"}navigation_grey_link{else}navigation_normal_link{/if}" {if i.id}id="${i.id}" {/if}href="${i.url}" title="${i.label}">${i.label}</a>
+        </li>
+    {/for}
 --></div>
 
 <!-- JAVASCRIPT -->

@@ -789,27 +789,20 @@ define(function() {
                 "label" : "MY_SAKAI"
             },
             {
-                "url" : "/search/content#q=*&facet=manage",
-                "anonUrl" : "/search/content#q=*",
-                "id" : "navigation_content_link",
-                "label" : "CONTENT_AND_MEDIA"
+                "url" : "/places",
+                "id" : "navigation_places_link",
+                "label" : "PLACES"
             },
             {
-                "url" : "/search/groups#q=*&facet=manage",
-                "anonUrl" : "/search/groups#q=*",
-                "id" : "navigation_groups_link",
-                "label" : "GROUPS"
+                "url" : "/files",
+                "id" : "navigation_files_link",
+                "label" : "FILES_CAP"
             },
             {
                 "url" : "/search/people#q=*&facet=contacts",
                 "anonUrl" : "/search/people#q=*",
                 "id" : "navigation_people_link",
                 "label" : "PEOPLE"
-            },
-            {
-                "url" : "/directory",
-                "id" : "navigation_directory_link",
-                "label" : "DIRECTORY"
             }
         ],
 
