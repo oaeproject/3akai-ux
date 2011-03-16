@@ -743,11 +743,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 }
 
                 // Fill in this message values.
-                $(inboxSpecificMessageSubject).text(message["sakai:subject"]);
+                $(inboxSpecificMessageSubject).text(sakai.api.Security.saneHTML(message["sakai:subject"]));
                 messageBody = ""+message["sakai:body"]; // coerce to string in case the body is all numbers
-                //$(inboxSpecificMessageBody).html(sakai.api.Security.saneHTML(messageBody.replace(/\n/gi, "<br />")));
-                //$(inboxSpecificMessageDate).text(sakai.api.Security.saneHTML(message.date));
-
+                
                 // Reply part.
                 $(inboxSpecificMessageComposeSubject).val("Re: " + message["sakai:subject"]);
 
