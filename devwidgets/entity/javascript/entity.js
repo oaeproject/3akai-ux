@@ -1010,8 +1010,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
                     entityconfig.data.profile.filesize = sakai.api.Util.convertToHumanReadableFileSize(jcr_content["jcr:data"]);
                 }
                 // Set the mimetype of the file
-                if (jcr_content["jcr:mimeType"]) {
-                    entityconfig.data.profile.mimetype = jcr_content["jcr:mimeType"];
+                if (jcr_content["mimeType"]) {
+                    entityconfig.data.profile.mimetype = jcr_content["mimeType"];
                 }
             }
 
