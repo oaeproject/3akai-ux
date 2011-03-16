@@ -116,9 +116,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Get the number of messages that are unread and show it.
          */
         var getCountUnreadMessages = function(){
-            //we have the number of unread messages as a part of the me-feed
-            //so get it directly from me object.
-            $(chatUnreadMessages).text(sakai.data.me.messages.unread);
+            sakai.api.Communication.getUnreadMessageCount("inbox", function(success, data){
+                var total = 0;
+                if (success) {
+                    $.each(data.count, function(i, v){
+                        total += v.count;
+                    });
+                }
+                $(chatUnreadMessages).text(total);
+            });
         };
 
         /**

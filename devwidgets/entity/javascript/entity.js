@@ -849,7 +849,15 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
          */
         var setMyProfileData = function(){
             //no. of unread messages
-            entityconfig.data.count.messages_unread = sakai.data.me.messages.unread;
+            sakai.api.Communication.getUnreadMessageCount("inbox", function(success, data) {
+                var total = 0;
+                if (success){
+                    $.each(data.count, function(i, v){
+                        total += v.count;
+                    });
+                }
+                entityconfig.data.count.messages_unread = total;
+            });
 
             //no. of contacts
             entityconfig.data.count.contacts_accepted = sakai.data.me.contacts.accepted;
