@@ -38,34 +38,53 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
     sakai_global.topnavigation = function(tuid, showSettings){
+
+        var addBinding = function(){
+            $(".hassubnav").hover(function(){
+                var $li = $(this);
+                $li.addClass("hassubnav_tr");
+                $li.children(".hassubnav_tl").show();
+                var $subnav = $li.children(".navigation_link_dropdown");
+
+                var pos = $li.position();
+                $subnav.css("left", pos.left - 8);
+                $subnav.css("margin-top", "7px");
+                $subnav.show();
+            }, function(){
+                var $li = $(this);
+                $li.children(".hassubnav_tl").hide();
+                $li.removeClass("hassubnav_tr");
+                $li.children(".navigation_link_dropdown").hide();
+            })
+        };
+
+        var getNavItem = function(index, array){
+            var temp = {};
+            if (sakai.data.me.user.anon && array[index].anonUrl) {
+                temp.url = array[index].anonUrl;
+            }else {
+                temp.url = array[index].url;
+            }
+            temp.label = sakai.api.i18n.General.getValueForKey(array[index].label);
+            temp.id = array[index].id;
+            return temp;
+        };
+
         var renderMenu = function() {
             var obj = {};
             var menulinks = [];
 
             for (var i in sakai.config.Navigation) {
                 if (sakai.config.Navigation.hasOwnProperty(i)) {
-                    var temp = {};
-                    if (sakai.data.me.user.anon && sakai.config.Navigation[i].anonUrl) {
-                      temp.url = sakai.config.Navigation[i].anonUrl;
-                    } else {
-                      temp.url = sakai.config.Navigation[i].url;
-                    }
-                    temp.label = sakai.api.i18n.General.getValueForKey(sakai.config.Navigation[i].label);
-                    temp.id = sakai.config.Navigation[i].id;
-                    temp.cleanurl = temp.url || "";
-                    if (temp.cleanurl) {
-                        if (temp.cleanurl.indexOf('?') && temp.cleanurl.indexOf('?') > 0) {
-                            temp.cleanurl = temp.cleanurl.substring(0, temp.cleanurl.indexOf('?'));
+                    var temp = getNavItem(i, sakai.config.Navigation);
+
+                    if(sakai.config.Navigation[i].subnav){
+                        temp.subnav = [];
+                        for(var ii in sakai.config.Navigation[i].subnav){
+                            if(sakai.config.Navigation[i].subnav.hasOwnProperty(ii)){
+                                temp.subnav.push(getNavItem(ii, sakai.config.Navigation[i].subnav));
+                            }
                         }
-                        if (temp.cleanurl.indexOf('#') && temp.cleanurl.indexOf('#') > 0) {
-                            temp.cleanurl = temp.cleanurl.substring(0, temp.cleanurl.indexOf('#'));
-                        }
-                    }
-                    if (i === "0") {
-                        temp.firstlink = true;
-                    }
-                    else {
-                        temp.firstlink = false;
                     }
                     menulinks.push(temp);
                 }
@@ -77,6 +96,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         
         var doInit = function(){
             renderMenu();
+            addBinding();
         }
         
         doInit();

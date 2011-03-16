@@ -13,8 +13,22 @@
 
 <div id="navigation_template" style="display:none"><!--
     {for i in links}
-        <li class="s3d-bold">
-            <a class="{if i.url === "javascript:;"}navigation_grey_link{else}navigation_normal_link{/if}" {if i.id}id="${i.id}" {/if}href="${i.url}" title="${i.label}">${i.label}</a>
+        <li class="s3d-bold {if i.subnav} hassubnav{/if}">
+        <div class="hassubnav_tl" style="display:none;"></div>
+            <a class="s3d-bold" {if i.id}id="${i.id}" {/if}  href="${i.url}" title="${i.label}">${i.label} </a>
+            <div id="${i.id}_dropdown" class="navigation_link_dropdown" style="display:none;">
+            <div class="navigation_link_dropdown_tr"></div>
+                {if i.subnav}
+                    <ul>
+                        {for subnav in i.subnav}
+                            <li>
+                                <a href="${subnav.url}" title="${subnav.label}" id="${subnav.id}">${subnav.label}</a>
+                            </li>
+                        {/for}
+                    </ul>
+                    <div class="navigation_link_dropdown_bottom"></div>
+                {/if}
+            </div>
         </li>
     {/for}
 --></div>

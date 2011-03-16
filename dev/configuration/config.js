@@ -784,25 +784,77 @@ define(function() {
 
         Navigation: [
             {
-                "url" : "/home",
-                "id" : "navigation_my_sakai_link",
-                "label" : "MY_SAKAI"
+                "url" : "/you",
+                "id" : "navigation_you_link",
+                "label" : "YOU",
+                "subnav": [
+                    {
+                        "url" : "/home",
+                        "id": "subnavigation_home_link",
+                        "label": "MY_HOME"
+                    },
+                    {
+                        "url" : "/contacts",
+                        "id": "subnavigation_contacts_link",
+                        "label": "MY_CONTACTS_CAP"
+                    },
+                    {
+                        "url" : "/content",
+                        "id": "subnavigation_content_link",
+                        "label": "MY_CONTENT"
+                    },
+                    {
+                        "url" : "/memberships",
+                        "id": "subnavigation_memberships_link",
+                        "label": "MY_MEMBERSHIPS"
+                    },
+                    {
+                        "url" : "/messages",
+                        "id": "subnavigation_messages_link",
+                        "label": "MY_MESSAGES"
+                    },
+                    {
+                        "url" : "/preferences",
+                        "id": "subnavigation_preferences_link",
+                        "label": "MY_PREFERENCES"
+                    },
+                    {
+                        "url" : "/profile",
+                        "id": "subnavigation_profile_link",
+                        "label": "MY_PROFILE"
+                    }
+                ]
             },
             {
-                "url" : "/places",
-                "id" : "navigation_places_link",
-                "label" : "PLACES"
+                "url" : "/createandadd",
+                "id" : "navigation_create_and_add_link",
+                "label" : "CREATE_AND_ADD",
+                "subnav": [
+                    {
+                        "id": "subnavigation_add_content_link",
+                        "label": "ADD_CONTENT"
+                    },
+                    {
+                        "id": "subnavigation_add_contacts_link",
+                        "label": "ADD_CONTACTS"
+                    },
+                    {
+                        "id": "subnavigation_simple_group_link",
+                        "label": "SIMPLE_GROUP"
+                    },
+                    {
+                        "id": "subnavigation_course_link",
+                        "label": "COURSE"
+                    },
+                    {
+                        "id": "subnavigation_add_more_link",
+                        "label": "MORE"
+                    }
+                ]
             },
             {
-                "url" : "/files",
-                "id" : "navigation_files_link",
-                "label" : "FILES_CAP"
-            },
-            {
-                "url" : "/search/people#q=*&facet=contacts",
-                "anonUrl" : "/search/people#q=*",
-                "id" : "navigation_people_link",
-                "label" : "PEOPLE"
+                "id" : "navigation_explore_link",
+                "label" : "EXPLORE"
             }
         ],
 
