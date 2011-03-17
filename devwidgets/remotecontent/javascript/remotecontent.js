@@ -275,7 +275,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // define rules for the url
             $(remotecontentSettingsUrl).rules("add", {
                 required: true,
-                appendhttp: true,
                 url: true,
                 messages: {
                     required: $(remotecontentSettingsUrlBlank).html(),

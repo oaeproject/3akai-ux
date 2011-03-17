@@ -129,7 +129,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         items: []
                     };
                     for(var i = 0; i < data.total && i < 5; i++) {
-                        contentjson.items.push(parseDataResult(data.results[i]));
+                        if (data.results[i]){
+                            contentjson.items.push(parseDataResult(data.results[i]));
+                        }
                     }
                     // pass the array to HTML view
                     $(contentList, rootel).html(sakai.api.Util.TemplateRenderer($(listTemplate), contentjson));

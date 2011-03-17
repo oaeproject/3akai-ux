@@ -47,7 +47,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             supported = false;
             if (mimeType.substring(0, 6) === "video/" ){
                 var mimeSuffix = mimeType.substring(6);
-                if (mimeSuffix === "x-flv" || mimeSuffix === "mp4" || mimeSuffix === "3gpp") {
+                if (mimeSuffix === "x-flv" || mimeSuffix === "mp4" || mimeSuffix === "3gpp" || mimeSuffix === "quicktime") {
                     supported = true;
                 }
             }

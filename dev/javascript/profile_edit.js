@@ -383,9 +383,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     // Show a successful notification to the user
                     sakai.api.Util.notification.show("", $profile_message_form_successful.text() , sakai.api.Util.notification.type.INFORMATION);
 
-                    // scroll to top of the page
-                    $(window).scrollTop(0);
-
                 },
                 error: function(xhr, textStatus, thrownError){
 
@@ -409,12 +406,12 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 editProfileTour = true;
                 // display tooltip
                 var tooltipData = {
-                    "tooltipSelector":"#user_link_container",
+                    "tooltipSelector":"#entity_container",
                     "tooltipTitle":"TOOLTIP_EDIT_MY_PROFILE",
                     "tooltipDescription":"TOOLTIP_EDIT_MY_PROFILE_P2",
                     "tooltipArrow":"",
-                    "tooltipTop":50,
-                    "tooltipLeft":50
+                    "tooltipTop":0,
+                    "tooltipLeft":700
                 };
                 if (!sakai.tooltip || !sakai.tooltip.isReady) {
                     $(window).bind("ready.tooltip.sakai", function() {
@@ -478,6 +475,13 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     // Save the profile acl
                     saveProfileACL();
 
+                    // update entity widget
+                    sakai.data.me.profile = $.extend(true, {}, sakai_global.profile.main.data);
+                    $(window).trigger("render.entity.sakai", ["myprofile", sakai_global.profile.main.data]);
+
+                    // scroll to top of the page
+                    $(window).scrollTop(0);
+
                     // if user has completed over half their profile add user progress
                     if (profilePercentageComplete > 0){
                         sakai.api.User.addUserProgress("halfCompletedProfile");
@@ -492,11 +496,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         "tooltipTop":5,
                         "tooltipLeft":15
                     };
-                    // update entity widget
-                    sakai.data.me.profile = $.extend(true, {}, sakai_global.profile.main.data);
-                    $(window).trigger("render.entity.sakai", ["myprofile", sakai_global.profile.main.data]);
-
                     $(window).trigger("update.tooltip.sakai", tooltipData);
+
+                    // append tour progress to home link
                     if (editProfileTour && $("#navigation_my_sakai_link").attr("href") && $("#navigation_my_sakai_link").attr("href").indexOf("editprofiletour") === -1) {
                         $("#navigation_my_sakai_link").attr("href", $("#navigation_my_sakai_link").attr("href") + "?editprofiletour=true");
                     }
@@ -759,8 +761,15 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 // Add binding to all the elements
                 addBinding();
 
-                // check for edit profile tour in progress
-                checkEditProfileTour();
+                if (sakai_global.entity && sakai_global.entity.isRendered) {
+                    // check for edit profile tour in progress
+                    checkEditProfileTour();
+                } else {
+                    $(window).bind("rendered.entity.sakai", function(){
+                        // check for edit profile tour in progress
+                        checkEditProfileTour();
+                    });
+                }
             });
         };
 
