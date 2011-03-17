@@ -162,7 +162,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var getMimeType = function(file) {
             var mimetype = "";
-            mimetype = file["jcr:content"] ? file["jcr:content"]["jcr:mimeType"] : "";
+            mimetype = file["mimeType"] || "";
             return mimetype;
         };
 

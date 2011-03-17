@@ -49,13 +49,6 @@
         </div>
     </div>
     <div class="fl-col entity_container_right s3d-actions">
-        <form method="POST" action="#">
-            <select id="entity_profile_chatstatus" title="__MSG__CHAT_STATUS__">
-                <option value="online" {if data.profile.chatstatus === "online"}selected="selected"{/if}>__MSG__AVAILABLE_TO_CHAT__</option>
-                <option value="busy" {if data.profile.chatstatus === "busy"}selected="selected"{/if}>__MSG__BUSY__</option>
-                <option value="offline" {if data.profile.chatstatus === "offline"}selected="selected"{/if}>__MSG__OFFLINE__</option>
-            </select>
-        </form>
         {if data.profile && data.profile["sakai:tags"] && data.profile["sakai:tags"].length > 0}
             {var displayTags = false}
             {for s in data.profile["sakai:tags"]}
