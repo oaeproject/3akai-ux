@@ -48,6 +48,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var widgeturl = sakai.api.Widgets.widgetLoader.widgets[tuid] ? sakai.api.Widgets.widgetLoader.widgets[tuid].placement : false;
         var store = "";
         var widgetSettings = {};
+        var topicData = {};
         // Each post gets a marker which is basicly the widget ID.
         // If we are using another discussion this marker will be the ID of that widget.
         var marker = tuid;
@@ -183,7 +184,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {String} uuid Uuid of the user
          */
         var parsePicture = function(uuid, pictureData){
-            if (pictureData && $.parseJSON(pictureData).name) {
+            if (pictureData && $.parseJSON(pictureData) && $.parseJSON(pictureData).name) {
                 return "/~" + uuid + "/public/profile/" + $.parseJSON(pictureData).name;
             } else {
                 return "/dev/images/user_avatar_icon_32x32.png";
@@ -233,14 +234,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var renderPosts = function(arrPosts){
             // Loop fetched posts and do markup
             for (var i = 0, j = arrPosts.length; i < j; i++) {
-                arrPosts[i].post.profile[0].picture = parsePicture(arrPosts[i].post["sakai:from"], arrPosts[i].post.profile[0].picture);
-                arrPosts[i].post["sakai:created"] = sakai.api.l10n.transformDateTimeShort(parseDate(arrPosts[i].post["sakai:created"]));
+                arrPosts[i].post.profile[0].pictureImg = parsePicture(arrPosts[i].post["sakai:from"], arrPosts[i].post.profile[0].picture);
+                arrPosts[i].post["sakai:createdOn"] = sakai.api.l10n.transformDateTimeShort(parseDate(arrPosts[i].post["sakai:created"]));
                 if(arrPosts[i].post["sakai:editedOn"]){
                     arrPosts[i].post["sakai:editedOn"] = sakai.api.l10n.transformDateTimeShort(parseDate(arrPosts[i].post["sakai:editedOn"]));
                 }
                 for(var ii = 0, jj = arrPosts[i].replies.length; ii < jj; ii++){
-                    arrPosts[i].replies[ii].post.profile[0].picture = parsePicture(arrPosts[i].replies[ii].post["sakai:from"], arrPosts[i].replies[ii].post.profile[0].picture);
-                    arrPosts[i].replies[ii].post["sakai:created"] = sakai.api.l10n.transformDateTimeShort(parseDate(arrPosts[i].replies[ii].post["sakai:created"]));
+                    arrPosts[i].replies[ii].post.profile[0].pictureImg = parsePicture(arrPosts[i].replies[ii].post["sakai:from"], arrPosts[i].replies[ii].post.profile[0].picture);
+                    arrPosts[i].replies[ii].post["sakai:createdOn"] = sakai.api.l10n.transformDateTimeShort(parseDate(arrPosts[i].replies[ii].post["sakai:created"]));
                     if(arrPosts[i].replies[ii].post["sakai:deletedOn"]){
                         arrPosts[i].replies[ii].post["sakai:deletedOn"] = sakai.api.l10n.transformDateTimeShort(parseDate(arrPosts[i].replies[ii].post["sakai:deletedOn"]));
                     }
@@ -282,6 +283,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var showPosts = function(response, exists){
             if (exists && response.total !== 0) {
+                topicData = response;
                 try {
                     renderPosts(response.results);
                     $bbsListTopics.show();
@@ -457,7 +459,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $(bbsCreateNewTopicTitle, $rootel).val("");
                     $(bbsCreateNewTopicMessageText, $rootel).val("");
                     $(bbsCreateNewTopic, $rootel).hide();
-                    getWidgetSettings();
+
+                    data.message["profile"] = [sakai.data.me.profile];
+                    //data.message.profile[0].picture = parsePicture(data.message["sakai:from"], data.message.profile.picture);
+
+                    if (!topicData.results){
+                        topicData.results = [];
+                    }
+                    topicData.results.push({"post": data.message, "replies": []});
+                    showPosts(topicData, true);
                 }
             });
         };
@@ -489,7 +499,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $parentDiv.hide();
 
                     data.message["profile"] = $.extend(data.message["profile"], sakai.data.me.profile);
-                    data.message.profile.picture = parsePicture(data.message["sakai:from"], data.message.profile.picture);
+                    data.message.profile.pictureImg = parsePicture(data.message["sakai:from"], data.message.profile.picture);
                     data.message["sakai:created"] = sakai.api.l10n.transformDateTimeShort(parseDate(data.message["sakai:created"]));
 
                     data.message["sakai:quoted"] = parseQuote(data.message["sakai:body"]);
