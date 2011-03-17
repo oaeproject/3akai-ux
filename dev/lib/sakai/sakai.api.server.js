@@ -56,10 +56,10 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                 //}
 
                 var urlLength = (document.location.protocol + "://" + document.location.host + sakai_conf.URL.BATCH + "?requests=" + _requests.replace(/[^A-Za-z0-9._]/g, "%XX")).length;
-                if(hasIELongUrlBug && $.browser.msie && urlLength > 300){
+                if (!_forcePOST && hasIELongUrlBug && urlLength > 2000) {
                     method = "POST";
-                } else if (!_forcePOST && hasIELongUrlBug && urlLength > 2000) {
-                    method = "POST";
+                } else if(hasIELongUrlBug && $.browser.msie && urlLength > 300){
+                    cache = false;
                 } else {
                     // if any request contains a POST, we should be POSTing so the request isn't cached
                     // maybe just GET with no cache? not sure
