@@ -348,11 +348,12 @@
                         </button>
                     </div>
                     <div class="fl-force-left entity_content_used_by">
-                        <p class="entity_usedby">__MSG__USED_BY__
+                        <p class="entity_usedby">
+                            <span class="entity_info">__MSG__USED_BY__</span>
                             <button type="button" class="entity_content_people s3d-regular-light-links s3d-bold s3d-link-button">
                                 ${data.profile.usercount}
                                 {if data.profile.usercount === 1}__MSG__PERSON__{else}__MSG__PEOPLE__{/if}</button>
-                            __MSG__AND__
+                                <span class="entity_info">__MSG__AND__</span>
                             <button type="button" class="entity_content_group s3d-regular-light-links s3d-bold s3d-link-button">
                                 
                                 ${data.profile.groupcount}
