@@ -231,7 +231,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     }
                     if(sakai.api.Groups.isCurrentUserAMember(sakai_global.currentgroup.id, sakai.data.me)) {
                         sakai_global.currentgroup.member = true;
-                        canEdit = true;
+                        canEdit = false;
                     }
                     break;
             }
