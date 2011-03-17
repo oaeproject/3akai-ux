@@ -184,7 +184,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {String} uuid Uuid of the user
          */
         var parsePicture = function(uuid, pictureData){
-            if (pictureData && $.parseJSON(pictureData) && $.parseJSON(pictureData).name) {
+            if (pictureData && $.parseJSON(pictureData).name) {
                 return "/~" + uuid + "/public/profile/" + $.parseJSON(pictureData).name;
             } else {
                 return "/dev/images/user_avatar_icon_32x32.png";
@@ -461,7 +461,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $(bbsCreateNewTopic, $rootel).hide();
 
                     data.message["profile"] = [sakai.data.me.profile];
-                    //data.message.profile[0].picture = parsePicture(data.message["sakai:from"], data.message.profile.picture);
 
                     if (!topicData.results){
                         topicData.results = [];
