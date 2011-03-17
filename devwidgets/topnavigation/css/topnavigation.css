@@ -22,7 +22,7 @@
 .topnavigation_explore {margin: 0 0 0 6px;float:left;}
 .topnavigation_explore li{display:inline-block; list-style:none; padding:13px 23px 0 15px;}
 .topnavigation_explore li a{color:#fff; text-decoration:none;}
-.topnavigation_explore li:hover a{color:#636363;}
+.topnavigation_explore li.hassubnav:hover a{color:#636363;}
 .topnavigation_explore .hassubnav_tl{background: url("/devwidgets/topnavigation/images/topnav_nav_hover.png") no-repeat scroll left 5px transparent;height: 36px;margin-left: -23px;position: absolute;top: 0;width:8px;}
 .topnavigation_explore .hassubnav_tr{background:url("/devwidgets/topnavigation/images/topnav_nav_hover.png") right 5px no-repeat;height:30px;}
 
@@ -36,7 +36,7 @@
 .topnavigation_explore .navigation_link_dropdown .navigation_subnav_split {background-color: #D4D4D4;border: medium none;height: 1px;margin: 5px 9px;}
 
 /* SEARCH */
-.topnavigation_search {float:left;margin-top:10px;height: 22px;margin-left: 120px;}
+.topnavigation_search {float:right;margin-top:10px;height: 22px;margin-right: 120px;}
 .topnavigation_search {width:190px; background:url("/devwidgets/topnavigation/images/topnav_search.png") no-repeat;}
 .topnavigation_search #topnavigation_search_input{background:none repeat scroll 0 0 transparent;border: medium none;margin: 3px 0 0 7px;width: 145px;}
 

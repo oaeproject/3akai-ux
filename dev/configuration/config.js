@@ -791,6 +791,7 @@ define(function() {
             {
                 "url" : "/you",
                 "id" : "navigation_you_link",
+                "anonymous" : false,
                 "label" : "YOU",
                 "subnav": [
                     {
@@ -833,6 +834,7 @@ define(function() {
             {
                 "url" : "/createandadd",
                 "id" : "navigation_create_and_add_link",
+                "anonymous" : false,
                 "label" : "CREATE_AND_ADD",
                 "subnav": [
                     {
@@ -862,6 +864,7 @@ define(function() {
             },
             {
                 "id" : "navigation_explore_link",
+                "anonymous" : false,
                 "label" : "EXPLORE",
                 "subnav": [
                     {
@@ -885,6 +888,42 @@ define(function() {
                         "label": "PEOPLE"
                     }
                 ]
+            },
+            {
+                "id" : "navigation_anon_explore_link",
+                "anonymous" : true,
+                "label" : "EXPLORE",
+                "subnav": [
+                    {
+                        "id": "subnavigation_anon_explore_stanford_link",
+                        "label": "STANFORD"
+                    },
+                    {
+                        "id": "subnavigation_hr",
+                    },
+                    {
+                        "id": "subnavigation_anon_explore_sample_dashboard_link",
+                        "label": "SEE_SAMPLE_DASHBOARD"
+                    },
+                    {
+                        "id": "subnavigation_anon_explore_sample_course_link",
+                        "label": "SEE_SAMPLE_COURSE"
+                    },
+                    {
+                        "id": "subnavigation_anon_explore_sample_study_group_link",
+                        "label": "SEE_SAMPLE_STUDY_GROUP"
+                    },
+                    {
+                        "id": "subnavigation_anon_explore_sample_research_group_link",
+                        "label": "SEE_SAMPLE_RESEARCH_GROUP"
+                    }
+                ]
+            },
+            {
+                "url" : "/register",
+                "id": "navigation_anon_signup_link",
+                "anonymous": true,
+                "label": "SIGN_UP",
             }
         ],
 

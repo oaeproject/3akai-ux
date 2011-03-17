@@ -74,35 +74,49 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             return temp;
         };
 
-        var renderMenu = function() {
+        var createMenuList = function(i){
+            var temp = getNavItem(i, sakai.config.Navigation);
+
+            if (sakai.config.Navigation[i].subnav) {
+                temp.subnav = [];
+                for (var ii in sakai.config.Navigation[i].subnav) {
+                    if (sakai.config.Navigation[i].subnav.hasOwnProperty(ii)) {
+                        temp.subnav.push(getNavItem(ii, sakai.config.Navigation[i].subnav));
+                    }
+                }
+            }
+            return temp;
+        };
+
+        var renderMenu = function(){
             var obj = {};
             var menulinks = [];
 
             for (var i in sakai.config.Navigation) {
                 if (sakai.config.Navigation.hasOwnProperty(i)) {
-                    var temp = getNavItem(i, sakai.config.Navigation);
-
-                    if(sakai.config.Navigation[i].subnav){
-                        temp.subnav = [];
-                        for(var ii in sakai.config.Navigation[i].subnav){
-                            if(sakai.config.Navigation[i].subnav.hasOwnProperty(ii)){
-                                temp.subnav.push(getNavItem(ii, sakai.config.Navigation[i].subnav));
-                            }
+                    if (sakai.data.me.user.anon) {
+                        if (sakai.config.Navigation[i].anonymous) {
+                            var temp = createMenuList(i);
+                            menulinks.push(temp);
+                        }
+                    } else {
+                        if (!sakai.config.Navigation[i].anonymous) {
+                            var temp = createMenuList(i);
+                            menulinks.push(temp);
                         }
                     }
-                    menulinks.push(temp);
                 }
             }
             obj.links = menulinks;
             // Get navigation and render menu template
             $(".topnavigation_explore").html(sakai.api.Util.TemplateRenderer("navigation_template", obj));
         };
-        
+
         var doInit = function(){
             renderMenu();
             addBinding();
         }
-        
+
         doInit();
     };
     sakai.api.Widgets.widgetLoader.informOnLoad("topnavigation");
