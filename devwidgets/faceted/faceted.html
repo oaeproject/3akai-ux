@@ -26,9 +26,9 @@
                 {var facet_index = 0}
                 {for f in facets}
                     {if facet_index > 9}
-                        <div class="faceted_list_expanded" style="display:none;"><span class="faceted_category"><button type="button" class="s3d-bold s3d-link-button s3d-action" id="${f.category.replace(/[^a-zA-Z0-9]+/g,'')}">${f.category}</button></span></div>
+                        <div class="faceted_list_expanded" style="display:none;"><span class="faceted_category"><button type="button" class="s3d-link-button s3d-action" id="${f.category.replace(/[^a-zA-Z0-9]+/g,'')}">${f.category}</button></span></div>
                     {else}
-                        <span class="faceted_category" id="${f_index.replace(/[^a-zA-Z0-9]+/g,'')}"><button type="button" class="s3d-bold s3d-link-button s3d-action">${f.category}</button></span>
+                        <span class="faceted_category" id="${f_index.replace(/[^a-zA-Z0-9]+/g,'')}"><button type="button" class="s3d-link-button s3d-action">${f.category}</button></span>
                     {/if}
                     ${facet_index++|eat}
                 {/for}
