@@ -358,12 +358,12 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 tooltip_opened = true;
                 // display tooltip
                 var tooltipData = {
-                    "tooltipSelector":"#entity_container",
+                    "tooltipSelector":"#navigation_my_sakai_link",
                     "tooltipTitle":"TOOLTIP_SHARE_CONTENT",
                     "tooltipDescription":"TOOLTIP_SHARE_CONTENT_P3",
                     "tooltipArrow":"top",
-                    "tooltipLeft":785,
-                    "tooltipTop":20
+                    "tooltipLeft":820,
+                    "tooltipTop":100
                 };
                 if (!sakai_global.tooltip || !sakai_global.tooltip.isReady) {
                     $(window).bind("ready.tooltip.sakai", function() {
