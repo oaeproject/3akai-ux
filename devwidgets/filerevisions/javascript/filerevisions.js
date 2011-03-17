@@ -62,25 +62,35 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             data.data = baseFileData;
             data.linkrevision = $("#content_profile_details_view_revisions").hasClass("link_revision");
             data.sakai = sakai;
-            var renderedTemplate = sakai.api.Util.TemplateRenderer(filerevisionsTemplate, data);
-            $(filerevisionsTemplateContainer).html(renderedTemplate);
+            sakai.api.Util.TemplateRenderer(filerevisionsTemplate, data, $(filerevisionsTemplateContainer));
 
-            renderedTemplate = sakai.api.Util.TemplateRenderer("#filerevision_header_text_template", data);
-            $("#filerevision_header_text").html(renderedTemplate);
+            sakai.api.Util.TemplateRenderer("#filerevision_header_text_template", data, $("#filerevision_header_text"));
         };
 
         /**
-         * Get userprofile with the userid provided
+         * Get userprofiles for everyone that has edited the file
          * @param {Object} userid
          */
         var getUserProfile = function(userid){
-            $.ajax({
-                url: "/~" + userid + "/public/authprofile.infinity.json",
-                success: function(profile){
-                    baseFileData["sakai:savedByFull"] = sakai.api.User.getDisplayName(profile);
+            reqs = [];
+            // Make sure userid is amongst the editors
+            baseFileData.revEditors[userid] = "";
+            $.each(baseFileData.revEditors, function(i,v) {
+                    reqs.push({url: "/~" + i + "/public/authprofile.infinity.json", "method":"GET", "cache":false});
+            });
+
+            sakai.api.Server.batch($.toJSON(reqs), function(success, data) {
+                if (success){
+                    //FIXME order based assignment is hacky
+                    var i=0;
+                    $.each(baseFileData.revEditors, function(userId, val) {
+                        var profile = $.parseJSON(data.results[i].body);
+                        baseFileData.revEditors[userId] = sakai.api.User.getDisplayName(profile);
+                        i++;
+                    });
+                    baseFileData["sakai:savedByFull"] = baseFileData.revEditors[userid];
                     renderRevisionData();
-                },
-                error: function(xhr, textStatus, thrownError){
+                } else {
                     sakai.api.Util.notification.show("Failed loading profile", "Failed to load file profile information");
                 }
             });
@@ -91,39 +101,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * This data contains path, mimetype, description,...
          */
         var getRevisionInformationDetails = function(){
-            var revisionInformationDetails = [];
-            for (var i in baseFileData.versions.versions) {
-                if (baseFileData.versions.versions.hasOwnProperty(i)) {
-                    var item = {
-                        "url": "/p/" + baseFileData.data["jcr:name"] + ".version.," + baseFileData.versions.versions[i]["jcr:name"] + ",.json",
-                        "method": "GET"
-                    };
-                    revisionInformationDetails[revisionInformationDetails.length] = item;
-                }
-            }
-            baseFileData.numberOfRevisions = revisionInformationDetails.length;
-            // Do the Batch request
             $.ajax({
-                url: sakai.config.URL.BATCH,
+                url: "/p/" + baseFileData.data["jcr:name"] + ".versions.json",
 
-                type : "POST",
-                dataType: "JSON",
+                type : "GET",
                 cache: false,
-                data: {
-                    requests: $.toJSON(revisionInformationDetails)
-                },
                 success: function(data){
-                    // Get file information out of results
-                    var revisionFileDetails = [];
-                    data = $.parseJSON(data);
-                    for (var i in data.results){
-                        if (data.results.hasOwnProperty(i)) {
-                            revisionFileDetails.push($.parseJSON(data.results[i].body));
-                        }
-                    }
-                    baseFileData.revisionFileDetails = revisionFileDetails;
-                    if (baseFileData.data["sakai:savedBy"]) {
-                        getUserProfile(baseFileData.data["sakai:savedBy"]);
+                    baseFileData.revisionFileDetails = data;
+                    baseFileData.revEditors = {};
+                    $.each(data.versions, function(i, v) {
+                        baseFileData.revEditors[v["_bodyLastModifiedBy"]]="";
+                    });
+                    if (baseFileData.data.lastModifiedBy) {
+                        getUserProfile(baseFileData.data.lastModifiedBy);
                     } else {
                         getUserProfile(baseFileData.data["sakai:pool-content-created-for"]);
                     }

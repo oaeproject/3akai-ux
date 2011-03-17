@@ -28,30 +28,40 @@
 
     <!-- REVISION TEMPLATE -->
     <div id="filerevisions_template"><!--
+        {macro parseDate(date)}
+            {var formattedDate = sakai.api.l10n.parseDateString(sakai.api.Util.createSakaiDate(new Date(date)), sakai.data.me)}
+            ${formattedDate.toLocaleDateString()}
+            ${formattedDate.toLocaleTimeString()}
+        {/macro}
+        {macro by(userId)}
+            __MSG__BY__: <a href="/~${userId}" class="filerevisions_editor_name"> ${data.revEditors[userId]}</a>
+        {/macro}
         <ul>
             <li class="s3d-highlight_area_background">
                 <span class="filerevisions_lefthand_description">{if linkrevision}__MSG__LINK__{else}__MSG__FILE__{/if}</span>
                 <span class="filerevisions_list_content filerevision_list_content_basefilename">${data.data["sakai:pooled-content-file-name"]}</span>
             </li>
+            {var versions = data.revisionFileDetails.versions}
             <li>
-                <a {if linkrevision} href="${data.revisionFileDetails[1]["sakai:pooled-content-revurl"]}" {else} href="${data.path}.version.,1.0,/${data.revisionFileDetails[1]["sakai:pooled-content-file-name"]}{if data.revisionFileDetails[1]["sakai:pooled-content-file-name"].substring(data.revisionFileDetails[1]["sakai:pooled-content-file-name"].lastIndexOf("."), data.revisionFileDetails[1]["sakai:pooled-content-file-name"].length) !== data.revisionFileDetails[1]["sakai:fileextension"]}${data.revisionFileDetails[1]["sakai:fileextension"]}{/if}"{/if} title="Show original version" target="_blank" class="filerevisions_download_version">{if linkrevision} __MSG__OPEN_THIS_LINK__{else} __MSG__DOWNLOAD__{/if}</a>
+                <a {if linkrevision} href="${versions["1.0"]["sakai:pooled-content-revurl"]}" {else} href="/p/${data.data["jcr:path"]}.version.,1.0,/${versions["1.0"]["sakai:pooled-content-file-name"]}{if versions["1.0"]["sakai:pooled-content-file-name"].substring(versions["1.0"]["sakai:pooled-content-file-name"].lastIndexOf("."), versions["1.0"]["sakai:pooled-content-file-name"].length) !== versions["1.0"]["sakai:fileextension"]}${versions["1.0"]["sakai:fileextension"]}{/if}"{/if} title="Show original version" target="_blank" class="filerevisions_download_version">{if linkrevision} __MSG__OPEN_THIS_LINK__{else} __MSG__DOWNLOAD__{/if}</a>
                 <span class="filerevisions_lefthand_description">__MSG__CREATED__</span>
-                <span class="filerevisions_list_content">${data.created} __MSG__BY__: <a href="/~${data.data["sakai:pool-content-created-for"]}" class="filerevisions_editor_name"> ${data["sakai:savedByFull"]}</a></span>
+                <span class="filerevisions_list_content">${parseDate(data.data.created)} ${by(data.data["sakai:pool-content-created-for"])}</span>
             </li>
             {var count = 0}
-            {for i in data.versions.versions}
-                {if i_index != 0 && i_index != 1}
-                    <li class="{if Math.round(i_index % 2) != 1}s3d-highlight_area_background{/if}">
-                        <a {if linkrevision} href="${data.revisionFileDetails[i_index]["sakai:pooled-content-revurl"]}" {else} href="${data.path}.version.,${i["jcr:name"]},/${data.revisionFileDetails[i_index]["sakai:pooled-content-file-name"]}{if data.revisionFileDetails[i_index]["sakai:pooled-content-file-name"].substring(data.revisionFileDetails[1]["sakai:pooled-content-file-name"].lastIndexOf("."), data.revisionFileDetails[i_index]["sakai:pooled-content-file-name"].length) !== data.revisionFileDetails[i_index]["sakai:fileextension"]}${data.revisionFileDetails[i_index]["sakai:fileextension"]}{/if}"{/if} title="__MSG__SHOW_VERSION__ ${data.versions.versions[i_index]["jcr:name"]}" target="_blank" class="filerevisions_download_version">{if linkrevision} __MSG__OPEN_THIS_LINK__{else} __MSG__DOWNLOAD__{/if}</a>
+            {for i in versions}
+                {if count != 0}
+                    <li class="{if Math.round(count % 2) != 1}s3d-highlight_area_background{/if}">
+                        {var j = "1." + count}
+                        <a {if linkrevision} href="${versions[j]["sakai:pooled-content-revurl"]}" {else} href="/p/${data.data["jcr:path"]}.version.,${j},/${versions[j]["sakai:pooled-content-file-name"]}{if versions[j]["sakai:pooled-content-file-name"].substring(versions[j]["sakai:pooled-content-file-name"].lastIndexOf("."), versions[j]["sakai:pooled-content-file-name"].length) !== versions[j]["sakai:fileextension"]}${versions[j]["sakai:fileextension"]}{/if}"{/if} title="__MSG__SHOW_VERSION__ ${count}" target="_blank" class="filerevisions_download_version">{if linkrevision} __MSG__OPEN_THIS_LINK__{else} __MSG__DOWNLOAD__{/if}</a>
                         <span class="filerevisions_lefthand_description">__MSG__REVISED__</span>
-                        <span class="filerevisions_list_content">${data.versions.versions[i_index]["created"]} __MSG__BY__: <a href="/~${data.versions.versions[i_index - 1]["sakai:savedBy"]["rep:userId"]}" class="filerevisions_editor_name"> ${sakai.api.User.getDisplayName(data.versions.versions[i_index - 1]["sakai:savedBy"])}</a></span>
+                        <span class="filerevisions_list_content">${parseDate(versions[j]["_bodyLastModified"])} ${by(versions[j]["lastModifiedBy"])}</span>
                     </li>
                 {/if}
                 {var count = count + 1}
             {/for}
             <li class="{if Math.round(data.numberOfRevisions % 2) != 1}s3d-highlight_area_background{/if}">
                 <span class="filerevisions_lefthand_description">__MSG__CURRENT_VERSION__</span>
-                <span class="filerevisions_list_content">${data.versions.versions[0]["created"]} __MSG__BY__: <a href="/~${data.versions.versions[count - 1]["sakai:savedBy"]["rep:userId"]}" class="filerevisions_editor_name"> ${sakai.api.User.getDisplayName(data.versions.versions[count - 1]["sakai:savedBy"])} </a></span>
+                <span class="filerevisions_list_content">${parseDate(data.data["_bodyLastModified"])} ${by(data.data["lastModifiedBy"])}</span>
             </li>
             <button type="button" id="filerevisions_close" class="s3d-button s3d-button-primary jqmClose dialog_close_image">
                 <span class="s3d-button-inner">__MSG__CLOSE__</span>
