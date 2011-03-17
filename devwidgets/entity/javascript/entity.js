@@ -909,9 +909,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
             // Add binding to the profile status elements
             addBindingProfileStatus();
 
-            // Add binding related to chat status
-            addBindingChatStatus();
-
             // Add binding to add contact button
             addBindingAddContact();
 
