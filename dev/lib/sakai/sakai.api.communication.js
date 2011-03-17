@@ -347,6 +347,30 @@ define(["jquery", "sakai/sakai.api.user", "/dev/configuration/config.js"], funct
             });
         },
 
+        getMessage : function(id, callback){
+            var url = "/~" + sakai_user.data.me.user.userid + "/message/inbox/" + id + ".json";
+            $.ajax({
+                url: url,
+                cache: false,
+                async: false,
+                dataType: "json",
+                success: function(data){
+                    if ($.isFunction(callback)) {
+                        sakai_user.getUser(data["sakai:from"], function(profiledata){
+                            data.userFrom = [];
+                            data.userFrom[0] = profiledata;
+                            callback(data);
+                        });
+                    }
+                },
+                error: function(xhr, textStatus, thrownError){
+                    if ($.isFunction(callback)) {
+                        callback({});
+                    }
+                }
+            });
+        },
+
         /**
          * Gets a count of the unread messages in a box belonging 
          * to the current user
