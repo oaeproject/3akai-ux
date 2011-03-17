@@ -316,8 +316,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var formatMessage = function(message){
 
             // 2010-10-06T14:45:54+01:00
-            var dateString = message["sakai:created"];
-            var d = sakai.api.l10n.parseDateString(dateString, sakai.data.me);
+            var dateLong = message["created"];
+            var d = sakai.api.l10n.parseDateLong(dateLong, sakai.data.me);
             //Jan 22, 2009 10:25 PM
             message.date = sakai.api.l10n.transformDateTimeShort(d);
 
@@ -556,7 +556,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 if (success) {
 
                     var totalcount = 0;
-
+                    unreadMessages = 0;
+                    unreadAnnouncements = 0;
+                    unreadInvitations = 0;
+                    
                     for (var i = 0, j = data.count.length; i < j; i++) {
                         if (data.count[i].group === "message") {
                             unreadMessages = data.count[i].count;
@@ -619,10 +622,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
             for (var i = 0, j = allMessages.length; i < j; i++) {
                 if (allMessages[i]["jcr:name"] === id) {
-                    return allMessages[i];
+                    renderMessage(allMessages[i]);
                     return;
                 }
             }
+            
+            sakai.api.Communication.getMessage(id, function(message){
+                renderMessage(formatMessage(message)); 
+            });
 
         };
 
@@ -632,12 +639,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          * @param {String} id The id for this message.
          */
         var markMessageRead = function(message, id){
-            sakai.api.Communication.markMessagesAsRead(message["jcr:path"], function(success, userdata){
+            sakai.api.Communication.markMessagesAsRead(message["jcr:path"] || message["_path"].replace("a:","/~"), function(success, userdata){
                 if (success) {
-                    for (var i = 0, j = allMessages.length; i < j; i++) {
-                        if (allMessages[i].id === message.id) {
-                            allMessages[i]["sakai:read"] = true;
-                            break;
+                    if (allMessages && allMessages.length) {
+                        for (var i = 0, j = allMessages.length; i < j; i++) {
+                            if (allMessages[i].id === message.id) {
+                                allMessages[i]["sakai:read"] = true;
+                                break;
+                            }
                         }
                     }
                     // Mark the message in the inbox table as read.
@@ -671,6 +680,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var displayMessage = function(id){
         
             var message = getMessageWithId(id);
+            
+        }    
+            
+        var renderMessage = function(message){
+            
             selectedMessage = message;
             if (typeof message !== "undefined" && !$.isEmptyObject(message)) {
                 $(".message-options").show();
@@ -787,7 +801,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 }
 
                 // This message has some replies attached to it.
-                if (message["sakai:previousmessage"]) {
+                if (message["sakai:previousmessage"] && message["previousMessage"]) {
                     $(inboxSpecificMessagePreviousMessages).show();
                     var replieshtml = "";
                     var replies = {};
@@ -805,7 +819,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
                 if (message["sakai:read"] === false) {
                     // We haven't read this message yet. Mark it as read.
-                    markMessageRead(message, id);
+                    markMessageRead(message, message["sakai:id"]);
                 }
             }
             else {

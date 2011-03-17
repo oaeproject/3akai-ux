@@ -322,16 +322,6 @@
                             ${showReply(message.previousMessage)}
                             --></div>
 
-                            <div id="inbox_compose_replies_template_chats"><!--
-                                {for r in replies}
-                                    ${r.date} -
-                                    {for fromUser in r.userFrom}
-                                        ${sakai.api.User.getDisplayName(fromUser)}
-                                    {/for}
-                                    : ${r.bodyText}<br />
-                                {/for}
-                            --></div>
-
                             <!-- Compose Message -->
                             <div class="compose-message" id="inbox_message_compose" style="display:none;">
                                 <form class="compose-form">
