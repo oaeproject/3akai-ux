@@ -55,7 +55,10 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                     hasIELongUrlBug = true;
                 //}
 
-                if (!_forcePOST && hasIELongUrlBug && (document.location.protocol + "://" + document.location.host + sakai_conf.URL.BATCH + "?requests=" + _requests.replace(/[^A-Za-z0-9._]/g, "%XX")).length > 2032) {
+                var urlLength = (document.location.protocol + "://" + document.location.host + sakai_conf.URL.BATCH + "?requests=" + _requests.replace(/[^A-Za-z0-9._]/g, "%XX")).length;
+                if(hasIELongUrlBug && $.browser.msie && urlLength > 300){
+                    method = "POST";
+                } else if (!_forcePOST && hasIELongUrlBug && urlLength > 2000) {
                     method = "POST";
                 } else {
                     // if any request contains a POST, we should be POSTing so the request isn't cached
