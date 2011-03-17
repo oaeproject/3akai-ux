@@ -1485,6 +1485,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
 
             //Get the content data
             getEntityData(mode, data);
+
+            $(window).trigger("rendered.entity.sakai");
+            sakai_global.entity.isRendered = true;
         });
 
         $(window).trigger("ready.entity.sakai", {});
