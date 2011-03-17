@@ -75,7 +75,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 path: "/p/" + result["jcr:name"],
                 type: sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes.other.description),
                 type_img_url: sakai.config.MimeTypes.other.URL,
-				css_class: sakai.config.MimeTypes.other.cssClass,
+                css_class: sakai.config.MimeTypes.other.cssClass,
                 size: ""
             };
 
@@ -85,7 +85,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // we have a recognized file type - set the description and img URL
                 item.type = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[type].description);
                 item.type_img_url = sakai.config.MimeTypes[type].URL;
-				item.css_class = sakai.config.MimeTypes[type].cssClass;
+                item.css_class = sakai.config.MimeTypes[type].cssClass;
             }
 
             // set file name without the extension
@@ -97,6 +97,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     item.name = result["sakai:pooled-content-file-name"].slice(0, lastDotIndex);
                 }
             }
+            item.name = sakai.api.Util.applyThreeDots(item.name, $(".mycontent_widget .s3d-widget-content").width() - 80, {max_rows: 1,whole_word: false}, "s3d-bold");
 
             // set the file size
             if(result.hasOwnProperty("length") && result["length"]) {
@@ -128,22 +129,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         items: []
                     };
                     for(var i = 0; i < data.total && i < 5; i++) {
-                        contentjson.items.push(parseDataResult(data.results[i]));
+                        if (data.results[i]){
+                            contentjson.items.push(parseDataResult(data.results[i]));
+                        }
                     }
                     // pass the array to HTML view
                     $(contentList, rootel).html(sakai.api.Util.TemplateRenderer($(listTemplate), contentjson));
                     $(contentList, rootel).show();
-
-                    // make sure the newly added content is properly styled with
-                    // threedots truncation
-                    $(ellipsisContainer).css("width", $(ellipsisContainer).width() + "px");
-                    $(ellipsisContainer, rootel).ThreeDots({
-                        max_rows: 1,
-                        text_span_class: "mycontent_ellipsis_text",
-                        e_span_class: "mycontent_e_span_class",
-                        whole_word: false,
-                        alt_text_t: true
-                    });
                 }
             } else {
                 // display something useful to the user

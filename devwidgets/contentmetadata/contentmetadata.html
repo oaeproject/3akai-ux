@@ -85,21 +85,14 @@
 <div id="contentmetadata_locations_template" style="display:none;"><!--
     <div class='s3d-highlight_area_background_darker1_white_content_tl'><div class='s3d-highlight_area_background_darker1_white_content_tinner'></div></div>
         <span class="contentmetadata_first_column">__MSG__DIRECTORY_LOCATIONS__:</span>
-        {if data.saveddirectory.length != 0}
+        {if directorylocations.length != 0}
             <ul>
-                {for dir in data.saveddirectory}
-                    {var dirString=""}
-                    {for dirpiece in dir}
-                        ${dirString+=sakai.api.Util.getValueForDirectoryKey(dirpiece)|eat}
-                        {if dirpiece_index < dir.length - 1}
-                            ${dirString+="&nbsp;&#187;&nbsp;"|eat}
-                        {/if}
-                    {/for}
-                    <li><a href="/search#tag=/tags/directory/${dir.toString().replace(/,/g, '/')}" target="_blank" class="s3d-action threedots_text contentmetadata_locations_link" title="Search content located at ${dirString}"><span class="ellipsis_text contentmetadata_directory_location">
-                        {for dirpiece in dir}
-                            ${sakai.api.Util.getValueForDirectoryKey(dirpiece)} {if dirpiece_index < dir.length - 1} <span class='contentmetadata_select_seperator'>&raquo;</span>{/if}
-                        {/for}
-                    </span></a></li>
+                {for dir in directorylocations}
+                    <li>
+                        <a href="/search#tag=/tags/directory/${data.saveddirectory[dir_index].toString().replace(/,/g, '/')}" target="_blank" class="s3d-action contentmetadata_locations_link" title="Search content located at ${dir}">
+                            ${dir}
+                        </a>
+                    </li>
                 {/for}
             </ul>
         {else}

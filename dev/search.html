@@ -99,23 +99,19 @@
                                     {if i['sakai:pooled-content-file-name']}
                                     {var contentFound = true}
                                     <div class="fl-container fl-fix search_result">
-                                        {if i['jcr:mimeType']}
-                                            {var mimeType = i['jcr:mimeType']}
-                                        {elseif i.file && i.file['jcr:mimeType']}
-                                            {var mimeType = i.file['jcr:mimeType']}
-                                        {elseif i['jcr:content'] && i['jcr:content']['jcr:mimeType']}
-                                            {var mimeType = i['jcr:content']['jcr:mimeType']}
+                                        {if i['mimeType']}
+                                            {var mimeType = i['mimeType']}
+                                        {elseif i.file && i.file['mimeType']}
+                                            {var mimeType = i.file['mimeType']}
+                                        {elseif i['jcr:content'] && i['jcr:content']['mimeType']}
+                                            {var mimeType = i['jcr:content']['mimeType']}
                                         {elseif i['jcr:primaryType'] === "sling:Folder"}
                                             {var mimeType = 'folder'}
                                         {/if}
                                         <a href="/content#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['jcr:path']}" title="${i['jcr:name']}"{/if}>
                                         {if (mimeType=="image/jpg" || mimeType=="image/png" || mimeType=="image/gif") && sakai.config.MimeTypes[mimeType]}
                                             {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
-                                            {if i['jcr:primaryType'] && i['jcr:primaryType'] === "sakai:pooled-content"}
-                                                <img src="/p/${i['jcr:name']}" alt="${mimeTypeDescription}" />
-                                            {else}
-                                                <img src="${i['jcr:path']}" alt="${mimeTypeDescription}" />
-                                            {/if}
+                                            <img src="/p/${i['jcr:name']}" alt="${mimeTypeDescription}" />
                                         {elseif sakai.config.MimeTypes[mimeType]}
                                             {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
                                             <img src="${sakai.config.MimeTypes[mimeType].URL}" alt="${mimeTypeDescription}" />
@@ -125,24 +121,16 @@
                                         {/if}
                                         </a>
                                         <div class="search_result_right">
-                                            <div class="search_result_header">
+                                            <div class="search_result_content_title s3d-bold">
                                                 <a href="/content#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['jcr:path']}" title="${i['jcr:name']}"{/if}>
                                                     {if i['sakai:pooled-content-file-name']}
-                                                        {if i['sakai:pooled-content-file-name'].length > 60}
-                                                            ${i['sakai:pooled-content-file-name'].substring(0, 60)}...
-                                                        {else}
-                                                            ${i['sakai:pooled-content-file-name']}
-                                                        {/if}
+                                                        ${i['sakai:pooled-content-file-name']}
                                                     {elseif i['jcr:name']}
-                                                        {if i['jcr:name'].length > 60}
-                                                            ${i['jcr:name'].substring(0, 60)}...
-                                                        {else}
-                                                            ${i['jcr:name']}
-                                                        {/if}
+                                                        ${i['jcr:name']
                                                     {/if}
                                                 </a>
                                             </div>
-                                            {if i["sakai:description"]}<div class="search_result_description">${sakai.api.Util.shortenString(i["sakai:description"], 400)}</div>{/if}
+                                            {if i["sakai:description"]}<div class="search_result_description">${i["sakai:description"]}</div>{/if}
                                             {if i["sakai:tags"] && i["sakai:tags"].length > 0}
                                                 <div class="search_result_tags">__MSG__TAGS__:
                                                     {for t in i["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0},{/if} ${t}{/if}{/for}
@@ -191,9 +179,9 @@
                                             <img src="/dev/images/group_avatar_icon_64x64_nob.png" alt="__MSG__GROUP__NAME">
                                             {/if}
                                             </a>
-                                            <div class="search_result_course_site_title"><a class="s3d-regular-links s3d-bold" href="/~${i.pagepath}">${sakai.api.Util.shortenString(i["sakai:group-title"], 100)}</a></div>
-                                            <div class="search_result_course_site_url"><a href="/~${i.pagepath}">${sakai.api.Util.shortenString(i.pagepath, 100)}</a></div>
-                                            <div class="search_result_course_site_excerpt">${sakai.api.Util.shortenString(i["sakai:group-description"], 400)}</div>
+                                            <div class="search_result_course_site_title"><a class="s3d-regular-links s3d-bold" href="/~${i.pagepath}">${i["sakai:group-title"]}</a></div>
+                                            <div class="search_result_course_site_url"><a href="/~${i.pagepath}">${i.dottedpagepath}</a></div>
+                                            <div class="search_result_course_site_excerpt">${i["sakai:group-description"]}</div>
                                         </div>
                                         {/if}
                                     {/for}
@@ -231,7 +219,7 @@
                                             {else}
                                                 <a href="/~${i.userid}" class="search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"><img src="{if i.picture}${i.picture}{else}/dev/images/person_icon.jpg{/if}" alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" width="48px" height="48px"/></a>
                                             {/if}
-                                            <a href="/~${i.userid}" class="search_result_person_name">${sakai.api.Util.shortenString(i.name, 25)}</a>
+                                            <a href="/~${i.userid}" class="search_result_person_name">${i.name}</a>
                                            {if i.extra}
                                                 <span class="search_result_person_dept">${i.extra}</span>
                                             {else}

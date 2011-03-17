@@ -390,12 +390,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js", "/dev
             if (halfCompletedProfile){
                 // display tooltip
                 var tooltipData = {
-                    "tooltipSelector":"#systemtour_edit_profile",
+                    "tooltipSelector":"#top_banner",
                     "tooltipTitle":"TOOLTIP_EDIT_MY_PROFILE",
                     "tooltipDescription":"TOOLTIP_EDIT_MY_PROFILE_P4",
                     "tooltipArrow":"top",
-                    "tooltipTop":25,
-                    "tooltipLeft":40,
+                    "tooltipTop":80,
+                    "tooltipLeft":380,
                     "tooltipAutoClose":true
                 };
                 $(".systemtour_2").addClass("selected");
