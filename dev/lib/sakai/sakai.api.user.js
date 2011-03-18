@@ -156,6 +156,17 @@ define(["jquery",
             });
 
         },
+        
+        getUser: function(userid, callback){
+            var authprofileURL = "/~" + userid + "/public/authprofile";
+            sakai_serv.loadJSON(authprofileURL, function(success, data) {
+                if (success && data) {
+                    callback(data);
+                } else {
+                    callback(false);
+                }
+            });
+        },
 
         /**
          * Log-in to Sakai3
