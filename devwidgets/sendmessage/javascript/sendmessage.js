@@ -295,9 +295,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              * @return None
              */
             var autoSuggestContactsGroups = function(contactsGroupsList) {
-                //remove asHtmlID: "sendmessage_to_autoSuggest" and set at last
-                // as it is causing problem on rss send aritcle to friend link
                 $("#sendmessage_to_autoSuggest").autoSuggest("", {
+                    asHtmlID: "sendmessage_to_autoSuggest",
                     startText: "Enter contact or group names",
                     searchObjProps: "name",
                     selectedItemProp: "name",
@@ -340,7 +339,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             }
                         }, options);
                     }
-                }).attr("id","sendmessage_to_autoSuggest");
+                });
             };
 
 
@@ -370,10 +369,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     } else {
                         $(messageMultipleLabel).text("To");
                     }
-
-                    // fetch user's contacts and associated groups and set up
-                    // autoSuggest field with this content
-                    autoSuggestContactsGroups();
                 }
                 else {
                     // We send this to a specific user.
@@ -434,6 +429,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     // it cannot carry allowOthers value
                     // that is why add class
                     $(messageMultipleToContainer).addClass("visible");
+
+                    // move here from loadmessage as autosuggest does not work for rss feed
+                    // on load
+                    // fetch user's contacts and associated groups and set up
+                    // autoSuggest field with this content
+                    autoSuggestContactsGroups();
                 }
 
                 // Putting the subject and body which have been send in the textboxes
