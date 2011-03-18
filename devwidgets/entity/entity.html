@@ -335,13 +335,15 @@
                                 {if data.profile.activity.total < 0}
                                     More than ${Math.abs(data.profile.activity.total)}
                                 {else}
-                                ${data.profile.activity.total}
+                                    <span id="entity_content_activity_count">${data.profile.activity.total}</span>
                                 {/if}
-                                {if data.profile.activity.total === 1}
-                                    __MSG__THING_HAS_HAPPENED__
-                                {else}
-                                    __MSG__THINGS_HAVE_HAPPENED__
-                                {/if}
+                                 <span id="entity_content_activity_count_text">
+                                    {if data.profile.activity.total === 1}
+                                        __MSG__THING_HAS_HAPPENED__
+                                    {else}
+                                        __MSG__THINGS_HAVE_HAPPENED__
+                                    {/if}
+                                </span>
                             {else}
                             0 __MSG__THINGS_HAVE_HAPPENED__
                             {/if}

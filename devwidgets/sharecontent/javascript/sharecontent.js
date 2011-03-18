@@ -178,6 +178,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     $(window).trigger("render.entity.sakai", ["content", sakai_global.content_profile.content_data]);
                 });
             });
+
+            // update the entity widget with the new activity
+            $(window).trigger("updateContentActivity.entity.sakai", activityMessage);
         };
 
 
