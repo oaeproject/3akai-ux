@@ -54,8 +54,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js"], func
             })).show();
         };
 
-        var handleHashChange = function() {
-            var selected = $.bbq.getState("location");
+        var handleHashChange = function(e, node) {
+            var selected = node || $.bbq.getState("location");
             loadDataDirectory(selected, renderPopularContent);
         };
 
@@ -115,7 +115,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js"], func
                loadData(renderPopularContent);
                $("#popularcontent_title_popular").show();
             } else {
-                handleHashChange();
+                //handleHashChange();
                 $("#popularcontent_title_recent").show();
             }
         };

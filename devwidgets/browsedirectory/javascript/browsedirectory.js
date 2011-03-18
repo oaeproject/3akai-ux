@@ -181,6 +181,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     });
                 }
                 if ($.bbq.getState("location") === "" || !$.bbq.getState("location")) {
+                    $(window).trigger("hashchange", initiallySelect);
                     $(window).trigger("nohash.browsedirectory.sakai", initiallySelect);
                 }
             });

@@ -116,7 +116,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 loadData(renderPopularGroups);
                 $("#activegroups_title_popular").show();
             } else {
-                handleHashChange();
+                //handleHashChange();
                 $("#activegroups_title_recent").show();
             }
         };
