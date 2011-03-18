@@ -40,9 +40,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     sakai_global.topnavigation = function(tuid, showSettings){
 
 
-        ////////////////////////
-        ///////// VARS /////////
-        ////////////////////////
+        ///////////////////
+        // CONFIGURATION //
+        ///////////////////
 
         // Classes
         var subnavtrClass = "hassubnav_tr";
