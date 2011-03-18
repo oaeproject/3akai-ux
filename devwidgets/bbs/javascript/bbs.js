@@ -532,24 +532,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         /**
-         * Return hashed URL for the given ID.
-         * e.g Id =testings
-         * return te/st/in/gs/testings
-         * @param {String} id Id of the post that needs to be edited
-         *
-         *
-         */
-        var replyId = function(id){
-            return id.substring(0, 2) + '/' + id.substring(2, 4) + '/' + id.substring(4, 6) + '/' + id.substring(6, 8) + '/' + id;
-        };
-
-        /**
          * Deletes or undeletes the post with the provided id.
          * @param {String} id The id of the post.
          * @param {boolean} deleteValue true = delete, false = undelete
          */
         var deletePost = function(id, deleteValue, post){
-            var url = store + "/" + replyId(id);
+            var url = store + "/inbox/" + id;
             var data = {
                 "sakai:deleted": deleteValue,
                 "sakai:deletedBy": sakai.api.User.getDisplayName(sakai.data.me.profile),
@@ -588,7 +576,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var updatePost = function(id, body, quote, quoted, post){
-            var url = store + "/" + replyId(id);
+            var url = store + "/inbox/" + id;
             var data = {
                 "sakai:edited": true,
                 "sakai:editedBy": sakai.api.User.getDisplayName(sakai.data.me.profile),

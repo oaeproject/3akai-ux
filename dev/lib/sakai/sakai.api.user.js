@@ -63,6 +63,8 @@ define(["jquery",
                 "timezone": sakai_l10n.getUserDefaultTimezone(),
                 "pwd": password,
                 "pwdConfirm": passwordConfirm,
+                "firstName": firstName,
+                "lastName": lastName,
                 "email": email,
                 ":name": username,
                 ":sakai:pages-template": "/var/templates/site/" + sakai_conf.defaultUserTemplate,
@@ -153,17 +155,6 @@ define(["jquery",
                 }
             });
 
-        },
-        
-        getUser: function(userid, callback){
-            var authprofileURL = "/~" + userid + "/public/authprofile";
-            sakai_serv.loadJSON(authprofileURL, function(success, data) {
-                if (success && data) {
-                    callback(data);
-                } else {
-                    callback(false);
-                }
-            });
         },
 
         /**
