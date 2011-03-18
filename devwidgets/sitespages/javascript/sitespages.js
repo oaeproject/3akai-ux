@@ -548,9 +548,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // make sure the dashboard that said it's ready is the one we just got the data for
             if (split[2] === tuid) {
                 if (config.editMode) {
-                    $(window).trigger("init.dashboard.sakai", [sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage]["jcr:path"] + "/_widgets/", true, config.dashboardEmbedProperty, false]);
+                    $(window).trigger("init.dashboard.sakai", [sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage]["jcr:path"] + "/_widgets/", true, config.dashboardEmbedProperty, false, tuid]);
                 } else {
-                    $(window).trigger("init.dashboard.sakai", [sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage]["jcr:path"] + "/_widgets/", false, config.dashboardEmbedProperty, false]);
+                    $(window).trigger("init.dashboard.sakai", [sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage]["jcr:path"] + "/_widgets/", false, config.dashboardEmbedProperty, false, tuid]);
                 }
             }
         });
@@ -2699,9 +2699,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         $('#more_change_layout').live("click", function(){
-            // get page title
+            // get page title and dashboard id
             var title = sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage]["pageTitle"];
-            $(window).trigger("changeLayout.dashboard.sakai", title);
+            var dashboard_tuid = $("#" + sakai_global.sitespages.selectedpage +
+                " > div.inline_class_widget_nofloat").get(0).id;
+            $(window).trigger("changeLayout.dashboard.sakai", [title, dashboard_tuid]);
         });
 
 
