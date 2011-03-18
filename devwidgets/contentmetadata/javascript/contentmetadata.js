@@ -192,7 +192,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             var activityData = {
                 "sakai:activityMessage": activityMessage
             };
-            sakai.api.Activity.createActivity("/p/" + sakai_global.content_profile.content_data.data["jcr:name"], "content", "default", activityData);
+            sakai.api.Activity.createActivity("/p/" + sakai_global.content_profile.content_data.data["jcr:name"], "content", "default", activityData, function(responseData, success){
+                if (success) {
+                    // update the entity widget with the new activity
+                    $(window).trigger("updateContentActivity.entity.sakai", activityMessage);
+                }
+            });
         };
 
         //////////////////////////////////
