@@ -39,25 +39,200 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      */
     sakai_global.topnavigation = function(tuid, showSettings){
 
-        var addBinding = function(){
-            $(".hassubnav").hover(function(){
-                var $li = $(this);
-                $li.addClass("hassubnav_tr");
-                $li.children(".hassubnav_tl").show();
-                var $subnav = $li.children(".navigation_link_dropdown");
 
-                var pos = $li.position();
-                $subnav.css("left", pos.left - 8);
-                $subnav.css("margin-top", "7px");
-                $subnav.show();
-            }, function(){
-                var $li = $(this);
-                $li.children(".hassubnav_tl").hide();
-                $li.removeClass("hassubnav_tr");
-                $li.children(".navigation_link_dropdown").hide();
-            })
+        ////////////////////////
+        ///////// VARS /////////
+        ////////////////////////
+
+        // Classes
+        var subnavtrClass = "hassubnav_tr";
+
+        // Elements
+        var subnavtl = ".hassubnav_tl"
+        var navLinkDropdown = ".navigation_link_dropdown";
+        var hasSubnav = ".hassubnav";
+        var topnavExplore = ".topnavigation_explore";
+
+        // Containers
+        var topnavSearchResultsContainer = "#topnavigation_search_results_container";
+        var topnavSearchResultsBottomContainer = "#topnavigation_search_results_bottom_container";
+        var topnavUserInboxMessages = "#topnavigation_user_inbox_messages";
+        var topnavUserOptionsName = "#topnavigation_user_options_name";
+
+        // Templates
+        var navTemplate = "navigation_template";
+        var searchTemplate = "search_template";
+        var searchBottomTemplate = "search_bottom_template";
+
+
+        ////////////////////////
+        ///// USER ACTIONS /////
+        ////////////////////////
+
+        var setUserName = function(){
+            $(topnavUserOptionsName).text(sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(sakai.data.me.profile), 50));
+        }
+
+
+        ////////////////////////
+        /////// MESSAGES ///////
+        ////////////////////////
+
+        /**
+         * Get the number of messages that are unread and show it.
+         */
+        var setCountUnreadMessages = function(){
+            $(topnavUserInboxMessages).text(sakai.data.me.messages.unread);
         };
 
+
+        ////////////////////////
+        //////// SEARCH ////////
+        ////////////////////////
+
+        /**
+         * Execute the live search and render the results
+         * @param {Object} searchText Trimmed query put in by the user
+         */
+        var doSearch = function(searchText){
+
+            var renderObj = {
+                "people":"",
+                "groups":"",
+                "files":"",
+                "peopletotal":0,
+                "groupstotal":0,
+                "filestotal":0,
+                "query":searchText
+            };
+
+            var filesUrl = sakai.config.URL.SEARCH_ALL_FILES.replace(".json", ".infinity.json");
+            var usersUrl = sakai.config.URL.SEARCH_USERS;
+            var groupsUrl = sakai.config.URL.SEARCH_GROUPS;
+            if (searchText === "*" || searchText === "**") {
+                filesUrl = sakai.config.URL.SEARCH_ALL_FILES_ALL;
+                usersUrl = sakai.config.URL.SEARCH_USERS_ALL;
+                groupsUrl = sakai.config.URL.SEARCH_GROUPS_ALL;
+            }
+
+            // People Search
+            $.ajax({
+                cache: false,
+                url: usersUrl,
+                data: {
+                    page: 0,
+                    items: 4,
+                    q: searchText,
+                    sortOn: "lastName",
+                    sortOrder: "asc"
+                },
+                success: function(data){
+                    var people = [];
+                    for(var i in data.results){
+                        if(data.results.hasOwnProperty(i)){
+                            var tempPerson = {
+                                "dottedname" : sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(data.results[i]), 100),
+                                "name" : sakai.api.User.getDisplayName(data.results[i]),
+                                "url" : data.results[i].homePath
+                            };
+                            people.push(tempPerson);
+                        }
+                    }
+                    renderObj.people = people;
+                    renderObj.peopletotal = data.total;
+
+                    $(topnavSearchResultsContainer).html(sakai.api.Util.TemplateRenderer(searchTemplate, renderObj));
+                    $(topnavSearchResultsBottomContainer).html(sakai.api.Util.TemplateRenderer(searchBottomTemplate, renderObj));
+                    $("#topnavigation_search_results").show();
+                },
+                error: function(xhr, textStatus, thrownError){
+                    debug.log(xhr, textStatus, thrownError);
+                }
+            });
+
+            // Groups Search
+            $.ajax({
+                cache: false,
+                url: groupsUrl,
+                data: {
+                    page: 0,
+                    items: 4,
+                    q: searchText,
+                },
+                success: function(data){
+                    var groups = [];
+                    for(var i in data.results){
+                        if(data.results.hasOwnProperty(i)){
+                            var tempGroup = {
+                                "dottedname" : sakai.api.Util.applyThreeDots(data.results[i]["sakai:group-title"], 100),
+                                "name" : data.results[i]["sakai:group-title"],
+                                "url" : data.results[i].homePath
+                            };
+                            if(data.results[i]["sakai:group-visible"] == "members-only" || data.results[i]["sakai:group-visible"] == "logged-in-only"){
+                                tempGroup["css_class"] = "topnavigation_group_private_icon";
+                            }else{
+                                tempGroup["css_class"] = "topnavigation_group_public_icon";
+                            }
+                            groups.push(tempGroup);
+                        }
+                    }
+                    renderObj.groups = groups;
+                    renderObj.groupstotal = data.total;
+
+                    $(topnavSearchResultsContainer).html(sakai.api.Util.TemplateRenderer(searchTemplate, renderObj));
+                    $(topnavSearchResultsBottomContainer).html(sakai.api.Util.TemplateRenderer(searchBottomTemplate, renderObj));
+                    $("#topnavigation_search_results").show();
+                },
+                error: function(xhr, textStatus, thrownError){
+                    debug.log(xhr, textStatus, thrownError);
+                }
+            });
+
+            // Files Search
+            $.ajax({
+                cache: false,
+                url: filesUrl,
+                data: {
+                    page: 0,
+                    items: 4,
+                    q: searchText,
+                },
+                success: function(data){
+                    var files = [];
+                    for(var i in data.results){
+                        if(data.results.hasOwnProperty(i)){
+                            var tempFile = {
+                                "dottedname" : sakai.api.Util.applyThreeDots(data.results[i]["sakai:pooled-content-file-name"], 100),
+                                "name" : data.results[i]["sakai:pooled-content-file-name"],
+                                "url" : "/content#content_path=/p/" + data.results[i]["jcr:name"],
+                                "css_class" : sakai.config.MimeTypes[data.results[i].mimeType].cssClass
+                            };
+                            files.push(tempFile);
+                        }
+                    }
+                    renderObj.files = files;
+                    renderObj.filestotal = data.total;
+
+                    $(topnavSearchResultsContainer).html(sakai.api.Util.TemplateRenderer(searchTemplate, renderObj));
+                    $(topnavSearchResultsBottomContainer).html(sakai.api.Util.TemplateRenderer(searchBottomTemplate, renderObj));
+                    $("#topnavigation_search_results").show();
+                },
+                error: function(xhr, textStatus, thrownError){
+                    debug.log(xhr, textStatus, thrownError);
+                }
+            });
+        };
+
+
+        ////////////////////////
+        ////// NAVIGATION //////
+        ////////////////////////
+
+        /**
+         * Generate a subnavigation item
+         * @param {integer} index Index of the subnavigation item in the array
+         * @param {Array} array Array of subnavigation items
+         */
         var getNavItem = function(index, array){
             var temp = {};
             temp.id = array[index].id;
@@ -74,6 +249,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             return temp;
         };
 
+        /**
+         * Create a list item for the topnavigation menu including the subnavigation
+         * @param {integer} i index of the current item in the loop
+         */
         var createMenuList = function(i){
             var temp = getNavItem(i, sakai.config.Navigation);
 
@@ -88,6 +267,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             return temp;
         };
 
+        /**
+         * Initialise the rendering of the topnavigation menu
+         */
         var renderMenu = function(){
             var obj = {};
             var menulinks = [];
@@ -109,13 +291,65 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
             obj.links = menulinks;
             // Get navigation and render menu template
-            $(".topnavigation_explore").html(sakai.api.Util.TemplateRenderer("navigation_template", obj));
+            $(topnavExplore).html(sakai.api.Util.TemplateRenderer(navTemplate, obj));
         };
 
+
+        /////////////////////////
+        ///// BIND ELEMENTS /////
+        /////////////////////////
+
+        /**
+         * Add binding to the elements
+         */
+        var addBinding = function(){
+            // Navigation hover binding
+            $(hasSubnav).hover(function(){
+                var $li = $(this);
+                $li.addClass(subnavtrClass);
+                $li.children(subnavtl).show();
+                var $subnav = $li.children(navLinkDropdown);
+
+                var pos = $li.position();
+                $subnav.css("left", pos.left - 8);
+                $subnav.css("margin-top", "7px");
+                $subnav.show();
+            }, function(){
+                var $li = $(this);
+                $li.children(subnavtl).hide();
+                $li.removeClass(subnavtrClass);
+                $li.children(navLinkDropdown).hide();
+            });
+
+            // Search binding (don't fire on following keyup codes: shift)
+            $("#topnavigation_search_input").focus(function(){
+                $(this).keyup();
+            });
+
+            $("#topnavigation_search_input").keyup(function(evt){
+                var val = $.trim($(this).val());
+                if (val && evt.keyCode != 16) {
+                    doSearch(val);
+                }else if(!val){
+                    $("#topnavigation_search_results").hide();
+                }
+            });
+        }
+
+
+        /////////////////////////
+        /////// INITIALISE //////
+        /////////////////////////
+
+        /**
+         * Initialise the topnavigation widget
+         */
         var doInit = function(){
             renderMenu();
+            setCountUnreadMessages();
+            setUserName();
             addBinding();
-        }
+        };
 
         doInit();
     };

@@ -3,11 +3,17 @@
 <div id="topnavigation_container">
     <ul class="topnavigation_explore"><!----></ul>
     <div class="topnavigation_user">
-        <div class="topnavigation_user_inbox"><p id="topnavigation_user_inbox_messages" class="s3d-bold">5</p></div>
-        <div class="topnavigation_user_options"><p id="topnavigation_user_options_name" class="s3d-bold">Bert Pareyn</p></div>
+        <div class="topnavigation_user_inbox"><p id="topnavigation_user_inbox_messages" class="s3d-bold"><!----></p></div>
+        <div class="topnavigation_user_options"><p id="topnavigation_user_options_name" class="s3d-bold"><!----></p></div>
     </div>
     <div class="topnavigation_search">
         <input type="text" id="topnavigation_search_input" title="__MSG__PLEASE_INPUT_SEARCH_KEYWORD__" />
+        <div id="topnavigation_search_results" style="display:none;">
+            <div id="topnavigation_search_results_top"></div>
+            <div id="topnavigation_search_results_container"><!----></div>
+            <div id="topnavigation_search_results_bottom_container"><!----></div>
+            <div id="topnavigation_search_results_bottom"></div>
+        </div>
     </div>
 </div>
 
@@ -35,6 +41,71 @@
             </div>
         </li>
     {/for}
+--></div>
+
+<div id="search_template" style="display:none"><!--
+        {if people && people.length}
+            <hr/>
+            <span class="topnavigation_search_results_section_header">__MSG__PEOPLE__</span>
+            <ul>
+                {for person in people}
+                    <li>
+                        <div class="topnav_content_icon_container fl-force-left">
+                            <span class="topnav_person_icon"></span>
+                        </div>
+                        <a href="${person.url}" title="${person.name}">${person.dottedname}</a>
+                    </li>
+                {/for}
+            </ul>
+            <hr/>
+        {/if}
+
+        {if groups && groups.length}
+            <span class="topnavigation_search_results_section_header">__MSG__GROUPS__</span>
+            <ul>
+                {for group in groups}
+                    <li>
+                        <div class="topnav_content_icon_container fl-force-left">
+                            <span class="${group.css_class}"></span>
+                        </div>
+                        <a href="${group.url}" title="${group.name}">${group.dottedname}</a>
+                    </li>
+                {/for}
+            </ul>
+            <hr/>
+        {/if}
+
+    {if files && files.length}
+        <span class="topnavigation_search_results_section_header">__MSG__FILES__</span>
+        <ul>
+           {for file in files}
+                <li>
+                    <div class="topnav_content_icon_container fl-force-left">
+                        <span class="topnav_content_icon ${file.css_class}"></span>
+                    </div>
+                    <a href="${file.url}" title="${file.name}">${file.dottedname}</a>
+                </li>
+            {/for}
+        </ul>
+    {/if}
+--></div>
+
+<div id="search_bottom_template" style="display:none;"><!--
+    <div id="topnavigation_search_results_bottom_top_border"></div>
+    {if people.length || groups.length || files.length && people.length + groups.length + files.length != peopletotal + groupstotal + filestotal}
+        <a href="/search#q=${query}&filter=&facet=&page=1">
+            <button id="topnavigation_search_see_all" class="s3d-button s3d-button-link-2-state" type="button">
+                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__SEE_ALL__</span>
+            </button>
+        </a>
+    {/if}
+    <span id="topnavigation_search_results_bottom_content" class="s3d-bold">
+        {if people.length || groups.length || files.length}
+            ${people.length + groups.length + files.length} __MSG__OF__ ${peopletotal + groupstotal + filestotal} __MSG__SEARCH_RESULTS__
+        {else}
+            __MSG__NO_RESULTS__
+        {/if}
+    </span>
 --></div>
 
 <!-- JAVASCRIPT -->
