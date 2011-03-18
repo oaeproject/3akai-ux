@@ -2,9 +2,8 @@
 
 <div id="topnavigation_container">
     <ul class="topnavigation_explore"><!----></ul>
-    <div class="topnavigation_user">
-        <div class="topnavigation_user_inbox"><p id="topnavigation_user_inbox_messages" class="s3d-bold"><!----></p></div>
-        <div class="topnavigation_user_options"><p id="topnavigation_user_options_name" class="s3d-bold"><!----></p></div>
+    <div class="topnavigation_user_container">
+
     </div>
     <div class="topnavigation_search">
         <input type="text" id="topnavigation_search_input" title="__MSG__PLEASE_INPUT_SEARCH_KEYWORD__" />
@@ -106,6 +105,16 @@
             __MSG__NO_RESULTS__
         {/if}
     </span>
+--></div>
+
+<div id="topnavigation_user_template"><!--
+    {if anon}
+        <div class="topnavigation_user_options_login_left"><div class="topnavigation_user_options topnavigation_user_options_login_right"><p id="topnavigation_user_options_login" class="s3d-bold">__MSG__SIGN_IN__</p></div></div>
+    {else}
+        <a href="/inbox" title="__MSG__INBOX__"><div class="topnavigation_user_inbox"><p id="topnavigation_user_inbox_messages" class="s3d-bold"></p></div></a>
+        <div class="topnavigation_user_options"><p id="topnavigation_user_options_name" class="s3d-bold"></p></div>
+        <a href="/logout" id="topnavigation_user_options_logout" style="display:none;"><span>__MSG__SIGN_OUT__</span></a>
+    {/if}
 --></div>
 
 <!-- JAVASCRIPT -->

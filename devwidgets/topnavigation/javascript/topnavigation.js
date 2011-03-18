@@ -52,34 +52,76 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var navLinkDropdown = ".navigation_link_dropdown";
         var hasSubnav = ".hassubnav";
         var topnavExplore = ".topnavigation_explore";
+        var topnavUserOptions = ".topnavigation_user_options";
+        var topnavUserOptionsLogout = "#topnavigation_user_options_logout";
+
 
         // Containers
         var topnavSearchResultsContainer = "#topnavigation_search_results_container";
         var topnavSearchResultsBottomContainer = "#topnavigation_search_results_bottom_container";
         var topnavUserInboxMessages = "#topnavigation_user_inbox_messages";
         var topnavUserOptionsName = "#topnavigation_user_options_name";
+        var topnavUserContainer = ".topnavigation_user_container";
 
         // Templates
         var navTemplate = "navigation_template";
         var searchTemplate = "search_template";
         var searchBottomTemplate = "search_bottom_template";
+        var topnavUserTemplate = "topnavigation_user_template";
 
 
         ////////////////////////
         ///// USER ACTIONS /////
         ////////////////////////
 
+        /**
+         * Fill in the user name
+         */
         var setUserName = function(){
             $(topnavUserOptionsName).text(sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(sakai.data.me.profile), 50));
-        }
+        };
 
+        /**
+         * Show the logout element
+         */
+        var showLogout = function(){
+            if ($(topnavUserOptionsLogout).is(":visible")) {
+                $(topnavUserOptionsLogout).hide()
+            } else {
+                $(topnavUserOptionsLogout).show();
+                $(topnavUserOptionsLogout).css("display", "inline")
+            }
+        };
+
+        /**
+         * Show the login element
+         */
+        var showLogin = function(){
+            
+        };
+
+        /**
+         * Decide to show login or logout option
+         */
+        var decideShowLoginLogout = function(){
+            if(sakai.data.me.user.anon){
+                showLogin();
+            }else{
+                showLogout();
+            }
+        };
+
+        
+        var renderUser = function(){
+            $(topnavUserContainer).html(sakai.api.Util.TemplateRenderer(topnavUserTemplate, {"anon" : sakai.data.me.user.anon}));
+        };
 
         ////////////////////////
         /////// MESSAGES ///////
         ////////////////////////
 
         /**
-         * Get the number of messages that are unread and show it.
+         * Show the number of unread messages
          */
         var setCountUnreadMessages = function(){
             $(topnavUserInboxMessages).text(sakai.data.me.messages.unread);
@@ -334,6 +376,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $("#topnavigation_search_results").hide();
                 }
             });
+
+            $(topnavUserOptions).bind("click", decideShowLoginLogout)
         }
 
 
@@ -346,6 +390,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var doInit = function(){
             renderMenu();
+            renderUser();
             setCountUnreadMessages();
             setUserName();
             addBinding();
