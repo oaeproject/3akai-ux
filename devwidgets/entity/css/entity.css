@@ -28,6 +28,7 @@
 .entity_picture .entity_member_end{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -1921px transparent;}
 #entity_container a.s3d-action,#entity_container .s3d-actions a{font-size:12px;}
 .entity_picture_div{padding-bottom:3px;}
+.entity_info {*display:inline-block; *padding:0px; *margin-top:-23px;}
 
 /* Container */
 #entity_container{margin:19px 0 15px 7px;overflow:hidden;width:auto;}
