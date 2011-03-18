@@ -689,7 +689,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var postId = replyParent[0].id.split("bbs_post_")[1];
                 sakai.api.Util.TemplateRenderer(bbsTopicReplyTemplate, {"edit":false, "quoted":true, "quotedUser":$(this).parents(s3dHighlightBackgroundClass).find(bbsPosterName).text(), "quotedMessage":$(this).prev().children(bbsPostMessage).text(), "postId": postId}, replyParent.children(bbsTopicReplyContainer));
                 replyParent.children(bbsTopicReplyContainer).show();
-                window.location.hash = "reply_" + postId;
+                replyParent.find(bbsTopicReplyText).focus();
             });
 
             // Open reply fields
@@ -698,7 +698,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var postId = replyParent[0].id.split("bbs_post_")[1];
                 sakai.api.Util.TemplateRenderer(bbsTopicReplyTemplate, {"edit":false, "quoted":false, "postId": postId}, replyParent.children(bbsTopicReplyContainer));
                 replyParent.children(bbsTopicReplyContainer).show();
-                window.location.hash = "reply_" + postId;
+                replyParent.find(bbsTopicReplyText).focus();
             });
 
             $(bbsDontAddReply, $rootel).live("click", function(){
