@@ -325,7 +325,12 @@ define(["jquery", "sakai/sakai.api.user", "/dev/configuration/config.js"], funct
         * @param {Function} callback The function that will be called on completion
         */  
         getAllMessages : function(box, category, messagesPerPage, currentPage, sortBy, sortOrder, callback) {
-            var url = sakai_conf.URL.MESSAGE_BOXCATEGORY_SERVICE + "?box=" + box + "&category=" + category + "&items=" + messagesPerPage + "&page=" + currentPage + "&sortBy=" + sortBy + "&sortOrder=" + sortOrder;
+            var url = "";
+            if (category) {
+                url = sakai_conf.URL.MESSAGE_BOXCATEGORY_SERVICE + "?box=" + box + "&category=" + category + "&items=" + messagesPerPage + "&page=" + currentPage + "&sortBy=" + sortBy + "&sortOrder=" + sortOrder;
+            } else {
+                url = sakai_conf.URL.MESSAGE_BOX_SERVICE + "?box=" + box + "&items=" + messagesPerPage + "&page=" + currentPage + "&sortBy=" + sortBy + "&sortOrder=" + sortOrder;
+            }
             $.ajax({
                 url: url,
                 cache: false,
@@ -352,8 +357,8 @@ define(["jquery", "sakai/sakai.api.user", "/dev/configuration/config.js"], funct
                 success: function(data){
                     if ($.isFunction(callback)) {
                         sakai_user.getUser(data["sakai:from"], function(profiledata){
-                            alert($.toJSON(profiledata));
-                            data.userFrom = profiledata;
+                            data.userFrom = [];
+                            data.userFrom[0] = profiledata;
                             callback(data);
                         });
                     }

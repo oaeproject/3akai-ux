@@ -94,6 +94,11 @@ define(["/dev/configuration/config.js", "/dev/lib/misc/l10n/globalization.js", "
             }
             return d;
         },
+        
+        parseDateLong : function(dateLong, meData){
+            var d = new Date(dateLong);
+            return d;
+        },
 
         /**
          * Determines date from an epoch string and returns a date object and adjust that date to the timezone

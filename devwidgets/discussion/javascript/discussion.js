@@ -268,7 +268,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             };
 
             $.ajax({
-                url: store + "/" + shardedId(id),
+                url: store + "/inbox/" + id,
                 cache: false,
                 success: function(data){
                     if (showSettings) {
@@ -760,7 +760,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {boolean} deleteValue true = delete, false = undelete
          */
         var deletePost = function(id, deleteValue){
-            var url = store + "/" + shardedId(id);
+            var url = store + "/inbox/" + id;
             var data = {
                 "sakai:deleted": deleteValue,
                 "sakai:deletedByID": me.user.userid,
