@@ -94,6 +94,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // changing his/her picture
             if (profile && profile.picture && $.parseJSON(profile.picture).name) {
                 return "/~" + profile["rep:userId"] + "/public/profile/" + $.parseJSON(profile.picture).name;
+            } else if (profile && profile.basic.elements.picture && $.parseJSON(profile.basic.elements.picture.value).name) {
+                return "/~" + profile["rep:userId"] + "/public/profile/" + $.parseJSON(profile.basic.elements.picture.value).name;
             }
             return sakai.config.URL.USER_DEFAULT_ICON_URL;
         };

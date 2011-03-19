@@ -23,6 +23,7 @@
 
 /* DIRECTORY */
 #profilesection_locations_dialog{width:750px;margin-left:-370px;}
+.profilesection_add_section, .profilesection_add_location_section {width:400px;}
 .profilesection_saved_locations{margin:10px 0 15px 245px;}
 .profilesection_saved_locations li{list-style:none;margin:7px 0;}
 .profilesection_content_location{float:left;margin:2px 0 0;}
