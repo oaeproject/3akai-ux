@@ -226,8 +226,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     user.picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
                     user.uid = profile.userid;
                     // Check if the user has a picture
-                    if (profile.picture && $.parseJSON(profile.picture).name) {
-                        user.picture = "/~" + user.uid + "/public/profile/" + $.parseJSON(profile.picture).name;
+                    if (profile.basic.elements.picture && $.parseJSON(profile.basic.elements.picture.value).name) {
+                        user.picture = "/~" + user.uid + "/public/profile/" + $.parseJSON(profile.basic.elements.picture.value).name;
                     }
                     user.profile = "/~" + user.uid;
                 }
