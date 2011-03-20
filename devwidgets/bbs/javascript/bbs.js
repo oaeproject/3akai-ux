@@ -738,7 +738,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
             });
 
             // Make the actual reply
-            $(bbsAddReply, $rootel).die("click", doAddReply);
+            $(bbsAddReply, $rootel).die("click");
             $(bbsAddReply, $rootel).live("click", doAddReply);
 
             // DELETE REPLIES //
