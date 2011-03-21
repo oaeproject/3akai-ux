@@ -643,6 +643,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
         ////////////////////
 
         var addBinding = function() {
+            $(bbsExpandAll, $rootel).die("click");
             $(bbsExpandAll, $rootel).live("click", function(){
                 if($(bbsExpandAll, $rootel).hasClass(bbsExpandAllClass)){
                     $(this).removeClass(bbsExpandAllClass);
