@@ -841,30 +841,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          */
         var doInit = function(){
 
-            // configure widget placement if on the content profile page
-            /*if (sakai_global.content_profile && sakai_global.content_profile.content_data && sakai.api.Widgets.widgetLoader.widgets[tuid].placement.substr(0,3) !== "/p/"){
-                sakai.api.Widgets.widgetLoader.widgets[tuid].placement = "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + "/_widgets/" + sakai.api.Widgets.widgetLoader.widgets[tuid].placement;
-            }
-
-            widgeturl = sakai.api.Widgets.widgetLoader.widgets[tuid] ? sakai.api.Widgets.widgetLoader.widgets[tuid].placement : false;
-
-            if (widgeturl) {
-                store = widgeturl + "/message";
-                $.ajax({
-                    url: widgeturl + ".0.json",
-                    type: "GET",
-                    dataType: "json",
-                    success: function(data){
-                        // no op
-                    },
-                    error: function(xhr, textStatus, thrownError) {
-                        if (xhr.status == 404) {
-                            // we need to create the initial message store
-                            $.post(store, {"sling:resourceType":"sakai/messagestore"} );
-                        }
-                    }
-                });
-            }*/
             if (sakai_global.content_profile && sakai_global.content_profile.content_data){
                 currentSite = sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"];
                 contentPath = "/p/" + sakai_global.content_profile.content_data.path.split("/")[2];

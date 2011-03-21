@@ -187,12 +187,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (sectionObject.directory) {
                     sakai_global.profile.main.directory = sakai.api.User.parseDirectory(sakai_global.profile);
                     sakai_global.profile.main.data["locations"] = sakai_global.profile.main.directory;
-                    sections += sakai.api.Util.TemplateRenderer($profilesection_field_location_template, {
-                        "config": sectionObject,
-                        "data": sakai_global.profile.main.directory,
-                        "parentid": "0",
-                        sakai: sakai
-                    });
+                    if (sakai_global.profile.main.mode.value === "edit" || (sakai_global.profile.main.data["locations"].elements && sakai_global.profile.main.data["locations"].elements.length)){
+                        sections += sakai.api.Util.TemplateRenderer($profilesection_field_location_template, {
+                            "config": sectionObject,
+                            "data": sakai_global.profile.main.directory,
+                            "parentid": "0",
+                            sakai: sakai
+                        });
+                    }
                 } else if (sakai_global.profile.main.data[currentsection] === undefined || sakai_global.profile.main.data[currentsection].elements === undefined || sakai_global.profile.main.data[currentsection].elements.length === 0) {
                    if (sakai_global.profile.main.mode.value === "edit") {
                        sections = "<div class='profilesection_section' id='profilesection_section_0'>";
