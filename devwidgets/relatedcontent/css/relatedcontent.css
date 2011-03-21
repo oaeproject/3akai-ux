@@ -17,7 +17,7 @@
  */
 .relatedcontent{margin:0 10px 10px;padding:15px;border:1px solid #d4dade;overflow:hidden;}
 .relatedcontent .relatedcontent_title{color:#333;font-size:1.25em;font-weight:bold;padding:5px 0px;}
-.relatedcontent .relatedcontent_content{color:#333;padding:2px 0;display:table;}
+.relatedcontent .relatedcontent_content{color:#333;padding:2px 0;display:table;clear:both;}
 .relatedcontent .relatedcontent_content img{float:left;padding:5px 10px;width:30px;}
 .relatedcontent .relatedcontent_list{padding:5px 0;}
 .relatedcontent_content_right{display:table-cell;vertical-align:middle;}

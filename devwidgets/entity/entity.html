@@ -7,6 +7,158 @@
 <!-- ACTIONS CONTAINER -->
 <div id="entity_container_actions" style="display:none"><!-- --></div>
 
+<!-- DIALOG BOX FOR CONTENT PROFILE USERS -->
+<div id="entity_content_users_dialog" class="dialog" style="width:500px; margin-left: -200px">
+    <div class="dialog_header">
+        <div class="dialog_header_inner">
+        <h1 id="entity_content_users_dialog_heading"><!-- --></h1>
+        <button type="button" class="jqmClose dialog_close_image s3d-link-button s3d-action" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</button>
+        </div>
+    </div>
+
+    <div class="dialog_content">
+        <!-- CONTAINER -->
+        <div id="entity_content_users_dialog_list_container" style="display:none"><!-- --></div>
+
+        <!-- TEMPLATE -->
+        <div id="entity_content_users_dialog_list_template" style="display:none;"><!--
+            <ul class="entity_content_users_dialog_list">
+                {var userlist_places_index = 0}
+                {var userlist_people_index = 0}
+                {for i in userList}
+                    {if i['sakai:group-id'] && type === "places"}
+                        ${userlist_places_index++|eat}
+                        {if userlist_places_index%2} <li id="${i['sakai:group-id']}">
+                        {else} <li id="${i['sakai:group-id']}" class="entity_content_even">
+                        {/if}
+                        {if i.picture}
+                            <a href="/~${i['sakai:group-id']}" target="_blank"><img src="/~${i['sakai:group-id']}/public/profile/${i.picture.name}" alt="__MSG__GROUP_PICTURE_FOR__ ${i['sakai:group-title']}" class="entity_content_picture"/></a>
+                        {else}
+                            <a href="/~${i['sakai:group-id']}" target="_blank"><img src="/dev/images/group_avatar_icon_32x32.png" alt="__MSG__DEFAULT_GROUP_PICTURE__" class="entity_content_picture"/></a>
+                        {/if}
+                        <span class="entity_content_name">
+                            <a class="s3d-regular-links s3d-bold" href="/~${i['sakai:group-id']}" target="_blank">${i['sakai:group-title']}</a>
+                        </span>
+                    </li>
+                    {elseif i["rep:userId"] && type === "people"}
+                        ${userlist_people_index++|eat}
+                        {var displayName = unescape(sakai.api.User.getDisplayName(i))}
+                        {if !displayName}
+                            {var displayName = i.displayName}
+                        {/if}
+                        {if userlist_people_index%2} <li id="${i["rep:userId"]}">
+                        {else} <li id="${i["rep:userId"]}" class="entity_content_even">
+                        {/if}
+                        {if i.picture}
+                            <a href="/~${i["rep:userId"]}" target="_blank"><img src="/~${i["rep:userId"]}/public/profile/${i.picture.name}" alt="__MSG__PROFILE_PICTURE_FOR__ ${displayName}" class="entity_content_picture"/></a>
+                        {else}
+                            <a href="/~${i["rep:userId"]}" target="_blank"><img src="/dev/images/user_avatar_icon_32x32.png" alt="__MSG__DEFAULT_PROFILE_PICTURE__" class="entity_content_picture"/></a>
+                        {/if}
+                        <span class="entity_content_name">
+                            <a class="s3d-regular-links s3d-bold" href="/~${i["rep:userId"]}" target="_blank">${displayName}</a>
+                        </span>
+                    </li>
+                    {/if}
+                {/for}
+                {if type === "places" && userlist_places_index === 0}
+                    <div class="entity_content_list_empty">
+                        __MSG__NO_GROUPS_USING_CONTENT__
+                    </div>
+                {/if}
+            </ul>
+        --></div>
+
+        <div class="dialog_buttons fl-force-right">
+            <button type="button" class="s3d-button s3d-button-primary jqmClose"><span class="s3d-button-inner">__MSG__CLOSE__</span></button>
+        </div>
+        <hr class="fl-push fl-hidden">
+    </div>
+
+    <!-- DIALOG FOOTER -->
+    <div class="dialog_footer">
+        <div class="dialog_footer_inner"><!-- --></div>
+    </div>
+</div>
+
+<!-- DIALOG BOX FOR CONTENT PROFILE RECENT ACTIVITY -->
+<div id="entity_content_activity_dialog" class="dialog" style="width:500px; margin-left: -200px">
+    <div class="dialog_header">
+        <div class="dialog_header_inner">
+        <h1 id="entity_content_activity_dialog_heading">__MSG__WHATS_HAPPENING__</h1>
+        <button type="button" class="jqmClose dialog_close_image s3d-link-button s3d-action" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE__</button>
+        </div>
+    </div>
+
+    <div class="dialog_content">
+        <!-- CONTAINER -->
+        <div id="entity_content_activity_dialog_list_container" style="display:none"><!-- --></div>
+
+        <!-- TEMPLATE -->
+        <div id="entity_content_activity_dialog_list_template" style="display:none;"><!--
+            <ul class="entity_content_activity_dialog_list">
+                {var activitylist_index = 0}
+                {for i in results}
+                    ${activitylist_index++|eat}
+                    {var displayName = unescape(sakai.api.User.getDisplayName(i.actorProfile))}
+                    {if !displayName}
+                        {var displayName = i["sakai:activity-actor"]}
+                    {/if}
+                    <li id="${i["jcr:name"]}">
+                    {if i.actorProfile && i.actorProfile.picture}
+                        <a href="/~${i.actorProfile["rep:userId"]}" target="_blank"><img src="/~${i.actorProfile["rep:userId"]}/public/profile/${i.actorProfile.picture.name}" alt="__MSG__PROFILE_PICTURE_FOR__ ${displayName}" class="entity_content_picture"/></a>
+                    {elseif i.actorProfile && i.actorProfile["rep:userId"]}
+                        <a href="/~${i.actorProfile["rep:userId"]}" target="_blank"><img src="/dev/images/user_avatar_icon_32x32.png" alt="__MSG__DEFAULT_PROFILE_PICTURE__" class="entity_content_picture"/></a>
+                    {else}
+                        <a href="/~${i.actorProfile}" target="_blank"><img src="/dev/images/user_avatar_icon_32x32.png" alt="__MSG__DEFAULT_PROFILE_PICTURE__" class="entity_content_picture"/></a>
+                    {/if}
+                    <span class="entity_content_name">
+                        {if i.actorProfile && i.actorProfile["rep:userId"]}
+                            <a class="s3d-regular-links s3d-bold" href="/~${i.actorProfile["rep:userId"]}" target="_blank">${displayName}</a>
+                        {else}
+                            <a class="s3d-regular-links s3d-bold" href="/~${i["sakai:activity-actor"]}" target="_blank">${displayName}</a>
+                        {/if}
+                    </span>
+                    <br />
+                    <span class="entity_content_activity">
+                        ${i["sakai:activityMessage"]}
+                         - ${i.timeAgo}
+                    </span>
+                    </li>
+                {/for}
+                {if activitylist_index === 0}
+                    <div class="entity_content_list_empty">
+                        __MSG__NO_ACTIVITIES_FOUND__
+                    </div>
+                {/if}
+            </ul>
+        --></div>
+
+        <div class="dialog_buttons fl-force-right">
+            <button type="button" class="s3d-button s3d-button-primary jqmClose"><span class="s3d-button-inner">__MSG__CLOSE__</span></button>
+        </div>
+        <hr class="fl-push fl-hidden">
+    </div>
+
+    <!-- DIALOG FOOTER -->
+    <div class="dialog_footer">
+        <div class="dialog_footer_inner"><!-- --></div>
+    </div>
+</div>
+
+<!-- i18n MESSAGES -->
+<div id="entity_notifications" style="display:none">
+    <span id="entity_group_membership">__MSG__GROUP_MEMBERSHIP__</span>
+    <span id="entity_group_problem_removing">__MSG__PROBLEM_REMOVING_FROM_GROUP__</span>
+    <span id="entity_group_removal_successful">__MSG__SUCCESSFULLY_REMOVED_FROM_GROUP__</span>
+    <span id="entity_group_request_sent">__MSG__YOUR_REQUEST_HAS_BEEN_SENT__</span>
+    <span id="entity_group_problem_with_request">__MSG__PROBLEM_WITH_REQUEST__</span>
+    <span id="entity_group_problem_adding">__MSG__PROBLEM_ADDING_TO_GROUP__</span>
+    <span id="entity_group_adding_successful">__MSG__SUCCESSFULLY_ADDED_TO_GROUP__</span>
+    <span id="entity_content_places">__MSG__THE_FOLLOWING_GROUPS_USING_CONTENT__</span>
+    <span id="entity_content_poeple">__MSG__THE_FOLLOWING_PEOPLE_USING_CONTENT__</span>
+</div>
+
+<!-- TEMPLATES -->
 <div id="entity_container_template_myprofile"><!--
     <div class="fl-col entity_container_left">
         <div class="fl-force-left entity_picture">
@@ -49,13 +201,6 @@
         </div>
     </div>
     <div class="fl-col entity_container_right s3d-actions">
-        <form method="POST" action="#">
-            <select id="entity_profile_chatstatus" title="__MSG__CHAT_STATUS__">
-                <option value="online" {if data.profile.chatstatus === "online"}selected="selected"{/if}>__MSG__AVAILABLE_TO_CHAT__</option>
-                <option value="busy" {if data.profile.chatstatus === "busy"}selected="selected"{/if}>__MSG__BUSY__</option>
-                <option value="offline" {if data.profile.chatstatus === "offline"}selected="selected"{/if}>__MSG__OFFLINE__</option>
-            </select>
-        </form>
         {if data.profile && data.profile["sakai:tags"] && data.profile["sakai:tags"].length > 0}
             {var displayTags = false}
             {for s in data.profile["sakai:tags"]}
@@ -203,11 +348,12 @@
                         </button>
                     </div>
                     <div class="fl-force-left entity_content_used_by">
-                        <p class="entity_usedby">__MSG__USED_BY__
+                        <p class="entity_usedby">
+                            <span class="entity_info">__MSG__USED_BY__</span>
                             <button type="button" class="entity_content_people s3d-regular-light-links s3d-bold s3d-link-button">
                                 ${data.profile.usercount}
                                 {if data.profile.usercount === 1}__MSG__PERSON__{else}__MSG__PEOPLE__{/if}</button>
-                            __MSG__AND__
+                                <span class="entity_info">__MSG__AND__</span>
                             <button type="button" class="entity_content_group s3d-regular-light-links s3d-bold s3d-link-button">
                                 
                                 ${data.profile.groupcount}
@@ -366,157 +512,6 @@
         {/if}
     </div>
 --></div>
-
-<!-- DIALOG BOX FOR CONTENT PROFILE USERS -->
-<div id="entity_content_users_dialog" class="dialog" style="width:500px; margin-left: -200px">
-    <div class="dialog_header">
-        <div class="dialog_header_inner">
-        <h1 id="entity_content_users_dialog_heading"><!-- --></h1>
-        <button type="button" class="jqmClose dialog_close_image s3d-link-button s3d-action" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</button>
-        </div>
-    </div>
-
-    <div class="dialog_content">
-        <!-- CONTAINER -->
-        <div id="entity_content_users_dialog_list_container" style="display:none"><!-- --></div>
-
-        <!-- TEMPLATE -->
-        <div id="entity_content_users_dialog_list_template" style="display:none;"><!--
-            <ul class="entity_content_users_dialog_list">
-                {var userlist_places_index = 0}
-                {var userlist_people_index = 0}
-                {for i in userList}
-                    {if i['sakai:group-id'] && type === "places"}
-                        ${userlist_places_index++|eat}
-                        {if userlist_places_index%2} <li id="${i['sakai:group-id']}">
-                        {else} <li id="${i['sakai:group-id']}" class="entity_content_even">
-                        {/if}
-                        {if i.picture}
-                            <a href="/~${i['sakai:group-id']}" target="_blank"><img src="/~${i['sakai:group-id']}/public/profile/${i.picture.name}" alt="__MSG__GROUP_PICTURE_FOR__ ${i['sakai:group-title']}" class="entity_content_picture"/></a>
-                        {else}
-                            <a href="/~${i['sakai:group-id']}" target="_blank"><img src="/dev/images/group_avatar_icon_32x32.png" alt="__MSG__DEFAULT_GROUP_PICTURE__" class="entity_content_picture"/></a>
-                        {/if}
-                        <span class="entity_content_name">
-                            <a class="s3d-regular-links s3d-bold" href="/~${i['sakai:group-id']}" target="_blank">${i['sakai:group-title']}</a>
-                        </span>
-                    </li>
-                    {elseif i["rep:userId"] && type === "people"}
-                        ${userlist_people_index++|eat}
-                        {var displayName = unescape(sakai.api.User.getDisplayName(i))}
-                        {if !displayName}
-                            {var displayName = i.displayName}
-                        {/if}
-                        {if userlist_people_index%2} <li id="${i["rep:userId"]}">
-                        {else} <li id="${i["rep:userId"]}" class="entity_content_even">
-                        {/if}
-                        {if i.picture}
-                            <a href="/~${i["rep:userId"]}" target="_blank"><img src="/~${i["rep:userId"]}/public/profile/${i.picture.name}" alt="__MSG__PROFILE_PICTURE_FOR__ ${displayName}" class="entity_content_picture"/></a>
-                        {else}
-                            <a href="/~${i["rep:userId"]}" target="_blank"><img src="/dev/images/user_avatar_icon_32x32.png" alt="__MSG__DEFAULT_PROFILE_PICTURE__" class="entity_content_picture"/></a>
-                        {/if}
-                        <span class="entity_content_name">
-                            <a class="s3d-regular-links s3d-bold" href="/~${i["rep:userId"]}" target="_blank">${displayName}</a>
-                        </span>
-                    </li>
-                    {/if}
-                {/for}
-                {if type === "places" && userlist_places_index === 0}
-                    <div class="entity_content_list_empty">
-                        __MSG__NO_GROUPS_USING_CONTENT__
-                    </div>
-                {/if}
-            </ul>
-        --></div>
-
-        <div class="dialog_buttons fl-force-right">
-            <button type="button" class="s3d-button s3d-button-primary jqmClose"><span class="s3d-button-inner">__MSG__CLOSE__</span></button>
-        </div>
-        <hr class="fl-push fl-hidden">
-    </div>
-
-    <!-- DIALOG FOOTER -->
-    <div class="dialog_footer">
-        <div class="dialog_footer_inner"><!-- --></div>
-    </div>
-</div>
-
-<!-- DIALOG BOX FOR CONTENT PROFILE RECENT ACTIVITY -->
-<div id="entity_content_activity_dialog" class="dialog" style="width:500px; margin-left: -200px">
-    <div class="dialog_header">
-        <div class="dialog_header_inner">
-        <h1 id="entity_content_activity_dialog_heading">__MSG__WHATS_HAPPENING__</h1>
-        <button type="button" class="jqmClose dialog_close_image s3d-link-button s3d-action" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE__</button>
-        </div>
-    </div>
-
-    <div class="dialog_content">
-        <!-- CONTAINER -->
-        <div id="entity_content_activity_dialog_list_container" style="display:none"><!-- --></div>
-
-        <!-- TEMPLATE -->
-        <div id="entity_content_activity_dialog_list_template" style="display:none;"><!--
-            <ul class="entity_content_activity_dialog_list">
-                {var activitylist_index = 0}
-                {for i in results}
-                    ${activitylist_index++|eat}
-                    {var displayName = unescape(sakai.api.User.getDisplayName(i.actorProfile))}
-                    {if !displayName}
-                        {var displayName = i["sakai:activity-actor"]}
-                    {/if}
-                    <li id="${i["jcr:name"]}">
-                    {if i.actorProfile && i.actorProfile.picture}
-                        <a href="/~${i.actorProfile["rep:userId"]}" target="_blank"><img src="/~${i.actorProfile["rep:userId"]}/public/profile/${i.actorProfile.picture.name}" alt="__MSG__PROFILE_PICTURE_FOR__ ${displayName}" class="entity_content_picture"/></a>
-                    {elseif i.actorProfile && i.actorProfile["rep:userId"]}
-                        <a href="/~${i.actorProfile["rep:userId"]}" target="_blank"><img src="/dev/images/user_avatar_icon_32x32.png" alt="__MSG__DEFAULT_PROFILE_PICTURE__" class="entity_content_picture"/></a>
-                    {else}
-                        <a href="/~${i.actorProfile}" target="_blank"><img src="/dev/images/user_avatar_icon_32x32.png" alt="__MSG__DEFAULT_PROFILE_PICTURE__" class="entity_content_picture"/></a>
-                    {/if}
-                    <span class="entity_content_name">
-                        {if i.actorProfile && i.actorProfile["rep:userId"]}
-                            <a class="s3d-regular-links s3d-bold" href="/~${i.actorProfile["rep:userId"]}" target="_blank">${displayName}</a>
-                        {else}
-                            <a class="s3d-regular-links s3d-bold" href="/~${i["sakai:activity-actor"]}" target="_blank">${displayName}</a>
-                        {/if}
-                    </span>
-                    <br />
-                    <span class="entity_content_activity">
-                        ${i["sakai:activityMessage"]}
-                         - ${i.timeAgo}
-                    </span>
-                    </li>
-                {/for}
-                {if activitylist_index === 0}
-                    <div class="entity_content_list_empty">
-                        __MSG__NO_ACTIVITIES_FOUND__
-                    </div>
-                {/if}
-            </ul>
-        --></div>
-
-        <div class="dialog_buttons fl-force-right">
-            <button type="button" class="s3d-button s3d-button-primary jqmClose"><span class="s3d-button-inner">__MSG__CLOSE__</span></button>
-        </div>
-        <hr class="fl-push fl-hidden">
-    </div>
-
-    <!-- DIALOG FOOTER -->
-    <div class="dialog_footer">
-        <div class="dialog_footer_inner"><!-- --></div>
-    </div>
-</div>
-
-<!-- i18n MESSAGES -->
-<div id="entity_notifications" style="display:none">
-    <span id="entity_group_membership">__MSG__GROUP_MEMBERSHIP__</span>
-    <span id="entity_group_problem_removing">__MSG__PROBLEM_REMOVING_FROM_GROUP__</span>
-    <span id="entity_group_removal_successful">__MSG__SUCCESSFULLY_REMOVED_FROM_GROUP__</span>
-    <span id="entity_group_request_sent">__MSG__YOUR_REQUEST_HAS_BEEN_SENT__</span>
-    <span id="entity_group_problem_with_request">__MSG__PROBLEM_WITH_REQUEST__</span>
-    <span id="entity_group_problem_adding">__MSG__PROBLEM_ADDING_TO_GROUP__</span>
-    <span id="entity_group_adding_successful">__MSG__SUCCESSFULLY_ADDED_TO_GROUP__</span>
-    <span id="entity_content_places">__MSG__THE_FOLLOWING_GROUPS_USING_CONTENT__</span>
-    <span id="entity_content_poeple">__MSG__THE_FOLLOWING_PEOPLE_USING_CONTENT__</span>
-</div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/entity/javascript/entity.js"></script>

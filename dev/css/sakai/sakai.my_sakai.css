@@ -12,7 +12,7 @@ strong{color:#000;}
 /* WIDGET CONTAINER */
 #widgetscontainer .fl-widget{margin-top:1px;}
 #mysakai_edit_page{float:right;padding:10px;width:220px;}
-#mysakai_edit_page #mysakai_edit_page_container{float:right;}
+#mysakai_edit_page #mysakai_edit_page_container{float:right; margin-top:10px;}
 
 /** EDIT PAGE MENU **/
 #mysakai_edit_page .content_page_options .more_link{background:transparent url(/dev/images/more_bg_18.png) top left no-repeat;padding:1px 21px 2px 12px;}

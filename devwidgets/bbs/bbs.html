@@ -142,7 +142,7 @@
     {if settings.addtopic == true}
         <a href="javascript:;" id="bbs_add_new_topic" class="s3d-bold s3d-regular-links">__MSG__ADD_NEW_TOPIC__</a><span class="bbs_pipe_divider">|</span>
     {/if}
-    <a href="javascript:;" id="bbs_expand_all" class="s3d-bold s3d-regular-links bbs_expand_all">__MSG__EXPAND_ALL__</a>
+    <a href="javascript:;" id="bbs_expand_all" class="s3d-bold s3d-regular-links bbs_collapse_all">__MSG__COLLAPSE_ALL__</a>
     <hr class="bbs_horizontal_rule"/>
     {for topic in postData}
         <div id="bbs_post_${topic.post["sakai:id"]}" class="bbs_topic_container">

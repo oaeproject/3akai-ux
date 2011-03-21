@@ -18,8 +18,6 @@
 
 require(["jquery","sakai/sakai.api.core"], function($, sakai) {
     sakai_global._search = {};
-
-
     sakai_global.search = function(){
 
         /*
@@ -108,6 +106,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         finaljson.items[index].userid = item.target;
                         if (person.picture && $.parseJSON(person.picture).name) {
                             var picture = $.parseJSON(person.picture);
+                            finaljson.items[index].picture = "/~" + person["rep:userId"] + "/public/profile/" + picture.name;
+                        } else if (person.basic.elements.picture && $.parseJSON(person.basic.elements.picture.value).name) {
+                            var picture = $.parseJSON(person.basic.elements.picture.value);
                             finaljson.items[index].picture = "/~" + person["rep:userId"] + "/public/profile/" + picture.name;
                         }
                         if (sakai.api.User.getDisplayName(person) !== "") {
@@ -214,6 +215,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         if (person.picture && $.parseJSON(person.picture).name) {
                             var picture = $.parseJSON(person.picture);
                             finaljson.items[index].picture = "/~" + person["rep:userId"] + "/public/profile/" + picture.name;
+                        } else if (person.basic.elements.picture && $.parseJSON(person.basic.elements.picture.value).name) {
+                            var picture = $.parseJSON(person.basic.elements.picture.value);
+                            finaljson.items[index].picture = "/~" + person["rep:userId"] + "/public/profile/" + picture.name;
                         }
                         if (sakai.api.User.getDisplayName(person) !== "") {
                             finaljson.items[index].name = sakai.api.User.getDisplayName(person);
@@ -317,6 +321,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         finaljson.items[index].userid = item.target;
                         if (person.picture && $.parseJSON(person.picture).name) {
                             var picture = $.parseJSON(person.picture);
+                            finaljson.items[index].picture = "/~" + person["rep:userId"] + "/public/profile/" + picture.name;
+                        } else if (person.basic.elements.picture && $.parseJSON(person.basic.elements.picture.value).name) {
+                            var picture = $.parseJSON(person.basic.elements.picture.value);
                             finaljson.items[index].picture = "/~" + person["rep:userId"] + "/public/profile/" + picture.name;
                         }
                         if (sakai.api.User.getDisplayName(person) !== "") {
