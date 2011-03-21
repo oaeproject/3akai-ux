@@ -253,7 +253,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
                         arrPosts[i].replies[ii].post["sakai:body"] = arrPosts[i].replies[ii].post["sakai:body"].split(["[/quote]"])[1];
                     }
                 }
-                arrPosts[i].replies.reverse();
+                //arrPosts[i].replies.reverse();
             }
 
             // Render formatted posts
