@@ -407,20 +407,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
             // Show notification
             if (context !== "new_version") {
-                /* if (uploadedLink) {
-                 if (filesUploaded) {
-                 sakai.api.Util.notification.show($(fileUploadLinkUploaded, $rootel).html(), $(fileUploadLinkSuccessfullyUploaded, $rootel).html());
-                 } else {
-                 sakai.api.Util.notification.show("", $(fileUploadFilesNotUploaded, $rootel).html());
-                 }
-                 }
-                 else {
-                 if (filesUploaded) {
-                 sakai.api.Util.notification.show($(fileUploadFilesUploaded, $rootel).html(), $(fileUploadFilesSuccessfullyUploaded, $rootel).html());
-                 } else {
-                 sakai.api.Util.notification.show("", $(fileUploadFilesNotUploaded, $rootel).html());
-                 }
-                 } */
                 if (uploadedLink) {
                     sakai.api.Util.notification.show($(fileUploadLinkUploaded).html(), $(fileUploadLinkSuccessfullyUploaded).html());
                 }
