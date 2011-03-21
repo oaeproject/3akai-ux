@@ -398,7 +398,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             });
             handleHashChange();
 
-            if (sakai_global.entity && sakai_global.entity.isRendered) {
+            if (sakai_global.entity && sakai_global.entity.rendered) {
                 // check for share content tour in progress
                 setTimeout(function() {checkShareContentTour();}, 1000);
             } else {
