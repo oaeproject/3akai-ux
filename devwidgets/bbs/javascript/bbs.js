@@ -480,6 +480,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
                     }
                     topicData.results.push({"post": data.message, "replies": []});
                     showPosts(topicData, true);
+
+                    getWidgetSettings();
                 }
             });
         };
