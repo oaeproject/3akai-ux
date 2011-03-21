@@ -353,7 +353,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(messageFieldFrom).text(sakai.api.User.getDisplayName(me.profile));
 
                 // Depending on the allowOthers variable we show the appropriate input
-                if (allowOthers) {
+                // if we show the send message on dialog
+                // it cannot carry allowOthers value
+                // that is why check the class
+                if (allowOthers || $(messageMultipleToContainer).hasClass("visible")) {
+                    // remove unneccessary class
+                    $(messageMultipleToContainer).removeClass("visible");
                     // Enable multiple recipients
                     $(messageMultipleToContainer).show();
 
@@ -364,10 +369,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     } else {
                         $(messageMultipleLabel).text("To");
                     }
-
-                    // fetch user's contacts and associated groups and set up
-                    // autoSuggest field with this content
-                    autoSuggestContactsGroups();
                 }
                 else {
                     // We send this to a specific user.
@@ -424,6 +425,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 allowOthers = false;
                 if (allowOtherReceivers) {
                     allowOthers = allowOtherReceivers;
+                    // if we show the send message on dialog
+                    // it cannot carry allowOthers value
+                    // that is why add class
+                    $(messageMultipleToContainer).addClass("visible");
+
+                    // move here from loadmessage as autosuggest does not work for rss feed
+                    // on load
+                    // fetch user's contacts and associated groups and set up
+                    // autoSuggest field with this content
+                    autoSuggestContactsGroups();
                 }
 
                 // Putting the subject and body which have been send in the textboxes

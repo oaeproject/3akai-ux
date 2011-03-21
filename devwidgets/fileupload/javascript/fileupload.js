@@ -530,7 +530,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                                 "sakai:pooled-content-file-name": uploadedFiles[i].name,
                                 "sakai:directory": "default",
                                 "sakai:permissions": $fileUploadPermissionsSelect.val(),
-                                "sakai:copyright": $fileUploadCopyrightSelect.val()
+                                "sakai:copyright": $fileUploadCopyrightSelect.val(),
+                                "sakai:allowcomments":"true",
+                                "sakai:showcomments":"true"
                             }
                         };
                         batchDescriptionData[batchDescriptionData.length] = item3;
