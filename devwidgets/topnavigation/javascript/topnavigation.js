@@ -55,6 +55,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var topnavUserOptions = ".topnavigation_user_options";
         var topnavUserOptionsLogout = "#topnavigation_user_options_logout";
 
+        // Form
+        var topnavUserOptionsLoginForm = "#topnavigation_user_options_login_form"
+        var topnavUseroptionsLoginFieldsUsername = "#topnavigation_user_options_login_fields_username";
+        var topnavUseroptionsLoginFieldsPassword = "#topnavigation_user_options_login_fields_password";
+        var topnavuserOptionsLoginButtonLogin = "#topnavigation_user_options_login_button_login";
+        var topnavUserOptionsLoginButtonSigningIn = "#topnavigation_user_options_login_button_signing_in";
+        var topnavUserOptionsLoginButtonCancel = "#topnavigation_user_options_login_button_cancel";
 
         // Containers
         var topnavSearchResultsContainer = "#topnavigation_search_results_container";
@@ -62,6 +69,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var topnavUserInboxMessages = "#topnavigation_user_inbox_messages";
         var topnavUserOptionsName = "#topnavigation_user_options_name";
         var topnavUserContainer = ".topnavigation_user_container";
+        var topnavUserOptionsLoginFields = "#topnavigation_user_options_login_fields"
 
         // Templates
         var navTemplate = "navigation_template";
@@ -97,7 +105,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Show the login element
          */
         var showLogin = function(){
-            
+            if ($(topnavUserOptionsLoginFields).is(":visible")) {
+                $(topnavUserOptionsLoginFields).hide();
+            } else {
+                $(topnavUserOptionsLoginFields).show();
+            }
         };
 
         /**
@@ -377,7 +389,26 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             });
 
-            $(topnavUserOptions).bind("click", decideShowLoginLogout)
+            $(topnavUserOptions).bind("click", decideShowLoginLogout);
+
+            $(topnavUserOptionsLoginForm).submit(function(){
+                $(topnavUserOptionsLoginButtonSigningIn).show();
+                $(topnavUserOptionsLoginButtonCancel).hide();
+                $(topnavuserOptionsLoginButtonLogin).hide();
+                sakai.api.User.login({
+                    "username": $(topnavUseroptionsLoginFieldsUsername).val(),
+                    "password": $(topnavUseroptionsLoginFieldsPassword).val()
+                }, function(success){
+                    if (success) {
+                        window.location.href = window.location.href;
+                    } else {
+                        $(topnavUserOptionsLoginButtonSigningIn).hide();
+                        $(topnavUserOptionsLoginButtonCancel).show();
+                        $(topnavuserOptionsLoginButtonLogin).show();
+                    }
+                });
+                return false;
+            })
         }
 
 

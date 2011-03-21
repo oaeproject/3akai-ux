@@ -74,3 +74,14 @@
 .topnavigation_user_container .topnavigation_user .topnavigation_user_options:hover #topnavigation_user_options_name, .topnavigation_user .topnavigation_user_inbox:hover #topnavigation_user_inbox_messages, .topnavigation_user {color:#1F5B85;}
 .topnavigation_user_container #topnavigation_user_options_logout {background:url("/devwidgets/topnavigation/images/topnavigation_logout_box.png") no-repeat right top;height:25px;margin-left:-103px;margin-top: 25px;position: absolute;width: 99px;padding-top:8px;color:#424242;text-decoration:none;}
 .topnavigation_user_container #topnavigation_user_options_logout span{padding-left:12px;}
+#topnavigation_user_options_login_fields {margin-top: 6px; position: absolute; width: 241px; margin-left: -153px; z-index:999}
+#topnavigation_user_options_login_fields_top {height: 5px; background: url(/devwidgets/topnavigation/images/topnav_search_results_top.png) no-repeat scroll 0pt 0pt transparent;}
+#topnavigation_user_options_login_fields_container {background: url(/devwidgets/topnavigation/images/topnav_search_results_border.png) repeat-y scroll 0pt 0pt transparent; height: 75px;padding:0 12px;}
+#topnavigation_user_options_login_fields_bottom_container {background: url(/devwidgets/topnavigation/images/topnav_search_results_bottom_border.png) repeat-y scroll 0pt 0pt transparent; height: 28px; padding:4px 3px 0 12px;}
+#topnavigation_user_options_login_fields_bottom {background: url(/devwidgets/topnavigation/images/topnav_search_results_bottom.png) no-repeat scroll 0pt 0pt transparent; height: 8px;}
+#topnavigation_user_options_login_fields #topnavigation_user_options_login_form label{color: #424242;display: inline-block;margin-top: 3px;}
+#topnavigation_user_options_login_fields #topnavigation_user_options_login_form input{background: none repeat scroll 0 0 transparent;border: 1px solid #424242;float: right;height: 20px;width: 135px;}
+#topnavigation_user_options_login_fields .topnavigation_user_options_login_fields_section{clear:both;padding-top:10px;}
+#topnavigation_user_options_login_fields #topnavigation_user_options_login_button_login {float:right;}
+#topnavigation_user_options_login_button_cancel {color: #006E96 !important;margin-top:6px;}
+#topnavigation_user_options_login_button_signing_in {float:right; color: #424242;margin:6px 12px 0 0;}
