@@ -293,7 +293,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
                     var cookieData = $.parseJSON($.cookie(tuid));
                     // loop through the posts
                     for (var i in response.results) {
-                        if (response.results[i].post) {
+                        if (response.results[i].post && response.results[i].replies && response.results[i].replies.length) {
                             var postId = "bbs_post_" + response.results[i].post["sakai:id"];
                             if (!(cookieData && cookieData[postId] && cookieData[postId].option === "hide")){
                                 // expand the thread
@@ -544,6 +544,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
             }
 
             replyToTopic(topicId, message, $(this).parents(bbsTopicReplyContainer));
+
+            var $repliesIcon = replyParent.find(bbsRepliesIcon);
+            if ($repliesIcon.hasClass(bbsShowRepliesIcon)) {
+                // expand topic reply list
+                $("#bbs_post_" + topicId + " " + bbsShowTopicReplies, $rootel).click();
+            }
         };
 
         /**
@@ -705,6 +711,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
             });
 
             // REPLY TOPIC //
+            $(bbsShowTopicReplies, $rootel).die("click");
             $(bbsShowTopicReplies, $rootel).live("click",function(){
                 var $repliesIcon = $(this).children(bbsRepliesIcon);
                 var postId = $(this).parent().attr("id");
