@@ -542,6 +542,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
             }
 
             replyToTopic(topicId, message, $(this).parents(bbsTopicReplyContainer));
+
+            // expand topic reply list
+            $("#bbs_post_" + topicId + " " + bbsShowTopicReplies, $rootel).click();
         };
 
         /**
@@ -695,6 +698,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
             });
 
             // REPLY TOPIC //
+            $(bbsShowTopicReplies, $rootel).die("click");
             $(bbsShowTopicReplies, $rootel).live("click",function(){
                 var $repliesIcon = $(this).children(bbsRepliesIcon);
                 var postId = $(this).parent().attr("id");
