@@ -45,6 +45,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $listpeopleinnodeTitle = $("#listpeopleinnode_title");
         var $listpeopleinnodePeopleContainer = $("#listpeopleinnode_people_container");
 
+        var listpeopleinnodeMainLoadingProgress = "#listpeopleinnode_main_progress_loading";
+        var listpeopleinnodeMainProgress = "listpeopleinnode_main_progress";
+
         // Templates
         var listpeopleinnodeTitleTemplate = "listpeopleinnode_title_template";
         var listpeopleinnodePeopleTemplate = "listpeopleinnode_people_template";
@@ -65,6 +68,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if(success){
                 results.sakai = sakai;
                 $listpeopleinnodePeopleContainer.html(sakai.api.Util.TemplateRenderer(listpeopleinnodePeopleTemplate, results));
+                $(listpeopleinnodeMainLoadingProgress).removeClass(listpeopleinnodeMainProgress);
             }
         };
 
@@ -73,6 +77,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} selected
          */
         var searchUsersInNode = function(selected){
+            $(listpeopleinnodeMainLoadingProgress).addClass(listpeopleinnodeMainProgress);
+
             var params = {
                 page: 0,
                 items: 10,
