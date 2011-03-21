@@ -55,12 +55,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $activegroups_main.html(output).show();
         };
 
-        var handleHashChange = function() {
-            var selected = $.bbq.getState("location");
-            loadDataDirectory(selected, renderPopularGroups);
+        var handleHashChange = function(e, node) {
+            var selected = node || $.bbq.getState("location");
+            if (selected) {
+                loadDataDirectory(selected, renderPopularGroups);
+            }
         };
-
-        $(window).bind("hashchange", handleHashChange);
 
         var loadDataDirectory = function(selected, callback){
             var params = {
@@ -73,7 +73,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (selected === '*' || selected === '**') {
                 url = sakai.config.URL.SEARCH_GROUPS_ALL;
             } else {
-                params['q'] = selected;
+                params['q'] = "directory/" + selected;
             }
             $.ajax({
                 url: url,
@@ -105,6 +105,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             });
         };
+        
+        $(window).bind("hashchange nohash.browsedirectory.sakai", handleHashChange);
 
         var doInit = function(){
             if (! sakai.api.Widgets.isOnDashboard(tuid)){
