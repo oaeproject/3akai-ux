@@ -225,14 +225,16 @@
                             <div><span class="bbs_post_message">${reply.post["sakai:body"]}</span></div>
 
                             {if reply.post["sakai:deleted"] && reply.post["sakai:deleted"] == "true"}
-                                {if settings.addtopic}
-                                    <p class="bbs_deleted_reply_info">__MSG__THIS_REPLY_HAS_BEEN_DELETED_AND_CAN_ONLY_BE_SEEN_BY_YOU__</p>
-                                    <a href="javascript:;" class="bbs_restore s3d-bold s3d-regular-links">__MSG__RESTORE__</a>
-                                {elseif reply.post["sakai:from"] == settings.userid}
-                                    <p class="bbs_deleted_reply_info">__MSG__THIS_REPLY_HAS_BEEN_DELETED__ __MSG__CONTACT_ADMINISTRATOR_FOR_INFORMATION__</p>
-                                {else}
-                                    <p class="bbs_deleted_reply_info">__MSG__THIS_REPLY_HAS_BEEN_DELETED__</p>
-                                {/if}
+                                <span class="bbs_deleted_message">
+                                    {if settings.addtopic}
+                                        <p class="bbs_deleted_reply_info">__MSG__THIS_REPLY_HAS_BEEN_DELETED_AND_CAN_ONLY_BE_SEEN_BY_YOU__</p>
+                                        <a href="javascript:;" class="bbs_restore s3d-bold s3d-regular-links">__MSG__RESTORE__</a>
+                                    {elseif reply.post["sakai:from"] == settings.userid}
+                                        <p class="bbs_deleted_reply_info">__MSG__THIS_REPLY_HAS_BEEN_DELETED__ __MSG__CONTACT_ADMINISTRATOR_FOR_INFORMATION__</p>
+                                    {else}
+                                        <p class="bbs_deleted_reply_info">__MSG__THIS_REPLY_HAS_BEEN_DELETED__</p>
+                                    {/if}
+                                </span>
                             {else}
                                 {if settings.anon != true && settings.canreply == true}
                                     <span class="bbs_message_options">
