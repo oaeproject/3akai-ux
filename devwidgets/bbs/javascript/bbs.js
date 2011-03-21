@@ -123,6 +123,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
         // Delete
         var bbsDelete = ".bbs_delete";
         var bbsRestore = ".bbs_restore";
+        var bbsMessageOptions = ".bbs_message_options";
+        var bbsDeletedMessage = ".bbs_deleted_message";
 
         // Classes
         var bbsExpandAllClass = "bbs_expand_all";
@@ -565,6 +567,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
                         // Apply grey class
                         post.addClass(bbsDeletedReplyClass);
 
+                        // hide message option links
+                        $("#" + id + " " + bbsMessageOptions).hide();
+
                         // Remove/add links and information
                         post.find(bbsPostMessage).nextAll().remove();
                         post.find(bbsPostMessage).after(sakai.api.Util.TemplateRenderer(bbsDeletedPostActionsTemplate, {}));
@@ -575,6 +580,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
                     }else{
                         // Apply grey class
                         post.removeClass(bbsDeletedReplyClass);
+
+                        // hide message option links
+                        $("#" + id + " " + bbsMessageOptions).hide();
+                        $(bbsDeletedMessage).hide();
 
                         // Remove links
                         post.find(bbsPostingDate).next().remove();
