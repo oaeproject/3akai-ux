@@ -146,6 +146,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             // set up new jstree event bindings
             addJstreeBindings();
+            $(window).trigger("renderedbrowsedirectory", initiallySelect);
         };
 
         /**
