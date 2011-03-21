@@ -1394,6 +1394,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
                     "sakai:activityMessage": activityMessage
                 };
 
+                if (!sakai_global.content_profile.content_data.activity) {
+                    sakai_global.content_profile.content_data.activity = {
+                        "results": []
+                    };
+                }
                 sakai_global.content_profile.content_data.activity.results.push(activityObject);
                 setContentActivityData();
             });
