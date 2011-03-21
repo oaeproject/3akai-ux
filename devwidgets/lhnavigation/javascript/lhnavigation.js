@@ -47,6 +47,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var navSelectedItem = ".lhnavigation_selected_item";
 
 
+        ////////////////////
+        // UTIL FUNCTIONS //
+        ////////////////////
+
+        var showHideSubnav = function($el){
+            if ($el.hasClass("lhnavigation_hassubnav")) {
+                    if ($el.next().is(":visible")) {
+                        $el.next().hide();
+                    }
+                    else {
+                        $el.next().show();
+                    }
+            }
+        }
+
+
         /////////////////////
         // MENU NAVIGATION //
         /////////////////////
@@ -66,6 +82,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $clickedItem.removeClass(navHoverableItemClass);
             $clickedItem.addClass(navSelectedItemClass);
             $clickedItem.children(navSelectedItemArrow).css("visibility","visible");
+
+            showHideSubnav($clickedItem);
         };
 
 
@@ -81,11 +99,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (!$(this).hasClass(navSelectedItemClass)) {
                     selectNavItem($(this), $(navSelectedItem));
                 } else {
-                    if ($(navSelectedItem).children(".lhnavigation_selected_item_subnav").is(":visible")) {
-                        $(navSelectedItem).children(".lhnavigation_selected_item_subnav").hide();
-                    } else {
-                        $(navSelectedItem).children(".lhnavigation_selected_item_subnav").show();
-                    }
+                    showHideSubnav($(this));
                 }
             });
         };

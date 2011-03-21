@@ -26,6 +26,8 @@
 #lhnavigation_container ul li.lhnavigation_selected_item .lhnavigation_private{background:url("/dev/images/icons_sprite.png") no-repeat scroll -803px -21px transparent;}
 #lhnavigation_container ul li .lhnavigation_selected_item_arrow{height:25px; width:9px;background:url("/devwidgets/lhnavigation/images/lhnav_selected_item_arrow.png") no-repeat left top transparent;margin-left: 157px;margin-top: -20px;}
 #lhnavigation_container ul li.lhnavigation_selected_item .lhnavigation_has_subnav{background: url("/dev/images/icons_sprite.png") no-repeat scroll -882px -22px transparent;}
+#lhnavigation_container ul li.lhnavigation_selected_item a {color:#fff; text-decoration:none;font-weight:bold;}
+#lhnavigation_container ul li.lhnavigation_hassubnav{cursor:pointer;}
 
 #lhnavigation_container ul .lhnavigation_hoverable_item:hover{color:#1e5b85;cursor:pointer;}
 #lhnavigation_container ul .lhnavigation_hoverable_item:hover .lhnavigation_has_subnav{background: url("/dev/images/icons_sprite.png") no-repeat scroll -843px -21px transparent;}
