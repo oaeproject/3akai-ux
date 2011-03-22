@@ -57,8 +57,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var bindEvents = function() {
             // bind hashchange event.
             // that event is triggered when directory in browsedirectory widget is selected.
-            $(window).bind("hashchange nohash.browsedirectory.sakai", handleHashChange);
-            $(window).bind("renderedbrowsedirectory", handleHashChange);
+            $(window).bind("hashchange nohash.browsedirectory.sakai rendered.browsedirectory.sakai", handleHashChange);
         };
 
         doInit();
