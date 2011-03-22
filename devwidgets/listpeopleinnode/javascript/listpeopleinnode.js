@@ -83,7 +83,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (selected === "*" || selected === "**") {
                 searchURL = sakai.config.URL.SEARCH_USERS_ALL;
             } else {
-                params['q'] = selected;
+                params['q'] = "directory/" + selected;
             }
             $.ajax({
                 url: searchURL,

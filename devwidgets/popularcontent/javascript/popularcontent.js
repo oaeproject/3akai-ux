@@ -54,12 +54,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js"], func
             })).show();
         };
 
-        var handleHashChange = function() {
-            var selected = $.bbq.getState("location");
-            loadDataDirectory(selected, renderPopularContent);
+        var handleHashChange = function(e, node) {
+            var selected = node || $.bbq.getState("location");
+            if (selected) {
+                loadDataDirectory(selected, renderPopularContent);
+            }
         };
-
-        $(window).bind("hashchange", handleHashChange);
 
         var loadDataDirectory = function(selected, callback){
             var params = {
@@ -103,6 +103,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js"], func
                 }
             });
         };
+
+        $(window).bind("hashchange nohash.browsedirectory.sakai", handleHashChange);
 
         var doInit = function(){
             if (! sakai.api.Widgets.isOnDashboard(tuid)){
