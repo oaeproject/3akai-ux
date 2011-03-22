@@ -106,9 +106,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             //renderEntity(entityUserTemplate, {"type":"contact", "anon":anon});
             //addBinding("contact");
 
-            // Content's header
-            renderEntity(entityContentTemplate, {"type":"content", "anon":anon});
-            addBinding("content");
+            // Content not shared header
+            //renderEntity(entityContentTemplate, {"type":"content_not_shared", "anon":anon});
+            //addBinding("content_not_shared");
+
+            // Content shared header
+            //renderEntity(entityContentTemplate, {"type":"content_shared", "anon":anon});
+            //addBinding("content_shared");
+
+            // Content managed header
+            //renderEntity(entityContentTemplate, {"type":"content_managed", "anon":anon});
+            //addBinding("content_managed");
 
         };
 
