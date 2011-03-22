@@ -42,38 +42,66 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Buttons
         var entityUserCreateAndAdd = "#entity_user_create_and_add";
         var entityUserImage = "#entity_user_image";
+        var entityUserMessage = "#entity_user_message";
+        var entityUserAddToContacts = "#entity_user_add_to_contacts";
 
-        // Templates
-        var entityUserTemplate = "entity_user_template";
-
+        /**
+         * The 'context' variable can have the following values:
+         * - 'user_me' When the viewed user page is the current logged in user
+         * - 'user_other' When the viewed user page is a user that is not a contact
+         * - 'contact' When the viewed user page is one of a contact
+         * @param {String} context String defining the context of the entity widget
+         */
         var addBinding = function(context){
-            if(context === "user"){
-                $(entityUserCreateAndAdd).bind("click", function(){
-                    // Place create/add functionality
-                })
-
-                $(entityUserImage).bind("click", function(){
-                    if($(this).hasClass("entity_user_image_clicked")){
-                        $(this).removeClass("entity_user_image_clicked");
-                        $(entityUserDropdown).hide();
-                    }else{
-                        $(this).addClass("entity_user_image_clicked");
-                        $(entityUserDropdown).show();
-                    }
-                });
+            switch(context.type){
+                case "user_me":
+                    $(entityUserCreateAndAdd).bind("click", function(){
+                        // Place create/add functionality
+                    })
+                    $(entityUserImage).bind("click", function(){
+                        if($(this).hasClass("entity_user_image_clicked")){
+                            $(this).removeClass("entity_user_image_clicked");
+                            $(entityUserDropdown).hide();
+                        }else{
+                            $(this).addClass("entity_user_image_clicked");
+                            $(entityUserDropdown).show();
+                        }
+                    });
+                    break;
+                case "user_other":
+                    $(entityUserMessage).bind("click", function(){
+                        // Place message functionality
+                    });
+                    $(entityUserAddToContacts).bind("click", function(){
+                        // Place contacts functionality
+                    });
+                    break;
+                case "contact":
+                    $(entityUserMessage).bind("click", function(){
+                        // Place message functionality
+                    });
+                    break;
             }
-        }
+       }
 
         var renderEntity = function(context){
-            $(entityContainer).html(sakai.api.Util.TemplateRenderer("entity_" + context + "_template", {}));
+            $(entityContainer).html(sakai.api.Util.TemplateRenderer("entity_" + context.context + "_template", context));
         }
         
         var determineContext = function(){
             var context = "user";
+            //var context = "content";
+            var type = "user_me";
+            //var type = "user_other";
+            //var type = "contact";
+            //var type = "content_not_shared";
+            //var type = "content_shared";
+            //var type = "content_managed";
             if (document.location.pathname === "/dev/create_new_account2.html"){
                 context = "newaccount";
+                type = false;
             }
-            return context;
+            return {"context": context, "type": type, "anon": sakai.data.me.user.anon || false};
         }
 
         var doInit = function(){
@@ -81,7 +109,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             renderEntity(context);
             // Derived from the context we'll bind the correct elements
             addBinding(context);
-        };
+        }
 
         doInit();
 

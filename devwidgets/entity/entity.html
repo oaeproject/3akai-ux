@@ -4,29 +4,74 @@
 <div id="entity_container"><!-- --></div>
 
 <div id="entity_user_template" style="display:none"><!--
-    <button id="entity_user_create_and_add" class="s3d-button s3d-button-link-2-state" type="button">
-        <span class="s3d-button-inner s3d-button-link-2-state-inner">Create + Add</span>
-    </button>
-    <div id="entity_user_image" class="entity_user_image"></div>
-    <div id="entity_user_name" class="s3d-bold">Firstname Lastname</div>
-    <div id="entity_user_owns" class="s3d-regular-links">
+    <div id="entity_actions">
+        {if !anon}
+            {if type && type == "user_me"}
+                <button id="entity_user_create_and_add" class="s3d-button s3d-button-link-2-state" type="button">
+                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CREATE_AND_ADD__</span>
+                </button>
+            {elseif type && type == "contact" || type == "user_other"}
+                {if type == "user_other"}
+                    <button id="entity_user_add_to_contacts" class="s3d-button s3d-button-link-2-state" type="button">
+                        <div id="entity_add_icon"></div>
+                        <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ADD_TO_CONTACTS__</span>
+                    </button>
+                {/if}
+                <button id="entity_user_message" class="s3d-button s3d-button-link-2-state" type="button">
+                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__MESSAGE__</span>
+                </button>
+            {/if}
+        {/if}
+    </div>
+    <div id="entity_user_image" class="entity_user_image {if type && type == "user_me"} entity_user_image_pointer{/if} "></div>
+    <div id="entity_name" class="s3d-bold">Firstname Lastname</div>
+    <div id="entity_owns" class="s3d-regular-links">
         <span class="entity_number">(20)</span> <a href="#" title="20 Documents">Documents</a>,
         <span class="entity_number">(15)</span> <a href="#" title="15 Contacts">Contacts</a>,
         <span class="entity_number">(15)</span> <a href="#" title="15 Memberships">Memberships</a>
     </div>
-    <div class="entity_user_dropdown" style="display:none;">
-        <div class="entity_dropdown_tr"></div>
-        <div class="entity_dropdown_content">
-        <ul>
-            <li><a href="#" class="s3d-regular-links s3d-bold">__MSG__CHANGE_PICTURE__</a></li>
-        </ul>
+    {if type && type == "user_me"}
+        <div class="entity_user_dropdown" style="display:none;">
+            <div class="entity_dropdown_tr"></div>
+            <div class="entity_dropdown_content">
+                <ul>
+                    <li><a href="#" class="s3d-regular-links s3d-bold">__MSG__CHANGE_PICTURE__</a></li>
+                </ul>
+            </div>
+            <div class="entity_dropdown_bottom"></div>
         </div>
-        <div class="entity_dropdown_bottom"></div>
-    </div>
+    {/if}
 --></div>
 
 <div id="entity_newaccount_template" style="display:none"><!--
     <div id="entity_newaccount_name" class="s3d-bold">Create new account</div>
+--></div>
+
+<div id="entity_content_template" style="display:none"><!--
+    <div id="entity_actions">
+        {if !anon}
+            {if type && type == "content_not_shared"}
+                <button id="entity_content_add_to_content" class="s3d-button s3d-button-link-2-state" type="button">
+                    <div id="entity_add_icon"></div>
+                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ADD_TO_CONTENT__</span>
+                </button>
+            {elseif type && type == "content_managed"}
+                <button id="entity_content_permissions" class="s3d-button s3d-button-link-2-state" type="button">
+                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__PERMISSIONS__</span>
+                </button>
+            {/if}
+            <button id="entity_content_share" class="s3d-button s3d-button-link-2-state" type="button">
+                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__SHARE__</span>
+            </button>
+        {/if}
+    </div>
+    <div id="entity_content_image" class="entity_content_image {if type && type == "user_me"} entity_content_image_pointer{/if} "></div>
+    <div id="entity_name" class="s3d-bold">Document title</div>
+    <div id="entity_owns" class="s3d-regular-links">
+        <span class="entity_number">Used by (<a href="#" title="1 Person">1</a>)</span> <a href="#" title="1 Person">person</a> and 
+        <span class="entity_number">(<a href="#" title="0 Groups">0</a>)</span> <a href="#" title="0 Groups">groups</a>
+        <span class="entity_number entity_permissions_label">Visible to anyone with the link</span>
+    </div>
 --></div>
 
 <!-- JAVASCRIPT -->
