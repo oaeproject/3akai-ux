@@ -428,8 +428,11 @@ ul li.s3d-list-item:hover{background-color:#9CF;}
 
 
 /*
- * MIMETYPE ICONS
+ * ICONS
  */
+.s3d-icon-32{width:32px; height:32px;}
+.s3d-icon-64{width:64px; height:64px;}
+.s3d-icon-128{width:128px; height:128px;}
 .icon-doc-sprite{background:url(/dev/images/icons_sprite.png) no-repeat scroll -112px 0 transparent;}
 .icon-pdf-sprite{background:url(/dev/images/icons_sprite.png) no-repeat scroll -750px 0 transparent;}
 .icon-pps-sprite{background:url(/dev/images/icons_sprite.png) no-repeat scroll -463px 0 transparent;}

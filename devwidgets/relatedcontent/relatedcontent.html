@@ -29,13 +29,13 @@
                             <a href="/content#content_path=/p/${i['jcr:name']}" title="${i['sakai:pooled-content-file-name']}">
                                 {if (mimeType=="image/jpg" || mimeType=="image/png" || mimeType=="image/gif") && sakai.config.MimeTypes[mimeType]}
                                     {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
-                                    <img src="/p/${i['jcr:name']}" alt="${mimeTypeDescription}" />
+                                    <img class="s3d-icon-32" src="/p/${i['jcr:name']}" alt="${mimeTypeDescription}" />
                                 {elseif sakai.config.MimeTypes[mimeType]}
                                     {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
-                                    <img src="${sakai.config.MimeTypes[mimeType].URL}" alt="${mimeTypeDescription}" />
+                                    <img class="s3d-icon-32" src="${sakai.config.MimeTypes[mimeType].URL}" alt="${mimeTypeDescription}" />
                                 {else}
                                     {var mimeTypeDescription = sakai.config.MimeTypes["other"].description}
-                                    <img src="${sakai.config.MimeTypes["other"].URL}" alt="${mimeTypeDescription}" />
+                                    <img class="s3d-icon-32" src="${sakai.config.MimeTypes["other"].URL}" alt="${mimeTypeDescription}" />
                                 {/if}
                             </a>
                             <div class="relatedcontent_content_right">

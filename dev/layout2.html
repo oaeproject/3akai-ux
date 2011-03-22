@@ -10,7 +10,7 @@
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/main.css" />
 
         <!-- Sakai Page CSS -->
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.user.css" />
+        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.corev1.css" />
 
     </head>
     <body class="fl-centered show i18nable">
@@ -31,7 +31,9 @@
         <!-- HEADER -->
         <div class="fl-container-flex">
             <div class="fl-fix fl-centered fixed-container s3d-main-container">
-                <div class="s3d-page-full"><!----></div>
+                <div class="s3d-page-fullcolumn-padding">Content with padding</div>
+                <!-- <div class="s3d-page-fullcolumn-nopadding">Content without padding</div> -->
+                <div class="fl-push fl-widget"><!-- --></div>
             </div>
         </div>
 
@@ -42,7 +44,5 @@
         <!-- Dependency JS -->
         <script data-main="/dev/lib/sakai/sakai.dependencies.js" src="/dev/lib/jquery/require-jquery.js"></script>
 
-        <!-- GROUP JS -->
-        <script>require(["/dev/javascript/user.js"]);</script>
     </body>
 </html>

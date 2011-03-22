@@ -22,19 +22,24 @@
             <div class="fl-fix fl-centered fixed-container s3d-fixed-container">
                 <div class="s3d-decor-left"><!-- --></div>
                 <div class="s3d-decor"><!-- --></div>
-                <div class="s3d-page-header">
-                    <div id="widget_entity" class="widget_inline"></div>
-                </div>
+                <div class="s3d-page-header"><!----></div>
             </div>
         </div>
 
         <!-- HEADER -->
         <div class="fl-container-flex">
             <div class="fl-fix fl-centered fixed-container s3d-main-container">
-                <div class="s3d-page-column-left">
-                    <div id="widget_lhnavigation" class="widget_inline"></div>
+                <div class="s3d-page-fullcolumn-padding">
+                    <div class="fl-container-650 fl-force-left content_profile_left_column">
+                        <div id="widget_contentpreview" class="widget_inline"></div>
+                        <div id="widget_contentmetadata" class="widget_inline"></div>
+                        <div id="widget_contentcomments_id123456789" class="widget_inline"></div>
+                    </div>
+                    <div class="fl-container-250 fl-force-right">
+                        <div id="widget_relatedcontent" class="widget_inline"></div>
+                    </div>
+                    <div class="fl-push fl-widget"><!-- --></div>
                 </div>
-                <div class="s3d-page-column-right"><!----></div>
             </div>
         </div>
 
@@ -45,7 +50,7 @@
         <!-- Dependency JS -->
         <script data-main="/dev/lib/sakai/sakai.dependencies.js" src="/dev/lib/jquery/require-jquery.js"></script>
 
-        <!-- GROUP JS -->
-        <script>require(["/dev/javascript/user.js"]);</script>
+        <!-- Page JS -->
+        <script>require(["/dev/javascript/content_profile.js", "/devwidgets/video/jwplayer/swfobject.js"]);</script>
     </body>
 </html>
