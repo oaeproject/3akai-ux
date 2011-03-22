@@ -41,6 +41,7 @@ sakai_global.s23_site = function(){
     var s23GritterNotificationTitle = "#s23_gritter_notification_title";
     var s23GritterNotificationMessage = "#s23_gritter_notification_message";
     var s23GritterNotificationCancel = "#s23_gritter_notification_cancel";
+    var s23SiteIframeTitleResetClass = "s23_site_iframe_title_reset";
 
     // Templates
     var s23SiteIframeContainerTemplate = "s23_site_iframe_container_template";
@@ -127,13 +128,19 @@ sakai_global.s23_site = function(){
                     $(this).height($(this).contents().find("body").height() + 15); // add 10px for IE and 5px more for Gradebook weirdness
                 };
                 for (var tool in page.tools){
-                    if (page.tools.hasOwnProperty(tool)) {
+                    if (page.tools.hasOwnProperty(tool)) {                        
                         var iframe = $("#Main" + page.tools[tool].xid);
                         var srcUrl = sakai.config.SakaiDomain + "/portal/tool/" + page.tools[tool].url + "?panel=Main";
                         if(isSameOriginPolicy(window.location.href, srcUrl)) {
                             iframe.load(loadIframe);
                         }
                         iframe.attr("src", srcUrl);
+                        // The 'reset' tool <a> link, is overridden with the below event to reload the 
+                        // sites iframe with the fresh tool state URL generated in the template. 
+                        $("#reset-Main" + page.tools[tool].xid).click(function(ev){
+                            ev.preventDefault();
+                            $("#"+this.target).attr("src", this.href);
+                        }); 
                     }
                 }
             }
@@ -195,6 +202,7 @@ sakai_global.s23_site = function(){
             // Load the tools for a specific page
             loadPageTools(id);
         });
+
     };
 
     /**
