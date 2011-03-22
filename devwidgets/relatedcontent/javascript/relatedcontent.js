@@ -150,6 +150,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 success: ajaxSuccess,
                 error: ajaxError
             });
+            
         };
 
 

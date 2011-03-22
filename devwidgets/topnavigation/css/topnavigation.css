@@ -36,7 +36,7 @@
 .topnavigation_explore .navigation_link_dropdown .navigation_subnav_split {background-color: #D4D4D4;border: medium none;height: 1px;margin: 5px 9px;}
 
 /* SEARCH */
-.topnavigation_search {float:right;margin-top:10px;height: 22px;margin-right: 120px;}
+.topnavigation_search {float:right;margin-top:12px;height: 22px;margin-right: 120px;}
 .topnavigation_search {width:190px; background:url("/devwidgets/topnavigation/images/topnav_search.png") no-repeat;}
 .topnavigation_search #topnavigation_search_input{background:none repeat scroll 0 0 transparent;border: medium none;margin: 3px 0 0 7px;width: 145px;}
 .topnavigation_search #topnavigation_search_results {position: absolute; width:241px; margin-top:6px;}
@@ -60,7 +60,7 @@
 .topnavigation_search #topnavigation_search_results_bottom_container #topnavigation_search_results_bottom_top_border{border-top: 1px solid #D4D4D4;margin: -4px 0 0 -9px;width: 235px;}
 
 /* USER */
-.topnavigation_user_container {float:right; margin-top:10px;}
+.topnavigation_user_container {float:right; margin-top:12px;}
 .topnavigation_user_container .topnavigation_user_inbox{background:url("/devwidgets/topnavigation/images/topnav_dropdown.png") no-repeat; border-right:1px solid #B3B3B4; height:20px; float:left; padding:0 5px 0 30px;cursor:pointer;}
 .topnavigation_user_container .topnavigation_user_options {background:url("/devwidgets/topnavigation/images/topnav_dropdown.png") top right no-repeat; height:20px; float:left;padding:0 30px 0 7px;cursor: pointer;}
 .topnavigation_user_container .topnavigation_user_options #topnavigation_user_options_name, .topnavigation_user_container .topnavigation_user_inbox #topnavigation_user_inbox_messages, .topnavigation_user_container .topnavigation_user_options #topnavigation_user_options_login {font-size: 12px;margin-top: 2px;}
