@@ -236,13 +236,21 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
         var renderPosts = function(arrPosts){
             // Loop fetched posts and do markup
             for (var i = 0, j = arrPosts.length; i < j; i++) {
-                arrPosts[i].post.profile[0].picture = parsePicture(arrPosts[i].post["sakai:from"], arrPosts[i].post.profile[0].picture);
+                if (arrPosts[i].post.profile[0].basic && arrPosts[i].post.profile[0].basic.elements && arrPosts[i].post.profile[0].basic.elements.picture && arrPosts[i].post.profile[0].basic.elements.picture.value) {
+                    arrPosts[i].post.profile[0].picture = parsePicture(arrPosts[i].post["sakai:from"], arrPosts[i].post.profile[0].basic.elements.picture.value);
+                } else {
+                    arrPosts[i].post.profile[0].picture = parsePicture(arrPosts[i].post["sakai:from"], arrPosts[i].post.profile[0].picture);
+                }
                 arrPosts[i].post["sakai:created"] = sakai.api.l10n.transformDateTimeShort(parseDate(arrPosts[i].post["sakai:created"]));
                 if(arrPosts[i].post["sakai:editedOn"]){
                     arrPosts[i].post["sakai:editedOn"] = sakai.api.l10n.transformDateTimeShort(parseDate(arrPosts[i].post["sakai:editedOn"]));
                 }
                 for(var ii = 0, jj = arrPosts[i].replies.length; ii < jj; ii++){
-                    arrPosts[i].replies[ii].post.profile[0].picture = parsePicture(arrPosts[i].replies[ii].post["sakai:from"], arrPosts[i].replies[ii].post.profile[0].picture);
+                    if (arrPosts[i].replies[ii].post.profile[0].basic && arrPosts[i].replies[ii].post.profile[0].basic.elements && arrPosts[i].replies[ii].post.profile[0].basic.elements.picture && arrPosts[i].replies[ii].post.profile[0].basic.elements.picture.value) {
+                        arrPosts[i].replies[ii].post.profile[0].picture = parsePicture(arrPosts[i].replies[ii].post["sakai:from"], arrPosts[i].replies[ii].post.profile[0].basic.elements.picture.value);
+                    } else {
+                        arrPosts[i].replies[ii].post.profile[0].picture = parsePicture(arrPosts[i].replies[ii].post["sakai:from"], arrPosts[i].replies[ii].post.profile[0].picture);
+                    }
                     arrPosts[i].replies[ii].post["sakai:created"] = sakai.api.l10n.transformDateTimeShort(parseDate(arrPosts[i].replies[ii].post["sakai:created"]));
                     if(arrPosts[i].replies[ii].post["sakai:deletedOn"]){
                         arrPosts[i].replies[ii].post["sakai:deletedOn"] = sakai.api.l10n.transformDateTimeShort(parseDate(arrPosts[i].replies[ii].post["sakai:deletedOn"]));
