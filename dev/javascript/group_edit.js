@@ -189,10 +189,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
             if (listType === 'members') {
                 // get group members
-                url = "/system/userManager/group/" + groupid + ".members.detailed.json";
+                url = "/system/userManager/group/" + groupid + ".members.json";
             } else if (listType === 'managers') {
                 // get group managers
-                url = "/system/userManager/group/" + groupid + "-managers.members.detailed.json";
+                url = "/system/userManager/group/" + groupid + "-managers.members.json";
             } else if (listType === 'content') {
                 url = "/var/search/pool/files?group=" + groupid;
             }
