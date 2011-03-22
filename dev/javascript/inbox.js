@@ -607,6 +607,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             if (totalUnread < 0) {
                 totalUnread = 0;
             }
+            $("#chat_unreadMessages").text(totalUnread);
         };
 
         /**
@@ -655,15 +656,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
                     if (message["sakai:category"] === "message") {
                         unreadMessages -= 1;
+                    } else if (message["sakai:category"] === "invitation") {
+                        unreadInvitations -= 1;
+                    } else if (message["sakai:category"] === "announcement") {
+                        unreadAnnouncements -= 1;
                     }
-                    else
-                        if (message["sakai:category"] === "invitation") {
-                            unreadInvitations -= 1;
-                        }
-                        else
-                            if (message["sakai:category"] === "announcement") {
-                                unreadAnnouncements -= 1;
-                            }
 
                     updateUnreadNumbers();
 
