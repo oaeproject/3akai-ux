@@ -1296,7 +1296,7 @@ define(["jquery",
                                         case html4.atype.STYLE:
                                             var accept = ["color", "display", "background-color", "font-weight", "font-family",
                                                           "padding", "padding-left", "padding-right", "text-align", "font-style",
-                                                          "text-decoration", "border"];
+                                                          "text-decoration", "border", "visibility"];
                                             var sanitizedValue = "";
                                             if (value){
                                                 var vals = value.split(";");

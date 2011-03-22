@@ -85,7 +85,38 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             showHideSubnav($clickedItem);
         };
+        
+        
+        var renderData = function(structure, privstructure){
+            $("#lhnavigation_container").html(sakai.api.Util.TemplateRenderer("lhnavigation_template", {
+                "public": structure,
+                "private": privstructure
+            }));
+        };
+        
+        var includeChildCount = function(structure){
+            var childCount = 0;
+            for (var level in structure){
+                if (level && level.substring(0,1) !== "_"){
+                    childCount++;
+                    structure[level] = includeChildCount(structure[level]);
+                }
+            }
+            structure.childCount = childCount;
+            return structure;
+        }
 
+        var processData = function(data){
+            var structure = {};
+            structure.items = {};
+            if (data["structure0"]){
+                structure.items = $.parseJSON(data["structure0"]);
+                for (var level in structure.items){
+                    structure.items[level] = includeChildCount(structure.items[level]);
+                }
+            }
+            return structure;
+        };
 
         /////////////
         // BINDING //
@@ -108,15 +139,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         ////////////////////
         // INITIALISATION //
         ////////////////////
-
-        /**
-         * Initialization the navigation
-         */
-        var doInit = function () {
+        
+        var renderNavigation = function(pubdata, privdata){
+            var pubstructure = processData(pubdata);
+            var privstructure = processData(privdata);
+            renderData(pubstructure, privstructure);
             addBinding();
-        };
+        }
 
-        doInit();
+        $(window).bind("lhnav.init", function(e, pubdata, privdata){
+           renderNavigation(pubdata, privdata);
+        });
+        
+        $(window).trigger("lhnav.ready");
+        
     };
 
     sakai.api.Widgets.widgetLoader.informOnLoad("lhnavigation");

@@ -61,18 +61,26 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         $(entityUserDropdown).show();
                     }
                 });
-                
             }
         }
 
-        var renderEntity = function(template){
-            $(entityContainer).html(sakai.api.Util.TemplateRenderer(template, {}));
+        var renderEntity = function(context){
+            $(entityContainer).html(sakai.api.Util.TemplateRenderer("entity_" + context + "_template", {}));
+        }
+        
+        var determineContext = function(){
+            var context = "user";
+            if (document.location.pathname === "/dev/create_new_account2.html"){
+                context = "newaccount";
+            }
+            return context;
         }
 
         var doInit = function(){
-            renderEntity(entityUserTemplate);
+            var context = determineContext();
+            renderEntity(context);
             // Derived from the context we'll bind the correct elements
-            addBinding("user");
+            addBinding(context);
         };
 
         doInit();

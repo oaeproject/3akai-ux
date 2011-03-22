@@ -1,7 +1,7 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/lhnavigation/css/lhnavigation.css" />
 
-<div id="lhnavigation_container">
+<div id="reference" style="display:none">
     <ul id="lhnavigation_private_pages" class="lhnavigation_menu_list">
         <li class="lhnavigation_selected_item">
             <span class="s3d-bold">__MSG__MY_DASHBOARD__</span>
@@ -50,6 +50,63 @@
         </li>
     </ul>
 </div>
+ 
+
+<div id="lhnavigation_container">
+    
+</div>
+<div id="lhnavigation_template"><!--
+    <ul id="lhnavigation_private_pages" class="lhnavigation_menu_list">
+        {for level in private.items}
+            {if level.childCount > 1}
+                <li class="lhnavigation_hoverable_item lhnavigation_hassubnav">
+            <div class="lhnavigation_has_subnav"></div><span class="s3d-bold">${level._title}</span> <span class="s3d-bold" id="lhnavigation_message_count "></span>
+            <div class="lhnavigation_private"></div>
+            <div class="lhnavigation_selected_item_arrow" style="visibility:hidden;"></div>
+            </li>
+            <ul class="lhnavigation_subnav" style="display:none;">
+                {for sublevel in level}
+                    {if sublevel_index.substring(0,1) !== "_" && sublevel._title}
+                        <li class="lhnavigation_hoverable_item">
+                            <a href="#" title="${sublevel._title}" class="s3d-regular-links">${sublevel._title}</a><div style="visibility: hidden;" class="lhnavigation_selected_item_arrow"></div>
+                        </li>
+                    {/if}
+                {/for}
+            </ul>
+            {else}
+                <li class="lhnavigation_hoverable_item">
+                    <span class="s3d-bold">${level._title}</span>
+                    <div class="lhnavigation_private"></div>
+                    <div class="lhnavigation_selected_item_arrow" style="visibility:hidden;"></div>
+                </li>
+            {/if}
+        {/for}
+    </ul>
+    <ul id="lhnavigation_public_pages" class="s3d-bold lhnavigation_menu_list">  
+        {for level in public.items}
+            {if level.childCount > 1}
+                <li class="lhnavigation_hoverable_item lhnavigation_hassubnav">
+            <div class="lhnavigation_has_subnav"></div><span class="s3d-bold">${level._title}</span> <span class="s3d-bold" id="lhnavigation_message_count "></span>
+            <div class="lhnavigation_selected_item_arrow" style="visibility:hidden;"></div>
+            </li>
+            <ul class="lhnavigation_subnav" style="display:none;">
+                {for sublevel in level}
+                    {if sublevel_index.substring(0,1) !== "_" && sublevel._title}
+                        <li class="lhnavigation_hoverable_item">
+                            <a href="#" title="${sublevel._title}" class="s3d-regular-links">${sublevel._title}</a><div style="visibility: hidden;" class="lhnavigation_selected_item_arrow"></div>
+                        </li>
+                    {/if}
+                {/for}
+            </ul>
+            {else}
+                <li class="lhnavigation_hoverable_item">
+                    <span class="s3d-bold">${level._title}</span>
+                    <div class="lhnavigation_selected_item_arrow" style="visibility:hidden;"></div>
+                </li>
+            {/if}
+        {/for}
+    </ul>
+--></div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/lhnavigation/javascript/lhnavigation.js"></script>
