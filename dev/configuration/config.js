@@ -350,15 +350,6 @@ define(function() {
                                 "required": false,
                                 "display": true
                             },
-                            "dateofbirth": {
-                                "label": "__MSG__PROFILE_BASIC_DATEOFBIRTH_LABEL__",
-                                "required": false,
-                                "display": true,
-                                "type": "oldDate",
-                                // note that MM/DD/YYYY will be localized in javascript, so its value is simply a placeholder
-                                // ie do not change MM/DD/YYYY -- keep it in this string
-                                "example": "__MSG__DATE_OF_BIRTH_EXAMPLE__ MM/DD/YYYY __MSG__FORMAT__"
-                            },
                             "tags": {
                                 "label": "__MSG__TAGS__",
                                 "required": false,
@@ -956,7 +947,7 @@ define(function() {
          * are then required to call the sakai.api.Security.showPage
          * themselves
          */
-        requireProcessing: ["/dev/content_profile2.html", "/dev/content_profile.html", "/dev/group_edit.html", "/dev/show.html"],
+        requireProcessing: ["/dev/content_profile.html", "/dev/content_profile.html", "/dev/group_edit.html", "/dev/show.html"],
 
         showSakai2: false,
         useLiveSakai2Feeds: false,
