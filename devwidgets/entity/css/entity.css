@@ -27,9 +27,10 @@
 #entity_container .entity_user_dropdown .entity_dropdown_content{background: url("/devwidgets/entity/images/entity_list_border.png") repeat-y scroll right top transparent;}
 
 /* User */
-#entity_container .entity_user_image {width:93px; height:46px; background:url("/devwidgets/entity/images/entity_user_icon.png") no-repeat transparent;float:left;margin-right:15px;margin-top:-7px;cursor:pointer;}
+#entity_container .entity_user_image {width:63px;height:46px; background:url("/devwidgets/entity/images/entity_user_icon.png") no-repeat transparent;float:left;margin-right:15px;margin-top:-7px;}
+#entity_container .entity_user_image_pointer {cursor:pointer;width:93px;}
 #entity_container .entity_user_image_clicked {width:93px; height:46px; background:url("/devwidgets/entity/images/entity_user_icon_clicked.png") no-repeat transparent;float:left;margin-right:15px;margin-top:-7px;}
 #entity_container #entity_user_name {font-size: 18px;margin-bottom:2px;}
 #entity_container #entity_user_owns {font-size:11px;}
-#entity_container #entity_user_create_and_add {float:right;}
+#entity_container #entity_user_create_and_add, #entity_container #entity_user_message {float:right;}
 

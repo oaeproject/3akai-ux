@@ -4,25 +4,33 @@
 <div id="entity_container"><!-- --></div>
 
 <div id="entity_user_template" style="display:none"><!--
-    <button id="entity_user_create_and_add" class="s3d-button s3d-button-link-2-state" type="button">
-        <span class="s3d-button-inner s3d-button-link-2-state-inner">Create + Add</span>
-    </button>
-    <div id="entity_user_image" class="entity_user_image"></div>
+    {if type && type == "user"}
+        <button id="entity_user_create_and_add" class="s3d-button s3d-button-link-2-state" type="button">
+            <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CREATE_AND_ADD__</span>
+        </button>
+    {else}
+        <button id="entity_user_message" class="s3d-button s3d-button-link-2-state" type="button">
+            <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__MESSAGE__</span>
+        </button>
+    {/if}
+    <div id="entity_user_image" class="entity_user_image {if type && type == "user"} entity_user_image_pointer{/if} "></div>
     <div id="entity_user_name" class="s3d-bold">Firstname Lastname</div>
     <div id="entity_user_owns" class="s3d-regular-links">
         <span class="entity_number">(20)</span> <a href="#" title="20 Documents">Documents</a>,
         <span class="entity_number">(15)</span> <a href="#" title="15 Contacts">Contacts</a>,
         <span class="entity_number">(15)</span> <a href="#" title="15 Memberships">Memberships</a>
     </div>
-    <div class="entity_user_dropdown" style="display:none;">
-        <div class="entity_dropdown_tr"></div>
-        <div class="entity_dropdown_content">
-        <ul>
-            <li><a href="#" class="s3d-regular-links s3d-bold">__MSG__CHANGE_PICTURE__</a></li>
-        </ul>
+    {if type && type == "user"}
+        <div class="entity_user_dropdown" style="display:none;">
+            <div class="entity_dropdown_tr"></div>
+            <div class="entity_dropdown_content">
+                <ul>
+                    <li><a href="#" class="s3d-regular-links s3d-bold">__MSG__CHANGE_PICTURE__</a></li>
+                </ul>
+            </div>
+            <div class="entity_dropdown_bottom"></div>
         </div>
-        <div class="entity_dropdown_bottom"></div>
-    </div>
+    {/if}
 --></div>
 
 <!-- JAVASCRIPT -->

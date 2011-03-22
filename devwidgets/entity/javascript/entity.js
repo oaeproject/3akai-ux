@@ -42,37 +42,49 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Buttons
         var entityUserCreateAndAdd = "#entity_user_create_and_add";
         var entityUserImage = "#entity_user_image";
+        var entityUserMessage = "#entity_user_message";
 
         // Templates
         var entityUserTemplate = "entity_user_template";
 
         var addBinding = function(context){
-            if(context === "user"){
-                $(entityUserCreateAndAdd).bind("click", function(){
-                    // Place create/add functionality
-                })
+            switch(context){
+                case "user":
+                    $(entityUserCreateAndAdd).bind("click", function(){
+                        // Place create/add functionality
+                    })
 
-                $(entityUserImage).bind("click", function(){
-                    if($(this).hasClass("entity_user_image_clicked")){
-                        $(this).removeClass("entity_user_image_clicked");
-                        $(entityUserDropdown).hide();
-                    }else{
-                        $(this).addClass("entity_user_image_clicked");
-                        $(entityUserDropdown).show();
-                    }
-                });
-                
+                    $(entityUserImage).bind("click", function(){
+                        if($(this).hasClass("entity_user_image_clicked")){
+                            $(this).removeClass("entity_user_image_clicked");
+                            $(entityUserDropdown).hide();
+                        }else{
+                            $(this).addClass("entity_user_image_clicked");
+                            $(entityUserDropdown).show();
+                        }
+                    });
+                    break;
+                case "contact":
+                    $(entityUserMessage).bind("click", function(){
+                        // Place message functionality
+                    });
+                    break;
             }
         }
 
-        var renderEntity = function(template){
-            $(entityContainer).html(sakai.api.Util.TemplateRenderer(template, {}));
+        var renderEntity = function(template, data){
+            $(entityContainer).html(sakai.api.Util.TemplateRenderer(template, data));
         }
 
         var doInit = function(){
-            renderEntity(entityUserTemplate);
+            // Your user header
+            //renderEntity(entityUserTemplate, {});
+
+            // Contact's user header
+            renderEntity(entityUserTemplate, {"type":"contact"});
+
             // Derived from the context we'll bind the correct elements
-            addBinding("user");
+            addBinding("contact");
         };
 
         doInit();
