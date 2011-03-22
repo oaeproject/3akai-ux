@@ -642,8 +642,16 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
                 if (!cookieData) {
                     cookieData = {};
                 }
-                cookieData[postId] = {"option": option};
-                $.cookie(tuid, $.toJSON(cookieData));
+
+                // if the option is show then we remove the data for the post from the cookie, since it will show by default
+                if (option === "show") {
+                    delete cookieData[postId];
+                } else {
+                    cookieData[postId] = {
+                        "option": option
+                    };
+                }
+                $.cookie(tuid, $.toJSON(cookieData))
             }
         };
 
