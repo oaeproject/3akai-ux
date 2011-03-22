@@ -47,6 +47,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // Templates
         var entityUserTemplate = "entity_user_template";
+        var entityContentTemplate = "entity_content_template";
 
         /**
          * The 'context' variable can have the following values:
@@ -92,15 +93,23 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         }
 
         var doInit = function(){
-            // Your user header
-            //renderEntity(entityUserTemplate, {});
-
-            // Contact's user header
             var anon = sakai.data.me.user.anon || false;
-            renderEntity(entityUserTemplate, {"type":"user_other", "anon":anon});
+            // Your user header
+            //renderEntity(entityUserTemplate, {"type":"user_me", "anon":anon});
+            //addBinding("user_me");
 
-            // Derived from the context we'll bind the correct elements
-            addBinding("user_other");
+            // Other user's header
+            //renderEntity(entityUserTemplate, {"type":"user_other", "anon":anon});
+            //addBinding("user_other");
+
+            // Contact's header
+            //renderEntity(entityUserTemplate, {"type":"contact", "anon":anon});
+            //addBinding("contact");
+
+            // Content's header
+            renderEntity(entityContentTemplate, {"type":"content", "anon":anon});
+            addBinding("content");
+
         };
 
         doInit();
