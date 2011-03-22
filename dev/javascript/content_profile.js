@@ -362,7 +362,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     "tooltipTitle":"TOOLTIP_SHARE_CONTENT",
                     "tooltipDescription":"TOOLTIP_SHARE_CONTENT_P3",
                     "tooltipArrow":"top",
-                    "tooltipLeft":810,
+                    "tooltipLeft":820,
                     "tooltipTop":100
                 };
                 if (!sakai_global.tooltip || !sakai_global.tooltip.isReady) {
@@ -398,15 +398,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             });
             handleHashChange();
 
-            if (sakai_global.entity && sakai_global.entity.rendered) {
-                // check for share content tour in progress
-                setTimeout(function() {checkShareContentTour();}, 1000);
-            } else {
-                $(window).bind("rendered.entity.sakai", function(){
-                    // check for share content tour in progress
-                    setTimeout(function() {checkShareContentTour();}, 1000);
-                });
-            }
+            setTimeout(function() {checkShareContentTour();}, 1000);
         };
 
         // Initialise the content profile page
