@@ -37,7 +37,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // Containers
         var entityContainer = "#entity_container";
-        
+        var entityUserDropdown = ".entity_user_dropdown";
+
         // Buttons
         var entityUserCreateAndAdd = "#entity_user_create_and_add";
         var entityUserImage = "#entity_user_image";
@@ -48,16 +49,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var addBinding = function(context){
             if(context === "user"){
                 $(entityUserCreateAndAdd).bind("click", function(){
-                    alert("test");
+                    // Place create/add functionality
                 })
 
                 $(entityUserImage).bind("click", function(){
                     if($(this).hasClass("entity_user_image_clicked")){
                         $(this).removeClass("entity_user_image_clicked");
+                        $(entityUserDropdown).hide();
                     }else{
                         $(this).addClass("entity_user_image_clicked");
+                        $(entityUserDropdown).show();
                     }
-                })
+                });
+                
             }
         }
 
