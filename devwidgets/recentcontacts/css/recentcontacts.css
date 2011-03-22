@@ -1,0 +1,6 @@
+#recentcontacts_main{margin:0 10px 0 15px;overflow:hidden;}
+.recentcontacts_widget{overflow:hidden;}
+.recentcontacts_items {color:#333;padding:5px 0 10px;}
+.recentcontacts_items img {float: left;padding: 0 10px 10px 0;width: 35px;}
+.recentcontacts_name {margin:0;font-size:0.9em;}
+.recentcontacts_post a {font-size:.8em;color:#878A8C;}
