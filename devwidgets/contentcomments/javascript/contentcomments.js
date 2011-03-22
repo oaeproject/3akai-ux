@@ -226,8 +226,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     user.picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
                     user.uid = profile.userid;
                     // Check if the user has a picture
-                    if (profile.picture && $.parseJSON(profile.picture).name) {
-                        user.picture = "/~" + user.uid + "/public/profile/" + $.parseJSON(profile.picture).name;
+                    if (profile.basic.elements.picture && $.parseJSON(profile.basic.elements.picture.value).name) {
+                        user.picture = "/~" + user.uid + "/public/profile/" + $.parseJSON(profile.basic.elements.picture.value).name;
                     }
                     user.profile = "/~" + user.uid;
                 }
@@ -840,31 +840,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          * @param {Boolean} showSettings Show the settings of the widget or not
          */
         var doInit = function(){
-
-            // configure widget placement if on the content profile page
-            /*if (sakai_global.content_profile && sakai_global.content_profile.content_data && sakai.api.Widgets.widgetLoader.widgets[tuid].placement.substr(0,3) !== "/p/"){
-                sakai.api.Widgets.widgetLoader.widgets[tuid].placement = "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + "/_widgets/" + sakai.api.Widgets.widgetLoader.widgets[tuid].placement;
-            }
-
-            widgeturl = sakai.api.Widgets.widgetLoader.widgets[tuid] ? sakai.api.Widgets.widgetLoader.widgets[tuid].placement : false;
-
-            if (widgeturl) {
-                store = widgeturl + "/message";
-                $.ajax({
-                    url: widgeturl + ".0.json",
-                    type: "GET",
-                    dataType: "json",
-                    success: function(data){
-                        // no op
-                    },
-                    error: function(xhr, textStatus, thrownError) {
-                        if (xhr.status == 404) {
-                            // we need to create the initial message store
-                            $.post(store, {"sling:resourceType":"sakai/messagestore"} );
-                        }
-                    }
-                });
-            }*/
+            $(commentsEditorOptions).hide();
             if (sakai_global.content_profile && sakai_global.content_profile.content_data){
                 currentSite = sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"];
                 contentPath = "/p/" + sakai_global.content_profile.content_data.path.split("/")[2];
