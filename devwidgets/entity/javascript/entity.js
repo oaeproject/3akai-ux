@@ -96,7 +96,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             //renderEntity(entityUserTemplate, {});
 
             // Contact's user header
-            renderEntity(entityUserTemplate, {"type":"user_other"});
+            var anon = sakai.data.me.user.anon || false;
+            renderEntity(entityUserTemplate, {"type":"user_other", "anon":anon});
 
             // Derived from the context we'll bind the correct elements
             addBinding("user_other");

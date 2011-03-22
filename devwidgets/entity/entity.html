@@ -4,6 +4,7 @@
 <div id="entity_container"><!-- --></div>
 
 <div id="entity_user_template" style="display:none"><!--
+    {if !anon}
     {if type && type == "user_me"}
         <button id="entity_user_create_and_add" class="s3d-button s3d-button-link-2-state" type="button">
             <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CREATE_AND_ADD__</span>
@@ -18,6 +19,7 @@
         <button id="entity_user_message" class="s3d-button s3d-button-link-2-state" type="button">
             <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__MESSAGE__</span>
         </button>
+    {/if}
     {/if}
     <div id="entity_user_image" class="entity_user_image {if type && type == "user_me"} entity_user_image_pointer{/if} "></div>
     <div id="entity_user_name" class="s3d-bold">Firstname Lastname</div>
