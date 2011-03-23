@@ -488,7 +488,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
                     if (!topicData.results){
                         topicData.results = [];
                     }
-                    topicData.results.push({"post": data.message, "replies": []});
+                    topicData.results.unshift({"post": data.message, "replies": []});
                     showPosts(topicData, true);
 
                     getWidgetSettings();
