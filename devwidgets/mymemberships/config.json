@@ -1,0 +1,12 @@
+{
+    "description": "My Memberships",
+    "i18n": {
+        "default": "/devwidgets/mymemberships/bundles/default.properties"
+    },
+    "id": "mymemberships",
+    "name": "My Memberships",
+    "personalportal":true,
+    "type": "sakai",
+    "enabled": true,
+    "url":"/devwidgets/mymemberships/mymemberships.html",
+}
