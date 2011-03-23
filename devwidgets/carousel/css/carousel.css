@@ -1,0 +1,35 @@
+/*
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+
+/* General */
+#carousel_container {background-color:#ebeff1;padding:5px 12px;}
+#carousel_container h1, #carousel_container h2{color: #424242;font-size: 13px;}
+#carousel_container h1{margin-bottom:20px;}
+#carousel_container h2{color:#1D5888;}
+#carousel_container .carousel_content_comments, #carousel_container .carousel_content_description, #carousel_container .carousel_content_metadata {font-size:11px;}
+#carousel_container .carousel_content_description {color:#797979;margin-bottom: 10px;}
+#carousel_container .carousel_content_metadata {color:#424242;margin-bottom: 10px;}
+#carousel_container_tr{background: url("/devwidgets/carousel/images/carousel_tr.png") no-repeat scroll left top transparent;float: right;height: 7px;width: 7px;}
+#carousel_container_tl{background: url("/devwidgets/carousel/images/carousel_tl.png") no-repeat scroll left top transparent;height: 7px;}
+#carousel_container_br{background: url("/devwidgets/carousel/images/carousel_br.png") no-repeat scroll left top transparent;float: right;height: 7px;width: 7px;}
+#carousel_container_bl{background: url("/devwidgets/carousel/images/carousel_bl.png") no-repeat scroll left top transparent;height: 7px;}
+
+/* Single column specific */
+#carousel_container #carousel_single_column_content_preview{width:350px; height:197px; background:url("/devwidgets/carousel/images/carousel_video_image.png") no-repeat top left transparent;margin-right:12px;float:left;}
+
+/* Two column specific */

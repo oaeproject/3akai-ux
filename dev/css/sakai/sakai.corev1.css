@@ -1,5 +1,5 @@
 .s3d-page-column-left{float:left;width:185px;min-height:500px;background-color:#ebf0f7;border-right:solid #b3b3b4 1px; border-top:solid #d6dadd 1px;}
-.s3d-page-column-right{float:left;width:774px;min-height:100px;border-top:solid #d6dadd 1px;}
+.s3d-page-column-right{float:left;width:750px;min-height:100px;border-top:solid #d6dadd 1px;padding:12px;}
 .s3d-page-fullcolumn-nopadding{width:960px;min-height:100px;border-top:solid #d6dadd 1px;}
 .s3d-page-fullcolumn-padding{width:920px;min-height:100px;border-top:solid #d6dadd 1px; padding: 20px 20px 30px;}
 .s3d-page-full{height:100px;}

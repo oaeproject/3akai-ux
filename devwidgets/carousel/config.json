@@ -1,0 +1,18 @@
+{
+    "description":        "Carousel widget",
+    "enabled":            false,
+    "groupdashboard":     false,
+    "grouppages":         false,
+    "hasSettings":        true,
+    "i18n": {
+        "default":        "/devwidgets/carousel/bundles/default.properties"
+    },
+    "id":                 "carousel",
+    "name":               "Carousel",
+    "personalportal":     false,
+    "showinsakaigoodies": false,
+    "type":               "sakai",
+    "url":                "/devwidgets/carousel/carousel.html",
+    "userdashboard":      false,
+    "userpages":          false
+}
