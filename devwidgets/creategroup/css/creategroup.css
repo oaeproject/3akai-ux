@@ -21,8 +21,10 @@
 
 /* Container */
 #creategroup_container input[type="text"]{float:left;margin-top:10px;padding:0;}
+#creategroup_container input[type="text"]:focus {outline-width:0;}
 #creategroup_container #creategroup_add_name{width:370px;}
 #creategroup_container textarea{float:left;width:370px;margin-top:10px;}
+#creategroup_container textarea:focus{outline-width:0;}
 
 /* Add group */
 #creategroup_add_container label{clear:both;color:#000;float:left;font-weight:bold;margin:12px 10px 0 0;width:160px;text-align:right;}
