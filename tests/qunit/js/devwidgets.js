@@ -73,7 +73,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         "mycontacts",
         "mycontent",
         "mygroups",
-        "myprofile",
         "mysakai2",
         "navigation",
         "nextleveldown",
