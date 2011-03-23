@@ -43,6 +43,7 @@ sakai.s23_site = function(){
     var s23GritterNotificationTitle = "#s23_gritter_notification_title";
     var s23GritterNotificationMessage = "#s23_gritter_notification_message";
     var s23GritterNotificationCancel = "#s23_gritter_notification_cancel";
+    var s23SiteIframeTitleResetClass = "s23_site_iframe_title_reset";
 
     // Templates
     var s23SiteIframeContainerTemplate = "s23_site_iframe_container_template";
@@ -136,6 +137,12 @@ sakai.s23_site = function(){
                             iframe.load(loadIframe);
                         }
                         iframe.attr("src", srcUrl);
+                        // The 'reset' tool <a> link, is overridden with the below event to reload the 
+                        // sites iframe with the fresh tool state URL generated in the template. 
+                        $("#reset-Main" + page.tools[tool].xid).click(function(ev){
+                            ev.preventDefault();
+                            $("#"+this.target).attr("src", this.href);
+                        }); 
                     }
                 }
             }
