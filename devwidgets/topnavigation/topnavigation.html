@@ -138,7 +138,16 @@
     {else}
         <a href="/inbox" title="__MSG__INBOX__"><div class="topnavigation_user_inbox"><p id="topnavigation_user_inbox_messages" class="s3d-bold"></p></div></a>
         <div class="topnavigation_user_options"><p id="topnavigation_user_options_name" class="s3d-bold"></p></div>
-        <a href="/logout" id="topnavigation_user_options_logout" style="display:none;"><span>__MSG__SIGN_OUT__</span></a>
+        <div class="topnavigation_user_dropdown" style="display:none;">
+            <div class="topnavigation_user_dropdown_tr"></div>
+            <div class="topnavigation_user_dropdown_content">
+                <ul>
+                    <li><a href="/logout" class="s3d-regular-links s3d-bold">__MSG__SIGN_OUT__</a></li>
+                    <li><a href="/dev/account_preferences.html" class="s3d-regular-links s3d-bold">__MSG__MY_PREFERENCES__</a></li>
+                </ul>
+            </div>
+            <div class="topnavigation_user_dropdown_bottom"></div>
+        </div>
     {/if}
 --></div>
 

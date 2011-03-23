@@ -53,7 +53,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var hasSubnav = ".hassubnav";
         var topnavExplore = ".topnavigation_explore";
         var topnavUserOptions = ".topnavigation_user_options";
-        var topnavUserOptionsLogout = "#topnavigation_user_options_logout";
+        var topnavUserDropdown = ".topnavigation_user_dropdown";
 
         // Form
         var topnavUserOptionsLoginForm = "#topnavigation_user_options_login_form"
@@ -93,11 +93,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Show the logout element
          */
         var showLogout = function(){
-            if ($(topnavUserOptionsLogout).is(":visible")) {
-                $(topnavUserOptionsLogout).hide()
+            if ($(topnavUserDropdown).is(":visible")) {
+                $(topnavUserDropdown).hide()
             } else {
-                $(topnavUserOptionsLogout).show();
-                $(topnavUserOptionsLogout).css("display", "inline")
+                $(topnavUserDropdown).show();
+                $(topnavUserDropdown).css("display", "inline")
             }
         };
 
