@@ -569,6 +569,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
                 // expand topic reply list
                 $("#bbs_post_" + topicId + " " + bbsShowTopicReplies, $rootel).click();
             }
+            $(bbsTopicReplyQuotedUser, $rootel).text("");
         };
 
         /**
