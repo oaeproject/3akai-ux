@@ -763,7 +763,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
             $(bbsQuote, $rootel).live("click", function(){
                 var replyParent = $(this).parents(bbsTopicContainer);
                 var postId = replyParent[0].id.split("bbs_post_")[1];
-                sakai.api.Util.TemplateRenderer(bbsTopicReplyTemplate, {"edit":false, "quoted":true, "quotedUser":$(this).parents(s3dHighlightBackgroundClass).find(bbsPosterName).text(), "quotedMessage":$(this).prev().children(bbsPostMessage).text(), "postId": postId}, replyParent.children(bbsTopicReplyContainer));
+                sakai.api.Util.TemplateRenderer(bbsTopicReplyTemplate, {"edit":false, "quoted":true, "quotedUser":$(this).parents(s3dHighlightBackgroundClass).find(bbsPosterName).text(), "quotedMessage":$(this).parent().prev().children(bbsPostMessage).text(), "postId": postId}, replyParent.children(bbsTopicReplyContainer));
                 replyParent.children(bbsTopicReplyContainer).show();
                 replyParent.find(bbsTopicReplyText).focus();
             });
