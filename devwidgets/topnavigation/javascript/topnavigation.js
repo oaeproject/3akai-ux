@@ -70,6 +70,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var topnavUserOptionsName = "#topnavigation_user_options_name";
         var topnavUserContainer = ".topnavigation_user_container";
         var topnavUserOptionsLoginFields = "#topnavigation_user_options_login_fields"
+        var topnavUserOptionsLoginError = "#topnavigation_user_options_login_error";
 
         // Templates
         var navTemplate = "navigation_template";
@@ -395,6 +396,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(topnavUserOptionsLoginButtonSigningIn).show();
                 $(topnavUserOptionsLoginButtonCancel).hide();
                 $(topnavuserOptionsLoginButtonLogin).hide();
+                $(topnavUserOptionsLoginError).hide();
+                $(this).removeClass("topnavigation_user_options_login_sign_in_error_margin");
                 sakai.api.User.login({
                     "username": $(topnavUseroptionsLoginFieldsUsername).val(),
                     "password": $(topnavUseroptionsLoginFieldsPassword).val()
@@ -405,6 +408,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         $(topnavUserOptionsLoginButtonSigningIn).hide();
                         $(topnavUserOptionsLoginButtonCancel).show();
                         $(topnavuserOptionsLoginButtonLogin).show();
+                        $(topnavUserOptionsLoginForm).addClass("topnavigation_user_options_login_sign_in_error_margin");
+                        $(topnavUserOptionsLoginError).show();
                     }
                 });
                 return false;

@@ -57,7 +57,7 @@
 .topnavigation_search #topnavigation_search_results_container .topnavigation_group_private_icon {background:url("/dev/images/icons_sprite.png") no-repeat scroll -780px -21px transparent;}
 .topnavigation_search #topnavigation_search_results_bottom_container #topnavigation_search_results_bottom_content{display: block;padding-top: 9px; color:#636363; font-size: 11px;}
 .topnavigation_search #topnavigation_search_results_bottom_container #topnavigation_search_see_all{float:right; margin-top:3px}
-.topnavigation_search #topnavigation_search_results_bottom_container #topnavigation_search_results_bottom_top_border{border-top: 1px solid #D4D4D4;margin: -4px 0 0 -9px;width: 235px;}
+.topnavigation_search #topnavigation_search_results_bottom_container #topnavigation_search_results_bottom_top_border, #topnavigation_user_options_login_fields_bottom_container #topnavigation_user_options_login_fields_bottom_top_border{border-top: 1px solid #D4D4D4;margin: -4px 0 0 -9px;width: 235px;}
 
 /* USER */
 .topnavigation_user_container {float:right; margin-top:12px;}
@@ -74,15 +74,18 @@
 .topnavigation_user_container .topnavigation_user .topnavigation_user_options:hover #topnavigation_user_options_name, .topnavigation_user .topnavigation_user_inbox:hover #topnavigation_user_inbox_messages, .topnavigation_user {color:#1F5B85;}
 #topnavigation_user_options_login_fields {margin-top: 6px; position: absolute; width: 241px; margin-left: -153px; z-index:999}
 #topnavigation_user_options_login_fields_top {height: 5px; background: url(/devwidgets/topnavigation/images/topnav_search_results_top.png) no-repeat scroll 0pt 0pt transparent;}
-#topnavigation_user_options_login_fields_container {background: url(/devwidgets/topnavigation/images/topnav_search_results_border.png) repeat-y scroll 0pt 0pt transparent; height: 75px;padding:0 12px;}
-#topnavigation_user_options_login_fields_bottom_container {background: url(/devwidgets/topnavigation/images/topnav_search_results_bottom_border.png) repeat-y scroll 0pt 0pt transparent; height: 28px; padding:4px 3px 0 12px;}
+#topnavigation_user_options_login_fields_container {background: url(/devwidgets/topnavigation/images/topnav_search_results_border.png) repeat-y scroll 0pt 0pt transparent;padding:0 12px;}
+#topnavigation_user_options_login_fields_bottom_container {background: url(/devwidgets/topnavigation/images/topnav_search_results_bottom_border.png) repeat-y scroll 0pt 0pt transparent; height: 28px; padding:0px 3px 0 12px;}
 #topnavigation_user_options_login_fields_bottom {background: url(/devwidgets/topnavigation/images/topnav_search_results_bottom.png) no-repeat scroll 0pt 0pt transparent; height: 8px;}
 #topnavigation_user_options_login_fields #topnavigation_user_options_login_form label{color: #424242;display: inline-block;margin-top: 3px;}
 #topnavigation_user_options_login_fields #topnavigation_user_options_login_form input{background: none repeat scroll 0 0 transparent;border: 1px solid #424242;float: right;height: 20px;width: 135px;}
 #topnavigation_user_options_login_fields .topnavigation_user_options_login_fields_section{clear:both;padding-top:10px;}
 #topnavigation_user_options_login_fields #topnavigation_user_options_login_button_login {float:right;}
-#topnavigation_user_options_login_button_cancel {color: #006E96 !important;margin-top:6px;}
 #topnavigation_user_options_login_button_signing_in {float:right; color: #424242;margin:6px 12px 0 0;}
+.topnavigation_user_options_login_sign_in_error_margin #topnavigation_user_options_login_error + .topnavigation_user_options_login_fields_section{padding-top:30px;}
+.topnavigation_user_options_login_sign_in_error_margin input{border:2px solid #FFC7BF !important;}
+#topnavigation_user_options_login_fields_container .topnavigation_user_options_login_fields_section_push {margin-top:12px;}
+#topnavigation_user_options_login_fields_bottom_container #topnavigation_user_options_login_button{margin-top: 3px;}
 
 .topnavigation_user_container .topnavigation_user_dropdown{position:absolute;z-index:999;width:150px;margin-left:-148px;margin-top:25px;}
 .topnavigation_user_container .topnavigation_user_dropdown ul{margin:0; background-color:#fff;padding: 5px 0;background:url("/devwidgets/entity/images/entity_hover_list_border.png") repeat-y scroll 0 0 transparent;}
@@ -92,3 +95,12 @@
 .topnavigation_user_container .topnavigation_user_dropdown .topnavigation_user_dropdown_bottom{background: url("/devwidgets/topnavigation/images/topnav_user_list_bottom_border.png") no-repeat scroll -1px 0 transparent;height: 7px;}
 .topnavigation_user_container .topnavigation_user_dropdown .topnavigation_user_dropdown_tr{background: url("/devwidgets/topnavigation/images/topnav_user_list_top_border.png") no-repeat scroll right top transparent;height: 5px;}
 .topnavigation_user_container .topnavigation_user_dropdown .topnavigation_user_dropdown_content{background: url("/devwidgets/topnavigation/images/topnav_user_list_border.png") repeat-y scroll right top transparent;}
+
+#topnavigation_user_options_login_fields #topnavigation_user_options_login_error{height: 25px;margin-left: -9px;margin-top: -4px;position: absolute;width: 235px;}
+#topnavigation_user_options_login_fields #topnavigation_user_options_login_error #topnavigation_user_options_login_error_top{background: url("/devwidgets/topnavigation/images/topnav_login_error_top.png") no-repeat scroll 0 0 transparent;height: 4px;}
+#topnavigation_user_options_login_fields #topnavigation_user_options_login_error #topnavigation_user_options_login_error_content{background-color: #FFC7BF;padding: 2px 0;}
+#topnavigation_user_options_login_fields #topnavigation_user_options_login_error #topnavigation_user_options_login_error_content #topnavigation_user_options_login_error_icon{background: url("/dev/images/icons_sprite.png") repeat scroll 244px -21px transparent;float: left;height: 16px;width: 16px;margin-right: 10px;margin-left:5px;}
+#topnavigation_user_options_login_fields #topnavigation_user_options_login_error #topnavigation_user_options_login_error_content span {color:#424242;}
+#topnavigation_user_options_login_fields #topnavigation_user_options_login_error #topnavigation_user_options_login_error_bottom {background: url("/devwidgets/topnavigation/images/topnav_login_error_bottom.png") no-repeat scroll 0 0 transparent;height: 4px;}
+
+#topnavigation_user_options_login_fields #topnavigation_user_options_login_fields_container #topnavigation_user_options_login_forgotten{float:right; margin:10px 0;font-size: 11px;}
