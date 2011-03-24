@@ -32,14 +32,16 @@
 #entity_container #entity_add_icon{background: url("/dev/images/icons_sprite.png") no-repeat scroll -904px -21px transparent;height: 10px;left: 12px;position: absolute;top: 7px;width: 8px;z-index: 999;}
 #entity_container #entity_add_icon + span {padding-left: 23px;}
 #entity_container button:hover #entity_add_icon{background: url("/dev/images/icons_sprite.png") no-repeat scroll -924px -21px transparent}
+#entity_container .entity_plaintitle {font-size: 18px; margin-top: 8px; margin-left: 10px;}
+
+/* Directory */
+#entity_container #entity_directory_image {width:45px;float:left;margin-right:15px;margin-top:-14px;}
+#entity_container #entity_directory_image img {width:45px; height:45px;}
 
 /* User */
 #entity_container .entity_user_image {width:63px;height:46px; background:url("/devwidgets/entity/images/entity_user_icon.png") no-repeat transparent;float:left;margin-right:15px;margin-top:-7px;}
 #entity_container .entity_user_image_pointer {cursor:pointer;width:93px;}
 #entity_container .entity_user_image_clicked {width:93px; height:46px; background:url("/devwidgets/entity/images/entity_user_icon_clicked.png") no-repeat transparent;float:left;margin-right:15px;margin-top:-7px;}
-
-/* Create new account */
-#entity_container #entity_newaccount_name {font-size: 18px; margin-top: 8px; margin-left: 10px;}
 
 /* Content */
 #entity_container #entity_content_image {width:45px;height:62px; background:url("/devwidgets/entity/images/entity_content_icon.png") no-repeat transparent;float:left;margin-right:30px;margin-top:-14px;}

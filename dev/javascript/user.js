@@ -146,10 +146,19 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             $(window).trigger("lhnav.init", [pubdata, privdata]);
         }
         
+        var renderEntity = function(){
+            $(window).trigger("sakai.entity.init", ["user", "user_me"]);
+        }
+
+        $(window).bind("sakai.entity.ready", function(){
+            renderEntity(); 
+        });
+        
         $(window).bind("lhnav.ready", function(){
             generateNav();
         });
         
+        renderEntity();
         generateNav();
     
     };

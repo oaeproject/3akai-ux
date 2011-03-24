@@ -44,7 +44,22 @@
 --></div>
 
 <div id="entity_newaccount_template" style="display:none"><!--
-    <div id="entity_newaccount_name" class="s3d-bold">Create new account</div>
+    <div class="s3d-bold entity_plaintitle">Create new account</div>
+--></div>
+
+<div id="entity_acknowledgements_template" style="display:none"><!--
+    <div class="s3d-bold entity_plaintitle">Acknowledgements</div>
+--></div>
+
+<div id="entity_directory_template" style="display:none"><!--
+    <div id="entity_directory_image" class="entity_directory_image">
+        {if data.icon}
+            <img src="${data.icon}"/>
+        {else}
+            <img src="/dev/images/hierarchy.png"/>
+        {/if}
+    </div>
+    <div id="entity_name" class="s3d-bold entity_plaintitle">${data.title}</div>
 --></div>
 
 <div id="entity_content_template" style="display:none"><!--
