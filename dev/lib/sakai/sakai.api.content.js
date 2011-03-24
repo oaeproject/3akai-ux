@@ -207,6 +207,10 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
                 result = "https://picasaweb.google.com/data/feed/base/user/" + userId + "/album/" + albumName + "/photoid/" + photoId + "?alt=json";
             } else if (/youtube\.com$/.test(uri.host)) {
                 result = url;
+            } else if (/amazon\.com$/.test(uri.host)) {
+                var asin = uri.path.split("/");
+                asin = bookId[bookId.indexOf('dp')+1];
+                result = "http://kindleweb.s3.amazonaws.com/app/1.0.11.053.093655/KindleReaderApp.html?asin=" + asin + "&containerID=kindleReaderDiv59&tophostname=localhost&iframeName=kindleReaderIFrame1300121366106&dp=0";
             }
             return result;
         }
