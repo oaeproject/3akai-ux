@@ -286,10 +286,25 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
             // Loop through keys and call itself recursively for the next level if an object is found
             for (var i in i_object) {
                 if (i_object.hasOwnProperty(i) && $.isPlainObject(i_object[i])) {
-                  this.removeJCRObjects(i_object[i]);
+                  sakaiServerAPI.removeJCRObjects(i_object[i]);
                 }
             }
 
+        },
+
+        /**
+         * Removes any object created by the server
+         *
+         * @param {Object} the object to clean
+         */
+        removeServerCreatedObjects : function(obj) {
+            $.each(obj, function(key,val) {
+                if (key && key.indexOf && key.indexOf("_") === 0) {
+                    delete obj[key];
+                } else if ($.isPlainObject(obj[key]) || $.isArray(obj[key])) {
+                    sakaiServerAPI.removeServerCreatedObjects(obj[key]);
+                }
+            });
         },
 
         /**
