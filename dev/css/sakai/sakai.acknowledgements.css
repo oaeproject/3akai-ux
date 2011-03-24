@@ -26,7 +26,7 @@
 .acknowledgements_content a{color:#006E96;font-weight:bold;}
 
 /* Container */
-.acknowledgement_container .acknowledgement_information{float:right;width:460px;padding:10px;}
+.acknowledgement_container .acknowledgement_information{float:right;width:440px;padding:10px;}
 .acknowledgements .acknowledgement_image_container{float:left;width:200px;margin-right:10px;}
 .acknowledgements .acknowledgement_image_container img{float:right;margin:2px;}
 .acknowledgements_third_party{padding-bottom:10px;}
