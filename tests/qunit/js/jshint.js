@@ -151,7 +151,7 @@
 */
 
 /*jshint
- evil: true, nomen: false, onevar: false, regexp: false, strict: true, boss: true
+ evil: true, nomen: false, onevar: false, regexp: false, strict: false, boss: true
 */
 
 /*members "\b", "\t", "\n", "\f", "\r", "!=", "!==", "\"", "%",
@@ -159,10 +159,11 @@
  "(identifier)", "(last)", "(line)", "(loopage)", "(name)", "(onevar)",
  "(params)", "(scope)", "(statement)", "(verb)", "*", "+", "++", "-",
  "--", "\/", "<", "<=", "==", "===", ">", ">=", $, ADSAFE, __filename, __dirname,
- ActiveXObject, Array, Boolean, Buffer, COM, CScript, Canvas, CustomAnimation,
- Date, Debug, E, Enumerator, Error, EvalError, FadeAnimation, Flash,
- FormField, Frame, Function, HotKey, Image, JSON, LN10, LN2, LOG10E,
- LOG2E, MAX_VALUE, MIN_VALUE, Math, MenuItem, MoveAnimation,
+ ActiveXObject, Array, ArrayBuffer, ArrayBufferView, Boolean, Buffer, COM,
+ CScript, Canvas, CustomAnimation, DataView, Date, Debug, E, Enumerator,
+ Error, EvalError, FadeAnimation, Flash, Float32Array, Float64Array,
+ FormField, Frame, Function, HotKey, Image, Int16Array, Int32Array, Int8Array,
+ JSON, LN10, LN2, LOG10E, LOG2E, MAX_VALUE, MIN_VALUE, Math, MenuItem, MoveAnimation,
  NEGATIVE_INFINITY, Number, Object, Option, PI, POSITIVE_INFINITY, Point,
  RangeError, Rectangle, ReferenceError, RegExp, ResizeAnimation,
  RotateAnimation, SQRT1_2, SQRT2, ScrollBar, String, Style, SyntaxError,
@@ -170,12 +171,12 @@
  WScript, Web, Window, XMLDOM, XMLHttpRequest, "\\", a, abbr, acronym,
  activeborder, activecaption, addEventListener, address, adsafe, alert,
  aliceblue, all, animator, antiquewhite, appleScript, applet, apply,
- approved, appworkspace, aqua, aquamarine, area, arguments, arity,
- article, aside, audio, autocomplete, azure, b, background,
+ approved, appworkspace, applicationCache, aqua, aquamarine, area, arguments,
+ arity, article, asi, aside, audio, autocomplete, azure, b, background,
  "background-attachment", "background-color", "background-image",
  "background-position", "background-repeat", base, bdo, beep, beige, big,
  bisque, bitwise, black, blanchedalmond, block, blockquote, blue,
- blueviolet, blur, body, border, "border-bottom", "border-bottom-color",
+ blueviolet, blur, body, boolOptions, border, "border-bottom", "border-bottom-color",
  "border-bottom-style", "border-bottom-width", "border-collapse",
  "border-color", "border-left", "border-left-color", "border-left-style",
  "border-left-width", "border-right", "border-right-color",
@@ -190,22 +191,22 @@
  closeWidget, closed, closure, cm, code, col, colgroup, color, command,
  comment, condition, confirm, console, constructor, content,
  convertPathToHFS, convertPathToPlatform, coral, cornflowerblue,
- cornsilk, "counter-increment", "counter-reset", create, crimson, css, curly,
- cursor, cyan, d, darkblue, darkcyan, darkgoldenrod, darkgray, darkgreen,
- darkkhaki, darkmagenta, darkolivegreen, darkorange, darkorchid, darkred,
- darksalmon, darkseagreen, darkslateblue, darkslategray, darkturquoise,
+ cornsilk, couch, "counter-increment", "counter-reset", create, crimson,
+ css, curly, cursor, cyan, d, darkblue, darkcyan, darkgoldenrod, darkgray,
+ darkgreen, darkkhaki, darkmagenta, darkolivegreen, darkorange, darkorchid,
+ darkred, darksalmon, darkseagreen, darkslateblue, darkslategray, darkturquoise,
  darkviolet, data, datalist, dd, debug, decodeURI, decodeURIComponent,
  deeppink, deepskyblue, defaultStatus, defineClass, del, deserialize,
  details, devel, dfn, dialog, dimgray, dir, direction, display, div, dl,
- document, dodgerblue, dt, edition, else, em, embed, embossed, empty,
+ document, dodgerblue, dt, edition, else, em, embed, embossed, emit, empty,
  "empty-cells", encodeURI, encodeURIComponent, entityify, eqeqeq, errors,
  es5, escape, eval, event, evidence, evil, ex, exception, exec, exps, exports,
- fieldset, figure, filesystem, firebrick, first, float, floor,
+ fieldset, figure, filesystem, FileReader, firebrick, first, float, floor,
  floralwhite, focus, focusWidget, font, "font-family", "font-size",
  "font-size-adjust", "font-stretch", "font-style", "font-variant",
  "font-weight", footer, forestgreen, forin, form, fragment, frame,
  frames, frameset, from, fromCharCode, fuchsia, fud, funct, function,
- functions, g, gainsboro, gc, getComputedStyle, ghostwhite, GLOBAL, global,
+ functions, g, gainsboro, gc, getComputedStyle, getRow, ghostwhite, GLOBAL, global,
  globals, gold, goldenrod, gray, graytext, green, greenyellow, h1, h2,
  h3, h4, h5, h6, handheld, hasOwnProperty, head, header, height, help,
  hgroup, highlight, highlighttext, history, honeydew, hotpink, hr,
@@ -215,14 +216,14 @@
  init, input, ins, isAlpha, isApplicationRunning, isArray, isDigit,
  isFinite, isNaN, ivory, join, jshint, JSHINT, json, jquery, jQuery, kbd,
  keygen, keys, khaki, konfabulatorVersion, label, labelled, lang, last,
- lavender, lavenderblush, lawngreen, laxbreak, lbp, led, left, legend,
+ lavender, lavenderblush, lawngreen, laxbreak, latedef, lbp, led, left, legend,
  lemonchiffon, length, "letter-spacing", li, lib, lightblue, lightcoral,
  lightcyan, lightgoldenrodyellow, lightgreen, lightpink, lightsalmon,
  lightseagreen, lightskyblue, lightslategray, lightsteelblue,
  lightyellow, lime, limegreen, line, "line-height", linen, link,
  "list-style", "list-style-image", "list-style-position",
- "list-style-type", load, loadClass, location, log, m, magenta, map,
- margin, "margin-bottom", "margin-left", "margin-right", "margin-top",
+ "list-style-type", load, loadClass, localStorage, location, log, loopfunc, m, magenta,
+ map, margin, "margin-bottom", "margin-left", "margin-right", "margin-top",
  mark, "marker-offset", maroon, match, "max-height", "max-width", maxerr,
  maxlen, md5, mediumaquamarine, mediumblue, mediumorchid, mediumpurple,
  mediumseagreen, mediumslateblue, mediumspringgreen, mediumturquoise,
@@ -231,8 +232,8 @@
  moccasin, module, moveBy, moveTo, name, nav, navajowhite, navigator, navy, new,
  newcap, noarg, node, noempty, noframes, nomen, nonew, noscript, nud, object, ol,
  oldlace, olive, olivedrab, on, onbeforeunload, onblur, onerror, onevar,
- onfocus, onload, onresize, onunload, opacity, open, openURL, opener, opera,
- optgroup, option, orange, orangered, orchid, outer, outline, "outline-color",
+ onfocus, onload, onresize, onunload, opacity, open, openDatabase, openURL, opener,
+ opera, optgroup, option, orange, orangered, orchid, outer, outline, "outline-color",
  "outline-style", "outline-width", output, overflow, "overflow-x",
  "overflow-y", p, padding, "padding-bottom", "padding-left",
  "padding-right", "padding-top", "page-break-after", "page-break-before",
@@ -243,26 +244,26 @@
  prompt, prototype, pt, purple, push, px, q, quit, quotes, random, range,
  raw, reach, readFile, readUrl, reason, red, regexp, reloadWidget,
  removeEventListener, replace, report, require, reserved, resizeBy, resizeTo,
- resolvePath, resumeUpdates, rhino, right, rosybrown, royalblue, rp, rt,
- ruby, runCommand, runCommandInBg, saddlebrown, safe, salmon, samp,
+ resolvePath, resumeUpdates, respond, rhino, right, rosybrown, royalblue,
+ rp, rt, ruby, runCommand, runCommandInBg, saddlebrown, safe, salmon, samp,
  sandybrown, saveAs, savePreferences, screen, script, scroll, scrollBy,
- scrollTo, scrollbar, seagreen, seal, search, seashell, section, select,
+ scrollTo, scrollbar, seagreen, seal, search, seashell, section, send, select,
  serialize, setInterval, setTimeout, shift, showWidgetPreferences,
  sienna, silver, skyblue, slateblue, slategray, sleep, slice, small,
  snow, sort, source, span, spawn, speak, speech, split, springgreen, src,
- stack, status, steelblue, strict, strong, style, styleproperty, sub,
- substr, sup, supplant, suppressUpdates, sync, system, table,
+ stack, status, start, steelblue, strict, strong, style, styleproperty, sub,
+ substr, sum, sup, supplant, suppressUpdates, sync, system, shadow, table,
  "table-layout", tan, tbody, td, teal, tellWidget, test, "text-align",
  "text-decoration", "text-indent", "text-shadow", "text-transform",
  textarea, tfoot, th, thead, thistle, threeddarkshadow, threedface,
  threedhighlight, threedlightshadow, threedshadow, time, title,
  toLowerCase, toString, toUpperCase, toint32, token, tomato, top, tr, tt,
- tty, turquoise, tv, type, u, ul, undef, unescape, "unicode-bidi",
- unused, unwatch, updateNow, urls, value, valueOf, var, version,
- "vertical-align", video, violet, visibility, watch, wheat, white,
- "white-space", whitesmoke, widget, width, window, windowframe, windows,
- windowtext, "word-spacing", "word-wrap", yahooCheckLogin, yahooLogin,
- yahooLogout, yellow, yellowgreen, "z-index"
+ tty, turquoise, tv, type, Uint16Array, Uint32Array, Uint8Array, u, ul, undef,
+ unescape, "unicode-bidi", unused, unwatch, updateNow, urls, value, valueOf,
+ var, version, "vertical-align", video, violet, visibility, watch,
+ WebSocket, wheat, white, "white-space", whitesmoke, widget, width,
+ window, windowframe, windows, windowtext, Worker, "word-spacing", "word-wrap",
+ yahooCheckLogin, yahooLogin, yahooLogout, yellow, yellowgreen, "z-index"
 */
 
 /*global exports: false */
@@ -272,7 +273,10 @@
 // value is the JSHINT function itself.
 
 var JSHINT = (function () {
-    "use strict";
+    // "use strict"; TODO: This is temporary to make JSHint work in Fx4.
+    //                     Bigger problem here is that the library leaks its
+    //                     properties into the global scope due to incorrect
+    //                     usage of `this`.
 
     var adsafe_id,      // The widget's ADsafe id.
         adsafe_may,     // The widget may load approved scripts.
@@ -318,10 +322,12 @@ var JSHINT = (function () {
 
         boolOptions = {
             adsafe     : true, // if ADsafe should be enforced
+            asi        : true, // if automatic semicolon insertion should be tolerated
             bitwise    : true, // if bitwise operators should not be allowed
-            boss       : true, // if assignments inside if/for/while/do should be allowed
+            boss       : true, // if advanced usage of assignments and == should be allowed
             browser    : true, // if the standard browser globals should be predefined
             cap        : true, // if upper case HTML should be allowed
+            couch      : true, // if CouchDB globals should be predefined
             css        : true, // if CSS workarounds should be tolerated
             curly      : true, // if curly braces around blocks should be required (even in if/for/while)
             debug      : true, // if debugger statements should be allowed
@@ -333,7 +339,9 @@ var JSHINT = (function () {
             fragment   : true, // if HTML fragments should be allowed
             immed      : true, // if immediate invocations must be wrapped in parens
             jquery     : true, // if jQuery globals should be predefined
+            latedef    : true, // if the use before definition should not be tolerated
             laxbreak   : true, // if line breaks should not be checked
+            loopfunc   : true, // if functions should be allowed to be defined within loops
             newcap     : true, // if constructor names must be capitalized
             noarg      : true, // if arguments.caller and arguments.callee should be disallowed
             node       : true, // if the Node.js environment globals should be predefined
@@ -348,7 +356,8 @@ var JSHINT = (function () {
             rhino      : true, // if the Rhino environment globals should be predefined
             undef      : true, // if variables should be declared before used
             safe       : true, // if use of some browser features should be restricted
-            windows    : true, // if MS Windows-specigic globals should be predefined
+            shadow     : true, // if variable shadowing should be tolerated
+            windows    : true, // if MS Windows-specific globals should be predefined
             strict     : true, // require the "use strict"; pragma
             sub        : true, // if all forms of subscript notation are tolerated
             white      : true, // if strict whitespace rules apply
@@ -359,21 +368,32 @@ var JSHINT = (function () {
 // web browser environment.
 
         browser = {
+            ArrayBuffer     : false,
+            ArrayBufferView : false,
             addEventListener: false,
+            applicationCache: false,
             blur            : false,
             clearInterval   : false,
             clearTimeout    : false,
             close           : false,
             closed          : false,
+            DataView        : false,
             defaultStatus   : false,
             document        : false,
             event           : false,
+            FileReader      : false,
+            Float32Array    : false,
+            Float64Array    : false,
             focus           : false,
             frames          : false,
             getComputedStyle: false,
             history         : false,
+            Int16Array      : false,
+            Int32Array      : false,
+            Int8Array       : false,
             Image           : false,
             length          : false,
+            localStorage    : false,
             location        : false,
             moveBy          : false,
             moveTo          : false,
@@ -387,6 +407,7 @@ var JSHINT = (function () {
             onresize        : true,
             onunload        : true,
             open            : false,
+            openDatabase    : false,
             opener          : false,
             Option          : false,
             parent          : false,
@@ -402,8 +423,26 @@ var JSHINT = (function () {
             setTimeout      : false,
             status          : false,
             top             : false,
+            Uint16Array     : false,
+            Uint32Array     : false,
+            Uint8Array      : false,
+            WebSocket       : false,
             window          : false,
+            Worker          : false,
             XMLHttpRequest  : false
+        },
+
+        couch = {
+            "require" : false,
+            respond   : false,
+            getRow    : false,
+            emit      : false,
+            send      : false,
+            start     : false,
+            sum       : false,
+            log       : false,
+            exports   : false,
+            module    : false
         },
 
         cssAttributeData,
@@ -992,6 +1031,8 @@ var JSHINT = (function () {
         qx = /[^a-zA-Z0-9+\-_\/ ]/,
 // query characters for ids
         dx = /[\[\]\/\\"'*<>.&:(){}+=#]/,
+// catches /* falls through */ comments
+        ft = /^\s*\/\*\s*falls\sthrough\s*\*\/\s*$/,
 
         rx = {
             outer: hx,
@@ -1109,6 +1150,9 @@ var JSHINT = (function () {
     function assume() {
         if (option.safe)
             return;
+
+        if (option.couch)
+            combine(predefined, couch);
 
         if (option.rhino)
             combine(predefined, rhino);
@@ -1282,6 +1326,12 @@ var JSHINT = (function () {
                 } else {
                     lines = source;
                 }
+
+                // If the first line is a shebang (#!), remove it and move on.
+                // Shebangs are used by Node scripts.
+                if (lines[0] && lines[0].substr(0, 2) == '#!')
+                    lines.shift();
+
                 line = 0;
                 nextLine();
                 from = 1;
@@ -1954,16 +2004,21 @@ klass:                                  do {
 // Define t in the current function in the current scope.
 
         if (is_own(funct, t) && !funct['(global)']) {
-            warning(funct[t] === true ?
-                "'{a}' was used before it was defined." :
-                "'{a}' is already defined.",
-                nexttoken, t);
+            if (funct[t] === true) {
+                if (option.latedef)
+                    warning("'{a}' was used before it was defined.", nexttoken, t);
+            } else {
+                if (!option.shadow)
+                    warning("'{a}' is already defined.", nexttoken, t);
+            }
         }
+
         funct[t] = type;
         if (funct['(global)']) {
             global[t] = funct;
             if (is_own(implied, t)) {
-                warning("'{a}' was used before it was defined.", nexttoken, t);
+                if (option.latedef)
+                    warning("'{a}' was used before it was defined.", nexttoken, t);
                 delete implied[t];
             }
         } else {
@@ -2437,10 +2492,10 @@ loop:   for (;;) {
         return node &&
               ((node.type === '(number)' && +node.value === 0) ||
                (node.type === '(string)' && node.value === '') ||
+               (node.type === 'null' && !option.boss) ||
                 node.type === 'true' ||
                 node.type === 'false' ||
-                node.type === 'undefined' ||
-                node.type === 'null');
+                node.type === 'undefined');
     }
 
 
@@ -2546,27 +2601,35 @@ loop:   for (;;) {
     }
 
 
-    function optionalidentifier() {
+    // fnparam means that this identifier is being defined as a function
+    // argument (see identifier())
+    function optionalidentifier(fnparam) {
         if (nexttoken.identifier) {
             advance();
             if (option.safe && banned[token.value]) {
                 warning("ADsafe violation: '{a}'.", token, token.value);
             } else if (token.reserved && !option.es5) {
-                warning("Expected an identifier and instead saw '{a}' (a reserved word).",
-                        token, token.id);
+                // `undefined` as a function param is a common pattern to protect
+                // against the case when somebody does `undefined = true` and
+                // help with minification. More info: https://gist.github.com/315916
+                if (!fnparam || token.value != 'undefined') {
+                    warning("Expected an identifier and instead saw '{a}' (a reserved word).",
+                            token, token.id);
+                }
             }
             return token.value;
         }
     }
 
-
-    function identifier() {
-        var i = optionalidentifier();
+    // fnparam means that this identifier is being defined as a function
+    // argument
+    function identifier(fnparam) {
+        var i = optionalidentifier(fnparam);
         if (i) {
             return i;
         }
         if (token.id === 'function' && nexttoken.id === '(') {
-            warning("Missing name in function statement.");
+            warning("Missing name in function declaration.");
         } else {
             error("Expected an identifier and instead saw '{a}'.",
                     nexttoken, nexttoken.value);
@@ -2644,7 +2707,9 @@ loop:   for (;;) {
                 warning("Do not use 'new' for side effects.");
             }
             if (nexttoken.id !== ';') {
-                warningAt("Missing semicolon.", token.line, token.from + token.value.length);
+                if (!option.asi) {
+                    warningAt("Missing semicolon.", token.line, token.from + token.value.length);
+                }
             } else {
                 adjacent(token, nexttoken);
                 advance(';');
@@ -4184,9 +4249,14 @@ loop:   for (;;) {
 
 // The name is not defined in the function.  If we are in the global scope,
 // then we have an undefined variable.
+//
+// Operators typeof and delete do not raise runtime errors even if the base
+// object of a reference is null so no need to display warning if we're
+// inside of typeof or delete.
 
             } else if (funct['(global)']) {
-                if (option.undef && typeof predefined[v] !== 'boolean') {
+                if (anonname != 'typeof' && anonname != 'delete' &&
+                    option.undef && typeof predefined[v] !== 'boolean') {
                     warning("'{a}' is not defined.", token, v);
                 }
                 note_implied(token);
@@ -4219,7 +4289,11 @@ loop:   for (;;) {
                         warning("'{a}' is not allowed.", token, v);
                         note_implied(token);
                     } else if (typeof s !== 'object') {
-                        if (option.undef) {
+
+// Operators typeof and delete do not raise runtime errors even if the base object of
+// a reference is null so no need to display warning if we're inside of typeof or delete.
+
+                        if (anonname != 'typeof' && anonname != 'delete' && option.undef) {
                             warning("'{a}' is not defined.", token, v);
                         } else {
                             funct[v] = true;
@@ -4470,7 +4544,10 @@ loop:   for (;;) {
                         advance('(');
                         if (nexttoken.id === ')') {
                             warning("Use the array literal notation [].", token);
+                        } else {
+                            expression(0);
                         }
+
                         advance(')');
                     }
                     this.first = c;
@@ -4780,7 +4857,7 @@ loop:   for (;;) {
             return;
         }
         for (;;) {
-            i = identifier();
+            i = identifier(true);
             p.push(i);
             addlabel(i, 'parameter');
             if (nexttoken.id === ',') {
@@ -4851,7 +4928,7 @@ loop:   for (;;) {
                     t = nexttoken;
                     adjacent(token, nexttoken);
                     f = doFunction(i);
-                    if (funct['(loopage)']) {
+                    if (!option.loopfunc && funct['(loopage)']) {
                         warning("Don't make functions within a loop.", t);
                     }
                     p = f['(params)'];
@@ -4965,7 +5042,7 @@ loop:   for (;;) {
     blockstmt('function', function () {
         if (inblock) {
             warning(
-"Function statements should not be placed in blocks. Use a function expression or move the statement to the top of the outer function.", token);
+"Function declarations should not be placed in blocks. Use a function expression or move the statement to the top of the outer function.", token);
 
         }
         var i = identifier();
@@ -4974,7 +5051,7 @@ loop:   for (;;) {
         doFunction(i, true);
         if (nexttoken.id === '(' && nexttoken.line === token.line) {
             error(
-"Function statements are not invocable. Wrap the whole function invocation in parens.");
+"Function declarations are not invocable. Wrap the whole function invocation in parens.");
         }
         return this;
     });
@@ -4987,7 +5064,7 @@ loop:   for (;;) {
             nonadjacent(token, nexttoken);
         }
         doFunction(i);
-        if (funct['(loopage)']) {
+        if (!option.loopfunc && funct['(loopage)']) {
             warning("Don't make functions within a loop.");
         }
         return this;
@@ -5108,9 +5185,14 @@ loop:   for (;;) {
                 case 'throw':
                     break;
                 default:
-                    warning(
-                        "Expected a 'break' statement before 'case'.",
-                        token);
+                    // You can tell JSHint that you don't use break intentionally by
+                    // adding a comment /* falls through */ on a line just before
+                    // the next `case`.
+                    if (!ft.test(lines[nexttoken.line - 2])) {
+                        warning(
+                            "Expected a 'break' statement before 'case'.",
+                            token);
+                    }
                 }
                 indentation(-option.indent);
                 advance('case');
@@ -5127,9 +5209,11 @@ loop:   for (;;) {
                 case 'throw':
                     break;
                 default:
-                    warning(
-                        "Expected a 'break' statement before 'default'.",
-                        token);
+                    if (!ft.test(lines[nexttoken.line - 2])) {
+                        warning(
+                            "Expected a 'break' statement before 'default'.",
+                            token);
+                    }
                 }
                 indentation(-option.indent);
                 advance('default');
@@ -5205,7 +5289,7 @@ loop:   for (;;) {
     }());
 
     blockstmt('for', function () {
-        var f = option.forin, s, t = nexttoken;
+        var s, t = nexttoken;
         funct['(breakage)'] += 1;
         funct['(loopage)'] += 1;
         advance('(');
@@ -5232,7 +5316,7 @@ loop:   for (;;) {
             expression(20);
             advance(')', t);
             s = block(true, true);
-            if (!f && (s.length > 1 || typeof s[0] !== 'object' ||
+            if (option.forin && (s.length > 1 || typeof s[0] !== 'object' ||
                     s[0].value !== 'if')) {
                 warning("The body of a for in should be wrapped in an if statement to filter unwanted properties from the prototype.", this);
             }
@@ -5477,10 +5561,11 @@ loop:   for (;;) {
 
 // The actual JSHINT function itself.
 
-    var itself = function (s, o) {
+    var itself = function (s, o, g) {
         var a, i, k;
         JSHINT.errors = [];
         predefined = Object.create(standard);
+        combine(predefined, g || {});
         if (o) {
             a = o.predef;
             if (a) {
@@ -5499,22 +5584,23 @@ loop:   for (;;) {
                 o.safe = true;
             }
             if (o.safe) {
-                o.browser =
-                o.css     =
-                o.debug   =
-                o.devel   =
-                o.evil    =
-                o.forin   =
-                o.on      =
-                o.rhino   =
-                o.windows =
-                o.sub     =
-                o.widget  = false;
+                o.browser  =
+                o.css      =
+                o.debug    =
+                o.devel    =
+                o.evil     =
+                o.forin    =
+                o.loopfunc =
+                o.on       =
+                o.rhino    =
+                o.windows  =
+                o.sub      =
+                o.widget   = false;
 
-                o.eqeqeq  =
-                o.nomen   =
-                o.safe    =
-                o.undef   = true;
+                o.eqeqeq   =
+                o.nomen    =
+                o.safe     =
+                o.undef    = true;
 
                 predefined.Date =
                 predefined['eval'] =
@@ -5854,7 +5940,7 @@ loop:   for (;;) {
     };
     itself.jshint = itself;
 
-    itself.edition = '2011-02-19';
+    itself.edition = '2011-03-01';
 
     return itself;
 
