@@ -50,7 +50,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         "dataType":"json"
                     },
                     {
-                        "url": content_path + ".members.detailed.json",
+                        "url": content_path + ".members.json",
                         "method":"GET",
                         "cache":false,
                         "dataType":"json"
