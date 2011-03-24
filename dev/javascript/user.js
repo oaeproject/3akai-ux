@@ -52,7 +52,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 }
             },
         	"267187828": {
-        		"page": "My Dashboard HTML fragment"
+        		"page": "<div id='widget_carousel' class='widget_inline'></div>"
         	},
         	"1165301022": {
         		"page": "Inbox HTML fragment"

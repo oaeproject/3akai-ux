@@ -112,8 +112,16 @@
         <div class="topnavigation_user_options_login_left" id="topnavigation_user_options_login"><div class="topnavigation_user_options topnavigation_user_options_login_right"><p id="topnavigation_user_options_login" class="s3d-bold">__MSG__SIGN_IN__</p></div></div>
         <div id="topnavigation_user_options_login_fields" style="display:none;">
             <div id="topnavigation_user_options_login_fields_top"> </div>
-            <form id="topnavigation_user_options_login_form" method="post">
+            <form id="topnavigation_user_options_login_form" method="POST">
                 <div id="topnavigation_user_options_login_fields_container">
+                    <div id="topnavigation_user_options_login_error" style="display:none;">
+                        <div id="topnavigation_user_options_login_error_top"></div>
+                        <div id="topnavigation_user_options_login_error_content">
+                            <div id="topnavigation_user_options_login_error_icon"></div>
+                            <span>__MSG__INVALID_USERNAME_OR_PASSWORD__</span>
+                        </div>
+                        <div id="topnavigation_user_options_login_error_bottom"></div>
+                    </div>
                     <div class="topnavigation_user_options_login_fields_section">
                         <input type="text" alt="__MSG__USERNAME__" maxlength="255" id="topnavigation_user_options_login_fields_username" name="topnav_login_username" class="login-container-textfield" tabindex="1"/>
                         <label for="topnavigation_user_options_login_fields_username">__MSG__USERNAME__</label>
@@ -122,14 +130,16 @@
                         <input type="password" alt="__MSG__PASSWORD__" maxlength="255" id="topnavigation_user_options_login_fields_password" name="topnav_login_password" class="login-container-textfield" tabindex="2" />
                         <label for="topnavigation_user_options_login_fields_password">__MSG__PASSWORD__</label>
                     </div>
+                    <button type="button" id="topnavigation_user_options_login_forgotten" class="s3d-link-button" style="display:none;">__MSG__FORGOTTEN_YOUR_USERNAME_OR_PASSWORD__?</button>
+                    <hr class="fl-hidden fl-push topnavigation_user_options_login_fields_section_push"/>
                 </div>
                 <div id="topnavigation_user_options_login_fields_bottom_container">
+                    <div id="topnavigation_user_options_login_fields_bottom_top_border"></div>
                     <div id="topnavigation_user_options_login_button">
                         <button id="topnavigation_user_options_login_button_login" type="submit" class="s3d-button s3d-button-light-gray-square" tabindex="3">
                             <span class="s3d-button-inner">__MSG__SIGN_IN__</span>
                         </button>
                         <span id="topnavigation_user_options_login_button_signing_in" style="display:none;">__MSG__SIGNING_IN__</span>
-                        <a href="#" class="s3d-link-button" id="topnavigation_user_options_login_button_cancel">__MSG__CANCEL__</a>
                     </div>
                 </div>
                 <div id="topnavigation_user_options_login_fields_bottom"> </div>
@@ -138,7 +148,16 @@
     {else}
         <a href="/inbox" title="__MSG__INBOX__"><div class="topnavigation_user_inbox"><p id="topnavigation_user_inbox_messages" class="s3d-bold"></p></div></a>
         <div class="topnavigation_user_options"><p id="topnavigation_user_options_name" class="s3d-bold"></p></div>
-        <a href="/logout" id="topnavigation_user_options_logout" style="display:none;"><span>__MSG__SIGN_OUT__</span></a>
+        <div class="topnavigation_user_dropdown" style="display:none;">
+            <div class="topnavigation_user_dropdown_tr"></div>
+            <div class="topnavigation_user_dropdown_content">
+                <ul>
+                    <li><a href="/dev/account_preferences.html" class="s3d-regular-links s3d-bold">__MSG__MY_PREFERENCES__</a></li>
+                    <li><a href="/logout" class="s3d-regular-links s3d-bold">__MSG__SIGN_OUT__</a></li>
+                </ul>
+            </div>
+            <div class="topnavigation_user_dropdown_bottom"></div>
+        </div>
     {/if}
 --></div>
 

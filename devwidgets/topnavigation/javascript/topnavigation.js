@@ -53,7 +53,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var hasSubnav = ".hassubnav";
         var topnavExplore = ".topnavigation_explore";
         var topnavUserOptions = ".topnavigation_user_options";
-        var topnavUserOptionsLogout = "#topnavigation_user_options_logout";
+        var topnavUserDropdown = ".topnavigation_user_dropdown";
 
         // Form
         var topnavUserOptionsLoginForm = "#topnavigation_user_options_login_form"
@@ -70,6 +70,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var topnavUserOptionsName = "#topnavigation_user_options_name";
         var topnavUserContainer = ".topnavigation_user_container";
         var topnavUserOptionsLoginFields = "#topnavigation_user_options_login_fields"
+        var topnavUserOptionsLoginError = "#topnavigation_user_options_login_error";
 
         // Templates
         var navTemplate = "navigation_template";
@@ -93,11 +94,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Show the logout element
          */
         var showLogout = function(){
-            if ($(topnavUserOptionsLogout).is(":visible")) {
-                $(topnavUserOptionsLogout).hide()
+            if ($(topnavUserDropdown).is(":visible")) {
+                $(topnavUserDropdown).hide()
             } else {
-                $(topnavUserOptionsLogout).show();
-                $(topnavUserOptionsLogout).css("display", "inline")
+                $(topnavUserDropdown).show();
+                $(topnavUserDropdown).css("display", "inline")
             }
         };
 
@@ -395,6 +396,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(topnavUserOptionsLoginButtonSigningIn).show();
                 $(topnavUserOptionsLoginButtonCancel).hide();
                 $(topnavuserOptionsLoginButtonLogin).hide();
+                $(topnavUserOptionsLoginError).hide();
+                $(this).removeClass("topnavigation_user_options_login_sign_in_error_margin");
                 sakai.api.User.login({
                     "username": $(topnavUseroptionsLoginFieldsUsername).val(),
                     "password": $(topnavUseroptionsLoginFieldsPassword).val()
@@ -405,6 +408,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         $(topnavUserOptionsLoginButtonSigningIn).hide();
                         $(topnavUserOptionsLoginButtonCancel).show();
                         $(topnavuserOptionsLoginButtonLogin).show();
+                        $(topnavUserOptionsLoginForm).addClass("topnavigation_user_options_login_sign_in_error_margin");
+                        $(topnavUserOptionsLoginError).show();
                     }
                 });
                 return false;
