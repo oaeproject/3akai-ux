@@ -1274,6 +1274,8 @@ define(["jquery",
                 html4.ATTRIBS["video::src"] = 0;
                 html4.ATTRIBS["video::class"] = 0;
                 html4.ATTRIBS["video::autoplay"] = 0;
+                html4.ATTRIBS["li::sakai-ref"] = 0;
+                html4.ATTRIBS["li::sakai-path"] = 0;
                 // A slightly modified version of Caja's sanitize_html function to allow style="display:none;"
                 var sakaiHtmlSanitize = function(htmlText, opt_urlPolicy, opt_nmTokenPolicy) {
                     var out = [];
