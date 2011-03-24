@@ -558,7 +558,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
             var topicId = replyParent[0].id.split("bbs_post_")[1];
             var message = replyParent.children(bbsTopicReplyContainer).children(bbsTopicReplyText).val();
 
-            if(replyParent.children(bbsTopicReplyContainer).children(bbsTopicQuotedText).length){
+            if(replyParent.children(bbsTopicReplyContainer).children(bbsTopicQuotedText).length && replyParent.children(bbsTopicReplyContainer).children(bbsTopicQuotedText).val()){
                 message = "[quote=\"" + $(bbsTopicReplyQuotedUser, $rootel).text() + "\"]" + replyParent.children(bbsTopicReplyContainer).children(bbsTopicQuotedText).val() + "[/quote]" + message;
             }
 
