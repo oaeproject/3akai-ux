@@ -41,8 +41,10 @@ require(
                             createUser();
                         }
                     });
-                }else{
-                    start();
+                } else {
+                    setTimeout(function() {
+                        start();
+                    }, 6000);
                 }
             };
             createUser();
@@ -112,7 +114,7 @@ require(
         ///// SEARCH USERS ////
         ///////////////////////
 
-        asyncTest("Search users by tag", 1, function(){
+        asyncTest("Search users by tag (free-text tag search, not .tagged search)", 1, function(){
             $.ajax({
                 url : "http://localhost:8080/var/search/users.infinity.json?page=0&items=10&sortOn=lastName&sortOrder=asc&q=" + createdUsers[0] + "_tag" + 0,
                 type : "GET",
