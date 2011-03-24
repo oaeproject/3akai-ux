@@ -504,7 +504,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
                       }
                   };
 
-                  fluid.reorderLayout(rootel + " #widgetscontainer", options);
+                  fluid.reorderLayout($('#widgetscontainer', $rootel), options);
                 } else {
                   // remove the move cursor from the title bar
                   $(".fl-widget-titlebar", $rootel).css("cursor", "default");
