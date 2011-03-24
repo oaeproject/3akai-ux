@@ -2562,7 +2562,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             var name = "Version " + (ver);
 
                             // Transform date
-                            var date = data.versions[ver]["created"];
+                            var date = data.versions[ver]["_created"];
                             var datestring = sakai.api.l10n.transformDateTimeShort(new Date(date));
 
                             name += " - " + datestring;

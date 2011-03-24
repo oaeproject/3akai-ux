@@ -316,7 +316,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var formatMessage = function(message){
 
             // 2010-10-06T14:45:54+01:00
-            var dateLong = message["created"];
+            var dateLong = message["_created"];
             var d = sakai.api.l10n.parseDateLong(dateLong, sakai.data.me);
             //Jan 22, 2009 10:25 PM
             message.date = sakai.api.l10n.transformDateTimeShort(d);

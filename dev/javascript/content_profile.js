@@ -125,8 +125,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             var versions = [];
                             for (var i in versionInfo.versions) {
                                 if(versionInfo.versions.hasOwnProperty(i)){
-                                    var splitDate = versionInfo.versions[i]["created"];
-                                    versionInfo.versions[i]["created"] = sakai.api.l10n.transformDate(new Date(splitDate));
+                                    var splitDate = versionInfo.versions[i]["_created"];
+                                    versionInfo.versions[i]["_created"] = sakai.api.l10n.transformDate(new Date(splitDate));
                                     versions.push(versionInfo.versions[i]);
                                 }
                             }

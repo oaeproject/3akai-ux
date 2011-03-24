@@ -271,12 +271,12 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                 delete i_object["jcr:primaryType"];
             }
 
-            if (i_object["created"]) {
-                delete i_object["created"];
+            if (i_object["_created"]) {
+                delete i_object["_created"];
             }
 
-            if (i_object["createdBy"]) {
-                delete i_object["createdBy"];
+            if (i_object["_createdBy"]) {
+                delete i_object["_createdBy"];
             }
 
             if (i_object["jcr:mixinTypes"]) {
