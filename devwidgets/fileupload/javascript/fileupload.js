@@ -407,20 +407,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
             // Show notification
             if (context !== "new_version") {
-                /* if (uploadedLink) {
-                 if (filesUploaded) {
-                 sakai.api.Util.notification.show($(fileUploadLinkUploaded, $rootel).html(), $(fileUploadLinkSuccessfullyUploaded, $rootel).html());
-                 } else {
-                 sakai.api.Util.notification.show("", $(fileUploadFilesNotUploaded, $rootel).html());
-                 }
-                 }
-                 else {
-                 if (filesUploaded) {
-                 sakai.api.Util.notification.show($(fileUploadFilesUploaded, $rootel).html(), $(fileUploadFilesSuccessfullyUploaded, $rootel).html());
-                 } else {
-                 sakai.api.Util.notification.show("", $(fileUploadFilesNotUploaded, $rootel).html());
-                 }
-                 } */
                 if (uploadedLink) {
                     sakai.api.Util.notification.show($(fileUploadLinkUploaded).html(), $(fileUploadLinkSuccessfullyUploaded).html());
                 }
@@ -485,28 +471,26 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     batchDescriptionData[batchDescriptionData.length] = item;
                 }
                 else {
-                    var pathHash, url;
-                    for (var k in data) {
-                        if (data.hasOwnProperty(k)) {
-                            pathHash = data[k];
-                            url = k.substring(0, k.length - 4); // remove .lnk from the end of it
-                            break;
-                        }
-                    }
-                    var item2 = {
-                        "url": "/p/" + pathHash,
-                        "method": "POST",
-                        "parameters": {
-                            "sakai:pooled-content-url": url,
-                            "sakai:pooled-content-revurl": url,
-                            "sakai:pooled-content-file-name": url,
-                            "sakai:directory": "default",
-                            "sakai:description": $fileUploadAddDescription.val(),
-                            "sakai:permissions": $fileUploadPermissionsSelect.val(),
-                            "sakai:copyright": $fileUploadCopyrightSelect.val()
-                        }
-                    };
-                    batchDescriptionData[batchDescriptionData.length] = item2;
+                    var url = $fileUploadLinkBoxInput.val();
+
+                    $.each(data, function(index, path) {
+                        var item2 = {
+                            "url": "/p/" + path,
+                            "method": "POST",
+                            "parameters": {
+                                "sakai:pooled-content-url": url,
+                                "sakai:pooled-content-revurl": url,
+                                "sakai:pooled-content-file-name": url,
+                                "mimeType": "x-sakai/link",
+                                "length": url.length,
+                                "sakai:directory": "default",
+                                "sakai:description": $fileUploadAddDescription.val(),
+                                "sakai:permissions": $fileUploadPermissionsSelect.val(),
+                                "sakai:copyright": $fileUploadCopyrightSelect.val()
+                            }
+                        };
+                        batchDescriptionData[batchDescriptionData.length] = item2;
+                    });
                 }
 
                 // tag the link(s)
@@ -604,14 +588,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          * Execute checks to see if this link is a revision or not
          */
         var uploadLink = function(){
-            var body = "";
-            body = "--AAAAA\r\n";
-            body = body + "Content-Disposition: form-data; name=\"*\"; filename=\"" + $fileUploadLinkBoxInput.val() + ".lnk\"\r\n";
-            body = body + "Content-Type: x-sakai/link\r\n";
-            body = body + "sakai:pooled-content-url: " + $fileUploadLinkBoxInput.val() + "\r\n";
-            body = body + "Content-transfer-encoding: binary\r\n\r\n";
-            body = body + $fileUploadLinkBoxInput.val() + "\r\n";
-            body = body + "--AAAAA--\r\n";
+            var target = $fileUploadLinkBoxInput.val();
+            var link = {
+                "sakai:pooled-content-file-name": target,
+                "sakai:pooled-content-url": target
+            };
 
             var path = "";
             if (newVersionIsLink) {
@@ -626,21 +607,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             }
             $.ajax({
                 url: url,
-                data: body,
+                data: link,
                 type: "POST",
                 dataType: "json",
-                contentType: "multipart/form-data; boundary=AAAAA",
                 success: function(data){
                     //loop over node to extract data
                     var linkArray = [];
-                    for (var i in data) {
-                        if (data.hasOwnProperty(i)) {
-                            var obj = {};
-                            obj.filename = i;
-                            obj.hashpath = data[i];
-                            linkArray.push(obj);
-                        }
-                    }
+                    $.each(data, function(filename, hashpath){
+                        var obj = {
+                            "filename": filename,
+                            "hashpath": hashpath
+                        };
+                        linkArray.push(obj);
+                    });
                     dataResponse = data;
 
                     uploadedLink = true;
