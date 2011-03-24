@@ -18,7 +18,7 @@
  *
  */
 
-define(["jquery", "/dev/configuration/config.js"],function($, sakai_conf) {
+define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],function($, sakai_conf) {
     return {
         /**
          * Set the permissions for an array of uploaded files or links
@@ -188,6 +188,27 @@ define(["jquery", "/dev/configuration/config.js"],function($, sakai_conf) {
                 }
             }
             return false;
+        },
+
+        /**
+         * Returns a preview URL for known services, empty string otherwise
+         *
+         * @param url The url of the content in an external service that you'd like a preview of
+         */
+        getPreviewUrl : function(url) {
+            var uri = parseUri(url);
+            var result = "";
+            if (/vimeo\.com$/.test(uri.host)) {
+                result = "http://player.vimeo.com/video" + uri.path;
+            } else if (/picasaweb\.google\.com$/.test(uri.host)) {
+                var userId = uri.path.split('/')[1];
+                var albumName = uri.path.split('/')[2];
+                var photoId = uri.anchor;
+                result = "https://picasaweb.google.com/data/feed/base/user/" + userId + "/album/" + albumName + "/photoid/" + photoId + "?alt=json";
+            } else if (/youtube\.com$/.test(uri.host)) {
+                result = url;
+            }
+            return result;
         }
     };
 });
