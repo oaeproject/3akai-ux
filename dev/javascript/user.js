@@ -52,7 +52,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 }
             },
         	"267187828": {
-        		"page": "<div id='widget_carousel' class='widget_inline'></div>"
+        		"page": "<div id='widget_carousel' class='widget_inline'></div><br/><br/><div id='widget_recentcontacts' class='widget_inline'></div>"
         	},
         	"1165301022": {
         		"page": "Inbox HTML fragment"
@@ -138,7 +138,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         		"page": "<div id='widget_mygroups' class='widget_inline'/>"
         	},
         	"1193715035": {
-        		"page": "My Contacts HTML fragment"
+        		"page": "<div id='widget_contacts' class='widget_inline'></div>"
         	}
         }
 
