@@ -561,7 +561,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/parseuri.js"], functio
             var uri = parseUri(url);
             var result = "";
             if (/vimeo\.com$/.test(uri.host)) {
-               result = "http://player.vimeo.com/video" + uri.path;
+                result = "http://player.vimeo.com/video" + uri.path;
+            } else if (/picasaweb\.google\.com/.test(uri.host)) {
+                var userId = uri.path.split('/')[1];
+                var albumName = uri.path.split('/')[2];
+                var photoId = uri.anchor;
+                result = "https://picasaweb.google.com/data/feed/base/user/" + userId + "/album/" + albumName + "/photoid/" + photoId + "?alt=json";
             }
             return result;
         };
