@@ -46,8 +46,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 resultJson.icon = directoryJson[0].attr["data-url"];
                 resultJson.id = directoryJson[0].attr["id"];
 
-                // render directory information
-                $(".directory_info").html(sakai.api.Util.TemplateRenderer("#directory_template", resultJson));
+                $(window).trigger("sakai.entity.init", ["directory",false,resultJson]);
             }
         };
 

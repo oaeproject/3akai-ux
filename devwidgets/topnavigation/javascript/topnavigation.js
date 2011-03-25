@@ -403,7 +403,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "password": $(topnavUseroptionsLoginFieldsPassword).val()
                 }, function(success){
                     if (success) {
-                        location.reload(true);
+                        // Go to You when you're on explore page
+                        if (window.location.pathname === "/dev/directory2.html" || window.location.pathname === "/dev/create_new_account2.html") {
+                            window.location = "/dev/user.html";
+                        } else {
+                            // Just reload the page
+                            location.reload(true);
+                        }
                     } else {
                         $(topnavUserOptionsLoginButtonSigningIn).hide();
                         $(topnavUserOptionsLoginButtonCancel).show();

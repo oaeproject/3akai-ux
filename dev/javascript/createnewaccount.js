@@ -322,7 +322,16 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             initCaptcha();
             doBinding();
         };
+        
+        var renderEntity = function(){
+            $(window).trigger("sakai.entity.init", ["newaccount"]);
+        }
 
+        $(window).bind("sakai.entity.ready", function(){
+            renderEntity(); 
+        });
+        
+        renderEntity();
         doInit();
 
     };

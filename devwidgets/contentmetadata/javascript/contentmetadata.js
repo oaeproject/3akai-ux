@@ -46,6 +46,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         // Containers
         var $contentmetadataDescriptionContainer = $("#contentmetadata_description_container");
         var $contentmetadataTagsContainer = $("#contentmetadata_tags_container");
+        var $contentmetadataUrlContainer = $("#contentmetadata_url_container");
         var $contentmetadataCopyrightContainer = $("#contentmetadata_copyright_container");
         var $contentmetadataDetailsContainer = $("#contentmetadata_details_container");
         var $contentmetadataLocationsContainer = $("#contentmetadata_locations_container");
@@ -67,6 +68,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         // Templates
         var contentmetadataDescriptionTemplate = "contentmetadata_description_template";
         var contentmetadataTagsTemplate = "contentmetadata_tags_template";
+        var contentmetadataUrlTemplate = "contentmetadata_url_template";
         var contentmetadataCopyrightTemplate = "contentmetadata_copyright_template";
         var contentmetadataDetailsTemplate = "contentmetadata_details_template";
         var contentmetadataLocationsTemplate = "contentmetadata_locations_template";
@@ -110,6 +112,22 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 sakai: sakai
             };
             $contentmetadataDescriptionContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataDescriptionTemplate, json));
+            addEditBinding(mode);
+        };
+
+        /**
+         * Render the URL template
+         * @param {String|Boolean} mode Can be false or 'edit' depending on the mode you want to be in
+         */
+        var renderUrl = function(mode){
+            sakai_global.content_profile.content_data.mode = mode;
+            if(sakai_global.content_profile.content_data.data.mimeType === "x-sakai/link") {
+                var json = {
+                    data: sakai_global.content_profile.content_data,
+                    sakai: sakai
+                };
+                sakai.api.Util.TemplateRenderer(contentmetadataUrlTemplate, json, $contentmetadataUrlContainer);
+            }
             addEditBinding(mode);
         };
 
@@ -286,6 +304,33 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         };
 
         /**
+         * Update the description of the content
+         */
+        var updateUrl = function(){
+            var url = $("#contentmetadata_url_url").val();
+            sakai_global.content_profile.content_data.data["sakai:pooled-content-url"] = url;
+            sakai_global.content_profile.content_data.data["sakai:pooled-content-revurl"] = url;
+            sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] = url;
+            sakai_global.content_profile.content_data.data["length"] = url.length;
+            renderUrl(false);
+            $.ajax({
+                url: "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".html",
+                type: "POST",
+                cache: false,
+                data: {
+                    "sakai:pooled-content-url": url,
+                    "sakai:pooled-content-revurl": url,
+                    "sakai:pooled-content-file-name": url,
+                    "length": url.length
+                },
+                success: function(){
+                    createActivity("__MSG__UPDATED_URL__");
+                    $(window).trigger("updated.version.content.sakai");
+                }
+            });
+        };
+
+        /**
          * Update the copyright of the content
          */
         var updateCopyright = function(){
@@ -324,6 +369,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                         case "tags":
                             renderTags("edit");
                             break;
+                        case "url":
+                            renderUrl("edit");
+                            break;
                         case "locations":
                             renderLocations("edit");
                             break;
@@ -350,6 +398,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     break;
                 case "tags":
                     updateTags();
+                    break;
+                case "url":
+                    updateUrl();
                     break;
                 case "copyright":
                     updateCopyright();
@@ -403,6 +454,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             // Render all information
             renderDescription(false);
             renderTags(false);
+            renderUrl(false);
             renderCopyright(false);
             renderLocations(false);
             renderDetails(false);

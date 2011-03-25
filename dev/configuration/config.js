@@ -780,45 +780,43 @@ define(function() {
 
         Navigation: [
             {
-                "url" : "/you",
+                "url" : "/dev/user.html#",
                 "id" : "navigation_you_link",
                 "anonymous" : false,
                 "label" : "YOU",
                 "subnav": [
                     {
-                        "url" : "/home",
+                        "url" : "/dev/user.html#",
                         "id": "subnavigation_home_link",
                         "label": "MY_HOME"
                     },
                     {
-                        "url" : "/contacts",
-                        "id": "subnavigation_contacts_link",
-                        "label": "MY_CONTACTS_CAP"
-                    },
-                    {
-                        "url" : "/content",
-                        "id": "subnavigation_content_link",
-                        "label": "MY_CONTENT"
-                    },
-                    {
-                        "url" : "/memberships",
-                        "id": "subnavigation_memberships_link",
-                        "label": "MY_MEMBERSHIPS"
-                    },
-                    {
-                        "url" : "/messages",
+                        "url" : "/dev/user.html#messages",
                         "id": "subnavigation_messages_link",
                         "label": "MY_MESSAGES"
                     },
                     {
-                        "url" : "/preferences",
-                        "id": "subnavigation_preferences_link",
-                        "label": "MY_PREFERENCES"
+                        "id": "subnavigation_hr"
                     },
                     {
-                        "url" : "/profile",
+                        "url" : "/dev/user.html#profile",
                         "id": "subnavigation_profile_link",
                         "label": "MY_PROFILE"
+                    },
+                    {
+                        "url" : "/dev/user.html#content",
+                        "id": "subnavigation_content_link",
+                        "label": "MY_CONTENT"
+                    },
+                    {
+                        "url" : "/dev/user.html#memberships",
+                        "id": "subnavigation_memberships_link",
+                        "label": "MY_MEMBERSHIPS"
+                    },
+                    {
+                        "url" : "/dev/user.html#contacts",
+                        "id": "subnavigation_contacts_link",
+                        "label": "MY_CONTACTS_CAP"
                     }
                 ]
             },
@@ -837,31 +835,20 @@ define(function() {
                         "label": "ADD_CONTACTS"
                     },
                     {
-                        "id": "subnavigation_hr",
+                        "id": "subnavigation_hr"
                     },
                     {
                         "id": "subnavigation_simple_group_link",
-                        "label": "SIMPLE_GROUP"
-                    },
-                    {
-                        "id": "subnavigation_course_link",
-                        "label": "COURSE"
-                    },
-                    {
-                        "id": "subnavigation_add_more_link",
-                        "label": "MORE"
+                        "label": "CREATE_GROUP"
                     }
                 ]
             },
             {
+                "url" : "/dev/directory2.html#",
                 "id" : "navigation_explore_link",
                 "anonymous" : false,
                 "label" : "EXPLORE",
                 "subnav": [
-                    {
-                        "id": "subnavigation_explore_stanford_link",
-                        "label": "STANFORD"
-                    },
                     {
                         "id": "subnavigation_explore_content_link",
                         "label": "CONTENT"
@@ -869,10 +856,6 @@ define(function() {
                     {
                         "id": "subnavigation_explore_groups_link",
                         "label": "GROUPS"
-                    },
-                    {
-                        "id": "subnavigation_explore_courses_link",
-                        "label": "COURSES"
                     },
                     {
                         "id": "subnavigation_explore_people_link",
@@ -911,7 +894,7 @@ define(function() {
                 ]
             },
             {
-                "url" : "/register",
+                "url" : "/dev/create_new_account2.html",
                 "id": "navigation_anon_signup_link",
                 "anonymous": true,
                 "label": "SIGN_UP",
