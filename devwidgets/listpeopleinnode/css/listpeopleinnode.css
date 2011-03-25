@@ -26,4 +26,4 @@
 #listpeopleinnode_ajax_loader{background:url(/dev/images/ajax_load.gif) no-repeat scroll 8px 8px transparent;height:18px;width:87px;}
 .listpeopleinnode_ellipsis_container{word-wrap:break-word;}
 .listpeopleinnode_seeall{padding-right:10px;}
-.listpeopleinnode_main_progress {background:url(/dev/images/ajax_load.gif) no-repeat scroll 0 0 transparent;clear:both;height:10px;width:40px;left:30px;position:relative;}
+.listpeopleinnode_main_progress {background:url(/dev/images/ajax_load.gif) no-repeat scroll 0 0 transparent;clear:both;height:10px;width:40px;left:30px;position:relative;height:25px;}

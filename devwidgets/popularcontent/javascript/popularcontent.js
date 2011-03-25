@@ -52,10 +52,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js"], func
         var popularContentEllipsisContainer = ".popularcontent_ellipsis_container";
 
         var renderPopularContent = function(){
+            $(popularcontentMainLoadingProgress).removeClass(popularcontentMainProgress);
             $popularcontent_main.html(sakai.api.Util.TemplateRenderer($popularcontent_main_template, {
                 data: contentData
             })).show();
-            $(popularcontentMainLoadingProgress).removeClass(popularcontentMainProgress);
         };
 
         var handleHashChange = function(e, node) {

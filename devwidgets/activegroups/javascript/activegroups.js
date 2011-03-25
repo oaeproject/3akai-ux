@@ -54,8 +54,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var output = sakai.api.Util.TemplateRenderer($activegroups_main_template, {
                 data: groupData
             });
-            $activegroups_main.html(output).show();
             $(activegroupsMainLoadingProgress).removeClass(activegroupsMainProgress);
+            $activegroups_main.html(output).show();
         };
 
         var handleHashChange = function(e, node) {
