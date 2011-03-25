@@ -93,9 +93,9 @@
             <div class="s3d-highlight_area_background_tinner"></div>
         </div>
         <div class="bbs_entity_container">
-            <img src="${post.message.profile.picture}" alt="${post.message.profile.basic.elements.firstName.value} ${post.message.profile.basic.elements.lastName.value}" class="bbs_entity_picture"/>
+            <img src="${post.message.profile.pictureImg}" alt="${post.message.profile.basic.elements.firstName.value} ${post.message.profile.basic.elements.lastName.value}" class="bbs_entity_picture"/>
             <span class="bbs_poster_name">${post.message.profile.basic.elements.firstName.value} ${post.message.profile.basic.elements.lastName.value}</span>
-            <span class="bbs_posting_date">${post.message["sakai:created"]}<span class="bbs_updating_date" {if !post.message["sakai:editedOn"]}style="display:none;"{/if}>(__MSG__EDITED_BY__ <span></span>)</span></span>
+            <span class="bbs_posting_date">${post.message["sakai:createdOn"]}<span class="bbs_updating_date" {if !post.message["sakai:editedOn"]}style="display:none;"{/if}>(__MSG__EDITED_BY__ <span></span>)</span></span>
             <hr class="fl-push fl-hidden"/>
         </div>
 
@@ -116,15 +116,17 @@
             <div><span class="bbs_post_message">${post.message["sakai:body"]}</span></div>
 
             {if settings.anon != true && settings.canreply == true}
-                <a href="javascript:;" class="bbs_quote s3d-bold s3d-regular-links">__MSG__QUOTE__</a>
-                {if post.message["sakai:from"] == settings.userid || settings.addtopic}
-                    <span class="bbs_pipe_divider">|</span>
-                    <a href="javascript:;" class="bbs_edit s3d-bold s3d-regular-links">__MSG__EDIT__</a>
-                {/if}
-                {if settings.addtopic}
-                    <span class="bbs_pipe_divider">|</span>
-                    <a href="javascript:;" class="bbs_delete s3d-bold s3d-regular-links">__MSG__DELETE__</a>
-                {/if}
+                <span class="bbs_message_options">
+                    <a href="javascript:;" class="bbs_quote s3d-bold s3d-regular-links">__MSG__QUOTE__</a>
+                    {if post.message["sakai:from"] == settings.userid || settings.addtopic}
+                        <span class="bbs_pipe_divider">|</span>
+                        <a href="javascript:;" class="bbs_edit s3d-bold s3d-regular-links">__MSG__EDIT__</a>
+                    {/if}
+                    {if settings.addtopic}
+                        <span class="bbs_pipe_divider">|</span>
+                        <a href="javascript:;" class="bbs_delete s3d-bold s3d-regular-links">__MSG__DELETE__</a>
+                    {/if}
+                </span>
             {/if}
         </div>
 
@@ -140,7 +142,7 @@
     {if settings.addtopic == true}
         <a href="javascript:;" id="bbs_add_new_topic" class="s3d-bold s3d-regular-links">__MSG__ADD_NEW_TOPIC__</a><span class="bbs_pipe_divider">|</span>
     {/if}
-    <a href="javascript:;" id="bbs_expand_all" class="s3d-bold s3d-regular-links bbs_expand_all">__MSG__EXPAND_ALL__</a>
+    <a href="javascript:;" id="bbs_expand_all" class="s3d-bold s3d-regular-links bbs_collapse_all">__MSG__COLLAPSE_ALL__</a>
     <hr class="bbs_horizontal_rule"/>
     {for topic in postData}
         <div id="bbs_post_${topic.post["sakai:id"]}" class="bbs_topic_container">
@@ -157,9 +159,9 @@
                     <div class="s3d-highlight_area_background_tinner"></div>
                 </div>
                 <div class="bbs_entity_container">
-                    <img src="${topic.post.profile[0].picture}" alt="${topic.post.profile[0].basic.elements.firstName.value} ${topic.post.profile[0].basic.elements.lastName.value}" class="bbs_entity_picture"/>
+                    <img src="${topic.post.profile[0].pictureImg}" alt="${topic.post.profile[0].basic.elements.firstName.value} ${topic.post.profile[0].basic.elements.lastName.value}" class="bbs_entity_picture"/>
                     <span class="bbs_poster_name">${topic.post.profile[0].basic.elements.firstName.value} ${topic.post.profile[0].basic.elements.lastName.value}</span>
-                    <span class="bbs_posting_date">${topic.post["sakai:created"]}<span class="bbs_updating_date" {if !topic.post["sakai:editedOn"]}style="display:none;"{/if}>{if topic.post["sakai:editedOn"]} (__MSG__EDITED_BY__ <span>${topic.post["sakai:editedBy"]} ${topic.post["sakai:editedOn"]}</span>) {else} (__MSG__EDITED_BY__ <span></span>){/if}</span></span>
+                    <span class="bbs_posting_date">${topic.post["sakai:createdOn"]}<span class="bbs_updating_date" {if !topic.post["sakai:editedOn"]}style="display:none;"{/if}>{if topic.post["sakai:editedOn"]} (__MSG__EDITED_BY__ <span>${topic.post["sakai:editedBy"]} ${topic.post["sakai:editedOn"]}</span>) {else} (__MSG__EDITED_BY__ <span></span>){/if}</span></span>
                     <hr class="fl-push fl-hidden"/>
                 </div>
 
@@ -168,11 +170,13 @@
                         <span class="bbs_post_message bbs_ellipsis_text">${topic.post["sakai:body"]}</span>
                     </div>
                     {if settings.anon != true && settings.canreply == true}
-                        <a href="javascript:;" class="bbs_quote s3d-bold s3d-regular-links">__MSG__QUOTE__</a>
-                        {if settings.addtopic == true}
-                            <span class="bbs_pipe_divider">|</span>
-                            <a href="javascript:;" class="bbs_edit s3d-bold s3d-regular-links">__MSG__EDIT__</a>
-                        {/if}
+                        <span class="bbs_message_options">
+                            <a href="javascript:;" class="bbs_quote s3d-bold s3d-regular-links">__MSG__QUOTE__</a>
+                            {if settings.addtopic == true}
+                                <span class="bbs_pipe_divider">|</span>
+                                <a href="javascript:;" class="bbs_edit s3d-bold s3d-regular-links">__MSG__EDIT__</a>
+                            {/if}
+                        </span>
                     {/if}
                 </div>
 
@@ -193,9 +197,9 @@
                             {if reply.post["sakai:deleted"] && reply.post["sakai:deleted"] == "true"}
                                 <a href="javascript:;" class="bbs_hide_reply s3d-bold s3d-regular-links"><span>__MSG__HIDE__</span><span style="display:none;">__MSG__SHOW__</span></a>
                             {/if}
-                            <img src="${reply.post.profile[0].picture}" alt="${reply.post.profile[0].basic.elements.firstName.value} ${reply.post.profile[0].basic.elements.lastName.value}" class="bbs_entity_picture"/>
+                            <img src="${reply.post.profile[0].pictureImg}" alt="${reply.post.profile[0].basic.elements.firstName.value} ${reply.post.profile[0].basic.elements.lastName.value}" class="bbs_entity_picture"/>
                             <span class="bbs_poster_name">${reply.post.profile[0].basic.elements.firstName.value} ${reply.post.profile[0].basic.elements.lastName.value}</span>
-                            <span class="bbs_posting_date">${reply.post["sakai:created"]}<span class="bbs_updating_date" {if !reply.post["sakai:editedOn"]}style="display:none;"{/if}>{if reply.post["sakai:editedOn"]} (__MSG__EDITED_BY__ <span>${reply.post["sakai:editedBy"]} ${reply.post["sakai:editedOn"]}</span>) {else} (__MSG__EDITED_BY__ <span></span>){/if}</span></span>
+                            <span class="bbs_posting_date">${reply.post["sakai:createdOn"]}<span class="bbs_updating_date" {if !reply.post["sakai:editedOn"]}style="display:none;"{/if}>{if reply.post["sakai:editedOn"]} (__MSG__EDITED_BY__ <span>${reply.post["sakai:editedBy"]} ${reply.post["sakai:editedOn"]}</span>) {else} (__MSG__EDITED_BY__ <span></span>){/if}</span></span>
                             {if reply.post["sakai:deleted"] && reply.post["sakai:deleted"] == "true"}
                                 <span class="bbs_delete_date">(__MSG__DELETED_BY__ ${reply.post["sakai:deletedBy"]} ${reply.post["sakai:deletedOn"]})</span>
                             {/if}
@@ -221,25 +225,29 @@
                             <div><span class="bbs_post_message">${reply.post["sakai:body"]}</span></div>
 
                             {if reply.post["sakai:deleted"] && reply.post["sakai:deleted"] == "true"}
-                                {if settings.addtopic}
-                                    <p class="bbs_deleted_reply_info">__MSG__THIS_REPLY_HAS_BEEN_DELETED_AND_CAN_ONLY_BE_SEEN_BY_YOU__</p>
-                                    <a href="javascript:;" class="bbs_restore s3d-bold s3d-regular-links">__MSG__RESTORE__</a>
-                                {elseif reply.post["sakai:from"] == settings.userid}
-                                    <p class="bbs_deleted_reply_info">__MSG__THIS_REPLY_HAS_BEEN_DELETED__ __MSG__CONTACT_ADMINISTRATOR_FOR_INFORMATION__</p>
-                                {else}
-                                    <p class="bbs_deleted_reply_info">__MSG__THIS_REPLY_HAS_BEEN_DELETED__</p>
-                                {/if}
+                                <span class="bbs_deleted_message">
+                                    {if settings.addtopic}
+                                        <p class="bbs_deleted_reply_info">__MSG__THIS_REPLY_HAS_BEEN_DELETED_AND_CAN_ONLY_BE_SEEN_BY_YOU__</p>
+                                        <a href="javascript:;" class="bbs_restore s3d-bold s3d-regular-links">__MSG__RESTORE__</a>
+                                    {elseif reply.post["sakai:from"] == settings.userid}
+                                        <p class="bbs_deleted_reply_info">__MSG__THIS_REPLY_HAS_BEEN_DELETED__ __MSG__CONTACT_ADMINISTRATOR_FOR_INFORMATION__</p>
+                                    {else}
+                                        <p class="bbs_deleted_reply_info">__MSG__THIS_REPLY_HAS_BEEN_DELETED__</p>
+                                    {/if}
+                                </span>
                             {else}
                                 {if settings.anon != true && settings.canreply == true}
-                                    <a href="javascript:;" class="bbs_quote s3d-bold s3d-regular-links">__MSG__QUOTE__</a>
-                                    {if reply.post["sakai:from"] == settings.userid || settings.addtopic}
-                                        <span class="bbs_pipe_divider">|</span>
-                                        <a href="javascript:;" class="bbs_edit s3d-bold s3d-regular-links">__MSG__EDIT__</a>
-                                    {/if}
-                                    {if settings.addtopic}
-                                        <span class="bbs_pipe_divider">|</span>
-                                        <a href="javascript:;" class="bbs_delete s3d-bold s3d-regular-links">__MSG__DELETE__</a>
-                                    {/if}
+                                    <span class="bbs_message_options">
+                                        <a href="javascript:;" class="bbs_quote s3d-bold s3d-regular-links">__MSG__QUOTE__</a>
+                                        {if reply.post["sakai:from"] == settings.userid || settings.addtopic}
+                                            <span class="bbs_pipe_divider">|</span>
+                                            <a href="javascript:;" class="bbs_edit s3d-bold s3d-regular-links">__MSG__EDIT__</a>
+                                        {/if}
+                                        {if settings.addtopic}
+                                            <span class="bbs_pipe_divider">|</span>
+                                            <a href="javascript:;" class="bbs_delete s3d-bold s3d-regular-links">__MSG__DELETE__</a>
+                                        {/if}
+                                    </span>
                                 {/if}
                             {/if}
                         </div>

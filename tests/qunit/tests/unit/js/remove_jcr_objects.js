@@ -15,8 +15,8 @@ require(
         "name":"dummy",
         "version":"dummy version",
         "jcr:primaryType":"dummy primary type",
-        "created":"dummy created",
-        "createdBy":"dummy createdby",
+        "_created":"dummy created",
+        "_createdBy":"dummy createdby",
         "jcr:mixinTypes":"dummy mixin type"
     };
 
