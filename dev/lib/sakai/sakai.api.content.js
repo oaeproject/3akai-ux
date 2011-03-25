@@ -208,7 +208,9 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
                 var photoId = uri.anchor;
                 result = "https://picasaweb.google.com/data/feed/base/user/" + userId + "/album/" + albumName + "/photoid/" + photoId + "?alt=json";
             } else if (/youtube\.com$/.test(uri.host)) {
-                result = url;
+                if (uri.path !== ""){
+                    result = url;
+                }
             } else if (/amazon\.com$/.test(uri.host)) {
                 var asin = uri.path.split("/");
                 asin = bookId[bookId.indexOf('dp')+1];
