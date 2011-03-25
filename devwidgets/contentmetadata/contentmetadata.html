@@ -70,7 +70,7 @@
         <textarea id="contentmetadata_url_url" class="contentmetadata_edit_input">${data.data["sakai:pooled-content-url"]}</textarea>
     {else}
         <span class="contentmetadata_first_column">__MSG__URL__:</span>
-        <span id="contentmetadata_url_display" class="contentmetadata_click">{if $.trim(data.data["sakai:pooled-content-url"]) != ""}${sakai.api.Security.escapeHTML(data.data["sakai:pooled-content-url"])}{else}{if data.isManager}<span class="contentmetadata_manager_edit">__MSG__CLICK_TO_EDIT_URL__</span>{else}__MSG__NO_URL__{/if}{/if}</span>
+        <span id="contentmetadata_url_display" {if data.isManager}class="contentmetadata_click"{/if}>{if $.trim(data.data["sakai:pooled-content-url"]) != ""}{if !data.isManager}<a href="${sakai.api.Security.escapeHTML(data.data["sakai:pooled-content-url"])}">{/if}${sakai.api.Security.escapeHTML(data.data["sakai:pooled-content-url"])}{if !data.isManager}</a>{/if}{else}{if data.isManager}<span class="contentmetadata_manager_edit">__MSG__CLICK_TO_EDIT_URL__</span>{else}__MSG__NO_URL__{/if}{/if}</span>
     {/if}
     <div class='s3d-highlight_area_background_darker1_white_content_bl'><div class='s3d-highlight_area_background_darker1_white_content_binner'></div></div>
 --></div>
