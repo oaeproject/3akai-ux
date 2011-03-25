@@ -9,7 +9,8 @@
 
 /* CSS THAT OVERWRITES MAIN CSS */
 .s3d-main-container {padding: 0px !important;}
-.fixed-container.s3d-main-container{width:960px; background: url("/dev/images/lhnav_bg.png") repeat-y; background-color:#fff;}
+.fixed-container.s3d-main-container{width:960px;}
+.s3d-twocolumn{background: url("/dev/images/lhnav_bg.png") repeat-y; background-color:#fff;}
 .requireUser {background: url("/dev/images/grey_bg.png") repeat-x scroll left -91px #EAEFF6 !important;}
 .s3d-header .fixed-container {padding:0 !important; width:960px;}
 .s3d-header .s3d-fixed-container .s3d-decor-left {margin-left:0;}
