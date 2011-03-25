@@ -110,6 +110,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(topnavUserOptionsLoginFields).hide();
             } else {
                 $(topnavUserOptionsLoginFields).show();
+                $(topnavUseroptionsLoginFieldsUsername).focus();
             }
         };
 
