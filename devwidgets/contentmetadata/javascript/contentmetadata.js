@@ -321,6 +321,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     "sakai:pooled-content-url": url,
                     "sakai:pooled-content-revurl": url,
                     "sakai:pooled-content-file-name": url,
+                    "sakai:preview-url": sakai.api.Content.getPreviewUrl(url),
                     "length": url.length
                 },
                 success: function(){
