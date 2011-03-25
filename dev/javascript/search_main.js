@@ -172,7 +172,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             /** When we click the search button the search should get executed. */
             $(searchConfig.global.button).unbind("click");
             $(searchConfig.global.button).bind("click", function(ev) {
-                callback.doHSearch();
+                if (!hasHadFocus) {
+                    callback.doHSearch(1, "*");
+                } else {
+                    callback.doHSearch();
+                }
             });
         };
 
