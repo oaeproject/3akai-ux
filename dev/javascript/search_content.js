@@ -443,6 +443,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * Will fetch the sites and add a new item to the history list.
          */
         var doInit = function() {
+            // check the URL for a query arg
+            mainSearch.checkQuery();
+
             // Make sure that we are still logged in.
             $.ajax({
                 url: sakai.config.URL.SITES_SERVICE,
