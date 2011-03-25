@@ -199,7 +199,9 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
             var uri = parseUri(url);
             var result = "";
             if (/vimeo\.com$/.test(uri.host)) {
-                result = "http://player.vimeo.com/video" + uri.path;
+                if (uri.path !== "") {
+                  result = "http://player.vimeo.com/video" + uri.path;
+                }
             } else if (/picasaweb\.google\.com$/.test(uri.host)) {
                 var userId = uri.path.split('/')[1];
                 var albumName = uri.path.split('/')[2];
