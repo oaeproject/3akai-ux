@@ -182,6 +182,16 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
 
         /**
+         * Checks for a query arg in the URL. If none, does a search for all (*).
+         */
+        var checkQuery = function () {
+            if (!$.bbq.getState("q") || $.trim($.bbq.getState("q")) === "") {
+                callback.doHSearch(1, "*");
+            }
+        };
+
+
+        /**
          * Will fill in the input box and the drop down. Will also save the current page.
          * @param {Integer} page The page you are on.
          * @param {String} searchquery The searchterm you want to search trough.
@@ -492,8 +502,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             'prepSearchTermForURL': prepSearchTermForURL,
             'preparePeopleForRender': preparePeopleForRender,
             'prepareCMforRendering': prepareCMforRendering,
-            'addFacetedPanel': addFacetedPanel
-
+            'addFacetedPanel': addFacetedPanel,
+            'checkQuery': checkQuery
         };
     };
 });

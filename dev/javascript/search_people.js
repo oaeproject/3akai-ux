@@ -632,6 +632,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
             mainSearch = sakai_global._search(searchConfig, thisFunctionality);
 
+            // check the URL for a query arg
+            mainSearch.checkQuery();
+
             // add the bindings
             mainSearch.addEventListeners();
 
