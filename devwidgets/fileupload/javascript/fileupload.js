@@ -26,7 +26,7 @@
  * /dev/lib/jquery/plugins/jquery.form.js (ajaxForm)
  * /dev/lib/jquery/plugins/jquery.MultiFile.js (MultiFile)
  */
-require(["jquery", "sakai/sakai.api.core"], function($, sakai){
+require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/parseuri.js"], function($, sakai){
 
     /**
      * @name sakai_global.fileupload
@@ -465,13 +465,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             "sakai:description": $fileUploadAddDescription.val(),
                             "sakai:permissions": $fileUploadPermissionsSelect.val(),
                             "sakai:copyright": $fileUploadCopyrightSelect.val(),
-                            "sakai:directory": "default"
+                            "sakai:directory": "default",
+                            "sakai:preview-url": getPreviewUrl($fileUploadLinkBoxInput.val())
                         }
                     };
                     batchDescriptionData[batchDescriptionData.length] = item;
                 }
                 else {
-                    var url = $fileUploadLinkBoxInput.val();
+
+                   var url = $fileUploadLinkBoxInput.val();
 
                     $.each(data, function(index, path) {
                         var item2 = {
@@ -481,6 +483,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                                 "sakai:pooled-content-url": url,
                                 "sakai:pooled-content-revurl": url,
                                 "sakai:pooled-content-file-name": url,
+                                "sakai:preview-url": getPreviewUrl(url),
                                 "mimeType": "x-sakai/link",
                                 "length": url.length,
                                 "sakai:directory": "default",
@@ -491,6 +494,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         };
                         batchDescriptionData[batchDescriptionData.length] = item2;
                     });
+
                 }
 
                 // tag the link(s)
@@ -537,6 +541,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     resetFields();
                 }
             });
+        };
+
+        var getPreviewUrl = function(url) {
+            var uri = parseUri(url);
+            var result = "";
+            if (/vimeo\.com$/.test(uri.host)) {
+               result = "http://player.vimeo.com/video" + uri.path;
+            }
+            return result;
         };
 
         /**
