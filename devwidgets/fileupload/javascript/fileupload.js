@@ -26,7 +26,7 @@
  * /dev/lib/jquery/plugins/jquery.form.js (ajaxForm)
  * /dev/lib/jquery/plugins/jquery.MultiFile.js (MultiFile)
  */
-require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/parseuri.js"], function($, sakai){
+require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
     /**
      * @name sakai_global.fileupload
@@ -466,7 +466,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/parseuri.js"], functio
                             "sakai:permissions": $fileUploadPermissionsSelect.val(),
                             "sakai:copyright": $fileUploadCopyrightSelect.val(),
                             "sakai:directory": "default",
-                            "sakai:preview-url": getPreviewUrl($fileUploadLinkBoxInput.val())
+                            "sakai:preview-url": sakai.api.Content.getPreviewUrl($fileUploadLinkBoxInput.val())
                         }
                     };
                     batchDescriptionData[batchDescriptionData.length] = item;
@@ -483,7 +483,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/parseuri.js"], functio
                                 "sakai:pooled-content-url": url,
                                 "sakai:pooled-content-revurl": url,
                                 "sakai:pooled-content-file-name": url,
-                                "sakai:preview-url": getPreviewUrl(url),
+                                "sakai:preview-url": sakai.api.Content.getPreviewUrl(url),
                                 "mimeType": "x-sakai/link",
                                 "length": url.length,
                                 "sakai:directory": "default",
@@ -541,15 +541,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/parseuri.js"], functio
                     resetFields();
                 }
             });
-        };
-
-        var getPreviewUrl = function(url) {
-            var uri = parseUri(url);
-            var result = "";
-            if (/vimeo\.com$/.test(uri.host)) {
-               result = "http://player.vimeo.com/video" + uri.path;
-            }
-            return result;
         };
 
         /**
