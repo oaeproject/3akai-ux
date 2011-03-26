@@ -82,7 +82,7 @@ define(["jquery", "sakai/sakai.api.user", "/dev/configuration/config.js"], funct
                 var toSend = {
                     "sakai:type": "smtp",
                     "sakai:sendstate": "pending",
-                    "sakai:messagebox": "outbox",
+                    "sakai:messagebox": "pending",
                     "sakai:to": toUsers,
                     "sakai:from": meData.user.userid,
                     "sakai:subject": subject,
