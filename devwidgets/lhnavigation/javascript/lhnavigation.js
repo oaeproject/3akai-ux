@@ -61,9 +61,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var showHideSubnav = function($el){
             if ($el.hasClass("lhnavigation_hassubnav")) {
                     if ($el.next().is(":visible")) {
+                        $(".lhnavigation_has_subnav", $el).removeClass("lhnavigation_has_subnav_opened");
                         $el.next().hide();
                     }
                     else {
+                        $(".lhnavigation_has_subnav", $el).addClass("lhnavigation_has_subnav_opened");
                         $el.next().show();
                     }
             }
@@ -197,7 +199,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Add element to the DOM
             $("#s3d-page-main-content").append($el);
             // Insert widgets
-            sakai.api.Widgets.widgetLoader.insertWidgets(ref,false,"");
+            sakai.api.Widgets.widgetLoader.insertWidgets(ref,false,"",[privstructure.pages, pubstructure.pages]);
         }
 
         /////////////
@@ -210,9 +212,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var addBinding = function(){
             $(".lhnavigation_menu_list li").bind("click", function(){
                 var el = $(this);
-                var path = el.attr("sakai-path");
-                if (path) {
-                    $.bbq.pushState(path, 2);
+                if (el.hasClass("lhnavigation_hassubnav")) {
+                    showHideSubnav(el);
+                } else {
+                    var path = el.attr("sakai-path");
+                    if (path) {
+                        $.bbq.pushState(path, 2);
+                    }
                 }
             });
         };

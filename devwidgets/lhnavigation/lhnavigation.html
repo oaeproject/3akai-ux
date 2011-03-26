@@ -68,7 +68,7 @@
                 {for sublevel in level}
                     {if sublevel_index.substring(0,1) !== "_" && sublevel._title}
                         <li class="lhnavigation_hoverable_item" sakai-ref="${sublevel._ref}" sakai-path="${level_index}/${sublevel_index}">
-                            <a href="javascript:;" title="${sublevel._title}" class="s3d-regular-links">${sublevel._title}</a><div style="visibility: hidden;" class="lhnavigation_selected_item_arrow"></div>
+                            <a href="javascript:;" title="${sublevel._title}" class="s3d-regular-links">${sublevel._title}</a><div style="visibility: hidden;" class="lhnavigation_selected_item_arrow lhnavigation_selected_item_arrow_sub"></div>
                         </li>
                     {/if}
                 {/for}
@@ -93,7 +93,7 @@
                 {for sublevel in level}
                     {if sublevel_index.substring(0,1) !== "_" && sublevel._title}
                         <li class="lhnavigation_hoverable_item" sakai-ref="${sublevel._ref}" sakai-path="${level_index}/${sublevel_index}">
-                            <a href="javascript:;" title="${sublevel._title}" class="s3d-regular-links">${sublevel._title}</a><div style="visibility: hidden;" class="lhnavigation_selected_item_arrow"></div>
+                            <a href="javascript:;" title="${sublevel._title}" class="s3d-regular-links">${sublevel._title}</a><div style="visibility: hidden;" class="lhnavigation_selected_item_arrow lhnavigation_selected_item_arrow_sub"></div>
                         </li>
                     {/if}
                 {/for}

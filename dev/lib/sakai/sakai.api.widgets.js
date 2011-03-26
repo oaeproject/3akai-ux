@@ -213,8 +213,8 @@ define(["jquery",
              *  true  : render the settings mode of the widget
              *  false : render the view mode of the widget
              */
-            insertWidgets : function(id, showSettings, context){
-                var obj = this.loadWidgets(id, showSettings, context);
+            insertWidgets : function(id, showSettings, context, widgetData){
+                var obj = this.loadWidgets(id, showSettings, context, widgetData);
                 this.loaded.push(obj);
             },
 
@@ -226,7 +226,7 @@ define(["jquery",
              *  false : render the view mode of the widget
              * @param {String} context The context of the widget (e.g. siteid)
              */
-            loadWidgets : function(id, showSettings, context){
+            loadWidgets : function(id, showSettings, context, widgetData){
                 // Configuration variables
                 var widgetNameSpace = "sakai_global";
                 var widgetSelector = ".widget_inline";
@@ -257,7 +257,15 @@ define(["jquery",
 
                                 // Run the widget's main JS function
                                 var initfunction = window[widgetNameSpace][widgetname];
-                                initfunction(widgets[widgetname][i].uid, settings);
+                                var widgetData = {};
+                                if (widgets[widgetname][i].widgetData && widgets[widgetname][i].widgetData.length > 0){
+                                    for (var data in widgets[widgetname][i].widgetData){
+                                        if (widgets[widgetname][i].widgetData[data][widgets[widgetname][i].uid]){
+                                            widgetData = widgets[widgetname][i].widgetData[data][widgets[widgetname][i].uid];
+                                        }
+                                    }
+                                }
+                                initfunction(widgets[widgetname][i].uid, settings, widgetData);
 
                                 // Send out a "loaded" event for this widget
                                 $(window).trigger(widgetname + "_loaded", [widgets[widgetname][i].uid]);
@@ -597,7 +605,8 @@ define(["jquery",
                             widgets[widgetname][index] = {
                                 uid : widgetid,
                                 placement : placement,
-                                id : id
+                                id : id,
+                                widgetData: widgetData
                             };
                             var floating = "inline_class_widget_nofloat";
 
@@ -627,7 +636,7 @@ define(["jquery",
 
                 };
 
-                insertWidgets(id, showSettings, context);
+                insertWidgets(id, showSettings, context, widgetData);
 
                 return {
                     "informOnLoad" : informOnLoad
