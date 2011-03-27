@@ -58,7 +58,7 @@
 <div id="lhnavigation_template"><!--
     <ul id="lhnavigation_private_pages" class="lhnavigation_menu_list">
         {for level in private.items}
-            {if level.childCount > 1}
+            {if level._childCount > 1}
                 <li class="lhnavigation_hoverable_item lhnavigation_hassubnav" sakai-ref="${level._ref}" sakai-path="${level_index}">
             <div class="lhnavigation_has_subnav"></div><span class="s3d-bold">${level._title}</span> <span class="s3d-bold" id="lhnavigation_message_count "></span>
             <div class="lhnavigation_private"></div>
@@ -84,7 +84,7 @@
     </ul>
     <ul id="lhnavigation_public_pages" class="lhnavigation_menu_list">  
         {for level in public.items}
-            {if level.childCount > 1}
+            {if level._childCount > 1}
                 <li class="lhnavigation_hoverable_item lhnavigation_hassubnav" sakai-ref="${level._ref}" sakai-path="${level_index}">
             <div class="lhnavigation_has_subnav"></div><span class="s3d-bold">${level._title}</span> <span class="s3d-bold" id="lhnavigation_message_count "></span>
             <div class="lhnavigation_selected_item_arrow" style="visibility:hidden;"></div>

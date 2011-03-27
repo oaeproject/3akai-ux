@@ -16,12 +16,12 @@
         <ul class="mygroup_items_list">
             {for group in entry}
                 <li class="mygroup_item"><div class="mygroup_item_img fl-force-left group_icon">&nbsp;</div>
-                    <a class="s3d-regular-links s3d-bold" href="/~${group.groupid}"><div class="mygroups_ellipsis_container"><span class="mygroups_ellipsis_text">${group["sakai:group-title"]}</span></div></a>
+                    <a class="s3d-widget-links s3d-bold" href="/~${group.groupid}"><div class="mygroups_ellipsis_container"><span class="mygroups_ellipsis_text">${group["sakai:group-title"]}</span></div></a>
                 </li>
             {/for}
         </ul>
     --></div>
-    <div class="fl-widget-options fl-fix" id="mygroups_top">
+    <!-- <div class="fl-widget-options fl-fix" id="mygroups_top">
         <div class="fl-widget-options-footer-top">
             <div class="fl-widget-options-top-right"></div>
         </div>
@@ -41,11 +41,9 @@
             </div>
         </div>
     </div>
-</div>
-<!-- CONTAINER FOR THE CREATEGROUP CONTAINER -->
-<div id="creategroupcontainer" style="display:none;">
-    <!-- We need this container to show the pop-up where you can add a group -->
-    <div id="widget_creategroup" class="widget_inline">
+    -->
+    <div class="s3d-widget-no-options">
+        <div class="s3d-widget-no-options-inner"></div>
     </div>
 </div>
 <!-- JAVASCRIPT -->

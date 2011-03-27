@@ -33,3 +33,8 @@
 /* Widget icon */
 .mycontacts.fl-widget .fl-widget-titlebar .widget_title_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -180px -21px transparent;}
 #mycontacts_requests{padding-left:0;}
+
+.mycontacts_items {color:#333;padding:5px 0 0;}
+.mycontacts_items img {float: left;padding: 0 10px 10px 0;width: 35px;}
+.mycontacts_name {margin:0;}
+.mycontacts_post a {font-size:.8em;color:#878A8C;}

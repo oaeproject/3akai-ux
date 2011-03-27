@@ -24,11 +24,11 @@
         {/if}
     </div>
     <div id="entity_user_image" class="entity_user_image {if type && type == "user_me"} entity_user_image_pointer{/if} "></div>
-    <div id="entity_name" class="s3d-bold">Firstname Lastname</div>
+    <div id="entity_name" class="s3d-bold">${data.displayName}</div>
     <div id="entity_owns" class="s3d-regular-links">
-        <span class="entity_number">(20)</span> <a href="#" title="20 Documents">Documents</a>,
-        <span class="entity_number">(15)</span> <a href="#" title="15 Contacts">Contacts</a>,
-        <span class="entity_number">(15)</span> <a href="#" title="15 Memberships">Memberships</a>
+        <span class="entity_number">(${data.counts["content"]})</span> <a href="#l=content" title="${data.counts["content"]} Documents">Documents</a>,
+        <span class="entity_number">(${data.counts["memberships"]})</span> <a href="#l=memberships" title="${data.counts["memberships"]} Memberships">Memberships</a>,
+        <span class="entity_number">(${data.counts["contacts"]})</span> <a href="#l=contacts" title="${data.counts["contacts"]} Contacts">Contacts</a>
     </div>
     {if type && type == "user_me"}
         <div class="entity_user_dropdown" style="display:none;">

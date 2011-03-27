@@ -731,7 +731,30 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                     }
                 });
             }
+        },
+        
+        filterGroup: function(group){
+            if (group.groupid.match("-managers" + "$") || !group["sakai:group-title"]) {
+                return false;
+            } else {
+            	if (group.groupid === "everyone") {
+                	return false;
+                } else {
+                	return true;
+                }
+            } 
+        },
+        
+        getMemberships : function(groups){
+            var newjson = {entry: []};
+            for (var i = 0, il = groups.length; i < il; i++) {
+                if (sakaiGroupsAPI.filterGroup(groups[i])) {
+                    newjson.entry.push(groups[i]);
+                }
+            }
+            return newjson;
         }
+        
     };
     return sakaiGroupsAPI;
 });

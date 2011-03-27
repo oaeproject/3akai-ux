@@ -6,7 +6,7 @@
         "zh_CN": "/devwidgets/mygroups/bundles/zh_CN.properties"
     },
     "id":"mygroups",
-    "name":"My groups",
+    "name":"My memberships",
     "personalportal":true,
     "deletable": false,
     "type":"sakai",

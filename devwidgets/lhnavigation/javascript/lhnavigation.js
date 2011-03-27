@@ -58,16 +58,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // UTIL FUNCTIONS //
         ////////////////////
 
-        var showHideSubnav = function($el){
+        var showHideSubnav = function($el, forceOpen){
             if ($el.hasClass("lhnavigation_hassubnav")) {
-                    if ($el.next().is(":visible")) {
-                        $(".lhnavigation_has_subnav", $el).removeClass("lhnavigation_has_subnav_opened");
-                        $el.next().hide();
-                    }
-                    else {
-                        $(".lhnavigation_has_subnav", $el).addClass("lhnavigation_has_subnav_opened");
-                        $el.next().show();
-                    }
+                if (!$el.next().is(":visible") || forceOpen) {
+                	$(".lhnavigation_has_subnav", $el).addClass("lhnavigation_has_subnav_opened");
+                    $el.next().show();
+                } else {
+                    $(".lhnavigation_has_subnav", $el).removeClass("lhnavigation_has_subnav_opened");
+                    $el.next().hide();
+                }
             }
         }
 
@@ -111,7 +110,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     structure[level] = includeChildCount(structure[level]);
                 }
             }
-            structure.childCount = childCount;
+            structure._childCount = childCount;
             return structure;
         }
 
@@ -138,28 +137,46 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
         
         var selectPage = function(){
-            var state = $.bbq.getState();
-            var selected = false;
-            for (var i in state){
-                selected = i;
-                break;
-            }
+            var state = $.bbq.getState("l");
+            var selected = state || false;
             // If no page is selected, select the first one from the nav
             if (!selected){
                 for (var first in privstructure.items){
-                    selected = first;
+                    if (privstructure.items[first]._childCount > 1) {
+                        for (var second in privstructure.items[first]){
+                            if (second.substring(0,1) !== "_"){
+                                selected = first + "/" + second;
+                                break;
+                            }
+                        }
+                    } else {
+                        selected = first;
+                    }
                     break;    
                 } 
             }
             if (!selected){
                 for (var first in pubstructure.items){
-                    selected = first;
+                    if (pubstructure.items[first]._childCount > 1) {
+                        for (var second in pubstructure.items[first]){
+                            if (second.substring(0,1) !== "_"){
+                                selected = first + "/" + second;
+                                break;
+                            }
+                        }
+                    } else {
+                        selected = first;
+                    }
                     break;    
-                }
+                } 
             }
             // Select correct item
             var menuitem = $("li[sakai-path=" + selected + "]");
             if (menuitem){
+                if (selected.split("/").length > 1){
+                    var par = $("li[sakai-path=" + selected.split("/")[0] + "]");
+                    showHideSubnav(par, true);
+                }
                 var ref = menuitem.attr("sakai-ref");
                 if (!menuitem.hasClass(navSelectedItemClass)) {
                     selectNavItem(menuitem, $(navSelectedItem));
@@ -215,8 +232,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (el.hasClass("lhnavigation_hassubnav")) {
                     showHideSubnav(el);
                 } else {
-                    var path = el.attr("sakai-path");
-                    if (path) {
+                    var path = {
+                        "l": el.attr("sakai-path")
+                    }
+                    if (path.l) {
                         $.bbq.pushState(path, 2);
                     }
                 }
