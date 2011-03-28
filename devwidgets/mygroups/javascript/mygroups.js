@@ -51,7 +51,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var mygroupsErrorNoSites = "#mygroups_error_nosites";
         var mygroupsErrorNoSettings = "#mygroups_error_nosettings";
         var mygroupsCreateNewGroup = "#create_new_group_link";
-        var createGroupContainer = "#creategroupcontainer";
         var ellipsisContainer = ".mygroups_ellipsis_container";
         var mygroupsItemsList = ".mygroup_items_list";
 
@@ -82,39 +81,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         /**
-         * Filter all groups: everyone and ending with -managers
-         * @param {Object} a
-         * @param {Object} b
-         * @return 1, 0 or -1
-         */
-        var doFilter = function(group){
-            if (group.groupid.match("-managers" + "$") || !group["sakai:group-title"]) {
-                return false;
-            } else {
-                if (group.groupid === "everyone") {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        };
-
-        /**
-         * Show the popup to create a new group.
-         */
-        var createNewGroup = function(){
-            $(createGroupContainer, rootel).show();
-
-            // Load the creategroup widget.
-            $(window).trigger("init.creategroup.sakai");
-        };
-
-        /**
          * Takes a set of json and renders the groups.
          * @param {Object} newjson group list object
          */
         var doRender = function(newjson){
-
             // If the user is not registered for any sites, show the no sites error.
             if (newjson.entry.length === 0) {
                 $(mygroupsList, rootel).html(sakai.api.Security.saneHTML($(mygroupsErrorNoSites).html())).addClass(mygroups_error_class);
@@ -132,33 +102,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         /**
-         * Takes the groups list info from the me object,
-         * filtered out
-         *    - everyone
-         *    - all groups ending with -managers
-         * and put it in a useable format and execute the doRender method
-         * @param {Object} groups    group list object
-         */
-        var loadGroupList = function(groups){
-            var newjson = {
-                entry: []
-            };
-            for (var i = 0, il = groups.length; i < il; i++) {
-                if (doFilter(groups[i])) {
-                    newjson.entry.push(groups[i]);
-                }
-            }
-            // Render all the groups.
-            doRender(newjson);
-        };
-
-        /**
          * Will initiate a request to the my groups service.
          */
         var doInit = function(){
-            sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
             //get groups list info from me object, filter and then render groups
-            loadGroupList(sakai.data.me.groups);
+            doRender(sakai.api.Groups.getMemberships(sakai.data.me.groups));
         };
 
 
@@ -168,7 +116,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         $(".mygroups_create_new_group", rootel).die("click");
         $(".mygroups_create_new_group", rootel).live("click", function(ev){
-            createNewGroup(); 
+            $(window).trigger("sakai.overlays.createGroup"); 
         });
 
         // Start the request

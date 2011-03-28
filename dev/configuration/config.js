@@ -780,88 +780,78 @@ define(function() {
 
         Navigation: [
             {
-                "url" : "/you",
+                "url" : "/dev/user.html#",
                 "id" : "navigation_you_link",
                 "anonymous" : false,
                 "label" : "YOU",
                 "subnav": [
                     {
-                        "url" : "/home",
+                        "url" : "/dev/user.html#",
                         "id": "subnavigation_home_link",
                         "label": "MY_HOME"
                     },
                     {
-                        "url" : "/contacts",
-                        "id": "subnavigation_contacts_link",
-                        "label": "MY_CONTACTS_CAP"
-                    },
-                    {
-                        "url" : "/content",
-                        "id": "subnavigation_content_link",
-                        "label": "MY_CONTENT"
-                    },
-                    {
-                        "url" : "/memberships",
-                        "id": "subnavigation_memberships_link",
-                        "label": "MY_MEMBERSHIPS"
-                    },
-                    {
-                        "url" : "/messages",
+                        "url" : "/dev/user.html#l=messages/inbox",
                         "id": "subnavigation_messages_link",
                         "label": "MY_MESSAGES"
                     },
                     {
-                        "url" : "/preferences",
-                        "id": "subnavigation_preferences_link",
-                        "label": "MY_PREFERENCES"
+                        "id": "subnavigation_hr"
                     },
                     {
-                        "url" : "/profile",
+                        "url" : "/dev/user.html#l=profile/basicinfo",
                         "id": "subnavigation_profile_link",
                         "label": "MY_PROFILE"
+                    },
+                    {
+                        "url" : "/dev/user.html#l=content",
+                        "id": "subnavigation_content_link",
+                        "label": "MY_CONTENT"
+                    },
+                    {
+                        "url" : "/dev/user.html#l=memberships",
+                        "id": "subnavigation_memberships_link",
+                        "label": "MY_MEMBERSHIPS"
+                    },
+                    {
+                        "url" : "/dev/user.html#l=contacts",
+                        "id": "subnavigation_contacts_link",
+                        "label": "MY_CONTACTS_CAP"
                     }
                 ]
             },
             {
-                "url" : "/createandadd",
+                "url" : "/dev/user.html",
                 "id" : "navigation_create_and_add_link",
                 "anonymous" : false,
                 "label" : "CREATE_AND_ADD",
                 "subnav": [
                     {
                         "id": "subnavigation_add_content_link",
-                        "label": "ADD_CONTENT"
+                        "label": "ADD_CONTENT",
+                        "url": "javascript:;"
                     },
                     {
                         "id": "subnavigation_add_contacts_link",
-                        "label": "ADD_CONTACTS"
+                        "label": "ADD_CONTACTS",
+                        "url": "/search/people#q=*&filter=&facet=&page=1"
                     },
                     {
-                        "id": "subnavigation_hr",
+                        "id": "subnavigation_hr"
                     },
                     {
                         "id": "subnavigation_simple_group_link",
-                        "label": "SIMPLE_GROUP"
-                    },
-                    {
-                        "id": "subnavigation_course_link",
-                        "label": "COURSE"
-                    },
-                    {
-                        "id": "subnavigation_add_more_link",
-                        "label": "MORE"
+                        "label": "CREATE_GROUP",
+                        "url": "javascript:;"
                     }
                 ]
             },
             {
+                "url" : "/dev/directort2.html",
                 "id" : "navigation_explore_link",
                 "anonymous" : false,
                 "label" : "EXPLORE",
                 "subnav": [
-                    {
-                        "id": "subnavigation_explore_stanford_link",
-                        "label": "STANFORD"
-                    },
                     {
                         "id": "subnavigation_explore_content_link",
                         "label": "CONTENT"
@@ -871,8 +861,24 @@ define(function() {
                         "label": "GROUPS"
                     },
                     {
-                        "id": "subnavigation_explore_courses_link",
-                        "label": "COURSES"
+                        "id": "subnavigation_explore_people_link",
+                        "label": "PEOPLE"
+                    }
+                ]
+            },
+            {
+                "url" : "/dev/directort2.html",
+                "id" : "navigation_anon_explore_link",
+                "anonymous" : true,
+                "label" : "EXPLORE",
+                "subnav": [
+                    {
+                        "id": "subnavigation_explore_content_link",
+                        "label": "CONTENT"
+                    },
+                    {
+                        "id": "subnavigation_explore_groups_link",
+                        "label": "GROUPS"
                     },
                     {
                         "id": "subnavigation_explore_people_link",
@@ -881,40 +887,10 @@ define(function() {
                 ]
             },
             {
-                "id" : "navigation_anon_explore_link",
-                "anonymous" : true,
-                "label" : "EXPLORE",
-                "subnav": [
-                    {
-                        "id": "subnavigation_anon_explore_stanford_link",
-                        "label": "STANFORD"
-                    },
-                    {
-                        "id": "subnavigation_hr",
-                    },
-                    {
-                        "id": "subnavigation_anon_explore_sample_dashboard_link",
-                        "label": "SEE_SAMPLE_DASHBOARD"
-                    },
-                    {
-                        "id": "subnavigation_anon_explore_sample_course_link",
-                        "label": "SEE_SAMPLE_COURSE"
-                    },
-                    {
-                        "id": "subnavigation_anon_explore_sample_study_group_link",
-                        "label": "SEE_SAMPLE_STUDY_GROUP"
-                    },
-                    {
-                        "id": "subnavigation_anon_explore_sample_research_group_link",
-                        "label": "SEE_SAMPLE_RESEARCH_GROUP"
-                    }
-                ]
-            },
-            {
-                "url" : "/register",
+                "url" : "/dev/create_new_account2.html",
                 "id": "navigation_anon_signup_link",
                 "anonymous": true,
-                "label": "SIGN_UP",
+                "label": "SIGN_UP"
             }
         ],
 
@@ -947,7 +923,7 @@ define(function() {
          * are then required to call the sakai.api.Security.showPage
          * themselves
          */
-        requireProcessing: ["/dev/content_profile.html", "/dev/content_profile.html", "/dev/group_edit.html", "/dev/show.html"],
+        requireProcessing: ["/dev/user.html", "/dev/content_profile.html", "/dev/content_profile.html", "/dev/group_edit.html", "/dev/show.html"],
 
         showSakai2: false,
         useLiveSakai2Feeds: false,

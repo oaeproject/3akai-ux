@@ -30,6 +30,6 @@
 #carousel_container_bl{background: url("/devwidgets/carousel/images/carousel_bl.png") no-repeat scroll left top transparent;height: 7px;}
 
 /* Single column specific */
-#carousel_container #carousel_single_column_content_preview{width:350px; height:197px; background:url("/devwidgets/carousel/images/carousel_video_image.png") no-repeat top left transparent;margin-right:12px;float:left;}
+#carousel_container #carousel_single_column_content_preview{width:350px; height:197px; background:url("/devwidgets/carousel/images/carousel_video_image.png") no-repeat top left transparent;margin-right:12px; margin-top: -15px;float:left;}
 
 /* Two column specific */

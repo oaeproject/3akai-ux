@@ -643,6 +643,7 @@ define(["jquery",
                 });
             }
         }
+        
     };
 
     return sakaiUserAPI;

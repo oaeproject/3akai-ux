@@ -126,6 +126,7 @@ a:hover{text-decoration:underline;}
 .s3d-hidden,.i18nable{display:none;}
 .s3d-bold{font-weight:bold;}
 a.s3d-regular-links,.s3d-regular-links a, button.s3d-regular-links, .s3d-regular-links button{color:#006E96;}
+a.s3d-widget-links,.s3d-widget-links a, button.s3d-widget-links, .s3d-widget-links button{color:#006E96; font-size:0.9em;}
 .s3d-regular-light-links,.s3d-regular-light-links a,.s3d-regular-light-links button{color:#058EC4 !important;}
 .s3d-content-type-link a{color:#5FB3D2;}
 .s3d-remove-links{float:right;margin-right:10px;height:16px;}

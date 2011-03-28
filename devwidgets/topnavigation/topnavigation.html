@@ -146,20 +146,34 @@
             </form>
         </div>
     {else}
-        <a href="/inbox" title="__MSG__INBOX__"><div class="topnavigation_user_inbox"><p id="topnavigation_user_inbox_messages" class="s3d-bold"></p></div></a>
+        <a href="/dev/user.html#l=messages/inbox" title="__MSG__INBOX__"><div class="topnavigation_user_inbox"><p id="topnavigation_user_inbox_messages" class="s3d-bold"></p></div></a>
         <div class="topnavigation_user_options"><p id="topnavigation_user_options_name" class="s3d-bold"></p></div>
         <div class="topnavigation_user_dropdown" style="display:none;">
             <div class="topnavigation_user_dropdown_tr"></div>
             <div class="topnavigation_user_dropdown_content">
                 <ul>
-                    <li><a href="/logout" class="s3d-regular-links s3d-bold">__MSG__SIGN_OUT__</a></li>
                     <li><a href="/dev/account_preferences.html" class="s3d-regular-links s3d-bold">__MSG__MY_PREFERENCES__</a></li>
+                    <li><a href="/logout" class="s3d-regular-links s3d-bold">__MSG__SIGN_OUT__</a></li>
                 </ul>
             </div>
             <div class="topnavigation_user_dropdown_bottom"></div>
         </div>
     {/if}
 --></div>
+
+<!-- OVERLAYS -->
+
+<!-- CONTAINER FOR THE CREATEGROUP CONTAINER -->
+<div id="creategroupcontainer" style="display:none;">
+    <!-- We need this container to show the pop-up where you can add a group -->
+    <div id="widget_creategroup" class="widget_inline">
+    </div>
+</div>
+
+<!-- Upload Content Widget Container -->
+<div id="fileupload_container" style="display:none;">
+	<div id="widget_fileupload" class="widget_inline"></div>
+</div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/topnavigation/javascript/topnavigation.js"></script>

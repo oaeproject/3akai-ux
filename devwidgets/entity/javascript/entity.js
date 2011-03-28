@@ -759,30 +759,31 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(entityContainer).html(sakai.api.Util.TemplateRenderer("entity_" + context.context + "_template", context));
         }
         
-        var determineContext = function(){
-            var context = "user";
-            //var context = "content";
-            var type = "user_me";
+        $(window).bind("sakai.entity.init", function(ev, context, type, data){
+             var obj = {
+                 "context": context, 
+                 "type": type, 
+                 "anon": sakai.data.me.user.anon || false,
+                 "data": data || {}
+             }
+             renderEntity(obj);
+             addBinding(obj);
+        });
+        
+        $(window).trigger("sakai.entity.ready");
+
+            // var context = "user";
+            // var context = "content";
+            //var type = "user_me";
             //var type = "user_other";
             //var type = "contact";
             //var type = "content_not_shared";
             //var type = "content_shared";
             //var type = "content_managed";
-            if (document.location.pathname === "/dev/create_new_account2.html"){
-                context = "newaccount";
-                type = false;
-            }
-            return {"context": context, "type": type, "anon": sakai.data.me.user.anon || false};
-        }
-
-        var doInit = function(){
-            var context = determineContext();
-            renderEntity(context);
-            // Derived from the context we'll bind the correct elements
-            addBinding(context);
-        }
-
-        doInit();
+            //if (document.location.pathname === "/dev/create_new_account2.html"){
+            //    context = "newaccount";
+            //    type = false;
+            //}
 
     };
     sakai.api.Widgets.widgetLoader.informOnLoad("entity");

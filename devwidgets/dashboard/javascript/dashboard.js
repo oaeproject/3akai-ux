@@ -31,7 +31,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.dashboard = function(tuid, showSettings) {
+    sakai_global.dashboard = function(tuid, showSettings, widgetData) {
 
         // Add Goodies related fields
         var addGoodiesDialog = "#add_goodies_dialog";
@@ -991,27 +991,17 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
             // by showing it here instead of by default
             $(".widget-content #widgetscontainer", $rootel).show();
 
-            sakai.api.Widgets.loadWidgetData(tuid, decideExists);
+            if (widgetData && widgetData.layout) {
+                decideExists(true, widgetData);
+            } else {
+                sakai.api.Widgets.loadWidgetData(tuid, decideExists);
+            }
         };
 
-
-        /**
-         * Bind the init.dashboard.sakai event to initialize this dashboard
-         *
-         * @param e      standard jQuery Event object
-         * @param dashboard_tuid  (optional) tuid of the dashboard to initialize.
-         *     This is especially useful when there are multiple dashboard
-         *     widgets on one page.
-         */
-        $(window).bind("init.dashboard.sakai", function(e, path, editmode,
-            propertyname, fixedContainer, dashboard_tuid) {
-            if (dashboard_tuid && dashboard_tuid === tuid) {
-                init(path, editmode, propertyname, fixedContainer);
-                e.stopPropagation();
-            } else if (!dashboard_tuid) {
-                init(path, editmode, propertyname, fixedContainer);
-            }
-        });
+        //$(window).bind("init.dashboard.sakai", function(e, path, editmode, propertyname, fixedContainer) {
+            //init(path, editmode, propertyname, fixedContainer);
+            init("", true, "personalportal", false);
+        //});
 
         /**
          * Send out an event to indicate that the dashboard widget has been

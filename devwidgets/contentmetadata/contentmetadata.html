@@ -11,6 +11,9 @@
     <div id="contentmetadata_tags_container" class="contentmetadata_editable_for_maintainers">
         <!-- -->
     </div>
+    <div id="contentmetadata_url_container" class="contentmetadata_editable_for_maintainers">
+        <!-- -->
+    </div>
     <div id="contentmetadata_copyright_container" class="collapsible_container contentmetadata_editable_for_maintainers" style="display:none;">
         <!-- -->
     </div>
@@ -58,6 +61,17 @@
                 </span>
             {/if}
         {/if}
+    <div class='s3d-highlight_area_background_darker1_white_content_bl'><div class='s3d-highlight_area_background_darker1_white_content_binner'></div></div>
+--></div>
+
+<div id="contentmetadata_url_template" style="display:none;"><!--
+    <div class='s3d-highlight_area_background_darker1_white_content_tl'><div class='s3d-highlight_area_background_darker1_white_content_tinner'></div></div>
+    {if data.mode === "edit"}
+        <textarea id="contentmetadata_url_url" class="contentmetadata_edit_input">${data.data["sakai:pooled-content-url"]}</textarea>
+    {else}
+        <span class="contentmetadata_first_column">__MSG__URL__:</span>
+        <span id="contentmetadata_url_display" {if data.isManager}class="contentmetadata_click"{/if}>{if $.trim(data.data["sakai:pooled-content-url"]) != ""}<a class="s3d-action" target="_blank" href="${sakai.api.Security.escapeHTML(data.data["sakai:pooled-content-url"])}">${sakai.api.Security.escapeHTML(data.data["sakai:pooled-content-url"])}</a>{else}{if data.isManager}<span class="contentmetadata_manager_edit">__MSG__CLICK_TO_EDIT_URL__</span>{else}__MSG__NO_URL__{/if}{/if}</span>
+    {/if}
     <div class='s3d-highlight_area_background_darker1_white_content_bl'><div class='s3d-highlight_area_background_darker1_white_content_binner'></div></div>
 --></div>
 
