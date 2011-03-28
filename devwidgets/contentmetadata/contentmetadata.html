@@ -47,7 +47,7 @@
             {if data.data["sakai:tags"] && $.trim(data.data["sakai:tags"].toString()) != ""}
                 <span class="contentmetadata_second_column">
                     {var dirCount = 0;}
-                    {for tag in data.data["sakai:tags"]}{if tag.split("/")[0] !== "directory"}{if tag_index - dirCount > 0},{/if} <a href="/search#tag=/tags/${sakai.api.Security.escapeHTML(tag)}" target="_blank" class="s3d-action" title="__MSG__SEARCH_CONTENT_TAGGED_WITH__ '${sakai.api.Security.escapeHTML(tag)}'"">${sakai.api.Security.escapeHTML(tag)}</a>{else}{var dirCount = dirCount + 1;}{/if}{/for}
+                    {for tag in data.data["sakai:tags"]}{if tag.split("/")[0] !== "directory"}{if tag_index - dirCount > 0},{/if} <a href="/search#tag=/tags/${sakai.api.Security.escapeHTML(tag)}" class="s3d-action" title="__MSG__SEARCH_CONTENT_TAGGED_WITH__ '${sakai.api.Security.escapeHTML(tag)}'"">${sakai.api.Security.escapeHTML(tag)}</a>{else}{var dirCount = dirCount + 1;}{/if}{/for}
                 </span>
                 {if data.data["sakai:tags"].length == dirCount}
                     {if data.isManager}<span class="contentmetadata_manager_edit">__MSG__CLICK_TO_EDIT_TAGS__</span>{else}__MSG__NO_TAGS__{/if}
@@ -89,7 +89,7 @@
             <ul>
                 {for dir in directorylocations}
                     <li>
-                        <a href="/search#tag=/tags/directory/${data.saveddirectory[dir_index].toString().replace(/,/g, '/')}" target="_blank" class="s3d-action contentmetadata_locations_link" title="Search content located at ${dir}">
+                        <a href="/search#tag=/tags/directory/${data.saveddirectory[dir_index].toString().replace(/,/g, '/')}" class="s3d-action contentmetadata_locations_link" title="Search content located at ${dir}">
                             ${dir}
                         </a>
                     </li>
