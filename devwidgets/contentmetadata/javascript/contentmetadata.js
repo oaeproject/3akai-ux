@@ -313,6 +313,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] = url;
             sakai_global.content_profile.content_data.data["length"] = url.length;
             renderUrl(false);
+            var preview = sakai.api.Content.getPreviewUrl(url);
             $.ajax({
                 url: "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".html",
                 type: "POST",
@@ -321,7 +322,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     "sakai:pooled-content-url": url,
                     "sakai:pooled-content-revurl": url,
                     "sakai:pooled-content-file-name": url,
-                    "sakai:preview-url": sakai.api.Content.getPreviewUrl(url),
+                    "sakai:preview-url": preview.url,
+                    "sakai:preview-type": preview.type,
                     "length": url.length
                 },
                 success: function(){

@@ -32,13 +32,14 @@
  
  /*Content Preview template*/
  #contentpreview_image_rendered { border: 1px solid #D4DADE; }
- #contentpreview_html_iframe { width: 640px; height: 390px; frameborder: 0; }
+ #contentpreview_html_iframe { width: 920px; height: 560px; border: 2px solid #ccc; }
+ #contentpreview_externalhtml_iframe { width: 920px; height: 560px; }
  #contentpreview_image_calculatesize_container { position: absolute; left: -10000px; top: -10000px; }
 
  /* Image formatting */
- .contentpreview_other_preview { width:640px; height: 390px; border: 1px solid #D4DADE; display:none; }
- .contentpreview_image_preview_width { width:640px;}
- .contentpreview_image_preview_height { height:390px;}
+ .contentpreview_other_preview { width:920px; height: 560px; border: 1px solid #D4DADE; display:none; }
+ .contentpreview_image_preview_width { width:920px;}
+ .contentpreview_image_preview_height { height:560px;}
  .contentpreview_noborder { border:none;}
  .contentpreview_overflowhidden { overflow: hidden}
  

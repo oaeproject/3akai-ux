@@ -30,8 +30,8 @@
         <div class="fl-container-flex">
             <div class="fl-fix fl-centered fixed-container s3d-main-container">
                 <div class="s3d-page-fullcolumn-padding">
-                    <div class="fl-container-650 fl-force-left content_profile_left_column">
-                        <div id="widget_contentpreview" class="widget_inline"></div>
+                    <div id="widget_contentpreview" class="widget_inline"></div>
+                    <div class="fl-container-650 fl-force-left content_profile_left_column;" style="overflow: auto;">
                         <div id="widget_contentmetadata" class="widget_inline"></div>
                         <div id="widget_contentcomments_id123456789" class="widget_inline"></div>
                     </div>
@@ -42,6 +42,31 @@
                 </div>
             </div>
         </div>
+        
+        <!-- DELETE CONTENT WIDGET -->
+        <div id="widget_deletecontent" class="widget_inline"></div>
+
+        <!-- VIEW FILE REVISIONS WIDGET -->
+        <div id="widget_filerevisions" class="widget_inline"></div>
+
+        <!-- TOOLTIP WIDGET -->
+        <div id="widget_tooltip" class="widget_inline"></div>
+
+        <div id="content_profile_listpeople_container" class="testing fl-fix fl-centered fixed-container s3d-main-container" style="display:none;">
+            <!-- PICKERUSER WIDGET -->
+            <div id="widget_sharecontent" class="widget_inline"></div>
+
+            <span style="display:none;" id="content_profile_text">__MSG__CONTENT_PROFILE__</span>
+            <span style="display:none;" id="content_profile_users_added_text">__MSG__THE_FILE_HAS_BEEN_SUCCESSFULLY_SHARED_WITH__</span>
+            <span style="display:none;" id="content_profile_users_removed_text">__MSG__ALL_SELECTED_USERS_AND_GROUPS_HAVE_BEEN_REMOVED_FROM__</span>
+            <span style="display:none;" id="content_profile_viewers_text">__MSG__VIEWERS__</span>
+            <span style="display:none;" id="content_profile_managers_text">__MSG__MANAGERS__</span>
+            <span style="display:none;" id="content_profile_cannot_remove_everyone">__MSG__CONTENT_CANNOT_REMOVE_ALL_MANAGERS__</span>
+
+        </div>
+
+        <!-- ASSIGN LOCATION WIDGET -->
+        <div id="widget_assignlocation" class="widget_inline"></div>
 
         <!-- FOOTER WIDGET -->
         <div id="widget_footer" class="widget_inline footercontainer"></div>

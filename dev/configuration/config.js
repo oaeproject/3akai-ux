@@ -923,7 +923,7 @@ define(function() {
          * are then required to call the sakai.api.Security.showPage
          * themselves
          */
-        requireProcessing: ["/dev/user.html", "/dev/content_profile.html", "/dev/content_profile.html", "/dev/group_edit.html", "/dev/show.html"],
+        requireProcessing: ["/dev/user.html", "/dev/content_profile.html", "/dev/content_profile.html", "/dev/group_edit.html", "/dev/show.html", "/content"],
 
         showSakai2: false,
         useLiveSakai2Feeds: false,
