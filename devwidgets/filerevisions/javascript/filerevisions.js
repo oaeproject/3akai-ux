@@ -81,12 +81,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             sakai.api.Server.batch($.toJSON(reqs), function(success, data) {
                 if (success){
-                    //FIXME order based assignment is hacky
-                    var i=0;
-                    $.each(baseFileData.revEditors, function(userId, val) {
-                        var profile = $.parseJSON(data.results[i].body);
+                    $.each(data.results, function(i, val) {
+                        var profile = $.parseJSON(val.body);
+                        var userId = profile.homePath.split("/~")[1];
                         baseFileData.revEditors[userId] = sakai.api.User.getDisplayName(profile);
-                        i++;
                     });
                     baseFileData["sakai:savedByFull"] = baseFileData.revEditors[userid];
                     renderRevisionData();
