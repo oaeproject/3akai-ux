@@ -67,7 +67,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             //$listpeopleinnodeAjaxLoader.hide();
             if(success){
                 results.sakai = sakai;
-                alert("aa");
                 $(listpeopleinnodeMainLoadingProgress).removeClass(listpeopleinnodeMainProgress);
                 $listpeopleinnodePeopleContainer.html(sakai.api.Util.TemplateRenderer(listpeopleinnodePeopleTemplate, results));
             }
