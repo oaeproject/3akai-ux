@@ -110,8 +110,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $.each(data.versions, function(i, v) {
                         baseFileData.revEditors[v["_bodyLastModifiedBy"]]="";
                     });
-                    if (baseFileData.data.lastModifiedBy) {
-                        getUserProfile(baseFileData.data.lastModifiedBy);
+                    if (baseFileData.data["_lastModifiedBy"]) {
+                        getUserProfile(baseFileData.data["_lastModifiedBy"]);
                     } else {
                         getUserProfile(baseFileData.data["sakai:pool-content-created-for"]);
                     }
