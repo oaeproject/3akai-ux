@@ -55,7 +55,7 @@ img.sm_suggestion_img{height:16px;width:16px;margin-right:5px;}
 #sharecontent_listpeople ul li span.sharecontent_positioned {margin:4px 0 0 8px;}
 #sharecontent_listpeople ul li:hover{background-color:#9cf;}
 #sharecontent_listpeople ul .s3d-highlight_area_background{margin:0;}
-.sharecontent_viewer_name,.sharecontent_manager_name{float:left;padding-top:4px;}
+.sharecontent_viewer_name,.sharecontent_manager_name{float:left;padding-top:4px; width:60%;}
 .sharecontent_people_picture{float:left;height:32px;margin-right:10px;width:32px;}
 .sharecontent_right_floats{float:right;margin-right:10px;}
 .sharecontent_right_floats button {float:left;}
