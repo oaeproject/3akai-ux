@@ -44,11 +44,15 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js"], func
             $popularcontent_main = $("#popularcontent_main", $rootel),
             $popularcontent_main_template = $("#popularcontent_main_template", $rootel);
 
+        var popularcontentMainLoadingProgress = "#popularcontent_main_progress_loading";
+        var popularcontentMainProgress = "popularcontent_main_progress";
+
         var contentData = {};
 
         var popularContentEllipsisContainer = ".popularcontent_ellipsis_container";
 
         var renderPopularContent = function(){
+            $(popularcontentMainLoadingProgress).removeClass(popularcontentMainProgress);
             $popularcontent_main.html(sakai.api.Util.TemplateRenderer($popularcontent_main_template, {
                 data: contentData
             })).show();
@@ -62,6 +66,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js"], func
         };
 
         var loadDataDirectory = function(selected, callback){
+            $(popularcontentMainLoadingProgress).addClass(popularcontentMainProgress);
             var params = {
                 page: 0,
                 items: 10,
