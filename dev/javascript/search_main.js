@@ -286,6 +286,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     // Parse the user his info.
                     user.path = "/~" + user.userid + "/public/";
                     var person = item;
+                    if (person && person.basic && person.basic.elements && person.basic.elements.picture && $.parseJSON(person.basic.elements.picture.value).name){
+                        person.picture = person.basic.elements.picture.value;
+                    }
                     if (person.picture) {
                         var picture;
                         // if picture is string
@@ -310,7 +313,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     }
                     if (sakai.api.User.getDisplayName(item) !== "")  {
                         user.name = sakai.api.User.getDisplayName(item);
-                        user.name = sakai.api.Util.applyThreeDots(user.name, 180, {max_rows: 1,whole_word: false}, "s3d-bold")
+                        user.name = sakai.api.Util.applyThreeDots(user.name, 180, {max_rows: 1,whole_word: false}, "s3d-bold");
                         user.firstName = sakai.api.User.getProfileBasicElementValue(item, "firstName");
                         user.lastName = sakai.api.User.getProfileBasicElementValue(item, "lastName");
                     } else {

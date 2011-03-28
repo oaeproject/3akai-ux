@@ -58,7 +58,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var renderRevisionData = function(){
             var data = [];
-            baseFileData.created = sakai.api.l10n.transformDate(new Date(baseFileData.data["created"]));
+            baseFileData.created = sakai.api.l10n.transformDate(new Date(baseFileData.data["_created"]));
             data.data = baseFileData;
             data.linkrevision = $("#content_profile_details_view_revisions").hasClass("link_revision");
             data.sakai = sakai;

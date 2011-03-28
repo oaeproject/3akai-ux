@@ -56,10 +56,10 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                 //}
 
                 var urlLength = (document.location.protocol + "://" + document.location.host + sakai_conf.URL.BATCH + "?requests=" + _requests.replace(/[^A-Za-z0-9._]/g, "%XX")).length;
-                if(hasIELongUrlBug && $.browser.msie && urlLength > 300){
+                if (!_forcePOST && hasIELongUrlBug && urlLength > 2000) {
                     method = "POST";
-                } else if (!_forcePOST && hasIELongUrlBug && urlLength > 2000) {
-                    method = "POST";
+                } else if(hasIELongUrlBug && $.browser.msie && urlLength > 300){
+                    cache = false;
                 } else {
                     // if any request contains a POST, we should be POSTing so the request isn't cached
                     // maybe just GET with no cache? not sure
@@ -271,12 +271,12 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                 delete i_object["jcr:primaryType"];
             }
 
-            if (i_object["created"]) {
-                delete i_object["created"];
+            if (i_object["_created"]) {
+                delete i_object["_created"];
             }
 
-            if (i_object["createdBy"]) {
-                delete i_object["createdBy"];
+            if (i_object["_createdBy"]) {
+                delete i_object["_createdBy"];
             }
 
             if (i_object["jcr:mixinTypes"]) {
@@ -286,10 +286,25 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
             // Loop through keys and call itself recursively for the next level if an object is found
             for (var i in i_object) {
                 if (i_object.hasOwnProperty(i) && $.isPlainObject(i_object[i])) {
-                  this.removeJCRObjects(i_object[i]);
+                  sakaiServerAPI.removeJCRObjects(i_object[i]);
                 }
             }
 
+        },
+
+        /**
+         * Removes any object created by the server
+         *
+         * @param {Object} the object to clean
+         */
+        removeServerCreatedObjects : function(obj) {
+            $.each(obj, function(key,val) {
+                if (key && key.indexOf && key.indexOf("_") === 0) {
+                    delete obj[key];
+                } else if ($.isPlainObject(obj[key]) || $.isArray(obj[key])) {
+                    sakaiServerAPI.removeServerCreatedObjects(obj[key]);
+                }
+            });
         },
 
         /**

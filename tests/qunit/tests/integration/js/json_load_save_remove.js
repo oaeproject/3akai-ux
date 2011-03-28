@@ -120,6 +120,7 @@ require(
         var load = function(url, json){
 
             var loadCallback = function(success, data){
+                sakai.api.Server.removeServerCreatedObjects(data);
                 same(data, json, "The saved JSON is the same as the loaded JSON");
                 start();
             };

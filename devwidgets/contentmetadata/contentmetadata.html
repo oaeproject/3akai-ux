@@ -105,19 +105,19 @@
     <div class='s3d-highlight_area_background_darker1_white_content_tl'><div class='s3d-highlight_area_background_darker1_white_content_tinner'></div></div>
         <span class="contentmetadata_content_row">
             <span class="contentmetadata_first_column">__MSG__SIZE__: </span>
-            <span>${sakai.api.Util.convertToHumanReadableFileSize(data.data["length"])}</span>
+            <span>${sakai.api.Util.convertToHumanReadableFileSize(data.data["_length"])}</span>
         </span>
         <span class="contentmetadata_content_row">
             <span class="contentmetadata_first_column">__MSG__TYPE__: </span>
-            <span>${data.data["mimeType"]}</span>
+            <span>${data.data["_mimeType"]}</span>
         </span>
         <span class="contentmetadata_content_row">
             <span class="contentmetadata_first_column">__MSG__CREATED__: </span>
-            <span>${sakai.api.l10n.transformDate(sakai.api.l10n.fromEpoch(data.data["created"], sakai.data.me))}</span>
+            <span>${sakai.api.l10n.transformDate(sakai.api.l10n.fromEpoch(data.data["_created"], sakai.data.me))}</span>
         </span>
         <span class="contentmetadata_content_row">
             <span class="contentmetadata_first_column">__MSG__LAST_MODIFIED__: </span>
-            <span>${sakai.api.l10n.transformDate(sakai.api.l10n.fromEpoch(data.data["lastModified"]), sakai.data.me)}</span>
+            <span>${sakai.api.l10n.transformDate(sakai.api.l10n.fromEpoch(data.data["_lastModified"]), sakai.data.me)}</span>
         </span>
         <span class="contentmetadata_content_row">
             <span class="contentmetadata_first_column">__MSG__REVISIONS__: </span>
