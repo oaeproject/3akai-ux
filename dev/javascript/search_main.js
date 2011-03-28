@@ -185,7 +185,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * Checks for a query arg in the URL. If none, does a search for all (*).
          */
         var checkQuery = function () {
-            if (!$.bbq.getState("q") || $.trim($.bbq.getState("q")) === "") {
+            if ((!$.bbq.getState("q") ||
+                $.trim($.bbq.getState("q")) === "") &&
+                (!$.bbq.getState("tag") ||
+                $.trim($.bbq.getState("tag")) === "")) {
+
                 callback.doHSearch(1, "*");
             }
         };
