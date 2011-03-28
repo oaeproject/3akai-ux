@@ -54,14 +54,14 @@
                         {var j = "1." + count}
                         <a {if linkrevision} href="${versions[j]["sakai:pooled-content-revurl"]}" {else} href="/p/${data.data["jcr:path"]}.version.,${j},/${versions[j]["sakai:pooled-content-file-name"]}{if versions[j]["sakai:pooled-content-file-name"].substring(versions[j]["sakai:pooled-content-file-name"].lastIndexOf("."), versions[j]["sakai:pooled-content-file-name"].length) !== versions[j]["sakai:fileextension"]}${versions[j]["sakai:fileextension"]}{/if}"{/if} title="__MSG__SHOW_VERSION__ ${count}" target="_blank" class="filerevisions_download_version">{if linkrevision} __MSG__OPEN_THIS_LINK__{else} __MSG__DOWNLOAD__{/if}</a>
                         <span class="filerevisions_lefthand_description">__MSG__REVISED__</span>
-                        <span class="filerevisions_list_content">${parseDate(versions[j]["_bodyLastModified"])} ${by(versions[j]["lastModifiedBy"])}</span>
+                        <span class="filerevisions_list_content">${parseDate(versions[j]["_bodyLastModified"])} ${by(versions[j]["_lastModifiedBy"])}</span>
                     </li>
                 {/if}
                 {var count = count + 1}
             {/for}
             <li class="{if Math.round(data.numberOfRevisions % 2) != 1}s3d-highlight_area_background{/if}">
                 <span class="filerevisions_lefthand_description">__MSG__CURRENT_VERSION__</span>
-                <span class="filerevisions_list_content">${parseDate(data.data["_bodyLastModified"])} ${by(data.data["lastModifiedBy"])}</span>
+                <span class="filerevisions_list_content">${parseDate(data.data["_bodyLastModified"])} ${by(data.data["_lastModifiedBy"])}</span>
             </li>
             <button type="button" id="filerevisions_close" class="s3d-button s3d-button-primary jqmClose dialog_close_image">
                 <span class="s3d-button-inner">__MSG__CLOSE__</span>
