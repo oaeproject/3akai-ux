@@ -206,7 +206,20 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
                 var userId = uri.path.split('/')[1];
                 var albumName = uri.path.split('/')[2];
                 var photoId = uri.anchor;
-                result = "https://picasaweb.google.com/data/feed/base/user/" + userId + "/album/" + albumName + "/photoid/" + photoId + "?alt=json";
+                $.ajax({
+                    url: "/var/proxy/google/picasaGetPhoto.json",
+                    type: "GET",
+                    async: false,
+                    cache: false,
+                    data: {
+                        "userId" : userId,
+                        "albumName" : albumName,
+                        "photoId" : photoId
+                    },
+                    success: function(data){
+                        result = data.feed.icon["$t"];
+                    }
+                });
             } else if (/youtube\.com$/.test(uri.host)) {
                 if (uri.path !== ""){
                     result = url;
