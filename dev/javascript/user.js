@@ -158,7 +158,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 }
             },
         	"533118849": {
-        		"page": "Basic Information HTML fragment"
+        		"page": "Basic Information HTML fragment<br/><br/><div id='widget_newinbox' class='widget_inline'></div>"
         	},
         	"657672090": {
         		"page": "About Me HTML fragment"
