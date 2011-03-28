@@ -554,7 +554,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 if (getComments) {
                     pagerClickHandler(1);
                 }
-                if (allowComments === "false") {
+                var isLoggedIn = (me.user.anon && me.user.anon === true) ? false : true;
+                if (allowComments === "false" || !isLoggedIn) {
                     // hide comments entry box
                     $("#comments_userCommentContainer", rootel).hide();
                 } else {
