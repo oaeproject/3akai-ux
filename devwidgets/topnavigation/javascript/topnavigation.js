@@ -110,6 +110,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(topnavUserOptionsLoginFields).hide();
             } else {
                 $(topnavUserOptionsLoginFields).show();
+                $(topnavUseroptionsLoginFieldsUsername).focus();
             }
         };
 
@@ -420,8 +421,29 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 });
                 return false;
             })
+        };
+        
+        //////////////
+        // OVERLAYS //
+        //////////////
+        
+        var renderOverlays = function(){
+            sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
         }
 
+        $(window).bind("sakai.overlays.createGroup", function(ev){
+            $("#creategroupcontainer").show();
+            // Load the creategroup widget.
+            $(window).trigger("init.creategroup.sakai");
+        });
+        
+        $("#subnavigation_simple_group_link").live("click", function(){
+        	$(window).trigger("sakai.overlays.createGroup");
+        });
+        
+        $("#subnavigation_add_content_link").live("click", function(ev) {
+            $(window).trigger("init.fileupload.sakai");
+        });
 
         /////////////////////////
         /////// INITIALISE //////
@@ -436,6 +458,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             setCountUnreadMessages();
             setUserName();
             addBinding();
+            renderOverlays();
         };
 
         doInit();

@@ -149,12 +149,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Event Handlers //
         ////////////////////
 
-        // Clicking to upload content
-        $(uploadLink, rootel).click(function(ev) {
-            $(window).trigger("init.fileupload.sakai");
-            return false;
-        });
-
         // Listen for complete.fileupload.sakai event (from the fileupload widget)
         // to refresh this widget's file listing
         $(window).bind("complete.fileupload.sakai", function() {

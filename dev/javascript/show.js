@@ -85,6 +85,13 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         entityType = "group";
                     } else {
                         entityType = "user";
+                        if (entityID === sakai.data.me.user.userid) {
+                            document.location = "/dev/user.html";
+                            return;
+                        } else {
+                            document.location = "/dev/user.html?id=" + entityID;
+                            return;
+                        }
                     }
                     entityData = data;
                     switch (entityType) {

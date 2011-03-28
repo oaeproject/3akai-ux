@@ -15,12 +15,11 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-.displayprofilesection_widget .fl-widget-content{padding:10px;}
 .displayprofilesection_widget .displayprofilesection_section_title{width:100%;clear:both;margin:2px 0 10px;}
 .displayprofilesection_widget .dialog_buttons{float:right;}
 
 /** OVERRIDE PROFILESECTION CSS **/
-.displayprofilesection_widget #profilesection_generalinfo .profilesection_generalinfo_label,.profilesection_generalinfo label{width:auto!important;}
+.displayprofilesection_widget #profilesection_generalinfo .profilesection_generalinfo_label,.profilesection_generalinfo label{width:120px;}
 .displayprofilesection_widget #profilesection_generalinfo div.profilesection_generalinfo_content{width:auto!important;}
-.displayprofilesection_widget #profilesection_generalinfo .profilesection_generalinfo_header{display:none;}
+.displayprofilesection_widget #profilesection_generalinfo .profilesection_generalinfo_header{margin:0 0 15px !important; padding:0 0 15px !important;}
 .displayprofilesection_widget #edit_view_container .content_bottom,.fl-widget .fl-widget-no-options{clear:both;}

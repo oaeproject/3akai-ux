@@ -21,14 +21,17 @@
 #lhnavigation_container ul li{display:block; list-style:none;color:#707e8c;padding:4px 12px 0 28px;}
 #lhnavigation_container ul li .lhnavigation_private {background:url("/dev/images/icons_sprite.png") no-repeat scroll -823px -21px transparent;height:16px;margin-left:136px;margin-top:-16px;position:absolute;width:11px;}
 #lhnavigation_container ul li .lhnavigation_has_subnav{background: url("/dev/images/icons_sprite.png") no-repeat scroll -863px -21px transparent;height: 10px;margin-left: -15px;margin-top: 3px;position: absolute;width: 12px;}
+#lhnavigation_container ul li .lhnavigation_has_subnav_opened{background: url("/dev/images/icons_sprite.png") no-repeat scroll -882px -22px transparent !important;}
 
 #lhnavigation_container ul li.lhnavigation_selected_item{background:url("/devwidgets/lhnavigation/images/lhnav_selected_item_bg.png") repeat-x left top transparent;color:#fff;}
 #lhnavigation_container ul li.lhnavigation_selected_item .lhnavigation_private{background:url("/dev/images/icons_sprite.png") no-repeat scroll -803px -21px transparent;}
 #lhnavigation_container ul li .lhnavigation_selected_item_arrow{height:25px; width:9px;background:url("/devwidgets/lhnavigation/images/lhnav_selected_item_arrow.png") no-repeat left top transparent;margin-left: 157px;margin-top: -20px;}
-#lhnavigation_container ul li.lhnavigation_selected_item .lhnavigation_has_subnav{background: url("/dev/images/icons_sprite.png") no-repeat scroll -882px -22px transparent;}
+#lhnavigation_container ul li .lhnavigation_selected_item_arrow_sub{margin-left: 145px;}
 #lhnavigation_container ul li.lhnavigation_selected_item a {color:#fff; text-decoration:none;font-weight:bold;}
 #lhnavigation_container ul li.lhnavigation_hassubnav{cursor:pointer;}
 
 #lhnavigation_container ul .lhnavigation_hoverable_item:hover{color:#1e5b85;cursor:pointer;}
 #lhnavigation_container ul .lhnavigation_hoverable_item:hover .lhnavigation_has_subnav{background: url("/dev/images/icons_sprite.png") no-repeat scroll -843px -21px transparent;}
 #lhnavigation_container ul li ul {margin:0;}
+#lhnavigation_container .lhnavigation_subnav{margin:5px 0px;}
+#lhnavigation_container .lhnavigation_subnav li{padding-left:40px;}
