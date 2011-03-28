@@ -63,8 +63,15 @@
         {if config && config.label}
             <div class="profilesection_generalinfo_header">
                 <h2 class="fl-force-left">${config.label}</h2>
+            </div>
+        {/if}
 
-                {if (mode.value === "viewmy" || mode.value === "edit") && config.modifyacl !== false}
+        ${fields}
+    {/if}
+--></div>
+
+<!--
+    {if (mode.value === "viewmy" || mode.value === "edit") && config.modifyacl !== false}
                         {var _access = "everybody"}
                     {if data && data.access}
                         {var _access = data.access}
@@ -83,12 +90,7 @@
                         {/if}
                     </div>
                 {/if}
-            </div>
-        {/if}
-
-        ${fields}
-    {/if}
---></div>
+-->
 
 <!-- MULTIPLE INSTANCE ADD ANOTHER TEMPLATE -->
 <div id="profilesection_add_section_template"><!--
