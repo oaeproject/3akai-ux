@@ -738,6 +738,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             var oldName = sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"].split(".");
             var oldExt = "." + oldName.pop();
             oldName = oldName.join(".");
+            sakai_global.content_profile.content_data.path = "/p/" + oldVersionPath + "/" + oldName + extension;
             if (oldExt !== extension) {
                 $.ajax({
                     url: "/p/" + oldVersionPath + ".json",
