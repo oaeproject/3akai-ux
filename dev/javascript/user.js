@@ -55,7 +55,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         		"page": "<div id='widget_carousel' class='widget_inline'></div><br/><div id='widget_dashboard_546341435' class='widget_inline'></div>"
         	},
         	"1165301022": {
-        		"page": "<div id='widget_inbox_2024634737' class='widget_inline'/>"
+        		"page": "<div id='widget_newinbox_2024634737' class='widget_inline'/>"
         	},
         	"9867733100": {
         		"page": "<div id='widget_inbox_3679202964' class='widget_inline'/>"
