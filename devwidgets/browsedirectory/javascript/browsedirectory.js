@@ -116,7 +116,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             initiallySelect = browsedirectoryData[0].attr.id;
             // if id is passed set inital select as id
             if (id) {
-                initiallySelect = id;
+                var lastIndex = id.split("/").length - 1;
+                initiallySelect = id.split("/")[lastIndex];
             }
 
             // set up new jstree for directory
