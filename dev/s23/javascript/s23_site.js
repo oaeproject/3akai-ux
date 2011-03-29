@@ -104,6 +104,12 @@ sakai.s23_site = function(){
      */
     var loadPageTools = function(pageid){
 
+        // Remove the active class from the previous selected item
+        $(s23SiteMenuItems).removeClass(s23SiteMenuActive);
+
+        // Set the active class to the item you just clicked on
+        $('#'+s23SiteMenuItemTag+pageid).addClass(s23SiteMenuActive);
+
         // Get the page info for a certain page and store it in a variable
         var page = getPageInfo(pageid);
 
@@ -185,14 +191,8 @@ sakai.s23_site = function(){
             // Prevent going to the actual page
             ev.preventDefault();
 
-            // Get the id of the tool you clicked on
+            // Get the id of the page you clicked on
             var id = this.id.replace(s23SiteMenuItemTag, "");
-
-            // Remove the active class from the previous selected item
-            $(s23SiteMenuItems).removeClass(s23SiteMenuActive);
-
-            // Set the active class to the item you just clicked on
-            $(this).addClass(s23SiteMenuActive);
 
             // Load the tools for a specific page
             loadPageTools(id);
@@ -220,8 +220,16 @@ sakai.s23_site = function(){
             // Add binding to the tools links
             addBinding();
 
-            // Pretend like you clicked on the first page
-            $(s23SiteMenuItems + ":first").trigger("click");
+            if (qs.contains("pageid")) {
+                // If the pageid was passed in through the URL. This will sometimes be
+                // the result of a Sakai 2 portal being rewritten from:
+                // portal/site/{siteid}/page/{pageid}
+                loadPageTools(qs.get("pageid"));
+            }
+            else {
+                // Pretend like you clicked on the first page
+                $(s23SiteMenuItems + ":first").trigger("click");
+            }
         }
         else {
             debug.error("s23_site: An error occured when parsing the Sakai 2 site information");
