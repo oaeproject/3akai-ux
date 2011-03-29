@@ -366,6 +366,7 @@ define(["jquery",
                     }
                 }
             });
+            currentTags = currentTags || [];
             // determine the tags the entity has
             var tags = $.unique($.merge($.merge([], currentTags), tagsToAdd));
             $(tags).each(function(i,val) {
