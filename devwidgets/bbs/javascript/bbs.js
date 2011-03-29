@@ -809,20 +809,20 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
             // EDIT POST //
             $(bbsEdit, $rootel).live("click", function(){
                 var renderData = {};
-                if ($(this).prevAll(bbsQuotedTextContainer).length) {
+                if ($(this).parent().prevAll(bbsQuotedTextContainer).length) {
                     renderData = {
                         "edit": true,
                         "quoted": true,
                         "quotedUser": $(this).parents(s3dHighlightBackgroundClass).find(bbsReplyContentsTextQuoted).text(),
-                        "quotedMessage": $.trim($(this).prevAll(bbsQuotedTextContainer).children(bbsReplyContentsText).text()),
-                        "body": $.trim($(this).parent().find(bbsPostMessage).text())
+                        "quotedMessage": $.trim($(this).parent().prevAll(bbsQuotedTextContainer).children(bbsReplyContentsText).text()),
+                        "body": $.trim($(this).parent().parent().find(bbsPostMessage).text())
                     };
                 } else {
                     renderData = {
                         "edit": true,
                         "quoted": false,
                         "quotedUser": false,
-                        "body": $.trim($(this).parent().find(bbsPostMessage).text())
+                        "body": $.trim($(this).parent().parent().find(bbsPostMessage).text())
                     };
                 }
                 $(this).parents(s3dHighlightBackgroundClass).children( bbsEntityContainer + "," + bbsReplyContents).hide();
