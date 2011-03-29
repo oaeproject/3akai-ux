@@ -1,0 +1,20 @@
+.content_main{margin:0 10px 10px 15px;overflow:hidden; }
+
+.content_title {font-size:1.1em;}
+.content_information {margin-top:15px;}
+.content_information_detail {width:70%;}
+.content_information_fliter {float:right;}
+.content_title_bar {border-bottom:1px solid #DDDDDD; padding:5px 0;height:20px; margin-bottom:15px;}
+.content_title_bar span{ color: #666666; font-size:1.1em;}
+.content_widget{overflow:hidden;}
+.content_items {color:#333;padding:10px 0 5px 0; border-bottom:1px solid #DDDDDD;}
+.content_items img {float: left;padding: 0 10px 5px 0;width: 40px;}
+.content_name_div {color:#878A8C; width:50%; overflow:hidden;}
+.content_name {display:block;}
+.content_edit {background:url("/dev/images/dashboard_sprite.png") no-repeat scroll -186px -393px transparent;heght:18px;margin:15px 8px 0 0;position:relative;}
+.content_placeholder {width:20px; float:left;}
+.content_icon {background:url("/dev/images/dashboard_sprite.png") no-repeat scroll -68px -235px transparent; margin-top:10px;float:left;display:none;}
+.content_description {float:right; border-left:1px solid  #DDDDDD;width:30%; padding-left:5px;}
+.content_description_detail {color: #666666; font-size:0.9em; display:block; padding-top:2px;}
+.content_detail_dark {color:#000000;}
+.content_noborder{border:none;}
