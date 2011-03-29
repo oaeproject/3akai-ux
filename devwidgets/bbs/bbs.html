@@ -172,7 +172,7 @@
                     {if settings.anon != true && settings.canreply == true}
                         <span class="bbs_message_options">
                             <a href="javascript:;" class="bbs_quote s3d-bold s3d-regular-links">__MSG__QUOTE__</a>
-                            {if postData["sakai:from"] == settings.userid || settings.ismanager == true}
+                            {if topic.post["sakai:from"] == settings.userid || settings.ismanager == true}
                                 <span class="bbs_pipe_divider">|</span>
                                 <a href="javascript:;" class="bbs_edit s3d-bold s3d-regular-links">__MSG__EDIT__</a>
                             {/if}
