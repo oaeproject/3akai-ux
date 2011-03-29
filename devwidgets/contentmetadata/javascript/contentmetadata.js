@@ -308,12 +308,15 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          */
         var updateUrl = function(){
             var url = $("#contentmetadata_url_url").val();
+            var preview = sakai.api.Content.getPreviewUrl(url);
             sakai_global.content_profile.content_data.data["sakai:pooled-content-url"] = url;
             sakai_global.content_profile.content_data.data["sakai:pooled-content-revurl"] = url;
             sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] = url;
+            sakai_global.content_profile.content_data.data["sakai:preview-url"] = preview.url;
+            sakai_global.content_profile.content_data.data["sakai:preview-type"] = preview.type;
+            sakai_global.content_profile.content_data.data["sakai:preview-avatar"] = preview.avatar;
             sakai_global.content_profile.content_data.data["length"] = url.length;
             renderUrl(false);
-            var preview = sakai.api.Content.getPreviewUrl(url);
             $.ajax({
                 url: "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".html",
                 type: "POST",
@@ -324,6 +327,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     "sakai:pooled-content-file-name": url,
                     "sakai:preview-url": preview.url,
                     "sakai:preview-type": preview.type,
+                    "sakai:preview-avatar": preview.avatar,
                     "length": url.length
                 },
                 success: function(){

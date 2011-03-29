@@ -468,7 +468,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             "sakai:copyright": $fileUploadCopyrightSelect.val(),
                             "sakai:directory": "default",
                             "sakai:preview-url": preview.url,
-                            "sakai:preview-type": preview.type
+                            "sakai:preview-type": preview.type,
+                            "sakai:preview-avatar": preview.avatar
                         }
                     };
                     batchDescriptionData[batchDescriptionData.length] = item;
@@ -492,7 +493,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                                 "sakai:directory": "default",
                                 "sakai:description": $fileUploadAddDescription.val(),
                                 "sakai:permissions": $fileUploadPermissionsSelect.val(),
-                                "sakai:copyright": $fileUploadCopyrightSelect.val()
+                                "sakai:copyright": $fileUploadCopyrightSelect.val(),
+                                "sakai:preview-avatar": preview.avatar
                             }
                         };
                         batchDescriptionData[batchDescriptionData.length] = item2;

@@ -209,8 +209,12 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
                 result.url = "https://picasaweb.google.com/data/feed/base/user/" + userId + "/album/" + albumName + "/photoid/" + photoId + "?alt=json";
                 result.type = "image";
             } else if (/youtube\.com$/.test(uri.host)) {
-                result.url = url;
-                result.type = "video";
+                var qs = new Querystring(uri.query);
+                if (qs.get("v")){
+                    result.url = url;
+                    result.type = "video";
+                    result.avatar = "http://img.youtube.com/vi/" + qs.get("v") + "/0.jpg";    
+                }
             } else if (/amazon\.com$/.test(uri.host)) {
                 var asin = uri.path.split("/");
                 asin = bookId[bookId.indexOf('dp')+1];
