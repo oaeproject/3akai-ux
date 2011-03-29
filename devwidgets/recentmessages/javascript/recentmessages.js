@@ -76,24 +76,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $recentmessagesContainer.html($recentmessagesErrorNomessages);
             } else {
                 response.sakai = sakai;
+                for(var item in response.results){
+                    if(response.results.hasOwnProperty(item)){
+                        response.results[item]["sakai:subject"] = sakai.api.Util.applyThreeDots(response.results[item]["sakai:subject"], $(".recentmessages_widget .s3d-widget-content").width() - 130, {max_rows: 1,whole_word: false}, "s3d-bold");
+                        response.results[item]["dotteduserFrom"] = sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(response.results[item].userFrom[0]), 100, {max_rows: 1,whole_word: false});
+                    }
+                }
                 // Only if everything went fine, show the recent messages
                 $recentmessagesContainer.html(sakai.api.Util.TemplateRenderer(recentmessagesTemplate, response));
-
-                // make sure the newly added content is properly styled with
-                // -nameWidth for the name besides the type
-                $(ellipsisContainer).each(function(idx, elt) {
-                    var $senderName = $(elt).parent("a").siblings(".recentmessages_sendername");
-                    var nameWidth = $senderName.width() + 5;
-                    $(elt).css("width", $(elt).parent("a").parent("li").width()-nameWidth + "px");
-                    // threedots truncation
-                    $(elt).ThreeDots({
-                        max_rows: 1,
-                        text_span_class: "recentmessages_ellipsis_text",
-                        e_span_class: "recentmessages_e_span_class",
-                        whole_word: false,
-                        alt_text_t: true
-                    });
-                });
                 // need to define for chrome...if
                 $(ellipsisContainer).css("display","inline");
             }

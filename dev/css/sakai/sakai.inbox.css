@@ -13,15 +13,17 @@
 
 /** Folders **/
 .inbox_main .fl-widget .fl-widget-titlebar .widget_title_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -420px -19px transparent;}
+/*SAKIII-2556 IE 7 problem fixed*/
+.inbox_main .fl-widget .fl-widget-titlebar .widget-titlebar-inner {*width:215px; *min-height:40px;*margin-top:-17px;}
 .inbox_main .inbox-folders{width:230px;margin:0;padding:0;overflow:hidden;}
 .inbox_main .inbox-folders .if_titlebar_inner{padding:18px 0 0 17px;}
 .inbox_main .inbox-folders .if_title{color:#878A8C;font-size:1em;padding:13px 0 0 40px;margin:0;}
 .inbox_main .inbox-folders .if_content ul{padding:0 0 0 20px;margin:0;}
 .inbox_main .inbox-folders .if_content ul li{list-style-type:none;}
-.inbox_main .inbox-folders .if_content ul li button{font-weight:normal;}
+.inbox_main .inbox-folders .if_content ul li button{font-weight:normal; *width:150px;}
 .inbox_main .inbox-folders .if_content ul li span{font-weight:normal;color:#999;}
 .inbox_main .inbox-folders .if_content .tab{margin:10px 0;}
-.inbox_main .inbox-folders .if_content .tab button{font-size:1.2em;}
+.inbox_main .inbox-folders .if_content .tab button{font-size:1.2em; *width:100px;}
 .if_content .inbox_filter .inbox_icon{float: left;height: 17px;margin-right: 10px;width: 16px;}
 .inbox_main .inbox-folders #inbox_filter_inbox .inbox_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -280px -19px transparent;}
 .inbox_main .inbox-folders #inbox_filter_messages .inbox_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -280px -21px transparent;}
@@ -96,7 +98,7 @@
 /** NOTIFICATIONS, ERROR MESSAGES **/
 .inbox_error_message{font-weight:bold;padding:10px;border:3px solid red;background-color:#f7d8d8;width:80%;float:left;}
 .inbox_normal_message{padding:10px;border:3px solid #0f0;background-color:#d9f7d8;width:80%;float:left;}
-.inbox_progress{background:url(/dev/images/ajax_load.gif) no-repeat scroll 0 0 transparent;clear:both;float:right;height:10px;width:80px;}
+.inbox_progress{background:url(/dev/images/ajax_load.gif) no-repeat scroll 0 0 transparent;clear:both;height:10px;width:80px;left:275px;position:relative;top:190px;}
 .inbox_main .user-personal a{color:#058ec4;font-size:12px;}
 .inbox_main .user-personal strong{color:#058ec4;}
 .inbox_main .user-personal li{border-left:1px solid #999;padding:0 2px 0 6px;}

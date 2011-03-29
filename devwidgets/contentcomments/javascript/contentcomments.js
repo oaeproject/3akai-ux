@@ -170,7 +170,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          * Callback function to sort comments based on created date
          */
         var sortComments = function(a, b){
-            return a.created < b.created ? 1 : -1;
+            return a._created < b._created ? 1 : -1;
         };
 
         ///////////////////
@@ -194,7 +194,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 jsonDisplay.comments[i] = {};
                 var comment = json.comments[i];
                 // Checks if the date is already parsed to a date object
-                var tempDate = comment.created;
+                var tempDate = comment._created;
                 try {
                     // if the date is not a string this should generate en exception
                     comment.date = sakai.api.l10n.fromEpoch(tempDate, sakai.data.me);
@@ -212,7 +212,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 comment.messageTxt = comment.comment;
                 comment.message = tidyInput(comment.comment);
                 comment.canEdit = false;
-                comment["sakai:id"] = comment.commentId;
+                comment["sakai:id"] = comment.commentId.substring((comment.commentId.lastIndexOf("/") + 1),comment.commentId.length);
 
                 var user = {};
                 // User
@@ -226,8 +226,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     user.picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
                     user.uid = profile.userid;
                     // Check if the user has a picture
-                    if (profile.picture && $.parseJSON(profile.picture).name) {
-                        user.picture = "/~" + user.uid + "/public/profile/" + $.parseJSON(profile.picture).name;
+                    if (profile.basic.elements.picture && $.parseJSON(profile.basic.elements.picture.value).name) {
+                        user.picture = "/~" + user.uid + "/public/profile/" + $.parseJSON(profile.basic.elements.picture.value).name;
                     }
                     user.profile = "/~" + user.uid;
                 }
@@ -746,7 +746,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          * @param {Boolean} deleteValue true = delete it, false = undelete it.
          */
         var doDelete = function(id, deleteValue){
-            var url = contentPath + ".comments?commentId=" + $(commentsPath+id).val();
+            var url = contentPath + ".comments?commentId=" + id;
             $.ajax({
                 url: url,
                 type: 'DELETE',
@@ -760,7 +760,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         };
 
         $(commentsDelete, rootel).live("click", function(e, ui){
-            var id = e.target.id.replace(commentsDelete.replace(/\./g, ""), "");
+            var id = e.target.id.replace(commentsDelete.replace(/\./g, "") + "_", "");
             doDelete(id, true);
             return false;
         });
@@ -840,31 +840,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          * @param {Boolean} showSettings Show the settings of the widget or not
          */
         var doInit = function(){
-
-            // configure widget placement if on the content profile page
-            /*if (sakai_global.content_profile && sakai_global.content_profile.content_data && sakai.api.Widgets.widgetLoader.widgets[tuid].placement.substr(0,3) !== "/p/"){
-                sakai.api.Widgets.widgetLoader.widgets[tuid].placement = "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + "/_widgets/" + sakai.api.Widgets.widgetLoader.widgets[tuid].placement;
-            }
-
-            widgeturl = sakai.api.Widgets.widgetLoader.widgets[tuid] ? sakai.api.Widgets.widgetLoader.widgets[tuid].placement : false;
-
-            if (widgeturl) {
-                store = widgeturl + "/message";
-                $.ajax({
-                    url: widgeturl + ".0.json",
-                    type: "GET",
-                    dataType: "json",
-                    success: function(data){
-                        // no op
-                    },
-                    error: function(xhr, textStatus, thrownError) {
-                        if (xhr.status == 404) {
-                            // we need to create the initial message store
-                            $.post(store, {"sling:resourceType":"sakai/messagestore"} );
-                        }
-                    }
-                });
-            }*/
+            $(commentsEditorOptions).hide();
             if (sakai_global.content_profile && sakai_global.content_profile.content_data){
                 currentSite = sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"];
                 contentPath = "/p/" + sakai_global.content_profile.content_data.path.split("/")[2];

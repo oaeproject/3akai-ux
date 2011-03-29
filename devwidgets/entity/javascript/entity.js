@@ -94,7 +94,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
         var $entity_profile_status_input_saving_failed;
 
         // Chat status
-        var entityProfileChatstatus = "#entity_profile_chatstatus";
         var profileChatStatusClass = ".myprofile_chat_status";
         var profileChatStatusID = "#myprofile_chat_status_";
         var $entity_profile_status_title = "#entity_profile_status_title";
@@ -164,15 +163,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
         var renderTemplate = function(){
             sakai.api.Util.TemplateRenderer($entity_container_template, {data: entityconfig.data, mode: entityconfig.mode, sakai: sakai}, $entity_container);
             $entity_container.show();
-            // make sure the newly added content is properly styled with
-            // threedots truncation
-            if ($(".entity_threedots").length) {
-                $(".entity_threedots").ThreeDots({
-                    max_rows: 1,
-                    text_span_class: "threedots",
-                    alt_text_t: true
-                });
-            }
         };
 
         /**
@@ -233,14 +223,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
                 }
              });
 
-        };
-
-        /**
-         * Change the selected value of the dropdown list to the current chat status
-         * @param {Object} chatstatus status which has to come up in the dropdown list
-         */
-        var updateChatStatusElement = function(chatstatus){
-            $(entityProfileChatstatus).val(chatstatus);
         };
 
         /**
@@ -717,22 +699,14 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
         };
 
         /**
-         * Add binding to elements related to chat status
-         */
-        var addBindingChatStatus = function(){
-            // Add the change event to the chatstatus dropdown
-            $(entityProfileChatstatus).bind("change", function(ev){
-                changeChatStatus($(ev.target).val());
-            });
-        };
-
-        /**
          * Add binding to elements related to tag drop down
          */
         var addBindingTagsLink = function(){
             // Add the click event to the tagsLink link
             $(tagsLink).die("click");
-            $(tagsLink).live("click", function(){
+            $(tagsLink).live("click", function(e){
+                // in chrome it call showHideListLinkMenu twice
+                e.stopImmediatePropagation();
                 showHideListLinkMenu(tagsLinkMenu, tagsLink, false);
             });
         };
@@ -899,9 +873,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
             // Add binding to the profile status elements
             addBindingProfileStatus();
 
-            // Add binding related to chat status
-            addBindingChatStatus();
-
             // Add binding to elements related to tag drop down
             addBindingTagsLink();
         };
@@ -939,9 +910,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
         var addProfileBinding = function(){
             // Add binding to the profile status elements
             addBindingProfileStatus();
-
-            // Add binding related to chat status
-            addBindingChatStatus();
 
             // Add binding to add contact button
             addBindingAddContact();
@@ -1029,20 +997,20 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
             if (jcr_content) {
 
                 // Set the person that last modified the resource
-                if (jcr_content["lastModifiedBy"]) {
-                    entityconfig.data.profile.lastmodifiedby = jcr_content["lastModifiedBy"];
+                if (jcr_content["_lastModifiedBy"]) {
+                    entityconfig.data.profile.lastmodifiedby = jcr_content["_lastModifiedBy"];
                 }
                 // Set the last modified date
-                if (jcr_content["lastModified"]) {
-                    entityconfig.data.profile.lastmodified = $.timeago(sakai.api.Util.parseSakaiDate(jcr_content["lastModified"]));
+                if (jcr_content["_lastModified"]) {
+                    entityconfig.data.profile.lastmodified = $.timeago(sakai.api.Util.parseSakaiDate(jcr_content["_lastModified"]));
                 }
                 // Set the size of the file
                 if (jcr_content["jcr:data"]) {
                     entityconfig.data.profile.filesize = sakai.api.Util.convertToHumanReadableFileSize(jcr_content["jcr:data"]);
                 }
                 // Set the mimetype of the file
-                if (jcr_content["jcr:mimeType"]) {
-                    entityconfig.data.profile.mimetype = jcr_content["jcr:mimeType"];
+                if (jcr_content["_mimeType"]) {
+                    entityconfig.data.profile.mimetype = jcr_content["_mimeType"];
                 }
             }
 
@@ -1063,12 +1031,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
             }
 
             // Set the created by and created (date) variables
-            if (filedata["createdBy"]) {
-                entityconfig.data.profile.createdby = filedata["createdBy"];
+            if (filedata["_createdBy"]) {
+                entityconfig.data.profile.createdby = filedata["_createdBy"];
             }
 
-            if (filedata["created"]) {
-                entityconfig.data.profile.created = $.timeago(sakai.api.Util.parseSakaiDate(filedata["created"]));
+            if (filedata["_created"]) {
+                entityconfig.data.profile.created = $.timeago(sakai.api.Util.parseSakaiDate(filedata["_created"]));
             }
 
             if (filedata["sakai:pooled-content-file-name"]) {
@@ -1140,7 +1108,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
          * Callback function to sort activity based on created date
          */
         var sortActivity = function(a, b){
-            return a["created"] < b["created"] ? 1 : -1;
+            return a["_created"] < b["_created"] ? 1 : -1;
         };
 
         /**
@@ -1215,7 +1183,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
                         }
 
                         // get the time since the activity happened
-                        entityconfig.data.profile.activity.results[j].timeAgo = $.timeago(sakai.api.Util.parseSakaiDate(entityconfig.data.profile.activity.results[j]["created"]));
+                        entityconfig.data.profile.activity.results[j].timeAgo = $.timeago(sakai.api.Util.parseSakaiDate(entityconfig.data.profile.activity.results[j]["_created"]));
                     }
                 }
             }
@@ -1516,15 +1484,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
 
             //Get the content data
             getEntityData(mode, data);
+
+            $(window).trigger("rendered.entity.sakai");
+            sakai_global.entity.isRendered = true;
         });
 
         $(window).trigger("ready.entity.sakai", {});
         sakai_global.entity.isReady = true;
-
-        // Add binding to update the chat status
-        $(window).bind("chat_status_change", function(event, newChatStatus){
-            updateChatStatusElement(newChatStatus);
-        });
 
         $(window).bind("complete.fileupload.sakai", function(){
             if (sakai.hasOwnProperty("content_profile")) {

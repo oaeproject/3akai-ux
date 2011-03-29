@@ -150,7 +150,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         var splitDir = value.split(",");
                         var tagList = [];
                         $.each(splitDir, function(i, tag){
-                            if(tag.split("/")[0] !== "directory"){
+                            if($.trim(tag.split("/")[0]) !== "directory"){
                                 tagList.push(tag);
                             }
                         });
@@ -187,12 +187,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (sectionObject.directory) {
                     sakai_global.profile.main.directory = sakai.api.User.parseDirectory(sakai_global.profile);
                     sakai_global.profile.main.data["locations"] = sakai_global.profile.main.directory;
-                    sections += sakai.api.Util.TemplateRenderer($profilesection_field_location_template, {
-                        "config": sectionObject,
-                        "data": sakai_global.profile.main.directory,
-                        "parentid": "0",
-                        sakai: sakai
-                    });
+                    if (sakai_global.profile.main.mode.value === "edit" || (sakai_global.profile.main.data["locations"].elements && sakai_global.profile.main.data["locations"].elements.length)){
+                        sections += sakai.api.Util.TemplateRenderer($profilesection_field_location_template, {
+                            "config": sectionObject,
+                            "data": sakai_global.profile.main.directory,
+                            "parentid": "0",
+                            sakai: sakai
+                        });
+                    }
                 } else if (sakai_global.profile.main.data[currentsection] === undefined || sakai_global.profile.main.data[currentsection].elements === undefined || sakai_global.profile.main.data[currentsection].elements.length === 0) {
                    if (sakai_global.profile.main.mode.value === "edit") {
                        sections = "<div class='profilesection_section' id='profilesection_section_0'>";
@@ -301,10 +303,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             if (!isLocation) {
                 // Render the General info
-                $profilesection_generalinfo.html(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, null, null, sakai.data.me)));
+                $profilesection_generalinfo.html(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, sakai.data.me)));
             } else {
-                $("#profilesection-locations").children().children(":first").append(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, null, null, sakai.data.me)));
-                $profilesection_generalinfo.html(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, null, null, sakai.data.me)));
+                $("#profilesection-locations").children().children(":first").append(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, sakai.data.me)));
+                $profilesection_generalinfo.html(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, sakai.data.me)));
             }
 
         };
@@ -344,13 +346,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 });
             }
             sections += "</div>";
-            $parentSection.append(sakai.api.i18n.General.process(sections, sakai.api.i18n.localBundle, sakai.api.i18n.defaultBundle, sakai.data.me));
+            $parentSection.append(sakai.api.i18n.General.process(sections, sakai.data.me));
             var dataForTemplate = {
                 "config": sectionObject,
                 "parentid": elt.id.value,
                 sakai: sakai
             };
-            $parentSection.append(sakai.api.i18n.General.process(sakai.api.Util.TemplateRenderer($profilesection_add_section_template, dataForTemplate), sakai.api.i18n.localBundle, sakai.api.i18n.defaultBundle, sakai.data.me));
+            $parentSection.append(sakai.api.i18n.General.process(sakai.api.Util.TemplateRenderer($profilesection_add_section_template, dataForTemplate), sakai.data.me));
         };
 
         var removeSection = function($parentSection, sectionIDToRemove) {
@@ -371,7 +373,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                       "parentid": "0",
                       sakai: sakai
                   };
-                  sections += sakai.api.i18n.General.process(sakai.api.Util.TemplateRenderer($profilesection_add_section_template, dataForTemplate), sakai.api.i18n.localBundle, sakai.api.i18n.defaultBundle, sakai.data.me);
+                  sections += sakai.api.i18n.General.process(sakai.api.Util.TemplateRenderer($profilesection_add_section_template, dataForTemplate), sakai.data.me);
               }
               sections += "</div>";
               $parentSection.parent("div").append(sections);
@@ -432,11 +434,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             tagsArray.push(sakai_global.profile.main.directory.elements[i].locationtitle.value);
                         }
                         var profileURL = "/~" + sakai_global.profile.main.data["rep:userId"] + "/public/authprofile";
-                        sakai.api.Util.tagEntity(profileURL, tagsArray, currentTags, function(){
-                            $selected_element.val(tagsArray.toString().replace(/,/g, ", "));
+                        sakai.api.Util.tagEntity(profileURL, tagsArray, currentTags, function(success, newtags) {
+                            sakai_global.profile.main.data["sakai:tags"] = sakai_global.profile.main.data.basic.elements.tags = newtags;
+                            $selected_element.val($selected_element.val().toString().replace(/\s+/g, " "));
                         });
                     } else if (title) {
-
                             // Get the property if it exists
                             var prop = getProperty(sakai_global.profile.main.data, title);
                             var parentProp = getParentProperty(sakai_global.profile.main.data, title);
@@ -524,7 +526,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai_global.profile.main.data["locations"].access = sectionConfig.access;
 
             // Render append the location div to the UI.
-            $("#profilesection-locations").children().children(":first").html(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, null, null, sakai.data.me)));
+            $("#profilesection-locations").children().children(":first").html(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, sakai.data.me)));
         };
 
         ////////////////////

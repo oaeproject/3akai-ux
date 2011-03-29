@@ -89,7 +89,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
             var nonEscaped = ["password", "username", "password_repeat", "recaptcha_response_field"];
             for (var i in values){
-                if ($.inArray(i, nonEscaped) == -1) {
+                if (values.hasOwnProperty(i) && $.inArray(i, nonEscaped) == -1) {
                     values[i] = escape(values[i]);
                 }
             }

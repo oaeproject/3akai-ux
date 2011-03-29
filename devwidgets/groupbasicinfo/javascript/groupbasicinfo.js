@@ -172,18 +172,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 currentTags = sakai_global.currentgroup.data.authprofile["sakai:tags"].slice(0);
             }
             var enteredTags = $.trim($(groupBasicInfoGroupTags).val()).split(",");
-            if (enteredTags !== currentTags) {
-                // user has changed tags
-                sakai_global.currentgroup.data.authprofile["sakai:tags"] = [];
-                $(enteredTags).each(function(i, tag) {
-                    tag = tag.replace(/\s+/g, " ");
-                    if (sakai.api.Security.escapeHTML(tag) === tag && tag.replace(/\\/g,"").length) {
-                        if ($.inArray(tag, sakai_global.currentgroup.data.authprofile["sakai:tags"]) < 0) {
-                            sakai_global.currentgroup.data.authprofile["sakai:tags"].push(tag.replace(/\\/g,""));
-                        }
+            // user has changed tags
+            sakai_global.currentgroup.data.authprofile["sakai:tags"] = [];
+            $(enteredTags).each(function(i, tag) {
+                tag = tag.replace(/\s+/g, " ");
+                if (sakai.api.Security.escapeHTML(tag) === tag && tag.replace(/\\/g,"").length) {
+                    if ($.inArray(tag, sakai_global.currentgroup.data.authprofile["sakai:tags"]) < 0) {
+                        sakai_global.currentgroup.data.authprofile["sakai:tags"].push(tag.replace(/\\/g,""));
                     }
-                });
-            }
+                }
+            });
 
             // Create tags for the directory structure
             // For every groupbasicinfo_added_directory we create tags
@@ -191,20 +189,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var directory = $(value).attr("class");
                 sakai_global.currentgroup.data.authprofile["sakai:tags"].push(directory);
             });
-            
+
             // group description (can be blank)
             var groupDesc = $.trim($(groupBasicInfoGroupDesc, $rootel).val());
 
             // group permissions settings
             var joinable = $(groupBasicInfoGroupJoinable).val();
             var visible = $(groupBasicInfoGroupVisible).val();
-            if(joinable !== sakai_global.currentgroup.data.authprofile["sakai:group-joinable"] ||
-                visible !== sakai_global.currentgroup.data.authprofile["sakai:group-visible"]) {
-                // only POST if user has changed values
-                sakai_global.currentgroup.data.authprofile["sakai:group-joinable"] = joinable;
-                sakai_global.currentgroup.data.authprofile["sakai:group-visible"] = visible;
-                sakai.api.Groups.setPermissions(sakai_global.currentgroup.id, joinable, visible);
-            }
+            sakai_global.currentgroup.data.authprofile["sakai:group-joinable"] = joinable;
+            sakai_global.currentgroup.data.authprofile["sakai:group-visible"] = visible;
+            sakai.api.Groups.setPermissions(sakai_global.currentgroup.id, joinable, visible);
 
             // Update the group object
             sakai_global.currentgroup.data.authprofile["sakai:group-title"] = sakai.api.Security.escapeHTML(groupTitle);
@@ -215,7 +209,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (success) {
                     groupProfileURL = "/~" + sakai_global.currentgroup.id + "/public/authprofile";
                     sakai.api.Util.tagEntity(groupProfileURL, sakai_global.currentgroup.data.authprofile["sakai:tags"], currentTags, function() {
-                        $(groupBasicInfoGroupTags).val(sakai_global.currentgroup.data.authprofile["sakai:tags"].toString().replace(/,/g, ", "));
+                        $(groupBasicInfoGroupTags).val($(groupBasicInfoGroupTags).val().replace(/\s+/g, " "));
                     });
                 }
                 sakai.api.Widgets.Container.informFinish(tuid, "groupbasicinfo");
@@ -226,7 +220,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var addAnotherLocation = function(){
             $("#assignlocation_container").jqmShow();
         };
-        
+
         var processTagsAndDirectory = function(mode){
             // Extract tags that start with "directory:"
             var directory = [];

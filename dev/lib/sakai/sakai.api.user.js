@@ -63,6 +63,8 @@ define(["jquery",
                 "timezone": sakai_l10n.getUserDefaultTimezone(),
                 "pwd": password,
                 "pwdConfirm": passwordConfirm,
+                "firstName": firstName,
+                "lastName": lastName,
                 "email": email,
                 ":name": username,
                 ":sakai:pages-template": "/var/templates/site/" + sakai_conf.defaultUserTemplate,
@@ -153,6 +155,17 @@ define(["jquery",
                 }
             });
 
+        },
+        
+        getUser: function(userid, callback){
+            var authprofileURL = "/~" + userid + "/public/authprofile";
+            sakai_serv.loadJSON(authprofileURL, function(success, data) {
+                if (success && data) {
+                    callback(true, data);
+                } else {
+                    callback(false);
+                }
+            });
         },
 
         /**
@@ -413,7 +426,7 @@ define(["jquery",
                     if (sakai_conf.Profile.configuration.defaultConfig.basic.elements[profileNode].type === "select") {
                         lastReplacementValue = profile.basic.elements[profileNode].value;
                         lastReplacementValue = sakai_conf.Profile.configuration.defaultConfig.basic.elements[profileNode].select_elements[lastReplacementValue];
-                        lastReplacementValue = sakai_i18n.General.process(lastReplacementValue, sakai_i18n.data.localBundle, sakai_i18n.data.defaultBundle);
+                        lastReplacementValue = sakai_i18n.General.process(lastReplacementValue);
                     } else {
                         lastReplacementValue = profile.basic.elements[profileNode].value;
                     }
@@ -469,6 +482,76 @@ define(["jquery",
                 }
             });
             return ret;
+        },
+
+        acceptContactInvite : function(inviteFrom, inviteTo, callback) {
+            $.ajax({
+                url: "/~" + inviteTo + "/contacts.accept.html",
+                type: "POST",
+                data: {
+                    "targetUserId": inviteFrom
+                },
+                success: function(data) {
+                    if ($.isFunction(callback)) {
+                        callback(true, data);
+                    }
+                },
+                error: function() {
+                    if ($.isFunction(callback)) {
+                        callback(false, {});
+                    }
+                }
+            });
+        },
+
+        ignoreContactInvite : function(inviteFrom, inviteTo, callback) {
+            $.ajax({
+                url: "/~" + inviteTo + "/contacts.ignore.html",
+                type: "POST",
+                data: {
+                    "targetUserId": accepting
+                },
+                success: function(data){
+                    $.ajax({
+                        url: "/~" + inviteTo + "/contacts.remove.html",
+                        type: "POST",
+                        data: {
+                            "targetUserId": inviteFrom
+                        },
+                        success: function(data) {
+                            if ($.isFunction(callback)) {
+                                callback(true, data);
+                            }
+                        },
+                        error: function() {
+                            if ($.isFunction(callback)) {
+                                callback(false, {});
+                            }
+                        }
+                    });
+                }
+            });
+        },
+
+        respondToSiteJoinRequest : function(inviteFrom, siteToJoin, accept, callback) {
+            var action = accept ? "approve" : "deny";
+            $.ajax({
+                url: siteToJoin + "." + action + ".html",
+                type: "POST",
+                data: {
+                    "user": inviteFrom
+                },
+                success: function(data) {
+                    if ($.isFunction(callback)) {
+                        callback(true, data);
+                    }
+                },
+                error: function() {
+                    if ($.isFunction(callback)) {
+                        callback(false, {});
+                    }
+                }
+            });
         },
 
         parseDirectory : function(profile){

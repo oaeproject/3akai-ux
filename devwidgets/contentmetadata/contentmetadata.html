@@ -47,7 +47,7 @@
             {if data.data["sakai:tags"] && $.trim(data.data["sakai:tags"].toString()) != ""}
                 <span class="contentmetadata_second_column">
                     {var dirCount = 0;}
-                    {for tag in data.data["sakai:tags"]}{if tag.split("/")[0] !== "directory"}{if tag_index - dirCount > 0},{/if} <a href="/search#tag=/tags/${sakai.api.Security.escapeHTML(tag)}" target="_blank" class="s3d-action" title="__MSG__SEARCH_CONTENT_TAGGED_WITH__ '${sakai.api.Security.escapeHTML(tag)}'"">${sakai.api.Security.escapeHTML(tag)}</a>{else}{var dirCount = dirCount + 1;}{/if}{/for}
+                    {for tag in data.data["sakai:tags"]}{if tag.split("/")[0] !== "directory"}{if tag_index - dirCount > 0},{/if} <a href="/search#tag=/tags/${sakai.api.Security.escapeHTML(tag)}" class="s3d-action" title="__MSG__SEARCH_CONTENT_TAGGED_WITH__ '${sakai.api.Security.escapeHTML(tag)}'"">${sakai.api.Security.escapeHTML(tag)}</a>{else}{var dirCount = dirCount + 1;}{/if}{/for}
                 </span>
                 {if data.data["sakai:tags"].length == dirCount}
                     {if data.isManager}<span class="contentmetadata_manager_edit">__MSG__CLICK_TO_EDIT_TAGS__</span>{else}__MSG__NO_TAGS__{/if}
@@ -85,21 +85,14 @@
 <div id="contentmetadata_locations_template" style="display:none;"><!--
     <div class='s3d-highlight_area_background_darker1_white_content_tl'><div class='s3d-highlight_area_background_darker1_white_content_tinner'></div></div>
         <span class="contentmetadata_first_column">__MSG__DIRECTORY_LOCATIONS__:</span>
-        {if data.saveddirectory.length != 0}
+        {if directorylocations.length != 0}
             <ul>
-                {for dir in data.saveddirectory}
-                    {var dirString=""}
-                    {for dirpiece in dir}
-                        ${dirString+=sakai.api.Util.getValueForDirectoryKey(dirpiece)|eat}
-                        {if dirpiece_index < dir.length - 1}
-                            ${dirString+="&nbsp;&#187;&nbsp;"|eat}
-                        {/if}
-                    {/for}
-                    <li><a href="/search#tag=/tags/directory/${dir.toString().replace(/,/g, '/')}" target="_blank" class="s3d-action threedots_text contentmetadata_locations_link" title="Search content located at ${dirString}"><span class="ellipsis_text contentmetadata_directory_location">
-                        {for dirpiece in dir}
-                            ${sakai.api.Util.getValueForDirectoryKey(dirpiece)} {if dirpiece_index < dir.length - 1} <span class='contentmetadata_select_seperator'>&raquo;</span>{/if}
-                        {/for}
-                    </span></a></li>
+                {for dir in directorylocations}
+                    <li>
+                        <a href="/search#tag=/tags/directory/${data.saveddirectory[dir_index].toString().replace(/,/g, '/')}" class="s3d-action contentmetadata_locations_link" title="Search content located at ${dir}">
+                            ${dir}
+                        </a>
+                    </li>
                 {/for}
             </ul>
         {else}
@@ -112,23 +105,23 @@
     <div class='s3d-highlight_area_background_darker1_white_content_tl'><div class='s3d-highlight_area_background_darker1_white_content_tinner'></div></div>
         <span class="contentmetadata_content_row">
             <span class="contentmetadata_first_column">__MSG__SIZE__: </span>
-            <span>${sakai.api.Util.convertToHumanReadableFileSize(data.data["length"])}</span>
+            <span>${sakai.api.Util.convertToHumanReadableFileSize(data.data["_length"])}</span>
         </span>
         <span class="contentmetadata_content_row">
             <span class="contentmetadata_first_column">__MSG__TYPE__: </span>
-            <span>${data.data["mimeType"]}</span>
+            <span>${data.data["_mimeType"]}</span>
         </span>
         <span class="contentmetadata_content_row">
             <span class="contentmetadata_first_column">__MSG__CREATED__: </span>
-            <span>${sakai.api.l10n.transformDate(sakai.api.l10n.fromEpoch(data.data["created"], sakai.data.me))}</span>
+            <span>${sakai.api.l10n.transformDate(sakai.api.l10n.fromEpoch(data.data["_created"], sakai.data.me))}</span>
         </span>
         <span class="contentmetadata_content_row">
             <span class="contentmetadata_first_column">__MSG__LAST_MODIFIED__: </span>
-            <span>${sakai.api.l10n.transformDate(sakai.api.l10n.fromEpoch(data.data["lastModified"]), sakai.data.me)}</span>
+            <span>${sakai.api.l10n.transformDate(sakai.api.l10n.fromEpoch(data.data["_lastModified"]), sakai.data.me)}</span>
         </span>
         <span class="contentmetadata_content_row">
             <span class="contentmetadata_first_column">__MSG__REVISIONS__: </span>
-            <span>{if data.versions.total -1 <= 0}__MSG__NO_REVISIONS__{else}<button type="button" id="contentmetadata_view_revisions" {if data.data["mimeType"] === "x-sakai/link"}class="link_revision s3d-link-button s3d-action{else}class="s3d-action"{/if}>${data.versions.total -1} __MSG__VERSIONS__</button> __MSG__AVAILABLE__{/if}</span>
+            <span>{if data.versions.total <= 0}__MSG__NO_REVISIONS__{else}<button type="button" id="contentmetadata_view_revisions" class="{if data.data["_mimeType"] === "x-sakai/link"}link_revision {/if}s3d-link-button s3d-action s3d-bold">${data.versions.total} __MSG__VERSIONS__</button> __MSG__AVAILABLE__{/if}</span>
         </span>
     <div class='s3d-highlight_area_background_darker1_white_content_bl'><div class='s3d-highlight_area_background_darker1_white_content_binner'></div></div>
 --></div>

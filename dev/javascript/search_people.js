@@ -354,13 +354,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             //    Render the results.
             $(searchConfig.results.container).html(sakai.api.Util.TemplateRenderer(searchConfig.results.template, finaljson));
             $("#search_results_page1").show();
-
-
-            $(".search_result_person_threedots").ThreeDots({
-                max_rows: 1,
-                text_span_class: "threedots",
-                alt_text_t: true
-            });
         };
 
 
@@ -544,7 +537,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
                 // Search based on tags and render each search section
                 $.ajax({
-                    url: tagterm + ".tagged.5.json",
+                    url: tagterm + ".tagged.5.json?type=user",
                     cache: false,
                     success: function(data) {
 
@@ -638,6 +631,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var doInit = function() {
 
             mainSearch = sakai_global._search(searchConfig, thisFunctionality);
+
+            // check the URL for a query arg
+            mainSearch.checkQuery();
 
             // add the bindings
             mainSearch.addEventListeners();

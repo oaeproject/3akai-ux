@@ -27,7 +27,7 @@
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     /**
-     * @name sakai.contenpreview
+     * @name sakai.contentpreview
      *
      * @class contentpreview
      *
@@ -47,7 +47,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             supported = false;
             if (mimeType.substring(0, 6) === "video/" ){
                 var mimeSuffix = mimeType.substring(6);
-                if (mimeSuffix === "x-flv" || mimeSuffix === "mp4" || mimeSuffix === "3gpp") {
+                if (mimeSuffix === "x-flv" || mimeSuffix === "mp4" || mimeSuffix === "3gpp" || mimeSuffix === "quicktime") {
                     supported = true;
                 }
             }
@@ -59,7 +59,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             obj.type = "showpreview";
             var callback = null;
             var arg = null;
-            var mimeType = sakai_global.content_profile.content_data.data["mimeType"];
+            var mimeType = sakai_global.content_profile.content_data.data["_mimeType"];
             if (isJwPlayerSupportedVideo(mimeType)){
                 callback = renderVideoPlayer;
             } else if (mimeType === "audio/mp3" || mimeType === "audio/x-aac") {
@@ -87,9 +87,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         //TODO: Clean this mess up
         var renderImagePreview = function(contentURL){
-            $(".contentpreview_image_preview").show();
+            var $contentpreviewImagePreview = $(".contentpreview_image_preview");
+            $contentpreviewImagePreview.html("");
+            $contentpreviewImagePreview.show();
             var json = {};
             json.contentURL = contentURL || sakai_global.content_profile.content_data.path;
+            json.contentURL = json.contentURL + "?_=" + sakai_global.content_profile.content_data.data._bodyLastModified;
             json.sakai = sakai;
             sakai.api.Util.TemplateRenderer("contentpreview_image_template", json, $("#contentpreview_image_calculatesize"));
             $("#contentpreview_image_rendered").bind('load', function(ev){
@@ -107,7 +110,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var renderTextPreview = function(){
-            if (sakai_global.content_profile.content_data.data["length"] > 1500000){
+            if (sakai_global.content_profile.content_data.data["_length"] > 1500000){
                 renderDefaultPreview();
                 return;
             }
@@ -198,7 +201,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("#upload_content").live("click", function() {
                 $(window).trigger("init.fileupload.sakai", {
                     newVersion: true,
-                    isLink: sakai_global.content_profile.content_data.data["mimeType"] === "x-sakai/link",
+                    isLink: sakai_global.content_profile.content_data.data["_mimeType"] === "x-sakai/link",
                     contentPath: sakai_global.content_profile.content_data.data["jcr:name"]
                 });
             });
@@ -224,6 +227,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         $(window).bind("start.contentpreview.sakai", function(){
             determineFileCreator();
+        });
+
+        $(window).bind("updated.version.content.sakai",function() {
+            determineDataType();
         });
 
         // Indicate that the widget has finished loading

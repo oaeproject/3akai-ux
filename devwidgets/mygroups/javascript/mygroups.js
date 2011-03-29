@@ -53,6 +53,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var mygroupsCreateNewGroup = "#create_new_group_link";
         var createGroupContainer = "#creategroupcontainer";
         var ellipsisContainer = ".mygroups_ellipsis_container";
+        var mygroupsItemsList = ".mygroup_items_list";
 
         var mygroups_error_class = "mygroups_error";
 
@@ -123,24 +124,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 newjson.entry = newjson.entry.sort(doSort);
                 for (var group in newjson.entry) {
                     if (newjson.entry.hasOwnProperty(group)) {
-                        newjson.entry[group]["sakai:group-title"] = sakai.api.Security.escapeHTML(newjson.entry[group]["sakai:group-title"]);
+                        newjson.entry[group]["sakai:group-title"] = sakai.api.Util.applyThreeDots(sakai.api.Security.escapeHTML(newjson.entry[group]["sakai:group-title"]), $(".my_groups_widget .s3d-widget-content").width() - 50, {max_rows: 1,whole_word: false}, "s3d-bold");
                     }
                 }
                 $(mygroupsList, rootel).html(sakai.api.Util.TemplateRenderer(mygroupsListTemplate.replace(/#/, ''), newjson));
-
-                // make sure the newly added content is properly styled with
-                // threedots truncation
-                if (rootel.is(":visible")) {
-                    $(ellipsisContainer).css("width", $(ellipsisContainer).width() + "px");
-                    $(ellipsisContainer, rootel).ThreeDots({
-                        max_rows: 1,
-                        text_span_class: "mygroups_ellipsis_text",
-                        e_span_class: "mygroups_e_span_class",
-                        whole_word: false,
-                        alt_text_t: true
-                    });
-                    $(ellipsisContainer).css("display","inline");
-                }
             }
         };
 

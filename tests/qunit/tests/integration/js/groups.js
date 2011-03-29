@@ -116,7 +116,13 @@ require(
                 if (success) {
                     // check to see that they've been added to the group
                     sakai.api.Groups.getManagers(group_id, function(success, data) {
-                        ok(data[1]["rep:userId"] === user_random, "User shows up in list of group managers");
+                        var found = false;
+                        for (var i in data) {
+                            if (data[i]["rep:userId"] === user_random) {
+                                found = true;
+                            }
+                        }
+                        ok(found, "User shows up in list of group managers");
                         start();
                     });
                 } else {

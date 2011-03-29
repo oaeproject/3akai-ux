@@ -446,6 +446,25 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         };
 
+
+        /**
+         * Creates a DOM element for the currently selected page and adds it to
+         * the main content div. This function does not show or hide any DOM elements.
+         *
+         * @param content  The page's content
+         */
+        var createSelectedPageDOMElement = function (content) {
+            var $el = $("<div id=\""+ sakai_global.sitespages.selectedpage +"\" class=\"content\"></div>");
+
+            // Add sanitized content
+            var sanitizedContent = sakai.api.Security.saneHTML(content);
+            $el.html(sanitizedContent);
+
+            // Add element to the DOM
+            $main_content_div.append($el);
+        };
+
+
         /**
          * Displays a page
          * @param {Object} response
@@ -464,25 +483,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var element_to_test = $("#" + sakai_global.sitespages.selectedpage);
                 if (element_to_test.length > 0){
                     element_to_test.show();
-                } else
-                    {
-                        // Create element
-                        var $el = $("<div id=\""+ sakai_global.sitespages.selectedpage +"\" class=\"content\"></div>");
-
-                        // Add sanitized content
-                        var sanitizedContent = sakai.api.Security.saneHTML(response);
-                        $el.html(sanitizedContent);
-
-                        // Add element to the DOM
-                        $main_content_div.append($el);
-
-                        // Tell MathJax the element is updated
-                        sakai.api.Util.renderMath(sakai_global.sitespages.selectedpage);
-                    }
+                } else {
+                    createSelectedPageDOMElement(response);
+                }
+                // Tell MathJax the element is updated
+                sakai.api.Util.renderMath(sakai_global.sitespages.selectedpage);
 
                 // Insert widgets
                 sakai.api.Widgets.widgetLoader.insertWidgets(sakai_global.sitespages.selectedpage,null, config.basepath + "_widgets/");
-
             }
             else {
                 // Page does not exist
@@ -540,9 +548,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // make sure the dashboard that said it's ready is the one we just got the data for
             if (split[2] === tuid) {
                 if (config.editMode) {
-                    $(window).trigger("init.dashboard.sakai", [sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage]["jcr:path"] + "/_widgets/", true, config.dashboardEmbedProperty, false]);
+                    $(window).trigger("init.dashboard.sakai", [sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage]["jcr:path"] + "/_widgets/", true, config.dashboardEmbedProperty, false, tuid]);
                 } else {
-                    $(window).trigger("init.dashboard.sakai", [sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage]["jcr:path"] + "/_widgets/", false, config.dashboardEmbedProperty, false]);
+                    $(window).trigger("init.dashboard.sakai", [sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage]["jcr:path"] + "/_widgets/", false, config.dashboardEmbedProperty, false, tuid]);
                 }
             }
         });
@@ -626,7 +634,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 return false;
             }
             var title = i_title;
-            var base_folder = i_base_folder || sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage]["pageFolder"];
+            var base_folder = i_base_folder || sakai_global.sitespages.config.basepath + "_pages";
 
             // Generate new page id
             var new_urlsafe_name = false;
@@ -1517,9 +1525,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var viewSelectedPage = function () {
             // show newly updated title and content
             var pagecontent = sakai_global.sitespages.pagecontents[sakai_global.sitespages.selectedpage]["sakai:pagecontent"] || "";
-            $("#" + sakai_global.sitespages.selectedpage).html(sakai.api.Security.saneHTML(pagecontent));
-            $("#" + sakai_global.sitespages.selectedpage).show();
+            var $page = $("#" + sakai_global.sitespages.selectedpage);
+            if (!$page.length) {
+                // page content has not yet been added to the DOM
+                createSelectedPageDOMElement(pagecontent);
+            } else {
+                $page.html(pagecontent);
+            }
             sakai.api.Util.renderMath(sakai_global.sitespages.selectedpage);
+            $page.show();
             if (sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage]["pageType"] === "webpage") {
                 $("#webpage_edit").show();
             }
@@ -2374,7 +2388,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai_global.sitespages.isEditingNewPage = true;
 
             // Create unique page items
-            var pageUniques = sakai_global.sitespages.createPageUniqueElements(pageTitle.toLowerCase(), sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage]["pageFolder"]);
+            var basefolder = sakai_global.sitespages.config.basepath + "_pages";
+            if (sakai_global.sitespages.selectedpage &&
+                sakai_global.sitespages.site_info.hasOwnProperty("_pages") &&
+                sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage]) {
+                basefolder = sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage]["pageFolder"];
+            }
+            var pageUniques = sakai_global.sitespages.createPageUniqueElements(
+                pageTitle.toLowerCase(), basefolder);
 
             // Assign the content to the sakai_global.sitespages.pagecontents array
             if (sakai_global.sitespages.pagecontents[pageUniques.urlName]) {
@@ -2442,16 +2463,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Create unique page elements
             var pageUniques = sakai_global.sitespages.createPageUniqueElements(pageTitle.toLowerCase(), sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage]["pageFolder"]);
 
-            // Assign the content to the sakai_global.sitespages.pagecontents array
-            if (sakai_global.sitespages.pagecontents[pageUniques.urlName]) {
-                sakai_global.sitespages.pagecontents[pageUniques.urlName]["sakai:pagecontent"] = content;
-            } else {
-                sakai_global.sitespages.pagecontents[pageUniques.urlName] = {};
-                sakai_global.sitespages.pagecontents[pageUniques.urlName]["sakai:pagecontent"] = content;
-            }
-            // Default dasboard content
+            // Default dashboard content
             var dashboardUID = 'sitedashboard' + Math.round(Math.random() * 10000000000000);
             var defaultDashboardContent = '<div id="widget_dashboard_' + dashboardUID + '_' + sakai_global.sitespages.config.basepath + "_widgets/" + '" class="widget_inline"></div>';
+
+            // Assign the content to the sakai_global.sitespages.pagecontents array
+            if (sakai_global.sitespages.pagecontents[pageUniques.urlName]) {
+                sakai_global.sitespages.pagecontents[pageUniques.urlName]["sakai:pagecontent"] = defaultDashboardContent;
+            } else {
+                sakai_global.sitespages.pagecontents[pageUniques.urlName] = {};
+                sakai_global.sitespages.pagecontents[pageUniques.urlName]["sakai:pagecontent"] = defaultDashboardContent;
+            }
 
             // Create page node for dashboard page
             var newPosition = determineHighestPosition() + 200000;
@@ -2547,7 +2569,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             var name = "Version " + (ver);
 
                             // Transform date
-                            var date = data.versions[ver]["created"];
+                            var date = data.versions[ver]["_created"];
                             var datestring = sakai.api.l10n.transformDateTimeShort(new Date(date));
 
                             name += " - " + datestring;
@@ -2684,9 +2706,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         $('#more_change_layout').live("click", function(){
-            // get page title
+            // get page title and dashboard id
             var title = sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage]["pageTitle"];
-            $(window).trigger("changeLayout.dashboard.sakai", title);
+            var dashboard_tuid = $("#" + sakai_global.sitespages.selectedpage +
+                " > div.inline_class_widget_nofloat").get(0).id;
+            $(window).trigger("changeLayout.dashboard.sakai", [title, dashboard_tuid]);
         });
 
 
@@ -2841,6 +2865,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     */
                     delete sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage];
                     delete sakai_global.sitespages.pagecontents[sakai_global.sitespages.selectedpage];
+                    $("#" + sakai_global.sitespages.selectedpage).remove();
+                    $content_page_options.hide();
+                    $(".sakai_site .content_top").addClass("content_top_rounded");
+                    $pagetitle.html("");
                     sakai_global.sitespages.navigation.deleteNode(sakai_global.sitespages.selectedpage);
                     sakai_global.sitespages.autosavecontent = false;
                     updatePagePositions(selectedPage);

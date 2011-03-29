@@ -17,23 +17,19 @@
                     {if i['sakai:pooled-content-file-name'] && relatedcontent_index < 10 && i['jcr:name'] !== content.data["jcr:name"]}
                         {var contentFound = true}
                         <div class="relatedcontent_content">
-                            {if i['jcr:mimeType']}
-                                {var mimeType = i['jcr:mimeType']}
-                            {elseif i.file && i.file['jcr:mimeType']}
-                                {var mimeType = i.file['jcr:mimeType']}
-                            {elseif i['jcr:content'] && i['jcr:content']['jcr:mimeType']}
-                                {var mimeType = i['jcr:content']['jcr:mimeType']}
+                            {if i['_mimeType']}
+                                {var mimeType = i['_mimeType']}
+                            {elseif i.file && i.file['_mimeType']}
+                                {var mimeType = i.file['_mimeType']}
+                            {elseif i['jcr:content'] && i['jcr:content']['_mimeType']}
+                                {var mimeType = i['jcr:content']['_mimeType']}
                             {elseif i['jcr:primaryType'] === "sling:Folder"}
                                 {var mimeType = 'folder'}
                             {/if}
-                            <a href="/content#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['jcr:path']}" title="${i['jcr:name']}"{/if}>
+                            <a href="/content#content_path=/p/${i['jcr:name']}" title="${i['sakai:pooled-content-file-name']}">
                                 {if (mimeType=="image/jpg" || mimeType=="image/png" || mimeType=="image/gif") && sakai.config.MimeTypes[mimeType]}
                                     {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
-                                    {if i['jcr:primaryType'] && i['jcr:primaryType'] === "sakai:pooled-content"}
-                                        <img src="/p/${i['jcr:name']}" alt="${mimeTypeDescription}" />
-                                    {else}
-                                        <img src="${i['jcr:path']}" alt="${mimeTypeDescription}" />
-                                    {/if}
+                                    <img src="/p/${i['jcr:name']}" alt="${mimeTypeDescription}" />
                                 {elseif sakai.config.MimeTypes[mimeType]}
                                     {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
                                     <img src="${sakai.config.MimeTypes[mimeType].URL}" alt="${mimeTypeDescription}" />

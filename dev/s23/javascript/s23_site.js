@@ -17,11 +17,9 @@
  */
 
 /*global sakai, Config, $, QueryString */
+require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
-sakai.s23_site = sakai.s23_site || {};
-
-sakai.s23_site = function(){
-
+sakai_global.s23_site = function(){
 
     /////////////////////////////
     // Configuration variables //
@@ -291,4 +289,5 @@ sakai.s23_site = function(){
     };
     init();
 };
-sakai.api.Widgets.Container.registerForLoad("sakai.s23_site");
+sakai.api.Widgets.Container.registerForLoad("s23_site");
+});

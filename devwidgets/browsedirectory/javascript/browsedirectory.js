@@ -56,6 +56,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Errors
         var $browsedirectoryNoPages = $("#browsedirectory_no_pages", $rootel);
         var $browsedirectoryError = $("#browsedirectory_error", $rootel);
+        var initiallySelect = "";
 
 
         //////////////////////////////
@@ -112,10 +113,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var browsedirectoryData = sakai.api.Util.getDirectoryStructure();
 
             // get item
-            var initiallySelect = browsedirectoryData[0].attr.id;
+            initiallySelect = browsedirectoryData[0].attr.id;
             // if id is passed set inital select as id
             if (id) {
-                initiallySelect = id;
+                var lastIndex = id.split("/").length - 1;
+                initiallySelect = id.split("/")[lastIndex];
             }
 
             // set up new jstree for directory
@@ -180,20 +182,27 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     });
                 }
                 if ($.bbq.getState("location") === "" || !$.bbq.getState("location")) {
-                    $.bbq.pushState({location:directorystructure});
+                    $(window).trigger("nohash.browsedirectory.sakai", initiallySelect);
                 }
             });
-            $(window).trigger("ready.browsedirectory.sakai");
         };
 
-        var handleHashChange = function() {
-            var nodeId = $.bbq.getState("location").split("/").reverse().shift();
-            var $nodeToSelect = $browsedirectoryTree.find("#" + nodeId);
-            $browsedirectoryTree.jstree("deselect_node", $browsedirectoryTree.jstree("get_selected"));
-            $browsedirectoryTree.jstree("select_node", $nodeToSelect);
+        var handleHashChange = function(e, node) {
+            var nodeId = node || $.bbq.getState("location");
+            if (nodeId) {
+                nodeId = nodeId.split("/").reverse().shift();
+                var $nodeToSelect = $browsedirectoryTree.find("#" + nodeId);
+                var $selected = $browsedirectoryTree.jstree("get_selected");
+                if ($selected.attr("id") !== $nodeToSelect.attr("id")) {
+                    $browsedirectoryTree.jstree("deselect_node", $selected);
+                    $browsedirectoryTree.jstree("select_node", $nodeToSelect);
+                }
+            } else {
+                $(window).trigger("nohash.browsedirectory.sakai", initiallySelect);
+            }
         };
 
-        $(window).bind("hashchange", handleHashChange);
+        $(window).bind("hashchange nohash.browsedirectory.sakai", handleHashChange);
 
         /**
          * Function that is available to other functions and called by directory.js
@@ -214,6 +223,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var doInit = function(){
             var id = $.bbq.getState("location");
             renderDirectories(id);
+            $(window).trigger("hashchange", initiallySelect);
         };
 
         doInit();

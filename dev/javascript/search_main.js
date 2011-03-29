@@ -64,6 +64,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var renderMySites = function(data) {
             // Perform a sorting on sites.
             data.items.sort(doSort);
+
             // render the sites
             $(config.filters.sites.filterSites).html(sakai.api.Util.TemplateRenderer(config.filters.sites.filterSitesTemplate, data));
 
@@ -171,8 +172,26 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             /** When we click the search button the search should get executed. */
             $(searchConfig.global.button).unbind("click");
             $(searchConfig.global.button).bind("click", function(ev) {
-                callback.doHSearch();
+                if (!hasHadFocus) {
+                    callback.doHSearch(1, "*");
+                } else {
+                    callback.doHSearch();
+                }
             });
+        };
+
+
+        /**
+         * Checks for a query arg in the URL. If none, does a search for all (*).
+         */
+        var checkQuery = function () {
+            if ((!$.bbq.getState("q") ||
+                $.trim($.bbq.getState("q")) === "") &&
+                (!$.bbq.getState("tag") ||
+                $.trim($.bbq.getState("tag")) === "")) {
+
+                callback.doHSearch(1, "*");
+            }
         };
 
 
@@ -223,13 +242,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 finaljson.items[i] = results[i];
 
                 // Only modify the description if there is one
-                if (finaljson.items[i]["sakai:description"] && finaljson.items[i]["excerpt"]) {
-
-                    // Strip HTML from the description
-                    var content = finaljson.items[i]["excerpt"].replace(/<\/?[^>]+(>|$)/g, " ");
-
-                    // Check if the search term occures in the description of the file
-                    finaljson.items[i]["excerpt"] = convertTermToBold(finaljson.items[i]["sakai:description"], searchterm);
+                if (finaljson.items[i]["sakai:description"]) {
+                    finaljson.items[i]["sakai:description"] = sakai.api.Util.applyThreeDots(finaljson.items[i]["sakai:description"], $("#sites_header .search_results_part_header").width() - 80, {max_rows: 1,whole_word: false}, "search_result_course_site_excerpt");
+                }
+                if(finaljson.items[i]["sakai:pooled-content-file-name"]){
+                    finaljson.items[i]["sakai:pooled-content-file-name"] = sakai.api.Util.applyThreeDots(finaljson.items[i]["sakai:pooled-content-file-name"], $("#sites_header .search_results_part_header").width() - 80, {max_rows: 1,whole_word: false}, "s3d-bold");
                 }
                 // Modify the tags if there are any
                 if(finaljson.items[i]["sakai:tags"]){
@@ -287,6 +304,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     // Parse the user his info.
                     user.path = "/~" + user.userid + "/public/";
                     var person = item;
+                    if (person && person.basic && person.basic.elements && person.basic.elements.picture && $.parseJSON(person.basic.elements.picture.value).name){
+                        person.picture = person.basic.elements.picture.value;
+                    }
                     if (person.picture) {
                         var picture;
                         // if picture is string
@@ -311,11 +331,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     }
                     if (sakai.api.User.getDisplayName(item) !== "")  {
                         user.name = sakai.api.User.getDisplayName(item);
-                        user.name = sakai.api.Util.shortenString(user.name, usernameLengthStrip);
+                        user.name = sakai.api.Util.applyThreeDots(user.name, 180, {max_rows: 1,whole_word: false}, "s3d-bold");
                         user.firstName = sakai.api.User.getProfileBasicElementValue(item, "firstName");
                         user.lastName = sakai.api.User.getProfileBasicElementValue(item, "lastName");
-                    }
-                    else {
+                    } else {
                         user.name = user.userid;
                     }
                     if (person.basic) {
@@ -487,8 +506,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             'prepSearchTermForURL': prepSearchTermForURL,
             'preparePeopleForRender': preparePeopleForRender,
             'prepareCMforRendering': prepareCMforRendering,
-            'addFacetedPanel': addFacetedPanel
-
+            'addFacetedPanel': addFacetedPanel,
+            'checkQuery': checkQuery
         };
     };
 });

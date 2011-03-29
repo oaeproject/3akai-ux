@@ -466,28 +466,35 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                         sharecontentSelectedSharer = val.split("sharecontent_permission_link_")[1];
                     }
                 });
+                var left = Math.round($(this).position().left + $("#sharecontent_listpeople").position().left + 3);
+                var top = Math.round($(this).position().top + $("#sharecontent_listpeople").position().top + 22);
+                if ($(this).parent(".sharecontent_search_container").length > 0) {
+                    left = Math.round($(this).position().left + 2);
+                    top = Math.round($(this).position().top + 26);
+                }
                 sharecontentEditPermissionsLink = $("#sharecontent_edit_permission");
                 sharecontentEditPermissionsLink.css("width", $(this).width() + 11 + "px");
-                sharecontentEditPermissionsLink.css("left",$(this).position().left + 2 + "px");
-                sharecontentEditPermissionsLink.css("top",$(this).position().top + 21 + "px");
+                sharecontentEditPermissionsLink.css("left", left + "px");
+                sharecontentEditPermissionsLink.css("top", top + "px");
                 sharecontentEditPermissionsLink.toggle();
             });
 
             $(sharecontentEditPermissionsLink + " button").live("click", function(){
                 $(sharecontentEditPermissionsLink).toggle();
-                var changeTo;
+                var changeTo = this.id.split("sharecontent_edit_permission_picker_")[1];
+                var newMember = false;
                 if (sharecontentSelectedSharer !== "") {
                     // Change the permissions if the user selected a different one
                     $sharecontentSelectedSharerSpan = $(".sharecontent_permission_link_" + sharecontentSelectedSharer + " span");
-                    changeTo = $(this)[0].id.split("sharecontent_edit_permission_picker_")[1];
                 } else {
                     $sharecontentSelectedSharerSpan = $(".sharecontent_new_members_permission_link span");
-                    changeTo = $(this)[0].id.split("sharecontent_edit_permission_picker_")[1];
+                    newMember = true;
                 }
 
                 if (changeTo === "viewer") {
                     if ($sharecontentSelectedSharerSpan.html() !== $(sharecontentCanView).html()) {
-                        if (sakai_global.content_profile.content_data.members.managers.length <= 1) {
+                        if (!newMember &&
+                            sakai_global.content_profile.content_data.members.managers.length <= 1) {
                             // do not allow the last manager to become a viewer
                             sakai.api.Util.notification.show(
                                 $sharecontentManagerCouldNotBeRemoved.text(),
@@ -498,7 +505,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                             if (sharecontentSelectedSharer !== "") {
                                 changePermission(sharecontentSelectedSharer, changeTo);
                             } else {
-                                $(sharecontentNewMembersPermissions).val("viewer");
+                                shareData.permission = "viewer";
                             }
                         }
                     }
@@ -509,7 +516,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                         if (sharecontentSelectedSharer !== "") {
                             changePermission(sharecontentSelectedSharer, changeTo);
                         } else {
-                            $(sharecontentNewMembersPermissions).val("managers");
+                            shareData.permission = "managers";
                         }
                     }
                 }
@@ -529,9 +536,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     pickerData.excludeList.push("user/" + members.viewers[i]["userid"]);
                 }
             }
-            for (var i in members.managers) {
-                if (members.managers.hasOwnProperty(i)) {
-                    pickerData.excludeList.push("user/" + members.managers[i]["userid"]);
+            for (var k in members.managers) {
+                if (members.managers.hasOwnProperty(k)) {
+                    pickerData.excludeList.push("user/" + members.managers[k]["userid"]);
                 }
             }
         };
@@ -648,7 +655,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 sakai.api.Communication.sendMessage(userList.list, sakai.data.me, sakai.api.i18n.Widgets.getValueForKey("sharecontent", "", "I_WANT_TO_SHARE") + " \"" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"", messageText, "message", false, false, false, "shared_content");
             }
 
-            var mode = $(sharecontentNewMembersPermissions).val();
+            var mode = shareData.permission;
             var toAddList = userList.list.slice();
 
             for (var i in toAddList){
@@ -790,12 +797,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
 
         $(document).bind("click", function(e) {
             var $target = $(e.target);
-            if (!$target.hasClass("sharecontent_permission_link") &&
-                !$target.hasClass("s3d-button-link-2-state-inner") &&
-                !$target.hasClass("sharecontent_permission")) {
-                if($(sharecontentEditPermissionsLink).is(":visible")) {
-                    $(sharecontentEditPermissionsLink).hide();
-                }
+            if ($target.hasClass("sharecontent_permission_link") ||
+                $target.parents(".sharecontent_permission_link").length > 0) {
+                return;
+            } else if ($(sharecontentEditPermissionsLink).is(":visible")) {
+                $(sharecontentEditPermissionsLink).hide();
             }
         });
 

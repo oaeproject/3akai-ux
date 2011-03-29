@@ -216,8 +216,25 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     data: sakai_global.content_profile.content_data,
                     sakai: sakai
                 };
+
+                var directorylocations = [];
+                for(var dir in json.data.saveddirectory){
+                    if(json.data.saveddirectory.hasOwnProperty(dir)){
+                        var dirString = "";
+                        for (var dirPiece in json.data.saveddirectory[dir]){
+                            if(json.data.saveddirectory[dir].hasOwnProperty(dirPiece)){
+                                dirString += sakai.api.Util.getValueForDirectoryKey(json.data.saveddirectory[dir][dirPiece]);
+                                if(dirPiece < json.data.saveddirectory[dir].length - 1){
+                                    dirString += "&nbsp;&#187;&nbsp;";
+                                }
+                            }
+                        }
+                        directorylocations.push(sakai.api.Util.applyThreeDots(dirString, $("#contentmetadata_locations_container").width() - 120, {max_rows: 1,whole_word: false}, "s3d-bold"));
+                    }
+                }
+                json["directorylocations"] = directorylocations;
+
                 $contentmetadataLocationsContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataLocationsTemplate, json));
-                applyThreeDots();
             }
         };
 
@@ -344,18 +361,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         //////// SET-UP ////////
         ////////////////////////
 
-        var applyThreeDots = function(){
-            // make sure the newly added content is properly styled with
-            // threedots truncation
-            $(".threedots_text").ThreeDots({
-                max_rows: 1,
-                text_span_class: "ellipsis_text",
-                e_span_class: "threedots_a",
-                whole_word: false,
-                alt_text_e: false
-            });
-        };
-
         /**
          * Animate the hidden or shown data containers
          */
@@ -366,9 +371,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 'padding-top': 'toggle',
                 'padding-bottom': 'toggle',
                 height: 'toggle'
-            }, 400, function(){
-                applyThreeDots();
-            });
+            }, 400);
             $("#contentmetadata_show_more > div").toggle();
         };
 

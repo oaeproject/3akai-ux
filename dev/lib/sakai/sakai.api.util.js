@@ -347,7 +347,7 @@ define(["jquery",
             var tagsToDelete = [];
             // determine which tags to add and which to delete
             $(newTags).each(function(i,val) {
-                val = $.trim(val).replace(/#/g,"");
+                val = $.trim(val.replace(/#/g,"").replace(/\s+/g, " "));
                 if (val && (!currentTags || $.inArray(val,currentTags) === -1)) {
                     if (util.Security.escapeHTML(val) === val && val.length) {
                         if ($.inArray(val, tagsToAdd) < 0) {
@@ -357,7 +357,7 @@ define(["jquery",
                 }
             });
             $(currentTags).each(function(i,val) {
-                val = $.trim(val).replace(/#/g,"");
+                val = $.trim(val).replace(/#/g,"").replace(/\s+/g, " ");
                 if (val && $.inArray(val,newTags) == -1) {
                     if (util.Security.escapeHTML(val) === val && val.length) {
                         if ($.inArray(val, tagsToDelete) < 0) {
@@ -366,10 +366,20 @@ define(["jquery",
                     }
                 }
             });
+            currentTags = currentTags || [];
+            // determine the tags the entity has
+            var tags = $.unique($.merge($.merge([], currentTags), tagsToAdd));
+            $(tags).each(function(i,val) {
+                if ($.inArray(val, tagsToDelete) > -1) {
+                    tags.splice(tags.indexOf(val), 1);
+                } else if ($.trim(val.split("/")[0]) === "directory" || $.trim(val) === "") {
+                    tags.splice(tags.indexOf(val), 1);
+                }
+            });
             deleteTags(tagLocation, tagsToDelete, function() {
                 setTags(tagLocation, tagsToAdd, function(success) {
                     if ($.isFunction(callback)) {
-                        callback(success);
+                        callback(success, tags);
                     }
                 });
             });
@@ -1414,7 +1424,7 @@ define(["jquery",
         },
         /**
         * Runs MathJax over an element replacing any math TeX with rendered 
-        * rendered formulas
+        * formulas
         *
         * @param element {String} The element (or it's id) that should be checked for math
         */

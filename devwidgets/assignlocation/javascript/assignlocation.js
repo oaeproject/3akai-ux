@@ -97,7 +97,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $assignlocationJSTreeContainer.bind("change_state.jstree", function(ev){
                 newlyAssignedLocations = [];
                 $(".jstree-checked>a").each(function(index, val){
-                    newlyAssignedLocations.push(val.href.split("#")[1]);
+                    newlyAssignedLocations.push(val.href.split("=")[1]);
                 });
                 renderSelected();
             });

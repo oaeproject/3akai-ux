@@ -22,6 +22,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
     sakai_global.currentgroup.id = sakai_global.currentgroup.id || {};
     sakai_global.currentgroup.data = sakai_global.currentgroup.data || {};
     sakai_global.currentgroup.manager = sakai_global.currentgroup.manager || false;
+    sakai_global.currentgroup.member = sakai_global.currentgroup.member || false;
 
     sakai_global.profile = sakai_global.profile || {};
     sakai_global.profile.main = {
@@ -224,9 +225,19 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     }
                     break;
                 case "group":
-                    if (sakai.api.Groups.isCurrentUserAManager(sakai_global.currentgroup.id, sakai.data.me)) {
-                        sakai_global.currentgroup.manager = true;
-                        canEdit = true;
+                    if (sakai.api.Groups.isCurrentUserAMember(sakai_global.currentgroup.id, sakai.data.me)) {
+                        // current user is a group member or manager
+                        if (sakai.api.Groups.isCurrentUserAManager(sakai_global.currentgroup.id, sakai.data.me)) {
+                            // current user is a manager
+                            sakai_global.currentgroup.member = false;
+                            sakai_global.currentgroup.manager = true;
+                            canEdit = true;
+                        } else {
+                            // current user is a member
+                            sakai_global.currentgroup.member = true;
+                            sakai_global.currentgroup.manager = false;
+                            canEdit = false;
+                        }
                     }
                     break;
             }

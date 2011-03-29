@@ -221,6 +221,16 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 // If we have results we add them to the object.
                 if (results && results.results) {
                     finaljson = mainSearch.prepareCMforRendering(results.results, finaljson, searchterm);
+                    for(var item in finaljson.items){
+                        if(finaljson.items.hasOwnProperty(item)){
+                            if (finaljson.items[item]["sakai:description"]) {
+                                finaljson.items[item]["sakai:description"] = sakai.api.Util.applyThreeDots(finaljson.items[item]["sakai:description"], $(".search_results").width() - $("#faceted_container").width() - 115, {max_rows: 1,whole_word: false}, "search_result_course_site_excerpt");
+                            }
+                            if(finaljson.items[item]["sakai:pooled-content-file-name"]){
+                                finaljson.items[item]["sakai:pooled-content-file-name"] = sakai.api.Util.applyThreeDots(finaljson.items[item]["sakai:pooled-content-file-name"], $(".search_results").width() - $("#faceted_container").width() - 115, {max_rows: 1,whole_word: false}, "s3d-bold");
+                            }
+                        }
+                    }
                 }
 
                 // if we're searching tags we need to hide the pager since it doesnt work too well
@@ -391,7 +401,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
                 // Search based on tags and render each search section
                 $.ajax({
-                    url: tagterm + ".tagged.5.json",
+                    url: tagterm + ".tagged.5.json?type=content",
                     cache: false,
                     success: function(data) {
 
@@ -433,6 +443,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * Will fetch the sites and add a new item to the history list.
          */
         var doInit = function() {
+            // check the URL for a query arg
+            mainSearch.checkQuery();
+
             // Make sure that we are still logged in.
             $.ajax({
                 url: sakai.config.URL.SITES_SERVICE,

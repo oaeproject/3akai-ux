@@ -55,27 +55,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Render functions //
         //////////////////////
 
-        var applyThreeDots = function(){
-            // make sure the newly added content is properly styled with
-            // threedots truncation
-            $(".relatedcontent .threedots_text").ThreeDots({
-                max_rows: 1,
-                text_span_class: "ellipsis_text",
-                e_span_class: "threedots_a",
-                whole_word: false,
-                alt_text_t: true
-            });
-        };
-
         /**
          * Render the template
          */
         var renderTemplate = function(relatedcontentData){
             // Render the relatedcontent
             relatedcontentData.sakai = sakai;
+            for (var item in relatedcontentData.relatedContent.results) {
+                if(relatedcontentData.relatedContent.results.hasOwnProperty(item)){
+                    relatedcontentData.relatedContent.results[item]["sakai:pooled-content-file-name"] = sakai.api.Util.applyThreeDots(relatedcontentData.relatedContent.results[item]["sakai:pooled-content-file-name"], $(".relatedcontent").width() - 30, {max_rows: 1,whole_word: false}, "s3d-bold");
+                }
+            }
             $(relatedcontentContainer).html(sakai.api.Util.TemplateRenderer(relatedcontentDefaultTemplate, relatedcontentData));
             $(relatedcontentContainer).show();
-            applyThreeDots();
         };
 
 
@@ -136,10 +128,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             }
             var searchterm = contentData.data["sakai:pooled-content-file-name"] + " " + managersList + " " + viewersList;
-            if (contentData.data["sakai:tags"]){
-                searchterm = searchterm + " " + contentData.data["sakai:tags"].join(" ");
-            }
             searchquery = prepSearchTermForURL(searchterm);
+            if (contentData.data["sakai:tags"]){
+                searchquery = searchquery + " OR " + contentData.data["sakai:tags"].join(" OR ");
+            }
 
             // get related content for contentData
             // return some search results for now

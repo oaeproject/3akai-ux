@@ -350,6 +350,7 @@ define(function() {
                                 "required": false,
                                 "display": true
                             },
+                            /*
                             "dateofbirth": {
                                 "label": "__MSG__PROFILE_BASIC_DATEOFBIRTH_LABEL__",
                                 "required": false,
@@ -358,7 +359,7 @@ define(function() {
                                 // note that MM/DD/YYYY will be localized in javascript, so its value is simply a placeholder
                                 // ie do not change MM/DD/YYYY -- keep it in this string
                                 "example": "__MSG__DATE_OF_BIRTH_EXAMPLE__ MM/DD/YYYY __MSG__FORMAT__"
-                            },
+                            }, */
                             "tags": {
                                 "label": "__MSG__TAGS__",
                                 "required": false,
@@ -643,6 +644,11 @@ define(function() {
                 cssClass: "icon-pdf-sprite",
                 URL: "/dev/images/mimetypes/pdf.png",
                 description: "PDF_DOCUMENT"
+            },
+            "application/x-download": {
+                cssClass: "icon-pdf-sprite",
+                URL: "/dev/images/mimetypes/pdf.png",
+                description: "PDF_DOCUMENT" 
             },
             "application/x-pdf": {
                 cssClass: "icon-pdf-sprite",
@@ -1928,7 +1934,7 @@ define(function() {
             "defaults": {
                 "personalportal": {
                     "layout": "dev",
-                    "columns": [["mygroups", "mycontacts","recentmessages"], ["myprofile", "mycontent"]]
+                    "columns": [["mygroups", "mycontacts"], ["mycontent","recentmessages"]]
                 },
                 "siteportal": {
                     "layout": "dev",
