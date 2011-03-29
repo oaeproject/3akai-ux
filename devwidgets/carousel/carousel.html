@@ -2,24 +2,42 @@
 <link rel="stylesheet" type="text/css" href="/devwidgets/carousel/css/carousel.css" />
 
 <div id="carousel_container_tl"><div id="carousel_container_tr"></div></div>
-<div id="carousel_container"><!----></div>
+<div id="carousel_container" class="jcarousel-skin-tango"><!----></div>
 <div id="carousel_container_bl"><div id="carousel_container_br"></div></div>
 
 <div id="carousel_single_column_template" style="display:none;"><!--
     <h1>__MSG__FEATURED__:</h1>
-    <div id="carousel_single_column_content_container">
-        <div id="carousel_single_column_content_preview"></div>
-        <h2>Video Title</h2>
-        <div class="carousel_content_description">Summary: Consectetuer adipiscing elit, sed diam non ummy nibh euismod tincidunt ut adipiscing elit, sed diam nonu mmy nibh euismod tincidunt ut laoreet dolore laoreet dolore </div>
-        <div class="carousel_content_description">Tags: Syllabus, Maths, Equasions, Calculus</div>
-        <div class="carousel_content_metadata">
-            Video | Added today | Added by: <a href="/~georgem" class="s3d-regular-links s3d-bold">George Mansfield</a>
-            <br/>
-            Last update by: <a href="/~georgem" class="s3d-regular-links s3d-bold">George Mansfield</a>
-        </div>
-        <a href="#" class="carousel_content_comments s3d-regular-links">15 Comments</a>
-        <hr class="fl-hidden fl-push"/>
-    </div>
+    <ul>
+        {for item in data}
+            <li>
+                <div class="carousel_single_column_content_container">
+                    <div id="carousel_single_column_content_preview">${item.preview}</div>
+                    <h2>${item.title}</h2>
+                    {if item.description && item.description.length}
+                        <div class="carousel_content_description">Summary: ${item.description}</div>
+                    {/if}
+                    {if item.tags && item.tags.length}
+                        <div class="carousel_content_description">Tags: ${item.tags}</div>
+                    {/if}
+                    <div class="carousel_content_metadata">
+                        ${item.mimeType} | Added on ${item.created} | Added by: <a href="/~${item.createdBy}" class="s3d-regular-links s3d-bold">${item.createdBy}</a>
+                        <br/>
+                        Last update by: <a href="/~${item.lastModifiedBy}" class="s3d-regular-links s3d-bold">${item.lastModifiedBy}</a>
+                    </div>
+                    {if item.comments && item.comments.length}
+                        <a href="#" class="carousel_content_comments s3d-regular-links">${item.comments.length} Comments</a>
+                    {/if}
+                </div>
+            </li>
+        {/for}
+    </ul>
+    <ul class="carousel_view_toggle">
+        {var index = 0}
+        {for item in data}
+            <li id="carousel_view_toggle_${index += 1}"></li>
+        {/for}
+    </ul>
+    <hr class="fl-hidden fl-push"/>
 --></div>
 
 <!-- JAVASCRIPT -->
