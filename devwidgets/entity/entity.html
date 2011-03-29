@@ -10,6 +10,35 @@
                 <button id="entity_user_create_and_add" class="s3d-button s3d-button-link-2-state" type="button">
                     <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CREATE_AND_ADD__</span>
                 </button>
+                <div class="entity_user_create_add_dropdown entity_user_dropdown s3d-dropdown-menu" style="display:none;">
+                    <div class="entity_dropdown_tr">
+                    </div>
+                    <div class="entity_dropdown_content">
+                        <ul>
+                            <li>
+                                <a href="#">__MSG__ADD_CONTENT__</a>
+                            </li>
+                            <li>
+                                <a href="#">__MSG__ADD_CONTACTS__</a>
+                            </li>
+                            <hr class="subnav_split"/>
+                            <li>
+                                <a href="#">__MSG__A_SIMPLE_GROUP__</a>
+                            </li>
+                            <li>
+                                <a href="#">__MSG__A_COURSE__</a>
+                            </li>
+                            <li>
+                                <a href="#">__MSG__A_RESEARCH_GROUP__</a>
+                            </li>
+                            <li>
+                                <a href="#">__MSG__MORE__</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="entity_dropdown_bottom">
+                    </div>
+                </div>
             {elseif type && type == "contact" || type == "user_other"}
                 {if type == "user_other"}
                     <button id="entity_user_add_to_contacts" class="s3d-button s3d-button-link-2-state" type="button">
@@ -31,11 +60,11 @@
         <span class="entity_number">(${data.counts["contacts"]})</span> <a href="#l=contacts" title="${data.counts["contacts"]} Contacts">Contacts</a>
     </div>
     {if type && type == "user_me"}
-        <div class="entity_user_dropdown" style="display:none;">
+        <div class="entity_user_picture_dropdown entity_user_dropdown" style="display:none;">
             <div class="entity_dropdown_tr"></div>
-            <div class="entity_dropdown_content">
+            <div class="entity_dropdown_content s3d-dropdown-menu">
                 <ul>
-                    <li><a href="#" class="s3d-regular-links s3d-bold">__MSG__CHANGE_PICTURE__</a></li>
+                    <li><a href="#">__MSG__CHANGE_PICTURE__</a></li>
                 </ul>
             </div>
             <div class="entity_dropdown_bottom"></div>

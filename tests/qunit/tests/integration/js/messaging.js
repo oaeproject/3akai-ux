@@ -72,33 +72,45 @@ require(
             });
         });
 
-        asyncTest("Get the messages in a user's inbox", 2, function() {
+        asyncTest("Get the messages in a user's inbox", 1, function() {
             sakai.api.Communication.getAllMessages("inbox", "message", 13, 0, "sakai:created", "asc", function(success, data) {
-                ok(success);
-                equals(data.results.length, 1, "Got one message from inbox");
+                if (data.results && data.results.length) {
+                    equals(data.results.length, 1, "Got one message from inbox");
+                } else {
+                    ok(false, "No messages returned");
+                }
                 start();
             });
         });
 
-        asyncTest("Mark Message Read", 2, function() {
+        asyncTest("Mark Message Read", 1, function() {
             sakai.api.Communication.getAllMessages("inbox", "message", 13, 0, "sakai:created", "asc", function(success, data) {
-                var messagePath = data.results[0]["jcr:path"];
-                sakai.api.Communication.markMessagesAsRead([messagePath], function(success, data) {
-                    ok(success);
-                    ok(data.results[0].success, "Message marked as read");
+                if (data.results && data.results[0]) {
+                    var messagePath = data.results[0]["jcr:path"];
+                    sakai.api.Communication.markMessagesAsRead([messagePath], function(success, data) {
+                        ok(data.results[0].success, "Message marked as read");
+                        start();
+                    });
+                } else {
+                    ok(false, "No messages found in inbox");
                     start();
-                });
+                }
             });
         });
 
-        asyncTest("Move Message to Trash", 2, function() {
+        asyncTest("Move Message to Trash", 1, function() {
             sakai.api.Communication.getAllMessages("inbox", "message", 13, 0, "sakai:created", "asc", function(success, data) {
-                var messagePath = data.results[0]["jcr:path"];
-                sakai.api.Communication.deleteMessages([messagePath], false, function(success, data) {
-                    ok(success);
-                    ok(data.results[0].success, "Message moved to trash");
+                if (data.results && data.results[0]) {
+                    var messagePath = data.results[0]["jcr:path"];
+                    sakai.api.Communication.deleteMessages([messagePath], false, function(success, data) {
+                        ok(data.results[0].success, "Message moved to trash");
+                        start();
+                    });
+                } else {
+                    ok(false, "No messages found in inbox");
                     start();
-                });
+                }
+
             });
         });
 
@@ -107,7 +119,7 @@ require(
         asyncTest("Send a reply to the message", 3, function() {
             sakai.api.Communication.sendMessage(dummyUser, sakai.data.me, dummySubject, "RE:" + dummyMessage, "", responseID, function(success, data) {
                 //test that some data came in
-                ok(success && data, "The reply was successful");
+                ok(success && data && data.message, "The reply was successful");
 
                 //test that the body was correct
                 same(data.message["sakai:body"], "RE:" + dummyMessage, "The body was returned correctly");
@@ -123,7 +135,7 @@ require(
         asyncTest("Send message to one person with a different category", 4, function(){
             //send a message with a custom category
             sakai.api.Communication.sendMessage(dummyUser, sakai.data.me, dummySubject, dummyMessage, dummyCategory, "", function(success, data) {
-                ok(success && data, "The message was sent succesfully");
+                ok(success && data && data.message, "The message was sent succesfully");
 
                 //check the body of the response
                 same(data.message["sakai:body"], dummyMessage, "The body was returned correctly");
@@ -147,7 +159,7 @@ require(
 
             //send message with multiple users
             sakai.api.Communication.sendMessage(dummyUser, sakai.data.me, dummySubject, dummyMessage, "", "", function(success, data) {
-                ok(data, "The message was sent succesfully");
+                ok(success && data && data.message, "The message was sent succesfully");
 
                 //check the body of the response
                 same(data.message["sakai:body"], dummyMessage, "The body was returned correctly");

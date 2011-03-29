@@ -504,7 +504,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
                       }
                   };
 
-                  fluid.reorderLayout(rootel + " #widgetscontainer", options);
+                  fluid.reorderLayout($('#widgetscontainer', $rootel), options);
                 } else {
                   // remove the move cursor from the title bar
                   $(".fl-widget-titlebar", $rootel).css("cursor", "default");
@@ -829,8 +829,25 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
             $(changeLayoutDialog, $rootel).jqmShow();
         };
 
-        $(window).bind("changeLayout.dashboard.sakai", function(e, title) {
-            changeLayout(title);
+        /**
+         * Bind the changeLayout.dashboard.sakai event to change the layout of
+         * this dashboard.
+         *
+         * @param e      standard jQuery Event object
+         * @param title  title of the dashboard page
+         * @param dashboard_tuid  (optional) tuid of the dashboard to change.
+         *     This is especially useful when there are multiple dashboard
+         *     widgets on one page.
+         */
+        $(window).bind("changeLayout.dashboard.sakai", function(e, title, dashboard_tuid) {
+            if (dashboard_tuid && dashboard_tuid === tuid) {
+                // for show.html, where multiple dashboards are on one page
+                changeLayout(title);
+                e.stopPropagation();
+            } else if (!dashboard_tuid) {
+                // when there is only one dashboard on the page
+                changeLayout(title);
+            }
         });
 
         ///////////////////////
@@ -925,36 +942,36 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
 
         };
 
-         /*
+        /*
         * We bring up the modal dialog that contains the list of widgets I can add
         * to my dashboard. Before it shows on the screen, we'll render the list of
         * widgets through a TrimPath template
         */
-         $(addGoodiesDialog, $rootel).jqm({
-             modal: true,
-             overlay: 20,
-             toTop: true,
-             onShow: renderGoodies
-         });
+        $(addGoodiesDialog, $rootel).jqm({
+            modal: true,
+            overlay: 20,
+            toTop: true,
+            onShow: renderGoodies
+        });
 
-         $(window).unbind("showAddWidgetDialog.dashboard.sakai");
-         $(window).bind("showAddWidgetDialog.dashboard.sakai", function(e, iTuid) {
-             if (iTuid === tuid && (widgetDialogShown[tuid] === false || widgetDialogShown[tuid] === undefined)) {
-                 widgetDialogShown[tuid] = true;
-                 $(addGoodiesDialog, $rootel).jqmShow();
-              }
-         });
+        $(window).bind("showAddWidgetDialog.dashboard.sakai", function(e, iTuid) {
+            if (iTuid === tuid && (widgetDialogShown[tuid] === false || widgetDialogShown[tuid] === undefined)) {
+                widgetDialogShown[tuid] = true;
+                $(addGoodiesDialog, $rootel).jqmShow();
+                e.stopPropagation();
+            }
+        });
 
         /**
-       * Initialize the Dashboard Widget
-       *
-       * @param {String} path the path of the embedding page, where this widget should be saved to.
-       *                 NOTE: path should not be the same base path as the dashboard widget itself, or
-       *                 the dashboard settings will overwrite the widget settings upon save
-       * @param {Boolean} editmode true if the dashboard should be editable, false if it should be static
-       * @param {String} propertyname property name in the widget config to allow it to be added to this dashboard
-       * @param {Boolean} fixedContainer is the dashboard should be a fixed container, ie. 920px wide
-       */
+        * Initialize the Dashboard Widget
+        *
+        * @param {String} path the path of the embedding page, where this widget should be saved to.
+        *                 NOTE: path should not be the same base path as the dashboard widget itself, or
+        *                 the dashboard settings will overwrite the widget settings upon save
+        * @param {Boolean} editmode true if the dashboard should be editable, false if it should be static
+        * @param {String} propertyname property name in the widget config to allow it to be added to this dashboard
+        * @param {Boolean} fixedContainer is the dashboard should be a fixed container, ie. 920px wide
+        */
         var init = function(path, editmode, propertyname, fixedContainer) {
             savePath = path;
             isEditable = editmode;

@@ -436,11 +436,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         var profileURL = "/~" + sakai_global.profile.main.data["rep:userId"] + "/public/authprofile";
                         sakai.api.Util.tagEntity(profileURL, tagsArray, currentTags, function(){
                             var tagList = [];
+                            // clear tags in sakai_global
+                            sakai_global.profile.main.data.basic.elements.tags = [];
                             $.each(tagsArray, function(i, tag){
-                                if ($.trim(tag.split("/")[0]) !== "directory") {
+                                if ($.trim(tag.split("/")[0]) !== "directory" && tag !== "") {
                                     tagList.push(tag);
                                 }
                             });
+                            // copy all the new tags in sakai_global
+                            sakai_global.profile.main.data.basic.elements.tags = tagList;
                             $selected_element.val(tagList.toString().replace(/,/g, ", "));
                         });
                     } else if (title) {

@@ -37,7 +37,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // Containers
         var entityContainer = "#entity_container";
-        var entityUserDropdown = ".entity_user_dropdown";
+        var entityUserPictureDropdown = ".entity_user_picture_dropdown";
+        var entityUserCreateAddDropdown = ".entity_user_create_add_dropdown";
 
         // Buttons
         var entityUserCreateAndAdd = "#entity_user_create_and_add";
@@ -56,15 +57,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             switch(context.type){
                 case "user_me":
                     $(entityUserCreateAndAdd).bind("click", function(){
-                        // Place create/add functionality
+                        if($(this).hasClass("entity_user_created_add_clicked")){
+                            $(this).removeClass("entity_user_created_add_clicked");
+                            $(entityUserCreateAddDropdown).hide();
+                        }else{
+                            $(this).addClass("entity_user_created_add_clicked");
+                            $(entityUserCreateAddDropdown).show();
+                            $(entityUserCreateAddDropdown).css("left", $(this).position().left - 38);
+                        }
                     })
                     $(entityUserImage).bind("click", function(){
                         if($(this).hasClass("entity_user_image_clicked")){
                             $(this).removeClass("entity_user_image_clicked");
-                            $(entityUserDropdown).hide();
+                            $(entityUserPictureDropdown).hide();
                         }else{
                             $(this).addClass("entity_user_image_clicked");
-                            $(entityUserDropdown).show();
+                            $(entityUserPictureDropdown).show();
                         }
                     });
                     break;
