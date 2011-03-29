@@ -847,7 +847,7 @@ define(function() {
                 ]
             },
             {
-                "url" : "/dev/directort2.html",
+                "url" : "/dev/directory2.html",
                 "id" : "navigation_explore_link",
                 "anonymous" : false,
                 "label" : "EXPLORE",
@@ -867,7 +867,7 @@ define(function() {
                 ]
             },
             {
-                "url" : "/dev/directort2.html",
+                "url" : "/dev/directory2.html",
                 "id" : "navigation_anon_explore_link",
                 "anonymous" : true,
                 "label" : "EXPLORE",
