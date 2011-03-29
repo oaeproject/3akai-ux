@@ -121,7 +121,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          */
         var renderUrl = function(mode){
             sakai_global.content_profile.content_data.mode = mode;
-            if(sakai_global.content_profile.content_data.data.mimeType === "x-sakai/link") {
+            if(sakai_global.content_profile.content_data.data._mimeType === "x-sakai/link") {
                 var json = {
                     data: sakai_global.content_profile.content_data,
                     sakai: sakai

@@ -488,7 +488,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                                 "sakai:pooled-content-file-name": url,
                                 "sakai:preview-url": preview.url,
                                 "sakai:preview-type": preview.type,
-                                "mimeType": "x-sakai/link",
+                                "_mimeType": "x-sakai/link",
                                 "length": url.length,
                                 "sakai:directory": "default",
                                 "sakai:description": $fileUploadAddDescription.val(),

@@ -119,7 +119,7 @@
     <div class='s3d-highlight_area_background_darker1_white_content_tl'><div class='s3d-highlight_area_background_darker1_white_content_tinner'></div></div>
         <span class="contentmetadata_content_row">
             <span class="contentmetadata_first_column">__MSG__SIZE__: </span>
-            <span>${sakai.api.Util.convertToHumanReadableFileSize(data.data["_length"])}</span>
+            <span>${sakai.api.Util.convertToHumanReadableFileSize(data.data["_length"]) || sakai.api.Util.convertToHumanReadableFileSize(data.data["length"])}</span>
         </span>
         <span class="contentmetadata_content_row">
             <span class="contentmetadata_first_column">__MSG__TYPE__: </span>
