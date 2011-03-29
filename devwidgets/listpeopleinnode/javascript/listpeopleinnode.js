@@ -76,6 +76,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} selected
          */
         var searchUsersInNode = function(selected){
+            $listpeopleinnodePeopleContainer.html("");
             $(listpeopleinnodeMainLoadingProgress).addClass(listpeopleinnodeMainProgress);
 
             var params = {

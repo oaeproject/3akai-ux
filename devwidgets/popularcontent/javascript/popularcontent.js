@@ -65,6 +65,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js"], func
         };
 
         var loadDataDirectory = function(selected, callback){
+            $popularcontent_main.html("");
             $(popularcontentMainLoadingProgress).addClass(popularcontentMainProgress);
             var params = {
                 page: 0,

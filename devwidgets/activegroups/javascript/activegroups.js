@@ -65,6 +65,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var loadDataDirectory = function(selected, callback){
+            $activegroups_main.html("");
             $(activegroupsMainLoadingProgress).addClass(activegroupsMainProgress);
             var params = {
                 page: 0,
