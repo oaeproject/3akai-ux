@@ -183,7 +183,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         		"page": "<div id='widget_content' class='widget_inline'/>"
         	},
         	"213623673": {
-        		"page": "<div id='widget_mygroups' class='widget_inline'/>"
+        		"page": "<div id='widget_mymemberships' class='widget_inline'/>"
         	},
         	"1193715035": {
         		"page": "<div id='widget_contacts' class='widget_inline'></div>"
