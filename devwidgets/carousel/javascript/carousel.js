@@ -160,6 +160,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var parseData = function(data){
             var dataArr = [];
+            var noPreviewArr = [];
 
             for (var item in data.results) {
                 var obj = {}
@@ -169,7 +170,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 } else if (isJwPlayerSupportedVideo(data.results[item]["_mimeType"] || "")) {
                     obj.preview = renderVideoPlayer(data.results[item]["jcr:name"]);
                 } else {
-                    obj.preview = "<img src=\"background:url(\"/devwidgets/carousel/images/carousel_video_image.png\") no-repeat top left transparent;\"/>";
+                    obj.preview = false;
                 }
 
                 obj.title = data.results[item]["sakai:pooled-content-file-name"];
@@ -194,7 +195,30 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 obj.lastModifiedBy = data.results[item]["_lastModifiedBy"];
                 obj.url = "/content#content_path=/p/" + data.results[item]["jcr:name"];
 
-                dataArr.push(obj);
+                if (obj.preview) {
+                    dataArr.push(obj);
+                }else{
+                    noPreviewArr.push(obj);
+                }
+            }
+
+            // Add items with no preview to final array.
+            // Objective is to fill one rendered list item with two items (without preview), drop item that's left over if necessary.
+            if(noPreviewArr.length){
+                if(noPreviewArr.length % 2){
+                    noPreviewArr.splice(noPreviewArr.length -1, 1);
+                }
+
+                var tempArr = [];
+                for(var item in noPreviewArr){
+                    if(tempArr.length != 2){
+                        tempArr.push(noPreviewArr[item]);
+                        if(tempArr.length == 2){
+                            dataArr.push(tempArr);
+                            tempArr = [];
+                        }
+                    }
+                }
             }
 
             renderCarousel(dataArr);
@@ -202,7 +226,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var loadFeatured = function(){
             $.ajax({
-                url: "/var/search/pool/me/manager-all.1.json?sortOn=_created&sortOrder=desc&page=0&items=4",
+                url: "/var/search/pool/me/manager-all.1.json?sortOn=_created&sortOrder=desc&page=0&items=50",
                 cache: false,
                 success: function(data){
                     parseData(data);
