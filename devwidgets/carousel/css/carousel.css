@@ -20,7 +20,7 @@
 #carousel_container {background-color:#ebeff1;padding:5px 12px;}
 #carousel_container h1, #carousel_container h2{color: #424242;font-size: 13px;}
 #carousel_container h1{margin-bottom:20px;}
-#carousel_container h2{color:#1D5888;}
+#carousel_container h2{color:#1D5888;margin-top:0;}
 #carousel_container .carousel_content_comments, #carousel_container .carousel_content_description, #carousel_container .carousel_content_metadata {font-size:11px;}
 #carousel_container .carousel_content_description {color:#797979;margin-bottom: 10px;}
 #carousel_container .carousel_content_metadata {color:#424242;margin-bottom: 10px;}
@@ -28,8 +28,16 @@
 #carousel_container_tl{background: url("/devwidgets/carousel/images/carousel_tl.png") no-repeat scroll left top transparent;height: 7px;}
 #carousel_container_br{background: url("/devwidgets/carousel/images/carousel_br.png") no-repeat scroll left top transparent;float: right;height: 7px;width: 7px;}
 #carousel_container_bl{background: url("/devwidgets/carousel/images/carousel_bl.png") no-repeat scroll left top transparent;height: 7px;}
+#carousel_container #carousel_next_button, #carousel_container #carousel_prev_button {width:22px;height:22px;cursor:pointer;float:right;margin-top: 8px;}
+#carousel_container #carousel_next_button{background:url("/devwidgets/carousel/images/carousel_next_button.png") no-repeat scroll left top transparent;}
+#carousel_container #carousel_prev_button{background:url("/devwidgets/carousel/images/carousel_prev_button.png") no-repeat scroll left top transparent;}
+#carousel_container .carousel_view_toggle li{display: inline-block;list-style: none outside none;background:url("/devwidgets/carousel/images/carousel_view_toggle.png") no-repeat scroll -12px top transparent;width:12px;height:12px;cursor:pointer;margin:0 2px;}
+#carousel_container li.carousel_view_toggle_selected{background:url("/devwidgets/carousel/images/carousel_view_toggle.png") no-repeat scroll left top transparent;}
+#carousel_container .carousel_view_toggle {margin-left:auto;margin-right:auto;text-align:center;margin-bottom:0;padding-top:2px;}
 
 /* Single column specific */
-#carousel_container #carousel_single_column_content_preview{width:350px; height:197px; background:url("/devwidgets/carousel/images/carousel_video_image.png") no-repeat top left transparent;margin-right:12px; margin-top: -15px;float:left;}
-
+#carousel_container #carousel_single_column_content_preview{width:350px; height:197px; margin-right:12px; margin-top: -15px;float:left;text-align: center;overflow:hidden}
+#carousel_container #carousel_single_column_content_preview img{max-width:350px;}
+#carousel_container .carousel_single_column_content_container {width:696px;}
 /* Two column specific */
+#carousel_container .carousel_two_column_content_container {width:348px;float:left;}
