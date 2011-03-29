@@ -199,7 +199,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var loadFiles = function(location){
             if(location === "myfiles"){
                 var data = {
-                    sortOn: "created",
+                    sortOn: "_created",
                     sortOrder: "desc"
                 };
                 sakai.api.Server.loadJSON("/var/search/pool/me/manager-all.1", filesLoaded, data);

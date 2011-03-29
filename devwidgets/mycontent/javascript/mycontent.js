@@ -80,7 +80,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             };
 
             // set the mimetype and corresponding image
-            var type = result["mimeType"];
+            var type = result["_mimeType"];
             if(sakai.config.MimeTypes[type]) {
                 // we have a recognized file type - set the description and img URL
                 item.type = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[type].description);
@@ -100,8 +100,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             item.name = sakai.api.Util.applyThreeDots(item.name, $(".mycontent_widget .s3d-widget-content").width() - 80, {max_rows: 1,whole_word: false}, "s3d-bold");
 
             // set the file size
-            if(result.hasOwnProperty("length") && result["length"]) {
-                item.size = "(" + sakai.api.Util.convertToHumanReadableFileSize(result["length"]) + ")";
+            if(result.hasOwnProperty("_length") && result["_length"]) {
+                item.size = "(" + sakai.api.Util.convertToHumanReadableFileSize(result["_length"]) + ")";
             }
 
             return item;
@@ -175,7 +175,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // get list of content items
             sakai.api.Server.loadJSON("/var/search/pool/me/manager-all.1.json",
                 handleContentData, {
-                    "sortOn": "created",
+                    "sortOn": "_created",
                     "sortOrder": "desc",
                     "page": "0",
                     "items": "5"
