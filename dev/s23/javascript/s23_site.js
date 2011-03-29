@@ -43,7 +43,6 @@ sakai.s23_site = function(){
     var s23GritterNotificationTitle = "#s23_gritter_notification_title";
     var s23GritterNotificationMessage = "#s23_gritter_notification_message";
     var s23GritterNotificationCancel = "#s23_gritter_notification_cancel";
-    var s23SiteIframeTitleResetClass = "s23_site_iframe_title_reset";
 
     // Templates
     var s23SiteIframeContainerTemplate = "s23_site_iframe_container_template";
