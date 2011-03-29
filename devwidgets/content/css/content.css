@@ -10,7 +10,7 @@
 .content_items {color:#333;padding:10px 0 5px 0; border-bottom:1px solid #DDDDDD;}
 .content_items img {float: left;padding: 0 10px 5px 0;width: 40px;}
 .content_name_div {color:#878A8C; width:50%; overflow:hidden;}
-.content_name {display:block;}
+.content_name {display:block; margin-bottom:5px;}
 .content_edit {background:url("/dev/images/dashboard_sprite.png") no-repeat scroll -186px -393px transparent;heght:18px;margin:15px 8px 0 0;position:relative;}
 .content_placeholder {width:20px; float:left;}
 .content_icon {background:url("/dev/images/dashboard_sprite.png") no-repeat scroll -68px -235px transparent; margin-top:10px;float:left;display:none;}
