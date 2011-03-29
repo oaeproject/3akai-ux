@@ -12,7 +12,7 @@
             <li>
                 <div class="carousel_single_column_content_container">
                     <div id="carousel_single_column_content_preview">${item.preview}</div>
-                    <h2>${item.title}</h2>
+                    <a href="${item.url}"><h2>${item.title}</h2></a>
                     {if item.description && item.description.length}
                         <div class="carousel_content_description">Summary: ${item.description}</div>
                     {/if}
@@ -39,6 +39,8 @@
     </ul>
     <hr class="fl-hidden fl-push"/>
 --></div>
+
+    <div id="carousel_video_holder" style="display:none;"><div id="carousel_video"></div></div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/carousel/javascript/carousel.js"></script>
