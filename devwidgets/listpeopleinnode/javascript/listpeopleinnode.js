@@ -67,7 +67,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             //$listpeopleinnodeAjaxLoader.hide();
             if(success){
                 results.sakai = sakai;
-                $(listpeopleinnodeMainLoadingProgress).removeClass(listpeopleinnodeMainProgress);
                 $listpeopleinnodePeopleContainer.html(sakai.api.Util.TemplateRenderer(listpeopleinnodePeopleTemplate, results));
             }
         };
@@ -96,6 +95,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 cache: false,
                 data: params,
                 success: function(data){
+                    $(listpeopleinnodeMainLoadingProgress).removeClass(listpeopleinnodeMainProgress);
                     if (typeof(data) === 'string') {
                         data = $.parseJSON(data);
                     }

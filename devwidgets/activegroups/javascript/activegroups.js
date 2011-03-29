@@ -54,7 +54,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var output = sakai.api.Util.TemplateRenderer($activegroups_main_template, {
                 data: groupData
             });
-            $(activegroupsMainLoadingProgress).removeClass(activegroupsMainProgress);
             $activegroups_main.html(output).show();
         };
 
@@ -83,6 +82,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 url: url,
                 data: params,
                 success: function(data){
+                    $(activegroupsMainLoadingProgress).removeClass(activegroupsMainProgress);
                     groupData = {"results":[], "items": data.items, "total": data.total};
                     var groups = [];
                     for (var i = 0; i < data.results.length; i++){

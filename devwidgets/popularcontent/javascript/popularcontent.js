@@ -52,7 +52,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js"], func
         var popularContentEllipsisContainer = ".popularcontent_ellipsis_container";
 
         var renderPopularContent = function(){
-            $(popularcontentMainLoadingProgress).removeClass(popularcontentMainProgress);
             $popularcontent_main.html(sakai.api.Util.TemplateRenderer($popularcontent_main_template, {
                 data: contentData
             })).show();
@@ -83,6 +82,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js"], func
                 url: url,
                 data: params,
                 success: function(data){
+                    $(popularcontentMainLoadingProgress).removeClass(popularcontentMainProgress);
                     contentData = {"results":[], "items": data.items, "total": data.total};
                     var content = [];
                     for (var i = 0; i < data.results.length; i++){
