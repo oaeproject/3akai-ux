@@ -434,17 +434,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             tagsArray.push(sakai_global.profile.main.directory.elements[i].locationtitle.value);
                         }
                         var profileURL = "/~" + sakai_global.profile.main.data["rep:userId"] + "/public/authprofile";
-                        sakai.api.Util.tagEntity(profileURL, tagsArray, currentTags, function(){
-                            var tagList = [];
-                            $.each(tagsArray, function(i, tag){
-                                if ($.trim(tag.split("/")[0]) !== "directory") {
-                                    tagList.push(tag);
-                                }
-                            });
-                            $selected_element.val(tagList.toString().replace(/,/g, ", "));
+                        sakai.api.Util.tagEntity(profileURL, tagsArray, currentTags, function(success, newtags) {
+                            sakai_global.profile.main.data["sakai:tags"] = sakai_global.profile.main.data.basic.elements.tags = newtags;
+                            $selected_element.val($selected_element.val().toString().replace(/\s+/g, " "));
                         });
                     } else if (title) {
-
                             // Get the property if it exists
                             var prop = getProperty(sakai_global.profile.main.data, title);
                             var parentProp = getParentProperty(sakai_global.profile.main.data, title);

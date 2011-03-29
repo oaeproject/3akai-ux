@@ -997,20 +997,20 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
             if (jcr_content) {
 
                 // Set the person that last modified the resource
-                if (jcr_content["lastModifiedBy"]) {
-                    entityconfig.data.profile.lastmodifiedby = jcr_content["lastModifiedBy"];
+                if (jcr_content["_lastModifiedBy"]) {
+                    entityconfig.data.profile.lastmodifiedby = jcr_content["_lastModifiedBy"];
                 }
                 // Set the last modified date
-                if (jcr_content["lastModified"]) {
-                    entityconfig.data.profile.lastmodified = $.timeago(sakai.api.Util.parseSakaiDate(jcr_content["lastModified"]));
+                if (jcr_content["_lastModified"]) {
+                    entityconfig.data.profile.lastmodified = $.timeago(sakai.api.Util.parseSakaiDate(jcr_content["_lastModified"]));
                 }
                 // Set the size of the file
                 if (jcr_content["jcr:data"]) {
                     entityconfig.data.profile.filesize = sakai.api.Util.convertToHumanReadableFileSize(jcr_content["jcr:data"]);
                 }
                 // Set the mimetype of the file
-                if (jcr_content["mimeType"]) {
-                    entityconfig.data.profile.mimetype = jcr_content["mimeType"];
+                if (jcr_content["_mimeType"]) {
+                    entityconfig.data.profile.mimetype = jcr_content["_mimeType"];
                 }
             }
 
@@ -1031,12 +1031,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
             }
 
             // Set the created by and created (date) variables
-            if (filedata["createdBy"]) {
-                entityconfig.data.profile.createdby = filedata["createdBy"];
+            if (filedata["_createdBy"]) {
+                entityconfig.data.profile.createdby = filedata["_createdBy"];
             }
 
-            if (filedata["created"]) {
-                entityconfig.data.profile.created = $.timeago(sakai.api.Util.parseSakaiDate(filedata["created"]));
+            if (filedata["_created"]) {
+                entityconfig.data.profile.created = $.timeago(sakai.api.Util.parseSakaiDate(filedata["_created"]));
             }
 
             if (filedata["sakai:pooled-content-file-name"]) {
@@ -1108,7 +1108,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
          * Callback function to sort activity based on created date
          */
         var sortActivity = function(a, b){
-            return a["created"] < b["created"] ? 1 : -1;
+            return a["_created"] < b["_created"] ? 1 : -1;
         };
 
         /**
@@ -1183,7 +1183,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
                         }
 
                         // get the time since the activity happened
-                        entityconfig.data.profile.activity.results[j].timeAgo = $.timeago(sakai.api.Util.parseSakaiDate(entityconfig.data.profile.activity.results[j]["created"]));
+                        entityconfig.data.profile.activity.results[j].timeAgo = $.timeago(sakai.api.Util.parseSakaiDate(entityconfig.data.profile.activity.results[j]["_created"]));
                     }
                 }
             }
