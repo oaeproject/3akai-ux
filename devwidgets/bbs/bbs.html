@@ -118,11 +118,11 @@
             {if settings.anon != true && settings.canreply == true}
                 <span class="bbs_message_options">
                     <a href="javascript:;" class="bbs_quote s3d-bold s3d-regular-links">__MSG__QUOTE__</a>
-                    {if post.message["sakai:from"] == settings.userid || settings.addtopic}
+                    {if post.message["sakai:from"] == settings.userid || settings.ismanager}
                         <span class="bbs_pipe_divider">|</span>
                         <a href="javascript:;" class="bbs_edit s3d-bold s3d-regular-links">__MSG__EDIT__</a>
                     {/if}
-                    {if settings.addtopic}
+                    {if settings.ismanager}
                         <span class="bbs_pipe_divider">|</span>
                         <a href="javascript:;" class="bbs_delete s3d-bold s3d-regular-links">__MSG__DELETE__</a>
                     {/if}
@@ -172,7 +172,7 @@
                     {if settings.anon != true && settings.canreply == true}
                         <span class="bbs_message_options">
                             <a href="javascript:;" class="bbs_quote s3d-bold s3d-regular-links">__MSG__QUOTE__</a>
-                            {if settings.addtopic == true}
+                            {if postData["sakai:from"] == settings.userid || settings.ismanager == true}
                                 <span class="bbs_pipe_divider">|</span>
                                 <a href="javascript:;" class="bbs_edit s3d-bold s3d-regular-links">__MSG__EDIT__</a>
                             {/if}
@@ -226,7 +226,7 @@
 
                             {if reply.post["sakai:deleted"] && reply.post["sakai:deleted"] == "true"}
                                 <span class="bbs_deleted_message">
-                                    {if settings.addtopic}
+                                    {if settings.ismanager}
                                         <p class="bbs_deleted_reply_info">__MSG__THIS_REPLY_HAS_BEEN_DELETED_AND_CAN_ONLY_BE_SEEN_BY_YOU__</p>
                                         <a href="javascript:;" class="bbs_restore s3d-bold s3d-regular-links">__MSG__RESTORE__</a>
                                     {elseif reply.post["sakai:from"] == settings.userid}
@@ -239,11 +239,11 @@
                                 {if settings.anon != true && settings.canreply == true}
                                     <span class="bbs_message_options">
                                         <a href="javascript:;" class="bbs_quote s3d-bold s3d-regular-links">__MSG__QUOTE__</a>
-                                        {if reply.post["sakai:from"] == settings.userid || settings.addtopic}
+                                        {if reply.post["sakai:from"] == settings.userid || settings.ismanager}
                                             <span class="bbs_pipe_divider">|</span>
                                             <a href="javascript:;" class="bbs_edit s3d-bold s3d-regular-links">__MSG__EDIT__</a>
                                         {/if}
-                                        {if settings.addtopic}
+                                        {if settings.ismanager}
                                             <span class="bbs_pipe_divider">|</span>
                                             <a href="javascript:;" class="bbs_delete s3d-bold s3d-regular-links">__MSG__DELETE__</a>
                                         {/if}

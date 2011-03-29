@@ -351,6 +351,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
         };
 
         var parseSettings = function(data){
+            parsedSettings["ismanager"] = false;
             if (sakai._isAnonymous) {
                 parsedSettings["addtopic"] = false;
                 parsedSettings["canreply"] = false;
@@ -362,6 +363,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
                     if (sakai_global.currentgroup.manager) {
                         // Grant all permissions
                         parsedSettings["addtopic"] = true;
+                        parsedSettings["ismanager"] = true;
                     }
                     else {
                         parsedSettings["addtopic"] = false;
@@ -371,6 +373,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
                     if (sakai_global.currentgroup.manager) {
                         // Grant all permissions
                         parsedSettings["addtopic"] = true;
+                        parsedSettings["ismanager"] = true;
                     }
                     else {
                         // Check if the user is a member
@@ -387,6 +390,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
                     if (sakai_global.currentgroup.manager) {
                         // Grant all permissions
                         parsedSettings["canreply"] = true;
+                        parsedSettings["ismanager"] = true;
                     }
                     else {
                         // Check if the user is a member
