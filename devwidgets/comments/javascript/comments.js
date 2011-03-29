@@ -429,6 +429,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             "replies": []
                         };
                         postData.post["profile"] = [me.profile];
+                        postData.post["jcr:path"] = widgeturl + "/message/inbox/" + postData.post["jcr:name"];
+                        postData.post["canDelete"] = true;
+                        postData.post["canEdit"] = true;
                         json.results.unshift(postData);
                         // Show the added comment
                         showComments();
@@ -752,7 +755,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     type: 'POST',
                     success: function(data){
                         // Set the new message
-                        $(commentsMessage + id, rootel).html(sakai.api.Security.saneHTML(tidyInput(message)));
+                        $(commentsMessage + id, rootel).html("<p>" + sakai.api.Security.saneHTML(tidyInput(message)) + "</p>");
                         // Hide the form
                         $(commentsMessageEditContainer + id, rootel).hide();
                         $(commentsMessage + id, rootel).show();
