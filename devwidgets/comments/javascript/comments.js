@@ -424,8 +424,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         $(commentsMessageTxt, rootel).val("");
                         $(commentsNamePosterTxt, rootel).val("");
                         $(commentsMailPosterTxt, rootel).val("");
-                        // Get the comments.
-                        getComments();
+                        var postData = {
+                            "post": data.message,
+                            "replies": []
+                        };
+                        postData.post["profile"] = [me.profile];
+                        json.results.unshift(postData);
+                        // Show the added comment
+                        showComments();
                     },
                     error: function(xhr, textStatus, thrownError){
                         if (xhr.status === 401) {
