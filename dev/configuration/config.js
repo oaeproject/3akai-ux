@@ -735,7 +735,7 @@ define(function() {
                 URL: "/dev/images/mimetypes/video.png",
                 description: "VIDEO_FILE"
             },
-            folder: {
+            "folder": {
                 cssClass: "icon-kmultiple-sprite",
                 URL: "/dev/images/mimetypes/kmultiple.png",
                 description: "FOLDER"

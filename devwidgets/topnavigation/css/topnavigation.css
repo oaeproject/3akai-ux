@@ -100,3 +100,4 @@
 #topnavigation_user_options_login_fields #topnavigation_user_options_login_error #topnavigation_user_options_login_error_bottom {background: url("/devwidgets/topnavigation/images/topnav_login_error_bottom.png") no-repeat scroll 0 0 transparent;height: 4px;}
 
 #topnavigation_user_options_login_fields #topnavigation_user_options_login_fields_container #topnavigation_user_options_login_forgotten{float:right; margin:10px 0;font-size: 11px;}
+#topnavigation_search_results_container ul li{list-style-type:none;}

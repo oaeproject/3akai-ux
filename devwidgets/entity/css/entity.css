@@ -40,5 +40,9 @@
 #entity_container .entity_user_image_clicked {width:93px; height:46px; background:url("/devwidgets/entity/images/entity_user_icon_clicked.png") no-repeat transparent;float:left;margin-right:15px;margin-top:-7px;}
 #entity_container .entity_user_create_add_dropdown {position:fixed;z-index:999;width:150px;margin-top:34px;}
 
+/* Group */
+#entity_container .entity_group_image {width:63px;height:46px; background:url("/dev/images/group_icon.png") no-repeat transparent;float:left;margin-right:10px;margin-top:5px; margin-left:5px;}
+
 /* Content */
-#entity_container #entity_content_image {width:45px;height:62px; background:url("/devwidgets/entity/images/entity_content_icon.png") no-repeat transparent;float:left;margin-right:30px;margin-top:-14px;}
+#entity_container #entity_content_image {width:45px;height:62px; float:left;margin-right:15px;margin-top:-14px;}
+#entity_content_image img{height:50px; margin-top:5px;}

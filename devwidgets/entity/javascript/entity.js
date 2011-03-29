@@ -108,20 +108,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
         
         $(window).trigger("sakai.entity.ready");
-
-            // var context = "user";
-            // var context = "content";
-            //var type = "user_me";
-            //var type = "user_other";
-            //var type = "contact";
-            //var type = "content_not_shared";
-            //var type = "content_shared";
-            //var type = "content_managed";
-            //if (document.location.pathname === "/dev/create_new_account2.html"){
-            //    context = "newaccount";
-            //    type = false;
-            //}
-
+            
     };
     sakai.api.Widgets.widgetLoader.informOnLoad("entity");
 });

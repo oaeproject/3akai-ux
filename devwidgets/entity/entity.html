@@ -100,13 +100,53 @@
             </button>
         {/if}
     </div>
-    <div id="entity_content_image" class="entity_content_image {if type && type == "user_me"} entity_content_image_pointer{/if} "></div>
-    <div id="entity_name" class="s3d-bold">Document title</div>
+    <div id="entity_content_image" class="entity_content_image">
+            <img src="${data['iconURL']}"/>
+    </div>
+    <div id="entity_name" class="s3d-bold">${data["sakai:pooled-content-file-name"]}</div>
     <div id="entity_owns" class="s3d-regular-links">
         <span class="entity_number">Used by (<a href="#" title="1 Person">1</a>)</span> <a href="#" title="1 Person">person</a> and 
         <span class="entity_number">(<a href="#" title="0 Groups">0</a>)</span> <a href="#" title="0 Groups">groups</a>
         <span class="entity_number entity_permissions_label">Visible to anyone with the link</span>
     </div>
+--></div>
+
+<div id="entity_group_template" style="display:none"><!--
+    <div id="entity_actions">
+        {if !anon}
+            {if type === "group_managemode"}
+                <button id="entity_group_back" class="s3d-button s3d-button-link-2-state" type="button">
+                    <span class="s3d-button-inner s3d-button-link-2-state-inner">Back to pages</span>
+                </button>
+            {else}
+                <button id="entity_message" class="s3d-button s3d-button-link-2-state" type="button">
+                    <span class="s3d-button-inner s3d-button-link-2-state-inner">Message</span>
+                </button>
+                {if type === "group_managed"}
+                    <button id="entity_manage_group" class="s3d-button s3d-button-link-2-state" type="button">
+                        <span class="s3d-button-inner s3d-button-link-2-state-inner">Manage group</span>
+                    </button>
+                {/if}
+            {/if}
+        {/if}
+    </div>
+    <div id="entity_group_image" class="entity_group_image {if type && type == "group_managed"} entity_user_image_pointer{/if} "></div>
+    <div id="entity_name" class="s3d-bold">${data.authprofile["sakai:group-title"]}</div>
+    <div id="entity_owns" class="s3d-regular-links">
+        <span class="entity_number">(1)</span> <a href="#l=content" title="1 Documents">Documents</a>,
+        <span class="entity_number">(2)</span> <a href="#l=memberships" title="(2) Participants">Participants</a>
+    </div>
+    {if type && type == "group_managed"}
+        <div class="entity_user_picture_dropdown entity_user_dropdown" style="display:none;">
+            <div class="entity_dropdown_tr"></div>
+            <div class="entity_dropdown_content s3d-dropdown-menu">
+                <ul>
+                    <li><a href="#">__MSG__CHANGE_PICTURE__</a></li>
+                </ul>
+            </div>
+            <div class="entity_dropdown_bottom"></div>
+        </div>
+    {/if}
 --></div>
 
 <!-- JAVASCRIPT -->

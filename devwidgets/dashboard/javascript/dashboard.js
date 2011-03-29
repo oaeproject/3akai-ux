@@ -998,10 +998,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
             }
         };
 
-        //$(window).bind("init.dashboard.sakai", function(e, path, editmode, propertyname, fixedContainer) {
-            //init(path, editmode, propertyname, fixedContainer);
+        if (document.location.pathname === "/dev/group.html"){
+            $(window).bind("init.dashboard.sakai", function(e, path, editmode, propertyname, fixedContainer) {
+                init(path, editmode, propertyname, fixedContainer);
+            });  
+        } else {
             init("", true, "personalportal", false);
-        //});
+        }
 
         /**
          * Send out an event to indicate that the dashboard widget has been
