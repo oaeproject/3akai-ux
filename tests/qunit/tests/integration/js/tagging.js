@@ -40,14 +40,16 @@ require(
         asyncTest("Tag an entity", 1, function() {
             sakai.api.Util.tagEntity("/~"+user_random+"/public/authprofile", [tag_random], null, function(success) {
                 ok(success, "User tagged successfully");
-                start();
+                setTimeout(function() {
+                    start();
+                }, 6000);
+
             });
         });
 
         asyncTest("Test to see if the entity was properly tagged", 1, function() {
-            sakai.api.User.loadMeData(function(success, data) {
-                ok(data.profile.hasOwnProperty("sakai:tags") && data.profile["sakai:tags"] === tag_random, "Me service returns properly tagged entity");
-
+            sakai.api.User.getUser(user_random, function(success, profile) {
+                ok(profile.hasOwnProperty("sakai:tags") && profile["sakai:tags"].indexOf(tag_random) > -1, "User was tagged");
                 start();
             });
         });

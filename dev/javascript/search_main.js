@@ -172,8 +172,26 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             /** When we click the search button the search should get executed. */
             $(searchConfig.global.button).unbind("click");
             $(searchConfig.global.button).bind("click", function(ev) {
-                callback.doHSearch();
+                if (!hasHadFocus) {
+                    callback.doHSearch(1, "*");
+                } else {
+                    callback.doHSearch();
+                }
             });
+        };
+
+
+        /**
+         * Checks for a query arg in the URL. If none, does a search for all (*).
+         */
+        var checkQuery = function () {
+            if ((!$.bbq.getState("q") ||
+                $.trim($.bbq.getState("q")) === "") &&
+                (!$.bbq.getState("tag") ||
+                $.trim($.bbq.getState("tag")) === "")) {
+
+                callback.doHSearch(1, "*");
+            }
         };
 
 
@@ -286,7 +304,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     // Parse the user his info.
                     user.path = "/~" + user.userid + "/public/";
                     var person = item;
-                    if (person.basic.elements.picture && $.parseJSON(person.basic.elements.picture.value).name){
+                    if (person && person.basic && person.basic.elements && person.basic.elements.picture && $.parseJSON(person.basic.elements.picture.value).name){
                         person.picture = person.basic.elements.picture.value;
                     }
                     if (person.picture) {
@@ -313,7 +331,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     }
                     if (sakai.api.User.getDisplayName(item) !== "")  {
                         user.name = sakai.api.User.getDisplayName(item);
-                        user.name = sakai.api.Util.applyThreeDots(user.name, 180, {max_rows: 1,whole_word: false}, "s3d-bold")
+                        user.name = sakai.api.Util.applyThreeDots(user.name, 180, {max_rows: 1,whole_word: false}, "s3d-bold");
                         user.firstName = sakai.api.User.getProfileBasicElementValue(item, "firstName");
                         user.lastName = sakai.api.User.getProfileBasicElementValue(item, "lastName");
                     } else {
@@ -488,8 +506,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             'prepSearchTermForURL': prepSearchTermForURL,
             'preparePeopleForRender': preparePeopleForRender,
             'prepareCMforRendering': prepareCMforRendering,
-            'addFacetedPanel': addFacetedPanel
-
+            'addFacetedPanel': addFacetedPanel,
+            'checkQuery': checkQuery
         };
     };
 });
