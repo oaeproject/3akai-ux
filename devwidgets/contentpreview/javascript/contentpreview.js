@@ -42,6 +42,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var obj = {};
         obj.type = "showpreview";
+        
+        var qs = new Querystring();
 
         var isJwPlayerSupportedVideo = function(mimeType) {
             supported = false;
@@ -57,10 +59,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var determineDataType = function(){
             hidePreview();
             obj.type = "showpreview";
+            obj.buttons = "default";
             var callback = null;
             var arg = null;
-            var mimeType = sakai_global.content_profile.content_data.data["_mimeType"];
-            if (isJwPlayerSupportedVideo(mimeType)){
+            var mimeType = sakai_global.content_profile.content_data.data["mimeType"] || sakai_global.content_profile.content_data.data["_mimeType"];
+            if (qs.get("nopreview") === "true"){
+                callback = renderDefaultPreview;
+                obj.type = "default";
+            } else if (isJwPlayerSupportedVideo(mimeType)){
                 callback = renderVideoPlayer;
             } else if (mimeType === "audio/mp3" || mimeType === "audio/x-aac") {
                 callback = renderAudioPlayer;
@@ -70,6 +76,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 callback = renderTextPreview;
             } else if (mimeType === "text/html") {
                 callback = renderHTMLPreview;
+            } else if (mimeType === "x-sakai/link"){
+                obj.buttons = "links";
+                if (sakai_global.content_profile.content_data.data["sakai:preview-url"] && sakai_global.content_profile.content_data.data["sakai:preview-type"] === "iframe") {
+                    callback = renderExternalHTMLPreview;
+                    arg = sakai_global.content_profile.content_data.data["sakai:preview-url"];
+                } else if (sakai_global.content_profile.content_data.data["sakai:preview-url"] && sakai_global.content_profile.content_data.data["sakai:preview-type"] === "video") {
+                    callback = renderVideoPlayer;
+                    arg = sakai_global.content_profile.content_data.data["sakai:preview-url"];
+                } else {
+                    callback = renderExternalHTMLPreview;
+                }
             } else if (mimeType === "image/vnd.adobe.photoshop") {
                 callback = renderStoredPreview;
             } else  if (mimeType.substring(0, 6) === "image/") {
@@ -99,10 +116,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var width = $("#contentpreview_image_rendered").width();
                 var height = $("#contentpreview_image_rendered").height();
                 // Too wide but when scaled to width won't be too tall
-                if (width > 640 && height / width * 640 <= 390){
+                if (width > 920 && height / width * 920 <= 560){
                     $("#contentpreview_image_rendered").addClass("contentpreview_image_preview_width");
                 // Too tall but when scaled to height won't be too wide
-                } else if (height > 390 && width / height * 390 <= 640){
+                } else if (height > 560 && width / height * 560 <= 920){
                     $("#contentpreview_image_rendered").addClass("contentpreview_image_preview_height");
                 }
                 $("#contentpreview_image_preview").append($("#contentpreview_image_rendered"));
@@ -129,17 +146,26 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             json.sakai = sakai;
             sakai.api.Util.TemplateRenderer("contentpreview_html_template", json, $("#contentpreview_html_preview"));
             $("#contentpreview_html_iframe").attr("src", sakai_global.content_profile.content_data.path);
-            $("#contentpreview_html_iframe").attr("width", "640px");
-            $("#contentpreview_html_iframe").attr("height", "390px");
+            $("#contentpreview_html_iframe").attr("width", "920px");
+            $("#contentpreview_html_iframe").attr("height", "560px");
             $("#contentpreview_html_iframe").attr("frameborder", "0");
         };
+        
+        var renderExternalHTMLPreview = function(url){
+            $(".contentpreview_externalhtml_preview").show();
+            json.sakai = sakai;
+            sakai.api.Util.TemplateRenderer("contentpreview_externalhtml_template", json, $("#contentpreview_externalhtml_preview"));
+            url = url || sakai_global.content_profile.content_data.data["sakai:pooled-content-url"];
+            $("#contentpreview_externalhtml_iframe").attr("src", url);
+            $("#contentpreview_externalhtml_iframe").attr("frameborder", "0");
+        };
 
-        var renderVideoPlayer = function(){
+        var renderVideoPlayer = function(url){
             $(".contentpreview_videoaudio_preview").show();
             var so = createSWFObject(false, {}, {});
-            so.addVariable('file', sakai_global.content_profile.content_data.path);
-            if (sakai_global.content_profile.content_data.data.previewImage) {
-                so.addVariable('image', sakai_global.content_profile.content_data.data.previewImage);
+            so.addVariable('file', url || sakai_global.content_profile.content_data.path);
+            if (sakai_global.content_profile.content_data.data["sakai:preview-avatar"]) {
+                so.addVariable('image', sakai_global.content_profile.content_data.data["sakai:preview-avatar"]);
             }
             so.addVariable('stretching','uniform');
             so.write("contentpreview_videoaudio_preview");
@@ -165,7 +191,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (!url){
                 url = "/devwidgets/video/jwplayer/player-licensed.swf";
             }
-            var so = new SWFObject(url,'ply', '640', '390','9','#ffffff');
+            var so = new SWFObject(url,'ply', '920', '560','9','#ffffff');
             so.addParam('allowfullscreen','true');
             if (params.allowscriptaccess) {
                 so.addParam('allowscriptaccess', params.allowscriptaccess);

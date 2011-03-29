@@ -457,6 +457,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             // Check if it's a link that's been uploaded
             if (uploadedLink) {
                 if (newVersionIsLink) {
+                    var preview = sakai.api.Content.getPreviewUrl($fileUploadLinkBoxInput.val())
                     var item = {
                         "url": "/p/" + oldVersionPath,
                         "method": "POST",
@@ -466,15 +467,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             "sakai:permissions": $fileUploadPermissionsSelect.val(),
                             "sakai:copyright": $fileUploadCopyrightSelect.val(),
                             "sakai:directory": "default",
-                            "sakai:preview-url": sakai.api.Content.getPreviewUrl($fileUploadLinkBoxInput.val())
+                            "sakai:preview-url": preview.url,
+                            "sakai:preview-type": preview.type,
+                            "sakai:preview-avatar": preview.avatar
                         }
                     };
                     batchDescriptionData[batchDescriptionData.length] = item;
                 }
                 else {
 
-                   var url = $fileUploadLinkBoxInput.val();
-
+                    var url = $fileUploadLinkBoxInput.val();
+                    var preview = sakai.api.Content.getPreviewUrl(url);
                     $.each(data, function(index, path) {
                         var item2 = {
                             "url": "/p/" + path,
@@ -483,13 +486,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                                 "sakai:pooled-content-url": url,
                                 "sakai:pooled-content-revurl": url,
                                 "sakai:pooled-content-file-name": url,
-                                "sakai:preview-url": sakai.api.Content.getPreviewUrl(url),
+                                "sakai:preview-url": preview.url,
+                                "sakai:preview-type": preview.type,
                                 "mimeType": "x-sakai/link",
                                 "length": url.length,
                                 "sakai:directory": "default",
                                 "sakai:description": $fileUploadAddDescription.val(),
                                 "sakai:permissions": $fileUploadPermissionsSelect.val(),
-                                "sakai:copyright": $fileUploadCopyrightSelect.val()
+                                "sakai:copyright": $fileUploadCopyrightSelect.val(),
+                                "sakai:preview-avatar": preview.avatar
                             }
                         };
                         batchDescriptionData[batchDescriptionData.length] = item2;

@@ -197,20 +197,29 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
          */
         getPreviewUrl : function(url) {
             var uri = parseUri(url);
-            var result = "";
+            var result = {};
+            result.type = "iframe";
+            result.url = url;
             if (/vimeo\.com$/.test(uri.host)) {
-                result = "http://player.vimeo.com/video" + uri.path;
+                result.url = "http://player.vimeo.com/video" + uri.path;
             } else if (/picasaweb\.google\.com$/.test(uri.host)) {
                 var userId = uri.path.split('/')[1];
                 var albumName = uri.path.split('/')[2];
                 var photoId = uri.anchor;
-                result = "https://picasaweb.google.com/data/feed/base/user/" + userId + "/album/" + albumName + "/photoid/" + photoId + "?alt=json";
+                result.url = "https://picasaweb.google.com/data/feed/base/user/" + userId + "/album/" + albumName + "/photoid/" + photoId + "?alt=json";
+                result.type = "image";
             } else if (/youtube\.com$/.test(uri.host)) {
-                result = url;
+                var qs = new Querystring(uri.query);
+                if (qs.get("v")){
+                    result.url = url;
+                    result.type = "video";
+                    result.avatar = "http://img.youtube.com/vi/" + qs.get("v") + "/0.jpg";    
+                }
             } else if (/amazon\.com$/.test(uri.host)) {
                 var asin = uri.path.split("/");
                 asin = bookId[bookId.indexOf('dp')+1];
-                result = "http://kindleweb.s3.amazonaws.com/app/1.0.11.053.093655/KindleReaderApp.html?asin=" + asin + "&containerID=kindleReaderDiv59&tophostname=localhost&iframeName=kindleReaderIFrame1300121366106&dp=0";
+                result.url = "http://kindleweb.s3.amazonaws.com/app/1.0.11.053.093655/KindleReaderApp.html?asin=" + asin + "&containerID=kindleReaderDiv59&tophostname=localhost&iframeName=kindleReaderIFrame1300121366106&dp=0";
+                result.type = "iframe";
             }
             return result;
         }

@@ -38,7 +38,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.displayprofilesection = function(tuid, showSettings){
+    sakai_global.displayprofilesection = function(tuid, showSettings, widgetData){
 
         var rootel = $("#" + tuid);
 
@@ -63,26 +63,29 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Get the settings for this widget
          */
         var getSettings = function(){
-            sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
-                if (success) {
-                    // Check if settings should be shown
-                    if (showSettings) {
-                        // Show these settings
-                        displaySettings(data);
+            if (widgetData.sectionid) {
+                displayWidget(widgetData);
+            } else {
+                sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
+                    if (success) {
+                        // Check if settings should be shown
+                        if (showSettings) {
+                            // Show these settings
+                            displaySettings(data);
+                        } else {
+                            // Show the widget
+                            displayWidget(data);
+                            // Init widget
+                            sakai.api.Widgets.widgetLoader.insertWidgets(tuid, false);
+                        }
                     } else {
-                        // Show the widget
-                        displayWidget(data);
-                        // Init widget
-                        sakai.api.Widgets.widgetLoader.insertWidgets(tuid, false);
+                        // We don't have settings for this widget yet.
+                        if (showSettings) {
+                            displaySettings(data);
+                        }
                     }
-                } else {
-                    // We don't have settings for this widget yet.
-                    if (showSettings) {
-                        displaySettings(data);
-                    }
-                }
-
-            });
+                });
+            }
         };
 
         /**

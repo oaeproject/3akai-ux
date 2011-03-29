@@ -39,6 +39,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             // http://localhost:8080/p/YjsKgQ8wNtTga1qadZwjQCe.members.json
             // http://localhost:8080/var/search/pool/activityfeed.json?p=/p/YjsKgQ8wNtTga1qadZwjQCe&items=1000
 
+            if (content_path && document.location.pathname === "/content"){
+                document.location = "/dev/content_profile2.html#content_path=" + content_path;
+                return;
+            }
+
             if (content_path) {
 
                 // Get the content information, the members and managers and version information
@@ -161,10 +166,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             directory = sakai.api.Util.getDirectoryTags(contentInfo["sakai:tags"].toString());
                         }
 
-                        var fullPath = content_path + "/" + contentInfo["sakai:pooled-content-file-name"];
-                        if (contentInfo["sakai:pooled-content-file-name"].substring(contentInfo["sakai:pooled-content-file-name"].lastIndexOf("."), contentInfo["sakai:pooled-content-file-name"].length) !== contentInfo["sakai:fileextension"]) {
-                            fullPath += contentInfo["sakai:fileextension"];
-                        }
+                        var fullPath = content_path; // + "/" + contentInfo["sakai:pooled-content-file-name"];
+                        //if (contentInfo["sakai:pooled-content-file-name"].substring(contentInfo["sakai:pooled-content-file-name"].lastIndexOf("."), contentInfo["sakai:pooled-content-file-name"].length) !== contentInfo["sakai:fileextension"]) {
+                        //    fullPath += contentInfo["sakai:fileextension"];
+                        //}
 
                         // filter out the the everyone group and the anonymous user
                         contentMembers.viewers = $.grep(contentMembers.viewers, function(resultObject, index){

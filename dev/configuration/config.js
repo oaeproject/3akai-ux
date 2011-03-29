@@ -847,7 +847,7 @@ define(function() {
                 ]
             },
             {
-                "url" : "/dev/directort2.html",
+                "url" : "/dev/directory2.html",
                 "id" : "navigation_explore_link",
                 "anonymous" : false,
                 "label" : "EXPLORE",
@@ -867,7 +867,7 @@ define(function() {
                 ]
             },
             {
-                "url" : "/dev/directort2.html",
+                "url" : "/dev/directory2.html",
                 "id" : "navigation_anon_explore_link",
                 "anonymous" : true,
                 "label" : "EXPLORE",
@@ -923,7 +923,7 @@ define(function() {
          * are then required to call the sakai.api.Security.showPage
          * themselves
          */
-        requireProcessing: ["/dev/user.html", "/dev/content_profile.html", "/dev/content_profile.html", "/dev/group_edit.html", "/dev/show.html"],
+        requireProcessing: ["/dev/user.html", "/dev/content_profile.html", "/dev/content_profile.html", "/dev/group_edit.html", "/dev/show.html", "/content"],
 
         showSakai2: false,
         useLiveSakai2Feeds: false,

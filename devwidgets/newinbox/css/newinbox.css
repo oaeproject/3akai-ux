@@ -1,0 +1,41 @@
+.newinbox_widget{overflow:hidden;}
+
+/* Title */
+.newinbox_title {font-size:1.1em;}
+.newinbox_title_bar {border-bottom:1px solid #DDDDDD; padding:20px 0;height:10px; margin-bottom:5px;}
+
+/* Inbox items*/
+.newinbox_items {color:#333;padding:5px 15px 5px 0; border-bottom:1px solid #DDDDDD;}
+.newinbox_items img {float: left;padding: 0 10px 5px 0;width: 30px;}
+
+.newinbox_name {width:30%; overflow:hidden;display:inline-block;}
+.newinbox_subject {width:30%;display:inline-block;}
+.newinbox_delete_button {padding-right: 5px; float:right}
+.newinbox_delete_button span {padding-left:7px!important;}
+
+
+/* General */
+.newinbox_right_div {float:right; width:20%; padding-left:5px;}
+.newinbox_right {float:right;}
+.newinbox_placeholder {width:20px; float:left;}
+
+.newinbox_title_bar span, .newinbox_items span{ color: #878A8C; font-size:0.9em;}
+
+.newinbox_information {margin-top:15px;}
+.newinbox_information_detail {width:70%;}
+.newinbox_information_fliter {float:right;}
+
+
+
+
+
+
+
+.newinbox_edit {background:url("/dev/images/dashboard_sprite.png") no-repeat scroll -186px -393px transparent;heght:18px;margin:15px 8px 0 0;position:relative;}
+
+.newinbox_icon {background:url("/dev/images/dashboard_sprite.png") no-repeat scroll -68px -235px transparent; margin-top:10px;float:left;display:none;}
+
+.newinbox_description_detail {color: #666666; font-size:0.9em; display:block; padding-top:2px;}
+.newinbox_detail_dark {color:#000000;}
+
+
