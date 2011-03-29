@@ -225,7 +225,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
         }
         
-        var getProfileData = function(profile){
+        var getProfileData = function(exists, profile){
             if (!profile) {
                 sakai.api.Security.sendToLogin();
             } else {
