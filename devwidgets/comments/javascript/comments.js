@@ -379,8 +379,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         $(commentsMessageTxt, rootel).val("");
                         $(commentsNamePosterTxt, rootel).val("");
                         $(commentsMailPosterTxt, rootel).val("");
-                        // Get the comments.
-                        getComments();
+                        var postData = {
+                            "post": data.message,
+                            "replies": []
+                        };
+                        postData.post["profile"] = [me.profile];
+                        postData.post["jcr:path"] = widgeturl + "/message/inbox/" + postData.post["jcr:name"];
+                        postData.post["canDelete"] = true;
+                        postData.post["canEdit"] = true;
+                        if (widgetSettings && widgetSettings.direction && widgetSettings.direction === "comments_FirstDown") {
+                            json.results.push(postData);
+                        } else {
+                            json.results.unshift(postData);
+                        }
+                        // Show the added comment
+                        showComments();
                     },
                     error: function(xhr, textStatus, thrownError){
                         if (xhr.status === 401) {
@@ -469,7 +482,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
 
 
-            comments.direction = $("input[name=" + commentsDirectionRbt + " ]:checked", rootel).val();
+            comments.direction = $("input[name=" + commentsDirectionRbt + "]:checked", rootel).val();
 
             // These properties are noy yet used in the comments-widget, but are saved in JCR
             comments['sakai:allowanonymous'] = true;
@@ -646,7 +659,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 url: url,
                 type: 'POST',
                 success: function(){
-                    getComments();
+                    // mark the comment as deleted or undeleted
+                    for (var i = 0; i < json.results.length; i++) {
+                        if (json.results[i].post["sakai:id"] === id){
+                            json.results[i].post["sakai:deleted"] = deleteValue;
+                        }
+                    }
+                    showComments();
                 },
                 error: function(xhr, textStatus, thrownError){
                     sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("FAILED_TO_UNDELETE"),"",sakai.api.Util.notification.type.ERROR);
@@ -701,7 +720,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     type: 'POST',
                     success: function(data){
                         // Set the new message
-                        $(commentsMessage + id, rootel).html(sakai.api.Security.saneHTML(tidyInput(message)));
+                        $(commentsMessage + id, rootel).html("<p>" + sakai.api.Security.saneHTML(tidyInput(message)) + "</p>");
                         // Hide the form
                         $(commentsMessageEditContainer + id, rootel).hide();
                         $(commentsMessage + id, rootel).show();
