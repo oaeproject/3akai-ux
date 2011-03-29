@@ -14,29 +14,17 @@
 .newinbox_delete_button {padding-right: 5px; float:right}
 .newinbox_delete_button span {padding-left:7px!important;}
 
+.newinbox_message{border-top:1px solid #DDDDDD;padding:10px;margin-top:2px;}
+.newinbox_message button {display:block;}
+.newinbox_messagedetail{ margin-top:10px;display:block;color:#000000!important;}
+.newinbox_textarea {height:70px; width:500px; border-color:#CCCCCC #E6E6E6 #E6E6E6 #CCCCCC; border-style:solid; border-width:1px; margin:0 0 5px 5px;}
+.newinbox_replybutton_container{width:83%;}
 
 /* General */
 .newinbox_right_div {float:right; width:20%; padding-left:5px;}
 .newinbox_right {float:right;}
+.newinbox_left {float:left;}
+.newinbox_block {display:inline-block;}
 .newinbox_placeholder {width:20px; float:left;}
 
 .newinbox_title_bar span, .newinbox_items span{ color: #878A8C; font-size:0.9em;}
-
-.newinbox_information {margin-top:15px;}
-.newinbox_information_detail {width:70%;}
-.newinbox_information_fliter {float:right;}
-
-
-
-
-
-
-
-.newinbox_edit {background:url("/dev/images/dashboard_sprite.png") no-repeat scroll -186px -393px transparent;heght:18px;margin:15px 8px 0 0;position:relative;}
-
-.newinbox_icon {background:url("/dev/images/dashboard_sprite.png") no-repeat scroll -68px -235px transparent; margin-top:10px;float:left;display:none;}
-
-.newinbox_description_detail {color: #666666; font-size:0.9em; display:block; padding-top:2px;}
-.newinbox_detail_dark {color:#000000;}
-
-
