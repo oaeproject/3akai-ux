@@ -238,6 +238,23 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
                 asin = bookId[bookId.indexOf('dp')+1];
                 result.url = "http://kindleweb.s3.amazonaws.com/app/1.0.11.053.093655/KindleReaderApp.html?asin=" + asin + "&containerID=kindleReaderDiv59&tophostname=localhost&iframeName=kindleReaderIFrame1300121366106&dp=0";
                 result.type = "iframe";
+            } else if (/videolectures\.net$/.test(uri.host)) {
+                var lectureId = uri.path.split('/')[1];
+                if (lectureId) {
+                    $.ajax({
+                        url: "/var/proxy/videolectures/videoLecturesGetSnippet.json",
+                        type: "GET",
+                        async: false,
+                        cache: false,
+                        data: {
+                            "lectureId" : lectureId
+                        },
+                        success: function(data){
+                            result.url = $($(data).find("textarea").val()).find("img").attr("src");
+                            result.type = "image";
+                        }
+                    });
+                }
             }
             return result;
         }
