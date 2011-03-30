@@ -28,7 +28,7 @@
                       <li>__MSG__NO_GROUPS_FOUND__</li>
                   {/for}
             {/for}</ul>{/if}
-            {if 5 < Math.abs(data.total)}
+            {if Math.abs(data.results[0].totalCanRead) > 5}
                 <div class="fl-text-align-right">
                     <a href="${data.moreLink}" class="s3d-action s3d-action-seeall">__MSG__SEE_ALL__</a>
                 </div>
