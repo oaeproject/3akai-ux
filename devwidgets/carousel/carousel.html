@@ -13,43 +13,69 @@
                 <li>
                     {if $.isArray(item)}
                         {for noPrev in item}
-                            <div class="carousel_two_column_content_container">
-                                <a href="${noPrev.url}"><h2>${noPrev.title}</h2></a>
-                                {if noPrev.description && noPrev.description.length}
-                                    <div class="carousel_content_description">Summary: ${noPrev.description}</div>
-                                {/if}
-                                {if noPrev.tags && noPrev.tags.length}
-                                    <div class="carousel_content_description">Tags: ${noPrev.tags.toString().replace(/,/g,", ")}</div>
-                                {/if}
-                                <div class="carousel_content_metadata">
-                                    ${noPrev.mimeType} | Added on ${noPrev.created} | Added by: <a href="/~${noPrev.createdBy}" class="s3d-regular-links s3d-bold">${noPrev.createdBy}</a>
-                                    <br/>
-                                    Last update by: <a href="/~${noPrev.lastModifiedBy}" class="s3d-regular-links s3d-bold">${noPrev.lastModifiedBy}</a>
+                            {if noPrev.contentType == "content"}
+                                <div class="carousel_two_column_content_container">
+                                    <a href="${noPrev.url}"><h2>${noPrev.title}</h2></a>
+                                    {if noPrev.description && noPrev.description.length}
+                                        <div class="carousel_content_description">__MSG__SUMMARY__: ${noPrev.description}</div>
+                                    {/if}
+                                    {if noPrev.tags && noPrev.tags.length}
+                                        <div class="carousel_content_description">__MSG__TAGS__: ${noPrev.tags.toString().replace(/,/g,", ")}</div>
+                                    {/if}
+                                    <div class="carousel_content_metadata">
+                                        ${noPrev.mimeType} | __MSG__ADDED_ON__ ${noPrev.created} | __MSG__ADDED_BY__: <a href="/~${noPrev.createdBy}" class="s3d-regular-links s3d-bold">${noPrev.createdBy}</a>
+                                        <br/>
+                                        __MSG__LAST_UPDATED_BY__: <a href="/~${noPrev.lastModifiedBy}" class="s3d-regular-links s3d-bold">${noPrev.lastModifiedBy}</a>
+                                    </div>
+                                    {if noPrev.comments && noPrev.comments.length}
+                                        <a href="#" class="carousel_content_comments s3d-regular-links">${noPrev.comments.length} __MSG__COMMENTS__</a>
+                                    {/if}
                                 </div>
-                                {if noPrev.comments && noPrev.comments.length}
-                                    <a href="#" class="carousel_content_comments s3d-regular-links">${noPrev.comments.length} Comments</a>
-                                {/if}
-                            </div>
+                            {/if}
                         {/for}
                     {else}
-                        <div class="carousel_single_column_content_container">
-                            <div id="carousel_single_column_content_preview">${item.preview}</div>
-                            <a href="${item.url}"><h2>${item.title}</h2></a>
-                            {if item.description && item.description.length}
-                                <div class="carousel_content_description">Summary: ${item.description}</div>
-                            {/if}
-                            {if item.tags && item.tags.length}
-                                <div class="carousel_content_description">Tags: ${item.tags.toString().replace(/,/g,", ")}</div>
-                            {/if}
-                            <div class="carousel_content_metadata">
-                                ${item.mimeType} | Added on ${item.created} | Added by: <a href="/~${item.createdBy}" class="s3d-regular-links s3d-bold">${item.createdBy}</a>
-                                <br/>
-                                Last update by: <a href="/~${item.lastModifiedBy}" class="s3d-regular-links s3d-bold">${item.lastModifiedBy}</a>
+                        {if item.contentType == "content"}
+                            <div class="carousel_single_column_content_container">
+                                <div id="carousel_single_column_content_preview">${item.preview}</div>
+                                <a href="${item.url}"><h2>${item.title}</h2></a>
+                                {if item.description && item.description.length}
+                                    <div class="carousel_content_description">__MSG__SUMMARY__: ${item.description}</div>
+                                {/if}
+                                {if item.tags && item.tags.length}
+                                    <div class="carousel_content_description">__MSG__TAGS__: ${item.tags.toString().replace(/,/g,", ")}</div>
+                                {/if}
+                                <div class="carousel_content_metadata">
+                                    ${item.mimeType} | __MSG__ADDED_ON__ ${item.created} | __MSG__ADDED_BY__: <a href="/~${item.createdBy}" class="s3d-regular-links s3d-bold">${item.createdBy}</a>
+                                    <br/>
+                                    __MSG__LAST_UPDATED_BY__: <a href="/~${item.lastModifiedBy}" class="s3d-regular-links s3d-bold">${item.lastModifiedBy}</a>
+                                </div>
+                                {if item.comments && item.comments.length}
+                                    <a href="#" class="carousel_content_comments s3d-regular-links">${item.comments.length} __MSG__COMMENTS__</a>
+                                {/if}
                             </div>
-                            {if item.comments && item.comments.length}
-                                <a href="#" class="carousel_content_comments s3d-regular-links">${item.comments.length} Comments</a>
-                            {/if}
-                        </div>
+                        {elseif item.contentType == "group"}
+                            <div class="carousel_single_column_content_container">
+                                <div class="carousel_two_column_content_container carousel_content_text carousel_group_lh">
+                                    <div class="carousel_two_column_content_container_lh"></div>
+                                    <div class="carousel_two_column_content_container_rh">
+                                        <a href="/~${item.groupid}" title="${item.title}"><h2 class="carousel_header_no_bottom_margin">${item.title}</h2></a>
+                                        <div class="carousel_content_metadata">(<a href="#" class="s3d-regular-links">21</a>) __MSG__UPLOADS__ (<a href="#" class="s3d-regular-links">16</a>) __MSG__DISCUSSIONS__ (<a href="#" class="s3d-regular-links">36</a>) __MSG__PAGES__ (<a href="#" class="s3d-regular-links">7</a>) __MSG__SUBMISSIONS__</div>
+                                        {if item.description && item.description.length}
+                                            <div class="carousel_content_description">__MSG__SUMMARY__: ${item.description}</div>
+                                        {/if}
+                                        {if item.tags && item.tags.length}
+                                            <div class="carousel_content_description">__MSG__TAGS__: ${item.tags.toString().replace(/,/g,", ")}</div>
+                                        {/if}
+                                    </div>
+                                </div>
+                                <div class="carousel_two_column_content_container carousel_group_rh">
+                                    <h2>${item.members.length} __MSG__MEMBERS__</h2>
+                                    {for member in item.members}
+                                        <a href="/~${member["rep:userId"]}" title="__MSG__VIEW__ ${member.basic.elements.firstName.value} ${member.basic.elements.lastName.value}"><div style="width:50px; height:50px; background:url('/devwidgets/carousel/images/carousel_user_icon.png') no-repeat top left transparent;float:left;margin:0 8px 8px 0;"></div></a>
+                                    {/for}
+                                </div>
+                            </div>
+                        {/if}
                     {/if}
                 </li>
             {/for}
@@ -63,7 +89,6 @@
     {else}
         <span>__MSG__NO_FEATURED_ITEMS__</span>
     {/if}
-    
 --></div>
 
     <div id="carousel_video_holder" style="display:none;"><div id="carousel_video"></div></div>
