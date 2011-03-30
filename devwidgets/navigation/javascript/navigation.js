@@ -242,7 +242,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 attr: { id: p_id },
                 data: {
                     title: p_title_short,
-                    attr: {"href": "#", "title": p_title},
+                    attr: {"href": "#page="+page_info["pageURLName"], "title": p_title},
                     pagePosition: p_pagePosition
                 },
                 children:[]
@@ -727,6 +727,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         // update reference to the page in the nav
                         var newID = "nav_" + newName;
                         $moved_node.attr("id", newID);
+                        $moved_node.find("a").attr("href", "#page=" + newName);
                         $navigationTree.jstree("open_node", $reference_node);
                         $navigationTree.jstree("select_node", $moved_node);
                     });
