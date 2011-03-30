@@ -627,7 +627,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         /** Bind the insert comment button*/
         $(commentsCommentBtn, rootel).bind("click", function(e, ui){
-            $(commentsMainContainerTextarea).width($(commentsCommentMessage).width());
+            $(commentsMainContainerTextarea, rootel).width($(commentsCommentMessage, rootel).width() - 15);
             // checks if the user is loggedIn
             var isLoggedIn = (me.user.anon && me.user.anon === true) ? false : true;
             var txtToFocus = commentsMessageTxt;
@@ -719,7 +719,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Edit link
          */
         $(commentsEdit, rootel).live('click', function(e, ui){
-            $(commentsMainContainerTextarea).width($(commentsCommentMessage).width());
+            $(commentsMainContainerTextarea, rootel).width($(commentsCommentMessage, rootel).width() - 15);
             var id = e.target.id.replace("comments_edit_", "");
             // Show the textarea
             $(commentsMessage + id, rootel).hide();
