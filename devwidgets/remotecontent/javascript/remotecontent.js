@@ -73,6 +73,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var remotecontentSettingsUrlError = remotecontentSettingsUrl + "_error";
         var remotecontentSettingsUrlBlank = remotecontentSettingsUrl + "_blank";
         var remotecontentSettingsWidth = remotecontentSettings + "_width";
+        var remotecontentSettingsResetSize = remotecontentSettings + "_reset_size";
+        var remotecontentSettingsWidthUnitPercent = remotecontentSettings + "_width_unit_percent";
 
         // Containers
         var remotecontentMainContainer = remotecontent + "_main_container";
@@ -144,12 +146,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var renderIframeSettings = function(complete){
             if (complete) {
-                // We create this object to render the iframe with the default height, width and widthunit
-                var jsonDefaultSize = {};
-                jsonDefaultSize = json;
-                jsonDefaultSize.width = defaultWidth;
-                jsonDefaultSize.width_unit = defaultWidthUnit;
-                jsonDefaultSize.height = defaultHeight;
                 $(remotecontentSettingsPreview).html(sakai.api.Util.TemplateRenderer($remotecontentSettingsPreviewTemplate, json, null, false));
             }
             else {
@@ -324,6 +320,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $("#remotecontent_settings_advanced", rootel).toggle();
                 isAdvancedSettingsVisible = !isAdvancedSettingsVisible;
                 changeAdvancedSettingsArrow();
+            });
+
+            // Reset size to default values
+            $(remotecontentSettingsResetSize).click(function(){
+                $(remotecontentSettingsWidth, rootel).val(defaultWidth);
+                $(remotecontentSettingsHeight, rootel).val(defaultHeight);
+                $(remotecontentSettingsWidth).change();
+                $(remotecontentSettingsHeight).change();
+                $(remotecontentSettingsWidthUnitPercent, rootel).click();
             });
 
             // When you click on one of the width units (px or percentage)
