@@ -135,6 +135,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var doInvite = function(userid){
             var formValues = $(addToContactsForm).serializeObject();
             var types = formValues[addToContactsFormType.replace(/#/gi, "")];
+            if (!$.isArray(types)) {
+                types = [types];
+            }
             $(addToContactsResponse).text("");
             if (types.length) {
                 var fromRelationshipsToSend = [];

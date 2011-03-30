@@ -175,10 +175,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // user has changed tags
             sakai_global.currentgroup.data.authprofile["sakai:tags"] = [];
             $(enteredTags).each(function(i, tag) {
-            tag = tag.replace(/\s+/g, " ");
-            if (sakai.api.Security.escapeHTML(tag) === tag && tag.replace(/\\/g,"").length) {
-                if ($.inArray(tag, sakai_global.currentgroup.data.authprofile["sakai:tags"]) < 0) {
-                    sakai_global.currentgroup.data.authprofile["sakai:tags"].push(tag.replace(/\\/g,""));
+                tag = tag.replace(/\s+/g, " ");
+                if (sakai.api.Security.escapeHTML(tag) === tag && tag.replace(/\\/g,"").length) {
+                    if ($.inArray(tag, sakai_global.currentgroup.data.authprofile["sakai:tags"]) < 0) {
+                        sakai_global.currentgroup.data.authprofile["sakai:tags"].push(tag.replace(/\\/g,""));
                     }
                 }
             });

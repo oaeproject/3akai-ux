@@ -537,7 +537,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
                 // Search based on tags and render each search section
                 $.ajax({
-                    url: tagterm + ".tagged.5.json",
+                    url: tagterm + ".tagged.5.json?type=user",
                     cache: false,
                     success: function(data) {
 
@@ -631,6 +631,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var doInit = function() {
 
             mainSearch = sakai_global._search(searchConfig, thisFunctionality);
+
+            // check the URL for a query arg
+            mainSearch.checkQuery();
 
             // add the bindings
             mainSearch.addEventListeners();

@@ -340,12 +340,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js", "/dev
                         };
                     } else {
                         tooltipData = {
-                            "tooltipSelector":"#mycontent_footer_upload_link",
+                            "tooltipSelector":"#mycontent_list",
                             "tooltipTitle":"TOOLTIP_SHARE_CONTENT",
                             "tooltipDescription":"TOOLTIP_SHARE_CONTENT_P2",
                             "tooltipArrow":"bottom",
-                            "tooltipTop":70,
-                            "tooltipLeft":-100
+                            "tooltipTop":0,
+                            "tooltipLeft":70
                         };
                         $(".mycontent_item_link").each(function(index) {
                             if ($(this).attr("href") && $(this).attr("href").indexOf("sharecontenttour") === -1) {
