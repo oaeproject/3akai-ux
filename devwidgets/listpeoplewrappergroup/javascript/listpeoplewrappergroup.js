@@ -79,10 +79,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             if (listType === "members") {
                 // get group members
-                url = "/system/userManager/group/" + sakai_global.currentgroup.data.authprofile["sakai:group-id"] + ".members.detailed.json";
+                url = "/system/userManager/group/" + sakai_global.currentgroup.data.authprofile["sakai:group-id"] + ".members.json";
             } else if (listType === "managers") {
                 // get group managers
-                url = "/system/userManager/group/" + sakai_global.currentgroup.data.authprofile["sakai:group-id"] + ".managers.detailed.json";
+                url = "/system/userManager/group/" + sakai_global.currentgroup.data.authprofile["sakai:group-id"] + ".managers.json";
             } else if (listType === "content") {
                 // get group content
                 url = "/var/search/pool/files?group=" + sakai_global.currentgroup.data.authprofile["sakai:group-id"];
