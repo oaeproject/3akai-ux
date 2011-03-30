@@ -108,6 +108,7 @@
 .edit_view .content_top{background:none;padding:0 5px 0 0;margin:0;border-right:3px solid #D3DBDE; *padding-right:48px;}
 .edit_view .content_top_inner{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -1393px transparent;margin:0;height:6px;}
 .edit_view .sitespages_add_button{background:url(/dev/images/add_button_bg.png) no-repeat top left;padding:5px;cursor:pointer;margin-top:-4px;}
+.sakai_site .content p a{text-decoration:underline;}
 .sakai_site .content .inline_class_widget_nofloat a{text-decoration:none;}
 .content_bottom_edit{float:left;width:916px;}
 
