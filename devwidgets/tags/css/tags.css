@@ -2,5 +2,11 @@
 #tags_main ul li{list-style-type:none;}
 #tags_title{padding-left:15px!important;}
 
+.tags_font1 { font-size:1em;}
+.tags_font2 { font-size:1.5em;}
+.tags_font3 { font-size:2em;}
+.tags_font4 { font-size:2.5em;}
+.tags_font5 { font-size:3em;}
+
 /* Widget icon */
 .tags.fl-widget .fl-widget-titlebar .widget_title_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -699px -21px transparent;height:22px;width:20px;}
