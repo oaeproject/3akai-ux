@@ -359,12 +359,16 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 if ($("#entity_content_share_link").length) {
                     tooltip_opened = true;
                     // display tooltip
+                    var tooltipLeft = 410;
+                    if ($.browser.msie && $.browser.version === "7.0"){
+                        tooltipLeft = 310;
+                    }
                     var tooltipData = {
                         "tooltipSelector": "#entity_content_share_link",
                         "tooltipTitle": "TOOLTIP_SHARE_CONTENT",
                         "tooltipDescription": "TOOLTIP_SHARE_CONTENT_P3",
                         "tooltipArrow": "top",
-                        "tooltipLeft": 410,
+                        "tooltipLeft": tooltipLeft,
                         "tooltipTop": -10
                     };
                     if (!sakai_global.tooltip || !sakai_global.tooltip.isReady) {
