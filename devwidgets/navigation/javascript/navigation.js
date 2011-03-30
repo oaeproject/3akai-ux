@@ -313,7 +313,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (!sakai_global.sitespages.selectedpage ||
                 !sakai_global.sitespages.site_info.hasOwnProperty("_pages") ||
                 !sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage]) {
-                alert("no page is selected");
                 return false;
             }
             var pageTitle = sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage].pageTitle;
