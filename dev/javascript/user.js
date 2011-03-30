@@ -26,15 +26,15 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             options: ["view", "edit"],
             value: "view"
         }
-    }
+    };
 
     sakai_global.user = function() {
-        
+
         var privdata = {
             "structure0": {
                 "dashboard": {
                     "_ref": "267187828",
-                    "_title": "My Dashboard", 
+                    "_title": "My Dashboard",
                     "main": {
                         "_ref":"267187828",
                         "_title":"Dashboard"
@@ -61,21 +61,21 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     }
                 }
             },
-        	"267187828": {
-        		"page": "<div id='widget_carousel' class='widget_inline'></div><br/><div id='widget_dashboard_546341435' class='widget_inline'></div>"
-        	},
-        	"1165301022": {
-        		"page": "<div id='widget_newinbox_2024634737' class='widget_inline'/>"
-        	},
-        	"9867733100": {
-        		"page": "<div id='widget_inbox_3679202964' class='widget_inline'/>"
-        	},
-        	"4253485084": {
-        		"page": "<div id='widget_inbox_66582410046' class='widget_inline'/>"
-        	},
-        	"3915412565": {
-        		"page": "<div id='widget_inbox_3519294282' class='widget_inline'/>"
-        	},
+            "267187828": {
+                "page": "<div id='widget_carousel' class='widget_inline'></div><br/><div id='widget_dashboard_546341435' class='widget_inline'></div>"
+            },
+            "1165301022": {
+                "page": "<div id='widget_newinbox_2024634737' class='widget_inline'/>"
+            },
+            "9867733100": {
+                "page": "<div id='widget_inbox_3679202964' class='widget_inline'/>"
+            },
+            "4253485084": {
+                "page": "<div id='widget_inbox_66582410046' class='widget_inline'/>"
+            },
+            "3915412565": {
+                "page": "<div id='widget_inbox_3519294282' class='widget_inline'/>"
+            },
             "2024634737": {
                 "box": "inbox"
             },
@@ -114,33 +114,37 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     }
                 }
             }
-        }
+        };
 
-        var pubdata = {	
-        	"structure0": {
+        var pubdata = {
+            "structure0": {
                 "profile": {
-                    "_ref": "533118849", 
+                    "_ref": "533118849",
                     "_title": "My Profile",
                     "_altTitle": "${user}'s Profile",
                     "basicinfo": {
                         "_ref": "533118849",
+                        "_altTitle": "Basic Information",
                         "_title": "Basic Information"
                     },
                     "aboutme": {
                         "_ref": "657672090",
+                        "_altTitle": "About",
                         "_title": "About Me"
                     },
                     "locations": {
                         "_ref": "2967778497",
-                        "_title": "Locations"
+                        "_title": "Locations",
+                        "_altTitle": "Locations"
                     },
                     "publications": {
                         "_ref": "86312659",
+                        "_altTitle": "Publications",
                         "_title": "Publications"
                     }
                 },
                 "content": {
-                    "_ref": "9834611274", 
+                    "_ref": "9834611274",
                     "_title": "My Content",
                     "_altTitle": "${user}'s Content",
                     "main": {
@@ -149,8 +153,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     }
                 },
                 "memberships": {
-                    "_title": "My Memberships", 
-                    "_ref": "213623673", 
+                    "_title": "My Memberships",
+                    "_ref": "213623673",
                     "_altTitle": "${user}'s Memberships",
                     "main": {
                         "_ref": "213623673",
@@ -159,7 +163,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 },
                 "contacts": {
                     "_title": "My Contacts",
-                    "_ref": "1193715035", 
+                    "_ref": "1193715035",
                     "_altTitle": "${user}'s Contacts",
                     "main": {
                         "_ref": "1193715035",
@@ -167,27 +171,27 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     }
                 }
             },
-        	"533118849": {
-        		"page": "<div id='widget_displayprofilesection_94551980' class='widget_inline'/>"
-        	},
-        	"657672090": {
-        		"page": "<div id='widget_displayprofilesection_1924492668' class='widget_inline'/>"
-        	},
-        	"2967778497": {
-        		"page": "<div id='widget_displayprofilesection_73466539' class='widget_inline'/>"
-        	},
-        	"86312659": {
-        		"page": "<div id='widget_displayprofilesection_5756708555' class='widget_inline'/>"
-        	},
-        	"9834611274": {
-        		"page": "My Content HTML fragment"
-        	},
-        	"213623673": {
-        		"page": "<div id='widget_mygroups' class='widget_inline'/>"
-        	},
-        	"1193715035": {
-        		"page": "<div id='widget_contacts' class='widget_inline'></div>"
-        	},
+            "533118849": {
+                "page": "<div id='widget_displayprofilesection_94551980' class='widget_inline'/>"
+            },
+            "657672090": {
+                "page": "<div id='widget_displayprofilesection_1924492668' class='widget_inline'/>"
+            },
+            "2967778497": {
+              "page": "<div id='widget_displayprofilesection_73466539' class='widget_inline'/>"
+            },
+            "86312659": {
+              "page": "<div id='widget_displayprofilesection_5756708555' class='widget_inline'/>"
+            },
+            "9834611274": {
+              "page": "<div id='widget_content' class='widget_inline'/>"
+            },
+            "213623673": {
+              "page": "<div id='widget_mymemberships' class='widget_inline'/>"
+            },
+            "1193715035": {
+              "page": "<div id='widget_contacts' class='widget_inline'></div>"
+            },
             "94551980": {
                 "sectionid": "basic"
             },
@@ -200,12 +204,12 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             "5756708555": {
                 "sectionid": "publications"
             }
-        }
-        
+        };
+
         var contextType = false;
         var contextData = false;
         var qs = new Querystring();
-        
+
         var determineContext = function(){
             if (qs.get("id") && qs.get("id") !== sakai.data.me.user.userid){
                 sakai.api.User.getUser(qs.get("id"), getProfileData);
@@ -223,9 +227,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             } else {
                 sakai.api.Security.sendToLogin();
             }
-        }
-        
-        var getProfileData = function(profile){
+        };
+
+        var getProfileData = function(exists, profile){
             if (!profile) {
                 sakai.api.Security.sendToLogin();
             } else {
@@ -234,7 +238,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 sakai_global.profile.main.data = $.extend(true, {}, profile);
                 contextData = {
                     "profile": profile,
-                    "displayName": sakai.api.User.getDisplayName(profile)
+                    "displayName": sakai.api.User.getDisplayName(profile),
+                    "altTitle": true
                 };
                 if (sakai.data.me.user.anon) {
                     contextType = "user_other";
@@ -242,8 +247,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     sakai.api.User.getContacts(checkContact);
                 }
             }
-        }
-        
+        };
+
         var checkContact = function(){
             var contacts = sakai.data.me.mycontacts;
             var isContact = false;
@@ -258,8 +263,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 contextType = "user_other";
             }
             determineContentContactsMemberships();
-        }
-        
+        };
+
         var determineContentContactsMemberships = function(){
             if (!contextData){
                 contextData = {};
@@ -283,60 +288,60 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             ];
 
             $.ajax({
-            	url: sakai.config.URL.BATCH,
+                url: sakai.config.URL.BATCH,
                 type: "POST",
                 data: {
-                	requests: $.toJSON(batchRequests)
+                    requests: $.toJSON(batchRequests)
                 },
                 success: function(data){
 
-                	if (data.results.hasOwnProperty(0)) {
-                    	var cont = $.parseJSON(data.results[0].body);
+                    if (data.results.hasOwnProperty(0)) {
+                        var cont = $.parseJSON(data.results[0].body);
                         contextData.counts["content"] = cont.total;
                     }
 
                     if (data.results.hasOwnProperty(1)) {
-                    	var contacts = $.parseJSON(data.results[1].body);
-                        contextData.counts["contacts"] = contacts.total; 
+                        var contacts = $.parseJSON(data.results[1].body);
+                        contextData.counts["contacts"] = contacts.total;
                     }
-                    
+
                     contextData.counts["memberships"] = sakai.api.Groups.getMemberships(sakai.data.me.groups).entry.length;
-                
+
                     renderEntity();
                     generateNav();
-                
+
                 }
             });
-        }
+        };
 
         var generateNav = function(){
             if (contextType && contextData) {
                 if (contextType === "user_me") {
-                    $(window).trigger("lhnav.init", [pubdata, privdata]);
+                    $(window).trigger("lhnav.init", [pubdata, privdata, contextData]);
                 } else {
-                    $(window).trigger("lhnav.init", [pubdata, false]);
+                    $(window).trigger("lhnav.init", [pubdata, false, contextData]);
                 }
             }
-        }
-        
+        };
+
         var renderEntity = function(){
             if (contextType && contextData) {
                 $(window).trigger("sakai.entity.init", ["user", contextType, contextData]);
             }
-        }
+        };
 
         $(window).bind("sakai.entity.ready", function(){
-            renderEntity(); 
+            renderEntity();
         });
-        
+
         $(window).bind("lhnav.ready", function(){
             generateNav();
         });
-        
+
         determineContext();
         renderEntity();
         generateNav();
-    
+
     };
 
     sakai.api.Widgets.Container.registerForLoad("user");

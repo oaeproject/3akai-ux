@@ -17,11 +17,7 @@
  */
 /* General*/
 #entity_container .entity_number {color:#424242;}
-#entity_container .entity_user_dropdown{position:absolute;z-index:999;width:150px;margin-left:-2px;margin-top:12px;}
-#entity_container .entity_user_dropdown ul{margin:0; background-color:#fff;padding: 5px 0;background:url("/devwidgets/entity/images/entity_hover_list_border.png") repeat-y scroll 0 0 transparent;}
-#entity_container .entity_user_dropdown li, .topnavigation_search #topnavigation_search_results_container li{display:block; list-style:none; padding:2px 8px;margin:0 2px;cursor:pointer;}
-#entity_container .entity_user_dropdown li a{text-decoration:none;}
-#entity_container .entity_user_dropdown li:hover, .topnavigation_search #topnavigation_search_results_container li:hover {background-color:#c4e6fd}
+#entity_container .entity_user_dropdown {position:absolute;z-index:999;width:150px;margin-left:-2px;margin-top:12px;}
 #entity_container .entity_user_dropdown .entity_dropdown_bottom{background: url("/devwidgets/entity/images/entity_list_bottom_border.png") no-repeat scroll -1px 0 transparent;height: 7px;}
 #entity_container .entity_user_dropdown .entity_dropdown_tr{background: url("/devwidgets/entity/images/entity_list_top_border.png") no-repeat scroll right top transparent;height: 5px;}
 #entity_container .entity_user_dropdown .entity_dropdown_content{background: url("/devwidgets/entity/images/entity_list_border.png") repeat-y scroll right top transparent;}
@@ -42,6 +38,11 @@
 #entity_container .entity_user_image {width:63px;height:46px; background:url("/devwidgets/entity/images/entity_user_icon.png") no-repeat transparent;float:left;margin-right:15px;margin-top:-7px;}
 #entity_container .entity_user_image_pointer {cursor:pointer;width:93px;}
 #entity_container .entity_user_image_clicked {width:93px; height:46px; background:url("/devwidgets/entity/images/entity_user_icon_clicked.png") no-repeat transparent;float:left;margin-right:15px;margin-top:-7px;}
+#entity_container .entity_user_create_add_dropdown {position:fixed;z-index:999;width:150px;margin-top:34px;}
+
+/* Group */
+#entity_container .entity_group_image {width:63px;height:46px; background:url("/dev/images/group_icon.png") no-repeat transparent;float:left;margin-right:10px;margin-top:5px; margin-left:5px;}
 
 /* Content */
-#entity_container #entity_content_image {width:45px;height:62px; background:url("/devwidgets/entity/images/entity_content_icon.png") no-repeat transparent;float:left;margin-right:30px;margin-top:-14px;}
+#entity_container #entity_content_image {width:45px;height:62px; float:left;margin-right:15px;margin-top:-14px;}
+#entity_content_image img{height:50px; margin-top:5px;}

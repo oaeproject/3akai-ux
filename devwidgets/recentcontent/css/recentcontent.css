@@ -1,0 +1,6 @@
+#recentcontent_main{margin:0 10px 0 15px;overflow:hidden;}
+.recentcontent_widget{overflow:hidden;}
+.recentcontent_items {color:#333;padding:5px 0 0; width:250px; margin:0 0 10px 0;}
+.recentcontent_items img {float: left;padding: 0 10px 10px 0;width: 25px;}
+.recentcontent_name {margin:0;font-size:1.1em;}
+.recentcontent_post {font-size:.9em;color:#878A8C;}

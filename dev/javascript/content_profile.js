@@ -39,6 +39,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             // http://localhost:8080/p/YjsKgQ8wNtTga1qadZwjQCe.members.json
             // http://localhost:8080/var/search/pool/activityfeed.json?p=/p/YjsKgQ8wNtTga1qadZwjQCe&items=1000
 
+            if (content_path && document.location.pathname === "/content"){
+                document.location = "/dev/content_profile2.html#content_path=" + content_path;
+                return;
+            }
+
             if (content_path) {
 
                 // Get the content information, the members and managers and version information
@@ -50,7 +55,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         "dataType":"json"
                     },
                     {
-                        "url": content_path + ".members.detailed.json",
+                        "url": content_path + ".members.json",
                         "method":"GET",
                         "cache":false,
                         "dataType":"json"
@@ -125,8 +130,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             var versions = [];
                             for (var i in versionInfo.versions) {
                                 if(versionInfo.versions.hasOwnProperty(i)){
-                                    var splitDate = versionInfo.versions[i]["created"];
-                                    versionInfo.versions[i]["created"] = sakai.api.l10n.transformDate(new Date(splitDate));
+                                    var splitDate = versionInfo.versions[i]["_created"];
+                                    versionInfo.versions[i]["_created"] = sakai.api.l10n.transformDate(new Date(splitDate));
                                     versions.push(versionInfo.versions[i]);
                                 }
                             }
@@ -134,6 +139,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         }
 
                         var manager = false;
+                        var viewer = false;
                         var anon = true;
                         var groups = [];
                         if (!sakai.data.me.user.anon){
@@ -152,6 +158,21 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                                     }
                                 }
                             }
+                            for (var ii in contentMembers.viewers) {
+                                if (contentMembers.viewers.hasOwnProperty(ii)) {
+                                    if (contentMembers.viewers[ii].hasOwnProperty("rep:userId")) {
+                                        if (contentMembers.viewers[ii]["rep:userId"] === sakai.data.me.user.userid) {
+                                            viewer = true;
+                                        }
+                                    } else if (contentMembers.viewers[ii].hasOwnProperty("sakai:group-id")) {
+                                        if (sakai.api.Groups.isCurrentUserAMember(
+                                            contentMembers.viewers[ii]["sakai:group-id"],
+                                            sakai.data.me)) {
+                                            viewer = true;
+                                        }
+                                    }
+                                }
+                            }
                         }
 
                         var directory = [];
@@ -161,10 +182,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             directory = sakai.api.Util.getDirectoryTags(contentInfo["sakai:tags"].toString());
                         }
 
-                        var fullPath = content_path + "/" + contentInfo["sakai:pooled-content-file-name"];
-                        if (contentInfo["sakai:pooled-content-file-name"].substring(contentInfo["sakai:pooled-content-file-name"].lastIndexOf("."), contentInfo["sakai:pooled-content-file-name"].length) !== contentInfo["sakai:fileextension"]) {
-                            fullPath += contentInfo["sakai:fileextension"];
-                        }
+                        var fullPath = content_path; // + "/" + contentInfo["sakai:pooled-content-file-name"];
+                        //if (contentInfo["sakai:pooled-content-file-name"].substring(contentInfo["sakai:pooled-content-file-name"].lastIndexOf("."), contentInfo["sakai:pooled-content-file-name"].length) !== contentInfo["sakai:fileextension"]) {
+                        //    fullPath += contentInfo["sakai:fileextension"];
+                        //}
 
                         // filter out the the everyone group and the anonymous user
                         contentMembers.viewers = $.grep(contentMembers.viewers, function(resultObject, index){
@@ -174,6 +195,12 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             }
                             return false;
                         });
+
+                        if (sakai.config.MimeTypes[contentInfo["_mimeType"]]){
+                            contentInfo.iconURL = sakai.config.MimeTypes[contentInfo["_mimeType"]].URL;
+                        } else {
+                            contentInfo.iconURL = sakai.config.MimeTypes["other"].URL;
+                        }
 
                         json = {
                             data: contentInfo,
@@ -185,7 +212,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             saveddirectory : directory,
                             versions : versionInfo,
                             anon: anon,
-                            isManager: manager
+                            isManager: manager,
+                            isViewer: viewer
                         };
 
                         sakai_global.content_profile.content_data = json;
@@ -193,6 +221,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         if ($.isFunction(callback)) {
                             callback(true);
                         }
+                        initEntityWidget();
                     }
                 });
 
@@ -200,6 +229,22 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 sakai.api.Security.send404();
             }
         };
+
+        var initEntityWidget = function(){
+            var context = "content";
+            var type = "content_not_shared";
+            if (sakai_global.content_profile.content_data.isViewer){
+                type = "content_shared";
+            }
+            if (sakai_global.content_profile.content_data.isManager){
+                type = "content_managed";
+            }
+            $(window).trigger("sakai.entity.init", [context,type,sakai_global.content_profile.content_data.data]);
+        };
+
+        $(window).bind("sakai.entity.ready", function(){
+            initEntityWidget();
+        });
 
         $(window).bind("load.content_profile.sakai", function(e, callback) {
             loadContentProfile(callback);
@@ -377,6 +422,36 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 peopleList.mode = "viewers";
             }
             addRemoveUsers(peopleList.mode, peopleList, 'add');
+        });
+
+        $("#entity_content_share, #entity_content_permissions").live("click", function(){
+            var pl_config = {
+                "mode": "search",
+                "selectable": true,
+                "subNameInfo": "email",
+                "sortOn": "lastName",
+                "items": 50,
+                "type": "people",
+                "what": "Viewers",
+                "where": sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"],
+                "URL": sakai_global.content_profile.content_data.url + "/" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"]
+            };
+
+            $(window).trigger("init.sharecontent.sakai", pl_config, function(people){
+            });
+
+            // display help tooltip
+            var tooltipData = {
+                "tooltipSelector":"#sharecontent_add_people",
+                "tooltipTitle":"TOOLTIP_SHARE_CONTENT",
+                "tooltipDescription":"TOOLTIP_SHARE_CONTENT_P4",
+                "tooltipArrow":"bottom",
+                "tooltipTop":3,
+                "tooltipLeft":120
+            };
+            $(window).trigger("update.tooltip.sakai", tooltipData);
+
+            return false;
         });
 
 

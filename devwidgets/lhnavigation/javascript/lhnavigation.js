@@ -53,6 +53,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var privstructure = false;
         var pubstructure = false;
+        var contextData = false;
 
         ////////////////////
         // UTIL FUNCTIONS //
@@ -98,7 +99,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var renderData = function(){
             $("#lhnavigation_container").html(sakai.api.Util.TemplateRenderer("lhnavigation_template", {
                 "private": privstructure,
-                "public": pubstructure
+                "public": pubstructure,
+                "contextData": contextData
             }));
         };
         
@@ -108,6 +110,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (level && level.substring(0,1) !== "_"){
                     childCount++;
                     structure[level] = includeChildCount(structure[level]);
+                } else if (level && level === "_altTitle"){
+                    structure[level] = structure[level].replace("${user}", contextData.profile.basic.elements.firstName.value);
                 }
             }
             structure._childCount = childCount;
@@ -247,7 +251,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // INITIALISATION //
         ////////////////////
         
-        var renderNavigation = function(pubdata, privdata){
+        var renderNavigation = function(pubdata, privdata, cData){
+            contextData = cData;
             privstructure = processData(privdata);
             pubstructure = processData(pubdata);
             renderData();
@@ -259,8 +264,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             selectPage();
         });
 
-        $(window).bind("lhnav.init", function(e, pubdata, privdata){
-           renderNavigation(pubdata, privdata);
+        $(window).bind("lhnav.init", function(e, pubdata, privdata, cData){
+           renderNavigation(pubdata, privdata, cData);
         });
         
         $(window).trigger("lhnav.ready");

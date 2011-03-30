@@ -99,12 +99,12 @@
                                     {if i['sakai:pooled-content-file-name']}
                                     {var contentFound = true}
                                     <div class="fl-container fl-fix search_result">
-                                        {if i['mimeType']}
-                                            {var mimeType = i['mimeType']}
-                                        {elseif i.file && i.file['mimeType']}
-                                            {var mimeType = i.file['mimeType']}
-                                        {elseif i['jcr:content'] && i['jcr:content']['mimeType']}
-                                            {var mimeType = i['jcr:content']['mimeType']}
+                                        {if i['_mimeType']}
+                                            {var mimeType = i['_mimeType']}
+                                        {elseif i.file && i.file['_mimeType']}
+                                            {var mimeType = i.file['_mimeType']}
+                                        {elseif i['jcr:content'] && i['jcr:content']['_mimeType']}
+                                            {var mimeType = i['jcr:content']['_mimeType']}
                                         {elseif i['jcr:primaryType'] === "sling:Folder"}
                                             {var mimeType = 'folder'}
                                         {/if}

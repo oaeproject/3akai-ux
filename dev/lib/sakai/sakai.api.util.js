@@ -174,8 +174,11 @@ define(["jquery",
         formatTags : function(inputTags){
             if ($.trim(inputTags) !== "") {
                 var tags = [];
-                var splitTags = $(inputTags.split(","));
-                splitTags.each(function(index){
+                var splitTags = inputTags;
+                if (!$.isArray(inputTags)) {
+                    splitTags = $(inputTags.split(","));
+                }
+                $(splitTags).each(function(index){
                     if ($.trim(splitTags[index]).length) {
                         tags.push($.trim(splitTags[index]));
                     }
