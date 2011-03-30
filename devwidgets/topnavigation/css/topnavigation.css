@@ -35,7 +35,7 @@
 .topnavigation_search {float:right;margin-top:12px;height: 22px;margin-right: 120px;}
 .topnavigation_search {width:190px; background:url("/devwidgets/topnavigation/images/topnav_search.png") no-repeat;}
 .topnavigation_search #topnavigation_search_input{background:none repeat scroll 0 0 transparent;border: medium none;margin: 3px 0 0 7px;width: 145px;}
-.topnavigation_search #topnavigation_search_results {position: absolute; width:241px; margin-top:6px;}
+.topnavigation_search #topnavigation_search_results {position: absolute; width:241px; margin-top:6px; z-index: 10000;}
 .topnavigation_search #topnavigation_search_results_top {background:url("/devwidgets/topnavigation/images/topnav_search_results_top.png") no-repeat scroll 0 0 transparent;height:5px;}
 .topnavigation_search #topnavigation_search_results_container{background:url("/devwidgets/topnavigation/images/topnav_search_results_border.png") repeat-y scroll 0 0 transparent;padding:5px 0;}
 .topnavigation_search #topnavigation_search_results_bottom{background:url("/devwidgets/topnavigation/images/topnav_search_results_bottom.png") no-repeat scroll 0 0 transparent;height:8px;}

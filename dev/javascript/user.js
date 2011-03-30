@@ -124,18 +124,22 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     "_altTitle": "${user}'s Profile",
                     "basicinfo": {
                         "_ref": "533118849",
+                        "_altTitle": "Basic Information",
                         "_title": "Basic Information"
                     },
                     "aboutme": {
                         "_ref": "657672090",
+                        "_altTitle": "About",
                         "_title": "About Me"
                     },
                     "locations": {
                         "_ref": "2967778497",
-                        "_title": "Locations"
+                        "_title": "Locations",
+                        "_altTitle": "Locations"
                     },
                     "publications": {
                         "_ref": "86312659",
+                        "_altTitle": "Publications",
                         "_title": "Publications"
                     }
                 },
@@ -234,7 +238,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 sakai_global.profile.main.data = $.extend(true, {}, profile);
                 contextData = {
                     "profile": profile,
-                    "displayName": sakai.api.User.getDisplayName(profile)
+                    "displayName": sakai.api.User.getDisplayName(profile),
+                    "altTitle": true
                 };
                 if (sakai.data.me.user.anon) {
                     contextType = "user_other";
@@ -312,9 +317,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var generateNav = function(){
             if (contextType && contextData) {
                 if (contextType === "user_me") {
-                    $(window).trigger("lhnav.init", [pubdata, privdata]);
+                    $(window).trigger("lhnav.init", [pubdata, privdata, contextData]);
                 } else {
-                    $(window).trigger("lhnav.init", [pubdata, false]);
+                    $(window).trigger("lhnav.init", [pubdata, false, contextData]);
                 }
             }
         }
