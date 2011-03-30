@@ -193,14 +193,18 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
          * Clicked on the upload tab
          */
         $(tabUpload).click(function(){
-            showNewTab();
+            if (!$(tabUpload).hasClass(tabActiveClass)) {
+                showNewTab();
+            }
         });
 
         /**
          * Clicked on the select tab
          */
         $(tabSelect).click(function(){
-            doInit();
+            if (!$(tabSelect).hasClass(tabActiveClass)) {
+                doInit();
+            }
         });
 
         /**
@@ -288,7 +292,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
         });
 
         var doInit = function(newpic){
-            picture = false;
 
             if (!id) {
                 id = sakai.data.me.user.userid;
