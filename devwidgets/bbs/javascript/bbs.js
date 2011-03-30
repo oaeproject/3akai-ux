@@ -560,20 +560,22 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
         var doAddReply = function(){
             var replyParent = $(this).parents(bbsTopicContainer);
             var topicId = replyParent[0].id.split("bbs_post_")[1];
-            var message = replyParent.children(bbsTopicReplyContainer).children(bbsTopicReplyText).val();
+            var message = $.trim(replyParent.children(bbsTopicReplyContainer).children(bbsTopicReplyText).val());
 
-            if(replyParent.children(bbsTopicReplyContainer).children(bbsTopicQuotedText).length && replyParent.children(bbsTopicReplyContainer).children(bbsTopicQuotedText).val()){
-                message = "[quote=\"" + $(bbsTopicReplyQuotedUser, $rootel).text() + "\"]" + replyParent.children(bbsTopicReplyContainer).children(bbsTopicQuotedText).val() + "[/quote]" + message;
+            if (message){
+                if(replyParent.children(bbsTopicReplyContainer).children(bbsTopicQuotedText).length && replyParent.children(bbsTopicReplyContainer).children(bbsTopicQuotedText).val()){
+                    message = "[quote=\"" + $.trim($(bbsTopicReplyQuotedUser, $rootel).text()) + "\"]" + $.trim(replyParent.children(bbsTopicReplyContainer).children(bbsTopicQuotedText).val()) + "[/quote]" + message;
+                }
+
+                replyToTopic(topicId, message, $(this).parents(bbsTopicReplyContainer));
+
+                var $repliesIcon = replyParent.find(bbsRepliesIcon);
+                if ($repliesIcon.hasClass(bbsShowRepliesIcon)) {
+                    // expand topic reply list
+                    $("#bbs_post_" + topicId + " " + bbsShowTopicReplies, $rootel).click();
+                }
+                $(bbsTopicReplyQuotedUser, $rootel).text("");
             }
-
-            replyToTopic(topicId, message, $(this).parents(bbsTopicReplyContainer));
-
-            var $repliesIcon = replyParent.find(bbsRepliesIcon);
-            if ($repliesIcon.hasClass(bbsShowRepliesIcon)) {
-                // expand topic reply list
-                $("#bbs_post_" + topicId + " " + bbsShowTopicReplies, $rootel).click();
-            }
-            $(bbsTopicReplyQuotedUser, $rootel).text("");
         };
 
         /**
@@ -837,11 +839,14 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
             $(bbsSaveEdit, $rootel).live("click", function(){
                 var editParent = $(this).parents(bbsEditContainer);
                 var id = $(this).parents(s3dHighlightBackgroundClass)[0].id;
-                var body = editParent.children(bbsTopicReplyText).val();
-                var quote = editParent.children(bbsTopicQuotedText).val();
+                var body = $.trim(editParent.children(bbsTopicReplyText).val());
+                var quote = $.trim(editParent.children(bbsTopicQuotedText).val());
                 var quoted = $(this).parents(s3dHighlightBackgroundClass).find(bbsReplyContentsTextQuoted).text();
                 var post = $(this).parents(s3dHighlightBackgroundClass);
-                updatePost(id, body, quote, quoted, post);
+
+                if (body) {
+                    updatePost(id, body, quote, quoted, post);
+                }
             });
         };
 
