@@ -19,7 +19,7 @@
 /* General */
 #carousel_container {background-color:#ebeff1;padding:5px 12px;}
 #carousel_container h1, #carousel_container h2{color: #424242;font-size: 13px;}
-#carousel_container h1{margin-bottom:20px;}
+#carousel_container h1{margin-bottom:10px;}
 #carousel_container h2{color:#1D5888;margin-top:0;}
 #carousel_container .carousel_content_comments, #carousel_container .carousel_content_description, #carousel_container .carousel_content_metadata {font-size:11px;}
 #carousel_container .carousel_content_description {color:#797979;margin-bottom: 10px;}
