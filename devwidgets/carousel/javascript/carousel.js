@@ -187,6 +187,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         }
                     }
                 }
+                if(sakai.config.MimeTypes[data.content.results[item]["_mimeType"]]) {
+                    obj.icon = sakai.config.MimeTypes[data.content.results[item]["_mimeType"]].URL;
+                }else{
+                    obj.icon = sakai.config.MimeTypes.other.URL;
+                }
 
                 obj.title = data.content.results[item]["sakai:pooled-content-file-name"];
                 obj.mimeType = data.content.results[item]["_mimeType"] || "";

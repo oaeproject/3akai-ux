@@ -15,21 +15,24 @@
                         {for noPrev in item}
                             {if noPrev.contentType == "content"}
                                 <div class="carousel_two_column_content_container">
-                                    <a href="${noPrev.url}"><h2>${noPrev.title}</h2></a>
-                                    {if noPrev.description && noPrev.description.length}
-                                        <div class="carousel_content_description">__MSG__SUMMARY__: ${noPrev.description}</div>
-                                    {/if}
-                                    {if noPrev.tags && noPrev.tags.length}
-                                        <div class="carousel_content_description">__MSG__TAGS__: ${noPrev.tags.toString().replace(/,/g,", ")}</div>
-                                    {/if}
-                                    <div class="carousel_content_metadata">
-                                        ${noPrev.mimeType} | __MSG__ADDED_ON__ ${noPrev.created} | __MSG__ADDED_BY__: <a href="/~${noPrev.createdBy}" class="s3d-regular-links s3d-bold">${noPrev.createdBy}</a>
-                                        <br/>
-                                        __MSG__LAST_UPDATED_BY__: <a href="/~${noPrev.lastModifiedBy}" class="s3d-regular-links s3d-bold">${noPrev.lastModifiedBy}</a>
+                                    <img src="${noPrev.icon}" class="carousel_no_preview_icon"/>
+                                    <div class="carousel_two_column_content_container_rh">
+                                        <a href="${noPrev.url}"><h2>${noPrev.title}</h2></a>
+                                        {if noPrev.description && noPrev.description.length}
+                                            <div class="carousel_content_description">__MSG__SUMMARY__: ${noPrev.description}</div>
+                                        {/if}
+                                        {if noPrev.tags && noPrev.tags.length}
+                                            <div class="carousel_content_description">__MSG__TAGS__: ${noPrev.tags.toString().replace(/,/g,", ")}</div>
+                                        {/if}
+                                        <div class="carousel_content_metadata">
+                                            ${noPrev.mimeType} | __MSG__ADDED_ON__ ${noPrev.created} | __MSG__ADDED_BY__: <a href="/~${noPrev.createdBy}" class="s3d-regular-links s3d-bold">${noPrev.createdBy}</a>
+                                            <br/>
+                                            __MSG__LAST_UPDATED_BY__: <a href="/~${noPrev.lastModifiedBy}" class="s3d-regular-links s3d-bold">${noPrev.lastModifiedBy}</a>
+                                        </div>
+                                        {if noPrev.comments && noPrev.comments.length}
+                                            <a href="#" class="carousel_content_comments s3d-regular-links">${noPrev.comments.length} __MSG__COMMENTS__</a>
+                                        {/if}
                                     </div>
-                                    {if noPrev.comments && noPrev.comments.length}
-                                        <a href="#" class="carousel_content_comments s3d-regular-links">${noPrev.comments.length} __MSG__COMMENTS__</a>
-                                    {/if}
                                 </div>
                             {/if}
                         {/for}
@@ -71,7 +74,7 @@
                                 <div class="carousel_two_column_content_container carousel_group_rh">
                                     <h2>${item.members.length} __MSG__MEMBERS__</h2>
                                     {for member in item.members}
-                                        <a href="/~${member["rep:userId"]}" title="__MSG__VIEW__ ${member.basic.elements.firstName.value} ${member.basic.elements.lastName.value}"><div style="width:50px; height:50px; background:url('/devwidgets/carousel/images/carousel_user_icon.png') no-repeat top left transparent;float:left;margin:0 8px 8px 0;"></div></a>
+                                        <a href="/~${member["rep:userId"]}" title="__MSG__VIEW__ ${member.basic.elements.firstName.value} ${member.basic.elements.lastName.value}"><div class="carousel_user_icon"></div></a>
                                     {/for}
                                 </div>
                             </div>

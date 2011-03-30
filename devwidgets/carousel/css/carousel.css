@@ -36,6 +36,8 @@
 #carousel_container .carousel_view_toggle li{display: inline-block;list-style: none outside none;background:url("/devwidgets/carousel/images/carousel_view_toggle.png") no-repeat scroll -12px top transparent;width:12px;height:12px;cursor:pointer;margin:0 2px;}
 #carousel_container li.carousel_view_toggle_selected{background:url("/devwidgets/carousel/images/carousel_view_toggle.png") no-repeat scroll left top transparent;}
 #carousel_container .carousel_view_toggle {margin-left:auto;margin-right:auto;text-align:center;margin-bottom:0;padding-top:2px;}
+#carousel_container .carousel_user_icon {width:50px; height:50px; background:url('/devwidgets/carousel/images/carousel_user_icon.png') no-repeat top left transparent;float:left;margin:0 8px 8px 0;}
+#carousel_container .carousel_no_preview_icon {float:left;width: 60px;}
 
 /* Single column specific */
 #carousel_container #carousel_single_column_content_preview{width:350px; height:197px; margin-right:12px; margin-top: -15px;float:left;text-align: center;overflow:hidden}
