@@ -417,7 +417,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
                 // Search based on tags and render each search section
                 $.ajax({
-                    url: tagterm + ".tagged.5.json",
+                    url: tagterm + ".tagged.5.json?type=group",
                     cache: false,
                     success: function(data) {
 
