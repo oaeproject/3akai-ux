@@ -16,13 +16,23 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config, History, Widgets */
-
-require(["jquery","sakai/sakai.api.core"], function($, sakai) {
-
-    sakai_global.search = function() {
-
-
+// load the master sakai object to access all Sakai OAE API methods
+require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_main.js"], function($, sakai) {
+     
+    /**
+     * @name sakai.WIDGET_ID
+     *
+     * @class WIDGET_ID
+     *
+     * @description
+     * WIDGET DESCRIPTION
+     *
+     * @version 0.0.1
+     * @param {String} tuid Unique id of the widget
+     * @param {Boolean} showSettings Show the settings of the widget or not
+     */
+    sakai_global.searchall = function (tuid, showSettings) {
+         
         /////////////////
         // CONFIG VARS //
         /////////////////
@@ -358,8 +368,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          */
         sakai_global._search.doSearch = function(page, searchquery, searchwhere) {
 
-            alert("In Do Search");
-
             // Get the tag if present.
             tagterm = mainSearch.getSearchTags();
 
@@ -564,11 +572,16 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         };
 
         var doInit = function() {
+            alert("Here");
             mainSearch = sakai_global._search(searchConfig, thisFunctionality);
+            alert("Here");
             // add the bindings
             mainSearch.addEventListeners();
         };
         doInit();
+
     };
-    sakai.api.Widgets.Container.registerForLoad("search");
+
+    // inform Sakai OAE that this widget has loaded and is ready to run
+    sakai.api.Widgets.widgetLoader.informOnLoad("searchall");
 });
