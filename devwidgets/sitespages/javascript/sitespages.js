@@ -2172,18 +2172,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // If user selected some text to link
             if (selection) {
                 // At the moment insert only first link, should disable multiple selection at the end
-                editor.execCommand('mceInsertContent', false, '<a href="#page=' + $($choosen_links[0]).data("link") + '"  class="contauthlink">' + selection + '</a>');
+                editor.execCommand('mceInsertContent', false, '<a href="#page=' + $($choosen_links[0]).data("link") + '"  class="contauthlink s3d-regular-links">' + selection + '</a>');
             } else if ($choosen_links.length > 1) {
                 // If we are inserting multiple links
                 var toinsert = "<ul>";
                 for (var i=0, j=$choosen_links.length; i<j; i++) {
-                    toinsert += '<li><a href="#page=' + $($choosen_links[i]).data("link") + '" class="contauthlink">' + $($choosen_links[i]).text() + '</a></li>';
+                    toinsert += '<li><a href="#page=' + $($choosen_links[i]).data("link") + '" class="contauthlink s3d-regular-links">' + $($choosen_links[i]).text() + '</a></li>';
                 }
                 toinsert += "</ul>";
                 editor.execCommand('mceInsertContent', false, toinsert);
             } else {
                 // If we are insertin 1 link only, without selection
-                editor.execCommand('mceInsertContent', false, '<a href="#page=' + $($choosen_links[0]).data("link") + '"  class="contauthlink">' + $($choosen_links[0]).text() + '</a>');
+                editor.execCommand('mceInsertContent', false, '<a href="#page=' + $($choosen_links[0]).data("link") + '"  class="contauthlink s3d-regular-links">' + $($choosen_links[0]).text() + '</a>');
             }
 
             $('#link_dialog').jqmHide();
