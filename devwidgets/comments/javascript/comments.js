@@ -704,7 +704,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 url: url,
                 type: 'POST',
                 success: function(){
-                    getComments();
+                    // mark the comment as deleted or undeleted
+                    for (var i = 0; i < json.results.length; i++) {
+                        if (json.results[i].post["sakai:id"] === id){
+                            json.results[i].post["sakai:deleted"] = deleteValue;
+                        }
+                    }
+                    showComments();
                 },
                 error: function(xhr, textStatus, thrownError){
                     sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("FAILED_TO_UNDELETE"),"",sakai.api.Util.notification.type.ERROR);
