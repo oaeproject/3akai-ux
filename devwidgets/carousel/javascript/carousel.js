@@ -161,13 +161,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         var parseMessages = function(data, dataArr){
-            var obj = {};
+            var messageArr = [];
 
-            obj.contentType = "message";
+            for(var item in data.messages){
+                if(data.messages[item].hasOwnProperty("sakai:body")){
+                    var obj = {};
 
-            dataArr.push([obj]);
+                    obj.subject = data.messages[item]["sakai:subject"];
+                    obj.from = data.messages[item]["sakai:from"];
+                    obj.date = sakai.api.l10n.transformDate(sakai.api.Util.parseSakaiDate(data.messages[item]["sakai:created"]));
 
-            return dataArr;
+                    obj.contentType = "message";
+                    messageArr.push(obj);
+                }
+            }
+
+            dataArr.push(messageArr);
         }
 
         var parseContent = function(data, dataArr){
@@ -237,8 +246,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     }
                 }
             }
-
-            return dataArr;
         };
 
         var parseGroups = function(data, dataArr){
@@ -261,8 +268,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
                 dataArr.push(obj);
             }
-
-            return dataArr;
         };
 
         var parseData = function(data){
@@ -276,7 +281,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         var checkDataParsable = function(data){
-            if (data.content && data.groups) {
+            if (data.content && data.groups && data.messages) {
                 parseData(data);
             }
         };
@@ -284,7 +289,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var loadFeatured = function(){
             var dataArr = {
                 "content": false,
-                "groups": false
+                "groups": false,
+                "messages":false
             };
             $.ajax({
                 url: "/var/search/pool/me/manager-all.1.json?sortOn=_created&sortOrder=desc&page=0&items=50",
@@ -312,6 +318,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     dataArr.groups = data;
                     checkDataParsable(dataArr);
                 }
+            });
+
+            sakai.api.Communication.getAllMessages("inbox", "*", 4, 1, "sakai:created", "desc", function(success, data){
+                dataArr.messages = data;
+                checkDataParsable(dataArr);
             });
         };
 
