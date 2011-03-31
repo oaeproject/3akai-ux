@@ -541,5 +541,3 @@
     };
 
 })(jQuery);
-
-sakai.api.Widgets.widgetLoader.informOnLoad("collections");
