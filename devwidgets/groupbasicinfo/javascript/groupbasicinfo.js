@@ -208,7 +208,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Groups.updateGroupInfo(sakai_global.currentgroup.id, groupTitle, groupDesc, groupKind, function(success) {
                 if (success) {
                     groupProfileURL = "/~" + sakai_global.currentgroup.id + "/public/authprofile";
-                    sakai.api.Util.tagEntity(groupProfileURL, sakai_global.currentgroup.data.authprofile["sakai:tags"], currentTags, function() {
+                    sakai.api.Util.tagEntity(groupProfileURL, sakai_global.currentgroup.data.authprofile["sakai:tags"], currentTags, function(success, newtags) {
+                        sakai_global.currentgroup.data.authprofile["sakai:tags"] = newtags;
                         $(groupBasicInfoGroupTags).val($(groupBasicInfoGroupTags).val().replace(/\s+/g, " "));
                     });
                 }

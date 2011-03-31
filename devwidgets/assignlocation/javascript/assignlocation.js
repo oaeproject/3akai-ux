@@ -115,7 +115,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Concatenate the tags with the new locations
             var newTags = [];
             if (contextVariables.tags) {
-                newTags = sakai.api.Util.formatTagsExcludeLocation(contextVariables.tags.toString()).slice(1,-1);
+                newTags = sakai.api.Util.formatTagsExcludeLocation(contextVariables.tags.toString());
             }
             newTags = newTags.concat(locations);
 
