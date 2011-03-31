@@ -432,7 +432,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         postData.post["jcr:path"] = widgeturl + "/message/inbox/" + postData.post["jcr:name"];
                         postData.post["canDelete"] = true;
                         postData.post["canEdit"] = true;
-                        json.results.unshift(postData);
+                        if (widgetSettings && widgetSettings.direction && widgetSettings.direction === "comments_FirstDown") {
+                            json.results.push(postData);
+                        } else {
+                            json.results.unshift(postData);
+                        }
                         // Show the added comment
                         showComments();
                     },
@@ -523,7 +527,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
 
 
-            comments.direction = $("input[name=" + commentsDirectionRbt + " ]:checked", rootel).val();
+            comments.direction = $("input[name=" + commentsDirectionRbt + "]:checked", rootel).val();
 
             // These properties are noy yet used in the comments-widget, but are saved in JCR
             comments['sakai:allowanonymous'] = true;
