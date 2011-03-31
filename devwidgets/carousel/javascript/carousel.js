@@ -167,12 +167,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 if(data.messages[item].hasOwnProperty("sakai:body")){
                     var obj = {};
 
-                    obj.subject = data.messages[item]["sakai:subject"];
+                    obj.subject = sakai.api.Util.applyThreeDots(data.messages[item]["sakai:subject"], 200,{},"s3d-bold");
                     obj.from = data.messages[item]["sakai:from"];
                     obj.date = sakai.api.l10n.transformDate(sakai.api.Util.parseSakaiDate(data.messages[item]["sakai:created"]));
 
                     obj.contentType = "message";
                     messageArr.push(obj);
+                    if (messageArr.length >= 4) {
+                        break;
+                    }
                 }
             }
 
