@@ -340,6 +340,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             renderLocations(data);
         });
 
+        sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
         renderTemplateBasicInfo();
     };
 
