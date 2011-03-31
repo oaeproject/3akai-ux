@@ -523,7 +523,19 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
             $("#widget_settings_menu", $rootel).hide();
         };
 
-        var saveState = function() {
+        var saveState = function(item) {
+
+            // SAKIII-2620 fix
+            // for some reason, item cannot maintain the checkbox states
+            // the checked value of item normally changed to false
+            // so clone it and get it original value from the tempobject
+            var tempObject = $(item).clone();
+            var checkedItems = $(tempObject).children().find("input[type=radio]:checked");
+            $.each(checkedItems, function(ind, checkedItem){
+                var id = $(checkedItem).attr("id");
+                $(item).children().find("#"+id).attr("checked",true);
+            });
+
 
             var serString = '{"layout":"' + settings.layout + '","columns":{';
 
