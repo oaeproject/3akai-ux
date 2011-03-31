@@ -167,6 +167,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             pickerData.selectCount = 0;
             updatePickerExcludeList();
             clearAutoSuggest();
+            shareData.permission = "viewer";
         };
 
         var createActivity = function(activityMessage){
