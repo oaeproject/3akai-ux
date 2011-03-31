@@ -160,6 +160,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             });
         };
 
+        var parseMessages = function(data, dataArr){
+            var obj = {};
+
+            obj.contentType = "message";
+
+            dataArr.push([obj]);
+
+            return dataArr;
+        }
+
         var parseContent = function(data, dataArr){
             var noPreviewArr = [];
 
@@ -232,7 +242,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         var parseGroups = function(data, dataArr){
-            debug.log(data.groups);
             for(var group in data.groups.results){
                 var obj = {};
 
@@ -261,6 +270,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
             parseContent(data, dataArr);
             parseGroups(data, dataArr);
+            parseMessages(data, dataArr);
 
             renderCarousel(dataArr);
         };
