@@ -170,7 +170,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          * Callback function to sort comments based on created date
          */
         var sortComments = function(a, b){
-            return a._created < b._created ? 1 : -1;
+            return a.created < b.created ? 1 : -1;
         };
 
         ///////////////////
@@ -194,7 +194,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 jsonDisplay.comments[i] = {};
                 var comment = json.comments[i];
                 // Checks if the date is already parsed to a date object
-                var tempDate = comment._created;
+                var tempDate = comment.created;
                 try {
                     // if the date is not a string this should generate en exception
                     comment.date = sakai.api.l10n.fromEpoch(tempDate, sakai.data.me);
@@ -554,7 +554,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 if (getComments) {
                     pagerClickHandler(1);
                 }
-                if (allowComments === "false") {
+                var isAnon = me.user && me.user.anon;
+                if (allowComments == "false" || isAnon) {
                     // hide comments entry box
                     $("#comments_userCommentContainer", rootel).hide();
                 } else {

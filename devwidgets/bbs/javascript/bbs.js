@@ -351,6 +351,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
         };
 
         var parseSettings = function(data){
+            parsedSettings["ismanager"] = false;
             if (sakai._isAnonymous) {
                 parsedSettings["addtopic"] = false;
                 parsedSettings["canreply"] = false;
@@ -362,6 +363,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
                     if (sakai_global.currentgroup.manager) {
                         // Grant all permissions
                         parsedSettings["addtopic"] = true;
+                        parsedSettings["ismanager"] = true;
                     }
                     else {
                         parsedSettings["addtopic"] = false;
@@ -371,6 +373,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
                     if (sakai_global.currentgroup.manager) {
                         // Grant all permissions
                         parsedSettings["addtopic"] = true;
+                        parsedSettings["ismanager"] = true;
                     }
                     else {
                         // Check if the user is a member
@@ -387,6 +390,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
                     if (sakai_global.currentgroup.manager) {
                         // Grant all permissions
                         parsedSettings["canreply"] = true;
+                        parsedSettings["ismanager"] = true;
                     }
                     else {
                         // Check if the user is a member
@@ -558,7 +562,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
             var topicId = replyParent[0].id.split("bbs_post_")[1];
             var message = replyParent.children(bbsTopicReplyContainer).children(bbsTopicReplyText).val();
 
-            if(replyParent.children(bbsTopicReplyContainer).children(bbsTopicQuotedText).length){
+            if(replyParent.children(bbsTopicReplyContainer).children(bbsTopicQuotedText).length && replyParent.children(bbsTopicReplyContainer).children(bbsTopicQuotedText).val()){
                 message = "[quote=\"" + $(bbsTopicReplyQuotedUser, $rootel).text() + "\"]" + replyParent.children(bbsTopicReplyContainer).children(bbsTopicQuotedText).val() + "[/quote]" + message;
             }
 
@@ -569,6 +573,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
                 // expand topic reply list
                 $("#bbs_post_" + topicId + " " + bbsShowTopicReplies, $rootel).click();
             }
+            $(bbsTopicReplyQuotedUser, $rootel).text("");
         };
 
         /**
@@ -804,20 +809,20 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
             // EDIT POST //
             $(bbsEdit, $rootel).live("click", function(){
                 var renderData = {};
-                if ($(this).prevAll(bbsQuotedTextContainer).length) {
+                if ($(this).parent().prevAll(bbsQuotedTextContainer).length) {
                     renderData = {
                         "edit": true,
                         "quoted": true,
                         "quotedUser": $(this).parents(s3dHighlightBackgroundClass).find(bbsReplyContentsTextQuoted).text(),
-                        "quotedMessage": $.trim($(this).prevAll(bbsQuotedTextContainer).children(bbsReplyContentsText).text()),
-                        "body": $.trim($(this).parent().find(bbsPostMessage).text())
+                        "quotedMessage": $.trim($(this).parent().prevAll(bbsQuotedTextContainer).children(bbsReplyContentsText).text()),
+                        "body": $.trim($(this).parent().parent().find(bbsPostMessage).text())
                     };
                 } else {
                     renderData = {
                         "edit": true,
                         "quoted": false,
                         "quotedUser": false,
-                        "body": $.trim($(this).parent().find(bbsPostMessage).text())
+                        "body": $.trim($(this).parent().parent().find(bbsPostMessage).text())
                     };
                 }
                 $(this).parents(s3dHighlightBackgroundClass).children( bbsEntityContainer + "," + bbsReplyContents).hide();

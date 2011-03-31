@@ -44,6 +44,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $activegroups_main = $("#activegroups_main", $rootel),
             $activegroups_main_template = $("#activegroups_main_template", $rootel);
 
+        var activegroupsMainLoadingProgress = "#activegroups_main_progress_loading";
+        var activegroupsMainProgress = "activegroups_main_progress";
         var groupData = {};
 
         var activeGroupsEllipsisContainer = ".activegroups_ellipsis_container";
@@ -63,6 +65,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var loadDataDirectory = function(selected, callback){
+            $activegroups_main.html("");
+            $(activegroupsMainLoadingProgress).addClass(activegroupsMainProgress);
             var params = {
                 page: 0,
                 items: 10,
@@ -79,6 +83,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 url: url,
                 data: params,
                 success: function(data){
+                    $(activegroupsMainLoadingProgress).removeClass(activegroupsMainProgress);
                     groupData = {"results":[], "items": data.items, "total": data.total};
                     var groups = [];
                     for (var i = 0; i < data.results.length; i++){
