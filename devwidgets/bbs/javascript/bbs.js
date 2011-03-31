@@ -234,6 +234,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
             }
         };
 
+        /**
+         * Callback function to sort replies based on created timestamp
+         */
+        var sortReplies = function(a, b){
+            return a.post._created > b.post._created ? 1 : -1;
+        };
+
         var renderPosts = function(arrPosts){
             // Loop fetched posts and do markup
             for (var i = 0, j = arrPosts.length; i < j; i++) {
@@ -264,7 +271,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
                         arrPosts[i].replies[ii].post["sakai:body"] = arrPosts[i].replies[ii].post["sakai:body"].split(["[/quote]"])[1];
                     }
                 }
-                arrPosts[i].replies.reverse();
+                // Sort replies
+                arrPosts[i].replies.sort(sortReplies);
             }
 
             // Render formatted posts
