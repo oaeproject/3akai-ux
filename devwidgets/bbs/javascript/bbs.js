@@ -228,7 +228,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
          * Callback function to sort replies based on created timestamp
          */
         var sortReplies = function(a, b){
-            return a.post._created > b.post._created ? 1 : -1;
+            return a.post._created - b.post._created;
         };
 
         var renderPosts = function(arrPosts){
