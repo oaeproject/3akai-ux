@@ -47,7 +47,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var activegroupsMainLoadingProgress = "#activegroups_main_progress_loading";
         var activegroupsMainProgress = "activegroups_main_progress";
         var groupData = {};
-
+        var currentSearch = "";
         var activeGroupsEllipsisContainer = ".activegroups_ellipsis_container";
 
         var renderPopularGroups = function(){
@@ -59,8 +59,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var handleHashChange = function(e, node) {
             var selected = node || $.bbq.getState("location");
-            if (selected) {
+            if (selected && selected !== currentSearch) {
                 loadDataDirectory(selected, renderPopularGroups);
+                currentSearch = selected;
             }
         };
 
