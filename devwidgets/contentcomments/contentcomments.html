@@ -69,7 +69,7 @@
                     <span class="comments_posterDataName s3d-regular-light-links"><a href="/~${i.user.uid}" target="_blank">${i.user.fullName}</a></span>
                     <span class="comments_dateComment">${i.formatDate}</span>
                 </div>
-                {if i.canDelete && i.canDelete === true}
+                {if i.canDelete && i.canDelete === true || i.userid === sakai.data.me.user.userid}
                     {if i["sakai:deleted"] && i["sakai:deleted"] === true}
                         <button type="button" class="comments_undelete s3d-regular-light-links s3d-link-button" id="comments_undelete_${i['sakai:id']}">__MSG__UNDELETE__</button>
                     {else}
