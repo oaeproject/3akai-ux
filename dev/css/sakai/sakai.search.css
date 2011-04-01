@@ -12,7 +12,7 @@ strong{color:#000;}
 .search_results_container{margin:15px 15px 15px 5px;}
 .search_results_part{padding-bottom:10px;}
 .search_results_part_header{border-bottom:1px solid #ddd;font-size:1.3em;padding-bottom:5px;font-weight:bold;color:#333;}
-.search_results_part_title{font-size:1.1em;font-weight:bold;color:#333;float:left;}
+.search_results_part_title{font-weight:bold;color:#333;float:left;}
 .display_more_link{color:#39c;font-size:.85em;font-weight:normal;position:relative;bottom:0;margin:0;padding:0;}
 .search_result{color:#333;padding:5px 0 10px;}
 .search_result img{float:left;padding:0 10px 10px 0;width:50px;}

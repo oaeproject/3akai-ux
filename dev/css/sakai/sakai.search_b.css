@@ -37,7 +37,7 @@ a.search_results_part_title{color:#5a6a7c;}
 .search_result_footer a{color:#390;}
 
 /* search results people */
-.search_result_person{margin:5px 8px 10px;padding:10px;width:280px;background-color:#FFF;height:60px;float:left;border:none;overflow:hidden;}
+.search_result_person{margin:5px 8px 10px;padding:10px;width:280px;background-color:#FFF;height:50px;float:left;border:none;overflow:hidden;}
 .search_result_person_picture{float:left;display:block;width:48px;height:48px;padding:0;margin:0;}
 .search_result_dot{display:block;float:left;position:relative;left:5px;}
 .search_result_person .search_result_person_name{display:block;color:#000;font-weight:bold;font-size:1em;margin-left:57px;margin-top:4px;}
